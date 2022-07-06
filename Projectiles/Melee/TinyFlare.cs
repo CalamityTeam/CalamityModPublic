@@ -37,7 +37,7 @@ namespace CalamityMod.Projectiles.Melee
             }
 
             if (Projectile.timeLeft < 150)
-                CalamityGlobalProjectile.HomeInOnNPC(Projectile, true, 600f, 10f, 20f);
+                CalamityUtils.HomeInOnNPC(Projectile, true, 600f, 10f, 20f);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

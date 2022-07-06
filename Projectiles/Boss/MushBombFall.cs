@@ -49,7 +49,7 @@ namespace CalamityMod.Projectiles.Boss
             if (Math.Abs(Projectile.velocity.X) > 2f)
                 Projectile.velocity.X *= 0.99f;
 
-            float velocityYLimit = BossRushEvent.BossRushActive ? 10f : CalamityWorld.malice ? 8f : CalamityWorld.death ? 6f : 5f;
+            float velocityYLimit = BossRushEvent.BossRushActive ? 10f : CalamityWorld.death ? 6f : 5f;
             if (Projectile.velocity.Y > velocityYLimit)
                 Projectile.velocity.Y = velocityYLimit;
         }

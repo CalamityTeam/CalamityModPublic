@@ -22,15 +22,6 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                 if (PbGIndex == -1 || BossRushEvent.BossRushActive)
                     isActive = false;
             }
-
-            if (isActive && intensity < 1f)
-            {
-                intensity += 0.01f;
-            }
-            else if (!isActive && intensity > 0f)
-            {
-                intensity -= 0.01f;
-            }
         }
 
         private float GetIntensity()
@@ -42,7 +33,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                 {
                     x = Vector2.Distance(Main.player[Main.myPlayer].Center, Main.npc[this.PbGIndex].Center);
                 }
-                return (1f - Utils.SmoothStep(3000f, 6000f, x)) * intensity;
+                return (1f - Utils.SmoothStep(3000f, 6000f, x));
             }
             return 0f;
         }

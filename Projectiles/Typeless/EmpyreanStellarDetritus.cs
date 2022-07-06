@@ -34,7 +34,7 @@ namespace CalamityMod.Projectiles.Typeless
                 Main.dust[num469].noGravity = true;
                 Main.dust[num469].velocity *= 0f;
             }
-            CalamityGlobalProjectile.HomeInOnNPC(Projectile, true, 200f, 10f, 20f);
+            CalamityUtils.HomeInOnNPC(Projectile, true, 200f, 10f, 20f);
         }
 
         public override bool PreDraw(ref Color lightColor)

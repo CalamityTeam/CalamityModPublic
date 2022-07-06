@@ -33,7 +33,7 @@ namespace CalamityMod.ILEditing
 
             // Mechanics / features
             On.Terraria.NPC.ApplyTileCollision += AllowTriggeredFallthrough;
-            On.Terraria.NPC.ShouldEmpressBeEnraged += AllowEmpressToEnrageInMalice;
+            On.Terraria.NPC.ShouldEmpressBeEnraged += AllowEmpressToEnrageInBossRush;
             IL.Terraria.Main.UpdateTime += PermitNighttimeTownNPCSpawning;
             On.Terraria.Main.UpdateTime_SpawnTownNPCs += AlterTownNPCSpawnRate;
             IL.Terraria.Player.Hurt += RemoveRNGFromDodges;
@@ -129,7 +129,7 @@ namespace CalamityMod.ILEditing
 
             // Mechanics / features
             On.Terraria.NPC.ApplyTileCollision -= AllowTriggeredFallthrough;
-            On.Terraria.NPC.ShouldEmpressBeEnraged -= AllowEmpressToEnrageInMalice;
+            On.Terraria.NPC.ShouldEmpressBeEnraged -= AllowEmpressToEnrageInBossRush;
             IL.Terraria.Main.UpdateTime -= PermitNighttimeTownNPCSpawning;
             On.Terraria.Main.UpdateTime_SpawnTownNPCs -= AlterTownNPCSpawnRate;
             IL.Terraria.Player.Hurt -= RemoveRNGFromDodges;

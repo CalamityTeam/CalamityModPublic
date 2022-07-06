@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Placeables.DraedonStructures
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 100;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Laboratory Electric Panel");
         }
 

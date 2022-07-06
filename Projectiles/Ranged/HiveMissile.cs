@@ -86,7 +86,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void Kill(int timeLeft)
         {
-            CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 80);
+            Projectile.ExpandHitboxBy(80);
             Projectile.maxPenetrate = -1;
             Projectile.penetrate = -1;
             Projectile.usesLocalNPCImmunity = true;
@@ -112,7 +112,7 @@ namespace CalamityMod.Projectiles.Ranged
                         if (bee.WithinBounds(Main.maxProjectiles))
                         {
                             Main.projectile[bee].penetrate = 2;
-                            Main.projectile[bee].Calamity().forceRanged = true;
+                            Main.projectile[bee].DamageType = DamageClass.Ranged;
                         }
                     }
                 }
@@ -196,7 +196,7 @@ namespace CalamityMod.Projectiles.Ranged
             else if (projID == ProjectileID.RocketIV)
                 blastRadius = 8;
 
-            CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 14);
+            Projectile.ExpandHitboxBy(14);
 
             if (Projectile.owner == Main.myPlayer && blastRadius > 0)
             {

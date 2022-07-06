@@ -81,7 +81,7 @@ namespace CalamityMod.Items.SummonItems
                 if (player.ZoneDungeon)
                 {
                     line.Text = "Summons the Ceaseless Void" +
-                        "\nEnrages outside the Dungeon";
+                        "\nEnrages on the surface";
                 }
                 else if (player.ZoneSkyHeight)
                     line.Text = "Summons the Storm Weaver";

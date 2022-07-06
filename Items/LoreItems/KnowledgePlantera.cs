@@ -14,6 +14,7 @@ namespace CalamityMod.Items.LoreItems
                 "It was used as a vessel to house the spirits of those unfortunate enough to find their way down here.\n" +
                 "I wish you luck in dealing with the fallout.");
             SacrificeTotal = 1;
+            ItemID.Sets.ItemNoGravity[Item.type] = true;
         }
 
         public override void SetDefaults()

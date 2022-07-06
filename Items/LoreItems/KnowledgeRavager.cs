@@ -14,6 +14,7 @@ namespace CalamityMod.Items.LoreItems
             Tooltip.SetDefault("The flesh golem constructed using twisted necromancy during the time of my conquest to counter my unstoppable forces.\n" +
                 "Its creators were slaughtered by it moments after its conception. It is for the best that it has been destroyed.");
             SacrificeTotal = 1;
+            ItemID.Sets.ItemNoGravity[Item.type] = true;
         }
 
         public override void SetDefaults()

@@ -48,7 +48,7 @@ namespace CalamityMod.Projectiles.Ranged
                     SoundEngine.PlaySound(SoundID.Item9, Projectile.position);
                 }
             }
-            CalamityGlobalProjectile.HomeInOnNPC(Projectile, !Projectile.tileCollide, 150f, 12f, 20f);
+            CalamityUtils.HomeInOnNPC(Projectile, !Projectile.tileCollide, 150f, 12f, 20f);
         }
 
         public override bool PreDraw(ref Color lightColor)

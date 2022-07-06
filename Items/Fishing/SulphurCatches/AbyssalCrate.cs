@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Fishing.SulphurCatches
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 10;
+            SacrificeTotal = 5;
             DisplayName.SetDefault("Abyssal Crate");
             Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
         }

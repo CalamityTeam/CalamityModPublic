@@ -117,7 +117,7 @@ namespace CalamityMod.Projectiles.Rogue
                 // Stealth strike lasers have an intentionally lower ratio of 12%.
                 double laserDamageRatio = Projectile.Calamity().stealthStrike ? 0.12D : 0.4D;
                 float laserFrames = Projectile.MaxUpdates * 8f;
-                CalamityGlobalProjectile.MagnetSphereHitscan(Projectile, 300f, 6f, laserFrames, 2, ModContent.ProjectileType<NebulaShot>(), laserDamageRatio, true);
+                CalamityUtils.MagnetSphereHitscan(Projectile, 300f, 6f, laserFrames, 2, ModContent.ProjectileType<NebulaShot>(), laserDamageRatio, true);
             }
         }
 
@@ -137,7 +137,7 @@ namespace CalamityMod.Projectiles.Rogue
                 Projectile laser = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<NebulaShot>(), laserDamage, 0f, Projectile.owner);
                 if (laser.whoAmI.WithinBounds(Main.maxProjectiles))
                 {
-                    laser.Calamity().forceRogue = true;
+                    laser.DamageType = RogueDamageClass.Instance;
                     laser.aiStyle = Main.rand.NextBool() ? 1 : -1;
                     laser.penetrate = -1;
                     laser.usesLocalNPCImmunity = true;

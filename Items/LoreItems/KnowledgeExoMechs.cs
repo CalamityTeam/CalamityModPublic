@@ -14,6 +14,7 @@ namespace CalamityMod.Items.LoreItems
             Tooltip.SetDefault("The fruits of masterful craftsmanship and optimization, created only with the objective to destroy.\n" +
                 "Yet in the end, they achieved little more than the original designs they were derived from.");
             SacrificeTotal = 1;
+            ItemID.Sets.ItemNoGravity[Item.type] = true;
         }
 
         public override void SetDefaults()

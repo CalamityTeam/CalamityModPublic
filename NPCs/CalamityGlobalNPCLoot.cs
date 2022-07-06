@@ -848,10 +848,10 @@ namespace CalamityMod.NPCs
                     // Drop Hermit's Box directly for EACH player, regardles of Expert or not. 100% chance on first kill, 10% chance afterwards.
                     LeadingConditionRule firstWoFKill = new(DropHelper.If(() => !Main.hardMode));
                     firstWoFKill.Add(DropHelper.PerPlayer(ModContent.ItemType<HermitsBoxofOneHundredMedicines>()));
-                    npcLoot.AddNormalOnly(firstWoFKill);
+                    npcLoot.Add(firstWoFKill);
                     LeadingConditionRule subsequentWoFKills = new(DropHelper.If(() => Main.hardMode));
                     subsequentWoFKills.Add(DropHelper.PerPlayer(ModContent.ItemType<HermitsBoxofOneHundredMedicines>(), 10));
-                    npcLoot.AddNormalOnly(subsequentWoFKills);
+                    npcLoot.Add(subsequentWoFKills);
 
                     // Expert+ drops are also available on Normal
                     npcLoot.AddNormalOnly(DropHelper.PerPlayer(ItemID.DemonHeart));
@@ -1050,6 +1050,10 @@ namespace CalamityMod.NPCs
                                 ItemID.SunStone,
                             };
                             LCR_NotExpert.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, golemItems));
+
+                            // Remove the vanilla loot rule for Picksaw because it has its own drop rule set below.
+                            golemRootRules.RemoveAll((rule) =>
+                                rule is ItemDropWithConditionRule conditionalRule && conditionalRule.condition is Conditions.NotExpert && conditionalRule.itemId == ItemID.Picksaw);
                         }
                     }
                     catch (ArgumentNullException) { }
@@ -1062,11 +1066,10 @@ namespace CalamityMod.NPCs
                     normalOnly.Add(ModContent.ItemType<EssenceofSunlight>(), 1, 5, 10);
                     normalOnly.Add(ModContent.ItemType<AegisBlade>(), 10);
 
-                    // If Golem has never been killed, provide a Picksaw to all players. This only applies in Normal Mode.
-                    // The Golem Treasure Bag is guaranteed to provide a Picksaw if one is not yet in the inventory.
+                    // If Golem has never been killed, provide a Picksaw to all players.
                     LeadingConditionRule firstGolemKill = new(DropHelper.If(() => !NPC.downedGolemBoss));
                     firstGolemKill.Add(DropHelper.PerPlayer(ItemID.Picksaw));
-                    normalOnly.Add(firstGolemKill);
+                    npcLoot.Add(firstGolemKill);
 
                     // Lore
                     npcLoot.AddConditionalPerPlayer(() => !NPC.downedGolemBoss, ModContent.ItemType<KnowledgeGolem>());
@@ -1345,8 +1348,8 @@ namespace CalamityMod.NPCs
                         {
                             string key3 = "Mods.CalamityMod.HardmodeOreTier1Text";
                             Color messageColor3 = new Color(50, 255, 130);
-                            CalamityUtils.SpawnOre(TileID.Cobalt, 12E-05, 0.4f, 0.6f, 3, 8);
-                            CalamityUtils.SpawnOre(TileID.Palladium, 12E-05, 0.4f, 0.6f, 3, 8);
+                            CalamityUtils.SpawnOre(TileID.Cobalt, 12E-05, 0.45f, 0.7f, 3, 8);
+                            CalamityUtils.SpawnOre(TileID.Palladium, 12E-05, 0.45f, 0.7f, 3, 8);
                             CalamityUtils.DisplayLocalizedText(key3, messageColor3);
                         }
                     }
@@ -1400,7 +1403,7 @@ namespace CalamityMod.NPCs
                         Color messageColor2 = Color.Goldenrod;
 
                         // TODO -- this should probably be moved to a thread like Aureus meteor
-                        CalamityUtils.SpawnOre(ModContent.TileType<PerennialOre>(), 12E-05, 0.5f, 0.7f, 3, 8, TileID.Dirt, TileID.Stone);
+                        CalamityUtils.SpawnOre(ModContent.TileType<PerennialOre>(), 12E-05, 0.65f, 0.85f, 3, 8, TileID.Dirt, TileID.Stone);
 
                         CalamityUtils.DisplayLocalizedText(key, messageColor);
                         CalamityUtils.DisplayLocalizedText(key2, messageColor2);
@@ -1514,23 +1517,23 @@ namespace CalamityMod.NPCs
             {
                 string key = "Mods.CalamityMod.HardmodeOreTier2Text";
                 Color messageColor = new Color(50, 255, 130);
-                CalamityUtils.SpawnOre(TileID.Mythril, 12E-05, 0.5f, 0.7f, 3, 8);
-                CalamityUtils.SpawnOre(TileID.Orichalcum, 12E-05, 0.5f, 0.7f, 3, 8);
+                CalamityUtils.SpawnOre(TileID.Mythril, 12E-05, 0.55f, 0.8f, 3, 8);
+                CalamityUtils.SpawnOre(TileID.Orichalcum, 12E-05, 0.55f, 0.8f, 3, 8);
                 CalamityUtils.DisplayLocalizedText(key, messageColor);
             }
             else if ((!NPC.downedMechBoss1 && !NPC.downedMechBoss2) || (!NPC.downedMechBoss2 && !NPC.downedMechBoss3) || (!NPC.downedMechBoss3 && !NPC.downedMechBoss1))
             {
                 string key = "Mods.CalamityMod.HardmodeOreTier3Text";
                 Color messageColor = new Color(50, 255, 130);
-                CalamityUtils.SpawnOre(TileID.Adamantite, 12E-05, 0.6f, 0.8f, 3, 8);
-                CalamityUtils.SpawnOre(TileID.Titanium, 12E-05, 0.6f, 0.8f, 3, 8);
+                CalamityUtils.SpawnOre(TileID.Adamantite, 12E-05, 0.65f, 0.9f, 3, 8);
+                CalamityUtils.SpawnOre(TileID.Titanium, 12E-05, 0.65f, 0.9f, 3, 8);
                 CalamityUtils.DisplayLocalizedText(key, messageColor);
             }
             else
             {
                 string key = "Mods.CalamityMod.HardmodeOreTier4Text";
                 Color messageColor = new Color(50, 255, 130);
-                CalamityUtils.SpawnOre(ModContent.TileType<HallowedOre>(), 12E-05, 0.45f, 0.8f, 3, 8, TileID.Pearlstone, TileID.HallowHardenedSand, TileID.HallowSandstone, TileID.HallowedIce);
+                CalamityUtils.SpawnOre(ModContent.TileType<HallowedOre>(), 12E-05, 0.7f, 0.9f, 3, 8, TileID.Pearlstone, TileID.HallowHardenedSand, TileID.HallowSandstone, TileID.HallowedIce);
                 CalamityUtils.DisplayLocalizedText(key, messageColor);
             }
         }

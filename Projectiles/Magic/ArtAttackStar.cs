@@ -206,7 +206,7 @@ namespace CalamityMod.Projectiles.Magic
                     {
                         int strike = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Main.npc[i].Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), damage, 0f, Projectile.owner, i);
                         if (Main.projectile.IndexInRange(strike))
-                            Main.projectile[strike].Calamity().forceMelee = true;
+                            Main.projectile[strike].DamageType = DamageClass.Melee;
                     }
                 }
             }

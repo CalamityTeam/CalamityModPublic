@@ -16,8 +16,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
         {
             CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || bossRush;
 
             // Get a target
             if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
@@ -37,11 +37,11 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             bool phase4 = lifeRatio < 0.2f;
 
             // Variables and target
-            bool enrage = malice;
+            bool enrage = bossRush;
             bool despawn = false;
 
             // Check for Jungle
-            bool surface = !BossRushEvent.BossRushActive && Main.player[npc.target].position.Y < Main.worldSurface * 16.0;
+            bool surface = !bossRush && Main.player[npc.target].position.Y < Main.worldSurface * 16.0;
             int maxTentacles = death ? 25 : 20;
             float speedUpDistance = 480f;
             bool speedUp = Vector2.Distance(Main.player[npc.target].Center, npc.Center) > speedUpDistance; // 30 or 40 tile distance
@@ -112,21 +112,21 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 acceleration = 0.06f;
             }
 
-            if (malice)
+            if (bossRush)
             {
                 velocity += 2f;
                 acceleration += 0.02f;
             }
 
             // Enrage if target is on the surface
-            if (!BossRushEvent.BossRushActive && (surface || Main.player[npc.target].position.Y > ((Main.maxTilesY - 200) * 16)))
+            if (!bossRush && (surface || Main.player[npc.target].position.Y > ((Main.maxTilesY - 200) * 16)))
             {
                 enrage = true;
                 velocity += 8f;
                 acceleration = 0.15f;
             }
 
-            npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive && enrage;
+            npc.Calamity().CurrentlyEnraged = !bossRush && enrage;
 
             // Detect active tiles around Plantera
             int radius = 20; // 20 tile radius
@@ -152,7 +152,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             if (nearbyActiveTiles < 800)
                 tileEnrageMult += (800 - nearbyActiveTiles) * 0.00075f; // Ranges from 1f to 1.6f
 
-            if (malice)
+            if (bossRush)
                 tileEnrageMult = 1.6f;
 
             // Let hooks and tentacles know how enraged plantera is
@@ -315,7 +315,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             npc.TargetClosest();
                             int projectileType = ProjectileID.SeedPlantera;
                             float projectileVelocity = 17f;
-                            int chance = malice ? 2 : 6;
+                            int chance = bossRush ? 2 : 6;
                             if (Main.rand.NextBool(chance))
                             {
                                 projectileType = ModContent.ProjectileType<SporeGasPlantera>();
@@ -453,7 +453,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             int num762 = NPC.NewNPC(npc.GetSource_FromAI(), (int)npc.Center.X, (int)npc.Center.Y, NPCID.Spore);
                             Main.npc[num762].velocity.X = num758;
                             Main.npc[num762].velocity.Y = num760;
-                            Main.npc[num762].dontTakeDamage = malice;
+                            Main.npc[num762].dontTakeDamage = bossRush;
                             Main.npc[num762].netUpdate = true;
                         }
                     }
@@ -483,7 +483,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             float num742 = 8f + ((0.5f - lifeRatio) * 8f); // 8f to 12f
                             if (nearbyActiveTiles < 300)
                                 num742 = 12f;
-                            if (malice)
+                            if (bossRush)
                                 num742 += 4f;
 
                             float num743 = Main.player[npc.target].position.X + Main.player[npc.target].width * 0.5f - vector93.X;
@@ -539,7 +539,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     float shootBoost = 2f * (0.5f - lifeRatio);
                     calamityGlobalNPC.newAI[0] += 1f + shootBoost;
 
-                    float sporeGasGateValue = malice ? 300f : 600f;
+                    float sporeGasGateValue = bossRush ? 300f : 600f;
                     if (calamityGlobalNPC.newAI[0] >= sporeGasGateValue)
                     {
                         npc.TargetClosest();
@@ -645,9 +645,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
         public static bool BuffedPlanterasHookAI(NPC npc, Mod mod)
         {
             // Variables
-            bool enrage = CalamityWorld.malice || BossRushEvent.BossRushActive;
+            bool enrage = BossRushEvent.BossRushActive;
             bool despawn = false;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || enrage;
 
             // Despawn if Plantera is gone
             if (NPC.plantBoss < 0)
@@ -661,14 +661,14 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             float lifeRatio = Main.npc[NPC.plantBoss].life / (float)Main.npc[NPC.plantBoss].lifeMax;
 
             // Despawn if Plantera's target is dead
-            if (Main.player[Main.npc[NPC.plantBoss].target].dead && !BossRushEvent.BossRushActive)
+            if (Main.player[Main.npc[NPC.plantBoss].target].dead && !enrage)
                 despawn = true;
 
             // Tile enrage
             float tileEnrageMult = Main.npc[NPC.plantBoss].ai[3];
 
             // Enrage if Plantera's target is on the surface
-            if (!BossRushEvent.BossRushActive && ((Main.player[Main.npc[NPC.plantBoss].target].position.Y < Main.worldSurface * 16.0 || Main.player[Main.npc[NPC.plantBoss].target].position.Y > ((Main.maxTilesY - 200) * 16)) | despawn))
+            if (!enrage && ((Main.player[Main.npc[NPC.plantBoss].target].position.Y < Main.worldSurface * 16.0 || Main.player[Main.npc[NPC.plantBoss].target].position.Y > ((Main.maxTilesY - 200) * 16)) | despawn))
             {
                 npc.localAI[0] -= 4f;
                 enrage = true;

@@ -114,11 +114,10 @@ namespace CalamityMod.NPCs.SlimeGod
 
             CalamityGlobalNPC.slimeGod = NPC.whoAmI;
 
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
-            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
-            NPC.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive && malice;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool expertMode = Main.expertMode || bossRush;
+            bool revenge = CalamityWorld.revenge || bossRush;
+            bool death = CalamityWorld.death || bossRush;
 
             // Percent life remaining
             float lifeRatio = NPC.life / (float)NPC.lifeMax;
@@ -146,7 +145,7 @@ namespace CalamityMod.NPCs.SlimeGod
             NPC.damage = NPC.defDamage;
 
             // Enrage based on large slimes
-            bool phase2 = lifeRatio < 0.4f || malice;
+            bool phase2 = lifeRatio < 0.4f || bossRush;
             bool hyperMode = true;
             bool purpleSlimeAlive = false;
             bool redSlimeAlive = false;
@@ -188,11 +187,11 @@ namespace CalamityMod.NPCs.SlimeGod
             }
 
             // Despawn
-            if (!player.active || player.dead || Vector2.Distance(player.Center, NPC.Center) > (BossRushEvent.BossRushActive ? CalamityGlobalNPC.CatchUpDistance350Tiles : CalamityGlobalNPC.CatchUpDistance200Tiles))
+            if (!player.active || player.dead || Vector2.Distance(player.Center, NPC.Center) > (bossRush ? CalamityGlobalNPC.CatchUpDistance350Tiles : CalamityGlobalNPC.CatchUpDistance200Tiles))
             {
                 NPC.TargetClosest(false);
                 player = Main.player[NPC.target];
-                if (!player.active || player.dead || Vector2.Distance(player.Center, NPC.Center) > (BossRushEvent.BossRushActive ? CalamityGlobalNPC.CatchUpDistance350Tiles : CalamityGlobalNPC.CatchUpDistance200Tiles))
+                if (!player.active || player.dead || Vector2.Distance(player.Center, NPC.Center) > (bossRush ? CalamityGlobalNPC.CatchUpDistance350Tiles : CalamityGlobalNPC.CatchUpDistance200Tiles))
                 {
                     if (NPC.velocity.Y < -3f)
                         NPC.velocity.Y = -3f;
@@ -231,7 +230,7 @@ namespace CalamityMod.NPCs.SlimeGod
             else if (NPC.timeLeft < 1800)
                 NPC.timeLeft = 1800;
 
-            float ai1 = malice ? 210f : hyperMode ? 270f : 360f;
+            float ai1 = bossRush ? 210f : hyperMode ? 270f : 360f;
 
             // Hide inside large slime
             if (!hyperMode && NPC.ai[1] < ai1)
@@ -429,14 +428,14 @@ namespace CalamityMod.NPCs.SlimeGod
                                 if (Main.getGoodWorld)
                                     chargeVelocity *= 1.25f;
 
-                                NPC.velocity = Vector2.Normalize(player.Center + (malice ? player.velocity * 20f : Vector2.Zero) - NPC.Center) * chargeVelocity;
+                                NPC.velocity = Vector2.Normalize(player.Center + (bossRush ? player.velocity * 20f : Vector2.Zero) - NPC.Center) * chargeVelocity;
                                 NPC.TargetClosest();
                                 return;
                             }
 
                             if (Main.netMode != NetmodeID.MultiplayerClient)
                             {
-                                float divisor = malice ? 10f : 15f;
+                                float divisor = bossRush ? 10f : 15f;
                                 if (NPC.ai[1] % divisor == 0f && Vector2.Distance(player.Center, NPC.Center) > 160f)
                                 {
                                     SoundEngine.PlaySound(SoundID.Item33, NPC.Center);
@@ -493,7 +492,7 @@ namespace CalamityMod.NPCs.SlimeGod
             float flySpeed = death ? 14f : revenge ? 11f : expertMode ? 8.5f : 6f;
             if (phase2)
                 flySpeed = revenge ? 18f : expertMode ? 16f : 14f;
-            if (hyperMode || malice)
+            if (hyperMode || bossRush)
                 flySpeed *= 1.25f;
             if (Main.getGoodWorld)
                 flySpeed *= 1.25f;

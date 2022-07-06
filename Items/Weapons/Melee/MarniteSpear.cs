@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             Item.width = 50;
             Item.damage = 26;
-            Item.DamageType = DamageClass.Melee;
+            Item.DamageType = TrueMeleeDamageClass.Instance;
             Item.noMelee = true;
             Item.useTurn = true;
             Item.noUseGraphic = true;
@@ -32,7 +32,6 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.rare = ItemRarityID.Blue;
             Item.shoot = ModContent.ProjectileType<MarniteSpearProjectile>();
             Item.shootSpeed = 5f;
-            Item.Calamity().trueMelee = true;
         }
 
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;

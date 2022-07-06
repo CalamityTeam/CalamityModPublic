@@ -90,7 +90,7 @@ namespace CalamityMod.Projectiles.Ranged
         public override void Kill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.Zombie103, Projectile.position);
-            CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 80);
+            Projectile.ExpandHitboxBy(80);
             Projectile.Damage();
 
             if (Main.myPlayer != Projectile.owner)

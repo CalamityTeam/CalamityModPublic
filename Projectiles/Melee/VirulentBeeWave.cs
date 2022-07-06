@@ -62,7 +62,7 @@ namespace CalamityMod.Projectiles.Melee
                         int bee = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X + (float)Main.rand.Next(-spawnX, spawnX), Projectile.Center.Y + (float)Main.rand.Next(-spawnY, spawnY), Projectile.velocity.X, Projectile.velocity.Y, player.beeType(), player.beeDamage(Projectile.damage / 3), player.beeKB(0f), Projectile.owner);
                         if (bee.WithinBounds(Main.maxProjectiles))
                         {
-                            Main.projectile[bee].Calamity().forceMelee = true;
+                            Main.projectile[bee].DamageType = DamageClass.Melee;
                             Main.projectile[bee].penetrate = 1;
                         }
                     }

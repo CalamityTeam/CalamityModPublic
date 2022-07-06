@@ -674,15 +674,24 @@ namespace CalamityMod
                 int idx = r.IngredientIndex(oldItemID);
                 if (idx == -1)
                     return;
-                r.requiredItem[idx].type = newItemID;
+
+                // Replace the entire Item, but keep the old stack count.
+                Item newIngredient = new Item();
+                newIngredient.SetDefaults(newItemID);
+                newIngredient.stack = r.requiredItem[idx].stack;
+                r.requiredItem[idx] = newIngredient;
             };
             static Action<Recipe> RemoveIngredient(int itemID) => r => r.RemoveIngredient(itemID);
             static Action<Recipe> SwapIngredients(int i1, int i2) => r =>
             {
                 if (r.requiredItem.Count < i1 + 1 || r.requiredItem.Count < i2 + 1)
                     return;
-                (r.requiredItem[i2].type, r.requiredItem[i1].type) = (r.requiredItem[i1].type, r.requiredItem[i2].type);
-                (r.requiredItem[i2].stack, r.requiredItem[i1].stack) = (r.requiredItem[i1].stack, r.requiredItem[i2].stack);
+
+                // Swap the entire Items in the List<Item> (uses pointers under the hood).
+                // DO NOT do what it tells you to here by making it a tuple notation swap. That does NOT work.
+                var store = r.requiredItem[i1];
+                r.requiredItem[i1] = r.requiredItem[i2];
+                r.requiredItem[i2] = store;
             };
             static Action<Recipe> ReplaceTile(int oldTileID, int newTileID) => r =>
             {
@@ -707,7 +716,7 @@ namespace CalamityMod
                 { Vanilla(ItemID.Magiluminescence), MagiluminescenceRecipeEdit },
                 { Vanilla(ItemID.FireGauntlet), AddIngredient(ModContent.ItemType<ScoriaBar>(), 5) },
                 { Vanilla(ItemID.SpiritFlame), AddGroup(AnyAdamantiteBar, 2) },
-                { VanillaEach(ItemID.BeetleHelmet, ItemID.BeetleScaleMail, ItemID.BeetleLeggings), SwapIngredients(0, 1) },
+                { VanillaEach(ItemID.BeetleHelmet, ItemID.BeetleScaleMail, ItemID.BeetleShell, ItemID.BeetleLeggings), SwapIngredients(0, 1) },
                 { Vanilla(ItemID.GoblinBattleStandard), ChangeIngredientStack(ItemID.TatteredCloth, 5) },
                 { Vanilla(ItemID.WormFood), WormFoodRecipeEdit },
                 { Vanilla(ItemID.BloodySpine), BloodySpineRecipeEdit },
@@ -1104,6 +1113,7 @@ namespace CalamityMod
             r.AddIngredient(ItemID.Silk, 20);
             r.AddIngredient(ItemID.Ectoplasm, 5);
             r.AddRecipeGroup(AnySilverBar, 5);
+            r.AddTile(TileID.MythrilAnvil);
             r.Register();
 
             // Lihzahrd Power Cell (NOT Calamity's Old Power Cell)
@@ -1449,54 +1459,63 @@ namespace CalamityMod
             r = Recipe.Create(ItemID.ShroomiteHelmet);
             r.AddIngredient(ItemID.ChlorophyteHelmet);
             r.AddIngredient(ItemID.GlowingMushroom, 60);
+            r.AddIngredient<LivingShard>();
             r.AddTile(TileID.MythrilAnvil);
             r.Register();
 
             r = Recipe.Create(ItemID.ShroomiteHeadgear);
             r.AddIngredient(ItemID.ChlorophyteHelmet);
             r.AddIngredient(ItemID.GlowingMushroom, 60);
+            r.AddIngredient<LivingShard>();
             r.AddTile(TileID.MythrilAnvil);
             r.Register();
 
             r = Recipe.Create(ItemID.ShroomiteMask);
             r.AddIngredient(ItemID.ChlorophyteHelmet);
             r.AddIngredient(ItemID.GlowingMushroom, 60);
+            r.AddIngredient<LivingShard>();
             r.AddTile(TileID.MythrilAnvil);
             r.Register();
 
             r = Recipe.Create(ItemID.ShroomiteBreastplate);
             r.AddIngredient(ItemID.ChlorophytePlateMail);
             r.AddIngredient(ItemID.GlowingMushroom, 120);
+            r.AddIngredient<LivingShard>();
             r.AddTile(TileID.MythrilAnvil);
             r.Register();
 
             r = Recipe.Create(ItemID.ShroomiteLeggings);
             r.AddIngredient(ItemID.ChlorophyteGreaves);
             r.AddIngredient(ItemID.GlowingMushroom, 80);
+            r.AddIngredient<LivingShard>();
             r.AddTile(TileID.MythrilAnvil);
             r.Register();
 
             r = Recipe.Create(ItemID.SpectreHood);
             r.AddIngredient(ItemID.ChlorophyteHeadgear);
             r.AddIngredient(ItemID.Ectoplasm, 6);
+            r.AddIngredient<LivingShard>();
             r.AddTile(TileID.MythrilAnvil);
             r.Register();
 
             r = Recipe.Create(ItemID.SpectreMask);
             r.AddIngredient(ItemID.ChlorophyteHeadgear);
             r.AddIngredient(ItemID.Ectoplasm, 6);
+            r.AddIngredient<LivingShard>();
             r.AddTile(TileID.MythrilAnvil);
             r.Register();
 
             r = Recipe.Create(ItemID.SpectreRobe);
             r.AddIngredient(ItemID.ChlorophytePlateMail);
             r.AddIngredient(ItemID.Ectoplasm, 12);
+            r.AddIngredient<LivingShard>();
             r.AddTile(TileID.MythrilAnvil);
             r.Register();
 
             r = Recipe.Create(ItemID.SpectrePants);
             r.AddIngredient(ItemID.ChlorophyteGreaves);
             r.AddIngredient(ItemID.Ectoplasm, 9);
+            r.AddIngredient<LivingShard>();
             r.AddTile(TileID.MythrilAnvil);
             r.Register();
 

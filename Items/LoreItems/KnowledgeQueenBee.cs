@@ -12,6 +12,7 @@ namespace CalamityMod.Items.LoreItems
             DisplayName.SetDefault("Queen Bee");
             Tooltip.SetDefault("As crude as the giant insects are they can prove useful in certain situations... given the ability to control them.");
             SacrificeTotal = 1;
+            ItemID.Sets.ItemNoGravity[Item.type] = true;
         }
 
         public override void SetDefaults()

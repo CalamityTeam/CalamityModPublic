@@ -70,7 +70,7 @@ namespace CalamityMod.Projectiles.Rogue
             //Stealth strike
             if (stealthstrike)
             {
-                CalamityGlobalProjectile.HomeInOnNPC(Projectile, true, 250f, 7f, 20f);
+                CalamityUtils.HomeInOnNPC(Projectile, true, 250f, 7f, 20f);
             }
             //Gravity code
             else

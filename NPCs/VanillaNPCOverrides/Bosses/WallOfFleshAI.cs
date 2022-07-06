@@ -15,9 +15,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
         {
             CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
-            npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive && malice;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || bossRush;
 
             // Despawn
             if (npc.position.X < 160f || npc.position.X > ((Main.maxTilesX - 10) * 16))
@@ -49,7 +48,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     npc.ai[1] += 1f;
                 if (phase3)
                     npc.ai[1] += 1f;
-                if (malice)
+                if (bossRush)
                     npc.ai[1] += 3f;
 
                 if (npc.ai[1] > 2700f)
@@ -199,7 +198,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             float timeBeforeEnrage = 600f - (death ? 390f * (1f - lifeRatio) : 0f);
             float speedMult = 1f;
 
-            if (malice)
+            if (bossRush)
                 timeBeforeEnrage *= 0.25f;
 
             if (calamityGlobalNPC.newAI[0] < timeBeforeEnrage)
@@ -251,14 +250,14 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 }
             }
 
-            if (malice)
+            if (bossRush)
                 speedMult += 0.2f;
 
             // NOTE: Max velocity is 8 in Expert Mode
             // NOTE: Max velocity is 9 in For The Worthy
 
             float velocityBoost = 4f * (1f - lifeRatio);
-            float velocityX = (BossRushEvent.BossRushActive ? 7f : death ? 3.5f : 2f) + velocityBoost;
+            float velocityX = (bossRush ? 7f : death ? 3.5f : 2f) + velocityBoost;
             velocityX *= speedMult;
 
             if (Main.getGoodWorld)
@@ -375,7 +374,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 // Range of 64 to 268
                 chance *= 2;
 
-                if (malice)
+                if (bossRush)
                     chance /= 4;
 
                 if (Main.rand.NextBool(chance))
@@ -457,8 +456,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
         {
             CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || bossRush;
 
             // Despawn
             if (Main.wofNPCIndex < 0)
@@ -578,7 +577,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                     if (flag30)
                     {
-                        bool phase2 = lifeRatio < 0.5 || malice;
+                        bool phase2 = lifeRatio < 0.5 || bossRush;
                         float velocity = (fireAcceleratingLasers ? 3f : 9f) + shootBoost;
 
                         int projectileType = phase2 ? ProjectileID.DeathLaser : ProjectileID.EyeLaser;

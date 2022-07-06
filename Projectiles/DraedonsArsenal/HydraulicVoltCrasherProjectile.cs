@@ -29,9 +29,8 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             Projectile.tileCollide = false;
             Projectile.hide = true;
             Projectile.ownerHitCheck = true;
-            Projectile.DamageType = DamageClass.Melee;
+            Projectile.DamageType = TrueMeleeNoSpeedDamageClass.Instance;
             Projectile.scale = 1.75f;
-            Projectile.Calamity().trueMelee = true;
         }
 
         public override void AI()

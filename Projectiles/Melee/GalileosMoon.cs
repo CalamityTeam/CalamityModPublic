@@ -46,7 +46,7 @@ namespace CalamityMod.Projectiles.Melee
                 }
             }
             Projectile.rotation += Projectile.direction * 0.55f;
-            CalamityGlobalProjectile.HomeInOnNPC(Projectile, true, 250f, 10f, 25f);
+            CalamityUtils.HomeInOnNPC(Projectile, true, 250f, 10f, 25f);
         }
 
         public override bool PreDraw(ref Color lightColor)

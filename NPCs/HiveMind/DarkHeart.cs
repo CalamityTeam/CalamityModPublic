@@ -73,7 +73,7 @@ namespace CalamityMod.NPCs.HiveMind
             NPC.TargetClosest();
             float num1164 = revenge ? 4.5f : 4f;
             float num1165 = revenge ? 0.8f : 0.75f;
-            if (BossRushEvent.BossRushActive || CalamityWorld.malice)
+            if (BossRushEvent.BossRushActive)
             {
                 num1164 *= 2f;
                 num1165 *= 2f;

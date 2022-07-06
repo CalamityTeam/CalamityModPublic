@@ -158,12 +158,12 @@ namespace CalamityMod.NPCs.Polterghast
 
             // Variables
             Vector2 vector = NPC.Center;
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+            bool bossRush = BossRushEvent.BossRushActive;
             bool speedBoost = false;
             bool despawnBoost = false;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
-            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || bossRush;
+            bool revenge = CalamityWorld.revenge || bossRush;
+            bool expertMode = Main.expertMode || bossRush;
 
             // Phases
             bool phase2 = lifeRatio < (death ? 0.9f : revenge ? 0.8f : expertMode ? 0.65f : 0.5f);
@@ -250,7 +250,7 @@ namespace CalamityMod.NPCs.Polterghast
                 NPC.NewNPC(NPC.GetSource_FromAI(), (int)vector.X, (int)vector.Y, ModContent.NPCType<PolterghastHook>(), NPC.whoAmI, 0f, 0f, 0f, 0f, 255);
             }
 
-            if (!player.ZoneDungeon && !BossRushEvent.BossRushActive && player.position.Y < Main.worldSurface * 16.0)
+            if (!player.ZoneDungeon && !bossRush && player.position.Y < Main.worldSurface * 16.0)
             {
                 despawnTimer--;
                 if (despawnTimer <= 0)
@@ -357,10 +357,10 @@ namespace CalamityMod.NPCs.Polterghast
             if (nearbyActiveTiles < 1000)
                 tileEnrageMult += (1000 - nearbyActiveTiles) * 0.00075f; // Ranges from 1f to 1.75f
 
-            if (malice)
+            if (bossRush)
                 tileEnrageMult = 1.75f;
 
-            NPC.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive && tileEnrageMult >= 1.6f;
+            NPC.Calamity().CurrentlyEnraged = !bossRush && tileEnrageMult >= 1.6f;
 
             // Used to inform clone and hooks about number of active tiles nearby
             NPC.ai[3] = tileEnrageMult;
@@ -380,7 +380,7 @@ namespace CalamityMod.NPCs.Polterghast
                 baseProjectileVelocity *= 1.25f;
 
             // Predictiveness
-            Vector2 predictionVector = chargePhase && malice ? player.velocity * 20f : Vector2.Zero;
+            Vector2 predictionVector = chargePhase && bossRush ? player.velocity * 20f : Vector2.Zero;
             Vector2 lookAt = player.Center + predictionVector;
             Vector2 rotationVector = lookAt - vector;
 
@@ -430,7 +430,7 @@ namespace CalamityMod.NPCs.Polterghast
 
                 float num738 = (float)Math.Sqrt(num736 * num736 + num737 * num737);
                 float maxDistanceFromHooks = expertMode ? 650f : 500f;
-                if (speedBoost || malice)
+                if (speedBoost || bossRush)
                     maxDistanceFromHooks += 250f;
                 if (death)
                     maxDistanceFromHooks += maxDistanceFromHooks * 0.1f * (1f - lifeRatio);

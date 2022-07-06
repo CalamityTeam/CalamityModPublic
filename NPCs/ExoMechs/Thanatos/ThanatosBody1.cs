@@ -133,10 +133,10 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
                 NPC.life = Main.npc[(int)NPC.ai[1]].life;
 
             // Difficulty modes
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
-            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || bossRush;
+            bool revenge = CalamityWorld.revenge || bossRush;
+            bool expertMode = Main.expertMode || bossRush;
 
             // Check if other segments are still alive, if not, die
             bool shouldDespawn = true;
@@ -255,7 +255,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
                     if (NPC.Calamity().newAI[0] == 0f)
                         NPC.ai[3] += 1f;
 
-                    double numSegmentsAbleToFire = malice ? 35D : death ? 30D : revenge ? 28D : expertMode ? 25D : 20D;
+                    double numSegmentsAbleToFire = bossRush ? 35D : death ? 30D : revenge ? 28D : expertMode ? 25D : 20D;
                     if (shouldGetBuffedByBerserkPhase)
                         numSegmentsAbleToFire *= 1.5;
 
@@ -366,7 +366,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
                                             }
                                         }
 
-                                        float predictionAmt = malice ? 24f : death ? 20f : revenge ? 18f : expertMode ? 16f : 12f;
+                                        float predictionAmt = bossRush ? 24f : death ? 20f : revenge ? 18f : expertMode ? 16f : 12f;
                                         if (NPC.ai[0] % 3f == 0f)
                                             predictionAmt *= 0.5f;
 
@@ -445,9 +445,9 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
             NPC.Calamity().unbreakableDR = !vulnerable;
 
             // Increase overall damage taken while vulnerable
-            float damageMult = malice ? 1.1f : death ? 1.2f : revenge ? 1.25f : expertMode ? 1.3f : 1.4f;
+            float damageMult = bossRush ? 1.1f : death ? 1.2f : revenge ? 1.25f : expertMode ? 1.3f : 1.4f;
             if (shouldGetBuffedByBerserkPhase)
-                damageMult -= malice ? 0.1f : death ? 0.175f : revenge ? 0.2f : expertMode ? 0.225f : 0.3f;
+                damageMult -= bossRush ? 0.1f : death ? 0.175f : revenge ? 0.2f : expertMode ? 0.225f : 0.3f;
 
             NPC.takenDamageMultiplier = vulnerable ? damageMult : 1f;
 

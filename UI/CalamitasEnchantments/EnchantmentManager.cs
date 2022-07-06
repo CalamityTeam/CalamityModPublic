@@ -182,14 +182,14 @@ namespace CalamityMod.UI.CalamitasEnchants
                     "CalamityMod/ExtraTextures/UI/EnchantmentSymbols/CurseIcon_Resentful",
                     null,
                     player => player.Calamity().farProximityRewardEnchant = true,
-                    item => item.IsEnchantable() && item.damage > 0 && item.shoot > ProjectileID.None && !item.Calamity().trueMelee),
+                    item => item.IsEnchantable() && item.damage > 0 && item.shoot > ProjectileID.None && !item.IsTrueMelee()),
 
                 new Enchantment("Bloodthirsty", "Makes the damage of projectiles vary based on how far the hit target is from you. The closer, the more damage, and vice versa.",
                     500,
                     "CalamityMod/ExtraTextures/UI/EnchantmentSymbols/CurseIcon_Bloodthirsty",
                     null,
                     player => player.Calamity().closeProximityRewardEnchant = true,
-                    item => item.IsEnchantable() && item.damage > 0 && item.shoot > ProjectileID.None && !item.Calamity().trueMelee),
+                    item => item.IsEnchantable() && item.damage > 0 && item.shoot > ProjectileID.None && !item.IsTrueMelee()),
 
                 new Enchantment("Ephemeral", "Causes the damage output of this item to discharge from exhaustive use.\nIts damage returns naturally when not being used. It starts off with more damage than it normally would have.",
                     600,
@@ -293,7 +293,7 @@ namespace CalamityMod.UI.CalamitasEnchants
                             CalamityNetcode.NewNPC_ClientSide(player.Center, orbType, player);
                         }
                     },
-                    item => item.IsEnchantable() && item.damage > 0 && item.shoot > ProjectileID.None && !item.CountsAsClass<SummonDamageClass>() && !item.Calamity().trueMelee),
+                    item => item.IsEnchantable() && item.damage > 0 && item.shoot > ProjectileID.None && !item.CountsAsClass<SummonDamageClass>() && !item.IsTrueMelee()),
             };
 
             // Special disenchantment thing. This is separated from the list on purpose.

@@ -13,6 +13,7 @@ namespace CalamityMod.Items.LoreItems
             Tooltip.SetDefault("A crab and its mushrooms, a love story.\n" +
                 "It's interesting how creatures can adapt given certain circumstances.");
             SacrificeTotal = 1;
+            ItemID.Sets.ItemNoGravity[Item.type] = true;
         }
 
         public override void SetDefaults()

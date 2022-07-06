@@ -216,7 +216,7 @@ namespace CalamityMod.CalPlayer
             if (CalamityWorld.revenge)
             {
                 // Adjusts the life steal cap in rev/death
-                float lifeStealCap = (CalamityWorld.malice || BossRushEvent.BossRushActive) ? 30f : CalamityWorld.death ? 45f : 60f;
+                float lifeStealCap = BossRushEvent.BossRushActive ? 30f : CalamityWorld.death ? 45f : 60f;
                 if (Player.lifeSteal > lifeStealCap)
                     Player.lifeSteal = lifeStealCap;
 
@@ -676,8 +676,8 @@ namespace CalamityMod.CalPlayer
             // Reduces Expert Mode life steal recovery rate from 0.5/s to 0.35/s
             // Revengeance Mode recovery rate is 0.3/s
             // Death Mode recovery rate is 0.25/s
-            // Malice Mode recovery rate is 0.2/s
-            float lifeStealCooldown = (CalamityWorld.malice || BossRushEvent.BossRushActive) ? 0.3f : CalamityWorld.death ? 0.25f : CalamityWorld.revenge ? 0.2f : Main.expertMode ? 0.15f : 0.1f;
+            // Boss Rush recovery rate is 0.2/s
+            float lifeStealCooldown = BossRushEvent.BossRushActive ? 0.3f : CalamityWorld.death ? 0.25f : CalamityWorld.revenge ? 0.2f : Main.expertMode ? 0.15f : 0.1f;
             Player.lifeSteal -= lifeStealCooldown;
 
             // Nebula Armor nerf
@@ -1048,6 +1048,8 @@ namespace CalamityMod.CalPlayer
             if (expiredCooldowns.Count > 0)
                 SyncCooldownRemoval(Main.netMode == NetmodeID.Server, expiredCooldowns);
 
+            if (momentumCapacitorTime > 0)
+                --momentumCapacitorTime;
             if (spiritOriginBullseyeShootCountdown > 0)
                 spiritOriginBullseyeShootCountdown--;
             if (phantomicHeartRegen > 0 && phantomicHeartRegen < 1000)
@@ -1614,7 +1616,7 @@ namespace CalamityMod.CalPlayer
                         int projectile = Projectile.NewProjectile(source, Player.Center, lightningVel, ModContent.ProjectileType<BlunderBoosterLightning>(), damage, 0, Player.whoAmI, Main.rand.Next(2), 0f);
                         Main.projectile[projectile].timeLeft = Main.rand.Next(180, 240);
                         if (projectile.WithinBounds(Main.maxProjectiles))
-                            Main.projectile[projectile].Calamity().forceClassless = true;
+                            Main.projectile[projectile].DamageType = DamageClass.Generic;
                     }
 
                     for (int i = 0; i < 3; i++)
@@ -1638,7 +1640,7 @@ namespace CalamityMod.CalPlayer
                         int projectile = Projectile.NewProjectile(source, Player.Center, cloudVelocity, ModContent.ProjectileType<PlaguedFuelPackCloud>(), damage, 0, Player.whoAmI, 0, 0);
                         Main.projectile[projectile].timeLeft = Main.rand.Next(180, 240);
                         if (projectile.WithinBounds(Main.maxProjectiles))
-                            Main.projectile[projectile].Calamity().forceClassless = true;
+                            Main.projectile[projectile].DamageType = DamageClass.Generic;
                     }
 
                     for (int i = 0; i < 3; i++)
@@ -2594,7 +2596,7 @@ namespace CalamityMod.CalPlayer
                 (prismaticGreaves ? 0.1 : 0D) +
                 (plagueReaper ? 0.05 : 0D) +
                 (draconicSurge ? 0.2 : 0D) +
-                (Player.empressBrooch ? 0.5 : 0D);
+                (Player.empressBrooch ? 0.25 : 0D);
 
             if (harpyRing)
                 Player.moveSpeed += 0.1f;
@@ -2817,9 +2819,6 @@ namespace CalamityMod.CalPlayer
                 Player.statDefense += 10;
             }
 
-            if (warbannerOfTheSun)
-                Player.GetDamage<MeleeDamageClass>() += warBannerBonus;
-
             // The player's true max life value with Calamity adjustments
             actualMaxLife = Player.statLifeMax2;
 
@@ -2905,7 +2904,7 @@ namespace CalamityMod.CalPlayer
                         if (projectile.WithinBounds(Main.maxProjectiles))
                         {
                             Main.projectile[projectile].originalDamage = 3750;
-                            Main.projectile[projectile].Calamity().forceClassless = true;
+                            Main.projectile[projectile].DamageType = DamageClass.Generic;
                         }
                     }
                 }
@@ -3009,7 +3008,7 @@ namespace CalamityMod.CalPlayer
                             int spark = Projectile.NewProjectile(source, npc.Center, velocity, ModContent.ProjectileType<EutrophicSpark>(), damage / 2, 0f, Player.whoAmI);
                             if (spark.WithinBounds(Main.maxProjectiles))
                             {
-                                Main.projectile[spark].Calamity().forceClassless = true;
+                                Main.projectile[spark].DamageType = DamageClass.Generic;
                                 Main.projectile[spark].localNPCHitCooldown = -2;
                                 Main.projectile[spark].penetrate = 5;
                             }
@@ -3222,7 +3221,7 @@ namespace CalamityMod.CalPlayer
                             Main.projectile[bee].localNPCHitCooldown = 10;
                             Main.projectile[bee].penetrate = 2;
                             if (bee.WithinBounds(Main.maxProjectiles))
-                                Main.projectile[bee].Calamity().forceClassless = true;
+                                Main.projectile[bee].DamageType = DamageClass.Generic;
                         }
                     }
                 }
@@ -3392,7 +3391,7 @@ namespace CalamityMod.CalPlayer
                     int laser = Projectile.NewProjectile(source, startPos, velocity, ModContent.ProjectileType<DeathhailBeam>(), dmg, 4f, Player.whoAmI, 0f, 0f);
                     Main.projectile[laser].localNPCHitCooldown = 5;
                     if (laser.WithinBounds(Main.maxProjectiles))
-                        Main.projectile[laser].Calamity().forceClassless = true;
+                        Main.projectile[laser].DamageType = DamageClass.Generic;
                 }
                 SoundEngine.PlaySound(SoundID.Item12, Player.Center);
             }
@@ -3467,18 +3466,6 @@ namespace CalamityMod.CalPlayer
 
             if (CalamityConfig.Instance.Proficiency)
                 GetStatBonuses();
-
-            // True melee damage bonuses
-            double damageAdd = (dodgeScarf ? 0.1 : 0) +
-                    (evasionScarf ? 0.05 : 0) +
-                    ((aBulwarkRare && aBulwarkRareMeleeBoostTimer > 0) ? 0.5 : 0) +
-                    (fungalSymbiote ? 0.15 : 0) +
-                    ((Player.head == ArmorIDs.Head.MoltenHelmet && Player.body == ArmorIDs.Body.MoltenBreastplate && Player.legs == ArmorIDs.Legs.MoltenGreaves) ? 0.2 : 0) +
-                    (Player.kbGlove ? 0.1 : 0) +
-                    (eGauntlet ? 0.1 : 0) +
-                    (yInsignia ? 0.1 : 0) +
-                    (warbannerOfTheSun ? warBannerBonus : 0);
-            trueMeleeDamage += damageAdd;
 
             // Amalgam boosts
             if (Main.myPlayer == Player.whoAmI)

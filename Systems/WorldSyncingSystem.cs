@@ -116,7 +116,7 @@ namespace CalamityMod.Systems
             flags10[7] = false;
 
             BitsByte flags11 = new BitsByte();
-            flags11[0] = malice;
+            flags11[0] = false;
             flags11[1] = HasGeneratedLuminitePlanetoids;
             flags11[2] = downedAdultEidolonWyrm;
             flags11[3] = downedExoMechs;
@@ -259,7 +259,7 @@ namespace CalamityMod.Systems
             _ = flags10[7];
 
             BitsByte flags11 = reader.ReadByte();
-            malice = flags11[0];
+            _ = flags11[0];
             HasGeneratedLuminitePlanetoids = flags11[1];
             downedAdultEidolonWyrm = flags11[2];
             downedExoMechs = flags11[3];

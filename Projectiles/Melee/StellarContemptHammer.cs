@@ -210,10 +210,7 @@ namespace CalamityMod.Projectiles.Melee
                 {
                     int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), startPoint, velocity, ProjectileID.LunarFlare, flareDamage, flareKB, Main.myPlayer, 0f, AI1);
                     if (proj.WithinBounds(Main.maxProjectiles))
-                    {
-                        CalamityGlobalProjectile cgp = Main.projectile[proj].Calamity();
-                        cgp.forceMelee = true;
-                    }
+                        Main.projectile[proj].DamageType = DamageClass.Melee;
                 }
             }
         }

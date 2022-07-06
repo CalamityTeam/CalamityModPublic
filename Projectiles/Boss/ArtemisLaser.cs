@@ -38,7 +38,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-            Projectile.Calamity().canBreakPlayerDefense = true;
+            Projectile.Calamity().DealsDefenseDamage = true;
             Projectile.width = 22;
             Projectile.height = 22;
             Projectile.hostile = true;
@@ -105,7 +105,7 @@ namespace CalamityMod.Projectiles.Boss
                 if (Velocity != Vector2.Zero)
                 {
                     Projectile.extraUpdates = Main.getGoodWorld ? 4 : 3;
-                    Projectile.velocity = Velocity * ((CalamityWorld.malice || BossRushEvent.BossRushActive) ? 1.25f : 1f);
+                    Projectile.velocity = Velocity * (BossRushEvent.BossRushActive ? 1.25f : 1f);
                     Velocity = Vector2.Zero;
                     Projectile.netUpdate = true;
                 }

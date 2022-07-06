@@ -121,7 +121,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 150);
+            Projectile.ExpandHitboxBy(150);
             Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<ScarletBlast>(), (int)(Projectile.damage * 0.0075), 0f, Projectile.owner);
             if (!Projectile.Calamity().stealthStrike)
                 return;
@@ -139,7 +139,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-            CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 150);
+            Projectile.ExpandHitboxBy(150);
             Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<ScarletBlast>(), (int)(Projectile.damage * 0.0075), 0f, Projectile.owner);
             if (!Projectile.Calamity().stealthStrike)
                 return;

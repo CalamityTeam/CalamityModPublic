@@ -59,7 +59,7 @@ namespace CalamityMod.Projectiles.Ranged
             Main.dust[num469].noGravity = true;
             Main.dust[num469].velocity *= 0f;
 
-            CalamityGlobalProjectile.HomeInOnNPC(Projectile, !Projectile.tileCollide, 200f, 12f, 20f);
+            CalamityUtils.HomeInOnNPC(Projectile, !Projectile.tileCollide, 200f, 12f, 20f);
         }
 
         public override void Kill(int timeLeft)

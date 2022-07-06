@@ -59,7 +59,7 @@ namespace CalamityMod.Items.Potions
         {
             CreateRecipe().
                 AddIngredient(ItemID.BottledWater).
-                AddIngredient<HellcasterFragment>().
+                AddIngredient<YharonSoulFragment>().
                 AddIngredient(ItemID.Daybloom).
                 AddIngredient(ItemID.Moonglow).
                 AddIngredient(ItemID.Fireblossom).
@@ -69,7 +69,7 @@ namespace CalamityMod.Items.Potions
             CreateRecipe().
                 AddIngredient(ItemID.BottledWater).
                 AddIngredient<BloodOrb>(50).
-                AddIngredient<HellcasterFragment>().
+                AddIngredient<YharonSoulFragment>().
                 AddTile(TileID.AlchemyTable).
                 Register();
         }

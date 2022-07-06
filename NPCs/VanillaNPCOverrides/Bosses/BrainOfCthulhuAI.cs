@@ -16,8 +16,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             // whoAmI variable
             NPC.crimsonBoss = npc.whoAmI;
 
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || bossRush;
 
             // Get a target
             if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
@@ -27,15 +27,15 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
                 npc.TargetClosest();
 
-            float enrageScale = BossRushEvent.BossRushActive ? 1f : 0f;
-            if ((npc.position.Y / 16f) < Main.worldSurface || malice)
+            float enrageScale = bossRush ? 1f : 0f;
+            if ((npc.position.Y / 16f) < Main.worldSurface || bossRush)
             {
-                npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
+                npc.Calamity().CurrentlyEnraged = !bossRush;
                 enrageScale += 1f;
             }
-            if (!Main.player[npc.target].ZoneCrimson || malice)
+            if (!Main.player[npc.target].ZoneCrimson || bossRush)
             {
-                npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
+                npc.Calamity().CurrentlyEnraged = !bossRush;
                 enrageScale += 2f;
             }
 
@@ -170,7 +170,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             SoundEngine.PlaySound(SoundID.ForceRoar, npc.position);
 
                             // Velocity
-                            npc.velocity = Vector2.Normalize(Main.player[npc.target].Center + (malice ? Main.player[npc.target].velocity * 20f : Vector2.Zero) - npc.Center) * ((death ? 20f : 16f) + 4f * enrageScale);
+                            npc.velocity = Vector2.Normalize(Main.player[npc.target].Center + (bossRush ? Main.player[npc.target].velocity * 20f : Vector2.Zero) - npc.Center) * ((death ? 20f : 16f) + 4f * enrageScale);
                             if (Main.getGoodWorld)
                                 npc.velocity *= 1.15f;
                         }
@@ -543,7 +543,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             }
 
             // Despawn
-            if (Main.player[npc.target].dead && !BossRushEvent.BossRushActive)
+            if (Main.player[npc.target].dead && !bossRush)
             {
                 if (npc.localAI[3] < 120f)
                     npc.localAI[3] += 1f;
@@ -571,17 +571,17 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 return false;
             }
 
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || bossRush;
 
             // Get a target
             if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
                 npc.TargetClosest();
 
-            float enrageScale = BossRushEvent.BossRushActive ? 1f : 0f;
-            if ((npc.position.Y / 16f) < Main.worldSurface || malice)
+            float enrageScale = bossRush ? 1f : 0f;
+            if ((npc.position.Y / 16f) < Main.worldSurface || bossRush)
                 enrageScale += 1f;
-            if (!Main.player[npc.target].ZoneCrimson || malice)
+            if (!Main.player[npc.target].ZoneCrimson || bossRush)
                 enrageScale += 2f;
 
             // Creeper count, 0 to 20

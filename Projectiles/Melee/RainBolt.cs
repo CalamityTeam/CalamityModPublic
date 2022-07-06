@@ -39,7 +39,7 @@ namespace CalamityMod.Projectiles.Melee
             Main.dust[num469].velocity *= 0f;
 
             if (Projectile.timeLeft < 150)
-                CalamityGlobalProjectile.HomeInOnNPC(Projectile, !Projectile.tileCollide, 600f, 12f, 20f);
+                CalamityUtils.HomeInOnNPC(Projectile, !Projectile.tileCollide, 600f, 12f, 20f);
             else
                 Projectile.velocity *= 0.95f;
         }

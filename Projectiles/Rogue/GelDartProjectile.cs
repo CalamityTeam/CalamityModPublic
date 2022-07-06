@@ -40,7 +40,7 @@ namespace CalamityMod.Projectiles.Rogue
                     int slime = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ProjectileID.SlimeGun, (int)(Projectile.damage * 0.5), Projectile.knockBack * 0.5f, Projectile.owner);
                     if (slime.WithinBounds(Main.maxProjectiles))
                     {
-                        Main.projectile[slime].Calamity().forceRogue = true;
+                        Main.projectile[slime].DamageType = RogueDamageClass.Instance;
                         Main.projectile[slime].usesLocalNPCImmunity = true;
                         Main.projectile[slime].localNPCHitCooldown = 10;
                     }

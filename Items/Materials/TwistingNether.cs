@@ -9,6 +9,8 @@ namespace CalamityMod.Items.Materials
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 25;
+            ItemID.Sets.ItemNoGravity[Item.type] = true;
+
             DisplayName.SetDefault("Twisting Nether");
         }
 

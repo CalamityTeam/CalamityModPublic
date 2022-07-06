@@ -30,7 +30,7 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.arrow = true;
             Projectile.penetrate = 1;
             Projectile.timeLeft = 300;
-            Projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
+            Projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.DefaultPointBlankDuration;
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
@@ -61,7 +61,7 @@ namespace CalamityMod.Projectiles.Ranged
             }
 
             if (Projectile.ai[1] == 80f) //means it's from Arterial Assault's wooden arrow conversion
-                CalamityGlobalProjectile.HomeInOnNPC(Projectile, !Projectile.tileCollide, 200f, 12f, 20f);
+                CalamityUtils.HomeInOnNPC(Projectile, !Projectile.tileCollide, 200f, 12f, 20f);
         }
 
         public override void Kill(int timeLeft)

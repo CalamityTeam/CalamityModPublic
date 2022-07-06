@@ -59,7 +59,7 @@ namespace CalamityMod.NPCs.Perforator
             NPC.DeathSound = SoundID.NPCDeath1;
             NPC.netAlways = true;
 
-            if (CalamityWorld.malice || BossRushEvent.BossRushActive)
+            if (BossRushEvent.BossRushActive)
                 NPC.scale *= 1.25f;
             else if (CalamityWorld.death)
                 NPC.scale *= 1.2f;
@@ -103,13 +103,13 @@ namespace CalamityMod.NPCs.Perforator
 
         public override void AI()
         {
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
-            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool expertMode = Main.expertMode || bossRush;
+            bool revenge = CalamityWorld.revenge || bossRush;
+            bool death = CalamityWorld.death || bossRush;
 
             // Enrage
-            if ((!Main.player[NPC.target].ZoneCrimson || (NPC.position.Y / 16f) < Main.worldSurface) && !BossRushEvent.BossRushActive)
+            if ((!Main.player[NPC.target].ZoneCrimson || (NPC.position.Y / 16f) < Main.worldSurface) && !bossRush)
             {
                 if (biomeEnrageTimer > 0)
                     biomeEnrageTimer--;
@@ -117,12 +117,12 @@ namespace CalamityMod.NPCs.Perforator
             else
                 biomeEnrageTimer = CalamityGlobalNPC.biomeEnrageTimerMax;
 
-            bool biomeEnraged = biomeEnrageTimer <= 0 || malice;
+            bool biomeEnraged = biomeEnrageTimer <= 0 || bossRush;
 
-            float enrageScale = BossRushEvent.BossRushActive ? 1f : 0f;
-            if (biomeEnraged && (!Main.player[NPC.target].ZoneCrimson || malice))
+            float enrageScale = bossRush ? 1f : 0f;
+            if (biomeEnraged && (!Main.player[NPC.target].ZoneCrimson || bossRush))
                 enrageScale += 1f;
-            if (biomeEnraged && ((NPC.position.Y / 16f) < Main.worldSurface || malice))
+            if (biomeEnraged && ((NPC.position.Y / 16f) < Main.worldSurface || bossRush))
                 enrageScale += 1f;
 
             // Percent life remaining
@@ -300,7 +300,7 @@ namespace CalamityMod.NPCs.Perforator
 
             float num18 = speed;
             float num19 = turnSpeed;
-            float burrowDistance = malice ? 500f : 800f;
+            float burrowDistance = bossRush ? 500f : 800f;
             float burrowTarget = player.Center.Y + burrowDistance;
             float lungeTarget = player.Center.Y - 600f;
             Vector2 vector3 = NPC.Center;

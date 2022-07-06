@@ -51,7 +51,7 @@ namespace CalamityMod.Projectiles.Rogue
                 if (Projectile.timeLeft > 350)
                     Projectile.velocity *= 1.06f;
                 Projectile.damage = (int)(originalDamage * 1.25);
-                CalamityGlobalProjectile.HomeInOnNPC(Projectile, true, 300f, 12f, 20f);
+                CalamityUtils.HomeInOnNPC(Projectile, true, 300f, 12f, 20f);
             }
         }
 
@@ -71,7 +71,7 @@ namespace CalamityMod.Projectiles.Rogue
         public override void Kill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);
-            CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 50);
+            Projectile.ExpandHitboxBy(50);
             for (int d = 0; d < 4; d++)
             {
                 int shadow = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 27, 0f, 0f, 100, default, 2f);

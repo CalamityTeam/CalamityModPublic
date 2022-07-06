@@ -64,7 +64,7 @@ namespace CalamityMod.Projectiles.Melee
                 Main.dust[num458].velocity += Projectile.velocity * 0.1f;
             }
 
-            CalamityGlobalProjectile.HomeInOnNPC(Projectile, !Projectile.tileCollide, 200f, 9f, 20f);
+            CalamityUtils.HomeInOnNPC(Projectile, !Projectile.tileCollide, 200f, 9f, 20f);
         }
 
         public override void Kill(int timeLeft)

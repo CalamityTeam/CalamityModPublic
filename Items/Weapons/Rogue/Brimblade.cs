@@ -52,7 +52,7 @@ namespace CalamityMod.Items.Weapons.Rogue
                     Vector2 perturbedSpeed = velocity.RotatedBy(MathHelper.ToRadians(i));
                     int dart = Projectile.NewProjectile(source, position, perturbedSpeed, ModContent.ProjectileType<SeethingDischargeBrimstoneBarrage>(), damage, knockback * 0.5f, player.whoAmI);
                     if (dart.WithinBounds(Main.maxProjectiles))
-                        Main.projectile[dart].Calamity().forceRogue = true;
+                        Main.projectile[dart].DamageType = RogueDamageClass.Instance;
                 }
                 return false;
             }

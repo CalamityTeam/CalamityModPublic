@@ -67,7 +67,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                     {
                         Main.projectile[flare].penetrate = 1;
                         Main.projectile[flare].timeLeft = 600;
-                        Main.projectile[flare].Calamity().forceRanged = true;
+                        Main.projectile[flare].DamageType = DamageClass.Ranged;
                     }
                 }
                 return false;
@@ -82,7 +82,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                     int flare = Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, type, damage, knockback, player.whoAmI);
                     if (flare.WithinBounds(Main.maxProjectiles))
                     {
-                        Main.projectile[flare].Calamity().forceRanged = true;
+                        Main.projectile[flare].DamageType = DamageClass.Ranged;
                         Main.projectile[flare].timeLeft = 200;
                         Main.projectile[flare].penetrate = 3;
                     }

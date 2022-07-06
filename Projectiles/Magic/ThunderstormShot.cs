@@ -55,7 +55,7 @@ namespace CalamityMod.Projectiles.Magic
             {
                 CalamityUtils.ProjectileRain(source, Projectile.Center, 200f, 100f, 1500f, 1500f, 29f, ModContent.ProjectileType<ThunderstormShotSplit>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
             }
-            CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 36);
+            Projectile.ExpandHitboxBy(36);
             int num226 = 36;
             for (int num227 = 0; num227 < num226; num227++)
             {

@@ -17,8 +17,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
             // Difficulty bools.
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || bossRush;
 
             // Rotation
             npc.rotation = npc.velocity.X * 0.005f;
@@ -43,7 +43,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             if (npc.life == npc.lifeMax && dayTimeEnrage && !npc.AI_120_HallowBoss_IsGenuinelyEnraged())
                 npc.ai[3] += 2f;
 
-            npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive && dayTimeEnrage;
+            npc.Calamity().CurrentlyEnraged = !bossRush && dayTimeEnrage;
 
             int projectileDamageMultiplier = dayTimeEnrage ? 2 : 1;
 
@@ -316,7 +316,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     npc.TargetClosest();
                     NPCAimedTarget targetData5 = npc.GetTargetData();
                     bool flag12 = false;
-                    if (npc.AI_120_HallowBoss_IsGenuinelyEnraged() && !malice)
+                    if (npc.AI_120_HallowBoss_IsGenuinelyEnraged() && !bossRush)
                     {
                         if (!Main.dayTime)
                             flag12 = true;
@@ -1086,7 +1086,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     bool flag8 = false;
                     if (!flag7)
                     {
-                        if (npc.AI_120_HallowBoss_IsGenuinelyEnraged() && !malice)
+                        if (npc.AI_120_HallowBoss_IsGenuinelyEnraged() && !bossRush)
                         {
                             if (!Main.dayTime)
                                 flag8 = true;

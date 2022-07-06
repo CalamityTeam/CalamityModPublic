@@ -554,7 +554,7 @@ namespace CalamityMod.NPCs.Abyss
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
             npcLoot.Add(ItemID.BlackInk, 1, 3, 5);
-            npcLoot.Add(ModContent.ItemType<InkBomb>(), 10);
+            npcLoot.Add(ModContent.ItemType<InkBomb>(), 5);
 
             var postClone = npcLoot.DefineConditionalDropSet(() => DownedBossSystem.downedCalamitas);
             postClone.Add(DropHelper.NormalVsExpertQuantity(ModContent.ItemType<DepthCells>(), 2, 26, 38, 31, 45));

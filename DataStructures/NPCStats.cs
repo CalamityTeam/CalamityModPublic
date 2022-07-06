@@ -132,7 +132,7 @@ namespace CalamityMod
             bool exists = EnemyStats.ProjectileDamageValues.TryGetValue(new Tuple<int, int>(npc.type, projType), out int[] projectileDamage);
             return !exists ? 1 // Base case for safety, in case the array is not initialized yet.
                 : Main.masterMode ? projectileDamage[4]
-                : (CalamityWorld.death || CalamityWorld.malice) ? projectileDamage[3]
+                : CalamityWorld.death ? projectileDamage[3]
                 : CalamityWorld.revenge ? projectileDamage[2]
                 : Main.expertMode ? projectileDamage[1]
                 : projectileDamage[0];

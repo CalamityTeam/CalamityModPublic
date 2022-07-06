@@ -119,7 +119,6 @@ namespace CalamityMod
         public static List<int> daggerProjList;
         public static List<int> flaskBombProjList;
         public static List<int> spikyBallProjList;
-        public static List<int> noGravityList;
         public static List<int> lavaFishList;
         public static List<int> highTestFishList;
         public static List<int> flamethrowerList;
@@ -1625,84 +1624,6 @@ namespace CalamityMod
                 ProjectileType<SystemBaneProjectile>()
             };
 
-            noGravityList = new List<int>()
-            {
-                ItemType<AuricBar>(),
-                ItemType<EssenceofChaos>(),
-                ItemType<EssenceofSunlight>(),
-                ItemType<EssenceofEleum>(),
-                ItemType<CoreofChaos>(),
-                ItemType<CoreofSunlight>(),
-                ItemType<CoreofEleum>(),
-                ItemType<CoreofCalamity>(),
-                ItemType<HellcasterFragment>(),
-                ItemType<TwistingNether>(),
-                ItemType<DarkPlasma>(),
-                ItemType<DarksunFragment>(),
-                ItemType<UnholyEssence>(),
-                ItemType<GalacticaSingularity>(),
-                ItemType<NightmareFuel>(),
-                ItemType<EndothermicEnergy>(),
-                ItemType<SoulofCryogen>(),
-                ItemType<AscendantSpiritEssence>(),
-
-                ItemType<KnowledgeAquaticScourge>(),
-                ItemType<KnowledgeAstralInfection>(),
-                ItemType<KnowledgeAstrumAureus>(),
-                ItemType<KnowledgeAstrumDeus>(),
-                ItemType<KnowledgeBloodMoon>(),
-                ItemType<KnowledgeBrainofCthulhu>(),
-                ItemType<KnowledgeBrimstoneCrag>(),
-                ItemType<KnowledgeBrimstoneElemental>(),
-                ItemType<KnowledgeDragonfolly>(),
-                ItemType<KnowledgeCalamitas>(),
-                ItemType<KnowledgeCalamitasClone>(),
-                ItemType<KnowledgeCorruption>(),
-                ItemType<KnowledgeCrabulon>(),
-                ItemType<KnowledgeCrimson>(),
-                ItemType<KnowledgeCryogen>(),
-                ItemType<KnowledgeDesertScourge>(),
-                ItemType<KnowledgeDestroyer>(),
-                ItemType<KnowledgeDevourerofGods>(),
-                ItemType<KnowledgeDukeFishron>(),
-                ItemType<KnowledgeEaterofWorlds>(),
-                ItemType<KnowledgeExoMechs>(),
-                ItemType<KnowledgeEyeofCthulhu>(),
-                ItemType<KnowledgeGolem>(),
-                ItemType<KnowledgeHiveMind>(),
-                ItemType<KnowledgeKingSlime>(),
-                ItemType<KnowledgeLeviathanAnahita>(),
-                ItemType<KnowledgeLunaticCultist>(),
-                ItemType<KnowledgeMechs>(),
-                ItemType<KnowledgeMoonLord>(),
-                ItemType<KnowledgeOcean>(),
-                ItemType<KnowledgeOldDuke>(),
-                ItemType<KnowledgePerforators>(),
-                ItemType<KnowledgePlaguebringerGoliath>(),
-                ItemType<KnowledgePlantera>(),
-                ItemType<KnowledgePolterghast>(),
-                ItemType<KnowledgeProfanedGuardians>(),
-                ItemType<KnowledgeProvidence>(),
-                ItemType<KnowledgeQueenBee>(),
-                ItemType<KnowledgeRavager>(),
-                ItemType<KnowledgeSentinels>(),
-                ItemType<KnowledgeSkeletron>(),
-                ItemType<KnowledgeSkeletronPrime>(),
-                ItemType<KnowledgeSlimeGod>(),
-                ItemType<KnowledgeSulphurSea>(),
-                ItemType<KnowledgeTwins>(),
-                ItemType<KnowledgeUnderworld>(),
-                ItemType<KnowledgeWallofFlesh>(),
-                ItemType<KnowledgeYharon>(),
-            };
-
-            lavaFishList = new List<int>()
-            {
-                ItemType<SlurperPole>(),
-                ItemType<RiftReeler>(),
-                ItemType<TheDevourerofCods>()
-            };
-
             highTestFishList = new List<int>()
             {
                 ItemID.GoldenFishingRod,
@@ -2810,7 +2731,6 @@ namespace CalamityMod
             daggerProjList = null;
             flaskBombProjList = null;
             spikyBallProjList = null;
-            noGravityList = null;
             lavaFishList = null;
             highTestFishList = null;
             flamethrowerList = null;

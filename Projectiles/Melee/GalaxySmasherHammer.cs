@@ -202,7 +202,7 @@ namespace CalamityMod.Projectiles.Melee
                     int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), startPoint, velocity, laserID, laserDamage, laserKB, Projectile.owner);
                     if (proj.WithinBounds(Main.maxProjectiles))
                     {
-                        Main.projectile[proj].Calamity().forceMelee = true;
+                        Main.projectile[proj].DamageType = DamageClass.Melee;
                         Main.projectile[proj].tileCollide = false;
                         Main.projectile[proj].timeLeft = 30;
                     }

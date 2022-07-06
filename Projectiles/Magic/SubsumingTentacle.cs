@@ -63,7 +63,7 @@ namespace CalamityMod.Projectiles.Magic
             {
                 Projectile.oldPos[i] = Projectile.oldPos[i - 1] + Vector2.Normalize(Projectile.oldPos[i] - Projectile.oldPos[i - 1]) * SegmentOffset;
             }
-            CalamityGlobalProjectile.ExpandHitboxBy(Projectile, (int)(20f * Projectile.scale));
+            Projectile.ExpandHitboxBy((int)(20f * Projectile.scale));
             if (Collision.SolidCollision(Projectile.position, Projectile.width, Projectile.height) && Projectile.tileCollide)
             {
                 Projectile.tileCollide = false;

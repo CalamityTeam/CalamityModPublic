@@ -23,7 +23,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-            Projectile.Calamity().canBreakPlayerDefense = true;
+            Projectile.Calamity().DealsDefenseDamage = true;
             Projectile.width = 28;
             Projectile.height = 28;
             Projectile.hostile = true;
@@ -118,10 +118,10 @@ namespace CalamityMod.Projectiles.Boss
             }
 
             // Difficulty modes
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
-            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || bossRush;
+            bool revenge = CalamityWorld.revenge || bossRush;
+            bool expertMode = Main.expertMode || bossRush;
 
             // Light
             Lighting.AddLight(Projectile.Center, 0f, 0.6f, 0f);
@@ -131,7 +131,7 @@ namespace CalamityMod.Projectiles.Boss
             Vector2 distanceFromTarget = Main.player[target].Center - Projectile.Center;
 
             // Set AI to stop homing, start accelerating
-            float stopHomingDistance = malice ? 120f : death ? 160f : revenge ? 180f : expertMode ? 200f : 240f;
+            float stopHomingDistance = bossRush ? 120f : death ? 160f : revenge ? 180f : expertMode ? 200f : 240f;
             if (distanceFromTarget.Length() < stopHomingDistance || Projectile.ai[0] == 1f || Projectile.timeLeft < 480)
             {
                 Projectile.ai[0] = 1f;
@@ -144,7 +144,7 @@ namespace CalamityMod.Projectiles.Boss
 
             // Home in on target
             float scaleFactor = Projectile.velocity.Length();
-            float inertia = malice ? 6f : death ? 8f : revenge ? 9f : expertMode ? 10f : 12f;
+            float inertia = bossRush ? 6f : death ? 8f : revenge ? 9f : expertMode ? 10f : 12f;
             distanceFromTarget.Normalize();
             distanceFromTarget *= scaleFactor;
             Projectile.velocity = (Projectile.velocity * inertia + distanceFromTarget) / (inertia + 1f);
@@ -152,8 +152,8 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.velocity *= scaleFactor;
 
             // Fly away from other rockets
-            float pushForce = malice ? 0.07f : death ? 0.06f : revenge ? 0.055f : expertMode ? 0.05f : 0.04f;
-            float pushDistance = malice ? 120f : death ? 100f : revenge ? 90f : expertMode ? 80f : 60f;
+            float pushForce = bossRush ? 0.07f : death ? 0.06f : revenge ? 0.055f : expertMode ? 0.05f : 0.04f;
+            float pushDistance = bossRush ? 120f : death ? 100f : revenge ? 90f : expertMode ? 80f : 60f;
             for (int k = 0; k < Main.maxProjectiles; k++)
             {
                 Projectile otherProj = Main.projectile[k];

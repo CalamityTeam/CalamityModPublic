@@ -197,7 +197,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             else
             {
                 // Shoot sword slashes.
-                float fireRate = (CalamityWorld.malice || BossRushEvent.BossRushActive) ? 2f : MathHelper.Lerp(1f, 2.5f, 1f - totalLifeRatio);
+                float fireRate = BossRushEvent.BossRushActive ? 2f : MathHelper.Lerp(1f, 2.5f, 1f - totalLifeRatio);
                 SlashCounter += fireRate;
                 if (SlashCounter >= SlashCounterLimit)
                 {
@@ -214,7 +214,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 }
 
                 // Shoot dart spreads.
-                fireRate = (CalamityWorld.malice || BossRushEvent.BossRushActive) ? 3f : MathHelper.Lerp(1f, 4f, 1f - totalLifeRatio);
+                fireRate = BossRushEvent.BossRushActive ? 3f : MathHelper.Lerp(1f, 4f, 1f - totalLifeRatio);
                 DartBurstCounter += fireRate;
                 if (DartBurstCounter >= DartBurstCounterLimit)
                 {

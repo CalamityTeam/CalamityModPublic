@@ -39,10 +39,13 @@ namespace CalamityMod.Items.Accessories
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.warbannerOfTheSun = true;
 
-            player.GetAttackSpeed<MeleeDamageClass>() += CalculateMeleeSpeedBonus(player);
+            float bonus = CalculateBonus(player);
+            player.GetAttackSpeed<MeleeDamageClass>() += bonus;
+            player.GetDamage<MeleeDamageClass>() += bonus;
+            player.GetDamage<TrueMeleeDamageClass>() += bonus;
         }
 
-        private static float CalculateMeleeSpeedBonus(Player player)
+        private static float CalculateBonus(Player player)
         {
             float bonus = 0f;
 

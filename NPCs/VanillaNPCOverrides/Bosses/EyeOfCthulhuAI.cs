@@ -18,18 +18,18 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             // Percent life remaining
             float lifeRatio = npc.life / (float)npc.lifeMax;
 
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || bossRush;
             bool phase2 = lifeRatio < 0.75f;
             bool phase3 = lifeRatio < 0.65f;
             bool phase4 = lifeRatio < 0.55f;
             bool phase5 = lifeRatio < 0.4f;
             float num5 = death ? 15f : 20f;
 
-            float enrageScale = BossRushEvent.BossRushActive ? 1f : 0f;
-            if (Main.dayTime || malice)
+            float enrageScale = bossRush ? 1f : 0f;
+            if (Main.dayTime || bossRush)
             {
-                npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
+                npc.Calamity().CurrentlyEnraged = !bossRush;
                 enrageScale += 2f;
             }
 

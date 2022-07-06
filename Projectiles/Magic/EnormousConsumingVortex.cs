@@ -90,7 +90,7 @@ namespace CalamityMod.Projectiles.Magic
                 ExplodeEffect();
                 Projectile.Kill();
             }
-            CalamityGlobalProjectile.ExpandHitboxBy(Projectile, (int)(Projectile.scale * 62));
+            Projectile.ExpandHitboxBy((int)(Projectile.scale * 62));
             Time++;
         }
 
@@ -122,7 +122,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public void PulseEffect()
         {
-            CalamityGlobalProjectile.ExpandHitboxBy(Projectile, PulseHitboxExpandRatio);
+            Projectile.ExpandHitboxBy(PulseHitboxExpandRatio);
             Projectile.Damage();
             if (!Main.dedServ)
             {
@@ -139,7 +139,7 @@ namespace CalamityMod.Projectiles.Magic
                     dust.noGravity = true;
                 }
             }
-            CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 1f / PulseHitboxExpandRatio);
+            Projectile.ExpandHitboxBy(1f / PulseHitboxExpandRatio);
         }
 
         public void ExplodeEffect()

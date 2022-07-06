@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.penetrate = 1;
             Projectile.timeLeft = 300;
             Projectile.aiStyle = 1;
-            Projectile.extraUpdates = (CalamityWorld.malice || BossRushEvent.BossRushActive) ? 2 : 1;
+            Projectile.extraUpdates = BossRushEvent.BossRushActive ? 2 : 1;
         }
 
         public override void AI()

@@ -14,6 +14,7 @@ namespace CalamityMod.Items.LoreItems
             Tooltip.SetDefault("I would not be able to bear a world without my faithful companion by my side.\n" +
                 "Fortunately, fate will have it so that it is a world I shall never have to see, for better or for worse.");
             SacrificeTotal = 1;
+            ItemID.Sets.ItemNoGravity[Item.type] = true;
         }
 
         public override void SetDefaults()

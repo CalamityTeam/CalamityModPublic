@@ -81,7 +81,7 @@ namespace CalamityMod.Projectiles.Rogue
                 int flash = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<Flash>(), Projectile.damage, 0f, Projectile.owner, 0f, 1f);
                 if (flash.WithinBounds(Main.maxProjectiles))
                 {
-                    Main.projectile[flash].Calamity().forceRogue = true;
+                    Main.projectile[flash].DamageType = RogueDamageClass.Instance;
                     Main.projectile[flash].usesLocalNPCImmunity = true;
                     Main.projectile[flash].localNPCHitCooldown = 10;
                 }

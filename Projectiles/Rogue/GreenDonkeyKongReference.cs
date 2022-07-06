@@ -86,7 +86,7 @@ namespace CalamityMod.Projectiles.Rogue
                         (int)(Projectile.damage * 0.75f), 1f, Projectile.owner);
                     if (acidIndex.WithinBounds(Main.maxProjectiles))
                     {
-                        Main.projectile[acidIndex].Calamity().forceRogue = true;
+                        Main.projectile[acidIndex].DamageType = RogueDamageClass.Instance;
                         Main.projectile[acidIndex].timeLeft = 300;
                         Main.projectile[acidIndex].usesLocalNPCImmunity = true;
                         Main.projectile[acidIndex].localNPCHitCooldown = -1;
@@ -104,7 +104,7 @@ namespace CalamityMod.Projectiles.Rogue
                         (int)(Projectile.damage * 0.667f), 1f, Projectile.owner);
                     if (acidIndex.WithinBounds(Main.maxProjectiles))
                     {
-                        Main.projectile[acidIndex].Calamity().forceRogue = true;
+                        Main.projectile[acidIndex].DamageType = RogueDamageClass.Instance;
                         Main.projectile[acidIndex].timeLeft = 420;
                     }
                 }

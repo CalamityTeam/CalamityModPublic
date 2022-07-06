@@ -84,7 +84,19 @@ namespace CalamityMod.World.Planets
                     {
                         bool convertToRegularSpikes = (j % 2 == 0 && k % 2 == 0) || (j % 2 != 0 && k % 2 != 0);
                         if (Main.tile[j, k].TileType == TileID.WoodenSpikes && convertToRegularSpikes)
-                            Main.tile[j, k].TileType = TileID.Spikes;
+                        {
+                            // Random lava too :^)
+                            if (WorldGen.genRand.NextBool())
+                            {
+                                Main.tile[j, k].TileType = TileID.Spikes;
+                            }
+                            else
+                            {
+                                Main.tile[j, k].Get<TileWallWireStateData>().HasTile = false;
+                                Main.tile[j, k].LiquidAmount = 255;
+                                Main.tile[j, k].Get<LiquidData>().LiquidType = LiquidID.Lava;
+                            }
+                        }
                     }
                 }
             }

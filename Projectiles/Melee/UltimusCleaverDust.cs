@@ -92,7 +92,7 @@ namespace CalamityMod.Projectiles.Melee
                 Projectile.velocity.Y = 16f;
             }
 
-            CalamityGlobalProjectile.HomeInOnNPC(Projectile, true, 150f, 12f, 20f);
+            CalamityUtils.HomeInOnNPC(Projectile, true, 150f, 12f, 20f);
         }
     }
 }

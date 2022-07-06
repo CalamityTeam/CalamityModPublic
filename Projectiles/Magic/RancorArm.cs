@@ -95,7 +95,7 @@ namespace CalamityMod.Projectiles.Magic
                 }
                 idealCenter.Y += 36f;
 
-                CalamityGlobalProjectile.ExpandHitboxBy(Projectile, (int)newSize.X, (int)newSize.Y);
+                Projectile.ExpandHitboxBy((int)newSize.X, (int)newSize.Y);
 
                 // Sometimes use a slanted rotation.
                 if (Main.rand.NextBool(3))
