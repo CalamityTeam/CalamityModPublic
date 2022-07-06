@@ -455,7 +455,6 @@ namespace CalamityMod.Items.Armor.Wulfrum
                 Main.mouseItem.TurnToAir();
             }
 
-
             //This shouldn't ever be possible since the power mode prevents you from using or moving items around
             if (!wulfrumSet && WulfrumHat.PowerModeEngaged(Player, out var cd))
             {

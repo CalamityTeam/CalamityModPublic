@@ -25,6 +25,7 @@ namespace CalamityMod.Cooldowns
         public override Color CooldownStartColor => PowerActive ? Color.Lerp(new Color(112, 244, 244), new Color(54, 177, 221), DurabilityPercent) : new Color(92, 187, 99);
         public override Color CooldownEndColor => PowerActive ? Color.Lerp(new Color(112, 244, 244), new Color(54, 177, 221), DurabilityPercent) : new Color(160, 232, 77);
         public override SoundStyle? EndSound => new("CalamityMod/Sounds/Custom/AbilitySounds/WulfrumBastionRecharge");
+        //public override bool SavedWithPlayer => false;
 
         public override void OnCompleted()
         {

@@ -48,6 +48,8 @@ namespace CalamityMod.Items.Armor.Wulfrum
             Item.useAnimation = 10;
             Item.useTime = 4;
             Item.reuseDelay = 17;
+
+            Item.noUseGraphic = false;
         }
 
         public override void ModifyTooltips(List<TooltipLine> tooltips)
@@ -73,9 +75,8 @@ namespace CalamityMod.Items.Armor.Wulfrum
             }
 
             Item.noUseGraphic = false;
-
             if (!player.Calamity().cooldowns.TryGetValue(WulfrumBastion.ID, out var cd) || cd.timeLeft > WulfrumHat.BastionCooldown + WulfrumHat.BastionTime - WulfrumHat.BastionBuildTime)
-                Item.noUseGraphic = true;
+               Item.noUseGraphic = true;
 
         }
 
@@ -105,15 +106,15 @@ namespace CalamityMod.Items.Armor.Wulfrum
             if (!player.Calamity().cooldowns.TryGetValue(WulfrumBastion.ID, out var cd) || cd.timeLeft > WulfrumHat.BastionCooldown + WulfrumHat.BastionTime - WulfrumHat.BastionBuildTime)
                 return;
 
-
-
             if (player.ItemTimeIsZero)
                 noAnimation = false;
             if (player.itemAnimation > Item.useAnimation)
                 noAnimation = true;
 
             float animProgress = 1 - player.itemAnimation / (float)player.itemAnimationMax;
-            if (noAnimation)
+            //It beecomes nan if the player loads into a world with the set bonus already active / without shooting any weapons before using it.
+            //this is because itemAnimationMax isnt set before the item gets used once.
+            if (noAnimation || animProgress is float.NaN)
                 animProgress = 1;
 
             //Default

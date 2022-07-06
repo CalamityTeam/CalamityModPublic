@@ -5862,7 +5862,13 @@ namespace CalamityMod.CalPlayer
             #region Custom Hurt Sounds
             if (hurtSoundTimer == 0)
             {
-                if ((profanedCrystal || profanedCrystalForce) && !profanedCrystalHide)
+                if (Player.GetModPlayer<RoverDrivePlayer>().ProtectionMatrixDurability > 0)
+                {
+                    playSound = false;
+                    SoundEngine.PlaySound(RoverDrive.ShieldHurtSound, Player.position);
+                    hurtSoundTimer = 20;
+                }
+                else if ((profanedCrystal || profanedCrystalForce) && !profanedCrystalHide)
                 {
                     playSound = false;
                     SoundEngine.PlaySound(Providence.DeathSound, Player.position);
