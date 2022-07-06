@@ -107,8 +107,13 @@ namespace CalamityMod.Projectiles.Melee
                         proj.knockBack *= 2.5f;
                         screw.AlreadyBazinged++;
 
-                        SoundEngine.PlaySound(WulfrumScrewdriver.ScrewHitSound);
-                        //Todo - put a funny sound that plays if you manage to pogo around the screw 3 times
+                        SoundEngine.PlaySound(WulfrumScrewdriver.ScrewHitSound, Projectile.Center);
+
+                        //Somehow pogoing the screw 3 or more times playa goblin laugh
+                        //If anyone has the ultrakill coin blang sound effect itd be a great swap out
+                        if (screw.AlreadyBazinged > 2)
+                            SoundEngine.PlaySound(SoundID.DD2_KoboldFlyerDeath, Projectile.Center);
+                        
 
                         if (Main.myPlayer == proj.owner)
                         {
