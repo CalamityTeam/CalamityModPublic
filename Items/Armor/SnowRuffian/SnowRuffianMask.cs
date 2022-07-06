@@ -2,13 +2,19 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.Items.BaseItems;
 
 namespace CalamityMod.Items.Armor.SnowRuffian
 {
     [AutoloadEquip(EquipType.Head)]
-    public class SnowRuffianMask : ModItem
+    public class SnowRuffianMask : StealthGrantingArmorPiece
     {
         private bool shouldBoost = false;
+
+        public static bool HasRuffianArmorSet(Player player) => player.armor[0].type == ModContent.ItemType<SnowRuffianMask>() && player.armor[1].type == ModContent.ItemType<SnowRuffianChestplate>() && player.armor[2].type == ModContent.ItemType<SnowRuffianGreaves>();
+        public override float StealthBoost => 0.5f;
+        public override bool HasArmorSet(Player player) => HasRuffianArmorSet(player);
+        
 
         public override void Load()
         {
@@ -43,15 +49,12 @@ namespace CalamityMod.Items.Armor.SnowRuffian
         {
             var modPlayer = player.Calamity();
             modPlayer.snowRuffianSet = true;
-            modPlayer.rogueStealthMax += 0.5f;
             player.setBonus = "5% increased rogue damage\n" +
-                "You can glide to negate fall damage\n" +
-                "Rogue stealth builds while not attacking and slower while moving, up to a max of 50\n" +
-                "Once you have built max stealth, you will be able to perform a Stealth Strike\n" +
-                "Rogue stealth only reduces when you attack, it does not reduce while moving\n" +
-                "The higher your rogue stealth the higher your rogue damage, crit, and movement speed";
+                "You can glide to negate fall damage";
             player.GetDamage<ThrowingDamageClass>() += 0.05f;
-            player.Calamity().wearingRogueArmor = true;
+
+            StealthSetBonus(player);
+
             if (player.controlJump)
             {
                 player.noFallDmg = true;

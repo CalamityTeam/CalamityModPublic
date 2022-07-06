@@ -77,10 +77,6 @@ namespace CalamityMod.Items.Armor.GemTech
             return body.type == ModContent.ItemType<GemTechBodyArmor>() && legs.type == ModContent.ItemType<GemTechSchynbaulds>();
         }
         public static bool HasArmorSet(Player player) => player.armor[0].type == ItemType<GemTechHeadgear>() && player.armor[1].type == ItemType<GemTechBodyArmor>() && player.armor[2].type == ItemType<GemTechSchynbaulds>();
-        public bool IsPartOfSet(Item item) => item.type == ItemType<GemTechHeadgear>() ||
-                item.type == ItemType<GemTechBodyArmor>() ||
-                item.type == ItemType<GemTechSchynbaulds>();
-
 
         public override void UpdateArmorSet(Player player)
         {

@@ -1,12 +1,16 @@
 ﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.Items.BaseItems;
 
 namespace CalamityMod.Items.Armor.SnowRuffian
 {
     [AutoloadEquip(EquipType.Legs)]
-    public class SnowRuffianGreaves : ModItem
+    public class SnowRuffianGreaves : StealthGrantingArmorPiece
     {
+        public override bool HasArmorSet(Player player) => SnowRuffianMask.HasRuffianArmorSet(player);
+        public override float StealthBoost => 0.5f;
+
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 1;

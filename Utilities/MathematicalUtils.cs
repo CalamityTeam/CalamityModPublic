@@ -351,6 +351,13 @@ namespace CalamityMod
 
         #endregion
 
+
+
+        public static string ToHex(this Color color)
+        {
+            return color.R.ToString("X") + color.G.ToString("X") + color.B.ToString("X");
+        }
+
         // REMOVE THIS IN CALAMITY 1.4, it's a 1.4 World.cs function.
         // Due to its temporary state, this method will not receive an XML documentation comment.
         public static Rectangle ClampToWorld(Rectangle tileRectangle)
