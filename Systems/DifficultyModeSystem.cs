@@ -28,7 +28,7 @@ namespace CalamityMod.Systems
         public override void Load()
         {
             MostAlternateDifficulties = 1;
-            Difficulties = new DifficultyMode[] { new NoDifficulty(), new RevengeanceDifficulty(), new DeathDifficulty(), new MaliceDifficulty() };
+            Difficulties = new DifficultyMode[] { new NoDifficulty(), new RevengeanceDifficulty(), new DeathDifficulty()};
 
             //All of this should happen after a hook happens which lets other mods add their own difficulties
             Difficulties = Difficulties.OrderBy(d => d.DifficultyScale).ToArray();
@@ -281,66 +281,6 @@ namespace CalamityMod.Systems
             for (int i = 0; i < tierList.Length; i++)
             {
                 if (tierList[i].Name == "Revengeance")
-                    return i;
-            }
-
-            return 0;
-        }
-    }
-
-    public class MaliceDifficulty : DifficultyMode
-    {
-        public static readonly SoundStyle ActivationSfx = new("CalamityMod/Sounds/Custom/Scare") { Volume = 0.8f };
-
-        public override bool Enabled
-        {
-            get => CalamityWorld.malice;
-            set => CalamityWorld.malice = value;
-        }
-
-        private Asset<Texture2D> _texture;
-        public override Asset<Texture2D> Texture
-        {
-            get
-            {
-                if (_texture == null)
-                    _texture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/ModeIndicator_Malice");
-
-                return _texture;
-            }
-        }
-
-        public override string ExpandedDescription
-        { 
-            get
-            {
-                return ("[c/F0BF1F:Bosses are far more aggressive and deal even more damage.] \n" +
-                        "[c/F0BF1F:Everything will try their best to kill you. Expect to fail over and over.] \n" +
-                        "[c/FADC1B:Steel yourself for the challenges ahead; do not let your overconfidence be your downfall.]");
-            }
-        }
-                   
-        public MaliceDifficulty()
-        {
-            DifficultyScale = 0.75f;
-            Name = "Malice";
-            ShortDescription = "[c/F7CF2D:For the die-hard veteran who seeks an unrelenting trial of patience and mastery.]";
-
-            ActivationTextKey = "Mods.CalamityMod.MaliceText";
-            DeactivationTextKey = "Mods.CalamityMod.MaliceText2";
-
-            ActivationSound = ActivationSfx;
-
-            ChatTextColor = Color.Gold;
-        }
-
-        public override int FavoredDifficultyAtTier(int tier)
-        {
-            DifficultyMode[] tierList = DifficultyModeSystem.DifficultyTiers[tier];
-
-            for (int i = 0; i < tierList.Length; i++)
-            {
-                if (tierList[i].Name == "Revengeance" || tierList[i].Name == "Death")
                     return i;
             }
 
