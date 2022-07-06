@@ -23,6 +23,7 @@ namespace CalamityMod.Items.Accessories
 
         public static int ProtectionMatrixDurabilityMax = 50;
         public static int ProtectionMatrixRechargeTime = 60 * 10;
+        public static int ProtectionMatrixDefenseBoost = 10;
 
         public static Asset<Texture2D> NoiseTex;
 
@@ -106,7 +107,7 @@ namespace CalamityMod.Items.Accessories
         {
             SacrificeTotal = 1;
             DisplayName.SetDefault("Rover Drive");
-            Tooltip.SetDefault($"Activates a protective matrix that can absorb {ProtectionMatrixDurabilityMax} damage and grants 8 defense\n" +
+            Tooltip.SetDefault($"Activates a protective matrix that can absorb {ProtectionMatrixDurabilityMax} damage and grants {ProtectionMatrixDefenseBoost} defense\n" +
             $"However, the systems are fickle and the shield will need {ProtectionMatrixRechargeTime / 60} seconds to charge up fully\n" +
             "Getting hit during the shield recharge period will reset it back to zero\n" +
                 "Can also be scrapped at an extractinator");
@@ -136,7 +137,7 @@ namespace CalamityMod.Items.Accessories
 
             modPlayer.RoverDriveOn = true;
             if (modPlayer.ProtectionMatrixDurability > 0)
-                player.statDefense += 8;
+                player.statDefense += ProtectionMatrixDefenseBoost;
         }
 
         //Scrappable for 3-6 wulfrum scrap or a 20% chance to get an energy core
