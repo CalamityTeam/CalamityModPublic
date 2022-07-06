@@ -33,6 +33,7 @@ namespace CalamityMod.Projectiles.Melee
         public static int Lifetime = 950;
         public float LifetimeCompletion => MathHelper.Clamp((Lifetime - Projectile.timeLeft) / (float)Lifetime, 0f, 1f);
         public ref float BazingaTime => ref Projectile.ai[0];
+        public ref float AlreadyBazinged => ref Projectile.ai[1];
         public static float BazingaTimeMax = 120f;
         public float BazingaTimeCompletion => (BazingaTimeMax - BazingaTime) / BazingaTimeMax;
         public float FadePercent => Math.Clamp(Projectile.timeLeft / FadeTime, 0f, 1f);

@@ -49,7 +49,7 @@ namespace CalamityMod.Items.Armor.Wulfrum
         public static readonly SoundStyle SetBreakSound = new("CalamityMod/Sounds/Custom/AbilitySounds/WulfrumBastionBreak");
         public static readonly SoundStyle SetBreakSoundSafe = new("CalamityMod/Sounds/Custom/AbilitySounds/WulfrumBastionBreakSafely");
 
-        public static int BastionBuildTime = (int)(0.25f * 60);
+        public static int BastionBuildTime = (int)(0.55f * 60);
         public static int BastionTime = 30 * 60;
         public static int TimeLostPerHit = 2 * 60;
         public static int BastionCooldown = 20 * 60;
@@ -87,9 +87,7 @@ namespace CalamityMod.Items.Armor.Wulfrum
 
         private void ActivateSetBonus(On.Terraria.Player.orig_KeyDoubleTap orig, Player player, int keyDir)
         {
-            BastionBuildTime = (int)(0.55f * 60);
-
-            if (keyDir == 0 && HasArmorSet(player))
+            if (keyDir == 0 && HasArmorSet(player) && !player.mount.Active)
             {
                 //Only activate if no cooldown & available scrap.
                 if (!player.Calamity().cooldowns.TryGetValue(WulfrumBastion.ID, out CooldownInstance cd) && player.HasItem(ModContent.ItemType<WulfrumMetalScrap>()))
@@ -151,8 +149,7 @@ namespace CalamityMod.Items.Armor.Wulfrum
 
             armorPlayer.wulfrumSet = true;
 
-            player.setBonus = "+3 defense and +1 max minion"; //The cooler part of the set bonus happens in modifytooltips because i can't recolor it otherwise. Madge
-            player.statDefense += 3;
+            player.setBonus = "+1 max minion"; //The cooler part of the set bonus happens in modifytooltips because i can't recolor it otherwise. Madge
             player.maxMinions++;
             if (PowerModeEngaged(player, out var cd))
             {
@@ -179,7 +176,7 @@ namespace CalamityMod.Items.Armor.Wulfrum
 
 
                 player.moveSpeed *= 0.8f;
-                player.statDefense += 15;
+                player.statDefense += 13;
                 //Drop the player's held item if they were holding something before
                 if (!(Main.mouseItem.type == DummyCannon.type) && !Main.mouseItem.IsAir)
                     Main.LocalPlayer.QuickSpawnClonedItem(null, Main.mouseItem, Main.mouseItem.stack);
@@ -235,7 +232,7 @@ namespace CalamityMod.Items.Armor.Wulfrum
 
                 if (setBonusIndex != -1)
                 {
-                    TooltipLine setBonus1 = new TooltipLine(item.Mod, "CalamityMod:SetBonus1", "Wulfrum Bastion - Double tap DOWN to equip a heavy wulfrum armor");
+                    TooltipLine setBonus1 = new TooltipLine(item.Mod, "CalamityMod:SetBonus1", "Wulfrum Bastion - Double tap DOWN while dismounted to equip a heavy wulfrum armor");
                     setBonus1.OverrideColor = Color.Lerp(new Color(194, 255, 67), new Color(112, 244, 244), 0.5f + 0.5f * (float)Math.Sin(Main.GlobalTimeWrappedHourly * 3f));
                     tooltips.Insert(setBonusIndex + 1, setBonus1);
 

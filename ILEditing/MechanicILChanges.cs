@@ -660,6 +660,7 @@ namespace CalamityMod.ILEditing
         private static void DrawForegroundParticles(On.Terraria.Main.orig_DrawInfernoRings orig, Main self)
         {
             GeneralParticleHandler.DrawAllParticles(Main.spriteBatch);
+            orig(self);
         }
         #endregion General Particle Rendering
 

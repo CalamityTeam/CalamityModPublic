@@ -101,11 +101,14 @@ namespace CalamityMod.Projectiles.Melee
 
                         screw.BazingaTime = WulfrumScrew.BazingaTimeMax;
                         proj.velocity = thudVelocity;
-                        proj.damage = (int)(proj.damage * WulfrumScrewdriver.ScrewBazingaModeDamageMult);
+                        if (screw.AlreadyBazinged == 0)
+                            proj.damage = (int)(proj.damage * WulfrumScrewdriver.ScrewBazingaModeDamageMult);
                         proj.timeLeft = WulfrumScrew.Lifetime;
                         proj.knockBack *= 2.5f;
+                        screw.AlreadyBazinged++;
 
                         SoundEngine.PlaySound(WulfrumScrewdriver.ScrewHitSound);
+                        //Todo - put a funny sound that plays if you manage to pogo around the screw 3 times
 
                         if (Main.myPlayer == proj.owner)
                         {

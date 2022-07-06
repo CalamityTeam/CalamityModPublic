@@ -133,6 +133,10 @@ namespace CalamityMod.Effects
             screenRef = new Ref<Effect>(CalamityMod.Instance.Assets.Request<Effect>("Effects/WulfrumScaffoldSelection", AssetRequestMode.ImmediateLoad).Value);
             Filters.Scene["WulfrumScaffoldSelection"] = new Filter(new ScreenShaderData(screenRef, "TilePingPass"), EffectPriority.High);
             Filters.Scene["WulfrumScaffoldSelection"].Load();
+
+            screenRef = new Ref<Effect>(CalamityMod.Instance.Assets.Request<Effect>("Effects/Compiler/RoverDriveShield", AssetRequestMode.ImmediateLoad).Value);
+            Filters.Scene["RoverDriveShield"] = new Filter(new ScreenShaderData(screenRef, "ShieldPass"), EffectPriority.High);
+            Filters.Scene["RoverDriveShield"].Load();
         }
     }
 }

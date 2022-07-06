@@ -42,6 +42,14 @@ namespace CalamityMod.Cooldowns
             GameShaders.Misc["CalamityMod:CircularBarShader"].Apply();
         }
 
+        public override void DrawExpanded(SpriteBatch spriteBatch, Vector2 position, float opacity, float scale)
+        {
+            base.DrawExpanded(spriteBatch, position, opacity, scale);
+
+            float Xoffset = instance.timeLeft > 9 ? -10f : -5;
+            DrawBorderStringEightWay(spriteBatch, FontAssets.MouseText.Value, instance.timeLeft.ToString(), position + new Vector2(Xoffset, 4) * scale, Color.Lerp(ringColorLerpStart, Color.OrangeRed, 1 - instance.Completion), Color.Black, scale);
+        }
+
         public override void DrawCompact(SpriteBatch spriteBatch, Vector2 position, float opacity, float scale)
         {
             Texture2D sprite = Request<Texture2D>(Texture).Value;
@@ -58,6 +66,9 @@ namespace CalamityMod.Cooldowns
             int lostHeight = (int)Math.Ceiling(overlay.Height * AdjustedCompletion);
             Rectangle crop = new Rectangle(0, lostHeight, overlay.Width, overlay.Height - lostHeight);
             spriteBatch.Draw(overlay, position + Vector2.UnitY * lostHeight * scale, crop, OutlineColor * opacity * 0.9f, 0, sprite.Size() * 0.5f, scale, SpriteEffects.None, 0f);
+
+            float Xoffset = instance.timeLeft > 9 ? -10f : -5;
+            DrawBorderStringEightWay(spriteBatch, FontAssets.MouseText.Value, instance.timeLeft.ToString(), position + new Vector2(Xoffset, 4) * scale, Color.Lerp(ringColorLerpStart, Color.OrangeRed, 1 - instance.Completion), Color.Black, scale);
         }
     }
 

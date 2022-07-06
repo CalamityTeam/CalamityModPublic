@@ -10,6 +10,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
 using CalamityMod.Sounds;
+using Terraria.Graphics.Effects;
 
 namespace CalamityMod.NPCs.NormalNPCs
 {
@@ -164,6 +165,8 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             if (Supercharged)
             {
+                //old
+                /*
                 Texture2D shieldTexture = ModContent.Request<Texture2D>("CalamityMod/NPCs/NormalNPCs/WulfrumRoverShield").Value;
                 Rectangle frame = shieldTexture.Frame(1, 11, 0, (int)(Main.GlobalTimeWrappedHourly * 8) % 11);
                 spriteBatch.Draw(shieldTexture,
@@ -175,6 +178,43 @@ namespace CalamityMod.NPCs.NormalNPCs
                                  NPC.scale + (float)Math.Cos(Main.GlobalTimeWrappedHourly) * 0.1f,
                                  SpriteEffects.None,
                                  0f);
+                */
+
+                //0.6 : The noise upscale
+                //0.15 the scale its drawn at
+                float scale = 0.15f + 0.03f * (0.5f + 0.5f * (float)Math.Sin(Main.GlobalTimeWrappedHourly * 0.5f + NPC.whoAmI * 0.2f));
+                float noiseScale = 0.6f;
+
+                Effect shieldEffect = Terraria.Graphics.Effects.Filters.Scene["RoverDriveShield"].GetShader().Shader;
+                shieldEffect.Parameters["time"].SetValue(Main.GlobalTimeWrappedHourly * 0.24f);
+                shieldEffect.Parameters["blowUpPower"].SetValue(2.5f);
+                shieldEffect.Parameters["blowUpSize"].SetValue(0.5f);
+                shieldEffect.Parameters["noiseScale"].SetValue(noiseScale);
+
+                float baseShieldOpacity = 0.9f + 0.1f * (float)Math.Sin(Main.GlobalTimeWrappedHourly * 2f);
+                shieldEffect.Parameters["shieldOpacity"].SetValue(baseShieldOpacity);
+                shieldEffect.Parameters["shieldEdgeBlendStrenght"].SetValue(4f);
+
+                Color blueTint = new Color(51, 102, 255);
+                Color cyanTint = new Color(71, 202, 255);
+                Color wulfGreen = new Color(194, 255, 67) * 0.8f;
+                Color edgeColor = CalamityUtils.MulticolorLerp(Main.GlobalTimeWrappedHourly * 0.2f, blueTint, cyanTint, wulfGreen);
+                shieldEffect.Parameters["shieldColor"].SetValue(blueTint.ToVector3());
+                shieldEffect.Parameters["shieldEdgeColor"].SetValue(edgeColor.ToVector3());
+
+                Main.spriteBatch.End();
+                Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, shieldEffect, Main.GameViewMatrix.TransformationMatrix);
+
+                if (RoverDrive.NoiseTex == null)
+                    RoverDrive.NoiseTex = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/TechyNoise");
+
+                Texture2D tex = RoverDrive.NoiseTex.Value;
+                Vector2 pos = NPC.Center + NPC.gfxOffY * Vector2.UnitY - Main.screenPosition;
+                Main.spriteBatch.Draw(tex, pos, null, Color.White, 0, tex.Size() / 2f, scale, 0, 0);
+
+                Main.spriteBatch.End();
+                Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.Transform);
+
             }
         }
 
