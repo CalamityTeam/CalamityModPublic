@@ -64,9 +64,10 @@ namespace CalamityMod.Projectiles.Typeless
                 var proj = Main.projectile[k];
                 if (proj.owner == Projectile.owner && proj.arrow && !proj.Calamity().nihilicArrow && proj.friendly && Vector2.Distance(proj.Center, Projectile.Center) < 80)
                 {
-                    Main.projectile[k].damage = (int)(proj.damage * 1.5f);
+                    Main.projectile[k].damage = (int)(proj.damage * 1.2f);
+                    proj.extraUpdates += 1;
                     Main.projectile[k].Calamity().nihilicArrow = true;
-                    SoundEngine.PlaySound(SoundID.Item103, Projectile.Center);
+                    //SoundEngine.PlaySound(SoundID.Item103, Projectile.Center);
 
                     for (int i = 0; i < 12; i++)
                     {
@@ -83,11 +84,12 @@ namespace CalamityMod.Projectiles.Typeless
                 }
             }
 
+            float offsetX = Projectile.Center.X + Main.rand.Next(-10, 11);
+            float offsetY = Projectile.Center.Y + Main.rand.Next(-10, 11);
             auratimer++;
-            BloomRing aura = new BloomRing(Projectile.Center, Vector2.Zero, Color.Purple, 1f, 5);
-            FusableParticleManager.GetParticleSetByType<StreamGougeParticleSet>()?.SpawnParticle(new Vector2(Projectile.Center.X + Main.rand.Next(-10,11), Projectile.Center.Y + Main.rand.Next(-10,11)), 500);
+            BloomRing aura = new BloomRing(new Vector2(offsetX, offsetY), Vector2.Zero, Color.Purple, 1f, 5);
+            FusableParticleManager.GetParticleSetByType<StreamGougeParticleSet>()?.SpawnParticle(new Vector2(offsetX, offsetY), 500);
             GeneralParticleHandler.SpawnParticle(aura);
-            aura.Position = Projectile.Center;
         }
     }
 }

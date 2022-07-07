@@ -2156,12 +2156,6 @@ namespace CalamityMod.Projectiles
                         }
                     }
 
-                    if (modPlayer.voidField && nihilicArrow)
-                    {
-                        if (projectile.velocity.Length() < 26f)
-                            projectile.velocity *= 1.35f;
-                    }
-
                     if (player.meleeEnchant > 0 && !projectile.noEnchantments)
                     {
                         switch (player.meleeEnchant)
