@@ -59,7 +59,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             player.Calamity().rightClickListener = true;
 
-            if (player.Calamity().mouseRight && Main.rand.NextBool(7))
+            if (player.Calamity().mouseRight && Main.rand.NextBool(7) && !Main.playerInventory)
             {
                 Particle streak = new ManaDrainStreak(player, Main.rand.NextFloat(0.2f, 0.5f), Main.rand.NextVector2CircularEdge(1f, 1f) * Main.rand.NextFloat(170f, 670f), Main.rand.NextFloat(30f, 44f), Color.GreenYellow, Color.DeepSkyBlue, Main.rand.Next(15, 30));
                 GeneralParticleHandler.SpawnParticle(streak);
@@ -69,7 +69,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void GrabRange(Player player, ref int grabRange)
         {
             float rangeMult = 2f;
-            if (player.Distance(Item.Center) < 670 && player.HeldItem.type == ModContent.ItemType<WulfrumKnife>() && player.Calamity().mouseRight)
+            if (player.Distance(Item.Center) < 670 && player.HeldItem.type == ModContent.ItemType<WulfrumKnife>() && player.Calamity().mouseRight && !Main.playerInventory)
                 rangeMult = 20f;
 
             grabRange = (int)(grabRange * rangeMult);

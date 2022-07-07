@@ -13,7 +13,10 @@ namespace CalamityMod.Items.Weapons.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Wulfrum Controller");
-            Tooltip.SetDefault("Summons a wulfrum droid to fight for you");
+            Tooltip.SetDefault("Summons a wulfrum droid to fight for you\n" +
+                "Hold right click while holding the remote to switch all of your drones into supercharge mode\n" +
+                "Supercharged droids will stop attacking and focus you with a beam of wulfrum energy\n" +
+                "The beam provides extra regeneration and defense");
             SacrificeTotal = 1;
         }
 
@@ -34,6 +37,11 @@ namespace CalamityMod.Items.Weapons.Summon
             Item.shoot = ModContent.ProjectileType<WulfrumDroid>();
             Item.shootSpeed = 10f;
             Item.DamageType = DamageClass.Summon;
+        }
+
+        public override void HoldItem(Player player)
+        {
+            player.Calamity().rightClickListener = true;
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
