@@ -81,6 +81,9 @@ namespace CalamityMod.Projectiles
         /// </summary>
         public bool DealsDefenseDamage = false;
 
+        // Nihility Quiver
+        public bool nihilicArrow = false;
+
         // Rogue Stuff
         public bool stealthStrike = false;
         public int stealthStrikeHitCount = 0;
@@ -2151,6 +2154,12 @@ namespace CalamityMod.Projectiles
                                 }
                             }
                         }
+                    }
+
+                    if (modPlayer.voidField && nihilicArrow)
+                    {
+                        if (projectile.velocity.Length() < 26f)
+                            projectile.velocity *= 1.35f;
                     }
 
                     if (player.meleeEnchant > 0 && !projectile.noEnchantments)

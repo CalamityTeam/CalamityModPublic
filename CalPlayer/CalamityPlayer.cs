@@ -607,6 +607,7 @@ namespace CalamityMod.CalPlayer
         public bool BloomStoneRegen = false;
         public bool ChaosStone = false;
         public bool CryoStone = false;
+        public bool voidField = false;
         #endregion
 
         #region Armor Set
@@ -1709,6 +1710,7 @@ namespace CalamityMod.CalPlayer
             BloomStoneRegen = false;
             ChaosStone = false;
             CryoStone = false;
+            voidField = false;
 
             daedalusReflect = false;
             daedalusSplit = false;
