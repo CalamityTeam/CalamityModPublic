@@ -1393,6 +1393,7 @@ namespace CalamityMod.NPCs
             if (type == NPCID.Mechanic)
             {
                 SetShopItem(ref shop, ref nextSlot, ItemID.BuilderPotion, true, Item.buyPrice(0, 1, 0, 0));
+                SetShopItem(ref shop, ref nextSlot, ItemID.CombatWrench, true, Item.buyPrice(0, 10, 0, 0));
             }
 
             if (type == NPCID.Clothier)
