@@ -7,6 +7,7 @@ using Terraria.ModLoader;
 using System;
 using Terraria.Audio;
 using CalamityMod.Particles;
+using CalamityMod.Items.Weapons.Summon;
 
 namespace CalamityMod.Projectiles.Summon
 {
@@ -30,7 +31,7 @@ namespace CalamityMod.Projectiles.Summon
                     }
                 }
 
-                return (int)(Main.rand.Next(340, 1660) * minionCount);
+                return (int)(Main.rand.Next(340, 1460) * minionCount);
             }
         }
 
@@ -141,18 +142,24 @@ namespace CalamityMod.Projectiles.Summon
                 Initialized ++;
             }
 
+            bool buffMode = Owner.Calamity().mouseRight && Owner.HeldItem.type == ModContent.ItemType<WulfrumController>();
 
             //Do frame stuff i guess
+            Projectile.frame = Projectile.frame % (Main.projFrames[Projectile.type] / 2);
+
             Projectile.frameCounter++;
             if (Projectile.frameCounter > 8)
             {
                 Projectile.frame++;
                 Projectile.frameCounter = 0;
             }
-            if (Projectile.frame >= Main.projFrames[Projectile.type])
+            if (Projectile.frame >= Main.projFrames[Projectile.type] / 2)
             {
                 Projectile.frame = 0;
             }
+
+            if (buffMode)
+                Projectile.frame += Main.projFrames[Projectile.type] / 2;
 
 
             //Buff stuff
@@ -165,7 +172,7 @@ namespace CalamityMod.Projectiles.Summon
 
             
             //Lets only recalculate our target once per frame aight
-            NPC targetCache = Target;
+            NPC targetCache = buffMode ? null : Target;
             float separationAnxietyDist = targetCache != null ? 1000f : 500f; //Have more lenience on how far away from the player should the drone return if theyre attacking an enemy
 
             if (Projectile.soundDelay > 0)
@@ -205,9 +212,9 @@ namespace CalamityMod.Projectiles.Summon
                     GeneralParticleHandler.SpawnParticle(emote);
                 }
             }
-
             else if (Projectile.soundDelay >= 10000)
                 Projectile.soundDelay = NewSoundDelay;
+
 
             if (targetCache != null && State == BehaviorState.Aggressive)
             {
@@ -243,12 +250,15 @@ namespace CalamityMod.Projectiles.Summon
                 if (playerDist > 200f && returnSpeed < 9f)
                     returnSpeed = 9f;
 
-
                 if (playerDist < 100f && State == BehaviorState.Idle && !Collision.SolidCollision(Projectile.position, Projectile.width, Projectile.height))
                 {
                     State = BehaviorState.Aggressive;
                     Projectile.netUpdate = true;
                 }
+
+
+                if (buffMode)
+                    returnSpeed = 13f;
 
                 //Teleport to player if too far away.
                 if (playerDist > 2000f)
