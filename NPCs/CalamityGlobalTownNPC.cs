@@ -1430,6 +1430,7 @@ namespace CalamityMod.NPCs
                 SetShopItem(ref shop, ref nextSlot, ItemID.ManaRegenerationPotion, true, Item.buyPrice(0, goldCost, 0, 0));
                 SetShopItem(ref shop, ref nextSlot, ItemID.MagicPowerPotion, true, Item.buyPrice(0, goldCost, 0, 0));
                 SetShopItem(ref shop, ref nextSlot, ItemID.GravitationPotion, true, Item.buyPrice(0, 2, 0, 0));
+                SetShopItem(ref shop, ref nextSlot, ItemID.PotionOfReturn, true, Item.buyPrice(0, goldCost, 0, 0));
                 SetShopItem(ref shop, ref nextSlot, ItemType<HowlsHeart>());
                 SetShopItem(ref shop, ref nextSlot, ItemID.MagicMissile, price: Item.buyPrice(0, 5));
                 SetShopItem(ref shop, ref nextSlot, ItemID.RodofDiscord, Main.hardMode && Main.LocalPlayer.ZoneHallow, price: Item.buyPrice(10), true);

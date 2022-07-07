@@ -939,7 +939,8 @@ namespace CalamityMod
                 ItemID.GenderChangePotion,
                 ItemID.LovePotion,
                 ItemID.StinkPotion,
-                ItemID.RecallPotion
+                ItemID.RecallPotion,
+                ItemID.PotionOfReturn
             };
             Recipe r;
 
