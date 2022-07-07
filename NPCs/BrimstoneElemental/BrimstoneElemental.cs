@@ -272,7 +272,7 @@ namespace CalamityMod.NPCs.BrimstoneElemental
                 }
                 if (Main.netMode != NetmodeID.Server)
                 {
-                    float randomSpread = (float)(Main.rand.Next(-200, 200) / 100);
+                    float randomSpread = Main.rand.Next(-200, 201) / 100f;
                     Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * randomSpread, Mod.Find<ModGore>("BrimstoneGore1").Type, 1f);
                     Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * randomSpread, Mod.Find<ModGore>("BrimstoneGore2").Type, 1f);
                     Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * randomSpread, Mod.Find<ModGore>("BrimstoneGore3").Type, 1f);

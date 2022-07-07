@@ -473,7 +473,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             {
                 if (Main.netMode != NetmodeID.Server)
                 {
-                    float randomSpread = Main.rand.Next(-100, 100) / 100;
+                    float randomSpread = Main.rand.Next(-200, 201) / 100f;
                     Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * randomSpread * Main.rand.NextFloat(), Mod.Find<ModGore>("DoGS6").Type, NPC.scale);
                 }
                 NPC.position.X = NPC.position.X + (NPC.width / 2);

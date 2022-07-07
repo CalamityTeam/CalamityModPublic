@@ -839,34 +839,32 @@ namespace CalamityMod.NPCs.Cryogen
                     {
                         NPC.velocity = Vector2.Normalize(player.Center - NPC.Center) * (18f + enrageScale * 2f);
 
-                        if (phase7)
+                        if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
-                            if (Main.netMode != NetmodeID.MultiplayerClient)
+                            if (Collision.CanHit(NPC.position, NPC.width, NPC.height, player.position, player.width, player.height))
                             {
-                                if (Collision.CanHit(NPC.position, NPC.width, NPC.height, player.position, player.width, player.height))
+                                SoundEngine.PlaySound(SoundID.Item28, NPC.Center);
+                                int type = ModContent.ProjectileType<IceBlast>();
+                                int damage = NPC.GetProjectileDamage(type);
+                                float velocity = 1.5f + enrageScale * 0.5f;
+                                int totalSpreads = phase7 ? 4 : 2;
+                                for (int i = 0; i < totalSpreads; i++)
                                 {
-                                    SoundEngine.PlaySound(SoundID.Item28, NPC.Center);
-                                    int type = ModContent.ProjectileType<IceRain>();
-                                    int damage = NPC.GetProjectileDamage(type);
-                                    float velocity = 9f + enrageScale;
-                                    for (int i = 0; i < 4; i++)
+                                    int totalProjectiles = bossRush ? 3 : 2;
+                                    float radians = MathHelper.TwoPi / totalProjectiles;
+                                    float newVelocity = velocity - (velocity * (phase7 ? 0.25f : 0.5f) * i);
+                                    float velocityX = 0f;
+                                    if (i > 0)
                                     {
-                                        int totalProjectiles = bossRush ? 6 : 4;
-                                        float radians = MathHelper.TwoPi / totalProjectiles;
-                                        float newVelocity = velocity - (velocity * 0.25f * i);
-                                        float velocityX = 0f;
-                                        if (i > 0)
-                                        {
-                                            double angleA = radians * 0.25 * (4 - i);
-                                            double angleB = MathHelper.ToRadians(90f) - angleA;
-                                            velocityX = (float)(newVelocity * Math.Sin(angleA) / Math.Sin(angleB));
-                                        }
-                                        Vector2 spinningPoint = i == 0 ? new Vector2(0f, -newVelocity) : new Vector2(-velocityX, -newVelocity);
-                                        for (int k = 0; k < totalProjectiles; k++)
-                                        {
-                                            Vector2 vector255 = spinningPoint.RotatedBy(radians * k);
-                                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Vector2.Normalize(vector255) * 30f, vector255, type, damage, 0f, Main.myPlayer, 0f, velocity);
-                                        }
+                                        double angleA = radians * (phase7 ? 0.25 : 0.5) * (totalSpreads - i);
+                                        double angleB = MathHelper.ToRadians(90f) - angleA;
+                                        velocityX = (float)(newVelocity * Math.Sin(angleA) / Math.Sin(angleB));
+                                    }
+                                    Vector2 spinningPoint = i == 0 ? new Vector2(0f, -newVelocity) : new Vector2(-velocityX, -newVelocity);
+                                    for (int k = 0; k < totalProjectiles; k++)
+                                    {
+                                        Vector2 vector255 = spinningPoint.RotatedBy(radians * k);
+                                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Vector2.Normalize(vector255) * 30f, vector255, type, damage, 0f, Main.myPlayer, NPC.target, 1f);
                                     }
                                 }
                             }
@@ -1117,7 +1115,7 @@ namespace CalamityMod.NPCs.Cryogen
                 }
                 if (Main.netMode != NetmodeID.Server)
                 {
-                    float randomSpread = Main.rand.Next(-200, 200) / 100;
+                    float randomSpread = Main.rand.Next(-200, 201) / 100f;
                     for (int i = 1; i < 4; i++)
                     {
                         Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * randomSpread, Mod.Find<ModGore>("CryoDeathGore" + i).Type, NPC.scale);

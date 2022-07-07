@@ -115,7 +115,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                     Vector2 projVector = new Vector2(xDist, yDist);
                     float projLength = projVector.Length();
 
-                    float speed = 9f;
+                    float speed = 10f;
                     int type = ModContent.ProjectileType<JewelProjectile>();
 
                     projLength = speed / projLength;

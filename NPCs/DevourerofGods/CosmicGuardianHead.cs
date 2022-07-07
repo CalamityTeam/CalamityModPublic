@@ -374,12 +374,9 @@ namespace CalamityMod.NPCs.DevourerofGods
 
         public override void OnKill()
         {
-            if (!CalamityWorld.revenge)
-            {
-                int heartAmt = Main.rand.Next(3) + 3;
-                for (int i = 0; i < heartAmt; i++)
-                    Item.NewItem(NPC.GetSource_Loot(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
-            }
+            int heartAmt = Main.rand.Next(3) + 3;
+            for (int i = 0; i < heartAmt; i++)
+                Item.NewItem(NPC.GetSource_Loot(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
         }
 
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)

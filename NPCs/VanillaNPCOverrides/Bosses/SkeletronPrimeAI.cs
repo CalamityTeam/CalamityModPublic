@@ -175,9 +175,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 // Start other phases if arms are dead, start with spinning phase
                 if (allArmsDead)
                 {
-                    // Start spin phase after 5 seconds
-                    npc.ai[2] += phase3 ? 1.25f : 1f;
-                    if (npc.ai[2] >= (300f - (death ? 100f * (1f - lifeRatio) : 0f)))
+                    // Start spin phase after 1.5 seconds
+                    npc.ai[2] += phase3 ? 1.5f : 1f;
+                    if (npc.ai[2] >= (90f - (death ? 60f * (1f - lifeRatio) : 0f)))
                     {
                         bool shouldSpinAroundTarget = npc.ai[1] == 4f && npc.position.Y < Main.player[npc.target].position.Y - 400f &&
                             Vector2.Distance(Main.player[npc.target].Center, npc.Center) < 600f && Vector2.Distance(Main.player[npc.target].Center, npc.Center) > 400f;
@@ -191,61 +191,6 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             npc.ai[1] = shouldSpinAroundTarget ? 5f : 1f;
                             npc.TargetClosest();
                             npc.netUpdate = true;
-                        }
-                    }
-                }
-
-                if (Main.netMode != NetmodeID.MultiplayerClient)
-                {
-                    // Ring of lasers and rocket spread if all arms are dead
-                    if (allArmsDead)
-                    {
-                        npc.localAI[1] += 1f;
-                        if (phase3)
-                            npc.localAI[1] += 0.5f;
-
-                        if (npc.localAI[1] >= 240f)
-                        {
-                            npc.localAI[1] = 0f;
-
-                            int totalProjectiles = bossRush ? 24 : 12;
-                            float radians = MathHelper.TwoPi / totalProjectiles;
-                            int type = ProjectileID.DeathLaser;
-                            int damage = npc.GetProjectileDamage(type);
-                            float velocity = 4f;
-                            double angleA = radians * 0.5;
-                            double angleB = MathHelper.ToRadians(90f) - angleA;
-                            float velocityX2 = (float)(velocity * Math.Sin(angleA) / Math.Sin(angleB));
-                            Vector2 spinningPoint = normalLaserRotation ? new Vector2(0f, -velocity) : new Vector2(-velocityX2, -velocity);
-                            for (int k = 0; k < totalProjectiles; k++)
-                            {
-                                Vector2 vector255 = spinningPoint.RotatedBy(radians * k);
-                                int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center, vector255, type, damage, 0f, Main.myPlayer);
-                                Main.projectile[proj].timeLeft = 480;
-                            }
-                            calamityGlobalNPC.newAI[3] += 1f;
-                        }
-
-                        npc.localAI[2] += 1f;
-                        if (phase3)
-                            npc.localAI[2] += 0.25f;
-
-                        if (npc.localAI[2] >= 200f)
-                        {
-                            npc.localAI[2] = 0f;
-                            float num502 = 0.5f;
-                            int type = ProjectileID.RocketSkeleton;
-                            int damage = npc.GetProjectileDamage(type);
-                            Vector2 value19 = Main.player[npc.target].Center - npc.Center;
-                            value19.Normalize();
-                            value19 *= num502;
-                            int numProj = bossRush ? 5 : 3;
-                            float rotation = MathHelper.ToRadians(bossRush ? 8 : 5);
-                            for (int i = 0; i < numProj; i++)
-                            {
-                                Vector2 perturbedSpeed = value19.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (float)(numProj - 1)));
-                                Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center, perturbedSpeed, type, damage, 0f, Main.myPlayer, 0f, 1f);
-                            }
                         }
                     }
                 }
@@ -350,7 +295,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             float radians = MathHelper.TwoPi / totalProjectiles;
                             int type = ProjectileID.DeathLaser;
                             int damage = npc.GetProjectileDamage(type);
-                            float velocity = 5f;
+                            float velocity = 3f;
                             double angleA = radians * 0.5;
                             double angleB = MathHelper.ToRadians(90f) - angleA;
                             float velocityX = (float)(velocity * Math.Sin(angleA) / Math.Sin(angleB));
@@ -358,8 +303,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             for (int k = 0; k < totalProjectiles; k++)
                             {
                                 Vector2 vector255 = spinningPoint.RotatedBy(radians * k);
-                                int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center, vector255, type, damage, 0f, Main.myPlayer);
-                                Main.projectile[proj].timeLeft = 480;
+                                int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + Vector2.Normalize(vector255) * 30f, vector255, type, damage, 0f, Main.myPlayer, 1f, 0f);
+                                Main.projectile[proj].timeLeft = 900;
                             }
                             calamityGlobalNPC.newAI[3] += 1f;
                         }
@@ -379,6 +324,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         npc.TargetClosest();
                         npc.ai[2] = 0f;
                         npc.ai[1] = 4f;
+                        npc.localAI[1] = 0f;
                     }
 
                     npc.rotation += npc.direction * 0.3f;
@@ -585,14 +531,14 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             {
                                 Vector2 velocity = new Vector2(-1f * (float)Main.rand.NextDouble() * 3f, 1f);
                                 velocity = velocity.RotatedBy((Main.rand.NextDouble() - 0.5) * MathHelper.PiOver4);
-                                velocity *= 5f;
-                                int type = ProjectileID.SaucerMissile;
+                                velocity *= 0.25f;
+                                int type = ProjectileID.RocketSkeleton;
                                 int damage = npc.GetProjectileDamage(type);
-                                float delayBeforeHoming = bossRush ? 25f : 45f;
-                                Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center.X + Main.rand.Next(npc.width / 2), npc.Center.Y + 4f, velocity.X, velocity.Y, type, damage, 0f, Main.myPlayer, 0f, delayBeforeHoming);
+                                int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center.X + Main.rand.Next(npc.width / 2), npc.Center.Y + 4f, velocity.X, velocity.Y, type, damage, 0f, Main.myPlayer, npc.target, 1f);
+                                Main.projectile[proj].timeLeft = 240;
                             }
 
-                            SoundEngine.PlaySound(SoundID.Item39, npc.Center);
+                            SoundEngine.PlaySound(SoundID.Item62, npc.Center);
 
                             if (calamityGlobalNPC.newAI[1] >= 10f)
                             {
@@ -601,8 +547,6 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                                 npc.ai[3] = 0f;
                                 calamityGlobalNPC.newAI[0] = 0f;
                                 calamityGlobalNPC.newAI[1] = 0f;
-                                npc.localAI[1] = -90f;
-                                npc.localAI[2] = -90f;
                                 npc.TargetClosest();
                                 npc.netUpdate = true;
                             }
@@ -767,15 +711,15 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     {
                         npc.localAI[0] = 0f;
                         npc.TargetClosest();
-                        float num509 = bossRush ? 10f : 8f;
+                        float num509 = bossRush ? 5f : 4f;
                         int type = ProjectileID.DeathLaser;
                         int damage = npc.GetProjectileDamage(type);
                         num508 = num509 / num508;
                         num506 *= num508;
                         num507 *= num508;
-                        vector62.X += num506 * 8f;
-                        vector62.Y += num507 * 8f;
-                        Projectile.NewProjectile(npc.GetSource_FromAI(), vector62.X, vector62.Y, num506, num507, type, damage, 0f, Main.myPlayer, 0f, 0f);
+                        vector62.X += num506 * 30f;
+                        vector62.Y += num507 * 30f;
+                        Projectile.NewProjectile(npc.GetSource_FromAI(), vector62.X, vector62.Y, num506, num507, type, damage, 0f, Main.myPlayer, 1f, 0f);
                     }
                 }
             }
@@ -861,7 +805,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         float radians = MathHelper.TwoPi / totalProjectiles;
                         int type = ProjectileID.DeathLaser;
                         int damage = npc.GetProjectileDamage(type);
-                        float velocity = 5f;
+                        float velocity = 3f;
                         double angleA = radians * 0.5;
                         double angleB = MathHelper.ToRadians(90f) - angleA;
                         float velocityX = (float)(velocity * Math.Sin(angleA) / Math.Sin(angleB));
@@ -869,8 +813,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         for (int k = 0; k < totalProjectiles; k++)
                         {
                             Vector2 vector255 = spinningPoint.RotatedBy(radians * k);
-                            int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center, vector255, type, damage, 0f, Main.myPlayer);
-                            Main.projectile[proj].timeLeft = 480;
+                            int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + Vector2.Normalize(vector255) * 30f, vector255, type, damage, 0f, Main.myPlayer, 1f, 0f);
+                            Main.projectile[proj].timeLeft = 900;
                         }
                         npc.localAI[1] += 1f;
                     }
@@ -1065,17 +1009,19 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                     if (npc.localAI[0] >= 120f)
                     {
+                        SoundEngine.PlaySound(SoundID.Item62, npc.Center);
                         npc.localAI[0] = 0f;
                         npc.TargetClosest();
-                        float num495 = 1f;
+                        float num495 = 0.5f;
                         int type = ProjectileID.RocketSkeleton;
                         int damage = npc.GetProjectileDamage(type);
                         num494 = num495 / num494;
                         num492 *= num494;
                         num493 *= num494;
-                        vector60.X += num492 * 5f;
-                        vector60.Y += num493 * 5f;
-                        Projectile.NewProjectile(npc.GetSource_FromAI(), vector60.X, vector60.Y, num492, num493, type, damage, 0f, Main.myPlayer, 0f, 1f);
+                        vector60.X += num492 * 30f;
+                        vector60.Y += num493 * 30f;
+                        int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), vector60.X, vector60.Y, num492, num493, type, damage, 0f, Main.myPlayer, npc.target, 1f);
+                        Main.projectile[proj].timeLeft = 300;
                     }
                 }
             }
@@ -1133,9 +1079,10 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                     if (npc.localAI[0] >= 180f)
                     {
+                        SoundEngine.PlaySound(SoundID.Item62, npc.Center);
                         npc.localAI[0] = 0f;
                         npc.TargetClosest();
-                        float num502 = 1f;
+                        float num502 = 0.5f;
                         int type = ProjectileID.RocketSkeleton;
                         int damage = npc.GetProjectileDamage(type);
                         Vector2 value19 = Main.player[npc.target].Center - npc.Center;
@@ -1146,7 +1093,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         for (int i = 0; i < numProj; i++)
                         {
                             Vector2 perturbedSpeed = value19.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (float)(numProj - 1)));
-                            Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center, perturbedSpeed, type, damage, 0f, Main.myPlayer, 0f, 1f);
+                            int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + Vector2.Normalize(perturbedSpeed) * 30f, perturbedSpeed, type, damage, 0f, Main.myPlayer, npc.target, 1f);
+                            Main.projectile[proj].timeLeft = 300;
                         }
                     }
                 }

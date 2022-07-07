@@ -108,8 +108,18 @@ namespace CalamityMod.NPCs.Perforator
             bool revenge = CalamityWorld.revenge || bossRush;
             bool death = CalamityWorld.death || bossRush;
 
+            // Get a target
+            if (NPC.target < 0 || NPC.target == Main.maxPlayers || Main.player[NPC.target].dead || !Main.player[NPC.target].active)
+                NPC.TargetClosest();
+
+            // Despawn safety, make sure to target another player if the current player target is too far away
+            if (Vector2.Distance(Main.player[NPC.target].Center, NPC.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
+                NPC.TargetClosest();
+
+            Player player = Main.player[NPC.target];
+
             // Enrage
-            if ((!Main.player[NPC.target].ZoneCrimson || (NPC.position.Y / 16f) < Main.worldSurface) && !bossRush)
+            if ((!player.ZoneCrimson || (NPC.position.Y / 16f) < Main.worldSurface) && !bossRush)
             {
                 if (biomeEnrageTimer > 0)
                     biomeEnrageTimer--;
@@ -120,7 +130,7 @@ namespace CalamityMod.NPCs.Perforator
             bool biomeEnraged = biomeEnrageTimer <= 0 || bossRush;
 
             float enrageScale = bossRush ? 1f : 0f;
-            if (biomeEnraged && (!Main.player[NPC.target].ZoneCrimson || bossRush))
+            if (biomeEnraged && (!player.ZoneCrimson || bossRush))
                 enrageScale += 1f;
             if (biomeEnraged && ((NPC.position.Y / 16f) < Main.worldSurface || bossRush))
                 enrageScale += 1f;
@@ -152,20 +162,13 @@ namespace CalamityMod.NPCs.Perforator
             {
                 speed *= 1.25f;
                 turnSpeed *= 1.5f;
+
+                if (NPC.Calamity().newAI[2] == 0f)
+                    NPC.Calamity().newAI[2] = player.Center.Y - 600f;
             }
 
             if (NPC.ai[2] > 0f)
                 NPC.realLife = (int)NPC.ai[2];
-
-            // Get a target
-            if (NPC.target < 0 || NPC.target == Main.maxPlayers || Main.player[NPC.target].dead || !Main.player[NPC.target].active)
-                NPC.TargetClosest();
-
-            // Despawn safety, make sure to target another player if the current player target is too far away
-            if (Vector2.Distance(Main.player[NPC.target].Center, NPC.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
-                NPC.TargetClosest();
-
-            Player player = Main.player[NPC.target];
 
             NPC.alpha -= 42;
             if (NPC.alpha < 0)
@@ -302,7 +305,7 @@ namespace CalamityMod.NPCs.Perforator
             float num19 = turnSpeed;
             float burrowDistance = bossRush ? 500f : 800f;
             float burrowTarget = player.Center.Y + burrowDistance;
-            float lungeTarget = player.Center.Y - 600f;
+            float lungeTarget = NPC.Calamity().newAI[2];
             Vector2 vector3 = NPC.Center;
             float num20 = player.Center.X;
             float num21 = lungeUpward ? lungeTarget : burrow ? burrowTarget : player.Center.Y;
@@ -319,7 +322,7 @@ namespace CalamityMod.NPCs.Perforator
                 NPC.Calamity().newAI[1] = 1f;
 
             // Quickly fall back down once above target
-            if (lungeUpward && NPC.Center.Y <= player.Center.Y - 420f)
+            if (lungeUpward && NPC.Center.Y <= NPC.Calamity().newAI[2] + 600f - 420f)
             {
                 NPC.TargetClosest();
                 NPC.Calamity().newAI[1] = 2f;
@@ -329,10 +332,11 @@ namespace CalamityMod.NPCs.Perforator
             if (quickFall)
             {
                 NPC.velocity.Y += 0.5f;
-                if (NPC.Center.Y >= player.Center.Y)
+                if (NPC.Center.Y >= NPC.Calamity().newAI[2] + 600f)
                 {
                     NPC.Calamity().newAI[0] = 0f;
                     NPC.Calamity().newAI[1] = 0f;
+                    NPC.Calamity().newAI[2] = 0f;
                 }
             }
 
@@ -603,12 +607,9 @@ namespace CalamityMod.NPCs.Perforator
 
         public override void OnKill()
         {
-            if (!CalamityWorld.revenge)
-            {
-                int heartAmt = Main.rand.Next(3) + 3;
-                for (int i = 0; i < heartAmt; i++)
-                    Item.NewItem(NPC.GetSource_Loot(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
-            }
+            int heartAmt = Main.rand.Next(3) + 3;
+            for (int i = 0; i < heartAmt; i++)
+                Item.NewItem(NPC.GetSource_Loot(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)

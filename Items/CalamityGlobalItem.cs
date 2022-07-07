@@ -598,13 +598,7 @@ namespace CalamityMod.Items
             if (item.type == ItemID.Heart || item.type == ItemID.CandyApple || item.type == ItemID.CandyCane)
             {
                 bool boostedHeart = player.Calamity().photosynthesis;
-                if (NPC.AnyNPCs(ModContent.NPCType<SupremeCalamitas>()))
-                {
-                    player.statLife -= boostedHeart ? 5 : 10;
-                    if (Main.myPlayer == player.whoAmI)
-                        player.HealEffect(boostedHeart ? -5 : -10, true);
-                }
-                else if (boostedHeart)
+                if (boostedHeart)
                 {
                     player.statLife += 5;
                     if (Main.myPlayer == player.whoAmI)

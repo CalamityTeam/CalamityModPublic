@@ -726,7 +726,7 @@ namespace CalamityMod.NPCs.Leviathan
                 }
                 if (Main.netMode != NetmodeID.Server)
                 {
-                    float randomSpread = Main.rand.Next(-200, 200) / 100;
+                    float randomSpread = Main.rand.Next(-200, 201) / 100f;
                     Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * randomSpread, Mod.Find<ModGore>("LeviGore").Type, NPC.scale);
                     Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * randomSpread, Mod.Find<ModGore>("LeviGore2").Type, NPC.scale);
                     Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * randomSpread, Mod.Find<ModGore>("LeviGore3").Type, NPC.scale);
