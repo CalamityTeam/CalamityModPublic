@@ -127,7 +127,6 @@ namespace CalamityMod.CalPlayer
                         fishList.AddWithCondition<int>(ModContent.ItemType<AldebaranAlewife>(), ZoneAstral);
                         fishList.AddWithCondition<int>(ModContent.ItemType<CoralskinFoolfish>(), ZoneSunkenSea);
                         fishList.AddWithCondition<int>(ModContent.ItemType<SunkenSailfish>(), ZoneSunkenSea);
-                        fishList.AddWithCondition<int>(ModContent.ItemType<ScarredAngelfish>(), ZoneSunkenSea);
                     }
 
                     if (fishList.Any())
@@ -395,11 +394,7 @@ namespace CalamityMod.CalPlayer
                 if (ZoneSunkenSea) // Sunken Sea, fishing in water
                 {
                     int sunkenFish = Main.rand.Next(100);
-                    if (sunkenFish >= 85 && Main.hardMode) // 15%
-                    {
-                        itemDrop = ModContent.ItemType<ScarredAngelfish>();
-                    }
-                    else if (sunkenFish <= 84 && sunkenFish >= 70) // 15%
+                    if (sunkenFish <= 84 && sunkenFish >= 70) // 15%
                     {
                         itemDrop = ModContent.ItemType<SunkenSailfish>();
                     }
@@ -431,7 +426,7 @@ namespace CalamityMod.CalPlayer
                     {
                         itemDrop = ModContent.ItemType<SparklingEmpress>();
                     }
-                    else // 38% w/o crate pot, 33% w/ crate pot + 18% if prehardmode
+                    else // 53% w/o crate pot, 48% w/ crate pot + 3% if prehardmode
                     {
                         itemDrop = ModContent.ItemType<PrismaticGuppy>();
                         return;
