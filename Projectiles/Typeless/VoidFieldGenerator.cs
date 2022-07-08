@@ -44,6 +44,7 @@ namespace CalamityMod.Projectiles.Typeless
                 modPlayer.voidField = false;
             if (modPlayer.voidField)
                 Projectile.timeLeft = 2;
+
             if (start)
             {
                 SoundEngine.PlaySound(SoundID.Item20, Projectile.position);
@@ -63,7 +64,7 @@ namespace CalamityMod.Projectiles.Typeless
             for (int k = 0; k < Main.projectile.Length; k++)
             {
                 var proj = Main.projectile[k];
-                if (proj.owner == Projectile.owner && proj.arrow && !proj.Calamity().nihilicArrow && proj.friendly && Vector2.Distance(proj.Center, Projectile.Center) < 80)
+                if (proj.owner == Projectile.owner && proj.arrow && !proj.Calamity().nihilicArrow && proj.friendly && Vector2.Distance(proj.Center, Projectile.Center) < 65)
                 {
                     Main.projectile[k].damage = (int)(proj.damage * 1.2f);
                     proj.extraUpdates += 1;
@@ -88,7 +89,6 @@ namespace CalamityMod.Projectiles.Typeless
             if (voidaura == null)
             {
                 voidaura = FusableParticleManager.GetParticleSetByType<VoidGeneratorParticleSet>()?.SpawnParticle(Projectile.Center, 500);
-                SoundEngine.PlaySound(SoundID.Item20, Projectile.Center);
             }
             else
             {

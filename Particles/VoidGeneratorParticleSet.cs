@@ -32,7 +32,7 @@ namespace CalamityMod.Particles
 
         public override void UpdateBehavior(FusableParticle particle)
         {
-            particle.Size = MathHelper.Clamp(particle.Size - 25f, 0f, 200f) * 0.98f;
+            particle.Size = MathHelper.Clamp(particle.Size - 1f, 0f, 200f) * 0.98f;
         }
 
         public override void PrepareOptionalShaderData(Effect effect, int index)
