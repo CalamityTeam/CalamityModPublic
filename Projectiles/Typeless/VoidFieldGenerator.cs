@@ -12,6 +12,7 @@ namespace CalamityMod.Projectiles.Typeless
     {
         public bool start = true;
         int auratimer = 0;
+        public BaseFusableParticleSet.FusableParticle voidaura;
 
         public override void SetStaticDefaults()
         {
@@ -84,12 +85,16 @@ namespace CalamityMod.Projectiles.Typeless
                 }
             }
 
-            float offsetX = Projectile.Center.X + Main.rand.Next(-10, 11);
-            float offsetY = Projectile.Center.Y + Main.rand.Next(-10, 11);
-            auratimer++;
-            BloomRing aura = new BloomRing(new Vector2(offsetX, offsetY), Vector2.Zero, Color.Purple, 1f, 5);
-            FusableParticleManager.GetParticleSetByType<StreamGougeParticleSet>()?.SpawnParticle(new Vector2(offsetX, offsetY), 500);
-            GeneralParticleHandler.SpawnParticle(aura);
+            if (voidaura == null)
+            {
+                voidaura = FusableParticleManager.GetParticleSetByType<VoidGeneratorParticleSet>()?.SpawnParticle(Projectile.Center, 500);
+                SoundEngine.PlaySound(SoundID.Item20, Projectile.Center);
+            }
+            else
+            {
+                voidaura.Center = Projectile.Center;
+                voidaura.Size = 500;
+            }
         }
     }
 }
