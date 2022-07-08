@@ -1,19 +1,17 @@
 ﻿using System;
 using CalamityMod.Items.Weapons.Melee;
-using CalamityMod.Particles;
+using CalamityMod.Items.Weapons.Rogue;
+using CalamityMod.Sounds;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Content;
 using Terraria;
+using Terraria.Audio;
+using Terraria.Graphics.Effects;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
-using Terraria.Audio;
-using CalamityMod.Items.Weapons.Rogue;
-using Terraria.Graphics.Effects;
-using Terraria.Graphics.Shaders;
-using ReLogic.Content;
-using CalamityMod.Sounds;
 
 namespace CalamityMod.Projectiles.Melee
 {

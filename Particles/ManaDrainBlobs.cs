@@ -37,10 +37,10 @@ namespace CalamityMod.Particles
             {
                 Vector2 speedDirection = Position - Owner.Center;
                 float distanceToOwner = speedDirection.Length();
-                distanceToOwner = 100f - distanceToOwner;
+                float distanceToOwnerTwisted = 100f - distanceToOwner;
 
-                if (distanceToOwner > 0f)
-                    Scale -= distanceToOwner * 0.0015f;
+                if (distanceToOwnerTwisted > 0f)
+                    Scale -= distanceToOwnerTwisted * 0.0015f;
 
                 speedDirection.Normalize();
 
@@ -48,11 +48,18 @@ namespace CalamityMod.Particles
                 speedDirection *= dustAcceleration;
                 Velocity = (Velocity * 4f + speedDirection) / 5f;
 
-                if (Main.rand.NextBool(7))
+
+                if (distanceToOwner > 16)
                 {
-                    Dust chust = Dust.NewDustPerfect(Position, 15, Velocity * Main.rand.NextFloat(0.7f, 1.2f), Alpha: 100, Scale: Main.rand.NextFloat(1.2f, 1.8f));
-                    chust.noGravity = true;
-                    chust.noLight = true;
+
+
+                    if (Main.rand.NextBool(7))
+                    {
+                        float velocityMultiplier = MathHelper.Lerp(0.05f, 1f, MathHelper.Clamp((distanceToOwner - 10f) / 40f, 0f, 1f));
+                        Dust chust = Dust.NewDustPerfect(Position, 15, Velocity * Main.rand.NextFloat(0.7f, 1.2f) * velocityMultiplier, Alpha: 100, Scale: Main.rand.NextFloat(1.2f, 1.8f));
+                        chust.noGravity = true;
+                        chust.noLight = true;
+                    }
                 }
             }
 

@@ -54,7 +54,7 @@ namespace CalamityMod.Items.Accessories
 
                 if (playerFound == false)
                 {
-                    float noiseScale = 0.6f;
+                    float noiseScale = MathHelper.Lerp(0.4f, 0.8f, (float)Math.Sin(Main.GlobalTimeWrappedHourly * 0.3f) * 0.5f + 0.5f);
 
                     Effect shieldEffect = Filters.Scene["RoverDriveShield"].GetShader().Shader;
                     shieldEffect.Parameters["time"].SetValue(Main.GlobalTimeWrappedHourly * 0.24f);
