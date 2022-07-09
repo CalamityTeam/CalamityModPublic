@@ -155,6 +155,7 @@ namespace CalamityMod.Projectiles.Summon
 
                 SoundEngine.PlaySound(HelloSound, Projectile.Center);
                 Projectile.soundDelay = NewSoundDelay;
+                ShootTimer = ShootDelay;
 
                 Initialized ++;
             }
@@ -322,10 +323,9 @@ namespace CalamityMod.Projectiles.Summon
                             wishyDust.velocity = direction * Main.rand.NextFloat(2f, 4);
 
                         }
-
-                        healedPlayer = playerToBuff;
                     }
 
+                    healedPlayer = playerToBuff;
                     float distanceToHealed = (healedPlayer.Center - Projectile.Center).Length();
                     Vector2 aimPosition = playerToBuff.MountedCenter - Vector2.UnitY.RotatedBy((float)Math.Sin(Main.GlobalTimeWrappedHourly + Projectile.whoAmI) * MathHelper.PiOver2 * 0.9f) * 60f - Vector2.UnitY * 20f;
                     float distanceToAim = (aimPosition - Projectile.Center).Length();

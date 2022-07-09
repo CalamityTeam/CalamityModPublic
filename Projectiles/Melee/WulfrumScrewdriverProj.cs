@@ -180,7 +180,7 @@ namespace CalamityMod.Projectiles.Melee
                 {
                     WulfrumScrewdriver.ScrewStart = new Vector3(target.Center + Projectile.velocity * 14f * Main.rand.NextFloat() - Main.screenPosition, Main.rand.NextFloat(MathHelper.PiOver2 - MathHelper.PiOver4));
                     WulfrumScrewdriver.ScrewTimer = WulfrumScrewdriver.ScrewTime;
-                    screwdriver.ScrewStored = true;
+                    WulfrumScrewdriver.ScrewQeuedForStorage = true;
 
                     SoundEngine.PlaySound(SoundID.Item156);
                 }

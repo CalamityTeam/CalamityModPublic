@@ -23,6 +23,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public static readonly SoundStyle ScrewGetSound = new("CalamityMod/Sounds/Item/WulfrumScrewdriverScrewGet") { PitchVariance = 0.1f};
         public static readonly SoundStyle ScrewHitSound = new("CalamityMod/Sounds/Item/WulfrumScrewdriverScrewHit") { Volume = 0.7f };
 
+        public static bool ScrewQeuedForStorage = false;
         public bool ScrewStored = false;
         public bool ScrewAvailable => ScrewStored && ScrewTimer == 0;
         public static Vector3 ScrewStart = new Vector3(0);
@@ -36,6 +37,18 @@ namespace CalamityMod.Items.Weapons.Melee
         public static float ScrewBazingaModeDamageMult = 6.5f;
         public static float ScrewBazingaAimAssistAngle = 0.52f; //This may look high but remebmer this is the FULL angle, so it actually checks for half that angle deviation
         public static float ScrewBazingaAimAssistReach = 600f;
+
+        public override ModItem Clone(Item item)
+        {
+            return base.Clone(item);
+
+            ModItem clone = base.Clone(item);
+            if (clone is WulfrumScrewdriver a && item.ModItem is WulfrumScrewdriver a2 && a2.ScrewStored)
+            {
+                a.ScrewStored = a2.ScrewStored;
+            }
+            return clone;
+        }
 
         public override void SetStaticDefaults()
         {
@@ -98,10 +111,14 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             player.Calamity().mouseWorldListener = true;
 
-
-            ScrewTime = 40;
             if (Main.myPlayer == player.whoAmI)
             {
+                if (ScrewQeuedForStorage)
+                {
+                    ScrewStored = true;
+                    ScrewQeuedForStorage = false;
+                }
+
                 if (ScrewTimer > 0)
                     ScrewTimer--;
 

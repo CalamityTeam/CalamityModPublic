@@ -67,8 +67,6 @@ namespace CalamityMod.Projectiles.Typeless
             Lighting.AddLight(Projectile.Center, Color.DeepSkyBlue.ToVector3());
             Vector2 BetweenOwner = Owner.Center - Projectile.Center;
 
-            Main.instance.MouseText(Owner.Center.ToString());
-
             if (Owner.dead || Owner.stoned || Owner.webbed || Owner.frozen || BetweenOwner.Length() > 1500)
             {
                 Projectile.Kill();
