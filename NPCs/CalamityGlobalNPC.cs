@@ -2184,8 +2184,9 @@ namespace CalamityMod.NPCs
                     canBreakPlayerDefense = true;
                     break;
 
-                // Make Core hitbox bigger
+                // Make Core hitbox bigger and reduce HP
                 case NPCID.MartianSaucerCore:
+                    npc.lifeMax = (int)(npc.lifeMax * 0.6);
                     npc.width *= 2;
                     npc.height *= 2;
                     break;
