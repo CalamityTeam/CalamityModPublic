@@ -26,8 +26,17 @@ namespace CalamityMod.CalPlayer.DrawLayers
             if (drawPlayer.armor[11].type > ItemID.None)
                 bodyItem = drawPlayer.armor[11].type;
 
+
             if (ModContent.GetModItem(bodyItem) is IBulkyArmor chestplateBulkDrawer)
             {
+                int equipSlot = chestplateBulkDrawer.BodySlot(drawPlayer);
+                if (equipSlot == -1)
+                    equipSlot = EquipLoader.GetEquipSlot(Mod, ModContent.GetModItem(bodyItem).Name, EquipType.Body);
+
+                if (drawPlayer.body != equipSlot)
+                    return;
+
+
                 int dyeShader = drawPlayer.dye?[1].dye ?? 0;
                 Vector2 drawPosition = drawInfo.Position - Main.screenPosition;
 
