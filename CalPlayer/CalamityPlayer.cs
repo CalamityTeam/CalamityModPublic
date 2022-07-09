@@ -18,6 +18,7 @@ using CalamityMod.Events;
 using CalamityMod.FluidSimulation;
 using CalamityMod.Items;
 using CalamityMod.Items.Accessories;
+using CalamityMod.Items.Accessories.Vanity;
 using CalamityMod.Items.Armor;
 using CalamityMod.Items.Armor.Bloodflare;
 using CalamityMod.Items.Armor.Brimflame;
@@ -2553,12 +2554,6 @@ namespace CalamityMod.CalPlayer
 
         public override void ProcessTriggers(TriggersSet triggersSet)
         {
-            if (Main.mouseRight)
-            {
-                if (Systems.TilePingerSystem.AddPing("WulfrumPing", Player.Center, Player))
-                    SoundEngine.PlaySound(WulfrumTreasurePingerSound);
-
-            }
             if (CalamityKeybinds.NormalityRelocatorHotKey.JustPressed && normalityRelocator && Main.myPlayer == Player.whoAmI)
             {
                 if (!Player.CCed && !Player.chaosState)
