@@ -67,6 +67,8 @@ namespace CalamityMod.Projectiles.Typeless
             Lighting.AddLight(Projectile.Center, Color.DeepSkyBlue.ToVector3());
             Vector2 BetweenOwner = Owner.Center - Projectile.Center;
 
+            Main.instance.MouseText(Owner.Center.ToString());
+
             if (Owner.dead || Owner.stoned || Owner.webbed || Owner.frozen || BetweenOwner.Length() > 1500)
             {
                 Projectile.Kill();
@@ -114,6 +116,13 @@ namespace CalamityMod.Projectiles.Typeless
 
             else
             {
+                float lenghtToOwner = BetweenOwner.Length();
+
+                if (lenghtToOwner > Owner.GetModPlayer<WulfrumPackPlayer>().SwingLenght + 60f)
+                {
+                    State = HookState.Retracting;
+                }
+
                 Point tilePos = Projectile.Center.ToTileCoordinates();
                 Tile tile = Main.tile[tilePos];
                 if (!tile.HasUnactuatedTile || !tile.CanTileBeLatchedOnTo() || Owner.IsBlacklistedForGrappling(tilePos))

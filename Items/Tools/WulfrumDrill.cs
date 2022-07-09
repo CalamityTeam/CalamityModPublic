@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Tools
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 1;
-            DisplayName.SetDefault("Wulfrum Pickaxe");
+            DisplayName.SetDefault("Wulfrum Drill");
         }
 
         public override void SetDefaults()
@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Tools
             Item.rare = ItemRarityID.Blue;
             Item.UseSound = SoundID.Item23;
             Item.autoReuse = true;
-            Item.shoot = ModContent.ProjectileType<WulfrumDrillProj>(); ///
+            Item.shoot = ModContent.ProjectileType<WulfrumDrillProj>();
 
             Item.channel = true;
             Item.noMelee = true;

@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Fishing.FishingRods
         {
             SacrificeTotal = 1;
             DisplayName.SetDefault("Wulfrum Fishing Pole");
-            Tooltip.SetDefault("This barely works, but it's better than nothing.");
+            Tooltip.SetDefault("This barely works, but it's better than nothing");
         }
 
         public override void SetDefaults()

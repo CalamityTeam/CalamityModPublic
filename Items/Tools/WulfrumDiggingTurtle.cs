@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Tools
         {
             DisplayName.SetDefault("Wulfrum Digging Turtle");
             Tooltip.SetDefault("Throws a rickety mining contraption to dig out a small tunnel\n" +
-            "In case of an emergency, right click to instantly detonate all your digging turtles.");
+            "In case of an emergency, right click to instantly detonate all your digging turtles");
             SacrificeTotal = 10;
         }
 
@@ -37,6 +37,11 @@ namespace CalamityMod.Items.Tools
         }
 
         public override bool AltFunctionUse(Player player) => true;
+
+        public override bool ConsumeItem(Player player)
+        {
+            return player.altFunctionUse != 2;
+        }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {

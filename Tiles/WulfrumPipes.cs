@@ -42,7 +42,7 @@ namespace CalamityMod.Tiles
 
         public override void NumDust(int i, int j, bool fail, ref int num)
         {
-            num = Main.rand.NextBool(3) ? 0 : 1;
+            num = Main.rand.NextBool(3) ? 3 : Main.rand.NextBool(3) ? 1 : 2;
         }
 
         public override void PlaceInWorld(int i, int j, Item item)

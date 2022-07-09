@@ -209,7 +209,15 @@ namespace CalamityMod.Items.Accessories
             hookCache = -1;
 
             if (Grappled)
-                SimulateMovement(Main.projectile[Grapple]);
+            {
+                if ((Main.projectile[Grapple].Center - Player.Center).Length() > SwingLenght + 80f)
+                {
+                    SoundEngine.PlaySound(WulfrumAcrobaticsPack.ReleaseSound, Main.projectile[Grapple].Center);
+                    Main.projectile[Grapple].Kill();
+                }
+                else
+                    SimulateMovement(Main.projectile[Grapple]);
+            }
         }
 
         public void SimulateMovement(Projectile grapple)
@@ -309,11 +317,11 @@ namespace CalamityMod.Items.Accessories
                     if (collisionVector.Y < Player.velocity.Y)
                     {
                         imminentDanger = true;
-                        checkedPlayerPosition += Player.velocity;
+                        checkedPlayerPosition += collisionVector;
                         break;
                     }
 
-                    checkedPlayerPosition += Player.velocity;
+                    checkedPlayerPosition += collisionVector;
                 }
 
                 if (!imminentDanger)
@@ -364,6 +372,10 @@ namespace CalamityMod.Items.Accessories
 
                             }
                         }
+
+                        //Reset the players fall height, because if they take fall dmg in teh frame right after this one it may have a chance of still killing the player due to the
+                        //code where the grapple resets the players fall speed hasnt been called yet
+                        Player.fallStart = (int)(Player.position.Y / 16);
 
                         if (Player.whoAmI == Main.myPlayer)
                         {
