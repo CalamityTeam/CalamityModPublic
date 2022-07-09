@@ -5,6 +5,7 @@ using CalamityMod.Cooldowns;
 using CalamityMod.Events;
 using CalamityMod.FluidSimulation;
 using CalamityMod.Items.Dyes;
+using CalamityMod.NPCs;
 using CalamityMod.NPCs.Astral;
 using CalamityMod.NPCs.AstrumAureus;
 using CalamityMod.NPCs.Crabulon;
@@ -916,5 +917,27 @@ namespace CalamityMod.ILEditing
             throw new Exception("Hook location not found, switch(*) { case 54: ...");
         }
         #endregion Statue Additions
+
+        #region Make Tax Collector Worth it
+        private static void MakeTaxCollectorUseful(ILContext il)
+        {
+            ILCursor cursor = new(il);
+            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchCall<Item>("buyPrice")))
+            {
+                LogFailure("Tax Collector Money Boosts", "Could not locate the amount of money to collect per town NPC.");
+                return;
+            }
+            cursor.Emit(OpCodes.Pop);
+            cursor.Emit<CalamityGlobalNPC>(OpCodes.Ldsfld, "TotalTaxesPerNPC");
+
+            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchCall<Item>("buyPrice")))
+            {
+                LogFailure("Tax Collector Money Boosts", "Could not locate the maximum amount of money to collect.");
+                return;
+            }
+            cursor.Emit(OpCodes.Pop);
+            cursor.Emit<CalamityGlobalNPC>(OpCodes.Ldsfld, "TaxesToCollectLimit");
+        }
+        #endregion Make Tax Collector Worth it
     }
 }

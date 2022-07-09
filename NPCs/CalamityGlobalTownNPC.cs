@@ -29,6 +29,10 @@ namespace CalamityMod.NPCs
 {
     public partial class CalamityGlobalNPC : GlobalNPC
     {
+        public static readonly int TotalTaxesPerNPC = Item.buyPrice(0, 0, 3, 0);
+
+        public static readonly int TaxesToCollectLimit = Item.buyPrice(5, 0, 0, 0);
+
         #region Town NPC Patreon Name Sets
         private const int AnglerVanillaNames = 22;
         private static readonly string[] AnglerNames =
