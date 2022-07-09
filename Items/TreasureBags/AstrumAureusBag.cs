@@ -71,7 +71,7 @@ namespace CalamityMod.Items.TreasureBags
             );
 
             // Equipment
-            DropHelper.DropItemCondition(s, player, ModContent.ItemType<SuspiciousLookingJellyBean>(), NPC.downedMoonlord);
+            DropHelper.DropItem(s, player, ModContent.ItemType<SuspiciousLookingJellyBean>());
             DropHelper.DropItem(s, player, ModContent.ItemType<GravistarSabaton>());
             DropHelper.DropItemChance(s, player, ModContent.ItemType<LeonidProgenitor>(), 0.1f);
 

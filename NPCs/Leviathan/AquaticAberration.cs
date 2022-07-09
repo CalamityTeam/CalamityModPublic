@@ -31,7 +31,7 @@ namespace CalamityMod.NPCs.Leviathan
             NPC.width = 50;
             NPC.height = 50;
             NPC.defense = 14;
-            NPC.lifeMax = 800;
+            NPC.lifeMax = 600;
             if (BossRushEvent.BossRushActive)
             {
                 NPC.lifeMax = 10000;
@@ -43,8 +43,6 @@ namespace CalamityMod.NPCs.Leviathan
             AIType = -1;
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath1;
-            Banner = NPC.type;
-            BannerItem = ModContent.ItemType<AquaticAberrationBanner>();
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToSickness = true;
             NPC.Calamity().VulnerableToElectricity = true;

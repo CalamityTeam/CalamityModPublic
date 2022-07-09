@@ -363,8 +363,8 @@ namespace CalamityMod.CalPlayer
         #region Defense Damage
         // Ratio at which incoming damage (after mitigation) is converted into defense damage.
         // Used to be 5% normal, 10% expert, 12% rev, 15% death, 20% boss rush
-        // It is now 15% on all difficulties because you already take less damage on lower difficulties.
-        public const double DefenseDamageRatio = 0.15;
+        // It is now 10% on all difficulties because you already take less damage on lower difficulties.
+        public const double DefenseDamageRatio = 0.1;
         public int CurrentDefenseDamage => (int)(totalDefenseDamage * ((float)defenseDamageRecoveryFrames / totalDefenseDamageRecoveryFrames));
         internal int totalDefenseDamage = 0;
         // Defense damage from a single hit recovers in 50 frames, no matter how big the hit was.
@@ -5132,7 +5132,7 @@ namespace CalamityMod.CalPlayer
 
             if (aSparkRare)
             {
-                if (proj.type == ProjectileID.MartianTurretBolt || proj.type == ProjectileID.GigaZapperSpear || proj.type == ProjectileID.CultistBossLightningOrbArc || proj.type == ModContent.ProjectileType<LightningMark>() || proj.type == ProjectileID.VortexLightning || proj.type == ModContent.ProjectileType<DestroyerElectricLaser>() ||
+                if (proj.type == ProjectileID.MartianTurretBolt || proj.type == ProjectileID.GigaZapperSpear || proj.type == ProjectileID.CultistBossLightningOrbArc || proj.type == ProjectileID.VortexLightning || proj.type == ModContent.ProjectileType<DestroyerElectricLaser>() ||
                     proj.type == ProjectileID.BulletSnowman || proj.type == ProjectileID.BulletDeadeye || proj.type == ProjectileID.SniperBullet || proj.type == ProjectileID.VortexLaser)
                     projectileDamageReduction += 0.5;
             }
@@ -5367,9 +5367,7 @@ namespace CalamityMod.CalPlayer
                 }
                 else if (proj.type == ProjectileID.CultistBossLightningOrbArc)
                 {
-                    int deathModeDuration = NPC.downedMoonlord ? 80 : NPC.downedPlantBoss ? 40 : Main.hardMode ? 20 : 10;
-                    Player.AddBuff(BuffID.Electrified, proj.Calamity().lineColor == 1 ? deathModeDuration : 120);
-                    // Scaled duration for DM lightning, 2 seconds for Storm Weaver/Cultist lightning
+                    Player.AddBuff(BuffID.Electrified, 120);
                 }
                 else if (proj.type == ProjectileID.AncientDoomProjectile)
                 {

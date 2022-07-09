@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.Mounts;
+﻿using CalamityMod.Buffs.Mounts;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Mounts
             MountData.dashSpeed = 8f;
             MountData.jumpHeight = 20;
             MountData.acceleration = 0.1f;
-            MountData.jumpSpeed = 20f;
+            MountData.jumpSpeed = 15f;
             MountData.totalFrames = 4;
             MountData.blockExtraJumps = true;
             int[] array = new int[MountData.totalFrames];
@@ -77,7 +77,7 @@ namespace CalamityMod.Items.Mounts
             if (player.velocity.Y > 0f || player.controlDown)
             {
                 player.gravity = 1f;
-                player.maxFallSpeed = 20f;
+                player.maxFallSpeed = 15f;
             }
             player.noFallDmg = true;
         }

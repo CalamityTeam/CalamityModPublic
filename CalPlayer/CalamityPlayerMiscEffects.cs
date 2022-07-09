@@ -893,6 +893,11 @@ namespace CalamityMod.CalPlayer
                         Player.velocity.Y = Player.maxFallSpeed;
                 }
             }
+            else
+            {
+                if (Player.mount.Type == MountID.Slime || Player.mount.Type == MountID.QueenSlime)
+                    Player.velocity.X *= 0.8f;
+            }
 
             // Omega Blue Armor bonus
             if (omegaBlueSet)
