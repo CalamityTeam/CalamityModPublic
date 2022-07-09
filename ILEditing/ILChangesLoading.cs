@@ -126,6 +126,13 @@ namespace CalamityMod.ILEditing
             IL.Terraria.NPC.NPCLoot += FixSplittingWormBannerDrops;
             On.Terraria.Item.Prefix += LetRogueItemsBeReforgeable;
             // IL.Terraria.Main.DoUpdate += FixProjectileUpdatePriorityProblems;
+
+
+            //Additional detours that are in their own item files given they are only relevant to these specific items:
+
+            //Rover drive detours on Player.DrawInfernoRings to draw its shield
+            //Wulfrum armor hooks on Player.KeyDoubleTap and DrawPendingMouseText to activate its set bonus and spoof the mouse text to display the stats of the activated weapon if shift is held
+            //HeldOnlyItem detours Player.dropItemCheck, ItemSlot.Draw (Sb, itemarray, int, int, vector2, color) and ItemSlot.LeftClick_ItemArray to make its stuff work
         }
 
         /// <summary>
