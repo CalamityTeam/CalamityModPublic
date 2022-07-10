@@ -125,7 +125,10 @@ namespace CalamityMod.Projectiles.Ranged
         public override void Kill(int timeLeft)
         {
             if (Projectile.owner == Main.myPlayer && Main.rand.NextBool(4))
-                Item.NewItem(Projectile.GetSource_DropAsItem(), Projectile.Center, Vector2.One, Projectile.ai[0] == 0 ? ItemID.SilverCoin : ItemID.GoldCoin);
+            {
+                int coin = Item.NewItem(Projectile.GetSource_DropAsItem(), Projectile.Center, Vector2.One, Projectile.ai[0] == 0 ? ItemID.SilverCoin : ItemID.GoldCoin);
+                Main.item[coin].GetGlobalItem<MidasPrimeItem>().magnetMode = true;
+            }
         }
     }
 }

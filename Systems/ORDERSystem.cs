@@ -38,7 +38,14 @@ namespace CalamityMod.Systems
             else if (OrderPlaying)
             {
                 if (SoundEngine.TryGetActiveSound(OrderSoundSlot, out var orderResult))
+                {
                     orderResult.Volume = OrderTime / DefaultOrderTime;
+                    if (!orderResult.IsPlaying)
+                        OrderPlaying = false;
+                }
+
+                else
+                    OrderPlaying = false;
 
             }
         }

@@ -63,7 +63,7 @@ namespace CalamityMod.Projectiles.Ranged
                             NPC target = Projectile.Center.ClosestNPCAt(900, false, true);
                             if (target != null)
                             {
-                                Projectile.velocity = (Projectile.DirectionTo(target.Center) * 30f);
+                                Projectile.velocity = (Projectile.DirectionTo(target.Center) * 16f);
                                 Boosted = 1;
                                 Main.player[Projectile.owner].Calamity().GeneralScreenShakePower = 2;
                                 Projectile.damage = (int)(Projectile.damage * DeadeyeRevolver.RicochetDamageMult);

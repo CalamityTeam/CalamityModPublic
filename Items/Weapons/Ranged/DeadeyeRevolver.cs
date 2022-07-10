@@ -85,7 +85,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override float UseSpeedMultiplier(Player player)
         {
             if (player.altFunctionUse == 2)
-                return 3f;
+                return 1.3f;
             return 1f;
         }
 

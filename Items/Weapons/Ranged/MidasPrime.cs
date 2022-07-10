@@ -30,6 +30,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Tooltip.SetDefault("Struck enemies drop extra coins\n" +
                                 "Right click to a coin in the air. Hitting the coin with a bullet redirects the shot into the nearest enemy\n" +
                                "If you have multiple coins up in the air, bullets will first redirect towards other coins up to a maximum of 4\n" +
+                               "Coin ricochets will increase the damage of the bullet, provided the coins have been in the air for long enough" +
                                "Coin throws consume gold and silver coins");
             SacrificeTotal = 1;
         }
@@ -63,7 +64,11 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override bool CanUseItem(Player player)
         {
             if (player.altFunctionUse == 2)
-                return player.CanBuyItem(100); //Breaks if the player has > 999 plat. Ask tml people to fix that?
+            {
+                //Using player.CanBuyItem() breaks if the player has too many platinum coins
+                long coinCount = Utils.CoinsCount(out bool overflow, player.inventory);
+                return overflow || coinCount >= 100;
+            }
             return true;
         }
 
@@ -71,7 +76,9 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             if (player.altFunctionUse == 2)
             {
-                if (player.CanBuyItem(10000))
+                long coinCount = Utils.CoinsCount(out bool overflow, player.inventory);
+
+                if (overflow || coinCount > 10000)
                 {
                     player.BuyItem(10000);
                     ShotCoin = 1;
@@ -191,4 +198,34 @@ namespace CalamityMod.Items.Weapons.Ranged
                 Register();
         }
     }
+
+    public class MidasPrimeItem : GlobalItem
+    {
+        public override bool InstancePerEntity => true;
+        public bool magnetMode = false;
+
+        public override void GrabRange(Item item, Player player, ref int grabRange)
+        {
+            if (player.HeldItem.type == ModContent.ItemType<MidasPrime>() && magnetMode)
+                grabRange *= 8;
+        }
+
+        public override bool GrabStyle(Item item, Player player)
+        {
+            if (player.HeldItem.type == ModContent.ItemType<MidasPrime>() && magnetMode)
+            {
+                //This is just Player.PullItemPickup() but not private
+
+                Vector2 towardsPlayer = player.Center - item.Center;
+                float movementSpeed = towardsPlayer.Length();
+                movementSpeed = 12 / movementSpeed;
+                towardsPlayer *= movementSpeed;
+                item.velocity = (item.velocity * 4f + towardsPlayer) / 5f;
+                return false;
+            }
+
+            return true;
+        }
+    }
+
 }
