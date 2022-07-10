@@ -46,7 +46,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.knockBack = 2.25f;
             Item.value = Item.buyPrice(0, 1, 0, 0);
             Item.rare = ItemRarityID.Blue;
-            Item.UseSound = ShootSound;
+            Item.UseSound = ShootSound with { Volume = 0.6f};
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<DeadeyeBlast>();
             Item.useAmmo = AmmoID.Bullet;
@@ -77,7 +77,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void UseAnimation(Player player)
         {
-            Item.UseSound = ShootSound; 
+            Item.UseSound = ShootSound with { Volume = 0.6f};
             if (player.altFunctionUse == 2)
                 Item.UseSound = BlingSound;
         }
@@ -85,7 +85,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override float UseSpeedMultiplier(Player player)
         {
             if (player.altFunctionUse == 2)
-                return 5f;
+                return 3f;
             return 1f;
         }
 
