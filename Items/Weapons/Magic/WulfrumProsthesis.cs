@@ -14,26 +14,26 @@ using static CalamityMod.CalamityUtils;
 namespace CalamityMod.Items.Weapons.Magic
 {
     [LegacyName("WulfrumStaff")]
-    public class WulfrumProthesis : ModItem, IHideFrontArm
+    public class WulfrumProsthesis : ModItem, IHideFrontArm
     {
-        public static readonly SoundStyle ShootSound = new("CalamityMod/Sounds/Item/WulfrumProthesisShoot") { PitchVariance = 0.1f, Volume = 0.55f };
-        public static readonly SoundStyle HitSound = new("CalamityMod/Sounds/Item/WulfrumProthesisHit") { PitchVariance = 0.1f, Volume = 0.75f , MaxInstances = 3};
-        public static readonly SoundStyle SuckSound = new("CalamityMod/Sounds/Item/WulfrumProthesisSucc") { Volume = 0.5f };
-        public static readonly SoundStyle SuckStopSound = new("CalamityMod/Sounds/Item/WulfrumProthesisSuccStop") { Volume = 0.5f };
+        public static readonly SoundStyle ShootSound = new("CalamityMod/Sounds/Item/WulfrumProsthesisShoot") { PitchVariance = 0.1f, Volume = 0.55f };
+        public static readonly SoundStyle HitSound = new("CalamityMod/Sounds/Item/WulfrumProsthesisHit") { PitchVariance = 0.1f, Volume = 0.75f , MaxInstances = 3};
+        public static readonly SoundStyle SuckSound = new("CalamityMod/Sounds/Item/WulfrumProsthesisSucc") { Volume = 0.5f };
+        public static readonly SoundStyle SuckStopSound = new("CalamityMod/Sounds/Item/WulfrumProsthesisSuccStop") { Volume = 0.5f };
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Wulfrum Prothesis");
+            DisplayName.SetDefault("Wulfrum Prosthesis");
             Tooltip.SetDefault("Casts a wulfrum bolt\n" +
                                "Right click to drain mana from creatures in front of you");
-            //Lore about how magic is not always a given for everyone, and how some unlucky people sometimes resort to voluntarily cutting their limbs to use magic augmented prothesis
+            //Lore about how magic is not always a given for everyone, and how some unlucky people sometimes resort to voluntarily cutting their limbs to use magic augmented prosthesis
             //1 : Informs about magic as a narrative thing, 2 : Informs about wulfrum energy being partly magical.
             SacrificeTotal = 1;
         }
 
         internal static Asset<Texture2D> RealSprite;
 
-        public override string Texture => "CalamityMod/Items/Weapons/Magic/WulfrumProthesis_Arm";
+        public override string Texture => "CalamityMod/Items/Weapons/Magic/WulfrumProsthesis_Arm";
 
         public override void SetDefaults()
         {
@@ -129,7 +129,7 @@ namespace CalamityMod.Items.Weapons.Magic
         public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
         {
             if (RealSprite == null)
-                RealSprite = ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Magic/WulfrumProthesis");
+                RealSprite = ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Magic/WulfrumProsthesis");
 
             Texture2D properSprite = RealSprite.Value;
 
@@ -141,7 +141,7 @@ namespace CalamityMod.Items.Weapons.Magic
         public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
         {
             if (RealSprite == null)
-                RealSprite = ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Magic/WulfrumProthesis");
+                RealSprite = ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Magic/WulfrumProsthesis");
 
             Texture2D properSprite = RealSprite.Value;
 
@@ -160,7 +160,7 @@ namespace CalamityMod.Items.Weapons.Magic
         }
     }
 
-    public class WulfrumProthesisPlayer : ModPlayer
+    public class WulfrumProsthesisPlayer : ModPlayer
     {
         public bool ManaDrainActive = false;
 

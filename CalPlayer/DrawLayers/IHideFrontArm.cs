@@ -4,7 +4,7 @@ using Terraria;
 
 /// <summary>
 /// Interface that can be used by items that need to hide the players front arm when held.
-/// Useful for prothesis type items.
+/// Useful for prosthesis type items.
 /// </summary>
 public interface IHideFrontArm
 {

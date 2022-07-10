@@ -50,7 +50,7 @@ namespace CalamityMod.Projectiles.Magic
 
             if (!SoundEngine.TryGetActiveSound(SuccSoundSlot, out var idleSoundOut) || !idleSoundOut.IsPlaying)
             {
-                SuccSoundSlot = SoundEngine.PlaySound(WulfrumProthesis.SuckSound with { Volume = WulfrumProthesis.SuckSound.Volume * 0.01f ,IsLooped = true }, Owner.Center);
+                SuccSoundSlot = SoundEngine.PlaySound(WulfrumProsthesis.SuckSound with { Volume = WulfrumProsthesis.SuckSound.Volume * 0.01f ,IsLooped = true }, Owner.Center);
 
             }
 
@@ -75,7 +75,7 @@ namespace CalamityMod.Projectiles.Magic
 
             if (target != null)
             {
-                Owner.GetModPlayer<WulfrumProthesisPlayer>().ManaDrainActive = true;
+                Owner.GetModPlayer<WulfrumProsthesisPlayer>().ManaDrainActive = true;
 
                 if (!Main.rand.NextBool(3))
                 {
@@ -151,7 +151,7 @@ namespace CalamityMod.Projectiles.Magic
             {
                 soundOut.Stop();
 
-                SoundEngine.PlaySound(WulfrumProthesis.SuckStopSound with { Volume = WulfrumProthesis.SuckStopSound.Volume * Timer / 30f}, Projectile.Center);
+                SoundEngine.PlaySound(WulfrumProsthesis.SuckStopSound with { Volume = WulfrumProsthesis.SuckStopSound.Volume * Timer / 30f}, Projectile.Center);
 
             }
         }

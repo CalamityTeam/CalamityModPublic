@@ -213,7 +213,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void Kill(int timeLeft)
         {
-            SoundEngine.PlaySound(WulfrumProthesis.HitSound, Projectile.Center);
+            SoundEngine.PlaySound(WulfrumProsthesis.HitSound, Projectile.Center);
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)

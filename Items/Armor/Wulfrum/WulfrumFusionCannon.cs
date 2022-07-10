@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Armor.Wulfrum
 {
     public class WulfrumFusionCannon : HeldOnlyItem, IHideFrontArm
     {
-        public static readonly SoundStyle ShootSound = new("CalamityMod/Sounds/Item/WulfrumProthesisShoot") { PitchVariance = 0.1f, Volume = 0.4f };
+        public static readonly SoundStyle ShootSound = new("CalamityMod/Sounds/Item/WulfrumProsthesisShoot") { PitchVariance = 0.1f, Volume = 0.4f };
 
         public override void SetStaticDefaults()
         {

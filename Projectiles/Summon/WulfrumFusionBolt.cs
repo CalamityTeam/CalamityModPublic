@@ -206,7 +206,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void Kill(int timeLeft)
         {
-            SoundEngine.PlaySound(WulfrumProthesis.HitSound with { Volume = WulfrumProthesis.HitSound.Volume * 0.6f }, Projectile.Center);
+            SoundEngine.PlaySound(WulfrumProsthesis.HitSound with { Volume = WulfrumProsthesis.HitSound.Volume * 0.6f }, Projectile.Center);
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
