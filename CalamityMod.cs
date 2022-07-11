@@ -226,6 +226,12 @@ namespace CalamityMod
             BalancingChangesManager.Load();
             BaseIdleHoldoutProjectile.LoadAll();
             PlayerDashManager.Load();
+
+            ModLoader.TryGetMod("Wikithis", out Mod wikithis);
+            if (wikithis != null && !Main.dedServ)
+            {
+                wikithis.Call("AddModURL", this, "calamitymod.wiki.gg");
+            }
         }
 
         private void LoadClient()
