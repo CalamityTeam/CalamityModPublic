@@ -33,8 +33,7 @@ namespace CalamityMod.Projectiles.Typeless
         {
             Thrown,
             Retracting,
-            Unused, //Fuck off vanilla code. This makes it so that i can put this projectile in the player grapple list while also never having it considered as "grappling" (aka ai[0] = 2)
-            Grappling
+            Grappling = 3 //Making this value "3" is important here, as it makes it so that i can put this projectile in the player grapple list while also never having it considered as "grappling" (aka ai[0] = 2)
         }
 
         public static float MaxReach = 600;

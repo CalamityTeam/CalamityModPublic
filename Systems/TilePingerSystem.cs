@@ -188,7 +188,6 @@ namespace CalamityMod.Systems
 
             else
                 pingedNonSolidTiles.Clear();
-            //HJELP
         }
     }
 

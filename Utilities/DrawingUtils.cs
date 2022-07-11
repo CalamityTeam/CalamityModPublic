@@ -712,7 +712,7 @@ namespace CalamityMod
         }
 
 
-        public delegate void ChromaAbberationDelegate(Vector2 offset, Color colorMult);
+        public delegate void ChromaAberrationDelegate(Vector2 offset, Color colorMult);
         //Thanks spirit <3
         /// <summary>
         /// Draws a chromatic abberation effect.
@@ -720,7 +720,7 @@ namespace CalamityMod
         /// <param name="direction">The direction of the abberation</param>
         /// <param name="strength">The strenght of the abberation</param>
         /// <param name="action">The draw call itself.</param>
-        public static void DrawChromaticAberration(Vector2 direction, float strength, ChromaAbberationDelegate drawCall)
+        public static void DrawChromaticAberration(Vector2 direction, float strength, ChromaAberrationDelegate drawCall)
         {
             for (int i = -1; i <= 1; i++)
             {
