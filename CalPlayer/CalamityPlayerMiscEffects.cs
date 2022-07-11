@@ -58,6 +58,7 @@ using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
 using ProvidenceBoss = CalamityMod.NPCs.Providence.Providence;
+using CalamityMod.Items.Armor.Wulfrum;
 
 namespace CalamityMod.CalPlayer
 {
@@ -207,6 +208,11 @@ namespace CalamityMod.CalPlayer
 
             // Apply stealth damage to rogue.
             Player.GetDamage<RogueDamageClass>() += stealthDamage;
+
+            //Slow the player down after any other speed modifiers might have been applied.
+            //Todo - Move this back to the wulfrum set class whenever statmodifiers are implemented for stats other than damage
+            if (WulfrumHat.PowerModeEngaged(Player, out _))
+                Player.moveSpeed *= 0.8f;
         }
         #endregion
 
@@ -895,8 +901,10 @@ namespace CalamityMod.CalPlayer
             }
             else
             {
-                if (Player.mount.Type == MountID.Slime || Player.mount.Type == MountID.QueenSlime)
-                    Player.velocity.X *= 0.8f;
+                if (Player.mount.Type == MountID.Slime)
+                    Player.velocity.X *= 0.91f;
+                else if (Player.mount.Type == MountID.QueenSlime)
+                    Player.velocity.X *= 0.935f;
             }
 
             // Omega Blue Armor bonus

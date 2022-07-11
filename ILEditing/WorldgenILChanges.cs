@@ -7,6 +7,8 @@ using Terraria;
 using Terraria.GameContent.UI.States;
 using Terraria.ID;
 using Terraria.WorldBuilding;
+using CalamityMod.Systems;
+using System.Linq;
 
 namespace CalamityMod.ILEditing
 {
@@ -204,6 +206,22 @@ namespace CalamityMod.ILEditing
             
             // Emit our new string "Mods.CalamityMod.UI.SmallWorldWarning".
             c.Emit(OpCodes.Ldstr, "Mods.CalamityMod.UI.SmallWorldWarning");
+        }
+        #endregion
+
+        #region Clear temporary modded tiles
+        private static void ClearModdedTempTiles(On.Terraria.IO.WorldFile.orig_ClearTempTiles orig)
+        {
+            orig();
+
+            for (int i = 0; i < Main.maxTilesX; i++)
+            {
+                for (int j = 0; j < Main.maxTilesY; j++)
+                {
+                    if (TempTilesManagerSystem.TemporaryTileIDs.Contains(Main.tile[i, j].TileType))
+                        WorldGen.KillTile(i, j);
+                }
+            }
         }
         #endregion
     }
