@@ -23,6 +23,9 @@ namespace CalamityMod.Projectiles.Ranged
             Main.projFrames[Projectile.type] = 8;
         }
 
+        public ref float BlingType => ref Projectile.ai[0];
+        public ref float PauseTime => ref Projectile.ai[1];
+
         public static int Lifetime = 950;
         public float LifetimeCompletion => MathHelper.Clamp((Lifetime - Projectile.timeLeft) / (float)Lifetime, 0f, 1f);
         public float FadePercent => Math.Clamp(Projectile.timeLeft / FadeTime, 0f, 1f);
@@ -46,8 +49,12 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.scale = 1.1f;
         }
 
+        public override bool ShouldUpdatePosition() => PauseTime <= 0;
+
         public override void AI()
         {
+            PauseTime--;
+
             Projectile.frameCounter++;
             if (Projectile.frameCounter > 8)
             {
@@ -88,7 +95,7 @@ namespace CalamityMod.Projectiles.Ranged
         public override bool PreDraw(ref Color lightColor)
         {
             Texture2D tex = ModContent.Request<Texture2D>(Texture).Value;
-            Rectangle frame = new Rectangle((int)Projectile.ai[0] * tex.Width / 2, Projectile.frame *  tex.Height / Main.projFrames[Projectile.type], tex.Width / 2 - 2, tex.Height / Main.projFrames[Projectile.type] - 2);
+            Rectangle frame = new Rectangle((int)BlingType * tex.Width / 2, Projectile.frame *  tex.Height / Main.projFrames[Projectile.type], tex.Width / 2 - 2, tex.Height / Main.projFrames[Projectile.type] - 2);
 
             Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition, frame, Projectile.GetAlpha(lightColor) * FadePercent, Projectile.rotation, frame.Size() / 2f, Projectile.scale, SpriteEffects.None, 0);
 
@@ -109,7 +116,7 @@ namespace CalamityMod.Projectiles.Ranged
                 Texture2D bloomTex = BloomTex.Value;
 
                 Vector2 shineScale = new Vector2(1f, 3f - sheenOpacity * 2f);
-                Color shineColor = Projectile.ai[0] == 0 ? Color.Silver : Color.Goldenrod;
+                Color shineColor = BlingType == 0 ? Color.Silver : Color.Goldenrod;
 
 
                 Main.EntitySpriteDraw(bloomTex, Projectile.Center - Main.screenPosition, null, shineColor * sheenOpacity * 0.3f, MathHelper.PiOver2, bloomTex.Size() / 2f, shineScale * Projectile.scale, SpriteEffects.None, 0);
@@ -126,7 +133,7 @@ namespace CalamityMod.Projectiles.Ranged
         {
             if (Projectile.owner == Main.myPlayer && Main.rand.NextBool(4))
             {
-                int coin = Item.NewItem(Projectile.GetSource_DropAsItem(), Projectile.Center, Vector2.One, Projectile.ai[0] == 0 ? ItemID.SilverCoin : ItemID.GoldCoin);
+                int coin = Item.NewItem(Projectile.GetSource_DropAsItem(), Projectile.Center, Vector2.One, BlingType == 0 ? ItemID.SilverCoin : ItemID.GoldCoin);
                 Main.item[coin].GetGlobalItem<MidasPrimeItem>().magnetMode = true;
             }
         }

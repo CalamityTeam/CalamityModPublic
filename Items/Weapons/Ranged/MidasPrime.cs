@@ -206,13 +206,13 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void GrabRange(Item item, Player player, ref int grabRange)
         {
-            if (player.HeldItem.type == ModContent.ItemType<MidasPrime>() && magnetMode)
+            if (player.HeldItem.type == ModContent.ItemType<MidasPrime>() && magnetMode && item.timeSinceItemSpawned > 60)
                 grabRange *= 8;
         }
 
         public override bool GrabStyle(Item item, Player player)
         {
-            if (player.HeldItem.type == ModContent.ItemType<MidasPrime>() && magnetMode)
+            if (player.HeldItem.type == ModContent.ItemType<MidasPrime>() && magnetMode && item.timeSinceItemSpawned > 60)
             {
                 //This is just Player.PullItemPickup() but not private
 

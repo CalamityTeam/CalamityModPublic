@@ -630,15 +630,6 @@ namespace CalamityMod.CalPlayer
             if (reaverDefense)
                 Player.lifeRegenTime += 1;
 
-            if (Player.whoAmI == Main.myPlayer && desertProwler && crit && item.CountsAsClass<RangedDamageClass>())
-            {
-                bool noTornado = Player.ownedProjectileCounts[ProjectileType<DesertMark>()] < 1 && Player.ownedProjectileCounts[ProjectileType<DesertTornado>()] < 1;
-                if (noTornado && Main.rand.NextBool(15))
-                {
-                    Projectile.NewProjectile(source, position, Vector2.Zero, ProjectileType<DesertMark>(), damage, item.knockBack, Player.whoAmI);
-                }
-            }
-
             if (npcCheck)
             {
                 if (item.CountsAsClass<MeleeDamageClass>() && aBulwarkRare && aBulwarkRareTimer == 0)
@@ -827,14 +818,6 @@ namespace CalamityMod.CalPlayer
         private void RangedOnHit(Projectile proj, CalamityGlobalProjectile modProj, Vector2 position, bool crit, bool npcCheck)
         {
             var source = proj.GetSource_FromThis();
-            if (Player.whoAmI == Main.myPlayer && desertProwler && crit)
-            {
-                bool noTornado = Player.ownedProjectileCounts[ProjectileType<DesertMark>()] < 1 && Player.ownedProjectileCounts[ProjectileType<DesertTornado>()] < 1;
-                if (noTornado && Main.rand.NextBool(15))
-                {
-                    Projectile.NewProjectile(source, position, Vector2.Zero, ProjectileType<DesertMark>(), proj.damage, proj.knockBack, Player.whoAmI);
-                }
-            }
 
             if (npcCheck)
             {
