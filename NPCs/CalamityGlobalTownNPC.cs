@@ -29,9 +29,33 @@ namespace CalamityMod.NPCs
 {
     public partial class CalamityGlobalNPC : GlobalNPC
     {
-        public static readonly int TotalTaxesPerNPC = Item.buyPrice(0, 0, 3, 0);
+        public static float TaxYieldFactor
+        {
+            get
+            {
+                // Max of 20 platinum.
+                if (DownedBossSystem.downedYharon)
+                    return 40f;
 
-        public static readonly int TaxesToCollectLimit = Item.buyPrice(5, 0, 0, 0);
+                // Max of 10 platinum.
+                if (DownedBossSystem.downedDoG)
+                    return 20f;
+
+                // Max of 5 platinum.
+                if (NPC.downedMoonlord)
+                    return 10f;
+
+                // Max of 2 platinum.
+                if (NPC.downedPlantBoss)
+                    return 4f;
+
+                return 1f;
+            }
+        }
+
+        public static int TotalTaxesPerNPC => (int)(Item.buyPrice(0, 0, 1, 50) * TaxYieldFactor);
+
+        public static int TaxesToCollectLimit => (int)(Item.buyPrice(0, 50, 0, 0) * TaxYieldFactor);
 
         #region Town NPC Patreon Name Sets
         private const int AnglerVanillaNames = 22;

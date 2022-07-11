@@ -928,7 +928,7 @@ namespace CalamityMod.ILEditing
                 return;
             }
             cursor.Emit(OpCodes.Pop);
-            cursor.Emit<CalamityGlobalNPC>(OpCodes.Ldsfld, "TotalTaxesPerNPC");
+            cursor.Emit<CalamityGlobalNPC>(OpCodes.Call, "get_TotalTaxesPerNPC");
 
             if (!cursor.TryGotoNext(MoveType.After, i => i.MatchCall<Item>("buyPrice")))
             {
@@ -936,7 +936,7 @@ namespace CalamityMod.ILEditing
                 return;
             }
             cursor.Emit(OpCodes.Pop);
-            cursor.Emit<CalamityGlobalNPC>(OpCodes.Ldsfld, "TaxesToCollectLimit");
+            cursor.Emit<CalamityGlobalNPC>(OpCodes.Call, "get_TaxesToCollectLimit");
         }
         #endregion Make Tax Collector Worth it
     }
