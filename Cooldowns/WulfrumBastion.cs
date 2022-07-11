@@ -37,8 +37,6 @@ namespace CalamityMod.Cooldowns
                 d.noLight = true;
                 d.fadeIn = 1f;
             }
-
-            //explode into gores
         }
 
         //Charge down at first, and then charge back up

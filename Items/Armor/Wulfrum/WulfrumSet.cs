@@ -174,8 +174,6 @@ namespace CalamityMod.Items.Armor.Wulfrum
                 else if (cd.timeLeft <= BastionCooldown + BastionTime - (int)(BastionBuildTime * 0.9f))
                     player.GetModPlayer<WulfrumTransformationPlayer>().forceHelmetOn = true;
 
-
-                player.moveSpeed *= 0.8f;
                 player.statDefense += 13;
                 //Drop the player's held item if they were holding something before
                 if (!(Main.mouseItem.type == DummyCannon.type) && !Main.mouseItem.IsAir)

@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Accessories.Vanity
     [LegacyName("WulfrumHeadMelee")]
     [LegacyName("WulfrumHood")]
     [LegacyName("WulfrumHeadMagic")]
-    public class AbandonnedWulfrumHelmet : ModItem
+    public class AbandonedWulfrumHelmet : ModItem
     {
         public override void Load()
         {
@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Accessories.Vanity
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 1;
-            DisplayName.SetDefault("Abandonned Wulfrum Helmet");
+            DisplayName.SetDefault("Abandoned Wulfrum Helmet");
             Tooltip.SetDefault("A worn and rusty helmet ressembling older models of wulfrum armor\n" +
                 //Could include lore about how X kind of people used to wear it. Like "Streets used to be filled with people of The Resistance wearing this cheap yet effective armor.
                 "Transforms the holder into a wulfrum robot\n" +
