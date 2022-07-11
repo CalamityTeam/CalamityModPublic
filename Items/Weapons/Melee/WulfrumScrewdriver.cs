@@ -22,6 +22,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public static readonly SoundStyle ThudSound = new("CalamityMod/Sounds/Item/WulfrumScrewdriverThud") { PitchVariance = 0.2f, Volume = 0.7f };
         public static readonly SoundStyle ScrewGetSound = new("CalamityMod/Sounds/Item/WulfrumScrewdriverScrewGet") { PitchVariance = 0.1f};
         public static readonly SoundStyle ScrewHitSound = new("CalamityMod/Sounds/Item/WulfrumScrewdriverScrewHit") { Volume = 0.7f };
+        public static readonly SoundStyle FunnyUltrablingSound = new("CalamityMod/Sounds/Custom/UltrablingHit");
 
         public static bool ScrewQeuedForStorage = false;
         public bool ScrewStored = false;

@@ -25,9 +25,9 @@ namespace CalamityMod.Items.Accessories.Vanity
         {
             if (Main.netMode != NetmodeID.Server)
             {
-                EquipLoader.AddEquipTexture(Mod, "CalamityMod/Items/Accessories/Vanity/AbandonnedWulfrumHelmet_HeadSet", EquipType.Head, name: "WulfrumOldSetHead");
-                EquipLoader.AddEquipTexture(Mod, "CalamityMod/Items/Accessories/Vanity/AbandonnedWulfrumHelmet_Body", EquipType.Body, this);
-                EquipLoader.AddEquipTexture(Mod, "CalamityMod/Items/Accessories/Vanity/AbandonnedWulfrumHelmet_Legs", EquipType.Legs, this);
+                EquipLoader.AddEquipTexture(Mod, "CalamityMod/Items/Accessories/Vanity/AbandonedWulfrumHelmet_HeadSet", EquipType.Head, name: "WulfrumOldSetHead");
+                EquipLoader.AddEquipTexture(Mod, "CalamityMod/Items/Accessories/Vanity/AbandonedWulfrumHelmet_Body", EquipType.Body, this);
+                EquipLoader.AddEquipTexture(Mod, "CalamityMod/Items/Accessories/Vanity/AbandonedWulfrumHelmet_Legs", EquipType.Legs, this);
             }
         }
 
@@ -103,8 +103,8 @@ namespace CalamityMod.Items.Accessories.Vanity
 
             if (transformationActive)
             {
-                Player.legs = EquipLoader.GetEquipSlot(Mod, "AbandonnedWulfrumHelmet", EquipType.Legs);
-                Player.body = EquipLoader.GetEquipSlot(Mod, "AbandonnedWulfrumHelmet", EquipType.Body);
+                Player.legs = EquipLoader.GetEquipSlot(Mod, "AbandonedWulfrumHelmet", EquipType.Legs);
+                Player.body = EquipLoader.GetEquipSlot(Mod, "AbandonedWulfrumHelmet", EquipType.Body);
             }
         }
     }

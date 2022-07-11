@@ -109,10 +109,8 @@ namespace CalamityMod.Projectiles.Melee
 
                         SoundEngine.PlaySound(WulfrumScrewdriver.ScrewHitSound, Projectile.Center);
 
-                        //Somehow pogoing the screw 3 or more times playa goblin laugh
-                        //If anyone has the ultrakill coin blang sound effect itd be a great swap out
                         if (screw.AlreadyBazinged > 2)
-                            SoundEngine.PlaySound(SoundID.DD2_KoboldFlyerDeath, Projectile.Center);
+                            SoundEngine.PlaySound(WulfrumScrewdriver.FunnyUltrablingSound, Projectile.Center);
                         
 
                         if (Main.myPlayer == proj.owner)
