@@ -55,13 +55,13 @@ namespace CalamityMod.Projectiles.Typeless
             Projectile.tileCollide = false;
             Projectile.extraUpdates = WulfrumPackPlayer.HookUpdates;
             Projectile.netImportant = true;
-            //Projectile.aiStyle = 7; Can i set its ai style to 7 wihle also making it not do anthing related to ai 7 whatsoever and use my own custom hook ai?
-            //That would bne great because fsr the onyl way to distinguish if a projectile is a hook or not is by checking its ai style.
+            Projectile.aiStyle = 7; //The projectile uses entirely custom AI, but for some reason terraria's only way to distinguish what is and isnt a hook is its ai style.
         }
 
         public override bool? CanDamage() => false;
 
-        public override void AI()
+        public override bool PreAI() => false;
+        public override void PostAI()
         {
             Lighting.AddLight(Projectile.Center, Color.DeepSkyBlue.ToVector3());
             Vector2 BetweenOwner = Owner.Center - Projectile.Center;
@@ -247,5 +247,7 @@ namespace CalamityMod.Projectiles.Typeless
             Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition, null, lightColor, Projectile.rotation, texture.Size() / 2f, Projectile.scale, 0, 0);
             return false;
         }
+
+        public override bool PreDrawExtras() => false; //Prevents vanilla chain drawing from taking place
     }
 }

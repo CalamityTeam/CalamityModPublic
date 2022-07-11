@@ -88,7 +88,7 @@ namespace CalamityMod.Items.Accessories
         public override void OnSpawn(Projectile projectile, IEntitySource source)
         {
             Player owner = Main.player[projectile.owner];
-            if (projectile.aiStyle == 7 && owner.GetModPlayer<WulfrumPackPlayer>().WulfrumPackEquipped)
+            if (projectile.aiStyle == 7 && projectile.type != ProjectileType<WulfrumHook>() && owner.GetModPlayer<WulfrumPackPlayer>().WulfrumPackEquipped)
             {
                 projectile.active = false;
             }
@@ -413,7 +413,7 @@ namespace CalamityMod.Items.Accessories
                 for (int i = 0; i < Main.maxProjectiles; ++i)
                 {
                     Projectile p = Main.projectile[i];
-                    if (!p.active || p.owner != Player.whoAmI || p.aiStyle != 7)
+                    if (!p.active || p.owner != Player.whoAmI || p.aiStyle != 7 || p.type == ProjectileType<WulfrumHook>())
                         continue;
 
                     p.Kill();

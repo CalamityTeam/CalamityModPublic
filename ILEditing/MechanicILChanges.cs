@@ -957,19 +957,6 @@ namespace CalamityMod.ILEditing
         #region Custom Grappling hooks
 
         /// <summary>
-        /// Custom grapples get removed when the vanilla function to remove all grapples get called, as the vanilla one relies solely on the ai stype = 7
-        /// </summary>
-        private static void RemoveCustomGrapples(On.Terraria.Player.orig_RemoveAllGrapplingHooks orig, Player self)
-        {
-            orig(self);
-            for (int i = 0; i < Main.maxProjectiles; i++)
-            {
-                if (Main.projectile[i].active && Main.projectile[i].owner == self.whoAmI && Main.projectile[i].type == ModContent.ProjectileType<WulfrumHook>())
-                    Main.projectile[i].Kill();
-            }
-        }
-
-        /// <summary>
         /// Determines if the custom grapple movement should take place or not. Useful for hooks that only do movement tricks in some cases
         /// </summary>
         private static void CustomGrappleMovementCheck(On.Terraria.Player.orig_GrappleMovement orig, Player self)
