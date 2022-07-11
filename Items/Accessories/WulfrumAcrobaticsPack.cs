@@ -47,7 +47,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.moveSpeed += 0.8f;
+            player.moveSpeed += 0.08f;
             player.GetModPlayer<WulfrumPackPlayer>().WulfrumPackEquipped = true;
             player.GetModPlayer<WulfrumPackPlayer>().PackItem = Item;
 
