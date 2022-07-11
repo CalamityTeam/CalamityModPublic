@@ -32,7 +32,7 @@ namespace CalamityMod.Particles
             Rotation += Spin * ((Velocity.X > 0) ? 1f : -1f);
             Velocity *= 0.85f;
 
-            if (LifetimeCompletion < 0.24f)
+            if (LifetimeCompletion < 0.84f)
             {
                 Scale += 0.01f;
             }
@@ -41,10 +41,10 @@ namespace CalamityMod.Particles
                 Scale *= 0.975f;
             }
 
-            Velocity -= Vector2.UnitY * 0.05f;
-            float opacityMult = 1 - (float)Math.Pow(LifetimeCompletion, 2);
+            Velocity -= Vector2.UnitY * 0.08f;
 
-            Color = Color.Lerp(ColorStart, ColorFade, MathHelper.Clamp((float)((255 -Opacity) - 100) / 80, 0f, 1f)) * (Opacity * opacityMult);
+            float opacityMult = 1 - (float)Math.Pow(LifetimeCompletion, 2);
+            Color = Color.Lerp(ColorStart, ColorFade, opacityMult) * (Opacity * opacityMult);
         }
     }
 }

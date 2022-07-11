@@ -65,7 +65,7 @@ namespace CalamityMod.Projectiles.Ranged
 
             if (Ricochets < 4)
             {
-                int[] flyingCoins = new int[3];
+                int[] flyingCoins = new int[4];
                 int coinIndex = 0;
                 int struckCoinIndex = -1;
 
@@ -73,7 +73,7 @@ namespace CalamityMod.Projectiles.Ranged
                 for (int i = 0; i < Main.maxProjectiles; i++)
                 {
                     Projectile proj = Main.projectile[i];
-                    if (proj.ModProjectile != null && proj.type == ModContent.ProjectileType<MidasCoin>() && proj.active)
+                    if (proj.ModProjectile != null && proj.type == ModContent.ProjectileType<MidasCoin>() && proj.active && proj.owner == Projectile.owner)
                     {
                         flyingCoins[coinIndex] = proj.whoAmI;
                         coinIndex++;
@@ -84,7 +84,7 @@ namespace CalamityMod.Projectiles.Ranged
                             coinIndex--; // We don't care about this coin, don't redirect it to itself
                         }
 
-                        if (coinIndex == 3)
+                        if (coinIndex == 4)
                             break;
                     }
                 }
@@ -103,7 +103,7 @@ namespace CalamityMod.Projectiles.Ranged
             PauseTime--;
         }
 
-        public void RicochetEffect(Vector2 target, Projectile struckCoin)
+        public void RicochetEffect(Vector2 target, Projectile struckCoin, bool shouldPause = true)
         {
             //Play sound
             SoundEngine.PlaySound(DeadeyeRevolver.BlingHitSound, struckCoin.Center);
@@ -124,18 +124,19 @@ namespace CalamityMod.Projectiles.Ranged
 
             ORDERSystem.ORDER();
 
-            PauseTime = Pause;
+            if (shouldPause)
+                PauseTime = Pause;
         }
 
         public void SimpleRicochet(int[] flyingCoins, int flyingCoinCount, Projectile struckCoin)
         {
             //If we find a redirection target, do the ricochet and a bunch of cool effects.
-            if (FindRicochetTarget(Projectile.Center, flyingCoins, flyingCoinCount, out Vector2 redirectionTarget, out _))
-                RicochetEffect(redirectionTarget, struckCoin);
+            if (FindRicochetTarget(Projectile.Center, flyingCoins, flyingCoinCount, out Vector2 redirectionTarget, out int coinIndex))
+                RicochetEffect(redirectionTarget, struckCoin, coinIndex >= 0);
             
             //If no target is found, just ricochet the shot forward
             else
-                RicochetEffect(Projectile.Center + Projectile.velocity, struckCoin);
+                RicochetEffect(Projectile.Center + Projectile.velocity, struckCoin, false);
         }
 
         public void PlanFullRicochet(int[] flyingCoins, int flyingCoinCount, Projectile struckCoin)
@@ -154,7 +155,7 @@ namespace CalamityMod.Projectiles.Ranged
                         if (firstRicochetTarget == Vector2.Zero)
                             firstRicochetTarget = redirectionTarget;
 
-                        Main.projectile[i].ai[1] = CoinPause;
+                        Main.projectile[redirectedCoinIndex].ai[1] = CoinPause;
                         ricochetPosition = redirectionTarget;
                     }
 
@@ -164,7 +165,7 @@ namespace CalamityMod.Projectiles.Ranged
                         //If we can't ricochet to any coins from the start but we still found a valid npc target, go to them.
                         if (i == 0)
                         {
-                            RicochetEffect(redirectionTarget, struckCoin);
+                            RicochetEffect(redirectionTarget, struckCoin, false);
                             return;
                         }
 
@@ -178,7 +179,7 @@ namespace CalamityMod.Projectiles.Ranged
                     if (i == 0)
                     {
                         //If no target at all was found, just propel the coin forward
-                        RicochetEffect(Projectile.Center + Projectile.velocity, struckCoin);
+                        RicochetEffect(Projectile.Center + Projectile.velocity, struckCoin, false);
                         return;
                     }
                     else

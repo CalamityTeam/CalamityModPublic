@@ -13,6 +13,7 @@ using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Melee;
 using Terraria.Audio;
 using Terraria.DataStructures;
+using CalamityMod.Dusts;
 
 namespace CalamityMod.Items.Armor.DesertProwler
 {
@@ -95,19 +96,38 @@ namespace CalamityMod.Items.Armor.DesertProwler
                 player.GetCritChance(DamageClass.Ranged) += 300;
 
                 //Visuals
-                Vector2 smokePos = player.Hitbox.BottomLeft() + Vector2.UnitX * player.Hitbox.Width * Main.rand.NextFloat() - Vector2.UnitY * Main.rand.NextFloat(28f);
+                Vector2 smokePos = player.MountedCenter + Main.rand.NextVector2Square(-player.height / 2, player.height / 2);
 
-                Color startColor = new Color(122, 100, 83);
-                Color endColor = new Color(106, 80, 82);
+                /*
+                for (int i = 0; i < 5; i++)
+                {
+                    Dust dust = Dust.NewDustDirect(player.MountedCenter, 0, 0, DustType<GasDust>());
+                    dust.position += Main.rand.NextVector2Square(-player.height / 2, player.height / 2);
+                    dust.velocity = Main.rand.NextVector2Circular(1, 1) + player.velocity / 2;
+                    dust.scale = 2.4f;
+                    dust.color = new Color(217, 154, 154);
+                }
+                */
+
+                for (int i = 0; i < 15; i++)
+                {
+                    Particle dust = new SandyDustParticle(player.MountedCenter + Main.rand.NextVector2Square(-player.height / 2, player.height / 2), Main.rand.NextVector2Circular(1, 1) + player.velocity / 2, Color.White, Main.rand.NextFloat(0.7f, 1.2f), Main.rand.Next(10, 40), rotationSpeed:0.03f);
+                    GeneralParticleHandler.SpawnParticle(dust);
+                }
+                
+
+                
+                Color startColor = new Color(173, 156, 112);
+                Color endColor = new Color(143, 120, 63);
                 if (Main.rand.NextBool())
                 {
-                    startColor = new Color(143, 120, 83);
-                    endColor = new Color(92, 86, 71);
+                    startColor = new Color(173, 139, 100);
+                    endColor = new Color(149, 106, 50);
                 }
 
-                Particle smoke = new TimedSmokeParticle(smokePos, Main.rand.NextVector2Circular(6f, 3f) - Vector2.UnitY * 4f + player.velocity * 0.5f, startColor, endColor, Main.rand.NextFloat(0.7f, 2.2f), Main.rand.NextFloat(0.6f, 0.85f), Main.rand.Next(10, 26), 0.05f);
+                Particle smoke = new TimedSmokeParticle(smokePos, Main.rand.NextVector2Circular(2f, 1f) - Vector2.UnitY * 1f + player.velocity * 0.5f, startColor, endColor, Main.rand.NextFloat(0.7f, 2.2f), Main.rand.NextFloat(0.6f, 0.85f), Main.rand.Next(40, 76), 0.01f);
                 GeneralParticleHandler.SpawnParticle(smoke);
-
+                
 
                 // Dust
                 Vector2 dustDirection = Main.rand.NextVector2CircularEdge(1f, 1f);
