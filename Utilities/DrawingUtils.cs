@@ -674,5 +674,75 @@ namespace CalamityMod
                                  1);
             }
         }
+
+        /// <summary>
+        /// Draws an item in the inventory with a new texture to replace a previous one.
+        /// Useful in situations where for example, a different sprite is used for the "real" inventory sprite so it may appear when the player is using it.
+        /// </summary>
+        /// <param name="spriteBatch"></param>
+        /// <param name="newTexture"></param>
+        /// <param name="originalSize"></param>
+        /// <param name="position"></param>
+        /// <param name="drawColor"></param>
+        /// <param name="origin"></param>
+        /// <param name="scale"></param>
+        public static void DrawNewInventorySprite(this SpriteBatch spriteBatch, Texture2D newTexture, Vector2 originalSize, Vector2 position, Color drawColor, Vector2 origin, float scale, Vector2? offset = null)
+        {
+            Vector2 extraOffset;
+            if (offset == null)
+                extraOffset = Vector2.Zero;
+            else
+                extraOffset = offset.GetValueOrDefault();
+
+            float largestDimensionOriginal = Math.Max(originalSize.X, originalSize.Y);
+            float largestDimensionNew = Math.Max(newTexture.Width, newTexture.Height);
+
+            //Scale the sprite so it will account for the dimension of the new sprite if it is larger than the old one (As in, we need to scale down the scale or else it will be too large)
+            float scaleRatio = Math.Min(largestDimensionOriginal / largestDimensionNew, 1);
+
+            //Offset the jellyfish sprite properly, since the fishing rod is larger than the jellyfish (Jellyfish width : 28px, Fishing rod width : 42)
+            Vector2 positionOffset = Vector2.Zero;
+
+            if (originalSize.X > newTexture.Width)
+                positionOffset.X = (originalSize.X - newTexture.Width) / 2f;
+
+            positionOffset *= scale;
+
+            spriteBatch.Draw(newTexture, position + positionOffset + extraOffset, null, drawColor, 0f, origin, scale * scaleRatio, 0, 0);
+        }
+
+
+        public delegate void ChromaAberrationDelegate(Vector2 offset, Color colorMult);
+        //Thanks spirit <3
+        /// <summary>
+        /// Draws a chromatic abberation effect.
+        /// </summary>
+        /// <param name="direction">The direction of the abberation</param>
+        /// <param name="strength">The strenght of the abberation</param>
+        /// <param name="action">The draw call itself.</param>
+        public static void DrawChromaticAberration(Vector2 direction, float strength, ChromaAberrationDelegate drawCall)
+        {
+            for (int i = -1; i <= 1; i++)
+            {
+                Color aberrationColor = Color.White;
+                switch (i)
+                {
+                    case -1:
+                        aberrationColor = new Color(255, 0, 0, 0);
+                        break;
+                    case 0:
+                        aberrationColor = new Color(0, 255, 0, 0);
+                        break;
+                    case 1:
+                        aberrationColor = new Color(0, 0, 255, 0);
+                        break;
+                }
+
+                Vector2 offset = direction.RotatedBy(MathHelper.PiOver2) * i;
+                offset *= strength;
+
+                drawCall.Invoke(offset, aberrationColor);
+            }
+        }
     }
 }

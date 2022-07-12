@@ -20,6 +20,8 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 using static Terraria.ModLoader.ModContent;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace CalamityMod
 {
@@ -504,5 +506,142 @@ namespace CalamityMod
         /// </summary>
         /// <param name="tile">The tile to check.</param>
         public static bool IsTileSolid(this Tile tile) => tile != null && tile.HasUnactuatedTile && Main.tileSolid[tile.TileType] && !TileID.Sets.Platforms[tile.TileType];
+
+        /// <summary>
+        /// Determines if a tile is "full" based on if the tile is solid. This will count platforms and actuated tiles but no other non-solid ground tiles.
+        /// </summary>
+        /// <param name="tile">The tile to check.</param>
+        public static bool IsTileFull(this Tile tile) => tile != null && tile.HasTile && Main.tileSolid[tile.TileType];
+
+        /// <summary>
+        /// Returns a random number between 0 and 1 that always remains the same based on the tile's coordinates.
+        /// </summary>
+        /// <param name="tilePos">The tile position to grab the rng from</param>
+        /// <param name="shift">An extra offset. Useful if you need multiple counts of rng for the same time</param>
+        public static float GetTileRNG(this Point tilePos, int shift = 0) => (float)(Math.Sin(tilePos.X * 17.07947 + shift * 36) + Math.Sin(tilePos.Y * 25.13274)) * 0.25f + 0.5f;
+
+        /// <summary>
+        /// Grabs the nearest tile point to the origin, in the specified direction
+        /// </summary>
+        /// <param name="origin"></param>
+        /// <param name="direction"></param>
+        /// <returns></returns>
+        public static Point GetNearestPointInDirection(this Point origin, float direction)
+        {
+            return origin + new Point((int)Math.Round(Math.Cos(direction)), (int)Math.Round(Math.Sin(direction)));
+        }
+
+        /// <summary>
+        /// Just like Vector2.ToTileCoordinates, but also clamps the position to the tile grid.
+        /// </summary>
+        /// <param name="pos"></param>
+        /// <returns>The tile coordinates</returns>
+        public static Point ToSafeTileCoordinates(this Vector2 vec)
+        {
+            return new Point((int)MathHelper.Clamp((int)vec.X >> 4, 0, Main.maxTilesX), (int)MathHelper.Clamp((int)vec.Y >> 4, 0, Main.maxTilesY));
+        }
+
+        /// <summary>
+        /// Is a tile valid to be grappled onto
+        /// A straight rip of the private method Projectile.AI_007_GrapplingHooks_CanTileBeLatchedOnTo()
+        /// </summary>
+        /// <param name="theTile"></param>
+        /// <returns>Wether or not the tile may be grappled onto</returns>
+        public static bool CanTileBeLatchedOnTo(this Tile theTile, bool grappleOnTrees = false) => Main.tileSolid[theTile.TileType] | (theTile.TileType == 314) | (grappleOnTrees && TileID.Sets.IsATreeTrunk[theTile.TileType]) | (grappleOnTrees && theTile.TileType == 323);
+
+        /// <summary>
+        /// Gets the required pickaxe power of a tile, accounting for both the ModTile and the vanilla tile pick requirements
+        /// </summary>
+        /// <param name="tile"></param>
+        /// <returns>The pickaxe power required to break a tile</returns>
+        public static int GetRequiredPickPower(this Tile tile, int i, int j)
+        {
+            int pickReq = 0;
+
+            if (Main.tileNoFail[tile.TileType])
+                return pickReq;
+
+            ModTile moddedTile = TileLoader.GetTile(tile.TileType);
+
+            //Getting the pickaxe requirement of a modded tile is shrimple.
+            if (moddedTile != null)
+                pickReq = moddedTile.MinPick;
+
+            //Getting the pickaxe requirement of a vanilla tile is quite clamplicated
+            //This was lifted from code in onyx excavator, which likely was lifted from vanilla. It might need 1.4 updating.
+            else
+            {
+                switch (tile.TileType)
+                {
+                    case TileID.Chlorophyte:
+                        pickReq = 200;
+                        break;
+                    case TileID.Ebonstone:
+                    case TileID.Crimstone:
+                    case TileID.Pearlstone:
+                    case TileID.DesertFossil:
+                    case TileID.Obsidian:
+                    case TileID.Hellstone:
+                        pickReq = 65;
+                        break;
+                    case TileID.Meteorite:
+                        pickReq = 50;
+                        break;
+                    case TileID.Demonite:
+                    case TileID.Crimtane:
+                        if (j > Main.worldSurface)
+                            pickReq = 55;
+                        break;
+                    case TileID.LihzahrdBrick:
+                    case TileID.LihzahrdAltar:
+                        pickReq = 210;
+                        break;
+                    case TileID.Cobalt:
+                    case TileID.Palladium:
+                        pickReq = 100;
+                        break;
+                    case TileID.Mythril:
+                    case TileID.Orichalcum:
+                        pickReq = 110;
+                        break;
+                    case TileID.Adamantite:
+                    case TileID.Titanium:
+                        pickReq = 150;
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            if (Main.tileDungeon[tile.TileType])
+            {
+                if (i < Main.maxTilesX * 0.35 || i > Main.maxTilesX * 0.65)
+                    pickReq = 65;
+            }
+
+            return pickReq;
+        }
+
+        /// <summary>
+        /// Returns if a tile is safe to be mined in terms of it being "important"
+        /// </summary>
+        /// <param name="tile"></param>
+        /// <param name="ignoreAbyss">If voidstone and abyss gravel should be considered unsafe to mine</param>
+        /// <returns></returns>
+        public static bool ShouldBeMined(this Tile tile, bool ignoreAbyss = true)
+        {
+            List<int> tileExcludeList = new List<int>()
+            {
+                TileID.DemonAltar, TileID.ElderCrystalStand, TileID.LihzahrdAltar, TileID.Dressers, TileID.Containers
+            };
+
+            if (ignoreAbyss)
+            {
+                tileExcludeList.Add(ModContent.TileType<AbyssGravel>());
+                tileExcludeList.Add(ModContent.TileType<Voidstone>());
+            }
+
+            return !Main.tileContainer[tile.TileType] && !tileExcludeList.Contains(tile.TileType);
+        }
     }
 }

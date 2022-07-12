@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.shootSpeed = 16f;
             Item.shoot = ModContent.ProjectileType<LiquidBlade>();
 
-            Item.width = Item.height = 16;
+            Item.width = Item.height = 70;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.UseSound = SoundID.Item9;
@@ -42,8 +42,6 @@ namespace CalamityMod.Items.Weapons.Magic
 
         // Terraria seems to really dislike high crit values in SetDefaults
         public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 30;
-
-        public override Vector2? HoldoutOrigin() => new Vector2(15, 15);
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo projSource, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {

@@ -51,10 +51,17 @@ namespace CalamityMod.ILEditing
             IL.Terraria.Player.QuickMana += ConditionallyReplaceManaSickness;
             IL.Terraria.Player.ItemCheck_Inner += ConditionallyReplaceManaSickness;
             On.Terraria.Main.SortDrawCacheWorms += DrawFusableParticles;
+            On.Terraria.Main.DrawInfernoRings += DrawForegroundParticles;
             On.Terraria.Main.SetDisplayMode += ResetRenderTargetSizes;
             IL.Terraria.GameContent.Drawing.TileDrawing.DrawPartialLiquid += DrawCustomLava;
             IL.Terraria.GameContent.Liquid.LiquidRenderer.InternalDraw += DrawCustomLava2;
             IL.Terraria.Main.oldDrawWater += DrawCustomLava3;
+            On.Terraria.GameContent.Drawing.TileDrawing.Draw += ClearTilePings;
+            On.Terraria.Player.GrappleMovement += CustomGrappleMovementCheck;
+            On.Terraria.Player.UpdatePettingAnimal += CustomGrapplePreDefaultMovement;
+            On.Terraria.Player.PlayerFrame += CustomGrapplePostFrame;
+            On.Terraria.Player.SlopeDownMovement += CustomGrapplePreStepUp;
+
 
             // TODO -- Revisit this. It's not an extremely important thing, but it'd be ideal to not just abandon it.
             // IL.Terraria.WaterfallManager.DrawWaterfall += DrawCustomLavafalls;
@@ -96,6 +103,7 @@ namespace CalamityMod.ILEditing
             IL.Terraria.WorldGen.Chlorophyte += AdjustChlorophyteSpawnLimits;
             IL.Terraria.GameContent.UI.States.UIWorldCreation.SetDefaultOptions += ChangeDefaultWorldSize;
             IL.Terraria.GameContent.UI.States.UIWorldCreation.AddWorldSizeOptions += SwapSmallDescriptionKey;
+            On.Terraria.IO.WorldFile.ClearTempTiles += ClearModdedTempTiles;
 
             // Removal of vanilla stupidity
             IL.Terraria.GameContent.Events.Sandstorm.HasSufficientWind += DecreaseSandstormWindSpeedRequirement;
@@ -117,6 +125,13 @@ namespace CalamityMod.ILEditing
             IL.Terraria.NPC.NPCLoot += FixSplittingWormBannerDrops;
             On.Terraria.Item.Prefix += LetRogueItemsBeReforgeable;
             // IL.Terraria.Main.DoUpdate += FixProjectileUpdatePriorityProblems;
+
+
+            //Additional detours that are in their own item files given they are only relevant to these specific items:
+
+            //Rover drive detours on Player.DrawInfernoRings to draw its shield
+            //Wulfrum armor hooks on Player.KeyDoubleTap and DrawPendingMouseText to activate its set bonus and spoof the mouse text to display the stats of the activated weapon if shift is held
+            //HeldOnlyItem detours Player.dropItemCheck, ItemSlot.Draw (Sb, itemarray, int, int, vector2, color) and ItemSlot.LeftClick_ItemArray to make its stuff work
         }
 
         /// <summary>
@@ -147,6 +162,7 @@ namespace CalamityMod.ILEditing
             IL.Terraria.Player.QuickMana -= ConditionallyReplaceManaSickness;
             IL.Terraria.Player.ItemCheck_Inner -= ConditionallyReplaceManaSickness;
             On.Terraria.Main.SortDrawCacheWorms -= DrawFusableParticles;
+            On.Terraria.Main.DrawInfernoRings -= DrawForegroundParticles;
             On.Terraria.Main.SetDisplayMode -= ResetRenderTargetSizes;
             IL.Terraria.GameContent.Drawing.TileDrawing.DrawPartialLiquid -= DrawCustomLava;
             IL.Terraria.GameContent.Liquid.LiquidRenderer.InternalDraw -= DrawCustomLava2;
@@ -154,6 +170,11 @@ namespace CalamityMod.ILEditing
             IL.Terraria.WaterfallManager.DrawWaterfall -= DrawCustomLavafalls;
             On.Terraria.NPC.Collision_DecideFallThroughPlatforms -= EnableCalamityBossPlatformCollision;
             IL.Terraria.Wiring.HitWireSingle -= AddTwinklersToStatue;
+            On.Terraria.GameContent.Drawing.TileDrawing.Draw -= ClearTilePings;
+            On.Terraria.Player.GrappleMovement -= CustomGrappleMovementCheck;
+            On.Terraria.Player.UpdatePettingAnimal -= CustomGrapplePreDefaultMovement;
+            On.Terraria.Player.PlayerFrame -= CustomGrapplePostFrame;
+            On.Terraria.Player.SlopeDownMovement -= CustomGrapplePreStepUp;
 
             // Damage and health balance
             IL.Terraria.Main.DamageVar -= AdjustDamageVariance;
@@ -189,6 +210,7 @@ namespace CalamityMod.ILEditing
             IL.Terraria.WorldGen.Chlorophyte -= AdjustChlorophyteSpawnLimits;
             IL.Terraria.GameContent.UI.States.UIWorldCreation.SetDefaultOptions -= ChangeDefaultWorldSize;
             IL.Terraria.GameContent.UI.States.UIWorldCreation.AddWorldSizeOptions -= SwapSmallDescriptionKey;
+            On.Terraria.IO.WorldFile.ClearTempTiles -= ClearModdedTempTiles;
 
             // Removal of vanilla stupidity
             IL.Terraria.GameContent.Events.Sandstorm.HasSufficientWind -= DecreaseSandstormWindSpeedRequirement;
