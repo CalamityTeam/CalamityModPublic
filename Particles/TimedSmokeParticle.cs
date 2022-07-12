@@ -6,8 +6,10 @@ namespace CalamityMod.Particles
 {
     public class TimedSmokeParticle : Particle
     {
-        public override string Texture => "CalamityMod/Particles/SmallSmoke";
+        public override string Texture => "CalamityMod/Particles/MediumSmoke";
         public override bool SetLifetime => true;
+        public override int FrameVariants => 3;
+
 
         private float Opacity;
         private Color ColorStart;
@@ -25,6 +27,8 @@ namespace CalamityMod.Particles
             Rotation = Main.rand.NextFloat(MathHelper.TwoPi);
             Spin = rotationSpeed;
             Lifetime = timeleft;
+
+            Variant = Main.rand.Next(3);
         }
 
         public override void Update()

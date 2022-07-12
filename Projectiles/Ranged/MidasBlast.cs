@@ -249,6 +249,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
+            Projectile.numHits++;
             target.AddBuff(BuffID.Midas, 60);
             Projectile.velocity = Vector2.Zero;
             Projectile.timeLeft = Math.Min((Lifetime - Projectile.timeLeft), TrailLenght);

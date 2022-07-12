@@ -14,14 +14,19 @@ using CalamityMod.Items.Weapons.Melee;
 using Terraria.Audio;
 using Terraria.DataStructures;
 using CalamityMod.Dusts;
+using ReLogic.Utilities;
 
 namespace CalamityMod.Items.Armor.DesertProwler
 {
     [AutoloadEquip(EquipType.Head)]
     public class DesertProwlerHat : ModItem
     {
+        public static readonly SoundStyle SmokeBombSound = new("CalamityMod/Sounds/Custom/AbilitySounds/DesertProwlerSmokeBomb");
+        public static readonly SoundStyle SmokeBombEndSound = new("CalamityMod/Sounds/Custom/AbilitySounds/DesertProwlerSmokeBombEnd");
+
         public static int SmokeCooldown = 25 * 60;
         public static int SmokeDuration = 5 * 60;
+        public static int FreeCrit = 200;
 
         public static bool ShroudedInSmoke(Player player, out CooldownInstance cd)
         {
@@ -87,47 +92,40 @@ namespace CalamityMod.Items.Armor.DesertProwler
             if (ShroudedInSmoke(player, out var cd))
             {
                 if (cd.timeLeft == SmokeCooldown + SmokeDuration)
-                {
-                    //Vfx and noises
-                }
-
+                    armorPlayer.SetBonusStartEffect();
+                
                 player.moveSpeed *= 1.5f;
                 player.invis = true;
-                player.GetCritChance(DamageClass.Ranged) += 300;
-
-                //Visuals
-                Vector2 smokePos = player.MountedCenter + Main.rand.NextVector2Square(-player.height / 2, player.height / 2);
-
-                /*
-                for (int i = 0; i < 5; i++)
+                player.GetCritChance(DamageClass.Ranged) += FreeCrit;
+                for (int i = 0; i < 2; i++)
                 {
-                    Dust dust = Dust.NewDustDirect(player.MountedCenter, 0, 0, DustType<GasDust>());
-                    dust.position += Main.rand.NextVector2Square(-player.height / 2, player.height / 2);
-                    dust.velocity = Main.rand.NextVector2Circular(1, 1) + player.velocity / 2;
-                    dust.scale = 2.4f;
-                    dust.color = new Color(217, 154, 154);
-                }
-                */
-
-                for (int i = 0; i < 15; i++)
-                {
-                    Particle dust = new SandyDustParticle(player.MountedCenter + Main.rand.NextVector2Square(-player.height * 0.8f, player.height * 0.8f), Main.rand.NextVector2Circular(1, 1) + player.velocity / 2, Color.White, Main.rand.NextFloat(0.7f, 1.2f), Main.rand.Next(10, 40), rotationSpeed:0.03f);
+                    Vector2 dustDisplace = Main.rand.NextVector2Circular(80f, 50f);
+                    Vector2 dustPosition = player.MountedCenter + dustDisplace;
+                    Vector2 dustSpeed = Main.rand.NextVector2Circular(0.5f, 0.5f) + player.velocity / 8f - Vector2.UnitY.RotatedByRandom(MathHelper.PiOver4) * 0.06f;
+                    dustSpeed.X += 1.4f * (float)Math.Sin(((dustDisplace.X + 80f) / 160f) * MathHelper.Pi) * (Main.rand.NextBool() ? -1 : 1);
+                    Particle dust = new SandyDustParticle(dustPosition, dustSpeed, Color.White, Main.rand.NextFloat(0.7f, 1.2f), Main.rand.Next(20, 50), 0.03f, Vector2.UnitY * 0.03f);
                     GeneralParticleHandler.SpawnParticle(dust);
                 }
-                
 
-                
-                Color startColor = new Color(173, 156, 112);
-                Color endColor = new Color(143, 120, 63);
-                if (Main.rand.NextBool())
+                int sandSmokeCount = Main.rand.Next(2, 3);
+                for (int i = 0; i < sandSmokeCount; i++)
                 {
-                    startColor = new Color(173, 139, 100);
-                    endColor = new Color(149, 106, 50);
-                }
+                    Color startColor = new Color(173, 156, 112);
+                    Color endColor = new Color(143, 120, 63);
+                    if (Main.rand.NextBool())
+                    {
+                        startColor = new Color(173, 139, 100);
+                        endColor = new Color(149, 106, 50);
+                    }
 
-                Particle smoke = new TimedSmokeParticle(smokePos, Main.rand.NextVector2Circular(2f, 1f) - Vector2.UnitY * 1f + player.velocity * 0.5f, startColor, endColor, Main.rand.NextFloat(0.7f, 2.2f), Main.rand.NextFloat(0.6f, 0.85f), Main.rand.Next(40, 76), 0.01f);
-                GeneralParticleHandler.SpawnParticle(smoke);
-                
+                    Vector2 smokeRandomPos = Main.rand.NextVector2Circular(40f, player.height);
+                    Vector2 smokePos = player.MountedCenter + smokeRandomPos;
+                    float burstAngle = MathHelper.Pi - ((smokeRandomPos.X + 40) / 80f) * MathHelper.Pi;
+                    Vector2 smokeSpeed = Main.rand.NextVector2Circular(1f, 0.5f) - Vector2.UnitY * 0.05f + player.velocity * 0.5f + burstAngle.ToRotationVector2() * ((1 - (float)Math.Sin(burstAngle)) * 0.9f + 0.1f) * 1.5f;
+                    smokeSpeed.X += (float)Math.Sin(((smokeRandomPos.X + 40) / 80f) * MathHelper.Pi) * (Main.rand.NextBool() ? -1 : 1);
+                    Particle smoke = new TimedSmokeParticle(smokePos, smokeSpeed, startColor, endColor, Main.rand.NextFloat(0.7f, 1.6f), Main.rand.NextFloat(0.4f, 0.55f), Main.rand.Next(20, 36), 0.01f);
+                    GeneralParticleHandler.SpawnParticle(smoke);
+                }
 
                 // Dust
                 Vector2 dustDirection = Main.rand.NextVector2CircularEdge(1f, 1f);
@@ -160,7 +158,7 @@ namespace CalamityMod.Items.Armor.DesertProwler
                     setBonus2.OverrideColor = new Color(204, 181, 72);
                     tooltips.Insert(setBonusIndex + 2, setBonus2);
 
-                    TooltipLine setBonus3 = new TooltipLine(item.Mod, "CalamityMod:SetBonus3", "Attacking instantly dispels the sand cloak, but guarantees a supercrit for 200% damage");
+                    TooltipLine setBonus3 = new TooltipLine(item.Mod, "CalamityMod:SetBonus3", $"Attacking instantly dispels the sand cloak, but guarantees a supercrit for {FreeCrit}% damage\nDispeling the sand cloak with a shot also bounces you upwards");
                     setBonus3.OverrideColor = new Color(204, 181, 72);
                     tooltips.Insert(setBonusIndex + 3, setBonus3);
                 }
@@ -272,6 +270,7 @@ namespace CalamityMod.Items.Armor.DesertProwler
         public static int BastionShootDamage = 10;
         public static float BastionShootSpeed = 18f;
         public static int BastionShootTime = 10;
+        internal SlotId SmokeBombSoundSlot;
 
         public bool desertProwlerSet = false;
 
@@ -300,15 +299,67 @@ namespace CalamityMod.Items.Armor.DesertProwler
             }
         }
 
+        public void SetBonusStartEffect()
+        {
+            SmokeBombSoundSlot = SoundEngine.PlaySound(DesertProwlerHat.SmokeBombSound, Player.Center);
+            //vfx
+        }
+
         public void SetBonusEndEffect()
         {
-            //SoundStyle endSound = DesertProwlerHat.SmokeBombEndSound;
+            if (SoundEngine.TryGetActiveSound(SmokeBombSoundSlot, out var sound))
+            {
+                sound.Stop();
+                SmokeBombSoundSlot = SlotId.Invalid;
+            }
+            
             //Dust
+        }
+
+        //BANDIT RISK OF RAIN 2! JAce would b e proud
+        public void SetBonusBounceEffect()
+        {
+            SoundEngine.PlaySound(DesertProwlerHat.SmokeBombEndSound, Player.Center);
+            Player.velocity.Y = Math.Min(-6f, Player.velocity.Y - 6f);
+            Player.jump = Player.jumpHeight / 2;
+
+            for (int i = 0; i < 30; i++)
+            {
+                Vector2 dustDisplace = Main.rand.NextVector2Circular(80f, 30f);
+                Vector2 dustPosition = Player.MountedCenter + Vector2.UnitY * Player.height * 0.5f + dustDisplace;
+                Vector2 dustSpeed = Main.rand.NextVector2Circular(0.5f, 0.5f) + Player.velocity / 8f - Vector2.UnitY.RotatedByRandom(MathHelper.PiOver4) * 0.06f;
+                dustSpeed.X += 1.4f * (float)Math.Sin(((dustDisplace.X + 80f) / 160f) * MathHelper.Pi) * (Main.rand.NextBool() ? -1 : 1);
+                Particle dust = new SandyDustParticle(dustPosition, dustSpeed, Color.White, Main.rand.NextFloat(0.7f, 1.2f), Main.rand.Next(20, 50), 0.03f, Vector2.UnitY * 0.03f);
+                GeneralParticleHandler.SpawnParticle(dust);
+            }
+
+
+            if (!Main.dedServ)
+            {
+                for (int i = 0; i < 10; i++)
+                {
+                    float dustOrientation = i / 10f * MathHelper.TwoPi + MathHelper.PiOver4 * 0.6f;
+                    Vector2 dustDirection = Vector2.UnitX * (float)Math.Sin(dustOrientation) + Vector2.UnitY * (float)Math.Cos(dustOrientation) * 0.2f;
+
+                    Vector2 dustPos = Player.MountedCenter + Vector2.UnitY * Player.height / 2f + dustDirection * 20f;
+                    Vector2 dustVel = Player.velocity * 0.3f + dustDirection * 1.4f;
+
+                    int sandstormJump = Gore.NewGore(Player.GetSource_Misc("Jump"), dustPos, dustVel, Main.rand.Next(220, 223), 1f);
+                    Main.gore[sandstormJump].velocity = dustVel;
+                    Main.gore[sandstormJump].alpha = 100;
+
+
+                    for (int j = 0; j < 1; j++)
+                    {
+                        Dust miniDust = Dust.NewDustDirect(dustPos, 32, 32, 124, dustVel.X, dustVel.Y * 0.3f, 150, default(Color), 1f);
+                        miniDust.fadeIn = 1.5f;
+                    }
+                }
+            }
         }
 
         public override void PostUpdateMiscEffects()
         {
-            //This shouldn't ever be possible since the power mode prevents you from using or moving items around
             if (!desertProwlerSet && DesertProwlerHat.ShroudedInSmoke(Player, out var cd))
             {
                 cd.timeLeft = DesertProwlerHat.SmokeCooldown;
@@ -320,14 +371,16 @@ namespace CalamityMod.Items.Armor.DesertProwler
     {
         public override void OnSpawn(Projectile projectile, IEntitySource source)
         {
-            DesertProwlerHat.SmokeCooldown = 20;
+            DesertProwlerHat.SmokeCooldown = 120;
 
             if (projectile.damage > 0)
             {
-                if (projectile.owner >= 0 && DesertProwlerHat.ShroudedInSmoke(Main.player[projectile.owner], out var cd))
+                if (projectile.owner >= 0 && DesertProwlerHat.ShroudedInSmoke(Main.player[projectile.owner], out var cd) && projectile.DamageType.CountsAsClass(DamageClass.Ranged))
                 {
                     projectile.Calamity().canSupercrit = true;
                     cd.timeLeft = DesertProwlerHat.SmokeCooldown;
+
+                    Main.player[projectile.owner].GetModPlayer<DesertProwlerPlayer>().SetBonusBounceEffect();
                 }
             }
         }

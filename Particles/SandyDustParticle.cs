@@ -9,7 +9,7 @@ namespace CalamityMod.Particles
     public class SandyDustParticle : Particle
     {
         public override string Texture => "CalamityMod/Particles/SandyDust";
-        public override bool UseHalfTransparency => true; //Doesn't actually use half transparency, but guarantees that it gets drawn above the bigger smoke clouds
+        public override bool UseHalfTransparency => false; //Doesn't actually use half transparency, but guarantees that it gets drawn above the bigger smoke clouds
         public override bool UseCustomDraw => true;
         public override bool SetLifetime => true;
 
@@ -18,7 +18,7 @@ namespace CalamityMod.Particles
         private Vector2 Gravity;
         public Rectangle Frame;
 
-        public SandyDustParticle(Vector2 position, Vector2 velocity, Color color, float scale, int lifeTime, float rotationSpeed = 1f, bool bigSize = false, bool emitsLight = false, Vector2? gravity = null)
+        public SandyDustParticle(Vector2 position, Vector2 velocity, Color color, float scale, int lifeTime, float rotationSpeed = 1f, Vector2? gravity = null)
         {
             Position = position;
             Velocity = velocity;
@@ -28,14 +28,14 @@ namespace CalamityMod.Particles
             Rotation = Main.rand.NextFloat(MathHelper.TwoPi);
             Spin = rotationSpeed;
             Gravity = (Vector2)(gravity == null ? Vector2.Zero : gravity);
-            Variant = Main.rand.Next(18);
-            Frame = new Rectangle(Variant % 6 * 12, Variant / 6 * 12, 10, 10);
+            Variant = Main.rand.Next(12);
+            Frame = new Rectangle(Variant % 6 * 12, 12 + Variant / 6 * 12, 10, 10);
         }
 
         public override void Update()
         {
             Velocity += Gravity;
-            opacity = (float)Math.Sin(LifetimeCompletion * MathHelper.Pi);
+            opacity = (float)Math.Sin(LifetimeCompletion * MathHelper.PiOver2 + MathHelper.PiOver2);
 
             Velocity *= 0.95f;
             Rotation += Spin * ((Velocity.X > 0) ? 1f : -1f);

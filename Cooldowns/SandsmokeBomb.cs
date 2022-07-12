@@ -25,17 +25,18 @@ namespace CalamityMod.Cooldowns
         public override Color OutlineColor => new Color(255, 299, 156);
         public override Color CooldownStartColor => PowerActive ? Color.Lerp(new Color(204, 181, 72), new Color(169, 142, 16), PowerPercent) : new Color(204, 181, 72);
         public override Color CooldownEndColor => PowerActive ? Color.Lerp(new Color(204, 181, 72), new Color(169, 142, 16), PowerPercent) : new Color(169, 142, 16);
-        //public override SoundStyle? EndSound => new("CalamityMod/Sounds/Custom/AbilitySounds/SandsmokeBombRecharge");
+        public override SoundStyle? EndSound => new("CalamityMod/Sounds/Custom/AbilitySounds/DesertProwlerSmokeBombReload");
 
         public override void OnCompleted()
         {
-            for (int i = 0; i < 6; i++)
+            for (int i = 0; i < 16; i++)
             {
-                Vector2 dustDirection = Main.rand.NextVector2CircularEdge(1f, 1f);
-                Dust d = Dust.NewDustPerfect(instance.player.Center + dustDirection * Main.rand.NextFloat(0.4f, 10f), 226, dustDirection * Main.rand.NextFloat(1f, 4f), 100, Color.Transparent, Main.rand.NextFloat(0.8f, 1.2f));
-                d.noGravity = true;
-                d.noLight = true;
-                d.fadeIn = 1f;
+                Vector2 dustDisplace = Main.rand.NextVector2Circular(80f, 50f);
+                Vector2 dustPosition = instance.player.MountedCenter + dustDisplace;
+                Vector2 dustSpeed = Main.rand.NextVector2Circular(0.5f, 0.5f) + instance.player.velocity / 8f - Vector2.UnitY.RotatedByRandom(MathHelper.PiOver4) * 0.06f;
+                dustSpeed.X += 1.4f * (float)Math.Sin(((dustDisplace.X + 80f) / 160f) * MathHelper.Pi) * (Main.rand.NextBool() ? -1 : 1);
+                Particle dust = new SandyDustParticle(dustPosition, dustSpeed, Color.White, Main.rand.NextFloat(0.7f, 1.2f), Main.rand.Next(20, 50), 0.03f, Vector2.UnitY * 0.03f);
+                GeneralParticleHandler.SpawnParticle(dust);
             }
         }
 
