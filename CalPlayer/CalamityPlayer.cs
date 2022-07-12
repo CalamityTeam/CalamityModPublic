@@ -5689,12 +5689,6 @@ namespace CalamityMod.CalPlayer
                 Player.waist = (sbyte)EquipLoader.GetEquipSlot(Mod, "DaedalusBreastplate", EquipType.Waist);
             }
 
-            if (Player.body == EquipLoader.GetEquipSlot(Mod, "DemonshadeBreastplate", EquipType.Body))
-            {
-                //Use an extra front layers to have the players arms draw above the shoulderpads that droop
-                Player.front = (sbyte)EquipLoader.GetEquipSlot(Mod, "DemonshadeBreastplate", EquipType.Front);
-            }
-
             bool victideBreastplateVisible = Player.body == EquipLoader.GetEquipSlot(Mod, "VictideBreastplate", EquipType.Body);
             //Give the player faulds if either the body armor or the leggings are equipped
             if (victideBreastplateVisible || Player.legs == EquipLoader.GetEquipSlot(Mod, "VictideGreaves", EquipType.Legs))

@@ -26,6 +26,7 @@ namespace CalamityMod.Items.Materials
             Item.maxStack = 999;
             Item.value = Item.sellPrice(copper: 80);
             Item.rare = ItemRarityID.Blue;
+            Item.ammo = Item.type;
         }
 
         public override void OnSpawn(IEntitySource source)

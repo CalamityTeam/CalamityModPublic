@@ -242,7 +242,7 @@ namespace CalamityMod.Items.Armor.Wulfrum
                     setBonus3.OverrideColor = new Color(110, 192, 93);
                     tooltips.Insert(setBonusIndex + 3, setBonus3);
 
-                    if (Main.keyState.IsKeyDown(LeftShift))
+                    if (!Main.keyState.IsKeyDown(LeftShift))
                     {
                         TooltipLine itemDisplay = new TooltipLine(item.Mod, "CalamityMod:ArmorItemDisplay", "Hold SHIFT to see the stats of the fusion cannon");
                         itemDisplay.OverrideColor = new Color(190, 190, 190);

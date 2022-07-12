@@ -105,6 +105,8 @@ namespace CalamityMod.Items.Accessories.Vanity
             {
                 Player.legs = EquipLoader.GetEquipSlot(Mod, "AbandonedWulfrumHelmet", EquipType.Legs);
                 Player.body = EquipLoader.GetEquipSlot(Mod, "AbandonedWulfrumHelmet", EquipType.Body);
+
+                Player.HideAccessories();
             }
         }
     }
