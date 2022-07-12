@@ -172,7 +172,7 @@ namespace CalamityMod.Projectiles.Melee
             // Decide the swing direction.
             Projectile.rotation = MathHelper.Lerp(StartingSwingRotation, EndingSwingRotation, swingCompletion);
 
-            float returnToAnticiation = (float)Math.Pow(Utils.GetLerpValue(0.8f, 0.9f, directionalSwingCompletion, true), 2D);
+            float returnToAnticiation = (float)Math.Pow(Utils.GetLerpValue(0.8f, 1f, directionalSwingCompletion, true), 2D);
             Projectile.rotation = Projectile.rotation.AngleLerp(MathHelper.Lerp(StartingSwingRotation, EndingSwingRotation, 0.27f), returnToAnticiation);
             Projectile.rotation = Projectile.rotation * Direction - MathHelper.PiOver4;
             if (Direction == -1)
@@ -183,13 +183,13 @@ namespace CalamityMod.Projectiles.Melee
             // Decide the scale of the sword.
             Projectile.scale = 1f;
             if (!LMBUse)
-                Projectile.scale = Utils.GetLerpValue(0f, 0.2f, exactSwingCompletion, true) * Utils.GetLerpValue(1f, 0.8f, exactSwingCompletion, true);
+                Projectile.scale = Utils.GetLerpValue(0f, 0.2f, exactSwingCompletion, true) * Utils.GetLerpValue(1f, 0.9f, exactSwingCompletion, true);
 
             // Create a bunch of homing beams.
             int beamShootRate = Projectile.MaxUpdates * 2;
             if (Main.myPlayer == Projectile.owner && Projectile.timeLeft % beamShootRate == 0 && swingCompletion > 0.3f && swingCompletion < 0.9f)
             {
-                int boltDamage = Projectile.damage / 2;
+                int boltDamage = (int)(Projectile.damage * Exoblade.NotTrueMeleeDamagePenalty);
                 Vector2 boltVelocity = (Projectile.rotation + MathHelper.PiOver4).ToRotationVector2();
                 boltVelocity = Vector2.Lerp(boltVelocity, Vector2.UnitX * Direction, 0.8f).SafeNormalize(Vector2.UnitY);
                 boltVelocity *= 9f;

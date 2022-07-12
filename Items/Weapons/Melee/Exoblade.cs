@@ -14,6 +14,8 @@ namespace CalamityMod.Items.Weapons.Melee
     {
         public bool RMBchannel = false;
 
+        public const float NotTrueMeleeDamagePenalty = 0.67f;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Exoblade");
@@ -29,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             Item.width = 80;
             Item.height = 114;
-            Item.damage = 900;
+            Item.damage = 1000;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.useTime = 49;
             Item.useAnimation = 49;
