@@ -619,6 +619,33 @@ namespace CalamityMod
         }
         #endregion
 
+        #region visual layers
+        public static void HideAccessories(this Player player, bool hideHeadAccs = true, bool hideBodyAccs = true, bool hideLegAccs = true,  bool hideShield = true)
+        {
+            if (hideHeadAccs)
+                player.face = -1;
+
+            if (hideBodyAccs)
+            {
+                player.handon = -1;
+                player.handoff = -1;
+                
+                player.back = -1;
+                player.front = -1;
+                player.neck = -1;
+            }
+
+            if (hideLegAccs)
+            {
+                player.shoe = -1;
+                player.waist = -1;
+            }
+
+            if (hideShield)
+                player.shield = -1;
+        }
+        #endregion
+
         /// <summary>
         /// Makes the given player send the given packet to all appropriate receivers.<br />
         /// If server is false, the packet is sent only to the multiplayer host.<br />

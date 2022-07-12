@@ -8,15 +8,10 @@ using Terraria.ID;
 namespace CalamityMod.Items.Armor.Demonshade
 {
     [AutoloadEquip(EquipType.Body)]
-    public class DemonshadeBreastplate : ModItem
+    public class DemonshadeBreastplate : ModItem, IDrawArmOverShoulderpad
     {
-        public override void Load()
-        {
-            if (Main.netMode != NetmodeID.Server)
-            {
-                EquipLoader.AddEquipTexture(Mod, "CalamityMod/Items/Armor/Demonshade/DemonshadeBreastplate_Arms", EquipType.Front, this);
-            }
-        }
+        public string FrontArmTexture => "CalamityMod/Items/Armor/Demonshade/DemonshadeBreastplate_Arms";
+
 
         public override void SetStaticDefaults()
         {

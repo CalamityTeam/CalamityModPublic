@@ -8,30 +8,27 @@ using Terraria.ModLoader;
 namespace CalamityMod.CalPlayer.DrawLayers
 {
 
-    //Extends the player's body sprite to draw over the head, useful for bulky chestplates such as the victide breastplate.
-    public class BodyBulkLayer : PlayerDrawLayer
+    //Draws the front arm of the armor over the shoulderpad when walking. 
+    public class FrontARmOverShoulderpadLayer : PlayerDrawLayer
     {
-        public override Position GetDefaultPosition() => new AfterParent(PlayerDrawLayers.Head);
+        public override Position GetDefaultPosition() => new AfterParent(PlayerDrawLayers.ArmOverItem);
 
         public override bool GetDefaultVisibility(PlayerDrawSet drawInfo) => drawInfo.shadow == 0f || !drawInfo.drawPlayer.dead;
 
         protected override void Draw(ref PlayerDrawSet drawInfo)
         {
-            //While the extra bulk draws over the players head position, we don't want to have it drawn when the head alone is being drawn.
-            if (drawInfo.headOnlyRender)
-                return;
-
             Player drawPlayer = drawInfo.drawPlayer;
             Item bodyItem = drawPlayer.armor[1];
             if (drawPlayer.armor[11].type > ItemID.None)
                 bodyItem = drawPlayer.armor[11];
 
-            if (ModContent.GetModItem(bodyItem.type) is IBulkyArmor chestplateBulkDrawer)
+            if (ModContent.GetModItem(bodyItem.type) is IDrawArmOverShoulderpad frontArmDrawer)
             {
-                string equipSlotName = chestplateBulkDrawer.EquipSlotName(drawPlayer) != "" ? chestplateBulkDrawer.EquipSlotName(drawPlayer) : bodyItem.ModItem.Name;
+                string equipSlotName = frontArmDrawer.EquipSlotName(drawPlayer) != "" ? frontArmDrawer.EquipSlotName(drawPlayer) : bodyItem.ModItem.Name;
                 int equipSlot = EquipLoader.GetEquipSlot(Mod, equipSlotName, EquipType.Body);
                 if (drawPlayer.body != equipSlot)
                     return;
+
 
                 int dyeShader = drawPlayer.dye?[1].dye ?? 0;
                 Vector2 drawPosition = drawInfo.Position - Main.screenPosition;
@@ -46,7 +43,7 @@ namespace CalamityMod.CalPlayer.DrawLayers
                 drawPosition += drawPlayer.bodyPosition + drawInfo.bodyVect;
 
                 //Grab the extension texture
-                Texture2D extraPieceTexture = ModContent.Request<Texture2D>(chestplateBulkDrawer.BulkTexture).Value;
+                Texture2D extraPieceTexture = ModContent.Request<Texture2D>(frontArmDrawer.FrontArmTexture).Value;
 
                 //Get the frame of the extension based on the players body frame
                 Rectangle frame = extraPieceTexture.Frame(1, 20, 0, drawPlayer.bodyFrame.Y / drawPlayer.bodyFrame.Height);
