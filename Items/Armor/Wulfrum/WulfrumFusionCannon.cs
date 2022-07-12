@@ -70,7 +70,7 @@ namespace CalamityMod.Items.Armor.Wulfrum
                     Item.SetDefaults(0);
                     Item.stack = 0;
 
-                    Main.mouseItem = null;
+                    Main.mouseItem = new Item();
                 }
             }
 
