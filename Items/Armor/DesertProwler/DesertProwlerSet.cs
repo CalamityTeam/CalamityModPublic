@@ -111,7 +111,7 @@ namespace CalamityMod.Items.Armor.DesertProwler
 
                 for (int i = 0; i < 15; i++)
                 {
-                    Particle dust = new SandyDustParticle(player.MountedCenter + Main.rand.NextVector2Square(-player.height / 2, player.height / 2), Main.rand.NextVector2Circular(1, 1) + player.velocity / 2, Color.White, Main.rand.NextFloat(0.7f, 1.2f), Main.rand.Next(10, 40), rotationSpeed:0.03f);
+                    Particle dust = new SandyDustParticle(player.MountedCenter + Main.rand.NextVector2Square(-player.height * 0.8f, player.height * 0.8f), Main.rand.NextVector2Circular(1, 1) + player.velocity / 2, Color.White, Main.rand.NextFloat(0.7f, 1.2f), Main.rand.Next(10, 40), rotationSpeed:0.03f);
                     GeneralParticleHandler.SpawnParticle(dust);
                 }
                 

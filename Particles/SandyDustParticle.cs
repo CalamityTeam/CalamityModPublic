@@ -9,6 +9,7 @@ namespace CalamityMod.Particles
     public class SandyDustParticle : Particle
     {
         public override string Texture => "CalamityMod/Particles/SandyDust";
+        public override bool UseHalfTransparency => true; //Doesn't actually use half transparency, but guarantees that it gets drawn above the bigger smoke clouds
         public override bool UseCustomDraw => true;
         public override bool SetLifetime => true;
 
@@ -28,7 +29,7 @@ namespace CalamityMod.Particles
             Spin = rotationSpeed;
             Gravity = (Vector2)(gravity == null ? Vector2.Zero : gravity);
             Variant = Main.rand.Next(18);
-            Frame = new Rectangle(Variant % 6 * 12, Variant / 3 * 12, 10, 10);
+            Frame = new Rectangle(Variant % 6 * 12, Variant / 6 * 12, 10, 10);
         }
 
         public override void Update()
