@@ -100,7 +100,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             Vector2 vector34 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
                             float num349 = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) - vector34.X;
                             float num350 = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - vector34.Y;
-                            float num418 = 12f;
+                            float num418 = 7f + enrageScale * 2f;
                             float num351 = (float)Math.Sqrt(num349 * num349 + num350 * num350);
                             num351 = num418 / num351;
                             num349 *= num351;

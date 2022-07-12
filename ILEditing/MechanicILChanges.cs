@@ -14,6 +14,8 @@ using CalamityMod.Projectiles;
 using CalamityMod.Systems;
 using CalamityMod.Waters;
 using CalamityMod.World;
+using CalamityMod.Projectiles.Typeless;
+using CalamityMod.Items.Accessories;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Mono.Cecil.Cil;
@@ -33,6 +35,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.UI.Gamepad;
 using Terraria.Utilities;
+using Terraria.Graphics.Light;
 
 namespace CalamityMod.ILEditing
 {
@@ -236,7 +239,7 @@ namespace CalamityMod.ILEditing
         {
             if (Main.dayTime || BossRushEvent.BossRushActive)
                 return true;
-            
+
             return orig();
         }
         #endregion Allow Empress to Enrage in Boss Rush
@@ -644,7 +647,7 @@ namespace CalamityMod.ILEditing
         #region General Particle Rendering
         private static void DrawFusableParticles(On.Terraria.Main.orig_SortDrawCacheWorms orig, Main self)
         {
-            GeneralParticleHandler.DrawAllParticles(Main.spriteBatch);
+            
             DeathAshParticle.DrawAll();
             FusableParticleManager.RenderAllFusableParticles();
 
@@ -654,6 +657,11 @@ namespace CalamityMod.ILEditing
             orig(self);
         }
 
+        private static void DrawForegroundParticles(On.Terraria.Main.orig_DrawInfernoRings orig, Main self)
+        {
+            GeneralParticleHandler.DrawAllParticles(Main.spriteBatch);
+            orig(self);
+        }
         #endregion General Particle Rendering
 
         #region Custom Lava Visuals
@@ -903,8 +911,8 @@ namespace CalamityMod.ILEditing
                 c.EmitDelegate<Func<short[], short[]>>(arr =>
                 {
                     // resize the array and add our custom firefly
-                    Array.Resize(ref arr, arr.Length+1);
-                    arr[arr.Length-1] = (short)ModContent.NPCType<Twinkler>();
+                    Array.Resize(ref arr, arr.Length + 1);
+                    arr[arr.Length - 1] = (short)ModContent.NPCType<Twinkler>();
                     return arr;
                 });
 
@@ -916,5 +924,102 @@ namespace CalamityMod.ILEditing
             throw new Exception("Hook location not found, switch(*) { case 54: ...");
         }
         #endregion Statue Additions
+
+        #region Tile ping overlay
+        private static void ClearTilePings(On.Terraria.GameContent.Drawing.TileDrawing.orig_Draw orig, Terraria.GameContent.Drawing.TileDrawing self, bool solidLayer, bool forRenderTargets, bool intoRenderTargets, int waterStyleOverride)
+        {
+            //Retro & Trippy light modes are fine. Just reset the cache before every time stuff gets drawn.
+            if (Lighting.UpdateEveryFrame)
+            {
+                //But only if its not on the non solid layer, assumedly because it draws first or something
+                if (!solidLayer)
+                    TilePingerSystem.ClearTiles();
+            }
+
+            else
+            {
+                //For the white color mode, we also can simply clear all the cache at once, but this time its only on the solid layers. Don't ask me why i don't know it just works
+                if (Lighting.Mode == LightMode.White)
+                {
+                    if (solidLayer)
+                        TilePingerSystem.ClearTiles();
+                }
+
+                //In color mode, the tiles get cleared alternating between solid and non solid tiles
+                else
+                    TilePingerSystem.ClearTiles(solidLayer);
+
+            }
+            orig(self, solidLayer, forRenderTargets, intoRenderTargets, waterStyleOverride);
+        }
+        #endregion
+
+        #region Custom Grappling hooks
+
+        /// <summary>
+        /// Determines if the custom grapple movement should take place or not. Useful for hooks that only do movement tricks in some cases
+        /// </summary>
+        private static void CustomGrappleMovementCheck(On.Terraria.Player.orig_GrappleMovement orig, Player self)
+        {
+            WulfrumPackPlayer mp = self.GetModPlayer<WulfrumPackPlayer>();
+
+            if (mp.GrappleMovementDisabled)
+                return;
+
+            orig(self);
+        }
+
+        /// <summary>
+        /// This is called right before the game decides wether or not to update the players velocity based on "real" physics (aka not tongued or hooked or with a pulley)
+        /// </summary>
+        private static void CustomGrapplePreDefaultMovement(On.Terraria.Player.orig_UpdatePettingAnimal orig, Player self)
+        {
+            orig(self);
+
+            WulfrumPackPlayer mp = self.GetModPlayer<WulfrumPackPlayer>();
+            mp.hookCache = -1;
+
+            //if tongued, dnc.
+            if (self.tongued)
+                return;
+
+            //Cache the player's grapple and remove it temporarily (Gets re added in the modplayer's PostUpdateRunSpeeds)
+            if (self.grappling[0] >= 0 && mp.GrappleMovementDisabled && Main.projectile[self.grappling[0]].type == ModContent.ProjectileType<WulfrumHook>())
+            {
+                mp.hookCache = self.grappling[0];
+                self.grappling[0] = -1;
+            }
+        }
+
+        /// <summary>
+        /// Used before the player steps up a half tile. If we don't do that, players that are grappled but don't use hook movement won't be able to go over tiles.
+        /// The hook cache is reset in PreUpdateMovement
+        /// </summary>
+        private static void CustomGrapplePreStepUp(On.Terraria.Player.orig_SlopeDownMovement orig, Player self)
+        {
+            orig(self);
+
+            WulfrumPackPlayer mp = self.GetModPlayer<WulfrumPackPlayer>();
+            if (self.grappling[0] >= 0 && mp.GrappleMovementDisabled && Main.projectile[self.grappling[0]].type == ModContent.ProjectileType<WulfrumHook>())
+            {
+                mp.hookCache = self.grappling[0];
+                self.grappling[0] = -1;
+            }
+        }
+
+        /// <summary>
+        /// This is done to put the hook if it was cacehd during the frame instruction.
+        /// </summary>
+        private static void CustomGrapplePostFrame(On.Terraria.Player.orig_PlayerFrame orig, Player self)
+        {
+            orig(self);
+            WulfrumPackPlayer mp = self.GetModPlayer<WulfrumPackPlayer>();
+
+            if (mp.hookCache > -1)
+                self.grappling[0] = mp.hookCache;
+
+            mp.hookCache = -1;
+        }
+        #endregion
     }
 }

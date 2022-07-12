@@ -550,10 +550,10 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     SoundEngine.PlaySound(SoundID.Item17, npc.position);
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        float num624 = 12f;
+                        float num624 = 5f;
                         if (phase3)
-                            num624 += 3f;
-                        num624 += 3f * enrageScale;
+                            num624 += 1f;
+                        num624 += 2f * enrageScale;
 
                         float num625 = Main.player[npc.target].position.X + Main.player[npc.target].width * 0.5f - vector78.X;
                         float num626 = Main.player[npc.target].position.Y + Main.player[npc.target].height * 0.5f - vector78.Y;
@@ -561,9 +561,10 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         num627 = num624 / num627;
                         num625 *= num627;
                         num626 *= num627;
-                        int type = ProjectileID.Stinger;
-                        int projectile = Projectile.NewProjectile(npc.GetSource_FromAI(), vector78.X, vector78.Y, num625, num626, type, npc.GetProjectileDamage(type), 0f, Main.myPlayer, 0f, 0f);
-                        Main.projectile[projectile].timeLeft = 300;
+                        int type = ProjectileID.QueenBeeStinger;
+                        int projectile = Projectile.NewProjectile(npc.GetSource_FromAI(), vector78.X, vector78.Y, num625, num626, type, npc.GetProjectileDamage(type), 0f, Main.myPlayer);
+                        Main.projectile[projectile].timeLeft = 600;
+                        Main.projectile[projectile].extraUpdates = 1;
                     }
                 }
 

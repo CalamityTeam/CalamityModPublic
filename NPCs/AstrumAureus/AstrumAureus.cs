@@ -65,7 +65,7 @@ namespace CalamityMod.NPCs.AstrumAureus
             NPC.height = 374;
             NPC.defense = 40;
             NPC.DR_NERD(0.5f);
-            NPC.LifeMaxNERB(NPC.downedMoonlord ? 196000 : 98000, NPC.downedMoonlord ? 235200 : 117600, 740000); // 30 seconds in boss rush
+            NPC.LifeMaxNERB(98000, 117600, 740000); // 30 seconds in boss rush
             NPC.aiStyle = -1;
             AIType = -1;
             NPC.knockBackResist = 0f;
@@ -355,8 +355,7 @@ namespace CalamityMod.NPCs.AstrumAureus
                 // Other
                 normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<AureusCell>(), 1, 9, 12));
                 normalOnly.Add(ModContent.ItemType<LeonidProgenitor>(), 10);
-
-                normalOnly.Add(ItemDropRule.ByCondition(DropHelper.If(() => NPC.downedMoonlord), ModContent.ItemType<SuspiciousLookingJellyBean>()));
+                normalOnly.Add(ModContent.ItemType<SuspiciousLookingJellyBean>());
             }
 
             npcLoot.Add(ModContent.ItemType<AstrumAureusTrophy>(), 10);

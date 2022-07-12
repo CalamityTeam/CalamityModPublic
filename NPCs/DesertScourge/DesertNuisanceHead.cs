@@ -9,6 +9,7 @@ using Terraria.Audio;
 
 namespace CalamityMod.NPCs.DesertScourge
 {
+    [AutoloadBossHead]
     public class DesertNuisanceHead : ModNPC
     {
         public bool flies = false;

@@ -2376,8 +2376,7 @@ namespace CalamityMod.NPCs
             bool revenge = CalamityWorld.revenge || bossRush;
             bool death = CalamityWorld.death || bossRush;
 
-            bool postMoonLordBuff = NPC.downedMoonlord && !bossRush;
-            npc.damage = postMoonLordBuff ? npc.defDamage * 2 : npc.defDamage;
+            npc.damage = npc.defDamage;
 
             // Don't fire projectiles and don't increment phase timers for 4 seconds after the teleport phase to avoid cheap bullshit
             float noProjectileOrPhaseIncrementTime = 240f;
@@ -2505,9 +2504,6 @@ namespace CalamityMod.NPCs
                             float velocity = death ? (8f + npc.localAI[2] * 0.025f) : 7f;
                             int type = ModContent.ProjectileType<AstralFlame>();
                             int damage = npc.GetProjectileDamage(type);
-                            if (postMoonLordBuff)
-                                damage *= 2;
-
                             float spreadLimit = (phase4 ? 100f : 50f) + enrageScale * 50f;
                             float randomSpread = (Main.rand.NextFloat() - 0.5f) * spreadLimit;
                             Vector2 spawnVector = new Vector2(npc.Center.X, npc.Center.Y - 80f * npc.scale);
@@ -2538,9 +2534,6 @@ namespace CalamityMod.NPCs
 
                                 int type = ModContent.ProjectileType<AstralLaser>();
                                 int damage = npc.GetProjectileDamage(type);
-                                if (postMoonLordBuff)
-                                    damage *= 2;
-
                                 Vector2 projectileVelocity = Vector2.Normalize(player.Center - npc.Center) * walkingProjectileVelocity;
                                 float rotation = MathHelper.ToRadians(spread);
                                 for (int i = 0; i < maxProjectiles; i++)
@@ -2557,9 +2550,6 @@ namespace CalamityMod.NPCs
 
                                     type = ModContent.ProjectileType<AstralFlame>();
                                     damage = npc.GetProjectileDamage(type);
-                                    if (postMoonLordBuff)
-                                        damage *= 2;
-
                                     projectileVelocity = Vector2.Normalize(player.Center - npc.Center) * flameVelocity;
                                     rotation = MathHelper.ToRadians(spread);
                                     for (int i = 0; i < maxProjectiles; i++)
@@ -2578,9 +2568,6 @@ namespace CalamityMod.NPCs
 
                                 int type = ModContent.ProjectileType<AstralLaser>();
                                 int damage = npc.GetProjectileDamage(type);
-                                if (postMoonLordBuff)
-                                    damage *= 2;
-
                                 int centralLaser = maxProjectiles / 2;
                                 int[] lasersToNotFire = new int[6] { centralLaser - 3, centralLaser - 2, centralLaser - 1, centralLaser + 1, centralLaser + 2, centralLaser + 3 };
                                 Vector2 projectileVelocity = Vector2.Normalize(player.Center - npc.Center) * walkingProjectileVelocity;
@@ -2859,9 +2846,6 @@ namespace CalamityMod.NPCs
 
                             int type = ModContent.ProjectileType<AstralFlame>();
                             int damage = npc.GetProjectileDamage(type);
-                            if (postMoonLordBuff)
-                                damage *= 2;
-
                             Vector2 spawnVector = new Vector2(npc.Center.X, npc.Center.Y - 80f * npc.scale);
                             Vector2 destination = new Vector2(spawnVector.X, spawnVector.Y + 100f * npc.scale);
                             Vector2 projectileVelocity = Vector2.Normalize(destination - spawnVector) * flameVelocity;
@@ -2882,9 +2866,6 @@ namespace CalamityMod.NPCs
 
                             int type = ModContent.ProjectileType<AstralLaser>();
                             int damage = npc.GetProjectileDamage(type);
-                            if (postMoonLordBuff)
-                                damage *= 2;
-
                             int[] lasersToNotFire = new int[4] { 1, 3, maxProjectiles - 2, maxProjectiles - 4 };
                             Vector2 projectileVelocity = Vector2.Normalize(player.Center - npc.Center) * laserVelocity;
                             float rotation = MathHelper.ToRadians(spread);

@@ -642,6 +642,66 @@ namespace CalamityMod
                 AddCondition(Recipe.Condition.InGraveyardBiome).
                 Register();
 
+            Recipe.Create(ItemID.TendonHook).
+                AddIngredient(ItemID.WormHook).
+                AddTile(TileID.TinkerersWorkbench).
+                AddCondition(Recipe.Condition.InGraveyardBiome).
+                Register();
+
+            Recipe.Create(ItemID.WormHook).
+                AddIngredient(ItemID.TendonHook).
+                AddTile(TileID.TinkerersWorkbench).
+                AddCondition(Recipe.Condition.InGraveyardBiome).
+                Register();
+
+            Recipe.Create(ItemID.DartPistol).
+                AddIngredient(ItemID.DartRifle).
+                AddTile(TileID.Anvils).
+                AddCondition(Recipe.Condition.InGraveyardBiome).
+                Register();
+
+            Recipe.Create(ItemID.DartRifle).
+                AddIngredient(ItemID.DartPistol).
+                AddTile(TileID.Anvils).
+                AddCondition(Recipe.Condition.InGraveyardBiome).
+                Register();
+
+            Recipe.Create(ItemID.ChainGuillotines).
+                AddIngredient(ItemID.FetidBaghnakhs).
+                AddTile(TileID.Anvils).
+                AddCondition(Recipe.Condition.InGraveyardBiome).
+                Register();
+
+            Recipe.Create(ItemID.FetidBaghnakhs).
+                AddIngredient(ItemID.ChainGuillotines).
+                AddTile(TileID.Anvils).
+                AddCondition(Recipe.Condition.InGraveyardBiome).
+                Register();
+
+            Recipe.Create(ItemID.ClingerStaff).
+                AddIngredient(ItemID.SoulDrain).
+                AddTile(TileID.Anvils).
+                AddCondition(Recipe.Condition.InGraveyardBiome).
+                Register();
+
+            Recipe.Create(ItemID.SoulDrain).
+                AddIngredient(ItemID.ClingerStaff).
+                AddTile(TileID.Anvils).
+                AddCondition(Recipe.Condition.InGraveyardBiome).
+                Register();
+
+            Recipe.Create(ItemID.PutridScent).
+                AddIngredient(ItemID.FleshKnuckles).
+                AddTile(TileID.TinkerersWorkbench).
+                AddCondition(Recipe.Condition.InGraveyardBiome).
+                Register();
+
+            Recipe.Create(ItemID.FleshKnuckles).
+                AddIngredient(ItemID.PutridScent).
+                AddTile(TileID.TinkerersWorkbench).
+                AddCondition(Recipe.Condition.InGraveyardBiome).
+                Register();
+
             AddAstralClayRecipes();
             AddBloodOrbPotionRecipes();
             AddCookedFood();
@@ -939,7 +999,8 @@ namespace CalamityMod
                 ItemID.GenderChangePotion,
                 ItemID.LovePotion,
                 ItemID.StinkPotion,
-                ItemID.RecallPotion
+                ItemID.RecallPotion,
+                ItemID.PotionOfReturn
             };
             Recipe r;
 

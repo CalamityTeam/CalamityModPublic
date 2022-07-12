@@ -2184,8 +2184,9 @@ namespace CalamityMod.NPCs
                     canBreakPlayerDefense = true;
                     break;
 
-                // Make Core hitbox bigger
+                // Make Core hitbox bigger and reduce HP
                 case NPCID.MartianSaucerCore:
+                    npc.lifeMax = (int)(npc.lifeMax * 0.6);
                     npc.width *= 2;
                     npc.height *= 2;
                     break;
@@ -5518,7 +5519,11 @@ namespace CalamityMod.NPCs
                         // Draw lights
                         if (npc.ai[2] == 0f)
                         {
-                            if ((newAI[3] >= 900f && npc.life / (float)npc.lifeMax < 0.5f) || (newAI[1] < 600f && newAI[1] > 60f))
+                            float destroyerLifeRatio = 1f;
+                            if (npc.realLife >= 0)
+                                destroyerLifeRatio = Main.npc[npc.realLife].life / (float)Main.npc[npc.realLife].lifeMax;
+
+                            if ((newAI[3] >= 900f && destroyerLifeRatio < 0.5f) || (newAI[1] < 600f && newAI[1] > 60f))
                             {
                                 for (int i = 0; i < 3; i++)
                                 {

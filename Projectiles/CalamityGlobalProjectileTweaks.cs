@@ -44,7 +44,7 @@ namespace CalamityMod.Projectiles
                 { ProjectileID.BoneArrow, pointBlank },
                 { ProjectileID.BlueMoon, Do(ExtraUpdatesExact(1)) },
                 { ProjectileID.Bullet, standardBulletTweaks },
-                { ProjectileID.BulletHighVelocity, pointBlank },
+                { ProjectileID.BulletHighVelocity, Do(PointBlank, LocalIFrames(-1)) },
                 { ProjectileID.ButchersChainsaw, Do(TrueMeleeNoSpeed, ScaleExact(1.5f)) },
                 { ProjectileID.CandyCorn, pointBlank },
                 { ProjectileID.CannonballHostile, defenseDamage },
