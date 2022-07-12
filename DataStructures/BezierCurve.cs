@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 
 namespace CalamityMod.DataStructures
@@ -33,6 +33,9 @@ namespace CalamityMod.DataStructures
 
                 points = nextPoints;
             }
+
+            if (points.Length <= 1)
+                return Vector2.Zero;
 
             return Vector2.Lerp(points[0], points[1], T);
         }
