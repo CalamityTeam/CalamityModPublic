@@ -35,8 +35,6 @@ namespace CalamityMod.NPCs.Cryogen
     public class Cryogen : ModNPC
     {
         private int biomeEnrageTimer = CalamityGlobalNPC.biomeEnrageTimerMax;
-        private int time = 0;
-        private int iceShard = 0;
         private int currentPhase = 1;
         private int teleportLocationX = 0;
 
@@ -92,8 +90,6 @@ namespace CalamityMod.NPCs.Cryogen
         public override void SendExtraAI(BinaryWriter writer)
         {
             writer.Write(biomeEnrageTimer);
-            writer.Write(time);
-            writer.Write(iceShard);
             writer.Write(teleportLocationX);
             writer.Write(NPC.dontTakeDamage);
             for (int i = 0; i < 4; i++)
@@ -103,8 +99,6 @@ namespace CalamityMod.NPCs.Cryogen
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             biomeEnrageTimer = reader.ReadInt32();
-            time = reader.ReadInt32();
-            iceShard = reader.ReadInt32();
             teleportLocationX = reader.ReadInt32();
             NPC.dontTakeDamage = reader.ReadBoolean();
             for (int i = 0; i < 4; i++)
@@ -220,7 +214,7 @@ namespace CalamityMod.NPCs.Cryogen
                     {
                         NPC.ai[1] = 0f;
                         teleportLocationX = 0;
-                        iceShard = 0;
+                        calamityGlobalNPC.newAI[2] = 0f;
                         NPC.netUpdate = true;
                     }
                     return;
@@ -231,6 +225,9 @@ namespace CalamityMod.NPCs.Cryogen
 
             float chargePhaseGateValue = bossRush ? 240f : 360f;
             float chargeDuration = 60f;
+            float chargeTelegraphTime = NPC.ai[0] == 2f ? 100f : 120f;
+            float chargeTelegraphMaxRotationIncrement = 1f;
+            float chargeTelegraphRotationIncrement = chargeTelegraphMaxRotationIncrement / chargeTelegraphTime;
             float chargeSlowDownTime = 15f;
             float chargeVelocityMin = 12f;
             float chargeVelocityMax = 30f;
@@ -239,16 +236,16 @@ namespace CalamityMod.NPCs.Cryogen
                 chargePhaseGateValue *= 0.7f;
                 chargeDuration *= 0.8f;
             }
-            float chargeGateValue = chargePhaseGateValue + (NPC.ai[0] == 2f ? 20f : 30f);
+            float chargeGateValue = chargePhaseGateValue + chargeTelegraphTime;
             float chargeSlownDownPhaseGateValue = chargeGateValue + chargeSlowDownTime;
             bool chargePhase = NPC.ai[1] >= chargePhaseGateValue;
 
             if (Main.netMode != NetmodeID.MultiplayerClient && expertMode && (NPC.ai[0] < 5f || !phase6) && !chargePhase)
             {
-                time++;
-                if (time >= (bossRush ? 660 : 900))
+                calamityGlobalNPC.newAI[3] += 1f;
+                if (calamityGlobalNPC.newAI[3] >= (bossRush ? 660f : 900f))
                 {
-                    time = 0;
+                    calamityGlobalNPC.newAI[3] = 0f;
                     SoundEngine.PlaySound(SoundID.Item28, NPC.Center);
                     int totalProjectiles = 3;
                     float radians = MathHelper.TwoPi / totalProjectiles;
@@ -407,10 +404,40 @@ namespace CalamityMod.NPCs.Cryogen
                 {
                     NPC.ai[1] += 1f;
 
-                    calamityGlobalNPC.newAI[0] += 0.025f;
-                    if (calamityGlobalNPC.newAI[0] > 0.5f)
-                        calamityGlobalNPC.newAI[0] = 0.5f;
+                    float totalSpreads = 3f;
+                    if ((NPC.ai[1] - chargePhaseGateValue) % (chargeTelegraphTime / totalSpreads) == 0f)
+                    {
+                        if (Main.netMode != NetmodeID.MultiplayerClient)
+                        {
+                            if (Collision.CanHit(NPC.position, NPC.width, NPC.height, player.position, player.width, player.height))
+                            {
+                                SoundEngine.PlaySound(SoundID.Item28, NPC.Center);
+                                int type = ModContent.ProjectileType<IceRain>();
+                                int damage = NPC.GetProjectileDamage(type);
+                                float maxVelocity = 9f + enrageScale;
+                                float velocity = maxVelocity - (calamityGlobalNPC.newAI[0] * maxVelocity * 0.5f);
+                                int totalProjectiles = 10;
+                                int maxTotalProjectileReductionBasedOnRotationSpeed = (int)Math.Ceiling(totalProjectiles * 0.75f);
+                                int totalProjectilesShot = totalProjectiles - (int)Math.Round(calamityGlobalNPC.newAI[0] * maxTotalProjectileReductionBasedOnRotationSpeed);
+                                for (int i = 0; i < 2; i++)
+                                {
+                                    float radians = MathHelper.TwoPi / totalProjectilesShot;
+                                    float newVelocity = velocity - (velocity * 0.5f * i);
+                                    double angleA = radians * 0.5;
+                                    double angleB = MathHelper.ToRadians(90f) - angleA;
+                                    float velocityX = (float)(newVelocity * Math.Sin(angleA) / Math.Sin(angleB));
+                                    Vector2 spinningPoint = i == 0 ? new Vector2(0f, -newVelocity) : new Vector2(-velocityX, -newVelocity);
+                                    for (int k = 0; k < totalProjectilesShot; k++)
+                                    {
+                                        Vector2 vector255 = spinningPoint.RotatedBy(radians * k);
+                                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Vector2.Normalize(vector255) * 30f, vector255, type, damage, 0f, Main.myPlayer, 0f, velocity);
+                                    }
+                                }
+                            }
+                        }
+                    }
 
+                    calamityGlobalNPC.newAI[0] += chargeTelegraphRotationIncrement;
                     NPC.rotation += calamityGlobalNPC.newAI[0];
                     NPC.velocity *= 0.98f;
                 }
@@ -435,32 +462,6 @@ namespace CalamityMod.NPCs.Cryogen
 
                         NPC.ai[1] = chargeGateValue + chargeDuration;
                         calamityGlobalNPC.newAI[0] = 0f;
-
-                        if (Main.netMode != NetmodeID.MultiplayerClient)
-                        {
-                            if (Collision.CanHit(NPC.position, NPC.width, NPC.height, player.position, player.width, player.height))
-                            {
-                                SoundEngine.PlaySound(SoundID.Item28, NPC.Center);
-                                int type = ModContent.ProjectileType<IceRain>();
-                                int damage = NPC.GetProjectileDamage(type);
-                                float velocity = 9f + enrageScale;
-                                for (int i = 0; i < 2; i++)
-                                {
-                                    int totalProjectiles = 10;
-                                    float radians = MathHelper.TwoPi / totalProjectiles;
-                                    float newVelocity = velocity - (velocity * 0.5f * i);
-                                    double angleA = radians * 0.5;
-                                    double angleB = MathHelper.ToRadians(90f) - angleA;
-                                    float velocityX = (float)(newVelocity * Math.Sin(angleA) / Math.Sin(angleB));
-                                    Vector2 spinningPoint = i == 0 ? new Vector2(0f, -newVelocity) : new Vector2(-velocityX, -newVelocity);
-                                    for (int k = 0; k < totalProjectiles; k++)
-                                    {
-                                        Vector2 vector255 = spinningPoint.RotatedBy(radians * k);
-                                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Vector2.Normalize(vector255) * 30f, vector255, type, damage, 0f, Main.myPlayer, 0f, velocity);
-                                    }
-                                }
-                            }
-                        }
                     }
 
                     NPC.ai[1] -= 1f;
@@ -489,7 +490,7 @@ namespace CalamityMod.NPCs.Cryogen
                     NPC.ai[1] = 0f;
                     NPC.localAI[0] = 0f;
                     calamityGlobalNPC.newAI[0] = 0f;
-                    iceShard = 0;
+                    calamityGlobalNPC.newAI[2] = 0f;
                     NPC.netUpdate = true;
                 }
             }
@@ -549,10 +550,40 @@ namespace CalamityMod.NPCs.Cryogen
                 {
                     NPC.ai[1] += 1f;
 
-                    calamityGlobalNPC.newAI[0] += 0.025f;
-                    if (calamityGlobalNPC.newAI[0] > 0.5f)
-                        calamityGlobalNPC.newAI[0] = 0.5f;
+                    float totalSpreads = 2f;
+                    if ((NPC.ai[1] - chargePhaseGateValue) % (chargeTelegraphTime / totalSpreads) == 0f)
+                    {
+                        if (Main.netMode != NetmodeID.MultiplayerClient)
+                        {
+                            if (Collision.CanHit(NPC.position, NPC.width, NPC.height, player.position, player.width, player.height))
+                            {
+                                SoundEngine.PlaySound(SoundID.Item28, NPC.Center);
+                                int type = ModContent.ProjectileType<IceRain>();
+                                int damage = NPC.GetProjectileDamage(type);
+                                float maxVelocity = 9f + enrageScale;
+                                float velocity = maxVelocity - (calamityGlobalNPC.newAI[0] * maxVelocity * 0.5f);
+                                int totalProjectiles = calamityGlobalNPC.newAI[1] == 0f ? 8 : 4;
+                                int maxTotalProjectileReductionBasedOnRotationSpeed = (int)(totalProjectiles * 0.5f);
+                                int totalProjectilesShot = totalProjectiles - (int)Math.Round(calamityGlobalNPC.newAI[0] * maxTotalProjectileReductionBasedOnRotationSpeed);
+                                for (int i = 0; i < 3; i++)
+                                {
+                                    float radians = MathHelper.TwoPi / totalProjectilesShot;
+                                    float newVelocity = velocity - (velocity * 0.33f * i);
+                                    double angleA = radians * 0.5;
+                                    double angleB = MathHelper.ToRadians(90f) - angleA;
+                                    float velocityX = (float)(newVelocity * Math.Sin(angleA) / Math.Sin(angleB));
+                                    Vector2 spinningPoint = i == 1 ? new Vector2(0f, -newVelocity) : new Vector2(-velocityX, -newVelocity);
+                                    for (int k = 0; k < totalProjectilesShot; k++)
+                                    {
+                                        Vector2 vector255 = spinningPoint.RotatedBy(radians * k);
+                                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Vector2.Normalize(vector255) * 30f, vector255, type, damage, 0f, Main.myPlayer, 0f, velocity);
+                                    }
+                                }
+                            }
+                        }
+                    }
 
+                    calamityGlobalNPC.newAI[0] += chargeTelegraphRotationIncrement;
                     NPC.rotation += calamityGlobalNPC.newAI[0];
                     NPC.velocity *= 0.98f;
                 }
@@ -577,32 +608,6 @@ namespace CalamityMod.NPCs.Cryogen
 
                         NPC.ai[1] = chargeGateValue + chargeDuration;
                         calamityGlobalNPC.newAI[0] = 0f;
-
-                        if (Main.netMode != NetmodeID.MultiplayerClient)
-                        {
-                            if (Collision.CanHit(NPC.position, NPC.width, NPC.height, player.position, player.width, player.height))
-                            {
-                                SoundEngine.PlaySound(SoundID.Item28, NPC.Center);
-                                int type = ModContent.ProjectileType<IceRain>();
-                                int damage = NPC.GetProjectileDamage(type);
-                                float velocity = 9f + enrageScale;
-                                for (int i = 0; i < 3; i++)
-                                {
-                                    int totalProjectiles = calamityGlobalNPC.newAI[1] == 0f ? 8 : 4;
-                                    float radians = MathHelper.TwoPi / totalProjectiles;
-                                    float newVelocity = velocity - (velocity * 0.33f * i);
-                                    double angleA = radians * 0.5;
-                                    double angleB = MathHelper.ToRadians(90f) - angleA;
-                                    float velocityX = (float)(newVelocity * Math.Sin(angleA) / Math.Sin(angleB));
-                                    Vector2 spinningPoint = i == 1 ? new Vector2(0f, -newVelocity) : new Vector2(-velocityX, -newVelocity);
-                                    for (int k = 0; k < totalProjectiles; k++)
-                                    {
-                                        Vector2 vector255 = spinningPoint.RotatedBy(radians * k);
-                                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Vector2.Normalize(vector255) * 30f, vector255, type, damage, 0f, Main.myPlayer, 0f, velocity);
-                                    }
-                                }
-                            }
-                        }
                     }
 
                     NPC.ai[1] -= 1f;
@@ -617,6 +622,8 @@ namespace CalamityMod.NPCs.Cryogen
                             NPC.localAI[0] = 0f;
                             calamityGlobalNPC.newAI[1] = 0f;
                         }
+                        else
+                            NPC.ai[1] = chargePhaseGateValue;
 
                         NPC.rotation = NPC.velocity.X * 0.1f;
                     }
@@ -726,7 +733,7 @@ namespace CalamityMod.NPCs.Cryogen
                             }
                             NPC.ai[1] = 1f;
                             teleportLocationX = num1250;
-                            iceShard = num1251;
+                            calamityGlobalNPC.newAI[2] = num1251;
                             NPC.netUpdate = true;
                             Block:
                             ;
@@ -738,7 +745,7 @@ namespace CalamityMod.NPCs.Cryogen
                     // Avoid cheap bullshit
                     NPC.damage = 0;
 
-                    Vector2 position = new Vector2(teleportLocationX * 16f - (NPC.width / 2), iceShard * 16f - (NPC.height / 2));
+                    Vector2 position = new Vector2(teleportLocationX * 16f - (NPC.width / 2), calamityGlobalNPC.newAI[2] * 16f - (NPC.height / 2));
                     for (int m = 0; m < 5; m++)
                     {
                         int dust = Dust.NewDust(position, NPC.width, NPC.height, 67, 0f, 0f, 100, default, 2f);
@@ -816,7 +823,7 @@ namespace CalamityMod.NPCs.Cryogen
                     NPC.localAI[2] = 0f;
                     NPC.Opacity = 1f;
                     teleportLocationX = 0;
-                    iceShard = 0;
+                    calamityGlobalNPC.newAI[2] = 0f;
                     NPC.netUpdate = true;
 
                     int chance = 100;
@@ -847,7 +854,7 @@ namespace CalamityMod.NPCs.Cryogen
                                 int type = ModContent.ProjectileType<IceBlast>();
                                 int damage = NPC.GetProjectileDamage(type);
                                 float velocity = 1.5f + enrageScale * 0.5f;
-                                int totalSpreads = phase7 ? 4 : 2;
+                                int totalSpreads = phase7 ? 3 : 2;
                                 for (int i = 0; i < totalSpreads; i++)
                                 {
                                     int totalProjectiles = bossRush ? 3 : 2;
@@ -881,7 +888,7 @@ namespace CalamityMod.NPCs.Cryogen
                             NPC.ai[0] = 5f;
                             NPC.ai[1] = 0f;
                             NPC.ai[3] = 0f;
-                            time = 0;
+                            calamityGlobalNPC.newAI[3] = 0f;
                         }
                         else
                             NPC.ai[1] = 60f;
@@ -908,32 +915,42 @@ namespace CalamityMod.NPCs.Cryogen
                 float num1376 = num1372 / num1375;
                 num1373 *= num1376;
                 num1374 *= num1376;
-                iceShard--;
+                calamityGlobalNPC.newAI[2] -= 1f;
 
-                if (num1375 < 200f || iceShard > 0)
+                float chargeStartDistance = 300f;
+                float chargeCooldown = 30f;
+
+                if (num1375 < chargeStartDistance || calamityGlobalNPC.newAI[2] > 0f)
                 {
-                    if (num1375 < 200f)
-                        iceShard = 20;
+                    if (num1375 < chargeStartDistance)
+                        calamityGlobalNPC.newAI[2] = chargeCooldown;
 
-                    NPC.rotation += NPC.direction * 0.3f;
+                    if (NPC.velocity.Length() < num1372)
+                    {
+                        NPC.velocity.Normalize();
+                        NPC.velocity *= num1372;
+                    }
+
+                    NPC.rotation += NPC.direction * 0.5f;
+
                     return;
                 }
 
-                float inertia = 50f;
+                float inertia = 30f;
                 if (Main.getGoodWorld)
                     inertia *= 0.5f;
 
                 NPC.velocity.X = (NPC.velocity.X * inertia + num1373) / (inertia + 1f);
                 NPC.velocity.Y = (NPC.velocity.Y * inertia + num1374) / (inertia + 1f);
-                if (num1375 < 350f)
+                if (num1375 < chargeStartDistance + 200f)
                 {
-                    NPC.velocity.X = (NPC.velocity.X * 10f + num1373) / 11f;
-                    NPC.velocity.Y = (NPC.velocity.Y * 10f + num1374) / 11f;
+                    NPC.velocity.X = (NPC.velocity.X * 9f + num1373) / 10f;
+                    NPC.velocity.Y = (NPC.velocity.Y * 9f + num1374) / 10f;
                 }
-                if (num1375 < 300f)
+                if (num1375 < chargeStartDistance + 100f)
                 {
-                    NPC.velocity.X = (NPC.velocity.X * 7f + num1373) / 8f;
-                    NPC.velocity.Y = (NPC.velocity.Y * 7f + num1374) / 8f;
+                    NPC.velocity.X = (NPC.velocity.X * 4f + num1373) / 5f;
+                    NPC.velocity.Y = (NPC.velocity.Y * 4f + num1374) / 5f;
                 }
 
                 NPC.rotation = NPC.velocity.X * 0.15f;
@@ -942,10 +959,10 @@ namespace CalamityMod.NPCs.Cryogen
             {
                 NPC.rotation = NPC.velocity.X * 0.1f;
 
-                time++;
-                if (time >= (bossRush ? 50 : 75))
+                calamityGlobalNPC.newAI[3] += 1f;
+                if (calamityGlobalNPC.newAI[3] >= (bossRush ? 50f : 75f))
                 {
-                    time = 0;
+                    calamityGlobalNPC.newAI[3] = 0f;
                     SoundEngine.PlaySound(SoundID.Item28, NPC.Center);
                     int totalProjectiles = 2;
                     float radians = MathHelper.TwoPi / totalProjectiles;
@@ -969,8 +986,8 @@ namespace CalamityMod.NPCs.Cryogen
                     NPC.TargetClosest();
                     NPC.ai[0] = 4f;
                     NPC.ai[1] = 60f;
-                    time = 0;
-                    iceShard = 0;
+                    calamityGlobalNPC.newAI[3] = 0f;
+                    calamityGlobalNPC.newAI[2] = 0f;
                     NPC.netUpdate = true;
                 }
 

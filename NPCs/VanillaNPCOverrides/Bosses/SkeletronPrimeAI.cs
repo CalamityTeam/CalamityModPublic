@@ -172,7 +172,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             // Float near player
             if (npc.ai[1] == 0f || npc.ai[1] == 4f)
             {
-                // Start other phases if arms are dead, start with spinning phase
+                // Start other phases if arms are dead, start with spin phase
                 if (allArmsDead)
                 {
                     // Start spin phase after 1.5 seconds
@@ -185,7 +185,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         if (shouldSpinAroundTarget || npc.ai[1] != 4f)
                         {
                             if (shouldSpinAroundTarget)
-                                npc.ai[3] = Vector2.Distance(Main.player[npc.target].Center, npc.Center);
+                                npc.ai[3] = 300f;
 
                             npc.ai[2] = 0f;
                             npc.ai[1] = shouldSpinAroundTarget ? 5f : 1f;
@@ -426,10 +426,14 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 {
                     npc.ai[2] += 1f;
 
-                    npc.rotation = npc.velocity.X / 30f;
+                    npc.rotation = npc.velocity.X / 50f;
 
-                    // Spin for 3 seconds
-                    float spinVelocity = 45f;
+                    float skullSpawnDivisor = bossRush ? 9f : death ? 15f - (float)Math.Round(5f * (1f - lifeRatio)) : 15f;
+                    float totalSkulls = 12f;
+                    int skullSpread = bossRush ? 250 : death ? 150 : 100;
+
+                    // Spin for about 3 seconds
+                    float spinVelocity = 30f;
                     if (npc.ai[2] == 2f)
                     {
                         // Play angry noise
@@ -450,10 +454,12 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     }
 
                     // Maintain velocity and spit skulls
-                    else
+                    else if (npc.ai[2] > 2f)
                     {
                         npc.velocity = npc.velocity.RotatedBy(MathHelper.Pi / spinVelocity * -calamityGlobalNPC.newAI[0]);
-                        float skullSpawnDivisor = bossRush ? 15f : death ? 30f - (float)Math.Round(10f * (1f - lifeRatio)) : 30f;
+                        if (npc.ai[2] == 3f)
+                            npc.velocity *= 0.6f;
+
                         if (npc.ai[2] % skullSpawnDivisor == 0f)
                         {
                             calamityGlobalNPC.newAI[1] += 1f;
@@ -471,7 +477,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                                     num160 *= num162;
                                     num161 *= num162;
 
-                                    Vector2 value = new Vector2(num160 * 1f + Main.rand.Next(-50, 51) * 0.01f, num161 * 1f + Main.rand.Next(-50, 51) * 0.01f);
+                                    Vector2 value = new Vector2(num160 + Main.rand.Next(-skullSpread, skullSpread + 1) * 0.01f, num161 + Main.rand.Next(-skullSpread, skullSpread + 1) * 0.01f);
                                     value.Normalize();
                                     value *= num159;
                                     num160 = value.X;
@@ -487,7 +493,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             }
 
                             // Go to floating phase, or spinning phase if in phase 2
-                            if (calamityGlobalNPC.newAI[1] >= 6f)
+                            if (calamityGlobalNPC.newAI[1] >= totalSkulls)
                             {
                                 npc.velocity.Normalize();
 
