@@ -66,7 +66,7 @@ float4 PixelShaderFunction(VertexShaderOutput input) : COLOR0
     float noise = tex2D(uImage1, noiseCoords).r;
     float noise2 = pow(tex2D(uImage1, noiseCoords * 2.2).r, 1.6);
     float noise3 = pow(tex2D(uImage1, noiseCoords * 1.1).r, 1.3);
-    float opacity = noise * pow(saturate((1 - coords.x) - noise * coords.x * 0.45), 0.8);
+    float opacity = noise * pow(saturate((1 - coords.x) - noise * coords.y * 0.54), 3);
     
     // Fade to the second primary color.
     color = lerp(color, float4(uColor, 1), noise2);

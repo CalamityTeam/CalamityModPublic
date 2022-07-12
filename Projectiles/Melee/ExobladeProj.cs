@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using CalamityMod.DataStructures;
 using System.Linq;
 using static CalamityMod.CalamityUtils;
+using CalamityMod.Sounds;
 
 namespace CalamityMod.Projectiles.Melee
 {
@@ -46,7 +47,7 @@ namespace CalamityMod.Projectiles.Melee
         public const float StartingSwingRotation = -0.72f;
         public const float EndingSwingRotation = StartingSwingRotation + MathHelper.TwoPi - 0.33f;
         
-        // Starts at 0.125 and reels back.
+        // Starts at 0.27 and reels back.
         public static CurveSegment Anticipation => new(EasingType.PolyInOut, 0f, 0.27f, -0.27f);
 
         public static CurveSegment SlashWait => new(EasingType.Linear, 0.37f, 0f, 0f);
@@ -54,6 +55,7 @@ namespace CalamityMod.Projectiles.Melee
         // After reeling back, a powerful slash happens.
         public static CurveSegment Slash => new(EasingType.PolyOut, 0.51f, 0f, 1f);
 
+        // Manual easing code handles this, due to a 0-1 clamp within the piecewise curve function generator.
         public static CurveSegment HoldBladeInPlace => new(EasingType.Linear, 0.7f, 1f, 0f);
 
         public override string Texture => "CalamityMod/Items/Weapons/Melee/Exoblade";
@@ -146,7 +148,13 @@ namespace CalamityMod.Projectiles.Melee
         {
             // Decide the swing direction.
             if (Owner.itemAnimation == Owner.itemAnimationMax)
+            {
+                Direction = Owner.direction;
                 SwingDirection = 1f;
+            }
+
+            if (Owner.itemAnimation == (int)(Owner.itemAnimationMax * 0.6))
+                SoundEngine.PlaySound(CommonCalamitySounds.MeatySlashSound, Projectile.Center);
 
             float exactSwingCompletion = 1f - Owner.itemAnimation / (float)Owner.itemAnimationMax;
             float directionalSwingCompletion = exactSwingCompletion;
@@ -163,7 +171,9 @@ namespace CalamityMod.Projectiles.Melee
 
             // Decide the swing direction.
             Projectile.rotation = MathHelper.Lerp(StartingSwingRotation, EndingSwingRotation, swingCompletion);
-            Projectile.rotation = Projectile.rotation.AngleLerp(MathHelper.Lerp(StartingSwingRotation, EndingSwingRotation, 0.27f), Utils.GetLerpValue(0.8f, 1f, directionalSwingCompletion, true));
+
+            float returnToAnticiation = (float)Math.Pow(Utils.GetLerpValue(0.8f, 0.9f, directionalSwingCompletion, true), 2D);
+            Projectile.rotation = Projectile.rotation.AngleLerp(MathHelper.Lerp(StartingSwingRotation, EndingSwingRotation, 0.27f), returnToAnticiation);
             Projectile.rotation = Projectile.rotation * Direction - MathHelper.PiOver4;
             if (Direction == -1)
                 Projectile.rotation -= MathHelper.PiOver2;
@@ -177,7 +187,7 @@ namespace CalamityMod.Projectiles.Melee
 
             // Create a bunch of homing beams.
             int beamShootRate = Projectile.MaxUpdates * 2;
-            if (Main.myPlayer == Projectile.owner && Projectile.timeLeft % beamShootRate == 0 && swingCompletion > 0.2f && swingCompletion < 0.9f)
+            if (Main.myPlayer == Projectile.owner && Projectile.timeLeft % beamShootRate == 0 && swingCompletion > 0.3f && swingCompletion < 0.9f)
             {
                 int boltDamage = Projectile.damage / 2;
                 Vector2 boltVelocity = (Projectile.rotation + MathHelper.PiOver4).ToRotationVector2();
@@ -223,7 +233,7 @@ namespace CalamityMod.Projectiles.Melee
         {
             List<Vector2> result = new();
 
-            for (int i = 0; i < Owner.itemAnimationMax; i++)
+            for (int i = 0; i < Owner.itemAnimationMax * 0.45; i++)
             {
                 if (Projectile.oldRot[i] == 0f)
                     continue;
