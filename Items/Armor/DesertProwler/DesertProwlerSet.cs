@@ -23,9 +23,11 @@ namespace CalamityMod.Items.Armor.DesertProwler
     {
         public static readonly SoundStyle SmokeBombSound = new("CalamityMod/Sounds/Custom/AbilitySounds/DesertProwlerSmokeBomb");
         public static readonly SoundStyle SmokeBombEndSound = new("CalamityMod/Sounds/Custom/AbilitySounds/DesertProwlerSmokeBombEnd");
+        public static readonly SoundStyle CDResetSound = new("CalamityMod/Sounds/Custom/AbilitySounds/DesertProwlerCDReset");
 
         public static int SmokeCooldown = 25 * 60;
         public static int SmokeDuration = 5 * 60;
+        public static int LightsOutReset = (int)(1.5f * 60);
         public static int FreeCrit = 200;
 
         public static bool ShroudedInSmoke(Player player, out CooldownInstance cd)
@@ -96,7 +98,10 @@ namespace CalamityMod.Items.Armor.DesertProwler
                 
                 player.moveSpeed *= 1.5f;
                 player.invis = true;
+                player.aggro = (int)(player.aggro * 0.5f);
+                player.noKnockback = true;
                 player.GetCritChance(DamageClass.Ranged) += FreeCrit;
+
                 for (int i = 0; i < 2; i++)
                 {
                     Vector2 dustDisplace = Main.rand.NextVector2Circular(80f, 50f);
@@ -158,7 +163,8 @@ namespace CalamityMod.Items.Armor.DesertProwler
                     setBonus2.OverrideColor = new Color(204, 181, 72);
                     tooltips.Insert(setBonusIndex + 2, setBonus2);
 
-                    TooltipLine setBonus3 = new TooltipLine(item.Mod, "CalamityMod:SetBonus3", $"Attacking instantly dispels the sand cloak, but guarantees a supercrit for {FreeCrit}% damage\nDispeling the sand cloak with a shot also bounces you upwards");
+                    TooltipLine setBonus3 = new TooltipLine(item.Mod, "CalamityMod:SetBonus3", $"Attacking instantly dispels the sand cloak, but guarantees a supercrit for {FreeCrit}% damage\n" +
+                        $"Landing the killing blow on an enemy with this shot shortens the ability's cooldown to {LightsOutReset / 60f} seconds");
                     setBonus3.OverrideColor = new Color(204, 181, 72);
                     tooltips.Insert(setBonusIndex + 3, setBonus3);
                 }
@@ -312,8 +318,6 @@ namespace CalamityMod.Items.Armor.DesertProwler
                 sound.Stop();
                 SmokeBombSoundSlot = SlotId.Invalid;
             }
-            
-            //Dust
         }
 
         //BANDIT RISK OF RAIN 2! JAce would b e proud
@@ -369,19 +373,41 @@ namespace CalamityMod.Items.Armor.DesertProwler
 
     public class DesertProwlerProjectile : GlobalProjectile
     {
+        public bool LightsOut = false;
+        public override bool InstancePerEntity => true;
+
         public override void OnSpawn(Projectile projectile, IEntitySource source)
         {
-            DesertProwlerHat.SmokeCooldown = 120;
-
             if (projectile.damage > 0)
             {
                 if (projectile.owner >= 0 && DesertProwlerHat.ShroudedInSmoke(Main.player[projectile.owner], out var cd) && projectile.DamageType.CountsAsClass(DamageClass.Ranged))
                 {
-                    projectile.Calamity().canSupercrit = true;
+                    projectile.Calamity().supercritHits  = 1;
                     cd.timeLeft = DesertProwlerHat.SmokeCooldown;
+                    LightsOut = true;
 
                     Main.player[projectile.owner].GetModPlayer<DesertProwlerPlayer>().SetBonusBounceEffect();
                 }
+            }
+        }
+
+        public override void OnHitNPC(Projectile projectile, NPC target, int damage, float knockback, bool crit)
+        {
+            if (LightsOut)
+            {
+                Player owner = Main.player[projectile.owner];
+                projectile.CritChance -= DesertProwlerHat.FreeCrit;
+
+                if (target.life <= 0 && owner.Calamity().cooldowns.TryGetValue(SandsmokeBomb.ID, out var cd) && cd.timeLeft <= DesertProwlerHat.SmokeCooldown && cd.timeLeft > DesertProwlerHat.LightsOutReset)
+                {
+                    cd.timeLeft = DesertProwlerHat.LightsOutReset;
+                    SoundEngine.PlaySound(DesertProwlerHat.CDResetSound);
+
+                    Particle skully = new DesertProwlerSkullParticle(target.Center, Vector2.UnitY * -3f, Color.Gold, Color.DarkGoldenrod, Main.rand.NextFloat(1f, 2f), 250f);
+                    GeneralParticleHandler.SpawnParticle(skully);
+                }
+
+                LightsOut = false;
             }
         }
     }
