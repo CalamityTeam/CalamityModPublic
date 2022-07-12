@@ -76,7 +76,7 @@ float4 PixelShaderFunction(VertexShaderOutput input) : COLOR0
     color = lerp(color, float4(uSecondaryColor, 1), darkColorWeight);
 
     // Create a fire streak.
-    float fireColorWeight = InverseLerp(0.3, 0, coords.y) * pow(1 - coords.x, 2);
+    float fireColorWeight = InverseLerp(0.3, 0, coords.y) * pow(1 - coords.x, 0.5);
     color = lerp(color, float4(fireColor, 1), fireColorWeight);
     
     float4 noiseColor = color * opacity * (noise3 * 2.4 + 2.4);

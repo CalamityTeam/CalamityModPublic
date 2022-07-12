@@ -12,6 +12,7 @@ using Terraria.Audio;
 using System.Collections.Generic;
 using CalamityMod.DataStructures;
 using System.Linq;
+using static CalamityMod.CalamityUtils;
 
 namespace CalamityMod.Projectiles.Melee
 {
@@ -44,6 +45,16 @@ namespace CalamityMod.Projectiles.Melee
 
         public const float StartingSwingRotation = -0.72f;
         public const float EndingSwingRotation = StartingSwingRotation + MathHelper.TwoPi - 0.33f;
+        
+        // Starts at 0.125 and reels back.
+        public static CurveSegment Anticipation => new(EasingType.PolyInOut, 0f, 0.27f, -0.27f);
+
+        public static CurveSegment SlashWait => new(EasingType.Linear, 0.37f, 0f, 0f);
+
+        // After reeling back, a powerful slash happens.
+        public static CurveSegment Slash => new(EasingType.PolyOut, 0.51f, 0f, 1f);
+
+        public static CurveSegment HoldBladeInPlace => new(EasingType.Linear, 0.7f, 1f, 0f);
 
         public override string Texture => "CalamityMod/Items/Weapons/Melee/Exoblade";
 
@@ -135,35 +146,27 @@ namespace CalamityMod.Projectiles.Melee
         {
             // Decide the swing direction.
             if (Owner.itemAnimation == Owner.itemAnimationMax)
-            {
-                if (SwingDirection == 0f)
-                    SwingDirection = Main.rand.NextBool().ToDirectionInt();
-                SwingDirection *= -1f;
-            }
+                SwingDirection = 1f;
 
             float exactSwingCompletion = 1f - Owner.itemAnimation / (float)Owner.itemAnimationMax;
             float directionalSwingCompletion = exactSwingCompletion;
-            if (SwingDirection == -1f)
-                directionalSwingCompletion = 1f - directionalSwingCompletion;
-
-            directionalSwingCompletion = MathHelper.Clamp(directionalSwingCompletion, 0f, 1f);
             
+            directionalSwingCompletion = MathHelper.Clamp(directionalSwingCompletion, 0f, 1f);
+
             // TODO -- Make this better.
             // Hi Iban! Good luck :)
-            float swingCompletion;
-            if (directionalSwingCompletion < 0.3f)
-                swingCompletion = Utils.Remap(directionalSwingCompletion, 0f, 0.3f, 0.12f, 0f);
-            else if (directionalSwingCompletion < 0.54f)
-                swingCompletion = (float)Math.Pow(Utils.GetLerpValue(0.3f, 0.54f, directionalSwingCompletion, true), 0.75);
-            else
-                swingCompletion = 1f;
+            float swingCompletion = PiecewiseAnimation(directionalSwingCompletion, Anticipation, SlashWait, Slash, HoldBladeInPlace);
 
             // Clear the rotation cache after enough time has passed.
-            if (directionalSwingCompletion >= 0.74f)
+            if (directionalSwingCompletion < 0.45f)
                 Projectile.oldRot = new float[Projectile.oldRot.Length];
 
             // Decide the swing direction.
-            Projectile.rotation = MathHelper.Lerp(StartingSwingRotation, EndingSwingRotation, swingCompletion) * Direction - MathHelper.PiOver4;
+            Projectile.rotation = MathHelper.Lerp(StartingSwingRotation, EndingSwingRotation, swingCompletion);
+            Projectile.rotation = Projectile.rotation.AngleLerp(MathHelper.Lerp(StartingSwingRotation, EndingSwingRotation, 0.27f), Utils.GetLerpValue(0.8f, 1f, directionalSwingCompletion, true));
+            Projectile.rotation = Projectile.rotation * Direction - MathHelper.PiOver4;
+            if (Direction == -1)
+                Projectile.rotation -= MathHelper.PiOver2;
 
             VerticalStretchFactor = Utils.Remap(swingCompletion, 0f, 0.5f, 0f, 0.4f);
 
@@ -173,12 +176,13 @@ namespace CalamityMod.Projectiles.Melee
                 Projectile.scale = Utils.GetLerpValue(0f, 0.2f, exactSwingCompletion, true) * Utils.GetLerpValue(1f, 0.8f, exactSwingCompletion, true);
 
             // Create a bunch of homing beams.
-            int beamShootRate = (Projectile.MaxUpdates * 3);
-            if (Main.myPlayer == Projectile.owner && Projectile.timeLeft % beamShootRate == 0 && directionalSwingCompletion < 0.33f)
+            int beamShootRate = Projectile.MaxUpdates * 2;
+            if (Main.myPlayer == Projectile.owner && Projectile.timeLeft % beamShootRate == 0 && swingCompletion > 0.2f && swingCompletion < 0.9f)
             {
                 int boltDamage = Projectile.damage / 2;
                 Vector2 boltVelocity = (Projectile.rotation + MathHelper.PiOver4).ToRotationVector2();
-                boltVelocity = Vector2.Lerp(boltVelocity, Projectile.SafeDirectionTo(Main.MouseWorld), 0.6f).SafeNormalize(Vector2.UnitY) * 9f;
+                boltVelocity = Vector2.Lerp(boltVelocity, Vector2.UnitX * Direction, 0.8f).SafeNormalize(Vector2.UnitY);
+                boltVelocity *= 9f;
                 Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center + boltVelocity * 5f, boltVelocity, ModContent.ProjectileType<Exobeam>(), boltDamage, Projectile.knockBack / 3f, Projectile.owner);
             }
 
@@ -213,7 +217,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public float SlashWidthFunction(float completionRatio) => Projectile.scale * 43.5f;
 
-        public Color SlashColorFunction(float completionRatio) => Color.Lime * Utils.GetLerpValue(1f, 0.6f, completionRatio, true) * Projectile.Opacity;
+        public Color SlashColorFunction(float completionRatio) => Color.Lime * Utils.GetLerpValue(0.9f, 0.4f, completionRatio, true) * Projectile.Opacity;
 
         public IEnumerable<Vector2> GenerateSlashPoints()
         {
@@ -265,7 +269,7 @@ namespace CalamityMod.Projectiles.Melee
             Main.spriteBatch.EnterShaderRegion();
 
             var texture = ModContent.Request<Texture2D>(Texture).Value;
-            CalamityUtils.CalculatePerspectiveMatricies(out Matrix viewMatrix, out Matrix projectionMatrix);
+            CalculatePerspectiveMatricies(out Matrix viewMatrix, out Matrix projectionMatrix);
             GameShaders.Misc["CalamityMod:LinearTransformation"].UseColor(Main.hslToRgb(0.95f, 0.85f, 0.5f));
             GameShaders.Misc["CalamityMod:LinearTransformation"].UseOpacity(0f);
             GameShaders.Misc["CalamityMod:LinearTransformation"].Shader.Parameters["uWorldViewProjection"].SetValue(viewMatrix * projectionMatrix);
