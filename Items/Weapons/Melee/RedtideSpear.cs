@@ -58,4 +58,18 @@ namespace CalamityMod.Items.Weapons.Melee
                 Register();
         }
     }
+
+    public class SpearChargePlayer : ModPlayer
+    {
+        public bool ChargingKnockbackResist = false;
+
+        public override void PostUpdateMiscEffects()
+        {
+            if (ChargingKnockbackResist)
+            {
+                Player.noKnockback = true;
+                ChargingKnockbackResist = false;
+            }
+        }
+    }
 }
