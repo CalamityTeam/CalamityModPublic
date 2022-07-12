@@ -31,7 +31,7 @@ namespace CalamityMod.Projectiles.Boss
             if (Projectile.ai[1] == 1f)
             {
                 float spreadOutCutoffTime = 210f;
-                float homeInCutoffTime = 120f;
+                float homeInCutoffTime = 135f;
                 float minAcceleration = 0.05f;
                 float maxAcceleration = 0.1f;
                 float homingVelocity = 20f;

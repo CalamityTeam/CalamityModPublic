@@ -1,4 +1,10 @@
-﻿using CalamityMod.Balancing;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Reflection;
+using System.Runtime.CompilerServices;
+using CalamityMod.Balancing;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
@@ -55,12 +61,6 @@ using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Reflection;
-using System.Runtime.CompilerServices;
 using Terraria;
 using Terraria.GameContent;
 using Terraria.GameContent.Dyes;
@@ -75,6 +75,8 @@ namespace CalamityMod
 {
     public class CalamityMod : Mod
     {
+        public const string CalamityWikiURL = "calamitymod.wiki.gg";
+
         // TODO -- A huge amount of random floating variables exist here.
         // These should all be moved to other files, whether that's CalamityLists or brand new ModSystems.
         // It is best to have a ton of small ModSystems.
@@ -133,10 +135,11 @@ namespace CalamityMod
         internal Mod overhaul = null;
         internal Mod redemption = null;
         internal Mod soa = null;
+        internal Mod subworldLibrary = null;
         internal Mod summonersAssociation = null;
         internal Mod thorium = null;
         internal Mod varia = null;
-        internal Mod subworldLibrary = null;
+        internal Mod wikithis = null;
 
         #region Load
         public override void Load()
@@ -172,14 +175,16 @@ namespace CalamityMod
             ModLoader.TryGetMod("Redemption", out redemption);
             soa = null;
             ModLoader.TryGetMod("SacredTools", out soa);
+            subworldLibrary = null;
+            ModLoader.TryGetMod("SubworldLibrary", out subworldLibrary);
             summonersAssociation = null;
             ModLoader.TryGetMod("SummonersAssociation", out summonersAssociation);
             thorium = null;
             ModLoader.TryGetMod("ThoriumMod", out thorium);
             varia = null;
             ModLoader.TryGetMod("Varia", out varia);
-            subworldLibrary = null;
-            ModLoader.TryGetMod("SubworldLibrary", out subworldLibrary);
+            wikithis = null;
+            ModLoader.TryGetMod("Wikithis", out wikithis);
 
             // Initialize the EnemyStats struct as early as it is safe to do so
             NPCStats.Load();
@@ -206,6 +211,8 @@ namespace CalamityMod
             {
                 LoadClient();
                 GeneralParticleHandler.Load();
+                if (wikithis is not null)
+                    wikithis.Call("AddModURL", this, CalamityWikiURL);
             }
 
             CooldownRegistry.Load();
@@ -331,6 +338,7 @@ namespace CalamityMod
         public override void Unload()
         {
             musicMod = null;
+
             ancientsAwakened = null;
             bossChecklist = null;
             census = null;
@@ -339,9 +347,11 @@ namespace CalamityMod
             overhaul = null;
             redemption = null;
             soa = null;
+            subworldLibrary = null;
             summonersAssociation = null;
             thorium = null;
             varia = null;
+            wikithis = null;
 
             AstralSky = null;
 

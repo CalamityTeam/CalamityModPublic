@@ -18,6 +18,7 @@ using CalamityMod.Events;
 using CalamityMod.FluidSimulation;
 using CalamityMod.Items;
 using CalamityMod.Items.Accessories;
+using CalamityMod.Items.Accessories.Vanity;
 using CalamityMod.Items.Armor;
 using CalamityMod.Items.Armor.Bloodflare;
 using CalamityMod.Items.Armor.Brimflame;
@@ -26,6 +27,7 @@ using CalamityMod.Items.Armor.GemTech;
 using CalamityMod.Items.Armor.OmegaBlue;
 using CalamityMod.Items.Armor.PlagueReaper;
 using CalamityMod.Items.Armor.Silva;
+using CalamityMod.Items.Armor.Wulfrum;
 using CalamityMod.Items.Dyes;
 using CalamityMod.Items.Mounts;
 using CalamityMod.Items.Mounts.Minecarts;
@@ -2547,6 +2549,8 @@ namespace CalamityMod.CalPlayer
             }
             return new Item();
         }
+
+        
 
         public override void ProcessTriggers(TriggersSet triggersSet)
         {
@@ -5689,12 +5693,6 @@ namespace CalamityMod.CalPlayer
                 Player.waist = (sbyte)EquipLoader.GetEquipSlot(Mod, "DaedalusBreastplate", EquipType.Waist);
             }
 
-            if (Player.body == EquipLoader.GetEquipSlot(Mod, "DemonshadeBreastplate", EquipType.Body))
-            {
-                //Use an extra front layers to have the players arms draw above the shoulderpads that droop
-                Player.front = (sbyte)EquipLoader.GetEquipSlot(Mod, "DemonshadeBreastplate", EquipType.Front);
-            }
-
             bool victideBreastplateVisible = Player.body == EquipLoader.GetEquipSlot(Mod, "VictideBreastplate", EquipType.Body);
             //Give the player faulds if either the body armor or the leggings are equipped
             if (victideBreastplateVisible || Player.legs == EquipLoader.GetEquipSlot(Mod, "VictideGreaves", EquipType.Legs))
@@ -5849,10 +5847,17 @@ namespace CalamityMod.CalPlayer
             // The amount of damage that will be dealt is yet to be determined.
             //
 
+            //Todo - At some point it'd be nice to have a "TransformationPlayer" that has all the transformation sfx and visuals so their priorities can be more easily managed.
             #region Custom Hurt Sounds
             if (hurtSoundTimer == 0)
             {
-                if ((profanedCrystal || profanedCrystalForce) && !profanedCrystalHide)
+                if (Player.GetModPlayer<RoverDrivePlayer>().ProtectionMatrixDurability > 0)
+                {
+                    playSound = false;
+                    SoundEngine.PlaySound(RoverDrive.ShieldHurtSound, Player.position);
+                    hurtSoundTimer = 20;
+                }
+                else if ((profanedCrystal || profanedCrystalForce) && !profanedCrystalHide)
                 {
                     playSound = false;
                     SoundEngine.PlaySound(Providence.DeathSound, Player.position);
@@ -5874,6 +5879,18 @@ namespace CalamityMod.CalPlayer
                 {
                     playSound = false;
                     SoundEngine.PlaySound(NPCs.Astral.Atlas.HurtSound, Player.position);
+                    hurtSoundTimer = 10;
+                }
+                else if (Player.GetModPlayer<WulfrumTransformationPlayer>().transformationActive)
+                {
+                    playSound = false;
+                    SoundEngine.PlaySound(SoundID.NPCHit4, Player.position);
+                    hurtSoundTimer = 10;
+                }
+                else if (Player.GetModPlayer<WulfrumArmorPlayer>().wulfrumSet && (Player.name.ToLower() == "wagstaff" || Player.name.ToLower() == "john wulfrum"))
+                {
+                    playSound = false;
+                    SoundEngine.PlaySound(SoundID.DSTMaleHurt, Player.position);
                     hurtSoundTimer = 10;
                 }
             }

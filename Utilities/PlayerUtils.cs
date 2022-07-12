@@ -159,6 +159,27 @@ namespace CalamityMod
                 light += Main.dayTime || player.lavaWet ? 2 : 1; // not sure how you'd be in lava in the abyss but go ham I guess
             return light;
         }
+
+        /// <summary>
+        /// Directly retrieves the best pickaxe power of the player.
+        /// </summary>
+        /// <param name="player"></param>
+        /// <returns></returns>
+        public static int GetBestPickPower(this Player player)
+        {
+            int highestPickPower = 35; //35% if you have no pickaxes.
+            for (int item = 0; item < Main.InventorySlotsTotal; item++)
+            {
+                if (player.inventory[item].pick <= 0)
+                    continue;
+                if (player.inventory[item].pick > highestPickPower)
+                {
+                    highestPickPower = player.inventory[item].pick;
+                }
+            }
+
+            return highestPickPower;
+        }
         #endregion
 
         #region Movement and Controls
@@ -490,6 +511,21 @@ namespace CalamityMod
         #region Arms Control
 
         /// <summary>
+        /// Gets an arm stretch amount from a number ranging from 0 to 1
+        /// </summary>
+        public static CompositeArmStretchAmount ToStretchAmount(this float percent)
+        {
+            if (percent < 0.25f)
+                return CompositeArmStretchAmount.None;
+            if (percent < 0.5f)
+                return CompositeArmStretchAmount.Quarter;
+            if (percent < 0.75f)
+                return CompositeArmStretchAmount.ThreeQuarters;
+
+            return CompositeArmStretchAmount.Full;
+        }
+
+        /// <summary>
         /// The exact same thing as Player.GetFrontHandPosition() except it properly accounts for gravity swaps instead of requiring the coders to do it manually afterwards.
         /// Additionally, it simply takes in the arm data instead of asking for the rotation and stretch separately.
         /// </summary>
@@ -530,10 +566,14 @@ namespace CalamityMod
         /// <param name="desiredPosition">The desired position of the item</param>
         /// <param name="spriteSize">The size of the item sprite (used in calculations)</param>
         /// <param name="rotationOriginFromCenter">The offset from the center of the sprite of the rotation origin</param>
+        /// <param name="noSandstorm">Should the swirly effect from the sandstorm jump be disabled</param>
         /// <param name="flipAngle">Should the angle get flipped with the player, or should it be rotated by 180 degrees</param>
         /// <param name="stepDisplace">Should the item get displaced with the player's height during the walk anim? </param>
-        public static void CleanHoldStyle(Player player, float desiredRotation, Vector2 desiredPosition, Vector2 spriteSize, Vector2? rotationOriginFromCenter = null, bool flipAngle = false, bool stepDisplace = true)
+        public static void CleanHoldStyle(Player player, float desiredRotation, Vector2 desiredPosition, Vector2 spriteSize, Vector2? rotationOriginFromCenter = null, bool noSandstorm = false, bool flipAngle = false, bool stepDisplace = true)
         {
+            if (noSandstorm)
+                player.sandStorm = false;
+
             //Since Vector2.Zero isn't a compile-time constant, we can't use it directly as the default parameter
             if (rotationOriginFromCenter == null)
                 rotationOriginFromCenter = Vector2.Zero;
@@ -576,6 +616,33 @@ namespace CalamityMod
             }
 
             player.itemLocation = finalPosition;
+        }
+        #endregion
+
+        #region visual layers
+        public static void HideAccessories(this Player player, bool hideHeadAccs = true, bool hideBodyAccs = true, bool hideLegAccs = true,  bool hideShield = true)
+        {
+            if (hideHeadAccs)
+                player.face = -1;
+
+            if (hideBodyAccs)
+            {
+                player.handon = -1;
+                player.handoff = -1;
+                
+                player.back = -1;
+                player.front = -1;
+                player.neck = -1;
+            }
+
+            if (hideLegAccs)
+            {
+                player.shoe = -1;
+                player.waist = -1;
+            }
+
+            if (hideShield)
+                player.shield = -1;
         }
         #endregion
 
