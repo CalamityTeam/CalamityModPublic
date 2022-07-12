@@ -417,7 +417,7 @@ namespace CalamityMod.NPCs.Cryogen
                                 float maxVelocity = 9f + enrageScale;
                                 float velocity = maxVelocity - (calamityGlobalNPC.newAI[0] * maxVelocity * 0.5f);
                                 int totalProjectiles = 10;
-                                int maxTotalProjectileReductionBasedOnRotationSpeed = (int)Math.Ceiling(totalProjectiles * 0.75f);
+                                int maxTotalProjectileReductionBasedOnRotationSpeed = (int)(totalProjectiles * 0.7f);
                                 int totalProjectilesShot = totalProjectiles - (int)Math.Round(calamityGlobalNPC.newAI[0] * maxTotalProjectileReductionBasedOnRotationSpeed);
                                 for (int i = 0; i < 2; i++)
                                 {
@@ -563,7 +563,7 @@ namespace CalamityMod.NPCs.Cryogen
                                 float maxVelocity = 9f + enrageScale;
                                 float velocity = maxVelocity - (calamityGlobalNPC.newAI[0] * maxVelocity * 0.5f);
                                 int totalProjectiles = calamityGlobalNPC.newAI[1] == 0f ? 8 : 4;
-                                int maxTotalProjectileReductionBasedOnRotationSpeed = (int)(totalProjectiles * 0.5f);
+                                int maxTotalProjectileReductionBasedOnRotationSpeed = (int)(totalProjectiles * 0.4f);
                                 int totalProjectilesShot = totalProjectiles - (int)Math.Round(calamityGlobalNPC.newAI[0] * maxTotalProjectileReductionBasedOnRotationSpeed);
                                 for (int i = 0; i < 3; i++)
                                 {
