@@ -24,7 +24,8 @@ namespace CalamityMod.Items.Tools
         {
             DisplayName.SetDefault("Wulfrum Scaffold Kit");
             Tooltip.SetDefault("\"For when you need something built fast and don't need it to last.\"\n" +
-            "Places down temporary metal scaffolding. Uses up one wulfrum metal scrap for " + TilesPerScrap.ToString() + " tiles built"
+            "Places down temporary metal scaffolding. Uses up one wulfrum metal scrap for " + TilesPerScrap.ToString() + " tiles built\n" +
+            "Scaffold needs to be adjacent to a solid tile to be placed down"
             );
             SacrificeTotal = 1;
         }
