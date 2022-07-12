@@ -1358,7 +1358,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
             if (!Main.expertMode)
             {
                 // Materials
-                normalOnly.Add(ModContent.ItemType<ExoPrism>(), 1, 24, 32);
+                normalOnly.Add(ModContent.ItemType<ExoPrism>(), 1, 25, 30);
 
                 // Weapons
                 // Higher chance due to how the drops work

@@ -199,7 +199,7 @@ namespace CalamityMod.NPCs.BrimstoneElemental
 
                 // Materials
                 normalOnly.Add(ModContent.ItemType<EssenceofChaos>(), 1, 4, 8);
-                postProvidence.Add(ModContent.ItemType<Bloodstone>(), 1, 20, 30);
+                postProvidence.Add(ModContent.ItemType<Bloodstone>(), 1, 50, 60);
 
                 // Equipment
                 normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<Gehenna>()));

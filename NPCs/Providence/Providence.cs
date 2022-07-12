@@ -1595,7 +1595,8 @@ namespace CalamityMod.NPCs.Providence
                 normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<BlazingCore>()));
 
                 // Materials
-                normalOnly.Add(ModContent.ItemType<DivineGeode>(), 1, 15, 20);
+                normalOnly.Add(ModContent.ItemType<DivineGeode>(), 1, 25, 30);
+                normalOnly.Add(ModContent.ItemType<UnholyEssence>(), 1, 20, 30);
 
                 // Vanity
                 normalOnly.Add(ModContent.ItemType<ProvidenceMask>(), 7);

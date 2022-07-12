@@ -967,7 +967,7 @@ namespace CalamityMod.NPCs.StormWeaver
                 normalOnly.Add(ModContent.ItemType<Thunderstorm>(), 10);
 
                 // Materials
-                normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<ArmoredShell>(), 1, 5, 8));
+                normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<ArmoredShell>(), 1, 5, 7));
 
                 // Vanity
                 normalOnly.Add(ModContent.ItemType<StormWeaverMask>(), 7);
