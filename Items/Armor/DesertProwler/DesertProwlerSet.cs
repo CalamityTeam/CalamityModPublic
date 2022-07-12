@@ -308,7 +308,6 @@ namespace CalamityMod.Items.Armor.DesertProwler
         public void SetBonusStartEffect()
         {
             SmokeBombSoundSlot = SoundEngine.PlaySound(DesertProwlerHat.SmokeBombSound, Player.Center);
-            //vfx
         }
 
         public void SetBonusEndEffect()

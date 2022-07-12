@@ -122,7 +122,8 @@ namespace CalamityMod.Projectiles.Ranged
                 Main.item[coin].GetGlobalItem<MidasPrimeItem>().magnetMode = true;
             }
 
-            ORDERSystem.ORDER();
+            //Commented out. Could get activated through some funny easter egg thing, maybe the player being named V1/2 
+            //ORDERSystem.ORDER();
 
             if (shouldPause)
                 PauseTime = Pause;
