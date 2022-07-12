@@ -190,15 +190,6 @@ namespace CalamityMod.Items.Weapons.Ranged
 
             player.SetCompositeArmFront(true, Player.CompositeArmStretchAmount.Full, rotation);
         }
-
-        public override void AddRecipes()
-        {
-            CreateRecipe().
-                AddIngredient(ModContent.ItemType<DeadeyeRevolver>()).
-                AddIngredient(ItemID.GoldCoin, 10). //What kind of material would be used for the pirate invasion??
-                AddTile(TileID.Anvils).
-                Register();
-        }
     }
 
     public class MidasPrimeItem : GlobalItem
