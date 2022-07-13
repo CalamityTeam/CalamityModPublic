@@ -2,6 +2,7 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.CalPlayer;
 using CalamityMod.Cooldowns;
+using CalamityMod.ForegroundDrawing;
 using CalamityMod.Events;
 using CalamityMod.FluidSimulation;
 using CalamityMod.Items.Dyes;
@@ -36,6 +37,7 @@ using Terraria.ModLoader;
 using Terraria.UI.Gamepad;
 using Terraria.Utilities;
 using Terraria.Graphics.Light;
+
 
 namespace CalamityMod.ILEditing
 {
@@ -924,6 +926,23 @@ namespace CalamityMod.ILEditing
             throw new Exception("Hook location not found, switch(*) { case 54: ...");
         }
         #endregion Statue Additions
+
+        #region Foreground tiles drawing
+        private static void DrawForegroundStuff(On.Terraria.Main.orig_DrawGore orig, Main self)
+        {
+            orig(self);
+            if (Main.PlayerLoaded && !Main.gameMenu)
+                ForegroundManager.DrawTiles();
+        }
+
+        private static void ClearForegroundStuff(On.Terraria.GameContent.Drawing.TileDrawing.orig_PreDrawTiles orig, Terraria.GameContent.Drawing.TileDrawing self, bool solidLayer, bool forRenderTargets, bool intoRenderTargets)
+        {
+            orig(self, solidLayer, forRenderTargets, intoRenderTargets);
+
+            if (!solidLayer && (intoRenderTargets || Lighting.UpdateEveryFrame))
+                ForegroundManager.ClearTiles();
+        }
+        #endregion
 
         #region Tile ping overlay
         private static void ClearTilePings(On.Terraria.GameContent.Drawing.TileDrawing.orig_Draw orig, Terraria.GameContent.Drawing.TileDrawing self, bool solidLayer, bool forRenderTargets, bool intoRenderTargets, int waterStyleOverride)

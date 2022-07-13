@@ -211,6 +211,7 @@ namespace CalamityMod
             {
                 LoadClient();
                 GeneralParticleHandler.Load();
+                ForegroundDrawing.ForegroundManager.Load();
                 if (wikithis is not null)
                     wikithis.Call("AddModURL", this, CalamityWikiURL);
             }

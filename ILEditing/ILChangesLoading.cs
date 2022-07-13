@@ -56,6 +56,8 @@ namespace CalamityMod.ILEditing
             IL.Terraria.GameContent.Drawing.TileDrawing.DrawPartialLiquid += DrawCustomLava;
             IL.Terraria.GameContent.Liquid.LiquidRenderer.InternalDraw += DrawCustomLava2;
             IL.Terraria.Main.oldDrawWater += DrawCustomLava3;
+            On.Terraria.Main.DrawGore += DrawForegroundStuff;
+            On.Terraria.GameContent.Drawing.TileDrawing.PreDrawTiles += ClearForegroundStuff;
             On.Terraria.GameContent.Drawing.TileDrawing.Draw += ClearTilePings;
             On.Terraria.Player.GrappleMovement += CustomGrappleMovementCheck;
             On.Terraria.Player.UpdatePettingAnimal += CustomGrapplePreDefaultMovement;
@@ -170,6 +172,8 @@ namespace CalamityMod.ILEditing
             IL.Terraria.WaterfallManager.DrawWaterfall -= DrawCustomLavafalls;
             On.Terraria.NPC.Collision_DecideFallThroughPlatforms -= EnableCalamityBossPlatformCollision;
             IL.Terraria.Wiring.HitWireSingle -= AddTwinklersToStatue;
+            On.Terraria.Main.DrawGore -= DrawForegroundStuff;
+            On.Terraria.GameContent.Drawing.TileDrawing.PreDrawTiles -= ClearForegroundStuff;
             On.Terraria.GameContent.Drawing.TileDrawing.Draw -= ClearTilePings;
             On.Terraria.Player.GrappleMovement -= CustomGrappleMovementCheck;
             On.Terraria.Player.UpdatePettingAnimal -= CustomGrapplePreDefaultMovement;
