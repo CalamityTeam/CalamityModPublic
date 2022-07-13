@@ -225,6 +225,7 @@ namespace CalamityMod.NPCs.SlimeGod
                     }
 
                     NPC.active = false;
+                    NPC.HitEffect();
                     NPC.NPCLoot();
                     NPC.netUpdate = true;
                 }
@@ -556,6 +557,15 @@ namespace CalamityMod.NPCs.SlimeGod
 
             // Lore
             npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedSlimeGod, ModContent.ItemType<KnowledgeSlimeGod>());
+        }
+
+        public override void HitEffect(int hitDirection, double damage)
+        {
+            for (int k = 0; k < 5; k++)
+            {
+                Color color = Main.rand.NextBool() ? Color.Lavender : Color.Crimson;
+                Dust.NewDust(NPC.position, NPC.width, NPC.height, 4, hitDirection, -1f, NPC.alpha, color, 1f);
+            }
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
