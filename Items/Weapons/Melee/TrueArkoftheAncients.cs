@@ -184,7 +184,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 AddIngredient<FracturedArk>().
                 AddIngredient(ItemID.TrueExcalibur).
                 AddIngredient<CoreofCalamity>().
-                AddIngredient<LivingShard>(3).
+                AddIngredient<LivingShard>(15).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

@@ -771,7 +771,7 @@ namespace CalamityMod
                 { Vanilla(ItemID.BundleofBalloons), AddIngredient(ModContent.ItemType<AerialiteBar>(), 3) },
                 { Vanilla(ItemID.TrueNightsEdge), TrueNightsEdgeRecipeEdit },
                 { Vanilla(ItemID.TrueExcalibur), ChangeIngredientStack(ItemID.ChlorophyteBar, 12) },
-                { Vanilla(ItemID.TerraBlade), AddIngredient(ModContent.ItemType<LivingShard>(), 7) },
+                { Vanilla(ItemID.TerraBlade), AddIngredient(ModContent.ItemType<LivingShard>(), 12) },
                 { Vanilla(ItemID.Zenith), AddIngredient(ModContent.ItemType<AuricBar>(), 5) },
                 { Vanilla(ItemID.Magiluminescence), MagiluminescenceRecipeEdit },
                 { Vanilla(ItemID.FireGauntlet), AddIngredient(ModContent.ItemType<ScoriaBar>(), 5) },
@@ -1743,7 +1743,7 @@ namespace CalamityMod
             r.AddIngredient(ModContent.ItemType<TrueBloodyEdge>());
             r.AddIngredient(ItemID.TrueExcalibur);
             r.AddIngredient(ItemID.BrokenHeroSword);
-            r.AddIngredient(ModContent.ItemType<LivingShard>(), 7);
+            r.AddIngredient(ModContent.ItemType<LivingShard>(), 12);
             r.AddTile(TileID.MythrilAnvil);
             r.Register();
 
