@@ -16,6 +16,7 @@ using static CalamityMod.CalamityUtils;
 using CalamityMod.Sounds;
 using CalamityMod.Items.Weapons.Typeless;
 using CalamityMod.Items.Weapons.DraedonsArsenal;
+using CalamityMod.Buffs.StatDebuffs;
 
 namespace CalamityMod.Projectiles.Melee
 {
@@ -35,6 +36,10 @@ namespace CalamityMod.Projectiles.Melee
         public PrimitiveTrail PierceAfterimageDrawer = null;
 
         public SwingState CurrentState;
+
+        public int PostBonkCountdown;
+
+        public bool PerformingPowerfulSlash;
 
         public ref float ChargeTime => ref Projectile.ai[0];
 
@@ -92,12 +97,16 @@ namespace CalamityMod.Projectiles.Melee
         public override void SendExtraAI(BinaryWriter writer)
         {
             writer.Write(Direction);
+            writer.Write(PostBonkCountdown);
+            writer.Write(PerformingPowerfulSlash);
             writer.Write((int)CurrentState);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             Direction = reader.ReadInt32();
+            PostBonkCountdown = reader.ReadInt32();
+            PerformingPowerfulSlash = reader.ReadBoolean();
             CurrentState = (SwingState)reader.ReadInt32();
         }
 
@@ -142,12 +151,14 @@ namespace CalamityMod.Projectiles.Melee
 
             // Decide the arm rotation for the owner.
             float armRotation = Projectile.rotation + MathHelper.Pi + MathHelper.PiOver2;
-
             if (CurrentState == SwingState.Default)
                 armRotation = 0f;
             Owner.SetCompositeArmFront(Math.Abs(armRotation) > 0.01f, Player.CompositeArmStretchAmount.Full, Owner.compositeFrontArm.rotation.AngleLerp(armRotation, 0.2f));
 
+            // Handle timers.
             GeneralTime++;
+            if (PostBonkCountdown > 0)
+                PostBonkCountdown--;
         }
 
         public void DoBehavior_Swinging()
@@ -163,12 +174,8 @@ namespace CalamityMod.Projectiles.Melee
                 SoundEngine.PlaySound(CommonCalamitySounds.MeatySlashSound, Projectile.Center);
 
             float exactSwingCompletion = 1f - Owner.itemAnimation / (float)Owner.itemAnimationMax;
-            float directionalSwingCompletion = exactSwingCompletion;
-            
+            float directionalSwingCompletion = exactSwingCompletion;            
             directionalSwingCompletion = MathHelper.Clamp(directionalSwingCompletion, 0f, 1f);
-
-            // TODO -- Make this better.
-            // Hi Iban! Good luck :)
             float swingCompletion = PiecewiseAnimation(directionalSwingCompletion, Anticipation, SlashWait, Slash, HoldBladeInPlace);
 
             // Clear the rotation cache after enough time has passed.
@@ -181,9 +188,19 @@ namespace CalamityMod.Projectiles.Melee
                 Projectile.rotation -= MathHelper.PiOver2;
 
             // Decide the scale of the sword.
-            Projectile.scale = 1f;
+            // If performing a powerful slash it is made significantly bigger. This effect looks slightly goofy but there is no
+            // way in hell you're going to consistently hit SCal without that.
+            Projectile.scale = PerformingPowerfulSlash ? 2.3f : 1f;
             if (!LMBUse)
-                Projectile.scale = Utils.GetLerpValue(0f, 0.2f, exactSwingCompletion, true) * Utils.GetLerpValue(1f, 0.9f, exactSwingCompletion, true);
+                Projectile.scale *= Utils.GetLerpValue(0f, 0.2f, exactSwingCompletion, true) * Utils.GetLerpValue(1f, 0.9f, exactSwingCompletion, true);
+
+            // End powerful slashes on the last frame.
+            if (Owner.itemAnimation == 1)
+            {
+                PerformingPowerfulSlash = false;
+                Owner.itemAnimation = 0;
+                DecideCurrentState();
+            }
 
             // Create a bunch of homing beams.
             int beamShootRate = Projectile.MaxUpdates * 2;
@@ -248,7 +265,16 @@ namespace CalamityMod.Projectiles.Melee
 
             // Switch to the swing state as necessary. This cannot happen while channeling or dashing.
             if (CurrentState == 0f && !RMBChannel && Owner.itemAnimation > 0)
+            {
                 CurrentState = SwingState.Swinging;
+                if (PostBonkCountdown > 0)
+                {
+                    Owner.velocity = Vector2.Zero;
+                    PerformingPowerfulSlash = true;
+                    PostBonkCountdown = 0;
+                    Projectile.netUpdate = true;
+                }
+            }
 
             // Switch to the dash charge state. This can only be done while in the default state.
             if (CurrentState == 0f && Owner.itemAnimation > 0)
@@ -305,17 +331,6 @@ namespace CalamityMod.Projectiles.Melee
             SlashDrawer ??= new(SlashWidthFunction, SlashColorFunction, null, GameShaders.Misc["CalamityMod:ExobladeSlash"]);
             PierceAfterimageDrawer ??= new(PierceWidthFunction, PierceColorFunction, null, GameShaders.Misc["CalamityMod:ExobladePierce"]);
 
-            float rotation = Projectile.rotation;
-            Vector2 origin = Projectile.Size * new Vector2(0.5f, 1f);
-            Vector2 drawPosition = Projectile.Center + Projectile.rotation.ToRotationVector2() * Projectile.scale * 32f - Main.screenPosition;
-            if (Direction == -1)
-                rotation += MathHelper.Pi;
-            var texture = ModContent.Request<Texture2D>(Texture).Value;
-            Color bladeColor = Color.White;
-            bladeColor = Color.Lerp(bladeColor, Color.Lerp(Color.Cyan, Color.Lime, 0.5f) with { A = 0 }, EnergyFormInterpolant);
-            bladeColor *= Projectile.Opacity;
-            Main.EntitySpriteDraw(texture, drawPosition, null, bladeColor, rotation, origin, Projectile.scale, Direction == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
-
             // Draw the zany slash effect.
             Main.spriteBatch.EnterShaderRegion();
             GameShaders.Misc["CalamityMod:ExobladeSlash"].SetShaderTexture(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/VoronoiShapes"));
@@ -341,8 +356,18 @@ namespace CalamityMod.Projectiles.Melee
             if (CurrentState == SwingState.BonkDash)
                 PierceAfterimageDrawer.Draw(Projectile.oldPos.Take(31), trailOffset, 53);
             
-            Main.spriteBatch.EnterShaderRegion();
-
+            Main.spriteBatch.ExitShaderRegion();
+            float rotation = Projectile.rotation;
+            Vector2 origin = Projectile.Size * new Vector2(0.5f, 1f);
+            Vector2 drawPosition = Projectile.Center + Projectile.rotation.ToRotationVector2() * Projectile.scale * 32f - Main.screenPosition;
+            if (Direction == -1)
+                rotation += MathHelper.Pi;
+            var texture = ModContent.Request<Texture2D>(Texture).Value;
+            Color bladeColor = Color.White;
+            bladeColor = Color.Lerp(bladeColor, Color.Lerp(Color.Cyan, Color.Lime, 0.5f) with { A = 0 }, EnergyFormInterpolant);
+            bladeColor *= Projectile.Opacity;
+            Main.EntitySpriteDraw(texture, drawPosition, null, bladeColor, rotation, origin, Projectile.scale, Direction == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
+            
             return false;
         }
 
@@ -355,25 +380,56 @@ namespace CalamityMod.Projectiles.Melee
             if (CurrentState == SwingState.BonkDash && Owner.itemAnimation < Owner.itemAnimationMax * 0.6f)
             {
                 Owner.itemAnimation = 0;
-                Owner.velocity = Owner.SafeDirectionTo(target.Center) * -11.5f;
+                Owner.velocity = Owner.SafeDirectionTo(target.Center) * -11f;
+                PostBonkCountdown = Exoblade.OpportunityForBigSlash;
+                Projectile.netUpdate = true;
 
                 SoundEngine.PlaySound(PlasmaGrenade.ExplosionSound, target.Center);
                 SoundEngine.PlaySound(YanmeisKnife.HitSound, target.Center);
                 if (Main.myPlayer == Projectile.owner)
                 {
+                    int lungeHitDamage = (int)(Projectile.damage * Exoblade.LungeDamageFactor);
                     for (int i = 0; i < 5; i++)
                     {
-                        int slash = Projectile.NewProjectile(Projectile.GetSource_FromAI(), target.Center, Projectile.velocity * 0.1f, ModContent.ProjectileType<ExobeamSlashCreator>(), Projectile.damage * 2, 0f, Projectile.owner, target.whoAmI);
+                        int slash = Projectile.NewProjectile(Projectile.GetSource_FromAI(), target.Center, Projectile.velocity * 0.1f, ModContent.ProjectileType<ExobeamSlashCreator>(), lungeHitDamage, 0f, Projectile.owner, target.whoAmI);
                         if (Main.projectile.IndexInRange(slash))
                             Main.projectile[slash].timeLeft -= i * 4;
                     }
                 }
 
+                // Freeze the target briefly.
+                target.AddBuff(ModContent.BuffType<ExoFreeze>(), 75);
+
                 DecideCurrentState();
             }
+
+            if (CurrentState == SwingState.Swinging && PerformingPowerfulSlash && Owner.ownedProjectileCounts[ModContent.ProjectileType<Exoboom>()] < 1)
+            {
+                SoundEngine.PlaySound(TeslaCannon.FireSound, Projectile.Center);
+                if (Main.myPlayer == Projectile.owner)
+                {
+                    int explosionDamage = (int)(Projectile.damage * Exoblade.ExplosionDamageFactor);
+                    Projectile.NewProjectile(Projectile.GetSource_FromAI(), target.Center, Vector2.Zero, ModContent.ProjectileType<Exoboom>(), explosionDamage, 0f, Projectile.owner);
+                }
+            }
         }
-        
-        public override bool? CanDamage() => CurrentState != SwingState.Default;
+
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
+        {
+            float _ = 0f;
+            Vector2 start = Projectile.Center;
+            Vector2 end = start + (Projectile.rotation - Direction * MathHelper.PiOver4).ToRotationVector2() * Projectile.scale * Projectile.height;
+            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), start, end, Projectile.scale * 30f, ref _);
+        }
+
+        public override bool? CanDamage()
+        {
+            if (CurrentState == SwingState.Default)
+                return false;
+            if (CurrentState == SwingState.BonkDash)
+                return true;
+            return Owner.itemAnimation / (float)Owner.itemAnimationMax < 0.72f;
+        }
 
         public override void Kill(int timeLeft) => Owner.fullRotation = 0f;
     }

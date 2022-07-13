@@ -14,7 +14,13 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public const float NotTrueMeleeDamagePenalty = 0.67f;
 
+        public const float ExplosionDamageFactor = 1.8f;
+
+        public const float LungeDamageFactor = 1.75f;
+
         public const float LungeSpeed = 37f;
+
+        public const int OpportunityForBigSlash = 27;
 
         public override void SetStaticDefaults()
         {
@@ -31,7 +37,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             Item.width = 80;
             Item.height = 114;
-            Item.damage = 1776;
+            Item.damage = 1475;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.useTime = 49;
             Item.useAnimation = 49;
