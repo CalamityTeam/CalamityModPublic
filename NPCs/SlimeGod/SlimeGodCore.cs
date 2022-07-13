@@ -168,12 +168,17 @@ namespace CalamityMod.NPCs.SlimeGod
                 }
             }
 
+            // Vanish phase
             if (!purpleSlimeAlive && !redSlimeAlive)
             {
+                // Make sure Opacity is set to 0.8f if it's below that when the vanish phase starts
                 if (NPC.ai[3] == 0f)
                 {
-                    NPC.ai[3] = 1f;
-                    NPC.Opacity = 0.8f;
+                    if (!NPC.AnyNPCs(ModContent.NPCType<EbonianSlimeGod>()) && !NPC.AnyNPCs(ModContent.NPCType<CrimulanSlimeGod>()))
+                    {
+                        NPC.ai[3] = 1f;
+                        NPC.Opacity = 0.8f;
+                    }
                 }
 
                 // Emit dust
