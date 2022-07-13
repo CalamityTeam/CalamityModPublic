@@ -51,7 +51,7 @@ namespace CalamityMod.Items.Armor.DesertProwler
         {
             if (keyDir == 0 && HasArmorSet(player) && !player.mount.Active)
             {
-                //Only activate if no cooldown & available scrap.
+                // The set bonus can only be activated if the player does not have the cooldown.
                 if (!player.Calamity().cooldowns.TryGetValue(SandsmokeBomb.ID, out CooldownInstance cd))
                 {
                     player.AddCooldown(SandsmokeBomb.ID, SmokeCooldown + SmokeDuration);
