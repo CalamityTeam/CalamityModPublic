@@ -15,9 +15,9 @@ using CalamityMod.Projectiles.Ranged;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
-    public class DeadeyeRevolver : ModItem
+    public class CrackshotColt : ModItem
     {
-        public static readonly SoundStyle ShootSound = new("CalamityMod/Sounds/Item/DeadeyeRevolverShot") { PitchVariance = 0.1f };
+        public static readonly SoundStyle ShootSound = new("CalamityMod/Sounds/Item/CrackshotColtShot") { PitchVariance = 0.1f };
 
         public static readonly SoundStyle BlingSound = new("CalamityMod/Sounds/Custom/Ultrabling") { PitchVariance = 0.5f };
         public static readonly SoundStyle BlingHitSound = new("CalamityMod/Sounds/Custom/UltrablingHit") { PitchVariance = 0.5f };
@@ -27,8 +27,8 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Deadeye Revolver");
-            Tooltip.SetDefault("Right click to a coin in the air. Hitting the coin with a bullet redirects the shot into the nearest enemy\n" +
+            DisplayName.SetDefault("Crackshot Colt");
+            Tooltip.SetDefault("Right click to throw a coin in the air. Hitting the coin with a bullet redirects the shot into the nearest enemy\n" +
                                "Coin throws consume copper coins");
             SacrificeTotal = 1;
         }
@@ -48,7 +48,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.rare = ItemRarityID.Blue;
             Item.UseSound = ShootSound with { Volume = 0.6f};
             Item.autoReuse = true;
-            Item.shoot = ModContent.ProjectileType<DeadeyeBlast>();
+            Item.shoot = ModContent.ProjectileType<CrackshotBlast>();
             Item.useAmmo = AmmoID.Bullet;
             Item.shootSpeed = 14f;
             Item.Calamity().canFirePointBlankShots = true;
@@ -93,12 +93,12 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
 
             //Override every projectile
-            type = ModContent.ProjectileType<DeadeyeBlast>();
+            type = ModContent.ProjectileType<CrackshotBlast>();
 
             if (player.altFunctionUse == 2)
             {
                 damage = 0;
-                type = ModContent.ProjectileType<DeadeyeCoin>() ;
+                type = ModContent.ProjectileType<CrackshotCoin>() ;
 
                 //Ok the velocity is flipped because the in world coordinates have 0 at the top, so to do the typical trigo stuff we flip it, you get me.
                 float shootAngle = (player.Calamity().mouseWorld - player.MountedCenter).ToRotation() * -1;

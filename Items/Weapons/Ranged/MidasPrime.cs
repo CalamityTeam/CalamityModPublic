@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             DisplayName.SetDefault("Midas Prime");
             Tooltip.SetDefault("Struck enemies drop extra coins\n" +
-                                "Right click to a coin in the air. Hitting the coin with a bullet redirects the shot into the nearest enemy\n" +
+                                "Right click to throw a coin in the air. Hitting the coin with a bullet redirects the shot into the nearest enemy\n" +
                                "If you have multiple coins up in the air, bullets will first redirect towards other coins up to a maximum of 4\n" +
                                "Coin ricochets will increase the damage of the bullet, provided the coins have been in the air for long enough" +
                                "Coin throws consume gold and silver coins");
@@ -50,7 +50,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.knockBack = 2.25f;
             Item.value = Item.sellPrice(0, 7, 20, 0);
             Item.rare = ItemRarityID.Pink;
-            Item.UseSound = DeadeyeRevolver.ShootSound;
+            Item.UseSound = CrackshotColt.ShootSound;
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<MidasBlast>();
             Item.useAmmo = AmmoID.Bullet;
@@ -121,9 +121,9 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void UseAnimation(Player player)
         {
-            Item.UseSound = DeadeyeRevolver.ShootSound; 
+            Item.UseSound = CrackshotColt.ShootSound; 
             if (player.altFunctionUse == 2)
-                Item.UseSound = DeadeyeRevolver.BlingSound;
+                Item.UseSound = CrackshotColt.BlingSound;
         }
 
         public override float UseSpeedMultiplier(Player player)

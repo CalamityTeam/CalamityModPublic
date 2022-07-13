@@ -15,7 +15,7 @@ using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class DeadeyeCoin : ModProjectile
+    public class CrackshotCoin : ModProjectile
     {
         public override void SetStaticDefaults()
         {

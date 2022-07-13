@@ -106,7 +106,7 @@ namespace CalamityMod.Projectiles.Ranged
         public void RicochetEffect(Vector2 target, Projectile struckCoin, bool shouldPause = true)
         {
             //Play sound
-            SoundEngine.PlaySound(DeadeyeRevolver.BlingHitSound, struckCoin.Center);
+            SoundEngine.PlaySound(CrackshotColt.BlingHitSound, struckCoin.Center);
             Projectile.velocity = Projectile.DirectionTo(target) * 16f;
             Ricochets++;
             Main.player[Projectile.owner].Calamity().GeneralScreenShakePower = 5;

@@ -12,7 +12,7 @@ using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class DeadeyeBlast : ModProjectile
+    public class CrackshotBlast : ModProjectile
     {
         internal PrimitiveTrail TrailDrawer;
 
@@ -56,7 +56,7 @@ namespace CalamityMod.Projectiles.Ranged
                 for (int i = 0; i < Main.maxProjectiles; i++)
                 {
                     Projectile proj = Main.projectile[i];
-                    if (proj.ModProjectile != null && proj.type == ModContent.ProjectileType<DeadeyeCoin>() && proj.active)
+                    if (proj.ModProjectile != null && proj.type == ModContent.ProjectileType<CrackshotCoin>() && proj.active)
                     {
                         if (Collision.CheckAABBvAABBCollision(proj.Hitbox.TopLeft(), proj.Hitbox.Size(), Projectile.Hitbox.TopLeft(), Projectile.Hitbox.Size()))
                         {
@@ -66,7 +66,7 @@ namespace CalamityMod.Projectiles.Ranged
                                 Projectile.velocity = (Projectile.DirectionTo(target.Center) * 16f);
                                 Boosted = 1;
                                 Main.player[Projectile.owner].Calamity().GeneralScreenShakePower = 2;
-                                Projectile.damage = (int)(Projectile.damage * DeadeyeRevolver.RicochetDamageMult);
+                                Projectile.damage = (int)(Projectile.damage * CrackshotColt.RicochetDamageMult);
 
 
                                 //ORDERSystem.ORDER();
@@ -76,7 +76,7 @@ namespace CalamityMod.Projectiles.Ranged
                             if (proj.owner == Main.myPlayer)
                                 Item.NewItem(proj.GetSource_DropAsItem(), proj.Center, Vector2.One, ItemID.CopperCoin);
 
-                            SoundEngine.PlaySound(DeadeyeRevolver.BlingHitSound, proj.Center);
+                            SoundEngine.PlaySound(CrackshotColt.BlingHitSound, proj.Center);
                             return;
                         }
                     }
