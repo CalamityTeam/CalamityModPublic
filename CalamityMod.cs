@@ -623,10 +623,10 @@ namespace CalamityMod
                 { ModContent.NPCType<HiveMind>(), 7200 }, // 2:00 (120 seconds)
                 { ModContent.NPCType<PerforatorHive>(), 7200 }, // 2:00 (120 seconds)
                 { ModContent.NPCType<SlimeGodCore>(), 10800 }, // 3:00 (180 seconds) -- total length of Slime God fight
-                { ModContent.NPCType<EbonianSlimeGod>(), 3600 }, // 1:00 (60 seconds)
-                { ModContent.NPCType<CrimulanSlimeGod>(), 3600 }, // 1:00 (60 seconds)
-                { ModContent.NPCType<SplitEbonianSlimeGod>(), 3600 }, // 1:00 (60 seconds) -- split slimes should spawn at 1:00 and die at around 2:00
-                { ModContent.NPCType<SplitCrimulanSlimeGod>(), 3600 }, // 1:00 (60 seconds)
+                { ModContent.NPCType<EbonianSlimeGod>(), 5400 }, // 1:30 (90 seconds)
+                { ModContent.NPCType<CrimulanSlimeGod>(), 5400 }, // 1:30 (90 seconds)
+                { ModContent.NPCType<SplitEbonianSlimeGod>(), 5400 }, // 1:30 (90 seconds) -- split slimes should spawn at 1:30 and die at around 3:00
+                { ModContent.NPCType<SplitCrimulanSlimeGod>(), 5400 }, // 1:30 (90 seconds)
                 { ModContent.NPCType<Cryogen>(), 10800 }, // 3:00 (180 seconds)
                 { ModContent.NPCType<AquaticScourgeHead>(), 7200 }, // 2:00 (120 seconds)
                 { ModContent.NPCType<AquaticScourgeBody>(), 7200 },

@@ -5677,7 +5677,7 @@ namespace CalamityMod.NPCs
             {
                 return DownedBossSystem.downedPerforator;
             }
-            else if (type == NPCType<SlimeGodCore>() || type == NPCType<SlimeGod.EbonianSlimeGod>() || type == NPCType<CrimulanSlimeGod>() || type == NPCType<SplitEbonianSlimeGod>() || type == NPCType<SplitCrimulanSlimeGod>())
+            else if (type == NPCType<SlimeGodCore>())
             {
                 return DownedBossSystem.downedSlimeGod;
             }
