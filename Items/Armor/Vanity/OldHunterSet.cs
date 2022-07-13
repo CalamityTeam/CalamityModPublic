@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Armor.Vanity
         {
             SacrificeTotal = 1;
             DisplayName.SetDefault("Old Hunter Hat");
-            Tooltip.SetDefault("Piece of attire fashioned after hunters from a far away place..");
+            Tooltip.SetDefault("Attire fashioned after the appearance of hunters from a faraway land");
         }
 
         public override void SetDefaults()
@@ -53,7 +53,7 @@ namespace CalamityMod.Items.Armor.Vanity
         {
             SacrificeTotal = 1;
             DisplayName.SetDefault("Old Hunter Shirt");
-            Tooltip.SetDefault("Piece of attire fashioned after hunters from a far away place...");
+            Tooltip.SetDefault("Attire fashioned after the appearance of hunters from a faraway land");
 
             if (Main.netMode == NetmodeID.Server)
                 return;
@@ -96,7 +96,7 @@ namespace CalamityMod.Items.Armor.Vanity
         {
             SacrificeTotal = 1;
             DisplayName.SetDefault("Old Hunter Pants");
-            Tooltip.SetDefault("Piece of attire fashioned after hunters from a far away place...");
+            Tooltip.SetDefault("Attire fashioned after the appearance of hunters from a faraway land");
         }
 
         public override void SetDefaults()
