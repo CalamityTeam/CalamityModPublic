@@ -36,7 +36,7 @@ namespace CalamityMod.NPCs.SlimeGod
         public override void SetDefaults()
         {
             NPC.Calamity().canBreakPlayerDefense = true;
-            NPC.LifeMaxNERB(1500, 1800, 110000);
+            NPC.LifeMaxNERB(2000, 2400, 110000);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
             NPC.GetNPCDamage();
@@ -138,12 +138,6 @@ namespace CalamityMod.NPCs.SlimeGod
                 {
                     enraged = false;
                 }
-            }
-            if (CalamityGlobalNPC.slimeGod < 0 || !Main.npc[CalamityGlobalNPC.slimeGod].active)
-            {
-                NPC.localAI[1] = 0f;
-                hyperMode = true;
-                enraged = true;
             }
             if (bossRush)
             {
@@ -538,22 +532,15 @@ namespace CalamityMod.NPCs.SlimeGod
             int heartAmt = Main.rand.Next(3) + 3;
             for (int i = 0; i < heartAmt; i++)
                 Item.NewItem(NPC.GetSource_Loot(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
-
-            if (SlimeGodCore.LastSlimeGodStanding())
-                SlimeGodCore.RealOnKill(NPC);
         }
 
-        public override void ModifyNPCLoot(NPCLoot npcLoot) => SlimeGodCore.DefineSlimeGodLoot(npcLoot);
-
-        public override bool CheckActive()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            if (CalamityGlobalNPC.slimeGod != -1)
-            {
-                if (Main.npc[CalamityGlobalNPC.slimeGod].active)
-                    return false;
-            }
-            return true;
+            // Every Slime God piece drops Gel, even if it's not the last one.
+            npcLoot.Add(ItemID.Gel, 1, 32, 48);
         }
+
+        public override bool CheckActive() => false;
 
         public override void HitEffect(int hitDirection, double damage)
         {

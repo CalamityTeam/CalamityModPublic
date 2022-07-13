@@ -225,7 +225,7 @@ namespace CalamityMod.NPCs.Cryogen
 
             float chargePhaseGateValue = bossRush ? 240f : 360f;
             float chargeDuration = 60f;
-            float chargeTelegraphTime = NPC.ai[0] == 2f ? 100f : 120f;
+            float chargeTelegraphTime = NPC.ai[0] == 2f ? 80f : 120f;
             float chargeTelegraphMaxRotationIncrement = 1f;
             float chargeTelegraphRotationIncrement = chargeTelegraphMaxRotationIncrement / chargeTelegraphTime;
             float chargeSlowDownTime = 15f;
@@ -906,7 +906,7 @@ namespace CalamityMod.NPCs.Cryogen
                     return;
                 }
 
-                float num1372 = 16f + enrageScale * 2f;
+                float num1372 = 18f + enrageScale * 2f;
 
                 Vector2 vector167 = new Vector2(NPC.Center.X + (NPC.direction * 20), NPC.Center.Y + 6f);
                 float num1373 = player.position.X + player.width * 0.5f - vector167.X;
