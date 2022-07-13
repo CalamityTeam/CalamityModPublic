@@ -12,6 +12,8 @@ using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using static CalamityMod.CalamityUtils;
 using CalamityMod.Projectiles.Ranged;
+using System.Collections.Generic;
+using static Microsoft.Xna.Framework.Input.Keys;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
@@ -165,6 +167,36 @@ namespace CalamityMod.Items.Weapons.Ranged
             }
 
             return base.Shoot(player, source, position, velocity, type, damage, knockback);
+        }
+
+
+        public override void ModifyTooltips(List<TooltipLine> tooltips)
+        {
+            if (Main.keyState.IsKeyDown(LeftShift))
+            {
+                int tooltipIndex = -1;
+                int tooltipCount = 0;
+
+                for (int i = 0; i < tooltips.Count; i++)
+                {
+                    if (tooltips[i].Name.StartsWith("Tooltip"))
+                    {
+                        if (tooltipIndex == -1)
+                            tooltipIndex = i;
+
+                        tooltipCount++;
+                    }
+                }
+
+                if (tooltipIndex != -1)
+                {
+                    tooltips.RemoveRange(tooltipIndex, tooltipCount);
+
+                    TooltipLine bloodIsFuel = new TooltipLine(Mod, "CalamityMod:HiddenTooltip", "MANKIND IS DEAD.\nBLOOD IS FUEL.\nHELL IS FULL.");
+                    bloodIsFuel.OverrideColor = Color.Red;
+                    tooltips.Insert(tooltipIndex, bloodIsFuel);
+                }
+            }
         }
 
         public override void UseStyle(Player player, Rectangle heldItemFrame)
