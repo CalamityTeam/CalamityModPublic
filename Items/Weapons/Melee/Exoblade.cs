@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public const float NotTrueMeleeDamagePenalty = 0.67f;
 
-        public const float LungeSpeed = 23.5f;
+        public const float LungeSpeed = 37f;
 
         public override void SetStaticDefaults()
         {

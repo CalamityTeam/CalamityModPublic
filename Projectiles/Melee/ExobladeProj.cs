@@ -220,7 +220,7 @@ namespace CalamityMod.Projectiles.Melee
                 }
             }
             else
-                Owner.velocity = Projectile.velocity * Exoblade.LungeSpeed * 1.6f;
+                Owner.velocity = Projectile.velocity * Exoblade.LungeSpeed;
 
             if (Owner.itemAnimation == 1)
             {
