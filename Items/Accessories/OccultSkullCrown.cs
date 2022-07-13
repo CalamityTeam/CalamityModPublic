@@ -16,8 +16,8 @@ namespace CalamityMod.Items.Accessories
             Tooltip.SetDefault("Only a fool would ever wear this...\n" +
                                "You constantly gain rage over time and rage does not fade away when out of combat\n" +
                                "Converts certain debuffs into buffs and extends their durations\n" +
-                               "Debuffs affected: Darkness, Blackout, Confused, Slow, Weak, Broken Armor,\n" +
-                               "Armor Crunch, War Cleave, Chilled, Ichor and Obstructed\n" +
+                               "Debuffs affected: Darkness, Blackout, Confused, Slow, Weak,\n" +
+                               "Broken Armor, Armor Crunch, Chilled, Ichor and Obstructed\n" +
                                "Adrenaline charges 20% faster\n" +
                                "Increases your max movement speed and acceleration by 5%\n" +
                                "Can also be worn as a helmet\n" +
