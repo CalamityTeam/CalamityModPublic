@@ -1,7 +1,5 @@
 ﻿using CalamityMod.Items.Materials;
-using CalamityMod.Projectiles.Melee;
 using CalamityMod.Tiles.Furniture.CraftingStations;
-using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -15,6 +13,8 @@ namespace CalamityMod.Items.Weapons.Melee
         public bool RMBchannel = false;
 
         public const float NotTrueMeleeDamagePenalty = 0.67f;
+
+        public const float LungeSpeed = 23.5f;
 
         public override void SetStaticDefaults()
         {
@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             Item.width = 80;
             Item.height = 114;
-            Item.damage = 1000;
+            Item.damage = 1776;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.useTime = 49;
             Item.useAnimation = 49;
