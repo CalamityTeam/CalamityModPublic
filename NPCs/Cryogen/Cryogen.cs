@@ -225,7 +225,7 @@ namespace CalamityMod.NPCs.Cryogen
 
             float chargePhaseGateValue = bossRush ? 240f : 360f;
             float chargeDuration = 60f;
-            float chargeTelegraphTime = NPC.ai[0] == 2f ? 100f : 120f;
+            float chargeTelegraphTime = NPC.ai[0] == 2f ? 80f : 120f;
             float chargeTelegraphMaxRotationIncrement = 1f;
             float chargeTelegraphRotationIncrement = chargeTelegraphMaxRotationIncrement / chargeTelegraphTime;
             float chargeSlowDownTime = 15f;
