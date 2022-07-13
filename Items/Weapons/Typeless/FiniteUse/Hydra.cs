@@ -19,6 +19,7 @@ namespace CalamityMod.Items.Weapons.Typeless.FiniteUse
             DisplayName.SetDefault("Hydra");
             Tooltip.SetDefault("Uses Explosive Shotgun Shells\n" +
                 "Can be used once per boss battle");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
@@ -93,7 +94,7 @@ namespace CalamityMod.Items.Weapons.Typeless.FiniteUse
             CreateRecipe().
                 AddIngredient(ItemID.Shotgun).
                 AddIngredient(ItemID.IllegalGunParts).
-                AddIngredient(ItemID.IronBar, 20).
+                AddRecipeGroup("IronBar", 20).
                 AddIngredient(ItemID.Ectoplasm, 20).
                 AddTile(TileID.MythrilAnvil).
                 Register();

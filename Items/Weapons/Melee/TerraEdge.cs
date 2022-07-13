@@ -1,5 +1,4 @@
 ﻿using Terraria.DataStructures;
-using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
@@ -80,12 +79,14 @@ namespace CalamityMod.Items.Weapons.Melee
             CreateRecipe().
                 AddIngredient<TrueBloodyEdge>().
                 AddIngredient(ItemID.TrueExcalibur).
+                AddIngredient(ItemID.BrokenHeroSword).
                 AddIngredient<LivingShard>(7).
                 AddTile(TileID.MythrilAnvil).
                 Register();
             CreateRecipe().
                 AddIngredient(ItemID.TrueNightsEdge).
                 AddIngredient(ItemID.TrueExcalibur).
+                AddIngredient(ItemID.BrokenHeroSword).
                 AddIngredient<LivingShard>(7).
                 AddTile(TileID.MythrilAnvil).
                 Register();

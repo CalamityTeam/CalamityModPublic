@@ -44,6 +44,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.rare = ItemRarityID.Red;
             Item.autoReuse = true;
             Item.Calamity().customRarity = CalamityRarity.HotPink;
+            Item.Calamity().devItem = true;
             Item.value = Item.buyPrice(platinum: 5);
         }
 

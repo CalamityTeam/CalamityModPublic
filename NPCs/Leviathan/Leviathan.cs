@@ -4,6 +4,7 @@ using CalamityMod.Events;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
+using CalamityMod.Items.Placeables.Furniture.BossRelics;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Items.TreasureBags;
 using CalamityMod.Items.Weapons.Magic;
@@ -18,7 +19,6 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.GameContent;
 using Terraria.GameContent.Bestiary;
 using Terraria.ID;
@@ -26,7 +26,6 @@ using Terraria.ModLoader;
 using Terraria.Audio;
 using Terraria.GameContent.ItemDropRules;
 using ReLogic.Content;
-using CalamityMod.Sounds;
 
 namespace CalamityMod.NPCs.Leviathan
 {
@@ -80,6 +79,9 @@ namespace CalamityMod.NPCs.Leviathan
             NPC.Calamity().VulnerableToSickness = true;
             NPC.Calamity().VulnerableToElectricity = true;
             NPC.Calamity().VulnerableToWater = false;
+
+            if (Main.getGoodWorld)
+                NPC.scale *= 1.3f;
         }
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
@@ -114,10 +116,10 @@ namespace CalamityMod.NPCs.Leviathan
 
             CalamityGlobalNPC.leviathan = NPC.whoAmI;
 
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
-            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || bossRush;
+            bool revenge = CalamityWorld.revenge || bossRush;
+            bool expertMode = Main.expertMode || bossRush;
             Vector2 vector = NPC.Center;
 
             // Is in spawning animation
@@ -177,7 +179,7 @@ namespace CalamityMod.NPCs.Leviathan
             bool notOcean = player.position.Y < 800f || player.position.Y > Main.worldSurface * 16.0 || (player.position.X > 6400f && player.position.X < (Main.maxTilesX * 16 - 6400));
 
             // Enrage
-            if (notOcean && !BossRushEvent.BossRushActive)
+            if (notOcean && !bossRush)
             {
                 if (biomeEnrageTimer > 0)
                     biomeEnrageTimer--;
@@ -185,12 +187,12 @@ namespace CalamityMod.NPCs.Leviathan
             else
                 biomeEnrageTimer = CalamityGlobalNPC.biomeEnrageTimerMax;
 
-            bool biomeEnraged = biomeEnrageTimer <= 0 || malice;
+            bool biomeEnraged = biomeEnrageTimer <= 0 || bossRush;
 
-            float enrageScale = BossRushEvent.BossRushActive ? 1f : 0f;
+            float enrageScale = bossRush ? 1f : 0f;
             if (biomeEnraged)
             {
-                NPC.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
+                NPC.Calamity().CurrentlyEnraged = !bossRush;
                 enrageScale += 2f;
             }
 
@@ -201,9 +203,9 @@ namespace CalamityMod.NPCs.Leviathan
             NPC.buffImmune[ModContent.BuffType<ExoFreeze>()] = immuneToSlowingDebuffs;
             NPC.buffImmune[ModContent.BuffType<GlacialState>()] = immuneToSlowingDebuffs;
             NPC.buffImmune[ModContent.BuffType<TemporalSadness>()] = immuneToSlowingDebuffs;
-            NPC.buffImmune[ModContent.BuffType<KamiDebuff>()] = immuneToSlowingDebuffs;
+            NPC.buffImmune[ModContent.BuffType<KamiFlu>()] = immuneToSlowingDebuffs;
             NPC.buffImmune[ModContent.BuffType<Eutrophication>()] = immuneToSlowingDebuffs;
-            NPC.buffImmune[ModContent.BuffType<TimeSlow>()] = immuneToSlowingDebuffs;
+            NPC.buffImmune[ModContent.BuffType<TimeDistortion>()] = immuneToSlowingDebuffs;
             NPC.buffImmune[ModContent.BuffType<TeslaFreeze>()] = immuneToSlowingDebuffs;
             NPC.buffImmune[ModContent.BuffType<Vaporfied>()] = immuneToSlowingDebuffs;
             NPC.buffImmune[BuffID.Slow] = immuneToSlowingDebuffs;
@@ -225,7 +227,7 @@ namespace CalamityMod.NPCs.Leviathan
                     {
                         for (int x = 0; x < Main.maxNPCs; x++)
                         {
-                            if (Main.npc[x].type == ModContent.NPCType<Siren>())
+                            if (Main.npc[x].type == ModContent.NPCType<Anahita>())
                             {
                                 Main.npc[x].active = false;
                                 Main.npc[x].netUpdate = true;
@@ -281,12 +283,18 @@ namespace CalamityMod.NPCs.Leviathan
                         num413 += death ? 0.15f * (1f - lifeRatio) : 0.1f * (1f - lifeRatio);
                     }
 
+                    if (Main.getGoodWorld)
+                    {
+                        num412 *= 1.15f;
+                        num413 *= 1.15f;
+                    }
+
                     int num414 = 1;
                     if (vector.X < player.position.X + player.width)
                         num414 = -1;
 
                     Vector2 vector40 = vector;
-                    float num415 = player.Center.X + (num414 * ((sirenAlive && !phase4) ? 1000f : 800f)) - vector40.X;
+                    float num415 = player.Center.X + (num414 * ((sirenAlive && !phase4) ? 1000f : 800f) * NPC.scale) - vector40.X;
                     float num416 = player.Center.Y - vector40.Y;
                     float num417 = (float)Math.Sqrt(num415 * num415 + num416 * num416);
                     num417 = num412 / num417;
@@ -416,7 +424,7 @@ namespace CalamityMod.NPCs.Leviathan
                             NPC.NewNPC(NPC.GetSource_FromAI(), (int)vector119.X, (int)vector119.Y, ModContent.NPCType<AquaticAberration>());
                     }
 
-                    if (num1060 > ((sirenAlive && !phase4) ? 1000f : 800f))
+                    if (num1060 > ((sirenAlive && !phase4) ? 1000f : 800f) * NPC.scale)
                     {
                         float num1064 = (sirenAlive && !phase4) ? 0.05f : 0.065f;
                         num1064 += 0.04f * enrageScale;
@@ -483,7 +491,7 @@ namespace CalamityMod.NPCs.Leviathan
                         return;
                     }
 
-                    float chargeDistance = (sirenAlive && !phase4) ? 1100f : 900f;
+                    float chargeDistance = ((sirenAlive && !phase4) ? 1100f : 900f) * NPC.scale;
                     chargeDistance -= 50f * enrageScale;
                     if (!sirenAlive || phase4)
                         chargeDistance -= 250f * (1f - lifeRatio);
@@ -513,6 +521,9 @@ namespace CalamityMod.NPCs.Leviathan
                             if (revenge && (!sirenAlive || phase4))
                                 num1044 += death ? 9f * (1f - lifeRatio) : 6f * (1f - lifeRatio);
 
+                            if (Main.getGoodWorld)
+                                num1044 *= 1.15f;
+
                             Vector2 vector117 = vector;
                             float num1045 = player.Center.X - vector117.X;
                             float num1046 = player.Center.Y - vector117.Y;
@@ -539,6 +550,12 @@ namespace CalamityMod.NPCs.Leviathan
                         {
                             num1048 += death ? 9f * (1f - lifeRatio) : 6f * (1f - lifeRatio);
                             num1049 += death ? 0.15f * (1f - lifeRatio) : 0.1f * (1f - lifeRatio);
+                        }
+
+                        if (Main.getGoodWorld)
+                        {
+                            num1048 *= 1.15f;
+                            num1049 *= 1.15f;
                         }
 
                         if (vector.Y < player.Center.Y)
@@ -642,7 +659,7 @@ namespace CalamityMod.NPCs.Leviathan
             if (mouthDist4 < minMouthDist)
                 minMouthDist = mouthDist4;
 
-            bool insideMouthHitbox = minMouthDist <= 115f;
+            bool insideMouthHitbox = minMouthDist <= 115f * NPC.scale;
 
             float bodyDist1 = Vector2.Distance(bodyHitboxCenter, targetHitbox.TopLeft());
             float bodyDist2 = Vector2.Distance(bodyHitboxCenter, targetHitbox.TopRight());
@@ -657,7 +674,7 @@ namespace CalamityMod.NPCs.Leviathan
             if (bodyDist4 < minBodyDist)
                 minBodyDist = bodyDist4;
 
-            bool insideBodyHitbox = minBodyDist <= 230f;
+            bool insideBodyHitbox = minBodyDist <= 230f * NPC.scale;
 
             float tailDist1 = Vector2.Distance(tailHitboxCenter, targetHitbox.TopLeft());
             float tailDist2 = Vector2.Distance(tailHitboxCenter, targetHitbox.TopRight());
@@ -672,7 +689,7 @@ namespace CalamityMod.NPCs.Leviathan
             if (tailDist4 < minTailDist)
                 minTailDist = tailDist4;
 
-            bool insideTailHitbox = minTailDist <= 115f;
+            bool insideTailHitbox = minTailDist <= 115f * NPC.scale;
 
             return insideMouthHitbox || insideBodyHitbox || insideTailHitbox;
         }
@@ -709,11 +726,11 @@ namespace CalamityMod.NPCs.Leviathan
                 }
                 if (Main.netMode != NetmodeID.Server)
                 {
-                    float randomSpread = Main.rand.Next(-200, 200) / 100;
-                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * randomSpread, Mod.Find<ModGore>("LeviGore").Type, 1f);
-                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * randomSpread, Mod.Find<ModGore>("LeviGore2").Type, 1f);
-                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * randomSpread, Mod.Find<ModGore>("LeviGore3").Type, 1f);
-                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * randomSpread, Mod.Find<ModGore>("LeviGore4").Type, 1f);
+                    float randomSpread = Main.rand.Next(-200, 201) / 100f;
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * randomSpread, Mod.Find<ModGore>("LeviGore").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * randomSpread, Mod.Find<ModGore>("LeviGore2").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * randomSpread, Mod.Find<ModGore>("LeviGore3").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * randomSpread, Mod.Find<ModGore>("LeviGore4").Type, NPC.scale);
                 }
             }
         }
@@ -740,7 +757,7 @@ namespace CalamityMod.NPCs.Leviathan
 
         public static bool LastAnLStanding()
         {
-            int count = NPC.CountNPCS(ModContent.NPCType<Siren>()) + NPC.CountNPCS(ModContent.NPCType<Leviathan>());
+            int count = NPC.CountNPCS(ModContent.NPCType<Anahita>()) + NPC.CountNPCS(ModContent.NPCType<Leviathan>());
             return count <= 1;
         }
 
@@ -757,12 +774,12 @@ namespace CalamityMod.NPCs.Leviathan
                 {
                     ModContent.ItemType<Greentide>(),
                     ModContent.ItemType<Leviatitan>(),
-                    ModContent.ItemType<SirensSong>(),
+                    ModContent.ItemType<AnahitasArpeggio>(),
                     ModContent.ItemType<Atlantis>(),
                     ModContent.ItemType<GastricBelcherStaff>(),
                     ModContent.ItemType<BrackishFlask>(),
                     ModContent.ItemType<LeviathanTeeth>(),
-                    ModContent.ItemType<LureofEnthrallment>()
+                    ModContent.ItemType<PearlofEnthrallment>()
                 };
                 normalOnly.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, items));
 
@@ -783,10 +800,13 @@ namespace CalamityMod.NPCs.Leviathan
                 normalOnly.Add(ItemID.CratePotion, 5, 5, 8);
             }
 
+            // Relic
+            npcLoot.AddIf(() => (Main.masterMode || CalamityWorld.revenge) && LastAnLStanding(), ModContent.ItemType<LeviathanAnahitaRelic>());
+
             // Lore
             bool shouldDropLore(DropAttemptInfo info) => !DownedBossSystem.downedLeviathan && LastAnLStanding();
             npcLoot.AddConditionalPerPlayer(shouldDropLore, ModContent.ItemType<KnowledgeOcean>());
-            npcLoot.AddConditionalPerPlayer(shouldDropLore, ModContent.ItemType<KnowledgeLeviathanandSiren>());
+            npcLoot.AddConditionalPerPlayer(shouldDropLore, ModContent.ItemType<KnowledgeLeviathanAnahita>());
         }
 
         public override void ModifyNPCLoot(NPCLoot npcLoot)

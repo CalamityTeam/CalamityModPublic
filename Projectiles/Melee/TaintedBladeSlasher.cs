@@ -114,13 +114,12 @@ namespace CalamityMod.Projectiles.Melee
         {
             Projectile.width = Projectile.height = 4;
             Projectile.friendly = true;
-            Projectile.DamageType = DamageClass.Melee;
+            Projectile.DamageType = TrueMeleeDamageClass.Instance;
             Projectile.tileCollide = false;
             Projectile.penetrate = -1;
             Projectile.timeLeft = 90000;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.noEnchantments = true;
-            Projectile.Calamity().trueMelee = true;
         }
 
         public override void SendExtraAI(BinaryWriter writer) => writer.Write(VerticalOffset);

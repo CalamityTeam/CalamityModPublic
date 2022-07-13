@@ -227,7 +227,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             player.AddBuff(ModContent.BuffType<HolyFlames>(), 120, true);
         }
 
-        public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.AddIf(() => Main.hardMode, ModContent.ItemType<EssenceofCinder>(), 3);
+        public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.AddIf(() => Main.hardMode, ModContent.ItemType<EssenceofSunlight>(), 3);
 
         public override void HitEffect(int hitDirection, double damage)
         {

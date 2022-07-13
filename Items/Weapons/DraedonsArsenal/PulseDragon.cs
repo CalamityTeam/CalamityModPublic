@@ -67,7 +67,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             CreateRecipe().
                 AddIngredient<MysteriousCircuitry>(12).
                 AddIngredient<DubiousPlating>(18).
-                AddIngredient<UeliaceBar>(8).
+                AddIngredient<UelibloomBar>(8).
                 AddIngredient(ItemID.LunarBar, 4).
                 AddCondition(ArsenalTierGatedRecipe.ConstructRecipeCondition(4, out Predicate<Recipe> condition), condition).
                 AddTile(TileID.LunarCraftingStation).

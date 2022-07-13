@@ -19,6 +19,7 @@ namespace CalamityMod.Items.Weapons.Typeless.FiniteUse
             DisplayName.SetDefault("Bazooka");
             Tooltip.SetDefault("Uses Grenade Shells\n" +
                 "Can be used twice per boss battle");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
@@ -84,7 +85,7 @@ namespace CalamityMod.Items.Weapons.Typeless.FiniteUse
         {
             CreateRecipe().
                 AddIngredient(ItemID.IllegalGunParts).
-                AddIngredient(ItemID.IronBar, 20).
+                AddRecipeGroup("IronBar", 20).
                 AddRecipeGroup("AnyAdamantiteBar", 15).
                 AddTile(TileID.MythrilAnvil).
                 Register();

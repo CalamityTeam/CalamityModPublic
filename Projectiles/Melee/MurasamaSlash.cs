@@ -41,12 +41,11 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.friendly = true;
             Projectile.penetrate = -1;
             Projectile.tileCollide = false;
-            Projectile.DamageType = DamageClass.Melee;
+            Projectile.DamageType = TrueMeleeNoSpeedDamageClass.Instance;
             Projectile.ownerHitCheck = true;
             Projectile.usesIDStaticNPCImmunity = true;
             Projectile.idStaticNPCHitCooldown = 21;
             Projectile.frameCounter = 0;
-            Projectile.Calamity().trueMelee = true;
         }
 
         public override bool PreDraw(ref Color lightColor)

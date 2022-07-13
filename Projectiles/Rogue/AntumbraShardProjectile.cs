@@ -1,7 +1,6 @@
 ﻿using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -9,7 +8,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class AntumbraShardProjectile : ModProjectile
     {
-        public override string Texture => "CalamityMod/Items/Weapons/Rogue/XerocPitchfork";
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/ShardofAntumbra";
 
         public override void SetStaticDefaults()
         {
@@ -49,8 +48,8 @@ namespace CalamityMod.Projectiles.Rogue
                 {
                     if (Projectile.Calamity().stealthStrike)
                     {
-                        int star = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, Projectile.velocity.X * 0.25f, Projectile.velocity.Y * 0.25f, ModContent.ProjectileType<XerocStar>(), (int)(Projectile.damage * 0.5), Projectile.knockBack, Projectile.owner, 0f, 0f);
-                        Main.projectile[star].Calamity().forceRogue = true;
+                        int star = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, Projectile.velocity.X * 0.25f, Projectile.velocity.Y * 0.25f, ModContent.ProjectileType<EmpyreanStellarDetritus>(), (int)(Projectile.damage * 0.5), Projectile.knockBack, Projectile.owner, 0f, 0f);
+                        Main.projectile[star].DamageType = RogueDamageClass.Instance;
                     }
                 }
             }
@@ -66,7 +65,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             if (Main.rand.NextBool(2))
             {
-                Item.NewItem(Projectile.GetSource_DropAsItem(), (int)Projectile.position.X, (int)Projectile.position.Y, Projectile.width, Projectile.height, ModContent.ItemType<XerocPitchfork>());
+                Item.NewItem(Projectile.GetSource_DropAsItem(), (int)Projectile.position.X, (int)Projectile.position.Y, Projectile.width, Projectile.height, ModContent.ItemType<ShardofAntumbra>());
             }
         }
 

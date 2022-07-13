@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -87,8 +87,6 @@ namespace CalamityMod.Projectiles.Melee
         {
             if (Projectile.ai[0] == 0f)
                 target.AddBuff(BuffID.Daybreak, 180);
-            else if (Projectile.ai[0] == 1f)
-                target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 180);
             else if (Projectile.ai[0] == 2f)
                 target.AddBuff(ModContent.BuffType<HolyFlames>(), 180);
         }

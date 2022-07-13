@@ -1,4 +1,10 @@
-﻿using CalamityMod.Balancing;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Reflection;
+using System.Runtime.CompilerServices;
+using CalamityMod.Balancing;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
@@ -44,6 +50,7 @@ using CalamityMod.NPCs.StormWeaver;
 using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.NPCs.Yharon;
 using CalamityMod.Particles;
+using CalamityMod.Projectiles;
 using CalamityMod.Projectiles.BaseProjectiles;
 using CalamityMod.Schematics;
 using CalamityMod.Skies;
@@ -54,12 +61,6 @@ using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Reflection;
-using System.Runtime.CompilerServices;
 using Terraria;
 using Terraria.GameContent;
 using Terraria.GameContent.Dyes;
@@ -74,7 +75,11 @@ namespace CalamityMod
 {
     public class CalamityMod : Mod
     {
-        // CONSIDER -- I have been advised by Jopo that Mods should never contain static variables
+        public const string CalamityWikiURL = "calamitymod.wiki.gg";
+
+        // TODO -- A huge amount of random floating variables exist here.
+        // These should all be moved to other files, whether that's CalamityLists or brand new ModSystems.
+        // It is best to have a ton of small ModSystems.
 
         // Boss Spawners
         public static int ghostKillCount = 0;
@@ -111,14 +116,17 @@ namespace CalamityMod
         public static int[] sulphurEnemyImmunities = new int[4] { BuffID.Poisoned, BuffID.Venom, ModContent.BuffType<SulphuricPoisoning>(), ModContent.BuffType<Irradiated>() };
         public static int[] sunkenSeaEnemyImmunities = new int[2] { ModContent.BuffType<Eutrophication>(), ModContent.BuffType<PearlAura>() };
         public static int[] abyssEnemyImmunities = new int[1] { ModContent.BuffType<CrushDepth>() };
-        public static int[] cragEnemyImmunities = new int[4] { BuffID.OnFire, BuffID.OnFire3, ModContent.BuffType<AbyssalFlames>(), ModContent.BuffType<BrimstoneFlames>() };
+        public static int[] cragEnemyImmunities = new int[3] { BuffID.OnFire, BuffID.OnFire3, ModContent.BuffType<BrimstoneFlames>() };
         public static int[] astralEnemyImmunities = new int[2] { BuffID.Poisoned, ModContent.BuffType<AstralInfectionDebuff>() };
         public static int[] plagueEnemyImmunities = new int[3] { BuffID.Poisoned, BuffID.Venom, ModContent.BuffType<Plague>() };
         public static int[] holyEnemyImmunities = new int[4] { BuffID.OnFire, BuffID.OnFire3, ModContent.BuffType<HolyFlames>(), ModContent.BuffType<Nightwither>() };
 
         internal static CalamityMod Instance;
+
+        // TODO -- Mod references should be contained in a ModSystem (example name "ModLoadedChecker")
         internal Mod musicMod = null; // This is Calamity's official music mod, CalamityModMusic
         internal bool MusicAvailable => !(musicMod is null);
+
         internal Mod ancientsAwakened = null;
         internal Mod bossChecklist = null;
         internal Mod census = null;
@@ -127,10 +135,11 @@ namespace CalamityMod
         internal Mod overhaul = null;
         internal Mod redemption = null;
         internal Mod soa = null;
+        internal Mod subworldLibrary = null;
         internal Mod summonersAssociation = null;
         internal Mod thorium = null;
         internal Mod varia = null;
-        internal Mod subworldLibrary = null;
+        internal Mod wikithis = null;
 
         #region Load
         public override void Load()
@@ -144,7 +153,7 @@ namespace CalamityMod
             manaOriginal = TextureAssets.Mana;
             carpetOriginal = TextureAssets.FlyingCarpet;
 
-            // Apply IL edits instantly afterwards.
+            // Apply IL edits as soon as possible.
             ILChanges.Load();
 
             // If any of these mods aren't loaded, it will simply keep them as null.
@@ -166,14 +175,16 @@ namespace CalamityMod
             ModLoader.TryGetMod("Redemption", out redemption);
             soa = null;
             ModLoader.TryGetMod("SacredTools", out soa);
+            subworldLibrary = null;
+            ModLoader.TryGetMod("SubworldLibrary", out subworldLibrary);
             summonersAssociation = null;
             ModLoader.TryGetMod("SummonersAssociation", out summonersAssociation);
             thorium = null;
             ModLoader.TryGetMod("ThoriumMod", out thorium);
             varia = null;
             ModLoader.TryGetMod("Varia", out varia);
-            subworldLibrary = null;
-            ModLoader.TryGetMod("SubworldLibrary", out subworldLibrary);
+            wikithis = null;
+            ModLoader.TryGetMod("Wikithis", out wikithis);
 
             // Initialize the EnemyStats struct as early as it is safe to do so
             NPCStats.Load();
@@ -183,6 +194,7 @@ namespace CalamityMod
 
             // Initialize Calamity Balance, since it is tightly coupled with the remaining lists
             CalamityGlobalItem.LoadTweaks();
+            CalamityGlobalProjectile.LoadTweaks();
 
             // Mount balancing occurs during runtime and is undone when Calamity is unloaded.
             Mount.mounts[MountID.Unicorn].dashSpeed *= CalamityPlayer.UnicornSpeedNerfPower;
@@ -190,15 +202,23 @@ namespace CalamityMod
             Mount.mounts[MountID.MinecartMech].dashSpeed *= CalamityPlayer.MechanicalCartSpeedNerfPower;
             Mount.mounts[MountID.MinecartMech].runSpeed *= CalamityPlayer.MechanicalCartSpeedNerfPower;
 
+            // Make Graveyard biomes require more Gravestones
+            SceneMetrics.GraveyardTileMax = 88;
+            SceneMetrics.GraveyardTileMin = 68;
+            SceneMetrics.GraveyardTileThreshold = 80;
+
             if (!Main.dedServ)
             {
                 LoadClient();
                 GeneralParticleHandler.Load();
                 ForegroundDrawing.ForegroundManager.Load();
+                if (wikithis is not null)
+                    wikithis.Call("AddModURL", this, CalamityWikiURL);
             }
 
             CooldownRegistry.Load();
             BossRushEvent.Load();
+            // TODO -- As ModBossBarStyle is a ModType, its Load function does not need to be called directly here.
             BossHealthBarManager.Load(this);
             DraedonStructures.Load();
             EnchantmentManager.LoadAllEnchantments();
@@ -220,6 +240,7 @@ namespace CalamityMod
         {
             AstralSky = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/AstralSky", AssetRequestMode.ImmediateLoad).Value;
 
+            // TODO -- Sky shaders should probably be loaded in a ModSystem
             Filters.Scene["CalamityMod:DevourerofGodsHead"] = new Filter(new DoGScreenShaderData("FilterMiniTower").UseColor(0.4f, 0.1f, 1.0f).UseOpacity(0.5f), EffectPriority.VeryHigh);
             SkyManager.Instance["CalamityMod:DevourerofGodsHead"] = new DoGSky();
 
@@ -272,6 +293,8 @@ namespace CalamityMod
             ChargeMeterUI.Load();
             AstralArcanumUI.Load(this);
 
+            // TODO -- Is this not possible to place in ModNPC.Load or ModNPC.SetStaticDefaults ?
+            // Centralizing head texture registration like this seems absurdly stiff
             Apollo.LoadHeadIcons();
             Artemis.LoadHeadIcons();
             DevourerofGodsHead.LoadHeadIcons();
@@ -286,10 +309,26 @@ namespace CalamityMod
             ThanatosBody2.LoadHeadIcons();
             ThanatosTail.LoadHeadIcons();
 
+            // TODO -- Is this not possible to place in ModItem.Load or ModItem.SetStaticDefaults ?
+            // Centralizing hair dye shaders like this seems absurdly stiff
             GameShaders.Hair.BindShader(ModContent.ItemType<AdrenalineHairDye>(), new LegacyHairShaderData().UseLegacyMethod((Player player, Color newColor, ref bool lighting) => Color.Lerp(player.hairColor, new Color(0, 255, 171), ((float)player.Calamity().adrenaline / (float)player.Calamity().adrenalineMax))));
             GameShaders.Hair.BindShader(ModContent.ItemType<RageHairDye>(), new LegacyHairShaderData().UseLegacyMethod((Player player, Color newColor, ref bool lighting) => Color.Lerp(player.hairColor, new Color(255, 83, 48), ((float)player.Calamity().rage / (float)player.Calamity().rageMax))));
-            GameShaders.Hair.BindShader(ModContent.ItemType<WingTimeHairDye>(), new LegacyHairShaderData().UseLegacyMethod((Player player, Color newColor, ref bool lighting) => Color.Lerp(player.hairColor, new Color(139, 205, 255), ((float)player.wingTime / (float)player.wingTimeMax))));
-            GameShaders.Hair.BindShader(ModContent.ItemType<StealthHairDye>(), new LegacyHairShaderData().UseLegacyMethod((Player player, Color newColor, ref bool lighting) => Color.Lerp(player.hairColor, new Color(186, 85, 211), (player.Calamity().rogueStealth / player.Calamity().rogueStealthMax))));
+            GameShaders.Hair.BindShader(ModContent.ItemType<WingTimeHairDye>(), new LegacyHairShaderData().UseLegacyMethod((Player player, Color newColor, ref bool lighting) =>
+            { 
+                float flightTimeInterpolant = player.wingTime / player.wingTimeMax;
+                if (player.mount.Active)
+                    flightTimeInterpolant = 1f;
+
+                return Color.Lerp(player.hairColor, new Color(139, 205, 255), flightTimeInterpolant);
+            }));
+            GameShaders.Hair.BindShader(ModContent.ItemType<StealthHairDye>(), new LegacyHairShaderData().UseLegacyMethod((Player player, Color newColor, ref bool lighting) =>
+            {
+                float stealthInterpolant = player.Calamity().rogueStealth / player.Calamity().rogueStealthMax;
+                if (float.IsInfinity(stealthInterpolant) || float.IsNaN(stealthInterpolant))
+                    stealthInterpolant = 0f;
+
+                return Color.Lerp(player.hairColor, new Color(186, 85, 211), stealthInterpolant);
+            }));
 
             PopupGUIManager.LoadGUIs();
             InvasionProgressUIManager.LoadGUIs();
@@ -300,6 +339,7 @@ namespace CalamityMod
         public override void Unload()
         {
             musicMod = null;
+
             ancientsAwakened = null;
             bossChecklist = null;
             census = null;
@@ -308,9 +348,11 @@ namespace CalamityMod
             overhaul = null;
             redemption = null;
             soa = null;
+            subworldLibrary = null;
             summonersAssociation = null;
             thorium = null;
             varia = null;
+            wikithis = null;
 
             AstralSky = null;
 
@@ -328,6 +370,7 @@ namespace CalamityMod
             CalamityLists.UnloadLists();
             NPCStats.Unload();
             CalamityGlobalItem.UnloadTweaks();
+            CalamityGlobalProjectile.UnloadTweaks();
 
             PopupGUIManager.UnloadGUIs();
             InvasionProgressUIManager.UnloadGUIs();
@@ -360,10 +403,15 @@ namespace CalamityMod
                 TextureAssets.FlyingCarpet = carpetOriginal;
                 GeneralParticleHandler.Unload();
             }
+
             Mount.mounts[MountID.Unicorn].dashSpeed /= CalamityPlayer.UnicornSpeedNerfPower;
             Mount.mounts[MountID.Unicorn].runSpeed /= CalamityPlayer.UnicornSpeedNerfPower;
             Mount.mounts[MountID.MinecartMech].dashSpeed /= CalamityPlayer.MechanicalCartSpeedNerfPower;
             Mount.mounts[MountID.MinecartMech].runSpeed /= CalamityPlayer.MechanicalCartSpeedNerfPower;
+
+            SceneMetrics.GraveyardTileMax = 36;
+            SceneMetrics.GraveyardTileMin = 16;
+            SceneMetrics.GraveyardTileThreshold = 28;
 
             heartOriginal2 = null;
             heartOriginal = null;
@@ -441,7 +489,7 @@ namespace CalamityMod
                 { NPCID.DiabolistRed, 0.2f },
                 { NPCID.DiabolistWhite, 0.2f },
                 { NPCID.DukeFishron, 0.15f },
-                { NPCID.DungeonGuardian, 0.999999f },
+                { NPCID.DungeonGuardian, 0.9f },
                 { NPCID.DungeonSpirit, 0.2f },
                 { NPCID.ElfCopter, 0.15f },
                 { NPCID.Everscream, 0.1f },
@@ -571,30 +619,30 @@ namespace CalamityMod
                 { ModContent.NPCType<DesertScourgeHead>(), 3600 }, // 1:00 (60 seconds)
                 { ModContent.NPCType<DesertScourgeBody>(), 3600 },
                 { ModContent.NPCType<DesertScourgeTail>(), 3600 },
-                { ModContent.NPCType<CrabulonIdle>(), 5400 }, // 1:30 (90 seconds)
+                { ModContent.NPCType<Crabulon>(), 5400 }, // 1:30 (90 seconds)
                 { ModContent.NPCType<HiveMind>(), 7200 }, // 2:00 (120 seconds)
                 { ModContent.NPCType<PerforatorHive>(), 7200 }, // 2:00 (120 seconds)
                 { ModContent.NPCType<SlimeGodCore>(), 10800 }, // 3:00 (180 seconds) -- total length of Slime God fight
-                { ModContent.NPCType<SlimeGod>(), 3600 }, // 1:00 (60 seconds)
-                { ModContent.NPCType<SlimeGodRun>(), 3600 }, // 1:00 (60 seconds)
-                { ModContent.NPCType<SlimeGodSplit>(), 3600 }, // 1:00 (60 seconds) -- split slimes should spawn at 1:00 and die at around 2:00
-                { ModContent.NPCType<SlimeGodRunSplit>(), 3600 }, // 1:00 (60 seconds)
+                { ModContent.NPCType<EbonianSlimeGod>(), 3600 }, // 1:00 (60 seconds)
+                { ModContent.NPCType<CrimulanSlimeGod>(), 3600 }, // 1:00 (60 seconds)
+                { ModContent.NPCType<SplitEbonianSlimeGod>(), 3600 }, // 1:00 (60 seconds) -- split slimes should spawn at 1:00 and die at around 2:00
+                { ModContent.NPCType<SplitCrimulanSlimeGod>(), 3600 }, // 1:00 (60 seconds)
                 { ModContent.NPCType<Cryogen>(), 10800 }, // 3:00 (180 seconds)
                 { ModContent.NPCType<AquaticScourgeHead>(), 7200 }, // 2:00 (120 seconds)
                 { ModContent.NPCType<AquaticScourgeBody>(), 7200 },
                 { ModContent.NPCType<AquaticScourgeBodyAlt>(), 7200 },
                 { ModContent.NPCType<AquaticScourgeTail>(), 7200 },
                 { ModContent.NPCType<BrimstoneElemental>(), 10800 }, // 3:00 (180 seconds)
-                { ModContent.NPCType<CalamitasRun3>(), 14400 }, // 4:00 (240 seconds)
-                { ModContent.NPCType<Siren>(), 10800 }, // 3:00 (180 seconds)
+                { ModContent.NPCType<CalamitasClone>(), 14400 }, // 4:00 (240 seconds)
+                { ModContent.NPCType<Anahita>(), 10800 }, // 3:00 (180 seconds)
                 { ModContent.NPCType<Leviathan>(), 10800 },
                 { ModContent.NPCType<AstrumAureus>(), 10800 }, // 3:00 (180 seconds)
-                { ModContent.NPCType<AstrumDeusHeadSpectral>(), 7200 }, // 2:00 (120 seconds) -- first phase is 1:00
-                { ModContent.NPCType<AstrumDeusBodySpectral>(), 7200 },
-                { ModContent.NPCType<AstrumDeusTailSpectral>(), 7200 },
+                { ModContent.NPCType<AstrumDeusHead>(), 7200 }, // 2:00 (120 seconds) -- first phase is 1:00
+                { ModContent.NPCType<AstrumDeusBody>(), 7200 },
+                { ModContent.NPCType<AstrumDeusTail>(), 7200 },
                 { ModContent.NPCType<PlaguebringerGoliath>(), 10800 }, // 3:00 (180 seconds)
                 { ModContent.NPCType<RavagerBody>(), 10800 }, // 3:00 (180 seconds)
-                { ModContent.NPCType<ProfanedGuardianBoss>(), 5400 }, // 1:30 (90 seconds)
+                { ModContent.NPCType<ProfanedGuardianCommander>(), 5400 }, // 1:30 (90 seconds)
                 { ModContent.NPCType<Bumblefuck>(), 7200 }, // 2:00 (120 seconds)
                 { ModContent.NPCType<Providence>(), 14400 }, // 4:00 (240 seconds)
                 { ModContent.NPCType<CeaselessVoid>(), 10800 }, // 3:00 (180 seconds)
@@ -621,7 +669,7 @@ namespace CalamityMod
                 { ModContent.NPCType<ThanatosBody2>(), 21600 },
                 { ModContent.NPCType<ThanatosTail>(), 21600 },
                 { ModContent.NPCType<SupremeCalamitas>(), 18000 }, // 5:00 (300 seconds)
-                { ModContent.NPCType<EidolonWyrmHeadHuge>(), 18000 } // 5:00 (300 seconds)
+                { ModContent.NPCType<AdultEidolonWyrmHead>(), 18000 } // 5:00 (300 seconds)
             };
         }
         #endregion
@@ -670,7 +718,7 @@ namespace CalamityMod
                 { ModContent.NPCType<DesertNuisanceHead>(), bitingEnemeyVelocityScale },
                 { ModContent.NPCType<DesertNuisanceBody>(), velocityScaleMin },
                 { ModContent.NPCType<DesertNuisanceTail>(), velocityScaleMin },
-                { ModContent.NPCType<CrabulonIdle>(), bitingEnemeyVelocityScale },
+                { ModContent.NPCType<Crabulon>(), bitingEnemeyVelocityScale },
                 { ModContent.NPCType<HiveMind>(), velocityScaleMin },
                 { ModContent.NPCType<PerforatorHive>(), velocityScaleMin },
                 { ModContent.NPCType<PerforatorHeadLarge>(), bitingEnemeyVelocityScale },
@@ -683,26 +731,26 @@ namespace CalamityMod
                 { ModContent.NPCType<PerforatorBodySmall>(), velocityScaleMin },
                 { ModContent.NPCType<PerforatorTailSmall>(), velocityScaleMin },
                 { ModContent.NPCType<SlimeGodCore>(), velocityScaleMin },
-                { ModContent.NPCType<SlimeGod>(), velocityScaleMin },
-                { ModContent.NPCType<SlimeGodRun>(), velocityScaleMin },
-                { ModContent.NPCType<SlimeGodSplit>(), velocityScaleMin },
-                { ModContent.NPCType<SlimeGodRunSplit>(), velocityScaleMin },
-                { ModContent.NPCType<SlimeSpawnCorrupt>(), velocityScaleMin },
+                { ModContent.NPCType<EbonianSlimeGod>(), velocityScaleMin },
+                { ModContent.NPCType<CrimulanSlimeGod>(), velocityScaleMin },
+                { ModContent.NPCType<SplitEbonianSlimeGod>(), velocityScaleMin },
+                { ModContent.NPCType<SplitCrimulanSlimeGod>(), velocityScaleMin },
+                { ModContent.NPCType<CorruptSlimeSpawn>(), velocityScaleMin },
                 { ModContent.NPCType<Cryogen>(), velocityScaleMin },
                 { ModContent.NPCType<AquaticScourgeHead>(), bitingEnemeyVelocityScale },
                 { ModContent.NPCType<AquaticScourgeBody>(), velocityScaleMin },
                 { ModContent.NPCType<AquaticScourgeBodyAlt>(), velocityScaleMin },
                 { ModContent.NPCType<AquaticScourgeTail>(), velocityScaleMin },
                 { ModContent.NPCType<BrimstoneElemental>(), velocityScaleMin },
-                { ModContent.NPCType<CalamitasRun>(), bitingEnemeyVelocityScale },
-                { ModContent.NPCType<CalamitasRun2>(), bitingEnemeyVelocityScale },
-                { ModContent.NPCType<CalamitasRun3>(), velocityScaleMin },
+                { ModContent.NPCType<Cataclysm>(), bitingEnemeyVelocityScale },
+                { ModContent.NPCType<Catastrophe>(), bitingEnemeyVelocityScale },
+                { ModContent.NPCType<CalamitasClone>(), velocityScaleMin },
                 { ModContent.NPCType<Leviathan>(), bitingEnemeyVelocityScale },
-                { ModContent.NPCType<Siren>(), velocityScaleMin },
+                { ModContent.NPCType<Anahita>(), velocityScaleMin },
                 { ModContent.NPCType<AstrumAureus>(), velocityScaleMin },
-                { ModContent.NPCType<AstrumDeusHeadSpectral>(), bitingEnemeyVelocityScale },
-                { ModContent.NPCType<AstrumDeusBodySpectral>(), velocityScaleMin },
-                { ModContent.NPCType<AstrumDeusTailSpectral>(), velocityScaleMin },
+                { ModContent.NPCType<AstrumDeusHead>(), bitingEnemeyVelocityScale },
+                { ModContent.NPCType<AstrumDeusBody>(), velocityScaleMin },
+                { ModContent.NPCType<AstrumDeusTail>(), velocityScaleMin },
                 { ModContent.NPCType<PlaguebringerGoliath>(), velocityScaleMin },
                 { ModContent.NPCType<RavagerBody>(), velocityScaleMin },
                 { ModContent.NPCType<RavagerClawLeft>(), velocityScaleMin },
@@ -710,9 +758,9 @@ namespace CalamityMod
                 { ModContent.NPCType<RavagerLegLeft>(), velocityScaleMin },
                 { ModContent.NPCType<RavagerLegRight>(), velocityScaleMin },
                 { ModContent.NPCType<RockPillar>(), velocityScaleMin },
-                { ModContent.NPCType<ProfanedGuardianBoss>(), velocityScaleMin },
-                { ModContent.NPCType<ProfanedGuardianBoss2>(), velocityScaleMin },
-                { ModContent.NPCType<ProfanedGuardianBoss3>(), velocityScaleMin },
+                { ModContent.NPCType<ProfanedGuardianCommander>(), velocityScaleMin },
+                { ModContent.NPCType<ProfanedGuardianDefender>(), velocityScaleMin },
+                { ModContent.NPCType<ProfanedGuardianHealer>(), velocityScaleMin },
                 { ModContent.NPCType<Bumblefuck>(), velocityScaleMin },
                 { ModContent.NPCType<Bumblefuck2>(), velocityScaleMin },
                 { ModContent.NPCType<CeaselessVoid>(), velocityScaleMin },
@@ -728,9 +776,9 @@ namespace CalamityMod
                 { ModContent.NPCType<DevourerofGodsHead>(), bitingEnemeyVelocityScale },
                 { ModContent.NPCType<DevourerofGodsBody>(), velocityScaleMin },
                 { ModContent.NPCType<DevourerofGodsTail>(), velocityScaleMin },
-                { ModContent.NPCType<DevourerofGodsHead2>(), bitingEnemeyVelocityScale },
-                { ModContent.NPCType<DevourerofGodsBody2>(), velocityScaleMin },
-                { ModContent.NPCType<DevourerofGodsTail2>(), velocityScaleMin },
+                { ModContent.NPCType<CosmicGuardianHead>(), bitingEnemeyVelocityScale },
+                { ModContent.NPCType<CosmicGuardianBody>(), velocityScaleMin },
+                { ModContent.NPCType<CosmicGuardianTail>(), velocityScaleMin },
                 { ModContent.NPCType<Yharon>(), velocityScaleMin },
                 { ModContent.NPCType<SupremeCalamitas>(), velocityScaleMin },
                 { ModContent.NPCType<Apollo>(), velocityScaleMin }, // Increases in phase 2
@@ -739,7 +787,7 @@ namespace CalamityMod
                 { ModContent.NPCType<ThanatosBody1>(), velocityScaleMin },
                 { ModContent.NPCType<ThanatosBody2>(), velocityScaleMin },
                 { ModContent.NPCType<ThanatosTail>(), velocityScaleMin },
-                { ModContent.NPCType<EidolonWyrmHeadHuge>(), bitingEnemeyVelocityScale }
+                { ModContent.NPCType<AdultEidolonWyrmHead>(), bitingEnemeyVelocityScale }
             };
         }
         #endregion

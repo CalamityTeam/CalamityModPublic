@@ -1,4 +1,4 @@
-using Terraria.ModLoader;
+﻿using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Melee
 {
     public class MarniteObliteratorProj : ModProjectile
@@ -18,8 +18,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.tileCollide = false;
             Projectile.hide = true;
             Projectile.ownerHitCheck = true;
-            Projectile.DamageType = DamageClass.Melee;
-            Projectile.Calamity().trueMelee = true;
+            Projectile.DamageType = TrueMeleeNoSpeedDamageClass.Instance;
         }
     }
 }

@@ -23,7 +23,9 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.tileCollide = false;
             Projectile.ignoreWater = true;
             Projectile.timeLeft = 150;
-            Projectile.DamageType = RogueDamageClass.Instance;
+            Projectile.minion = true;
+            Projectile.minionSlots = 0f;
+            Projectile.DamageType = DamageClass.Summon;
         }
 
         public override void AI() => Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver4;

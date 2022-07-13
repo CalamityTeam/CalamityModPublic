@@ -4,6 +4,7 @@ using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Mounts;
+using CalamityMod.Items.Placeables.Furniture.BossRelics;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Items.Potions;
 using CalamityMod.Items.TreasureBags;
@@ -82,7 +83,7 @@ namespace CalamityMod.NPCs.Bumblebirb
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Jungle,
 
 				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("Known across the land for the swarms that have gathered in the jungle, they are nearly feared above all else in the, as though they may not be quite as dangerous as other forces, they have no master.")
+				new FlavorTextBestiaryInfoElement("Known across the land for the swarms that have gathered in the jungle, they are nearly feared above all else in it. Although they may not be quite as dangerous as other forces, they have no master.")
             });
         }
 
@@ -109,12 +110,6 @@ namespace CalamityMod.NPCs.Bumblebirb
         public override void AI()
         {
             CalamityAI.BumblebirbAI(NPC, Mod);
-        }
-
-        public override bool CanHitPlayer(Player target, ref int cooldownSlot)
-        {
-            cooldownSlot = 1;
-            return true;
         }
 
         public override void FindFrame(int frameHeight)
@@ -414,7 +409,7 @@ namespace CalamityMod.NPCs.Bumblebirb
 
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<BumblebirbBag>()));
+            npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<DragonfollyBag>()));
 
             // Normal drops: Everything that would otherwise be in the bag
             var normalOnly = npcLoot.DefineNormalOnlyDropSet();
@@ -425,7 +420,7 @@ namespace CalamityMod.NPCs.Bumblebirb
                     ModContent.ItemType<GildedProboscis>(),
                     ModContent.ItemType<GoldenEagle>(),
                     ModContent.ItemType<RougeSlash>(),
-                    ModContent.ItemType<BirdSeed>(),
+                    ModContent.ItemType<FollyFeed>(),
                 };
                 normalOnly.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, items));
                 normalOnly.Add(ModContent.ItemType<Swordsplosion>(), 10);
@@ -440,10 +435,13 @@ namespace CalamityMod.NPCs.Bumblebirb
                 normalOnly.Add(ModContent.ItemType<BumblefuckMask>(), 7);
             }
 
-            npcLoot.Add(ModContent.ItemType<BumblebirbTrophy>(), 10);
+            npcLoot.Add(ModContent.ItemType<DragonfollyTrophy>(), 10);
+
+            // Relic
+            npcLoot.AddIf(() => Main.masterMode || CalamityWorld.revenge, ModContent.ItemType<DragonfollyRelic>());
 
             // Lore
-            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedDragonfolly, ModContent.ItemType<KnowledgeBumblebirb>());
+            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedDragonfolly, ModContent.ItemType<KnowledgeDragonfolly>());
         }
 
         public override void OnKill()

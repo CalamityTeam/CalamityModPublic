@@ -96,7 +96,7 @@ namespace CalamityMod.Items.Weapons.Magic
             CreateRecipe().
                 AddIngredient<UndinesRetribution>().
                 AddIngredient<DivineGeode>(8).
-                AddIngredient<UeliaceBar>(6).
+                AddIngredient<UelibloomBar>(6).
                 AddIngredient<UnholyEssence>(10).
                 AddTile(TileID.LunarCraftingStation).
                 Register();

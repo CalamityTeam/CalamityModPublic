@@ -99,11 +99,11 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             CreateRecipe().
                 AddIngredient<VenusianTrident>().
-                AddIngredient<CalamitasInferno>().
+                AddIngredient<LashesofChaos>().
                 AddIngredient<ForbiddenSun>().
                 AddIngredient(ItemID.FragmentSolar, 20).
                 AddIngredient(ItemID.FragmentNebula, 5).
-                AddIngredient<AuricBar>().
+                AddIngredient<AuricBar>(5).
                 AddTile<CosmicAnvil>().
                 Register();
         }

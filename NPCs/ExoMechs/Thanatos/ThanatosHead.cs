@@ -1,6 +1,5 @@
 ﻿using CalamityMod.Events;
 using CalamityMod.Items.Potions;
-using CalamityMod.Items.TreasureBags;
 using CalamityMod.NPCs.ExoMechs.Ares;
 using CalamityMod.Particles;
 using CalamityMod.Projectiles.Boss;
@@ -17,18 +16,19 @@ using Terraria.ModLoader;
 using CalamityMod.Skies;
 using Terraria.Audio;
 using CalamityMod.Sounds;
+using ReLogic.Utilities;
 
 namespace CalamityMod.NPCs.ExoMechs.Thanatos
 {
     public class ThanatosHead : ModNPC
     {
-
-
         public static int normalIconIndex;
         public static int vulnerableIconIndex;
 
         public static readonly SoundStyle VentSound = new("CalamityMod/Sounds/Custom/ThanatosVent");
         public static readonly SoundStyle LaserSound = new("CalamityMod/Sounds/Custom/THanosLaser");
+
+        public SlotId LaserSoundSlot;
 
         internal static void LoadHeadIcons()
         {
@@ -121,6 +121,16 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
             // Ensure that the reticle is not culled due to the player being very far from Thanatos.
             NPCID.Sets.MustAlwaysDraw[NPC.type] = true;
             NPCID.Sets.BossBestiaryPriority.Add(Type);
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            {
+                Scale = 0.65f,
+                PortraitScale = 0.6f,
+                CustomTexturePath = "CalamityMod/ExtraTextures/Bestiary/Thanatos_Bestiary",
+                PortraitPositionXOverride = 40
+            };
+            value.Position.X += 52f;
+            value.Position.Y += 16f;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 
         public override void SetDefaults()
@@ -210,7 +220,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
         }
 
         public float GetSlowdownAreaEdgeRadius(bool lastMechAlive) =>
-            ((CalamityWorld.malice || BossRushEvent.BossRushActive) ? 400f : CalamityWorld.death ? 600f : CalamityWorld.revenge ? 700f : Main.expertMode ? 800f : 1000f) * (lastMechAlive ? 0.6f : 1f);
+            (BossRushEvent.BossRushActive ? 400f : CalamityWorld.death ? 600f : CalamityWorld.revenge ? 700f : Main.expertMode ? 800f : 1000f) * (lastMechAlive ? 0.6f : 1f) * (Main.getGoodWorld ? 0.5f : 1f);
 
         public int CheckForOtherMechs(ref Player target, out bool exoPrimeAlive, out bool exoTwinsAlive)
         {
@@ -248,10 +258,10 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
             CalamityGlobalNPC.draedonExoMechWorm = NPC.whoAmI;
 
             // Difficulty modes
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
-            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || bossRush;
+            bool revenge = CalamityWorld.revenge || bossRush;
+            bool expertMode = Main.expertMode || bossRush;
 
             // Percent life remaining
             float lifeRatio = NPC.life / (float)NPC.lifeMax;
@@ -474,7 +484,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
             float laserBarrageLocationDistance = turnDistance * 3f;
 
             // Velocity and turn speed values
-            float baseVelocityMult = (shouldGetBuffedByBerserkPhase ? 0.25f : 0f) + (malice ? 1.15f : death ? 1.1f : revenge ? 1.075f : expertMode ? 1.05f : 1f);
+            float baseVelocityMult = (shouldGetBuffedByBerserkPhase ? 0.25f : 0f) + (bossRush ? 1.15f : death ? 1.1f : revenge ? 1.075f : expertMode ? 1.05f : 1f);
             float baseVelocity = 11.1f * baseVelocityMult;
 
             // Increase top velocity if target is dead or if Thanatos is uncoiling
@@ -482,6 +492,9 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
                 baseVelocity *= 4f;
             else
                 baseVelocity *= increaseSpeedMult;
+
+            if (Main.getGoodWorld)
+                baseVelocity *= 1.15f;
 
             float turnDegrees = baseVelocity * 0.11f * (shouldGetBuffedByBerserkPhase ? 1.25f : 1f);
 
@@ -848,10 +861,9 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
                             // Fire deathray telegraph beams
                             if (calamityGlobalNPC.newAI[2] == 1f)
                             {
-                                if (Main.player[Main.myPlayer].active && !Main.player[Main.myPlayer].dead && Vector2.Distance(Main.player[Main.myPlayer].Center, NPC.Center) < soundDistance)
-                                {
-                                    SoundEngine.PlaySound(LaserSound, Main.player[Main.myPlayer].position);
-                                }
+                                //Commented out in case we decide its better for it to simply play from anywhere in range
+                                //if (Main.player[Main.myPlayer].active && !Main.player[Main.myPlayer].dead && Vector2.Distance(Main.player[Main.myPlayer].Center, NPC.Center) < soundDistance)
+                                LaserSoundSlot = SoundEngine.PlaySound(LaserSound, NPC.Center);
 
                                 // Create a bunch of lightning bolts in the sky
                                 ExoMechsSky.CreateLightningBolt(12);
@@ -971,6 +983,12 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
             // Velocity upper limit
             if (NPC.velocity.Length() > baseVelocity)
                 NPC.velocity = NPC.velocity.SafeNormalize(Vector2.Zero) * baseVelocity;
+
+            //Update the laser sound if it's being done.
+            if (SoundEngine.TryGetActiveSound(LaserSoundSlot, out var laserSound) && laserSound.IsPlaying)
+            {
+                laserSound.Position = NPC.Center;
+            }
         }
 
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)

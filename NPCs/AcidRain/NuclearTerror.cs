@@ -1,6 +1,9 @@
-﻿using CalamityMod.Dusts;
+﻿using CalamityMod.BiomeManagers;
+using CalamityMod.Dusts;
+using CalamityMod.Items.Placeables.Furniture.BossRelics;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.Projectiles.Enemy;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -109,12 +112,12 @@ namespace CalamityMod.NPCs.AcidRain
             NPC.Calamity().VulnerableToSickness = false;
             NPC.Calamity().VulnerableToElectricity = true;
             NPC.Calamity().VulnerableToWater = false;
+            SpawnModBiomes = new int[1] { ModContent.GetInstance<AcidRainBiome>().Type };
         }
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
-                //BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.AcidRainTier3,
 
                 // Will move to localization whenever that is cleaned up.
                 new FlavorTextBestiaryInfoElement("Perhaps it was once just a simple crab or perhaps there are plenty of others like it, lurking in the depths. Any answer is sure to make you want to never set foot in the sulphurous sea again.")
@@ -520,6 +523,7 @@ namespace CalamityMod.NPCs.AcidRain
         {
             npcLoot.Add(ModContent.ItemType<GammaHeart>(), 3);
             npcLoot.Add(ModContent.ItemType<PhosphorescentGauntlet>(), 3);
+            npcLoot.AddIf(() => Main.masterMode || CalamityWorld.revenge, ModContent.ItemType<NuclearTerrorRelic>(), 4);
         }
     }
 }

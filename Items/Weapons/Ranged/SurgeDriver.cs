@@ -1,5 +1,4 @@
 ﻿using Terraria.DataStructures;
-using Terraria.DataStructures;
 using CalamityMod.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -16,6 +15,8 @@ namespace CalamityMod.Items.Weapons.Ranged
             Tooltip.SetDefault("Left clicks release a laser ray that explodes on collision\n" +
                 "Right clicks release a barrage of laser beams that release homing energy on enemy hits");
             SacrificeTotal = 1;
+
+            ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }
 
         public override void SetDefaults()
@@ -62,7 +63,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[ModContent.ProjectileType<SurgeDriverHoldout>()] <= 0;
 
-        public override float UseTimeMultiplier(Player player) => player.Calamity().mouseRight ? 5f : 1f;
+        public override float UseSpeedMultiplier(Player player) => player.altFunctionUse == 2f ? 5f : 1f;
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {

@@ -49,7 +49,7 @@ namespace CalamityMod.Items.Fishing.FishingRods
         {
             CreateRecipe().
                 AddIngredient(ItemID.WoodFishingPole).
-                AddIngredient<UeliaceBar>(10).
+                AddIngredient<UelibloomBar>(10).
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }

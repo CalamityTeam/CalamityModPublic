@@ -1,6 +1,5 @@
 ﻿using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -63,7 +62,7 @@ namespace CalamityMod.Projectiles.Rogue
                     int soul = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<Phantom>(), soulDamage, Projectile.knockBack, Projectile.owner);
                     if (soul.WithinBounds(Main.maxProjectiles))
                     {
-                        Main.projectile[soul].Calamity().forceRogue = true;
+                        Main.projectile[soul].DamageType = RogueDamageClass.Instance;
                         Main.projectile[soul].usesLocalNPCImmunity = true;
                         Main.projectile[soul].localNPCHitCooldown = -2;
                     }

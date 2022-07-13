@@ -14,18 +14,26 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
     {
         public static bool BuffedKingSlimeAI(NPC npc, Mod mod)
         {
+            // Percent life remaining
+            float lifeRatio = npc.life / (float)npc.lifeMax;
+
             // Variables
             float num234 = 1f;
             bool teleporting = false;
             bool flag9 = false;
             npc.aiAction = 0;
+            float num237 = 2f;
+            if (Main.getGoodWorld)
+            {
+                num237 -= 1f - lifeRatio;
+                num234 *= num237;
+            }
 
             // Reset damage
             npc.damage = npc.defDamage;
 
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
-            npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive && malice;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || bossRush;
 
             // Get a target
             if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
@@ -34,9 +42,6 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             // Despawn safety, make sure to target another player if the current player target is too far away
             if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
                 npc.TargetClosest();
-
-            // Percent life remaining
-            float lifeRatio = npc.life / (float)npc.lifeMax;
 
             // Phases based on life percentage
             bool phase2 = lifeRatio < 0.75f;
@@ -96,7 +101,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
             // Faster fall
             if (npc.velocity.Y > 0f)
-                npc.velocity.Y += malice ? 0.1f : death ? 0.05f : 0f;
+                npc.velocity.Y += bossRush ? 0.1f : death ? 0.05f : 0f;
 
             // Activate teleport
             if (!Main.player[npc.target].dead && npc.ai[2] >= 300f && npc.ai[1] < 5f && npc.velocity.Y == 0f)
@@ -155,6 +160,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 npc.ai[0] += 1f;
                 num234 = MathHelper.Clamp((60f - npc.ai[0]) / 60f, 0f, 1f);
                 num234 = 0.5f + num234 * 0.5f;
+                if (Main.getGoodWorld)
+                    num234 *= num237;
 
                 if (npc.ai[0] >= 60f)
                     flag9 = true;
@@ -199,6 +206,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 npc.ai[0] += 1f;
                 num234 = MathHelper.Clamp(npc.ai[0] / 30f, 0f, 1f);
                 num234 = 0.5f + num234 * 0.5f;
+                if (Main.getGoodWorld)
+                    num234 *= num237;
 
                 if (npc.ai[0] >= 30f && Main.netMode != NetmodeID.MultiplayerClient)
                 {
@@ -237,7 +246,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 if (!teleporting)
                 {
                     npc.ai[0] += 2f;
-                    if (malice)
+                    if (bossRush)
                     {
                         npc.ai[0] += 9f;
                     }
@@ -274,7 +283,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         {
                             npc.velocity.Y = -13f * speedMult;
                             npc.velocity.X += (phase2 ? (death ? 5.5f : 4.5f) : 3.5f) * npc.direction;
-                            if (malice)
+                            if (bossRush)
                                 npc.velocity.X *= jumpSpeedMult;
 
                             npc.ai[0] = -200f;
@@ -284,7 +293,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         {
                             npc.velocity.Y = -6f * speedMult;
                             npc.velocity.X += (phase2 ? (death ? 6.5f : 5.5f) : 4.5f) * npc.direction;
-                            if (malice)
+                            if (bossRush)
                                 npc.velocity.X *= jumpSpeedMult;
 
                             npc.ai[0] = -120f;
@@ -294,7 +303,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         {
                             npc.velocity.Y = -8f * speedMult;
                             npc.velocity.X += (phase2 ? (death ? 6f : 5f) : 4f) * npc.direction;
-                            if (malice)
+                            if (bossRush)
                                 npc.velocity.X *= jumpSpeedMult;
 
                             npc.ai[0] = -120f;
@@ -307,12 +316,19 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             }
 
             // Change jump velocity
-            else if (npc.target < Main.maxPlayers && ((npc.direction == 1 && npc.velocity.X < 3f) || (npc.direction == -1 && npc.velocity.X > -3f)))
+            else if (npc.target < Main.maxPlayers)
             {
-                if ((npc.direction == -1 && npc.velocity.X < 0.1) || (npc.direction == 1 && npc.velocity.X > -0.1))
-                    npc.velocity.X += (malice ? 0.4f : death ? 0.25f : 0.2f) * npc.direction;
-                else
-                    npc.velocity.X *= malice ? 0.9f : death ? 0.92f : 0.93f;
+                float num252 = 3f;
+                if (Main.getGoodWorld)
+                    num252 = 6f;
+
+                if ((npc.direction == 1 && npc.velocity.X < num252) || (npc.direction == -1 && npc.velocity.X > 0f - num252))
+                {
+                    if ((npc.direction == -1 && npc.velocity.X < 0.1) || (npc.direction == 1 && npc.velocity.X > -0.1))
+                        npc.velocity.X += (bossRush ? 0.4f : death ? 0.25f : 0.2f) * npc.direction;
+                    else
+                        npc.velocity.X *= bossRush ? 0.9f : death ? 0.92f : 0.93f;
+                }
             }
 
             // Spawn dust
@@ -325,7 +341,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 return false;
 
             // Adjust size based on HP
-            float maxScale = death ? 3f : 1.25f;
+            float maxScale = death ? (Main.getGoodWorld ? 6f : 3f) : (Main.getGoodWorld ? 3f : 1.25f);
             float minScale = 0.75f;
             lifeRatio = lifeRatio * (maxScale - minScale) + minScale;
             lifeRatio *= num234;
@@ -385,7 +401,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                                 break;
                         }
 
-                        if ((Main.raining || malice) && Main.rand.NextBool(10))
+                        if ((Main.raining || bossRush) && Main.rand.NextBool(10))
                         {
                             npcType = NPCID.UmbrellaSlime;
 

@@ -94,7 +94,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 AddIngredient<ArmoredShell>(3).
                 AddIngredient<SeaPrism>(10).
                 AddIngredient<DepthCells>(15).
-                AddIngredient<Lumenite>(15).
+                AddIngredient<Lumenyl>(15).
                 AddIngredient<Tenebris>(5).
                 AddTile(TileID.LunarCraftingStation).
                 Register();

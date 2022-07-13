@@ -1,5 +1,4 @@
 ﻿using Terraria.DataStructures;
-using Terraria.DataStructures;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
@@ -86,10 +85,19 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<TrueNightsStabber>().
-                AddIngredient<TrueExcaliburShortsword>().
-                AddIngredient<LivingShard>(7).
-                AddTile(TileID.MythrilAnvil).
+                AddIngredient<Floodtide>().
+                AddIngredient<Hellkite>().
+                AddIngredient<TerraEdge>().
+                AddIngredient<UelibloomBar>(7).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
+
+            CreateRecipe().
+                AddIngredient<Floodtide>().
+                AddIngredient<Hellkite>().
+                AddIngredient(ItemID.TerraBlade).
+                AddIngredient<UelibloomBar>(7).
+                AddTile(TileID.LunarCraftingStation).
                 Register();
         }
     }

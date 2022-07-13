@@ -1,5 +1,4 @@
 ﻿using Terraria.DataStructures;
-using Terraria.DataStructures;
 using CalamityMod.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -88,6 +87,6 @@ namespace CalamityMod.Items.Weapons.Ranged
         }
 
         // Right clicking to detonate all rockets is very fast.
-        public override float UseTimeMultiplier(Player player) => player.altFunctionUse == 2 ? 5f : 1f;
+        public override float UseSpeedMultiplier(Player player) => player.altFunctionUse == 2 ? 5f : 1f;
     }
 }

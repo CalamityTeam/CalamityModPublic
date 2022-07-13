@@ -27,6 +27,11 @@ namespace CalamityMod.Items.Accessories.Vanity
 
             if (Main.netMode == NetmodeID.Server)
                 return;
+
+            int equipSlotBody = EquipLoader.GetEquipSlot(Mod, Name, EquipType.Body);
+            ArmorIDs.Body.Sets.HidesTopSkin[equipSlotBody] = true;
+            ArmorIDs.Body.Sets.HidesArms[equipSlotBody] = true;
+
             int equipSlotLegs = EquipLoader.GetEquipSlot(Mod, Name, EquipType.Legs);
             ArmorIDs.Legs.Sets.HidesBottomSkin[equipSlotLegs] = true;
         }
@@ -39,6 +44,12 @@ namespace CalamityMod.Items.Accessories.Vanity
             Item.value = CalamityGlobalItem.Rarity5BuyPrice;
             Item.rare = ItemRarityID.Pink;
             Item.Calamity().devItem = true;
+        }
+
+        public override void UpdateVanity(Player player)
+        {
+            player.Calamity().snowmanHide = false;
+            player.Calamity().snowmanForce = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

@@ -41,6 +41,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 10;
             Projectile.coldDamage = true;
+            Projectile.DamageType = DamageClass.Summon;
         }
 
         // Netcode for sending and receiving shit

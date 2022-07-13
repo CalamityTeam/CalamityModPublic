@@ -41,8 +41,8 @@ namespace CalamityMod.Items.Weapons.Melee
         //NOTE: GetWeaponDamage is in the CalamityPlayer file
         public override void SetDefaults()
         {
-            Item.width = 88;
-            Item.height = 84;
+            Item.width = 86;
+            Item.height = 94;
             Item.damage = BaseDamage;
             Item.DamageType = DamageClass.Melee;
             Item.useAnimation = Item.useTime = 12;
@@ -100,7 +100,7 @@ namespace CalamityMod.Items.Weapons.Melee
                         }
                         if (Main.rand.NextBool(100))
                         {
-                            int damage = (int)player.GetDamage<MeleeDamageClass>().ApplyTo(Item.damage);
+                            int damage = (int)player.GetTotalDamage<MeleeDamageClass>().ApplyTo(Item.damage);
                             Projectile.NewProjectile(source, player.MountedCenter + dustSpawn.RotatedBy(player.itemRotation) * player.direction,
                                                      Vector2.Zero,
                                                      ModContent.ProjectileType<GaelExplosion>(),

@@ -22,6 +22,7 @@ namespace CalamityMod.Items.Accessories
                 "During the night the player has +15 defense\n" +
                 "Both of these bonuses are granted during an eclipse");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 7));
+            ItemID.Sets.AnimatesAsSoul[Type] = true;
         }
 
         public override void SetDefaults()
@@ -46,7 +47,7 @@ namespace CalamityMod.Items.Accessories
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<UeliaceBar>(10).
+                AddIngredient<UelibloomBar>(10).
                 AddIngredient<DarksunFragment>(20).
                 AddTile<CosmicAnvil>().
                 Register();

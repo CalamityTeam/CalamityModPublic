@@ -73,7 +73,11 @@ namespace CalamityMod.NPCs.Polterghast
                 return false;
             }
 
-            bool chargePhase = Main.npc[CalamityGlobalNPC.ghostBoss].Calamity().newAI[0] >= 420f;
+            float chargePhaseGateValue = 480f;
+            if (Main.getGoodWorld)
+                chargePhaseGateValue *= 0.5f;
+
+            bool chargePhase = Main.npc[CalamityGlobalNPC.ghostBoss].Calamity().newAI[0] >= chargePhaseGateValue - 60f;
 
             // Percent life remaining, Polter
             float lifeRatio = Main.npc[CalamityGlobalNPC.ghostBoss].life / Main.npc[CalamityGlobalNPC.ghostBoss].lifeMax;
@@ -85,13 +89,17 @@ namespace CalamityMod.NPCs.Polterghast
 
             Vector2 direction = Main.player[NPC.target].Center - NPC.Center;
             direction.Normalize();
-            direction *= 0.05f;
+            direction *= 0.5f;
             NPC.rotation = direction.ToRotation();
 
             if (!chargePhase)
             {
                 NPC.ai[2] += 1f;
-                if (NPC.ai[2] >= 150f)
+                float shootMineGateValue = 150f;
+                if (Main.getGoodWorld)
+                    shootMineGateValue *= 0.5f;
+
+                if (NPC.ai[2] >= shootMineGateValue)
                 {
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
@@ -114,7 +122,7 @@ namespace CalamityMod.NPCs.Polterghast
             float SPEEN = 1f - lifeRatio * 2f;
             if (SPEEN < 0f)
                 SPEEN = 0f;
-            NPC.ai[1] += 0.5f + SPEEN;
+            NPC.ai[1] += (Main.getGoodWorld ? 1.5f : 0.5f) + SPEEN;
             return false;
         }
 

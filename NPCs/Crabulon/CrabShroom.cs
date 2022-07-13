@@ -25,11 +25,13 @@ namespace CalamityMod.NPCs.Crabulon
             NPC.GetNPCDamage();
             NPC.width = 14;
             NPC.height = 14;
+
             NPC.lifeMax = 25;
             if (BossRushEvent.BossRushActive)
-            {
                 NPC.lifeMax = 15000;
-            }
+            if (Main.getGoodWorld)
+                NPC.lifeMax *= 2;
+
             AIType = -1;
             NPC.knockBackResist = 0.75f;
             NPC.noGravity = true;
@@ -44,7 +46,7 @@ namespace CalamityMod.NPCs.Crabulon
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
-            int associatedNPCType = ModContent.NPCType<CrabulonIdle>();
+            int associatedNPCType = ModContent.NPCType<Crabulon>();
             bestiaryEntry.UIInfoProvider = new CommonEnemyUICollectionInfoProvider(ContentSamples.NpcBestiaryCreditIdsByNpcNetIds[associatedNPCType], quickUnlock: true);
 
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
@@ -67,7 +69,7 @@ namespace CalamityMod.NPCs.Crabulon
         {
             Lighting.AddLight((int)((NPC.position.X + (NPC.width / 2)) / 16f), (int)((NPC.position.Y + (NPC.height / 2)) / 16f), 0f, 0.2f, 0.4f);
             bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-            float xVelocityLimit = (CalamityWorld.malice || BossRushEvent.BossRushActive) ? 7.5f : 5f;
+            float xVelocityLimit = BossRushEvent.BossRushActive ? 7.5f : 5f;
             float yVelocityLimit = revenge ? 1.25f : 1f;
             Player player = Main.player[NPC.target];
             NPC.velocity.Y += 0.02f;
@@ -123,12 +125,9 @@ namespace CalamityMod.NPCs.Crabulon
 
         public override void OnKill()
         {
-            if (!CalamityWorld.revenge)
-            {
-                int closestPlayer = Player.FindClosest(NPC.Center, 1, 1);
-                if (Main.rand.NextBool(8) && Main.player[closestPlayer].statLife < Main.player[closestPlayer].statLifeMax2)
-                    Item.NewItem(NPC.GetSource_Loot(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
-            }
+            int closestPlayer = Player.FindClosest(NPC.Center, 1, 1);
+            if (Main.rand.NextBool(8) && Main.player[closestPlayer].statLife < Main.player[closestPlayer].statLifeMax2)
+                Item.NewItem(NPC.GetSource_Loot(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
         }
 
         public override void HitEffect(int hitDirection, double damage)

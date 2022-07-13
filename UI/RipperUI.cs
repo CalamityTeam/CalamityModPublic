@@ -11,6 +11,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.UI
 {
+    // TODO -- This can be made into a ModSystem with simple OnModLoad and Unload hooks.
     public static class RipperUI
     {
         // These values were handpicked on a 1080p screen by Ozzatron. Please disregard the bizarre precision.

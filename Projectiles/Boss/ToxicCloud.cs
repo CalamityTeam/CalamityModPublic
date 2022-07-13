@@ -2,7 +2,6 @@
 using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -23,7 +22,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-            Projectile.Calamity().canBreakPlayerDefense = true;
+            Projectile.Calamity().DealsDefenseDamage = true;
             Projectile.width = 52;
             Projectile.height = 48;
             Projectile.hostile = true;
@@ -38,8 +37,8 @@ namespace CalamityMod.Projectiles.Boss
         {
             Lighting.AddLight(Projectile.Center, 0.1f, 0.7f, 0f);
 
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            if (Projectile.velocity.Length() < (malice ? 6.25f : 5f))
+            bool bossRush = BossRushEvent.BossRushActive;
+            if (Projectile.velocity.Length() < (bossRush ? 6.25f : 5f))
                 Projectile.velocity *= 1.01f;
 
             Projectile.frameCounter++;
@@ -91,6 +90,7 @@ namespace CalamityMod.Projectiles.Boss
             if (Projectile.Opacity >= 0.9f)
             {
                 target.AddBuff(BuffID.Poisoned, 240);
+                target.AddBuff(BuffID.Venom, 240);
                 target.AddBuff(ModContent.BuffType<Irradiated>(), 240);
             }
         }

@@ -1,7 +1,6 @@
 using Terraria;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria.ID;
 
 namespace CalamityMod.Projectiles.Rogue
@@ -22,7 +21,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void AI()
         {
-            CalamityGlobalProjectile.HomeInOnNPC(Projectile, false, 850f, 19f, 30f);
+            CalamityUtils.HomeInOnNPC(Projectile, false, 850f, 19f, 30f);
             Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
         }
 

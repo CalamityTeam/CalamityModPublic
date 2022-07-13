@@ -1,4 +1,5 @@
-﻿using CalamityMod.Buffs.StatDebuffs;
+﻿using CalamityMod.BiomeManagers;
+using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Potions;
 using Terraria;
@@ -37,12 +38,12 @@ namespace CalamityMod.NPCs.SulphurousSea
             NPC.Calamity().VulnerableToSickness = false;
             NPC.Calamity().VulnerableToElectricity = true;
             NPC.Calamity().VulnerableToWater = false;
+            SpawnModBiomes = new int[1] { ModContent.GetInstance<SulphurousSeaBiome>().Type };
         }
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
-				//BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.SulphurousSea,
 
 				// Will move to localization whenever that is cleaned up.
 				new FlavorTextBestiaryInfoElement("These creatures do not seek out their food, but rather wait for their meals to come to them. Watch your step if you venture down into the sulphurous sea.")
@@ -101,15 +102,31 @@ namespace CalamityMod.NPCs.SulphurousSea
 
         public override void FindFrame(int frameHeight)
         {
-            if (!NPC.wet)
+            if (!NPC.wet && !NPC.IsABestiaryIconDummy)
             {
                 NPC.frameCounter = 0.0;
                 return;
             }
-            NPC.frameCounter += 0.15f;
-            NPC.frameCounter %= Main.npcFrameCount[NPC.type];
-            int frame = (int)NPC.frameCounter;
-            NPC.frame.Y = frame * frameHeight;
+            if (NPC.IsABestiaryIconDummy)
+            {
+                NPC.frameCounter += 1.0;
+                if (NPC.frameCounter > 6.0)
+                {
+                    NPC.frameCounter = 0.0;
+                    NPC.frame.Y += frameHeight;
+                }
+                if (NPC.frame.Y >= frameHeight * 4)
+                {
+                    NPC.frame.Y = 0;
+                }
+            }
+            else
+            {
+                NPC.frameCounter += 0.15f;
+                NPC.frameCounter %= Main.npcFrameCount[NPC.type];
+                int frame = (int)NPC.frameCounter;
+                NPC.frame.Y = frame * frameHeight;
+            }
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)

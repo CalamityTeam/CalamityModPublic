@@ -57,7 +57,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             CreateRecipe().
                 AddIngredient<EpidemicShredder>().
-                AddIngredient<UeliaceBar>(5).
+                AddIngredient<UelibloomBar>(5).
                 AddIngredient<BloodstoneCore>(5).
                 AddTile(TileID.LunarCraftingStation).
                 Register();

@@ -1,6 +1,5 @@
 ﻿using CalamityMod.Items.Weapons.Rogue;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -10,7 +9,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class NanoblackMain : ModProjectile
     {
-        public override string Texture => "CalamityMod/Items/Weapons/Rogue/NanoblackReaperRogue";
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/NanoblackReaper";
 
         private const float RotationIncrement = 0.22f;
         private const int Lifetime = 240;
@@ -74,7 +73,7 @@ namespace CalamityMod.Projectiles.Rogue
             // The scythe runs its returning AI if the frame counter is greater than ReboundTime.
             if (Projectile.ai[0] >= ReboundTime)
             {
-                float returnSpeed = NanoblackReaperRogue.Speed;
+                float returnSpeed = NanoblackReaper.Speed;
                 float acceleration = 2.4f;
                 Player owner = Main.player[Projectile.owner];
 

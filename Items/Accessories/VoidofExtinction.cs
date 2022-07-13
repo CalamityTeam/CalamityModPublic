@@ -47,7 +47,7 @@ namespace CalamityMod.Items.Accessories
                 AddIngredient<Abaddon>().
                 AddIngredient<VoidofCalamity>().
                 AddIngredient<CoreofChaos>().
-                AddIngredient<CruptixBar>(3).
+                AddIngredient<ScoriaBar>(3).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

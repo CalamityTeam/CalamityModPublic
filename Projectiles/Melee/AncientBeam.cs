@@ -1,6 +1,5 @@
 ﻿using CalamityMod.Particles;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -13,7 +12,7 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class AncientBeam : ModProjectile
     {
-        public override string Texture => "CalamityMod/Items/Weapons/Melee/ArkoftheAncientsGlow";
+        public override string Texture => "CalamityMod/Items/Weapons/Melee/FracturedArkGlow";
 
         public override void SetStaticDefaults()
         {

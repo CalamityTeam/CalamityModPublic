@@ -1,6 +1,5 @@
 ﻿using CalamityMod.NPCs.DevourerofGods;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Systems
@@ -11,9 +10,9 @@ namespace CalamityMod.Systems
 
         public override bool IsSceneEffectActive(Player player) => NPC.AnyNPCs(ModContent.NPCType<DevourerofGodsHead>());
 
-        public override void SpecialVisuals(Player player)
+        public override void SpecialVisuals(Player player, bool isActive)
         {
-            player.ManageSpecialBiomeVisuals("CalamityMod:DevourerofGodsHead", IsSceneEffectActive(player));
+            player.ManageSpecialBiomeVisuals("CalamityMod:DevourerofGodsHead", isActive);
         }
     }
 }

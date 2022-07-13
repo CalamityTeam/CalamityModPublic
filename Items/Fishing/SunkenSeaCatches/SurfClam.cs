@@ -1,7 +1,5 @@
 ﻿using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.World;
-using CalamityMod.Systems;
 
 namespace CalamityMod.Items.Fishing.SunkenSeaCatches
 {
@@ -10,6 +8,7 @@ namespace CalamityMod.Items.Fishing.SunkenSeaCatches
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Surf Clam");
+            SacrificeTotal = 2;
         }
 
         public override void SetDefaults()

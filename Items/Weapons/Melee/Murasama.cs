@@ -1,12 +1,8 @@
 ﻿using Terraria.DataStructures;
-using Terraria.DataStructures;
-using Terraria.DataStructures;
 using CalamityMod.Projectiles.Melee;
-using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -25,6 +21,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 "ID and power-level locked\n" +
                 "Prove your strength or have the correct user ID to wield this sword");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 13));
+            ItemID.Sets.AnimatesAsSoul[Type] = true;
             SacrificeTotal = 1;
         }
 
@@ -33,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.height = 128;
             Item.width = 56;
             Item.damage = 3001;
-            Item.DamageType = DamageClass.Melee;
+            Item.DamageType = TrueMeleeNoSpeedDamageClass.Instance;
             Item.noMelee = true;
             Item.noUseGraphic = true;
             Item.channel = true;
@@ -48,7 +45,6 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.shootSpeed = 24f;
             Item.Calamity().customRarity = CalamityRarity.Violet;
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(5, 14));
-            Item.Calamity().trueMelee = true;
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults

@@ -1,5 +1,4 @@
 ﻿using Terraria.DataStructures;
-using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Projectiles.Melee;
@@ -120,7 +119,7 @@ namespace CalamityMod.Items.Weapons.Melee
             CreateRecipe().
                 AddIngredient<ForbiddenOathblade>().
                 AddIngredient(ItemID.BrokenHeroSword).
-                AddIngredient<CalamityDust>(3).
+                AddIngredient<AshesofCalamity>(3).
                 AddIngredient<InfectedArmorPlating>(3).
                 AddTile(TileID.MythrilAnvil).
                 Register();

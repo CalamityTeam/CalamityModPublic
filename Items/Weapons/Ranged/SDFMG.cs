@@ -73,7 +73,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 AddIngredient<FetidEmesis>().
                 AddIngredient<SeaPrism>(10).
                 AddIngredient<DepthCells>(10).
-                AddIngredient<Lumenite>(10).
+                AddIngredient<Lumenyl>(10).
                 AddIngredient<Tenebris>(5).
                 AddIngredient<CosmiliteBar>(8).
                 AddIngredient<EndothermicEnergy>(20).

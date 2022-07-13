@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Potions
             Item.healLife = 300;
             Item.useAnimation = 17;
             Item.useTime = 17;
-            Item.useStyle = ItemUseStyleID.EatFood;
+            Item.useStyle = ItemUseStyleID.DrinkLiquid;
             Item.UseSound = SoundID.Item3;
             Item.consumable = true;
             Item.potion = true;

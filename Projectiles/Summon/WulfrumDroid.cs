@@ -4,12 +4,94 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using System;
+using Terraria.Audio;
+using CalamityMod.Particles;
+using CalamityMod.Items.Weapons.Summon;
+using CalamityMod.Items.Accessories;
+using Microsoft.Xna.Framework.Graphics;
+using Terraria.Graphics.Shaders;
+using Terraria.Graphics.Effects;
+using static Terraria.ModLoader.ModContent;
+using ReLogic.Content;
 
 namespace CalamityMod.Projectiles.Summon
 {
     public class WulfrumDroid : ModProjectile
     {
-        public float dust = 0f;
+        public static readonly SoundStyle HelloSound = new("CalamityMod/Sounds/Custom/WulfrumDroidSpawnBeep") { PitchVariance = 0.4f };
+        public static readonly SoundStyle PewSound = new("CalamityMod/Sounds/Custom/WulfrumDroidFire") { PitchVariance = 0.4f, Volume = 0.6f, MaxInstances = 0 };
+        public static readonly SoundStyle RandomChirpSound = new("CalamityMod/Sounds/Custom/WulfrumDroidChirp", 4) { PitchVariance = 0.3f };
+        public static readonly SoundStyle HurrySound = new("CalamityMod/Sounds/Custom/WulfrumDroidHurry", 2) { PitchVariance = 0.3f };
+        public static readonly SoundStyle RepairSound = new("CalamityMod/Sounds/Custom/WulfrumDroidRepair") { Volume = 0.8f, PitchVariance = 0.3f, SoundLimitBehavior = SoundLimitBehavior.IgnoreNew };
+        public int NewSoundDelay
+        {
+            get
+            {
+                int minionCount = 1;
+                for (int i = 0; i < Main.maxProjectiles; i++)
+                {
+                    Projectile proj = Main.projectile[i];
+                    if (proj.active && proj.owner == Owner.whoAmI && proj.type == Type && proj.whoAmI != Projectile.whoAmI)
+                    {
+                        minionCount++;
+                    }
+                }
+
+                return (int)(Main.rand.Next(340, 1460) * minionCount);
+            }
+        }
+
+        internal PrimitiveTrail TrailDrawer;
+        internal Color PrimColorMult;
+        public Player healedPlayer;
+
+        public float Initialized = 0f;
+        public static float AggroRange = 450f;
+        public static float ShootDelay = 110f; //This is the max delay, but it can b e shorter
+        public enum BehaviorState { Aggressive, Idle };
+        public BehaviorState State
+        {
+            get => (BehaviorState)(int)Projectile.ai[0];
+
+            set => Projectile.ai[0] = (float)value;
+        }
+
+        public ref float ShootTimer => ref Projectile.ai[1];
+
+        public ref float AyeAyeCaptainCooldown => ref Projectile.localAI[0];
+        public ref float NuzzleFlashTime => ref Projectile.localAI[1];
+
+        public NPC Target
+        {
+            get
+            {
+                NPC target = null;
+
+                if (Owner.HasMinionAttackTargetNPC)
+                    target = CheckNPCTargetValidity(Main.npc[Owner.MinionAttackTargetNPC]);
+
+                if (target != null)
+                    return target;
+
+                else
+                {
+                    for (int npcIndex = 0; npcIndex < Main.npc.Length; npcIndex++)
+                    {
+                        target = CheckNPCTargetValidity(Main.npc[npcIndex]);
+                        if (target != null)
+                            return target;
+                    }
+                }
+
+                return null;
+            }
+        }
+
+        public Player Owner => Main.player[Projectile.owner];
+
+        public static Asset<Texture2D> SheenTex;
+
 
         public override void SetStaticDefaults()
         {
@@ -32,176 +114,387 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.tileCollide = false;
             Projectile.timeLeft *= 5;
             Projectile.minion = true;
+            Projectile.DamageType = DamageClass.Summon;
+            Initialized = 0f;
+        }
+
+        //Returns the npc if targetable, returns null if not
+        public NPC CheckNPCTargetValidity(NPC potentialTarget)
+        {
+            if (potentialTarget.CanBeChasedBy(this, false))
+            {
+                float targetDist = Vector2.Distance(potentialTarget.Center, Projectile.Center);
+
+                if ((targetDist < AggroRange) && Collision.CanHitLine(Projectile.position, Projectile.width, Projectile.height, potentialTarget.position, potentialTarget.width, potentialTarget.height))
+                {
+                    return potentialTarget;
+                }
+            }
+
+            return null;
         }
 
         public override void AI()
         {
             Player player = Main.player[Projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
-            if (dust == 0f)
+
+            //Spawn dust
+            if (Initialized == 0f)
             {
-                int dustAmt = 36;
+                int dustAmt = Main.rand.Next(10, 16);
                 for (int dustIndex = 0; dustIndex < dustAmt; dustIndex++)
                 {
-                    Vector2 source = Vector2.Normalize(Projectile.velocity) * new Vector2((float)Projectile.width / 2f, (float)Projectile.height) * 0.75f;
-                    source = source.RotatedBy((double)((float)(dustIndex - (dustAmt / 2 - 1)) * MathHelper.TwoPi / (float)dustAmt), default) + Projectile.Center;
-                    Vector2 dustVel = source - Projectile.Center;
-                    int green = Dust.NewDust(source + dustVel, 0, 0, 61, dustVel.X * 1.1f, dustVel.Y * 1.1f, 100, default, 1.4f);
-                    Main.dust[green].noGravity = true;
-                    Main.dust[green].noLight = true;
-                    Main.dust[green].velocity = dustVel;
+                    Vector2 direction = Main.rand.NextVector2CircularEdge(1f, 1f);
+
+                    Dust wishyDust = Dust.NewDustPerfect(Projectile.Center + direction * Main.rand.NextFloat(1f, 8f), 229, Alpha : 100, Scale: Main.rand.NextFloat(1f, 1.4f));
+                    wishyDust.noGravity = true;
+                    wishyDust.noLight = true;
+                    wishyDust.velocity = direction * Main.rand.NextFloat(2f, 4);
                 }
-                dust += 1f;
+
+                SoundEngine.PlaySound(HelloSound, Projectile.Center);
+                Projectile.soundDelay = NewSoundDelay;
+                ShootTimer = ShootDelay;
+
+                Initialized ++;
             }
+
+            bool buffMode = Owner.Calamity().mouseRight && Owner.HeldItem.type == ModContent.ItemType<WulfrumController>();
+
+            //Do frame stuff i guess
+            Projectile.frame = Projectile.frame % (Main.projFrames[Projectile.type] / 2);
+
             Projectile.frameCounter++;
             if (Projectile.frameCounter > 8)
             {
                 Projectile.frame++;
                 Projectile.frameCounter = 0;
             }
-            if (Projectile.frame >= Main.projFrames[Projectile.type])
+            if (Projectile.frame >= Main.projFrames[Projectile.type] / 2)
             {
                 Projectile.frame = 0;
             }
-            bool correctMinion = Projectile.type == ModContent.ProjectileType<WulfrumDroid>();
+
+            if (buffMode)
+                Projectile.frame += Main.projFrames[Projectile.type] / 2;
+
+
+            //Buff stuff
             player.AddBuff(ModContent.BuffType<WulfrumDroidBuff>(), 3600);
-            if (correctMinion)
-            {
-                if (player.dead)
-                {
-                    modPlayer.wDroid = false;
-                }
-                if (modPlayer.wDroid)
-                {
-                    Projectile.timeLeft = 2;
-                }
-            }
+            if (player.dead)
+                modPlayer.wDroid = false;
+            if (modPlayer.wDroid)
+                Projectile.timeLeft = 2;
             Projectile.MinionAntiClump();
-            Vector2 targetVector = Projectile.position;
-            float range = 450f;
-            bool foundTarget = false;
-            int targetIndex = -1;
-            if (player.HasMinionAttackTargetNPC)
+
+
+            //Lets only recalculate our target once per frame aight
+            NPC targetCache = buffMode ? null : Target;
+            float separationAnxietyDist = targetCache != null ? 1000f : 500f; //Have more lenience on how far away from the player should the drone return if theyre attacking an enemy
+
+            if (AyeAyeCaptainCooldown > 0)
+                AyeAyeCaptainCooldown--;
+            else if (buffMode)
             {
-                NPC npc = Main.npc[player.MinionAttackTargetNPC];
-                if (npc.CanBeChasedBy((object) this, false))
-                {
-                    float targetDist = Vector2.Distance(npc.Center, Projectile.Center);
-                    if ((!foundTarget && targetDist < range) && Collision.CanHitLine(Projectile.position, Projectile.width, Projectile.height, npc.position, npc.width, npc.height))
-                    {
-                        range = targetDist;
-                        targetVector = npc.Center;
-                        foundTarget = true;
-                        targetIndex = npc.whoAmI;
-                    }
-                }
+                SoundEngine.PlaySound(RepairSound, Projectile.Center);
+                AyeAyeCaptainCooldown = 100;
             }
-            if (!foundTarget)
-            {
-                for (int npcIndex = 0; npcIndex < Main.npc.Length; ++npcIndex)
-                {
-                    NPC npc = Main.npc[npcIndex];
-                    if (npc.CanBeChasedBy((object) this, false))
-                    {
-                        float targetDist = Vector2.Distance(npc.Center, Projectile.Center);
-                        if ((!foundTarget && targetDist < range) && Collision.CanHitLine(Projectile.position, Projectile.width, Projectile.height, npc.position, npc.width, npc.height))
-                        {
-                            range = targetDist;
-                            targetVector = npc.Center;
-                            foundTarget = true;
-                            targetIndex = npcIndex;
-                        }
-                    }
-                }
-            }
-            float separationAnxietyDist = 500f;
-            if (foundTarget)
-                separationAnxietyDist = 1000f;
-            if (Vector2.Distance(player.Center, Projectile.Center) > separationAnxietyDist)
-            {
-                Projectile.ai[0] = 1f;
-                Projectile.netUpdate = true;
-            }
-            if (Projectile.ai[0] == 1f)
-                Projectile.tileCollide = false;
-            if (foundTarget && Projectile.ai[0] == 0f)
-            {
-                Vector2 targetPos = targetVector - Projectile.Center;
-                float targetDist = targetPos.Length();
-                targetPos.Normalize();
-                if (targetDist > 200f)
-                {
-                    float speed = 6f;
-                    Vector2 goToTarget = targetPos * speed;
-                    Projectile.velocity.X = (Projectile.velocity.X * 40f + goToTarget.X) / 41f;
-                    Projectile.velocity.Y = (Projectile.velocity.Y * 40f + goToTarget.Y) / 41f;
-                }
-                else if (Projectile.velocity.Y > -1f)
-                    Projectile.velocity.Y -= 0.1f;
-            }
+
+            if (Projectile.soundDelay > 0)
+                Projectile.soundDelay--;
             else
             {
-                if (!Collision.CanHitLine(Projectile.Center, 1, 1, player.Center, 1, 1))
-                    Projectile.ai[0] = 1f;
-                float returnSpeed = 6f;
-                if (Projectile.ai[0] == 1f)
-                    returnSpeed = 15f;
-                Vector2 playerVec = player.Center - Projectile.Center + new Vector2(0f, -60f);
+                SoundEngine.PlaySound(RandomChirpSound with { Volume = RandomChirpSound.Volume * Main.rand.NextFloat(0.5f, 1f) }, Projectile.Center);
+                Projectile.soundDelay = NewSoundDelay;
+
+                if (targetCache == null)
+                {
+                    Vector2 emoteDirection = -Vector2.UnitY.RotatedByRandom(MathHelper.PiOver2 * 0.7f);
+
+                    Particle emote = new WulfrumDroidEmote(Projectile.Center + emoteDirection * 10f, emoteDirection * Main.rand.NextFloat(3f, 5f), Main.rand.Next(30, 65), Main.rand.NextFloat(1.4f, 2f));
+                    GeneralParticleHandler.SpawnParticle(emote);
+                }
+            }
+
+
+            //Return to the player if too far away from them. Hurry up droids!
+            if (Vector2.Distance(Owner.Center, Projectile.Center) > separationAnxietyDist)
+            {
+                State = BehaviorState.Idle;
+                Projectile.netUpdate = true;
+
+                //play the hurry sound once and never again until it is reset
+                if (Projectile.soundDelay < 10000)
+                    SoundEngine.PlaySound(HurrySound, Projectile.Center);
+
+                Projectile.soundDelay = 10010;
+
+                if (Main.rand.NextBool(7))
+                {
+                    Vector2 emoteDirection = -Vector2.UnitY.RotatedByRandom(MathHelper.PiOver2 * 0.7f);
+                    emoteDirection.X -= Math.Sign(Projectile.velocity.X) * 1f;
+
+                    Particle emote = new WulfrumDroidSweatEmote(Projectile.Center + emoteDirection * 10f, emoteDirection * Main.rand.NextFloat(3f, 5f), Main.rand.Next(20, 35), Main.rand.NextFloat(1.4f, 2f));
+                    GeneralParticleHandler.SpawnParticle(emote);
+                }
+            }
+            //If not hurrying up, reset the sound delay.
+            else if (Projectile.soundDelay >= 10000)
+                Projectile.soundDelay = NewSoundDelay;
+
+
+            //Target the enemy
+            if (targetCache != null && State == BehaviorState.Aggressive)
+            {
+                Vector2 vectorToTarget = targetCache.Center - Projectile.Center;
+                float distanceToTarget = vectorToTarget.Length();
+                vectorToTarget = vectorToTarget.SafeNormalize(Vector2.Zero);
+
+                //Accelerate towards target if far away
+                if (distanceToTarget > 200f)
+                    Projectile.velocity = Vector2.Lerp(Projectile.velocity, vectorToTarget * 6f, 1 / 41f);
+
+                //"Float" the minion
+                else if (Projectile.velocity.Y > -1f)
+                    Projectile.velocity.Y -= 0.1f;
+
+                //Small tweak that makes the minion hop away from the targets center if its too aligned with it vertically
+                if (Math.Abs(Projectile.Center.X - targetCache.Center.X) < 10f)
+                    Projectile.velocity.X += 4f * Math.Sign(Projectile.Center.X - targetCache.Center.X);
+            }
+
+            else
+            {
+                //Become passive if theres obstruction between it and the player
+                if (!Collision.CanHitLine(Projectile.Center, 1, 1, Owner.Center, 1, 1))
+                    State = BehaviorState.Idle;
+
+                float returnSpeed = State == BehaviorState.Idle ? 15f : 6f;
+
+                //Accelerate towards the player if too far & not fast enough
+                Vector2 playerVec = Owner.Center - Projectile.Center - Vector2.UnitY * 60f;
                 float playerDist = playerVec.Length();
                 if (playerDist > 200f && returnSpeed < 9f)
                     returnSpeed = 9f;
-                if (playerDist < 100f && Projectile.ai[0] == 1f && !Collision.SolidCollision(Projectile.position, Projectile.width, Projectile.height))
+
+                if (playerDist < 100f && State == BehaviorState.Idle && !Collision.SolidCollision(Projectile.position, Projectile.width, Projectile.height))
                 {
-                    Projectile.ai[0] = 0f;
+                    State = BehaviorState.Aggressive;
                     Projectile.netUpdate = true;
                 }
+
+                //Teleport to player if too far away.
                 if (playerDist > 2000f)
                 {
-                    Projectile.position.X = player.Center.X - (float) (Projectile.width / 2);
-                    Projectile.position.Y = player.Center.Y - (float) (Projectile.width / 2);
+                    Projectile.Center = player.Center;
                     Projectile.netUpdate = true;
                 }
-                else if (playerDist > 70f)
+
+                else if (buffMode)
                 {
-                    playerVec.Normalize();
-                    Projectile.velocity = (Projectile.velocity * 20f + playerVec * returnSpeed) / 21f;
+                    AyeAyeCaptainCooldown = 50f;
+
+                    Player playerToBuff = Owner;
+                    float mouseDistanceToOwner = (Owner.MountedCenter - Owner.Calamity().mouseWorld).Length();
+
+                    if (Main.netMode == NetmodeID.MultiplayerClient && mouseDistanceToOwner > 120f)
+                    {
+                        for (int i = 0; i < Main.maxPlayers; i++)
+                        {
+                            if (Main.player[i].active && !Main.player[i].dead && (Main.player[i].team == Owner.team || Main.player[i].team == 0))
+                            {
+                                float mouseDistanceToPotentialTarget = (Main.player[i].MountedCenter - Owner.Calamity().mouseWorld).Length();
+                                if (mouseDistanceToPotentialTarget < 120f && mouseDistanceToOwner > mouseDistanceToPotentialTarget)
+                                {
+                                    playerToBuff = Main.player[i];
+                                    mouseDistanceToOwner = mouseDistanceToPotentialTarget;
+                                }
+                            }
+                        }
+
+                        if (playerToBuff != Owner && Main.rand.NextBool(4))
+                        {
+                            Vector2 direction = Main.rand.NextVector2CircularEdge(1f, 1f);
+
+                            Dust wishyDust = Dust.NewDustPerfect(playerToBuff.Center + direction * Main.rand.NextFloat(4f, 9f), 229, Alpha: 100, Scale: Main.rand.NextFloat(1f, 1.4f));
+                            wishyDust.noGravity = true;
+                            wishyDust.noLight = true;
+                            wishyDust.velocity = direction * Main.rand.NextFloat(2f, 4);
+
+                        }
+                    }
+
+                    healedPlayer = playerToBuff;
+                    float distanceToHealed = (healedPlayer.Center - Projectile.Center).Length();
+                    Vector2 aimPosition = playerToBuff.MountedCenter - Vector2.UnitY.RotatedBy((float)Math.Sin(Main.GlobalTimeWrappedHourly + Projectile.whoAmI) * MathHelper.PiOver2 * 0.9f) * 60f - Vector2.UnitY * 20f;
+                    float distanceToAim = (aimPosition - Projectile.Center).Length();
+
+                    if (distanceToAim > 50)
+                    {
+                        float speed = MathHelper.Lerp(10f, 30f, Math.Clamp((distanceToAim - 110f) / 400f, 0f, 1f));
+                        Projectile.velocity = Vector2.Lerp(Projectile.velocity, (aimPosition - Projectile.Center).SafeNormalize(Vector2.Zero) * speed, 0.05f);
+                    }
+
+                    else
+                    {
+                        Projectile.velocity *= 0.98f;
+                        if (Projectile.velocity == Vector2.Zero)
+                            Projectile.velocity = (aimPosition - Projectile.Center).SafeNormalize(Vector2.Zero) * 5f;
+                    }
+
+                    if (distanceToHealed < 200f)
+                    {
+                        //Heal player
+                        playerToBuff.GetModPlayer<WulfrumControllerPlayer>().buffingDrones++;
+
+                        ShootTimer--;
+                        if (ShootTimer <= 0)
+                        {
+                            ShootTimer = ShootDelay;
+
+                            if (Main.rand.NextBool(3))
+                            {
+                                RoverDrivePlayer shieldMan = playerToBuff.GetModPlayer<RoverDrivePlayer>();
+                                if (shieldMan.ProtectionMatrixDurability > 0 && shieldMan.ProtectionMatrixDurability < RoverDrive.ProtectionMatrixDurabilityMax)
+                                {
+                                    shieldMan.ProtectionMatrixDurability++;
+                                    if (playerToBuff.Calamity().cooldowns.TryGetValue(Cooldowns.WulfrumRoverDriveDurability.ID, out var cd))
+                                        cd.timeLeft = shieldMan.ProtectionMatrixDurability;
+                                }
+                            }
+                        }
+                    }
                 }
+
                 else
                 {
-                    if (Projectile.velocity.X == 0f && Projectile.velocity.Y == 0f)
+                    //Aim towards the top of the player
+                    if (playerDist > 70f)
+                        Projectile.velocity = Vector2.Lerp(Projectile.velocity, playerVec.SafeNormalize(Vector2.Zero) * returnSpeed, 1 / 21f);
+
+                    else
                     {
-                        Projectile.velocity.X = -0.15f;
-                        Projectile.velocity.Y = -0.05f;
+                        //Get unstuck if your movespeed is zero
+                        if (Projectile.velocity.X == 0f && Projectile.velocity.Y == 0f)
+                            Projectile.velocity = Main.rand.NextVector2CircularEdge(1f, 1f) * -0.15f;
+
+                        //Accelerate more
+                        Projectile.velocity *= 1.01f;
                     }
-                    Projectile.velocity *= 1.01f;
                 }
             }
+
             Projectile.rotation = Projectile.velocity.X * 0.05f;
-            if (Projectile.velocity.X > 0f)
-                Projectile.spriteDirection = Projectile.direction = 1;
-            else if (Projectile.velocity.X < 0f)
-                Projectile.spriteDirection = Projectile.direction = -1;
-            if (Projectile.ai[1] > 0f)
-                Projectile.ai[1] += (float) Main.rand.Next(1, 4);
-            if (Projectile.ai[1] > 90f)
+            Projectile.spriteDirection = Projectile.direction = Math.Sign(Projectile.velocity.X);
+
+            if (!buffMode)
+                ChargeUpAndFire(targetCache);
+        }
+
+        public void ChargeUpAndFire(NPC targetCache)
+        {
+            //Decrease the timer by a random number
+            ShootTimer -= Main.rand.Next(1, 4);
+
+
+            if (ShootTimer <= 0)
             {
-                Projectile.ai[1] = 0.0f;
+                ShootTimer = ShootDelay;
                 Projectile.netUpdate = true;
+
+                //Don't shoot if no target.
+                if (targetCache == null)
+                    return;
+
+                NuzzleFlashTime = 20f;
+                SoundEngine.PlaySound(PewSound, Projectile.Center);
+                //Recoil
+                Vector2 velocity = targetCache.Center - Projectile.Center;
+                velocity.Normalize();
+                velocity *= 10f;
+                Projectile.velocity += velocity * -0.3f;
+
+
+                if (Main.myPlayer == Projectile.owner)
+                {
+                    int bolt = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<WulfrumEnergyBurst>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                    Main.projectile[bolt].originalDamage = Projectile.originalDamage;
+                    Main.projectile[bolt].netUpdate = true;
+                    Projectile.netUpdate = true;
+                }
             }
-            if (Projectile.ai[1] != 0f)
-                return;
-            ++Projectile.ai[1];
-            if (Main.myPlayer != Projectile.owner)
-                return;
-            if (!foundTarget)
-                return;
-            Vector2 velocity = targetVector - Projectile.Center;
-            velocity.Normalize();
-            velocity *= 10f;
-            int bolt = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<WulfrumBoltMinion>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
-            Main.projectile[bolt].originalDamage = Projectile.originalDamage;
-            Main.projectile[bolt].netUpdate = true;
-            Projectile.netUpdate = true;
+        }
+
+        internal Color ColorFunction(float completionRatio)
+        {
+            float fadeOpacity = 0.4f + 0.4f * ((float)Math.Sin(Main.GlobalTimeWrappedHourly * 6f + completionRatio * -12f) * 0.5f + 0.5f);
+
+            fadeOpacity *= (1 - MathHelper.Clamp(((healedPlayer.Center - Projectile.Center).Length() - 170f) / 70f, 0f, 1f));
+
+            return Color.CornflowerBlue.MultiplyRGB(PrimColorMult) * fadeOpacity;
+        }
+
+        internal float WidthFunction(float completionRatio)
+        {
+            return (3.4f + 4f * ((float)Math.Sin(Main.GlobalTimeWrappedHourly * 6f + completionRatio * -12f) * 0.5f + 0.5f)) * 2f;
+        }
+
+
+        public override bool PreDraw(ref Color lightColor)
+        {
+            if (healedPlayer == null)
+                healedPlayer = Owner;
+
+            if (Owner.Calamity().mouseRight && Owner.HeldItem.type == ModContent.ItemType<WulfrumController>() && (healedPlayer.Center - Projectile.Center).Length() < 240f)
+            {
+                Main.spriteBatch.End();
+                Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+
+                if (TrailDrawer is null)
+                    TrailDrawer = new PrimitiveTrail(WidthFunction, ColorFunction, specialShader: GameShaders.Misc["CalamityMod:TrailStreak"]);
+                GameShaders.Misc["CalamityMod:TrailStreak"].SetShaderTexture(Request<Texture2D>("CalamityMod/ExtraTextures/ZapTrail"));
+
+                Vector2[] drawPos = new Vector2[] { Projectile.Center, Projectile.Center, healedPlayer.Center + (Projectile.Center - healedPlayer.Center) * 0.5f + Vector2.UnitY * 40f, healedPlayer.Center, healedPlayer.Center };
+
+                CalamityUtils.DrawChromaticAberration(Vector2.UnitX, 1.8f, delegate (Vector2 offset, Color colorMod)
+                {
+                    PrimColorMult = colorMod;
+                    TrailDrawer.Draw(drawPos, - Main.screenPosition + offset, 30);
+                });
+
+                Main.spriteBatch.End();
+                Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+
+            }
+            return true;
+        }
+
+        public override void PostDraw(Color lightColor)
+        {
+            if (NuzzleFlashTime > 0)
+            {
+                NuzzleFlashTime--;
+
+                Main.spriteBatch.End();
+                Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+
+                float opacity = (float)Math.Pow(NuzzleFlashTime / 20f, 1.7f);
+
+                if (SheenTex == null)
+                    SheenTex = ModContent.Request<Texture2D>("CalamityMod/Particles/HalfStar");
+
+                Texture2D shineTex = SheenTex.Value;
+                Vector2 shineScale = new Vector2(1.2f, 2f - (opacity) * 1.33f);
+                //float rotationBoost = opacity * MathHelper.PiOver2;
+
+                Main.EntitySpriteDraw(shineTex, Projectile.Center - Main.screenPosition + Vector2.UnitY * 2f, null, Color.GreenYellow * opacity, MathHelper.PiOver2, shineTex.Size() / 2f, shineScale * Projectile.scale, SpriteEffects.None, 0);
+                //Main.EntitySpriteDraw(shineTex, Projectile.Center - Main.screenPosition + Vector2.UnitY * 2f, null, Color.GreenYellow * opacity, rotationBoost + 0.3f, shineTex.Size() / 2f, shineScale * Projectile.scale, SpriteEffects.None, 0);
+
+
+                Main.spriteBatch.End();
+                Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            }
         }
 
         public override bool? CanDamage() => false;

@@ -1,13 +1,11 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
-using CalamityMod.Sounds;
 
 namespace CalamityMod.Projectiles.Boss
 {
@@ -23,7 +21,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-            Projectile.Calamity().canBreakPlayerDefense = true;
+            Projectile.Calamity().DealsDefenseDamage = true;
             Projectile.width = 50;
             Projectile.height = 50;
             Projectile.hostile = true;
@@ -32,6 +30,9 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.alpha = 100;
             Projectile.penetrate = 1;
             Projectile.timeLeft = 600;
+
+            if (Main.getGoodWorld)
+                Projectile.extraUpdates = 1;
         }
 
         public override void AI()
@@ -85,7 +86,7 @@ namespace CalamityMod.Projectiles.Boss
                     Projectile.velocity.Normalize();
                     Projectile.velocity *= scaleFactor2;
                 }
-                else if (Projectile.velocity.Length() < 18f)
+                else if (Projectile.velocity.Length() < 16f)
                     Projectile.velocity *= 1.01f;
 
                 Projectile.ai[1] += 1f;

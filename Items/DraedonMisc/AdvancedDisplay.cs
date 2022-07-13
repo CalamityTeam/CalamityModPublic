@@ -16,7 +16,8 @@ namespace CalamityMod.Items.DraedonMisc
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Advanced Display");
-            Tooltip.SetDefault("Can be placed on the Codebreaker");
+            Tooltip.SetDefault("Can be placed on the Codebreaker\n" +
+                "Allows you to decrypt the Underworld schematic");
         }
 
         public override void SetDefaults()
@@ -59,7 +60,7 @@ namespace CalamityMod.Items.DraedonMisc
             CreateRecipe().
                 AddIngredient<MysteriousCircuitry>(10).
                 AddIngredient<DubiousPlating>(10).
-                AddIngredient<BarofLife>(3).
+                AddIngredient<LifeAlloy>(3).
                 AddIngredient(ItemID.Glass, 20).
                 AddCondition(ArsenalTierGatedRecipe.ConstructRecipeCondition(3, out Predicate<Recipe> condition), condition).
                 AddTile(TileID.MythrilAnvil).

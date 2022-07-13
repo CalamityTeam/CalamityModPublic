@@ -1,6 +1,5 @@
 ﻿using CalamityMod.Buffs.StatDebuffs;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
 using Terraria;
@@ -303,7 +302,7 @@ namespace CalamityMod.Projectiles.Rogue
                 Main.dust[dust].scale = 0.3f;
             }
 
-            int buffType = ModContent.BuffType<TimeSlow>();
+            int buffType = ModContent.BuffType<TimeDistortion>();
 
             for (int i = 0; i < Main.maxNPCs; i++)
             {
@@ -319,7 +318,7 @@ namespace CalamityMod.Projectiles.Rogue
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             if (Projectile.Calamity().stealthStrike)
-                target.AddBuff(ModContent.BuffType<TimeSlow>(), 120);
+                target.AddBuff(ModContent.BuffType<TimeDistortion>(), 120);
         }
     }
 }

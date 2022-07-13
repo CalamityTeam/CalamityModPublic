@@ -49,6 +49,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.tileCollide = false;
             Projectile.timeLeft *= 5;
             Projectile.minion = true;
+            Projectile.DamageType = DamageClass.Summon;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -115,7 +116,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public void ApplyMinionBuffs()
         {
-            Owner.AddBuff(ModContent.BuffType<GammaHeadBuff>(), 3600);
+            Owner.AddBuff(ModContent.BuffType<GammaHydraBuff>(), 3600);
             if (Projectile.type == ModContent.ProjectileType<GammaHead>())
             {
                 if (Owner.dead)

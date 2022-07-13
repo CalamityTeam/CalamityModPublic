@@ -1,6 +1,5 @@
 using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -55,7 +54,7 @@ namespace CalamityMod.Projectiles.Rogue
 
                 // Initial homing before landing a hit.
                 else
-                    CalamityGlobalProjectile.HomeInOnNPC(Projectile, true, 250f, 12f, 14f);
+                    CalamityUtils.HomeInOnNPC(Projectile, true, 250f, 12f, 14f);
             }
 
             // Homing after landing a hit. This homing repeatedly turns on and off.

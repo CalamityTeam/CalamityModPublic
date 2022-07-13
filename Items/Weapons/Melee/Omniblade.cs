@@ -1,5 +1,4 @@
-﻿using Terraria.DataStructures;
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
 using Terraria;
 using Terraria.ID;
@@ -20,7 +19,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             Item.width = 64;
             Item.damage = 100;
-            Item.DamageType = DamageClass.Melee;
+            Item.DamageType = TrueMeleeNoSpeedDamageClass.Instance;
             Item.useAnimation = 12;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.useTime = 12;
@@ -36,7 +35,6 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.shoot = ModContent.ProjectileType<OmnibladeSwing>();
             Item.shootSpeed = 24f;
             Item.rare = ItemRarityID.Yellow;
-            Item.Calamity().trueMelee = true;
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults
@@ -48,7 +46,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             CreateRecipe().
                 AddIngredient(ItemID.Katana).
-                AddIngredient<BarofLife>(20).
+                AddIngredient<LifeAlloy>(20).
                 AddIngredient<CoreofCalamity>(10).
                 AddTile(TileID.MythrilAnvil).
                 Register();

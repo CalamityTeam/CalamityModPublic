@@ -69,7 +69,7 @@ namespace CalamityMod.TileEntities
             {
                 // Apply charge to the plugged item first, as this doesn't send a sync packet.
                 CalamityGlobalItem modItem = PluggedItem.Calamity();
-                modItem.Charge += PowerCell.ChargeValue;
+                modItem.Charge += DraedonPowerCell.ChargeValue;
                 if (modItem.Charge >= modItem.MaxCharge)
                     modItem.Charge = modItem.MaxCharge;
 

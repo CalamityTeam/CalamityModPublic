@@ -35,6 +35,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 23;
             AIType = ProjectileID.BabySlime;
+            Projectile.DamageType = DamageClass.Summon;
         }
 
         public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
@@ -63,7 +64,7 @@ namespace CalamityMod.Projectiles.Summon
                 dust += 1f;
             }
             bool flag64 = Projectile.type == ModContent.ProjectileType<CrimsonSlimeGodMinion>();
-            player.AddBuff(ModContent.BuffType<StatigelSummonSetBuff>(), 3600);
+            player.AddBuff(ModContent.BuffType<BabySlimeGodBuff>(), 3600);
             if (!modPlayer.slimeGod)
             {
                 Projectile.active = false;

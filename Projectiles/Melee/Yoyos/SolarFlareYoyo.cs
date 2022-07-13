@@ -1,7 +1,6 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -50,7 +49,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
             {
                 int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<HolyExplosionSupreme>(), (int)(Projectile.damage * 0.75), Projectile.knockBack, Projectile.owner);
                 if (proj.WithinBounds(Main.maxProjectiles))
-                    Main.projectile[proj].Calamity().forceMelee = true;
+                    Main.projectile[proj].DamageType = DamageClass.Melee;
             }
         }
 

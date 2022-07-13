@@ -1,7 +1,9 @@
-﻿using CalamityMod.Buffs.StatDebuffs;
+﻿using CalamityMod.BiomeManagers;
+using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
+using CalamityMod.Items.Placeables.Furniture.BossRelics;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Items.Potions;
 using CalamityMod.Items.TreasureBags;
@@ -11,6 +13,7 @@ using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.NPCs.TownNPCs;
+using CalamityMod.World;
 using System;
 using System.IO;
 using Microsoft.Xna.Framework;
@@ -21,10 +24,10 @@ using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Dusts;
-using CalamityMod.World;
 using Terraria.GameContent.ItemDropRules;
 using CalamityMod.Events;
 using Terraria.Audio;
+using ReLogic.Utilities;
 
 namespace CalamityMod.NPCs.OldDuke
 {
@@ -34,6 +37,8 @@ namespace CalamityMod.NPCs.OldDuke
         public static readonly SoundStyle HuffSound = new("CalamityMod/Sounds/Custom/OldDukeHuff");
         public static readonly SoundStyle RoarSound = new("CalamityMod/Sounds/Custom/OldDukeRoar");
         public static readonly SoundStyle VomitSound = new("CalamityMod/Sounds/Custom/OldDukeVomit");
+
+        public SlotId RoarSoundSlot; 
 
         public override void SetStaticDefaults()
         {
@@ -77,12 +82,12 @@ namespace CalamityMod.NPCs.OldDuke
             NPC.Calamity().VulnerableToSickness = false;
             NPC.Calamity().VulnerableToElectricity = true;
             NPC.Calamity().VulnerableToWater = false;
+            SpawnModBiomes = new int[1] { ModContent.GetInstance<SulphurousSeaBiome>().Type };
         }
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
-                //BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.SulphurousSea,
 
                 // Will move to localization whenever that is cleaned up.
                 new FlavorTextBestiaryInfoElement("Despite appearing old and decrepit, it clings to life. It does not seem native to the polluted sea, yet it has taken its place as its apex predator.")
@@ -441,6 +446,9 @@ namespace CalamityMod.NPCs.OldDuke
             }
 
             npcLoot.Add(ModContent.ItemType<OldDukeTrophy>(), 10);
+
+            // Relic
+            npcLoot.AddIf(() => Main.masterMode || CalamityWorld.revenge, ModContent.ItemType<OldDukeRelic>());
 
             // Lore
             npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedBoomerDuke, ModContent.ItemType<KnowledgeOldDuke>());

@@ -90,7 +90,7 @@ namespace CalamityMod.Projectiles.Magic
             if (!initialized)
             {
                 SoundEngine.PlaySound(SoundID.NPCHit53, Projectile.Center);
-                CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 20);
+                Projectile.ExpandHitboxBy(20);
                 for (int d = 0; d < 5; d++)
                 {
                     int ecto = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 229, 0f, 0f, 100, default, 0.5f);
@@ -114,7 +114,7 @@ namespace CalamityMod.Projectiles.Magic
             if (Projectile.timeLeft % 50 == 1 && Projectile.alpha <= 0)
             {
                 SoundEngine.PlaySound(SoundID.NPCHit53, Projectile.Center);
-                CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 20);
+                Projectile.ExpandHitboxBy(20);
                 for (int d = 0; d < 5; d++)
                 {
                     int ecto = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 229, 0f, 0f, 100, default, 0.5f);

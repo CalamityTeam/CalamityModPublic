@@ -18,6 +18,7 @@ namespace CalamityMod.DataStructures
         Phoenix, Aries, Polaris, Andromeda //Galaxia
     }
 
+    // TODO -- Attunements should be managed by an Attunement ModSystem
     public abstract class Attunement
     {
         public static Attunement[] attunementArray;
@@ -94,7 +95,7 @@ namespace CalamityMod.DataStructures
             energyParticleCenterColor = new Color(200, 184, 136);
         }
 
-        public override float DamageMultiplier => BiomeBlade.DefaultAttunement_BaseDamage / (float)BiomeBlade.BaseDamage;
+        public override float DamageMultiplier => BrokenBiomeBlade.DefaultAttunement_BaseDamage / (float)BrokenBiomeBlade.BaseDamage;
 
         public override void ApplyStats(Item item)
         {
@@ -120,7 +121,7 @@ namespace CalamityMod.DataStructures
             energyParticleCenterColor = new Color(209, 154, 0);
         }
 
-        public override float DamageMultiplier => BiomeBlade.HotAttunement_BaseDamage / (float)BiomeBlade.BaseDamage;
+        public override float DamageMultiplier => BrokenBiomeBlade.HotAttunement_BaseDamage / (float)BrokenBiomeBlade.BaseDamage;
 
         public override void ApplyStats(Item item)
         {
@@ -146,7 +147,7 @@ namespace CalamityMod.DataStructures
             energyParticleCenterColor = new Color(58, 110, 141);
         }
 
-        public override float DamageMultiplier => BiomeBlade.ColdAttunement_BaseDamage / (float)BiomeBlade.BaseDamage;
+        public override float DamageMultiplier => BrokenBiomeBlade.ColdAttunement_BaseDamage / (float)BrokenBiomeBlade.BaseDamage;
 
         public override void ApplyStats(Item item)
         {
@@ -195,7 +196,7 @@ namespace CalamityMod.DataStructures
             energyParticleCenterColor = new Color(131, 173, 39);
         }
 
-        public override float DamageMultiplier => BiomeBlade.TropicalAttunement_BaseDamage / (float)BiomeBlade.BaseDamage;
+        public override float DamageMultiplier => BrokenBiomeBlade.TropicalAttunement_BaseDamage / (float)BrokenBiomeBlade.BaseDamage;
 
         public override void ApplyStats(Item item)
         {
@@ -222,7 +223,7 @@ namespace CalamityMod.DataStructures
             energyParticleCenterColor = new Color(195, 42, 200);
         }
 
-        public override float DamageMultiplier => BiomeBlade.EvilAttunement_BaseDamage / (float)BiomeBlade.BaseDamage;
+        public override float DamageMultiplier => BrokenBiomeBlade.EvilAttunement_BaseDamage / (float)BrokenBiomeBlade.BaseDamage;
 
         public override void ApplyStats(Item item)
         {
@@ -548,7 +549,7 @@ namespace CalamityMod.DataStructures
             if (UseTimer % 30 == 29 && Main.rand.Next(2) == 0)
             {
                 SoundEngine.PlaySound(SoundID.Item78);
-                int damage = (int)player.GetDamage<MeleeDamageClass>().ApplyTo(OmegaBiomeBlade.WhirlwindAttunement_PassiveBaseDamage);
+                int damage = (int)player.GetTotalDamage<MeleeDamageClass>().ApplyTo(OmegaBiomeBlade.WhirlwindAttunement_PassiveBaseDamage);
                 Projectile beamSword = Projectile.NewProjectileDirect(source, player.Center, player.SafeDirectionTo(Main.MouseWorld, Vector2.One) * 15f, ProjectileType<SwordsmithsPrideBeam>(), damage, 10f, player.whoAmI, 1f);
                 beamSword.timeLeft = 50;
                 UseTimer++;
@@ -624,8 +625,11 @@ namespace CalamityMod.DataStructures
         {
             if (Procced)
             {
-                player.statLife += OmegaBiomeBlade.SuperPogoAttunement_PassiveLifeSteal;
-                player.HealEffect(OmegaBiomeBlade.SuperPogoAttunement_PassiveLifeSteal);
+                if (!player.moonLeech)
+                {
+                    player.statLife += OmegaBiomeBlade.SuperPogoAttunement_PassiveLifeSteal;
+                    player.HealEffect(OmegaBiomeBlade.SuperPogoAttunement_PassiveLifeSteal);
+                }
 
                 Procced = false;
             }
@@ -662,7 +666,7 @@ namespace CalamityMod.DataStructures
         {
             if (UseTimer % 120 == 119)
             {
-                int damage = (int)player.GetDamage<MeleeDamageClass>().ApplyTo(OmegaBiomeBlade.ShockwaveAttunement_PassiveBaseDamage);
+                int damage = (int)player.GetTotalDamage<MeleeDamageClass>().ApplyTo(OmegaBiomeBlade.ShockwaveAttunement_PassiveBaseDamage);
                 Projectile.NewProjectile(source, player.Center, Vector2.Zero, ProjectileType<MercurialTidesBlast>(), damage, 10f, player.whoAmI, 1f);
                 UseTimer++;
             }

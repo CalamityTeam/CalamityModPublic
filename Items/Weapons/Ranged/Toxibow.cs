@@ -1,5 +1,4 @@
 ﻿using Terraria.DataStructures;
-using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Projectiles.Ranged;
@@ -21,11 +20,11 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            Item.damage = 9;
+            Item.damage = 5;
             Item.DamageType = DamageClass.Ranged;
             Item.width = 20;
             Item.height = 54;
-            Item.useTime = Item.useAnimation = 35;
+            Item.useTime = Item.useAnimation = 28;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.knockBack = 3f;
@@ -52,7 +51,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<SulfuricScale>(15).
+                AddIngredient<SulphuricScale>(15).
                 AddIngredient<Acidwood>(20).
                 AddTile(TileID.Anvils).
                 Register();

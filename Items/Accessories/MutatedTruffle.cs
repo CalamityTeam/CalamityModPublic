@@ -35,14 +35,14 @@ namespace CalamityMod.Items.Accessories
             if (player.whoAmI == Main.myPlayer)
             {
                 var source = player.GetSource_Accessory(Item);
-                if (player.FindBuffIndex(ModContent.BuffType<MutatedTruffleBuff>()) == -1)
+                if (player.FindBuffIndex(ModContent.BuffType<MiniOldDukeBuff>()) == -1)
                 {
-                    player.AddBuff(ModContent.BuffType<MutatedTruffleBuff>(), 3600, true);
+                    player.AddBuff(ModContent.BuffType<MiniOldDukeBuff>(), 3600, true);
                 }
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<YoungDuke>()] < 1)
                 {
                     const int baseDamage = 1200;
-                    int damage = (int)player.GetDamage<SummonDamageClass>().ApplyTo(baseDamage);
+                    int damage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(baseDamage);
                     var duke = Projectile.NewProjectileDirect(source, player.Center, Vector2.Zero,
                         ModContent.ProjectileType<YoungDuke>(),
                         damage,

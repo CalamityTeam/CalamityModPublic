@@ -33,6 +33,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 10;
             Projectile.hide = true;
+            Projectile.DamageType = DamageClass.Summon;
         }
 
         // Arbitrary function used to identify a projectile based owner and identity.

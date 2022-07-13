@@ -7,7 +7,6 @@ using Terraria.GameContent.Events;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
-using CalamityMod.Sounds;
 
 namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 {
@@ -17,8 +16,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
         {
             CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || bossRush;
 
             int aggressionLevel = 4;
             if (npc.type == NPCID.MoonLordCore || npc.type == NPCID.MoonLordHand || npc.type == NPCID.MoonLordHead)
@@ -41,10 +40,11 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 }
             }
 
-            if (malice)
+            if (bossRush)
                 aggressionLevel = 5;
 
-            npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive && malice;
+            if (Main.getGoodWorld)
+                aggressionLevel = 6;
 
             if (npc.type == NPCID.MoonLordCore)
             {
@@ -1172,7 +1172,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             int damage = npc.GetProjectileDamage(type);
                             int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), vector169, vector170, type, damage, 0f, Main.myPlayer, 0f, ai);
                             Main.projectile[proj].timeLeft = 1200;
-                            Main.projectile[proj].Calamity().lineColor = malice ? 1 : aggressionLevel;
+                            Main.projectile[proj].Calamity().lineColor = bossRush ? 1 : aggressionLevel;
                         }
                     }
                     else

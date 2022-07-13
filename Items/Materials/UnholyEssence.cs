@@ -13,6 +13,8 @@ namespace CalamityMod.Items.Materials
             DisplayName.SetDefault("Unholy Essence");
             Tooltip.SetDefault("The essence of profaned creatures");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 5));
+            ItemID.Sets.AnimatesAsSoul[Type] = true;
+            ItemID.Sets.ItemNoGravity[Item.type] = true;
         }
 
         public override void SetDefaults()

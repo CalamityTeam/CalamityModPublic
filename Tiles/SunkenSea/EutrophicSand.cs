@@ -1,6 +1,4 @@
-
-using CalamityMod.World;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -18,12 +16,15 @@ namespace CalamityMod.Tiles.SunkenSea
             CalamityUtils.MergeWithDesert(Type);
 
             TileID.Sets.ChecksForMerge[Type] = true;
+            TileID.Sets.CanBeDugByShovel[Type] = true;
+
             DustType = 108;
             ItemDrop = ModContent.ItemType<Items.Placeables.EutrophicSand>();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Eutrophic Sand");
             AddMapEntry(new Color(100, 100, 150), name);
             MineResist = 2f;
+            TileID.Sets.DoesntGetReplacedWithTileReplacement[Type] = true; //TODO -- Temporary, allow tile to be swapped when DS is dead.
         }
 
         public override bool CanKillTile(int i, int j, ref bool blockDamaged)

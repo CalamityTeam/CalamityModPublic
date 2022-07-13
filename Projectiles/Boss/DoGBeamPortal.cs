@@ -31,7 +31,6 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.tileCollide = false;
             Projectile.timeLeft = 600;
             Projectile.penetrate = -1;
-            CooldownSlot = 1;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -85,10 +84,10 @@ namespace CalamityMod.Projectiles.Boss
             }
 
             // Difficulty modes
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
-            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool expertMode = Main.expertMode || bossRush;
+            bool revenge = CalamityWorld.revenge || bossRush;
+            bool death = CalamityWorld.death || bossRush;
 
             Lighting.AddLight(Projectile.Center, 0f, 0.95f, 1.15f);
 
@@ -103,7 +102,7 @@ namespace CalamityMod.Projectiles.Boss
 
             double deg = Projectile.ai[1];
             double rad = deg * (Math.PI / 180);
-            double dist = malice ? 800D : death ? 960D : revenge ? 1000D : expertMode ? 1040D : 1080D;
+            double dist = bossRush ? 800D : death ? 960D : revenge ? 1000D : expertMode ? 1040D : 1080D;
             Projectile.position.X = player.Center.X - (int)(Math.Cos(rad) * dist) - Projectile.width / 2;
             Projectile.position.Y = player.Center.Y - (int)(Math.Sin(rad) * dist) - Projectile.height / 2;
             Projectile.ai[1] += 1f;

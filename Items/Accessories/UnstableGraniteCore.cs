@@ -15,6 +15,7 @@ namespace CalamityMod.Items.Accessories
             DisplayName.SetDefault("Unstable Granite Core");
             Tooltip.SetDefault("Three sparks are released on critical hits");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(7, 5));
+            ItemID.Sets.AnimatesAsSoul[Type] = true;
         }
 
         public override void SetDefaults()

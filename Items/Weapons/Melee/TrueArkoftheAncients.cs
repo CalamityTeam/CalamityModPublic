@@ -1,5 +1,4 @@
 ﻿using Terraria.DataStructures;
-using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
@@ -15,6 +14,7 @@ using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
+    // TODO -- CANNOT RENAME THIS to ArkoftheAncients without corrupting existing items
     public class TrueArkoftheAncients : ModItem
     {
         public float Combo = 1f;
@@ -181,7 +181,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<ArkoftheAncients>().
+                AddIngredient<FracturedArk>().
                 AddIngredient(ItemID.TrueExcalibur).
                 AddIngredient<CoreofCalamity>().
                 AddIngredient<LivingShard>(3).

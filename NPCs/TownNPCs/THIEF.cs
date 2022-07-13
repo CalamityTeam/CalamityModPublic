@@ -9,10 +9,13 @@ using System.Collections.Generic;
 using Terraria;
 using Terraria.GameContent.Bestiary;
 using Terraria.GameContent.Events;
+using Terraria.GameContent.Personalities;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using CalamityMod.Items;
+
 namespace CalamityMod.NPCs.TownNPCs
 {
     [AutoloadHead]
@@ -22,7 +25,7 @@ namespace CalamityMod.NPCs.TownNPCs
         {
             // Patron names
             "Xplizzy", // <@!98826096237109248> Whitegiraffe#6342
-			"Freakish", // <@!750363283520749598> Freakish#0001
+            "Freakish", // <@!750363283520749598> Freakish#0001
 
             // Original names
             "Laura", "Mie", "Bonnie",
@@ -44,6 +47,12 @@ namespace CalamityMod.NPCs.TownNPCs
             NPCID.Sets.AttackType[NPC.type] = 0;
             NPCID.Sets.AttackTime[NPC.type] = 60;
             NPCID.Sets.AttackAverageChance[NPC.type] = 10;
+            NPC.Happiness
+                .SetBiomeAffection<DesertBiome>(AffectionLevel.Like)
+                .SetBiomeAffection<JungleBiome>(AffectionLevel.Dislike)
+                .SetNPCAffection(NPCID.GoblinTinkerer, AffectionLevel.Like)
+                .SetNPCAffection(NPCID.Dryad, AffectionLevel.Dislike)
+            ;
         }
 
         public override void SetDefaults()
@@ -66,10 +75,11 @@ namespace CalamityMod.NPCs.TownNPCs
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
-                
 
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("A kleptomaniac who is a bit of a coward when it comes to face-to-face fights. She’s rather good at getting herself both into and out of dicey situations.")
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Desert,                   
+
+                // Will move to localization whenever that is cleaned up.
+                new FlavorTextBestiaryInfoElement("A kleptomaniac who is a bit of a coward when it comes to face-to-face fights. She’s rather good at getting herself both into and out of dicey situations.")
             });
         }
 
@@ -95,7 +105,7 @@ namespace CalamityMod.NPCs.TownNPCs
             return CalamityWorld.spawnedBandit;
         }
 
-		public override List<string> SetNPCNameList() => PossibleNames;
+        public override List<string> SetNPCNameList() => PossibleNames;
 
         public override string GetChat()
         {
@@ -207,13 +217,13 @@ namespace CalamityMod.NPCs.TownNPCs
                 CalamityWorld.Reforges = 0;
                 int[] coinCounts = Utils.CoinsSplit(CalamityWorld.MoneyStolenByBandit);
                 if (coinCounts[0] > 0)
-                    Item.NewItem(NPC.GetSource_Loot(), NPC.Hitbox, ItemID.PlatinumCoin, coinCounts[0]);
+                    Item.NewItem(NPC.GetSource_Loot(), NPC.Hitbox, ItemID.CopperCoin, coinCounts[0]);
                 if (coinCounts[1] > 0)
-                    Item.NewItem(NPC.GetSource_Loot(), NPC.Hitbox, ItemID.GoldCoin, coinCounts[1]);
+                    Item.NewItem(NPC.GetSource_Loot(), NPC.Hitbox, ItemID.SilverCoin, coinCounts[1]);
                 if (coinCounts[2] > 0)
-                    Item.NewItem(NPC.GetSource_Loot(), NPC.Hitbox, ItemID.SilverCoin, coinCounts[2]);
+                    Item.NewItem(NPC.GetSource_Loot(), NPC.Hitbox, ItemID.GoldCoin, coinCounts[2]);
                 if (coinCounts[3] > 0)
-                    Item.NewItem(NPC.GetSource_Loot(), NPC.Hitbox, ItemID.CopperCoin, coinCounts[3]);
+                    Item.NewItem(NPC.GetSource_Loot(), NPC.Hitbox, ItemID.PlatinumCoin, coinCounts[3]);
 
                 CalamityWorld.MoneyStolenByBandit = 0;
                 NPC goblinFucker = Main.npc[goblinIndex];
@@ -309,15 +319,6 @@ namespace CalamityMod.NPCs.TownNPCs
                 shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 60, 0, 0);
                 nextSlot++;
             }
-            if (NPC.downedMechBossAny)
-            {
-                shop.item[nextSlot].SetDefaults(ModContent.ItemType<BouncingBetty>());
-                shop.item[nextSlot].shopCustomPrice = shop.item[nextSlot].value;
-                nextSlot++;
-                shop.item[nextSlot].SetDefaults(ModContent.ItemType<LatcherMine>());
-                shop.item[nextSlot].shopCustomPrice = shop.item[nextSlot].value;
-                nextSlot++;
-            }
             if (DownedBossSystem.downedCalamitas)
             {
                 shop.item[nextSlot].SetDefaults(ModContent.ItemType<DeepWounder>());
@@ -348,12 +349,6 @@ namespace CalamityMod.NPCs.TownNPCs
                 shop.item[nextSlot].shopCustomPrice = Item.buyPrice(2, 0, 0, 0);
                 nextSlot++;
             }
-            if (DownedBossSystem.downedProvidence)
-            {
-                shop.item[nextSlot].SetDefaults(ModContent.ItemType<SylvanSlasher>());
-                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(5, 0, 0, 0);
-                nextSlot++;
-            }
             if (DownedBossSystem.downedDoG)
             {
                 shop.item[nextSlot].SetDefaults(ModContent.ItemType<VeneratedLocket>());
@@ -367,7 +362,7 @@ namespace CalamityMod.NPCs.TownNPCs
                 nextSlot++;
             }
             //:BearWatchingYou:
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<BearEye>());
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<BearsEye>());
             shop.item[nextSlot].shopCustomPrice = shop.item[nextSlot].value;
             nextSlot++;
         }

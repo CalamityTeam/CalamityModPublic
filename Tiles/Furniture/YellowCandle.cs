@@ -40,19 +40,19 @@ namespace CalamityMod.Tiles.Furniture
             Player player = Main.LocalPlayer;
             if (player == null || !player.active || player.dead)
                 return;
-            player.AddBuff(ModContent.BuffType<YellowDamageCandle>(), 20);
+            player.AddBuff(ModContent.BuffType<CirrusYellowCandleBuff>(), 20);
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
                 for (int m = 0; m < Main.maxNPCs; m++)
                 {
                     if (Main.npc[m].active && !Main.npc[m].friendly)
                     {
-                        Main.npc[m].buffImmune[ModContent.BuffType<YellowDamageCandle>()] = false;
+                        Main.npc[m].buffImmune[ModContent.BuffType<CirrusYellowCandleBuff>()] = false;
                         if (Main.npc[m].Calamity().DR >= 0.99f)
                         {
-                            Main.npc[m].buffImmune[ModContent.BuffType<YellowDamageCandle>()] = true;
+                            Main.npc[m].buffImmune[ModContent.BuffType<CirrusYellowCandleBuff>()] = true;
                         }
-                        Main.npc[m].AddBuff(ModContent.BuffType<YellowDamageCandle>(), 20, false);
+                        Main.npc[m].AddBuff(ModContent.BuffType<CirrusYellowCandleBuff>(), 20, false);
                     }
                 }
             }
@@ -67,7 +67,7 @@ namespace CalamityMod.Tiles.Furniture
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 32, ModContent.ItemType<Items.Placeables.Furniture.YellowCandle>());
+            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 32, ModContent.ItemType<Items.Placeables.Furniture.SpitefulCandle>());
         }
     }
 }

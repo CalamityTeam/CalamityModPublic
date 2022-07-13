@@ -1,4 +1,4 @@
-﻿using CalamityMod.Items.Armor;
+﻿using CalamityMod.Items.Armor.Hydrothermic;
 using CalamityMod.Items.Materials;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -76,7 +76,7 @@ namespace CalamityMod.Items.Accessories.Wings
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<CruptixBar>(5).
+                AddIngredient<ScoriaBar>(5).
                 AddIngredient<CoreofChaos>().
                 AddIngredient(ItemID.SoulofFlight, 20).
                 AddTile(TileID.MythrilAnvil).

@@ -1,5 +1,7 @@
-﻿using CalamityMod.Buffs.StatDebuffs;
+﻿using CalamityMod.BiomeManagers;
+using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Placeables.Banners;
+using CalamityMod.Items.Placeables.Furniture.BossRelics;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Projectiles.Enemy;
 using CalamityMod.World;
@@ -14,7 +16,6 @@ using Terraria.ModLoader;
 using Terraria.Utilities;
 using Terraria.WorldBuilding;
 using Terraria.Audio;
-using CalamityMod.Sounds;
 
 namespace CalamityMod.NPCs.AcidRain
 {
@@ -82,12 +83,12 @@ namespace CalamityMod.NPCs.AcidRain
             NPC.Calamity().VulnerableToSickness = false;
             NPC.Calamity().VulnerableToElectricity = true;
             NPC.Calamity().VulnerableToWater = false;
+            SpawnModBiomes = new int[1] { ModContent.GetInstance<AcidRainBiome>().Type };
         }
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
-                //BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.AcidRainTier3,
 
                 // Will move to localization whenever that is cleaned up.
                 new FlavorTextBestiaryInfoElement("Sharks are perhaps one of the most resilient and well-adapted species in our planet’s history. It is no surprise that one of these apex predators has come to thrive in these seas.")
@@ -452,6 +453,7 @@ namespace CalamityMod.NPCs.AcidRain
         {
             npcLoot.Add(ItemID.SharkFin, 1, 2, 4);
             npcLoot.Add(ModContent.ItemType<SulphuricAcidCannon>(), 3);
+            npcLoot.AddIf(() => Main.masterMode || CalamityWorld.revenge, ModContent.ItemType<MaulerRelic>(), 4);
         }
 
         public override void HitEffect(int hitDirection, double damage)

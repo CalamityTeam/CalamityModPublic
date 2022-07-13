@@ -46,7 +46,7 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 int projIndex2 = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, (Projectile.velocity * -1f).RotatedByRandom(MathHelper.ToRadians(15f)), ModContent.ProjectileType<PlagueSeeker>(), (int)(Projectile.damage * 0.25f), 2f, Projectile.owner);
                 if (projIndex2.WithinBounds(Main.maxProjectiles))
-                    Main.projectile[projIndex2].Calamity().forceRogue = true;
+                    Main.projectile[projIndex2].DamageType = RogueDamageClass.Instance;
             }
         }
 
@@ -66,7 +66,7 @@ namespace CalamityMod.Projectiles.Rogue
                 {
                     int projIndex1 = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity, ModContent.ProjectileType<PlagueSeeker>(), (int)(Projectile.damage * 0.25f), 2f, Projectile.owner);
                     if (projIndex1.WithinBounds(Main.maxProjectiles))
-                        Main.projectile[projIndex1].Calamity().forceRogue = true;
+                        Main.projectile[projIndex1].DamageType = RogueDamageClass.Instance;
                     Projectile.ai[0] = 12f; //0.2th of a second cooldown
                 }
                 Projectile.penetrate--;
@@ -83,7 +83,7 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 int projectileIndex = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity, ModContent.ProjectileType<PlagueSeeker>(), (int)(Projectile.damage * 0.25f), 2f, Projectile.owner);
                 if (projectileIndex.WithinBounds(Main.maxProjectiles))
-                    Main.projectile[projectileIndex].Calamity().forceRogue = true;
+                    Main.projectile[projectileIndex].DamageType = RogueDamageClass.Instance;
                 Projectile.ai[0] = 12f; //0.2th of a second cooldown
             }
             target.AddBuff(ModContent.BuffType<Plague>(), 240);
@@ -95,7 +95,7 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 int projectileIndex = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity, ModContent.ProjectileType<PlagueSeeker>(), (int)(Projectile.damage * 0.25f), 2f, Projectile.owner);
                 if (projectileIndex.WithinBounds(Main.maxProjectiles))
-                    Main.projectile[projectileIndex].Calamity().forceRogue = true;
+                    Main.projectile[projectileIndex].DamageType = RogueDamageClass.Instance;
                 Projectile.ai[0] = 12f; //0.2th of a second cooldown
             }
             target.AddBuff(ModContent.BuffType<Plague>(), 240);

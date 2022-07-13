@@ -19,7 +19,11 @@ namespace CalamityMod.NPCs.DesertScourge
             NPC.GetNPCDamage();
             NPC.width = 40;
             NPC.height = 40;
+
             NPC.defense = 4;
+            if (Main.getGoodWorld)
+                NPC.defense += 26;
+
             NPC.lifeMax = BossRushEvent.BossRushActive ? 35000 : 800;
             NPC.aiStyle = -1;
             AIType = -1;
@@ -138,7 +142,7 @@ namespace CalamityMod.NPCs.DesertScourge
             {
                 if (Main.netMode != NetmodeID.Server)
                 {
-                    float randomSpread = (float)(Main.rand.Next(-100, 100) / 100);
+                    float randomSpread = Main.rand.Next(-200, 201) / 100f;
                     Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * randomSpread * Main.rand.NextFloat(), Mod.Find<ModGore>("ScourgeBody").Type, 0.65f);
                     Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * randomSpread * Main.rand.NextFloat(), Mod.Find<ModGore>("ScourgeBody2").Type, 0.65f);
                     Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * randomSpread * Main.rand.NextFloat(), Mod.Find<ModGore>("ScourgeBody3").Type, 0.65f);

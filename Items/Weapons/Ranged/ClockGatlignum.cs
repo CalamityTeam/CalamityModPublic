@@ -67,7 +67,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 AddIngredient(ItemID.Gatligator).
                 AddIngredient(ItemID.VenusMagnum).
                 AddIngredient(ItemID.ClockworkAssaultRifle).
-                AddIngredient<BarofLife>(3).
+                AddIngredient<LifeAlloy>(3).
                 AddIngredient(ItemID.Ectoplasm, 5).
                 AddTile(TileID.MythrilAnvil).
                 Register();

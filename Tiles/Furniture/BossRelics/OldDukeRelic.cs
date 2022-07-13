@@ -1,5 +1,4 @@
-﻿using System;
-using CalamityMod.Tiles.BaseTiles;
+﻿using CalamityMod.Tiles.BaseTiles;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.Furniture.BossRelics

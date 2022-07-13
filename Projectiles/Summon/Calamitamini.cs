@@ -36,6 +36,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.tileCollide = false;
             Projectile.timeLeft *= 5;
             Projectile.minion = true;
+            Projectile.DamageType = DamageClass.Summon;
         }
 
         public override void AI()
@@ -59,7 +60,7 @@ namespace CalamityMod.Projectiles.Summon
             }
 
             bool correctMinion = Projectile.type == ModContent.ProjectileType<Calamitamini>();
-            player.AddBuff(ModContent.BuffType<CalamitasEyes>(), 3600);
+            player.AddBuff(ModContent.BuffType<EntropysVigilBuff>(), 3600);
             if (correctMinion)
             {
                 if (player.dead)

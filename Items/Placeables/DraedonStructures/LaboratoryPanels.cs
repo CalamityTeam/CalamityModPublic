@@ -26,8 +26,16 @@ namespace CalamityMod.Items.Placeables.DraedonStructures
 
         public override void AddRecipes()
         {
-            CreateRecipe(25).AddIngredient(ItemID.IronBar).AddRecipeGroup("AnyStoneBlock", 3).AddTile(TileID.HeavyWorkBench).Register();
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<LaboratoryPanelWall>(), 4).AddTile(TileID.WorkBenches).Register();
+            CreateRecipe(25).
+                AddRecipeGroup("IronBar").
+                AddRecipeGroup("AnyStoneBlock", 3).
+                AddTile(TileID.HeavyWorkBench).
+                Register();
+
+            CreateRecipe(1).
+                AddIngredient(ModContent.ItemType<LaboratoryPanelWall>(), 4).
+                AddTile(TileID.WorkBenches).
+                Register();
         }
     }
 }

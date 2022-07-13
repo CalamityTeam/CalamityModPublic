@@ -17,7 +17,7 @@ namespace CalamityMod.Items.TreasureBags
 {
     public class CrabulonBag : ModItem
     {
-        public override int BossBagNPC => ModContent.NPCType<CrabulonIdle>();
+        public override int BossBagNPC => ModContent.NPCType<Crabulon>();
 
         public override void SetStaticDefaults()
         {
@@ -59,7 +59,7 @@ namespace CalamityMod.Items.TreasureBags
                 DropHelper.WeightStack<Fungicide>(w),
                 DropHelper.WeightStack<HyphaeRod>(w),
                 DropHelper.WeightStack<Mycoroot>(w),
-                DropHelper.WeightStack<Shroomerang>(w)
+                DropHelper.WeightStack<InfestedClawmerang>(w)
             );
 
             // Equipment

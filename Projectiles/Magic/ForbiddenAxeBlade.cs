@@ -1,5 +1,4 @@
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -39,7 +38,7 @@ namespace CalamityMod.Projectiles.Magic
             else if (Projectile.ai[1] > 20f && Projectile.ai[1] <= 39f)
             {
                 Projectile.velocity *= 1.25f;
-                CalamityGlobalProjectile.HomeInOnNPC(Projectile, !Projectile.tileCollide, 300f, 10f, 20f);
+                CalamityUtils.HomeInOnNPC(Projectile, !Projectile.tileCollide, 300f, 10f, 20f);
             }
             else if (Projectile.ai[1] == 40f)
             {

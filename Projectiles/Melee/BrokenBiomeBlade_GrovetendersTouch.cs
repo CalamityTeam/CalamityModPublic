@@ -49,7 +49,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.penetrate = -1;
             Projectile.extraUpdates = 2;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = BiomeBlade.TropicalAttunement_LocalIFrames;
+            Projectile.localNPCHitCooldown = BrokenBiomeBlade.TropicalAttunement_LocalIFrames;
         }
 
         public override bool? CanCutTiles() => false; //Itd be quite counterproductive to make the whip cut the tiles it just grew
@@ -81,7 +81,7 @@ namespace CalamityMod.Projectiles.Melee
             {
                 if (SnapCoyoteTime > 0f)
                 {
-                    damage = (int)(damage * BiomeBlade.TropicalAttunement_SweetSpotDamageMultiplier);
+                    damage = (int)(damage * BrokenBiomeBlade.TropicalAttunement_SweetSpotDamageMultiplier);
                     crit = true;
                     for (int i = 0; i < 3; i++)
                     {
@@ -93,7 +93,7 @@ namespace CalamityMod.Projectiles.Melee
                 }
             }
             else
-                damage = (int)(damage * BiomeBlade.TropicalAttunement_ChainDamageReduction); //If the enemy is hit with the chain of the whip, the damage gets reduced
+                damage = (int)(damage * BrokenBiomeBlade.TropicalAttunement_ChainDamageReduction); //If the enemy is hit with the chain of the whip, the damage gets reduced
         }
 
         public override void AI()

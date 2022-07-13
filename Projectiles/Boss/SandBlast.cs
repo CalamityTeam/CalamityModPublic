@@ -22,8 +22,9 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.height = 10;
             Projectile.hostile = true;
             Projectile.ignoreWater = true;
+            Projectile.extraUpdates = 1;
             Projectile.penetrate = 1;
-            Projectile.timeLeft = 600;
+            Projectile.timeLeft = 1200;
             Projectile.Opacity = 0f;
         }
 
@@ -46,7 +47,7 @@ namespace CalamityMod.Projectiles.Boss
 
             Projectile.rotation = (float)Math.Atan2(Projectile.velocity.Y, Projectile.velocity.X) + MathHelper.PiOver2;
 
-            Projectile.Opacity += 0.2f;
+            Projectile.Opacity += 0.1f;
             if (Projectile.Opacity > 1f)
                 Projectile.Opacity = 1f;
 

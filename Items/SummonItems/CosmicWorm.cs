@@ -1,14 +1,11 @@
 ﻿using CalamityMod.Events;
 using CalamityMod.Items.Materials;
 using CalamityMod.NPCs.DevourerofGods;
-using CalamityMod.World;
 using Microsoft.Xna.Framework;
-using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
-using System.Linq;
 
 namespace CalamityMod.Items.SummonItems
 {
@@ -41,7 +38,7 @@ namespace CalamityMod.Items.SummonItems
 
         public override bool? UseItem(Player player)
         {
-            string key = "Mods.CalamityMod.EdgyBossText12";
+            string key = "Mods.CalamityMod.EdgyBossText7";
             Color messageColor = Color.Cyan;
             CalamityUtils.DisplayLocalizedText(key, messageColor);
 
@@ -64,7 +61,7 @@ namespace CalamityMod.Items.SummonItems
                 Register();
 
             CreateRecipe().
-                AddIngredient(ItemID.IronBar, 30).
+                AddRecipeGroup("IronBar", 30).
                 AddIngredient(ItemID.LunarBar, 10).
                 AddIngredient<GalacticaSingularity>(20).
                 AddIngredient(ItemID.SoulofLight, 20).

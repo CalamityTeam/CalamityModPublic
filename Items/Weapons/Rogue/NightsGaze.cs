@@ -64,9 +64,9 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             CreateRecipe().
                 AddIngredient(ItemID.DayBreak).
-                AddIngredient<Lumenite>(7).
+                AddIngredient<Lumenyl>(7).
                 AddIngredient<RuinousSoul>(4).
-                AddIngredient<ExodiumClusterOre>(12).
+                AddIngredient<ExodiumCluster>(12).
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }

@@ -1,5 +1,4 @@
 ﻿using CalamityMod.Systems;
-using CalamityMod.Waters;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -11,6 +10,7 @@ namespace CalamityMod.BiomeManagers
         public override ModWaterStyle WaterStyle => ModContent.Find<ModWaterStyle>("CalamityMod/SunkenSeaWater");
         public override int Music => CalamityMod.Instance.GetMusicFromMusicMod("SunkenSea") ?? MusicID.Temple;
         public override SceneEffectPriority Priority => SceneEffectPriority.BiomeHigh;
+        public override string BestiaryIcon => "CalamityMod/BiomeManagers/SunkenSeaIcon";
 
         public override void SetStaticDefaults()
         {

@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Pets
             Item.width = 28;
             Item.height = 36;
             Item.shoot = ModContent.ProjectileType<ChibiiDoggo>();
-            Item.buffType = ModContent.BuffType<ChibiiBuff>();
+            Item.buffType = ModContent.BuffType<ChibiiDoGBuff>();
             Item.UseSound = SoundID.Meowmere;
 
             Item.value = Item.sellPrice(gold: 7);

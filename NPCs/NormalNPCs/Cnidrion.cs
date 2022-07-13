@@ -55,8 +55,8 @@ namespace CalamityMod.NPCs.NormalNPCs
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Desert,
 
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("A confusing beast. They share qualities with many of the other desert creatures, yet seem to be able to store vast amounts of water in their bodies.")
+                // Will move to localization whenever that is cleaned up.
+                new FlavorTextBestiaryInfoElement("A confusing beast. They share qualities with many of the other desert creatures, yet seem to be able to store vast amounts of water in their bodies.")
             });
         }
 
@@ -74,6 +74,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                 Main.eclipse ||
                 Main.snowMoon ||
                 Main.pumpkinMoon ||
+                Main.invasionType != InvasionID.None ||
                 NPC.AnyNPCs(ModContent.NPCType<Cnidrion>()))
             {
                 return 0f;

@@ -1,6 +1,5 @@
 ﻿using CalamityMod.Buffs.StatBuffs;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ModLoader;
@@ -65,7 +64,7 @@ namespace CalamityMod.Projectiles.Ranged
             }
             if (Projectile.ai[1] == 2f) //Boost three
             {
-                CalamityGlobalProjectile.HomeInOnNPC(Projectile, !Projectile.tileCollide, 200f, 12f, 20f);
+                CalamityUtils.HomeInOnNPC(Projectile, !Projectile.tileCollide, 200f, 12f, 20f);
             }
             else if (Projectile.ai[1] == 1f) //Boost two
             {
@@ -136,7 +135,7 @@ namespace CalamityMod.Projectiles.Ranged
             Player player = Main.player[Projectile.owner];
             if ((target.damage > 5 || target.boss) && Projectile.owner == Main.myPlayer && !target.SpawnedFromStatue)
             {
-                player.AddBuff(ModContent.BuffType<PolarisBuff>(), 180);
+                player.AddBuff(ModContent.BuffType<PolarisBuff>(), 480);
             }
         }
 
@@ -164,7 +163,7 @@ namespace CalamityMod.Projectiles.Ranged
             }
             if (Projectile.ai[1] == 2f) //Boost three
             {
-                CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 150);
+                Projectile.ExpandHitboxBy(150);
                 Projectile.maxPenetrate = -1;
                 Projectile.penetrate = -1;
                 Projectile.usesLocalNPCImmunity = true;

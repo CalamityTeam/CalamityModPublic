@@ -34,6 +34,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.tileCollide = true;
             Projectile.timeLeft *= 5;
             Projectile.minion = true;
+            Projectile.DamageType = DamageClass.Summon;
         }
         public override void SendExtraAI(BinaryWriter writer)
         {
@@ -70,7 +71,7 @@ namespace CalamityMod.Projectiles.Summon
             }
 
             bool isCorrectProjectile = Projectile.type == ModContent.ProjectileType<SmallSkeletonMinion>();
-            player.AddBuff(ModContent.BuffType<StaffOfNecrosteocytesBuff>(), 3600);
+            player.AddBuff(ModContent.BuffType<SmallSkeletonBuff>(), 3600);
             if (isCorrectProjectile)
             {
                 if (player.dead)

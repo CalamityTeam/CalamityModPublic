@@ -77,7 +77,7 @@ namespace CalamityMod.Projectiles.Magic
             }
 
             // Also weakly home in on nearby enemies
-            CalamityGlobalProjectile.HomeInOnNPC(Projectile, true, 200f, Projectile.ai[0], EnemyHomingStrength);
+            CalamityUtils.HomeInOnNPC(Projectile, true, 200f, Projectile.ai[0], EnemyHomingStrength);
 
             // The projectile never slows down, even as it tries to curve towards enemies and its paired sword.
             float currentSpeed = Projectile.velocity.Length();
@@ -88,7 +88,7 @@ namespace CalamityMod.Projectiles.Magic
         {
             // Pick a random sword sprite and a random color to use.
             Projectile.frame = Main.rand.Next(14);
-            lightColor = Judgement.GetRandomLightColor();
+            lightColor = TheDanceofLight.GetRandomLightColor();
 
             // Spawn starting dust.
             Vector2 baseOffsetVec = new Vector2(1f, 4f);
@@ -115,12 +115,12 @@ namespace CalamityMod.Projectiles.Magic
             Player player = Main.player[Projectile.owner];
             CalamityPlayer calPlayer = player.Calamity();
             calPlayer.danceOfLightCharge++;
-            if (calPlayer.danceOfLightCharge >= Judgement.HitsPerFlash)
+            if (calPlayer.danceOfLightCharge >= TheDanceofLight.HitsPerFlash)
             {
                 calPlayer.danceOfLightCharge = 0;
                 if (Projectile.owner == Main.myPlayer)
                 {
-                    int flashDamage = (int)player.GetDamage<MagicDamageClass>().ApplyTo(Judgement.FlashBaseDamage);
+                    int flashDamage = (int)player.GetTotalDamage<MagicDamageClass>().ApplyTo(TheDanceofLight.FlashBaseDamage);
                     Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<BlindingLight>(), flashDamage, 0f, Projectile.owner);
                 }
             }

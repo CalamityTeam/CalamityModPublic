@@ -75,7 +75,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void Kill(int timeLeft)
         {
-            CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 60, 60);
+            Projectile.ExpandHitboxBy(60, 60);
             Projectile.Damage();
             if (!Main.dedServ)
             {

@@ -65,7 +65,6 @@ namespace CalamityMod.Items.Weapons.Ranged
             CreateRecipe().
                 AddIngredient<ThePack>().
                 AddIngredient<ScorchedEarth>().
-                AddIngredient<AethersWhisper>().
                 AddIngredient(ItemID.ElectrosphereLauncher).
                 AddIngredient<MiracleMatter>().
                 AddTile<DraedonsForge>().

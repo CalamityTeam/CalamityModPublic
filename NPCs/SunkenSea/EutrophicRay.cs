@@ -1,6 +1,6 @@
-﻿using CalamityMod.Items.Placeables.Banners;
+﻿using CalamityMod.BiomeManagers;
+using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Weapons.Melee;
-using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;
@@ -20,6 +20,9 @@ namespace CalamityMod.NPCs.SunkenSea
         {
             DisplayName.SetDefault("Eutrophic Ray");
             Main.npcFrameCount[NPC.type] = 5;
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0);
+            value.Position.X += 24f;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 
         public override void SetDefaults()
@@ -42,15 +45,15 @@ namespace CalamityMod.NPCs.SunkenSea
             NPC.Calamity().VulnerableToSickness = true;
             NPC.Calamity().VulnerableToElectricity = true;
             NPC.Calamity().VulnerableToWater = false;
+            SpawnModBiomes = new int[1] { ModContent.GetInstance<SunkenSeaBiome>().Type };
         }
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
-				//BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.SunkenSea,
 
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("A stingray that spends much of its time docile on the rocky floors of the sunken sea’s pools. It stores its energy, and when endangered, can release it in short bursts of speed.")
+                // Will move to localization whenever that is cleaned up.
+                new FlavorTextBestiaryInfoElement("A stingray that spends much of its time docile on the rocky floors of the sunken sea’s pools. It stores its energy, and when endangered, can release it in short bursts of speed.")
             });
         }
 
@@ -169,7 +172,7 @@ namespace CalamityMod.NPCs.SunkenSea
 
         public override void FindFrame(int frameHeight)
         {
-            NPC.frameCounter += hasBeenHit ? 0.15f : 0f;
+            NPC.frameCounter += (hasBeenHit || NPC.IsABestiaryIconDummy) ? 0.15f : 0f;
             NPC.frameCounter %= Main.npcFrameCount[NPC.type];
             int frame = (int)NPC.frameCounter;
             NPC.frame.Y = frame * frameHeight;
@@ -209,9 +212,7 @@ namespace CalamityMod.NPCs.SunkenSea
             }
             return 0f;
         }
-
-        public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.AddIf(() => DownedBossSystem.downedDesertScourge, ModContent.ItemType<EutrophicShank>(), 3);
-
+        
         public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < 5; k++)

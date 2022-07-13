@@ -18,6 +18,7 @@ namespace CalamityMod.Items.Accessories
                                 "If this effect triggers you get a health regeneration boost for 5 seconds\n" +
                                 "If the same enemy projectile type hits you again you will resist its damage by 15%");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 10));
+            ItemID.Sets.AnimatesAsSoul[Type] = true;
         }
 
         public override void SetDefaults()

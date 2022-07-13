@@ -123,6 +123,24 @@ namespace CalamityMod.ILEditing
             cursor.Emit(OpCodes.Ldsfld, typeof(Player).GetField("jumpSpeed"));
             cursor.Emit(OpCodes.Add);
 
+            // Find the Soaring Insignia jump speed bonus and reduce it to 0.5f.
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(2.4f)))
+            {
+                LogFailure("Jump Height Boost Fixes", "Could not locate Soaring Insignia jump speed boost value.");
+                return;
+            }
+            cursor.Remove();
+            cursor.Emit(OpCodes.Ldc_R4, 0.5f); // Decrease to 0.5f.
+
+            // Find the Frog Leg jump speed bonus and reduce it to 1.2f.
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(2.4f)))
+            {
+                LogFailure("Jump Height Boost Fixes", "Could not locate Frog Leg jump speed boost value.");
+                return;
+            }
+            cursor.Remove();
+            cursor.Emit(OpCodes.Ldc_R4, 1.2f); // Decrease to 1.2f.
+
             // Remove the jump height addition from the Werewolf buff (Moon Charm).
             if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcI4(2)))
             {

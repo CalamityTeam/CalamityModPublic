@@ -32,10 +32,7 @@ namespace CalamityMod.Items.Accessories
             {
                 player.statDefense += 5;
             }
-            if ((player.armor[0].type == ModContent.ItemType<VictideHeadgear>() || player.armor[0].type == ModContent.ItemType<VictideHelm>() ||
-                player.armor[0].type == ModContent.ItemType<VictideHelmet>() || player.armor[0].type == ModContent.ItemType<VictideMask>() ||
-                player.armor[0].type == ModContent.ItemType<VictideVisage>()) &&
-                player.armor[1].type == ModContent.ItemType<VictideBreastplate>() && player.armor[2].type == ModContent.ItemType<VictideLeggings>())
+            if (player.Calamity().victideSet)
             {
                 player.moveSpeed += 0.1f;
                 player.lifeRegen += 2;
@@ -45,7 +42,7 @@ namespace CalamityMod.Items.Accessories
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<VictideBar>(5).
+                AddIngredient<SeaRemains>(5).
                 AddIngredient(ItemID.Coral, 5).
                 AddTile(TileID.Anvils).
                 Register();

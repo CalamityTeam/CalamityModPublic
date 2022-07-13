@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Potions
             Item.rare = ItemRarityID.Lime;
             Item.useAnimation = 17;
             Item.useTime = 17;
-            Item.useStyle = ItemUseStyleID.EatFood;
+            Item.useStyle = ItemUseStyleID.DrinkLiquid;
             Item.UseSound = SoundID.Item3;
             Item.consumable = true;
             Item.buffType = ModContent.BuffType<AstralInjectionBuff>();
@@ -53,14 +53,14 @@ namespace CalamityMod.Items.Potions
             CreateRecipe(4).
                 AddIngredient(ItemID.BottledWater, 4).
                 AddIngredient<Stardust>(4).
-                AddIngredient<AstralJelly>().
+                AddIngredient<AureusCell>().
                 AddTile(TileID.AlchemyTable).
                 Register();
 
             CreateRecipe(8).
                 AddIngredient(ItemID.BottledWater, 4).
                 AddIngredient<BloodOrb>(5).
-                AddIngredient<AstralJelly>().
+                AddIngredient<AureusCell>().
                 AddTile(TileID.AlchemyTable).
                 Register();
         }

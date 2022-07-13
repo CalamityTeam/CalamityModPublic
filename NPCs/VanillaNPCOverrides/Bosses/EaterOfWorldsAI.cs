@@ -15,8 +15,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
         {
             CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || bossRush;
 
             // Causes it to split far more in death mode
             if (((npc.ai[2] % 2f == 0f && npc.type == NPCID.EaterofWorldsBody) || npc.type == NPCID.EaterofWorldsHead) && death)
@@ -36,15 +36,15 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             // Fade in.
             npc.Opacity = MathHelper.Clamp(npc.Opacity + 0.08f, 0f, 1f);
 
-            float enrageScale = BossRushEvent.BossRushActive ? 1f : 0f;
-            if ((npc.position.Y / 16f) < Main.worldSurface || malice)
+            float enrageScale = bossRush ? 1f : 0f;
+            if ((npc.position.Y / 16f) < Main.worldSurface || bossRush)
             {
-                npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
+                npc.Calamity().CurrentlyEnraged = !bossRush;
                 enrageScale += 1f;
             }
-            if (!Main.player[npc.target].ZoneCorrupt || malice)
+            if (!Main.player[npc.target].ZoneCorrupt || bossRush)
             {
-                npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
+                npc.Calamity().CurrentlyEnraged = !bossRush;
                 enrageScale += 2f;
             }
 
@@ -58,7 +58,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             float lifeRatio = segmentCount / (totalSegments + 2);
 
             // 10 seconds of resistance to prevent spawn killing
-            if (calamityGlobalNPC.newAI[1] < 600f && BossRushEvent.BossRushActive)
+            if (calamityGlobalNPC.newAI[1] < 600f && bossRush)
                 calamityGlobalNPC.newAI[1] += 1f;
 
             // Phases
@@ -73,7 +73,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 // Vile spit
                 if (npc.type == NPCID.EaterofWorldsBody)
                 {
-                    if (Main.rand.NextBool(900) && phase2)
+                    if (Main.rand.NextBool(Main.getGoodWorld ? 600 : 900) && phase2)
                     {
                         npc.TargetClosest();
                         if (Collision.CanHitLine(npc.Center, 1, 1, Main.player[npc.target].Center, 1, 1))
@@ -100,7 +100,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             Vector2 vector34 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
                             float num349 = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) - vector34.X;
                             float num350 = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - vector34.Y;
-                            float num418 = 12f;
+                            float num418 = 7f + enrageScale * 2f;
                             float num351 = (float)Math.Sqrt(num349 * num349 + num350 * num350);
                             num351 = num418 / num351;
                             num349 *= num351;
@@ -310,6 +310,12 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 num38 += 0.015f * enrageScale;
             }
 
+            if (Main.getGoodWorld)
+            {
+                num37 += 4f;
+                num38 += 0.05f;
+            }
+
             Vector2 vector2 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
             float num39 = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2);
             float num40 = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2);
@@ -339,6 +345,10 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 num52 = (float)Math.Sqrt(num39 * num39 + num40 * num40);
                 int num53 = npc.width;
                 num53 = (int)(num53 * npc.scale);
+
+                if (Main.getGoodWorld)
+                    num53 = 62;
+
                 num52 = (num52 - num53) / num52;
                 num39 *= num52;
                 num40 *= num52;
@@ -411,7 +421,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                     // Despawn
                     bool shouldDespawn = npc.type == NPCID.EaterofWorldsHead && Main.player[npc.target].dead;
-                    if (shouldDespawn && !BossRushEvent.BossRushActive)
+                    if (shouldDespawn && !bossRush)
                     {
                         bool everyoneDead = true;
                         for (int num58 = 0; num58 < Main.maxPlayers; num58++)

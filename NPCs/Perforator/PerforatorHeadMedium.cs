@@ -20,8 +20,16 @@ namespace CalamityMod.NPCs.Perforator
         {
             DisplayName.SetDefault("The Perforator");
             NPCID.Sets.BossBestiaryPriority.Add(Type);
-            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0);
-            value.Position.X += 1f;
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            {
+                Scale = 0.7f,
+                PortraitScale = 0.7f,
+                CustomTexturePath = "CalamityMod/ExtraTextures/Bestiary/PerforatorMedium_Bestiary",
+                PortraitPositionXOverride = 40,
+                PortraitPositionYOverride = 40
+            };
+            value.Position.X += 60;
+            value.Position.Y += 40;
             NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 
@@ -47,14 +55,14 @@ namespace CalamityMod.NPCs.Perforator
             NPC.DeathSound = SoundID.NPCDeath1;
             NPC.netAlways = true;
 
-            if (CalamityWorld.malice || BossRushEvent.BossRushActive)
-                NPC.scale = 1.25f;
+            if (BossRushEvent.BossRushActive)
+                NPC.scale *= 1.25f;
             else if (CalamityWorld.death)
-                NPC.scale = 1.2f;
+                NPC.scale *= 1.2f;
             else if (CalamityWorld.revenge)
-                NPC.scale = 1.15f;
+                NPC.scale *= 1.15f;
             else if (Main.expertMode)
-                NPC.scale = 1.1f;
+                NPC.scale *= 1.1f;
 
             NPC.Calamity().SplittingWorm = true;
 
@@ -79,15 +87,15 @@ namespace CalamityMod.NPCs.Perforator
 
         public override void AI()
         {
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
-            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool expertMode = Main.expertMode || bossRush;
+            bool revenge = CalamityWorld.revenge || bossRush;
+            bool death = CalamityWorld.death || bossRush;
 
-            float enrageScale = BossRushEvent.BossRushActive ? 1f : 0f;
-            if ((NPC.position.Y / 16f) < Main.worldSurface || malice)
+            float enrageScale = bossRush ? 1f : 0f;
+            if ((NPC.position.Y / 16f) < Main.worldSurface || bossRush)
                 enrageScale += 1f;
-            if (!Main.player[NPC.target].ZoneCrimson || malice)
+            if (!Main.player[NPC.target].ZoneCrimson || bossRush)
                 enrageScale += 1f;
 
             // Percent life remaining
@@ -457,12 +465,9 @@ namespace CalamityMod.NPCs.Perforator
 
         public override void OnKill()
         {
-            if (!CalamityWorld.revenge)
-            {
-                int closestPlayer = Player.FindClosest(NPC.Center, 1, 1);
-                if (Main.rand.NextBool(4) && Main.player[closestPlayer].statLife < Main.player[closestPlayer].statLifeMax2)
-                    Item.NewItem(NPC.GetSource_Loot(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
-            }
+            int closestPlayer = Player.FindClosest(NPC.Center, 1, 1);
+            if (Main.rand.NextBool(4) && Main.player[closestPlayer].statLife < Main.player[closestPlayer].statLifeMax2)
+                Item.NewItem(NPC.GetSource_Loot(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
 
             for (int i = 0; i < Main.maxNPCs; i++)
             {

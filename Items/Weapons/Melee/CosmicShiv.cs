@@ -1,5 +1,4 @@
 ﻿using Terraria.DataStructures;
-using Terraria.DataStructures;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -90,7 +89,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<ElementalShortsword>().
+                AddIngredient<ElementalShiv>().
                 AddIngredient<CosmiliteBar>(8).
                 AddTile(ModContent.TileType<CosmicAnvil>()).
                 Register();

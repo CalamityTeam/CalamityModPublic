@@ -6,6 +6,7 @@ using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Pets;
+using CalamityMod.Items.Placeables.Furniture.BossRelics;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Items.Potions;
 using CalamityMod.Items.TreasureBags;
@@ -23,7 +24,6 @@ using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using Terraria;
 using Terraria.GameContent;
@@ -32,6 +32,7 @@ using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using ReLogic.Utilities;
 
 namespace CalamityMod.NPCs.Yharon
 {
@@ -60,6 +61,8 @@ namespace CalamityMod.NPCs.Yharon
         public static readonly SoundStyle RoarSound = new("CalamityMod/Sounds/Custom/YharonRoar");
         public static readonly SoundStyle ShortRoarSound = new("CalamityMod/Sounds/Custom/YharonRoarShort");
         public static readonly SoundStyle FireSound = new("CalamityMod/Sounds/Custom/YharonFire");
+
+        public SlotId RoarSoundSlot;
 
         public override void SetStaticDefaults()
         {
@@ -178,17 +181,17 @@ namespace CalamityMod.NPCs.Yharon
             CalamityMod.StopRain();
 
             // Variables
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
-            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool expertMode = Main.expertMode || bossRush;
+            bool revenge = CalamityWorld.revenge || bossRush;
+            bool death = CalamityWorld.death || bossRush;
 
             float pie = (float)Math.PI;
 
             // Start phase 2 or not
             if (startSecondAI)
             {
-                Yharon_AI2(expertMode, revenge, death, malice, pie, lifeRatio, calamityGlobalNPC);
+                Yharon_AI2(expertMode, revenge, death, bossRush, pie, lifeRatio, calamityGlobalNPC);
                 return;
             }
 
@@ -227,7 +230,7 @@ namespace CalamityMod.NPCs.Yharon
             float reduceSpeedChargeDistance = 540f;
             int chargeTime = expertMode ? 40 : 45;
             float chargeSpeed = expertMode ? 28f : 26f;
-            float fastChargeVelocityMultiplier = malice ? 2f : 1.5f;
+            float fastChargeVelocityMultiplier = bossRush ? 2f : 1.5f;
             bool playFastChargeRoarSound = NPC.localAI[1] == fastChargeTelegraphTime * 0.5f;
             bool doFastCharge = NPC.localAI[1] > fastChargeTelegraphTime;
 
@@ -246,8 +249,8 @@ namespace CalamityMod.NPCs.Yharon
 
             if (revenge)
             {
-                int chargeTimeDecrease = malice ? 6 : death ? 4 : 2;
-                float velocityMult = malice ? 1.15f : death ? 1.1f : 1.05f;
+                int chargeTimeDecrease = bossRush ? 6 : death ? 4 : 2;
+                float velocityMult = bossRush ? 1.15f : death ? 1.1f : 1.05f;
                 phaseSwitchTimer -= chargeTimeDecrease;
                 acceleration *= velocityMult;
                 velocity *= velocityMult;
@@ -256,17 +259,17 @@ namespace CalamityMod.NPCs.Yharon
             }
 
             float reduceSpeedFlareBombDistance = 570f;
-            int flareBombPhaseTimer = malice ? 30 : death ? 40 : 60;
+            int flareBombPhaseTimer = bossRush ? 30 : death ? 40 : 60;
             int flareBombSpawnDivisor = flareBombPhaseTimer / 20;
-            float flareBombPhaseAcceleration = malice ? 1f : death ? 0.92f : 0.8f;
-            float flareBombPhaseVelocity = malice ? 16f : death ? 14f : 12f;
+            float flareBombPhaseAcceleration = bossRush ? 1f : death ? 0.92f : 0.8f;
+            float flareBombPhaseVelocity = bossRush ? 16f : death ? 14f : 12f;
 
             int fireTornadoPhaseTimer = 90;
 
             int newPhaseTimer = 180;
 
-            int flareDustPhaseTimer = malice ? 160 : death ? 200 : 240;
-            int flareDustPhaseTimer2 = malice ? 80 : death ? 100 : 120;
+            int flareDustPhaseTimer = bossRush ? 160 : death ? 200 : 240;
+            int flareDustPhaseTimer2 = bossRush ? 80 : death ? 100 : 120;
 
             float spinTime = flareDustPhaseTimer / 2;
 
@@ -332,12 +335,12 @@ namespace CalamityMod.NPCs.Yharon
                 enraged = false;
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    safeBox.X = (int)(player.Center.X - (malice ? 2000f : revenge ? 3000f : 3500f));
+                    safeBox.X = (int)(player.Center.X - (Main.getGoodWorld ? 1000f : bossRush ? 2000f : revenge ? 3000f : 3500f));
                     safeBox.Y = (int)(player.Center.Y - 10500f);
-                    safeBox.Width = malice ? 4000 : revenge ? 6000 : 7000;
+                    safeBox.Width = Main.getGoodWorld ? 2000 : bossRush ? 4000 : revenge ? 6000 : 7000;
                     safeBox.Height = 21000;
-                    Projectile.NewProjectile(NPC.GetSource_FromAI(), player.Center.X + (malice ? 2000f : revenge ? 3000f : 3500f), player.Center.Y + 100f, 0f, 0f, ModContent.ProjectileType<SkyFlareRevenge>(), 0, 0f, Main.myPlayer);
-                    Projectile.NewProjectile(NPC.GetSource_FromAI(), player.Center.X - (malice ? 2000f : revenge ? 3000f : 3500f), player.Center.Y + 100f, 0f, 0f, ModContent.ProjectileType<SkyFlareRevenge>(), 0, 0f, Main.myPlayer);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), player.Center.X + (Main.getGoodWorld ? 1000f : bossRush ? 2000f : revenge ? 3000f : 3500f), player.Center.Y + 100f, 0f, 0f, ModContent.ProjectileType<SkyFlareRevenge>(), 0, 0f, Main.myPlayer);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), player.Center.X - (Main.getGoodWorld ? 1000f : bossRush ? 2000f : revenge ? 3000f : 3500f), player.Center.Y + 100f, 0f, 0f, ModContent.ProjectileType<SkyFlareRevenge>(), 0, 0f, Main.myPlayer);
                 }
 
                 // Force Yharon to send a sync packet so that the arena gets sent immediately
@@ -361,6 +364,9 @@ namespace CalamityMod.NPCs.Yharon
                     protectionBoost = false;
                 }
             }
+
+            if (Main.getGoodWorld)
+                phaseSwitchTimer /= 2;
 
             // Set DR based on protection boost (aka enrage)
             bool chargeTelegraph = (NPC.ai[0] == 0f || NPC.ai[0] == 6f || NPC.ai[0] == 13f) && NPC.localAI[1] > 0f;
@@ -486,7 +492,7 @@ namespace CalamityMod.NPCs.Yharon
                         Main.dust[num1470].velocity = Vector2.Normalize(value16) * 3f;
                     }
 
-                    SoundEngine.PlaySound(RoarSound, NPC.position);
+                    RoarSoundSlot = SoundEngine.PlaySound(RoarSound, NPC.position);
                 }
 
                 NPC.ai[2] += 1f;
@@ -601,7 +607,7 @@ namespace CalamityMod.NPCs.Yharon
                     else if (aiState == 5)
                     {
                         if (playFastChargeRoarSound)
-                            SoundEngine.PlaySound(RoarSound, NPC.position);
+                            RoarSoundSlot = SoundEngine.PlaySound(RoarSound, NPC.position);
 
                         if (doFastCharge)
                         {
@@ -663,7 +669,7 @@ namespace CalamityMod.NPCs.Yharon
                     NPC.velocity *= 0.98f;
 
                 if (NPC.ai[2] == 0f)
-                    SoundEngine.PlaySound(RoarSound, NPC.position);
+                    RoarSoundSlot = SoundEngine.PlaySound(RoarSound, NPC.position);
 
                 if (NPC.ai[2] % flareBombSpawnDivisor == 0f)
                 {
@@ -730,7 +736,7 @@ namespace CalamityMod.NPCs.Yharon
                 NPC.velocity.Y = MathHelper.Lerp(NPC.velocity.Y, 0f, 0.02f);
 
                 if (NPC.ai[2] == newPhaseTimer - 60)
-                    SoundEngine.PlaySound(RoarSound, NPC.position);
+                    RoarSoundSlot = SoundEngine.PlaySound(RoarSound, NPC.position);
 
                 NPC.ai[2] += 1f;
                 if (NPC.ai[2] >= newPhaseTimer)
@@ -910,7 +916,7 @@ namespace CalamityMod.NPCs.Yharon
                     else if (aiState == 5)
                     {
                         if (playFastChargeRoarSound)
-                            SoundEngine.PlaySound(RoarSound, NPC.position);
+                            RoarSoundSlot = SoundEngine.PlaySound(RoarSound, NPC.position);
 
                         if (doFastCharge)
                         {
@@ -980,7 +986,7 @@ namespace CalamityMod.NPCs.Yharon
             else if (NPC.ai[0] == 8f)
             {
                 if (NPC.ai[2] == 0f)
-                    SoundEngine.PlaySound(RoarSound, NPC.position);
+                    RoarSoundSlot = SoundEngine.PlaySound(RoarSound, NPC.position);
 
                 NPC.ai[2] += 1f;
 
@@ -1034,7 +1040,7 @@ namespace CalamityMod.NPCs.Yharon
                 NPC.velocity.Y = MathHelper.Lerp(NPC.velocity.Y, 0f, 0.02f);
 
                 if (NPC.ai[2] == newPhaseTimer - 60)
-                    SoundEngine.PlaySound(RoarSound, NPC.position);
+                    RoarSoundSlot = SoundEngine.PlaySound(RoarSound, NPC.position);
 
                 NPC.ai[2] += 1f;
                 if (NPC.ai[2] >= newPhaseTimer)
@@ -1070,7 +1076,7 @@ namespace CalamityMod.NPCs.Yharon
             else if (NPC.ai[0] == 12f)
             {
                 if (NPC.ai[2] == 0f)
-                    SoundEngine.PlaySound(RoarSound, NPC.position);
+                    RoarSoundSlot = SoundEngine.PlaySound(RoarSound, NPC.position);
 
                 NPC.ai[2] += 1f;
 
@@ -1253,7 +1259,7 @@ namespace CalamityMod.NPCs.Yharon
                     else if (aiState == 5)
                     {
                         if (playFastChargeRoarSound)
-                            SoundEngine.PlaySound(RoarSound, NPC.position);
+                            RoarSoundSlot = SoundEngine.PlaySound(RoarSound, NPC.position);
 
                         if (doFastCharge)
                         {
@@ -1330,7 +1336,7 @@ namespace CalamityMod.NPCs.Yharon
             else if (NPC.ai[0] == 15f)
             {
                 if (NPC.ai[2] == 0f)
-                    SoundEngine.PlaySound(RoarSound, NPC.position);
+                    RoarSoundSlot = SoundEngine.PlaySound(RoarSound, NPC.position);
 
                 NPC.ai[2] += 1f;
                 if (NPC.ai[2] % flareDustSpawnDivisor3 == 0f)
@@ -1385,7 +1391,7 @@ namespace CalamityMod.NPCs.Yharon
                 NPC.velocity.Y = MathHelper.Lerp(NPC.velocity.Y, 0f, 0.02f);
 
                 if (NPC.ai[2] == newPhaseTimer - 60)
-                    SoundEngine.PlaySound(RoarSound, NPC.position);
+                    RoarSoundSlot = SoundEngine.PlaySound(RoarSound, NPC.position);
 
                 NPC.ai[2] += 1f;
                 if (NPC.ai[2] >= newPhaseTimer)
@@ -1422,7 +1428,7 @@ namespace CalamityMod.NPCs.Yharon
             else if (NPC.ai[0] == 19f)
             {
                 if (NPC.ai[2] == 0f)
-                    SoundEngine.PlaySound(RoarSound, NPC.position);
+                    RoarSoundSlot = SoundEngine.PlaySound(RoarSound, NPC.position);
 
                 NPC.ai[2] += 1f;
 
@@ -1470,7 +1476,7 @@ namespace CalamityMod.NPCs.Yharon
                     NPC.velocity *= 0.98f;
 
                 if (NPC.ai[2] == 0f)
-                    SoundEngine.PlaySound(RoarSound, NPC.position);
+                    RoarSoundSlot = SoundEngine.PlaySound(RoarSound, NPC.position);
 
                 if (NPC.ai[2] % flareBombSpawnDivisor == 0f)
                 {
@@ -1507,7 +1513,7 @@ namespace CalamityMod.NPCs.Yharon
         }
 
         #region AI2
-        public void Yharon_AI2(bool expertMode, bool revenge, bool death, bool malice, float pie, float lifeRatio, CalamityGlobalNPC calamityGlobalNPC)
+        public void Yharon_AI2(bool expertMode, bool revenge, bool death, bool bossRush, float pie, float lifeRatio, CalamityGlobalNPC calamityGlobalNPC)
         {
             float phase2GateValue = revenge ? 0.44f : expertMode ? 0.385f : 0.275f;
             bool phase2 = death || lifeRatio <= phase2GateValue;
@@ -1629,13 +1635,13 @@ namespace CalamityMod.NPCs.Yharon
 
             float reduceSpeedChargeDistance = 500f;
             float reduceSpeedFireballSpitChargeDistance = 800f;
-            float phaseSwitchTimer = malice ? 28f : expertMode ? 30f : 32f;
+            float phaseSwitchTimer = bossRush ? 28f : expertMode ? 30f : 32f;
             float acceleration = expertMode ? 0.92f : 0.9f;
             float velocity = expertMode ? 14.5f : 14f;
             float chargeTime = expertMode ? 32f : 35f;
             float chargeSpeed = expertMode ? 32f : 30f;
 
-            float fastChargeVelocityMultiplier = malice ? 2f : 1.5f;
+            float fastChargeVelocityMultiplier = bossRush ? 2f : 1.5f;
             fastChargeTelegraphTime = protectionBoost ? 60 : (100 - secondPhasePhase * 10);
             bool playFastChargeRoarSound = NPC.localAI[1] == fastChargeTelegraphTime * 0.5f;
             bool doFastChargeTelegraph = NPC.localAI[1] <= fastChargeTelegraphTime;
@@ -1652,21 +1658,21 @@ namespace CalamityMod.NPCs.Yharon
             float splittingFireballBreathYVelocityTimer = 40f;
             float splittingFireballBreathPhaseTimer = splittingFireballBreathTimer + splittingFireballBreathTimer2 + splittingFireballBreathYVelocityTimer;
 
-            int spinPhaseTimer = secondPhasePhase == 4 ? (malice ? 80 : death ? 100 : 120) : (malice ? 120 : death ? 150 : 180);
+            int spinPhaseTimer = secondPhasePhase == 4 ? (bossRush ? 80 : death ? 100 : 120) : (bossRush ? 120 : death ? 150 : 180);
             int flareDustSpawnDivisor = spinPhaseTimer / 10;
             int flareDustSpawnDivisor2 = spinPhaseTimer / 20 + (secondPhasePhase == 4 ? spinPhaseTimer / 60 : 0);
             float increasedIdleTimeAfterBulletHell = -120f;
 
-            float flareSpawnDecelerationTimer = malice ? 60f : death ? 75f : 90f;
+            float flareSpawnDecelerationTimer = bossRush ? 60f : death ? 75f : 90f;
             int flareSpawnPhaseTimerReduction = revenge ? (int)(flareSpawnDecelerationTimer * (ai2GateValue - lifeRatio)) : 0;
-            float flareSpawnPhaseTimer = (malice ? 120f : death ? 150f : 180f) - flareSpawnPhaseTimerReduction;
+            float flareSpawnPhaseTimer = (bossRush ? 120f : death ? 150f : 180f) - flareSpawnPhaseTimerReduction;
 
             float teleportPhaseTimer = 45f;
 
             if (revenge)
             {
-                float chargeTimeDecrease = malice ? 6f : death ? 4f : 2f;
-                float velocityMult = malice ? 1.15f : death ? 1.1f : 1.05f;
+                float chargeTimeDecrease = bossRush ? 6f : death ? 4f : 2f;
+                float velocityMult = bossRush ? 1.15f : death ? 1.1f : 1.05f;
                 acceleration *= velocityMult;
                 velocity *= velocityMult;
                 chargeTime -= chargeTimeDecrease;
@@ -1682,6 +1688,9 @@ namespace CalamityMod.NPCs.Yharon
                 chargeTime -= 4f;
                 chargeSpeed *= 1.1f;
             }
+
+            if (Main.getGoodWorld)
+                phaseSwitchTimer *= 0.5f;
 
             if (NPC.ai[0] == 0f)
             {
@@ -1923,7 +1932,7 @@ namespace CalamityMod.NPCs.Yharon
                             NPC.rotation = NPC.rotation.AngleTowards(newRotation, amount);
 
                         if (playFastChargeRoarSound)
-                            SoundEngine.PlaySound(RoarSound, NPC.position);
+                            RoarSoundSlot = SoundEngine.PlaySound(RoarSound, NPC.position);
 
                         NPC.localAI[1] += 1f;
 
@@ -2181,7 +2190,7 @@ namespace CalamityMod.NPCs.Yharon
             else if (NPC.ai[0] == 5f)
             {
                 if (NPC.ai[1] == 1f)
-                    SoundEngine.PlaySound(RoarSound, NPC.position);
+                    RoarSoundSlot = SoundEngine.PlaySound(RoarSound, NPC.position);
 
                 NPC.ai[1] += 1f;
                 if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -2387,7 +2396,7 @@ namespace CalamityMod.NPCs.Yharon
                         }
                     }
 
-                    SoundEngine.PlaySound(RoarSound, NPC.position);
+                    RoarSoundSlot = SoundEngine.PlaySound(RoarSound, NPC.position);
                 }
 
                 NPC.ai[2] += 1f;
@@ -2806,8 +2815,8 @@ namespace CalamityMod.NPCs.Yharon
                     ModContent.ItemType<DragonsBreath>(),
                     ModContent.ItemType<ChickenCannon>(),
                     ModContent.ItemType<PhoenixFlameBarrage>(),
-                    ModContent.ItemType<AngryChickenStaff>(), // Yharon Kindle Staff
-                    ModContent.ItemType<ProfanedTrident>(), // Infernal Spear
+                    ModContent.ItemType<YharonsKindleStaff>(), // Yharon Kindle Staff
+                    ModContent.ItemType<Wrathwing>(), // Infernal Spear
                     ModContent.ItemType<FinalDawn>(),
                 };
                 normalOnly.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, weapons));
@@ -2819,7 +2828,7 @@ namespace CalamityMod.NPCs.Yharon
                 normalOnly.Add(ModContent.ItemType<McNuggets>(), 10);
 
                 // Materials
-                normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<HellcasterFragment>(), 1, 15, 22));
+                normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<YharonSoulFragment>(), 1, 15, 22));
 
                 // Equipment
                 normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<YharimsGift>()));
@@ -2828,6 +2837,9 @@ namespace CalamityMod.NPCs.Yharon
 
             // Trophy (always directly from boss, never in bag)
             npcLoot.Add(ModContent.ItemType<YharonTrophy>(), 10);
+
+            // Relic
+            npcLoot.AddIf(() => Main.masterMode || CalamityWorld.revenge, ModContent.ItemType<YharonRelic>());
 
             // Lore
             npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedYharon, ModContent.ItemType<KnowledgeYharon>());
@@ -2850,7 +2862,7 @@ namespace CalamityMod.NPCs.Yharon
             // If Yharon has not been killed yet, notify players of Auric Ore
             if (!DownedBossSystem.downedYharon)
             {
-                CalamityUtils.SpawnOre(ModContent.TileType<AuricOre>(), 2E-05, 0.6f, 0.8f, 10, 20);
+                CalamityUtils.SpawnOre(ModContent.TileType<AuricOre>(), 2E-05, 0.75f, 0.9f, 10, 20);
 
                 string key = "Mods.CalamityMod.AuricOreText";
                 Color messageColor = Color.Gold;
@@ -2866,7 +2878,7 @@ namespace CalamityMod.NPCs.Yharon
         #region On Hit Player
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(ModContent.BuffType<LethalLavaBurn>(), 480, true);
+            player.AddBuff(ModContent.BuffType<Dragonfire>(), 480, true);
         }
         #endregion
 
@@ -3065,6 +3077,17 @@ namespace CalamityMod.NPCs.Yharon
                 // Turn into dust on death.
                 if (NPC.life <= 0)
                     DeathAshParticle.CreateAshesFromNPC(NPC);
+            }
+        }
+        #endregion
+
+        #region Sound tracking
+        public override void PostAI()
+        {
+            //Update the roar sound if it's being done.
+            if (SoundEngine.TryGetActiveSound(RoarSoundSlot, out var roarSound) && roarSound.IsPlaying)
+            {
+                roarSound.Position = NPC.Center;
             }
         }
         #endregion

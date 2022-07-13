@@ -1,5 +1,4 @@
 ﻿using Terraria.DataStructures;
-using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using CalamityMod.DataStructures;
@@ -19,6 +18,7 @@ using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
+    // TODO -- CANNOT RENAME this and True Biome Blade to "TrueBiomeBlade" and "BiomeBlade" internally without corrupting existing items
     public class OmegaBiomeBlade : ModItem
     {
         public Attunement mainAttunement = null;
@@ -314,7 +314,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
                 if (secondaryAttunement.id == AttunementID.FlailBlade && MeatHook == null)
                 {
-                    int damage = (int)player.GetDamage<MeleeDamageClass>().ApplyTo(FlailBladeAttunement_PassiveBaseDamage);
+                    int damage = (int)player.GetTotalDamage<MeleeDamageClass>().ApplyTo(FlailBladeAttunement_PassiveBaseDamage);
                     MeatHook = Projectile.NewProjectileDirect(source, player.Center, Vector2.Zero, ProjectileType<ChainedMeatHook>(), damage, 0f, player.whoAmI);
                 }
 
@@ -404,7 +404,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 AddIngredient<TrueBiomeBlade>().
                 AddIngredient<CoreofCalamity>().
                 AddIngredient<AstralBar>(3).
-                AddIngredient<BarofLife>(3).
+                AddIngredient<LifeAlloy>(3).
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }

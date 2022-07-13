@@ -62,7 +62,14 @@ namespace CalamityMod.Items.Accessories
             }
         }
 
+        public override bool IsVanitySet(int head, int body, int legs) => true;
+
         public override void PreUpdateVanitySet(Player player)
+        {
+            player.Calamity().abyssDivingGear = true;
+        }
+
+        public override void UpdateVanity(Player player)
         {
             player.Calamity().abyssDivingGear = true;
         }
@@ -73,7 +80,7 @@ namespace CalamityMod.Items.Accessories
                 AddIngredient(ItemID.ArcticDivingGear).
                 AddIngredient<DepthCharm>().
                 AddIngredient<DepthCells>(10).
-                AddIngredient<Lumenite>(10).
+                AddIngredient<Lumenyl>(10).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

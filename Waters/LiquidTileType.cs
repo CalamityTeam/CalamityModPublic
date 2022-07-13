@@ -1,8 +1,4 @@
-﻿using Microsoft.Xna.Framework;
-using Terraria;
-using Terraria.ModLoader;
-
-namespace CalamityMod.Waters
+﻿namespace CalamityMod.Waters
 {
     public enum LiquidTileType
     {

@@ -1,8 +1,10 @@
 ﻿using CalamityMod.Items.Weapons.Magic;
+using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.GameContent.Drawing;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -109,47 +111,42 @@ namespace CalamityMod.Projectiles.Magic
                 DetermineLemniscatePosition(target);
             }
 
-            if (Time < Lifetime * Projectile.MaxUpdates)
-            {
-                float effectRate = MathHelper.Lerp(0.4f, 1f, Time / (Lifetime * Projectile.MaxUpdates - 40));
-                float random = Main.rand.NextFloat();
-
-                Projectile.Opacity = Utils.GetLerpValue(Lifetime * Projectile.MaxUpdates, (Lifetime - 60f) * Projectile.MaxUpdates, Time, true);
-
-                // Spawn a bunch of swirling dust and do damage.
-                if (random <= effectRate)
-                    SpawnSwirlingDust(target);
-
-                if (random <= effectRate / 30f)
-                {
-                    if (!target.immortal && !target.dontTakeDamage && !target.townNPC)
-                    {
-                        int damage = 2;
-                        damage += (int)Math.Sqrt(target.width * target.height) * 10; // Damage done to Leviathan based on this formula = floor(sqrt(850 * 450) * 10) = 6184 damage.
-                        damage += (int)(target.lifeMax * (target.boss ? BossLifeMaxDamageMult : NormalEnemyLifeMaxDamageMult));
-                        damage += target.damage * 5;
-                        damage = (int)(damage * Main.rand.NextFloat(0.9f, 1.1f));
-                        float cap = player.GetDamage<MagicDamageClass>().ApplyTo(Eternity.BaseDamage * 3f);
-                        damage = (int)MathHelper.Clamp(damage, 1f, cap);
-                        target.StrikeNPC(damage, 0f, 0, false);
-                        RegisterDPS(damage);
-                    }
-                }
-                // This is where most of the damage comes from. Be careful when messing with this.
-                if ((int)Time % 30 == 0 && CalamityUtils.CountProjectiles(ModContent.ProjectileType<EternityHoming>()) < Eternity.MaxHomers)
-                {
-                    int homerCount = 6;
-                    int damage = (int)player.GetDamage<MagicDamageClass>().ApplyTo(0.8f * Eternity.BaseDamage);
-                    for (int i = 0; i < homerCount; i++)
-                    {
-                        Vector2 velocity = Vector2.UnitY.RotatedBy(MathHelper.TwoPi / homerCount * i).RotatedByRandom(0.3f) * 10f;
-                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), target.Center + velocity * 4f, velocity, ModContent.ProjectileType<EternityHoming>(), damage, 0f, Projectile.owner, TargetNPCIndex);
-                    }
-                }
-            }
-            else
+            if (Time >= Lifetime * Projectile.MaxUpdates)
             {
                 Projectile.Kill();
+                return;
+            }
+
+
+            float effectRate = MathHelper.Lerp(0.4f, 1f, Time / (Lifetime * Projectile.MaxUpdates - 40));
+            float random = Main.rand.NextFloat();
+
+            Projectile.Opacity = Utils.GetLerpValue(Lifetime * Projectile.MaxUpdates, (Lifetime - 60f) * Projectile.MaxUpdates, Time, true);
+
+            // Spawn a bunch of swirling dust around the target's position, hexing them.
+            if (random <= effectRate)
+                SpawnSwirlingDust(target);
+
+            // Randomly strike the target directly.
+            if (Main.myPlayer == Projectile.owner && random <= effectRate / 20f && !target.immortal && !target.dontTakeDamage && !target.townNPC)
+            {
+                int damage = (int)player.GetTotalDamage<MagicDamageClass>().ApplyTo(Eternity.BaseDamage * 3f);
+                int strike = Projectile.NewProjectile(Projectile.GetSource_FromAI(), target.Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), damage, 0f, Projectile.owner, target.whoAmI);
+                if (Main.projectile.IndexInRange(strike))
+                    Main.projectile[strike].DamageType = DamageClass.Magic;
+            }
+
+            // Release bursts of homing dark magic bolts periodically. The amount of bolts that can be summoned has a hard limit.
+            // This is where most of the damage comes from. Be careful when messing with this.
+            if ((int)Time % 30 == 0 && CalamityUtils.CountProjectiles(ModContent.ProjectileType<EternityHoming>()) < Eternity.MaxHomers)
+            {
+                int homerCount = 6;
+                int damage = (int)player.GetTotalDamage<MagicDamageClass>().ApplyTo(0.8f * Eternity.BaseDamage);
+                for (int i = 0; i < homerCount; i++)
+                {
+                    Vector2 velocity = Vector2.UnitY.RotatedBy(MathHelper.TwoPi / homerCount * i).RotatedByRandom(0.3f) * 10f;
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), target.Center + velocity * 4f, velocity, ModContent.ProjectileType<EternityHoming>(), damage, 0f, Projectile.owner, TargetNPCIndex);
+                }
             }
         }
 
@@ -166,11 +163,12 @@ namespace CalamityMod.Projectiles.Magic
         public void DetermineLemniscatePosition(NPC target)
         {
             // This value causes the lemniscate to smoothen out and look better.
+            // This added factor results in Lemniscate of Bernoulli instead of a Lemniscate of Gerono. The latter is considerably more squashed and
+            // looks less cool.
             float scale = 2f / (3f - (float)Math.Cos(2 * LemniscateAngle));
 
             float outwardMultiplier = MathHelper.Lerp(4f, 220f, Utils.GetLerpValue(0f, 120f, Time, true));
             Vector2 lemniscateOffset = scale * new Vector2((float)Math.Cos(LemniscateAngle), (float)Math.Sin(2f * LemniscateAngle) / 2f);
-
             Projectile.Center = target.Center + lemniscateOffset * outwardMultiplier;
         }
 
@@ -194,7 +192,7 @@ namespace CalamityMod.Projectiles.Magic
             }
         }
 
-        public void SpawnSwirlingDust(NPC target)
+        public static void SpawnSwirlingDust(NPC target)
         {
             for (int i = 0; i < 3; i++)
             {
@@ -207,12 +205,6 @@ namespace CalamityMod.Projectiles.Magic
                 swirlingDust.fadeIn = 0.25f + outwardnessFactor * 0.1f;
                 swirlingDust.noGravity = true;
             }
-        }
-
-        // So that the player can gauge the DPS of this weapon effectively (StrikeNPC alone will not register the DPS to the player. I have to do this myself).
-        public void RegisterDPS(int damage)
-        {
-            Main.player[Projectile.owner].addDPS(damage);
         }
 
         public Color PrimitiveColorFunction(float completionRatio)
@@ -228,7 +220,7 @@ namespace CalamityMod.Projectiles.Magic
             return Color.Lerp(headColor, tailColor, fadeToMagenta) * opacity;
         }
 
-        public float PrimitiveWidthFunction(float completionRatio)
+        public static float PrimitiveWidthFunction(float completionRatio)
         {
             float widthInterpolant = Utils.GetLerpValue(0f, 0.12f, completionRatio, true);
             return MathHelper.SmoothStep(1f, 10f, widthInterpolant);

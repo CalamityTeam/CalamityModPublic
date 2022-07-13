@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -27,7 +26,7 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.aiStyle = 1;
             Projectile.timeLeft = 600;
             AIType = ProjectileID.WoodenArrowFriendly;
-            Projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
+            Projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.DefaultPointBlankDuration;
         }
 
         public override void Kill(int timeLeft)
@@ -54,7 +53,7 @@ namespace CalamityMod.Projectiles.Ranged
                         if (bee.WithinBounds(Main.maxProjectiles))
                         {
                             Main.projectile[bee].penetrate = 2;
-                            Main.projectile[bee].Calamity().forceRanged = true;
+                            Main.projectile[bee].DamageType = DamageClass.Ranged;
                         }
                     }
                 }

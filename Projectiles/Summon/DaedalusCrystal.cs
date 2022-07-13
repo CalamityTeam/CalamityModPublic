@@ -31,6 +31,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.penetrate = -1;
             Projectile.tileCollide = false;
             Projectile.timeLeft *= 5;
+            Projectile.DamageType = DamageClass.Summon;
         }
 
         public override void AI()

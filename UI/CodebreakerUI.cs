@@ -13,7 +13,6 @@ using Terraria.ModLoader;
 using Terraria.UI.Chat;
 using Terraria.Audio;
 using Terraria.GameContent;
-using CalamityMod.Sounds;
 
 namespace CalamityMod.UI
 {
@@ -52,7 +51,7 @@ namespace CalamityMod.UI
             Texture2D backgroundTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/DraedonDecrypterBackground").Value;
             spriteBatch.Draw(backgroundTexture, BackgroundCenter, null, Color.White, 0f, backgroundTexture.Size() * 0.5f, GeneralScale, SpriteEffects.None, 0f);
 
-            Rectangle backgroundArea = Utils.CenteredRectangle(BackgroundCenter, backgroundTexture.Size());
+            Rectangle backgroundArea = Utils.CenteredRectangle(BackgroundCenter, backgroundTexture.Size() * GeneralScale);
             if (MouseScreenArea.Intersects(backgroundArea))
                 Main.blockMouse = Main.LocalPlayer.mouseInterface = true;
 
@@ -74,7 +73,7 @@ namespace CalamityMod.UI
 
             // Display some error text if the codebreaker isn't strong enough to decrypt the schematic.
             if (codebreakerTileEntity.HeldSchematicID != 0 && !codebreakerTileEntity.CanDecryptHeldSchematic)
-                DisplayNotStrongEnoughErrorText(schematicSlotDrawCenter + new Vector2(-24f, 30f));
+                DisplayNotStrongEnoughErrorText(schematicSlotDrawCenter + new Vector2(-24f, 56f));
 
             // Handle decryption costs.
             else if (codebreakerTileEntity.HeldSchematicID != 0 && codebreakerTileEntity.DecryptionCountdown == 0)
@@ -93,12 +92,7 @@ namespace CalamityMod.UI
                 }
             }
             else if (codebreakerTileEntity.DecryptionCountdown > 0)
-            {
-                if (!AwaitingCloseConfirmation)
-                    DisplayDecryptCancelButton(codebreakerTileEntity, costVerificationLocation - Vector2.UnitY * GeneralScale * 30f);
-                else
-                    DisplayDecryptCancelButton(codebreakerTileEntity, textPanelCenter + Vector2.UnitY * GeneralScale * 110f);
-            }
+                DisplayDecryptCancelButton(codebreakerTileEntity, costVerificationLocation - Vector2.UnitY * GeneralScale * 30f);
 
             if (canSummonDraedon)
                 HandleDraedonSummonButton(codebreakerTileEntity, summonButtonCenter);
@@ -106,7 +100,7 @@ namespace CalamityMod.UI
             if (codebreakerTileEntity.DecryptionCountdown > 0 || AwaitingDecryptionTextClose)
                 HandleDecryptionStuff(codebreakerTileEntity, backgroundTexture, backgroundTopLeft, schematicSlotDrawCenter + Vector2.UnitY * GeneralScale * 80f);
             if (codebreakerTileEntity.DecryptionCountdown > 0 && AwaitingCloseConfirmation)
-                DrawDecryptCancelConfirmationText(textPanelCenter);
+                DrawDecryptCancelConfirmationText(costVerificationLocation);
 
             // Draw the schematic icon.
             Texture2D schematicIconBG = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/EncryptedSchematicSlotBackground").Value;
@@ -133,11 +127,12 @@ namespace CalamityMod.UI
             // Create a temporary item for drawing purposes.
             // If cells are present, make the item reflect that.
             Item temporaryPowerCell = new Item();
-            temporaryPowerCell.SetDefaults(ModContent.ItemType<PowerCell>());
+            temporaryPowerCell.SetDefaults(ModContent.ItemType<DraedonPowerCell>());
             temporaryPowerCell.stack = codebreakerTileEntity.InputtedCellCount;
 
+            Vector2 cellInteractionArea = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/PowerCellSlot_Empty").Value.Size() * GeneralScale;
             CalamityUtils.DrawPowercellSlot(spriteBatch, temporaryPowerCell, cellDrawCenter, GeneralScale);
-            HandleCellSlotInteractions(codebreakerTileEntity, temporaryPowerCell, cellDrawCenter, cellTexture.Size());
+            HandleCellSlotInteractions(codebreakerTileEntity, temporaryPowerCell, cellDrawCenter, cellInteractionArea);
         }
 
         public static void HandleCellSlotInteractions(TECodebreaker codebreakerTileEntity, Item temporaryItem, Vector2 cellIconCenter, Vector2 area)
@@ -155,7 +150,7 @@ namespace CalamityMod.UI
 
             if (Main.mouseLeft && Main.mouseLeftRelease && codebreakerTileEntity.DecryptionCountdown <= 0)
             {
-                int powerCellID = ModContent.ItemType<PowerCell>();
+                int powerCellID = ModContent.ItemType<DraedonPowerCell>();
                 short cellStackDiff = 0;
                 bool shouldPlaySound = true;
 
@@ -283,7 +278,7 @@ namespace CalamityMod.UI
             Utils.DrawBorderStringFourWay(Main.spriteBatch, FontAssets.MouseText.Value, text, drawPosition.X, drawPosition.Y + GeneralScale * 20f, Color.White * (Main.mouseTextColor / 255f), Color.Black, Vector2.Zero, GeneralScale);
 
             // And draw the cells to the right of the text.
-            Texture2D cellTexture = ModContent.Request<Texture2D>("CalamityMod/Items/DraedonMisc/PowerCell").Value;
+            Texture2D cellTexture = ModContent.Request<Texture2D>("CalamityMod/Items/DraedonMisc/DraedonPowerCell").Value;
             Vector2 offsetDrawPosition = new Vector2(drawPosition.X + ChatManager.GetStringSize(FontAssets.MouseText.Value, text, Vector2.One, -1f).X * GeneralScale + GeneralScale * 15f, drawPosition.Y + GeneralScale * 30f);
             Main.spriteBatch.Draw(cellTexture, offsetDrawPosition, null, Color.White, 0f, cellTexture.Size() * 0.5f, GeneralScale, SpriteEffects.None, 0f);
 
@@ -371,6 +366,8 @@ namespace CalamityMod.UI
         public static void DrawDecryptCancelConfirmationText(Vector2 drawPosition)
         {
             Texture2D textPanelTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/DraedonDecrypterScreen").Value;
+            drawPosition.X += GeneralScale * 196f;
+
             Vector2 scale = new Vector2(1f, 0.3f) * GeneralScale;
             Main.spriteBatch.Draw(textPanelTexture, drawPosition, null, Color.White, 0f, textPanelTexture.Size() * 0.5f, scale, SpriteEffects.None, 0);
 

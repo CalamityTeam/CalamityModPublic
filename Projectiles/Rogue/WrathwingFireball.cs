@@ -77,7 +77,7 @@ namespace CalamityMod.Projectiles.Rogue
         // Expand hitbox and explode on hit.
         public override void Kill(int timeLeft)
         {
-            CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 144);
+            Projectile.ExpandHitboxBy(144);
 
             // Allow infinite piercing and ignoring iframes for this one extra AoE hit
             Projectile.maxPenetrate = -1;

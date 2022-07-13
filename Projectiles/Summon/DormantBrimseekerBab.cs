@@ -50,6 +50,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.timeLeft *= 5;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 10;
+            Projectile.DamageType = DamageClass.Summon;
         }
 
         public override void AI()
@@ -57,7 +58,7 @@ namespace CalamityMod.Projectiles.Summon
             Player player = Main.player[Projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
             bool isProperProjectile = Projectile.type == ModContent.ProjectileType<DormantBrimseekerBab>();
-            player.AddBuff(ModContent.BuffType<DormantBrimseekerBuff>(), 3600);
+            player.AddBuff(ModContent.BuffType<BrimseekerBuff>(), 3600);
             if (isProperProjectile)
             {
                 if (player.dead)

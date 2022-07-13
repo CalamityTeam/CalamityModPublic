@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Potions
             Item.rare = ItemRarityID.Lime;
             Item.useAnimation = 17;
             Item.useTime = 17;
-            Item.useStyle = ItemUseStyleID.EatFood;
+            Item.useStyle = ItemUseStyleID.DrinkLiquid;
             Item.UseSound = SoundID.Item3;
             Item.consumable = true;
             Item.buffType = ModContent.BuffType<GravityNormalizerBuff>();
@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Potions
         {
             CreateRecipe().
                 AddIngredient(ItemID.GravitationPotion).
-                AddIngredient<AstralJelly>().
+                AddIngredient<AureusCell>().
                 AddIngredient<AldebaranAlewife>().
                 AddTile(TileID.AlchemyTable).
                 Register();
@@ -45,7 +45,7 @@ namespace CalamityMod.Items.Potions
             CreateRecipe().
                 AddIngredient(ItemID.BottledWater).
                 AddIngredient<BloodOrb>(10).
-                AddIngredient<AstralJelly>().
+                AddIngredient<AureusCell>().
                 AddTile(TileID.AlchemyTable).
                 Register();
         }

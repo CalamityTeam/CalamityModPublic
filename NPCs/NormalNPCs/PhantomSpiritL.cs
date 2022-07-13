@@ -27,7 +27,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             NPC.damage = 100;
             NPC.width = 32;
             NPC.height = 80;
-            NPC.scale = 1.2f;
+            NPC.scale *= 1.2f;
             NPC.defense = 30;
             NPC.lifeMax = 3000;
             NPC.knockBackResist = 0f;

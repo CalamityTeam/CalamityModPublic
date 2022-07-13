@@ -1,11 +1,9 @@
 ﻿using CalamityMod.Projectiles.Healing;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
-using CalamityMod.Sounds;
 
 namespace CalamityMod.Projectiles.Melee
 {
@@ -66,7 +64,7 @@ namespace CalamityMod.Projectiles.Melee
             Lighting.AddLight(Projectile.Center, 0f, 0.5f, 0.5f);
 
             if (Projectile.timeLeft < 240)
-                CalamityGlobalProjectile.HomeInOnNPC(Projectile, true, 600f, 12f, 20f);
+                CalamityUtils.HomeInOnNPC(Projectile, true, 600f, 12f, 20f);
             else
             {
                 float num953 = 100f * Projectile.ai[1];

@@ -1,5 +1,4 @@
 ﻿using Terraria.DataStructures;
-using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -70,7 +69,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 }
                 int projectile = Projectile.NewProjectile(source, vector2.X + value9.X, vector2.Y + value9.Y, velocity.X, velocity.Y, ProjectileID.Leaf, damage / 2, 0f, player.whoAmI);
                 if (projectile.WithinBounds(Main.maxProjectiles))
-                    Main.projectile[projectile].Calamity().forceRanged = true;
+                    Main.projectile[projectile].DamageType = DamageClass.Ranged;
             }
             return false;
         }
@@ -78,7 +77,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<DraedonBar>(12).
+                AddIngredient<PerennialBar>(12).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

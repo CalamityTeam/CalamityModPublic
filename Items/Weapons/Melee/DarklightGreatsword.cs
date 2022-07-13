@@ -1,5 +1,4 @@
 ﻿using Terraria.DataStructures;
-using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
@@ -64,7 +63,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<VerstaltiteBar>(12).
+                AddIngredient<CryonicBar>(12).
                 AddIngredient(ItemID.FallenStar, 5).
                 AddIngredient(ItemID.SoulofNight).
                 AddIngredient(ItemID.SoulofLight).

@@ -53,7 +53,7 @@ namespace CalamityMod.Projectiles.Magic
                     Vector2 vector15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
                     vector15.Normalize();
                     vector15 *= (float)Main.rand.Next(50, 401) * 0.01f;
-                    int damage = (int)Main.player[Projectile.owner].GetDamage<MagicDamageClass>().ApplyTo(BelchingSaxophone.BaseDamage);
+                    int damage = (int)Main.player[Projectile.owner].GetTotalDamage<MagicDamageClass>().ApplyTo(BelchingSaxophone.BaseDamage);
                     Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, vector15.X, vector15.Y, ModContent.ProjectileType<AcidicSaxMist>(), damage, 1f, Projectile.owner, 0f, 0f);
                 }
                 else

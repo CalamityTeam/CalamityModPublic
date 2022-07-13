@@ -4,6 +4,8 @@ using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace CalamityMod.Items.DraedonMisc
 {
@@ -11,7 +13,7 @@ namespace CalamityMod.Items.DraedonMisc
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Encrypted Schematic");
+            DisplayName.SetDefault("Encrypted Schematic (Jungle)");
             Tooltip.SetDefault("Requires a Codebreaker with a fine tuned, long range sensor to decrypt");
         }
 
@@ -31,6 +33,14 @@ namespace CalamityMod.Items.DraedonMisc
                 RecipeUnlockHandler.HasFoundJungleSchematic = true;
                 CalamityNetcode.SyncWorld();
             }
+        }
+
+        public override void ModifyTooltips(List<TooltipLine> list)
+        {
+            TooltipLine line = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip0");
+
+            if (line != null && RecipeUnlockHandler.HasUnlockedT3ArsenalRecipes)
+                line.Text = "Has already been decrypted";
         }
 
         public override void AddRecipes()

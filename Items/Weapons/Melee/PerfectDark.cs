@@ -39,7 +39,7 @@ namespace CalamityMod.Items.Weapons.Melee
             CreateRecipe().
                 AddIngredient(ItemID.RottenChunk, 5).
                 AddIngredient(ItemID.DemoniteBar, 5).
-                AddIngredient<TrueShadowScale>(15).
+                AddIngredient<RottenMatter>(15).
                 AddTile(TileID.DemonAltar).
                 Register();
         }

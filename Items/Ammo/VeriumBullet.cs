@@ -3,7 +3,6 @@ using CalamityMod.Projectiles.Ranged;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Achievements;
 
 namespace CalamityMod.Items.Ammo
 {
@@ -37,7 +36,7 @@ namespace CalamityMod.Items.Ammo
         {
             CreateRecipe(100).
                 AddIngredient(ItemID.MusketBall, 100).
-                AddIngredient<VerstaltiteBar>().
+                AddIngredient<CryonicBar>().
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

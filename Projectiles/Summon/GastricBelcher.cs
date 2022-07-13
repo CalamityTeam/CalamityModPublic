@@ -35,6 +35,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.tileCollide = false;
             Projectile.timeLeft *= 5;
             Projectile.minion = true;
+            Projectile.DamageType = DamageClass.Summon;
         }
 
         public override void AI()
@@ -78,7 +79,7 @@ namespace CalamityMod.Projectiles.Summon
 
             //Set up buff and timeLeft
             bool typeCheck = Projectile.type == ModContent.ProjectileType<GastricBelcher>();
-            player.AddBuff(ModContent.BuffType<GastricBelcherBuff>(), 3600);
+            player.AddBuff(ModContent.BuffType<GastricAberrationBuff>(), 3600);
             if (typeCheck)
             {
                 if (player.dead)

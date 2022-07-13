@@ -35,6 +35,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.minion = true;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 120;
+            Projectile.DamageType = DamageClass.Summon;
         }
 
         public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
@@ -426,8 +427,8 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.buffImmune[ModContent.BuffType<ShellfishEating>()] = target.Calamity().DR >= 0.99f;
-            target.AddBuff(ModContent.BuffType<ShellfishEating>(), 600000);
+            target.buffImmune[ModContent.BuffType<ShellfishClaps>()] = target.Calamity().DR >= 0.99f;
+            target.AddBuff(ModContent.BuffType<ShellfishClaps>(), 600000);
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity) => false;

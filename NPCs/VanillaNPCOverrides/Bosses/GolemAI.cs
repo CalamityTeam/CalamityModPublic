@@ -22,8 +22,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             float lifeRatio = npc.life / (float)npc.lifeMax;
 
             // Phases
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || bossRush;
             bool phase2 = lifeRatio < 0.75f;
             bool phase3 = lifeRatio < 0.5f;
             bool phase4 = lifeRatio < 0.25f;
@@ -54,7 +54,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             }
 
             // Enrage if the target isn't inside the temple
-            // Turbo enrage if target isn't inside the temple and it's malice mode
+            // Turbo enrage if target isn't inside the temple and it's Boss Rush or For the Worthy
             bool enrage = true;
             bool turboEnrage = false;
             if (Main.player[npc.target].Center.Y > Main.worldSurface * 16.0)
@@ -66,17 +66,17 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 if (tile.WallType == WallID.LihzahrdBrickUnsafe)
                     enrage = false;
                 else
-                    turboEnrage = malice;
+                    turboEnrage = bossRush || Main.getGoodWorld;
             }
             else
-                turboEnrage = malice;
+                turboEnrage = bossRush || Main.getGoodWorld;
 
-            if (malice)
+            if (bossRush || Main.getGoodWorld)
                 enrage = true;
 
-            npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive && (enrage || turboEnrage);
+            npc.Calamity().CurrentlyEnraged = !bossRush && (enrage || turboEnrage);
 
-            bool reduceFallSpeed = npc.velocity.Y > 0f && npc.Bottom.Y > Main.player[npc.target].Top.Y;
+            bool reduceFallSpeed = npc.velocity.Y > 0f && Collision.SolidCollision(npc.position + Vector2.UnitY * 1.1f * npc.velocity.Y, npc.width, npc.height);
 
             // Alpha
             if (npc.alpha > 0)
@@ -167,6 +167,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         if (enrage)
                             divisor = 5f;
 
+                        if (turboEnrage && Main.getGoodWorld)
+                            divisor = 2f;
+
                         Vector2 vector82 = new Vector2(npc.Center.X, npc.Center.Y - 60f);
                         if (npc.localAI[1] % divisor == 0f && (Vector2.Distance(Main.player[npc.target].Center, vector82) > 160f || !flag43))
                         {
@@ -187,6 +190,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             {
                                 int num677 = Projectile.NewProjectile(npc.GetSource_FromAI(), vector82.X, vector82.Y, num674, num675, type, damage, 0f, Main.myPlayer, 0f, 0f);
                                 Main.projectile[num677].timeLeft = 480;
+                                if (turboEnrage && Main.getGoodWorld)
+                                    Main.projectile[num677].extraUpdates += 1;
                             }
                         }
 
@@ -202,6 +207,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     if (npc.ai[1] > 0f)
                     {
                         npc.ai[1] += 1f;
+                        if (Main.getGoodWorld)
+                            npc.ai[1] += 100f;
                         if (enrage || death)
                             npc.ai[1] += 18f;
                         else
@@ -229,16 +236,20 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         if (enrage)
                             velocityX *= 1.5f;
 
+                        float playerLocation = npc.Center.X - Main.player[npc.target].Center.X;
+                        npc.direction = playerLocation < 0 ? 1 : -1;
+                        calamityGlobalNPC.newAI[1] = npc.direction;
+
                         npc.velocity.X = velocityX * npc.direction;
 
                         float distanceBelowTarget = npc.position.Y - (Main.player[npc.target].position.Y + 80f);
                         float speedMult = 1f;
 
-                        float multiplier = turboEnrage ? 0.003f : enrage ? 0.002f : 0.0015f;
+                        float multiplier = turboEnrage ? 0.0025f : enrage ? 0.002f : 0.0015f;
                         if (distanceBelowTarget > 0f && ((!flag41 && !flag42) || turboEnrage))
                             speedMult += distanceBelowTarget * multiplier;
 
-                        float speedMultLimit = turboEnrage ? 4f : enrage ? 3f : 2.5f;
+                        float speedMultLimit = turboEnrage ? 3.5f : enrage ? 3f : 2.5f;
                         if (speedMult > speedMultLimit)
                             speedMult = speedMultLimit;
 
@@ -248,14 +259,18 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             npc.velocity.Y = 1f;
 
                         npc.noTileCollide = true;
-                        npc.netUpdate = true;
 
                         npc.ai[0] = 1f;
                         npc.ai[1] = 0f;
+
+                        npc.netUpdate = true;
+                        npc.SyncExtraAI();
                     }
                 }
 
-                CustomGravity();
+                // Don't run custom gravity when starting a jump
+                if (npc.ai[0] != 1f)
+                    CustomGravity();
             }
 
             // Fall down
@@ -269,6 +284,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     SoundEngine.PlaySound(SoundID.Item14, npc.position);
 
                     npc.ai[0] = 0f;
+                    calamityGlobalNPC.newAI[1] = 0f;
+                    npc.SyncExtraAI();
 
                     // Dust and gore
                     for (int num644 = (int)npc.position.X - 20; num644 < (int)npc.position.X + npc.width + 40; num644 += 20)
@@ -310,8 +327,12 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             Main.dust[num624].velocity.X *= 2f;
                         }
 
+                        int totalFireballs = 5;
+                        if (turboEnrage && Main.getGoodWorld)
+                            totalFireballs *= 2;
+
                         int spawnX = npc.width / 2;
-                        for (int i = 0; i < 5; i++)
+                        for (int i = 0; i < totalFireballs; i++)
                         {
                             Vector2 spawnVector = new Vector2(npc.Center.X + Main.rand.Next(-spawnX, spawnX), npc.Center.Y + npc.height / 2 * 0.8f);
                             Vector2 velocity = new Vector2(Main.rand.NextBool() ? Main.rand.Next(4, 6) : Main.rand.Next(-5, -3), Main.rand.Next(-1, 2));
@@ -329,6 +350,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             int damage = npc.GetProjectileDamage(type);
                             int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), spawnVector, velocity, type, damage, 0f, Main.myPlayer);
                             Main.projectile[proj].timeLeft = 240;
+                            if (turboEnrage && Main.getGoodWorld)
+                                Main.projectile[proj].extraUpdates += 1;
                         }
 
                         npc.netUpdate = true;
@@ -339,7 +362,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     // Velocity when falling
                     if (npc.position.X < Main.player[npc.target].position.X && npc.position.X + npc.width > Main.player[npc.target].position.X + Main.player[npc.target].width)
                     {
-                        npc.velocity.X *= 0.9f;
+                        npc.velocity.X *= 0.8f;
 
                         if (npc.Bottom.Y < Main.player[npc.target].position.Y)
                         {
@@ -360,14 +383,21 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             npc.velocity.X += velocityXChange;
 
                         float velocityBoost = death ? 9f * (1f - lifeRatio) : 6f * (1f - lifeRatio);
-                        float num648 = 3f + velocityBoost;
+                        float velocityXCap = 3f + velocityBoost;
                         if (enrage)
-                            num648 *= 1.5f;
+                            velocityXCap *= 1.5f;
 
-                        if (npc.velocity.X < -num648)
-                            npc.velocity.X = -num648;
-                        if (npc.velocity.X > num648)
-                            npc.velocity.X = num648;
+                        float playerLocation = npc.Center.X - Main.player[npc.target].Center.X;
+                        int directionRelativeToTarget = playerLocation < 0 ? 1 : -1;
+                        bool slowDown = directionRelativeToTarget != calamityGlobalNPC.newAI[1];
+
+                        if (slowDown)
+                            velocityXCap *= 0.5f;
+
+                        if (npc.velocity.X < -velocityXCap)
+                            npc.velocity.X = -velocityXCap;
+                        if (npc.velocity.X > velocityXCap)
+                            npc.velocity.X = velocityXCap;
                     }
 
                     CustomGravity();
@@ -376,11 +406,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
             void CustomGravity()
             {
-                float gravity = turboEnrage ? 0.9f : enrage ? 0.6f : (!flag41 && !flag42) ? 0.45f : 0.3f;
-                float maxFallSpeed = reduceFallSpeed ? 12f : turboEnrage ? 30f : enrage ? 20f : (!flag41 && !flag42) ? 15f : 10f;
-
-                if (calamityGlobalNPC.newAI[0] > 1f && !reduceFallSpeed)
-                    maxFallSpeed *= calamityGlobalNPC.newAI[0];
+                float gravity = turboEnrage ? (Main.getGoodWorld ? 1.2f : 0.9f) : enrage ? 0.6f : (!flag41 && !flag42) ? 0.45f : 0.3f;
+                float maxFallSpeed = reduceFallSpeed ? 12f : turboEnrage ? (Main.getGoodWorld ? 40f : 30f) : enrage ? 20f : (!flag41 && !flag42) ? 15f : 10f;
 
                 npc.velocity.Y += gravity;
                 if (npc.velocity.Y > maxFallSpeed)
@@ -405,11 +432,11 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
         public static bool BuffedGolemFistAI(NPC npc, Mod mod)
         {
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || bossRush;
 
             // Enrage if the target isn't inside the temple
-            // Turbo enrage if target isn't inside the temple and it's malice mode
+            // Turbo enrage if target isn't inside the temple and it's Boss Rush or For the Worthy
             bool enrage = true;
             bool turboEnrage = false;
             if (Main.player[npc.target].Center.Y > Main.worldSurface * 16.0)
@@ -421,15 +448,15 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 if (tile.WallType == WallID.LihzahrdBrickUnsafe)
                     enrage = false;
                 else
-                    turboEnrage = malice;
+                    turboEnrage = bossRush || Main.getGoodWorld;
             }
             else
-                turboEnrage = malice;
+                turboEnrage = bossRush || Main.getGoodWorld;
 
-            if (malice)
+            if (bossRush || Main.getGoodWorld)
                 enrage = true;
 
-            float aggression = turboEnrage ? 3f : enrage ? 2f : death ? 1.5f : 1f;
+            float aggression = turboEnrage ? (Main.getGoodWorld ? 4f : 3f) : enrage ? 2f : death ? 1.5f : 1f;
 
             if (NPC.golemBoss < 0)
             {
@@ -458,6 +485,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 float num725 = Main.npc[NPC.golemBoss].Center.Y - vector80.Y;
                 num725 -= 9f;
                 num724 = (npc.type != NPCID.GolemFistLeft) ? (num724 + 78f) : (num724 - 84f);
+                if (Main.getGoodWorld)
+                    num724 = (npc.type != NPCID.GolemFistLeft) ? (num724 - 40f) : (num724 + 40f);
+
                 float num726 = (float)Math.Sqrt(num724 * num724 + num725 * num725);
                 if (num726 < 12f + num723)
                 {
@@ -653,8 +683,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             // Percent life remaining
             float lifeRatio = npc.life / (float)npc.lifeMax;
 
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || bossRush;
 
             // Count body parts
             bool flag41 = NPC.AnyNPCs(NPCID.GolemFistLeft);
@@ -662,7 +692,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             npc.dontTakeDamage = flag41 || flag42;
 
             // Stay in position on top of body
-            npc.Center = Main.npc[NPC.golemBoss].Center - new Vector2(3f, 57f);
+            npc.Center = Main.npc[NPC.golemBoss].Center - new Vector2(Main.getGoodWorld ? 2f : 3f, Main.getGoodWorld ? 37f : 57f);
 
             // Enrage if the target isn't inside the temple
             bool enrage = true;
@@ -676,12 +706,12 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 if (tile.WallType == WallID.LihzahrdBrickUnsafe)
                     enrage = false;
                 else
-                    turboEnrage = malice;
+                    turboEnrage = bossRush || Main.getGoodWorld;
             }
             else
-                turboEnrage = malice;
+                turboEnrage = bossRush || Main.getGoodWorld;
 
-            if (malice)
+            if (bossRush || Main.getGoodWorld)
                 enrage = true;
 
             // Alpha
@@ -823,6 +853,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             {
                                 int num677 = Projectile.NewProjectile(npc.GetSource_FromAI(), vector82.X, vector82.Y, num674, num675, projType, dmg, 0f, Main.myPlayer, 0f, 0f);
                                 Main.projectile[num677].timeLeft = enrage ? 480 : 300;
+                                if (turboEnrage && Main.getGoodWorld)
+                                    Main.projectile[num677].extraUpdates += 1;
+
                                 npc.netUpdate = true;
                             }
                         }
@@ -853,6 +886,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         {
                             int num682 = Projectile.NewProjectile(npc.GetSource_FromAI(), vector82.X, vector82.Y, num679, num680, projType, dmg, 0f, Main.myPlayer, 0f, 0f);
                             Main.projectile[num682].timeLeft = enrage ? 480 : 300;
+                            if (turboEnrage && Main.getGoodWorld)
+                                Main.projectile[num682].extraUpdates += 1;
+
                             npc.netUpdate = true;
                         }
                     }
@@ -885,6 +921,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             // Die if body is gone
             if (NPC.golemBoss < 0)
             {
+                calamityGlobalNPC.DR = 0.25f;
+                calamityGlobalNPC.unbreakableDR = false;
+                calamityGlobalNPC.CurrentlyIncreasingDefenseOrDR = false;
                 npc.StrikeNPCNoInteraction(9999, 0f, 0);
                 return false;
             }
@@ -894,8 +933,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             float golemLifeRatio = Main.npc[NPC.golemBoss].life / (float)Main.npc[NPC.golemBoss].lifeMax;
 
             // Phases
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || bossRush;
             bool phase2 = lifeRatio < 0.7f || golemLifeRatio < 0.85f;
             bool phase3 = lifeRatio < 0.55f || golemLifeRatio < 0.7f;
             bool phase4 = lifeRatio < 0.4f || golemLifeRatio < 0.55f;
@@ -912,25 +951,19 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 if (tile.WallType == WallID.LihzahrdBrickUnsafe)
                     enrage = false;
                 else
-                    turboEnrage = malice;
+                    turboEnrage = bossRush || Main.getGoodWorld;
             }
             else
-                turboEnrage = malice;
+                turboEnrage = bossRush || Main.getGoodWorld;
 
-            if (malice)
+            if (bossRush || Main.getGoodWorld)
                 enrage = true;
 
-            if (turboEnrage && NPC.golemBoss >= 0)
+            if (turboEnrage)
             {
                 calamityGlobalNPC.DR = 0.9999f;
                 calamityGlobalNPC.unbreakableDR = true;
                 calamityGlobalNPC.CurrentlyIncreasingDefenseOrDR = true;
-            }
-            else
-            {
-                calamityGlobalNPC.DR = 0.25f;
-                calamityGlobalNPC.unbreakableDR = false;
-                calamityGlobalNPC.CurrentlyIncreasingDefenseOrDR = false;
             }
 
             // Float through tiles or not
@@ -1108,6 +1141,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 for (int num713 = 0; num713 < 2; num713++)
                 {
                     Vector2 vector89 = new Vector2(npc.Center.X, npc.Center.Y - 50f);
+                    if (Main.getGoodWorld)
+                        vector89.Y += 30f;
                     if (num713 == 0)
                         vector89.X -= 14f;
                     else if (num713 == 1)
@@ -1128,6 +1163,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     int damage = npc.GetProjectileDamage(type);
                     int num720 = Projectile.NewProjectile(npc.GetSource_FromAI(), vector89.X, vector89.Y, num717, num718, type, damage, 0f, Main.myPlayer, 0f, 0f);
                     Main.projectile[num720].timeLeft = enrage ? 480 : 300;
+                    if (turboEnrage && Main.getGoodWorld)
+                        Main.projectile[num720].extraUpdates += 1;
                 }
             }
 

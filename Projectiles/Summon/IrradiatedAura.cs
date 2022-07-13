@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using CalamityMod.Buffs.StatDebuffs;
@@ -26,6 +26,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.timeLeft = 180;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 20;
+            Projectile.DamageType = DamageClass.Summon;
         }
 
         public override void AI()

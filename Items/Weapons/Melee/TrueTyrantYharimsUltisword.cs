@@ -1,5 +1,4 @@
 ﻿using Terraria.DataStructures;
-using Terraria.DataStructures;
 using CalamityMod.Buffs.StatBuffs;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
@@ -89,7 +88,7 @@ namespace CalamityMod.Items.Weapons.Melee
             CreateRecipe().
                 AddIngredient<TyrantYharimsUltisword>().
                 AddIngredient<CoreofCalamity>().
-                AddIngredient<UeliaceBar>(15).
+                AddIngredient<UelibloomBar>(15).
                 AddTile(TileID.DemonAltar).
                 Register();
         }

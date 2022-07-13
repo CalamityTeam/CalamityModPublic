@@ -20,12 +20,12 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            Item.damage = 9;
+            Item.damage = 10;
             Item.DamageType = DamageClass.Ranged;
             Item.width = 56;
             Item.height = 28;
-            Item.useTime = 9;
-            Item.useAnimation = 9;
+            Item.useTime = 20;
+            Item.useAnimation = 20;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.knockBack = 1.5f;
@@ -45,10 +45,10 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override bool AltFunctionUse(Player player) => true;
 
-        public override float UseTimeMultiplier    (Player player)
+        public override float UseSpeedMultiplier(Player player)
         {
             if (player.altFunctionUse == 2)
-                return 3f;
+                return 1 / 3f;
             return 1f;
         }
 
@@ -56,6 +56,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             if (player.altFunctionUse == 2)
             {
+                velocity *= 2f;
                 int num6 = Main.rand.Next(4, 6);
                 for (int index = 0; index < num6; ++index)
                 {
@@ -66,7 +67,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                     {
                         Main.projectile[flare].penetrate = 1;
                         Main.projectile[flare].timeLeft = 600;
-                        Main.projectile[flare].Calamity().forceRanged = true;
+                        Main.projectile[flare].DamageType = DamageClass.Ranged;
                     }
                 }
                 return false;
@@ -81,7 +82,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                     int flare = Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, type, damage, knockback, player.whoAmI);
                     if (flare.WithinBounds(Main.maxProjectiles))
                     {
-                        Main.projectile[flare].Calamity().forceRanged = true;
+                        Main.projectile[flare].DamageType = DamageClass.Ranged;
                         Main.projectile[flare].timeLeft = 200;
                         Main.projectile[flare].penetrate = 3;
                     }

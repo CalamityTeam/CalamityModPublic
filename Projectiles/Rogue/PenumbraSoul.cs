@@ -1,6 +1,5 @@
 ﻿using CalamityMod.Items.Weapons.Rogue;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -61,7 +60,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         private void HomingAI()
         {
-            CalamityGlobalProjectile.HomeInOnNPC(Projectile, true, 200f, Penumbra.ShootSpeed * 1.5f, 35f);
+            CalamityUtils.HomeInOnNPC(Projectile, true, 200f, Penumbra.ShootSpeed * 1.5f, 35f);
         }
 
         public override bool PreDraw(ref Color lightColor)

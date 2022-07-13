@@ -20,7 +20,6 @@ using CalamityMod.NPCs.SlimeGod;
 using CalamityMod.NPCs.StormWeaver;
 using CalamityMod.NPCs.SunkenSea;
 using CalamityMod.NPCs.SupremeCalamitas;
-using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
@@ -29,7 +28,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.GameContent;
 using Terraria.GameContent.Events;
 using Terraria.GameContent.UI.BigProgressBar;
@@ -166,8 +164,8 @@ namespace CalamityMod.UI
             OneToMany[NPCType<RavagerLegLeft>()] = Rav;
             OneToMany[NPCType<RavagerHead>()] = Rav;
 
-            int[] Slimes = new int[] { NPCType<SlimeGodCore>(), NPCType<SlimeGod>(), NPCType<SlimeGodSplit>(),
-                NPCType<SlimeGodRun>(), NPCType<SlimeGodRunSplit>() };
+            int[] Slimes = new int[] { NPCType<SlimeGodCore>(), NPCType<EbonianSlimeGod>(), NPCType<SplitEbonianSlimeGod>(),
+                NPCType<CrimulanSlimeGod>(), NPCType<SplitCrimulanSlimeGod>() };
             OneToMany[NPCType<SlimeGodCore>()] = Slimes;
 
             SetupBossExclusionList();
@@ -191,8 +189,8 @@ namespace CalamityMod.UI
                 NPCType<AquaticScourgeBody>(),
                 NPCType<AquaticScourgeBodyAlt>(),
                 NPCType<AquaticScourgeTail>(),
-                NPCType<AstrumDeusBodySpectral>(),
-                NPCType<AstrumDeusTailSpectral>(),
+                NPCType<AstrumDeusBody>(),
+                NPCType<AstrumDeusTail>(),
                 NPCType<DesertScourgeBody>(),
                 NPCType<DesertScourgeTail>(),
                 NPCType<StormWeaverBody>(),
@@ -256,10 +254,10 @@ namespace CalamityMod.UI
                 NPCType<ThiccWaifu>(),
                 NPCType<Horse>(),
                 NPCType<GreatSandShark>(),
-                NPCType<PlaguebringerShade>(),
+                NPCType<PlaguebringerMiniboss>(),
                 NPCType<ArmoredDiggerHead>(),
-                NPCType<CalamitasRun>(), //Clone's brothers
-                NPCType<CalamitasRun2>(),
+                NPCType<Cataclysm>(), //Clone's brothers
+                NPCType<Catastrophe>(),
 
                 // Post-ML Modded.
                 NPCType<SupremeCataclysm>(),
@@ -267,10 +265,9 @@ namespace CalamityMod.UI
                 NPCType<ProvSpawnDefense>(),
                 NPCType<ProvSpawnOffense>(),
                 NPCType<ProvSpawnHealer>(),
-                NPCType<ProfanedGuardianBoss2>(),
-                NPCType<ProfanedGuardianBoss3>()
+                NPCType<ProfanedGuardianDefender>(),
+                NPCType<ProfanedGuardianHealer>()
             };
-            MinibossHPBarList.AddRange(AcidRainEvent.AllMinibosses);
         }
 
         public static void SetupExtensionHandlerList()
@@ -285,7 +282,7 @@ namespace CalamityMod.UI
                 [NPCID.PirateShip] = new BossEntityExtension("Cannons", NPCID.PirateShipCannon),
                 [NPCType<CeaselessVoid>()] = new BossEntityExtension("Dark Energy", NPCType<DarkEnergy>()),
                 [NPCType<RavagerBody>()] = new BossEntityExtension("Body Parts", NPCType<RavagerClawLeft>(), NPCType<RavagerClawRight>(), NPCType<RavagerLegLeft>(), NPCType<RavagerLegRight>()),
-                [NPCType<SlimeGodCore>()] = new BossEntityExtension("Large Slimes", NPCType<SlimeGod>(), NPCType<SlimeGodSplit>(), NPCType<SlimeGodRun>(), NPCType<SlimeGodRunSplit>()),
+                [NPCType<SlimeGodCore>()] = new BossEntityExtension("Large Slimes", NPCType<EbonianSlimeGod>(), NPCType<SplitEbonianSlimeGod>(), NPCType<CrimulanSlimeGod>(), NPCType<SplitCrimulanSlimeGod>()),
             };
         }
 

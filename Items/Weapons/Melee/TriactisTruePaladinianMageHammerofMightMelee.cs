@@ -40,7 +40,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<GalaxySmasherMelee>().
+                AddIngredient<GalaxySmasher>().
                 AddIngredient(ItemID.SoulofMight, 30).
                 AddIngredient<ShadowspecBar>(5).
                 AddTile<DraedonsForge>().

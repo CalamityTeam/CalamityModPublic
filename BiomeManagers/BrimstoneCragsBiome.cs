@@ -1,6 +1,4 @@
-﻿using CalamityMod.Backgrounds;
-using CalamityMod.Systems;
-using CalamityMod.Waters;
+﻿using CalamityMod.Systems;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -10,6 +8,9 @@ namespace CalamityMod.BiomeManagers
     public class BrimstoneCragsBiome : ModBiome
     {
         public override int Music => CalamityMod.Instance.GetMusicFromMusicMod("Crag") ?? MusicID.Eerie;
+
+        public override SceneEffectPriority Priority => SceneEffectPriority.Environment;
+        public override string BestiaryIcon => "CalamityMod/BiomeManagers/BrimstoneCragsIcon";
 
         public override void SetStaticDefaults()
         {

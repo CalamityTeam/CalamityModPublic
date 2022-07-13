@@ -1,5 +1,4 @@
-﻿using Terraria.DataStructures;
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Ores;
 using CalamityMod.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
@@ -52,10 +51,10 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.SniperScope).
-                AddIngredient<Lumenite>(6).
+                AddIngredient(ItemID.RifleScope).
+                AddIngredient<Lumenyl>(6).
                 AddIngredient<RuinousSoul>(4).
-                AddIngredient<ExodiumClusterOre>(12).
+                AddIngredient<ExodiumCluster>(12).
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }

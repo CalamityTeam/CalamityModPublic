@@ -33,6 +33,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.penetrate = -1;
             Projectile.tileCollide = false;
             Projectile.extraUpdates = 1;
+            Projectile.DamageType = DamageClass.Summon;
         }
 
         public override void SendExtraAI(BinaryWriter writer) => writer.Write(lifeSpan);

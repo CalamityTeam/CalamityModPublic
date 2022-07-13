@@ -97,7 +97,7 @@ namespace CalamityMod.NPCs.Signus
 
             bool revenge = CalamityWorld.revenge;
             float playerDistNormMult = revenge ? 24f : 22f;
-            if (BossRushEvent.BossRushActive || CalamityWorld.malice)
+            if (BossRushEvent.BossRushActive)
                 playerDistNormMult = 30f;
             CalamityAI.DungeonSpiritAI(NPC, Mod, playerDistNormMult, 0f, true);
         }
@@ -159,7 +159,6 @@ namespace CalamityMod.NPCs.Signus
 
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)
         {
-            cooldownSlot = 1;
             return NPC.alpha == 0;
         }
 

@@ -142,8 +142,8 @@ namespace CalamityMod.Projectiles.Melee
             if (!initialized) //Initialization
             {
                 Projectile.timeLeft = Thrown ? (int) MaxThrowTime : (int)MaxSwingTime;
-                SoundStyle sound = (Charge > 0 || Thrown) ? SoundID.DD2_PhantomPhoenixShot : SoundID.Item71;
-                SoundEngine.PlaySound(sound with { Volume = sound.Volume * (Charge > 0 ? 2.5f : 1f) }, Projectile.Center);
+                SoundStyle sound = (Charge > 0 || Thrown) ? CommonCalamitySounds.LouderPhantomPhoenix : SoundID.Item71;
+                SoundEngine.PlaySound(sound, Projectile.Center);
                 direction = Projectile.velocity;
                 direction.Normalize();
                 Projectile.velocity = direction;

@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Potions
             Item.maxStack = 30;
             Item.useAnimation = 17;
             Item.useTime = 17;
-            Item.useStyle = ItemUseStyleID.EatFood;
+            Item.useStyle = ItemUseStyleID.DrinkLiquid;
             Item.UseSound = SoundID.Item3;
             Item.value = Item.buyPrice(0, 2, 0, 0);
             Item.rare = ItemRarityID.LightRed;
@@ -39,14 +39,14 @@ namespace CalamityMod.Items.Potions
                 AddIngredient(ItemID.BottledWater).
                 AddIngredient<BeetleJuice>().
                 AddIngredient<TrapperBulb>().
-                AddIngredient<EssenceofCinder>().
+                AddIngredient<EssenceofSunlight>().
                 AddTile(TileID.AlchemyTable).
                 Register();
 
             CreateRecipe().
                 AddIngredient(ItemID.BottledWater).
                 AddIngredient<BloodOrb>(40).
-                AddIngredient<EssenceofCinder>().
+                AddIngredient<EssenceofSunlight>().
                 AddTile(TileID.AlchemyTable).
                 Register();
         }

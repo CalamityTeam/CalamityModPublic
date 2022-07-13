@@ -20,6 +20,7 @@ using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod.Balancing
 {
+    // TODO -- This can be made into a ModSystem with simple OnModLoad and Unload hooks.
     public static class BalancingChangesManager
     {
         internal static List<IBalancingRule[]> UniversalBalancingChanges = null;
@@ -91,7 +92,7 @@ namespace CalamityMod.Balancing
             #region Crabulon
 
             // 50% resist to true melee.
-            NPCSpecificBalancingChanges.Add(new NPCBalancingChange(NPCType<CrabulonIdle>(), new TrueMeleeResistBalancingRule(0.5f)));
+            NPCSpecificBalancingChanges.Add(new NPCBalancingChange(NPCType<Crabulon>(), new TrueMeleeResistBalancingRule(0.5f)));
 
             #endregion
 
@@ -116,6 +117,9 @@ namespace CalamityMod.Balancing
             // 40% resist to Sky Glaze.
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.EaterofWorldsIDs, Do(new ProjectileResistBalancingRule(0.6f, ProjectileType<StickyFeather>()))));
 
+            // 30% resist to Jester Arrows
+            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.EaterofWorldsIDs, Do(new ProjectileResistBalancingRule(0.7f, ProjectileID.JestersArrow))));
+
             #endregion Eater of Worlds
 
             #region The Perforators
@@ -133,6 +137,9 @@ namespace CalamityMod.Balancing
             // 50% resist to Dormant Brimseekers.
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.AquaticScourgeIDs, Do(new ProjectileResistBalancingRule(0.5f, ProjectileType<DormantBrimseekerBab>()))));
 
+            // 40% resist to Cryophobia
+            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.AquaticScourgeIDs, Do(new ProjectileResistBalancingRule(0.6f, ProjectileType<CryoBlast>()))));
+
             #endregion The Aquatic Scourge
 
             #region The Destroyer
@@ -142,6 +149,12 @@ namespace CalamityMod.Balancing
 
             // 50% resist to Dormant Brimseekers.
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.DestroyerIDs, Do(new ProjectileResistBalancingRule(0.5f, ProjectileType<DormantBrimseekerBab>()))));
+
+            // 40% resist to Cryophobia
+            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.AquaticScourgeIDs, Do(new ProjectileResistBalancingRule(0.6f, ProjectileType<CryoBlast>()))));
+
+            // 15% resust to Snowstorm Staff
+            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.DestroyerIDs, Do(new ProjectileResistBalancingRule(0.85f, ProjectileType<Snowflake>()))));
 
             #endregion The Destroyer
 
@@ -272,9 +285,6 @@ namespace CalamityMod.Balancing
 
             // 65% resist to true melee.
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new TrueMeleeResistBalancingRule(0.35f))));
-
-            // 65% resist to Hadopelagic Echo.
-            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new ProjectileResistBalancingRule(0.35f, ProjectileType<HadopelagicEchoSoundwave>(), ProjectileType<HadopelagicEcho2>()))));
 
             // 50% resist to Chicken Cannon.
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new ProjectileResistBalancingRule(0.5f, ProjectileType<ChickenExplosion>()))));

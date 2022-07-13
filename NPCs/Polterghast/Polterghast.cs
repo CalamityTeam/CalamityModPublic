@@ -4,6 +4,7 @@ using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
+using CalamityMod.Items.Placeables.Furniture.BossRelics;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Items.Potions;
 using CalamityMod.Items.TreasureBags;
@@ -157,12 +158,12 @@ namespace CalamityMod.NPCs.Polterghast
 
             // Variables
             Vector2 vector = NPC.Center;
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+            bool bossRush = BossRushEvent.BossRushActive;
             bool speedBoost = false;
             bool despawnBoost = false;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
-            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || bossRush;
+            bool revenge = CalamityWorld.revenge || bossRush;
+            bool expertMode = Main.expertMode || bossRush;
 
             // Phases
             bool phase2 = lifeRatio < (death ? 0.9f : revenge ? 0.8f : expertMode ? 0.65f : 0.5f);
@@ -175,13 +176,17 @@ namespace CalamityMod.NPCs.Polterghast
 
             // Velocity and acceleration
             calamityGlobalNPC.newAI[0] += 1f;
-            bool chargePhase = calamityGlobalNPC.newAI[0] >= 480f;
+            float chargePhaseGateValue = 480f;
+            if (Main.getGoodWorld)
+                chargePhaseGateValue *= 0.5f;
+
+            bool chargePhase = calamityGlobalNPC.newAI[0] >= chargePhaseGateValue;
             int chargeAmt = getPissed ? 4 : phase3 ? 3 : phase2 ? 2 : 1;
             float chargeVelocity = getPissed ? 28f : phase3 ? 24f : phase2 ? 22f : 20f;
             float chargeAcceleration = getPissed ? 0.7f : phase3 ? 0.6f : phase2 ? 0.55f : 0.5f;
             float chargeDistance = 480f;
-            bool charging = NPC.ai[2] >= 300f;
-            bool reset = NPC.ai[2] >= 600f;
+            bool charging = NPC.ai[2] >= chargePhaseGateValue - 180f;
+            bool reset = NPC.ai[2] >= chargePhaseGateValue + 120f;
             float speedUpDistance = 480f - 360f * (1f - lifeRatio);
 
             // Only get a new target while not charging
@@ -245,7 +250,7 @@ namespace CalamityMod.NPCs.Polterghast
                 NPC.NewNPC(NPC.GetSource_FromAI(), (int)vector.X, (int)vector.Y, ModContent.NPCType<PolterghastHook>(), NPC.whoAmI, 0f, 0f, 0f, 0f, 255);
             }
 
-            if (!player.ZoneDungeon && !BossRushEvent.BossRushActive && player.position.Y < Main.worldSurface * 16.0)
+            if (!player.ZoneDungeon && !bossRush && player.position.Y < Main.worldSurface * 16.0)
             {
                 despawnTimer--;
                 if (despawnTimer <= 0)
@@ -352,10 +357,10 @@ namespace CalamityMod.NPCs.Polterghast
             if (nearbyActiveTiles < 1000)
                 tileEnrageMult += (1000 - nearbyActiveTiles) * 0.00075f; // Ranges from 1f to 1.75f
 
-            if (malice)
+            if (bossRush)
                 tileEnrageMult = 1.75f;
 
-            NPC.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive && tileEnrageMult >= 1.6f;
+            NPC.Calamity().CurrentlyEnraged = !bossRush && tileEnrageMult >= 1.6f;
 
             // Used to inform clone and hooks about number of active tiles nearby
             NPC.ai[3] = tileEnrageMult;
@@ -375,7 +380,7 @@ namespace CalamityMod.NPCs.Polterghast
                 baseProjectileVelocity *= 1.25f;
 
             // Predictiveness
-            Vector2 predictionVector = chargePhase && malice ? player.velocity * 20f : Vector2.Zero;
+            Vector2 predictionVector = chargePhase && bossRush ? player.velocity * 20f : Vector2.Zero;
             Vector2 lookAt = player.Center + predictionVector;
             Vector2 rotationVector = lookAt - vector;
 
@@ -425,7 +430,7 @@ namespace CalamityMod.NPCs.Polterghast
 
                 float num738 = (float)Math.Sqrt(num736 * num736 + num737 * num737);
                 float maxDistanceFromHooks = expertMode ? 650f : 500f;
-                if (speedBoost || malice)
+                if (speedBoost || bossRush)
                     maxDistanceFromHooks += 250f;
                 if (death)
                     maxDistanceFromHooks += maxDistanceFromHooks * 0.1f * (1f - lifeRatio);
@@ -988,7 +993,7 @@ namespace CalamityMod.NPCs.Polterghast
             if (!DownedBossSystem.downedPolterghast)
             {
                 if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active)
-                    SoundEngine.PlaySound(Reaper.SearchRoarSound, Main.player[Main.myPlayer].position);
+                    SoundEngine.PlaySound(ReaperShark.SearchRoarSound, Main.player[Main.myPlayer].position);
 
                 string key = "Mods.CalamityMod.GhostBossText";
                 Color messageColor = Color.RoyalBlue;
@@ -1042,6 +1047,9 @@ namespace CalamityMod.NPCs.Polterghast
 
             npcLoot.Add(ModContent.ItemType<PolterghastTrophy>(), 10);
 
+            // Relic
+            npcLoot.AddIf(() => Main.masterMode || CalamityWorld.revenge, ModContent.ItemType<PolterghastRelic>());
+
             // Lore
             npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedPolterghast, ModContent.ItemType<KnowledgePolterghast>());
         }
@@ -1084,10 +1092,18 @@ namespace CalamityMod.NPCs.Polterghast
 
             Color color37 = Color.Lerp(Color.White, Color.Cyan, 0.5f);
             Color lightRed = new Color(255, 100, 100, 255);
-            if (NPC.Calamity().newAI[0] > 300f)
-                color37 = Color.Lerp(color37, lightRed, MathHelper.Clamp((NPC.Calamity().newAI[0] - 300f) / 120f, 0f, 1f));
 
-            Color color42 = Color.Lerp(Color.White, (NPC.ai[2] >= 300f || NPC.Calamity().newAI[0] > 300f) ? Color.Red : Color.Black, 0.5f);
+            float chargePhaseGateValue = 480f;
+            if (Main.getGoodWorld)
+                chargePhaseGateValue *= 0.5f;
+
+            float timeToReachFullColor = 120f;
+            float colorChangeTime = 180f;
+            float changeColorGateValue = chargePhaseGateValue - colorChangeTime;
+            if (NPC.Calamity().newAI[0] > changeColorGateValue)
+                color37 = Color.Lerp(color37, lightRed, MathHelper.Clamp((NPC.Calamity().newAI[0] - changeColorGateValue) / timeToReachFullColor, 0f, 1f));
+
+            Color color42 = Color.Lerp(Color.White, (NPC.ai[2] >= changeColorGateValue || NPC.Calamity().newAI[0] > changeColorGateValue) ? Color.Red : Color.Black, 0.5f);
 
             if (CalamityConfig.Instance.Afterimages)
             {

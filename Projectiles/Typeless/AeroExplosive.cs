@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Typeless
 {
     public class AeroExplosive : ModProjectile
     {
-        public override string Texture => "CalamityMod/Items/Weapons/Typeless/AeroDynamite";
+        public override string Texture => "CalamityMod/Items/Weapons/Typeless/Skynamite";
 
         public override void SetStaticDefaults()
         {
@@ -34,8 +34,8 @@ namespace CalamityMod.Projectiles.Typeless
         {
             if (Projectile.timeLeft < 2)
             {
-                Projectile.damage = AeroDynamite.Damage; // Like most explosives, not boosted by damage boosts
-                Projectile.knockBack = AeroDynamite.Knockback;
+                Projectile.damage = Skynamite.Damage; // Like most explosives, not boosted by damage boosts
+                Projectile.knockBack = Skynamite.Knockback;
             }
 
             if (Projectile.timeLeft % 4 == 0 && Projectile.timeLeft < 270)
@@ -83,7 +83,7 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void Kill(int timeLeft)
         {
-            CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 200);
+            Projectile.ExpandHitboxBy(200);
             Projectile.maxPenetrate = Projectile.penetrate = -1;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 10;
@@ -153,7 +153,7 @@ namespace CalamityMod.Projectiles.Typeless
                 }
             }
 
-            CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 15);
+            Projectile.ExpandHitboxBy(15);
 
             if (Projectile.owner == Main.myPlayer)
             {

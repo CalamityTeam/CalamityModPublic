@@ -22,6 +22,7 @@ namespace CalamityMod.Items.Accessories
             Tooltip.SetDefault("Summons Howl to fight for you, Calcifer to light your way, and Turnip-Head to follow you around\n" +
             "Placing this accessory in vanity slots will summon the trio without the combat or exploration utilities");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(5, 4));
+            ItemID.Sets.AnimatesAsSoul[Type] = true;
         }
 
         public override void SetDefaults()
@@ -50,9 +51,9 @@ namespace CalamityMod.Items.Accessories
                 }
                 if (player.ownedProjectileCounts[ProjectileType<HowlsHeartHowl>()] < 1)
                 {
-                    int damage = (int)player.GetDamage<SummonDamageClass>().ApplyTo(HowlDamage);
-                    Projectile.NewProjectile(source, player.Center, -Vector2.UnitY, ProjectileType<HowlsHeartHowl>(), damage, 1f, player.whoAmI, 0f, 1f);
-                    // TODO -- no originalDamage
+                    int damage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(HowlDamage);
+                    Projectile howl = Projectile.NewProjectileDirect(source, player.Center, -Vector2.UnitY, ProjectileType<HowlsHeartHowl>(), damage, 1f, player.whoAmI, 0f, 1f);
+                    howl.originalDamage = damage;
                 }
                 if (player.ownedProjectileCounts[ProjectileType<HowlsHeartCalcifer>()] < 1)
                 {
@@ -62,6 +63,31 @@ namespace CalamityMod.Items.Accessories
                 {
                     Projectile.NewProjectile(source, player.Center, -Vector2.UnitY, ProjectileType<HowlsHeartTurnipHead>(), 0, 0f, player.whoAmI, 0f, 0f);
                 }
+            }
+        }
+
+        public override void UpdateVanity(Player player)
+        {
+            player.Calamity().howlsHeartVanity = true;
+            if (player.whoAmI == Main.myPlayer)
+            {
+                var source = player.GetSource_Accessory(Item);
+                if (player.FindBuffIndex(BuffType<HowlTrio>()) == -1)
+                    player.AddBuff(BuffType<HowlTrio>(), 3600, true);
+
+                if (player.ownedProjectileCounts[ProjectileType<HowlsHeartHowl>()] < 1)
+                {
+                    int damage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(HowlDamage);
+                    int p = Projectile.NewProjectile(source, player.Center, -Vector2.UnitY, ProjectileType<HowlsHeartHowl>(), damage, 1f, player.whoAmI, 0f, 1f);
+                    if (Main.projectile.IndexInRange(p))
+                        Main.projectile[p].originalDamage = HowlDamage;
+                }
+
+                if (player.ownedProjectileCounts[ProjectileType<HowlsHeartCalcifer>()] < 1)
+                    Projectile.NewProjectile(source, player.Center, -Vector2.UnitY, ProjectileType<HowlsHeartCalcifer>(), 0, 0f, player.whoAmI, 0f, 0f);
+
+                if (player.ownedProjectileCounts[ProjectileType<HowlsHeartTurnipHead>()] < 1)
+                    Projectile.NewProjectile(source, player.Center, -Vector2.UnitY, ProjectileType<HowlsHeartTurnipHead>(), 0, 0f, player.whoAmI, 0f, 0f);
             }
         }
     }

@@ -16,6 +16,7 @@ namespace CalamityMod.Items.Accessories
                 "+100 max mana\n" +
                 "Increases pickup range for mana stars");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 8));
+            ItemID.Sets.AnimatesAsSoul[Type] = true;
         }
 
         public override void SetDefaults()
@@ -40,9 +41,9 @@ namespace CalamityMod.Items.Accessories
             CreateRecipe().
                 AddIngredient(ItemID.CelestialEmblem).
                 AddRecipeGroup("AnyEvilWater", 10).
-                AddIngredient<CalamityDust>(5).
+                AddIngredient<AshesofCalamity>(5).
                 AddIngredient<CoreofChaos>(5).
-                AddIngredient<CruptixBar>(2).
+                AddIngredient<ScoriaBar>(2).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

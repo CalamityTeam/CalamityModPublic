@@ -1,7 +1,6 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Items.Weapons.Melee;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -12,7 +11,7 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class GalaxySmasherHammer : ModProjectile
     {
-        public override string Texture => "CalamityMod/Items/Weapons/Melee/GalaxySmasherMelee";
+        public override string Texture => "CalamityMod/Items/Weapons/Melee/GalaxySmasher";
 
         private static float RotationIncrement = 0.22f;
         private static int Lifetime = 240;
@@ -81,7 +80,7 @@ namespace CalamityMod.Projectiles.Melee
             else
             {
                 Projectile.tileCollide = false;
-                float returnSpeed = GalaxySmasherMelee.Speed;
+                float returnSpeed = GalaxySmasher.Speed;
                 float acceleration = 3.2f;
                 Player owner = Main.player[Projectile.owner];
 
@@ -203,7 +202,7 @@ namespace CalamityMod.Projectiles.Melee
                     int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), startPoint, velocity, laserID, laserDamage, laserKB, Projectile.owner);
                     if (proj.WithinBounds(Main.maxProjectiles))
                     {
-                        Main.projectile[proj].Calamity().forceMelee = true;
+                        Main.projectile[proj].DamageType = DamageClass.Melee;
                         Main.projectile[proj].tileCollide = false;
                         Main.projectile[proj].timeLeft = 30;
                     }

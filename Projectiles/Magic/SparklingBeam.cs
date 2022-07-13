@@ -43,6 +43,9 @@ namespace CalamityMod.Projectiles.Magic
         private bool playedSound = false;
         //private int manaDrain = 0;
 
+        public Player Owner => Main.player[Projectile.owner];
+        private const float AimResponsiveness = 0.8f; // Last Prism is 0.92f. Lower makes the laser turn faster.
+
         public override void SetDefaults()
         {
             Projectile.width = 10;
@@ -122,7 +125,7 @@ namespace CalamityMod.Projectiles.Magic
                         Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
                         int shard = Projectile.NewProjectile(Projectile.GetSource_FromThis(), target.Center, velocity, ModContent.ProjectileType<AquashardSplit>(), shardDamage, 0f, Projectile.owner);
                         if (shard.WithinBounds(Main.maxProjectiles))
-                            Main.projectile[shard].Calamity().forceMagic = true;
+                            Main.projectile[shard].DamageType = DamageClass.Magic;
                     }
                 }
             }
@@ -245,18 +248,30 @@ namespace CalamityMod.Projectiles.Magic
             // Multiplayer support here, only run this code if the client running it is the owner of the projectile
             if (Projectile.owner == Main.myPlayer)
             {
-                Vector2 diff = Main.MouseWorld - player.Center;
-                diff.Normalize();
-                Projectile.velocity = diff;
-                Projectile.direction = Main.MouseWorld.X > player.position.X ? 1 : -1;
+                Vector2 rrp = Owner.RotatedRelativePoint(Owner.MountedCenter, true);
+                UpdateAim(rrp);
+                Projectile.direction = Main.MouseWorld.X > Owner.Center.X ? 1 : -1;
                 Projectile.netUpdate = true;
             }
             int dir = Projectile.direction;
-            player.ChangeDir(dir); // Set player direction to where we are shooting
-            player.heldProj = Projectile.whoAmI; // Update player's held projectile
-            player.itemTime = 2; // Set item time to 2 frames while we are used
-            player.itemAnimation = 2; // Set item animation time to 2 frames while we are used
-            player.itemRotation = (float)Math.Atan2(Projectile.velocity.Y * dir, Projectile.velocity.X * dir); // Set the item rotation to where we are shooting
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
+            Owner.ChangeDir(dir);
+            Owner.heldProj = Projectile.whoAmI;
+            Owner.itemTime = 2;
+            Owner.itemAnimation = 2;
+            Owner.itemRotation = ((Projectile.rotation + MathHelper.PiOver2).ToRotationVector2() * -Owner.direction).ToRotation();
+        }
+
+        private void UpdateAim(Vector2 source)
+        {
+            Vector2 aimVector = Vector2.Normalize(Main.MouseWorld - source);
+            if (aimVector.HasNaNs())
+                aimVector = -Vector2.UnitY;
+            aimVector = Vector2.Normalize(Vector2.Lerp(aimVector, Vector2.Normalize(Projectile.velocity), AimResponsiveness));
+
+            if (aimVector != Projectile.velocity)
+                Projectile.netUpdate = true;
+            Projectile.velocity = aimVector;
         }
 
         private void CastLights()

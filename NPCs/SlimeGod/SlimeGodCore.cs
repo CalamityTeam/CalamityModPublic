@@ -4,6 +4,7 @@ using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
+using CalamityMod.Items.Placeables.Furniture.BossRelics;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Items.Potions;
 using CalamityMod.Items.TreasureBags;
@@ -113,11 +114,10 @@ namespace CalamityMod.NPCs.SlimeGod
 
             CalamityGlobalNPC.slimeGod = NPC.whoAmI;
 
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
-            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
-            NPC.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive && malice;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool expertMode = Main.expertMode || bossRush;
+            bool revenge = CalamityWorld.revenge || bossRush;
+            bool death = CalamityWorld.death || bossRush;
 
             // Percent life remaining
             float lifeRatio = NPC.life / (float)NPC.lifeMax;
@@ -135,8 +135,8 @@ namespace CalamityMod.NPCs.SlimeGod
             if (Main.netMode != NetmodeID.MultiplayerClient && !slimesSpawned)
             {
                 slimesSpawned = true;
-                NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<SlimeGod>());
-                NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<SlimeGodRun>());
+                NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<EbonianSlimeGod>());
+                NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<CrimulanSlimeGod>());
             }
 
             NPC.dontTakeDamage = false;
@@ -145,7 +145,7 @@ namespace CalamityMod.NPCs.SlimeGod
             NPC.damage = NPC.defDamage;
 
             // Enrage based on large slimes
-            bool phase2 = lifeRatio < 0.4f || malice;
+            bool phase2 = lifeRatio < 0.4f || bossRush;
             bool hyperMode = true;
             bool purpleSlimeAlive = false;
             bool redSlimeAlive = false;
@@ -187,11 +187,11 @@ namespace CalamityMod.NPCs.SlimeGod
             }
 
             // Despawn
-            if (!player.active || player.dead || Vector2.Distance(player.Center, NPC.Center) > (BossRushEvent.BossRushActive ? CalamityGlobalNPC.CatchUpDistance350Tiles : CalamityGlobalNPC.CatchUpDistance200Tiles))
+            if (!player.active || player.dead || Vector2.Distance(player.Center, NPC.Center) > (bossRush ? CalamityGlobalNPC.CatchUpDistance350Tiles : CalamityGlobalNPC.CatchUpDistance200Tiles))
             {
                 NPC.TargetClosest(false);
                 player = Main.player[NPC.target];
-                if (!player.active || player.dead || Vector2.Distance(player.Center, NPC.Center) > (BossRushEvent.BossRushActive ? CalamityGlobalNPC.CatchUpDistance350Tiles : CalamityGlobalNPC.CatchUpDistance200Tiles))
+                if (!player.active || player.dead || Vector2.Distance(player.Center, NPC.Center) > (bossRush ? CalamityGlobalNPC.CatchUpDistance350Tiles : CalamityGlobalNPC.CatchUpDistance200Tiles))
                 {
                     if (NPC.velocity.Y < -3f)
                         NPC.velocity.Y = -3f;
@@ -203,8 +203,8 @@ namespace CalamityMod.NPCs.SlimeGod
                     {
                         for (int x = 0; x < Main.maxNPCs; x++)
                         {
-                            if (Main.npc[x].type == ModContent.NPCType<SlimeGod>() || Main.npc[x].type == ModContent.NPCType<SlimeGodSplit>() ||
-                                Main.npc[x].type == ModContent.NPCType<SlimeGodRun>() || Main.npc[x].type == ModContent.NPCType<SlimeGodRunSplit>())
+                            if (Main.npc[x].type == ModContent.NPCType<EbonianSlimeGod>() || Main.npc[x].type == ModContent.NPCType<SplitEbonianSlimeGod>() ||
+                                Main.npc[x].type == ModContent.NPCType<CrimulanSlimeGod>() || Main.npc[x].type == ModContent.NPCType<SplitCrimulanSlimeGod>())
                             {
                                 Main.npc[x].active = false;
                                 Main.npc[x].netUpdate = true;
@@ -230,7 +230,7 @@ namespace CalamityMod.NPCs.SlimeGod
             else if (NPC.timeLeft < 1800)
                 NPC.timeLeft = 1800;
 
-            float ai1 = malice ? 210f : hyperMode ? 270f : 360f;
+            float ai1 = bossRush ? 210f : hyperMode ? 270f : 360f;
 
             // Hide inside large slime
             if (!hyperMode && NPC.ai[1] < ai1)
@@ -361,8 +361,8 @@ namespace CalamityMod.NPCs.SlimeGod
                                 NPC.Opacity = 0f;
                                 NPC.velocity.Normalize();
 
-                                int teleportX = player.velocity.X < 0f ? -20 : 20;
-                                int teleportY = player.velocity.Y < 0f ? -10 : 10;
+                                int teleportX = player.velocity.X < 0f ? -40 : 40;
+                                int teleportY = player.velocity.Y < 0f ? -20 : 20;
                                 int playerPosX = (int)player.Center.X / 16 + teleportX;
                                 int playerPosY = (int)player.Center.Y / 16 - teleportY;
 
@@ -425,19 +425,22 @@ namespace CalamityMod.NPCs.SlimeGod
                                 NPC.localAI[0] = 0f;
                                 NPC.localAI[1] = 0f;
                                 float chargeVelocity = death ? 12f : 9f;
-                                NPC.velocity = Vector2.Normalize(player.Center + (malice ? player.velocity * 20f : Vector2.Zero) - NPC.Center) * chargeVelocity;
+                                if (Main.getGoodWorld)
+                                    chargeVelocity *= 1.25f;
+
+                                NPC.velocity = Vector2.Normalize(player.Center + (bossRush ? player.velocity * 20f : Vector2.Zero) - NPC.Center) * chargeVelocity;
                                 NPC.TargetClosest();
                                 return;
                             }
 
                             if (Main.netMode != NetmodeID.MultiplayerClient)
                             {
-                                float divisor = malice ? 10f : 15f;
+                                float divisor = bossRush ? 10f : 15f;
                                 if (NPC.ai[1] % divisor == 0f && Vector2.Distance(player.Center, NPC.Center) > 160f)
                                 {
                                     SoundEngine.PlaySound(SoundID.Item33, NPC.Center);
                                     float slimeVelocity = expertMode ? 9f : 7.5f;
-                                    int type = Main.rand.NextBool(2) ? ModContent.ProjectileType<AbyssBallVolley>() : ModContent.ProjectileType<AbyssBallVolley2>();
+                                    int type = Main.rand.NextBool(2) ? ModContent.ProjectileType<UnstableEbonianGlob>() : ModContent.ProjectileType<UnstableCrimulanGlob>();
                                     int damage = NPC.GetProjectileDamage(type);
                                     Vector2 projectileVelocity = Vector2.Normalize(player.Center - NPC.Center) * slimeVelocity;
                                     Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, projectileVelocity, type, damage, 0f, Main.myPlayer);
@@ -463,7 +466,7 @@ namespace CalamityMod.NPCs.SlimeGod
                             num183 = num179 / num183;
                             num180 *= num183;
                             num182 *= num183;
-                            int type = Main.rand.NextBool(2) ? ModContent.ProjectileType<AbyssBallVolley>() : ModContent.ProjectileType<AbyssBallVolley2>();
+                            int type = Main.rand.NextBool(2) ? ModContent.ProjectileType<UnstableEbonianGlob>() : ModContent.ProjectileType<UnstableCrimulanGlob>();
                             int damage = NPC.GetProjectileDamage(type);
                             value9.X += num180;
                             value9.Y += num182;
@@ -488,13 +491,11 @@ namespace CalamityMod.NPCs.SlimeGod
 
             float flySpeed = death ? 14f : revenge ? 11f : expertMode ? 8.5f : 6f;
             if (phase2)
-            {
                 flySpeed = revenge ? 18f : expertMode ? 16f : 14f;
-            }
-            if (hyperMode || malice)
-            {
+            if (hyperMode || bossRush)
                 flySpeed *= 1.25f;
-            }
+            if (Main.getGoodWorld)
+                flySpeed *= 1.25f;
 
             Vector2 vector167 = new Vector2(NPC.Center.X + (NPC.direction * 20), NPC.Center.Y + 6f);
             Vector2 flyDestination = GetFlyDestination(player);
@@ -521,7 +522,11 @@ namespace CalamityMod.NPCs.SlimeGod
                 return;
             }
 
-            NPC.velocity = (NPC.velocity * 50f + idealVelocity) / 51f;
+            float inertia = 50f;
+            if (Main.getGoodWorld)
+                inertia *= 0.8f;
+
+            NPC.velocity = (NPC.velocity * inertia + idealVelocity) / (inertia + 1f);
             if (distanceFromFlyDestination < 350f)
                 NPC.velocity = (NPC.velocity * 10f + idealVelocity) / 11f;
             if (distanceFromFlyDestination < 300f)
@@ -536,10 +541,10 @@ namespace CalamityMod.NPCs.SlimeGod
             // If they are far apart, try to stay towards the closest slime.
             // If no slimes exist, or they are all extremely far away, try to stay near the target player instead.
             // TODO -- Consider renaming the big slime god's internal names to be more intuitive?
-            int crimulanSlimeID = ModContent.NPCType<SlimeGodRun>();
-            int crimulanSlimeSplitID = ModContent.NPCType<SlimeGodRunSplit>();
-            int ebonianSlimeID = ModContent.NPCType<SlimeGod>();
-            int ebonianSlimeSplitID = ModContent.NPCType<SlimeGodSplit>();
+            int crimulanSlimeID = ModContent.NPCType<CrimulanSlimeGod>();
+            int crimulanSlimeSplitID = ModContent.NPCType<SplitCrimulanSlimeGod>();
+            int ebonianSlimeID = ModContent.NPCType<EbonianSlimeGod>();
+            int ebonianSlimeSplitID = ModContent.NPCType<SplitEbonianSlimeGod>();
             List<NPC> largeSlimes = new();
 
             float ignoreGeneralAreaDistanceThreshold = 750f;
@@ -654,10 +659,10 @@ namespace CalamityMod.NPCs.SlimeGod
 
         public static bool LastSlimeGodStanding()
         {
-            int slimeGodCount = NPC.CountNPCS(ModContent.NPCType<SlimeGod>()) +
-                NPC.CountNPCS(ModContent.NPCType<SlimeGodRun>()) +
-                NPC.CountNPCS(ModContent.NPCType<SlimeGodSplit>()) +
-                NPC.CountNPCS(ModContent.NPCType<SlimeGodRunSplit>()) +
+            int slimeGodCount = NPC.CountNPCS(ModContent.NPCType<EbonianSlimeGod>()) +
+                NPC.CountNPCS(ModContent.NPCType<CrimulanSlimeGod>()) +
+                NPC.CountNPCS(ModContent.NPCType<SplitEbonianSlimeGod>()) +
+                NPC.CountNPCS(ModContent.NPCType<SplitCrimulanSlimeGod>()) +
                 NPC.CountNPCS(ModContent.NPCType<SlimeGodCore>());
 
             return slimeGodCount <= 1;
@@ -670,21 +675,6 @@ namespace CalamityMod.NPCs.SlimeGod
 
             var mainDrops = npcLoot.DefineConditionalDropSet(LastSlimeGodStanding);
             mainDrops.Add(ItemDropRule.BossBag(ModContent.ItemType<SlimeGodBag>()));
-
-            // Purified Jam is once per player, but drops for all players.
-            npcLoot.AddIf(() =>
-            {
-                if (!LastSlimeGodStanding())
-                    return false;
-
-                CalamityPlayer mp = Main.LocalPlayer.Calamity();
-                if (!mp.revJamDrop)
-                {
-                    mp.revJamDrop = true;
-                    return !DownedBossSystem.downedSlimeGod;
-                }
-                return false;
-            }, ModContent.ItemType<PurifiedJam>(), 1, 6, 8);
 
             // Normal drops: Everything that would otherwise be in the bag
             LeadingConditionRule normalOnly = new LeadingConditionRule(new Conditions.NotExpert());
@@ -710,10 +700,13 @@ namespace CalamityMod.NPCs.SlimeGod
                 normalOnly.Add(ModContent.ItemType<SlimeGodMask2>(), 7);
 
                 // Equipment
-                normalOnly.Add(ModContent.ItemType<ManaOverloader>());
+                normalOnly.Add(ModContent.ItemType<ManaPolarizer>());
             }
 
             mainDrops.Add(ModContent.ItemType<SlimeGodTrophy>(), 10);
+
+            // Relic
+            npcLoot.AddIf(() => (Main.masterMode || CalamityWorld.revenge) && LastSlimeGodStanding(), ModContent.ItemType<SlimeGodRelic>());
 
             // Lore
             npcLoot.AddConditionalPerPlayer(() => LastSlimeGodStanding() && !DownedBossSystem.downedSlimeGod, ModContent.ItemType<KnowledgeSlimeGod>());
@@ -766,9 +759,9 @@ namespace CalamityMod.NPCs.SlimeGod
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(BuffID.VortexDebuff, 120, true);
-            player.AddBuff(BuffID.Weak, 240, true);
-            player.AddBuff(BuffID.Darkness, 240, true);
+            player.AddBuff(BuffID.Slow, 180, true);
+            player.AddBuff(BuffID.Weak, 180, true);
+            player.AddBuff(BuffID.Darkness, 180, true);
         }
     }
 }

@@ -15,6 +15,7 @@ using Terraria.ModLoader;
 using Terraria.Audio;
 using CalamityMod.Sounds;
 using CalamityMod.Items.Tools;
+using ReLogic.Utilities;
 
 namespace CalamityMod.NPCs.ExoMechs.Ares
 {
@@ -58,6 +59,9 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
         // Total duration of the deathray
         private const float deathrayDuration = 60f;
+
+        //This stores the sound slot of the crystyl crusher sound it makes, so it may be properly updated in terms of position.
+        private SlotId DeathraySoundSlot;
 
         public override void SetStaticDefaults()
         {
@@ -129,10 +133,10 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
             }
 
             // Difficulty modes
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
-            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || bossRush;
+            bool revenge = CalamityWorld.revenge || bossRush;
+            bool expertMode = Main.expertMode || bossRush;
 
             // Percent life remaining
             float lifeRatio = Main.npc[CalamityGlobalNPC.draedonExoMechPrime].life / (float)Main.npc[CalamityGlobalNPC.draedonExoMechPrime].lifeMax;
@@ -310,7 +314,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
             }
 
             // Velocity and acceleration values
-            float baseVelocityMult = (shouldGetBuffedByBerserkPhase ? 0.25f : 0f) + (malice ? 1.15f : death ? 1.1f : revenge ? 1.075f : expertMode ? 1.05f : 1f);
+            float baseVelocityMult = (shouldGetBuffedByBerserkPhase ? 0.25f : 0f) + (bossRush ? 1.15f : death ? 1.1f : revenge ? 1.075f : expertMode ? 1.05f : 1f);
             float baseVelocity = (enraged ? 38f : 30f) * baseVelocityMult;
             baseVelocity *= 1f + Main.npc[(int)NPC.ai[2]].localAI[2];
             float baseAcceleration = shouldGetBuffedByBerserkPhase ? 1.25f : 1f;
@@ -341,7 +345,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
             bool canFire = Vector2.Distance(NPC.Center, player.Center) > 320f || !fireNormalLasers;
 
             // Telegraph duration for deathray spiral
-            float deathraySpiralTelegraphDuration = malice ? AresBody.deathrayTelegraphDuration_Malice : death ? AresBody.deathrayTelegraphDuration_Death :
+            float deathraySpiralTelegraphDuration = bossRush ? AresBody.deathrayTelegraphDuration_BossRush : death ? AresBody.deathrayTelegraphDuration_Death :
                 revenge ? AresBody.deathrayTelegraphDuration_Rev : expertMode ? AresBody.deathrayTelegraphDuration_Expert : AresBody.deathrayTelegraphDuration_Normal;
 
             // Variable to disable deathray firing
@@ -399,7 +403,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
                     {
                         // Play a charge up sound so that the player knows when it's about to fire the deathray
                         if (calamityGlobalNPC.newAI[2] == deathrayTelegraphDuration - 100f && !fireNormalLasers)
-                            SoundEngine.PlaySound(CrystylCrusher.ChargeSound, NPC.Center);
+                            DeathraySoundSlot = SoundEngine.PlaySound(CrystylCrusher.ChargeSound, NPC.Center);
 
                         // Smooth movement towards the location Ares Laser Cannon is meant to be at
                         CalamityUtils.SmoothMovement(NPC, movementDistanceGateValue, distanceFromDestination, baseVelocity, 0f, false);
@@ -506,6 +510,12 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
             }
 
             EnergyDrawer.Update();
+
+            //Update the deathray sound if it's being done.
+            if (DeathraySoundSlot != null && SoundEngine.TryGetActiveSound(DeathraySoundSlot, out var deathraySound) && deathraySound.IsPlaying)
+            {
+                deathraySound.Position = NPC.Center;
+            }
         }
 
         public override bool CanHitPlayer(Player target, ref int cooldownSlot) => false;

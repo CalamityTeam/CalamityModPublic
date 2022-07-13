@@ -69,7 +69,7 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<Climax>().
+                AddIngredient<VoltaicClimax>().
                 AddIngredient<AuricBar>(5).
                 AddTile<CosmicAnvil>().
                 Register();

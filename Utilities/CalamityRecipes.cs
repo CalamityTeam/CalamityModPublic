@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Accessories.Wings;
@@ -11,32 +12,37 @@ using CalamityMod.Items.Placeables;
 using CalamityMod.Items.Potions;
 using CalamityMod.Items.Tools;
 using CalamityMod.Items.Weapons.Melee;
-using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod
 {
+    // TODO -- Change this to a ModSystem so it does not need to be manually loaded from CalamityMod
     internal class CalamityRecipes
     {
-        private static Recipe CreateRecipe(int itemID, int stack = 1) => CalamityMod.Instance.CreateRecipe(itemID, stack);
-
         #region Recipe Group Definitions
+        public static int HardmodeAnvil, HardmodeForge, AnyLargeGem, AnyFood;
+        public static int AnyCopperBar, AnySilverBar, AnyGoldOre, AnyGoldBar, AnyEvilBar, AnyCobaltBar, AnyMythrilBar, AnyAdamantiteBar;
+        public static int EvilPowder, Boss2Material, CursedFlameIchor, AnyEvilWater, AnyEvilFlask;
+        public static int AnyStoneBlock, AnySnowBlock, AnyIceBlock, SiltGroup, AnyEvilBlock, AnyGoodBlock;
+        public static int AnyWoodenSword, AnyZapinator, AnyHallowedHelmet, AnyHallowedPlatemail, AnyHallowedGreaves, LunarPickaxe, LunarHamaxe;
+        public static int ManaFlowersGroup, QuiversGroup, WingsGroup;
+
         private static void ModifyVanillaRecipeGroups()
         {
             // Twinklers count as Fireflies
-            RecipeGroup firefly = RecipeGroup.recipeGroups[RecipeGroup.recipeGroupIDs["Fireflies"]];
+            RecipeGroup firefly = RecipeGroup.recipeGroups[RecipeGroupID.Fireflies];
             firefly.ValidItems.Add(ModContent.ItemType<TwinklerItem>());
 
             // Astral, Sunken Sea and Sulphurous Sea Sand is Sand
-            RecipeGroup sand = RecipeGroup.recipeGroups[RecipeGroup.recipeGroupIDs["Sand"]];
+            RecipeGroup sand = RecipeGroup.recipeGroups[RecipeGroupID.Sand];
             sand.ValidItems.Add(ModContent.ItemType<AstralSand>());
             sand.ValidItems.Add(ModContent.ItemType<EutrophicSand>());
             sand.ValidItems.Add(ModContent.ItemType<SulphurousSand>());
 
             // Acidwood is Wood
-            RecipeGroup wood = RecipeGroup.recipeGroups[RecipeGroup.recipeGroupIDs["Wood"]];
+            RecipeGroup wood = RecipeGroup.recipeGroups[RecipeGroupID.Wood];
             wood.ValidItems.Add(ModContent.ItemType<Acidwood>());
             // Astral Monolith is decidedly not wood-like enough to be used as generic wood.
         }
@@ -56,7 +62,7 @@ namespace CalamityMod
                 ItemID.MythrilAnvil,
                 ItemID.OrichalcumAnvil
             });
-            RecipeGroup.RegisterGroup("HardmodeAnvil", group);
+            HardmodeAnvil = RecipeGroup.RegisterGroup("HardmodeAnvil", group);
 
             // Adamantite Forge and Titanium Forge
             group = new RecipeGroup(() => "Any Hardmode Forge", new int[]
@@ -64,7 +70,7 @@ namespace CalamityMod
                 ItemID.AdamantiteForge,
                 ItemID.TitaniumForge
             });
-            RecipeGroup.RegisterGroup("HardmodeForge", group);
+            HardmodeForge = RecipeGroup.RegisterGroup("HardmodeForge", group);
 
             // Large Gems (PvP tokens)
             group = new RecipeGroup(() => "Any Large Gem", new int[]
@@ -77,30 +83,93 @@ namespace CalamityMod
                 ItemID.LargeSapphire,
                 ItemID.LargeTopaz
             });
-            RecipeGroup.RegisterGroup("AnyLargeGem", group);
+            AnyLargeGem = RecipeGroup.RegisterGroup("AnyLargeGem", group);
 
-            // 1.3 Food Items
-            // TODO -- "Any Food" doesn't count the numerous 1.4 foods
+            // Food
             group = new RecipeGroup(() => "Any Food Item", new int[]
             {
+                ItemID.Apple,
+                ItemID.AppleJuice,
+                ItemID.ApplePie,
+                ItemID.Apricot,
+                ItemID.Bacon,
+                ItemID.Banana,
+                ItemID.BananaDaiquiri,
+                ItemID.BananaSplit,
+                ModContent.ItemType<Baguette>(),
+                ItemID.BBQRibs,
+                ItemID.BlackCurrant,
+                ItemID.BloodOrange,
+                ItemID.BloodyMoscato,
+                ItemID.BowlofSoup,
+                ItemID.BunnyStew,
+                ItemID.Burger, // mmmmhmm borgor :borgorpat:
+                ItemID.MilkCarton, // Carton of Milk
+                ItemID.Cherry,
+                ItemID.ChickenNugget,
+                ItemID.ChocolateChipCookie,
+                ItemID.ChristmasPudding,
+                ItemID.Coconut,
+                ItemID.CoffeeCup,
                 ItemID.CookedFish,
                 ItemID.CookedMarshmallow,
-                ItemID.PadThai,
-                ItemID.Pho,
                 ItemID.CookedShrimp,
-                ItemID.Sashimi,
-                ItemID.Bacon,
-                ItemID.BowlofSoup,
-                ItemID.GrubSoup,
-                ItemID.GingerbreadCookie,
-                ItemID.SugarCookie,
-                ItemID.ChristmasPudding,
-                ItemID.PumpkinPie,
-                ModContent.ItemType<Baguette>(),
+                ItemID.CreamSoda,
                 ModContent.ItemType<DeliciousMeat>(),
-                ModContent.ItemType<SunkenStew>()
+                ItemID.Dragonfruit,
+                ItemID.Elderberry,
+                ItemID.Escargot,
+                ItemID.FriedEgg,
+                ItemID.Fries,
+                ItemID.FroggleBunwich,
+                ItemID.BananaDaiquiri, // Frozen Banana Daiquiri
+                ItemID.FruitJuice,
+                ItemID.FruitSalad,
+                ItemID.GingerbreadCookie,
+                ItemID.GoldenDelight,
+                ItemID.Grapes,
+                ItemID.Grapefruit,
+                ItemID.GrapeJuice,
+                ItemID.GrilledSquirrel,
+                ItemID.GrubSoup,
+                ModContent.ItemType<HadalStew>(),
+                ItemID.Hotdog,
+                ItemID.IceCream,
+                ItemID.Lemon,
+                ItemID.Lemonade,
+                ItemID.LobsterTail,
+                ItemID.Mango,
+                ItemID.Milkshake,
+                ItemID.MonsterLasagna,
+                ItemID.Nachos,
+                ItemID.PadThai,
+                ItemID.Peach,
+                ItemID.PeachSangria,
+                ItemID.Pho,
+                ItemID.PinaColada,
+                ItemID.Pineapple,
+                ItemID.Pizza,
+                ItemID.Plum,
+                ItemID.PotatoChips,
+                ItemID.PrismaticPunch,
+                ItemID.PumpkinPie,
+                ItemID.Rambutan,
+                ItemID.RoastedBird,
+                ItemID.RoastedDuck,
+                ItemID.SauteedFrogLegs,
+                ItemID.SeafoodDinner,
+                ItemID.ShrimpPoBoy,
+                ItemID.ShuckedOyster,
+                ItemID.SmoothieofDarkness,
+                ItemID.Spaghetti,
+                ItemID.Starfruit,
+                ItemID.Steak,
+                ItemID.SugarCookie,
+                ItemID.Sashimi,
+                ItemID.Teacup,
+                ItemID.TropicalSmoothie
             });
-            RecipeGroup.RegisterGroup("AnyFood", group);
+            AnyFood = RecipeGroup.RegisterGroup("AnyFood", group);
         }
 
         private static void AddOreAndBarRecipeGroups()
@@ -111,7 +180,7 @@ namespace CalamityMod
                 ItemID.CopperBar,
                 ItemID.TinBar
             });
-            RecipeGroup.RegisterGroup("AnyCopperBar", group);
+            AnyCopperBar = RecipeGroup.RegisterGroup("AnyCopperBar", group);
 
             // Silver and Tungsten
             group = new RecipeGroup(() => "Any Silver Bar", new int[]
@@ -119,7 +188,7 @@ namespace CalamityMod
                 ItemID.SilverBar,
                 ItemID.TungstenBar,
             });
-            RecipeGroup.RegisterGroup("AnySilverBar", group);
+            AnySilverBar = RecipeGroup.RegisterGroup("AnySilverBar", group);
 
             // Gold and Platinum Ore
             group = new RecipeGroup(() => "Any Gold Ore", new int[]
@@ -127,7 +196,7 @@ namespace CalamityMod
                 ItemID.GoldOre,
                 ItemID.PlatinumOre
             });
-            RecipeGroup.RegisterGroup("AnyGoldOre", group);
+            AnyGoldOre = RecipeGroup.RegisterGroup("AnyGoldOre", group);
 
             // Gold and Platinum
             group = new RecipeGroup(() => "Any Gold Bar", new int[]
@@ -135,7 +204,7 @@ namespace CalamityMod
                 ItemID.GoldBar,
                 ItemID.PlatinumBar
             });
-            RecipeGroup.RegisterGroup("AnyGoldBar", group);
+            AnyGoldBar = RecipeGroup.RegisterGroup("AnyGoldBar", group);
 
             // Demonite and Crimtane
             group = new RecipeGroup(() => "Any Evil Bar", new int[]
@@ -143,7 +212,7 @@ namespace CalamityMod
                 ItemID.DemoniteBar,
                 ItemID.CrimtaneBar
             });
-            RecipeGroup.RegisterGroup("AnyEvilBar", group);
+            AnyEvilBar = RecipeGroup.RegisterGroup("AnyEvilBar", group);
 
             // Cobalt and Palladium
             group = new RecipeGroup(() => "Any Cobalt Bar", new int[]
@@ -151,7 +220,7 @@ namespace CalamityMod
                 ItemID.CobaltBar,
                 ItemID.PalladiumBar
             });
-            RecipeGroup.RegisterGroup("AnyCobaltBar", group);
+            AnyCobaltBar = RecipeGroup.RegisterGroup("AnyCobaltBar", group);
 
             // Mythril and Orichalcum
             group = new RecipeGroup(() => "Any Mythril Bar", new int[]
@@ -159,7 +228,7 @@ namespace CalamityMod
                 ItemID.MythrilBar,
                 ItemID.OrichalcumBar
             });
-            RecipeGroup.RegisterGroup("AnyMythrilBar", group);
+            AnyMythrilBar = RecipeGroup.RegisterGroup("AnyMythrilBar", group);
 
             // Adamantite and Titanium
             group = new RecipeGroup(() => "Any Adamantite Bar", new int[]
@@ -167,7 +236,7 @@ namespace CalamityMod
                 ItemID.AdamantiteBar,
                 ItemID.TitaniumBar
             });
-            RecipeGroup.RegisterGroup("AnyAdamantiteBar", group);
+            AnyAdamantiteBar = RecipeGroup.RegisterGroup("AnyAdamantiteBar", group);
         }
 
         private static void AddEvilBiomeItemRecipeGroups()
@@ -178,7 +247,7 @@ namespace CalamityMod
                 ItemID.VilePowder,
                 ItemID.ViciousPowder
             });
-            RecipeGroup.RegisterGroup("EvilPowder", group);
+            EvilPowder = RecipeGroup.RegisterGroup("EvilPowder", group);
 
             // Shadow Scale and Tissue Sample
             group = new RecipeGroup(() => "Shadow Scale or Tissue Sample", new int[]
@@ -186,7 +255,7 @@ namespace CalamityMod
                 ItemID.ShadowScale,
                 ItemID.TissueSample
             });
-            RecipeGroup.RegisterGroup("Boss2Material", group);
+            Boss2Material = RecipeGroup.RegisterGroup("Boss2Material", group);
 
             // Cursed Flame and Ichor
             group = new RecipeGroup(() => "Cursed Flame or Ichor", new int[]
@@ -194,7 +263,7 @@ namespace CalamityMod
                 ItemID.CursedFlame,
                 ItemID.Ichor
             });
-            RecipeGroup.RegisterGroup("CursedFlameIchor", group);
+            CursedFlameIchor = RecipeGroup.RegisterGroup("CursedFlameIchor", group);
 
             // Unholy Water and Blood Water
             group = new RecipeGroup(() => "Any Evil Water", new int[]
@@ -202,7 +271,7 @@ namespace CalamityMod
                 ItemID.UnholyWater,
                 ItemID.BloodWater
             });
-            RecipeGroup.RegisterGroup("AnyEvilWater", group);
+            AnyEvilWater = RecipeGroup.RegisterGroup("AnyEvilWater", group);
 
             // Flask of Cursed Flames and Flask of Ichor
             group = new RecipeGroup(() => "Any Evil Flask", new int[]
@@ -210,7 +279,7 @@ namespace CalamityMod
                 ItemID.FlaskofCursedFlames,
                 ItemID.FlaskofIchor
             });
-            RecipeGroup.RegisterGroup("AnyEvilFlask", group);
+            AnyEvilFlask = RecipeGroup.RegisterGroup("AnyEvilFlask", group);
         }
 
         private static void AddBiomeBlockRecipeGroups()
@@ -224,7 +293,7 @@ namespace CalamityMod
                 ItemID.PearlstoneBlock,
                 ModContent.ItemType<AstralStone>()
             });
-            RecipeGroup.RegisterGroup("AnyStoneBlock", group);
+            AnyStoneBlock = RecipeGroup.RegisterGroup("AnyStoneBlock", group);
 
             // Vanilla Snow and Astral Snow
             group = new RecipeGroup(() => "Any Snow Block", new int[]
@@ -232,7 +301,7 @@ namespace CalamityMod
                 ItemID.SnowBlock,
                 ModContent.ItemType<AstralSnow>()
             });
-            RecipeGroup.RegisterGroup("AnySnowBlock", group);
+            AnySnowBlock = RecipeGroup.RegisterGroup("AnySnowBlock", group);
 
             // Vanilla Ice and Astral Ice
             group = new RecipeGroup(() => "Any Ice Block", new int[]
@@ -243,7 +312,7 @@ namespace CalamityMod
                 ItemID.PinkIceBlock,
                 ModContent.ItemType<AstralIce>()
             });
-            RecipeGroup.RegisterGroup("AnyIceBlock", group);
+            AnyIceBlock = RecipeGroup.RegisterGroup("AnyIceBlock", group);
 
             // Silt, Slush, and Astral Silt
             group = new RecipeGroup(() => "Any Silt", new int[]
@@ -252,7 +321,7 @@ namespace CalamityMod
                 ItemID.SlushBlock,
                 ModContent.ItemType<NovaeSlag>()
             });
-            RecipeGroup.RegisterGroup("SiltGroup", group);
+            SiltGroup = RecipeGroup.RegisterGroup("SiltGroup", group);
 
             // Set of all generic Corruption/Crimson blocks
             group = new RecipeGroup(() => "Any Evil Block", new int[]
@@ -268,7 +337,7 @@ namespace CalamityMod
                 ItemID.CorruptSandstone,
                 ItemID.CrimsonSandstone
             });
-            RecipeGroup.RegisterGroup("AnyEvilBlock", group);
+            AnyEvilBlock = RecipeGroup.RegisterGroup("AnyEvilBlock", group);
 
             // Set of all generic Hallow blocks
             group = new RecipeGroup(() => "Any Good Block", new int[]
@@ -279,6 +348,7 @@ namespace CalamityMod
                 ItemID.HallowHardenedSand,
                 ItemID.HallowSandstone
             });
+            AnyGoodBlock = RecipeGroup.RegisterGroup("AnyGoodBlock", group);
         }
         
         private static void AddEquipmentRecipeGroups()
@@ -294,7 +364,15 @@ namespace CalamityMod
                 ItemID.ShadewoodSword,
                 ItemID.PearlwoodSword
             });
-            RecipeGroup.RegisterGroup("AnyWoodenSword", group);
+            AnyWoodenSword = RecipeGroup.RegisterGroup("AnyWoodenSword", group);
+
+            // Zapinators
+            group = new RecipeGroup(() => "Any Zapinator", new int[]
+            {
+                ItemID.ZapinatorGray,
+                ItemID.ZapinatorOrange
+            });
+            AnyZapinator = RecipeGroup.RegisterGroup("AnyZapinator", group);
 
             // Hallowed Helmets
             group = new RecipeGroup(() => "Any Hallowed Helmet", new int[]
@@ -308,7 +386,7 @@ namespace CalamityMod
                 ItemID.AncientHallowedMask,
                 ItemID.AncientHallowedHood
             });
-            RecipeGroup.RegisterGroup("AnyHallowedHelmet", group);
+            AnyHallowedHelmet = RecipeGroup.RegisterGroup("AnyHallowedHelmet", group);
 
             // Hallowed Plate Mails
             group = new RecipeGroup(() => "Any Hallowed Platemail", new int[]
@@ -316,7 +394,7 @@ namespace CalamityMod
                 ItemID.HallowedPlateMail,
                 ItemID.AncientHallowedPlateMail
             });
-            RecipeGroup.RegisterGroup("AnyHallowedPlatemail", group);
+            AnyHallowedPlatemail = RecipeGroup.RegisterGroup("AnyHallowedPlatemail", group);
 
             // Hallowed Greaves
             group = new RecipeGroup(() => "Any Hallowed Greaves", new int[]
@@ -324,7 +402,7 @@ namespace CalamityMod
                 ItemID.HallowedGreaves,
                 ItemID.AncientHallowedGreaves
             });
-            RecipeGroup.RegisterGroup("AnyHallowedGreaves", group);
+            AnyHallowedGreaves = RecipeGroup.RegisterGroup("AnyHallowedGreaves", group);
 
             // Vanilla Luminite Pickaxes and Genesis Pickaxe
             group = new RecipeGroup(() => "Any Lunar Pickaxe", new int[]
@@ -333,9 +411,9 @@ namespace CalamityMod
                 ItemID.VortexPickaxe,
                 ItemID.NebulaPickaxe,
                 ItemID.StardustPickaxe,
-                ModContent.ItemType<GallantPickaxe>()
+                ModContent.ItemType<GenesisPickaxe>()
             });
-            RecipeGroup.RegisterGroup("LunarPickaxe", group);
+            LunarPickaxe = RecipeGroup.RegisterGroup("LunarPickaxe", group);
 
             // Luminite Hamaxes
             group = new RecipeGroup(() => "Any Lunar Hamaxe", new int[]
@@ -345,29 +423,29 @@ namespace CalamityMod
                 ItemID.LunarHamaxeNebula,
                 ItemID.LunarHamaxeStardust
             });
-            RecipeGroup.RegisterGroup("LunarHamaxe", group);
+            LunarHamaxe = RecipeGroup.RegisterGroup("LunarHamaxe", group);
 
             // Mana Flower+ for Ethereal Talisman
-            group = new RecipeGroup(() => "Any Mana Flowers", new int[]
+            group = new RecipeGroup(() => "Any Mana Flower", new int[]
             {
                 ItemID.ManaFlower,
                 ItemID.ArcaneFlower,
                 ItemID.MagnetFlower,
                 ItemID.ManaCloak
             }); 
-            RecipeGroup.RegisterGroup("ManaFlowersGroup", group);
+            ManaFlowersGroup = RecipeGroup.RegisterGroup("ManaFlowersGroup", group);
 
             // Magic Quiver+ for Elemental Quiver
-            group = new RecipeGroup(() => "Any Quivers", new int[]
+            group = new RecipeGroup(() => "Any Quiver", new int[]
             {
                 ItemID.MagicQuiver,
                 ItemID.MoltenQuiver,
                 ItemID.StalkersQuiver
             });
-            RecipeGroup.RegisterGroup("QuiversGroup", group);
+            QuiversGroup = RecipeGroup.RegisterGroup("QuiversGroup", group);
 
-        // Wings
-        group = new RecipeGroup(() => "Any Wings", new int[]
+            // Wings
+            group = new RecipeGroup(() => "Any Wings", new int[]
             {
                 ItemID.DemonWings,
                 ItemID.AngelWings,
@@ -423,7 +501,7 @@ namespace CalamityMod
                 ModContent.ItemType<HadarianWings>(),
                 ModContent.ItemType<SilvaWings>()
             });
-            RecipeGroup.RegisterGroup("WingsGroup", group);
+            WingsGroup = RecipeGroup.RegisterGroup("WingsGroup", group);
         }
         #endregion
 
@@ -432,33 +510,33 @@ namespace CalamityMod
             EditVanillaRecipes();
             
             // Leather from Vertebrae
-            CreateRecipe(ItemID.Leather).
+            Recipe.Create(ItemID.Leather).
                 AddIngredient(ItemID.Vertebrae, 2).
                 AddTile(TileID.WorkBenches).
                 Register();
 
             // Fallen Stars from Stardust
-            CreateRecipe(ItemID.FallenStar).
+            Recipe.Create(ItemID.FallenStar).
                 AddIngredient<Stardust>(5).
                 AddTile(TileID.Anvils).
                 Register();
 
             // Black Lens
-            CreateRecipe(ItemID.BlackLens).
+            Recipe.Create(ItemID.BlackLens).
                 AddIngredient(ItemID.Lens).
                 AddIngredient(ItemID.BlackDye).
                 AddTile(TileID.DyeVat).
                 Register();
 
             // Earlier Rocket Is for early rocket weapons
-            CreateRecipe(ItemID.RocketI, 20).
+            Recipe.Create(ItemID.RocketI, 20).
                 AddIngredient(ItemID.EmptyBullet, 20).
                 AddIngredient(ItemID.ExplosivePowder, 1).
                 AddTile(TileID.MythrilAnvil).
                 Register();
 
             // Life Crystal
-            CreateRecipe(ItemID.LifeCrystal).
+            Recipe.Create(ItemID.LifeCrystal).
                 AddIngredient(ItemID.StoneBlock, 5).
                 AddIngredient(ItemID.Ruby, 2).
                 AddIngredient(ItemID.HealingPotion).
@@ -466,41 +544,162 @@ namespace CalamityMod
                 Register();
 
             // Life Fruit
-            CreateRecipe(ItemID.LifeFruit).
+            Recipe.Create(ItemID.LifeFruit).
                 AddIngredient<PlantyMush>(10).
                 AddIngredient<LivingShard>().
                 AddTile(TileID.MythrilAnvil).
                 Register();
 
             // Ultrabright Torch
-            CreateRecipe(ItemID.UltrabrightTorch, 33).
+            Recipe.Create(ItemID.UltrabrightTorch, 33).
                 AddIngredient(ItemID.Torch, 33).
                 AddIngredient<SeaPrism>().
                 AddTile(TileID.Anvils).
                 Register();
 
             // Money Trough
-            CreateRecipe(ItemID.MoneyTrough).
+            Recipe.Create(ItemID.MoneyTrough).
                 AddIngredient(ItemID.PiggyBank).
                 AddIngredient(ItemID.Feather, 2).
                 AddIngredient<BloodOrb>().
                 AddIngredient(ItemID.GoldCoin, 15).
-                AddRecipeGroup("AnyGoldBar", 8).
+                AddRecipeGroup(AnyGoldBar, 8).
                 AddTile(TileID.Anvils).
                 Register();
 
             // Demon Conch
-            CreateRecipe(ItemID.DemonConch).
+            Recipe.Create(ItemID.DemonConch).
                 AddIngredient<DemonicBoneAsh>().
                 AddIngredient(ItemID.HellstoneBar, 4).
                 AddTile(TileID.Hellforge).
                 Register();
 
             // Lava Fishing Hook
-            CreateRecipe(ItemID.LavaFishingHook).
+            Recipe.Create(ItemID.LavaFishingHook).
                 AddIngredient(ItemID.Seashell).
                 AddIngredient(ItemID.HellstoneBar, 10).
                 AddTile(TileID.Hellforge).
+                Register();
+
+            // Alternative Evil Biome items
+            Recipe.Create(ItemID.CrimsonRod).
+                AddIngredient(ItemID.Vilethorn).
+                AddTile(TileID.Anvils).
+                AddCondition(Recipe.Condition.InGraveyardBiome).
+                Register();
+
+            Recipe.Create(ItemID.Vilethorn).
+                AddIngredient(ItemID.CrimsonRod).
+                AddTile(TileID.Anvils).
+                AddCondition(Recipe.Condition.InGraveyardBiome).
+                Register();
+
+            Recipe.Create(ItemID.TheRottedFork).
+                AddIngredient(ItemID.BallOHurt).
+                AddTile(TileID.Anvils).
+                AddCondition(Recipe.Condition.InGraveyardBiome).
+                Register();
+
+            Recipe.Create(ItemID.BallOHurt).
+                AddIngredient(ItemID.TheRottedFork).
+                AddTile(TileID.Anvils).
+                AddCondition(Recipe.Condition.InGraveyardBiome).
+                Register();
+
+            Recipe.Create(ItemID.TheUndertaker).
+                AddIngredient(ItemID.Musket).
+                AddTile(TileID.Anvils).
+                AddCondition(Recipe.Condition.InGraveyardBiome).
+                Register();
+
+            Recipe.Create(ItemID.Musket).
+                AddIngredient(ItemID.TheUndertaker).
+                AddTile(TileID.Anvils).
+                AddCondition(Recipe.Condition.InGraveyardBiome).
+                Register();
+
+            Recipe.Create(ItemID.CrimsonHeart).
+                AddIngredient(ItemID.ShadowOrb).
+                AddTile(TileID.TinkerersWorkbench).
+                AddCondition(Recipe.Condition.InGraveyardBiome).
+                Register();
+
+            Recipe.Create(ItemID.ShadowOrb).
+                AddIngredient(ItemID.CrimsonHeart).
+                AddTile(TileID.TinkerersWorkbench).
+                AddCondition(Recipe.Condition.InGraveyardBiome).
+                Register();
+
+            Recipe.Create(ItemID.BrainOfConfusion).
+                AddIngredient(ItemID.WormScarf).
+                AddTile(TileID.TinkerersWorkbench).
+                AddCondition(Recipe.Condition.InGraveyardBiome).
+                Register();
+
+            Recipe.Create(ItemID.WormScarf).
+                AddIngredient(ItemID.BrainOfConfusion).
+                AddTile(TileID.TinkerersWorkbench).
+                AddCondition(Recipe.Condition.InGraveyardBiome).
+                Register();
+
+            Recipe.Create(ItemID.TendonHook).
+                AddIngredient(ItemID.WormHook).
+                AddTile(TileID.TinkerersWorkbench).
+                AddCondition(Recipe.Condition.InGraveyardBiome).
+                Register();
+
+            Recipe.Create(ItemID.WormHook).
+                AddIngredient(ItemID.TendonHook).
+                AddTile(TileID.TinkerersWorkbench).
+                AddCondition(Recipe.Condition.InGraveyardBiome).
+                Register();
+
+            Recipe.Create(ItemID.DartPistol).
+                AddIngredient(ItemID.DartRifle).
+                AddTile(TileID.Anvils).
+                AddCondition(Recipe.Condition.InGraveyardBiome).
+                Register();
+
+            Recipe.Create(ItemID.DartRifle).
+                AddIngredient(ItemID.DartPistol).
+                AddTile(TileID.Anvils).
+                AddCondition(Recipe.Condition.InGraveyardBiome).
+                Register();
+
+            Recipe.Create(ItemID.ChainGuillotines).
+                AddIngredient(ItemID.FetidBaghnakhs).
+                AddTile(TileID.Anvils).
+                AddCondition(Recipe.Condition.InGraveyardBiome).
+                Register();
+
+            Recipe.Create(ItemID.FetidBaghnakhs).
+                AddIngredient(ItemID.ChainGuillotines).
+                AddTile(TileID.Anvils).
+                AddCondition(Recipe.Condition.InGraveyardBiome).
+                Register();
+
+            Recipe.Create(ItemID.ClingerStaff).
+                AddIngredient(ItemID.SoulDrain).
+                AddTile(TileID.Anvils).
+                AddCondition(Recipe.Condition.InGraveyardBiome).
+                Register();
+
+            Recipe.Create(ItemID.SoulDrain).
+                AddIngredient(ItemID.ClingerStaff).
+                AddTile(TileID.Anvils).
+                AddCondition(Recipe.Condition.InGraveyardBiome).
+                Register();
+
+            Recipe.Create(ItemID.PutridScent).
+                AddIngredient(ItemID.FleshKnuckles).
+                AddTile(TileID.TinkerersWorkbench).
+                AddCondition(Recipe.Condition.InGraveyardBiome).
+                Register();
+
+            Recipe.Create(ItemID.FleshKnuckles).
+                AddIngredient(ItemID.PutridScent).
+                AddTile(TileID.TinkerersWorkbench).
+                AddCondition(Recipe.Condition.InGraveyardBiome).
                 Register();
 
             AddAstralClayRecipes();
@@ -519,697 +718,214 @@ namespace CalamityMod
         #region Vanilla Recipe Edits
         internal static void EditVanillaRecipes()
         {
-            EditLeatherRecipe();
-            EditEnchantedBoomerangRecipe();
-            EditPhoenixBlasterRecipe();
-            EditFlamarangRecipe();
-            EditBundleofBalloonsRecipe();
-            EditTrueNightsEdgeRecipe();
-            EditTrueExcaliburRecipe();
-            EditTerraBladeRecipe();
-            EditZenithRecipe();
-            EditMagiluminescenceRecipe();
-            EditFireGauntletRecipe();
-            EditSpiritFlameRecipe();
-            EditBeetleArmorRecipes();
-            EditGoblinArmySummonRecipe();
-            EditEvilBossSummonRecipes();
-            MoveHardmodeItemsToAnvils();
-            EditPumpkinMoonSummonRecipe();
-            EditFrostMoonSummonRecipe();
-            EditPhasesaberRecipes();
-            EditOpticStaffRecipe();
-            EditShroomiteBarRecipe();
-            EditChlorophyteBarRecipe();
-            EditAnkhCharmRecipe();
+            // Predicates for specifying which recipes to edit
+            static Func<Recipe, bool> Vanilla(int itemID) => r => r.Mod is null && r.HasResult(itemID);
+            static Func<Recipe, bool> VanillaEach(params int[] itemIDs) => r => r.Mod is null && itemIDs.Any(r.HasResult);
+            static Func<Recipe, bool> Produces(int itemID) => r => r.HasResult(itemID);
 
-            EditPreHardmodeOreArmorRecipes();
-            EditHardmodeOreSetRecipes();
+            // Actions to perform, i.e. the actual recipe edits to execute
+            static void Disable(Recipe r) => r.DisableRecipe();
+            static Action<Recipe> ChangeResultStack(int stack) => r => r.createItem.stack = stack;
+            static Action<Recipe> AddIngredient(int itemID, int stack = 1) => r => r.AddIngredient(itemID, stack);
+            static Action<Recipe> AddGroup(int groupID, int stack = 1) => r => r.AddRecipeGroup(groupID, stack);
+            static Action<Recipe> ChangeIngredientStack(int itemID, int stack = 1) => r => r.ChangeIngredientStack(itemID, stack);
+            static Action<Recipe> ReplaceIngredient(int oldItemID, int newItemID) => r =>
+            {
+                int idx = r.IngredientIndex(oldItemID);
+                if (idx == -1)
+                    return;
+
+                // Replace the entire Item, but keep the old stack count.
+                Item newIngredient = new Item();
+                newIngredient.SetDefaults(newItemID);
+                newIngredient.stack = r.requiredItem[idx].stack;
+                r.requiredItem[idx] = newIngredient;
+            };
+            static Action<Recipe> RemoveIngredient(int itemID) => r => r.RemoveIngredient(itemID);
+            static Action<Recipe> SwapIngredients(int i1, int i2) => r =>
+            {
+                if (r.requiredItem.Count < i1 + 1 || r.requiredItem.Count < i2 + 1)
+                    return;
+
+                // Swap the entire Items in the List<Item> (uses pointers under the hood).
+                // DO NOT do what it tells you to here by making it a tuple notation swap. That does NOT work.
+                var store = r.requiredItem[i1];
+                r.requiredItem[i1] = r.requiredItem[i2];
+                r.requiredItem[i2] = store;
+            };
+            static Action<Recipe> ReplaceTile(int oldTileID, int newTileID) => r =>
+            {
+                int idx = r.requiredTile.IndexOf(oldTileID);
+                if (idx == -1)
+                    return;
+                r.requiredTile[idx] = newTileID;
+            };
+
+            var edits = new Dictionary<Func<Recipe, bool>, Action<Recipe>>(32)
+            {
+                { Vanilla(ItemID.EnchantedBoomerang), Disable }, // Calamity adds its own recipe
+                { Vanilla(ItemID.JestersArrow), JesterArrowRecipeEdit },
+                { Vanilla(ItemID.NightsEdge), AddIngredient(ModContent.ItemType<PurifiedGel>(), 5) },
+                { Vanilla(ItemID.Leather), ChangeIngredientStack(ItemID.RottenChunk, 2) },
+                { VanillaEach(ItemID.Flamarang, ItemID.PhoenixBlaster), SwapIngredients(0, 1) },
+                { Vanilla(ItemID.BundleofBalloons), AddIngredient(ModContent.ItemType<AerialiteBar>(), 3) },
+                { Vanilla(ItemID.TrueNightsEdge), TrueNightsEdgeRecipeEdit },
+                { Vanilla(ItemID.TrueExcalibur), ChangeIngredientStack(ItemID.ChlorophyteBar, 12) },
+                { Vanilla(ItemID.TerraBlade), AddIngredient(ModContent.ItemType<LivingShard>(), 7) },
+                { Vanilla(ItemID.Zenith), AddIngredient(ModContent.ItemType<AuricBar>(), 5) },
+                { Vanilla(ItemID.Magiluminescence), MagiluminescenceRecipeEdit },
+                { Vanilla(ItemID.FireGauntlet), AddIngredient(ModContent.ItemType<ScoriaBar>(), 5) },
+                { Vanilla(ItemID.SpiritFlame), AddGroup(AnyAdamantiteBar, 2) },
+                { VanillaEach(ItemID.BeetleHelmet, ItemID.BeetleScaleMail, ItemID.BeetleShell, ItemID.BeetleLeggings), SwapIngredients(0, 1) },
+                { Vanilla(ItemID.GoblinBattleStandard), ChangeIngredientStack(ItemID.TatteredCloth, 5) },
+                { Vanilla(ItemID.WormFood), WormFoodRecipeEdit },
+                { Vanilla(ItemID.BloodySpine), BloodySpineRecipeEdit },
+                { VanillaEach(ItemID.PumpkinMoonMedallion, ItemID.NaughtyPresent), Disable }, // Calamity adds its own recipes
+                { VanillaEach(
+                    ItemID.BluePhasesaber, ItemID.GreenPhasesaber, ItemID.OrangePhasesaber, ItemID.PurplePhasesaber,
+                    ItemID.RedPhasesaber, ItemID.WhitePhasesaber, ItemID.YellowPhasesaber),
+                    ChangeIngredientStack(ItemID.CrystalShard, 20)
+                },
+                { Vanilla(ItemID.OpticStaff), RemoveIngredient(ItemID.HallowedBar) },
+                { Vanilla(ItemID.ShroomiteBar), ChangeIngredientStack(ItemID.GlowingMushroom, 5) },
+                { Vanilla(ItemID.ChlorophyteBar), ChangeIngredientStack(ItemID.ChlorophyteOre, 4) },
+                { Vanilla(ItemID.AnkhCharm), AddIngredient(ItemID.PocketMirror) },
+                { Vanilla(ItemID.CelestialEmblem), ReplaceIngredient(ItemID.AvengerEmblem, ItemID.SorcererEmblem) },
+                { Vanilla(ItemID.MechanicalGlove), ReplaceIngredient(ItemID.AvengerEmblem, ItemID.WarriorEmblem) },
+                { VanillaEach(
+                    ItemID.MechanicalEye, ItemID.MechanicalWorm, ItemID.MechanicalSkull,
+                    ItemID.DaoofPow, ItemID.Chik, ItemID.MeteorStaff, ItemID.CoolWhip,
+                    ItemID.AngelWings, ItemID.DemonWings, ItemID.FairyWings,
+                    ItemID.CursedArrow, ItemID.CursedBullet, ItemID.IchorArrow, ItemID.IchorBullet),
+                    ReplaceTile(TileID.MythrilAnvil, TileID.Anvils)
+                },
+
+                // All PHM ore armors are 10/16/14
+                { Vanilla(ItemID.CopperHelmet), ChangeIngredientStack(ItemID.CopperBar, 10) },
+                { Vanilla(ItemID.CopperChainmail), ChangeIngredientStack(ItemID.CopperBar, 16) },
+                { Vanilla(ItemID.CopperGreaves), ChangeIngredientStack(ItemID.CopperBar, 14) },
+                { Vanilla(ItemID.TinHelmet), ChangeIngredientStack(ItemID.TinBar, 10) },
+                { Vanilla(ItemID.TinChainmail), ChangeIngredientStack(ItemID.TinBar, 16) },
+                { Vanilla(ItemID.TinGreaves), ChangeIngredientStack(ItemID.TinBar, 14) },
+                { Vanilla(ItemID.IronHelmet), ChangeIngredientStack(ItemID.IronBar, 10) },
+                { Vanilla(ItemID.IronChainmail), ChangeIngredientStack(ItemID.IronBar, 16) },
+                { Vanilla(ItemID.IronGreaves), ChangeIngredientStack(ItemID.IronBar, 14) },
+                { Vanilla(ItemID.LeadHelmet), ChangeIngredientStack(ItemID.LeadBar, 10) },
+                { Vanilla(ItemID.LeadChainmail), ChangeIngredientStack(ItemID.LeadBar, 16) },
+                { Vanilla(ItemID.LeadGreaves), ChangeIngredientStack(ItemID.LeadBar, 14) },
+                { Vanilla(ItemID.SilverHelmet), ChangeIngredientStack(ItemID.SilverBar, 10) },
+                { Vanilla(ItemID.SilverChainmail), ChangeIngredientStack(ItemID.SilverBar, 16) },
+                { Vanilla(ItemID.SilverGreaves), ChangeIngredientStack(ItemID.SilverBar, 14) },
+                { Vanilla(ItemID.TungstenHelmet), ChangeIngredientStack(ItemID.TungstenBar, 10) },
+                { Vanilla(ItemID.TungstenChainmail), ChangeIngredientStack(ItemID.TungstenBar, 16) },
+                { Vanilla(ItemID.TungstenGreaves), ChangeIngredientStack(ItemID.TungstenBar, 14) },
+                { Vanilla(ItemID.GoldHelmet), ChangeIngredientStack(ItemID.GoldBar, 10) },
+                { Vanilla(ItemID.GoldChainmail), ChangeIngredientStack(ItemID.GoldBar, 16) },
+                { Vanilla(ItemID.GoldGreaves), ChangeIngredientStack(ItemID.GoldBar, 14) },
+                { Vanilla(ItemID.PlatinumHelmet), ChangeIngredientStack(ItemID.PlatinumBar, 10) },
+                { Vanilla(ItemID.PlatinumChainmail), ChangeIngredientStack(ItemID.PlatinumBar, 16) },
+                { Vanilla(ItemID.PlatinumGreaves), ChangeIngredientStack(ItemID.PlatinumBar, 14) },
+
+                // HM ores:
+                // 12 BARS : Melee Helm, Ranged Helm, Magic Helm, Pickaxe, Drill, Waraxe, Chainsaw, Sword, Spear, Repeater
+                // 24 BARS : Breastplate
+                // 18 BARS : Leggings
+                { VanillaEach(
+                    ItemID.CobaltHelmet, ItemID.CobaltMask, ItemID.CobaltHat, ItemID.CobaltPickaxe, ItemID.CobaltDrill, ItemID.CobaltWaraxe, ItemID.CobaltChainsaw,
+                    ItemID.CobaltSword, ItemID.CobaltNaginata, ItemID.CobaltRepeater),
+                    ChangeIngredientStack(ItemID.CobaltBar, 12)
+                },
+                { Vanilla(ItemID.CobaltBreastplate), ChangeIngredientStack(ItemID.CobaltBar, 24) },
+                { Vanilla(ItemID.CobaltLeggings), ChangeIngredientStack(ItemID.CobaltBar, 18) },
+
+                { VanillaEach(
+                    ItemID.PalladiumHelmet, ItemID.PalladiumMask, ItemID.PalladiumHeadgear, ItemID.PalladiumPickaxe, ItemID.PalladiumDrill, ItemID.PalladiumWaraxe, ItemID.PalladiumChainsaw,
+                    ItemID.PalladiumSword, ItemID.PalladiumPike, ItemID.PalladiumRepeater),
+                    ChangeIngredientStack(ItemID.PalladiumBar, 12)
+                },
+                { Vanilla(ItemID.PalladiumBreastplate), ChangeIngredientStack(ItemID.PalladiumBar, 24) },
+                { Vanilla(ItemID.PalladiumLeggings), ChangeIngredientStack(ItemID.PalladiumBar, 18) },
+
+                { VanillaEach(
+                    ItemID.MythrilHelmet, ItemID.MythrilHat, ItemID.MythrilHood, ItemID.MythrilPickaxe, ItemID.MythrilDrill, ItemID.MythrilWaraxe, ItemID.MythrilChainsaw,
+                    ItemID.MythrilSword, ItemID.MythrilHalberd, ItemID.MythrilRepeater),
+                    ChangeIngredientStack(ItemID.MythrilBar, 12)
+                },
+                { Vanilla(ItemID.MythrilChainmail), ChangeIngredientStack(ItemID.MythrilBar, 24) },
+                { Vanilla(ItemID.MythrilGreaves), ChangeIngredientStack(ItemID.MythrilBar, 18) },
+
+                { VanillaEach(
+                    ItemID.OrichalcumHelmet, ItemID.OrichalcumMask, ItemID.OrichalcumHeadgear, ItemID.OrichalcumPickaxe, ItemID.OrichalcumDrill, ItemID.OrichalcumWaraxe, ItemID.OrichalcumChainsaw,
+                    ItemID.OrichalcumSword, ItemID.OrichalcumHalberd, ItemID.OrichalcumRepeater),
+                    ChangeIngredientStack(ItemID.OrichalcumBar, 12)
+                },
+                { Vanilla(ItemID.OrichalcumBreastplate), ChangeIngredientStack(ItemID.OrichalcumBar, 24) },
+                { Vanilla(ItemID.OrichalcumLeggings), ChangeIngredientStack(ItemID.OrichalcumBar, 18) },
+
+                { VanillaEach(
+                    ItemID.AdamantiteHelmet, ItemID.AdamantiteMask, ItemID.AdamantiteHeadgear, ItemID.AdamantitePickaxe, ItemID.AdamantiteDrill, ItemID.AdamantiteWaraxe, ItemID.AdamantiteChainsaw,
+                    ItemID.AdamantiteSword, ItemID.AdamantiteGlaive, ItemID.AdamantiteRepeater),
+                    ChangeIngredientStack(ItemID.AdamantiteBar, 12)
+                },
+                { Vanilla(ItemID.AdamantiteBreastplate), ChangeIngredientStack(ItemID.AdamantiteBar, 24) },
+                { Vanilla(ItemID.AdamantiteLeggings), ChangeIngredientStack(ItemID.AdamantiteBar, 18) },
+
+                { VanillaEach(
+                    ItemID.TitaniumHelmet, ItemID.TitaniumMask, ItemID.TitaniumHeadgear, ItemID.TitaniumPickaxe, ItemID.TitaniumDrill, ItemID.TitaniumWaraxe, ItemID.TitaniumChainsaw,
+                    ItemID.TitaniumSword, ItemID.TitaniumTrident, ItemID.TitaniumRepeater),
+                    ChangeIngredientStack(ItemID.TitaniumBar, 12)
+                },
+                { Vanilla(ItemID.TitaniumBreastplate), ChangeIngredientStack(ItemID.TitaniumBar, 24) },
+                { Vanilla(ItemID.TitaniumLeggings), ChangeIngredientStack(ItemID.TitaniumBar, 18) },
+            };
+
+            // Apply all recipe changes.
+            IEnumerator<Recipe> recipeEnumerator = Main.recipe.ToList().GetEnumerator();
+            while(recipeEnumerator.MoveNext())
+            {
+                Recipe r = recipeEnumerator.Current;
+                foreach (var kv in edits)
+                    if (kv.Key.Invoke(r))
+                        kv.Value.Invoke(r);
+            }
         }
 
-        // Change Leather's recipe to require 2 Rotten Chunks
-        private static void EditLeatherRecipe()
+        // If Jester's Arrows give less than 50 per Fallen Star, make it 50
+        private static void JesterArrowRecipeEdit(Recipe r)
         {
-            List<Recipe> rec = Main.recipe.ToList();
-            rec.Where(x => x.createItem.type == ItemID.Leather).ToList().ForEach(s =>
-            {
-                s.requiredItem[0].stack = 2;
-            });
+            int intendedStack = 50;
+            if (r.createItem.stack < intendedStack)
+                r.createItem.stack = intendedStack;
+            r.ChangeIngredientStack(ItemID.WoodenArrow, intendedStack);
         }
 
-        // Changes the stupid vanilla Enchanted Boomerang recipe to be more in line with the Echanted Sword recipe. - Merkalto
-        public static void EditEnchantedBoomerangRecipe()
+        // Change True Night's Edge recipe to require far less mech boss souls
+        private static void TrueNightsEdgeRecipeEdit(Recipe r)
         {
-            List<Recipe> rec = Main.recipe.ToList();
-            rec.Where(x => x.createItem.type == ItemID.EnchantedBoomerang).ToList().ForEach(s =>
-            {
-                s.requiredItem = new List<Item>();
-                for (int i = 0; i < 3; i++)
-                {
-                    s.requiredItem.Add(new Item());
-                }
-                s.requiredItem[0].SetDefaults(ModContent.ItemType<VictoryShard>(), false);
-                s.requiredItem[0].stack = 6;
-                s.requiredItem[1].SetDefaults(ItemID.GoldBar, false);
-                s.requiredItem[1].stack = 8;
-                s.requiredItem[2].SetDefaults(ItemID.WoodenBoomerang, false);
-                s.requiredItem[2].stack = 1;
-
-                s.AddTile(TileID.Anvils); // This is here because by default the recipe uses no tiles.
-                s.createItem.SetDefaults(ItemID.EnchantedBoomerang, false);
-                s.createItem.stack = 1;
-
-                Recipe r = CreateRecipe(ItemID.EnchantedBoomerang);  // Vanilla items don't like custom item groups.
-                r.AddIngredient(ModContent.ItemType<VictoryShard>(), 6);
-                r.AddIngredient(ItemID.PlatinumBar, 8);
-                r.AddIngredient(ItemID.WoodenBoomerang);
-                r.AddTile(TileID.Anvils);
-                r.Register();
-            });
-        }
-
-        // Change Phoenix Blaster's recipe to be consistent with literally every other weapon recipes in the game
-        private static void EditPhoenixBlasterRecipe()
-        {
-            List<Recipe> rec = Main.recipe.ToList();
-            rec.Where(x => x.createItem.type == ItemID.PhoenixBlaster).ToList().ForEach(s =>
-            {
-                for (int i = 0; i < s.requiredItem.Count; i++)
-                {
-                    s.requiredItem[i] = new Item();
-                }
-                s.requiredItem[0].SetDefaults(ItemID.Handgun, false);
-                s.requiredItem[0].stack = 1;
-                s.requiredItem[1].SetDefaults(ItemID.HellstoneBar, false);
-                s.requiredItem[1].stack = 10;
-
-                s.createItem.SetDefaults(ItemID.PhoenixBlaster, false);
-                s.createItem.stack = 1;
-            });
-        }
-
-        // Change Flamarang's recipe to be consistent with literally every other weapon recipes in the game
-        private static void EditFlamarangRecipe()
-        {
-            List<Recipe> rec = Main.recipe.ToList();
-            rec.Where(x => x.createItem.type == ItemID.Flamarang).ToList().ForEach(s =>
-            {
-                for (int i = 0; i < s.requiredItem.Count; i++)
-                {
-                    s.requiredItem[i] = new Item();
-                }
-                s.requiredItem[0].SetDefaults(ItemID.EnchantedBoomerang, false);
-                s.requiredItem[0].stack = 1;
-                s.requiredItem[1].SetDefaults(ItemID.HellstoneBar, false);
-                s.requiredItem[1].stack = 10;
-
-                s.createItem.SetDefaults(ItemID.Flamarang, false);
-                s.createItem.stack = 1;
-            });
-        }
-
-        // Change Bundle of Balloons's recipe to require 3 Aerialite Bars (forces the acc to be post-Evils 2)
-        private static void EditBundleofBalloonsRecipe()
-        {
-            List<Recipe> rec = Main.recipe.ToList();
-            rec.Where(x => x.createItem.type == ItemID.BundleofBalloons).ToList().ForEach(s =>
-            {
-                s.requiredItem = new List<Item>();
-                for (int i = 0; i < 4; i++)
-                    s.requiredItem.Add(new Item());
-                s.requiredItem[0].SetDefaults(ItemID.CloudinaBalloon, false);
-                s.requiredItem[0].stack = 1;
-                s.requiredItem[1].SetDefaults(ItemID.BlizzardinaBalloon, false);
-                s.requiredItem[1].stack = 1;
-                s.requiredItem[2].SetDefaults(ItemID.SandstorminaBalloon, false);
-                s.requiredItem[2].stack = 1;
-                s.requiredItem[3].SetDefaults(ModContent.ItemType<AerialiteBar>(), false);
-                s.requiredItem[3].stack = 3;
-
-                s.createItem.SetDefaults(ItemID.BundleofBalloons, false);
-                s.createItem.stack = 1;
-            });
-        }
-
-        // Change True Night's Edge recipe to require 5 of each mech boss soul instead of 20
-        private static void EditTrueNightsEdgeRecipe()
-        {
-            List<Recipe> rec = Main.recipe.ToList();
-            rec.Where(x => x.createItem.type == ItemID.TrueNightsEdge).ToList().ForEach(s =>
-            {
-                s.requiredItem[1].stack = 3;
-                s.requiredItem[2].stack = 3;
-                s.requiredItem[3].stack = 3;
-            });
-        }
-
-        // Change True Excalibur's recipe to require 12 Chlorophyte Bars instead of 24
-        private static void EditTrueExcaliburRecipe()
-        {
-            List<Recipe> rec = Main.recipe.ToList();
-            rec.Where(x => x.createItem.type == ItemID.TrueExcalibur).ToList().ForEach(s =>
-            {
-                s.requiredItem[1].stack = 12;
-            });
-        }
-
-        // Change Terra Blade's recipe to require 7 Living Shards (forces the Blade to be post-Plantera)
-        private static void EditTerraBladeRecipe()
-        {
-            List<Recipe> rec = Main.recipe.ToList();
-            rec.Where(x => x.createItem.type == ItemID.TerraBlade).ToList().ForEach(s =>
-            {
-                for (int i = 0; i < s.requiredItem.Count; i++)
-                {
-                    s.requiredItem[i] = new Item();
-                }
-                s.requiredItem[0].SetDefaults(ItemID.TrueNightsEdge, false);
-                s.requiredItem[0].stack = 1;
-                s.requiredItem[1].SetDefaults(ItemID.TrueExcalibur, false);
-                s.requiredItem[1].stack = 1;
-                s.requiredItem[2].SetDefaults(ModContent.ItemType<LivingShard>(), false);
-                s.requiredItem[2].stack = 7;
-
-                s.createItem.SetDefaults(ItemID.TerraBlade, false);
-                s.createItem.stack = 1;
-            });
-        }
-
-        // Change Zenith's recipe to require 5 Auric Bars (forces Zenith to be post-Yharon)
-        private static void EditZenithRecipe()
-        {
-            List<Recipe> rec = Main.recipe.ToList();
-            rec.Where(x => x.createItem.type == ItemID.Zenith).ToList().ForEach(s =>
-            {
-                s.requiredItem = new List<Item>();
-                for (int i = 0; i < 11; i++)
-                    s.requiredItem.Add(new Item());
-                s.requiredItem[0].SetDefaults(ItemID.CopperShortsword, false);
-                s.requiredItem[0].stack = 1;
-                s.requiredItem[1].SetDefaults(ItemID.EnchantedSword, false);
-                s.requiredItem[1].stack = 1;
-                s.requiredItem[2].SetDefaults(ItemID.BeeKeeper, false);
-                s.requiredItem[2].stack = 1;
-                s.requiredItem[3].SetDefaults(ItemID.Starfury, false);
-                s.requiredItem[3].stack = 1;
-                s.requiredItem[4].SetDefaults(ItemID.Seedler, false);
-                s.requiredItem[4].stack = 1;
-                s.requiredItem[5].SetDefaults(ItemID.TheHorsemansBlade, false);
-                s.requiredItem[5].stack = 1;
-                s.requiredItem[6].SetDefaults(ItemID.InfluxWaver, false);
-                s.requiredItem[6].stack = 1;
-                s.requiredItem[7].SetDefaults(ItemID.StarWrath, false);
-                s.requiredItem[7].stack = 1;
-                s.requiredItem[8].SetDefaults(ItemID.Meowmere, false);
-                s.requiredItem[8].stack = 1;
-                s.requiredItem[9].SetDefaults(ItemID.TerraBlade, false);
-                s.requiredItem[9].stack = 1;
-                s.requiredItem[10].SetDefaults(ModContent.ItemType<AuricBar>(), false);
-                s.requiredItem[10].stack = 5;
-
-                s.requiredTile[0] = ModContent.TileType<CosmicAnvil>();
-                s.createItem.SetDefaults(ItemID.Zenith, false);
-                s.createItem.stack = 1;
-            });
+            int intendedStack = 3;
+            r.ChangeIngredientStack(ItemID.SoulofSight, intendedStack);
+            r.ChangeIngredientStack(ItemID.SoulofMight, intendedStack);
+            r.ChangeIngredientStack(ItemID.SoulofFright, intendedStack);
         }
 
         // Change Magiluminescence's recipe to require more ingredients
-        private static void EditMagiluminescenceRecipe()
+        private static void MagiluminescenceRecipeEdit(Recipe r)
         {
-            List<Recipe> rec = Main.recipe.ToList();
-            rec.Where(x => x.createItem.type == ItemID.Magiluminescence).ToList().ForEach(s =>
-            {
-                s.requiredItem[0].stack = 20;
-                s.requiredItem[1].stack = 15;
-            });
+            r.ChangeIngredientStack(ItemID.DemoniteBar, 20);
+            r.ChangeIngredientStack(ItemID.CrimtaneBar, 20);
+            r.ChangeIngredientStack(ItemID.Topaz, 15);
         }
 
-        // Change Fire Gauntlet's recipe to require 5 Chaotic Bars (forces the item to be post-Golem)
-        private static void EditFireGauntletRecipe()
+        private static void WormFoodRecipeEdit(Recipe r)
         {
-            List<Recipe> rec = Main.recipe.ToList();
-            rec.Where(x => x.createItem.type == ItemID.FireGauntlet).ToList().ForEach(s =>
-            {
-                s.requiredItem = new List<Item>();
-                for (int i = 0; i < 3; i++)
-                {
-                    s.requiredItem.Add(new Item());
-                }
-                s.requiredItem[0].SetDefaults(ItemID.MagmaStone, false);
-                s.requiredItem[0].stack = 1;
-                s.requiredItem[1].SetDefaults(ItemID.MechanicalGlove, false);
-                s.requiredItem[1].stack = 1;
-                s.requiredItem[2].SetDefaults(ModContent.ItemType<CruptixBar>(), false);
-                s.requiredItem[2].stack = 5;
-
-                s.createItem.SetDefaults(ItemID.FireGauntlet, false);
-                s.createItem.stack = 1;
-            });
+            r.ChangeIngredientStack(ItemID.VilePowder, 20);
+            r.ChangeIngredientStack(ItemID.RottenChunk, 10);
         }
 
-        private static void EditSpiritFlameRecipe() // This is here to keep the Forbidden Fragment stuff on the same tier.
+        private static void BloodySpineRecipeEdit(Recipe r)
         {
-            List<Recipe> rec = Main.recipe.ToList();
-            rec.Where(x => x.createItem.type == ItemID.SpiritFlame).ToList().ForEach(s =>
-            {
-                s.requiredItem = new List<Item>();
-                for (int i = 0; i < 4; i++)
-                {
-                    s.requiredItem.Add(new Item());
-                }
-                s.requiredItem[0].SetDefaults(ItemID.DjinnLamp, false);
-                s.requiredItem[0].stack = 1;
-                s.requiredItem[1].SetDefaults(ItemID.AncientBattleArmorMaterial, false);
-                s.requiredItem[1].stack = 2;
-                s.requiredItem[2].SetDefaults(ItemID.SoulofNight, false);
-                s.requiredItem[2].stack = 12;
-                s.requiredItem[3].SetDefaults(ItemID.AdamantiteBar, false);
-                s.requiredItem[3].stack = 2;
-                s.createItem.SetDefaults(ItemID.SpiritFlame, false);
-                s.createItem.stack = 1;
-
-                Recipe r = CreateRecipe(ItemID.SpiritFlame);  // Vanilla items don't like custom item groups.
-                r.AddIngredient(ItemID.DjinnLamp);
-                r.AddIngredient(ItemID.AncientBattleArmorMaterial, 2);
-                r.AddIngredient(ItemID.SoulofNight, 12);
-                r.AddIngredient(ItemID.TitaniumBar, 2);
-                r.AddTile(TileID.MythrilAnvil);
-                r.Register();
-            });
-        }
-
-        // Change Beetle Armor recipes to have Turtle Armor at the top of them (my dreaded)
-        private static void EditBeetleArmorRecipes()
-        {
-            List<Recipe> rec = Main.recipe.ToList();
-            rec.Where(x => x.createItem.type == ItemID.BeetleHelmet).ToList().ForEach(s =>
-            {
-                for (int i = 0; i < s.requiredItem.Count; i++)
-                {
-                    s.requiredItem[i] = new Item();
-                }
-                s.requiredItem[0].SetDefaults(ItemID.TurtleHelmet, false);
-                s.requiredItem[0].stack = 1;
-                s.requiredItem[1].SetDefaults(ItemID.BeetleHusk, false);
-                s.requiredItem[1].stack = 4;
-
-                s.createItem.SetDefaults(ItemID.BeetleHelmet, false);
-                s.createItem.stack = 1;
-            });
-
-            rec.Where(x => x.createItem.type == ItemID.BeetleScaleMail).ToList().ForEach(s =>
-            {
-                for (int i = 0; i < s.requiredItem.Count; i++)
-                {
-                    s.requiredItem[i] = new Item();
-                }
-                s.requiredItem[0].SetDefaults(ItemID.TurtleScaleMail, false);
-                s.requiredItem[0].stack = 1;
-                s.requiredItem[1].SetDefaults(ItemID.BeetleHusk, false);
-                s.requiredItem[1].stack = 8;
-
-                s.createItem.SetDefaults(ItemID.BeetleScaleMail, false);
-                s.createItem.stack = 1;
-            });
-
-            rec.Where(x => x.createItem.type == ItemID.BeetleShell).ToList().ForEach(s =>
-            {
-                for (int i = 0; i < s.requiredItem.Count; i++)
-                {
-                    s.requiredItem[i] = new Item();
-                }
-                s.requiredItem[0].SetDefaults(ItemID.TurtleScaleMail, false);
-                s.requiredItem[0].stack = 1;
-                s.requiredItem[1].SetDefaults(ItemID.BeetleHusk, false);
-                s.requiredItem[1].stack = 8;
-
-                s.createItem.SetDefaults(ItemID.BeetleShell, false);
-                s.createItem.stack = 1;
-            });
-
-            rec.Where(x => x.createItem.type == ItemID.BeetleLeggings).ToList().ForEach(s =>
-            {
-                for (int i = 0; i < s.requiredItem.Count; i++)
-                {
-                    s.requiredItem[i] = new Item();
-                }
-                s.requiredItem[0].SetDefaults(ItemID.TurtleLeggings, false);
-                s.requiredItem[0].stack = 1;
-                s.requiredItem[1].SetDefaults(ItemID.BeetleHusk, false);
-                s.requiredItem[1].stack = 6;
-
-                s.createItem.SetDefaults(ItemID.BeetleLeggings, false);
-                s.createItem.stack = 1;
-            });
-        }
-
-        private static void EditGoblinArmySummonRecipe()
-        {
-            List<Recipe> rec = Main.recipe.ToList();
-            rec.Where(x => x.createItem.type == ItemID.GoblinBattleStandard).ToList().ForEach(s =>
-            {
-                s.requiredItem[0].stack = 5;
-            });
-        }
-
-        private static void EditEvilBossSummonRecipes()
-        {
-            List<Recipe> rec = Main.recipe.ToList();
-            rec.Where(x => x.createItem.type == ItemID.BloodySpine || x.createItem.type == ItemID.WormFood).ToList().ForEach(s =>
-            {
-                s.requiredItem[0].stack = 20;
-                s.requiredItem[1].stack = 10;
-            });
-        }
-
-        /* This houses all Hardmode items that are moved to Anvils in Calamity:
-        FIRST ROW: Boss Summons
-        SECOND ROW: Weapons
-        THIRD ROW: Accessories
-        FOURTH ROW: Ammo */
-        public static void MoveHardmodeItemsToAnvils()
-        {
-            List<Recipe> rec = Main.recipe.ToList();
-            rec.Where(x => x.createItem.type == ItemID.MechanicalWorm || x.createItem.type == ItemID.MechanicalEye || x.createItem.type == ItemID.MechanicalSkull ||
-            x.createItem.type == ItemID.DaoofPow || x.createItem.type == ItemID.Chik || x.createItem.type == ItemID.MeteorStaff || x.createItem.type == ItemID.CoolWhip ||
-            x.createItem.type == ItemID.AngelWings || x.createItem.type == ItemID.DemonWings || x.createItem.type == ItemID.FairyWings ||
-            x.createItem.type == ItemID.IchorBullet || x.createItem.type == ItemID.IchorArrow || x.createItem.type == ItemID.CursedBullet || x.createItem.type == ItemID.CursedArrow
-            ).ToList().ForEach(s =>
-            {
-                s.requiredTile[0] = TileID.Anvils;
-            });
-        }
-
-        public static void EditPumpkinMoonSummonRecipe()
-        {
-            List<Recipe> rec = Main.recipe.ToList();
-            rec.Where(x => x.createItem.type == ItemID.PumpkinMoonMedallion).ToList().ForEach(s =>
-            {
-                s.requiredItem[0].SetDefaults(ItemID.Pumpkin, false);
-                s.requiredItem[0].stack = 30;
-                s.requiredItem[1].SetDefaults(ItemID.Ectoplasm, false);
-                s.requiredItem[1].stack = 15;
-                s.requiredItem[2].SetDefaults(ItemID.GoldBar, false);
-                s.requiredItem[2].stack = 10;
-            });
-
-            Recipe r = CreateRecipe(ItemID.PumpkinMoonMedallion);  // Vanilla items don't like custom item groups so I have to do this instead.
-            r.AddIngredient(ItemID.Pumpkin, 30);
-            r.AddIngredient(ItemID.Ectoplasm, 15);
-            r.AddIngredient(ItemID.PlatinumBar, 10);
-            r.AddTile(TileID.MythrilAnvil);
-            r.Register();
-        }
-
-        public static void EditFrostMoonSummonRecipe()
-        {
-            List<Recipe> rec = Main.recipe.ToList();
-            rec.Where(x => x.createItem.type == ItemID.NaughtyPresent).ToList().ForEach(s =>
-            {
-                s.requiredItem[0].SetDefaults(ItemID.Silk, false);
-                s.requiredItem[0].stack = 20;
-                s.requiredItem[1].SetDefaults(ItemID.Ectoplasm, false);
-                s.requiredItem[1].stack = 15;
-                s.requiredItem[2].SetDefaults(ItemID.GoldBar, false);
-                s.requiredItem[2].stack = 10;
-            });
-
-            Recipe r = CreateRecipe(ItemID.NaughtyPresent);
-            r.AddIngredient(ItemID.Silk, 20);
-            r.AddIngredient(ItemID.Ectoplasm, 15);
-            r.AddIngredient(ItemID.PlatinumBar, 10);
-            r.AddTile(TileID.MythrilAnvil);
-            r.Register();
-        }
-
-
-        // Change Phasesaber recipes to require 20 Crystal Shards
-        private static void EditPhasesaberRecipes()
-        {
-            List<Recipe> rec = Main.recipe.ToList();
-            rec.Where(x => x.createItem.type == ItemID.BluePhasesaber || x.createItem.type == ItemID.GreenPhasesaber || x.createItem.type == ItemID.PurplePhasesaber ||
-            x.createItem.type == ItemID.RedPhasesaber || x.createItem.type == ItemID.WhitePhasesaber || x.createItem.type == ItemID.YellowPhasesaber ||
-            x.createItem.type == ItemID.OrangePhasesaber).ToList().ForEach(s =>
-            {
-                s.requiredItem[1].stack = 20;
-            });
-        }
-
-        // Remove Hallowed Bars from Optic Staff
-        private static void EditOpticStaffRecipe()
-        {
-            List<Recipe> rec = Main.recipe.ToList();
-            rec.Where(x => x.createItem.type == ItemID.OpticStaff).ToList().ForEach(s =>
-            {
-                for (int i = 0; i < s.requiredItem.Count; i++)
-                {
-                    s.requiredItem[i] = new Item();
-                }
-                s.requiredItem[0].SetDefaults(ItemID.BlackLens, false);
-                s.requiredItem[0].stack = 1;
-                s.requiredItem[1].SetDefaults(ItemID.Lens, false);
-                s.requiredItem[1].stack = 2;
-                s.requiredItem[2].SetDefaults(ItemID.SoulofSight, false);
-                s.requiredItem[2].stack = 20;
-
-                s.createItem.SetDefaults(ItemID.OpticStaff, false);
-                s.createItem.stack = 1;
-            });
-        }
-
-        // Change Shroomite Bar's recipe to require 5 Glowing Mushrooms instead
-        private static void EditShroomiteBarRecipe()
-        {
-            List<Recipe> rec = Main.recipe.ToList();
-            rec.Where(x => x.createItem.type == ItemID.ShroomiteBar).ToList().ForEach(s =>
-            {
-                s.requiredItem[1].stack = 5;
-            });
-        }
-
-        // Change the recipes to be like 1.4 but even less demanding
-        private static void EditChlorophyteBarRecipe()
-        {
-            List<Recipe> rec = Main.recipe.ToList();
-            rec.Where(x => x.createItem.type == ItemID.ChlorophyteBar).ToList().ForEach(s =>
-            {
-                s.requiredItem[0].stack = 4;
-            });
-        }
-
-        // Add Pocket Mirror to the Ankh Charm recipe.
-        private static void EditAnkhCharmRecipe()
-        {
-            {
-                List<Recipe> rec = Main.recipe.ToList();
-                rec.Where(x => x.createItem.type == ItemID.AnkhCharm).ToList().ForEach(s =>
-                {
-                    s.requiredItem = new List<Item>();
-                    for (int i = 0; i < 6; i++)
-                        s.requiredItem.Add(new Item());
-                    s.requiredItem[0].SetDefaults(ItemID.ArmorBracing, false);
-                    s.requiredItem[0].stack = 1;
-                    s.requiredItem[1].SetDefaults(ItemID.MedicatedBandage, false);
-                    s.requiredItem[1].stack = 1;
-                    s.requiredItem[2].SetDefaults(ItemID.ThePlan, false);
-                    s.requiredItem[2].stack = 1;
-                    s.requiredItem[3].SetDefaults(ItemID.CountercurseMantra, false);
-                    s.requiredItem[3].stack = 1;
-                    s.requiredItem[4].SetDefaults(ItemID.Blindfold, false);
-                    s.requiredItem[4].stack = 1;
-                    s.requiredItem[5].SetDefaults(ItemID.PocketMirror, false);
-                    s.requiredItem[5].stack = 1;
-
-                    s.requiredTile[0] = TileID.TinkerersWorkbench;
-                    s.createItem.SetDefaults(ItemID.AnkhCharm, false);
-                    s.createItem.stack = 1;
-                });
-            }
-        }
-
-        // Changes pre-hardmode ore armor recipes to be consistent for each tier and require far fewer bars.
-        private static void EditPreHardmodeOreArmorRecipes()
-        {
-            List<Recipe> rec = Main.recipe.ToList();
-
-            bool isPHMOreHelmet(Recipe r)
-            {
-                int itemID = r.createItem.type;
-                if (itemID == ItemID.CopperHelmet || itemID == ItemID.TinHelmet)
-                    return true;
-                if (itemID == ItemID.IronHelmet || itemID == ItemID.AncientIronHelmet || itemID == ItemID.LeadHelmet)
-                    return true;
-                if (itemID == ItemID.SilverHelmet || itemID == ItemID.TungstenHelmet)
-                    return true;
-                return itemID == ItemID.GoldHelmet || itemID == ItemID.AncientGoldHelmet || itemID == ItemID.PlatinumHelmet;
-            }
-            rec.Where(x => isPHMOreHelmet(x)).ToList().ForEach(s => s.requiredItem[0].stack = 10);
-
-            bool isPHMOreChainmail(Recipe r)
-            {
-                int itemID = r.createItem.type;
-                if (itemID == ItemID.CopperChainmail || itemID == ItemID.TinChainmail)
-                    return true;
-                if (itemID == ItemID.IronChainmail || itemID == ItemID.LeadChainmail)
-                    return true;
-                if (itemID == ItemID.SilverChainmail || itemID == ItemID.TungstenChainmail)
-                    return true;
-                return itemID == ItemID.GoldChainmail || itemID == ItemID.PlatinumChainmail;
-            }
-            rec.Where(x => isPHMOreChainmail(x)).ToList().ForEach(s => s.requiredItem[0].stack = 16);
-
-            bool isPHMOreGreaves(Recipe r)
-            {
-                int itemID = r.createItem.type;
-                if (itemID == ItemID.CopperGreaves || itemID == ItemID.TinGreaves)
-                    return true;
-                if (itemID == ItemID.IronGreaves || itemID == ItemID.LeadGreaves)
-                    return true;
-                if (itemID == ItemID.SilverGreaves || itemID == ItemID.TungstenGreaves)
-                    return true;
-                return itemID == ItemID.GoldGreaves || itemID == ItemID.PlatinumGreaves;
-            }
-            rec.Where(x => isPHMOreGreaves(x)).ToList().ForEach(s => s.requiredItem[0].stack = 14);
-        }
-
-        // Changes hardmode ore recipes to be consistent for each tier, and makes pickaxes/drills cheaper.
-        private static void EditHardmodeOreSetRecipes()
-        {
-            short MeleeHelm;
-            short RangedHelm;
-            short MagicHelm;
-            short Breastplate;
-            short Leggings;
-            short Pickaxe;
-            short Drill;
-            short Waraxe;
-            short Chainsaw;
-            short Sword;
-            short Glaive;
-            short Repeater;
-
-            // 0 = Cobalt, 1 = Palladium, 2 = Mythril, 3 = Orichalcum, 4 = Adamantite, 5 = Titanium
-            for (int HardmodeOre = 0; HardmodeOre < 6; HardmodeOre++)
-            {
-                switch (HardmodeOre)
-                {
-                    case 1:
-                        MeleeHelm = ItemID.CobaltHelmet;
-                        RangedHelm = ItemID.CobaltMask;
-                        MagicHelm = ItemID.CobaltHat;
-                        Breastplate = ItemID.CobaltBreastplate;
-                        Leggings = ItemID.CobaltLeggings;
-                        Pickaxe = ItemID.CobaltPickaxe;
-                        Drill = ItemID.CobaltDrill;
-                        Waraxe = ItemID.CobaltWaraxe;
-                        Chainsaw = ItemID.CobaltChainsaw;
-                        Sword = ItemID.CobaltSword;
-                        Glaive = ItemID.CobaltNaginata;
-                        Repeater = ItemID.CobaltRepeater;
-                        break;
-
-                    case 2:
-                        MeleeHelm = ItemID.PalladiumMask;
-                        RangedHelm = ItemID.PalladiumHelmet;
-                        MagicHelm = ItemID.PalladiumHeadgear;
-                        Breastplate = ItemID.PalladiumBreastplate;
-                        Leggings = ItemID.PalladiumLeggings;
-                        Pickaxe = ItemID.PalladiumPickaxe;
-                        Drill = ItemID.PalladiumDrill;
-                        Waraxe = ItemID.PalladiumWaraxe;
-                        Chainsaw = ItemID.PalladiumChainsaw;
-                        Sword = ItemID.PalladiumSword;
-                        Glaive = ItemID.PalladiumPike;
-                        Repeater = ItemID.PalladiumRepeater;
-                        break;
-
-                    case 3:
-                        MeleeHelm = ItemID.MythrilHelmet;
-                        RangedHelm = ItemID.MythrilHat;
-                        MagicHelm = ItemID.MythrilHood;
-                        Breastplate = ItemID.MythrilChainmail;
-                        Leggings = ItemID.MythrilGreaves;
-                        Pickaxe = ItemID.MythrilPickaxe;
-                        Drill = ItemID.MythrilDrill;
-                        Waraxe = ItemID.MythrilWaraxe;
-                        Chainsaw = ItemID.MythrilChainsaw;
-                        Sword = ItemID.MythrilSword;
-                        Glaive = ItemID.MythrilHalberd;
-                        Repeater = ItemID.MythrilRepeater;
-                        break;
-
-                    case 4:
-                        MeleeHelm = ItemID.OrichalcumMask;
-                        RangedHelm = ItemID.OrichalcumHelmet;
-                        MagicHelm = ItemID.OrichalcumHeadgear;
-                        Breastplate = ItemID.OrichalcumBreastplate;
-                        Leggings = ItemID.OrichalcumLeggings;
-                        Pickaxe = ItemID.OrichalcumPickaxe;
-                        Drill = ItemID.OrichalcumDrill;
-                        Waraxe = ItemID.OrichalcumWaraxe;
-                        Chainsaw = ItemID.OrichalcumChainsaw;
-                        Sword = ItemID.OrichalcumSword;
-                        Glaive = ItemID.OrichalcumHalberd;
-                        Repeater = ItemID.OrichalcumRepeater;
-                        break;
-
-                    case 5:
-                        MeleeHelm = ItemID.AdamantiteHelmet;
-                        RangedHelm = ItemID.AdamantiteMask;
-                        MagicHelm = ItemID.AdamantiteHeadgear;
-                        Breastplate = ItemID.AdamantiteBreastplate;
-                        Leggings = ItemID.AdamantiteLeggings;
-                        Pickaxe = ItemID.AdamantitePickaxe;
-                        Drill = ItemID.AdamantiteDrill;
-                        Waraxe = ItemID.AdamantiteWaraxe;
-                        Chainsaw = ItemID.AdamantiteChainsaw;
-                        Sword = ItemID.AdamantiteSword;
-                        Glaive = ItemID.AdamantiteGlaive;
-                        Repeater = ItemID.AdamantiteRepeater;
-                        break;
-
-                    default:
-                        MeleeHelm = ItemID.TitaniumMask;
-                        RangedHelm = ItemID.TitaniumHelmet;
-                        MagicHelm = ItemID.TitaniumHeadgear;
-                        Breastplate = ItemID.TitaniumBreastplate;
-                        Leggings = ItemID.TitaniumLeggings;
-                        Pickaxe = ItemID.TitaniumPickaxe;
-                        Drill = ItemID.TitaniumDrill;
-                        Waraxe = ItemID.TitaniumWaraxe;
-                        Chainsaw = ItemID.TitaniumChainsaw;
-                        Sword = ItemID.TitaniumSword;
-                        Glaive = ItemID.TitaniumTrident;
-                        Repeater = ItemID.TitaniumRepeater;
-                        break;
-                }
-                List<Recipe> rec = Main.recipe.ToList();
-
-                bool isHelmet(Recipe r)
-                {
-                    int itemID = r.createItem.type;
-                    return itemID == MeleeHelm || itemID == RangedHelm || itemID == MagicHelm;
-                }
-                bool isTool(Recipe r)
-                {
-                    int itemID = r.createItem.type;
-                    return itemID == Pickaxe || itemID == Drill || itemID == Waraxe || itemID == Chainsaw;
-                }
-                bool isStandardWeapon(Recipe r)
-                {
-                    int itemID = r.createItem.type;
-                    return itemID == Sword || itemID == Glaive || itemID == Repeater;
-                }
-
-                // 12 BARS : Melee Helm, Ranged Helm, Magic Helm, Pickaxe, Drill, Waraxe, Chainsaw, Sword, Glaive, Repeater
-                rec.Where(x => isHelmet(x) || isTool(x) || isStandardWeapon(x)).ToList().ForEach(s => s.requiredItem[0].stack = 12);
-
-                // 24 BARS : Breastplate
-                rec.Where(x => x.createItem.type == Breastplate).ToList().ForEach(s => s.requiredItem[0].stack = 24);
-
-                // 18 BARS : Leggings
-                rec.Where(x => x.createItem.type == Leggings).ToList().ForEach(s => s.requiredItem[0].stack = 18);
-            }
+            r.ChangeIngredientStack(ItemID.ViciousPowder, 20);
+            r.ChangeIngredientStack(ItemID.Vertebrae, 10);
         }
         #endregion
 
@@ -1217,19 +933,19 @@ namespace CalamityMod
         private static void AddAstralClayRecipes()
         {
             // Bowl
-            Recipe r = CreateRecipe(ItemID.Bowl);
+            Recipe r = Recipe.Create(ItemID.Bowl);
             r.AddIngredient(ModContent.ItemType<AstralClay>(), 2);
             r.AddTile(TileID.Furnaces);
             r.Register();
 
             // Clay Pot
-            r = CreateRecipe(ItemID.ClayPot);
+            r = Recipe.Create(ItemID.ClayPot);
             r.AddIngredient(ModContent.ItemType<AstralClay>(), 2);
             r.AddTile(TileID.Furnaces);
             r.Register();
 
             // Pink Vase
-            r = CreateRecipe(ItemID.PinkVase);
+            r = Recipe.Create(ItemID.PinkVase);
             r.AddIngredient(ModContent.ItemType<AstralClay>(), 2);
             r.AddTile(TileID.Furnaces);
             r.Register();
@@ -1283,13 +999,14 @@ namespace CalamityMod
                 ItemID.GenderChangePotion,
                 ItemID.LovePotion,
                 ItemID.StinkPotion,
-                ItemID.RecallPotion
+                ItemID.RecallPotion,
+                ItemID.PotionOfReturn
             };
             Recipe r;
 
             foreach (var potion in potions)
             {
-                r = CreateRecipe(potion);
+                r = Recipe.Create(potion);
                 r.AddIngredient(ModContent.ItemType<BloodOrb>(), 10);
                 r.AddIngredient(ItemID.BottledWater);
                 r.AddTile(TileID.AlchemyTable);
@@ -1301,32 +1018,32 @@ namespace CalamityMod
         #region Cooked Food
         private static void AddCookedFood()
         {
-            Recipe r = CreateRecipe(ItemID.CookedFish);
+            Recipe r = Recipe.Create(ItemID.CookedFish);
             r.AddIngredient(ModContent.ItemType<TwinklingPollox>());
             r.AddTile(TileID.CookingPots);
             r.Register();
 
-            r = CreateRecipe(ItemID.CookedFish);
+            r = Recipe.Create(ItemID.CookedFish);
             r.AddIngredient(ModContent.ItemType<PrismaticGuppy>());
             r.AddTile(TileID.CookingPots);
             r.Register();
 
-            r = CreateRecipe(ItemID.CookedFish);
+            r = Recipe.Create(ItemID.CookedFish);
             r.AddIngredient(ModContent.ItemType<CragBullhead>());
             r.AddTile(TileID.CookingPots);
             r.Register();
 
-            r = CreateRecipe(ItemID.CookedFish);
+            r = Recipe.Create(ItemID.CookedFish);
             r.AddIngredient(ModContent.ItemType<SeaMinnowItem>());
             r.AddTile(TileID.CookingPots);
             r.Register();
 
-            r = CreateRecipe(ItemID.CookedShrimp);
+            r = Recipe.Create(ItemID.CookedShrimp);
             r.AddIngredient(ModContent.ItemType<ProcyonidPrawn>());
             r.AddTile(TileID.CookingPots);
             r.Register();
 
-            r = CreateRecipe(ItemID.Bacon);
+            r = Recipe.Create(ItemID.Bacon);
             r.AddIngredient(ModContent.ItemType<PiggyItem>());
             r.AddTile(TileID.CookingPots);
             r.Register();
@@ -1337,45 +1054,45 @@ namespace CalamityMod
         private static void AddEssentialToolRecipes()
         {
             // Umbrella
-            Recipe r = CreateRecipe(ItemID.Umbrella);
+            Recipe r = Recipe.Create(ItemID.Umbrella);
             r.AddIngredient(ItemID.Silk, 5);
-            r.AddRecipeGroup("IronBar", 2);
+            r.AddRecipeGroup("AnyCopperBar", 2);
             r.AddTile(TileID.Loom);
             r.Register();
 
             // Bug Net
-            r = CreateRecipe(ItemID.BugNet);
+            r = Recipe.Create(ItemID.BugNet);
             r.AddIngredient(ItemID.Cobweb, 30);
-            r.AddRecipeGroup("IronBar", 3);
+            r.AddRecipeGroup("AnyCopperBar", 3);
             r.AddTile(TileID.Anvils);
             r.Register();
 
             // Magic Mirror
-            r = CreateRecipe(ItemID.MagicMirror);
-            r.AddRecipeGroup("IronBar", 10);
+            r = Recipe.Create(ItemID.MagicMirror);
+            r.AddRecipeGroup("AnySilverBar", 10);
             r.AddIngredient(ItemID.Glass, 10);
             r.AddIngredient(ItemID.FallenStar, 10);
             r.AddTile(TileID.Anvils);
             r.Register();
 
             // Ice Mirror
-            r = CreateRecipe(ItemID.IceMirror);
+            r = Recipe.Create(ItemID.IceMirror);
             r.AddRecipeGroup("AnyIceBlock", 20);
             r.AddIngredient(ItemID.Glass, 10);
             r.AddIngredient(ItemID.FallenStar, 10);
-            r.AddRecipeGroup("IronBar", 5);
+            r.AddRecipeGroup("AnySilverBar", 5);
             r.AddTile(TileID.Anvils);
             r.Register();
 
             // Bloody Tear
-            r = CreateRecipe(ItemID.BloodMoonStarter);
+            r = Recipe.Create(ItemID.BloodMoonStarter);
             r.AddIngredient(ModContent.ItemType<BloodOrb>(), 10);
             r.AddRecipeGroup("AnyCopperBar", 3);
             r.AddTile(TileID.Anvils);
             r.Register();
 
             // Staff of Regrowth
-            r = CreateRecipe(ItemID.StaffofRegrowth);
+            r = Recipe.Create(ItemID.StaffofRegrowth);
             r.AddIngredient(ItemID.RichMahogany, 10);
             r.AddIngredient(ItemID.JungleSpores, 5);
             r.AddIngredient(ItemID.JungleRose);
@@ -1383,7 +1100,7 @@ namespace CalamityMod
             r.Register();
 
             // Shadow Key
-            r = CreateRecipe(ItemID.ShadowKey);
+            r = Recipe.Create(ItemID.ShadowKey);
             r.AddIngredient(ItemID.GoldenKey);
             r.AddIngredient(ItemID.Obsidian, 20);
             r.AddIngredient(ItemID.Bone, 5);
@@ -1391,7 +1108,7 @@ namespace CalamityMod
             r.Register();
 
             // Sky Mill
-            r = CreateRecipe(ItemID.SkyMill);
+            r = Recipe.Create(ItemID.SkyMill);
             r.AddIngredient(ItemID.SunplateBlock, 10);
             r.AddIngredient(ItemID.Cloud, 5);
             r.AddIngredient(ItemID.RainCloud, 3);
@@ -1399,7 +1116,7 @@ namespace CalamityMod
             r.Register();
 
             // Ice Machine
-            r = CreateRecipe(ItemID.IceMachine);
+            r = Recipe.Create(ItemID.IceMachine);
             r.AddRecipeGroup("AnyIceBlock", 25);
             r.AddRecipeGroup("AnySnowBlock", 15);
             r.AddRecipeGroup("IronBar", 3);
@@ -1412,15 +1129,15 @@ namespace CalamityMod
         private static void AddSummonAndProgressionRecipes()
         {
             // Guide Voodoo Doll
-            Recipe r = CreateRecipe(ItemID.GuideVoodooDoll);
+            Recipe r = Recipe.Create(ItemID.GuideVoodooDoll);
             r.AddIngredient(ItemID.Leather, 2);
-            r.AddRecipeGroup("EvilPowder", 10);
+            r.AddRecipeGroup(EvilPowder, 10);
             r.AddTile(TileID.Hellforge);
             r.Register();
 
             // Frost Legion recipe for consistency
-            r = CreateRecipe(ItemID.SnowGlobe);
-            r.AddRecipeGroup("AnySnowBlock", 50);
+            r = Recipe.Create(ItemID.SnowGlobe);
+            r.AddRecipeGroup(AnySnowBlock, 50);
             r.AddIngredient(ItemID.Glass, 10);
             r.AddIngredient(ItemID.SoulofLight, 3);
             r.AddIngredient(ItemID.SoulofNight, 3);
@@ -1428,7 +1145,7 @@ namespace CalamityMod
             r.Register();
 
             // Gelatin Crystal (Queen Slime summon)
-            r = CreateRecipe(ItemID.QueenSlimeCrystal);
+            r = Recipe.Create(ItemID.QueenSlimeCrystal);
             r.AddIngredient(ItemID.CrystalShard, 20);
             r.AddIngredient(ItemID.PinkGel, 10);
             r.AddIngredient(ItemID.SoulofLight, 5);
@@ -1436,7 +1153,7 @@ namespace CalamityMod
             r.Register();
 
             // Temple Key
-            r = CreateRecipe(ItemID.TempleKey);
+            r = Recipe.Create(ItemID.TempleKey);
             r.AddIngredient(ItemID.JungleSpores, 15);
             r.AddIngredient(ItemID.RichMahogany, 15);
             r.AddIngredient(ItemID.SoulofNight, 15);
@@ -1444,10 +1161,26 @@ namespace CalamityMod
             r.AddTile(TileID.MythrilAnvil);
             r.Register();
 
+            // Pumpkin Moon Medallion
+            r = Recipe.Create(ItemID.PumpkinMoonMedallion);
+            r.AddIngredient(ItemID.Pumpkin, 30);
+            r.AddIngredient(ItemID.Ectoplasm, 5);
+            r.AddRecipeGroup(AnyGoldBar, 5);
+            r.AddTile(TileID.MythrilAnvil);
+            r.Register();
+
+            // Naughty Present
+            r = Recipe.Create(ItemID.NaughtyPresent);
+            r.AddIngredient(ItemID.Silk, 20);
+            r.AddIngredient(ItemID.Ectoplasm, 5);
+            r.AddRecipeGroup(AnySilverBar, 5);
+            r.AddTile(TileID.MythrilAnvil);
+            r.Register();
+
             // Lihzahrd Power Cell (NOT Calamity's Old Power Cell)
-            r = CreateRecipe(ItemID.LihzahrdPowerCell);
+            r = Recipe.Create(ItemID.LihzahrdPowerCell);
             r.AddIngredient(ItemID.LihzahrdBrick, 15);
-            r.AddIngredient(ModContent.ItemType<CoreofCinder>());
+            r.AddIngredient(ModContent.ItemType<CoreofSunlight>());
             r.AddTile(TileID.LihzahrdFurnace);
             r.Register();
         }
@@ -1457,25 +1190,25 @@ namespace CalamityMod
         private static void AddEarlyGameWeaponRecipes()
         {
             // Shuriken
-            Recipe r = CreateRecipe(ItemID.Shuriken, 50);
+            Recipe r = Recipe.Create(ItemID.Shuriken, 50);
             r.AddRecipeGroup("IronBar");
             r.AddTile(TileID.Anvils);
             r.Register();
 
             // Throwing Knife
-            r = CreateRecipe(ItemID.ThrowingKnife, 50);
+            r = Recipe.Create(ItemID.ThrowingKnife, 50);
             r.AddRecipeGroup("IronBar");
             r.AddTile(TileID.Anvils);
             r.Register();
 
             // Wooden Boomerang
-            r = CreateRecipe(ItemID.WoodenBoomerang);
+            r = Recipe.Create(ItemID.WoodenBoomerang);
             r.AddIngredient(ItemID.Wood, 7);
-            r.AddTile(TileID.Anvils);
+            r.AddTile(TileID.WorkBenches);
             r.Register();
 
             // Wand of Sparking
-            r = CreateRecipe(ItemID.WandofSparking);
+            r = Recipe.Create(ItemID.WandofSparking);
             r.AddIngredient(ItemID.Wood, 5);
             r.AddIngredient(ItemID.Torch, 3);
             r.AddIngredient(ItemID.FallenStar);
@@ -1483,7 +1216,7 @@ namespace CalamityMod
             r.Register();
 
             // Starfury w/ Gold Broadsword
-            r = CreateRecipe(ItemID.Starfury);
+            r = Recipe.Create(ItemID.Starfury);
             r.AddIngredient(ItemID.GoldBroadsword);
             r.AddIngredient(ItemID.FallenStar, 10);
             r.AddIngredient(ModContent.ItemType<VictoryShard>(), 3);
@@ -1491,30 +1224,38 @@ namespace CalamityMod
             r.Register();
 
             // Starfury w/ Platinum Broadsword
-            r = CreateRecipe(ItemID.Starfury);
+            r = Recipe.Create(ItemID.Starfury);
             r.AddIngredient(ItemID.PlatinumBroadsword);
             r.AddIngredient(ItemID.FallenStar, 10);
             r.AddIngredient(ModContent.ItemType<VictoryShard>(), 3);
             r.AddTile(TileID.Anvils);
             r.Register();
 
+            // Enchanted Boomerang
+            r = Recipe.Create(ItemID.EnchantedBoomerang);
+            r.AddIngredient(ItemID.WoodenBoomerang);
+            r.AddIngredient(ModContent.ItemType<VictoryShard>(), 6);
+            r.AddRecipeGroup(AnyGoldBar, 8);
+            r.AddTile(TileID.Anvils);
+            r.Register();
+
             // Enchanted Sword
-            r = CreateRecipe(ItemID.EnchantedSword);
+            r = Recipe.Create(ItemID.EnchantedSword);
             r.AddIngredient(ModContent.ItemType<VictoryShard>(), 10);
-            r.AddRecipeGroup("AnyGoldBar", 12);
+            r.AddRecipeGroup(AnyGoldBar, 12);
             r.AddIngredient(ItemID.Diamond);
             r.AddIngredient(ItemID.Ruby);
             r.AddTile(TileID.Anvils);
             r.Register();
 
             // Muramasa
-            r = CreateRecipe(ItemID.Muramasa);
-            r.AddRecipeGroup("AnyCobaltBar", 15);
+            r = Recipe.Create(ItemID.Muramasa);
+            r.AddRecipeGroup(AnyCobaltBar, 15);
             r.AddTile(TileID.Anvils);
             r.Register();
 
             // Water Bolt w/ Hardmode Spell Tome
-            r = CreateRecipe(ItemID.WaterBolt);
+            r = Recipe.Create(ItemID.WaterBolt);
             r.AddIngredient(ItemID.SpellTome);
             r.AddIngredient(ItemID.Waterleaf, 3);
             r.AddIngredient(ItemID.WaterCandle);
@@ -1522,7 +1263,7 @@ namespace CalamityMod
             r.Register();
 
             // Slime Staff
-            r = CreateRecipe(ItemID.SlimeStaff);
+            r = Recipe.Create(ItemID.SlimeStaff);
             r.AddRecipeGroup("Wood", 6);
             r.AddIngredient(ItemID.Gel, 40);
             r.AddIngredient(ItemID.PinkGel, 10);
@@ -1530,9 +1271,9 @@ namespace CalamityMod
             r.Register();
 
             // Ice Boomerang
-            r = CreateRecipe(ItemID.IceBoomerang);
-            r.AddRecipeGroup("AnyIceBlock", 20);
-            r.AddRecipeGroup("AnySnowBlock", 10);
+            r = Recipe.Create(ItemID.IceBoomerang);
+            r.AddRecipeGroup(AnyIceBlock, 20);
+            r.AddRecipeGroup(AnySnowBlock, 10);
             r.AddIngredient(ItemID.Shiverthorn);
             r.AddTile(TileID.IceMachine);
             r.Register();
@@ -1543,7 +1284,7 @@ namespace CalamityMod
         private static void AddEarlyGameAccessoryRecipes()
         {
             // Cloud in a Bottle
-            Recipe r = CreateRecipe(ItemID.CloudinaBottle);
+            Recipe r = Recipe.Create(ItemID.CloudinaBottle);
             r.AddIngredient(ItemID.Feather, 2);
             r.AddIngredient(ItemID.Bottle);
             r.AddIngredient(ItemID.Cloud, 25);
@@ -1551,22 +1292,22 @@ namespace CalamityMod
             r.Register();
 
             // Hermes Boots
-            r = CreateRecipe(ItemID.HermesBoots);
+            r = Recipe.Create(ItemID.HermesBoots);
             r.AddIngredient(ItemID.Silk, 10);
             r.AddIngredient(ItemID.SwiftnessPotion, 2);
             r.AddTile(TileID.Loom);
             r.Register();
 
             // Blizzard in a Bottle
-            r = CreateRecipe(ItemID.BlizzardinaBottle);
+            r = Recipe.Create(ItemID.BlizzardinaBottle);
             r.AddIngredient(ItemID.Feather, 4);
             r.AddIngredient(ItemID.Bottle);
-            r.AddRecipeGroup("AnySnowBlock", 50);
+            r.AddRecipeGroup(AnySnowBlock, 50);
             r.AddTile(TileID.Anvils);
             r.Register();
 
             // Sandstorm in a Bottle
-            r = CreateRecipe(ItemID.SandstorminaBottle);
+            r = Recipe.Create(ItemID.SandstorminaBottle);
             r.AddIngredient(ModContent.ItemType<DesertFeather>(), 10);
             r.AddIngredient(ItemID.Feather, 6);
             r.AddIngredient(ItemID.Bottle);
@@ -1575,27 +1316,27 @@ namespace CalamityMod
             r.Register();
 
             // Frog Leg
-            r = CreateRecipe(ItemID.FrogLeg);
+            r = Recipe.Create(ItemID.FrogLeg);
             r.AddIngredient(ItemID.Frog, 6);
             r.AddTile(TileID.Anvils);
             r.Register();
 
             // Flying Carpet
-            r = CreateRecipe(ItemID.FlyingCarpet);
-            r.AddIngredient(ItemID.AncientCloth, 10);
-            r.AddIngredient(ItemID.SoulofLight, 10);
-            r.AddIngredient(ItemID.SoulofNight, 10);
-            r.AddTile(TileID.MythrilAnvil);
+            r = Recipe.Create(ItemID.FlyingCarpet);
+            r.AddIngredient(ItemID.Silk, 10);
+            r.AddIngredient(ModContent.ItemType<DesertFeather>(), 3);
+            r.AddIngredient(ModContent.ItemType<VictoryShard>(), 5);
+            r.AddTile(TileID.Anvils);
             r.Register();
 
             // Aglet
-            r = CreateRecipe(ItemID.Aglet);
-            r.AddRecipeGroup("IronBar", 5);
+            r = Recipe.Create(ItemID.Aglet);
+            r.AddRecipeGroup(AnyCopperBar, 5);
             r.AddTile(TileID.Anvils);
             r.Register();
 
             // Anklet of the Wind
-            r = CreateRecipe(ItemID.AnkletoftheWind);
+            r = Recipe.Create(ItemID.AnkletoftheWind);
             r.AddIngredient(ItemID.JungleSpores, 15);
             r.AddIngredient(ItemID.Cloud, 15);
             r.AddIngredient(ItemID.PinkGel, 5);
@@ -1603,35 +1344,35 @@ namespace CalamityMod
             r.Register();
 
             // Water Walking Boots
-            r = CreateRecipe(ItemID.WaterWalkingBoots);
+            r = Recipe.Create(ItemID.WaterWalkingBoots);
             r.AddIngredient(ItemID.Leather, 5);
             r.AddIngredient(ItemID.WaterWalkingPotion, 8);
             r.AddTile(TileID.Anvils);
             r.Register();
 
             // Flame Walker Boots
-            r = CreateRecipe(ItemID.FlameWakerBoots);
+            r = Recipe.Create(ItemID.FlameWakerBoots);
             r.AddIngredient(ItemID.Silk, 8);
             r.AddIngredient(ItemID.Obsidian, 2);
             r.AddTile(TileID.Loom);
             r.Register();
 
             // Ice Skates
-            r = CreateRecipe(ItemID.IceSkates);
-            r.AddRecipeGroup("AnyIceBlock", 20);
+            r = Recipe.Create(ItemID.IceSkates);
+            r.AddRecipeGroup(AnyIceBlock, 20);
             r.AddIngredient(ItemID.Leather, 5);
             r.AddRecipeGroup("IronBar", 5);
             r.AddTile(TileID.IceMachine);
             r.Register();
 
             // Lucky Horseshoe
-            r = CreateRecipe(ItemID.LuckyHorseshoe);
-            r.AddRecipeGroup("AnyGoldBar", 8);
+            r = Recipe.Create(ItemID.LuckyHorseshoe);
+            r.AddRecipeGroup(AnyGoldBar, 8);
             r.AddTile(TileID.Anvils);
             r.Register();
 
             // Shiny Red Balloon
-            r = CreateRecipe(ItemID.ShinyRedBalloon);
+            r = Recipe.Create(ItemID.ShinyRedBalloon);
             r.AddIngredient(ItemID.WhiteString);
             r.AddIngredient(ItemID.Gel, 80);
             r.AddIngredient(ItemID.Cloud, 40);
@@ -1639,15 +1380,15 @@ namespace CalamityMod
             r.Register();
 
             // Lava Charm
-            r = CreateRecipe(ItemID.LavaCharm);
+            r = Recipe.Create(ItemID.LavaCharm);
             r.AddIngredient(ItemID.LavaBucket, 5);
             r.AddIngredient(ItemID.Obsidian, 25);
-            r.AddRecipeGroup("IronBar", 5);
+            r.AddRecipeGroup(AnyGoldBar, 5);
             r.AddTile(TileID.Anvils);
             r.Register();
 
             // Obsidian Rose
-            r = CreateRecipe(ItemID.ObsidianRose);
+            r = Recipe.Create(ItemID.ObsidianRose);
             r.AddIngredient(ItemID.JungleRose);
             r.AddIngredient(ItemID.Obsidian, 10);
             r.AddIngredient(ItemID.Hellstone, 10);
@@ -1655,40 +1396,68 @@ namespace CalamityMod
             r.Register();
 
             // Feral Claws
-            r = CreateRecipe(ItemID.FeralClaws);
+            r = Recipe.Create(ItemID.FeralClaws);
             r.AddIngredient(ItemID.Leather, 10);
             r.AddTile(TileID.Anvils);
             r.Register();
 
             // Radar
-            r = CreateRecipe(ItemID.Radar);
+            r = Recipe.Create(ItemID.Radar);
             r.AddRecipeGroup("IronBar", 5);
             r.AddTile(TileID.Anvils);
             r.Register();
 
             // Metal Detector
-            r = CreateRecipe(ItemID.MetalDetector);
+            r = Recipe.Create(ItemID.MetalDetector);
             r.AddIngredient(ItemID.Wire, 10);
             r.AddIngredient(ItemID.GoldDust, 5);
             r.AddIngredient(ItemID.SpelunkerGlowstick, 5);
-            r.AddRecipeGroup("IronBar", 5);
+            r.AddRecipeGroup(AnyGoldBar, 5);
             r.AddTile(TileID.MythrilAnvil);
             r.Register();
 
+            // DPS Meter
+            r = Recipe.Create(ItemID.DPSMeter);
+            r.AddIngredient(ItemID.Wire, 10);
+            r.AddRecipeGroup(AnyGoldBar, 5);
+            r.AddTile(TileID.Anvils);
+            r.Register();
+
             // Hand Warmer
-            r = CreateRecipe(ItemID.HandWarmer);
+            r = Recipe.Create(ItemID.HandWarmer);
             r.AddIngredient(ItemID.Silk, 5);
             r.AddIngredient(ItemID.Shiverthorn);
-            r.AddRecipeGroup("AnySnowBlock", 10);
+            r.AddRecipeGroup(AnySnowBlock, 10);
             r.AddTile(TileID.Loom);
             r.Register();
 
             // Flower Boots
-            r = CreateRecipe(ItemID.FlowerBoots);
+            r = Recipe.Create(ItemID.FlowerBoots);
             r.AddIngredient(ItemID.Silk, 7);
             r.AddIngredient(ItemID.JungleRose);
             r.AddIngredient(ItemID.JungleGrassSeeds, 5);
             r.AddTile(TileID.Loom);
+            r.Register();
+
+            // Band of Regeneration
+            r = Recipe.Create(ItemID.BandofRegeneration);
+            r.AddIngredient(ItemID.Shackle);
+            r.AddIngredient(ItemID.LifeCrystal, 1);
+            r.AddTile(TileID.Anvils);
+            r.Register();
+
+            // Shoe Spikes
+            r = Recipe.Create(ItemID.ShoeSpikes);
+            r.AddRecipeGroup("IronBar", 5);
+            r.AddIngredient(ItemID.Spike, 10);
+            r.AddTile(TileID.Anvils);
+            r.Register();
+
+            // Flare Gun
+            r = Recipe.Create(ItemID.FlareGun);
+            r.AddRecipeGroup(AnyCopperBar, 5);
+            r.AddIngredient(ItemID.Torch, 10);
+            r.AddTile(TileID.Anvils);
             r.Register();
         }
         #endregion
@@ -1697,21 +1466,21 @@ namespace CalamityMod
         private static void AddArmorRecipes()
         {
             // Eskimo armor
-            Recipe r = CreateRecipe(ItemID.EskimoHood);
+            Recipe r = Recipe.Create(ItemID.EskimoHood);
             r.AddIngredient(ItemID.Silk, 4);
             r.AddIngredient(ItemID.Leather);
             r.AddIngredient(ItemID.BorealWood, 12);
             r.AddTile(TileID.Loom);
             r.Register();
 
-            r = CreateRecipe(ItemID.EskimoCoat);
+            r = Recipe.Create(ItemID.EskimoCoat);
             r.AddIngredient(ItemID.Silk, 8);
             r.AddIngredient(ItemID.Leather);
             r.AddIngredient(ItemID.BorealWood, 18);
             r.AddTile(TileID.Loom);
             r.Register();
 
-            r = CreateRecipe(ItemID.EskimoPants);
+            r = Recipe.Create(ItemID.EskimoPants);
             r.AddIngredient(ItemID.Silk, 6);
             r.AddIngredient(ItemID.Leather);
             r.AddIngredient(ItemID.BorealWood, 15);
@@ -1719,86 +1488,95 @@ namespace CalamityMod
             r.Register();
 
             // Pharaoh set
-            r = CreateRecipe(ItemID.PharaohsMask);
+            r = Recipe.Create(ItemID.PharaohsMask);
             r.AddIngredient(ItemID.AncientCloth, 3);
             r.AddTile(TileID.Loom);
             r.Register();
 
-            r = CreateRecipe(ItemID.PharaohsRobe);
+            r = Recipe.Create(ItemID.PharaohsRobe);
             r.AddIngredient(ItemID.AncientCloth, 4);
             r.AddTile(TileID.Loom);
             r.Register();
 
             // Alternative Turtle, Shroomite, and Spectre Armor set recipes
-            r = CreateRecipe(ItemID.TurtleHelmet);
+            r = Recipe.Create(ItemID.TurtleHelmet);
             r.AddIngredient(ItemID.ChlorophyteMask);
             r.AddIngredient(ItemID.TurtleShell);
             r.AddTile(TileID.MythrilAnvil);
             r.Register();
 
-            r = CreateRecipe(ItemID.TurtleScaleMail);
+            r = Recipe.Create(ItemID.TurtleScaleMail);
             r.AddIngredient(ItemID.ChlorophytePlateMail);
             r.AddIngredient(ItemID.TurtleShell);
             r.AddTile(TileID.MythrilAnvil);
             r.Register();
 
-            r = CreateRecipe(ItemID.TurtleLeggings);
+            r = Recipe.Create(ItemID.TurtleLeggings);
             r.AddIngredient(ItemID.ChlorophyteGreaves);
             r.AddIngredient(ItemID.TurtleShell);
             r.AddTile(TileID.MythrilAnvil);
             r.Register();
 
-            r = CreateRecipe(ItemID.ShroomiteHelmet);
+            r = Recipe.Create(ItemID.ShroomiteHelmet);
             r.AddIngredient(ItemID.ChlorophyteHelmet);
             r.AddIngredient(ItemID.GlowingMushroom, 60);
+            r.AddIngredient<LivingShard>();
             r.AddTile(TileID.MythrilAnvil);
             r.Register();
 
-            r = CreateRecipe(ItemID.ShroomiteHeadgear);
+            r = Recipe.Create(ItemID.ShroomiteHeadgear);
             r.AddIngredient(ItemID.ChlorophyteHelmet);
             r.AddIngredient(ItemID.GlowingMushroom, 60);
+            r.AddIngredient<LivingShard>();
             r.AddTile(TileID.MythrilAnvil);
             r.Register();
 
-            r = CreateRecipe(ItemID.ShroomiteMask);
+            r = Recipe.Create(ItemID.ShroomiteMask);
             r.AddIngredient(ItemID.ChlorophyteHelmet);
             r.AddIngredient(ItemID.GlowingMushroom, 60);
+            r.AddIngredient<LivingShard>();
             r.AddTile(TileID.MythrilAnvil);
             r.Register();
 
-            r = CreateRecipe(ItemID.ShroomiteBreastplate);
+            r = Recipe.Create(ItemID.ShroomiteBreastplate);
             r.AddIngredient(ItemID.ChlorophytePlateMail);
             r.AddIngredient(ItemID.GlowingMushroom, 120);
+            r.AddIngredient<LivingShard>();
             r.AddTile(TileID.MythrilAnvil);
             r.Register();
 
-            r = CreateRecipe(ItemID.ShroomiteLeggings);
+            r = Recipe.Create(ItemID.ShroomiteLeggings);
             r.AddIngredient(ItemID.ChlorophyteGreaves);
             r.AddIngredient(ItemID.GlowingMushroom, 80);
+            r.AddIngredient<LivingShard>();
             r.AddTile(TileID.MythrilAnvil);
             r.Register();
 
-            r = CreateRecipe(ItemID.SpectreHood);
+            r = Recipe.Create(ItemID.SpectreHood);
             r.AddIngredient(ItemID.ChlorophyteHeadgear);
             r.AddIngredient(ItemID.Ectoplasm, 6);
+            r.AddIngredient<LivingShard>();
             r.AddTile(TileID.MythrilAnvil);
             r.Register();
 
-            r = CreateRecipe(ItemID.SpectreMask);
+            r = Recipe.Create(ItemID.SpectreMask);
             r.AddIngredient(ItemID.ChlorophyteHeadgear);
             r.AddIngredient(ItemID.Ectoplasm, 6);
+            r.AddIngredient<LivingShard>();
             r.AddTile(TileID.MythrilAnvil);
             r.Register();
 
-            r = CreateRecipe(ItemID.SpectreRobe);
+            r = Recipe.Create(ItemID.SpectreRobe);
             r.AddIngredient(ItemID.ChlorophytePlateMail);
             r.AddIngredient(ItemID.Ectoplasm, 12);
+            r.AddIngredient<LivingShard>();
             r.AddTile(TileID.MythrilAnvil);
             r.Register();
 
-            r = CreateRecipe(ItemID.SpectrePants);
+            r = Recipe.Create(ItemID.SpectrePants);
             r.AddIngredient(ItemID.ChlorophyteGreaves);
             r.AddIngredient(ItemID.Ectoplasm, 9);
+            r.AddIngredient<LivingShard>();
             r.AddTile(TileID.MythrilAnvil);
             r.Register();
 
@@ -1809,20 +1587,20 @@ namespace CalamityMod
         private static void AddAnkhShieldRecipes()
         {
             // Cobalt Shield
-            Recipe r = CreateRecipe(ItemID.CobaltShield);
-            r.AddRecipeGroup("AnyCobaltBar", 10);
+            Recipe r = Recipe.Create(ItemID.CobaltShield);
+            r.AddRecipeGroup(AnyCobaltBar, 10);
             r.AddTile(TileID.Anvils);
             r.Register();
 
             // Armor Polish (broken armor)
-            r = CreateRecipe(ItemID.ArmorPolish);
+            r = Recipe.Create(ItemID.ArmorPolish);
             r.AddIngredient(ItemID.Bone, 50);
             r.AddIngredient(ModContent.ItemType<AncientBoneDust>(), 3);
-            r.AddTile(TileID.MythrilAnvil);
+            r.AddTile(TileID.Anvils);
             r.Register();
 
             // Adhesive Bandage (bleeding)
-            r = CreateRecipe(ItemID.AdhesiveBandage);
+            r = Recipe.Create(ItemID.AdhesiveBandage);
             r.AddIngredient(ItemID.Silk, 10);
             r.AddIngredient(ItemID.Gel, 50);
             r.AddIngredient(ItemID.HealingPotion);
@@ -1830,21 +1608,21 @@ namespace CalamityMod
             r.Register();
 
             // Bezoar (poison)
-            r = CreateRecipe(ItemID.Bezoar);
+            r = Recipe.Create(ItemID.Bezoar);
             r.AddIngredient(ItemID.Stinger, 15);
             r.AddIngredient(ModContent.ItemType<MurkyPaste>());
             r.AddTile(TileID.Anvils);
             r.Register();
 
             // Nazar (curse)
-            r = CreateRecipe(ItemID.Nazar);
+            r = Recipe.Create(ItemID.Nazar);
             r.AddIngredient(ItemID.SoulofNight, 15);
             r.AddIngredient(ItemID.Lens, 3);
-            r.AddTile(TileID.MythrilAnvil);
+            r.AddTile(TileID.Anvils);
             r.Register();
 
             // Vitamins (weakness)
-            r = CreateRecipe(ItemID.Vitamins);
+            r = Recipe.Create(ItemID.Vitamins);
             r.AddIngredient(ItemID.BottledWater);
             r.AddIngredient(ItemID.Waterleaf, 5);
             r.AddIngredient(ItemID.Blinkroot, 5);
@@ -1854,43 +1632,43 @@ namespace CalamityMod
             r.Register();
 
             // Blindfold (darkness)
-            r = CreateRecipe(ItemID.Blindfold);
+            r = Recipe.Create(ItemID.Blindfold);
             r.AddIngredient(ItemID.Silk, 30);
             r.AddIngredient(ItemID.TatteredCloth, 3);
             r.AddTile(TileID.Anvils);
             r.Register();
 
             // Trifold Map (confusion)
-            r = CreateRecipe(ItemID.TrifoldMap);
+            r = Recipe.Create(ItemID.TrifoldMap);
             r.AddIngredient(ItemID.Silk, 20);
             r.AddIngredient(ItemID.SoulofLight, 3);
             r.AddIngredient(ItemID.SoulofNight, 3);
-            r.AddTile(TileID.MythrilAnvil);
+            r.AddTile(TileID.Anvils);
             r.Register();
 
             // Fast Clock (slow)
-            r = CreateRecipe(ItemID.FastClock);
+            r = Recipe.Create(ItemID.FastClock);
             r.AddIngredient(ItemID.Timer1Second);
             r.AddIngredient(ItemID.PixieDust, 15);
             r.AddIngredient(ItemID.SoulofLight, 5);
-            r.AddTile(TileID.MythrilAnvil);
+            r.AddTile(TileID.Anvils);
             r.Register();
 
             // Megaphone (silence)
-            r = CreateRecipe(ItemID.Megaphone);
+            r = Recipe.Create(ItemID.Megaphone);
             r.AddIngredient(ItemID.Wire, 10);
-            r.AddRecipeGroup("AnyCobaltBar", 5);
+            r.AddRecipeGroup(AnyCobaltBar, 5);
             r.AddIngredient(ItemID.Ruby, 3);
-            r.AddTile(TileID.MythrilAnvil);
+            r.AddTile(TileID.Anvils);
             r.Register();
 
             // Pocket Mirror (petrification, added to Ankh charm+ in Calamity)
-            r = CreateRecipe(ItemID.PocketMirror);
+            r = Recipe.Create(ItemID.PocketMirror);
             r.AddIngredient(ItemID.Glass, 10);
-            r.AddRecipeGroup("AnyGoldBar", 4);
+            r.AddRecipeGroup(AnyGoldBar, 4);
             r.AddIngredient(ItemID.CrystalShard, 2);
             r.AddIngredient(ItemID.SoulofNight, 2);
-            r.AddTile(TileID.MythrilAnvil);
+            r.AddTile(TileID.Anvils);
             r.Register();
         }
         #endregion
@@ -1899,32 +1677,32 @@ namespace CalamityMod
         private static void AddLivingWoodRecipes()
         {
             // Living Loom
-            Recipe r = CreateRecipe(ItemID.LivingLoom);
+            Recipe r = Recipe.Create(ItemID.LivingLoom);
             r.AddIngredient(ItemID.Loom);
             r.AddIngredient(ItemID.Vine, 2);
             r.AddTile(TileID.Sawmill);
             r.Register();
 
             // Living Wood Wand
-            r = CreateRecipe(ItemID.LivingWoodWand);
+            r = Recipe.Create(ItemID.LivingWoodWand);
             r.AddIngredient(ItemID.Wood, 30);
             r.AddTile(TileID.LivingLoom);
             r.Register();
 
             // Living Leaf Wand
-            r = CreateRecipe(ItemID.LeafWand);
+            r = Recipe.Create(ItemID.LeafWand);
             r.AddIngredient(ItemID.Wood, 30);
             r.AddTile(TileID.LivingLoom);
             r.Register();
 
             // Living Mahogany Wand
-            r = CreateRecipe(ItemID.LivingMahoganyWand);
+            r = Recipe.Create(ItemID.LivingMahoganyWand);
             r.AddIngredient(ItemID.RichMahogany, 30);
             r.AddTile(TileID.LivingLoom);
             r.Register();
 
             // Living Mahogany Leaf Wand
-            r = CreateRecipe(ItemID.LivingMahoganyLeafWand);
+            r = Recipe.Create(ItemID.LivingMahoganyLeafWand);
             r.AddIngredient(ItemID.RichMahogany, 30);
             r.AddTile(TileID.LivingLoom);
             r.Register();
@@ -1935,24 +1713,24 @@ namespace CalamityMod
         private static void AddHardmodeItemRecipes()
         {
             // Celestial Magnet
-            Recipe r = CreateRecipe(ItemID.CelestialMagnet);
+            Recipe r = Recipe.Create(ItemID.CelestialMagnet);
             r.AddIngredient(ItemID.FallenStar, 20);
             r.AddIngredient(ItemID.SoulofMight, 10);
             r.AddIngredient(ItemID.SoulofLight, 5);
             r.AddIngredient(ItemID.SoulofNight, 5);
-            r.AddRecipeGroup("AnyCobaltBar", 3);
+            r.AddRecipeGroup(AnyCobaltBar, 3);
             r.AddTile(TileID.Anvils);
             r.Register();
 
             // Frozen Turtle Shell
-            r = CreateRecipe(ItemID.FrozenTurtleShell);
+            r = Recipe.Create(ItemID.FrozenTurtleShell);
             r.AddIngredient(ItemID.TurtleShell, 3);
             r.AddIngredient(ModContent.ItemType<EssenceofEleum>(), 9);
             r.AddTile(TileID.IceMachine);
             r.Register();
 
             // Magic Quiver
-            r = CreateRecipe(ItemID.MagicQuiver);
+            r = Recipe.Create(ItemID.MagicQuiver);
             r.AddIngredient(ItemID.EndlessQuiver);
             r.AddIngredient(ItemID.PixieDust, 10);
             r.AddIngredient(ItemID.Lens, 5);
@@ -1961,27 +1739,28 @@ namespace CalamityMod
             r.Register();
 
             // Terra Blade w/ True Bloody Edge
-            r = CreateRecipe(ItemID.TerraBlade);
+            r = Recipe.Create(ItemID.TerraBlade);
             r.AddIngredient(ModContent.ItemType<TrueBloodyEdge>());
             r.AddIngredient(ItemID.TrueExcalibur);
+            r.AddIngredient(ItemID.BrokenHeroSword);
             r.AddIngredient(ModContent.ItemType<LivingShard>(), 7);
             r.AddTile(TileID.MythrilAnvil);
             r.Register();
 
             // Turtle Shell with Giant Tortoise Shell
-            r = CreateRecipe(ItemID.TurtleShell);
+            r = Recipe.Create(ItemID.TurtleShell);
             r.AddIngredient(ModContent.ItemType<GiantTortoiseShell>());
             r.Register();
 
             // Pulse Bow
-            r = CreateRecipe(ItemID.PulseBow);
+            r = Recipe.Create(ItemID.PulseBow);
             r.AddIngredient(ItemID.ShroomiteBar, 16);
             r.AddTile(TileID.MythrilAnvil);
             r.Register();
 
             // Sergeant United Shield
-            r = CreateRecipe(ItemID.BouncingShield);
-            r.AddRecipeGroup("AnyCobaltBar", 12);
+            r = Recipe.Create(ItemID.BouncingShield);
+            r.AddRecipeGroup(AnyCobaltBar, 12);
             r.AddIngredient(ItemID.SoulofLight, 4);
             r.AddTile(TileID.Anvils);
             r.Register();

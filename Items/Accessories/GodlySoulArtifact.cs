@@ -37,9 +37,9 @@ namespace CalamityMod.Items.Accessories
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<ExodiumClusterOre>(25).
-                AddIngredient<PlagueContainmentCells>(25).
-                AddIngredient<HellcasterFragment>(5).
+                AddIngredient<ExodiumCluster>(25).
+                AddIngredient<Plagueplate>(25).
+                AddIngredient<YharonSoulFragment>(5).
                 AddTile(TileID.DemonAltar).
                 Register();
         }

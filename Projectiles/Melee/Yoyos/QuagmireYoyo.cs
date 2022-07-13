@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
@@ -43,7 +43,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
                     proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, Projectile.velocity.X * 0.35f, Projectile.velocity.Y * 0.35f, ProjectileID.SporeGas, (int)(Projectile.damage * 0.5), Projectile.knockBack, Projectile.owner);
                     if (proj.WithinBounds(Main.maxProjectiles))
                     {
-                        Main.projectile[proj].Calamity().forceMelee = true;
+                        Main.projectile[proj].DamageType = DamageClass.Melee;
                         Main.projectile[proj].usesLocalNPCImmunity = true;
                         Main.projectile[proj].localNPCHitCooldown = 30;
                     }
@@ -53,7 +53,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
                     proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, Projectile.velocity.X * 0.25f, Projectile.velocity.Y * 0.25f, ProjectileID.SporeGas2, (int)(Projectile.damage * 0.6), Projectile.knockBack, Projectile.owner);
                     if (proj.WithinBounds(Main.maxProjectiles))
                     {
-                        Main.projectile[proj].Calamity().forceMelee = true;
+                        Main.projectile[proj].DamageType = DamageClass.Melee;
                         Main.projectile[proj].usesLocalNPCImmunity = true;
                         Main.projectile[proj].localNPCHitCooldown = 30;
                     }
@@ -63,7 +63,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
                     proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, Projectile.velocity.X * 0.15f, Projectile.velocity.Y * 0.15f, ProjectileID.SporeGas3, (int)(Projectile.damage * 0.7), Projectile.knockBack, Projectile.owner);
                     if (proj.WithinBounds(Main.maxProjectiles))
                     {
-                        Main.projectile[proj].Calamity().forceMelee = true;
+                        Main.projectile[proj].DamageType = DamageClass.Melee;
                         Main.projectile[proj].usesLocalNPCImmunity = true;
                         Main.projectile[proj].localNPCHitCooldown = 30;
                     }

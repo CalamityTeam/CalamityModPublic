@@ -23,6 +23,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.penetrate = 1;
             Projectile.timeLeft = 180;
             Projectile.aiStyle = 1;
+            Projectile.DamageType = DamageClass.Summon;
         }
 
         public override void AI()
@@ -53,7 +54,7 @@ namespace CalamityMod.Projectiles.Summon
                     float SpeedY = -Projectile.velocity.Y * Main.rand.Next(40, 70) * 0.01f + Main.rand.Next(-20, 21) * 0.4f;
                     int shard = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X + SpeedX, Projectile.Center.Y + SpeedY, SpeedX, SpeedY, ProjectileID.CrystalShard, Projectile.damage / 2, 0f, Projectile.owner);
                     if (shard.WithinBounds(Main.maxProjectiles))
-                        Main.projectile[shard].Calamity().forceMinion = true;
+                        Main.projectile[shard].DamageType = DamageClass.Summon;
                 }
             }
         }

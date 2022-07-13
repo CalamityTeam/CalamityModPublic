@@ -23,7 +23,7 @@ namespace CalamityMod.Projectiles.Typeless
         {
             if (Projectile.ai[0] == 1f)
             {
-                CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 100); //Not really an expansion
+                Projectile.ExpandHitboxBy(100); //Not really an expansion
                 Projectile.timeLeft /= 2;
                 Projectile.ai[0] = 0f;
             }

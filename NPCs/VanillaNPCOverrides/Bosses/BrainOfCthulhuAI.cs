@@ -16,8 +16,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             // whoAmI variable
             NPC.crimsonBoss = npc.whoAmI;
 
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || bossRush;
 
             // Get a target
             if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
@@ -27,15 +27,15 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
                 npc.TargetClosest();
 
-            float enrageScale = BossRushEvent.BossRushActive ? 1f : 0f;
-            if ((npc.position.Y / 16f) < Main.worldSurface || malice)
+            float enrageScale = bossRush ? 1f : 0f;
+            if ((npc.position.Y / 16f) < Main.worldSurface || bossRush)
             {
-                npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
+                npc.Calamity().CurrentlyEnraged = !bossRush;
                 enrageScale += 1f;
             }
-            if (!Main.player[npc.target].ZoneCrimson || malice)
+            if (!Main.player[npc.target].ZoneCrimson || bossRush)
             {
-                npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
+                npc.Calamity().CurrentlyEnraged = !bossRush;
                 enrageScale += 2f;
             }
 
@@ -135,6 +135,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         float velocityScale = death ? 4f : 2f;
                         float velocityBoost = velocityScale * (1f - lifeRatio);
                         float num798 = 8f + velocityBoost + 3f * enrageScale;
+                        if (Main.getGoodWorld)
+                            num798 *= 1.15f;
+
                         num797 = num798 / num797;
                         num795 *= num797;
                         num796 *= num797;
@@ -167,7 +170,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             SoundEngine.PlaySound(SoundID.ForceRoar, npc.position);
 
                             // Velocity
-                            npc.velocity = Vector2.Normalize(Main.player[npc.target].Center + (malice ? Main.player[npc.target].velocity * 20f : Vector2.Zero) - npc.Center) * ((death ? 20f : 16f) + 4f * enrageScale);
+                            npc.velocity = Vector2.Normalize(Main.player[npc.target].Center + (bossRush ? Main.player[npc.target].velocity * 20f : Vector2.Zero) - npc.Center) * ((death ? 20f : 16f) + 4f * enrageScale);
+                            if (Main.getGoodWorld)
+                                npc.velocity *= 1.15f;
                         }
                     }
 
@@ -226,6 +231,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         {
                             npc.ai[2] -= 1f;
                             npc.velocity = Vector2.Normalize(Main.player[npc.target].Center - npc.Center) * ((death ? -10f : -8f) - 2f * enrageScale);
+                            if (Main.getGoodWorld)
+                                npc.velocity *= 1.15f;
                         }
                     }
 
@@ -436,6 +443,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 float num804 = Main.player[npc.target].Center.Y - vector99.Y;
                 float num805 = (float)Math.Sqrt(num803 * num803 + num804 * num804);
                 float num806 = (death ? 2f : 1f) + (creeperScale * 0.1f);
+                if (Main.getGoodWorld)
+                    num806 *= 3f;
 
                 if (num805 < num806)
                 {
@@ -534,7 +543,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             }
 
             // Despawn
-            if (Main.player[npc.target].dead && !BossRushEvent.BossRushActive)
+            if (Main.player[npc.target].dead && !bossRush)
             {
                 if (npc.localAI[3] < 120f)
                     npc.localAI[3] += 1f;
@@ -562,17 +571,17 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 return false;
             }
 
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || bossRush;
 
             // Get a target
             if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
                 npc.TargetClosest();
 
-            float enrageScale = BossRushEvent.BossRushActive ? 1f : 0f;
-            if ((npc.position.Y / 16f) < Main.worldSurface || malice)
+            float enrageScale = bossRush ? 1f : 0f;
+            if ((npc.position.Y / 16f) < Main.worldSurface || bossRush)
                 enrageScale += 1f;
-            if (!Main.player[npc.target].ZoneCrimson || malice)
+            if (!Main.player[npc.target].ZoneCrimson || bossRush)
                 enrageScale += 2f;
 
             // Creeper count, 0 to 20
@@ -637,8 +646,16 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 chargeVelocity += 4f * enrageScale;
                 Vector2 value2 = Main.player[npc.target].Center - npc.Center;
                 value2.Normalize();
-                value2 *= chargeVelocity;
-                npc.velocity = (npc.velocity * 99f + value2) / 100f;
+                if (Main.getGoodWorld)
+                {
+                    value2 *= 12f;
+                    npc.velocity = (npc.velocity * 49f + value2) / 50f;
+                }
+                else
+                {
+                    value2 *= chargeVelocity;
+                    npc.velocity = (npc.velocity * 99f + value2) / 100f;
+                }
 
                 Vector2 vector101 = new Vector2(npc.Center.X, npc.Center.Y);
                 float num815 = Main.npc[NPC.crimsonBoss].Center.X - vector101.X;
@@ -682,7 +699,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
         public static int GetBrainOfCthuluCreepersCountRevDeath()
         {
-            return (CalamityWorld.death || BossRushEvent.BossRushActive) ? 30 : 25;
+            return Main.getGoodWorld ? 40 : (CalamityWorld.death || BossRushEvent.BossRushActive) ? 30 : 25;
         }
 
         private static float GetCrimsonBossKnockBack(NPC npc, int numPlayers, float lifeScale, float baseKnockBackResist)

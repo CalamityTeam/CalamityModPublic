@@ -1,5 +1,4 @@
 ﻿using CalamityMod.Events;
-using CalamityMod.Items.Potions;
 using CalamityMod.Items.TreasureBags;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Tiles.Abyss;
@@ -19,8 +18,6 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-
-using AbyssGenerator = CalamityMod.World.Abyss;
 
 namespace CalamityMod.Tiles
 {

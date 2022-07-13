@@ -49,7 +49,7 @@ namespace CalamityMod.Items.Tools
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<PurityAxe>().
+                AddIngredient<AxeofPurity>().
                 AddIngredient(ItemID.SoulofFright, 8).
                 AddIngredient<EssenceofChaos>(3).
                 AddTile(TileID.MythrilAnvil).
@@ -122,10 +122,10 @@ namespace CalamityMod.Items.Tools
                     num342 *= (float)player.direction;
                     num341 *= player.gravDir;
                     var source = player.GetSource_ItemUse(Item);
-                    int damage = (int)player.GetDamage<MeleeDamageClass>().ApplyTo(Item.damage * 0.2f);
+                    int damage = (int)player.GetTotalDamage<MeleeDamageClass>().ApplyTo(Item.damage * 0.2f);
                     int spark = Projectile.NewProjectile(source, (float)(hitbox.X + hitbox.Width / 2) + num342, (float)(hitbox.Y + hitbox.Height / 2) + num341, (float)player.direction * num340, num339 * player.gravDir, ProjectileID.Spark, damage, 0f, player.whoAmI);
                     if (spark.WithinBounds(Main.maxProjectiles))
-                        Main.projectile[spark].Calamity().forceMelee = true;
+                        Main.projectile[spark].DamageType = DamageClass.Melee;
                 }
             }
             if (Main.rand.NextBool(4))
@@ -142,7 +142,7 @@ namespace CalamityMod.Items.Tools
                 var source = player.GetSource_ItemUse(Item);
                 int boom = Projectile.NewProjectile(source, target.Center, Vector2.Zero, ModContent.ProjectileType<FuckYou>(), damage, knockback, player.whoAmI, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
                 if (boom.WithinBounds(Main.maxProjectiles))
-                    Main.projectile[boom].Calamity().forceMelee = true;
+                    Main.projectile[boom].DamageType = DamageClass.Melee;
             }
             target.AddBuff(BuffID.OnFire, 300);
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 150);

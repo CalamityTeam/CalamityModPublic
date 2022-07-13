@@ -32,6 +32,7 @@ namespace CalamityMod.Items.Weapons.Summon
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<EXPLODINGFROG>();
             Item.shootSpeed = 10f;
+            Item.sentry = true;
             Item.DamageType = DamageClass.Summon;
         }
 

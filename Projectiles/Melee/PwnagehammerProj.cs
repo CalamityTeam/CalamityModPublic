@@ -1,6 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
 using Terraria;
@@ -12,7 +10,7 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class PwnagehammerProj : ModProjectile
     {
-        public override string Texture => "CalamityMod/Items/Weapons/Melee/PwnagehammerMelee";
+        public override string Texture => "CalamityMod/Items/Weapons/Melee/Pwnagehammer";
 
         public static readonly SoundStyle UseSound = new("CalamityMod/Sounds/Item/PwnagehammerSound") { Volume = 0.16f, PitchVariance = 0.16f };
         public static readonly SoundStyle HomingSound = new("CalamityMod/Sounds/Item/PwnagehammerHoming") { Volume = 0.3f };

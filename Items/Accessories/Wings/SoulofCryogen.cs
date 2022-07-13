@@ -24,6 +24,8 @@ namespace CalamityMod.Items.Accessories.Wings
                 "All melee attacks and projectiles inflict frostburn\n" +
                 "Icicles rain down as you fly");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 3));
+            ItemID.Sets.AnimatesAsSoul[Type] = true;
+            ItemID.Sets.ItemNoGravity[Item.type] = true;
             ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new WingStats(120, 6.25f, 1f);
         }
 
@@ -67,7 +69,7 @@ namespace CalamityMod.Items.Accessories.Wings
                     int p = Projectile.NewProjectile(source, player.Center.X, player.Center.Y, player.velocity.X * 0f, 2f, ModContent.ProjectileType<FrostShardFriendly>(), damage, 3f, player.whoAmI, 1f);
                     if (p.WithinBounds(Main.maxProjectiles))
                     {
-                        Main.projectile[p].Calamity().forceClassless = true;
+                        Main.projectile[p].DamageType = DamageClass.Generic;
                         Main.projectile[p].frame = Main.rand.Next(5);
                     }
                     modPlayer.icicleCooldown = 10;

@@ -16,7 +16,8 @@ namespace CalamityMod.Items.DraedonMisc
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Voltage Regulation System");
-            Tooltip.SetDefault("Can be placed on the Codebreaker");
+            Tooltip.SetDefault("Can be placed on the Codebreaker\n" +
+                "Allows you to decrypt the Ice biome schematic");
         }
 
         public override void SetDefaults()
@@ -60,7 +61,7 @@ namespace CalamityMod.Items.DraedonMisc
             CreateRecipe().
                 AddIngredient<MysteriousCircuitry>(10).
                 AddIngredient<DubiousPlating>(10).
-                AddIngredient<UeliaceBar>(5).
+                AddIngredient<UelibloomBar>(5).
                 AddIngredient(ItemID.LunarBar, 5).
                 AddCondition(ArsenalTierGatedRecipe.ConstructRecipeCondition(4, out Predicate<Recipe> condition), condition).
                 AddTile(TileID.LunarCraftingStation).

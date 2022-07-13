@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -127,7 +126,7 @@ namespace CalamityMod.Projectiles.Rogue
                     }
                     break;
                 case 2f:
-                    CalamityGlobalProjectile.HomeInOnNPC(Projectile, true, 250f, speed, 20f);
+                    CalamityUtils.HomeInOnNPC(Projectile, true, 250f, speed, 20f);
                     break;
                 default:
                     break;

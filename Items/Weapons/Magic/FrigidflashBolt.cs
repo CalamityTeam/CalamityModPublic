@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            Item.damage = 45;
+            Item.damage = 66;
             Item.DamageType = DamageClass.Magic;
             Item.mana = 13;
             Item.width = 28;
@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.UseSound = SoundID.Item21;
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<FrigidflashBoltProjectile>();
-            Item.shootSpeed = 6.5f;
+            Item.shootSpeed = 9f;
         }
 
         public override void AddRecipes()

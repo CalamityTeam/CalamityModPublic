@@ -23,6 +23,8 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             DisplayName.SetDefault("Plasma Caster");
             Tooltip.SetDefault("Industrial tool used to fuse metal together with super-heated plasma\n" +
                 "Right click for turbo mode");
+
+            ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }
 
         public override void SetDefaults()
@@ -58,7 +60,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
         public override bool AltFunctionUse(Player player) => true;
 
-        public override float UseTimeMultiplier    (Player player)
+        public override float UseSpeedMultiplier(Player player)
         {
             if (player.altFunctionUse == 2)
                 return 3f;
@@ -107,7 +109,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             CreateRecipe().
                 AddIngredient<MysteriousCircuitry>(18).
                 AddIngredient<DubiousPlating>(12).
-                AddIngredient<UeliaceBar>(8).
+                AddIngredient<UelibloomBar>(8).
                 AddIngredient(ItemID.LunarBar, 4).
                 AddCondition(ArsenalTierGatedRecipe.ConstructRecipeCondition(4, out Predicate<Recipe> condition), condition).
                 AddTile(TileID.LunarCraftingStation).

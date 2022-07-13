@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -29,6 +28,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.extraUpdates = 1;
             Projectile.alpha = 255;
             Projectile.timeLeft = 180;
+            Projectile.DamageType = DamageClass.Summon;
         }
 
         public override void AI()

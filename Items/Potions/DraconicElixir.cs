@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Potions
             Item.rare = ItemRarityID.Purple;
             Item.useAnimation = 17;
             Item.useTime = 17;
-            Item.useStyle = ItemUseStyleID.EatFood;
+            Item.useStyle = ItemUseStyleID.DrinkLiquid;
             Item.UseSound = SoundID.Item3;
             Item.consumable = true;
             Item.buffType = ModContent.BuffType<DraconicSurgeBuff>();
@@ -59,7 +59,7 @@ namespace CalamityMod.Items.Potions
         {
             CreateRecipe().
                 AddIngredient(ItemID.BottledWater).
-                AddIngredient<HellcasterFragment>().
+                AddIngredient<YharonSoulFragment>().
                 AddIngredient(ItemID.Daybloom).
                 AddIngredient(ItemID.Moonglow).
                 AddIngredient(ItemID.Fireblossom).
@@ -69,7 +69,7 @@ namespace CalamityMod.Items.Potions
             CreateRecipe().
                 AddIngredient(ItemID.BottledWater).
                 AddIngredient<BloodOrb>(50).
-                AddIngredient<HellcasterFragment>().
+                AddIngredient<YharonSoulFragment>().
                 AddTile(TileID.AlchemyTable).
                 Register();
         }

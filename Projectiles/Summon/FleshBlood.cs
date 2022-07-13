@@ -22,6 +22,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.minion = true;
             Projectile.penetrate = 1;
             Projectile.timeLeft = LifeTime;
+            Projectile.DamageType = DamageClass.Summon;
         }
 
         public override bool? CanHitNPC(NPC target) => Projectile.timeLeft < LifeTime - 30 && target.CanBeChasedBy(Projectile);
@@ -40,7 +41,7 @@ namespace CalamityMod.Projectiles.Summon
             }
 
             if (Projectile.timeLeft < LifeTime - 30)
-                CalamityGlobalProjectile.HomeInOnNPC(Projectile, !Projectile.tileCollide, 450f, 6f, 20f);
+                CalamityUtils.HomeInOnNPC(Projectile, !Projectile.tileCollide, 450f, 6f, 20f);
         }
     }
 }

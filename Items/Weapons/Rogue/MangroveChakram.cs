@@ -51,7 +51,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<DraedonBar>(7).
+                AddIngredient<PerennialBar>(7).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

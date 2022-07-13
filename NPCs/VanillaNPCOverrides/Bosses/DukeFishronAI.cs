@@ -6,7 +6,6 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
-using CalamityMod.Sounds;
 
 namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 {
@@ -20,8 +19,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             float lifeRatio = npc.life / (float)npc.lifeMax;
 
             // Variables
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || bossRush;
             bool phase2 = lifeRatio < 0.7f;
             bool phase3 = lifeRatio < 0.4f;
             bool phase4 = lifeRatio < 0.2f;
@@ -60,6 +59,12 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 idlePhaseVelocity = 10f;
             }
 
+            if (Main.getGoodWorld)
+            {
+                idlePhaseAcceleration *= 1.15f;
+                idlePhaseVelocity *= 1.15f;
+            }
+
             int chargeTime = 28;
             float chargeVelocity = 17f;
             if (phase3AI)
@@ -82,10 +87,19 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 chargeVelocity *= 1.13f;
             }
 
+            if (Main.getGoodWorld)
+                chargeVelocity *= 1.15f;
+
             int bubbleBelchPhaseTimer = death ? 60 : 80;
             int bubbleBelchPhaseDivisor = death ? 3 : 4;
             float bubbleBelchPhaseAcceleration = death ? 0.35f : 0.3f;
             float bubbleBelchPhaseVelocity = death ? 5.5f : 5f;
+
+            if (Main.getGoodWorld)
+            {
+                bubbleBelchPhaseAcceleration *= 1.5f;
+                bubbleBelchPhaseVelocity *= 1.5f;
+            }
 
             int sharknadoPhaseTimer = 90;
 
@@ -93,11 +107,14 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
             int teleportPhaseTimer = 30;
 
-            int bubbleSpinPhaseTimer = malice ? 45 : death ? 90 : 120;
+            int bubbleSpinPhaseTimer = bossRush ? 45 : death ? 90 : 120;
             int bubbleSpinPhaseDivisor = death ? 3 : 4;
             float bubbleSpinBubbleVelocity = death ? 8f : 7f;
             float bubbleSpinPhaseVelocity = 20f;
             float bubbleSpinPhaseRotation = MathHelper.TwoPi / (bubbleSpinPhaseTimer / 2);
+
+            if (Main.getGoodWorld)
+                bubbleSpinBubbleVelocity *= 1.5f;
 
             int spawnEffectPhaseTimer = 75;
 
@@ -134,18 +151,18 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             }
 
             // Enrage variable
-            bool enrage = !BossRushEvent.BossRushActive &&
+            bool enrage = !bossRush &&
                 (player.position.Y < 800f || player.position.Y > Main.worldSurface * 16.0 ||
                 (player.position.X > 6400f && player.position.X < (Main.maxTilesX * 16 - 6400)));
 
-            npc.Calamity().CurrentlyEnraged = (!BossRushEvent.BossRushActive && enrage) || malice;
+            npc.Calamity().CurrentlyEnraged = !bossRush && enrage;
 
             // Increased DR during phase transitions
             calamityGlobalNPC.DR = (npc.ai[0] == -1f || npc.ai[0] == 4f || npc.ai[0] == 9f) ? 0.625f : 0.15f;
             calamityGlobalNPC.CurrentlyIncreasingDefenseOrDR = npc.ai[0] == -1f || npc.ai[0] == 4f || npc.ai[0] == 9f;
 
             // Enrage
-            if (enrage || malice)
+            if (enrage || bossRush)
             {
                 bubbleBelchPhaseTimer = 20;
                 bubbleBelchPhaseDivisor = 1;
@@ -159,7 +176,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 bubbleSpinPhaseDivisor = 1;
                 bubbleSpinBubbleVelocity = 15f;
 
-                if (!malice)
+                if (!bossRush)
                 {
                     npc.damage = npc.defDamage * 2;
                     npc.defense = npc.defDefense * 3;
@@ -167,7 +184,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             }
 
             // Spawn cthulhunadoes in phase 3
-            if (phase3AI && !phase4)
+            if (phase3AI && (!phase4 || Main.getGoodWorld))
             {
                 calamityGlobalNPC.newAI[0] += 1f;
                 float timeGateValue = 600f;
@@ -203,7 +220,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 rateOfRotation = 0.01f;
 
             Vector2 rotationVector = player.Center - npc.Center;
-            if (!player.dead && malice && phase4)
+            if (!player.dead && bossRush && phase4)
             {
                 // Rotate to show direction of predictive charge
                 if (npc.ai[0] == 10f)
@@ -896,7 +913,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         npc.ai[2] = 0f;
 
                         // Velocity and rotation
-                        npc.velocity = Vector2.Normalize(player.Center + (malice && phase4 ? player.velocity * 20f : Vector2.Zero) - npc.Center) * chargeVelocity;
+                        npc.velocity = Vector2.Normalize(player.Center + (bossRush && phase4 ? player.velocity * 20f : Vector2.Zero) - npc.Center) * chargeVelocity;
                         npc.rotation = (float)Math.Atan2(npc.velocity.Y, npc.velocity.X);
 
                         // Direction

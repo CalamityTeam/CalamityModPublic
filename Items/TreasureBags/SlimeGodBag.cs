@@ -17,7 +17,7 @@ namespace CalamityMod.Items.TreasureBags
 {
     public class SlimeGodBag : ModItem
     {
-        public override int BossBagNPC => ModContent.NPCType<SlimeGodRun>();
+        public override int BossBagNPC => ModContent.NPCType<CrimulanSlimeGod>();
 
         public override void SetStaticDefaults()
         {
@@ -64,7 +64,7 @@ namespace CalamityMod.Items.TreasureBags
             );
 
             // Equipment
-            DropHelper.DropItem(s, player, ModContent.ItemType<ManaOverloader>());
+            DropHelper.DropItem(s, player, ModContent.ItemType<ManaPolarizer>());
             DropHelper.DropItemCondition(s, player, ModContent.ItemType<ElectrolyteGelPack>(), CalamityWorld.revenge && !player.Calamity().adrenalineBoostOne);
 
             // Vanity

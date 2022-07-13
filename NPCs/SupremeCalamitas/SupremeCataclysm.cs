@@ -21,16 +21,25 @@ namespace CalamityMod.NPCs.SupremeCalamitas
     public class SupremeCataclysm : ModNPC
     {
         public int VerticalOffset = 375;
+
         public int CurrentFrame;
+
         public bool PunchingFromRight;
+
         public const int HorizontalOffset = 750;
+
         public const int PunchCounterLimit = 60;
+
         public const int DartBurstCounterLimit = 300;
+
+        public const float NormalBrothersDR = 0.25f;
+
         public Player Target => Main.player[NPC.target];
         public ref float PunchCounter => ref NPC.ai[1];
         public ref float DartBurstCounter => ref NPC.ai[2];
         public ref float ElapsedVerticalDistance => ref NPC.ai[3];
         public ref float AttackDelayTimer => ref NPC.localAI[0];
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Cataclysm");
@@ -52,7 +61,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             NPC.width = 120;
             NPC.height = 120;
             NPC.defense = 80;
-            NPC.DR_NERD(0.25f);
+            NPC.DR_NERD(NormalBrothersDR);
             NPC.LifeMaxNERB(230000, 276000, 100000);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
@@ -76,8 +85,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 //We'll probably want a custom background SCal her like ML has.
                 //BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.SCal,
 
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("Despite retaining a humanoid form, it is not capable of any higher thoughts. It only knows violence.")
+                // Will move to localization whenever that is cleaned up.
+                new FlavorTextBestiaryInfoElement("Despite retaining a humanoid form, it is not capable of any higher thoughts. It only knows violence.")
             });
         }
 
@@ -129,6 +138,11 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 NPC.netUpdate = true;
                 return;
             }
+
+            // Increase DR if the target leaves SCal's arena.
+            NPC.Calamity().DR = SupremeCataclysm.NormalBrothersDR;
+            if (Main.npc[CalamityGlobalNPC.SCal].ModNPC<SupremeCalamitas>().IsTargetOutsideOfArena)
+                NPC.Calamity().DR = SupremeCalamitas.enragedDR;
 
             float totalLifeRatio = NPC.life / (float)NPC.lifeMax;
             if (CalamityGlobalNPC.SCalCatastrophe != -1)
@@ -187,7 +201,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             else
             {
                 // Shoot fists.
-                float fireRate = (CalamityWorld.malice || BossRushEvent.BossRushActive) ? 2f : MathHelper.Lerp(1f, 2.5f, 1f - totalLifeRatio);
+                float fireRate = BossRushEvent.BossRushActive ? 2f : MathHelper.Lerp(1f, 2.5f, 1f - totalLifeRatio);
                 PunchCounter += fireRate;
                 if (PunchCounter >= PunchCounterLimit)
                 {
@@ -205,7 +219,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 }
 
                 // Shoot dart spreads.
-                fireRate = (CalamityWorld.malice || BossRushEvent.BossRushActive) ? 3f : MathHelper.Lerp(1f, 4f, 1f - totalLifeRatio);
+                fireRate = BossRushEvent.BossRushActive ? 3f : MathHelper.Lerp(1f, 4f, 1f - totalLifeRatio);
                 DartBurstCounter += fireRate;
                 if (DartBurstCounter >= DartBurstCounterLimit)
                 {
@@ -260,7 +274,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             spriteBatch.Draw(texture, mainDrawPosition, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, origin, NPC.scale, spriteEffects, 0f);
 
             texture = ModContent.Request<Texture2D>("CalamityMod/NPCs/SupremeCalamitas/SupremeCataclysmGlow").Value;
-            Color baseGlowmaskColor = Color.Lerp(Color.White, Color.Red, 0.5f);
+            Color baseGlowmaskColor = NPC.IsABestiaryIconDummy ? Color.White : Color.Lerp(Color.White, Color.Red, 0.5f);
 
             if (CalamityConfig.Instance.Afterimages)
             {
@@ -279,12 +293,9 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
         public override void OnKill()
         {
-            if (!CalamityWorld.revenge)
-            {
-                int heartAmt = Main.rand.Next(3) + 3;
-                for (int i = 0; i < heartAmt; i++)
-                    Item.NewItem(NPC.GetSource_Loot(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
-            }
+            int heartAmt = Main.rand.Next(3) + 3;
+            for (int i = 0; i < heartAmt; i++)
+                Item.NewItem(NPC.GetSource_Loot(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
         }
 
         public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.Add(ModContent.ItemType<SupremeCataclysmTrophy>(), 10);

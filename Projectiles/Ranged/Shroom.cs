@@ -1,5 +1,4 @@
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -31,7 +30,7 @@ namespace CalamityMod.Projectiles.Ranged
         {
             Lighting.AddLight(Projectile.Center, 0f, 0.2f, 0.6f);
             Projectile.rotation += 1f;
-            CalamityGlobalProjectile.HomeInOnNPC(Projectile, true, 200f, 12f, 20f);
+            CalamityUtils.HomeInOnNPC(Projectile, true, 200f, 12f, 20f);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

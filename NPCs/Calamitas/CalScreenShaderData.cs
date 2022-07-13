@@ -18,7 +18,7 @@ namespace CalamityMod.NPCs.Calamitas
 
         private void UpdateCalIndex()
         {
-            int CalType = ModContent.NPCType<CalamitasRun3>();
+            int CalType = ModContent.NPCType<CalamitasClone>();
             if (CalIndex >= 0 && Main.npc[CalIndex].active && Main.npc[CalIndex].type == CalType)
             {
                 return;

@@ -35,7 +35,7 @@ namespace CalamityMod.NPCs.AstrumAureus
             NPC.height = 60;
             NPC.alpha = 255;
             NPC.defense = 10;
-            NPC.lifeMax = NPC.downedMoonlord ? 8250 : 3000;
+            NPC.lifeMax = 3000;
             NPC.knockBackResist = 0f;
             NPC.noGravity = true;
             NPC.noTileCollide = true;
@@ -233,13 +233,13 @@ namespace CalamityMod.NPCs.AstrumAureus
                 NPC.ai[0] = 0f;
                 Point point12 = NPC.Center.ToTileCoordinates();
                 Point point13 = Main.player[NPC.target].Center.ToTileCoordinates();
-                int num1453 = 20;
+                int num1453 = 25;
                 int num1454 = 3;
-                int num1455 = 10;
+                int num1455 = 20;
                 int num1456 = 1;
                 int num1457 = 0;
                 bool flag106 = false;
-                if (vector251.Length() > 2000f)
+                if (vector251.Length() > 1000f)
                 {
                     flag106 = true;
                 }
@@ -369,7 +369,7 @@ namespace CalamityMod.NPCs.AstrumAureus
             SoundEngine.PlaySound(SoundID.Item14, NPC.position);
             NPC.position.X = NPC.position.X + (float)(NPC.width / 2);
             NPC.position.Y = NPC.position.Y + (float)(NPC.height / 2);
-            NPC.damage = (NPC.downedMoonlord && !BossRushEvent.BossRushActive) ? NPC.defDamage * 2 : NPC.defDamage;
+            NPC.damage = NPC.defDamage;
             NPC.width = NPC.height = 432;
             NPC.position.X = NPC.position.X - (float)(NPC.width / 2);
             NPC.position.Y = NPC.position.Y - (float)(NPC.height / 2);

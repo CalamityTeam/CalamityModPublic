@@ -35,6 +35,7 @@ namespace CalamityMod.Items.Accessories
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.yInsignia = true;
             player.GetAttackSpeed<MeleeDamageClass>() += 0.1f;
+            player.GetDamage<TrueMeleeDamageClass>() += 0.1f;
         }
 
         public override void AddRecipes()
@@ -42,7 +43,7 @@ namespace CalamityMod.Items.Accessories
             CreateRecipe().
                 AddIngredient(ItemID.WarriorEmblem).
                 AddIngredient<NecklaceofVexation>().
-                AddIngredient<CoreofCinder>(5).
+                AddIngredient<CoreofSunlight>(5).
                 AddIngredient<DivineGeode>(5).
                 AddTile(TileID.LunarCraftingStation).
                 Register();

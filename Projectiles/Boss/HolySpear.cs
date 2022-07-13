@@ -24,7 +24,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-            Projectile.Calamity().canBreakPlayerDefense = true;
+            Projectile.Calamity().DealsDefenseDamage = true;
             Projectile.width = 30;
             Projectile.height = 30;
             Projectile.hostile = true;
@@ -59,14 +59,14 @@ namespace CalamityMod.Projectiles.Boss
                     velocity = Projectile.velocity;
             }
 
-            float timeGateValue = (!Main.dayTime || CalamityWorld.malice || BossRushEvent.BossRushActive) ? 420f : 540f;
+            float timeGateValue = (!Main.dayTime || BossRushEvent.BossRushActive) ? 420f : 540f;
             if (Projectile.ai[0] == 0f)
             {
                 Projectile.ai[1] += 1f;
 
-                float slowGateValue = (!Main.dayTime || CalamityWorld.malice || BossRushEvent.BossRushActive) ? 60f : 90f;
+                float slowGateValue = (!Main.dayTime || BossRushEvent.BossRushActive) ? 60f : 90f;
                 float fastGateValue = 30f;
-                float minVelocity = (!Main.dayTime || CalamityWorld.malice || BossRushEvent.BossRushActive) ? 4f : 3f;
+                float minVelocity = (!Main.dayTime || BossRushEvent.BossRushActive) ? 4f : 3f;
                 float maxVelocity = minVelocity * 4f;
                 float extremeVelocity = maxVelocity * 2f;
                 float deceleration = 0.95f;
@@ -95,8 +95,8 @@ namespace CalamityMod.Projectiles.Boss
             }
             else
             {
-                float frequency = (!Main.dayTime || CalamityWorld.malice || BossRushEvent.BossRushActive) ? 0.2f : 0.1f;
-                float amplitude = (!Main.dayTime || CalamityWorld.malice || BossRushEvent.BossRushActive) ? 4f : 2f;
+                float frequency = (!Main.dayTime || BossRushEvent.BossRushActive) ? 0.2f : 0.1f;
+                float amplitude = (!Main.dayTime || BossRushEvent.BossRushActive) ? 4f : 2f;
 
                 Projectile.ai[1] += frequency;
 
@@ -125,7 +125,7 @@ namespace CalamityMod.Projectiles.Boss
             int blue = Projectile.ai[0] != 0f ? 0 : 125;
             Color baseColor = new Color(255, green, blue, 255);
 
-            if (!Main.dayTime || CalamityWorld.malice)
+            if (!Main.dayTime || BossRushEvent.BossRushActive)
             {
                 int red = Projectile.ai[0] != 0f ? 100 : 175;
                 green = Projectile.ai[0] != 0f ? 255 : 175;
@@ -173,7 +173,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            int buffType = (Main.dayTime && !CalamityWorld.malice) ? ModContent.BuffType<HolyFlames>() : ModContent.BuffType<Nightwither>();
+            int buffType = (Main.dayTime && !BossRushEvent.BossRushActive) ? ModContent.BuffType<HolyFlames>() : ModContent.BuffType<Nightwither>();
             target.AddBuff(buffType, 180);
         }
 

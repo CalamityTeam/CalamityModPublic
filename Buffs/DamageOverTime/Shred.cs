@@ -2,8 +2,6 @@
 using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Buffs.DamageOverTime
@@ -61,8 +59,8 @@ namespace CalamityMod.Buffs.DamageOverTime
                 // Only deal damage once every several frames.
                 if (applicator.miscCounter % FramesPerDamageTick == 0)
                 {
-                    int dmg = (int)(BaseDamage * cgn.somaShredStacks * applicator.GetDamage<RangedDamageClass>().Base);
-                    Projectile tick = Projectile.NewProjectileDirect(target.GetSource_FromThis(), target.Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), dmg, 0f, applicator.whoAmI, target.whoAmI);
+                    int bleedTickDamage = (int)applicator.GetTotalDamage<RangedDamageClass>().ApplyTo(BaseDamage * cgn.somaShredStacks);
+                    Projectile tick = Projectile.NewProjectileDirect(target.GetSource_FromThis(), target.Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), bleedTickDamage, 0f, applicator.whoAmI, target.whoAmI);
                     tick.DamageType = DamageClass.Ranged; // Uncommon for DirectStrikes, but it needs to be able to crit.
                     tick.Calamity().canSupercrit = true;
                 }

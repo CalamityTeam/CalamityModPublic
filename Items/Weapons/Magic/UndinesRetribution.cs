@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            Item.damage = 30;
+            Item.damage = 38;
             Item.DamageType = DamageClass.Magic;
             Item.mana = 15;
             Item.width = 64;
@@ -92,7 +92,7 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             CreateRecipe().
                 AddIngredient<DepthCells>(30).
-                AddIngredient<Lumenite>(10).
+                AddIngredient<Lumenyl>(10).
                 AddIngredient<Tenebris>(10).
                 AddTile(TileID.MythrilAnvil).
                 Register();

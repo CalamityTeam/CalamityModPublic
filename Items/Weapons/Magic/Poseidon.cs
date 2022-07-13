@@ -18,13 +18,13 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            Item.damage = 48;
+            Item.damage = 62;
             Item.DamageType = DamageClass.Magic;
             Item.mana = 12;
             Item.width = 28;
             Item.height = 32;
-            Item.useTime = 22;
-            Item.useAnimation = 22;
+            Item.useTime = 45;
+            Item.useAnimation = 45;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.knockBack = 6f;
@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.rare = ItemRarityID.Pink;
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<PoseidonTyphoon>();
-            Item.shootSpeed = 10f;
+            Item.shootSpeed = 20f;
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)

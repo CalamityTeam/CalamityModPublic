@@ -1,6 +1,4 @@
-﻿using Terraria.DataStructures;
-using Terraria.DataStructures;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -101,7 +99,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 float num115 = num79 + (float)Main.rand.Next(-80, 81) * 0.02f;
                 int proj = Projectile.NewProjectile(source, vector2.X, vector2.Y, num114, num115, ProjectileID.LunarFlare, (int)(damage * 0.5), knockback, i, 0f, (float)Main.rand.Next(3));
                 if (proj.WithinBounds(Main.maxProjectiles))
-                    Main.projectile[proj].Calamity().forceMelee = true;
+                    Main.projectile[proj].DamageType = DamageClass.Melee;
             }
         }
 

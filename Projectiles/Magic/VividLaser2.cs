@@ -43,7 +43,7 @@ namespace CalamityMod.Projectiles.Magic
                 Projectile.ai[0] = 1f;
 
             if (Projectile.ai[0] >= 1f)
-                CalamityGlobalProjectile.HomeInOnNPC(Projectile, !Projectile.tileCollide, 400f, 12f, 20f);
+                CalamityUtils.HomeInOnNPC(Projectile, !Projectile.tileCollide, 400f, 12f, 20f);
         }
 
         public override void Kill(int timeLeft)

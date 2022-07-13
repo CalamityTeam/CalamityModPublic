@@ -1,5 +1,4 @@
 ﻿using Terraria.DataStructures;
-using Terraria.DataStructures;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Ranged;
@@ -102,7 +101,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<Interfacer>().
+                AddIngredient<Disseminator>().
                 AddIngredient(ItemID.StarCloak, 3).
                 AddIngredient<ArmoredShell>(2).
                 AddIngredient<CosmiliteBar>(8).
@@ -111,7 +110,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 Register();
 
             CreateRecipe().
-                AddIngredient<Interfacer>().
+                AddIngredient<Disseminator>().
                 AddIngredient(ItemID.StarCloak, 3).
                 AddIngredient<ArmoredShell>(2).
                 AddIngredient<NebulousCore>().

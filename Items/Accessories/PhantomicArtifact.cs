@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
-    class PhantomicArtifact : ModItem
+    public class PhantomicArtifact : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -19,6 +19,7 @@ namespace CalamityMod.Items.Accessories
                 "If you have the regenerative boost, a phantomic heart will occasionally materialise granting massive health regen\n" +
                 "If you have the defensive boost, a phantomic bulwark will absorb 20% of the next projectile's damage that hits the bulwark, shattering it");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(5, 7));
+            ItemID.Sets.AnimatesAsSoul[Type] = true;
         }
 
         public override void SetDefaults()
@@ -31,10 +32,7 @@ namespace CalamityMod.Items.Accessories
             Item.accessory = true;
         }
 
-        public override void UpdateAccessory(Player player, bool hideVisual)
-        {
-            player.Calamity().phantomicArtifact = true;
-        }
+        public override void UpdateAccessory(Player player, bool hideVisual) => player.Calamity().phantomicArtifact = true;
 
         public override void AddRecipes()
         {
@@ -42,7 +40,7 @@ namespace CalamityMod.Items.Accessories
                 AddIngredient<HallowedRune>().
                 AddIngredient<RuinousSoul>(5).
                 AddIngredient<BloodOrb>(10).
-                AddIngredient<ExodiumClusterOre>(20).
+                AddIngredient<ExodiumCluster>(20).
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }

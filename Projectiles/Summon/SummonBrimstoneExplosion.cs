@@ -1,4 +1,4 @@
-using CalamityMod.Dusts;
+﻿using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -25,6 +25,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.timeLeft = Main.projFrames[Projectile.type] * 5;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 10;
+            Projectile.DamageType = DamageClass.Summon;
         }
 
         public override void AI()
@@ -60,7 +61,7 @@ namespace CalamityMod.Projectiles.Summon
             }
 
             Projectile.Damage();
-            CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 48);
+            Projectile.ExpandHitboxBy(48);
         }
 
         public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)

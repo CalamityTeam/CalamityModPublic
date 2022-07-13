@@ -72,6 +72,7 @@ namespace CalamityMod
             painterName = false;
             partyGirlName = false;
             pirateName = false;
+            princessName = false;
             skeletonMerchantName = false;
             steampunkerName = false;
             stylistName = false;
@@ -86,7 +87,6 @@ namespace CalamityMod
             TalkedToDraedon = false;
             death = false;
             armageddon = false;
-            malice = false;
             AcidRainEvent.AcidRainEventIsOngoing = false;
             AcidRainEvent.CountdownUntilForcedAcidRain = 0;
         }
@@ -108,8 +108,6 @@ namespace CalamityMod
                 downed.Add("revenge");
             if (death)
                 downed.Add("death");
-            if (malice)
-                downed.Add("malice");
             if (Abyss.AtLeftSideOfWorld)
                 downed.Add("abyssSide");
             if (BossRushEvent.BossRushActive)
@@ -154,6 +152,8 @@ namespace CalamityMod
                 downed.Add("partyGirlName");
             if (pirateName)
                 downed.Add("pirateName");
+            if (princessName)
+                downed.Add("princessName");
             if (skeletonMerchantName)
                 downed.Add("skeletonMerchantName");
             if (steampunkerName)
@@ -213,7 +213,6 @@ namespace CalamityMod
             onionMode = downed.Contains("onionMode");
             revenge = downed.Contains("revenge");
             death = downed.Contains("death");
-            malice = downed.Contains("malice");
             Abyss.AtLeftSideOfWorld = downed.Contains("abyssSide");
             BossRushEvent.BossRushActive = downed.Contains("bossRushActive");
             AcidRainEvent.AcidRainEventIsOngoing = downed.Contains("acidRain");
@@ -238,6 +237,7 @@ namespace CalamityMod
             painterName = downed.Contains("painterName");
             partyGirlName = downed.Contains("partyGirlName");
             pirateName = downed.Contains("pirateName");
+            princessName = downed.Contains("princessName");
             skeletonMerchantName = downed.Contains("skeletonMerchantName");
             steampunkerName = downed.Contains("steampunkerName");
             stylistName = downed.Contains("stylistName");

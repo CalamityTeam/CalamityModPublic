@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -77,14 +76,14 @@ namespace CalamityMod.Projectiles.Ranged
                 Main.dust[exo].noGravity = true;
                 Main.dust[exo].noLight = true;
             }
-            CalamityGlobalProjectile.HomeInOnNPC(Projectile, true, 200f, 12f, 20f);
+            CalamityUtils.HomeInOnNPC(Projectile, true, 200f, 12f, 20f);
         }
 
         public override void Kill(int timeLeft)
         {
             if (Projectile.owner == Main.myPlayer)
             {
-                CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 192);
+                Projectile.ExpandHitboxBy(192);
                 SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);
                 //DO NOT REMOVE THIS PROJECTILE
                 Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<MagnomalyExplosion>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);

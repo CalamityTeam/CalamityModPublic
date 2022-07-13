@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using Terraria;
 using Terraria.ID;
@@ -27,6 +27,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.timeLeft = 360;
             Projectile.tileCollide = true;
             Projectile.ignoreWater = true;
+            Projectile.DamageType = DamageClass.Summon;
         }
 
         public override void AI()

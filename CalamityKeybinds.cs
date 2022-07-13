@@ -12,7 +12,6 @@ namespace CalamityMod
         public static ModKeybind AdrenalineHotKey { get; private set; }
         public static ModKeybind AstralTeleportHotKey { get; private set; }
         public static ModKeybind AstralArcanumUIHotkey { get; private set; }
-        public static ModKeybind MomentumCapacitatorHotkey { get; private set; }
         public static ModKeybind SandCloakHotkey { get; private set; }
         public static ModKeybind SpectralVeilHotKey { get; private set; }
         public static ModKeybind PlaguePackHotKey { get; private set; }
@@ -31,7 +30,6 @@ namespace CalamityMod
             SetBonusHotKey = KeybindLoader.RegisterKeybind(Mod, "Armor Set Bonus", "Y");
             AstralTeleportHotKey = KeybindLoader.RegisterKeybind(Mod, "Astral Teleport", "P");
             AstralArcanumUIHotkey = KeybindLoader.RegisterKeybind(Mod, "Astral Arcanum UI Toggle", "O");
-            MomentumCapacitatorHotkey = KeybindLoader.RegisterKeybind(Mod, "Momentum Capacitor Effect", "U");
             SandCloakHotkey = KeybindLoader.RegisterKeybind(Mod, "Sand Cloak Effect", "C");
             SpectralVeilHotKey = KeybindLoader.RegisterKeybind(Mod, "Spectral Veil Teleport", "Z");
             PlaguePackHotKey = KeybindLoader.RegisterKeybind(Mod, "Booster Dash", "Q");
@@ -43,8 +41,6 @@ namespace CalamityMod
 
         public override void Unload()
         {
-            // Not required anymore, but nice nontheless
-
             NormalityRelocatorHotKey = null;
             RageHotKey = null;
             AdrenalineHotKey = null;
@@ -52,7 +48,6 @@ namespace CalamityMod
             SetBonusHotKey = null;
             AstralTeleportHotKey = null;
             AstralArcanumUIHotkey = null;
-            MomentumCapacitatorHotkey = null;
             SandCloakHotkey = null;
             SpectralVeilHotKey = null;
             PlaguePackHotKey = null;

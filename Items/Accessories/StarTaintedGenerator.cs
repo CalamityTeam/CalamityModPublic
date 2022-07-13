@@ -42,7 +42,7 @@ namespace CalamityMod.Items.Accessories
                 AddIngredient<JellyChargedBattery>().
                 AddIngredient<NuclearRod>().
                 AddIngredient<StarbusterCore>().
-                AddIngredient<BarofLife>(3).
+                AddIngredient<LifeAlloy>(3).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

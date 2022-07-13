@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Potions
             Item.rare = ItemRarityID.Orange;
             Item.useAnimation = 17;
             Item.useTime = 17;
-            Item.useStyle = ItemUseStyleID.EatFood;
+            Item.useStyle = ItemUseStyleID.DrinkLiquid;
             Item.UseSound = SoundID.Item3;
             Item.consumable = true;
             Item.buffType = ModContent.BuffType<TeslaBuff>();

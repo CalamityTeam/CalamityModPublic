@@ -1,5 +1,4 @@
-﻿using Terraria.DataStructures;
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Healing;
 using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
@@ -102,7 +101,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             CreateRecipe().
                 AddIngredient<MajesticGuard>().
-                AddIngredient<BarofLife>(10).
+                AddIngredient<LifeAlloy>(10).
                 AddIngredient(ItemID.FragmentSolar, 10).
                 AddTile(TileID.LunarCraftingStation).
                 Register();

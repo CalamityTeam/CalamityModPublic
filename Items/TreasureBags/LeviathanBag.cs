@@ -16,7 +16,7 @@ namespace CalamityMod.Items.TreasureBags
 {
     public class LeviathanBag : ModItem
     {
-        public override int BossBagNPC => ModContent.NPCType<Siren>();
+        public override int BossBagNPC => ModContent.NPCType<Anahita>();
 
         public override void SetStaticDefaults()
         {
@@ -58,12 +58,12 @@ namespace CalamityMod.Items.TreasureBags
             DropHelper.DropEntireWeightedSet(s, player,
                 DropHelper.WeightStack<Greentide>(w),
                 DropHelper.WeightStack<Leviatitan>(w),
-                DropHelper.WeightStack<SirensSong>(w),
+                DropHelper.WeightStack<AnahitasArpeggio>(w),
                 DropHelper.WeightStack<Atlantis>(w),
                 DropHelper.WeightStack<GastricBelcherStaff>(w),
                 DropHelper.WeightStack<BrackishFlask>(w),
                 DropHelper.WeightStack<LeviathanTeeth>(w),
-                DropHelper.WeightStack<LureofEnthrallment>(w)
+                DropHelper.WeightStack<PearlofEnthrallment>(w)
             );
 
             // Equipment

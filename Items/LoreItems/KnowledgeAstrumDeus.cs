@@ -14,6 +14,7 @@ namespace CalamityMod.Items.LoreItems
             Tooltip.SetDefault("God of the stars and largest vessel for the Astral Infection.\n" +
                 "Though struck down from its place among the stars its remnants have gathered strength, aiming to take its rightful place in the cosmos once more.");
             SacrificeTotal = 1;
+            ItemID.Sets.ItemNoGravity[Item.type] = true;
         }
 
         public override void SetDefaults()

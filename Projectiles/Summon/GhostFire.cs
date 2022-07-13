@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -27,6 +27,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.localNPCHitCooldown = 50;
             Projectile.minion = true;
             Projectile.minionSlots = 0f;
+            Projectile.DamageType = DamageClass.Summon;
         }
 
         public override void AI()

@@ -32,6 +32,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.UI
 {
+    // TODO -- Combine with SpeedrunTimerStoppingSystem, which should be renamed and call the UI draw code in this file.
     public class SpeedrunTimerUI
     {
         // These values put the Speedrun Timer roughly at the top center of a 1080p screen.
@@ -94,7 +95,7 @@ namespace CalamityMod.UI
             1 => TextureAssets.NpcHeadBoss[7].Value, // King Slime
             2 => TextureAssets.NpcHeadBoss[NPCID.Sets.BossHeadTextures[ModContent.NPCType<DesertScourgeHead>()]].Value,
             3 => TextureAssets.NpcHeadBoss[1].Value, // Eye of Cthulhu
-            4 => TextureAssets.NpcHeadBoss[NPCID.Sets.BossHeadTextures[ModContent.NPCType<CrabulonIdle>()]].Value,
+            4 => TextureAssets.NpcHeadBoss[NPCID.Sets.BossHeadTextures[ModContent.NPCType<Crabulon>()]].Value,
             5 => TextureAssets.NpcHeadBoss[2].Value, // Eater of Worlds
             6 => TextureAssets.NpcHeadBoss[23].Value, // Brain of Cthulhu
             7 => ModContent.Request<Texture2D>("CalamityMod/NPCs/HiveMind/HiveMindP2_Head_Boss").Value,
@@ -109,7 +110,7 @@ namespace CalamityMod.UI
             16 => TextureAssets.NpcHeadBoss[25].Value, // The Destroyer
             17 => TextureAssets.NpcHeadBoss[NPCID.Sets.BossHeadTextures[ModContent.NPCType<BrimstoneElemental>()]].Value,
             18 => TextureAssets.NpcHeadBoss[18].Value, // Skeletron Prime
-            19 => TextureAssets.NpcHeadBoss[NPCID.Sets.BossHeadTextures[ModContent.NPCType<CalamitasRun3>()]].Value,
+            19 => TextureAssets.NpcHeadBoss[NPCID.Sets.BossHeadTextures[ModContent.NPCType<CalamitasClone>()]].Value,
             20 => TextureAssets.NpcHeadBoss[12].Value, // Plantera
             21 => TextureAssets.NpcHeadBoss[NPCID.Sets.BossHeadTextures[ModContent.NPCType<Leviathan>()]].Value,
             22 => TextureAssets.NpcHeadBoss[NPCID.Sets.BossHeadTextures[ModContent.NPCType<AstrumAureus>()]].Value,
@@ -118,9 +119,9 @@ namespace CalamityMod.UI
             25 => TextureAssets.NpcHeadBoss[4].Value, // Duke Fishron
             26 => TextureAssets.NpcHeadBoss[NPCID.Sets.BossHeadTextures[ModContent.NPCType<RavagerBody>()]].Value,
             27 => TextureAssets.NpcHeadBoss[31].Value, // Lunatic Cultist
-            28 => TextureAssets.NpcHeadBoss[NPCID.Sets.BossHeadTextures[ModContent.NPCType<AstrumDeusHeadSpectral>()]].Value,
+            28 => TextureAssets.NpcHeadBoss[NPCID.Sets.BossHeadTextures[ModContent.NPCType<AstrumDeusHead>()]].Value,
             29 => TextureAssets.NpcHeadBoss[8].Value, // Moon Lord
-            30 => TextureAssets.NpcHeadBoss[NPCID.Sets.BossHeadTextures[ModContent.NPCType<ProfanedGuardianBoss>()]].Value,
+            30 => TextureAssets.NpcHeadBoss[NPCID.Sets.BossHeadTextures[ModContent.NPCType<ProfanedGuardianCommander>()]].Value,
             31 => TextureAssets.NpcHeadBoss[NPCID.Sets.BossHeadTextures[ModContent.NPCType<Bumblefuck>()]].Value,
             32 => TextureAssets.NpcHeadBoss[NPCID.Sets.BossHeadTextures[ModContent.NPCType<Providence>()]].Value,
             33 => TextureAssets.NpcHeadBoss[NPCID.Sets.BossHeadTextures[ModContent.NPCType<CeaselessVoid>()]].Value,
@@ -132,7 +133,7 @@ namespace CalamityMod.UI
             39 => TextureAssets.NpcHeadBoss[NPCID.Sets.BossHeadTextures[ModContent.NPCType<Yharon>()]].Value,
             40 => ModContent.Request<Texture2D>("CalamityMod/NPCs/SupremeCalamitas/HoodlessHeadIcon").Value,
             41 => TextureAssets.NpcHeadBoss[NPCID.Sets.BossHeadTextures[ModContent.NPCType<AresBody>()]].Value,
-            42 => TextureAssets.NpcHeadBoss[NPCID.Sets.BossHeadTextures[ModContent.NPCType<EidolonWyrmHeadHuge>()]].Value,
+            42 => TextureAssets.NpcHeadBoss[NPCID.Sets.BossHeadTextures[ModContent.NPCType<AdultEidolonWyrmHead>()]].Value,
             43 => TextureAssets.NpcHeadBoss[38].Value, // Queen Slime
             44 => TextureAssets.NpcHeadBoss[37].Value, // Empress of Light
             45 => TextureAssets.NpcHeadBoss[39].Value, // Deerclops

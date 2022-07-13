@@ -32,7 +32,7 @@ namespace CalamityMod.Projectiles.Melee
             Main.dust[num250].noGravity = true;
             Main.dust[num250].velocity *= 0f;
 
-            CalamityGlobalProjectile.HomeInOnNPC(Projectile, true, 200f, 12f, 20f);
+            CalamityUtils.HomeInOnNPC(Projectile, true, 200f, 12f, 20f);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

@@ -105,7 +105,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             {
                 // Fire bolt every 1.5 seconds
                 NPC.localAI[0] += 1f;
-                if (NPC.localAI[0] >= ((CalamityWorld.malice || BossRushEvent.BossRushActive) ? 45f : CalamityWorld.death ? 60f : 75f))
+                if (NPC.localAI[0] >= (BossRushEvent.BossRushActive ? 45f : CalamityWorld.death ? 60f : 75f))
                 {
                     NPC.localAI[0] = 0f;
 
@@ -115,7 +115,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                     Vector2 projVector = new Vector2(xDist, yDist);
                     float projLength = projVector.Length();
 
-                    float speed = 9f;
+                    float speed = 10f;
                     int type = ModContent.ProjectileType<JewelProjectile>();
 
                     projLength = speed / projLength;

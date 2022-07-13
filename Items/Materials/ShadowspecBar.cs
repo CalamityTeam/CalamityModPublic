@@ -53,7 +53,7 @@ namespace CalamityMod.Items.Materials
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<AuricBar>()).AddIngredient(ModContent.ItemType<ExoPrism>()).AddIngredient(ModContent.ItemType<CalamitousEssence>()).AddTile(ModContent.TileType<DraedonsForge>()).Register();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<AuricBar>()).AddIngredient(ModContent.ItemType<ExoPrism>()).AddIngredient(ModContent.ItemType<AshesofAnnihilation>()).AddTile(ModContent.TileType<DraedonsForge>()).Register();
         }
     }
 }

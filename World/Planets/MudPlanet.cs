@@ -49,7 +49,7 @@ namespace CalamityMod.World.Planets
             {
                 int x = _random.Next(origin.X - radius + 3, origin.X + radius - 2);
                 int y = _random.Next(origin.Y - radius + 3, origin.Y + radius - 2);
-                WorldGen.TileRunner(x, y, _random.NextFloat(5f, 9f), _random.Next(5, 15), TileID.Stone);
+                WorldGen.TileRunner(x, y, _random.NextFloat(5f, 9f), _random.Next(5, 15), Main.getGoodWorld ? TileID.WoodenSpikes : TileID.Stone);
             }
 
             //Place grass, remove wall and occasionally smooth
@@ -292,7 +292,7 @@ namespace CalamityMod.World.Planets
             ItemID.ManaRegenerationPotion,
             ItemID.HeartreachPotion,
             ModContent.ItemType<PhotosynthesisPotion>(),
-            ModContent.ItemType<CadencePotion>()
+            ModContent.ItemType<CadancePotion>()
         };
 
         private int[] BarLootHoney = new int[]

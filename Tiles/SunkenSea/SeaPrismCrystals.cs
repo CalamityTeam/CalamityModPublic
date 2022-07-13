@@ -1,5 +1,4 @@
 ﻿using CalamityMod.Items.Placeables;
-using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -23,6 +22,7 @@ namespace CalamityMod.Tiles.SunkenSea
             DustType = 67;
             ItemDrop = ModContent.ItemType<PrismShard>();
             Main.tileSpelunker[Type] = true;
+            TileID.Sets.DoesntGetReplacedWithTileReplacement[Type] = true; //TODO -- Temporary, allow tile to be swapped when DS is dead.
         }
 
         public override bool CanKillTile(int i, int j, ref bool blockDamaged)

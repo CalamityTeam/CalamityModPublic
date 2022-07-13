@@ -1,6 +1,5 @@
 using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -48,7 +47,7 @@ namespace CalamityMod.Projectiles.Magic
                 Main.dust[num102].noGravity = true;
             }
 
-            CalamityGlobalProjectile.HomeInOnNPC(Projectile, true, 250f, 8f, 20f);
+            CalamityUtils.HomeInOnNPC(Projectile, true, 250f, 8f, 20f);
 
             Projectile.rotation += 0.3f * (float)Projectile.direction;
         }

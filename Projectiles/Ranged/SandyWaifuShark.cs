@@ -1,6 +1,5 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Ranged
@@ -43,19 +42,11 @@ namespace CalamityMod.Projectiles.Ranged
             if (Projectile.frame > 7)
                 Projectile.frame = 0;
 
-            if (Projectile.velocity.X < 0f)
-            {
-                Projectile.spriteDirection = -1;
-                Projectile.rotation = (float)Math.Atan2(-Projectile.velocity.Y, -Projectile.velocity.X);
-            }
-            else
-            {
-                Projectile.spriteDirection = 1;
-                Projectile.rotation = (float)Math.Atan2(Projectile.velocity.Y, Projectile.velocity.X);
-            }
+            Projectile.spriteDirection = Projectile.direction = (Projectile.velocity.X > 0).ToDirectionInt();
+            Projectile.rotation = Projectile.velocity.ToRotation() + (Projectile.spriteDirection == 1 ? 0f : MathHelper.Pi);
 
             if (Projectile.timeLeft < 210)
-                CalamityGlobalProjectile.HomeInOnNPC(Projectile, true, 600f, 8f, 20f);
+                CalamityUtils.HomeInOnNPC(Projectile, true, 600f, 8f, 20f);
         }
 
         public override bool PreDraw(ref Color lightColor)
@@ -64,7 +55,7 @@ namespace CalamityMod.Projectiles.Ranged
             Texture2D texture2D13 = ModContent.Request<Texture2D>(Texture).Value;
             int num214 = ModContent.Request<Texture2D>(Texture).Value.Height / Main.projFrames[Projectile.type];
             int y6 = num214 * Projectile.frame;
-            Main.spriteBatch.Draw(texture2D13, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y6, texture2D13.Width, num214)), Projectile.GetAlpha(lightColor), Projectile.rotation, new Vector2((float)texture2D13.Width / 2f, (float)num214 / 2f), Projectile.scale, SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(texture2D13, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y6, texture2D13.Width, num214)), Projectile.GetAlpha(lightColor), Projectile.rotation, new Vector2((float)texture2D13.Width / 2f, (float)num214 / 2f), Projectile.scale, spriteEffects, 0);
             return false;
         }
 

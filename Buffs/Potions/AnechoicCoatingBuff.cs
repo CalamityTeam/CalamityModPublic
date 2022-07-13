@@ -1,4 +1,4 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Buffs.Potions
@@ -8,7 +8,7 @@ namespace CalamityMod.Buffs.Potions
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Anechoic Coating");
-            Description.SetDefault("Abyssal creatures' detection radius reduced");
+            Description.SetDefault("Abyssal creatures' detection ranges reduced");
             Main.debuff[Type] = false;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = false;

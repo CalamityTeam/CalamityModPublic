@@ -18,6 +18,9 @@ namespace CalamityMod.NPCs.Leviathan
             DisplayName.SetDefault("Aquatic Aberration");
             Main.npcFrameCount[NPC.type] = 7;
             NPCID.Sets.BossBestiaryPriority.Add(Type);
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0);
+            value.Position.X += 25;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 
         public override void SetDefaults()
@@ -28,7 +31,7 @@ namespace CalamityMod.NPCs.Leviathan
             NPC.width = 50;
             NPC.height = 50;
             NPC.defense = 14;
-            NPC.lifeMax = 800;
+            NPC.lifeMax = 600;
             if (BossRushEvent.BossRushActive)
             {
                 NPC.lifeMax = 10000;
@@ -40,12 +43,13 @@ namespace CalamityMod.NPCs.Leviathan
             AIType = -1;
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath1;
-            Banner = NPC.type;
-            BannerItem = ModContent.ItemType<AquaticAberrationBanner>();
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToSickness = true;
             NPC.Calamity().VulnerableToElectricity = true;
             NPC.Calamity().VulnerableToWater = false;
+
+            if (Main.getGoodWorld)
+                NPC.scale *= 1.3f;
         }
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
@@ -56,8 +60,8 @@ namespace CalamityMod.NPCs.Leviathan
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
             BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Ocean,
 
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("All head and stomach, they will gorge and guzzle upon vast schools of fish on their own.")
+                // Will move to localization whenever that is cleaned up.
+                new FlavorTextBestiaryInfoElement("All head and stomach, they will gorge and guzzle upon vast schools of fish on their own.")
             });
         }
 
@@ -78,10 +82,10 @@ namespace CalamityMod.NPCs.Leviathan
                 return;
             }
 
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
-            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || bossRush;
+            bool revenge = CalamityWorld.revenge || bossRush;
+            bool expertMode = Main.expertMode || bossRush;
 
             NPC.TargetClosest(false);
 
@@ -113,21 +117,21 @@ namespace CalamityMod.NPCs.Leviathan
                 }
             }
 
-            float inertia = malice ? 24f : death ? 26f : revenge ? 27f : expertMode ? 28f : 30f;
+            float inertia = bossRush ? 24f : death ? 26f : revenge ? 27f : expertMode ? 28f : 30f;
             if (!sirenAlive || leviathanInPhase4)
                 inertia *= 0.75f;
 
             float num1006 = 0.111111117f * inertia;
             if (NPC.ai[0] == 0f)
             {
-                float scaleFactor6 = malice ? 14f : death ? 12f : revenge ? 11f : expertMode ? 10f : 8f;
+                float scaleFactor6 = bossRush ? 14f : death ? 12f : revenge ? 11f : expertMode ? 10f : 8f;
                 if (!sirenAlive || leviathanInPhase4)
                     scaleFactor6 *= 1.25f;
 
                 Vector2 center4 = NPC.Center;
                 Vector2 center5 = Main.player[NPC.target].Center;
                 Vector2 vector126 = center5 - center4;
-                Vector2 vector127 = vector126 - Vector2.UnitY * 300f;
+                Vector2 vector127 = vector126 - Vector2.UnitY * 300f * NPC.scale;
                 float num1013 = vector126.Length();
                 vector126 = Vector2.Normalize(vector126) * scaleFactor6;
                 vector127 = Vector2.Normalize(vector127) * scaleFactor6;
@@ -138,7 +142,7 @@ namespace CalamityMod.NPCs.Leviathan
                 }
                 float num1014 = 8f;
                 flag64 = flag64 && vector126.ToRotation() > MathHelper.Pi / num1014 && vector126.ToRotation() < MathHelper.Pi - MathHelper.Pi / num1014;
-                if (num1013 > 800f || !flag64)
+                if (num1013 > 800f * NPC.scale || !flag64)
                 {
                     NPC.velocity.X = (NPC.velocity.X * (inertia - 1f) + vector127.X) / inertia;
                     NPC.velocity.Y = (NPC.velocity.Y * (inertia - 1f) + vector127.Y) / inertia;
@@ -225,7 +229,7 @@ namespace CalamityMod.NPCs.Leviathan
                     {
                         if (i != NPC.whoAmI && Main.npc[i].type == NPC.type)
                         {
-                            if (Vector2.Distance(NPC.Center, Main.npc[i].Center) < 80f)
+                            if (Vector2.Distance(NPC.Center, Main.npc[i].Center) < 80f * NPC.scale)
                             {
                                 if (NPC.position.X < Main.npc[i].position.X)
                                     NPC.velocity.X -= pushVelocity;
@@ -245,21 +249,9 @@ namespace CalamityMod.NPCs.Leviathan
 
         public override void OnKill()
         {
-            if (!CalamityWorld.revenge)
-            {
-                int closestPlayer = Player.FindClosest(NPC.Center, 1, 1);
-                if (Main.rand.NextBool(4) && Main.player[closestPlayer].statLife < Main.player[closestPlayer].statLifeMax2)
-                    Item.NewItem(NPC.GetSource_Loot(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
-            }
-        }
-
-        public override float SpawnChance(NPCSpawnInfo spawnInfo)
-        {
-            if (spawnInfo.PlayerSafe || spawnInfo.Player.Calamity().ZoneSulphur || (!NPC.downedPlantBoss && !DownedBossSystem.downedCalamitas))
-            {
-                return 0f;
-            }
-            return SpawnCondition.OceanMonster.Chance * 0.02f;
+            int closestPlayer = Player.FindClosest(NPC.Center, 1, 1);
+            if (Main.rand.NextBool(4) && Main.player[closestPlayer].statLife < Main.player[closestPlayer].statLifeMax2)
+                Item.NewItem(NPC.GetSource_Loot(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)

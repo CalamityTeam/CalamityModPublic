@@ -28,11 +28,13 @@ namespace CalamityMod.NPCs.HiveMind
             NPC.damage = 0;
             NPC.width = 25;
             NPC.height = 25;
+
             NPC.lifeMax = 100;
             if (BossRushEvent.BossRushActive)
-            {
                 NPC.lifeMax = 1300;
-            }
+            if (Main.getGoodWorld)
+                NPC.lifeMax *= 2;
+
             NPC.knockBackResist = 0f;
             AIType = -1;
             NPC.noGravity = true;
@@ -92,7 +94,7 @@ namespace CalamityMod.NPCs.HiveMind
             NPC.TargetClosest(true);
 
             float num751 = death ? 0.8f : revenge ? 0.7f : expertMode ? 0.6f : 0.5f;
-            float num752 = 128f;
+            float num752 = Main.getGoodWorld ? 256f : 128f;
             Vector2 vector22 = new Vector2(NPC.ai[0] * 16f + 8f, NPC.ai[1] * 16f + 8f);
             float num189 = Main.player[NPC.target].position.X + (Main.player[NPC.target].width / 2) - (NPC.width / 2) - vector22.X;
             float num190 = Main.player[NPC.target].position.Y + (Main.player[NPC.target].height / 2) - (NPC.height / 2) - vector22.Y;
@@ -148,7 +150,7 @@ namespace CalamityMod.NPCs.HiveMind
                 if (!Collision.CanHit(NPC.position, NPC.width, NPC.height, Main.player[NPC.target].position, Main.player[NPC.target].width, Main.player[NPC.target].height))
                     NPC.localAI[1] = 180f;
 
-                NPC.localAI[1] += 1f;
+                NPC.localAI[1] += Main.rand.Next(2) + 1f;
                 if (NPC.localAI[1] >= 360f && Vector2.Distance(Main.player[NPC.target].Center, NPC.Center) > 80f)
                 {
                     NPC.localAI[1] = 0f;
@@ -156,6 +158,9 @@ namespace CalamityMod.NPCs.HiveMind
                     if (Collision.CanHit(NPC.position, NPC.width, NPC.height, Main.player[NPC.target].position, Main.player[NPC.target].width, Main.player[NPC.target].height))
                     {
                         float num941 = death ? 5f : revenge ? 4.5f : expertMode ? 4f : 3.5f;
+                        if (Main.getGoodWorld)
+                            num941 *= 2.4f;
+
                         Vector2 vector104 = new Vector2(NPC.position.X + NPC.width * 0.5f, NPC.position.Y + (NPC.height / 2));
                         float num942 = Main.player[NPC.target].position.X + Main.player[NPC.target].width * 0.5f - vector104.X;
                         float num943 = Main.player[NPC.target].position.Y + Main.player[NPC.target].height * 0.5f - vector104.Y;
@@ -174,12 +179,9 @@ namespace CalamityMod.NPCs.HiveMind
 
         public override void OnKill()
         {
-            if (!CalamityWorld.revenge)
-            {
-                int closestPlayer = Player.FindClosest(NPC.Center, 1, 1);
-                if (Main.rand.NextBool(4) && Main.player[closestPlayer].statLife < Main.player[closestPlayer].statLifeMax2)
-                    Item.NewItem(NPC.GetSource_Loot(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
-            }
+            int closestPlayer = Player.FindClosest(NPC.Center, 1, 1);
+            if (Main.rand.NextBool(4) && Main.player[closestPlayer].statLife < Main.player[closestPlayer].statLifeMax2)
+                Item.NewItem(NPC.GetSource_Loot(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
         }
 
         public override bool CheckActive()

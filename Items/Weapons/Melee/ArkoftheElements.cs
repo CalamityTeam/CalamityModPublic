@@ -8,7 +8,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
@@ -252,7 +251,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 AddIngredient<TrueArkoftheAncients>().
                 AddIngredient<GalacticaSingularity>(5).
                 AddIngredient<CoreofCalamity>(5).
-                AddIngredient<BarofLife>(5).
+                AddIngredient<LifeAlloy>(5).
                 AddIngredient(ItemID.LunarBar, 5).
                 AddTile(TileID.LunarCraftingStation).
                 Register();

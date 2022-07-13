@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -8,8 +7,6 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class MalachiteProj : ModProjectile
     {
-        public override string Texture => "CalamityMod/Items/Weapons/Rogue/Malachite";
-
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Malachite");

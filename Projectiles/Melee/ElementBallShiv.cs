@@ -1,6 +1,5 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -32,7 +31,7 @@ namespace CalamityMod.Projectiles.Melee
             Main.dust[rainbow].noGravity = true;
             Main.dust[rainbow].velocity = Vector2.Zero;
 
-            CalamityGlobalProjectile.HomeInOnNPC(Projectile, true, 300f, 12f, 20f);
+            CalamityUtils.HomeInOnNPC(Projectile, true, 300f, 12f, 20f);
         }
 
         public override bool PreDraw(ref Color lightColor)

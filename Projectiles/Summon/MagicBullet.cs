@@ -1,6 +1,5 @@
 ﻿using CalamityMod.Buffs.StatDebuffs;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -32,6 +31,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.penetrate = 1;
             Projectile.timeLeft = 600;
             Projectile.tileCollide = false;
+            Projectile.DamageType = DamageClass.Summon;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -44,8 +44,6 @@ namespace CalamityMod.Projectiles.Summon
                 target.AddBuff(ModContent.BuffType<MarkedforDeath>(), 180);
             if (target.Calamity().aCrunch <= 0)
                 target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 180);
-            if (target.Calamity().wCleave <= 0)
-                target.AddBuff(ModContent.BuffType<WarCleave>(), 180);
             if (target.Calamity().wDeath <= 0)
                 target.AddBuff(ModContent.BuffType<WhisperingDeath>(), 180);
         }
@@ -55,7 +53,6 @@ namespace CalamityMod.Projectiles.Summon
             target.AddBuff(BuffID.Ichor, 180);
             target.AddBuff(ModContent.BuffType<MarkedforDeath>(), 180);
             target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 180);
-            target.AddBuff(ModContent.BuffType<WarCleave>(), 180);
             target.AddBuff(ModContent.BuffType<WhisperingDeath>(), 180);
         }
 

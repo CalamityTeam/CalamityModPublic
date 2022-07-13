@@ -85,7 +85,6 @@ namespace CalamityMod.Items
         public bool donorItem = false;
         public bool devItem = false;
         public bool canFirePointBlankShots = false;
-        public bool trueMelee = false;
 
         public static readonly Color ExhumedTooltipColor = new Color(198, 27, 64);
 
@@ -136,7 +135,6 @@ namespace CalamityMod.Items
             myClone.donorItem = donorItem;
             myClone.devItem = devItem;
             myClone.canFirePointBlankShots = canFirePointBlankShots;
-            myClone.trueMelee = trueMelee;
 
             return myClone;
         }
@@ -203,19 +201,22 @@ namespace CalamityMod.Items
                 case ItemID.ShrimpyTruffle:
                 case ItemID.GravityGlobe:
                 case ItemID.SuspiciousLookingTentacle:
+                case ItemID.LongRainbowTrailWings:
                     item.expert = false;
                     break;
             }
 
+            // Apply Calamity Global Item Tweaks.
             SetDefaults_ApplyTweaks(item);
 
-            // TODO -- these properties should be some sort of dictionary.
-            // Perhaps the solution here is to just apply all changes of all kinds using the "Balance" system.
-            if (CalamityLists.noGravityList.Contains(item.type))
-                ItemID.Sets.ItemNoGravity[item.type] = true;
-
-            if (CalamityLists.lavaFishList.Contains(item.type))
-                ItemID.Sets.CanFishInLava[item.type] = true;
+            // Items which are "classic true melee" (melee items with no fired projectile) are automatically reclassed as True Melee class.
+            if (item.shoot == ProjectileID.None)
+            {
+                if (item.DamageType == DamageClass.Melee)
+                    item.DamageType = TrueMeleeDamageClass.Instance;
+                else if (item.DamageType == DamageClass.MeleeNoSpeed)
+                    item.DamageType = TrueMeleeNoSpeedDamageClass.Instance;
+            }
         }
         #endregion
 
@@ -232,8 +233,8 @@ namespace CalamityMod.Items
             bool belowHalfMana = player.statMana < player.statManaMax2 * 0.5f;
             if (Main.myPlayer == player.whoAmI && player.Calamity().manaMonsterEnchant && Main.rand.NextBool(12) && player.ownedProjectileCounts[ModContent.ProjectileType<ManaMonster>()] <= 0 && belowHalfMana)
             {
-                // TODO -- 165,000 base damage? seriously? what is this thing
-                int monsterDamage = (int)player.GetDamage<MagicDamageClass>().ApplyTo(165000);
+                // TODO -- 165,000 base damage? seriously? there's no way that can be right
+                int monsterDamage = (int)player.GetTotalDamage<MagicDamageClass>().ApplyTo(165000);
                 Vector2 shootVelocity = player.SafeDirectionTo(Main.MouseWorld, -Vector2.UnitY).RotatedByRandom(0.07f) * Main.rand.NextFloat(4f, 5f);
                 Projectile.NewProjectile(source, player.Center + shootVelocity, shootVelocity, ModContent.ProjectileType<ManaMonster>(), monsterDamage, 0f, player.whoAmI);
             }
@@ -260,35 +261,61 @@ namespace CalamityMod.Items
                 {
                     if (item.CountsAsClass<MeleeDamageClass>())
                     {
-                        int projectile = Projectile.NewProjectile(source, position, velocity * 0.5f, ModContent.ProjectileType<LuxorsGiftMelee>(), (int)(newDamage * 0.25), 0f, player.whoAmI);
-                        if (projectile.WithinBounds(Main.maxProjectiles))
-                            Main.projectile[projectile].Calamity().forceClassless = true;
+                        double meleeDamage = newDamage * 0.25;
+                        if (meleeDamage >= 1D)
+                        {
+                            int projectile = Projectile.NewProjectile(source, position, velocity * 0.5f, ModContent.ProjectileType<LuxorsGiftMelee>(), (int)meleeDamage, 0f, player.whoAmI);
+                            if (projectile.WithinBounds(Main.maxProjectiles))
+                                Main.projectile[projectile].DamageType = DamageClass.Generic;
+                        }
                     }
                     else if (item.CountsAsClass<ThrowingDamageClass>())
                     {
-                        int projectile = Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<LuxorsGiftRogue>(), (int)(newDamage * 0.2), 0f, player.whoAmI);
-                        if (projectile.WithinBounds(Main.maxProjectiles))
-                            Main.projectile[projectile].Calamity().forceClassless = true;
+                        double throwingDamage = newDamage * 0.2;
+                        if (throwingDamage >= 1D)
+                        {
+                            int projectile = Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<LuxorsGiftRogue>(), (int)throwingDamage, 0f, player.whoAmI);
+                            if (projectile.WithinBounds(Main.maxProjectiles))
+                                Main.projectile[projectile].DamageType = DamageClass.Generic;
+                        }
                     }
                     else if (item.CountsAsClass<RangedDamageClass>())
                     {
-                        int projectile = Projectile.NewProjectile(source, position, velocity * 1.5f, ModContent.ProjectileType<LuxorsGiftRanged>(), (int)(newDamage * 0.15), 0f, player.whoAmI);
-                        if (projectile.WithinBounds(Main.maxProjectiles))
-                            Main.projectile[projectile].Calamity().forceClassless = true;
+                        // This projectile is channeled and has no cooldown unless the gun fires
+                        // The damage of the projectile is also always the max damage of the weapon, and the shot damage is calculated based off of that
+                        // You can see how this may cause issues
+                        // The projectile is fired inside of the scope's code instead
+                        if (type != ModContent.ProjectileType<TitaniumRailgunScope>())
+                        {
+                            double rangedDamage = newDamage * 0.15;
+                            if (rangedDamage >= 1D)
+                            {
+                                int projectile = Projectile.NewProjectile(source, position, velocity * 1.5f, ModContent.ProjectileType<LuxorsGiftRanged>(), (int)rangedDamage, 0f, player.whoAmI);
+                                if (projectile.WithinBounds(Main.maxProjectiles))
+                                    Main.projectile[projectile].DamageType = DamageClass.Generic;
+                            }
+                        }
                     }
                     else if (item.CountsAsClass<MagicDamageClass>())
                     {
-                        int projectile = Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<LuxorsGiftMagic>(), (int)(newDamage * 0.3), 0f, player.whoAmI);
-                        if (projectile.WithinBounds(Main.maxProjectiles))
-                            Main.projectile[projectile].Calamity().forceClassless = true;
+                        double magicDamage = newDamage * 0.3;
+                        if (magicDamage >= 1D)
+                        {
+                            int projectile = Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<LuxorsGiftMagic>(), (int)magicDamage, 0f, player.whoAmI);
+                            if (projectile.WithinBounds(Main.maxProjectiles))
+                                Main.projectile[projectile].DamageType = DamageClass.Generic;
+                        }
                     }
                     else if (item.CountsAsClass<SummonDamageClass>() && player.ownedProjectileCounts[ModContent.ProjectileType<LuxorsGiftSummon>()] < 1)
                     {
-                        int projectile = Projectile.NewProjectile(source, position, Vector2.Zero, ModContent.ProjectileType<LuxorsGiftSummon>(), damage, 0f, player.whoAmI);
-                        if (projectile.WithinBounds(Main.maxProjectiles))
+                        if (damage >= 1D)
                         {
-                            Main.projectile[projectile].Calamity().forceClassless = true;
-                            Main.projectile[projectile].originalDamage = item.damage;
+                            int projectile = Projectile.NewProjectile(source, position, Vector2.Zero, ModContent.ProjectileType<LuxorsGiftSummon>(), damage, 0f, player.whoAmI);
+                            if (projectile.WithinBounds(Main.maxProjectiles))
+                            {
+                                Main.projectile[projectile].DamageType = DamageClass.Generic;
+                                Main.projectile[projectile].originalDamage = item.damage;
+                            }
                         }
                     }
                 }
@@ -340,7 +367,7 @@ namespace CalamityMod.Items
                         yDiff *= speed;
                         int projectile = Projectile.NewProjectile(source, position, new Vector2(xDiff, yDiff), ProjectileID.Leaf, leafDamage, knockBack, player.whoAmI);
                         if (projectile.WithinBounds(Main.maxProjectiles))
-                            Main.projectile[projectile].Calamity().forceClassless = true;
+                            Main.projectile[projectile].DamageType = DamageClass.Generic;
                     }
                 }
             }
@@ -352,7 +379,7 @@ namespace CalamityMod.Items
                     if (player.whoAmI == Main.myPlayer)
                     {
                         int ataxiaFlareDamage = (int)(damage * 0.25);
-                        Projectile.NewProjectile(source, position, velocity * 1.25f, ModContent.ProjectileType<ChaosFlare>(), ataxiaFlareDamage, 2f, player.whoAmI);
+                        Projectile.NewProjectile(source, position, velocity * 1.25f, ModContent.ProjectileType<HydrothermicFlare>(), ataxiaFlareDamage, 2f, player.whoAmI);
                     }
                 }
             }
@@ -374,7 +401,7 @@ namespace CalamityMod.Items
                 if (item.CountsAsClass<ThrowingDamageClass>())
                 {
                     modPlayer.canFireAtaxiaRogueProjectile = false;
-                    int flareID = ModContent.ProjectileType<ChaosFlare2>();
+                    int flareID = ModContent.ProjectileType<HydrothermicFlareRogue>();
 
                     // Ataxia Rogue Flares: 8 x 50%, soft cap starts at 200 base damage
                     int flareDamage = CalamityUtils.DamageSoftCap(damage * 0.5, 100);
@@ -420,9 +447,9 @@ namespace CalamityMod.Items
 
                     if (player.whoAmI == Main.myPlayer)
                     {
-                        int projectile = Projectile.NewProjectile(source, position, velocity * 1.25f, ModContent.ProjectileType<Minibirb>(), newDamage, 2f, player.whoAmI);
+                        int projectile = Projectile.NewProjectile(source, position, velocity * 1.25f, ModContent.ProjectileType<MiniatureFolly>(), newDamage, 2f, player.whoAmI);
                         if (projectile.WithinBounds(Main.maxProjectiles))
-                            Main.projectile[projectile].Calamity().forceClassless = true;
+                            Main.projectile[projectile].DamageType = DamageClass.Generic;
                     }
                 }
             }
@@ -439,7 +466,7 @@ namespace CalamityMod.Items
                                 Vector2 perturbedSpeed = velocity.RotatedBy(MathHelper.ToRadians(i));
                                 int rocket = Projectile.NewProjectile(source, position, perturbedSpeed, ModContent.ProjectileType<MiniRocket>(), (int)(damage * 0.25), 2f, player.whoAmI);
                                 if (rocket.WithinBounds(Main.maxProjectiles))
-                                    Main.projectile[rocket].Calamity().forceClassless = true;
+                                    Main.projectile[rocket].DamageType = DamageClass.Generic;
                             }
                         }
                     }
@@ -458,7 +485,7 @@ namespace CalamityMod.Items
                         {
                             Main.projectile[feather].usesLocalNPCImmunity = true;
                             Main.projectile[feather].localNPCHitCooldown = 10;
-                            Main.projectile[feather].Calamity().forceClassless = true;
+                            Main.projectile[feather].DamageType = DamageClass.Generic;
                         }
                     }
                 }
@@ -503,13 +530,11 @@ namespace CalamityMod.Items
             tag.Add("enchantmentID", AppliedEnchantment.HasValue ? AppliedEnchantment.Value.ID : 0);
             tag.Add("DischargeEnchantExhaustion", DischargeEnchantExhaustion);
             tag.Add("canFirePointBlankShots", canFirePointBlankShots);
-            tag.Add("trueMelee", trueMelee);
         }
 
         public override void LoadData(Item item, TagCompound tag)
         {
             canFirePointBlankShots = tag.GetBool("canFirePointBlankShots");
-            trueMelee = tag.GetBool("trueMelee");
             timesUsed = tag.GetInt("timesUsed");
             customRarity = (CalamityRarity)tag.GetInt("rarity");
 
@@ -534,7 +559,7 @@ namespace CalamityMod.Items
         {
             BitsByte flags = new BitsByte();
             flags[0] = canFirePointBlankShots;
-            flags[1] = trueMelee;
+            // rip, no other flags. what a byte.
 
             writer.Write(flags);
             writer.Write((int)customRarity);
@@ -549,7 +574,6 @@ namespace CalamityMod.Items
         {
             BitsByte flags = reader.ReadByte();
             canFirePointBlankShots = flags[0];
-            trueMelee = flags[1];
 
             customRarity = (CalamityRarity)reader.ReadInt32();
             timesUsed = reader.ReadInt32();
@@ -574,13 +598,7 @@ namespace CalamityMod.Items
             if (item.type == ItemID.Heart || item.type == ItemID.CandyApple || item.type == ItemID.CandyCane)
             {
                 bool boostedHeart = player.Calamity().photosynthesis;
-                if (NPC.AnyNPCs(ModContent.NPCType<SupremeCalamitas>()))
-                {
-                    player.statLife -= boostedHeart ? 5 : 10;
-                    if (Main.myPlayer == player.whoAmI)
-                        player.HealEffect(boostedHeart ? -5 : -10, true);
-                }
-                else if (boostedHeart)
+                if (boostedHeart)
                 {
                     player.statLife += 5;
                     if (Main.myPlayer == player.whoAmI)
@@ -752,8 +770,10 @@ namespace CalamityMod.Items
                         {
                             if (Main.projectile.Length == Main.maxProjectiles)
                                 break;
-                            int coldDivinityDamage = (int)player.GetDamage<SummonDamageClass>().ApplyTo(80);
+                            int coldDivinityDamage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(80);
                             int projj = Projectile.NewProjectile(source, Main.MouseWorld, Vector2.Zero, ModContent.ProjectileType<ColdDivinityPointyThing>(), coldDivinityDamage, 1f, player.whoAmI, angle, 2f);
+                            Main.projectile[projj].originalDamage = 80;
+
                             angle += angleVariance;
                             for (int j = 0; j < 22; j++)
                             {
@@ -793,7 +813,7 @@ namespace CalamityMod.Items
                     return false;
                 // compiler optimization: && short-circuits, so if altFunctionUse != 0, Andromeda code is never called.
                 if (item.CountsAsClass<ThrowingDamageClass>() || item.CountsAsClass<MagicDamageClass>() || item.CountsAsClass<RangedDamageClass>() || item.CountsAsClass<MeleeDamageClass>())
-                    return player.altFunctionUse == 0 && PrototypeAndromechaRing.TransformItemUsage(item, player);
+                    return player.altFunctionUse == 0 && FlamsteedRing.TransformItemUsage(item, player);
             }
 
             // Conversion for Profaned Soul Crystal
@@ -801,6 +821,8 @@ namespace CalamityMod.Items
             if (modPlayer.profanedCrystalBuffs && item.pick == 0 && item.axe == 0 && item.hammer == 0 && item.autoReuse && (item.CountsAsClass<ThrowingDamageClass>() || item.CountsAsClass<MagicDamageClass>() || item.CountsAsClass<RangedDamageClass>() || item.CountsAsClass<MeleeDamageClass>()))
                 return player.altFunctionUse == 0 ? ProfanedSoulCrystal.TransformItemUsage(item, player) : AltFunctionUse(item, player);
 
+
+            //TODO - This souldn't be here!
             if (!item.IsAir)
             {
                 // Exhaust the weapon if it has the necessary enchant.
@@ -847,7 +869,7 @@ namespace CalamityMod.Items
             {
                 return false;
             }
-            if ((item.type == ItemID.RegenerationPotion || item.type == ItemID.LifeforcePotion) && player.FindBuffIndex(ModContent.BuffType<Cadence>()) > -1)
+            if ((item.type == ItemID.RegenerationPotion || item.type == ItemID.LifeforcePotion) && player.FindBuffIndex(ModContent.BuffType<CadancesGrace>()) > -1)
             {
                 return false;
             }
@@ -869,7 +891,7 @@ namespace CalamityMod.Items
             }
             if (item.type == ItemID.MagicMirror || item.type == ItemID.IceMirror || item.type == ItemID.CellPhone || item.type == ItemID.RecallPotion)
             {
-                return !player.HasBuff(ModContent.BuffType<BossZen>());
+                return !player.HasBuff(ModContent.BuffType<BossEffects>());
             }
             if (item.type == ItemID.RodofDiscord)
             {
@@ -1142,6 +1164,10 @@ namespace CalamityMod.Items
             if (item.type == ItemID.ObsidianSkull || item.type == ItemID.ObsidianHorseshoe || item.type == ItemID.ObsidianShield || item.type == ItemID.ObsidianWaterWalkingBoots || item.type == ItemID.LavaWaders || item.type == ItemID.ObsidianSkullRose || item.type == ItemID.MoltenCharm || item.type == ItemID.LavaSkull || item.type == ItemID.MoltenSkullRose || item.type == ItemID.AnkhShield)
                 player.buffImmune[BuffID.OnFire] = true;
 
+            // Ankh Shield Mighty Wind immunity.
+            if (item.type == ItemID.AnkhShield)
+                player.buffImmune[BuffID.WindPushed] = true;
+
             if (item.type == ItemID.HellfireTreads)
             {
                 modPlayer.hellfireTreads = true;
@@ -1165,12 +1191,6 @@ namespace CalamityMod.Items
 
             if (item.type == ItemID.FairyBoots)
                 modPlayer.fairyBoots = true;
-
-            if (item.type == ItemID.EmpressFlightBooster)
-                player.jumpSpeedBoost -= 1.9f;
-
-            if (player.frogLegJumpBoost)
-                player.jumpSpeedBoost -= 1.2f;
 
             // Arcane and Magnet Flower buffs
             if (item.type == ItemID.ArcaneFlower || item.type == ItemID.MagnetFlower)
@@ -1366,7 +1386,7 @@ namespace CalamityMod.Items
                         int p = Projectile.NewProjectile(source, player.Center, Vector2.UnitY * 2f, ProjectileID.OrnamentFriendly, ornamentDamage, 5f, player.whoAmI);
                         if (p.WithinBounds(Main.maxProjectiles))
                         {
-                            Main.projectile[p].Calamity().forceClassless = true;
+                            Main.projectile[p].DamageType = DamageClass.Generic;
                             Main.projectile[p].Calamity().lineColor = 1;
                             modPlayer.icicleCooldown = 10;
                         }
@@ -1491,11 +1511,11 @@ namespace CalamityMod.Items
                  * Post-Provi = 5
                  * Post-Polter = 5
                  * Post-DoG = 6
-                 * Post-Yharon = 8
+                 * Post-Yharon = 7
                  */
 
                 if (DownedBossSystem.downedYharon)
-                    player.statDefense += 6;
+                    player.statDefense += 5;
                 else if (DownedBossSystem.downedDoG)
                     player.statDefense += 4;
                 else if (DownedBossSystem.downedProvidence || DownedBossSystem.downedPolterghast)
@@ -1516,11 +1536,11 @@ namespace CalamityMod.Items
                  * Post-Provi = 7
                  * Post-Polter = 8
                  * Post-DoG = 9
-                 * Post-Yharon = 11
+                 * Post-Yharon = 10
                  */
 
                 if (DownedBossSystem.downedYharon)
-                    player.statDefense += 8;
+                    player.statDefense += 7;
                 else if (DownedBossSystem.downedDoG)
                     player.statDefense += 6;
                 else if (DownedBossSystem.downedPolterghast)
@@ -1542,14 +1562,14 @@ namespace CalamityMod.Items
                  * Post-Moon Lord = 8
                  * Post-Provi = 9
                  * Post-Polter = 10
-                 * Post-DoG = 12
-                 * Post-Yharon = 15
+                 * Post-DoG = 11
+                 * Post-Yharon = 12
                  */
 
                 if (DownedBossSystem.downedYharon)
-                    player.statDefense += 11;
-                else if (DownedBossSystem.downedDoG)
                     player.statDefense += 8;
+                else if (DownedBossSystem.downedDoG)
+                    player.statDefense += 7;
                 else if (DownedBossSystem.downedPolterghast)
                     player.statDefense += 6;
                 else if (DownedBossSystem.downedProvidence)
@@ -1784,10 +1804,10 @@ namespace CalamityMod.Items
                     _ => prefix,
                 };
             }
-            else if (item.CountsAsClass<MeleeDamageClass>())
+            else if (item.CountsAsClass<MeleeDamageClass>() || item.IsWhip())
             {
                 // Yoyos, Flails, Spears, etc.
-                if (item.channel || item.noMelee)
+                if ((item.channel || item.noMelee) && !item.IsWhip() && item.type != ItemID.Zenith)
                 {
                     prefix = reforgeTier switch
                     {

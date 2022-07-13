@@ -47,6 +47,7 @@ namespace CalamityMod.Items.Tools
 
         public override bool CanUseItem(Player player)
         {
+            //TODO - Pressure the tmod devs into adding another method akin to ModifyToolStats that gets ran early enough to work.
             if (player.altFunctionUse == 2)
             {
                 Item.axe = 0;
@@ -66,15 +67,15 @@ namespace CalamityMod.Items.Tools
                 AddIngredient<InfernaCutter>().
                 AddRecipeGroup("LunarHamaxe").
                 AddIngredient<MolluskHusk>(10).
-                AddIngredient<DraedonBar>(5).
-                AddIngredient<UeliaceBar>(5).
+                AddIngredient<PerennialBar>(5).
+                AddIngredient<UelibloomBar>(5).
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            player.AddBuff(ModContent.BuffType<GraxDefense>(), 600);
+            player.AddBuff(ModContent.BuffType<GraxBoost>(), 600);
         }
     }
 }

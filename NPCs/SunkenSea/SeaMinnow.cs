@@ -1,4 +1,5 @@
-﻿using CalamityMod.Items.Placeables.Banners;
+﻿using CalamityMod.BiomeManagers;
+using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Critters;
 using System;
 using Terraria;
@@ -35,12 +36,12 @@ namespace CalamityMod.NPCs.SunkenSea
             BannerItem = ModContent.ItemType<SeaMinnowBanner>();
             NPC.chaseable = false;
             NPC.catchItem = (short)ModContent.ItemType<SeaMinnowItem>();
+            SpawnModBiomes = new int[1] { ModContent.GetInstance<SunkenSeaBiome>().Type };
         }
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
-                //BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.SunkenSea,
 
                 // Will move to localization whenever that is cleaned up.
                 new FlavorTextBestiaryInfoElement("While they are at the bottom of the food chain, they also make up eighty percent of the biomass in this sea. They nibble away at corpses that fall from the underground desert above.")
@@ -190,7 +191,7 @@ namespace CalamityMod.NPCs.SunkenSea
 
         public override void FindFrame(int frameHeight)
         {
-            if (!NPC.wet)
+            if (!NPC.wet && !NPC.IsABestiaryIconDummy)
             {
                 NPC.frameCounter = 0.0;
                 return;

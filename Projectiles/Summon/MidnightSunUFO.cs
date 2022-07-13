@@ -2,7 +2,6 @@
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Weapons.Summon;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -35,6 +34,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.penetrate = -1;
             Projectile.tileCollide = false;
             Projectile.minion = true;
+            Projectile.DamageType = DamageClass.Summon;
         }
 
         public override bool? CanDamage() => false;

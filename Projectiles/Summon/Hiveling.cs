@@ -1,6 +1,5 @@
 ﻿using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -28,6 +27,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.tileCollide = false;
             Projectile.penetrate = 1;
             Projectile.timeLeft = 240;
+            Projectile.DamageType = DamageClass.Summon;
         }
 
         public override void AI()

@@ -37,6 +37,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.tileCollide = false;
             Projectile.timeLeft *= 5;
             Projectile.minion = true;
+            Projectile.DamageType = DamageClass.Summon;
         }
 
         public override void AI()
@@ -78,7 +79,7 @@ namespace CalamityMod.Projectiles.Summon
         private void SummonChecks()
         {
             bool projTypeCheck = Projectile.type == ModContent.ProjectileType<StormjawBaby>();
-            player.AddBuff(ModContent.BuffType<StormjawBuff>(), 3600);
+            player.AddBuff(ModContent.BuffType<BabyStormlionBuff>(), 3600);
             if (projTypeCheck)
             {
                 if (player.dead)
@@ -283,7 +284,7 @@ namespace CalamityMod.Projectiles.Summon
                             int spark = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, sparkS, ModContent.ProjectileType<Spark>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                             if (spark.WithinBounds(Main.maxProjectiles))
                             {
-                                Main.projectile[spark].Calamity().forceMinion = true;
+                                Main.projectile[spark].DamageType = DamageClass.Summon;
                                 Main.projectile[spark].originalDamage = Projectile.originalDamage;
                                 Main.projectile[spark].timeLeft = 120;
                                 Main.projectile[spark].penetrate = 3;
@@ -327,7 +328,7 @@ namespace CalamityMod.Projectiles.Summon
                                         int spark = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, sparkS, ModContent.ProjectileType<Spark>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                                         if (spark.WithinBounds(Main.maxProjectiles))
                                         {
-                                            Main.projectile[spark].Calamity().forceMinion = true;
+                                            Main.projectile[spark].DamageType = DamageClass.Summon;
                                             Main.projectile[spark].originalDamage = Projectile.originalDamage;
                                             Main.projectile[spark].timeLeft = 120;
                                             Main.projectile[spark].penetrate = 3;
@@ -464,7 +465,7 @@ namespace CalamityMod.Projectiles.Summon
                     int x = xPos + direction + (int) Projectile.velocity.X;
                     for (int y = yPos; y < yPos + Projectile.height / 16 + 1; ++y)
                     {
-                        if (WorldGen.SolidTile(x, y))
+                        if (WorldGen.InWorld(x, y) && WorldGen.SolidTile(x, y))
                             flag3 = true;
                     }
                 }
@@ -480,7 +481,7 @@ namespace CalamityMod.Projectiles.Summon
                             x = (int)Projectile.Right.X / 16;
                         int y = (int)Projectile.Bottom.Y / 16;
                         Tile tile = Main.tile[x, y];
-                        if (WorldGen.SolidTile(x, y) || tile.IsHalfBlock || tile.Slope > 0 || TileID.Sets.Platforms[tile.TileType] && tile.HasTile && !tile.HasActuator)
+                        if ((WorldGen.InWorld(x, y) && WorldGen.SolidTile(x, y)) || tile.IsHalfBlock || tile.Slope > 0 || TileID.Sets.Platforms[tile.TileType] && tile.HasTile && !tile.HasActuator)
                         {
                             try
                             {

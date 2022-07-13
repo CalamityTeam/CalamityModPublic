@@ -128,6 +128,7 @@ namespace CalamityMod.CalPlayer
             packet.Write((byte)CalamityModMessageType.RageSync);
             packet.Write(Player.whoAmI);
             packet.Write(rage);
+            packet.Write(rageCombatFrames);
             Player.SendPacket(packet, server);
         }
 
@@ -277,6 +278,7 @@ namespace CalamityMod.CalPlayer
         internal void HandleRage(BinaryReader reader)
         {
             rage = reader.ReadSingle();
+            rageCombatFrames = reader.ReadInt32();
             if (Main.netMode == NetmodeID.Server)
                 SyncRage(true);
         }

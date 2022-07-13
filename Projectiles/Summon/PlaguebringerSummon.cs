@@ -35,6 +35,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.timeLeft *= 5;
             Projectile.minion = true;
             Projectile.tileCollide = false;
+            Projectile.DamageType = DamageClass.Summon;
         }
 
         public override void AI()
@@ -53,7 +54,7 @@ namespace CalamityMod.Projectiles.Summon
             }
 
             bool correctMinion = Projectile.type == ModContent.ProjectileType<PlaguebringerSummon>();
-            player.AddBuff(ModContent.BuffType<PlaguebringerSummonBuff>(), 3600);
+            player.AddBuff(ModContent.BuffType<LilPlaguebringerBuff>(), 3600);
             if (correctMinion)
             {
                 if (player.dead)
@@ -89,7 +90,7 @@ namespace CalamityMod.Projectiles.Summon
                         {
                             Projectile aura = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), npc.Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), dmg, 0f, Projectile.owner, l);
                             if (aura.whoAmI.WithinBounds(Main.maxProjectiles))
-                                aura.Calamity().forceMinion = true;
+                                aura.DamageType = DamageClass.Summon;
                         }
                     }
                 }

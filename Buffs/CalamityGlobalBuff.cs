@@ -24,7 +24,7 @@ namespace CalamityMod.Buffs
             }
             else if (type == BuffID.Panic)
             {
-                player.moveSpeed -= 0.5f;
+                player.moveSpeed -= 0.6f;
             }
             else if (type == BuffID.SugarRush)
             {

@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -59,7 +58,7 @@ namespace CalamityMod.Projectiles.Ranged
                 speed = Projectile.velocity.Length();
 
             if (Projectile.timeLeft < 90)
-                CalamityGlobalProjectile.HomeInOnNPC(Projectile, !Projectile.tileCollide, 450f, speed, 12f);
+                CalamityUtils.HomeInOnNPC(Projectile, !Projectile.tileCollide, 450f, speed, 12f);
         }
     }
 }

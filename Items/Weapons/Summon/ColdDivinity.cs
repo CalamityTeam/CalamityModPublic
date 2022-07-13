@@ -96,5 +96,4 @@ namespace CalamityMod.Items.Weapons.Summon
             return base.AltFunctionUse(player);
         }
     }
-
 }

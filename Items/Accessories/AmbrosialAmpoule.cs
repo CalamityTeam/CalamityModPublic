@@ -40,7 +40,7 @@ namespace CalamityMod.Items.Accessories
             CreateRecipe().
                 AddIngredient<CorruptFlask>().
                 AddIngredient<RadiantOoze>().
-                AddIngredient<VerstaltiteBar>(5).
+                AddIngredient<CryonicBar>(5).
                 AddIngredient<SeaPrism>(10).
                 AddTile(TileID.MythrilAnvil).
                 Register();
@@ -48,7 +48,7 @@ namespace CalamityMod.Items.Accessories
             CreateRecipe().
                 AddIngredient<CrimsonFlask>().
                 AddIngredient<RadiantOoze>().
-                AddIngredient<VerstaltiteBar>(5).
+                AddIngredient<CryonicBar>(5).
                 AddIngredient<SeaPrism>(10).
                 AddTile(TileID.MythrilAnvil).
                 Register();

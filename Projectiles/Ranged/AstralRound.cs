@@ -1,7 +1,6 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -30,7 +29,7 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.light = 0.25f;
             Projectile.extraUpdates = 2;
             AIType = ProjectileID.Bullet;
-            Projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
+            Projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.DefaultPointBlankDuration;
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
@@ -71,7 +70,7 @@ namespace CalamityMod.Projectiles.Ranged
             if (speed == 0f)
                 speed = Projectile.velocity.Length();
 
-            CalamityGlobalProjectile.HomeInOnNPC(Projectile, !Projectile.tileCollide, 200f, speed, 12f);
+            CalamityUtils.HomeInOnNPC(Projectile, !Projectile.tileCollide, 200f, speed, 12f);
             return false;
         }
 

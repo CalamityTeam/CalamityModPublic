@@ -7,7 +7,6 @@ using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.Tiles.SunkenSea;
-using CalamityMod.World;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -18,7 +17,7 @@ namespace CalamityMod.Items.Fishing.SunkenSeaCatches
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 10;
+            SacrificeTotal = 5;
             DisplayName.SetDefault("Sunken Crate");
             Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
         }

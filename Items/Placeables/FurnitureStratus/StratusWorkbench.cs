@@ -1,7 +1,8 @@
-using Terraria.ID;
+﻿using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.FurnitureStratus
 {
+    // TODO -- StratusWorkBench. I do not want to deal with capitaliztion issues.
     public class StratusWorkbench : ModItem
     {
         public override void SetStaticDefaults()

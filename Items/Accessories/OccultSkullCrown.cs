@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Accessories
                                "Converts certain debuffs into buffs and extends their durations\n" +
                                "Debuffs affected: Darkness, Blackout, Confused, Slow, Weak, Broken Armor,\n" +
                                "Armor Crunch, War Cleave, Chilled, Ichor and Obstructed\n" +
-                               "Getting hit causes you to only lose half of your max adrenaline rather than all of it\n" +
+                               "Adrenaline charges 20% faster\n" +
                                "Increases your max movement speed and acceleration by 5%\n" +
                                "Can also be worn as a helmet\n" +
                                "Revengeance item");

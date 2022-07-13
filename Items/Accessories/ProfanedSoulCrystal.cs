@@ -2,7 +2,6 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Tiles.Furniture.CraftingStations;
-using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using Terraria;
@@ -47,9 +46,14 @@ namespace CalamityMod.Items.Accessories
             Tooltip.SetDefault("Transforms you into an emissary of the profaned goddess\n" +
                 "This tooltip gets modified");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(8, 4));
+            ItemID.Sets.AnimatesAsSoul[Type] = true;
 
             if (Main.netMode == NetmodeID.Server)
                 return;
+
+            int equipSlotBody = EquipLoader.GetEquipSlot(Mod, Name, EquipType.Body);
+            ArmorIDs.Body.Sets.HidesTopSkin[equipSlotBody] = true;
+            ArmorIDs.Body.Sets.HidesArms[equipSlotBody] = true;
 
             int equipSlotLegs = EquipLoader.GetEquipSlot(Mod, Name, EquipType.Legs);
             ArmorIDs.Legs.Sets.HidesBottomSkin[equipSlotLegs] = true;
@@ -120,6 +124,12 @@ namespace CalamityMod.Items.Accessories
                 modPlayer.profanedCrystalHide = true;
         }
 
+        public override void UpdateVanity(Player player)
+        {
+            player.Calamity().profanedCrystalHide = false;
+            player.Calamity().profanedCrystalForce = true;
+        }
+
         internal static void DetermineTransformationEligibility(Player player)
         {
             if (DownedBossSystem.downedSCal && DownedBossSystem.downedExoMechs && (player.maxMinions - player.slotsMinions) >= 10 && !player.Calamity().profanedCrystalForce && player.HasBuff<ProfanedCrystalBuff>())
@@ -165,7 +175,7 @@ namespace CalamityMod.Items.Accessories
                                 Vector2 perturbedspeed = new Vector2(correctedVelocity.X, correctedVelocity.Y + Main.rand.Next(-3, 4)).RotatedBy(MathHelper.ToRadians(spread));
 
                                 int spearBaseDamage = shouldNerf ? 175 : 350;
-                                int spearDamage = (int)player.GetDamage<SummonDamageClass>().ApplyTo(spearBaseDamage);
+                                int spearDamage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(spearBaseDamage);
                                 Projectile.NewProjectile(source, player.Center.X, player.Center.Y - 10, perturbedspeed.X, perturbedspeed.Y, ModContent.ProjectileType<ProfanedCrystalMeleeSpear>(), spearDamage, 1f, player.whoAmI, Main.rand.NextBool(player.Calamity().profanedSoulWeaponUsage == 4 ? 5 : 7) ? 1f : 0f);
                                 spread -= Main.rand.Next(2, 4);
                                 SoundEngine.PlaySound(SoundID.Item20, player.Center);
@@ -175,7 +185,7 @@ namespace CalamityMod.Items.Accessories
                         else
                         {
                             int spearBaseDamage = shouldNerf ? 125 : 250;
-                            int spearDamage = (int)player.GetDamage<SummonDamageClass>().ApplyTo(spearBaseDamage);
+                            int spearDamage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(spearBaseDamage);
                             Projectile.NewProjectile(source, player.Center, correctedVelocity * 6.9f, ModContent.ProjectileType<ProfanedCrystalMeleeSpear>(), spearDamage, 1f, player.whoAmI, Main.rand.NextBool(player.Calamity().profanedSoulWeaponUsage == 4 ? 5 : 7) ? 1f : 0f, 1f);
                             SoundEngine.PlaySound(SoundID.Item20, player.Center);
                         }
@@ -194,7 +204,7 @@ namespace CalamityMod.Items.Accessories
                         bool isThiccBoomer = isSmallBoomer && Main.rand.NextDouble() <= 0.05; // 5%
                         int projType = isSmallBoomer ? isThiccBoomer ? 1 : 2 : 3;
                         int boomBaseDamage = shouldNerf ? 100 : 200;
-                        int boomDamage = (int)player.GetDamage<SummonDamageClass>().ApplyTo(boomBaseDamage);
+                        int boomDamage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(boomBaseDamage);
                         switch (projType)
                         {
                             case 1: //big boomer
@@ -202,7 +212,7 @@ namespace CalamityMod.Items.Accessories
                                 int proj = Projectile.NewProjectile(source, player.Center, perturbedspeed, ModContent.ProjectileType<ProfanedCrystalRangedHuges>(), boomDamage, 0f, player.whoAmI, projType == 1 ? 1f : 0f);
                                 if (proj.WithinBounds(Main.maxProjectiles))
                                 {
-                                    Main.projectile[proj].Calamity().forceMinion = true;
+                                    Main.projectile[proj].DamageType = DamageClass.Summon;
                                     Main.projectile[proj].originalDamage = boomBaseDamage;
                                 }
                                 break;
@@ -210,7 +220,7 @@ namespace CalamityMod.Items.Accessories
                                 int proj2 = Projectile.NewProjectile(source, player.Center, perturbedspeed, ModContent.ProjectileType<ProfanedCrystalRangedSmalls>(), boomDamage, 0f, player.whoAmI, 0f);
                                 if (proj2.WithinBounds(Main.maxProjectiles))
                                 {
-                                    Main.projectile[proj2].Calamity().forceMinion = true;
+                                    Main.projectile[proj2].DamageType = DamageClass.Summon;
                                     Main.projectile[proj2].originalDamage = boomBaseDamage;
                                 }
                                 break;
@@ -242,7 +252,7 @@ namespace CalamityMod.Items.Accessories
                         correctedVelocity *= 25f;
                         SoundEngine.PlaySound(SoundID.Item20, player.Center);
                         int magefireBaseDamage = shouldNerf ? 450 : 900;
-                        int magefireDamage = (int)player.GetDamage<SummonDamageClass>().ApplyTo(magefireBaseDamage);
+                        int magefireDamage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(magefireBaseDamage);
                         if (player.HasBuff(BuffID.ManaSickness))
                         {
                             int sickPenalty = (int)(magefireDamage * (0.05f * ((player.buffTime[player.FindBuffIndex(BuffID.ManaSickness)] + 60) / 60)));
@@ -251,7 +261,7 @@ namespace CalamityMod.Items.Accessories
                         int proj = Projectile.NewProjectile(source, player.position, correctedVelocity, ModContent.ProjectileType<ProfanedCrystalMageFireball>(), magefireDamage, 1f, player.whoAmI, enrage ? 1f : 0f);
                         if (proj.WithinBounds(Main.maxProjectiles))
                         {
-                            Main.projectile[proj].Calamity().forceMinion = true;
+                            Main.projectile[proj].DamageType = DamageClass.Summon;
                             Main.projectile[proj].originalDamage = magefireBaseDamage;
                         }
                         player.Calamity().profanedSoulWeaponUsage = enrage ? 20 : 25;
@@ -272,11 +282,11 @@ namespace CalamityMod.Items.Accessories
                         {
                             float angle = MathHelper.TwoPi / crystalCount * i;
                             int shardBaseDamage = shouldNerf ? 88 : 176;
-                            int shardDamage = (int)player.GetDamage<SummonDamageClass>().ApplyTo(shardBaseDamage);
+                            int shardDamage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(shardBaseDamage);
                             int proj = Projectile.NewProjectile(source, player.Center, angle.ToRotationVector2() * 8f, ModContent.ProjectileType<ProfanedCrystalRogueShard>(), shardDamage, 1f, player.whoAmI, 0f, 0f);
                             if (proj.WithinBounds(Main.maxProjectiles))
                             {
-                                Main.projectile[proj].Calamity().forceMinion = true;
+                                Main.projectile[proj].DamageType = DamageClass.Summon;
                                 Main.projectile[proj].originalDamage = shardBaseDamage;
                             }
                             SoundEngine.PlaySound(SoundID.Item20, player.Center);
@@ -287,11 +297,11 @@ namespace CalamityMod.Items.Accessories
                     {
                         float angle = MathHelper.TwoPi / (enrage ? 9 : 18) * (player.Calamity().profanedSoulWeaponUsage / (enrage ? 1 : 10));
                         int shardBaseDamage = shouldNerf ? 110 : 220;
-                        int shardDamage = (int)player.GetDamage<SummonDamageClass>().ApplyTo(shardBaseDamage);
+                        int shardDamage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(shardBaseDamage);
                         int proj = Projectile.NewProjectile(source, player.Center, angle.ToRotationVector2() * 8f, ModContent.ProjectileType<ProfanedCrystalRogueShard>(), shardDamage, 1f, player.whoAmI, 1f, 0f);
                         if (proj.WithinBounds(Main.maxProjectiles))
                         {
-                            Main.projectile[proj].Calamity().forceMinion = true;
+                            Main.projectile[proj].DamageType = DamageClass.Summon;
                             Main.projectile[proj].originalDamage = shardBaseDamage;
                         }
                         SoundEngine.PlaySound(SoundID.Item20, player.Center);
@@ -318,8 +328,8 @@ namespace CalamityMod.Items.Accessories
             CreateRecipe().
                 AddIngredient<ProfanedSoulArtifact>().
                 AddIngredient(ItemID.ObsidianRose).
-                AddIngredient<CoreofCinder>(5).
-                AddIngredient<UeliaceBar>(25).
+                AddIngredient<CoreofSunlight>(5).
+                AddIngredient<UelibloomBar>(25).
                 AddIngredient<DivineGeode>(50).
                 AddIngredient<UnholyEssence>(100).
                 AddIngredient<ShadowspecBar>(5).

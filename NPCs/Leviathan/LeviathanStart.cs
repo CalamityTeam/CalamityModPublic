@@ -1,6 +1,5 @@
 ﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Accessories;
-using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;
@@ -50,6 +49,10 @@ namespace CalamityMod.NPCs.Leviathan
             NPC.Calamity().VulnerableToSickness = true;
             NPC.Calamity().VulnerableToElectricity = true;
             NPC.Calamity().VulnerableToWater = false;
+            NPC.Calamity().ProvidesProximityRage = false;
+
+            if (Main.getGoodWorld)
+                NPC.scale *= 0.8f;
         }
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
@@ -138,7 +141,7 @@ namespace CalamityMod.NPCs.Leviathan
             if (spawnInfo.PlayerSafe ||
                 NPC.AnyNPCs(NPCID.DukeFishron) ||
                 NPC.AnyNPCs(NPC.type) ||
-                NPC.AnyNPCs(ModContent.NPCType<Siren>()) ||
+                NPC.AnyNPCs(ModContent.NPCType<Anahita>()) ||
                 NPC.AnyNPCs(ModContent.NPCType<Leviathan>()) ||
                 spawnInfo.Player.Calamity().ZoneSulphur ||
                 NPC.LunarApocalypseIsUp)
@@ -171,7 +174,7 @@ namespace CalamityMod.NPCs.Leviathan
             }
             else if (Main.netMode != NetmodeID.MultiplayerClient)
             {
-                int siren = NPC.NewNPC(NPC.GetSource_Death(), (int)NPC.Center.X, (int)NPC.position.Y + NPC.height, ModContent.NPCType<Siren>(), NPC.whoAmI);
+                int siren = NPC.NewNPC(NPC.GetSource_Death(), (int)NPC.Center.X, (int)NPC.position.Y + NPC.height, ModContent.NPCType<Anahita>(), NPC.whoAmI);
                 CalamityUtils.BossAwakenMessage(siren);
             }
         }

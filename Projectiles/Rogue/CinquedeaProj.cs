@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -71,7 +70,7 @@ namespace CalamityMod.Projectiles.Rogue
             //Stealth strike
             if (stealthstrike)
             {
-                CalamityGlobalProjectile.HomeInOnNPC(Projectile, true, 250f, 7f, 20f);
+                CalamityUtils.HomeInOnNPC(Projectile, true, 250f, 7f, 20f);
             }
             //Gravity code
             else

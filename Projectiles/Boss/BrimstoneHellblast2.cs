@@ -19,7 +19,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-            Projectile.Calamity().canBreakPlayerDefense = true;
+            Projectile.Calamity().DealsDefenseDamage = true;
             Projectile.width = 40;
             Projectile.height = 40;
             Projectile.hostile = true;
@@ -37,7 +37,7 @@ namespace CalamityMod.Projectiles.Boss
             // Cal Clone bullet hell projectiles accelerate after a certain time has passed
             if (Projectile.ai[0] == 2f && Main.expertMode && Projectile.timeLeft < 1260)
             {
-                if (Projectile.velocity.Length() < ((CalamityWorld.malice || BossRushEvent.BossRushActive) ? 10f : 8f))
+                if (Projectile.velocity.Length() < (BossRushEvent.BossRushActive ? 10f : 8f))
                     Projectile.velocity *= 1.01f;
             }
 
@@ -87,11 +87,8 @@ namespace CalamityMod.Projectiles.Boss
             if (Projectile.Opacity != 1f)
                 return;
 
-            if (Projectile.ai[0] == 0f)
-            {
-                target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 180);
+            if (Projectile.ai[0] == 0f || Main.getGoodWorld)
                 target.AddBuff(ModContent.BuffType<VulnerabilityHex>(), 120);
-            }
             else
                 target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 180);
         }

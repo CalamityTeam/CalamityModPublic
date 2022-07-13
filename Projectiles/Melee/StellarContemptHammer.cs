@@ -1,7 +1,6 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Items.Weapons.Melee;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -67,7 +66,7 @@ namespace CalamityMod.Projectiles.Melee
             else
             {
                 Projectile.tileCollide = false;
-                float returnSpeed = StellarContemptMelee.Speed;
+                float returnSpeed = StellarContempt.Speed;
                 float acceleration = 3.2f;
                 Player owner = Main.player[Projectile.owner];
 
@@ -211,10 +210,7 @@ namespace CalamityMod.Projectiles.Melee
                 {
                     int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), startPoint, velocity, ProjectileID.LunarFlare, flareDamage, flareKB, Main.myPlayer, 0f, AI1);
                     if (proj.WithinBounds(Main.maxProjectiles))
-                    {
-                        CalamityGlobalProjectile cgp = Main.projectile[proj].Calamity();
-                        cgp.forceMelee = true;
-                    }
+                        Main.projectile[proj].DamageType = DamageClass.Melee;
                 }
             }
         }

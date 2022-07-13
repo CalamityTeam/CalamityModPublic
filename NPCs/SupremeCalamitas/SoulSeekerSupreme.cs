@@ -17,11 +17,17 @@ namespace CalamityMod.NPCs.SupremeCalamitas
     public class SoulSeekerSupreme : ModNPC
     {
         private int timer = 0;
+
         private bool start = true;
-        public NPC SCal => Main.npc[CalamityGlobalNPC.SCal];
         public Player Target => Main.player[NPC.target];
+
         public Vector2 EyePosition => NPC.Center + new Vector2(NPC.spriteDirection == -1 ? 40f : -36f, 16f);
+
         public ref float RotationalDegreeOffset => ref NPC.ai[1];
+
+        public static NPC SCal => Main.npc[CalamityGlobalNPC.SCal];
+
+        public const float NormalDR = 0.25f;
 
         public override void SetStaticDefaults()
         {
@@ -51,7 +57,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             NPC.canGhostHeal = false;
             NPC.damage = 0;
             NPC.defense = 60;
-            NPC.DR_NERD(0.25f);
+            NPC.DR_NERD(NormalDR);
             NPC.LifeMaxNERB(Main.expertMode ? 24000 : 15000, 28000);
             NPC.DeathSound = SoundID.DD2_SkeletonDeath;
             NPC.Calamity().VulnerableToHeat = false;
@@ -109,6 +115,11 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 start = false;
             }
 
+            // Increase DR if the target leaves SCal's arena.
+            NPC.Calamity().DR = NormalDR;
+            if (SCal.ModNPC<SupremeCalamitas>().IsTargetOutsideOfArena)
+                NPC.Calamity().DR = SupremeCalamitas.enragedDR;
+
             // Get a target
             if (NPC.target < 0 || NPC.target == Main.maxPlayers || Target.dead || !Target.active)
                 NPC.TargetClosest();
@@ -120,7 +131,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             NPC.spriteDirection = (Target.Center.X < NPC.Center.X).ToDirectionInt();
 
             timer++;
-            int shootRate = (CalamityWorld.malice || BossRushEvent.BossRushActive) ? 120 : 180;
+            int shootRate = BossRushEvent.BossRushActive ? 120 : 180;
             if (timer > shootRate)
             {
                 for (int i = 0; i < Main.maxNPCs; i++)
@@ -151,12 +162,9 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
         public override void OnKill()
         {
-            if (!CalamityWorld.revenge)
-            {
-                int closestPlayer = Player.FindClosest(NPC.Center, 1, 1);
-                if (Main.rand.NextBool(4) && Main.player[closestPlayer].statLife < Main.player[closestPlayer].statLifeMax2)
-                    Item.NewItem(NPC.GetSource_Loot(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
-            }
+            int closestPlayer = Player.FindClosest(NPC.Center, 1, 1);
+            if (Main.rand.NextBool(4) && Main.player[closestPlayer].statLife < Main.player[closestPlayer].statLifeMax2)
+                Item.NewItem(NPC.GetSource_Loot(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
         }
 
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)

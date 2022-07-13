@@ -40,6 +40,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 10;
             Projectile.tileCollide = false;
+            Projectile.DamageType = DamageClass.Summon;
         }
 
         public override void AI()
@@ -51,7 +52,7 @@ namespace CalamityMod.Projectiles.Summon
 
             //bools and crap
             bool correctMinion = Projectile.type == ModContent.ProjectileType<PlaguePrincess>();
-            player.AddBuff(ModContent.BuffType<PlaguePrincessBuff>(), 3600);
+            player.AddBuff(ModContent.BuffType<ViriliBuff>(), 3600);
             if (correctMinion)
             {
                 if (player.dead)

@@ -1,5 +1,4 @@
 ﻿using Terraria.DataStructures;
-using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
@@ -24,8 +23,8 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.DamageType = DamageClass.Ranged;
             Item.width = 30;
             Item.height = 50;
-            Item.useTime = 22;
-            Item.useAnimation = 22;
+            Item.useTime = 31;
+            Item.useAnimation = 31;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.knockBack = 3f;
@@ -59,7 +58,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 int index = Projectile.NewProjectile(spawnSource, source + offset, velocity * 0.6f, ProjectileID.SlimeGun, damage / 4, 0f, player.whoAmI);
                 if (index.WithinBounds(Main.maxProjectiles))
                 {
-                    Main.projectile[index].Calamity().forceRanged = true;
+                    Main.projectile[index].DamageType = DamageClass.Ranged;
                     Main.projectile[index].usesLocalNPCImmunity = true;
                     Main.projectile[index].localNPCHitCooldown = 10;
                 }

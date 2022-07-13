@@ -6,6 +6,7 @@ using Terraria.ModLoader.Core;
 
 namespace CalamityMod.Cooldowns
 {
+    // TODO -- This can be made into a ModSystem with simple OnModLoad and Unload hooks.
     public class CooldownRegistry
     {
         // Indexed by ushort netID. Contains every registered cooldown.

@@ -1,8 +1,8 @@
-﻿using CalamityMod.Dusts;
+﻿using CalamityMod.BiomeManagers;
+using CalamityMod.Dusts;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Critters;
 using CalamityMod.Items.Pets;
-using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -40,12 +40,12 @@ namespace CalamityMod.NPCs.AcidRain
             BannerItem = ModContent.ItemType<BabyFlakCrabBanner>();
             NPC.dontTakeDamageFromHostiles = true;
             NPC.catchItem = (short)ModContent.ItemType<BabyFlakCrabItem>();
+            SpawnModBiomes = new int[1] { ModContent.GetInstance<SulphurousSeaBiome>().Type };
         }
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
-                //BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.SulphurousSea,
 
                 // Will move to localization whenever that is cleaned up.
                 new FlavorTextBestiaryInfoElement("Curiously, these seem to be intelligent enough to imprint a sort of parent figure if captured at a young enough age. They will stick with you forever!")

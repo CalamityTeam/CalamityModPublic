@@ -17,6 +17,8 @@ namespace CalamityMod.Items.Weapons.Magic
             Tooltip.SetDefault("Fires a plasma blast that explodes\n" +
                 "Right click to fire plasma bolts");
             SacrificeTotal = 1;
+
+            ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }
 
         public override void SetDefaults()
@@ -62,7 +64,7 @@ namespace CalamityMod.Items.Weapons.Magic
                 mult *= 0.25f;
         }
 
-        public override float UseTimeMultiplier(Player player)
+        public override float UseSpeedMultiplier(Player player)
         {
             if (player.altFunctionUse == 2)
                 return 1f;
@@ -86,13 +88,13 @@ namespace CalamityMod.Items.Weapons.Magic
             CreateRecipe().
                 AddIngredient(ItemID.ToxicFlask).
                 AddIngredient(ItemID.Musket).
-                AddIngredient<UeliaceBar>(7).
+                AddIngredient<UelibloomBar>(7).
                 AddTile(TileID.LunarCraftingStation).
                 Register();
             CreateRecipe().
                 AddIngredient(ItemID.ToxicFlask).
                 AddIngredient(ItemID.TheUndertaker).
-                AddIngredient<UeliaceBar>(7).
+                AddIngredient<UelibloomBar>(7).
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }

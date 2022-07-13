@@ -24,7 +24,7 @@ namespace CalamityMod.Projectiles.Melee
         }
         public override void Kill(int timeLeft)
         {
-            int damage = (int)Main.player[Projectile.owner].GetDamage<MeleeDamageClass>().ApplyTo(GaelsGreatsword.BaseDamage);
+            int damage = (int)Main.player[Projectile.owner].GetTotalDamage<MeleeDamageClass>().ApplyTo(GaelsGreatsword.BaseDamage);
             for (int i = 0; i < 3; i++)
             {
                 int idx = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center + new Vector2(Main.rand.NextFloat(-35f, 35f), -1600f), Vector2.UnitY * 12f,
@@ -34,11 +34,12 @@ namespace CalamityMod.Projectiles.Melee
                 {
                     Main.projectile[idx].usesLocalNPCImmunity = true;
                     Main.projectile[idx].localNPCHitCooldown = GaelsGreatsword.ImmunityFrames;
+                    // TODO -- Ozzatron 2JUL2022: what is this? Removing forceMelee, hope it doesn't break...
                     // In death mode (and under a few other select conditions), the lightning has a PreAI return false in global projectile
                     // So forceMelee won't work unless the projectile is friendly (because a friendly exception was added)
                     Main.projectile[idx].friendly = true;
                     Main.projectile[idx].hostile = false;
-                    Main.projectile[idx].Calamity().forceMelee = true;
+                    Main.projectile[idx].DamageType = DamageClass.Melee;
                 }
             }
         }

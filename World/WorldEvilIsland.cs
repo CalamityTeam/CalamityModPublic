@@ -18,38 +18,83 @@ namespace CalamityMod.World
             int yIslandGen;
             Rectangle potentialArea;
 
-            do
+            if (WorldGen.getGoodWorldGen)
             {
-                xIslandGen = WorldGen.crimson ?
-                    WorldGen.genRand.Next((int)(x * 0.1), (int)(x * 0.2)) :
-                    WorldGen.genRand.Next((int)(x * 0.8), (int)(x * 0.9));
-                yIslandGen = WorldGen.genRand.Next(95, 126);
-                yIslandGen = Math.Min(yIslandGen, (int)WorldGen.worldSurfaceLow - 50);
+                do
+                {
+                    xIslandGen = WorldGen.genRand.Next((int)(x * 0.1), (int)(x * 0.2));
+                    yIslandGen = WorldGen.genRand.Next(95, 126);
+                    yIslandGen = Math.Min(yIslandGen, (int)WorldGen.worldSurfaceLow - 50);
 
-                int checkAreaX = 160;
-                int checkAreaY = 90;
-                potentialArea = Utils.CenteredRectangle(new Vector2(xIslandGen, yIslandGen), new Vector2(checkAreaX, checkAreaY));
-            }
-            while (!Planetoid.InvalidSkyPlacementArea(potentialArea));
+                    int checkAreaX = 160;
+                    int checkAreaY = 90;
+                    potentialArea = Utils.CenteredRectangle(new Vector2(xIslandGen, yIslandGen), new Vector2(checkAreaX, checkAreaY));
+                }
+                while (!Planetoid.InvalidSkyPlacementArea(potentialArea));
 
-            int tileXLookup = xIslandGen;
-            if (WorldGen.crimson)
-            {
+                int tileXLookup = xIslandGen;
                 while (Main.tile[tileXLookup, yIslandGen].HasTile)
                     tileXLookup++;
+
+                xIslandGen = tileXLookup;
+                EvilIsland(xIslandGen, yIslandGen, true);
+                EvilIslandHouse(xIslandGen, yIslandGen, true);
+
+                do
+                {
+                    xIslandGen = WorldGen.genRand.Next((int)(x * 0.8), (int)(x * 0.9));
+                    yIslandGen = WorldGen.genRand.Next(95, 126);
+                    yIslandGen = Math.Min(yIslandGen, (int)WorldGen.worldSurfaceLow - 50);
+
+                    int checkAreaX = 160;
+                    int checkAreaY = 90;
+                    potentialArea = Utils.CenteredRectangle(new Vector2(xIslandGen, yIslandGen), new Vector2(checkAreaX, checkAreaY));
+                }
+                while (!Planetoid.InvalidSkyPlacementArea(potentialArea));
+
+                tileXLookup = xIslandGen;
+                while (Main.tile[tileXLookup, yIslandGen].HasTile)
+                    tileXLookup--;
+
+                xIslandGen = tileXLookup;
+                EvilIsland(xIslandGen, yIslandGen, false);
+                EvilIslandHouse(xIslandGen, yIslandGen, false);
             }
             else
             {
-                while (Main.tile[tileXLookup, yIslandGen].HasTile)
-                    tileXLookup--;
-            }
+                do
+                {
+                    xIslandGen = WorldGen.crimson ?
+                        WorldGen.genRand.Next((int)(x * 0.1), (int)(x * 0.2)) :
+                        WorldGen.genRand.Next((int)(x * 0.8), (int)(x * 0.9));
+                    yIslandGen = WorldGen.genRand.Next(95, 126);
+                    yIslandGen = Math.Min(yIslandGen, (int)WorldGen.worldSurfaceLow - 50);
 
-            xIslandGen = tileXLookup;
-            EvilIsland(xIslandGen, yIslandGen);
-            EvilIslandHouse(xIslandGen, yIslandGen);
+                    int checkAreaX = 160;
+                    int checkAreaY = 90;
+                    potentialArea = Utils.CenteredRectangle(new Vector2(xIslandGen, yIslandGen), new Vector2(checkAreaX, checkAreaY));
+                }
+                while (!Planetoid.InvalidSkyPlacementArea(potentialArea));
+
+                int tileXLookup = xIslandGen;
+                if (WorldGen.crimson)
+                {
+                    while (Main.tile[tileXLookup, yIslandGen].HasTile)
+                        tileXLookup++;
+                }
+                else
+                {
+                    while (Main.tile[tileXLookup, yIslandGen].HasTile)
+                        tileXLookup--;
+                }
+
+                xIslandGen = tileXLookup;
+                EvilIsland(xIslandGen, yIslandGen, WorldGen.crimson);
+                EvilIslandHouse(xIslandGen, yIslandGen, WorldGen.crimson);
+            }
         }
 
-        public static void EvilIsland(int i, int j)
+        public static void EvilIsland(int i, int j, bool genCorruptIsland)
         {
             // Generate puffy clouds along the bottom.
             int leftOffset = 86;
@@ -104,7 +149,7 @@ namespace CalamityMod.World
                 {
                     if (!CalamityUtils.ParanoidTileRetrieval(i + dx, j + dy).HasTile)
                     {
-                        Main.tile[i + dx, j + dy].TileType = WorldGen.crimson ? TileID.CorruptSandstone : TileID.CrimsonSandstone;
+                        Main.tile[i + dx, j + dy].TileType = genCorruptIsland ? TileID.CorruptSandstone : TileID.CrimsonSandstone;
                         Main.tile[i + dx, j + dy].Get<TileWallWireStateData>().HasTile = true;
                     }
                 }
@@ -137,7 +182,7 @@ namespace CalamityMod.World
                 {
                     Point blotchPosition = (borderToGenerateAt.ToVector2() + Main.rand.NextVector2Circular(5f, 5f) + moveDirection * l * 3f).ToPoint();
                     WorldUtils.Gen(blotchPosition, new CustomShapes.DistortedCircle(WorldGen.genRand.Next(8, 10) - l, 0.4f), Actions.Chain(
-                        new Actions.SetTile(WorldGen.crimson ? TileID.CorruptSandstone : TileID.CrimsonSandstone),
+                        new Actions.SetTile(genCorruptIsland ? TileID.CorruptSandstone : TileID.CrimsonSandstone),
                         new Modifiers.IsSolid(),
                         new Modifiers.Blotches(5, 1f),
                         new Modifiers.OnlyTiles(TileID.CorruptSandstone, TileID.CrimsonSandstone)));
@@ -148,7 +193,7 @@ namespace CalamityMod.World
             for (int k = 0; k < 12; k++)
             {
                 int radius = WorldGen.genRand.Next(6, 8);
-                ushort tileType = WorldGen.crimson ? TileID.CorruptHardenedSand : TileID.CrimsonHardenedSand;
+                ushort tileType = genCorruptIsland ? TileID.CorruptHardenedSand : TileID.CrimsonHardenedSand;
 
                 Point blotchPosition = new Point(i + WorldGen.genRand.Next(-leftOffset + 20, rightOffset - 20), j + WorldGen.genRand.Next(-3, 12));
                 if (k > 4)
@@ -156,7 +201,7 @@ namespace CalamityMod.World
                     if (blotchPosition.Y > j + 3)
                     {
                         radius -= WorldGen.genRand.Next(3);
-                        tileType = WorldGen.crimson ? TileID.Demonite : TileID.Crimtane;
+                        tileType = genCorruptIsland ? TileID.Demonite : TileID.Crimtane;
                     }
                     else
                         continue;
@@ -219,7 +264,7 @@ namespace CalamityMod.World
                 Point orePosition = smoothOrePositions[k].ToPoint();
 
                 WorldUtils.Gen(orePosition, new Shapes.Circle((int)strength), Actions.Chain(
-                    new Actions.SetTile(WorldGen.crimson ? TileID.Demonite : TileID.Crimtane)));
+                    new Actions.SetTile(genCorruptIsland ? TileID.Demonite : TileID.Crimtane)));
             }
 
             // Paint all clouds.
@@ -228,15 +273,15 @@ namespace CalamityMod.World
                 for (int dy = -8; dy < 55; dy++)
                 {
                     if (CalamityUtils.ParanoidTileRetrieval(i + dx, j + dy).TileType == TileID.Cloud)
-                        WorldGen.paintTile(i + dx, j + dy, WorldGen.crimson ? PaintID.PurplePaint : PaintID.RedPaint);
+                        WorldGen.paintTile(i + dx, j + dy, genCorruptIsland ? PaintID.PurplePaint : PaintID.RedPaint);
                 }
             }
         }
 
-        public static void EvilIslandHouse(int i, int j)
+        public static void EvilIslandHouse(int i, int j, bool genCorruptHouse)
         {
-            ushort type = (ushort)(WorldGen.crimson ? 152 : 347); //tile
-            byte wall = (byte)(WorldGen.crimson ? 35 : 174); //wall
+            ushort type = (ushort)(genCorruptHouse ? 152 : 347); //tile
+            byte wall = (byte)(genCorruptHouse ? 35 : 174); //wall
             Vector2 vector = new Vector2((float)i, (float)j);
             int num = 1;
             if (WorldGen.genRand.Next(2) == 0)
@@ -329,7 +374,7 @@ namespace CalamityMod.World
                 Main.tile[num11, num10 - 1].Get<TileWallWireStateData>().HasTile = false;
                 Main.tile[num11, num10 - 2].Get<TileWallWireStateData>().HasTile = false;
             }
-            WorldGen.PlaceTile(num9, num10, 10, true, false, -1, WorldGen.crimson ? 1 : 10); //door
+            WorldGen.PlaceTile(num9, num10, 10, true, false, -1, genCorruptHouse ? 1 : 10); //door
             num9 = i + (num2 + 1) * -num - num;
             for (int num12 = num6; num12 <= num7 + 1; num12++)
             {
@@ -341,7 +386,7 @@ namespace CalamityMod.World
                 Main.tile[num9, num12].Get<TileWallWireStateData>().Slope = SlopeType.Solid;
             }
             int contain;
-            if (WorldGen.crimson)
+            if (genCorruptHouse)
             {
                 contain = 1571; //scourge
             }
@@ -349,7 +394,7 @@ namespace CalamityMod.World
             {
                 contain = 1569; //vampire
             }
-            WorldGen.AddBuriedChest(i, num10 - 3, contain, false, WorldGen.crimson ? 19 : 20); //chest
+            WorldGen.AddBuriedChest(i, num10 - 3, contain, false, genCorruptHouse ? 19 : 20); //chest
             int num14 = i - num2 / 2 + 1;
             int num15 = i + num2 / 2 - 1;
             int num16 = 1;
@@ -373,13 +418,13 @@ namespace CalamityMod.World
                 }
             }
             int num22 = i + (num2 / 2 + 1) * -num;
-            WorldGen.PlaceTile(num22, num7 - 1, 14, true, false, -1, WorldGen.crimson ? 1 : 8); //table
-            WorldGen.PlaceTile(num22 - 2, num7 - 1, 15, true, false, 0, WorldGen.crimson ? 2 : 11); //chair
+            WorldGen.PlaceTile(num22, num7 - 1, 14, true, false, -1, genCorruptHouse ? 1 : 8); //table
+            WorldGen.PlaceTile(num22 - 2, num7 - 1, 15, true, false, 0, genCorruptHouse ? 2 : 11); //chair
             Tile tile = Main.tile[num22 - 2, num7 - 1];
             tile.TileFrameX += 18;
             Tile tile2 = Main.tile[num22 - 2, num7 - 2];
             tile2.TileFrameX += 18;
-            WorldGen.PlaceTile(num22 + 2, num7 - 1, 15, true, false, 0, WorldGen.crimson ? 2 : 11); //chair
+            WorldGen.PlaceTile(num22 + 2, num7 - 1, 15, true, false, 0, genCorruptHouse ? 2 : 11); //chair
         }
     }
 }

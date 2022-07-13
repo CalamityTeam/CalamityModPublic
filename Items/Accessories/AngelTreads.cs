@@ -50,7 +50,7 @@ namespace CalamityMod.Items.Accessories
             CreateRecipe().
                 AddIngredient(ItemID.TerrasparkBoots).
                 AddIngredient<HarpyRing>().
-                AddIngredient<EssenceofCinder>(5).
+                AddIngredient<EssenceofSunlight>(5).
                 AddIngredient(ItemID.SoulofMight).
                 AddIngredient(ItemID.SoulofSight).
                 AddIngredient(ItemID.SoulofFright).

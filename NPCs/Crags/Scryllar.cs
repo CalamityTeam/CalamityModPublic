@@ -1,9 +1,9 @@
-﻿using CalamityMod.Dusts;
+﻿using CalamityMod.BiomeManagers;
+using CalamityMod.Dusts;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Weapons.Summon;
-using CalamityMod.World;
 using Terraria;
 using Terraria.GameContent.Bestiary;
 using Terraria.ID;
@@ -16,6 +16,12 @@ namespace CalamityMod.NPCs.Crags
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Scryllar");
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            {
+                PortraitPositionYOverride = 10f
+            };
+            value.Position.Y += 20f;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 
         public override void SetDefaults()
@@ -46,12 +52,12 @@ namespace CalamityMod.NPCs.Crags
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToCold = true;
             NPC.Calamity().VulnerableToWater = true;
+            SpawnModBiomes = new int[1] { ModContent.GetInstance<BrimstoneCragsBiome>().Type };
         }
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
-                //BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Crags,
 
 				// Will move to localization whenever that is cleaned up.
 				new FlavorTextBestiaryInfoElement("Twisted detritus of those who once came to harvest the remains of the crags. The whispers got to them.")
@@ -263,7 +269,7 @@ namespace CalamityMod.NPCs.Crags
             npcLoot.AddIf(() => Main.hardMode, ModContent.ItemType<EssenceofChaos>(), 3);
             var postProvidence = npcLoot.DefineConditionalDropSet(() => DownedBossSystem.downedProvidence);
             postProvidence.Add(ModContent.ItemType<Bloodstone>(), 2);
-            postProvidence.Add(ModContent.ItemType<LanternoftheSoul>(), 20);
+            postProvidence.Add(ModContent.ItemType<GuidelightofOblivion>(), 20);
         }
 
         public override void ModifyNPCLoot(NPCLoot npcLoot) => DefineScryllarLoot(npcLoot);

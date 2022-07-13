@@ -64,7 +64,7 @@ namespace CalamityMod.UI
 
             // What items are currently in the UI item slots?
             // Normally they are empty, but the plugged item could be anything and the bottom slot may be a stack of power cells.
-            int powercellID = ModContent.ItemType<PowerCell>();
+            int powercellID = ModContent.ItemType<DraedonPowerCell>();
             ref Item pluggedItem = ref charger.PluggedItem;
             Item powercell = new Item();
             powercell.TurnToAir();

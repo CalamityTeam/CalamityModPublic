@@ -54,8 +54,6 @@ namespace CalamityMod.Projectiles.Typeless
             if (BullseyeOffsetFromCenter == Vector2.Zero)
             {
                 BullseyeOffsetFromCenter = Main.rand.NextVector2CircularEdge(Target.width, Target.height) * Main.rand.NextFloat(0.925f, 1f) * 0.54f;
-                if (BullseyeOffsetFromCenter.Y > 0f)
-                    BullseyeOffsetFromCenter.Y *= -1f;
                 Projectile.netUpdate = true;
             }
             else

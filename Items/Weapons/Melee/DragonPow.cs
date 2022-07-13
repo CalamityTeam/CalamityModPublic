@@ -60,7 +60,7 @@ Summons a barrage of petals and waterfalls on enemy hits");
                 AddIngredient<BallOFugu>().
                 AddIngredient<Tumbleweed>().
                 AddIngredient<UrchinFlail>().
-                AddIngredient<HellcasterFragment>(4).
+                AddIngredient<YharonSoulFragment>(4).
                 AddIngredient<AuricBar>(5).
                 AddTile<CosmicAnvil>().
                 Register();

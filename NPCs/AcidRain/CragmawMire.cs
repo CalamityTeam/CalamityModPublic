@@ -1,5 +1,7 @@
-﻿using CalamityMod.Dusts;
+﻿using CalamityMod.BiomeManagers;
+using CalamityMod.Dusts;
 using CalamityMod.Items.Accessories;
+using CalamityMod.Items.Placeables.Furniture.BossRelics;
 using CalamityMod.Projectiles.Enemy;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -14,7 +16,6 @@ using CalamityMod.Items.Weapons.Rogue;
 using Terraria.Utilities;
 using Terraria.WorldBuilding;
 using Terraria.Audio;
-using CalamityMod.Sounds;
 
 namespace CalamityMod.NPCs.AcidRain
 {
@@ -87,13 +88,12 @@ namespace CalamityMod.NPCs.AcidRain
             NPC.Calamity().VulnerableToSickness = false;
             NPC.Calamity().VulnerableToElectricity = true;
             NPC.Calamity().VulnerableToWater = false;
+            SpawnModBiomes = new int[1] { ModContent.GetInstance<AcidRainBiome>().Type };
         }
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
-				//BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.AcidRainTier2,
-                //BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.AcidRainTier3,
 
 				// Will move to localization whenever that is cleaned up.
 				new FlavorTextBestiaryInfoElement("Within its calcified shell which has formed against all logic in the sulphurous sea, a gelatinous body stirs. It is also host to a long grappling creature, which helps it grab prey in exchange for protection.")
@@ -507,6 +507,7 @@ namespace CalamityMod.NPCs.AcidRain
             postPolter.Add(ModContent.ItemType<SpentFuelContainer>(), 10);
             postPolter.OnFailedConditions(ItemDropRule.Common(ModContent.ItemType<NuclearRod>()));
             postPolter.OnFailedConditions(ItemDropRule.Common(ModContent.ItemType<SpentFuelContainer>()));
+            npcLoot.AddIf(() => Main.masterMode || CalamityWorld.revenge, ModContent.ItemType<CragmawMireRelic>(), 4);
         }
     }
 }

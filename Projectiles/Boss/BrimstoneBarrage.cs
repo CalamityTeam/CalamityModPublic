@@ -4,7 +4,6 @@ using CalamityMod.NPCs.Calamitas;
 using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System.IO;
 using Terraria;
 using Terraria.ID;
@@ -45,10 +44,10 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void AI()
         {
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+            bool bossRush = BossRushEvent.BossRushActive;
 
-            if (Projectile.velocity.Length() < (Projectile.ai[1] == 0f ? (malice ? 17.5f : 14f) : (malice ? 12.5f : 10f)))
-                Projectile.velocity *= malice ? 1.0125f : 1.01f;
+            if (Projectile.velocity.Length() < (Projectile.ai[1] == 0f ? (bossRush ? 17.5f : 14f) : (bossRush ? 12.5f : 10f)))
+                Projectile.velocity *= bossRush ? 1.0125f : 1.01f;
 
             Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
 
@@ -84,7 +83,7 @@ namespace CalamityMod.Projectiles.Boss
                 Projectile.localAI[0] = 1f;
 
                 if (Projectile.ai[0] == 0f)
-                    Projectile.damage = NPC.AnyNPCs(ModContent.NPCType<SupremeCalamitas>()) ? Projectile.GetProjectileDamage(ModContent.NPCType<SupremeCalamitas>()) : Projectile.GetProjectileDamage(ModContent.NPCType<CalamitasRun3>());
+                    Projectile.damage = NPC.AnyNPCs(ModContent.NPCType<SupremeCalamitas>()) ? Projectile.GetProjectileDamage(ModContent.NPCType<SupremeCalamitas>()) : Projectile.GetProjectileDamage(ModContent.NPCType<CalamitasClone>());
             }
 
             Lighting.AddLight(Projectile.Center, 0.75f * Projectile.Opacity, 0f, 0f);
@@ -97,11 +96,8 @@ namespace CalamityMod.Projectiles.Boss
             if (Projectile.Opacity != 1f)
                 return;
 
-            if (Projectile.ai[0] == 0f)
-            {
-                target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 180);
+            if (Projectile.ai[0] == 0f || Main.getGoodWorld)
                 target.AddBuff(ModContent.BuffType<VulnerabilityHex>(), 120);
-            }
             else
                 target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 180);
         }

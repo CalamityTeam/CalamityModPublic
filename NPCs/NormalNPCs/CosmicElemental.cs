@@ -41,8 +41,8 @@ namespace CalamityMod.NPCs.NormalNPCs
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Caverns,
 
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("A curious construct, and though its origins are unknown, it has been decidedly proven that the core of its body leads to somewhere not of our world.")
+                // Will move to localization whenever that is cleaned up.
+                new FlavorTextBestiaryInfoElement("A curious construct, and though its origins are unknown, it has been decidedly proven that the core of its body leads to somewhere not of our world.")
             });
         }
 
@@ -115,10 +115,10 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            npcLoot.Add(ItemDropRule.Common(ItemID.BoneSword, 20).OnFailedRoll(
-                        ItemDropRule.Common(ItemID.Starfury, 50)).OnFailedRoll(
-                        ItemDropRule.Common(ItemID.EnchantedSword, 50)).OnFailedRoll(
-                        ItemDropRule.Common(ItemID.Terragrim, 100)));
+            npcLoot.Add(ItemID.BoneSword, 20);
+            npcLoot.Add(ItemID.Starfury, 50);
+            npcLoot.Add(ItemID.EnchantedSword, 50);
+            npcLoot.Add(ItemID.Terragrim, 100);
         }
     }
 }

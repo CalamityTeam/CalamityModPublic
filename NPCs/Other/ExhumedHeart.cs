@@ -1,6 +1,5 @@
 ﻿using CalamityMod.Projectiles.Summon;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -40,7 +39,7 @@ namespace CalamityMod.NPCs.Other
             NPC.knockBackResist = 0f;
             NPC.netAlways = true;
             NPC.aiStyle = -1;
-            NPC.Calamity().DoesNotGenerateRage = true;
+            NPC.Calamity().ProvidesProximityRage = false;
             NPC.Calamity().DoesNotDisappearInBossRush = true;
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToCold = true;

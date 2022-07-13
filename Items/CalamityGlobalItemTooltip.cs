@@ -1,7 +1,7 @@
 ﻿using CalamityMod.Balancing;
 using CalamityMod.CustomRecipes;
 using CalamityMod.Items.Accessories;
-using CalamityMod.Items.Armor;
+using CalamityMod.Items.Armor.Demonshade;
 using CalamityMod.Items.Tools;
 using CalamityMod.Items.VanillaArmorChanges;
 using CalamityMod.Items.Weapons.Magic;
@@ -18,6 +18,7 @@ using System.Linq;
 using System.Text;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.UI.Chat;
 
@@ -32,10 +33,6 @@ namespace CalamityMod.Items
             TooltipLine nameLine = tooltips.FirstOrDefault(x => x.Name == "ItemName" && x.Mod == "Terraria");
             if (nameLine != null)
                 ApplyRarityColor(item, nameLine);
-
-            // If the item is true melee, add a true melee damage number adjacent to the standard damage number.
-            if (item.IsTrueMelee() && item.damage > 0 && Main.LocalPlayer.Calamity().trueMeleeDamage > 0D)
-                TrueMeleeDamageTooltip(item, tooltips);
 
             // Modify all vanilla tooltips before appending mod mechanics (if any).
             ModifyVanillaTooltips(item, tooltips);
@@ -94,17 +91,17 @@ namespace CalamityMod.Items
             #region Uniquely Colored Developer Items
             if (item.type == ModContent.ItemType<Fabstaff>())
                 nameLine.OverrideColor = new Color(Main.DiscoR, 100, 255);
-            if (item.type == ModContent.ItemType<BlushieStaff>())
+            if (item.type == ModContent.ItemType<StaffofBlushie>())
                 nameLine.OverrideColor = new Color(0, 0, 255);
-            if (item.type == ModContent.ItemType<Judgement>())
-                nameLine.OverrideColor = Judgement.GetSyncedLightColor();
-            if (item.type == ModContent.ItemType<NanoblackReaperRogue>())
+            if (item.type == ModContent.ItemType<TheDanceofLight>())
+                nameLine.OverrideColor = TheDanceofLight.GetSyncedLightColor();
+            if (item.type == ModContent.ItemType<NanoblackReaper>())
                 nameLine.OverrideColor = new Color(0.34f, 0.34f + 0.66f * Main.DiscoG / 255f, 0.34f + 0.5f * Main.DiscoG / 255f);
             if (item.type == ModContent.ItemType<ShatteredCommunity>())
                 nameLine.OverrideColor = ShatteredCommunity.GetRarityColor();
             if (item.type == ModContent.ItemType<ProfanedSoulCrystal>())
                 nameLine.OverrideColor = CalamityUtils.ColorSwap(new Color(255, 166, 0), new Color(25, 250, 25), 4f); //alternates between emerald green and amber (BanditHueh)
-            if (item.type == ModContent.ItemType<BensUmbrella>())
+            if (item.type == ModContent.ItemType<TemporalUmbrella>())
                 nameLine.OverrideColor = CalamityUtils.ColorSwap(new Color(210, 0, 255), new Color(255, 248, 24), 4f);
             if (item.type == ModContent.ItemType<Endogenesis>())
                 nameLine.OverrideColor = CalamityUtils.ColorSwap(new Color(131, 239, 255), new Color(36, 55, 230), 4f);
@@ -124,7 +121,7 @@ namespace CalamityMod.Items
                 nameLine.OverrideColor = new Color(207, 17, 117);
             if (item.type == ModContent.ItemType<TriactisTruePaladinianMageHammerofMightMelee>())
                 nameLine.OverrideColor = new Color(227, 226, 180);
-            if (item.type == ModContent.ItemType<RoyalKnivesMelee>())
+            if (item.type == ModContent.ItemType<IllustriousKnives>())
                 nameLine.OverrideColor = CalamityUtils.ColorSwap(new Color(154, 255, 151), new Color(228, 151, 255), 4f);
             if (item.type == ModContent.ItemType<DemonshadeHelm>() || item.type == ModContent.ItemType<DemonshadeBreastplate>() || item.type == ModContent.ItemType<DemonshadeGreaves>())
                 nameLine.OverrideColor = CalamityUtils.ColorSwap(new Color(255, 132, 22), new Color(221, 85, 7), 4f);
@@ -161,7 +158,7 @@ namespace CalamityMod.Items
                     nameLine.OverrideColor = Color.Lerp(currentColor, nextColor, Main.GlobalTimeWrappedHourly % 2f > 1f ? 1f : Main.GlobalTimeWrappedHourly % 1f);
                 }
             }
-            if (item.type == ModContent.ItemType<PrototypeAndromechaRing>())
+            if (item.type == ModContent.ItemType<FlamsteedRing>())
             {
                 if (Main.GlobalTimeWrappedHourly % 1f < 0.6f)
                 {
@@ -289,7 +286,8 @@ namespace CalamityMod.Items
 
             // If Early Hardmode Rework is enabled: Remind users that ores will NOT spawn when an altar is smashed.
             if (CalamityConfig.Instance.EarlyHardmodeProgressionRework && (item.type == ItemID.Pwnhammer || item.type == ItemID.Hammush))
-                EditTooltipByNum(0, (line) => line.Text += "\nDemon Altars no longer spawn ores when destroyed");
+                EditTooltipByNum(0, (line) => line.Text += "\nDemon Altars now drop Souls of Night instead of generating ores when destroyed" +
+                "\nHardmode ores now generate after defeating Mechanical Bosses for the first time");
 
             // Bottled Honey gives the Honey buff
             if (item.type == ItemID.BottledHoney)
@@ -314,10 +312,10 @@ namespace CalamityMod.Items
             if (item.type == ItemID.EndurancePotion)
                 EditTooltipByNum(0, (line) => line.Text = "Reduces damage taken by 5%");
 
-            // Hand Warmer has a side bonus with Eskimo armor
+            // Hand Warmer has a side bonus with Snow armor
             if (item.type == ItemID.HandWarmer)
             {
-                string extraLine = "\nProvides a regeneration boost while wearing the Eskimo armor";
+                string extraLine = "\nProvides a regeneration boost while wearing the Snow armor";
                 EditTooltipByNum(0, (line) => line.Text += extraLine);
             }
 
@@ -336,40 +334,67 @@ namespace CalamityMod.Items
             // Aerial Bane is no longer the real bane of aerial enemies (50% dmg bonus removed)
             if (item.type == ItemID.DD2BetsyBow)
                 EditTooltipByNum(0, (line) => line.Text = "Shoots splitting arrows");
+            
+            // Modify item speed tooltips to use a new scale designed to more accurately reflect practical distributions of item speeds.
+            // Due to the higher complexity of the action, the actual logic is delegated to its own method.
+            // I think this fits the miscellaneous category? Not seeing anything like this elsewhere. - Tomat
+            EditTooltipByName("Speed", (line) => RedistributeSpeedTooltips(item, line));
             #endregion
 
             // For boss summon item clarity
             #region Boss Summon Tooltip Edits
 
             if (item.type == ItemID.Abeemination)
-                EditTooltipByNum(0, (line) => line.Text += " when used in the jungle");
+            {
+                EditTooltipByNum(0, (line) => line.Text += " when used in the Jungle\n");
+                EditTooltipByNum(0, (line) => line.Text += "Enrages outside the Underground Jungle");
+            }
 
             if (item.type == ItemID.BloodySpine)
-                EditTooltipByNum(0, (line) => line.Text += " when used in the crimson");
+            {
+                EditTooltipByNum(0, (line) => line.Text += " when used in the Crimson\n");
+                EditTooltipByNum(0, (line) => line.Text += "Enrages outside the Underground Crimson");
+            }
 
             if (item.type == ItemID.ClothierVoodooDoll)
-                EditTooltipByNum(0, (line) => line.Text += "\nWhile equipped, summons Skeletron when the Clothier is killed during nighttime");
+            {
+                EditTooltipByNum(0, (line) => line.Text += "\nWhile equipped, summons Skeletron when the Clothier is killed during nighttime\n");
+                EditTooltipByNum(0, (line) => line.Text += "Enrages during the day");
+            }
 
             if (item.type == ItemID.DeerThing)
-                EditTooltipByNum(0, (line) => line.Text += " when used in the snow or ice biome");
+                EditTooltipByNum(0, (line) => line.Text += " when used in the Snow or Ice biome");
 
             if (item.type == ItemID.GuideVoodooDoll)
                 EditTooltipByNum(0, (line) => line.Text += "\nSummons the Wall of Flesh if thrown into lava in the underworld while the Guide is alive");
 
             if (item.type == ItemID.LihzahrdPowerCell)
-                EditTooltipByNum(0, (line) => line.Text += " to summon the Golem");
+            {
+                EditTooltipByNum(0, (line) => line.Text += " to summon the Golem\n");
+                EditTooltipByNum(0, (line) => line.Text += "Enrages outside the Jungle Temple");
+            
+            }
 
             if (item.type == ItemID.MechanicalEye || item.type == ItemID.MechanicalSkull || item.type == ItemID.MechanicalWorm || item.type == ItemID.SuspiciousLookingEye)
-                EditTooltipByNum(0, (line) => line.Text += " when used during nighttime");
+            {
+                EditTooltipByNum(0, (line) => line.Text += " when used during nighttime\n");
+                EditTooltipByNum(0, (line) => line.Text += "Enrages during the day");
+            }
 
             if (item.type == ItemID.QueenSlimeCrystal)
-                EditTooltipByNum(0, (line) => line.Text += " when used in the hallow");
+                EditTooltipByNum(0, (line) => line.Text += " when used in the Hallow");
 
             if (item.type == ItemID.TruffleWorm)
-                EditTooltipByName("Consumable", (line) => line.Text += "\nSummons Duke Fishron if used as bait in the ocean");
+            {
+                EditTooltipByName("Consumable", (line) => line.Text += "\nSummons Duke Fishron if used as bait in the Ocean\n");
+                EditTooltipByName("Consumable", (line) => line.Text += "Enrages outside the Ocean");
+            }
 
             if (item.type == ItemID.WormFood)
-                EditTooltipByNum(0, (line) => line.Text += " when used in the corruption");
+            {
+                EditTooltipByNum(0, (line) => line.Text += " when used in the Corruption\n");
+                EditTooltipByNum(0, (line) => line.Text += "Enrages outside the Underground Corruption");
+            }
             #endregion
 
             // Brain of Confusion, Black Belt and Master Ninja Gear have guaranteed dodges with a fixed cooldown.
@@ -489,9 +514,9 @@ namespace CalamityMod.Items
                 EditTooltipByName("BuffTime", (line) => line.Text += abyssGreatBreathLine);
 
             if (item.type == ItemID.NeptunesShell || item.type == ItemID.MoonShell)
-                EditTooltipByNum(0, (line) => line.Text += abyssGreatBreathLine);
+                EditTooltipByNum(1, (line) => line.Text += abyssGreatBreathLine);
             if (item.type == ItemID.CelestialShell)
-                EditTooltipByNum(1, (line) => line.Text += abyssModerateBreathLine);
+                EditTooltipByNum(2, (line) => line.Text += abyssModerateBreathLine);
             #endregion
 
             // Flasks apply to Rogue weapons
@@ -546,13 +571,13 @@ namespace CalamityMod.Items
 
             // Nightwither immunity pre-Moon Lord and Holy Flames immunity pre-Profaned Guardians.
             if (item.type == ItemID.MoonStone)
-                EditTooltipByNum(0, (line) => line.Text += "\nGrants immunity to Nightwither");
+                EditTooltipByNum(1, (line) => line.Text += "\nGrants immunity to Nightwither");
             if (item.type == ItemID.SunStone)
-                EditTooltipByNum(0, (line) => line.Text += "\nGrants immunity to Holy Flames");
+                EditTooltipByNum(1, (line) => line.Text += "\nGrants immunity to Holy Flames");
             if (item.type == ItemID.CelestialStone)
-                EditTooltipByNum(0, (line) => line.Text += "\nGrants immunity to Nightwither and Holy Flames");
-            if (item.type == ItemID.CelestialShell)
                 EditTooltipByNum(1, (line) => line.Text += "\nGrants immunity to Nightwither and Holy Flames");
+            if (item.type == ItemID.CelestialShell)
+                EditTooltipByNum(2, (line) => line.Text += "\nGrants immunity to Nightwither and Holy Flames");
 
             // Arcane and Magnet Flower buffs.
             if (item.type == ItemID.ArcaneFlower || item.type == ItemID.MagnetFlower)
@@ -565,7 +590,7 @@ namespace CalamityMod.Items
             // Soaring Insignia nerf and clear explanation of what it actually does.
             if (item.type == ItemID.EmpressFlightBooster)
             {
-                EditTooltipByNum(0, (line) => line.Text = "Increases wing flight time by 50%");
+                EditTooltipByNum(0, (line) => line.Text = "Increases wing flight time by 25%");
                 EditTooltipByNum(1, (line) => line.Text = "Increases movement and jump speed by 10% and acceleration by 1.1x");
             }
 
@@ -621,6 +646,10 @@ namespace CalamityMod.Items
             // Yoyo Glove/Bag apply a 0.66x damage multiplier on yoyos
             if (item.type == ItemID.YoyoBag || item.type == ItemID.YoYoGlove)
                 EditTooltipByNum(0, (line) => line.Text += "\nYoyos will do 33% less damage");
+
+            // Falcon Blade +20% move speed while holding
+            if (item.type == ItemID.FalconBlade)
+                EditTooltipByName("Knockback", (line) => line.Text += "\nHolding this item grants +20% increased movement speed");
             #endregion
 
             // Pre-Hardmode ore armor tooltip edits
@@ -1069,33 +1098,6 @@ namespace CalamityMod.Items
         }
         #endregion
 
-        #region True Melee Damage Tooltip
-        private void TrueMeleeDamageTooltip(Item item, IList<TooltipLine> tooltips)
-        {
-            TooltipLine line = tooltips.FirstOrDefault((l) => l.Mod == "Terraria" && l.Name == "Damage");
-
-            // If there somehow isn't a damage tooltip line, do not try to perform any edits.
-            if (line is null)
-                return;
-
-            // Start with the existing line of melee damage.
-            StringBuilder sb = new StringBuilder(64);
-            sb.Append(line.Text).Append(" : ");
-
-            Player p = Main.LocalPlayer;
-            float itemCurrentDamage = p.GetDamage<MeleeDamageClass>().ApplyTo(item.damage);
-            double trueMeleeBoost = 1D + p.Calamity().trueMeleeDamage;
-            double imprecisionRoundingCorrection = 5E-06D;
-            int damageToDisplay = (int)(itemCurrentDamage * trueMeleeBoost + imprecisionRoundingCorrection);
-            sb.Append(damageToDisplay);
-
-            // These two pieces are split apart for ease of translation
-            sb.Append(' ');
-            sb.Append("true melee damage");
-            line.Text = sb.ToString();
-        }
-        #endregion
-
         #region Stealth Generation Prefix Accessory Tooltip
         private void StealthGenAccessoryTooltip(Item item, IList<TooltipLine> tooltips)
         {
@@ -1111,6 +1113,57 @@ namespace CalamityMod.Items
                 };
                 tooltips.Add(StealthGen);
             }
+        }
+        #endregion
+
+        #region Speed Tooltips
+        
+        // TODO: Investigate using a SortedDictionary instead? May be slower, but removes the need for carefully adding KVPs.
+        /// <summary>
+        /// This dictionary handles easily retrieving tooltip text based on a numerical threshold. <br />
+        /// As items are added to the dictionary, the keys should only increase as they go down. <br />
+        /// For example: <code>{ 2, x }, { 4, y }, { 7, z }, ...</code>. <br />
+        /// When iterating with the threshold in mind, this essentially equates to: <br />
+        /// <code>
+        /// if (foo &lt;= 2) bar = x;
+        /// else if (foo &lt;= 4) bar = y;
+        /// else if (foo &lt;= 7) bar = z;
+        /// </code>
+        /// </summary>
+        /// <remarks>
+        /// Currently, the dictionary functions as follows: <br />
+        /// 1-5   insanely fast <br />
+        /// 6-9   very fast <br />
+        /// 10-14 fast <br />
+        /// 15-22 average <br />
+        /// 23-29 slow <br />
+        /// 30-37 very slow <br />
+        /// 38-45 extremely slow <br />
+        /// 46+   snail
+        /// </remarks>
+        private static readonly Dictionary<int, LocalizedText> SpeedTooltips = new Dictionary<int, LocalizedText>()
+        {
+            { 5, Language.GetText("LegacyTooltip.6") },
+            { 9, Language.GetText("LegacyTooltip.7") },
+            { 14, Language.GetText("LegacyTooltip.8") },
+            { 22, Language.GetText("LegacyTooltip.9") },
+            { 29, Language.GetText("LegacyTooltip.10") },
+            { 37, Language.GetText("LegacyTooltip.11") },
+            { 45, Language.GetText("LegacyTooltip.12") },
+            // TODO: Using int.MaxValue here may be considered kind of strange - only alternatives I can think of require hardcoding.
+            { int.MaxValue, Language.GetText("LegacyTooltip.13") }
+        };
+
+        private static void RedistributeSpeedTooltips(Item item, TooltipLine line)
+        {
+            // Iterate through each KeyValuePair in this dictionary.
+            // See the summary of SpeedTooltips to understand the purpose and logic of this loop.
+            foreach ((int threshold, LocalizedText tooltip) in SpeedTooltips)
+                if (item.useAnimation <= threshold)
+                {
+                    line.Text = tooltip.Value;
+                    break;
+                }
         }
         #endregion
 
@@ -1152,6 +1205,24 @@ namespace CalamityMod.Items
         {
             TooltipLine line = new TooltipLine(CalamityMod.Instance, "SchematicKnowledge1", "You don't have sufficient knowledge to create this yet");
             TooltipLine line2 = new TooltipLine(CalamityMod.Instance, "SchematicKnowledge2", "A specific schematic must be deciphered first");
+            switch (tier)
+            {
+                case 1:
+                    line2 = new TooltipLine(CalamityMod.Instance, "SchematicKnowledge2", "The Sunken Sea schematic must be deciphered first");
+                    break;
+                case 2:
+                    line2 = new TooltipLine(CalamityMod.Instance, "SchematicKnowledge2", "The Planetoid schematic must be deciphered first");
+                    break;
+                case 3:
+                    line2 = new TooltipLine(CalamityMod.Instance, "SchematicKnowledge2", "The Jungle schematic must be deciphered first");
+                    break;
+                case 4:
+                    line2 = new TooltipLine(CalamityMod.Instance, "SchematicKnowledge2", "The Underworld schematic must be deciphered first");
+                    break;
+                case 5:
+                    line2 = new TooltipLine(CalamityMod.Instance, "SchematicKnowledge2", "The Ice biome schematic must be deciphered first");
+                    break;
+            }
             line.OverrideColor = line2.OverrideColor = Color.Cyan;
 
             bool allowedDueToOldWorld = allowOldWorlds && CalamityWorld.IsWorldAfterDraedonUpdate;

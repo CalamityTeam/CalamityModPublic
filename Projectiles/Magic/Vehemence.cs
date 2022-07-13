@@ -2,7 +2,6 @@
 using CalamityMod.Dusts;
 using CalamityMod.Items.Weapons.Magic;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -86,7 +85,7 @@ namespace CalamityMod.Projectiles.Magic
             if (Main.myPlayer == Projectile.owner)
             {
                 int skullID = ModContent.ProjectileType<VehemenceSkull>();
-                int damage = (int)(Projectile.damage * Vehemenc.SkullRatio);
+                int damage = (int)(Projectile.damage * Items.Weapons.Magic.Vehemence.SkullRatio);
                 for (int i = 0; i < 18; i++)
                     Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Main.rand.NextVector2Circular(12f, 12f), skullID, damage, Projectile.knockBack, Projectile.owner);
             }

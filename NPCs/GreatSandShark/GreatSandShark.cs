@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
+using CalamityMod.Items.Placeables.Furniture.BossRelics;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -12,7 +13,6 @@ using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
-using CalamityMod.Sounds;
 
 namespace CalamityMod.NPCs.GreatSandShark
 {
@@ -31,7 +31,7 @@ namespace CalamityMod.NPCs.GreatSandShark
             NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
             {
                 Scale = 0.6f,
-                PortraitPositionXOverride = 35f
+                PortraitPositionXOverride = 70f
             };
             value.Position.X += 60f;
             NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
@@ -632,6 +632,12 @@ namespace CalamityMod.NPCs.GreatSandShark
             // 1 Grand Scale guaranteed; on Expert, 33% chance of getting a second one
             npcLoot.Add(ModContent.ItemType<GrandScale>());
             npcLoot.AddIf(() => Main.expertMode, ModContent.ItemType<GrandScale>(), 3);
+
+            npcLoot.Add(ItemID.LightShard, 2);
+            npcLoot.Add(ItemID.DarkShard, 2);
+
+            // Relic
+            npcLoot.AddIf(() => Main.masterMode || CalamityWorld.revenge, ModContent.ItemType<GreatSandSharkRelic>(), 4);
         }
 
         public override void OnKill()

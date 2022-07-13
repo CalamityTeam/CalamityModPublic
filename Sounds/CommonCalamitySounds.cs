@@ -1,15 +1,15 @@
-﻿using System;
-using Terraria.Audio;
+﻿using Terraria.Audio;
 
 namespace CalamityMod.Sounds
 {
-	public static class CommonCalamitySounds
+    public static class CommonCalamitySounds
 	{
         public static readonly SoundStyle OtherwordlyHitSound = new("CalamityMod/Sounds/NPCHit/OtherworldlyHit");
 
         public static readonly SoundStyle AstralNPCHitSound = new("CalamityMod/Sounds/NPCHit/AstralEnemyHit", 3);
 
         public static readonly SoundStyle AstralNPCDeathSound = new("CalamityMod/Sounds/NPCKilled/AstralEnemyDeath") { Volume = 0.7f };
+        public static readonly SoundStyle WulfrumNPCDeathSound = new("CalamityMod/Sounds/NPCKilled/WulfrumDeath");
 
         public static readonly SoundStyle PlagueBoomSound = new("CalamityMod/Sounds/Custom/PlagueSounds/PlagueBoom", 4);
 
@@ -36,5 +36,10 @@ namespace CalamityMod.Sounds
         public static readonly SoundStyle SwiftSliceSound = new("CalamityMod/Sounds/Custom/SwiftSlice");
 
         public static readonly SoundStyle ScissorGuillotineSnapSound = new("CalamityMod/Sounds/Custom/ScissorGuillotineSnap");
+
+        public static readonly SoundStyle LouderPhantomPhoenix = new("CalamityMod/Sounds/Item/LouderPhantomPhoenix", 3);
+
+        public static readonly SoundStyle LouderSwingWoosh = new("CalamityMod/Sounds/Custom/LoudSwingWoosh");
+
     }
 }

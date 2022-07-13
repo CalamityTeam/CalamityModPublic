@@ -181,7 +181,7 @@ namespace CalamityMod.Projectiles.Magic
 
         private void Explode(bool reducedDmg = false)
         {
-            CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 64);
+            Projectile.ExpandHitboxBy(64);
             SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);
             Vector2 spawnPos = Projectile.Center;
             spawnPos.Y -= 70f;

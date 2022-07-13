@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Placeables.DraedonStructures
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 100;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Laboratory Electric Panel");
         }
 
@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Placeables.DraedonStructures
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<Items.Placeables.DraedonStructures.LaboratoryPlating>(), 7).AddIngredient(ModContent.ItemType<DubiousPlating>()).AddIngredient(ModContent.ItemType<PowerCell>(), 4).AddTile(TileID.Anvils).Register();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<Items.Placeables.DraedonStructures.LaboratoryPlating>(), 7).AddIngredient(ModContent.ItemType<DubiousPlating>()).AddIngredient(ModContent.ItemType<DraedonPowerCell>(), 4).AddTile(TileID.Anvils).Register();
         }
     }
 }

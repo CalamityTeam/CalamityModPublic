@@ -45,6 +45,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.tileCollide = false;
             Projectile.minion = true;
             Projectile.scale = 0.01f;
+            Projectile.DamageType = DamageClass.Summon;
         }
 
         private void ApplySucc(NPC npc)
@@ -151,7 +152,7 @@ namespace CalamityMod.Projectiles.Summon
             int baseHeight = 34;
             int newWidth = (int)(baseWidth * Projectile.scale);
             int newHeight = (int)(baseHeight * Projectile.scale);
-            CalamityGlobalProjectile.ExpandHitboxBy(Projectile, newWidth, newHeight);
+            Projectile.ExpandHitboxBy(newWidth, newHeight);
 
 
 

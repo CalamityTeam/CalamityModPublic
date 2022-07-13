@@ -34,21 +34,24 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             Item.damage = 1378;
             Item.noMelee = true;
             Item.noUseGraphic = true;
-            Item.consumable = true;
-            Item.maxStack = 999;
+            Item.consumable = false;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.useAnimation = Item.useTime = 27;
             Item.knockBack = 3f;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
 
-            Item.value = Item.sellPrice(silver: 10);
+            Item.value = CalamityGlobalItem.Rarity14BuyPrice;
             Item.rare = ItemRarityID.Purple;
             modItem.customRarity = CalamityRarity.DraedonRust;
 
             Item.shoot = ModContent.ProjectileType<PlasmaGrenadeProjectile>();
             Item.shootSpeed = 14f;
             Item.DamageType = RogueDamageClass.Instance;
+
+            modItem.UsesCharge = true;
+            modItem.MaxCharge = 250f;
+            modItem.ChargePerUse = 0.5f;
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
@@ -66,11 +69,11 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
         public override void AddRecipes()
         {
-            CreateRecipe(999).
-                AddIngredient<MysteriousCircuitry>(5).
-                AddIngredient<DubiousPlating>(5).
-                AddIngredient<CosmiliteBar>().
-                AddIngredient<AscendantSpiritEssence>().
+            CreateRecipe().
+                AddIngredient<MysteriousCircuitry>(15).
+                AddIngredient<DubiousPlating>(25).
+                AddIngredient<CosmiliteBar>(8).
+                AddIngredient<AscendantSpiritEssence>(2).
                 AddCondition(ArsenalTierGatedRecipe.ConstructRecipeCondition(5, out Predicate<Recipe> condition), condition).
                 AddTile<CosmicAnvil>().
                 Register();

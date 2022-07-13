@@ -85,7 +85,7 @@ namespace CalamityMod.Items.Materials
             CreateRecipe().
                 AddIngredient<ExoPrism>(5).
                 AddIngredient<AuricBar>(5).
-                AddIngredient<BarofLife>().
+                AddIngredient<LifeAlloy>().
                 AddIngredient<CoreofCalamity>().
                 AddIngredient<AscendantSpiritEssence>().
                 AddIngredient<GalacticaSingularity>(3).

@@ -28,6 +28,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.alpha = 120;
             Projectile.timeLeft = 300;
             AIType = ProjectileID.DeathLaser;
+            Projectile.DamageType = DamageClass.Summon;
         }
 
         public override void AI()

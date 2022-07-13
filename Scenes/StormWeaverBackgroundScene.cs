@@ -11,12 +11,11 @@ namespace CalamityMod.Systems
 
         public override bool IsSceneEffectActive(Player player) => NPC.AnyNPCs(ModContent.NPCType<StormWeaverHead>());
 
-        public override void SpecialVisuals(Player player)
+        public override void SpecialVisuals(Player player, bool isActive)
         {
-            bool useFlash = IsSceneEffectActive(player);
-            if (SkyManager.Instance["CalamityMod:StormWeaverFlash"] != null && useFlash != SkyManager.Instance["CalamityMod:StormWeaverFlash"].IsActive())
+            if (SkyManager.Instance["CalamityMod:StormWeaverFlash"] != null && isActive != SkyManager.Instance["CalamityMod:StormWeaverFlash"].IsActive())
             {
-                if (useFlash)
+                if (isActive)
                     SkyManager.Instance.Activate("CalamityMod:StormWeaverFlash", player.Center);
                 else
                     SkyManager.Instance.Deactivate("CalamityMod:StormWeaverFlash");

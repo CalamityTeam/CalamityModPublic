@@ -1,5 +1,4 @@
-﻿using CalamityMod.Items.Armor;
-using CalamityMod.Projectiles.Melee;
+﻿using CalamityMod.Projectiles.Melee;
 using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
@@ -7,6 +6,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using CalamityMod.Items.Armor.GemTech;
 
 namespace CalamityMod.DataStructures
 {
@@ -125,8 +125,7 @@ namespace CalamityMod.DataStructures
                 MeleeCrystalCountdown--;
 
                 // Make the crystal fire countdown go down faster if holding a true melee item.
-                bool isHoldingMeleeItem = Owner.ActiveItem().CountsAsClass<MeleeDamageClass>() && !Owner.ActiveItem().accessory;
-                if (isHoldingMeleeItem && (Owner.ActiveItem().shoot == ProjectileID.None || Owner.ActiveItem().Calamity().trueMelee))
+                if (Owner.ActiveItem().IsTrueMelee())
                     MeleeCrystalCountdown--;
 
                 // Ensure the crystal cooldown does not go below 0 due to the second decrement.
@@ -146,7 +145,7 @@ namespace CalamityMod.DataStructures
             if (!Owner.Calamity().GemTechSet || !IsYellowGemActive || Main.myPlayer != OwnerIndex || MeleeCrystalCountdown > 0)
                 return;
 
-            int damage = (int)Owner.GetDamage<MeleeDamageClass>().ApplyTo(GemTechHeadgear.MeleeShardBaseDamage);
+            int damage = (int)Owner.GetTotalDamage<MeleeDamageClass>().ApplyTo(GemTechHeadgear.MeleeShardBaseDamage);
             for (int i = 0; i < 14; i++)
             {
                 Vector2 shootVelocity = Main.rand.NextVector2Unit() * Main.rand.NextFloat(0.5f, 3.25f);
@@ -214,8 +213,7 @@ namespace CalamityMod.DataStructures
                 if (GemIsActive(GemTechArmorGemType.Rogue) && GemThatShouldBeLost == GemTechArmorGemType.Rogue)
                 {
                     RedGemRegenerationCountdown = GemTechHeadgear.GemRegenTime;
-                    // TODO -- Rogue should be its own class
-                    gemDamage = (int)Owner.GetDamage<ThrowingDamageClass>().ApplyTo(GemTechHeadgear.GemDamage);
+                    gemDamage = (int)Owner.GetTotalDamage<ThrowingDamageClass>().ApplyTo(GemTechHeadgear.GemDamage);
                     gemWasLost = true;
                 }
 
@@ -223,7 +221,7 @@ namespace CalamityMod.DataStructures
                 if (GemIsActive(GemTechArmorGemType.Melee) && GemThatShouldBeLost == GemTechArmorGemType.Melee)
                 {
                     YellowGemRegenerationCountdown = GemTechHeadgear.GemRegenTime;
-                    gemDamage = (int)Owner.GetDamage<MeleeDamageClass>().ApplyTo(GemTechHeadgear.GemDamage);
+                    gemDamage = (int)Owner.GetTotalDamage<MeleeDamageClass>().ApplyTo(GemTechHeadgear.GemDamage);
                     gemWasLost = true;
                 }
 
@@ -231,7 +229,7 @@ namespace CalamityMod.DataStructures
                 if (GemIsActive(GemTechArmorGemType.Ranged) && GemThatShouldBeLost == GemTechArmorGemType.Ranged)
                 {
                     GreenGemRegenerationCountdown = GemTechHeadgear.GemRegenTime;
-                    gemDamage = (int)Owner.GetDamage<RangedDamageClass>().ApplyTo(GemTechHeadgear.GemDamage);
+                    gemDamage = (int)Owner.GetTotalDamage<RangedDamageClass>().ApplyTo(GemTechHeadgear.GemDamage);
                     gemWasLost = true;
                 }
 
@@ -239,7 +237,7 @@ namespace CalamityMod.DataStructures
                 if (GemIsActive(GemTechArmorGemType.Summoner) && GemThatShouldBeLost == GemTechArmorGemType.Summoner)
                 {
                     BlueGemRegenerationCountdown = GemTechHeadgear.GemRegenTime;
-                    gemDamage = (int)Owner.GetDamage<SummonDamageClass>().ApplyTo(GemTechHeadgear.GemDamage);
+                    gemDamage = (int)Owner.GetTotalDamage<SummonDamageClass>().ApplyTo(GemTechHeadgear.GemDamage);
                     gemWasLost = true;
                 }
 
@@ -247,7 +245,7 @@ namespace CalamityMod.DataStructures
                 if (GemIsActive(GemTechArmorGemType.Magic) && GemThatShouldBeLost == GemTechArmorGemType.Magic)
                 {
                     PurpleGemRegenerationCountdown = GemTechHeadgear.GemRegenTime;
-                    gemDamage = (int)Owner.GetDamage<MagicDamageClass>().ApplyTo(GemTechHeadgear.GemDamage);
+                    gemDamage = (int)Owner.GetTotalDamage<MagicDamageClass>().ApplyTo(GemTechHeadgear.GemDamage);
                     gemWasLost = true;
                 }
 
@@ -255,7 +253,7 @@ namespace CalamityMod.DataStructures
                 if (GemIsActive(GemTechArmorGemType.Base) && GemThatShouldBeLost == GemTechArmorGemType.Base)
                 {
                     PinkGemRegenerationCountdown = GemTechHeadgear.GemRegenTime;
-                    gemDamage = (int)Owner.GetDamage<GenericDamageClass>().ApplyTo(GemTechHeadgear.GemDamage);
+                    gemDamage = (int)Owner.GetTotalDamage<GenericDamageClass>().ApplyTo(GemTechHeadgear.GemDamage);
                     gemWasLost = true;
                 }
             }

@@ -1,8 +1,10 @@
-﻿using CalamityMod.Buffs.StatDebuffs;
+﻿using CalamityMod.BiomeManagers;
+using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Events;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Placeables;
+using CalamityMod.Items.Placeables.Furniture.BossRelics;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Items.TreasureBags;
 using CalamityMod.Items.Weapons.Magic;
@@ -34,6 +36,15 @@ namespace CalamityMod.NPCs.AquaticScourge
         {
             DisplayName.SetDefault("Aquatic Scourge");
             NPCID.Sets.BossBestiaryPriority.Add(Type);
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            {
+                Scale = 0.6f,
+                PortraitScale = 0.6f,
+                CustomTexturePath = "CalamityMod/ExtraTextures/Bestiary/AquaticScourge_Bestiary"
+            };
+            value.Position.X += 40f;
+            value.Position.Y += 20f;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 
         public override void SetDefaults()
@@ -60,25 +71,28 @@ namespace CalamityMod.NPCs.AquaticScourge
             NPC.DeathSound = SoundID.NPCDeath1;
             NPC.netAlways = true;
 
-            if (CalamityWorld.malice || BossRushEvent.BossRushActive)
-                NPC.scale = 1.25f;
+            if (BossRushEvent.BossRushActive)
+                NPC.scale *= 1.25f;
             else if (CalamityWorld.death)
-                NPC.scale = 1.2f;
+                NPC.scale *= 1.2f;
             else if (CalamityWorld.revenge)
-                NPC.scale = 1.15f;
+                NPC.scale *= 1.15f;
             else if (Main.expertMode)
-                NPC.scale = 1.1f;
+                NPC.scale *= 1.1f;
+
+            if (Main.getGoodWorld)
+                NPC.scale *= 1.25f;
 
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToSickness = false;
             NPC.Calamity().VulnerableToElectricity = true;
             NPC.Calamity().VulnerableToWater = false;
+            SpawnModBiomes = new int[1] { ModContent.GetInstance<SulphurousSeaBiome>().Type };
         }
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
-				//BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.SulphurousSea,
 
 				// Will move to localization whenever that is cleaned up.
 				new FlavorTextBestiaryInfoElement("A species of scourge which has had its exoskeleton hardened and tempered by years of diving through sulphuric waters for prey. Its own jaws are now imbued with the venom of those seas.")
@@ -107,7 +121,7 @@ namespace CalamityMod.NPCs.AquaticScourge
 
         public override void AI()
         {
-            if (NPC.justHit || NPC.life <= NPC.lifeMax * 0.999 || BossRushEvent.BossRushActive)
+            if (NPC.justHit || NPC.life <= NPC.lifeMax * 0.999 || BossRushEvent.BossRushActive || Main.getGoodWorld)
                 Music = CalamityMod.Instance.GetMusicFromMusicMod("AquaticScourge") ?? MusicID.Boss2;
 
             CalamityAI.AquaticScourgeAI(NPC, Mod, true);
@@ -129,8 +143,8 @@ namespace CalamityMod.NPCs.AquaticScourge
 
             if (CalamityWorld.revenge || BossRushEvent.BossRushActive)
             {
-                if (NPC.Calamity().newAI[3] > 480f)
-                    color = Color.Lerp(color, Color.SandyBrown, MathHelper.Clamp((NPC.Calamity().newAI[3] - 480f) / 180f, 0f, 1f));
+                if (NPC.Calamity().newAI[3] > 300f)
+                    color = Color.Lerp(color, Color.SandyBrown, MathHelper.Clamp((NPC.Calamity().newAI[3] - 300f) / 180f, 0f, 1f));
                 else if (NPC.localAI[3] > 0f)
                     color = Color.Lerp(color, Color.SandyBrown, MathHelper.Clamp(NPC.localAI[3] / 90f, 0f, 1f));
             }
@@ -157,7 +171,7 @@ namespace CalamityMod.NPCs.AquaticScourge
             if (dist4 < minDist)
                 minDist = dist4;
 
-            return minDist <= 50f;
+            return minDist <= 50f * NPC.scale;
         }
 
         public override bool? CanBeHitByProjectile(Projectile projectile)
@@ -179,7 +193,7 @@ namespace CalamityMod.NPCs.AquaticScourge
             if (spawnInfo.Player.Calamity().ZoneSulphur && spawnInfo.Water)
             {
                 if (!NPC.AnyNPCs(ModContent.NPCType<AquaticScourgeHead>()))
-                    return 0.01f;
+                    return (Main.getGoodWorld ? 0.05f : 0.01f);
             }
 
             return 0f;
@@ -235,6 +249,7 @@ namespace CalamityMod.NPCs.AquaticScourge
 
             npcLoot.Add(DropHelper.PerPlayer(ItemID.GreaterHealingPotion, 1, 8, 14));
             npcLoot.Add(ModContent.ItemType<AquaticScourgeTrophy>(), 10);
+            npcLoot.AddIf(() => Main.masterMode || CalamityWorld.revenge, ModContent.ItemType<AquaticScourgeRelic>());
 
             // Lore
             bool firstASKill() => !DownedBossSystem.downedAquaticScourge;

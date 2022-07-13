@@ -1,5 +1,4 @@
 ﻿using Terraria.DataStructures;
-using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.DataStructures;
 using CalamityMod.Particles;
@@ -385,7 +384,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<BiomeBlade>().
+                AddIngredient<BrokenBiomeBlade>().
                 AddIngredient(ItemID.SoulofFright, 1).
                 AddIngredient(ItemID.SoulofMight, 1).
                 AddIngredient(ItemID.SoulofSight, 1).

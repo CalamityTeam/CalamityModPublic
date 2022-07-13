@@ -1,9 +1,11 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.BiomeManagers;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Mounts;
+using CalamityMod.Items.Placeables.Furniture.BossRelics;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Items.Potions;
 using CalamityMod.Items.TreasureBags;
@@ -63,7 +65,7 @@ namespace CalamityMod.NPCs.AstrumAureus
             NPC.height = 374;
             NPC.defense = 40;
             NPC.DR_NERD(0.5f);
-            NPC.LifeMaxNERB(NPC.downedMoonlord ? 196000 : 98000, NPC.downedMoonlord ? 235200 : 117600, 740000); // 30 seconds in boss rush
+            NPC.LifeMaxNERB(98000, 117600, 740000); // 30 seconds in boss rush
             NPC.aiStyle = -1;
             AIType = -1;
             NPC.knockBackResist = 0f;
@@ -75,12 +77,15 @@ namespace CalamityMod.NPCs.AstrumAureus
             NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
             NPC.Calamity().VulnerableToHeat = true;
             NPC.Calamity().VulnerableToSickness = false;
+            SpawnModBiomes = new int[1] { ModContent.GetInstance<AbovegroundAstralBiome>().Type };
+
+            if (Main.getGoodWorld)
+                NPC.scale *= 0.8f;
         }
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
-                //BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.AstralSurface,
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Times.NightTime,
 
 				// Will move to localization whenever that is cleaned up.
@@ -325,7 +330,7 @@ namespace CalamityMod.NPCs.AstrumAureus
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
             // Boss bag
-            npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<AstrageldonBag>()));
+            npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<AstrumAureusBag>()));
 
             // Normal drops: Everything that would otherwise be in the bag
             var normalOnly = npcLoot.DefineNormalOnlyDropSet();
@@ -342,19 +347,21 @@ namespace CalamityMod.NPCs.AstrumAureus
                 normalOnly.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, weapons));
 
                 // Vanity
-                normalOnly.Add(ModContent.ItemType<AureusMask>(), 7);
+                normalOnly.Add(ModContent.ItemType<AstrumAureusMask>(), 7);
 
                 // Equipment
                 normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<GravistarSabaton>()));
 
                 // Other
-                normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<AstralJelly>(), 1, 9, 12));
+                normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<AureusCell>(), 1, 9, 12));
                 normalOnly.Add(ModContent.ItemType<LeonidProgenitor>(), 10);
-
-                normalOnly.Add(ItemDropRule.ByCondition(DropHelper.If(() => NPC.downedMoonlord), ModContent.ItemType<SquishyBeanMount>()));
+                normalOnly.Add(ModContent.ItemType<SuspiciousLookingJellyBean>());
             }
 
-            npcLoot.Add(ModContent.ItemType<AstrageldonTrophy>(), 10);
+            npcLoot.Add(ModContent.ItemType<AstrumAureusTrophy>(), 10);
+
+            // Relic
+            npcLoot.AddIf(() => Main.masterMode || CalamityWorld.revenge, ModContent.ItemType<AstrumAureusRelic>());
 
             // Lore
             npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedAstrumAureus, ModContent.ItemType<KnowledgeAstrumAureus>());
@@ -401,8 +408,8 @@ namespace CalamityMod.NPCs.AstrumAureus
             {
                 NPC.position.X = NPC.position.X + (NPC.width / 2);
                 NPC.position.Y = NPC.position.Y + (NPC.height / 2);
-                NPC.width = 150;
-                NPC.height = 100;
+                NPC.width = (int)(150 * NPC.scale);
+                NPC.height = (int)(100 * NPC.scale);
                 NPC.position.X = NPC.position.X - (NPC.width / 2);
                 NPC.position.Y = NPC.position.Y - (NPC.height / 2);
                 for (int num621 = 0; num621 < 50; num621++)
@@ -438,9 +445,9 @@ namespace CalamityMod.NPCs.AstrumAureus
             Vector2 npcCenter = NPC.Center;
 
             // NOTE: Right and left hitboxes are interchangeable, each hitbox is the same size and is located to the right or left of the center hitbox.
-            Rectangle leftHitbox = new Rectangle((int)(npcCenter.X - 93f - 5f + 4f), (int)(npcCenter.Y + 33f - 5f), 10, 10);
-            Rectangle bodyHitbox = new Rectangle((int)(npcCenter.X - (NPC.width / 4f)), (int)(npcCenter.Y - (NPC.height / 2f) + 24f), NPC.width / 2, NPC.height);
-            Rectangle rightHitbox = new Rectangle((int)(npcCenter.X + 93f - 5f - 4f), (int)(npcCenter.Y + 33f - 5f), 10, 10);
+            Rectangle leftHitbox = new Rectangle((int)(npcCenter.X - 92f * NPC.scale), (int)(npcCenter.Y + 28f * NPC.scale), 10, 10);
+            Rectangle bodyHitbox = new Rectangle((int)(npcCenter.X - (NPC.width / 4f)), (int)(npcCenter.Y - (NPC.height / 2f) + 24f * NPC.scale), NPC.width / 2, NPC.height);
+            Rectangle rightHitbox = new Rectangle((int)(npcCenter.X + 92f * NPC.scale), (int)(npcCenter.Y + 28f * NPC.scale), 10, 10);
 
             Vector2 leftHitboxCenter = new Vector2(leftHitbox.X + (leftHitbox.Width / 2), leftHitbox.Y + (leftHitbox.Height / 2));
             Vector2 bodyHitboxCenter = new Vector2(bodyHitbox.X + (bodyHitbox.Width / 2), bodyHitbox.Y + (bodyHitbox.Height / 2));
@@ -461,7 +468,7 @@ namespace CalamityMod.NPCs.AstrumAureus
             if (leftDist4 < minLeftDist)
                 minLeftDist = leftDist4;
 
-            bool insideLeftHitbox = minLeftDist <= 120f;
+            bool insideLeftHitbox = minLeftDist <= 120f * NPC.scale;
 
             float bodyDist1 = Vector2.Distance(bodyHitboxCenter, targetHitbox.TopLeft());
             float bodyDist2 = Vector2.Distance(bodyHitboxCenter, targetHitbox.TopRight());
@@ -476,7 +483,7 @@ namespace CalamityMod.NPCs.AstrumAureus
             if (bodyDist4 < minBodyDist)
                 minBodyDist = bodyDist4;
 
-            bool insideBodyHitbox = minBodyDist <= 160f;
+            bool insideBodyHitbox = minBodyDist <= 160f * NPC.scale;
 
             float rightDist1 = Vector2.Distance(rightHitboxCenter, targetHitbox.TopLeft());
             float rightDist2 = Vector2.Distance(rightHitboxCenter, targetHitbox.TopRight());
@@ -491,7 +498,7 @@ namespace CalamityMod.NPCs.AstrumAureus
             if (rightDist4 < minRightDist)
                 minRightDist = rightDist4;
 
-            bool insideRightHitbox = minRightDist <= 120f;
+            bool insideRightHitbox = minRightDist <= 120f * NPC.scale;
 
             return (insideLeftHitbox || insideBodyHitbox || insideRightHitbox) && NPC.alpha == 0 && NPC.ai[0] > 1f;
         }

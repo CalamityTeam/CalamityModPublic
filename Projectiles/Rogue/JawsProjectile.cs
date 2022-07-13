@@ -1,7 +1,6 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -69,7 +68,7 @@ namespace CalamityMod.Projectiles.Rogue
             if (Projectile.Calamity().stealthStrike)
             {
                 target.AddBuff(ModContent.BuffType<CrushDepth>(), 120);
-                int shockwaveDamage = (int)player.GetDamage<RogueDamageClass>().ApplyTo(100f);
+                int shockwaveDamage = (int)player.GetTotalDamage<RogueDamageClass>().ApplyTo(100f);
                 Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<JawsShockwave>(), shockwaveDamage, 10f, Projectile.owner, 0, 0);
             }
         }
@@ -83,7 +82,7 @@ namespace CalamityMod.Projectiles.Rogue
             if (Projectile.Calamity().stealthStrike)
             {
                 target.AddBuff(ModContent.BuffType<CrushDepth>(), 120);
-                int shockwaveDamage = (int)player.GetDamage<RogueDamageClass>().ApplyTo(100f);
+                int shockwaveDamage = (int)player.GetTotalDamage<RogueDamageClass>().ApplyTo(100f);
                 Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<JawsShockwave>(), shockwaveDamage, 10f, Projectile.owner, 0, 0);
             }
         }

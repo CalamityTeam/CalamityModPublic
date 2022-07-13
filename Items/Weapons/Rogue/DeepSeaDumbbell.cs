@@ -67,7 +67,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             return base.CanUseItem(player);
         }
 
-        public override float UseTimeMultiplier(Player player) => player.altFunctionUse == 2 ? 5f / 9f : 1f;
+        public override float UseSpeedMultiplier(Player player) => player.altFunctionUse == 2 ? 5f / 9f : 1f;
 
         public override void ModifyWeaponDamage(Player player, ref StatModifier damage)
         {

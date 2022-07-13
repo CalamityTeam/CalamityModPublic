@@ -1,20 +1,11 @@
 ﻿using CalamityMod.Balancing;
-using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.CalPlayer.Dashes;
-using CalamityMod.Cooldowns;
-using CalamityMod.Dusts;
+using CalamityMod.EntitySources;
 using CalamityMod.Enums;
-using CalamityMod.Items.Accessories;
-using CalamityMod.Items.Armor;
 using CalamityMod.Items.Mounts;
-using CalamityMod.Projectiles.Rogue;
-using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.Audio;
-using Terraria.Graphics.Shaders;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.CalPlayer
@@ -55,7 +46,7 @@ namespace CalamityMod.CalPlayer
 
         public void ModDashMovement()
         {
-            var source = Player.GetSource_Misc("2");
+            var source = new ProjectileSource_PlayerDashHit(Player);
 
             // Handle collision slam-through effects.
             if (HasCustomDash && Player.dashDelay < 0 && Player.whoAmI == Main.myPlayer)
@@ -404,7 +395,7 @@ namespace CalamityMod.CalPlayer
 
                 damageHitbox.Width = 2;
                 damageHitbox.Inflate(6, 12);
-                float damage = Player.GetDamage<SummonDamageClass>().ApplyTo(800f);
+                float damage = Player.GetTotalDamage<SummonDamageClass>().ApplyTo(800f);
                 float knockback = 10f;
                 int NPCImmuneTime = 30;
                 int playerImmuneTime = 6;
@@ -420,7 +411,7 @@ namespace CalamityMod.CalPlayer
 
                 damageHitbox.Width = 2;
                 damageHitbox.Inflate(6, 12);
-                float damage = Player.GetDamage<SummonDamageClass>().ApplyTo(50f);
+                float damage = Player.GetTotalDamage<SummonDamageClass>().ApplyTo(50f);
                 float knockback2 = 8f;
                 int NPCImmuneTime = 30;
                 int playerImmuneTime = 6;
@@ -436,7 +427,7 @@ namespace CalamityMod.CalPlayer
 
                 damageHitbox.Width = 2;
                 damageHitbox.Inflate(6, 12);
-                float damage = Player.GetDamage<SummonDamageClass>().ApplyTo(25f);
+                float damage = Player.GetTotalDamage<SummonDamageClass>().ApplyTo(25f);
                 float knockback2 = 5f;
                 int NPCImmuneTime = 30;
                 int playerImmuneTime = 6;

@@ -1,7 +1,6 @@
 ﻿using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -20,7 +19,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            Item.damage = 58;
+            Item.damage = 52;
             Item.DamageType = DamageClass.Magic;
             Item.mana = 15;
             Item.width = 28;
@@ -35,7 +34,7 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.rare = ItemRarityID.Pink;
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<SeethingDischargeBrimstoneBarrage>();
-            Item.shootSpeed = 6f;
+            Item.shootSpeed = 12f;
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)

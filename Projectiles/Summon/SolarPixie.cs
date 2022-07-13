@@ -28,6 +28,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.tileCollide = false;
             Projectile.timeLeft *= 5;
             Projectile.minion = true;
+            Projectile.DamageType = DamageClass.Summon;
         }
 
         public override void AI()
@@ -124,7 +125,7 @@ namespace CalamityMod.Projectiles.Summon
                     int beam = Projectile.NewProjectile(Projectile.GetSource_FromThis(), source, velocity, ProjectileID.HeatRay, Projectile.damage, Projectile.knockBack, Projectile.owner);
                     if (beam.WithinBounds(Main.maxProjectiles))
                     {
-                        Main.projectile[beam].Calamity().forceMinion = true;
+                        Main.projectile[beam].DamageType = DamageClass.Summon;
                         Main.projectile[beam].originalDamage = Projectile.originalDamage;
                     }
                     Projectile.ai[0] = 50f;

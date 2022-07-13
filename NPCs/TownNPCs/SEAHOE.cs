@@ -6,10 +6,10 @@ using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.Projectiles.Rogue;
-using CalamityMod.World;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.GameContent.Bestiary;
+using Terraria.GameContent.Personalities;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
@@ -30,6 +30,13 @@ namespace CalamityMod.NPCs.TownNPCs
             NPCID.Sets.AttackTime[NPC.type] = 90;
             NPCID.Sets.AttackAverageChance[NPC.type] = 30;
             NPCID.Sets.HatOffsetY[NPC.type] = 16;
+            NPC.Happiness
+                .SetBiomeAffection<OceanBiome>(AffectionLevel.Like)
+                .SetBiomeAffection<DesertBiome>(AffectionLevel.Dislike)
+                .SetNPCAffection(NPCID.Pirate, AffectionLevel.Like)
+                .SetNPCAffection(NPCID.Demolitionist, AffectionLevel.Dislike)
+                .SetNPCAffection(NPCID.Angler, AffectionLevel.Hate)
+            ;
         }
 
         public override void SetDefaults()
@@ -51,6 +58,8 @@ namespace CalamityMod.NPCs.TownNPCs
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Ocean,   
                 
                 //Change the info part in his entry when we do the critter barter
 
@@ -78,10 +87,7 @@ namespace CalamityMod.NPCs.TownNPCs
 
             if (NPC.homeless)
             {
-                if (Main.rand.NextBool(2))
-                    return "How much more has the world fallen to ruin? Even the Tyrant’s empire...";
-                else
-                    return "Thank you for your service, my child, but I am afraid I am without a home now.";
+                return "How much more has the world fallen to ruin? Even the Tyrant’s empire...";
             }
             if (Main.dayTime)
             {

@@ -1,10 +1,12 @@
 ﻿using CalamityMod.DataStructures;
+using CalamityMod.Tiles.Ores;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.GameContent.Generation;
 using Terraria.ID;
+using Terraria.ModLoader;
 using Terraria.WorldBuilding;
 
 namespace CalamityMod.World.Planets
@@ -18,10 +20,10 @@ namespace CalamityMod.World.Planets
     {
         private ushort[] oreTypes = new ushort[]
         {
-            WorldGen.copperBar == TileID.Copper ? TileID.Tin : TileID.Copper,
-            WorldGen.ironBar == TileID.Iron ? TileID.Lead : TileID.Iron,
-            WorldGen.silverBar == TileID.Silver ? TileID.Tungsten : TileID.Silver,
-            WorldGen.goldBar == TileID.Gold ? TileID.Platinum : TileID.Gold
+            WorldGen.copperBar == TileID.Copper ? (Main.getGoodWorld ? TileID.Palladium : TileID.Tin) : (Main.getGoodWorld ? TileID.Cobalt : TileID.Copper),
+            WorldGen.ironBar == TileID.Iron ? (Main.getGoodWorld ? TileID.Palladium : TileID.Lead) : (Main.getGoodWorld ? TileID.Cobalt : TileID.Iron),
+            WorldGen.silverBar == TileID.Silver ? (Main.getGoodWorld ? TileID.Orichalcum : TileID.Tungsten) : (Main.getGoodWorld ? TileID.Mythril : TileID.Silver),
+            WorldGen.goldBar == TileID.Gold ? (Main.getGoodWorld ? TileID.Titanium : TileID.Platinum) : (Main.getGoodWorld ? TileID.Adamantite : TileID.Gold)
         };
 
         public override bool Place(Point origin, StructureMap structures)
@@ -64,7 +66,7 @@ namespace CalamityMod.World.Planets
             //Place layers
             WorldUtils.Gen(origin, new ModShapes.All(core), Actions.Chain(new GenAction[]
             {
-                new Actions.PlaceTile(TileID.Stone),
+                new Actions.PlaceTile(Main.getGoodWorld ? TileID.WoodenSpikes : TileID.Stone),
                 new Actions.PlaceWall(WallID.Cave2Unsafe)
             }));
             WorldUtils.Gen(origin, new ModShapes.All(crust), Actions.Chain(new GenAction[]
@@ -85,7 +87,7 @@ namespace CalamityMod.World.Planets
                     x = _random.Next(origin.X - radius, origin.X + radius + 1);
                     y = _random.Next(origin.Y - radius, origin.Y + radius + 1);
                 }
-                WorldGen.TileRunner(x, y, _random.NextFloat(4.6f, 7.6f), _random.Next(7, 16), TileID.Stone);
+                WorldGen.TileRunner(x, y, _random.NextFloat(4.6f, 7.6f), _random.Next(7, 16), Main.getGoodWorld ? TileID.WoodenSpikes : TileID.Stone);
             }
             for (int i = 0; i < randDirt; i++)
             {
@@ -190,7 +192,7 @@ namespace CalamityMod.World.Planets
             //Clear dirt walls on outer edge because of stone / ore
             WorldUtils.Gen(origin, new ModShapes.InnerOutline(crust), Actions.Chain(new GenAction[]
             {
-                new Modifiers.OnlyTiles(new ushort[] { TileID.Stone, oreType }),
+                new Modifiers.OnlyTiles(new ushort[] { Main.getGoodWorld ? TileID.WoodenSpikes : TileID.Stone, oreType }),
                 new Modifiers.IsTouchingAir(true),
                 new Modifiers.OnlyWalls(WallID.DirtUnsafe),
                 new Actions.ClearWall(true)

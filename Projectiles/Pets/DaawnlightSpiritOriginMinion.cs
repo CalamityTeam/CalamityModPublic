@@ -79,8 +79,8 @@ namespace CalamityMod.Projectiles.Pets
 
         public override void Kill(int timeLeft)
         {
-            if (Owner.FindBuffIndex(ModContent.BuffType<DaawnlightSpiritOriginBuff>()) != -1)
-                Owner.ClearBuff(ModContent.BuffType<DaawnlightSpiritOriginBuff>());
+            if (Owner.FindBuffIndex(ModContent.BuffType<ArcherofLunamoon>()) != -1)
+                Owner.ClearBuff(ModContent.BuffType<ArcherofLunamoon>());
         }
     }
 }

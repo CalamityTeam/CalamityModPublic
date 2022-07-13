@@ -1,7 +1,6 @@
 ﻿using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Projectiles.BaseProjectiles;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
 using Terraria;
@@ -49,7 +48,6 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 12;
             Projectile.noEnchantments = true;
-            Projectile.Calamity().trueMelee = true;
         }
 
         public override void SendExtraAI(BinaryWriter writer)

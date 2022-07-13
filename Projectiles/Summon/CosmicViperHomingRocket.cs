@@ -1,6 +1,5 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -35,6 +34,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.timeLeft = 600;
             Projectile.tileCollide = false;
             AIType = ProjectileID.Bullet;
+            Projectile.DamageType = DamageClass.Summon;
         }
 
         public override void AI()

@@ -13,6 +13,7 @@ namespace CalamityMod.Projectiles.Enemy
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Tornado");
+            ProjectileID.Sets.DrawScreenCheckFluff[Projectile.type] = 10000;
         }
 
         public override void SetDefaults()
@@ -27,7 +28,7 @@ namespace CalamityMod.Projectiles.Enemy
 
         public override void AI()
         {
-            float num1125 = Projectile.ai[1] == 1f ? 420f : 600f;
+            float num1125 = Projectile.ai[1] == 1f ? 900f : 600f;
             if (Projectile.soundDelay == 0)
             {
                 Projectile.soundDelay = -1;
@@ -38,8 +39,8 @@ namespace CalamityMod.Projectiles.Enemy
             {
                 Projectile.Kill();
             }
-            float num1127 = Projectile.ai[1] == 1f ? 60f : 15f;
-            float num1128 = Projectile.ai[1] == 1f ? 60f : 15f;
+            float num1127 = Projectile.ai[1] == 1f ? 90f : 15f;
+            float num1128 = Projectile.ai[1] == 1f ? 90f : 15f;
             Point point8 = Projectile.Center.ToTileCoordinates();
             int num1129;
             int num1130;
@@ -51,7 +52,7 @@ namespace CalamityMod.Projectiles.Enemy
             Vector2 vector146 = Vector2.Lerp(value72, value73, 0.5f);
             Vector2 value74 = new Vector2(0f, value73.Y - value72.Y);
             value74.X = value74.Y * 0.2f;
-            Projectile.width = (int)(value74.X * (Projectile.ai[1] == 1f ? 0.25f : 0.65f));
+            Projectile.width = (int)(value74.X * (Projectile.ai[1] == 1f ? 0.167f : 0.65f));
             Projectile.height = (int)value74.Y;
             Projectile.Center = vector146;
             if (Projectile.owner == Main.myPlayer)
@@ -101,13 +102,13 @@ namespace CalamityMod.Projectiles.Enemy
             }
         }
 
-        public override bool CanHitPlayer(Player target) => Projectile.ai[0] >= 60f && Projectile.ai[0] <= (Projectile.ai[1] == 1f ? 360f : 540f);
+        public override bool CanHitPlayer(Player target) => Projectile.ai[0] >= 60f && Projectile.ai[0] <= (Projectile.ai[1] == 1f ? 840f : 540f);
 
         public override bool PreDraw(ref Color lightColor)
         {
-            float num226 = Projectile.ai[1] == 1f ? 420f : 600f;
-            float num227 = Projectile.ai[1] == 1f ? 60f : 15f;
-            float num228 = Projectile.ai[1] == 1f ? 60f : 15f;
+            float num226 = Projectile.ai[1] == 1f ? 900f : 600f;
+            float num227 = Projectile.ai[1] == 1f ? 90f : 15f;
+            float num228 = Projectile.ai[1] == 1f ? 90f : 15f;
             float num229 = Projectile.ai[0];
             float scale5 = MathHelper.Clamp(num229 / 30f, 0f, 1f);
             if (num229 > num226 - 60f)
@@ -144,10 +145,10 @@ namespace CalamityMod.Projectiles.Enemy
                 Vector2 vector34 = spinningpoint2.RotatedBy((double)num238, default);
                 Vector2 value35 = new Vector2(0f, num237 + 1f);
                 value35.X = value35.Y * num232;
-                Color color39 = Microsoft.Xna.Framework.Color.Lerp(Microsoft.Xna.Framework.Color.Transparent, value34, num237 * 2f);
+                Color color39 = Color.Lerp(Color.Transparent, value34, num237 * 2f);
                 if (num237 > 0.5f)
                 {
-                    color39 = Microsoft.Xna.Framework.Color.Lerp(Microsoft.Xna.Framework.Color.Transparent, value34, 2f - num237 * 2f);
+                    color39 = Color.Lerp(Color.Transparent, value34, 2f - num237 * 2f);
                 }
                 color39.A = (byte)((float)color39.A * 0.5f);
                 color39 *= scale5;

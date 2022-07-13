@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -89,7 +88,7 @@ namespace CalamityMod.Projectiles.Ranged
                     int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ProjectileID.SporeGas + Main.rand.Next(3), (int)(Projectile.damage * 0.25), 0f, Projectile.owner);
                     if (proj.WithinBounds(Main.maxProjectiles))
                     {
-                        Main.projectile[proj].Calamity().forceRanged = true;
+                        Main.projectile[proj].DamageType = DamageClass.Ranged;
                         Main.projectile[proj].usesLocalNPCImmunity = true;
                         Main.projectile[proj].localNPCHitCooldown = 30;
                     }

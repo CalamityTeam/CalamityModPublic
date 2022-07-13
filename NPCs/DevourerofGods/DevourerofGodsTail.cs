@@ -1,7 +1,6 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
-using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;
@@ -73,6 +72,9 @@ namespace CalamityMod.NPCs.DevourerofGods
             NPC.takenDamageMultiplier = 1.25f;
             Music = CalamityMod.Instance.GetMusicFromMusicMod("DevourerOfGodsP1") ?? MusicID.Boss3;
             NPC.dontCountMe = true;
+
+            if (Main.getGoodWorld)
+                NPC.scale *= 1.5f;
         }
 
         public override void BossHeadSlot(ref int index)
@@ -154,8 +156,8 @@ namespace CalamityMod.NPCs.DevourerofGods
                 if (Main.npc[(int)NPC.ai[2]].localAI[2] == 60f)
                 {
                     NPC.position = NPC.Center;
-                    NPC.width = 80;
-                    NPC.height = 140;
+                    NPC.width = (int)(80 * NPC.scale);
+                    NPC.height = (int)(140 * NPC.scale);
                     NPC.frame = new Rectangle(0, 0, 86, 148);
                     NPC.position -= NPC.Size * 0.5f;
                     NPC.netUpdate = true;
@@ -337,6 +339,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 
             if (disintegrationFactor > 0f)
                 spriteBatch.ExitShaderRegion();
+
             return false;
         }
 
@@ -359,7 +362,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             if (dist4 < minDist)
                 minDist = dist4;
 
-            return minDist <= (phase2Started ? 70f : 35f) && NPC.Opacity >= 1f;
+            return minDist <= (phase2Started ? 70f : 35f) * NPC.scale && NPC.Opacity >= 1f;
         }
 
         public override void HitEffect(int hitDirection, double damage)
@@ -373,13 +376,13 @@ namespace CalamityMod.NPCs.DevourerofGods
             {
                 if (Main.netMode != NetmodeID.Server)
                 {
-                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("DoGS3").Type, 1f);
-                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("DoGS4").Type, 1f);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("DoGS3").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("DoGS4").Type, NPC.scale);
                 }
                 NPC.position.X = NPC.position.X + (NPC.width / 2);
                 NPC.position.Y = NPC.position.Y + (NPC.height / 2);
-                NPC.width = 50;
-                NPC.height = 50;
+                NPC.width = (int)(100 * NPC.scale);
+                NPC.height = (int)(100 * NPC.scale);
                 NPC.position.X = NPC.position.X - (NPC.width / 2);
                 NPC.position.Y = NPC.position.Y - (NPC.height / 2);
                 for (int num621 = 0; num621 < 10; num621++)
@@ -431,6 +434,7 @@ namespace CalamityMod.NPCs.DevourerofGods
         {
             if (NPC.realLife >= 0)
                 Main.npc[NPC.realLife].checkDead();
+
             return base.CheckDead();
         }
 
@@ -449,19 +453,6 @@ namespace CalamityMod.NPCs.DevourerofGods
         {
             player.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 180, true);
             player.AddBuff(ModContent.BuffType<WhisperingDeath>(), 360, true);
-
-            if (player.Calamity().dogTextCooldown <= 0)
-            {
-                string text = Utils.SelectRandom(Main.rand, new string[]
-                {
-                    "Mods.CalamityMod.EdgyBossText8",
-                    "Mods.CalamityMod.EdgyBossText9"
-                });
-                Color messageColor = Color.Cyan;
-                Rectangle location = new Rectangle((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height);
-                CombatText.NewText(location, messageColor, Language.GetTextValue(text), true);
-                player.Calamity().dogTextCooldown = 60;
-            }
         }
     }
 }

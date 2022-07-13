@@ -1,7 +1,6 @@
 ﻿using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -32,6 +31,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.tileCollide = true;
             Projectile.minionSlots = 0f;
             Projectile.minion = true;
+            Projectile.DamageType = DamageClass.Summon;
         }
         public override void AI()
         {

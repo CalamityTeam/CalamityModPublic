@@ -34,6 +34,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.minion = true;
             Projectile.tileCollide = false;
             AIType = ProjectileID.VenomSpider;
+            Projectile.DamageType = DamageClass.Summon;
         }
 
         public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
@@ -76,7 +77,7 @@ namespace CalamityMod.Projectiles.Summon
                 dust += 1f;
             }
             bool flag64 = Projectile.type == ModContent.ProjectileType<BabyBloodCrawler>();
-            player.AddBuff(ModContent.BuffType<ScabRipperBuff>(), 3600);
+            player.AddBuff(ModContent.BuffType<BabyBloodCrawlerBuff>(), 3600);
             if (flag64)
             {
                 if (player.dead)

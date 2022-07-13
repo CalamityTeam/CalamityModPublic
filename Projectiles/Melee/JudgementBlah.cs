@@ -1,5 +1,4 @@
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -89,7 +88,7 @@ namespace CalamityMod.Projectiles.Melee
             Main.dust[num458].velocity *= 0.5f;
             Main.dust[num458].velocity += Projectile.velocity * 0.1f;
 
-            CalamityGlobalProjectile.HomeInOnNPC(Projectile, !Projectile.tileCollide, 200f, 10f, 20f);
+            CalamityUtils.HomeInOnNPC(Projectile, !Projectile.tileCollide, 200f, 10f, 20f);
         }
 
         public override Color? GetAlpha(Color lightColor)

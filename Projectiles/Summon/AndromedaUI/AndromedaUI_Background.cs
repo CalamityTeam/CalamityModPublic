@@ -5,6 +5,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.Audio;
 using CalamityMod.Items.Weapons.DraedonsArsenal;
+using CalamityMod.Items.Weapons.Summon;
 
 namespace CalamityMod.Projectiles.Summon.AndromedaUI
 {
@@ -128,6 +129,15 @@ namespace CalamityMod.Projectiles.Summon.AndromedaUI
             // Should be invisible for players that do not control the UI
             if (Main.myPlayer == Projectile.owner)
             {
+                Matrix perspective = Main.GameViewMatrix.ZoomMatrix;
+
+                // Undo the gravity effect on the perspective matrix. (The math on this is probably a bit wonky but it seems to work fine enough in practice so lol)
+                if (Main.LocalPlayer.gravDir == -1f)
+                    perspective *= Matrix.Invert(Matrix.CreateScale(1f, -1f, 1f) * Matrix.CreateTranslation(0f, Main.instance.GraphicsDevice.Viewport.Height, 0f));
+
+                Main.spriteBatch.End();
+                Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, Main.Rasterizer, null, perspective);
+
                 // Draw the background UI
                 Main.spriteBatch.Draw(ModContent.Request<Texture2D>(Texture).Value,
                                  Projectile.Center - Main.screenPosition,
@@ -140,7 +150,7 @@ namespace CalamityMod.Projectiles.Summon.AndromedaUI
                                  0f);
                 DrawBrackets(Main.spriteBatch);
                 DrawIcons(Main.spriteBatch);
-
+                Main.spriteBatch.ExitShaderRegion();
 
                 // Kills the projectile if the player clicks something that isn't the UI.
                 // This is done in here and not AI to ensure that the above checks are done immediately before this check.
@@ -227,9 +237,12 @@ namespace CalamityMod.Projectiles.Summon.AndromedaUI
                     }
                     if (rightBracketSelect)
                     {
-                        RightBracketActive = true;
-                        LeftBracketActive = BottomBracketActive = false;
-                        LeftIconActive = false;
+                        if (FlamsteedRing.SpaceForLargeMech(Main.LocalPlayer))
+                        {
+                            RightBracketActive = true;
+                            LeftBracketActive = BottomBracketActive = false;
+                            LeftIconActive = false;
+                        }
                     }
                     if (topBracketSelect)
                     {
@@ -263,7 +276,7 @@ namespace CalamityMod.Projectiles.Summon.AndromedaUI
 
             // An offset is required for said icons, as they have difference sizes. Don't touch them unless the sprites are modified.
             // Bless whoever is tasked's soul if they are indeed changed
-            Vector2 iconOffset = new Vector2(2f, 28f);
+            Vector2 iconOffset = new Vector2(-14f, 11f);
             Vector2 drawPosition = Projectile.Center + iconOffset;
 
             bool eitherBracketActive = LeftBracketActive || BottomBracketActive;
@@ -272,7 +285,6 @@ namespace CalamityMod.Projectiles.Summon.AndromedaUI
             if (!eitherBracketActive || RightBracketActive)
             {
                 textureToDraw = smallIndicatorLocked;
-                iconOffset = new Vector2(7f, 30f);
                 drawPosition = Projectile.Center + iconOffset;
             }
             bool wasActive = LeftIconActive;
@@ -302,7 +314,7 @@ namespace CalamityMod.Projectiles.Summon.AndromedaUI
                              null,
                              Color.White * Projectile.Opacity,
                              0f,
-                             Projectile.Size * 0.5f,
+                             textureToDraw.Size() * 0.5f,
                              Projectile.scale,
                              SpriteEffects.None,
                              0);
@@ -319,7 +331,7 @@ namespace CalamityMod.Projectiles.Summon.AndromedaUI
 
             // An offset is required for said icons, as they have difference sizes. Don't touch them unless the sprites are modified.
             // Bless whoever is tasked's soul if they are indeed changed
-            Vector2 iconOffset = new Vector2(40f, 32f);
+            Vector2 iconOffset = new Vector2(14f, 11f);
             Vector2 drawPosition;
 
             bool eitherBracketActive = RightBracketActive || BottomBracketActive;
@@ -330,19 +342,12 @@ namespace CalamityMod.Projectiles.Summon.AndromedaUI
                 textureToDraw = thunderIndicator;
             }
 
-            if (textureToDraw == thunderIndicatorLocked)
-            {
-                iconOffset = new Vector2(36f, 30f);
-            }
-
             drawPosition = Projectile.Center + iconOffset;
 
             // Otherwise do mouse click/hover checks, and, assuming the cooldown is at 0, perform the special attack and restart the cooldown.
             if (textureToDraw != thunderIndicatorLocked && RightIconCooldown <= 0)
             {
-                Rectangle iconFrame = new Rectangle((int)drawPosition.X - 36,
-                                                    (int)drawPosition.Y - 32,
-                                                    textureToDraw.Width + 4, textureToDraw.Height + 6);
+                Rectangle iconFrame = Utils.CenteredRectangle(drawPosition, textureToDraw.Size());
                 textureToDraw = thunderIndicator;
                 if (MouseRectangle.Intersects(iconFrame))
                 {
@@ -375,11 +380,11 @@ namespace CalamityMod.Projectiles.Summon.AndromedaUI
             // And finally draw the cooldown texture + the icon
             float chargeCompletionRatio = 1f - (RightIconCooldown / (float)GiantIbanRobotOfDoom.RightIconCooldownMax);
             Main.EntitySpriteDraw(thunderIndicatorCharge,
-                             Projectile.Center + new Vector2(34f, 30f) - Main.screenPosition,
+                             drawPosition + Vector2.UnitY - Main.screenPosition,
                              new Rectangle(0, 0, thunderIndicatorCharge.Width, (int)(chargeCompletionRatio * thunderIndicatorCharge.Height)), // Fill up vertically
                              Color.White * Projectile.Opacity,
                              0f,
-                             Projectile.Size * 0.5f,
+                             thunderIndicatorCharge.Size() * 0.5f,
                              Projectile.scale,
                              SpriteEffects.None,
                              0);
@@ -388,7 +393,7 @@ namespace CalamityMod.Projectiles.Summon.AndromedaUI
                              null,
                              Color.White * Projectile.Opacity,
                              0f,
-                             Projectile.Size * 0.5f,
+                             textureToDraw.Size() * 0.5f,
                              Projectile.scale,
                              SpriteEffects.None,
                              1);
@@ -406,7 +411,7 @@ namespace CalamityMod.Projectiles.Summon.AndromedaUI
 
             // An offset is required for said icons, as they have difference sizes. Don't touch them unless the sprites are modified.
             // Bless whoever is tasked's soul if they are indeed changed
-            Vector2 iconOffset = new Vector2(22f, 8f);
+            Vector2 iconOffset = new Vector2(0f, -12f);
             Vector2 drawPosition = Projectile.Center + iconOffset;
 
             bool eitherBracketActive = LeftBracketActive || RightBracketActive;
@@ -415,15 +420,12 @@ namespace CalamityMod.Projectiles.Summon.AndromedaUI
             if (!eitherBracketActive || BottomBracketActive)
             {
                 textureToDraw = attackIndicatorLocked;
-                iconOffset = new Vector2(22f, 6f);
                 drawPosition = Projectile.Center + iconOffset;
             }
             // Otherwise do mouse click/hover checks, and, assuming the cooldown is at 0, perform the special attack and restart the cooldown.
             else if (eitherBracketActive)
             {
-                Rectangle iconFrame = new Rectangle((int)drawPosition.X - 36,
-                                                    (int)drawPosition.Y - 32,
-                                                    textureToDraw.Width, textureToDraw.Height);
+                Rectangle iconFrame = Utils.CenteredRectangle(drawPosition, textureToDraw.Size());
                 if (MouseRectangle.Intersects(iconFrame))
                 {
                     textureToDraw = TopIconActive ? meleeIndicatorHovered : rangedIndicatorHovered;
@@ -444,7 +446,7 @@ namespace CalamityMod.Projectiles.Summon.AndromedaUI
                              null,
                              Color.White * Projectile.Opacity,
                              0f,
-                             Projectile.Size * 0.5f,
+                             textureToDraw.Size() * 0.5f,
                              Projectile.scale,
                              SpriteEffects.None,
                              0);

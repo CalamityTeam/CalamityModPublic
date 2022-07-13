@@ -1,8 +1,6 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -21,7 +19,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-            Projectile.Calamity().canBreakPlayerDefense = true;
+            Projectile.Calamity().DealsDefenseDamage = true;
             Projectile.width = 64;
             Projectile.height = 66;
             Projectile.scale = 1.5f;
@@ -64,7 +62,7 @@ namespace CalamityMod.Projectiles.Boss
         public override void Kill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);
-            CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 48);
+            Projectile.ExpandHitboxBy(48);
             for (int d = 0; d < 2; d++)
             {
                 int idx = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 244, 0f, 0f, 100, default, 1f);
@@ -135,7 +133,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<LethalLavaBurn>(), 240);
+            target.AddBuff(ModContent.BuffType<Dragonfire>(), 240);
         }
 
         public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)

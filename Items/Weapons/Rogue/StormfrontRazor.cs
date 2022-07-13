@@ -5,7 +5,6 @@ using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.DataStructures;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
@@ -18,6 +17,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Tooltip.SetDefault("Throws a throwing knife that leaves sparks as it travels.\n" +
                                "Stealth strikes cause the knife to be faster and leave a huge shower of sparks as it travels");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 4));
+            ItemID.Sets.AnimatesAsSoul[Type] = true;
             SacrificeTotal = 1;
         }
 
@@ -65,7 +65,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             CreateRecipe().
                 AddIngredient<Cinquedea>().
                 AddRecipeGroup("AnyMythrilBar", 6).
-                AddIngredient<EssenceofCinder>(4).
+                AddIngredient<EssenceofSunlight>(4).
                 AddIngredient<SeaPrism>(15).
                 AddIngredient<StormlionMandible>(2).
                 AddTile(TileID.MythrilAnvil).

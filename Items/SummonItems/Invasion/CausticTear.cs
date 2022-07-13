@@ -1,6 +1,5 @@
 ﻿using CalamityMod.Events;
 using CalamityMod.Items.Materials;
-using CalamityMod.World;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -45,7 +44,8 @@ namespace CalamityMod.Items.SummonItems.Invasion
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<SulfuricScale>(5).
+                AddIngredient<SulphuricScale>(5).
+                AddCondition(Recipe.Condition.NearWater).
                 Register();
         }
     }

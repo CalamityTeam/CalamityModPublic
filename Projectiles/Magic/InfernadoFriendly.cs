@@ -61,7 +61,7 @@ namespace CalamityMod.Projectiles.Magic
             {
                 Projectile.localAI[0] = 1f;
                 Projectile.scale = (scaleBase - Projectile.ai[1]) * scaleMult / scaleBase;
-                CalamityGlobalProjectile.ExpandHitboxBy(Projectile, (int)(baseWidth * Projectile.scale), (int)(baseHeight * Projectile.scale));
+                Projectile.ExpandHitboxBy((int)(baseWidth * Projectile.scale), (int)(baseHeight * Projectile.scale));
                 Projectile.netUpdate = true;
             }
             if (Projectile.ai[1] != -1f)
@@ -99,15 +99,14 @@ namespace CalamityMod.Projectiles.Magic
                 center.Y -= baseHeight * num618 / 2f;
                 center.Y += 2f;
                 Projectile segment = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), center, Projectile.velocity, Projectile.type, Projectile.damage, Projectile.knockBack, Projectile.owner, 10f, Projectile.ai[1] - 1f);
-                //Defaults to magic
+
+                // The projectile defaults to magic, but each sub-segment copies the damage class of the previous.
+                // Truly a worm boss of weapons.
                 if (segment.whoAmI.WithinBounds(Main.maxProjectiles))
                 {
-                    segment.Calamity().forceMelee = Projectile.Calamity().forceMelee;
-                    segment.Calamity().forceRanged = Projectile.Calamity().forceRanged;
-                    segment.Calamity().forceMinion = Projectile.Calamity().forceMinion;
-                    segment.Calamity().forceRogue = Projectile.Calamity().forceRogue;
-                    segment.Calamity().forceClassless = Projectile.Calamity().forceClassless;
-                    segment.Calamity().forceHostile = Projectile.Calamity().forceHostile;
+                    segment.DamageType = Projectile.DamageType;
+                    segment.friendly = Projectile.friendly;
+                    segment.hostile = Projectile.hostile;
                 }
             }
             if (Projectile.ai[0] <= 0f)

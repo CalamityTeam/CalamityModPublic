@@ -38,7 +38,7 @@ namespace CalamityMod.Items.Accessories
                 AddIngredient(ItemID.CratePotion, 8).
                 AddRecipeGroup("Boss2Material", 5).
                 AddIngredient<SeaPrism>(10).
-                AddIngredient<VictideBar>(3).
+                AddIngredient<SeaRemains>(3).
                 AddTile(TileID.Anvils).
                 Register();
         }

@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             DisplayName.SetDefault("Virid Vanguard");
             Tooltip.SetDefault("Summons 2 blades that rotate around you\n" +
-                               "Each pair of blades take up three minion slots\n" +
+                               "Each pair of blades takes up three minion slots\n" +
                                "Right clicking prompts all blades to fly upward and redirect towards the mouse");
             Item.staff[Item.type] = true;
             SacrificeTotal = 1;
@@ -23,7 +23,6 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             Item.damage = 280;
             Item.DamageType = DamageClass.Summon;
-            Item.sentry = true;
             Item.mana = 10;
             Item.width = 26;
             Item.height = 36;
@@ -107,7 +106,7 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             CreateRecipe().
                 AddIngredient<IgneousExaltation>().
-                AddIngredient<UeliaceBar>(8).
+                AddIngredient<UelibloomBar>(8).
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }

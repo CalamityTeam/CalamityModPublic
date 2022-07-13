@@ -25,6 +25,7 @@ namespace CalamityMod.Projectiles.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Universe Splitter Ray");
+            ProjectileID.Sets.DrawScreenCheckFluff[Type] = 12000;
         }
 
         public override void SetDefaults()
@@ -38,6 +39,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.timeLeft = TimeLeft;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 6;
+            Projectile.DamageType = DamageClass.Summon;
         }
 
         // Netcode for sending and receiving shit

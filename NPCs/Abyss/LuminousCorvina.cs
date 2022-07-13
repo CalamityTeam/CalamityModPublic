@@ -1,4 +1,5 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.BiomeManagers;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
@@ -51,12 +52,12 @@ namespace CalamityMod.NPCs.Abyss
             NPC.Calamity().VulnerableToSickness = true;
             NPC.Calamity().VulnerableToElectricity = true;
             NPC.Calamity().VulnerableToWater = false;
+            SpawnModBiomes = new int[1] { ModContent.GetInstance<AbyssLayer2Biome>().Type };
         }
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
-				//BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.AbyssLayer2,
 
 				// Will move to localization whenever that is cleaned up.
 				new FlavorTextBestiaryInfoElement("This fish has a peculiar defense mechanism. When a threat such as yourself enters its field of view, it releases a shrill pulse alerting others to not its presence— but yours.")
@@ -226,36 +227,51 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void FindFrame(int frameHeight)
         {
-            if (!NPC.wet)
+            if (!NPC.wet && !NPC.IsABestiaryIconDummy)
             {
                 NPC.frameCounter = 0.0;
                 return;
             }
-            NPC.frameCounter += 1.0;
-            if (NPC.frameCounter > 6.0)
+            if (NPC.IsABestiaryIconDummy)
             {
-                NPC.frameCounter = 0.0;
-                NPC.frame.Y = NPC.frame.Y + frameHeight;
-            }
-            if (screamTimer <= (CalamityWorld.death ? 120 : 180))
-            {
-                if (NPC.frame.Y > frameHeight * 5)
+                NPC.frameCounter += 1;
+                if (NPC.frameCounter > 6.0)
+                {
+                    NPC.frame.Y = NPC.frame.Y + frameHeight;
+                    NPC.frameCounter = 0.0;
+                }
+                if (NPC.frame.Y >= frameHeight * 5)
                 {
                     NPC.frame.Y = 0;
                 }
             }
             else
             {
-                if (NPC.frame.Y < frameHeight * 6)
+                NPC.frameCounter += 1.0;
+                if (NPC.frameCounter > 6.0)
                 {
-                    NPC.frame.Y = frameHeight * 6;
+                    NPC.frameCounter = 0.0;
+                    NPC.frame.Y = NPC.frame.Y + frameHeight;
                 }
-                if (NPC.frame.Y > frameHeight * 7)
+                if (screamTimer <= (CalamityWorld.death ? 120 : 180))
                 {
-                    NPC.frame.Y = frameHeight * 6;
+                    if (NPC.frame.Y > frameHeight * 5)
+                    {
+                        NPC.frame.Y = 0;
+                    }
+                }
+                else
+                {
+                    if (NPC.frame.Y < frameHeight * 6)
+                    {
+                        NPC.frame.Y = frameHeight * 6;
+                    }
+                    if (NPC.frame.Y > frameHeight * 7)
+                    {
+                        NPC.frame.Y = frameHeight * 6;
+                    }
                 }
             }
-
         }
 
         public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
@@ -294,7 +310,7 @@ namespace CalamityMod.NPCs.Abyss
             npcLoot.Add(ModContent.ItemType<Voidstone>(), 1, 8, 15);
             var postClone = npcLoot.DefineConditionalDropSet(() => DownedBossSystem.downedCalamitas);
             postClone.Add(DropHelper.NormalVsExpertQuantity(ModContent.ItemType<DepthCells>(), 2, 1, 2, 2, 3));
-            postClone.Add(ModContent.ItemType<Lumenite>(), 2);
+            postClone.Add(ModContent.ItemType<Lumenyl>(), 2);
         }
 
         public override void HitEffect(int hitDirection, double damage)

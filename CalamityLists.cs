@@ -75,6 +75,7 @@ using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod
 {
+    // TODO -- This can be made into a ModSystem with simple OnModLoad and Unload hooks.
     public class CalamityLists
     {
         public static IList<string> donatorList;
@@ -118,7 +119,6 @@ namespace CalamityMod
         public static List<int> daggerProjList;
         public static List<int> flaskBombProjList;
         public static List<int> spikyBallProjList;
-        public static List<int> noGravityList;
         public static List<int> lavaFishList;
         public static List<int> highTestFishList;
         public static List<int> flamethrowerList;
@@ -133,7 +133,6 @@ namespace CalamityMod
         public static List<int> mossHornetList;
         public static List<int> bossMinionList;
         public static List<int> minibossList;
-        public static List<int> heartDropBlockList;
         public static List<int> pierceResistList;
         public static List<int> pierceResistExceptionList;
 
@@ -170,6 +169,9 @@ namespace CalamityMod
         public static List<int> DontCopyOriginalMinionAIList;
 
         public static Dictionary<int, int> EncryptedSchematicIDRelationship;
+
+        public static List<int> DisabledSummonerNerfItems;
+        public static List<int> DisabledSummonerNerfMinions;
 
         public static void LoadLists()
         {
@@ -601,7 +603,6 @@ namespace CalamityMod
                 ProjectileType<PhotonRipperProjectile>(),
                 ProjectileType<SpineOfThanatosProjectile>(),
 
-                ProjectileType<SylvanSlashAttack>(),
                 ProjectileType<FinalDawnProjectile>(),
                 ProjectileType<FinalDawnThrow>(),
                 ProjectileType<FinalDawnHorizontalSlash>(),
@@ -620,7 +621,7 @@ namespace CalamityMod
                 ProjectileType<AresDeathBeamStart>(),
                 ProjectileType<AresGaussNukeProjectileBoom>(),
                 ProjectileType<AresLaserBeamStart>(),
-                ProjectileType<ArtemisLaserBeamStart>(),
+                ProjectileType<ArtemisSpinLaserbeam>(),
                 ProjectileType<BirbAura>(),
                 ProjectileType<ThanatosBeamStart>()
             };
@@ -737,25 +738,25 @@ namespace CalamityMod
                 NPCType<PerforatorTailLarge>(),
                 NPCType<PerforatorTailMedium>(),
                 NPCType<PerforatorTailSmall>(),
-                NPCType<SlimeGod>(),
-                NPCType<SlimeGodRun>(),
-                NPCType<SlimeGodSplit>(),
-                NPCType<SlimeGodRunSplit>(),
+                NPCType<EbonianSlimeGod>(),
+                NPCType<CrimulanSlimeGod>(),
+                NPCType<SplitEbonianSlimeGod>(),
+                NPCType<SplitCrimulanSlimeGod>(),
                 NPCType<Horse>(),
                 NPCType<ThiccWaifu>(),
-                NPCType<CryogenIce>(),
+                NPCType<CryogenShield>(),
                 NPCType<AquaticScourgeHead>(),
                 NPCType<AquaticScourgeBody>(),
                 NPCType<AquaticScourgeBodyAlt>(),
                 NPCType<AquaticScourgeTail>(),
                 NPCType<CragmawMire>(),
-                NPCType<CalamitasRun>(),
-                NPCType<CalamitasRun2>(),
+                NPCType<Cataclysm>(),
+                NPCType<Catastrophe>(),
                 NPCType<SoulSeeker>(),
                 NPCType<GreatSandShark>(),
-                NPCType<SirenIce>(),
+                NPCType<AnahitasIceShield>(),
                 NPCType<AureusSpawn>(),
-                NPCType<PlaguebringerShade>(),
+                NPCType<PlaguebringerMiniboss>(),
                 NPCType<PlagueHomingMissile>(),
                 NPCType<PlagueMine>(),
                 NPCType<RavagerClawLeft>(),
@@ -771,11 +772,11 @@ namespace CalamityMod
                 NPCType<BobbitWormHead>(),
                 NPCType<Mauler>(),
                 NPCType<ColossalSquid>(),
-                NPCType<Reaper>(),
+                NPCType<ReaperShark>(),
                 NPCType<EidolonWyrmHead>(),
                 NPCType<NuclearTerror>(),
                 NPCType<OldDukeToothBall>(),
-                NPCType<OldDukeSharkron>(),
+                NPCType<SulphurousSharkron>(),
                 NPCType<SupremeCataclysm>(),
                 NPCType<SupremeCatastrophe>(),
                 NPCType<SoulSeekerSupreme>()
@@ -802,15 +803,13 @@ namespace CalamityMod
                 NPCType<MantisShrimp>(),
                 NPCType<OverloadedSoldier>(),
                 NPCType<PerennialSlime>(),
-                NPCType<PhantomDebris>(),
                 NPCType<Rotdog>(),
                 NPCType<Scryllar>(),
                 NPCType<ScryllarRage>(),
                 NPCType<SeaUrchin>(),
                 NPCType<StellarCulex>(),
-                NPCType<StormlionCharger>(),
+                NPCType<Stormlion>(),
                 NPCType<SuperDummyNPC>(),
-                NPCType<SunBat>(),
                 NPCType<WulfrumGyrator>(),
                 NPCType<WulfrumRover>()
             };
@@ -890,9 +889,9 @@ namespace CalamityMod
                 NPCID.BeeSmall,
                 NPCID.QueenBee,
                 NPCType<PlaguebringerGoliath>(),
-                NPCType<PlaguebringerShade>(),
-                NPCType<PlagueBeeLarge>(),
-                NPCType<PlagueBee>()
+                NPCType<PlaguebringerMiniboss>(),
+                NPCType<PlagueChargerLarge>(),
+                NPCType<PlagueCharger>()
             };
 
             beeProjectileList = new List<int>()
@@ -975,14 +974,12 @@ namespace CalamityMod
                 BuffType<HolyFlames>(),
                 BuffType<Irradiated>(),
                 BuffType<Plague>(),
-                BuffType<AbyssalFlames>(),
                 BuffType<CrushDepth>(),
                 BuffType<MarkedforDeath>(),
-                BuffType<WarCleave>(),
                 BuffType<ArmorCrunch>(),
                 BuffType<Vaporfied>(),
                 BuffType<Eutrophication>(),
-                BuffType<LethalLavaBurn>(),
+                BuffType<Dragonfire>(),
                 BuffType<Nightwither>(),
                 BuffType<VulnerabilityHex>()
             };
@@ -1121,7 +1118,6 @@ namespace CalamityMod
             {
                 NPCID.GiantWormHead,
                 NPCID.BlazingWheel,
-                NPCType<AquaticSeekerHead>(),
                 NPCType<Cnidrion>(),
                 NPCType<PrismBack>(),
                 NPCType<GhostBell>()
@@ -1207,7 +1203,7 @@ namespace CalamityMod
                 NPCType<EidolonWyrmHead>(),
                 NPCType<GulperEelHead>(),
                 NPCType<Mauler>(),
-                NPCType<Reaper>()
+                NPCType<ReaperShark>()
             };
 
             revengeanceProjectileBuffList25Percent = new List<int>()
@@ -1290,8 +1286,8 @@ namespace CalamityMod
                 NPCType<AquaticScourgeBody>(),
                 NPCType<AquaticScourgeBodyAlt>(),
                 NPCType<AquaticScourgeTail>(),
-                NPCType<AstrumDeusBodySpectral>(),
-                NPCType<AstrumDeusTailSpectral>(),
+                NPCType<AstrumDeusBody>(),
+                NPCType<AstrumDeusTail>(),
                 NPCType<StormWeaverBody>(),
                 NPCType<StormWeaverTail>(),
                 NPCType<DevourerofGodsBody>(),
@@ -1323,7 +1319,7 @@ namespace CalamityMod
 
             scopedWeaponList = new List<int>()
             {
-                ItemType<AMR>(),
+                ItemType<AntiMaterielRifle>(),
                 ItemType<Auralis>(),
                 ItemType<HalleysInferno>(),
                 ItemType<Shroomer>(),
@@ -1337,12 +1333,12 @@ namespace CalamityMod
                 ItemType<Brimblade>(),
                 ItemType<BlazingStar>(),
                 ItemType<Celestus>(),
-                ItemType<AccretionDisk>(),
+                ItemType<ElementalDisk>(),
                 ItemType<EnchantedAxe>(),
                 ItemType<EpidemicShredder>(),
                 ItemType<Equanimity>(),
                 ItemType<Eradicator>(),
-                ItemType<FlameScythe>(),
+                ItemType<SubductionSlicer>(),
                 ItemType<Glaive>(),
                 ItemType<GhoulishGouger>(),
                 ItemType<Icebreaker>(),
@@ -1350,10 +1346,10 @@ namespace CalamityMod
                 ItemType<Kylie>(),
                 ItemType<MangroveChakram>(),
                 ItemType<MoltenAmputator>(),
-                ItemType<NanoblackReaperRogue>(),
+                ItemType<NanoblackReaper>(),
                 ItemType<SandDollar>(),
-                ItemType<SeashellBoomerang>(),
-                ItemType<Shroomerang>(),
+                ItemType<FishboneBoomerang>(),
+                ItemType<InfestedClawmerang>(),
                 ItemType<Valediction>(),
                 ItemType<FrostcrushValari>(),
                 ItemType<DefectiveSphere>(),
@@ -1364,8 +1360,8 @@ namespace CalamityMod
 
             boomerangProjList = new List<int>()
             {
-                ProjectileType<AccretionDiskProj>(),
-                ProjectileType<AccretionDisk2>(),
+                ProjectileType<ElementalDiskProj>(),
+                ProjectileType<ElementalDiskSplit>(),
                 ProjectileType<BlazingStarProj>(),
                 ProjectileType<CelestusBoomerang>(),
                 ProjectileType<BrimbladeProj>(),
@@ -1374,7 +1370,7 @@ namespace CalamityMod
                 ProjectileType<EpidemicShredderProjectile>(),
                 ProjectileType<EquanimityProj>(),
                 ProjectileType<EradicatorProjectile>(),
-                ProjectileType<FlameScytheProjectile>(),
+                ProjectileType<SubductionSlicerProj>(),
                 ProjectileType<GhoulishGougerBoomerang>(),
                 ProjectileType<GlaiveProj>(),
                 ProjectileType<KylieBoomerang>(),
@@ -1383,8 +1379,8 @@ namespace CalamityMod
                 ProjectileType<FallenPaladinsHammerProj>(),
                 ProjectileType<SandDollarProj>(),
                 ProjectileType<SandDollarStealth>(),
-                ProjectileType<SeashellBoomerangProjectile>(),
-                ProjectileType<ShroomerangProj>(),
+                ProjectileType<FishboneBoomerangProjectile>(),
+                ProjectileType<InfestedClawmerangProj>(),
                 ProjectileType<TriactisHammerProj>(),
                 ProjectileType<ValedictionBoomerang>(),
                 ProjectileType<GalaxySmasherHammer>(),
@@ -1408,17 +1404,17 @@ namespace CalamityMod
             {
                 ItemType<CrystalPiercer>(),
                 ItemType<PalladiumJavelin>(),
-                ItemType<DuneHopper>(),
+                ItemType<WaveSkipper>(),
                 ItemType<EclipsesFall>(),
                 ItemType<IchorSpear>(),
-                ItemType<ProfanedTrident>(),
+                ItemType<Wrathwing>(),
                 ItemType<LuminousStriker>(),
                 ItemType<ScarletDevil>(),
                 ItemType<ScourgeoftheDesert>(),
                 ItemType<ScourgeoftheSeas>(),
                 ItemType<SpearofDestiny>(),
                 ItemType<SpearofPaleolith>(),
-                ItemType<XerocPitchfork>(),
+                ItemType<ShardofAntumbra>(),
                 ItemType<PhantasmalRuin>(),
                 ItemType<PhantomLance>(),
                 ItemType<ProfanedPartisan>(),
@@ -1547,11 +1543,9 @@ namespace CalamityMod
                 ItemType<SeafoamBomb>(),
                 ItemType<ConsecratedWater>(),
                 ItemType<DesecratedWater>(),
-                ItemType<BouncingBetty>(),
                 ItemType<TotalityBreakers>(),
                 ItemType<BlastBarrel>(),
                 ItemType<Penumbra>(),
-                ItemType<LatcherMine>(),
                 ItemType<Supernova>(),
                 ItemType<ShockGrenade>(),
                 ItemType<Exorcism>(),
@@ -1571,7 +1565,6 @@ namespace CalamityMod
             {
                 ProjectileType<BallisticPoisonBombProj>(),
                 ProjectileType<BlastBarrelProjectile>(),
-                ProjectileType<BouncingBettyProjectile>(),
                 ProjectileType<BrackishFlaskProj>(),
                 ProjectileType<DuststormInABottleProj>(),
                 ProjectileType<PlaguenadeProj>(),
@@ -1580,7 +1573,6 @@ namespace CalamityMod
                 ProjectileType<ConsecratedWaterProjectile>(),
                 ProjectileType<DesecratedWaterProj>(),
                 ProjectileType<PenumbraBomb>(),
-                ProjectileType<LatcherMineProjectile>(),
                 ProjectileType<SupernovaBomb>(),
                 ProjectileType<ShockGrenadeProjectile>(),
                 ProjectileType<ExorcismProj>(),
@@ -1631,84 +1623,6 @@ namespace CalamityMod
                 ProjectileType<SystemBaneProjectile>()
             };
 
-            noGravityList = new List<int>()
-            {
-                ItemType<AuricBar>(),
-                ItemType<EssenceofChaos>(),
-                ItemType<EssenceofCinder>(),
-                ItemType<EssenceofEleum>(),
-                ItemType<CoreofChaos>(),
-                ItemType<CoreofCinder>(),
-                ItemType<CoreofEleum>(),
-                ItemType<CoreofCalamity>(),
-                ItemType<HellcasterFragment>(),
-                ItemType<TwistingNether>(),
-                ItemType<DarkPlasma>(),
-                ItemType<DarksunFragment>(),
-                ItemType<UnholyEssence>(),
-                ItemType<GalacticaSingularity>(),
-                ItemType<NightmareFuel>(),
-                ItemType<EndothermicEnergy>(),
-                ItemType<SoulofCryogen>(),
-                ItemType<AscendantSpiritEssence>(),
-
-                ItemType<KnowledgeAquaticScourge>(),
-                ItemType<KnowledgeAstralInfection>(),
-                ItemType<KnowledgeAstrumAureus>(),
-                ItemType<KnowledgeAstrumDeus>(),
-                ItemType<KnowledgeBloodMoon>(),
-                ItemType<KnowledgeBrainofCthulhu>(),
-                ItemType<KnowledgeBrimstoneCrag>(),
-                ItemType<KnowledgeBrimstoneElemental>(),
-                ItemType<KnowledgeBumblebirb>(),
-                ItemType<KnowledgeCalamitas>(),
-                ItemType<KnowledgeCalamitasClone>(),
-                ItemType<KnowledgeCorruption>(),
-                ItemType<KnowledgeCrabulon>(),
-                ItemType<KnowledgeCrimson>(),
-                ItemType<KnowledgeCryogen>(),
-                ItemType<KnowledgeDesertScourge>(),
-                ItemType<KnowledgeDestroyer>(),
-                ItemType<KnowledgeDevourerofGods>(),
-                ItemType<KnowledgeDukeFishron>(),
-                ItemType<KnowledgeEaterofWorlds>(),
-                ItemType<KnowledgeExoMechs>(),
-                ItemType<KnowledgeEyeofCthulhu>(),
-                ItemType<KnowledgeGolem>(),
-                ItemType<KnowledgeHiveMind>(),
-                ItemType<KnowledgeKingSlime>(),
-                ItemType<KnowledgeLeviathanandSiren>(),
-                ItemType<KnowledgeLunaticCultist>(),
-                ItemType<KnowledgeMechs>(),
-                ItemType<KnowledgeMoonLord>(),
-                ItemType<KnowledgeOcean>(),
-                ItemType<KnowledgeOldDuke>(),
-                ItemType<KnowledgePerforators>(),
-                ItemType<KnowledgePlaguebringerGoliath>(),
-                ItemType<KnowledgePlantera>(),
-                ItemType<KnowledgePolterghast>(),
-                ItemType<KnowledgeProfanedGuardians>(),
-                ItemType<KnowledgeProvidence>(),
-                ItemType<KnowledgeQueenBee>(),
-                ItemType<KnowledgeRavager>(),
-                ItemType<KnowledgeSentinels>(),
-                ItemType<KnowledgeSkeletron>(),
-                ItemType<KnowledgeSkeletronPrime>(),
-                ItemType<KnowledgeSlimeGod>(),
-                ItemType<KnowledgeSulphurSea>(),
-                ItemType<KnowledgeTwins>(),
-                ItemType<KnowledgeUnderworld>(),
-                ItemType<KnowledgeWallofFlesh>(),
-                ItemType<KnowledgeYharon>(),
-            };
-
-            lavaFishList = new List<int>()
-            {
-                ItemType<SlurperPole>(),
-                ItemType<ChaoticSpreadRod>(),
-                ItemType<TheDevourerofCods>()
-            };
-
             highTestFishList = new List<int>()
             {
                 ItemID.GoldenFishingRod,
@@ -1739,11 +1653,11 @@ namespace CalamityMod
                 ItemType<Greentide>(),
                 ItemType<Leviatitan>(),
                 ItemType<Atlantis>(),
-                ItemType<SirensSong>(),
+                ItemType<AnahitasArpeggio>(),
                 ItemType<BrackishFlask>(),
                 ItemType<LeviathanTeeth>(),
                 ItemType<GastricBelcherStaff>(),
-                ItemType<LureofEnthrallment>(),
+                ItemType<PearlofEnthrallment>(),
                 ItemType<AquaticScourgeBag>(),
                 ItemType<OldDukeBag>(),
                 ItemType<LeviathanBag>(),
@@ -1754,7 +1668,7 @@ namespace CalamityMod
                 ItemType<LeviathanTrophy>(),
                 ItemType<AquaticScourgeTrophy>(),
                 ItemType<KnowledgeAquaticScourge>(),
-                ItemType<KnowledgeLeviathanandSiren>(),
+                ItemType<KnowledgeLeviathanAnahita>(),
                 ItemType<KnowledgeSulphurSea>(),
                 ItemType<KnowledgeOcean>(),
                 ItemType<KnowledgeOldDuke>(),
@@ -1944,7 +1858,7 @@ namespace CalamityMod
             {
                 NPCType<EidolonWyrmHead>(),
                 NPCType<Mauler>(),
-                NPCType<Reaper>(),
+                NPCType<ReaperShark>(),
                 NPCType<ColossalSquid>(),
                 NPCType<GreatSandShark>(),
                 NPCType<GiantClam>(),
@@ -1953,33 +1867,18 @@ namespace CalamityMod
                 NPCType<ArmoredDiggerTail>(),
                 NPCType<ThiccWaifu>(),
                 NPCType<Horse>(),
-                NPCType<PlaguebringerShade>(),
+                NPCType<PlaguebringerMiniboss>(),
                 NPCID.Pumpking,
                 NPCID.MourningWood,
                 NPCID.IceQueen,
                 NPCID.SantaNK1,
                 NPCID.Everscream,
                 NPCID.DD2Betsy,
-                NPCID.Mothron
-            };
-
-            heartDropBlockList = new List<int>()
-            {
-                NPCID.ServantofCthulhu,
-                NPCID.TheHungryII,
-                NPCID.LeechHead,
-                NPCID.LeechBody,
-                NPCID.LeechTail,
-                NPCID.QueenSlimeMinionBlue,
-                NPCID.QueenSlimeMinionPink,
-                NPCID.QueenSlimeMinionPurple,
-                NPCID.Probe,
-                NPCID.Bee,
-                NPCID.BeeSmall,
-                NPCID.PlanterasTentacle,
-                NPCID.Sharkron,
-                NPCID.Sharkron2,
-                NPCType<DarkEnergy>()
+                NPCID.Mothron,
+                NPCID.MartianSaucer,
+                NPCID.MartianSaucerCannon,
+                NPCID.MartianSaucerCore,
+                NPCID.MartianSaucerTurret,
             };
 
             pierceResistList = new List<int>()
@@ -2012,16 +1911,16 @@ namespace CalamityMod
                 NPCType<RavagerClawRight>(),
                 NPCType<RavagerLegLeft>(),
                 NPCType<RavagerLegRight>(),
-                NPCType<AstrumDeusHeadSpectral>(),
-                NPCType<AstrumDeusBodySpectral>(),
-                NPCType<AstrumDeusTailSpectral>(),
+                NPCType<AstrumDeusHead>(),
+                NPCType<AstrumDeusBody>(),
+                NPCType<AstrumDeusTail>(),
                 NPCType<DarkEnergy>(),
                 NPCType<StormWeaverHead>(),
                 NPCType<StormWeaverBody>(),
                 NPCType<StormWeaverTail>(),
-                NPCType<DevourerofGodsHead2>(),
-                NPCType<DevourerofGodsBody2>(),
-                NPCType<DevourerofGodsTail2>(),
+                NPCType<CosmicGuardianHead>(),
+                NPCType<CosmicGuardianBody>(),
+                NPCType<CosmicGuardianTail>(),
                 NPCType<ThanatosHead>(),
                 NPCType<ThanatosBody1>(),
                 NPCType<ThanatosBody2>(),
@@ -2083,7 +1982,6 @@ namespace CalamityMod
                 ProjectileType<BlushieStaffProj>(),
                 ProjectileType<DarkSparkBeam>(),
                 ProjectileType<EidolicWailSoundwave>(),
-                ProjectileType<HadopelagicEchoSoundwave>(),
                 ProjectileType<RancorLaserbeam>(),
                 ProjectileType<SparklingBeam>(),
                 ProjectileType<YharimsCrystalBeam>(),
@@ -2095,9 +1993,9 @@ namespace CalamityMod
 
             AstrumDeusIDs = new List<int>
             {
-                NPCType<AstrumDeusHeadSpectral>(),
-                NPCType<AstrumDeusBodySpectral>(),
-                NPCType<AstrumDeusTailSpectral>()
+                NPCType<AstrumDeusHead>(),
+                NPCType<AstrumDeusBody>(),
+                NPCType<AstrumDeusTail>()
             };
 
             DevourerOfGodsIDs = new List<int>
@@ -2109,9 +2007,9 @@ namespace CalamityMod
 
             CosmicGuardianIDs = new List<int>
             {
-                NPCType<DevourerofGodsHead2>(),
-                NPCType<DevourerofGodsBody2>(),
-                NPCType<DevourerofGodsTail2>()
+                NPCType<CosmicGuardianHead>(),
+                NPCType<CosmicGuardianBody>(),
+                NPCType<CosmicGuardianTail>()
             };
 
             AquaticScourgeIDs = new List<int>
@@ -2151,10 +2049,10 @@ namespace CalamityMod
 
             SlimeGodIDs = new List<int>
             {
-                NPCType<SlimeGod>(),
-                NPCType<SlimeGodRun>(),
-                NPCType<SlimeGodSplit>(),
-                NPCType<SlimeGodRunSplit>(),
+                NPCType<EbonianSlimeGod>(),
+                NPCType<CrimulanSlimeGod>(),
+                NPCType<SplitEbonianSlimeGod>(),
+                NPCType<SplitCrimulanSlimeGod>(),
                 NPCType<SlimeGodCore>()
             };
 
@@ -2282,7 +2180,8 @@ namespace CalamityMod
                 NPCID.GolemHeadFree,
                 NPCID.MoonLordFreeEye,
                 NPCID.BloodSquid,
-                NPCID.PlanterasHook
+                NPCID.PlanterasHook,
+                NPCID.Dandelion
             };
 
             // Reduce contact damage by 25%
@@ -2449,7 +2348,6 @@ namespace CalamityMod
             };
 
             // Collections
-            // NOTE - Be sure to reference the NeedsFourLifeBytes list in the IL Editing code if changes are made here.
             BossRushHPChanges = new SortedDictionary<int, int>
             {
                 // Tier 1
@@ -2554,7 +2452,7 @@ namespace CalamityMod
                 { NPCID.KingSlime, 1 },
                 { NPCType<DesertScourgeHead>(), 2 },
                 { NPCID.EyeofCthulhu, 3 },
-                { NPCType<CrabulonIdle>(), 4 },
+                { NPCType<Crabulon>(), 4 },
                 { NPCID.EaterofWorldsHead, 5 },
                 { NPCID.EaterofWorldsBody, 5 },
                 { NPCID.EaterofWorldsTail, 5 },
@@ -2564,8 +2462,8 @@ namespace CalamityMod
                 { NPCID.QueenBee, 9 },
                 { NPCID.SkeletronHead, 10 },
                 { NPCType<SlimeGodCore>(), 11 },
-                { NPCType<SlimeGodSplit>(), 11 },
-                { NPCType<SlimeGodRunSplit>(), 11 },
+                { NPCType<SplitEbonianSlimeGod>(), 11 },
+                { NPCType<SplitCrimulanSlimeGod>(), 11 },
                 { NPCID.WallofFlesh, 12 },
                 { NPCType<Cryogen>(), 13 },
                 { NPCID.Retinazer, 14 },
@@ -2574,19 +2472,19 @@ namespace CalamityMod
                 { NPCID.TheDestroyer, 16 },
                 { NPCType<BrimstoneElemental>(), 17 },
                 { NPCID.SkeletronPrime, 18 },
-                { NPCType<CalamitasRun3>(), 19 },
+                { NPCType<CalamitasClone>(), 19 },
                 { NPCID.Plantera, 20 },
                 { NPCType<Leviathan>(), 21 },
-                { NPCType<Siren>(), 21 },
+                { NPCType<Anahita>(), 21 },
                 { NPCType<AstrumAureus>(), 22 },
                 { NPCID.Golem, 23 },
                 { NPCType<PlaguebringerGoliath>(), 24 },
                 { NPCID.DukeFishron, 25 },
                 { NPCType<RavagerBody>(), 26 },
                 { NPCID.CultistBoss, 27 },
-                { NPCType<AstrumDeusHeadSpectral>(), 28 },
+                { NPCType<AstrumDeusHead>(), 28 },
                 { NPCID.MoonLordCore, 29 },
-                { NPCType<ProfanedGuardianBoss>(), 30 },
+                { NPCType<ProfanedGuardianCommander>(), 30 },
                 { NPCType<Bumblefuck>(), 31 },
                 { NPCType<Providence>(), 32 },
                 { NPCType<CeaselessVoid>(), 33 },
@@ -2601,7 +2499,7 @@ namespace CalamityMod
                 { NPCType<ThanatosHead>(), 41 },
                 { NPCType<Artemis>(), 41 },
                 { NPCType<Apollo>(), 41 },
-                { NPCType<EidolonWyrmHeadHuge>(), 42 },
+                { NPCType<AdultEidolonWyrmHead>(), 42 },
                 { NPCID.QueenSlimeBoss, 43 },
                 { NPCID.HallowBoss, 44 },
                 { NPCID.Deerclops, 45 }
@@ -2609,6 +2507,7 @@ namespace CalamityMod
 
             bossMinionList = new List<int>()
             {
+                NPCType<KingSlimeJewel>(),
                 NPCType<DesertNuisanceHead>(),
                 NPCType<DesertNuisanceBody>(),
                 NPCType<DesertNuisanceTail>(),
@@ -2632,14 +2531,14 @@ namespace CalamityMod
                 NPCType<HiveBlob2>(),
                 NPCType<DankCreeper>(),
                 NPCID.SkeletronHand,
-                NPCType<SlimeGod>(),
-                NPCType<SlimeGodSplit>(),
-                NPCType<SlimeGodRun>(),
-                NPCType<SlimeGodRunSplit>(),
-                NPCType<SlimeSpawnCorrupt>(),
-                NPCType<SlimeSpawnCorrupt2>(),
-                NPCType<SlimeSpawnCrimson>(),
-                NPCType<SlimeSpawnCrimson2>(),
+                NPCType<EbonianSlimeGod>(),
+                NPCType<SplitEbonianSlimeGod>(),
+                NPCType<CrimulanSlimeGod>(),
+                NPCType<SplitCrimulanSlimeGod>(),
+                NPCType<CorruptSlimeSpawn>(),
+                NPCType<CorruptSlimeSpawn2>(),
+                NPCType<CrimsonSlimeSpawn>(),
+                NPCType<CrimsonSlimeSpawn2>(),
                 NPCID.LeechHead,
                 NPCID.LeechBody,
                 NPCID.LeechTail,
@@ -2649,11 +2548,13 @@ namespace CalamityMod
                 NPCID.QueenSlimeMinionBlue,
                 NPCID.QueenSlimeMinionPink,
                 NPCID.QueenSlimeMinionPurple,
+                NPCType<CryogenShield>(),
                 NPCID.PrimeCannon,
                 NPCID.PrimeLaser,
                 NPCID.PrimeSaw,
                 NPCID.PrimeVice,
                 NPCType<Brimling>(),
+                NPCID.Probe,
                 NPCID.TheDestroyer,
                 NPCID.TheDestroyerBody,
                 NPCID.TheDestroyerTail,
@@ -2661,10 +2562,12 @@ namespace CalamityMod
                 NPCType<AquaticScourgeBody>(),
                 NPCType<AquaticScourgeBodyAlt>(),
                 NPCType<AquaticScourgeTail>(),
-                NPCType<CalamitasRun>(),
-                NPCType<CalamitasRun2>(),
+                NPCType<Cataclysm>(),
+                NPCType<Catastrophe>(),
                 NPCType<SoulSeeker>(),
                 NPCID.PlanterasTentacle,
+                NPCType<AnahitasIceShield>(),
+                NPCType<AquaticAberration>(),
                 NPCType<AureusSpawn>(),
                 NPCID.Spore,
                 NPCID.GolemHead,
@@ -2685,18 +2588,24 @@ namespace CalamityMod
                 NPCID.CultistDragonBody4,
                 NPCID.CultistDragonTail,
                 NPCID.AncientCultistSquidhead,
+                NPCID.AncientDoom,
+                NPCID.MoonLordLeechBlob,
                 NPCID.MoonLordFreeEye,
                 NPCID.MoonLordHand,
                 NPCID.MoonLordHead,
+                NPCType<ProfanedGuardianDefender>(),
+                NPCType<ProfanedGuardianHealer>(),
                 NPCType<Bumblefuck2>(),
                 NPCType<ProvSpawnOffense>(),
                 NPCType<ProvSpawnDefense>(),
                 NPCType<ProvSpawnHealer>(),
                 NPCType<DarkEnergy>(),
                 NPCType<CosmicLantern>(),
-                NPCType<DevourerofGodsHead2>(),
-                NPCType<DevourerofGodsBody2>(),
-                NPCType<DevourerofGodsTail2>(),
+                NPCType<PolterPhantom>(),
+                NPCType<CosmicGuardianHead>(),
+                NPCType<CosmicGuardianBody>(),
+                NPCType<CosmicGuardianTail>(),
+                NPCType<BrimstoneHeart>(),
                 NPCType<SupremeCataclysm>(),
                 NPCType<SupremeCatastrophe>()
             };
@@ -2754,6 +2663,9 @@ namespace CalamityMod
                 [3] = ItemType<EncryptedSchematicHell>(),
                 [4] = ItemType<EncryptedSchematicIce>(),
             };
+
+            DisabledSummonerNerfItems = new();
+            DisabledSummonerNerfMinions = new();
         }
 
         public static void UnloadLists()
@@ -2799,7 +2711,6 @@ namespace CalamityMod
             daggerProjList = null;
             flaskBombProjList = null;
             spikyBallProjList = null;
-            noGravityList = null;
             lavaFishList = null;
             highTestFishList = null;
             flamethrowerList = null;
@@ -2814,7 +2725,6 @@ namespace CalamityMod
             mossHornetList = null;
             bossMinionList = null;
             minibossList = null;
-            heartDropBlockList = null;
             pierceResistList = null;
             pierceResistExceptionList = null;
 
@@ -2853,6 +2763,9 @@ namespace CalamityMod
             DontCopyOriginalMinionAIList = null;
 
             EncryptedSchematicIDRelationship = null;
+
+            DisabledSummonerNerfItems = null;
+            DisabledSummonerNerfMinions = null;
         }
     }
 }

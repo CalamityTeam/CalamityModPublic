@@ -1,5 +1,4 @@
 ﻿using Terraria.DataStructures;
-using Terraria.DataStructures;
 using CalamityMod.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -49,6 +48,8 @@ namespace CalamityMod.Items.Weapons.Ranged
             Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<OpalStrike>(), damage, knockback, player.whoAmI);
             return false;
         }
+
+        public override bool CanConsumeAmmo(Item ammo, Player player) => Main.rand.NextBool();
 
         public override void AddRecipes()
         {

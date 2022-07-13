@@ -1,5 +1,4 @@
 ﻿using Terraria.DataStructures;
-using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
@@ -44,7 +43,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
             float num117 = 0.314159274f;
-            int num118 = 5;
+            int num118 = 4;
             Vector2 vector7 = velocity;
             vector7.Normalize();
             vector7 *= 50f;
@@ -75,7 +74,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             CreateRecipe().
                 AddIngredient(ItemID.HellwingBow).
-                AddIngredient<EssenceofCinder>(5).
+                AddIngredient<EssenceofSunlight>(5).
                 AddIngredient(ItemID.LivingFireBlock, 50).
                 AddIngredient(ItemID.Obsidian, 10).
                 AddTile(TileID.MythrilAnvil).

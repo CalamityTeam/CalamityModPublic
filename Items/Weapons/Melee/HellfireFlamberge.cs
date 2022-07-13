@@ -1,5 +1,4 @@
 ﻿using Terraria.DataStructures;
-using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
@@ -34,7 +33,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.height = 60;
             Item.value = Item.buyPrice(0, 80, 0, 0);
             Item.rare = ItemRarityID.Yellow;
-            Item.shoot = ModContent.ProjectileType<ChaosFlameSmall>();
+            Item.shoot = ModContent.ProjectileType<VolcanicFireball>();
             Item.shootSpeed = 20f;
         }
 
@@ -50,10 +49,10 @@ namespace CalamityMod.Items.Weapons.Melee
                 {
                     case 0:
                     case 1:
-                        type = ModContent.ProjectileType<ChaosFlameSmall>();
+                        type = ModContent.ProjectileType<VolcanicFireball>();
                         break;
                     case 2:
-                        type = ModContent.ProjectileType<ChaosFlameLarge>();
+                        type = ModContent.ProjectileType<VolcanicFireballLarge>();
                         damageMult = 0.75f;
                         break;
                     default:
@@ -90,7 +89,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<CruptixBar>(15).
+                AddIngredient<ScoriaBar>(15).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

@@ -61,8 +61,8 @@ namespace CalamityMod.Items.TreasureBags
                 DropHelper.WeightStack<DragonsBreath>(w),
                 DropHelper.WeightStack<ChickenCannon>(w),
                 DropHelper.WeightStack<PhoenixFlameBarrage>(w),
-                DropHelper.WeightStack<AngryChickenStaff>(w), // Yharon Kindle Staff
-                DropHelper.WeightStack<ProfanedTrident>(w), // Infernal Spear
+                DropHelper.WeightStack<YharonsKindleStaff>(w), // Yharon Kindle Staff
+                DropHelper.WeightStack<Wrathwing>(w), // Infernal Spear
                 DropHelper.WeightStack<FinalDawn>(w)
             );
 
@@ -73,7 +73,7 @@ namespace CalamityMod.Items.TreasureBags
 
             int soulFragMin = 22;
             int soulFragMax = 28;
-            DropHelper.DropItem(s, player, ModContent.ItemType<HellcasterFragment>(), soulFragMin, soulFragMax);
+            DropHelper.DropItem(s, player, ModContent.ItemType<YharonSoulFragment>(), soulFragMin, soulFragMax);
 
             // Vanity
             DropHelper.DropItemChance(s, player, ModContent.ItemType<YharonMask>(), 7);

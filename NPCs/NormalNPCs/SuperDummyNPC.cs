@@ -1,6 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
+using System;
+using ReLogic.Utilities;
+using Terraria;
+
 namespace CalamityMod.NPCs.NormalNPCs
 {
     public class SuperDummyNPC : ModNPC
@@ -9,6 +14,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             this.HideFromBestiary();
             DisplayName.SetDefault("Super Dummy");
+            NPCID.Sets.CantTakeLunchMoney[Type] = true;
         }
 
         public override void SetDefaults()

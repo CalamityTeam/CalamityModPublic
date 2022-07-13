@@ -131,8 +131,7 @@ namespace CalamityMod.Projectiles.Magic
                     Vector2 projspeed = new Vector2(Main.rand.NextFloat(-8f, 8f), Main.rand.NextFloat(-8f, 8f));
                     int ice = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, projspeed, ProjectileID.NorthPoleSnowflake, (int)(Projectile.damage * 0.05f), 2f, Projectile.owner, 0f, (float)Main.rand.Next(3));
                     Main.projectile[ice].timeLeft = 600;
-                    // Main.projectile[ice].melee = false /* tModPorter - this is redundant, for more info see https://github.com/tModLoader/tModLoader/wiki/Update-Migration-Guide#damage-classes */ ;
-                    Main.projectile[ice].Calamity().forceMagic = true;
+                    Main.projectile[ice].DamageType = DamageClass.Magic;
                 }
                 Projectile.width = pwidth;
                 Projectile.height = pheight;
@@ -159,8 +158,7 @@ namespace CalamityMod.Projectiles.Magic
                     if (ice.WithinBounds(Main.maxProjectiles))
                     {
                         Main.projectile[ice].timeLeft = 600;
-                        // Main.projectile[ice].melee = false /* tModPorter - this is redundant, for more info see https://github.com/tModLoader/tModLoader/wiki/Update-Migration-Guide#damage-classes */ ;
-                        Main.projectile[ice].Calamity().forceMagic = true;
+                        Main.projectile[ice].DamageType = DamageClass.Magic;
                     }
                     Projectile.ai[1] = 0f;
                 }

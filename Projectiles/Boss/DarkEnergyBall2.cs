@@ -22,7 +22,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-            Projectile.Calamity().canBreakPlayerDefense = true;
+            Projectile.Calamity().DealsDefenseDamage = true;
             Projectile.width = 80;
             Projectile.height = 80;
             Projectile.hostile = true;
@@ -30,7 +30,6 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.timeLeft = 600;
             Projectile.penetrate = -1;
             Projectile.Opacity = 0f;
-            CooldownSlot = 1;
         }
 
         public override void AI()

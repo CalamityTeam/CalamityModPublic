@@ -110,13 +110,13 @@ namespace CalamityMod.Systems
             flags10[1] = clothierName;
             flags10[2] = AcidRainEvent.OldDukeHasBeenEncountered;
             flags10[3] = travelingMerchantName;
-            flags10[4] = false;
+            flags10[4] = princessName;
             flags10[5] = false;
             flags10[6] = false;
             flags10[7] = false;
 
             BitsByte flags11 = new BitsByte();
-            flags11[0] = malice;
+            flags11[0] = false;
             flags11[1] = HasGeneratedLuminitePlanetoids;
             flags11[2] = downedAdultEidolonWyrm;
             flags11[3] = downedExoMechs;
@@ -139,7 +139,7 @@ namespace CalamityMod.Systems
 
             RecipeUnlockHandler.SendData(writer);
 
-            writer.Write(Abyss.AtLeftSideOfWorld);
+            writer.Write(Abyss.AbyssChasmBottom);
             writer.Write(AcidRainEvent.AccumulatedKillPoints);
             writer.Write(Reforges);
             writer.Write(MoneyStolenByBandit);
@@ -253,13 +253,13 @@ namespace CalamityMod.Systems
             clothierName = flags10[1];
             AcidRainEvent.OldDukeHasBeenEncountered = flags10[2];
             travelingMerchantName = flags10[3];
-            _ = flags10[4];
+            princessName = flags10[4];
             _ = flags10[5];
             _ = flags10[6];
             _ = flags10[7];
 
             BitsByte flags11 = reader.ReadByte();
-            malice = flags11[0];
+            _ = flags11[0];
             HasGeneratedLuminitePlanetoids = flags11[1];
             downedAdultEidolonWyrm = flags11[2];
             downedExoMechs = flags11[3];

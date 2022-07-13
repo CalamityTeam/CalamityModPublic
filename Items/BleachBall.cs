@@ -30,7 +30,7 @@ namespace CalamityMod.Items
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<EbonianGel>(5).
+                AddIngredient<BlightedGel>(5).
                 AddIngredient(ItemID.CalmingPotion).
                 AddTile(TileID.Anvils).
                 Register();

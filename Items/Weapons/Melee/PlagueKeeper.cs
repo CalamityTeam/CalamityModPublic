@@ -1,5 +1,4 @@
-﻿using Terraria.DataStructures;
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
@@ -33,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.height = 90;
             Item.value = CalamityGlobalItem.Rarity10BuyPrice;
             Item.rare = ItemRarityID.Red;
-            Item.shoot = ModContent.ProjectileType<PlagueBeeDust>();
+            Item.shoot = ModContent.ProjectileType<VirulentBeeWave>();
             Item.shootSpeed = 9f;
         }
 
@@ -51,7 +50,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 if (bee.WithinBounds(Main.maxProjectiles))
                 {
                     Main.projectile[bee].penetrate = 1;
-                    Main.projectile[bee].Calamity().forceMelee = true;
+                    Main.projectile[bee].DamageType = DamageClass.Melee;
                 }
             }
         }
@@ -70,7 +69,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 if (bee.WithinBounds(Main.maxProjectiles))
                 {
                     Main.projectile[bee].penetrate = 1;
-                    Main.projectile[bee].Calamity().forceMelee = true;
+                    Main.projectile[bee].DamageType = DamageClass.Melee;
                 }
             }
         }
@@ -78,7 +77,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<VirulentKatana>().
+                AddIngredient<Virulence>().
                 AddIngredient(ItemID.BeeKeeper).
                 AddIngredient(ItemID.FragmentSolar, 10).
                 AddIngredient<InfectedArmorPlating>(5).

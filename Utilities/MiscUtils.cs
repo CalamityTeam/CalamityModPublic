@@ -1,4 +1,7 @@
-﻿using CalamityMod.Items.Placeables.Banners;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Tools.ClimateChange;
 using CalamityMod.NPCs.Abyss;
 using CalamityMod.NPCs.AcidRain;
@@ -14,14 +17,7 @@ using CalamityMod.NPCs.SunkenSea;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
-using ReLogic.Content;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
 using Terraria;
-using Terraria.Audio;
 using Terraria.Chat;
 using Terraria.GameContent.Events;
 using Terraria.ID;
@@ -44,6 +40,23 @@ namespace CalamityMod
                 Main.NewText(Language.GetTextValue(key), textColor.Value);
             else if (Main.netMode == NetmodeID.Server)
                 ChatHelper.BroadcastChatMessage(NetworkText.FromKey(key), textColor.Value);
+        }
+
+        public static int IngredientIndex(this Recipe r, int itemID)
+        {
+            for (int i = 0; i < r.requiredItem.Count; ++i)
+                if (r.requiredItem[i].type == itemID)
+                    return i;
+            return -1;
+        }
+
+        public static bool ChangeIngredientStack(this Recipe r, int itemID, int stack)
+        {
+            int idx = r.IngredientIndex(itemID);
+            if (idx == -1)
+                return false;
+            r.requiredItem[idx].stack = stack;
+            return true;
         }
 
         // Yes, this method has a use that Utils.Swap does not; You cannot use refs on array indices.
@@ -113,18 +126,6 @@ namespace CalamityMod
                 }
             }
             return colors2D;
-        }
-
-        public static string CombineStrings(params object[] args)
-        {
-            StringBuilder result = new StringBuilder(1024);
-            for (int i = 0; i < args.Length; ++i)
-            {
-                object o = args[i];
-                result.Append(o.ToString());
-                result.Append(' ');
-            }
-            return result.ToString();
         }
 
         /// <summary>
@@ -306,9 +307,6 @@ namespace CalamityMod
             int item = -1;
             switch (style)
             {
-                case 0:
-                    item = ModContent.ItemType<AquaticParasiteBanner>();
-                    break;
                 case 1:
                     item = ModContent.ItemType<FlounderBanner>();
                     break;
@@ -324,9 +322,6 @@ namespace CalamityMod
                 case 5:
                     item = ModContent.ItemType<MaulerBanner>();
                     break;
-                case 6:
-                    item = ModContent.ItemType<AquaticSeekerBanner>();
-                    break;
                 case 7:
                     item = ModContent.ItemType<AquaticUrchinBanner>();
                     break;
@@ -338,9 +333,6 @@ namespace CalamityMod
                     break;
                 case 10:
                     item = ModContent.ItemType<AquaticAberrationBanner>();
-                    break;
-                case 11:
-                    item = ModContent.ItemType<ParaseaBanner>();
                     break;
                 case 12:
                     item = ModContent.ItemType<SeaUrchinBanner>();
@@ -459,17 +451,11 @@ namespace CalamityMod
                 case 50:
                     item = ModContent.ItemType<ProfanedEnergyBanner>();
                     break;
-                case 51:
-                    item = ModContent.ItemType<WulfrumSlimeBanner>();
-                    break;
                 case 52:
                     item = ModContent.ItemType<WulfrumDroneBanner>();
                     break;
                 case 53:
                     item = ModContent.ItemType<RotdogBanner>();
-                    break;
-                case 54:
-                    item = ModContent.ItemType<BlightedEyeBanner>();
                     break;
                 case 55:
                     item = ModContent.ItemType<CalamityEyeBanner>();
@@ -498,9 +484,6 @@ namespace CalamityMod
                 case 63:
                     item = ModContent.ItemType<CnidrionBanner>();
                     break;
-                case 64:
-                    item = ModContent.ItemType<SandTortoiseBanner>();
-                    break;
                 case 65:
                     item = ModContent.ItemType<GreatSandSharkBanner>();
                     break;
@@ -527,9 +510,6 @@ namespace CalamityMod
                     break;
                 case 73:
                     item = ModContent.ItemType<CrystalCrawlerBanner>();
-                    break;
-                case 74:
-                    item = ModContent.ItemType<SunBatBanner>();
                     break;
                 case 75:
                     item = ModContent.ItemType<CosmicElementalBanner>();
@@ -563,9 +543,6 @@ namespace CalamityMod
                     break;
                 case 85:
                     item = ModContent.ItemType<OverloadedSoldierBanner>();
-                    break;
-                case 86:
-                    item = ModContent.ItemType<PhantomDebrisBanner>();
                     break;
                 case 87:
                     item = ModContent.ItemType<BohldohrBanner>();
@@ -713,9 +690,6 @@ namespace CalamityMod
                 case 5:
                     npc = ModContent.NPCType<Mauler>();
                     break;
-                case 6:
-                    npc = ModContent.NPCType<AquaticSeekerHead>();
-                    break;
                 case 7:
                     npc = ModContent.NPCType<AquaticUrchin>();
                     break;
@@ -727,9 +701,6 @@ namespace CalamityMod
                     break;
                 case 10:
                     npc = ModContent.NPCType<AquaticAberration>();
-                    break;
-                case 11:
-                    npc = ModContent.NPCType<Parasea>();
                     break;
                 case 12:
                     npc = ModContent.NPCType<SeaUrchin>();
@@ -876,7 +847,7 @@ namespace CalamityMod
                     npc = ModContent.NPCType<IceClasper>();
                     break;
                 case 62:
-                    npc = ModContent.NPCType<StormlionCharger>();
+                    npc = ModContent.NPCType<Stormlion>();
                     break;
                 case 63:
                     npc = ModContent.NPCType<Cnidrion>();
@@ -908,9 +879,6 @@ namespace CalamityMod
                 case 73:
                     npc = ModContent.NPCType<CrawlerCrystal>();
                     break;
-                case 74:
-                    npc = ModContent.NPCType<SunBat>();
-                    break;
                 case 75:
                     npc = ModContent.NPCType<CosmicElemental>();
                     break;
@@ -921,31 +889,28 @@ namespace CalamityMod
                     npc = ModContent.NPCType<ArmoredDiggerHead>();
                     break;
                 case 78:
-                    npc = ModContent.NPCType<PlaguedFlyingFox>();
+                    npc = ModContent.NPCType<Melter>();
                     break;
                 case 79:
-                    npc = ModContent.NPCType<PlaguedJungleSlime>();
+                    npc = ModContent.NPCType<PestilentSlime>();
                     break;
                 case 80:
-                    npc = ModContent.NPCType<PlaguedTortoise>();
+                    npc = ModContent.NPCType<Plagueshell>();
                     break;
                 case 81:
-                    npc = ModContent.NPCType<PlagueBee>();
+                    npc = ModContent.NPCType<PlagueCharger>();
                     break;
                 case 82:
-                    npc = ModContent.NPCType<PlaguedDerpling>();
+                    npc = ModContent.NPCType<Viruling>();
                     break;
                 case 83:
-                    npc = ModContent.NPCType<PlaguebringerShade>();
+                    npc = ModContent.NPCType<PlaguebringerMiniboss>();
                     break;
                 case 84:
                     npc = ModContent.NPCType<PhantomSpirit>();
                     break;
                 case 85:
                     npc = ModContent.NPCType<OverloadedSoldier>();
-                    break;
-                case 86:
-                    npc = ModContent.NPCType<PhantomDebris>();
                     break;
                 case 87:
                     npc = ModContent.NPCType<Bohldohr>();
@@ -975,7 +940,7 @@ namespace CalamityMod
                     npc = ModContent.NPCType<CultistAssassin>();
                     break;
                 case 96:
-                    npc = ModContent.NPCType<Reaper>();
+                    npc = ModContent.NPCType<ReaperShark>();
                     break;
                 case 97:
                     npc = ModContent.NPCType<IrradiatedSlime>();

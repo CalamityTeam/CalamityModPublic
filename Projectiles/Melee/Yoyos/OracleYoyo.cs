@@ -1,7 +1,6 @@
 ﻿using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System.IO;
 using Terraria;
 using Terraria.ID;
@@ -240,15 +239,12 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
 
                 if (dist <= radius)
                 {
-                    int finalDamage = (int)owner.GetDamage<MeleeDamageClass>().ApplyTo(baseDamage);
+                    int finalDamage = (int)owner.GetTotalDamage<MeleeDamageClass>().ApplyTo(baseDamage);
                     if (Projectile.owner == Main.myPlayer)
                     {
                         Projectile p = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), target.Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), finalDamage, 0f, Projectile.owner, i);
                         if (p.whoAmI.WithinBounds(Main.maxProjectiles))
-                        {
                             p.DamageType = DamageClass.Melee;
-                            p.Calamity().forceMelee = true;
-                        }
                     }
                 }
             }

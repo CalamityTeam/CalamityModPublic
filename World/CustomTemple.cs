@@ -37,6 +37,9 @@ namespace CalamityMod.World
             Rectangle[] roomBounds = new Rectangle[200];
             float worldScale = Main.maxTilesX / 4200f;
             int totalRooms = (int)(worldScale * WorldGen.genRand.Next(12, 16));
+            if (WorldGen.getGoodWorldGen)
+                totalRooms *= 3;
+
             int xDirection = WorldGen.genRand.NextBool(2).ToDirectionInt();
             int initalDirection = xDirection;
             int pathPositionX = x;
@@ -71,7 +74,7 @@ namespace CalamityMod.World
                     if (i == totalRooms - 1)
                     {
                         width = (int)FinalRoomSize.X;
-                        height = (int)FinalRoomSize.Y;
+                        height = WorldGen.getGoodWorldGen ? (int)FinalRoomSize.Y / 2 : (int)FinalRoomSize.Y;
                         roomPositionY += WorldGen.genRand.Next(6, 9);
                     }
 
@@ -715,7 +718,6 @@ namespace CalamityMod.World
                 {
                     Main.tile[roomCenterX - dx, y].Get<TileWallWireStateData>().HasTile = true;
                     Main.tile[roomCenterX - dx, y].TileType = TileID.LihzahrdBrick;
-
                     Main.tile[roomCenterX + dx, y].Get<TileWallWireStateData>().HasTile = true;
                     Main.tile[roomCenterX + dx, y].TileType = TileID.LihzahrdBrick;
                 }

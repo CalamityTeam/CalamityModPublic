@@ -53,7 +53,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             NPC.width = 120;
             NPC.height = 120;
             NPC.defense = 80;
-            NPC.DR_NERD(0.25f);
+            NPC.DR_NERD(SupremeCataclysm.NormalBrothersDR);
             NPC.LifeMaxNERB(230000, 276000, 100000);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
@@ -77,8 +77,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 //We'll probably want a custom background SCal her like ML has.
                 //BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.SCal,
 
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("Calamitas’ necromancy is outmatched by no one, but no one can truly bring the departed back from the dead.")
+                // Will move to localization whenever that is cleaned up.
+                new FlavorTextBestiaryInfoElement("Calamitas’ necromancy is outmatched by no one, but no one can truly bring the departed back from the dead.")
             });
         }
 
@@ -131,6 +131,11 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 NPC.netUpdate = true;
                 return;
             }
+
+            // Increase DR if the target leaves SCal's arena.
+            NPC.Calamity().DR = SupremeCataclysm.NormalBrothersDR;
+            if (Main.npc[CalamityGlobalNPC.SCal].ModNPC<SupremeCalamitas>().IsTargetOutsideOfArena)
+                NPC.Calamity().DR = SupremeCalamitas.enragedDR;
 
             float totalLifeRatio = NPC.life / (float)NPC.lifeMax;
             if (CalamityGlobalNPC.SCalCataclysm != -1)
@@ -192,7 +197,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             else
             {
                 // Shoot sword slashes.
-                float fireRate = (CalamityWorld.malice || BossRushEvent.BossRushActive) ? 2f : MathHelper.Lerp(1f, 2.5f, 1f - totalLifeRatio);
+                float fireRate = BossRushEvent.BossRushActive ? 2f : MathHelper.Lerp(1f, 2.5f, 1f - totalLifeRatio);
                 SlashCounter += fireRate;
                 if (SlashCounter >= SlashCounterLimit)
                 {
@@ -209,7 +214,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 }
 
                 // Shoot dart spreads.
-                fireRate = (CalamityWorld.malice || BossRushEvent.BossRushActive) ? 3f : MathHelper.Lerp(1f, 4f, 1f - totalLifeRatio);
+                fireRate = BossRushEvent.BossRushActive ? 3f : MathHelper.Lerp(1f, 4f, 1f - totalLifeRatio);
                 DartBurstCounter += fireRate;
                 if (DartBurstCounter >= DartBurstCounterLimit)
                 {
@@ -283,12 +288,9 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
         public override void OnKill()
         {
-            if (!CalamityWorld.revenge)
-            {
-                int heartAmt = Main.rand.Next(3) + 3;
-                for (int i = 0; i < heartAmt; i++)
-                    Item.NewItem(NPC.GetSource_Loot(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
-            }
+            int heartAmt = Main.rand.Next(3) + 3;
+            for (int i = 0; i < heartAmt; i++)
+                Item.NewItem(NPC.GetSource_Loot(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
         }
 
         public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.Add(ModContent.ItemType<SupremeCatastropheTrophy>(), 10);

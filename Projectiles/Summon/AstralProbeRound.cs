@@ -1,6 +1,5 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using CalamityMod.Dusts;
 using Terraria;
 using Terraria.ID;
@@ -32,6 +31,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.penetrate = 1;
             Projectile.timeLeft = 300;
             Projectile.extraUpdates = 2;
+            Projectile.DamageType = DamageClass.Summon;
         }
 
         public override void AI()

@@ -1,5 +1,4 @@
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
 using CalamityMod.Buffs.DamageOverTime;
 using Terraria;
 using Terraria.ID;
@@ -10,7 +9,7 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class GalileosMoon : ModProjectile
     {
-        public override string Texture => "CalamityMod/Projectiles/Magic/Crescent";
+        public override string Texture => "CalamityMod/Projectiles/Melee/CrescentMoonProj";
 
         public override void SetStaticDefaults()
         {
@@ -47,7 +46,7 @@ namespace CalamityMod.Projectiles.Melee
                 }
             }
             Projectile.rotation += Projectile.direction * 0.55f;
-            CalamityGlobalProjectile.HomeInOnNPC(Projectile, true, 250f, 10f, 25f);
+            CalamityUtils.HomeInOnNPC(Projectile, true, 250f, 10f, 25f);
         }
 
         public override bool PreDraw(ref Color lightColor)

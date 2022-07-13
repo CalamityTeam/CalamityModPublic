@@ -1,5 +1,4 @@
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -49,7 +48,7 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 Projectile.scale *= 0.95f;
                 Projectile.Opacity *= 0.95f;
-                CalamityGlobalProjectile.ExpandHitboxBy(Projectile, Projectile.scale);
+                Projectile.ExpandHitboxBy(Projectile.scale);
             }
             if (Projectile.scale <= 0.05f)
             {

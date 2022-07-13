@@ -3,7 +3,6 @@ using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.DataStructures;
 
 namespace CalamityMod.Items.PermanentBoosters
 {
@@ -61,7 +60,7 @@ namespace CalamityMod.Items.PermanentBoosters
                 AddIngredient(ItemID.LifeFruit, 5).
                 AddIngredient(ItemID.TealMushroom).
                 AddIngredient<TrapperBulb>(5).
-                AddIngredient<BarofLife>(5).
+                AddIngredient<LifeAlloy>(5).
                 AddIngredient<LivingShard>(10).
                 AddTile(TileID.MythrilAnvil).
                 Register();

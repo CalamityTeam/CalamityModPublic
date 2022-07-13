@@ -10,6 +10,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Waters
 {
+    // TODO -- This can be made into a ModSystem with simple OnModLoad and Unload hooks.
     public static class CustomLavaManagement
     {
         internal static List<CustomLavaStyle> CustomLavaStyles;

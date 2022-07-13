@@ -53,7 +53,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<AccretionDisk>().
+                AddIngredient<ElementalDisk>().
                 AddIngredient<AlphaVirus>().
                 AddIngredient<MoltenAmputator>().
                 AddIngredient<FrostcrushValari>().

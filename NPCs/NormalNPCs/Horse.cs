@@ -12,7 +12,6 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
 using Terraria.Audio;
-using Terraria.GameContent.ItemDropRules;
 
 namespace CalamityMod.NPCs.NormalNPCs
 {
@@ -90,7 +89,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void FindFrame(int frameHeight)
         {
-            if (NPC.ai[0] == 0f)
+            if (NPC.ai[0] == 0f && !NPC.IsABestiaryIconDummy)
                 return;
 
             NPC.frameCounter++;

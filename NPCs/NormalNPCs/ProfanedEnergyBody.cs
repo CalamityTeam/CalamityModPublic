@@ -13,6 +13,14 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Profaned Energy");
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            {
+                //Preferably would have two animated lanterns, but this static one-headded wiki image will do for now
+                PortraitPositionYOverride = 0,
+                CustomTexturePath = "CalamityMod/ExtraTextures/Bestiary/ProfanedEnergy_Bestiary"
+            };
+            value.Position.Y += 30;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 
         public override void SetDefaults()

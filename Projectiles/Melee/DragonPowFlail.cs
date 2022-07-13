@@ -139,13 +139,12 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            // Only perform hit effects after reaching approximately 55% of the way out.
-            if (Main.player[Projectile.owner].WithinRange(target.Center, 475f))
+            // Only perform hit effects after reaching approximately 40% of the way out.
+            if (Main.player[Projectile.owner].WithinRange(target.Center, 345f))
                 return;
 
             // Inflicts Daybroken, Abyssal Flames and Holy Flames for 3 seconds on-hit
             target.AddBuff(BuffID.Daybreak, 180);
-            target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 180);
             target.AddBuff(ModContent.BuffType<HolyFlames>(), 180);
 
             Projectile.ai[0] = 1f;
@@ -158,11 +157,10 @@ namespace CalamityMod.Projectiles.Melee
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
             // Only perform hit effects after reaching approximately 55% of the way out.
-            if (Projectile.WithinRange(Main.player[Projectile.owner].Center, 475f))
+            if (Projectile.WithinRange(Main.player[Projectile.owner].Center, 345f))
                 return;
 
             // Inflicts Abyssal Flames and Holy Flames for 8 seconds on-hit
-            target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 180);
             target.AddBuff(ModContent.BuffType<HolyFlames>(), 180);
 
             Projectile.ai[0] = 1f;
@@ -190,7 +188,7 @@ namespace CalamityMod.Projectiles.Melee
                     Projectile petal = CalamityUtils.ProjectileBarrage(source, Projectile.Center, targetPos, Main.rand.NextBool(), 1000f, 1400f, 80f, 900f, Main.rand.NextFloat(DragonPow.MinPetalSpeed, DragonPow.MaxPetalSpeed), type, petalDamage, petalKB, Projectile.owner);
                     if (petal.whoAmI.WithinBounds(Main.maxProjectiles))
                     {
-                        petal.Calamity().forceMelee = true;
+                        petal.DamageType = DamageClass.Melee;
                         petal.rotation = angle;
                         petal.usesLocalNPCImmunity = true;
                         petal.localNPCHitCooldown = -1;

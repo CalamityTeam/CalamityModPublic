@@ -42,6 +42,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.localNPCHitCooldown = 10;
             Projectile.aiStyle = 26;
             AIType = ProjectileID.BabySlime;
+            Projectile.DamageType = DamageClass.Summon;
         }
 
         public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
@@ -84,7 +85,7 @@ namespace CalamityMod.Projectiles.Summon
 
             //Bool setup
             bool flag64 = Projectile.type == ModContent.ProjectileType<AstrageldonSummon>();
-            player.AddBuff(ModContent.BuffType<AstrageldonBuff>(), 3600);
+            player.AddBuff(ModContent.BuffType<AbandonedSlimeBuff>(), 3600);
             if (flag64)
             {
                 if (player.dead)

@@ -21,6 +21,7 @@ namespace CalamityMod.Items
                 "Teleportation is disabled while Chaos State is active\n" +
                 "Works while in the inventory");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 7));
+            ItemID.Sets.AnimatesAsSoul[Type] = true;
             SacrificeTotal = 1;
         }
 
@@ -53,7 +54,7 @@ namespace CalamityMod.Items
             CreateRecipe().
                 AddIngredient(ItemID.RodofDiscord).
                 AddIngredient<Cinderplate>(5).
-                AddIngredient<ExodiumClusterOre>(10).
+                AddIngredient<ExodiumCluster>(10).
                 AddIngredient(ItemID.FragmentStardust, 30).
                 AddTile(TileID.LunarCraftingStation).
                 Register();

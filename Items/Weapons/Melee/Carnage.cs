@@ -1,5 +1,4 @@
-﻿using Terraria.DataStructures;
-using CalamityMod.Projectiles.Melee;
+﻿using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -19,7 +18,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            Item.width = 46;
+            Item.width = 50;
             Item.damage = 70;
             Item.DamageType = DamageClass.Melee;
             Item.useAnimation = 21;
@@ -29,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
             Item.useTurn = true;
-            Item.height = 60;
+            Item.height = 54;
             Item.scale = 1.25f;
             Item.value = CalamityGlobalItem.Rarity4BuyPrice;
             Item.rare = ItemRarityID.LightRed;
@@ -82,10 +81,11 @@ namespace CalamityMod.Items.Weapons.Melee
                     Main.dust[idx].velocity *= 2f;
                 }
                 int bloodAmt = Main.rand.Next(4, 6);
+                int bloodDamage = player.CalcIntDamage<MeleeDamageClass>(Item.damage);
                 for (int i = 0; i < bloodAmt; i++)
                 {
                     Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
-                    Projectile.NewProjectile(source, targetPos, velocity, ModContent.ProjectileType<Blood>(), (int)(Item.damage * (player.GetDamage<GenericDamageClass>().Additive + player.GetDamage<MeleeDamageClass>().Additive - 2f)), kBack, player.whoAmI, 0f, 0f);
+                    Projectile.NewProjectile(source, targetPos, velocity, ModContent.ProjectileType<Blood>(), bloodDamage, kBack, player.whoAmI, 0f, 0f);
                 }
             }
         }

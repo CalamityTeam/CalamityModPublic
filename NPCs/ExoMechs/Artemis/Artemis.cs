@@ -17,6 +17,8 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
 using CalamityMod.Sounds;
+using ReLogic.Utilities;
+using CalamityMod.Items.Potions;
 
 namespace CalamityMod.NPCs.ExoMechs.Artemis
 {
@@ -131,6 +133,9 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
         // Primitive trail drawer for the ribbon things
         public PrimitiveTrail RibbonTrail = null;
 
+        //This stores the sound slot of the ML laser sound it makes, so it may be properly updated in terms of position.
+        private SlotId DeathraySoundSlot;
+
         public const string NameToDisplay = "XS-01 Artemis";
 
         public override void SetStaticDefaults()
@@ -183,8 +188,8 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
                 //We'll probably want a custom background for Exos like ML has.
                 //BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Exo,
 
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("The Exo Twins are the ultimate recon units. Capable of detecting various wavelengths of light unknown to us, nothing can hide.")
+                // Will move to localization whenever that is cleaned up.
+                new FlavorTextBestiaryInfoElement("The Exo Twins are the ultimate recon units. Capable of detecting various wavelengths of light unknown to us, nothing can hide.")
             });
         }
 
@@ -245,10 +250,10 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
             NPC.frame = new Rectangle(NPC.width * frameX, NPC.height * frameY, NPC.width, NPC.height);
 
             // Difficulty modes
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
-            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || bossRush;
+            bool revenge = CalamityWorld.revenge || bossRush;
+            bool expertMode = Main.expertMode || bossRush;
 
             // Get a target
             if (NPC.target < 0 || NPC.target == Main.maxPlayers || Main.player[NPC.target].dead || !Main.player[NPC.target].active)
@@ -421,7 +426,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
             // Phase 7 - 0, 1, 2
 
             // Predictiveness
-            float predictionAmt = malice ? 21f : death ? 18f : revenge ? 16.5f : expertMode ? 15f : 12f;
+            float predictionAmt = bossRush ? 21f : death ? 18f : revenge ? 16.5f : expertMode ? 15f : 12f;
             if (AIState == (float)Phase.LaserShotgun)
                 predictionAmt *= 1.5f;
             if (nerfedAttacks)
@@ -430,12 +435,15 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
                 predictionAmt *= 0.5f;
 
             // Gate values
-            float reducedTimeForGateValue = malice ? 48f : death ? 32f : revenge ? 24f : expertMode ? 16f : 0f;
+            float reducedTimeForGateValue = bossRush ? 48f : death ? 32f : revenge ? 24f : expertMode ? 16f : 0f;
             float reducedTimeForGateValue_Berserk = reducedTimeForGateValue * 0.5f;
             float normalAttackTime = 360f - reducedTimeForGateValue;
             float berserkAttackTime = lastMechAlive ? 225f - reducedTimeForGateValue_Berserk : 270f - reducedTimeForGateValue_Berserk;
             float attackPhaseGateValue = shouldGetBuffedByBerserkPhase ? berserkAttackTime : normalAttackTime;
             float timeToLineUpAttack = phase2 ? 30f : 45f;
+
+            if (Main.getGoodWorld)
+                timeToLineUpAttack *= 0.5f;
 
             // Spin variables
             float spinRadius = 500f;
@@ -471,16 +479,23 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
             float movementDistanceGateValue = 100f;
 
             // Charge variables
-            float chargeVelocity = nerfedAttacks ? 75f : malice ? 100f : death ? 90f : revenge ? 86.25f : expertMode ? 82.5f : 75f;
+            float chargeVelocity = nerfedAttacks ? 75f : bossRush ? 100f : death ? 90f : revenge ? 86.25f : expertMode ? 82.5f : 75f;
+
+            if (Main.getGoodWorld)
+                chargeVelocity *= 1.15f;
+
             float chargeDistance = 2000f;
             float chargeDuration = chargeDistance / chargeVelocity;
             bool lineUpAttack = calamityGlobalNPC.newAI[3] >= attackPhaseGateValue + 2f;
             bool doBigAttack = calamityGlobalNPC.newAI[3] >= attackPhaseGateValue + 2f + timeToLineUpAttack;
 
             // Velocity and acceleration values
-            float baseVelocityMult = (shouldGetBuffedByBerserkPhase ? 0.25f : 0f) + (malice ? 1.15f : death ? 1.1f : revenge ? 1.075f : expertMode ? 1.05f : 1f);
+            float baseVelocityMult = (shouldGetBuffedByBerserkPhase ? 0.25f : 0f) + (bossRush ? 1.15f : death ? 1.1f : revenge ? 1.075f : expertMode ? 1.05f : 1f);
             float baseVelocity = ((AIState == (int)Phase.Deathray || lineUpAttack || AIState == (int)Phase.LaserShotgun) ? 40f : 20f) * baseVelocityMult;
             float decelerationVelocityMult = 0.85f;
+
+            if (Main.getGoodWorld)
+                baseVelocity *= 1.5f;
 
             // Laser shotgun variables
             float laserShotgunDuration = lastMechAlive ? 120f : 90f;
@@ -493,8 +508,17 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
             {
                 pickNewLocation = false;
 
-                NPC.localAI[0] = Main.rand.Next(-50, 51);
-                NPC.localAI[1] = Main.rand.Next(-250, 251);
+                int randomLocationVarianceX = 50;
+                int randomLocationVarianceY = 250;
+
+                if (Main.getGoodWorld)
+                {
+                    randomLocationVarianceX *= 2;
+                    randomLocationVarianceY *= 2;
+                }
+
+                NPC.localAI[0] = Main.rand.Next(-randomLocationVarianceX, randomLocationVarianceX + 1);
+                NPC.localAI[1] = Main.rand.Next(-randomLocationVarianceY, randomLocationVarianceY + 1);
                 if (SecondaryAIState == (float)SecondaryPhase.Passive)
                 {
                     NPC.localAI[0] *= 0.5f;
@@ -612,7 +636,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
             }
 
             // Duration of deathray spin to do a full circle
-            // Normal = 120, Expert = 104, Rev = 96, Death = 88, Malice = 72
+            // Normal = 120, Expert = 104, Rev = 96, Death = 88, Boss Rush = 72
             float spinTime = 120f - 320f * (baseVelocityMult - 1.25f);
 
             // Set to transition to phase 2 if it hasn't happened yet
@@ -767,8 +791,8 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
                                         int type = ModContent.ProjectileType<ArtemisLaser>();
                                         int damage = NPC.GetProjectileDamage(type);
                                         Vector2 laserVelocity = chargeVelocityNormalized * 10f;
-                                        int numLasersPerSpread = malice ? 10 : death ? 8 : expertMode ? 6 : 4;
-                                        int spread = malice ? 30 : death ? 26 : expertMode ? 21 : 15;
+                                        int numLasersPerSpread = bossRush ? 10 : death ? 8 : expertMode ? 6 : 4;
+                                        int spread = bossRush ? 30 : death ? 26 : expertMode ? 21 : 15;
                                         float rotation = MathHelper.ToRadians(spread);
                                         float distanceFromTarget = Vector2.Distance(NPC.Center, NPC.Center + chargeVelocityNormalized * chargeDistance);
                                         float setVelocityInAI = 6.5f;
@@ -858,7 +882,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
                              * normal = 16, 20, 24
                              * nerfedAttacks = 12, 15, 18
                              */
-                            int numLasersAddedByDifficulty = malice ? 3 : death ? 2 : expertMode ? 1 : 0;
+                            int numLasersAddedByDifficulty = bossRush ? 3 : death ? 2 : expertMode ? 1 : 0;
                             int numLasersPerSpread = ((nerfedAttacks || nerfedLaserShotgun) ? 3 : lastMechAlive ? 7 : 5) + numLasersAddedByDifficulty;
                             int baseSpread = ((nerfedAttacks || nerfedLaserShotgun) ? 9 : lastMechAlive ? 20 : 15) + numLasersAddedByDifficulty * 2;
                             int spread = baseSpread + (int)(calamityGlobalNPC.newAI[2] / divisor2) * (baseSpread / 4);
@@ -1000,8 +1024,8 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
                                 // Fire deathray
                                 if (Main.netMode != NetmodeID.MultiplayerClient)
                                 {
-                                    int type = ModContent.ProjectileType<ArtemisLaserBeamStart>();
-                                    SoundEngine.PlaySound(SoundID.Zombie104, NPC.Center);
+                                    int type = ModContent.ProjectileType<ArtemisSpinLaserbeam>();
+                                    DeathraySoundSlot = SoundEngine.PlaySound(SoundID.Zombie104, NPC.Center);
                                     int damage = NPC.GetProjectileDamage(type);
                                     int laser = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, type, damage, 0f, Main.myPlayer, NPC.whoAmI);
                                     if (Main.projectile.IndexInRange(laser))
@@ -1117,6 +1141,12 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 
             // Update the charge flash variable
             ChargeFlash = MathHelper.Clamp(ChargeFlash + shouldDoChargeFlash.ToDirectionInt() * 0.08f, 0f, 1f);
+
+            //Update the deathray sound if it's being done.
+            if (SoundEngine.TryGetActiveSound(DeathraySoundSlot, out var deathraySound) && deathraySound.IsPlaying)
+            {
+                deathraySound.Position = NPC.Center;
+            }
         }
 
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)
@@ -1448,6 +1478,11 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
                     Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Artemis5").Type, 1f);
                 }
             }
+        }
+
+        public override void BossLoot(ref string name, ref int potionType)
+        {
+            potionType = ModContent.ItemType<OmegaHealingPotion>();
         }
 
         public override bool CheckDead()

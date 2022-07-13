@@ -107,6 +107,11 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         num421 = 9.5f;
                         num422 = 0.175f;
                     }
+                    if (Main.getGoodWorld)
+                    {
+                        num421 *= 1.15f;
+                        num422 *= 1.15f;
+                    }
                     // Reduce acceleration if target is holding a true melee weapon
                     if (Main.player[npc.target].HoldingTrueMeleeWeapon())
                     {
@@ -218,6 +223,11 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     num430 = 9.5f;
                     num431 = 0.25f;
                 }
+                if (Main.getGoodWorld)
+                {
+                    num430 *= 1.15f;
+                    num431 *= 1.15f;
+                }
                 // Reduce acceleration if target is holding a true melee weapon
                 if (Main.player[npc.target].HoldingTrueMeleeWeapon())
                 {
@@ -327,8 +337,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
         {
             CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || bossRush;
 
             // Get a target
             if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
@@ -338,10 +348,10 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
                 npc.TargetClosest();
 
-            float enrageScale = BossRushEvent.BossRushActive ? 0.5f : 0f;
-            if (Main.dayTime || malice)
+            float enrageScale = bossRush ? 0.5f : 0f;
+            if (Main.dayTime || bossRush)
             {
-                npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
+                npc.Calamity().CurrentlyEnraged = !bossRush;
                 enrageScale += 1f;
             }
 
@@ -438,6 +448,12 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         num383 += 0.1f * (1f - lifeRatio);
                     }
 
+                    if (Main.getGoodWorld)
+                    {
+                        num382 *= 1.15f;
+                        num383 *= 1.15f;
+                    }
+
                     int num384 = 1;
                     if (npc.position.X + (npc.width / 2) < Main.player[npc.target].position.X + Main.player[npc.target].width)
                         num384 = -1;
@@ -490,7 +506,11 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     else if (npc.position.Y + npc.height < Main.player[npc.target].position.Y && num388 < 400f)
                     {
                         if (!Main.player[npc.target].dead)
+                        {
                             npc.ai[3] += 1f;
+                            if (Main.getGoodWorld)
+                                npc.ai[3] += 0.5f;
+                        }
 
                         if (npc.ai[3] >= 30f)
                         {
@@ -526,6 +546,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     num393 += 10f * enrageScale;
                     if (death)
                         num393 += 12f * (1f - lifeRatio);
+                    if (Main.getGoodWorld)
+                        num393 += 2f;
 
                     Vector2 vector41 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
                     float num394 = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) - vector41.X;
@@ -664,6 +686,12 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     num399 += 4.5f * enrageScale;
                     num400 += 0.075f * enrageScale;
 
+                    if (Main.getGoodWorld)
+                    {
+                        num399 *= 1.15f;
+                        num400 *= 1.15f;
+                    }
+
                     // Reduce acceleration if target is holding a true melee weapon
                     if (Main.player[npc.target].HoldingTrueMeleeWeapon())
                     {
@@ -765,6 +793,12 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         num409 += 4.5f * enrageScale;
                         num410 += 0.15f * enrageScale;
 
+                        if (Main.getGoodWorld)
+                        {
+                            num409 *= 1.15f;
+                            num410 *= 1.15f;
+                        }
+
                         // Reduce acceleration if target is holding a true melee weapon
                         if (Main.player[npc.target].HoldingTrueMeleeWeapon())
                         {
@@ -864,6 +898,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         if (!spazAlive)
                             num450 += 2f;
 
+                        if (Main.getGoodWorld)
+                            num450 += 2f;
+
                         Vector2 vector47 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
                         float num451 = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) - vector47.X;
                         float num452 = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - vector47.Y;
@@ -936,7 +973,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         // Charge four times
                         float chargeGateValue = 30f;
                         chargeGateValue -= chargeGateValue / 4 * enrageScale;
-                        if (npc.ai[2] >= chargeTime + 30f)
+                        if (npc.ai[2] >= chargeTime + chargeGateValue)
                         {
                             npc.ai[2] = 0f;
                             npc.ai[3] += 1f;
@@ -964,6 +1001,12 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         {
                             num63 *= 0.75f;
                             num64 *= 0.75f;
+                        }
+
+                        if (Main.getGoodWorld)
+                        {
+                            num63 *= 1.15f;
+                            num64 *= 1.15f;
                         }
 
                         int num408 = 1;
@@ -1024,8 +1067,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
         {
             CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || bossRush;
 
             // Get a target
             if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
@@ -1035,10 +1078,10 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
                 npc.TargetClosest();
 
-            float enrageScale = BossRushEvent.BossRushActive ? 0.5f : 0f;
-            if (Main.dayTime || malice)
+            float enrageScale = bossRush ? 0.5f : 0f;
+            if (Main.dayTime || bossRush)
             {
-                npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
+                npc.Calamity().CurrentlyEnraged = !bossRush;
                 enrageScale += 1f;
             }
 
@@ -1060,12 +1103,14 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             Vector2 lookAt = new Vector2(Main.player[npc.target].position.X - (Main.player[npc.target].width / 2), Main.player[npc.target].position.Y - (Main.player[npc.target].height / 2));
             Vector2 rotationVector = npcCenter - lookAt;
 
-            // Malice Mode predictive charge rotation
-            if (npc.ai[1] == 5f && !retAlive && malice)
+            // Boss Rush predictive charge rotation
+            if (npc.ai[1] == 5f && !retAlive && bossRush)
             {
                 // Velocity
                 float chargeVelocity = 20f + (death ? 6f * (0.7f - lifeRatio) : 0f);
                 chargeVelocity += 10f * enrageScale;
+                if (Main.getGoodWorld)
+                    chargeVelocity += 2f;
                 if (npc.ai[2] == -1f || (!retAlive && npc.ai[3] == 4f))
                     chargeVelocity *= 1.3f;
 
@@ -1155,6 +1200,12 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         num425 += 0.3f * (1f - lifeRatio);
                     }
 
+                    if (Main.getGoodWorld)
+                    {
+                        num424 *= 1.15f;
+                        num425 *= 1.15f;
+                    }
+
                     int num426 = 1;
                     if (npc.position.X + (npc.width / 2) < Main.player[npc.target].position.X + Main.player[npc.target].width)
                         num426 = -1;
@@ -1208,7 +1259,11 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     {
                         // Fire cursed flame every half second
                         if (!Main.player[npc.target].dead)
+                        {
                             npc.ai[3] += 1f;
+                            if (Main.getGoodWorld)
+                                npc.ai[3] += 0.4f;
+                        }
 
                         if (npc.ai[3] >= 30f)
                         {
@@ -1247,6 +1302,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     num434 += 8f * enrageScale;
                     if (death)
                         num434 += 12f * (1f - lifeRatio);
+                    if (Main.getGoodWorld)
+                        num434 *= 1.2f;
 
                     Vector2 vector45 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
                     float num435 = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) - vector45.X;
@@ -1417,6 +1474,12 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     if (num445 > 400f)
                         num440 += 0.5f;
 
+                    if (Main.getGoodWorld)
+                    {
+                        num440 *= 1.15f;
+                        num441 *= 1.15f;
+                    }
+
                     num445 = num440 / num445;
                     num443 *= num445;
                     num444 *= num445;
@@ -1520,6 +1583,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         npc.rotation = num420;
                         float num450 = 16.75f + (death ? 5f * (0.7f - lifeRatio) : 0f);
                         num450 += 8f * enrageScale;
+                        if (Main.getGoodWorld)
+                            num450 *= 1.2f;
 
                         Vector2 distanceVector = Main.player[npc.target].Center - npc.Center;
                         npc.velocity = Vector2.Normalize(distanceVector) * num450;
@@ -1591,8 +1656,10 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             num48 += 10f * enrageScale;
                             if (npc.ai[2] == -1f || (!retAlive && npc.ai[3] == secondFastCharge))
                                 num48 *= 1.3f;
+                            if (Main.getGoodWorld)
+                                num48 *= 1.2f;
 
-                            Vector2 distanceVector = Main.player[npc.target].Center + (!retAlive && malice ? Main.player[npc.target].velocity * 20f : Vector2.Zero) - npc.Center;
+                            Vector2 distanceVector = Main.player[npc.target].Center + (!retAlive && bossRush ? Main.player[npc.target].velocity * 20f : Vector2.Zero) - npc.Center;
                             npc.velocity = Vector2.Normalize(distanceVector) * num48;
 
                             if (retAlive)
@@ -1682,6 +1749,12 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             num64 *= 0.75f;
                         }
 
+                        if (Main.getGoodWorld)
+                        {
+                            num63 *= 1.15f;
+                            num64 *= 1.15f;
+                        }
+
                         Vector2 vector11 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
                         float num65 = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) - vector11.X;
                         float num66 = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) + num62 - vector11.Y;
@@ -1727,7 +1800,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                                 float velocity = 16f;
                                 int type = ModContent.ProjectileType<ShadowflameFireball>();
                                 int damage = npc.GetProjectileDamage(type);
-                                Vector2 projectileVelocity = Vector2.Normalize(Main.player[npc.target].Center + (!retAlive && malice ? Main.player[npc.target].velocity * 20f : Vector2.Zero) - npc.Center) * velocity;
+                                Vector2 projectileVelocity = Vector2.Normalize(Main.player[npc.target].Center + (!retAlive && bossRush ? Main.player[npc.target].velocity * 20f : Vector2.Zero) - npc.Center) * velocity;
                                 Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + Vector2.Normalize(projectileVelocity) * 4f, projectileVelocity, type, damage, 0f, Main.myPlayer, 0f, retAlive ? 0f : 1f);
                             }
                         }

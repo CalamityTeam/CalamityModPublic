@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            Item.width = 94;
+            Item.width = 90;
             Item.damage = 80;
             Item.DamageType = DamageClass.Melee;
             Item.useAnimation = 24;
@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.knockBack = 7.25f;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
-            Item.height = 94;
+            Item.height = 90;
             Item.shoot = ModContent.ProjectileType<DracoBeam>();
             Item.shootSpeed = 14f;
 
@@ -56,7 +56,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             CreateRecipe().
                 AddIngredient<ShadowspecBar>(5).
-                AddIngredient<CoreofCinder>(3).
+                AddIngredient<CoreofSunlight>(3).
                 AddIngredient<CoreofEleum>(3).
                 AddIngredient(ItemID.FragmentSolar, 10).
                 AddTile(ModContent.TileType<DraedonsForge>()).

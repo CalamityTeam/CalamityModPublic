@@ -28,7 +28,8 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.DamageType = RogueDamageClass.Instance;
             Projectile.tileCollide = false;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = -2;
+            Projectile.localNPCHitCooldown = -1;
+            Projectile.MaxUpdates = 3;
         }
 
         public override void AI()
@@ -42,7 +43,7 @@ namespace CalamityMod.Projectiles.Rogue
             if (Projectile.ai[0] > 120f)
             {
                 Projectile.scale *= 0.98f;
-                CalamityGlobalProjectile.ExpandHitboxBy(Projectile, Projectile.scale);
+                Projectile.ExpandHitboxBy(Projectile.scale);
                 if (Projectile.scale <= 0.05f)
                     Projectile.Kill();
             }

@@ -9,6 +9,8 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class Hellborn : ModItem
     {
+        public const float ExplosionDamageMultiplier = 5f;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Hellborn");
@@ -26,8 +28,8 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.DamageType = DamageClass.Ranged;
             Item.width = 66;
             Item.height = 34;
-            Item.useTime = 15;
-            Item.useAnimation = 15;
+            Item.useTime = 20;
+            Item.useAnimation = 20;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.knockBack = 2f;
             Item.value = CalamityGlobalItem.Rarity5BuyPrice;
@@ -40,13 +42,25 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.Calamity().canFirePointBlankShots = true;
         }
 
-        public override float UseTimeMultiplier(Player player) => 1f + (player.Calamity().hellbornBoost * (1f / 600f));
+        public override float UseSpeedMultiplier(Player player) => 1f - 0.5f * (player.Calamity().hellbornBoost * (1f / 600f));
 
         public override void ModifyWeaponDamage(Player player, ref StatModifier damage) => damage *= 1f + player.Calamity().hellbornBoost * (1f / 600f);
 
         public override void ModifyWeaponKnockback(Player player, ref StatModifier knockback) => knockback *= 1f + (player.Calamity().hellbornBoost * (1f / 600f));
 
         public override Vector2? HoldoutOffset() => new Vector2(-10, 0);
+
+        //Custom melee hitbox
+        public override bool? CanHitNPC(Player player, NPC target)
+        {
+            Rectangle targetHitbox = target.Hitbox;
+
+            float collisionPoint = 0f;
+            float gunLenght = 66f;
+            float gunHeight = 15;
+
+            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), player.MountedCenter, player.MountedCenter + ((player.itemRotation + (player.direction < 0 ? MathHelper.Pi : 0f)).ToRotationVector2() * gunLenght), gunHeight, ref collisionPoint) ? null : false;
+        }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
@@ -70,8 +84,9 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void ModifyHitNPC(Player player, NPC target, ref int damage, ref float knockback, ref bool crit)
         {
             player.Calamity().hellbornBoost = 600;
-            damage *= 10;
-            player.ApplyDamageToNPC(target, (int)(Item.damage * (player.GetDamage<GenericDamageClass>().Additive + player.GetDamage<RangedDamageClass>().Additive - 1f)), 0f, 0, false);
+            damage  = (int)(damage * ExplosionDamageMultiplier);
+            int touchDamage = player.CalcIntDamage<RangedDamageClass>(Item.damage);
+            player.ApplyDamageToNPC(target, touchDamage, 0f, 0, false);
             float num50 = 3.4f;
             float num51 = 1.6f;
             float num52 = 4f;

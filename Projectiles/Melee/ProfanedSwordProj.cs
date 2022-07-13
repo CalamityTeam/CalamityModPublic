@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class ProfanedSwordProj : ModProjectile
     {
-        public override string Texture => "CalamityMod/Items/Weapons/Melee/ProfanedSword";
+        public override string Texture => "CalamityMod/Items/Weapons/Melee/BrimstoneSword";
 
         private int explosionCount = 0;
         public override void SetStaticDefaults()

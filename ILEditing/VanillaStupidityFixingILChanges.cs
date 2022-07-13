@@ -1,4 +1,8 @@
 ﻿using CalamityMod.Balancing;
+using CalamityMod.Items.Materials;
+using CalamityMod.NPCs.AcidRain;
+using CalamityMod.NPCs.NormalNPCs;
+using Microsoft.Xna.Framework;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using System;
@@ -123,7 +127,7 @@ namespace CalamityMod.ILEditing
             }
 
             cursor.Remove();
-            cursor.Emit(OpCodes.Ldloc, 6);
+            cursor.Emit(OpCodes.Ldloc, 10);
             cursor.EmitDelegate<Func<int, int>>(spawnPlayerIndex =>
             {
                 if (Main.player[spawnPlayerIndex].active && Main.player[spawnPlayerIndex].Calamity().disableVoodooSpawns)
@@ -165,7 +169,7 @@ namespace CalamityMod.ILEditing
                 return;
             }
             cursor.Remove();
-            cursor.Emit(OpCodes.Ldc_I4, 100);
+            cursor.Emit(OpCodes.Ldc_I4, 200);
 
             if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcI4(20)))
             {
@@ -173,7 +177,7 @@ namespace CalamityMod.ILEditing
                 return;
             }
             cursor.Remove();
-            cursor.Emit(OpCodes.Ldc_I4, 100);
+            cursor.Emit(OpCodes.Ldc_I4, 200);
 
             if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcI4(20)))
             {
@@ -181,7 +185,7 @@ namespace CalamityMod.ILEditing
                 return;
             }
             cursor.Remove();
-            cursor.Emit(OpCodes.Ldc_I4, 100);
+            cursor.Emit(OpCodes.Ldc_I4, 200);
 
             if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcI4(20)))
             {
@@ -189,7 +193,7 @@ namespace CalamityMod.ILEditing
                 return;
             }
             cursor.Remove();
-            cursor.Emit(OpCodes.Ldc_I4, 100);
+            cursor.Emit(OpCodes.Ldc_I4, 200);
         }
         #endregion
 
@@ -211,7 +215,7 @@ namespace CalamityMod.ILEditing
         #region Make Windy Day Music Play Less Often
         private static void MakeWindyDayMusicPlayLessOften(ILContext il)
         {
-            // Make windy day theme only play when the wind speed is over 0.6f instead of 0.4f and make it stop when the wind dies down to below 0.54f instead of 0.34f.
+            // Make windy day theme only play when the wind speed is over 0.5f instead of 0.4f and make it stop when the wind dies down to below 0.44f instead of 0.34f.
             var cursor = new ILCursor(il);
 
             FieldInfo _minWindField = typeof(Main).GetField("_minWind", BindingFlags.NonPublic | BindingFlags.Static);
@@ -222,7 +226,7 @@ namespace CalamityMod.ILEditing
                 return;
             }
             cursor.Remove();
-            cursor.Emit(OpCodes.Ldc_R4, 0.54f); // Change to 0.54f.
+            cursor.Emit(OpCodes.Ldc_R4, 0.44f); // Change to 0.44f.
 
             FieldInfo _maxWindField = typeof(Main).GetField("_maxWind", BindingFlags.NonPublic | BindingFlags.Static);
 
@@ -232,7 +236,7 @@ namespace CalamityMod.ILEditing
                 return;
             }
             cursor.Remove();
-            cursor.Emit(OpCodes.Ldc_R4, 0.6f); // Change to 0.6f.
+            cursor.Emit(OpCodes.Ldc_R4, 0.5f); // Change to 0.5f.
         }
         #endregion Make Windy Day Music Play Less Often
 
@@ -281,7 +285,15 @@ namespace CalamityMod.ILEditing
                     LogFailure("Making Tag Damage Multiplicative", $"Could not locate the flag local index of '{flagLocalIndex}'.");
                     return false;
                 }
-                cursor.Index += 2;
+
+                // Move to the point at which a local is loaded after the boolean.
+                // Ideally this would be two instructions afterwards (load bool, branch), but we cannot guarantee that this will be the case.
+                // As such, a match is done instead.
+                if (!cursor.TryGotoNext(MoveType.After, i => i.MatchLdloc(out _)))
+                {
+                    LogFailure("Making Tag Damage Multiplicative", $"Could not locate the succeeding local after the flag local index of '{flagLocalIndex}'.");
+                    return false;
+                }
 
                 // OPTIONAL case for if an extra variable to store damage is used:
                 // Load damage to add.
@@ -291,7 +303,17 @@ namespace CalamityMod.ILEditing
                 // Load damage addition ->
                 // Add the two ->
                 // Store damage.
-                cursor.RemoveRange(usesExtraVariableToStoreDamage ? 6 : 4);
+
+                // This logic for adding damage is disabled by popped at the point at which the addition happens and replacing it with zero, resulting in x += 0.
+                if (!cursor.TryGotoNext(MoveType.Before, c => c.MatchAdd()))
+                {
+                    LogFailure("Making Tag Damage Multiplicative", $"Could not locate the damage addition at the flag local index of '{flagLocalIndex}'.");
+                    return false;
+                }
+                cursor.Emit(OpCodes.Pop);
+                cursor.Emit(OpCodes.Ldc_I4_0);
+
+                // After this, the following operations are done as a replacement to achieve multiplicative damage:
 
                 // Load damage ->
                 // Cast damage to float ->
@@ -339,7 +361,7 @@ namespace CalamityMod.ILEditing
             cursor.EmitDelegate<Func<Projectile, int>>(projectile =>
             {
                 int damage = (int)(Main.player[projectile.owner].ActiveItem().damage * BalancingConstants.FirecrackerExplosionDamageMultiplier);
-                damage = (int)Main.player[projectile.owner].GetDamage<SummonDamageClass>().ApplyTo(damage);
+                damage = (int)Main.player[projectile.owner].GetTotalDamage<SummonDamageClass>().ApplyTo(damage);
                 return damage;
             });
             cursor.Emit(OpCodes.Stloc, 64);
@@ -350,8 +372,7 @@ namespace CalamityMod.ILEditing
                 LogFailure("Making Tag Damage Multiplicative", $"Could not locate the damage additive value.");
                 return;
             }
-            cursor.Index--;
-            cursor.Remove();
+            cursor.Emit(OpCodes.Pop);
             cursor.Emit(OpCodes.Ldc_I4_0);
         }
         #endregion Make Tag Damage Multiplicative
@@ -367,7 +388,33 @@ namespace CalamityMod.ILEditing
         #endregion
 
         #region Fix Chlorophyte Crystal Attacking Where it Shouldn't
-
+        // TODO -- Finish this
         #endregion Fix Chlorophyte Crystal Attacking Where it Shouldn't
+
+        #region Color Blighted Gel
+        private static void ColorBlightedGel(On.Terraria.GameContent.ItemDropRules.CommonCode.orig_ModifyItemDropFromNPC orig, NPC npc, int itemIndex)
+        {
+            orig(npc, itemIndex);
+
+            Item item = Main.item[itemIndex];
+            int itemID = item.type;
+            bool colorWasChanged = false;
+
+            if (itemID == ModContent.ItemType<BlightedGel>() && npc.type == ModContent.NPCType<CrimulanBlightSlime>())
+            {
+                item.color = new Color(1f, 0f, 0.16f, 0.6f);
+                colorWasChanged = true;
+            }
+            if (itemID == ItemID.SharkFin && npc.type == ModContent.NPCType<Mauler>())
+            {
+                item.color = new Color(151, 115, 57, 255);
+                colorWasChanged = true;
+            }
+
+            // Sync the color changes.
+            if (colorWasChanged)
+                NetMessage.SendData(MessageID.ItemTweaker, -1, -1, null, itemID, 1f);
+        }
+        #endregion Color Blighted Gel
     }
 }

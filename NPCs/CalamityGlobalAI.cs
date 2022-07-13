@@ -13,8 +13,6 @@ using Terraria.GameContent;
 using Terraria.GameContent.Events;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Sounds;
-using Terraria.Utilities;
 
 namespace CalamityMod.NPCs
 {
@@ -5323,7 +5321,7 @@ namespace CalamityMod.NPCs
         #region Bat AI
         public static bool BuffedBatAI(NPC npc, Mod mod)
         {
-            if (npc.type == NPCID.Hellbat || npc.type == NPCID.Lavabat || npc.type == ModContent.NPCType<SunBat>())
+            if (npc.type == NPCID.Hellbat || npc.type == NPCID.Lavabat)
             {
                 int num203 = Dust.NewDust(npc.position, npc.width, npc.height, 6, npc.velocity.X * 0.2f, npc.velocity.Y * 0.2f, 100, default(Color), 2f);
                 Main.dust[num203].noGravity = true;
@@ -5433,8 +5431,7 @@ namespace CalamityMod.NPCs
                 npc.type == NPCID.IceBat ||
                 npc.type == NPCID.Lavabat ||
                 npc.type == NPCID.GiantFlyingFox ||
-                npc.type == ModContent.NPCType<SunBat>() ||
-                npc.type == ModContent.NPCType<PlaguedFlyingFox>())
+                npc.type == ModContent.NPCType<Melter>())
             {
                 maxSpeedX = 6f;
                 maxSpeedY = 2.5f;
@@ -9398,12 +9395,12 @@ namespace CalamityMod.NPCs
             // Define what exactly is going to be shit out of this egg when it's ready.
             if (npc.ai[1] == 0f)
             {
-                npc.ai[1] = ((Main.rand.NextBool(10) && NPC.CountNPCS(NPCID.Mothron) < 2) ? NPCID.Mothron : NPCID.MothronSpawn);
+                npc.ai[1] = (Main.rand.NextBool(10) && NPC.CountNPCS(NPCID.Mothron) < 2) ? NPCID.Mothron : NPCID.MothronSpawn;
 
                 if ((int)npc.ai[1] == NPCID.Mothron)
                 {
                     npc.defense = (int)(npc.defDefense * 1.5);
-                    npc.scale = 2f;
+                    npc.scale *= 2f;
                     npc.width = npc.height = (int)(34f * npc.scale);
                     npc.netUpdate = true;
                 }

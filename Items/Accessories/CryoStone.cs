@@ -14,6 +14,7 @@ namespace CalamityMod.Items.Accessories
             Tooltip.SetDefault("One of the ancient relics\n" +
                 "Creates a rotating ice shield around you that damages and slows down enemies on contact");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(4, 4));
+            ItemID.Sets.AnimatesAsSoul[Type] = true;
         }
 
         public override void SetDefaults()

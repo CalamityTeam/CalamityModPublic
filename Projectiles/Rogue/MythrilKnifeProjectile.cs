@@ -71,8 +71,6 @@ namespace CalamityMod.Projectiles.Rogue
                 return;
 
             target.AddBuff(BuffID.CursedInferno, 300);
-            target.AddBuff(BuffID.Venom, 300);
-            target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 300);
             target.AddBuff(ModContent.BuffType<Irradiated>(), 300);
             target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 300);
         }
@@ -83,8 +81,6 @@ namespace CalamityMod.Projectiles.Rogue
                 return;
 
             target.AddBuff(BuffID.CursedInferno, 300);
-            target.AddBuff(BuffID.Venom, 300);
-            target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 300);
             target.AddBuff(ModContent.BuffType<Irradiated>(), 300);
             target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 300);
         }

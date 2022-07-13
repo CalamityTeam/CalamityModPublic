@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Potions
             Item.rare = ItemRarityID.Orange;
             Item.useAnimation = 17;
             Item.useTime = 17;
-            Item.useStyle = ItemUseStyleID.EatFood;
+            Item.useStyle = ItemUseStyleID.DrinkLiquid;
             Item.UseSound = SoundID.Item3;
             Item.value = Item.buyPrice(0, 2, 0, 0);
             Item.rare = ItemRarityID.LightRed;
@@ -38,7 +38,7 @@ namespace CalamityMod.Items.Potions
             CreateRecipe().
                 AddIngredient(ItemID.BottledWater).
                 AddIngredient<PurifiedGel>(2).
-                AddIngredient<EbonianGel>(4).
+                AddIngredient<BlightedGel>(4).
                 AddIngredient<DemonicBoneAsh>().
                 AddTile(TileID.AlchemyTable).
                 Register();

@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 10;
+            SacrificeTotal = 5;
             DisplayName.SetDefault("Brimstone Crate");
             Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
         }

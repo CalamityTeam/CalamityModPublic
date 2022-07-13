@@ -1,4 +1,5 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.BiomeManagers;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Placeables.Ores;
 using CalamityMod.Projectiles.Enemy;
@@ -48,13 +49,12 @@ namespace CalamityMod.NPCs.Abyss
             NPC.Calamity().VulnerableToSickness = true;
             NPC.Calamity().VulnerableToElectricity = true;
             NPC.Calamity().VulnerableToWater = false;
+            SpawnModBiomes = new int[2] { ModContent.GetInstance<AbyssLayer2Biome>().Type, ModContent.GetInstance<AbyssLayer3Biome>().Type };
         }
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
-				//BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.AbyssLayer2,
-                //BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.AbyssLayer3,
 
 				// Will move to localization whenever that is cleaned up.
 				new FlavorTextBestiaryInfoElement("Anarchistic little devils, they swallow large amounts of water to inflate their bristling bodies. The water within them boils and bursts out in a scalding rush when they are killed.")
@@ -147,19 +147,22 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
-            SpriteEffects spriteEffects = SpriteEffects.None;
-            if (NPC.spriteDirection == 1)
+            if (!NPC.IsABestiaryIconDummy)
             {
-                spriteEffects = SpriteEffects.FlipHorizontally;
+                SpriteEffects spriteEffects = SpriteEffects.None;
+                if (NPC.spriteDirection == 1)
+                {
+                    spriteEffects = SpriteEffects.FlipHorizontally;
+                }
+                Vector2 center = new Vector2(NPC.Center.X, NPC.Center.Y);
+                Vector2 vector11 = new Vector2((float)(TextureAssets.Npc[NPC.type].Value.Width / 2), (float)(TextureAssets.Npc[NPC.type].Value.Height / Main.npcFrameCount[NPC.type] / 2));
+                Vector2 vector = center - screenPos;
+                vector -= new Vector2((float)ModContent.Request<Texture2D>("CalamityMod/NPCs/Abyss/ChaoticPufferGlow").Value.Width, (float)(ModContent.Request<Texture2D>("CalamityMod/NPCs/Abyss/ChaoticPufferGlow").Value.Height / Main.npcFrameCount[NPC.type])) * 1f / 2f;
+                vector += vector11 * 1f + new Vector2(0f, 4f + NPC.gfxOffY);
+                Color color = new Color(127 - NPC.alpha, 127 - NPC.alpha, 127 - NPC.alpha, 0).MultiplyRGBA(Microsoft.Xna.Framework.Color.Yellow);
+                Main.spriteBatch.Draw(ModContent.Request<Texture2D>("CalamityMod/NPCs/Abyss/ChaoticPufferGlow").Value, vector,
+                    new Microsoft.Xna.Framework.Rectangle?(NPC.frame), color, NPC.rotation, vector11, 1f, spriteEffects, 0f);
             }
-            Vector2 center = new Vector2(NPC.Center.X, NPC.Center.Y);
-            Vector2 vector11 = new Vector2((float)(TextureAssets.Npc[NPC.type].Value.Width / 2), (float)(TextureAssets.Npc[NPC.type].Value.Height / Main.npcFrameCount[NPC.type] / 2));
-            Vector2 vector = center - screenPos;
-            vector -= new Vector2((float)ModContent.Request<Texture2D>("CalamityMod/NPCs/Abyss/ChaoticPufferGlow").Value.Width, (float)(ModContent.Request<Texture2D>("CalamityMod/NPCs/Abyss/ChaoticPufferGlow").Value.Height / Main.npcFrameCount[NPC.type])) * 1f / 2f;
-            vector += vector11 * 1f + new Vector2(0f, 4f + NPC.gfxOffY);
-            Color color = new Color(127 - NPC.alpha, 127 - NPC.alpha, 127 - NPC.alpha, 0).MultiplyRGBA(Microsoft.Xna.Framework.Color.Yellow);
-            Main.spriteBatch.Draw(ModContent.Request<Texture2D>("CalamityMod/NPCs/Abyss/ChaoticPufferGlow").Value, vector,
-                new Microsoft.Xna.Framework.Rectangle?(NPC.frame), color, NPC.rotation, vector11, 1f, spriteEffects, 0f);
         }
 
         public override void FindFrame(int frameHeight)
@@ -177,36 +180,7 @@ namespace CalamityMod.NPCs.Abyss
                     NPC.frame.Y = NPC.frame.Y - frameHeight;
                 }
             }
-            if (puffing)
-            {
-                if (NPC.frame.Y < frameHeight * 3)
-                {
-                    NPC.frame.Y = frameHeight * 3;
-                }
-                if (NPC.frame.Y > frameHeight * 6)
-                {
-                    NPC.frame.Y = frameHeight * 3;
-                }
-            }
-            else if (unpuffing)
-            {
-                if (NPC.frame.Y > frameHeight * 6)
-                {
-                    NPC.frame.Y = frameHeight * 6;
-                }
-                if (NPC.frame.Y < frameHeight * 3)
-                {
-                    NPC.frame.Y = frameHeight * 6;
-                }
-            }
-            else if (!puffedUp)
-            {
-                if (NPC.frame.Y > frameHeight * 3)
-                {
-                    NPC.frame.Y = 0;
-                }
-            }
-            else
+            if (NPC.IsABestiaryIconDummy)
             {
                 if (NPC.frame.Y < frameHeight * 7)
                 {
@@ -215,6 +189,49 @@ namespace CalamityMod.NPCs.Abyss
                 if (NPC.frame.Y > frameHeight * 10)
                 {
                     NPC.frame.Y = frameHeight * 7;
+                }
+            }
+            else
+            {
+                if (puffing)
+                {
+                    if (NPC.frame.Y < frameHeight * 3)
+                    {
+                        NPC.frame.Y = frameHeight * 3;
+                    }
+                    if (NPC.frame.Y > frameHeight * 6)
+                    {
+                        NPC.frame.Y = frameHeight * 3;
+                    }
+                }
+                else if (unpuffing)
+                {
+                    if (NPC.frame.Y > frameHeight * 6)
+                    {
+                        NPC.frame.Y = frameHeight * 6;
+                    }
+                    if (NPC.frame.Y < frameHeight * 3)
+                    {
+                        NPC.frame.Y = frameHeight * 6;
+                    }
+                }
+                else if (!puffedUp)
+                {
+                    if (NPC.frame.Y > frameHeight * 3)
+                    {
+                        NPC.frame.Y = 0;
+                    }
+                }
+                else
+                {
+                    if (NPC.frame.Y < frameHeight * 7)
+                    {
+                        NPC.frame.Y = frameHeight * 7;
+                    }
+                    if (NPC.frame.Y > frameHeight * 10)
+                    {
+                        NPC.frame.Y = frameHeight * 7;
+                    }
                 }
             }
         }
@@ -234,7 +251,7 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            npcLoot.AddIf(() => NPC.downedGolemBoss, ModContent.ItemType<ChaoticOre>(), 1, 10, 26);
+            npcLoot.AddIf(() => NPC.downedGolemBoss, ModContent.ItemType<ScoriaOre>(), 1, 10, 26);
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)

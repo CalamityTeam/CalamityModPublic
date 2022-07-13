@@ -11,6 +11,7 @@ using Terraria.ModLoader.Core;
 
 namespace CalamityMod.Particles
 {
+    // TODO -- This can be made into a ModSystem with simple OnModLoad and Unload hooks.
     public static class GeneralParticleHandler
     {
         private static List<Particle> particles;
@@ -113,6 +114,11 @@ namespace CalamityMod.Particles
 
         public static void DrawAllParticles(SpriteBatch sb)
         {
+            if (particles.Count == 0)
+                return; 
+
+            sb.End();
+
             //Batch the particles to avoid constant restarting of the spritebatch
             foreach (Particle particle in particles)
             {
@@ -182,6 +188,8 @@ namespace CalamityMod.Particles
             batchedAlphaBlendParticles.Clear();
             batchedNonPremultipliedParticles.Clear();
             batchedAdditiveBlendParticles.Clear();
+
+            sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.Transform);
         }
 
         /// <summary>

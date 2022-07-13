@@ -1,6 +1,5 @@
 using CalamityMod.Items.Weapons.Melee;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -88,7 +87,7 @@ namespace CalamityMod.Projectiles.Rogue
 
                 // Otherwise, if homing on enemies is enabled, they home in on enemies.
                 if (Projectile.ai[0] == 1f)
-                    CalamityGlobalProjectile.HomeInOnNPC(Projectile, true, 600f, 10f, 20f);
+                    CalamityUtils.HomeInOnNPC(Projectile, true, 600f, 10f, 20f);
             }
 
             // If the owner is dead these projectiles disappear rapidly.

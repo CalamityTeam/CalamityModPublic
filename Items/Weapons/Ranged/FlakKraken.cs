@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            Item.damage = 54;
+            Item.damage = 45;
             Item.DamageType = DamageClass.Ranged;
             Item.width = 152;
             Item.height = 58;
@@ -53,7 +53,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             CreateRecipe().
                 AddIngredient<FlakToxicannon>().
                 AddIngredient<DepthCells>(20).
-                AddIngredient<Lumenite>(10).
+                AddIngredient<Lumenyl>(10).
                 AddIngredient<Tenebris>(10).
                 AddTile(TileID.MythrilAnvil).
                 Register();

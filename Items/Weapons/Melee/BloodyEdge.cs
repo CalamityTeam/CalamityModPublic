@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.Items.Materials;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -71,6 +72,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 AddIngredient(ItemID.Muramasa).
                 AddIngredient(ItemID.BladeofGrass).
                 AddIngredient(ItemID.FieryGreatsword).
+                AddIngredient<PurifiedGel>(5).
                 AddTile(TileID.DemonAltar).
                 Register();
             CreateRecipe().
@@ -78,6 +80,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 AddIngredient(ItemID.Muramasa).
                 AddIngredient(ItemID.BladeofGrass).
                 AddIngredient(ItemID.FieryGreatsword).
+                AddIngredient<PurifiedGel>(5).
                 AddTile(TileID.DemonAltar).
                 Register();
         }

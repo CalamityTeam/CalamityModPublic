@@ -65,7 +65,7 @@ namespace CalamityMod.Skies
                 }
 
                 // Release a good amount of cinders while brothers or Sepulcher-1 are alive. Sepulcher-2 falls into an above case and does not execute this return.
-                if (NPC.AnyNPCs(ModContent.NPCType<SupremeCataclysm>()) || NPC.AnyNPCs(ModContent.NPCType<SupremeCatastrophe>()) || NPC.AnyNPCs(ModContent.NPCType<SCalWormHead>()))
+                if (NPC.AnyNPCs(ModContent.NPCType<SupremeCataclysm>()) || NPC.AnyNPCs(ModContent.NPCType<SupremeCatastrophe>()) || NPC.AnyNPCs(ModContent.NPCType<SepulcherHead>()))
                     return 10;
 
                 // Release a moderate amount of cinders normally.
@@ -92,7 +92,7 @@ namespace CalamityMod.Skies
                 }
 
                 // Move a little quickly while brothers or Sepulcher-1 are alive. Sepulcher-2 falls into an above case and does not execute this return.
-                if (NPC.AnyNPCs(ModContent.NPCType<SupremeCataclysm>()) || NPC.AnyNPCs(ModContent.NPCType<SupremeCatastrophe>()) || NPC.AnyNPCs(ModContent.NPCType<SCalWormHead>()))
+                if (NPC.AnyNPCs(ModContent.NPCType<SupremeCataclysm>()) || NPC.AnyNPCs(ModContent.NPCType<SupremeCatastrophe>()) || NPC.AnyNPCs(ModContent.NPCType<SepulcherHead>()))
                     return 7.4f;
 
                 // Move moderately quickly usually.
@@ -108,15 +108,6 @@ namespace CalamityMod.Skies
                 UpdateSCalIndex();
                 if (SCalIndex == -1)
                     isActive = false;
-            }
-
-            if (isActive && intensity < 1f)
-            {
-                intensity += 0.01f;
-            }
-            else if (!isActive && intensity > 0f)
-            {
-                intensity -= 0.01f;
             }
 
             if (!Main.npc.IndexInRange(CalamityGlobalNPC.SCal) || Main.npc[CalamityGlobalNPC.SCal].type != ModContent.NPCType<SupremeCalamitas>())
@@ -140,7 +131,7 @@ namespace CalamityMod.Skies
             }
 
             // Randomly add cinders.
-            if (intensity >= 1f && Main.rand.NextBool(CinderReleaseChance))
+            if (Main.rand.NextBool(CinderReleaseChance))
             {
                 int lifetime = Main.rand.Next(285, 445);
                 float depth = Main.rand.NextFloat(1.8f, 5f);
@@ -179,7 +170,7 @@ namespace CalamityMod.Skies
                 float x = 0f;
                 if (SCalIndex != -1)
                     x = Vector2.Distance(Main.player[Main.myPlayer].Center, Main.npc[this.SCalIndex].Center);
-                float intensityFactor = BossRushEvent.BossRushActive ? -0.2f : intensity;
+                float intensityFactor = BossRushEvent.BossRushActive ? -0.2f : 1f;
 
                 return (1f - Utils.SmoothStep(3000f, 6000f, x)) * intensityFactor;
             }

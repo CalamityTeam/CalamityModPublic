@@ -13,20 +13,20 @@ namespace CalamityMod.Items.Potions
         {
             SacrificeTotal = 20;
             DisplayName.SetDefault("Calamitas' Brew");
-            Tooltip.SetDefault("Adds abyssal flames to your melee and rogue projectiles and melee attacks\n" +
+            Tooltip.SetDefault("Adds brimstone flames to your melee and rogue projectiles and melee attacks\n" +
                                "Increases your movement speed by 5%");
         }
 
         public override void SetDefaults()
         {
             Item.width = 30;
-            Item.height = 30;
+            Item.height = 34;
             Item.useTurn = true;
             Item.maxStack = 30;
             Item.rare = ItemRarityID.Lime;
             Item.useAnimation = 17;
             Item.useTime = 17;
-            Item.useStyle = ItemUseStyleID.EatFood;
+            Item.useStyle = ItemUseStyleID.DrinkLiquid;
             Item.UseSound = SoundID.Item3;
             Item.consumable = true;
             Item.buffType = ModContent.BuffType<AbyssalWeapon>();
@@ -39,14 +39,14 @@ namespace CalamityMod.Items.Potions
             CreateRecipe(3).
                 AddIngredient(ItemID.BottledWater, 3).
                 AddIngredient<BrimstoneFish>().
-                AddIngredient<CalamityDust>(3).
+                AddIngredient<AshesofCalamity>(3).
                 AddTile(TileID.ImbuingStation).
                 Register();
 
             CreateRecipe().
                 AddIngredient(ItemID.BottledWater).
                 AddIngredient<BloodOrb>(20).
-                AddIngredient<CalamityDust>().
+                AddIngredient<AshesofCalamity>().
                 AddTile(TileID.ImbuingStation).
                 Register();
         }

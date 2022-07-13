@@ -17,25 +17,28 @@ namespace CalamityMod.Systems
 
         public override bool IsSceneEffectActive(Player player) => BossRushSky.DetermineDrawEligibility();
 
-        public override void SpecialVisuals(Player player)
+        public override void SpecialVisuals(Player player, bool isActive)
         {
             // Clear all other skies, including the vanilla ones.
-            Dictionary<string, CustomSky> skies = EffectsField.GetValue(SkyManager.Instance) as Dictionary<string, CustomSky>;
-            bool updateRequired = false;
-            foreach (string skyName in skies.Keys)
+            if (isActive)
             {
-                if (skies[skyName].IsActive() && skyName != "CalamityMod:BossRush")
+                Dictionary<string, CustomSky> skies = EffectsField.GetValue(SkyManager.Instance) as Dictionary<string, CustomSky>;
+                bool updateRequired = false;
+                foreach (string skyName in skies.Keys)
                 {
-                    skies[skyName].Opacity = 0f;
-                    skies[skyName].Deactivate();
-                    updateRequired = true;
+                    if (skies[skyName].IsActive() && skyName != "CalamityMod:BossRush")
+                    {
+                        skies[skyName].Opacity = 0f;
+                        skies[skyName].Deactivate();
+                        updateRequired = true;
+                    }
                 }
+
+                if (updateRequired)
+                    SkyManager.Instance.Update(new GameTime());
             }
 
-            if (updateRequired)
-                SkyManager.Instance.Update(new GameTime());
-
-            player.ManageSpecialBiomeVisuals("CalamityMod:BossRush", IsSceneEffectActive(player));
+            player.ManageSpecialBiomeVisuals("CalamityMod:BossRush", isActive);
         }
 
         public override float GetWeight(Player player) => 1f;

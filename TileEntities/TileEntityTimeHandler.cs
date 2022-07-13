@@ -16,9 +16,9 @@ namespace CalamityMod.TileEntities
             if (Main.netMode != NetmodeID.MultiplayerClient)
                 return;
 
-            byte factoryType = ModContent.GetInstance<TEPowerCellFactory>().type;
-            byte chargerType = ModContent.GetInstance<TEChargingStation>().type;
-            byte codebreakerType = ModContent.GetInstance<TECodebreaker>().type;
+            int factoryType = ModContent.GetInstance<TEPowerCellFactory>().Type;
+            int chargerType = ModContent.GetInstance<TEChargingStation>().Type;
+            int codebreakerType = ModContent.GetInstance<TECodebreaker>().Type;
 
             var enumerator = TileEntity.ByID.Values.GetEnumerator();
             do

@@ -86,7 +86,7 @@ namespace CalamityMod.Items.Weapons.Summon
             CreateRecipe().
                 AddIngredient(ItemID.Silk, 40).
                 AddIngredient(ItemID.Ectoplasm, 20).
-                AddIngredient<BarofLife>(5).
+                AddIngredient<LifeAlloy>(5).
                 AddIngredient(ItemID.ButterflyDust, 2).
                 AddTile(TileID.Loom).
                 Register();

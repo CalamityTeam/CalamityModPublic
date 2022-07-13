@@ -22,6 +22,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.penetrate = 2;
             Projectile.timeLeft = 180;
             Projectile.MaxUpdates = 2;
+            Projectile.DamageType = DamageClass.Summon;
         }
 
         public override void AI()

@@ -1,4 +1,5 @@
-﻿using CalamityMod.Buffs.Alcohol;
+﻿using CalamityMod.Items.Accessories;
+using CalamityMod.Buffs.Alcohol;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Cooldowns;
 using CalamityMod.Events;
@@ -81,15 +82,6 @@ namespace CalamityMod.CalPlayer
                     Player.lifeRegen = 0;
 
                 Player.lifeRegenTime = 0;
-            }
-
-            if (aFlames)
-            {
-                if (Player.lifeRegen > 0)
-                    Player.lifeRegen = 0;
-
-                Player.lifeRegenTime = 0;
-                lifeRegenLost += 16;
             }
 
             if (weakBrimstoneFlames)
@@ -727,22 +719,9 @@ namespace CalamityMod.CalPlayer
 
             if (community)
             {
-                float floatTypeBoost = 0.05f +
-                    (NPC.downedSlimeKing ? 0.01f : 0f) +
-                    (NPC.downedBoss1 ? 0.01f : 0f) +
-                    (NPC.downedBoss2 ? 0.01f : 0f) +
-                    (NPC.downedQueenBee ? 0.01f : 0f) +
-                    (NPC.downedBoss3 ? 0.01f : 0f) + // 0.1
-                    (Main.hardMode ? 0.01f : 0f) +
-                    (NPC.downedMechBossAny ? 0.01f : 0f) +
-                    (NPC.downedPlantBoss ? 0.01f : 0f) +
-                    (NPC.downedGolemBoss ? 0.01f : 0f) +
-                    (NPC.downedFishron ? 0.01f : 0f) + // 0.15
-                    (NPC.downedAncientCultist ? 0.01f : 0f) +
-                    (NPC.downedMoonlord ? 0.01f : 0f) +
-                    (DownedBossSystem.downedProvidence ? 0.01f : 0f) +
-                    (DownedBossSystem.downedDoG ? 0.01f : 0f) +
-                    (DownedBossSystem.downedYharon ? 0.01f : 0f); // 0.2
+                float BoostAtZeroBosses = 0.05f;
+                float BoostPostYharon = 0.2f;
+                float floatTypeBoost = MathHelper.Lerp(BoostAtZeroBosses, BoostPostYharon, TheCommunity.CalculatePower());
                 int integerTypeBoost = (int)(floatTypeBoost * 50f);
                 int regenBoost = 1 + (integerTypeBoost / 5);
                 bool lesserEffect = false;

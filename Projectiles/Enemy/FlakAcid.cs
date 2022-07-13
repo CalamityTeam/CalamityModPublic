@@ -1,7 +1,6 @@
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -54,7 +53,7 @@ namespace CalamityMod.Projectiles.Enemy
         }
         public override void Kill(int timeLeft)
         {
-            CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 150);
+            Projectile.ExpandHitboxBy(150);
             Projectile.Damage();
             for (int i = 0; i <= 40; i++)
             {

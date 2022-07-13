@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
 using System.Linq;
@@ -42,6 +41,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.tileCollide = false;
             Projectile.extraUpdates = 20;
             Projectile.timeLeft = 45 * Projectile.extraUpdates;
+            Projectile.DamageType = DamageClass.Summon;
 
             // Readjust the velocity magnitude the moment this projectile is created
             // to make velocity setting outside the scope of this projectile less irritating

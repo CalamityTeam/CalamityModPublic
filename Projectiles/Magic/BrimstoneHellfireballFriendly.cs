@@ -1,7 +1,6 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -69,6 +68,9 @@ namespace CalamityMod.Projectiles.Magic
                 SoundEngine.PlaySound(SoundID.Item20, Projectile.position);
                 Projectile.localAI[0] += 1f;
             }
+
+            // Speed up as time goes on
+            Projectile.velocity = Projectile.velocity.SafeNormalize(Vector2.UnitX) * (Projectile.velocity.Length() + 1.2f);
         }
 
         public override void Kill(int timeLeft)

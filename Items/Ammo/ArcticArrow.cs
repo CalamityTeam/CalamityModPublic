@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Ammo
 
         public override void SetDefaults()
         {
-            Item.damage = 18;
+            Item.damage = 20;
             Item.DamageType = DamageClass.Ranged;
             Item.width = 22;
             Item.height = 36;
@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Ammo
         public override void AddRecipes()
         {
             CreateRecipe(250).
-                AddIngredient<VerstaltiteBar>().
+                AddIngredient<CryonicBar>().
                 AddTile(TileID.IceMachine).
                 Register();
         }

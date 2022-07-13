@@ -21,7 +21,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-            Projectile.Calamity().canBreakPlayerDefense = true;
+            Projectile.Calamity().DealsDefenseDamage = true;
             Projectile.width = 14;
             Projectile.height = 14;
             Projectile.hostile = true;
@@ -31,7 +31,6 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.tileCollide = false;
             Projectile.extraUpdates = 20;
             Projectile.timeLeft = 1260;
-            CooldownSlot = 1;
         }
 
         public override void SendExtraAI(BinaryWriter writer)

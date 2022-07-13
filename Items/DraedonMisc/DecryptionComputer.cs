@@ -17,7 +17,7 @@ namespace CalamityMod.Items.DraedonMisc
         {
             DisplayName.SetDefault("Decryption Computer");
             Tooltip.SetDefault("Can be placed on the Codebreaker\n" +
-                "Allows you to decrypt advanced schematics\n" +
+                "Allows you to decrypt the Planetoid schematic\n" +
                 "Doing so allows you to learn how to craft new things");
         }
 

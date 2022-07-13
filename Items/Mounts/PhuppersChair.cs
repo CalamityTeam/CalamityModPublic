@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Mounts
         {
             MountData.spawnDust = (int)CalamityDusts.Brimstone;
             MountData.spawnDustNoGravity = true;
-            MountData.buff = ModContent.BuffType<BrimstoneMount>();
+            MountData.buff = ModContent.BuffType<BrimroseMount>();
             MountData.heightBoost = 12;
             MountData.flightTimeMax = int.MaxValue - 1;
             MountData.fatigueMax = int.MaxValue - 1;

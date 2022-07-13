@@ -1,7 +1,6 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -22,7 +21,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-            Projectile.Calamity().canBreakPlayerDefense = true;
+            Projectile.Calamity().DealsDefenseDamage = true;
             Projectile.width = 40;
             Projectile.height = 40;
             Projectile.hostile = true;
@@ -84,11 +83,8 @@ namespace CalamityMod.Projectiles.Boss
             if (Projectile.timeLeft < 51)
                 return;
 
-            if (Projectile.ai[0] == 0f)
-            {
-                target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 180);
+            if (Projectile.ai[0] == 0f || Main.getGoodWorld)
                 target.AddBuff(ModContent.BuffType<VulnerabilityHex>(), 120);
-            }
             else
                 target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 180);
         }

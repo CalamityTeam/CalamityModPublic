@@ -28,7 +28,7 @@ float4 CalculateDiffusion(float4 sampleColor : TEXCOORD, float2 coords : TEXCOOR
     // nextField[i, j] = currentField[i, j] + diffusionFactor * (totalCardinalState - currentField[i, j])
     // However, this would considerably restrict the freedom of the simulation, as any visocity values above 1 would result
     // in overshooting estimations and cause unstable behavior.
-    // Instead of doing this instead of using the current state to calculate the next one, we attempt to solve for a state that when
+    // Instead of using the current state to calculate the next one, we attempt to solve for a state that when
     // done in reverse returns the original state. Mathematically, this is written like so:
     
     // currentField[i, j] = nextField[i, j] - diffusionFactor * (averageNextCardinalState - currentField[i, j])

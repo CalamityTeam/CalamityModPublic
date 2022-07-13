@@ -108,9 +108,9 @@ Fires night wyverns and stars from the sky that stick to enemies and tiles and e
         {
             CreateRecipe().
                 AddIngredient<WyvernsCall>().
-                AddIngredient<Lumenite>(6).
+                AddIngredient<Lumenyl>(6).
                 AddIngredient<RuinousSoul>(5).
-                AddIngredient<ExodiumClusterOre>(10).
+                AddIngredient<ExodiumCluster>(10).
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }

@@ -17,7 +17,6 @@ namespace CalamityMod.Items.Accessories
             Tooltip.SetDefault("5% increased movement and jump speed\n" +
                 "+20 max life and mana\n" +
                 "Standing still boosts life and mana regen\n" +
-                "Increased defense, movement speed and damage reduction while submerged in liquid\n" +
                 "Enemies take damage when they touch you\n" +
                 "You emit a cloud of mushroom spores when you are hit\n" +
                 "7% increased damage reduction\n" +
@@ -41,7 +40,6 @@ namespace CalamityMod.Items.Accessories
             // Removed Giant Shell speed boost from The Absorber
             // modPlayer.gShell = true;
             modPlayer.fCarapace = true;
-            modPlayer.seaShell = true;
             modPlayer.absorber = true;
             player.statManaMax2 += 20;
             player.buffImmune[ModContent.BuffType<ArmorCrunch>()] = true;
@@ -51,13 +49,12 @@ namespace CalamityMod.Items.Accessories
         {
             CreateRecipe().
                 AddIngredient<GrandGelatin>().
-                AddIngredient<SeaShell>().
                 AddIngredient<CrawCarapace>().
                 AddIngredient<FungalCarapace>().
                 AddIngredient<GiantTortoiseShell>().
                 AddIngredient<RoverDrive>().
                 AddIngredient<DepthCells>(15).
-                AddIngredient<Lumenite>(15).
+                AddIngredient<Lumenyl>(15).
                 AddIngredient<Tenebris>(5).
                 AddIngredient<MolluskHusk>(5).
                 AddTile(TileID.LunarCraftingStation).
@@ -65,13 +62,12 @@ namespace CalamityMod.Items.Accessories
 
             CreateRecipe().
                 AddIngredient<GrandGelatin>().
-                AddIngredient<SeaShell>().
                 AddIngredient<FungalCarapace>().
                 AddIngredient<GiantShell>().
                 AddIngredient<GiantTortoiseShell>().
                 AddIngredient<RoverDrive>().
                 AddIngredient<DepthCells>(15).
-                AddIngredient<Lumenite>(15).
+                AddIngredient<Lumenyl>(15).
                 AddIngredient<Tenebris>(5).
                 AddIngredient<MolluskHusk>(5).
                 AddTile(TileID.LunarCraftingStation).

@@ -1,7 +1,6 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -110,7 +109,7 @@ namespace CalamityMod.Projectiles.Rogue
                 int stealth = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, projID, bloodDamage, bloodKB, Projectile.owner, 1f, 0.85f + Main.rand.NextFloat() * 1.15f);
                 if (stealth.WithinBounds(Main.maxProjectiles))
                 {
-                    Main.projectile[stealth].Calamity().forceRogue = true;
+                    Main.projectile[stealth].DamageType = RogueDamageClass.Instance;
                     Main.projectile[stealth].extraUpdates = 1;
                 }
             }

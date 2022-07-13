@@ -26,6 +26,7 @@ namespace CalamityMod.Items.Fishing
             Item.consumable = true;
             Item.maxStack = 999;
             Item.value = Item.sellPrice(silver: 50);
+            Item.autoReuse = true;
         }
 
         public override bool? UseItem(Player player)

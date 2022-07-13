@@ -16,7 +16,7 @@ namespace CalamityMod.Items.TreasureBags
 {
     public class CalamitasBag : ModItem
     {
-        public override int BossBagNPC => ModContent.NPCType<CalamitasRun3>();
+        public override int BossBagNPC => ModContent.NPCType<CalamitasClone>();
 
         public override void SetStaticDefaults()
         {
@@ -50,17 +50,17 @@ namespace CalamityMod.Items.TreasureBags
             player.TryGettingDevArmor(s);
 
             // Materials
-            DropHelper.DropItem(s, player, ModContent.ItemType<CalamityDust>(), 14, 18);
+            DropHelper.DropItem(s, player, ModContent.ItemType<AshesofCalamity>(), 14, 18);
             DropHelper.DropItem(s, player, ModContent.ItemType<EssenceofChaos>(), 5, 9);
             DropHelper.DropItemCondition(s, player, ModContent.ItemType<Bloodstone>(), DownedBossSystem.downedProvidence, 35, 45);
 
             // Weapons
             float w = DropHelper.BagWeaponDropRateFloat;
             DropHelper.DropEntireWeightedSet(s, player,
-                DropHelper.WeightStack<TheEyeofCalamitas>(w),
+                DropHelper.WeightStack<Oblivion>(w),
                 DropHelper.WeightStack<Animosity>(w),
-                DropHelper.WeightStack<CalamitasInferno>(w),
-                DropHelper.WeightStack<BlightedEyeStaff>(w),
+                DropHelper.WeightStack<LashesofChaos>(w),
+                DropHelper.WeightStack<EntropysVigil>(w),
                 DropHelper.WeightStack<ChaosStone>(w)
             );
 
@@ -72,8 +72,8 @@ namespace CalamityMod.Items.TreasureBags
             DropHelper.DropItemChance(s, player, ModContent.ItemType<CalamitasMask>(), 7);
             if (Main.rand.NextBool(10))
             {
-                DropHelper.DropItem(s, player, ModContent.ItemType<CalamityHood>());
-                DropHelper.DropItem(s, player, ModContent.ItemType<CalamityRobes>());
+                DropHelper.DropItem(s, player, ModContent.ItemType<HoodOfCalamity>());
+                DropHelper.DropItem(s, player, ModContent.ItemType<RobesOfCalamity>());
             }
         }
     }

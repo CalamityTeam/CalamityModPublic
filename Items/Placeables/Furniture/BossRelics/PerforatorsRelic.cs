@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Placeables.Furniture.BossRelics
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Perforators Relic");
-            Tooltip.SetDefault("A glimpse into what will be..");
+            Tooltip.SetDefault("A glimpse into what will be...");
             SacrificeTotal = 1;
 		}
 

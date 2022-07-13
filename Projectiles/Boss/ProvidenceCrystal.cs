@@ -23,7 +23,7 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.width = 160;
             Projectile.height = 160;
             Projectile.ignoreWater = true;
-            Projectile.timeLeft = BossRushEvent.BossRushActive ? 1500 : ((CalamityWorld.death || CalamityWorld.malice) ? 2100 : 3600);
+            Projectile.timeLeft = BossRushEvent.BossRushActive ? 1500 : CalamityWorld.death ? 2100 : 3600;
             Projectile.alpha = 255;
             Projectile.tileCollide = false;
             Projectile.penetrate = -1;
@@ -50,7 +50,7 @@ namespace CalamityMod.Projectiles.Boss
                 return;
             }
 
-            bool dayTime = Main.dayTime && !CalamityWorld.malice;
+            bool dayTime = Main.dayTime && !BossRushEvent.BossRushActive;
 
             Projectile.position.X = Main.player[Projectile.owner].Center.X - (Projectile.width / 2);
             Projectile.position.Y = Main.player[Projectile.owner].Center.Y - (Projectile.height / 2) + Main.player[Projectile.owner].gfxOffY - 360f;

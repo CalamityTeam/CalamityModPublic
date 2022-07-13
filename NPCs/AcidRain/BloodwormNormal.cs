@@ -1,6 +1,6 @@
-﻿using CalamityMod.Events;
+﻿using CalamityMod.BiomeManagers;
+using CalamityMod.Events;
 using CalamityMod.Items.SummonItems;
-using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -36,6 +36,7 @@ namespace CalamityMod.NPCs.AcidRain
             NPC.catchItem = (short)ModContent.ItemType<BloodwormItem>();
             NPC.dontTakeDamageFromHostiles = true;
             NPC.rarity = 4;
+            SpawnModBiomes = new int[1] { ModContent.GetInstance<SulphurousSeaBiome>().Type };
         }
 
         public override void AI()
@@ -82,7 +83,6 @@ namespace CalamityMod.NPCs.AcidRain
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
-                //BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.SulphurousSea,
 
                 // Will move to localization whenever that is cleaned up.
                 new FlavorTextBestiaryInfoElement("A ripe-looking worm large enough to curl around your arm. A fish would have to be either mad enough or wise enough, to go after one of these.")
@@ -113,7 +113,7 @@ namespace CalamityMod.NPCs.AcidRain
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (!spawnInfo.Player.Calamity().ZoneSulphur || AcidRainEvent.AcidRainEventIsOngoing)
+            if (!spawnInfo.Player.Calamity().ZoneSulphur || AcidRainEvent.AcidRainEventIsOngoing || !NPC.downedMoonlord)
                 return 0f;
 
             // Increase bloodworm spawn rate relative to the number of existing bloodworms, parabolic multiplier ranging from 5x spawn rate with 0 blood worms to 1x with 5 or more

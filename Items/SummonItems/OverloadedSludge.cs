@@ -32,8 +32,8 @@ namespace CalamityMod.Items.SummonItems
 
         public override bool CanUseItem(Player player)
         {
-            return !NPC.AnyNPCs(ModContent.NPCType<SlimeGodCore>()) && !NPC.AnyNPCs(ModContent.NPCType<SlimeGod>()) &&
-                !NPC.AnyNPCs(ModContent.NPCType<SlimeGodSplit>()) && !NPC.AnyNPCs(ModContent.NPCType<SlimeGodRun>()) && !NPC.AnyNPCs(ModContent.NPCType<SlimeGodRunSplit>()) && !BossRushEvent.BossRushActive;
+            return !NPC.AnyNPCs(ModContent.NPCType<SlimeGodCore>()) && !NPC.AnyNPCs(ModContent.NPCType<EbonianSlimeGod>()) &&
+                !NPC.AnyNPCs(ModContent.NPCType<SplitEbonianSlimeGod>()) && !NPC.AnyNPCs(ModContent.NPCType<CrimulanSlimeGod>()) && !NPC.AnyNPCs(ModContent.NPCType<SplitCrimulanSlimeGod>()) && !BossRushEvent.BossRushActive;
         }
 
         public override bool? UseItem(Player player)
@@ -50,7 +50,7 @@ namespace CalamityMod.Items.SummonItems
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<EbonianGel>(40).
+                AddIngredient<BlightedGel>(40).
                 AddRecipeGroup("AnyEvilBlock", 40).
                 AddTile(TileID.DemonAltar).
                 Register();

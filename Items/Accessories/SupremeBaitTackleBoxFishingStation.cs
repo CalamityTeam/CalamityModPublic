@@ -15,6 +15,7 @@ namespace CalamityMod.Items.Accessories
                 "Increases fishing skill by 80\n" +
                 "Fishing line will never break and decreases chance of bait consumption\n" +
                 "Increases chance to catch crates\n" +
+                "Allows fishing in lava\n" +
                 "Sonar potion effect");
         }
 

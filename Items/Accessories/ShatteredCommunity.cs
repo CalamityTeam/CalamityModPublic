@@ -18,6 +18,10 @@ namespace CalamityMod.Items.Accessories
     {
         // The percentage of a full Rage bar that is gained every second with the Shattered Community equipped.
         public const float RagePerSecond = 0.02f;
+
+        // It is pretty hard to have less than 10 iframes for any reason, but this is a stopgap measure against Rage abuse.
+        public static readonly int RageGainCooldown = 10;
+
         private static readonly Color rarityColorOne = new Color(128, 62, 128);
         private static readonly Color rarityColorTwo = new Color(245, 105, 245);
 
@@ -44,6 +48,7 @@ namespace CalamityMod.Items.Accessories
                 "While Rage Mode is active, taking damage gives only half as much rage\n" +
                 "Deal damage with Rage Mode to further empower your wrath\n");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(7, 5));
+            ItemID.Sets.AnimatesAsSoul[Type] = true;
         }
 
         public override void SetDefaults()

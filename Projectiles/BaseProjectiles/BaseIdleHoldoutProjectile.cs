@@ -17,6 +17,8 @@ namespace CalamityMod.Projectiles.BaseProjectiles
         public abstract int IntendedProjectileType { get; }
         public static Dictionary<int, int> ItemProjectileRelationship = new();
 
+        // TODO -- There is no reason this load hook should need to be called from CalamityMod.
+        // All subclasses of this should be ILoadable and should load themselves.
         public static void LoadAll()
         {
             ItemProjectileRelationship = new Dictionary<int, int>();
@@ -58,8 +60,8 @@ namespace CalamityMod.Projectiles.BaseProjectiles
 
                 if (Main.myPlayer == player.whoAmI && !bladeIsPresent)
                 {
-                    int damage = (int)player.GetDamage(heldItem.DamageType).ApplyTo(heldItem.damage);
-                    float kb = player.GetWeaponKnockback(heldItem, heldItem.knockBack);
+                    int damage = (int)player.GetTotalDamage(heldItem.DamageType).ApplyTo(heldItem.damage);
+                    float kb = player.GetTotalKnockback(heldItem.DamageType).ApplyTo(heldItem.knockBack);
                     Projectile.NewProjectile(player.GetSource_ItemUse(heldItem), player.Center, Vector2.Zero, holdoutType, damage, kb, player.whoAmI);
                 }
             }

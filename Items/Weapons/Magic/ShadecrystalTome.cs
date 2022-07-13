@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            Item.damage = 23;
+            Item.damage = 25;
             Item.DamageType = DamageClass.Magic;
             Item.mana = 4;
             Item.width = 28;
@@ -53,7 +53,7 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             CreateRecipe().
                 AddIngredient(ItemID.CrystalStorm).
-                AddIngredient<VerstaltiteBar>(6).
+                AddIngredient<CryonicBar>(6).
                 AddTile(TileID.Bookcases).
                 Register();
         }

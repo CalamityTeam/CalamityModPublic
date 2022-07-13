@@ -48,6 +48,10 @@ namespace CalamityMod.CalPlayer.DrawLayers
                 return;
             }
 
+            SpriteEffects direction = Main.projectile[robot].spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+            if (drawPlayer.gravDir == -1f)
+                direction |= SpriteEffects.FlipVertically;
+
             GiantIbanRobotOfDoom robotEntityInstance = (GiantIbanRobotOfDoom)Main.projectile[robot].ModProjectile;
             switch (drawPlayer.Calamity().andromedaState)
             {
@@ -56,13 +60,13 @@ namespace CalamityMod.CalPlayer.DrawLayers
                     Rectangle frame = dashTexture.Frame(1, 4, 0, robotEntityInstance.RightIconCooldown / 4 % 4);
 
                     DrawData drawData = new DrawData(dashTexture,
-                                     drawPlayer.Center + new Vector2(0f, -8f) - Main.screenPosition,
+                                     drawPlayer.Center + new Vector2(0f, drawPlayer.gravDir * -8f) - Main.screenPosition,
                                      frame,
                                      Color.White,
                                      Main.projectile[robot].rotation,
                                      drawPlayer.Size / 2,
                                      1f,
-                                     Main.projectile[robot].spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None,
+                                     direction,
                                      1);
                     drawData.shader = drawPlayer.cBody;
 
@@ -73,13 +77,13 @@ namespace CalamityMod.CalPlayer.DrawLayers
                     frame = new Rectangle(robotEntityInstance.FrameX * robotTexture.Width / 3, robotEntityInstance.FrameY * robotTexture.Height / 7, robotTexture.Width / 3, robotTexture.Height / 7);
 
                     drawData = new DrawData(ModContent.Request<Texture2D>(Main.projectile[robot].ModProjectile.Texture).Value,
-                                     Main.projectile[robot].Center + Vector2.UnitY * 6f - Main.screenPosition,
+                                     Main.projectile[robot].Center + Vector2.UnitY * drawPlayer.gravDir * 6f - Main.screenPosition,
                                      frame,
                                      Color.White,
                                      Main.projectile[robot].rotation,
                                      Main.projectile[robot].Size / 2,
                                      1f,
-                                     Main.projectile[robot].spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None,
+                                     direction,
                                      1);
                     drawData.shader = drawPlayer.cBody;
 
@@ -89,13 +93,13 @@ namespace CalamityMod.CalPlayer.DrawLayers
                     robotTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/AndromedaSmall").Value;
                     frame = new Rectangle(0, robotEntityInstance.CurrentFrame * 54, robotTexture.Width, robotTexture.Height / 21);
                     drawData = new DrawData(robotTexture,
-                                     drawPlayer.Center + new Vector2(drawPlayer.direction == 1 ? -24 : -10, -8f) - Main.screenPosition,
+                                     drawPlayer.Center + new Vector2(drawPlayer.direction == 1 ? -24 : -10, drawPlayer.gravDir * -8f) - Main.screenPosition,
                                      frame,
                                      Color.White,
                                      0f,
                                      drawPlayer.Size / 2,
                                      1f,
-                                     Main.projectile[robot].spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None,
+                                     direction,
                                      1);
                     drawData.shader = drawPlayer.cBody;
 

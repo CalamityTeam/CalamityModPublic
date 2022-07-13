@@ -23,6 +23,7 @@ namespace CalamityMod.Items.Accessories
                             "Shade rains down when you are hit\n" +
                             "Nearby enemies receive a variety of debuffs when you are hit");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(9, 6));
+            ItemID.Sets.AnimatesAsSoul[Type] = true;
         }
 
         public override void SetDefaults()
@@ -52,7 +53,7 @@ namespace CalamityMod.Items.Accessories
                         Projectile rain = CalamityUtils.ProjectileRain(source, player.Center, 400f, 100f, 500f, 800f, 22f, ProjectileType<AuraRain>(), damage, 2f, player.whoAmI);
                         if (rain.whoAmI.WithinBounds(Main.maxProjectiles))
                         {
-                            rain.Calamity().forceClassless = true;
+                            rain.DamageType = DamageClass.Generic;
                             rain.tileCollide = false;
                             rain.penetrate = 1;
                         }
@@ -67,8 +68,8 @@ namespace CalamityMod.Items.Accessories
                 AddIngredient<AmalgamatedBrain>().
                 AddIngredient<UnholyCore>(5).
                 AddIngredient<MolluskHusk>(10).
-                AddIngredient<SulfuricScale>(15).
-                AddIngredient<PlagueCellCluster>(15).
+                AddIngredient<SulphuricScale>(15).
+                AddIngredient<PlagueCellCanister>(15).
                 AddIngredient<CosmiliteBar>(5).
                 AddIngredient<AscendantSpiritEssence>(4).
                 AddTile<CosmicAnvil>().

@@ -25,6 +25,8 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.tileCollide = false;
             Projectile.DamageType = DamageClass.Ranged;
             Projectile.ignoreWater = true;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 8;
         }
 
         public override void AI()
@@ -45,7 +47,7 @@ namespace CalamityMod.Projectiles.Ranged
             {
                 num26 = 5f;
             }
-            Projectile.damage = (int)player.GetDamage<RangedDamageClass>().ApplyTo(player.ActiveItem().damage);
+            Projectile.damage = (int)player.GetTotalDamage<RangedDamageClass>().ApplyTo(player.ActiveItem().damage);
             Projectile.ai[0] += 1f;
             Projectile.ai[1] += 1f;
             int num27 = 10;

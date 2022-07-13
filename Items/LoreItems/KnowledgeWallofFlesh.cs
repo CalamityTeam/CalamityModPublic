@@ -14,6 +14,7 @@ namespace CalamityMod.Items.LoreItems
                 "The unholy amalgamation of flesh and hatred has been defeated.\n" +
                 "Prepare to face the terrors that lurk in the light and dark parts of this world.");
             SacrificeTotal = 1;
+            ItemID.Sets.ItemNoGravity[Item.type] = true;
         }
 
         public override void SetDefaults()

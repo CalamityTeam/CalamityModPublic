@@ -54,7 +54,7 @@ namespace CalamityMod.Projectiles.Magic
             // but once it's past that then it can fire constantly
             --Projectile.ai[0];
             if (Projectile.ai[0] < 0f)
-                CalamityGlobalProjectile.MagnetSphereHitscan(Projectile, 400f, 8f, VoidVortex.OrbFireRate, 2, ModContent.ProjectileType<ClimaxBeam>(), 1D, true);
+                CalamityUtils.MagnetSphereHitscan(Projectile, 400f, 8f, VoidVortex.OrbFireRate, 2, ModContent.ProjectileType<ClimaxBeam>(), 1D, true);
         }
 
         public override Color? GetAlpha(Color lightColor)

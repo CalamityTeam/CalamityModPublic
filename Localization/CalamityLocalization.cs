@@ -79,17 +79,13 @@ namespace CalamityMod.Localization
                 new [] { "SCalDesparationText3Rematch", "I trust you will not make the same mistakes he did." },
                 new [] { "SCalDesparationText4Rematch", "I can’t imagine what your future holds now." },
 
-                new [] { "EdgyBossText", "Don't get cocky, kid!" },
-                new [] { "EdgyBossText3", "A fatal mistake!" },
-                new [] { "EdgyBossText4", "Good luck recovering from that!" },
-                new [] { "EdgyBossText5", "Delicious..." },
-                new [] { "EdgyBossText6", "Did that hurt?" },
-                new [] { "EdgyBossText7", "Nothing personal, kid." },
-                new [] { "EdgyBossText8", "Are you honestly that bad at dodging?" },
-                new [] { "EdgyBossText9", "Of all my segments to get hit by..." },
-                new [] { "EdgyBossText10", "It's not over yet, kid!" },
-                new [] { "EdgyBossText11", "A GOD DOES NOT FEAR DEATH!" },
-                new [] { "EdgyBossText12", "You are no god... but I shall feast upon your essence regardless!" },
+                new [] { "EdgyBossText", "Don't get cocky!" },
+                new [] { "EdgyBossText2", "A fatal mistake!" },
+                new [] { "EdgyBossText3", "Delicious..." },
+                new [] { "EdgyBossText4", "Did that hurt?" },
+                new [] { "EdgyBossText5", "It's not over yet!" },
+                new [] { "EdgyBossText6", "A GOD DOES NOT FEAR DEATH!" },
+                new [] { "EdgyBossText7", "You are no god... but I shall feast upon your essence regardless!" },
                 new [] { "DoGBossText", "The frigid moon shimmers brightly." },
                 new [] { "DoGBossText2", "The harvest moon glows eerily." },
 
@@ -156,9 +152,6 @@ namespace CalamityMod.Localization
 
                 new [] { "DeathText", "Death is active; enjoy the fun." },
                 new [] { "DeathText2", "Death is not active; not fun enough for you?" },
-
-                new [] { "MaliceText", "Malice is active; witness the horror!" },
-                new [] { "MaliceText2", "Malice is not active." },
 
                 new [] { "ArmageddonText", "Bosses will now kill you instantly." },
                 new [] { "ArmageddonText2", "Bosses will no longer kill you instantly." },

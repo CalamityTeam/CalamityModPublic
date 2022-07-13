@@ -15,14 +15,19 @@ namespace CalamityMod.CalPlayer.DrawLayers
 
         protected override void Draw(ref PlayerDrawSet drawInfo)
         {
+            //Todo : Make this work even for accessories by somehow checking for the players.head equipslot's item instead of the head item.
             Player drawPlayer = drawInfo.drawPlayer;
-            int headItemType = drawPlayer.armor[0].type;
-            if (drawPlayer.armor[10].type > ItemID.None)
-                headItemType = drawPlayer.armor[10].type;
+            Item headItem = drawPlayer.armor[0];
 
-            if (ModContent.GetModItem(headItemType) is IExtendedHat extendedHatDrawer)
+            if (drawPlayer.armor[10].type > ItemID.None)
+                headItem = drawPlayer.armor[10];
+
+            if (ModContent.GetModItem(headItem.type) is IExtendedHat extendedHatDrawer)
             {
-                if (extendedHatDrawer.PreDrawExtension(drawInfo) && !drawInfo.drawPlayer.dead)
+                string equipSlotName = extendedHatDrawer.EquipSlotName(drawPlayer) != "" ? extendedHatDrawer.EquipSlotName(drawPlayer) : headItem.ModItem.Name;
+                int equipSlot = EquipLoader.GetEquipSlot(Mod, equipSlotName, EquipType.Head);
+
+                if (extendedHatDrawer.PreDrawExtension(drawInfo) && !drawInfo.drawPlayer.dead && equipSlot == drawPlayer.head)
                 {
                     int dyeShader = drawPlayer.dye?[0].dye ?? 0;
 

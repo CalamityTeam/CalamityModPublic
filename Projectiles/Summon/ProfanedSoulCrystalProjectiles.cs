@@ -53,7 +53,7 @@ namespace CalamityMod.Projectiles.Summon
                 if (proj.WithinBounds(Main.maxProjectiles))
                 {
                     Main.projectile[proj].originalDamage = damage;
-                    Main.projectile[proj].Calamity().forceMinion = true;
+                    Main.projectile[proj].DamageType = DamageClass.Summon;
                 }
                 if (innerSplits > 0) //only runs if there's still inner splits to create
                 {
@@ -65,7 +65,7 @@ namespace CalamityMod.Projectiles.Summon
                     if (proj.WithinBounds(Main.maxProjectiles))
                     {
                         Main.projectile[proj].originalDamage = damage;
-                        Main.projectile[proj].Calamity().forceMinion = true;
+                        Main.projectile[proj].DamageType = DamageClass.Summon;
                     }
                 }
                 innerSplits--;
@@ -208,6 +208,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.gfxOffY = -25f;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = -1;
+            Projectile.DamageType = DamageClass.Summon;
         }
 
         public override bool PreAI()
@@ -323,7 +324,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override bool? CanHitNPC(NPC target)
         {
-            bool instakill = target.type == ModContent.NPCType<SCalWormHead>() || target.type == ModContent.NPCType<SCalWormBody>() || target.type == ModContent.NPCType<SCalWormBodyWeak>() || target.type == ModContent.NPCType<SCalWormTail>();
+            bool instakill = target.type == ModContent.NPCType<SepulcherHead>() || target.type == ModContent.NPCType<SepulcherBody>() || target.type == ModContent.NPCType<SepulcherBodyEnergyBall>() || target.type == ModContent.NPCType<SepulcherTail>();
             if (!instakill && this.target != null && target != this.target)
             {
                 if (Projectile.getRect().Intersects(target.getRect()))
@@ -394,6 +395,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.alpha = 100;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = -1;
+            Projectile.DamageType = DamageClass.Summon;
         }
 
         public override void AI()
@@ -634,7 +636,7 @@ namespace CalamityMod.Projectiles.Summon
                     if (proj.WithinBounds(Main.maxProjectiles))
                     {
                         Main.projectile[proj].originalDamage = (int)(Projectile.originalDamage * 1.5);
-                        Main.projectile[proj].Calamity().forceMinion = true;
+                        Main.projectile[proj].DamageType = DamageClass.Summon;
                     }
                     ((ProfanedCrystalRangedHuges)Main.projectile[proj].ModProjectile).boomerSwarm = true;
                 }
@@ -721,7 +723,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override bool? CanHitNPC(NPC target)
         {
-            bool instakill = target.type == ModContent.NPCType<SCalWormHead>() || target.type == ModContent.NPCType<SCalWormBody>() || target.type == ModContent.NPCType<SCalWormBodyWeak>() || target.type == ModContent.NPCType<SCalWormTail>();
+            bool instakill = target.type == ModContent.NPCType<SepulcherHead>() || target.type == ModContent.NPCType<SepulcherBody>() || target.type == ModContent.NPCType<SepulcherBodyEnergyBall>() || target.type == ModContent.NPCType<SepulcherTail>();
             if (!instakill && this.target != null && target != this.target)
                 return false;
             return null;
@@ -825,6 +827,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.penetrate = 1;
             Projectile.timeLeft = 240;
             Projectile.minion = true;
+            Projectile.DamageType = DamageClass.Summon;
         }
 
         public override bool PreAI()
@@ -929,6 +932,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = -1;
             Projectile.scale = 0.8f;
+            Projectile.DamageType = DamageClass.Summon;
         }
 
         private void ai()
@@ -1220,6 +1224,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.extraUpdates = 1;
             Projectile.minion = true;
             Projectile.scale = 0.9f;
+            Projectile.DamageType = DamageClass.Summon;
         }
 
         public override void AI()

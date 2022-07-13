@@ -1,8 +1,6 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Tiles.Astral;
-using CalamityMod.World;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -34,6 +32,7 @@ namespace CalamityMod.Tiles.Ores
 
             TileID.Sets.Ore[Type] = true;
             TileID.Sets.ChecksForMerge[Type] = true;
+            TileID.Sets.DoesntGetReplacedWithTileReplacement[Type] = true;
         }
 
         public override bool CanKillTile(int i, int j, ref bool blockDamaged)

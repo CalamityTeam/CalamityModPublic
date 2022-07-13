@@ -138,8 +138,7 @@ namespace CalamityMod.Projectiles.Ranged
                     if (snowball.WithinBounds(Main.maxProjectiles))
                     {
                         Main.projectile[snowball].noDropItem = true;
-                        Main.projectile[snowball].Calamity().forceRanged = true;
-                        // Main.projectile[snowball].thrown = false /* tModPorter - this is redundant, for more info see https://github.com/tModLoader/tModLoader/wiki/Update-Migration-Guide#damage-classes */ ;
+                        Main.projectile[snowball].DamageType = DamageClass.Ranged;
                         Main.projectile[snowball].extraUpdates += Main.rand.Next(0,2);
                     }
 

@@ -32,6 +32,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.tileCollide = false;
             Projectile.timeLeft *= 5;
             Projectile.minion = true;
+            Projectile.DamageType = DamageClass.Summon;
         }
 
         public override void AI()
@@ -50,7 +51,7 @@ namespace CalamityMod.Projectiles.Summon
                 Projectile.localAI[0] = 1f;
             }
             bool isProperProjectile = Projectile.type == ModContent.ProjectileType<SkeletalDragonMother>();
-            player.AddBuff(ModContent.BuffType<BloodDragonsBuff>(), 3600);
+            player.AddBuff(ModContent.BuffType<SkeletalDragonsBuff>(), 3600);
             if (isProperProjectile)
             {
                 if (player.dead)

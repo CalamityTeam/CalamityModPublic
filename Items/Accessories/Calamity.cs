@@ -23,6 +23,7 @@ namespace CalamityMod.Items.Accessories
                 "Equip in a vanity slot to change the cursor without dealing damage\n" +
                 "These changes work in conjunction with the Rainbow Cursor");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 6));
+            ItemID.Sets.AnimatesAsSoul[Type] = true;
         }
 
         public override void SetDefaults()
@@ -33,6 +34,12 @@ namespace CalamityMod.Items.Accessories
             Item.rare = ItemRarityID.Purple;
             Item.value = CalamityGlobalItem.RarityVioletBuyPrice;
             Item.accessory = true;
+        }
+
+        public override void UpdateVanity(Player player)
+        {
+            // Do a vanity/social slot check for SCal's expert drop since alternatives to get this working are a pain in the ass to create.
+            player.Calamity().blazingCursorVisuals = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

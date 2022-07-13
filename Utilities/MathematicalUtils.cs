@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using Terraria;
@@ -154,6 +154,79 @@ namespace CalamityMod
             return fireVelocity;
         }
 
+        /// <summary>
+        /// Calculates the shortest distance between a point and a line that passes through 2 specified points
+        /// </summary>
+        /// <param name="point"></param>
+        /// <param name="lineStart"></param>
+        /// <param name="lineEnd"></param>
+        /// <returns></returns>
+        public static float ShortestDistanceToLine(this Vector2 point, Vector2 lineStart, Vector2 lineEnd)
+        {
+            Vector2 lineVector = lineEnd - lineStart;
+            Vector2 perpendicular = lineVector.RotatedBy(MathHelper.PiOver2);
+            Vector2 pointToOrigin = point - lineStart;
+
+            return (float)Math.Abs((pointToOrigin.X * perpendicular.X + pointToOrigin.Y * perpendicular.Y)) / perpendicular.Length();
+        }
+
+        /// <summary>
+        /// Gets the closest point on a line from a point
+        /// </summary>
+        /// <param name="point"></param>
+        /// <param name="lineStart"></param>
+        /// <param name="lineEnd"></param>
+        /// <returns></returns>
+        public static Vector2 ClosestPointOnLine(this Vector2 point, Vector2 lineStart, Vector2 lineEnd)
+        {
+
+            Vector2 perpendicular = (lineEnd - lineStart).RotatedBy(MathHelper.PiOver2).SafeNormalize(Vector2.Zero);
+            float distanceToLine = point.ShortestDistanceToLine(lineStart, lineEnd);
+            float lineSide = Math.Sign((point.X - lineStart.X) * ( -lineEnd.Y + lineStart.Y) + (point.Y - lineStart.Y) * (lineEnd.X - lineStart.X));
+
+            return point + distanceToLine * lineSide * perpendicular;
+        }
+
+        /// <summary>
+        /// Gives the *real* modulo of a divided by a divisor.
+        /// This method is necessary because the % operator in c# keeps the sign of the dividend, making it Fake as Fuck.
+        /// </summary>
+        /// <param name="dividend"></param>
+        /// <param name="divisor"></param>
+        /// <returns></returns>
+        public static float Modulo(this float dividend, float divisor)
+        {
+            return dividend - (float)Math.Floor(dividend / divisor) * divisor;
+        }
+
+        #region Easings
+        /// <summary>
+        /// Gets a value from 0 to 1 and returns an eased value.
+        /// </summary>
+        /// <param name="amount">How far along the easing are we</param>
+        /// <returns></returns>
+        public delegate float EasingFunction(float amount, int degree);
+
+        public static float LinearEasing(float amount, int degree) => amount;
+        //Sines
+        public static float SineInEasing(float amount, int degree) => 1f - (float)Math.Cos(amount * MathHelper.Pi / 2f);
+        public static float SineOutEasing(float amount, int degree) => (float)Math.Sin(amount * MathHelper.Pi / 2f);
+        public static float SineInOutEasing(float amount, int degree) => -((float)Math.Cos(amount * MathHelper.Pi) - 1) / 2f;
+        public static float SineBumpEasing(float amount, int degree) => (float)Math.Sin(amount * MathHelper.Pi);
+        //Polynomials
+        public static float PolyInEasing(float amount, int degree) => (float)Math.Pow(amount, degree);
+        public static float PolyOutEasing(float amount, int degree) => 1f - (float)Math.Pow(1f - amount, degree);
+        public static float PolyInOutEasing(float amount, int degree) => amount < 0.5f ? (float)Math.Pow(2, degree - 1) * (float)Math.Pow(amount, degree) : 1f - (float)Math.Pow(-2 * amount + 2, degree) / 2f;
+        //Exponential
+        public static float ExpInEasing(float amount, int degree) => amount == 0f ? 0f : (float)Math.Pow(2, 10f * amount - 10f);
+        public static float ExpOutEasing(float amount, int degree) => amount == 1f ? 1f : 1f - (float)Math.Pow(2, -10f * amount);
+        public static float ExpInOutEasing(float amount, int degree) => amount == 0f ? 0f : amount == 1f ? 1f : amount < 0.5f ? (float)Math.Pow(2, 20f * amount - 10f) / 2f : (2f - (float)Math.Pow(2, -20f * amount - 10f)) / 2f;
+        //circular
+        public static float CircInEasing(float amount, int degree) => (1f - (float)Math.Sqrt(1 - Math.Pow(amount, 2f)));
+        public static float CircOutEasing(float amount, int degree) => (float)Math.Sqrt(1 - Math.Pow(amount - 1f, 2f));
+        public static float CircInOutEasing(float amount, int degree) => amount < 0.5 ? (1f - (float)Math.Sqrt(1 - Math.Pow(2 * amount, 2f))) / 2f : ((float)Math.Sqrt(1 - Math.Pow(-2f * amount - 2f, 2f)) + 1f) / 2f;
+
+
         public enum EasingType //Potion seller. I need your strongest ease ins
         {
             Linear,
@@ -163,6 +236,8 @@ namespace CalamityMod
             CircIn, CircOut, CircInOut
         }
 
+        private static readonly EasingFunction[] EasingTypeToFunction = new EasingFunction[] { LinearEasing, SineInEasing, SineOutEasing, SineInOutEasing, SineBumpEasing, PolyInEasing, PolyOutEasing, PolyInOutEasing, ExpInEasing, ExpOutEasing, ExpInOutEasing, CircInEasing, CircOutEasing, CircInOutEasing};
+
         /// <summary>
         /// This represents a part of a piecewise function.
         /// </summary>
@@ -171,7 +246,7 @@ namespace CalamityMod
             /// <summary>
             /// This is the type of easing used in the segment
             /// </summary>
-            public EasingType mode;
+            public EasingFunction easing;
             /// <summary>
             /// This indicates when the segment starts on the animation
             /// </summary>
@@ -190,9 +265,21 @@ namespace CalamityMod
             /// </summary>
             public int degree;
 
+            /// <summary>
+            /// Legacy constructor
+            /// </summary>
             public CurveSegment(EasingType MODE, float ORGX, float ORGY, float DISP, int DEG = 1)
             {
-                mode = MODE;
+                easing = EasingTypeToFunction[(int)MODE];
+                originX = ORGX;
+                originY = ORGY;
+                displacement = DISP;
+                degree = DEG;
+            }
+
+            public CurveSegment(EasingFunction MODE, float ORGX, float ORGY, float DISP, int DEG = 1)
+            {
+                easing = MODE;
                 originX = ORGX;
                 originY = ORGY;
                 displacement = DISP;
@@ -238,57 +325,19 @@ namespace CalamityMod
                 float segmentProgress = (progress - segment.originX) / segmentLenght; //How far along the specific segment
                 ratio = segment.originY;
 
-                switch (segment.mode)
-                {
-                    case EasingType.Linear:
-                        ratio += segmentProgress * segment.displacement;
-                        break;
-                    //Sines
-                    case EasingType.SineIn:
-                        ratio += (1f - (float)(Math.Cos(segmentProgress * MathHelper.Pi / 2f))) * segment.displacement;
-                        break;
-                    case EasingType.SineOut:
-                        ratio += (float)Math.Sin(segmentProgress * MathHelper.Pi / 2f) * segment.displacement;
-                        break;
-                    case EasingType.SineInOut:
-                        ratio += (-((float)Math.Cos(segmentProgress * MathHelper.Pi) - 1) / 2f) * segment.displacement;
-                        break;
-                    case EasingType.SineBump:
-                        ratio += ((float)Math.Sin(segmentProgress * MathHelper.Pi)) * segment.displacement;
-                        break;
-                    //Polynomials
-                    case EasingType.PolyIn:
-                        ratio += (float)Math.Pow(segmentProgress, segment.degree) * segment.displacement;
-                        break;
-                    case EasingType.PolyOut:
-                        ratio += (1f - (float)Math.Pow(1f - segmentProgress, segment.degree)) * segment.displacement;
-                        break;
-                    case EasingType.PolyInOut:
-                        ratio += (segmentProgress < 0.5f ? (float)Math.Pow(2, segment.degree - 1) * (float)Math.Pow(segmentProgress, segment.degree) : 1f - (float)Math.Pow(-2 * segmentProgress + 2, segment.degree) / 2f) * segment.displacement;
-                        break;
-                    case EasingType.ExpIn:
-                        ratio += (segmentProgress == 0f ? 0f : (float)Math.Pow(2, 10f * segmentProgress - 10f)) * segment.displacement;
-                        break;
-                    case EasingType.ExpOut:
-                        ratio += (segmentProgress == 1f ? 1f : 1f - (float)Math.Pow(2, -10f * segmentProgress)) * segment.displacement;
-                        break;
-                    case EasingType.ExpInOut:
-                        ratio += (segmentProgress == 0f ? 0f : segmentProgress == 1f ? 1f : segmentProgress < 0.5f ? (float)Math.Pow(2, 20f * segmentProgress - 10f) / 2f : (2f - (float)Math.Pow(2, -20f * segmentProgress - 10f)) / 2f) * segment.displacement;
-                        break;
-                    case EasingType.CircIn:
-                        ratio += (1f - (float)Math.Sqrt(1 - Math.Pow(segmentProgress, 2f))) * segment.displacement;
-                        break;
-                    case EasingType.CircOut:
-                        ratio += ((float)Math.Sqrt(1 - Math.Pow(segmentProgress - 1f, 2f))) * segment.displacement;
-                        break;
-                    case EasingType.CircInOut:
-                        ratio += (segmentProgress < 0.5 ? (1f - (float)Math.Sqrt(1 - Math.Pow(2 * segmentProgress, 2f))) / 2f : ((float)Math.Sqrt(1 - Math.Pow(-2f * segmentProgress - 2f, 2f)) + 1f) / 2f) * segment.displacement;
-                        break;
-                }
+                //Failsafe because somehow it can fail? what
+                if (segment.easing != null)
+                    ratio += segment.easing(segmentProgress, segment.degree) * segment.displacement;
+
+                else
+                    ratio += LinearEasing(segmentProgress, segment.degree) * segment.displacement;
+
                 break;
             }
             return ratio;
         }
+
+        #endregion
 
         // REMOVE THIS IN CALAMITY 1.4, it's a 1.4 World.cs function.
         // Due to its temporary state, this method will not receive an XML documentation comment.

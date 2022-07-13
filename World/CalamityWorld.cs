@@ -1,5 +1,4 @@
-﻿using CalamityMod.Events;
-using CalamityMod.NPCs.ExoMechs;
+﻿using CalamityMod.NPCs.ExoMechs;
 using CalamityMod.NPCs.ExoMechs.Apollo;
 using CalamityMod.NPCs.ExoMechs.Ares;
 using CalamityMod.NPCs.ExoMechs.Artemis;
@@ -27,7 +26,6 @@ namespace CalamityMod.World
         public static bool revenge = false; // Revengeance Mode
         public static bool death = false; // Death Mode
         public static bool armageddon = false; // Armageddon Mode
-        public static bool malice = false; // Malice Mode
 
         // Sunken Sea
         public static Rectangle SunkenSeaLocation = Rectangle.Empty;
@@ -61,6 +59,7 @@ namespace CalamityMod.World
         public static bool painterName = false;
         public static bool partyGirlName = false;
         public static bool pirateName = false;
+        public static bool princessName = false;
         public static bool skeletonMerchantName = false;
         public static bool steampunkerName = false;
         public static bool stylistName = false;

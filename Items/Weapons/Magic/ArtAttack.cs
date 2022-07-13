@@ -46,7 +46,7 @@ namespace CalamityMod.Items.Weapons.Magic
                 AddIngredient(ItemID.RainbowRod).
                 AddIngredient(ItemID.LargeRuby).
                 AddIngredient(ItemID.CrystalShard).
-                AddIngredient<CalamityDust>(5).
+                AddIngredient<AshesofCalamity>(5).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

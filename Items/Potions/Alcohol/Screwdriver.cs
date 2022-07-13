@@ -18,14 +18,14 @@ Reduces life regen by 1");
 
         public override void SetDefaults()
         {
-            Item.width = 28;
-            Item.height = 18;
+            Item.width = 16;
+            Item.height = 26;
             Item.useTurn = true;
             Item.maxStack = 30;
             Item.rare = ItemRarityID.LightPurple;
             Item.useAnimation = 17;
             Item.useTime = 17;
-            Item.useStyle = ItemUseStyleID.EatFood;
+            Item.useStyle = ItemUseStyleID.DrinkLiquid;
             Item.UseSound = SoundID.Item3;
             Item.consumable = true;
             Item.buffType = ModContent.BuffType<ScrewdriverBuff>();

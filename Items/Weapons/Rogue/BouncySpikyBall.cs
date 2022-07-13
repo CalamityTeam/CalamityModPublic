@@ -12,9 +12,9 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Bouncy Spiky Ball");
-            Tooltip.SetDefault(@"Throws a very bouncy ball that richochets off walls and enemies
+            Tooltip.SetDefault(@"Throws a very bouncy ball that ricochets off walls and enemies
 Receives a small boost in damage and velocity after bouncing off an enemy
-Stealth strikes provide a bigger boost after richocheting");
+Stealth strikes provide a bigger boost after ricocheting");
             SacrificeTotal = 99;
         }
 

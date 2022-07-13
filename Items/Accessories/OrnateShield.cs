@@ -1,9 +1,9 @@
 ﻿using CalamityMod.Items.Materials;
-using CalamityMod.Items.Armor;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.CalPlayer.Dashes;
+using CalamityMod.Items.Armor.Daedalus;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Accessories
         {
             SacrificeTotal = 1;
             DisplayName.SetDefault("Ornate Shield");
-            Tooltip.SetDefault("Boosted damage reduction and health while wearing the Daedalus armor\n" +
+            Tooltip.SetDefault("8% increased damage reduction and +20 health while wearing the Daedalus armor\n" +
                 "Grants a frost dash");
         }
 
@@ -47,7 +47,7 @@ namespace CalamityMod.Items.Accessories
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<VerstaltiteBar>(5).
+                AddIngredient<CryonicBar>(5).
                 AddIngredient(ItemID.CrystalShard, 10).
                 AddTile(TileID.MythrilAnvil).
                 Register();

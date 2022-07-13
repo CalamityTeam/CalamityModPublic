@@ -1,6 +1,4 @@
 ﻿using Terraria.DataStructures;
-using Terraria.DataStructures;
-using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
@@ -25,7 +23,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             Item.width = 66;
             Item.height = 66;
-            Item.DamageType = DamageClass.Melee;
+            Item.DamageType = TrueMeleeNoSpeedDamageClass.Instance;
             Item.noMelee = true;
             Item.noUseGraphic = true;
             Item.channel = true;
@@ -40,7 +38,6 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.Calamity().customRarity = CalamityRarity.Turquoise;
             Item.Calamity().donorItem = true;
 
-            Item.Calamity().trueMelee = true;
             Item.shoot = ModContent.ProjectileType<DevilsSunriseProj>();
             Item.shootSpeed = 24f;
         }

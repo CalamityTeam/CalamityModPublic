@@ -46,6 +46,22 @@ namespace CalamityMod.NPCs.NormalNPCs
 				new FlavorTextBestiaryInfoElement("Malicious animals, which attack with tough claws and strong jaws. Any wound from these will bleed heavily. Address the cut quickly.")
             });
         }
+        public override void FindFrame(int frameHeight)
+        {
+            if (NPC.IsABestiaryIconDummy)
+            {
+                NPC.frameCounter += 1.0;
+                if (NPC.frameCounter > 6.0)
+                {
+                    NPC.frameCounter = 0.0;
+                    NPC.frame.Y += frameHeight;
+                }
+                if (NPC.frame.Y > frameHeight * 10)
+                {
+                    NPC.frame.Y = frameHeight;
+                }
+            }
+        }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {

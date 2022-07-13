@@ -52,16 +52,16 @@ namespace CalamityMod.Items.TreasureBags
             player.TryGettingDevArmor(s);
 
             // Materials
-            DropHelper.DropItem(s, player, ModContent.ItemType<PlagueCellCluster>(), 13, 17);
+            DropHelper.DropItem(s, player, ModContent.ItemType<PlagueCellCanister>(), 13, 17);
             DropHelper.DropItem(s, player, ModContent.ItemType<InfectedArmorPlating>(), 16, 20);
             DropHelper.DropItem(s, player, ItemID.Stinger, 4, 8);
 
             // Weapons
             float w = DropHelper.BagWeaponDropRateFloat;
             DropHelper.DropEntireWeightedSet(s, player,
-                DropHelper.WeightStack<VirulentKatana>(w), // Virulence
+                DropHelper.WeightStack<Virulence>(w), // Virulence
                 DropHelper.WeightStack<DiseasedPike>(w),
-                DropHelper.WeightStack<ThePlaguebringer>(w), // Pandemic
+                DropHelper.WeightStack<Pandemic>(w), // Pandemic
                 DropHelper.WeightStack<Malevolence>(w),
                 DropHelper.WeightStack<PestilentDefiler>(w),
                 DropHelper.WeightStack<TheHive>(w),

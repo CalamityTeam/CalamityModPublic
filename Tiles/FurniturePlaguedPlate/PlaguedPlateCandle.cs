@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -15,7 +15,7 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
             AddMapEntry(new Color(253, 221, 3), name);
             TileID.Sets.DisableSmartCursor[Type] = true;
             AdjTiles = new int[] { TileID.Candles };
-            ItemDrop = ModContent.ItemType<Items.Placeables.FurniturePlaguedPlate.PlaguedPlateCandle>();
+            ItemDrop = ModContent.ItemType<Items.Placeables.FurniturePlagued.PlaguedPlateCandle>();
         }
 
         public override bool CreateDust(int i, int j, ref int type)
@@ -55,7 +55,7 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
             Player player = Main.LocalPlayer;
             player.noThrow = 2;
             player.cursorItemIconEnabled = true;
-            player.cursorItemIconID = ModContent.ItemType<Items.Placeables.FurniturePlaguedPlate.PlaguedPlateCandle>();
+            player.cursorItemIconID = ModContent.ItemType<Items.Placeables.FurniturePlagued.PlaguedPlateCandle>();
         }
 
         public override bool RightClick(int i, int j)

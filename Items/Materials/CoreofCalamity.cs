@@ -11,6 +11,8 @@ namespace CalamityMod.Items.Materials
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 25;
+            ItemID.Sets.ItemNoGravity[Item.type] = true;
+
             DisplayName.SetDefault("Core of Calamity");
         }
 
@@ -30,10 +32,10 @@ namespace CalamityMod.Items.Materials
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<CoreofCinder>(3).
+                AddIngredient<CoreofSunlight>(3).
                 AddIngredient<CoreofEleum>(3).
                 AddIngredient<CoreofChaos>(3).
-                AddIngredient<CalamityDust>().
+                AddIngredient<AshesofCalamity>().
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

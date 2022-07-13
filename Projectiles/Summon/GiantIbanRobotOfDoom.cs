@@ -69,6 +69,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.alpha = 255;
             Projectile.usesIDStaticNPCImmunity = true;
             Projectile.idStaticNPCHitCooldown = 11;
+            Projectile.DamageType = DamageClass.Summon;
         }
         public override void AI()
         {
@@ -334,35 +335,7 @@ namespace CalamityMod.Projectiles.Summon
                 if (Projectile.owner == Main.myPlayer)
                 {
                     SoundEngine.PlaySound(GaussRifle.FireSound, Projectile.Center);
-                    int damage = LaserBaseDamage;
-                    if (player.HeldItem != null)
-                    {
-                        if (player.HeldItem.CountsAsClass<MagicDamageClass>())
-                        {
-                            damage = (int)player.GetDamage<MagicDamageClass>().ApplyTo(damage);
-                        }
-                        else if (player.HeldItem.CountsAsClass<MeleeDamageClass>())
-                        {
-                            damage = (int)player.GetDamage<MeleeDamageClass>().ApplyTo(damage);
-                        }
-                        else if (player.HeldItem.CountsAsClass<RangedDamageClass>())
-                        {
-                            damage = (int)player.GetDamage<RangedDamageClass>().ApplyTo(damage);
-                        }
-                        else if (player.HeldItem.CountsAsClass<SummonDamageClass>())
-                        {
-                            damage = (int)player.GetDamage<SummonDamageClass>().ApplyTo(damage);
-                        }
-                        // TODO -- also allow other mod throwing
-                        else if (player.HeldItem.CountsAsClass<ThrowingDamageClass>())
-                        {
-                            damage = (int)player.GetDamage<ThrowingDamageClass>().ApplyTo(damage);
-                        }
-                        else
-                        {
-                            damage = (int)player.GetBestClassDamage().ApplyTo(damage);
-                        }
-                    }
+                    int damage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(LaserBaseDamage);
                     Vector2 laserVelocity = (Main.MouseWorld - (Main.player[Projectile.owner].Center + new Vector2(Projectile.spriteDirection == 1 ? 48f : 22f, -28f))).SafeNormalize(Vector2.UnitX * Projectile.spriteDirection);
                     Projectile deathLaser = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(),
                                                                            Projectile.Center,
@@ -374,32 +347,7 @@ namespace CalamityMod.Projectiles.Summon
                                                                            Projectile.whoAmI);
                     deathLaser.originalDamage = damage;
                     if (player.HeldItem != null && deathLaser.whoAmI.WithinBounds(Main.maxProjectiles))
-                    {
-                        if (player.HeldItem.CountsAsClass<MagicDamageClass>())
-                        {
-                            deathLaser.Calamity().forceMagic = true;
-                        }
-                        else if (player.HeldItem.CountsAsClass<MeleeDamageClass>())
-                        {
-                            deathLaser.Calamity().forceMelee = true;
-                        }
-                        else if (player.HeldItem.CountsAsClass<RangedDamageClass>())
-                        {
-                            deathLaser.Calamity().forceRanged = true;
-                        }
-                        else if (player.HeldItem.CountsAsClass<SummonDamageClass>())
-                        {
-                            deathLaser.Calamity().forceMinion = true;
-                        }
-                        else if (player.HeldItem.CountsAsClass<ThrowingDamageClass>())
-                        {
-                            deathLaser.Calamity().forceRogue = true;
-                        }
-                        else
-                        {
-                            deathLaser.Calamity().forceClassless = true;
-                        }
-                    }
+                        deathLaser.DamageType = DamageClass.Summon;
                 }
             }
         }

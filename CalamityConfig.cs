@@ -349,7 +349,7 @@ namespace CalamityMod
                 new("StealthMeterPosX", ItemID.LaserRuler),
                 new("StealthMeterPosY", ItemID.LaserRuler),
 
-                new("ChargeMeter", ModContent.ItemType<PowerCell>()),
+                new("ChargeMeter", ModContent.ItemType<DraedonPowerCell>()),
                 new("ChargeMeterPosX", ItemID.LaserRuler),
                 new("ChargeMeterPosY", ItemID.LaserRuler),
 
@@ -368,7 +368,7 @@ namespace CalamityMod
                 new("ChilledWaterRework", ItemID.ArcticDivingGear),
                 new("ForceTownSafety", ItemID.Sunflower),
 
-                new("RipperMeterShake", ModContent.ItemType<Revenge>()),
+                new("RipperMeterShake", ModContent.ItemType<RevengeanceModeItem>()),
                 new("RageMeterPosX", ItemID.LaserRuler),
                 new("RageMeterPosY", ItemID.LaserRuler),
                 new("AdrenalineMeterPosX", ItemID.LaserRuler),

@@ -30,6 +30,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.tileCollide = false;
             Projectile.timeLeft *= 5;
             Projectile.minion = true;
+            Projectile.DamageType = DamageClass.Summon;
         }
 
         public override void AI()
@@ -37,7 +38,7 @@ namespace CalamityMod.Projectiles.Summon
             Player player = Main.player[Projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
             bool isProperProjectile = Projectile.type == ModContent.ProjectileType<PlaguebringerMK2>();
-            player.AddBuff(ModContent.BuffType<FuelCellBundleBuff>(), 3600);
+            player.AddBuff(ModContent.BuffType<MiniPlaguebringerBuff>(), 3600);
             if (isProperProjectile)
             {
                 if (player.dead)

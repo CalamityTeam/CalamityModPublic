@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Typeless
         public Player Owner => Main.player[Projectile.owner];
         public ref float Time => ref Projectile.ai[0];
         public const int Lifetime = 300;
-        public override string Texture => "CalamityMod/Items/SummonItems/BossRush";
+        public override string Texture => "CalamityMod/Items/SummonItems/Terminus";
         public override void SetDefaults()
         {
             Projectile.width = 50;

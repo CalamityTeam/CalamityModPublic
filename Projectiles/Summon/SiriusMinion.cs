@@ -29,6 +29,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.tileCollide = false;
             Projectile.timeLeft *= 5;
             Projectile.minion = true;
+            Projectile.DamageType = DamageClass.Summon;
         }
 
         public override void AI()
@@ -51,7 +52,7 @@ namespace CalamityMod.Projectiles.Summon
             player.AddBuff(ModContent.BuffType<SiriusBuff>(), 3600);
 
             Projectile.minionSlots = Projectile.ai[0];
-            Lighting.AddLight(Projectile.Center, 1f, 0.5f, 5f);
+            Lighting.AddLight(Projectile.Center, 1f, 0.5f, 0.5f);
 
             Projectile.Center = player.Center + Vector2.UnitY * (player.gfxOffY - 60f);
             if (player.gravDir == -1f)

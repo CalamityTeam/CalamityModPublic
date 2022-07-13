@@ -1,7 +1,6 @@
 ﻿using CalamityMod.Buffs.Pets;
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
-using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -60,8 +59,7 @@ namespace CalamityMod.Items.Accessories
             Item.height = 38;
             Item.accessory = true;
             Item.rare = ItemRarityID.Purple;
-            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
-            Item.value = CalamityGlobalItem.RarityDarkBlueBuyPrice;
+            Item.value = CalamityGlobalItem.Rarity11BuyPrice;
             Item.Calamity().donorItem = true;
         }
 
@@ -73,14 +71,26 @@ namespace CalamityMod.Items.Accessories
             // If visibility is disabled, despawn the pet.
             if (hideVisual)
             {
-                if (player.FindBuffIndex(ModContent.BuffType<DaawnlightSpiritOriginBuff>()) != -1)
-                    player.ClearBuff(ModContent.BuffType<DaawnlightSpiritOriginBuff>());
+                if (player.FindBuffIndex(ModContent.BuffType<ArcherofLunamoon>()) != -1)
+                    player.ClearBuff(ModContent.BuffType<ArcherofLunamoon>());
             }
             // If visibility is enabled, spawn the pet.
             else if (player.whoAmI == Main.myPlayer)
             {
-                if (player.FindBuffIndex(ModContent.BuffType<DaawnlightSpiritOriginBuff>()) == -1)
-                    player.AddBuff(ModContent.BuffType<DaawnlightSpiritOriginBuff>(), 18000, true);
+                if (player.FindBuffIndex(ModContent.BuffType<ArcherofLunamoon>()) == -1)
+                    player.AddBuff(ModContent.BuffType<ArcherofLunamoon>(), 18000, true);
+            }
+        }
+
+        public override void UpdateVanity(Player player)
+        {
+            // Summon anime girl if it's in vanity slot as the pet is purely vanity
+            // It's possible for other "pet" items like Fungal Clump or HotE to summon a passive version of their "pets" with some tweaks though
+            player.Calamity().spiritOriginVanity = true;
+            if (player.whoAmI == Main.myPlayer)
+            {
+                if (player.FindBuffIndex(ModContent.BuffType<ArcherofLunamoon>()) == -1)
+                    player.AddBuff(ModContent.BuffType<ArcherofLunamoon>(), 18000, true);
             }
         }
 
@@ -88,7 +98,7 @@ namespace CalamityMod.Items.Accessories
         {
             CreateRecipe().
                 AddIngredient<DeadshotBrooch>().
-                AddIngredient(ItemID.LunarBar).
+                AddIngredient(ItemID.LunarBar, 10).
                 AddIngredient<MysteriousCircuitry>(15).
                 AddIngredient<DubiousPlating>(15).
                 AddIngredient<GalacticaSingularity>(4).

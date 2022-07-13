@@ -14,7 +14,8 @@ namespace CalamityMod.Items.SummonItems
         {
             SacrificeTotal = 1;
             DisplayName.SetDefault("Teratoma");
-            Tooltip.SetDefault("Summons the Hive Mind when used in the corruption\n" +
+            Tooltip.SetDefault("Summons the Hive Mind when used in the Corruption\n" +
+                "Enrages outside the Underground Corruption\n" +
                 "Not consumable");
         }
 
@@ -49,7 +50,7 @@ namespace CalamityMod.Items.SummonItems
         {
             CreateRecipe().
                 AddIngredient(ItemID.RottenChunk, 13).
-                AddIngredient<TrueShadowScale>(7).
+                AddIngredient<RottenMatter>(7).
                 AddIngredient(ItemID.DemoniteBar, 3).
                 AddTile(TileID.DemonAltar).
                 Register();

@@ -1,5 +1,4 @@
-﻿using Terraria.DataStructures;
-using CalamityMod.Projectiles.Melee;
+﻿using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -41,6 +40,7 @@ namespace CalamityMod.Items.Weapons.Melee
             int totalProjectiles = 4;
             float radians = MathHelper.TwoPi / totalProjectiles;
             int type = ModContent.ProjectileType<IceBombFriendly>();
+            int bombDamage = player.CalcIntDamage<MeleeDamageClass>(Item.damage);
             float velocity = 4f;
             double angleA = radians * 0.5;
             double angleB = MathHelper.ToRadians(90f) - angleA;
@@ -49,7 +49,7 @@ namespace CalamityMod.Items.Weapons.Melee
             for (int k = 0; k < totalProjectiles; k++)
             {
                 Vector2 vector255 = spinningPoint.RotatedBy(radians * k);
-                Projectile.NewProjectile(source, target.Center, vector255, type, (int)(Item.damage * (player.GetDamage<GenericDamageClass>().Additive + player.GetDamage<MeleeDamageClass>().Additive - 2f)), knockback, Main.myPlayer);
+                Projectile.NewProjectile(source, target.Center, vector255, type, bombDamage, knockback, Main.myPlayer);
             }
         }
 
@@ -59,6 +59,7 @@ namespace CalamityMod.Items.Weapons.Melee
             int totalProjectiles = 4;
             float radians = MathHelper.TwoPi / totalProjectiles;
             int type = ModContent.ProjectileType<IceBombFriendly>();
+            int bombDamage = player.CalcIntDamage<MeleeDamageClass>(Item.damage);
             float velocity = 4f;
             double angleA = radians * 0.5;
             double angleB = MathHelper.ToRadians(90f) - angleA;
@@ -67,7 +68,7 @@ namespace CalamityMod.Items.Weapons.Melee
             for (int k = 0; k < totalProjectiles; k++)
             {
                 Vector2 vector255 = spinningPoint.RotatedBy(radians * k);
-                Projectile.NewProjectile(source, target.Center, vector255, type, (int)(Item.damage * (player.GetDamage<GenericDamageClass>().Additive + player.GetDamage<MeleeDamageClass>().Additive - 2f)), 0f, Main.myPlayer);
+                Projectile.NewProjectile(source, target.Center, vector255, type, bombDamage, 0f, Main.myPlayer);
             }
         }
 

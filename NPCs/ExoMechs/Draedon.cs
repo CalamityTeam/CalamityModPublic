@@ -100,7 +100,7 @@ namespace CalamityMod.NPCs.ExoMechs
             NPC.aiStyle = AIType = -1;
             NPC.knockBackResist = 0f;
             NPC.DeathSound = SoundID.NPCDeath14;
-            NPC.Calamity().DoesNotGenerateRage = true;
+            NPC.Calamity().ProvidesProximityRage = false;
         }
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
