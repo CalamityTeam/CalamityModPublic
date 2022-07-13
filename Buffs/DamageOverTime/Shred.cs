@@ -62,7 +62,7 @@ namespace CalamityMod.Buffs.DamageOverTime
                     int bleedTickDamage = (int)applicator.GetTotalDamage<RangedDamageClass>().ApplyTo(BaseDamage * cgn.somaShredStacks);
                     Projectile tick = Projectile.NewProjectileDirect(target.GetSource_FromThis(), target.Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), bleedTickDamage, 0f, applicator.whoAmI, target.whoAmI);
                     tick.DamageType = DamageClass.Ranged; // Uncommon for DirectStrikes, but it needs to be able to crit.
-                    tick.Calamity().canSupercrit = true;
+                    tick.Calamity().supercritHits  = -1;
                 }
             }
         }

@@ -4204,9 +4204,10 @@ namespace CalamityMod.NPCs
 
             // Supercrits
             var cgp = projectile.Calamity();
-            if (cgp.canSupercrit)
+            if (cgp.supercritHits  != 0)
             {
-                float critOver100 = player.GetCritChance(projectile.DamageType) - 100f;
+                cgp.supercritHits --;
+                float critOver100 = (projectile.ContinuouslyUpdateDamage ? player.GetCritChance(projectile.DamageType) : projectile.CritChance) - 100f;
 
                 // Supercrits can "supercrit" over and over for each extra 100% critical strike chance.
                 // For example if you have 716% critical strike chance, you are guaranteed +700% damage and then have a 16% chance for +800% damage instead.
