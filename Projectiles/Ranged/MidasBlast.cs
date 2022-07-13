@@ -120,10 +120,12 @@ namespace CalamityMod.Projectiles.Ranged
             {
                 int coin = Item.NewItem(struckCoin.GetSource_DropAsItem(), struckCoin.Center, Vector2.One, struckCoin.ai[0] == 0 ? ItemID.SilverCoin : ItemID.GoldCoin);
                 Main.item[coin].GetGlobalItem<MidasPrimeItem>().magnetMode = true;
-            }
 
-            //Commented out. Could get activated through some funny easter egg thing, maybe the player being named V1/2 
-            //ORDERSystem.ORDER();
+                //Play the funny
+                Player coinOwner = Main.player[struckCoin.owner];
+                if (coinOwner.name.ToLower() == "v1" || coinOwner.name.ToLower() == "v2" || coinOwner.name.ToLower == "mirage")
+                    ORDERSystem.ORDER();
+            }
 
             if (shouldPause)
                 PauseTime = Pause;

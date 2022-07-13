@@ -67,9 +67,6 @@ namespace CalamityMod.Projectiles.Ranged
                                 Boosted = 1;
                                 Main.player[Projectile.owner].Calamity().GeneralScreenShakePower = 2;
                                 Projectile.damage = (int)(Projectile.damage * CrackshotColt.RicochetDamageMult);
-
-
-                                //ORDERSystem.ORDER();
                             }
 
                             proj.active = false;
