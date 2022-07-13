@@ -445,6 +445,14 @@ namespace CalamityMod.NPCs
                     break;
                 #endregion
 
+                #region Pirate Invasion
+                // Pirate deadeye
+                // Midas Prime @ 4% Normal, 6.67% Expert+
+                case NPCID.PirateDeadeye:
+                    npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<MidasPrime>(), 25, 15));
+                    break;
+                #endregion
+
                 #region Solar Eclipse
                 // Weak Solar Eclipse Enemies: Frankenstein, Swamp Thing, Fritz, Creature from the Deep
                 // Darksun Fragment @ 10% IF Devourer of Gods dead

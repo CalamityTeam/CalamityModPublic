@@ -9,7 +9,7 @@ using Terraria.Enums;
 using System;
 using ReLogic.Content;
 using Terraria.Localization;
-
+using CalamityMod.ForegroundDrawing;
 
 namespace CalamityMod.Tiles.BaseTiles
 {
