@@ -4188,10 +4188,6 @@ namespace CalamityMod.CalPlayer
                 acidRoundMultiplier = item.useTime / 20D;
             else
                 acidRoundMultiplier = 1D;
-
-            // Prismatic Breaker is a weird hybrid melee-ranged weapon so include it too.  Why are you using desert prowler post-Yharon? don't ask me
-            if (desertProwler && (item.CountsAsClass<RangedDamageClass>() || item.type == ModContent.ItemType<PrismaticBreaker>()) && item.ammo == AmmoID.None)
-                damage.Flat += 1f;
         }
 
         public override void ModifyWeaponKnockback(Item item, ref StatModifier knockback)

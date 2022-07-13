@@ -54,10 +54,6 @@ namespace CalamityMod.Items.TreasureBags
             DropHelper.DropItem(s, player, ItemID.Torch, 25);
             DropHelper.DropItem(s, player, ItemID.Chest, 3);
 
-            // Difficulty items (Revengeance and Death don't drop in Normal)
-            DropHelper.DropItemCondition(s, player, ModContent.ItemType<RevengeanceModeItem>(), Main.expertMode);
-            DropHelper.DropItemCondition(s, player, ModContent.ItemType<DeathModeItem>(), Main.expertMode);
-
             // The Lad
             DropHelper.DropItemCondition(s, player, ModContent.ItemType<JoyfulHeart>(), player.name == "Aleksh" || player.name == "Shark Lad");
 

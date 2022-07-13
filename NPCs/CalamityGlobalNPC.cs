@@ -4204,9 +4204,10 @@ namespace CalamityMod.NPCs
 
             // Supercrits
             var cgp = projectile.Calamity();
-            if (cgp.canSupercrit)
+            if (cgp.supercritHits  != 0)
             {
-                float critOver100 = player.GetCritChance(projectile.DamageType) - 100f;
+                cgp.supercritHits --;
+                float critOver100 = (projectile.ContinuouslyUpdateDamage ? player.GetCritChance(projectile.DamageType) : projectile.CritChance) - 100f;
 
                 // Supercrits can "supercrit" over and over for each extra 100% critical strike chance.
                 // For example if you have 716% critical strike chance, you are guaranteed +700% damage and then have a 16% chance for +800% damage instead.
@@ -5519,7 +5520,11 @@ namespace CalamityMod.NPCs
                         // Draw lights
                         if (npc.ai[2] == 0f)
                         {
-                            if ((newAI[3] >= 900f && npc.life / (float)npc.lifeMax < 0.5f) || (newAI[1] < 600f && newAI[1] > 60f))
+                            float destroyerLifeRatio = 1f;
+                            if (npc.realLife >= 0)
+                                destroyerLifeRatio = Main.npc[npc.realLife].life / (float)Main.npc[npc.realLife].lifeMax;
+
+                            if ((newAI[3] >= 900f && destroyerLifeRatio < 0.5f) || (newAI[1] < 600f && newAI[1] > 60f))
                             {
                                 for (int i = 0; i < 3; i++)
                                 {

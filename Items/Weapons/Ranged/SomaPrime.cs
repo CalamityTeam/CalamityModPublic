@@ -64,7 +64,7 @@ Replaces standard bullets with High Velocity Bullets
             Vector2 vel = velocity;
             Projectile shot = Projectile.NewProjectileDirect(source, position, vel, type, damage, knockback, player.whoAmI);
             CalamityGlobalProjectile cgp = shot.Calamity();
-            cgp.canSupercrit = true;
+            cgp.supercritHits  = -1;
             cgp.appliesSomaShred = true;
             return false;
         }

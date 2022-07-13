@@ -53,7 +53,8 @@ namespace CalamityMod.Projectiles
         // They then take the remainder (e.g. the remaining 16%) and roll against that for a final +100% (like normal crits).
         // For example if you have 716% critical strike chance, you are guaranteed +700% damage and then have a 16% chance for +800% damage instead.
         // These are currently only enabled for Soma Prime, but any bullet fired from that gun can supercrit.
-        public bool canSupercrit = false;
+        //Set this to -1 if you want the projectile to supercrit forever, and to any positive value to make it supercrit only x times
+        public int supercritHits  = 0;
 
         // If true, this projectile can apply the infinitely-stacking Shred debuff iconic to Soma Prime.
         public bool appliesSomaShred = false;

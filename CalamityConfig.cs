@@ -14,6 +14,7 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Config;
+using CalamityMod.Items.PermanentBoosters;
 
 namespace CalamityMod
 {
@@ -368,7 +369,7 @@ namespace CalamityMod
                 new("ChilledWaterRework", ItemID.ArcticDivingGear),
                 new("ForceTownSafety", ItemID.Sunflower),
 
-                new("RipperMeterShake", ModContent.ItemType<RevengeanceModeItem>()),
+                new("RipperMeterShake", ModContent.ItemType<RedLightningContainer>()),
                 new("RageMeterPosX", ItemID.LaserRuler),
                 new("RageMeterPosY", ItemID.LaserRuler),
                 new("AdrenalineMeterPosX", ItemID.LaserRuler),
