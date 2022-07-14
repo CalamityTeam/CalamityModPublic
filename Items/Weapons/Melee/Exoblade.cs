@@ -20,11 +20,15 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public const float LungeSpeed = 37f;
 
+        public const float ReboundSpeed = 10.5f;
+
         public const float PercentageOfAnimationSpentLunging = 0.6f;
 
         public const float AnticipationOffsetRatio = 0.27f;
 
         public const int OpportunityForBigSlash = 37;
+
+        public const float BigSlashUpscaleFactor = 2.3f;
 
         public override void SetStaticDefaults()
         {

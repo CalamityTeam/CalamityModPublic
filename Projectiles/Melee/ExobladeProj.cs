@@ -184,13 +184,13 @@ namespace CalamityMod.Projectiles.Melee
 
             // Decide the scale of the sword.
             // If performing a powerful slash it is made significantly bigger. This effect looks slightly goofy but there is no
-            // way in hell you're going to consistently hit SCal without that.
+            // way in hell you're going to consistently hit SCal without it.
             Projectile.scale = 1f;
             if (!LMBUse)
                 Projectile.scale *= Utils.GetLerpValue(0f, 0.2f, exactSwingCompletion, true) * Utils.GetLerpValue(1f, 0.9f, exactSwingCompletion, true);
             if (PerformingPowerfulSlash)
             {
-                Projectile.scale *= 2.3f;
+                Projectile.scale *= Exoblade.BigSlashUpscaleFactor;
                 EnergyFormInterpolant = 1f;
             }
 
@@ -220,12 +220,13 @@ namespace CalamityMod.Projectiles.Melee
         {
             Owner.mount?.Dismount(Owner);
 
-            // Do the dash.
             if (Owner.itemAnimation > Owner.itemAnimationMax * Exoblade.PercentageOfAnimationSpentLunging)
             {
+                // Play a charge sound right before the dash.
                 if (Owner.itemAnimation == (int)(Owner.itemAnimationMax * Exoblade.PercentageOfAnimationSpentLunging) + 1)
                     SoundEngine.PlaySound(CommonCalamitySounds.ELRFireSound, Projectile.Center);
 
+                // Look at the mouse.
                 Projectile.oldPos = new Vector2[Projectile.oldPos.Length];
                 if (Main.myPlayer == Projectile.owner)
                 {
@@ -236,6 +237,8 @@ namespace CalamityMod.Projectiles.Melee
                     Projectile.netUpdate = true;
                 }
             }
+
+            // Do the dash.
             else
                 Owner.velocity = Projectile.velocity * Exoblade.LungeSpeed;
 
@@ -302,6 +305,8 @@ namespace CalamityMod.Projectiles.Melee
         {
             List<Vector2> result = new();
 
+            // Calculate the offsets for the slash points based on old rotations.
+            // Uninitialized values are discarded, as are sequences of rotations that are equivalent.
             for (int i = 0; i < Owner.itemAnimationMax * 0.45; i++)
             {
                 if (Projectile.oldRot[i] == 0f)
@@ -350,7 +355,7 @@ namespace CalamityMod.Projectiles.Melee
             GameShaders.Misc["CalamityMod:ExobladeSlash"].UseSecondaryColor(new Color(57, 46, 115));
             GameShaders.Misc["CalamityMod:ExobladeSlash"].Shader.Parameters["fireColor"].SetValue(new Color(242, 112, 72).ToVector3());
 
-            // What the heck? XOR? In MY exoblade code?????
+            // What the heck? XORs? In MY exoblade code?????
             GameShaders.Misc["CalamityMod:ExobladeSlash"].Shader.Parameters["flipped"].SetValue((SwingDirection == 1) ^ (Direction == -1));
             GameShaders.Misc["CalamityMod:ExobladeSlash"].Apply();
 
@@ -409,7 +414,7 @@ namespace CalamityMod.Projectiles.Melee
             if (CurrentState == SwingState.BonkDash && Owner.itemAnimation < Owner.itemAnimationMax * 0.6f)
             {
                 Owner.itemAnimation = 0;
-                Owner.velocity = Owner.SafeDirectionTo(target.Center) * -11f;
+                Owner.velocity = Owner.SafeDirectionTo(target.Center) * -Exoblade.ReboundSpeed;
                 PostBonkCountdown = Exoblade.OpportunityForBigSlash;
                 Projectile.netUpdate = true;
 
@@ -426,8 +431,8 @@ namespace CalamityMod.Projectiles.Melee
                     }
                 }
 
-                // Freeze the target briefly.
-                target.AddBuff(ModContent.BuffType<ExoFreeze>(), 75);
+                // Freeze the target briefly, to allow the player to more easily perform a powerful slash.
+                target.AddBuff(ModContent.BuffType<ExoFreeze>(), 60);
 
                 DecideCurrentState();
             }
