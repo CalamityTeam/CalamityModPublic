@@ -20,16 +20,20 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public const float LungeSpeed = 37f;
 
-        public const int OpportunityForBigSlash = 27;
+        public const float PercentageOfAnimationSpentLunging = 0.6f;
+
+        public const float AnticipationOffsetRatio = 0.27f;
+
+        public const int OpportunityForBigSlash = 37;
 
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Exoblade");
             Tooltip.SetDefault("Ancient blade of Yharim's weapons and armors expert, Draedon\n" +
-                               "Fires an exo beam that homes in on the player and explodes\n" +
-                               "Striking an enemy with the blade causes several comets to fire\n" +
-                               "All attacks briefly freeze enemies hit\n" +
-                               "Enemies hit at very low HP explode into frost energy and freeze nearby enemies");
+                               "Left clicks release multiple energy beams that home in on enemies and slice them on hit\n" +
+                               "Right clicks makes you dash in the direction of the cursor with the blade\n" +
+                               "Enemy hits from the blade during the dash result in massive damage and a rebound\n" +
+                               "Left clicks briefly after a rebound are far stronger and create explosions on enemy hits");
             SacrificeTotal = 1;
         }
 
@@ -50,7 +54,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.channel = true;
             Item.value = CalamityGlobalItem.Rarity15BuyPrice;
             Item.rare = ItemRarityID.Red;
-            Item.shootSpeed = 19f;
+            Item.shootSpeed = 9f;
             Item.Calamity().customRarity = CalamityRarity.Violet;
         }
 
