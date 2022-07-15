@@ -12,8 +12,8 @@ namespace CalamityMod.Items.Accessories
             SacrificeTotal = 1;
             DisplayName.SetDefault("Laudanum");
             Tooltip.SetDefault("Converts certain debuffs into buffs and extends their durations\n" +
-                               "Debuffs affected: Darkness, Blackout, Confused, Slow, Weak, Broken Armor,\n" +
-                               "Armor Crunch, War Cleave, Chilled, Ichor and Obstructed\n" +
+                               "Debuffs affected: Darkness, Blackout, Confused, Slow, Weak,\n" +
+                               "Broken Armor, Armor Crunch, Chilled, Ichor, and Obstructed\n" +
                                "Revengeance drop");
         }
 
