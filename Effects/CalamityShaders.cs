@@ -143,6 +143,10 @@ namespace CalamityMod.Effects
             screenRef = new Ref<Effect>(CalamityMod.Instance.Assets.Request<Effect>("Effects/RoverDriveShield", AssetRequestMode.ImmediateLoad).Value);
             Filters.Scene["RoverDriveShield"] = new Filter(new ScreenShaderData(screenRef, "ShieldPass"), EffectPriority.High);
             Filters.Scene["RoverDriveShield"].Load();
+
+            screenRef = new Ref<Effect>(CalamityMod.Instance.Assets.Request<Effect>("Effects/Compiler/SwingEffect", AssetRequestMode.ImmediateLoad).Value);
+            Filters.Scene["SwingRotationEffect"] = new Filter(new ScreenShaderData(screenRef, "SwingPass"), EffectPriority.High);
+            Filters.Scene["SwingRotationEffect"].Load();
         }
     }
 }
