@@ -123,6 +123,26 @@ namespace CalamityMod.Items.Armor.DesertProwler
                         endColor = new Color(149, 106, 50);
                     }
 
+                    //Add some random hue shift & sat shift
+                    Vector3 hslStartColor = Main.rgbToHsl(startColor);
+                    Vector3 hslEndColor = Main.rgbToHsl(endColor);
+
+                    float valueShift = Main.rand.NextFloat(0f, 0.5f);
+                    float satShift = Main.rand.NextFloat(-0.1f, 0f);
+                    float hueShiftPercent = Main.rand.NextFloat();
+
+                    hslStartColor.Z = Math.Clamp(hslStartColor.Z + valueShift, 0f, 1f);
+                    hslEndColor.Z = Math.Clamp(hslEndColor.Z + valueShift, 0f, 1f);
+
+                    hslStartColor.Y = Math.Clamp(hslStartColor.Y + satShift, 0f, 1f);
+                    hslEndColor.Y = Math.Clamp(hslEndColor.Y + satShift, 0f, 1f);
+
+                    hslStartColor.X = MathHelper.Lerp(hslStartColor.X, 43 / 255f, hueShiftPercent);
+                    hslEndColor.X = MathHelper.Lerp(hslEndColor.X, 43 / 255f, hueShiftPercent);
+
+                    startColor = Main.hslToRgb(hslStartColor);
+                    endColor = Main.hslToRgb(hslEndColor);
+
                     Vector2 smokeRandomPos = Main.rand.NextVector2Circular(40f, player.height);
                     Vector2 smokePos = player.MountedCenter + smokeRandomPos;
                     float burstAngle = MathHelper.Pi - ((smokeRandomPos.X + 40) / 80f) * MathHelper.Pi;
