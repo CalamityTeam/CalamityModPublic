@@ -168,6 +168,9 @@ namespace CalamityMod.NPCs.SlimeGod
                 }
             }
 
+            // Start shooting blobs more often, move faster and buff large slimes more often if one type of large slime is dead
+            bool phase2 = !purpleSlimeAlive || !redSlimeAlive;
+
             // Vanish phase
             if (!purpleSlimeAlive && !redSlimeAlive)
             {
@@ -280,7 +283,7 @@ namespace CalamityMod.NPCs.SlimeGod
                 NPC.timeLeft = 1800;
 
             // Hide inside large slime
-            float hideInsideLargeSlimePhaseGateValue = 900f;
+            float hideInsideLargeSlimePhaseGateValue = phase2 ? 300f : 900f;
             float hideInsideLargeSlimePhaseDuration = 600f;
             float exitLargeSlimeGateValue = hideInsideLargeSlimePhaseGateValue + hideInsideLargeSlimePhaseDuration;
             calamityGlobalNPC.newAI[2] += 1f;
@@ -356,6 +359,36 @@ namespace CalamityMod.NPCs.SlimeGod
 
                 return;
             }
+            else if (expertMode)
+            {
+                float divisor = bossRush ? 90f : death ? 180f : revenge ? 240f : 300f;
+                if (phase2)
+                    divisor /= 2;
+
+                if (calamityGlobalNPC.newAI[2] % divisor == 0f)
+                {
+                    SoundEngine.PlaySound(SoundID.Item33, NPC.Center);
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
+                    {
+                        if (Main.rand.NextBool())
+                        {
+                            float projectileVelocity = 4f;
+                            int type = ModContent.ProjectileType<UnstableEbonianGlob>();
+                            int damage = NPC.GetProjectileDamage(type);
+                            Vector2 velocity = Vector2.Normalize(player.Center - NPC.Center) * projectileVelocity;
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, velocity, type, damage, 0f, Main.myPlayer);
+                        }
+                        else
+                        {
+                            float projectileVelocity = 8f;
+                            int type = ModContent.ProjectileType<UnstableCrimulanGlob>();
+                            int damage = NPC.GetProjectileDamage(type);
+                            Vector2 velocity = Vector2.Normalize(player.Center - NPC.Center) * projectileVelocity;
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, velocity, type, damage, 0f, Main.myPlayer);
+                        }
+                    }
+                }
+            }
 
             NPC.Opacity += 0.2f;
             if (NPC.Opacity > 0.8f)
@@ -363,7 +396,9 @@ namespace CalamityMod.NPCs.SlimeGod
             
             buffedSlime = 0;
 
-            float flySpeed = death ? 14f : revenge ? 11f : expertMode ? 8.5f : 6f;
+            float flySpeed = death ? 15f : revenge ? 13.5f : expertMode ? 12f : 9f;
+            if (phase2)
+                flySpeed *= 1.25f;
             if (bossRush)
                 flySpeed *= 1.25f;
             if (Main.getGoodWorld)
