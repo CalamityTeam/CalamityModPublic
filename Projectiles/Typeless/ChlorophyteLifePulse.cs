@@ -32,6 +32,8 @@ namespace CalamityMod.Projectiles.Typeless
             Projectile.timeLeft = Lifetime;
         }
 
+        public override bool? CanHitNPC(NPC target) => !target.CountsAsACritter && !target.friendly && target.chaseable;
+
         public override void AI()
         {
             Projectile.Opacity = 1f - (float)Math.Pow(LifetimeCompletion, 1.56);

@@ -196,6 +196,17 @@ namespace CalamityMod.NPCs.NormalNPCs
                     {
                         Dust.NewDust(NPC.position, NPC.width, NPC.height, 3, hitDirection, -1f, 0, default, 1f);
                     }
+
+                    if (!Main.dedServ)
+                    {
+                        Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("WulfrumGyratorGore").Type, 1f);
+
+                        int randomGoreCount = Main.rand.Next(1, 4);
+                        for (int i = 0; i < randomGoreCount; i++)
+                        {
+                            Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("WulfrumEnemyGore" + Main.rand.Next(1, 11).ToString()).Type, 1f);
+                        }
+                    }
                 }
             }
         }
