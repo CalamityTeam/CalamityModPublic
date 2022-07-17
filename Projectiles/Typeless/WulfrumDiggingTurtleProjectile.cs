@@ -145,7 +145,7 @@ namespace CalamityMod.Projectiles.Typeless
             if (Main.myPlayer == Owner.whoAmI)
             {
                 if (Main.rand.NextBool() && !Projectile.noDropItem)
-                    Item.NewItem(Projectile.GetSource_DropAsItem(), (int)Projectile.position.X, (int)Projectile.position.Y, Projectile.width, Projectile.height, ModContent.ItemType<WulfrumMetalScrap>(), Main.rand.Next(0, 3));
+                    Item.NewItem(Projectile.GetSource_DropAsItem(), (int)Projectile.position.X, (int)Projectile.position.Y, Projectile.width, Projectile.height, ModContent.ItemType<WulfrumMetalScrap>(), 1);
             }
 
             if (SoundEngine.TryGetActiveSound(CuttingSoundSlot, out var cuttingSoundOut))

@@ -71,9 +71,9 @@ namespace CalamityMod.Items.Accessories
         {
             if (!projectile.npcProj && !projectile.trap && projectile.minion && !ProjectileID.Sets.MinionShot[projectile.type] && Main.player[projectile.owner].GetModPlayer<WulfrumBatteryPlayer>().battery)
             {
-                float lightMult = 3f;
+                float lightMult = 2f;
                 if (Lighting.UpdateEveryFrame) //The light loks wayyy too bright in retro/trippy
-                    lightMult = 1.5f;
+                    lightMult *= 0.5f;
 
                 Lighting.AddLight(projectile.Center, Color.DeepSkyBlue.ToVector3() * lightMult);
 
