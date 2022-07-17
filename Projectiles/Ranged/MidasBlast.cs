@@ -11,6 +11,7 @@ using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
 using System.Collections.Generic;
 using System.IO;
+using CalamityMod.Projectiles.Typeless;
 
 namespace CalamityMod.Projectiles.Ranged
 {
@@ -231,6 +232,20 @@ namespace CalamityMod.Projectiles.Ranged
                 {
                     targetFound = true;
                     redirectionTarget = target.Center;
+
+                    if (Main.player[Projectile.owner].Calamity().spiritOrigin)
+                    {
+                        for (int i = 0; i < Main.maxProjectiles; i++)
+                        {
+                            Projectile checkedProj = Main.projectile[i];
+                            if (checkedProj.type == ProjectileType<SpiritOriginBullseye>() && checkedProj.active && checkedProj.owner == Projectile.owner && checkedProj.ai[0] = target.whoAmI)
+                            {
+                                redirectionTarget = checkedProj.Center;
+                                break;
+                            }    
+
+                        }
+                    }
                 }
             }
 
