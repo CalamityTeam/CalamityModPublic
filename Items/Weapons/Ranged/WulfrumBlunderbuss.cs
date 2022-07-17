@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         public static float MaxSpreadDistance = 60f;
         public static float MinSpread = 0.2f;
         public static float MaxSpread = 0.6f;
-        public static float MaxDamageFalloff = 0.9f;
+        public static float MaxDamageFalloff = 0.8f;
         public static int BulletCount = 6;
 
         public static int ShotsPerScrap = 30;
@@ -41,7 +41,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            Item.damage = 13;
+            Item.damage = 11;
             Item.DamageType = DamageClass.Ranged;
             Item.width = 23;
             Item.height = 8;

@@ -42,6 +42,12 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.friendly = true;
             Projectile.penetrate = -1;
             Projectile.ownerHitCheck = true;
+            Projectile.timeLeft = MaxTime;
+        }
+
+        public override bool? CanDamage()
+        {
+            return Projectile.timeLeft <= (MaxTime - 10);
         }
 
         public override bool ShouldUpdatePosition() => false;
@@ -66,7 +72,6 @@ namespace CalamityMod.Projectiles.Melee
             if (EndLag == 0) //Initialization
             {
                 EndLag = (float)Math.Max(Owner.ActiveItem().useTime - MaxTime, 1);
-                Projectile.timeLeft = MaxTime;
                 TrueDirection = Owner.SafeDirectionTo(Owner.Calamity().mouseWorld, Vector2.Zero).ToRotation(); //Store this for the screw hit
                 Projectile.velocity = Owner.SafeDirectionTo(Owner.Calamity().mouseWorld, Vector2.Zero).RotatedByRandom(MathHelper.PiOver4 * 0.15f);
                 Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;

@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public static float ScrewTime = 40;
         public static Asset<Texture2D> ScrewTex;
         public static Asset<Texture2D> ScrewOutlineTex;
-        public static float ScrewBaseDamageMult = 1f;
+        public static float ScrewBaseDamageMult = 1.5f;
         public static float ScrewBazingaModeDamageMult = 6.5f;
         public static float ScrewBazingaAimAssistAngle = 0.52f; //This may look high but remebmer this is the FULL angle, so it actually checks for half that angle deviation
         public static float ScrewBazingaAimAssistReach = 600f;
@@ -75,7 +75,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             Item.width = 14;
             Item.height = 50;
-            Item.damage = 14;
+            Item.damage = 9;
             Item.DamageType = DamageClass.Melee;
             Item.useAnimation = DefaultTime + WulfrumScrewdriverProj.MaxTime;
             Item.useStyle = ItemUseStyleID.Shoot;

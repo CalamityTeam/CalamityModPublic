@@ -13,6 +13,8 @@ namespace CalamityMod.Items.Weapons.Magic
     {
         public static readonly SoundStyle ChargeSound = SoundID.LiquidsHoneyWater with { Type = SoundType.Sound };
 
+        public static int FullChargeExtraDamage = 3; //Extra damage dealt by each coral chunkits b when fully charging a shot
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Coral Spout");
@@ -29,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            Item.damage = 7;
+            Item.damage = 11;
             Item.DamageType = DamageClass.Magic;
             Item.mana = 7;
             Item.width = 28;
