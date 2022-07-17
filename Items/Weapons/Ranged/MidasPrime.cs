@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Tooltip.SetDefault("Struck enemies drop extra coins\n" +
                                 "Right click to throw a coin in the air. Hitting the coin with a bullet redirects the shot into the nearest enemy\n" +
                                "If you have multiple coins up in the air, bullets will first redirect towards other coins up to a maximum of 4\n" +
-                               "Coin ricochets will increase the damage of the bullet, provided the coins have been in the air for long enough" +
+                               "Coin ricochets will increase the damage of the bullet, provided the coins have been in the air for long enough\n" +
                                "Coin throws consume gold and silver coins");
             SacrificeTotal = 1;
         }
