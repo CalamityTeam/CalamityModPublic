@@ -17,10 +17,14 @@ using CalamityMod.FluidSimulation;
 using CalamityMod.ILEditing;
 using CalamityMod.Items;
 using CalamityMod.Items.Dyes.HairDye;
+using CalamityMod.Items.PermanentBoosters;
+using CalamityMod.Items.Pets;
 using CalamityMod.Items.VanillaArmorChanges;
+using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Localization;
 using CalamityMod.NPCs.AdultEidolonWyrm;
 using CalamityMod.NPCs.AquaticScourge;
+using CalamityMod.NPCs.Astral;
 using CalamityMod.NPCs.AstrumAureus;
 using CalamityMod.NPCs.AstrumDeus;
 using CalamityMod.NPCs.BrimstoneElemental;
@@ -47,6 +51,7 @@ using CalamityMod.NPCs.Ravager;
 using CalamityMod.NPCs.Signus;
 using CalamityMod.NPCs.SlimeGod;
 using CalamityMod.NPCs.StormWeaver;
+using CalamityMod.NPCs.SulphurousSea;
 using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.NPCs.Yharon;
 using CalamityMod.Particles;
@@ -212,8 +217,25 @@ namespace CalamityMod
                 LoadClient();
                 GeneralParticleHandler.Load();
                 ForegroundDrawing.ForegroundManager.Load();
+
+                // Wikithis support
                 if (wikithis is not null)
+                {
                     wikithis.Call("AddModURL", this, CalamityWikiURL);
+
+                    // Clear up name conflicts
+                    // Items
+                    wikithis.Call(1, new List<int>() { ModContent.ItemType<BloodOrange>() }, "Blood Orange (calamity)");
+                    wikithis.Call(1, new List<int>() { ModContent.ItemType<Elderberry>() }, "Elderberry (calamity)");
+                    wikithis.Call(1, new List<int>() { ModContent.ItemType<PineapplePet>() }, "Pineapple (calamity)");
+                    wikithis.Call(1, new List<int>() { ModContent.ItemType<TrashmanTrashcan>() }, "Trash Can (pet)");
+                    wikithis.Call(1, new List<int>() { ModContent.ItemType<Butcher>() }, "Butcher (weapon)");
+                    wikithis.Call(1, new List<int>() { ModContent.ItemType<SandstormGun>() }, "Sandstorm (weapon)");
+                    // Enemies
+                    wikithis.Call(2, new List<int>() { ModContent.NPCType<Catfish>() }, "Catfish (enemy)");
+                    wikithis.Call(2, new List<int>() { ModContent.NPCType<Hive>() }, "Hive (enemy)");
+                    wikithis.Call(2, new List<int>() { ModContent.NPCType<OldDukeToothBall>() }, "Tooth Ball (Old Duke)");
+                }
             }
 
             CooldownRegistry.Load();
