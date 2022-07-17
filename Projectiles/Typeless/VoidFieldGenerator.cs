@@ -11,7 +11,6 @@ namespace CalamityMod.Projectiles.Typeless
     public class VoidFieldGenerator : ModProjectile
     {
         public bool start = true;
-        int auratimer = 0;
         public BaseFusableParticleSet.FusableParticle voidaura;
 
         public override void SetStaticDefaults()
@@ -45,10 +44,9 @@ namespace CalamityMod.Projectiles.Typeless
             if (modPlayer.voidField)
                 Projectile.timeLeft = 2;
 
-            if (start)
+            if (Projectile.ai[1] == 0)
             {
                 SoundEngine.PlaySound(SoundID.Item20, Projectile.position);
-                start = false;
             }
 
             Vector2 vector = player.Center - Projectile.Center;
@@ -56,20 +54,18 @@ namespace CalamityMod.Projectiles.Typeless
             Projectile.Center = player.Center + new Vector2(300, 0).RotatedBy(Projectile.ai[1] + Projectile.ai[0] * MathHelper.PiOver2);
 
             Projectile.ai[1] += 0.01f;
-            if (Projectile.ai[1] >= 360D)
-                Projectile.ai[1] = 0;
 
             Projectile.velocity.X = (vector.X > 0f) ? -0.000001f : 0f;
 
             for (int k = 0; k < Main.projectile.Length; k++)
             {
                 var proj = Main.projectile[k];
-                if (proj.owner == Projectile.owner && proj.arrow && !proj.Calamity().nihilicArrow && proj.friendly && Vector2.Distance(proj.Center, Projectile.Center) < 65)
+                if (proj.active && proj.owner == Projectile.owner && proj.arrow && !proj.Calamity().nihilicArrow && proj.friendly && Vector2.Distance(proj.Center, Projectile.Center) < 65)
                 {
                     Main.projectile[k].damage = (int)(proj.damage * 1.2f);
                     proj.extraUpdates += 1;
                     Main.projectile[k].Calamity().nihilicArrow = true;
-                    //SoundEngine.PlaySound(SoundID.Item103, Projectile.Center);
+                    SoundEngine.PlaySound(SoundID.Item104 with { Volume = SoundID.Item104.Volume * 0.75f }, Projectile.Center);
 
                     for (int i = 0; i < 12; i++)
                     {
