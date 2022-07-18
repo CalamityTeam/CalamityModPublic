@@ -376,7 +376,8 @@ namespace CalamityMod.UI
                 {
                     if (Difficulties[i].Enabled)
                     {
-                        DisplayLocalizedText(Difficulties[i].DeactivationTextKey, Difficulties[i].ChatTextColor);
+                        if (Difficulties[i].DeactivationTextKey != "")
+                            DisplayLocalizedText(Difficulties[i].DeactivationTextKey, Difficulties[i].ChatTextColor);
                         Difficulties[i].Enabled = false;
                     }
                 }
@@ -405,7 +406,9 @@ namespace CalamityMod.UI
                 }
             }
 
-            DisplayLocalizedText(mode.ActivationTextKey, mode.ChatTextColor);
+            if (mode.ActivationTextKey != "")
+                DisplayLocalizedText(mode.ActivationTextKey, mode.ChatTextColor);
+
             mode.Enabled = true;
 
             SoundEngine.PlaySound(mode.ActivationSound);

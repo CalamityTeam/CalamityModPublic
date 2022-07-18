@@ -93,7 +93,14 @@ namespace CalamityMod.Systems
             tileEffects = null;
         }
 
-        public static bool AddPing(string effectName, Vector2 position, Player pinger) => AddPing(tileEffects[effectName], position, pinger);
+        public static bool AddPing(string effectName, Vector2 position, Player pinger)
+        {
+            if (!Main.dedServ) 
+                return AddPing(tileEffects[effectName], position, pinger);
+
+            return false;
+        }
+
         public static bool AddPing(IPingedTileEffect effect, Vector2 position, Player pinger) => effect.TryAddPing(position, pinger);
 
 
@@ -346,6 +353,9 @@ namespace CalamityMod.Systems
 
         public void Load(Mod mod)
         {
+            if (Main.dedServ)
+                return;
+
             TilePingerSystem.tileEffects.Add("WulfrumPing", this);
         }
 
