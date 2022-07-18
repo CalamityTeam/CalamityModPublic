@@ -30,7 +30,6 @@ namespace CalamityMod.NPCs.Crabulon
     public class Crabulon : ModNPC
     {
         private int biomeEnrageTimer = CalamityGlobalNPC.biomeEnrageTimerMax;
-        private int shotSpacing = 1000;
         private bool stomping = false;
 
         public override void SetStaticDefaults()
@@ -94,7 +93,6 @@ namespace CalamityMod.NPCs.Crabulon
         {
             writer.Write(biomeEnrageTimer);
             writer.Write(NPC.localAI[0]);
-            writer.Write(shotSpacing);
             writer.Write(stomping);
         }
 
@@ -102,7 +100,6 @@ namespace CalamityMod.NPCs.Crabulon
         {
             biomeEnrageTimer = reader.ReadInt32();
             NPC.localAI[0] = reader.ReadSingle();
-            shotSpacing = reader.ReadInt32();
             stomping = reader.ReadBoolean();
         }
 
@@ -156,7 +153,6 @@ namespace CalamityMod.NPCs.Crabulon
                         NPC.ai[1] = 0f;
                         NPC.ai[2] = 0f;
                         NPC.ai[3] = 0f;
-                        shotSpacing = 1000;
                         NPC.netUpdate = true;
                     }
                     return;
@@ -244,7 +240,7 @@ namespace CalamityMod.NPCs.Crabulon
                         num350 *= num351;
                         vector34.X += num349;
                         vector34.Y += num350;
-                        Projectile.NewProjectile(NPC.GetSource_FromAI(), vector34.X, vector34.Y, num349, num350 - 5f, type, NPC.GetProjectileDamage(type), 0f, Main.myPlayer, 0f, 0f);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), vector34.X, vector34.Y, num349, num350 - 5f, type, NPC.GetProjectileDamage(type), 0f, Main.myPlayer, 0f, player.Center.Y);
                     }
                 }
             }
@@ -469,27 +465,24 @@ namespace CalamityMod.NPCs.Crabulon
 
                     int type = ModContent.ProjectileType<MushBombFall>();
                     int damage = NPC.GetProjectileDamage(type);
-                    float velocityY = bossRush ? 8f : death ? 4f : 3f;
 
                     if (NPC.ai[2] % 2f == 0f && phase2 && revenge)
                     {
+                        SoundEngine.PlaySound(SoundID.Item42, NPC.position);
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
-                            float velocityX = NPC.ai[2] == 0f ? -4f : 4f;
-                            int totalMushrooms = bossRush ? 50 : 20;
-                            int shotSpacingDecrement = bossRush ? 80 : 100;
-                            if (bossRush)
-                                shotSpacing = 2000;
-
-                            for (int x = 0; x < totalMushrooms; x++)
+                            float projectileVelocity = BossRushEvent.BossRushActive ? 24f : CalamityWorld.death ? 12f : 10f;
+                            Vector2 destination = new Vector2(NPC.Center.X, NPC.Center.Y - 100f) - NPC.Center;
+                            destination.Normalize();
+                            destination *= projectileVelocity;
+                            int numProj = bossRush ? 48 : CalamityWorld.death ? 24 : 20;
+                            float rotation = MathHelper.ToRadians(90);
+                            for (int i = 0; i < numProj; i++)
                             {
-                                float randomVelocityX = velocityX + (Main.rand.NextFloat() - 0.5f) * 4f;
-                                float randomVelocityY = velocityY + (Main.rand.NextFloat() - 0.5f) * 4f;
-                                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X + shotSpacing, NPC.Center.Y - 1000f, randomVelocityX, randomVelocityY, type, damage, 0f, Main.myPlayer);
-                                shotSpacing -= shotSpacingDecrement;
+                                Vector2 perturbedSpeed = destination.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (float)(numProj - 1)));
+                                Vector2 randomVelocityVector = new Vector2((Main.rand.NextFloat() - 0.5f) * 4f, (Main.rand.NextFloat() - 0.5f) * 4f);
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, new Vector2(perturbedSpeed.X, -projectileVelocity) + randomVelocityVector, type, damage, 0f, Main.myPlayer, 0f, player.Center.Y);
                             }
-
-                            shotSpacing = bossRush ? 2000 : 1000;
                         }
                     }
 
@@ -497,15 +490,24 @@ namespace CalamityMod.NPCs.Crabulon
                     NPC.ai[2] += 1f;
                     if (NPC.ai[2] >= (phase2 ? 4f : 3f))
                     {
-                        if (Main.netMode != NetmodeID.MultiplayerClient && revenge && !phase2)
+                        if (revenge && !phase2)
                         {
-                            for (int x = 0; x < 20; x++)
+                            SoundEngine.PlaySound(SoundID.Item42, NPC.position);
+                            if (Main.netMode != NetmodeID.MultiplayerClient)
                             {
-                                float randomVelocityY = velocityY + (Main.rand.NextFloat() - 0.5f) * 4f;
-                                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X + shotSpacing, NPC.Center.Y - 1000f, 0f, randomVelocityY, type, damage, 0f, Main.myPlayer);
-                                shotSpacing -= 100;
+                                float projectileVelocity = BossRushEvent.BossRushActive ? 24f : CalamityWorld.death ? 12f : 10f;
+                                Vector2 destination = new Vector2(NPC.Center.X, NPC.Center.Y - 100f) - NPC.Center;
+                                destination.Normalize();
+                                destination *= projectileVelocity;
+                                int numProj = bossRush ? 30 : CalamityWorld.death ? 15 : 11;
+                                float rotation = MathHelper.ToRadians(60);
+                                for (int i = 0; i < numProj; i++)
+                                {
+                                    Vector2 perturbedSpeed = destination.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (float)(numProj - 1)));
+                                    Vector2 randomVelocityVector = new Vector2((Main.rand.NextFloat() - 0.5f) * 4f, (Main.rand.NextFloat() - 0.5f) * 4f);
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, new Vector2(perturbedSpeed.X, -projectileVelocity) + randomVelocityVector, type, damage, 0f, Main.myPlayer, 0f, player.Center.Y);
+                                }
                             }
-                            shotSpacing = 1000;
                         }
 
                         NPC.ai[0] = 0f;

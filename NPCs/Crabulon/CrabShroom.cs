@@ -132,7 +132,7 @@ namespace CalamityMod.NPCs.Crabulon
 
         public override void HitEffect(int hitDirection, double damage)
         {
-            for (int k = 0; k < 5; k++)
+            for (int k = 0; k < 3; k++)
             {
                 Dust.NewDust(NPC.position, NPC.width, NPC.height, 56, hitDirection, -1f, 0, default, 1f);
             }

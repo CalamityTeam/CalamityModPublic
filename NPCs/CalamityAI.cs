@@ -1163,9 +1163,9 @@ namespace CalamityMod.NPCs
             float lifeRatio = npc.life / (float)npc.lifeMax;
 
             // Phases
-            bool phase3 = lifeRatio < 0.7f || death;
-            bool phase4 = lifeRatio < 0.35f;
-            bool phase5 = lifeRatio <= 0.1f && revenge;
+            bool phase2 = lifeRatio < 0.7f || death;
+            bool phase3 = lifeRatio < 0.35f;
+            bool phase4 = lifeRatio <= 0.1f && death;
 
             // Don't take damage during bullet hells
             npc.dontTakeDamage = calamityGlobalNPC.newAI[2] > 0f;
@@ -1177,7 +1177,7 @@ namespace CalamityMod.NPCs
             CalamityGlobalNPC.calamitas = npc.whoAmI;
 
             // Seeker ring
-            if (calamityGlobalNPC.newAI[1] == 0f && phase4 && expertMode)
+            if (calamityGlobalNPC.newAI[1] == 0f && phase3 && expertMode)
             {
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
@@ -1312,7 +1312,7 @@ namespace CalamityMod.NPCs
             Vector2 rotationVector = npcCenter - lookAt;
 
             // Boss Rush predictive charge rotation
-            if (npc.ai[1] == 4f && phase5 && bossRush)
+            if (npc.ai[1] == 4f && phase4 && bossRush)
             {
                 // Velocity
                 float chargeVelocity = 30f;
@@ -1398,10 +1398,15 @@ namespace CalamityMod.NPCs
             float baseAcceleration = (expertMode ? 0.18f : 0.155f) * (npc.ai[1] == 4f ? 1.4f : 1f);
             baseVelocity += 4f * enrageScale;
             baseAcceleration += 0.1f * enrageScale;
+            if (revenge)
+            {
+                baseVelocity += 1.5f * (1f - lifeRatio);
+                baseAcceleration += 0.03f * (1f - lifeRatio);
+            }
             if (death)
             {
-                baseVelocity += 2f * (1f - lifeRatio);
-                baseAcceleration += 0.04f * (1f - lifeRatio);
+                baseVelocity += 1.5f * (1f - lifeRatio);
+                baseAcceleration += 0.03f * (1f - lifeRatio);
             }
             if (provy)
             {
@@ -1425,7 +1430,7 @@ namespace CalamityMod.NPCs
 
             // How far Cal Clone should be from the target
             float averageDistance = 500f;
-            float chargeDistance = phase5 ? 300f : 400f;
+            float chargeDistance = phase4 ? 300f : 400f;
 
             // This is where Cal Clone should be
             Vector2 destination = (calamityGlobalNPC.newAI[2] > 0f || npc.ai[1] == 0f) ? new Vector2(player.Center.X, player.Center.Y - averageDistance) :
@@ -1535,7 +1540,7 @@ namespace CalamityMod.NPCs
                     calamityGlobalNPC.newAI[3] = 0f;
 
                     // Prevent bullshit charge hits when second bullet hell ends.
-                    if (phase5)
+                    if (phase4)
                     {
                         npc.ai[1] = 4f;
                         npc.ai[2] = -105f;
@@ -1607,9 +1612,9 @@ namespace CalamityMod.NPCs
             {
                 npc.ai[2] += 1f;
                 float phaseTimer = 400f - (death ? 120f * (1f - lifeRatio) : 0f);
-                if (npc.ai[2] >= phaseTimer || phase5)
+                if (npc.ai[2] >= phaseTimer || phase4)
                 {
-                    if (death && !phase5 && Main.rand.NextBool() && !brotherAlive)
+                    if (death && !phase4 && Main.rand.NextBool() && !brotherAlive)
                         npc.ai[1] = 4f;
                     else
                         npc.ai[1] = 1f;
@@ -1691,12 +1696,12 @@ namespace CalamityMod.NPCs
 
                 npc.ai[2] += 1f;
                 float phaseTimer = 240f - (death ? 60f * (1f - lifeRatio) : 0f);
-                if (npc.ai[2] >= phaseTimer || phase5)
+                if (npc.ai[2] >= phaseTimer || phase4)
                 {
-                    if (death && !phase5 && Main.rand.NextBool() && !brotherAlive)
+                    if (death && !phase4 && Main.rand.NextBool() && !brotherAlive)
                         npc.ai[1] = 0f;
                     else
-                        npc.ai[1] = !brotherAlive && phase3 && revenge ? 4f : 0f;
+                        npc.ai[1] = !brotherAlive && phase2 && revenge ? 4f : 0f;
 
                     npc.ai[2] = 0f;
                     if (death)
@@ -1710,13 +1715,13 @@ namespace CalamityMod.NPCs
             {
                 npc.rotation = rotation;
 
-                float chargeVelocity = phase5 ? 30f : death ? 28f : 25f;
+                float chargeVelocity = phase4 ? 30f : death ? 28f : 25f;
                 chargeVelocity += 5f * enrageScale;
 
                 if (provy)
                     chargeVelocity *= 1.25f;
 
-                Vector2 vector = Vector2.Normalize(player.Center + (phase5 && bossRush ? player.velocity * 20f : Vector2.Zero) - npc.Center);
+                Vector2 vector = Vector2.Normalize(player.Center + (phase4 && bossRush ? player.velocity * 20f : Vector2.Zero) - npc.Center);
                 npc.velocity = vector * chargeVelocity;
 
                 npc.ai[1] = 3f;
@@ -1726,7 +1731,7 @@ namespace CalamityMod.NPCs
             {
                 npc.ai[2] += 1f;
 
-                float chargeTime = phase5 ? 35f : death ? 40f : 45f;
+                float chargeTime = phase4 ? 35f : death ? 40f : 45f;
                 if (npc.ai[2] >= chargeTime)
                 {
                     npc.velocity *= 0.9f;
@@ -1740,7 +1745,7 @@ namespace CalamityMod.NPCs
                     npc.rotation = (float)Math.Atan2(npc.velocity.Y, npc.velocity.X) - MathHelper.PiOver2;
 
                     // Leave behind slow hellblasts in Death Mode
-                    if (Main.netMode != NetmodeID.MultiplayerClient && death && phase4 && npc.ai[2] % (phase5 ? 6f : 10f) == 0f)
+                    if (Main.netMode != NetmodeID.MultiplayerClient && death && phase3 && npc.ai[2] % (phase4 ? 6f : 10f) == 0f)
                     {
                         int type = ModContent.ProjectileType<BrimstoneHellblast>();
                         int damage = npc.GetProjectileDamage(type);
@@ -1751,7 +1756,7 @@ namespace CalamityMod.NPCs
 
                 if (npc.ai[2] >= chargeTime + 10f)
                 {
-                    if (!phase5)
+                    if (!phase4)
                         npc.ai[3] += 1f;
 
                     npc.ai[2] = 0f;
@@ -1773,7 +1778,7 @@ namespace CalamityMod.NPCs
             else
             {
                 npc.ai[2] += 1f;
-                if (npc.ai[2] >= (phase5 ? 15f : 30f))
+                if (npc.ai[2] >= (phase4 ? 15f : 30f))
                 {
                     npc.TargetClosest();
 

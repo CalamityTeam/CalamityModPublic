@@ -409,7 +409,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                                 npcType = NPCID.RainbowSlime;
                         }
 
-                        if (Main.rand.NextBool(250))
+                        if (Main.rand.NextBool(100))
                             npcType = NPCID.Pinky;
 
                         int num255 = NPC.NewNPC(npc.GetSource_FromAI(), x, y, npcType);

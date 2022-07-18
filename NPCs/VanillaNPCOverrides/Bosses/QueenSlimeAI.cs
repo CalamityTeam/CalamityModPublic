@@ -481,7 +481,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                                     destination.Normalize();
                                     destination *= projectileVelocity;
                                     int numProj = 20;
-                                    float rotation = MathHelper.ToRadians(numProj * 5);
+                                    float rotation = MathHelper.ToRadians(100);
                                     for (int i = 0; i < numProj; i++)
                                     {
                                         Vector2 perturbedSpeed = destination.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (float)(numProj - 1)));
