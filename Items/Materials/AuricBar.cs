@@ -71,7 +71,7 @@ namespace CalamityMod.Items.Materials
         public override void AddRecipes()
         {
             CreateRecipe(5).
-                AddIngredient<AuricOre>(50).
+                AddIngredient<AuricOre>(60).
                 AddIngredient<YharonSoulFragment>().
                 AddTile<CosmicAnvil>().
                 Register();
