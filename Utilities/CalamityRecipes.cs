@@ -27,7 +27,7 @@ namespace CalamityMod
         public static int EvilPowder, Boss2Material, CursedFlameIchor, AnyEvilWater, AnyEvilFlask;
         public static int AnyStoneBlock, AnySnowBlock, AnyIceBlock, SiltGroup, AnyEvilBlock, AnyGoodBlock;
         public static int AnyWoodenSword, AnyZapinator, AnyHallowedHelmet, AnyHallowedPlatemail, AnyHallowedGreaves, LunarPickaxe, LunarHamaxe;
-        public static int ManaFlowersGroup, QuiversGroup, WingsGroup;
+        public static int ManaFlowersGroup, QuiversGroup, WingsGroup, TombstonesGroup;
 
         private static void ModifyVanillaRecipeGroups()
         {
@@ -443,6 +443,23 @@ namespace CalamityMod
                 ItemID.StalkersQuiver
             });
             QuiversGroup = RecipeGroup.RegisterGroup("QuiversGroup", group);
+
+            // Tombstones for Grave Grimreaver
+            group = new RecipeGroup(() => "Any Tombstone", new int[]
+            {
+                ItemID.Tombstone,
+                ItemID.GraveMarker,
+                ItemID.CrossGraveMarker,
+                ItemID.Headstone,
+                ItemID.Gravestone,
+                ItemID.Obelisk,
+                ItemID.RichGravestone1,
+                ItemID.RichGravestone2,
+                ItemID.RichGravestone3,
+                ItemID.RichGravestone4,
+                ItemID.RichGravestone5
+            });
+            QuiversGroup = RecipeGroup.RegisterGroup("TombstonesGroup", group);
 
             // Wings
             group = new RecipeGroup(() => "Any Wings", new int[]
