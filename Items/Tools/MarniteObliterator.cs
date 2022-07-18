@@ -2,24 +2,29 @@
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria;
+using Terraria.Audio;
 
 namespace CalamityMod.Items.Tools
 {
     public class MarniteObliterator : ModItem
     {
+        public static readonly SoundStyle UseSound = new("CalamityMod/Sounds/Item/MarniteObliteratorUse") { PitchVariance = 0.3f };
+
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 1;
             DisplayName.SetDefault("Marnite Obliterator");
+            Tooltip.SetDefault("It uses its diamond focus to project a long-range digging beam of light");
         }
 
         public override void SetDefaults()
         {
-            Item.damage = 13;
+            Item.damage = 7;
+            Item.ArmorPenetration = 5;
             Item.knockBack = 1f;
             Item.useTime = 6;
             Item.useAnimation = 25;
-            Item.pick = 45;
+            Item.pick = 50;
 
             Item.DamageType = TrueMeleeNoSpeedDamageClass.Instance;
             Item.width = 36;
@@ -46,6 +51,7 @@ namespace CalamityMod.Items.Tools
         public override void AddRecipes()
         {
             CreateRecipe().
+                AddRecipeGroup(ItemID.Diamond).
                 AddRecipeGroup("AnyGoldBar", 3).
                 AddIngredient(ItemID.Granite, 5).
                 AddIngredient(ItemID.Marble, 5).
