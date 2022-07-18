@@ -104,11 +104,11 @@ namespace CalamityMod.Projectiles.Magic
                 //Only spawn the aura once the jellies have fully stopped to prevent offcentered memes
                 if (Projectile.ai[1] == 110)
                 {
-                    BloomRing blom = new BloomRing(Projectile.Center, Vector2.Zero, Color.Aqua, Projectile.scale / 2, 40);
+                    BloomRing blom = new BloomRing(Projectile.Center, Vector2.Zero, Color.Aqua * 0.5f, Projectile.scale / 2, 40);
                     GeneralParticleHandler.SpawnParticle(blom);
                     blom.Position = Projectile.Center;
 
-                    Particle Bloom = new StrongBloom(Projectile.Center, Vector2.Zero, Color.Aqua * 0.6f, Projectile.scale * (1f + Main.rand.NextFloat(0f, 1.5f)) / 2, 40);
+                    Particle Bloom = new StrongBloom(Projectile.Center, Vector2.Zero, Color.Aqua * 0.3f, Projectile.scale * (1f + Main.rand.NextFloat(0f, 1.5f)) / 2, 40);
                     GeneralParticleHandler.SpawnParticle(Bloom);
                     Bloom.Position = Projectile.Center;
 

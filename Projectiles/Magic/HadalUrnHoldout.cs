@@ -10,7 +10,9 @@ namespace CalamityMod.Projectiles.Magic
     public class HadalUrnHoldout : ModProjectile
     {
         public static readonly SoundStyle UrnSound = new("CalamityMod/Sounds/Item/HadalUrnClose");
+
         public int manatimer = 0;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Hadal Urn");
@@ -60,7 +62,6 @@ namespace CalamityMod.Projectiles.Magic
                         Projectile.netUpdate = true;
                     }
                     Projectile.velocity = normalizedgoing * 0.55f;
-                    int projCount = 2;
 
                     if (Projectile.ai[0] <= 0)
                     {
@@ -68,13 +69,14 @@ namespace CalamityMod.Projectiles.Magic
                         if (manaCostPaid)
                         {
                             SoundEngine.PlaySound(SoundID.Item111, Projectile.position);
-                            for (int i = 0; i < projCount; ++i)
+                            int projcount = 3;
+                            for (int i = 0; i < projcount; ++i)
                             {
-                                int projType = Main.rand.Next(5);
+                                int projType = Main.rand.Next(6);
                                 int projDamage = Projectile.damage;
-                                int spreadfactor = 35; //Spread of the storm
+                                int spreadfactor = 45; //Spread of the storm
                                 int ai = 0; //Solely used for the jellyfish to make it hop quicker, otherwise 0
-                                float speedscale = 10f; //How fast the projectiles should move. This is modified for cerain projectile types
+                                float speedscale = 18f; //How fast the projectiles should move. This is modified for cerain projectile types
 
                                 switch (projType)
                                 {
@@ -86,17 +88,17 @@ namespace CalamityMod.Projectiles.Magic
                                     case 3:
                                         projType = ModContent.ProjectileType<HadalUrnStarfish>();
                                         break;
-                                    //Jellyfish clog up the screen in higher numbers, so they have a smaller chance of appearing
-                                    //The chance is instead replaced with another abyssal isopod since they're arguably the weakest projectile
+                                    //Jellyfish and Isopods clog up the screen in higher numbers, so they have half the chance to appear
                                     case 4:
                                         projType = ModContent.ProjectileType<HadalUrnJellyfish>();
                                         speedscale = speedscale * 0.5f;
                                         ai = 30; //Initial "hop" is performed quicker than subsequent hops
                                         break;
-                                    /*default:
+                                    default:
                                         projType = ModContent.ProjectileType<HadalUrnIsopod>();
-                                        speedscale = speedscale * 1.5f; //Donor requested these be faster than other projectiles
-                                        break;*/
+                                        projDamage = (int)(projDamage * 1.5f);
+                                        speedscale = speedscale * 1.5f;
+                                        break;
                                 }
                                 Vector2 shotSpeed = Vector2.Normalize(Projectile.velocity) * speedscale;
                                 shotSpeed.X = shotSpeed.X + (float)Main.rand.Next(-spreadfactor, spreadfactor + 1) * 0.05f;
@@ -107,7 +109,7 @@ namespace CalamityMod.Projectiles.Magic
                                 }
                                 Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, shotSpeed, projType, projDamage, Projectile.knockBack, player.whoAmI, ai);
                             }
-                            Projectile.ai[0] = 16f;
+                            Projectile.ai[0] = 12;
                         }
                         else
                         {
