@@ -105,10 +105,10 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             CreateRecipe().
                 AddIngredient(ItemID.DeathSickle).
-                AddIngredient<DarksunFragment>(15).
-                AddIngredient<NightmareFuel>(15).
-                AddIngredient<CosmiliteBar>(8).
-                AddTile<CosmicAnvil>().
+                AddIngredient<RuinousSoul>(4).
+                AddIngredient<TwistingNether>(1).
+                AddIngredient(ItemID.SoulofNight, 15).
+                AddTile(TileID.LunarCraftingStation).
                 Register();
         }
     }
