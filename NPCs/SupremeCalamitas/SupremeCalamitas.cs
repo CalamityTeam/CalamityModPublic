@@ -162,6 +162,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         public static readonly SoundStyle BrimstoneBigShotSound = new("CalamityMod/Sounds/Custom/SCalSounds/BrimstoneBigShoot"); // DON'T YOU WANNA BE A [BIG SHOT]
         public static readonly SoundStyle DashSound = new("CalamityMod/Sounds/Custom/SCalSounds/SCalDash");
         public static readonly SoundStyle HellblastSound = new("CalamityMod/Sounds/Custom/SCalSounds/BrimstoneHellblastSound");
+        public static readonly SoundStyle HurtSound = new("CalamityMod/Sounds/NPCHit/ShieldHit", 3);
 
         // TODO -- This is cumbersome. Change it to be better in 1.4.
         internal static void LoadHeadIcons()
@@ -218,7 +219,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             NPC.canGhostHeal = false;
             NPC.noGravity = true;
             NPC.noTileCollide = true;
-            NPC.HitSound = SoundID.NPCHit1;
             Music = CalamityMod.Instance.GetMusicFromMusicMod("SupremeCalamitas1") ?? MusicID.Boss2;
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToCold = true;
@@ -2826,6 +2826,13 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             {
                 hitTimer = 35;
                 NPC.netUpdate = true;
+            }
+
+            // hit sound
+            if (NPC.soundDelay == 0)
+            {
+                NPC.soundDelay = Main.rand.Next(5, 8);
+                SoundEngine.PlaySound(HurtSound, NPC.Center);
             }
 
             for (int k = 0; k < 5; k++)
