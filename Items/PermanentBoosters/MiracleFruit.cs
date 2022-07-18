@@ -4,6 +4,8 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace CalamityMod.Items.PermanentBoosters
 {
@@ -61,6 +63,14 @@ namespace CalamityMod.Items.PermanentBoosters
                 modPlayer.mFruit = true;
             }
             return true;
+        }
+
+        public override void ModifyTooltips(List<TooltipLine> list)
+        {
+            TooltipLine line = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip2");
+
+            if (line != null && Main.LocalPlayer.Calamity().mFruit)
+                line.Text = "[c/8a8a8a:You have already consumed this item]";
         }
 
         public override void AddRecipes()
