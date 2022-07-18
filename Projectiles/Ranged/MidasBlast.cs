@@ -238,7 +238,7 @@ namespace CalamityMod.Projectiles.Ranged
                         for (int i = 0; i < Main.maxProjectiles; i++)
                         {
                             Projectile checkedProj = Main.projectile[i];
-                            if (checkedProj.type == ProjectileType<SpiritOriginBullseye>() && checkedProj.active && checkedProj.owner == Projectile.owner && checkedProj.ai[0] = target.whoAmI)
+                            if (checkedProj.type == ProjectileType<SpiritOriginBullseye>() && checkedProj.active && checkedProj.owner == Projectile.owner && (int)checkedProj.ai[0] == target.whoAmI)
                             {
                                 redirectionTarget = checkedProj.Center;
                                 break;
