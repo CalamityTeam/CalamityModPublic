@@ -287,7 +287,7 @@ namespace CalamityMod.Items.Armor.Wulfrum
         {
             SacrificeTotal = 1;
             DisplayName.SetDefault("Wulfrum Jacket");
-            Tooltip.SetDefault("3% increased critical strike chance");
+            Tooltip.SetDefault("Slightly increased life regeneration");
 
             if (Main.netMode != NetmodeID.Server)
             {
@@ -308,7 +308,7 @@ namespace CalamityMod.Items.Armor.Wulfrum
 
         public override void ModifyTooltips(List<TooltipLine> tooltips) => WulfrumHat.ModifySetTooltips(this, tooltips);
 
-        public override void UpdateEquip(Player player) => player.GetCritChance<GenericDamageClass>() += 3;
+        public override void UpdateEquip(Player player) => player.lifeRegen += 1;
 
         public override void AddRecipes()
         {
