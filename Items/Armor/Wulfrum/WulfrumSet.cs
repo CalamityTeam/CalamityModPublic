@@ -90,7 +90,16 @@ namespace CalamityMod.Items.Armor.Wulfrum
             if (keyDir == 0 && HasArmorSet(player) && !player.mount.Active)
             {
                 //Only activate if no cooldown & available scrap.
-                if (!player.Calamity().cooldowns.TryGetValue(WulfrumBastion.ID, out CooldownInstance cd) && player.HasItem(ModContent.ItemType<WulfrumMetalScrap>()))
+                if (player.Calamity().cooldowns.TryGetValue(WulfrumBastion.ID, out CooldownInstance cd))
+                {
+                    if (cd.timeLeft > BastionCooldown && cd.timeLeft < BastionCooldown + BastionTime - 60 * 3)
+                    {
+                        cd.timeLeft = BastionCooldown + 1;
+                        player.Calamity().SyncCooldownDictionary(false);
+                    }
+                }
+
+                else if (player.HasItem(ModContent.ItemType<WulfrumMetalScrap>()))
                 {
                     player.ConsumeItem(ModContent.ItemType<WulfrumMetalScrap>());
                     //I Thiiiinnnk there's no need to add mp syncing packets sicne cooldowns get auto synced right.
