@@ -14,6 +14,7 @@ using Terraria.ID;
 using ReLogic.Content;
 using Terraria.Audio;
 using Terraria.ModLoader.IO;
+using CalamityMod.Items.Armor.Demonshade;
 
 namespace CalamityMod.Systems
 {
@@ -28,7 +29,7 @@ namespace CalamityMod.Systems
         public override void Load()
         {
             MostAlternateDifficulties = 1;
-            Difficulties = new DifficultyMode[] { new NoDifficulty(), new RevengeanceDifficulty(), new DeathDifficulty()};
+            Difficulties = new DifficultyMode[] { new NoDifficulty(), new RevengeanceDifficulty(), new DeathDifficulty(), new WhereMalice()};
 
             //All of this should happen after a hook happens which lets other mods add their own difficulties
             Difficulties = Difficulties.OrderBy(d => d.DifficultyScale).ToArray();
@@ -83,8 +84,8 @@ namespace CalamityMod.Systems
 
         public override void SaveWorldData(TagCompound tag)
         {
-            //Always save it as true
-             tag["hasCheckedOutTheCoolDifficultyUI"] = true;
+            //Apparently this is ran after worldgen so it cant always be set to true
+             tag["hasCheckedOutTheCoolDifficultyUI"] = _hasCheckedItOutYet;
         }
 
         public override void OnWorldLoad()
@@ -93,6 +94,11 @@ namespace CalamityMod.Systems
         }
 
         public override void OnWorldUnload()
+        {
+            _hasCheckedItOutYet = false;
+        }
+
+        public override void PostWorldGen()
         {
             _hasCheckedItOutYet = false;
         }
@@ -269,7 +275,7 @@ namespace CalamityMod.Systems
             ActivationTextKey = "Mods.CalamityMod.DeathText";
             DeactivationTextKey = "Mods.CalamityMod.DeathText2";
 
-            ActivationSound = SoundID.ScaryScream;
+            ActivationSound = DemonshadeHelm.ActivationSound;
 
             ChatTextColor = Color.MediumOrchid;
         }
@@ -285,6 +291,49 @@ namespace CalamityMod.Systems
             }
 
             return 0;
+        }
+    }
+
+    public class WhereMalice : DifficultyMode
+    {
+        public override bool Enabled
+        {
+            get => false;
+            set { }
+        }
+
+        private Asset<Texture2D> _texture;
+        public override Asset<Texture2D> Texture
+        {
+            get
+            {
+                if (_texture == null)
+                    _texture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/ModeIndicator_WhereMalice");
+
+                return _texture;
+            }
+        }
+
+        public override string ExpandedDescription
+        {
+            get
+            {
+                return "[c/B4B4B4:WIP.]";
+            }
+        }
+
+        public WhereMalice()
+        {
+            DifficultyScale = 1000000f;
+            Name = "Where's Malice?";
+            ShortDescription = "[c/E8E8E8:We regret to inform you that Malice mode has been removed.]";
+
+            ActivationTextKey = "";
+            DeactivationTextKey = "";
+
+            ActivationSound = SoundID.MenuTick;
+
+            ChatTextColor = Color.Gold;
         }
     }
 }
