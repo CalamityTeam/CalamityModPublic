@@ -978,7 +978,7 @@ namespace CalamityMod.Projectiles
 
                 else if (projectile.type == ProjectileID.QueenSlimeGelAttack)
                 {
-                    // Phase 1 and 2 projectiles do not bounce and phase 2 projectiles do not have gravity.
+                    // Phase 1 and 2 projectiles do not bounce and do not have gravity.
                     if (projectile.ai[1] == -2f)
                     {
                         if (projectile.alpha == 0 && Main.rand.Next(3) == 0)

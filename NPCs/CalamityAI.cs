@@ -403,12 +403,12 @@ namespace CalamityMod.NPCs
 
                 if (calamityGlobalNPC.newAI[0] == 1f)
                 {
-                    num188 = revenge ? 9f : 7f;
-                    num189 = revenge ? 0.12f : 0.1f;
+                    num188 = revenge ? 14.4f : 12f;
+                    num189 = revenge ? 0.18f : 0.15f;
                     if (expertMode)
                     {
-                        num188 += 8f * (1f - lifeRatio);
-                        num189 += 0.06f * (1f - lifeRatio);
+                        num188 += 2.4f * (1f - lifeRatio);
+                        num189 += 0.03f * (1f - lifeRatio);
                     }
                     num188 += 3f * enrageScale;
                     num189 += 0.06f * enrageScale;
@@ -416,8 +416,8 @@ namespace CalamityMod.NPCs
                     {
                         num188 += 5f;
                         num189 -= 0.03f;
-                        num188 += Vector2.Distance(player.Center, npc.Center) * 0.0015f;
-                        num189 += Vector2.Distance(player.Center, npc.Center) * 0.00003f;
+                        num188 += Vector2.Distance(player.Center, npc.Center) * 0.001f;
+                        num189 += Vector2.Distance(player.Center, npc.Center) * 0.000045f;
                     }
 
                     // Increase acceleration after spiral attack
