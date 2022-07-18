@@ -1,6 +1,7 @@
 ﻿using CalamityMod.Projectiles.Melee;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria;
 
 namespace CalamityMod.Items.Tools
 {
@@ -18,8 +19,7 @@ namespace CalamityMod.Items.Tools
             Item.knockBack = 1f;
             Item.useTime = 6;
             Item.useAnimation = 25;
-            Item.pick = 50;
-            Item.axe = 30 / 5;
+            Item.pick = 45;
 
             Item.DamageType = TrueMeleeNoSpeedDamageClass.Instance;
             Item.width = 36;
@@ -34,7 +34,14 @@ namespace CalamityMod.Items.Tools
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<MarniteObliteratorProj>();
             Item.shootSpeed = 40f;
+            Item.tileBoost = 7;
         }
+
+        public override void HoldItem(Player player)
+        {
+            player.Calamity().mouseWorldListener = true;
+        }
+
 
         public override void AddRecipes()
         {
