@@ -74,33 +74,36 @@ namespace CalamityMod.Projectiles.Melee
 
             else if (MoveInIntervals <= 0f)
             {
-                Vector2 newVelocity = Owner.Calamity().mouseWorld - Owner.MountedCenter;
-
-                if (Main.tile[Player.tileTargetX, Player.tileTargetY].HasTile)
+                if (Main.myPlayer == Projectile.owner)
                 {
-                    newVelocity = new Vector2(Player.tileTargetX, Player.tileTargetY) * 16f + Vector2.One * 8f - Owner.MountedCenter;
-                    MoveInIntervals = 2f;
+                    Vector2 newVelocity = Owner.Calamity().mouseWorld - Owner.MountedCenter;
+
+                    if (Main.tile[Player.tileTargetX, Player.tileTargetY].HasTile)
+                    {
+                        newVelocity = new Vector2(Player.tileTargetX, Player.tileTargetY) * 16f + Vector2.One * 8f - Owner.MountedCenter;
+                        MoveInIntervals = 2f;
+                    }
+
+                    newVelocity = Vector2.Lerp(newVelocity, Projectile.velocity, 0.7f);
+                    if (float.IsNaN(newVelocity.X) || float.IsNaN(newVelocity.Y))
+                        newVelocity = -Vector2.UnitY;
+
+                    if (newVelocity.Length() < 50f)
+                        newVelocity = newVelocity.SafeNormalize(-Vector2.UnitY) * 50f;
+
+                    //Tile reach is a fucking square in terraria. Can you believe that?
+                    int tileBoost = Owner.inventory[Owner.selectedItem].tileBoost;
+                    int fullRangeX = (Player.tileRangeX + tileBoost - 1) * 16 + 11; //Why are those 2 separate variables? Whatever
+                    int fullRangeY = (Player.tileRangeY + tileBoost - 1) * 16 + 11;
+
+                    newVelocity.X = Math.Clamp(newVelocity.X, -fullRangeX, fullRangeX);
+                    newVelocity.Y = Math.Clamp(newVelocity.Y, -fullRangeY, fullRangeY);
+
+                    if (newVelocity != Projectile.velocity)
+                        Projectile.netUpdate = true;
+
+                    Projectile.velocity = newVelocity;
                 }
-
-                newVelocity = Vector2.Lerp(newVelocity, Projectile.velocity, 0.7f);
-                if (float.IsNaN(newVelocity.X) || float.IsNaN(newVelocity.Y))
-                    newVelocity = -Vector2.UnitY;
-
-                if (newVelocity.Length() < 50f)
-                    newVelocity = newVelocity.SafeNormalize(-Vector2.UnitY) * 50f;
-
-                //Tile reach is a fucking square in terraria. Can you believe that?
-                int tileBoost = Owner.inventory[Owner.selectedItem].tileBoost;
-                int fullRangeX = (Player.tileRangeX + tileBoost - 1) * 16 + 11; //Why are those 2 separate variables? Whatever
-                int fullRangeY = (Player.tileRangeY + tileBoost - 1) * 16 + 11;
-
-                newVelocity.X = Math.Clamp(newVelocity.X, -fullRangeX, fullRangeX);
-                newVelocity.Y = Math.Clamp(newVelocity.Y, -fullRangeY, fullRangeY);
-
-                if (newVelocity != Projectile.velocity)
-                    Projectile.netUpdate = true;
-
-                Projectile.velocity = newVelocity;
             }
 
             //Projectile.spriteDirection = Math.Sign(Projectile.velocity.X);

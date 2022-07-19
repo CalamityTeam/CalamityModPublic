@@ -1,32 +1,17 @@
-﻿using CalamityMod.Items.Materials;
-using Terraria;
-using Terraria.ID;
-using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-using Terraria.DataStructures;
-using CalamityMod.Items.Accessories.Vanity;
-using CalamityMod.Cooldowns;
-using CalamityMod.Projectiles.Magic;
-using Terraria.Audio;
-using ReLogic.Content;
-using Microsoft.Xna.Framework.Graphics;
-using System.Linq;
-using CalamityMod.Items.Materials;
-using CalamityMod.Projectiles.Magic;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using ReLogic.Content;
-using Terraria;
-using Terraria.Audio;
-using Terraria.ID;
-using Terraria.ModLoader;
-using static CalamityMod.CalamityUtils;
-using static Terraria.ModLoader.ModContent;
-using static Microsoft.Xna.Framework.Input.Keys;
-using System;
-using CalamityMod.Items.BaseItems;
+﻿using System;
 using System.Collections.Generic;
+using CalamityMod.Cooldowns;
+using CalamityMod.Items.Accessories.Vanity;
+using CalamityMod.Items.Materials;
 using CalamityMod.Particles;
+using Microsoft.Xna.Framework;
+using Terraria;
+using Terraria.Audio;
+using Terraria.DataStructures;
+using Terraria.ID;
+using Terraria.ModLoader;
+using static Microsoft.Xna.Framework.Input.Keys;
+using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod.Items.Armor.Wulfrum
 {
@@ -252,7 +237,6 @@ namespace CalamityMod.Items.Armor.Wulfrum
 
             }
         }
-
         public override void ModifyTooltips(List<TooltipLine> tooltips) => ModifySetTooltips(this, tooltips);
 
         public override void UpdateEquip(Player player)

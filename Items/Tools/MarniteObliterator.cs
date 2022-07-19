@@ -51,7 +51,7 @@ namespace CalamityMod.Items.Tools
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddRecipeGroup(ItemID.Diamond).
+                AddIngredient(ItemID.Diamond).
                 AddRecipeGroup("AnyGoldBar", 3).
                 AddIngredient(ItemID.Granite, 5).
                 AddIngredient(ItemID.Marble, 5).
