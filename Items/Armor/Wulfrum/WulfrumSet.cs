@@ -167,6 +167,11 @@ namespace CalamityMod.Items.Armor.Wulfrum
                     ActivationEffects(player);
                 }
 
+                //Stats
+                player.statDefense += 13;
+                player.endurance += 0.05f; //10% Dr in total with the chestplate
+
+
                 //Can't account for previous fullbody transformations but at this point, whatever.
                 Item headItem = player.armor[10].type != 0 ? player.armor[10] : player.armor[0];
                 bool hatVisible = !transformationPlayer.transformationActive && headItem.type == ItemType<WulfrumHat>();
@@ -178,12 +183,13 @@ namespace CalamityMod.Items.Armor.Wulfrum
                     GeneralParticleHandler.SpawnParticle(leftoverHat);
                 }
 
+                //Visuals
                 if (cd.timeLeft < BastionCooldown + BastionTime - BastionBuildTime)
                     player.GetModPlayer<WulfrumTransformationPlayer>().transformationActive = true;
                 else if (cd.timeLeft <= BastionCooldown + BastionTime - (int)(BastionBuildTime * 0.9f))
                     player.GetModPlayer<WulfrumTransformationPlayer>().forceHelmetOn = true;
 
-                player.statDefense += 13;
+
                 //Drop the player's held item if they were holding something before
                 if (!(Main.mouseItem.type == DummyCannon.type) && !Main.mouseItem.IsAir)
                     Main.LocalPlayer.QuickSpawnClonedItem(null, Main.mouseItem, Main.mouseItem.stack);
@@ -287,7 +293,7 @@ namespace CalamityMod.Items.Armor.Wulfrum
         {
             SacrificeTotal = 1;
             DisplayName.SetDefault("Wulfrum Jacket");
-            Tooltip.SetDefault("Slightly increased life regeneration");
+            Tooltip.SetDefault("5% increased damage reduction"); //Increases to 10 with the wulfrum bastion active
 
             if (Main.netMode != NetmodeID.Server)
             {
@@ -308,7 +314,7 @@ namespace CalamityMod.Items.Armor.Wulfrum
 
         public override void ModifyTooltips(List<TooltipLine> tooltips) => WulfrumHat.ModifySetTooltips(this, tooltips);
 
-        public override void UpdateEquip(Player player) => player.lifeRegen += 1;
+        public override void UpdateEquip(Player player) => player.endurance += 0.05f;
 
         public override void AddRecipes()
         {
