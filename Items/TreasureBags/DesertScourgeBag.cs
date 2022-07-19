@@ -49,7 +49,7 @@ namespace CalamityMod.Items.TreasureBags
             var s = player.GetSource_OpenItem(Item.type);
 
             // Materials
-            DropHelper.DropItem(s, player, ModContent.ItemType<VictoryShard>(), 30, 40);
+            DropHelper.DropItem(s, player, ModContent.ItemType<PearlShard>(), 30, 40);
             DropHelper.DropItem(s, player, ItemID.Coral, 30, 40);
             DropHelper.DropItem(s, player, ItemID.Seashell, 30, 40);
             DropHelper.DropItem(s, player, ItemID.Starfish, 30, 40);

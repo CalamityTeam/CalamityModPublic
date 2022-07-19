@@ -1672,7 +1672,7 @@ namespace CalamityMod
                 ItemType<KnowledgeSulphurSea>(),
                 ItemType<KnowledgeOcean>(),
                 ItemType<KnowledgeOldDuke>(),
-                ItemType<VictoryShard>(),
+                ItemType<PearlShard>(),
                 ItemType<AeroStone>(),
                 ItemType<TheCommunity>(),
                 ItemType<DukesDecapitator>(),
