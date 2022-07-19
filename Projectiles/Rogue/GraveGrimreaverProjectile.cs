@@ -1,5 +1,5 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -20,13 +20,13 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetDefaults()
         {
-            Projectile.width = 70;
-            Projectile.height = 70;
+            Projectile.width = 80;
+            Projectile.height = 80;
             Projectile.friendly = true;
             Projectile.tileCollide = false;
             Projectile.ignoreWater = true;
             Projectile.penetrate = 1;
-            Projectile.timeLeft = 299;
+            Projectile.timeLeft = 310;
             Projectile.DamageType = RogueDamageClass.Instance;
         }
 
@@ -45,7 +45,7 @@ namespace CalamityMod.Projectiles.Rogue
 
             CalamityUtils.HomeInOnNPC(Projectile, true, 250f, 4f, 14f);
 
-            Projectile.rotation += 0.07f;
+            Projectile.rotation += 0.1f * Projectile.spriteDirection;
         }
 
         public override bool PreDraw(ref Color lightColor)
@@ -69,13 +69,18 @@ namespace CalamityMod.Projectiles.Rogue
             SoundEngine.PlaySound(SoundID.Item20, Projectile.position);
             if (Projectile.Calamity().stealthStrike)
             {
-                SpawnBats(20, 10, 30); //"At least 20"...
+                SoundEngine.PlaySound(SoundID.NPCDeath52 with { Volume = SoundID.NPCDeath52.Volume * 0.75f }, Projectile.Center);
+                SpawnBats(20, -12, 12); //"At least 20"...
+                DustExplosion(15, 6, 12, 30, 2.4f);
                 for (int i = 0; i < 10; i++)
-                CalamityUtils.ProjectileRain(Projectile.GetSource_FromThis(), Projectile.Center, 400f, 100f, 500f, 800f, 20, ModContent.ProjectileType<GrimreaverSkull>(), (int)(Projectile.damage * 0.75f), 3f, Projectile.owner);
+                {
+                    CalamityUtils.ProjectileRain(Projectile.GetSource_FromThis(), Projectile.Center, 600f, 100f, 700f, 1000f, 20, ModContent.ProjectileType<GrimreaverSkull>(), (int)(Projectile.damage * 0.75f), 3f, Projectile.owner);
+                }
             }
             else
             {
-                SpawnBats(4, 30, 60);
+                SpawnBats(4, -12, 12);
+                DustExplosion(10, 3, 9, 20, 2.15f);
             }
         }
 
@@ -85,10 +90,32 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 for (int i = 0; i < amount; i++)
                 {
-                    float rotation = MathHelper.ToRadians(Main.rand.Next(minspread, maxspread));
-                    Vector2 perturbedSpeed = Projectile.velocity.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (amount - 1))) * 2;
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, perturbedSpeed, ModContent.ProjectileType<GrimreaverBat>(), (int)(Projectile.damage * 0.25f), 0f, Projectile.owner);
+                    Vector2 speed = new Vector2(Main.rand.NextFloat(minspread, maxspread), Main.rand.NextFloat(minspread, maxspread));
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, speed, ModContent.ProjectileType<GrimreaverBat>(), (int)(Projectile.damage * 0.25f), 0f, Projectile.owner, 4);
                 }
+            }
+        }
+
+        public void DustExplosion(int spreadspeed, int minspeed, int maxspeed, int amount, float size)
+        {
+            for (int i = 0; i < amount; i++)
+            {
+                float num463 = (float)Main.rand.Next(-spreadspeed, spreadspeed + 1);
+                float num464 = (float)Main.rand.Next(-spreadspeed, spreadspeed + 1);
+                float num465 = (float)Main.rand.Next(minspeed, maxspeed);
+                float num466 = (float)Math.Sqrt((double)(num463 * num463 + num464 * num464));
+                num466 = num465 / num466;
+                num463 *= num466;
+                num464 *= num466;
+                int d = Dust.NewDust(Projectile.Center, Projectile.width, Projectile.height, 75, 0, 0, 0, default, size);
+                Dust dust = Main.dust[d];
+                dust.noGravity = true;
+                dust.position.X = Projectile.Center.X;
+                dust.position.Y = Projectile.Center.Y;
+                dust.position.X += (float)Main.rand.Next(-spreadspeed, spreadspeed + 1);
+                dust.position.Y += (float)Main.rand.Next(-spreadspeed, spreadspeed + 1);
+                dust.velocity.X = num463;
+                dust.velocity.Y = num464;
             }
         }
     }

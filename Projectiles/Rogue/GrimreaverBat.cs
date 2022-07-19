@@ -19,7 +19,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.height = 20;
             Projectile.friendly = true;
             Projectile.DamageType = RogueDamageClass.Instance;
-            Projectile.penetrate = 3;
+            Projectile.penetrate = 2;
             Projectile.timeLeft = 300;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 10;
@@ -35,6 +35,13 @@ namespace CalamityMod.Projectiles.Rogue
             }
             if (Projectile.frame >= Main.projFrames[Projectile.type])
                 Projectile.frame = 0;
+
+            Projectile.spriteDirection = Projectile.direction = (Projectile.velocity.X > 0).ToDirectionInt();
+
+            if (Projectile.ai[0] <= 0)
+            {
+                Projectile.Kill();
+            }
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
@@ -47,6 +54,7 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 Projectile.velocity.Y = -oldVelocity.Y;
             }
+            Projectile.ai[0]--;
             return false;
         }
     }

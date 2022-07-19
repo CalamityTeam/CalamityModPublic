@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -17,8 +18,8 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetDefaults()
         {
-            Projectile.width = 20;
-            Projectile.height = 20;
+            Projectile.width = 40;
+            Projectile.height = 40;
             Projectile.friendly = true;
             Projectile.DamageType = RogueDamageClass.Instance;
             Projectile.penetrate = 1;
@@ -36,17 +37,18 @@ namespace CalamityMod.Projectiles.Rogue
             if (Projectile.frame >= Main.projFrames[Projectile.type])
                 Projectile.frame = 0;
 
+            Projectile.spriteDirection = Projectile.direction = (Projectile.velocity.X > 0).ToDirectionInt();
             Projectile.rotation = Projectile.velocity.ToRotation() + (Projectile.spriteDirection == 1 ? 0f : MathHelper.Pi);
 
             Projectile.ai[1]++;
 
             if (Projectile.ai[0] == 0)
             {
-                CalamityUtils.HomeInOnNPC(Projectile, true, 600f, 18f, 14f);
+                CalamityUtils.HomeInOnNPC(Projectile, true, 600f, 16f, 14f);
             }
             else if (Projectile.ai[1] > 20)
             {
-                CalamityUtils.HomeInOnNPC(Projectile, true, 600f, 14f, 14f);
+                CalamityUtils.HomeInOnNPC(Projectile, true, 600f, 12f, 14f);
             }
         }
 
