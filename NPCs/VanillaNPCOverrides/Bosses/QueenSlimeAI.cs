@@ -24,8 +24,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             float num3 = 1f;
             bool flag = false;
             bool phase2 = lifeRatio <= 0.5f;
-            bool phase3 = lifeRatio <= 0.35f;
-            bool phase4 = lifeRatio <= 0.15f;
+            bool phase3 = lifeRatio <= 0.4f;
+            bool phase4 = lifeRatio <= 0.2f;
 
             // Reset damage
             npc.damage = npc.defDamage;
@@ -481,7 +481,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                                     destination.Normalize();
                                     destination *= projectileVelocity;
                                     int numProj = 20;
-                                    float rotation = MathHelper.ToRadians(numProj * 5);
+                                    float rotation = MathHelper.ToRadians(100);
                                     for (int i = 0; i < numProj; i++)
                                     {
                                         Vector2 perturbedSpeed = destination.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (float)(numProj - 1)));
@@ -664,7 +664,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                                 {
                                     Vector2 spinningpoint = new Vector2(projectileVelocity, 0f);
                                     spinningpoint = spinningpoint.RotatedBy((-j) * ((float)Math.PI * 2f) / numGelProjectiles, Vector2.Zero);
-                                    Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center, spinningpoint, type, damage, 0f, Main.myPlayer, 0f, -1f);
+                                    int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center, spinningpoint, type, damage, 0f, Main.myPlayer, 0f, -2f);
+                                    Main.projectile[proj].timeLeft = 900;
                                 }
                             }
 
@@ -681,9 +682,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             foreach (int t in targets)
                             {
                                 Vector2 velocity2 = Vector2.Normalize(Main.player[t].Center - npc.Center) * projectileVelocity;
-                                int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center, velocity2, type, damage, 0f, Main.myPlayer, 0f, phase2 ? -2f : -1f);
-                                if (phase2)
-                                    Main.projectile[proj].timeLeft = 900;
+                                int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center, velocity2, type, damage, 0f, Main.myPlayer, 0f, -2f);
+                                Main.projectile[proj].timeLeft = 900;
                             }
                         }
 
@@ -771,7 +771,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 npc.netUpdate = true;
             }
 
-            int num28 = (int)(npc.lifeMax * 0.04f);
+            int num28 = (int)(npc.lifeMax * (phase3 ? 0.04f : phase2 ? 0.03f : 0.025f));
             if (!((npc.life + num28) < npc.localAI[0]))
                 return false;
 

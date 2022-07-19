@@ -790,7 +790,7 @@ namespace CalamityMod.NPCs.Signus
                 normalOnly.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, weapons));
 
                 // Materials
-                normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<TwistingNether>(), 1, 2, 3));
+                normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<TwistingNether>(), 1, 5, 7));
 
                 // Equipment
                 normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<SpectralVeil>()));
@@ -851,7 +851,7 @@ namespace CalamityMod.NPCs.Signus
                 }
                 if (Main.netMode != NetmodeID.Server)
                 {
-                    float randomSpread = Main.rand.Next(-200, 200) / 100;
+                    float randomSpread = Main.rand.Next(-200, 201) / 100f;
                     Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * randomSpread, Mod.Find<ModGore>("Signus").Type, 1f);
                     Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * randomSpread, Mod.Find<ModGore>("Signus2").Type, 1f);
                     Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * randomSpread, Mod.Find<ModGore>("Signus3").Type, 1f);

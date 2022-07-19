@@ -29,6 +29,34 @@ namespace CalamityMod.NPCs
 {
     public partial class CalamityGlobalNPC : GlobalNPC
     {
+        public static float TaxYieldFactor
+        {
+            get
+            {
+                // Max of 20 platinum.
+                if (DownedBossSystem.downedYharon)
+                    return 40f;
+
+                // Max of 10 platinum.
+                if (DownedBossSystem.downedDoG)
+                    return 20f;
+
+                // Max of 5 platinum.
+                if (NPC.downedMoonlord)
+                    return 10f;
+
+                // Max of 2 platinum.
+                if (NPC.downedPlantBoss)
+                    return 4f;
+
+                return 1f;
+            }
+        }
+
+        public static int TotalTaxesPerNPC => (int)(Item.buyPrice(0, 0, 1, 50) * TaxYieldFactor);
+
+        public static int TaxesToCollectLimit => (int)(Item.buyPrice(0, 50, 0, 0) * TaxYieldFactor);
+
         #region Town NPC Patreon Name Sets
         private const int AnglerVanillaNames = 22;
         private static readonly string[] AnglerNames =
@@ -905,7 +933,7 @@ namespace CalamityMod.NPCs
                 case NPCID.Dryad:
                     if (Main.rand.NextBool(5) && DownedBossSystem.downedDoG && Main.eclipse)
                     {
-                        chat = "There's a dark solar energy emanating from the moths that appear during this time. Ah, the moths as you progress further get more powerful... hmm... what power was Yharon holding back?";
+                        chat = "There's a dark solar energy emanating from the moths that appear during this time. Ah, as you progress further the moths get more powerful...";
                     }
 
                     if (Main.rand.NextBool(5) && Main.hardMode)
@@ -1393,6 +1421,7 @@ namespace CalamityMod.NPCs
             if (type == NPCID.Mechanic)
             {
                 SetShopItem(ref shop, ref nextSlot, ItemID.BuilderPotion, true, Item.buyPrice(0, 1, 0, 0));
+                SetShopItem(ref shop, ref nextSlot, ItemID.CombatWrench, true, Item.buyPrice(0, 10, 0, 0));
             }
 
             if (type == NPCID.Clothier)
@@ -1430,6 +1459,7 @@ namespace CalamityMod.NPCs
                 SetShopItem(ref shop, ref nextSlot, ItemID.ManaRegenerationPotion, true, Item.buyPrice(0, goldCost, 0, 0));
                 SetShopItem(ref shop, ref nextSlot, ItemID.MagicPowerPotion, true, Item.buyPrice(0, goldCost, 0, 0));
                 SetShopItem(ref shop, ref nextSlot, ItemID.GravitationPotion, true, Item.buyPrice(0, 2, 0, 0));
+                SetShopItem(ref shop, ref nextSlot, ItemID.PotionOfReturn, true, Item.buyPrice(0, goldCost, 0, 0));
                 SetShopItem(ref shop, ref nextSlot, ItemType<HowlsHeart>());
                 SetShopItem(ref shop, ref nextSlot, ItemID.MagicMissile, price: Item.buyPrice(0, 5));
                 SetShopItem(ref shop, ref nextSlot, ItemID.RodofDiscord, Main.hardMode && Main.LocalPlayer.ZoneHallow, price: Item.buyPrice(10), true);

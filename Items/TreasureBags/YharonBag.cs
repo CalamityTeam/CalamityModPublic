@@ -71,8 +71,8 @@ namespace CalamityMod.Items.TreasureBags
             DropHelper.DropItem(s, player, ModContent.ItemType<YharimsGift>());
             DropHelper.DropItemChance(s, player, ModContent.ItemType<YharimsCrystal>(), 0.1f);
 
-            int soulFragMin = 22;
-            int soulFragMax = 28;
+            int soulFragMin = 30;
+            int soulFragMax = 35;
             DropHelper.DropItem(s, player, ModContent.ItemType<YharonSoulFragment>(), soulFragMin, soulFragMax);
 
             // Vanity

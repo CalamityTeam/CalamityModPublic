@@ -8,7 +8,7 @@ namespace CalamityMod.Items.Materials
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 25;
+            SacrificeTotal = 5;
             DisplayName.SetDefault("Armored Shell");
         }
 

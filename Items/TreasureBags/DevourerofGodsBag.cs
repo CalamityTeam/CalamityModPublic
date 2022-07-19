@@ -61,7 +61,7 @@ namespace CalamityMod.Items.TreasureBags
             player.TryGettingDevArmor(s);
 
             // Materials
-            DropHelper.DropItem(s, player, ModContent.ItemType<CosmiliteBar>(), 30, 39);
+            DropHelper.DropItem(s, player, ModContent.ItemType<CosmiliteBar>(), 30, 40);
             DropHelper.DropItem(s, player, ModContent.ItemType<CosmiliteBrick>(), 200, 320);
 
             // Weapons

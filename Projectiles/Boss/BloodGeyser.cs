@@ -1,9 +1,10 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Projectiles.Boss
 {
     public class BloodGeyser : ModProjectile
@@ -19,7 +20,7 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.height = 12;
             Projectile.hostile = true;
             Projectile.tileCollide = false;
-            Projectile.timeLeft = 420;
+            Projectile.timeLeft = 600;
             Projectile.penetrate = 1;
         }
 
@@ -34,7 +35,9 @@ namespace CalamityMod.Projectiles.Boss
             Main.dust[num469].noGravity = true;
             Main.dust[num469].velocity *= 0f;
 
-            Projectile.velocity.Y += 0.06f;
+            if (Projectile.velocity.Y < 12f)
+                Projectile.velocity.Y += 0.06f;
+
             Projectile.velocity.X *= 0.995f;
         }
 

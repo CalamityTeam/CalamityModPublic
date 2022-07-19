@@ -32,6 +32,9 @@ namespace CalamityMod.Projectiles.Boss
                 SoundEngine.PlaySound(SoundID.Item20, Projectile.position);
             }
 
+            if (Projectile.velocity.Length() < 12f)
+                Projectile.velocity *= 1.01f;
+
             int num104 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y),
                 Projectile.width, Projectile.height, (int)CalamityDusts.SulfurousSeaAcid, Projectile.velocity.X * 0.1f, Projectile.velocity.Y * 0.1f, 100, default, 1.5f);
             Main.dust[num104].noGravity = true;

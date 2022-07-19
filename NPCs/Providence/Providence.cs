@@ -1595,7 +1595,8 @@ namespace CalamityMod.NPCs.Providence
                 normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<BlazingCore>()));
 
                 // Materials
-                normalOnly.Add(ModContent.ItemType<DivineGeode>(), 1, 15, 20);
+                normalOnly.Add(ModContent.ItemType<DivineGeode>(), 1, 25, 30);
+                normalOnly.Add(ModContent.ItemType<UnholyEssence>(), 1, 20, 30);
 
                 // Vanity
                 normalOnly.Add(ModContent.ItemType<ProvidenceMask>(), 7);
@@ -1999,7 +2000,7 @@ namespace CalamityMod.NPCs.Providence
             {
                 if (Main.netMode != NetmodeID.Server)
                 {
-                    float randomSpread = Main.rand.Next(-50, 50) / 100;
+                    float randomSpread = Main.rand.Next(-200, 201) / 100f;
                     Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * randomSpread * Main.rand.NextFloat(), Mod.Find<ModGore>("Providence").Type, NPC.scale);
                     Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * randomSpread * Main.rand.NextFloat(), Mod.Find<ModGore>("Providence2").Type, NPC.scale);
                     Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * randomSpread * Main.rand.NextFloat(), Mod.Find<ModGore>("Providence3").Type, NPC.scale);

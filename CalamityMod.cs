@@ -1,4 +1,10 @@
-﻿using CalamityMod.Balancing;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Reflection;
+using System.Runtime.CompilerServices;
+using CalamityMod.Balancing;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
@@ -11,10 +17,14 @@ using CalamityMod.FluidSimulation;
 using CalamityMod.ILEditing;
 using CalamityMod.Items;
 using CalamityMod.Items.Dyes.HairDye;
+using CalamityMod.Items.PermanentBoosters;
+using CalamityMod.Items.Pets;
 using CalamityMod.Items.VanillaArmorChanges;
+using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Localization;
 using CalamityMod.NPCs.AdultEidolonWyrm;
 using CalamityMod.NPCs.AquaticScourge;
+using CalamityMod.NPCs.Astral;
 using CalamityMod.NPCs.AstrumAureus;
 using CalamityMod.NPCs.AstrumDeus;
 using CalamityMod.NPCs.BrimstoneElemental;
@@ -41,6 +51,7 @@ using CalamityMod.NPCs.Ravager;
 using CalamityMod.NPCs.Signus;
 using CalamityMod.NPCs.SlimeGod;
 using CalamityMod.NPCs.StormWeaver;
+using CalamityMod.NPCs.SulphurousSea;
 using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.NPCs.Yharon;
 using CalamityMod.Particles;
@@ -55,12 +66,6 @@ using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Reflection;
-using System.Runtime.CompilerServices;
 using Terraria;
 using Terraria.GameContent;
 using Terraria.GameContent.Dyes;
@@ -75,6 +80,8 @@ namespace CalamityMod
 {
     public class CalamityMod : Mod
     {
+        public const string CalamityWikiURL = "calamitymod.wiki.gg";
+
         // TODO -- A huge amount of random floating variables exist here.
         // These should all be moved to other files, whether that's CalamityLists or brand new ModSystems.
         // It is best to have a ton of small ModSystems.
@@ -133,10 +140,11 @@ namespace CalamityMod
         internal Mod overhaul = null;
         internal Mod redemption = null;
         internal Mod soa = null;
+        internal Mod subworldLibrary = null;
         internal Mod summonersAssociation = null;
         internal Mod thorium = null;
         internal Mod varia = null;
-        internal Mod subworldLibrary = null;
+        internal Mod wikithis = null;
 
         #region Load
         public override void Load()
@@ -172,14 +180,16 @@ namespace CalamityMod
             ModLoader.TryGetMod("Redemption", out redemption);
             soa = null;
             ModLoader.TryGetMod("SacredTools", out soa);
+            subworldLibrary = null;
+            ModLoader.TryGetMod("SubworldLibrary", out subworldLibrary);
             summonersAssociation = null;
             ModLoader.TryGetMod("SummonersAssociation", out summonersAssociation);
             thorium = null;
             ModLoader.TryGetMod("ThoriumMod", out thorium);
             varia = null;
             ModLoader.TryGetMod("Varia", out varia);
-            subworldLibrary = null;
-            ModLoader.TryGetMod("SubworldLibrary", out subworldLibrary);
+            wikithis = null;
+            ModLoader.TryGetMod("Wikithis", out wikithis);
 
             // Initialize the EnemyStats struct as early as it is safe to do so
             NPCStats.Load();
@@ -206,6 +216,26 @@ namespace CalamityMod
             {
                 LoadClient();
                 GeneralParticleHandler.Load();
+                ForegroundDrawing.ForegroundManager.Load();
+
+                // Wikithis support
+                if (wikithis is not null)
+                {
+                    wikithis.Call("AddModURL", this, CalamityWikiURL);
+
+                    // Clear up name conflicts
+                    // Items
+                    wikithis.Call(1, new List<int>() { ModContent.ItemType<BloodOrange>() }, "Blood Orange (calamity)");
+                    wikithis.Call(1, new List<int>() { ModContent.ItemType<Elderberry>() }, "Elderberry (calamity)");
+                    wikithis.Call(1, new List<int>() { ModContent.ItemType<PineapplePet>() }, "Pineapple (calamity)");
+                    wikithis.Call(1, new List<int>() { ModContent.ItemType<TrashmanTrashcan>() }, "Trash Can (pet)");
+                    wikithis.Call(1, new List<int>() { ModContent.ItemType<Butcher>() }, "Butcher (weapon)");
+                    wikithis.Call(1, new List<int>() { ModContent.ItemType<SandstormGun>() }, "Sandstorm (weapon)");
+                    // Enemies
+                    wikithis.Call(2, new List<int>() { ModContent.NPCType<Catfish>() }, "Catfish (enemy)");
+                    wikithis.Call(2, new List<int>() { ModContent.NPCType<Hive>() }, "Hive (enemy)");
+                    wikithis.Call(2, new List<int>() { ModContent.NPCType<OldDukeToothBall>() }, "Tooth Ball (Old Duke)");
+                }
             }
 
             CooldownRegistry.Load();
@@ -331,6 +361,7 @@ namespace CalamityMod
         public override void Unload()
         {
             musicMod = null;
+
             ancientsAwakened = null;
             bossChecklist = null;
             census = null;
@@ -339,9 +370,11 @@ namespace CalamityMod
             overhaul = null;
             redemption = null;
             soa = null;
+            subworldLibrary = null;
             summonersAssociation = null;
             thorium = null;
             varia = null;
+            wikithis = null;
 
             AstralSky = null;
 
@@ -478,7 +511,7 @@ namespace CalamityMod
                 { NPCID.DiabolistRed, 0.2f },
                 { NPCID.DiabolistWhite, 0.2f },
                 { NPCID.DukeFishron, 0.15f },
-                { NPCID.DungeonGuardian, 0.999999f },
+                { NPCID.DungeonGuardian, 0.9f },
                 { NPCID.DungeonSpirit, 0.2f },
                 { NPCID.ElfCopter, 0.15f },
                 { NPCID.Everscream, 0.1f },
@@ -612,10 +645,10 @@ namespace CalamityMod
                 { ModContent.NPCType<HiveMind>(), 7200 }, // 2:00 (120 seconds)
                 { ModContent.NPCType<PerforatorHive>(), 7200 }, // 2:00 (120 seconds)
                 { ModContent.NPCType<SlimeGodCore>(), 10800 }, // 3:00 (180 seconds) -- total length of Slime God fight
-                { ModContent.NPCType<EbonianSlimeGod>(), 3600 }, // 1:00 (60 seconds)
-                { ModContent.NPCType<CrimulanSlimeGod>(), 3600 }, // 1:00 (60 seconds)
-                { ModContent.NPCType<SplitEbonianSlimeGod>(), 3600 }, // 1:00 (60 seconds) -- split slimes should spawn at 1:00 and die at around 2:00
-                { ModContent.NPCType<SplitCrimulanSlimeGod>(), 3600 }, // 1:00 (60 seconds)
+                { ModContent.NPCType<EbonianSlimeGod>(), 5400 }, // 1:30 (90 seconds)
+                { ModContent.NPCType<CrimulanSlimeGod>(), 5400 }, // 1:30 (90 seconds)
+                { ModContent.NPCType<SplitEbonianSlimeGod>(), 5400 }, // 1:30 (90 seconds) -- split slimes should spawn at 1:30 and die at around 3:00
+                { ModContent.NPCType<SplitCrimulanSlimeGod>(), 5400 }, // 1:30 (90 seconds)
                 { ModContent.NPCType<Cryogen>(), 10800 }, // 3:00 (180 seconds)
                 { ModContent.NPCType<AquaticScourgeHead>(), 7200 }, // 2:00 (120 seconds)
                 { ModContent.NPCType<AquaticScourgeBody>(), 7200 },

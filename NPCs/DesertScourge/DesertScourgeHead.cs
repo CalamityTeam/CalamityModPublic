@@ -195,6 +195,9 @@ namespace CalamityMod.NPCs.DesertScourge
             {
                 speed *= 1.25f;
                 turnSpeed *= 1.5f;
+
+                if (NPC.Calamity().newAI[3] == 0f)
+                    NPC.Calamity().newAI[3] = player.Center.Y - 600f;
             }
 
             if (NPC.ai[2] > 0f)
@@ -374,7 +377,7 @@ namespace CalamityMod.NPCs.DesertScourge
             float num19 = turnSpeed;
             float burrowDistance = bossRush ? 500f : 800f;
             float burrowTarget = player.Center.Y + burrowDistance;
-            float lungeTarget = player.Center.Y - 600f;
+            float lungeTarget = NPC.Calamity().newAI[3];
             Vector2 vector3 = NPC.Center;
             float num20 = player.Center.X;
             float num21 = lungeUpward ? lungeTarget : burrow ? burrowTarget : player.Center.Y;
@@ -399,7 +402,7 @@ namespace CalamityMod.NPCs.DesertScourge
             }
 
             // Quickly fall back down once above target
-            if (lungeUpward && NPC.Center.Y <= player.Center.Y - 420f)
+            if (lungeUpward && NPC.Center.Y <= NPC.Calamity().newAI[3] + 600f - 420f)
             {
                 // Spit a huge spread of sand upwards that falls down
                 SoundEngine.PlaySound(SoundID.NPCDeath13, NPC.Center);
@@ -431,10 +434,11 @@ namespace CalamityMod.NPCs.DesertScourge
             if (quickFall)
             {
                 NPC.velocity.Y += Main.getGoodWorld ? 1f : 0.5f;
-                if (NPC.Center.Y >= player.Center.Y)
+                if (NPC.Center.Y >= NPC.Calamity().newAI[3] + 600f)
                 {
                     NPC.Calamity().newAI[0] = 0f;
                     NPC.Calamity().newAI[1] = 0f;
+                    NPC.Calamity().newAI[3] = 0f;
                     playRoarSound = false;
                 }
             }
@@ -706,10 +710,10 @@ namespace CalamityMod.NPCs.DesertScourge
                 normalOnly.Add(ModContent.ItemType<DesertScourgeMask>(), 7);
 
                 // Materials
-                normalOnly.Add(ItemID.Coral, 1, 5, 9);
-                normalOnly.Add(ItemID.Seashell, 1, 5, 9);
-                normalOnly.Add(ItemID.Starfish, 1, 5, 9);
-                normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<PearlShard>(), 1, 7, 14));
+                normalOnly.Add(ItemID.Coral, 1, 25, 30);
+                normalOnly.Add(ItemID.Seashell, 1, 25, 30);
+                normalOnly.Add(ItemID.Starfish, 1, 25, 30);
+                normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<PearlShard>(), 1, 25, 30));
 
                 // Equipment
                 normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<OceanCrest>()));

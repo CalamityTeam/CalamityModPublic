@@ -26,11 +26,6 @@ namespace CalamityMod.Tiles.FurnitureCosmilite
             return false;
         }
 
-        public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
-        {
-            return TileFraming.BrimstoneFraming(i, j, resetFrame);
-        }
-
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
             int xPos = Main.tile[i, j].TileFrameX;

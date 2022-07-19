@@ -525,10 +525,10 @@ namespace CalamityMod.NPCs.Perforator
                 normalOnly.Add(ModContent.ItemType<ToothBall>(), 1, 30, 50);
 
                 // Materials
-                normalOnly.Add(ItemID.CrimtaneBar, 1, 12, 15);
-                normalOnly.Add(ItemID.Vertebrae, 1, 12, 15);
-                normalOnly.Add(ItemID.CrimsonSeeds, 1, 12, 15);
-                normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<BloodSample>(), 1, 35, 45));
+                normalOnly.Add(ItemID.CrimtaneBar, 1, 10, 15);
+                normalOnly.Add(ItemID.Vertebrae, 1, 10, 15);
+                normalOnly.Add(ItemID.CrimsonSeeds, 1, 10, 15);
+                normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<BloodSample>(), 1, 25, 30));
                 normalOnly.Add(ItemDropRule.ByCondition(new Conditions.IsHardmode(), ItemID.Ichor, 1, 10, 20));
 
                 // Equipment

@@ -54,7 +54,7 @@ namespace CalamityMod.Items.TreasureBags
 
             // Materials
             DropHelper.DropItem(s, player, ModContent.ItemType<EssenceofChaos>(), 5, 9);
-            DropHelper.DropItemCondition(s, player, ModContent.ItemType<Bloodstone>(), DownedBossSystem.downedProvidence, 25, 35);
+            DropHelper.DropItemCondition(s, player, ModContent.ItemType<Bloodstone>(), DownedBossSystem.downedProvidence, 60, 70);
 
             // Weapons
             float w = DropHelper.BagWeaponDropRateFloat;

@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Items.Accessories;
+using CalamityMod.Items.Accessories.Vanity;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
 using Terraria;
@@ -9,6 +10,7 @@ using Terraria.ModLoader.Utilities;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using CalamityMod.World;
+using CalamityMod.Sounds;
 
 namespace CalamityMod.NPCs.NormalNPCs
 {
@@ -57,7 +59,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             NPC.noGravity = false;
             NPC.noTileCollide = false;
             NPC.HitSound = SoundID.NPCHit4;
-            NPC.DeathSound = SoundID.NPCDeath14;
+            NPC.DeathSound = CommonCalamitySounds.WulfrumNPCDeathSound;
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<WulfrumPylonBanner>();
             NPC.Calamity().VulnerableToSickness = false;
@@ -194,13 +196,25 @@ namespace CalamityMod.NPCs.NormalNPCs
                 {
                     Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.GrassBlades, hitDirection, -1f, 0, default, 1f);
                 }
+
+                if (!Main.dedServ)
+                {
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("WulfrumPylonGore").Type, 1f);
+
+                    int randomGoreCount = Main.rand.Next(1, 4);
+                    for (int i = 0; i < randomGoreCount; i++)
+                    {
+                        Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("WulfrumEnemyGore" + Main.rand.Next(1, 11).ToString()).Type, 1f);
+                    }
+                }
             }
         }
 
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            npcLoot.Add(ModContent.ItemType<WulfrumShard>(), 1, 2, 3);
+            npcLoot.Add(ModContent.ItemType<WulfrumMetalScrap>(), 1, 2, 3);
             npcLoot.Add(ModContent.ItemType<WulfrumBattery>(), new Fraction(7, 100));
+            npcLoot.Add(ModContent.ItemType<AbandonedWulfrumHelmet>(), new Fraction(5, 100));
             npcLoot.Add(ModContent.ItemType<EnergyCore>());
         }
     }

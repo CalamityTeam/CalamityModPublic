@@ -133,7 +133,6 @@ namespace CalamityMod
         public static List<int> mossHornetList;
         public static List<int> bossMinionList;
         public static List<int> minibossList;
-        public static List<int> heartDropBlockList;
         public static List<int> pierceResistList;
         public static List<int> pierceResistExceptionList;
 
@@ -279,7 +278,6 @@ namespace CalamityMod
                 "Cameron",
                 "Orudeon",
                 "BumbleDoge",
-                "John",
                 "Naglfar",
                 "Helixas",
                 "Vetus",
@@ -520,7 +518,8 @@ namespace CalamityMod
                 "Himakaze",
                 "Face",
                 "Carboniferous",
-                "James"
+                "James",
+                "Taitou1"
             };
 
             projectileDestroyExceptionList = new List<int>()
@@ -1882,25 +1881,6 @@ namespace CalamityMod
                 NPCID.MartianSaucerTurret,
             };
 
-            heartDropBlockList = new List<int>()
-            {
-                NPCID.ServantofCthulhu,
-                NPCID.TheHungryII,
-                NPCID.LeechHead,
-                NPCID.LeechBody,
-                NPCID.LeechTail,
-                NPCID.QueenSlimeMinionBlue,
-                NPCID.QueenSlimeMinionPink,
-                NPCID.QueenSlimeMinionPurple,
-                NPCID.Probe,
-                NPCID.Bee,
-                NPCID.BeeSmall,
-                NPCID.PlanterasTentacle,
-                NPCID.Sharkron,
-                NPCID.Sharkron2,
-                NPCType<DarkEnergy>()
-            };
-
             pierceResistList = new List<int>()
             {
                 NPCID.EaterofWorldsHead,
@@ -2745,7 +2725,6 @@ namespace CalamityMod
             mossHornetList = null;
             bossMinionList = null;
             minibossList = null;
-            heartDropBlockList = null;
             pierceResistList = null;
             pierceResistExceptionList = null;
 

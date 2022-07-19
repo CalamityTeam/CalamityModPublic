@@ -80,14 +80,14 @@ namespace CalamityMod.Items.Weapons.Melee
                 AddIngredient<TrueBloodyEdge>().
                 AddIngredient(ItemID.TrueExcalibur).
                 AddIngredient(ItemID.BrokenHeroSword).
-                AddIngredient<LivingShard>(7).
+                AddIngredient<LivingShard>(12).
                 AddTile(TileID.MythrilAnvil).
                 Register();
             CreateRecipe().
                 AddIngredient(ItemID.TrueNightsEdge).
                 AddIngredient(ItemID.TrueExcalibur).
                 AddIngredient(ItemID.BrokenHeroSword).
-                AddIngredient<LivingShard>(7).
+                AddIngredient<LivingShard>(12).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

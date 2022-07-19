@@ -8,6 +8,7 @@ using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
 using Microsoft.Xna.Framework;
 using System.IO;
+using CalamityMod.Sounds;
 
 namespace CalamityMod.NPCs.NormalNPCs
 {
@@ -72,7 +73,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             NPC.noGravity = true;
             NPC.noTileCollide = true;
             NPC.HitSound = SoundID.NPCHit4;
-            NPC.DeathSound = SoundID.NPCDeath14;
+            NPC.DeathSound = CommonCalamitySounds.WulfrumNPCDeathSound;
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<WulfrumDroneBanner>();
             NPC.Calamity().VulnerableToSickness = false;
@@ -216,12 +217,24 @@ namespace CalamityMod.NPCs.NormalNPCs
                 {
                     Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.GrassBlades, hitDirection, -1f, 0, default, 1f);
                 }
+
+                if (!Main.dedServ)
+                {
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("WulfrumDroneGore1").Type, 1f);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("WulfrumDroneGore2").Type, 1f);
+
+                    int randomGoreCount = Main.rand.Next(1, 4);
+                    for (int i = 0; i < randomGoreCount; i++)
+                    {
+                        Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("WulfrumEnemyGore" + Main.rand.Next(1, 11).ToString()).Type, 1f);
+                    }
+                }
             }
         }
 
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            npcLoot.Add(ModContent.ItemType<WulfrumShard>(), 1, 1, 3);
+            npcLoot.Add(ModContent.ItemType<WulfrumMetalScrap>(), 1, 1, 3);
             npcLoot.Add(ModContent.ItemType<WulfrumBattery>(), new Fraction(7, 100));
             npcLoot.AddIf(info => info.npc.ModNPC<WulfrumDrone>().Supercharged, ModContent.ItemType<EnergyCore>());
         }

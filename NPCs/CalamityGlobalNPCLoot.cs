@@ -445,6 +445,14 @@ namespace CalamityMod.NPCs
                     break;
                 #endregion
 
+                #region Pirate Invasion
+                // Pirate deadeye
+                // Midas Prime @ 4% Normal, 6.67% Expert+
+                case NPCID.PirateDeadeye:
+                    npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<MidasPrime>(), 25, 15));
+                    break;
+                #endregion
+
                 #region Solar Eclipse
                 // Weak Solar Eclipse Enemies: Frankenstein, Swamp Thing, Fritz, Creature from the Deep
                 // Darksun Fragment @ 10% IF Devourer of Gods dead
@@ -981,7 +989,7 @@ namespace CalamityMod.NPCs
                     // Would be in the bag otherwise
                     npcLoot.AddNormalOnly(ModContent.ItemType<BloomStone>(), 10);
                     npcLoot.AddNormalOnly(ModContent.ItemType<BlossomFlux>(), 10);
-                    npcLoot.AddNormalOnly(DropHelper.PerPlayer(ModContent.ItemType<LivingShard>(), 1, 12, 18));
+                    npcLoot.AddNormalOnly(DropHelper.PerPlayer(ModContent.ItemType<LivingShard>(), 1, 25, 30));
 
                     // Plantera drops Jungle Key
                     npcLoot.Add(ItemID.JungleKey, 3);
@@ -1277,13 +1285,9 @@ namespace CalamityMod.NPCs
             if (CalamityWorld.death && !SplittingWormLootBlockWrapper(npc, Mod))
                 DropHelper.BlockEverything();
 
-            // Stop Eater of Worlds segments and Brain of Cthulhu Creepers from dropping hearts or partial loot in Rev+
+            // Stop Eater of Worlds segments and Brain of Cthulhu Creepers from dropping partial loot in Rev+
             if (CalamityWorld.revenge && (CalamityLists.EaterofWorldsIDs.Contains(npc.type) || npc.type == NPCID.Creeper))
-                DropHelper.BlockDrops(ItemID.Heart, ItemID.DemoniteOre, ItemID.ShadowScale, ItemID.CrimtaneOre, ItemID.TissueSample);
-
-            // Stop certain boss minions from providing hearts in Rev+
-            if (CalamityWorld.revenge && CalamityLists.heartDropBlockList.Contains(npc.type))
-                DropHelper.BlockDrops(ItemID.Heart);
+                DropHelper.BlockDrops(ItemID.DemoniteOre, ItemID.ShadowScale, ItemID.CrimtaneOre, ItemID.TissueSample);
 
             // Check whether bosses should be spawned naturally as a result of this NPC's death.
             CheckBossSpawn(npc);

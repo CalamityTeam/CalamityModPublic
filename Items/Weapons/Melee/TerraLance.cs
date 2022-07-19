@@ -44,7 +44,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 AddIngredient(ItemID.ChlorophytePartisan).
                 AddIngredient(ItemID.DarkLance).
                 AddIngredient(ItemID.Gungnir).
-                AddIngredient<LivingShard>(7).
+                AddIngredient<LivingShard>(12).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

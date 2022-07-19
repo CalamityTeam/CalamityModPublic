@@ -18,6 +18,7 @@ using CalamityMod.Events;
 using CalamityMod.FluidSimulation;
 using CalamityMod.Items;
 using CalamityMod.Items.Accessories;
+using CalamityMod.Items.Accessories.Vanity;
 using CalamityMod.Items.Armor;
 using CalamityMod.Items.Armor.Bloodflare;
 using CalamityMod.Items.Armor.Brimflame;
@@ -26,6 +27,7 @@ using CalamityMod.Items.Armor.GemTech;
 using CalamityMod.Items.Armor.OmegaBlue;
 using CalamityMod.Items.Armor.PlagueReaper;
 using CalamityMod.Items.Armor.Silva;
+using CalamityMod.Items.Armor.Wulfrum;
 using CalamityMod.Items.Dyes;
 using CalamityMod.Items.Mounts;
 using CalamityMod.Items.Mounts.Minecarts;
@@ -363,8 +365,8 @@ namespace CalamityMod.CalPlayer
         #region Defense Damage
         // Ratio at which incoming damage (after mitigation) is converted into defense damage.
         // Used to be 5% normal, 10% expert, 12% rev, 15% death, 20% boss rush
-        // It is now 15% on all difficulties because you already take less damage on lower difficulties.
-        public const double DefenseDamageRatio = 0.15;
+        // It is now 10% on all difficulties because you already take less damage on lower difficulties.
+        public const double DefenseDamageRatio = 0.1;
         public int CurrentDefenseDamage => (int)(totalDefenseDamage * ((float)defenseDamageRecoveryFrames / totalDefenseDamageRecoveryFrames));
         internal int totalDefenseDamage = 0;
         // Defense damage from a single hit recovers in 50 frames, no matter how big the hit was.
@@ -2548,6 +2550,8 @@ namespace CalamityMod.CalPlayer
             return new Item();
         }
 
+        
+
         public override void ProcessTriggers(TriggersSet triggersSet)
         {
             if (CalamityKeybinds.NormalityRelocatorHotKey.JustPressed && normalityRelocator && Main.myPlayer == Player.whoAmI)
@@ -4184,10 +4188,6 @@ namespace CalamityMod.CalPlayer
                 acidRoundMultiplier = item.useTime / 20D;
             else
                 acidRoundMultiplier = 1D;
-
-            // Prismatic Breaker is a weird hybrid melee-ranged weapon so include it too.  Why are you using desert prowler post-Yharon? don't ask me
-            if (desertProwler && (item.CountsAsClass<RangedDamageClass>() || item.type == ModContent.ItemType<PrismaticBreaker>()) && item.ammo == AmmoID.None)
-                damage.Flat += 1f;
         }
 
         public override void ModifyWeaponKnockback(Item item, ref StatModifier knockback)
@@ -5132,7 +5132,7 @@ namespace CalamityMod.CalPlayer
 
             if (aSparkRare)
             {
-                if (proj.type == ProjectileID.MartianTurretBolt || proj.type == ProjectileID.GigaZapperSpear || proj.type == ProjectileID.CultistBossLightningOrbArc || proj.type == ModContent.ProjectileType<LightningMark>() || proj.type == ProjectileID.VortexLightning || proj.type == ModContent.ProjectileType<DestroyerElectricLaser>() ||
+                if (proj.type == ProjectileID.MartianTurretBolt || proj.type == ProjectileID.GigaZapperSpear || proj.type == ProjectileID.CultistBossLightningOrbArc || proj.type == ProjectileID.VortexLightning || proj.type == ModContent.ProjectileType<DestroyerElectricLaser>() ||
                     proj.type == ProjectileID.BulletSnowman || proj.type == ProjectileID.BulletDeadeye || proj.type == ProjectileID.SniperBullet || proj.type == ProjectileID.VortexLaser)
                     projectileDamageReduction += 0.5;
             }
@@ -5367,9 +5367,7 @@ namespace CalamityMod.CalPlayer
                 }
                 else if (proj.type == ProjectileID.CultistBossLightningOrbArc)
                 {
-                    int deathModeDuration = NPC.downedMoonlord ? 80 : NPC.downedPlantBoss ? 40 : Main.hardMode ? 20 : 10;
-                    Player.AddBuff(BuffID.Electrified, proj.Calamity().lineColor == 1 ? deathModeDuration : 120);
-                    // Scaled duration for DM lightning, 2 seconds for Storm Weaver/Cultist lightning
+                    Player.AddBuff(BuffID.Electrified, 120);
                 }
                 else if (proj.type == ProjectileID.AncientDoomProjectile)
                 {
@@ -5691,12 +5689,6 @@ namespace CalamityMod.CalPlayer
                 Player.waist = (sbyte)EquipLoader.GetEquipSlot(Mod, "DaedalusBreastplate", EquipType.Waist);
             }
 
-            if (Player.body == EquipLoader.GetEquipSlot(Mod, "DemonshadeBreastplate", EquipType.Body))
-            {
-                //Use an extra front layers to have the players arms draw above the shoulderpads that droop
-                Player.front = (sbyte)EquipLoader.GetEquipSlot(Mod, "DemonshadeBreastplate", EquipType.Front);
-            }
-
             bool victideBreastplateVisible = Player.body == EquipLoader.GetEquipSlot(Mod, "VictideBreastplate", EquipType.Body);
             //Give the player faulds if either the body armor or the leggings are equipped
             if (victideBreastplateVisible || Player.legs == EquipLoader.GetEquipSlot(Mod, "VictideGreaves", EquipType.Legs))
@@ -5851,10 +5843,17 @@ namespace CalamityMod.CalPlayer
             // The amount of damage that will be dealt is yet to be determined.
             //
 
+            //Todo - At some point it'd be nice to have a "TransformationPlayer" that has all the transformation sfx and visuals so their priorities can be more easily managed.
             #region Custom Hurt Sounds
             if (hurtSoundTimer == 0)
             {
-                if ((profanedCrystal || profanedCrystalForce) && !profanedCrystalHide)
+                if (Player.GetModPlayer<RoverDrivePlayer>().ProtectionMatrixDurability > 0)
+                {
+                    playSound = false;
+                    SoundEngine.PlaySound(RoverDrive.ShieldHurtSound, Player.position);
+                    hurtSoundTimer = 20;
+                }
+                else if ((profanedCrystal || profanedCrystalForce) && !profanedCrystalHide)
                 {
                     playSound = false;
                     SoundEngine.PlaySound(Providence.DeathSound, Player.position);
@@ -5876,6 +5875,18 @@ namespace CalamityMod.CalPlayer
                 {
                     playSound = false;
                     SoundEngine.PlaySound(NPCs.Astral.Atlas.HurtSound, Player.position);
+                    hurtSoundTimer = 10;
+                }
+                else if (Player.GetModPlayer<WulfrumTransformationPlayer>().transformationActive)
+                {
+                    playSound = false;
+                    SoundEngine.PlaySound(SoundID.NPCHit4, Player.position);
+                    hurtSoundTimer = 10;
+                }
+                else if (Player.GetModPlayer<WulfrumArmorPlayer>().wulfrumSet && (Player.name.ToLower() == "wagstaff" || Player.name.ToLower() == "john wulfrum"))
+                {
+                    playSound = false;
+                    SoundEngine.PlaySound(SoundID.DSTMaleHurt, Player.position);
                     hurtSoundTimer = 10;
                 }
             }

@@ -642,6 +642,66 @@ namespace CalamityMod
                 AddCondition(Recipe.Condition.InGraveyardBiome).
                 Register();
 
+            Recipe.Create(ItemID.TendonHook).
+                AddIngredient(ItemID.WormHook).
+                AddTile(TileID.TinkerersWorkbench).
+                AddCondition(Recipe.Condition.InGraveyardBiome).
+                Register();
+
+            Recipe.Create(ItemID.WormHook).
+                AddIngredient(ItemID.TendonHook).
+                AddTile(TileID.TinkerersWorkbench).
+                AddCondition(Recipe.Condition.InGraveyardBiome).
+                Register();
+
+            Recipe.Create(ItemID.DartPistol).
+                AddIngredient(ItemID.DartRifle).
+                AddTile(TileID.Anvils).
+                AddCondition(Recipe.Condition.InGraveyardBiome).
+                Register();
+
+            Recipe.Create(ItemID.DartRifle).
+                AddIngredient(ItemID.DartPistol).
+                AddTile(TileID.Anvils).
+                AddCondition(Recipe.Condition.InGraveyardBiome).
+                Register();
+
+            Recipe.Create(ItemID.ChainGuillotines).
+                AddIngredient(ItemID.FetidBaghnakhs).
+                AddTile(TileID.Anvils).
+                AddCondition(Recipe.Condition.InGraveyardBiome).
+                Register();
+
+            Recipe.Create(ItemID.FetidBaghnakhs).
+                AddIngredient(ItemID.ChainGuillotines).
+                AddTile(TileID.Anvils).
+                AddCondition(Recipe.Condition.InGraveyardBiome).
+                Register();
+
+            Recipe.Create(ItemID.ClingerStaff).
+                AddIngredient(ItemID.SoulDrain).
+                AddTile(TileID.Anvils).
+                AddCondition(Recipe.Condition.InGraveyardBiome).
+                Register();
+
+            Recipe.Create(ItemID.SoulDrain).
+                AddIngredient(ItemID.ClingerStaff).
+                AddTile(TileID.Anvils).
+                AddCondition(Recipe.Condition.InGraveyardBiome).
+                Register();
+
+            Recipe.Create(ItemID.PutridScent).
+                AddIngredient(ItemID.FleshKnuckles).
+                AddTile(TileID.TinkerersWorkbench).
+                AddCondition(Recipe.Condition.InGraveyardBiome).
+                Register();
+
+            Recipe.Create(ItemID.FleshKnuckles).
+                AddIngredient(ItemID.PutridScent).
+                AddTile(TileID.TinkerersWorkbench).
+                AddCondition(Recipe.Condition.InGraveyardBiome).
+                Register();
+
             AddAstralClayRecipes();
             AddBloodOrbPotionRecipes();
             AddCookedFood();
@@ -711,7 +771,7 @@ namespace CalamityMod
                 { Vanilla(ItemID.BundleofBalloons), AddIngredient(ModContent.ItemType<AerialiteBar>(), 3) },
                 { Vanilla(ItemID.TrueNightsEdge), TrueNightsEdgeRecipeEdit },
                 { Vanilla(ItemID.TrueExcalibur), ChangeIngredientStack(ItemID.ChlorophyteBar, 12) },
-                { Vanilla(ItemID.TerraBlade), AddIngredient(ModContent.ItemType<LivingShard>(), 7) },
+                { Vanilla(ItemID.TerraBlade), AddIngredient(ModContent.ItemType<LivingShard>(), 12) },
                 { Vanilla(ItemID.Zenith), AddIngredient(ModContent.ItemType<AuricBar>(), 5) },
                 { Vanilla(ItemID.Magiluminescence), MagiluminescenceRecipeEdit },
                 { Vanilla(ItemID.FireGauntlet), AddIngredient(ModContent.ItemType<ScoriaBar>(), 5) },
@@ -939,7 +999,8 @@ namespace CalamityMod
                 ItemID.GenderChangePotion,
                 ItemID.LovePotion,
                 ItemID.StinkPotion,
-                ItemID.RecallPotion
+                ItemID.RecallPotion,
+                ItemID.PotionOfReturn
             };
             Recipe r;
 
@@ -1682,7 +1743,7 @@ namespace CalamityMod
             r.AddIngredient(ModContent.ItemType<TrueBloodyEdge>());
             r.AddIngredient(ItemID.TrueExcalibur);
             r.AddIngredient(ItemID.BrokenHeroSword);
-            r.AddIngredient(ModContent.ItemType<LivingShard>(), 7);
+            r.AddIngredient(ModContent.ItemType<LivingShard>(), 12);
             r.AddTile(TileID.MythrilAnvil);
             r.Register();
 

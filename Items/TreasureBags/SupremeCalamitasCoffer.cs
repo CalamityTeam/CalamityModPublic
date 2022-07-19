@@ -54,7 +54,7 @@ namespace CalamityMod.Items.TreasureBags
             player.TryGettingDevArmor(s);
 
             // Materials
-            DropHelper.DropItem(s, player, ModContent.ItemType<AshesofAnnihilation>(), 25, 35);
+            DropHelper.DropItem(s, player, ModContent.ItemType<AshesofAnnihilation>(), 30, 40);
 
             // Weapons
             float w = DropHelper.BagWeaponDropRateFloat;

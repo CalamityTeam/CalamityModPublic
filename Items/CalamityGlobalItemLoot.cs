@@ -151,7 +151,7 @@ namespace CalamityMod.Items
 
                     DropHelper.DropItemChance(s, player, ModContent.ItemType<BlossomFlux>(), 0.1f);
 
-                    DropHelper.DropItem(s, player, ModContent.ItemType<LivingShard>(), 16, 22);
+                    DropHelper.DropItem(s, player, ModContent.ItemType<LivingShard>(), 30, 35);
                     break;
 
                 case ItemID.FairyQueenBossBag:
@@ -257,13 +257,13 @@ namespace CalamityMod.Items
                 case ItemID.WoodenCrate:
                 case ItemID.WoodenCrateHard:
                     BlockCrateDrops();
-                    DropHelper.DropItemChance(s, player, ModContent.ItemType<WulfrumShard>(), 0.25f, 3, 5);
+                    DropHelper.DropItemChance(s, player, ModContent.ItemType<WulfrumMetalScrap>(), 0.25f, 3, 5);
                     break;
 
                 case ItemID.IronCrate:
                 case ItemID.IronCrateHard:
                     BlockCrateDrops();
-                    DropHelper.DropItemChance(s, player, ModContent.ItemType<WulfrumShard>(), 0.25f, 5, 8);
+                    DropHelper.DropItemChance(s, player, ModContent.ItemType<WulfrumMetalScrap>(), 0.25f, 5, 8);
                     DropHelper.DropItemChance(s, player, ModContent.ItemType<AncientBoneDust>(), 0.25f, 5, 8);
                     break;
 

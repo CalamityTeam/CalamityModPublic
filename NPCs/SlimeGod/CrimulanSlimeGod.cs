@@ -32,7 +32,7 @@ namespace CalamityMod.NPCs.SlimeGod
             NPC.height = 92;
             NPC.scale = 1.1f;
             NPC.defense = 12;
-            NPC.LifeMaxNERB(4750, 5700, 160000);
+            NPC.LifeMaxNERB(7200, 8640, 160000);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
             NPC.knockBackResist = 0f;
@@ -127,11 +127,6 @@ namespace CalamityMod.NPCs.SlimeGod
                 {
                     enraged = false;
                 }
-            }
-            if (CalamityGlobalNPC.slimeGod < 0 || !Main.npc[CalamityGlobalNPC.slimeGod].active)
-            {
-                NPC.localAI[1] = 0f;
-                enraged = true;
             }
             if (bossRush)
             {
@@ -521,29 +516,7 @@ namespace CalamityMod.NPCs.SlimeGod
             return newColor;
         }
 
-        public override void BossLoot(ref string name, ref int potionType)
-        {
-            potionType = ItemID.HealingPotion;
-        }
-
-        public override void OnKill()
-        {
-            if (SlimeGodCore.LastSlimeGodStanding())
-                SlimeGodCore.RealOnKill(NPC);
-        }
-
-        // If the un-split Crimulan Slime God gets one-shotted last, it should drop the boss loot
-        public override void ModifyNPCLoot(NPCLoot npcLoot) => SlimeGodCore.DefineSlimeGodLoot(npcLoot);
-
-        public override bool CheckActive()
-        {
-            if (CalamityGlobalNPC.slimeGod != -1)
-            {
-                if (Main.npc[CalamityGlobalNPC.slimeGod].active)
-                    return false;
-            }
-            return true;
-        }
+        public override bool CheckActive() => false;
 
         public override void HitEffect(int hitDirection, double damage)
         {

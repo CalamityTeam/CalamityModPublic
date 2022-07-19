@@ -286,7 +286,7 @@ namespace CalamityMod.Items
 
             // If Early Hardmode Rework is enabled: Remind users that ores will NOT spawn when an altar is smashed.
             if (CalamityConfig.Instance.EarlyHardmodeProgressionRework && (item.type == ItemID.Pwnhammer || item.type == ItemID.Hammush))
-                EditTooltipByNum(0, (line) => line.Text += "\nDemon Altars now provide Souls of Night instead of generating ores when destroyed" +
+                EditTooltipByNum(0, (line) => line.Text += "\nDemon Altars now drop Souls of Night instead of generating ores when destroyed" +
                 "\nHardmode ores now generate after defeating Mechanical Bosses for the first time");
 
             // Bottled Honey gives the Honey buff
@@ -590,7 +590,7 @@ namespace CalamityMod.Items
             // Soaring Insignia nerf and clear explanation of what it actually does.
             if (item.type == ItemID.EmpressFlightBooster)
             {
-                EditTooltipByNum(0, (line) => line.Text = "Increases wing flight time by 50%");
+                EditTooltipByNum(0, (line) => line.Text = "Increases wing flight time by 25%");
                 EditTooltipByNum(1, (line) => line.Text = "Increases movement and jump speed by 10% and acceleration by 1.1x");
             }
 

@@ -52,7 +52,7 @@ namespace CalamityMod.Items.TreasureBags
 
             // Materials
             DropHelper.DropItem(s, player, ModContent.ItemType<UnholyEssence>(), 25, 35);
-            DropHelper.DropItem(s, player, ModContent.ItemType<DivineGeode>(), 20, 30);
+            DropHelper.DropItem(s, player, ModContent.ItemType<DivineGeode>(), 30, 40);
 
             // Weapons
             float w = DropHelper.BagWeaponDropRateFloat;

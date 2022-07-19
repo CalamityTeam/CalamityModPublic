@@ -53,7 +53,8 @@ namespace CalamityMod.Projectiles
         // They then take the remainder (e.g. the remaining 16%) and roll against that for a final +100% (like normal crits).
         // For example if you have 716% critical strike chance, you are guaranteed +700% damage and then have a 16% chance for +800% damage instead.
         // These are currently only enabled for Soma Prime, but any bullet fired from that gun can supercrit.
-        public bool canSupercrit = false;
+        //Set this to -1 if you want the projectile to supercrit forever, and to any positive value to make it supercrit only x times
+        public int supercritHits  = 0;
 
         // If true, this projectile can apply the infinitely-stacking Shred debuff iconic to Soma Prime.
         public bool appliesSomaShred = false;
@@ -969,7 +970,7 @@ namespace CalamityMod.Projectiles
                         projectile.localAI[1] = 1f;
                     }
 
-                    if (projectile.velocity.Length() < 18f)
+                    if (projectile.velocity.Length() < 12f)
                         projectile.velocity *= 1.0025f;
 
                     return false;
@@ -977,7 +978,7 @@ namespace CalamityMod.Projectiles
 
                 else if (projectile.type == ProjectileID.QueenSlimeGelAttack)
                 {
-                    // Phase 1 and 2 projectiles do not bounce and phase 2 projectiles do not have gravity.
+                    // Phase 1 and 2 projectiles do not bounce and do not have gravity.
                     if (projectile.ai[1] == -2f)
                     {
                         if (projectile.alpha == 0 && Main.rand.Next(3) == 0)
@@ -1076,6 +1077,78 @@ namespace CalamityMod.Projectiles
 
                     if (projectile.velocity.Length() < 12f)
                         projectile.velocity *= 1.0025f;
+
+                    return false;
+                }
+
+                else if (projectile.type == ProjectileID.RocketSkeleton && projectile.ai[1] == 1f)
+                {
+                    bool homeIn = false;
+                    float spreadOutCutoffTime = 210f;
+                    float homeInCutoffTime = 120f;
+                    float minAcceleration = 0.05f;
+                    float maxAcceleration = 0.1f;
+                    float homingVelocity = 25f;
+
+                    if (projectile.timeLeft > homeInCutoffTime && projectile.timeLeft <= spreadOutCutoffTime)
+                        homeIn = true;
+                    else if (projectile.velocity.Length() < 15f)
+                        projectile.velocity *= 1.1f;
+
+                    if (homeIn)
+                    {
+                        int playerIndex = (int)projectile.ai[0];
+                        Vector2 velocity = projectile.velocity;
+                        if (Main.player.IndexInRange(playerIndex))
+                        {
+                            Player player = Main.player[playerIndex];
+                            velocity = projectile.DirectionTo(player.Center) * homingVelocity;
+                        }
+
+                        float amount = MathHelper.Lerp(minAcceleration, maxAcceleration, Utils.GetLerpValue(spreadOutCutoffTime, 30f, projectile.timeLeft, clamped: true));
+                        projectile.velocity = Vector2.SmoothStep(projectile.velocity, velocity, amount);
+                    }
+
+                    if (projectile.timeLeft <= 3)
+                    {
+                        projectile.position.X += projectile.width / 2;
+                        projectile.position.Y += projectile.height / 2;
+                        projectile.width = 128;
+                        projectile.height = 128;
+                        projectile.position.X -= projectile.width / 2;
+                        projectile.position.Y -= projectile.height / 2;
+                    }
+
+                    if (projectile.owner == Main.myPlayer && projectile.timeLeft <= 3)
+                    {
+                        projectile.tileCollide = false;
+                        projectile.alpha = 255;
+                    }
+                    else
+                    {
+                        for (int n = 0; n < 2; n++)
+                        {
+                            float num22 = 0f;
+                            float num23 = 0f;
+                            if (n == 1)
+                            {
+                                num22 = projectile.velocity.X * 0.5f;
+                                num23 = projectile.velocity.Y * 0.5f;
+                            }
+
+                            int num24 = Dust.NewDust(new Vector2(projectile.position.X + 3f + num22, projectile.position.Y + 3f + num23) - projectile.velocity * 0.5f, projectile.width - 8, projectile.height - 8, 6, 0f, 0f, 100);
+                            Main.dust[num24].scale *= 2f + Main.rand.Next(10) * 0.1f;
+                            Main.dust[num24].velocity *= 0.2f;
+                            Main.dust[num24].noGravity = true;
+
+                            num24 = Dust.NewDust(new Vector2(projectile.position.X + 3f + num22, projectile.position.Y + 3f + num23) - projectile.velocity * 0.5f, projectile.width - 8, projectile.height - 8, 31, 0f, 0f, 100, default(Color), 0.5f);
+                            Main.dust[num24].fadeIn = 1f + Main.rand.Next(5) * 0.1f;
+                            Main.dust[num24].velocity *= 0.05f;
+                        }
+                    }
+
+                    if (projectile.velocity != Vector2.Zero)
+                        projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + MathHelper.PiOver2;
 
                     return false;
                 }

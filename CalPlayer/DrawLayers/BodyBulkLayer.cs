@@ -22,12 +22,17 @@ namespace CalamityMod.CalPlayer.DrawLayers
                 return;
 
             Player drawPlayer = drawInfo.drawPlayer;
-            int bodyItem = drawPlayer.armor[1].type;
+            Item bodyItem = drawPlayer.armor[1];
             if (drawPlayer.armor[11].type > ItemID.None)
-                bodyItem = drawPlayer.armor[11].type;
+                bodyItem = drawPlayer.armor[11];
 
-            if (ModContent.GetModItem(bodyItem) is IBulkyArmor chestplateBulkDrawer)
+            if (ModContent.GetModItem(bodyItem.type) is IBulkyArmor chestplateBulkDrawer)
             {
+                string equipSlotName = chestplateBulkDrawer.EquipSlotName(drawPlayer) != "" ? chestplateBulkDrawer.EquipSlotName(drawPlayer) : bodyItem.ModItem.Name;
+                int equipSlot = EquipLoader.GetEquipSlot(Mod, equipSlotName, EquipType.Body);
+                if (drawPlayer.body != equipSlot)
+                    return;
+
                 int dyeShader = drawPlayer.dye?[1].dye ?? 0;
                 Vector2 drawPosition = drawInfo.Position - Main.screenPosition;
 

@@ -125,17 +125,14 @@ namespace CalamityMod.NPCs.Crabulon
 
         public override void OnKill()
         {
-            if (!CalamityWorld.revenge)
-            {
-                int closestPlayer = Player.FindClosest(NPC.Center, 1, 1);
-                if (Main.rand.NextBool(8) && Main.player[closestPlayer].statLife < Main.player[closestPlayer].statLifeMax2)
-                    Item.NewItem(NPC.GetSource_Loot(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
-            }
+            int closestPlayer = Player.FindClosest(NPC.Center, 1, 1);
+            if (Main.rand.NextBool(8) && Main.player[closestPlayer].statLife < Main.player[closestPlayer].statLifeMax2)
+                Item.NewItem(NPC.GetSource_Loot(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
         }
 
         public override void HitEffect(int hitDirection, double damage)
         {
-            for (int k = 0; k < 5; k++)
+            for (int k = 0; k < 3; k++)
             {
                 Dust.NewDust(NPC.position, NPC.width, NPC.height, 56, hitDirection, -1f, 0, default, 1f);
             }

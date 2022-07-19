@@ -25,9 +25,7 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.hostile = true;
             Projectile.tileCollide = false;
             Projectile.penetrate = 1;
-            Projectile.timeLeft = 480;
-            Projectile.aiStyle = 1;
-            AIType = ProjectileID.WoodenArrowFriendly;
+            Projectile.timeLeft = 600;
         }
 
         public override void AI()
@@ -41,18 +39,23 @@ namespace CalamityMod.Projectiles.Boss
             if (Projectile.frame > 3)
                 Projectile.frame = 0;
 
-            if (Projectile.timeLeft < 90)
+            if (Projectile.position.Y > Projectile.ai[1])
                 Projectile.tileCollide = true;
+
+            Projectile.rotation = (float)Math.Atan2(Projectile.velocity.Y, Projectile.velocity.X) + MathHelper.PiOver2;
 
             Lighting.AddLight(Projectile.Center, 0f, 0.15f, 0.3f);
 
-            if (Math.Abs(Projectile.velocity.X) > 2f)
-                Projectile.velocity.X *= 0.99f;
+            float velocityYLimit = BossRushEvent.BossRushActive ? 12f : CalamityWorld.death ? 6f : 5f;
+            float velocityYIncrement = BossRushEvent.BossRushActive ? 0.24f : CalamityWorld.death ? 0.12f : 0.1f;
+            if (Projectile.velocity.Y < velocityYLimit)
+                Projectile.velocity.Y += velocityYIncrement;
 
-            float velocityYLimit = BossRushEvent.BossRushActive ? 10f : CalamityWorld.death ? 6f : 5f;
-            if (Projectile.velocity.Y > velocityYLimit)
-                Projectile.velocity.Y = velocityYLimit;
+            if (Math.Abs(Projectile.velocity.X) > 2f)
+                Projectile.velocity.X *= 0.995f;
         }
+
+        public override bool CanHitPlayer(Player target) => Projectile.velocity.Y >= 0f;
 
         public override bool PreDraw(ref Color lightColor)
         {
@@ -86,23 +89,22 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.height = 20;
             Projectile.position.X = Projectile.position.X - (float)(Projectile.width / 2);
             Projectile.position.Y = Projectile.position.Y - (float)(Projectile.height / 2);
-            for (int num621 = 0; num621 < 7; num621++)
+            for (int num621 = 0; num621 < 4; num621++)
             {
                 int num622 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 56, 0f, 0f, 100, default, 2f);
-                Main.dust[num622].velocity *= 3f;
+                Main.dust[num622].velocity *= 1.5f;
                 if (Main.rand.NextBool(2))
                 {
                     Main.dust[num622].scale = 0.5f;
                     Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
                 }
             }
-            for (int num623 = 0; num623 < 20; num623++)
+            for (int num623 = 0; num623 < 12; num623++)
             {
                 int num624 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 56, 0f, 0f, 100, default, 3f);
                 Main.dust[num624].noGravity = true;
-                Main.dust[num624].velocity *= 5f;
-                num624 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 56, 0f, 0f, 100, default, 2f);
                 Main.dust[num624].velocity *= 2f;
+                Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 56, 0f, 0f, 100, default, 2f);
             }
         }
     }

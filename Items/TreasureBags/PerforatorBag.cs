@@ -50,10 +50,10 @@ namespace CalamityMod.Items.TreasureBags
             var s = player.GetSource_OpenItem(Item.type);
 
             // Materials
-            DropHelper.DropItem(s, player, ModContent.ItemType<BloodSample>(), 45, 60);
+            DropHelper.DropItem(s, player, ModContent.ItemType<BloodSample>(), 30, 40);
             DropHelper.DropItem(s, player, ItemID.CrimtaneBar, 15, 20);
             DropHelper.DropItem(s, player, ItemID.Vertebrae, 15, 20);
-            DropHelper.DropItemCondition(s, player, ItemID.Ichor, Main.hardMode, 15, 30);
+            DropHelper.DropItemCondition(s, player, ItemID.Ichor, Main.hardMode, 25, 30);
             DropHelper.DropItem(s, player, ItemID.CrimsonSeeds, 10, 15);
 
             // Weapons

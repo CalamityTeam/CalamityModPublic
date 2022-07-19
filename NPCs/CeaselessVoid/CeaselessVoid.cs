@@ -210,7 +210,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
                 normalOnly.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, weapons));
 
                 // Materials
-                normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<DarkPlasma>(), 1, 2, 3));
+                normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<DarkPlasma>(), 1, 5, 7));
 
                 // Equipment
                 normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<TheEvolution>()));
@@ -286,7 +286,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
 
                 if (Main.netMode != NetmodeID.Server)
                 {
-                    float randomSpread = (float)(Main.rand.Next(-200, 200) / 100);
+                    float randomSpread = Main.rand.Next(-200, 201) / 100f;
                     Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * randomSpread, Mod.Find<ModGore>("CeaselessVoid").Type, 1f);
                     Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * randomSpread, Mod.Find<ModGore>("CeaselessVoid2").Type, 1f);
                     Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * randomSpread, Mod.Find<ModGore>("CeaselessVoid2").Type, 1f);
