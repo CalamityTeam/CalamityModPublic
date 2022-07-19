@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
+using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
@@ -20,7 +20,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.friendly = true;
             Projectile.DamageType = RogueDamageClass.Instance;
             Projectile.penetrate = 2;
-            Projectile.timeLeft = 300;
+            Projectile.timeLeft = 320;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 10;
         }
@@ -41,6 +41,16 @@ namespace CalamityMod.Projectiles.Rogue
             if (Projectile.ai[0] <= 0)
             {
                 Projectile.Kill();
+            }
+
+            if (Projectile.timeLeft <= 60)
+            {
+                Projectile.alpha += 4;
+            }
+
+            if (Math.Abs(Projectile.velocity.X) + Math.Abs(Projectile.velocity.Y) < 10)
+            {
+                Projectile.velocity *= 1.1f;
             }
         }
 
