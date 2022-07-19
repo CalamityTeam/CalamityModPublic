@@ -64,7 +64,7 @@ namespace CalamityMod.Projectiles.Melee
             //The hitbox is simplified into a line collision.
             float collisionPoint = 0f;
             float bladeLenght = 78f * Projectile.scale;
-            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Owner.Center + OffsetFromPlayer, Owner.Center + OffsetFromPlayer + (Projectile.velocity * bladeLenght), 24, ref collisionPoint);
+            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Owner.MountedCenter + OffsetFromPlayer, Owner.MountedCenter + OffsetFromPlayer + (Projectile.velocity * bladeLenght), 24, ref collisionPoint);
         }
 
         public override void AI()
@@ -78,7 +78,7 @@ namespace CalamityMod.Projectiles.Melee
             }
 
             //Manage position and rotation
-            Projectile.Center = Owner.Center + OffsetFromPlayer ;
+            Projectile.Center = Owner.MountedCenter + OffsetFromPlayer ;
             Projectile.scale = 1f + (float)Math.Sin(LifetimeCompletion * MathHelper.Pi) * 0.2f; //SWAGGER
 
             //Make the owner look like theyre holding the sword bla bla
