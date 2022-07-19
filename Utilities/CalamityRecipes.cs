@@ -1219,7 +1219,7 @@ namespace CalamityMod
             r = Recipe.Create(ItemID.BabyBirdStaff);
             r.AddIngredient(ItemID.Bird);
             r.AddRecipeGroup("Wood", 8);
-            r.AddTile(TileID.LivingLoom);
+            r.AddTile(TileID.WorkBenches);
             r.Register();
 
             // Starfury w/ Gold Broadsword
@@ -1425,7 +1425,7 @@ namespace CalamityMod
             r = Recipe.Create(ItemID.MetalDetector);
             r.AddIngredient(ItemID.Wire, 10);
             r.AddIngredient(ItemID.SpelunkerGlowstick, 5);
-            r.AddRecipeGroup(AnyGoldBar, 5);
+            r.AddRecipeGroup(AnyCopperBar, 5);
             r.AddTile(TileID.Anvils);
             r.Register();
 
