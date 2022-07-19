@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Rogue
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Grim Bat");
+            DisplayName.SetDefault("Grim Bat"); // There's an incredibly obvious thing that I could add/change in this name, but I will restrain
             Main.projFrames[Projectile.type] = 4;
         }
 
@@ -38,16 +38,19 @@ namespace CalamityMod.Projectiles.Rogue
 
             Projectile.spriteDirection = Projectile.direction = (Projectile.velocity.X > 0).ToDirectionInt();
 
+            // Each bounce subtracts from projectile.ai[0] instead of penetration because it shouldn't pierce enemies
             if (Projectile.ai[0] <= 0)
             {
                 Projectile.Kill();
             }
 
+            // Fade out
             if (Projectile.timeLeft <= 60)
             {
                 Projectile.alpha += 4;
             }
 
+            // Current bat burst code occasionally has a few duds, so they get an acceleration boost that blends them in (also mildly interesting to look at)
             if (Math.Abs(Projectile.velocity.X) + Math.Abs(Projectile.velocity.Y) < 10)
             {
                 Projectile.velocity *= 1.1f;

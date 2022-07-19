@@ -42,10 +42,12 @@ namespace CalamityMod.Projectiles.Rogue
 
             Projectile.ai[1]++;
 
+            // Stealth skulls instantly home in
             if (Projectile.ai[0] == 0)
             {
                 CalamityUtils.HomeInOnNPC(Projectile, true, 600f, 16f, 14f);
             }
+            // Otherwise home in after 20 frames have passed
             else if (Projectile.ai[1] > 20)
             {
                 CalamityUtils.HomeInOnNPC(Projectile, true, 600f, 12f, 14f);

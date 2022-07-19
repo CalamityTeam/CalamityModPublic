@@ -15,14 +15,14 @@ namespace CalamityMod.Items.Weapons.Rogue
             Tooltip.SetDefault("Hurls a cursed scythe which homes in\n"+
             "The scythe summons skulls as it flies and explodes into bats on hit\n"+
             "Stealth strikes spawn a flood of bats and falling skulls\n"+
-            "Inflicts Cursed Flames and Confusion\n"+
+            "Inflicts cursed flames and confusion\n"+
             "'A dapper skeleton's weapon of choice'");
             SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            Item.width = 106;
+            Item.width = 80;
             Item.damage = 62;
             Item.noMelee = true;
             Item.noUseGraphic = true;
@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.knockBack = 4f;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
-            Item.height = 104;
+            Item.height = 68;
             Item.shoot = ModContent.ProjectileType<GraveGrimreaverProjectile>();
             Item.shootSpeed = 16f;
             Item.DamageType = RogueDamageClass.Instance;

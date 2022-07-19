@@ -38,6 +38,7 @@ namespace CalamityMod.Projectiles.Rogue
                 SoundEngine.PlaySound(SoundID.Item7, Projectile.position);
             }
 
+            //Spawn a skull ever 20 frames
             if (Projectile.timeLeft % 20 == 0)
             {
                 Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity * 0.2f, ModContent.ProjectileType<GrimreaverSkull>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 1f, 0f);
@@ -70,6 +71,7 @@ namespace CalamityMod.Projectiles.Rogue
             SoundEngine.PlaySound(SoundID.Item20, Projectile.position);
             if (Projectile.Calamity().stealthStrike)
             {
+                // Stealth strikes play a wraith death noise, summon a larger dust explosion, a swarm of 20 bats, and a rain of 10 skulls
                 SoundEngine.PlaySound(SoundID.NPCDeath52 with { Volume = SoundID.NPCDeath52.Volume * 0.75f }, Projectile.Center);
                 SpawnBats(20, -12, 12); //"At least 20"...
                 DustExplosion(15, 6, 12, 30, 2.4f);
@@ -80,6 +82,7 @@ namespace CalamityMod.Projectiles.Rogue
             }
             else
             {
+                // Normal strikes play no extra sound, have a smaller dust explosion, and summon 4 bats 
                 SpawnBats(4, -12, 12);
                 DustExplosion(10, 3, 9, 20, 2.15f);
             }
