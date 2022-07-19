@@ -14,6 +14,7 @@ using static CalamityMod.CalamityUtils;
 namespace CalamityMod.Items.Accessories
 {
     [AutoloadEquip(EquipType.Back)]
+    //Its not like its a renamed version of the bayonet, but i put this here more as a way to "refund" the item, so it doesnt end up rotting as an unloaded item.
     [LegacyName("MarniteBayonet")]
     public class MarniteRepulsionShield : ModItem
     {
@@ -45,7 +46,7 @@ namespace CalamityMod.Items.Accessories
                 var source = player.GetSource_Accessory(Item);
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<MarniteRepulsionHitbox>()] < 1)
                 {
-                    var hitbox = Projectile.NewProjectileDirect(source, player.Center, Vector2.Zero, ModContent.ProjectileType<MarniteRepulsionHitbox>(), baseDamage, 14f, Main.myPlayer);
+                    var hitbox = Projectile.NewProjectileDirect(source, player.Center, Vector2.Zero, ModContent.ProjectileType<MarniteRepulsionHitbox>(), baseDamage, 10f, Main.myPlayer);
                     hitbox.originalDamage = baseDamage;
                 }
             }
@@ -84,22 +85,6 @@ namespace CalamityMod.Items.Accessories
 
         public Player Owner => Main.player[Projectile.owner];
 
-        public static Asset<Texture2D> QuillTex;
-        public List<QuillVisualData> Quills;
-        public ref float NewQuillCooldown => ref Projectile.localAI[0];
-        public static int QuillTime = 50;
-        public struct QuillVisualData
-        {
-            public float rotation;
-            public int time;
-
-            public QuillVisualData(float _rotation)
-            {
-                rotation = _rotation;
-                time = QuillTime;
-            }
-        }
-
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Repulsion Matrix");
@@ -127,6 +112,21 @@ namespace CalamityMod.Items.Accessories
                 {
                     Projectile.Center += -Vector2.UnitY * Owner.mount.PlayerOffset;
                 }
+
+                if (Main.rand.NextBool(6))
+                {
+                    Vector2 dustOrigin = Owner.MountedCenter;
+                    Vector2 dustDirection = (Vector2.UnitX * -1 * Owner.direction).RotatedByRandom(MathHelper.PiOver2 * 0.93f);
+                    dustOrigin += dustDirection * 14f;
+                    float spikeSpeed = Main.rand.NextFloat(1f, 3f);
+
+                    for (int i = 0; i < 5; i++)
+                    {
+                        Dust dust = Dust.NewDustPerfect(dustOrigin, 229, dustDirection * spikeSpeed + Owner.velocity, 120, Scale: Main.rand.NextFloat(0.6f, 1f));
+                        dust.noGravity = true;
+                        dustOrigin += dustDirection * 4f;
+                    }
+                }
             }
 
             else
@@ -139,6 +139,10 @@ namespace CalamityMod.Items.Accessories
             if (Math.Sign((Owner.Center - target.Center).X) != Owner.direction)
                 return false;
 
+            //Don't hit friendly enemies and such (it would look really off)
+            if (target.CountsAsACritter || target.friendly || !target.chaseable)
+                return false;
+
             return base.CanHitNPC(target);
         }
 
@@ -148,55 +152,5 @@ namespace CalamityMod.Items.Accessories
         }
 
         public override bool? CanCutTiles() => false;
-
-        public CurveSegment burstOut = new CurveSegment(PolyInOutEasing, 0f, 0f, 1f, 3);
-        public CurveSegment stay = new CurveSegment(LinearEasing, 0.25f, 1f, 0f);
-        public CurveSegment retract = new CurveSegment(PolyOutEasing, 0.8f, 1f, -0.8f);
-        internal float QuillDisplace(float quillProgress) => PiecewiseAnimation(quillProgress, new CurveSegment[] { burstOut, stay, retract });
-
-
-        public override bool PreDraw(ref Color lightColor)
-        {
-            return false;
-
-            if (QuillTex == null)
-                QuillTex = ModContent.Request<Texture2D>("CalamityMod/Items/Accessories/MarniteRepulsionShield_Quill");
-            Texture2D quillTex = QuillTex.Value;
-
-            if (Quills == null)
-                Quills = new List<QuillVisualData>();
-
-            NewQuillCooldown--;
-            if (NewQuillCooldown <= 0)
-            {
-                Quills.Add(new QuillVisualData(Main.rand.NextFloat(-MathHelper.PiOver2, MathHelper.PiOver2)));
-                NewQuillCooldown = QuillTime / 4f;
-            }
-
-            for (int i = 0; i < Quills.Count; i++)
-            {
-                QuillVisualData quill = Quills[i];
-
-                float rotation = quill.rotation + (Owner.direction < 0 ? MathHelper.Pi : 0);
-
-                float bounce = (float)Math.Sin((quill.time / (float)QuillTime) * MathHelper.Pi) * 2f;
-                float quillOpacity = Math.Min(bounce, 1f);
-                float quillDisplacement = QuillDisplace(1 - quill.time / (float)QuillTime) * 14f;
-
-                Vector2 quillPosition = Projectile.Center + Vector2.UnitX * (Projectile.width / 2f - 10f) * Owner.direction;
-                quillPosition += Vector2.UnitX.RotatedBy(rotation) * quillDisplacement;
-
-                Vector2 quillOrigin = new Vector2(quillTex.Width / 2f, quillTex.Height);
-
-                Main.EntitySpriteDraw(quillTex, quillPosition - Main.screenPosition, null, lightColor * quillOpacity, rotation + MathHelper.PiOver2 * Owner.direction, quillOrigin, 1f, SpriteEffects.None, 0);
-
-                quill.time--;
-                Quills[i] = quill;
-            }
-
-            Quills.RemoveAll(q => q.time < 0);
-
-            return false;
-        }
     }
 }
