@@ -46,7 +46,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override void HitEffect(int hitDirection, double damage)
         {
             // Dummy AI, no way
-            NPC.ai[0] = hitDirection;
+            NPC.ai[0] = hitDirection * -NPC.direction;
         }
 
         public override void FindFrame(int frameHeight)
