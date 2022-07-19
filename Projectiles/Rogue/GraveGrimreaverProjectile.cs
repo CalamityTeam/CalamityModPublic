@@ -34,7 +34,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             if (Projectile.soundDelay == 0)
             {
-                Projectile.soundDelay = 8;
+                Projectile.soundDelay = 22;
                 SoundEngine.PlaySound(SoundID.Item7, Projectile.position);
             }
 
@@ -45,6 +45,7 @@ namespace CalamityMod.Projectiles.Rogue
 
             CalamityUtils.HomeInOnNPC(Projectile, true, 250f, 4f, 14f);
 
+            Projectile.spriteDirection = Projectile.direction = (Projectile.velocity.X > 0).ToDirectionInt();
             Projectile.rotation += 0.1f * Projectile.spriteDirection;
         }
 
