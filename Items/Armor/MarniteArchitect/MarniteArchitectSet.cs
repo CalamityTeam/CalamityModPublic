@@ -121,7 +121,7 @@ namespace CalamityMod.Items.Armor.MarniteArchitect
 
                 if (setBonusIndex != -1)
                 {
-                    TooltipLine setBonus1 = new TooltipLine(item.Mod, "CalamityMod:SetBonus1", "Marnite Lift - You can summon a a lift under your feet to reach higher up");
+                    TooltipLine setBonus1 = new TooltipLine(item.Mod, "CalamityMod:SetBonus1", "Marnite Lift - You can summon a lift under your feet to reach higher up");
                     setBonus1.OverrideColor = Color.Lerp(new Color(255, 243, 161), new Color(137, 162, 255), 0.5f + 0.5f * (float)Math.Sin(Main.GlobalTimeWrappedHourly * 3f));
                     tooltips[setBonusIndex] = setBonus1;
 
