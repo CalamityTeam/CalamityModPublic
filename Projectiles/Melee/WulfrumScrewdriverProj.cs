@@ -72,8 +72,8 @@ namespace CalamityMod.Projectiles.Melee
             if (EndLag == 0) //Initialization
             {
                 EndLag = (float)Math.Max(Owner.ActiveItem().useTime - MaxTime, 1);
-                TrueDirection = Owner.SafeDirectionTo(Owner.Calamity().mouseWorld, Vector2.Zero).ToRotation(); //Store this for the screw hit
-                Projectile.velocity = Owner.SafeDirectionTo(Owner.Calamity().mouseWorld, Vector2.Zero).RotatedByRandom(MathHelper.PiOver4 * 0.15f);
+                TrueDirection = (Owner.Calamity().mouseWorld - Owner.MountedCenter).SafeNormalize(Vector2.Zero).ToRotation(); //Store this for the screw hit
+                Projectile.velocity = (Owner.Calamity().mouseWorld - Owner.MountedCenter).SafeNormalize(Vector2.Zero).RotatedByRandom(MathHelper.PiOver4 * 0.15f);
                 Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
             }
 
