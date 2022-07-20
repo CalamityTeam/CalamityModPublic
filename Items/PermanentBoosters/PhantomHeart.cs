@@ -1,8 +1,11 @@
 ﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace CalamityMod.Items.PermanentBoosters
 {
@@ -33,6 +36,10 @@ namespace CalamityMod.Items.PermanentBoosters
             CalamityPlayer modPlayer = player.Calamity();
             if (modPlayer.pHeart)
             {
+                string key = "Mods.CalamityMod.PhantomHeartText";
+                Color messageColor = Color.Magenta;
+                CalamityUtils.DisplayLocalizedText(key, messageColor);
+
                 return false;
             }
             return true;
@@ -51,6 +58,14 @@ namespace CalamityMod.Items.PermanentBoosters
                 modPlayer.pHeart = true;
             }
             return true;
+        }
+
+        public override void ModifyTooltips(List<TooltipLine> list)
+        {
+            TooltipLine line = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip2");
+
+            if (line != null && Main.LocalPlayer.Calamity().pHeart)
+                line.Text = "[c/8a8a8a:You have already consumed this item]";
         }
 
         public override void AddRecipes()

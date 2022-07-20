@@ -713,7 +713,7 @@ namespace CalamityMod.NPCs.DesertScourge
                 normalOnly.Add(ItemID.Coral, 1, 25, 30);
                 normalOnly.Add(ItemID.Seashell, 1, 25, 30);
                 normalOnly.Add(ItemID.Starfish, 1, 25, 30);
-                normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<VictoryShard>(), 1, 25, 30));
+                normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<PearlShard>(), 1, 25, 30));
 
                 // Equipment
                 normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<OceanCrest>()));

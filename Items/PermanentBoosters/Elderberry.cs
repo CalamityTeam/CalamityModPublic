@@ -1,8 +1,11 @@
 ﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace CalamityMod.Items.PermanentBoosters
 {
@@ -33,7 +36,15 @@ namespace CalamityMod.Items.PermanentBoosters
         public override bool CanUseItem(Player player)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            if (modPlayer.eBerry || player.statLifeMax < 500)
+            if (modPlayer.eBerry)
+            {
+                string key = "Mods.CalamityMod.ElderberryText";
+                Color messageColor = Color.RoyalBlue;
+                CalamityUtils.DisplayLocalizedText(key, messageColor);
+
+                return false;
+            }
+            else if (player.statLifeMax < 500)
             {
                 return false;
             }
@@ -53,6 +64,14 @@ namespace CalamityMod.Items.PermanentBoosters
                 modPlayer.eBerry = true;
             }
             return true;
+        }
+
+        public override void ModifyTooltips(List<TooltipLine> list)
+        {
+            TooltipLine line = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip2");
+
+            if (line != null && Main.LocalPlayer.Calamity().eBerry)
+                line.Text = "[c/8a8a8a:You have already consumed this item]";
         }
 
         public override void AddRecipes()
