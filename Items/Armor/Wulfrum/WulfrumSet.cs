@@ -176,12 +176,14 @@ namespace CalamityMod.Items.Armor.Wulfrum
                 Item headItem = player.armor[10].type != 0 ? player.armor[10] : player.armor[0];
                 bool hatVisible = !transformationPlayer.transformationActive && headItem.type == ItemType<WulfrumHat>();
 
+
                 //Spawn the hat
                 if (cd.timeLeft == BastionCooldown + BastionTime - (int)(BastionBuildTime * 0.9f) && hatVisible)
                 {
                     Particle leftoverHat = new WulfrumHatParticle(player, -Vector2.UnitY.RotatedByRandom(MathHelper.PiOver4) * Main.rand.NextFloat(3f, 7f), 25);
                     GeneralParticleHandler.SpawnParticle(leftoverHat);
                 }
+
 
                 //Visuals
                 if (cd.timeLeft < BastionCooldown + BastionTime - BastionBuildTime)
@@ -190,17 +192,25 @@ namespace CalamityMod.Items.Armor.Wulfrum
                     player.GetModPlayer<WulfrumTransformationPlayer>().forceHelmetOn = true;
 
 
-                //Drop the player's held item if they were holding something before
-                if (!(Main.mouseItem.type == DummyCannon.type) && !Main.mouseItem.IsAir)
-                    Main.LocalPlayer.QuickSpawnClonedItem(null, Main.mouseItem, Main.mouseItem.stack);
-                
+                //Swapping the arm.
+                if (DummyCannon.IsAir)
+                    DummyCannon.SetDefaults(ItemType<WulfrumFusionCannon>());
+
+                if (Main.myPlayer == player.whoAmI)
+                {
+                    //Drop the player's held item if they were holding something before
+                    if (!(Main.mouseItem.type == DummyCannon.type) && !Main.mouseItem.IsAir)
+                        Main.LocalPlayer.QuickSpawnClonedItem(null, Main.mouseItem, Main.mouseItem.stack);
+
+                    Main.mouseItem = DummyCannon;
+                }
+
                 //Slot 58 is the "fake" slot thats used for the item the player is holding in their mouse.
-                Main.mouseItem = DummyCannon;
                 player.inventory[58] = DummyCannon;
                 player.selectedItem = 58;
             }
 
-            else
+            else if (Main.myPlayer == player.whoAmI)
             {
                 //Clear the player's hand
                 if (Main.mouseItem.type == ItemType<WulfrumFusionCannon>())
