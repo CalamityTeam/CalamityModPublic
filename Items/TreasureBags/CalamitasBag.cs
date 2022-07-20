@@ -50,9 +50,9 @@ namespace CalamityMod.Items.TreasureBags
             player.TryGettingDevArmor(s);
 
             // Materials
-            DropHelper.DropItem(s, player, ModContent.ItemType<AshesofCalamity>(), 14, 18);
-            DropHelper.DropItem(s, player, ModContent.ItemType<EssenceofChaos>(), 5, 9);
-            DropHelper.DropItemCondition(s, player, ModContent.ItemType<Bloodstone>(), DownedBossSystem.downedProvidence, 35, 45);
+            DropHelper.DropItem(s, player, ModContent.ItemType<AshesofCalamity>(), 30, 35);
+            DropHelper.DropItem(s, player, ModContent.ItemType<EssenceofChaos>(), 10, 15);
+            DropHelper.DropItemCondition(s, player, ModContent.ItemType<Bloodstone>(), DownedBossSystem.downedProvidence, 60, 70);
 
             // Weapons
             float w = DropHelper.BagWeaponDropRateFloat;

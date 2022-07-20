@@ -62,7 +62,7 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             CreateRecipe().
                 AddIngredient(ItemID.WandofSparking).
-                AddIngredient<YharonSoulFragment>(5).
+                AddIngredient<YharonSoulFragment>(8).
                 AddTile<CosmicAnvil>().
                 Register();
         }

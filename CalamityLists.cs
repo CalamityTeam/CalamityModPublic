@@ -278,7 +278,6 @@ namespace CalamityMod
                 "Cameron",
                 "Orudeon",
                 "BumbleDoge",
-                "John",
                 "Naglfar",
                 "Helixas",
                 "Vetus",
@@ -519,7 +518,8 @@ namespace CalamityMod
                 "Himakaze",
                 "Face",
                 "Carboniferous",
-                "James"
+                "James",
+                "Taitou1"
             };
 
             projectileDestroyExceptionList = new List<int>()
@@ -1672,7 +1672,7 @@ namespace CalamityMod
                 ItemType<KnowledgeSulphurSea>(),
                 ItemType<KnowledgeOcean>(),
                 ItemType<KnowledgeOldDuke>(),
-                ItemType<VictoryShard>(),
+                ItemType<PearlShard>(),
                 ItemType<AeroStone>(),
                 ItemType<TheCommunity>(),
                 ItemType<DukesDecapitator>(),

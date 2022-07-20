@@ -894,9 +894,9 @@ namespace CalamityMod.CalPlayer
                 bool airborne = Player.velocity.Y != 0;
                 if (holdingDown && Player.ControlsEnabled() && notInLiquid && notOnRope && notGrappling && airborne)
                 {
-                    Player.velocity.Y += Player.gravity * (BalancingConstants.HoldingDownGravityMultiplier - 1f);
-                    if (Player.velocity.Y > Player.maxFallSpeed)
-                        Player.velocity.Y = Player.maxFallSpeed;
+                    Player.velocity.Y += Player.gravity * Player.gravDir * (BalancingConstants.HoldingDownGravityMultiplier - 1f);
+                    if (Player.velocity.Y * Player.gravDir > Player.maxFallSpeed )
+                        Player.velocity.Y = Player.maxFallSpeed * Player.gravDir;
                 }
             }
             else

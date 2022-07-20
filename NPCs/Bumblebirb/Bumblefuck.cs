@@ -426,7 +426,7 @@ namespace CalamityMod.NPCs.Bumblebirb
                 normalOnly.Add(ModContent.ItemType<Swordsplosion>(), 10);
 
                 // Materials
-                normalOnly.Add(ModContent.ItemType<EffulgentFeather>(), 1, 11, 17);
+                normalOnly.Add(ModContent.ItemType<EffulgentFeather>(), 1, 25, 30);
 
                 // Equipment
                 normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<DynamoStemCells>()));

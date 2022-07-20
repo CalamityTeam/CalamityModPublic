@@ -85,7 +85,7 @@ namespace CalamityMod.Items.Weapons.Summon
                 AddIngredient<EyeOfNight>().
                 AddIngredient<DeepseaStaff>().
                 AddIngredient(ItemID.OpticStaff).
-                AddIngredient<LivingShard>(10).
+                AddIngredient<LivingShard>(12).
                 AddTile(TileID.MythrilAnvil).
                 Register();
 
@@ -93,7 +93,7 @@ namespace CalamityMod.Items.Weapons.Summon
                 AddIngredient<FleshOfInfidelity>().
                 AddIngredient<DeepseaStaff>().
                 AddIngredient(ItemID.OpticStaff).
-                AddIngredient<LivingShard>(10).
+                AddIngredient<LivingShard>(12).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

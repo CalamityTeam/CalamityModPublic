@@ -49,10 +49,10 @@ namespace CalamityMod.Items.TreasureBags
             var s = player.GetSource_OpenItem(Item.type);
 
             // Materials
-            DropHelper.DropItem(s, player, ModContent.ItemType<VictoryShard>(), 10, 16);
-            DropHelper.DropItem(s, player, ItemID.Coral, 7, 11);
-            DropHelper.DropItem(s, player, ItemID.Seashell, 7, 11);
-            DropHelper.DropItem(s, player, ItemID.Starfish, 7, 11);
+            DropHelper.DropItem(s, player, ModContent.ItemType<PearlShard>(), 30, 40);
+            DropHelper.DropItem(s, player, ItemID.Coral, 30, 40);
+            DropHelper.DropItem(s, player, ItemID.Seashell, 30, 40);
+            DropHelper.DropItem(s, player, ItemID.Starfish, 30, 40);
 
             // Weapons
             // Set up the base drop set, which includes Scourge of the Desert at its normal drop chance.

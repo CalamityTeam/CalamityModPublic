@@ -41,7 +41,7 @@ namespace CalamityMod.Items.Accessories
             CreateRecipe().
                 AddIngredient(ItemID.CelestialEmblem).
                 AddRecipeGroup("AnyEvilWater", 10).
-                AddIngredient<AshesofCalamity>(5).
+                AddIngredient<AshesofCalamity>(10).
                 AddIngredient<CoreofChaos>(5).
                 AddIngredient<ScoriaBar>(2).
                 AddTile(TileID.MythrilAnvil).

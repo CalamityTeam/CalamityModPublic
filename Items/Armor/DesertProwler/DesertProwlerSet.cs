@@ -299,6 +299,7 @@ namespace CalamityMod.Items.Armor.DesertProwler
         internal SlotId SmokeBombSoundSlot;
 
         public bool desertProwlerSet = false;
+        public bool stopSmokeBomb = false;
 
         public override void ResetEffects()
         {
@@ -319,8 +320,16 @@ namespace CalamityMod.Items.Armor.DesertProwler
 
         public override void PostUpdate()
         {
-            if (Player.Calamity().cooldowns.TryGetValue(SandsmokeBomb.ID, out var cd) && cd.timeLeft == DesertProwlerHat.SmokeCooldown)
+            if (Player.Calamity().cooldowns.TryGetValue(SandsmokeBomb.ID, out var cd))
             {
+                if (stopSmokeBomb)
+                {
+                    cd.timeLeft = DesertProwlerHat.SmokeCooldown;
+                    SetBonusBounceEffect();
+                    stopSmokeBomb = false;
+                }
+
+                if (cd.timeLeft == DesertProwlerHat.SmokeCooldown)
                 SetBonusEndEffect();
             }
         }
@@ -402,10 +411,8 @@ namespace CalamityMod.Items.Armor.DesertProwler
                 if (projectile.owner >= 0 && DesertProwlerHat.ShroudedInSmoke(Main.player[projectile.owner], out var cd) && projectile.DamageType.CountsAsClass(DamageClass.Ranged))
                 {
                     projectile.Calamity().supercritHits  = 1;
-                    cd.timeLeft = DesertProwlerHat.SmokeCooldown;
                     LightsOut = true;
-
-                    Main.player[projectile.owner].GetModPlayer<DesertProwlerPlayer>().SetBonusBounceEffect();
+                    Main.player[projectile.owner].GetModPlayer<DesertProwlerPlayer>().stopSmokeBomb = true;
                 }
             }
         }

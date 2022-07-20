@@ -53,7 +53,7 @@ namespace CalamityMod.Items.TreasureBags
             player.TryGettingDevArmor(s);
 
             // Materials
-            DropHelper.DropItem(s, player, ModContent.ItemType<EffulgentFeather>(), 15, 21);
+            DropHelper.DropItem(s, player, ModContent.ItemType<EffulgentFeather>(), 30, 35);
 
             // Weapons
             float w = DropHelper.BagWeaponDropRateFloat;

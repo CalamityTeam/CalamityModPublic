@@ -67,7 +67,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 AddIngredient(ItemID.IllegalGunParts).
                 AddIngredient<AerialiteBar>(10).
                 AddIngredient(ItemID.Bone, 50).
-                AddIngredient<VictoryShard>(25).
+                AddIngredient<PearlShard>(25).
                 AddIngredient(ItemID.WaterBucket, 3).
                 AddTile(TileID.Anvils).
                 Register();

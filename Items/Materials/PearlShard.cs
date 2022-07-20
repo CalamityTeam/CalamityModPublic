@@ -4,12 +4,13 @@ using Terraria.ID;
 
 namespace CalamityMod.Items.Materials
 {
-    public class VictoryShard : ModItem
+    [LegacyName("VictoryShard")]
+    public class PearlShard : ModItem
     {
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 25;
-            DisplayName.SetDefault("Victory Shard");
+            DisplayName.SetDefault("Pearl Shard");
         }
 
         public override void SetDefaults()

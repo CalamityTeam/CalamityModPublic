@@ -31,10 +31,10 @@ namespace CalamityMod.Items.LoreItems
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddTile(TileID.Bookcases).AddIngredient(ModContent.ItemType<ArtemisTrophy>()).AddIngredient(ModContent.ItemType<VictoryShard>(), 10).Register();
-            CreateRecipe(1).AddTile(TileID.Bookcases).AddIngredient(ModContent.ItemType<ApolloTrophy>()).AddIngredient(ModContent.ItemType<VictoryShard>(), 10).Register();
-            CreateRecipe(1).AddTile(TileID.Bookcases).AddIngredient(ModContent.ItemType<ThanatosTrophy>()).AddIngredient(ModContent.ItemType<VictoryShard>(), 10).Register();
-            CreateRecipe(1).AddTile(TileID.Bookcases).AddIngredient(ModContent.ItemType<AresTrophy>()).AddIngredient(ModContent.ItemType<VictoryShard>(), 10).Register();
+            CreateRecipe(1).AddTile(TileID.Bookcases).AddIngredient(ModContent.ItemType<ArtemisTrophy>()).AddIngredient(ModContent.ItemType<PearlShard>(), 10).Register();
+            CreateRecipe(1).AddTile(TileID.Bookcases).AddIngredient(ModContent.ItemType<ApolloTrophy>()).AddIngredient(ModContent.ItemType<PearlShard>(), 10).Register();
+            CreateRecipe(1).AddTile(TileID.Bookcases).AddIngredient(ModContent.ItemType<ThanatosTrophy>()).AddIngredient(ModContent.ItemType<PearlShard>(), 10).Register();
+            CreateRecipe(1).AddTile(TileID.Bookcases).AddIngredient(ModContent.ItemType<AresTrophy>()).AddIngredient(ModContent.ItemType<PearlShard>(), 10).Register();
         }
     }
 }

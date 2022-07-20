@@ -67,7 +67,7 @@ Stealth strikes summon more lightning and travel faster");
         {
             CreateRecipe().
                 AddIngredient<StormfrontRazor>().
-                AddIngredient<ArmoredShell>(8).
+                AddIngredient<ArmoredShell>(3).
                 AddIngredient<UnholyEssence>(15).
                 AddIngredient<CoreofSunlight>(5).
                 AddTile(TileID.LunarCraftingStation).

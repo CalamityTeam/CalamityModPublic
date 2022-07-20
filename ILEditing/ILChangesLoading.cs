@@ -56,6 +56,7 @@ namespace CalamityMod.ILEditing
             IL.Terraria.GameContent.Drawing.TileDrawing.DrawPartialLiquid += DrawCustomLava;
             IL.Terraria.GameContent.Liquid.LiquidRenderer.InternalDraw += DrawCustomLava2;
             IL.Terraria.Main.oldDrawWater += DrawCustomLava3;
+            IL.Terraria.Player.CollectTaxes += MakeTaxCollectorUseful;
             On.Terraria.Main.DrawGore += DrawForegroundStuff;
             On.Terraria.GameContent.Drawing.TileDrawing.PreDrawTiles += ClearForegroundStuff;
             On.Terraria.GameContent.Drawing.TileDrawing.Draw += ClearTilePings;
@@ -63,7 +64,6 @@ namespace CalamityMod.ILEditing
             On.Terraria.Player.UpdatePettingAnimal += CustomGrapplePreDefaultMovement;
             On.Terraria.Player.PlayerFrame += CustomGrapplePostFrame;
             On.Terraria.Player.SlopeDownMovement += CustomGrapplePreStepUp;
-
 
             // TODO -- Revisit this. It's not an extremely important thing, but it'd be ideal to not just abandon it.
             // IL.Terraria.WaterfallManager.DrawWaterfall += DrawCustomLavafalls;
@@ -169,7 +169,8 @@ namespace CalamityMod.ILEditing
             IL.Terraria.GameContent.Drawing.TileDrawing.DrawPartialLiquid -= DrawCustomLava;
             IL.Terraria.GameContent.Liquid.LiquidRenderer.InternalDraw -= DrawCustomLava2;
             IL.Terraria.Main.oldDrawWater -= DrawCustomLava3;
-            IL.Terraria.WaterfallManager.DrawWaterfall -= DrawCustomLavafalls;
+            IL.Terraria.Player.CollectTaxes -= MakeTaxCollectorUseful;
+            // IL.Terraria.WaterfallManager.DrawWaterfall -= DrawCustomLavafalls;
             On.Terraria.NPC.Collision_DecideFallThroughPlatforms -= EnableCalamityBossPlatformCollision;
             IL.Terraria.Wiring.HitWireSingle -= AddTwinklersToStatue;
             On.Terraria.Main.DrawGore -= DrawForegroundStuff;

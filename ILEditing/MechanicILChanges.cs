@@ -6,6 +6,7 @@ using CalamityMod.ForegroundDrawing;
 using CalamityMod.Events;
 using CalamityMod.FluidSimulation;
 using CalamityMod.Items.Dyes;
+using CalamityMod.NPCs;
 using CalamityMod.NPCs.Astral;
 using CalamityMod.NPCs.AstrumAureus;
 using CalamityMod.NPCs.Crabulon;
@@ -927,6 +928,27 @@ namespace CalamityMod.ILEditing
         }
         #endregion Statue Additions
 
+        #region Make Tax Collector Worth it
+        private static void MakeTaxCollectorUseful(ILContext il)
+        {
+            ILCursor cursor = new(il);
+            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchCall<Item>("buyPrice")))
+            {
+                LogFailure("Tax Collector Money Boosts", "Could not locate the amount of money to collect per town NPC.");
+                return;
+            }
+            cursor.Emit(OpCodes.Pop);
+            cursor.Emit<CalamityGlobalNPC>(OpCodes.Call, "get_TotalTaxesPerNPC");
+
+            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchCall<Item>("buyPrice")))
+            {
+                LogFailure("Tax Collector Money Boosts", "Could not locate the maximum amount of money to collect.");
+                return;
+            }
+            cursor.Emit(OpCodes.Pop);
+            cursor.Emit<CalamityGlobalNPC>(OpCodes.Call, "get_TaxesToCollectLimit");
+        }
+        #endregion Make Tax Collector Worth it
         #region Foreground tiles drawing
         private static void DrawForegroundStuff(On.Terraria.Main.orig_DrawGore orig, Main self)
         {
