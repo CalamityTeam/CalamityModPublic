@@ -16,7 +16,7 @@ namespace CalamityMod.Projectiles.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Obliterator");
+            DisplayName.SetDefault("Marnite Obliterator");
         }
 
         public override string Texture => "CalamityMod/Items/Tools/MarniteObliterator";
