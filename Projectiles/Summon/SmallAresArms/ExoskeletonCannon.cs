@@ -112,6 +112,7 @@ namespace CalamityMod.Projectiles.Summon.SmallAresArms
 
         public void DrawLimbs()
         {
+            int frame = (int)(Main.GlobalTimeWrappedHourly * 7.2f) % 9;
             for (int i = 0; i < Limbs.Limbs.Length; i++)
             {
                 float scale = Projectile.scale;
@@ -126,7 +127,7 @@ namespace CalamityMod.Projectiles.Summon.SmallAresArms
                     segmentTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/SmallAresArms/ArmPart2").Value;
                 if (i <= 1)
                 {
-                    segmentFrame = segmentTexture.Frame();
+                    segmentFrame = segmentTexture.Frame(1, 9, 0, frame);
                     segmentDirection = OwnerRestingOffset.X < 0f ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
                     if (OwnerRestingOffset.X < 0f)
                     {
@@ -148,7 +149,8 @@ namespace CalamityMod.Projectiles.Summon.SmallAresArms
             Color shoulderColor = Lighting.GetColor(Limbs.ConnectPoint.ToTileCoordinates());
             Texture2D shoulderTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/SmallAresArms/ArmTopShoulder").Value;
             SpriteEffects shoulderDirection = OwnerRestingOffset.X < 0f ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
-            Main.EntitySpriteDraw(shoulderTexture, shoulderPosition - Main.screenPosition, null, Projectile.GetAlpha(shoulderColor), 0f, shoulderTexture.Size() * 0.5f, Projectile.scale, shoulderDirection, 0);
+            Rectangle shoulderFrame = shoulderTexture.Frame(1, 9, 0, frame);
+            Main.EntitySpriteDraw(shoulderTexture, shoulderPosition - Main.screenPosition, shoulderFrame, Projectile.GetAlpha(shoulderColor), 0f, shoulderFrame.Size() * 0.5f, Projectile.scale, shoulderDirection, 0);
         }
     }
 }
