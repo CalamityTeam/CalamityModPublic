@@ -26,7 +26,7 @@ namespace CalamityMod
         public static int AnyCopperBar, AnySilverBar, AnyGoldOre, AnyGoldBar, AnyEvilBar, AnyCobaltBar, AnyMythrilBar, AnyAdamantiteBar;
         public static int EvilPowder, Boss2Material, CursedFlameIchor, AnyEvilWater, AnyEvilFlask;
         public static int AnyStoneBlock, AnySnowBlock, AnyIceBlock, SiltGroup, AnyEvilBlock, AnyGoodBlock;
-        public static int AnyWoodenSword, AnyZapinator, AnyHallowedHelmet, AnyHallowedPlatemail, AnyHallowedGreaves, AnyGoldCrown, LunarPickaxe
+        public static int AnyWoodenSword, AnyZapinator, AnyHallowedHelmet, AnyHallowedPlatemail, AnyHallowedGreaves, AnyGoldCrown, LunarPickaxe, LunarHamaxe;
         public static int ManaFlowersGroup, QuiversGroup, WingsGroup, TombstonesGroup;
 
         private static void ModifyVanillaRecipeGroups()
