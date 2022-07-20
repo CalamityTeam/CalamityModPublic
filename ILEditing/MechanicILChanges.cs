@@ -38,7 +38,8 @@ using Terraria.ModLoader;
 using Terraria.UI.Gamepad;
 using Terraria.Utilities;
 using Terraria.Graphics.Light;
-
+using System.Collections.Generic;
+using Terraria.GameContent.Events;
 
 namespace CalamityMod.ILEditing
 {
@@ -56,6 +57,16 @@ namespace CalamityMod.ILEditing
         private static Action VanillaSpawnTownNPCs;
 
         private static readonly MethodInfo textureGetValueMethod = typeof(Asset<Texture2D>).GetMethod("get_Value", BindingFlags.Public | BindingFlags.Instance);
+
+        // Restarting the sprite batch for each different projectile is analogously equivalent to creating an entire new factory just to build a single car.
+        // It is inefficient and leads to performance problems as many projectiles do it.
+        // To mitigate this problem, a special draw cache exists for the purpose of deferring drawing of projectiles to a time in which all projectiles may be
+        // subject to the same additive draw state before all of the spritebatch's contents are flushed.
+        public static List<int> ProjectileDrawCacheAdditiveBlending
+        {
+            get;
+            internal set;
+        } = new(Main.maxProjectiles);
 
         #region Dash Fixes and Improvements
         private static void MakeShieldSlamIFramesConsistent(ILContext il)
@@ -647,10 +658,37 @@ namespace CalamityMod.ILEditing
         }
         #endregion Fire Cursor Effect for the Calamity Accessory
 
+        #region Custom Draw Layers
+        private static void UseCustomDrawLayers(ILContext il)
+        {
+            ILCursor cursor = new(il);
+            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchCall<MoonlordDeathDrama>("DrawWhite")))
+                return;
+
+            cursor.EmitDelegate<Action>(() =>
+            {
+                Main.spriteBatch.SetBlendState(BlendState.Additive);
+                for (int i = 0; i < ProjectileDrawCacheAdditiveBlending.Count; i++)
+                {
+                    try
+                    {
+                        Main.instance.DrawProj(ProjectileDrawCacheAdditiveBlending[i]);
+                    }
+                    catch (Exception e)
+                    {
+                        TimeLogger.DrawException(e);
+                        Main.projectile[ProjectileDrawCacheAdditiveBlending[i]].active = false;
+                    }
+                }
+                Main.spriteBatch.SetBlendState(BlendState.AlphaBlend);
+                ProjectileDrawCacheAdditiveBlending.Clear();
+            });
+        }
+        #endregion Custom Draw Layers
+
         #region General Particle Rendering
         private static void DrawFusableParticles(On.Terraria.Main.orig_SortDrawCacheWorms orig, Main self)
         {
-            
             DeathAshParticle.DrawAll();
             FusableParticleManager.RenderAllFusableParticles();
 
