@@ -182,8 +182,6 @@ namespace CalamityMod.Items.Armor.MarniteArchitect
         public override void UpdateEquip(Player player)
         {
             player.tileSpeed += 0.5f;
-            if (player.mount.Active)
-                return;
         }
 
         public override void ModifyTooltips(List<TooltipLine> tooltips) => MarniteArchitectHeadgear.ModifySetTooltips(this, tooltips);
