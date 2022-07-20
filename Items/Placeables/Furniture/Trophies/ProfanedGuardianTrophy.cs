@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Placeables.Furniture.Trophies
             Item.consumable = true;
             Item.value = 50000;
             Item.rare = ItemRarityID.Blue;
-            Item.createTile = ModContent.TileType<ProfanedGuardiansTrophyTile>();
+            Item.createTile = ModContent.TileType<ProfanedGuardianTrophyTile>();
         }
     }
 }

@@ -8,7 +8,7 @@ using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles.Furniture.BossTrophies
 {
-    public class CatclysmTrophyTile : ModTile
+    public class CataclysmTrophyTile : ModTile
     {
         public override void SetStaticDefaults()
         {
