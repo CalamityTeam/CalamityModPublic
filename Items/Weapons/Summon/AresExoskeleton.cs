@@ -12,6 +12,16 @@ namespace CalamityMod.Items.Weapons.Summon
 {
     public class AresExoskeleton : ModItem
     {
+        public const int PlasmaCannonShootRate = 30;
+
+        public const int TeslaCannonShootRate = 30;
+
+        public const int LaserCannonNormalShootRate = 30;
+
+        public const int GaussNukeShootRate = 210;
+
+        public const float TargetingDistance = 1020f;
+
         public const float MinionSlotsPerCannon = 3f;
 
         public const float NukeDamageFactor = 2.7f;
@@ -70,18 +80,6 @@ namespace CalamityMod.Items.Weapons.Summon
                 Main.projectile[cannon].originalDamage = Item.damage;
 
             return false;
-        }
-        
-        public override void AddRecipes()
-        {
-            CreateRecipe().
-                AddIngredient<Excelsus>().
-                AddIngredient<CosmicViperEngine>().
-                AddIngredient(ItemID.WingsVortex).
-                AddIngredient<CosmiliteBar>(40).
-                AddIngredient<ShadowspecBar>(5).
-                AddTile<DraedonsForge>().
-                Register();
         }
     }
 }

@@ -43,7 +43,7 @@ namespace CalamityMod.Projectiles.Summon.SmallAresArms
             Projectile.minion = true;
             Projectile.minionSlots = AresExoskeleton.MinionSlotsPerCannon;
             Projectile.penetrate = -1;
-            Projectile.timeLeft = 90000;
+            Projectile.timeLeft = 900000;
             Projectile.scale = 1f;
             Projectile.DamageType = DamageClass.Summon;
         }
@@ -93,7 +93,7 @@ namespace CalamityMod.Projectiles.Summon.SmallAresArms
             // Look at the mouse if not targetting anything.
             // If something is being targeted, look at them instead.
             float idealRotation = Main.myPlayer != Projectile.owner ? Projectile.rotation : Projectile.AngleTo(Main.MouseWorld);
-            NPC potentialTarget = Projectile.Center.ClosestNPCAt(960f);
+            NPC potentialTarget = Projectile.Center.ClosestNPCAt(AresExoskeleton.TargetingDistance);
             if (potentialTarget != null)
             {
                 Projectile.ai[1] = 1f;
@@ -110,9 +110,26 @@ namespace CalamityMod.Projectiles.Summon.SmallAresArms
             Projectile.spriteDirection = (Math.Cos(Projectile.rotation) > 0f).ToDirectionInt();
         }
 
+        public void DefaultDrawCannon(Texture2D glowmask)
+        {
+            Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
+            Rectangle frame = texture.Frame(2, Main.projFrames[Type], TargetingSomething.ToInt(), Projectile.frame);
+            Vector2 origin = frame.Size() * 0.5f;
+            Vector2 drawPosition = Projectile.Center - Main.screenPosition;
+            SpriteEffects direction = Projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+            float rotation = Projectile.rotation;
+            if (Projectile.spriteDirection == -1)
+                rotation += MathHelper.Pi;
+
+            DrawLimbs();
+            Main.EntitySpriteDraw(texture, drawPosition, frame, Projectile.GetAlpha(lightColor), rotation, origin, Projectile.scale, direction, 0);
+            Main.EntitySpriteDraw(glowmask, drawPosition, frame, Projectile.GetAlpha(Color.White), rotation, origin, Projectile.scale, direction, 0);
+        }
+
         public void DrawLimbs()
         {
-            int frame = (int)(Main.GlobalTimeWrappedHourly * 7.2f) % 9;
+            // Draw the arms. Third and onward arms use the otherwise unused old Ares arm segment texture.
+            int frame = (int)(Main.GlobalTimeWrappedHourly * 8.1f) % 9;
             for (int i = 0; i < Limbs.Limbs.Length; i++)
             {
                 float scale = Projectile.scale;

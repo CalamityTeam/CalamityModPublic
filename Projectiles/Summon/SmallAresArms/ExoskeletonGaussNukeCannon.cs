@@ -17,7 +17,7 @@ namespace CalamityMod.Projectiles.Summon.SmallAresArms
 
         public override Vector2 ConnectOffset => new((OwnerRestingOffset.X > 0f).ToDirectionInt() * 14f, -30f);
 
-        public override int ShootRate => 210;
+        public override int ShootRate => AresExoskeleton.GaussNukeShootRate;
 
         public override float ShootSpeed => 16f;
 

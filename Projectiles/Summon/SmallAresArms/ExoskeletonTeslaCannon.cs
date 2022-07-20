@@ -4,6 +4,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.Audio;
 using Microsoft.Xna.Framework.Graphics;
+using CalamityMod.Items.Weapons.Summon;
 
 namespace CalamityMod.Projectiles.Summon.SmallAresArms
 {
@@ -11,7 +12,7 @@ namespace CalamityMod.Projectiles.Summon.SmallAresArms
     {
         public ref float TeslaOrbIndex => ref Projectile.ai[0];
 
-        public override int ShootRate => 30;
+        public override int ShootRate => AresExoskeleton.TeslaCannonShootRate;
 
         public override float ShootSpeed => 12f;
 
@@ -56,20 +57,7 @@ namespace CalamityMod.Projectiles.Summon.SmallAresArms
 
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
-            Texture2D glowmask = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/SmallAresArms/ExoskeletonTeslaCannonGlowmask").Value;
-            Rectangle frame = texture.Frame(2, Main.projFrames[Type], TargetingSomething.ToInt(), Projectile.frame);
-            Vector2 origin = frame.Size() * 0.5f;
-            Vector2 drawPosition = Projectile.Center - Main.screenPosition;
-            SpriteEffects direction = Projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-            float rotation = Projectile.rotation;
-            if (Projectile.spriteDirection == -1)
-                rotation += MathHelper.Pi;
-
-            DrawLimbs();
-            Main.EntitySpriteDraw(texture, drawPosition, frame, Projectile.GetAlpha(lightColor), rotation, origin, Projectile.scale, direction, 0);
-            Main.EntitySpriteDraw(glowmask, drawPosition, frame, Projectile.GetAlpha(Color.White), rotation, origin, Projectile.scale, direction, 0);
-
+            DefaultDrawCannon(ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/SmallAresArms/ExoskeletonTeslaCannonGlowmask").Value);
             return false;
         }
     }

@@ -4,6 +4,7 @@ using Terraria.ModLoader;
 using Terraria.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using CalamityMod.Sounds;
+using CalamityMod.Items.Weapons.Summon;
 
 namespace CalamityMod.Projectiles.Summon.SmallAresArms
 {
@@ -16,7 +17,7 @@ namespace CalamityMod.Projectiles.Summon.SmallAresArms
 
         public override Vector2 ConnectOffset => new((OwnerRestingOffset.X > 0f).ToDirectionInt() * 14f, -30f);
 
-        public override int ShootRate => ShootCounter % NormalLasersBeforeBeam == 0f ? 150 : 36;
+        public override int ShootRate => ShootCounter % NormalLasersBeforeBeam == 0f ? 150 : AresExoskeleton.LaserCannonNormalShootRate;
 
         public override float ShootSpeed => 13.5f;
 
@@ -89,20 +90,7 @@ namespace CalamityMod.Projectiles.Summon.SmallAresArms
 
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
-            Texture2D glowmask = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/SmallAresArms/ExoskeletonLaserCannonGlowmask").Value;
-            Rectangle frame = texture.Frame(2, Main.projFrames[Type], TargetingSomething.ToInt(), Projectile.frame);
-            Vector2 origin = frame.Size() * 0.5f;
-            Vector2 drawPosition = Projectile.Center - Main.screenPosition;
-            SpriteEffects direction = Projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-            float rotation = Projectile.rotation;
-            if (Projectile.spriteDirection == -1)
-                rotation += MathHelper.Pi;
-
-            DrawLimbs();
-            Main.EntitySpriteDraw(texture, drawPosition, frame, Projectile.GetAlpha(lightColor), rotation, origin, Projectile.scale, direction, 0);
-            Main.EntitySpriteDraw(glowmask, drawPosition, frame, Projectile.GetAlpha(Color.White), rotation, origin, Projectile.scale, direction, 0);
-
+            DefaultDrawCannon(ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/SmallAresArms/ExoskeletonLaserCannonGlowmask").Value);
             return false;
         }
     }
