@@ -122,6 +122,8 @@ namespace CalamityMod.Projectiles.Summon.SmallAresArms
                 rotation += MathHelper.Pi;
 
             DrawLimbs();
+
+            Color lightColor = Lighting.GetColor(Projectile.Center.ToTileCoordinates());
             Main.EntitySpriteDraw(texture, drawPosition, frame, Projectile.GetAlpha(lightColor), rotation, origin, Projectile.scale, direction, 0);
             Main.EntitySpriteDraw(glowmask, drawPosition, frame, Projectile.GetAlpha(Color.White), rotation, origin, Projectile.scale, direction, 0);
         }
@@ -137,11 +139,19 @@ namespace CalamityMod.Projectiles.Summon.SmallAresArms
                 Vector2 segmentOriginFactor = new(0f, 0.5f);
                 SpriteEffects segmentDirection = SpriteEffects.FlipHorizontally;
                 Texture2D segmentTexture = ModContent.Request<Texture2D>("CalamityMod/NPCs/ExoMechs/Ares/AresArmSegment").Value;
+                Texture2D glowmaskTexture = null;
+
                 Rectangle segmentFrame = segmentTexture.Frame(1, 24, 0, (int)(Main.GlobalTimeWrappedHourly * 13f + i) % 24);
                 if (i == 0)
+                {
                     segmentTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/SmallAresArms/ArmPart1").Value;
+                    glowmaskTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/SmallAresArms/ArmPart1Glowmask").Value;
+                }
                 if (i == 1)
+                {
                     segmentTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/SmallAresArms/ArmPart2").Value;
+                    glowmaskTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/SmallAresArms/ArmPart2Glowmask").Value;
+                }
                 if (i <= 1)
                 {
                     segmentFrame = segmentTexture.Frame(1, 9, 0, frame);
@@ -159,6 +169,8 @@ namespace CalamityMod.Projectiles.Summon.SmallAresArms
                 Vector2 segmentDrawPosition = Limbs[i].ConnectPoint - Main.screenPosition;
                 Main.spriteBatch.DrawLineBetter(Limbs[i].ConnectPoint, Limbs[i].EndPoint, Color.Cyan, 3f);
                 Main.EntitySpriteDraw(segmentTexture, segmentDrawPosition, segmentFrame, Projectile.GetAlpha(segmentColor), rotation, segmentFrame.Size() * segmentOriginFactor, scale, segmentDirection, 0);
+                if (glowmaskTexture != null)
+                    Main.EntitySpriteDraw(glowmaskTexture, segmentDrawPosition, segmentFrame, Projectile.GetAlpha(Color.White), rotation, segmentFrame.Size() * segmentOriginFactor, scale, segmentDirection, 0);
             }
 
             // Draw the shoulders on top of everything else.

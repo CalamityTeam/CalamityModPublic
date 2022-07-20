@@ -31,7 +31,7 @@ namespace CalamityMod.Projectiles.Summon.SmallAresArms
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Gauss Nuke");
-            Main.projFrames[Type] = 2;
+            Main.projFrames[Type] = 12;
         }
 
         public override void ShootAtTarget(NPC target, Vector2 shootDirection)
@@ -55,16 +55,18 @@ namespace CalamityMod.Projectiles.Summon.SmallAresArms
 
         public override void PostAI()
         {
-            Projectile.frame = 0;
+            Projectile.frameCounter++;
+            Projectile.frame = Projectile.frameCounter / 5 % 6;
             if (RebuildTimer >= 1f)
             {
                 RebuildTimer++;
-                Projectile.frame = 1;
+                Projectile.frame += 6;
             }
 
             if (RebuildTimer >= NukeRebuildTime)
             {
                 RebuildTimer = 0f;
+                Projectile.frameCounter = 0;
                 Projectile.frame = 0;
             }
         }
@@ -72,13 +74,14 @@ namespace CalamityMod.Projectiles.Summon.SmallAresArms
         public override bool PreDraw(ref Color lightColor)
         {
             Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
+            Texture2D glowmask = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/SmallAresArms/ExoskeletonGaussNukeCannonGlowmask").Value;
 
             // The two stabilizers have two different shades of lighting, thus necessitating two different textures.
             Texture2D stabilizer = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/SmallAresArms/ExoskeletonGaussNukeStabilizer").Value;
             Texture2D stabilizer2 = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/SmallAresArms/ExoskeletonGaussNukeStabilizerBottom").Value;
             Texture2D crystal = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/SmallAresArms/ExoskeletonGaussNukeCrystal").Value;
             Texture2D core = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/SmallAresArms/ExoskeletonGaussNukeCore").Value;
-            Rectangle frame = texture.Frame(1, 2, 0, Projectile.frame);
+            Rectangle frame = texture.Frame(1, Main.projFrames[Type], 0, Projectile.frame);
 
             float stabilizerRotationInterpolant = (float)Math.Pow(Utils.GetLerpValue(NukeRebuildTime * 0.75f, NukeRebuildTime * 0.92f, RebuildTimer, true), 1.7);
             Vector2 origin = frame.Size() * 0.5f;
@@ -107,17 +110,17 @@ namespace CalamityMod.Projectiles.Summon.SmallAresArms
 
                 // Draw the crystal.
                 float crystalOffsetInterpolant = Utils.GetLerpValue(0f, NukeRebuildTime * 0.5f, RebuildTimer, true);
-                Vector2 crystalOffset = aimDirection * crystalOffsetInterpolant * Projectile.scale * (crystal.Width - 2f);
+                Vector2 crystalOffset = aimDirection * crystalOffsetInterpolant * Projectile.scale * (crystal.Width - 15f);
                 Main.EntitySpriteDraw(crystal, drawPosition + crystalOffset, null, Projectile.GetAlpha(lightColor), rotation, crystalOrigin, Projectile.scale, direction, 0);
 
                 // Draw the stabilizers.
                 float stabilizerOffsetInterpolant = Utils.GetLerpValue(NukeRebuildTime * 0.5f, NukeRebuildTime * 0.75f, RebuildTimer, true);
-                float stabilizerOffsetMagnitude = MathHelper.Lerp(-stabilizer.Width * 0.3f, stabilizer.Width * 0.4f - 6f, stabilizerOffsetInterpolant) * Projectile.scale;
+                float stabilizerOffsetMagnitude = MathHelper.Lerp(-stabilizer.Width * 0.32f, stabilizer.Width * 0.4f - 8f, stabilizerOffsetInterpolant) * Projectile.scale;
                 float leftStabilizerRotation = stabilizerDirection + MathHelper.Pi - (1f - stabilizerRotationInterpolant) * 0.42f;
                 float rightStabilizerRotation = stabilizerDirection + (1f - stabilizerRotationInterpolant) * 0.42f;
                 Vector2 stabilizerOffset = aimDirection * stabilizerOffsetMagnitude;
                 Color stabilizerColor = Projectile.GetAlpha(lightColor) * (float)Math.Pow(stabilizerOffsetInterpolant, 1.61);
-                Vector2 leftStabilizerPosition = drawPosition + stabilizerOffset - perpendicularStabilizerOffset * 0.8f;
+                Vector2 leftStabilizerPosition = drawPosition + stabilizerOffset - perpendicularStabilizerOffset * 0.9f;
                 Vector2 rightStabilizerPosition = drawPosition + stabilizerOffset + perpendicularStabilizerOffset;
                 SpriteEffects leftStabilizerDirection = direction;
                 SpriteEffects rightStabilizerDirection = direction ^ SpriteEffects.FlipHorizontally;
@@ -131,11 +134,12 @@ namespace CalamityMod.Projectiles.Summon.SmallAresArms
                 Main.EntitySpriteDraw(stabilizer2, rightStabilizerPosition, null, stabilizerColor, rightStabilizerRotation, stabilizerOrigin, Projectile.scale, rightStabilizerDirection, 0);
 
                 // Draw the core.
-                Vector2 coreDrawPosition = drawPosition + aimDirection * Projectile.scale * 4f;
+                Vector2 coreDrawPosition = drawPosition + aimDirection * Projectile.scale * -12f;
                 Main.EntitySpriteDraw(core, coreDrawPosition, null, Projectile.GetAlpha(lightColor) * stabilizerRotationInterpolant, rotation, coreOrigin, Projectile.scale, direction, 0);
             }
 
             Main.EntitySpriteDraw(texture, drawPosition, frame, Projectile.GetAlpha(lightColor), rotation, origin, Projectile.scale, direction, 0);
+            Main.EntitySpriteDraw(glowmask, drawPosition, frame, Projectile.GetAlpha(Color.White), rotation, origin, Projectile.scale, direction, 0);
 
             return false;
         }
