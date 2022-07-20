@@ -119,7 +119,11 @@ namespace CalamityMod.Projectiles.Ranged
             struckCoin.active = false;
             if (struckCoin.owner == Main.myPlayer)
             {
-                int coin = Item.NewItem(struckCoin.GetSource_DropAsItem(), struckCoin.Center, Vector2.One, struckCoin.ai[0] == 0 ? ItemID.SilverCoin : ItemID.GoldCoin);
+                int coin = Item.NewItem(struckCoin.GetSource_DropAsItem(), struckCoin.Center, Vector2.One, struckCoin.ai[0] == 0 ? ItemID.SilverCoin : ItemID.GoldCoin, noBroadcast:false);
+
+                if (Main.netMode == NetmodeID.MultiplayerClient)
+                    NetMessage.SendData(MessageID.SyncItem, -1, -1, null, coin, 1f);
+
                 Main.item[coin].GetGlobalItem<MidasPrimeItem>().magnetMode = true;
 
                 //Play the funny
