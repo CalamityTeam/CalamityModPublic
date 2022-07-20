@@ -1,6 +1,7 @@
 ﻿using CalamityMod.BiomeManagers;
 using CalamityMod.Dusts;
 using CalamityMod.Items.Placeables.Furniture.BossRelics;
+using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.Projectiles.Enemy;
 using CalamityMod.World;
@@ -523,6 +524,7 @@ namespace CalamityMod.NPCs.AcidRain
         {
             npcLoot.Add(ModContent.ItemType<GammaHeart>(), 3);
             npcLoot.Add(ModContent.ItemType<PhosphorescentGauntlet>(), 3);
+            npcLoot.Add(ModContent.ItemType<NuclearTerrorTrophy>(), 10);
             npcLoot.AddIf(() => Main.masterMode || CalamityWorld.revenge, ModContent.ItemType<NuclearTerrorRelic>(), 4);
         }
     }
