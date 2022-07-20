@@ -30,6 +30,7 @@ using Terraria.ModLoader;
 using Terraria.Audio;
 using Terraria.GameContent.ItemDropRules;
 using CalamityMod.Sounds;
+using CalamityMod.Items.Weapons.Summon;
 
 namespace CalamityMod.NPCs.ExoMechs.Ares
 {
@@ -1370,6 +1371,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
                 // Ares weapons
                 normalOnly.Add(ItemDropRule.ByCondition(DropHelper.If(AresLoot), ModContent.ItemType<PhotonRipper>()));
                 normalOnly.Add(ItemDropRule.ByCondition(DropHelper.If(AresLoot), ModContent.ItemType<TheJailor>()));
+                normalOnly.Add(ItemDropRule.ByCondition(DropHelper.If(AresLoot), ModContent.ItemType<AresExoskeleton>()));
 
                 // Twins weapons
                 normalOnly.Add(ItemDropRule.ByCondition(DropHelper.If(ApolloLoot), ModContent.ItemType<TheAtomSplitter>()));

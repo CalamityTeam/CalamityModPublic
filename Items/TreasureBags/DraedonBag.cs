@@ -5,6 +5,7 @@ using CalamityMod.Items.Mounts;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
+using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.NPCs.ExoMechs.Ares;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -60,6 +61,7 @@ namespace CalamityMod.Items.TreasureBags
             {
                 DropHelper.DropItem(s, player, ModContent.ItemType<PhotonRipper>());
                 DropHelper.DropItem(s, player, ModContent.ItemType<TheJailor>());
+                DropHelper.DropItem(s, player, ModContent.ItemType<AresExoskeleton>());
             }
             if (DownedBossSystem.downedThanatos)
             {
