@@ -19,21 +19,24 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public const float TargetingDistance = 1020f;
 
-        public const float MinionSlotsPerCannon = 3f;
+        public const float MinionSlotsPerCannon = 2f;
 
-        public const float NukeDamageFactor = 2.7f;
+        public const float NukeDamageFactor = 1.5f;
 
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ares' Exoskeleton");
-            Tooltip.SetDefault("Ares arms. STRONG cannons. BIG explosions. FUN");
+            Tooltip.SetDefault("Creates a panel with four slots and four choices above it: Plasma, Tesla, Laser, and Gauss\n" +
+                "Clicking one of the choices and then clicking one of the slots allows you to summon a cannon that stays close to you and attacks nearby enemies\n" +
+                "Clicking on a slot that's already occupied destroys its associated cannon and clears the slot\n" +
+                $"Cannons take {MinionSlotsPerCannon} minion slots each");
             SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
             Item.mana = 80;
-            Item.damage = 972;
+            Item.damage = 672;
             Item.useStyle = ItemUseStyleID.HoldUp;
             Item.noUseGraphic = true;
             Item.width = Item.height = 56;

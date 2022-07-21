@@ -8,6 +8,7 @@ using Terraria.GameContent;
 using Terraria.Audio;
 using System.Linq;
 using System;
+using System.Collections.Generic;
 
 namespace CalamityMod.Projectiles.Summon.SmallAresArms
 {
@@ -133,6 +134,7 @@ namespace CalamityMod.Projectiles.Summon.SmallAresArms
             Projectile.timeLeft = 36000;
             Projectile.Opacity = 0f;
             Projectile.tileCollide = false;
+            Projectile.hide = true;
         }
 
         public override void AI()
@@ -153,6 +155,7 @@ namespace CalamityMod.Projectiles.Summon.SmallAresArms
             if (PlayerOffset == Vector2.Zero)
                 PlayerOffset = Main.MouseWorld - Main.LocalPlayer.Center;
 
+            // Dynamically update panel icons.
             for (int i = 0; i < 4; i++)
                 PanelIcons[i].CurrentState = IconType.Inactive;
             for (int i = 0; i < Main.maxProjectiles; i++)
@@ -176,6 +179,9 @@ namespace CalamityMod.Projectiles.Summon.SmallAresArms
             // Handle fade effects.
             Projectile.Opacity = MathHelper.Clamp(Projectile.Opacity - FadeOut.ToDirectionInt() * 0.0225f, 0f, 1f);
             if (FadeOut && Projectile.Opacity <= 0f)
+                Projectile.Kill();
+
+            if (Main.player[Projectile.owner].dead || !Main.player[Projectile.owner].active)
                 Projectile.Kill();
 
             // Create and destroy arms as necessary.
@@ -228,7 +234,7 @@ namespace CalamityMod.Projectiles.Summon.SmallAresArms
 
             bool hoveringOverAnySlot = false;
             bool clickedAnIconOnPanel = false;
-            bool sufficientSlots = Main.LocalPlayer.maxMinions >= AresExoskeleton.MinionSlotsPerCannon;
+            bool sufficientSlots = Main.LocalPlayer.maxMinions > AresExoskeleton.MinionSlotsPerCannon;
 
             // Draw icon and handle hover behaviors.
             // If an arm needs to be destroyed or spawned, it will happen on the next frame in the AI update loop.
@@ -333,6 +339,11 @@ namespace CalamityMod.Projectiles.Summon.SmallAresArms
                 ClickedIcon = IconType.Inactive;
 
             return false;
+        }
+
+        public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI)
+        {
+            overWiresUI.Add(index);
         }
 
         // This is a UI. It should not do damage.
