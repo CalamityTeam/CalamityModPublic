@@ -231,6 +231,7 @@ namespace CalamityMod
                     wikithis.Call(1, new List<int>() { ModContent.ItemType<TrashmanTrashcan>() }, "Trash Can (pet)");
                     wikithis.Call(1, new List<int>() { ModContent.ItemType<Butcher>() }, "Butcher (weapon)");
                     wikithis.Call(1, new List<int>() { ModContent.ItemType<SandstormGun>() }, "Sandstorm (weapon)");
+                    wikithis.Call(1, new List<int>() { ModContent.ItemType<Thunderstorm>() }, "Thunderstorm (weapon)");
                     // Enemies
                     wikithis.Call(2, new List<int>() { ModContent.NPCType<Catfish>() }, "Catfish (enemy)");
                     wikithis.Call(2, new List<int>() { ModContent.NPCType<Hive>() }, "Hive (enemy)");
