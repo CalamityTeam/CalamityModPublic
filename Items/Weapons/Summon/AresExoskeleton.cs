@@ -53,31 +53,31 @@ namespace CalamityMod.Items.Weapons.Summon
             Item.DamageType = DamageClass.Summon;
             Item.Calamity().CannotBeEnchanted = true;
         }
-
+        
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            int? projectileToSummon = null;
-            int plasmaCannonID = ModContent.ProjectileType<ExoskeletonPlasmaCannon>();
-            int teslaCannonID = ModContent.ProjectileType<ExoskeletonTeslaCannon>();
-            int laserCannonID = ModContent.ProjectileType<ExoskeletonLaserCannon>();
-            int gaussNukeID = ModContent.ProjectileType<ExoskeletonGaussNukeCannon>();
+            int panelID = ModContent.ProjectileType<ExoskeletonPanel>();
 
-            if (player.ownedProjectileCounts[plasmaCannonID] <= 0)
-                projectileToSummon = plasmaCannonID;
-            else if (player.ownedProjectileCounts[teslaCannonID] <= 0)
-                projectileToSummon = teslaCannonID;
-            else if (player.ownedProjectileCounts[laserCannonID] <= 0)
-                projectileToSummon = laserCannonID;
-            else if (player.ownedProjectileCounts[gaussNukeID] <= 0)
-                projectileToSummon = gaussNukeID;
+            // If the player owns a panel, make it fade away.
+            if (player.ownedProjectileCounts[panelID] >= 1)
+            {
+                for (int i = 0; i < Main.maxProjectiles; i++)
+                {
+                    if (Main.projectile[i].type != panelID || Main.projectile[i].owner != player.whoAmI || !Main.projectile[i].active)
+                        continue;
 
-            // Don't fire anything if no cannon type was selected.
-            if (!projectileToSummon.HasValue)
-                return false;
+                    Main.projectile[i].ai[0] = 1f;
+                    Main.projectile[i].netUpdate = true;
+                }
+            }
 
-            int cannon = Projectile.NewProjectile(source, position, Vector2.Zero, projectileToSummon.Value, damage, knockback, player.whoAmI);
-            if (Main.projectile.IndexInRange(cannon))
-                Main.projectile[cannon].originalDamage = Item.damage;
+            // Otherwise, create one. While it doesn't do damage on its own, it does store it for reference by the cannons that might be spawned.
+            else
+            {
+                int panel = Projectile.NewProjectile(source, position, Vector2.Zero, panelID, damage, 0f, player.whoAmI);
+                if (Main.projectile.IndexInRange(panel))
+                    Main.projectile[panel].originalDamage = Item.damage;
+            }
 
             return false;
         }
