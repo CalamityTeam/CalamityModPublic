@@ -47,7 +47,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override bool? CanDamage()
         {
-            return Projectile.timeLeft <= (MaxTime - 10);
+            return Projectile.timeLeft <= (MaxTime - 5);
         }
 
         public override bool ShouldUpdatePosition() => false;
