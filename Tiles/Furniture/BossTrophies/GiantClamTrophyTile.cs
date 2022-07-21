@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
@@ -13,9 +14,7 @@ namespace CalamityMod.Tiles.Furniture.BossTrophies
         public override void SetStaticDefaults()
         {
             this.SetUpTrophy();
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Trophy");
-            AddMapEntry(new Color(120, 85, 60), name);
+            AddMapEntry(new Color(120, 85, 60), Language.GetText("MapObject.Trophy"));
             DustType = 7;
         }
 
