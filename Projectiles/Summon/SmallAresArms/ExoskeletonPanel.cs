@@ -64,7 +64,7 @@ namespace CalamityMod.Projectiles.Summon.SmallAresArms
                     if (MousePressFrameCountdown >= 1)
                         frame = 2;
                     if (PanelFlashTimer >= 1)
-                        frame = (int)Math.Round(MathHelper.Lerp(4f, 6f, PanelFlashTimer / 24f));
+                        frame = (int)Math.Round(MathHelper.Lerp(4f, 6f, PanelFlashTimer / 16f));
 
                     return IconTexture?.Frame(1, 7, 0, frame) ?? default;
                 }
@@ -81,7 +81,7 @@ namespace CalamityMod.Projectiles.Summon.SmallAresArms
             {
                 if (PanelFlashTimer >= 1)
                     PanelFlashTimer++;
-                if (PanelFlashTimer >= 18)
+                if (PanelFlashTimer >= 16)
                     PanelFlashTimer = 0;
 
                 if (MousePressFrameCountdown > 0)
@@ -116,7 +116,9 @@ namespace CalamityMod.Projectiles.Summon.SmallAresArms
         public bool FadeOut => Projectile.ai[0] == 1f;
 
         public Vector2 PlayerOffset;
-        
+
+        public ref float Time => ref Projectile.ai[1];
+
         public static Rectangle MouseRectangle => new((int)Main.MouseScreen.X, (int)Main.MouseScreen.Y, 2, 2);
         
         public override void SetStaticDefaults()
@@ -177,12 +179,14 @@ namespace CalamityMod.Projectiles.Summon.SmallAresArms
             }
 
             // Handle fade effects.
-            Projectile.Opacity = MathHelper.Clamp(Projectile.Opacity - FadeOut.ToDirectionInt() * 0.0225f, 0f, 1f);
+            if (Time >= AresExoskeleton.BoxParticleLifetime)
+                Projectile.Opacity = MathHelper.Clamp(Projectile.Opacity - FadeOut.ToDirectionInt() * 0.0225f, 0f, 1f);
             if (FadeOut && Projectile.Opacity <= 0f)
                 Projectile.Kill();
 
             if (Main.player[Projectile.owner].dead || !Main.player[Projectile.owner].active)
                 Projectile.Kill();
+            Time++;
 
             // Create and destroy arms as necessary.
             if (Main.myPlayer != Projectile.owner)

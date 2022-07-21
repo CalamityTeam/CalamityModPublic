@@ -6,27 +6,12 @@ using Microsoft.Xna.Framework;
 using Terraria.DataStructures;
 using CalamityMod.Items.Accessories.Vanity;
 using CalamityMod.Cooldowns;
-using CalamityMod.Projectiles.Magic;
 using Terraria.Audio;
-using ReLogic.Content;
-using Microsoft.Xna.Framework.Graphics;
-using System.Linq;
-using CalamityMod.Items.Materials;
-using CalamityMod.Projectiles.Magic;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using ReLogic.Content;
-using Terraria;
-using Terraria.Audio;
-using Terraria.ID;
-using Terraria.ModLoader;
-using static CalamityMod.CalamityUtils;
-using static Terraria.ModLoader.ModContent;
-using static Microsoft.Xna.Framework.Input.Keys;
 using System;
-using CalamityMod.Items.BaseItems;
 using System.Collections.Generic;
 using CalamityMod.Particles;
+using static Terraria.ModLoader.ModContent;
+using static Microsoft.Xna.Framework.Input.Keys;
 
 namespace CalamityMod.Items.Armor.Wulfrum
 {

@@ -64,7 +64,7 @@ namespace CalamityMod.Projectiles.Summon.SmallAresArms
             {
                 Main.projectile[laser].originalDamage = Projectile.originalDamage;
                 if (fireLaser)
-                    Main.projectile[laser].ai[1] = Projectile.whoAmI;
+                    Main.projectile[laser].ai[1] = Projectile.identity;
             }
 
             // Increment the shoot counter. This decides if the cannon fires a simple laser or a beam.

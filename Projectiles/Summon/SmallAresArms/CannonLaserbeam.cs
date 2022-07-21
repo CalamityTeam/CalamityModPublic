@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Terraria;
 using Terraria.ID;
@@ -14,11 +15,9 @@ namespace CalamityMod.Projectiles.Summon.SmallAresArms
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
-        public int OwnerIndex
-        {
-            get => Projectile.GetByUUID(Projectile.owner, Projectile.ai[1]);
-            set => Projectile.ai[1] = value;
-        }
+        public Player Owner => Main.player[Projectile.owner];
+
+        public Projectile OwnerProjectile => CalamityUtils.FindProjectileByIdentity((int)Projectile.ai[1], Projectile.owner);
 
         public const int LifetimeConst = 75;
         public override float MaxScale => 0.5f + (float)Math.Cos(Main.GlobalTimeWrappedHourly * 10f) * 0.07f;
@@ -47,6 +46,8 @@ namespace CalamityMod.Projectiles.Summon.SmallAresArms
             Projectile.localNPCHitCooldown = 14;
             Projectile.scale = 0.5f;
             Projectile.usesLocalNPCImmunity = true;
+            Projectile.hide = true;
+            Projectile.Calamity().UpdatePriority = 1f;
         }
         
         public override float DetermineLaserLength()
@@ -58,7 +59,7 @@ namespace CalamityMod.Projectiles.Summon.SmallAresArms
 
         public override void UpdateLaserMotion()
         {
-            if (OwnerIndex == -1)
+            if (OwnerProjectile is null)
             {
                 Projectile.Kill();
                 return;
@@ -68,15 +69,16 @@ namespace CalamityMod.Projectiles.Summon.SmallAresArms
 
         public override void AttachToSomething()
         {
-            if (OwnerIndex == -1 || !Main.projectile[OwnerIndex].active)
+            Projectile ownerProjectile = OwnerProjectile;
+            if (ownerProjectile is null)
             {
                 Projectile.Kill();
                 return;
             }
 
-            float attachmentOffset = Main.projectile[OwnerIndex].width * Main.projectile[OwnerIndex].scale * 0.75f;
-            Projectile.Center = Main.projectile[OwnerIndex].Center + Main.projectile[OwnerIndex].rotation.ToRotationVector2() * attachmentOffset;
-            Projectile.rotation = Main.projectile[OwnerIndex].rotation;
+            float attachmentOffset = ownerProjectile.width * ownerProjectile.scale * 0.75f;
+            Projectile.Center = ownerProjectile.Center + ownerProjectile.rotation.ToRotationVector2() * attachmentOffset - Owner.velocity;
+            Projectile.rotation = ownerProjectile.rotation;
             Projectile.velocity = Projectile.rotation.ToRotationVector2();
 
             // Update frames.
@@ -84,6 +86,11 @@ namespace CalamityMod.Projectiles.Summon.SmallAresArms
         }
 
         public override bool ShouldUpdatePosition() => false;
+
+        public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI)
+        {
+            overPlayers.Add(index);
+        }
 
         public override bool PreDraw(ref Color lightColor)
         {
