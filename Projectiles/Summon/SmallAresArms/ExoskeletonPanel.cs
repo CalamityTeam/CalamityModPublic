@@ -194,10 +194,23 @@ namespace CalamityMod.Projectiles.Summon.SmallAresArms
 
             if (ArmIDToSpawn >= 0)
             {
-                SoundEngine.PlaySound(SoundID.Zombie66, Projectile.Center);
-                int cannon = Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, Vector2.Zero, ArmIDToSpawn, Projectile.damage, 0f, Projectile.owner, ArmIndex);
-                if (Main.projectile.IndexInRange(cannon))
-                    Main.projectile[cannon].originalDamage = Projectile.originalDamage;
+                bool armAlreadyExists = false;
+                for (int i = 0; i < Main.maxProjectiles; i++)
+                {
+                    if (!arms.Contains(Main.projectile[i].type) || Main.projectile[i].owner != Projectile.owner || !Main.projectile[i].active || Main.projectile[i].ai[0] != ArmIndex)
+                        continue;
+
+                    armAlreadyExists = true;
+                    break;
+                }
+
+                if (!armAlreadyExists)
+                {
+                    SoundEngine.PlaySound(SoundID.Zombie66, Projectile.Center);
+                    int cannon = Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, Vector2.Zero, ArmIDToSpawn, Projectile.damage, 0f, Projectile.owner, ArmIndex);
+                    if (Main.projectile.IndexInRange(cannon))
+                        Main.projectile[cannon].originalDamage = Projectile.originalDamage;
+                }
             }
             if (ShouldDeleteArmIndex)
             {
