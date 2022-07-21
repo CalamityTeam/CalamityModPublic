@@ -1156,7 +1156,7 @@ namespace CalamityMod
         }
 
         /// <summary>
-        /// Extension which initializes a ModTile to be a bed.
+        /// Extension which initializes a ModTile to be a bar.
         /// </summary>
         /// <param name="mt">The ModTile which is being initialized.</param>
         /// <param name="mapColor">The color of the bar on the minimap.</param>
@@ -1175,6 +1175,20 @@ namespace CalamityMod
 
             // Vanilla bars are labeled as "Metal Bar" on the minimap
             mt.AddMapEntry(mapColor, Language.GetText("MapObject.MetalBar"));
+        }
+
+        /// <summary>
+        /// Extension which initializes a ModTile to be a trophy.
+        /// </summary>
+        /// <param name="mt">The ModTile which is being initialized.</param>
+        internal static void SetUpTrophy(this ModTile mt)
+        {
+            Main.tileFrameImportant[mt.Type] = true;
+            Main.tileLavaDeath[mt.Type] = true;
+            TileObjectData.newTile.CopyFrom(TileObjectData.Style3x3Wall);
+            TileObjectData.addTile(mt.Type);
+            TileID.Sets.DisableSmartCursor[mt.Type] = true;
+            TileID.Sets.FramesOnKillWall[mt.Type] = true;
         }
     }
 }

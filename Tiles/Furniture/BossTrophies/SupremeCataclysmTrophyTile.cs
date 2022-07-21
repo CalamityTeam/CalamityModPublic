@@ -12,16 +12,11 @@ namespace CalamityMod.Tiles.Furniture.BossTrophies
     {
         public override void SetStaticDefaults()
         {
-            Main.tileFrameImportant[Type] = true;
-            Main.tileLavaDeath[Type] = true;
-            TileObjectData.newTile.CopyFrom(TileObjectData.Style3x3Wall);
-            TileObjectData.addTile(Type);
-            DustType = 7;
-            TileID.Sets.DisableSmartCursor[Type] = true;
+            this.SetUpTrophy();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Trophy");
             AddMapEntry(new Color(120, 85, 60), name);
-            TileID.Sets.FramesOnKillWall[Type] = true;
+            DustType = 7;
         }
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
