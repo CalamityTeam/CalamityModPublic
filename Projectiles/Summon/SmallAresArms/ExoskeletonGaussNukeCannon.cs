@@ -15,19 +15,14 @@ namespace CalamityMod.Projectiles.Summon.SmallAresArms
 
         public ref float RebuildTimer => ref Projectile.localAI[0];
 
-        public override Vector2 ConnectOffset => new((OwnerRestingOffset.X > 0f).ToDirectionInt() * 14f, -30f);
-
         public override int ShootRate => AresExoskeleton.GaussNukeShootRate;
 
         public override float ShootSpeed => 16f;
 
-        public override Vector2 OwnerRestingOffset => new(-190f, -102f);
+        public override Vector2 OwnerRestingOffset => HoverOffsetTable[HoverOffsetIndex];
 
-        public override void ClampFirstLimbRotation(ref double limbRotation)
-        {
-            limbRotation = MathHelper.Pi - 0.2f;
-        }
-        
+        public override void ClampFirstLimbRotation(ref double limbRotation) => limbRotation = RotationalClampTable[HoverOffsetIndex];
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Gauss Nuke");

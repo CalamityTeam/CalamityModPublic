@@ -14,13 +14,10 @@ namespace CalamityMod.Projectiles.Summon.SmallAresArms
 
         public override float ShootSpeed => 13.5f;
 
-        public override Vector2 OwnerRestingOffset => new(300f, 96f);
+        public override Vector2 OwnerRestingOffset => HoverOffsetTable[HoverOffsetIndex];
 
-        public override void ClampFirstLimbRotation(ref double limbRotation)
-        {
-            limbRotation = 0.23f;
-        }
-        
+        public override void ClampFirstLimbRotation(ref double limbRotation) => limbRotation = RotationalClampTable[HoverOffsetIndex];
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Plasma Cannon");

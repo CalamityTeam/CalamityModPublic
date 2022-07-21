@@ -5,34 +5,34 @@ using Terraria.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using CalamityMod.Sounds;
 using CalamityMod.Items.Weapons.Summon;
+using System.IO;
 
 namespace CalamityMod.Projectiles.Summon.SmallAresArms
 {
     public class ExoskeletonLaserCannon : ExoskeletonCannon
     {
-        public ref float ShootCounter => ref Projectile.ai[0];
+        public ref float ShootCounter => ref Projectile.localAI[0];
 
         // This is how many small, regular lasers will happen before the laser will charge up and prepare a laserbeam.
         public const int NormalLasersBeforeBeam = 6;
-
-        public override Vector2 ConnectOffset => new((OwnerRestingOffset.X > 0f).ToDirectionInt() * 14f, -30f);
-
+        
         public override int ShootRate => ShootCounter % NormalLasersBeforeBeam == 0f ? 150 : AresExoskeleton.LaserCannonNormalShootRate;
 
         public override float ShootSpeed => 13.5f;
 
-        public override Vector2 OwnerRestingOffset => new(190f, -102f);
+        public override Vector2 OwnerRestingOffset => HoverOffsetTable[HoverOffsetIndex];
 
-        public override void ClampFirstLimbRotation(ref double limbRotation)
-        {
-            limbRotation = -0.2f;
-        }
+        public override void ClampFirstLimbRotation(ref double limbRotation) => limbRotation = RotationalClampTable[HoverOffsetIndex];
 
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Laser Cannon");
             Main.projFrames[Type] = 6;
         }
+
+        public override void SendExtraAI(BinaryWriter writer) => writer.Write(ShootCounter);
+
+        public override void ReceiveExtraAI(BinaryReader reader) => ShootCounter = reader.ReadSingle();
 
         public override void ShootAtTarget(NPC target, Vector2 shootDirection)
         {

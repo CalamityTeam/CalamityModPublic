@@ -11,17 +11,35 @@ namespace CalamityMod.Projectiles.Summon.SmallAresArms
 {
     public abstract class ExoskeletonCannon : ModProjectile
     {
+        public int HoverOffsetIndex => (int)Projectile.ai[0];
+
         public bool TargetingSomething => Projectile.ai[1] == 1f;
 
         public Player Owner => Main.player[Projectile.owner];
 
         public LimbCollection Limbs = new(new CyclicCoordinateDescentUpdateRule(0.27f, MathHelper.PiOver2), 70f, 82f);
 
+        public static readonly Vector2[] HoverOffsetTable = new Vector2[]
+        {
+            new(300f, 96f),
+            new(-300f, 96f),
+            new(190f, -102f),
+            new(-190f, -102f)
+        };
+
+        public static readonly float[] RotationalClampTable = new float[]
+        {
+            0.23f,
+            MathHelper.Pi - 0.23f,
+            0.2f,
+            MathHelper.Pi - 0.2f
+        };
+
         public virtual bool UsesSuperpredictiveness => false;
 
         public virtual Vector2 DrawOffset => new((OwnerRestingOffset.X > 0f).ToDirectionInt() * 6f, -6f);
 
-        public virtual Vector2 ConnectOffset => Vector2.Zero;
+        public virtual Vector2 ConnectOffset => HoverOffsetIndex >= 2 ? new((OwnerRestingOffset.X > 0f).ToDirectionInt() * 14f, -30f) : Vector2.Zero;
 
         public abstract int ShootRate { get; }
 

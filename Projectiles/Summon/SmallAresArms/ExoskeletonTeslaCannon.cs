@@ -5,12 +5,13 @@ using Terraria.ModLoader;
 using Terraria.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using CalamityMod.Items.Weapons.Summon;
+using System.IO;
 
 namespace CalamityMod.Projectiles.Summon.SmallAresArms
 {
     public class ExoskeletonTeslaCannon : ExoskeletonCannon
     {
-        public ref float TeslaOrbIndex => ref Projectile.ai[0];
+        public ref float TeslaOrbIndex => ref Projectile.localAI[0];
 
         public override int ShootRate => AresExoskeleton.TeslaCannonShootRate;
 
@@ -18,18 +19,19 @@ namespace CalamityMod.Projectiles.Summon.SmallAresArms
 
         public override bool UsesSuperpredictiveness => true;
 
-        public override Vector2 OwnerRestingOffset => new(-300f, 96f);
+        public override Vector2 OwnerRestingOffset => HoverOffsetTable[HoverOffsetIndex];
 
-        public override void ClampFirstLimbRotation(ref double limbRotation)
-        {
-            limbRotation = MathHelper.Pi - 0.23f;
-        }
+        public override void ClampFirstLimbRotation(ref double limbRotation) => limbRotation = RotationalClampTable[HoverOffsetIndex];
 
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Tesla Cannon");
             Main.projFrames[Type] = 6;
         }
+
+        public override void SendExtraAI(BinaryWriter writer) => writer.Write(TeslaOrbIndex);
+
+        public override void ReceiveExtraAI(BinaryReader reader) => TeslaOrbIndex = reader.ReadSingle();
 
         public override void PostAI()
         {

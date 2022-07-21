@@ -6,23 +6,118 @@ using Terraria.ID;
 using CalamityMod.Items.Weapons.Summon;
 using Terraria.GameContent;
 using Terraria.Audio;
+using System.Linq;
+using System;
 
 namespace CalamityMod.Projectiles.Summon.SmallAresArms
 {
     public class ExoskeletonPanel : ModProjectile
     {
-        public int ArmIDToDelete = -1;
+        public enum IconType
+        {
+            Inactive,
+            Plasma,
+            Tesla,
+            Laser,
+            Gauss
+        }
+
+        public class IconState
+        {
+            public int PanelFlashTimer;
+
+            public int MousePressFrameCountdown;
+
+            public bool BeingHoveredOver;
+
+            public bool PlacedInPanel;
+
+            public IconType CurrentState;
+
+            public Texture2D IconTexture
+            {
+                get
+                {
+                    Texture2D plasmaTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/SmallAresArms/ExoskeletonPanelPlasma").Value;
+                    Texture2D teslaTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/SmallAresArms/ExoskeletonPanelTesla").Value;
+                    Texture2D laserTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/SmallAresArms/ExoskeletonPanelLaser").Value;
+                    Texture2D gaussTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/SmallAresArms/ExoskeletonPanelGauss").Value;
+                    return CurrentState switch
+                    {
+                        IconType.Plasma => plasmaTexture,
+                        IconType.Tesla => teslaTexture,
+                        IconType.Laser => laserTexture,
+                        IconType.Gauss => gaussTexture,
+                        _ => null,
+                    };
+                }
+            }
+
+            public Rectangle Frame
+            {
+                get
+                {
+                    int frame = 0;
+                    if (BeingHoveredOver)
+                        frame = PlacedInPanel ? 3 : 1;
+                    if (MousePressFrameCountdown >= 1)
+                        frame = 2;
+                    if (PanelFlashTimer >= 1)
+                        frame = (int)Math.Round(MathHelper.Lerp(4f, 6f, PanelFlashTimer / 24f));
+
+                    return IconTexture?.Frame(1, 7, 0, frame) ?? default;
+                }
+            }
+
+            public IconState(bool hover, bool panel, IconType state)
+            {
+                BeingHoveredOver = hover;
+                PlacedInPanel = panel;
+                CurrentState = state;
+            }
+
+            public void Update()
+            {
+                if (PanelFlashTimer >= 1)
+                    PanelFlashTimer++;
+                if (PanelFlashTimer >= 18)
+                    PanelFlashTimer = 0;
+
+                if (MousePressFrameCountdown > 0)
+                    MousePressFrameCountdown--;
+            }
+        }
+
+        public IconType ClickedIcon = IconType.Inactive;
+
+        public IconState[] SelectionIcons = new IconState[]
+        {
+            new(false, false, IconType.Plasma),
+            new(false, false, IconType.Tesla),
+            new(false, false, IconType.Laser),
+            new(false, false, IconType.Gauss),
+        };
+
+        public IconState[] PanelIcons = new IconState[]
+        {
+            new(false, true, IconType.Inactive),
+            new(false, true, IconType.Inactive),
+            new(false, true, IconType.Inactive),
+            new(false, true, IconType.Inactive),
+        };
+
+        public bool ShouldDeleteArmIndex = false;
 
         public int ArmIDToSpawn = -1;
+
+        public int ArmIndex = -1;
 
         public bool FadeOut => Projectile.ai[0] == 1f;
 
         public Vector2 PlayerOffset;
         
         public static Rectangle MouseRectangle => new((int)Main.MouseScreen.X, (int)Main.MouseScreen.Y, 2, 2);
-
-        public static readonly Color HoverColor = Color.Cyan;
-
+        
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("UI");
@@ -42,8 +137,41 @@ namespace CalamityMod.Projectiles.Summon.SmallAresArms
 
         public override void AI()
         {
+            int plasmaCannonID = ModContent.ProjectileType<ExoskeletonPlasmaCannon>();
+            int teslaCannonID = ModContent.ProjectileType<ExoskeletonTeslaCannon>();
+            int laserCannonID = ModContent.ProjectileType<ExoskeletonLaserCannon>();
+            int gaussNukeID = ModContent.ProjectileType<ExoskeletonGaussNukeCannon>();
+            int[] arms = new int[]
+            {
+                plasmaCannonID,
+                teslaCannonID,
+                laserCannonID,
+                gaussNukeID,
+            };
+            
+            // Initialize things.
             if (PlayerOffset == Vector2.Zero)
                 PlayerOffset = Main.MouseWorld - Main.LocalPlayer.Center;
+
+            for (int i = 0; i < 4; i++)
+                PanelIcons[i].CurrentState = IconType.Inactive;
+            for (int i = 0; i < Main.maxProjectiles; i++)
+            {
+                if (!arms.Contains(Main.projectile[i].type) || Main.projectile[i].owner != Projectile.owner || !Main.projectile[i].active)
+                    continue;
+
+                IconType stateFromID = IconType.Inactive;
+                if (Main.projectile[i].type == plasmaCannonID)
+                    stateFromID = IconType.Plasma;
+                if (Main.projectile[i].type == teslaCannonID)
+                    stateFromID = IconType.Tesla;
+                if (Main.projectile[i].type == laserCannonID)
+                    stateFromID = IconType.Laser;
+                if (Main.projectile[i].type == gaussNukeID)
+                    stateFromID = IconType.Gauss;
+
+                PanelIcons[(int)Main.projectile[i].ai[0]].CurrentState = stateFromID;
+            }
 
             // Handle fade effects.
             Projectile.Opacity = MathHelper.Clamp(Projectile.Opacity - FadeOut.ToDirectionInt() * 0.0225f, 0f, 1f);
@@ -57,24 +185,25 @@ namespace CalamityMod.Projectiles.Summon.SmallAresArms
             if (ArmIDToSpawn >= 0)
             {
                 SoundEngine.PlaySound(SoundID.Zombie66, Projectile.Center);
-                int cannon = Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, Vector2.Zero, ArmIDToSpawn, Projectile.damage, 0f, Projectile.owner);
+                int cannon = Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, Vector2.Zero, ArmIDToSpawn, Projectile.damage, 0f, Projectile.owner, ArmIndex);
                 if (Main.projectile.IndexInRange(cannon))
                     Main.projectile[cannon].originalDamage = Projectile.originalDamage;
             }
-            if (ArmIDToDelete >= 0)
+            if (ShouldDeleteArmIndex)
             {
                 SoundEngine.PlaySound(SoundID.Item74, Projectile.Center);
                 for (int i = 0; i < Main.maxProjectiles; i++)
                 {
-                    if (Main.projectile[i].type != ArmIDToDelete || Main.projectile[i].owner != Projectile.owner || !Main.projectile[i].active)
+                    if (!arms.Contains(Main.projectile[i].type) || Main.projectile[i].owner != Projectile.owner || !Main.projectile[i].active || Main.projectile[i].ai[0] != ArmIndex)
                         continue;
-
+                    
                     Main.projectile[i].Kill();
                 }
             }
 
-            ArmIDToDelete = -1;
+            ShouldDeleteArmIndex = false;
             ArmIDToSpawn = -1;
+            ArmIndex = -1;
         }
 
         public override bool PreDraw(ref Color lightColor)
@@ -83,107 +212,125 @@ namespace CalamityMod.Projectiles.Summon.SmallAresArms
             if (Main.myPlayer != Projectile.owner)
                 return false;
 
-            int plasmaCannonID = ModContent.ProjectileType<ExoskeletonPlasmaCannon>();
-            int teslaCannonID = ModContent.ProjectileType<ExoskeletonTeslaCannon>();
-            int laserCannonID = ModContent.ProjectileType<ExoskeletonLaserCannon>();
-            int gaussNukeID = ModContent.ProjectileType<ExoskeletonGaussNukeCannon>();
             Texture2D panelTexture = ModContent.Request<Texture2D>(Texture).Value;
-            Texture2D cancelTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/SmallAresArms/ExoskeletonPanelCancel").Value;
             Texture2D plasmaTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/SmallAresArms/ExoskeletonPanelPlasma").Value;
-            Texture2D teslaTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/SmallAresArms/ExoskeletonPanelTesla").Value;
-            Texture2D laserTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/SmallAresArms/ExoskeletonPanelLaser").Value;
-            Texture2D gaussTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/SmallAresArms/ExoskeletonPanelGauss").Value;
+            Texture2D arrowTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/SmallAresArms/Arrow").Value;
+            Vector2 area = plasmaTexture.Frame(1, 7, 0, 0).Size();
             Vector2 drawPosition = (Main.LocalPlayer.Center + PlayerOffset - Main.screenPosition).Floor();
-            if (Main.LocalPlayer.ownedProjectileCounts[plasmaCannonID] >= 1)
-                plasmaTexture = cancelTexture;
-            if (Main.LocalPlayer.ownedProjectileCounts[teslaCannonID] >= 1)
-                teslaTexture = cancelTexture;
-            if (Main.LocalPlayer.ownedProjectileCounts[laserCannonID] >= 1)
-                laserTexture = cancelTexture;
-            if (Main.LocalPlayer.ownedProjectileCounts[gaussNukeID] >= 1)
-                gaussTexture = cancelTexture;
 
-            Color plasmaColor = Color.White;
-            Color teslaColor = Color.White;
-            Color laserColor = Color.White;
-            Color gaussColor = Color.White;
-            Rectangle plasmaIconArea = Utils.CenteredRectangle(drawPosition + new Vector2(-66f, 10f) * Projectile.scale, plasmaTexture.Size() * Projectile.scale);
-            Rectangle teslaIconArea = Utils.CenteredRectangle(drawPosition + new Vector2(-26f, 10f) * Projectile.scale, plasmaTexture.Size() * Projectile.scale);
-            Rectangle laserIconArea = Utils.CenteredRectangle(drawPosition + new Vector2(26f, 10f) * Projectile.scale, plasmaTexture.Size() * Projectile.scale);
-            Rectangle gaussIconArea = Utils.CenteredRectangle(drawPosition + new Vector2(66f, 10f) * Projectile.scale, plasmaTexture.Size() * Projectile.scale);
+            Rectangle[] selectionIconAreas = new Rectangle[4]
+            {
+                Utils.CenteredRectangle(drawPosition + new Vector2(-62f, -70f) * Projectile.scale, area * Projectile.scale),
+                Utils.CenteredRectangle(drawPosition + new Vector2(-22f, -70f) * Projectile.scale, area * Projectile.scale),
+                Utils.CenteredRectangle(drawPosition + new Vector2(22f, -70f) * Projectile.scale, area * Projectile.scale),
+                Utils.CenteredRectangle(drawPosition + new Vector2(62f, -70f) * Projectile.scale, area * Projectile.scale)
+            };
 
-            // Handle hover behaviors. If an arm needs to be destroyed or spawned, it will happen on the next frame.
             bool hoveringOverAnySlot = false;
+            bool clickedAnIconOnPanel = false;
             bool sufficientSlots = Main.LocalPlayer.maxMinions >= AresExoskeleton.MinionSlotsPerCannon;
-            if (MouseRectangle.Intersects(plasmaIconArea))
-            {
-                Main.blockMouse = true;
-                hoveringOverAnySlot = true;
-                plasmaColor = HoverColor;
-                if (Main.mouseLeftRelease && Main.mouseLeft)
-                {
-                    if (plasmaTexture == cancelTexture)
-                        ArmIDToDelete = plasmaCannonID;
-                    else if (sufficientSlots)
-                        ArmIDToSpawn = plasmaCannonID;
-                }
-            }
-            if (MouseRectangle.Intersects(teslaIconArea))
-            {
-                Main.blockMouse = true;
-                hoveringOverAnySlot = true;
-                teslaColor = HoverColor;
-                if (Main.mouseLeftRelease && Main.mouseLeft)
-                {
-                    if (teslaTexture == cancelTexture)
-                        ArmIDToDelete = teslaCannonID;
-                    else if (sufficientSlots)
-                        ArmIDToSpawn = teslaCannonID;
-                }
-            }
-            if (MouseRectangle.Intersects(laserIconArea))
-            {
-                Main.blockMouse = true;
-                hoveringOverAnySlot = true;
-                laserColor = HoverColor;
-                if (Main.mouseLeftRelease && Main.mouseLeft)
-                {
-                    if (laserTexture == cancelTexture)
-                        ArmIDToDelete = laserCannonID;
-                    else if (sufficientSlots)
-                        ArmIDToSpawn = laserCannonID;
-                }
-            }
-            if (MouseRectangle.Intersects(gaussIconArea))
-            {
-                Main.blockMouse = true;
-                hoveringOverAnySlot = true;
-                gaussColor = HoverColor;
-                if (Main.mouseLeftRelease && Main.mouseLeft)
-                {
-                    if (gaussTexture == cancelTexture)
-                        ArmIDToDelete = gaussNukeID;
-                    else if (sufficientSlots)
-                        ArmIDToSpawn = gaussNukeID;
-                }
-            }
 
-            plasmaColor = Projectile.GetAlpha(plasmaColor);
-            teslaColor = Projectile.GetAlpha(teslaColor);
-            laserColor = Projectile.GetAlpha(laserColor);
-            gaussColor = Projectile.GetAlpha(gaussColor);
+            // Draw icon and handle hover behaviors.
+            // If an arm needs to be destroyed or spawned, it will happen on the next frame in the AI update loop.
+            for (int i = 0; i < 4; i++)
+            {
+                Texture2D selectionIconTexture = SelectionIcons[i].IconTexture;
+
+                // Handle selection icon click stuff.
+                SelectionIcons[i].BeingHoveredOver = false;
+                PanelIcons[i].BeingHoveredOver = false;
+                if (selectionIconAreas[i].Intersects(MouseRectangle))
+                {
+                    hoveringOverAnySlot = true;
+                    SelectionIcons[i].BeingHoveredOver = true;
+                    if (Main.mouseLeft && Main.mouseLeftRelease)
+                    {
+                        ClickedIcon = SelectionIcons[i].CurrentState;
+                        SelectionIcons[i].MousePressFrameCountdown = 15;
+                    }
+                }
+
+                // Handle panel icon click stuff.
+                Rectangle panelArea = selectionIconAreas[i];
+                panelArea.Y += (int)(Projectile.scale * 78f);
+                if (panelArea.Intersects(MouseRectangle))
+                {
+                    hoveringOverAnySlot = true;
+                    PanelIcons[i].BeingHoveredOver = true;
+                    if (Main.mouseLeft && Main.mouseLeftRelease && sufficientSlots)
+                    {
+                        clickedAnIconOnPanel = true;
+                        PanelIcons[i].CurrentState = ClickedIcon;
+                        PanelIcons[i].PanelFlashTimer = 1;
+
+                        switch (ClickedIcon)
+                        {
+                            case IconType.Plasma:
+                                ArmIDToSpawn = ModContent.ProjectileType<ExoskeletonPlasmaCannon>();
+                                break;
+                            case IconType.Tesla:
+                                ArmIDToSpawn = ModContent.ProjectileType<ExoskeletonTeslaCannon>();
+                                break;
+                            case IconType.Laser:
+                                ArmIDToSpawn = ModContent.ProjectileType<ExoskeletonLaserCannon>();
+                                break;
+                            case IconType.Gauss:
+                                ArmIDToSpawn = ModContent.ProjectileType<ExoskeletonGaussNukeCannon>();
+                                break;
+                            case IconType.Inactive:
+                                ShouldDeleteArmIndex = true;
+                                PanelIcons[i].PanelFlashTimer = 0;
+                                break;
+                        }
+                        ArmIndex = i;
+                    }
+                }
+
+                Main.EntitySpriteDraw(selectionIconTexture, selectionIconAreas[i].Center.ToVector2(), SelectionIcons[i].Frame, Projectile.GetAlpha(Color.White), 0f, area * 0.5f, Projectile.scale, 0, 0);
+            }
 
             Main.EntitySpriteDraw(panelTexture, drawPosition, null, Projectile.GetAlpha(Color.White), 0f, panelTexture.Size() * 0.5f, Projectile.scale, 0, 0);
-            Main.EntitySpriteDraw(plasmaTexture, plasmaIconArea.Center.ToVector2(), null, plasmaColor, 0f, plasmaTexture.Size() * 0.5f, Projectile.scale, 0, 0);
-            Main.EntitySpriteDraw(teslaTexture, teslaIconArea.Center.ToVector2(), null, teslaColor, 0f, teslaTexture.Size() * 0.5f, Projectile.scale, 0, 0);
-            Main.EntitySpriteDraw(laserTexture, laserIconArea.Center.ToVector2(), null, laserColor, 0f, laserTexture.Size() * 0.5f, Projectile.scale, 0, 0);
-            Main.EntitySpriteDraw(gaussTexture, gaussIconArea.Center.ToVector2(), null, gaussColor, 0f, gaussTexture.Size() * 0.5f, Projectile.scale, 0, 0);
+
+            // Draw panel icons.
+            for (int i = 0; i < 4; i++)
+            {
+                Rectangle panelArea = selectionIconAreas[i];
+                panelArea.Y += (int)(Projectile.scale * 78f);
+                Texture2D panelIconTexture = PanelIcons[i].IconTexture;
+                if (panelIconTexture is not null)
+                    Main.EntitySpriteDraw(panelIconTexture, panelArea.Center.ToVector2(), PanelIcons[i].Frame, Projectile.GetAlpha(Color.White), 0f, area * 0.5f, Projectile.scale, 0, 0);
+
+                SelectionIcons[i].Update();
+                PanelIcons[i].Update();
+            }
+
+            // Draw an arrow at the mouse from the selected icon if one has been selected.
+            if (ClickedIcon != IconType.Inactive)
+            {
+                Vector2 arrowDrawPosition = selectionIconAreas[(int)ClickedIcon - 1].Center.ToVector2();
+                Vector2 arrowDirection = (Main.MouseScreen - arrowDrawPosition).SafeNormalize(Vector2.UnitY);
+                arrowDrawPosition += arrowDirection * Projectile.scale * 24f;
+
+                Main.EntitySpriteDraw(arrowTexture, arrowDrawPosition, null, Projectile.GetAlpha(Color.White), arrowDirection.ToRotation(), arrowTexture.Size() * 0.5f, Projectile.scale, 0, 0);
+            }
 
             // Tell the player if they don't have enough summon slots.
             if (hoveringOverAnySlot && !sufficientSlots)
-            {
                 Utils.DrawBorderStringFourWay(Main.spriteBatch, FontAssets.MouseText.Value, "Insufficient minion slots!", Main.MouseScreen.X + 20f, Main.MouseScreen.Y + 12f, Color.Cyan, Color.Black, new Vector2(0f, 0.5f));
+
+            // Reset the clicked icon if a click is made but not to a specific icon.
+            if (!hoveringOverAnySlot && Main.mouseLeft && Main.mouseLeftRelease)
+                ClickedIcon = IconType.Inactive;
+
+            if (hoveringOverAnySlot)
+            {
+                Main.blockMouse = true;
+                Main.LocalPlayer.mouseInterface = true;
             }
+
+            // Reset the clicked icon and handle the arm creation/deletion if an icon was clicked on the panel.
+            if (clickedAnIconOnPanel)
+                ClickedIcon = IconType.Inactive;
 
             return false;
         }
