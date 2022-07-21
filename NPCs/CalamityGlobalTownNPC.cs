@@ -158,6 +158,7 @@ namespace CalamityMod.NPCs
         private static readonly string[] PrincessNames =
         {
             "Catalyst", // <@!156672312425316352> (xAqult#1122)
+            "Nyapano", // <@!120976656826368003> (Emi - Nyapano She/Her#4040)
         };
         private const int SkeletonMerchantVanillaNames = 10;
         private static readonly string[] SkeletonMerchantNames =
@@ -227,29 +228,46 @@ namespace CalamityMod.NPCs
         // All three pet types come in numerous breeds. Each breed has its own name pool.
         // Donator pet names should be appended to all breeds' name pools equally.
         // TODO -- actually allow for naming pets
+        
         private const int TownDogLabradorVanillaNames = 17;
         private const int TownDogPitbullVanillaNames = 14;
         private const int TownDogBeagleVanillaNames = 12;
+        private static readonly string[] TownDogBeagleNames =
+        {
+            "Kendra", // <@!237247188005158912> (LordMetarex#6407)
+        };
         private const int TownDogCorgiVanillaNames = 14;
         private const int TownDogDalmatianVanillaNames = 13;
         private const int TownDogHuskyVanillaNames = 16;
+        private static readonly string[] TownDogHuskyNames =
+        {
+            "Yoshi", // <@!541127291426832384> (GregTheSpinarak#6643)
+        };
         private static readonly string[] TownDogNames =
         {
             "Ozymandias", // <@!146333264871686145> (Ozzatron#0001)
-            // "Kendra", // <@!237247188005158912> (LordMetarex#6407) ONLY IF the dog is a Beagle
-            "Yoshi", // <@!541127291426832384> (GregTheSpinarak#6643) ONLY IF the dog is a Husky
         };
 
         private const int TownCatSiameseVanillaNames = 12;
         private const int TownCatBlackVanillaNames = 23;
+        private static readonly string[] TownCatBlackNames =
+        {
+            "Bear", // <@!183424826407518208> (Lilac Vrt Olligoci#5585)
+        };
         private const int TownCatOrangeTabbyVanillaNames = 18;
+        private static readonly string[] TownCatOrangeTabbyNames =
+        {
+            "Felix" // <@!183424826407518208> (Lilac Vrt Olligoci#5585)
+        };
         private const int TownCatRussianBlueVanillaNames = 16;
+        private static readonly string[] TownCatRussianBlueNames =
+        {
+            "Zeno", // <@!187395834625785869> (VeryMasterNinja#7728)
+        };
         private const int TownCatSilverVanillaNames = 17;
         private const int TownCatWhiteVanillaNames = 15;
         private static readonly string[] TownCatNames =
         {
-            // "Bear", // <@!183424826407518208> (Lilac Vrt Olligoci#5585) ONLY IF the cat is a Black Cat
-            // "Felix" // <@!183424826407518208> (Lilac Vrt Olligoci#5585) ONLY IF the cat is an Orange Tabby
             "Smoogle", // <@!709968379334623274> (smoogle#5672)
             "The Meowurer of Gods", // <@!385949114271268864> (GP#7876)
         };
