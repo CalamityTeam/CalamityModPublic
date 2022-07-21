@@ -249,7 +249,7 @@ namespace CalamityMod.Projectiles.Summon.SmallAresArms
                 {
                     hoveringOverAnySlot = true;
                     SelectionIcons[i].BeingHoveredOver = true;
-                    if (Main.mouseLeft && Main.mouseLeftRelease)
+                    if (Main.mouseLeft && Main.mouseLeftRelease && Projectile.Opacity >= 1f)
                     {
                         ClickedIcon = SelectionIcons[i].CurrentState;
                         SelectionIcons[i].MousePressFrameCountdown = 15;
@@ -263,7 +263,7 @@ namespace CalamityMod.Projectiles.Summon.SmallAresArms
                 {
                     hoveringOverAnySlot = true;
                     PanelIcons[i].BeingHoveredOver = true;
-                    if (Main.mouseLeft && Main.mouseLeftRelease && sufficientSlots)
+                    if (Main.mouseLeft && Main.mouseLeftRelease && Projectile.Opacity >= 1f && sufficientSlots)
                     {
                         clickedAnIconOnPanel = true;
                         PanelIcons[i].CurrentState = ClickedIcon;
