@@ -38,7 +38,7 @@ namespace CalamityMod.NPCs.SlimeGod
             NPC.knockBackResist = 0f;
             AnimationType = NPCID.KingSlime;
             NPC.value = 0f;
-            NPC.alpha = 55;
+            NPC.Opacity = 0.8f;
             NPC.lavaImmune = false;
             NPC.noGravity = false;
             NPC.noTileCollide = false;
@@ -420,13 +420,13 @@ namespace CalamityMod.NPCs.SlimeGod
             else if (NPC.ai[0] == 3f)
             {
                 NPC.noTileCollide = true;
-                NPC.alpha += 7;
+                NPC.Opacity -= 0.03f;
 
                 if (NPC.timeLeft > 10)
                     NPC.timeLeft = 10;
 
-                if (NPC.alpha > 255)
-                    NPC.alpha = 255;
+                if (NPC.Opacity < 0f)
+                    NPC.Opacity = 0f;
 
                 NPC.velocity.X *= 0.98f;
             }

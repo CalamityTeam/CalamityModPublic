@@ -30,7 +30,7 @@ namespace CalamityMod.NPCs.SlimeGod
             }
             NPC.knockBackResist = 0f;
             AnimationType = NPCID.CorruptSlime;
-            NPC.alpha = 55;
+            NPC.Opacity = 0.8f;
             NPC.lavaImmune = false;
             NPC.noGravity = false;
             NPC.noTileCollide = false;
@@ -68,6 +68,11 @@ namespace CalamityMod.NPCs.SlimeGod
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
             player.AddBuff(BuffID.Weak, 90, true);
+        }
+
+        public override Color? GetAlpha(Color drawColor)
+        {
+            return new Color(255, 255, 255, drawColor.A) * NPC.Opacity;
         }
     }
 }
