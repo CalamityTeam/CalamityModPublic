@@ -151,7 +151,7 @@ namespace CalamityMod.Items
 
                     DropHelper.DropItemChance(s, player, ModContent.ItemType<BlossomFlux>(), 0.1f);
 
-                    DropHelper.DropItem(s, player, ModContent.ItemType<LivingShard>(), 16, 22);
+                    DropHelper.DropItem(s, player, ModContent.ItemType<LivingShard>(), 30, 35);
                     break;
 
                 case ItemID.FairyQueenBossBag:

@@ -246,10 +246,10 @@ namespace CalamityMod.Items.Weapons.Ranged
                 movementSpeed = 12 / movementSpeed;
                 towardsPlayer *= movementSpeed;
                 item.velocity = (item.velocity * 4f + towardsPlayer) / 5f;
-                return false;
+                return true;
             }
 
-            return true;
+            return false;
         }
     }
 

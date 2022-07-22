@@ -53,8 +53,7 @@ namespace CalamityMod.Items.Armor
             CreateRecipe().
                 AddIngredient(ItemID.ChlorophyteHelmet).
                 AddIngredient(ItemID.GlowingMushroom, 60).
-                AddIngredient<LivingShard>().
-                AddTile(TileID.MythrilAnvil).
+                AddTile(TileID.Autohammer).
                 Register();
 
         }

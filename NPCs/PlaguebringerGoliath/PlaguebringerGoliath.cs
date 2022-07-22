@@ -1248,13 +1248,13 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                 // Weapons
                 int[] weapons = new int[]
                 {
-                    ModContent.ItemType<Virulence>(), // Virulence
+                    ModContent.ItemType<Virulence>(),
                     ModContent.ItemType<DiseasedPike>(),
-                    ModContent.ItemType<Pandemic>(), // Pandemic
+                    ModContent.ItemType<Pandemic>(),
                     ModContent.ItemType<Malevolence>(),
                     ModContent.ItemType<PestilentDefiler>(),
                     ModContent.ItemType<TheHive>(),
-                    ModContent.ItemType<BlightSpewer>(), // Blight Spewer
+                    ModContent.ItemType<BlightSpewer>(),
                     ModContent.ItemType<PlagueStaff>(),
                     ModContent.ItemType<FuelCellBundle>(),
                     ModContent.ItemType<InfectedRemote>(),
@@ -1265,8 +1265,8 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
                 // Materials
                 normalOnly.Add(ItemID.Stinger, 1, 3, 5);
-                normalOnly.Add(ModContent.ItemType<PlagueCellCanister>(), 1, 10, 14);
-                normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<InfectedArmorPlating>(), 1, 13, 17));
+                normalOnly.Add(ModContent.ItemType<PlagueCellCanister>(), 1, 15, 20);
+                normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<InfectedArmorPlating>(), 1, 25, 30));
 
                 // Equipment
                 normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<ToxicHeart>()));

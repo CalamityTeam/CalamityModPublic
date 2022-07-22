@@ -456,8 +456,8 @@ namespace CalamityMod.NPCs.SunkenSea
             var postDesertScourge = npcLoot.DefineConditionalDropSet(() => DownedBossSystem.downedDesertScourge);
 
             // Materials
-            npcLoot.Add(ModContent.ItemType<Navystone>(), 1, 25, 35);
-            hardmode.Add(ModContent.ItemType<MolluskHusk>(), 1, 6, 11);
+            npcLoot.Add(ModContent.ItemType<Navystone>(), 1, 30, 40);
+            hardmode.Add(ModContent.ItemType<MolluskHusk>(), 1, 25, 30);
 
             // Weapons
             int[] weapons = new int[]

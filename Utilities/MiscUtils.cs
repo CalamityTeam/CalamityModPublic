@@ -302,6 +302,61 @@ namespace CalamityMod
             CalamityNetcode.SyncWorld();
         }
 
+        public static bool IntoMorseCode(string originalText, float completion)
+        {
+            int spaceLenght = 13;
+            int betweenLetterLenght = 7;
+            int betweenBlipLenght = 4;
+            int shortLenght = 3;
+            int longLenght = 8;
+
+            char[] TextKeys = { ' ', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r',
+                's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0' };
+            string[] MorseKeys = { " ", ".-|", "-...|", "-.-. |", "-..|", ".|", "..-.|"
+                    , "--.|", "....|", "..|", ".---|","-.-|",".-..|","--|",
+                      "-.|","---|",".--.|","--.-|",".-.|","...|","_|","..-|",
+                      "...-|",".--|","-..-|","-.--|","--..|",".----|",
+                      "..---|","...--|","....-|",".....|","-....|","--...|",
+                      "---..|","----.|","-----|" };
+
+            string morseText = "";
+            originalText = originalText.ToLower();
+
+            //Construct a string of text that replaces all the stuff with morse.
+            for (int i = 0; i < originalText.Length; i++)
+            {
+                for (int j = 0; j < 37; j++)
+                {
+                    if (TextKeys[j] == originalText[i])
+                    {
+                        morseText += MorseKeys[j];
+                        break;
+                    }
+                }
+            }
+
+            List<bool> morseState = new List<bool>();
+
+            for (int i = 0; i < morseText.Length; i++)
+            {
+                if (morseText[i] == " ".ToCharArray()[0])
+                    morseState.AddRange(Enumerable.Repeat(false, spaceLenght));
+
+                if (morseText[i] == "|".ToCharArray()[0])
+                    morseState.AddRange(Enumerable.Repeat(false, betweenLetterLenght));
+
+                if (morseText[i] == ".".ToCharArray()[0])
+                    morseState.AddRange(Enumerable.Repeat(true, shortLenght));
+
+                if (morseText[i] == "-".ToCharArray()[0])
+                    morseState.AddRange(Enumerable.Repeat(true, longLenght));
+
+                morseState.AddRange(Enumerable.Repeat(false, betweenBlipLenght));
+            }
+
+            return morseState[(int)((morseState.Count - 1) * completion)];
+        }
+
         public static int GetBannerItem(int style)
         {
             int item = -1;

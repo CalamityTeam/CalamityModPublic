@@ -211,9 +211,9 @@ namespace CalamityMod.NPCs.Calamitas
                 normalOnly.Add(ModContent.ItemType<Regenator>(), 10);
 
                 // Materials
-                normalOnly.Add(ModContent.ItemType<EssenceofChaos>(), 1, 4, 8);
-                normalOnly.Add(ModContent.ItemType<AshesofCalamity>(), 1, 9, 14);
-                postProvidence.Add(ModContent.ItemType<Bloodstone>(), 1, 30, 40);
+                normalOnly.Add(ModContent.ItemType<EssenceofChaos>(), 1, 5, 10);
+                normalOnly.Add(ModContent.ItemType<AshesofCalamity>(), 1, 25, 30);
+                postProvidence.Add(ModContent.ItemType<Bloodstone>(), 1, 50, 60);
 
                 // Vanity
                 normalOnly.Add(ModContent.ItemType<CalamitasMask>(), 7);

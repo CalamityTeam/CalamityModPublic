@@ -71,7 +71,12 @@ namespace CalamityMod.Projectiles.Ranged
 
                             proj.active = false;
                             if (proj.owner == Main.myPlayer)
-                                Item.NewItem(proj.GetSource_DropAsItem(), proj.Center, Vector2.One, ItemID.CopperCoin);
+                            {
+                                int coin = Item.NewItem(proj.GetSource_DropAsItem(), proj.Center, Vector2.One, ItemID.CopperCoin, noBroadcast: false);
+
+                                if (Main.netMode == NetmodeID.MultiplayerClient)
+                                    NetMessage.SendData(MessageID.SyncItem, -1, -1, null, coin, 1f);
+                            }
 
                             SoundEngine.PlaySound(CrackshotColt.BlingHitSound, proj.Center);
                             return;

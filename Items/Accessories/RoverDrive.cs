@@ -47,7 +47,8 @@ namespace CalamityMod.Items.Accessories
                 if (!Main.player[i].active || Main.player[i].outOfRange || Main.player[i].dead)
                     continue;
 
-                if (Main.player[i].GetModPlayer<RoverDrivePlayer>().ProtectionMatrixDurability <= 0)
+                RoverDrivePlayer modPlayer = Main.player[i].GetModPlayer<RoverDrivePlayer>();
+                if (!modPlayer.VisibleShield ||  modPlayer.ProtectionMatrixDurability <= 0)
                     continue;
 
                 float scale = 0.15f + 0.03f * (0.5f + 0.5f * (float)Math.Sin(Main.GlobalTimeWrappedHourly * 0.5f + i * 0.2f));
@@ -136,6 +137,8 @@ namespace CalamityMod.Items.Accessories
             //modPlayer.roverDrive = true;
 
             modPlayer.RoverDriveOn = true;
+            modPlayer.VisibleShield = !hideVisual;
+
             if (modPlayer.ProtectionMatrixDurability > 0)
                 player.statDefense += ProtectionMatrixDefenseBoost;
         }
@@ -157,6 +160,7 @@ namespace CalamityMod.Items.Accessories
     public class RoverDrivePlayer : ModPlayer
     {
         public bool RoverDriveOn;
+        public bool VisibleShield;
         public int ProtectionMatrixDurability = 0;
         public int ProtectionMatrixCharge = 0;
 
@@ -170,6 +174,7 @@ namespace CalamityMod.Items.Accessories
                 ProtectionMatrixDurability = 0;
 
             RoverDriveOn = false;
+            VisibleShield = false;
         }
 
         public override void PostHurt(bool pvp, bool quiet, double damage, int hitDirection, bool crit)

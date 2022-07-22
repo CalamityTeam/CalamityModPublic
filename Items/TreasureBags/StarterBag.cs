@@ -43,6 +43,7 @@ namespace CalamityMod.Items.TreasureBags
             // Tools / Utility
             DropHelper.DropItem(s, player, WorldGen.SavedOreTiers.Copper == TileID.Copper ? ItemID.CopperHammer : ItemID.TinHammer);
             DropHelper.DropItem(s, player, ItemID.Bomb, 10);
+            DropHelper.DropItem(s, player, ItemID.Rope, 50);
             DropHelper.DropItem(s, player, ItemID.MiningPotion);
             DropHelper.DropItem(s, player, ItemID.SpelunkerPotion, 2);
             DropHelper.DropItem(s, player, ItemID.SwiftnessPotion, 3);

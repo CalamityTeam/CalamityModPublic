@@ -51,9 +51,9 @@ namespace CalamityMod.Items.TreasureBags
 
             // Materials
             DropHelper.DropItem(s, player, ModContent.ItemType<RottenMatter>(), 30, 40);
-            DropHelper.DropItem(s, player, ItemID.DemoniteBar, 9, 14);
-            DropHelper.DropItem(s, player, ItemID.RottenChunk, 10, 20);
-            DropHelper.DropItemCondition(s, player, ItemID.CursedFlame, Main.hardMode, 15, 30);
+            DropHelper.DropItem(s, player, ItemID.DemoniteBar, 15, 20);
+            DropHelper.DropItem(s, player, ItemID.RottenChunk, 15, 20);
+            DropHelper.DropItemCondition(s, player, ItemID.CursedFlame, Main.hardMode, 25, 30);
             DropHelper.DropItem(s, player, ItemID.CorruptSeeds, 10, 15);
 
             // Weapons

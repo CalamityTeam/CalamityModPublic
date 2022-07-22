@@ -48,7 +48,7 @@ namespace CalamityMod.Items.TreasureBags
             player.TryGettingDevArmor(s);
 
             // Materials
-            DropHelper.DropItem(s, player, ModContent.ItemType<TwistingNether>(), 3, 4);
+            DropHelper.DropItem(s, player, ModContent.ItemType<TwistingNether>(), 6, 9);
 
             // Weapons
             DropHelper.DropItemChance(s, player, ModContent.ItemType<CosmicKunai>(), DropHelper.BagWeaponDropRateInt);

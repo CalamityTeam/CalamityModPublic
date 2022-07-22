@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             DisplayName.SetDefault("Duke's Decapitator");
             Tooltip.SetDefault("Throws a hydro axe which shreds enemies when it comes into contact with them\n"
-                              +"The faster it�s spinning, the more times it hits before disappearing\n"
+                              +"The faster it's spinning, the more times it hits before disappearing\n"
                               +"Stealth Strikes make it emit short-ranged bubbles.");
             SacrificeTotal = 1;
         }

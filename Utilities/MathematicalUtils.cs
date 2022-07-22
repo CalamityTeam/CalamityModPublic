@@ -250,16 +250,16 @@ namespace CalamityMod
             /// <summary>
             /// This indicates when the segment starts on the animation
             /// </summary>
-            public float originX;
+            public float startingX;
             /// <summary>
             /// This indicates what the starting height of the segment is
             /// </summary>
-            public float originY;
+            public float startingHeight;
             /// <summary>
             /// This represents the elevation shift that will happen during the segment. Set this to 0 to turn the segment into a flat line.
             /// Usually this elevation shift is fully applied at the end of a segment, but the sinebump easing type makes it be reached at the apex of its curve.
             /// </summary>
-            public float displacement;
+            public float elevationShift;
             /// <summary>
             /// This is the degree of the polynomial, if the easing mode chosen is a polynomial one
             /// </summary>
@@ -268,22 +268,17 @@ namespace CalamityMod
             /// <summary>
             /// Legacy constructor
             /// </summary>
-            public CurveSegment(EasingType MODE, float ORGX, float ORGY, float DISP, int DEG = 1)
-            {
-                easing = EasingTypeToFunction[(int)MODE];
-                originX = ORGX;
-                originY = ORGY;
-                displacement = DISP;
-                degree = DEG;
-            }
+            public CurveSegment(EasingType MODE, float startX, float startHeight, float elevationShift, int degree = 1) :
+                this(EasingTypeToFunction[(int)MODE], startX, startHeight, elevationShift, degree)
+            { }
 
-            public CurveSegment(EasingFunction MODE, float ORGX, float ORGY, float DISP, int DEG = 1)
+            public CurveSegment(EasingFunction MODE, float startX, float startHeight, float elevationShift, int degree = 1)
             {
                 easing = MODE;
-                originX = ORGX;
-                originY = ORGY;
-                displacement = DISP;
-                degree = DEG;
+                startingX = startX;
+                startingHeight = startHeight;
+                this.elevationShift = elevationShift;
+                this.degree = degree;
             }
         }
 
@@ -294,13 +289,13 @@ namespace CalamityMod
         /// <param name="progress">How far along the curve you are. Automatically clamped between 0 and 1</param>
         /// <param name="segments">An array of curve segments making up the full animation curve</param>
         /// <returns></returns>
-        public static float PiecewiseAnimation(float progress, CurveSegment[] segments)
+        public static float PiecewiseAnimation(float progress, params CurveSegment[] segments)
         {
             if (segments.Length == 0)
                 return 0f;
 
-            if (segments[0].originX != 0) //If for whatever reason you try to not play by the rules, get fucked
-                segments[0].originX = 0;
+            if (segments[0].startingX != 0) //If for whatever reason you try to not play by the rules, get fucked
+                segments[0].startingX = 0;
 
             progress = MathHelper.Clamp(progress, 0f, 1f); //Clamp the progress
             float ratio = 0f;
@@ -308,29 +303,29 @@ namespace CalamityMod
             for (int i = 0; i <= segments.Length - 1; i++)
             {
                 CurveSegment segment = segments[i];
-                float startPoint = segment.originX;
+                float startPoint = segment.startingX;
                 float endPoint = 1f;
 
-                if (progress < segment.originX) //Too early. This should never get reached, since by the time you'd have gotten there you'd have found the appropriate segment and broken out of the for loop
+                if (progress < segment.startingX) //Too early. This should never get reached, since by the time you'd have gotten there you'd have found the appropriate segment and broken out of the for loop
                     continue;
 
                 if (i < segments.Length - 1)
                 {
-                    if (segments[i + 1].originX <= progress) //Too late
+                    if (segments[i + 1].startingX <= progress) //Too late
                         continue;
-                    endPoint = segments[i + 1].originX;
+                    endPoint = segments[i + 1].startingX;
                 }
 
                 float segmentLenght = endPoint - startPoint;
-                float segmentProgress = (progress - segment.originX) / segmentLenght; //How far along the specific segment
-                ratio = segment.originY;
+                float segmentProgress = (progress - segment.startingX) / segmentLenght; //How far along the specific segment
+                ratio = segment.startingHeight;
 
                 //Failsafe because somehow it can fail? what
                 if (segment.easing != null)
-                    ratio += segment.easing(segmentProgress, segment.degree) * segment.displacement;
+                    ratio += segment.easing(segmentProgress, segment.degree) * segment.elevationShift;
 
                 else
-                    ratio += LinearEasing(segmentProgress, segment.degree) * segment.displacement;
+                    ratio += LinearEasing(segmentProgress, segment.degree) * segment.elevationShift;
 
                 break;
             }

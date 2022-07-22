@@ -105,7 +105,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 AddIngredient(ItemID.ThrowingKnife, 200).
                 AddIngredient(ItemID.LifeCrystal).
                 AddIngredient(ItemID.LesserHealingPotion, 5).
-                AddIngredient<VictoryShard>(10).
+                AddIngredient<PearlShard>(10).
                 AddTile(TileID.Anvils).
                 Register();
         }

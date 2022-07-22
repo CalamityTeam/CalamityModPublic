@@ -86,7 +86,7 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             if (buffingDrones > 0)
             {
-                Player.lifeRegen += (int)((1 + Math.Log(buffingDrones) * 2) * 3);
+                Player.lifeRegen += (int)(buffingDrones * 3);
                 Player.statDefense += buffingDrones * 3;
 
                 buffingDrones = 0;

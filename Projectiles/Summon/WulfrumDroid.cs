@@ -14,6 +14,7 @@ using Terraria.Graphics.Shaders;
 using Terraria.Graphics.Effects;
 using static Terraria.ModLoader.ModContent;
 using ReLogic.Content;
+using System.IO;
 
 namespace CalamityMod.Projectiles.Summon
 {
@@ -61,6 +62,8 @@ namespace CalamityMod.Projectiles.Summon
 
         public ref float AyeAyeCaptainCooldown => ref Projectile.localAI[0];
         public ref float NuzzleFlashTime => ref Projectile.localAI[1];
+
+        public float BuffModeBuffer = 0f;
 
         public NPC Target
         {
@@ -160,7 +163,19 @@ namespace CalamityMod.Projectiles.Summon
                 Initialized ++;
             }
 
-            bool buffMode = Owner.Calamity().mouseRight && Owner.HeldItem.type == ModContent.ItemType<WulfrumController>();
+            if (Owner.Calamity().mouseRight && Owner.HeldItem.type == ModContent.ItemType<WulfrumController>())
+            {
+                if (BuffModeBuffer > 0)
+                {
+                    BuffModeBuffer--;
+                    Projectile.netUpdate = true;
+                }
+            }
+
+            else if (BuffModeBuffer < 15)
+                BuffModeBuffer = 15;
+
+            bool buffMode = BuffModeBuffer <= 0;
 
             //Do frame stuff i guess
             Projectile.frame = Projectile.frame % (Main.projFrames[Projectile.type] / 2);
@@ -446,7 +461,7 @@ namespace CalamityMod.Projectiles.Summon
             if (healedPlayer == null)
                 healedPlayer = Owner;
 
-            if (Owner.Calamity().mouseRight && Owner.HeldItem.type == ModContent.ItemType<WulfrumController>() && (healedPlayer.Center - Projectile.Center).Length() < 240f)
+            if (BuffModeBuffer <= 0 && (healedPlayer.Center - Projectile.Center).Length() < 240f)
             {
                 Main.spriteBatch.End();
                 Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
@@ -498,5 +513,15 @@ namespace CalamityMod.Projectiles.Summon
         }
 
         public override bool? CanDamage() => false;
+
+        public override void SendExtraAI(BinaryWriter writer)
+        {
+            writer.Write(BuffModeBuffer);
+        }
+
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            BuffModeBuffer = reader.ReadSingle();
+        }
     }
 }

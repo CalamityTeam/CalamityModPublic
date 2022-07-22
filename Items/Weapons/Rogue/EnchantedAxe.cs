@@ -58,7 +58,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             CreateRecipe().
                 AddIngredient<IronFrancisca>(100).
                 AddIngredient(ItemID.FallenStar, 5).
-                AddIngredient<VictoryShard>(10).
+                AddIngredient<PearlShard>(10).
                 AddIngredient(ItemID.Bone, 30).
                 AddTile(TileID.Anvils).
                 Register();
@@ -66,7 +66,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             CreateRecipe().
                 AddIngredient<LeadTomahawk>(100).
                 AddIngredient(ItemID.FallenStar, 5).
-                AddIngredient<VictoryShard>(10).
+                AddIngredient<PearlShard>(10).
                 AddIngredient(ItemID.Bone, 30).
                 AddTile(TileID.Anvils).
                 Register();

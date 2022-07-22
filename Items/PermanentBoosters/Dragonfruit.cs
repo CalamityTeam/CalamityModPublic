@@ -1,9 +1,12 @@
 ﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.Furniture.CraftingStations;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace CalamityMod.Items.PermanentBoosters
 {
@@ -34,7 +37,15 @@ namespace CalamityMod.Items.PermanentBoosters
         public override bool CanUseItem(Player player)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            if (modPlayer.dFruit || player.statLifeMax < 500)
+            if (modPlayer.dFruit)
+            {
+                string key = "Mods.CalamityMod.DragonfruitText";
+                Color messageColor = Color.Cyan;
+                CalamityUtils.DisplayLocalizedText(key, messageColor);
+
+                return false;
+            }
+            else if (player.statLifeMax < 500)
             {
                 return false;
             }
@@ -56,13 +67,21 @@ namespace CalamityMod.Items.PermanentBoosters
             return true;
         }
 
+        public override void ModifyTooltips(List<TooltipLine> list)
+        {
+            TooltipLine line = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip2");
+
+            if (line != null && Main.LocalPlayer.Calamity().dFruit)
+                line.Text = "[c/8a8a8a:You have already consumed this item]";
+        }
+
         public override void AddRecipes()
         {
             CreateRecipe().
                 AddIngredient(ItemID.LifeFruit, 5).
                 AddIngredient(ItemID.SkyBlueFlower).
                 AddIngredient(ItemID.FragmentSolar, 15).
-                AddIngredient<YharonSoulFragment>(2).
+                AddIngredient<YharonSoulFragment>(5).
                 AddIngredient<AscendantSpiritEssence>().
                 AddTile<CosmicAnvil>().
                 Register();

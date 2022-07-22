@@ -48,7 +48,7 @@ namespace CalamityMod.Items.TreasureBags
             player.TryGettingDevArmor(s);
 
             // Materials
-            DropHelper.DropItem(s, player, ModContent.ItemType<DarkPlasma>(), 4, 6);
+            DropHelper.DropItem(s, player, ModContent.ItemType<DarkPlasma>(), 6, 9);
 
             // Weapons
             DropHelper.DropItemChance(s, player, ModContent.ItemType<MirrorBlade>(), DropHelper.BagWeaponDropRateInt);

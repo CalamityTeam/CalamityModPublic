@@ -54,13 +54,13 @@ namespace CalamityMod.Items.Weapons.Magic
             CreateRecipe().
                 AddIngredient<NightsRay>().
                 AddIngredient<ValkyrieRay>().
-                AddIngredient<LivingShard>(7).
+                AddIngredient<LivingShard>(12).
                 AddTile(TileID.MythrilAnvil).
                 Register();
             CreateRecipe().
                 AddIngredient<CarnageRay>().
                 AddIngredient<ValkyrieRay>().
-                AddIngredient<LivingShard>(7).
+                AddIngredient<LivingShard>(12).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }
