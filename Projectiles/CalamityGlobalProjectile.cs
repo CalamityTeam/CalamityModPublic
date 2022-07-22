@@ -1084,8 +1084,8 @@ namespace CalamityMod.Projectiles
                 else if (projectile.type == ProjectileID.RocketSkeleton && projectile.ai[1] == 1f)
                 {
                     bool homeIn = false;
-                    float spreadOutCutoffTime = 210f;
-                    float homeInCutoffTime = 120f;
+                    float spreadOutCutoffTime = 510f;
+                    float homeInCutoffTime = 420f;
                     float minAcceleration = 0.05f;
                     float maxAcceleration = 0.1f;
                     float homingVelocity = 25f;
