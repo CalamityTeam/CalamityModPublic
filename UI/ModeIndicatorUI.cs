@@ -199,7 +199,7 @@ namespace CalamityMod.UI
             if (!Main.expertMode && GetCurrentDifficulty == Difficulties[0])
             {
                 locked = true;
-                text = "Higher difficulty modes can only be toggled in expert mode or above";
+                text = "Higher difficulty modes can only be toggled in Expert Mode or above";
             }
             else if (CalamityPlayer.areThereAnyDamnBosses || BossRushEvent.BossRushActive)
             {
