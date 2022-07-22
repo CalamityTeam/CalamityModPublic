@@ -22,7 +22,7 @@ namespace CalamityMod.Projectiles.Melee
         public const float SegmentDistance = 20;
         public static int FadeoutTime = 20;
         public static int ElectrifyTimer = 180;
-        public static float ZapDamageMultiplier = 0.75f;
+        public static float ZapDamageMultiplier = 0.5f;
 
         //Sounds
         public static readonly SoundStyle ZapSound = SoundID.Item94 with { Volume = SoundID.Item94.Volume * 0.5f };
