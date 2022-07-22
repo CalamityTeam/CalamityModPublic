@@ -2436,6 +2436,11 @@ namespace CalamityMod.Projectiles
                 }
             }
 
+            if (projectile.type == ProjectileID.QueenBeeStinger || projectile.type == ProjectileID.QueenSlimeGelAttack ||
+                projectile.type == ProjectileID.QueenSlimeMinionBlueSpike || projectile.type == ProjectileID.QueenSlimeMinionPinkBall ||
+                projectile.type == ProjectileID.Stinger)
+                return new Color(255, 255, 255, projectile.alpha);
+
             if (projectile.type == ProjectileID.PinkLaser)
             {
                 if (projectile.alpha < 200)

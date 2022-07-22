@@ -12,6 +12,8 @@ namespace CalamityMod.Projectiles.Boss
         {
             DisplayName.SetDefault("Ichor Shot");
             Main.projFrames[Projectile.type] = 6;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 2;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
         public override void SetDefaults()
@@ -55,9 +57,13 @@ namespace CalamityMod.Projectiles.Boss
             target.AddBuff(BuffID.Ichor, 180);
         }
 
-        public override Color? GetAlpha(Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            return new Color(200, 200, 50, Projectile.alpha);
+            lightColor.R = (byte)(255 * Projectile.Opacity);
+            lightColor.G = (byte)(255 * Projectile.Opacity);
+            lightColor.B = (byte)(255 * Projectile.Opacity);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
+            return false;
         }
     }
 }

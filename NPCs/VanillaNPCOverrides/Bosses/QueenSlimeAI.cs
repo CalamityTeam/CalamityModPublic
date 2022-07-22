@@ -58,7 +58,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             }
 
             // Teleport
-            if (!Main.player[npc.target].dead && npc.timeLeft > 10 && !phase2 && npc.ai[3] >= 300f && npc.ai[0] == 0f && npc.velocity.Y == 0f)
+            float teleportGateValue = 600f;
+            if (!Main.player[npc.target].dead && npc.timeLeft > 10 && !phase2 && npc.ai[3] >= teleportGateValue && npc.ai[0] == 0f && npc.velocity.Y == 0f)
             {
                 // Avoid cheap bullshit
                 npc.damage = 0;
@@ -69,66 +70,34 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 {
                     npc.netUpdate = true;
                     npc.TargetClosest(faceTarget: false);
-                    Point point = npc.Center.ToTileCoordinates();
-                    Point point2 = Main.player[npc.target].Center.ToTileCoordinates();
-                    Vector2 vector = Main.player[npc.target].Center - npc.Center;
-                    int num5 = 10;
-                    int num6 = 0;
-                    int num7 = 7;
+                    Vector2 vectorAimedAheadOfTarget = Main.player[npc.target].Center + new Vector2((float)Math.Round(Main.player[npc.target].velocity.X), 0f).SafeNormalize(Vector2.Zero) * 800f;
+                    Point point2 = vectorAimedAheadOfTarget.ToTileCoordinates();
+                    int num5 = 5;
                     int num8 = 0;
-                    bool flag3 = false;
-                    if (npc.ai[3] >= 360f || vector.Length() > 2000f)
-                    {
-                        if (npc.ai[3] > 360f)
-                            npc.ai[3] = 360f;
-
-                        flag3 = true;
-                        num8 = 100;
-                    }
-
-                    while (!flag3 && num8 < 100)
+                    while (num8 < 100)
                     {
                         num8++;
                         int num9 = Main.rand.Next(point2.X - num5, point2.X + num5 + 1);
-                        int num10 = Main.rand.Next(point2.Y - num5, point2.Y + 1);
-                        if ((num10 >= point2.Y - num7 && num10 <= point2.Y + num7 && num9 >= point2.X - num7 && num9 <= point2.X + num7) || (num10 >= point.Y - num6 && num10 <= point.Y + num6 && num9 >= point.X - num6 && num9 <= point.X + num6) || Main.tile[num9, num10].HasUnactuatedTile)
+                        int num10 = Main.rand.Next(point2.Y - num5, point2.Y);
+                        if (Main.tile[num9, num10].HasUnactuatedTile)
                             continue;
 
-                        int num11 = num10;
-                        int i = 0;
-                        if (Main.tile[num9, num11].HasUnactuatedTile && Main.tileSolid[Main.tile[num9, num11].TileType] && !Main.tileSolidTop[Main.tile[num9, num11].TileType])
-                        {
-                            i = 1;
-                        }
-                        else
-                        {
-                            for (; i < 150 && num11 + i < Main.maxTilesY; i++)
-                            {
-                                int num12 = num11 + i;
-                                if (Main.tile[num9, num12].HasUnactuatedTile && Main.tileSolid[Main.tile[num9, num12].TileType] && !Main.tileSolidTop[Main.tile[num9, num12].TileType])
-                                {
-                                    i--;
-                                    break;
-                                }
-                            }
-                        }
-
-                        num10 += i;
                         bool flag4 = true;
                         if (flag4 && Main.tile[num9, num10].LiquidType == LiquidID.Lava)
                             flag4 = false;
-
-                        if (flag4 && !Collision.CanHitLine(npc.Center, 0, 0, Main.player[npc.target].Center, 0, 0))
+                        if (flag4 && !Collision.CanHitLine(npc.Center, 0, 0, vectorAimedAheadOfTarget, 0, 0))
                             flag4 = false;
 
                         if (flag4)
                         {
                             npc.localAI[1] = num9 * 16 + 8;
                             npc.localAI[2] = num10 * 16 + 16;
+                            npc.ai[3] = 0f;
                             break;
                         }
                     }
 
+                    // Default teleport if the above conditions aren't met in 100 iterations
                     if (num8 >= 100)
                     {
                         Vector2 bottom = Main.player[Player.FindClosest(npc.position, npc.width, npc.height)].Bottom;
@@ -140,9 +109,15 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             }
 
             // Get ready to teleport by increasing ai[3]
-            if (!phase2 && (!Collision.CanHitLine(npc.Center, 0, 0, Main.player[npc.target].Center, 0, 0) || Math.Abs(npc.Top.Y - Main.player[npc.target].Bottom.Y) > 320f))
+            if (!phase2)
             {
-                npc.ai[3] += death ? 3f : 1.5f;
+                if (npc.ai[3] < teleportGateValue)
+                {
+                    if (!Collision.CanHitLine(npc.Center, 0, 0, Main.player[npc.target].Center, 0, 0) || Math.Abs(npc.Top.Y - Main.player[npc.target].Bottom.Y) > 320f)
+                        npc.ai[3] += death ? 3f : 2f;
+                    else
+                        npc.ai[3] += 1f;
+                }
             }
             else
             {
@@ -419,6 +394,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             npc.ai[1] = -40f;
                             npc.ai[2] += 1f;
                         }
+
+                        npc.noTileCollide = true;
                     }
                     else
                     {
@@ -435,6 +412,16 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                                 npc.velocity.X += (bossRush ? 0.5f : death ? 0.35f : 0.3f) * npc.direction;
                             else
                                 npc.velocity.X *= bossRush ? 0.88f : death ? 0.9f : 0.91f;
+                        }
+
+                        if (!Main.player[npc.target].dead)
+                        {
+                            if (npc.velocity.Y > 0f && npc.Bottom.Y > Main.player[npc.target].Top.Y)
+                                npc.noTileCollide = false;
+                            else if (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].Center, 1, 1) && !Collision.SolidCollision(npc.position, npc.width, npc.height))
+                                npc.noTileCollide = false;
+                            else
+                                npc.noTileCollide = true;
                         }
                     }
 

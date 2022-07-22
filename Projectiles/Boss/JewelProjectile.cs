@@ -35,8 +35,6 @@ namespace CalamityMod.Projectiles.Boss
             }
         }
 
-        public override Color? GetAlpha(Color drawColor) => new Color(255, 50, 50, 0);
-
         public override void Kill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.Dig, Projectile.position);
@@ -52,6 +50,9 @@ namespace CalamityMod.Projectiles.Boss
 
         public override bool PreDraw(ref Color lightColor)
         {
+            lightColor.R = (byte)(255 * Projectile.Opacity);
+            lightColor.G = (byte)(255 * Projectile.Opacity);
+            lightColor.B = (byte)(255 * Projectile.Opacity);
             CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;
         }

@@ -12,6 +12,8 @@ namespace CalamityMod.Projectiles.Boss
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Blood Geyser");
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 2;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
         public override void SetDefaults()
@@ -46,9 +48,13 @@ namespace CalamityMod.Projectiles.Boss
             target.AddBuff(ModContent.BuffType<BurningBlood>(), 120);
         }
 
-        public override Color? GetAlpha(Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            return new Color(250, 50, 50, Projectile.alpha);
+            lightColor.R = (byte)(255 * Projectile.Opacity);
+            lightColor.G = (byte)(255 * Projectile.Opacity);
+            lightColor.B = (byte)(255 * Projectile.Opacity);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
+            return false;
         }
     }
 }
