@@ -1,6 +1,5 @@
 ﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
-using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
@@ -15,7 +14,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             SacrificeTotal = 1;
             DisplayName.SetDefault("Death's Ascension");
-            Tooltip.SetDefault("Launches a barrage of homing scythes\n"+"Right click to perform a powerful slash");
+            Tooltip.SetDefault("You can feel the hands of Death himself onto yours\n"+"Right click to launch a barrage of homing scythes");
             ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }
 
@@ -24,7 +23,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.damage = 400;
             Item.knockBack = 9f;
             Item.useTime = 30;
-            Item.useAnimation = 3;
+            Item.useAnimation = 30;
             Item.DamageType = DamageClass.Melee;
             Item.noMelee = true;
             Item.channel = true;

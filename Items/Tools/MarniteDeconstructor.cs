@@ -6,25 +6,24 @@ using Terraria.Audio;
 
 namespace CalamityMod.Items.Tools
 {
-    public class MarniteObliterator : ModItem
+    //Its not like its a renamed version of the spear, but i put this here more as a way to "refund" the item, so it doesnt end up rotting as an unloaded item.
+    [LegacyName("MarniteSpear")]
+    public class MarniteDeconstructor : ModItem
     {
-        public static readonly SoundStyle UseSound = new("CalamityMod/Sounds/Item/MarniteObliteratorUse") { PitchVariance = 0.3f };
-
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 1;
-            DisplayName.SetDefault("Marnite Obliterator");
-            Tooltip.SetDefault("It uses its diamond focus to project a long-range digging beam of light");
+            DisplayName.SetDefault("Marnite Deconstructor");
         }
 
         public override void SetDefaults()
         {
-            Item.damage = 7;
-            Item.ArmorPenetration = 5;
+            Item.damage = 6;
+            Item.ArmorPenetration = 10;
             Item.knockBack = 1f;
-            Item.useTime = 6;
+            Item.useTime = 7;
             Item.useAnimation = 25;
-            Item.pick = 50;
+            Item.hammer = 40;
 
             Item.DamageType = TrueMeleeNoSpeedDamageClass.Instance;
             Item.width = 36;
@@ -37,7 +36,7 @@ namespace CalamityMod.Items.Tools
             Item.rare = ItemRarityID.Blue;
             Item.UseSound = SoundID.Item23;
             Item.autoReuse = true;
-            Item.shoot = ModContent.ProjectileType<MarniteObliteratorProj>();
+            Item.shoot = ModContent.ProjectileType<MarniteDeconstructorProj>();
             Item.shootSpeed = 40f;
             Item.tileBoost = 7;
         }
@@ -51,7 +50,7 @@ namespace CalamityMod.Items.Tools
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.Diamond).
+                AddIngredient(ItemID.Sapphire).
                 AddRecipeGroup("AnyGoldBar", 3).
                 AddIngredient(ItemID.Granite, 5).
                 AddIngredient(ItemID.Marble, 5).

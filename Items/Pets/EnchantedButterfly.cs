@@ -50,6 +50,7 @@ namespace CalamityMod.Items.Pets
                 AddIngredient(ItemID.TreeNymphButterfly).
                 AddIngredient(ItemID.ZebraSwallowtailButterfly).
                 AddIngredient(ItemID.JuliaButterfly).
+                AddIngredient(ItemID.HellButterfly).
                 AddTile(TileID.CrystalBall).
                 Register();
         }

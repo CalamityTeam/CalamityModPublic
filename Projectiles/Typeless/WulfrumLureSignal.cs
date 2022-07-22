@@ -68,7 +68,7 @@ namespace CalamityMod.Projectiles.Typeless
                     do
                     {
                         Vector2 displacey = Main.rand.NextVector2Unit();
-                        if (displacey.Y < 0)
+                        if (displacey.Y > 0)
                             displacey.Y *= -1;
                         spawnPosition = player.Center + displacey * Main.rand.NextFloat(600f, 1015f) * new Vector2(1.5f, 1f);
                         if (spawnPosition.Y > player.Center.Y)

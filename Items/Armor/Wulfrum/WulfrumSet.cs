@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Items.Materials;
+using CalamityMod.Particles;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -9,9 +10,8 @@ using CalamityMod.Cooldowns;
 using Terraria.Audio;
 using System;
 using System.Collections.Generic;
-using CalamityMod.Particles;
-using static Terraria.ModLoader.ModContent;
 using static Microsoft.Xna.Framework.Input.Keys;
+using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod.Items.Armor.Wulfrum
 {
@@ -262,7 +262,6 @@ namespace CalamityMod.Items.Armor.Wulfrum
 
             }
         }
-
         public override void ModifyTooltips(List<TooltipLine> tooltips) => ModifySetTooltips(this, tooltips);
 
         public override void UpdateEquip(Player player)

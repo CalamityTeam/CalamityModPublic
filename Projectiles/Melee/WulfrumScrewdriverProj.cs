@@ -47,7 +47,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override bool? CanDamage()
         {
-            return Projectile.timeLeft <= (MaxTime - 10);
+            return Projectile.timeLeft <= (MaxTime - 5);
         }
 
         public override bool ShouldUpdatePosition() => false;
@@ -64,7 +64,7 @@ namespace CalamityMod.Projectiles.Melee
             //The hitbox is simplified into a line collision.
             float collisionPoint = 0f;
             float bladeLenght = 78f * Projectile.scale;
-            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Owner.Center + OffsetFromPlayer, Owner.Center + OffsetFromPlayer + (Projectile.velocity * bladeLenght), 24, ref collisionPoint);
+            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Owner.MountedCenter + OffsetFromPlayer, Owner.MountedCenter + OffsetFromPlayer + (Projectile.velocity * bladeLenght), 24, ref collisionPoint);
         }
 
         public override void AI()
@@ -72,13 +72,13 @@ namespace CalamityMod.Projectiles.Melee
             if (EndLag == 0) //Initialization
             {
                 EndLag = (float)Math.Max(Owner.ActiveItem().useTime - MaxTime, 1);
-                TrueDirection = Owner.SafeDirectionTo(Owner.Calamity().mouseWorld, Vector2.Zero).ToRotation(); //Store this for the screw hit
-                Projectile.velocity = Owner.SafeDirectionTo(Owner.Calamity().mouseWorld, Vector2.Zero).RotatedByRandom(MathHelper.PiOver4 * 0.15f);
+                TrueDirection = (Owner.Calamity().mouseWorld - Owner.MountedCenter).SafeNormalize(Vector2.Zero).ToRotation(); //Store this for the screw hit
+                Projectile.velocity = (Owner.Calamity().mouseWorld - Owner.MountedCenter).SafeNormalize(Vector2.Zero).RotatedByRandom(MathHelper.PiOver4 * 0.15f);
                 Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
             }
 
             //Manage position and rotation
-            Projectile.Center = Owner.Center + OffsetFromPlayer ;
+            Projectile.Center = Owner.MountedCenter + OffsetFromPlayer ;
             Projectile.scale = 1f + (float)Math.Sin(LifetimeCompletion * MathHelper.Pi) * 0.2f; //SWAGGER
 
             //Make the owner look like theyre holding the sword bla bla

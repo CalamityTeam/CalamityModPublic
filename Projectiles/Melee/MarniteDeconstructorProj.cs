@@ -12,17 +12,17 @@ using CalamityMod.Items.Tools;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class MarniteObliteratorProj : ModProjectile
+    public class MarniteDeconstructorProj : ModProjectile
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Marnite Obliterator");
+            DisplayName.SetDefault("Marnite Deconstructor");
         }
 
-        public override string Texture => "CalamityMod/Items/Tools/MarniteObliterator";
+        public override string Texture => "CalamityMod/Items/Tools/MarniteDeconstructor";
         public static Asset<Texture2D> GlowmaskTex;
         public static Asset<Texture2D> BloomTex;
-        internal PrimitiveTrail TrailDrawer;
+        public static Asset<Texture2D> SelectionTex;
 
         public Player Owner => Main.player[Projectile.owner];
         public ref float MoveInIntervals => ref Projectile.localAI[0];
@@ -78,7 +78,7 @@ namespace CalamityMod.Projectiles.Melee
                 {
                     Vector2 newVelocity = Owner.Calamity().mouseWorld - Owner.MountedCenter;
 
-                    if (Main.tile[Player.tileTargetX, Player.tileTargetY].HasTile)
+                    if (Main.tile[Player.tileTargetX, Player.tileTargetY].WallType != 0)
                     {
                         newVelocity = new Vector2(Player.tileTargetX, Player.tileTargetY) * 16f + Vector2.One * 8f - Owner.MountedCenter;
                         MoveInIntervals = 2f;
@@ -117,26 +117,37 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.Center = Owner.MountedCenter + Projectile.velocity;
         }
 
-        internal Color ColorFunction(float completionRatio)
+        public void DrawBeam(Texture2D beamTex, Vector2 direction, float beamProgress)
         {
-            float fadeOpacity = (float)Math.Sqrt(1 - completionRatio);
-            return Color.DeepSkyBlue * fadeOpacity;
-        }
+            Vector2 startPos = Owner.MountedCenter + direction * 30f + direction.RotatedBy(MathHelper.PiOver2) * (float)Math.Cos(MathHelper.TwoPi * beamProgress + SpeenBeams * 0.06f) * 8f;
 
-        internal float WidthFunction(float completionRatio)
-        {
-            return 29.4f * completionRatio;
-        }
+            float squareHeight = (beamProgress + SpeenBeams * 0.02f) % 1;
+            if (squareHeight < 0.25)
+                squareHeight = 0;
+            else if (squareHeight < 0.5)
+                squareHeight = (squareHeight - 0.25f) / 0.25f;
+            else if (squareHeight < 0.75)
+                squareHeight = 1;
+            else
+                squareHeight = 1 - (squareHeight - 0.75f) / 0.25f;
 
+            float squareWidth = (beamProgress + SpeenBeams * 0.02f) % 1;
+            if (squareWidth < 0.25)
+                squareWidth = squareWidth / 0.25f;
+            else if (squareWidth < 0.5)
+                squareWidth = 1;
+            else if (squareWidth < 0.75)
+                squareWidth = 1 - (squareWidth - 0.5f) / 0.25f;
+            else
+                squareWidth = 0;
 
-        public void DrawBeam(Texture2D beamTex, Vector2 direction, int beamIndex)
-        {
-            Vector2 startPos = Owner.MountedCenter + direction * 17f + direction.RotatedBy(MathHelper.PiOver2) * (float)Math.Cos(MathHelper.TwoPi * beamIndex / 3f + SpeenBeams * 0.06f) * 13f;
-            float rotation = (Projectile.Center - startPos).ToRotation();
+            Vector2 endPos = Projectile.Center + new Vector2(squareWidth * 15.5f, squareHeight * 15.5f) - Vector2.One * 7.75f;
+
+            float rotation = (endPos - startPos).ToRotation();
             Vector2 beamOrigin = new Vector2(beamTex.Width / 2f, beamTex.Height);
-            Vector2 beamScale = new Vector2(5.4f, (startPos - Projectile.Center).Length() / (float)beamTex.Height);
+            Vector2 beamScale = new Vector2(5.4f, (startPos - endPos).Length() / (float)beamTex.Height);
 
-            CalamityUtils.DrawChromaticAberration(direction.RotatedBy(MathHelper.PiOver2), 4f, delegate (Vector2 offset, Color colorMod)
+            CalamityUtils.DrawChromaticAberration(direction.RotatedBy(MathHelper.PiOver2), 1f, delegate (Vector2 offset, Color colorMod)
             {
                 Color beamColor = Color.Lerp(Color.Blue, Color.Goldenrod, 0.5f + 0.5f * (float)Math.Sin(SpeenBeams * 0.2f));
                 beamColor *= 0.54f;
@@ -157,69 +168,56 @@ namespace CalamityMod.Projectiles.Melee
             if (!Projectile.active)
                 return false;
 
-            Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
-
 
             Vector2 normalizedVelocity = Projectile.velocity.SafeNormalize(Vector2.Zero);
-            Texture2D beamTex = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/SimpleGradient").Value;
 
-            for (int i = 0; i < 3; i++)
-            {
-                float beamElevation = (float)Math.Sin(MathHelper.TwoPi * i / 3f + SpeenBeams * 0.06f);
-                if (beamElevation < 0)
-                    DrawBeam(beamTex, normalizedVelocity, i);
-            }
-
-            if (BloomTex == null)
-                BloomTex = ModContent.Request<Texture2D>("CalamityMod/Particles/BloomCircle");
-            Texture2D bloomTex = BloomTex.Value;
-
-            Main.EntitySpriteDraw(bloomTex, Projectile.Center - Main.screenPosition, null, Color.DeepSkyBlue * 0.3f, MathHelper.PiOver2, bloomTex.Size() / 2f, 0.3f * Projectile.scale, SpriteEffects.None, 0);
-
-
-            if (TrailDrawer is null)
-                TrailDrawer = new PrimitiveTrail(WidthFunction, ColorFunction, specialShader: GameShaders.Misc["CalamityMod:TrailStreak"]);
-
-            GameShaders.Misc["CalamityMod:TrailStreak"].SetShaderTexture(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/DoubleTrail"));
-            TrailDrawer.Draw(new Vector2[] { Projectile.Center , Owner.MountedCenter - normalizedVelocity * 13f}, - Main.screenPosition, 30);
-
-            Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
-
+            //Draw the holdout.
             Texture2D tex = TextureAssets.Projectile[Projectile.type].Value;
             Vector2 origin = new Vector2(9f, tex.Height / 2f);
             SpriteEffects effect = SpriteEffects.None;
             if (Owner.direction * Owner.gravDir < 0)
                 effect = SpriteEffects.FlipVertically;
-
             Main.EntitySpriteDraw(tex, Owner.MountedCenter + normalizedVelocity * 10f - Main.screenPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation, origin, Projectile.scale, effect, 0);
 
 
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 
-            //Draw some bloom
+
+            //Draw some bloom over the tool
             if (GlowmaskTex == null)
-                GlowmaskTex = ModContent.Request<Texture2D>("CalamityMod/Items/Tools/MarniteObliteratorBloom");
+                GlowmaskTex = ModContent.Request<Texture2D>("CalamityMod/Items/Tools/MarniteDeconstructorBloom");
             Texture2D glowTex = GlowmaskTex.Value;
             float bloomOpacity = (float)Math.Pow(Math.Clamp(Timer / 100f, 0f, 1f), 2) * (0.85f + (0.5f + 0.5f * (float)Math.Sin(Main.GlobalTimeWrappedHourly))) * 0.8f;
             Color bloomColor = Color.Lerp(Color.DeepSkyBlue, Color.Chocolate, 0.5f + 0.5f * (float)Math.Sin(SpeenBeams * 0.2f + 1.2f));
-
             Main.EntitySpriteDraw(glowTex, Owner.MountedCenter + normalizedVelocity * 10f - Main.screenPosition, null, bloomColor * bloomOpacity, Projectile.rotation, origin, Projectile.scale, effect, 0);
 
+            //Add some bloom around the projectile's position
+            if (BloomTex == null)
+                BloomTex = ModContent.Request<Texture2D>("CalamityMod/Particles/BloomCircle");
+            Texture2D bloomTex = BloomTex.Value;
+            Main.EntitySpriteDraw(bloomTex, Projectile.Center - Main.screenPosition, null, Color.DeepSkyBlue * 0.3f, MathHelper.PiOver2, bloomTex.Size() / 2f, 0.3f * Projectile.scale, SpriteEffects.None, 0);
 
-
-            for (int i = 0; i < 3; i++)
+            //Draw a square selection
+            if (SelectionTex == null)
+                SelectionTex = ModContent.Request<Texture2D>("CalamityMod/Items/Tools/MarniteDeconstructorSelection");
+            Texture2D selectionTex = SelectionTex.Value;
+            CalamityUtils.DrawChromaticAberration(Vector2.UnitX, 2f, delegate (Vector2 offset, Color colorMod)
             {
-                float beamElevation = (float)Math.Sin(MathHelper.TwoPi * i / 3f + SpeenBeams * 0.06f);
-                if (beamElevation >= 0)
-                    DrawBeam(beamTex, normalizedVelocity, i);
+                Main.EntitySpriteDraw(selectionTex, Projectile.Center + offset - Main.screenPosition, null, bloomColor.MultiplyRGB(colorMod), 0f, selectionTex.Size() / 2f, Projectile.scale, SpriteEffects.None, 0);
+            });
+            
+
+            //Draw laser beams going around the selection
+            Texture2D beamTex = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/SimpleGradient").Value;
+
+            for (int i = 0; i < 2; i++)
+            {
+                DrawBeam(beamTex, normalizedVelocity, i / 2f);
             }
 
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
-
 
             return false;
         }
