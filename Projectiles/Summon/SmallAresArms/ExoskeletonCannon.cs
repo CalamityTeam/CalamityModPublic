@@ -6,11 +6,14 @@ using CalamityMod.InverseKinematics;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
+using CalamityMod.Buffs.Summon;
 
 namespace CalamityMod.Projectiles.Summon.SmallAresArms
 {
     public abstract class ExoskeletonCannon : ModProjectile
     {
+        public int ShootTimer;
+
         public int HoverOffsetIndex => (int)Projectile.ai[0];
 
         public bool TargetingSomething => Projectile.ai[1] == 1f;
@@ -53,6 +56,7 @@ namespace CalamityMod.Projectiles.Summon.SmallAresArms
 
         public override void SetDefaults()
         {
+            ShootTimer = Main.rand?.Next(ShootRate) ?? 0;
             Projectile.width = 94;
             Projectile.height = 40;
             Projectile.friendly = true;
@@ -108,6 +112,13 @@ namespace CalamityMod.Projectiles.Summon.SmallAresArms
             Projectile.velocity = Vector2.Zero;
             Projectile.Center = Limbs.EndPoint;
 
+            // Handle buffs.
+            Owner.AddBuff(ModContent.BuffType<ExoskeletonCannons>(), 3600);
+            if (Owner.dead)
+                Owner.Calamity().AresCannons = false;
+            if (Owner.Calamity().AresCannons)
+                Projectile.timeLeft = 2;
+
             // Look at the mouse if not targetting anything.
             // If something is being targeted, look at them instead.
             float idealRotation = Main.myPlayer != Projectile.owner ? Projectile.rotation : Projectile.AngleTo(Main.MouseWorld);
@@ -120,8 +131,12 @@ namespace CalamityMod.Projectiles.Summon.SmallAresArms
                 if (UsesSuperpredictiveness)
                     idealRotation = CalamityUtils.CalculatePredictiveAimToTarget(Projectile.Center, potentialTarget, ShootSpeed).ToRotation();
 
-                if (Projectile.timeLeft % ShootRate == ShootRate - 1)
+                ShootTimer++;
+                if (ShootTimer >= ShootRate)
+                {
                     ShootAtTarget(potentialTarget, idealRotation.ToRotationVector2());
+                    ShootTimer = 0;
+                }
             }
 
             Projectile.rotation = Projectile.rotation.AngleLerp(idealRotation, 0.15f);

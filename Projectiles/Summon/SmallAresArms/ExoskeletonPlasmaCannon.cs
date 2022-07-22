@@ -45,15 +45,15 @@ namespace CalamityMod.Projectiles.Summon.SmallAresArms
                 int randomDustType = Main.rand.NextBool(2) ? 107 : 110;
 
                 Dust plasma = Dust.NewDustDirect(Projectile.TopLeft, Projectile.width, Projectile.height, randomDustType, dustVel.X, dustVel.Y, 200, default, 1.7f);
-                plasma.position = Projectile.Center + Vector2.UnitY.RotatedByRandom(MathHelper.Pi) * (float)Main.rand.NextDouble() * Projectile.width / 2f;
+                plasma.position = Projectile.Center + Vector2.UnitY.RotatedByRandom(MathHelper.Pi) * (float)Main.rand.NextDouble() * Projectile.width / 4f;
                 plasma.position += shootDirection * 60f;
                 plasma.noGravity = true;
-                plasma.velocity *= Projectile.scale * 3f;
+                plasma.velocity *= Projectile.scale * 1.6f;
 
                 plasma = Dust.NewDustDirect(Projectile.TopLeft, Projectile.width, Projectile.height, randomDustType, dustVel.X, dustVel.Y, 100, default, 0.8f);
-                plasma.position = Projectile.Center + Vector2.UnitY.RotatedByRandom(MathHelper.Pi) * (float)Main.rand.NextDouble() * Projectile.width / 2f;
+                plasma.position = Projectile.Center + Vector2.UnitY.RotatedByRandom(MathHelper.Pi) * (float)Main.rand.NextDouble() * Projectile.width / 4f;
                 plasma.position += shootDirection * 60f;
-                plasma.velocity *= Projectile.scale * 2f;
+                plasma.velocity *= Projectile.scale * 0.9f;
 
                 plasma.noGravity = true;
                 plasma.fadeIn = 1f;
@@ -68,10 +68,10 @@ namespace CalamityMod.Projectiles.Summon.SmallAresArms
                 int randomDustType = Main.rand.NextBool(2) ? 107 : 110;
 
                 Dust plasma = Dust.NewDustDirect(Projectile.TopLeft, Projectile.width, Projectile.height, randomDustType, dustVel.X, dustVel.Y, 0, default, 2f);
-                plasma.position = Projectile.Center + Vector2.UnitX.RotatedByRandom(MathHelper.Pi).RotatedBy(shootDirection.ToRotation()) * Projectile.width / 3f;
+                plasma.position = Projectile.Center + Vector2.UnitX.RotatedByRandom(MathHelper.Pi).RotatedBy(shootDirection.ToRotation()) * Projectile.width / 5f;
                 plasma.position += shootDirection * 60f;
                 plasma.noGravity = true;
-                plasma.velocity *= Projectile.scale * 0.5f;
+                plasma.velocity *= Projectile.scale * 0.27f;
             }
 
             // Shoot the fireball. This only happens for the owner client.
