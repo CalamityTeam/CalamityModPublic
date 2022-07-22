@@ -30,9 +30,17 @@ namespace CalamityMod.Projectiles.Summon.SmallAresArms
             Main.projFrames[Type] = 6;
         }
 
-        public override void SendExtraAI(BinaryWriter writer) => writer.Write(ShootCounter);
+        public override void SendExtraAI(BinaryWriter writer)
+        {
+            writer.Write(ShootCounter);
+            base.SendExtraAI(writer);
+        }
 
-        public override void ReceiveExtraAI(BinaryReader reader) => ShootCounter = reader.ReadSingle();
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            ShootCounter = reader.ReadSingle();
+            base.ReceiveExtraAI(reader);
+        }
 
         public override void ShootAtTarget(NPC target, Vector2 shootDirection)
         {

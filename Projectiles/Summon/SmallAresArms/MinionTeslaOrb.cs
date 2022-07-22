@@ -1,4 +1,5 @@
-﻿using CalamityMod.Projectiles.Boss;
+﻿using CalamityMod.Items.Weapons.Summon;
+using CalamityMod.Projectiles.Boss;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -18,8 +19,6 @@ namespace CalamityMod.Projectiles.Summon.SmallAresArms
         public PrimitiveTrail LightningDrawer;
         
         public PrimitiveTrail LightningBackgroundDrawer;
-
-        public const float DetachDistance = 1500f;
 
         public override string Texture => "CalamityMod/Projectiles/Boss/AresTeslaOrb";
 
@@ -44,6 +43,8 @@ namespace CalamityMod.Projectiles.Summon.SmallAresArms
             Projectile.minionSlots = 0f;
             Projectile.timeLeft = 420;
             Projectile.Opacity = 0f;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 35;
             Projectile.DamageType = DamageClass.Summon;
         }
 
@@ -83,7 +84,7 @@ namespace CalamityMod.Projectiles.Summon.SmallAresArms
                 if (Main.projectile[i].type != Projectile.type || Main.projectile[i].ai[0] != Identity + 1f || !Main.projectile[i].active)
                     continue;
 
-                if (!Main.projectile[i].WithinRange(Projectile.Center, DetachDistance))
+                if (!Main.projectile[i].WithinRange(Projectile.Center, AresExoskeleton.TeslaOrbDetatchDistance))
                     continue;
 
                 return Main.projectile[i];

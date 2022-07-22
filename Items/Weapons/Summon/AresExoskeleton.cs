@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public const int PlasmaCannonShootRate = 30;
 
-        public const int TeslaCannonShootRate = 30;
+        public const int TeslaCannonShootRate = 48;
 
         public const int LaserCannonNormalShootRate = 30;
 
@@ -29,7 +29,15 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public const float MinionSlotsPerCannon = 2f;
 
+        // Multiple orbs can arc together when there are 2+ tesla cannons, resulting in a LOT of hits.
+        // The local i-frames are also quite high to combat this problem.
+        public const float TeslaOrbDamageFactor = 0.625f;
+
         public const float NukeDamageFactor = 1.5f;
+
+        public const float MaxNukeExplosionRadius = 720f;
+
+        public const float TeslaOrbDetatchDistance = 1500f;
 
         public static bool ArmExists(Player player)
         {
@@ -80,7 +88,6 @@ namespace CalamityMod.Items.Weapons.Summon
             Item.shoot = ModContent.ProjectileType<ExoskeletonPlasmaCannon>();
             Item.shootSpeed = 10f;
             Item.DamageType = DamageClass.Summon;
-            Item.Calamity().CannotBeEnchanted = true;
         }
 
         public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frameI, Color drawColor, Color itemColor, Vector2 origin, float scale)
@@ -127,7 +134,7 @@ namespace CalamityMod.Items.Weapons.Summon
                 if (Main.projectile.IndexInRange(panel))
                     Main.projectile[panel].originalDamage = Item.damage;
 
-                // Also throw a mechanical box cool particle out.
+                // Also throw a cool mechanical box particle out.
                 Vector2 boxVelocity = -Vector2.UnitY.RotatedByRandom(0.7f) * 6f + Vector2.UnitX * player.direction * 4f;
                 Particle box = new AresSummonCrateParticle(player, boxVelocity, BoxParticleLifetime);
                 GeneralParticleHandler.SpawnParticle(box);

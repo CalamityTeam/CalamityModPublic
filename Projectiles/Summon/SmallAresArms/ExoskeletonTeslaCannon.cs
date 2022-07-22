@@ -48,11 +48,12 @@ namespace CalamityMod.Projectiles.Summon.SmallAresArms
             if (Main.myPlayer != Projectile.owner)
                 return;
 
+            int damage = (int)(Projectile.damage * AresExoskeleton.TeslaOrbDamageFactor);
             Vector2 teslaOrbVelocity = shootDirection * ShootSpeed;
-            int teslaOrb = Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, teslaOrbVelocity, ModContent.ProjectileType<MinionTeslaOrb>(), Projectile.damage, 0f, Projectile.owner);
+            int teslaOrb = Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, teslaOrbVelocity, ModContent.ProjectileType<MinionTeslaOrb>(), damage, 0f, Projectile.owner);
             if (Main.projectile.IndexInRange(teslaOrb))
             {
-                Main.projectile[teslaOrb].originalDamage = Projectile.originalDamage;
+                Main.projectile[teslaOrb].originalDamage = (int)(Projectile.originalDamage * AresExoskeleton.TeslaOrbDamageFactor);
                 Main.projectile[teslaOrb].ai[0] = TeslaOrbIndex++ % 6;
             }
         }

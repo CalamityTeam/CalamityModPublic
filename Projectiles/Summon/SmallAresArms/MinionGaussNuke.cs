@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Items.Weapons.DraedonsArsenal;
+using CalamityMod.Items.Weapons.Summon;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;
@@ -49,7 +50,7 @@ namespace CalamityMod.Projectiles.Summon.SmallAresArms
                 int boom = Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<MinionGaussBoom>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                 if (Main.projectile.IndexInRange(boom))
                 {
-                    Main.projectile[boom].ai[1] = 720f;
+                    Main.projectile[boom].ai[1] = AresExoskeleton.MaxNukeExplosionRadius;
                     Main.projectile[boom].originalDamage = Projectile.originalDamage;
                 }
             }
