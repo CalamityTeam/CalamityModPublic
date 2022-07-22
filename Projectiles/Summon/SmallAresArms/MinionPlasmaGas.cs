@@ -1,15 +1,14 @@
-﻿using CalamityMod.ILEditing;
+﻿using CalamityMod.DataStructures;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Collections.Generic;
 using Terraria;
 using Terraria.GameContent;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon.SmallAresArms
 {
-    public class MinionPlasmaGas : ModProjectile
+    public class MinionPlasmaGas : ModProjectile, IAdditiveDrawer
     {
         public ref float LightPower => ref Projectile.ai[0];
 
@@ -54,12 +53,7 @@ namespace CalamityMod.Projectiles.Summon.SmallAresArms
             Time++;
         }
 
-        public override void DrawBehind(int index, List<int> drawCacheProjsBehindNPCsAndTiles, List<int> drawCacheProjsBehindNPCs, List<int> drawCacheProjsBehindProjectiles, List<int> drawCacheProjsOverWiresUI, List<int> overWiresUI)
-        {
-            ILChanges.ProjectileDrawCacheAdditiveBlending.Add(index);
-        }
-
-        public override bool PreDraw(ref Color lightColor)
+        public void AdditiveDraw(SpriteBatch spriteBatch)
         {
             Texture2D texture = TextureAssets.Projectile[Projectile.type].Value;
             Vector2 origin = texture.Size() * 0.5f;
@@ -67,8 +61,7 @@ namespace CalamityMod.Projectiles.Summon.SmallAresArms
             float opacity = Utils.GetLerpValue(0f, 0.08f, LightPower, true) * Projectile.Opacity * 0.6f;
             Color drawColor = new Color(141, 255, 105) * opacity;
             Vector2 scale = Projectile.Size / texture.Size() * Projectile.scale * 1.35f;
-            Main.spriteBatch.Draw(texture, drawPosition, null, drawColor, Projectile.rotation, origin, scale, SpriteEffects.None, 0f);
-            return false;
+            spriteBatch.Draw(texture, drawPosition, null, drawColor, Projectile.rotation, origin, scale, SpriteEffects.None, 0f);
         }
     }
 }

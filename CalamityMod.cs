@@ -20,6 +20,7 @@ using CalamityMod.Items.Dyes.HairDye;
 using CalamityMod.Items.PermanentBoosters;
 using CalamityMod.Items.Pets;
 using CalamityMod.Items.VanillaArmorChanges;
+using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Localization;
 using CalamityMod.NPCs.AdultEidolonWyrm;
