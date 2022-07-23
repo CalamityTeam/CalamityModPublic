@@ -452,7 +452,7 @@ namespace CalamityMod.NPCs.DesertScourge
 
             if (!flag2)
             {
-                NPC.TargetClosest(true);
+                NPC.TargetClosest();
                 NPC.velocity.Y = NPC.velocity.Y + 0.15f;
                 if (NPC.velocity.Y > num17)
                 {

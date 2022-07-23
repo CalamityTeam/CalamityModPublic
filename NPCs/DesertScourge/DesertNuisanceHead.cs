@@ -81,7 +81,7 @@ namespace CalamityMod.NPCs.DesertScourge
                 NPC.realLife = (int)NPC.ai[2];
 
             if (NPC.target < 0 || NPC.target == Main.maxPlayers || Main.player[NPC.target].dead || !Main.player[NPC.target].active)
-                NPC.TargetClosest(true);
+                NPC.TargetClosest();
 
             NPC.alpha -= 42;
             if (NPC.alpha < 0)
@@ -220,7 +220,7 @@ namespace CalamityMod.NPCs.DesertScourge
             float num22 = (float)Math.Sqrt((double)(num20 * num20 + num21 * num21));
             if (!flag2)
             {
-                NPC.TargetClosest(true);
+                NPC.TargetClosest();
                 NPC.velocity.Y = NPC.velocity.Y + 0.15f;
                 if (NPC.velocity.Y > num17)
                 {

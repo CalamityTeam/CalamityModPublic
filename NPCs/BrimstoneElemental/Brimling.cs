@@ -117,7 +117,7 @@ namespace CalamityMod.NPCs.BrimstoneElemental
                     NPC.ai[0] = (float)num1447;
                 }
             }
-            NPC.TargetClosest(true);
+            NPC.TargetClosest();
             NPC.rotation = Math.Abs(NPC.velocity.X) * (float)NPC.direction * 0.1f;
             NPC.spriteDirection = (NPC.direction > 0) ? 1 : -1;
             Vector2 value53 = NPC.Center + new Vector2((float)(NPC.direction * 20), 6f);
