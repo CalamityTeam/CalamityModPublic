@@ -10,7 +10,7 @@ namespace CalamityMod.Buffs.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ares' Cannons");
-            Description.SetDefault("A purple cannon is missing from the set");
+            Description.SetDefault("Pulse cannon not included");
             Main.buffNoTimeDisplay[Type] = true;
             Main.buffNoSave[Type] = true;
         }
