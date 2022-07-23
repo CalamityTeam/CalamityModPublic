@@ -36,9 +36,10 @@ namespace CalamityMod.Items.Accessories.Vanity
             SacrificeTotal = 1;
             DisplayName.SetDefault("Abandoned Wulfrum Helmet");
             Tooltip.SetDefault("A worn and rusty helmet ressembling older models of wulfrum armor\n" +
-                //Could include lore about how X kind of people used to wear it. Like "Streets used to be filled with people of The Resistance wearing this cheap yet effective armor.
                 "Transforms the holder into a wulfrum robot\n" +
-                "Can also be worn in the helmet slot as a regular helm");
+                "Can also be worn in the helmet slot as a regular helm\n" +
+                "[c/83B87E:This rather flimsy armor was commonly worn by scavengers and looters]\n" +
+                "[c/83B87E:Its versatility and common nature led it to be used as currency in trades]");
 
             if (Main.netMode == NetmodeID.Server)
                 return;

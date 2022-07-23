@@ -2,6 +2,7 @@
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Placeables.Furniture.BossRelics;
+using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Projectiles.Enemy;
 using CalamityMod.World;
@@ -453,6 +454,7 @@ namespace CalamityMod.NPCs.AcidRain
         {
             npcLoot.Add(ItemID.SharkFin, 1, 2, 4);
             npcLoot.Add(ModContent.ItemType<SulphuricAcidCannon>(), 3);
+            npcLoot.Add(ModContent.ItemType<MaulerTrophy>(), 10);
             npcLoot.AddIf(() => Main.masterMode || CalamityWorld.revenge, ModContent.ItemType<MaulerRelic>(), 4);
         }
 
