@@ -12,7 +12,9 @@ namespace CalamityMod.Items.Weapons.Melee
     {
         public bool RMBchannel = false;
 
-        public const float NotTrueMeleeDamagePenalty = 0.67f;
+        public const int BeamNoHomeTime = 24;
+
+        public const float NotTrueMeleeDamagePenalty = 0.46f;
 
         public const float ExplosionDamageFactor = 1.8f;
 
@@ -20,7 +22,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public const float LungeSpeed = 37f;
 
-        public const float ReboundSpeed = 10.5f;
+        public const float ReboundSpeed = 6f;
 
         public const float PercentageOfAnimationSpentLunging = 0.6f;
 
@@ -45,7 +47,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             Item.width = 80;
             Item.height = 114;
-            Item.damage = 1475;
+            Item.damage = 2625;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.useTime = 49;
             Item.useAnimation = 49;

@@ -88,6 +88,13 @@ namespace CalamityMod.Projectiles.Melee
             if (Windup == MaxWindup && Owner.whoAmI == Main.myPlayer)
             {
                 SoundEngine.PlaySound(SoundID.Item43, Owner.MountedCenter);
+
+                for (int i = 0; i < 25; i++)
+                {
+                    Vector2 dustPos = Owner.position + Main.rand.NextVector2FromRectangle(Owner.Hitbox);
+                    Dust dust = Dust.NewDustPerfect(dustPos, 176, Vector2.UnitY * -5f * Main.rand.NextFloat(1f, 2f) + Owner.velocity, Scale: Main.rand.NextFloat(1f, 2f));
+                    dust.noGravity = true;
+                }
             }
 
             Windup++;

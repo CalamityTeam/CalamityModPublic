@@ -34,14 +34,17 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             DisplayName.SetDefault("Wulfrum Blunderbuss");
             Tooltip.SetDefault("Consumes wulfrum scrap or silver coins to fire\n" +
-                               "The shot's spread can be diminished by aiming further away, at the cost of less damage");
+                               "The shot's spread can be diminished by aiming further away, at the cost of less damage\n" +
+                               "[c/83B87E:\"The good thing about Wulfrum is that while it breaks fast, it can be reused even faster\"]\n" +
+                               "[c/83B87E:\"In fact, it is quite common for a robot to be turned into ammo right after it stops functioning\"]");
             //Funny lore quip about how it can perform ecgologically be recyling the scrap parts of the faulty robots youre forced to shoot at as new ammo.
             SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            Item.damage = 11;
+            Item.damage = 8;
+            Item.ArmorPenetration = 3;
             Item.DamageType = DamageClass.Ranged;
             Item.width = 23;
             Item.height = 8;

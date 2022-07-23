@@ -1,15 +1,19 @@
 ﻿using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
 using CalamityMod.Items.Weapons.Typeless;
+using CalamityMod.Items.Weapons.Melee;
 
 namespace CalamityMod.Projectiles.Melee
 {
     public class Exobeam : ModProjectile
     {
+        public int TargetIndex = -1;
+
+        public ref float Time => ref Projectile.ai[0];
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Exobeam");
@@ -43,15 +47,22 @@ namespace CalamityMod.Projectiles.Melee
             }
 
             // Aim very, very quickly at targets.
-            NPC potentialTarget = Projectile.Center.ClosestNPCAt(1600f, false);
-            if (potentialTarget != null)
+            // This takes a small amount of time to happen, to allow the blade to go in its intended direction before immediately racing
+            // towards the nearest target.
+            if (Time >= Exoblade.BeamNoHomeTime)
             {
-                Vector2 idealVelocity = Projectile.SafeDirectionTo(potentialTarget.Center) * (Projectile.velocity.Length() + 3.5f);
-                Projectile.velocity = Vector2.Lerp(Projectile.velocity, idealVelocity, 0.08f);
+                NPC potentialTarget = Projectile.Center.ClosestNPCAt(1600f, false);
+                if (TargetIndex == -1 && potentialTarget != null)
+                    TargetIndex = potentialTarget.whoAmI;
+                if (TargetIndex >= 0 && Main.npc[TargetIndex].active && Main.npc[TargetIndex].CanBeChasedBy())
+                {
+                    Vector2 idealVelocity = Projectile.SafeDirectionTo(Main.npc[TargetIndex].Center) * (Projectile.velocity.Length() + 3.5f);
+                    Projectile.velocity = Vector2.Lerp(Projectile.velocity, idealVelocity, 0.08f);
+                }
             }
 
             // Dissipate if colliding with tiles.
-            if (Collision.SolidCollision(Projectile.position, Projectile.width, Projectile.height))
+            if (Time >= Exoblade.BeamNoHomeTime + 16f && Collision.SolidCollision(Projectile.position, Projectile.width, Projectile.height))
             {
                 Projectile.Opacity -= 0.08f;
                 if (Projectile.Opacity <= 0f)
@@ -60,6 +71,9 @@ namespace CalamityMod.Projectiles.Melee
 
             Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver4;
             Projectile.Opacity = MathHelper.Clamp(Projectile.Opacity + 0.1f, 0f, 1f);
+
+            if (Projectile.FinalExtraUpdate())
+                Time++;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

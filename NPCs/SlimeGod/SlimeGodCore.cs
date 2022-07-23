@@ -496,6 +496,12 @@ namespace CalamityMod.NPCs.SlimeGod
             return generalSlimeArea;
         }
 
+        public override Color? GetAlpha(Color drawColor)
+        {
+            Color newColor = buffedSlime == 0 ? new Color(255, 255, 255, drawColor.A) : drawColor;
+            return newColor * NPC.Opacity;
+        }
+
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             SpriteEffects spriteEffects = SpriteEffects.None;

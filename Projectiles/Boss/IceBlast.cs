@@ -10,6 +10,8 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class IceBlast : ModProjectile
     {
+        private const int TimeLeft = 600;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ice Blast");
@@ -23,15 +25,15 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.penetrate = -1;
             Projectile.hostile = true;
             Projectile.coldDamage = true;
-            Projectile.timeLeft = 300;
+            Projectile.timeLeft = TimeLeft;
         }
 
         public override void AI()
         {
             if (Projectile.ai[1] == 1f)
             {
-                float spreadOutCutoffTime = 210f;
-                float homeInCutoffTime = 135f;
+                float spreadOutCutoffTime = TimeLeft - 90;
+                float homeInCutoffTime = TimeLeft - 165;
                 float minAcceleration = 0.05f;
                 float maxAcceleration = 0.1f;
                 float homingVelocity = 20f;

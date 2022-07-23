@@ -56,9 +56,9 @@ namespace CalamityMod.Items.Weapons.Melee
             DisplayName.SetDefault("Wulfrum Screwdriver");
             Tooltip.SetDefault("Can be used to rapidly and royally screw over any foe, provided they're weak enough\n" +
                                "Striking an enemy has a chance to give you a wulfrum screw, that you can throw back at them by right clicking\n" +
-                               "Hitting a flung screw with the screwdriver will boost its damage and speed, sending it hurling forwards at high speeds");
-                                //Lore about it being mostly a novelty item due to its tendency to break instead of properly screwing stuff in.
-                                //Lore about how it came in when wulfrum was brought over from (elsewhere) and a lot of lower class people saw it as a miracle cheap but resilient amterial
+                               "Hitting a flung screw with the screwdriver will boost its damage and speed, sending it hurling forwards at high speeds\n" +
+                               "[c/83B87E:\"Who makes flatheads this large?? The hell am I supposed to use it for, the thing could take an eye out!\"]\n" +
+                               "[c/83B87E:\"…Ah.\"]");
             SacrificeTotal = 1;
         }
 

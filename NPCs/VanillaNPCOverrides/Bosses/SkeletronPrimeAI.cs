@@ -541,7 +541,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                                 int type = ProjectileID.RocketSkeleton;
                                 int damage = npc.GetProjectileDamage(type);
                                 int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center.X + Main.rand.Next(npc.width / 2), npc.Center.Y + 4f, velocity.X, velocity.Y, type, damage, 0f, Main.myPlayer, npc.target, 1f);
-                                Main.projectile[proj].timeLeft = 240;
+                                Main.projectile[proj].timeLeft = 540;
                             }
 
                             SoundEngine.PlaySound(SoundID.Item62, npc.Center);
@@ -998,7 +998,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         vector60.X += num492 * 30f;
                         vector60.Y += num493 * 30f;
                         int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), vector60.X, vector60.Y, num492, num493, type, damage, 0f, Main.myPlayer, npc.target, 1f);
-                        Main.projectile[proj].timeLeft = 300;
+                        Main.projectile[proj].timeLeft = 600;
                     }
                 }
             }
@@ -1037,7 +1037,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         {
                             Vector2 perturbedSpeed = value19.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (float)(numProj - 1)));
                             int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + Vector2.Normalize(perturbedSpeed) * 30f, perturbedSpeed, type, damage, 0f, Main.myPlayer, npc.target, 1f);
-                            Main.projectile[proj].timeLeft = 300;
+                            Main.projectile[proj].timeLeft = 600;
                         }
                     }
                 }

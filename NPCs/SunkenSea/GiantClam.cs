@@ -5,6 +5,7 @@ using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Placeables.Furniture.BossRelics;
+using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
@@ -472,6 +473,9 @@ namespace CalamityMod.NPCs.SunkenSea
             // Equipment
             postDesertScourge.Add(ModContent.ItemType<GiantPearl>(), 3);
             postDesertScourge.Add(ModContent.ItemType<AmidiasPendant>(), 3);
+
+            // Trophy
+            npcLoot.Add(ModContent.ItemType<GiantClamTrophy>(), 10);
 
             // Relic
             npcLoot.AddIf(() => Main.masterMode || CalamityWorld.revenge, ModContent.ItemType<GiantClamRelic>(), 4);

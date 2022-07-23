@@ -47,7 +47,7 @@ namespace CalamityMod.NPCs.SlimeGod
             NPC.knockBackResist = 0f;
             AnimationType = NPCID.KingSlime;
             NPC.value = Item.buyPrice(0, 1, 0, 0);
-            NPC.alpha = 55;
+            NPC.Opacity = 0.8f;
             NPC.lavaImmune = false;
             NPC.noGravity = false;
             NPC.noTileCollide = false;
@@ -419,13 +419,13 @@ namespace CalamityMod.NPCs.SlimeGod
             else if (NPC.ai[0] == 3f)
             {
                 NPC.noTileCollide = true;
-                NPC.alpha += 7;
+                NPC.Opacity -= 0.03f;
 
                 if (NPC.timeLeft > 10)
                     NPC.timeLeft = 10;
 
-                if (NPC.alpha > 255)
-                    NPC.alpha = 255;
+                if (NPC.Opacity < 0f)
+                    NPC.Opacity = 0f;
 
                 NPC.velocity.X *= 0.98f;
             }
@@ -510,8 +510,8 @@ namespace CalamityMod.NPCs.SlimeGod
         public override Color? GetAlpha(Color drawColor)
         {
             Color lightColor = new Color(Main.DiscoR, 100, 150, NPC.alpha);
-            Color newColor = NPC.localAI[1] == 1f ? lightColor : drawColor;
-            return newColor;
+            Color newColor = NPC.localAI[1] == 1f ? lightColor : new Color(255, 255, 255, drawColor.A);
+            return newColor * NPC.Opacity;
         }
 
         public override void OnKill()

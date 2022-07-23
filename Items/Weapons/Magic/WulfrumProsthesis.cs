@@ -25,7 +25,9 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             DisplayName.SetDefault("Wulfrum Prosthesis");
             Tooltip.SetDefault("Casts a wulfrum bolt\n" +
-                               "Right click to drain mana from creatures in front of you");
+                               "Right click to drain mana from creatures in front of you\n" +
+                               "[c/83B87E:Technology and magic have been forever locked in an arms race of imitation and retaliation]\n" +
+                               "[c/83B87E:At times they work in tandem, as seen in certain prosthetic limbs]");
             //Lore about how magic is not always a given for everyone, and how some unlucky people sometimes resort to voluntarily cutting their limbs to use magic augmented prosthesis
             //1 : Informs about magic as a narrative thing, 2 : Informs about wulfrum energy being partly magical.
             SacrificeTotal = 1;
