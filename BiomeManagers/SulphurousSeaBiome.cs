@@ -30,7 +30,7 @@ namespace CalamityMod.BiomeManagers
                     if (acidRain)
                     {
                         music = DownedBossSystem.downedPolterghast
-                            ? CalamityMod.Instance.GetMusicFromMusicMod("AcidRain2") ?? MusicID.Eclipse // Acid Rain Tier 3
+                            ? CalamityMod.Instance.GetMusicFromMusicMod("AcidRain2") ?? MusicID.Monsoon // Acid Rain Tier 3
                             : CalamityMod.Instance.GetMusicFromMusicMod("AcidRain1") ?? MusicID.OldOnesArmy; // Acid Rain Tier 1 + 2
                     }
 
