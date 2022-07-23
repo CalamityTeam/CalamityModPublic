@@ -449,16 +449,6 @@ namespace CalamityMod.ILEditing
         }
         #endregion Platform Collision Checks for Grounded Bosses
 
-        #region Teleporter Disabling During Boss Fights
-        private static void DisableTeleporters(On.Terraria.Wiring.orig_Teleport orig)
-        {
-            if (CalamityPlayer.areThereAnyDamnBosses)
-                return;
-
-            orig();
-        }
-        #endregion Teleporter Disabling During Boss Fights
-
         #region Incorporate Enchantments in Item Names
         private static string IncorporateEnchantmentInAffix(On.Terraria.Item.orig_AffixName orig, Item self)
         {
