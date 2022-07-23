@@ -168,7 +168,7 @@ namespace CalamityMod.NPCs.SlimeGod
                     NPC.netUpdate = true;
                     NPC.TargetClosest(false);
                     player = Main.player[NPC.target];
-                    Vector2 vectorAimedAheadOfTarget = player.Center + new Vector2((float)Math.Round(player.velocity.X), 0f).SafeNormalize(Vector2.Zero) * 800f;
+                    Vector2 vectorAimedAheadOfTarget = player.Center + new Vector2((float)Math.Round(player.velocity.X), 0f).SafeNormalize(Vector2.Zero) * 960f;
                     Point point2 = vectorAimedAheadOfTarget.ToTileCoordinates();
                     int num5 = 5;
                     int num8 = 0;
@@ -262,6 +262,7 @@ namespace CalamityMod.NPCs.SlimeGod
                         NPC.ai[1] = 0f;
                         NPC.velocity.Y -= velocityY * speedMult;
                         NPC.velocity.X = (velocityX + distanceSpeedBoost) * NPC.direction;
+                        NPC.noTileCollide = true;
                         NPC.netUpdate = true;
                     }
                     else if (NPC.ai[1] >= jumpGateValue - 30f)
@@ -274,6 +275,16 @@ namespace CalamityMod.NPCs.SlimeGod
                         NPC.velocity.X = -1f;
                     if (NPC.direction > 0 && NPC.velocity.X < 1f)
                         NPC.velocity.X = 1f;
+
+                    if (!player.dead)
+                    {
+                        if (NPC.velocity.Y > 0f && NPC.Bottom.Y > player.Top.Y)
+                            NPC.noTileCollide = false;
+                        else if (Collision.CanHit(NPC.position, NPC.width, NPC.height, player.Center, 1, 1) && !Collision.SolidCollision(NPC.position, NPC.width, NPC.height))
+                            NPC.noTileCollide = false;
+                        else
+                            NPC.noTileCollide = true;
+                    }
                 }
 
                 NPC.ai[2] += 1f;
@@ -283,7 +294,8 @@ namespace CalamityMod.NPCs.SlimeGod
                 if (NPC.velocity.Y == 0f)
                 {
                     float phaseSwitchGateValue = 210f;
-                    if (NPC.ai[2] >= phaseSwitchGateValue)
+                    bool switchPhase = NPC.ai[2] >= phaseSwitchGateValue;
+                    if (switchPhase)
                     {
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
