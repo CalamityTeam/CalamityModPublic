@@ -188,6 +188,7 @@ namespace CalamityMod.NPCs.SlimeGod
                 for (int k = 0; k < 5; k++)
                 {
                     Color color = Main.rand.NextBool() ? Color.Lavender : Color.Crimson;
+                    color.A = 150;
                     Dust.NewDust(NPC.position, NPC.width, NPC.height, 4, 0f, 0f, NPC.alpha, color, 1f);
                 }
 
@@ -214,6 +215,7 @@ namespace CalamityMod.NPCs.SlimeGod
                     for (int num621 = 0; num621 < 40; num621++)
                     {
                         Color color = Main.rand.NextBool() ? Color.Lavender : Color.Crimson;
+                        color.A = 150;
                         int num622 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 4, 0f, 0f, NPC.alpha, color, 2f);
                         Main.dust[num622].velocity *= 3f;
                         if (Main.rand.NextBool(2))
@@ -225,6 +227,7 @@ namespace CalamityMod.NPCs.SlimeGod
                     for (int num623 = 0; num623 < 70; num623++)
                     {
                         Color color = Main.rand.NextBool() ? Color.Lavender : Color.Crimson;
+                        color.A = 150;
                         int num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 4, 0f, 0f, NPC.alpha, color, 3f);
                         Main.dust[num624].noGravity = true;
                         Main.dust[num624].velocity *= 5f;
@@ -338,6 +341,7 @@ namespace CalamityMod.NPCs.SlimeGod
                     for (int i = 0; i < 20; i++)
                     {
                         Color color = Main.rand.NextBool() ? Color.Lavender : Color.Crimson;
+                        color.A = 150;
                         int dust2 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 4, 0f, 0f, NPC.alpha, color, 2f);
                         Main.dust[dust2].velocity *= 3f;
                         if (Main.rand.NextBool(2))
@@ -349,6 +353,7 @@ namespace CalamityMod.NPCs.SlimeGod
                     for (int j = 0; j < 30; j++)
                     {
                         Color color = Main.rand.NextBool() ? Color.Lavender : Color.Crimson;
+                        color.A = 150;
                         int dust2 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 4, 0f, 0f, NPC.alpha, color, 3f);
                         Main.dust[dust2].noGravity = true;
                         Main.dust[dust2].velocity *= 5f;
@@ -610,6 +615,7 @@ namespace CalamityMod.NPCs.SlimeGod
             for (int k = 0; k < 5; k++)
             {
                 Color color = Main.rand.NextBool() ? Color.Lavender : Color.Crimson;
+                color.A = 150;
                 Dust.NewDust(NPC.position, NPC.width, NPC.height, 4, hitDirection, -1f, NPC.alpha, color, 1f);
             }
         }

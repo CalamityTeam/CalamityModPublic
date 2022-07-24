@@ -164,6 +164,9 @@ namespace CalamityMod.NPCs.SlimeGod
                 // Avoid cheap bullshit
                 NPC.damage = 0;
 
+                // Slow down dramatically
+                NPC.velocity.X *= 0.5f;
+
                 NPC.ai[0] = 5f;
                 NPC.ai[1] = 0f;
                 NPC.ai[2] = 0f;
@@ -566,9 +569,11 @@ namespace CalamityMod.NPCs.SlimeGod
                 }
 
                 // Emit teleport dust
+                Color dustColor = Color.Crimson;
+                dustColor.A = 150;
                 for (int num245 = 0; num245 < 10; num245++)
                 {
-                    int num246 = Dust.NewDust(NPC.position + Vector2.UnitX * -20f, NPC.width + 40, NPC.height, 4, NPC.velocity.X, NPC.velocity.Y, NPC.alpha, Color.Crimson, 2f);
+                    int num246 = Dust.NewDust(NPC.position + Vector2.UnitX * -20f, NPC.width + 40, NPC.height, 4, NPC.velocity.X, NPC.velocity.Y, NPC.alpha, dustColor, 2f);
                     Main.dust[num246].noGravity = true;
                     Main.dust[num246].velocity *= 0.5f;
                 }
@@ -598,9 +603,11 @@ namespace CalamityMod.NPCs.SlimeGod
                 }
 
                 // Emit teleport dust
+                Color dustColor = Color.Crimson;
+                dustColor.A = 150;
                 for (int num245 = 0; num245 < 10; num245++)
                 {
-                    int num246 = Dust.NewDust(NPC.position + Vector2.UnitX * -20f, NPC.width + 40, NPC.height, 4, NPC.velocity.X, NPC.velocity.Y, NPC.alpha, Color.Crimson, 2f);
+                    int num246 = Dust.NewDust(NPC.position + Vector2.UnitX * -20f, NPC.width + 40, NPC.height, 4, NPC.velocity.X, NPC.velocity.Y, NPC.alpha, dustColor, 2f);
                     Main.dust[num246].noGravity = true;
                     Main.dust[num246].velocity *= 0.5f;
                 }
@@ -676,9 +683,11 @@ namespace CalamityMod.NPCs.SlimeGod
 
         public override void HitEffect(int hitDirection, double damage)
         {
+            Color dustColor = Color.Crimson;
+            dustColor.A = 150;
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(NPC.position, NPC.width, NPC.height, 4, hitDirection, -1f, NPC.alpha, Color.Crimson, 1f);
+                Dust.NewDust(NPC.position, NPC.width, NPC.height, 4, hitDirection, -1f, NPC.alpha, dustColor, 1f);
             }
             if (NPC.life <= 0)
             {
@@ -690,7 +699,7 @@ namespace CalamityMod.NPCs.SlimeGod
                 NPC.position.Y = NPC.position.Y - (float)(NPC.height / 2);
                 for (int num621 = 0; num621 < 40; num621++)
                 {
-                    int num622 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 4, 0f, 0f, NPC.alpha, Color.Crimson, 2f);
+                    int num622 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 4, 0f, 0f, NPC.alpha, dustColor, 2f);
                     Main.dust[num622].velocity *= 3f;
                     if (Main.rand.NextBool(2))
                     {
@@ -700,10 +709,10 @@ namespace CalamityMod.NPCs.SlimeGod
                 }
                 for (int num623 = 0; num623 < 70; num623++)
                 {
-                    int num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 4, 0f, 0f, NPC.alpha, Color.Crimson, 3f);
+                    int num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 4, 0f, 0f, NPC.alpha, dustColor, 3f);
                     Main.dust[num624].noGravity = true;
                     Main.dust[num624].velocity *= 5f;
-                    num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 4, 0f, 0f, NPC.alpha, Color.Crimson, 2f);
+                    num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 4, 0f, 0f, NPC.alpha, dustColor, 2f);
                     Main.dust[num624].velocity *= 2f;
                 }
             }
