@@ -406,15 +406,17 @@ namespace CalamityMod.NPCs
                 #endregion
 
                 #region Blood Moon
-                // Drippler
-                // Bouncing Eyeball @ 2.5% Normal, 5% Expert+
-                case NPCID.Drippler:
-                    npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<BouncingEyeball>(), 40, 20));
-                    break;
 
                 // All Blood Moon fishing enemies
                 // Drop more Blood Orbs @ 100%
+
+                // Wandering Eye Fish
+                // Bouncing Eyeball @ 10% Normal, 16.66% Expert+
                 case NPCID.EyeballFlyingFish:
+                    npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<BouncingEyeball>(), 10, 6));
+                    npcLoot.Add(ModContent.ItemType<BloodOrb>(), 1, 3, 6);
+                    break;
+
                 case NPCID.ZombieMerman:
                     npcLoot.Add(ModContent.ItemType<BloodOrb>(), 1, 3, 6);
                     break;

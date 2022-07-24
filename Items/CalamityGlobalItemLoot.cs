@@ -291,9 +291,9 @@ namespace CalamityMod.Items
                 case ItemID.HallowedFishingCrate:
                 case ItemID.HallowedFishingCrateHard:
                     BlockCrateDrops();
-                    int potion = WorldGen.crimson ? ModContent.ItemType<ProfanedRagePotion>() : ModContent.ItemType<HolyWrathPotion>();
                     DropHelper.DropItemCondition(s, player, ModContent.ItemType<UnholyEssence>(), DownedBossSystem.downedProvidence, 0.15f, 5, 10);
-                    DropHelper.DropItemCondition(s, player, potion, DownedBossSystem.downedProvidence, 0.1f, 1, 2);
+                    DropHelper.DropItemCondition(s, player, ModContent.ItemType<ProfanedRagePotion>(), DownedBossSystem.downedProvidence, 0.15f, 1, 2);
+                    DropHelper.DropItemCondition(s, player, ModContent.ItemType<HolyWrathPotion>(), DownedBossSystem.downedProvidence, 0.15f, 1, 2);
                     break;
 
                 case ItemID.DungeonFishingCrate:

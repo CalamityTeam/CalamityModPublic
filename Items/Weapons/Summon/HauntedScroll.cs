@@ -56,7 +56,7 @@ namespace CalamityMod.Items.Weapons.Summon
                 AddIngredient(ItemID.Wood, 10).
                 AddIngredient(ItemID.SoulofLight, 5).
                 AddIngredient(ItemID.SoulofNight, 5).
-                AddIngredient(ItemID.Bowl).
+                AddIngredient(ItemID.FoodPlatter, 3).
                 AddTile(TileID.Anvils).
                 Register();
         }

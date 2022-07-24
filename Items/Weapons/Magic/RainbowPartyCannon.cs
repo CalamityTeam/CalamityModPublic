@@ -66,7 +66,7 @@ namespace CalamityMod.Items.Weapons.Magic
             CreateRecipe().
                 AddIngredient(ItemID.ConfettiCannon).
                 AddIngredient<CosmicRainbow>().
-                AddIngredient(ItemID.FireworksLauncher).
+                AddIngredient(ItemID.Celeb2).
                 AddIngredient(ItemID.FlaskofParty, 5).
                 AddIngredient(ItemID.SoulofLight, 25).
                 AddIngredient(ItemID.Confetti, 50).
