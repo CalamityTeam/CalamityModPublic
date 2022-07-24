@@ -16,6 +16,8 @@ using CalamityMod.Systems;
 using static CalamityMod.Systems.DifficultyModeSystem;
 using Terraria.GameInput;
 using Terraria.UI.Chat;
+using System.Text.RegularExpressions;
+using static Terraria.GameContent.FontAssets;
 
 namespace CalamityMod.UI
 {
@@ -154,31 +156,46 @@ namespace CalamityMod.UI
 
             if (difficultyText != "" || extraDescText != "")
             {
+                string textToDisplay = difficultyText;
                 if (difficultyText != "")
-                    difficultyText += "\n" + lockText;
+                {
+                    if (lockText != "")
+                        textToDisplay += "\n" + lockText;
+                }
 
-                /*
-                string selectedText = difficultyText;
-                if (extraDescText != "")
-                    selectedText = extraDescText;
-                Vector2 boxSize = ChatManager.GetStringSize(Terraria.GameContent.FontAssets.MouseText.Value, selectedText, Vector2.One);
+                else
+                    textToDisplay = extraDescText;
+
+                //Get the size of the textbox
+                Vector2 boxSize = MouseText.Value.MeasureString(textToDisplay);
+
+                //Get a "regexed" size which matches the text properly.
+                //Indeed, there is some scuffery in the code that makes it so that chat tags still get accounted as extra size, so we have to use 2 different values
+                //One for the displacement, which is the improper size vanilla uses, and another for the actual visual size, which is the one the textbox will use
+                int numLines = Regex.Matches(textToDisplay, "\n").Count; //It's inconsistent. Adding one by default makes some textboxes too large, not adding one can make some too small
+                string heightCalculator = string.Concat(Enumerable.Repeat("mis nuevos los gatos \n", numLines));
+                Vector2 regexedBoxSize = new Vector2(ChatManager.GetStringSize(MouseText.Value, textToDisplay, Vector2.One).X, ChatManager.GetStringSize(MouseText.Value, heightCalculator, Vector2.One).Y);
+
+                Vector2 textboxStart = new Vector2(Main.mouseX, Main.mouseY) + Vector2.One * 14;
+                if (Main.ThickMouse)
+                    textboxStart += Vector2.One * 6;
+
+                if (!Main.mouseItem.IsAir)
+                    textboxStart.X += 34;
+
+                if (textboxStart.X + boxSize.X + 4f > (float)Main.screenWidth)
+                    textboxStart.X = Main.screenWidth - boxSize.X - 4f;
+
+                if (textboxStart.Y + regexedBoxSize.Y + 4f > (float)Main.screenHeight)
+                    textboxStart.Y = Main.screenHeight - regexedBoxSize.Y - 4f;
+
                 //It'd be great to be able to add a background to it but i don't think i know how to get the position of the text for that.
                 //Also the "get string size" thing breaks with colored lines so :(
-                Utils.DrawInvBG(spriteBatch, new Rectangle((int)Main.MouseScreen.X - 10, (int)Main.MouseScreen.Y - 10, (int)boxSize.X + 20, (int)boxSize.Y + 20), new Color(25, 20, 55) * 0.925f);
-                */
-
+                Utils.DrawInvBG(spriteBatch, new Rectangle((int)textboxStart.X - 10, (int)textboxStart.Y - 10, (int)regexedBoxSize.X + 20, (int)regexedBoxSize.Y + 16), new Color(50, 20, 35) * 0.925f);
+                
                 //Add the hover text.
-                if (difficultyText != "")
-                {
-                    Main.LocalPlayer.mouseInterface = true;
-                    Main.instance.MouseText(difficultyText);
-                }
-
-                else if (extraDescText != "")
-                {
-                    Main.LocalPlayer.mouseInterface = true;
-                    Main.instance.MouseText(extraDescText);
-                }
+                Main.LocalPlayer.mouseInterface = true;
+                Main.instance.MouseText(textToDisplay);
             }
 
            
@@ -213,16 +230,16 @@ namespace CalamityMod.UI
         public static void GetLockStatus(out string text, out bool locked)
         {
             locked = false;
-            text = "Click to select a difficulty mode";
+            text = "[c/919191:Click to select a difficulty mode]";
             if (!Main.expertMode && GetCurrentDifficulty == Difficulties[0])
             {
                 locked = true;
-                text = "Higher difficulty modes can only be toggled in Expert Mode or above";
+                text = "[c/919191:Higher difficulty modes can only be toggled in Expert Mode or above]";
             }
             else if (CalamityPlayer.areThereAnyDamnBosses || BossRushEvent.BossRushActive)
             {
                 locked = true;
-                text = Language.GetTextValue("Mods.CalamityMod.ChangingTheRules");
+                text = "[c/919191:"+ Language.GetTextValue("Mods.CalamityMod.ChangingTheRules") + "]";
             }
 
             //Shakes the lock if it automatically changed, because a boss was summoned
