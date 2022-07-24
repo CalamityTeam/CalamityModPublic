@@ -255,16 +255,10 @@ namespace CalamityMod.Systems
             }
         }
         
-        public override string ExpandedDescription
-        {
-            get
-            {
-                return ("[c/B834E0:All foes will pose a much larger threat with aggressive AI and increased damage.] \n" +
+        public override string ExpandedDescription =>"[c/B834E0:All foes will pose a much larger threat with aggressive AI and increased damage.] \n" +
                         "[c/B834E0:Bosses have substantially harder AI changes. Enemies are even more numerous and can easily overwhelm you.] \n" +
                         "[c/B834E0:Debuffs are especially lethal and the Abyss is significantly more dangerous.] \n" +
-                        "[c/E945FF:Vigilance and tenacity are crucial to survival.]");
-            }
-        }
+                        "[c/E945FF:Vigilance and tenacity are crucial to survival.]";
 
         public DeathDifficulty()
         {
@@ -318,22 +312,38 @@ namespace CalamityMod.Systems
         {
             get
             {
-                return "[c/B4B4B4:WIP.]";
+                string realIntentionsHex = (Color.Lerp(Color.White, new Color(255, 148, 122), 0.5f + 0.5f * (float)Math.Sin(Main.GlobalTimeWrappedHourly + 0.5f))).Hex3();
+                string harderOptionsHex = (Color.Lerp(Color.White, Color.Gold, 0.5f + 0.5f * (float)Math.Sin(Main.GlobalTimeWrappedHourly))).Hex3();
+
+                return "[c/EDEDED:Malice originally came to be as a watered-down version of a more complex idea to rework the obtention method of Legendary items and RIVs]\n" +
+                            "[c/EDEDED:On release, Malice was received mostly negatively by a lot of players due to the bosses being incredibly overtuned to the point of being unfair]\n" +
+                            "[c/939393:      ..No tester had beaten the Exo Mechs on Malice mode when it released]\n" +
+                            "[c/EDEDED:The issue was exacerbated by Legendary items being moved there, making some players feel obligated to use Malice for cool loot]\n" +
+                            "[c/" + realIntentionsHex + ":This was chalked up as the mode actually being a \"refight\" mode, but this was never the real intention behind the mode]\n" +
+                            "\n" +
+                            "[c/EDEDED:We eventually removed Malice exclusive drops entirely because most players would get frustrated trying to get the items]\n" +
+                            "[c/EDEDED:Over time, Malice was balanced to be less unfair. However with the exclusive drops gone, we realized it wasn't worth the effort to fix every Malice boss]\n" +
+                            "[c/EDEDED:This is why we chose to delete Malice: so that development efforts may be spent elsewhere, most importantly on Death mode.]\n" +
+                            "\n" +
+                            "[c/" + harderOptionsHex + ":We acknowledge that some players liked Malice because Death isn't challenging enough for their tastes]\n" +
+                            "[c/" + harderOptionsHex + ":If you want more difficulty, try the Infernum Addon, Master Mode, higher Boss HP Config, or for amusement, For The Worthy]";
+
             }
         }
-
+            
         public WhereMalice()
         {
-            DifficultyScale = 1000000f;
+            DifficultyScale = 1000000f; //So its always at the end of the list
             Name = "Where's Malice?";
-            ShortDescription = "[c/E8E8E8:We regret to inform you that Malice mode has been removed.]";
+            ShortDescription = "[c/FB7152:Malice mode has been removed from the mod, but its AI changes will live on in Boss Rush]\n" +
+                               "[c/FB7152:We sincerely apologize for the disappointment if you were planning on a playthrough]";
 
-            ActivationTextKey = "";
+            ActivationTextKey = "Mods.CalamityMod.DeathText"; //Copy values from death since clicing on the icon enables death
             DeactivationTextKey = "";
 
-            ActivationSound = SoundID.MenuTick;
+            ActivationSound = DemonshadeHelm.ActivationSound;
 
-            ChatTextColor = Color.Gold;
+            ChatTextColor = Color.MediumOrchid;
         }
     }
 }

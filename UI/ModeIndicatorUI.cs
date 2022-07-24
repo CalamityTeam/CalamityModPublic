@@ -15,6 +15,7 @@ using Terraria.Audio;
 using CalamityMod.Systems;
 using static CalamityMod.Systems.DifficultyModeSystem;
 using Terraria.GameInput;
+using Terraria.UI.Chat;
 
 namespace CalamityMod.UI
 {
@@ -151,19 +152,36 @@ namespace CalamityMod.UI
             if (locked)
                 DrawLock(spriteBatch);
 
-            //Add the hover text.
-            if (difficultyText != "")
+            if (difficultyText != "" || extraDescText != "")
             {
-                difficultyText += "\n" + lockText;
-                Main.LocalPlayer.mouseInterface = true;
-                Main.instance.MouseText(difficultyText);
+                if (difficultyText != "")
+                    difficultyText += "\n" + lockText;
+
+                /*
+                string selectedText = difficultyText;
+                if (extraDescText != "")
+                    selectedText = extraDescText;
+                Vector2 boxSize = ChatManager.GetStringSize(Terraria.GameContent.FontAssets.MouseText.Value, selectedText, Vector2.One);
+                //It'd be great to be able to add a background to it but i don't think i know how to get the position of the text for that.
+                //Also the "get string size" thing breaks with colored lines so :(
+                Utils.DrawInvBG(spriteBatch, new Rectangle((int)Main.MouseScreen.X - 10, (int)Main.MouseScreen.Y - 10, (int)boxSize.X + 20, (int)boxSize.Y + 20), new Color(25, 20, 55) * 0.925f);
+                */
+
+                //Add the hover text.
+                if (difficultyText != "")
+                {
+                    Main.LocalPlayer.mouseInterface = true;
+                    Main.instance.MouseText(difficultyText);
+                }
+
+                else if (extraDescText != "")
+                {
+                    Main.LocalPlayer.mouseInterface = true;
+                    Main.instance.MouseText(extraDescText);
+                }
             }
 
-            else if (extraDescText != "")
-            {
-                Main.LocalPlayer.mouseInterface = true;
-                Main.instance.MouseText(extraDescText);
-            }
+           
 
 
             TickVariables();
