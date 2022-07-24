@@ -43,7 +43,9 @@ namespace CalamityMod.Projectiles.Boss
 
             if (Main.rand.NextBool())
             {
-                int dust = Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 4, 0f, 0f, Projectile.alpha, Color.Lavender);
+                Color dustColor = Color.Lavender;
+                dustColor.A = 150;
+                int dust = Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 4, 0f, 0f, Projectile.alpha, dustColor);
                 Main.dust[dust].noGravity = true;
             }
 

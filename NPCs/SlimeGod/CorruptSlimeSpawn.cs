@@ -62,9 +62,12 @@ namespace CalamityMod.NPCs.SlimeGod
                 Vector2 spawnAt = NPC.Center + new Vector2(0f, (float)NPC.height / 2f);
                 NPC.NewNPC(NPC.GetSource_Loot(), (int)spawnAt.X, (int)spawnAt.Y, ModContent.NPCType<CorruptSlimeSpawn2>());
             }
+
+            Color dustColor = Color.Lavender;
+            dustColor.A = 150;
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(NPC.position, NPC.width, NPC.height, 4, hitDirection, -1f, NPC.alpha, Color.Lavender, 1f);
+                Dust.NewDust(NPC.position, NPC.width, NPC.height, 4, hitDirection, -1f, NPC.alpha, dustColor, 1f);
             }
         }
 
