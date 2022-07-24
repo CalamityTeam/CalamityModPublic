@@ -27,7 +27,9 @@ namespace CalamityMod.Projectiles.Enemy
         {
             if (Projectile.Opacity == 1f && Main.rand.NextBool(3))
             {
-                int num67 = Dust.NewDust(Projectile.position - Projectile.velocity * 3f, Projectile.width, Projectile.height, 260, 0f, 0f, 50, new Color(255, 136, 78, 150), 1.2f);
+                Color dustColor = Color.Crimson;
+                dustColor.A = 150;
+                int num67 = Dust.NewDust(Projectile.position - Projectile.velocity * 3f, Projectile.width, Projectile.height, 260, 0f, 0f, 50, dustColor, 1.2f);
                 Main.dust[num67].velocity *= 0.3f;
                 Main.dust[num67].velocity += Projectile.velocity * 0.3f;
                 Main.dust[num67].noGravity = true;
@@ -58,9 +60,11 @@ namespace CalamityMod.Projectiles.Enemy
 
         public override void Kill(int timeLeft)
         {
+            Color dustColor = Color.Crimson;
+            dustColor.A = 150;
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 260, Projectile.oldVelocity.X * 0.5f, Projectile.oldVelocity.Y * 0.5f);
+                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 260, Projectile.oldVelocity.X * 0.5f, Projectile.oldVelocity.Y * 0.5f, 50, dustColor, 1f);
             }
         }
 

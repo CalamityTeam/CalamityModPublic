@@ -168,7 +168,7 @@ namespace CalamityMod.Systems
         {
             DifficultyScale = 0;
             Name = "None";
-            ShortDescription = "The classic Terraria experience, with no Calamity difficulty changes.";
+            ShortDescription = "The classic Terraria experience, with no Calamity difficulty changes";
             
             ActivationTextKey = "";
             DeactivationTextKey = "";
@@ -209,13 +209,13 @@ namespace CalamityMod.Systems
                 string adrenKey = "[c/79DFBF:" + CalamityKeybinds.AdrenalineHotKey.TooltipHotkeyString() + "]";
 
 
-                return ("[c/"+mainColor+":Enables the][c/85FFE9: Adrenaline] [c/"+mainColor+":mechanic. You gain Adrenaline while fighting bosses. Getting hit drops Adrenaline back to 0.] \n" +
-                        "[c/"+mainColor+":    When Adrenaline is maxed, press] " + adrenKey + " [c/"+mainColor+":for a large damage boost.] \n" +
-                        "[c/"+mainColor+":Enables the ][c/FF8B54:Rage][c/"+mainColor+": mechanic. You gain Rage when in proximity of enemies or by using certain items.] \n" +
-                        "[c/"+mainColor+":    When Rage is maxed, press] " + rageKey + " [c/"+mainColor+":for a temporary damage boost.] \n" +
-                        "[c/"+mainColor+":Most foes have higher stats and deal more damage.] \n" +
-                        "[c/"+mainColor+":Bosses have new AI mechanics and new phases. Enemies spawn more frequently.] \n" +
-                        "[c/F7342A:This mode is more difficult than Expert. Be sure to prepare for the challenge.]");
+                return ("[c/"+mainColor+":Enables the][c/85FFE9: Adrenaline] [c/"+mainColor+":mechanic. You gain Adrenaline while fighting bosses. Getting hit drops Adrenaline back to 0] \n" +
+                        "[c/"+mainColor+":    When Adrenaline is maxed, press] " + adrenKey + " [c/"+mainColor+":for a large damage boost] \n" +
+                        "[c/"+mainColor+":Enables the ][c/FF8B54:Rage][c/"+mainColor+": mechanic. You gain Rage when in proximity of enemies or by using certain items] \n" +
+                        "[c/"+mainColor+":    When Rage is maxed, press] " + rageKey + " [c/"+mainColor+":for a temporary damage boost] \n" +
+                        "[c/"+mainColor+":Most foes have higher stats and deal more damage] \n" +
+                        "[c/"+mainColor+":Bosses have new AI mechanics and new phases. Enemies spawn more frequently] \n" +
+                        "[c/F7342A:This mode is more difficult than Expert. Be sure to prepare for the challenge]");
 
             }
         }
@@ -255,22 +255,16 @@ namespace CalamityMod.Systems
             }
         }
         
-        public override string ExpandedDescription
-        {
-            get
-            {
-                return ("[c/B834E0:All foes will pose a much larger threat with aggressive AI and increased damage.] \n" +
-                        "[c/B834E0:Bosses have substantially harder AI changes. Enemies are even more numerous and can easily overwhelm you.] \n" +
-                        "[c/B834E0:Debuffs are especially lethal and the Abyss is significantly more dangerous.] \n" +
-                        "[c/E945FF:Vigilance and tenacity are crucial to survival.]");
-            }
-        }
+        public override string ExpandedDescription =>"[c/B834E0:All foes will pose a much larger threat with aggressive AI and increased damage] \n" +
+                        "[c/B834E0:Bosses have substantially harder AI changes. Enemies are even more numerous and can easily overwhelm you] \n" +
+                        "[c/B834E0:Debuffs are especially lethal and the Abyss is significantly more dangerous] \n" +
+                        "[c/E945FF:Vigilance and tenacity are crucial to survival]";
 
         public DeathDifficulty()
         {
             DifficultyScale = 0.5f;
             Name = "Death";
-            ShortDescription = "[c/C82DF7:A tougher challenge for the more experienced, or for those that want a step up from Revengeance Mode.]";
+            ShortDescription = "[c/C82DF7:A tougher challenge for the more experienced, or for those that want a step up from Revengeance Mode]";
 
             ActivationTextKey = "Mods.CalamityMod.DeathText";
             DeactivationTextKey = "Mods.CalamityMod.DeathText2";
@@ -318,22 +312,40 @@ namespace CalamityMod.Systems
         {
             get
             {
-                return "[c/B4B4B4:WIP.]";
+                string realIntentionsHex = (Color.Lerp(Color.White, new Color(255, 148, 122), 0.5f + 0.5f * (float)Math.Sin(Main.GlobalTimeWrappedHourly + 0.5f))).Hex3();
+                string harderOptionsHex = (Color.Lerp(Color.White, Color.Gold, 0.5f + 0.5f * (float)Math.Sin(Main.GlobalTimeWrappedHourly))).Hex3();
+
+                return "[c/EDEDED:Malice originally came about from an idea to make obtaining Legendaries less RNG based]\n" +
+                            "[c/EDEDED:It was maent to allow the player to enrage specific bosses, giving them new phases or attacks, to guarantee the drop]\n" +
+                            "[c/EDEDED:However, this was watered down to what Malice was on release, being a mode which affected all bosses, and included RIV(Rare Item Variants)]\n" +
+                            "\n" +
+                            "[c/EDEDED:At the time, Malice was received poorly by a lot of players due to the bosses being overtuned to the point of being unfair, while locking items behind them]\n" +
+                            "[c/939393:      ..No tester had beaten the Exo Mechs on Malice mode when it released]\n" +
+                            "[c/" + realIntentionsHex + ":The explanation was that it was meant to be a \"refight\" mode, but that was never the real intention]\n" +
+                            "\n" +
+                            "[c/EDEDED:Malice exclusive drops were eventually removed, as we did not want players to feel obligated to play a poorly balanced mode]\n" +
+                            "[c/EDEDED:Over time, Malice was balanced to be less unfair, but we realized that with the exclusive drops gone, it was not worth the effort]\n" +
+                            "[c/EDEDED:This is why we came down to deleting Malice, so that dev time and effort may be spent elsewhere, notably Death mode]\n" +
+                            "\n" +
+                            "[c/" + harderOptionsHex + ":We acknowledge that some players liked Malice because Death isn't challenging enough for their tastes]\n" +
+                            "[c/" + harderOptionsHex + ":If you want more difficulty, try the Infernum Addon, Master Mode, higher Boss HP Config, or for amusement, For The Worthy]";
+
             }
         }
-
+            
         public WhereMalice()
         {
-            DifficultyScale = 1000000f;
+            DifficultyScale = 1000000f; //So its always at the end of the list
             Name = "Where's Malice?";
-            ShortDescription = "[c/E8E8E8:We regret to inform you that Malice mode has been removed.]";
+            ShortDescription = "[c/FB7152:Malice mode has been removed from the mod, but its AI changes will live on in Boss Rush]\n" +
+                               "[c/FB7152:We sincerely apologize for the disappointment if you were planning on a playthrough]";
 
-            ActivationTextKey = "";
+            ActivationTextKey = "Mods.CalamityMod.DeathText"; //Copy values from death since clicing on the icon enables death
             DeactivationTextKey = "";
 
-            ActivationSound = SoundID.MenuTick;
+            ActivationSound = DemonshadeHelm.ActivationSound;
 
-            ChatTextColor = Color.Gold;
+            ChatTextColor = Color.MediumOrchid;
         }
     }
 }
