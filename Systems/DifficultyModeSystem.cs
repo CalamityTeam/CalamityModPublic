@@ -315,17 +315,17 @@ namespace CalamityMod.Systems
                 string realIntentionsHex = (Color.Lerp(Color.White, new Color(255, 148, 122), 0.5f + 0.5f * (float)Math.Sin(Main.GlobalTimeWrappedHourly + 0.5f))).Hex3();
                 string harderOptionsHex = (Color.Lerp(Color.White, Color.Gold, 0.5f + 0.5f * (float)Math.Sin(Main.GlobalTimeWrappedHourly))).Hex3();
 
-                return "[c/EDEDED:Malice originally came about from an idea to make obtaining Legendaries less RNG based]\n" +
-                            "[c/EDEDED:It was maent to allow the player to enrage specific bosses, giving them new phases or attacks, to guarantee the drop]\n" +
-                            "[c/EDEDED:However, this was watered down to what Malice was on release, being a mode which affected all bosses, and included RIV(Rare Item Variants)]\n" +
+                return "[c/EDEDED:Malice originally came about from an idea to make obtaining Legendary items less RNG-based]\n" +
+                            "[c/EDEDED:It was meant to allow the player to enrage specific bosses, giving them new phases or attacks, to guarantee the drop]\n" +
+                            "[c/EDEDED:However, this was watered down to what Malice was on release, being a difficulty which affected all bosses, and included RIV(Rare Item Variants)]\n" +
                             "\n" +
                             "[c/EDEDED:At the time, Malice was received poorly by a lot of players due to the bosses being overtuned to the point of being unfair, while locking items behind them]\n" +
-                            "[c/939393:      ..No tester had beaten the Exo Mechs on Malice mode when it released]\n" +
+                            "[c/939393:      ...No tester had beaten the Exo Mechs on Malice Mode when it released]\n" +
                             "[c/" + realIntentionsHex + ":The explanation was that it was meant to be a \"refight\" mode, but that was never the real intention]\n" +
                             "\n" +
-                            "[c/EDEDED:Malice exclusive drops were eventually removed, as we did not want players to feel obligated to play a poorly balanced mode]\n" +
+                            "[c/EDEDED:Malice-exclusive drops were eventually removed, as we did not want players to feel obligated to play a poorly balanced difficulty]\n" +
                             "[c/EDEDED:Over time, Malice was balanced to be less unfair, but we realized that with the exclusive drops gone, it was not worth the effort]\n" +
-                            "[c/EDEDED:This is why we came down to deleting Malice, so that dev time and effort may be spent elsewhere, notably Death mode]\n" +
+                            "[c/EDEDED:This is why we came down to deleting Malice, so that dev time and effort may be spent elsewhere, notably Death Mode]\n" +
                             "\n" +
                             "[c/" + harderOptionsHex + ":We acknowledge that some players liked Malice because Death isn't challenging enough for their tastes]\n" +
                             "[c/" + harderOptionsHex + ":If you want more difficulty, try the Infernum Addon, Master Mode, higher Boss HP Config, or for amusement, For The Worthy]";
@@ -337,7 +337,7 @@ namespace CalamityMod.Systems
         {
             DifficultyScale = 1000000f; //So its always at the end of the list
             Name = "Where's Malice?";
-            ShortDescription = "[c/FB7152:Malice mode has been removed from the mod, but its AI changes will live on in Boss Rush]\n" +
+            ShortDescription = "[c/FB7152:Malice Mode has been removed from the mod, but its AI changes will live on in Boss Rush]\n" +
                                "[c/FB7152:We sincerely apologize for the disappointment if you were planning on a playthrough]";
 
             ActivationTextKey = "Mods.CalamityMod.DeathText"; //Copy values from death since clicing on the icon enables death
