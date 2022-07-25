@@ -14,7 +14,11 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             SacrificeTotal = 1;
             DisplayName.SetDefault("The Sevens Striker");
-            Tooltip.SetDefault("'A gun given to a great gunslinger\n"+"Forged by the arms of a man given no name'\n"+"Consumes coins to power a slot machine with several different outcomes\n"+"Quality of the outcome depends on the coin inputted\n"+"Right click to rapidly fire a spread of coins");
+            Tooltip.SetDefault("'A gun given to a great gunslinger\n"+
+                "Forged by the arms of a man given no name'\n"+
+                "Consumes coins to power a slot machine with several different outcomes\n"+
+                "Quality of the outcome depends on the coin inputted\n"+
+                "Right click to rapidly fire a spread of coins");
             ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }
 
@@ -31,7 +35,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.height = 70;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.useAmmo = AmmoID.Coin;
-            Item.shootSpeed = 12f;
+            Item.shootSpeed = 24f;
             Item.shoot = ProjectileID.PurificationPowder;
             Item.value = CalamityGlobalItem.Rarity12BuyPrice;
             Item.Calamity().customRarity = CalamityRarity.Turquoise;
@@ -55,7 +59,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override Vector2? HoldoutOffset()
         {
-            return new Vector2(-20, 0);
+            return new Vector2(-30, -11);
         }
 
         public override bool CanUseItem(Player player)
@@ -66,7 +70,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 Item.useTime = 3;
                 Item.reuseDelay = 12;
                 Item.useAnimation = 31;
-                Item.UseSound = SoundID.Item13;
+                Item.UseSound = SoundID.Item31;
                 Item.useTurn = true;
                 Item.autoReuse = true;
                 Item.noMelee = false;
@@ -92,17 +96,22 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             if (player.altFunctionUse == 2f)
             {
+                Vector2 shootVelocity = velocity;
+                Vector2 shootDirection = shootVelocity.SafeNormalize(Vector2.UnitX * player.direction);
+                Vector2 gunTip = position + shootDirection * Item.scale * 90f;
+                gunTip.Y -= 20f;
+
                 for (int i = 0; i < 2; i++)
                 {
                     float SpeedX = velocity.X + Main.rand.Next(-15, 16) * 0.05f;
                     float SpeedY = velocity.Y + Main.rand.Next(-15, 16) * 0.05f;
 
-                    Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, type, (int)(damage * 0.2f), knockback, player.whoAmI);
+                    Projectile.NewProjectile(source, gunTip.X, gunTip.Y, SpeedX, SpeedY, type, (int)(damage * 0.07f), knockback, player.whoAmI);
                 }
             }
             else
             {
-                Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<SevensStrikerHoldout>(), damage * 3, knockback, player.whoAmI, type, 0f);
+                Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<SevensStrikerHoldout>(), damage * 7, knockback, player.whoAmI, type, 0f);
             }
             return false;
         }

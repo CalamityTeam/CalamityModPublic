@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Sounds;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.Audio;
@@ -14,7 +15,7 @@ namespace CalamityMod.Projectiles.Ranged
         bool rolling = true; // If the slot machine is currently rolling
         int rolltimer = 60; // Cooldown for the slot machine so that it doesn't instantly role
         int soundtimer = 0; // Counts how long the slot machine has been spinning + the cooldown
-        public static readonly SoundStyle Win = new("CalamityMod/Sounds/Custom/AbilitySounds/FullAdrenaline");
+        public static readonly SoundStyle Win = new("CalamityMod/Sounds/Custom/AbilitySounds/FullAdrenaline"); // Epic victory royale sound (for jackpots)
 
         public override void SetStaticDefaults()
         {
@@ -31,12 +32,13 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.tileCollide = false;
             Projectile.DamageType = DamageClass.Ranged;
             Projectile.ignoreWater = true;
+            Projectile.alpha = 255;
         }
 
         public override void AI()
         {
             Player player = Main.player[Projectile.owner];
-            float rotoffset = Projectile.velocity.X <= 0 ? MathHelper.Pi : 0;
+            //float rotoffset = Projectile.velocity.X <= 0 ? MathHelper.Pi : 0;
             Vector2 playerpos = player.RotatedRelativePoint(player.MountedCenter, true);
             bool shouldBeHeld = player.channel && !player.noItems && !player.CCed;
 
@@ -45,6 +47,7 @@ namespace CalamityMod.Projectiles.Ranged
             int weaponDamage = player.GetWeaponDamage(player.ActiveItem());
             float weaponKnockback = player.ActiveItem().knockBack;
 
+            // Consumes a coin, stores it, then calculates what effect will be executed
             if (Projectile.ai[1] == 0)
             {
                 player.PickAmmo(player.ActiveItem(), out shot, out scaleFactor, out weaponDamage, out weaponKnockback, out _);
@@ -55,10 +58,12 @@ namespace CalamityMod.Projectiles.Ranged
             rolltimer--;
             soundtimer++;
 
+            // While the slot machine is rolling, play the animation
             if (rolling)
             {
                 Projectile.frameCounter++;
             }
+            // Make sure that it defaults at frame 1
             else
             {
                 Projectile.frame = 0;
@@ -68,6 +73,7 @@ namespace CalamityMod.Projectiles.Ranged
                 Projectile.frame++;
                 Projectile.frameCounter = 0;
             }
+            // Once the animation is finished, stop rolling, set the extra timer to 16 frames, and reset the sprite to frame 0
             if (Projectile.frame >= Main.projFrames[Projectile.type])
             {
                 rolling = false;
@@ -79,6 +85,7 @@ namespace CalamityMod.Projectiles.Ranged
             {
                 if (shouldBeHeld && Projectile.ai[1] != 0)
                 {
+                    // Holdout stuff
                     float holdscale = player.ActiveItem().shootSpeed * Projectile.scale;
                     Vector2 playerpos2 = playerpos;
                     Vector2 going = Main.screenPosition + new Vector2((float)Main.mouseX, (float)Main.mouseY) - playerpos2;
@@ -98,22 +105,26 @@ namespace CalamityMod.Projectiles.Ranged
                     }
                     Projectile.velocity = normalizedgoing * 0.55f;
 
+                    // If the animation isn't playing and the cooldown timer is at or below 0
                     if (!rolling && rolltimer <= 0)
                     {
                         //Jackpot gets special benefits since it shoots multiple rounds
                         if (Projectile.ai[1] == 4)
                         {
                             shottimer++;
+                            // Play a higher pitched adrenaline charge sound and display the jackpot text
                             if (shottimer == 1)
                             {
                                 SoundEngine.PlaySound(Win with { Pitch = Win.Pitch + 0.5f}, Projectile.Center);
                                 CombatText.NewText(player.getRect(), Color.Gold, "Jackpot!!!", true);
                             }
+                            // Every 5 frames, shoot 7 coins. The first 5 frames are excluded for timing purposes
                             if (shottimer % 5 == 0 && shottimer > 5)
                             {
-                                Shoot(7, ProjectileID.PlatinumCoin, weaponDamage, weaponKnockback, (int)scaleFactor * 2f, 0.15f);
+                                Shoot(7, ModContent.ProjectileType<SevensStrikerPlatinumCoin>(), weaponDamage, weaponKnockback, (int)scaleFactor * 2f, 0.3f);
                                 SoundEngine.PlaySound(CommonCalamitySounds.GaussWeaponFire with { Pitch = CommonCalamitySounds.GaussWeaponFire.Pitch + 0.4f, Volume = CommonCalamitySounds.GaussWeaponFire.Volume - 0.4f }, Projectile.Center);
                             }
+                            // After 7 waves have been shot, reset the gun and roll again
                             if (shottimer > 40)
                             {
                                 soundtimer = 0;
@@ -122,25 +133,30 @@ namespace CalamityMod.Projectiles.Ranged
                                 shottimer = 0;
                             }
                         }
+                        // The other three outcomes
                         switch (Projectile.ai[1])
                         {
+                            // A single brick that deals 10% damage and plays a fart sound
                             case 1:
                                 Shoot(1, ModContent.ProjectileType<SevensStrikerBrick>(), (int)(Projectile.damage * 0.1f), 0, 2f, 0);
                                 CombatText.NewText(player.getRect(), Color.Gray, "Bust!", true);
                                 SoundEngine.PlaySound(SoundID.Item16 with { Pitch = SoundID.Item16.Pitch - 0.2f }, Projectile.Center);
                                 break;
+                            // 7 exploding oranges with a magicy sound
                             case 2:
-                                Shoot(7, ModContent.ProjectileType<SevensStrikerOrange>(), Projectile.damage, Projectile.knockBack, 2f, 0.1f);
+                                Shoot(7, ModContent.ProjectileType<SevensStrikerOrange>(), Projectile.damage, Projectile.knockBack, 2f, 0.2f);
                                 CombatText.NewText(player.getRect(), Color.Orange, "Doubles!", true);
                                 SoundEngine.PlaySound(SoundID.Item4, Projectile.Center);
                                 break;
+                            // 7 piercing grapes with 7 tighter splitting cherries with a higher pitched magicy sound
                             case 3:
-                                Shoot(7, ModContent.ProjectileType<SevensStrikerCherry>(), Projectile.damage, Projectile.knockBack, 1.5f, 0.05f);
-                                Shoot(7, ModContent.ProjectileType<SevensStrikerGrape>(), Projectile.damage, Projectile.knockBack, 2f, 0.1f);
+                                Shoot(7, ModContent.ProjectileType<SevensStrikerCherry>(), Projectile.damage, Projectile.knockBack, 1.5f, 0.1f);
+                                Shoot(7, ModContent.ProjectileType<SevensStrikerGrape>(), Projectile.damage, Projectile.knockBack, 2f, 0.2f);
                                 CombatText.NewText(player.getRect(), Color.Red, "Triples!", true);
                                 SoundEngine.PlaySound(SoundID.Item4 with { Pitch = SoundID.Item4.Pitch + 0.3f }, Projectile.Center);
                                 break;
                         }
+                        // Reset the gun and roll again
                         if (Projectile.ai[1] != 4)
                         {
                             Projectile.ai[1] = 0;
@@ -149,6 +165,7 @@ namespace CalamityMod.Projectiles.Ranged
                         }
                     }
                 }
+                // If the player can't use the gun, KILL it
                 else
                 {
                     Projectile.Kill();
@@ -156,17 +173,20 @@ namespace CalamityMod.Projectiles.Ranged
             }
 
             // Sounds
+            // Crank
             if (Projectile.frameCounter == 0 && Projectile.frame == 2 * (Main.projFrames[Projectile.type] / 19))
             {
                 SoundEngine.PlaySound(SoundID.Item108 with { Volume = SoundID.Item108.Volume - 0.5f }, Projectile.Center);
             }
+            // Clicks for when each slot is finished
             if (soundtimer == 96 || soundtimer == 108 || soundtimer == 120)
             {
                 SoundEngine.PlaySound(SoundID.Item17 with { Volume = SoundID.Item108.Volume - 0.5f }, Projectile.Center);
             }
 
+            // Holdout stuff
             Projectile.position = player.RotatedRelativePoint(player.MountedCenter, true) - Projectile.Size / 2f;
-            Projectile.rotation = Projectile.velocity.ToRotation() + rotoffset;
+            Projectile.rotation = Projectile.velocity.ToRotation();
             Projectile.spriteDirection = Projectile.direction;
             Projectile.timeLeft = 2;
             player.ChangeDir(Projectile.direction);
@@ -176,12 +196,16 @@ namespace CalamityMod.Projectiles.Ranged
             player.itemRotation = (float)Math.Atan2((double)(Projectile.velocity.Y * (float)Projectile.direction), (double)(Projectile.velocity.X * (float)Projectile.direction));
         }
 
-        // Calculates which attack will occur based on coin. Platinum guarantees the best outcome.
+        // Calculates which attack will occur based on coin.
         public int CalculateOutcome()
         {
-            int outcome = 1;
             switch (Projectile.ai[0])
             {
+                // Copper Coins have:
+                // 50% chance for a brick
+                // 30% chance for oranges
+                // 15% chance for grapes and cherries
+                // 5% chance for a jackpot
                 case ProjectileID.CopperCoin:
                     {
                         int roll = Main.rand.Next(100);
@@ -194,6 +218,11 @@ namespace CalamityMod.Projectiles.Ranged
                         else
                             return 4;
                     }
+                // Silver Coins have:
+                // 20% chance for a brick
+                // 50% chance for oranges
+                // 20% chance for grapes and cherries
+                // 10% chance for a jackpot
                 case ProjectileID.SilverCoin:
                     {
                         int roll = Main.rand.Next(100);
@@ -206,6 +235,11 @@ namespace CalamityMod.Projectiles.Ranged
                         else
                             return 4;
                     }
+                // Gold Coins have:
+                // 5% chance for a brick
+                // 30% chance for oranges
+                // 50% chance for grapes and cherries
+                // 15% chance for a jackpot
                 case ProjectileID.GoldCoin:
                     {
                         int roll = Main.rand.Next(100);
@@ -218,20 +252,47 @@ namespace CalamityMod.Projectiles.Ranged
                         else
                             return 4;
                     }
+                // Platinum Coins are a guaranteed jackpot
                 case ProjectileID.PlatinumCoin:
                     return 4;
             }
-            return outcome;
+            // This should never be returned
+            return 1;
         }
 
         // Where the shooting takes place (wow!)
         public void Shoot(int projcount, int type, int damage, float kb, float scaleFactor, float spreadfactor)
         {
+            Player player = Main.player[Projectile.owner];
+            Vector2 armPosition = player.RotatedRelativePoint(player.MountedCenter, true);
+            armPosition += Projectile.velocity.SafeNormalize(player.direction * Vector2.UnitX) * 32f;
+            armPosition.Y -= 20f;
+            Vector2 shootDirection = (Main.MouseWorld - Projectile.Center).SafeNormalize(-Vector2.UnitY);
+            Vector2 gunTip = armPosition + shootDirection * player.ActiveItem().scale * 90f;
             for (int i = 0; i < projcount; ++i)
             {
-                Vector2 perturbedSpeed = Projectile.velocity.RotatedBy(MathHelper.Lerp(-spreadfactor, spreadfactor, i / 3f)) * scaleFactor;
-                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, perturbedSpeed, type, damage, kb, Main.player[Projectile.owner].whoAmI);
+                Vector2 perturbedSpeed = Projectile.velocity.RotatedBy(MathHelper.Lerp(-spreadfactor, spreadfactor, i / 7f)) * scaleFactor;
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), gunTip, perturbedSpeed, type, damage, kb, Main.player[Projectile.owner].whoAmI);
             }
+        }
+        public override bool PreDraw(ref Color lightColor)
+        {
+            Player Owner = Main.player[Projectile.owner];
+            Texture2D gun = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Ranged/SevensStrikerHoldout").Value;
+
+            SpriteEffects flip = Projectile.direction < 0 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+
+            float drawAngle = Projectile.rotation + (Owner.direction < 0 ? MathHelper.Pi : 0);
+            Vector2 drawOrigin = new Vector2(Owner.direction < 0 ? gun.Width - 33f : 33f, 33f);
+            Vector2 drawOffset = Owner.MountedCenter + Projectile.rotation.ToRotationVector2() - Main.screenPosition;
+            drawOffset.Y -= 10;
+            int indframeheight = gun.Height / Main.projFrames[Projectile.type];
+            int currentframe = indframeheight * Projectile.frame;
+            Rectangle frame = new Rectangle(0, currentframe, gun.Width, indframeheight);
+
+            Main.EntitySpriteDraw(gun, drawOffset, frame, lightColor, drawAngle, drawOrigin, Projectile.scale, flip, 0);
+
+            return false;
         }
 
         public override bool? CanDamage() => false;
