@@ -6,6 +6,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using System.Collections.Generic;
 using System.Linq;
+using CalamityMod.UI;
 
 namespace CalamityMod.Items.DraedonMisc
 {
@@ -24,6 +25,8 @@ namespace CalamityMod.Items.DraedonMisc
             Item.rare = ItemRarityID.Red;
             Item.Calamity().customRarity = CalamityRarity.DraedonRust;
             Item.maxStack = 1;
+            Item.useAnimation = Item.useTime = 20;
+            Item.useStyle = ItemUseStyleID.HoldUp;
         }
 
         public override void UpdateInventory(Player player)
@@ -40,7 +43,8 @@ namespace CalamityMod.Items.DraedonMisc
             TooltipLine line = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip0");
 
             if (line != null && RecipeUnlockHandler.HasUnlockedT2ArsenalRecipes)
-                line.Text = "Has already been decrypted";
+                line.Text = "Has already been decrypted.\n" +
+                    "Click to view its contents.";
         }
         public override void AddRecipes()
         {
@@ -51,6 +55,15 @@ namespace CalamityMod.Items.DraedonMisc
                 AddCondition(SchematicRecipe.ConstructRecipeCondition("Planetoid", out Predicate<Recipe> condition), condition).
                 AddTile(TileID.Anvils).
                 Register();
+        }
+
+        public override bool? UseItem(Player player)
+        {
+            if (Main.myPlayer == player.whoAmI && RecipeUnlockHandler.HasUnlockedT2ArsenalRecipes)
+            {
+                PopupGUIManager.FlipActivityOfGUIWithType(typeof(DraedonSchematicPlanetoidGUI));
+            }
+            return true;
         }
     }
 }
