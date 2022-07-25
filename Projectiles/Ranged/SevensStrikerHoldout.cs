@@ -11,10 +11,11 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class SevensStrikerHoldout : ModProjectile
     {
-        int shottimer = 0; // Solely exists so that the Platinum shots aren't instantaneous
-        bool rolling = true; // If the slot machine is currently rolling
-        int rolltimer = 60; // Cooldown for the slot machine so that it doesn't instantly role
-        int soundtimer = 0; // Counts how long the slot machine has been spinning + the cooldown
+        public bool rolling = true; // If the slot machine is currently rolling
+        public bool shotonce = false; // So that the first shot doesn't consume two ammo
+        public int shottimer = 0; // Solely exists so that the Platinum shots aren't instantaneous
+        public int rolltimer = 60; // Cooldown for the slot machine so that it doesn't instantly role
+        public int soundtimer = 0; // Counts how long the slot machine has been spinning + the cooldown
         public static readonly SoundStyle Win = new("CalamityMod/Sounds/Custom/AbilitySounds/FullAdrenaline"); // Epic victory royale sound (for jackpots)
 
         public override void SetStaticDefaults()
@@ -38,7 +39,6 @@ namespace CalamityMod.Projectiles.Ranged
         public override void AI()
         {
             Player player = Main.player[Projectile.owner];
-            //float rotoffset = Projectile.velocity.X <= 0 ? MathHelper.Pi : 0;
             Vector2 playerpos = player.RotatedRelativePoint(player.MountedCenter, true);
             bool shouldBeHeld = player.channel && !player.noItems && !player.CCed;
 
@@ -50,9 +50,18 @@ namespace CalamityMod.Projectiles.Ranged
             // Consumes a coin, stores it, then calculates what effect will be executed
             if (Projectile.ai[1] == 0)
             {
-                player.PickAmmo(player.ActiveItem(), out shot, out scaleFactor, out weaponDamage, out weaponKnockback, out _);
-                Projectile.ai[0] = shot;
-                Projectile.ai[1] = CalculateOutcome();
+                // These checks are here so that the weapon doesn't consume two coins when first used
+                if (shotonce)
+                {
+                    player.PickAmmo(player.ActiveItem(), out shot, out scaleFactor, out weaponDamage, out weaponKnockback, out _);
+                    Projectile.ai[0] = shot;
+                    Projectile.ai[1] = CalculateOutcome();
+                }
+                else
+                {
+                    Projectile.ai[1] = CalculateOutcome();
+                    shotonce = true;
+                }
             }
 
             rolltimer--;
@@ -272,7 +281,10 @@ namespace CalamityMod.Projectiles.Ranged
             for (int i = 0; i < projcount; ++i)
             {
                 Vector2 perturbedSpeed = Projectile.velocity.RotatedBy(MathHelper.Lerp(-spreadfactor, spreadfactor, i / 7f)) * scaleFactor;
-                Projectile.NewProjectile(Projectile.GetSource_FromThis(), gunTip, perturbedSpeed, type, damage, kb, Main.player[Projectile.owner].whoAmI);
+                int p = Projectile.NewProjectile(Projectile.GetSource_FromThis(), gunTip, perturbedSpeed, type, damage, kb, Main.player[Projectile.owner].whoAmI);
+                if (Main.projectile.IndexInRange(p))
+                    Main.projectile[p].originalDamage = damage;
+
             }
         }
         public override bool PreDraw(ref Color lightColor)
