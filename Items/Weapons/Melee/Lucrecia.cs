@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            Item.useStyle = ItemUseStyleID.Thrust;
+            Item.useStyle = ItemUseStyleID.Rapier;
             Item.useTurn = false;
             Item.useAnimation = 25;
             Item.useTime = 25;

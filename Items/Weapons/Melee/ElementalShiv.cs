@@ -15,8 +15,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Elemental Shiv");
-            Tooltip.SetDefault("Don't underestimate the power of shivs\n" +
-                "Shoots a rainbow shiv that spawns additional shivs on hit");
+            Tooltip.SetDefault("Shoots a rainbow shiv that spawns additional shivs on hit");
             SacrificeTotal = 1;
         }
 
