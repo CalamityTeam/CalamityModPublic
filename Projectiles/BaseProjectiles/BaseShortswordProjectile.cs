@@ -11,10 +11,10 @@ namespace CalamityMod.Projectiles.BaseProjectiles
     {
         public enum ShortswordType
         {
-            TypicalShortsword
-            //GladiusShortsword
+            TypicalShortsword,
+            GladiusShortsword
         }
-        // The former is the standard omni-directional shortsword and is the only one currently defined because I don't want to hunt through vanilla code.
+        // The former is the standard omni-directional shortsword. The latter is the multi-sta that doesn't work because vanilla code is uhhhhhhh
 
 
         #region Virtual Values
@@ -86,6 +86,22 @@ namespace CalamityMod.Projectiles.BaseProjectiles
                 // The code in this method is important to align the sprite with the hitbox how we want it to
                 SetVisualOffsets();
             }
+
+            //if (ShortswordAIType == ShortswordType.GladiusShortsword && !player.frozen)
+            //{
+            //    //float rotation = 0f;
+            //    //public int spriteDirection = 1;
+
+            //    //rotation = Vector2.ToRotation() + (float)Math.PI / 2f;
+            //    //ai[0] += 1f;
+            //    //float num2 = Opacity = Utils.GetLerpValue(0f, 7f, ai[0], clamped: true) * Utils.GetLerpValue(16f, 12f, ai[0], clamped: true);
+            //    //base.Center = player.RotatedRelativePoint(player.MountedCenter, reverseRotation: false, addGfxOffY: false) + Vector2 * (ai[0] - 1f);
+            //    //spriteDirection = ((!(Microsoft.Xna.Framework.Vector2.Dot(Vector2, Microsoft.Xna.Framework.Vector2.UnitX) < 0f)) ? 1 : (-1));
+            //    //if (ai[0] >= 16f)
+            //    //    Kill();
+            //    //else
+            //    //    player.heldProj = whoAmI;
+            //}
         }
 
         public virtual void SetVisualOffsets() // Intentionally blank
