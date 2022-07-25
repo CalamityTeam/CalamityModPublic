@@ -5,11 +5,22 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
+using System.Linq;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
     public class TheSevensStriker : ModItem
     {
+        public static readonly SoundStyle RouletteSound = new("CalamityMod/Sounds/Item/SevensStrikerRoulette") { Volume = 0.6f, SoundLimitBehavior = SoundLimitBehavior.ReplaceOldest};
+        public static readonly SoundStyle RouletteTickSound = new("CalamityMod/Sounds/Item/SevensStrikerRouletteTick") { Volume = 0.5f};
+
+        public static readonly SoundStyle BustSound = new("CalamityMod/Sounds/Item/SevensStrikerBust");
+        public static readonly SoundStyle DoublesSound = new("CalamityMod/Sounds/Item/SevensStrikerDoubles");
+        public static readonly SoundStyle TriplesSound = new("CalamityMod/Sounds/Item/SevensStrikerTriples");
+        public static readonly SoundStyle JackpotSound = new("CalamityMod/Sounds/Item/SevensStrikerJackpot");
+        public static readonly SoundStyle CoinSound = new("CalamityMod/Sounds/Item/SevensStrikerCoinShot") { MaxInstances = 0, PitchVariance = 0.5f };
+
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 1;
@@ -31,11 +42,14 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.DamageType = DamageClass.Ranged;
             Item.noMelee = true;
             Item.channel = true;
+            Item.useTurn = true;
+            Item.autoReuse = true;
             Item.width = 170;
             Item.height = 56;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.useAmmo = AmmoID.Coin;
             Item.shootSpeed = 24f;
+            Item.reuseDelay = 0;
             Item.shoot = ProjectileID.PurificationPowder;
             Item.value = CalamityGlobalItem.Rarity12BuyPrice;
             Item.Calamity().customRarity = CalamityRarity.Turquoise;
@@ -57,40 +71,32 @@ namespace CalamityMod.Items.Weapons.Ranged
             return base.UseItem(player);
         }
 
-        public override Vector2? HoldoutOffset()
-        {
-            return new Vector2(-30, -11);
-        }
+        public override Vector2? HoldoutOffset() => new Vector2(-30, -11);
 
-        public override bool CanUseItem(Player player)
+
+        public override void UseAnimation(Player player)
         {
             if (player.altFunctionUse == 2f)
             {
-                Item.shootSpeed = 20f;
-                Item.useTime = 3;
-                Item.reuseDelay = 12;
-                Item.useAnimation = 31;
-                Item.UseSound = SoundID.Item31;
-                Item.useTurn = true;
-                Item.autoReuse = true;
-                Item.noMelee = false;
+                Item.UseSound = CoinSound;
                 Item.noUseGraphic = false;
-                Item.channel = false;
             }
             else
             {
-                Item.shootSpeed = 24f;
-                Item.reuseDelay = 0;
-                Item.useTime = Item.useAnimation = 30;
                 Item.UseSound = null;
-                Item.useTurn = false;
-                Item.autoReuse = false;
-                Item.noMelee = true;
                 Item.noUseGraphic = true;
-                Item.channel = true;
             }
-            return base.CanUseItem(player);
         }
+
+        public override float UseTimeMultiplier(Player player)
+        {
+            if (player.altFunctionUse == 2f)
+                return 0.1f;
+            
+            return 1f;
+        }
+
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[ModContent.ProjectileType<SevensStrikerHoldout>()] <= 0;
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
