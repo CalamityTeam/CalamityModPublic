@@ -1,4 +1,4 @@
-﻿using Terraria;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Melee.Shortswords
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Elemental Shiv");
+            DisplayName.SetDefault("Elemental Shiv"); // TODO: Make this one function like PiercingStarlight
         }
 
         public override void SetDefaults()

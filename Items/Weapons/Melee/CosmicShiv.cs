@@ -21,7 +21,6 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             Item.useStyle = ItemUseStyleID.Rapier;
-            Item.useTurn = false;
             Item.useAnimation = 18;
             Item.useTime = 18;
             Item.width = 44;
@@ -32,8 +31,8 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.DamageType = DamageClass.Melee;
             Item.knockBack = 9f;
             Item.UseSound = SoundID.Item1;
-            Item.useTurn = true;
             Item.autoReuse = true;
+            Item.noUseGraphic = true;
             Item.shoot = ModContent.ProjectileType<CosmicShivProj>();
             Item.shootSpeed = 2.4f;
 
