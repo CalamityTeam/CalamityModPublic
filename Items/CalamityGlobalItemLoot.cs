@@ -111,6 +111,9 @@ namespace CalamityMod.Items
                     DropHelper.BlockDrops(emblems);
                     break;
 
+                case ItemID.QueenSlimeBossBag:
+                    DropHelper.DropItemChance(s, player, ItemID.SoulofLight, 1f, 15, 20);
+                    break;
                 case ItemID.DestroyerBossBag:
                     // Only drop hallowed bars after all mechs are down.
                     if ((!NPC.downedMechBoss1 || !NPC.downedMechBoss2 || !NPC.downedMechBoss3) && CalamityConfig.Instance.EarlyHardmodeProgressionRework)
