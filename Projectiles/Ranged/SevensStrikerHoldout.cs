@@ -53,9 +53,15 @@ namespace CalamityMod.Projectiles.Ranged
                 // These checks are here so that the weapon doesn't consume two coins when first used
                 if (shotonce)
                 {
-                    player.PickAmmo(player.ActiveItem(), out shot, out scaleFactor, out weaponDamage, out weaponKnockback, out _);
-                    Projectile.ai[0] = shot;
-                    Projectile.ai[1] = CalculateOutcome();
+                    if (player.PickAmmo(player.ActiveItem(), out shot, out scaleFactor, out weaponDamage, out weaponKnockback, out _))
+                    {
+                        Projectile.ai[0] = shot;
+                        Projectile.ai[1] = CalculateOutcome();
+                    }
+                    else
+                    {
+                        Projectile.Kill();
+                    }
                 }
                 else
                 {
