@@ -29,11 +29,11 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.width = 58;
             Item.height = 58;
             Item.damage = 90;
-            Item.DamageType = DamageClass.Melee;
             Item.knockBack = 8.25f;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
             Item.noUseGraphic = true;
+            Item.noMelee = true;
             Item.shoot = ModContent.ProjectileType<LucreciaProj>();
             Item.shootSpeed = 2f;
             Item.value = Item.buyPrice(0, 80, 0, 0);

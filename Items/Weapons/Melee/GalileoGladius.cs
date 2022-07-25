@@ -26,11 +26,11 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.width = 44;
             Item.height = 44;
             Item.damage = 110;
-            Item.DamageType = DamageClass.Melee;
             Item.knockBack = 10f;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
             Item.noUseGraphic = true;
+            Item.noMelee = true;
             Item.shoot = ModContent.ProjectileType<GalileoGladiusProj>();
             Item.shootSpeed = 2.4f;
 

@@ -25,14 +25,12 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.useTime = 18;
             Item.width = 44;
             Item.height = 44;
-
             Item.damage = 218;
-
-            Item.DamageType = DamageClass.Melee;
             Item.knockBack = 9f;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
             Item.noUseGraphic = true;
+            Item.noMelee = true;
             Item.shoot = ModContent.ProjectileType<CosmicShivProj>();
             Item.shootSpeed = 2.4f;
 

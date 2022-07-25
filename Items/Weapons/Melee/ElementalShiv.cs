@@ -27,11 +27,11 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.width = 44;
             Item.height = 44;
             Item.damage = 190;
-            Item.DamageType = DamageClass.Melee;
             Item.knockBack = 8.5f;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
             Item.noUseGraphic = true;
+            Item.noMelee = true;
             Item.shoot = ModContent.ProjectileType<ElementalShivProj>();
             Item.shootSpeed = 2.4f;
             Item.value = CalamityGlobalItem.Rarity11BuyPrice;
