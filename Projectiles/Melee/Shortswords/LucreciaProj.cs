@@ -1,25 +1,26 @@
-﻿using System;
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
+using System;
 
 using CalamityMod.Projectiles.BaseProjectiles;
 
 namespace CalamityMod.Projectiles.Melee.Shortswords
 {
-    public class AquaticDischargeProj: BaseShortswordProjectile
+    public class LucreciaProj: BaseShortswordProjectile
     {
-        public override string Texture => "CalamityMod/Items/Weapons/Melee/AquaticDischarge";
+        public const int OnHitIFrames = 5;
+        public override string Texture => "CalamityMod/Items/Weapons/Melee/Lucrecia";
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Aquatic Discharge");
+            DisplayName.SetDefault("Lucrecia");
         }
 
         public override void SetDefaults()
         {
-            Projectile.Size = new Vector2(16);
+            Projectile.Size = new Vector2(31);
             Projectile.friendly = true;
             Projectile.penetrate = -1;
             Projectile.tileCollide = false;
@@ -31,10 +32,16 @@ namespace CalamityMod.Projectiles.Melee.Shortswords
             Projectile.ownerHitCheck = true;
         }
 
+        public override Action<Projectile> EffectBeforePullback => (proj) =>
+        {
+            Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity * 12f, ModContent.ProjectileType<DNA>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
+        };
+
+
         public override void SetVisualOffsets()
         {
-            const int HalfSpriteWidth = 32 / 2;
-            const int HalfSpriteHeight = 32 / 2;
+            const int HalfSpriteWidth = 62 / 2;
+            const int HalfSpriteHeight = 62 / 2;
 
             int HalfProjWidth = Projectile.width / 2;
             int HalfProjHeight = Projectile.height / 2;
@@ -47,23 +54,29 @@ namespace CalamityMod.Projectiles.Melee.Shortswords
         public override void ExtraBehavior()
         {
             if (Main.rand.NextBool(5))
-                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, DustID.Electric);
+                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, DustID.BoneTorch);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             Player player = Main.player[Projectile.owner];
-            var source = Projectile.GetSource_FromThis();
-            int sparkDamage = player.CalcIntDamage<MeleeDamageClass>(0.5f * Projectile.damage);
-            Projectile.NewProjectile(source, target.Center, Vector2.Zero, ModContent.ProjectileType<Spark>(), sparkDamage, knockback, Main.myPlayer);
+            player.GiveIFrames(OnHitIFrames, false);
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
             Player player = Main.player[Projectile.owner];
-            var source = Projectile.GetSource_FromThis();
-            int sparkDamage = player.CalcIntDamage<MeleeDamageClass>(0.5f * Projectile.damage);
-            Projectile.NewProjectile(source, target.Center, Vector2.Zero, ModContent.ProjectileType<Spark>(), sparkDamage, Projectile.knockBack, Main.myPlayer);
+            bool isImmune = false;
+            for (int j = 0; j < player.hurtCooldowns.Length; j++)
+            {
+                if (player.hurtCooldowns[j] > 0)
+                    isImmune = true;
+            }
+            if (!isImmune)
+            {
+                player.immune = true;
+                player.immuneTime = Owner.itemTime / 5;
+            }
         }
     }
 }

@@ -18,7 +18,7 @@ namespace CalamityMod.Projectiles.Melee.Shortswords
 
         public override void SetDefaults()
         {
-            Projectile.Size = new Vector2(16); // This sets width and height to the same value (important when projectiles can rotate)
+            Projectile.Size = new Vector2(16);
             Projectile.friendly = true;
             Projectile.penetrate = -1;
             Projectile.tileCollide = false;
