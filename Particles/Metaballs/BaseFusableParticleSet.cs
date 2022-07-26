@@ -3,9 +3,10 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 
-namespace CalamityMod.Particles
+namespace CalamityMod.Particles.Metaballs
 {
     public abstract class BaseFusableParticleSet
     {
@@ -48,17 +49,19 @@ namespace CalamityMod.Particles
             }
         }
 
+        internal List<DrawData> DrawDataBuffer = new();
+
         public List<FusableParticle> Particles = new();
 
         public FusableParticleRenderCollection RenderCollection => FusableParticleManager.GetParticleRenderCollectionByType(GetType());
 
         public List<RenderTarget2D> GetBackgroundTargets => RenderCollection.BackgroundTargets;
 
+        public void PrepareSpecialDrawingForNextFrame(params DrawData[] drawContents) => DrawDataBuffer.AddRange(drawContents);
         public virtual float BorderSize => 0f;
         public virtual bool BorderShouldBeSolid => false;
         public virtual Color BorderColor => Color.Transparent;
         public virtual void PrepareOptionalShaderData(Effect effect, int index) { }
-        public abstract FusableParticleRenderLayer RenderLayer { get; }
         public abstract List<Effect> BackgroundShaders { get; }
         public abstract List<Texture2D> BackgroundTextures { get; }
         public abstract FusableParticle SpawnParticle(Vector2 center, float sizeStrength);
@@ -93,8 +96,15 @@ namespace CalamityMod.Particles
                 // Draw the surviving particles.
                 DrawParticles();
 
+                // Draw all special contents in the draw buffer before clearing it.
+                foreach (DrawData drawData in DrawDataBuffer)
+                    drawData.Draw(Main.spriteBatch);
+
                 Main.spriteBatch.End();
             }
+
+            // Clear the special draw data buffer.
+            DrawDataBuffer.Clear();
 
             // Return to using the backbuffer after done drawing everything to the background targets.
             Main.instance.GraphicsDevice.SetRenderTarget(null);

@@ -66,7 +66,6 @@ namespace CalamityMod.Items.Accessories
                 AddIngredient<OrnateShield>().
                 AddIngredient<ShieldoftheOcean>().
                 AddIngredient<CoreofCalamity>().
-                AddIngredient(ItemID.LifeFruit, 5).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

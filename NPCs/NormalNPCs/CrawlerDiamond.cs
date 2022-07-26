@@ -119,7 +119,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
             npcLoot.Add(ItemID.Diamond, 1, 2, 4);
-            npcLoot.Add(ModContent.ItemType<ScuttlersJewel>(), 10);
+            npcLoot.Add(ModContent.ItemType<ScuttlersJewel>(), 6);
         }
     }
 }

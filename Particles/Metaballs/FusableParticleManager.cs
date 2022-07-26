@@ -3,12 +3,13 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using Terraria;
 using Terraria.ID;
+using Terraria.ModLoader;
+using static CalamityMod.Particles.Metaballs.BaseFusableParticleSet;
 
-using static CalamityMod.Particles.BaseFusableParticleSet;
-
-namespace CalamityMod.Particles
+namespace CalamityMod.Particles.Metaballs
 {
     // NOTE: A lot of the functionalities within this system cannot under really any circumstance be used serverside.
     // This system is entirely visual. However, servers do not have drawing capabilities, nor even a proper GraphicsDevice
@@ -20,7 +21,8 @@ namespace CalamityMod.Particles
     // TODO -- This can be made into a ModSystem. Its main thread load dependency with render targets is safe to put in OnModLoad.
     public static class FusableParticleManager
     {
-        internal static List<FusableParticleRenderCollection> ParticleSets = new List<FusableParticleRenderCollection>();
+        internal static List<FusableParticleRenderCollection> ParticleSets = new();
+        internal static List<Mod> ExtraModsToLoadSetsFrom = new();
         internal static bool HasBeenFormallyDefined = false;
 
         /// <summary>
@@ -48,35 +50,49 @@ namespace CalamityMod.Particles
             // This does not happen during reloads, as that would delete particles outside of load-time.
             if (!reload)
             {
-                ParticleSets = new List<FusableParticleRenderCollection>();
+                ParticleSets = new();
+                ExtraModsToLoadSetsFrom = new();
                 HasBeenFormallyDefined = true;
             }
 
+            RegisterParticleSetsInMod(CalamityMod.Instance, width, height);
+            foreach (Mod m in ExtraModsToLoadSetsFrom)
+                RegisterParticleSetsInMod(m, width, height);
+        }
+
+        internal static void RegisterParticleSetsInMod(Mod mod, int width, int height)
+        {
             // Look through every type in the mod, and check if it's derived from BaseFusableParticleSet.
             // If it is, create a default instance of said particle, save it, and create a RenderTarget2D for each individual texture/shader.
-            foreach (Type type in typeof(CalamityMod).Assembly.GetTypes())
+            foreach (Type type in mod.Code.GetTypes())
             {
                 // Don't load abstract classes; they cannot have instances.
                 if (type.IsAbstract)
                     continue;
 
                 if (type.IsSubclassOf(typeof(BaseFusableParticleSet)))
-                {
-                    BaseFusableParticleSet instance = Activator.CreateInstance(type) as BaseFusableParticleSet;
-                    List<RenderTarget2D> backgroundTargets = new List<RenderTarget2D>();
-
-                    // Only generate render targets to use if this isn't called serverside.
-                    if (Main.netMode != NetmodeID.Server)
-                    {
-                        for (int i = 0; i < instance.LayerCount; i++)
-                            backgroundTargets.Add(new RenderTarget2D(Main.instance.GraphicsDevice, width, height, false, default, default, 0, RenderTargetUsage.PreserveContents));
-                    }
-
-                    FusableParticleRenderCollection particleRenderCollection = new FusableParticleRenderCollection(instance, backgroundTargets);
-                    ParticleSets.Add(particleRenderCollection);
-                }
+                    RegisterParticleSet(type, width, height);
             }
         }
+
+        internal static void RegisterParticleSet(Type t, int width, int height)
+        {
+            BaseFusableParticleSet instance = Activator.CreateInstance(t) as BaseFusableParticleSet;
+            List<RenderTarget2D> backgroundTargets = new List<RenderTarget2D>();
+
+            // Only generate render targets to use if this isn't called serverside.
+            if (Main.netMode != NetmodeID.Server)
+            {
+                for (int i = 0; i < instance.LayerCount; i++)
+                    backgroundTargets.Add(new RenderTarget2D(Main.instance.GraphicsDevice, width, height, false, default, default, 0, RenderTargetUsage.PreserveContents));
+            }
+
+            FusableParticleRenderCollection particleRenderCollection = new FusableParticleRenderCollection(instance, backgroundTargets);
+            ParticleSets.Add(particleRenderCollection);
+        }
+
+        internal static void RegisterParticleSet<T>(int width, int height) where T : BaseFusableParticleSet =>
+            RegisterParticleSet(typeof(T), width, height);
 
         /// <summary>
         /// Unloads all render sets, disposing any created <see cref="RenderTarget2D"/>s in the process.
@@ -92,6 +108,7 @@ namespace CalamityMod.Particles
             }
             HasBeenFormallyDefined = false;
             ParticleSets = null;
+            ExtraModsToLoadSetsFrom = null;
         }
 
         /// <summary>

@@ -111,6 +111,9 @@ namespace CalamityMod.Items
                     DropHelper.BlockDrops(emblems);
                     break;
 
+                case ItemID.QueenSlimeBossBag:
+                    DropHelper.DropItemChance(s, player, ItemID.SoulofLight, 1f, 15, 20);
+                    break;
                 case ItemID.DestroyerBossBag:
                     // Only drop hallowed bars after all mechs are down.
                     if ((!NPC.downedMechBoss1 || !NPC.downedMechBoss2 || !NPC.downedMechBoss3) && CalamityConfig.Instance.EarlyHardmodeProgressionRework)
@@ -291,9 +294,9 @@ namespace CalamityMod.Items
                 case ItemID.HallowedFishingCrate:
                 case ItemID.HallowedFishingCrateHard:
                     BlockCrateDrops();
-                    int potion = WorldGen.crimson ? ModContent.ItemType<ProfanedRagePotion>() : ModContent.ItemType<HolyWrathPotion>();
                     DropHelper.DropItemCondition(s, player, ModContent.ItemType<UnholyEssence>(), DownedBossSystem.downedProvidence, 0.15f, 5, 10);
-                    DropHelper.DropItemCondition(s, player, potion, DownedBossSystem.downedProvidence, 0.1f, 1, 2);
+                    DropHelper.DropItemCondition(s, player, ModContent.ItemType<ProfanedRagePotion>(), DownedBossSystem.downedProvidence, 0.15f, 1, 2);
+                    DropHelper.DropItemCondition(s, player, ModContent.ItemType<HolyWrathPotion>(), DownedBossSystem.downedProvidence, 0.15f, 1, 2);
                     break;
 
                 case ItemID.DungeonFishingCrate:

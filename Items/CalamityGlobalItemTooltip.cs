@@ -255,19 +255,9 @@ namespace CalamityMod.Items
             if (item.type == ItemID.GelBalloon)
                 EditTooltipByNum(0, (line) => line.Text = "");
 
-            // Teleporters not working while a boss is alive.
-            if (item.type == ItemID.Teleporter)
-                EditTooltipByName("Placeable", (line) => line.Text += "\nCannot be used while a boss is alive");
-
             // Flesh Knuckles giving extra max life.
             if (item.type == ItemID.FleshKnuckles || item.type == ItemID.HeroShield || item.type == ItemID.BerserkerGlove)
                 EditTooltipByNum(0, (line) => line.Text += "\nMax life increased by 45");
-
-            // Mirrors and Recall Potions cannot be used while a boss is alive.
-            if (item.type == ItemID.MagicMirror || item.type == ItemID.IceMirror || item.type == ItemID.CellPhone || item.type == ItemID.RecallPotion)
-                ApplyTooltipEdits(tooltips,
-                    (i, l) => l.Mod == "Terraria" && l.Name == (i.type == ItemID.CellPhone ? "Tooltip1" : "Tooltip0"),
-                    (line) => line.Text += "\nCannot be used while you have the Boss Effects buff");
 
             // Rod of Discord cannot be used multiple times to hurt yourself
             if (item.type == ItemID.RodofDiscord)

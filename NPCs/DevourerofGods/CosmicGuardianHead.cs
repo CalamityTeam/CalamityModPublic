@@ -86,12 +86,6 @@ namespace CalamityMod.NPCs.DevourerofGods
 
         public override void AI()
         {
-            // Target
-            if (NPC.target < 0 || NPC.target == Main.maxPlayers || Main.player[NPC.target].dead || !Main.player[NPC.target].active)
-                NPC.TargetClosest(true);
-
-            Player player = Main.player[NPC.target];
-
             if (invinceTime > 0)
             {
                 invinceTime--;
@@ -105,9 +99,6 @@ namespace CalamityMod.NPCs.DevourerofGods
             }
 
             Vector2 vector = NPC.Center;
-
-            bool increaseSpeed = Vector2.Distance(player.Center, vector) > CalamityGlobalNPC.CatchUpDistance200Tiles;
-            bool increaseSpeedMore = Vector2.Distance(player.Center, vector) > CalamityGlobalNPC.CatchUpDistance350Tiles;
 
             Lighting.AddLight((int)((NPC.position.X + (NPC.width / 2)) / 16f), (int)((NPC.position.Y + (NPC.height / 2)) / 16f), 0.2f, 0.05f, 0.2f);
 
@@ -145,10 +136,8 @@ namespace CalamityMod.NPCs.DevourerofGods
                 }
             }
 
-            if (player.dead || CalamityGlobalNPC.DoGHead < 0 || !Main.npc[CalamityGlobalNPC.DoGHead].active)
+            if (CalamityGlobalNPC.DoGHead < 0 || !Main.npc[CalamityGlobalNPC.DoGHead].active)
             {
-                NPC.TargetClosest(false);
-
                 NPC.velocity.Y -= 3f;
                 if ((double)NPC.position.Y < Main.topWorld + 16f)
                     NPC.velocity.Y -= 3f;
@@ -164,6 +153,11 @@ namespace CalamityMod.NPCs.DevourerofGods
                 return;
             }
 
+            Player player = Main.player[Main.npc[CalamityGlobalNPC.DoGHead].target];
+
+            bool increaseSpeed = Vector2.Distance(player.Center, vector) > CalamityGlobalNPC.CatchUpDistance200Tiles;
+            bool increaseSpeedMore = Vector2.Distance(player.Center, vector) > CalamityGlobalNPC.CatchUpDistance350Tiles;
+
             NPC.Opacity = Main.npc[CalamityGlobalNPC.DoGHead].Opacity;
 
             // Fly up and despawn if DoG enters phase 2 and isn't in the final Cosmic Guardian spawn phase.
@@ -172,8 +166,6 @@ namespace CalamityMod.NPCs.DevourerofGods
             {
                 // Prevents them from doing damage while despawning.
                 NPC.Opacity = 0.99f;
-
-                NPC.TargetClosest(false);
 
                 NPC.velocity.Y -= 1f;
                 if ((double)NPC.position.Y < Main.topWorld + 16f)

@@ -406,15 +406,17 @@ namespace CalamityMod.NPCs
                 #endregion
 
                 #region Blood Moon
-                // Drippler
-                // Bouncing Eyeball @ 2.5% Normal, 5% Expert+
-                case NPCID.Drippler:
-                    npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<BouncingEyeball>(), 40, 20));
-                    break;
 
                 // All Blood Moon fishing enemies
                 // Drop more Blood Orbs @ 100%
+
+                // Wandering Eye Fish
+                // Bouncing Eyeball @ 10% Normal, 16.66% Expert+
                 case NPCID.EyeballFlyingFish:
+                    npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<BouncingEyeball>(), 10, 6));
+                    npcLoot.Add(ModContent.ItemType<BloodOrb>(), 1, 3, 6);
+                    break;
+
                 case NPCID.ZombieMerman:
                     npcLoot.Add(ModContent.ItemType<BloodOrb>(), 1, 3, 6);
                     break;
@@ -876,6 +878,7 @@ namespace CalamityMod.NPCs
                 case NPCID.QueenSlimeBoss:
                     // Expert+ drops are also available on Normal
                     npcLoot.AddNormalOnly(DropHelper.PerPlayer(ItemID.VolatileGelatin));
+                    npcLoot.AddNormalOnly(ItemID.SoulofLight, 1, 15, 20);
 
                     // Queen Slime drops the Hallowed Key
                     npcLoot.Add(ItemID.HallowedKey, 3);

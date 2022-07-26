@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         public static readonly SoundStyle BlingHitSound = new("CalamityMod/Sounds/Custom/UltrablingHit") { PitchVariance = 0.5f };
 
         public static float MaxDownwardsAngle4Coin = MathHelper.PiOver4;
-        public static float RicochetDamageMult = 2.5f;
+        public static float RicochetDamageMult = 2f;
 
         public override void SetStaticDefaults()
         {
@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            Item.damage = 15;
+            Item.damage = 13;
             Item.DamageType = DamageClass.Ranged;
             Item.width = 23;
             Item.height = 8;

@@ -40,9 +40,6 @@ namespace CalamityMod.Projectiles.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Cnidarian");
-            ProjectileID.Sets.YoyosLifeTimeMultiplier[Projectile.type] = 7f;
-            ProjectileID.Sets.YoyosMaximumRange[Projectile.type] = 240f;
-            ProjectileID.Sets.YoyosTopSpeed[Projectile.type] = 11f;
         }
 
         public override void SetDefaults()
@@ -64,8 +61,8 @@ namespace CalamityMod.Projectiles.Melee
         public void SetOrigin(Vector2 position)
         {
             Projectile.Center = position;
-            if ((Projectile.Center - Owner.Center).Length() > 380f)
-                Projectile.Center = Owner.Center + (Projectile.Center - Owner.Center).SafeNormalize(Vector2.One) * 380f;
+            if ((Projectile.Center - Owner.Center).Length() > 380f * Owner.whipRangeMultiplier)
+                Projectile.Center = Owner.Center + (Projectile.Center - Owner.Center).SafeNormalize(Vector2.One) * 380f * Owner.whipRangeMultiplier;
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)

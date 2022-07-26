@@ -4,6 +4,7 @@ using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.UI;
 
 namespace CalamityMod.Items.DraedonMisc
 {
@@ -13,11 +14,8 @@ namespace CalamityMod.Items.DraedonMisc
         {
             DisplayName.SetDefault("Schematic (Sunken Sea)");
             Tooltip.SetDefault("Finely detailed diagrams of numerous devices and weaponry dance across the holographic screen.\n" +
-            "The weaponry I supply to the workers of the laboratories is weak. Hardly suited for battle.\n" +
-            "However, they suffice for self defense against any lab mechanisms or creations which may have gone rogue.\n" +
-            "Addendum: For those who think themselves powerful, search the upper bounds of this planet’s atmosphere for a structure similar to that of the Sunken Seas.\n" +
-            "I will know by the end if you are worthy of battling my creations.\n" +
-            "Picking up this item or holding it in your inventory permanently unlocks new recipes");
+                "Picking up this item or holding it in your inventory permanently unlocks new recipes.\n" +
+                "Click to view its contents.");
         }
 
         public override void SetDefaults()
@@ -27,6 +25,8 @@ namespace CalamityMod.Items.DraedonMisc
             Item.rare = ItemRarityID.Red;
             Item.Calamity().customRarity = CalamityRarity.DraedonRust;
             Item.maxStack = 1;
+            Item.useAnimation = Item.useTime = 20;
+            Item.useStyle = ItemUseStyleID.HoldUp;
         }
 
         public override void UpdateInventory(Player player)
@@ -51,6 +51,15 @@ namespace CalamityMod.Items.DraedonMisc
                 AddCondition(SchematicRecipe.ConstructRecipeCondition("Sunken Sea", out Predicate<Recipe> condition), condition).
                 AddTile(TileID.Anvils).
                 Register();
+        }
+
+        public override bool? UseItem(Player player)
+        {
+            if (Main.myPlayer == player.whoAmI && RecipeUnlockHandler.HasUnlockedT1ArsenalRecipes)
+            {
+                PopupGUIManager.FlipActivityOfGUIWithType(typeof(DraedonSchematicSunkenSeaGUI));
+            }
+            return true;
         }
     }
 }
