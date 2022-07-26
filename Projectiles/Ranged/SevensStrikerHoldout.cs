@@ -23,7 +23,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Seven's Striker");
+            DisplayName.SetDefault("Sevens Striker");
             Main.projFrames[Projectile.type] = 19;
         }
 
