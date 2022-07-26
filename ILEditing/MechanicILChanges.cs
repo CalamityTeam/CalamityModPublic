@@ -38,7 +38,7 @@ using Terraria.ModLoader;
 using Terraria.UI.Gamepad;
 using Terraria.Utilities;
 using Terraria.Graphics.Light;
-
+using CalamityMod.Particles.Metaballs;
 
 namespace CalamityMod.ILEditing
 {

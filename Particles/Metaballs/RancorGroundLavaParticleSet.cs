@@ -6,20 +6,19 @@ using Terraria;
 using Terraria.Graphics.Shaders;
 using Terraria.ModLoader;
 
-namespace CalamityMod.Particles
+namespace CalamityMod.Particles.Metaballs
 {
     public class RancorGroundLavaParticleSet : BaseFusableParticleSet
     {
         public override float BorderSize => 18f;
         public override bool BorderShouldBeSolid => false;
         public override Color BorderColor => Color.Lerp(Color.Yellow, Color.Red, 0.85f) * 0.85f;
-        public override FusableParticleRenderLayer RenderLayer => FusableParticleRenderLayer.OverWater;
 
-        public override List<Effect> BackgroundShaders => new List<Effect>()
+        public override List<Effect> BackgroundShaders => new()
         {
             GameShaders.Misc["CalamityMod:AdditiveFusableParticleEdge"].Shader,
         };
-        public override List<Texture2D> BackgroundTextures => new List<Texture2D>()
+        public override List<Texture2D> BackgroundTextures => new()
         {
             ModContent.Request<Texture2D>("CalamityMod/Projectiles/InvisibleProj").Value,
         };

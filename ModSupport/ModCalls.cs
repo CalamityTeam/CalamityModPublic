@@ -6,6 +6,7 @@ using CalamityMod.Cooldowns;
 using CalamityMod.Events;
 using CalamityMod.Items;
 using CalamityMod.Particles;
+using CalamityMod.Particles.Metaballs;
 using CalamityMod.UI;
 using CalamityMod.UI.CalamitasEnchants;
 using CalamityMod.World;
@@ -1847,6 +1848,8 @@ namespace CalamityMod
                         return new ArgumentNullException("ERROR: Must specify a Mod instance to load particles from.");
 
                     GeneralParticleHandler.LoadModParticleInstances(args[1] as Mod);
+                    FusableParticleManager.ExtraModsToLoadSetsFrom.Add(args[1] as Mod);
+                    FusableParticleManager.LoadParticleRenderSets(true);
                     return null;
 
                 case "RegisterModCooldowns":

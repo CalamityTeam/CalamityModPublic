@@ -8,6 +8,8 @@ using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using CalamityMod.Particles.Metaballs;
+using Terraria.DataStructures;
 
 namespace CalamityMod.Projectiles.Magic
 {
@@ -260,65 +262,26 @@ namespace CalamityMod.Projectiles.Magic
         public override bool PreDraw(ref Color lightColor)
         {
             int maxFrame = CurrentPower <= LargeMouthPowerLowerBound ? 6 : 9;
-            Vector2 backgroundOffset = Vector2.UnitX * Main.GlobalTimeWrappedHourly * maxFrame * 0.03f;
             Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
             Texture2D backTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Magic/SpiritCongregationBack").Value;
             Texture2D auraTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Magic/SpiritCongregationAura").Value;
-            Texture2D backgroundTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/ParticleBackgrounds/GruesomeEminence_Ghost_Layer1").Value;
             if (CurrentPower > LargeMouthPowerLowerBound)
             {
                 texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Magic/SpiritCongregationBig").Value;
                 backTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Magic/SpiritCongregationBackBig").Value;
                 auraTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Magic/SpiritCongregationAuraBig").Value;
             }
-
-            Effect shader = GameShaders.Misc["CalamityMod:BaseFusableParticleEdge"].Shader;
-
+            
             float offsetFactor = Projectile.scale * ((CongregationDiameter - 54f) / 90f + 1.5f);
             offsetFactor *= texture.Width / 90f;
             Vector2 drawPosition = Projectile.Center - Main.screenPosition + Projectile.rotation.ToRotationVector2() * offsetFactor * 15f;
             Rectangle frame = texture.Frame(1, maxFrame, 0, Projectile.frame);
             Vector2 origin = frame.Size() * 0.5f;
-            Color auraColor = Color.Lerp(Color.Fuchsia, Color.Black, 0.55f);
             SpriteEffects direction = Math.Cos(Projectile.rotation) > 0f ? SpriteEffects.None : SpriteEffects.FlipVertically;
 
-            // Draw the outline aura below everything else.
-            Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix); ;
-
-            for (int i = 0; i < 3; i++)
-                Main.EntitySpriteDraw(auraTexture, drawPosition, frame, auraColor, Projectile.rotation, origin, Projectile.scale, direction, 0);
-
-            Main.spriteBatch.ExitShaderRegion();
-
-            // Draw the back with the specified shader.
-            Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
-
-            shader.Parameters["edgeBorderSize"].SetValue(0f);
-            shader.Parameters["borderShouldBeSolid"].SetValue(FusableParticleManager.GetParticleSetByType<GruesomeEminenceParticleSet>().BorderShouldBeSolid);
-            shader.Parameters["edgeBorderColor"].SetValue(FusableParticleManager.GetParticleSetByType<GruesomeEminenceParticleSet>().BorderColor.ToVector3());
-            shader.Parameters["screenArea"].SetValue(backTexture.Size() / Main.GameViewMatrix.Zoom);
-            shader.Parameters["screenMoveOffset"].SetValue(Vector2.Zero);
-            shader.Parameters["uWorldPosition"].SetValue(Main.screenPosition);
-            shader.Parameters["renderTargetArea"].SetValue(backTexture.Size());
-            shader.Parameters["invertedScreen"].SetValue(Main.LocalPlayer.gravDir == -1f);
-            shader.Parameters["generalBackgroundOffset"].SetValue(backgroundOffset);
-            shader.Parameters["uWorldPosition"].SetValue(Projectile.position);
-            shader.Parameters["uRotation"].SetValue(Projectile.rotation);
-            shader.Parameters["uTime"].SetValue(Main.GlobalTimeWrappedHourly);
-            shader.Parameters["upscaleFactor"].SetValue(new Vector2(Main.screenWidth, Main.screenHeight) / backTexture.Size() / maxFrame);
-
-            // Prepare the background texture for loading.
-            Main.graphics.GraphicsDevice.Textures[1] = backgroundTexture;
-            shader.Parameters["uImageSize1"].SetValue(backgroundTexture.Size());
-
-            shader.CurrentTechnique.Passes[0].Apply();
-
-            // Draw the normal texture.
-            Main.EntitySpriteDraw(backTexture, drawPosition, frame, Color.White, Projectile.rotation, origin, Projectile.scale, direction, 0);
-            Main.spriteBatch.ExitShaderRegion();
-
+            DrawData backTextureDraw = new(backTexture, drawPosition, frame, Color.White, Projectile.rotation, origin, Projectile.scale, direction, 0);
+            DrawData auraTextureDraw = new(auraTexture, drawPosition, frame, Color.White, Projectile.rotation, origin, Projectile.scale, direction, 0);
+            FusableParticleManager.GetParticleSetByType<GruesomeEminenceParticleSet>()?.PrepareSpecialDrawingForNextFrame(backTextureDraw, auraTextureDraw);
             Main.EntitySpriteDraw(texture, drawPosition, frame, Color.White, Projectile.rotation, origin, Projectile.scale, direction, 0);
             return false;
         }
