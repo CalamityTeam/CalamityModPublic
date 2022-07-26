@@ -94,7 +94,6 @@ namespace CalamityMod.Projectiles.Boss
 
                     Dust dust = Main.dust[num54];
                     dust.velocity *= 3f;
-                    dust = Main.dust[num54];
 
                     num54 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, randomDustType, dustVel.X, dustVel.Y, 100, default, 0.8f);
                     Main.dust[num54].position = Projectile.Center + Vector2.UnitY.RotatedByRandom(MathHelper.Pi) * (float)Main.rand.NextDouble() * Projectile.width / 2f;
@@ -105,8 +104,6 @@ namespace CalamityMod.Projectiles.Boss
                     Main.dust[num54].noGravity = true;
                     Main.dust[num54].fadeIn = 1f;
                     Main.dust[num54].color = Color.Green * 0.5f;
-
-                    dust = Main.dust[num54];
                 }
                 for (int num55 = 0; num55 < 20; num55++)
                 {
@@ -122,7 +119,6 @@ namespace CalamityMod.Projectiles.Boss
 
                     Dust dust = Main.dust[num56];
                     dust.velocity *= 0.5f;
-                    dust = Main.dust[num56];
                 }
             }
         }

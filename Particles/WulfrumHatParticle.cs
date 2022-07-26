@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ModLoader;
 using System;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -12,11 +11,11 @@ namespace CalamityMod.Particles
         public override string Texture => "CalamityMod/Particles/WulfrumHat";
         public override bool UseCustomDraw => true;
 
-        public int Direction ;
+        public int Direction;
 
         public WulfrumHatParticle(Player owner, Vector2 velocity, int lifetime)
         {
-            Position = owner.Center - Vector2.UnitY * 20f;;
+            Position = owner.Center - Vector2.UnitY * 20f;
             Direction = owner.direction;
             Scale = 1f;
             Color = Color.White;

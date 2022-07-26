@@ -406,7 +406,7 @@ namespace CalamityMod.Items.Armor.DesertProwler
 
         public override void OnSpawn(Projectile projectile, IEntitySource source)
         {
-            if (projectile.damage > 0)
+            if (projectile.damage > 0 && !Main.gameMenu)
             {
                 if (projectile.owner >= 0 && DesertProwlerHat.ShroudedInSmoke(Main.player[projectile.owner], out var cd) && projectile.DamageType.CountsAsClass(DamageClass.Ranged))
                 {
