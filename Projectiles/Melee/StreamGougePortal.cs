@@ -6,6 +6,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using CalamityMod.Particles.Metaballs;
 
 namespace CalamityMod.Projectiles.Melee
 {

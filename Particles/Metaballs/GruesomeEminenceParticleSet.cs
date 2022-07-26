@@ -7,16 +7,15 @@ using Terraria;
 using Terraria.Graphics.Shaders;
 using Terraria.ModLoader;
 
-namespace CalamityMod.Particles
+namespace CalamityMod.Particles.Metaballs
 {
     public class GruesomeEminenceParticleSet : BaseFusableParticleSet
     {
         public override float BorderSize => 3f;
         public override bool BorderShouldBeSolid => false;
         public override Color BorderColor => Color.Lerp(Color.Fuchsia, Color.Black, 0.55f) * 0.85f;
-        public override FusableParticleRenderLayer RenderLayer => FusableParticleRenderLayer.OverNPCsBeforeProjectiles;
 
-        public override List<Effect> BackgroundShaders => new List<Effect>()
+        public override List<Effect> BackgroundShaders => new()
         {
             GameShaders.Misc["CalamityMod:BaseFusableParticleEdge"].Shader,
             GameShaders.Misc["CalamityMod:BaseFusableParticleEdge"].Shader,
@@ -24,7 +23,7 @@ namespace CalamityMod.Particles
             GameShaders.Misc["CalamityMod:BaseFusableParticleEdge"].Shader,
             GameShaders.Misc["CalamityMod:BaseFusableParticleEdge"].Shader,
         };
-        public override List<Texture2D> BackgroundTextures => new List<Texture2D>()
+        public override List<Texture2D> BackgroundTextures => new()
         {
             ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/ParticleBackgrounds/GruesomeEminence_Ghost_Layer1").Value,
             ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/ParticleBackgrounds/GruesomeEminence_Ghost_Layer2").Value,

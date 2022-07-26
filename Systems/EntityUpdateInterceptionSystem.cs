@@ -1,5 +1,6 @@
 ﻿using CalamityMod.NPCs;
 using CalamityMod.Particles;
+using CalamityMod.Particles.Metaballs;
 using CalamityMod.TileEntities;
 using Terraria;
 using Terraria.ModLoader;
