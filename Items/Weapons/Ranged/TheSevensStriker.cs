@@ -21,6 +21,8 @@ namespace CalamityMod.Items.Weapons.Ranged
         public static readonly SoundStyle JackpotSound = new("CalamityMod/Sounds/Item/SevensStrikerJackpot");
         public static readonly SoundStyle CoinSound = new("CalamityMod/Sounds/Item/SevensStrikerCoinShot") { MaxInstances = 0, PitchVariance = 0.5f };
 
+        public static int ShotCoin = 0;
+
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 1;
@@ -29,7 +31,8 @@ namespace CalamityMod.Items.Weapons.Ranged
                 "Forged by the arms of a man given no name'\n"+
                 "Consumes coins to power a slot machine with several different outcomes\n"+
                 "Quality of the outcome depends on the coin inputted\n"+
-                "Right click to rapidly fire a spread of coins");
+                "Right click to rapidly fire a spread of coins\n"+
+                "The gun refuses to fire platinum coins for its right click");
             ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }
 
@@ -62,7 +65,23 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             if (player.altFunctionUse == 2)
             {
-                Item.shoot = ProjectileID.PurificationPowder;
+                long coinCount = Utils.CoinsCount(out bool overflow, player.inventory);
+
+                if (overflow || coinCount > 10000)
+                {
+                    player.BuyItem(10000);
+                    ShotCoin = ProjectileID.GoldCoin;
+                }
+                else if (coinCount > 100)
+                {
+                    player.BuyItem(100);
+                    ShotCoin = ProjectileID.SilverCoin;
+                }
+                else
+                {
+                    player.BuyItem(1);
+                    ShotCoin = ProjectileID.CopperCoin;
+                }
             }
             else
             {
@@ -70,6 +89,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             }
             return base.UseItem(player);
         }
+        public override bool CanConsumeAmmo(Item ammo, Player player) => player.altFunctionUse == 2 ? false : true;
 
         public override Vector2? HoldoutOffset() => new Vector2(-30, -11);
 
@@ -96,7 +116,19 @@ namespace CalamityMod.Items.Weapons.Ranged
             return 1f;
         }
 
-        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[ModContent.ProjectileType<SevensStrikerHoldout>()] <= 0;
+        public override bool CanUseItem(Player player)
+        {
+            if (player.ownedProjectileCounts[ModContent.ProjectileType<SevensStrikerHoldout>()] <= 0)
+            {
+                return true;
+            }
+            if (player.altFunctionUse == 2)
+            {
+                Utils.CoinsCount(out bool overflow, player.inventory);
+                return overflow;
+            }
+            return true;
+        }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
@@ -112,7 +144,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                     float SpeedX = velocity.X + Main.rand.Next(-15, 16) * 0.05f;
                     float SpeedY = velocity.Y + Main.rand.Next(-15, 16) * 0.05f;
 
-                    Projectile.NewProjectile(source, gunTip.X, gunTip.Y, SpeedX, SpeedY, type, (int)(damage * 0.07f), knockback, player.whoAmI);
+                    Projectile.NewProjectile(source, gunTip.X, gunTip.Y, SpeedX, SpeedY, ShotCoin, (int)(damage * 0.07f), knockback, player.whoAmI);
                 }
             }
             else

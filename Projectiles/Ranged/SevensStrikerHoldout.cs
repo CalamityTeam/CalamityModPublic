@@ -130,7 +130,7 @@ namespace CalamityMod.Projectiles.Ranged
                         if (Projectile.ai[1] == 4)
                         {
                             shottimer++;
-                            // Play a higher pitched adrenaline charge sound and display the jackpot text
+                            // Play a sound and display the jackpot text
                             if (shottimer == 1)
                             {
                                 SoundEngine.PlaySound(TheSevensStriker.JackpotSound, Projectile.Center);
@@ -160,19 +160,19 @@ namespace CalamityMod.Projectiles.Ranged
                                 // The other three outcomes
                                 switch (Projectile.ai[1])
                                 {
-                                    // A single brick that deals 10% damage and plays a fart sound
+                                    // A single brick that deals 10% damage
                                     case 1:
                                         Shoot(1, ModContent.ProjectileType<SevensStrikerBrick>(), (int)(Projectile.damage * 0.1f), 0, 2f, 0);
                                         CombatText.NewText(player.getRect(), Color.Gray, "Bust!", true);
                                         SoundEngine.PlaySound(TheSevensStriker.BustSound, Projectile.Center);
                                         break;
-                                    // 7 exploding oranges with a magicy sound
+                                    // 7 exploding oranges
                                     case 2:
                                         Shoot(7, ModContent.ProjectileType<SevensStrikerOrange>(), Projectile.damage, Projectile.knockBack, 2f, 0.2f);
                                         CombatText.NewText(player.getRect(), Color.Orange, "Doubles!", true);
                                         SoundEngine.PlaySound(TheSevensStriker.DoublesSound, Projectile.Center);
                                         break;
-                                    // 7 piercing grapes with 7 tighter splitting cherries with a higher pitched magicy sound
+                                    // 7 piercing grapes with 7 tighter splitting cherries
                                     case 3:
                                         Shoot(7, ModContent.ProjectileType<SevensStrikerCherry>(), Projectile.damage, Projectile.knockBack, 1.5f, 0.1f);
                                         Shoot(7, ModContent.ProjectileType<SevensStrikerGrape>(), Projectile.damage, Projectile.knockBack, 2f, 0.2f);
