@@ -6,15 +6,14 @@ using Terraria;
 using Terraria.Graphics.Shaders;
 using Terraria.ModLoader;
 
-namespace CalamityMod.Particles
+namespace CalamityMod.Particles.Metaballs
 {
-    //This is basically just the Stream Gouge set with a couple very minor differences for now
+    //This is basically just the Stream Gouge set but purple
     public class VoidGeneratorParticleSet : BaseFusableParticleSet
     {
         public override float BorderSize => 3f;
         public override bool BorderShouldBeSolid => false;
         public override Color BorderColor => Color.Lerp(Color.Purple, Color.Black, 0.75f) * 0.85f;
-        public override FusableParticleRenderLayer RenderLayer => FusableParticleRenderLayer.OverNPCsBeforeProjectiles;
 
         public override List<Effect> BackgroundShaders => new List<Effect>()
         {
