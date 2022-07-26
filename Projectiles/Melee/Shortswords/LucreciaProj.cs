@@ -3,7 +3,6 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using System;
-
 using CalamityMod.Projectiles.BaseProjectiles;
 
 namespace CalamityMod.Projectiles.Melee.Shortswords
@@ -73,8 +72,7 @@ namespace CalamityMod.Projectiles.Melee.Shortswords
             }
             if (!isImmune)
             {
-                player.immune = true;
-                player.immuneTime = Owner.itemTime / 5;
+                Owner.GiveIFrames(OnHitIFrames, true);
             }
         }
     }
