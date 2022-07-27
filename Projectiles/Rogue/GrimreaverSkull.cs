@@ -24,6 +24,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.DamageType = RogueDamageClass.Instance;
             Projectile.penetrate = 1;
             Projectile.timeLeft = 300;
+            Projectile.tileCollide = false;
         }
 
         public override void AI()
@@ -41,6 +42,11 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.rotation = Projectile.velocity.ToRotation() + (Projectile.spriteDirection == 1 ? 0f : MathHelper.Pi);
 
             Projectile.ai[1]++;
+
+            if (Projectile.ai[0] != 0)
+            {
+                Projectile.tileCollide = true;
+            }
 
             // Stealth skulls instantly home in
             if (Projectile.ai[0] == 0)
