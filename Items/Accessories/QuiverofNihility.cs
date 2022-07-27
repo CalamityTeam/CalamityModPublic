@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Accessories
         {
             SacrificeTotal = 1;
             DisplayName.SetDefault("Quiver of Nihility");
-            Tooltip.SetDefault("Summons a ring of four void fields to orbit you\n"+"Arrows that pass through these fields gain 20% damage boost and double the speed");
+            Tooltip.SetDefault("'Filled with a substance darker than the night sky'\n"+"Summons a ring of four void fields to orbit you\n" + "Arrows that pass through these fields gain a 20% damage boost and double the speed");
         }
 
         public override void SetDefaults()
