@@ -92,5 +92,6 @@ namespace CalamityMod.Projectiles.Typeless
                 voidaura.Size = 500;
             }
         }
+        public override bool? CanCutTiles() => false;
     }
 }
