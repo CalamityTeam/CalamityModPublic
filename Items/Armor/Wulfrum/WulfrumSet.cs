@@ -1,15 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using CalamityMod.Cooldowns;
-using CalamityMod.Items.Accessories.Vanity;
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Particles;
-using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.Audio;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Microsoft.Xna.Framework;
+using Terraria.DataStructures;
+using CalamityMod.Items.Accessories.Vanity;
+using CalamityMod.Cooldowns;
+using Terraria.Audio;
+using System;
+using System.Collections.Generic;
 using static Microsoft.Xna.Framework.Input.Keys;
 using static Terraria.ModLoader.ModContent;
 
