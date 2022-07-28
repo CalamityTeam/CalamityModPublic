@@ -869,7 +869,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         npc.netUpdate = true;
                     }
 
-                    Vector2 v4 = Main.player[npc.target].Center + Main.player[npc.target].velocity * 20f - npc.Center;
+                    Vector2 v4 = Main.player[npc.target].Center - npc.Center;
                     bool shootFirstBolt = num1207 == num1208 - 14f;
                     bool shootSecondBolt = num1207 == num1208 - 7f;
                     bool shootThirdBolt = num1207 == num1208;
@@ -879,19 +879,15 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             v4 = Main.player[npc.target].Center + Main.player[npc.target].velocity * 30f - npc.Center;
                             break;
                         case 5:
-                            v4 = Main.player[npc.target].Center + Main.player[npc.target].velocity * 25f - npc.Center;
+                            v4 = Main.player[npc.target].Center + Main.player[npc.target].velocity * 20f - npc.Center;
                             break;
                         case 4:
                             break;
                         case 3:
-                            shootSecondBolt = false;
-                            break;
                         case 2:
-                            v4 = Main.player[npc.target].Center - npc.Center;
                             shootSecondBolt = false;
                             break;
                         case 1:
-                            v4 = Main.player[npc.target].Center - npc.Center;
                             shootSecondBolt = false;
                             shootThirdBolt = false;
                             break;
@@ -1476,7 +1472,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         npc.netUpdate = true;
                     }
 
-                    Vector2 v = Main.player[npc.target].Center + Main.player[npc.target].velocity * 20f - npc.Center;
+                    Vector2 v = Main.player[npc.target].Center - npc.Center;
                     bool shootFirstBolt = num1178 == num1179 - 14f;
                     bool shootSecondBolt = num1178 == num1179 - 7f;
                     bool shootThirdBolt = num1178 == num1179;
@@ -1486,19 +1482,15 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             v = Main.player[npc.target].Center + Main.player[npc.target].velocity * 30f - npc.Center;
                             break;
                         case 5:
-                            v = Main.player[npc.target].Center + Main.player[npc.target].velocity * 25f - npc.Center;
+                            v = Main.player[npc.target].Center + Main.player[npc.target].velocity * 20f - npc.Center;
                             break;
                         case 4:
                             break;
                         case 3:
-                            shootSecondBolt = false;
-                            break;
                         case 2:
-                            v = Main.player[npc.target].Center - npc.Center;
                             shootSecondBolt = false;
                             break;
                         case 1:
-                            v = Main.player[npc.target].Center - npc.Center;
                             shootSecondBolt = false;
                             shootThirdBolt = false;
                             break;
