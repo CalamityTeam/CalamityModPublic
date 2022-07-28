@@ -38,7 +38,9 @@ using Terraria.ModLoader;
 using Terraria.UI.Gamepad;
 using Terraria.Utilities;
 using Terraria.Graphics.Light;
-
+using Terraria.GameContent.Events;
+using CalamityMod.DataStructures;
+using CalamityMod.Particles.Metaballs;
 
 namespace CalamityMod.ILEditing
 {
@@ -637,10 +639,45 @@ namespace CalamityMod.ILEditing
         }
         #endregion Fire Cursor Effect for the Calamity Accessory
 
+        #region Custom Draw Layers
+        private static void AdditiveDrawing(ILContext il)
+        {
+            ILCursor cursor = new(il);
+            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchCall<MoonlordDeathDrama>("DrawWhite")))
+                return;
+
+            cursor.EmitDelegate<Action>(() =>
+            {
+                Main.spriteBatch.SetBlendState(BlendState.Additive);
+
+                // Draw Projectiles.
+                for (int i = 0; i < Main.maxProjectiles; i++)
+                {
+                    if (!Main.projectile[i].active)
+                        continue;
+
+                    if (Main.projectile[i].ModProjectile is IAdditiveDrawer d)
+                        d.AdditiveDraw(Main.spriteBatch);
+                }
+
+                // Draw NPCs.
+                for (int i = 0; i < Main.maxNPCs; i++)
+                {
+                    if (!Main.npc[i].active)
+                        continue;
+
+                    if (Main.npc[i].ModNPC is IAdditiveDrawer d)
+                        d.AdditiveDraw(Main.spriteBatch);
+                }
+
+                Main.spriteBatch.SetBlendState(BlendState.AlphaBlend);
+            });
+        }
+        #endregion Custom Draw Layers
+
         #region General Particle Rendering
         private static void DrawFusableParticles(On.Terraria.Main.orig_SortDrawCacheWorms orig, Main self)
         {
-            
             DeathAshParticle.DrawAll();
             FusableParticleManager.RenderAllFusableParticles();
 

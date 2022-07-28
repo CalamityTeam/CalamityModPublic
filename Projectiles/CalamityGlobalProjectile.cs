@@ -81,6 +81,9 @@ namespace CalamityMod.Projectiles
         /// </summary>
         public bool DealsDefenseDamage = false;
 
+        // Nihility Quiver
+        public bool nihilicArrow = false;
+
         // Rogue Stuff
         public bool stealthStrike = false;
         public int stealthStrikeHitCount = 0;
@@ -2485,6 +2488,11 @@ namespace CalamityMod.Projectiles
                     return new Color(b2, b2, b2, a2);
                 }
                 return new Color(255, 255, 255, projectile.alpha);
+            }
+
+            if (projectile.Calamity().nihilicArrow)
+            {
+                return Color.Black;
             }
 
             return null;

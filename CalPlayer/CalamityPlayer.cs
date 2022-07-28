@@ -36,6 +36,7 @@ using CalamityMod.Items.VanillaArmorChanges;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
+using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.NPCs;
 using CalamityMod.NPCs.Abyss;
 using CalamityMod.NPCs.ExoMechs.Apollo;
@@ -606,6 +607,7 @@ namespace CalamityMod.CalPlayer
         public bool BloomStoneRegen = false;
         public bool ChaosStone = false;
         public bool CryoStone = false;
+        public bool voidField = false;
         #endregion
 
         #region Armor Set
@@ -987,6 +989,7 @@ namespace CalamityMod.CalPlayer
         public bool eyeOfNight = false;
         public bool soulSeeker = false;
         public bool perditionBeacon = false;
+        public bool AresCannons = false;
 
         public List<DeadMinionProperties> PendingProjectilesToRespawn = new List<DeadMinionProperties>();
 
@@ -1707,6 +1710,7 @@ namespace CalamityMod.CalPlayer
             BloomStoneRegen = false;
             ChaosStone = false;
             CryoStone = false;
+            voidField = false;
 
             daedalusReflect = false;
             daedalusSplit = false;
@@ -2057,6 +2061,7 @@ namespace CalamityMod.CalPlayer
             eyeOfNight = false;
             soulSeeker = false;
             perditionBeacon = false;
+            AresCannons = false;
 
             disableVoodooSpawns = false;
             disablePerfCystSpawns = false;
@@ -5601,6 +5606,9 @@ namespace CalamityMod.CalPlayer
                 Player.head = EquipLoader.GetEquipSlot(Mod, snowmanNoseless ? "PopoNoseless" : "Popo", EquipType.Head);
                 Player.face = -1;
             }
+            else if (AresExoskeleton.ArmExists(Player))
+                Player.body = EquipLoader.GetEquipSlot(Mod, "AresExoskeleton", EquipType.Body);
+            
             else if ((abyssalDivingSuitPower || abyssalDivingSuitForce) && !abyssalDivingSuitHide)
             {
                 Player.legs = EquipLoader.GetEquipSlot(Mod, "AbyssalDivingSuit", EquipType.Legs);
@@ -6419,7 +6427,7 @@ namespace CalamityMod.CalPlayer
                     var source = Player.GetSource_Accessory(FindAccessory(ModContent.ItemType<Items.Accessories.InkBomb>()));
                     if (Player.whoAmI == Main.myPlayer && !Player.HasCooldown(Cooldowns.InkBomb.ID))
                     {
-                        Player.AddCooldown(Cooldowns.InkBomb.ID, CalamityUtils.SecondsToFrames(20));
+                        Player.AddCooldown(Cooldowns.InkBomb.ID, CalamityUtils.SecondsToFrames(25));
                         rogueStealth += 0.5f;
                         for (int i = 0; i < 3; i++)
                         {

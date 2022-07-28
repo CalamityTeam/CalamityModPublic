@@ -199,6 +199,14 @@ namespace CalamityMod
             return dividend - (float)Math.Floor(dividend / divisor) * divisor;
         }
 
+        /// <summary>
+        /// Clamps the magnitude of a vector via safe normalization.
+        /// </summary>
+        /// <param name="v">The vector.</param>
+        /// <param name="min">The minimum magnitude.</param>
+        /// <param name="max">The maximum magnitude.</param>
+        public static Vector2 ClampMagnitude(this Vector2 v, float min, float max) => v.SafeNormalize(Vector2.UnitY) * MathHelper.Clamp(v.Length(), min, max);
+
         #region Easings
         /// <summary>
         /// Gets a value from 0 to 1 and returns an eased value.

@@ -174,7 +174,7 @@ namespace CalamityMod.ILEditing
                 {
                     cache.Add(new OrderedProjectileEntry()
                     {
-                        Proj = Main.projectile[i] ?? new Projectile(),
+                        Proj = Main.projectile[i] ?? new(),
                         OriginalIndex = i
                     });
                 }
@@ -182,12 +182,18 @@ namespace CalamityMod.ILEditing
             });
             cursor.Emit(OpCodes.Stsfld, typeof(ILChanges).GetField("OrderedProjectiles", BindingFlags.Static | BindingFlags.Public));
 
+            // Find the update loop update local index.
+            int updateLoopLocalIndex = -1;
+            cursor.GotoNext(i => i.MatchStloc(out updateLoopLocalIndex));
+
             // Go before the declaration of the projectile loop index and declare the ordered projectile.
-            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchStsfld<Main>("ProjectileUpdateLoopIndex")))
+            cursor.Goto(0);
+            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchStsfld<Main>("ProjectileUpdateLoopIndex")))
             {
                 LogFailure("Projectile Update Priority fix", "Could not locate the ProjectileUpdateLoopIndex field.");
                 return;
             }
+            int updateIndexPosition = cursor.Index;
 
             // Replace the projectile reference on the Projectile.Update call.
             if (!cursor.TryGotoNext(MoveType.After, i => i.MatchLdelemRef()))
@@ -199,14 +205,21 @@ namespace CalamityMod.ILEditing
             // Pop the Main.projectile[i] reference and replace it with OrderedProjectiles[i].Proj.
             cursor.Emit(OpCodes.Pop);
             cursor.Emit(OpCodes.Ldsfld, typeof(ILChanges).GetField("OrderedProjectiles", BindingFlags.Static | BindingFlags.Public));
-            cursor.Emit(OpCodes.Ldloc, 29);
+            cursor.Emit(OpCodes.Ldloc, updateLoopLocalIndex);
             cursor.Emit(OpCodes.Callvirt, typeof(List<OrderedProjectileEntry>).GetMethod("get_Item"));
             cursor.Emit(OpCodes.Ldfld, typeof(OrderedProjectileEntry).GetField("Proj"));
 
-            // Remove the direct i reference in the Update call and replace it with the original index in the cache, to prevent update ID
+            // Pop the direct i reference in the Update call and replace it with the original index in the cache, to prevent update ID
             // mismatches.
-            cursor.Remove();
-            cursor.Emit(OpCodes.Ldloc, 29);
+            cursor.Goto(updateIndexPosition);
+
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchCall<Projectile>("Call")))
+            {
+                LogFailure("Projectile Update Priority fix", "Could not locate the projectile Update call.");
+                return;
+            }
+            cursor.Emit(OpCodes.Pop);
+            cursor.Emit(OpCodes.Ldloc, updateLoopLocalIndex);
             cursor.EmitDelegate<Func<int, int>>(i => OrderedProjectiles[i].OriginalIndex);
         }
         #endregion Fix Projectile Update Priority Problems

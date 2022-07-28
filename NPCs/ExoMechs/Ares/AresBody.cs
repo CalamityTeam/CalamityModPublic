@@ -30,6 +30,7 @@ using Terraria.ModLoader;
 using Terraria.Audio;
 using Terraria.GameContent.ItemDropRules;
 using CalamityMod.Sounds;
+using CalamityMod.Items.Weapons.Summon;
 
 namespace CalamityMod.NPCs.ExoMechs.Ares
 {
@@ -185,8 +186,8 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
                 //We'll probably want a custom background for Exos like ML has.
                 //BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Exo,
 
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("While it is the most flamboyant of Draedon’s machines, it appears to be lacking some finish, though this trait does not compromise its killing potential whatsoever.")
+                // Will move to localization whenever that is cleaned up.
+                new FlavorTextBestiaryInfoElement("While it is the most flamboyant of Draedon’s machines, it appears to be lacking some finish, though this trait does not compromise its killing potential whatsoever.")
             });
         }
 
@@ -1370,6 +1371,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
                 // Ares weapons
                 normalOnly.Add(ItemDropRule.ByCondition(DropHelper.If(AresLoot), ModContent.ItemType<PhotonRipper>()));
                 normalOnly.Add(ItemDropRule.ByCondition(DropHelper.If(AresLoot), ModContent.ItemType<TheJailor>()));
+                normalOnly.Add(ItemDropRule.ByCondition(DropHelper.If(AresLoot), ModContent.ItemType<AresExoskeleton>()));
 
                 // Twins weapons
                 normalOnly.Add(ItemDropRule.ByCondition(DropHelper.If(ApolloLoot), ModContent.ItemType<TheAtomSplitter>()));

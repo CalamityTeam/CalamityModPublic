@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -22,7 +22,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.DamageType = DamageClass.Melee;
             Projectile.penetrate = 1;
             Projectile.tileCollide = false;
-            Projectile.timeLeft = 600;
+            Projectile.timeLeft = 90;
             Projectile.aiStyle = 27;
             Projectile.extraUpdates = 1;
         }
@@ -30,7 +30,7 @@ namespace CalamityMod.Projectiles.Melee
         public override void AI()
         {
             if (Projectile.velocity.Length() < 25f && Projectile.timeLeft % 2 == 0)
-                Projectile.velocity *= 1.04f;
+                Projectile.velocity *= 2.08f;
 
             int rainbow = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 66, (float)(Projectile.direction * 2), 0f, 150, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 1.3f);
             Main.dust[rainbow].noGravity = true;
@@ -52,7 +52,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override bool PreDraw(ref Color lightColor)
         {
-            if (Projectile.timeLeft > 595)
+            if (Projectile.timeLeft > 85)
                 return false;
 
             CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);

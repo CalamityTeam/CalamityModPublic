@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            Item.damage = 61;
+            Item.damage = 32;
             Item.DamageType = DamageClass.Magic;
             Item.mana = 10;
             Item.width = 58;
@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.knockBack = 2.75f;
-            Item.value = Item.buyPrice(0, 4, 0, 0);
+            Item.value = Item.buyPrice(0, 60, 0, 0);
             Item.rare = ItemRarityID.Lime;
             Item.Calamity().donorItem = true;
             Item.UseSound = ShootSound;
