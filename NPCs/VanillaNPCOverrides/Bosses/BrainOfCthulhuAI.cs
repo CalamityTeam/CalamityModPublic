@@ -557,11 +557,6 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
             // Creeper count, 0 to 20
             int creeperCount = NPC.CountNPCS(NPCID.Creeper);
-            bool phase2 = creeperCount <= (death ? 12 : 6);
-
-            // Adjust knockback
-            if (phase2)
-                npc.knockBackResist = 0f;
 
             // Stay near Brain
             if (npc.ai[0] == 0f)
@@ -594,7 +589,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 int creeperScale = GetBrainOfCthuluCreepersCountRevDeath() + 1 - creeperCount;
                 creeperScale *= (int)enrageScale;
                 npc.ai[1] += (death ? 1f : 0.5f) + (creeperScale * 0.25f);
-                if (Main.netMode != NetmodeID.MultiplayerClient && npc.ai[1] >= 240f)
+                if (Main.netMode != NetmodeID.MultiplayerClient && npc.ai[1] >= 150f)
                 {
                     npc.ai[1] = 0f;
                     npc.TargetClosest();
@@ -634,7 +629,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 float num817 = (float)Math.Sqrt(num815 * num815 + num816 * num816);
 
                 // Return to Brain
-                if (num817 > 700f || (npc.justHit && !phase2))
+                if (num817 > 700f || npc.justHit)
                     npc.ai[0] = 0f;
             }
 
