@@ -136,7 +136,7 @@ namespace CalamityMod.Projectiles.Summon
                     float damageMult = ((float)Math.Log(Projectile.ai[0], MathHelper.E)) + 1f;
                     int beam = Projectile.NewProjectile(Projectile.GetSource_FromThis(), source, velocity, ModContent.ProjectileType<SiriusBeam>(), (int)(Projectile.damage * damageMult), Projectile.knockBack, Projectile.owner);
                     if (Main.projectile.IndexInRange(beam))
-                        Main.projectile[beam].originalDamage = Projectile.originalDamage;
+                        Main.projectile[beam].originalDamage = (int)(Projectile.originalDamage * damageMult);
                     Main.projectile[beam].penetrate = (int)Projectile.ai[0];
                     Projectile.ai[1] = 30f;
                 }
