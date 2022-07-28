@@ -76,7 +76,11 @@ namespace CalamityMod.Projectiles.Summon
         public override void Kill(int timeLeft)
         {
             if (Projectile.owner == Main.myPlayer)
-                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<BrimstoneExplosionMinion>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+            {
+                int explosion = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<BrimstoneExplosionMinion>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                if (Main.projectile.IndexInRange(explosion))
+                    Main.projectile[explosion].originalDamage = Projectile.originalDamage;
+            }
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
