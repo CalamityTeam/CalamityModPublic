@@ -4,12 +4,17 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using System.Linq;
+using CalamityMod.Projectiles.Melee;
+using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
     [LegacyName("DraedonsExoblade")]
     public class Exoblade : ModItem
     {
+        public static readonly SoundStyle SwingSound = new("CalamityMod/Sounds/Item/ExobladeSwing") { MaxInstances = 3, PitchVariance = 0.6f, Volume = 0.6f };
+
         public bool RMBchannel = false;
 
         public const int BeamNoHomeTime = 24;
@@ -54,15 +59,26 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.useTurn = true;
             Item.DamageType = DamageClass.Melee;
             Item.knockBack = 9f;
-            Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
             Item.noUseGraphic = true;
             Item.channel = true;
             Item.value = CalamityGlobalItem.Rarity15BuyPrice;
+            Item.shoot = ProjectileType<ExobladeProj>();
             Item.rare = ItemRarityID.Red;
             Item.shootSpeed = 9f;
             Item.Calamity().customRarity = CalamityRarity.Violet;
         }
+
+        public override bool CanShoot(Player player) => !Main.projectile.Any(n => n.active && n.owner == player.whoAmI && n.type == ProjectileType<ExobladeProj>());
+
+        public override void HoldItem(Player player)
+        {
+            player.Calamity().rightClickListener = true;
+            player.Calamity().mouseWorldListener = true;
+        }
+
+
+        
 
         public override bool AltFunctionUse(Player player) => true;
 

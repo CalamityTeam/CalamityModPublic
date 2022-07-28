@@ -16,14 +16,17 @@ using Terraria.Audio;
 using System.Collections.Generic;
 using System.Linq;
 using static CalamityMod.CalamityUtils;
+using Terraria.Graphics.Effects;
+using CalamityMod.Dusts;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class ExobladeProj : BaseIdleHoldoutProjectile
+    public class ExobladeProj : ModProjectile
     {
+        public Player Owner => Main.player[Projectile.owner];
+
         public enum SwingState
         {
-            Default,
             Swinging,
             BonkDash
         }
@@ -32,19 +35,44 @@ namespace CalamityMod.Projectiles.Melee
 
         public PrimitiveTrail PierceAfterimageDrawer = null;
 
-        public int Direction = 1;
+        public int SwingTime
+        {
+            get 
+            {
+                float itemUseTime = Owner.ActiveItem().useTime;
 
-        public SwingState CurrentState;
+                return 78;
+                return (int)(58 / (float)(itemUseTime > 0 ? itemUseTime : 1));
+            }
 
-        public bool PerformingPowerfulSlash;
-        
-        public ref float GeneralTime => ref Projectile.ai[0];
+        }
+            
+        public float Timer => SwingTime - Projectile.timeLeft;
+        public float Progression => Timer / (float)SwingTime;
+
+        public SwingState State
+        {
+            get => (SwingState)Projectile.ai[0];
+            
+            set
+            {
+                Projectile.ai[0] = (int)value;
+            }
+        }
+
+        public bool PerformingPowerfulSlash
+        {
+            get => Projectile.ai[1] > 0;
+            set => Projectile.ai[1] = value ? 1 : 0;
+        }
+
+
 
         public ref float PostBonkCountdown => ref Projectile.ai[1];
-
         public ref float EnergyFormInterpolant => ref Projectile.localAI[0];
+        public ref float SquishFactor => ref Projectile.localAI[1];
 
-        public ref float SwingDirection => ref Projectile.localAI[1];
+
 
         public ref bool RMBChannel => ref (Owner.HeldItem.ModItem as Exoblade).RMBchannel;
 
@@ -64,11 +92,81 @@ namespace CalamityMod.Projectiles.Melee
         // Manual easing code handles this, due to a 0-1 clamp within the piecewise curve function generator.
         public static CurveSegment HoldBladeInPlace => new(EasingType.PolyOut, 0.7f, 1f, Exoblade.AnticipationOffsetRatio, 5);
 
-        public override string Texture => "CalamityMod/Items/Weapons/Melee/Exoblade";
 
-        public override int AssociatedItemID => ModContent.ItemType<Exoblade>();
+        #region A lot of angles
+        public int Direction => Math.Sign(Projectile.velocity.X) <= 0 ? -1 : 1;
+        public float BaseRotation => Projectile.velocity.ToRotation(); //The rotation of the swing's "main" diretion
+        public Vector2 SquishVector => new Vector2(1f + (1 - SquishFactor) * 0.6f, SquishFactor); //The vector for the swords squish
 
-        public override int IntendedProjectileType => ModContent.ProjectileType<ExobladeProj>();
+
+        public static float MaxSwingAngle = MathHelper.PiOver2 * 1.8f;
+        public CurveSegment SlowStart = new (PolyOutEasing, 0f, -1f, 0.3f, 2);
+        public CurveSegment SwingFast = new (PolyInEasing, 0.27f, -0.7f, 1.6f, 4);
+        public CurveSegment EndSwing = new (PolyOutEasing, 0.85f, 0.9f, 0.1f, 2);
+        public float SwingAngleShiftAtProgress(float progress) => MaxSwingAngle * PiecewiseAnimation(progress, new CurveSegment[] { SlowStart, SwingFast, EndSwing });
+        public float SwordRotationAtProgress(float progress) => BaseRotation + SwingAngleShiftAtProgress(progress) * Direction;
+        public float SquishAtProgress(float progress) => MathHelper.Lerp(SquishVector.X, SquishVector.Y, (float)Math.Abs(Math.Sin(SwingAngleShiftAtProgress(progress))));
+        public Vector2 DirectionAtProgress(float progress) => SwordRotationAtProgress(progress).ToRotationVector2() * SquishAtProgress(progress);
+
+
+
+        public float SwingAngleShift => SwingAngleShiftAtProgress(Progression); //The current displacement from the "straigth forward" of swords angle
+        public float SwordRotation => SwordRotationAtProgress(Progression); //The current rotation of the sword itself
+        public float CurrentSquish => SquishAtProgress(Progression); //How squished is the sword based on its current rotation
+        public Vector2 SwordDirection => DirectionAtProgress(Progression); //A "unit" vector that keeps the stretch of the sword in mind
+        #endregion
+
+        #region Ok so prims
+        public float TrailEndProgression //What's the progression of the "end point" of the trail
+        {
+            get
+            {
+                float endProgression;
+                if (Progression < 0.75f)
+                    endProgression = Progression - 0.5f + 0.1f * (Progression / 0.75f);
+
+                else
+                    endProgression = Progression - 0.4f * (1 - (Progression - 0.75f) / 0.75f);
+
+                return Math.Clamp(endProgression, 0, 1);
+            }
+        }
+
+        public float RealProgressionAtTrailCompletion(float completion) => MathHelper.Lerp(Progression, TrailEndProgression, completion); //Gives the "progression" in the swing of the trail at the specified completion
+
+        //Direction at progress except goes a bit harder at the end if the squish is strong to avoid the prim trail cutting off weirdly.
+        public Vector2 DirectionAtProgressScuffed(float progress)
+        {
+            if (SquishFactor > 0.7f || progress < 0.5f)
+                return DirectionAtProgress(progress);
+
+            float angleShift = SwingAngleShiftAtProgress(progress);
+            angleShift += MathHelper.PiOver4 * 0.3f * (float)Math.Pow((progress - 0.5f) / 0.5f, 0.5f) * ((0.7f - SquishFactor) / 0.2f);
+
+            return (BaseRotation + angleShift * Direction).ToRotationVector2() * SquishAtProgress(progress);
+        }
+        #endregion
+
+
+        public float RiskOfDust
+        {
+            get
+            {
+                if (Progression > 0.85f)
+                    return 0;
+
+                if (Progression < 0.4f)
+                    return (float)Math.Pow(Progression / 0.3f, 2) * 0.2f;
+
+                if (Progression < 0.5f)
+                    return 0.2f + 0.7f * (Progression - 0.4f) / 0.1f;
+
+                return 0.9f;
+            }
+        }
+
+
+        public override string Texture => "CalamityMod/Items/Weapons/Melee/ExobladeSquare";
 
         public override void SetStaticDefaults()
         {
@@ -84,7 +182,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.DamageType = DamageClass.Melee;
             Projectile.tileCollide = false;
             Projectile.penetrate = -1;
-            Projectile.timeLeft = 90000;
+            Projectile.timeLeft = 500;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.MaxUpdates = 3;
             Projectile.localNPCHitCooldown = Projectile.MaxUpdates * 8;
@@ -93,40 +191,51 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SendExtraAI(BinaryWriter writer)
         {
-            writer.Write(Direction);
             writer.Write(PerformingPowerfulSlash);
-            writer.Write((int)CurrentState);
+            writer.Write(SquishFactor);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
-            Direction = reader.ReadInt32();
             PerformingPowerfulSlash = reader.ReadBoolean();
-            CurrentState = (SwingState)reader.ReadInt32();
+            SquishFactor = reader.ReadSingle();
         }
 
-        public override void SafeAI()
+
+        public override bool ShouldUpdatePosition() => State == SwingState.BonkDash;
+
+
+
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
-            // Handle right click behaviors.
-            if (Main.myPlayer == Projectile.owner)
-                Owner.Calamity().rightClickListener = true;
+            float _ = 0f;
+            Vector2 start = Projectile.Center;
+            Vector2 end = start + SwordDirection * 140f * Projectile.scale;
+            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), start, end, Projectile.scale * 30f, ref _);
+        }
 
-            if (!Owner.Calamity().mouseRight)
-                RMBChannel = false;
-            else
-                RMBChannel = true;
 
-            // Initialize the animation max time if necessary.
-            if (Owner.itemAnimationMax == 0)
-                Owner.itemAnimationMax = (int)(Owner.ActiveItem().useAnimation * Owner.GetAttackSpeed<MeleeDamageClass>());
 
-            // Decide the current phase state of the blade.
-            DecideCurrentState();
+        public void InitializationEffects(bool startInitialization)
+        {
+            Projectile.velocity = Owner.MountedCenter.DirectionTo(Owner.Calamity().mouseWorld);
+            SquishFactor = Main.rand.NextFloat(0.67f, 1f);
+            Projectile.timeLeft = SwingTime;
 
-            Projectile.scale = 0f;
-            Projectile.Opacity = 0f;
-            EnergyFormInterpolant = 0f;
-            switch (CurrentState)
+            if (startInitialization)
+                Projectile.scale = 0.02f;
+
+            PerformingPowerfulSlash = false;
+
+            Projectile.netUpdate = true;
+        }
+
+        public override void AI()
+        {
+            if (Projectile.timeLeft >= 500 || (Projectile.timeLeft == 1 && Owner.channel))
+                InitializationEffects(Projectile.timeLeft >= 500);
+
+            switch (State)
             {
                 case SwingState.Swinging:
                     DoBehavior_Swinging();
@@ -134,39 +243,27 @@ namespace CalamityMod.Projectiles.Melee
                 case SwingState.BonkDash:
                     DoBehavior_BonkDash();
                     break;
-                default:
-                    Direction = Owner.direction;
-                    Projectile.oldRot = new float[Projectile.oldRot.Length];
-                    break;
             }
 
             // Glue the sword to its owner.
-            Projectile.Center = Owner.RotatedRelativePoint(Owner.Center, true) - Projectile.velocity;
+            Projectile.Center = Owner.RotatedRelativePoint(Owner.MountedCenter, true);
             Owner.heldProj = Projectile.whoAmI;
+            Owner.SetDummyItemTime(2);
+            Owner.direction = Direction;
 
             // Decide the arm rotation for the owner.
-            float armRotation = Projectile.rotation + MathHelper.Pi + MathHelper.PiOver2;
-            if (CurrentState == SwingState.Default)
-                armRotation = 0f;
-            Owner.SetCompositeArmFront(Math.Abs(armRotation) > 0.01f, Player.CompositeArmStretchAmount.Full, Owner.compositeFrontArm.rotation.AngleLerp(armRotation, 0.2f));
+            float armRotation = SwordRotation - MathHelper.PiOver2;
+            Owner.SetCompositeArmFront(Math.Abs(armRotation) > 0.01f, Player.CompositeArmStretchAmount.Full, armRotation);
 
             // Handle timers.
-            GeneralTime++;
             if (PostBonkCountdown > 0)
                 PostBonkCountdown--;
         }
 
         public void DoBehavior_Swinging()
         {
-            // Decide the swing direction.
-            if (Owner.itemAnimation == Owner.itemAnimationMax)
-            {
-                Direction = Owner.direction;
-                SwingDirection = 1f;
-            }
-
-            if (Owner.itemAnimation == (int)(Owner.itemAnimationMax * Exoblade.PercentageOfAnimationSpentLunging))
-                SoundEngine.PlaySound(CommonCalamitySounds.MeatySlashSound, Projectile.Center);
+            if (Projectile.timeLeft == SwingTime / 5)
+                SoundEngine.PlaySound(Exoblade.SwingSound, Projectile.Center);
 
             float exactSwingCompletion = 1f - Owner.itemAnimation / (float)Owner.itemAnimationMax;
             float directionalSwingCompletion = exactSwingCompletion;            
@@ -177,30 +274,42 @@ namespace CalamityMod.Projectiles.Melee
             if (directionalSwingCompletion < 0.45f)
                 Projectile.oldRot = new float[Projectile.oldRot.Length];
 
-            // Decide the swing direction.
-            Projectile.rotation = MathHelper.Lerp(StartingSwingRotation, EndingSwingRotation, swingCompletion) * Direction - MathHelper.PiOver4;
-            if (Direction == -1)
-                Projectile.rotation -= MathHelper.PiOver2;
-
             // Decide the scale of the sword.
+            
+            if (Projectile.scale < 1)
+                Projectile.scale = MathHelper.Lerp(Projectile.scale, 1f, 0.08f);
+
+            //Make the sword get smaller near the end of the slash
+            if (!Owner.channel && Progression > 0.7f)
+                Projectile.scale = 0.5f + 0.5f * (float)Math.Pow(1 - (Progression - 0.7f) / 0.3f, 0.5);
+
             // If performing a powerful slash it is made significantly bigger. This effect looks slightly goofy but there is no
             // way in hell you're going to consistently hit SCal without it.
-            Projectile.scale = 1f;
-            if (!LMBUse)
-                Projectile.scale *= Utils.GetLerpValue(0f, 0.2f, exactSwingCompletion, true) * Utils.GetLerpValue(1f, 0.9f, exactSwingCompletion, true);
             if (PerformingPowerfulSlash)
             {
                 Projectile.scale *= Exoblade.BigSlashUpscaleFactor;
                 EnergyFormInterpolant = 1f;
             }
 
-            // End powerful slashes on the last frame.
-            if (Owner.itemAnimation == 1)
+
+            if (Main.rand.NextFloat() * 5f < RiskOfDust)
             {
-                PerformingPowerfulSlash = false;
-                Owner.itemAnimation = 0;
-                DecideCurrentState();
+                Dust auricDust = Dust.NewDustPerfect(Owner.MountedCenter + SwordDirection * 140 * Projectile.scale * (float)Math.Pow(Main.rand.NextFloat(0.5f, 1f), 0.5f), ModContent.DustType<AuricBarDust>(), SwordDirection.RotatedBy(-MathHelper.PiOver2 * Direction) * 2f);
+                auricDust.noGravity = true;
+                auricDust.alpha = 10;
+                auricDust.scale = 0.5f;
             }
+
+            if (Main.rand.NextFloat() < RiskOfDust)
+            {
+                Color dustColor = Main.hslToRgb(Main.rand.NextFloat(), 1f, 0.9f);
+                Dust must = Dust.NewDustPerfect(Owner.MountedCenter + SwordDirection * 140 * Projectile.scale * (float)Math.Pow(Main.rand.NextFloat(0.2f, 1f), 0.5f), 267, SwordDirection.RotatedBy(MathHelper.PiOver2 * Direction) * 2.6f, 0, dustColor);
+
+                must.scale = 0.3f;
+                must.fadeIn = Main.rand.NextFloat() * 1.2f;
+                must.noGravity = true;
+            }
+
 
             // Create a bunch of homing beams.
             int beamShootRate = Projectile.MaxUpdates * 2;
@@ -212,13 +321,12 @@ namespace CalamityMod.Projectiles.Melee
                 boltVelocity *= Owner.ActiveItem().shootSpeed;
                 Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center + boltVelocity * 5f, boltVelocity, ModContent.ProjectileType<Exobeam>(), boltDamage, Projectile.knockBack / 3f, Projectile.owner);
             }
-
-            Projectile.Opacity = Projectile.scale;
         }
 
         public void DoBehavior_BonkDash()
         {
             Owner.mount?.Dismount(Owner);
+            Owner.RemoveAllGrapplingHooks();
 
             if (Owner.itemAnimation > Owner.itemAnimationMax * Exoblade.PercentageOfAnimationSpentLunging)
             {
@@ -230,7 +338,6 @@ namespace CalamityMod.Projectiles.Melee
                 Projectile.oldPos = new Vector2[Projectile.oldPos.Length];
                 if (Main.myPlayer == Projectile.owner)
                 {
-                    Direction = Owner.direction;
                     Projectile.velocity = Projectile.SafeDirectionTo(Main.MouseWorld);
                     Owner.ChangeDir((Projectile.velocity.X > 0f).ToDirectionInt());
                     Projectile.netSpam = 0;
@@ -246,7 +353,6 @@ namespace CalamityMod.Projectiles.Melee
             if (Owner.itemAnimation == 1)
             {
                 Owner.itemAnimation = 0;
-                DecideCurrentState();
             }
 
             // Decide the scale and opacty of the sword.
@@ -259,42 +365,9 @@ namespace CalamityMod.Projectiles.Melee
             EnergyFormInterpolant = Utils.GetLerpValue(0f, 0.32f, exactSwingCompletion, true) * Utils.GetLerpValue(1f, 0.85f, exactSwingCompletion, true);
         }
 
-        public void DecideCurrentState()
-        {
-            // Reset the state of the weapon if the player stops using it.
-            if (Owner.itemAnimation <= 0)
-            {
-                Owner.itemAnimation = 0;
-                CurrentState = SwingState.Default;
-            }
 
-            // Switch to the swing state as necessary. This cannot happen while channeling or dashing.
-            if (CurrentState == 0f && !RMBChannel && Owner.itemAnimation > 0)
-            {
-                CurrentState = SwingState.Swinging;
-                if (PostBonkCountdown > 0)
-                {
-                    Owner.velocity = Vector2.Zero;
-                    PerformingPowerfulSlash = true;
-                    PostBonkCountdown = 0;
-                    Projectile.netUpdate = true;
-                }
-            }
 
-            // Switch to the dash charge state. This can only be done while in the default state.
-            if (CurrentState == 0f && Owner.itemAnimation > 0)
-            {
-                Owner.fallStart = (int)(Owner.position.Y / 16f);
-                if (CurrentState != SwingState.BonkDash)
-                {
-                    CurrentState = SwingState.BonkDash;
-                    Projectile.netUpdate = true;
-                }
-            }
-        }
-
-        public float SlashWidthFunction(float completionRatio) => Projectile.scale * 43.5f;
-
+        public float SlashWidthFunction(float completionRatio) => SquishAtProgress(RealProgressionAtTrailCompletion(completionRatio)) * Projectile.scale * 36.5f;
         public Color SlashColorFunction(float completionRatio) => Color.Lime * Utils.GetLerpValue(0.9f, 0.4f, completionRatio, true) * Projectile.Opacity;
 
         public float PierceWidthFunction(float completionRatio) => Utils.GetLerpValue(0f, 0.2f, completionRatio, true) * Projectile.scale * 50f;
@@ -305,25 +378,12 @@ namespace CalamityMod.Projectiles.Melee
         {
             List<Vector2> result = new();
 
-            // Calculate the offsets for the slash points based on old rotations.
-            // Uninitialized values are discarded, as are sequences of rotations that are equivalent.
-            for (int i = 0; i < Owner.itemAnimationMax * 0.45; i++)
+            for (int i = 0; i < 90; i++)
             {
-                if (Projectile.oldRot[i] == 0f)
-                    continue;
+                float progress = MathHelper.Lerp(Progression, TrailEndProgression, i / 90f);
 
-                if (i >= 1 && Projectile.oldRot[i] == Projectile.oldRot[i - 1])
-                    continue;
-
-                float oldRotation = Projectile.oldRot[i] - MathHelper.PiOver4 + (SwingDirection == -1 ? -0.18f : 0.04f);
-                if (Direction == -1)
-                    oldRotation += MathHelper.PiOver2 - 0.2f;
-
-                result.Add(oldRotation.ToRotationVector2() * (SlashWidthFunction(0f) + 10f));
+                result.Add(DirectionAtProgressScuffed(progress) * 110f * Projectile.scale);
             }
-
-            if (result.Count < 4 || result.First() == result.Last())
-                result.Clear();
 
             return result;
         }
@@ -345,7 +405,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public void DrawSlash()
         {
-            if (CurrentState != SwingState.Swinging)
+            if (State != SwingState.Swinging || Progression < 0.45f)
                 return;
 
             // Draw the zany slash effect.
@@ -356,7 +416,7 @@ namespace CalamityMod.Projectiles.Melee
             GameShaders.Misc["CalamityMod:ExobladeSlash"].Shader.Parameters["fireColor"].SetValue(new Color(242, 112, 72).ToVector3());
 
             // What the heck? XORs? In MY exoblade code?????
-            GameShaders.Misc["CalamityMod:ExobladeSlash"].Shader.Parameters["flipped"].SetValue((SwingDirection == 1) ^ (Direction == -1));
+            GameShaders.Misc["CalamityMod:ExobladeSlash"].Shader.Parameters["flipped"].SetValue(Direction == 1);
             GameShaders.Misc["CalamityMod:ExobladeSlash"].Apply();
 
             SlashDrawer.Draw(GenerateSlashPoints(), Projectile.Center - Main.screenPosition, 95);
@@ -364,7 +424,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public void DrawPierceTrail()
         {
-            if (CurrentState != SwingState.BonkDash)
+            if (State != SwingState.BonkDash)
                 return;
 
             Main.spriteBatch.EnterShaderRegion();
@@ -392,8 +452,9 @@ namespace CalamityMod.Projectiles.Melee
             bladeColor = Color.Lerp(bladeColor, Color.Lerp(Color.Cyan, Color.Lime, 0.5f) with { A = 60 }, EnergyFormInterpolant);
             bladeColor *= Projectile.Opacity;
             SpriteEffects direction = Direction == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
-            Main.spriteBatch.Draw(texture, drawPosition, null, bladeColor, rotation, origin, Projectile.scale, direction, 0);
+            //Main.spriteBatch.Draw(texture, drawPosition, null, bladeColor, rotation, origin, Projectile.scale, direction, 0);
 
+            /*
             // Draw a glow effect if in the energy form.
             if (EnergyFormInterpolant > 0f)
             {
@@ -403,6 +464,19 @@ namespace CalamityMod.Projectiles.Melee
                     Main.spriteBatch.Draw(texture, drawPosition + drawOffset, null, bladeColor with { A = 0 } * 0.1f, rotation, origin, Projectile.scale, direction, 0);
                 }
             }
+            */
+
+            Effect swingFX = Filters.Scene["SwingSprite"].GetShader().Shader;
+            swingFX.Parameters["rotation"].SetValue(SwingAngleShift + MathHelper.PiOver4 + (Direction == -1 ? MathHelper.Pi : 0f));
+            swingFX.Parameters["pommelToOriginPercent"].SetValue(0.1f);
+
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, swingFX, Main.GameViewMatrix.TransformationMatrix);
+
+            Main.EntitySpriteDraw(texture, Owner.MountedCenter - Main.screenPosition, null, Color.White, BaseRotation, texture.Size() / 2f, SquishVector * 3f * Projectile.scale, direction, 0);
+
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -411,7 +485,7 @@ namespace CalamityMod.Projectiles.Melee
             NPCLoader.OnHitByItem(target, Owner, Owner.ActiveItem(), damage, knockback, crit);
             PlayerLoader.OnHitNPC(Owner, Owner.ActiveItem(), target, damage, knockback, crit);
 
-            if (CurrentState == SwingState.BonkDash && Owner.itemAnimation < Owner.itemAnimationMax * 0.6f)
+            if (State == SwingState.BonkDash && Owner.itemAnimation < Owner.itemAnimationMax * 0.6f)
             {
                 Owner.itemAnimation = 0;
                 Owner.velocity = Owner.SafeDirectionTo(target.Center) * -Exoblade.ReboundSpeed;
@@ -433,11 +507,9 @@ namespace CalamityMod.Projectiles.Melee
 
                 // Freeze the target briefly, to allow the player to more easily perform a powerful slash.
                 target.AddBuff(ModContent.BuffType<ExoFreeze>(), 60);
-
-                DecideCurrentState();
             }
 
-            if (CurrentState == SwingState.Swinging && PerformingPowerfulSlash && Owner.ownedProjectileCounts[ModContent.ProjectileType<Exoboom>()] < 1)
+            if (State == SwingState.Swinging && PerformingPowerfulSlash && Owner.ownedProjectileCounts[ModContent.ProjectileType<Exoboom>()] < 1)
             {
                 SoundEngine.PlaySound(TeslaCannon.FireSound, Projectile.Center);
                 if (Main.myPlayer == Projectile.owner)
@@ -446,23 +518,6 @@ namespace CalamityMod.Projectiles.Melee
                     Projectile.NewProjectile(Projectile.GetSource_FromAI(), target.Center, Vector2.Zero, ModContent.ProjectileType<Exoboom>(), explosionDamage, 0f, Projectile.owner);
                 }
             }
-        }
-
-        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
-        {
-            float _ = 0f;
-            Vector2 start = Projectile.Center;
-            Vector2 end = start + (Projectile.rotation - Direction * MathHelper.PiOver4).ToRotationVector2() * Projectile.scale * Projectile.height;
-            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), start, end, Projectile.scale * 30f, ref _);
-        }
-
-        public override bool? CanDamage()
-        {
-            if (CurrentState == SwingState.Default)
-                return false;
-            if (CurrentState == SwingState.BonkDash)
-                return true;
-            return Owner.itemAnimation / (float)Owner.itemAnimationMax < 0.72f;
         }
 
         public override void Kill(int timeLeft) => Owner.fullRotation = 0f;
