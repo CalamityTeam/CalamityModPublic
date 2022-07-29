@@ -1025,7 +1025,8 @@ namespace CalamityMod
                 ItemID.LovePotion,
                 ItemID.StinkPotion,
                 ItemID.RecallPotion,
-                ItemID.PotionOfReturn
+                ItemID.PotionOfReturn,
+                ItemID.LuckPotion
             };
             Recipe r;
 
