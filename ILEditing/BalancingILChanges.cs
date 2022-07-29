@@ -96,7 +96,7 @@ namespace CalamityMod.ILEditing
         }
         #endregion
 
-        #region Jump Speed Changes
+        #region Jump Height Changes
         private static void FixJumpHeightBoosts(ILContext il)
         {
             // Remove the code that makes Shiny Red Balloon SET jump height to a specific value to make balancing jump speed easier.
@@ -150,21 +150,22 @@ namespace CalamityMod.ILEditing
             cursor.Next.Operand = 0;
         }
 
-        private static void JumpSpeedAdjustment(ILContext il)
+        private const float VanillaBaseJumpHeight = 5.01f;
+        private static void BaseJumpHeightAdjustment(ILContext il)
         {
-            // Increase the base jump speed of the player to make early game less of a slog.
+            // Increase the base jump height of the player to make early game less of a slog.
             var cursor = new ILCursor(il);
-            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(5.01f))) // The jumpSpeed variable is set to this specific value before anything else occurs.
+
+            // The jumpSpeed variable is set to this specific value before anything else occurs.
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(VanillaBaseJumpHeight)))
             {
-                LogFailure("Base Jump Speed Buff", "Could not locate the jump speed variable.");
+                LogFailure("Base Jump Height Buff", "Could not locate the jump height variable.");
                 return;
             }
             cursor.Remove();
-            cursor.Emit(OpCodes.Ldc_R4, 5.51f); // Increase by 10%.
 
-            //cursor.Emit(OpCodes.Ldarg_0);
             // Increase by 10% if the higher jump speed is enabled.
-            //cursor.EmitDelegate(() => CalamityConfig.Instance.FasterJumpSpeed ? 5.51f : 5.01f);
+            cursor.EmitDelegate(() => CalamityConfig.Instance.FasterJumpSpeed ? BalancingConstants.ConfigBoostedBaseJumpHeight : VanillaBaseJumpHeight);
         }
         #endregion
 
