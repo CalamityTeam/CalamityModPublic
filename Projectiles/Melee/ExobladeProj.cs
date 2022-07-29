@@ -489,7 +489,7 @@ namespace CalamityMod.Projectiles.Melee
                 float energyPower = Utils.GetLerpValue(0f, 0.32f, Progression, true) * Utils.GetLerpValue(1f, 0.85f, Progression, true);
                 for (int i = 0; i < 4; i++)
                 {
-                    Vector2 drawOffset = (MathHelper.TwoPi * i / 4f).ToRotationVector2() * energyPower * Projectile.scale * 7f;
+                    Vector2 drawOffset = (MathHelper.TwoPi * i / 4f + BaseRotation).ToRotationVector2() * energyPower * Projectile.scale * 7f;
                     Main.spriteBatch.Draw(texture, drawPosition + drawOffset, null, Color.Lerp(Color.Goldenrod, Color.MediumTurquoise, Progression) with { A = 0 } * 0.16f, rotation, origin, Projectile.scale, direction, 0);
                 }
             }
