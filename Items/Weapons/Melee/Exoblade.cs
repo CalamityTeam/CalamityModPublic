@@ -29,6 +29,8 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public static int LungeCooldown = 60;
 
+        public static float LungeMaxCorrection = MathHelper.PiOver4 * 0.05f;
+
         public static float LungeSpeed = 60f;
 
         public static float ReboundSpeed = 6f;
@@ -104,20 +106,17 @@ namespace CalamityMod.Items.Weapons.Melee
 
             //If there are any exoblades in "stasis" after a bonk, the attack should be an empowered slash instead
             if (Main.projectile.Any(n => n.active && n.owner == player.whoAmI && n.type == ProjectileType<ExobladeProj>() && n.ai[0] == 1 && n.ai[1] == 1 && n.timeLeft > LungeCooldown))
+            {
                 state = 2;
 
-
-
-            if (state == 2)
-            {
-                //Remove all statised exoblades
+                //Put all the "post bonk" stasised exoblades into regular cooldown for the right click ljunge
                 for (int i = 0; i < Main.maxProjectiles; ++i)
                 {
                     Projectile p = Main.projectile[i];
                     if (!p.active || p.owner != player.whoAmI || p.type != Item.shoot || p.ai[0] != 1 || p.ai[1] != 1)
                         continue;
 
-                    p.timeLeft = 1;
+                    p.timeLeft = LungeCooldown;
                     p.netUpdate = true;
                     p.netSpam = 0;
                 }

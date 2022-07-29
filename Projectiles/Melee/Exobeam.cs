@@ -5,6 +5,8 @@ using Terraria.ModLoader;
 using Terraria.Audio;
 using CalamityMod.Items.Weapons.Typeless;
 using CalamityMod.Items.Weapons.Melee;
+using Terraria.Graphics.Shaders;
+using Terraria.Graphics.Effects;
 
 namespace CalamityMod.Projectiles.Melee
 {
@@ -17,7 +19,7 @@ namespace CalamityMod.Projectiles.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Exobeam");
-            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 3;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 30;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
         }
 
@@ -42,7 +44,7 @@ namespace CalamityMod.Projectiles.Melee
         {
             if (Projectile.localAI[1] == 0f)
             {
-                SoundEngine.PlaySound(SoundID.Item60, Projectile.position);
+                //SoundEngine.PlaySound(SoundID.Item60, Projectile.position);
                 Projectile.localAI[1] = 1f;
             }
 
@@ -54,6 +56,7 @@ namespace CalamityMod.Projectiles.Melee
                 NPC potentialTarget = Projectile.Center.ClosestNPCAt(1600f, false);
                 if (TargetIndex == -1 && potentialTarget != null)
                     TargetIndex = potentialTarget.whoAmI;
+
                 if (TargetIndex >= 0 && Main.npc[TargetIndex].active && Main.npc[TargetIndex].CanBeChasedBy())
                 {
                     Vector2 idealVelocity = Projectile.SafeDirectionTo(Main.npc[TargetIndex].Center) * (Projectile.velocity.Length() + 3.5f);
