@@ -81,7 +81,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            SoundEngine.PlaySound(YanmeisKnife.HitSound, target.Center);
+            SoundEngine.PlaySound(YanmeisKnife.HitSound with { Volume = YanmeisKnife.HitSound.Volume * 0.35f}, target.Center);
             if (Main.myPlayer == Projectile.owner)
                 Projectile.NewProjectile(Projectile.GetSource_FromAI(), target.Center, Projectile.velocity * 0.1f, ModContent.ProjectileType<ExobeamSlashCreator>(), Projectile.damage, 0f, Projectile.owner, target.whoAmI);
 

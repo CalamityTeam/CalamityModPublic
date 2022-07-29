@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
+using System;
 
 namespace CalamityMod.Projectiles.Melee
 {
@@ -58,12 +59,16 @@ namespace CalamityMod.Projectiles.Melee
 
             Main.spriteBatch.SetBlendState(BlendState.Additive);
 
+            float progress = (33 - Projectile.timeLeft) / 33f;
+
             Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
             Texture2D bloomTexture = ModContent.Request<Texture2D>("CalamityMod/Particles/BloomCircle").Value;
 
             Vector2 drawPosition = Projectile.Center - Main.screenPosition;
             Vector2 origin = texture.Size() * 0.5f;
-            Vector2 scale = new Vector2(1f, 0.75f) * Projectile.scale;
+            Vector2 scale = new Vector2(1f + 0.2f * (float)Math.Pow(progress, 0.2), 0.55f - 0.3f * (float)Math.Pow(progress, 0.4)) * Projectile.scale;
+
+
             Vector2 bloomScale = Projectile.Size / bloomTexture.Size() * new Vector2(1f, 2f);
             Vector2 bloomOrigin = bloomTexture.Size() * 0.5f;
             Main.spriteBatch.Draw(bloomTexture, drawPosition, null, Color.White * Projectile.Opacity, Projectile.rotation, bloomOrigin, bloomScale, 0, 0f);
