@@ -72,7 +72,7 @@ namespace CalamityMod.CalPlayer
             // Give the player a 24% jump speed boost while wings are equipped, otherwise grant 4% more jump speed so that players can jump 7 tiles high
             if (Player.wingsLogic > 0)
                 Player.jumpSpeedBoost += 1.2f;
-            else
+            else if (CalamityConfig.Instance.HigherJumpHeight)
                 Player.jumpSpeedBoost += 0.2f;
 
             // Decrease the counter on Fearmonger set turbo regeneration
@@ -885,18 +885,21 @@ namespace CalamityMod.CalPlayer
                     Player.noFallDmg = true;
                 }
 
-                // Allow the player to double their gravity (but NOT max fall speed!) by holding the down button while in midair.
-                bool holdingDown = Player.controlDown && !Player.controlJump;
-                bool controlsEnabled = Player.ControlsEnabled();
-                bool notInLiquid = !Player.wet;
-                bool notOnRope = !Player.pulley && Player.ropeCount == 0;
-                bool notGrappling = Player.grappling[0] == -1;
-                bool airborne = Player.velocity.Y != 0;
-                if (holdingDown && Player.ControlsEnabled() && notInLiquid && notOnRope && notGrappling && airborne)
+                if (CalamityConfig.Instance.FasterFallHotkey)
                 {
-                    Player.velocity.Y += Player.gravity * Player.gravDir * (BalancingConstants.HoldingDownGravityMultiplier - 1f);
-                    if (Player.velocity.Y * Player.gravDir > Player.maxFallSpeed )
-                        Player.velocity.Y = Player.maxFallSpeed * Player.gravDir;
+                    // Allow the player to double their gravity (but NOT max fall speed!) by holding the down button while in midair.
+                    bool holdingDown = Player.controlDown && !Player.controlJump;
+                    bool controlsEnabled = Player.ControlsEnabled();
+                    bool notInLiquid = !Player.wet;
+                    bool notOnRope = !Player.pulley && Player.ropeCount == 0;
+                    bool notGrappling = Player.grappling[0] == -1;
+                    bool airborne = Player.velocity.Y != 0;
+                    if (holdingDown && Player.ControlsEnabled() && notInLiquid && notOnRope && notGrappling && airborne)
+                    {
+                        Player.velocity.Y += Player.gravity * Player.gravDir * (BalancingConstants.HoldingDownGravityMultiplier - 1f);
+                        if (Player.velocity.Y * Player.gravDir > Player.maxFallSpeed)
+                            Player.velocity.Y = Player.maxFallSpeed * Player.gravDir;
+                    }
                 }
             }
             else
@@ -2441,7 +2444,7 @@ namespace CalamityMod.CalPlayer
 
             // 50% movement speed bonus so that you don't feel like a snail in the early game.
             // Disabled while Overhaul is enabled, because Overhaul does very similar things to make movement more snappy.
-            if (CalamityMod.Instance.overhaul is null)
+            if (CalamityMod.Instance.overhaul is null && CalamityConfig.Instance.FasterBaseSpeed)
                 Player.moveSpeed += BalancingConstants.DefaultMoveSpeedBoost;
 
             if (cirrusDress)

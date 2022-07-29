@@ -3297,11 +3297,14 @@ namespace CalamityMod.CalPlayer
             // TODO -- why is boss health bar code in Player.UpdateEquips and not a ModSystem
             CalamityConfig.Instance.BossHealthBarExtraInfo = shouldDrawSmallText;
 
-            // Increase tile placement speed to speed up early game a bit and make building more fun
-            Player.tileSpeed += 0.5f;
+            if (CalamityConfig.Instance.FasterTilePlacement)
+            {
+                // Increase tile placement speed to speed up early game a bit and make building more fun
+                Player.tileSpeed += 0.5f;
 
-            // Increase wall placement speed to speed up early game a bit and make building more fun
-            Player.wallSpeed += 0.5f;
+                // Increase wall placement speed to speed up early game a bit and make building more fun
+                Player.wallSpeed += 0.5f;
+            }
 
             // Takes the movement speed bonus and uses it to increase run speed
             float accRunSpeedMin = Player.accRunSpeed * 0.5f;

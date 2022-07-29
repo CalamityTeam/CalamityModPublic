@@ -160,7 +160,11 @@ namespace CalamityMod.ILEditing
                 return;
             }
             cursor.Remove();
-            cursor.Emit(OpCodes.Ldc_R4, 5.51f); // Increase by 10%.
+            //cursor.Emit(OpCodes.Ldc_R4, 5.51f); // Increase by 10%.
+
+            cursor.Emit(OpCodes.Ldarg_0);
+            // Increase by 10% if the higher jump speed is enabled.
+            cursor.EmitDelegate(() => CalamityConfig.Instance.FasterJumpSpeed ? 5.51f : 5.01f);
         }
         #endregion
 
