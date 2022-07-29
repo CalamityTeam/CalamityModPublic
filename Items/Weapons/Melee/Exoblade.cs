@@ -7,35 +7,37 @@ using Terraria.Audio;
 using System.Linq;
 using CalamityMod.Projectiles.Melee;
 using static Terraria.ModLoader.ModContent;
+using Terraria.DataStructures;
+using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
     [LegacyName("DraedonsExoblade")]
     public class Exoblade : ModItem
     {
-        public static readonly SoundStyle SwingSound = new("CalamityMod/Sounds/Item/ExobladeSwing") { MaxInstances = 3, PitchVariance = 0.6f, Volume = 0.6f };
+        public static readonly SoundStyle SwingSound = new("CalamityMod/Sounds/Item/ExobladeSwing") { MaxInstances = 3, PitchVariance = 0.6f, Volume = 0.8f };
+        public static readonly SoundStyle BigSwingSound = new("CalamityMod/Sounds/Item/ExobladeBigSwing") { MaxInstances = 3, PitchVariance = 0.2f };
 
-        public bool RMBchannel = false;
 
-        public const int BeamNoHomeTime = 24;
+        public static int BeamNoHomeTime = 24;
 
-        public const float NotTrueMeleeDamagePenalty = 0.46f;
+        public static float NotTrueMeleeDamagePenalty = 0.46f;
 
-        public const float ExplosionDamageFactor = 1.8f;
+        public static float ExplosionDamageFactor = 1.8f;
 
-        public const float LungeDamageFactor = 1.75f;
+        public static float LungeDamageFactor = 1.75f;
 
-        public const float LungeSpeed = 37f;
+        public static float LungeSpeed = 37f;
 
-        public const float ReboundSpeed = 6f;
+        public static float ReboundSpeed = 6f;
 
-        public const float PercentageOfAnimationSpentLunging = 0.6f;
+        public static float PercentageOfAnimationSpentLunging = 0.6f;
 
-        public const float AnticipationOffsetRatio = 0.27f;
+        public static float AnticipationOffsetRatio = 0.27f;
 
-        public const int OpportunityForBigSlash = 37;
+        public static int OpportunityForBigSlash = 37;
 
-        public const float BigSlashUpscaleFactor = 2.3f;
+        public static float BigSlashUpscaleFactor = 1.5f;
 
         public override void SetStaticDefaults()
         {
@@ -69,7 +71,11 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.Calamity().customRarity = CalamityRarity.Violet;
         }
 
-        public override bool CanShoot(Player player) => !Main.projectile.Any(n => n.active && n.owner == player.whoAmI && n.type == ProjectileType<ExobladeProj>());
+        public override bool CanShoot(Player player)
+        {
+            return !Main.projectile.Any(n => n.active && n.owner == player.whoAmI && n.type == ProjectileType<ExobladeProj>() &&         
+            !(n.ai[0] == 1 && n.ai[1] == 1)); //Ignores exoblades in post bonk stasis.
+        }
 
         public override void HoldItem(Player player)
         {
@@ -85,6 +91,37 @@ namespace CalamityMod.Items.Weapons.Melee
         public override bool? CanHitNPC(Player player, NPC target) => false;
 
         public override bool CanHitPvp(Player player, Player target) => false;
+
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        {
+            float state = 0;
+
+            if (Main.projectile.Any(n => n.active && n.owner == player.whoAmI && n.type == ProjectileType<ExobladeProj>() && n.ai[0] == 1 && n.ai[1] == 1))
+                state = 2;
+
+            if (state == 2)
+            {
+                //Remove all statised exoblades
+                for (int i = 0; i < Main.maxProjectiles; ++i)
+                {
+                    Projectile p = Main.projectile[i];
+                    if (!p.active || p.owner != player.whoAmI || p.type != Item.shoot || p.ai[0] != 1 || p.ai[1] != 1)
+                        continue;
+
+                    p.timeLeft = 1;
+                    p.netUpdate = true;
+                    p.netSpam = 0;
+                }
+            }
+
+            if (player.altFunctionUse == 2)
+                state = 1;
+
+
+            Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI, state, 0);
+
+            return false;
+        }
 
         public override void AddRecipes()
         {
