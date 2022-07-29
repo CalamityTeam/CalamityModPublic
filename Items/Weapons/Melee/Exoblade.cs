@@ -27,17 +27,21 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public static float LungeDamageFactor = 1.75f;
 
-        public static float LungeSpeed = 37f;
+        public static int LungeCooldown = 60;
+
+        public static float LungeSpeed = 60f;
 
         public static float ReboundSpeed = 6f;
 
         public static float PercentageOfAnimationSpentLunging = 0.6f;
 
-        public static float AnticipationOffsetRatio = 0.27f;
-
         public static int OpportunityForBigSlash = 37;
 
         public static float BigSlashUpscaleFactor = 1.5f;
+
+        public static int DashTime = 49;
+
+        public static int BaseUseTime = 49;
 
         public override void SetStaticDefaults()
         {
@@ -56,8 +60,8 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.height = 114;
             Item.damage = 2625;
             Item.useStyle = ItemUseStyleID.Swing;
-            Item.useTime = 49;
-            Item.useAnimation = 49;
+            Item.useTime = BaseUseTime;
+            Item.useAnimation = BaseUseTime;
             Item.useTurn = true;
             Item.DamageType = DamageClass.Melee;
             Item.knockBack = 9f;
@@ -73,6 +77,11 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override bool CanShoot(Player player)
         {
+            //Lunge can't be used if ANY exoblade is there (even the ones in stasis)
+            if (player.altFunctionUse == 2)
+                return !Main.projectile.Any(n => n.active && n.owner == player.whoAmI && n.type == ProjectileType<ExobladeProj>());
+
+
             return !Main.projectile.Any(n => n.active && n.owner == player.whoAmI && n.type == ProjectileType<ExobladeProj>() &&         
             !(n.ai[0] == 1 && n.ai[1] == 1)); //Ignores exoblades in post bonk stasis.
         }
@@ -82,9 +91,6 @@ namespace CalamityMod.Items.Weapons.Melee
             player.Calamity().rightClickListener = true;
             player.Calamity().mouseWorldListener = true;
         }
-
-
-        
 
         public override bool AltFunctionUse(Player player) => true;
 
@@ -96,8 +102,11 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             float state = 0;
 
-            if (Main.projectile.Any(n => n.active && n.owner == player.whoAmI && n.type == ProjectileType<ExobladeProj>() && n.ai[0] == 1 && n.ai[1] == 1))
+            //If there are any exoblades in "stasis" after a bonk, the attack should be an empowered slash instead
+            if (Main.projectile.Any(n => n.active && n.owner == player.whoAmI && n.type == ProjectileType<ExobladeProj>() && n.ai[0] == 1 && n.ai[1] == 1 && n.timeLeft > LungeCooldown))
                 state = 2;
+
+
 
             if (state == 2)
             {
@@ -115,8 +124,9 @@ namespace CalamityMod.Items.Weapons.Melee
             }
 
             if (player.altFunctionUse == 2)
+            {
                 state = 1;
-
+            }
 
             Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI, state, 0);
 
