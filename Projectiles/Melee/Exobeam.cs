@@ -25,34 +25,9 @@ namespace CalamityMod.Projectiles.Melee
         public PrimitiveTrail TrailDrawer = null;
         public PrimitiveTrail MiniTrailDrawer = null;
 
-        //public static TrailTexture
-
-        public float TrailLenght
-        {
-            get
-            {
-                if (Projectile.localAI[0] == -1)
-                {
-                    float totalLenght = 0;
-                    for (int i = 1; i < ProjectileID.Sets.TrailCacheLength[Projectile.type]; i++)
-                    {
-                        if (Projectile.oldPos[i] == Vector2.Zero)
-                            break;
-
-                        totalLenght += (Projectile.oldPos[i] - Projectile.oldPos[i - 1]).Length();
-                    }
-
-                    Projectile.localAI[0] = totalLenght;
-                }
-                
-                return Projectile.localAI[0];
-            }
-        }
-
-        public float TrailCompletionAtWhichTheDomeEnds => TrailLenght < MaxWidth ? TrailLenght : MaxWidth / TrailLenght;
-
         public static Asset<Texture2D> BloomTex;
         public static Asset<Texture2D> SlashTex;
+        public static Asset<Texture2D> TrailTex;
 
         public override void SetStaticDefaults()
         {
@@ -84,25 +59,32 @@ namespace CalamityMod.Projectiles.Melee
             // towards the nearest target.
             if (Time >= Exoblade.BeamNoHomeTime)
             {
-                NPC potentialTarget = Projectile.Center.ClosestNPCAt(1600f, false);
-                if (TargetIndex == -1 && potentialTarget != null)
-                    TargetIndex = potentialTarget.whoAmI;
-
-                if (TargetIndex >= 0 && Main.npc[TargetIndex].active && Main.npc[TargetIndex].CanBeChasedBy())
+                if (TargetIndex >= 0)
                 {
-                    Vector2 idealVelocity = Projectile.SafeDirectionTo(Main.npc[TargetIndex].Center) * (Projectile.velocity.Length() + 3.5f);
-                    Projectile.velocity = Vector2.Lerp(Projectile.velocity, idealVelocity, 0.08f);
+                    if (!Main.npc[TargetIndex].active || !Main.npc[TargetIndex].CanBeChasedBy())
+                        TargetIndex = -1;
+
+                    else
+                    {
+                        Vector2 idealVelocity = Projectile.SafeDirectionTo(Main.npc[TargetIndex].Center) * (Projectile.velocity.Length() + 3.5f);
+                        Projectile.velocity = Vector2.Lerp(Projectile.velocity, idealVelocity, 0.08f);
+                    }
                 }
 
-                else
+                if (TargetIndex == -1)
                 {
-                    Projectile.velocity *= 0.99f;
+                    NPC potentialTarget = Projectile.Center.ClosestNPCAt(1600f, false);
+                    if (potentialTarget != null)
+                        TargetIndex = potentialTarget.whoAmI;
+
+                    else
+                        Projectile.velocity *= 0.99f;
                 }
             }
 
             Projectile.rotation = Projectile.velocity.ToRotation();
 
-            if (Main.rand.NextBool())
+            if (Main.rand.NextBool(2))
             {
                 Color dustColor = Main.hslToRgb(Main.rand.NextFloat(), 1f, 0.9f);
                 Dust must = Dust.NewDustPerfect(Projectile.Center + Main.rand.NextVector2Circular(20f, 20f) + Projectile.velocity, 267, Projectile.velocity * -2.6f, 0, dustColor);
@@ -136,15 +118,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public float TrailWidth(float completionRatio)
         {
-            float width;
-            //else
-                //width = 1 - (completionRatio - TrailCompletionAtWhichTheDomeEnds) / (1f - TrailCompletionAtWhichTheDomeEnds);
-
-            width = Utils.GetLerpValue(1f, 0.4f, completionRatio, true) * (float)Math.Sin(Math.Acos(1 - Utils.GetLerpValue(0f, 0.15f, completionRatio, true)));
-
-            //if (completionRatio <= TrailCompletionAtWhichTheDomeEnds)
-            //    width = (float)Math.Sin(Math.Acos(1 - completionRatio / TrailCompletionAtWhichTheDomeEnds));
-
+            float width = Utils.GetLerpValue(1f, 0.4f, completionRatio, true) * (float)Math.Sin(Math.Acos(1 - Utils.GetLerpValue(0f, 0.15f, completionRatio, true)));
 
             width *= Utils.GetLerpValue(0f, 0.1f, Projectile.timeLeft / 600f, true);
 
@@ -193,7 +167,10 @@ namespace CalamityMod.Projectiles.Melee
 
             Main.spriteBatch.EnterShaderRegion();
 
-            GameShaders.Misc["CalamityMod:ExobladePierce"].SetShaderTexture(Request<Texture2D>("CalamityMod/ExtraTextures/BasicTrail"));
+            if (TrailTex == null)
+                TrailTex = Request<Texture2D>("CalamityMod/ExtraTextures/BasicTrail");
+
+            GameShaders.Misc["CalamityMod:ExobladePierce"].SetShaderTexture(TrailTex);
             GameShaders.Misc["CalamityMod:ExobladePierce"].UseImage2("Images/Extra_189");
             GameShaders.Misc["CalamityMod:ExobladePierce"].UseColor(mainColor);
             GameShaders.Misc["CalamityMod:ExobladePierce"].UseSecondaryColor(secondaryColor);
