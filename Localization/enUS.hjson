@@ -13,6 +13,7 @@ Config:
         "Graphics": "Graphics Changes",
         "Revengeance": "Revengeance Mode Changes",
         "UI": "UI Changes",
+        "BaseBoosts": "Base Stat Boosts",
     }
 
     EntryTitle:
@@ -35,6 +36,11 @@ Config:
         "EarlyHardmodeProgressionRework": "Early Hardmode Progression Rework",
         "ForceTownSafety": "Force Town Safety",
         "MeterPosLock": "Lock Meter Positions",
+        "FasterBaseSpeed": "Higher Base Speed",
+        "HigherJumpHeight": "Higher Jump Height",
+        "FasterJumpSpeed": "Higher Jump Speed",
+        "FasterFallHotkey": "Faster Fall Acceleration Hotkey",
+        "FasterTilePlacement": "Faster Base Tile Placement Speed",
         "NerfExpertDebuffs": "Remove Increased Debuff Duration",
         "ParticleLimit": "Max Particle Limit",
         "Proficiency": "Proficiency",
@@ -75,6 +81,11 @@ Config:
         "EarlyHardmodeProgressionRework": "Demon Altars no longer spawn ores and crimson/corruption blocks when broken.\nWall of Flesh spawns Cobalt and Palladium ore on first kill.\nThe first mech boss you fight has 20% less HP and damage and spawns Mythril and Orichalcum ore on first kill.\nThe second mech boss you fight has 10% less HP and damage and spawns Adamantite and Titanium ore on first kill.\nThe third mech boss spawns Hallowed Ore on first kill",
         "ForceTownSafety": "Counteracts Expert and Master Mode allowing enemies to spawn near towns by vastly decreasing spawn rates.\nThis can have unintended side effects such as making critters difficult to find.",
         "MeterPosLock": "Prevents clicking on the Stealth, Charge, Rage, and Adrenaline Meters.\nThis stops them from being dragged around with the mouse.",
+        "FasterBaseSpeed": "Increases the player's base movement speed",
+        "HigherJumpHeight": "Increases the player's base jump height",
+        "FasterJumpSpeed": "Increases the player's base jump speed",
+        "FasterFallHotkey": "Pressing down increases the speed at which the player reaches their maximum fall velocity",
+        "FasterTilePlacement": "Increases the player's base tile placement speed",
         "NerfExpertDebuffs": "Disables Expert Mode doubling (and Master Mode tripling) the duration of debuffs on the player.\nCalamity is balanced around this setting being enabled.",
         "ParticleLimit": "Sets the maximum of particle effects that can exist at once.\nParticles are separate from dust and gores.\nTurn down to improve performance.",
         "Proficiency": "Enables the Proficiency system which allows the player to gain slight stat bonuses by persistently using one damage class.\nDisabling the system does not remove levels players already have, but disables their stat bonuses and prevents experience gain.",
