@@ -166,16 +166,26 @@ namespace CalamityMod.Projectiles.Melee
             if (Projectile.timeLeft > 595)
                 return false;
 
+            Texture2D texture = Terraria.GameContent.TextureAssets.Projectile[Projectile.type].Value;
+            float bladeScale = Utils.GetLerpValue(8f, 15f, Projectile.velocity.Length(), true) * 1.2f;
+
+            //Draw the blade.
+            Main.EntitySpriteDraw(texture, Projectile.oldPos[2] + Projectile.Size / 2f - Main.screenPosition, null, Color.White with { A = 0 }, Projectile.rotation + MathHelper.PiOver4, texture.Size() / 2f, bladeScale * Projectile.scale, 0, 0);
+
+
+
+
+
             if (BloomTex == null)
                 BloomTex = ModContent.Request<Texture2D>("CalamityMod/Particles/BloomCircle");
-            Texture2D texture = BloomTex.Value;
+            Texture2D bloomTex = BloomTex.Value;
 
             Color mainColor = MulticolorLerp((Main.GlobalTimeWrappedHourly * 0.5f + Projectile.whoAmI * 0.12f) % 1, Color.Cyan, Color.Lime, Color.GreenYellow, Color.Goldenrod, Color.Orange);
             Color secondaryColor = MulticolorLerp((Main.GlobalTimeWrappedHourly * 0.5f + Projectile.whoAmI * 0.12f + 0.2f) % 1, Color.Cyan, Color.Lime, Color.GreenYellow, Color.Goldenrod, Color.Orange);
 
             //Draw the bloom unde the trail
-            Main.EntitySpriteDraw(texture, Projectile.oldPos[2] + Projectile.Size / 2f - Main.screenPosition, null, (mainColor * 0.1f) with { A = 0 }, 0, texture.Size() / 2f, 1.3f * Projectile.scale, 0, 0);
-            Main.EntitySpriteDraw(texture, Projectile.oldPos[1] + Projectile.Size / 2f - Main.screenPosition, null, (mainColor * 0.5f) with { A = 0 }, 0, texture.Size() / 2f, 0.34f * Projectile.scale, 0, 0);
+            Main.EntitySpriteDraw(bloomTex, Projectile.oldPos[2] + Projectile.Size / 2f - Main.screenPosition, null, (mainColor * 0.1f) with { A = 0 }, 0, bloomTex.Size() / 2f, 1.3f * Projectile.scale, 0, 0);
+            Main.EntitySpriteDraw(bloomTex, Projectile.oldPos[1] + Projectile.Size / 2f - Main.screenPosition, null, (mainColor * 0.5f) with { A = 0 }, 0, bloomTex.Size() / 2f, 0.34f * Projectile.scale, 0, 0);
 
 
             TrailDrawer ??= new(TrailWidth, TrailColor, null, GameShaders.Misc["CalamityMod:ExobladePierce"]);
@@ -198,38 +208,11 @@ namespace CalamityMod.Projectiles.Melee
 
             MiniTrailDrawer.Draw(Projectile.oldPos, Projectile.Size * 0.5f - Main.screenPosition, 30, Projectile.oldRot);
 
-            //Code put in cold storage. It looks cool but not the right time for it.
-            /*
-            
-            if (SlashTex == null)
-                SlashTex = ModContent.Request<Texture2D>("CalamityMod/Particles/SlashSmear");
-            Texture2D slashTex = SlashTex.Value;
-
-            float swingOpacity = (595 - Projectile.timeLeft) / 595f;
-            swingOpacity = (float)Math.Pow(Utils.GetLerpValue(0.8f, 0.6f, swingOpacity, true), 0.3);
-
-            if (swingOpacity > 0)
-            {
-                float rotation = Main.GlobalTimeWrappedHourly * 7f;
-                rotation += Projectile.whoAmI * MathHelper.Pi * 1.33f;
-
-                Effect swingFX = Filters.Scene["RotateSprite"].GetShader().Shader;
-                Main.spriteBatch.End();
-                Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, swingFX, Main.GameViewMatrix.TransformationMatrix);
-
-                swingFX.Parameters["rotation"].SetValue(rotation);
-                Main.EntitySpriteDraw(slashTex, Projectile.oldPos[2] + Projectile.Size / 2f - Main.screenPosition, null, secondaryColor * swingOpacity, Projectile.rotation + MathHelper.PiOver4 * 0.6f, slashTex.Size() / 2f, new Vector2(1f, 2f) * 0.5f * Projectile.scale, 0, 0);
-
-                swingFX.Parameters["rotation"].SetValue(rotation + MathHelper.PiOver4);
-                Main.EntitySpriteDraw(slashTex, Projectile.oldPos[2] + Projectile.Size / 2f - Main.screenPosition, null, secondaryColor * swingOpacity, Projectile.rotation - MathHelper.PiOver4 * 0.6f, slashTex.Size() / 2f, new Vector2(1f, 2f) * 0.5f * Projectile.scale, 0, 0);
-            }
-            */
-
             Main.spriteBatch.ExitShaderRegion();
 
             //Draw the bloom above the trail
-            Main.EntitySpriteDraw(texture, Projectile.oldPos[2] + Projectile.Size / 2f - Main.screenPosition, null, (Color.White * 0.2f) with { A = 0 }, 0, texture.Size() / 2f, 0.78f * Projectile.scale, 0, 0);
-            Main.EntitySpriteDraw(texture, Projectile.oldPos[1] + Projectile.Size / 2f - Main.screenPosition, null, (Color.White * 0.5f) with { A = 0 }, 0, texture.Size() / 2f, 0.2f * Projectile.scale, 0, 0);
+            Main.EntitySpriteDraw(bloomTex, Projectile.oldPos[2] + Projectile.Size / 2f - Main.screenPosition, null, (Color.White * 0.2f) with { A = 0 }, 0, bloomTex.Size() / 2f, 0.78f * Projectile.scale, 0, 0);
+            Main.EntitySpriteDraw(bloomTex, Projectile.oldPos[1] + Projectile.Size / 2f - Main.screenPosition, null, (Color.White * 0.5f) with { A = 0 }, 0, bloomTex.Size() / 2f, 0.2f * Projectile.scale, 0, 0);
             
             
             
