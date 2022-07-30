@@ -17,6 +17,8 @@ namespace CalamityMod.Items.Weapons.Melee
     {
         public static readonly SoundStyle SwingSound = new("CalamityMod/Sounds/Item/ExobladeSwing") { MaxInstances = 3, PitchVariance = 0.6f, Volume = 0.8f };
         public static readonly SoundStyle BigSwingSound = new("CalamityMod/Sounds/Item/ExobladeBigSwing") { MaxInstances = 3, PitchVariance = 0.2f };
+        public static readonly SoundStyle BeamHitSound = new("CalamityMod/Sounds/Item/ExobladeBeamSlash") { Volume = 0.4f, PitchVariance = 0.2f };
+
 
 
         public static int BeamNoHomeTime = 24;
@@ -27,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public static float LungeDamageFactor = 1.75f;
 
-        public static int LungeCooldown = 60;
+        public static int LungeCooldown = 60 * 3; //Projectile has 3 updates : aka 1 second
 
         public static float LungeMaxCorrection = MathHelper.PiOver4 * 0.05f;
 
@@ -37,7 +39,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public static float PercentageOfAnimationSpentLunging = 0.6f;
 
-        public static int OpportunityForBigSlash = 37;
+        public static int OpportunityForBigSlash = 37 * 3;
 
         public static float BigSlashUpscaleFactor = 1.5f;
 

@@ -1,5 +1,6 @@
 float rotation; // The rotation of the sprite.
-float2 spriteDimensions;
+float4 color;
+
 
 texture sampleTexture;
 sampler2D Texture1Sampler = sampler_state { texture = <sampleTexture>; magfilter = LINEAR; minfilter = LINEAR; mipfilter = LINEAR; AddressU = wrap; AddressV = wrap; };
@@ -25,7 +26,7 @@ float4 main(float2 uv : TEXCOORD) : COLOR
     if (uv.x < 0 || uv.x >= 1 || uv.y < 0 || uv.y >= 1)
         return float4(0, 0, 0, 0);
     
-    return tex2D(Texture1Sampler, uv);
+    return tex2D(Texture1Sampler, uv) * color;
 }
 
 technique Technique1

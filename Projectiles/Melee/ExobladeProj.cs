@@ -304,7 +304,7 @@ namespace CalamityMod.Projectiles.Melee
             //Freeze the projectile on its last frame, so it can act as a ghost "cooldown"
             if (Projectile.timeLeft == 1 && State == SwingState.BonkDash && !InPostBonkStasis)
             {
-                Projectile.timeLeft = Exoblade.LungeCooldown * Projectile.extraUpdates;
+                Projectile.timeLeft = Exoblade.LungeCooldown;
                 InPostBonkStasis = true;
 
                 Owner.fullRotation = 0f;
@@ -527,11 +527,29 @@ namespace CalamityMod.Projectiles.Melee
                 Effect swingFX = Filters.Scene["SwingSprite"].GetShader().Shader;
                 swingFX.Parameters["rotation"].SetValue(SwingAngleShift + MathHelper.PiOver4 + (Direction == -1 ? MathHelper.Pi : 0f));
                 swingFX.Parameters["pommelToOriginPercent"].SetValue(0.05f);
+                swingFX.Parameters["color"].SetValue(Color.White.ToVector4());
 
                 Main.spriteBatch.End();
                 Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, swingFX, Main.GameViewMatrix.TransformationMatrix);
 
                 Main.EntitySpriteDraw(texture, Owner.MountedCenter - Main.screenPosition, null, Color.White, BaseRotation, texture.Size() / 2f, SquishVector * 3f * Projectile.scale, direction, 0);
+
+                /*
+                if (PerformingPowerfulSlash)
+                {
+                    Main.spriteBatch.End();
+                    Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, swingFX, Main.GameViewMatrix.TransformationMatrix);
+
+                    float bouncyProgression = (float)Math.Sin(Progression * MathHelper.Pi);
+                    swingFX.Parameters["color"].SetValue(Color.MediumSpringGreen.ToVector4() with { W = bouncyProgression * 0.5f });
+
+                    for (int i = 0; i < 4; i++)
+                    {
+                        Vector2 offset = (i / 4f * MathHelper.TwoPi + SwingAngleShift + MathHelper.PiOver4).ToRotationVector2() * 2f * Projectile.scale;
+                        Main.EntitySpriteDraw(texture, Owner.MountedCenter - Main.screenPosition + offset, null, Color.White, BaseRotation, texture.Size() / 2f, SquishVector * 3f * Projectile.scale, direction, 0);
+                    }
+                }
+                */
 
                 Main.spriteBatch.End();
                 Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
@@ -581,7 +599,7 @@ namespace CalamityMod.Projectiles.Melee
             {
                 Owner.itemAnimation = 0;
                 Owner.velocity = Owner.SafeDirectionTo(target.Center) * -Exoblade.ReboundSpeed;
-                Projectile.timeLeft = (Exoblade.OpportunityForBigSlash + Exoblade.LungeCooldown) * Projectile.extraUpdates;
+                Projectile.timeLeft = Exoblade.OpportunityForBigSlash + Exoblade.LungeCooldown;
                 InPostBonkStasis = true;
 
                 Projectile.netUpdate = true;
