@@ -347,10 +347,14 @@ namespace CalamityMod.Projectiles.Melee
             }
 
             // Create a bunch of homing beams.
-            int beamShootRate = Projectile.MaxUpdates * 5;
+            int beamShootStart = (int)(SwingTime * 0.6f);
+            int beamShootPeriod = (int)(SwingTime * 0.35f);
+            int beamShootEnd = beamShootStart + beamShootPeriod;
+            beamShootPeriod /= (Exoblade.BeamsPerSwing - 1);
 
-            if (Main.myPlayer == Projectile.owner && Projectile.timeLeft % beamShootRate == 0 && Progression > 0.3f && Progression < 0.9f)
+            if (Main.myPlayer == Projectile.owner && Timer >= beamShootStart && Timer < beamShootEnd && (Timer - beamShootStart) % beamShootPeriod == 0)
             {
+                float rotationAngle = MathHelper.PiOver4 * 0.3f * ((Timer - beamShootStart) / beamShootPeriod);
                 int boltDamage = (int)(Projectile.damage * Exoblade.NotTrueMeleeDamagePenalty);
                 Vector2 boltVelocity = Projectile.velocity.RotatedByRandom(MathHelper.PiOver4 * 0.3);
                 boltVelocity *= Owner.ActiveItem().shootSpeed;
@@ -604,8 +608,8 @@ namespace CalamityMod.Projectiles.Melee
 
                 Projectile.netUpdate = true;
 
-                SoundEngine.PlaySound(PlasmaGrenade.ExplosionSound, target.Center);
-                SoundEngine.PlaySound(YanmeisKnife.HitSound, target.Center);
+                SoundEngine.PlaySound(PlasmaGrenade.ExplosionSound with { Volume = PlasmaGrenade.ExplosionSound.Volume * 0.8f }, target.Center);
+                SoundEngine.PlaySound(Exoblade.BeamHitSound with { Volume = Exoblade.BeamHitSound.Volume * 1.2f}, target.Center);
                 if (Main.myPlayer == Projectile.owner)
                 {
                     int lungeHitDamage = (int)(Projectile.damage * Exoblade.LungeDamageFactor);
@@ -623,7 +627,7 @@ namespace CalamityMod.Projectiles.Melee
 
             if (State == SwingState.Swinging && PerformingPowerfulSlash && Owner.ownedProjectileCounts[ModContent.ProjectileType<Exoboom>()] < 1)
             {
-                SoundEngine.PlaySound(TeslaCannon.FireSound, Projectile.Center);
+                SoundEngine.PlaySound(Exoblade.BigHitSound, Projectile.Center);
                 if (Main.myPlayer == Projectile.owner)
                 {
                     int explosionDamage = (int)(Projectile.damage * Exoblade.ExplosionDamageFactor);
