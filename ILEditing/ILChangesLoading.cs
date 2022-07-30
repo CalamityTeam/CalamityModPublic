@@ -78,7 +78,7 @@ namespace CalamityMod.ILEditing
 
             // Movement speed balance
             IL.Terraria.Player.UpdateJumpHeight += FixJumpHeightBoosts;
-            IL.Terraria.Player.Update += JumpSpeedAdjustment;
+            IL.Terraria.Player.Update += BaseJumpHeightAdjustment;
             IL.Terraria.Player.Update += RunSpeedAdjustments;
             IL.Terraria.Initializers.WingStatsInitializer.Load += ReduceWingHoverVelocities;
             IL.Terraria.Player.Update += NerfMagiluminescence;
@@ -188,7 +188,7 @@ namespace CalamityMod.ILEditing
 
             // Movement speed balance
             IL.Terraria.Player.UpdateJumpHeight -= FixJumpHeightBoosts;
-            IL.Terraria.Player.Update -= JumpSpeedAdjustment;
+            IL.Terraria.Player.Update -= BaseJumpHeightAdjustment;
             IL.Terraria.Player.Update -= RunSpeedAdjustments;
             IL.Terraria.Initializers.WingStatsInitializer.Load -= ReduceWingHoverVelocities;
             IL.Terraria.Player.Update -= NerfMagiluminescence;

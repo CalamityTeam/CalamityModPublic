@@ -2,10 +2,14 @@
 {
     public static class BalancingConstants
     {
-        // Permanent move speed boost given to the player at all stages of the game
+        // When the relevant config is enabled: Gives the player a substantial +50% move speed boost at all times
         internal static readonly float DefaultMoveSpeedBoost = 0.5f;
-        
-        // The multiplier for the player's gravity (downwards acceleration) while they are holding the Down button (S by default).
+
+        // When the relevant config is enabled: Increases the player's base jump height by 10%
+        internal static readonly float ConfigBoostedBaseJumpHeight = 5.51f; // vanilla = 5.01f
+
+        // When the relevant config is enabled: Allows the player to hold the Down button (S by default) to fast fall.
+        // This is the multiplier for the player's gravity (downwards acceleration) while holding Down.
         internal static readonly float HoldingDownGravityMultiplier = 2f;
 
         // Altered jump speed boost provided by Shiny Red Balloon via IL edit
@@ -63,6 +67,7 @@
         // See NPCUtils.IsAnEnemy
         internal const int TinyHealthThreshold = 5;
         internal const int TinyDamageThreshold = 5;
+        // If an enemy has more health than this, they are considered an enemy even if they have 0 contact damage
         internal const int NoContactDamageHealthThreshold = 3000;
         internal const int UnreasonableHealthThreshold = 25000000; // 25 million
 

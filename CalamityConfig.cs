@@ -230,6 +230,41 @@ namespace CalamityMod
         public float BossHealthBoost { get; set; }
         #endregion
 
+        #region Default Player Stat Boosts
+        [Header("$Mods.CalamityMod.Config.SectionTitle.BaseBoosts")]
+
+        [Label("$Mods.CalamityMod.Config.EntryTitle.FasterBaseSpeed")]
+        [BackgroundColor(192, 54, 64, 192)]
+        [DefaultValue(true)]
+        [Tooltip("$Mods.CalamityMod.Config.EntryTooltip.FasterBaseSpeed")]
+        public bool FasterBaseSpeed { get; set; }
+
+        [Label("$Mods.CalamityMod.Config.EntryTitle.HigherJumpHeight")]
+        [BackgroundColor(192, 54, 64, 192)]
+        [DefaultValue(true)]
+        [Tooltip("$Mods.CalamityMod.Config.EntryTooltip.HigherJumpHeight")]
+        public bool HigherJumpHeight { get; set; }
+
+        [Label("$Mods.CalamityMod.Config.EntryTitle.FasterJumpSpeed")]
+        [BackgroundColor(192, 54, 64, 192)]
+        [DefaultValue(true)]
+        [Tooltip("$Mods.CalamityMod.Config.EntryTooltip.FasterJumpSpeed")]
+        public bool FasterJumpSpeed { get; set; }
+
+
+        [Label("$Mods.CalamityMod.Config.EntryTitle.FasterFallHotkey")]
+        [BackgroundColor(192, 54, 64, 192)]
+        [DefaultValue(true)]
+        [Tooltip("$Mods.CalamityMod.Config.EntryTooltip.FasterFallHotkey")]
+        public bool FasterFallHotkey { get; set; }
+
+        [Label("$Mods.CalamityMod.Config.EntryTitle.FasterTilePlacement")]
+        [BackgroundColor(192, 54, 64, 192)]
+        [DefaultValue(true)]
+        [Tooltip("$Mods.CalamityMod.Config.EntryTooltip.FasterTilePlacement")]
+        public bool FasterTilePlacement { get; set; }
+        #endregion
+
         #region Expert and Master Mode Changes
         [Header("$Mods.CalamityMod.Config.SectionTitle.ExpertMaster")]
 
@@ -364,6 +399,12 @@ namespace CalamityMod
                 new("TownNPCsSpawnAtNight", ItemID.ClothierVoodooDoll),
                 new("TownNPCSpawnRateMultiplier", ItemID.GuideVoodooDoll),
                 new("BossHealthBoost", ItemID.LifeCrystal),
+
+                new("FasterBaseSpeed", ItemID.HermesBoots),
+                new("HigherJumpHeight", ItemID.ShinyRedBalloon),
+                new("FasterJumpSpeed", ItemID.FrogLeg),
+                new("FasterFallHotkey", ModContent.ItemType<BallAndChain>()),
+                new("FasterTilePlacement", ItemID.ArchitectGizmoPack),
 
                 new("NerfExpertDebuffs", ItemID.AnkhCharm),
                 new("ChilledWaterRework", ItemID.ArcticDivingGear),

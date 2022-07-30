@@ -563,7 +563,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     {
                         if (npc.velocity.Y > 0f)
                             npc.velocity.Y *= 0.94f;
-                        npc.velocity.Y -= 0.08f;
+                        npc.velocity.Y -= 0.2f;
                         if (npc.velocity.Y > maxY)
                             npc.velocity.Y = maxY;
                     }
@@ -571,7 +571,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     {
                         if (npc.velocity.Y < 0f)
                             npc.velocity.Y *= 0.94f;
-                        npc.velocity.Y += 0.08f;
+                        npc.velocity.Y += 0.2f;
                         if (npc.velocity.Y < -maxY)
                             npc.velocity.Y = -maxY;
                     }
@@ -580,7 +580,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     {
                         if (npc.velocity.X > 0f)
                             npc.velocity.X *= 0.94f;
-                        npc.velocity.X -= 0.12f;
+                        npc.velocity.X -= 0.2f;
                         if (npc.velocity.X > maxX)
                             npc.velocity.X = maxX;
                     }
@@ -589,7 +589,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     {
                         if (npc.velocity.X < 0f)
                             npc.velocity.X *= 0.94f;
-                        npc.velocity.X += 0.12f;
+                        npc.velocity.X += 0.2f;
                         if (npc.velocity.X < -maxX)
                             npc.velocity.X = -maxX;
                     }
@@ -611,7 +611,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     {
                         if (npc.velocity.Y > 0f)
                             npc.velocity.Y *= 0.92f;
-                        npc.velocity.Y -= 0.1f;
+                        npc.velocity.Y -= 0.2f;
                         if (npc.velocity.Y > maxY)
                             npc.velocity.Y = maxY;
                     }
@@ -619,7 +619,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     {
                         if (npc.velocity.Y < 0f)
                             npc.velocity.Y *= 0.92f;
-                        npc.velocity.Y += 0.1f;
+                        npc.velocity.Y += 0.2f;
                         if (npc.velocity.Y < -maxY)
                             npc.velocity.Y = -maxY;
                     }
@@ -628,7 +628,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     {
                         if (npc.velocity.X > 0f)
                             npc.velocity.X *= 0.92f;
-                        npc.velocity.X -= 0.18f;
+                        npc.velocity.X -= 0.2f;
                         if (npc.velocity.X > maxX)
                             npc.velocity.X = maxX;
                     }
@@ -637,7 +637,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     {
                         if (npc.velocity.X < 0f)
                             npc.velocity.X *= 0.92f;
-                        npc.velocity.X += 0.18f;
+                        npc.velocity.X += 0.2f;
                         if (npc.velocity.X < -maxX)
                             npc.velocity.X = -maxX;
                     }

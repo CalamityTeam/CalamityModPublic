@@ -451,7 +451,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             if (num19 != 0)
                                 nPC3.direction = nPC3.spriteDirection = num19;
 
-                            vec = Vector2.Normalize(player.Center - center3 + player.velocity * 20f);
+                            vec = Vector2.Normalize(player.Center - center3);
                             if (vec.HasNaNs())
                                 vec = new Vector2(npc.direction, 0f);
 
@@ -464,7 +464,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        vec = Vector2.Normalize(player.Center - npc.Center + player.velocity * 20f);
+                        vec = Vector2.Normalize(player.Center - npc.Center);
                         if (vec.HasNaNs())
                             vec = new Vector2(npc.direction, 0f);
 
@@ -516,7 +516,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                                 if (num21 != 0)
                                     nPC4.direction = nPC4.spriteDirection = num21;
 
-                                vec2 = Vector2.Normalize(player.Center - center4 + player.velocity * 20f);
+                                vec2 = Vector2.Normalize(player.Center - center4);
                                 if (vec2.HasNaNs())
                                     vec2 = new Vector2(npc.direction, 0f);
 
@@ -534,7 +534,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        vec2 = Vector2.Normalize(player.Center - npc.Center + player.velocity * 20f);
+                        vec2 = Vector2.Normalize(player.Center - npc.Center);
                         if (vec2.HasNaNs())
                             vec2 = new Vector2(npc.direction, 0f);
 
@@ -582,7 +582,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         if (num26 != 0)
                             nPC5.direction = nPC5.spriteDirection = num26;
 
-                        Vector2 vec3 = Vector2.Normalize(player.Center - center5 + player.velocity * 20f);
+                        Vector2 vec3 = Vector2.Normalize(player.Center - center5);
                         if (vec3.HasNaNs())
                             vec3 = new Vector2(npc.direction, 0f);
 
@@ -844,7 +844,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        vec4 = Vector2.Normalize(player.Center - npc.Center + player.velocity * 20f);
+                        vec4 = Vector2.Normalize(player.Center - npc.Center);
                         if (vec4.HasNaNs())
                             vec4 = new Vector2(npc.direction, 0f);
 

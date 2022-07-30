@@ -1025,18 +1025,31 @@ namespace CalamityMod
                 ItemID.LovePotion,
                 ItemID.StinkPotion,
                 ItemID.RecallPotion,
-                ItemID.PotionOfReturn
+                ItemID.PotionOfReturn,
+                ItemID.LuckPotionLesser
             };
             Recipe r;
 
             foreach (var potion in potions)
             {
                 r = Recipe.Create(potion);
-                r.AddIngredient(ModContent.ItemType<BloodOrb>(), 10);
                 r.AddIngredient(ItemID.BottledWater);
+                r.AddIngredient(ModContent.ItemType<BloodOrb>(), 10);
                 r.AddTile(TileID.AlchemyTable);
                 r.Register();
             }
+
+            r = Recipe.Create(ItemID.LuckPotion);
+            r.AddIngredient(ItemID.BottledWater);
+            r.AddIngredient(ModContent.ItemType<BloodOrb>(), 20);
+            r.AddTile(TileID.AlchemyTable);
+            r.Register();
+
+            r = Recipe.Create(ItemID.LuckPotionGreater);
+            r.AddIngredient(ItemID.BottledWater);
+            r.AddIngredient(ModContent.ItemType<BloodOrb>(), 30);
+            r.AddTile(TileID.AlchemyTable);
+            r.Register();
         }
         #endregion
 

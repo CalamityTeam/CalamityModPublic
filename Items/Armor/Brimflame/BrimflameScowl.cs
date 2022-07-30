@@ -86,7 +86,7 @@ namespace CalamityMod.Items.Armor.Brimflame
                 "Press " + hotkey + " to trigger a brimflame frenzy effect\n" +
                 "While under this effect, your damage is significantly boosted\n" +
                 "However, this comes at the cost of rapid life loss and no mana regeneration\n" +
-                "This can be toggled off, however, a brimstone frenzy has a 30 second cooldown";
+                "This can be toggled off, however, a brimflame frenzy has a 30 second cooldown";
         }
 
         public override void AddRecipes()

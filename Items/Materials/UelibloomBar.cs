@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Materials
             Item.height = 12;
             Item.maxStack = 999;
             Item.rare = ItemRarityID.Red;
-            Item.value = Item.sellPrice(gold: 3);
+            Item.value = Item.sellPrice(gold: 5);
             Item.Calamity().customRarity = CalamityRarity.Turquoise;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.useTurn = true;

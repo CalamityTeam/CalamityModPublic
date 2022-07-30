@@ -938,13 +938,25 @@ namespace CalamityMod.Projectiles
                     projectile.ai[0] += 1f;
                     if (projectile.velocity.Length() < projectile.ai[1])
                     {
-                        if (!(projectile.ai[0] < 30f))
-                        {
-                            if (projectile.ai[0] < 100f)
-                                projectile.velocity *= 1.06f;
-                            else
-                                projectile.ai[0] = 200f;
-                        }
+                        if (projectile.ai[0] >= 30f)
+                            projectile.velocity *= 1.06f;
+                    }
+
+                    Vector2 vector11 = Main.player[Main.npc[Main.wofNPCIndex].target].Center - projectile.Center;
+                    if (vector11.Length() < 10f)
+                    {
+                        projectile.Kill();
+                        return false;
+                    }
+
+                    if (projectile.ai[0] < 210f)
+                    {
+                        float scaleFactor2 = projectile.velocity.Length();
+                        vector11.Normalize();
+                        vector11 *= scaleFactor2;
+                        projectile.velocity = (projectile.velocity * 30f + vector11) / 31f;
+                        projectile.velocity.Normalize();
+                        projectile.velocity *= scaleFactor2;
                     }
 
                     for (int i = 0; i < 2; i++)
