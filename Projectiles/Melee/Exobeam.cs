@@ -141,7 +141,7 @@ namespace CalamityMod.Projectiles.Melee
                 return false;
 
             Texture2D texture = Terraria.GameContent.TextureAssets.Projectile[Projectile.type].Value;
-            float bladeScale = Utils.GetLerpValue(8f, 15f, Projectile.velocity.Length(), true) * 1.2f;
+            float bladeScale = Utils.GetLerpValue(3f, 13f, Projectile.velocity.Length(), true) * 1.2f;
 
             //Draw the blade.
             Main.EntitySpriteDraw(texture, Projectile.oldPos[2] + Projectile.Size / 2f - Main.screenPosition, null, Color.White with { A = 0 }, Projectile.rotation + MathHelper.PiOver4, texture.Size() / 2f, bladeScale * Projectile.scale, 0, 0);
