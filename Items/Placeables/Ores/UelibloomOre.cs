@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Placeables.Ores
             Item.height = 10;
             Item.maxStack = 999;
             Item.Calamity().customRarity = CalamityRarity.Turquoise;
-            Item.value = CalamityGlobalItem.RarityTurquoiseBuyPrice;
+            Item.value = Item.buyPrice(gold: 1);
         }
     }
 }
