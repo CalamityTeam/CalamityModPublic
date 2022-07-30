@@ -763,14 +763,14 @@ namespace CalamityMod
                     bool rngRoll = usesLuck ? info.player.RollLuck(dropRate.denominator) < dropRate.numerator : info.rng.NextFloat() < dropRate;
                     droppedAnything |= rngRoll;
                     if (rngRoll)
-                        CommonCode.DropItemFromNPC(info.npc, itemID, 1);
+                        CommonCode.DropItem(info, itemID, 1);
                 }
 
                 // If everything fails to drop, force drop one item from the set.
                 if (!droppedAnything)
                 {
                     int itemToDrop = itemIDs[info.rng.Next(itemIDs.Length)];
-                    CommonCode.DropItemFromNPC(info.npc, itemToDrop, 1);
+                    CommonCode.DropItem(info, itemToDrop, 1);
                 }
 
                 // Calamity style drops cannot fail. You will always get at least one item.
@@ -839,7 +839,7 @@ namespace CalamityMod
                 if (info.rng.Next(chanceDenominator) < chanceNumerator)
                 {
                     int stack = info.rng.Next(amountDroppedMinimum, amountDroppedMaximum + 1);
-                    TryDropInternal(info.npc, itemId, stack);
+                    TryDropInternal(info, itemId, stack);
                     result.State = ItemDropAttemptResultState.Success;
                     return result;
                 }
@@ -849,7 +849,7 @@ namespace CalamityMod
             }
 
             // The contents of this method are more or less copied from CommonCode.DropItemLocalPerClientAndSetNPCMoneyTo0
-            private void TryDropInternal(NPC npc, int itemId, int stack)
+            private void TryDropInternal(DropAttemptInfo info, int itemId, int stack)
             {
                 if (itemId <= 0 || itemId >= ItemLoader.ItemCount)
                     return;
@@ -857,6 +857,7 @@ namespace CalamityMod
                 // If server-side, then the item must be spawned for each client individually.
                 if (Main.netMode == NetmodeID.Server)
                 {
+                    NPC npc = info.npc;
                     int idx = Item.NewItem(npc.GetSource_Loot(), npc.Center, itemId, stack, true, -1);
                     Main.timeItemSlotCannotBeReusedFor[idx] = protectionTime;
                     for (int i = 0; i < Main.maxPlayers; ++i)
@@ -867,7 +868,7 @@ namespace CalamityMod
 
                 // Otherwise just drop the item.
                 else
-                    CommonCode.DropItemFromNPC(npc, itemId, stack);
+                    CommonCode.DropItem(info, itemId, stack);
             }
         }
 
