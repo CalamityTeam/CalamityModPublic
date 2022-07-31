@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Tools
         {
             DisplayName.SetDefault("Wulfrum Treasure Pinger");
             Tooltip.SetDefault("Helps you find metal that's hopefully more valuable than wulfrum\n" +
-            "This contraption seems incredibly shoddy. [c/fc4903: It'll break sooner than later for sure]"
+            "This contraption seems incredibly shoddy. [c/fc4903:It'll break sooner than later for sure]"
             );
             SacrificeTotal = 1;
         }
