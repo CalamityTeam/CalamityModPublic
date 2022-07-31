@@ -243,7 +243,7 @@ namespace CalamityMod.Tiles
             {
                 if (type == ModContent.TileType<AbyssalPots>())
                 {
-                    Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 16, ModContent.ItemType<AbyssalTreasure>());
+                    Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 16, ModContent.ItemType<AbyssalTreasure>(), Stack: 4);
 
                     if (Main.netMode != NetmodeID.Server)
                     {
