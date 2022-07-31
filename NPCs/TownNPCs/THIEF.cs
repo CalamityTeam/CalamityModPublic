@@ -26,6 +26,7 @@ namespace CalamityMod.NPCs.TownNPCs
             // Patron names
             "Xplizzy", // <@!98826096237109248> Whitegiraffe#6342
             "Freakish", // <@!750363283520749598> Freakish#0001
+            "Calder", // <@!601897959176798228> Paltham#8859
 
             // Original names
             "Laura", "Mie", "Bonnie",
