@@ -244,9 +244,11 @@ namespace CalamityMod
             return new DropBasedOnExpertMode(normalRule, expertRule);
         }
 
-        public static bool DropRevBagAccessories(IEntitySource source, Player p)
+        public static LeadingConditionRule GetRevBagAccessoryRule()
         {
-            return DropItemFromSetCondition(source, p, CalamityWorld.revenge, 0.05f, ModContent.ItemType<StressPills>(), ModContent.ItemType<Laudanum>(), ModContent.ItemType<HeartofDarkness>());
+            var lcr = new LeadingConditionRule(If(() => CalamityWorld.revenge));
+            lcr.Add(new OneFromOptionsNotScaledWithLuckDropRule(20, 1, ModContent.ItemType<Laudanum>(), ModContent.ItemType<HeartofDarkness>(), ModContent.ItemType<StressPills>()));
+            return lcr;
         }
         #endregion
 
