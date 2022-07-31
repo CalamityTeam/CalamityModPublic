@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -66,10 +66,14 @@ namespace CalamityMod.Projectiles.Rogue
             return new Color(200, 200, 200, Projectile.alpha);
         }
 
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            if (Projectile.ai[0] != 1f)
+                SoundEngine.PlaySound(SoundID.Item27 with { Volume = SoundID.Item12.Volume * 0.7f }, Projectile.position);
+        }
+
         public override void Kill(int timeLeft)
         {
-            if (Projectile.ai[0] != 1f || Main.rand.NextBool(20))
-                SoundEngine.PlaySound(SoundID.Item27, Projectile.position);
             for (int index1 = 0; index1 < 3; ++index1)
             {
                 int index2 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 76);
