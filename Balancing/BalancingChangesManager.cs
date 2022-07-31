@@ -76,8 +76,8 @@ namespace CalamityMod.Balancing
                 // Nerf Mushroom Spear projectiles by 50%.
                 Do(new ProjectileSpecificRequirementBalancingRule(0.5f, MushroomSpearFilter)),
 
-                // Nerf Spectre Mask set bonus projectiles by 50%.
-                Do(new ProjectileSpecificRequirementBalancingRule(0.5f, SpectreMaskSetBonusFilter)),
+                // Nerf Spectre Mask set bonus projectiles by 30%.
+                Do(new ProjectileSpecificRequirementBalancingRule(0.7f, SpectreMaskSetBonusFilter)),
             };
 
             NPCSpecificBalancingChanges = new List<NPCBalancingChange>();

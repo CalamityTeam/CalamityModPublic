@@ -4607,10 +4607,6 @@ namespace CalamityMod.CalPlayer
                 if (proj.type == ModContent.ProjectileType<AcidRoundProj>() && heldItem.type == ModContent.ItemType<P90>())
                     damage = (int)(damage * 0.75);
             }
-
-            if (proj.type == ProjectileID.SpectreWrath && Player.ghostHurt)
-                damage = (int)(damage * 0.7);
-
             #endregion
 
             // Handle on-hit ranged effects for the gem tech armor set.
