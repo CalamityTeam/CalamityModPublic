@@ -53,11 +53,11 @@ namespace CalamityMod.Items.TreasureBags
             var tenPercentPotions = itemLoot.Add(new OneFromOptionsNotScaledWithLuckDropRule(10, 1, AbyssalTreasurePotions));
 
             // IF YOU DONT GET POTIONS
-            // 10% chance for 4-8 spelunker glowsticks
-            // 10% chance 10-20 hellfire arrows
-            // 10% chance for 1 hadal stew
-            // 10% chance for 1 sticky dynamite
-            // 60% chance for 40-60 silver
+            // 10% chance for 4-8 Spelunker Glowsticks
+            // 10% chance 10-20 Hellfire Arrows
+            // 10% chance for 1 Hadal Stew
+            // 10% chance for 1 Sticky Dynamite
+            // 60% chance for 40-60 Silver Coins
 
             // 4-8 Spelunker Glowsticks
             CommonDrop spelunkerGlowsticks = new CommonDrop(ItemID.SpelunkerGlowstick, 1, 4, 8);

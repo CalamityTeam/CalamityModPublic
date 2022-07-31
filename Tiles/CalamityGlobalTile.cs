@@ -256,7 +256,7 @@ namespace CalamityMod.Tiles
                 }
                 else if (type == ModContent.TileType<SulphurousPots>())
                 {
-                    Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 16, ModContent.ItemType<SulphuricTreasure>());
+                    Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 16, ModContent.ItemType<SulphuricTreasure>(), Stack: 4);
 
                     if (Main.netMode != NetmodeID.Server)
                     {
