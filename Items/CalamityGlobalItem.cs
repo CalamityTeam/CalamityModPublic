@@ -1210,6 +1210,9 @@ namespace CalamityMod.Items
                 player.GetAttackSpeed<MeleeDamageClass>() += 0.02f;
             }
 
+            if (item.type == ItemID.TerrasparkBoots)
+                player.buffImmune[BuffID.OnFire] = true;
+
             if (item.type == ItemID.AngelWings) // Boost to max life, defense, and life regen
             {
                 player.statLifeMax2 += 20;

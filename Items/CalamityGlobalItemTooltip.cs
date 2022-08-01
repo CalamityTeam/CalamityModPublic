@@ -629,6 +629,9 @@ namespace CalamityMod.Items
             if (item.type == ItemID.ObsidianHorseshoe || item.type == ItemID.ObsidianShield || item.type == ItemID.ObsidianWaterWalkingBoots || item.type == ItemID.LavaWaders || item.type == ItemID.LavaSkull || item.type == ItemID.MoltenSkullRose)
                 EditTooltipByNum(1, (line) => line.Text = line.Text.Replace("fire blocks", "the Burning and On Fire! debuffs"));
 
+            if (item.type == ItemID.TerrasparkBoots)
+                EditTooltipByNum(3, (line) => line.Text += "\nImmunity to the On Fire! debuff");
+
             // IT'S HELLFIRE!!!
             if (item.type == ItemID.MagmaStone || item.type == ItemID.LavaSkull || item.type == ItemID.MoltenSkullRose)
                 EditTooltipByNum(0, (line) => line.Text = line.Text.Replace("fire damage", "Hellfire"));
