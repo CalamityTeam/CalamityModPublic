@@ -372,7 +372,7 @@ namespace CalamityMod.Projectiles.Melee
             {
                 // Play a charge sound right before the dash.
                 if (Projectile.timeLeft == 1 + (int)(SwingTime * (Exoblade.PercentageOfAnimationSpentLunging)))
-                    SoundEngine.PlaySound(CommonCalamitySounds.ELRFireSound, Projectile.Center);
+                    SoundEngine.PlaySound(Exoblade.DashSound, Projectile.Center);
 
                 Projectile.velocity = Owner.MountedCenter.DirectionTo(Owner.Calamity().mouseWorld);
                 Projectile.oldPos = new Vector2[Projectile.oldPos.Length];
@@ -608,14 +608,14 @@ namespace CalamityMod.Projectiles.Melee
 
                 Projectile.netUpdate = true;
 
-                SoundEngine.PlaySound(PlasmaGrenade.ExplosionSound with { Volume = PlasmaGrenade.ExplosionSound.Volume * 0.8f }, target.Center);
+                SoundEngine.PlaySound(Exoblade.DashHitSound, target.Center);
                 SoundEngine.PlaySound(Exoblade.BeamHitSound with { Volume = Exoblade.BeamHitSound.Volume * 1.2f}, target.Center);
                 if (Main.myPlayer == Projectile.owner)
                 {
                     int lungeHitDamage = (int)(Projectile.damage * Exoblade.LungeDamageFactor);
                     for (int i = 0; i < 5; i++)
                     {
-                        int slash = Projectile.NewProjectile(Projectile.GetSource_FromAI(), target.Center, Projectile.velocity * 0.1f, ModContent.ProjectileType<ExobeamSlashCreator>(), lungeHitDamage, 0f, Projectile.owner, target.whoAmI);
+                        int slash = Projectile.NewProjectile(Projectile.GetSource_FromAI(), target.Center, Projectile.velocity * 0.1f, ModContent.ProjectileType<ExobeamSlashCreator>(), lungeHitDamage, 0f, Projectile.owner, target.whoAmI, 100);
                         if (Main.projectile.IndexInRange(slash))
                             Main.projectile[slash].timeLeft -= i * 4;
                     }

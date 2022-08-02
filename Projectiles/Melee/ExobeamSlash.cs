@@ -66,7 +66,7 @@ namespace CalamityMod.Projectiles.Melee
 
             Vector2 drawPosition = Projectile.Center - Main.screenPosition;
             Vector2 origin = texture.Size() * 0.5f;
-            Vector2 scale = new Vector2(1f + 0.2f * (float)Math.Pow(progress, 0.2), 0.55f - 0.3f * (float)Math.Pow(progress, 0.4)) * Projectile.scale;
+            Vector2 scale = new Vector2(0.5f + 0.7f * (float)Math.Pow(progress, 0.45), 0.55f - 0.3f * (float)Math.Pow(progress, 0.4)) * Projectile.scale;
 
 
             Vector2 bloomScale = Projectile.Size / bloomTexture.Size() * new Vector2(1f, 2f);

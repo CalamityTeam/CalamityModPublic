@@ -103,7 +103,11 @@ namespace CalamityMod.Projectiles.Melee
         {
             SoundEngine.PlaySound(Exoblade.BeamHitSound, target.Center);
             if (Main.myPlayer == Projectile.owner)
-                Projectile.NewProjectile(Projectile.GetSource_FromAI(), target.Center, Projectile.velocity * 0.1f, ModContent.ProjectileType<ExobeamSlashCreator>(), Projectile.damage, 0f, Projectile.owner, target.whoAmI);
+            {
+                int slash = Projectile.NewProjectile(Projectile.GetSource_FromAI(), target.Center, Projectile.velocity * 0.1f, ModContent.ProjectileType<ExobeamSlashCreator>(), Projectile.damage, 0f, Projectile.owner, target.whoAmI, Projectile.velocity.ToRotation());
+                if (Main.projectile.IndexInRange(slash))
+                    Main.projectile[slash].timeLeft = 20;
+            }
 
             target.ExoDebuffs();
         }

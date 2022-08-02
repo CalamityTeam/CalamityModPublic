@@ -19,7 +19,8 @@ namespace CalamityMod.Items.Weapons.Melee
         public static readonly SoundStyle BigSwingSound = new("CalamityMod/Sounds/Item/ExobladeBigSwing") { MaxInstances = 3, PitchVariance = 0.2f };
         public static readonly SoundStyle BigHitSound = new("CalamityMod/Sounds/Item/ExobladeBigHit") { PitchVariance = 0.2f };
         public static readonly SoundStyle BeamHitSound = new("CalamityMod/Sounds/Item/ExobladeBeamSlash") { Volume = 0.4f, PitchVariance = 0.2f };
-
+        public static readonly SoundStyle DashSound = new("CalamityMod/Sounds/Item/ExobladeDash") { Volume = 0.6f };
+        public static readonly SoundStyle DashHitSound = new("CalamityMod/Sounds/Item/ExobladeDashImpact") { Volume = 0.85f };
 
 
         public static int BeamNoHomeTime = 24;
