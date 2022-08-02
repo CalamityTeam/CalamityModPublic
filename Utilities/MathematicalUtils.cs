@@ -207,6 +207,15 @@ namespace CalamityMod
         /// <param name="max">The maximum magnitude.</param>
         public static Vector2 ClampMagnitude(this Vector2 v, float min, float max) => v.SafeNormalize(Vector2.UnitY) * MathHelper.Clamp(v.Length(), min, max);
 
+        /// <summary>
+        /// Gives the angle in radians between two other angles
+        /// This function exists for vectors but somehow is missing for floats
+        /// </summary>
+        /// <param name="angle">Your source angle</param>
+        /// <param name="otherAngle">The target angle</param>
+        /// <returns></returns>
+        public static float AngleBetween(this float angle, float otherAngle) => ((otherAngle - angle) + MathHelper.Pi).Modulo(MathHelper.TwoPi) - MathHelper.Pi;
+
         #region Easings
         /// <summary>
         /// Gets a value from 0 to 1 and returns an eased value.
