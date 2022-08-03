@@ -3,6 +3,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.Furniture.Trophies
 {
+    [LegacyName("GreatSandSharkBanner")]
     public class GreatSandSharkTrophy : ModItem
     {
         public override void SetStaticDefaults()

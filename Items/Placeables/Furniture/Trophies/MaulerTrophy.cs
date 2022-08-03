@@ -3,6 +3,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.Furniture.Trophies
 {
+    [LegacyName("MaulerBanner")]
     public class MaulerTrophy : ModItem
     {
         public override void SetStaticDefaults()
