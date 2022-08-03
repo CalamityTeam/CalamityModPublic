@@ -8,7 +8,6 @@ using CalamityMod.NPCs.AcidRain;
 using CalamityMod.NPCs.AquaticScourge;
 using CalamityMod.NPCs.Astral;
 using CalamityMod.NPCs.Crags;
-using CalamityMod.NPCs.GreatSandShark;
 using CalamityMod.NPCs.Leviathan;
 using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.NPCs.PlagueEnemies;
@@ -536,9 +535,6 @@ namespace CalamityMod
                 case 63:
                     item = ModContent.ItemType<CnidrionBanner>();
                     break;
-                case 65:
-                    item = ModContent.ItemType<GreatSandSharkBanner>();
-                    break;
                 case 66:
                     item = ModContent.ItemType<AmethystCrawlerBanner>();
                     break;
@@ -735,9 +731,6 @@ namespace CalamityMod
                     break;
                 case 4:
                     npc = ModContent.NPCType<Catfish>();
-                    break;
-                case 5:
-                    npc = ModContent.NPCType<Mauler>();
                     break;
                 case 7:
                     npc = ModContent.NPCType<AquaticUrchin>();
@@ -1017,9 +1010,6 @@ namespace CalamityMod
                     break;
                 case 106:
                     npc = ModContent.NPCType<SeaSerpent1>();
-                    break;
-                case 107:
-                    npc = ModContent.NPCType<GiantClam>();
                     break;
                 case 108:
                     npc = ModContent.NPCType<Piggy>();
