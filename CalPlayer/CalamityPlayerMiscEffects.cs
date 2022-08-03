@@ -17,6 +17,7 @@ using CalamityMod.Events;
 using CalamityMod.Items;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Brimflame;
+using CalamityMod.Items.Armor.DesertProwler;
 using CalamityMod.Items.Armor.Silva;
 using CalamityMod.Items.DraedonMisc;
 using CalamityMod.Items.Dyes;
@@ -3816,6 +3817,9 @@ namespace CalamityMod.CalPlayer
                 if (Player.statDefense > 0)
                     Player.statDefense -= (int)(Player.statDefense * 0.1);
             }
+
+            if (DesertProwlerHat.ShroudedInSmoke(Player, out _))
+                Player.statDefense -= (int)(Player.statDefense * 0.75);
         }
         #endregion
 

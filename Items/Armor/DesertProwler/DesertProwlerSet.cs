@@ -29,6 +29,7 @@ namespace CalamityMod.Items.Armor.DesertProwler
         public static int SmokeDuration = 5 * 60;
         public static int LightsOutReset = (int)(1.5f * 60);
         public static int FreeCrit = 200;
+        public static int BonusDamageCap = 100;
 
         public static bool ShroudedInSmoke(Player player, out CooldownInstance cd)
         {
@@ -100,7 +101,6 @@ namespace CalamityMod.Items.Armor.DesertProwler
                 player.invis = true;
                 player.aggro = (int)(player.aggro * 0.5f);
                 player.noKnockback = true;
-                player.GetCritChance(DamageClass.Ranged) += FreeCrit;
 
                 for (int i = 0; i < 2; i++)
                 {
@@ -179,11 +179,11 @@ namespace CalamityMod.Items.Armor.DesertProwler
                     setBonus1.OverrideColor = Color.Lerp(new Color(255, 229, 156), new Color(233, 225, 198), 0.5f + 0.5f * (float)Math.Sin(Main.GlobalTimeWrappedHourly * 3f));
                     tooltips.Insert(setBonusIndex + 1, setBonus1);
 
-                    TooltipLine setBonus2 = new TooltipLine(item.Mod, "CalamityMod:SetBonus2", "While the sand cloud is active, gain increased mobility");
+                    TooltipLine setBonus2 = new TooltipLine(item.Mod, "CalamityMod:SetBonus2", "While the sand cloud is active, gain increased mobility but heavily reduced defense");
                     setBonus2.OverrideColor = new Color(204, 181, 72);
                     tooltips.Insert(setBonusIndex + 2, setBonus2);
 
-                    TooltipLine setBonus3 = new TooltipLine(item.Mod, "CalamityMod:SetBonus3", $"Attacking instantly dispels the sand cloak, but guarantees a supercrit for {FreeCrit}% damage\n" +
+                    TooltipLine setBonus3 = new TooltipLine(item.Mod, "CalamityMod:SetBonus3", $"Attacking instantly dispels the sand cloak, but guarantees a supercrit for {FreeCrit}% damage, up to {BonusDamageCap} extra damage\n" +
                         $"Landing the killing blow on an enemy with this shot shortens the ability's cooldown to {LightsOutReset / 60f} seconds");
                     setBonus3.OverrideColor = new Color(204, 181, 72);
                     tooltips.Insert(setBonusIndex + 3, setBonus3);
@@ -402,6 +402,7 @@ namespace CalamityMod.Items.Armor.DesertProwler
     public class DesertProwlerProjectile : GlobalProjectile
     {
         public bool LightsOut = false;
+        public int ExtraCrit = 0;
         public override bool InstancePerEntity => true;
 
         public override void OnSpawn(Projectile projectile, IEntitySource source)
@@ -410,6 +411,24 @@ namespace CalamityMod.Items.Armor.DesertProwler
             {
                 if (projectile.owner >= 0 && DesertProwlerHat.ShroudedInSmoke(Main.player[projectile.owner], out var cd) && projectile.DamageType.CountsAsClass(DamageClass.Ranged))
                 {
+                    int critPool = DesertProwlerHat.FreeCrit;
+                    int superCritLayers = 2;
+
+                    //Increase the crit cance of the projectile for as long as theres free crits to be handed out.
+                    //Only increase the crit chance if the additional 100% damage wouldnt make the projectile deal more than 100 damage
+                    while (critPool >= 100)
+                    {
+                        if (projectile.damage <= DesertProwlerHat.BonusDamageCap / superCritLayers)
+                        {
+                            ExtraCrit += 100;
+                            critPool -= 100;
+                        }
+
+                        superCritLayers++;
+                    }
+
+                    projectile.CritChance += ExtraCrit;
+
                     projectile.Calamity().supercritHits  = 1;
                     LightsOut = true;
                     Main.player[projectile.owner].GetModPlayer<DesertProwlerPlayer>().stopSmokeBomb = true;
@@ -422,7 +441,7 @@ namespace CalamityMod.Items.Armor.DesertProwler
             if (LightsOut)
             {
                 Player owner = Main.player[projectile.owner];
-                projectile.CritChance -= DesertProwlerHat.FreeCrit;
+                projectile.CritChance -= ExtraCrit;
 
                 if (target.life <= 0 && owner.Calamity().cooldowns.TryGetValue(SandsmokeBomb.ID, out var cd) && cd.timeLeft <= DesertProwlerHat.SmokeCooldown && cd.timeLeft > DesertProwlerHat.LightsOutReset)
                 {
