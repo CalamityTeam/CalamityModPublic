@@ -1,5 +1,4 @@
 ﻿using CalamityMod.Items.Materials;
-using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Placeables.Furniture.BossRelics;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Projectiles.Boss;
@@ -62,8 +61,6 @@ namespace CalamityMod.NPCs.GreatSandShark
             NPC.DeathSound = SoundID.NPCDeath1;
             NPC.timeLeft = NPC.activeTime * 30;
             NPC.rarity = 2;
-            Banner = NPC.type;
-            BannerItem = ModContent.ItemType<GreatSandSharkBanner>();
             NPC.Calamity().VulnerableToCold = true;
             NPC.Calamity().VulnerableToSickness = true;
             NPC.Calamity().VulnerableToWater = true;

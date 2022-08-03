@@ -374,9 +374,6 @@ namespace CalamityMod
                 case 4:
                     item = ModContent.ItemType<CatfishBanner>();
                     break;
-                case 5:
-                    item = ModContent.ItemType<MaulerBanner>();
-                    break;
                 case 7:
                     item = ModContent.ItemType<AquaticUrchinBanner>();
                     break;
@@ -659,9 +656,6 @@ namespace CalamityMod
                 case 106:
                     item = ModContent.ItemType<SeaSerpentBanner>();
                     break;
-                case 107:
-                    item = ModContent.ItemType<GiantClamBanner>();
-                    break;
                 case 108:
                     item = ModContent.ItemType<PiggyBanner>();
                     break;
@@ -906,9 +900,6 @@ namespace CalamityMod
                     break;
                 case 63:
                     npc = ModContent.NPCType<Cnidrion>();
-                    break;
-                case 65:
-                    npc = ModContent.NPCType<GreatSandShark>();
                     break;
                 case 66:
                     npc = ModContent.NPCType<CrawlerAmethyst>();

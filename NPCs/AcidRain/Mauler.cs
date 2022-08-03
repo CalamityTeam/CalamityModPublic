@@ -1,6 +1,5 @@
 ﻿using CalamityMod.BiomeManagers;
 using CalamityMod.Buffs.StatDebuffs;
-using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Placeables.Furniture.BossRelics;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Items.Weapons.Ranged;
@@ -76,8 +75,6 @@ namespace CalamityMod.NPCs.AcidRain
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath60;
             NPC.knockBackResist = 0f;
-            Banner = NPC.type;
-            BannerItem = ModContent.ItemType<MaulerBanner>();
             NPC.RemoveWaterSlowness();
             NPC.Calamity().canBreakPlayerDefense = true;
             NPC.Calamity().VulnerableToHeat = false;
