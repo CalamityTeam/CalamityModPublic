@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Tools
         {
             Item.damage = 7;
             Item.ArmorPenetration = 5;
-            Item.knockBack = 1f;
+            Item.knockBack = 0f;
             Item.useTime = 6;
             Item.useAnimation = 25;
             Item.pick = 50;
