@@ -41,33 +41,28 @@ namespace CalamityMod.Items.TreasureBags
             return CalamityUtils.DrawTreasureBagInWorld(Item, spriteBatch, ref rotation, ref scale, whoAmI);
         }
 
-        public override void OpenBossBag(Player player)
+        public override void ModifyItemLoot(ItemLoot itemLoot)
         {
-            // IEntitySource my beloathed
-            var s = player.GetSource_OpenItem(Item.type);
-
-            player.TryGettingDevArmor(s);
-
             // Materials
-            DropHelper.DropItem(s, player, ModContent.ItemType<EssenceofEleum>(), 5, 9);
+            itemLoot.Add(ModContent.ItemType<EssenceofEleum>(), 1, 5, 9);
 
             // Weapons
-            float w = DropHelper.BagWeaponDropRateFloat;
-            DropHelper.DropEntireWeightedSet(s, player,
-                DropHelper.WeightStack<Avalanche>(w),
-                DropHelper.WeightStack<EffluviumBow>(w),
-                DropHelper.WeightStack<SnowstormStaff>(w),
-                DropHelper.WeightStack<Icebreaker>(w),
-                DropHelper.WeightStack<CryoStone>(w),
-                DropHelper.WeightStack<FrostFlare>(w)
-            );
+            itemLoot.Add(DropHelper.CalamityStyle(DropHelper.BagWeaponDropRateFraction, new int[]
+            {
+                ModContent.ItemType<Avalanche>(),
+                ModContent.ItemType<Icebreaker>(),
+                ModContent.ItemType<EffluviumBow>(),
+                ModContent.ItemType<SnowstormStaff>(),
+            }));
+            itemLoot.Add(ModContent.ItemType<ColdDivinity>(), 10);
 
             // Equipment
-            DropHelper.DropItem(s, player, ModContent.ItemType<SoulofCryogen>());
-            DropHelper.DropItemChance(s, player, ModContent.ItemType<ColdDivinity>(), 0.1f);
+            itemLoot.Add(ModContent.ItemType<SoulofCryogen>());
+            itemLoot.Add(ModContent.ItemType<CryoStone>(), DropHelper.BagWeaponDropRateFraction);
+            itemLoot.Add(ModContent.ItemType<FrostFlare>(), DropHelper.BagWeaponDropRateFraction);
 
             // Vanity
-            DropHelper.DropItemChance(s, player, ModContent.ItemType<CryogenMask>(), 7);
+            itemLoot.Add(ModContent.ItemType<CryogenMask>(), 7);
         }
     }
 }

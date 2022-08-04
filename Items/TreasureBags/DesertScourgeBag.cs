@@ -41,38 +41,34 @@ namespace CalamityMod.Items.TreasureBags
             return CalamityUtils.DrawTreasureBagInWorld(Item, spriteBatch, ref rotation, ref scale, whoAmI);
         }
 
-        public override void OpenBossBag(Player player)
+        public override void ModifyItemLoot(ItemLoot itemLoot)
         {
-            // IEntitySource my beloathed
-            var s = player.GetSource_OpenItem(Item.type);
-
             // Materials
-            DropHelper.DropItem(s, player, ModContent.ItemType<PearlShard>(), 30, 40);
-            DropHelper.DropItem(s, player, ItemID.Coral, 30, 40);
-            DropHelper.DropItem(s, player, ItemID.Seashell, 30, 40);
-            DropHelper.DropItem(s, player, ItemID.Starfish, 30, 40);
+            itemLoot.Add(ModContent.ItemType<PearlShard>(), 1, 30, 40);
+            itemLoot.Add(ItemID.Coral, 1, 30, 40);
+            itemLoot.Add(ItemID.Seashell, 1, 30, 40);
+            itemLoot.Add(ItemID.Starfish, 1, 30, 40);
 
             // Weapons
-            // Set up the base drop set, which includes Scourge of the Desert at its normal drop chance.
-            float w = DropHelper.BagWeaponDropRateFloat;
-            DropHelper.DropEntireWeightedSet(s, player,
-                DropHelper.WeightStack<AquaticDischarge>(w),
-                DropHelper.WeightStack<Barinade>(w),
-                DropHelper.WeightStack<StormSpray>(w),
-                DropHelper.WeightStack<SeaboundStaff>(w),
-                DropHelper.WeightStack<ScourgeoftheDesert>(w),
-                DropHelper.WeightStack<AeroStone>(w),
-                DropHelper.WeightStack<SandCloak>(w)
-            );
+            itemLoot.Add(DropHelper.CalamityStyle(DropHelper.BagWeaponDropRateFraction, new int[]
+            {
+                ModContent.ItemType<AquaticDischarge>(),
+                ModContent.ItemType<Barinade>(),
+                ModContent.ItemType<StormSpray>(),
+                ModContent.ItemType<SeaboundStaff>(),
+                ModContent.ItemType<ScourgeoftheDesert>()
+            }));
 
             // Equipment
-            DropHelper.DropItem(s, player, ModContent.ItemType<OceanCrest>());
+            itemLoot.Add(ModContent.ItemType<OceanCrest>());
+            itemLoot.Add(ModContent.ItemType<AeroStone>(), DropHelper.BagWeaponDropRateFraction);
+            itemLoot.Add(ModContent.ItemType<SandCloak>(), DropHelper.BagWeaponDropRateFraction);
 
             // Vanity
-            DropHelper.DropItemChance(s, player, ModContent.ItemType<DesertScourgeMask>(), 7);
+            itemLoot.Add(ModContent.ItemType<DesertScourgeMask>(), 7);
 
             // Fishing
-            DropHelper.DropItem(s, player, ModContent.ItemType<SandyAnglingKit>());
+            itemLoot.Add(ModContent.ItemType<SandyAnglingKit>());
         }
     }
 }

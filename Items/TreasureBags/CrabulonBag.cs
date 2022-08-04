@@ -41,31 +41,30 @@ namespace CalamityMod.Items.TreasureBags
             return CalamityUtils.DrawTreasureBagInWorld(Item, spriteBatch, ref rotation, ref scale, whoAmI);
         }
 
-        public override void OpenBossBag(Player player)
+        public override void ModifyItemLoot(ItemLoot itemLoot)
         {
-            // IEntitySource my beloathed
-            var s = player.GetSource_OpenItem(Item.type);
-
             // Materials
-            DropHelper.DropItem(s, player, ItemID.GlowingMushroom, 25, 35);
-            DropHelper.DropItem(s, player, ItemID.MushroomGrassSeeds, 5, 10);
+            itemLoot.Add(ItemID.GlowingMushroom, 1, 25, 35);
+            itemLoot.Add(ItemID.MushroomGrassSeeds, 1, 5, 10);
 
             // Weapons
-            float w = DropHelper.BagWeaponDropRateFloat;
-            DropHelper.DropEntireWeightedSet(s, player,
-                DropHelper.WeightStack<MycelialClaws>(w),
-                DropHelper.WeightStack<Fungicide>(w),
-                DropHelper.WeightStack<HyphaeRod>(w),
-                DropHelper.WeightStack<Mycoroot>(w),
-                DropHelper.WeightStack<InfestedClawmerang>(w)
-            );
+            itemLoot.Add(DropHelper.CalamityStyle(DropHelper.BagWeaponDropRateFraction, new int[]
+            {
+                ModContent.ItemType<MycelialClaws>(),
+                ModContent.ItemType<Fungicide>(),
+                ModContent.ItemType<HyphaeRod>(),
+                ModContent.ItemType<InfestedClawmerang>(),
+                ModContent.ItemType<Mycoroot>(),
+            }));
 
             // Equipment
-            DropHelper.DropItem(s, player, ModContent.ItemType<FungalClump>());
-            DropHelper.DropItemCondition(s, player, ModContent.ItemType<MushroomPlasmaRoot>(), CalamityWorld.revenge && !player.Calamity().rageBoostOne);
+            itemLoot.Add(ModContent.ItemType<FungalClump>());
 
             // Vanity
-            DropHelper.DropItemChance(s, player, ModContent.ItemType<CrabulonMask>(), 7);
+            itemLoot.Add(ModContent.ItemType<CrabulonMask>(), 7);
+
+            // Other
+            itemLoot.AddIf(() => CalamityWorld.revenge, ModContent.ItemType<MushroomPlasmaRoot>());
         }
     }
 }

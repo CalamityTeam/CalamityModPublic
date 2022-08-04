@@ -41,43 +41,36 @@ namespace CalamityMod.Items.TreasureBags
             return CalamityUtils.DrawTreasureBagInWorld(Item, spriteBatch, ref rotation, ref scale, whoAmI);
         }
 
-        public override void OpenBossBag(Player player)
+        public override void ModifyItemLoot(ItemLoot itemLoot)
         {
-            // IEntitySource my beloathed
-            var s = player.GetSource_OpenItem(Item.type);
-
-            // siren & levi are available PHM, so this check is necessary to keep vanilla consistency
-            if (Main.hardMode)
-				player.TryGettingDevArmor(s);
-
             // Weapons
-            float w = DropHelper.BagWeaponDropRateFloat;
-            DropHelper.DropEntireWeightedSet(s, player,
-                DropHelper.WeightStack<Greentide>(w),
-                DropHelper.WeightStack<Leviatitan>(w),
-                DropHelper.WeightStack<AnahitasArpeggio>(w),
-                DropHelper.WeightStack<Atlantis>(w),
-                DropHelper.WeightStack<GastricBelcherStaff>(w),
-                DropHelper.WeightStack<BrackishFlask>(w),
-                DropHelper.WeightStack<LeviathanTeeth>(w),
-                DropHelper.WeightStack<PearlofEnthrallment>(w)
-            );
+            itemLoot.Add(DropHelper.CalamityStyle(DropHelper.BagWeaponDropRateFraction, new int[]
+            {
+                ModContent.ItemType<Greentide>(),
+                ModContent.ItemType<Leviatitan>(),
+                ModContent.ItemType<AnahitasArpeggio>(),
+                ModContent.ItemType<Atlantis>(),
+                ModContent.ItemType<GastricBelcherStaff>(),
+                ModContent.ItemType<BrackishFlask>(),
+                ModContent.ItemType<LeviathanTeeth>(),
+            }));
 
             // Equipment
-            DropHelper.DropItem(s, player, ModContent.ItemType<LeviathanAmbergris>());
-            DropHelper.DropItemChance(s, player, ModContent.ItemType<TheCommunity>(), 0.1f);
+            itemLoot.Add(ModContent.ItemType<LeviathanAmbergris>());
+            itemLoot.Add(ModContent.ItemType<PearlofEnthrallment>(), DropHelper.BagWeaponDropRateFraction);
+            itemLoot.Add(ModContent.ItemType<TheCommunity>(), 10);
 
             // Vanity
-            DropHelper.DropItemChance(s, player, ModContent.ItemType<LeviathanMask>(), 7);
-            DropHelper.DropItemChance(s, player, ModContent.ItemType<AnahitaMask>(), 7);
+            itemLoot.Add(ModContent.ItemType<AnahitaMask>(), 7);
+            itemLoot.Add(ModContent.ItemType<LeviathanMask>(), 7);
 
             // Fishing
-            DropHelper.DropItemChance(s, player, ItemID.HotlineFishingHook, 10);
-            DropHelper.DropItemChance(s, player, ItemID.BottomlessBucket, 10);
-            DropHelper.DropItemChance(s, player, ItemID.SuperAbsorbantSponge, 10);
-            DropHelper.DropItemChance(s, player, ItemID.FishingPotion, 5, 5, 8);
-            DropHelper.DropItemChance(s, player, ItemID.SonarPotion, 5, 5, 8);
-            DropHelper.DropItemChance(s, player, ItemID.CratePotion, 5, 5, 8);
+            itemLoot.Add(ItemID.HotlineFishingHook, 10);
+            itemLoot.Add(ItemID.BottomlessBucket, 10);
+            itemLoot.Add(ItemID.SuperAbsorbantSponge, 10);
+            itemLoot.Add(ItemID.FishingPotion, 5, 5, 8);
+            itemLoot.Add(ItemID.SonarPotion, 5, 5, 8);
+            itemLoot.Add(ItemID.CratePotion, 5, 5, 8);
         }
     }
 }
