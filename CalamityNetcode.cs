@@ -269,6 +269,15 @@ namespace CalamityMod
                         break;
 
 
+                    //
+                    // Difficulty syncs
+                    //
+
+                    case CalamityModMessageType.SyncDifficulties:
+                        CalamityWorld.revenge = reader.ReadBoolean();
+                        CalamityWorld.death = reader.ReadBoolean();
+                        //TODO - Something so that other mods that hijack the difficulty ui can also use the remainder of the reader to have their own shit
+                        break;
 
                     //
                     // Default case: with no idea how long the packet is, we can't safely read data.
@@ -296,6 +305,21 @@ namespace CalamityMod
         {
             if (Main.netMode == NetmodeID.Server)
                 NetMessage.SendData(MessageID.WorldData);
+        }
+
+        public static void SyncCalamityWorldDifficulties()
+        {
+            if (Main.netMode == NetmodeID.SinglePlayer)
+                return;
+
+            var netMessage = CalamityMod.Instance.GetPacket();
+            netMessage.Write((byte)CalamityModMessageType.SyncDifficulties);
+            netMessage.Write(CalamityWorld.revenge);
+            netMessage.Write(CalamityWorld.death);
+
+            //TODO - Let other mods also add their own bits in that sync. Ideally would be done through the difficultystem itself
+
+            netMessage.Send(-1, Main.myPlayer);
         }
 
         public static void NewNPC_ClientSide(Vector2 spawnPosition, int npcType, Player player)
@@ -386,6 +410,9 @@ namespace CalamityMod
 
         // Mouse Controls syncs
         RightClickSync,
-        MousePositionSync
+        MousePositionSync,
+
+        // World state sync
+        SyncDifficulties
     }
 }
