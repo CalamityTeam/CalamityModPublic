@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.DamageType = DamageClass.Magic;
             Projectile.timeLeft = 600;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = -2;
+            Projectile.localNPCHitCooldown = 10;
         }
 
         public override void AI()
