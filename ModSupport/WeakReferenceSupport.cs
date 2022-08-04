@@ -115,9 +115,9 @@ namespace CalamityMod
     {
         private static readonly Dictionary<string, float> BossDifficulty = new Dictionary<string, float>
         {
-            { "DesertScourge", 1.5f },
-            { "GiantClam", 1.6f },
-            { "Crabulon", 2.5f },
+            { "DesertScourge", 1.6f },
+            { "GiantClam", 1.61f },
+            { "Crabulon", 2.7f },
             { "HiveMind", 3.98f },
             { "Perforators", 3.99f },
             { "SlimeGod", 6.5f },
@@ -126,8 +126,8 @@ namespace CalamityMod
             { "BrimstoneElemental", 10.5f },
             { "Calamitas", 11.7f },
             { "GreatSandShark", 12.09f },
-            { "Leviathan", 12.5f },
-            { "AstrumAureus", 12.6f },
+            { "Leviathan", 12.8f },
+            { "AstrumAureus", 12.81f },
             { "PlaguebringerGoliath", 14.5f },
             { "Ravager", 16.5f },
             { "AstrumDeus", 17.5f },
@@ -151,7 +151,7 @@ namespace CalamityMod
 
         private static readonly Dictionary<string, float> InvasionDifficulty = new Dictionary<string, float>
         {
-            { "Acid Rain Initial", 2.4f },
+            { "Acid Rain Initial", 2.67f },
             { "Acid Rain Aquatic Scourge", 9.51f },
             { "Acid Rain Polterghast", 19.49f }
         };
