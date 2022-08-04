@@ -80,7 +80,9 @@ namespace CalamityMod.Items.Tools
 
             if (timeBeforeBlast <= 0)
             {
-                DropHelper.DropItem(Item.GetSource_ItemUse(Item), player, ModContent.ItemType<WulfrumMetalScrap>(), 0, 3);
+                int scrapRefund = Main.rand.Next(0, 4);
+                if (scrapRefund > 0)
+                    player.QuickSpawnItem(Item.GetSource_ItemUse(Item), ModContent.ItemType<WulfrumMetalScrap>(), scrapRefund);
 
                 Item.TurnToAir();
 

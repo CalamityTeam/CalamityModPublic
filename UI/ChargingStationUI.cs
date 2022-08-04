@@ -109,7 +109,6 @@ namespace CalamityMod.UI
                     // If the player is holding shift and has space for the item, just spawn it on his or her face.
                     if (Main.keyState.PressingShift() && p.ItemSpace(pluggedItem).CanTakeItemToPersonalInventory)
                     {
-                        // This does not use DropHelper because it has to clone an existing item, not create one from nothing.
                         p.QuickSpawnClonedItem(new EntitySource_TileEntity(charger), pluggedItem, pluggedItem.stack);
 
                         // Destroy the original plugged item because a clone of it was just spawned.
@@ -157,7 +156,7 @@ namespace CalamityMod.UI
                     // If the player is holding shift and has space for the power cells, just spawn all of them on his or her face.
                     if (Main.keyState.PressingShift() && p.ItemSpace(powercell).CanTakeItemToPersonalInventory)
                     {
-                        DropHelper.DropItem(p.GetSource_TileInteraction(te.Position.X, te.Position.Y), p, powercellID, powercell.stack);
+                        p.QuickSpawnItem(p.GetSource_TileInteraction(te.Position.X, te.Position.Y), powercellID, powercell.stack);
                         chargerStackDiff = (short)-powercell.stack;
 
                         // Do not play a sound in this situation. The player is going to pick up the dropped cells in a few frames, which will make sound.
