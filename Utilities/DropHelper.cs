@@ -9,6 +9,7 @@ using Terraria.DataStructures;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Utilities;
 
 namespace CalamityMod
 {
@@ -63,7 +64,14 @@ namespace CalamityMod
             maxQuantity = max;
         }
 
-        internal int ChooseQuantity() => Main.rand.Next(minQuantity, maxQuantity + 1);
+        internal int ChooseQuantity(UnifiedRandom rng) => rng.Next(minQuantity, maxQuantity + 1);
+
+        // Allow for implicitly casting integer item IDs into weighted item stacks.
+        // Stack size is assumed to be 1. Weight is assumed to be default.
+        public static implicit operator WeightedItemStack(int id)
+        {
+            return new WeightedItemStack(id, DefaultWeight, 1);
+        }
     }
     #endregion
 
@@ -728,15 +736,15 @@ namespace CalamityMod
         /// </summary>
         public class AllOptionsAtOnceWithPityDropRule : IItemDropRule
         {
-            public int[] itemIDs;
+            public WeightedItemStack[] stacks;
             public Fraction dropRate;
             public bool usesLuck;
             public List<IItemDropRuleChainAttempt> ChainedRules { get; set; }
 
-            public AllOptionsAtOnceWithPityDropRule(int numerator, int denominator, bool luck, params int[] itemIDs)
+            public AllOptionsAtOnceWithPityDropRule(Fraction dropRate, bool luck, params WeightedItemStack[] stacks)
             {
-                dropRate = new Fraction(numerator, denominator);
-                this.itemIDs = itemIDs;
+                this.dropRate = dropRate;
+                this.stacks = stacks;
                 usesLuck = luck;
                 ChainedRules = new List<IItemDropRuleChainAttempt>();
             }
@@ -744,7 +752,9 @@ namespace CalamityMod
             public AllOptionsAtOnceWithPityDropRule(Fraction dropRate, bool luck, params int[] itemIDs)
             {
                 this.dropRate = dropRate;
-                this.itemIDs = itemIDs;
+                stacks = new WeightedItemStack[itemIDs.Length];
+                for (int i = 0; i < stacks.Length; ++i)
+                    stacks[i] = itemIDs[i]; // implicit conversion operator
                 usesLuck = luck;
                 ChainedRules = new List<IItemDropRuleChainAttempt>();
             }
@@ -756,19 +766,19 @@ namespace CalamityMod
                 bool droppedAnything = false;
 
                 // Roll for each drop individually.
-                foreach (int itemID in itemIDs)
+                foreach (WeightedItemStack stack in stacks)
                 {
                     bool rngRoll = usesLuck ? info.player.RollLuck(dropRate.denominator) < dropRate.numerator : info.rng.NextFloat() < dropRate;
                     droppedAnything |= rngRoll;
                     if (rngRoll)
-                        CommonCode.DropItem(info, itemID, 1);
+                        CommonCode.DropItem(info, stack.itemID, stack.ChooseQuantity(info.rng));
                 }
 
                 // If everything fails to drop, force drop one item from the set.
                 if (!droppedAnything)
                 {
-                    int itemToDrop = itemIDs[info.rng.Next(itemIDs.Length)];
-                    CommonCode.DropItem(info, itemToDrop, 1);
+                    WeightedItemStack stack = info.rng.NextFromList(stacks);
+                    CommonCode.DropItem(info, stack.itemID, stack.ChooseQuantity(info.rng));
                 }
 
                 // Calamity style drops cannot fail. You will always get at least one item.
@@ -779,7 +789,7 @@ namespace CalamityMod
 
             public void ReportDroprates(List<DropRateInfo> drops, DropRateInfoChainFeed ratesInfo)
             {
-                int numDrops = itemIDs.Length;
+                int numDrops = stacks.Length;
                 float rawDropRate = dropRate;
                 // Combinatorics:
                 // OPTION 1: [The item drops = Raw Drop Rate]
@@ -789,17 +799,17 @@ namespace CalamityMod
                 float dropRateAdjustedForParent = dropRateWithPityRoll * ratesInfo.parentDroprateChance;
 
                 // Report the drop rate of each individual item. This calculation includes the fact that each individual item can be guaranteed as pity.
-                foreach (int itemID in itemIDs)
-                    drops.Add(new DropRateInfo(itemID, 1, 1, dropRateAdjustedForParent, ratesInfo.conditions));
+                foreach (WeightedItemStack stack in stacks)
+                    drops.Add(new DropRateInfo(stack.itemID, stack.minQuantity, stack.maxQuantity, dropRateAdjustedForParent, ratesInfo.conditions));
 
                 Chains.ReportDroprates(ChainedRules, rawDropRate, drops, ratesInfo);
             }
         }
 
-        public static IItemDropRule CalamityStyle(int numerator, int denominator, params int[] itemIDs) => CalamityStyle(numerator, denominator, true, itemIDs);
-        public static IItemDropRule CalamityStyle(int numerator, int denominator, bool luck, params int[] itemIDs)
+        public static IItemDropRule CalamityStyle(Fraction dropRateForEachItem, params WeightedItemStack[] stacks) => CalamityStyle(dropRateForEachItem, true, stacks);
+        public static IItemDropRule CalamityStyle(Fraction dropRateForEachItem, bool luck, params WeightedItemStack[] stacks)
         {
-            return new AllOptionsAtOnceWithPityDropRule(numerator, denominator, luck, itemIDs);
+            return new AllOptionsAtOnceWithPityDropRule(dropRateForEachItem, luck, stacks);
         }
         public static IItemDropRule CalamityStyle(Fraction dropRateForEachItem, params int[] itemIDs) => CalamityStyle(dropRateForEachItem, true, itemIDs);
         public static IItemDropRule CalamityStyle(Fraction dropRateForEachItem, bool luck, params int[] itemIDs)
