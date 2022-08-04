@@ -23,31 +23,26 @@ namespace CalamityMod.Items.Fishing
             Item.value = Item.sellPrice(silver: 50);
         }
 
-        public override bool CanRightClick()
+        public override bool CanRightClick() => true;
+        public override void ModifyItemLoot(ItemLoot itemLoot)
         {
-            return true;
-        }
-
-        public override void RightClick(Player player)
-        {
-            // IEntitySource my beloathed
-            var s = player.GetSource_OpenItem(Item.type);
-
             int gemMin = 1;
             int gemMax = 3;
-            DropHelper.DropItemChance(s, player, ItemID.Amethyst, 0.5f, gemMin, gemMax);
-            DropHelper.DropItemChance(s, player, ItemID.Topaz, 0.4f, gemMin, gemMax);
-            DropHelper.DropItemChance(s, player, ItemID.Sapphire, 0.3f, gemMin, gemMax);
-            DropHelper.DropItemChance(s, player, ItemID.Emerald, 0.2f, gemMin, gemMax);
-            DropHelper.DropItemChance(s, player, ItemID.Ruby, 0.15f, gemMin, gemMax);
-            DropHelper.DropItemChance(s, player, ItemID.Diamond, 0.1f, gemMin, gemMax);
-            DropHelper.DropItemChance(s, player, ItemID.Amber, 0.25f, gemMin, gemMax);
+
+            itemLoot.Add(ItemID.Amethyst, 2, gemMin, gemMax);
+            itemLoot.Add(ItemID.Topaz, new Fraction(4, 10), gemMin, gemMax);
+            itemLoot.Add(ItemID.Sapphire, new Fraction(3, 10), gemMin, gemMax);
+            itemLoot.Add(ItemID.Emerald, 5, gemMin, gemMax);
+            itemLoot.Add(ItemID.Ruby, new Fraction(15, 100), gemMin, gemMax);
+            itemLoot.Add(ItemID.Diamond, 10, gemMin, gemMax);
+            itemLoot.Add(ItemID.Amber, 4, gemMin, gemMax);
+
             Mod thorium = CalamityMod.Instance.thorium;
             if (thorium != null)
             {
-                DropHelper.DropItemChance(s, player, thorium.Find<ModItem>("Pearl").Type, 0.25f, gemMin, gemMax);
-                DropHelper.DropItemChance(s, player, thorium.Find<ModItem>("Opal").Type, 0.25f, gemMin, gemMax);
-                DropHelper.DropItemChance(s, player, thorium.Find<ModItem>("Onyx").Type, 0.25f, gemMin, gemMax);
+                itemLoot.Add(thorium.Find<ModItem>("Pearl").Type, 4, gemMin, gemMax);
+                itemLoot.Add(thorium.Find<ModItem>("Opal").Type, 4, gemMin, gemMax);
+                itemLoot.Add(thorium.Find<ModItem>("Onyx").Type, 4, gemMin, gemMax);
             }
         }
     }
