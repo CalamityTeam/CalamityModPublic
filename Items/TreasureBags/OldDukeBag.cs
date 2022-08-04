@@ -54,6 +54,8 @@ namespace CalamityMod.Items.TreasureBags
                 ModContent.ItemType<ToxicantTwister>()
             }));
 
+            itemLoot.Add(ModContent.ItemType<TheReaper>(), 10);
+
             // Equipment
             itemLoot.Add(ModContent.ItemType<OldDukeScales>());
             itemLoot.Add(ModContent.ItemType<MutatedTruffle>());
