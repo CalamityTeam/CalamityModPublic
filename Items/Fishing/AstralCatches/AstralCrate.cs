@@ -12,7 +12,9 @@ using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.Tiles.Astral;
 using Terraria;
 using Terraria.ID;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ModLoader;
+using System;
 
 namespace CalamityMod.Items.Fishing.AstralCatches
 {
@@ -42,74 +44,47 @@ namespace CalamityMod.Items.Fishing.AstralCatches
         }
 
         public override bool CanRightClick() => true;
-
-        public override void RightClick(Player player)
+        public override void ModifyItemLoot(ItemLoot itemLoot)
         {
-            // IEntitySource my beloathed
-            var s = player.GetSource_OpenItem(Item.type);
+            //Materials
+            itemLoot.Add(ModContent.ItemType<Stardust>(), 1, 5, 10);
+            itemLoot.Add(ItemID.FallenStar, 1, 5, 10);
+            itemLoot.Add(ItemID.Meteorite, 5, 10, 20);
+            itemLoot.Add(ItemID.MeteoriteBar, 10, 1, 3);
 
-            //Modded materials
-            DropHelper.DropItem(s, player, ModContent.ItemType<Stardust>(), 5, 10);
-            DropHelper.DropItem(s, player, ItemID.FallenStar, 5, 10);
-            DropHelper.DropItemChance(s, player, ItemID.Meteorite, 0.2f, 10, 20);
-            DropHelper.DropItemChance(s, player, ItemID.MeteoriteBar, 0.1f, 1, 3);
-            DropHelper.DropItemCondition(s, player, ModContent.ItemType<AureusCell>(), DownedBossSystem.downedAstrumAureus, 0.2f, 2, 5);
-            DropHelper.DropItemCondition(s, player, ModContent.ItemType<AstralOre>(), DownedBossSystem.downedAstrumDeus, 0.2f, 10, 20);
-            DropHelper.DropItemCondition(s, player, ModContent.ItemType<AstralBar>(), DownedBossSystem.downedAstrumDeus, 0.1f, 1, 3);
-            DropHelper.DropItemCondition(s, player, ModContent.ItemType<MeldBlob>(), DownedBossSystem.downedAstrumDeus, 0.25f, 5, 10);
+            itemLoot.AddIf(() => DownedBossSystem.downedAstrumAureus, ModContent.ItemType<AureusCell>(), 5, 2, 5);
+            itemLoot.AddIf(() => DownedBossSystem.downedAstrumDeus, ModContent.ItemType<AstralOre>(), 5, 10, 20);
+            itemLoot.AddIf(() => DownedBossSystem.downedAstrumDeus, 10, 1, 3);
+            itemLoot.AddIf(() => DownedBossSystem.downedAstrumDeus, 4, 5, 10);
 
-            // Weapons
-            DropHelper.DropItemFromSetCondition(s, player, DownedBossSystem.downedAstrumAureus, 0.1f,
+            //Weapons
+            var lcr = itemLoot.DefineConditionalDropSet(() => DownedBossSystem.downedAstrumAureus);
+            lcr.Add(new OneFromOptionsNotScaledWithLuckDropRule(10, 1, 
                 ModContent.ItemType<StellarKnife>(),
                 ModContent.ItemType<AstralachneaStaff>(),
                 ModContent.ItemType<TitanArm>(),
                 ModContent.ItemType<HivePod>(),
                 ModContent.ItemType<AstralScythe>(),
                 ModContent.ItemType<StellarCannon>(),
-                ModContent.ItemType<StarbusterCore>());
+                ModContent.ItemType<StarbusterCore>()));
 
             //Pet
-            DropHelper.DropItemChance(s, player, ModContent.ItemType<AstrophageItem>(), 10);
+            itemLoot.Add(ModContent.ItemType<AstrophageItem>(), 10);
 
             //Bait
-            DropHelper.DropItemChance(s, player, ModContent.ItemType<TwinklerItem>(), 5, 1, 3);
-            DropHelper.DropItemChance(s, player, ItemID.EnchantedNightcrawler, 5, 1, 3);
-            DropHelper.DropItemChance(s, player, ModContent.ItemType<ArcturusAstroidean>(), 5, 1, 3);
-            DropHelper.DropItemChance(s, player, ItemID.Firefly, 3, 1, 3);
+            itemLoot.Add(ModContent.ItemType<TwinklerItem>(), 5, 1, 3);
+            itemLoot.Add(ItemID.EnchantedNightcrawler, 5, 1, 3);
+            itemLoot.Add(ModContent.ItemType<ArcturusAstroidean>(), 5, 1, 3);
+            itemLoot.Add(ItemID.Firefly, 3, 1, 3);
 
             //Potions
-            DropHelper.DropItemChance(s, player, ItemID.ObsidianSkinPotion, 10, 1, 3);
-            DropHelper.DropItemChance(s, player, ItemID.SwiftnessPotion, 10, 1, 3);
-            DropHelper.DropItemChance(s, player, ItemID.IronskinPotion, 10, 1, 3);
-            DropHelper.DropItemChance(s, player, ItemID.NightOwlPotion, 10, 1, 3);
-            DropHelper.DropItemChance(s, player, ItemID.ShinePotion, 10, 1, 3);
-            DropHelper.DropItemChance(s, player, ItemID.MiningPotion, 10, 1, 3);
-            DropHelper.DropItemChance(s, player, ItemID.HeartreachPotion, 10, 1, 3);
-            DropHelper.DropItemChance(s, player, ItemID.TrapsightPotion, 10, 1, 3); //Dangersense Potion
-            DropHelper.DropItemCondition(s, player, ModContent.ItemType<AstralInjection>(), DownedBossSystem.downedAstrumAureus, 0.1f, 1, 3);
-            DropHelper.DropItemCondition(s, player, ModContent.ItemType<GravityNormalizerPotion>(), DownedBossSystem.downedAstrumAureus, 0.1f, 1, 3);
-            int healingPotID = ItemID.HealingPotion;
-            int manaPotID = ItemID.ManaPotion;
-            if (DownedBossSystem.downedDoG)
-            {
-                healingPotID = ModContent.ItemType<SupremeHealingPotion>();
-                manaPotID = ModContent.ItemType<SupremeManaPotion>();
-            }
-            else if (DownedBossSystem.downedProvidence)
-            {
-                healingPotID = ItemID.SuperHealingPotion;
-                manaPotID = ItemID.SuperManaPotion;
-            }
-            else if (NPC.downedMechBossAny)
-            {
-                healingPotID = ItemID.GreaterHealingPotion;
-                manaPotID = ItemID.GreaterManaPotion;
-            }
-            DropHelper.DropItemChance(s, player, Main.rand.NextBool(2) ? healingPotID : manaPotID, 0.25f, 2, 5);
+            itemLoot.AddIf(() => DownedBossSystem.downedAstrumAureus, ModContent.ItemType<AstralInjection>(), 10, 1, 3);
+            itemLoot.AddIf(() => DownedBossSystem.downedAstrumAureus, ModContent.ItemType<GravityNormalizerPotion>(), 10, 1, 3);
+            itemLoot.AddCratePotionRules();
 
             //Money
-            DropHelper.DropItem(s, player, ItemID.SilverCoin, 10, 90);
-            DropHelper.DropItemChance(s, player, ItemID.GoldCoin, 0.5f, 1, 5);
+            itemLoot.Add(ItemID.SilverCoin, 1, 10, 90);
+            itemLoot.Add(ItemID.GoldCoin, 2, 1, 5);
         }
     }
 }

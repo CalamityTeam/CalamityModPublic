@@ -10,6 +10,7 @@ using CalamityMod.Tiles.SunkenSea;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.ItemDropRules;
 
 namespace CalamityMod.Items.Fishing.SunkenSeaCatches
 {
@@ -39,68 +40,35 @@ namespace CalamityMod.Items.Fishing.SunkenSeaCatches
         }
 
         public override bool CanRightClick() => true;
-
-        public override void RightClick(Player player)
+        public override void ModifyItemLoot(ItemLoot itemLoot)
         {
-            // IEntitySource my beloathed
-            var s = player.GetSource_OpenItem(Item.type);
-
-            //Modded materials
-            DropHelper.DropItem(s, player, ModContent.ItemType<Items.Placeables.Navystone>(), 10, 30);
-            DropHelper.DropItem(s, player, ModContent.ItemType<Items.Placeables.EutrophicSand>(), 10, 30);
-            DropHelper.DropItemCondition(s, player, ModContent.ItemType<PrismShard>(), DownedBossSystem.downedDesertScourge, 5, 10);
-            DropHelper.DropItemCondition(s, player, ModContent.ItemType<Items.Placeables.SeaPrism>(), DownedBossSystem.downedDesertScourge, 0.2f, 2, 5);
-            DropHelper.DropItemCondition(s, player, ModContent.ItemType<MolluskHusk>(), DownedBossSystem.downedCLAMHardMode, 0.12f, 2, 5);
+            itemLoot.Add(ModContent.ItemType<Items.Placeables.Navystone>(), 1, 10, 30);
+            itemLoot.Add(ModContent.ItemType<Items.Placeables.EutrophicSand>(), 1, 10, 30);
+            itemLoot.AddIf(() => DownedBossSystem.downedDesertScourge, ModContent.ItemType<PrismShard>(), 1, 5, 10);
+            itemLoot.AddIf(() => DownedBossSystem.downedDesertScourge, ModContent.ItemType<Items.Placeables.SeaPrism>(), 5, 2, 5);
+            itemLoot.AddIf(() => DownedBossSystem.downedCLAMHardMode, ModContent.ItemType<MolluskHusk>(), new Fraction(12, 100), 2, 5);
 
             // Weapons
-            DropHelper.DropItemFromSetCondition(s, player, DownedBossSystem.downedCLAMHardMode, 0.07f,
+            var lcr = itemLoot.DefineConditionalDropSet(() => DownedBossSystem.downedCLAMHardMode);
+            lcr.Add(new OneFromOptionsNotScaledWithLuckDropRule(7, 100,
                 ModContent.ItemType<ShellfishStaff>(),
                 ModContent.ItemType<ClamCrusher>(),
                 ModContent.ItemType<Poseidon>(),
-                ModContent.ItemType<ClamorRifle>());
+                ModContent.ItemType<ClamorRifle>()));
 
             //Bait
-            DropHelper.DropItemChance(s, player, ItemID.MasterBait, 10, 1, 2);
-            DropHelper.DropItemChance(s, player, ItemID.JourneymanBait, 5, 1, 3);
-            DropHelper.DropItemChance(s, player, ModContent.ItemType<SeaMinnowItem>(), 5, 1, 3);
-            DropHelper.DropItemChance(s, player, ItemID.ApprenticeBait, 3, 2, 3);
+            itemLoot.Add(ItemID.MasterBait, 10, 1, 2);
+            itemLoot.Add(ItemID.JourneymanBait, 5, 1, 3);
+            itemLoot.Add(ModContent.ItemType<SeaMinnowItem>(), 5, 1, 3);
+            itemLoot.Add(ItemID.ApprenticeBait, 3, 2, 3);
 
             //Potions
-            DropHelper.DropItemChance(s, player, ItemID.ObsidianSkinPotion, 10, 1, 3);
-            DropHelper.DropItemChance(s, player, ItemID.SwiftnessPotion, 10, 1, 3);
-            DropHelper.DropItemChance(s, player, ItemID.IronskinPotion, 10, 1, 3);
-            DropHelper.DropItemChance(s, player, ItemID.NightOwlPotion, 10, 1, 3);
-            DropHelper.DropItemChance(s, player, ItemID.ShinePotion, 10, 1, 3);
-            DropHelper.DropItemChance(s, player, ItemID.MiningPotion, 10, 1, 3);
-            DropHelper.DropItemChance(s, player, ItemID.HeartreachPotion, 10, 1, 3);
-            DropHelper.DropItemChance(s, player, ItemID.TrapsightPotion, 10, 1, 3); //Dangersense Potion
-            int healingPotID = ItemID.LesserHealingPotion;
-            int manaPotID = ItemID.LesserManaPotion;
-            if (DownedBossSystem.downedDoG)
-            {
-                healingPotID = ModContent.ItemType<SupremeHealingPotion>();
-                manaPotID = ModContent.ItemType<SupremeManaPotion>();
-            }
-            else if (DownedBossSystem.downedProvidence)
-            {
-                healingPotID = ItemID.SuperHealingPotion;
-                manaPotID = ItemID.SuperManaPotion;
-            }
-            else if (NPC.downedMechBossAny)
-            {
-                healingPotID = ItemID.GreaterHealingPotion;
-                manaPotID = ItemID.GreaterManaPotion;
-            }
-            else if (NPC.downedBoss3)
-            {
-                healingPotID = ItemID.HealingPotion;
-                manaPotID = ItemID.ManaPotion;
-            }
-            DropHelper.DropItemChance(s, player, Main.rand.NextBool(2) ? healingPotID : manaPotID, 0.25f, 2, 5);
+            itemLoot.AddCratePotionRules();
 
             //Money
-            DropHelper.DropItem(s, player, ItemID.SilverCoin, 10, 90);
-            DropHelper.DropItemChance(s, player, ItemID.GoldCoin, 0.5f, 1, 5);
+            itemLoot.Add(ItemID.SilverCoin, 1, 10, 90);
+            itemLoot.Add(ItemID.GoldCoin, 2, 1, 5);
         }
+
     }
 }
