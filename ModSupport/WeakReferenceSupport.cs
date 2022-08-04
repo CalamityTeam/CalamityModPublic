@@ -243,10 +243,11 @@ namespace CalamityMod
         /// 11.0 = Skeletron Prime<br />
         /// 12.0 = Plantera<br />
         /// 13.0 = Golem<br />
-        /// 14.0 = Empress of Light<br />
-        /// 15.0 = Duke Fishron<br />
-        /// 16.0 = Lunatic Cultist<br />
-        /// 17.0 = Moon Lord
+        /// 14.0 = Betsy<br />
+        /// 15.0 = Empress of Light<br />
+        /// 16.0 = Duke Fishron<br />
+        /// 17.0 = Lunatic Cultist<br />
+        /// 18.0 = Moon Lord
         /// </summary>
         private static void BossChecklistSupport()
         {
