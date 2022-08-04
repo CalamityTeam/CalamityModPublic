@@ -1,7 +1,7 @@
-﻿using Terraria;
-using Terraria.ModLoader;
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
+using Terraria;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
 {
@@ -20,20 +20,12 @@ namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
             Item.width = 30;
             Item.height = 28;
             Item.maxStack = 999;
+            Item.consumable = true;
             Item.value = Item.sellPrice(silver: 10);
             Item.rare = ItemRarityID.Green;
         }
 
-        public override bool CanRightClick()
-        {
-            return true;
-        }
-
-        public override void RightClick(Player player)
-        {
-            // IEntitySource my beloathed
-            var s = player.GetSource_OpenItem(Item.type);
-            DropHelper.DropItem(s, player, ModContent.ItemType<EssenceofChaos>(), 5, 10);
-        }
+        public override bool CanRightClick() => true;
+        public override void ModifyItemLoot(ItemLoot itemLoot) => itemLoot.Add(ModContent.ItemType<EssenceofChaos>(), 1, 5, 10);
     }
 }

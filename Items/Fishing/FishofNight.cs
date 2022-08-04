@@ -23,16 +23,7 @@ namespace CalamityMod.Items.Fishing
             Item.value = Item.sellPrice(gold: 1);
         }
 
-        public override bool CanRightClick()
-        {
-            return true;
-        }
-
-        public override void RightClick(Player player)
-        {
-            // IEntitySource my beloathed
-            var s = player.GetSource_OpenItem(Item.type);
-            DropHelper.DropItem(s, player, ItemID.SoulofNight, 2, 5);
-        }
+        public override bool CanRightClick() => true;
+        public override void ModifyItemLoot(ItemLoot itemLoot) => itemLoot.Add(ItemID.SoulofNight, 1, 2, 5);
     }
 }
