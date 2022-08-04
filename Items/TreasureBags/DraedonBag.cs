@@ -58,20 +58,17 @@ namespace CalamityMod.Items.TreasureBags
             ares.Add(ModContent.ItemType<TheJailor>());
             ares.Add(ModContent.ItemType<AresExoskeleton>());
             ares.Add(ModContent.ItemType<AresMask>(), maskFraction);
-            itemLoot.Add(ares);
 
             var thanatos = itemLoot.DefineConditionalDropSet(() => DownedBossSystem.downedThanatos);
             thanatos.Add(ModContent.ItemType<SpineOfThanatos>());
             thanatos.Add(ModContent.ItemType<RefractionRotor>());
             thanatos.Add(ModContent.ItemType<ThanatosMask>(), maskFraction);
-            itemLoot.Add(thanatos);
 
             var artemisAndApollo = itemLoot.DefineConditionalDropSet(() => DownedBossSystem.downedArtemisAndApollo);
             artemisAndApollo.Add(ModContent.ItemType<SurgeDriver>());
             artemisAndApollo.Add(ModContent.ItemType<TheAtomSplitter>());
             artemisAndApollo.Add(ModContent.ItemType<ArtemisMask>(), maskFraction);
             artemisAndApollo.Add(ModContent.ItemType<ApolloMask>(), maskFraction);
-            itemLoot.Add(artemisAndApollo);
 
             // Equipment
             itemLoot.Add(ModContent.ItemType<DraedonsHeart>());

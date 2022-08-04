@@ -39,7 +39,6 @@ namespace CalamityMod.Items.TreasureBags
             normalOnly.Add(ModContent.ItemType<CoreofEleum>(), 1, 1, 2);
             normalOnly.Add(ModContent.ItemType<CoreofSunlight>(), 1, 1, 2);
             normalOnly.Add(ModContent.ItemType<CoreofChaos>(), 1, 1, 2);
-            itemLoot.Add(normalOnly);
 
             var expertPlus = itemLoot.DefineConditionalDropSet(new Conditions.IsExpert());
             expertPlus.Add(ModContent.ItemType<CryonicBar>(), 1, 2, 3);
@@ -48,7 +47,6 @@ namespace CalamityMod.Items.TreasureBags
             expertPlus.Add(ModContent.ItemType<CoreofEleum>(), 1, 1, 3);
             expertPlus.Add(ModContent.ItemType<CoreofSunlight>(), 1, 1, 3);
             expertPlus.Add(ModContent.ItemType<CoreofChaos>(), 1, 1, 3);
-            itemLoot.Add(expertPlus);
         }
     }
 }

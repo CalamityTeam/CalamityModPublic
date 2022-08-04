@@ -42,15 +42,18 @@ namespace CalamityMod.Items.Fishing.SunkenSeaCatches
         public override bool CanRightClick() => true;
         public override void ModifyItemLoot(ItemLoot itemLoot)
         {
+            var postDesertScourge = itemLoot.DefineConditionalDropSet(() => DownedBossSystem.downedCLAMHardMode);
+            var postHardmodeClam = itemLoot.DefineConditionalDropSet(() => DownedBossSystem.downedCLAMHardMode);
+
+
             itemLoot.Add(ModContent.ItemType<Items.Placeables.Navystone>(), 1, 10, 30);
             itemLoot.Add(ModContent.ItemType<Items.Placeables.EutrophicSand>(), 1, 10, 30);
-            itemLoot.AddIf(() => DownedBossSystem.downedDesertScourge, ModContent.ItemType<PrismShard>(), 1, 5, 10);
-            itemLoot.AddIf(() => DownedBossSystem.downedDesertScourge, ModContent.ItemType<Items.Placeables.SeaPrism>(), 5, 2, 5);
-            itemLoot.AddIf(() => DownedBossSystem.downedCLAMHardMode, ModContent.ItemType<MolluskHusk>(), new Fraction(12, 100), 2, 5);
+            postDesertScourge.Add(ModContent.ItemType<PrismShard>(), 1, 5, 10);
+            postDesertScourge.Add(ModContent.ItemType<Items.Placeables.SeaPrism>(), 5, 2, 5);
+            postHardmodeClam.Add(ModContent.ItemType<MolluskHusk>(), new Fraction(12, 100), 2, 5);
 
             // Weapons
-            var lcr = itemLoot.DefineConditionalDropSet(() => DownedBossSystem.downedCLAMHardMode);
-            lcr.Add(new OneFromOptionsNotScaledWithLuckDropRule(7, 100,
+            postHardmodeClam.Add(new OneFromOptionsNotScaledWithLuckDropRule(7, 100,
                 ModContent.ItemType<ShellfishStaff>(),
                 ModContent.ItemType<ClamCrusher>(),
                 ModContent.ItemType<Poseidon>(),

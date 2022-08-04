@@ -67,9 +67,6 @@ namespace CalamityMod.Items.TreasureBags
             if (musicMod is not null)
                 itemLoot.Add(musicMod.Find<ModItem>("CalamityMusicbox").Type);
 
-            // Add copper/tin specific stuff
-            itemLoot.Add(tin);
-
             // Aleksh donator item
             // Name specific: "Aleksh" or "Shark Lad"
             static bool getsLadPet(DropAttemptInfo info)

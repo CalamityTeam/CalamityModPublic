@@ -47,31 +47,38 @@ namespace CalamityMod.Items.Fishing.SulphurCatches
         public override bool CanRightClick() => true;
         public override void ModifyItemLoot(ItemLoot itemLoot)
         {
+            //LCRs.
+            var tier1AbyssAvailable = itemLoot.DefineConditionalDropSet(() => DownedBossSystem.downedSlimeGod || Main.hardMode);
+            var tier2AbyssAvailable = itemLoot.DefineConditionalDropSet(() => DownedBossSystem.downedCalamitas);
+            var scoriaAvailable = itemLoot.DefineConditionalDropSet(() => NPC.downedGolemBoss);
+            var tier1AcidRain = itemLoot.DefineConditionalDropSet(() => DownedBossSystem.downedEoCAcidRain);
+            var tier2AcidRain = itemLoot.DefineConditionalDropSet(() => DownedBossSystem.downedAquaticScourgeAcidRain);
+            var tier3AcidRain = itemLoot.DefineConditionalDropSet(() => DownedBossSystem.downedPolterghast && DownedBossSystem.downedBoomerDuke);
+
+            //Materials
             itemLoot.Add(ModContent.ItemType<SulphurousSand>(), 1, 5, 10);
             itemLoot.Add(ModContent.ItemType<SulphurousSandstone>(), 1, 5, 10);
             itemLoot.Add(ModContent.ItemType<HardenedSulphurousSandstone>(), 1, 5, 10);
             itemLoot.Add(ModContent.ItemType<Acidwood>(), 1, 5, 10);
 
-            itemLoot.AddIf(() => DownedBossSystem.downedEoCAcidRain, ModContent.ItemType<SulphuricScale>(), 10, 1, 3);
-            itemLoot.AddIf(() => DownedBossSystem.downedAquaticScourgeAcidRain, ModContent.ItemType<CorrodedFossil>(), 10, 1, 3);
-            itemLoot.AddIf(() => DownedBossSystem.downedCalamitas, ModContent.ItemType<DepthCells>(), 5, 2, 5);
-            itemLoot.AddIf(() => DownedBossSystem.downedCalamitas, ModContent.ItemType<Lumenyl>(), 5, 2, 5);
-            itemLoot.AddIf(() => DownedBossSystem.downedCalamitas, ModContent.ItemType<PlantyMush>(), 5, 2, 5);
-            itemLoot.AddIf(() => DownedBossSystem.downedCalamitas, ModContent.ItemType<Tenebris>(), 5, 2, 5);
-            itemLoot.AddIf(() => NPC.downedGolemBoss, ModContent.ItemType<ScoriaOre>(), 5, 16, 28);
-            itemLoot.AddIf(() => NPC.downedGolemBoss, ModContent.ItemType<ScoriaBar>(), new Fraction(15, 100), 4, 7);
-            itemLoot.AddIf(() => DownedBossSystem.downedPolterghast && DownedBossSystem.downedBoomerDuke, ModContent.ItemType<ReaperTooth>(), 10, 1, 5);
+            tier1AcidRain.Add(ModContent.ItemType<SulphuricScale>(), 10, 1, 3);
+            tier2AcidRain.Add(ModContent.ItemType<CorrodedFossil>(), 10, 1, 3);
+            tier2AbyssAvailable.Add(ModContent.ItemType<DepthCells>(), 5, 2, 5);
+            tier2AbyssAvailable.Add(ModContent.ItemType<Lumenyl>(), 5, 2, 5);
+            tier2AbyssAvailable.Add(ModContent.ItemType<PlantyMush>(), 5, 2, 5);
+            tier2AbyssAvailable.Add(ModContent.ItemType<Tenebris>(), 5, 2, 5);
+            scoriaAvailable.Add(ModContent.ItemType<ScoriaOre>(), 5, 16, 28);
+            scoriaAvailable.Add(ModContent.ItemType<ScoriaBar>(), new Fraction(15, 100), 4, 7);
+            tier3AcidRain.Add(ModContent.ItemType<ReaperTooth>(), 10, 1, 5);
 
             // Weapons
-            var lcrT1Abyss = itemLoot.DefineConditionalDropSet(() => DownedBossSystem.downedSlimeGod || Main.hardMode);
-            lcrT1Abyss.Add(new OneFromOptionsNotScaledWithLuckDropRule(10, 1,
+            tier1AbyssAvailable.Add(new OneFromOptionsNotScaledWithLuckDropRule(10, 1,
                 ModContent.ItemType<Archerfish>(),
                 ModContent.ItemType<BallOFugu>(),
                 ModContent.ItemType<HerringStaff>(),
                 ModContent.ItemType<Lionfish>(),
                 ModContent.ItemType<BlackAnurian>()));
 
-            var lcrT2AcidRain = itemLoot.DefineConditionalDropSet(() => DownedBossSystem.downedAquaticScourgeAcidRain);
             lcrT2AcidRain.Add(new OneFromOptionsNotScaledWithLuckDropRule(10, 1,
                 ModContent.ItemType<SkyfinBombers>(),
                 ModContent.ItemType<NuclearRod>(),
@@ -82,7 +89,7 @@ namespace CalamityMod.Items.Fishing.SulphurCatches
                 ModContent.ItemType<BelchingSaxophone>()));
 
             // Equipment
-            lcrT1Abyss.Add(new OneFromOptionsNotScaledWithLuckDropRule(4, 1,
+            tier1AbyssAvailable.Add(new OneFromOptionsNotScaledWithLuckDropRule(4, 1,
                 ModContent.ItemType<StrangeOrb>(),
                 ModContent.ItemType<DepthCharm>(),
                 ModContent.ItemType<IronBoots>(),

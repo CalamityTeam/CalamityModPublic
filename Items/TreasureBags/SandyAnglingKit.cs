@@ -43,7 +43,6 @@ namespace CalamityMod.Items.TreasureBags
             normalOnly.Add(ItemID.SonarPotion, 5, 2, 3);
             normalOnly.Add(ItemID.CratePotion, 5, 2, 3);
             normalOnly.AddIf(() => NPC.downedBoss3, ItemID.GoldenBugNet, 20);
-            itemLoot.Add(normalOnly);
 
             var expertPlus = itemLoot.DefineConditionalDropSet(new Conditions.IsExpert());
             expertPlus.Add(ItemID.HighTestFishingLine, 12);
@@ -59,7 +58,6 @@ namespace CalamityMod.Items.TreasureBags
             expertPlus.Add(ItemID.SonarPotion, 4, 2, 3);
             expertPlus.Add(ItemID.CratePotion, 4, 2, 3);
             expertPlus.AddIf(() => NPC.downedBoss3, ItemID.GoldenBugNet, 18);
-            itemLoot.Add(expertPlus);
         }
     }
 }

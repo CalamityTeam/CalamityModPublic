@@ -46,20 +46,22 @@ namespace CalamityMod.Items.Fishing.AstralCatches
         public override bool CanRightClick() => true;
         public override void ModifyItemLoot(ItemLoot itemLoot)
         {
+            var postAstrumAureus = itemLoot.DefineConditionalDropSet(() => DownedBossSystem.downedAstrumAureus);
+            var postAstrumDeus = itemLoot.DefineConditionalDropSet(() => DownedBossSystem.downedAstrumDeus);
+
             //Materials
             itemLoot.Add(ModContent.ItemType<Stardust>(), 1, 5, 10);
             itemLoot.Add(ItemID.FallenStar, 1, 5, 10);
             itemLoot.Add(ItemID.Meteorite, 5, 10, 20);
             itemLoot.Add(ItemID.MeteoriteBar, 10, 1, 3);
 
-            itemLoot.AddIf(() => DownedBossSystem.downedAstrumAureus, ModContent.ItemType<AureusCell>(), 5, 2, 5);
-            itemLoot.AddIf(() => DownedBossSystem.downedAstrumDeus, ModContent.ItemType<AstralOre>(), 5, 10, 20);
-            itemLoot.AddIf(() => DownedBossSystem.downedAstrumDeus, 10, 1, 3);
-            itemLoot.AddIf(() => DownedBossSystem.downedAstrumDeus, 4, 5, 10);
+            postAstrumAureus.Add(ModContent.ItemType<AureusCell>(), 5, 2, 5);
+            postAstrumDeus.Add(ModContent.ItemType<AstralOre>(), 5, 10, 20);
+            postAstrumDeus.Add(ModContent.ItemType<AstralBar>(), 10, 1, 3);
+            postAstrumDeus.Add(ModContent.ItemType<MeldBlob>(), 4, 5, 10);
 
             //Weapons
-            var lcr = itemLoot.DefineConditionalDropSet(() => DownedBossSystem.downedAstrumAureus);
-            lcr.Add(new OneFromOptionsNotScaledWithLuckDropRule(10, 1, 
+            postAstrumAureus.Add(new OneFromOptionsNotScaledWithLuckDropRule(10, 1, 
                 ModContent.ItemType<StellarKnife>(),
                 ModContent.ItemType<AstralachneaStaff>(),
                 ModContent.ItemType<TitanArm>(),
@@ -78,8 +80,8 @@ namespace CalamityMod.Items.Fishing.AstralCatches
             itemLoot.Add(ItemID.Firefly, 3, 1, 3);
 
             //Potions
-            itemLoot.AddIf(() => DownedBossSystem.downedAstrumAureus, ModContent.ItemType<AstralInjection>(), 10, 1, 3);
-            itemLoot.AddIf(() => DownedBossSystem.downedAstrumAureus, ModContent.ItemType<GravityNormalizerPotion>(), 10, 1, 3);
+            postAstrumAureus.Add(ModContent.ItemType<AstralInjection>(), 10, 1, 3);
+            postAstrumAureus.Add(ModContent.ItemType<GravityNormalizerPotion>(), 10, 1, 3);
             itemLoot.AddCratePotionRules();
 
             //Money

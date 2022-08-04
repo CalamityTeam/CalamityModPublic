@@ -44,7 +44,6 @@ namespace CalamityMod.Items.TreasureBags
             normalOnly.Add(ModContent.ItemType<LifeAlloy>(), 2);
             normalOnly.Add(ModContent.ItemType<CoreofCalamity>(), 3);
             normalOnly.Add(ModContent.ItemType<Bloodstone>(), 1, 50, 60);
-            itemLoot.Add(normalOnly);
 
             var expertPlus = itemLoot.DefineConditionalDropSet(new Conditions.IsExpert());
             expertPlus.Add(ModContent.ItemType<CryonicBar>(), 1, 7, 12);
@@ -56,7 +55,6 @@ namespace CalamityMod.Items.TreasureBags
             expertPlus.Add(ModContent.ItemType<LifeAlloy>());
             expertPlus.Add(ModContent.ItemType<CoreofCalamity>(), 2);
             expertPlus.Add(ModContent.ItemType<Bloodstone>(), 1, 60, 70);
-            itemLoot.Add(expertPlus);
         }
     }
 }
