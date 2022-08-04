@@ -476,9 +476,6 @@ namespace CalamityMod.NPCs.SunkenSea
 
             // Relic
             npcLoot.AddIf(() => Main.masterMode || CalamityWorld.revenge, ModContent.ItemType<GiantClamRelic>(), 4);
-
-            npcLoot.Add(postDesertScourge);
-            npcLoot.Add(hardmode);
         }
     }
 }
