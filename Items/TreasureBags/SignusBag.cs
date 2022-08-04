@@ -3,10 +3,10 @@ using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
-using CalamityMod.NPCs.Signus;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -14,8 +14,6 @@ namespace CalamityMod.Items.TreasureBags
 {
     public class SignusBag : ModItem
     {
-        public override int BossBagNPC => ModContent.NPCType<Signus>();
-
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 3;
@@ -40,31 +38,27 @@ namespace CalamityMod.Items.TreasureBags
             return CalamityUtils.DrawTreasureBagInWorld(Item, spriteBatch, ref rotation, ref scale, whoAmI);
         }
 
-        public override void OpenBossBag(Player player)
+        public override void ModifyItemLoot(ItemLoot itemLoot)
         {
-            // IEntitySource my beloathed
-            var s = player.GetSource_OpenItem(Item.type);
-
-            player.TryGettingDevArmor(s);
-
             // Materials
-            DropHelper.DropItem(s, player, ModContent.ItemType<TwistingNether>(), 6, 9);
+            itemLoot.Add(ModContent.ItemType<TwistingNether>(), 1, 6, 9);
 
             // Weapons
-            DropHelper.DropItemChance(s, player, ModContent.ItemType<CosmicKunai>(), DropHelper.BagWeaponDropRateInt);
-            DropHelper.DropItemChance(s, player, ModContent.ItemType<Cosmilamp>(), DropHelper.BagWeaponDropRateInt);
+            itemLoot.Add(DropHelper.CalamityStyle(DropHelper.BagWeaponDropRateFraction, new int[]
+            {
+                ModContent.ItemType<Cosmilamp>(),
+                ModContent.ItemType<CosmicKunai>()
+            }));
 
             // Equipment
-            DropHelper.DropItem(s, player, ModContent.ItemType<SpectralVeil>());
+            itemLoot.Add(ModContent.ItemType<SpectralVeil>());
 
             // Vanity
-            DropHelper.DropItemChance(s, player, ModContent.ItemType<SignusMask>(), 7);
-            if (Main.rand.NextBool(20))
-            {
-                DropHelper.DropItem(s, player, ModContent.ItemType<AncientGodSlayerHelm>());
-                DropHelper.DropItem(s, player, ModContent.ItemType<AncientGodSlayerChestplate>());
-                DropHelper.DropItem(s, player, ModContent.ItemType<AncientGodSlayerLeggings>());
-            }
+            itemLoot.Add(ModContent.ItemType<SignusMask>(), 7);
+            var ancientGodSlayer = ItemDropRule.Common(ModContent.ItemType<AncientGodSlayerHelm>(), 20);
+            ancientGodSlayer.OnSuccess(ItemDropRule.Common(ModContent.ItemType<AncientGodSlayerChestplate>()));
+            ancientGodSlayer.OnSuccess(ItemDropRule.Common(ModContent.ItemType<AncientGodSlayerLeggings>()));
+            itemLoot.Add(ancientGodSlayer);
         }
     }
 }

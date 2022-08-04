@@ -5,11 +5,11 @@ using CalamityMod.Items.PermanentBoosters;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Summon;
-using CalamityMod.NPCs.SlimeGod;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -17,13 +17,12 @@ namespace CalamityMod.Items.TreasureBags
 {
     public class SlimeGodBag : ModItem
     {
-        public override int BossBagNPC => ModContent.NPCType<CrimulanSlimeGod>();
-
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 3;
             DisplayName.SetDefault("Treasure Bag (The Slime God)");
             Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
+            ItemID.Sets.PreHardmodeLikeBossBag[Item.type] = true;
         }
 
         public override void SetDefaults()
@@ -43,32 +42,32 @@ namespace CalamityMod.Items.TreasureBags
             return CalamityUtils.DrawTreasureBagInWorld(Item, spriteBatch, ref rotation, ref scale, whoAmI);
         }
 
-        public override void OpenBossBag(Player player)
+        public override void ModifyItemLoot(ItemLoot itemLoot)
         {
-            // IEntitySource my beloathed
-            var s = player.GetSource_OpenItem(Item.type);
-
             // Materials
             // No Gel is dropped here because the boss drops Gel directly
-            DropHelper.DropItem(s, player, ModContent.ItemType<PurifiedGel>(), 40, 52);
+            itemLoot.Add(ModContent.ItemType<PurifiedGel>(), 1, 40, 52);
 
             // Weapons
-            float w = DropHelper.BagWeaponDropRateFloat;
-            DropHelper.DropEntireWeightedSet(s, player,
-                DropHelper.WeightStack<OverloadedBlaster>(w),
-                DropHelper.WeightStack<AbyssalTome>(w),
-                DropHelper.WeightStack<EldritchTome>(w),
-                DropHelper.WeightStack<CorroslimeStaff>(w),
-                DropHelper.WeightStack<CrimslimeStaff>(w),
-                DropHelper.WeightStack<SlimePuppetStaff>(w)
-            );
+            itemLoot.Add(DropHelper.CalamityStyle(DropHelper.BagWeaponDropRateFraction, new int[]
+            {
+                ModContent.ItemType<OverloadedBlaster>(),
+                ModContent.ItemType<AbyssalTome>(),
+                ModContent.ItemType<EldritchTome>(),
+                ModContent.ItemType<CorroslimeStaff>(),
+                ModContent.ItemType<CrimslimeStaff>(),
+                ModContent.ItemType<SlimePuppetStaff>()
+            }));
 
             // Equipment
-            DropHelper.DropItem(s, player, ModContent.ItemType<ManaPolarizer>());
-            DropHelper.DropItemCondition(s, player, ModContent.ItemType<ElectrolyteGelPack>(), CalamityWorld.revenge && !player.Calamity().adrenalineBoostOne);
+            itemLoot.Add(ModContent.ItemType<ManaPolarizer>());
+            itemLoot.Add(ModContent.ItemType<GravistarSabaton>());
 
             // Vanity
-            DropHelper.DropItemFromSetChance(s, player, 0.142857f, ModContent.ItemType<SlimeGodMask>(), ModContent.ItemType<SlimeGodMask2>());
+            itemLoot.Add(ItemDropRule.OneFromOptions(7, ModContent.ItemType<SlimeGodMask>(), ModContent.ItemType<SlimeGodMask2>()));
+
+            // Other
+            itemLoot.AddIf(() => CalamityWorld.revenge, ModContent.ItemType<ElectrolyteGelPack>());
         }
     }
 }

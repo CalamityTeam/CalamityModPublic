@@ -2,24 +2,21 @@
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Pets;
+using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
-using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
-using CalamityMod.NPCs.AstrumDeus;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.TreasureBags
 {
     public class AstrumDeusBag : ModItem
     {
-        public override int BossBagNPC => ModContent.NPCType<AstrumDeusHead>();
-
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 3;
@@ -46,33 +43,28 @@ namespace CalamityMod.Items.TreasureBags
             return CalamityUtils.DrawTreasureBagInWorld(Item, spriteBatch, ref rotation, ref scale, whoAmI);
         }
 
-        public override void OpenBossBag(Player player)
+        public override void ModifyItemLoot(ItemLoot itemLoot)
         {
-            // IEntitySource my beloathed
-            var s = player.GetSource_OpenItem(Item.type);
-
-            player.TryGettingDevArmor(s);
-
             // Materials
-            DropHelper.DropItem(s, player, ModContent.ItemType<Stardust>(), 60, 90);
-            DropHelper.DropItem(s, player, ItemID.FallenStar, 30, 50);
+            itemLoot.Add(ModContent.ItemType<Stardust>(), 1, 60, 90);
+            itemLoot.Add(ItemID.FallenStar, 1, 30, 50);
 
             // Weapons
-            float w = DropHelper.BagWeaponDropRateFloat;
-            DropHelper.DropEntireWeightedSet(s, player,
-                DropHelper.WeightStack<TheMicrowave>(w),
-                DropHelper.WeightStack<StarSputter>(w),
-                DropHelper.WeightStack<Starfall>(w),
-                DropHelper.WeightStack<GodspawnHelixStaff>(w),
-                DropHelper.WeightStack<RegulusRiot>(w)
-            );
+            itemLoot.Add(DropHelper.CalamityStyle(DropHelper.BagWeaponDropRateFraction, new int[]
+            {
+                ModContent.ItemType<TheMicrowave>(),
+                ModContent.ItemType<StarSputter>(),
+                ModContent.ItemType<Starfall>(),
+                ModContent.ItemType<GodspawnHelixStaff>(),
+                ModContent.ItemType<RegulusRiot>()
+            }));
 
             // Equipment
-            DropHelper.DropItem(s, player, ModContent.ItemType<HideofAstrumDeus>());
-            DropHelper.DropItemChance(s, player, ModContent.ItemType<ChromaticOrb>(), 5);
+            itemLoot.Add(ModContent.ItemType<HideofAstrumDeus>());
+            itemLoot.Add(ModContent.ItemType<ChromaticOrb>(), 5);
 
             // Vanity
-            DropHelper.DropItemChance(s, player, ModContent.ItemType<AstrumDeusMask>(), 7);
+            itemLoot.Add(ModContent.ItemType<AstrumDeusMask>(), 7);
         }
     }
 }

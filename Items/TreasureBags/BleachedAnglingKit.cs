@@ -1,4 +1,5 @@
 ﻿using Terraria;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -25,32 +26,42 @@ namespace CalamityMod.Items.TreasureBags
 
         public override bool CanRightClick() => true;
 
-        public override void RightClick(Player player)
+        public override void ModifyItemLoot(ItemLoot itemLoot)
         {
-            // IEntitySource my beloathed
-            var s = player.GetSource_OpenItem(Item.type);
+            // Different drop rates on Normal and Expert, so define normal first, then expert
+            var normalOnly = itemLoot.DefineNormalOnlyDropSet();
+            normalOnly.Add(ItemID.AnglerTackleBag, 18);
+            normalOnly.Add(ItemID.HighTestFishingLine, 12);
+            normalOnly.Add(ItemID.TackleBox, 12);
+            normalOnly.Add(ItemID.AnglerEarring, 12);
+            normalOnly.Add(ItemID.FishermansGuide, 9);
+            normalOnly.Add(ItemID.WeatherRadio, 9);
+            normalOnly.Add(ItemID.Sextant, 9);
+            normalOnly.Add(ItemID.AnglerHat, 4);
+            normalOnly.Add(ItemID.AnglerVest, 4);
+            normalOnly.Add(ItemID.AnglerPants, 4);
+            normalOnly.Add(ItemID.FishingPotion, 4, 2, 3);
+            normalOnly.Add(ItemID.SonarPotion, 4, 2, 3);
+            normalOnly.Add(ItemID.CratePotion, 4, 2, 3);
+            normalOnly.Add(ItemID.GoldenBugNet, 15);
+            itemLoot.Add(normalOnly);
 
-            int anglerTackleBagChance = !Main.expertMode ? 18 : 15;
-            int fishingAccChance = !Main.expertMode ? 12 : 10;
-            int fishFindAccChance = !Main.expertMode ? 9 : 8;
-            int anglerArmorChance = !Main.expertMode ? 4 : 2;
-            int potionChance = !Main.expertMode ? 4 : 2;
-            int bugNetChance = !Main.expertMode ? 15 : 12;
-            // Fishing
-            DropHelper.DropItemChance(s, player, ItemID.AnglerTackleBag, anglerTackleBagChance, 1, 1);
-            DropHelper.DropItemChance(s, player, ItemID.HighTestFishingLine, fishingAccChance);
-            DropHelper.DropItemChance(s, player, ItemID.TackleBox, fishingAccChance);
-            DropHelper.DropItemChance(s, player, ItemID.AnglerEarring, fishingAccChance);
-            DropHelper.DropItemChance(s, player, ItemID.FishermansGuide, fishFindAccChance);
-            DropHelper.DropItemChance(s, player, ItemID.WeatherRadio, fishFindAccChance);
-            DropHelper.DropItemChance(s, player, ItemID.Sextant, fishFindAccChance);
-            DropHelper.DropItemChance(s, player, ItemID.AnglerHat, anglerArmorChance);
-            DropHelper.DropItemChance(s, player, ItemID.AnglerVest, anglerArmorChance);
-            DropHelper.DropItemChance(s, player, ItemID.AnglerPants, anglerArmorChance);
-            DropHelper.DropItemChance(s, player, ItemID.FishingPotion, potionChance, 2, 3);
-            DropHelper.DropItemChance(s, player, ItemID.SonarPotion, potionChance, 2, 3);
-            DropHelper.DropItemChance(s, player, ItemID.CratePotion, potionChance, 2, 3);
-            DropHelper.DropItemChance(s, player, ItemID.GoldenBugNet, bugNetChance, 1, 1);
+            var expertPlus = itemLoot.DefineConditionalDropSet(new Conditions.IsExpert());
+            expertPlus.Add(ItemID.AnglerTackleBag, 15);
+            expertPlus.Add(ItemID.HighTestFishingLine, 10);
+            expertPlus.Add(ItemID.TackleBox, 10);
+            expertPlus.Add(ItemID.AnglerEarring, 10);
+            expertPlus.Add(ItemID.FishermansGuide, 8);
+            expertPlus.Add(ItemID.WeatherRadio, 8);
+            expertPlus.Add(ItemID.Sextant, 8);
+            expertPlus.Add(ItemID.AnglerHat, 2);
+            expertPlus.Add(ItemID.AnglerVest, 2);
+            expertPlus.Add(ItemID.AnglerPants, 2);
+            expertPlus.Add(ItemID.FishingPotion, 2, 2, 3);
+            expertPlus.Add(ItemID.SonarPotion, 2, 2, 3);
+            expertPlus.Add(ItemID.CratePotion, 2, 2, 3);
+            expertPlus.Add(ItemID.GoldenBugNet, 12);
+            itemLoot.Add(expertPlus);
         }
     }
 }

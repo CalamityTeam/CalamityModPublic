@@ -3,10 +3,10 @@ using CalamityMod.Items.Materials;
 using CalamityMod.Items.Pets;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Ranged;
-using CalamityMod.NPCs.StormWeaver;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -14,8 +14,6 @@ namespace CalamityMod.Items.TreasureBags
 {
     public class StormWeaverBag : ModItem
     {
-        public override int BossBagNPC => ModContent.NPCType<StormWeaverHead>();
-
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 3;
@@ -40,35 +38,29 @@ namespace CalamityMod.Items.TreasureBags
             return CalamityUtils.DrawTreasureBagInWorld(Item, spriteBatch, ref rotation, ref scale, whoAmI);
         }
 
-        public override void OpenBossBag(Player player)
+        public override void ModifyItemLoot(ItemLoot itemLoot)
         {
-            // IEntitySource my beloathed
-            var s = player.GetSource_OpenItem(Item.type);
-
-            player.TryGettingDevArmor(s);
-
             // Materials
-            DropHelper.DropItem(s, player, ModContent.ItemType<ArmoredShell>(), 6, 9);
+            itemLoot.Add(ModContent.ItemType<ArmoredShell>(), 1, 6, 9);
 
             // Weapons
-            DropHelper.DropItemChance(s, player, ModContent.ItemType<TheStorm>(), DropHelper.BagWeaponDropRateInt);
-            DropHelper.DropItemChance(s, player, ModContent.ItemType<StormDragoon>(), DropHelper.BagWeaponDropRateInt);
-            DropHelper.DropItemChance(s, player, ModContent.ItemType<Thunderstorm>(), 0.1f);
+            itemLoot.Add(DropHelper.CalamityStyle(DropHelper.BagWeaponDropRateFraction, new int[]
+            {
+                ModContent.ItemType<StormDragoon>(),
+                ModContent.ItemType<TheStorm>()
+            }));
+            itemLoot.Add(ModContent.ItemType<Thunderstorm>(), 10);
 
             // Equipment
             // Stay tuned for Definitely Not Charged Perforator Runald's Band As A Single Item
 
             // Vanity
-            DropHelper.DropItemChance(s, player, ModContent.ItemType<StormWeaverMask>(), 7);
-            if (Main.rand.NextBool(20))
-            {
-                DropHelper.DropItem(s, player, ModContent.ItemType<AncientGodSlayerHelm>());
-                DropHelper.DropItem(s, player, ModContent.ItemType<AncientGodSlayerChestplate>());
-                DropHelper.DropItem(s, player, ModContent.ItemType<AncientGodSlayerLeggings>());
-            }
-
-            // Light Pet
-            DropHelper.DropItemChance(s, player, ModContent.ItemType<LittleLight>(), 8);
+            itemLoot.Add(ModContent.ItemType<StormWeaverMask>(), 7);
+            var ancientGodSlayer = ItemDropRule.Common(ModContent.ItemType<AncientGodSlayerHelm>(), 20);
+            ancientGodSlayer.OnSuccess(ItemDropRule.Common(ModContent.ItemType<AncientGodSlayerChestplate>()));
+            ancientGodSlayer.OnSuccess(ItemDropRule.Common(ModContent.ItemType<AncientGodSlayerLeggings>()));
+            itemLoot.Add(ancientGodSlayer);
+            itemLoot.Add(ModContent.ItemType<LittleLight>(), 8);
         }
     }
 }

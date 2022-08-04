@@ -1,8 +1,8 @@
 ﻿using CalamityMod.Items.Pets;
-using CalamityMod.Items.DifficultyItems;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
 using Terraria;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -26,42 +26,58 @@ namespace CalamityMod.Items.TreasureBags
 
         public override bool CanRightClick() => true;
 
-        public override void RightClick(Player player)
+        public override void ModifyItemLoot(ItemLoot itemLoot)
         {
-            // IEntitySource my beloathed
-            var s = player.GetSource_OpenItem(Item.type);
-
             // Weapons
-            DropHelper.DropItem(s, player, WorldGen.SavedOreTiers.Copper == TileID.Copper ? ItemID.CopperBroadsword : ItemID.TinBroadsword);
-            DropHelper.DropItem(s, player, WorldGen.SavedOreTiers.Copper == TileID.Copper ? ItemID.CopperBow : ItemID.TinBow);
-            DropHelper.DropItem(s, player, ItemID.WoodenArrow, 100);
-            DropHelper.DropItem(s, player, WorldGen.SavedOreTiers.Copper == TileID.Copper ? ItemID.AmethystStaff : ItemID.TopazStaff);
-            DropHelper.DropItem(s, player, ItemID.ManaCrystal);
-            DropHelper.DropItem(s, player, ModContent.ItemType<SquirrelSquireStaff>());
-            DropHelper.DropItem(s, player, ModContent.ItemType<ThrowingBrick>(), 150);
+            // Tin and copper content is explicitly separated
+            LeadingConditionRule tin = itemLoot.DefineConditionalDropSet(() => WorldGen.SavedOreTiers.Copper == TileID.Tin);
+            tin.Add(ItemID.TinBroadsword);
+            tin.Add(ItemID.TinBow);
+            tin.Add(ItemID.TopazStaff);
+            tin.OnFailedConditions(new CommonDrop(ItemID.CopperBroadsword, 1));
+            tin.OnFailedConditions(new CommonDrop(ItemID.CopperBow, 1));
+            tin.OnFailedConditions(new CommonDrop(ItemID.AmethystStaff, 1));
+            itemLoot.Add(ItemID.WoodenArrow, 1, 100);
+            itemLoot.Add(ModContent.ItemType<SquirrelSquireStaff>());
+            itemLoot.Add(ModContent.ItemType<ThrowingBrick>(), 1, 150);
 
-            // Tools / Utility
-            DropHelper.DropItem(s, player, WorldGen.SavedOreTiers.Copper == TileID.Copper ? ItemID.CopperHammer : ItemID.TinHammer);
-            DropHelper.DropItem(s, player, ItemID.Bomb, 10);
-            DropHelper.DropItem(s, player, ItemID.Rope, 50);
-            DropHelper.DropItem(s, player, ItemID.MiningPotion);
-            DropHelper.DropItem(s, player, ItemID.SpelunkerPotion, 2);
-            DropHelper.DropItem(s, player, ItemID.SwiftnessPotion, 3);
-            DropHelper.DropItem(s, player, ItemID.GillsPotion, 2);
-            DropHelper.DropItem(s, player, ItemID.ShinePotion);
-            DropHelper.DropItem(s, player, ItemID.RecallPotion, 3);
+            // 1 Mana Crystal
+            itemLoot.Add(ItemID.ManaCrystal);
 
-            // Tiles / Placeables
-            DropHelper.DropItem(s, player, ItemID.Torch, 25);
-            DropHelper.DropItem(s, player, ItemID.Chest, 3);
+            // Tools and Utility Items
+            tin.Add(ItemID.TinHammer);
+            tin.OnFailedConditions(new CommonDrop(ItemID.CopperHammer, 1));
+            itemLoot.Add(ItemID.Bomb, 1, 10);
+            itemLoot.Add(ItemID.Rope, 1, 50);
 
-            // The Lad
-            DropHelper.DropItemCondition(s, player, ModContent.ItemType<JoyfulHeart>(), player.name == "Aleksh" || player.name == "Shark Lad");
+            // Potions
+            itemLoot.Add(ItemID.MiningPotion);
+            itemLoot.Add(ItemID.SpelunkerPotion, 1, 2);
+            itemLoot.Add(ItemID.SwiftnessPotion, 1, 3);
+            itemLoot.Add(ItemID.GillsPotion, 1, 2);
+            itemLoot.Add(ItemID.ShinePotion);
+            itemLoot.Add(ItemID.RecallPotion, 1, 3);
 
-            // Music box (if music mod installed)
+            // Tiles
+            itemLoot.Add(ItemID.Torch, 1, 25);
+            itemLoot.Add(ItemID.Chest, 1, 3);
+
+            // Calamity title theme music box (if music mod is enabled)
             Mod musicMod = CalamityMod.Instance.musicMod;
-            if (musicMod != null)
-                DropHelper.DropItem(s, player, musicMod.Find<ModItem>("CalamityMusicbox").Type);
+            if (musicMod is not null)
+                itemLoot.Add(musicMod.Find<ModItem>("CalamityMusicbox").Type);
+
+            // Add copper/tin specific stuff
+            itemLoot.Add(tin);
+
+            // Aleksh donator item
+            // Name specific: "Aleksh" or "Shark Lad"
+            static bool getsLadPet(DropAttemptInfo info)
+            {
+                string playerName = info.player.name;
+                return playerName == "Aleksh" || playerName == "Shark Lad";
+            };
+            itemLoot.AddIf(getsLadPet, ModContent.ItemType<JoyfulHeart>());
         }
     }
 }

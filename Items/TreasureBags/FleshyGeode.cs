@@ -1,7 +1,8 @@
 ﻿using CalamityMod.Items.Materials;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Items.TreasureBags
 {
@@ -26,22 +27,28 @@ namespace CalamityMod.Items.TreasureBags
 
         public override bool CanRightClick() => true;
 
-        public override void RightClick(Player player)
+        public override void ModifyItemLoot(ItemLoot itemLoot)
         {
-            // IEntitySource my beloathed
-            var s = player.GetSource_OpenItem(Item.type);
+            // Different drop rates on Normal and Expert, so define normal first, then expert
+            // 1-3 bars on Normal, 2-3 bars on Expert
+            // 1-2 cores on Normal, 1-3 cores on Expert
+            var normalOnly = itemLoot.DefineNormalOnlyDropSet();
+            normalOnly.Add(ModContent.ItemType<CryonicBar>(), 1, 1, 3);
+            normalOnly.Add(ModContent.ItemType<PerennialBar>(), 1, 1, 3);
+            normalOnly.Add(ModContent.ItemType<ScoriaBar>(), 1, 1, 3);
+            normalOnly.Add(ModContent.ItemType<CoreofEleum>(), 1, 1, 2);
+            normalOnly.Add(ModContent.ItemType<CoreofSunlight>(), 1, 1, 2);
+            normalOnly.Add(ModContent.ItemType<CoreofChaos>(), 1, 1, 2);
+            itemLoot.Add(normalOnly);
 
-            // Materials
-            int barMin = !Main.expertMode ? 1 : 2;
-            int barMax = 3;
-            int coreMin = 1;
-            int coreMax = !Main.expertMode ? 2 : 3;
-            DropHelper.DropItem(s, player, ModContent.ItemType<CryonicBar>(), barMin, barMax);
-            DropHelper.DropItem(s, player, ModContent.ItemType<PerennialBar>(), barMin, barMax);
-            DropHelper.DropItem(s, player, ModContent.ItemType<ScoriaBar>(), barMin, barMax);
-            DropHelper.DropItem(s, player, ModContent.ItemType<CoreofSunlight>(), coreMin, coreMax);
-            DropHelper.DropItem(s, player, ModContent.ItemType<CoreofEleum>(), coreMin, coreMax);
-            DropHelper.DropItem(s, player, ModContent.ItemType<CoreofChaos>(), coreMin, coreMax);
+            var expertPlus = itemLoot.DefineConditionalDropSet(new Conditions.IsExpert());
+            expertPlus.Add(ModContent.ItemType<CryonicBar>(), 1, 2, 3);
+            expertPlus.Add(ModContent.ItemType<PerennialBar>(), 1, 2, 3);
+            expertPlus.Add(ModContent.ItemType<ScoriaBar>(), 1, 2, 3);
+            expertPlus.Add(ModContent.ItemType<CoreofEleum>(), 1, 1, 3);
+            expertPlus.Add(ModContent.ItemType<CoreofSunlight>(), 1, 1, 3);
+            expertPlus.Add(ModContent.ItemType<CoreofChaos>(), 1, 1, 3);
+            itemLoot.Add(expertPlus);
         }
     }
 }

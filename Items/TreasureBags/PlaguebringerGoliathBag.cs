@@ -7,7 +7,6 @@ using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
-using CalamityMod.NPCs.PlaguebringerGoliath;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -18,8 +17,6 @@ namespace CalamityMod.Items.TreasureBags
 {
     public class PlaguebringerGoliathBag : ModItem
     {
-        public override int BossBagNPC => ModContent.NPCType<PlaguebringerGoliath>();
-
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 3;
@@ -44,41 +41,36 @@ namespace CalamityMod.Items.TreasureBags
             return CalamityUtils.DrawTreasureBagInWorld(Item, spriteBatch, ref rotation, ref scale, whoAmI);
         }
 
-        public override void OpenBossBag(Player player)
+        public override void ModifyItemLoot(ItemLoot itemLoot)
         {
-            // IEntitySource my beloathed
-            var s = player.GetSource_OpenItem(Item.type);
-
-            player.TryGettingDevArmor(s);
-
             // Materials
-            DropHelper.DropItem(s, player, ModContent.ItemType<PlagueCellCanister>(), 25, 30);
-            DropHelper.DropItem(s, player, ModContent.ItemType<InfectedArmorPlating>(), 30, 35);
-            DropHelper.DropItem(s, player, ItemID.Stinger, 4, 8);
+            itemLoot.Add(ModContent.ItemType<PlagueCellCanister>(), 1, 25, 30);
+            itemLoot.Add(ModContent.ItemType<InfectedArmorPlating>(), 1, 30, 35);
+            itemLoot.Add(ItemID.Stinger, 1, 4, 8);
 
             // Weapons
-            float w = DropHelper.BagWeaponDropRateFloat;
-            DropHelper.DropEntireWeightedSet(s, player,
-                DropHelper.WeightStack<Virulence>(w), // Virulence
-                DropHelper.WeightStack<DiseasedPike>(w),
-                DropHelper.WeightStack<Pandemic>(w), // Pandemic
-                DropHelper.WeightStack<Malevolence>(w),
-                DropHelper.WeightStack<PestilentDefiler>(w),
-                DropHelper.WeightStack<TheHive>(w),
-                DropHelper.WeightStack<BlightSpewer>(w), // Blight Spewer
-                DropHelper.WeightStack<PlagueStaff>(w),
-                DropHelper.WeightStack<FuelCellBundle>(w),
-                DropHelper.WeightStack<InfectedRemote>(w),
-                DropHelper.WeightStack<TheSyringe>(w)
-            );
+            itemLoot.Add(DropHelper.CalamityStyle(DropHelper.BagWeaponDropRateFraction, new int[]
+            {
+                ModContent.ItemType<DiseasedPike>(),
+                ModContent.ItemType<Pandemic>(),
+                ModContent.ItemType<Virulence>(),
+                ModContent.ItemType<BlightSpewer>(),
+                ModContent.ItemType<Malevolence>(),
+                ModContent.ItemType<PestilentDefiler>(),
+                ModContent.ItemType<TheHive>(),
+                ModContent.ItemType<PlagueStaff>(),
+                ModContent.ItemType<FuelCellBundle>(),
+                ModContent.ItemType<InfectedRemote>(),
+                ModContent.ItemType<TheSyringe>()
+            }));
+            itemLoot.Add(ModContent.ItemType<Malachite>(), 10);
 
             // Equipment
-            DropHelper.DropItem(s, player, ModContent.ItemType<ToxicHeart>());
-            DropHelper.DropItemChance(s, player, ModContent.ItemType<Malachite>(), 0.1f);
+            itemLoot.Add(ModContent.ItemType<ToxicHeart>());
 
             // Vanity
-            DropHelper.DropItemChance(s, player, ModContent.ItemType<PlaguebringerGoliathMask>(), 7);
-            DropHelper.DropItemChance(s, player, ModContent.ItemType<PlagueCaller>(), 10);
+            itemLoot.Add(ModContent.ItemType<PlaguebringerGoliathMask>(), 7);
+            itemLoot.Add(ModContent.ItemType<PlagueCaller>(), 10);
         }
     }
 }

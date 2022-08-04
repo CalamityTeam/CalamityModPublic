@@ -10,18 +10,15 @@ using CalamityMod.Items.Weapons.Summon;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
-
-using SCalBoss = CalamityMod.NPCs.SupremeCalamitas.SupremeCalamitas;
 
 namespace CalamityMod.Items.TreasureBags
 {
     [LegacyName("SCalBag")]
     public class SupremeCalamitasCoffer : ModItem
     {
-        public override int BossBagNPC => ModContent.NPCType<SCalBoss>();
-
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 3;
@@ -46,44 +43,33 @@ namespace CalamityMod.Items.TreasureBags
             return CalamityUtils.DrawTreasureBagInWorld(Item, spriteBatch, ref rotation, ref scale, whoAmI);
         }
 
-        public override void OpenBossBag(Player player)
+        public override void ModifyItemLoot(ItemLoot itemLoot)
         {
-            // IEntitySource my beloathed
-            var s = player.GetSource_OpenItem(Item.type);
-
-            player.TryGettingDevArmor(s);
-
             // Materials
-            DropHelper.DropItem(s, player, ModContent.ItemType<AshesofAnnihilation>(), 30, 40);
+            itemLoot.Add(ModContent.ItemType<AshesofAnnihilation>(), 1, 30, 40);
 
             // Weapons
-            float w = DropHelper.BagWeaponDropRateFloat;
-            DropHelper.DropEntireWeightedSet(s, player,
-                DropHelper.WeightStack<Violence>(w),
-                DropHelper.WeightStack<Condemnation>(w),
-                DropHelper.WeightStack<Heresy>(w),
-                DropHelper.WeightStack<Vehemence>(w),
-                DropHelper.WeightStack<Perdition>(w),
-                DropHelper.WeightStack<Vigilance>(w),
-                DropHelper.WeightStack<Sacrifice>(w)
-                );
+            itemLoot.Add(DropHelper.CalamityStyle(DropHelper.BagWeaponDropRateFraction, new int[]
+            {
+                ModContent.ItemType<Violence>(),
+                ModContent.ItemType<Condemnation>(),
+                ModContent.ItemType<Heresy>(),
+                ModContent.ItemType<Vehemence>(),
+                ModContent.ItemType<Perdition>(),
+                ModContent.ItemType<Vigilance>(),
+                ModContent.ItemType<Sacrifice>()
+            }));
 
             // Equipment
-            DropHelper.DropItem(s, player, ModContent.ItemType<Calamity>());
+            itemLoot.Add(ModContent.ItemType<Calamity>());
 
             // Vanity
-
-            // SCal vanity set (This drops all at once, or not at all)
-            if (Main.rand.NextBool(7))
-            {
-                DropHelper.DropItem(s, player, ModContent.ItemType<AshenHorns>());
-                DropHelper.DropItem(s, player, ModContent.ItemType<SCalMask>());
-                DropHelper.DropItem(s, player, ModContent.ItemType<SCalRobes>());
-                DropHelper.DropItem(s, player, ModContent.ItemType<SCalBoots>());
-            }
-
-            // The Brimstone Jewel is an expert-only vanity
-            DropHelper.DropItem(s, player, ModContent.ItemType<BrimstoneJewel>());
+            var scalVanitySet = ItemDropRule.Common(ModContent.ItemType<SCalMask>(), 7);
+            scalVanitySet.OnSuccess(ItemDropRule.Common(ModContent.ItemType<AshenHorns>()));
+            scalVanitySet.OnSuccess(ItemDropRule.Common(ModContent.ItemType<SCalRobes>()));
+            scalVanitySet.OnSuccess(ItemDropRule.Common(ModContent.ItemType<SCalBoots>()));
+            itemLoot.Add(scalVanitySet);
+            itemLoot.Add(ModContent.ItemType<BrimstoneJewel>());
         }
     }
 }

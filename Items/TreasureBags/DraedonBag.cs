@@ -6,7 +6,6 @@ using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
-using CalamityMod.NPCs.ExoMechs.Ares;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -18,7 +17,6 @@ namespace CalamityMod.Items.TreasureBags
     [LegacyName("DraedonTreasureBag")]
     public class DraedonBag : ModItem
     {
-        public override int BossBagNPC => ModContent.NPCType<AresBody>();
 
         public override void SetStaticDefaults()
         {
@@ -46,54 +44,41 @@ namespace CalamityMod.Items.TreasureBags
             return CalamityUtils.DrawTreasureBagInWorld(Item, spriteBatch, ref rotation, ref scale, whoAmI);
         }
 
-        public override void OpenBossBag(Player player)
+        public override void ModifyItemLoot(ItemLoot itemLoot)
         {
-            // IEntitySource my beloathed
-            var s = player.GetSource_OpenItem(Item.type);
-
-            player.TryGettingDevArmor(s);
+            // Originally, masks were 1/3.5, for whatever reason. Keeping it that way.
+            Fraction maskFraction = new Fraction(2, 7);
 
             // Materials
-            DropHelper.DropItem(s, player, ModContent.ItemType<ExoPrism>(), 30, 40);
+            itemLoot.Add(ModContent.ItemType<ExoPrism>(), 1, 30, 40);
 
-            // Weapons
-            if (DownedBossSystem.downedAres)
-            {
-                DropHelper.DropItem(s, player, ModContent.ItemType<PhotonRipper>());
-                DropHelper.DropItem(s, player, ModContent.ItemType<TheJailor>());
-                DropHelper.DropItem(s, player, ModContent.ItemType<AresExoskeleton>());
-            }
-            if (DownedBossSystem.downedThanatos)
-            {
-                DropHelper.DropItem(s, player, ModContent.ItemType<SpineOfThanatos>());
-                DropHelper.DropItem(s, player, ModContent.ItemType<RefractionRotor>());
-            }
-            if (DownedBossSystem.downedArtemisAndApollo)
-            {
-                DropHelper.DropItem(s, player, ModContent.ItemType<SurgeDriver>());
-                DropHelper.DropItem(s, player, ModContent.ItemType<TheAtomSplitter>());
-            }
+            // Boss-specific items
+            var ares = itemLoot.DefineConditionalDropSet(() => DownedBossSystem.downedAres);
+            ares.Add(ModContent.ItemType<PhotonRipper>());
+            ares.Add(ModContent.ItemType<TheJailor>());
+            ares.Add(ModContent.ItemType<AresExoskeleton>());
+            ares.Add(ModContent.ItemType<AresMask>(), maskFraction);
+            itemLoot.Add(ares);
+
+            var thanatos = itemLoot.DefineConditionalDropSet(() => DownedBossSystem.downedThanatos);
+            thanatos.Add(ModContent.ItemType<SpineOfThanatos>());
+            thanatos.Add(ModContent.ItemType<RefractionRotor>());
+            thanatos.Add(ModContent.ItemType<ThanatosMask>(), maskFraction);
+            itemLoot.Add(thanatos);
+
+            var artemisAndApollo = itemLoot.DefineConditionalDropSet(() => DownedBossSystem.downedArtemisAndApollo);
+            artemisAndApollo.Add(ModContent.ItemType<SurgeDriver>());
+            artemisAndApollo.Add(ModContent.ItemType<TheAtomSplitter>());
+            artemisAndApollo.Add(ModContent.ItemType<ArtemisMask>(), maskFraction);
+            artemisAndApollo.Add(ModContent.ItemType<ApolloMask>(), maskFraction);
+            itemLoot.Add(artemisAndApollo);
 
             // Equipment
-            DropHelper.DropItem(s, player, ModContent.ItemType<DraedonsHeart>());
-            DropHelper.DropItem(s, player, ModContent.ItemType<ExoThrone>());
+            itemLoot.Add(ModContent.ItemType<DraedonsHeart>());
+            itemLoot.Add(ModContent.ItemType<ExoThrone>());
 
-            // Vanity
-            // Higher chance due to how the drops work
-            float maskDropRate = 1f / 3.5f;
-            if (DownedBossSystem.downedThanatos)
-                DropHelper.DropItemChance(s, player, ModContent.ItemType<ThanatosMask>(), maskDropRate);
-
-            if (DownedBossSystem.downedArtemisAndApollo)
-            {
-                DropHelper.DropItemChance(s, player, ModContent.ItemType<ArtemisMask>(), maskDropRate);
-                DropHelper.DropItemChance(s, player, ModContent.ItemType<ApolloMask>(), maskDropRate);
-            }
-
-            if (DownedBossSystem.downedAres)
-                DropHelper.DropItemChance(s, player, ModContent.ItemType<AresMask>(), maskDropRate);
-
-            DropHelper.DropItemChance(s, player, ModContent.ItemType<DraedonMask>(), maskDropRate);
+            // Vanity (Draedon Mask)
+            itemLoot.Add(ModContent.ItemType<DraedonMask>(), maskFraction);
         }
     }
 }

@@ -1,23 +1,20 @@
 ﻿using CalamityMod.Items.Accessories;
+using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
-using CalamityMod.NPCs.AquaticScourge;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Items.Armor.Vanity;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.TreasureBags
 {
     public class AquaticScourgeBag : ModItem
     {
-        public override int BossBagNPC => ModContent.NPCType<AquaticScourgeHead>();
-
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 3;
@@ -44,36 +41,29 @@ namespace CalamityMod.Items.TreasureBags
             return CalamityUtils.DrawTreasureBagInWorld(Item, spriteBatch, ref rotation, ref scale, whoAmI);
         }
 
-        public override void OpenBossBag(Player player)
+        public override void ModifyItemLoot(ItemLoot itemLoot)
         {
-            // IEntitySource my beloathed
-            var s = player.GetSource_OpenItem(Item.type);
-
-            // AS is available PHM, so this check is necessary to keep vanilla consistency
-            if (Main.hardMode)
-                player.TryGettingDevArmor(s);
-
             // Weapons
-            float w = DropHelper.BagWeaponDropRateFloat;
-            DropHelper.DropEntireWeightedSet(s, player,
-                DropHelper.WeightStack<SubmarineShocker>(w),
-                DropHelper.WeightStack<Barinautical>(w),
-                DropHelper.WeightStack<Downpour>(w),
-                DropHelper.WeightStack<DeepseaStaff>(w),
-                DropHelper.WeightStack<ScourgeoftheSeas>(w),
-                DropHelper.WeightStack<CorrosiveSpine>(w)
-            );
+            itemLoot.Add(DropHelper.CalamityStyle(DropHelper.BagWeaponDropRateFraction, new int[]
+            {
+                ModContent.ItemType<SubmarineShocker>(),
+                ModContent.ItemType<Barinautical>(),
+                ModContent.ItemType<Downpour>(),
+                ModContent.ItemType<DeepseaStaff>(),
+                ModContent.ItemType<ScourgeoftheSeas>(),
+                ModContent.ItemType<CorrosiveSpine>()
+            }));
+            itemLoot.Add(ModContent.ItemType<SeasSearing>(), 10);
 
             // Equipment
-            DropHelper.DropItem(s, player, ModContent.ItemType<AquaticEmblem>());
-            DropHelper.DropItemChance(s, player, ModContent.ItemType<DeepDiver>(), 0.1f);
-            DropHelper.DropItemChance(s, player, ModContent.ItemType<SeasSearing>(), 0.1f);
+            itemLoot.Add(ModContent.ItemType<AquaticEmblem>());
+            itemLoot.Add(ModContent.ItemType<DeepDiver>(), 10);
 
             // Vanity
-            DropHelper.DropItemChance(s, player, ModContent.ItemType<AquaticScourgeMask>(), 7);
+            itemLoot.Add(ModContent.ItemType<AquaticScourgeMask>(), 7);
 
             // Fishing
-            DropHelper.DropItem(s, player, ModContent.ItemType<BleachedAnglingKit>());
+            itemLoot.Add(ModContent.ItemType<BleachedAnglingKit>());
         }
     }
 }

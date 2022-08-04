@@ -6,7 +6,6 @@ using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
-using CalamityMod.NPCs.DesertScourge;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -17,13 +16,12 @@ namespace CalamityMod.Items.TreasureBags
 {
     public class DesertScourgeBag : ModItem
     {
-        public override int BossBagNPC => ModContent.NPCType<DesertScourgeHead>();
-
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 3;
             DisplayName.SetDefault("Treasure Bag (Desert Scourge)");
             Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
+            ItemID.Sets.PreHardmodeLikeBossBag[Item.type] = true;
         }
 
         public override void SetDefaults()

@@ -7,20 +7,17 @@ using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Summon;
-using CalamityMod.NPCs.BrimstoneElemental;
 using CalamityMod.World;
-using Terraria;
-using Terraria.ModLoader;
-using Terraria.ID;
-using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Items.TreasureBags
 {
     public class BrimstoneWaifuBag : ModItem
     {
-        public override int BossBagNPC => ModContent.NPCType<BrimstoneElemental>();
-
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 3;
@@ -45,36 +42,34 @@ namespace CalamityMod.Items.TreasureBags
             return CalamityUtils.DrawTreasureBagInWorld(Item, spriteBatch, ref rotation, ref scale, whoAmI);
         }
 
-        public override void OpenBossBag(Player player)
+        public override void ModifyItemLoot(ItemLoot itemLoot)
         {
-            // IEntitySource my beloathed
-            var s = player.GetSource_OpenItem(Item.type);
-
-            player.TryGettingDevArmor(s);
-
             // Materials
-            DropHelper.DropItem(s, player, ModContent.ItemType<EssenceofChaos>(), 5, 9);
-            DropHelper.DropItemCondition(s, player, ModContent.ItemType<Bloodstone>(), DownedBossSystem.downedProvidence, 60, 70);
+            itemLoot.Add(ModContent.ItemType<EssenceofChaos>(), 1, 5, 9);
+            itemLoot.AddIf(() => DownedBossSystem.downedProvidence, ModContent.ItemType<Bloodstone>(), 1, 60, 70);
 
             // Weapons
-            float w = DropHelper.BagWeaponDropRateFloat;
-            DropHelper.DropEntireWeightedSet(s, player,
-                DropHelper.WeightStack<Brimlance>(w),
-                DropHelper.WeightStack<SeethingDischarge>(w),
-                DropHelper.WeightStack<DormantBrimseeker>(w),
-                DropHelper.WeightStack<RoseStone>(w)
-            );
+            itemLoot.Add(DropHelper.CalamityStyle(DropHelper.BagWeaponDropRateFraction, new int[]
+            {
+                ModContent.ItemType<Brimlance>(),
+                ModContent.ItemType<SeethingDischarge>(),
+                ModContent.ItemType<DormantBrimseeker>()
+            }));
+            itemLoot.Add(ModContent.ItemType<Hellborn>(), 10);
 
             // Equipment
-            DropHelper.DropItem(s, player, ModContent.ItemType<Abaddon>());
-            DropHelper.DropItem(s, player, ModContent.ItemType<Gehenna>());
-            DropHelper.DropItemChance(s, player, ModContent.ItemType<Hellborn>(), 0.1f);
-            DropHelper.DropItemChance(s, player, ModContent.ItemType<FlameLickedShell>(), 0.1f);
-            DropHelper.DropItemCondition(s, player, ModContent.ItemType<Brimrose>(), DownedBossSystem.downedProvidence);
+            itemLoot.Add(DropHelper.CalamityStyle(DropHelper.BagWeaponDropRateFraction, new int[]
+            {
+                ModContent.ItemType<RoseStone>(),
+                ModContent.ItemType<Abaddon>(),
+                ModContent.ItemType<Gehenna>()
+            }));
+            itemLoot.Add(ModContent.ItemType<FlameLickedShell>(), 10);
+            itemLoot.AddIf(() => DownedBossSystem.downedProvidence, ModContent.ItemType<Brimrose>());
 
             // Vanity
-            DropHelper.DropItemCondition(s, player, ModContent.ItemType<CharredRelic>(), CalamityWorld.revenge);
-            DropHelper.DropItemChance(s, player, ModContent.ItemType<BrimstoneWaifuMask>(), 7);
+            itemLoot.Add(ModContent.ItemType<BrimstoneWaifuMask>(), 7);
+            itemLoot.AddIf(() => CalamityWorld.revenge, ModContent.ItemType<CharredRelic>());
         }
     }
 }

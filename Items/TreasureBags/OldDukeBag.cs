@@ -1,23 +1,20 @@
 ﻿using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
+using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
-using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
-using CalamityMod.NPCs.OldDuke;
-using Terraria;
-using Terraria.ModLoader;
-using Terraria.ID;
-using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Items.TreasureBags
 {
     public class OldDukeBag : ModItem
     {
-        public override int BossBagNPC => ModContent.NPCType<OldDuke>();
-
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 3;
@@ -44,31 +41,25 @@ namespace CalamityMod.Items.TreasureBags
             return CalamityUtils.DrawTreasureBagInWorld(Item, spriteBatch, ref rotation, ref scale, whoAmI);
         }
 
-        public override void OpenBossBag(Player player)
+        public override void ModifyItemLoot(ItemLoot itemLoot)
         {
-            // IEntitySource my beloathed
-            var s = player.GetSource_OpenItem(Item.type);
-
-            player.TryGettingDevArmor(s);
-
             // Weapons
-            float w = DropHelper.BagWeaponDropRateFloat;
-            DropHelper.DropEntireWeightedSet(s, player,
-                DropHelper.WeightStack<InsidiousImpaler>(w),
-                DropHelper.WeightStack<FetidEmesis>(w),
-                DropHelper.WeightStack<SepticSkewer>(w),
-                DropHelper.WeightStack<VitriolicViper>(w),
-                DropHelper.WeightStack<CadaverousCarrion>(w),
-                DropHelper.WeightStack<ToxicantTwister>(w),
-                DropHelper.WeightStack<OldDukeScales>(w)
-            );
+            itemLoot.Add(DropHelper.CalamityStyle(DropHelper.BagWeaponDropRateFraction, new int[]
+            {
+                ModContent.ItemType<InsidiousImpaler>(),
+                ModContent.ItemType<FetidEmesis>(),
+                ModContent.ItemType<SepticSkewer>(),
+                ModContent.ItemType<VitriolicViper>(),
+                ModContent.ItemType<CadaverousCarrion>(),
+                ModContent.ItemType<ToxicantTwister>()
+            }));
 
             // Equipment
-            DropHelper.DropItem(s, player, ModContent.ItemType<MutatedTruffle>());
-            DropHelper.DropItemChance(s, player, ModContent.ItemType<TheReaper>(), 0.1f);
+            itemLoot.Add(ModContent.ItemType<OldDukeScales>());
+            itemLoot.Add(ModContent.ItemType<MutatedTruffle>());
 
             // Vanity
-            DropHelper.DropItemChance(s, player, ModContent.ItemType<OldDukeMask>(), 7);
+            itemLoot.Add(ModContent.ItemType<OldDukeMask>(), 7);
         }
     }
 }
