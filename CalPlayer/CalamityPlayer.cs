@@ -3338,7 +3338,7 @@ namespace CalamityMod.CalPlayer
             if (Player.HoldingProjectileMeleeWeapon())
             {
                 // Melee weapons that fire any kind of projectile don't benefit from melee speed anymore, so they get a damage boost from it instead.
-                Player.GetDamage<MeleeDamageClass>() += Player.GetAttackSpeed<MeleeDamageClass>() - 1f;
+                Player.GetDamage<MeleeDamageClass>() += (Player.GetAttackSpeed<MeleeDamageClass>() - 1f) * 0.5f;
 
                 // Set melee speed to 1f.
                 float newMeleeSpeed = 1f + ((Player.GetAttackSpeed<MeleeDamageClass>() - 1f) * projectileMeleeWeaponMeleeSpeedMultiplier);
