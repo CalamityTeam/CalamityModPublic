@@ -66,6 +66,7 @@ namespace CalamityMod.Items.TreasureBags
             }));
             itemLoot.Add(ModContent.ItemType<FlameLickedShell>(), 10);
             itemLoot.AddIf(() => DownedBossSystem.downedProvidence, ModContent.ItemType<Brimrose>());
+            itemLoot.AddRevBagAccessories();
 
             // Vanity
             itemLoot.Add(ModContent.ItemType<BrimstoneWaifuMask>(), 7);

@@ -63,6 +63,7 @@ namespace CalamityMod.Items.TreasureBags
             itemLoot.Add(ModContent.ItemType<OceanCrest>());
             itemLoot.Add(ModContent.ItemType<AeroStone>(), DropHelper.BagWeaponDropRateFraction);
             itemLoot.Add(ModContent.ItemType<SandCloak>(), DropHelper.BagWeaponDropRateFraction);
+            itemLoot.AddRevBagAccessories();
 
             // Vanity
             itemLoot.Add(ModContent.ItemType<DesertScourgeMask>(), 7);

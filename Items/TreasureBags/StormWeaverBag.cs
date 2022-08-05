@@ -52,6 +52,7 @@ namespace CalamityMod.Items.TreasureBags
             itemLoot.Add(ModContent.ItemType<Thunderstorm>(), 10);
 
             // Equipment
+            itemLoot.AddRevBagAccessories();
             // Stay tuned for Definitely Not Charged Perforator Runald's Band As A Single Item
 
             // Vanity

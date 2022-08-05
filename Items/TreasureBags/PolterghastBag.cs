@@ -68,6 +68,7 @@ namespace CalamityMod.Items.TreasureBags
             // Equipment
             itemLoot.Add(ModContent.ItemType<Affliction>());
             itemLoot.AddIf(() => CalamityWorld.revenge, ModContent.ItemType<Ectoheart>());
+            itemLoot.AddRevBagAccessories();
 
             // Vanity
             itemLoot.Add(ModContent.ItemType<PolterghastMask>(), 7);

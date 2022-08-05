@@ -67,6 +67,7 @@ namespace CalamityMod.Items.TreasureBags
 
             // Equipment
             itemLoot.Add(ModContent.ItemType<ToxicHeart>());
+            itemLoot.AddRevBagAccessories();
 
             // Vanity
             itemLoot.Add(ModContent.ItemType<PlaguebringerGoliathMask>(), 7);

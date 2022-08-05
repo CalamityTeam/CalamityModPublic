@@ -64,6 +64,7 @@ namespace CalamityMod.Items.TreasureBags
             // Equipment
             itemLoot.Add(ModContent.ItemType<FilthyGlove>(), DropHelper.BagWeaponDropRateFraction);
             itemLoot.Add(ModContent.ItemType<RottenBrain>());
+            itemLoot.AddRevBagAccessories();
 
             // Vanity
             itemLoot.Add(ModContent.ItemType<HiveMindMask>(), 7);

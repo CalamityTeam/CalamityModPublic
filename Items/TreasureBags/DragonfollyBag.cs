@@ -60,6 +60,7 @@ namespace CalamityMod.Items.TreasureBags
             // Equipment
             itemLoot.Add(ModContent.ItemType<FollyFeed>(), DropHelper.BagWeaponDropRateFraction);
             itemLoot.Add(ModContent.ItemType<DynamoStemCells>());
+            itemLoot.AddRevBagAccessories();
 
             // Vanity
             itemLoot.Add(ModContent.ItemType<BumblefuckMask>(), 7);

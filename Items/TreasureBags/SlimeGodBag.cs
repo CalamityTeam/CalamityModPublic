@@ -61,7 +61,7 @@ namespace CalamityMod.Items.TreasureBags
 
             // Equipment
             itemLoot.Add(ModContent.ItemType<ManaPolarizer>());
-            itemLoot.Add(ModContent.ItemType<GravistarSabaton>());
+            itemLoot.AddRevBagAccessories();
 
             // Vanity
             itemLoot.Add(ItemDropRule.OneFromOptions(7, ModContent.ItemType<SlimeGodMask>(), ModContent.ItemType<SlimeGodMask2>()));

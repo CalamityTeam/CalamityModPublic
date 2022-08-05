@@ -62,6 +62,7 @@ namespace CalamityMod.Items.TreasureBags
 
             // Equipment
             itemLoot.Add(ModContent.ItemType<Calamity>());
+            itemLoot.AddRevBagAccessories();
 
             // Vanity
             var scalVanitySet = ItemDropRule.Common(ModContent.ItemType<SCalMask>(), 7);

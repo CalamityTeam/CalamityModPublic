@@ -59,6 +59,7 @@ namespace CalamityMod.Items.TreasureBags
             itemLoot.Add(ModContent.ItemType<LeviathanAmbergris>());
             itemLoot.Add(ModContent.ItemType<PearlofEnthrallment>(), DropHelper.BagWeaponDropRateFraction);
             itemLoot.Add(ModContent.ItemType<TheCommunity>(), 10);
+            itemLoot.AddRevBagAccessories();
 
             // Vanity
             itemLoot.Add(ModContent.ItemType<AnahitaMask>(), 7);

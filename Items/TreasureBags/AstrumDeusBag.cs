@@ -61,6 +61,7 @@ namespace CalamityMod.Items.TreasureBags
 
             // Equipment
             itemLoot.Add(ModContent.ItemType<HideofAstrumDeus>());
+            itemLoot.AddRevBagAccessories();
             itemLoot.Add(ModContent.ItemType<ChromaticOrb>(), 5);
 
             // Vanity

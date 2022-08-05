@@ -58,6 +58,7 @@ namespace CalamityMod.Items.TreasureBags
             // Equipment
             itemLoot.Add(ModContent.ItemType<OldDukeScales>());
             itemLoot.Add(ModContent.ItemType<MutatedTruffle>());
+            itemLoot.AddRevBagAccessories();
 
             // Vanity
             itemLoot.Add(ModContent.ItemType<OldDukeMask>(), 7);

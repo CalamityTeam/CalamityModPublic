@@ -60,6 +60,7 @@ namespace CalamityMod.Items.TreasureBags
             itemLoot.Add(ModContent.ItemType<ChaosStone>(), DropHelper.BagWeaponDropRateFraction);
             itemLoot.Add(ModContent.ItemType<VoidofCalamity>());
             itemLoot.Add(ModContent.ItemType<Regenator>(), 10);
+            itemLoot.AddRevBagAccessories();
 
             // Vanity
             itemLoot.Add(ModContent.ItemType<CalamitasMask>(), 7);

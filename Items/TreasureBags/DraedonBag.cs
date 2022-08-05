@@ -73,6 +73,7 @@ namespace CalamityMod.Items.TreasureBags
             // Equipment
             itemLoot.Add(ModContent.ItemType<DraedonsHeart>());
             itemLoot.Add(ModContent.ItemType<ExoThrone>());
+            itemLoot.AddRevBagAccessories();
 
             // Vanity (Draedon Mask)
             itemLoot.Add(ModContent.ItemType<DraedonMask>(), maskFraction);

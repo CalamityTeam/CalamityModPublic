@@ -66,6 +66,7 @@ namespace CalamityMod.Items.TreasureBags
                 ModContent.ItemType<FleshTotem>()
             ));
             itemLoot.AddIf(() => DownedBossSystem.downedProvidence, ModContent.ItemType<BloodflareCore>());
+            itemLoot.AddRevBagAccessories();
             itemLoot.AddIf(() => CalamityWorld.revenge, ModContent.ItemType<InfernalBlood>());
 
             // Vanity

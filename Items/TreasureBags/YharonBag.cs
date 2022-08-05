@@ -65,6 +65,7 @@ namespace CalamityMod.Items.TreasureBags
             // Equipment
             itemLoot.Add(ModContent.ItemType<DrewsWings>());
             itemLoot.Add(ModContent.ItemType<YharimsGift>());
+            itemLoot.AddRevBagAccessories();
 
             // Vanity
             itemLoot.Add(ModContent.ItemType<YharonMask>(), 7);

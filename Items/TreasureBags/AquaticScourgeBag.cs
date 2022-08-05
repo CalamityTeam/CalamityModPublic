@@ -58,6 +58,7 @@ namespace CalamityMod.Items.TreasureBags
             // Equipment
             itemLoot.Add(ModContent.ItemType<AquaticEmblem>());
             itemLoot.Add(ModContent.ItemType<DeepDiver>(), 10);
+            itemLoot.AddRevBagAccessories();
 
             // Vanity
             itemLoot.Add(ModContent.ItemType<AquaticScourgeMask>(), 7);

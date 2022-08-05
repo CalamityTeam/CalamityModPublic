@@ -66,6 +66,7 @@ namespace CalamityMod.Items.TreasureBags
             // Equipment
             itemLoot.Add(ModContent.ItemType<SuspiciousLookingJellyBean>());
             itemLoot.Add(ModContent.ItemType<GravistarSabaton>());
+            itemLoot.AddRevBagAccessories();
 
             // Vanity
             itemLoot.Add(ModContent.ItemType<AstrumAureusMask>(), 7);
