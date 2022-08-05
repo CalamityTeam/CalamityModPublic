@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Armor.MarniteArchitect
         public static readonly SoundStyle LiftHummSound = new("CalamityMod/Sounds/Item/MarniteLiftHumm") { IsLooped = true};
 
         public static float LiftRaiseSpeed = 2f;
-        public static float MaxLiftHeight = 180f;
+        public static float MaxLiftHeight = 138f;
 
         public override void Load()
         {
