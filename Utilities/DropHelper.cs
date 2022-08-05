@@ -579,10 +579,11 @@ namespace CalamityMod
         /// <param name="dropRateInt">The chance that the item will drop is 1 in this number. For example, 5 gives a 1 in 5 chance.</param>
         /// <param name="minQuantity">The minimum number of items to drop. Defaults to 1.</param>
         /// <param name="maxQuantity">The maximum number of items to drop. Defaults to 1.</param>
+        /// <param name="hideLootReport">Set to true for this drop to not appear in the Bestiary.</param>
         /// <returns>The item drop rule registered.</returns>
         public static IItemDropRule AddIf(this LeadingConditionRule mainRule, Func<bool> lambda, int itemID, int dropRateInt = 1, int minQuantity = 1, int maxQuantity = 1, bool hideLootReport = false)
         {
-            return mainRule.OnSuccess(ItemDropRule.ByCondition(If(lambda), itemID, dropRateInt, minQuantity, maxQuantity));
+            return mainRule.OnSuccess(ItemDropRule.ByCondition(If(lambda), itemID, dropRateInt, minQuantity, maxQuantity), hideLootReport);
         }
 
         /// <summary>
@@ -594,10 +595,11 @@ namespace CalamityMod
         /// <param name="dropRate">The chance that the item will drop as a DropHelper Fraction.</param>
         /// <param name="minQuantity">The minimum number of items to drop. Defaults to 1.</param>
         /// <param name="maxQuantity">The maximum number of items to drop. Defaults to 1.</param>
+        /// <param name="hideLootReport">Set to true for this drop to not appear in the Bestiary.</param>
         /// <returns>The item drop rule registered.</returns>
         public static IItemDropRule AddIf(this LeadingConditionRule mainRule, Func<bool> lambda, int itemID, Fraction dropRate, int minQuantity = 1, int maxQuantity = 1, bool hideLootReport = false)
         {
-            return mainRule.OnSuccess(ItemDropRule.ByCondition(If(lambda), itemID, dropRate.denominator, minQuantity, maxQuantity, dropRate.numerator));
+            return mainRule.OnSuccess(ItemDropRule.ByCondition(If(lambda), itemID, dropRate.denominator, minQuantity, maxQuantity, dropRate.numerator), hideLootReport);
         }
 
         /// <summary>
@@ -613,7 +615,7 @@ namespace CalamityMod
         /// <returns>The item drop rule registered.</returns>
         public static IItemDropRule AddIf(this LeadingConditionRule mainRule, Func<DropAttemptInfo, bool> lambda, int itemID, int dropRateInt = 1, int minQuantity = 1, int maxQuantity = 1, bool hideLootReport = false)
         {
-            return mainRule.OnSuccess(ItemDropRule.ByCondition(If(lambda), itemID, dropRateInt, minQuantity, maxQuantity));
+            return mainRule.OnSuccess(ItemDropRule.ByCondition(If(lambda), itemID, dropRateInt, minQuantity, maxQuantity), hideLootReport);
         }
 
         /// <summary>
@@ -626,10 +628,11 @@ namespace CalamityMod
         /// <param name="dropRate">The chance that the item will drop as a DropHelper Fraction.</param>
         /// <param name="minQuantity">The minimum number of items to drop. Defaults to 1.</param>
         /// <param name="maxQuantity">The maximum number of items to drop. Defaults to 1.</param>
+        /// <param name="hideLootReport">Set to true for this drop to not appear in the Bestiary.</param>
         /// <returns>The item drop rule registered.</returns>
         public static IItemDropRule AddIf(this LeadingConditionRule mainRule, Func<DropAttemptInfo, bool> lambda, int itemID, Fraction dropRate, int minQuantity = 1, int maxQuantity = 1, bool hideLootReport = false)
         {
-            return mainRule.OnSuccess(ItemDropRule.ByCondition(If(lambda), itemID, dropRate.denominator, minQuantity, maxQuantity, dropRate.numerator));
+            return mainRule.OnSuccess(ItemDropRule.ByCondition(If(lambda), itemID, dropRate.denominator, minQuantity, maxQuantity, dropRate.numerator), hideLootReport);
         }
         #endregion
 
