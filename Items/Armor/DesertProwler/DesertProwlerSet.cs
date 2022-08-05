@@ -183,7 +183,8 @@ namespace CalamityMod.Items.Armor.DesertProwler
                     setBonus2.OverrideColor = new Color(204, 181, 72);
                     tooltips.Insert(setBonusIndex + 2, setBonus2);
 
-                    TooltipLine setBonus3 = new TooltipLine(item.Mod, "CalamityMod:SetBonus3", $"Attacking instantly dispels the sand cloak, but guarantees a supercrit for {FreeCrit}% damage, up to {BonusDamageCap} extra damage\n" +
+                    TooltipLine setBonus3 = new TooltipLine(item.Mod, "CalamityMod:SetBonus3", $"Using a ranged weapon instantly dispels the sand cloak, but guarantees a supercrit for {FreeCrit}% damage\n" +
+                        $"The super crit applies only as long as the resulting hit wouldn't exceed {BonusDamageCap} damage\n" +
                         $"Landing the killing blow on an enemy with this shot shortens the ability's cooldown to {LightsOutReset / 60f} seconds");
                     setBonus3.OverrideColor = new Color(204, 181, 72);
                     tooltips.Insert(setBonusIndex + 3, setBonus3);
@@ -412,19 +413,39 @@ namespace CalamityMod.Items.Armor.DesertProwler
                 if (projectile.owner >= 0 && DesertProwlerHat.ShroudedInSmoke(Main.player[projectile.owner], out var cd) && projectile.DamageType.CountsAsClass(DamageClass.Ranged))
                 {
                     int critPool = DesertProwlerHat.FreeCrit;
-                    int superCritLayers = 2;
+
+                    int achievedDamage = projectile.damage;
 
                     //Increase the crit cance of the projectile for as long as theres free crits to be handed out.
-                    //Only increase the crit chance if the additional 100% damage wouldnt make the projectile deal more than 100 damage
+                    //Only increase the crit chance if the additional 100% damage wouldnt make the projectile deal more than the damage cap
                     while (critPool >= 100)
                     {
-                        if (projectile.damage <= DesertProwlerHat.BonusDamageCap / superCritLayers)
+                        if (achievedDamage + projectile.damage <= DesertProwlerHat.BonusDamageCap)
                         {
                             ExtraCrit += 100;
                             critPool -= 100;
+
+                            achievedDamage += projectile.damage;
                         }
 
-                        superCritLayers++;
+                        else
+                        {
+                            //Don't do anything to projectiles that reached the damage cap
+                            if (achievedDamage < DesertProwlerHat.BonusDamageCap)
+                            {
+                                //Give some compensation crit if there's still some crit left but adding one full 100% crit chance would make the projectile go over the damage cap
+                                //For example, if the free crit was 200%, the projectile dealt 40 damage, and the damage cap was 100.
+                                //The projectile would get one layer of extra crit, bringing it to 80 damage, but we still have 100% crit leftover
+                                //Adding an extra layer of crit would make the projectile deal 120 damage, which we do not want.
+                                //To compensate for the 20 potential damage loss, we instead add 20/40 crit, making it have 50% extra crit
+
+                                int remainingDamageTilCap = DesertProwlerHat.BonusDamageCap - achievedDamage;
+                                ExtraCrit += (int)(100 * remainingDamageTilCap / (float)projectile.damage);
+                            }
+
+                            //Avoid infinite loops
+                            break;
+                        }
                     }
 
                     projectile.CritChance += ExtraCrit;
