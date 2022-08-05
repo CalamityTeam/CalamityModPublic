@@ -171,7 +171,7 @@ namespace CalamityMod.NPCs.SlimeGod
                     NPC.netUpdate = true;
                     NPC.TargetClosest(false);
                     player = Main.player[NPC.target];
-                    Vector2 vectorAimedAheadOfTarget = player.Center + new Vector2((float)Math.Round(player.velocity.X), 0f).SafeNormalize(Vector2.Zero) * 960f;
+                    Vector2 vectorAimedAheadOfTarget = player.Center + new Vector2((float)Math.Round(player.velocity.X), 0f).SafeNormalize(Vector2.Zero) * 1120f;
                     Point point2 = vectorAimedAheadOfTarget.ToTileCoordinates();
                     int num5 = 5;
                     int num8 = 0;
