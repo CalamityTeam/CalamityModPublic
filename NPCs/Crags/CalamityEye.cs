@@ -136,7 +136,7 @@ namespace CalamityMod.NPCs.Crags
         {
             npcLoot.Add(ItemID.Lens, 2);
             npcLoot.AddIf(() => Main.hardMode, ModContent.ItemType<EssenceofChaos>(), 3);
-            npcLoot.AddIf(() => DownedBossSystem.downedProvidence, ModContent.ItemType<Bloodstone>(), 2);
+            npcLoot.AddIf(() => DownedBossSystem.downedProvidence, ModContent.ItemType<Bloodstone>(), 4);
         }
     }
 }

@@ -45,7 +45,6 @@ namespace CalamityMod.Items.TreasureBags
             // Materials
             itemLoot.Add(ModContent.ItemType<AshesofCalamity>(), 1, 30, 35);
             itemLoot.Add(ModContent.ItemType<EssenceofChaos>(), 1, 10, 15);
-            itemLoot.AddIf(() => DownedBossSystem.downedProvidence, ModContent.ItemType<Bloodstone>(), 1, 60, 70);
 
             // Weapons
             itemLoot.Add(DropHelper.CalamityStyle(DropHelper.BagWeaponDropRateFraction, new int[]

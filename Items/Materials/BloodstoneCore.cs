@@ -21,6 +21,7 @@ namespace CalamityMod.Items.Materials
             Item.rare = ItemRarityID.Purple;
             Item.Calamity().customRarity = CalamityRarity.Turquoise;
         }
+
         public override void AddRecipes()
         {
             CreateRecipe(2).

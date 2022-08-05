@@ -293,7 +293,7 @@ namespace CalamityMod.NPCs.Crags
             npcLoot.AddIf(() => !Main.hardMode, ModContent.ItemType<SlurperPole>(), 10);
             npcLoot.AddIf(() => Main.hardMode, ModContent.ItemType<SlurperPole>(), 30);
             npcLoot.AddIf(() => Main.hardMode, ModContent.ItemType<EssenceofChaos>(), 3);
-            npcLoot.AddIf(() => DownedBossSystem.downedProvidence, ModContent.ItemType<Bloodstone>(), 2);
+            npcLoot.AddIf(() => DownedBossSystem.downedProvidence, ModContent.ItemType<Bloodstone>(), 4);
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)

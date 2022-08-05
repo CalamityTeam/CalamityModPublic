@@ -52,13 +52,6 @@ namespace CalamityMod.NPCs.BrimstoneElemental
             NPC.value = Item.buyPrice(0, 40, 0, 0);
             NPC.LifeMaxNERB(41000, 49200, 780000);
             NPC.DR_NERD(0.15f);
-            if (DownedBossSystem.downedProvidence && !BossRushEvent.BossRushActive)
-            {
-                NPC.damage *= 3;
-                NPC.defense *= 4;
-                NPC.lifeMax *= 5;
-                NPC.value *= 3f;
-            }
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
             NPC.knockBackResist = 0f;
@@ -182,10 +175,7 @@ namespace CalamityMod.NPCs.BrimstoneElemental
 
             // Normal drops: Everything that would otherwise be in the bag
             var normalOnly = npcLoot.DefineNormalOnlyDropSet();
-            {
-                LeadingConditionRule postProvidence = new LeadingConditionRule(DropHelper.If(() => DownedBossSystem.downedProvidence));
-                normalOnly.Add(postProvidence);
-                
+            {                
                 // Weapons
                 int[] weapons = new int[]
                 {
@@ -199,13 +189,11 @@ namespace CalamityMod.NPCs.BrimstoneElemental
 
                 // Materials
                 normalOnly.Add(ModContent.ItemType<EssenceofChaos>(), 1, 4, 8);
-                postProvidence.Add(ModContent.ItemType<Bloodstone>(), 1, 50, 60);
 
                 // Equipment
                 normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<Gehenna>()));
                 normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<Abaddon>()));
                 normalOnly.Add(ModContent.ItemType<FlameLickedShell>(), 10);
-                postProvidence.Add(ModContent.ItemType<Brimrose>());
 
                 // Vanity
                 normalOnly.Add(ModContent.ItemType<BrimstoneWaifuMask>(), 7);

@@ -268,7 +268,7 @@ namespace CalamityMod.NPCs.Crags
         {
             npcLoot.AddIf(() => Main.hardMode, ModContent.ItemType<EssenceofChaos>(), 3);
             var postProvidence = npcLoot.DefineConditionalDropSet(() => DownedBossSystem.downedProvidence);
-            postProvidence.Add(ModContent.ItemType<Bloodstone>(), 2);
+            postProvidence.Add(ModContent.ItemType<Bloodstone>(), 4);
             postProvidence.Add(ModContent.ItemType<GuidelightofOblivion>(), 20);
         }
 

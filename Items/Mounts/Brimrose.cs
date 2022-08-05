@@ -1,4 +1,5 @@
-﻿using Terraria;
+﻿using CalamityMod.Items.Materials;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -27,6 +28,15 @@ namespace CalamityMod.Items.Mounts
             Item.value = Item.buyPrice(platinum: 1, gold: 50);
             Item.Calamity().customRarity = CalamityRarity.Turquoise;
             Item.Calamity().devItem = true;
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient<UnholyCore>(5).
+                AddIngredient<Bloodstone>(20).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

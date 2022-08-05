@@ -46,7 +46,6 @@ namespace CalamityMod.Items.TreasureBags
         {
             // Materials
             itemLoot.Add(ModContent.ItemType<EssenceofChaos>(), 1, 5, 9);
-            itemLoot.AddIf(() => DownedBossSystem.downedProvidence, ModContent.ItemType<Bloodstone>(), 1, 60, 70);
 
             // Weapons
             itemLoot.Add(DropHelper.CalamityStyle(DropHelper.BagWeaponDropRateFraction, new int[]
@@ -65,7 +64,6 @@ namespace CalamityMod.Items.TreasureBags
                 ModContent.ItemType<Gehenna>()
             }));
             itemLoot.Add(ModContent.ItemType<FlameLickedShell>(), 10);
-            itemLoot.AddIf(() => DownedBossSystem.downedProvidence, ModContent.ItemType<Brimrose>());
             itemLoot.AddRevBagAccessories();
 
             // Vanity

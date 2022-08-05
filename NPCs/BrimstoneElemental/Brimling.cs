@@ -43,10 +43,6 @@ namespace CalamityMod.NPCs.BrimstoneElemental
             NPC.canGhostHeal = false;
             NPC.HitSound = SoundID.NPCHit23;
             NPC.DeathSound = SoundID.NPCDeath39;
-            if (DownedBossSystem.downedProvidence)
-            {
-                NPC.lifeMax = 26000;
-            }
             if (BossRushEvent.BossRushActive)
             {
                 NPC.lifeMax = 10000;
@@ -92,7 +88,6 @@ namespace CalamityMod.NPCs.BrimstoneElemental
             }
 
             bool goIntoShell = NPC.life <= NPC.lifeMax * 0.25;
-            bool provy = DownedBossSystem.downedProvidence && !BossRushEvent.BossRushActive;
             if (goIntoShell || Main.npc[CalamityGlobalNPC.brimstoneElemental].ai[0] == 4f)
             {
                 boostDR = true;
@@ -137,7 +132,7 @@ namespace CalamityMod.NPCs.BrimstoneElemental
                 num7 *= num8;
                 int type = ModContent.ProjectileType<BrimstoneHellfireball>();
                 int damage = NPC.GetProjectileDamage(type);
-                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y, num6, num7, type, damage + (provy ? 30 : 0), 0f, Main.myPlayer, Main.player[NPC.target].Center.X, Main.player[NPC.target].Center.Y);
+                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y, num6, num7, type, damage, 0f, Main.myPlayer, Main.player[NPC.target].Center.X, Main.player[NPC.target].Center.Y);
             }
             if (vector251.Length() > 400f || !flag104)
             {

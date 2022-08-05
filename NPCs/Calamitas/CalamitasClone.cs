@@ -61,13 +61,6 @@ namespace CalamityMod.NPCs.Calamitas
             NPC.value = Item.buyPrice(0, 50, 0, 0);
             NPC.DR_NERD((CalamityWorld.death || BossRushEvent.BossRushActive) ? 0.075f : 0.15f);
             NPC.LifeMaxNERB(37500, 45000, 520000);
-            if (DownedBossSystem.downedProvidence && !BossRushEvent.BossRushActive)
-            {
-                NPC.damage *= 3;
-                NPC.defense *= 3;
-                NPC.lifeMax *= 2;
-                NPC.value *= 2.5f;
-            }
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
             NPC.aiStyle = -1;
@@ -192,9 +185,6 @@ namespace CalamityMod.NPCs.Calamitas
             // Normal drops: Everything that would otherwise be in the bag
             var normalOnly = npcLoot.DefineNormalOnlyDropSet();
             {
-                LeadingConditionRule postProvidence = new LeadingConditionRule(DropHelper.If(() => DownedBossSystem.downedProvidence));
-                normalOnly.Add(postProvidence);
-
                 // Items
                 int[] items = new int[]
                 {
@@ -213,7 +203,6 @@ namespace CalamityMod.NPCs.Calamitas
                 // Materials
                 normalOnly.Add(ModContent.ItemType<EssenceofChaos>(), 1, 5, 10);
                 normalOnly.Add(ModContent.ItemType<AshesofCalamity>(), 1, 25, 30);
-                postProvidence.Add(ModContent.ItemType<Bloodstone>(), 1, 50, 60);
 
                 // Vanity
                 normalOnly.Add(ModContent.ItemType<CalamitasMask>(), 7);
