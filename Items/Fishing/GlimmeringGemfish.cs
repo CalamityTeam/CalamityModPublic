@@ -28,17 +28,16 @@ namespace CalamityMod.Items.Fishing
         {
             int gemMin = 1;
             int gemMax = 3;
-
             itemLoot.Add(ItemID.Amethyst, 2, gemMin, gemMax);
-            itemLoot.Add(ItemID.Topaz, new Fraction(4, 10), gemMin, gemMax);
-            itemLoot.Add(ItemID.Sapphire, new Fraction(3, 10), gemMin, gemMax);
-            itemLoot.Add(ItemID.Emerald, 5, gemMin, gemMax);
-            itemLoot.Add(ItemID.Ruby, new Fraction(15, 100), gemMin, gemMax);
+            itemLoot.Add(ItemID.Topaz, 2, gemMin, gemMax);
+            itemLoot.Add(ItemID.Sapphire, 4, gemMin, gemMax);
+            itemLoot.Add(ItemID.Emerald, 4, gemMin, gemMax);
+            itemLoot.Add(ItemID.Ruby, 8, gemMin, gemMax);
             itemLoot.Add(ItemID.Diamond, 10, gemMin, gemMax);
-            itemLoot.Add(ItemID.Amber, 4, gemMin, gemMax);
+            itemLoot.Add(ItemID.Amber, 8, gemMin, gemMax);
 
             Mod thorium = CalamityMod.Instance.thorium;
-            if (thorium != null)
+            if (thorium is not null)
             {
                 itemLoot.Add(thorium.Find<ModItem>("Pearl").Type, 4, gemMin, gemMax);
                 itemLoot.Add(thorium.Find<ModItem>("Opal").Type, 4, gemMin, gemMax);

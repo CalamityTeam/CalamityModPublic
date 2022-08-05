@@ -1,6 +1,6 @@
 ﻿using CalamityMod.Items.Accessories;
-using CalamityMod.Items.Materials;
 using CalamityMod.Items.Critters;
+using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Items.Placeables.Ores;
 using CalamityMod.Items.Potions;
@@ -11,10 +11,9 @@ using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.Tiles.Astral;
 using Terraria;
-using Terraria.ID;
 using Terraria.GameContent.ItemDropRules;
+using Terraria.ID;
 using Terraria.ModLoader;
-using System;
 
 namespace CalamityMod.Items.Fishing.AstralCatches
 {
@@ -49,7 +48,7 @@ namespace CalamityMod.Items.Fishing.AstralCatches
             var postAstrumAureus = itemLoot.DefineConditionalDropSet(() => DownedBossSystem.downedAstrumAureus);
             var postAstrumDeus = itemLoot.DefineConditionalDropSet(() => DownedBossSystem.downedAstrumDeus);
 
-            //Materials
+            // Materials
             itemLoot.Add(ModContent.ItemType<Stardust>(), 1, 5, 10);
             itemLoot.Add(ItemID.FallenStar, 1, 5, 10);
             itemLoot.Add(ItemID.Meteorite, 5, 10, 20);
@@ -60,31 +59,32 @@ namespace CalamityMod.Items.Fishing.AstralCatches
             postAstrumDeus.Add(ModContent.ItemType<AstralBar>(), 10, 1, 3);
             postAstrumDeus.Add(ModContent.ItemType<MeldBlob>(), 4, 5, 10);
 
-            //Weapons
-            postAstrumAureus.Add(new OneFromOptionsNotScaledWithLuckDropRule(10, 1, 
-                ModContent.ItemType<StellarKnife>(),
-                ModContent.ItemType<AstralachneaStaff>(),
-                ModContent.ItemType<TitanArm>(),
-                ModContent.ItemType<HivePod>(),
+            // Weapons (and Starburster Core)
+            postAstrumAureus.Add(new OneFromOptionsDropRule(10, 1,
                 ModContent.ItemType<AstralScythe>(),
+                ModContent.ItemType<TitanArm>(),
                 ModContent.ItemType<StellarCannon>(),
-                ModContent.ItemType<StarbusterCore>()));
+                ModContent.ItemType<AstralachneaStaff>(),
+                ModContent.ItemType<HivePod>(),
+                ModContent.ItemType<StellarKnife>(),
+                ModContent.ItemType<StarbusterCore>()
+            ));
 
-            //Pet
+            // Pet
             itemLoot.Add(ModContent.ItemType<AstrophageItem>(), 10);
 
-            //Bait
+            // Bait
             itemLoot.Add(ModContent.ItemType<TwinklerItem>(), 5, 1, 3);
             itemLoot.Add(ItemID.EnchantedNightcrawler, 5, 1, 3);
             itemLoot.Add(ModContent.ItemType<ArcturusAstroidean>(), 5, 1, 3);
             itemLoot.Add(ItemID.Firefly, 3, 1, 3);
 
-            //Potions
+            // Potions
             postAstrumAureus.Add(ModContent.ItemType<AstralInjection>(), 10, 1, 3);
             postAstrumAureus.Add(ModContent.ItemType<GravityNormalizerPotion>(), 10, 1, 3);
             itemLoot.AddCratePotionRules();
 
-            //Money
+            // Money
             itemLoot.Add(ItemID.SilverCoin, 1, 10, 90);
             itemLoot.Add(ItemID.GoldCoin, 2, 1, 5);
         }

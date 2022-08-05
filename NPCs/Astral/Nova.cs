@@ -271,11 +271,12 @@ namespace CalamityMod.NPCs.Astral
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
             var exploded = npcLoot.DefineConditionalDropSet((info) => info.npc.ai[3] <= -10000f);
-            var notExploded = npcLoot.DefineConditionalDropSet((info) => info.npc.ai[3] > -10000f);
 
-            notExploded.Add(DropHelper.NormalVsExpertQuantity(ModContent.ItemType<Stardust>(), 1, 2, 3, 3, 4));
-            notExploded.Add(ItemDropRule.ByCondition(DropHelper.If(() => DownedBossSystem.downedAstrumAureus), ModContent.ItemType<StellarCannon>(), 7));
+            // 2-3 Stardust (3-4 Expert+)
+            exploded.OnFailedConditions(DropHelper.NormalVsExpertQuantity(ModContent.ItemType<Stardust>(), 1, 2, 3, 3, 4));
+            exploded.OnFailedConditions(ItemDropRule.ByCondition(DropHelper.If(() => DownedBossSystem.downedAstrumAureus), ModContent.ItemType<StellarCannon>(), 7));
 
+            // If exploded, then have a chance to drop Glorious End and nothing else
             exploded.Add(ModContent.ItemType<GloriousEnd>(), 7);
         }
 

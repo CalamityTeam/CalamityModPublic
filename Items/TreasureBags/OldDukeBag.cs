@@ -53,7 +53,6 @@ namespace CalamityMod.Items.TreasureBags
                 ModContent.ItemType<CadaverousCarrion>(),
                 ModContent.ItemType<ToxicantTwister>()
             }));
-
             itemLoot.Add(ModContent.ItemType<TheReaper>(), 10);
 
             // Equipment

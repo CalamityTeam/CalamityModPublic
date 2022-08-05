@@ -47,7 +47,7 @@ namespace CalamityMod.Items.Fishing.SulphurCatches
         public override bool CanRightClick() => true;
         public override void ModifyItemLoot(ItemLoot itemLoot)
         {
-            //LCRs.
+            // The contents of this crate depend massively on progression, so it uses a large number of LeadingConditionRules.
             var tier1AbyssAvailable = itemLoot.DefineConditionalDropSet(() => DownedBossSystem.downedSlimeGod || Main.hardMode);
             var tier2AbyssAvailable = itemLoot.DefineConditionalDropSet(() => DownedBossSystem.downedCalamitas);
             var scoriaAvailable = itemLoot.DefineConditionalDropSet(() => NPC.downedGolemBoss);
@@ -55,7 +55,7 @@ namespace CalamityMod.Items.Fishing.SulphurCatches
             var tier2AcidRain = itemLoot.DefineConditionalDropSet(() => DownedBossSystem.downedAquaticScourgeAcidRain);
             var tier3AcidRain = itemLoot.DefineConditionalDropSet(() => DownedBossSystem.downedPolterghast && DownedBossSystem.downedBoomerDuke);
 
-            //Materials
+            // Materials
             itemLoot.Add(ModContent.ItemType<SulphurousSand>(), 1, 5, 10);
             itemLoot.Add(ModContent.ItemType<SulphurousSandstone>(), 1, 5, 10);
             itemLoot.Add(ModContent.ItemType<HardenedSulphurousSandstone>(), 1, 5, 10);
@@ -71,41 +71,45 @@ namespace CalamityMod.Items.Fishing.SulphurCatches
             scoriaAvailable.Add(ModContent.ItemType<ScoriaBar>(), new Fraction(15, 100), 4, 7);
             tier3AcidRain.Add(ModContent.ItemType<ReaperTooth>(), 10, 1, 5);
 
-            // Weapons
-            tier1AbyssAvailable.Add(new OneFromOptionsNotScaledWithLuckDropRule(10, 1,
-                ModContent.ItemType<Archerfish>(),
+            // Pre-HM Abyss Weapons
+            tier1AbyssAvailable.Add(new OneFromOptionsDropRule(10, 1,
                 ModContent.ItemType<BallOFugu>(),
+                ModContent.ItemType<Archerfish>(),
+                ModContent.ItemType<BlackAnurian>(),
                 ModContent.ItemType<HerringStaff>(),
-                ModContent.ItemType<Lionfish>(),
-                ModContent.ItemType<BlackAnurian>()));
+                ModContent.ItemType<Lionfish>()
+            ));
 
-            lcrT2AcidRain.Add(new OneFromOptionsNotScaledWithLuckDropRule(10, 1,
-                ModContent.ItemType<SkyfinBombers>(),
-                ModContent.ItemType<NuclearRod>(),
+            // Post-AS Acid Rain Weapons (and Nuclear Rod)
+            tier2AcidRain.Add(new OneFromOptionsDropRule(10, 1,
                 ModContent.ItemType<SulphurousGrabber>(),
                 ModContent.ItemType<FlakToxicannon>(),
-                ModContent.ItemType<SpentFuelContainer>(),
+                ModContent.ItemType<BelchingSaxophone>(),
                 ModContent.ItemType<SlitheringEels>(),
-                ModContent.ItemType<BelchingSaxophone>()));
+                ModContent.ItemType<SkyfinBombers>(),
+                ModContent.ItemType<SpentFuelContainer>(),
+                ModContent.ItemType<NuclearRod>()
+            ));
 
-            // Equipment
-            tier1AbyssAvailable.Add(new OneFromOptionsNotScaledWithLuckDropRule(4, 1,
-                ModContent.ItemType<StrangeOrb>(),
+            // Pre-HM Abyss Equipment (and Torrential Tear)
+            tier1AbyssAvailable.Add(new OneFromOptionsDropRule(4, 1,
+                ModContent.ItemType<AnechoicPlating>(),
                 ModContent.ItemType<DepthCharm>(),
                 ModContent.ItemType<IronBoots>(),
-                ModContent.ItemType<AnechoicPlating>(),
-                ModContent.ItemType<TorrentialTear>()));
+                ModContent.ItemType<StrangeOrb>(),
+                ModContent.ItemType<TorrentialTear>()
+            ));
 
-            //Bait
+            // Bait
             itemLoot.Add(ItemID.MasterBait, 10, 1, 2);
             itemLoot.Add(ItemID.JourneymanBait, 5, 1, 3);
             itemLoot.Add(ItemID.ApprenticeBait, 3, 2, 3);
 
-            //Potions
+            // Potions
             itemLoot.Add(ModContent.ItemType<AnechoicCoating>(), 10, 1, 3);
             itemLoot.AddCratePotionRules();
 
-            //Money
+            // Money
             itemLoot.Add(ItemID.SilverCoin, 1, 10, 90);
             itemLoot.Add(ItemID.GoldCoin, 2, 1, 5);
         }

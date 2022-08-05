@@ -35,28 +35,26 @@ namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
         public override bool CanRightClick() => true;
         public override void ModifyItemLoot(ItemLoot itemLoot)
         {
-            //Vanilla materials
+            // Materials
             itemLoot.Add(ItemID.Obsidian, 1, 2, 5);
             itemLoot.Add(ItemID.Hellstone, 4, 2, 5);
             itemLoot.Add(ItemID.HellstoneBar, 10, 1, 3);
-
-            //Modded materials
             itemLoot.Add(ModContent.ItemType<DemonicBoneAsh>(), 1, 1, 4);
             itemLoot.AddIf(() => DownedBossSystem.downedBrimstoneElemental, ModContent.ItemType<UnholyCore>(), 10, 1, 3);
-            itemLoot.AddIf(() => DownedBossSystem.downedProvidence && DownedBossSystem.downedPolterghast, ModContent.ItemType<Bloodstone>(), 10, 1, 3);
+            itemLoot.AddIf(() => DownedBossSystem.downedProvidence, ModContent.ItemType<Bloodstone>(), 10, 1, 3);
 
             // Weapons (none)
 
-            //Bait
+            // Bait
             itemLoot.Add(ItemID.MasterBait, 10, 1, 2);
             itemLoot.Add(ItemID.JourneymanBait, 5, 1, 3);
             itemLoot.Add(ItemID.ApprenticeBait, 3, 2, 3);
 
-            //Potions
+            // Potions
             itemLoot.Add(ItemID.InfernoPotion, 10, 1, 3);
             itemLoot.AddCratePotionRules();
 
-            //Money
+            // Money
             itemLoot.Add(ItemID.SilverCoin, 1, 10, 90);
             itemLoot.Add(ItemID.GoldCoin, 2, 1, 5);
         }

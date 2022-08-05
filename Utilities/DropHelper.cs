@@ -253,15 +253,19 @@ namespace CalamityMod
             return new DropBasedOnExpertMode(normalRule, expertRule);
         }
 
-        public static LeadingConditionRule GetRevBagAccessoryRule()
+        /// <summary>
+        /// Adds the Revengeance Mode bag accessories to the given loot table.
+        /// </summary>
+        /// <param name="loot">The ILoot interface for the loot table.</param>
+        public static void AddRevBagAccessories(this ILoot loot)
         {
             var lcr = new LeadingConditionRule(If(() => CalamityWorld.revenge));
-            lcr.Add(new OneFromOptionsNotScaledWithLuckDropRule(20, 1, ModContent.ItemType<Laudanum>(), ModContent.ItemType<HeartofDarkness>(), ModContent.ItemType<StressPills>()));
-            return lcr;
+            lcr.Add(new OneFromOptionsDropRule(20, 1, ModContent.ItemType<Laudanum>(), ModContent.ItemType<HeartofDarkness>(), ModContent.ItemType<StressPills>()));
+            loot.Add(lcr);
         }
 
         /// <summary>
-        /// Adds all the common potions from fishing crates, alongside scaling mana & regen potions
+        /// Adds all the common potions for fishing crates, alongside scaling mana and regen potions
         /// </summary>
         /// <param name="loot">The ILoot interface for the loot table.</param>
         public static void AddCratePotionRules(this ILoot loot)
@@ -273,26 +277,30 @@ namespace CalamityMod
             loot.Add(ItemID.ShinePotion, 10, 1, 3);
             loot.Add(ItemID.MiningPotion, 10, 1, 3);
             loot.Add(ItemID.HeartreachPotion, 10, 1, 3);
-            loot.Add(ItemID.TrapsightPotion, 10, 1, 3); //Dangersense Potion
+            loot.Add(ItemID.TrapsightPotion, 10, 1, 3); // Dangersense Potion
 
-            //This is quite ugly
-            var lcrSupremePotion = new LeadingConditionRule(If(() => DownedBossSystem.downedDoG));
-            var lcrSuperPotion = new LeadingConditionRule(If(() => !DownedBossSystem.downedDoG && DownedBossSystem.downedProvidence));
-            var lcrGreaterPotion = new LeadingConditionRule(If(() => !DownedBossSystem.downedDoG && !DownedBossSystem.downedProvidence && NPC.downedMechBossAny));
-            var lcrRegularPotion = new LeadingConditionRule(If(() => !DownedBossSystem.downedDoG && !DownedBossSystem.downedProvidence && !NPC.downedMechBossAny && NPC.downedBoss3));
-            var lcrLesserPotion = new LeadingConditionRule(If(() => !DownedBossSystem.downedDoG && !DownedBossSystem.downedProvidence && !NPC.downedMechBossAny && !NPC.downedBoss3));
+            // Define all the loot rules for the potion types
+            var supremePots = new OneFromOptionsNotScaledWithLuckDropRule(1, 1, ModContent.ItemType<SupremeHealingPotion>(), ModContent.ItemType<SupremeManaPotion>());
+            var superPots = new OneFromOptionsNotScaledWithLuckDropRule(1, 1, ItemID.SuperHealingPotion, ItemID.SuperManaPotion);
+            var greaterPots = new OneFromOptionsNotScaledWithLuckDropRule(1, 1, ItemID.GreaterHealingPotion, ItemID.GreaterManaPotion);
+            var regularPots = new OneFromOptionsNotScaledWithLuckDropRule(1, 1, ItemID.HealingPotion, ItemID.ManaPotion);
+            var lesserPots = new OneFromOptionsNotScaledWithLuckDropRule(1, 1, ItemID.LesserHealingPotion, ItemID.LesserManaPotion);
 
-            lcrSupremePotion.Add(new OneFromOptionsNotScaledWithLuckDropRule(1, 1, ModContent.ItemType<SupremeHealingPotion>(), ModContent.ItemType<SupremeManaPotion>()));
-            lcrSuperPotion.Add(new OneFromOptionsNotScaledWithLuckDropRule(1, 1, ItemID.SuperHealingPotion, ItemID.SuperManaPotion));
-            lcrGreaterPotion.Add(new OneFromOptionsNotScaledWithLuckDropRule(1, 1, ItemID.GreaterHealingPotion, ItemID.GreaterManaPotion));
-            lcrRegularPotion.Add(new OneFromOptionsNotScaledWithLuckDropRule(1, 1, ItemID.HealingPotion, ItemID.ManaPotion));
-            lcrLesserPotion.Add(new OneFromOptionsNotScaledWithLuckDropRule(1, 1, ItemID.LesserHealingPotion, ItemID.LesserManaPotion));
+            // Chained LeadingConditionRules achieve the equivalent of "if killed X, else if killed Y, else if killed Z, else..."
+            var lcrSupremePotion = loot.DefineConditionalDropSet(() => DownedBossSystem.downedDoG);
+            var lcrSuperPotion = new LeadingConditionRule(If(() => DownedBossSystem.downedProvidence));
+            var lcrGreaterPotion = new LeadingConditionRule(If(() => NPC.downedMechBossAny));
+            var lcrRegularPotion = new LeadingConditionRule(If(() => NPC.downedBoss3));
 
-            loot.Add(lcrSupremePotion);
-            loot.Add(lcrSuperPotion);
-            loot.Add(lcrGreaterPotion);
-            loot.Add(lcrRegularPotion);
-            loot.Add(lcrLesserPotion);
+            // Actually chain all the LCRs together
+            lcrSupremePotion.Add(supremePots);
+            lcrSupremePotion.OnFailedConditions(lcrSuperPotion);
+            lcrSuperPotion.Add(superPots);
+            lcrSuperPotion.OnFailedConditions(lcrGreaterPotion);
+            lcrGreaterPotion.Add(greaterPots);
+            lcrGreaterPotion.OnFailedConditions(lcrRegularPotion);
+            lcrRegularPotion.Add(regularPots);
+            lcrRegularPotion.OnFailedConditions(lesserPots);
         }
         #endregion
 
