@@ -8,7 +8,9 @@ using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.World;
 using CalamityMod.Items.Placeables.Ores;
+using System.Collections.Generic;
 using Terraria;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -18,34 +20,15 @@ namespace CalamityMod.Items
     {
         public override bool InstancePerEntity => false;
 
-        // NOTE: this function applies to all right-click-to-open items, even modded ones (despite the name).
-        // This means it applies to boss bags, crates, lockboxes, herb bags, goodie bags, and presents.
-        // The internal names of these cases are as follows (TML 0.11 API):
-        // bossBag, crate, lockBox, herbBag, goodieBag, present
-        public override void OpenVanillaBag(string context, Player player, int itemID)
+        #region Modify Item Loot Main Hook
+        public override void ModifyItemLoot(Item item, ItemLoot itemLoot)
         {
-            if (context == "crate")
-                CrateLoot(player, itemID);
+            List<IItemDropRule> rules = itemLoot.Get(false);
 
-            else if (context == "bossBag")
-                BossBagLoot(player, itemID);
-
-            // Bat Hook is now acquired from Vampires.
-            else if (context == "goodieBag")
-                DropHelper.BlockDrops(ItemID.BatHook);
-        }
-
-        #region Boss Bags
-        private static void BossBagLoot(Player player, int itemID)
-        {
-            // IEntitySource my beloathed
-            var s = player.GetSource_OpenItem(itemID);
-
-            // Give a chance for Laudanum, Stress Pills and Heart of Darkness from every boss bag
-            DropHelper.DropRevBagAccessories(s, player);
-
-            switch (itemID)
+            switch (item.type)
             {
+                #region Boss Treasure Bags
+                /*
                 case ItemID.KingSlimeBossBag:
                     DropHelper.DropItemChance(s, player, ModContent.ItemType<CrownJewel>(), 0.1f);
                     break;
@@ -245,41 +228,29 @@ namespace CalamityMod.Items
                     int celestialOnion = ModContent.ItemType<CelestialOnion>();
                     DropHelper.DropItemCondition(s, player, celestialOnion, !player.Calamity().extraAccessoryML && !player.InventoryHas(celestialOnion));
                     break;
-            }
-        }
-        #endregion
+                */
+                #endregion
 
-        #region Fishing Crates
-        private static void CrateLoot(Player player, int itemID)
-        {
-            // IEntitySource my beloathed
-            var s = player.GetSource_OpenItem(itemID);
-
-            switch (itemID)
-            {
+                #region Fishing Crates
+                /*
                 case ItemID.WoodenCrate:
                 case ItemID.WoodenCrateHard:
-                    BlockCrateDrops();
                     DropHelper.DropItemChance(s, player, ModContent.ItemType<WulfrumMetalScrap>(), 0.25f, 3, 5);
                     break;
 
                 case ItemID.IronCrate:
                 case ItemID.IronCrateHard:
-                    BlockCrateDrops();
                     DropHelper.DropItemChance(s, player, ModContent.ItemType<WulfrumMetalScrap>(), 0.25f, 5, 8);
                     DropHelper.DropItemChance(s, player, ModContent.ItemType<AncientBoneDust>(), 0.25f, 5, 8);
                     break;
 
                 case ItemID.GoldenCrate:
-                    BlockCrateDrops();
                     DropHelper.DropItemChance(s, player, ItemID.FlareGun, 0.1f, 1, 1);
                     DropHelper.DropItemChance(s, player, ItemID.ShoeSpikes, 0.1f, 1, 1);
                     DropHelper.DropItemChance(s, player, ItemID.BandofRegeneration, 0.1f, 1, 1);
                     break;
 
-                //This is Titanium Crate, apparently.
                 case ItemID.GoldenCrateHard:
-                    BlockCrateDrops();
                     DropHelper.DropItemCondition(s, player, ModContent.ItemType<AuricOre>(), DownedBossSystem.downedYharon, 0.15f, 30, 40);
                     break;
 
@@ -287,13 +258,11 @@ namespace CalamityMod.Items
                 case ItemID.CrimsonFishingCrate:
                 case ItemID.CorruptFishingCrateHard:
                 case ItemID.CrimsonFishingCrateHard:
-                    BlockCrateDrops();
                     DropHelper.DropItemChance(s, player, ModContent.ItemType<BlightedGel>(), 0.15f, 5, 8);
                     break;
 
-                case ItemID.HallowedFishingCrate:
+                case ItemID.HallowedFishingCrate: // WHY
                 case ItemID.HallowedFishingCrateHard:
-                    BlockCrateDrops();
                     DropHelper.DropItemCondition(s, player, ModContent.ItemType<UnholyEssence>(), DownedBossSystem.downedProvidence, 0.15f, 5, 10);
                     DropHelper.DropItemCondition(s, player, ModContent.ItemType<ProfanedRagePotion>(), DownedBossSystem.downedProvidence, 0.15f, 1, 2);
                     DropHelper.DropItemCondition(s, player, ModContent.ItemType<HolyWrathPotion>(), DownedBossSystem.downedProvidence, 0.15f, 1, 2);
@@ -301,14 +270,12 @@ namespace CalamityMod.Items
 
                 case ItemID.DungeonFishingCrate:
                 case ItemID.DungeonFishingCrateHard:
-                    BlockCrateDrops();
                     DropHelper.DropItemCondition(s, player, ItemID.Ectoplasm, NPC.downedPlantBoss, 0.1f, 1, 5);
                     DropHelper.DropItemCondition(s, player, ModContent.ItemType<Phantoplasm>(), DownedBossSystem.downedPolterghast, 0.1f, 1, 5);
                     break;
 
                 case ItemID.JungleFishingCrate:
                 case ItemID.JungleFishingCrateHard:
-                    BlockCrateDrops();
                     DropHelper.DropItemChance(s, player, ModContent.ItemType<MurkyPaste>(), 0.2f, 1, 3);
                     DropHelper.DropItemCondition(s, player, ModContent.ItemType<BeetleJuice>(), Main.hardMode, 0.2f, 1, 3);
                     DropHelper.DropItemCondition(s, player, ModContent.ItemType<TrapperBulb>(), Main.hardMode, 0.2f, 1, 3);
@@ -323,7 +290,6 @@ namespace CalamityMod.Items
 
                 case ItemID.FloatingIslandFishingCrate:
                 case ItemID.FloatingIslandFishingCrateHard:
-                    BlockCrateDrops();
                     DropHelper.DropItemCondition(s, player, ModContent.ItemType<AerialiteOre>(), DownedBossSystem.downedHiveMind || DownedBossSystem.downedPerforator, 0.2f, 16, 28);
                     DropHelper.DropItemCondition(s, player, ModContent.ItemType<AerialiteBar>(), DownedBossSystem.downedHiveMind || DownedBossSystem.downedPerforator, 0.15f, 4, 7);
                     DropHelper.DropItemCondition(s, player, ModContent.ItemType<EssenceofSunlight>(), Main.hardMode, 0.2f, 2, 4);
@@ -332,7 +298,6 @@ namespace CalamityMod.Items
 
                 case ItemID.FrozenCrate:
                 case ItemID.FrozenCrateHard:
-                    BlockCrateDrops();
                     int numMechsDown = NPC.downedMechBoss1.ToInt() + NPC.downedMechBoss2.ToInt() + NPC.downedMechBoss3.ToInt();
                     DropHelper.DropItemCondition(s, player, ModContent.ItemType<CryonicOre>(), DownedBossSystem.downedCryogen && numMechsDown >= 2, 0.2f, 16, 28);
                     DropHelper.DropItemCondition(s, player, ModContent.ItemType<CryonicBar>(), DownedBossSystem.downedCryogen && numMechsDown >= 2, 0.15f, 4, 7);
@@ -341,52 +306,38 @@ namespace CalamityMod.Items
 
                 case ItemID.LavaCrate:
                 case ItemID.LavaCrateHard:
-                    BlockCrateDrops();
                     DropHelper.DropItemCondition(s, player, ModContent.ItemType<EssenceofChaos>(), Main.hardMode, 0.2f, 2, 4);
                     break;
 
+                // Calamity does not touch Oasis Crates yet
                 case ItemID.OasisCrate:
                 case ItemID.OasisCrateHard:
-                    BlockCrateDrops();
                     break;
 
+                // Calamity does not touch Ocean Crates yet
                 case ItemID.OceanCrate:
                 case ItemID.OceanCrateHard:
-                    BlockCrateDrops();
                     break;
-            }
-        }
+                */
+                #endregion
 
-        private static void BlockCrateDrops()
-        {
-            bool twoMechsDowned =
-                (NPC.downedMechBoss1 && NPC.downedMechBoss2) ||
-                (NPC.downedMechBoss2 && NPC.downedMechBoss3) ||
-                (NPC.downedMechBoss3 && NPC.downedMechBoss1);
-            int[] preMechBlockedDrops_Crate = new int[]
-            {
-                ItemID.MythrilOre,
-                ItemID.OrichalcumOre,
-                ItemID.AdamantiteOre,
-                ItemID.TitaniumOre,
-                ItemID.MythrilBar,
-                ItemID.OrichalcumBar,
-                ItemID.AdamantiteBar,
-                ItemID.TitaniumBar,
-            };
-            int[] postOneMechBlockedDrops_Crate = new int[]
-            {
-                ItemID.AdamantiteOre,
-                ItemID.TitaniumOre,
-                ItemID.AdamantiteBar,
-                ItemID.TitaniumBar,
-            };
-            if (CalamityConfig.Instance.EarlyHardmodeProgressionRework)
-            {
-                if (!NPC.downedMechBossAny)
-                    DropHelper.BlockDrops(preMechBlockedDrops_Crate);
-                else if (!twoMechsDowned)
-                    DropHelper.BlockDrops(postOneMechBlockedDrops_Crate);
+                #region Miscellaneous
+                // Bat Hook is now acquired from Vampires.
+                case ItemID.GoodieBag:
+                    SequentialRulesNotScalingWithLuckRule spaghettiBag = null;
+                    foreach (IItemDropRule rule in rules)
+                        if (rule is SequentialRulesNotScalingWithLuckRule s)
+                            spaghettiBag = s;
+                    if (spaghettiBag is null)
+                        break;
+                    foreach (IItemDropRule rule in spaghettiBag.rules)
+                        if (rule is CommonDropNotScalingWithLuck WHY && WHY.itemId == ItemID.BatHook)
+                        {
+                            WHY.chanceNumerator = 0;
+                            WHY.chanceDenominator = 1;
+                        }
+                    break;
+                #endregion
             }
         }
         #endregion
