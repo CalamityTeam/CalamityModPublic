@@ -446,7 +446,7 @@ namespace CalamityMod.Items.Armor.MarniteArchitect
 
         public override bool Draw(List<DrawData> playerDrawData, int drawType, Player drawPlayer, ref Texture2D texture, ref Texture2D glowTexture, ref Vector2 drawPosition, ref Rectangle frame, ref Color drawColor, ref Color glowColor, ref float rotation, ref SpriteEffects spriteEffects, ref Vector2 drawOrigin, ref float drawScale, float shadow)
         {
-            rotation = drawPlayer.velocity.X * 0.03f;
+            rotation = MathHelper.Clamp(drawPlayer.velocity.X * 0.03f, - MathHelper.ToRadians(7f), MathHelper.ToRadians(7f));
             drawPlayer.fullRotation = rotation;
 
             // Draw is called for each mount texture we provide, so we check drawType to avoid duplicate draws.
