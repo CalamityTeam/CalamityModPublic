@@ -18,7 +18,7 @@ namespace CalamityMod.Items.VanillaArmorChanges
 
         public const int PulseReleaseRate = 300;
 
-        public const int DelayBetweenHeals = 360;
+        public const int DelayBetweenHeals = 260;
 
         public const int BaseDamageToEnemies = 300;
 
