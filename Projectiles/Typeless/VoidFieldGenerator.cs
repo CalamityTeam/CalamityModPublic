@@ -62,7 +62,7 @@ namespace CalamityMod.Projectiles.Typeless
                 var proj = Main.projectile[k];
                 if (proj.active && proj.owner == Projectile.owner && proj.arrow && !proj.Calamity().nihilicArrow && proj.friendly && Vector2.Distance(proj.Center, Projectile.Center) < 65)
                 {
-                    Main.projectile[k].damage = (int)(proj.damage * 1.2f);
+                    Main.projectile[k].damage = (int)(proj.damage * 2f);
                     proj.extraUpdates += 1;
                     Main.projectile[k].Calamity().nihilicArrow = true;
                     SoundEngine.PlaySound(SoundID.Item104 with { Volume = SoundID.Item104.Volume * 0.75f }, Projectile.Center);

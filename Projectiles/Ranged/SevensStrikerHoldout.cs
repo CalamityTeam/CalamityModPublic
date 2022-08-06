@@ -139,7 +139,7 @@ namespace CalamityMod.Projectiles.Ranged
                             // Every 5 frames, shoot 7 coins. The first 5 frames are excluded for timing purposes
                             if (shottimer % 5 == 0 && shottimer > 5)
                             {
-                                Shoot(7, ModContent.ProjectileType<SevensStrikerPlatinumCoin>(), weaponDamage, weaponKnockback, (int)scaleFactor * 2f, 0.3f);
+                                Shoot(7, ModContent.ProjectileType<SevensStrikerPlatinumCoin>(), weaponDamage, weaponKnockback, (int)scaleFactor * 2f, 0.2f);
                                 SoundEngine.PlaySound(TheSevensStriker.CoinSound, Projectile.Center);
                             }
                             // After 7 waves have been shot, reset the gun and roll again
@@ -162,19 +162,19 @@ namespace CalamityMod.Projectiles.Ranged
                                 {
                                     // A single brick that deals 10% damage
                                     case 1:
-                                        Shoot(1, ModContent.ProjectileType<SevensStrikerBrick>(), (int)(Projectile.damage * 0.1f), 0, 2f, 0);
+                                        Shoot(1, ModContent.ProjectileType<SevensStrikerBrick>(), Projectile.damage, 0, 2f, 0);
                                         CombatText.NewText(player.getRect(), Color.Gray, "Bust!", true);
                                         SoundEngine.PlaySound(TheSevensStriker.BustSound, Projectile.Center);
                                         break;
                                     // 7 exploding oranges
                                     case 2:
-                                        Shoot(7, ModContent.ProjectileType<SevensStrikerOrange>(), Projectile.damage, Projectile.knockBack, 2f, 0.2f);
+                                        Shoot(7, ModContent.ProjectileType<SevensStrikerOrange>(), Projectile.damage, Projectile.knockBack, 2f, 0.1f);
                                         CombatText.NewText(player.getRect(), Color.Orange, "Doubles!", true);
                                         SoundEngine.PlaySound(TheSevensStriker.DoublesSound, Projectile.Center);
                                         break;
                                     // 7 piercing grapes with 7 tighter splitting cherries
                                     case 3:
-                                        Shoot(7, ModContent.ProjectileType<SevensStrikerCherry>(), Projectile.damage, Projectile.knockBack, 1.5f, 0.1f);
+                                        Shoot(7, ModContent.ProjectileType<SevensStrikerCherry>(), (int)(Projectile.damage * 0.5f), Projectile.knockBack, 1.5f, 0.1f);
                                         Shoot(7, ModContent.ProjectileType<SevensStrikerGrape>(), Projectile.damage, Projectile.knockBack, 2f, 0.2f);
                                         CombatText.NewText(player.getRect(), Color.Red, "Triples!", true);
                                         SoundEngine.PlaySound(TheSevensStriker.TriplesSound, Projectile.Center);

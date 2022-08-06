@@ -2494,11 +2494,6 @@ namespace CalamityMod.Projectiles
                 return new Color(255, 255, 255, projectile.alpha);
             }
 
-            if (projectile.Calamity().nihilicArrow)
-            {
-                return Color.Black;
-            }
-
             return null;
         }
 
