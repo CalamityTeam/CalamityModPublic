@@ -38,7 +38,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            Item.damage = 400;
+            Item.damage = 2777;
             Item.knockBack = 9f;
             Item.useTime = 30;
             Item.useAnimation = 30;
@@ -144,12 +144,12 @@ namespace CalamityMod.Items.Weapons.Ranged
                     float SpeedX = velocity.X + Main.rand.Next(-15, 16) * 0.05f;
                     float SpeedY = velocity.Y + Main.rand.Next(-15, 16) * 0.05f;
 
-                    Projectile.NewProjectile(source, gunTip.X, gunTip.Y, SpeedX, SpeedY, ShotCoin, (int)(damage * 0.07f), knockback, player.whoAmI);
+                    Projectile.NewProjectile(source, gunTip.X, gunTip.Y, SpeedX, SpeedY, ShotCoin, (int)(damage * 0.02f), knockback, player.whoAmI);
                 }
             }
             else
             {
-                Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<SevensStrikerHoldout>(), damage * 7, knockback, player.whoAmI, type, 0f);
+                Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<SevensStrikerHoldout>(), damage, knockback, player.whoAmI, type, 0f);
             }
             return false;
         }

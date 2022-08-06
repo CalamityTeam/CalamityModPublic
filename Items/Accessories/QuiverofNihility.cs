@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Accessories
         {
             SacrificeTotal = 1;
             DisplayName.SetDefault("Quiver of Nihility");
-            Tooltip.SetDefault("'Filled with a substance darker than the night sky'\n"+"Summons a ring of four void fields to orbit you\n" + "Arrows that pass through these fields gain a 20% damage boost and double the speed");
+            Tooltip.SetDefault("'Filled with a substance darker than the night sky'\n"+"5% increased ranged critical strike chance\n"+"Summons a ring of four void fields to orbit you\n" + "Arrows that pass through these fields gain a 100% damage boost and double the speed");
         }
 
         public override void SetDefaults()
@@ -38,6 +38,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
+            player.GetCritChance<RangedDamageClass>() += 5;
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.voidField = true;
             if (player.whoAmI == Main.myPlayer)
