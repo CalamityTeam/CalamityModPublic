@@ -1,6 +1,7 @@
 float rotation; // The rotation of the sword sprite.
 //float2 spriteDimensions; //The size of the sprite (necessary as the shader only gives us a map between 0 and 1).
 float pommelToOriginPercent; //I have no idea for a better variable name. This is the perccentage of the full lenght between the rotation origin and the sword's tip that is an empty gap between it and the bottom left of the sword.
+float4 color;
 
 texture sampleTexture;
 sampler2D Texture1Sampler = sampler_state { texture = <sampleTexture>; magfilter = LINEAR; minfilter = LINEAR; mipfilter = LINEAR; AddressU = wrap; AddressV = wrap; };
@@ -15,15 +16,9 @@ float realCos(float value)
 //At this point i barely understand why some of it works but yea it just happens.
 float4 main(float2 uv : TEXCOORD) : COLOR
 { 
-    if (uv.x < 0.005 || uv.x > 1 - 0.005 || uv.y < 0.005 || uv.y > 1 - 0.005)
-        return float4(1, 0, 0, 1);
-    if (length(uv - float2(0.5, 0.5)) < 0.01)
-        return float4(1, 0, 0, 1);
-    
     //Transformation matrices
     //float2x2 squareify = float2x2(1, 0, 0, 1);
     //float2x2 unsquareify = float2x2(1, 0, 0, 1);
-    
     
     float2x2 rotate = float2x2(realCos(rotation), -sin(rotation), sin(rotation), realCos(rotation));
     float spriteDiagonal = 1 / (sqrt(2) / 4);
@@ -54,14 +49,14 @@ float4 main(float2 uv : TEXCOORD) : COLOR
     uv = mul(uv, rotate);
     uv = mul(uv, downscale);
     //uv = mul(uv, unsquareify);
-    uv += displaceFromOrigin;
+    uv += float2(-displaceFromOrigin, displaceFromOrigin);
     uv += float2(0.5, 0.5); //remap the uv properly
     
     //Crop (Attempting to sample a texture with coordinates that arent between 0 to 1 wraps it around
     if (uv.x < 0 || uv.x >= 1 || uv.y < 0 || uv.y >= 1)
         return float4(0, 0, 0, 0);
     
-    return tex2D(Texture1Sampler, uv);
+    return tex2D(Texture1Sampler, uv) * color;
 }
 
 technique Technique1

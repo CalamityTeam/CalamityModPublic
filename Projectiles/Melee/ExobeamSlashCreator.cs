@@ -9,6 +9,15 @@ namespace CalamityMod.Projectiles.Melee
     public class ExobeamSlashCreator : ModProjectile
     {
         public NPC Target => Main.npc[(int)Projectile.ai[0]];
+        public float SlashDirection
+        {
+            get
+            {
+                if (Projectile.ai[1] > MathHelper.Pi)
+                    return Main.rand.NextFloatDirection();
+                return Projectile.ai[1] + Main.rand.NextFloatDirection() * 0.2f;
+            }
+        }
 
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
@@ -39,7 +48,7 @@ namespace CalamityMod.Projectiles.Melee
                 if (Projectile.timeLeft <= 20)
                     baseDirection = -Vector2.UnitY;
 
-                Vector2 spawnOffset = baseDirection.RotatedBy(Main.rand.NextFloatDirection() * 0.63f).SafeNormalize(Vector2.UnitY);
+                Vector2 spawnOffset = SlashDirection.ToRotationVector2();
                 spawnOffset *= Main.rand.NextFloatDirection() * maxOffset;
                 Vector2 sliceVelocity = spawnOffset.SafeNormalize(Vector2.UnitY) * 0.1f;
 
