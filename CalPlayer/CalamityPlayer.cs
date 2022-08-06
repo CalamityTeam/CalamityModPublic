@@ -3598,17 +3598,6 @@ namespace CalamityMod.CalPlayer
                     runAccMult *= multiplier;
                     runSpeedMult *= multiplier;
                 }
-                if (flameLickedShell)
-                {
-                    float multiplier = shellBoost ? 0.8f : 0.5f;
-                    runAccMult *= multiplier;
-                    runSpeedMult *= multiplier;
-                }
-                if (ursaSergeant)
-                {
-                    runAccMult *= 0.85f;
-                    runSpeedMult *= 0.85f;
-                }
                 if (elysianGuard)
                 {
                     runAccMult *= 0.5f;
