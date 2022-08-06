@@ -15,14 +15,15 @@ namespace CalamityMod.Projectiles.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Fungal Clump");
+            Main.projFrames[Projectile.type] = 6;
             ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
             ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            Projectile.width = 40;
-            Projectile.height = 40;
+            Projectile.width = 50;
+            Projectile.height = 50;
             Projectile.netImportant = true;
             Projectile.friendly = true;
             Projectile.usesLocalNPCImmunity = true;
@@ -57,6 +58,18 @@ namespace CalamityMod.Projectiles.Summon
                 {
                     Projectile.timeLeft = 2;
                 }
+            }
+
+            //Animation
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter > 6)
+            {
+                Projectile.frame++;
+                Projectile.frameCounter = 0;
+            }
+            if (Projectile.frame >= Main.projFrames[Projectile.type])
+            {
+                Projectile.frame = 0;
             }
 
             //Initializing dust and damage

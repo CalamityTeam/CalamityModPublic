@@ -21,8 +21,8 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetDefaults()
         {
-            Item.width = 20;
-            Item.height = 26;
+            Item.width = 38;
+            Item.height = 42;
             Item.value = CalamityGlobalItem.Rarity2BuyPrice;
             Item.rare = ItemRarityID.Green;
             Item.accessory = true;
