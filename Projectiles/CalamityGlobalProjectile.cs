@@ -9,6 +9,7 @@ using CalamityMod.Items.Accessories;
 using CalamityMod.NPCs;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.Projectiles.Melee;
+using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Projectiles.Typeless;
@@ -1981,7 +1982,10 @@ namespace CalamityMod.Projectiles
                 else
                 {
                     if (modPlayer.deadshotBrooch && projectile.CountsAsClass<RangedDamageClass>() && player.heldProj != projectile.whoAmI)
-                        projectile.extraUpdates += 1;
+                    {
+                        if (projectile.type != ProjectileType<MidasCoin>())
+                            projectile.extraUpdates += 1;
+                    }
 
                     if (modPlayer.camper && !player.StandingStill())
                         projectile.damage = (int)(projectile.damage * 0.1);
