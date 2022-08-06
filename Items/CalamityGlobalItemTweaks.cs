@@ -232,7 +232,7 @@ namespace CalamityMod.Items
                 { ItemID.HallowedRepeater, Do(PointBlank, UseExact(14), DamageExact(57)) },
                 { ItemID.HallowJoustingLance, trueMelee },
                 { ItemID.Hammush, Do(HammerPower(85), UseTimeExact(10), TileBoostExact(+1)) },
-                { ItemID.Handgun, Do(PointBlank, UseExact(15), DamageExact(12)) },
+                { ItemID.Handgun, Do(PointBlank, UseExact(27), DamageExact(36)) },
                 { ItemID.Harpoon, pointBlank },
                 { ItemID.HelFire, autoReuse },
                 { ItemID.HellfireArrow, Do(DamageRatio(1.1f)) },
@@ -370,8 +370,9 @@ namespace CalamityMod.Items
                 { ItemID.PearlwoodBow, Do(AutoReuse, PointBlank, DamageRatio(2.31f), UseDelta(+8), ShootSpeedDelta(+3.4f), KnockbackDelta(+1f)) },
                 { ItemID.PearlwoodHammer, Do(HammerPower(25), UseTimeExact(4), UseAnimationExact(20), DamageRatio(4f), TileBoostExact(+0)) },
                 { ItemID.PearlwoodSword, Do(AutoReuse, UseTurn, DamageRatio(4f)) },
+                { ItemID.PewMaticHorn, Do(DamageExact(23)) },
                 { ItemID.Phantasm, pointBlank },
-                { ItemID.PhoenixBlaster, Do(AutoReuse, PointBlank, DamageRatio(0.75f), UseExact(14)) }, // Phoenix Blaster is nerfed to compensate for autofire
+                { ItemID.PhoenixBlaster, Do(AutoReuse, PointBlank, DamageExact(36), UseExact(27)) },
                 { ItemID.PickaxeAxe, Do(PickPower(200), AxePower(110), UseTimeExact(7), TileBoostExact(+1)) },
                 { ItemID.Picksaw, Do(PickPower(210), AxePower(125), UseTimeExact(6), TileBoostExact(+1)) },
                 { ItemID.PirateMap, nonConsumableBossSummon },
@@ -478,6 +479,7 @@ namespace CalamityMod.Items
                 { ItemID.PortableStool, Do(Value(Item.sellPrice(copper: 20))) }, // Step Stool
                 { ItemID.StickyBomb, maxStack999 },
                 { ItemID.StickyDynamite, maxStack999 },
+                { ItemID.StormTigerStaff, Do(DamageExact(49)) }, // Desert Tiger Staff
                 { ItemID.SwordWhip, autoReuse },
                 { ItemID.StormTigerStaff, Do(UseExact(20)) },
                 { ItemID.StylistKilLaKillScissorsIWish, Do(AutoReuse, UseTurn, ScaleRatio(1.5f), DamageExact(33)) },
@@ -530,6 +532,7 @@ namespace CalamityMod.Items
                 { ItemID.UnholyTrident, Do(ManaExact(14), DamageRatio(1.25f)) },
                 { ItemID.Uzi, pointBlank },
                 { ItemID.ValkyrieYoyo, autoReuse },
+                { ItemID.Valor, Do(DamageExact(32)) },
                 { ItemID.VampireFrogStaff, Do(AutoReuse, UseExact(30)) },
                 { ItemID.VampireKnives, Do(DamageRatio(1.33f)) },
                 { ItemID.VenomArrow, Do(DamageRatio(1.1f)) },
