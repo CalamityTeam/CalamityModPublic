@@ -694,11 +694,11 @@ namespace CalamityMod
                 List<int> collection = new List<int>() { ItemType<RadiatingCrystal>() };
                 string instructions = $"Use a [i:{summon}] or wait for the invasion to occur naturally after the Eye of Cthulhu is defeated.";
                 string iconTexture = "CalamityMod/ExtraTextures/UI/AcidRainIcon";
-                //TODO: Fix the portrait scaling/sizing
                 var portrait = (SpriteBatch sb, Rectangle rect, Color color) => {
                     Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Events/AcidRainT1_BossChecklist").Value;
-                    Vector2 centered = new Vector2(rect.Center.X - (texture.Width / 2), rect.Center.Y - (texture.Height / 2));
-                    sb.Draw(texture, centered, color);
+                    float scale = 1.3f;
+                    Vector2 centered = new Vector2(rect.Center.X - texture.Width * scale / 2, rect.Center.Y - texture.Height * scale / 2);
+                    sb.Draw(texture, centered, null, color, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
                 };
                 AddInvasion(bossChecklist, calamity, "Acid Rain", order, enemies, DownedAcidRainInitial, summon, collection, instructions, () => true, portrait, iconTexture);
             }
@@ -712,11 +712,11 @@ namespace CalamityMod
                 List<int> collection = new List<int>() { ItemType<RadiatingCrystal>() };
                 string instructions = $"Use a [i:{ItemType<CausticTear>()}] or wait for the invasion to occur naturally after the Aquatic Scourge is defeated";
                 string iconTexture = "CalamityMod/ExtraTextures/UI/AcidRainIcon";
-                //TODO: Fix the portrait scaling/sizing
                 var portrait = (SpriteBatch sb, Rectangle rect, Color color) => {
                     Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Events/AcidRainT2_BossChecklist").Value;
-                    Vector2 centered = new Vector2(rect.Center.X - (texture.Width / 2), rect.Center.Y - (texture.Height / 2));
-                    sb.Draw(texture, centered, color);
+                    float scale = 0.9f;
+                    Vector2 centered = new Vector2(rect.Center.X - texture.Width * scale / 2, rect.Center.Y - texture.Height * scale / 2);
+                    sb.Draw(texture, centered, null, color, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
                 };
                 AddInvasion(bossChecklist, calamity, "Acid Rain (Post-AS)", order, enemies, DownedAcidRainHardmode, summons, collection, instructions, () => true, portrait, iconTexture);
             }
@@ -729,11 +729,11 @@ namespace CalamityMod
                 List<int> collection = new List<int>() { ItemType<RadiatingCrystal>() };
                 string instructions = $"Use a [i:{ItemType<CausticTear>()}] or wait for the invasion to occur naturally after the Polterghast is defeated";
                 string iconTexture = "CalamityMod/ExtraTextures/UI/AcidRainIcon";
-                //TODO: Fix the portrait scaling/sizing
                 var portrait = (SpriteBatch sb, Rectangle rect, Color color) => {
                     Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Events/AcidRainT3_BossChecklist").Value;
-                    Vector2 centered = new Vector2(rect.Center.X - (texture.Width / 2), rect.Center.Y - (texture.Height / 2));
-                    sb.Draw(texture, centered, color);
+                    float scale = 0.9f;
+                    Vector2 centered = new Vector2(rect.Center.X - texture.Width * scale / 2, rect.Center.Y - texture.Height * scale / 2);
+                    sb.Draw(texture, centered, null, color, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
                 };
                 AddInvasion(bossChecklist, calamity, "Acid Rain (Post-Polter)", order, enemies, DownedBoomerDuke, summons, collection, instructions, () => true, portrait, iconTexture);
             }
