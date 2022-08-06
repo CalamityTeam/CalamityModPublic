@@ -20,8 +20,6 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.height = 20;
             Projectile.friendly = true;
             Projectile.DamageType = DamageClass.Ranged;
-            Projectile.usesIDStaticNPCImmunity = true;
-            Projectile.idStaticNPCHitCooldown = 1;
             Projectile.timeLeft = 480;
         }
 
