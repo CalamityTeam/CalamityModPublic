@@ -468,6 +468,14 @@ namespace CalamityMod
             return p.Calamity().tarraSet;
         });
 
+        public static IItemDropRuleCondition RevNoMaster = If((info) =>
+        {
+            if (Main.masterMode)
+                return false;
+
+            return CalamityWorld.revenge;
+        });
+
         private static bool CanDropBloodOrbs(DropAttemptInfo info)
         {
             // Blood Orbs do not drop unless it's a Blood Moon.
