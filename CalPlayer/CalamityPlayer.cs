@@ -3592,21 +3592,8 @@ namespace CalamityMod.CalPlayer
                     (planarSpeedBoost > 0 ? (0.01f * planarSpeedBoost) : 0f) +
                     ((deepDiver && Player.IsUnderwater()) ? 0.15f : 0f);
 
-                if (abyssalDivingSuit && !Player.IsUnderwater())
-                {
-                    float multiplier = 0.4f + abyssalDivingSuitPlateHits * 0.2f;
-                    runAccMult *= multiplier;
-                    runSpeedMult *= multiplier;
-                }
-                if (elysianGuard)
-                {
-                    runAccMult *= 0.5f;
-                    runSpeedMult *= 0.5f;
-                }
                 if ((Player.slippy || Player.slippy2) && Player.iceSkate)
-                {
                     runAccMult *= 0.6f;
-                }
 
                 if (momentumCapacitorTime > 0)
                 {
