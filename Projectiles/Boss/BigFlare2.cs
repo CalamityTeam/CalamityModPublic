@@ -11,6 +11,7 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class BigFlare2 : ModProjectile
     {
+        public static readonly SoundStyle FlareSound = new("CalamityMod/Sounds/Custom/Yharon/YharonInfernado");
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Big Flare");
@@ -112,7 +113,7 @@ namespace CalamityMod.Projectiles.Boss
         public override void Kill(int timeLeft)
         {
             bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-            SoundEngine.PlaySound(SoundID.Item20, Projectile.Center);
+            SoundEngine.PlaySound(FlareSound, Projectile.Center);
             int num226 = 36;
             for (int num227 = 0; num227 < num226; num227++)
             {

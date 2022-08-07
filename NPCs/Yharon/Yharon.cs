@@ -58,9 +58,12 @@ namespace CalamityMod.NPCs.Yharon
         public static float normalDR = 0.22f;
         public static float EnragedDR = 0.9f;
 
-        public static readonly SoundStyle RoarSound = new("CalamityMod/Sounds/Custom/YharonRoar");
-        public static readonly SoundStyle ShortRoarSound = new("CalamityMod/Sounds/Custom/YharonRoarShort");
-        public static readonly SoundStyle FireSound = new("CalamityMod/Sounds/Custom/YharonFire");
+        public static readonly SoundStyle RoarSound = new("CalamityMod/Sounds/Custom/Yharon/YharonRoar");
+        public static readonly SoundStyle ShortRoarSound = new("CalamityMod/Sounds/Custom/Yharon/YharonRoarShort");
+        public static readonly SoundStyle FireSound = new("CalamityMod/Sounds/Custom/Yharon/YharonFire");
+        public static readonly SoundStyle OrbSound = new("CalamityMod/Sounds/Custom/Yharon/YharonFireOrb");
+        public static readonly SoundStyle HitSound = new("CalamityMod/Sounds/NPCHit/YharonHurt");
+        public static readonly SoundStyle DeathSound = new("CalamityMod/Sounds/NPCKilled/YharonDeath");
 
         public SlotId RoarSoundSlot;
 
@@ -106,8 +109,7 @@ namespace CalamityMod.NPCs.Yharon
 
             Music = CalamityMod.Instance.GetMusicFromMusicMod("YharonP1") ?? MusicID.Boss3;
 
-            NPC.HitSound = SoundID.NPCHit56;
-            NPC.DeathSound = SoundID.NPCDeath60;
+            NPC.DeathSound = DeathSound;
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToCold = true;
             NPC.Calamity().VulnerableToSickness = true;
@@ -2475,7 +2477,7 @@ namespace CalamityMod.NPCs.Yharon
         #region Flare Dust Bullet Hell
         private void DoFlareDustBulletHell(int attackType, int timer, int projectileDamage, int totalProjectiles, float projectileVelocity, float radialOffset, bool phase2)
         {
-            SoundEngine.PlaySound(SoundID.Item20, NPC.Center);
+            SoundEngine.PlaySound(OrbSound, NPC.Center);
             float aiVariableUsed = phase2 ? NPC.ai[1] : NPC.ai[2];
             switch (attackType)
             {
@@ -3042,6 +3044,13 @@ namespace CalamityMod.NPCs.Yharon
         #region Hit Effect
         public override void HitEffect(int hitDirection, double damage)
         {
+            // hit sound
+            if (NPC.soundDelay == 0)
+            {
+                NPC.soundDelay = Main.rand.Next(16, 20);
+                SoundEngine.PlaySound(HitSound, NPC.Center);
+            }
+
             for (int k = 0; k < 5; k++)
             {
                 Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
