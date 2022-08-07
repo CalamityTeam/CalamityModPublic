@@ -27,9 +27,9 @@ namespace CalamityMod.World
             progress.Message = "Adding a new Biome Chest";
 
             // Get dungeon size field infos. These fields are private for some reason
-            int MinX = (int)typeof(WorldGen).GetField("dMinX", BindingFlags.Static | BindingFlags.NonPublic).GetValue(null) + 25;
-            int MaxX = (int)typeof(WorldGen).GetField("dMaxX", BindingFlags.Static | BindingFlags.NonPublic).GetValue(null) - 25;
-            int MaxY = (int)typeof(WorldGen).GetField("dMaxY", BindingFlags.Static | BindingFlags.NonPublic).GetValue(null) - 25;
+            int MinX = (int)typeof(WorldGen).GetField("dMinX", BindingFlags.Static | BindingFlags.Public).GetValue(null) + 25;
+            int MaxX = (int)typeof(WorldGen).GetField("dMaxX", BindingFlags.Static | BindingFlags.Public).GetValue(null) - 25;
+            int MaxY = (int)typeof(WorldGen).GetField("dMaxY", BindingFlags.Static | BindingFlags.Public).GetValue(null) - 25;
 
             int[] ChestTypes = { ModContent.TileType<AstralChestLocked>() };
             int[] ItemTypes = { ModContent.ItemType<HeavenfallenStardisk>() };
