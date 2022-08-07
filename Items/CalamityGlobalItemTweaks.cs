@@ -479,9 +479,8 @@ namespace CalamityMod.Items
                 { ItemID.PortableStool, Do(Value(Item.sellPrice(copper: 20))) }, // Step Stool
                 { ItemID.StickyBomb, maxStack999 },
                 { ItemID.StickyDynamite, maxStack999 },
-                { ItemID.StormTigerStaff, Do(DamageExact(49)) }, // Desert Tiger Staff
+                { ItemID.StormTigerStaff, Do(DamageExact(49), UseExact(20)) }, // Desert Tiger Staff
                 { ItemID.SwordWhip, autoReuse },
-                { ItemID.StormTigerStaff, Do(UseExact(20)) },
                 { ItemID.StylistKilLaKillScissorsIWish, Do(AutoReuse, UseTurn, ScaleRatio(1.5f), DamageExact(33)) },
                 { ItemID.SuspiciousLookingEye, nonConsumableBossSummon },
                 { ItemID.Swordfish, Do(AutoReuse, TrueMelee, DamageExact(38)) },
