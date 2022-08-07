@@ -692,16 +692,16 @@ namespace CalamityMod.ILEditing
             GeneralParticleHandler.DrawAllParticles(Main.spriteBatch);
             orig(self);
         }
-        #endregion General Particle Rendering
 
-        #region Custom Lava Visuals
         private static void ResetRenderTargetSizes(On.Terraria.Main.orig_SetDisplayMode orig, int width, int height, bool fullscreen)
         {
             if (FusableParticleManager.HasBeenFormallyDefined)
                 FusableParticleManager.LoadParticleRenderSets(true, width, height);
             orig(width, height, fullscreen);
         }
+        #endregion General Particle Rendering
 
+        #region Custom Lava Visuals
         private static void DrawCustomLava(ILContext il)
         {
             ILCursor cursor = new ILCursor(il);
@@ -797,12 +797,13 @@ namespace CalamityMod.ILEditing
             cursor.Emit(OpCodes.Ldfld, typeof(LiquidRenderer).GetField("_liquidTextures"));
             cursor.Emit(OpCodes.Ldloc, 8);
             cursor.Emit(OpCodes.Ldelem_Ref);
-            cursor.EmitDelegate<Func<VertexColors, Texture2D, VertexColors>>((initialColor, initialTexture) =>
+            cursor.Emit(OpCodes.Ldloc, 8);
+            cursor.EmitDelegate<Func<VertexColors, Texture2D, int, VertexColors>>((initialColor, initialTexture, liquidType) =>
             {
-                initialColor.TopLeftColor = SelectLavaColor(initialTexture, initialColor.TopLeftColor);
-                initialColor.TopRightColor = SelectLavaColor(initialTexture, initialColor.TopRightColor);
-                initialColor.BottomLeftColor = SelectLavaColor(initialTexture, initialColor.BottomLeftColor);
-                initialColor.BottomRightColor = SelectLavaColor(initialTexture, initialColor.BottomRightColor);
+                initialColor.TopLeftColor = SelectLavaColor(initialTexture, initialColor.TopLeftColor, liquidType == 1);
+                initialColor.TopRightColor = SelectLavaColor(initialTexture, initialColor.TopRightColor, liquidType == 1);
+                initialColor.BottomLeftColor = SelectLavaColor(initialTexture, initialColor.BottomLeftColor, liquidType == 1);
+                initialColor.BottomRightColor = SelectLavaColor(initialTexture, initialColor.BottomRightColor, liquidType == 1);
                 return initialColor;
             });
         }
@@ -858,14 +859,14 @@ namespace CalamityMod.ILEditing
 
             // Determine the waterfall type. This happens after all the "If Lava do blahblahblah" color checks, meaning it will have the same
             // color properties as lava.
-            cursor.Emit(OpCodes.Ldloc, 13);
+            cursor.Emit(OpCodes.Ldloc, 12);
             cursor.EmitDelegate<Func<int, int>>(initialWaterfallStyle => CustomLavaManagement.SelectLavafallStyle(initialWaterfallStyle));
-            cursor.Emit(OpCodes.Stloc, 13);
+            cursor.Emit(OpCodes.Stloc, 12);
 
-            cursor.Emit(OpCodes.Ldloc, 13);
-            cursor.Emit(OpCodes.Ldloc, 56);
+            cursor.Emit(OpCodes.Ldloc, 12);
+            cursor.Emit(OpCodes.Ldloc, 54);
             cursor.EmitDelegate<Func<int, Color, Color>>((initialWaterfallStyle, initialLavafallColor) => CustomLavaManagement.SelectLavafallColor(initialWaterfallStyle, initialLavafallColor));
-            cursor.Emit(OpCodes.Stloc, 56);
+            cursor.Emit(OpCodes.Stloc, 54);
         }
         #endregion Custom Lava Visuals
 
