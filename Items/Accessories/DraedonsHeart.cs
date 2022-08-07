@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Accessories
                 "Reduces defense damage taken by 50%\n" + "Replaces Adrenaline with the Nanomachines meter\n" +
                 $"Unlike Adrenaline, you lose no Nanomachines when you take damage, but they stop accumulating for {pauseDurationTooltip}\n" +
                 $"With full Nanomachines, press & to heal {totalHealTooltip} health over {healDurationTooltip} seconds\n" +
-                "While healing, you take &% less damage\n" +
+                "While healing, you take @% less damage\n" +
                 "'Nanomachines, son.'");
         }
 
@@ -89,13 +89,14 @@ namespace CalamityMod.Items.Accessories
                 hotkeyLine.Text = tooltipWithHotkey;
             }
 
-            // The 6th tooltip line "While healing..." has the & replaced with full adrenaline DR.
-            string fullAdrenDRString = (100f * BalancingConstants.FullAdrenalineDR).ToString("n0");
+            // The 6th tooltip line "While healing..." has the @ replaced with full adrenaline DR.
+            // For whatever reason this method overrides the entire line instead of replacing the character as intended, so we duplicate the line.
+            string fullAdrenDRString = (100f * BalancingConstants.FullAdrenalineDR).ToString("N0");
             TooltipLine healingDRLine = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip5");
             if (healingDRLine != null)
             {
-                string tooltipWithDR = fullAdrenDRString.Replace("&", fullAdrenDRString);
-                healingDRLine.Text = tooltipWithDR;
+                string tooltipWithDR = fullAdrenDRString.Replace("@", fullAdrenDRString);
+                healingDRLine.Text = "While healing, you take " + tooltipWithDR + "% less damage";
             }
         }
     }
