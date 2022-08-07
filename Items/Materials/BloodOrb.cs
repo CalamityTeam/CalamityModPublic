@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Materials
 
         public override void AddRecipes()
         {
-            CreateRecipe(20).
+            CreateRecipe(10).
                 AddIngredient(ItemID.BloodMoonStarter).
                 Register();
         }
