@@ -26,7 +26,7 @@ namespace CalamityMod.World
         {
             progress.Message = "Adding a new Biome Chest";
 
-            // Get dungeon size field infos. These fields are private for some reason
+            // Get dungeon size field infos.
             int MinX = (int)typeof(WorldGen).GetField("dMinX", BindingFlags.Static | BindingFlags.Public).GetValue(null) + 25;
             int MaxX = (int)typeof(WorldGen).GetField("dMaxX", BindingFlags.Static | BindingFlags.Public).GetValue(null) - 25;
             int MaxY = (int)typeof(WorldGen).GetField("dMaxY", BindingFlags.Static | BindingFlags.Public).GetValue(null) - 25;
