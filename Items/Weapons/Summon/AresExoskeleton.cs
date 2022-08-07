@@ -19,11 +19,11 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public const int PlasmaCannonShootRate = 30;
 
-        public const int TeslaCannonShootRate = 48;
+        public const int TeslaCannonShootRate = 36;
 
-        public const int LaserCannonNormalShootRate = 30;
+        public const int LaserCannonNormalShootRate = 15;
 
-        public const int GaussNukeShootRate = 210;
+        public const int GaussNukeShootRate = 240;
 
         public const float TargetingDistance = 1020f;
 
@@ -31,9 +31,9 @@ namespace CalamityMod.Items.Weapons.Summon
 
         // Multiple orbs can arc together when there are 2+ tesla cannons, resulting in a LOT of hits.
         // The local i-frames are also quite high to combat this problem.
-        public const float TeslaOrbDamageFactor = 0.625f;
+        public const float TeslaOrbDamageFactor = 0.9f;
 
-        public const float NukeDamageFactor = 1.5f;
+        public const float NukeDamageFactor = 1.25f;
 
         public const float MaxNukeExplosionRadius = 720f;
 
@@ -73,7 +73,7 @@ namespace CalamityMod.Items.Weapons.Summon
         public override void SetDefaults()
         {
             Item.mana = 80;
-            Item.damage = 672;
+            Item.damage = 625;
             Item.useStyle = ItemUseStyleID.HoldUp;
             Item.noUseGraphic = true;
             Item.width = Item.height = 36;

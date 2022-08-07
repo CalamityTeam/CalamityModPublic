@@ -45,7 +45,7 @@ namespace CalamityMod.Projectiles.Summon.SmallAresArms
         public override void ShootAtTarget(NPC target, Vector2 shootDirection)
         {
             // Play the laser cannon fire sound.
-            SoundEngine.PlaySound(CommonCalamitySounds.LaserCannonSound with { Volume = 0.4f }, Projectile.Center);
+            SoundEngine.PlaySound(CommonCalamitySounds.LaserCannonSound with { Volume = 0.2f }, Projectile.Center);
 
             // Create a burst of dust.
             for (int i = 0; i < 24; i++)
