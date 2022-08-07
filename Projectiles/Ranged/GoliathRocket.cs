@@ -191,10 +191,12 @@ namespace CalamityMod.Projectiles.Ranged
             float kb = 0f;
             player.PickAmmo(FalseLauncher, out projID, out shootSpeed, out damage, out kb, out _, true);
             int blastRadius = 0;
-            if (projID == ProjectileID.RocketII)
+            if (projID == ProjectileID.RocketII || projID == ProjectileID.ClusterRocketII)
                 blastRadius = 6;
             else if (projID == ProjectileID.RocketIV)
                 blastRadius = 9;
+            else if (projID == ProjectileID.MiniNukeRocketII)
+                blastRadius = 12;
 
             Projectile.ExpandHitboxBy(14);
 

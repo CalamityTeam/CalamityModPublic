@@ -170,7 +170,7 @@ namespace CalamityMod.Projectiles.Ranged
 
             Projectile.ExpandHitboxBy(16);
 
-            if (Projectile.owner == Main.myPlayer && (projID == ProjectileID.RocketII || projID == ProjectileID.RocketIV))
+            if (Projectile.owner == Main.myPlayer && (projID == ProjectileID.RocketII || projID == ProjectileID.RocketIV || projID == ProjectileID.MiniNukeRocketII || projID == ProjectileID.ClusterRocketII))
             {
                 CalamityUtils.ExplodeandDestroyTiles(Projectile, 23, true, new List<int>() { }, new List<int>() { });
             }
