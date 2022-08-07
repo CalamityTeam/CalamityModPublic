@@ -988,7 +988,10 @@ namespace CalamityMod.NPCs.Yharon
             else if (NPC.ai[0] == 8f)
             {
                 if (NPC.ai[2] == 0f)
+                {
                     RoarSoundSlot = SoundEngine.PlaySound(RoarSound, NPC.position);
+                    SoundEngine.PlaySound(OrbSound, NPC.position);
+                } 
 
                 NPC.ai[2] += 1f;
 
@@ -1338,7 +1341,10 @@ namespace CalamityMod.NPCs.Yharon
             else if (NPC.ai[0] == 15f)
             {
                 if (NPC.ai[2] == 0f)
+                {
                     RoarSoundSlot = SoundEngine.PlaySound(RoarSound, NPC.position);
+                    SoundEngine.PlaySound(OrbSound, NPC.position);
+                }
 
                 NPC.ai[2] += 1f;
                 if (NPC.ai[2] % flareDustSpawnDivisor3 == 0f)
@@ -2192,7 +2198,10 @@ namespace CalamityMod.NPCs.Yharon
             else if (NPC.ai[0] == 5f)
             {
                 if (NPC.ai[1] == 1f)
+                {
                     RoarSoundSlot = SoundEngine.PlaySound(RoarSound, NPC.position);
+                    SoundEngine.PlaySound(OrbSound, NPC.position);
+                }
 
                 NPC.ai[1] += 1f;
                 if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -2477,7 +2486,7 @@ namespace CalamityMod.NPCs.Yharon
         #region Flare Dust Bullet Hell
         private void DoFlareDustBulletHell(int attackType, int timer, int projectileDamage, int totalProjectiles, float projectileVelocity, float radialOffset, bool phase2)
         {
-            SoundEngine.PlaySound(OrbSound, NPC.Center);
+            SoundEngine.PlaySound(SoundID.Item20, NPC.Center);
             float aiVariableUsed = phase2 ? NPC.ai[1] : NPC.ai[2];
             switch (attackType)
             {
