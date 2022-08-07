@@ -214,7 +214,7 @@ namespace CalamityMod.Systems
                         "[c/"+mainColor+":Enables the ][c/FF8B54:Rage][c/"+mainColor+": mechanic. You gain Rage when in proximity of enemies or by using certain items] \n" +
                         "[c/"+mainColor+":    When Rage is maxed, press] " + rageKey + " [c/"+mainColor+":for a temporary damage boost] \n" +
                         "[c/"+mainColor+":Most foes have higher stats and deal more damage] \n" +
-                        "[c/"+mainColor+":Bosses have new AI mechanics and new phases. Enemies spawn more frequently] \n" +
+                        "[c/"+mainColor+":Bosses have new AI mechanics, new phases, and will drop Master Mode loot. Enemies spawn more frequently] \n" +
                         "[c/F7342A:This mode is more difficult than Expert. Be sure to prepare for the challenge]");
 
             }
