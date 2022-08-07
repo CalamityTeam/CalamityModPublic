@@ -208,7 +208,7 @@ namespace CalamityMod.Projectiles.Ranged
                 RouletteSoundSlot = SoundEngine.PlaySound(TheSevensStriker.RouletteSound, Projectile.Center);
             }
             // Clicks for when each slot is finished
-            if (soundtimer == 96 || soundtimer == 108 || soundtimer == 120)
+            if (soundtimer == 92 || soundtimer == 108 || soundtimer == 124)
             {
                 SoundEngine.PlaySound(TheSevensStriker.RouletteTickSound, Projectile.Center);
             }
