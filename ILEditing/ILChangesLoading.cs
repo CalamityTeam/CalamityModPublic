@@ -64,9 +64,7 @@ namespace CalamityMod.ILEditing
             On.Terraria.Player.UpdatePettingAnimal += CustomGrapplePreDefaultMovement;
             On.Terraria.Player.PlayerFrame += CustomGrapplePostFrame;
             On.Terraria.Player.SlopeDownMovement += CustomGrapplePreStepUp;
-
-            // TODO -- Revisit this. It's not an extremely important thing, but it'd be ideal to not just abandon it.
-            // IL.Terraria.WaterfallManager.DrawWaterfall += DrawCustomLavafalls;
+            IL.Terraria.WaterfallManager.DrawWaterfall += DrawCustomLavafalls;
             // TODO -- This should be unnecessary. There is now a TML hook for platform collision for ModNPCs.
             On.Terraria.NPC.Collision_DecideFallThroughPlatforms += EnableCalamityBossPlatformCollision;
             IL.Terraria.Wiring.HitWireSingle += AddTwinklersToStatue;
