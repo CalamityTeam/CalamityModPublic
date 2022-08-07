@@ -78,6 +78,7 @@ using Terraria.ModLoader;
 using Terraria.ModLoader.Config;
 
 [assembly: InternalsVisibleTo("CalTestHelpers")]
+[assembly: InternalsVisibleTo("InfernumMode")]
 namespace CalamityMod
 {
     public class CalamityMod : Mod
