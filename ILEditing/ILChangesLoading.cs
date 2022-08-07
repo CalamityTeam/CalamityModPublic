@@ -53,7 +53,7 @@ namespace CalamityMod.ILEditing
             On.Terraria.Main.SortDrawCacheWorms += DrawFusableParticles;
             On.Terraria.Main.DrawInfernoRings += DrawForegroundParticles;
             On.Terraria.Main.SetDisplayMode += ResetRenderTargetSizes;
-            IL.Terraria.GameContent.Drawing.TileDrawing.DrawPartialLiquid += DrawCustomLava;
+            On.Terraria.GameContent.Drawing.TileDrawing.DrawPartialLiquid += DrawCustomLava;
             IL.Terraria.GameContent.Liquid.LiquidRenderer.InternalDraw += DrawCustomLava2;
             IL.Terraria.Main.oldDrawWater += DrawCustomLava3;
             IL.Terraria.Player.CollectTaxes += MakeTaxCollectorUseful;
@@ -164,7 +164,7 @@ namespace CalamityMod.ILEditing
             On.Terraria.Main.SortDrawCacheWorms -= DrawFusableParticles;
             On.Terraria.Main.DrawInfernoRings -= DrawForegroundParticles;
             On.Terraria.Main.SetDisplayMode -= ResetRenderTargetSizes;
-            IL.Terraria.GameContent.Drawing.TileDrawing.DrawPartialLiquid -= DrawCustomLava;
+            On.Terraria.GameContent.Drawing.TileDrawing.DrawPartialLiquid -= DrawCustomLava;
             IL.Terraria.GameContent.Liquid.LiquidRenderer.InternalDraw -= DrawCustomLava2;
             IL.Terraria.Main.oldDrawWater -= DrawCustomLava3;
             IL.Terraria.Player.CollectTaxes -= MakeTaxCollectorUseful;

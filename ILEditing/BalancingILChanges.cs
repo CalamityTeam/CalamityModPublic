@@ -1,4 +1,5 @@
-﻿using CalamityMod.Balancing;
+﻿using System;
+using CalamityMod.Balancing;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using Terraria;
@@ -165,7 +166,7 @@ namespace CalamityMod.ILEditing
             cursor.Remove();
 
             // Increase by 10% if the higher jump speed is enabled.
-            cursor.EmitDelegate(() => CalamityConfig.Instance.FasterJumpSpeed ? BalancingConstants.ConfigBoostedBaseJumpHeight : VanillaBaseJumpHeight);
+            cursor.EmitDelegate<Func<float>>(() => CalamityConfig.Instance.FasterJumpSpeed ? BalancingConstants.ConfigBoostedBaseJumpHeight : VanillaBaseJumpHeight);
         }
         #endregion
 

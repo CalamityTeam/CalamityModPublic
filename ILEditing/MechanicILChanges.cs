@@ -41,6 +41,7 @@ using Terraria.Graphics.Light;
 using Terraria.GameContent.Events;
 using CalamityMod.DataStructures;
 using CalamityMod.Particles.Metaballs;
+using Terraria.GameContent.Drawing;
 
 namespace CalamityMod.ILEditing
 {
@@ -702,67 +703,38 @@ namespace CalamityMod.ILEditing
         #endregion General Particle Rendering
 
         #region Custom Lava Visuals
-        private static void DrawCustomLava(ILContext il)
+        private static void DrawCustomLava(On.Terraria.GameContent.Drawing.TileDrawing.orig_DrawPartialLiquid orig, TileDrawing self, Tile tileCache, Vector2 position, Rectangle liquidSize, int liquidType, Color aColor)
         {
-            ILCursor cursor = new ILCursor(il);
+            Texture2D initialTexture = TextureAssets.LiquidSlope[liquidType].Value;
+            Texture2D slopeTexture = SelectLavaTexture(liquidType == 1 ? CustomLavaManagement.LavaSlopeTexture : initialTexture, LiquidTileType.Slope);
+            aColor = SelectLavaColor(initialTexture, aColor, liquidType == 1);
 
-            FieldInfo liquidTexturesField = typeof(TextureAssets).GetField("Liquid");
-            FieldInfo liquidSlopeTexturesField = typeof(TextureAssets).GetField("LiquidSlope");
-
-            void replaceLiquidTexture(LiquidTileType type)
+            int slope = (int)tileCache.Slope;
+            if (!TileID.Sets.BlocksWaterDrawingBehindSelf[tileCache.TileType] || slope == 0)
             {
-                // Move to the end of the get_Value() call and then use the resulting texture to check if a new one should replace it.
-                // Adding to the index directly would seem like a simple, direct way of achieving this since the operation is incredibly light, but
-                // it also unsafe due to the potential for NOP operations to appear.
-                if (!cursor.TryGotoNext(MoveType.After, c => c.MatchCallvirt(textureGetValueMethod)))
-                {
-                    LogFailure("Custom Lava Drawing", "Could not locate the liquid texture Value call.");
-                    return;
-                }
-                cursor.EmitDelegate<Func<Texture2D, Texture2D>>(initialTexture => SelectLavaTexture(initialTexture, type));
-            }
-
-            void replaceLiquidColor(bool sloped)
-            {
-                // Pass the texture in so that the method can ensure it is not messing around with non-lava textures.
-                cursor.Emit(OpCodes.Ldsfld, sloped ? liquidSlopeTexturesField : liquidTexturesField);
-                cursor.Emit(OpCodes.Ldarg, 4);
-                cursor.Emit(OpCodes.Ldelem_Ref);
-                cursor.Emit(OpCodes.Callvirt, textureGetValueMethod);
-                cursor.EmitDelegate<Func<Color, Texture2D, Color>>((initialColor, initialTexture) => SelectLavaColor(initialTexture, initialColor));
-            }
-
-            // Replace initial textures and colors.
-            if (!cursor.TryGotoNext(c => c.MatchLdsfld(liquidTexturesField)))
-            {
-                LogFailure("Custom Lava Drawing", "Could not locate the liquid texture array load.");
+                Texture2D liquidTexture = SelectLavaTexture(liquidType == 1 ? CustomLavaManagement.LavaBlockTexture : TextureAssets.Liquid[liquidType].Value, LiquidTileType.Block);
+                Main.spriteBatch.Draw(liquidTexture, position, liquidSize, aColor, 0f, default, 1f, 0, 0f);
                 return;
             }
-            replaceLiquidTexture(LiquidTileType.Waterflow);
-
-            if (!cursor.TryGotoNext(MoveType.After, c => c.MatchLdarg(5)))
+            liquidSize.X += 18 * (slope - 1);
+            if (tileCache.Slope == SlopeType.SlopeDownLeft)
             {
-                LogFailure("Custom Lava Drawing", "Could not locate the liquid light color.");
+                Main.spriteBatch.Draw(slopeTexture, position, liquidSize, aColor, 0f, Vector2.Zero, 1f, 0, 0f);
                 return;
             }
-            replaceLiquidColor(false);
-
-            // Replace sloped textures and colors.
-            for (int i = 0; i < 4; i++)
+            if (tileCache.Slope == SlopeType.SlopeDownRight)
             {
-                if (!cursor.TryGotoNext(c => c.MatchLdsfld(liquidSlopeTexturesField)))
-                {
-                    LogFailure("Custom Lava Drawing", "Could not locate the sloped liquid texture array load.");
-                    return;
-                }
-                replaceLiquidTexture(LiquidTileType.Slope);
-
-                if (!cursor.TryGotoNext(MoveType.After, c => c.MatchLdarg(5)))
-                {
-                    LogFailure("Custom Lava Drawing", "Could not locate the liquid light color.");
-                    return;
-                }
-                replaceLiquidColor(true);
+                Main.spriteBatch.Draw(slopeTexture, position, liquidSize, aColor, 0f, Vector2.Zero, 1f, 0, 0f);
+                return;
+            }
+            if (tileCache.Slope == SlopeType.SlopeUpLeft)
+            {
+                Main.spriteBatch.Draw(slopeTexture, position, liquidSize, aColor, 0f, Vector2.Zero, 1f, 0, 0f);
+                return;
+            }
+            if (tileCache.Slope == SlopeType.SlopeUpRight)
+            {
+                Main.spriteBatch.Draw(slopeTexture, position, liquidSize, aColor, 0f, Vector2.Zero, 1f, 0, 0f);
             }
         }
 
