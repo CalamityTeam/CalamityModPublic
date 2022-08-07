@@ -20,7 +20,7 @@ namespace CalamityMod.Tiles.Pylons
 
     public class CragsPylonTile : ModPylon
     {
-        public const int CrystalHorizontalFrameCount = 2;
+        public const int CrystalHorizontalFrameCount = 1;
         public const int CrystalVerticalFrameCount = 8;
         public const int CrystalFrameHeight = 64;
 
@@ -94,7 +94,7 @@ namespace CalamityMod.Tiles.Pylons
         {
             // Just like in SpecialDraw, we want things to be handled the EXACT same way vanilla would handle it, which ModPylon also has built in methods for:
             bool mouseOver = DefaultDrawMapIcon(ref context, mapIcon, pylonInfo.PositionInTiles.ToVector2() + new Vector2(1.5f, 2f), drawColor, deselectedScale, selectedScale);
-            DefaultMapClickHandle(mouseOver, pylonInfo, "Mods.ExampleMod.ItemName.ExamplePylonItem", ref mouseOverText);
+            DefaultMapClickHandle(mouseOver, pylonInfo, "Mods.CalamityMod.ItemName.CragsPylon", ref mouseOverText);
         }
     }
 }

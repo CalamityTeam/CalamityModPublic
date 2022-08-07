@@ -137,6 +137,21 @@ BiomeName:
     UndergroundAstralBiome: "Astral Underground",
 }
 
+ItemName:
+{
+    CragsPylon: "Crags Pylon",
+}
+
+ItemTooltip:
+{
+    CragsPylon:
+        '''
+        Teleport to another pylon when 2 villagers are nearby
+        The nature of the Crags allows you to teleport to this pylon without nearby villagers
+        You can only place one per type and in the matching biome
+        '''
+}
+
 TownNPCMood: 
 {
     DILF:
