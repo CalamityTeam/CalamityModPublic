@@ -45,7 +45,9 @@ namespace CalamityMod.Projectiles.VanillaProjectileOverrides
 
             // Emit life pulses periodically.
             NPC potentialTarget = projectile.Center.ClosestNPCAt(560f, true, true);
-            if (timer % ChlorophyteArmorSetChange.PulseReleaseRate == ChlorophyteArmorSetChange.PulseReleaseRate - 1f && potentialTarget != null)
+            bool ownerNotFullHealth = owner.statLife < owner.statLifeMax2;
+            bool willFirePulses = (potentialTarget is not null) || ownerNotFullHealth;
+            if (timer % ChlorophyteArmorSetChange.PulseReleaseRate == ChlorophyteArmorSetChange.PulseReleaseRate - 1f && willFirePulses)
             {
                 if (Main.myPlayer == projectile.owner)
                 {
