@@ -1,5 +1,4 @@
 ﻿using CalamityMod.Systems;
-using CalamityMod.BiomeManagers;
 using CalamityMod.TileEntities;
 using CalamityMod.Items.Placeables.Pylons;
 using Microsoft.Xna.Framework;
@@ -16,7 +15,7 @@ using Terraria.ModLoader.Default;
 namespace CalamityMod.Tiles.Pylons
 {
 
-    public class CragsPylonTile : ModPylon
+    public class SunkenPylonTile : ModPylon
     {
         public const int CrystalHorizontalFrameCount = 1;
         public const int CrystalVerticalFrameCount = 8;
@@ -46,9 +45,9 @@ namespace CalamityMod.Tiles.Pylons
 
         public override int? IsPylonForSale(int npcType, Player player, bool isNPCHappyEnough)
         {
-            // Let's say that our pylon is for sale no matter what for any NPC under all circumstances, granted that the NPC
-            // is in the Example Surface/Underground Biome.
-            return ModContent.GetInstance<BrimstoneCragsBiome>().IsBiomeActive(player) ? ModContent.ItemType<CragsPylon>() : null;
+            // Pylon will sell regardless of NPC happiness.
+            // TODO -- It would probably be nice to have pylons sell dependent on NPC happiness, but not a huge priority.
+            return player.Calamity().ZoneSunkenSea ? ModContent.ItemType<SunkenPylon>() : null;
         }
 
 
@@ -56,19 +55,13 @@ namespace CalamityMod.Tiles.Pylons
         {
             // Uses the pylon item as an icon when hovering over it.
             Main.LocalPlayer.cursorItemIconEnabled = true;
-            Main.LocalPlayer.cursorItemIconID = ModContent.ItemType<CragsPylon>();
+            Main.LocalPlayer.cursorItemIconID = ModContent.ItemType<SunkenPylon>();
         }
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
             ModContent.GetInstance<TECalamityPylon>().Kill(i, j);
-            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 2, 3, ModContent.ItemType<CragsPylon>());
-        }
-
-        public override bool ValidTeleportCheck_NPCCount(TeleportPylonInfo pylonInfo, int defaultNecessaryNPCCount)
-        {
-            // Does not require nearby NPCs to function.
-            return true;
+            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 2, 3, ModContent.ItemType<SunkenPylon>());
         }
 
         public override bool ValidTeleportCheck_BiomeRequirements(TeleportPylonInfo pylonInfo, SceneMetrics sceneData)
@@ -79,7 +72,19 @@ namespace CalamityMod.Tiles.Pylons
             // and by extension, it will call ALL ModSystems that use the TileCountsAvailable method. This means, that if you determine biomes
             // based off of tile count, when this hook is called, you can simply check the tile threshold.
 
-            return BiomeTileCounterSystem.BrimstoneCragTiles >= 100;
+            return BiomeTileCounterSystem.SunkenSeaTiles >= 100;
+        }
+
+        public override void NearbyEffects(int i, int j, bool closer)
+        {
+            Player player = Main.LocalPlayer;
+
+            if (player is null)
+                return;
+            if (!player.dead && player.active)
+                // Grants underwater breathing
+                player.gills = true;
+
         }
 
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
@@ -87,9 +92,9 @@ namespace CalamityMod.Tiles.Pylons
             Tile tile = Main.tile[i, j];
             if (tile.TileFrameX < 66)
             {
-                r = 1f;
-                g = 0.3f;
-                b = 0f;
+                r = 0.2f;
+                g = 0.8f;
+                b = 1f;
             }
         }
 
@@ -103,7 +108,7 @@ namespace CalamityMod.Tiles.Pylons
         {
             // Just like in SpecialDraw, we want things to be handled the EXACT same way vanilla would handle it, which ModPylon also has built in methods for:
             bool mouseOver = DefaultDrawMapIcon(ref context, mapIcon, pylonInfo.PositionInTiles.ToVector2() + new Vector2(1.5f, 2f), drawColor, deselectedScale, selectedScale);
-            DefaultMapClickHandle(mouseOver, pylonInfo, "Mods.CalamityMod.ItemName.CragsPylon", ref mouseOverText);
+            DefaultMapClickHandle(mouseOver, pylonInfo, "Mods.CalamityMod.ItemName.SunkenPylon", ref mouseOverText);
         }
     }
 }

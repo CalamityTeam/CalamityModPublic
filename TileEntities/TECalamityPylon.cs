@@ -8,5 +8,7 @@ namespace CalamityMod.TileEntities
 	/// class, which itself acts nearly identical to vanilla pylon TEs. This inheritance only exists so that modded pylon entities
 	/// will properly have their "Mod" property set, for I/O purposes. Has the sealed modifier since this TE acts identical to its parent.
 	/// </summary>
-    public sealed class TECalamityPylon : TEModdedPylon { }
+    public sealed class TECalamityPylon : TEModdedPylon {
+        
+    }
 }

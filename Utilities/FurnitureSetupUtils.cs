@@ -1022,17 +1022,19 @@ namespace CalamityMod
         /// </summary>
         /// <param name="mt">The ModPylon which is being initialized.</param>
         /// <param name="lavaImmune">Whether this tile is supposed to be immune to lava. Defaults to false.</param>
-        internal static void SetUpPylon(this ModPylon mp, TEModdedPylon pylonHook, bool lavaImmune = false, int offset = 1)
+        internal static void SetUpPylon(this ModPylon mp, TEModdedPylon pylonHook, bool lavaImmune = false, int offset = 2)
         {
 
             Main.tileLighted[mp.Type] = true;
             Main.tileFrameImportant[mp.Type] = true;
             Main.tileLavaDeath[mp.Type] = !lavaImmune;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style3x4);
+
             // These definitions allow for vanilla's pylon TileEntities to be placed.
             // tModLoader has a built in Tile Entity specifically for modded pylons, which is extended through TECalamityPylon.
             TileObjectData.newTile.HookCheckIfCanPlace = new PlacementHook(pylonHook.PlacementPreviewHook_CheckIfCanPlace, 1, 0, true);
             TileObjectData.newTile.HookPostPlaceMyPlayer = new PlacementHook(pylonHook.Hook_AfterPlacement, -1, 0, false);
+
             TileObjectData.newTile.StyleHorizontal = true;
             TileObjectData.newTile.LavaDeath = !lavaImmune;
             TileObjectData.newTile.DrawYOffset = offset;
