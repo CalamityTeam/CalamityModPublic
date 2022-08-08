@@ -32,6 +32,10 @@ namespace CalamityMod.Tiles.SunkenSea
 
         public override void NearbyEffects(int i, int j, bool closer)
         {
+            if (Main.gamePaused)
+            {
+                return;
+            }
             if (closer)
             {
                 if (Main.rand.NextBool(300))
