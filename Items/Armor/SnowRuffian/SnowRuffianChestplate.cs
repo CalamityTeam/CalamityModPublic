@@ -1,16 +1,12 @@
 ﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Items.BaseItems;
 
 namespace CalamityMod.Items.Armor.SnowRuffian
 {
     [AutoloadEquip(EquipType.Body)]
-    public class SnowRuffianChestplate : StealthGrantingArmorPiece
+    public class SnowRuffianChestplate : ModItem
     {
-        public override bool HasArmorSet(Player player) => SnowRuffianMask.HasRuffianArmorSet(player);
-        public override float StealthBoost => 0.5f;
-
         public override void Load()
         {
             if (Main.netMode == NetmodeID.Server)
