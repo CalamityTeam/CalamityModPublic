@@ -179,8 +179,8 @@ namespace CalamityMod.Schematics
 
     public static class CalamitySchematicIO
     {
-        // A generous buffer of 1 megabyte is the default for schematics. If this somehow isn't big enough, they can get bigger.
-        private const int SchematicBufferStartingSize = 1048576;
+        // A generous buffer of 16 megabytes is the default for schematics. If this somehow isn't big enough, they can get bigger.
+        private const int SchematicBufferStartingSize = 16777216;
 
         // If true, written schematics will have all data GZip compressed except for the magic number header.
         public static bool UseCompression = true;
