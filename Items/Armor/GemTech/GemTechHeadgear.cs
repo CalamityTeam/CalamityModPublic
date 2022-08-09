@@ -119,7 +119,7 @@ namespace CalamityMod.Items.Armor.GemTech
                     {
                         setBonusIndex++;
                         TooltipLine largerDescription = new TooltipLine(item.Mod, "CalamityMod:SetBonus1",
-                            $"A gem is lost when you take more than { GemBreakDamageLowerBound } damage in a single hit.The type of gem lost is the same as the class of the previous when you used\n" +
+                            $"A gem is lost when you take more than { GemBreakDamageLowerBound } damage in a single hit. The type of gem lost is the same as the class of the previous when you used\n" +
                             "If said gem has already been lost, the base gem is lost instead\n" +
                             $"When a gem is lost, it breaks off and homes towards the nearest enemy or boss, if one is present, dealing a base of {GemDamage} damage\n" +
                             $"Gems have a {GemRegenTime / 60} second delay before they appear again");
@@ -132,7 +132,7 @@ namespace CalamityMod.Items.Armor.GemTech
                         tooltips.Insert(setBonusIndex, redGemTooltip);
 
                         setBonusIndex++;
-                        TooltipLine yellowGemTooltip = new TooltipLine(item.Mod, "CalamityMod:SetBonus3", "[i:" + ItemID.Topaz + "]" + $"The yellow gem provides increased melee stats and makes melee attacks release shards on hit with a cooldown.This cooldown is shorter for true melee attacks");
+                        TooltipLine yellowGemTooltip = new TooltipLine(item.Mod, "CalamityMod:SetBonus3", "[i:" + ItemID.Topaz + "]" + $"The yellow gem provides increased melee stats and makes melee attacks release shards on hit with a cooldown. This cooldown is shorter for true melee attacks");
                         yellowGemTooltip.OverrideColor = new Color(237, 170, 43);
                         tooltips.Insert(setBonusIndex, yellowGemTooltip);
 
