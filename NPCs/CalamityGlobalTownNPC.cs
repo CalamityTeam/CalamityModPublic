@@ -114,7 +114,7 @@ namespace CalamityMod.NPCs
         {
             "Lapp",
             "Ben Shapiro",
-            "StreakistYT",
+            "Streakist", // used to be "StreakistYT". couldn't find the youtube channel, and decided to remove the ad.
             "Necroplasmic",
             "Devin",
             "Woffle", // <@!185980979427540992> (Chipbeam#2268)
