@@ -1,9 +1,11 @@
-﻿using CalamityMod.Systems;
-using CalamityMod.BiomeManagers;
-using CalamityMod.TileEntities;
-using CalamityMod.Items.Placeables.Pylons;
+﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using CalamityMod.Systems;
+using CalamityMod.BiomeManagers;
+using CalamityMod.Buffs.Placeables;
+using CalamityMod.TileEntities;
+using CalamityMod.Items.Placeables.Pylons;
 using ReLogic.Content;
 using Terraria;
 using Terraria.DataStructures;
@@ -12,6 +14,7 @@ using Terraria.ID;
 using Terraria.Map;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Default;
+using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles.Pylons
 {
