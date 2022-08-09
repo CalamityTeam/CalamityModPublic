@@ -2112,7 +2112,6 @@ namespace CalamityMod.CalPlayer
 
             EnchantHeldItemEffects(Player, Player.Calamity(), Player.ActiveItem());
             BaseIdleHoldoutProjectile.CheckForEveryHoldout(Player);
-            VanillaArmorChangeManager.ApplyPotentialEffectsTo(Player);
         }
         #endregion
 

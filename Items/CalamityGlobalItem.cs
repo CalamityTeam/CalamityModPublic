@@ -1006,6 +1006,7 @@ namespace CalamityMod.Items
         {
             CalamityPlayer modPlayer = player.Calamity();
             VanillaArmorChangeManager.CreateTooltipManuallyAsNecessary(player);
+            VanillaArmorChangeManager.ApplyPotentialEffectsTo(player);
 
             if (set == "CrystalAssassin")
             {
