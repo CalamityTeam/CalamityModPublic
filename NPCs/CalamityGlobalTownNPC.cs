@@ -160,6 +160,7 @@ namespace CalamityMod.NPCs
         {
             "Catalyst", // <@!156672312425316352> (xAqult#1122)
             "Nyapano", // <@!120976656826368003> (Emi - Nyapano She/Her#4040)
+            "Jade", // <@!187395834625785869> (VeryMasterNinja#7728)
         };
         private const int SkeletonMerchantVanillaNames = 10;
         private static readonly string[] SkeletonMerchantNames =
@@ -261,10 +262,6 @@ namespace CalamityMod.NPCs
             "Felix" // <@!183424826407518208> (Lilac Vrt Olligoci#5585)
         };
         private const int TownCatRussianBlueVanillaNames = 16;
-        private static readonly string[] TownCatRussianBlueNames =
-        {
-            "Zeno", // <@!187395834625785869> (VeryMasterNinja#7728)
-        };
         private const int TownCatSilverVanillaNames = 17;
         private const int TownCatWhiteVanillaNames = 15;
         private static readonly string[] TownCatNames =
