@@ -142,9 +142,9 @@ namespace CalamityMod.Schematics
         // Schematics assume 1024 or less unique tile definitions for their internal buffer.
         // In real schematics, this number usually doesn't go above about 800.
         // The buffer can be expanded up to 65536, as the indices used for it are 2 bytes.
-        // Note this would by definition require a schematic of size at least 256x256, so you should never really get to this point.
+        // Note this would by definition require a schematic of size at least 725x725, so you should never really get to this point.
         private const int DefaultUniqueTileCount = 1024;
-        public const int MaxUniqueTileCount = ushort.MaxValue + 1;
+        public const int MaxUniqueTileCount = 524288;
         private const int DefaultModTileCount = 256;
         private const int DefaultModWallCount = 32;
 
