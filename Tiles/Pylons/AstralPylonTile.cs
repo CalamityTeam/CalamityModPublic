@@ -1,8 +1,10 @@
-﻿using CalamityMod.Systems;
-using CalamityMod.TileEntities;
-using CalamityMod.Items.Placeables.Pylons;
+﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using CalamityMod.Systems;
+using CalamityMod.Buffs.Placeables;
+using CalamityMod.TileEntities;
+using CalamityMod.Items.Placeables.Pylons;
 using ReLogic.Content;
 using Terraria;
 using Terraria.DataStructures;
