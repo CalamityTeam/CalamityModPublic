@@ -75,6 +75,11 @@ namespace CalamityMod.Tiles.Pylons
             return BiomeTileCounterSystem.SunkenSeaTiles >= 100;
         }
 
+        public override bool CreateDust(int i, int j, ref int type)
+        {
+            return false;
+        }
+
         public override void NearbyEffects(int i, int j, bool closer)
         {
             Player player = Main.LocalPlayer;
@@ -101,7 +106,70 @@ namespace CalamityMod.Tiles.Pylons
         public override void SpecialDraw(int i, int j, SpriteBatch spriteBatch)
         {
             // We want to draw the pylon crystal the exact same way vanilla does, so we can use this built in method in ModPylon for default crystal drawing:
-            DefaultDrawPylonCrystal(spriteBatch, i, j, crystalTexture, Color.White, CrystalFrameHeight, CrystalHorizontalFrameCount, CrystalVerticalFrameCount);
+            // DefaultDrawPylonCrystal(spriteBatch, i, j, crystalTexture, Color.White, CrystalFrameHeight, CrystalHorizontalFrameCount, CrystalVerticalFrameCount);
+
+            // TODO -- This currently just rips the above method's code to fix things like dust particles. Please replace the below code and re-enable the method call once tML fixes their oversights.
+
+            Vector2 vector = new Vector2(Main.offScreenRange);
+            if (Main.drawToScreen)
+            {
+                vector = Vector2.Zero;
+            }
+
+            Point p = new Point(i, j);
+            Tile tile = Main.tile[p.X, p.Y];
+            if (tile == null || !tile.HasTile)
+            {
+                return;
+            }
+
+            TileObjectData tileData = TileObjectData.GetTileData(tile);
+            Texture2D value = TextureAssets.Extra[181].Value;
+            int frameY = (Main.tileFrameCounter[597] + p.X + p.Y) % CrystalFrameHeight / CrystalVerticalFrameCount;
+            Rectangle rectangle = crystalTexture.Frame(CrystalHorizontalFrameCount, CrystalVerticalFrameCount, 0, frameY);
+            Rectangle value2 = crystalTexture.Frame(CrystalHorizontalFrameCount, CrystalVerticalFrameCount, 1, frameY);
+            value.Frame(CrystalHorizontalFrameCount, CrystalVerticalFrameCount, 0, frameY);
+            Vector2 origin = rectangle.Size() / 2f;
+            Vector2 vector2 = p.ToWorldCoordinates(0f, 0f) + new Vector2((float)tileData.Width / 2f * 16f, ((float)tileData.Height / 2f + 1.5f) * 16f);
+            float num = (float)Math.Sin(Main.GlobalTimeWrappedHourly * (MathF.PI * 2f) / 5f);
+            Vector2 vector3 = vector2 + vector + new Vector2(0f, -40f) + new Vector2(0f, num * 4f);
+
+            if (!Main.gamePaused && Main.instance.IsActive && Main.rand.NextBool(40))
+            {
+                Rectangle r = Utils.CenteredRectangle(vector3, rectangle.Size());
+                int num2 = Dust.NewDust(r.TopLeft(), r.Width, r.Height, 400, 0f, 0f, 254, Color.White, 0.5f);
+                Main.dust[num2].velocity *= 0.1f;
+                Main.dust[num2].velocity.Y -= 0.2f;
+            }
+
+            Color color = Color.Lerp(Lighting.GetColor(p.X, p.Y), Color.White, 0.8f);
+            spriteBatch.Draw(crystalTexture.Value, vector3 - Main.screenPosition, rectangle, color * 0.7f, 0f, origin, 1f, SpriteEffects.None, 0f);
+            float num3 = (float)Math.Sin((double)Main.GlobalTimeWrappedHourly * (Math.PI * 2.0) / 1.0) * 0.2f + 0.8f;
+            Color color2 = new Color(255, 255, 255, 0) * 0.1f * num3;
+            for (float num4 = 0f; num4 < 1f; num4 += 355f / (678f * MathF.PI))
+            {
+                spriteBatch.Draw(crystalTexture.Value, vector3 - Main.screenPosition + (MathF.PI * 2f * num4).ToRotationVector2() * (6f + num * 2f), rectangle, color2, 0f, origin, 1f, SpriteEffects.None, 0f);
+            }
+
+            int num5 = 0;
+            if (Main.InSmartCursorHighlightArea(p.X, p.Y, out var actuallySelected))
+            {
+                num5 = 1;
+                if (actuallySelected)
+                {
+                    num5 = 2;
+                }
+            }
+
+            if (num5 != 0)
+            {
+                int num6 = (color.R + color.G + color.B) / 3;
+                if (num6 > 10)
+                {
+                    Color selectionGlowColor = Colors.GetSelectionGlowColor(num5 == 2, num6);
+                    spriteBatch.Draw(crystalTexture.Value, vector3 - Main.screenPosition, value2, selectionGlowColor, 0f, origin, 1f, SpriteEffects.None, 0f);
+                }
+            }
         }
 
         public override void DrawMapIcon(ref MapOverlayDrawContext context, ref string mouseOverText, TeleportPylonInfo pylonInfo, bool isNearPylon, Color drawColor, float deselectedScale, float selectedScale)

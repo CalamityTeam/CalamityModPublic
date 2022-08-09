@@ -151,7 +151,7 @@ namespace CalamityMod.Tiles.Pylons
             if (!Main.gamePaused && Main.instance.IsActive && Main.rand.NextBool(40))
             {
                 Rectangle r = Utils.CenteredRectangle(vector3, rectangle.Size());
-                int num2 = Dust.NewDust(r.TopLeft(), r.Width, r.Height, 400, 0f, 0f, 254, Color.YellowGreen, 0.5f);
+                int num2 = Dust.NewDust(r.TopLeft(), r.Width, r.Height, 400, 0f, 0f, 254, Color.White, 0.5f);
                 Main.dust[num2].velocity *= 0.1f;
                 Main.dust[num2].velocity.Y -= 0.2f;
             }
