@@ -175,6 +175,14 @@ ItemTooltip:
 
 }
 
+MapIcon:
+{
+    AstralPylon: "{$Mods.CalamityMod.ItemName.AstralPylon}"
+    CragsPylon: "{$Mods.CalamityMod.ItemName.CragsPylon}"
+    SulphurPylon: "{$Mods.CalamityMod.ItemName.SulphurPylon}"
+    SunkenPylon: "{$Mods.CalamityMod.ItemName.SunkenPylon}"
+}
+
 TownNPCMood: 
 {
     DILF:
