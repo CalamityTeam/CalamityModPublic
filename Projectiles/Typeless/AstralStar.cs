@@ -28,6 +28,7 @@ namespace CalamityMod.Projectiles.Typeless
             Projectile.alpha = 50;
             Projectile.penetrate = 1;
             Projectile.tileCollide = false;
+            Projectile.timeLeft = 300;
         }
 
         public override void AI()
