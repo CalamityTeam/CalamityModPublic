@@ -268,6 +268,7 @@ namespace CalamityMod.NPCs
         {
             "Smoogle", // <@!709968379334623274> (smoogle#5672)
             "The Meowurer of Gods", // <@!385949114271268864> (GP#7876)
+			"Katsafaros", // <@!190595401328492544> (NavyGuy#2650)
         };
 
         private const int TownBunnyWhiteVanillaNames = 14;
