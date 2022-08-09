@@ -351,6 +351,7 @@ namespace CalamityMod
 
         #endregion
 
+
         // REMOVE THIS IN CALAMITY 1.4, it's a 1.4 World.cs function.
         // Due to its temporary state, this method will not receive an XML documentation comment.
         public static Rectangle ClampToWorld(Rectangle tileRectangle)

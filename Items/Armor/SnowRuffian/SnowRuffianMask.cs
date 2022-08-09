@@ -10,6 +10,7 @@ namespace CalamityMod.Items.Armor.SnowRuffian
     {
         private bool shouldBoost = false;
 
+
         public override void Load()
         {
             if (Main.netMode != NetmodeID.Server)
@@ -52,6 +53,7 @@ namespace CalamityMod.Items.Armor.SnowRuffian
                 "The higher your rogue stealth the higher your rogue damage, crit, and movement speed";
             player.GetDamage<ThrowingDamageClass>() += 0.05f;
             player.Calamity().wearingRogueArmor = true;
+
             if (player.controlJump)
             {
                 player.noFallDmg = true;

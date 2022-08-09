@@ -1059,17 +1059,52 @@ namespace CalamityMod
             r.Register();
 
             r = Recipe.Create(ItemID.CookedFish);
-            r.AddIngredient(ModContent.ItemType<CragBullhead>());
-            r.AddTile(TileID.CookingPots);
-            r.Register();
-
-            r = Recipe.Create(ItemID.CookedFish);
             r.AddIngredient(ModContent.ItemType<SeaMinnowItem>());
             r.AddTile(TileID.CookingPots);
             r.Register();
 
+            r = Recipe.Create(ItemID.Sashimi);
+            r.AddIngredient(ModContent.ItemType<CragBullhead>());
+            r.AddTile(TileID.WorkBenches);
+            r.Register();
+
             r = Recipe.Create(ItemID.CookedShrimp);
             r.AddIngredient(ModContent.ItemType<ProcyonidPrawn>());
+            r.AddTile(TileID.CookingPots);
+            r.Register();
+
+            r = Recipe.Create(ItemID.SeafoodDinner);
+            r.AddIngredient(ModContent.ItemType<AldebaranAlewife>(), 2);
+            r.AddTile(TileID.CookingPots);
+            r.Register();
+
+            r = Recipe.Create(ItemID.SeafoodDinner);
+            r.AddIngredient(ModContent.ItemType<Bloodfin>(), 2);
+            r.AddTile(TileID.CookingPots);
+            r.Register();
+
+            r = Recipe.Create(ItemID.SeafoodDinner);
+            r.AddIngredient(ModContent.ItemType<BrimstoneFish>(), 2);
+            r.AddTile(TileID.CookingPots);
+            r.Register();
+
+            r = Recipe.Create(ItemID.SeafoodDinner);
+            r.AddIngredient(ModContent.ItemType<CoastalDemonfish>(), 2);
+            r.AddTile(TileID.CookingPots);
+            r.Register();
+
+            r = Recipe.Create(ItemID.SeafoodDinner);
+            r.AddIngredient(ModContent.ItemType<Shadowfish>(), 2);
+            r.AddTile(TileID.CookingPots);
+            r.Register();
+
+            r = Recipe.Create(ItemID.SeafoodDinner);
+            r.AddIngredient(ModContent.ItemType<CoralskinFoolfish>(), 2);
+            r.AddTile(TileID.CookingPots);
+            r.Register();
+
+            r = Recipe.Create(ItemID.SeafoodDinner);
+            r.AddIngredient(ModContent.ItemType<SunkenSailfish>(), 2);
             r.AddTile(TileID.CookingPots);
             r.Register();
 

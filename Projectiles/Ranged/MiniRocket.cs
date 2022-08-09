@@ -76,6 +76,21 @@ namespace CalamityMod.Projectiles.Ranged
                 }
             }
             CalamityUtils.HomeInOnNPC(Projectile, !Projectile.tileCollide, 200f, 12f, 20f);
+
+            // Construct a fake item to use with vanilla code for the sake of picking ammo.
+            if (FalseLauncher is null)
+                DefineFalseLauncher();
+            Player player = Main.player[Projectile.owner];
+            int projID = ProjectileID.RocketI;
+            float shootSpeed = 0f;
+            int damage = 0;
+            float kb = 0f;
+            player.PickAmmo(FalseLauncher, out projID, out shootSpeed, out damage, out kb, out _, true);
+			if (projID == ProjectileID.DryRocket || projID == ProjectileID.WetRocket || projID == ProjectileID.LavaRocket || projID == ProjectileID.HoneyRocket)
+			{
+				if (Projectile.wet)
+					Projectile.timeLeft = 1;
+			}
         }
 
         public override void Kill(int timeLeft)
@@ -160,10 +175,12 @@ namespace CalamityMod.Projectiles.Ranged
             float kb = 0f;
             player.PickAmmo(FalseLauncher, out projID, out shootSpeed, out damage, out kb, out _, true);
             int blastRadius = 0;
-            if (projID == ProjectileID.RocketII)
+            if (projID == ProjectileID.RocketII || projID == ProjectileID.ClusterRocketII)
                 blastRadius = 3;
             else if (projID == ProjectileID.RocketIV)
                 blastRadius = 6;
+            else if (projID == ProjectileID.MiniNukeRocketII)
+                blastRadius = 9;
 
             Projectile.ExpandHitboxBy(14);
 
@@ -171,6 +188,29 @@ namespace CalamityMod.Projectiles.Ranged
             {
                 CalamityUtils.ExplodeandDestroyTiles(Projectile, blastRadius, true, new List<int>() { }, new List<int>() { });
             }
+			if (Projectile.owner == Main.myPlayer)
+			{
+				Point center = Projectile.Center.ToTileCoordinates();
+				DelegateMethods.v2_1 = center.ToVector2();
+				DelegateMethods.f_1 = 3f;
+				if (projID == ProjectileID.DryRocket)
+				{
+					DelegateMethods.f_1 = 3.5f;
+					Utils.PlotTileArea(center.X, center.Y, DelegateMethods.SpreadDry);
+				}
+				else if (projID == ProjectileID.WetRocket)
+				{
+					Utils.PlotTileArea(center.X, center.Y, DelegateMethods.SpreadWater);
+				}
+				else if (projID == ProjectileID.LavaRocket)
+				{
+					Utils.PlotTileArea(center.X, center.Y, DelegateMethods.SpreadHoney);
+				}
+				else if (projID == ProjectileID.HoneyRocket)
+				{
+					Utils.PlotTileArea(center.X, center.Y, DelegateMethods.SpreadLava);
+				}
+			}
         }
     }
 }

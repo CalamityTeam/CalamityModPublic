@@ -58,9 +58,12 @@ namespace CalamityMod.NPCs.Yharon
         public static float normalDR = 0.22f;
         public static float EnragedDR = 0.9f;
 
-        public static readonly SoundStyle RoarSound = new("CalamityMod/Sounds/Custom/YharonRoar");
-        public static readonly SoundStyle ShortRoarSound = new("CalamityMod/Sounds/Custom/YharonRoarShort");
-        public static readonly SoundStyle FireSound = new("CalamityMod/Sounds/Custom/YharonFire");
+        public static readonly SoundStyle RoarSound = new("CalamityMod/Sounds/Custom/Yharon/YharonRoar");
+        public static readonly SoundStyle ShortRoarSound = new("CalamityMod/Sounds/Custom/Yharon/YharonRoarShort");
+        public static readonly SoundStyle FireSound = new("CalamityMod/Sounds/Custom/Yharon/YharonFire");
+        public static readonly SoundStyle OrbSound = new("CalamityMod/Sounds/Custom/Yharon/YharonFireOrb");
+        public static readonly SoundStyle HitSound = new("CalamityMod/Sounds/NPCHit/YharonHurt");
+        public static readonly SoundStyle DeathSound = new("CalamityMod/Sounds/NPCKilled/YharonDeath");
 
         public SlotId RoarSoundSlot;
 
@@ -106,8 +109,7 @@ namespace CalamityMod.NPCs.Yharon
 
             Music = CalamityMod.Instance.GetMusicFromMusicMod("YharonP1") ?? MusicID.Boss3;
 
-            NPC.HitSound = SoundID.NPCHit56;
-            NPC.DeathSound = SoundID.NPCDeath60;
+            NPC.DeathSound = DeathSound;
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToCold = true;
             NPC.Calamity().VulnerableToSickness = true;
@@ -986,7 +988,10 @@ namespace CalamityMod.NPCs.Yharon
             else if (NPC.ai[0] == 8f)
             {
                 if (NPC.ai[2] == 0f)
+                {
                     RoarSoundSlot = SoundEngine.PlaySound(RoarSound, NPC.position);
+                    SoundEngine.PlaySound(OrbSound, NPC.position);
+                } 
 
                 NPC.ai[2] += 1f;
 
@@ -1336,7 +1341,10 @@ namespace CalamityMod.NPCs.Yharon
             else if (NPC.ai[0] == 15f)
             {
                 if (NPC.ai[2] == 0f)
+                {
                     RoarSoundSlot = SoundEngine.PlaySound(RoarSound, NPC.position);
+                    SoundEngine.PlaySound(OrbSound, NPC.position);
+                }
 
                 NPC.ai[2] += 1f;
                 if (NPC.ai[2] % flareDustSpawnDivisor3 == 0f)
@@ -2190,7 +2198,10 @@ namespace CalamityMod.NPCs.Yharon
             else if (NPC.ai[0] == 5f)
             {
                 if (NPC.ai[1] == 1f)
+                {
                     RoarSoundSlot = SoundEngine.PlaySound(RoarSound, NPC.position);
+                    SoundEngine.PlaySound(OrbSound, NPC.position);
+                }
 
                 NPC.ai[1] += 1f;
                 if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -3042,6 +3053,13 @@ namespace CalamityMod.NPCs.Yharon
         #region Hit Effect
         public override void HitEffect(int hitDirection, double damage)
         {
+            // hit sound
+            if (NPC.soundDelay == 0)
+            {
+                NPC.soundDelay = Main.rand.Next(16, 20);
+                SoundEngine.PlaySound(HitSound, NPC.Center);
+            }
+
             for (int k = 0; k < 5; k++)
             {
                 Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);

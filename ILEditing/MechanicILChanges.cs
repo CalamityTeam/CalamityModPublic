@@ -705,6 +705,12 @@ namespace CalamityMod.ILEditing
         #region Custom Lava Visuals
         private static void DrawCustomLava(On.Terraria.GameContent.Drawing.TileDrawing.orig_DrawPartialLiquid orig, TileDrawing self, Tile tileCache, Vector2 position, Rectangle liquidSize, int liquidType, Color aColor)
         {
+            if (liquidType != 1)
+            {
+                orig(self, tileCache, position, liquidSize, liquidType, aColor);
+                return;
+            }
+            
             Texture2D initialTexture = TextureAssets.LiquidSlope[liquidType].Value;
             Texture2D slopeTexture = SelectLavaTexture(liquidType == 1 ? CustomLavaManagement.LavaSlopeTexture : initialTexture, LiquidTileType.Slope);
             aColor = SelectLavaColor(initialTexture, aColor, liquidType == 1);

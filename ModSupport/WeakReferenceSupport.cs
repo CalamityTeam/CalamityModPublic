@@ -279,7 +279,7 @@ namespace CalamityMod
                 List<int> collection = new List<int>() { ItemType<DesertScourgeTrophy>(), ItemType<DesertScourgeMask>(), ItemType<KnowledgeDesertScourge>() };
                 string instructions = $"Use a [i:{summon}] in the Desert Biome";
                 string despawn = CalamityUtils.ColorMessage("The scourge of the desert delved back into the sand.", new Color(0xEE, 0xE8, 0xAA));
-                var portrait = (SpriteBatch sb, Rectangle rect, Color color) => {
+                Action<SpriteBatch, Rectangle, Color> portrait = (SpriteBatch sb, Rectangle rect, Color color) => {
                     Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/NPCs/DesertScourge/DesertScourge_BossChecklist").Value;
                     Vector2 centered = new Vector2(rect.Center.X - (texture.Width / 2), rect.Center.Y - (texture.Height / 2));
                     sb.Draw(texture, centered, color);
@@ -363,7 +363,7 @@ namespace CalamityMod
                 string instructions = $"Use a [i:{summon}] in the Sulphuric Sea or wait for it to spawn in the Sulphuric Sea";
                 string despawn = CalamityUtils.ColorMessage("The Aquatic Scourge swam back into the open ocean.", new Color(0xF0, 0xE6, 0x8C));
                 string bossLogTex = "CalamityMod/NPCs/AquaticScourge/AquaticScourgeHead_Head_Boss";
-                var portrait = (SpriteBatch sb, Rectangle rect, Color color) => {
+                Action<SpriteBatch, Rectangle, Color> portrait = (SpriteBatch sb, Rectangle rect, Color color) => {
                     Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/NPCs/AquaticScourge/AquaticScourge_BossChecklist").Value;
                     Vector2 centered = new Vector2(rect.Center.X - (texture.Width / 2), rect.Center.Y - (texture.Height / 2));
                     sb.Draw(texture, centered, color);
@@ -414,7 +414,7 @@ namespace CalamityMod
                 string instructions = "By killing an unknown entity in the Ocean Biome";
                 string despawn = CalamityUtils.ColorMessage("The aquatic entities sink back beneath the ocean depths.", new Color(0x7F, 0xFF, 0xD4));
 
-                var portrait = (SpriteBatch sb, Rectangle rect, Color color) => {
+                Action<SpriteBatch, Rectangle, Color> portrait = (SpriteBatch sb, Rectangle rect, Color color) => {
                     Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/NPCs/Leviathan/AnahitaLevi_BossChecklist").Value;
                     Vector2 centered = new Vector2(rect.Center.X - (texture.Width / 2), rect.Center.Y - (texture.Height / 2));
                     sb.Draw(texture, centered, color);
@@ -444,7 +444,7 @@ namespace CalamityMod
                 string despawn = CalamityUtils.ColorMessage("HOSTILE SPECIMENS TERMINATED. INITIATE RECALL TO HOME BASE.", new Color(0x00, 0xFF, 0x00));
                 string bossLogTex = "CalamityMod/NPCs/PlaguebringerGoliath/PlaguebringerGoliath_Head_Boss";
 
-                var portrait = (SpriteBatch sb, Rectangle rect, Color color) => {
+                Action<SpriteBatch, Rectangle, Color> portrait = (SpriteBatch sb, Rectangle rect, Color color) => {
                     Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/NPCs/PlaguebringerGoliath/PlaguebringerGoliath_BossChecklist").Value;
                     Vector2 centered = new Vector2(rect.Center.X - (texture.Width / 2), rect.Center.Y - (texture.Height / 2));
                     sb.Draw(texture, centered, color);
@@ -462,7 +462,7 @@ namespace CalamityMod
                 string despawn = CalamityUtils.ColorMessage("The automaton of misshapen victims went looking for the true perpetrator.", new Color(0xB2, 0x22, 0x22));
                 string bossLogTex = "CalamityMod/NPCs/Ravager/RavagerBody_Head_Boss";
 
-                var portrait = (SpriteBatch sb, Rectangle rect, Color color) => {
+                Action<SpriteBatch, Rectangle, Color> portrait = (SpriteBatch sb, Rectangle rect, Color color) => {
                     Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/NPCs/Ravager/Ravager_BossChecklist").Value;
                     Vector2 centered = new Vector2(rect.Center.X - (texture.Width / 2), rect.Center.Y - (texture.Height / 2));
                     sb.Draw(texture, centered, color);
@@ -483,7 +483,7 @@ namespace CalamityMod
                 string despawn = CalamityUtils.ColorMessage("The infected deity retreats to the heavens.", new Color(0xFF, 0xD7, 0x00));
                 string bossLogTex = "CalamityMod/NPCs/AstrumDeus/AstrumDeusHead_Head_Boss";
 
-                var portrait = (SpriteBatch sb, Rectangle rect, Color color) => {
+                Action<SpriteBatch, Rectangle, Color> portrait = (SpriteBatch sb, Rectangle rect, Color color) => {
                     Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/NPCs/AstrumDeus/AstrumDeus_BossChecklist").Value;
                     Vector2 centered = new Vector2(rect.Center.X - (texture.Width / 2), rect.Center.Y - (texture.Height / 2));
                     sb.Draw(texture, centered, color);
@@ -502,7 +502,7 @@ namespace CalamityMod
                 string despawn = CalamityUtils.ColorMessage("The guardians must protect their goddess at all costs.", new Color(0xFF, 0xA5, 0x00));
                 string bossLogTex = "CalamityMod/NPCs/ProfanedGuardians/ProfanedGuardianCommander_Head_Boss";
 
-                var portrait = (SpriteBatch sb, Rectangle rect, Color color) => {
+                Action<SpriteBatch, Rectangle, Color> portrait = (SpriteBatch sb, Rectangle rect, Color color) => {
                     Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/NPCs/ProfanedGuardians/ProfanedGuardians_BossChecklist").Value;
                     Vector2 centered = new Vector2(rect.Center.X - (texture.Width / 2), rect.Center.Y - (texture.Height / 2));
                     sb.Draw(texture, centered, color);
@@ -531,7 +531,7 @@ namespace CalamityMod
                 string despawn = CalamityUtils.ColorMessage("The Profaned Goddess vanishes in a burning blaze.", new Color(0xFF, 0xA5, 0x00));
                 string bossLogTex = "CalamityMod/NPCs/Providence/Providence_Head_Boss";
 
-                var portrait = (SpriteBatch sb, Rectangle rect, Color color) => {
+                Action<SpriteBatch, Rectangle, Color> portrait = (SpriteBatch sb, Rectangle rect, Color color) => {
                     Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/NPCs/Providence/Providence_BossChecklist").Value;
                     Vector2 centered = new Vector2(rect.Center.X - (texture.Width / 2), rect.Center.Y - (texture.Height / 2));
                     sb.Draw(texture, centered, color);
@@ -559,7 +559,7 @@ namespace CalamityMod
                 string instructions = $"Use a [i:{summon}] in Space";
                 string despawn = CalamityUtils.ColorMessage("Storm Weaver hid itself once again within the stormfront.", new Color(0xEE, 0x82, 0xEE));
                 string bossLogTex = "CalamityMod/NPCs/StormWeaver/StormWeaverHead_Head_Boss";
-                var portrait = (SpriteBatch sb, Rectangle rect, Color color) => {
+                Action<SpriteBatch, Rectangle, Color> portrait = (SpriteBatch sb, Rectangle rect, Color color) => {
                     Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/NPCs/StormWeaver/StormWeaver_BossChecklist").Value;
                     Vector2 centered = new Vector2(rect.Center.X - (texture.Width / 2), rect.Center.Y - (texture.Height / 2));
                     sb.Draw(texture, centered, color);
@@ -609,7 +609,7 @@ namespace CalamityMod
                 string instructions = $"Use a [i:{summon}]";
                 string despawn = CalamityUtils.ColorMessage("The Devourer of Gods has slain everyone and feasted on their essence.", new Color(0x00, 0xFF, 0xFF));
                 string bossHeadTex = "CalamityMod/NPCs/DevourerofGods/DevourerofGodsHead_Head_Boss";
-                var portrait = (SpriteBatch sb, Rectangle rect, Color color) => {
+                Action<SpriteBatch, Rectangle, Color> portrait = (SpriteBatch sb, Rectangle rect, Color color) => {
                     Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/NPCs/DevourerofGods/DevourerofGods_BossChecklist").Value;
                     Vector2 centered = new Vector2(rect.Center.X - (texture.Width / 2), rect.Center.Y - (texture.Height / 2));
                     sb.Draw(texture, centered, color);
@@ -640,7 +640,7 @@ namespace CalamityMod
                 string instructions = "By using a high-tech computer";
                 string despawn = CalamityUtils.ColorMessage("An imperfection after all... what a shame.", new Color(0x7F, 0xFF, 0xD4));
 
-                var portrait = (SpriteBatch sb, Rectangle rect, Color color) => {
+                Action<SpriteBatch, Rectangle, Color> portrait = (SpriteBatch sb, Rectangle rect, Color color) => {
                     Texture2D texture = Request<Texture2D>("CalamityMod/NPCs/ExoMechs/ExoMechs_BossChecklist").Value;
                     float scale = 0.7f;
                     Vector2 centered = new Vector2(rect.Center.X - texture.Width * scale / 2, rect.Center.Y - texture.Height * scale / 2);
@@ -675,7 +675,7 @@ namespace CalamityMod
                 string despawn = CalamityUtils.ColorMessage("...", new Color(0x7F, 0xFF, 0xD4));
                 string bossLogTex = "CalamityMod/NPCs/AdultEidolonWyrm/AdultEidolonWyrmHead_Head_Boss";
 
-                var portrait = (SpriteBatch sb, Rectangle rect, Color color) => {
+                Action<SpriteBatch, Rectangle, Color> portrait = (SpriteBatch sb, Rectangle rect, Color color) => {
                     Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/NPCs/AdultEidolonWyrm/AdultEidolonWyrm_BossChecklist").Value;
                     Vector2 centered = new Vector2(rect.Center.X - (texture.Width / 2), rect.Center.Y - (texture.Height / 2));
                     sb.Draw(texture, centered, color);
@@ -694,7 +694,7 @@ namespace CalamityMod
                 List<int> collection = new List<int>() { ItemType<RadiatingCrystal>() };
                 string instructions = $"Use a [i:{summon}] or wait for the invasion to occur naturally after the Eye of Cthulhu is defeated.";
                 string iconTexture = "CalamityMod/ExtraTextures/UI/AcidRainIcon";
-                var portrait = (SpriteBatch sb, Rectangle rect, Color color) => {
+                Action<SpriteBatch, Rectangle, Color> portrait = (SpriteBatch sb, Rectangle rect, Color color) => {
                     Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Events/AcidRainT1_BossChecklist").Value;
                     float scale = 1.3f;
                     Vector2 centered = new Vector2(rect.Center.X - texture.Width * scale / 2, rect.Center.Y - texture.Height * scale / 2);
@@ -712,7 +712,7 @@ namespace CalamityMod
                 List<int> collection = new List<int>() { ItemType<RadiatingCrystal>() };
                 string instructions = $"Use a [i:{ItemType<CausticTear>()}] or wait for the invasion to occur naturally after the Aquatic Scourge is defeated";
                 string iconTexture = "CalamityMod/ExtraTextures/UI/AcidRainIcon";
-                var portrait = (SpriteBatch sb, Rectangle rect, Color color) => {
+                Action<SpriteBatch, Rectangle, Color> portrait = (SpriteBatch sb, Rectangle rect, Color color) => {
                     Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Events/AcidRainT2_BossChecklist").Value;
                     float scale = 0.9f;
                     Vector2 centered = new Vector2(rect.Center.X - texture.Width * scale / 2, rect.Center.Y - texture.Height * scale / 2);
@@ -729,7 +729,7 @@ namespace CalamityMod
                 List<int> collection = new List<int>() { ItemType<RadiatingCrystal>() };
                 string instructions = $"Use a [i:{ItemType<CausticTear>()}] or wait for the invasion to occur naturally after the Polterghast is defeated";
                 string iconTexture = "CalamityMod/ExtraTextures/UI/AcidRainIcon";
-                var portrait = (SpriteBatch sb, Rectangle rect, Color color) => {
+                Action<SpriteBatch, Rectangle, Color> portrait = (SpriteBatch sb, Rectangle rect, Color color) => {
                     Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Events/AcidRainT3_BossChecklist").Value;
                     float scale = 0.9f;
                     Vector2 centered = new Vector2(rect.Center.X - texture.Width * scale / 2, rect.Center.Y - texture.Height * scale / 2);

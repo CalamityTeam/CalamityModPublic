@@ -3,6 +3,7 @@ using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using System.Collections.Generic;
 
 namespace CalamityMod.Items.Armor.GemTech
 {
@@ -29,6 +30,7 @@ namespace CalamityMod.Items.Armor.GemTech
             Item.Calamity().donorItem = true;
         }
 
+        public override void ModifyTooltips(List<TooltipLine> tooltips) => GemTechHeadgear.ModifySetTooltips(this, tooltips);
         public override void AddRecipes()
         {
             CreateRecipe()

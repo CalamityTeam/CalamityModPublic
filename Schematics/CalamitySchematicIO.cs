@@ -142,16 +142,16 @@ namespace CalamityMod.Schematics
         // Schematics assume 1024 or less unique tile definitions for their internal buffer.
         // In real schematics, this number usually doesn't go above about 800.
         // The buffer can be expanded up to 65536, as the indices used for it are 2 bytes.
-        // Note this would by definition require a schematic of size at least 256x256, so you should never really get to this point.
+        // Note this would by definition require a schematic of size at least 725x725, so you should never really get to this point.
         private const int DefaultUniqueTileCount = 1024;
-        public const int MaxUniqueTileCount = ushort.MaxValue + 1;
+        public const int MaxUniqueTileCount = 524288;
         private const int DefaultModTileCount = 256;
         private const int DefaultModWallCount = 32;
 
         public readonly IList<SchematicMetaTile> uniqueTiles;
         public readonly IList<string> modTileNames;
         public readonly IList<string> modWallNames;
-        public readonly ushort[,] areaIndices;
+        public readonly uint[,] areaIndices;
 
         public SchematicData(int width, int height)
         {
@@ -164,7 +164,7 @@ namespace CalamityMod.Schematics
                 };
             modTileNames = new List<string>(DefaultModTileCount);
             modWallNames = new List<string>(DefaultModWallCount);
-            areaIndices = new ushort[width, height];
+            areaIndices = new uint[width, height];
         }
     }
 
@@ -179,8 +179,8 @@ namespace CalamityMod.Schematics
 
     public static class CalamitySchematicIO
     {
-        // A generous buffer of 1 megabyte is the default for schematics. If this somehow isn't big enough, they can get bigger.
-        private const int SchematicBufferStartingSize = 1048576;
+        // A generous buffer of 16 megabytes is the default for schematics. If this somehow isn't big enough, they can get bigger.
+        private const int SchematicBufferStartingSize = 16777216;
 
         // If true, written schematics will have all data GZip compressed except for the magic number header.
         public static bool UseCompression = true;
@@ -209,6 +209,16 @@ namespace CalamityMod.Schematics
         // These two fields are set to a non-zero value when the CalamitySchematicExporter mod loads.
         public static ushort PreserveTileID = 0;
         public static ushort PreserveWallID = 0;
+
+        // Special magic header for determining if schematics must be made in a way that allows for extraordinarily large quantities of unique tiles (past the unsigned 16-bit limit).
+        // This is by default unused and is irrelevant to Calamity on its own, but exists for use by Infernum.
+        // 1F145C = "1NFERNUM 1.4 5CHEMATIC"
+        private static readonly byte[] SchematicMagicNumberHeader_Infernum14 = new byte[]
+        {
+            0x1F,
+            0x14,
+            0x5C
+        };
 
         #region Direct Serialization Read/Write
         // TileWallWireStateData is a value type, so it must be passed as ref to make changes.
@@ -362,7 +372,7 @@ namespace CalamityMod.Schematics
             }
         }
 
-        private static SchematicData ConstructSchematicData(Tile[,] tiles)
+        private static SchematicData ConstructSchematicData(Tile[,] tiles, bool infernum)
         {
             int width = tiles.GetLength(0);
             int height = tiles.GetLength(1);
@@ -398,7 +408,10 @@ namespace CalamityMod.Schematics
                         goto PostAreaIteration;
 
                     // Update the area indices so that the tile at this position is the correct reference.
-                    schematic.areaIndices[x, y] = (ushort)metaTileIndex;
+                    if (infernum)
+                        schematic.areaIndices[x, y] = (uint)metaTileIndex;
+                    else
+                        schematic.areaIndices[x, y] = (ushort)metaTileIndex;
                 }
 
             PostAreaIteration:
@@ -413,7 +426,7 @@ namespace CalamityMod.Schematics
         #endregion
 
         #region Export
-        public static ExportResult ExportSchematic(Rectangle area)
+        public static ExportResult ExportSchematic(Rectangle area, bool infernum)
         {
             if (area.Top < 0 || area.Left < 0 || area.Right >= Main.maxTilesX || area.Bottom >= Main.maxTilesY)
                 return ExportResult.CornerOutOfWorld;
@@ -424,6 +437,7 @@ namespace CalamityMod.Schematics
             Tile[,] tiles = GetTilesInRectangle(area);
 
             byte[] renderedStream;
+            byte[] magicHeader = infernum ? SchematicMagicNumberHeader_Infernum14 : SchematicMagicNumberHeader_TML14;
             using (MemoryStream stream = new MemoryStream(SchematicBufferStartingSize))
             using (BinaryWriter writer = new BinaryWriter(stream, Encoding.UTF8))
             {
@@ -431,12 +445,12 @@ namespace CalamityMod.Schematics
                 // This is only included here if compression is turned off
                 if (!UseCompression)
                 {
-                    writer.Write(SchematicMagicNumberHeader_TML14);
+                    writer.Write(magicHeader);
                     writer.Write(UncompressedMagicNumber);
                 }
 
                 // Calculate the schematic's data. Fail immediately if the schematic has too many unique tiles.
-                SchematicData schematic = ConstructSchematicData(tiles);
+                SchematicData schematic = ConstructSchematicData(tiles, infernum);
                 if (schematic.uniqueTiles.Count <= 0)
                 {
                     writer.Close();
@@ -444,29 +458,42 @@ namespace CalamityMod.Schematics
                 }
 
                 // 2: Length of list 3.
-                ushort numModTileNames = (ushort)schematic.modTileNames.Count;
+                uint numModTileNames;
+                if (infernum)
+                    numModTileNames = (uint)schematic.modTileNames.Count;
+                else
+                    numModTileNames = (ushort)schematic.modTileNames.Count;
                 writer.Write(numModTileNames);
 
                 // 3: List of fully qualified modded tile names.
-                for (ushort i = 0; i < numModTileNames; ++i)
+                for (int i = 0; i < numModTileNames; ++i)
                     writer.Write(schematic.modTileNames[i]);
 
                 // 4: Length of list 5.
-                ushort numModWallNames = (ushort)schematic.modWallNames.Count;
+                uint numModWallNames;
+                if (infernum)
+                    numModWallNames = (uint)schematic.modWallNames.Count;
+                else
+                    numModWallNames = (ushort)schematic.modWallNames.Count;
                 writer.Write(numModWallNames);
 
                 // 5: List of fully qualified modded wall names.
-                for (ushort i = 0; i < numModWallNames; ++i)
+                for (int i = 0; i < numModWallNames; ++i)
                     writer.Write(schematic.modWallNames[i]);
 
                 // 6: Length of list 7.
-                ushort numUniqueTiles = (ushort)schematic.uniqueTiles.Count;
+                uint numUniqueTiles;
+                if (infernum)
+                    numUniqueTiles = (uint)schematic.uniqueTiles.Count;
+                else
+                    numUniqueTiles = (ushort)schematic.uniqueTiles.Count;
+
                 writer.Write(numUniqueTiles);
 
                 // 7: List of definitions of unique tiles. For modded tiles, their types are lookup indices to the mod tile and mod wall name arrays.
                 // Specific tiles and walls from the CalamitySchematicExporter mod have hardcoded behavior at this step.
                 // They will be replaced with preserve flags by overriding the tile and wall meta indices.
-                for (ushort i = 0; i < numUniqueTiles; ++i)
+                for (int i = 0; i < numUniqueTiles; ++i)
                     writer.WriteSchematicMetaTile(schematic.uniqueTiles[i]);
 
                 // 8: Width and height of array 9.
@@ -478,7 +505,12 @@ namespace CalamityMod.Schematics
                 // 9: Array of indices to unique tile definitions.
                 for (ushort y = 0; y < tileHeight; ++y)
                     for (ushort x = 0; x < tileWidth; ++x)
-                        writer.Write(schematic.areaIndices[x, y]);
+                    {
+                        if (infernum)
+                            writer.Write(schematic.areaIndices[x, y]);
+                        else
+                            writer.Write((ushort)schematic.areaIndices[x, y]);
+                    }
 
                 // Compile all serialized data into a byte array for writing.
                 renderedStream = stream.ToArray();
@@ -491,7 +523,7 @@ namespace CalamityMod.Schematics
 
                 // Write the magic number outside the compressed region of data if compression is enabled.
                 // This is the only way for a reading algorithm to know this is a compressed schematic.
-                gzMem.Write(SchematicMagicNumberHeader_TML14, 0, SchematicMagicNumberHeader_TML14.Length);
+                gzMem.Write(magicHeader, 0, magicHeader.Length);
                 gzMem.WriteByte(CompressedMagicNumber);
 
                 using (GZipStream gz = new GZipStream(gzMem, CompressionLevel.Optimal))
@@ -566,6 +598,7 @@ namespace CalamityMod.Schematics
 
             bool isTML13Schematic = true;
             bool isTML14Schematic = true;
+            bool isInfernumSchematic = true;
             for (int i = 0; i < SchematicMagicNumberHeader_TML14.Length; ++i)
             {
                 if (header[i] != SchematicMagicNumberHeader_TML13[i])
@@ -573,10 +606,13 @@ namespace CalamityMod.Schematics
 
                 if (header[i] != SchematicMagicNumberHeader_TML14[i])
                     isTML14Schematic = false;
+
+                if (header[i] != SchematicMagicNumberHeader_Infernum14[i])
+                    isInfernumSchematic = false;
             }
 
-            // If the schematic is neither TML 1.3 or TML 1.4 format, then it's crap.
-            if (!isTML13Schematic && !isTML14Schematic)
+            // If the schematic is neither TML 1.3, TML 1.4, or Infernum format, then it's crap.
+            if (!isTML13Schematic && !isTML14Schematic && !isInfernumSchematic)
                 throw new InvalidDataException($"{InvalidFormatString} The magic number signature is invalid.");
             else if (isTML13Schematic)
             {
@@ -607,7 +643,11 @@ namespace CalamityMod.Schematics
             using (BinaryReader reader = new BinaryReader(bufferStream, Encoding.UTF8))
             {
                 // 2: Length of list 3.
-                ushort numModTileNames = reader.ReadUInt16();
+                uint numModTileNames;
+                if (isInfernumSchematic)
+                    numModTileNames = reader.ReadUInt32();
+                else
+                    numModTileNames = reader.ReadUInt16();
 
                 // 3: List of fully qualified modded tile names.
                 string[] modTileNames = new string[numModTileNames];
@@ -615,7 +655,11 @@ namespace CalamityMod.Schematics
                     modTileNames[i] = reader.ReadString();
 
                 // 4: Length of list 5.
-                ushort numModWallNames = reader.ReadUInt16();
+                uint numModWallNames;
+                if (isInfernumSchematic)
+                    numModWallNames = reader.ReadUInt32();
+                else
+                    numModWallNames = reader.ReadUInt16();
                 string[] modWallNames = new string[numModWallNames];
 
                 // 5: List of fully qualified modded wall names.
@@ -623,11 +667,16 @@ namespace CalamityMod.Schematics
                     modWallNames[i] = reader.ReadString();
 
                 // 6: Length of list 7.
-                ushort numUniqueTiles = reader.ReadUInt16();
+                uint numUniqueTiles;
+                if (isInfernumSchematic)
+                    numUniqueTiles = reader.ReadUInt32();
+                else
+                    numUniqueTiles = reader.ReadUInt16();
+
                 SchematicMetaTile[] uniqueTiles = new SchematicMetaTile[numUniqueTiles];
 
                 // 7: List of definitions of unique tiles. For modded tiles, their types are lookup indices to the mod tile and mod wall name arrays.
-                for (ushort i = 0; i < numUniqueTiles; ++i)
+                for (int i = 0; i < numUniqueTiles; ++i)
                 {
                     SchematicMetaTile smt = reader.ReadSchematicMetaTile();
                     ReplaceMetaIndicesWithLoadedIDs(ref smt, modTileNames, modWallNames);
@@ -643,7 +692,12 @@ namespace CalamityMod.Schematics
                 for (ushort y = 0; y < tileHeight; ++y)
                     for (ushort x = 0; x < tileWidth; ++x)
                     {
-                        ushort tileIndex = reader.ReadUInt16();
+                        uint tileIndex;
+                        if (isInfernumSchematic)
+                            tileIndex = reader.ReadUInt32();
+                        else
+                            tileIndex = reader.ReadUInt16();
+
                         ret[x, y] = uniqueTiles[tileIndex];
                     }
             }
