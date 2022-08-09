@@ -124,6 +124,7 @@ namespace CalamityMod.Items.Accessories
             if (heldItem != null && !heldItem.IsAir)
             {
                 DamageClass dc = heldItem.DamageType;
+                bool displayCrit = true;
                 bool displayAttackSpeed = true;
 
                 string damageClassName = "Unsupported";
@@ -146,10 +147,14 @@ namespace CalamityMod.Items.Accessories
                 else if (dc == DamageClass.Summon)
                 {
                     damageClassName = "Minion";
+                    displayCrit = false;
                     displayAttackSpeed = false; // Minions specifically don't display attack speed. Whips do.
                 }
                 else if (dc == DamageClass.SummonMeleeSpeed)
+                {
                     damageClassName = "Whip";
+                    displayCrit = false;
+                }
                 else if (dc == RogueDamageClass.Instance)
                     damageClassName = "Rogue";
                 else if (dc == DamageClass.Throwing)
@@ -193,8 +198,11 @@ namespace CalamityMod.Items.Accessories
                 }
 
                 // Newline between damage and crit
-                sb.Append('\n').Append(damageClassName).Append(" Crit Chance: ");
-                sb.Append(TwoPlaces(totalCrit)).Append('%');
+                if (displayCrit)
+                {
+                    sb.Append('\n').Append(damageClassName).Append(" Crit Chance: ");
+                    sb.Append(TwoPlaces(totalCrit)).Append('%');
+                }
 
                 if (displayAttackSpeed)
                 {
