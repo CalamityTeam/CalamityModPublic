@@ -82,10 +82,6 @@ namespace CalamityMod.Tiles.BaseTiles
 
         public override void SpecialDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            // We want to draw the pylon crystal the exact same way vanilla does, so we can use this built in method in ModPylon for default crystal drawing:
-            // DefaultDrawPylonCrystal(spriteBatch, i, j, crystalTexture, Color.White, CrystalFrameHeight, CrystalHorizontalFrameCount, CrystalVerticalFrameCount);
-            //Kill yourself tml! I won't use your dumb methods
-
             Vector2 offScreen = new Vector2(Main.offScreenRange);
             if (Main.drawToScreen)
             {

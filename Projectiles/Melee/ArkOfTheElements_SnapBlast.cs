@@ -47,7 +47,7 @@ namespace CalamityMod.Projectiles.Melee
         }
         public override void SetDefaults()
         {
-            Projectile.DamageType = DamageClass.Melee;
+            Projectile.DamageType = DamageClass.MeleeNoSpeed;
             Projectile.width = Projectile.height = 300;
             Projectile.width = Projectile.height = 300;
             Projectile.tileCollide = false;
