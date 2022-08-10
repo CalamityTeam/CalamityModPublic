@@ -1013,12 +1013,11 @@ namespace CalamityMod
         }
 
         /// <summary>
-        /// Extension which initializes a ModPylon to be a simple pylon.
-        /// ModPylon appears to make it easier to create a modded pylon extending ModTile.
-        /// <br>
-        /// Note: This is used for pylons that follow general vanilla functionality.
-        /// Pylons that have vastly different custom behavior require a different setup (refer to ExamplePylonTileAdvanced in ExampleMod).
-        /// </br>
+        /// Extension which initializes a ModPylon to be a simple pylon.<br />
+        /// ModPylon appears to make it easier to create a modded pylon extending ModTile.<br />
+        /// <br />
+        /// Note: This is used for pylons that follow general vanilla functionality.<br />
+        /// Pylons that have vastly different custom behavior require a different setup (refer to ExamplePylonTileAdvanced in ExampleMod).<br />
         /// </summary>
         /// <param name="mt">The ModPylon which is being initialized.</param>
         /// <param name="lavaImmune">Whether this tile is supposed to be immune to lava. Defaults to false.</param>
