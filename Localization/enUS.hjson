@@ -137,6 +137,52 @@ BiomeName:
     UndergroundAstralBiome: "Astral Underground",
 }
 
+ItemName:
+{
+    AstralPylon: "Astral Pylon",
+    CragsPylon: "Crags Pylon",
+    SulphurPylon: "Sulphur Pylon",
+    SunkenPylon: "Sunken Pylon",
+}
+
+ItemTooltip:
+{
+    AstralPylon:
+        '''
+        Teleport to another pylon when 2 villagers are nearby
+        You can only place one per type and in the matching biome
+        '''
+    CragsPylon:
+        '''
+        Teleport to another pylon when 2 villagers are nearby
+        The nature of the Crags allows you to teleport to this pylon without nearby villagers
+        You can only place one per type and in the matching biome
+        '''
+    SulphurPylon:
+        '''
+        Teleport to another pylon when 2 villagers are nearby
+        Through magical wards, this pylon allows nearby players to breathe underwater while active
+        This effect does not work in the abyss
+        Nearby players are also immune to the sulphuric poisoning while active
+        You can only place one per type and in the matching biome
+        '''
+    SunkenPylon:
+        '''
+        Teleport to another pylon when 2 villagers are nearby
+        Blessed by Amidias, this pylon allows nearby players to breathe underwater while active
+        You can only place one per type and in the matching biome
+        '''
+
+}
+
+MapIcon:
+{
+    AstralPylon: "{$Mods.CalamityMod.ItemName.AstralPylon}"
+    CragsPylon: "{$Mods.CalamityMod.ItemName.CragsPylon}"
+    SulphurPylon: "{$Mods.CalamityMod.ItemName.SulphurPylon}"
+    SunkenPylon: "{$Mods.CalamityMod.ItemName.SunkenPylon}"
+}
+
 TownNPCMood: 
 {
     DILF:

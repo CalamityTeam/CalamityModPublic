@@ -9,6 +9,7 @@ using CalamityMod.Items.Materials;
 using CalamityMod.Items.Mounts;
 using CalamityMod.Items.Placeables.Furniture.BossRelics;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
+using CalamityMod.Items.Placeables.Pylons;
 using CalamityMod.Items.TreasureBags;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
@@ -171,6 +172,9 @@ namespace CalamityMod.NPCs.BrimstoneElemental
 
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
+            // Conditional for changing the drop rate for Crags Pylons depending on if Brimmy is defeated or not.
+            var guaranteeCragsPylon = npcLoot.DefineConditionalDropSet(() => !DownedBossSystem.downedBrimstoneElemental);
+            
             npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<BrimstoneWaifuBag>()));
 
             // Normal drops: Everything that would otherwise be in the bag
@@ -200,6 +204,7 @@ namespace CalamityMod.NPCs.BrimstoneElemental
 
             }
 
+            // Trophy
             npcLoot.Add(ModContent.ItemType<BrimstoneElementalTrophy>(), 10);
 
             // Relic
@@ -207,6 +212,10 @@ namespace CalamityMod.NPCs.BrimstoneElemental
 
             // Lore
             npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedBrimstoneElemental, ModContent.ItemType<KnowledgeBrimstoneElemental>());
+
+            // Crags Pylon
+            guaranteeCragsPylon.Add(ModContent.ItemType<CragsPylon>()); // guaranteed on first kill
+            npcLoot.AddIf(() => DownedBossSystem.downedBrimstoneElemental, ModContent.ItemType<CragsPylon>(), 4); // 25% chance on subsequent kills
         }
 
         public override void OnKill()

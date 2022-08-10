@@ -6,6 +6,7 @@ using Terraria.Enums;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Default;
 using Terraria.ObjectData;
 using static Terraria.ModLoader.ModContent;
 using Terraria.Audio;
@@ -1009,6 +1010,37 @@ namespace CalamityMod
 
             // All platforms count as doors (so that you may have top-or-bottom entry/exit rooms)
             mt.AddToArray(ref TileID.Sets.RoomNeeds.CountsAsDoor);
+        }
+
+        /// <summary>
+        /// Extension which initializes a ModPylon to be a simple pylon.<br />
+        /// ModPylon appears to make it easier to create a modded pylon extending ModTile.<br />
+        /// <br />
+        /// Note: This is used for pylons that follow general vanilla functionality.<br />
+        /// Pylons that have vastly different custom behavior require a different setup (refer to ExamplePylonTileAdvanced in ExampleMod).<br />
+        /// </summary>
+        /// <param name="mt">The ModPylon which is being initialized.</param>
+        /// <param name="lavaImmune">Whether this tile is supposed to be immune to lava. Defaults to false.</param>
+        internal static void SetUpPylon(this ModPylon mp, TEModdedPylon pylonHook, bool lavaImmune = false, int offset = 2)
+        {
+
+            Main.tileLighted[mp.Type] = true;
+            Main.tileFrameImportant[mp.Type] = true;
+            Main.tileLavaDeath[mp.Type] = !lavaImmune;
+            TileObjectData.newTile.CopyFrom(TileObjectData.Style3x4);
+
+            // These definitions allow for vanilla's pylon TileEntities to be placed.
+            // tModLoader has a built in Tile Entity specifically for modded pylons, which is extended through TECalamityPylon.
+            TileObjectData.newTile.HookCheckIfCanPlace = new PlacementHook(pylonHook.PlacementPreviewHook_CheckIfCanPlace, 1, 0, true);
+            TileObjectData.newTile.HookPostPlaceMyPlayer = new PlacementHook(pylonHook.Hook_AfterPlacement, -1, 0, false);
+
+            TileObjectData.newTile.StyleHorizontal = true;
+            TileObjectData.newTile.LavaDeath = !lavaImmune;
+            TileObjectData.newTile.DrawYOffset = offset;
+            TileObjectData.addTile(mp.Type);
+
+            // Adds functionality for proximity of pylons; if this is true, then being near this tile will count as being near a pylon for the teleportation process.
+            mp.AddToArray(ref TileID.Sets.CountsAsPylon);
         }
 
         /// <summary>
