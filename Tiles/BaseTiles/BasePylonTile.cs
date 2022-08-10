@@ -51,7 +51,6 @@ namespace CalamityMod.Tiles.BaseTiles
             TileID.Sets.InteractibleByNPCs[Type] = true;
             TileID.Sets.PreventsSandfall[Type] = true;
 
-            //TODO - put a localization for the pylon name!!! Mods.CalamityMod.MapObject.THENAMEOFTHETILE
             ModTranslation pylonName = CreateMapEntryName();
             AddMapEntry(PylonMapColor, pylonName);
         }
