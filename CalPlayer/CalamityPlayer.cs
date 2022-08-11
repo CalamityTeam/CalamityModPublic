@@ -3332,17 +3332,6 @@ namespace CalamityMod.CalPlayer
                 meleeSpeedMult += GemTechHeadgear.MeleeSpeedBoost;
 
             Player.GetAttackSpeed<MeleeDamageClass>() += meleeSpeedMult;
-
-            // Melee speed does not affect non-true melee weapon projectile rate of fire.
-            if (Player.HoldingProjectileMeleeWeapon())
-            {
-                // Melee weapons that fire any kind of projectile don't benefit from melee speed anymore, so they get a damage boost from it instead.
-                Player.GetDamage<MeleeDamageClass>() += (Player.GetAttackSpeed<MeleeDamageClass>() - 1f) * 0.5f;
-
-                // Set melee speed to 1f.
-                float newMeleeSpeed = 1f + ((Player.GetAttackSpeed<MeleeDamageClass>() - 1f) * projectileMeleeWeaponMeleeSpeedMultiplier);
-                Player.GetAttackSpeed<MeleeDamageClass>() = newMeleeSpeed;
-            }
             #endregion
 
             if (snowman)
