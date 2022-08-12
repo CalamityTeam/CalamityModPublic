@@ -45,7 +45,6 @@ namespace CalamityMod.Items.TreasureBags
             // Materials
             itemLoot.Add(ModContent.ItemType<UnholyEssence>(), 1, 25, 35);
             itemLoot.Add(ModContent.ItemType<DivineGeode>(), 1, 30, 40);
-            itemLoot.Add(ItemID.Stinger, 1, 4, 8);
 
             // Weapons
             itemLoot.Add(DropHelper.CalamityStyle(DropHelper.BagWeaponDropRateFraction, new int[]
