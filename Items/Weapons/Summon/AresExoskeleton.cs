@@ -27,13 +27,13 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public const float TargetingDistance = 1020f;
 
-        public const float MinionSlotsPerCannon = 2f;
+        public const float MinionSlotsPerCannon = 3f;
 
         // Multiple orbs can arc together when there are 2+ tesla cannons, resulting in a LOT of hits.
         // The local i-frames are also quite high to combat this problem.
-        public const float TeslaOrbDamageFactor = 0.9f;
+        public const float TeslaOrbDamageFactor = 1.1f;
 
-        public const float NukeDamageFactor = 1.25f;
+        public const float NukeDamageFactor = 1f;
 
         public const float MaxNukeExplosionRadius = 720f;
 
