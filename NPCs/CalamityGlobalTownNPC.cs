@@ -123,6 +123,7 @@ namespace CalamityMod.NPCs
             "Good Game Design", // <@!564267767042277385> (Dominic Karma#7777)
             "Danmaku", // <@!756259562268524555> (Danmaku#2659)
             "Grylken", // <@!299970404435361802> (Grylken#1569)
+            "Outlaw", // <@!918311619480657922> (TheChosenOutlaw#8746)
         };
         private const int MechanicVanillaNames = 24;
         private static readonly string[] MechanicNames =
