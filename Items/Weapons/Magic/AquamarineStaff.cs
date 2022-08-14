@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Items.Placeables;
+using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -56,12 +57,14 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             CreateRecipe().
                 AddIngredient(ItemID.RubyStaff).
+                AddIngredient<PearlShard>(3).
                 AddIngredient<SeaPrism>(5).
                 AddIngredient<Navystone>(25).
                 AddTile(TileID.Anvils).
                 Register();
             CreateRecipe().
                 AddIngredient(ItemID.DiamondStaff).
+                AddIngredient<PearlShard>(3).
                 AddIngredient<SeaPrism>(5).
                 AddIngredient<Navystone>(25).
                 AddTile(TileID.Anvils).

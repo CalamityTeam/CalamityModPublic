@@ -1,5 +1,6 @@
 ﻿using Terraria.DataStructures;
 using CalamityMod.Items.Placeables;
+using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -55,6 +56,7 @@ Stealth strikes are faster and explode into 5 bubbles");
             CreateRecipe().
                 AddIngredient(ItemID.Bomb, 25).
                 AddIngredient<SeaPrism>(10).
+                AddIngredient<PearlShard>().
                 AddTile(TileID.Anvils).
                 Register();
         }

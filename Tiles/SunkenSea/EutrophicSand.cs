@@ -24,7 +24,6 @@ namespace CalamityMod.Tiles.SunkenSea
             name.SetDefault("Eutrophic Sand");
             AddMapEntry(new Color(100, 100, 150), name);
             MineResist = 2f;
-            TileID.Sets.DoesntGetReplacedWithTileReplacement[Type] = true; //TODO -- Temporary, allow tile to be swapped when DS is dead.
         }
 
         public override bool CanKillTile(int i, int j, ref bool blockDamaged)
