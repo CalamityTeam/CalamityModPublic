@@ -4012,7 +4012,7 @@ namespace CalamityMod.CalPlayer
                 }
                 if (dragonFire)
                 {
-                    damageSource = PlayerDeathReason.ByCustomReason(Player.name + " disintegrated into ashes.");
+                    damageSource = PlayerDeathReason.ByCustomReason(Player.name + "'s ashes scatter in the wind.");
                 }
                 if (hInferno)
                 {

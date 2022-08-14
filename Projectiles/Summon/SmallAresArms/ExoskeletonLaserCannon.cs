@@ -18,7 +18,7 @@ namespace CalamityMod.Projectiles.Summon.SmallAresArms
         
         public override int ShootRate => ShootCounter % NormalLasersBeforeBeam == 0f ? 150 : AresExoskeleton.LaserCannonNormalShootRate;
 
-        public override float ShootSpeed => 13.5f;
+        public override float ShootSpeed => 19f;
 
         public override Vector2 OwnerRestingOffset => HoverOffsetTable[HoverOffsetIndex];
 

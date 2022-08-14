@@ -50,6 +50,7 @@ namespace CalamityMod.Items.Weapons.Typeless
                 AddIngredient<SeaPrism>(15).
                 AddIngredient<AerialiteBar>(15).
                 AddIngredient(ItemID.SunplateBlock, 15).
+                AddIngredient<PearlShard>(2).
                 AddTile(TileID.Anvils).
                 Register();
         }
