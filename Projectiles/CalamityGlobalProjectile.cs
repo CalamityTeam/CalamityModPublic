@@ -2455,9 +2455,13 @@ namespace CalamityMod.Projectiles
                 }
             }
 
-            if (projectile.type == ProjectileID.QueenBeeStinger || projectile.type == ProjectileID.QueenSlimeGelAttack ||
-                projectile.type == ProjectileID.QueenSlimeMinionBlueSpike || projectile.type == ProjectileID.QueenSlimeMinionPinkBall ||
-                projectile.type == ProjectileID.Stinger)
+            if (projectile.type == ProjectileID.Stinger)
+                return new Color(200, 200, 0, projectile.alpha);
+
+            if (projectile.type == ProjectileID.QueenBeeStinger)
+                return new Color(250, 250, 0, projectile.alpha);
+
+            if (projectile.type == ProjectileID.QueenSlimeGelAttack || projectile.type == ProjectileID.QueenSlimeMinionBlueSpike || projectile.type == ProjectileID.QueenSlimeMinionPinkBall)
                 return new Color(255, 255, 255, projectile.alpha);
 
             if (projectile.type == ProjectileID.PinkLaser)

@@ -5152,8 +5152,10 @@ namespace CalamityMod.NPCs
             if (npc.Calamity().kamiFlu > 0 && !CalamityLists.kamiDebuffColorImmuneList.Contains(npc.type))
                 return new Color(51, 197, 108, npc.alpha);
 
-            if (npc.type == NPCID.AncientDoom || npc.type == NPCID.VileSpit || npc.type == NPCID.VileSpitEaterOfWorlds ||
-                npc.type == NPCID.QueenSlimeMinionBlue || npc.type == NPCID.QueenSlimeMinionPink || npc.type == NPCID.QueenSlimeMinionPurple)
+            if (npc.type == NPCID.VileSpit || npc.type == NPCID.VileSpitEaterOfWorlds)
+                return new Color(150, 200, 0, npc.alpha);
+
+            if (npc.type == NPCID.AncientDoom || npc.type == NPCID.QueenSlimeMinionBlue || npc.type == NPCID.QueenSlimeMinionPink || npc.type == NPCID.QueenSlimeMinionPurple)
                 return new Color(255, 255, 255, npc.alpha);
 
             return null;
