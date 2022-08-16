@@ -7,6 +7,7 @@ using Terraria;
 using Terraria.Enums;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.Buffs.DamageOverTime;
 
 namespace CalamityMod.Projectiles.Melee
 {
@@ -144,7 +145,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(BuffID.Daybreak, 180);
+            target.AddBuff(ModContent.BuffType<Dragonfire>(), 180);
             OnHitEffects(target.Center);
         }
 

@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Items.Placeables;
+using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee.Yoyos;
 using Terraria;
 using Terraria.ID;
@@ -47,6 +48,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             CreateRecipe().
+                AddIngredient<PearlShard>(3).
                 AddIngredient<SeaPrism>(7).
                 AddIngredient<Navystone>(10).
                 AddTile(TileID.Anvils).

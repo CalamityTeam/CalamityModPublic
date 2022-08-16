@@ -1,5 +1,7 @@
 ﻿using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.Items.Materials;
+
 namespace CalamityMod.Items.Placeables.Furniture.CraftingStations
 {
     [LegacyName("EutrophicCrafting")]
@@ -28,7 +30,13 @@ namespace CalamityMod.Items.Placeables.Furniture.CraftingStations
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<Navystone>(), 10).AddIngredient(ModContent.ItemType<SeaPrism>(), 5).AddIngredient(ModContent.ItemType<PrismShard>(), 5).AddTile(TileID.WorkBenches).Register();
+            CreateRecipe().
+                AddIngredient<Navystone>(10).
+                AddIngredient<SeaPrism>(5).
+                AddIngredient<PrismShard>(5).
+                AddIngredient<PearlShard>(3).
+                AddTile(TileID.WorkBenches).
+                Register();
         }
     }
 }

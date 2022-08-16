@@ -262,7 +262,7 @@ namespace CalamityMod.CalPlayer
                     Player.lifeRegen = 0;
 
                 Player.lifeRegenTime = 0;
-                lifeRegenLost += 18;
+                lifeRegenLost += 36;
             }
 
             if (cDepth)

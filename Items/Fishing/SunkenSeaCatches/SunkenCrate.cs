@@ -40,7 +40,7 @@ namespace CalamityMod.Items.Fishing.SunkenSeaCatches
         public override bool CanRightClick() => true;
         public override void ModifyItemLoot(ItemLoot itemLoot)
         {
-            var postDesertScourge = itemLoot.DefineConditionalDropSet(() => DownedBossSystem.downedCLAMHardMode);
+            var postDesertScourge = itemLoot.DefineConditionalDropSet(() => DownedBossSystem.downedDesertScourge);
             var postHardmodeClam = itemLoot.DefineConditionalDropSet(() => DownedBossSystem.downedCLAMHardMode);
 
             // Materials
@@ -71,6 +71,5 @@ namespace CalamityMod.Items.Fishing.SunkenSeaCatches
             itemLoot.Add(ItemID.SilverCoin, 1, 10, 90);
             itemLoot.Add(ItemID.GoldCoin, 2, 1, 5);
         }
-
     }
 }

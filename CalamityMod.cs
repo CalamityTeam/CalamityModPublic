@@ -615,11 +615,11 @@ namespace CalamityMod
                 { NPCID.EaterofWorldsHead, 7200 }, // 2:00 (120 seconds)
                 { NPCID.EaterofWorldsBody, 7200 },
                 { NPCID.EaterofWorldsTail, 7200 },
-                { NPCID.BrainofCthulhu, 5400 }, // 1:30 (90 seconds)
-                { NPCID.Creeper, 1800 }, // 0:30 (30 seconds)
+                { NPCID.BrainofCthulhu, 5400 }, // 1:30 (90 seconds, total length of fight including Creepers phase)
+                { NPCID.Creeper, 1800 }, // 0:30 (30 seconds, length of Creepers phase)
                 { NPCID.Deerclops, 5400 }, // 1:30 (90 seconds)
                 { NPCID.QueenBee, 7200 }, // 2:00 (120 seconds)
-                { NPCID.SkeletronHead, 9000 }, // 2:30 (150 seconds)
+                { NPCID.SkeletronHead, 7200 }, // 2:00 (120 seconds)
                 { NPCID.WallofFlesh, 7200 }, // 2:00 (120 seconds)
                 { NPCID.WallofFleshEye, 7200 },
                 { NPCID.QueenSlimeBoss, 7200 }, // 2:00 (120 seconds)
@@ -648,11 +648,11 @@ namespace CalamityMod
                 { ModContent.NPCType<Crabulon>(), 5400 }, // 1:30 (90 seconds)
                 { ModContent.NPCType<HiveMind>(), 7200 }, // 2:00 (120 seconds)
                 { ModContent.NPCType<PerforatorHive>(), 7200 }, // 2:00 (120 seconds)
-                { ModContent.NPCType<SlimeGodCore>(), 10800 }, // 3:00 (180 seconds) -- total length of Slime God fight
-                { ModContent.NPCType<EbonianSlimeGod>(), 5400 }, // 1:30 (90 seconds)
-                { ModContent.NPCType<CrimulanSlimeGod>(), 5400 }, // 1:30 (90 seconds)
-                { ModContent.NPCType<SplitEbonianSlimeGod>(), 5400 }, // 1:30 (90 seconds) -- split slimes should spawn at 1:30 and die at around 3:00
-                { ModContent.NPCType<SplitCrimulanSlimeGod>(), 5400 }, // 1:30 (90 seconds)
+                { ModContent.NPCType<SlimeGodCore>(), 9000 }, // 2:30 (150 seconds) -- total length of Slime God fight
+                { ModContent.NPCType<EbonianSlimeGod>(), 4500 }, // 1:15 (75 seconds)
+                { ModContent.NPCType<CrimulanSlimeGod>(), 4500 }, // 1:15 (75 seconds)
+                { ModContent.NPCType<SplitEbonianSlimeGod>(), 4500 }, // 1:15 (75 seconds) -- split slimes should spawn at 1:15 and die at around 2:30
+                { ModContent.NPCType<SplitCrimulanSlimeGod>(), 4500 }, // 1:15 (75 seconds)
                 { ModContent.NPCType<Cryogen>(), 10800 }, // 3:00 (180 seconds)
                 { ModContent.NPCType<AquaticScourgeHead>(), 7200 }, // 2:00 (120 seconds)
                 { ModContent.NPCType<AquaticScourgeBody>(), 7200 },
@@ -680,8 +680,8 @@ namespace CalamityMod
                 { ModContent.NPCType<Polterghast>(), 10800 }, // 3:00 (180 seconds)
                 { ModContent.NPCType<OldDuke>(), 10800 }, // 3:00 (180 seconds)
                 { ModContent.NPCType<DevourerofGodsHead>(), 14400 }, // 4:00 (240 seconds)
-                { ModContent.NPCType<DevourerofGodsBody>(), 14400 }, // NOTE: Sentinels Phase takes 1:00, so with that included it's 5:00
-                { ModContent.NPCType<DevourerofGodsTail>(), 14400 }, // DoG Phase 1 is 1:30, DoG Phase 2 is 2:30
+                { ModContent.NPCType<DevourerofGodsBody>(), 14400 }, // DoG Phase 1 is 1:30, DoG Phase 2 is 2:30
+                { ModContent.NPCType<DevourerofGodsTail>(), 14400 },
                 { ModContent.NPCType<Yharon>(), 14700 }, // 4:05 (245 seconds) -- he spends 5 seconds invincible where you can't do anything
                 { ModContent.NPCType<Apollo>(), 21600 }, // 6:00 (360 seconds)
                 { ModContent.NPCType<Artemis>(), 21600 },

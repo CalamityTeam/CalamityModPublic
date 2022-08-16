@@ -46,6 +46,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             CreateRecipe().
                 AddIngredient<StormlionMandible>().
+                AddIngredient<PearlShard>(3).
                 AddIngredient<SeaPrism>(7).
                 AddIngredient<Navystone>(10).
                 AddTile(TileID.Anvils).

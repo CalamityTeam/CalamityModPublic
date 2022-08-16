@@ -397,7 +397,7 @@ namespace CalamityMod.UI
         {
             //No swap on server (although this doesn't matter anymore since it's not an item but dnc.
             //No swap if the requested difficulty is the same as the current one
-            if (Main.netMode == NetmodeID.MultiplayerClient || mode == GetCurrentDifficulty)
+            if (mode == GetCurrentDifficulty)
                 return;
 
             //Todo, maybe in the future having a way to have multiple difficulty options on the same tier that can coexist, and it works in branching pathes? Not very necessary for cal & addons

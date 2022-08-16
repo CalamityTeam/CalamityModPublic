@@ -37,7 +37,7 @@ namespace CalamityMod
 
             if (Main.netMode == NetmodeID.SinglePlayer)
                 Main.NewText(Language.GetTextValue(key), textColor.Value);
-            else if (Main.netMode == NetmodeID.Server)
+            else if (Main.netMode == NetmodeID.Server || Main.netMode == NetmodeID.MultiplayerClient)
                 ChatHelper.BroadcastChatMessage(NetworkText.FromKey(key), textColor.Value);
         }
 

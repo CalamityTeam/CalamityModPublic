@@ -98,7 +98,7 @@ namespace CalamityMod.Projectiles.Rogue
                 if (calamityPlayer.rogueStealth > calamityPlayer.rogueStealthMax)
                     calamityPlayer.rogueStealth = calamityPlayer.rogueStealthMax;
                 HasRegeneratedStealth = true;
-                target.AddBuff(ModContent.BuffType<HolyFlames>(), 300);
+                target.AddBuff(ModContent.BuffType<Dragonfire>(), 300);
             }
         }
         public override bool PreDraw(ref Color lightColor)

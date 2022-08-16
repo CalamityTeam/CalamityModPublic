@@ -219,6 +219,7 @@ namespace CalamityMod.NPCs
 
         public int cDepth = 0;
         public int gsInferno = 0;
+        public int dragonFire = 0;
         public int astralInfection = 0;
         public int wDeath = 0;
         public int nightwither = 0;
@@ -404,6 +405,7 @@ namespace CalamityMod.NPCs
 
             myClone.cDepth = cDepth;
             myClone.gsInferno = gsInferno;
+            myClone.dragonFire = dragonFire;
             myClone.astralInfection = astralInfection;
             myClone.wDeath = wDeath;
             myClone.nightwither = nightwither;
@@ -839,6 +841,13 @@ namespace CalamityMod.NPCs
             {
                 int baseGodSlayerInfernoDoTValue = (int)((npc.oiled ? 500 : 250) * heatDamageMult);
                 ApplyDPSDebuff(baseGodSlayerInfernoDoTValue, baseGodSlayerInfernoDoTValue / 5, ref npc.lifeRegen, ref damage);
+            }
+
+            // Dragonfire
+            if (dragonFire > 0)
+            {
+                int baseDragonFireDoTValue = (int)((npc.oiled ? 2000 : 1000) * heatDamageMult);
+                ApplyDPSDebuff(baseDragonFireDoTValue, baseDragonFireDoTValue / 5, ref npc.lifeRegen, ref damage);
             }
 
             // Demon Flames
@@ -3989,6 +3998,8 @@ namespace CalamityMod.NPCs
                 cDepth--;
             if (gsInferno > 0)
                 gsInferno--;
+            if (dragonFire > 0)
+                dragonFire--;
             if (astralInfection > 0)
                 astralInfection--;
             if (wDeath > 0)
@@ -4983,6 +4994,23 @@ namespace CalamityMod.NPCs
                 Lighting.AddLight(npc.position, 0.1f, 0f, 0.135f);
             }
 
+            if (dragonFire > 0)
+            {
+                if (Main.rand.Next(5) < 4)
+                {
+                    int dust = Dust.NewDust(npc.position - new Vector2(2f, 2f), npc.width + 4, npc.height + 4, (int)CalamityDusts.ProfanedFire, npc.velocity.X * 0.4f, npc.velocity.Y * 0.4f, 100, default, 1.5f);
+                    Main.dust[dust].noGravity = true;
+                    Main.dust[dust].velocity *= 1.2f;
+                    Main.dust[dust].velocity.Y -= 0.15f;
+                    if (Main.rand.NextBool(4))
+                    {
+                        Main.dust[dust].noGravity = false;
+                        Main.dust[dust].scale *= 0.5f;
+                    }
+                }
+                Lighting.AddLight(npc.position, 0.1f, 0f, 0.135f);
+            }
+
             if (astralInfection > 0)
             {
                 if (Main.rand.Next(5) < 3)
@@ -5152,8 +5180,10 @@ namespace CalamityMod.NPCs
             if (npc.Calamity().kamiFlu > 0 && !CalamityLists.kamiDebuffColorImmuneList.Contains(npc.type))
                 return new Color(51, 197, 108, npc.alpha);
 
-            if (npc.type == NPCID.AncientDoom || npc.type == NPCID.VileSpit || npc.type == NPCID.VileSpitEaterOfWorlds ||
-                npc.type == NPCID.QueenSlimeMinionBlue || npc.type == NPCID.QueenSlimeMinionPink || npc.type == NPCID.QueenSlimeMinionPurple)
+            if (npc.type == NPCID.VileSpit || npc.type == NPCID.VileSpitEaterOfWorlds)
+                return new Color(150, 200, 0, npc.alpha);
+
+            if (npc.type == NPCID.AncientDoom || npc.type == NPCID.QueenSlimeMinionBlue || npc.type == NPCID.QueenSlimeMinionPink || npc.type == NPCID.QueenSlimeMinionPurple)
                 return new Color(255, 255, 255, npc.alpha);
 
             return null;
@@ -5180,6 +5210,8 @@ namespace CalamityMod.NPCs
                         buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/DemonFlames").Value);
                     if (gsInferno > 0)
                         buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/GodSlayerInferno").Value);
+                    if (dragonFire > 0)
+                        buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/Dragonfire").Value);
                     if (hFlames > 0)
                         buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/HolyFlames").Value);
                     if (nightwither > 0)

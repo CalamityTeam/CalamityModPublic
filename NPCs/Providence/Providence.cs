@@ -897,7 +897,7 @@ namespace CalamityMod.NPCs.Providence
                         {
                             NPC.ai[3] = 0f;
 
-                            Vector2 vector113 = new Vector2(vector.X, NPC.position.Y + NPC.height - 14f * NPC.scale);
+                            Vector2 vector113 = new Vector2(vector.X, NPC.position.Y + NPC.height - 64f * NPC.scale);
 
                             float num865 = NPC.velocity.Y;
                             if (num865 < 0f)

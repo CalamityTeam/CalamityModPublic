@@ -47,7 +47,7 @@ namespace CalamityMod.Projectiles.Summon.SmallAresArms
             SoundEngine.PlaySound(TeslaCannon.FireSound, Projectile.Center);
             if (Main.myPlayer == Projectile.owner)
             {
-                int boom = Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<MinionGaussBoom>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                int boom = Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<MinionGaussBoom>(), (int)(Projectile.damage * 1.1f), Projectile.knockBack, Projectile.owner);
                 if (Main.projectile.IndexInRange(boom))
                 {
                     Main.projectile[boom].ai[1] = AresExoskeleton.MaxNukeExplosionRadius;
