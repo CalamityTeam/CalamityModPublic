@@ -214,7 +214,8 @@ namespace CalamityMod.NPCs.SlimeGod
             }
 
             // Get ready to teleport by increasing ai[3]
-            if (NPC.ai[3] < teleportGateValue)
+            // This only occurs in Rev and Death for the split Slime Gods
+            if (NPC.ai[3] < teleportGateValue && revenge)
             {
                 if (!Collision.CanHitLine(NPC.Center, 0, 0, player.Center, 0, 0) || Math.Abs(NPC.Top.Y - player.Bottom.Y) > 320f)
                     NPC.ai[3] += death ? 3f : 2f;
