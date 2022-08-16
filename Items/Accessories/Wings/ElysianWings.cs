@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Accessories.Wings
             SacrificeTotal = 1;
             DisplayName.SetDefault("Elysian Wings");
             Tooltip.SetDefault("Blessed by the Profaned Flame\n" +
-                "Horizontal speed: 9.75\n" +
+                "Horizontal speed: 9.5\n" +
                 "Acceleration multiplier: 2.7\n" +
                 "Great vertical speed\n" +
                 "Flight time: 240\n" +
