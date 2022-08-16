@@ -324,21 +324,28 @@ namespace CalamityMod.Items
                 #region Miscellaneous
                 // Bat Hook is now acquired from Vampires.
                 case ItemID.GoodieBag:
-                    SequentialRulesNotScalingWithLuckRule spaghettiBag = null;
-                    foreach (IItemDropRule rule in rules)
-                        if (rule is SequentialRulesNotScalingWithLuckRule s)
-                            spaghettiBag = s;
-                    if (spaghettiBag is null)
-                        break;
-                    foreach (IItemDropRule rule in spaghettiBag.rules)
-                        if (rule is CommonDropNotScalingWithLuck WHY && WHY.itemId == ItemID.BatHook)
-                        {
-                            WHY.chanceNumerator = 0;
-                            WHY.chanceDenominator = 1;
-                        }
+                    RemoveBatHookFromGoodieBag(rules);
                     break;
                 #endregion
             }
+        }
+        #endregion
+
+        #region Goodie Bag Bat Hook
+        private static void RemoveBatHookFromGoodieBag(IList<IItemDropRule> rules)
+        {
+            SequentialRulesNotScalingWithLuckRule rule1 = null;
+            foreach (IItemDropRule rule in rules)
+                if (rule is SequentialRulesNotScalingWithLuckRule s)
+                    rule1 = s;
+            if (rule1 is null)
+                return;
+            foreach (IItemDropRule rule in rule1.rules)
+                if (rule is CommonDropNotScalingWithLuck rule2 && rule2.itemId == ItemID.BatHook)
+                {
+                    rule2.chanceNumerator = 0;
+                    rule2.chanceDenominator = 1;
+                }
         }
         #endregion
     }

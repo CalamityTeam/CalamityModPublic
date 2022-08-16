@@ -17,9 +17,8 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.DamageType = DamageClass.Ranged;
             Projectile.aiStyle = 1;
             AIType = ProjectileID.PlatinumCoin;
-            Projectile.width = 10; //Cool gaming facts: the vanilla coin projectiles are literally 4 pixels in hitbox size
+            Projectile.width = 10; // Cool gaming facts: the vanilla coin projectiles are literally 4 pixels in hitbox size
             Projectile.height = 10;
-            Projectile.CritChance = 50;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

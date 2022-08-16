@@ -45,7 +45,7 @@ namespace CalamityMod.Projectiles.Ranged
             Vector2 playerpos = player.RotatedRelativePoint(player.MountedCenter, true);
             bool shouldBeHeld = player.channel && !player.noItems && !player.CCed;
 
-            int shot = ProjectileID.CopperCoin;
+            int shot;
             float scaleFactor = 14f;
             int weaponDamage = player.GetWeaponDamage(player.ActiveItem());
             float weaponKnockback = player.ActiveItem().knockBack;
@@ -126,7 +126,7 @@ namespace CalamityMod.Projectiles.Ranged
                     // If the animation isn't playing and the cooldown timer is at or below 0
                     if (!rolling && rolltimer <= 0)
                     {
-                        //Jackpot gets special benefits since it shoots multiple rounds
+                        // Jackpot gets special benefits since it shoots multiple rounds
                         if (Projectile.ai[1] == 4)
                         {
                             shottimer++;
@@ -139,7 +139,8 @@ namespace CalamityMod.Projectiles.Ranged
                             // Every 5 frames, shoot 7 coins. The first 5 frames are excluded for timing purposes
                             if (shottimer % 5 == 0 && shottimer > 5)
                             {
-                                Shoot(7, ModContent.ProjectileType<SevensStrikerPlatinumCoin>(), weaponDamage, weaponKnockback, (int)scaleFactor * 2f, 0.2f);
+                                int jackpotDamage = (int)(weaponDamage * TheSevensStriker.JackpotMultiplier);
+                                Shoot(7, ModContent.ProjectileType<SevensStrikerPlatinumCoin>(), jackpotDamage, weaponKnockback, (int)scaleFactor * 2f, 0.2f);
                                 SoundEngine.PlaySound(TheSevensStriker.CoinSound, Projectile.Center);
                             }
                             // After 7 waves have been shot, reset the gun and roll again
@@ -160,22 +161,26 @@ namespace CalamityMod.Projectiles.Ranged
                                 // The other three outcomes
                                 switch (Projectile.ai[1])
                                 {
-                                    // A single brick that deals 10% damage
+                                    // A single brick with 100% damage
                                     case 1:
-                                        Shoot(1, ModContent.ProjectileType<SevensStrikerBrick>(), Projectile.damage, 0, 2f, 0);
+                                        Shoot(1, ModContent.ProjectileType<SevensStrikerBrick>(), weaponDamage, 0, 2f, 0);
                                         CombatText.NewText(player.getRect(), Color.Gray, "Bust!", true);
                                         SoundEngine.PlaySound(TheSevensStriker.BustSound, Projectile.Center);
                                         break;
-                                    // 7 exploding oranges
+                                    // 7 exploding oranges with 200% damage
                                     case 2:
-                                        Shoot(7, ModContent.ProjectileType<SevensStrikerOrange>(), Projectile.damage, Projectile.knockBack, 2f, 0.1f);
+                                        int doublesDamage = (int)(weaponDamage * TheSevensStriker.DoublesMultiplier);
+                                        Shoot(7, ModContent.ProjectileType<SevensStrikerOrange>(), doublesDamage, weaponKnockback, 2f, 0.1f);
                                         CombatText.NewText(player.getRect(), Color.Orange, "Doubles!", true);
                                         SoundEngine.PlaySound(TheSevensStriker.DoublesSound, Projectile.Center);
                                         break;
-                                    // 7 piercing grapes with 7 tighter splitting cherries
+                                    // 7 piercing grapes with X% damage
+                                    // Also fires 7 splitting cherries in a tighter spread with Y% damage
                                     case 3:
-                                        Shoot(7, ModContent.ProjectileType<SevensStrikerCherry>(), (int)(Projectile.damage * 0.5f), Projectile.knockBack, 1.5f, 0.1f);
-                                        Shoot(7, ModContent.ProjectileType<SevensStrikerGrape>(), Projectile.damage, Projectile.knockBack, 2f, 0.2f);
+                                        int cherryDamage = (int)(weaponDamage * TheSevensStriker.TriplesCherryMultiplier);
+                                        int grapeDamage = (int)(weaponDamage * TheSevensStriker.TriplesGrapeMultiplier);
+                                        Shoot(7, ModContent.ProjectileType<SevensStrikerCherry>(), cherryDamage, weaponKnockback, 1.5f, 0.1f);
+                                        Shoot(7, ModContent.ProjectileType<SevensStrikerGrape>(), grapeDamage, weaponKnockback, 2f, 0.2f);
                                         CombatText.NewText(player.getRect(), Color.Red, "Triples!", true);
                                         SoundEngine.PlaySound(TheSevensStriker.TriplesSound, Projectile.Center);
                                         break;
@@ -327,16 +332,16 @@ namespace CalamityMod.Projectiles.Ranged
             return false;
         }
 
+        // When the gun disappears, stop any in-progress slots sounds and set a cooldown of 12 frames.
         public override void Kill(int timeLeft)
         {
             if (SoundEngine.TryGetActiveSound(RouletteSoundSlot, out var dringdring))
-            {
                 dringdring.Stop();
-            }
 
             Main.player[Projectile.owner].SetDummyItemTime(12);
         }
 
+        // This gun does not deal melee damage, thanks.
         public override bool? CanDamage() => false;
     }
 }
