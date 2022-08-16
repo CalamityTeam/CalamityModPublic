@@ -390,12 +390,9 @@ namespace CalamityMod.World
                 contents.Insert(0, new ChestItem(ModContent.ItemType<DraedonsLogSnowBiome>(), 1));
                 contents.Insert(1, new ChestItem(ModContent.ItemType<EncryptedSchematicIce>(), 1));
             }
-            // If it's a frozen chest.
+            // If it's a frozen chest, add Arctic Diving Gear to it.
             if (type == TileID.Containers)
-            {
-                int specialItem = Utils.SelectRandom(WorldGen.genRand, ItemID.ArcticDivingGear, ItemID.BlizzardinaBalloon, ItemID.FrozenTurtleShell);
-                contents.Insert(0, new ChestItem(specialItem, 1));
-            }
+                contents.Insert(0, new ChestItem(ItemID.ArcticDivingGear, 1));
             for (int i = 0; i < contents.Count; i++)
             {
                 chest.item[i].SetDefaults(contents[i].Type);
