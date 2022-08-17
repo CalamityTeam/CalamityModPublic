@@ -46,7 +46,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             {
                 Vector2 perturbedSpeed = velocity.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (float)(numProj - 1)));
 
-                if (type == ProjectileID.WoodenArrowFriendly)
+                if (CalamityUtils.CheckWoodenAmmo(type, player))
                     Projectile.NewProjectile(source, position, perturbedSpeed, ModContent.ProjectileType<BrimstoneBolt>(), damage, knockback, player.whoAmI);
                 else
                 {

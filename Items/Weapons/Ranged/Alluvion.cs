@@ -58,7 +58,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 if (!canHit)
                     offset -= velocity;
 
-                if (type == ProjectileID.WoodenArrowFriendly)
+                if (CalamityUtils.CheckWoodenAmmo(type, player))
                 {
                     int newType = type;
                     switch (i)

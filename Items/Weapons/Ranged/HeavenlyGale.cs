@@ -78,7 +78,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 if (againstWall)
                     offset -= baseOffset;
 
-                if (type == ProjectileID.WoodenArrowFriendly)
+                if (CalamityUtils.CheckWoodenAmmo(type, player))
                 {
                     int thisArrowType = Main.rand.Next(ExoArrows);
                     // Teal exo arrows deal less damage.

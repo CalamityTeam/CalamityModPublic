@@ -85,7 +85,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 num79 *= num80;
                 float speedX4 = num78 + (float)Main.rand.Next(-120, 121) * 0.01f;
                 float speedY5 = num79 + (float)Main.rand.Next(-120, 121) * 0.01f;
-                if (type == ProjectileID.WoodenArrowFriendly)
+                if (CalamityUtils.CheckWoodenAmmo(type, player))
                 {
                     Projectile.NewProjectile(source, vector2.X, vector2.Y, speedX4, speedY5 * 0.9f, ModContent.ProjectileType<Bolt>(), damage, knockback, i);
                     Projectile.NewProjectile(source, vector2.X, vector2.Y, speedX4, speedY5 * 0.8f, ModContent.ProjectileType<Bolt>(), damage, knockback, i);

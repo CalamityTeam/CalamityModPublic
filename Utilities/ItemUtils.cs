@@ -262,6 +262,13 @@ namespace CalamityMod
             return item.Calamity().AppliedEnchantment.HasValue;
         }
 
+        public static bool CheckWoodenAmmo(int type, Player player)
+        {
+            if (player.hasMoltenQuiver && type == ProjectileID.FireArrow)
+				return true;
+			return type == ProjectileID.WoodenArrowFriendly;
+        }
+
         public static Rectangle FixSwingHitbox(float hitboxWidth, float hitboxHeight)
         {
             Player player = Main.player[Main.myPlayer];

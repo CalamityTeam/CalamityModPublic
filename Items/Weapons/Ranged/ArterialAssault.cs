@@ -82,7 +82,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             num79 *= num80;
             float speedX4 = num78;
             float speedY5 = num79;
-            if (type == ProjectileID.WoodenArrowFriendly)
+            if (CalamityUtils.CheckWoodenAmmo(type, player))
             {
                 int bloodfire = Projectile.NewProjectile(source, vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<BloodfireArrowProj>(), damage, knockback, player.whoAmI, 0f, 80f);
                 Main.projectile[bloodfire].tileCollide = false;

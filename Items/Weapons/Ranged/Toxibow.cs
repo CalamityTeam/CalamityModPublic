@@ -40,7 +40,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            if (type == ProjectileID.WoodenArrowFriendly)
+            if (CalamityUtils.CheckWoodenAmmo(type, player))
                 Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<ToxicArrow>(), damage, 0f, player.whoAmI);
             else
                 Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
