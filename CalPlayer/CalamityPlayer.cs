@@ -4106,7 +4106,8 @@ namespace CalamityMod.CalPlayer
         #region On Respawn
         public override void OnRespawn(Player player)
         {
-            thirdSageH = true;
+			if (healToFull)
+				thirdSageH = true;
 
             // Order the list such that less expensive minions are at the top.
             // This way cheaper minions will be spawned first, and at the end, the most expensive
