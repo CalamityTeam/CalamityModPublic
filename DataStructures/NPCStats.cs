@@ -627,6 +627,7 @@ namespace CalamityMod
                 { new Tuple<int, int>(ModContent.NPCType<BrimstoneElemental>(), ModContent.ProjectileType<BrimstoneHellblast>()), new int[] { 80, 140, 160, 176, 234 } },
                 { new Tuple<int, int>(ModContent.NPCType<BrimstoneElemental>(), ModContent.ProjectileType<BrimstoneRay>()), new int[] { 120, 200, 240, 252, 342 } },
                 { new Tuple<int, int>(ModContent.NPCType<Brimling>(), ModContent.ProjectileType<BrimstoneHellfireball>()), new int[] { 80, 140, 160, 176, 234 } },
+                { new Tuple<int, int>(ModContent.NPCType<Brimling>(), ModContent.ProjectileType<BrimstoneBarrage>()), new int[] { 70, 112, 128, 140, 192 } },
 
                 { new Tuple<int, int>(NPCID.SkeletronPrime, ProjectileID.Skull), new int[] { 50, 100, 124, 136, 186 } },
                 { new Tuple<int, int>(NPCID.SkeletronPrime, ProjectileID.DeathLaser), new int[] { 50, 100, 124, 136, 186 } },

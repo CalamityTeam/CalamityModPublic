@@ -79,7 +79,9 @@ namespace CalamityMod.NPCs.BrimstoneElemental
 
         public override void AI()
         {
-            Lighting.AddLight((int)((NPC.position.X + (float)(NPC.width / 2)) / 16f), (int)((NPC.position.Y + (float)(NPC.height / 2)) / 16f), 1f, 0f, 0f);
+            Lighting.AddLight((int)((NPC.position.X + (NPC.width / 2)) / 16f), (int)((NPC.position.Y + (NPC.height / 2)) / 16f), 1f, 0f, 0f);
+
+            // Despawn if Brim doesn't exist
             if (CalamityGlobalNPC.brimstoneElemental < 0 || !Main.npc[CalamityGlobalNPC.brimstoneElemental].active)
             {
                 NPC.active = false;
@@ -87,8 +89,38 @@ namespace CalamityMod.NPCs.BrimstoneElemental
                 return;
             }
 
-            bool goIntoShell = NPC.life <= NPC.lifeMax * 0.25;
-            if (goIntoShell || Main.npc[CalamityGlobalNPC.brimstoneElemental].ai[0] == 4f)
+            // Variables for buffing the AI
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || bossRush;
+
+            // Percent life remaining for Brim
+            float lifeRatio = Main.npc[CalamityGlobalNPC.brimstoneElemental].life / (float)Main.npc[CalamityGlobalNPC.brimstoneElemental].lifeMax;
+
+            // Enraged Brim checks
+            bool biomeEnraged = Main.npc[CalamityGlobalNPC.brimstoneElemental].Calamity().newAI[3] <= 0f || bossRush;
+            float enrageScale = bossRush ? 1f : 0f;
+            if (biomeEnraged && (!Main.player[Main.npc[CalamityGlobalNPC.brimstoneElemental].target].ZoneUnderworldHeight || bossRush))
+            {
+                Main.npc[CalamityGlobalNPC.brimstoneElemental].Calamity().CurrentlyEnraged = !bossRush;
+                enrageScale += 1f;
+            }
+            if (biomeEnraged && (!Main.player[Main.npc[CalamityGlobalNPC.brimstoneElemental].target].Calamity().ZoneCalamity || bossRush))
+            {
+                Main.npc[CalamityGlobalNPC.brimstoneElemental].Calamity().CurrentlyEnraged = !bossRush;
+                enrageScale += 1f;
+            }
+
+            // Brim phase checks
+            bool brimIsAboutToTeleport = Main.npc[CalamityGlobalNPC.brimstoneElemental].ai[0] == 1f && Main.npc[CalamityGlobalNPC.brimstoneElemental].alpha == 0;
+            bool brimIsFlyingAboveAndShooting = Main.npc[CalamityGlobalNPC.brimstoneElemental].ai[0] == 3f;
+            bool brimIsInCocoon = Main.npc[CalamityGlobalNPC.brimstoneElemental].ai[0] == 4f;
+            bool brimIsFiringLaser = Main.npc[CalamityGlobalNPC.brimstoneElemental].ai[0] == 5f;
+
+            // Set alpha to Brim alpha
+            NPC.alpha = Main.npc[CalamityGlobalNPC.brimstoneElemental].alpha;
+
+            // Go into cocoon if Brim is in her cocoon
+            if (brimIsInCocoon)
             {
                 boostDR = true;
                 NPC.chaseable = false;
@@ -102,56 +134,85 @@ namespace CalamityMod.NPCs.BrimstoneElemental
             // Set DR based on boost status
             NPC.Calamity().DR = boostDR ? boostedDR : normalDR;
 
-            float num1446 = goIntoShell ? 1f : 6f;
-            int num1447 = 480;
-            if (NPC.localAI[1] == 1f)
+            // Brimlings only shoot if Brim is shooting
+            if (brimIsFlyingAboveAndShooting || brimIsFiringLaser)
             {
-                NPC.localAI[1] = 0f;
-                if (Main.rand.NextBool(4))
+                float shootDivisor = death ? 45f : 60f;
+                if (brimIsFlyingAboveAndShooting)
                 {
-                    NPC.ai[0] = (float)num1447;
+                    float divisor = (death ? 80f : 45f) - (float)Math.Ceiling(10f * (1f - lifeRatio));
+                    divisor -= 5f * enrageScale;
+                    shootDivisor = divisor * 2f;
                 }
-            }
-            NPC.TargetClosest();
-            NPC.rotation = Math.Abs(NPC.velocity.X) * (float)NPC.direction * 0.1f;
-            NPC.spriteDirection = (NPC.direction > 0) ? 1 : -1;
-            Vector2 value53 = NPC.Center + new Vector2((float)(NPC.direction * 20), 6f);
-            Vector2 vector251 = Main.player[NPC.target].Center - value53;
-            bool flag104 = Collision.CanHit(NPC.Center, 1, 1, Main.player[NPC.target].Center, 1, 1);
-            NPC.localAI[0] += 1f;
-            if (Main.netMode != NetmodeID.MultiplayerClient && NPC.localAI[0] >= ((CalamityWorld.death || BossRushEvent.BossRushActive) ? 180f : 360f) && Main.npc[CalamityGlobalNPC.brimstoneElemental].ai[0] != 4f)
-            {
-                NPC.localAI[0] = 0f;
-                float speed = 5f;
-                Vector2 vector = new Vector2(NPC.position.X + (float)NPC.width * 0.5f, NPC.position.Y + (float)(NPC.height / 2));
-                float num6 = Main.player[NPC.target].position.X + (float)Main.player[NPC.target].width * 0.5f - vector.X;
-                float num7 = Main.player[NPC.target].position.Y + (float)Main.player[NPC.target].height * 0.5f - vector.Y;
-                float num8 = (float)Math.Sqrt((double)(num6 * num6 + num7 * num7));
-                num8 = speed / num8;
-                num6 *= num8;
-                num7 *= num8;
-                int type = ModContent.ProjectileType<BrimstoneHellfireball>();
-                int damage = NPC.GetProjectileDamage(type);
-                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y, num6, num7, type, damage, 0f, Main.myPlayer, Main.player[NPC.target].Center.X, Main.player[NPC.target].Center.Y);
-            }
-            if (vector251.Length() > 400f || !flag104)
-            {
-                Vector2 value54 = vector251;
-                if (value54.Length() > num1446)
+
+                NPC.ai[1] += 1f;
+                if (Main.netMode != NetmodeID.MultiplayerClient && NPC.ai[1] % shootDivisor == 0f)
                 {
-                    value54.Normalize();
-                    value54 *= num1446;
+                    float projectileVelocity = 5f;
+                    int type = ModContent.ProjectileType<BrimstoneBarrage>();
+                    int damage = NPC.GetProjectileDamage(type);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Normalize(Main.player[Main.npc[CalamityGlobalNPC.brimstoneElemental].target].Center - NPC.Center) * projectileVelocity, type, damage, 0f, Main.myPlayer, 1f, 0f);
                 }
-                int num1448 = 30;
-                NPC.velocity = (NPC.velocity * (float)(num1448 - 1) + value54) / (float)num1448;
             }
             else
+                NPC.ai[1] = 0f;
+
+            // Face Brim's target
+            if (Math.Abs(NPC.Center.X - Main.player[Main.npc[CalamityGlobalNPC.brimstoneElemental].target].Center.X) > 10f)
             {
-                NPC.velocity *= 0.98f;
+                float playerLocation = NPC.Center.X - Main.player[Main.npc[CalamityGlobalNPC.brimstoneElemental].target].Center.X;
+                NPC.direction = playerLocation < 0f ? 1 : -1;
+                NPC.spriteDirection = NPC.direction;
             }
+
+            // Rotate slightly
+            NPC.rotation = Math.Abs(NPC.velocity.X) * NPC.direction * 0.05f;
+
+            // Move towards Brim
+            float movementVelocity = (death ? 12f : 10f) * (brimIsFlyingAboveAndShooting ? 1.5f : boostDR ? 0.5f : 1f);
+            movementVelocity += 5f * enrageScale;
+            Vector2 distanceFromMother = Main.npc[CalamityGlobalNPC.brimstoneElemental].Center - NPC.Center;
+            if (distanceFromMother.Length() > 120f)
+            {
+                Vector2 value54 = distanceFromMother;
+                if (value54.Length() > movementVelocity)
+                {
+                    value54.Normalize();
+                    value54 *= movementVelocity;
+                }
+                int inertia = 20;
+                NPC.velocity = (NPC.velocity * (inertia - 1) + value54) / inertia;
+            }
+            else
+                NPC.velocity *= 0.96f;
+
+            // Push away from other Brimlings
+            float pushVelocity = 0.5f;
+            for (int i = 0; i < Main.maxNPCs; i++)
+            {
+                if (Main.npc[i].active)
+                {
+                    if (i != NPC.whoAmI && Main.npc[i].type == NPC.type)
+                    {
+                        if (Vector2.Distance(NPC.Center, Main.npc[i].Center) < 40f * NPC.scale)
+                        {
+                            if (NPC.position.X < Main.npc[i].position.X)
+                                NPC.velocity.X -= pushVelocity;
+                            else
+                                NPC.velocity.X += pushVelocity;
+
+                            if (NPC.position.Y < Main.npc[i].position.Y)
+                                NPC.velocity.Y -= pushVelocity;
+                            else
+                                NPC.velocity.Y += pushVelocity;
+                        }
+                    }
+                }
+            }
+
+            // Teleport to Brim's new location
             if (NPC.ai[2] != 0f && NPC.ai[3] != 0f)
             {
-                SoundEngine.PlaySound(SoundID.Item8, NPC.Center);
                 for (int num1449 = 0; num1449 < 20; num1449++)
                 {
                     int num1450 = Dust.NewDust(NPC.position, NPC.width, NPC.height, 235, 0f, 0f, 100, Color.Transparent, 1f);
@@ -160,13 +221,15 @@ namespace CalamityMod.NPCs.BrimstoneElemental
                     Main.dust[num1450].noGravity = true;
                     Main.dust[num1450].scale = 2.5f;
                 }
+
                 NPC.Center = new Vector2(NPC.ai[2] * 16f, NPC.ai[3] * 16f);
                 NPC.velocity = Vector2.Zero;
+
                 NPC.ai[2] = 0f;
                 NPC.ai[3] = 0f;
-                if (NPC.localAI[0] > 240f) //Lower firing cooldown to prevent firing so quickly after a teleport
-                    NPC.localAI[0] = 240f;
+
                 SoundEngine.PlaySound(SoundID.Item8, NPC.Center);
+
                 for (int num1451 = 0; num1451 < 20; num1451++)
                 {
                     int num1452 = Dust.NewDust(NPC.position, NPC.width, NPC.height, 235, 0f, 0f, 100, Color.Transparent, 1f);
@@ -176,27 +239,28 @@ namespace CalamityMod.NPCs.BrimstoneElemental
                     Main.dust[num1452].scale = 2.5f;
                 }
             }
-            NPC.ai[0] += 1f;
-            if (NPC.ai[0] >= (float)num1447 && Main.netMode != NetmodeID.MultiplayerClient)
+
+            // Shoot a fireball when Brim is about to teleport
+            // Shoot before she goes invisible to make it as fair as possible
+            if (brimIsAboutToTeleport && Main.netMode != NetmodeID.MultiplayerClient)
             {
-                if (NPC.localAI[0] > 260f)
-                {
-                    NPC.localAI[0] -= 60f;
-                }
-                NPC.ai[0] = 0f;
+                float projectileVelocity = 5f;
+                int type = ModContent.ProjectileType<BrimstoneHellfireball>();
+                int damage = NPC.GetProjectileDamage(type);
+                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Normalize(Main.player[Main.npc[CalamityGlobalNPC.brimstoneElemental].target].Center - NPC.Center) * projectileVelocity, type, damage, 0f, Main.myPlayer, Main.player[Main.npc[CalamityGlobalNPC.brimstoneElemental].target].Center.X, Main.player[Main.npc[CalamityGlobalNPC.brimstoneElemental].target].Center.Y);
+            }
+
+            // Teleport when Brim teleports
+            if (Main.npc[CalamityGlobalNPC.brimstoneElemental].alpha == 255 && Main.netMode != NetmodeID.MultiplayerClient)
+            {
                 Point point12 = NPC.Center.ToTileCoordinates();
-                Point point13 = Main.player[NPC.target].Center.ToTileCoordinates();
-                int num1453 = 20;
+                Point point13 = Main.npc[CalamityGlobalNPC.brimstoneElemental].Center.ToTileCoordinates();
+                int num1453 = 6;
                 int num1454 = 3;
-                int num1455 = 10;
+                int num1455 = 4;
                 int num1456 = 1;
                 int num1457 = 0;
-                bool flag106 = false;
-                if (vector251.Length() > 2000f)
-                {
-                    flag106 = true;
-                }
-                while (!flag106 && num1457 < 100)
+                while (num1457 < 100)
                 {
                     num1457++;
                     int num1458 = Main.rand.Next(point13.X - num1453, point13.X + num1453 + 1);
@@ -205,21 +269,19 @@ namespace CalamityMod.NPCs.BrimstoneElemental
                     {
                         bool flag107 = true;
                         if (flag107 && Main.tile[num1458, num1459].LiquidType == LiquidID.Lava)
-                        {
                             flag107 = false;
-                        }
                         if (flag107 && Collision.SolidTiles(num1458 - num1456, num1458 + num1456, num1459 - num1456, num1459 + num1456))
-                        {
                             flag107 = false;
-                        }
+
                         if (flag107)
                         {
-                            NPC.ai[2] = (float)num1458;
-                            NPC.ai[3] = (float)num1459;
+                            NPC.ai[2] = num1458;
+                            NPC.ai[3] = num1459;
                             break;
                         }
                     }
                 }
+
                 NPC.netUpdate = true;
             }
         }
@@ -234,10 +296,9 @@ namespace CalamityMod.NPCs.BrimstoneElemental
                     NPC.frame.Y = NPC.frame.Y + frameHeight;
                     NPC.frameCounter = 0.0;
                 }
+
                 if (NPC.frame.Y >= frameHeight * 4)
-                {
                     NPC.frame.Y = 0;
-                }
             }
             else
             {
@@ -246,14 +307,12 @@ namespace CalamityMod.NPCs.BrimstoneElemental
                     NPC.frame.Y = NPC.frame.Y + frameHeight;
                     NPC.frameCounter = 0.0;
                 }
+
                 if (NPC.frame.Y < frameHeight * 4)
-                {
                     NPC.frame.Y = frameHeight * 4;
-                }
+
                 if (NPC.frame.Y >= frameHeight * 8)
-                {
                     NPC.frame.Y = frameHeight * 4;
-                }
             }
         }
 
@@ -267,15 +326,12 @@ namespace CalamityMod.NPCs.BrimstoneElemental
         public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < 5; k++)
-            {
                 Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.Brimstone, hitDirection, -1f, 0, default, 1f);
-            }
+
             if (NPC.life <= 0)
             {
                 for (int k = 0; k < 20; k++)
-                {
                     Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.Brimstone, hitDirection, -1f, 0, default, 1f);
-                }
             }
         }
     }

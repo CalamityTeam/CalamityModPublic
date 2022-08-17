@@ -700,16 +700,14 @@ namespace CalamityMod.NPCs
 
             // How fast Brimmy moves to the destination
             float baseVelocity = (death ? 6f : revenge ? 5.5f : expertMode ? 5f : 4.5f) * (npc.ai[0] == 5f ? 0.05f : npc.ai[0] == 3f ? 1.5f : 1f);
+            baseVelocity += 5f * enrageScale;
             if (expertMode)
                 baseVelocity += death ? 3f * (1f - lifeRatio) : 2f * (1f - lifeRatio);
-            baseVelocity += 5f * enrageScale;
 
             float baseAcceleration = (death ? 0.12f : 0.1f) * (npc.ai[0] == 5f ? 0.5f : npc.ai[0] == 3f ? 1.5f : 1f);
             baseAcceleration += 0.1f * enrageScale;
             if (expertMode)
-            {
                 baseAcceleration += 0.03f * (1f - lifeRatio);
-            }
 
             // This is where Brimmy should be
             Vector2 destination = npc.ai[0] != 3f ? player.Center : new Vector2(player.Center.X, player.Center.Y - 300f);
