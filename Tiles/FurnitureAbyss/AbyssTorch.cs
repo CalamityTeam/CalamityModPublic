@@ -81,5 +81,11 @@ namespace CalamityMod.Tiles.FurnitureAbyss
             CalamityUtils.RightClickBreak(i, j);
             return true;
         }
+
+		public override float GetTorchLuck(Player player)
+		{
+			// Note: Total Torch luck never goes below zero
+			return player.ZoneAbyss ? 1f : -0.5f; // Abyss Torch gives maximum positive luck when in the Abyss, otherwise some negative luck
+		}
     }
 }
