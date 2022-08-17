@@ -38,10 +38,7 @@ namespace CalamityMod.Items.Armor.Statigel
             player.setBonus = "When you take over 100 damage in one hit you become immune to damage for an extended period of time\n" +
                     "Grants an extra jump and increased jump height\n" +
                     "12% increased jump speed\n" +
-                    "Rogue stealth builds while not attacking and slower while moving, up to a max of 100\n" +
-                    "Once you have built max stealth, you will be able to perform a Stealth Strike\n" +
-                    "Rogue stealth only reduces when you attack, it does not reduce while moving\n" +
-                    "The higher your rogue stealth the higher your rogue damage, crit, and movement speed";
+                    "+100 maximum stealth";
             var modPlayer = player.Calamity();
             modPlayer.statigelSet = true;
             modPlayer.statigelJump = true;

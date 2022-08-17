@@ -35,12 +35,9 @@ namespace CalamityMod.Items.Armor.TitanHeart
         public override void UpdateArmorSet(Player player)
         {
             player.setBonus = "15% increased rogue damage and knockback\n" +
+					"+100 maximum stealth\n" +
                     "Stealth strikes deal double knockback and cause an astral explosion\n" +
-                    "Grants immunity to knockback\n" +
-                    "Rogue stealth builds while not attacking and slower while moving, up to a max of 100\n" +
-                    "Once you have built max stealth, you will be able to perform a Stealth Strike\n" +
-                    "Rogue stealth only reduces when you attack, it does not reduce while moving\n" +
-                    "The higher your rogue stealth the higher your rogue damage, crit, and movement speed";
+                    "Grants immunity to knockback";
             var modPlayer = player.Calamity();
             modPlayer.titanHeartSet = true;
             player.GetDamage<ThrowingDamageClass>() += 0.15f;

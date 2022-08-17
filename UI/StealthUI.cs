@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Input;
 using ReLogic.Content;
 using Terraria;
 using Terraria.ModLoader;
+using static Microsoft.Xna.Framework.Input.Keys;
 
 namespace CalamityMod.UI
 {
@@ -95,7 +96,21 @@ namespace CalamityMod.UI
 				{
 					string stealthStr = (100f * modPlayer.rogueStealth).ToString("n2");
 					string maxStealthStr = (100f * modPlayer.rogueStealthMax).ToString("n2");
-					Main.instance.MouseText($"Stealth: {stealthStr}/{maxStealthStr}", 0, 0, -1, -1, -1, -1);
+					string textToDisplay = $"Stealth: {stealthStr}/{maxStealthStr}\n";
+
+                    if (!Main.keyState.IsKeyDown(LeftShift))
+                    {
+						textToDisplay += "Hold SHIFT for more information on Rogue stealth";
+					}
+					else
+					{
+						textToDisplay += "Rogue stealth builds while not attacking and slower while moving\n" +
+							"Once you have built max stealth, you will be able to perform a Stealth Strike\n" +
+							"Rogue stealth only reduces when you attack, it does not reduce while moving\n" +
+							"The higher your rogue stealth the higher your rogue damage, crit, and movement speed";
+					}
+
+					Main.instance.MouseText(textToDisplay, 0, 0, -1, -1, -1, -1);
 					modPlayer.stealthUIAlpha = MathHelper.Lerp(modPlayer.stealthUIAlpha, 0.25f, 0.035f);
 				}
 

@@ -21,11 +21,8 @@ namespace CalamityMod.Items.VanillaArmorChanges
         public override void UpdateSetBonusText(ref string setBonusText)
         {
             setBonusText += "\n+3 defense\n" +
-                        "5% increased rogue damage and 10% increased velocity\n" +
-                        "Rogue stealth builds while not attacking and not moving, up to a max of 70\n" +
-                        "Once you have built max stealth, you will be able to perform a Stealth Strike\n" +
-                        "Rogue stealth only reduces when you attack, it does not reduce while moving\n" +
-                        "The higher your rogue stealth the higher your rogue damage, crit, and movement speed";
+                        "+70 maximum stealth\n" +
+                        "5% increased rogue damage and 10% increased velocity";
         }
 
         public override void ApplyHeadPieceEffect(Player player)

@@ -43,10 +43,7 @@ namespace CalamityMod.Items.Armor.Auric
         {
             player.setBonus = "Rogue Tarragon, Bloodflare and God Slayer armor effects\n" +
                 "All projectiles spawn healing auric orbs on enemy hits\n" +
-                "Rogue stealth builds while not attacking and slower while moving, up to a max of 130\n" +
-                "Once you have built max stealth, you will be able to perform a Stealth Strike\n" +
-                "Rogue stealth only reduces when you attack, it does not reduce while moving\n" +
-                "The higher your rogue stealth the higher your rogue damage, crit, and movement speed";
+				"+130 maximum stealth";
             var modPlayer = player.Calamity();
             modPlayer.tarraSet = true;
             modPlayer.tarraThrowing = true;

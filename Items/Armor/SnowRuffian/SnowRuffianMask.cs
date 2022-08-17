@@ -46,11 +46,8 @@ namespace CalamityMod.Items.Armor.SnowRuffian
             modPlayer.snowRuffianSet = true;
             modPlayer.rogueStealthMax += 0.5f;
             player.setBonus = "5% increased rogue damage\n" +
-                "You can glide to negate fall damage\n" +
-                "Rogue stealth builds while not attacking and slower while moving, up to a max of 50\n" +
-                "Once you have built max stealth, you will be able to perform a Stealth Strike\n" +
-                "Rogue stealth only reduces when you attack, it does not reduce while moving\n" +
-                "The higher your rogue stealth the higher your rogue damage, crit, and movement speed";
+                "+50 maximum stealth\n" +
+                "You can glide to negate fall damage";
             player.GetDamage<ThrowingDamageClass>() += 0.05f;
             player.Calamity().wearingRogueArmor = true;
 

@@ -48,13 +48,10 @@ namespace CalamityMod.Items.Armor.Bloodflare
                 "Enemies below 50% life drop a heart when struck\n" +
                 "This effect has a 5 second cooldown\n" +
                 "Enemies killed during a Blood Moon have a much higher chance to drop Blood Orbs\n" +
+				"+120 maximum stealth\n" +
                 "Being over 80% life boosts your defense by 30 and rogue crit by 5%\n" +
                 "Being below 80% life boosts your rogue damage by 10%\n" +
-                "Rogue critical strikes have a 50% chance to heal you\n" +
-                "Rogue stealth builds while not attacking and slower while moving, up to a max of 120\n" +
-                "Once you have built max stealth, you will be able to perform a Stealth Strike\n" +
-                "Rogue stealth only reduces when you attack, it does not reduce while moving\n" +
-                "The higher your rogue stealth the higher your rogue damage, crit, and movement speed";
+                "Rogue critical strikes have a 50% chance to heal you";
             player.crimsonRegen = true;
         }
 

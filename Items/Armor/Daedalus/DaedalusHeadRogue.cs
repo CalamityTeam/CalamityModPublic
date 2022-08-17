@@ -41,11 +41,8 @@ namespace CalamityMod.Items.Armor.Daedalus
         public override void UpdateArmorSet(Player player)
         {
             player.setBonus = "5% increased rogue damage\n" +
-                "Rogue projectiles throw out crystal shards as they travel\n" +
-                "Rogue stealth builds while not attacking and slower while moving, up to a max of 105\n" +
-                "Once you have built max stealth, you will be able to perform a Stealth Strike\n" +
-                "Rogue stealth only reduces when you attack, it does not reduce while moving\n" +
-                "The higher your rogue stealth the higher your rogue damage, crit, and movement speed";
+				"+105 maximum stealth\n" +
+                "Rogue projectiles throw out crystal shards as they travel";
             var modPlayer = player.Calamity();
             modPlayer.daedalusSplit = true;
             modPlayer.rogueStealthMax += 1.05f;
