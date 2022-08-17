@@ -1,6 +1,7 @@
 ﻿using CalamityMod.Items.DraedonMisc;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Weapons.Melee;
+using CalamityMod.Items.LabFinders;
 using CalamityMod.Schematics;
 using Microsoft.Xna.Framework;
 using System;
@@ -95,6 +96,21 @@ namespace CalamityMod.World
                 new ChestItem(ItemID.Bomb, WorldGen.genRand.Next(6, 7 + 1)),
                 new ChestItem(potionType, WorldGen.genRand.Next(3, 5 + 1)),
             };
+            float rng = WorldGen.genRand.NextFloat();
+            
+            //Adds a Lab Seeking Mechanism at a 50% chance, or any of the 5 Bio Lab Seeking Mechanisms at a 10% chance each
+            if(rng < 0.5f)
+                contents.Insert(0, new ChestItem(ModContent.ItemType<LabSeekingMechanism>(), 1));
+            else if(rng < 0.6f)
+                contents.Insert(0, new ChestItem(ModContent.ItemType<CyanSeekingMechanism>(), 1));
+            else if(rng < 0.7f)
+                contents.Insert(0, new ChestItem(ModContent.ItemType<GreenSeekingMechanism>(), 1));
+            else if (rng < 0.8f)
+                contents.Insert(0, new ChestItem(ModContent.ItemType<PurpleSeekingMechanism>(), 1));
+            else if (rng < 0.9f)
+                contents.Insert(0, new ChestItem(ModContent.ItemType<RedSeekingMechanism>(), 1));
+            else
+                contents.Insert(0, new ChestItem(ModContent.ItemType<YellowSeekingMechanism>(), 1));
 
             //Add suspicious scrap into the chest rarely. Chance depends on the world size
             int probability = Main.maxTilesX <= 4200f ? 0 : Main.maxTilesX >= 8400f ? 2 : 1;
@@ -167,6 +183,21 @@ namespace CalamityMod.World
                 new ChestItem(ItemID.Dynamite, WorldGen.genRand.Next(4, 6 + 1)),
                 new ChestItem(potionType, WorldGen.genRand.Next(4, 7 + 1)),
             };
+            float rng = WorldGen.genRand.NextFloat();
+
+            //Adds a Lab Seeking Mechanism at a 50% chance, or any of the 5 Bio Lab Seeking Mechanisms at a 10% chance each
+            if (rng < 0.5f)
+                contents.Insert(0, new ChestItem(ModContent.ItemType<LabSeekingMechanism>(), 1));
+            else if (rng < 0.6f)
+                contents.Insert(0, new ChestItem(ModContent.ItemType<CyanSeekingMechanism>(), 1));
+            else if (rng < 0.7f)
+                contents.Insert(0, new ChestItem(ModContent.ItemType<GreenSeekingMechanism>(), 1));
+            else if (rng < 0.8f)
+                contents.Insert(0, new ChestItem(ModContent.ItemType<PurpleSeekingMechanism>(), 1));
+            else if (rng < 0.9f)
+                contents.Insert(0, new ChestItem(ModContent.ItemType<RedSeekingMechanism>(), 1));
+            else
+                contents.Insert(0, new ChestItem(ModContent.ItemType<YellowSeekingMechanism>(), 1));
 
             for (int i = 0; i < contents.Count; i++)
             {
@@ -233,6 +264,10 @@ namespace CalamityMod.World
                 new ChestItem(ItemID.Bomb, WorldGen.genRand.Next(6, 7 + 1)),
                 new ChestItem(potionType, WorldGen.genRand.Next(3, 5 + 1)),
             };
+
+            //Adds the Ice Seeking Mechanism
+            contents.Insert(0, new ChestItem(ModContent.ItemType<YellowSeekingMechanism>(), 1));
+
             if (!hasPlacedMurasama)
             {
                 contents.Insert(0, new ChestItem(ModContent.ItemType<DraedonsLogHell>(), 1));
@@ -306,6 +341,10 @@ namespace CalamityMod.World
                 new ChestItem(ItemID.Bomb, WorldGen.genRand.Next(6, 7 + 1)),
                 new ChestItem(potionType, WorldGen.genRand.Next(3, 5 + 1)),
             };
+
+            //Adds the Planetoid Seeking Mechanism
+            contents.Insert(0, new ChestItem(ModContent.ItemType<PurpleSeekingMechanism>(), 1));
+
             if (!hasPlacedLogAndSchematic)
             {
                 contents.Insert(0, new ChestItem(ModContent.ItemType<DraedonsLogSunkenSea>(), 1));
@@ -385,6 +424,10 @@ namespace CalamityMod.World
                 new ChestItem(ItemID.Bomb, WorldGen.genRand.Next(6, 7 + 1)),
                 new ChestItem(potionType, WorldGen.genRand.Next(3, 5 + 1)),
             };
+
+            //Adds the Base Seeking Mechanism
+            contents.Insert(0, new ChestItem(ModContent.ItemType<LabSeekingMechanism>(), 1));
+
             if (!hasPlacedLogAndSchematic)
             {
                 contents.Insert(0, new ChestItem(ModContent.ItemType<DraedonsLogSnowBiome>(), 1));
@@ -466,6 +509,10 @@ namespace CalamityMod.World
                 new ChestItem(ItemID.Bomb, WorldGen.genRand.Next(6, 7 + 1)),
                 new ChestItem(potionType, WorldGen.genRand.Next(3, 5 + 1)),
             };
+
+            //Adds the Hell Seeking Mechanism
+            contents.Insert(0, new ChestItem(ModContent.ItemType<RedSeekingMechanism>(), 1));
+
             if (!hasPlacedLogAndSchematic)
             {
                 contents.Insert(0, new ChestItem(ModContent.ItemType<DraedonsLogJungle>(), 1));
@@ -562,6 +609,9 @@ namespace CalamityMod.World
             Mod thorium = CalamityMod.Instance.thorium;
             if (thorium != null)
                 contents.Add(new ChestItem(thorium.Find<ModItem>("MarineKelpPlanterBox").Type, WorldGen.genRand.Next(5, 9 + 1)));
+
+            //Adds the Jungle Seeking Mechanism
+            contents.Insert(0, new ChestItem(ModContent.ItemType<GreenSeekingMechanism>(), 1));
 
             if (!hasPlacedLogAndSchematic)
             {
