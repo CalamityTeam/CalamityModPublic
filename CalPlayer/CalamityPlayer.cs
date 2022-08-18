@@ -8021,6 +8021,8 @@ namespace CalamityMod.CalPlayer
             // But it won't start running until you save and quit and re-enter a world.
             if (CalamityConfig.Instance.SpeedrunTimer)
                 CalamityMod.SpeedrunTimer.Restart();
+
+			Main.NewText("Be sure to check out the Official Calamity Mod Wiki at calamitymod.wiki.gg !", new Color(238, 73, 57));
         }
 
         /// <summary>
