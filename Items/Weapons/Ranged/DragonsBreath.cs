@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Weapons.Ranged
     {
         public const int BetweenShotsPause = 15;
         public const int PelletsPerShot = 6;
-        public const float FullAutoFireRateMult = 1.25f;
+        public const float FullAutoFireRateMult = 0.8f;
         public const float FullAutoDamageMult = 0.8f;
         // note this is extremely low because it's per pellet
         public const float Spread = 0.018f;
