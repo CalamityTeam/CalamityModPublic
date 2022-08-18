@@ -44,7 +44,7 @@ namespace CalamityMod.Projectiles.Summon.SmallAresArms
             Projectile.timeLeft = 420;
             Projectile.Opacity = 0f;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 14;
+            Projectile.localNPCHitCooldown = 7;
             Projectile.DamageType = DamageClass.Summon;
         }
 

@@ -43,7 +43,7 @@ namespace CalamityMod.Projectiles.Summon.SmallAresArms
             Projectile.minionSlots = 0f;
             Projectile.penetrate = -1;
             Projectile.alpha = 255;
-            Projectile.localNPCHitCooldown = 14;
+            Projectile.localNPCHitCooldown = 10;
             Projectile.scale = 0.5f;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.hide = true;
