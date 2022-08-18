@@ -67,7 +67,7 @@ namespace CalamityMod.Items.TreasureBags
             itemLoot.Add(ItemDropRule.OneFromOptions(7, ModContent.ItemType<SlimeGodMask>(), ModContent.ItemType<SlimeGodMask2>()));
 
             // Other
-            itemLoot.AddIf(() => CalamityWorld.revenge, ModContent.ItemType<ElectrolyteGelPack>());
+            itemLoot.AddIf((info) => CalamityWorld.revenge && !info.player.Calamity().adrenalineBoostOne, ModContent.ItemType<ElectrolyteGelPack>());
         }
     }
 }

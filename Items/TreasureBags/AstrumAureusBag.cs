@@ -72,7 +72,7 @@ namespace CalamityMod.Items.TreasureBags
             itemLoot.Add(ModContent.ItemType<AstrumAureusMask>(), 7);
 
             // Other
-            itemLoot.AddIf(() => CalamityWorld.revenge, ModContent.ItemType<StarlightFuelCell>());
+            itemLoot.AddIf((info) => CalamityWorld.revenge && !info.player.Calamity().adrenalineBoostTwo, ModContent.ItemType<StarlightFuelCell>());
         }
     }
 }

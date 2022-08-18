@@ -65,7 +65,7 @@ namespace CalamityMod.Items.TreasureBags
             itemLoot.Add(ModContent.ItemType<CrabulonMask>(), 7);
 
             // Other
-            itemLoot.AddIf(() => CalamityWorld.revenge, ModContent.ItemType<MushroomPlasmaRoot>());
+            itemLoot.AddIf((info) => CalamityWorld.revenge && !info.player.Calamity().rageBoostOne, ModContent.ItemType<MushroomPlasmaRoot>());
         }
     }
 }

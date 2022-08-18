@@ -67,7 +67,7 @@ namespace CalamityMod.Items.TreasureBags
 
             // Equipment
             itemLoot.Add(ModContent.ItemType<Affliction>());
-            itemLoot.AddIf(() => CalamityWorld.revenge, ModContent.ItemType<Ectoheart>());
+            itemLoot.AddIf((info) => CalamityWorld.revenge && !info.player.Calamity().adrenalineBoostThree, ModContent.ItemType<Ectoheart>());
             itemLoot.AddRevBagAccessories();
 
             // Vanity
