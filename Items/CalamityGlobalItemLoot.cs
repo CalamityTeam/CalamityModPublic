@@ -2,6 +2,8 @@
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.PermanentBoosters;
+using CalamityMod.Items.Placeables.Ores;
+using CalamityMod.Items.Potions;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
@@ -21,6 +23,14 @@ namespace CalamityMod.Items
         #region Modify Item Loot Main Hook
         public override void ModifyItemLoot(Item item, ItemLoot loot)
         {
+            Fraction fifteenPercent = new Fraction(15, 100);
+            static bool CryonicAvailable()
+            {
+                if (!DownedBossSystem.downedCryogen)
+                    return false;
+                return (NPC.downedMechBoss1.ToInt() + NPC.downedMechBoss2.ToInt() + NPC.downedMechBoss3.ToInt()) >= 2;
+            }
+            
             switch (item.type)
             {
                 #region Boss Treasure Bags
@@ -225,81 +235,82 @@ namespace CalamityMod.Items
                 #endregion
 
                 #region Fishing Crates
-                /*
+                // TODO -- What is all this shit?
                 case ItemID.WoodenCrate:
                 case ItemID.WoodenCrateHard:
-                    DropHelper.DropItemChance(s, player, ModContent.ItemType<WulfrumMetalScrap>(), 0.25f, 3, 5);
+                    loot.Add(ModContent.ItemType<WulfrumMetalScrap>(), 4, 3, 5); // 25% 3-5 Wulfrum Scrap
                     break;
 
                 case ItemID.IronCrate:
                 case ItemID.IronCrateHard:
-                    DropHelper.DropItemChance(s, player, ModContent.ItemType<WulfrumMetalScrap>(), 0.25f, 5, 8);
-                    DropHelper.DropItemChance(s, player, ModContent.ItemType<AncientBoneDust>(), 0.25f, 5, 8);
+                    loot.Add(ModContent.ItemType<WulfrumMetalScrap>(), 4, 5, 8); // 25% 5-8 Wulfrum Scrap
+                    loot.Add(ModContent.ItemType<AncientBoneDust>(), 4, 5, 8); // 25% 5-8 Ancient Bone Dust
                     break;
 
+                // these drops are not available in hardmode because this crate will stop dropping
                 case ItemID.GoldenCrate:
-                    DropHelper.DropItemChance(s, player, ItemID.FlareGun, 0.1f, 1, 1);
-                    DropHelper.DropItemChance(s, player, ItemID.ShoeSpikes, 0.1f, 1, 1);
-                    DropHelper.DropItemChance(s, player, ItemID.BandofRegeneration, 0.1f, 1, 1);
+                    loot.Add(ItemID.FlareGun, 10); // 10% Flare Gun
+                    loot.Add(ItemID.ShoeSpikes, 10); // 10% Shoe Spikes (BUT NOT CLIMBING CLAWS?)
+                    loot.Add(ItemID.BandofRegeneration, 10); // 10% Band of Regeneration
                     break;
 
                 case ItemID.GoldenCrateHard:
-                    DropHelper.DropItemCondition(s, player, ModContent.ItemType<AuricOre>(), DownedBossSystem.downedYharon, 0.15f, 30, 40);
+                    // Post-Yharon: 15% 30-40 Auric Ore
+                    loot.AddIf(() => DownedBossSystem.downedYharon, ModContent.ItemType<AuricOre>(), fifteenPercent, 30, 40);
                     break;
 
                 case ItemID.CorruptFishingCrate:
                 case ItemID.CrimsonFishingCrate:
                 case ItemID.CorruptFishingCrateHard:
                 case ItemID.CrimsonFishingCrateHard:
-                    DropHelper.DropItemChance(s, player, ModContent.ItemType<BlightedGel>(), 0.15f, 5, 8);
+                    loot.Add(ModContent.ItemType<BlightedGel>(), fifteenPercent, 5, 8); // 15% 5-8 Blighted Gel
                     break;
 
                 case ItemID.HallowedFishingCrate: // WHY
                 case ItemID.HallowedFishingCrateHard:
-                    DropHelper.DropItemCondition(s, player, ModContent.ItemType<UnholyEssence>(), DownedBossSystem.downedProvidence, 0.15f, 5, 10);
-                    DropHelper.DropItemCondition(s, player, ModContent.ItemType<ProfanedRagePotion>(), DownedBossSystem.downedProvidence, 0.15f, 1, 2);
-                    DropHelper.DropItemCondition(s, player, ModContent.ItemType<HolyWrathPotion>(), DownedBossSystem.downedProvidence, 0.15f, 1, 2);
+                    var postProv = loot.DefineConditionalDropSet(() => DownedBossSystem.downedProvidence);
+                    postProv.Add(ModContent.ItemType<UnholyEssence>(), fifteenPercent, 5, 10); // 15% 5-10 Unholy Essence
+                    postProv.Add(ModContent.ItemType<HolyWrathPotion>(), fifteenPercent, 1, 2); // 15% 1-2 Holy Wrath Potion
+                    postProv.Add(ModContent.ItemType<ProfanedRagePotion>(), fifteenPercent, 1, 2); // 15% 1-2 Profaned Rage Potion
                     break;
 
                 case ItemID.DungeonFishingCrate:
                 case ItemID.DungeonFishingCrateHard:
-                    DropHelper.DropItemCondition(s, player, ItemID.Ectoplasm, NPC.downedPlantBoss, 0.1f, 1, 5);
-                    DropHelper.DropItemCondition(s, player, ModContent.ItemType<Phantoplasm>(), DownedBossSystem.downedPolterghast, 0.1f, 1, 5);
+                    loot.AddIf(() => NPC.downedPlantBoss, ItemID.Ectoplasm, 10, 1, 5); // 10% 1-5 Ectoplasm
+                    loot.AddIf(() => DownedBossSystem.downedPolterghast, ModContent.ItemType<Phantoplasm>(), 10, 1, 5); // 10% 1-5 Phantoplasm
                     break;
 
                 case ItemID.JungleFishingCrate:
                 case ItemID.JungleFishingCrateHard:
-                    DropHelper.DropItemChance(s, player, ModContent.ItemType<MurkyPaste>(), 0.2f, 1, 3);
-                    DropHelper.DropItemCondition(s, player, ModContent.ItemType<BeetleJuice>(), Main.hardMode, 0.2f, 1, 3);
-                    DropHelper.DropItemCondition(s, player, ModContent.ItemType<TrapperBulb>(), Main.hardMode, 0.2f, 1, 3);
-                    DropHelper.DropItemCondition(s, player, ItemID.ChlorophyteOre, DownedBossSystem.downedCalamitas || NPC.downedPlantBoss, 0.2f, 16, 28);
-                    DropHelper.DropItemCondition(s, player, ItemID.ChlorophyteBar, DownedBossSystem.downedCalamitas || NPC.downedPlantBoss, 0.15f, 4, 7);
-                    DropHelper.DropItemCondition(s, player, ModContent.ItemType<PerennialOre>(), NPC.downedPlantBoss, 0.2f, 16, 28);
-                    DropHelper.DropItemCondition(s, player, ModContent.ItemType<PerennialBar>(), NPC.downedPlantBoss, 0.15f, 4, 7);
-                    DropHelper.DropItemCondition(s, player, ModContent.ItemType<PlagueCellCanister>(), NPC.downedGolemBoss, 0.2f, 3, 6);
-                    DropHelper.DropItemCondition(s, player, ModContent.ItemType<UelibloomOre>(), DownedBossSystem.downedProvidence, 0.2f, 16, 28);
-                    DropHelper.DropItemCondition(s, player, ModContent.ItemType<UelibloomBar>(), DownedBossSystem.downedProvidence, 0.15f, 4, 7);
+                    loot.Add(ModContent.ItemType<MurkyPaste>(), new Fraction(1, 5), 1, 3); // 20% 1-3 Murky Paste
+                    var postPlant = loot.DefineConditionalDropSet(() => NPC.downedPlantBoss);
+                    postPlant.Add(ModContent.ItemType<PerennialOre>(), 5, 16, 28); // 20% 16-28 Perennial Ore
+                    postPlant.Add(ModContent.ItemType<PerennialBar>(), fifteenPercent, 4, 7); // 15% 4-7 Perennial Bar
+                    loot.AddIf(() => NPC.downedGolemBoss, ModContent.ItemType<PlagueCellCanister>(), 5, 3, 6); // 20% 3-6 Plague Cell Canister
+                    var uelibloom = loot.DefineConditionalDropSet(() => DownedBossSystem.downedProvidence);
+                    uelibloom.Add(ModContent.ItemType<UelibloomOre>(), 5, 16, 28); // 20% 16-28 Uelibloom Ore
+                    uelibloom.Add(ModContent.ItemType<UelibloomBar>(), fifteenPercent, 4, 7); // 15% 4-7 Uelibloom Bar
                     break;
 
                 case ItemID.FloatingIslandFishingCrate:
                 case ItemID.FloatingIslandFishingCrateHard:
-                    DropHelper.DropItemCondition(s, player, ModContent.ItemType<AerialiteOre>(), DownedBossSystem.downedHiveMind || DownedBossSystem.downedPerforator, 0.2f, 16, 28);
-                    DropHelper.DropItemCondition(s, player, ModContent.ItemType<AerialiteBar>(), DownedBossSystem.downedHiveMind || DownedBossSystem.downedPerforator, 0.15f, 4, 7);
-                    DropHelper.DropItemCondition(s, player, ModContent.ItemType<EssenceofSunlight>(), Main.hardMode, 0.2f, 2, 4);
-                    DropHelper.DropItemCondition(s, player, ModContent.ItemType<GalacticaSingularity>(), NPC.downedMoonlord, 0.1f, 1, 3);
+                    var evilBossTwo = loot.DefineConditionalDropSet(() => DownedBossSystem.downedHiveMind || DownedBossSystem.downedPerforator);
+                    evilBossTwo.Add(ModContent.ItemType<AerialiteOre>(), 5, 16, 28); // 20% 16-28 Aerialite Ore
+                    evilBossTwo.Add(ModContent.ItemType<AerialiteBar>(), fifteenPercent, 4, 7); // 15% 4-7 Aerialite Bar
+                    loot.AddIf(() => Main.hardMode, ModContent.ItemType<EssenceofSunlight>(), 5, 2, 4); // 20% 2-4 Essence of Sunlight
                     break;
 
                 case ItemID.FrozenCrate:
                 case ItemID.FrozenCrateHard:
-                    int numMechsDown = NPC.downedMechBoss1.ToInt() + NPC.downedMechBoss2.ToInt() + NPC.downedMechBoss3.ToInt();
-                    DropHelper.DropItemCondition(s, player, ModContent.ItemType<CryonicOre>(), DownedBossSystem.downedCryogen && numMechsDown >= 2, 0.2f, 16, 28);
-                    DropHelper.DropItemCondition(s, player, ModContent.ItemType<CryonicBar>(), DownedBossSystem.downedCryogen && numMechsDown >= 2, 0.15f, 4, 7);
-                    DropHelper.DropItemCondition(s, player, ModContent.ItemType<EssenceofEleum>(), Main.hardMode, 0.2f, 2, 4);
+                    var cryonic = loot.DefineConditionalDropSet(CryonicAvailable);
+                    cryonic.Add(ModContent.ItemType<CryonicOre>(), 5, 16, 28); // 20% 16-28 Cryonic Ore
+                    cryonic.Add(ModContent.ItemType<CryonicBar>(), fifteenPercent, 4, 7); // 15% 4-7 Cryonic Bar
+                    loot.AddIf(() => Main.hardMode, ModContent.ItemType<EssenceofEleum>(), 5, 2, 4); // 20% 2-4 Essence of Eleum
                     break;
 
                 case ItemID.LavaCrate:
                 case ItemID.LavaCrateHard:
-                    DropHelper.DropItemCondition(s, player, ModContent.ItemType<EssenceofChaos>(), Main.hardMode, 0.2f, 2, 4);
+                    loot.AddIf(() => Main.hardMode, ModContent.ItemType<EssenceofChaos>(), 5, 2, 4); // 20% 2-4 Essence of Chaos
                     break;
 
                 // Calamity does not touch Oasis Crates yet
@@ -311,7 +322,6 @@ namespace CalamityMod.Items
                 case ItemID.OceanCrate:
                 case ItemID.OceanCrateHard:
                     break;
-                */
                 #endregion
 
                 #region Miscellaneous
