@@ -34,6 +34,11 @@ namespace CalamityMod.Items.SummonItems
             Item.Calamity().customRarity = CalamityRarity.Turquoise;
         }
 
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = ContentSamples.CreativeHelper.ItemGroup.BossItem;
+		}
+
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
             Item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.Request<Texture2D>("CalamityMod/Items/SummonItems/NecroplasmicBeaconGlow").Value);

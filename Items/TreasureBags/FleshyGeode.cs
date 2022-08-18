@@ -25,6 +25,11 @@ namespace CalamityMod.Items.TreasureBags
             Item.rare = ItemRarityID.Yellow;
         }
 
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = ContentSamples.CreativeHelper.ItemGroup.GoodieBags;
+		}
+
         public override bool CanRightClick() => true;
 
         public override void ModifyItemLoot(ItemLoot itemLoot)

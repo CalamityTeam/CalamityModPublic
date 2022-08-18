@@ -32,6 +32,11 @@ namespace CalamityMod.Items.TreasureBags
             Item.rare = ItemRarityID.Red;
         }
 
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = ContentSamples.CreativeHelper.ItemGroup.BossBags;
+		}
+
         public override bool CanRightClick() => true;
 
         public override void PostUpdate() => CalamityUtils.ForceItemIntoWorld(Item);

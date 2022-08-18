@@ -24,6 +24,11 @@ namespace CalamityMod.Items.SummonItems
             Item.rare = ItemRarityID.Cyan;
         }
 
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = ContentSamples.CreativeHelper.ItemGroup.BossItem;
+		}
+
         public override void AddRecipes()
         {
             CreateRecipe().

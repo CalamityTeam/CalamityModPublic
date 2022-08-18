@@ -33,6 +33,11 @@ namespace CalamityMod.Items.SummonItems
             Item.Calamity().customRarity = CalamityRarity.DarkBlue;
         }
 
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = ContentSamples.CreativeHelper.ItemGroup.BossItem;
+		}
+
         public override bool CanUseItem(Player player)
         {
             return player.ZoneJungle && !NPC.AnyNPCs(ModContent.NPCType<Yharon>()) && !BossRushEvent.BossRushActive;

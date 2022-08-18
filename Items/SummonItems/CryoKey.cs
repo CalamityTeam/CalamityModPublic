@@ -29,6 +29,11 @@ namespace CalamityMod.Items.SummonItems
             Item.useStyle = ItemUseStyleID.HoldUp;
         }
 
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = ContentSamples.CreativeHelper.ItemGroup.BossItem;
+		}
+
         public override bool CanUseItem(Player player)
         {
             return player.ZoneSnow && !NPC.AnyNPCs(ModContent.NPCType<Cryogen>()) && !BossRushEvent.BossRushActive;

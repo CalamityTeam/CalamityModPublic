@@ -1,6 +1,7 @@
 ﻿using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.GameContent.ItemDropRules;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.TreasureBags
@@ -23,6 +24,11 @@ namespace CalamityMod.Items.TreasureBags
             Item.height = 24;
             Item.Calamity().customRarity = CalamityRarity.Turquoise;
         }
+
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = ContentSamples.CreativeHelper.ItemGroup.GoodieBags;
+		}
 
         public override bool CanRightClick() => true;
 

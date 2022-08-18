@@ -44,6 +44,11 @@ namespace CalamityMod.Items.TreasureBags
             Item.rare = ItemRarityID.Blue; //Blue for thematics
         }
 
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = ContentSamples.CreativeHelper.ItemGroup.GoodieBags;
+		}
+
         public override bool CanRightClick() => true;
 
         // TML 1.4 August Stable Grab Bag hook

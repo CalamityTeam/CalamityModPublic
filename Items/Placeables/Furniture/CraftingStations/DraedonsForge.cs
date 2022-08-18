@@ -33,6 +33,11 @@ namespace CalamityMod.Items.Placeables.Furniture.CraftingStations
             Item.value = Item.sellPrice(platinum: 27, gold: 50);
         }
 
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = ContentSamples.CreativeHelper.ItemGroup.CraftingObjects;
+		}
+
         public override void AddRecipes()
         {
             CreateRecipe(1).AddIngredient(ModContent.ItemType<CosmicAnvilItem>()).AddRecipeGroup("HardmodeForge").AddIngredient(ItemID.TinkerersWorkshop).AddIngredient(ItemID.LunarCraftingStation).AddIngredient(ModContent.ItemType<AuricBar>(), 15).AddIngredient(ModContent.ItemType<ExoPrism>(), 12).AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 25).Register();

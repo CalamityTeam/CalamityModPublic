@@ -31,6 +31,11 @@ namespace CalamityMod.Items.SummonItems
             Item.rare = ItemRarityID.Purple;
         }
 
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = ContentSamples.CreativeHelper.ItemGroup.BossItem;
+		}
+
         public override bool CanUseItem(Player player)
         {
             return !NPC.AnyNPCs(ModContent.NPCType<ProfanedGuardianCommander>()) && Main.dayTime && (player.ZoneHallow || player.ZoneUnderworldHeight) && !BossRushEvent.BossRushActive;

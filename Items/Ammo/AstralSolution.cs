@@ -29,6 +29,11 @@ namespace CalamityMod.Items.Ammo
             return;
         }
 
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = ContentSamples.CreativeHelper.ItemGroup.Solutions;
+		}
+
         public override bool CanConsumeAmmo(Item ammo, Player player)
         {
             return !(player.itemAnimation < player.ActiveItem().useAnimation - 3);
