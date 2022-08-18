@@ -298,14 +298,16 @@ namespace CalamityMod.Items.Weapons.Melee
             int currentFrame = ((int)Math.Floor(Main.GlobalTimeWrappedHourly * 15f)) % 7;
             Rectangle animFrame = new Rectangle(0, 128 * currentFrame, 126, 126);
 
-            spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, null, null, null, null, Main.UIScaleMatrix);
+			// I don't think the special visuals can be salvaged without ruining the item offset :(
+			// Or at least, I spent over an hour trying to fix it with no results
+
+            /*spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, null, null, null, null, Main.UIScaleMatrix);*/
 
             spriteBatch.Draw(outlineTexture, Item.Center - Main.screenPosition, animFrame, lightColor, rotation, Item.Size * 0.5f, scale, SpriteEffects.None, 0f);
 
-            spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.UIScaleMatrix);
-
+            /*spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.UIScaleMatrix);*/
 
             spriteBatch.Draw(itemTexture, Item.Center - Main.screenPosition, animFrame, lightColor, rotation, Item.Size * 0.5f, scale, SpriteEffects.None, 0f);
             return false;
