@@ -14,6 +14,8 @@ namespace CalamityMod.CalPlayer
     {
         public string DashID;
 
+        public string DeferredDashID;
+
         public PlayerDashEffect UsedDash
         {
             get

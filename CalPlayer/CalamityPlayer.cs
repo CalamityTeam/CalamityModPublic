@@ -3383,6 +3383,9 @@ namespace CalamityMod.CalPlayer
         #region PreUpdate
         public override void PreUpdate()
         {
+            if (HasCustomDash && UsedDash.IsOmnidirectional)
+                Player.maxFallSpeed = 50f;
+
             tailFrameUp++;
             if (tailFrameUp == 8)
             {
@@ -3602,6 +3605,12 @@ namespace CalamityMod.CalPlayer
             #endregion
 
             #region DashEffects
+            if (!string.IsNullOrEmpty(DeferredDashID))
+            {
+                DashID = DeferredDashID;
+                DeferredDashID = string.Empty;
+            }
+
             if (Player.pulley && HasCustomDash)
             {
                 ModDashMovement();

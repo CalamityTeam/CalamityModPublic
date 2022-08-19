@@ -54,9 +54,9 @@ namespace CalamityMod.Items.Armor.GodSlayer
                 "While at full HP all of your rogue stats are boosted by 10%\n" +
                 "If you take over 80 damage in one hit you will be given extra immunity frames";
 
-            if (modPlayer.godSlayerDashHotKeyPressed)
+            if (modPlayer.godSlayerDashHotKeyPressed || player.dashDelay != 0)
             {
-                modPlayer.DashID = GodslayerArmorDash.ID;
+                modPlayer.DeferredDashID = GodslayerArmorDash.ID;
                 player.dash = 0;
             }
         }
