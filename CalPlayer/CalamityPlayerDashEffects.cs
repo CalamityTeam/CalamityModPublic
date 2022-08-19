@@ -58,6 +58,11 @@ namespace CalamityMod.CalPlayer
                 for (int i = 0; i < Main.maxNPCs; i++)
                 {
                     NPC n = Main.npc[i];
+
+					// Ignore critters with the Guide to Critter Companionship
+					if (Player.dontHurtCritters && NPCID.Sets.CountsAsCritter[n.type])
+						continue;
+
                     if (n.active && !n.dontTakeDamage && !n.friendly && n.Calamity().dashImmunityTime[Player.whoAmI] <= 0)
                     {
                         if (hitArea.Intersects(n.getRect()) && (n.noTileCollide || Player.CanHit(n)))
@@ -68,10 +73,6 @@ namespace CalamityMod.CalPlayer
                             // Don't bother doing anything if no damage is done.
                             if (hitContext.Damage <= 0)
                                 continue;
-
-							// Ignore critters with the Guide to Critter Companionship
-							if (Player.dontHurtCritters && NPCID.Sets.CountsAsCritter[n.type])
-								continue;
 
                             Player.ApplyDamageToNPC(n, hitContext.Damage, hitContext.KnockbackFactor, hitContext.HitDirection, hitContext.CriticalHit);
                             if (n.Calamity().dashImmunityTime[Player.whoAmI] < 12)
