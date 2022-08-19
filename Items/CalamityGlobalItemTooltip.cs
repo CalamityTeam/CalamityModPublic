@@ -237,6 +237,10 @@ namespace CalamityMod.Items
             // For items such as a Copper Helmet which literally have no tooltips at all, add a custom "Tooltip0" which mimics the vanilla Tooltip0.
             void AddTooltip(string text)
             {
+				// Don't add the tooltip if the item is in a social slot
+				if (item.social)
+					return;
+
                 int defenseIndex = -1;
                 for (int i = 0; i < tooltips.Count; ++i)
                     if (tooltips[i].Name == "Defense")
