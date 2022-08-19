@@ -47,7 +47,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             //Convert wooden arrows to Jester's Arrows
-            if (type == ProjectileID.WoodenArrowFriendly)
+            if (CalamityUtils.CheckWoodenAmmo(type, player))
                 type = ProjectileID.JestersArrow;
 
             for (int i = 0; i < 3; i++)

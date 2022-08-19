@@ -35,6 +35,11 @@ namespace CalamityMod.Items.TreasureBags
             Item.rare = ItemRarityID.Cyan;
         }
 
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = ContentSamples.CreativeHelper.ItemGroup.BossBags;
+		}
+
         public override bool CanRightClick() => true;
 
         public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
@@ -67,7 +72,7 @@ namespace CalamityMod.Items.TreasureBags
             ));
             itemLoot.AddIf(() => DownedBossSystem.downedProvidence, ModContent.ItemType<BloodflareCore>());
             itemLoot.AddRevBagAccessories();
-            itemLoot.AddIf(() => CalamityWorld.revenge, ModContent.ItemType<InfernalBlood>());
+            itemLoot.AddIf((info) => CalamityWorld.revenge && !info.player.Calamity().rageBoostTwo, ModContent.ItemType<InfernalBlood>());
 
             // Vanity
             itemLoot.Add(ModContent.ItemType<RavagerMask>(), 7);

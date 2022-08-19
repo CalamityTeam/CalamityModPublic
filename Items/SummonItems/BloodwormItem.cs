@@ -32,5 +32,10 @@ namespace CalamityMod.Items.SummonItems
             Item.makeNPC = (short)ModContent.NPCType<BloodwormNormal>();
             SacrificeTotal = 3;
         }
+
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = ContentSamples.CreativeHelper.ItemGroup.BossItem;
+		}
     }
 }

@@ -677,6 +677,36 @@ namespace CalamityMod
         /// Shorthand to add an arbitrary conditional drop to a loot table.
         /// </summary>
         /// <param name="loot">The ILoot interface for the loot table.</param>
+        /// <param name="cond">An IItemDropRuleCondition which encapsulates the condition which needs to be checked in real-time.</param>
+        /// <param name="itemID">The item to drop.</param>
+        /// <param name="dropRateInt">The chance that the item will drop is 1 in this number. For example, 5 gives a 1 in 5 chance.</param>
+        /// <param name="minQuantity">The minimum number of items to drop. Defaults to 1.</param>
+        /// <param name="maxQuantity">The maximum number of items to drop. Defaults to 1.</param>
+        /// <returns>The item drop rule registered.</returns>
+        public static IItemDropRule AddIf(this ILoot loot, IItemDropRuleCondition cond, int itemID, int dropRateInt = 1, int minQuantity = 1, int maxQuantity = 1)
+        {
+            return loot.Add(ItemDropRule.ByCondition(cond, itemID, dropRateInt, minQuantity, maxQuantity));
+        }
+
+        /// <summary>
+        /// Shorthand to add an arbitrary conditional drop to a loot table using a Fraction drop rate.
+        /// </summary>
+        /// <param name="loot">The ILoot interface for the loot table.</param>
+        /// <param name="cond">An IItemDropRuleCondition which encapsulates the condition which needs to be checked in real-time.</param>
+        /// <param name="itemID">The item to drop.</param>
+        /// <param name="dropRate">The chance that the item will drop as a DropHelper Fraction.</param>
+        /// <param name="minQuantity">The minimum number of items to drop. Defaults to 1.</param>
+        /// <param name="maxQuantity">The maximum number of items to drop. Defaults to 1.</param>
+        /// <returns>The item drop rule registered.</returns>
+        public static IItemDropRule AddIf(this ILoot loot, IItemDropRuleCondition cond, int itemID, Fraction dropRate, int minQuantity = 1, int maxQuantity = 1)
+        {
+            return loot.Add(ItemDropRule.ByCondition(cond, itemID, dropRate.denominator, minQuantity, maxQuantity, dropRate.numerator));
+        }
+
+        /// <summary>
+        /// Shorthand to add an arbitrary conditional drop to a loot table.
+        /// </summary>
+        /// <param name="loot">The ILoot interface for the loot table.</param>
         /// <param name="lambda">A lambda which evaluates in real-time to the condition that needs to be checked.</param>
         /// <param name="itemID">The item to drop.</param>
         /// <param name="dropRateInt">The chance that the item will drop is 1 in this number. For example, 5 gives a 1 in 5 chance.</param>

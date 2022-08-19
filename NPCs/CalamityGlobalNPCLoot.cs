@@ -57,7 +57,7 @@ namespace CalamityMod.NPCs
             }
 
             // Convenient shortcut for all Master drops moved to Revengeance
-            LeadingConditionRule Rev = new LeadingConditionRule(DropHelper.RevNoMaster);
+            LeadingConditionRule rev = new LeadingConditionRule(DropHelper.RevNoMaster);
 
             switch (npc.type)
             {
@@ -454,25 +454,25 @@ namespace CalamityMod.NPCs
                 // Dark Mage T1
                 // Dark Mage's Tome drops in Revengeance
                 case NPCID.DD2DarkMageT1:
-                    Rev.Add(ItemID.DarkMageMasterTrophy);
-                    Rev.Add(ItemID.DarkMageBookMountItem, 4);
-                    npcLoot.Add(Rev);
+                    rev.Add(ItemID.DarkMageMasterTrophy);
+                    rev.Add(ItemID.DarkMageBookMountItem, 4);
+                    npcLoot.Add(rev);
                     break;
 
                 // Dark Mage T3
                 // Master items drop in Revengeance
                 case NPCID.DD2DarkMageT3:
-                    Rev.Add(ItemID.DarkMageMasterTrophy);
-                    Rev.Add(ItemID.DarkMageBookMountItem, 4);
-                    npcLoot.Add(Rev);
+                    rev.Add(ItemID.DarkMageMasterTrophy);
+                    rev.Add(ItemID.DarkMageBookMountItem, 4);
+                    npcLoot.Add(rev);
                     break;
 
                 // Ogre T3
                 // Master items drop in Revengeance
                 case NPCID.DD2OgreT3:
-                    Rev.Add(ItemID.OgreMasterTrophy);
-                    Rev.Add(ItemID.DD2OgrePetItem, 4);
-                    npcLoot.Add(Rev);
+                    rev.Add(ItemID.OgreMasterTrophy);
+                    rev.Add(ItemID.DD2OgrePetItem, 4);
+                    npcLoot.Add(rev);
                     break;
                 #endregion
 
@@ -486,9 +486,9 @@ namespace CalamityMod.NPCs
                 // Flying Dutchman
                 // Master items drop in Revengeance
                 case NPCID.PirateShip:
-                    Rev.Add(ItemID.FlyingDutchmanMasterTrophy);
-                    Rev.Add(ItemID.PirateShipMountItem, 4);
-                    npcLoot.Add(Rev);
+                    rev.Add(ItemID.FlyingDutchmanMasterTrophy);
+                    rev.Add(ItemID.PirateShipMountItem, 4);
+                    npcLoot.Add(rev);
                     break;
                 #endregion
 
@@ -585,9 +585,9 @@ namespace CalamityMod.NPCs
                     npcLoot.AddIf(() => DownedBossSystem.downedDoG, ModContent.ItemType<NightmareFuel>(), 1, 5, 10);
 
                     // Master items drop in Revengeance
-                    Rev.Add(ItemID.MourningWoodMasterTrophy, 4);
-                    Rev.Add(ItemID.WitchBroom, 20);
-                    npcLoot.Add(Rev);
+                    rev.Add(ItemID.MourningWoodMasterTrophy, 4);
+                    rev.Add(ItemID.WitchBroom, 20);
+                    npcLoot.Add(rev);
                     break;
 
                 // Pumpking
@@ -596,9 +596,9 @@ namespace CalamityMod.NPCs
                     npcLoot.AddIf(() => DownedBossSystem.downedDoG, ModContent.ItemType<NightmareFuel>(), 1, 10, 20);
 
                     // Master items drop in Revengeance
-                    Rev.Add(ItemID.PumpkingMasterTrophy, 4);
-                    Rev.Add(ItemID.PumpkingPetItem, 20);
-                    npcLoot.Add(Rev);
+                    rev.Add(ItemID.PumpkingMasterTrophy, 4);
+                    rev.Add(ItemID.PumpkingPetItem, 20);
+                    npcLoot.Add(rev);
                     break;
                 #endregion
 
@@ -626,8 +626,8 @@ namespace CalamityMod.NPCs
                     npcLoot.AddIf(() => DownedBossSystem.downedDoG, ModContent.ItemType<EndothermicEnergy>(), 1, 3, 5);
 
                     // Master items drop in Revengeance
-                    Rev.Add(ItemID.EverscreamMasterTrophy, 4);
-                    Rev.Add(ItemID.EverscreamPetItem, 20);
+                    rev.Add(ItemID.EverscreamMasterTrophy, 4);
+                    rev.Add(ItemID.EverscreamPetItem, 20);
                     break;
 
                 // Santa-NK1
@@ -636,9 +636,9 @@ namespace CalamityMod.NPCs
                     npcLoot.AddIf(() => DownedBossSystem.downedDoG, ModContent.ItemType<EndothermicEnergy>(), 1, 5, 10);
 
                     // Master items drop in Revengeance
-                    Rev.Add(ItemID.SantankMasterTrophy, 4);
-                    Rev.Add(ItemID.SantankMountItem, 20);
-                    npcLoot.Add(Rev);
+                    rev.Add(ItemID.SantankMasterTrophy, 4);
+                    rev.Add(ItemID.SantankMountItem, 20);
+                    npcLoot.Add(rev);
                     break;
 
                 // Ice Queen
@@ -647,9 +647,9 @@ namespace CalamityMod.NPCs
                     npcLoot.AddIf(() => DownedBossSystem.downedDoG, ModContent.ItemType<EndothermicEnergy>(), 1, 10, 20);
 
                     // Master items drop in Revengeance
-                    Rev.Add(ItemID.IceQueenMasterTrophy, 4);
-                    Rev.Add(ItemID.IceQueenPetItem, 20);
-                    npcLoot.Add(Rev);
+                    rev.Add(ItemID.IceQueenMasterTrophy, 4);
+                    rev.Add(ItemID.IceQueenPetItem, 20);
+                    npcLoot.Add(rev);
                     break;
                 #endregion
 
@@ -683,9 +683,9 @@ namespace CalamityMod.NPCs
                     npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<NullificationRifle>(), 7, 4));
 
                     // Master items drop in Revengeance
-                    Rev.Add(ItemID.UFOMasterTrophy);
-                    Rev.Add(ItemID.MartianPetItem, 4);
-                    npcLoot.Add(Rev);
+                    rev.Add(ItemID.UFOMasterTrophy);
+                    rev.Add(ItemID.MartianPetItem, 4);
+                    npcLoot.Add(rev);
                     break;
                 #endregion
 
@@ -780,9 +780,9 @@ namespace CalamityMod.NPCs
                     npcLoot.AddNormalOnly(ModContent.ItemType<CrownJewel>(), 10);
 
                     // Master items drop in Revengeance
-                    Rev.Add(ItemID.KingSlimeMasterTrophy);
-                    Rev.Add(ItemID.KingSlimePetItem, 4);
-                    npcLoot.Add(Rev);
+                    rev.Add(ItemID.KingSlimeMasterTrophy);
+                    rev.Add(ItemID.KingSlimePetItem, 4);
+                    npcLoot.Add(rev);
 
                     // Lore
                     npcLoot.AddConditionalPerPlayer(() => !NPC.downedSlimeKing, ModContent.ItemType<KnowledgeKingSlime>());
@@ -797,9 +797,9 @@ namespace CalamityMod.NPCs
                     npcLoot.AddNormalOnly(ModContent.ItemType<DeathstareRod>(), 4);
 
                     // Master items drop in Revengeance
-                    Rev.Add(ItemID.EyeofCthulhuMasterTrophy);
-                    Rev.Add(ItemID.EyeOfCthulhuPetItem, 4);
-                    npcLoot.Add(Rev);
+                    rev.Add(ItemID.EyeofCthulhuMasterTrophy);
+                    rev.Add(ItemID.EyeOfCthulhuPetItem, 4);
+                    npcLoot.Add(rev);
 
                     // Lore
                     npcLoot.AddConditionalPerPlayer(() => !NPC.downedBoss1, ModContent.ItemType<KnowledgeEyeofCthulhu>());
@@ -835,9 +835,9 @@ namespace CalamityMod.NPCs
                     npcLoot.AddNormalOnly(DropHelper.PerPlayer(ItemID.BrainOfConfusion));
 
                     // Master items drop in Revengeance
-                    Rev.Add(ItemID.BrainofCthulhuMasterTrophy);
-                    Rev.Add(ItemID.BrainOfCthulhuPetItem, 4);
-                    npcLoot.Add(Rev);
+                    rev.Add(ItemID.BrainofCthulhuMasterTrophy);
+                    rev.Add(ItemID.BrainOfCthulhuPetItem, 4);
+                    npcLoot.Add(rev);
 
                     // Corruption World OR Drunk World: Corruption Lore
                     LeadingConditionRule bocCorruptionLore = new(DropHelper.If(() => (!WorldGen.crimson || WorldGen.drunkWorldGen) && !NPC.downedBoss2));
@@ -850,6 +850,24 @@ namespace CalamityMod.NPCs
                     bocCrimsonLore.Add(ModContent.ItemType<KnowledgeCrimson>());
                     bocCrimsonLore.Add(ModContent.ItemType<KnowledgeBrainofCthulhu>());
                     npcLoot.Add(bocCrimsonLore);
+                    break;
+
+                case NPCID.Deerclops:
+                    // Remove the vanilla loot rule for Deerclops' weapon drops.
+                    npcLoot.RemoveWhere((rule) =>
+                    {
+                        if (rule is LeadingConditionRule deerLCR)
+                            return deerLCR.ChainedRules[0] is OneFromRulesRule uselessMediary;
+                        return false;
+                    });
+
+                    // Define a replacement rule which drops the weapons Calamity style.
+                    npcLoot.AddNormalOnly(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, ItemID.LucyTheAxe, ItemID.PewMaticHorn, ItemID.WeatherPain, ItemID.HoundiusShootius));
+
+                    // Master items drop in Revengeance
+                    rev.Add(ItemID.DeerclopsMasterTrophy);
+                    rev.Add(ItemID.DeerclopsPetItem, 4);
+                    npcLoot.Add(rev);
                     break;
 
                 case NPCID.QueenBee:
@@ -875,9 +893,9 @@ namespace CalamityMod.NPCs
                     npcLoot.Add(ItemID.Stinger, 1, 8, 12);
 
                     // Master items drop in Revengeance
-                    Rev.Add(ItemID.QueenBeeMasterTrophy);
-                    Rev.Add(ItemID.QueenBeePetItem, 4);
-                    npcLoot.Add(Rev);
+                    rev.Add(ItemID.QueenBeeMasterTrophy);
+                    rev.Add(ItemID.QueenBeePetItem, 4);
+                    npcLoot.Add(rev);
 
                     // Lore
                     npcLoot.AddConditionalPerPlayer(() => !NPC.downedQueenBee, ModContent.ItemType<KnowledgeQueenBee>());
@@ -900,19 +918,12 @@ namespace CalamityMod.NPCs
                     npcLoot.AddNormalOnly(DropHelper.PerPlayer(ItemID.BoneGlove));
 
                     // Master items drop in Revengeance
-                    Rev.Add(ItemID.SkeletronMasterTrophy);
-                    Rev.Add(ItemID.SkeletronPetItem, 4);
-                    npcLoot.Add(Rev);
+                    rev.Add(ItemID.SkeletronMasterTrophy);
+                    rev.Add(ItemID.SkeletronPetItem, 4);
+                    npcLoot.Add(rev);
 
                     // Lore
                     npcLoot.AddConditionalPerPlayer(() => !NPC.downedBoss3, ModContent.ItemType<KnowledgeSkeletron>());
-                    break;
-
-                case NPCID.Deerclops:
-                    // Master items drop in Revengeance
-                    Rev.Add(ItemID.DeerclopsMasterTrophy);
-                    Rev.Add(ItemID.DeerclopsPetItem, 4);
-                    npcLoot.Add(Rev);
                     break;
 
                 case NPCID.WallofFlesh:
@@ -975,9 +986,9 @@ namespace CalamityMod.NPCs
                     npcLoot.Add(ItemID.CrimsonKey, 3);
 
                     // Master items drop in Revengeance
-                    Rev.Add(ItemID.WallofFleshMasterTrophy);
-                    Rev.Add(ItemID.WallOfFleshGoatMountItem, 4);
-                    npcLoot.Add(Rev);
+                    rev.Add(ItemID.WallofFleshMasterTrophy);
+                    rev.Add(ItemID.WallOfFleshGoatMountItem, 4);
+                    npcLoot.Add(rev);
 
                     // Lore
                     LeadingConditionRule wofLore = npcLoot.AddConditionalPerPlayer(() => !Main.hardMode, ModContent.ItemType<KnowledgeUnderworld>());
@@ -993,9 +1004,9 @@ namespace CalamityMod.NPCs
                     npcLoot.Add(ItemID.HallowedKey, 3);
 
                     // Master items drop in Revengeance
-                    Rev.Add(ItemID.QueenSlimeMasterTrophy);
-                    Rev.Add(ItemID.QueenSlimePetItem, 4);
-                    npcLoot.Add(Rev);
+                    rev.Add(ItemID.QueenSlimeMasterTrophy);
+                    rev.Add(ItemID.QueenSlimePetItem, 4);
+                    npcLoot.Add(rev);
 
                     break;
 
@@ -1010,9 +1021,9 @@ namespace CalamityMod.NPCs
                     npcLoot.AddNormalOnly(DropHelper.PerPlayer(ItemID.MechanicalWagonPiece));
 
                     // Master items drop in Revengeance
-                    Rev.Add(ItemID.DestroyerMasterTrophy);
-                    Rev.Add(ItemID.DestroyerPetItem, 4);
-                    npcLoot.Add(Rev);
+                    rev.Add(ItemID.DestroyerMasterTrophy);
+                    rev.Add(ItemID.DestroyerPetItem, 4);
+                    npcLoot.Add(rev);
 
                     // Lore
                     npcLoot.AddConditionalPerPlayer(() => !NPC.downedMechBoss1, ModContent.ItemType<KnowledgeDestroyer>());
@@ -1066,9 +1077,9 @@ namespace CalamityMod.NPCs
                     npcLoot.AddNormalOnly(DropHelper.PerPlayer(ItemID.MechanicalBatteryPiece));
 
                     // Master items drop in Revengeance
-                    Rev.Add(ItemID.SkeletronPrimeMasterTrophy);
-                    Rev.Add(ItemID.SkeletronPrimePetItem, 4);
-                    npcLoot.Add(Rev);
+                    rev.Add(ItemID.SkeletronPrimeMasterTrophy);
+                    rev.Add(ItemID.SkeletronPrimePetItem, 4);
+                    npcLoot.Add(rev);
 
                     // Lore
                     npcLoot.AddConditionalPerPlayer(() => !NPC.downedMechBoss3, ModContent.ItemType<KnowledgeSkeletronPrime>());
@@ -1127,53 +1138,12 @@ namespace CalamityMod.NPCs
                     npcLoot.Add(ItemID.JungleKey, 3);
 
                     // Master items drop in Revengeance
-                    Rev.Add(ItemID.PlanteraMasterTrophy);
-                    Rev.Add(ItemID.PlanteraPetItem, 4);
-                    npcLoot.Add(Rev);
+                    rev.Add(ItemID.PlanteraMasterTrophy);
+                    rev.Add(ItemID.PlanteraPetItem, 4);
+                    npcLoot.Add(rev);
 
                     // Lore
                     npcLoot.AddConditionalPerPlayer(() => !NPC.downedPlantBoss, ModContent.ItemType<KnowledgePlantera>());
-                    break;
-
-                case NPCID.HallowBoss:
-                    // Remove the vanilla loot rule for Empress of Light's weapon drops. This requires digging through her loot rule tree.
-                    try
-                    {
-                        var empressRootRules = npcLoot.Get(false);
-                        IItemDropRule notExpert = empressRootRules.Find((rule) => rule is LeadingConditionRule empressLCR && empressLCR.condition is Conditions.NotExpert);
-                        if (notExpert is LeadingConditionRule LCR_NotExpert)
-                        {
-                            LCR_NotExpert.ChainedRules.RemoveAll((chainAttempt) =>
-                                chainAttempt is Chains.TryIfSucceeded c && c.RuleToChain is OneFromOptionsDropRule empressWeapons);
-
-                            // Define a replacement rule which drops the items Calamity style.
-                            // This includes her wings, because they have a pathetically low drop rate normally.
-                            var empressItems = new int[]
-                            {
-                                ItemID.FairyQueenMagicItem,
-                                ItemID.FairyQueenRangedItem,
-                                ItemID.EmpressBlade,
-                                ItemID.RainbowWhip,
-                                ItemID.PiercingStarlight,
-                                ItemID.RainbowWings
-                            };
-                            LCR_NotExpert.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, empressItems));
-                        }
-
-                        // Remove the vanilla loot rule for Empress Wings because it's part of the Calamity Style set.
-                        empressRootRules.RemoveAll((rule) =>
-                            rule is ItemDropWithConditionRule conditionalRule && conditionalRule.condition is Conditions.NotExpert && conditionalRule.itemId == ItemID.RainbowWings);
-                    }
-                    catch (ArgumentNullException) { }
-
-                    // Expert+ drops are also available on Normal
-                    npcLoot.AddNormalOnly(DropHelper.PerPlayer(ItemID.EmpressFlightBooster));
-
-                    // Master items drop in Revengeance
-                    Rev.Add(ItemID.FairyQueenMasterTrophy);
-                    Rev.Add(ItemID.FairyQueenPetItem, 4);
-                    npcLoot.Add(Rev);
-
                     break;
 
                 case NPCID.Golem:
@@ -1223,9 +1193,9 @@ namespace CalamityMod.NPCs
                     npcLoot.Add(firstGolemKill);
 
                     // Master items drop in Revengeance
-                    Rev.Add(ItemID.GolemMasterTrophy);
-                    Rev.Add(ItemID.GolemPetItem, 4);
-                    npcLoot.Add(Rev);
+                    rev.Add(ItemID.GolemMasterTrophy);
+                    rev.Add(ItemID.GolemPetItem, 4);
+                    npcLoot.Add(rev);
 
                     // Lore
                     npcLoot.AddConditionalPerPlayer(() => !NPC.downedGolemBoss, ModContent.ItemType<KnowledgeGolem>());
@@ -1256,9 +1226,9 @@ namespace CalamityMod.NPCs
                     catch (ArgumentNullException) { }
 
                     // Master items drop in Revengeance
-                    Rev.Add(ItemID.BetsyMasterTrophy);
-                    Rev.Add(ItemID.DD2BetsyPetItem, 4);
-                    npcLoot.Add(Rev);
+                    rev.Add(ItemID.BetsyMasterTrophy);
+                    rev.Add(ItemID.DD2BetsyPetItem, 4);
+                    npcLoot.Add(rev);
 
                     break;
 
@@ -1301,19 +1271,64 @@ namespace CalamityMod.NPCs
                     npcLoot.AddNormalOnly(ModContent.ItemType<BrinyBaron>(), 10);
 
                     // Master items drop in Revengeance
-                    Rev.Add(ItemID.DukeFishronMasterTrophy);
-                    Rev.Add(ItemID.DukeFishronPetItem, 4);
-                    npcLoot.Add(Rev);
+                    rev.Add(ItemID.DukeFishronMasterTrophy);
+                    rev.Add(ItemID.DukeFishronPetItem, 4);
+                    npcLoot.Add(rev);
 
                     // Lore
                     npcLoot.AddConditionalPerPlayer(() => !NPC.downedFishron, ModContent.ItemType<KnowledgeDukeFishron>());
                     break;
 
+                case NPCID.HallowBoss:
+                    // Remove the vanilla loot rule for Empress of Light's weapon drops. This requires digging through her loot rule tree.
+                    try
+                    {
+                        var empressRootRules = npcLoot.Get(false);
+                        IItemDropRule notExpert = empressRootRules.Find((rule) => rule is LeadingConditionRule empressLCR && empressLCR.condition is Conditions.NotExpert);
+                        if (notExpert is LeadingConditionRule LCR_NotExpert)
+                        {
+                            LCR_NotExpert.ChainedRules.RemoveAll((chainAttempt) =>
+                                chainAttempt is Chains.TryIfSucceeded c && c.RuleToChain is OneFromOptionsDropRule empressWeapons);
+
+                            // Define a replacement rule which drops the items Calamity style.
+                            // This includes her wings, because they have a pathetically low drop rate normally.
+                            var empressItems = new int[]
+                            {
+                                ItemID.PiercingStarlight, // Starlight
+                                ItemID.FairyQueenRangedItem, // Eventide
+                                ItemID.FairyQueenMagicItem, // Nightglow
+                                ItemID.SparkleGuitar, // Stellar Tune
+                                ItemID.EmpressBlade, // Terraprisma
+                                ItemID.RainbowWhip, // Kaleidoscope
+                                ItemID.RainbowWings // Empress Wings
+                            };
+                            LCR_NotExpert.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, empressItems));
+
+                            // Remove rules for Empress Wings and Stellar Tune because they're in the Calamity Style set.
+                            LCR_NotExpert.ChainedRules.RemoveAll((chain) =>
+                            {
+                                var rule = chain.RuleToChain;
+                                return rule is CommonDrop c && (c.itemId == ItemID.RainbowWings || c.itemId == ItemID.SparkleGuitar);
+                            });
+                        }
+                    }
+                    catch (ArgumentNullException) { }
+
+                    // Expert+ drops are also available on Normal
+                    npcLoot.AddNormalOnly(DropHelper.PerPlayer(ItemID.EmpressFlightBooster));
+
+                    // Master items drop in Revengeance
+                    rev.Add(ItemID.FairyQueenMasterTrophy);
+                    rev.Add(ItemID.FairyQueenPetItem, 4);
+                    npcLoot.Add(rev);
+
+                    break;
+
                 case NPCID.CultistBoss:
                     // Master items drop in Revengeance
-                    Rev.Add(ItemID.LunaticCultistMasterTrophy);
-                    Rev.Add(ItemID.LunaticCultistPetItem, 4);
-                    npcLoot.Add(Rev);
+                    rev.Add(ItemID.LunaticCultistMasterTrophy);
+                    rev.Add(ItemID.LunaticCultistPetItem, 4);
+                    npcLoot.Add(rev);
 
                     // Lore
                     npcLoot.AddConditionalPerPlayer(() => !NPC.downedAncientCultist, ModContent.ItemType<KnowledgeLunaticCultist>());
@@ -1361,9 +1376,9 @@ namespace CalamityMod.NPCs
                     npcLoot.AddNormalOnly(DropHelper.PerPlayer(ModContent.ItemType<CelestialOnion>()));
 
                     // Master items drop in Revengeance
-                    Rev.Add(ItemID.MoonLordMasterTrophy);
-                    Rev.Add(ItemID.MoonLordPetItem, 4);
-                    npcLoot.Add(Rev);
+                    rev.Add(ItemID.MoonLordMasterTrophy);
+                    rev.Add(ItemID.MoonLordPetItem, 4);
+                    npcLoot.Add(rev);
 
                     // Lore
                     npcLoot.AddConditionalPerPlayer(() => !NPC.downedMoonlord, ModContent.ItemType<KnowledgeMoonLord>());

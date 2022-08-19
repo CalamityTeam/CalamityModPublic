@@ -35,6 +35,11 @@ namespace CalamityMod.Items.TreasureBags
             Item.expert = true;
         }
 
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = ContentSamples.CreativeHelper.ItemGroup.BossBags;
+		}
+
         public override bool CanRightClick() => true;
 
         public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
@@ -67,7 +72,7 @@ namespace CalamityMod.Items.TreasureBags
             itemLoot.Add(ItemDropRule.OneFromOptions(7, ModContent.ItemType<SlimeGodMask>(), ModContent.ItemType<SlimeGodMask2>()));
 
             // Other
-            itemLoot.AddIf(() => CalamityWorld.revenge, ModContent.ItemType<ElectrolyteGelPack>());
+            itemLoot.AddIf((info) => CalamityWorld.revenge && !info.player.Calamity().adrenalineBoostOne, ModContent.ItemType<ElectrolyteGelPack>());
         }
     }
 }

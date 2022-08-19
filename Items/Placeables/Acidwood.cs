@@ -28,6 +28,11 @@ namespace CalamityMod.Items.Placeables
             Item.createTile = ModContent.TileType<AcidwoodTile>();
         }
 
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = ContentSamples.CreativeHelper.ItemGroup.Wood;
+		}
+
         public override void AddRecipes()
         {
             CreateRecipe().

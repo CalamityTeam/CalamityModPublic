@@ -35,6 +35,11 @@ namespace CalamityMod.Items.Placeables.Furniture.CraftingStations
             Item.value = Item.sellPrice(platinum: 2, gold: 50);
         }
 
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = ContentSamples.CreativeHelper.ItemGroup.CraftingObjects;
+		}
+
         public override void AddRecipes()
         {
             CreateRecipe(1).AddRecipeGroup("HardmodeAnvil").AddIngredient(ModContent.ItemType<CosmiliteBar>(), 10).AddIngredient(ItemID.LunarBar, 10).AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 12).AddIngredient(ModContent.ItemType<ExodiumCluster>(), 20).AddTile(TileID.LunarCraftingStation).Register();

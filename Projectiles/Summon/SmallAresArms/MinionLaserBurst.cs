@@ -32,6 +32,7 @@ namespace CalamityMod.Projectiles.Summon.SmallAresArms
             Projectile.DamageType = DamageClass.Summon;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 12;
+            Projectile.extraUpdates = 3; // THESE MOVE SUPER FAST NOW I AM NOT SORRY
         }
 
         public override void AI()

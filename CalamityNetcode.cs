@@ -274,9 +274,13 @@ namespace CalamityMod
                     //
 
                     case CalamityModMessageType.SyncDifficulties:
+                        int sender = reader.ReadInt32();
                         CalamityWorld.revenge = reader.ReadBoolean();
                         CalamityWorld.death = reader.ReadBoolean();
                         //TODO - Something so that other mods that hijack the difficulty ui can also use the remainder of the reader to have their own shit
+
+                        if (Main.netMode == NetmodeID.Server)
+                            SyncCalamityWorldDifficulties(sender);
                         break;
 
                     //
@@ -297,7 +301,7 @@ namespace CalamityMod
                 else if (e is IOException ioe)
                     CalamityMod.Instance.Logger.Error("Failed to parse Calamity packet: An unknown I/O error occurred.", ioe);
                 else
-                    throw e; // this either will crash the game or be caught by TML's packet policing
+                    throw; // this either will crash the game or be caught by TML's packet policing
             }
         }
 
@@ -307,19 +311,19 @@ namespace CalamityMod
                 NetMessage.SendData(MessageID.WorldData);
         }
 
-        public static void SyncCalamityWorldDifficulties()
+        public static void SyncCalamityWorldDifficulties(int sender)
         {
             if (Main.netMode == NetmodeID.SinglePlayer)
                 return;
 
             var netMessage = CalamityMod.Instance.GetPacket();
             netMessage.Write((byte)CalamityModMessageType.SyncDifficulties);
+            netMessage.Write(sender);
             netMessage.Write(CalamityWorld.revenge);
             netMessage.Write(CalamityWorld.death);
 
             //TODO - Let other mods also add their own bits in that sync. Ideally would be done through the difficultystem itself
-
-            netMessage.Send(-1, Main.myPlayer);
+            netMessage.Send(-1, sender);
         }
 
         public static void NewNPC_ClientSide(Vector2 spawnPosition, int npcType, Player player)

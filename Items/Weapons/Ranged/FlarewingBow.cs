@@ -56,7 +56,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 {
                     value9 -= vector7;
                 }
-                if (type == ProjectileID.WoodenArrowFriendly)
+                if (CalamityUtils.CheckWoodenAmmo(type, player))
                 {
                     int num123 = Projectile.NewProjectile(source, vector2.X + value9.X, vector2.Y + value9.Y, velocity.X, velocity.Y, ModContent.ProjectileType<FlareBat>(), damage, knockback, player.whoAmI);
                     Main.projectile[num123].noDropItem = true;

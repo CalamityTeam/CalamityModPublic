@@ -35,6 +35,11 @@ namespace CalamityMod.Items.TreasureBags
             Item.expert = true;
         }
 
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = ContentSamples.CreativeHelper.ItemGroup.BossBags;
+		}
+
         public override bool CanRightClick() => true;
 
         public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
@@ -67,7 +72,7 @@ namespace CalamityMod.Items.TreasureBags
 
             // Equipment
             itemLoot.Add(ModContent.ItemType<Affliction>());
-            itemLoot.AddIf(() => CalamityWorld.revenge, ModContent.ItemType<Ectoheart>());
+            itemLoot.AddIf((info) => CalamityWorld.revenge && !info.player.Calamity().adrenalineBoostThree, ModContent.ItemType<Ectoheart>());
             itemLoot.AddRevBagAccessories();
 
             // Vanity

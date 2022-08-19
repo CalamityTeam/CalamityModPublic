@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.Furniture.CraftingStations;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.SummonItems
@@ -20,6 +21,11 @@ namespace CalamityMod.Items.SummonItems
             Item.height = 54;
             Item.Calamity().customRarity = CalamityRarity.Violet;
         }
+
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = ContentSamples.CreativeHelper.ItemGroup.BossItem;
+		}
 
         public override void AddRecipes()
         {

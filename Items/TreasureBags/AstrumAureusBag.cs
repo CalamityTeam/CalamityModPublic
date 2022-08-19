@@ -38,6 +38,11 @@ namespace CalamityMod.Items.TreasureBags
             Item.rare = ItemRarityID.Cyan;
         }
 
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = ContentSamples.CreativeHelper.ItemGroup.BossBags;
+		}
+
         public override bool CanRightClick() => true;
 
         public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
@@ -72,7 +77,7 @@ namespace CalamityMod.Items.TreasureBags
             itemLoot.Add(ModContent.ItemType<AstrumAureusMask>(), 7);
 
             // Other
-            itemLoot.AddIf(() => CalamityWorld.revenge, ModContent.ItemType<StarlightFuelCell>());
+            itemLoot.AddIf((info) => CalamityWorld.revenge && !info.player.Calamity().adrenalineBoostTwo, ModContent.ItemType<StarlightFuelCell>());
         }
     }
 }

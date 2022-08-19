@@ -92,8 +92,7 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             CreateRecipe().
                 AddIngredient(ItemID.TheAxe).
-                AddIngredient(ItemID.MagicalHarp).
-                AddIngredient<AnahitasArpeggio>().
+                AddIngredient(ItemID.SparkleGuitar). // Stellar Tune from Empress of Light
                 AddIngredient<CosmiliteBar>(8).
                 AddIngredient<NightmareFuel>(20).
                 AddTile<CosmicAnvil>().

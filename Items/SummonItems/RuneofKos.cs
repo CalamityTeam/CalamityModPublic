@@ -38,6 +38,11 @@ namespace CalamityMod.Items.SummonItems
             Item.Calamity().customRarity = CalamityRarity.Turquoise;
         }
 
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = ContentSamples.CreativeHelper.ItemGroup.BossItem;
+		}
+
         public override bool CanUseItem(Player player)
         {
             return (player.ZoneSkyHeight || player.ZoneUnderworldHeight || player.ZoneDungeon) &&

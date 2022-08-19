@@ -26,6 +26,11 @@ namespace CalamityMod.Items.Placeables.Furniture.CraftingStations
             Item.createTile = ModContent.TileType<Tiles.Furniture.CraftingStations.MonolithAmalgam>();
         }
 
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = ContentSamples.CreativeHelper.ItemGroup.CraftingObjects;
+		}
+
         public override void AddRecipes()
         {
             CreateRecipe(1).AddIngredient(ModContent.ItemType<AstralMonolith>(), 20).AddTile(TileID.WorkBenches).Register();

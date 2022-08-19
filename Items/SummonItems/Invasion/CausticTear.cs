@@ -29,6 +29,11 @@ namespace CalamityMod.Items.SummonItems.Invasion
             Item.consumable = false;
         }
 
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = ContentSamples.CreativeHelper.ItemGroup.EventItem;
+		}
+
         public override bool CanUseItem(Player player)
         {
             return !AcidRainEvent.AcidRainEventIsOngoing;

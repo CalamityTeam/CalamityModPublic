@@ -32,6 +32,11 @@ namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
             Item.useStyle = ItemUseStyleID.Swing;
         }
 
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = ContentSamples.CreativeHelper.ItemGroup.Crates;
+		}
+
         public override bool CanRightClick() => true;
         public override void ModifyItemLoot(ItemLoot itemLoot)
         {

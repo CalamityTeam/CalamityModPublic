@@ -55,7 +55,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 if (!canHit)
                     offset -= velocity;
 
-                if (type == ProjectileID.WoodenArrowFriendly)
+                if (CalamityUtils.CheckWoodenAmmo(type, player))
                     Projectile.NewProjectile(spawnSource, source + offset, velocity, ModContent.ProjectileType<LunarBolt>(), damage, knockback, player.whoAmI);
                 else
                 {

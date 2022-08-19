@@ -57,7 +57,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 {
                     offset -= velocity;
                 }
-                if (type == ProjectileID.WoodenArrowFriendly)
+                if (CalamityUtils.CheckWoodenAmmo(type, player))
                 {
                     type = ProjectileID.FireArrow;
                 }
