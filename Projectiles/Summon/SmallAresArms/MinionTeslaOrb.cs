@@ -46,7 +46,6 @@ namespace CalamityMod.Projectiles.Summon.SmallAresArms
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 7;
             Projectile.DamageType = DamageClass.Summon;
-            Projectile.extraUpdates = 1;
         }
 
         public override void SendExtraAI(BinaryWriter writer)

@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Summon.SmallAresArms
 
         public override int ShootRate => AresExoskeleton.TeslaCannonShootRate;
 
-        public override float ShootSpeed => 12f;
+        public override float ShootSpeed => 16f;
 
         public override bool UsesSuperpredictiveness => true;
 
