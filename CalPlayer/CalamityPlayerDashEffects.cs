@@ -114,7 +114,7 @@ namespace CalamityMod.CalPlayer
                 if (UsedDash.IsOmnidirectional && VerticalGodslayerDashTimer < 15)
                 {
                     VerticalGodslayerDashTimer++;
-                    if (VerticalGodslayerDashTimer >= 20)
+                    if (VerticalGodslayerDashTimer >= 15)
                         Player.dashDelay = dashDelayToApply;
                 }
 
