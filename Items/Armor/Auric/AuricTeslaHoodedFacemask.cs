@@ -57,8 +57,8 @@ namespace CalamityMod.Items.Armor.Auric
             player.ignoreWater = true;
             player.crimsonRegen = true;
 
-            if (modPlayer.godSlayerDashHotKeyPressed)
-                modPlayer.DashID = GodslayerArmorDash.ID;
+            if (modPlayer.godSlayerDashHotKeyPressed || player.dashDelay != 0)
+                modPlayer.DeferredDashID = GodslayerArmorDash.ID;
         }
 
         public override void UpdateEquip(Player player)
