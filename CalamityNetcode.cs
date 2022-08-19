@@ -301,7 +301,7 @@ namespace CalamityMod
                 else if (e is IOException ioe)
                     CalamityMod.Instance.Logger.Error("Failed to parse Calamity packet: An unknown I/O error occurred.", ioe);
                 else
-                    throw e; // this either will crash the game or be caught by TML's packet policing
+                    throw; // this either will crash the game or be caught by TML's packet policing
             }
         }
 
