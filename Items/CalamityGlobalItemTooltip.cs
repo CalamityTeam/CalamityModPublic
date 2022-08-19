@@ -333,6 +333,12 @@ namespace CalamityMod.Items
             // Due to the higher complexity of the action, the actual logic is delegated to its own method.
             // I think this fits the miscellaneous category? Not seeing anything like this elsewhere. - Tomat
             EditTooltipByName("Speed", (line) => RedistributeSpeedTooltips(item, line));
+
+            if (item.type == ItemID.SpaceGun)
+            {
+				int cost = (int)(item.mana * Main.LocalPlayer.manaCost * 0.5f);
+                EditTooltipByName("UseMana", (line) => line.Text = $"Uses {cost} mana");
+            }
             #endregion
 
             // For boss summon item clarity
