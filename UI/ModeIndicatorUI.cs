@@ -447,7 +447,7 @@ namespace CalamityMod.UI
             mode.Enabled = true;
 
             SoundEngine.PlaySound(mode.ActivationSound);
-            CalamityNetcode.SyncCalamityWorldDifficulties();
+            CalamityNetcode.SyncCalamityWorldDifficulties(Main.myPlayer);
 
             menuOpen = false;
             menuOpenTransitionTime = MenuAnimLenght;
