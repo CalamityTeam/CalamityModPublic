@@ -91,6 +91,7 @@ namespace CalamityMod.CalPlayer
             if (Player.dashDelay > 0)
             {
                 VerticalGodslayerDashTimer = 0;
+                LastUsedDashID = string.Empty;
                 return;
             }
 
