@@ -34,26 +34,16 @@ namespace CalamityMod.Projectiles.Melee
 
         public int GetSwingTime
         {
-            get 
+            get
             {
                 //Constant duration for the dash
                 if (State == SwingState.BonkDash)
                     return Exoblade.DashTime * Projectile.extraUpdates;
-
-                float itemUseTime = Owner.ActiveItem().useTime;
-                if (itemUseTime == 0)
-                    itemUseTime = Exoblade.BaseUseTime;
-
-                float speedUpPercent = itemUseTime / (float)Exoblade.BaseUseTime;
-                float ownerMeleeSpeed = Owner.GetTotalAttackSpeed<MeleeDamageClass>();
-                speedUpPercent *= 1 / ownerMeleeSpeed;
-
-                //TODO : Melee speed scaling doesn't work here. GetTotalAttackSpeed always returns 1. ???
-                return (int)(78 * speedUpPercent);
+                else
+                    return 78;
             }
-
         }
-            
+
         public float Timer => SwingTime - Projectile.timeLeft;
         public float Progression => Timer / (float)SwingTime;
         public float LungeProgression => Progression < (1 - Exoblade.PercentageOfAnimationSpentLunging) ? 0 : (Progression - (1 - Exoblade.PercentageOfAnimationSpentLunging)) / Exoblade.PercentageOfAnimationSpentLunging;
