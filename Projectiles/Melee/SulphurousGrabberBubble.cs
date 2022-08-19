@@ -1,4 +1,4 @@
-using CalamityMod.Dusts;
+﻿using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -22,7 +22,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.penetrate = 1;
             Projectile.tileCollide = false;
             Projectile.timeLeft = 120;
-            Projectile.DamageType = DamageClass.Melee;
+            Projectile.DamageType = DamageClass.MeleeNoSpeed;
         }
 
         public override void AI()

@@ -22,7 +22,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.ignoreWater = true;
             Projectile.penetrate = 8;
             Projectile.timeLeft = 300;
-            Projectile.DamageType = DamageClass.Melee;
+            Projectile.DamageType = DamageClass.MeleeNoSpeed;
         }
 
         public override void AI()

@@ -33,7 +33,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
             Projectile.height = 16;
             Projectile.scale = 1.6f;
             Projectile.friendly = true;
-            Projectile.DamageType = DamageClass.Melee;
+            Projectile.DamageType = DamageClass.MeleeNoSpeed;
             Projectile.penetrate = -1;
             Projectile.MaxUpdates = UpdatesPerFrame;
             Projectile.usesLocalNPCImmunity = true;
@@ -105,7 +105,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
                 {
                     int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), laserSpawnPosition, velocity, ModContent.ProjectileType<NebulaShot>(), laserDamage, laserKB, Projectile.owner);
                     if (proj.WithinBounds(Main.maxProjectiles))
-                        Main.projectile[proj].DamageType = DamageClass.Melee;
+                        Main.projectile[proj].DamageType = DamageClass.MeleeNoSpeed;
                 }
             }
         }

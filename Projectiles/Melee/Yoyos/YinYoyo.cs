@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
@@ -23,7 +23,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
             Projectile.height = 16;
             Projectile.scale = 1f;
             Projectile.friendly = true;
-            Projectile.DamageType = DamageClass.Melee;
+            Projectile.DamageType = DamageClass.MeleeNoSpeed;
             Projectile.penetrate = -1;
             Projectile.MaxUpdates = 2;
             Projectile.usesLocalNPCImmunity = true;

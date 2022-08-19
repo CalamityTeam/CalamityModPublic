@@ -29,7 +29,7 @@ Summons a barrage of petals and waterfalls on enemy hits");
         {
             Item.width = 76;
             Item.height = 82;
-            Item.DamageType = DamageClass.Melee;
+            Item.DamageType = DamageClass.MeleeNoSpeed;
             Item.damage = 660;
             Item.knockBack = 9f;
             Item.useAnimation = 20;

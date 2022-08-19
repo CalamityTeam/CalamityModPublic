@@ -1,4 +1,4 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -21,7 +21,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
             Projectile.height = 16;
             Projectile.scale = 1f;
             Projectile.friendly = true;
-            Projectile.DamageType = DamageClass.Melee;
+            Projectile.DamageType = DamageClass.MeleeNoSpeed;
             Projectile.alpha = 150;
             Projectile.penetrate = -1;
             Projectile.MaxUpdates = 2;

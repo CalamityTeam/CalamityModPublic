@@ -71,7 +71,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             Projectile.width = 46; // Collision logic is done manually.
             Projectile.height = 46;
             Projectile.friendly = true;
-            Projectile.DamageType = DamageClass.Melee;
+            Projectile.DamageType = DamageClass.MeleeNoSpeed;
             Projectile.tileCollide = false;
             Projectile.ignoreWater = true;
 

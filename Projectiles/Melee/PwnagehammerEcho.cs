@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -23,7 +23,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.height = 40;
             Projectile.aiStyle = 0;
             Projectile.friendly = true;
-            Projectile.DamageType = DamageClass.Melee;
+            Projectile.DamageType = DamageClass.MeleeNoSpeed;
             Projectile.penetrate = 1;
             Projectile.tileCollide = false;
             Projectile.ignoreWater = true;

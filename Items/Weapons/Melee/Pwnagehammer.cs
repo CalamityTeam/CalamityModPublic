@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.useStyle = ItemUseStyleID.Swing;
             Item.knockBack = 10f;
             Item.UseSound = SoundID.Item1;
-            Item.DamageType = DamageClass.Melee;
+            Item.DamageType = DamageClass.MeleeNoSpeed;
             Item.height = 66;
             Item.value = Item.buyPrice(gold: 48);
             Item.rare = ItemRarityID.LightPurple;

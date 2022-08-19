@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.width = Projectile.height = 40;
             Projectile.friendly = true;
             Projectile.timeLeft = 3600;
-            Projectile.DamageType = DamageClass.Melee;
+            Projectile.DamageType = DamageClass.MeleeNoSpeed;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 10;
         }

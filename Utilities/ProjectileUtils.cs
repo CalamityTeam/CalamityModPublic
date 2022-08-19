@@ -317,7 +317,7 @@ namespace CalamityMod
                         if (projectile.type == ProjectileType<GodsGambitYoyo>() ||
                             projectile.type == ProjectileType<ShimmersparkYoyo>() || projectile.type == ProjectileType<VerdantYoyo>())
                             if (projectile2.WithinBounds(Main.maxProjectiles))
-                                Main.projectile[projectile2].DamageType = DamageClass.Melee;
+                                Main.projectile[projectile2].DamageType = DamageClass.MeleeNoSpeed;
 
                         if (projectile.type == ProjectileType<FishboneBoomerangProjectile>())
                             if (projectile2.WithinBounds(Main.maxProjectiles))

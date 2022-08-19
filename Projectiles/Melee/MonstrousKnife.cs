@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -18,7 +18,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.height = 14;
             Projectile.aiStyle = 2;
             Projectile.friendly = true;
-            Projectile.DamageType = DamageClass.Melee;
+            Projectile.DamageType = DamageClass.MeleeNoSpeed;
             Projectile.ignoreWater = true;
         }
 

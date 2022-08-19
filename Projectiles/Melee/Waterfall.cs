@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.localNPCHitCooldown = 8;
             Projectile.penetrate = 3;
             Projectile.timeLeft /= 2;
-            Projectile.DamageType = DamageClass.Melee;
+            Projectile.DamageType = DamageClass.MeleeNoSpeed;
             Projectile.tileCollide = false;
         }
 

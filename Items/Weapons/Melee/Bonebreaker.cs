@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.width = 32;
             Item.height = 32;
             Item.damage = BaseDamage;
-            Item.DamageType = DamageClass.Melee;
+            Item.DamageType = DamageClass.MeleeNoSpeed;
             Item.knockBack = 7f;
             Item.UseSound = SoundID.Item1;
             Item.useTurn = true;

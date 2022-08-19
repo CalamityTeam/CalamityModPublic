@@ -33,7 +33,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
             Projectile.height = 18;
             Projectile.scale = 1f;
             Projectile.friendly = true;
-            Projectile.DamageType = DamageClass.Melee;
+            Projectile.DamageType = DamageClass.MeleeNoSpeed;
             Projectile.penetrate = -1;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 10;

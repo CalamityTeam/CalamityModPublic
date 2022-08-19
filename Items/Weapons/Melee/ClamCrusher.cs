@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             Item.damage = 150;
-            Item.DamageType = DamageClass.Melee;
+            Item.DamageType = DamageClass.MeleeNoSpeed;
             Item.width = 40;
             Item.height = 60;
             Item.useTime = 50;

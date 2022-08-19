@@ -1,4 +1,4 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -18,7 +18,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.width = 20;
             Projectile.height = 20;
             Projectile.friendly = true;
-            Projectile.DamageType = DamageClass.Melee;
+            Projectile.DamageType = DamageClass.MeleeNoSpeed;
             Projectile.ignoreWater = true;
             Projectile.penetrate = -1;
             Projectile.extraUpdates = 1;
