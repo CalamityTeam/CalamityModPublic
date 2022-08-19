@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Melee
@@ -19,7 +19,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.extraUpdates = 100;
             Projectile.friendly = true;
             Projectile.timeLeft = 180;
-            Projectile.DamageType = DamageClass.Melee;
+            Projectile.DamageType = DamageClass.MeleeNoSpeed;
         }
 
         public override void AI()

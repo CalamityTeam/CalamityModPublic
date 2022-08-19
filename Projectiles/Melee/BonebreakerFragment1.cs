@@ -23,7 +23,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.penetrate = 1;
             Projectile.alpha = 50;
             Projectile.timeLeft = 600;
-            Projectile.DamageType = DamageClass.Melee;
+            Projectile.DamageType = DamageClass.MeleeNoSpeed;
         }
 
         public override bool PreDraw(ref Color lightColor)

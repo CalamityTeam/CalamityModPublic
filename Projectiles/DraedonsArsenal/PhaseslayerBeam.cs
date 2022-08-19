@@ -24,7 +24,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
             Projectile.friendly = true;
             Projectile.penetrate = 3;
-            Projectile.DamageType = DamageClass.Melee;
+            Projectile.DamageType = DamageClass.MeleeNoSpeed;
             Projectile.tileCollide = false;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.timeLeft = Lifetime;

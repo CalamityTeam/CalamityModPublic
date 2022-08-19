@@ -39,7 +39,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.friendly = true;
             Projectile.penetrate = -1;
             Projectile.tileCollide = false;
-            Projectile.DamageType = DamageClass.Melee;
+            Projectile.DamageType = DamageClass.MeleeNoSpeed;
             Projectile.extraUpdates = 2;
             Projectile.timeLeft = Lifetime;
             Projectile.ownerHitCheck = true;

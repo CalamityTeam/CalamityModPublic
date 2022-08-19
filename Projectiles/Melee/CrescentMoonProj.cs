@@ -22,7 +22,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.height = 50;
             Projectile.alpha = 100;
             Projectile.friendly = true;
-            Projectile.DamageType = DamageClass.Melee;
+            Projectile.DamageType = DamageClass.MeleeNoSpeed;
             Projectile.tileCollide = false;
             Projectile.penetrate = 5;
             Projectile.timeLeft = 180;

@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.useTime = 10;
             Item.knockBack = 50f;
             Item.UseSound = SoundID.Item1;
-            Item.DamageType = DamageClass.Melee;
+            Item.DamageType = DamageClass.MeleeNoSpeed;
             Item.shoot = ModContent.ProjectileType<TriactisHammerProj>();
             Item.shootSpeed = 25f;
 

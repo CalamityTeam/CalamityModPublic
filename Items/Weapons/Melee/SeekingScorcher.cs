@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.useTime = 17;
             Item.knockBack = 8.5f;
             Item.UseSound = SoundID.Item1;
-            Item.DamageType = DamageClass.Melee;
+            Item.DamageType = DamageClass.MeleeNoSpeed;
             Item.height = 62;
             Item.shoot = ModContent.ProjectileType<DivineHatchetBoomerang>();
             Item.shootSpeed = 14f;

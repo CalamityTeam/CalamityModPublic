@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -24,7 +24,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.aiStyle = 1;
             AIType = ProjectileID.DeathLaser;
             Projectile.friendly = true;
-            Projectile.DamageType = DamageClass.Melee;
+            Projectile.DamageType = DamageClass.MeleeNoSpeed;
             Projectile.scale = 2f;
             Projectile.ignoreWater = true;
             Projectile.penetrate = 1;

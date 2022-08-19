@@ -1,4 +1,4 @@
-using Terraria.ModLoader;
+﻿using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Typeless
 {
     public class MageHammerBoom : ModProjectile
@@ -14,6 +14,7 @@ namespace CalamityMod.Projectiles.Typeless
         {
             Projectile.width = 500;
             Projectile.height = 500;
+            Projectile.DamageType = DamageClass.MeleeNoSpeed;
             Projectile.friendly = true;
             Projectile.ignoreWater = true;
             Projectile.tileCollide = false;
