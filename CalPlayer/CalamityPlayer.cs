@@ -8022,7 +8022,8 @@ namespace CalamityMod.CalPlayer
             if (CalamityConfig.Instance.SpeedrunTimer)
                 CalamityMod.SpeedrunTimer.Restart();
 
-			Main.NewText($"[i:{ItemID.Book}]" + " [c/EE4939:Be sure to check out the Official Calamity Mod Wiki at ][c/3989FF:calamitymod.wiki.gg][c/EE4939:!] " + $"[i:{ItemID.Book}]");
+			if (CalamityConfig.Instance.WikiStatusMessage)
+				Main.NewText($"[i:{ItemID.Book}]" + " [c/EE4939:Be sure to check out the Official Calamity Mod Wiki at ][c/3989FF:calamitymod.wiki.gg][c/EE4939:!] " + $"[i:{ItemID.Book}]");
         }
 
         /// <summary>
