@@ -8022,7 +8022,7 @@ namespace CalamityMod.CalPlayer
             if (CalamityConfig.Instance.SpeedrunTimer)
                 CalamityMod.SpeedrunTimer.Restart();
 
-			Main.NewText("Be sure to check out the Official Calamity Mod Wiki at calamitymod.wiki.gg !", new Color(238, 73, 57));
+			Main.NewText("[c/EE4939:Be sure to check out the Official Calamity Mod Wiki at ][c/3989FF:calamitymod.wiki.gg][c/EE4939:!]");
         }
 
         /// <summary>
