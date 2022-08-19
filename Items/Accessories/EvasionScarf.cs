@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Accessories
             modPlayer.dodgeScarf = true;
             modPlayer.evasionScarf = true;
             modPlayer.DashID = CounterScarfDash.ID;
-            player.dash = 0;
+            player.dashType = 0;
         }
 
         public override void AddRecipes()

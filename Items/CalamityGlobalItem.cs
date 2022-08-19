@@ -1013,6 +1013,7 @@ namespace CalamityMod.Items
                 player.GetDamage<GenericDamageClass>() -= 0.1f;
                 player.GetCritChance<GenericDamageClass>() -= 10;
                 player.setBonus = "Allows the ability to dash";
+				modPlayer.DashID = string.Empty;
             }
             else if (set == "SquireTier2")
             {
@@ -1688,11 +1689,17 @@ namespace CalamityMod.Items
                 }
             }
 
+			if (player.magicQuiver && (item.useAmmo == AmmoID.Arrow || item.useAmmo == AmmoID.Stake) && Main.rand.NextBool(5))
+				dontConsumeAmmo = true;
+            if (player.huntressAmmoCost90 && Main.rand.NextBool(10))
+                dontConsumeAmmo = true;
             if (player.ammoBox && Main.rand.NextBool(5))
                 dontConsumeAmmo = true;
             if (player.ammoPotion && Main.rand.NextBool(5))
                 dontConsumeAmmo = true;
             if (player.ammoCost80 && Main.rand.NextBool(5))
+                dontConsumeAmmo = true;
+            if (player.chloroAmmoCost80 && Main.rand.NextBool(5))
                 dontConsumeAmmo = true;
             if (player.ammoCost75 && Main.rand.NextBool(4))
                 dontConsumeAmmo = true;

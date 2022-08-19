@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Accessories
                 CalamityPlayer modPlayer = player.Calamity();
                 modPlayer.deepDiver = true;
                 modPlayer.DashID = DeepDiverDash.ID;
-                player.dash = 0;
+                player.dashType = 0;
             }
         }
     }

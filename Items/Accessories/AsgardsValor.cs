@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Accessories
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.DashID = AsgardsValorDash.ID;
-            player.dash = 0;
+            player.dashType = 0;
             player.noKnockback = true;
             player.fireWalk = true;
             player.buffImmune[BuffID.OnFire] = true;
