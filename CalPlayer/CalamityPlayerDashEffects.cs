@@ -13,10 +13,14 @@ namespace CalamityMod.CalPlayer
 {
     public partial class CalamityPlayer : ModPlayer
     {
+        public int VerticalGodslayerDashTimer;
+
         public string DashID;
 
         public string DeferredDashID;
 
+        public string LastUsedDashID;
+        
         public PlayerDashEffect UsedDash
         {
             get
@@ -59,9 +63,9 @@ namespace CalamityMod.CalPlayer
                 {
                     NPC n = Main.npc[i];
 
-					// Ignore critters with the Guide to Critter Companionship
-					if (Player.dontHurtCritters && NPCID.Sets.CountsAsCritter[n.type])
-						continue;
+                    // Ignore critters with the Guide to Critter Companionship
+                    if (Player.dontHurtCritters && NPCID.Sets.CountsAsCritter[n.type])
+                        continue;
 
                     if (n.active && !n.dontTakeDamage && !n.friendly && n.Calamity().dashImmunityTime[Player.whoAmI] <= 0)
                     {
@@ -85,17 +89,34 @@ namespace CalamityMod.CalPlayer
             }
 
             if (Player.dashDelay > 0)
+            {
+                VerticalGodslayerDashTimer = 0;
                 return;
+            }
 
             if (Player.dashDelay < 0)
             {
+                int dashDelayToApply = BalancingConstants.UniversalDashCooldown;
+                if (UsedDash.CollisionType == DashCollisionType.ShieldSlam)
+                    dashDelayToApply = BalancingConstants.UniversalShieldSlamCooldown;
+                else if (UsedDash.CollisionType == DashCollisionType.ShieldBonk)
+                    dashDelayToApply = BalancingConstants.UniversalShieldBonkCooldown;
+                
                 float dashSpeed = 12f;
                 float dashSpeedDecelerationFactor = 0.985f;
                 float runSpeed = Math.Max(Player.accRunSpeed, Player.maxRunSpeed);
                 float runSpeedDecelerationFactor = 0.94f;
 
+                LastUsedDashID = DashID;
+
                 // Handle mid-dash effects.
                 UsedDash.MidDashEffects(Player, ref dashSpeed, ref dashSpeedDecelerationFactor, ref runSpeedDecelerationFactor);
+                if (UsedDash.IsOmnidirectional && VerticalGodslayerDashTimer < 15)
+                {
+                    VerticalGodslayerDashTimer++;
+                    if (VerticalGodslayerDashTimer >= 20)
+                        Player.dashDelay = dashDelayToApply;
+                }
 
                 if (HasCustomDash)
                 {
@@ -134,11 +155,6 @@ namespace CalamityMod.CalPlayer
                     }
 
                     // Dash delay depends on the type of dash used.
-                    int dashDelayToApply = BalancingConstants.UniversalDashCooldown;
-                    if (UsedDash.CollisionType == DashCollisionType.ShieldSlam)
-                        dashDelayToApply = BalancingConstants.UniversalShieldSlamCooldown;
-                    else if (UsedDash.CollisionType == DashCollisionType.ShieldBonk)
-                        dashDelayToApply = BalancingConstants.UniversalShieldBonkCooldown;
                     Player.dashDelay = dashDelayToApply;
 
                     if (UsedDash.IsOmnidirectional)
@@ -450,9 +466,9 @@ namespace CalamityMod.CalPlayer
             {
                 NPC n = Main.npc[i];
 
-				// Ignore critters with the Guide to Critter Companionship
-				if (Player.dontHurtCritters && NPCID.Sets.CountsAsCritter[n.type])
-					continue;
+                // Ignore critters with the Guide to Critter Companionship
+                if (Player.dontHurtCritters && NPCID.Sets.CountsAsCritter[n.type])
+                    continue;
 
                 if (n.active && !n.dontTakeDamage && !n.friendly && n.Calamity().dashImmunityTime[Player.whoAmI] <= 0)
                 {
