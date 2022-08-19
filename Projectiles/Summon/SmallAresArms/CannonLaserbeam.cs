@@ -47,6 +47,7 @@ namespace CalamityMod.Projectiles.Summon.SmallAresArms
             Projectile.scale = 0.5f;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.hide = true;
+            Projectile.DamageType = DamageClass.Summon;
             Projectile.Calamity().UpdatePriority = 1f;
         }
         
