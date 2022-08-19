@@ -5699,7 +5699,7 @@ namespace CalamityMod.CalPlayer
             if (godSlayerDashHotKeyPressed)
             {
                 // Set the player to have no registered vanilla dashes.
-                Player.dash = 0;
+				Player.dashType = 0;
 
                 // Prevent the possibility of Shield of Cthulhu invulnerability exploits.
                 Player.eocHit = -1;
@@ -5768,7 +5768,7 @@ namespace CalamityMod.CalPlayer
         private void DisableDashes()
         {
             // Set the player to have no registered dashes.
-            Player.dash = 0;
+			Player.dashType = 0;
             DashID = string.Empty;
 
             // Put the player in a permanent state of dash cooldown. This is removed 1/5 of a second after disabling the effect.

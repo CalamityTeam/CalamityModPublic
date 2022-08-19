@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Accessories
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.dodgeScarf = true;
             modPlayer.DashID = CounterScarfDash.ID;
-            player.dash = 0;
+            player.dashType = 0;
         }
     }
 }

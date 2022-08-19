@@ -43,7 +43,7 @@ namespace CalamityMod.Items.Accessories
             player.noFallDmg = true;
             player.blackBelt = true;
             modPlayer.DashID = StatisVoidSashDash.ID;
-            player.dash = 0;
+            player.dashType = 0;
             player.spikedBoots = 2;
         }
 
