@@ -71,6 +71,12 @@ namespace CalamityMod
         [DefaultValue(true)]
         [Tooltip("$Mods.CalamityMod.Config.EntryTooltip.ShopNewAlert")]
         public bool ShopNewAlert { get; set; }
+
+        [Label("$Mods.CalamityMod.Config.EntryTitle.WikiStatusMessage")]
+        [BackgroundColor(192, 54, 64, 192)]
+        [DefaultValue(true)]
+        [Tooltip("$Mods.CalamityMod.Config.EntryTooltip.WikiStatusMessage")]
+        public bool WikiStatusMessage { get; set; }
         #endregion
 
         #region UI Changes
@@ -374,6 +380,7 @@ namespace CalamityMod
                 new("ParticleLimit", ItemID.FragmentStardust),
                 new("StealthInvisibility", ModContent.ItemType<StealthHairDye>()),
                 new("ShopNewAlert", ItemID.GoldChest),
+                new("WikiStatusMessage", ItemID.Book),
 
                 new("BossHealthBarExtraInfo", ModContent.ItemType<EncryptedSchematicPlanetoid>()),
                 new("DebuffDisplay", ItemID.FlaskofIchor),

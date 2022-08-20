@@ -15,6 +15,8 @@ namespace CalamityMod.Projectiles.Healing
         {
             DisplayName.SetDefault("Phantomic Heart");
             Main.projFrames[Projectile.type] = 4;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 4;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
 
         }
 
@@ -26,8 +28,6 @@ namespace CalamityMod.Projectiles.Healing
             Projectile.alpha = 20;
             Projectile.penetrate = -1;
             Projectile.timeLeft = 600;
-            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 4;
-            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
         public override void SendExtraAI(BinaryWriter writer)

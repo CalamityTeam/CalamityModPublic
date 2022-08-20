@@ -60,8 +60,8 @@ namespace CalamityMod.Items.Armor.Auric
             player.crimsonRegen = true;
             player.aggro += 1200;
 
-            if (modPlayer.godSlayerDashHotKeyPressed)
-                modPlayer.DashID = GodslayerArmorDash.ID;
+            if (modPlayer.godSlayerDashHotKeyPressed || (player.dashDelay != 0 && modPlayer.LastUsedDashID == GodslayerArmorDash.ID))
+                modPlayer.DeferredDashID = GodslayerArmorDash.ID;
         }
 
         public override void UpdateEquip(Player player)

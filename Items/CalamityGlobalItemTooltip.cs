@@ -237,6 +237,10 @@ namespace CalamityMod.Items
             // For items such as a Copper Helmet which literally have no tooltips at all, add a custom "Tooltip0" which mimics the vanilla Tooltip0.
             void AddTooltip(string text)
             {
+				// Don't add the tooltip if the item is in a social slot
+				if (item.social)
+					return;
+
                 int defenseIndex = -1;
                 for (int i = 0; i < tooltips.Count; ++i)
                     if (tooltips[i].Name == "Defense")
@@ -329,6 +333,12 @@ namespace CalamityMod.Items
             // Due to the higher complexity of the action, the actual logic is delegated to its own method.
             // I think this fits the miscellaneous category? Not seeing anything like this elsewhere. - Tomat
             EditTooltipByName("Speed", (line) => RedistributeSpeedTooltips(item, line));
+
+            if (item.type == ItemID.SpaceGun)
+            {
+				int cost = (int)(item.mana * Main.LocalPlayer.manaCost * 0.5f);
+                EditTooltipByName("UseMana", (line) => line.Text = $"Uses {cost} mana");
+            }
             #endregion
 
             // For boss summon item clarity

@@ -50,16 +50,13 @@ namespace CalamityMod.Items.Armor.GodSlayer
                 "Enemies you dash through take massive damage\n" +
                 "During the dash you are immune to most debuffs\n" +
                 "The dash has a 35 second cooldown\n" +
+				"+120 maximum stealth\n" +
                 "While at full HP all of your rogue stats are boosted by 10%\n" +
-                "If you take over 80 damage in one hit you will be given extra immunity frames\n" +
-                "Rogue stealth builds while not attacking and slower while moving, up to a max of 120\n" +
-                "Once you have built max stealth, you will be able to perform a Stealth Strike\n" +
-                "Rogue stealth only reduces when you attack, it does not reduce while moving\n" +
-                "The higher your rogue stealth the higher your rogue damage, crit, and movement speed";
+                "If you take over 80 damage in one hit you will be given extra immunity frames";
 
-            if (modPlayer.godSlayerDashHotKeyPressed)
+            if (modPlayer.godSlayerDashHotKeyPressed || (player.dashDelay != 0 && modPlayer.LastUsedDashID == GodslayerArmorDash.ID))
             {
-                modPlayer.DashID = GodslayerArmorDash.ID;
+                modPlayer.DeferredDashID = GodslayerArmorDash.ID;
                 player.dash = 0;
             }
         }

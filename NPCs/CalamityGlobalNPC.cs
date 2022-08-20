@@ -2511,7 +2511,7 @@ namespace CalamityMod.NPCs
 
             // Apply modifications to enemy's current defense based on Calamity debuffs.
             // As with defense and DR, flat reductions apply first, then multiplicative reductions.
-            int effectiveDefense = npc.defense -
+            int effectiveDefense = defense -
                     (aCrunch > 0 ? ArmorCrunch.DefenseReduction : 0) -
                     (marked > 0 && DR <= 0f ? MarkedforDeath.DefenseReduction : 0) -
                     (wither > 0 ? WitherDebuff.DefenseReduction : 0) -

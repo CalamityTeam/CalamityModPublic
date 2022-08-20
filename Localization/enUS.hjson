@@ -59,6 +59,7 @@ Config:
         "TownNPCSpawnRateMultiplier": "Town NPC Spawn Rate Multiplier",
         "TownNPCsSpawnAtNight": "Town NPCs Spawn at Night",
         "VanillaCooldownDisplay": "Display Vanilla Cooldowns",
+        "WikiStatusMessage": "Wiki Status Message",
     }
 
     EntryTooltip:
@@ -104,6 +105,7 @@ Config:
         "TownNPCSpawnRateMultiplier": "Directly multiply the rate at which town NPCs spawn and respawn.\nThis reduces waiting times if a boss or event wipes your whole town.",
         "TownNPCsSpawnAtNight": "When enabled, town NPCs can spawn and respawn at night.\nThis includes the Old Man.",
         "VanillaCooldownDisplay": "Adds the vanilla debuffs Potion Sickness and Chaos State to the Cooldown Rack.\nThis doesn't remove them from your buff list, but can help with visibility nontheless",
+		"WikiStatusMessage": "Enable or disable the status message promoting the Official Calamity Wiki that plays on world entry.",
     }
 }
         

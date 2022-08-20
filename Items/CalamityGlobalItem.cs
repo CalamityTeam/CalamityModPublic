@@ -1013,6 +1013,7 @@ namespace CalamityMod.Items
                 player.GetDamage<GenericDamageClass>() -= 0.1f;
                 player.GetCritChance<GenericDamageClass>() -= 10;
                 player.setBonus = "Allows the ability to dash";
+				modPlayer.DashID = string.Empty;
             }
             else if (set == "SquireTier2")
             {
@@ -1688,11 +1689,17 @@ namespace CalamityMod.Items
                 }
             }
 
+			if (player.magicQuiver && (item.useAmmo == AmmoID.Arrow || item.useAmmo == AmmoID.Stake) && Main.rand.NextBool(5))
+				dontConsumeAmmo = true;
+            if (player.huntressAmmoCost90 && Main.rand.NextBool(10))
+                dontConsumeAmmo = true;
             if (player.ammoBox && Main.rand.NextBool(5))
                 dontConsumeAmmo = true;
             if (player.ammoPotion && Main.rand.NextBool(5))
                 dontConsumeAmmo = true;
             if (player.ammoCost80 && Main.rand.NextBool(5))
+                dontConsumeAmmo = true;
+            if (player.chloroAmmoCost80 && Main.rand.NextBool(5))
                 dontConsumeAmmo = true;
             if (player.ammoCost75 && Main.rand.NextBool(4))
                 dontConsumeAmmo = true;
@@ -1809,14 +1816,16 @@ namespace CalamityMod.Items
                 // Yoyos, Flails, Spears, etc.
                 if ((item.channel || item.noMelee) && !item.IsWhip() && item.type != ItemID.Zenith)
                 {
+					bool isTerrarian = item.type == ItemID.Terrarian;
+
                     prefix = reforgeTier switch
                     {
                         1 => Main.rand.Next(1, 3),// Keen = 1, Ruthless = 2
                         2 => Main.rand.Next(3, 5),// Hurtful = 3, Zealous = 4
                         3 => Main.rand.Next(5, 7),// Forceful = 5, Strong = 6
                         4 => 7,// Demonic = 7
-                        5 => 8,// Superior = 8
-                        6 => 9,// Godly = 9
+                        5 => isTerrarian ? Main.rand.Next(8, 10) : 8,// Superior = 8
+                        6 => isTerrarian ? 10 : 9,// Godly = 9, Legendary2 = 10
                         _ => prefix,
                     };
 
@@ -1831,6 +1840,7 @@ namespace CalamityMod.Items
                         7 => PrefixID.Demonic,
                         8 => PrefixID.Superior,
                         9 => PrefixID.Godly,
+                        10 => PrefixID.Legendary2,
                         _ => prefix,
                     };
                 }

@@ -42,13 +42,10 @@ namespace CalamityMod.Items.Armor.Hydrothermic
         public override void UpdateArmorSet(Player player)
         {
             player.setBonus = "5% increased rogue damage\n" +
+				"+110 maximum stealth\n" +
                 "Inferno effect when below 50% life\n" +
                 "Rogue weapons unleash a volley of homing chaos flames around the player every 2.5 seconds\n" +
-                "You emit a blazing explosion when you are hit\n" +
-                "Rogue stealth builds while not attacking and slower while moving, up to a max of 110\n" +
-                "Once you have built max stealth, you will be able to perform a Stealth Strike\n" +
-                "Rogue stealth only reduces when you attack, it does not reduce while moving\n" +
-                "The higher your rogue stealth the higher your rogue damage, crit, and movement speed";
+                "You emit a blazing explosion when you are hit";
             var modPlayer = player.Calamity();
             modPlayer.ataxiaBlaze = true;
             modPlayer.ataxiaVolley = true;

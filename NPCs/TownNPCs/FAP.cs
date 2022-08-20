@@ -299,8 +299,6 @@ namespace CalamityMod.NPCs.TownNPCs
 
         public override void SetupShop(Chest shop, ref int nextSlot) //charges 50% extra than the original alcohol value
         {
-            // All prices are manually set. This means the Discount Card does not work.
-            // Cirrus doesn't accept your card.
             shop.item[nextSlot].SetDefaults(ItemID.HeartreachPotion);
             shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 2, 0, 0);
             nextSlot++;

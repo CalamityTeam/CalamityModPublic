@@ -3383,6 +3383,9 @@ namespace CalamityMod.CalPlayer
         #region PreUpdate
         public override void PreUpdate()
         {
+            if (HasCustomDash && UsedDash.IsOmnidirectional)
+                Player.maxFallSpeed = 50f;
+
             tailFrameUp++;
             if (tailFrameUp == 8)
             {
@@ -3602,6 +3605,12 @@ namespace CalamityMod.CalPlayer
             #endregion
 
             #region DashEffects
+            if (!string.IsNullOrEmpty(DeferredDashID))
+            {
+                DashID = DeferredDashID;
+                DeferredDashID = string.Empty;
+            }
+
             if (Player.pulley && HasCustomDash)
             {
                 ModDashMovement();
@@ -4106,7 +4115,8 @@ namespace CalamityMod.CalPlayer
         #region On Respawn
         public override void OnRespawn(Player player)
         {
-            thirdSageH = true;
+			if (healToFull)
+				thirdSageH = true;
 
             // Order the list such that less expensive minions are at the top.
             // This way cheaper minions will be spawned first, and at the end, the most expensive
@@ -5689,7 +5699,7 @@ namespace CalamityMod.CalPlayer
             if (godSlayerDashHotKeyPressed)
             {
                 // Set the player to have no registered vanilla dashes.
-                Player.dash = 0;
+				Player.dashType = 0;
 
                 // Prevent the possibility of Shield of Cthulhu invulnerability exploits.
                 Player.eocHit = -1;
@@ -5758,7 +5768,7 @@ namespace CalamityMod.CalPlayer
         private void DisableDashes()
         {
             // Set the player to have no registered dashes.
-            Player.dash = 0;
+			Player.dashType = 0;
             DashID = string.Empty;
 
             // Put the player in a permanent state of dash cooldown. This is removed 1/5 of a second after disabling the effect.
@@ -8022,7 +8032,8 @@ namespace CalamityMod.CalPlayer
             if (CalamityConfig.Instance.SpeedrunTimer)
                 CalamityMod.SpeedrunTimer.Restart();
 
-			Main.NewText("[c/EE4939:Be sure to check out the Official Calamity Mod Wiki at ][c/3989FF:calamitymod.wiki.gg][c/EE4939:!]");
+			if (CalamityConfig.Instance.WikiStatusMessage)
+				Main.NewText($"[i:{ItemID.Book}]" + " [c/EE4939:Be sure to check out the Official Calamity Mod Wiki at ][c/3989FF:calamitymod.wiki.gg][c/EE4939:!] " + $"[i:{ItemID.Book}]");
         }
 
         /// <summary>
