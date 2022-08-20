@@ -287,7 +287,7 @@ namespace CalamityMod.Balancing
             // 90% resist to Seraphim lasers (what the actual fuck?).
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new ProjectileResistBalancingRule(0.1f, ProjectileType<SeraphimBeamLarge>()))));
 
-            // 85% resit to Dynamic Pursuer (the whole thing lol).
+            // 85% resist to Dynamic Pursuer (the whole thing lol).
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new ProjectileResistBalancingRule(0.15f, ProjectileType<DynamicPursuerProjectile>(), ProjectileType<DynamicPursuerLaser>(), ProjectileType<DynamicPursuerElectricity>()))));
 
             // 75% resist to Celestus.
