@@ -48,6 +48,9 @@ namespace CalamityMod.Items
                 tooltips.Add(line);
             }
 
+            // If the item has a stealth strike damage prefix, show that on the tooltip.
+            StealthWeaponTooltip(item, tooltips);
+
             // If an item has an enchantment, show its prefix in the first tooltip line and append its description to the
             // tooltip list.
             EnchantmentTooltips(item, tooltips);
@@ -1119,11 +1122,63 @@ namespace CalamityMod.Items
             float stealthGenBoost = item.Calamity().StealthGenBonus - 1f;
             if (stealthGenBoost > 0)
             {
+                TooltipLine line = tooltips.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Expert");
+				if (line == null)
+					line = tooltips.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Price");
+
                 TooltipLine StealthGen = new TooltipLine(Mod, "PrefixStealthGenBoost", "+" + Math.Round(stealthGenBoost * 100f) + "% stealth generation")
                 {
                     IsModifier = true
                 };
-                tooltips.Add(StealthGen);
+
+				if (line == null)
+					tooltips.Add(StealthGen);
+				else
+					tooltips.Insert(tooltips.IndexOf(line), StealthGen);
+            }
+        }
+        #endregion
+
+        #region Stealth Strike Damage Prefix Weapon Tooltip
+        private void StealthWeaponTooltip(Item item, IList<TooltipLine> tooltips)
+        {
+            if (!item.CountsAsClass<RogueDamageClass>() || item.accessory || item.prefix <= 0)
+                return;
+
+            float stealthDmgBonus = item.Calamity().StealthStrikePrefixBonus - 1f;
+            if (stealthDmgBonus > 0)
+            {
+                TooltipLine line = tooltips.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "PrefixShootSpeed");
+				if (line == null)
+					line = tooltips.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "PrefixCritChance");
+				else if (line == null)
+					line = tooltips.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "PrefixSpeed");
+				else if (line == null)
+					line = tooltips.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "PrefixDamage");
+                TooltipLine line2 = tooltips.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Expert");
+				if (line2 == null)
+					line2 = tooltips.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Price");
+
+                TooltipLine StealthDmg = new TooltipLine(Mod, "PrefixStealthDamageBoost", "+" + Math.Round(stealthDmgBonus * 100f) + "% stealth strike damage")
+                {
+                    IsModifier = true
+                };
+
+                try
+                {
+					// Insert the tooltip after the last prefix line
+					// Goes to catch if index out of bounds, meaning it should just get tacked onto the end or there were no prefix tooltips
+                    tooltips.Insert(tooltips.IndexOf(line) + 1, StealthDmg);
+                }
+                catch
+                {
+					// If price line doesn't exist, just add it to the end
+					if (price == null)
+						tooltips.Add(StealthDmg);
+					// Otherwise, insert it right before the sell price (or expert line)
+					else
+						tooltips.Insert(tooltips.IndexOf(line2), StealthDmg);
+                }
             }
         }
         #endregion
