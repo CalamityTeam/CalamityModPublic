@@ -812,11 +812,9 @@ namespace CalamityMod.Items
                 EditTooltipByNum(0, (line) => line.Text = "Increases your max number of sentries by 2\n" +
                 "10% increased melee and minion damage");
             if (item.type == ItemID.MonkAltShirt)
-                EditTooltipByNum(0, (line) => line.Text = "10% increased minion damage and melee speed\n" +
-                "5% increased melee critical strike chance");
+                EditTooltipByNum(0, (line) => line.Text = "10% increased minion damage and melee speed");
             if (item.type == ItemID.MonkAltPants)
-                EditTooltipByNum(0, (line) => line.Text = "10% increased minion damage and melee critical strike chance\n" +
-                "30% increased movement speed");
+                EditTooltipByNum(0, (line) => line.Text = "10% increased minion damage and melee critical strike chance");
 
             // Red Riding armor
             if (item.type == ItemID.HuntressAltShirt)
@@ -824,8 +822,7 @@ namespace CalamityMod.Items
 
             // Dark Artist armor
             if (item.type == ItemID.ApprenticeAltPants)
-                EditTooltipByNum(0, (line) => line.Text = "10% increased minion damage and magic critical strike chance\n" +
-                "20% increased movement speed");
+                EditTooltipByNum(0, (line) => line.Text = "10% increased minion damage and magic critical strike chance");
             #endregion
 
             // Non-consumable boss summon items
