@@ -174,11 +174,6 @@ namespace CalamityMod.Projectiles.Boss
             target.AddBuff(BuffID.Electrified, 120);
         }
 
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
-        {
-            target.Calamity().lastProjectileHit = Projectile;
-        }
-
         public override bool PreDraw(ref Color lightColor)
         {
             Vector2 end = Projectile.position + new Vector2((float)Projectile.width, (float)Projectile.height) / 2f + Vector2.UnitY * Projectile.gfxOffY - Main.screenPosition;

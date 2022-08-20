@@ -2914,7 +2914,7 @@ namespace CalamityMod.NPCs.Yharon
 
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)
         {
-            cooldownSlot = 1;
+            cooldownSlot = ImmunityCooldownID.Bosses;
             return true;
         }
 

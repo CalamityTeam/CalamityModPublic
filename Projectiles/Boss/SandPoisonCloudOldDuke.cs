@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.tileCollide = false;
             Projectile.ignoreWater = true;
             Projectile.timeLeft = 1800;
-            CooldownSlot = 1;
+            CooldownSlot = ImmunityCooldownID.Bosses;
         }
 
         public override void AI()
@@ -84,11 +84,6 @@ namespace CalamityMod.Projectiles.Boss
         {
             if (Projectile.Opacity >= 0.9f)
                 target.AddBuff(ModContent.BuffType<Irradiated>(), 240, true);
-        }
-
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
-        {
-            target.Calamity().lastProjectileHit = Projectile;
         }
     }
 }

@@ -88,7 +88,6 @@ namespace CalamityMod.CalPlayer
         public static int chaosStateDuration = 900;
         public static int chaosStateDuration_NR = 1200;
         public bool killSpikyBalls = false;
-        public Projectile lastProjectileHit;
         public double acidRoundMultiplier = 1D;
         public int waterLeechTarget = -1;
         public float KameiTrailXScale = 0.1f;
@@ -2108,8 +2107,6 @@ namespace CalamityMod.CalPlayer
             lecherousOrbEnchant = false;
             flatStealthLossReduction = 0;
 
-            lastProjectileHit = null;
-
             AbleToSelectExoMech = false;
 
             EnchantHeldItemEffects(Player, Player.Calamity(), Player.ActiveItem());
@@ -2500,7 +2497,6 @@ namespace CalamityMod.CalPlayer
             CurrentlyViewedHologramText = string.Empty;
 
             KameiBladeUseDelay = 0;
-            lastProjectileHit = null;
             brimlashBusterBoost = false;
             evilSmasherBoost = 0;
             hellbornBoost = 0;
@@ -6199,7 +6195,7 @@ namespace CalamityMod.CalPlayer
 
         #region Post Hurt
 
-        public override void PostHurt(bool pvp, bool quiet, double damage, int hitDirection, bool cri, int cooldownCounter)
+        public override void PostHurt(bool pvp, bool quiet, double damage, int hitDirection, bool crit, int cooldownCounter)
         {
             if (pArtifact && !profanedCrystal)
                 Player.AddCooldown(Cooldowns.ProfanedSoulArtifact.ID, CalamityUtils.SecondsToFrames(5));
@@ -6270,30 +6266,8 @@ namespace CalamityMod.CalPlayer
                         iFramesToAdd += 10;
                 }
 
-                // TODO -- good god what the fuck is this system
-                // Projectiles should be providing an index to a temporary variable in Player.OnHitByProjectile, not hardcoding it in their own OnHitPlayer
-                //
-                // To my best understanding the point of this system is to avoid giving the player type-0 iframes if they are hit by a type-1 projectile.
-                // Why did vanilla Moon Lord have to hate Slime Mount cheese so much to create a second type of iframes?
-                // WHY DID THEY NOT JUST FIX SLIME MOUNT?!
-                if (lastProjectileHit != null)
-                {
-                    switch (lastProjectileHit.ModProjectile.CooldownSlot)
-                    {
-                        case 0:
-                        case 1:
-                            Player.hurtCooldowns[lastProjectileHit.ModProjectile.CooldownSlot] += iFramesToAdd;
-                            break;
-                        case -1:
-                        default:
-                            Player.GiveIFrames(Player.immuneTime + iFramesToAdd, true);
-                            break;
-                    }
-                }
-
-                // In the case that no projectile that hit the player was defined, just give them iframes normally
-                else
-                    Player.GiveIFrames(Player.immuneTime + iFramesToAdd, true);
+				// Give bonus immunity frames based on the type of damage dealt
+				Player.hurtCooldowns[cooldownCounter] += iFramesToAdd;
 
                 if (BossRushEvent.BossRushActive && CalamityConfig.Instance.BossRushIFrameCurse)
                     bossRushImmunityFrameCurseTimer = 180 + Player.immuneTime;

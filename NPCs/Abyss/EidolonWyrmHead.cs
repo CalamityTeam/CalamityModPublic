@@ -444,7 +444,7 @@ namespace CalamityMod.NPCs.Abyss
             }
 
             if (adultWyrmAlive)
-                cooldownSlot = 1;
+                cooldownSlot = ImmunityCooldownID.Bosses;
 
             Rectangle targetHitbox = target.Hitbox;
 
