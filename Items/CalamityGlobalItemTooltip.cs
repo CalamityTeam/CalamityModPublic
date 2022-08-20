@@ -1172,8 +1172,8 @@ namespace CalamityMod.Items
                 }
                 catch
                 {
-					// If price line doesn't exist, just add it to the end
-					if (price == null)
+					// If price/expert line doesn't exist, just add it to the end
+					if (line2 == null)
 						tooltips.Add(StealthDmg);
 					// Otherwise, insert it right before the sell price (or expert line)
 					else
