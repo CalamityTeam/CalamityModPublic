@@ -483,10 +483,7 @@ namespace CalamityMod
             {
                 SoundEngine.PlaySound(item.UseSound.GetValueOrDefault(), player.Center);
 
-                double healMult = 1D +
-                        (player.Calamity().coreOfTheBloodGod ? 0.25 : 0) +
-                        (player.Calamity().bloodPactBoost ? 0.5 : 0);
-                int healAmt = (int)(item.healLife * healMult);
+                int healAmt = (int)(item.healLife * player.Calamity().healingPotBonus);
                 if (healAmt > 0 && player.QuickHeal_GetItemToUse() != null)
                 {
                     if (player.QuickHeal_GetItemToUse().type != item.type)

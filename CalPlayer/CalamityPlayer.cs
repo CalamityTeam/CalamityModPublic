@@ -111,6 +111,7 @@ namespace CalamityMod.CalPlayer
         public int reforgeTierSafety = 0;
         public bool finalTierAccessoryReforge = false;
         public float rangedAmmoCost = 1f;
+		public float healingPotBonus = 1f;
         public bool heldGaelsLastFrame = false;
         internal bool hadNanomachinesLastFrame = false;
         public bool disableVoodooSpawns = false;
@@ -1721,6 +1722,7 @@ namespace CalamityMod.CalPlayer
             brimflameFrenzy = false;
 
             rangedAmmoCost = 1f;
+			healingPotBonus = 1f;
 
             avertorBonus = false;
 
@@ -2372,6 +2374,7 @@ namespace CalamityMod.CalPlayer
             danceOfLightCharge = 0;
             bloodPactBoost = false;
             rangedAmmoCost = 1f;
+			healingPotBonus = 1f;
             avertorBonus = false;
             divineBless = false;
             #endregion
@@ -4153,10 +4156,7 @@ namespace CalamityMod.CalPlayer
         #region Get Heal Life
         public override void GetHealLife(Item item, bool quickHeal, ref int healValue)
         {
-            double healMult = 1D +
-                    (coreOfTheBloodGod ? 0.25 : 0) +
-                    (bloodPactBoost ? 0.5 : 0);
-            healValue = (int)(healValue * healMult);
+            healValue = (int)(healValue * healingPotBonus);
         }
         #endregion
 

@@ -36,6 +36,7 @@ namespace CalamityMod.Items.Accessories
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.coreOfTheBloodGod = true;
             modPlayer.fleshTotem = true;
+			modPlayer.healingPotBonus += 0.25f;
         }
 
         public override void AddRecipes()

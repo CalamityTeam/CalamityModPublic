@@ -2441,6 +2441,7 @@ namespace CalamityMod.CalPlayer
                 Player.statDefense += 20;
                 Player.longInvince = true;
                 Player.crimsonRegen = true;
+				healingPotBonus += 0.5f;
             }
 
             // 50% movement speed bonus so that you don't feel like a snail in the early game.

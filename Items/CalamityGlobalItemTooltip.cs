@@ -342,6 +342,11 @@ namespace CalamityMod.Items
 				int cost = (int)(item.mana * Main.LocalPlayer.manaCost * 0.5f);
                 EditTooltipByName("UseMana", (line) => line.Text = $"Uses {cost} mana");
             }
+            if (item.healLife > 0 && Main.LocalPlayer.Calamity().healingPotBonus != 1f)
+            {
+                int healAmt = (int)(item.healLife * Main.LocalPlayer.Calamity().healingPotBonus);
+                EditTooltipByName("HealLife", (line) => line.Text = $"Restores {healAmt} life");
+            }
             #endregion
 
             // For boss summon item clarity
