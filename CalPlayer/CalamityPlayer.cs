@@ -6535,7 +6535,7 @@ namespace CalamityMod.CalPlayer
             if (Main.myPlayer == Player.whoAmI)
             {
                 Player.trashItem.SetDefaults(0, false);
-                if (Player.difficulty == 0)
+                if (Player.difficulty == PlayerDifficultyID.SoftCore || Player.difficulty == PlayerDifficultyID.Creative)
                 {
                     for (int i = 0; i < 59; i++)
                     {
@@ -6558,11 +6558,11 @@ namespace CalamityMod.CalPlayer
                         }
                     }
                 }
-                else if (Player.difficulty == 1)
+                else if (Player.difficulty == PlayerDifficultyID.MediumCore)
                 {
                     Player.DropItems();
                 }
-                else if (Player.difficulty == 2)
+                else if (Player.difficulty == PlayerDifficultyID.Hardcore)
                 {
                     Player.DropItems();
                     Player.KillMeForGood();
@@ -6631,7 +6631,7 @@ namespace CalamityMod.CalPlayer
                 Main.NewText(deathText.ToString(), 225, 25, 25);
             }
 
-            if (Player.whoAmI == Main.myPlayer && Player.difficulty == 0)
+            if (Player.whoAmI == Main.myPlayer && (Player.difficulty == PlayerDifficultyID.SoftCore || Player.difficulty == PlayerDifficultyID.Creative))
             {
                 Player.DropCoins();
             }
