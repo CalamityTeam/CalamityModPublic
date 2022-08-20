@@ -11,6 +11,7 @@ using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Projectiles.Typeless;
+using CalamityMod.Projectiles.DraedonsArsenal;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
@@ -277,8 +278,11 @@ namespace CalamityMod.Balancing
 
             #region Thanatos
 
-            // 95% resist to Seraphim lasers (what the actual fuck?).
-            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new ProjectileResistBalancingRule(0.05f, ProjectileType<SeraphimBeamLarge>()))));
+            // 90% resist to Seraphim lasers (what the actual fuck?).
+            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new ProjectileResistBalancingRule(0.1f, ProjectileType<SeraphimBeamLarge>()))));
+
+            // 85% resit to Dynamic Pursuer (the whole thing lol).
+            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new ProjectileResistBalancingRule(0.15f, ProjectileType<DynamicPursuerProjectile>(), ProjectileType<DynamicPursuerLaser>(), ProjectileType<DynamicPursuerElectricity>()))));
 
             // 75% resist to Celestus.
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new ProjectileResistBalancingRule(0.25f, ProjectileType<CelestusBoomerang>(), ProjectileType<Celestus2>()))));
@@ -291,6 +295,9 @@ namespace CalamityMod.Balancing
 
             // 50% resist to Prismatic Breaker. (why is this more than BOTH Rancor and Yharim's Crystal?)
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new ProjectileResistBalancingRule(0.5f, ProjectileType<PrismaticBeam>()))));
+
+            // 50% resist to Tarragon Throwing Darts Thorns (LOL)
+            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new ProjectileResistBalancingRule(0.5f, ProjectileType<TarraThornRight>(), ProjectileType<TarraThornTip>()))));
 
             // 50% resist to Vehemence skulls.
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new ProjectileResistBalancingRule(0.5f, ProjectileType<VehemenceSkull>(), ProjectileType<PrismaticBeam>()))));
@@ -307,6 +314,9 @@ namespace CalamityMod.Balancing
             // 30% resist to the Spin Throw part of the Ark of the Cosmos' combo
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new ProjectileSpecificRequirementBalancingRule(0.7f, AotCThrowCombo))));
 
+            // 30% resist to Eclipe Fall.
+            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new ProjectileResistBalancingRule(0.7f, ProjectileType<EclipsesFallMain>()))));
+
             // 30% resist to Sirius.
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new ProjectileResistBalancingRule(0.7f, ProjectileType<SiriusExplosion>()))));
 
@@ -319,14 +329,24 @@ namespace CalamityMod.Balancing
             // 20% resist to Eradicator beams.
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new ProjectileResistBalancingRule(0.8f, ProjectileType<NebulaShot>()))));
 
+            // 20% resist to Utensil Poker.
+            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new ProjectileResistBalancingRule(0.8f, ProjectileType<Fork>(), ProjectileType<CarvingFork>()))));
+
             // 20% resist to Voltaic Climax / Void Vortex hitscan beams.
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new ProjectileResistBalancingRule(0.8f, ProjectileType<ClimaxBeam>()))));
 
             // 20% resist to Blood Boiler fire.
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new ProjectileResistBalancingRule(0.8f, ProjectileType<BloodBoilerFire>()))));
 
+            // 15% resist to Final Dawn AoE, 20% resist to Final Dawn lunge.
+            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new ProjectileResistBalancingRule(0.85f, ProjectileType<FinalDawnFlame>()))));
+            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new ProjectileResistBalancingRule(0.8f, ProjectileType<FinalDawnThrow2>()))));
+
             // 15% resist to Gruesome Eminence.
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new ProjectileResistBalancingRule(0.85f, ProjectileType<SpiritCongregation>()))));
+
+            // 15% resist to Plasma Nades
+            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new ProjectileResistBalancingRule(0.85f, ProjectileType<PlasmaGrenadeProjectile>(), ProjectileType<PlasmaGrenadeSmallExplosion>()))));
 
             #endregion Thanatos
 

@@ -27,13 +27,13 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             CalamityGlobalItem modItem = Item.Calamity();
 
-            Item.damage = 1200;
+            Item.damage = 3100;
             Item.DamageType = RogueDamageClass.Instance;
 
             Item.width = 30;
             Item.height = 34;
-            Item.useTime = 60;
-            Item.useAnimation = 60;
+            Item.useTime = 40;
+            Item.useAnimation = 40;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.useTurn = false;
             Item.knockBack = 3f;
@@ -60,7 +60,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Vector2 initialVelocity = velocity;
             if (player.Calamity().StealthStrikeAvailable())
                 initialVelocity *= 1.2f;
-            int proj = Projectile.NewProjectile(source, position, initialVelocity, type, damage, knockback, player.whoAmI);
+            int proj = Projectile.NewProjectile(source, position, initialVelocity, type, (int)(damage * 0.12f), knockback, player.whoAmI);
             if (proj.WithinBounds(Main.maxProjectiles))
                 Main.projectile[proj].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
             return false;
