@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Tooltip.SetDefault("Inundatio ex Laminis\n" +
                 "Shoots a water spear that pierces enemies and terrain\n" +
                 "Striking enemies summon liquid blades and spears to assault the struck foe\n" +
-                "Benefits 66% less from melee speed bonuses");
+                "Receives 33% benefit from melee speed bonuses");
             SacrificeTotal = 1;
             ItemID.Sets.BonusAttackSpeedMultiplier[Item.type] = 0.33f;
         }

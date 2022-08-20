@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             DisplayName.SetDefault("Elemental Shiv");
             Tooltip.SetDefault("Shoots a rainbow shiv that spawns additional shivs on hit\n" +
-                "Benefits 66% less from melee speed bonuses");
+                "Receives 33% benefit from melee speed bonuses");
             SacrificeTotal = 1;
             ItemID.Sets.BonusAttackSpeedMultiplier[Item.type] = 0.33f;
         }

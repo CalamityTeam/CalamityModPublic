@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Tooltip.SetDefault("Finesse\n" +
                 "Striking an enemy makes you immune for a short time\n" +
                 "Fires a DNA chain\n" +
-                "Benefits 66% less from melee speed bonuses");
+                "Receives 33% benefit from melee speed bonuses");
             SacrificeTotal = 1;
             ItemID.Sets.BonusAttackSpeedMultiplier[Item.type] = 0.33f;
         }

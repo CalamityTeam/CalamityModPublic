@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Weapons.Melee
             DisplayName.SetDefault("Galactus Blade");
             Tooltip.SetDefault("Forged with the fury of nuclear chaos\n" +
                 "Launches a barrage of comets from the sky\n" +
-                "Benefits 66% less from melee speed bonuses");
+                "Receives 33% benefit from melee speed bonuses");
             SacrificeTotal = 1;
             ItemID.Sets.BonusAttackSpeedMultiplier[Item.type] = 0.33f;
         }
