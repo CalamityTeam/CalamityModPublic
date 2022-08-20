@@ -17,9 +17,11 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             DisplayName.SetDefault("Brimstone Sword");
             Tooltip.SetDefault("Summons brimstone geysers on hit\n" +
-                "Right click to throw like a javelin that explodes on hit");
+                "Right click to throw like a javelin that explodes on hit\n" +
+                "Benefits 66% less from melee speed bonuses");
             SacrificeTotal = 1;
             ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
+            ItemID.Sets.BonusAttackSpeedMultiplier[Item.type] = 0.33f;
         }
 
         public override void SetDefaults()

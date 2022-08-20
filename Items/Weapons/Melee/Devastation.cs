@@ -14,8 +14,10 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Devastation");
-            Tooltip.SetDefault("Fires galaxy blasts that explode");
+            Tooltip.SetDefault("Fires galaxy blasts that explode\n" +
+                "Benefits 66% less from melee speed bonuses");
             SacrificeTotal = 1;
+            ItemID.Sets.BonusAttackSpeedMultiplier[Item.type] = 0.33f;
         }
 
         public override void SetDefaults()

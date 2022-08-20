@@ -17,9 +17,12 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Devil's Devastation");
-            Tooltip.SetDefault("Fires a spread of demonic scythes\n" + "Pitchforks rise from the underworld to skewer your foes\n" +
-                "Critical hits cause shadowflame explosions");
+            Tooltip.SetDefault("Fires a spread of demonic scythes\n" +
+                "Pitchforks rise from the underworld to skewer your foes\n" +
+                "Critical hits cause shadowflame explosions\n" +
+                "Benefits 66% less from melee speed bonuses");
             SacrificeTotal = 1;
+            ItemID.Sets.BonusAttackSpeedMultiplier[Item.type] = 0.33f;
         }
 
         public override void SetDefaults()

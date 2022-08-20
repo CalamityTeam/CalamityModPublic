@@ -14,8 +14,10 @@ namespace CalamityMod.Items.Weapons.Melee
             DisplayName.SetDefault("Galileo Gladius");
             Tooltip.SetDefault("Don't underestimate the power of small space swords\n" +
                 "Shoots a homing crescent moon\n" +
-                "Spawns planetoids on enemy hits");
+                "Spawns planetoids on enemy hits\n" +
+                "Benefits 66% less from melee speed bonuses");
             SacrificeTotal = 1;
+            ItemID.Sets.BonusAttackSpeedMultiplier[Item.type] = 0.33f;
         }
 
         public override void SetDefaults()

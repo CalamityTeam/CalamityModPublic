@@ -455,6 +455,15 @@ namespace CalamityMod.Items
 
             if (item.type == ItemID.DeathSickle)
                 EditTooltipByNum(0, (line) => line.Text += "\nInflicts Whispering Death on hit");
+
+            if (item.type == ItemID.StarWrath || item.type == ItemID.NorthPole || item.type == ItemID.PsychoKnife)
+                EditTooltipByNum(0, (line) => line.Text += "\nBenefits 66% less from melee speed bonuses");
+
+            if (item.type == ItemID.FetidBaghnakhs)
+                EditTooltipByName("Knockback", (line) => line.Text += "\nBenefits 75% less from melee speed bonuses");
+
+            if (item.type == ItemID.BladedGlove)
+                EditTooltipByName("Knockback", (line) => line.Text += "\nBenefits 50% less from melee speed bonuses");
             #endregion
 
             // Light pets, accessories, and other items which boost the player's Abyss light stat
