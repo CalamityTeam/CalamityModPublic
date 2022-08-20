@@ -50,8 +50,6 @@ namespace CalamityMod.Items.Weapons.Magic
             return numWandBolts + numTornadoStarters + numTornadoPieces < 1;
         }
 
-        public override Vector2? HoldoutOrigin() => new Vector2(10, 10);
-
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
             if (Main.rand.NextBool(3))

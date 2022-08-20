@@ -34,8 +34,6 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<AtlantisSpear>();
             Item.shootSpeed = 32f;
-        }
-
-        public override Vector2? HoldoutOrigin() => new Vector2(15, 15);
+        }      
     }
 }

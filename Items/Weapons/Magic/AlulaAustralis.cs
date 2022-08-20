@@ -35,7 +35,5 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.shoot = ModContent.ProjectileType<AuroraAustralis>();
             Item.shootSpeed = 13f;
         }
-
-        public override Vector2? HoldoutOrigin() => new Vector2(15, 15);
     }
 }

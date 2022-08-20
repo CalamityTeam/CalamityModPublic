@@ -39,8 +39,6 @@ Fires wyverns and colored feathers from the sky that stick to enemies and tiles 
             Item.shootSpeed = 18f;
         }
 
-        public override Vector2? HoldoutOrigin() => new Vector2(15, 15);
-
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             float num72 = Item.shootSpeed;
