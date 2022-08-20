@@ -55,7 +55,9 @@ namespace CalamityMod.Items.Armor.GodSlayer
             player.thorns += 2.5f;
             player.aggro += 1000;
 
-            if (modPlayer.godSlayerDashHotKeyPressed || (player.dashDelay != 0 && modPlayer.LastUsedDashID == GodslayerArmorDash.ID))
+            if (modPlayer.godSlayerDashHotKeyPressed && modPlayer.disableAllDodges)
+                return;
+            if (modPlayer.godSlayerDashHotKeyPressed || (player.dashDelay != 0 && modPlayer.LastUsedDashID == GodslayerArmorDash.ID) && !modPlayer.disableAllDodges)
             {
                 modPlayer.DeferredDashID = GodslayerArmorDash.ID;
                 player.dash = 0;
