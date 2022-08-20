@@ -41,13 +41,15 @@ namespace CalamityMod.Projectiles.Rogue
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             Player player = Main.player[Projectile.owner];
-            player.AddBuff(BuffID.WellFed, 180);
+			if (Player.FindBuffIndex(BuffID.WellFed2) > -1 && Player.FindBuffIndex(BuffID.WellFed3) > -1)
+				player.AddBuff(BuffID.WellFed, 180);
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
             Player player = Main.player[Projectile.owner];
-            player.AddBuff(BuffID.WellFed, 180);
+			if (Player.FindBuffIndex(BuffID.WellFed2) > -1 && Player.FindBuffIndex(BuffID.WellFed3) > -1)
+				player.AddBuff(BuffID.WellFed, 180);
         }
 
         public override bool PreDraw(ref Color lightColor)
