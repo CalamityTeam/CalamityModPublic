@@ -398,7 +398,7 @@ namespace CalamityMod.Items.Armor.Wulfrum
             }
         }
 
-        public override void PostHurt(bool pvp, bool quiet, double damage, int hitDirection, bool crit)
+        public override void PostHurt(bool pvp, bool quiet, double damage, int hitDirection, bool crit, int cooldownCounter)
         {
             if (WulfrumHat.PowerModeEngaged(Player, out var cd))
             {

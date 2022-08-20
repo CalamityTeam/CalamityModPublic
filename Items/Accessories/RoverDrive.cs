@@ -177,7 +177,7 @@ namespace CalamityMod.Items.Accessories
             VisibleShield = false;
         }
 
-        public override void PostHurt(bool pvp, bool quiet, double damage, int hitDirection, bool crit)
+        public override void PostHurt(bool pvp, bool quiet, double damage, int hitDirection, bool crit, int cooldownCounter)
         {
             if (RoverDriveOn)
             {
