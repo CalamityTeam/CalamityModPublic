@@ -6815,7 +6815,7 @@ namespace CalamityMod.CalPlayer
             // "Clockwork" weapons can chain-fire multiple stealth strikes (really only 2 max) until you run out of stealth.
             bool animationCheck = it.useAnimation == it.useTime || gloveOfRecklessness
                 ? Player.itemAnimation == Player.itemAnimationMax - 1 // Standard weapon (first frame of use animation)
-                : Player.itemTime == it.useTime;
+                : Player.itemTime == it.useTime; // Clockwork weapon (first frame of any individual use event)
 
             if (!stealthStrikeThisFrame && animationCheck && playerUsingWeapon)
             {
