@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Tooltip.SetDefault("Fires a spread of demonic scythes\n" +
                 "Pitchforks rise from the underworld to skewer your foes\n" +
                 "Critical hits cause shadowflame explosions\n" +
-                "Benefits 66% less from melee speed bonuses");
+                "Receives 33% benefit from melee speed bonuses");
             SacrificeTotal = 1;
             ItemID.Sets.BonusAttackSpeedMultiplier[Item.type] = 0.33f;
         }

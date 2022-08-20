@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Weapons.Melee
             DisplayName.SetDefault("Cosmic Shiv");
             Tooltip.SetDefault("Fires a cosmic beam that homes in on enemies\n" +
                 "Upon hitting an enemy, a barrage of offscreen objects home in on the enemy as well as raining stars\n" +
-                "Benefits 66% less from melee speed bonuses");
+                "Receives 33% benefit from melee speed bonuses");
             SacrificeTotal = 1;
             ItemID.Sets.BonusAttackSpeedMultiplier[Item.type] = 0.33f;
         }
