@@ -40,6 +40,8 @@ namespace CalamityMod.Items.Weapons.Melee
                 "The sword is boosted by both melee and ranged damage");
             Item.staff[Item.type] = true;
             SacrificeTotal = 1;
+
+            ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }
 
         public override void SetDefaults()

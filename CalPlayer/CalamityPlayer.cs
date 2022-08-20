@@ -5804,7 +5804,7 @@ namespace CalamityMod.CalPlayer
         #endregion
 
         #region Pre Hurt
-        public override bool PreHurt(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
+        public override bool PreHurt(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource, ref int cooldownCounter)
         {
             #region Ignore Incoming Hits
             // If any dodges are active which could dodge this hit, the hurting event is canceled (and the dodge is used).
@@ -5936,7 +5936,8 @@ namespace CalamityMod.CalPlayer
         #endregion
 
         #region Hurt
-        public override void Hurt(bool pvp, bool quiet, double damage, int hitDirection, bool crit)
+
+        public override void Hurt(bool pvp, bool quiet, double damage, int hitDirection, bool crit, int cooldownCounter)
         {
             modStealth = 1f;
 
@@ -6197,7 +6198,8 @@ namespace CalamityMod.CalPlayer
         #endregion
 
         #region Post Hurt
-        public override void PostHurt(bool pvp, bool quiet, double damage, int hitDirection, bool crit)
+
+        public override void PostHurt(bool pvp, bool quiet, double damage, int hitDirection, bool cri, int cooldownCounter)
         {
             if (pArtifact && !profanedCrystal)
                 Player.AddCooldown(Cooldowns.ProfanedSoulArtifact.ID, CalamityUtils.SecondsToFrames(5));
@@ -6813,7 +6815,7 @@ namespace CalamityMod.CalPlayer
             // "Clockwork" weapons can chain-fire multiple stealth strikes (really only 2 max) until you run out of stealth.
             bool animationCheck = it.useAnimation == it.useTime
                 ? Player.itemAnimation == Player.itemAnimationMax - 1 // Standard weapon (first frame of use animation)
-                : Player.itemTime == it.useTime; // Clockwork weapon (first frame of any individual use event)
+                : Player.itemTime == (int)(it.useTime / Player.GetAttackSpeed<RogueDamageClass>()); // Clockwork weapon (first frame of any individual use event)
 
             if (!stealthStrikeThisFrame && animationCheck && playerUsingWeapon)
             {

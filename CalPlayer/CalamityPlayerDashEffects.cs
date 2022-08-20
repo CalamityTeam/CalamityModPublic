@@ -116,7 +116,11 @@ namespace CalamityMod.CalPlayer
                 {
                     VerticalGodslayerDashTimer++;
                     if (VerticalGodslayerDashTimer >= 15)
+					{
                         Player.dashDelay = dashDelayToApply;
+						// Stop the player from going flying
+						Player.velocity *= 0.2f;
+					}
                 }
 
                 if (HasCustomDash)

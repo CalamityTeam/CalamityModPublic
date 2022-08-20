@@ -846,7 +846,7 @@ namespace CalamityMod.NPCs
             // Dragonfire
             if (dragonFire > 0)
             {
-                int baseDragonFireDoTValue = (int)((npc.oiled ? 2000 : 1000) * heatDamageMult);
+                int baseDragonFireDoTValue = (int)((npc.oiled ? 720 : 360) * heatDamageMult);
                 ApplyDPSDebuff(baseDragonFireDoTValue, baseDragonFireDoTValue / 5, ref npc.lifeRegen, ref damage);
             }
 

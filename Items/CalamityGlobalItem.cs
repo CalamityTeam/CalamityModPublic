@@ -221,6 +221,21 @@ namespace CalamityMod.Items
         #endregion
 
         #region Shoot
+        public override void ModifyShootStats(Item item, Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockBack)
+        {
+            CalamityPlayer modPlayer = player.Calamity();
+
+            if (item.CountsAsClass<RogueDamageClass>())
+            {
+                velocity *= modPlayer.rogueVelocity;
+                if (modPlayer.gloveOfRecklessness)
+                    velocity = velocity.RotatedByRandom(MathHelper.ToRadians(6f));
+            }
+            if (modPlayer.eArtifact && item.CountsAsClass<RangedDamageClass>())
+                velocity *= 1.25f;
+		}
+
+
         public override bool Shoot(Item item, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockBack)
         {
             CalamityPlayer modPlayer = player.Calamity();
@@ -238,15 +253,6 @@ namespace CalamityMod.Items
                 Vector2 shootVelocity = player.SafeDirectionTo(Main.MouseWorld, -Vector2.UnitY).RotatedByRandom(0.07f) * Main.rand.NextFloat(4f, 5f);
                 Projectile.NewProjectile(source, player.Center + shootVelocity, shootVelocity, ModContent.ProjectileType<ManaMonster>(), monsterDamage, 0f, player.whoAmI);
             }
-
-            if (item.CountsAsClass<RogueDamageClass>())
-            {
-                velocity *= modPlayer.rogueVelocity;
-                if (modPlayer.gloveOfRecklessness && item.useTime == item.useAnimation)
-                    velocity = velocity.RotatedByRandom(MathHelper.ToRadians(6f));
-            }
-            if (modPlayer.eArtifact && item.CountsAsClass<RangedDamageClass>())
-                velocity *= 1.25f;
 
             if (modPlayer.luxorsGift)
             {

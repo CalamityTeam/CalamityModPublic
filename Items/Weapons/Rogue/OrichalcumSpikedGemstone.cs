@@ -48,7 +48,7 @@ namespace CalamityMod.Items.Weapons.Rogue
                     Main.projectile[gemstone].Calamity().stealthStrike = true;
                     Main.projectile[gemstone].usesLocalNPCImmunity = true;
                     Main.projectile[gemstone].timeLeft = 900;
-                    Main.projectile[gemstone].penetrate = -1;
+                    Main.projectile[gemstone].penetrate = 5;
                 }
                 return false;
             }
