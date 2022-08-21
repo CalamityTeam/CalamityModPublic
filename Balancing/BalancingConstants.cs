@@ -85,7 +85,6 @@
         internal static readonly float MaximumAllowedAttackSpeed = 10f;
 
         // TODO -- Add all balance related constants here that don't belong in other files.
-        // These constants were just the ones sitting in CalamityPlayer.
         // Review all constants and static readonlys in the entire mod to find things to add.
     }
 }
