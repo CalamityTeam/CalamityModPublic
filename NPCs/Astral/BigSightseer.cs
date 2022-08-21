@@ -246,6 +246,13 @@ namespace CalamityMod.NPCs.Astral
         {
             if (damage > 0)
             {
+				if (target.HasNPCBannerBuff(ModContent.NPCType<BigSightseer>()))
+				{
+					if (Main.expertMode)
+						damage = (int)(damage * 0.5f);
+					else
+						damage = (int)(damage * 0.75f);
+				}
                 NPC.StrikeNPCNoInteraction(9999, 0, 0);
             }
         }
