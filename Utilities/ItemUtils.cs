@@ -525,5 +525,47 @@ namespace CalamityMod
                 Recipe.FindRecipes();
             }
         }
+
+		#region Rogue Prefixes
+        public static bool CanGetRoguePrefix(this Item item) => item.CountsAsClass<RogueDamageClass>() && item.maxStack == 1;
+
+		public static int RandomRoguePrefix()
+		{
+			Mod mod = ModContent.GetInstance<CalamityMod>();
+			int roguePrefix = Utils.SelectRandom(Main.rand, new int[]
+			{
+				mod.Find<ModPrefix>("Radical").Type,
+				mod.Find<ModPrefix>("Pointy").Type,
+				mod.Find<ModPrefix>("Sharp").Type,
+				mod.Find<ModPrefix>("Glorious").Type,
+				mod.Find<ModPrefix>("Feathered").Type,
+				mod.Find<ModPrefix>("Sleek").Type,
+				mod.Find<ModPrefix>("Hefty").Type,
+				mod.Find<ModPrefix>("Mighty").Type,
+				mod.Find<ModPrefix>("Serrated").Type,
+				mod.Find<ModPrefix>("Vicious").Type,
+				mod.Find<ModPrefix>("Lethal").Type,
+				mod.Find<ModPrefix>("Flawless").Type,
+				mod.Find<ModPrefix>("Blunt").Type,
+				mod.Find<ModPrefix>("Flimsy").Type,
+				mod.Find<ModPrefix>("Unbalanced").Type,
+				mod.Find<ModPrefix>("Atrocious").Type
+			});
+			return roguePrefix;
+		}
+
+		public static bool NegativeRoguePrefix(int prefix)
+		{
+			Mod mod = ModContent.GetInstance<CalamityMod>();
+			List<int> badPrefixes = new List<int>()
+            {
+				mod.Find<ModPrefix>("Blunt").Type,
+				mod.Find<ModPrefix>("Flimsy").Type,
+				mod.Find<ModPrefix>("Unbalanced").Type,
+				mod.Find<ModPrefix>("Atrocious").Type
+			};
+			return badPrefixes.Contains(prefix);
+		}
+		#endregion
     }
 }

@@ -1765,6 +1765,29 @@ namespace CalamityMod.Items
         }
         #endregion
 
+		#region On Create
+		public override void OnCreate(Item item, ItemCreationContext context)
+		{
+			// Crafting a rogue weapon has a 75% chance for a random modifier
+			// Negative modifiers have a 66.66% chance of being voided
+			// Note, the modifier doesn't show up in the craft text (the one that indicates you got a new item)
+			if (context is RecipeCreationContext)
+			{
+				if (item.CanGetRoguePrefix())
+				{
+					if (Main.rand.Next(4) < 3)
+					{
+						int prefix = CalamityUtils.RandomRoguePrefix();
+						if (!CalamityUtils.NegativeRoguePrefix(prefix) || Main.rand.NextBool(3))
+						{
+							item.Prefix(prefix);
+						}
+					}
+				}
+			}
+		}
+		#endregion
+
         #region Reforging
         private int NewPrefixType(Item item)
         {
