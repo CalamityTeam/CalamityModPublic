@@ -2359,12 +2359,7 @@ namespace CalamityMod.CalPlayer
             }
 
             if (irradiated)
-            {
                 Player.statDefense -= 10;
-                Player.moveSpeed -= 0.1f;
-                Player.GetDamage<GenericDamageClass>() += 0.05f;
-                Player.GetKnockback<SummonDamageClass>() += 0.5f;
-            }
 
             if (rRage)
             {

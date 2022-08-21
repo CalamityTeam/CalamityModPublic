@@ -147,6 +147,15 @@ namespace CalamityMod.CalPlayer
                 lifeRegenLost += 20;
             }
 
+            if (irradiated)
+            {
+                if (Player.lifeRegen > 0)
+                    Player.lifeRegen = 0;
+
+                Player.lifeRegenTime = 0;
+                lifeRegenLost += 4;
+            }
+
             if (ZoneSulphur && Player.IsUnderwater() && !decayEffigy && !abyssalDivingSuit && !Player.lavaWet && !Player.honeyWet)
             {
                 Player.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 2, true);
