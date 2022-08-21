@@ -148,23 +148,23 @@ namespace CalamityMod.Items
                 { ItemID.DartRifle, Do(PointBlank, DamageExact(58)) },
                 // if Daybreak still needs a buff after the 1.4 explosion change, apply it here
                 // { ItemID.DayBreak, Do(DamageRatio(1.0f)) }
-                { ItemID.DD2BallistraTowerT1Popper, Do(UseExact(30)) }, // Ballista Tier 1
-                { ItemID.DD2BallistraTowerT2Popper, Do(UseExact(25)) }, // Ballista Tier 2
-                { ItemID.DD2BallistraTowerT3Popper, Do(UseExact(20)) }, // Ballista Tier 3
+                { ItemID.DD2BallistraTowerT1Popper, Do(AutoReuse, UseExact(30)) }, // Ballista Tier 1
+                { ItemID.DD2BallistraTowerT2Popper, Do(AutoReuse, UseExact(25)) }, // Ballista Tier 2
+                { ItemID.DD2BallistraTowerT3Popper, Do(AutoReuse, UseExact(20)) }, // Ballista Tier 3
                 { ItemID.DD2BetsyBow, Do(DamageRatio(1.1f)) }, // Aerial Bane's ridiculous multiplier is removed, so this compensates for that
-                { ItemID.DD2ExplosiveTrapT1Popper, Do(UseExact(30)) }, // Explosive Trap Tier 1
-                { ItemID.DD2ExplosiveTrapT2Popper, Do(UseExact(25)) }, // Explosive Trap Tier 2
-                { ItemID.DD2ExplosiveTrapT3Popper, Do(UseExact(20)) }, // Explosive Trap Tier 3
-                { ItemID.DD2FlameburstTowerT1Popper, Do(UseExact(30)) }, // Flameburst Tier 1
-                { ItemID.DD2FlameburstTowerT2Popper, Do(UseExact(25)) }, // Flameburst Tier 2
-                { ItemID.DD2FlameburstTowerT3Popper, Do(UseExact(20)) }, // Flameburst Tier 3
-                { ItemID.DD2LightningAuraT1Popper, Do(UseExact(30)) }, // Lightning Aura Tier 1
-                { ItemID.DD2LightningAuraT2Popper, Do(UseExact(25)) }, // Lightning Aura Tier 2
-                { ItemID.DD2LightningAuraT3Popper, Do(UseExact(20)) }, // Lightning Aura Tier 3
+                { ItemID.DD2ExplosiveTrapT1Popper, Do(AutoReuse, UseExact(30)) }, // Explosive Trap Tier 1
+                { ItemID.DD2ExplosiveTrapT2Popper, Do(AutoReuse, UseExact(25)) }, // Explosive Trap Tier 2
+                { ItemID.DD2ExplosiveTrapT3Popper, Do(AutoReuse, UseExact(20)) }, // Explosive Trap Tier 3
+                { ItemID.DD2FlameburstTowerT1Popper, Do(AutoReuse, UseExact(30)) }, // Flameburst Tier 1
+                { ItemID.DD2FlameburstTowerT2Popper, Do(AutoReuse, UseExact(25)) }, // Flameburst Tier 2
+                { ItemID.DD2FlameburstTowerT3Popper, Do(AutoReuse, UseExact(20)) }, // Flameburst Tier 3
+                { ItemID.DD2LightningAuraT1Popper, Do(AutoReuse, UseExact(30)) }, // Lightning Aura Tier 1
+                { ItemID.DD2LightningAuraT2Popper, Do(AutoReuse, UseExact(25)) }, // Lightning Aura Tier 2
+                { ItemID.DD2LightningAuraT3Popper, Do(AutoReuse, UseExact(20)) }, // Lightning Aura Tier 3
                 { ItemID.DD2PhoenixBow, Do(PointBlank, UseExact(18)) }, // Phantom Phoenix
                 { ItemID.DD2SquireBetsySword, Do(UseMeleeSpeed) }, // Flying Dragon
                 { ItemID.DD2SquireDemonSword, Do(DamageExact(110), UseExact(25)) }, // Brand of the Inferno
-                { ItemID.DeadlySphereStaff, Do(UseExact(20)) },
+                { ItemID.DeadlySphereStaff, Do(AutoReuse, UseExact(20)) },
                 { ItemID.DeathbringerPickaxe, Do(PickPower(70), UseTimeExact(10)) },
                 { ItemID.DeathSickle, Do(UseMeleeSpeed, DamageExact(82), ShootSpeedExact(15f)) },
                 { ItemID.DeerThing, nonConsumableBossSummon },
@@ -395,7 +395,7 @@ namespace CalamityMod.Items
                 { ItemID.PurplePhasesaber, Do(ScaleRatio(1.5f), DamageExact(72), UseExact(20)) },
                 { ItemID.PurpleSolution, Do(Value(Item.buyPrice(silver: 5))) },
                 { ItemID.Pwnhammer, Do(HammerPower(80), UseTimeExact(11), TileBoostExact(+1)) },
-                { ItemID.PygmyStaff, Do(UseExact(20)) },
+                { ItemID.PygmyStaff, Do(AutoReuse, UseExact(20)) },
                 { ItemID.QuadBarrelShotgun, pointBlank },
                 { ItemID.QueenSlimeCrystal, nonConsumableBossSummon },
                 { ItemID.QueenSpiderStaff, Do(UseExact(25)) },
@@ -403,7 +403,7 @@ namespace CalamityMod.Items
                 { ItemID.RainbowRod, Do(DamageExact(50), UseExact(35)) },
                 { ItemID.RainbowWhip, autoReuse },
                 { ItemID.Rally, Do(AutoReuse, DamageExact(20)) },
-                { ItemID.RavenStaff, Do(UseExact(20)) },
+                { ItemID.RavenStaff, Do(AutoReuse, UseExact(20)) },
                 { ItemID.Razorpine, Do(DamageRatio(0.75f)) },
                 { ItemID.ReaverShark, Do(PickPower(100), UseTimeExact(16)) },
                 { ItemID.RedPhaseblade, Do(AutoReuse, UseTurn, ScaleRatio(1.5f), DamageExact(51)) },
@@ -472,7 +472,7 @@ namespace CalamityMod.Items
                 { ItemID.StaffoftheFrostHydra, Do(UseExact(20)) },
                 { ItemID.StakeLauncher, Do(PointBlank, DamageRatio(2f), UseRatio(1.5f)) },
                 { ItemID.StarCannon, Do(DamageExact(25)) },
-                { ItemID.StardustCellStaff, Do(UseExact(20)) },
+                { ItemID.StardustCellStaff, Do(AutoReuse, UseExact(20)) },
                 { ItemID.StardustChainsaw, trueMeleeNoSpeed },
                 { ItemID.StardustDragonStaff, Do(AutoReuse, DamageExact(20), UseExact(19)) },
                 { ItemID.StardustDrill, Do(TrueMeleeNoSpeed, PickPower(225), UseTimeExact(3), TileBoostExact(+4)) },
@@ -482,14 +482,14 @@ namespace CalamityMod.Items
                 { ItemID.StarWrath, Do(DamageRatio(0.9f), AttackSpeedExact(0.33f)) },
                 { ItemID.StickyBomb, maxStack999 },
                 { ItemID.StickyDynamite, maxStack999 },
-                { ItemID.StormTigerStaff, Do(DamageExact(49), UseExact(20)) }, // Desert Tiger Staff
+                { ItemID.StormTigerStaff, Do(AutoReuse, DamageExact(49), UseExact(20)) }, // Desert Tiger Staff
                 { ItemID.StylistKilLaKillScissorsIWish, Do(AutoReuse, UseTurn, ScaleRatio(1.5f), DamageExact(33)) },
                 { ItemID.SuspiciousLookingEye, nonConsumableBossSummon },
                 { ItemID.Swordfish, Do(AutoReuse, TrueMelee, DamageExact(38)) },
                 { ItemID.SwordWhip, autoReuse },
                 { ItemID.TacticalShotgun, Do(PointBlank, DamageRatio(1.2f)) },
                 { ItemID.TaxCollectorsStickOfDoom, Do(AutoReuse, UseTurn, ScaleRatio(1.5f), UseRatio(0.8f), DamageExact(70)) },
-                { ItemID.TempestStaff, Do(UseExact(20)) },
+                { ItemID.TempestStaff, Do(AutoReuse, UseExact(20)) },
                 { ItemID.TendonBow, Do(PointBlank, DamageExact(17), AutoReuse) },
                 { ItemID.TentacleSpike, autoReuse },
                 { ItemID.TerraBlade, Do(UseMeleeSpeed) },
@@ -561,7 +561,7 @@ namespace CalamityMod.Items
                 { ItemID.WoodYoyo, autoReuse },
                 { ItemID.WormFood, nonConsumableBossSummon },
                 { ItemID.Xenopopper, Do(DamageRatio(0.75f)) },
-                { ItemID.XenoStaff, Do(UseExact(20)) },
+                { ItemID.XenoStaff, Do(AutoReuse, UseExact(20)) },
                 { ItemID.Yelets, autoReuse },
                 { ItemID.YellowPhaseblade, Do(AutoReuse, UseTurn, ScaleRatio(1.5f), DamageExact(51)) },
                 { ItemID.YellowPhasesaber, Do(ScaleRatio(1.5f), DamageExact(72), UseExact(20)) },
