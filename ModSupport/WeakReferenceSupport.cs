@@ -161,7 +161,7 @@ namespace CalamityMod
         {
             { "Acid Rain Initial", 2.67f },
             { "Acid Rain Aquatic Scourge", 9.51f },
-            { "Acid Rain Polterghast", 19.49f }
+            { "Acid Rain Polterghast", 20.49f }
         };
 
         public static void Setup()
