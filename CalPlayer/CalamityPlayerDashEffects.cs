@@ -112,10 +112,10 @@ namespace CalamityMod.CalPlayer
 
                 // Handle mid-dash effects.
                 UsedDash.MidDashEffects(Player, ref dashSpeed, ref dashSpeedDecelerationFactor, ref runSpeedDecelerationFactor);
-                if (UsedDash.IsOmnidirectional && VerticalGodslayerDashTimer < 15)
+                if (UsedDash.IsOmnidirectional && VerticalGodslayerDashTimer < 25)
                 {
                     VerticalGodslayerDashTimer++;
-                    if (VerticalGodslayerDashTimer >= 15)
+                    if (VerticalGodslayerDashTimer >= 25)
 					{
                         Player.dashDelay = dashDelayToApply;
 						// Stop the player from going flying
