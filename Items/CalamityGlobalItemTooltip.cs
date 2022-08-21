@@ -1166,21 +1166,12 @@ namespace CalamityMod.Items
                     IsModifier = true
                 };
 
-                try
-                {
-					// Insert the tooltip after the last prefix line
-					// Goes to catch if index out of bounds, meaning it should just get tacked onto the end or there were no prefix tooltips
-                    tooltips.Insert(tooltips.IndexOf(line) + 1, StealthDmg);
-                }
-                catch
-                {
-					// If price/expert line doesn't exist, just add it to the end
-					if (line2 == null)
-						tooltips.Add(StealthDmg);
-					// Otherwise, insert it right before the sell price (or expert line)
-					else
-						tooltips.Insert(tooltips.IndexOf(line2), StealthDmg);
-                }
+				// If price/expert line doesn't exist, just add it to the end
+				if (line2 == null)
+					tooltips.Add(StealthDmg);
+				// Otherwise, insert it right before the sell price (or expert line)
+				else
+					tooltips.Insert(tooltips.IndexOf(line2), StealthDmg);
             }
         }
         #endregion
