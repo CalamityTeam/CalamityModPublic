@@ -685,7 +685,6 @@ namespace CalamityMod
                     {
                         velocityMult = 1f;
                     }
-                    Mod mod = ModContent.GetInstance<CalamityMod>();
                     int type = Main.rand.Next(61, 64);
                     int smoke = Gore.NewGore(projectile.GetSource_Death(), source, default, type, 1f);
                     Gore gore = Main.gore[smoke];

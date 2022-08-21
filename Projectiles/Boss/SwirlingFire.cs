@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Boss
@@ -23,7 +24,7 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.alpha = 255;
             Projectile.penetrate = -1;
             Projectile.timeLeft = 180;
-            CooldownSlot = 1;
+            CooldownSlot = ImmunityCooldownID.Bosses;
         }
 
         public override void AI()

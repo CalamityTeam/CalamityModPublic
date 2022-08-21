@@ -45,8 +45,6 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.Calamity().customRarity = CalamityRarity.Violet;
         }
 
-        public override Vector2? HoldoutOrigin() => new Vector2(20, 20);
-
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo projSource, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             Vector2 playerPos = player.RotatedRelativePoint(player.MountedCenter, true);

@@ -58,9 +58,13 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             Vector2 initialVelocity = velocity;
+            int totalDamage = damage;
             if (player.Calamity().StealthStrikeAvailable())
+            {
                 initialVelocity *= 1.2f;
-            int proj = Projectile.NewProjectile(source, position, initialVelocity, type, (int)(damage * 0.12f), knockback, player.whoAmI);
+                totalDamage = (int)(damage * 0.12f);
+            }
+            int proj = Projectile.NewProjectile(source, position, initialVelocity, type, totalDamage, knockback, player.whoAmI);
             if (proj.WithinBounds(Main.maxProjectiles))
                 Main.projectile[proj].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
             return false;

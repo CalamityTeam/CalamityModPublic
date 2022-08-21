@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Boss
@@ -26,7 +27,7 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.penetrate = -1;
             Projectile.timeLeft = 1200;
             Projectile.Opacity = 0f;
-            CooldownSlot = 1;
+            CooldownSlot = ImmunityCooldownID.Bosses;
         }
 
         public override void AI()
@@ -71,11 +72,6 @@ namespace CalamityMod.Projectiles.Boss
                 return;
 
             target.AddBuff(ModContent.BuffType<VulnerabilityHex>(), 120, true);
-        }
-
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
-        {
-            target.Calamity().lastProjectileHit = Projectile;
         }
     }
 }

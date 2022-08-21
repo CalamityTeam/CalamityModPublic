@@ -20,7 +20,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.width = 12;
             Projectile.height = 12;
             Projectile.friendly = true;
-            Projectile.penetrate = -1;
+            Projectile.penetrate = 6;
             Projectile.aiStyle = 2;
             Projectile.timeLeft = 600;
             AIType = ProjectileID.Shuriken;

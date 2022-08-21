@@ -41,7 +41,7 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.penetrate = -1;
             Projectile.extraUpdates = 3;
             Projectile.timeLeft = 780;
-            CooldownSlot = 1;
+            CooldownSlot = ImmunityCooldownID.Bosses;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -105,11 +105,6 @@ namespace CalamityMod.Projectiles.Boss
         public override Color? GetAlpha(Color lightColor)
         {
             return new Color(255, 255, 255, Projectile.alpha);
-        }
-
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
-        {
-            target.Calamity().lastProjectileHit = Projectile;
         }
 
         public override bool PreDraw(ref Color lightColor)

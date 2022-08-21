@@ -109,10 +109,5 @@ namespace CalamityMod.Projectiles.Boss
                 Main.dust[num624].velocity *= 2f;
             }
         }
-
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
-        {
-            target.Calamity().lastProjectileHit = Projectile;
-        }
     }
 }

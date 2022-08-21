@@ -25,6 +25,11 @@ namespace CalamityMod.Items.Tools.ClimateChange
             Item.UseSound = SoundID.Item66;
         }
 
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = ContentSamples.CreativeHelper.ItemGroup.EventItem;
+		}
+
         public override bool CanUseItem(Player player)
         {
             return DownedBossSystem.downedDesertScourge;

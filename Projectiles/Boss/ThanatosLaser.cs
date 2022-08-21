@@ -48,7 +48,7 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.penetrate = -1;
             Projectile.extraUpdates = 1;
             Projectile.timeLeft = 600;
-            CooldownSlot = 1;
+            CooldownSlot = ImmunityCooldownID.Bosses;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -244,11 +244,6 @@ namespace CalamityMod.Projectiles.Boss
         {
             if (TelegraphDelay > TelegraphTotalTime)
                 target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 180);
-        }
-
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
-        {
-            target.Calamity().lastProjectileHit = Projectile;
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)

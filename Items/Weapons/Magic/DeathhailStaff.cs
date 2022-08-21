@@ -41,8 +41,6 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.shootSpeed = 18f;
         }
 
-        // public override Vector2? HoldoutOrigin() => new Vector2(15, 15);
-
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
             Item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Magic/DeathhailStaffGlow").Value);

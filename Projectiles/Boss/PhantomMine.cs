@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.ignoreWater = true;
             Projectile.timeLeft = 480;
             Projectile.Opacity = 0f;
-            CooldownSlot = 1;
+            CooldownSlot = ImmunityCooldownID.Bosses;
         }
 
         public override void AI()
@@ -88,11 +88,6 @@ namespace CalamityMod.Projectiles.Boss
                 target.AddBuff(ModContent.BuffType<Nightwither>(), 180);
                 target.AddBuff(ModContent.BuffType<WhisperingDeath>(), 180);
             }
-        }
-
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
-        {
-            target.Calamity().lastProjectileHit = Projectile;
         }
     }
 }

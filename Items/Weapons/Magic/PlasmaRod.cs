@@ -37,7 +37,5 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.shoot = ModContent.ProjectileType<PlasmaRay>();
             Item.shootSpeed = 11f;
         }
-
-        public override Vector2? HoldoutOrigin() => new Vector2(10, 10);
     }
 }

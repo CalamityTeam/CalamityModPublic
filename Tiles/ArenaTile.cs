@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Skies;
 
 namespace CalamityMod.Tiles
 {
@@ -33,7 +34,7 @@ namespace CalamityMod.Tiles
         {
             if (closer)
             {
-                if (!NPC.AnyNPCs(ModContent.NPCType<SupremeCalamitas>()))
+                if (!NPC.AnyNPCs(ModContent.NPCType<SupremeCalamitas>()) && !SCalSky.RitualDramaProjectileIsPresent)
                 {
                     WorldGen.KillTile(i, j, false, false, false);
                     if (!Main.tile[i, j].HasTile && Main.netMode != NetmodeID.SinglePlayer)

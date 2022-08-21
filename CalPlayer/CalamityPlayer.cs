@@ -88,7 +88,6 @@ namespace CalamityMod.CalPlayer
         public static int chaosStateDuration = 900;
         public static int chaosStateDuration_NR = 1200;
         public bool killSpikyBalls = false;
-        public Projectile lastProjectileHit;
         public double acidRoundMultiplier = 1D;
         public int waterLeechTarget = -1;
         public float KameiTrailXScale = 0.1f;
@@ -111,6 +110,7 @@ namespace CalamityMod.CalPlayer
         public int reforgeTierSafety = 0;
         public bool finalTierAccessoryReforge = false;
         public float rangedAmmoCost = 1f;
+		public float healingPotBonus = 1f;
         public bool heldGaelsLastFrame = false;
         internal bool hadNanomachinesLastFrame = false;
         public bool disableVoodooSpawns = false;
@@ -1721,6 +1721,7 @@ namespace CalamityMod.CalPlayer
             brimflameFrenzy = false;
 
             rangedAmmoCost = 1f;
+			healingPotBonus = 1f;
 
             avertorBonus = false;
 
@@ -2106,8 +2107,6 @@ namespace CalamityMod.CalPlayer
             lecherousOrbEnchant = false;
             flatStealthLossReduction = 0;
 
-            lastProjectileHit = null;
-
             AbleToSelectExoMech = false;
 
             EnchantHeldItemEffects(Player, Player.Calamity(), Player.ActiveItem());
@@ -2372,6 +2371,7 @@ namespace CalamityMod.CalPlayer
             danceOfLightCharge = 0;
             bloodPactBoost = false;
             rangedAmmoCost = 1f;
+			healingPotBonus = 1f;
             avertorBonus = false;
             divineBless = false;
             #endregion
@@ -2497,7 +2497,6 @@ namespace CalamityMod.CalPlayer
             CurrentlyViewedHologramText = string.Empty;
 
             KameiBladeUseDelay = 0;
-            lastProjectileHit = null;
             brimlashBusterBoost = false;
             evilSmasherBoost = 0;
             hellbornBoost = 0;
@@ -4153,10 +4152,7 @@ namespace CalamityMod.CalPlayer
         #region Get Heal Life
         public override void GetHealLife(Item item, bool quickHeal, ref int healValue)
         {
-            double healMult = 1D +
-                    (coreOfTheBloodGod ? 0.25 : 0) +
-                    (bloodPactBoost ? 0.5 : 0);
-            healValue = (int)(healValue * healMult);
+            healValue = (int)(healValue * healingPotBonus);
         }
         #endregion
 
@@ -6199,7 +6195,7 @@ namespace CalamityMod.CalPlayer
 
         #region Post Hurt
 
-        public override void PostHurt(bool pvp, bool quiet, double damage, int hitDirection, bool cri, int cooldownCounter)
+        public override void PostHurt(bool pvp, bool quiet, double damage, int hitDirection, bool crit, int cooldownCounter)
         {
             if (pArtifact && !profanedCrystal)
                 Player.AddCooldown(Cooldowns.ProfanedSoulArtifact.ID, CalamityUtils.SecondsToFrames(5));
@@ -6270,30 +6266,8 @@ namespace CalamityMod.CalPlayer
                         iFramesToAdd += 10;
                 }
 
-                // TODO -- good god what the fuck is this system
-                // Projectiles should be providing an index to a temporary variable in Player.OnHitByProjectile, not hardcoding it in their own OnHitPlayer
-                //
-                // To my best understanding the point of this system is to avoid giving the player type-0 iframes if they are hit by a type-1 projectile.
-                // Why did vanilla Moon Lord have to hate Slime Mount cheese so much to create a second type of iframes?
-                // WHY DID THEY NOT JUST FIX SLIME MOUNT?!
-                if (lastProjectileHit != null)
-                {
-                    switch (lastProjectileHit.ModProjectile.CooldownSlot)
-                    {
-                        case 0:
-                        case 1:
-                            Player.hurtCooldowns[lastProjectileHit.ModProjectile.CooldownSlot] += iFramesToAdd;
-                            break;
-                        case -1:
-                        default:
-                            Player.GiveIFrames(Player.immuneTime + iFramesToAdd, true);
-                            break;
-                    }
-                }
-
-                // In the case that no projectile that hit the player was defined, just give them iframes normally
-                else
-                    Player.GiveIFrames(Player.immuneTime + iFramesToAdd, true);
+				// Give bonus immunity frames based on the type of damage dealt
+				Player.hurtCooldowns[cooldownCounter] += iFramesToAdd;
 
                 if (BossRushEvent.BossRushActive && CalamityConfig.Instance.BossRushIFrameCurse)
                     bossRushImmunityFrameCurseTimer = 180 + Player.immuneTime;
@@ -6561,7 +6535,7 @@ namespace CalamityMod.CalPlayer
             if (Main.myPlayer == Player.whoAmI)
             {
                 Player.trashItem.SetDefaults(0, false);
-                if (Player.difficulty == 0)
+                if (Player.difficulty == PlayerDifficultyID.SoftCore || Player.difficulty == PlayerDifficultyID.Creative)
                 {
                     for (int i = 0; i < 59; i++)
                     {
@@ -6584,11 +6558,11 @@ namespace CalamityMod.CalPlayer
                         }
                     }
                 }
-                else if (Player.difficulty == 1)
+                else if (Player.difficulty == PlayerDifficultyID.MediumCore)
                 {
                     Player.DropItems();
                 }
-                else if (Player.difficulty == 2)
+                else if (Player.difficulty == PlayerDifficultyID.Hardcore)
                 {
                     Player.DropItems();
                     Player.KillMeForGood();
@@ -6657,7 +6631,7 @@ namespace CalamityMod.CalPlayer
                 Main.NewText(deathText.ToString(), 225, 25, 25);
             }
 
-            if (Player.whoAmI == Main.myPlayer && Player.difficulty == 0)
+            if (Player.whoAmI == Main.myPlayer && (Player.difficulty == PlayerDifficultyID.SoftCore || Player.difficulty == PlayerDifficultyID.Creative))
             {
                 Player.DropCoins();
             }

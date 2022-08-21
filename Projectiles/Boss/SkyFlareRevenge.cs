@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.hostile = true;
             Projectile.penetrate = 1;
             Projectile.timeLeft = 10;
-            CooldownSlot = 1;
+            CooldownSlot = ImmunityCooldownID.Bosses;
         }
 
         public override void AI()
@@ -80,11 +80,6 @@ namespace CalamityMod.Projectiles.Boss
                 Main.projectile[nado].Bottom = Projectile.Center;
                 Main.projectile[nado].netUpdate = true;
             }
-        }
-
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
-        {
-            target.Calamity().lastProjectileHit = Projectile;
         }
     }
 }

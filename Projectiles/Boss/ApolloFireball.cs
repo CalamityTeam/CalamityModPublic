@@ -33,7 +33,7 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.tileCollide = false;
             Projectile.penetrate = -1;
             Projectile.Opacity = 0f;
-            CooldownSlot = 1;
+            CooldownSlot = ImmunityCooldownID.Bosses;
             Projectile.timeLeft = BossRushEvent.BossRushActive ? 48 : timeLeft;
         }
 
@@ -227,11 +227,6 @@ namespace CalamityMod.Projectiles.Boss
                 dust.scale = scale;
                 dust.noGravity = true;
             }
-        }
-
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
-        {
-            target.Calamity().lastProjectileHit = Projectile;
         }
     }
 }

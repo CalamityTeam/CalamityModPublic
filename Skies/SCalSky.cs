@@ -40,6 +40,13 @@ namespace CalamityMod.Skies
         private float intensity = 0f;
         private int SCalIndex = -1;
         public List<Cinder> Cinders = new List<Cinder>();
+
+        public static bool RitualDramaProjectileIsPresent
+        {
+            get;
+            internal set;
+        }
+
         public static int CinderReleaseChance
         {
             get
@@ -161,7 +168,7 @@ namespace CalamityMod.Skies
 
         private float GetIntensity()
         {
-            if (CalamityUtils.CountProjectiles(ModContent.ProjectileType<SCalRitualDrama>()) > 0)
+            if (RitualDramaProjectileIsPresent)
                 return OverridingIntensity;
 
             OverridingIntensity = 0f;

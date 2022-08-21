@@ -68,10 +68,5 @@ namespace CalamityMod.Projectiles.Boss
         {
             target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 180);
         }
-
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
-        {
-            target.Calamity().lastProjectileHit = Projectile;
-        }
     }
 }

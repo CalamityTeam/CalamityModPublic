@@ -48,6 +48,9 @@ namespace CalamityMod.Items
                 tooltips.Add(line);
             }
 
+            // If the item has a stealth strike damage prefix, show that on the tooltip.
+            StealthWeaponTooltip(item, tooltips);
+
             // If an item has an enchantment, show its prefix in the first tooltip line and append its description to the
             // tooltip list.
             EnchantmentTooltips(item, tooltips);
@@ -338,6 +341,11 @@ namespace CalamityMod.Items
             {
 				int cost = (int)(item.mana * Main.LocalPlayer.manaCost * 0.5f);
                 EditTooltipByName("UseMana", (line) => line.Text = $"Uses {cost} mana");
+            }
+            if (item.healLife > 0 && Main.LocalPlayer.Calamity().healingPotBonus != 1f)
+            {
+                int healAmt = (int)(item.healLife * Main.LocalPlayer.Calamity().healingPotBonus);
+                EditTooltipByName("HealLife", (line) => line.Text = $"Restores {healAmt} life");
             }
             #endregion
 
@@ -809,11 +817,9 @@ namespace CalamityMod.Items
                 EditTooltipByNum(0, (line) => line.Text = "Increases your max number of sentries by 2\n" +
                 "10% increased melee and minion damage");
             if (item.type == ItemID.MonkAltShirt)
-                EditTooltipByNum(0, (line) => line.Text = "10% increased minion damage and melee speed\n" +
-                "5% increased melee critical strike chance");
+                EditTooltipByNum(0, (line) => line.Text = "10% increased minion damage and melee speed");
             if (item.type == ItemID.MonkAltPants)
-                EditTooltipByNum(0, (line) => line.Text = "10% increased minion damage and melee critical strike chance\n" +
-                "30% increased movement speed");
+                EditTooltipByNum(0, (line) => line.Text = "10% increased minion damage and melee critical strike chance");
 
             // Red Riding armor
             if (item.type == ItemID.HuntressAltShirt)
@@ -821,8 +827,7 @@ namespace CalamityMod.Items
 
             // Dark Artist armor
             if (item.type == ItemID.ApprenticeAltPants)
-                EditTooltipByNum(0, (line) => line.Text = "10% increased minion damage and magic critical strike chance\n" +
-                "20% increased movement speed");
+                EditTooltipByNum(0, (line) => line.Text = "10% increased minion damage and magic critical strike chance");
             #endregion
 
             // Non-consumable boss summon items
@@ -1119,11 +1124,54 @@ namespace CalamityMod.Items
             float stealthGenBoost = item.Calamity().StealthGenBonus - 1f;
             if (stealthGenBoost > 0)
             {
+                TooltipLine line = tooltips.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Expert");
+				if (line == null)
+					line = tooltips.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Price");
+
                 TooltipLine StealthGen = new TooltipLine(Mod, "PrefixStealthGenBoost", "+" + Math.Round(stealthGenBoost * 100f) + "% stealth generation")
                 {
                     IsModifier = true
                 };
-                tooltips.Add(StealthGen);
+
+				if (line == null)
+					tooltips.Add(StealthGen);
+				else
+					tooltips.Insert(tooltips.IndexOf(line), StealthGen);
+            }
+        }
+        #endregion
+
+        #region Stealth Strike Damage Prefix Weapon Tooltip
+        private void StealthWeaponTooltip(Item item, IList<TooltipLine> tooltips)
+        {
+            if (!item.CountsAsClass<RogueDamageClass>() || item.accessory || item.prefix <= 0)
+                return;
+
+            float stealthDmgBonus = item.Calamity().StealthStrikePrefixBonus - 1f;
+            if (stealthDmgBonus > 0)
+            {
+                TooltipLine line = tooltips.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "PrefixShootSpeed");
+				if (line == null)
+					line = tooltips.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "PrefixCritChance");
+				else if (line == null)
+					line = tooltips.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "PrefixSpeed");
+				else if (line == null)
+					line = tooltips.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "PrefixDamage");
+                TooltipLine line2 = tooltips.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Expert");
+				if (line2 == null)
+					line2 = tooltips.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Price");
+
+                TooltipLine StealthDmg = new TooltipLine(Mod, "PrefixStealthDamageBoost", "+" + Math.Round(stealthDmgBonus * 100f) + "% stealth strike damage")
+                {
+                    IsModifier = true
+                };
+
+				// If price/expert line doesn't exist, just add it to the end
+				if (line2 == null)
+					tooltips.Add(StealthDmg);
+				// Otherwise, insert it right before the sell price (or expert line)
+				else
+					tooltips.Insert(tooltips.IndexOf(line2), StealthDmg);
             }
         }
         #endregion

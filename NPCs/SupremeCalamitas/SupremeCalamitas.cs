@@ -2620,7 +2620,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)
         {
-            cooldownSlot = 1;
+            cooldownSlot = ImmunityCooldownID.Bosses;
 
             Vector2 shieldCenter = NPC.Center + shieldRotation.ToRotationVector2() * 24f;
             Vector2 shieldTop = shieldCenter - (shieldRotation + MathHelper.PiOver2).ToRotationVector2() * 61f;

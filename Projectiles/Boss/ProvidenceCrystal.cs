@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.alpha = 255;
             Projectile.tileCollide = false;
             Projectile.penetrate = -1;
-            CooldownSlot = 1;
+            CooldownSlot = ImmunityCooldownID.Bosses;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -141,11 +141,6 @@ namespace CalamityMod.Projectiles.Boss
                 Main.spriteBatch.Draw(texture2D34, vector59 + Vector2.UnitY.RotatedBy(angle, center) * scaleFactor5, new Microsoft.Xna.Framework.Rectangle?(rectangle17), alpha5 * 0.2f, Projectile.rotation, origin11, Projectile.scale, SpriteEffects.None, 0);
             }
             return false;
-        }
-
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
-        {
-            target.Calamity().lastProjectileHit = Projectile;
         }
     }
 }

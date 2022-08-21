@@ -152,7 +152,7 @@ namespace CalamityMod.Prefixes
             valueMult *= extraValue;
         }
 
-        public override bool CanRoll(Item item) => item.CountsAsClass<RogueDamageClass>() && item.maxStack == 1 && GetType() != typeof(RogueWeaponPrefix);
+        public override bool CanRoll(Item item) => item.CanGetRoguePrefix() && GetType() != typeof(RogueWeaponPrefix);
 
         public override void SetStats(ref float damageMult, ref float knockbackMult, ref float useTimeMult, ref float scaleMult, ref float shootSpeedMult, ref float manaMult, ref int critBonus)
         {

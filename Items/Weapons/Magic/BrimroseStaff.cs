@@ -36,8 +36,7 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.shoot = ModContent.ProjectileType<BrimstoneBeam>();
             Item.shootSpeed = 6f;
         }
-
-        public override Vector2? HoldoutOrigin() => new Vector2(10, 10);
+               
 
         public override void AddRecipes()
         {

@@ -2014,10 +2014,10 @@ namespace CalamityMod.CalPlayer
             {
                 Asset<Texture2D> rain3 = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Rain3");
                 Asset<Texture2D> rainOriginal = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/RainOriginal");
-                Asset<Texture2D> mana2 = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Mana2");
-                Asset<Texture2D> mana3 = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Mana3");
-                Asset<Texture2D> mana4 = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Mana4");
-                Asset<Texture2D> manaOriginal = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/ManaOriginal");
+                Asset<Texture2D> cometShard = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/HealthMana/ManaCometShard");
+                Asset<Texture2D> etherealCore = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/HealthMana/ManaEtherealCore");
+                Asset<Texture2D> phantomHeart = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/HealthMana/ManaPhantomHeart");
+                Asset<Texture2D> manaOriginal = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/HealthMana/ManaOriginal");
                 Asset<Texture2D> carpetAuric = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/AuricCarpet");
                 Asset<Texture2D> carpetOriginal = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Carpet");
 
@@ -2027,17 +2027,17 @@ namespace CalamityMod.CalPlayer
                     (cShard ? 1 : 0);
                 switch (totalManaBoost)
                 {
-                    default:
-                        TextureAssets.Mana = manaOriginal;
-                        break;
                     case 3:
-                        TextureAssets.Mana = mana4;
+                        TextureAssets.Mana = phantomHeart;
                         break;
                     case 2:
-                        TextureAssets.Mana = mana3;
+                        TextureAssets.Mana = etherealCore;
                         break;
                     case 1:
-                        TextureAssets.Mana = mana2;
+                        TextureAssets.Mana = cometShard;
+                        break;
+                    default:
+                        TextureAssets.Mana = manaOriginal;
                         break;
                 }
 
@@ -2436,6 +2436,7 @@ namespace CalamityMod.CalPlayer
                 Player.statDefense += 20;
                 Player.longInvince = true;
                 Player.crimsonRegen = true;
+				healingPotBonus += 0.5f;
             }
 
             // 50% movement speed bonus so that you don't feel like a snail in the early game.

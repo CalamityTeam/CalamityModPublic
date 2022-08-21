@@ -1344,7 +1344,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
 
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)
         {
-            cooldownSlot = 1;
+            cooldownSlot = ImmunityCooldownID.Bosses;
 
             Rectangle targetHitbox = target.Hitbox;
 

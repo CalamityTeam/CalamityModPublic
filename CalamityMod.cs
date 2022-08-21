@@ -94,8 +94,8 @@ namespace CalamityMod
         public static int sharkKillCount = 0;
 
         // Textures
-        public static Asset<Texture2D> heartOriginal2;
         public static Asset<Texture2D> heartOriginal;
+        public static Asset<Texture2D> heartOriginal2;
         public static Asset<Texture2D> rainOriginal;
         public static Asset<Texture2D> manaOriginal;
         public static Asset<Texture2D> carpetOriginal;
@@ -155,8 +155,8 @@ namespace CalamityMod
             Instance = this;
 
             // Save vanilla textures.
-            heartOriginal2 = TextureAssets.Heart;
-            heartOriginal = TextureAssets.Heart2;
+            heartOriginal = TextureAssets.Heart;
+            heartOriginal2 = TextureAssets.Heart2;
             rainOriginal = TextureAssets.Rain;
             manaOriginal = TextureAssets.Mana;
             carpetOriginal = TextureAssets.FlyingCarpet;
@@ -422,8 +422,8 @@ namespace CalamityMod
 
             if (!Main.dedServ)
             {
-                TextureAssets.Heart = heartOriginal2;
-                TextureAssets.Heart2 = heartOriginal;
+                TextureAssets.Heart = heartOriginal;
+                TextureAssets.Heart2 = heartOriginal2;
                 TextureAssets.Rain = rainOriginal;
                 TextureAssets.Mana = manaOriginal;
                 TextureAssets.FlyingCarpet = carpetOriginal;
@@ -439,8 +439,8 @@ namespace CalamityMod
             SceneMetrics.GraveyardTileMin = 16;
             SceneMetrics.GraveyardTileThreshold = 28;
 
-            heartOriginal2 = null;
             heartOriginal = null;
+            heartOriginal2 = null;
             rainOriginal = null;
             manaOriginal = null;
             carpetOriginal = null;

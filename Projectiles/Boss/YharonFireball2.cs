@@ -31,7 +31,7 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.alpha = 255;
             Projectile.penetrate = -1;
             Projectile.timeLeft = 3600;
-            CooldownSlot = 1;
+            CooldownSlot = ImmunityCooldownID.Bosses;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -127,11 +127,6 @@ namespace CalamityMod.Projectiles.Boss
         {
             if (Projectile.velocity.Y >= -16f)
                 target.AddBuff(ModContent.BuffType<Dragonfire>(), 240);
-        }
-
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
-        {
-            target.Calamity().lastProjectileHit = Projectile;
         }
     }
 }
