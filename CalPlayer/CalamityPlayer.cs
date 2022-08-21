@@ -6267,7 +6267,10 @@ namespace CalamityMod.CalPlayer
                 }
 
 				// Give bonus immunity frames based on the type of damage dealt
-				Player.hurtCooldowns[cooldownCounter] += iFramesToAdd;
+				if (cooldownCounter != -1)
+					Player.hurtCooldowns[cooldownCounter] += iFramesToAdd;
+				else
+					Player.immuneTime += iFramesToAdd;
 
                 if (BossRushEvent.BossRushActive && CalamityConfig.Instance.BossRushIFrameCurse)
                     bossRushImmunityFrameCurseTimer = 180 + Player.immuneTime;
