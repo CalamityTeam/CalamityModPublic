@@ -933,7 +933,7 @@ namespace CalamityMod.CalPlayer
                             int damage = (int)Player.GetTotalDamage<SummonDamageClass>().ApplyTo(75);
                             int dagger = Projectile.NewProjectile(source, proj.position, proj.velocity, ProjectileType<PhantomicDagger>(), damage, 1f, Player.whoAmI, 0f);
                             if (dagger.WithinBounds(Main.maxProjectiles))
-                                Main.projectile[dagger].DamageType = DamageClass.Generic;
+                                Main.projectile[dagger].DamageType = DamageClass.Summon;
                         }
                     }
                     else
@@ -991,7 +991,7 @@ namespace CalamityMod.CalPlayer
                         int apparatusDamage = (int)Player.GetTotalDamage<SummonDamageClass>().ApplyTo(60);
                         int projectile = Projectile.NewProjectile(source, proj.Center, Vector2.Zero, ProjectileType<ApparatusExplosion>(), apparatusDamage, 4f, proj.owner);
                         if (projectile.WithinBounds(Main.maxProjectiles))
-                            Main.projectile[projectile].DamageType = DamageClass.Generic;
+                            Main.projectile[projectile].DamageType = DamageClass.Summon;
                         jellyDmg = 100f;
                     }
                     else if (starbusterCore)
@@ -999,7 +999,7 @@ namespace CalamityMod.CalPlayer
                         int starburstDamage = (int)Player.GetTotalDamage<SummonDamageClass>().ApplyTo(40);
                         int projectile = Projectile.NewProjectile(source, proj.Center, Vector2.Zero, ProjectileType<SummonAstralExplosion>(), starburstDamage, 3.5f, proj.owner);
                         if (projectile.WithinBounds(Main.maxProjectiles))
-                            Main.projectile[projectile].DamageType = DamageClass.Generic;
+                            Main.projectile[projectile].DamageType = DamageClass.Summon;
                         jellyDmg = 60f;
                     }
                     else if (nuclearRod)
@@ -1007,7 +1007,7 @@ namespace CalamityMod.CalPlayer
                         int nuclearDamage = (int)Player.GetTotalDamage<SummonDamageClass>().ApplyTo(20);
                         int projectile = Projectile.NewProjectile(source, proj.Center, Vector2.Zero, ProjectileType<IrradiatedAura>(), nuclearDamage, 0f, proj.owner);
                         if (projectile.WithinBounds(Main.maxProjectiles))
-                            Main.projectile[projectile].DamageType = DamageClass.Generic;
+                            Main.projectile[projectile].DamageType = DamageClass.Summon;
                         jellyDmg = 60f;
                     }
                     else if (jellyChargedBattery)
@@ -1028,7 +1028,7 @@ namespace CalamityMod.CalPlayer
                         int hallowedDamage = (int)Player.GetTotalDamage<SummonDamageClass>().ApplyTo(30);
                         int projectile = Projectile.NewProjectile(source, spawnPosition, Vector2.Normalize(position - spawnPosition) * speed, ProjectileType<HallowedStarSummon>(), hallowedDamage, 3f, proj.owner);
                         if (projectile.WithinBounds(Main.maxProjectiles))
-                            Main.projectile[projectile].DamageType = DamageClass.Generic;
+                            Main.projectile[projectile].DamageType = DamageClass.Summon;
                     }
                 }
             }
