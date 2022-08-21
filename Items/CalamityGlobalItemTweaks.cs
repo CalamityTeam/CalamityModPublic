@@ -180,7 +180,7 @@ namespace CalamityMod.Items
                 { ItemID.ElectrosphereLauncher, Do(DamageRatio(1.1f)) },
                 { ItemID.EldMelter, Do(DamageExact(113), ShootSpeedDelta(+3f)) }, // Elf Melter, intentionally not in alphabetical order to correct for typo
                 { ItemID.EmeraldStaff, Do(DamageExact(28)) },
-                { ItemID.EmpressBlade, Do(DamageExact(70), UseExact(20)) },
+                { ItemID.EmpressBlade, Do(AutoReuse, DamageExact(70), UseExact(20)) }, // Terraprisma
                 { ItemID.EnchantedBoomerang, Do(DamageRatio(2f), UseExact(28)) },
                 { ItemID.EnchantedSword, Do(UseMeleeSpeed, ScaleRatio(1.5f), DamageExact(42), UseAnimationExact(20), ShootSpeedExact(15f)) },
                 { ItemID.EndlessQuiver, Do(DamageRatio(1.1f)) },
