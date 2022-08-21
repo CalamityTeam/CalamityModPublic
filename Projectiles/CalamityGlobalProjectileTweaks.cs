@@ -85,6 +85,7 @@ namespace CalamityMod.Projectiles
                 { ProjectileID.DemonSickle, defenseDamage },
                 { ProjectileID.EbonsandBallGun, pointBlank },
                 { ProjectileID.EmeraldBolt, Do(NoPiercing) },
+                { ProjectileID.EmpressBlade, Do(LocalIFrames(30)) }, // Terraprisma
                 { ProjectileID.EnchantedBoomerang, Do(ExtraUpdatesExact(1)) },
                 { ProjectileID.ExplosiveBullet, standardBulletTweaks },
                 { ProjectileID.FairyQueenLance, defenseDamage }, // Empress of Light's lance walls
