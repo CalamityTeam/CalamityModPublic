@@ -83,8 +83,6 @@ namespace CalamityMod
 {
     public class CalamityMod : Mod
     {
-        public const string CalamityWikiURL = "calamitymod.wiki.gg";
-
         // TODO -- A huge amount of random floating variables exist here.
         // These should all be moved to other files, whether that's CalamityLists or brand new ModSystems.
         // It is best to have a ton of small ModSystems.
@@ -222,24 +220,7 @@ namespace CalamityMod
                 ForegroundDrawing.ForegroundManager.Load();
 
                 // Wikithis support
-                if (wikithis is not null)
-                {
-                    wikithis.Call("AddModURL", this, CalamityWikiURL);
-
-                    // Clear up name conflicts
-                    // Items
-                    wikithis.Call(1, new List<int>() { ModContent.ItemType<BloodOrange>() }, "Blood Orange (calamity)");
-                    wikithis.Call(1, new List<int>() { ModContent.ItemType<Elderberry>() }, "Elderberry (calamity)");
-                    wikithis.Call(1, new List<int>() { ModContent.ItemType<PineapplePet>() }, "Pineapple (calamity)");
-                    wikithis.Call(1, new List<int>() { ModContent.ItemType<TrashmanTrashcan>() }, "Trash Can (pet)");
-                    wikithis.Call(1, new List<int>() { ModContent.ItemType<Butcher>() }, "Butcher (weapon)");
-                    wikithis.Call(1, new List<int>() { ModContent.ItemType<SandstormGun>() }, "Sandstorm (weapon)");
-                    wikithis.Call(1, new List<int>() { ModContent.ItemType<Thunderstorm>() }, "Thunderstorm (weapon)");
-                    // Enemies
-                    wikithis.Call(2, new List<int>() { ModContent.NPCType<Catfish>() }, "Catfish (enemy)");
-                    wikithis.Call(2, new List<int>() { ModContent.NPCType<Hive>() }, "Hive (enemy)");
-                    wikithis.Call(2, new List<int>() { ModContent.NPCType<OldDukeToothBall>() }, "Tooth Ball (Old Duke)");
-                }
+				WeakReferenceSupport.WikiThisSupport();
             }
 
             CooldownRegistry.Load();
