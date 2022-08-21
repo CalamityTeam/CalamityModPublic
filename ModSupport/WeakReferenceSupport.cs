@@ -29,6 +29,7 @@ using CalamityMod.Items.Weapons.Typeless;
 using CalamityMod.NPCs.AcidRain;
 using CalamityMod.NPCs.AdultEidolonWyrm;
 using CalamityMod.NPCs.AquaticScourge;
+using CalamityMod.NPCs.Astral;
 using CalamityMod.NPCs.AstrumAureus;
 using CalamityMod.NPCs.AstrumDeus;
 using CalamityMod.NPCs.BrimstoneElemental;
@@ -46,7 +47,9 @@ using CalamityMod.NPCs.ExoMechs.Thanatos;
 using CalamityMod.NPCs.GreatSandShark;
 using CalamityMod.NPCs.HiveMind;
 using CalamityMod.NPCs.Leviathan;
+using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.NPCs.OldDuke;
+using CalamityMod.NPCs.Other;
 using CalamityMod.NPCs.Perforator;
 using CalamityMod.NPCs.PlaguebringerGoliath;
 using CalamityMod.NPCs.Polterghast;
@@ -56,6 +59,7 @@ using CalamityMod.NPCs.Ravager;
 using CalamityMod.NPCs.Signus;
 using CalamityMod.NPCs.SlimeGod;
 using CalamityMod.NPCs.StormWeaver;
+using CalamityMod.NPCs.SulphurousSea;
 using CalamityMod.NPCs.SunkenSea;
 using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.NPCs.TownNPCs;
@@ -115,6 +119,8 @@ namespace CalamityMod
 
     internal class WeakReferenceSupport
     {
+        public const string CalamityWikiURL = "calamitymod.wiki.gg";
+
         private static readonly Dictionary<string, float> BossDifficulty = new Dictionary<string, float>
         {
             { "DesertScourge", 1.6f },
@@ -164,6 +170,92 @@ namespace CalamityMod
             FargosSupport();
             CensusSupport();
             SummonersAssociationSupport();
+        }
+
+        public static void WikiThisSupport()
+        {
+            CalamityMod calamity = GetInstance<CalamityMod>();
+            Mod wiki = calamity.wikithis;
+            if (wiki is null)
+                return;
+
+			wiki.Call("AddModURL", calamity, CalamityWikiURL);
+
+			// Clear up name conflicts
+            void ItemRedirect(int item, string pageName)
+            {
+				wiki.Call(1, new List<int>() { item }, pageName);
+            }
+            void EnemyRedirect(int item, string pageName)
+            {
+				wiki.Call(2, new List<int>() { item }, pageName);
+            }
+
+			// Items
+			ItemRedirect(ModContent.ItemType<BloodOrange>(), "Blood Orange (calamity)");
+			ItemRedirect(ModContent.ItemType<Elderberry>(), "Elderberry (calamity)");
+			ItemRedirect(ModContent.ItemType<PineapplePet>(), "Pineapple (calamity)");
+			ItemRedirect(ModContent.ItemType<TrashmanTrashcan>(), "Trash Can (pet)");
+			ItemRedirect(ModContent.ItemType<Butcher>(), "Butcher (weapon)");
+			ItemRedirect(ModContent.ItemType<SandstormGun>(), "Sandstorm (weapon)");
+			ItemRedirect(ModContent.ItemType<Thunderstorm>(), "Thunderstorm (weapon)");
+			// Lore items
+			ItemRedirect(ModContent.ItemType<KnowledgeAquaticScourge>(), "Lore#Lore_Items");
+			ItemRedirect(ModContent.ItemType<KnowledgeAstralInfection>(), "Lore#Lore_Items");
+			ItemRedirect(ModContent.ItemType<KnowledgeAstrumAureus>(), "Lore#Lore_Items");
+			ItemRedirect(ModContent.ItemType<KnowledgeAstrumDeus>(), "Lore#Lore_Items");
+			ItemRedirect(ModContent.ItemType<KnowledgeBloodMoon>(), "Lore#Lore_Items");
+			ItemRedirect(ModContent.ItemType<KnowledgeBrainofCthulhu>(), "Lore#Lore_Items");
+			ItemRedirect(ModContent.ItemType<KnowledgeBrimstoneCrag>(), "Lore#Lore_Items");
+			ItemRedirect(ModContent.ItemType<KnowledgeBrimstoneElemental>(), "Lore#Lore_Items");
+			ItemRedirect(ModContent.ItemType<KnowledgeCalamitas>(), "Lore#Lore_Items");
+			ItemRedirect(ModContent.ItemType<KnowledgeCalamitasClone>(), "Lore#Lore_Items");
+			ItemRedirect(ModContent.ItemType<KnowledgeCorruption>(), "Lore#Lore_Items");
+			ItemRedirect(ModContent.ItemType<KnowledgeCrabulon>(), "Lore#Lore_Items");
+			ItemRedirect(ModContent.ItemType<KnowledgeCrimson>(), "Lore#Lore_Items");
+			ItemRedirect(ModContent.ItemType<KnowledgeCryogen>(), "Lore#Lore_Items");
+			ItemRedirect(ModContent.ItemType<KnowledgeDesertScourge>(), "Lore#Lore_Items");
+			ItemRedirect(ModContent.ItemType<KnowledgeDestroyer>(), "Lore#Lore_Items");
+			ItemRedirect(ModContent.ItemType<KnowledgeDevourerofGods>(), "Lore#Lore_Items");
+			ItemRedirect(ModContent.ItemType<KnowledgeDragonfolly>(), "Lore#Lore_Items");
+			ItemRedirect(ModContent.ItemType<KnowledgeDukeFishron>(), "Lore#Lore_Items");
+			ItemRedirect(ModContent.ItemType<KnowledgeEaterofWorlds>(), "Lore#Lore_Items");
+			ItemRedirect(ModContent.ItemType<KnowledgeExoMechs>(), "Lore#Lore_Items");
+			ItemRedirect(ModContent.ItemType<KnowledgeEyeofCthulhu>(), "Lore#Lore_Items");
+			ItemRedirect(ModContent.ItemType<KnowledgeGolem>(), "Lore#Lore_Items");
+			ItemRedirect(ModContent.ItemType<KnowledgeHiveMind>(), "Lore#Lore_Items");
+			ItemRedirect(ModContent.ItemType<KnowledgeKingSlime>(), "Lore#Lore_Items");
+			ItemRedirect(ModContent.ItemType<KnowledgeLeviathanAnahita>(), "Lore#Lore_Items");
+			ItemRedirect(ModContent.ItemType<KnowledgeLunaticCultist>(), "Lore#Lore_Items");
+			ItemRedirect(ModContent.ItemType<KnowledgeMechs>(), "Lore#Lore_Items");
+			ItemRedirect(ModContent.ItemType<KnowledgeMoonLord>(), "Lore#Lore_Items");
+			ItemRedirect(ModContent.ItemType<KnowledgeOcean>(), "Lore#Lore_Items");
+			ItemRedirect(ModContent.ItemType<KnowledgeOldDuke>(), "Lore#Lore_Items");
+			ItemRedirect(ModContent.ItemType<KnowledgePerforators>(), "Lore#Lore_Items");
+			ItemRedirect(ModContent.ItemType<KnowledgePlaguebringerGoliath>(), "Lore#Lore_Items");
+			ItemRedirect(ModContent.ItemType<KnowledgePlantera>(), "Lore#Lore_Items");
+			ItemRedirect(ModContent.ItemType<KnowledgePolterghast>(), "Lore#Lore_Items");
+			ItemRedirect(ModContent.ItemType<KnowledgeProfanedGuardians>(), "Lore#Lore_Items");
+			ItemRedirect(ModContent.ItemType<KnowledgeProvidence>(), "Lore#Lore_Items");
+			ItemRedirect(ModContent.ItemType<KnowledgeQueenBee>(), "Lore#Lore_Items");
+			ItemRedirect(ModContent.ItemType<KnowledgeRavager>(), "Lore#Lore_Items");
+			ItemRedirect(ModContent.ItemType<KnowledgeSentinels>(), "Lore#Lore_Items");
+			ItemRedirect(ModContent.ItemType<KnowledgeSkeletron>(), "Lore#Lore_Items");
+			ItemRedirect(ModContent.ItemType<KnowledgeSkeletronPrime>(), "Lore#Lore_Items");
+			ItemRedirect(ModContent.ItemType<KnowledgeSlimeGod>(), "Lore#Lore_Items");
+			ItemRedirect(ModContent.ItemType<KnowledgeSulphurSea>(), "Lore#Lore_Items");
+			ItemRedirect(ModContent.ItemType<KnowledgeTwins>(), "Lore#Lore_Items");
+			ItemRedirect(ModContent.ItemType<KnowledgeUnderworld>(), "Lore#Lore_Items");
+			ItemRedirect(ModContent.ItemType<KnowledgeWallofFlesh>(), "Lore#Lore_Items");
+			ItemRedirect(ModContent.ItemType<KnowledgeYharon>(), "Lore#Lore_Items");
+
+			// Enemies
+			EnemyRedirect(ModContent.NPCType<Catfish>(), "Catfish (enemy)");
+			EnemyRedirect(ModContent.NPCType<HiveEnemy>(), "Hive (enemy)");
+			EnemyRedirect(ModContent.NPCType<KingSlimeJewel>(), "Crown Jewel (enemy)");
+			EnemyRedirect(ModContent.NPCType<OldDukeToothBall>(), "Tooth Ball (Old Duke)");
+			EnemyRedirect(ModContent.NPCType<CalamitasEnchantDemon>(), "Enchantment");
+			EnemyRedirect(ModContent.NPCType<LeviathanStart>(), "%3F%3F%3F");
         }
 
         // Wrapper function to add bosses to Boss Checklist.

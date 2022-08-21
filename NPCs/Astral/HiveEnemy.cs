@@ -17,7 +17,7 @@ using CalamityMod.Sounds;
 
 namespace CalamityMod.NPCs.Astral
 {
-    public class Hive : ModNPC
+    public class HiveEnemy : ModNPC
     {
         private static Texture2D glowmask;
 

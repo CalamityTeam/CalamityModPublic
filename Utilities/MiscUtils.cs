@@ -847,7 +847,7 @@ namespace CalamityMod
                     npc = ModContent.NPCType<AstralachneaGround>();
                     break;
                 case 40:
-                    npc = ModContent.NPCType<Hive>();
+                    npc = ModContent.NPCType<HiveEnemy>();
                     break;
                 case 41:
                     npc = ModContent.NPCType<StellarCulex>();
