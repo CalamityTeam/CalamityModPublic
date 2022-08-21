@@ -1,9 +1,9 @@
 ﻿using CalamityMod.CalPlayer;
+using CalamityMod.CalPlayer.Dashes;
 using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.CalPlayer.Dashes;
 
 namespace CalamityMod.Items.Armor.GodSlayer
 {
@@ -49,7 +49,7 @@ namespace CalamityMod.Items.Armor.GodSlayer
                 "Press " + hotkey + " while holding down the movement keys in the direction you want to dash\n" +
                 "Enemies you dash through take massive damage\n" +
                 "During the dash you are immune to most debuffs\n" +
-                "The dash has a 35 second cooldown\n" +
+                "The dash has a " + GodslayerArmorDash.GodslayerCooldown + " second cooldown\n" +
 				"+120 maximum stealth\n" +
                 "While at full HP all of your rogue stats are boosted by 10%\n" +
                 "If you take over 80 damage in one hit you will be given extra immunity frames";

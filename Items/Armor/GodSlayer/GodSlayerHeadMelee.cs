@@ -1,9 +1,9 @@
 ﻿using CalamityMod.CalPlayer;
+using CalamityMod.CalPlayer.Dashes;
 using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.CalPlayer.Dashes;
 
 namespace CalamityMod.Items.Armor.GodSlayer
 {
@@ -47,7 +47,7 @@ namespace CalamityMod.Items.Armor.GodSlayer
                 "Press " + hotkey + " while holding down the movement keys in the direction you want to dash\n" +
                 "Enemies you dash through take massive damage\n" +
                 "During the dash you are immune to most debuffs\n" +
-                "The dash has a 35 second cooldown\n" +
+                "The dash has a " + GodslayerArmorDash.GodslayerCooldown + " second cooldown\n" +
                 "Enemies are more likely to target you\n" +
                 "Taking over 80 damage in one hit will cause you to release a swarm of high-damage god killer darts\n" +
                 "Enemies take a lot of damage when they hit you\n" +
