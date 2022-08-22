@@ -14,7 +14,6 @@ namespace CalamityMod.World
     public static class CalamityWorld
     {
         #region Vars
-        private const int saveVersion = 0;
         public static int ArmoredDiggerSpawnCooldown = 0;
         public static int MoneyStolenByBandit = 0;
         public static int Reforges;

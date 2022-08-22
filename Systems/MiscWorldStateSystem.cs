@@ -209,14 +209,13 @@ namespace CalamityMod
         public override void LoadWorldData(TagCompound tag)
         {
             var downed = tag.GetList<string>("downed");
-            TalkedToDraedon = downed.Contains("TalkedToDraedon");
             onionMode = downed.Contains("onionMode");
+            TalkedToDraedon = downed.Contains("TalkedToDraedon");
             revenge = downed.Contains("revenge");
             death = downed.Contains("death");
             Abyss.AtLeftSideOfWorld = downed.Contains("abyssSide");
             BossRushEvent.BossRushActive = downed.Contains("bossRushActive");
             AcidRainEvent.AcidRainEventIsOngoing = downed.Contains("acidRain");
-
             spawnedBandit = downed.Contains("bandit");
             spawnedCirrus = downed.Contains("drunkPrincess");
             foundHomePermafrost = downed.Contains("archmageHome");
