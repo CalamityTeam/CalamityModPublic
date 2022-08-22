@@ -68,23 +68,37 @@ namespace CalamityMod.Items.Fishing
             Mod thorium = CalamityMod.Instance.thorium;
             if (thorium is not null)
             {
-                itemLoot.Add(thorium.Find<ModItem>("MarineKelp").Type, 4, herbMin, herbMax);
-                itemLoot.Add(thorium.Find<ModItem>("MarineKelpSeeds").Type, 10, seedMin, seedMax);
+				try
+				{
+					itemLoot.Add(thorium.Find<ModItem>("MarineKelp").Type, 4, herbMin, herbMax);
+					itemLoot.Add(thorium.Find<ModItem>("MarineKelpSeeds").Type, 10, seedMin, seedMax);
+				}
+				catch
+				{
+					CalamityMod.Instance.Logger.Debug("One of the items in this file got renamed internally. Please report this in the #bugs-read-pins channel of the official Calamity discord server.");
+				}
             }
 
             Mod soa = CalamityMod.Instance.soa;
             if (soa is not null)
             {
-                itemLoot.Add(soa.Find<ModItem>("Welkinbell").Type, 4, herbMin, herbMax);
-                itemLoot.Add(soa.Find<ModItem>("WelkinbellSeeds").Type, 10, seedMin, seedMax);
+				try
+				{
+					itemLoot.Add(soa.Find<ModItem>("Welkinbell").Type, 4, herbMin, herbMax);
+					itemLoot.Add(soa.Find<ModItem>("WelkinbellSeeds").Type, 10, seedMin, seedMax);
 
-                itemLoot.AddIf(() => Main.hardMode, soa.Find<ModItem>("Illumifern").Type, 4, herbMin, herbMax);
-                itemLoot.AddIf(() => Main.hardMode, soa.Find<ModItem>("IllumifernSeeds").Type, 10, seedMin, seedMax);
+					itemLoot.AddIf(() => Main.hardMode, soa.Find<ModItem>("Illumifern").Type, 4, herbMin, herbMax);
+					itemLoot.AddIf(() => Main.hardMode, soa.Find<ModItem>("IllumifernSeeds").Type, 10, seedMin, seedMax);
 
-                // TODO -- There is no way to determine if SoA's Abaddon is dead without reflection.
-                // Dan Yami has confirmed that downed calls will be added to SoA eventually.
-                //itemLoot.AddIf(() => SacredTools.ModdedWorld.downedAbaddon, soa.Find<ModItem>("Enduflora").Type, 4, herbMin, herbMax);
-                //itemLoot.AddIf(() => SacredTools.ModdedWorld.downedAbaddon, soa.Find<ModItem>("EndufloraSeeds").Type, 10, seedMin, seedMax);
+					// TODO -- There is no way to determine if SoA's Abaddon is dead without reflection.
+					// Dan Yami has confirmed that downed calls will be added to SoA eventually.
+					//itemLoot.AddIf(() => SacredTools.ModdedWorld.downedAbaddon, soa.Find<ModItem>("Enduflora").Type, 4, herbMin, herbMax);
+					//itemLoot.AddIf(() => SacredTools.ModdedWorld.downedAbaddon, soa.Find<ModItem>("EndufloraSeeds").Type, 10, seedMin, seedMax);
+				}
+				catch
+				{
+					CalamityMod.Instance.Logger.Debug("One of the items in this file got renamed internally. Please report this in the #bugs-read-pins channel of the official Calamity discord server.");
+				}
             }
         }
     }
