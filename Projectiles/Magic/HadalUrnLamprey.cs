@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.DamageType = DamageClass.Magic;
             Projectile.timeLeft = 600;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 30;
+            Projectile.localNPCHitCooldown = 45;
         }
 
         public override void AI()
@@ -87,7 +87,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            Projectile.ModifyHitNPCSticky(6, true);
+            Projectile.ModifyHitNPCSticky(5, true);
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
