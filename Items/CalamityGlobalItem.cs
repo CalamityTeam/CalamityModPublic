@@ -1607,7 +1607,6 @@ namespace CalamityMod.Items
 
             float flightSpeedMult = 1f +
                 (modPlayer.soaring ? 0.1f : 0f) +
-                (modPlayer.profanedRage ? 0.05f : 0f) +
                 (modPlayer.draconicSurge ? 0.1f : 0f) +
                 (modPlayer.reaverSpeed ? 0.1f : 0f) +
                 moveSpeedBoost;
