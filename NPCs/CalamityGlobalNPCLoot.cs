@@ -980,7 +980,8 @@ namespace CalamityMod.NPCs
                     npcLoot.Add(subsequentWoFKills);
 
                     // Expert+ drops are also available on Normal
-                    npcLoot.AddNormalOnly(DropHelper.PerPlayer(ItemID.DemonHeart));
+					// However, Demon Heart does not work in Normal mode, so it's best to not drop it
+                    // npcLoot.AddNormalOnly(DropHelper.PerPlayer(ItemID.DemonHeart));
 
                     // WoF drops Evil Keys
                     npcLoot.Add(ItemID.CorruptionKey, 3);
