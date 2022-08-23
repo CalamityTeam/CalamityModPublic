@@ -4743,6 +4743,12 @@ namespace CalamityMod.NPCs
                 pool[0] = 0f;
             }
 
+			// Add Enchanted Nightcrawlers as a critter to the Astral Infection
+            if (!CalamityGlobalNPC.AnyEvents(spawnInfo.Player) && spawnInfo.Player.InAstral())
+            {
+				pool[NPCID.EnchantedNightcrawler] = SpawnCondition.TownCritter.Chance;
+            }
+
             if (spawnInfo.Player.Calamity().ZoneSulphur && !spawnInfo.Player.Calamity().ZoneAbyss && AcidRainEvent.AcidRainEventIsOngoing)
             {
                 pool.Clear();
