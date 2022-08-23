@@ -175,6 +175,8 @@ namespace CalamityMod.CalPlayer
                         {
                             if (ZoneCalamity)
                                 itemDrop = ModContent.ItemType<BrimstoneCrate>();
+							else
+								itemDrop = Main.hardMode ? ItemID.LavaCrateHard : ItemID.LavaCrate;
                         }
                     }
                 }
@@ -243,7 +245,7 @@ namespace CalamityMod.CalPlayer
                         }
                         else if (Main.rand.NextBool(chanceForGoldCrate))
                         {
-                            itemDrop = ItemID.GoldenCrate;
+                            itemDrop = Main.hardMode ? ItemID.GoldenCrateHard : ItemID.GoldenCrate;
                         }
                         else if (Main.rand.NextBool(chanceForBiomeCrate))
                         {
@@ -252,12 +254,15 @@ namespace CalamityMod.CalPlayer
                             biomeCrateList.AddWithCondition<int>(ModContent.ItemType<AstralCrate>(), ZoneAstral);
                             biomeCrateList.AddWithCondition<int>(ModContent.ItemType<SunkenCrate>(), ZoneSunkenSea);
                             biomeCrateList.AddWithCondition<int>(ModContent.ItemType<AbyssalCrate>(), canSulphurFish);
-                            biomeCrateList.AddWithCondition<int>(ItemID.CorruptFishingCrate, Player.ZoneCorrupt);
-                            biomeCrateList.AddWithCondition<int>(ItemID.CrimsonFishingCrate, Player.ZoneCrimson);
-                            biomeCrateList.AddWithCondition<int>(ItemID.HallowedFishingCrate, Player.ZoneHallow);
-                            biomeCrateList.AddWithCondition<int>(ItemID.DungeonFishingCrate, Player.ZoneDungeon);
-                            biomeCrateList.AddWithCondition<int>(ItemID.JungleFishingCrate, Player.ZoneJungle);
-                            biomeCrateList.AddWithCondition<int>(ItemID.FloatingIslandFishingCrate, Player.ZoneSkyHeight);
+                            biomeCrateList.AddWithCondition<int>(Main.hardMode ? ItemID.CorruptFishingCrateHard : ItemID.CorruptFishingCrate, Player.ZoneCorrupt);
+                            biomeCrateList.AddWithCondition<int>(Main.hardMode ? ItemID.CrimsonFishingCrateHard : ItemID.CrimsonFishingCrate, Player.ZoneCrimson);
+                            biomeCrateList.AddWithCondition<int>(Main.hardMode ? ItemID.HallowedFishingCrateHard : ItemID.HallowedFishingCrate, Player.ZoneHallow);
+                            biomeCrateList.AddWithCondition<int>(Main.hardMode ? ItemID.DungeonFishingCrateHard : ItemID.DungeonFishingCrate, Player.ZoneDungeon);
+                            biomeCrateList.AddWithCondition<int>(Main.hardMode ? ItemID.JungleFishingCrateHard : ItemID.JungleFishingCrate, Player.ZoneJungle);
+                            biomeCrateList.AddWithCondition<int>(Main.hardMode ? ItemID.FloatingIslandFishingCrateHard : ItemID.FloatingIslandFishingCrate, Player.ZoneSkyHeight);
+                            biomeCrateList.AddWithCondition<int>(Main.hardMode ? ItemID.FrozenCrateHard : ItemID.FrozenCrate, Player.ZoneSnow);
+                            biomeCrateList.AddWithCondition<int>(Main.hardMode ? ItemID.OasisCrateHard : ItemID.OasisCrate, Player.ZoneDesert && !Player.ZoneBeach);
+                            biomeCrateList.AddWithCondition<int>(Main.hardMode ? ItemID.OceanCrateHard : ItemID.OceanCrate, Player.ZoneBeach);
 
                             if (biomeCrateList.Any())
                             {
@@ -268,11 +273,11 @@ namespace CalamityMod.CalPlayer
                         }
                         else if (Main.rand.NextBool(chanceForIronCrate))
                         {
-                            itemDrop = ItemID.IronCrate;
+                            itemDrop = Main.hardMode ? ItemID.IronCrateHard : ItemID.IronCrate;
                         }
                         else
                         {
-                            itemDrop = ItemID.WoodenCrate;
+                            itemDrop = Main.hardMode ? ItemID.WoodenCrateHard : ItemID.WoodenCrate;
                         }
                         return;
                     }
