@@ -189,7 +189,7 @@ namespace CalamityMod.Items
                 case ItemID.BrainOfConfusion:
                 case ItemID.HiveBackpack:
                 case ItemID.BoneGlove:
-                case ItemID.DemonHeart:
+                // case ItemID.DemonHeart:
                 case ItemID.VolatileGelatin:
                 case ItemID.MechanicalBatteryPiece:
                 case ItemID.MechanicalWagonPiece:
