@@ -628,6 +628,7 @@ namespace CalamityMod.NPCs
                     // Master items drop in Revengeance
                     rev.Add(ItemID.EverscreamMasterTrophy, 4);
                     rev.Add(ItemID.EverscreamPetItem, 20);
+                    npcLoot.Add(rev);
                     break;
 
                 // Santa-NK1
