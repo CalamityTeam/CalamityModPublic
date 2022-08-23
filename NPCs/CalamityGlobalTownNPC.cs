@@ -19,6 +19,8 @@ using CalamityMod.NPCs.TownNPCs;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
+using System.Linq;
 using Terraria;
 using Terraria.GameContent;
 using Terraria.ID;
@@ -58,12 +60,10 @@ namespace CalamityMod.NPCs
         public static int TaxesToCollectLimit => (int)(Item.buyPrice(0, 50, 0, 0) * TaxYieldFactor);
 
         #region Town NPC Patreon Name Sets
-        private const int AnglerVanillaNames = 22;
         private static readonly string[] AnglerNames =
         {
             "Dazren",
         };
-        private const int ArmsDealerVanillaNames = 24;
         private static readonly string[] ArmsDealerNames =
         {
             "Drifter",
@@ -73,22 +73,18 @@ namespace CalamityMod.NPCs
             "Barney Calhoun", // <@!634462901431697410> (Potato Power#6578)
             "XiaoEn0426", // <@!440448864772816896> (XiaoEn0426#9157)
         };
-        private const int ClothierVanillaNames = 25;
         private static readonly string[] ClothierNames =
         {
             "Joeseph Jostar",
         };
-        private const int CyborgVanillaNames = 22;
         private static readonly string[] CyborgNames =
         {
             "Sylux", // <@!331812782183809025> (Gonk#2451)
         };
-        private const int DemolitionistVanillaNames = 22;
         private static readonly string[] DemolitionistNames =
         {
             "Tavish DeGroot", // <@!442447226992721930> (Magicoal#2655)
         };
-        private const int DryadVanillaNames = 21;
         private static readonly string[] DryadNames =
         {
             "Rythmi",
@@ -96,9 +92,7 @@ namespace CalamityMod.NPCs
             "Jasmine", // <@!430532867479699456> (phantasmagoria#6777)
             "Cybil", // <@!486507232666845185> (Captain Doofus#????)
         };
-        private const int DyeTraderVanillaNames = 16;
         private static readonly string[] DyeTraderNames = null;
-        private const int GoblinTinkererVanillaNames = 25;
         private static readonly string[] GoblinTinkererNames =
         {
             "Verth",
@@ -109,7 +103,7 @@ namespace CalamityMod.NPCs
             "G'tok", // <@!335192200956608535> (gtoktas#7589)
             "Katto", // <@!175972165504466944> (Katto#2858)
         };
-        private const int GuideVanillaNames = 34;
+        private static readonly string[] GolferNames = null;
         private static readonly string[] GuideNames =
         {
             "Lapp",
@@ -125,7 +119,6 @@ namespace CalamityMod.NPCs
             "Grylken", // <@!299970404435361802> (Grylken#1569)
             "Outlaw", // <@!918311619480657922> (TheChosenOutlaw#8746)
         };
-        private const int MechanicVanillaNames = 24;
         private static readonly string[] MechanicNames =
         {
             "Lilly",
@@ -133,78 +126,64 @@ namespace CalamityMod.NPCs
             "Robin", // <@!654737510030639112> (Altzeus#8687)
             "Curly", // <@!673092101780668416> (Curly~Brace#4830)
         };
-        private const int MerchantVanillaNames = 23;
         private static readonly string[] MerchantNames = null;
-        private const int NurseVanillaNames = 24;
         private static readonly string[] NurseNames =
         {
             "Farsni",
         };
-        private const int PainterVanillaNames = 18;
         private static readonly string[] PainterNames =
         {
             "Picasso", // <@!353316526306361347> (SCONICBOOM#2164 -- for the late Picasso's Bean#2819)
         };
-        private const int PartyGirlVanillaNames = 17;
         private static readonly string[] PartyGirlNames =
         {
             "Arin", // <@!268169458302976012> (Kiyotu#0006)
         };
-        private const int PirateVanillaNames = 11;
         private static readonly string[] PirateNames =
         {
             "Tyler Van Hook",
             "Cap'n Deek", // "Alex N" on Patreon
         };
-        private const int PrincessVanillaNames = 22;
         private static readonly string[] PrincessNames =
         {
             "Catalyst", // <@!156672312425316352> (xAqult#1122)
             "Nyapano", // <@!120976656826368003> (Emi - Nyapano She/Her#4040)
             "Jade", // <@!187395834625785869> (VeryMasterNinja#7728)
         };
-        private const int SkeletonMerchantVanillaNames = 10;
         private static readonly string[] SkeletonMerchantNames =
         {
             "Sans Undertale", // <@!145379091648872450> (Shayy#5257)
             "Papyrus Undertale", // <@!262663471189983242> (Nycro#0001)
         };
-        private const int SteampunkerVanillaNames = 20;
         private static readonly string[] SteampunkerNames =
         {
             "Vorbis",
             "Angel",
         };
-        private const int StylistVanillaNames = 20;
         private static readonly string[] StylistNames =
         {
             "Amber", // <@!114677116473180169> (Mishiro Usui#1295)
             "Faith", // <@!509050283871961123> (Toasty#1007)
             "Xsiana", // <@!625780237489143839> (xiana.#0015)
         };
-        private const int TavernkeepVanillaNames = 16;
         private static readonly string[] TavernkeepNames =
         {
             "Tim Lockwood", // <@!605839945483026434> (Deimelo#0001)
             "Sir Samuel Winchester Jenkins Kester II", // <@!107659695749070848> (Ryaegos#1661)
             "Brutus", // <@!591889650692521984> (Brutus#4337)
         };
-        private const int TaxCollectorVanillaNames = 19;
         private static readonly string[] TaxCollectorNames =
         {
             "Emmett",
         };
-        private const int TravelingMerchantVanillaNames = 13;
         private static readonly string[] TravelingMerchantNames =
         {
             "Stan Pines",
         };
-        private const int TruffleVanillaNames = 12;
         private static readonly string[] TruffleNames =
         {
             "Aldrimil", // <@!413719640238194689> (Thorioum#2475)
         };
-        private const int WitchDoctorVanillaNames = 10;
         private static readonly string[] WitchDoctorNames =
         {
             "Sok'ar",
@@ -213,7 +192,6 @@ namespace CalamityMod.NPCs
             "Khatunz", // <@!303022375191183360> (jackshiz#7839)
             "Amnesia Wapers", // <@!326821498323075073> (Retarded Advice from a Retard#6969)
         };
-        private const int WizardVanillaNames = 22;
         private static readonly string[] WizardNames =
         {
             "Mage One-Trick",
@@ -226,42 +204,38 @@ namespace CalamityMod.NPCs
             "Syethas", // <@!325413275066171393> (CosmicStarIight#4430)
             "Nextdoor Psycho", // <@!173261518572486656> (⋈-NextdoorPsycho-⋈#0001)
         };
+        private static readonly string[] ZoologistNames	= null;
 
         // The following sets are for the 1.4 Town Pets: Town Dogs, Cats and Bunnies.
         // All three pet types come in numerous breeds. Each breed has its own name pool.
         // Donator pet names should be appended to all breeds' name pools equally.
-        // TODO -- actually allow for naming pets
-        
+
         private const int TownDogLabradorVanillaNames = 17;
-        private const int TownDogPitbullVanillaNames = 14;
+        private const int TownDogPitBullVanillaNames = 14;
         private const int TownDogBeagleVanillaNames = 12;
-        private static readonly string[] TownDogBeagleNames =
-        {
-            "Kendra", // <@!237247188005158912> (LordMetarex#6407)
-        };
         private const int TownDogCorgiVanillaNames = 14;
         private const int TownDogDalmatianVanillaNames = 13;
         private const int TownDogHuskyVanillaNames = 16;
-        private static readonly string[] TownDogHuskyNames =
-        {
-            "Yoshi", // <@!541127291426832384> (GregTheSpinarak#6643)
-        };
         private static readonly string[] TownDogNames =
         {
             "Ozymandias", // <@!146333264871686145> (Ozzatron#0001)
         };
+        private static readonly string[] TownDogLabradorNames = null;
+        private static readonly string[] TownDogPitBullNames = null;
+        private static readonly string[] TownDogBeagleNames =
+        {
+            "Kendra", // <@!237247188005158912> (LordMetarex#6407)
+        };
+        private static readonly string[] TownDogCorgiNames = null;
+        private static readonly string[] TownDogDalmatianNames = null;
+        private static readonly string[] TownDogHuskyNames =
+        {
+            "Yoshi", // <@!541127291426832384> (GregTheSpinarak#6643)
+        };
 
         private const int TownCatSiameseVanillaNames = 12;
         private const int TownCatBlackVanillaNames = 23;
-        private static readonly string[] TownCatBlackNames =
-        {
-            "Bear", // <@!183424826407518208> (Lilac Vrt Olligoci#5585)
-        };
         private const int TownCatOrangeTabbyVanillaNames = 18;
-        private static readonly string[] TownCatOrangeTabbyNames =
-        {
-            "Felix" // <@!183424826407518208> (Lilac Vrt Olligoci#5585)
-        };
         private const int TownCatRussianBlueVanillaNames = 16;
         private const int TownCatSilverVanillaNames = 17;
         private const int TownCatWhiteVanillaNames = 15;
@@ -271,6 +245,18 @@ namespace CalamityMod.NPCs
             "The Meowurer of Gods", // <@!385949114271268864> (GP#7876)
 			"Katsafaros", // <@!190595401328492544> (NavyGuy#2650)
         };
+        private static readonly string[] TownCatSiameseNames = null;
+        private static readonly string[] TownCatBlackNames =
+        {
+            "Bear", // <@!183424826407518208> (Lilac Vrt Olligoci#5585)
+        };
+        private static readonly string[] TownCatOrangeTabbyNames =
+        {
+            "Felix" // <@!183424826407518208> (Lilac Vrt Olligoci#5585)
+        };
+        private static readonly string[] TownCatRussianBlueNames = null;
+        private static readonly string[] TownCatSilverNames = null;
+        private static readonly string[] TownCatWhiteNames = null;
 
         private const int TownBunnyWhiteVanillaNames = 14;
         private const int TownBunnyAngoraVanillaNames = 10;
@@ -278,13 +264,17 @@ namespace CalamityMod.NPCs
         private const int TownBunnyFlemishVanillaNames = 12;
         private const int TownBunnyLopVanillaNames = 13;
         private const int TownBunnySilverVanillaNames = 13;
-        private static readonly string[] TownBunnyNames =
-        {
-            // None yet
-        };
+        private static readonly string[] TownBunnyNames = null;
+        private static readonly string[] TownBunnyWhiteNames = null;
+        private static readonly string[] TownBunnyAngoraNames = null;
+        private static readonly string[] TownBunnyDutchNames = null;
+        private static readonly string[] TownBunnyFlemishNames = null;
+        private static readonly string[] TownBunnyLopNames = null;
+        private static readonly string[] TownBunnySilverNames = null;
         #endregion
 
         #region Town NPC Names
+		#region Pets
         public static void ResetTownNPCNameBools()
         {
             void ResetName(int npcID, ref bool nameBool)
@@ -293,139 +283,301 @@ namespace CalamityMod.NPCs
                     nameBool = false;
             }
 
-            ResetName(NPCID.Angler, ref CalamityWorld.anglerName);
-            ResetName(NPCID.ArmsDealer, ref CalamityWorld.armsDealerName);
-            ResetName(NPCID.Clothier, ref CalamityWorld.clothierName);
-            ResetName(NPCID.Cyborg, ref CalamityWorld.cyborgName);
-            ResetName(NPCID.Demolitionist, ref CalamityWorld.demolitionistName);
-            ResetName(NPCID.Dryad, ref CalamityWorld.dryadName);
-            ResetName(NPCID.DyeTrader, ref CalamityWorld.dyeTraderName);
-            ResetName(NPCID.GoblinTinkerer, ref CalamityWorld.goblinTinkererName);
-            ResetName(NPCID.Guide, ref CalamityWorld.guideName);
-            ResetName(NPCID.Mechanic, ref CalamityWorld.mechanicName);
-            ResetName(NPCID.Merchant, ref CalamityWorld.merchantName);
-            ResetName(NPCID.Nurse, ref CalamityWorld.nurseName);
-            ResetName(NPCID.Painter, ref CalamityWorld.painterName);
-            ResetName(NPCID.PartyGirl, ref CalamityWorld.partyGirlName);
-            ResetName(NPCID.Pirate, ref CalamityWorld.pirateName);
-            ResetName(NPCID.Princess, ref CalamityWorld.princessName);
-            ResetName(NPCID.SkeletonMerchant, ref CalamityWorld.skeletonMerchantName);
-            ResetName(NPCID.Steampunker, ref CalamityWorld.steampunkerName);
-            ResetName(NPCID.Stylist, ref CalamityWorld.stylistName);
-            ResetName(NPCID.DD2Bartender, ref CalamityWorld.tavernkeepName);
-            ResetName(NPCID.TaxCollector, ref CalamityWorld.taxCollectorName);
-            ResetName(NPCID.TravellingMerchant, ref CalamityWorld.travelingMerchantName);
-            ResetName(NPCID.Truffle, ref CalamityWorld.truffleName);
-            ResetName(NPCID.WitchDoctor, ref CalamityWorld.witchDoctorName);
-            ResetName(NPCID.Wizard, ref CalamityWorld.wizardName);
-        }
-
+            ResetName(NPCID.TownCat, ref CalamityWorld.catName);
+            ResetName(NPCID.TownDog, ref CalamityWorld.dogName);
+            ResetName(NPCID.TownBunny, ref CalamityWorld.bunnyName);
+		}
         // Annoyingly, because npc.GivenName is a property, it can't be passed as a ref parameter.
-        private string ChooseName(ref bool alreadySet, string currentName, int numVanillaNames, string[] patreonNames)
-        {
+        private string ChooseName(ref bool alreadySet, string currentName, int numVanillaNames, string[] patreonNames, string[] globalNames)
+		{
             if (alreadySet || patreonNames is null || patreonNames.Length == 0)
             {
                 alreadySet = true;
                 return currentName;
-            }
-
+			}
             alreadySet = true;
-            int index = Main.rand.Next(numVanillaNames + patreonNames.Length);
+            int index = Main.rand.Next(numVanillaNames + patreonNames.Length + globalNames.Length);
 
             // If the roll isn't low enough, then a "vanilla name" was picked, meaning we change nothing.
-            if (index >= patreonNames.Length)
+            if (index >= patreonNames.Length + globalNames.Length)
                 return currentName;
 
             // Change the name to be a randomly selected Patreon name if the roll is low enough.
-            return patreonNames[index];
+            if (index >= globalNames.Length)
+                return patreonNames[index - globalNames.Length];
+            return globalNames[index];
         }
 
         public void SetPatreonTownNPCName(NPC npc, Mod mod)
-        {
+		{
             if (setNewName)
             {
                 setNewName = false;
                 switch (npc.type)
                 {
-                    case NPCID.Angler:
-                        npc.GivenName = ChooseName(ref CalamityWorld.anglerName, npc.GivenName, AnglerVanillaNames, AnglerNames);
-                        break;
-                    case NPCID.ArmsDealer:
-                        npc.GivenName = ChooseName(ref CalamityWorld.armsDealerName, npc.GivenName, ArmsDealerVanillaNames, ArmsDealerNames);
-                        break;
-                    case NPCID.Clothier:
-                        npc.GivenName = ChooseName(ref CalamityWorld.clothierName, npc.GivenName, ClothierVanillaNames, ClothierNames);
-                        break;
-                    case NPCID.Cyborg:
-                        npc.GivenName = ChooseName(ref CalamityWorld.cyborgName, npc.GivenName, CyborgVanillaNames, CyborgNames);
-                        break;
-                    case NPCID.Demolitionist:
-                        npc.GivenName = ChooseName(ref CalamityWorld.demolitionistName, npc.GivenName, DemolitionistVanillaNames, DemolitionistNames);
-                        break;
-                    case NPCID.Dryad:
-                        npc.GivenName = ChooseName(ref CalamityWorld.dryadName, npc.GivenName, DryadVanillaNames, DryadNames);
-                        break;
-                    case NPCID.DyeTrader:
-                        npc.GivenName = ChooseName(ref CalamityWorld.dyeTraderName, npc.GivenName, DyeTraderVanillaNames, DyeTraderNames);
-                        break;
-                    case NPCID.GoblinTinkerer:
-                        npc.GivenName = ChooseName(ref CalamityWorld.goblinTinkererName, npc.GivenName, GoblinTinkererVanillaNames, GoblinTinkererNames);
-                        break;
-                    case NPCID.Guide:
-                        npc.GivenName = ChooseName(ref CalamityWorld.guideName, npc.GivenName, GuideVanillaNames, GuideNames);
-                        break;
-                    case NPCID.Mechanic:
-                        npc.GivenName = ChooseName(ref CalamityWorld.mechanicName, npc.GivenName, MechanicVanillaNames, MechanicNames);
-                        break;
-                    case NPCID.Merchant:
-                        npc.GivenName = ChooseName(ref CalamityWorld.merchantName, npc.GivenName, MerchantVanillaNames, MerchantNames);
-                        break;
-                    case NPCID.Nurse:
-                        npc.GivenName = ChooseName(ref CalamityWorld.nurseName, npc.GivenName, NurseVanillaNames, NurseNames);
-                        break;
-                    case NPCID.Painter:
-                        npc.GivenName = ChooseName(ref CalamityWorld.painterName, npc.GivenName, PainterVanillaNames, PainterNames);
-                        break;
-                    case NPCID.PartyGirl:
-                        npc.GivenName = ChooseName(ref CalamityWorld.partyGirlName, npc.GivenName, PartyGirlVanillaNames, PartyGirlNames);
-                        break;
-                    case NPCID.Pirate:
-                        npc.GivenName = ChooseName(ref CalamityWorld.pirateName, npc.GivenName, PirateVanillaNames, PirateNames);
-                        break;
-                    case NPCID.Princess:
-                        npc.GivenName = ChooseName(ref CalamityWorld.princessName, npc.GivenName, PrincessVanillaNames, PrincessNames);
-                        break;
-                    case NPCID.SkeletonMerchant:
-                        npc.GivenName = ChooseName(ref CalamityWorld.skeletonMerchantName, npc.GivenName, SkeletonMerchantVanillaNames, SkeletonMerchantNames);
-                        break;
-                    case NPCID.Steampunker:
-                        npc.GivenName = ChooseName(ref CalamityWorld.steampunkerName, npc.GivenName, SteampunkerVanillaNames, SteampunkerNames);
-                        break;
-                    case NPCID.Stylist:
-                        npc.GivenName = ChooseName(ref CalamityWorld.stylistName, npc.GivenName, StylistVanillaNames, StylistNames);
-                        break;
-                    case NPCID.DD2Bartender: // Tavernkeep
-                        npc.GivenName = ChooseName(ref CalamityWorld.tavernkeepName, npc.GivenName, TavernkeepVanillaNames, TavernkeepNames);
-                        break;
-                    case NPCID.TaxCollector:
-                        npc.GivenName = ChooseName(ref CalamityWorld.taxCollectorName, npc.GivenName, TaxCollectorVanillaNames, TaxCollectorNames);
-                        break;
-                    case NPCID.TravellingMerchant:
-                        npc.GivenName = ChooseName(ref CalamityWorld.travelingMerchantName, npc.GivenName, TravelingMerchantVanillaNames, TravelingMerchantNames);
-                        break;
-                    case NPCID.Truffle:
-                        npc.GivenName = ChooseName(ref CalamityWorld.truffleName, npc.GivenName, TruffleVanillaNames, TruffleNames);
-                        break;
-                    case NPCID.WitchDoctor:
-                        npc.GivenName = ChooseName(ref CalamityWorld.witchDoctorName, npc.GivenName, WitchDoctorVanillaNames, WitchDoctorNames);
-                        break;
-                    case NPCID.Wizard:
-                        npc.GivenName = ChooseName(ref CalamityWorld.wizardName, npc.GivenName, WizardVanillaNames, WizardNames);
-                        break;
-                    default:
-                        break;
-                }
+					case NPCID.TownCat:
+						switch (npc.townNpcVariationIndex)
+						{
+							case 0:
+								npc.GivenName = ChooseName(ref CalamityWorld.catName, npc.GivenName, TownCatSiameseVanillaNames, TownCatSiameseNames, TownCatNames);
+								break;
+							case 1:
+								npc.GivenName = ChooseName(ref CalamityWorld.catName, npc.GivenName, TownCatBlackVanillaNames, TownCatBlackNames, TownCatNames);
+								break;
+							case 2:
+								npc.GivenName = ChooseName(ref CalamityWorld.catName, npc.GivenName, TownCatOrangeTabbyVanillaNames, TownCatOrangeTabbyNames, TownCatNames);
+								break;
+							case 3:
+								npc.GivenName = ChooseName(ref CalamityWorld.catName, npc.GivenName, TownCatRussianBlueVanillaNames, TownCatRussianBlueNames, TownCatNames);
+								break;
+							case 4:
+								npc.GivenName = ChooseName(ref CalamityWorld.catName, npc.GivenName, TownCatSilverVanillaNames, TownCatSilverNames, TownCatNames);
+								break;
+							case 5:
+								npc.GivenName = ChooseName(ref CalamityWorld.catName, npc.GivenName, TownCatWhiteVanillaNames, TownCatWhiteNames, TownCatNames);
+								break;
+							default:
+								break;
+						}
+						break;
+					case NPCID.TownDog:
+						switch (npc.townNpcVariationIndex)
+						{
+							case 0:
+								npc.GivenName = ChooseName(ref CalamityWorld.catName, npc.GivenName, TownDogLabradorVanillaNames, TownDogLabradorNames, TownDogNames);
+								break;
+							case 1:
+								npc.GivenName = ChooseName(ref CalamityWorld.catName, npc.GivenName, TownDogPitBullVanillaNames, TownDogPitBullNames, TownDogNames);
+								break;
+							case 2:
+								npc.GivenName = ChooseName(ref CalamityWorld.catName, npc.GivenName, TownDogBeagleVanillaNames, TownDogBeagleNames, TownDogNames);
+								break;
+							case 3:
+								npc.GivenName = ChooseName(ref CalamityWorld.catName, npc.GivenName, TownDogCorgiVanillaNames, TownDogCorgiNames, TownDogNames);
+								break;
+							case 4:
+								npc.GivenName = ChooseName(ref CalamityWorld.catName, npc.GivenName, TownDogDalmatianVanillaNames, TownDogDalmatianNames, TownDogNames);
+								break;
+							case 5:
+								npc.GivenName = ChooseName(ref CalamityWorld.catName, npc.GivenName, TownDogHuskyVanillaNames, TownDogHuskyNames, TownDogNames);
+								break;
+							default:
+								break;
+						}
+						break;
+					case NPCID.TownBunny:
+						switch (npc.townNpcVariationIndex)
+						{
+							case 0:
+								npc.GivenName = ChooseName(ref CalamityWorld.catName, npc.GivenName, TownBunnyWhiteVanillaNames, TownBunnyWhiteNames, TownBunnyNames);
+								break;
+							case 1:
+								npc.GivenName = ChooseName(ref CalamityWorld.catName, npc.GivenName, TownBunnyAngoraVanillaNames, TownBunnyAngoraNames, TownBunnyNames);
+								break;
+							case 2:
+								npc.GivenName = ChooseName(ref CalamityWorld.catName, npc.GivenName, TownBunnyDutchVanillaNames, TownBunnyDutchNames, TownBunnyNames);
+								break;
+							case 3:
+								npc.GivenName = ChooseName(ref CalamityWorld.catName, npc.GivenName, TownBunnyFlemishVanillaNames, TownBunnyFlemishNames, TownBunnyNames);
+								break;
+							case 4:
+								npc.GivenName = ChooseName(ref CalamityWorld.catName, npc.GivenName, TownBunnyLopVanillaNames, TownBunnyLopNames, TownBunnyNames);
+								break;
+							case 5:
+								npc.GivenName = ChooseName(ref CalamityWorld.catName, npc.GivenName, TownBunnySilverVanillaNames, TownBunnySilverNames, TownBunnyNames);
+								break;
+							default:
+								break;
+						}
+						break;
+					default:
+						break;
+				}
+			}
+		}
+		#endregion
+
+        private void AddNewNames(List<string> nameList, string[] patreonNames)
+        {
+            if (patreonNames is null || patreonNames.Length == 0)
+            {
+                return;
             }
+			for (int i = 0; i < patreonNames.Length; i++)
+			{
+				nameList.Add(patreonNames[i]);
+			}
+		}
+
+        public override void ModifyNPCNameList(NPC npc, List<string> nameList)
+        {
+			switch (npc.type)
+			{
+				case NPCID.Angler:
+					AddNewNames(nameList, AnglerNames);
+					break;
+				case NPCID.ArmsDealer:
+					AddNewNames(nameList, ArmsDealerNames);
+					break;
+				case NPCID.Clothier:
+					AddNewNames(nameList, ClothierNames);
+					break;
+				case NPCID.Cyborg:
+					AddNewNames(nameList, CyborgNames);
+					break;
+				case NPCID.Demolitionist:
+					AddNewNames(nameList, DemolitionistNames);
+					break;
+				case NPCID.Dryad:
+					AddNewNames(nameList, DryadNames);
+					break;
+				case NPCID.DyeTrader:
+					AddNewNames(nameList, DyeTraderNames);
+					break;
+				case NPCID.GoblinTinkerer:
+					AddNewNames(nameList, GoblinTinkererNames);
+					break;
+				case NPCID.Golfer:
+					AddNewNames(nameList, GolferNames);
+					break;
+				case NPCID.Guide:
+					AddNewNames(nameList, GuideNames);
+					break;
+				case NPCID.Mechanic:
+					AddNewNames(nameList, MechanicNames);
+					break;
+				case NPCID.Merchant:
+					AddNewNames(nameList, MerchantNames);
+					break;
+				case NPCID.Nurse:
+					AddNewNames(nameList, NurseNames);
+					break;
+				case NPCID.Painter:
+					AddNewNames(nameList, PainterNames);
+					break;
+				case NPCID.PartyGirl:
+					AddNewNames(nameList, PartyGirlNames);
+					break;
+				case NPCID.Pirate:
+					AddNewNames(nameList, PirateNames);
+					break;
+				case NPCID.Princess:
+					AddNewNames(nameList, PrincessNames);
+					break;
+				case NPCID.SkeletonMerchant:
+					AddNewNames(nameList, SkeletonMerchantNames);
+					break;
+				case NPCID.Steampunker:
+					AddNewNames(nameList, SteampunkerNames);
+					break;
+				case NPCID.Stylist:
+					AddNewNames(nameList, StylistNames);
+					break;
+				case NPCID.DD2Bartender: // Tavernkeep
+					AddNewNames(nameList, TavernkeepNames);
+					break;
+				case NPCID.TaxCollector:
+					AddNewNames(nameList, TaxCollectorNames);
+					break;
+				case NPCID.TravellingMerchant:
+					AddNewNames(nameList, TravelingMerchantNames);
+					break;
+				case NPCID.Truffle:
+					AddNewNames(nameList, TruffleNames);
+					break;
+				case NPCID.WitchDoctor:
+					AddNewNames(nameList, WitchDoctorNames);
+					break;
+				case NPCID.Wizard:
+					AddNewNames(nameList, WizardNames);
+					break;
+				case NPCID.BestiaryGirl: // Zoologist
+					AddNewNames(nameList, ZoologistNames);
+					break;
+
+				// This function doesn't work with Town Pets currently
+				/*case NPCID.TownCat:
+					AddNewNames(nameList, TownCatNames);
+					switch (npc.townNpcVariationIndex)
+					{
+						case 0:
+							AddNewNames(nameList, TownCatSiameseNames);
+							break;
+						case 1:
+							AddNewNames(nameList, TownCatBlackNames);
+							break;
+						case 2:
+							AddNewNames(nameList, TownCatOrangeTabbyNames);
+							break;
+						case 3:
+							AddNewNames(nameList, TownCatRussianBlueNames);
+							break;
+						case 4:
+							AddNewNames(nameList, TownCatSilverNames);
+							break;
+						case 5:
+							AddNewNames(nameList, TownCatWhiteNames);
+							break;
+						default:
+							break;
+					}
+					break;
+				case NPCID.TownDog:
+					AddNewNames(nameList, TownDogNames);
+					switch (npc.townNpcVariationIndex)
+					{
+						case 0:
+							AddNewNames(nameList, TownDogLabradorNames);
+							break;
+						case 1:
+							AddNewNames(nameList, TownDogPitBullNames);
+							break;
+						case 2:
+							AddNewNames(nameList, TownDogBeagleNames);
+							break;
+						case 3:
+							AddNewNames(nameList, TownDogCorgiNames);
+							break;
+						case 4:
+							AddNewNames(nameList, TownDogDalmatianNames);
+							break;
+						case 5:
+							AddNewNames(nameList, TownDogHuskyNames);
+							break;
+						default:
+							break;
+					}
+					break;
+				case NPCID.TownBunny:
+					AddNewNames(nameList, TownBunnyNames);
+					switch (npc.townNpcVariationIndex)
+					{
+						case 0:
+							AddNewNames(nameList, TownBunnyWhiteNames);
+							break;
+						case 1:
+							AddNewNames(nameList, TownBunnyAngoraNames);
+							break;
+						case 2:
+							AddNewNames(nameList, TownBunnyDutchNames);
+							break;
+						case 3:
+							AddNewNames(nameList, TownBunnyFlemishNames);
+							break;
+						case 4:
+							AddNewNames(nameList, TownBunnyLopNames);
+							break;
+						case 5:
+							AddNewNames(nameList, TownBunnySilverNames);
+							break;
+						default:
+							break;
+					}
+					break;*/
+
+				default:
+					break;
+			}
         }
         #endregion
 
