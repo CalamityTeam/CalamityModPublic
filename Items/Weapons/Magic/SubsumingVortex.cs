@@ -12,6 +12,8 @@ namespace CalamityMod.Items.Weapons.Magic
 {
     public class SubsumingVortex : ModItem
     {
+        public const int VortexReleaseRate = 32;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Subsuming Vortex");
@@ -23,7 +25,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            Item.damage = 242;
+            Item.damage = 354;
             Item.DamageType = DamageClass.Magic;
             Item.mana = 78;
             Item.width = 38;
@@ -37,9 +39,12 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.Calamity().customRarity = CalamityRarity.Violet;
             Item.value = CalamityGlobalItem.Rarity15BuyPrice;
             Item.autoReuse = true;
+            Item.channel = true;
             Item.shoot = ModContent.ProjectileType<EnormousConsumingVortex>();
             Item.shootSpeed = 7f;
         }
+
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
