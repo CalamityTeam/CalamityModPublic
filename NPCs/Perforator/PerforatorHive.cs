@@ -520,9 +520,9 @@ namespace CalamityMod.NPCs.Perforator
                     ModContent.ItemType<BloodBath>(),
                     ModContent.ItemType<BloodClotStaff>(),
                     ModContent.ItemType<BloodstainedGlove>(),
+					new WeightedItemStack(ModContent.ItemType<ToothBall>(), 1f, 30, 50),
                 };
                 normalOnly.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, items));
-                normalOnly.Add(ModContent.ItemType<ToothBall>(), 1, 30, 50);
 
                 // Materials
                 normalOnly.Add(ItemID.CrimtaneBar, 1, 10, 15);

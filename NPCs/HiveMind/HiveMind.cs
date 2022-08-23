@@ -1142,9 +1142,9 @@ namespace CalamityMod.NPCs.HiveMind
                     ModContent.ItemType<ShaderainStaff>(),
                     ModContent.ItemType<DankStaff>(),
                     ModContent.ItemType<FilthyGlove>(),
+					new WeightedItemStack(ModContent.ItemType<RotBall>(), 1f, 30, 50),
                 };
                 normalOnly.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, items));
-                normalOnly.Add(ModContent.ItemType<RotBall>(), 1, 30, 50);
 
                 // Materials
                 normalOnly.Add(ItemID.DemoniteBar, 1, 10, 15);
