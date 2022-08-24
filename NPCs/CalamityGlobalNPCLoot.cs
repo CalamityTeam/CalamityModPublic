@@ -126,16 +126,19 @@ namespace CalamityMod.NPCs
                     break;
 
                 // Mimic
-                // Drops all of its items Calamity Style @ 33.33% each
+                // Drops all of its items Calamity Style @ 25% each
                 // This requires erasing its vanilla behavior.
                 case NPCID.Mimic:
                     try
                     {
-                        // Remove the vanilla loot rule which controls all Mimic drops.
-                        var mimicLootRules = npcLoot.Get(false);
-                        mimicLootRules.RemoveAll((rule) => rule is OneFromOptionsDropRule mimicItems && mimicItems.dropIds[0] == ItemID.DualHook);
+						npcLoot.RemoveWhere((rule) =>
+						{
+							if (rule is OneFromOptionsDropRule vanillaItems)
+								return vanillaItems.dropIds[0] == ItemID.DualHook;
+							return false;
+						});
 
-                        var mimicItems = new int[]
+                        int[] mimicItems = new int[]
                         {
                             ItemID.MagicDagger,
                             ItemID.CrossNecklace,
@@ -147,7 +150,7 @@ namespace CalamityMod.NPCs
 
                         // Mimics will not drop any items if spawned from statues.
                         var notStatue = npcLoot.DefineConditionalDropSet(new Conditions.NotFromStatue());
-                        notStatue.Add(DropHelper.CalamityStyle(DropHelper.BagWeaponDropRateFraction, mimicItems));
+                        notStatue.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, mimicItems));
                     }
                     catch (ArgumentNullException) { }
                     break;
@@ -185,26 +188,35 @@ namespace CalamityMod.NPCs
                     break;
 
                 // Ice Mimic
-                // Drops all of its items Calamity Style @ 33.33% each
-                // This requires erasing its bizarre vanilla behavior involving the Toy Sled.
+                // Drops all of its items Calamity Style @ 25% each, Toy Sled is weighted much lower because it's a pet
+                // This requires erasing its vanilla behavior involving the Toy Sled.
                 case NPCID.IceMimic:
                     try
                     {
-                        // Remove the vanilla loot rule which controls all Ice Mimic drops.
-                        var iceMimicRootRules = npcLoot.Get(false);
-                        iceMimicRootRules.RemoveAll((rule) => rule is CommonDrop sledDrop && sledDrop.itemId == ItemID.ToySled);
+						npcLoot.RemoveWhere((rule) =>
+						{
+							if (rule is OneFromOptionsDropRule vanillaItems)
+								return vanillaItems.dropIds[0] == ItemID.Frostbrand;
+							return false;
+						});
+						npcLoot.RemoveWhere((rule) =>
+						{
+							if (rule is CommonDrop sledDrop)
+								return sledDrop.itemId == ItemID.ToySled;
+							return false;
+						});
 
-                        var iceMimicItems = new int[]
-                        {
-                            ItemID.Frostbrand,
-                            ItemID.IceBow,
-                            ItemID.FlowerofFrost,
-                            ItemID.ToySled,
-                        };
+                        WeightedItemStack[] iceMimicItems = new WeightedItemStack[]
+						{
+							ItemID.Frostbrand,
+							ItemID.IceBow,
+							ItemID.FlowerofFrost,
+							new WeightedItemStack(ItemID.ToySled, 0.25f, 1, 1),
+						};
 
                         // Ice Mimics will not drop any items if spawned from statues.
                         var notStatue = npcLoot.DefineConditionalDropSet(new Conditions.NotFromStatue());
-                        notStatue.Add(DropHelper.CalamityStyle(DropHelper.BagWeaponDropRateFraction, iceMimicItems));
+                        notStatue.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, iceMimicItems));
                     }
                     catch (ArgumentNullException) { }
                     break;
