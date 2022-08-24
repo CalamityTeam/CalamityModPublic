@@ -89,8 +89,9 @@ namespace CalamityMod.Projectiles.Ranged
 
                     if (Main.myPlayer == Projectile.owner)
                     {
+                        bool createLightning = ChargeTimer / HeavenlyGale.MaxChargeTime >= HeavenlyGale.ChargeLightningCreationThreshold;
                         Vector2 arrowVelocity = arrowDirection * 20f;
-                        Projectile.NewProjectile(Projectile.GetSource_FromAI(), tipPosition, arrowVelocity, ModContent.ProjectileType<ExoCrystalArrow>(), (int)(Projectile.damage * damageFactor), Projectile.knockBack, Projectile.owner);
+                        Projectile.NewProjectile(Projectile.GetSource_FromAI(), tipPosition, arrowVelocity, ModContent.ProjectileType<ExoCrystalArrow>(), (int)(Projectile.damage * damageFactor), Projectile.knockBack, Projectile.owner, createLightning.ToInt());
                     }
                 }
 

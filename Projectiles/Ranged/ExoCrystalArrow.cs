@@ -15,6 +15,8 @@ namespace CalamityMod.Projectiles.Ranged
     {
         public PrimitiveTrail PierceAfterimageDrawer = null;
 
+        public bool CreateLightning => Projectile.ai[0] == 1f;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Exo Crystal");
@@ -101,6 +103,23 @@ namespace CalamityMod.Projectiles.Ranged
                 Color exoEnergyColor = CalamityUtils.MulticolorLerp(Main.rand.NextFloat(), CalamityUtils.ExoPalette);
                 SparkParticle exoEnergy = new(Projectile.Center, energyVelocity, false, 30, 1.3f, exoEnergyColor);
                 GeneralParticleHandler.SpawnParticle(exoEnergy);
+            }
+        }
+
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            // Create lightning from above if necessary.
+            if (!CreateLightning)
+                return;
+
+            int lightningDamage = (int)(Projectile.damage * HeavenlyGale.LightningDamageFactor);
+            Vector2 lightningSpawnPosition = target.Center - Vector2.UnitY.RotatedByRandom(0.24f) * Main.rand.NextFloat(960f, 1020f);
+            Vector2 lightningShootVelocity = (target.Center - lightningSpawnPosition).SafeNormalize(Vector2.UnitY) * 13f;
+            int lightning = Projectile.NewProjectile(Projectile.GetSource_OnHit(target), lightningSpawnPosition, lightningShootVelocity, ModContent.ProjectileType<ExoLightningBolt>(), lightningDamage, 0f, Projectile.owner);
+            if (Main.projectile.IndexInRange(lightning))
+            {
+                Main.projectile[lightning].ai[0] = lightningShootVelocity.ToRotation();
+                Main.projectile[lightning].ai[1] = Main.rand.Next(100);
             }
         }
     }

@@ -25,7 +25,13 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public const float MaxChargeDamageBoost = 4.5f;
 
+        public const float LightningDamageFactor = 0.36f;
+
+        public const float ChargeLightningCreationThreshold = 0.8f;
+
         public static readonly SoundStyle FireSound = new("CalamityMod/Sounds/Item/HeavenlyGaleFire");
+
+        public static readonly SoundStyle LightningStrikeSound = new("CalamityMod/Sounds/Custom/HeavenlyGaleLightningStrike");
 
         public override void SetStaticDefaults()
         {
