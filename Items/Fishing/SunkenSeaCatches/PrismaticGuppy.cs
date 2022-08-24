@@ -21,5 +21,10 @@ namespace CalamityMod.Items.Fishing.SunkenSeaCatches
             Item.value = Item.sellPrice(silver: 5);
             Item.rare = ItemRarityID.Green;
         }
+
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = ContentSamples.CreativeHelper.ItemGroup.Fish;
+		}
     }
 }
