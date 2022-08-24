@@ -14,12 +14,17 @@ namespace CalamityMod.Items.Weapons.Magic
     {
         public const int VortexReleaseRate = 32;
 
+        public const int VortexShootDelay = 56;
+
+        public const float SmallVortexTargetRange = 1300f;
+
+        public const float GiantVortexMouseDriftFactor = 0.35f;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Subsuming Vortex");
-            Tooltip.SetDefault("Releases a gigantic, slow-moving vortex\n" +
-                               "The vortex releases exo tentacles that thrash at nearby enemies\n" +
-                               "After a few seconds the vortex slows down, becomes unstable, and explodes");
+            Tooltip.SetDefault("Casts a gigantic vortex above your head with a bias towards the mouse\n" +
+                               "When enemies are near the vortex, it sends multiple fast-moving smaller vortices towards them");
             SacrificeTotal = 1;
         }
 
@@ -27,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             Item.damage = 397;
             Item.DamageType = DamageClass.Magic;
-            Item.mana = 78;
+            Item.mana = 12;
             Item.width = 38;
             Item.height = 48;
             Item.UseSound = SoundID.Item84;

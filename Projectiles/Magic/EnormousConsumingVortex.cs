@@ -22,21 +22,13 @@ namespace CalamityMod.Projectiles.Magic
             set => Projectile.ai[0] = value;
         }
 
-        public float IdealScale
-        {
-            get => Projectile.ai[1];
-            set => Projectile.ai[1] = value;
-        }
-
         public const float StartingScale = 0.0004f;
+
+        public const float IdealScale = 2.7f;
 
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
-        public override void SetStaticDefaults()
-        {
-            DisplayName.SetDefault("Subsuming Vortex");
-            ProjectileID.Sets.NeedsUUID[Projectile.type] = true;
-        }
+        public override void SetStaticDefaults() => DisplayName.SetDefault("Subsuming Vortex");
 
         public override void SetDefaults()
         {
@@ -68,18 +60,11 @@ namespace CalamityMod.Projectiles.Magic
                 return;
             }
 
-            // Determine the ideal scale in the first frame.
-            if (IdealScale == 0f)
-            {
-                IdealScale = Main.rand.NextFloat(2.67f, 2.85f);
-                Projectile.netUpdate = true;
-            }
-
             // Release energy from the book.
-            if (Time >= 56f)
+            if (Time >= SubsumingVortex.VortexShootDelay)
             {
                 Vector2 bookPosition = Owner.Center + Vector2.UnitX * Owner.direction * 22f;
-                if (Main.rand.NextBool(2))
+                if (Main.rand.NextBool())
                 {
                     Vector2 energyVelocity = Main.rand.NextVector2Circular(3f, 3f);
                     Color energyColor = CalamityUtils.MulticolorLerp(Main.rand.NextFloat(), CalamityUtils.ExoPalette);
@@ -88,32 +73,32 @@ namespace CalamityMod.Projectiles.Magic
                 }
 
                 // Fire vortices at nearby target.
-                NPC potentialTarget = Projectile.Center.ClosestNPCAt(1250f);
+                NPC potentialTarget = Projectile.Center.ClosestNPCAt(SubsumingVortex.SmallVortexTargetRange - 100f);
                 if (potentialTarget != null && Time % SubsumingVortex.VortexReleaseRate == SubsumingVortex.VortexReleaseRate - 1)
                 {
                     // CheckMana returns true if the mana cost can be paid..
                     bool allowContinuedUse = Owner.CheckMana(Owner.ActiveItem(), -1, true, false);
-                    bool crystalStillInUse = Owner.channel && allowContinuedUse && !Owner.noItems && !Owner.CCed;
-                    if (crystalStillInUse)
+                    bool vortexStillInUse = Owner.channel && allowContinuedUse && !Owner.noItems && !Owner.CCed;
+                    if (vortexStillInUse)
                     {
                         SoundEngine.PlaySound(SoundID.Item84, Projectile.Center);
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
-                            float hue = (Time - 56f) / 125f;
+                            float hue = (Time - SubsumingVortex.VortexShootDelay) / 125f;
                             Vector2 vortexVelocity = Projectile.SafeDirectionTo(potentialTarget.Center) * 8f;
                             Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, vortexVelocity, ModContent.ProjectileType<ExoVortex>(), Projectile.damage, Projectile.knockBack, Projectile.owner, hue);
                         }
                         Projectile.netUpdate = true;
                     }
-                    else if (!crystalStillInUse)
+                    else if (!vortexStillInUse)
                         Projectile.Kill();
                 }
             }
 
             // Create swirling exo energy.
-            if (Main.rand.NextBool(2))
+            if (Main.rand.NextBool())
             {
-                float dustSpawnChance = Utils.Remap(Time, 12f, 64f, 0.25f, 0.7f);
+                float dustSpawnChance = Utils.Remap(Time, 12f, SubsumingVortex.VortexShootDelay + 8f, 0.25f, 0.7f);
                 for (int i = 0; i < 3; i++)
                 {
                     if (Main.rand.NextFloat() < dustSpawnChance)
@@ -133,9 +118,10 @@ namespace CalamityMod.Projectiles.Magic
             // Hover above the target.
             if (Main.myPlayer == Projectile.owner)
             {
+                // Smoothly approach a sinusoidal offset as time goes on.
                 float verticalOffset = Utils.Remap(Time, 0f, 90f, -30f, (float)Math.Cos(Projectile.timeLeft / 32f) * 30f - 325f);
                 Vector2 hoverDestination = Owner.Top + Vector2.UnitY * verticalOffset;
-                hoverDestination += (Main.MouseWorld - hoverDestination) * 0.25f;
+                hoverDestination += (Main.MouseWorld - hoverDestination) * SubsumingVortex.GiantVortexMouseDriftFactor;
 
                 Vector2 idealVelocity = Vector2.Zero.MoveTowards(hoverDestination - Projectile.Center, 32f);
                 Projectile.velocity = Vector2.Lerp(Projectile.velocity, idealVelocity, 0.04f);

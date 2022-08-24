@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using CalamityMod.Items.Weapons.Magic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -10,15 +11,13 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class ExoVortex : ModProjectile
     {
+        public PrimitiveTrail EnergyTrail = null;
+
         public float Hue => Projectile.ai[0];
 
         public ref float Time => ref Projectile.ai[1];
 
-        public const float AngularMovementSpeed = 0.1f;
-        
-        public const float Acceleration = 0.0025f;
-
-        public PrimitiveTrail EnergyTrail = null;
+        public const float HueShiftAcrossAfterimages = 0.2f;
 
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
@@ -50,7 +49,14 @@ namespace CalamityMod.Projectiles.Magic
         public override void AI()
         {
             Time++;
-            MoveTowardsTarget();
+            
+            // Move sharply towards nearby targets.
+            NPC potentialTarget = Projectile.Center.ClosestNPCAt(SubsumingVortex.SmallVortexTargetRange);
+            if (potentialTarget != null)
+            {
+                float flySpeed = 40f / Projectile.MaxUpdates;
+                Projectile.velocity = Vector2.Lerp(Projectile.velocity, Projectile.SafeDirectionTo(potentialTarget.Center) * flySpeed, 0.02f);
+            }
 
             // Rotate.
             Projectile.rotation += Projectile.velocity.X * 0.04f;
@@ -59,15 +65,6 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.Opacity = Utils.GetLerpValue(0f, 20f, Time, true);
             Projectile.scale = Utils.Remap(Time, 0f, Projectile.MaxUpdates * 15f, 0.01f, 1.5f) * Utils.GetLerpValue(0f, Projectile.MaxUpdates * 16f, Projectile.timeLeft, true);
             Projectile.ExpandHitboxBy((int)(Projectile.scale * 62f));
-        }
-
-        public void MoveTowardsTarget()
-        {
-            NPC potentialTarget = Projectile.Center.ClosestNPCAt(1400f);
-            if (potentialTarget is null)
-                return;
-            
-            Projectile.velocity = Vector2.Lerp(Projectile.velocity, Projectile.SafeDirectionTo(potentialTarget.Center) * 10f, 0.02f);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -80,19 +77,28 @@ namespace CalamityMod.Projectiles.Magic
             target.ExoDebuffs();
         }
 
+        // Draw these vortices behind other projectiles to ensure that it does not draw on top of the big vortex.
         public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI)
         {
             behindProjectiles.Add(index);
         }
 
+        public float PrimitiveWidthFunction(float completionRatio)
+        {
+            float width = Projectile.width * 0.6f;
+            width *= MathHelper.SmoothStep(0.6f, 1f, Utils.GetLerpValue(0f, 0.3f, completionRatio, true));
+            return width;
+        }
+
         public Color PrimitiveTrailColor(float completionRatio)
         {
-            float hue = Hue % 1f + 0.2f;
+            float hue = Hue % 1f + HueShiftAcrossAfterimages;
             if (hue >= 0.99f)
                 hue = 0.99f;
 
+            float velocityOpacityFadeout = Utils.GetLerpValue(2f, 5f, Projectile.velocity.Length(), true);
             Color c = CalamityUtils.MulticolorLerp(hue, CalamityUtils.ExoPalette) * Projectile.Opacity * (1f - completionRatio);
-            return c * Utils.GetLerpValue(2f, 5f, Projectile.velocity.Length(), true) * Utils.GetLerpValue(0.04f, 0.2f, completionRatio, true);
+            return c * Utils.GetLerpValue(0.04f, 0.2f, completionRatio, true) * velocityOpacityFadeout;
         }
 
         public override bool PreDraw(ref Color lightColor)
@@ -104,23 +110,18 @@ namespace CalamityMod.Projectiles.Magic
             Main.spriteBatch.EnterShaderRegion();
 
             // Draw the streak trail.
-            EnergyTrail ??= new(completioRatio =>
-            {
-                float width = Projectile.width * 0.6f;
-                width *= MathHelper.SmoothStep(0.6f, 1f, Utils.GetLerpValue(0f, 0.3f, completioRatio, true));
-                return width;
-            }, PrimitiveTrailColor, null, GameShaders.Misc["CalamityMod:SideStreakTrail"]);
+            EnergyTrail ??= new(PrimitiveWidthFunction, PrimitiveTrailColor, null, GameShaders.Misc["CalamityMod:SideStreakTrail"]);
 
             GameShaders.Misc["CalamityMod:SideStreakTrail"].UseImage1("Images/Misc/Perlin");
             EnergyTrail.Draw(Projectile.oldPos, Projectile.Size * 0.5f - Main.screenPosition + Projectile.velocity.SafeNormalize(Vector2.Zero) * Projectile.scale * 2f, 51);
-
             Main.spriteBatch.EnterShaderRegion(BlendState.Additive);
+            
             GameShaders.Misc["CalamityMod:ExoVortex"].Apply();
 
-            // Draw the vortex.
+            // Draw the vortex, along with some afterimages.
             for (int i = 0; i < 5; i++)
             {
-                float hue = Hue % 1f + i / 4f * 0.2f;
+                float hue = Hue % 1f + i / 4f * HueShiftAcrossAfterimages;
                 Vector2 scale = MathHelper.Lerp(1f, 0.6f, i / 4f) * Projectile.Size / worleyNoise.Size() * 2f;
                 Vector2 drawOffset = Vector2.UnitY * Projectile.scale * 6f;
                 Color c = CalamityUtils.MulticolorLerp(hue, CalamityUtils.ExoPalette) * Projectile.Opacity;
