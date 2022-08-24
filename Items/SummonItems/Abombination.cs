@@ -19,6 +19,7 @@ namespace CalamityMod.Items.SummonItems
                 "Summons the Plaguebringer Goliath when used in the Jungle\n" +
                 "Enrages outside the Jungle\n" +
                 "Not consumable");
+			ItemID.Sets.SortingPriorityBossSpawns[Type] = 16; // Solar Tablet / Bloody Tear
         }
 
         public override void SetDefaults()

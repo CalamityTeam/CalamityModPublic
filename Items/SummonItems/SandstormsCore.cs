@@ -14,6 +14,7 @@ namespace CalamityMod.Items.SummonItems
             DisplayName.SetDefault("Sandstorm's Core");
             Tooltip.SetDefault("Summons the Great Sand Shark when used in the desert\n" +
                 "Not consumable");
+			ItemID.Sets.SortingPriorityBossSpawns[Type] = 12; // Frost Legion
         }
 
         public override void SetDefaults()

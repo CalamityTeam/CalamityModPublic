@@ -19,6 +19,7 @@ namespace CalamityMod.Items.SummonItems
                 "Summons The Dragonfolly when used in the Jungle\n" +
                 "Enrages outside the Jungle\n" +
                 "Not consumable");
+			ItemID.Sets.SortingPriorityBossSpawns[Type] = 17; // Celestial Sigil
         }
 
         public override void SetDefaults()

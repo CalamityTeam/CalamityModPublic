@@ -18,6 +18,7 @@ namespace CalamityMod.Items.SummonItems
             Tooltip.SetDefault("Summons Astrum Aureus when used in the Astral Infection during nighttime\n" +
                 "Enrages during the day\n" +
                 "Not consumable");
+			ItemID.Sets.SortingPriorityBossSpawns[Type] = 14; // Frost Moon
         }
 
         public override void SetDefaults()

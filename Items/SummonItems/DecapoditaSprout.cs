@@ -17,6 +17,7 @@ namespace CalamityMod.Items.SummonItems
             Tooltip.SetDefault("Summons Crabulon when used in the Mushroom biome\n" +
                 "Enrages outside the Underground Mushroom biome\n" +
                 "Not consumable");
+			ItemID.Sets.SortingPriorityBossSpawns[Type] = 3; // Worm Food / Bloody Spine
         }
 
         public override void SetDefaults()

@@ -23,6 +23,7 @@ namespace CalamityMod.Items.SummonItems
                 "Contains the power hunted relentlessly by the sentinels of the cosmic devourer\n" +
                 "When used in certain areas of the world, it will unleash them\n" +
                 "Not consumable");
+			ItemID.Sets.SortingPriorityBossSpawns[Type] = 17; // Celestial Sigil
         }
 
         public override void SetDefaults()

@@ -3,9 +3,9 @@ using CalamityMod.Items.Materials;
 using CalamityMod.NPCs.DesertScourge;
 using CalamityMod.World;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Audio;
 
 namespace CalamityMod.Items.SummonItems
 {
@@ -19,6 +19,7 @@ namespace CalamityMod.Items.SummonItems
             Tooltip.SetDefault("Summons the Desert Scourge when used in the Desert\n" +
                 "Enrages outside the Desert\n" +
                 "Not consumable");
+			ItemID.Sets.SortingPriorityBossSpawns[Type] = 1; // Suspicious Looking Eye
         }
 
         public override void SetDefaults()
