@@ -13,6 +13,7 @@ namespace CalamityMod.Items.Placeables
         {
             DisplayName.SetDefault("Celestial Remains");
             SacrificeTotal = 200;
+			ItemID.Sets.SortingPriorityExtractibles[Type] = 3; // Desert Fossil
         }
 
         public override void SetDefaults()
