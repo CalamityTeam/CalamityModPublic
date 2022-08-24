@@ -3753,7 +3753,7 @@ namespace CalamityMod.CalPlayer
                 rogueStealth += 0.5f;
                 SoundEngine.PlaySound(SilvaHeadSummon.ActivationSound, Player.Center);
 
-                var source = Player.GetSource_Accessory(FindAccessory(ModContent.ItemType<EclipseMirror>()));
+                var source = Player.GetSource_Accessory(FindAccessory(ModContent.ItemType<AbyssalMirror>()));
                 for (int i = 0; i < 10; i++)
                 {
                     int damage = (int)Player.GetTotalDamage<RogueDamageClass>().ApplyTo(55);
