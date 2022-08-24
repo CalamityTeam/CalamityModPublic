@@ -59,6 +59,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.shoot = ProjectileID.WoodenArrowFriendly;
             Item.shootSpeed = 12f;
             Item.useAmmo = AmmoID.Arrow;
+            Item.useTurn = true;
             Item.Calamity().customRarity = CalamityRarity.Violet;
             Item.value = CalamityGlobalItem.RarityVioletBuyPrice;
             Item.Calamity().canFirePointBlankShots = true;
