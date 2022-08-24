@@ -45,6 +45,10 @@ namespace CalamityMod.Items.TreasureBags
 
         public override bool CanRightClick() => true;
 
+		public override Color? GetAlpha(Color lightColor) => Color.Lerp(lightColor, Color.White, 0.4f);
+
+        public override void PostUpdate() => Item.TreasureBagLightAndDust();
+
         public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
         {
             return CalamityUtils.DrawTreasureBagInWorld(Item, spriteBatch, ref rotation, ref scale, whoAmI);

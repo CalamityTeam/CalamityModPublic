@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
+using CalamityMod.Items.TreasureBags.MiscGrabBags;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
@@ -43,7 +44,13 @@ namespace CalamityMod.Items.TreasureBags
 
         public override bool CanRightClick() => true;
 
-        public override void PostUpdate() => CalamityUtils.ForceItemIntoWorld(Item);
+		public override Color? GetAlpha(Color lightColor) => Color.Lerp(lightColor, Color.White, 0.4f);
+
+        public override void PostUpdate()
+		{
+			CalamityUtils.ForceItemIntoWorld(Item);
+			Item.TreasureBagLightAndDust();
+		}
 
         public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
         {
