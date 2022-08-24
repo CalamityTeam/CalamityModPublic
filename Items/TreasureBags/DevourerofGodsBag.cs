@@ -8,6 +8,7 @@ using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
+using CalamityMod.NPCs.DevourerofGods;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -19,11 +20,14 @@ namespace CalamityMod.Items.TreasureBags
 {
     public class DevourerofGodsBag : ModItem
     {
+		public override int BossBagNPC => ModContent.NPCType<DevourerofGodsHead>();
+
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 3;
             DisplayName.SetDefault("Treasure Bag (The Devourer of Gods)");
             Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
+			ItemID.Sets.BossBag[Item.type] = true;
         }
 
         public override void SetDefaults()

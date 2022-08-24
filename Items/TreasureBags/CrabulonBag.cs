@@ -5,6 +5,7 @@ using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
+using CalamityMod.NPCs.Crabulon;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -16,11 +17,14 @@ namespace CalamityMod.Items.TreasureBags
 {
     public class CrabulonBag : ModItem
     {
+		public override int BossBagNPC => ModContent.NPCType<Crabulon>();
+
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 3;
             DisplayName.SetDefault("Treasure Bag (Crabulon)");
             Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
+			ItemID.Sets.BossBag[Item.type] = true;
             ItemID.Sets.PreHardmodeLikeBossBag[Item.type] = true;
         }
 

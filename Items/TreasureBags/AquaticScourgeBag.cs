@@ -5,6 +5,7 @@ using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
+using CalamityMod.NPCs.AquaticScourge;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -15,11 +16,14 @@ namespace CalamityMod.Items.TreasureBags
 {
     public class AquaticScourgeBag : ModItem
     {
+		public override int BossBagNPC => ModContent.NPCType<AquaticScourgeHead>();
+
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 3;
             DisplayName.SetDefault("Treasure Bag (Aquatic Scourge)");
             Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
+			ItemID.Sets.BossBag[Item.type] = true;
         }
 
         public override void SetDefaults()

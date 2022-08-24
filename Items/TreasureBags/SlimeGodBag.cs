@@ -5,6 +5,7 @@ using CalamityMod.Items.PermanentBoosters;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Summon;
+using CalamityMod.NPCs.SlimeGod;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -17,11 +18,14 @@ namespace CalamityMod.Items.TreasureBags
 {
     public class SlimeGodBag : ModItem
     {
+		public override int BossBagNPC => ModContent.NPCType<SlimeGodCore>();
+
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 3;
             DisplayName.SetDefault("Treasure Bag (The Slime God)");
             Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
+			ItemID.Sets.BossBag[Item.type] = true;
             ItemID.Sets.PreHardmodeLikeBossBag[Item.type] = true;
         }
 

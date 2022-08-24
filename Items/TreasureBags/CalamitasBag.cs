@@ -5,6 +5,7 @@ using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Summon;
+using CalamityMod.NPCs.Calamitas;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -16,11 +17,14 @@ namespace CalamityMod.Items.TreasureBags
 {
     public class CalamitasBag : ModItem
     {
+		public override int BossBagNPC => ModContent.NPCType<CalamitasClone>();
+
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 3;
             DisplayName.SetDefault("Treasure Bag (Calamitas)");
             Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
+			ItemID.Sets.BossBag[Item.type] = true;
         }
 
         public override void SetDefaults()

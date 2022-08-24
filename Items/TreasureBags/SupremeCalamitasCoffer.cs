@@ -7,6 +7,7 @@ using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
+using CalamityMod.NPCs.SupremeCalamitas;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -19,11 +20,14 @@ namespace CalamityMod.Items.TreasureBags
     [LegacyName("SCalBag")]
     public class SupremeCalamitasCoffer : ModItem
     {
+		public override int BossBagNPC => ModContent.NPCType<SupremeCalamitas>();
+
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 3;
             DisplayName.SetDefault("Treasure Coffer (Supreme Calamitas)");
             Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
+			ItemID.Sets.BossBag[Item.type] = true;
         }
 
         public override void SetDefaults()
