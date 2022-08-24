@@ -1,54 +1,51 @@
 ﻿using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
-using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
+using Terraria.Audio;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
     public class HeavenlyGale : ModItem
     {
-        public const float NormalArrowDamageMult = 1.25f;
-        private static int[] ExoArrows;
+        public const int ShootDelay = 32;
+
+        public const int ArrowsPerBurst = 9;
+
+        public const int ArrowShootRate = 4;
+
+        public const int ArrowShootTime = ArrowsPerBurst * ArrowShootRate;
+
+        public const int MaxChargeTime = 300;
+
+        public const float ArrowTargetingRange = 1100f;
+
+        public static readonly SoundStyle FireSound = new("CalamityMod/Sounds/Item/HeavenlyGaleFire");
 
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Heavenly Gale");
-            Tooltip.SetDefault("Converts wooden arrows into barrages of 5 random exo arrows\n" +
-                "Green exo arrows erupt into swirling tornadoes\n" +
-                "Blue exo arrows burst into barrages of following arrows\n" +
-                "Orange exo arrows explode into flames\n" +
-                "Teal exo arrows pierce infinitely and ignore immunity frames\n" +
-                $"Any non-wooden arrows used will deal {NormalArrowDamageMult}x damage\n" +
-                "66% chance to not consume ammo");
-
-            ExoArrows = new int[]
-            {
-                ProjectileType<TealExoArrow>(),
-                ProjectileType<OrangeExoArrow>(),
-                ProjectileType<GreenExoArrow>(),
-                ProjectileType<BlueExoArrow>()
-            };
+            Tooltip.SetDefault("Remake this tooltip");
             SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            Item.damage = 198;
+            Item.damage = 654;
             Item.DamageType = DamageClass.Ranged;
             Item.width = 44;
             Item.height = 58;
-            Item.useTime = 15;
-            Item.useAnimation = 30;
+            Item.useTime = 42;
+            Item.useAnimation = 42;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.knockBack = 4f;
             Item.UseSound = SoundID.Item5;
             Item.autoReuse = true;
+            Item.noUseGraphic = true;
             Item.shoot = ProjectileID.WoodenArrowFriendly;
             Item.shootSpeed = 12f;
             Item.useAmmo = AmmoID.Arrow;
@@ -57,51 +54,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.Calamity().canFirePointBlankShots = true;
         }
 
-        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo spawnSource, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
-        {
-            Vector2 source = player.RotatedRelativePoint(player.MountedCenter, true);
-            Vector2 vel = velocity;
-            float piOver10 = MathHelper.Pi * 0.1f;
-
-            // This is not related to speed, but rather placing the arrows correctly along the large bow.
-            Vector2 baseOffset = velocity;
-            baseOffset.Normalize();
-            baseOffset *= 40f;
-
-            bool againstWall = !Collision.CanHit(source, 0, 0, source + baseOffset, 0, 0);
-
-            int numArrows = 5;
-            for (int i = 0; i < numArrows; i++)
-            {
-                float offsetAmt = i - (numArrows - 1f) / 2f;
-                Vector2 offset = baseOffset.RotatedBy(piOver10 * offsetAmt);
-                if (againstWall)
-                    offset -= baseOffset;
-
-                if (CalamityUtils.CheckWoodenAmmo(type, player))
-                {
-                    int thisArrowType = Main.rand.Next(ExoArrows);
-                    // Teal exo arrows deal less damage.
-                    float dmgMult = thisArrowType == ProjectileType<TealExoArrow>() ? 0.66f : 1f;
-                    int finalDamage = (int)(damage * dmgMult);
-                    Projectile.NewProjectile(spawnSource, source + offset, vel, thisArrowType, finalDamage, knockback, player.whoAmI);
-                }
-                else
-                {
-                    int normalArrowDamage = (int)(damage * NormalArrowDamageMult);
-                    int proj = Projectile.NewProjectile(spawnSource, source + offset, vel, type, normalArrowDamage, knockback, player.whoAmI);
-                    Main.projectile[proj].noDropItem = true;
-                }
-            }
-            return false;
-        }
-
-        public override bool CanConsumeAmmo(Item ammo, Player player)
-        {
-            if (Main.rand.Next(0, 100) < 66)
-                return false;
-            return true;
-        }
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo spawnSource, Vector2 position, Vector2 velocity, int type, int damage, float knockback) => false;
 
         public override void AddRecipes()
         {
