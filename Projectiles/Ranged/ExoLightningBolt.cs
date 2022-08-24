@@ -81,7 +81,7 @@ namespace CalamityMod.Projectiles.Ranged
             // Play a strike sound on the first frame.
             if (!HasPlayedSound)
             {
-                SoundEngine.PlaySound(HeavenlyGale.LightningStrikeSound with { Volume = 0.4f }, Main.player[Projectile.owner].Center);
+                SoundEngine.PlaySound(HeavenlyGale.LightningStrikeSound with { Volume = 0.3f }, Main.player[Projectile.owner].Center);
                 HasPlayedSound = true;
             }
 
