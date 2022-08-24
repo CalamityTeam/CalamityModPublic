@@ -16,13 +16,23 @@ namespace CalamityMod.Projectiles.Ranged
     {
         public bool OwnerCanShoot => Owner.HasAmmo(Owner.ActiveItem()) && !Owner.noItems && !Owner.CCed;
 
-        public float StringReelbackInterpolant => Utils.GetLerpValue(4f, Owner.ActiveItem().useAnimation * 0.6f, Owner.ActiveItem().useAnimation - ShootDelay, true);
+        public float StringReelbackInterpolant
+        {
+            get
+            {
+                int duration = Owner.ActiveItem().useAnimation;
+                float time = duration - ShootDelay;
+                float firstHalf = Utils.GetLerpValue(8f, 0f, time, true);
+                float secondHalf = Utils.GetLerpValue(8f, duration * 0.6f, time, true);
+                return firstHalf + secondHalf;
+            }
+        }
 
         public float ChargeupInterpolant => Utils.GetLerpValue(HeavenlyGale.ShootDelay, HeavenlyGale.MaxChargeTime, ChargeTimer, true);
 
-        public float StringHalfHeight => Projectile.height * 0.45f;
+        public float StringHalfHeight => Projectile.height * 0.4f;
 
-        public float StringReelbackDistance => Projectile.width * StringReelbackInterpolant * 0.4f;
+        public float StringReelbackDistance => Projectile.width * StringReelbackInterpolant * 0.25f;
 
         public ref float CurrentChargingFrames => ref Projectile.ai[0];
 
@@ -34,14 +44,12 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override int IntendedProjectileType => ModContent.ProjectileType<HeavenlyGaleProj>();
 
-        public override string Texture => "CalamityMod/Items/Weapons/Ranged/HeavenlyGale";
-
         public override void SetStaticDefaults() => DisplayName.SetDefault("Heavenly Gale");
 
         public override void SetDefaults()
         {
-            Projectile.width = 46;
-            Projectile.height = 98;
+            Projectile.width = 138;
+            Projectile.height = 138;
             Projectile.friendly = true;
             Projectile.penetrate = -1;
             Projectile.tileCollide = false;
@@ -53,7 +61,7 @@ namespace CalamityMod.Projectiles.Ranged
         public override void SafeAI()
         {
             Vector2 armPosition = Owner.RotatedRelativePoint(Owner.MountedCenter, true);
-            Vector2 tipPosition = armPosition + Projectile.velocity * Projectile.width * 0.8f;
+            Vector2 tipPosition = armPosition + Projectile.velocity * Projectile.width * 0.5f;
 
             // Activate shot behavior if the owner stops channeling or otherwise cannot use the weapon.
             bool activatingShoot = ShootDelay <= 0 && Main.mouseLeft && !Main.mapFullscreen && !Main.blockMouse;
@@ -85,7 +93,7 @@ namespace CalamityMod.Projectiles.Ranged
                     SquishyLightParticle exoEnergyBolt = new(tipPosition + arrowDirection * 16f, arrowDirection * 4.5f, 0.85f, energyBoltColor, 40, 1f, 5.4f, 4f, 0.08f);
                     GeneralParticleHandler.SpawnParticle(exoEnergyBolt);
                     
-                    tipPosition = armPosition + arrowDirection * Projectile.width * 0.8f;
+                    tipPosition = armPosition + arrowDirection * Projectile.width * 0.5f;
 
                     if (Main.myPlayer == Projectile.owner)
                     {
@@ -101,10 +109,14 @@ namespace CalamityMod.Projectiles.Ranged
             }
 
             // Create exo energy at the tip of the bow.
-            if (Main.rand.NextBool(3))
+            if (Main.rand.NextBool(4))
             {
-                Color energyColor = CalamityUtils.MulticolorLerp(Main.rand.NextFloat(), CalamityUtils.ExoPalette);
-                SquishyLightParticle exoEnergy = new(tipPosition, -Vector2.UnitY.RotatedByRandom(0.39f) * Main.rand.NextFloat(0.4f, 1.6f), 0.2f, energyColor, 25);
+                Color energyColor = Color.Orange;
+                Vector2 verticalOffset = Vector2.UnitY.RotatedBy(Projectile.rotation) * 8f;
+                if (Math.Cos(Projectile.rotation) < 0f)
+                    verticalOffset *= -1f;
+
+                SquishyLightParticle exoEnergy = new(tipPosition + verticalOffset, -Vector2.UnitY.RotatedByRandom(0.39f) * Main.rand.NextFloat(0.4f, 1.6f), 0.28f, energyColor, 25);
                 GeneralParticleHandler.SpawnParticle(exoEnergy);
             }
 
@@ -162,7 +174,7 @@ namespace CalamityMod.Projectiles.Ranged
                 }
             }
 
-            Projectile.position = armPosition - Projectile.Size * 0.5f + Projectile.velocity.SafeNormalize(Vector2.UnitY) * 24f;
+            Projectile.position = armPosition - Projectile.Size * 0.5f + Projectile.velocity.SafeNormalize(Vector2.UnitY) * 48f;
             Projectile.rotation = Projectile.velocity.ToRotation();
             Projectile.spriteDirection = Projectile.direction;
             Projectile.timeLeft = 2;
@@ -193,24 +205,38 @@ namespace CalamityMod.Projectiles.Ranged
             Vector2 drawPosition = Projectile.Center - Main.screenPosition;
 
             // Draw the string of the bow. It reels back in the initial frames.
-            Vector2 center = Projectile.Center - Vector2.UnitX.RotatedBy(Projectile.rotation) * 16f;
+            Vector2 aimDirection = Projectile.rotation.ToRotationVector2();
+            Vector2 center = Projectile.Center - aimDirection * 24f;
             Vector2 topOfBow = center + Vector2.UnitY.RotatedBy(Projectile.rotation) * StringHalfHeight;
             Vector2 bottomOfBow = center - Vector2.UnitY.RotatedBy(Projectile.rotation) * StringHalfHeight;
-            Vector2 endOfString = center - Vector2.UnitX.RotatedBy(Projectile.rotation) * StringReelbackDistance;
-            Main.spriteBatch.DrawLineBetter(topOfBow, endOfString, Color.Cyan, 2f);
-            Main.spriteBatch.DrawLineBetter(bottomOfBow, endOfString, Color.Cyan, 2f);
+            Vector2 endOfString = center - Vector2.UnitX.RotatedBy(Projectile.rotation) * (StringReelbackDistance + (1f - StringReelbackInterpolant) * 20f);
 
             float chargeOffset = ChargeupInterpolant * Projectile.scale * 3f;
             Color chargeColor = Color.Lerp(Color.Lime, Color.Cyan, (float)Math.Cos(Main.GlobalTimeWrappedHourly * 7.1f) * 0.5f + 0.5f) * ChargeupInterpolant * 0.6f;
             chargeColor.A = 0;
 
+            float rotation = Projectile.rotation;
+            SpriteEffects direction = SpriteEffects.None;
+            if (Math.Cos(rotation) < 0f)
+            {
+                direction = SpriteEffects.FlipHorizontally;
+                rotation += MathHelper.Pi;
+                topOfBow -= aimDirection * 40f;
+            }
+            else
+                bottomOfBow -= aimDirection * 40f;
+
+            Color stringColor = new(105, 239, 145);
+            Main.spriteBatch.DrawLineBetter(topOfBow, endOfString, stringColor, 2f);
+            Main.spriteBatch.DrawLineBetter(bottomOfBow, endOfString, stringColor, 2f);
+
             // Draw a backglow effect as an indicator of charge.
             for (int i = 0; i < 8; i++)
             {
                 Vector2 drawOffset = (MathHelper.TwoPi * i / 8f).ToRotationVector2() * chargeOffset;
-                Main.spriteBatch.Draw(texture, drawPosition + drawOffset, null, chargeColor, Projectile.rotation, origin, Projectile.scale, 0, 0f);
+                Main.spriteBatch.Draw(texture, drawPosition + drawOffset, null, chargeColor, rotation, origin, Projectile.scale, direction, 0f);
             }
-            Main.spriteBatch.Draw(texture, drawPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation, origin, Projectile.scale, 0, 0f);
+            Main.spriteBatch.Draw(texture, drawPosition, null, Projectile.GetAlpha(lightColor), rotation, origin, Projectile.scale, direction, 0f);
             return false;
         }
 
