@@ -41,6 +41,12 @@ namespace CalamityMod.Items.Weapons.Typeless
             Item.shoot = ModContent.ProjectileType<ArtifactOfResilienceBulwark>();
             Item.shootSpeed = 0f;
         }
+
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = (ContentSamples.CreativeHelper.ItemGroup)CalamityResearchSorting.ToolsOther;
+		}
+
         public override bool CanUseItem(Player player) => !player.HasCooldown(Cooldowns.RelicOfResilience.ID);
         public override bool? UseItem(Player player) => true;
 

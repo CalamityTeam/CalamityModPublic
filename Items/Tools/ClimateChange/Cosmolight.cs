@@ -28,6 +28,11 @@ namespace CalamityMod.Items.Tools.ClimateChange
             Item.consumable = false;
         }
 
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = (ContentSamples.CreativeHelper.ItemGroup)CalamityResearchSorting.ToolsOther;
+		}
+
         public override bool CanUseItem(Player player)
         {
             return !CalamityPlayer.areThereAnyDamnBosses;

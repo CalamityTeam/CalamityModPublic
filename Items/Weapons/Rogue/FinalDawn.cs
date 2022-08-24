@@ -42,6 +42,11 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.noUseGraphic = true;
         }
 
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = (ContentSamples.CreativeHelper.ItemGroup)CalamityResearchSorting.RogueWeapon;
+		}
+
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] +
             player.ownedProjectileCounts[ProjectileType<FinalDawnFireSlash>()] +
             player.ownedProjectileCounts[ProjectileType<FinalDawnHorizontalSlash>()] +

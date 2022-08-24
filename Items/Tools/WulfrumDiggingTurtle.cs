@@ -36,6 +36,11 @@ namespace CalamityMod.Items.Tools
             Item.rare = ItemRarityID.Blue;
         }
 
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = (ContentSamples.CreativeHelper.ItemGroup)CalamityResearchSorting.ToolsOther;
+		}
+
         public override bool AltFunctionUse(Player player) => true;
 
         public override bool ConsumeItem(Player player)
