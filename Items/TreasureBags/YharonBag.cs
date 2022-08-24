@@ -13,9 +13,8 @@ using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
-using Terraria.GameContent.ItemDropRules;
-using Terraria.GameContent.ItemDropRules;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.TreasureBags
