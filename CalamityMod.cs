@@ -432,14 +432,6 @@ namespace CalamityMod
         }
         #endregion
 
-        #region Late Loading
-        public override void PostAddRecipes()
-        {
-            // This is placed here so that all tiles from all mods are guaranteed to be loaded at this point.
-            TileFraming.Load();
-        }
-        #endregion
-
         #region Render Target Management
 
         public static void PrepareRenderTargets(GameTime gameTime)
@@ -810,12 +802,6 @@ namespace CalamityMod
         public override void PostSetupContent() => WeakReferenceSupport.Setup();
 
         public override object Call(params object[] args) => ModCalls.Call(args);
-        #endregion
-
-        #region Recipes
-        public override void AddRecipeGroups() => CalamityRecipes.AddRecipeGroups();
-
-        public override void AddRecipes() => CalamityRecipes.AddRecipes();
         #endregion
 
         #region Seasons

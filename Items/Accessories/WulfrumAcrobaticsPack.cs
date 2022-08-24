@@ -1,19 +1,18 @@
-﻿using Terraria;
-using Terraria.ModLoader;
-using Terraria.ID;
-using Terraria.GameInput;
-using Terraria.DataStructures;
-using CalamityMod.Projectiles.Typeless;
-using static Terraria.ModLoader.ModContent;
-using System.Linq;
-using Microsoft.Xna.Framework;
-using CalamityMod.DataStructures;
-using System.Collections.Generic;
-using System;
-using System.Linq;
+﻿using CalamityMod.DataStructures;
 using CalamityMod.Items.Materials;
-using Terraria.Audio;
+using CalamityMod.Projectiles.Typeless;
 using CalamityMod.Sounds;
+using Microsoft.Xna.Framework;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using Terraria;
+using Terraria.Audio;
+using Terraria.DataStructures;
+using Terraria.GameInput;
+using Terraria.ID;
+using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod.Items.Accessories
 {

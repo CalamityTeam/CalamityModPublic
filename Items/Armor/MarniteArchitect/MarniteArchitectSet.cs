@@ -1,27 +1,24 @@
-﻿using CalamityMod.CalPlayer;
-using Terraria;
-using Terraria.ID;
-using Terraria.ModLoader;
-using System;
-using System.Collections.Generic;
+﻿using CalamityMod.Buffs.Mounts;
+using CalamityMod.CalPlayer;
 using CalamityMod.Cooldowns;
 using CalamityMod.Items.Accessories.Vanity;
 using CalamityMod.Items.Materials;
+using CalamityMod.Items.Mounts;
 using CalamityMod.Particles;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Utilities;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameInput;
 using static Microsoft.Xna.Framework.Input.Keys;
 using static Terraria.ModLoader.ModContent;
-using Terraria.GameInput;
-using CalamityMod.Items.Mounts;
-using CalamityMod.Buffs.Mounts;
-using Microsoft.Xna.Framework.Graphics;
-using System.Linq;
-using ReLogic.Utilities;
 
 
 namespace CalamityMod.Items.Armor.MarniteArchitect
