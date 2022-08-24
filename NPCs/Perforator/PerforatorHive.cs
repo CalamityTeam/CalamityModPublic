@@ -511,18 +511,16 @@ namespace CalamityMod.NPCs.Perforator
             var normalOnly = npcLoot.DefineNormalOnlyDropSet();
             {
                 // Weapons and such
-                int[] items = new int[]
-                {
+				normalOnly.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, new WeightedItemStack[]
+				{
                     ModContent.ItemType<VeinBurster>(),
                     ModContent.ItemType<SausageMaker>(),
                     ModContent.ItemType<Aorta>(),
                     ModContent.ItemType<Eviscerator>(),
                     ModContent.ItemType<BloodBath>(),
                     ModContent.ItemType<BloodClotStaff>(),
-                    ModContent.ItemType<BloodstainedGlove>(),
 					new WeightedItemStack(ModContent.ItemType<ToothBall>(), 1f, 30, 50),
-                };
-                normalOnly.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, items));
+				}));
 
                 // Materials
                 normalOnly.Add(ItemID.CrimtaneBar, 1, 10, 15);
@@ -532,6 +530,7 @@ namespace CalamityMod.NPCs.Perforator
                 normalOnly.Add(ItemDropRule.ByCondition(new Conditions.IsHardmode(), ItemID.Ichor, 1, 10, 20));
 
                 // Equipment
+				normalOnly.Add(ModContent.ItemType<BloodstainedGlove>(), DropHelper.NormalWeaponDropRateFraction);
                 normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<BloodyWormTooth>()));
 
                 // Vanity
