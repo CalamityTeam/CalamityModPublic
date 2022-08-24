@@ -12,14 +12,13 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.TreasureBags
 {
     public class DesertScourgeBag : ModItem
     {
-		public override int BossBagNPC => ModContent.NPCType<DesertScourgeHead>();
-
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 3;
@@ -57,6 +56,9 @@ namespace CalamityMod.Items.TreasureBags
 
         public override void ModifyItemLoot(ItemLoot itemLoot)
         {
+			// Money
+			itemLoot.Add(ItemDropRule.CoinsBasedOnNPCValue(ModContent.NPCType<DesertScourgeHead>()));
+
             // Materials
             itemLoot.Add(ModContent.ItemType<PearlShard>(), 1, 30, 40);
             itemLoot.Add(ItemID.Coral, 1, 30, 40);

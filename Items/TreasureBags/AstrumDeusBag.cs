@@ -12,14 +12,13 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.TreasureBags
 {
     public class AstrumDeusBag : ModItem
     {
-		public override int BossBagNPC => ModContent.NPCType<AstrumDeusHead>();
-
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 3;
@@ -60,6 +59,9 @@ namespace CalamityMod.Items.TreasureBags
 
         public override void ModifyItemLoot(ItemLoot itemLoot)
         {
+			// Money
+			itemLoot.Add(ItemDropRule.CoinsBasedOnNPCValue(ModContent.NPCType<AstrumDeusHead>()));
+
             // Materials
             itemLoot.Add(ModContent.ItemType<Stardust>(), 1, 60, 90);
             itemLoot.Add(ItemID.FallenStar, 1, 30, 50);

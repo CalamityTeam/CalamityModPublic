@@ -13,6 +13,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.TreasureBags
@@ -20,8 +21,6 @@ namespace CalamityMod.Items.TreasureBags
     [LegacyName("SCalBag")]
     public class SupremeCalamitasCoffer : ModItem
     {
-		public override int BossBagNPC => ModContent.NPCType<SupremeCalamitas>();
-
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 3;
@@ -58,6 +57,9 @@ namespace CalamityMod.Items.TreasureBags
 
         public override void ModifyItemLoot(ItemLoot itemLoot)
         {
+			// Money
+			itemLoot.Add(ItemDropRule.CoinsBasedOnNPCValue(ModContent.NPCType<SupremeCalamitas>()));
+
             // Materials
             itemLoot.Add(ModContent.ItemType<AshesofAnnihilation>(), 1, 30, 40);
 

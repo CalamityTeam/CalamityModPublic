@@ -11,14 +11,13 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.TreasureBags
 {
     public class ProvidenceBag : ModItem
     {
-		public override int BossBagNPC => ModContent.NPCType<Providence>();
-
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 3;
@@ -55,6 +54,9 @@ namespace CalamityMod.Items.TreasureBags
 
         public override void ModifyItemLoot(ItemLoot itemLoot)
         {
+			// Money
+			itemLoot.Add(ItemDropRule.CoinsBasedOnNPCValue(ModContent.NPCType<Providence>()));
+
             // Materials
             itemLoot.Add(ModContent.ItemType<UnholyEssence>(), 1, 25, 35);
             itemLoot.Add(ModContent.ItemType<DivineGeode>(), 1, 30, 40);

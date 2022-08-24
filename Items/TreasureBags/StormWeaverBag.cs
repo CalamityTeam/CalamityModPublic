@@ -9,14 +9,13 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.TreasureBags
 {
     public class StormWeaverBag : ModItem
     {
-		public override int BossBagNPC => ModContent.NPCType<StormWeaverHead>();
-
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 3;
@@ -53,6 +52,9 @@ namespace CalamityMod.Items.TreasureBags
 
         public override void ModifyItemLoot(ItemLoot itemLoot)
         {
+			// Money
+			itemLoot.Add(ItemDropRule.CoinsBasedOnNPCValue(ModContent.NPCType<StormWeaverHead>()));
+
             // Materials
             itemLoot.Add(ModContent.ItemType<ArmoredShell>(), 1, 6, 9);
 

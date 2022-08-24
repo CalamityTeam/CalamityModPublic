@@ -12,14 +12,13 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.TreasureBags
 {
     public class SlimeGodBag : ModItem
     {
-		public override int BossBagNPC => ModContent.NPCType<SlimeGodCore>();
-
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 3;
@@ -57,6 +56,9 @@ namespace CalamityMod.Items.TreasureBags
 
         public override void ModifyItemLoot(ItemLoot itemLoot)
         {
+			// Money
+			itemLoot.Add(ItemDropRule.CoinsBasedOnNPCValue(ModContent.NPCType<SlimeGodCore>()));
+
             // Materials
             // No Gel is dropped here because the boss drops Gel directly
             itemLoot.Add(ModContent.ItemType<PurifiedGel>(), 1, 40, 52);

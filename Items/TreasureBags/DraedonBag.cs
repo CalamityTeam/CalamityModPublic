@@ -11,6 +11,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.TreasureBags
@@ -18,8 +19,6 @@ namespace CalamityMod.Items.TreasureBags
     [LegacyName("DraedonTreasureBag")]
     public class DraedonBag : ModItem
     {
-		public override int BossBagNPC => ModContent.NPCType<Apollo>();
-
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 3;
@@ -60,6 +59,9 @@ namespace CalamityMod.Items.TreasureBags
 
         public override void ModifyItemLoot(ItemLoot itemLoot)
         {
+			// Money
+			itemLoot.Add(ItemDropRule.CoinsBasedOnNPCValue(ModContent.NPCType<Apollo>()));
+
             // Originally, masks were 1/3.5, for whatever reason. Keeping it that way.
             Fraction maskFraction = new Fraction(2, 7);
 

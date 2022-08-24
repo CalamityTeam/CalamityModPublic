@@ -13,14 +13,13 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.TreasureBags
 {
     public class PolterghastBag : ModItem
     {
-		public override int BossBagNPC => ModContent.NPCType<Polterghast>();
-
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 3;
@@ -62,6 +61,9 @@ namespace CalamityMod.Items.TreasureBags
 
         public override void ModifyItemLoot(ItemLoot itemLoot)
         {
+			// Money
+			itemLoot.Add(ItemDropRule.CoinsBasedOnNPCValue(ModContent.NPCType<Polterghast>()));
+
             // Materials
             itemLoot.Add(ModContent.ItemType<RuinousSoul>(), 1, 10, 20);
             itemLoot.Add(ModContent.ItemType<Phantoplasm>(), 1, 40, 50);

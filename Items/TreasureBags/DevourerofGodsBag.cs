@@ -14,14 +14,13 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.TreasureBags
 {
     public class DevourerofGodsBag : ModItem
     {
-		public override int BossBagNPC => ModContent.NPCType<DevourerofGodsHead>();
-
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 3;
@@ -67,6 +66,9 @@ namespace CalamityMod.Items.TreasureBags
 
         public override void ModifyItemLoot(ItemLoot itemLoot)
         {
+			// Money
+			itemLoot.Add(ItemDropRule.CoinsBasedOnNPCValue(ModContent.NPCType<DevourerofGodsHead>()));
+
             // Materials
             itemLoot.Add(ModContent.ItemType<CosmiliteBar>(), 1, 30, 40);
             itemLoot.Add(ModContent.ItemType<CosmiliteBrick>(), 1, 200, 320);

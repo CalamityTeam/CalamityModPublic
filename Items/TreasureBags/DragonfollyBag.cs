@@ -12,6 +12,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.TreasureBags
@@ -19,8 +20,6 @@ namespace CalamityMod.Items.TreasureBags
     [LegacyName("BumblebirbBag")]
     public class DragonfollyBag : ModItem
     {
-		public override int BossBagNPC => ModContent.NPCType<Bumblefuck>();
-
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 3;
@@ -57,6 +56,9 @@ namespace CalamityMod.Items.TreasureBags
 
         public override void ModifyItemLoot(ItemLoot itemLoot)
         {
+			// Money
+			itemLoot.Add(ItemDropRule.CoinsBasedOnNPCValue(ModContent.NPCType<Bumblefuck>()));
+
             // Materials
             itemLoot.Add(ModContent.ItemType<EffulgentFeather>(), 1, 30, 35);
 
