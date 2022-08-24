@@ -12,6 +12,7 @@ namespace CalamityMod.Items.Weapons.Typeless
             DisplayName.SetDefault("Star Struck Water");
             Tooltip.SetDefault("Spreads the astral infection to some blocks");
             SacrificeTotal = 99;
+			ItemID.Sets.SortingPriorityTerraforming[Type] = 92; // Blood Water
         }
 
         public override void SetDefaults()
