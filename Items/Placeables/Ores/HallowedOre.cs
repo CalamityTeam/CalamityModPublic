@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Placeables.Ores
         {
             SacrificeTotal = 100;
             DisplayName.SetDefault("Hallowed Ore");
-			ItemID.Sets.SortingPriorityBossSpawns[Type] = 89; // Hallowed Bar
+			ItemID.Sets.SortingPriorityMaterials[Type] = 89; // Hallowed Bar
         }
 
         public override void SetDefaults()
