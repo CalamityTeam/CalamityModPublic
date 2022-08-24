@@ -19,7 +19,7 @@ namespace CalamityMod.Projectiles.Ranged
         {
             DisplayName.SetDefault("Exo Crystal");
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
-            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 25;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 10;
         }
 
         public override void SetDefaults()
@@ -38,11 +38,11 @@ namespace CalamityMod.Projectiles.Ranged
         public override void AI()
         {
             // Fade in.
-            Projectile.Opacity = Utils.GetLerpValue(300f, 280f, Projectile.timeLeft, true);
+            Projectile.Opacity = Utils.GetLerpValue(300f, 297f, Projectile.timeLeft, true);
 
             // Rapidly race towards the nearest target.
             NPC potentialTarget = Projectile.Center.ClosestNPCAt(HeavenlyGale.ArrowTargetingRange);
-            if (potentialTarget != null && Projectile.timeLeft < 285)
+            if (potentialTarget != null && Projectile.timeLeft < 290)
             {
                 Vector2 idealVelocity = Projectile.SafeDirectionTo(potentialTarget.Center) * 33f;
                 Projectile.velocity = (Projectile.velocity * 29f + idealVelocity) / 30f;
@@ -59,13 +59,13 @@ namespace CalamityMod.Projectiles.Ranged
             return true;
         }
 
-        public float PrimitiveWidthFunction(float completionRatio) => Utils.GetLerpValue(0f, 0.1f, completionRatio, true) * Projectile.scale * 30f;
+        public float PrimitiveWidthFunction(float completionRatio) => Projectile.scale * 30f;
 
         public Color PrimitiveColorFunction(float _) => Color.Lime * Projectile.Opacity;
 
         public override bool PreDraw(ref Color lightColor)
         {
-            PierceAfterimageDrawer ??= new(PrimitiveWidthFunction, PrimitiveColorFunction, null, GameShaders.Misc["CalamityMod:ExobladePierce"]);
+            PierceAfterimageDrawer ??= new(PrimitiveWidthFunction, PrimitiveColorFunction, null, GameShaders.Misc["CalamityMod:HeavenlyGaleTrail"]);
 
             Color mainColor = CalamityUtils.MulticolorLerp((Main.GlobalTimeWrappedHourly * 2f) % 1, Color.Cyan, Color.Lime, Color.GreenYellow, Color.Goldenrod, Color.Orange);
             Color secondaryColor = CalamityUtils.MulticolorLerp((Main.GlobalTimeWrappedHourly * 2f + 0.2f) % 1, Color.Cyan, Color.Lime, Color.GreenYellow, Color.Goldenrod, Color.Orange);
@@ -74,11 +74,11 @@ namespace CalamityMod.Projectiles.Ranged
             secondaryColor = Color.Lerp(Color.White, secondaryColor, 0.85f);
 
             Vector2 trailOffset = Projectile.Size * 0.5f - Main.screenPosition;
-            GameShaders.Misc["CalamityMod:ExobladePierce"].SetShaderTexture(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/EternityStreak"));
-            GameShaders.Misc["CalamityMod:ExobladePierce"].UseImage2("Images/Extra_189");
-            GameShaders.Misc["CalamityMod:ExobladePierce"].UseColor(mainColor);
-            GameShaders.Misc["CalamityMod:ExobladePierce"].UseSecondaryColor(secondaryColor);
-            GameShaders.Misc["CalamityMod:ExobladePierce"].Apply();
+            GameShaders.Misc["CalamityMod:HeavenlyGaleTrail"].SetShaderTexture(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/EternityStreak"));
+            GameShaders.Misc["CalamityMod:HeavenlyGaleTrail"].UseImage2("Images/Extra_189");
+            GameShaders.Misc["CalamityMod:HeavenlyGaleTrail"].UseColor(mainColor);
+            GameShaders.Misc["CalamityMod:HeavenlyGaleTrail"].UseSecondaryColor(secondaryColor);
+            GameShaders.Misc["CalamityMod:HeavenlyGaleTrail"].Apply();
             PierceAfterimageDrawer.Draw(Projectile.oldPos, trailOffset, 53);
 
             Texture2D tex = ModContent.Request<Texture2D>(Texture).Value;
@@ -92,13 +92,14 @@ namespace CalamityMod.Projectiles.Ranged
         public override void Kill(int timeLeft)
         {
             // Play a loud impact sound.
-            SoundEngine.PlaySound(CommonCalamitySounds.LargeWeaponFireSound with { Volume = 0.4f }, Projectile.Center);
+            SoundEngine.PlaySound(CommonCalamitySounds.LargeWeaponFireSound with { Volume = 0.2f }, Projectile.Center);
 
             // Explode into a bunch of exo particles.
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 2; i++)
             {
+                Vector2 energyVelocity = Projectile.velocity.SafeNormalize(Vector2.UnitY).RotatedByRandom(0.6f) * Main.rand.NextFloat(7f, 11f);
                 Color exoEnergyColor = CalamityUtils.MulticolorLerp(Main.rand.NextFloat(), CalamityUtils.ExoPalette);
-                SquishyLightParticle exoEnergy = new(Projectile.Center, Main.rand.NextVector2Circular(5f, 5f), 0.35f, exoEnergyColor, 30);
+                SparkParticle exoEnergy = new(Projectile.Center, energyVelocity, false, 30, 1.3f, exoEnergyColor);
                 GeneralParticleHandler.SpawnParticle(exoEnergy);
             }
         }

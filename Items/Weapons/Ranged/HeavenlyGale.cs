@@ -23,6 +23,8 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public const float ArrowTargetingRange = 1100f;
 
+        public const float MaxChargeDamageBoost = 4.5f;
+
         public static readonly SoundStyle FireSound = new("CalamityMod/Sounds/Item/HeavenlyGaleFire");
 
         public override void SetStaticDefaults()
@@ -34,7 +36,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            Item.damage = 654;
+            Item.damage = 554;
             Item.DamageType = DamageClass.Ranged;
             Item.width = 44;
             Item.height = 58;

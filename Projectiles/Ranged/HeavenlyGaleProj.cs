@@ -56,12 +56,11 @@ namespace CalamityMod.Projectiles.Ranged
             Vector2 tipPosition = armPosition + Projectile.velocity * Projectile.width * 0.8f;
 
             // Activate shot behavior if the owner stops channeling or otherwise cannot use the weapon.
-            bool activatingShoot = ShootDelay <= 0 && Main.mouseLeftRelease && Main.mouseLeft && !Main.mapFullscreen && !Main.blockMouse;
+            bool activatingShoot = ShootDelay <= 0 && Main.mouseLeft && !Main.mapFullscreen && !Main.blockMouse;
             if (Main.myPlayer == Projectile.owner && OwnerCanShoot && activatingShoot)
             {
                 SoundEngine.PlaySound(HeavenlyGale.FireSound, Projectile.Center);
                 ShootDelay = Owner.ActiveItem().useAnimation;
-                ChargeTimer = 0f;
                 Projectile.netUpdate = true;
             }
 
@@ -73,19 +72,20 @@ namespace CalamityMod.Projectiles.Ranged
             {
                 float shootCompletionRatio = 1f - ShootDelay / (Owner.ActiveItem().useAnimation - 1f);
                 float bowAngularOffset = (float)Math.Sin(MathHelper.TwoPi * shootCompletionRatio) * 0.4f;
-                float damageFactor = Utils.Remap(ChargeTimer, 0f, HeavenlyGale.MaxChargeTime, 1f, 3.2f);
+                float damageFactor = Utils.Remap(ChargeTimer, 0f, HeavenlyGale.MaxChargeTime, 1f, HeavenlyGale.MaxChargeDamageBoost);
 
                 // Fire arrows.
                 if (ShootDelay % HeavenlyGale.ArrowShootRate == 0)
                 {
                     Vector2 arrowDirection = Projectile.velocity.RotatedBy(bowAngularOffset);
-                    tipPosition = armPosition + arrowDirection * Projectile.width * 0.65f;
-
+                    
                     // Release a streak of energy.
                     Color energyBoltColor = CalamityUtils.MulticolorLerp(shootCompletionRatio, CalamityUtils.ExoPalette);
                     energyBoltColor = Color.Lerp(energyBoltColor, Color.White, 0.35f);
-                    SquishyLightParticle exoEnergyBolt = new(tipPosition, Projectile.velocity * 4.5f, 0.85f, energyBoltColor, 40, 1f, 4.5f, 4f, 0.035f);
+                    SquishyLightParticle exoEnergyBolt = new(tipPosition + arrowDirection * 16f, arrowDirection * 4.5f, 0.85f, energyBoltColor, 40, 1f, 5.4f, 4f, 0.08f);
                     GeneralParticleHandler.SpawnParticle(exoEnergyBolt);
+                    
+                    tipPosition = armPosition + arrowDirection * Projectile.width * 0.8f;
 
                     if (Main.myPlayer == Projectile.owner)
                     {
@@ -95,6 +95,8 @@ namespace CalamityMod.Projectiles.Ranged
                 }
 
                 ShootDelay--;
+                if (ShootDelay <= 0f)
+                    ChargeTimer = 0f;
             }
 
             // Create exo energy at the tip of the bow.
@@ -176,7 +178,7 @@ namespace CalamityMod.Projectiles.Ranged
                 armRotation += MathHelper.PiOver4;
             else
                 armRotation = MathHelper.PiOver2 - armRotation;
-            armRotation += Projectile.rotation + MathHelper.Pi + Owner.direction * MathHelper.PiOver2;
+            armRotation += Projectile.rotation + MathHelper.Pi + Owner.direction * MathHelper.PiOver2 + 0.12f;
 
             Owner.SetCompositeArmFront(true, Player.CompositeArmStretchAmount.Full, armRotation);
         }
