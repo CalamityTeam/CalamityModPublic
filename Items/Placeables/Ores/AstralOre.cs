@@ -1,6 +1,6 @@
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Placeables.Ores
 {
@@ -10,6 +10,7 @@ namespace CalamityMod.Items.Placeables.Ores
         {
             SacrificeTotal = 100;
             DisplayName.SetDefault("Astral Ore");
+			ItemID.Sets.SortingPriorityMaterials[Type] = 99; // Luminite
         }
 
         public override void SetDefaults()

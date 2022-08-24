@@ -11,6 +11,7 @@ namespace CalamityMod.Items.Materials
             SacrificeTotal = 25;
             DisplayName.SetDefault("Divine Geode");
             Tooltip.SetDefault("A chunk of crystallized holy energy");
+			ItemID.Sets.SortingPriorityMaterials[Type] = 104;
         }
 
         public override void SetDefaults()

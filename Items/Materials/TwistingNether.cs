@@ -12,6 +12,7 @@ namespace CalamityMod.Items.Materials
             ItemID.Sets.ItemNoGravity[Item.type] = true;
 
             DisplayName.SetDefault("Twisting Nether");
+			ItemID.Sets.SortingPriorityMaterials[Type] = 109;
         }
 
         public override void SetDefaults()

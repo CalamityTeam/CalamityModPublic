@@ -16,6 +16,7 @@ namespace CalamityMod.Items.Materials
             SacrificeTotal = 5;
             DisplayName.SetDefault("Miracle Matter");
             Tooltip.SetDefault("Its amorphous form contains untold potential\n" + "One is required for every Exo Weapon");
+			ItemID.Sets.SortingPriorityMaterials[Type] = 122;
         }
 
         public override void SetDefaults()

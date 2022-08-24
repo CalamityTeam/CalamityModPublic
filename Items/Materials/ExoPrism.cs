@@ -14,6 +14,7 @@ namespace CalamityMod.Items.Materials
             SacrificeTotal = 25;
             DisplayName.SetDefault("Exo Prism");
             Tooltip.SetDefault("Fractal energies shimmer across its surface");
+			ItemID.Sets.SortingPriorityMaterials[Type] = 121;
         }
 
         public override void SetDefaults()

@@ -12,6 +12,7 @@ namespace CalamityMod.Items.Materials
         {
             SacrificeTotal = 25;
             DisplayName.SetDefault("Aerialite Bar");
+			ItemID.Sets.SortingPriorityMaterials[Type] = 69; // Hellstone
         }
 
         public override void SetDefaults()

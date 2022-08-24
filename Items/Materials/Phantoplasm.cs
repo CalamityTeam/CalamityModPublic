@@ -15,6 +15,7 @@ namespace CalamityMod.Items.Materials
             Tooltip.SetDefault("It churns and seethes with ghastly malice");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(5, 5));
             ItemID.Sets.AnimatesAsSoul[Type] = true;
+			ItemID.Sets.SortingPriorityMaterials[Type] = 1110;
         }
 
         public override void SetDefaults()
