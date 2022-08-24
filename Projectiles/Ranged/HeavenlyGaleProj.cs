@@ -109,7 +109,8 @@ namespace CalamityMod.Projectiles.Ranged
             }
 
             // Create a puff of energy in a star shape and play a sound to indicate that the bow is at max charge.
-            ChargeTimer++;
+            if (ShootDelay <= 0)
+                ChargeTimer++;
             if (ChargeTimer == HeavenlyGale.MaxChargeTime)
             {
                 SoundEngine.PlaySound(SoundID.Item158, Projectile.Center);
@@ -128,6 +129,7 @@ namespace CalamityMod.Projectiles.Ranged
                     magic.color = CalamityUtils.MulticolorLerp(Main.rand.NextFloat(), CalamityUtils.ExoPalette);
                     magic.noGravity = true;
                 }
+                ChargeTimer++;
             }
         }
         
