@@ -86,10 +86,16 @@ namespace CalamityMod.Tiles.FurnitureExo
             Tile tile = Framing.GetTileSafely(i, j);
 
             info.TargetDirection = -1;
-            if (tile.TileFrameX != 0)
+            if (tile.TileFrameX >= 35)
             {
                 info.TargetDirection = 1;
             }
+
+			int xPos = tile.TileFrameX / 18;
+			if (xPos == 1)
+				i--;
+			if (xPos == 2)
+				i++;
 
             info.AnchorTilePosition.X = i;
             info.AnchorTilePosition.Y = j;
@@ -111,6 +117,7 @@ namespace CalamityMod.Tiles.FurnitureExo
             }
             return true;
         }
+
         public override void MouseOver(int i, int j)
         {
             Player player = Main.LocalPlayer;
@@ -122,9 +129,9 @@ namespace CalamityMod.Tiles.FurnitureExo
 
             player.noThrow = 2;
             player.cursorItemIconEnabled = true;
-            player.cursorItemIconID = ModContent.ItemType<Items.Placeables.FurnitureExo.ExoToilet>();
+            player.cursorItemIconID = ModContent.ItemType<ExoToilet>();
 
-            if (Main.tile[i, j].TileFrameX / 18 < 1)
+            if (Main.tile[i, j].TileFrameX < 35)
             {
                 player.cursorItemIconReversed = true;
             }
