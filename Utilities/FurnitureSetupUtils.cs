@@ -66,6 +66,70 @@ namespace CalamityMod
             return true;
         }
 
+		#region Sitting in Chairs
+		// fat is for 2 tile chairs like Exo Chair and Exo Toilet
+        public static void ChairSitInfo(int i, int j, ref TileRestingInfo info, bool fat = false)
+        {
+            Tile tile = Framing.GetTileSafely(i, j);
+			bool frameCheck = fat ? tile.TileFrameX >= 35 : tile.TileFrameX != 0;
+
+            info.TargetDirection = -1;
+            if (frameCheck)
+            {
+                info.TargetDirection = 1;
+            }
+
+			if (fat)
+			{
+				int xPos = tile.TileFrameX / 18;
+				if (xPos == 1)
+					i--;
+				if (xPos == 2)
+					i++;
+			}
+
+            info.AnchorTilePosition.X = i;
+            info.AnchorTilePosition.Y = j;
+
+            if (tile.TileFrameY % NextStyleHeight == 0)
+            {
+                info.AnchorTilePosition.Y++;
+            }
+        }
+
+        public static bool ChairRightClick(int i, int j)
+        {
+            Player player = Main.LocalPlayer;
+
+            if (player.IsWithinSnappngRangeToTile(i, j, PlayerSittingHelper.ChairSittingMaxDistance))
+            {
+                player.GamepadEnableGrappleCooldown();
+                player.sitting.SitDown(player, i, j);
+            }
+            return true;
+        }
+
+        public static void ChairMouseOver(int i, int j, int itemID, bool fat = false)
+        {
+            Player player = Main.LocalPlayer;
+
+            if (!player.IsWithinSnappngRangeToTile(i, j, PlayerSittingHelper.ChairSittingMaxDistance))
+            {
+                return;
+            }
+
+            player.noThrow = 2;
+            player.cursorItemIconEnabled = true;
+            player.cursorItemIconID = itemID;
+
+			bool frameCheck = fat ? Main.tile[i, j].TileFrameX < 35 : Main.tile[i, j].TileFrameX / 18 < 1;
+            if (frameCheck)
+            {
+                player.cursorItemIconReversed = true;
+            }
+        }
+		#endregion
+
         public static bool ChestRightClick(int i, int j)
         {
             Player player = Main.LocalPlayer;

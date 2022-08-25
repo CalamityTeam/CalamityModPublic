@@ -79,64 +79,11 @@ namespace CalamityMod.Tiles.FurnitureExo
             Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 32, ModContent.ItemType<ExoChair>());
         }
 
-        public override void ModifySittingTargetInfo(int i, int j, ref TileRestingInfo info)
-        {
-            info.DirectionOffset = 0;
-            info.VisualOffset = new Vector2(-8f, 0f);
+        public override void ModifySittingTargetInfo(int i, int j, ref TileRestingInfo info) => CalamityUtils.ChairSitInfo(i, j, ref info, true);
 
-            Tile tile = Framing.GetTileSafely(i, j);
+        public override bool RightClick(int i, int j) => CalamityUtils.ChairRightClick(i, j);
 
-            info.TargetDirection = -1;
-            if (tile.TileFrameX >= 35)
-            {
-                info.TargetDirection = 1;
-            }
-
-			int xPos = tile.TileFrameX / 18;
-			if (xPos == 1)
-				i--;
-			if (xPos == 2)
-				i++;
-
-            info.AnchorTilePosition.X = i;
-            info.AnchorTilePosition.Y = j;
-
-            if (tile.TileFrameY % NextStyleHeight == 0)
-            {
-                info.AnchorTilePosition.Y++;
-            }
-        }
-
-        public override bool RightClick(int i, int j)
-        {
-            Player player = Main.LocalPlayer;
-
-            if (player.IsWithinSnappngRangeToTile(i, j, PlayerSittingHelper.ChairSittingMaxDistance))
-            {
-                player.GamepadEnableGrappleCooldown();
-                player.sitting.SitDown(player, i, j);
-            }
-            return true;
-        }
-
-        public override void MouseOver(int i, int j)
-        {
-            Player player = Main.LocalPlayer;
-
-            if (!player.IsWithinSnappngRangeToTile(i, j, PlayerSittingHelper.ChairSittingMaxDistance))
-            {
-                return;
-            }
-
-            player.noThrow = 2;
-            player.cursorItemIconEnabled = true;
-            player.cursorItemIconID = ModContent.ItemType<ExoChair>();
-
-            if (Main.tile[i, j].TileFrameX < 35)
-            {
-                player.cursorItemIconReversed = true;
-            }
-        }
+        public override void MouseOver(int i, int j) => CalamityUtils.ChairMouseOver(i, j, ModContent.ItemType<ExoChair>(), true);
 
         public override bool HasSmartInteract(int i, int j, SmartInteractScanSettings settings)
         {
