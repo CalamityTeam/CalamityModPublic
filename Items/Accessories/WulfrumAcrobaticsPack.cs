@@ -129,6 +129,10 @@ namespace CalamityMod.Items.Accessories
         /// </summary>
         public int hookCache = -1;
         /// <summary>
+        /// The cooldown is only set when firing a hook straight downwards
+        /// </summary>
+        public int hookCooldown = 0;
+        /// <summary>
         /// Is the player grappled?
         /// </summary>
         public bool Grappled => WulfrumPackEquipped && Main.projectile[Grapple].active && Main.projectile[Grapple].ModProjectile is WulfrumHook hook && hook.State == WulfrumHook.HookState.Grappling;
@@ -168,6 +172,9 @@ namespace CalamityMod.Items.Accessories
         {
             WulfrumPackEquipped = false;
             PackItem = null;
+
+            if (hookCooldown > 0)
+                hookCooldown--;
         }
 
         //Initialize the segments between the player and the hook's end point.
@@ -307,7 +314,6 @@ namespace CalamityMod.Items.Accessories
 
             else if (AutoGrappleActivated)
             {
-                Vector2 nextPlayerPosition = Player.position + Player.velocity;
                 Vector2 checkedPlayerPosition = Player.position;
                 bool imminentDanger = false;
 
@@ -365,7 +371,7 @@ namespace CalamityMod.Items.Accessories
                             if (!p.active || p.owner != Player.whoAmI || p.type != ProjectileType<WulfrumHook>())
                                 continue;
 
-                            if (p.ModProjectile is WulfrumHook claw)
+                            if (p.ModProjectile is WulfrumHook)
                             {
                                 SoundEngine.PlaySound(WulfrumAcrobaticsPack.ReleaseSound, p.Center);
                                 p.Kill();
@@ -420,13 +426,20 @@ namespace CalamityMod.Items.Accessories
                 }
 
 
-                if (Main.projectile.Count(n => n.active && n.owner == Player.whoAmI && n.type == ProjectileType<WulfrumHook>()) <= 1)
+                if (hookCooldown <= 0 && Main.projectile.Count(n => n.active && n.owner == Player.whoAmI && n.type == ProjectileType<WulfrumHook>()) <= 1)
                 {
                     SoundEngine.PlaySound(WulfrumAcrobaticsPack.ShootSound, Player.Center);
                     if (Player.whoAmI == Main.myPlayer)
                     {
                         Vector2 velocity = (Main.MouseWorld - Player.Center).SafeNormalize(Vector2.One) * GrappleVelocity;
                         Projectile.NewProjectile(Player.GetSource_ItemUse(PackItem), Player.Center, velocity, ProjectileType<WulfrumHook>(), 0, 0, Player.whoAmI);
+
+                        float angleToRightBelow = velocity.AngleBetween(Vector2.UnitY);
+                        if (angleToRightBelow < MathHelper.PiOver2) //Put a cooldown on hooking down below. 
+                        {
+                            int extraCooldown = (int)(Utils.GetLerpValue(MathHelper.PiOver2, 0f, angleToRightBelow) * 15); //Get more cooldown the straightest down youre aiming
+                            hookCooldown = 15 + extraCooldown;
+                        }
                     }
                 }
             }
