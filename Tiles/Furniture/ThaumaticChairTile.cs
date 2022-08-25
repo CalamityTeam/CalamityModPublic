@@ -19,7 +19,6 @@ namespace CalamityMod.Tiles.Furniture
             AddMapEntry(new Color(236, 123, 89), Language.GetText("MapObject.Chair"));
             TileID.Sets.CanBeSatOnForNPCs[Type] = true;
             TileID.Sets.CanBeSatOnForPlayers[Type] = true;
-            TileID.Sets.DisableSmartCursor[Type] = true;
             AdjTiles = new int[] { TileID.Chairs };
         }
 

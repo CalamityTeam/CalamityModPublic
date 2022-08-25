@@ -41,7 +41,6 @@ namespace CalamityMod.Tiles.FurnitureAcidwood
             AddMapEntry(new Color(191, 142, 111), Language.GetText("MapObject.Chair"));
             TileID.Sets.CanBeSatOnForNPCs[Type] = true;
             TileID.Sets.CanBeSatOnForPlayers[Type] = true;
-            TileID.Sets.DisableSmartCursor[Type] = true;
             AdjTiles = new int[] { TileID.Chairs };
         }
 
@@ -61,11 +60,11 @@ namespace CalamityMod.Tiles.FurnitureAcidwood
             Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 32, ModContent.ItemType<AcidwoodChair>());
         }
 
-        public override void ModifySittingTargetInfo(int i, int j, ref TileRestingInfo info) => CalamityUtils.ChairSitInfo(i, j, ref info);
+        public override void ModifySittingTargetInfo(int i, int j, ref TileRestingInfo info) => CalamityUtils.ChairSitInfo(i, j, ref info, true);
 
         public override bool RightClick(int i, int j) => CalamityUtils.ChairRightClick(i, j);
 
-        public override void MouseOver(int i, int j) => CalamityUtils.ChairMouseOver(i, j, ModContent.ItemType<AcidwoodChair>());
+        public override void MouseOver(int i, int j) => CalamityUtils.ChairMouseOver(i, j, ModContent.ItemType<AcidwoodChair>(), true);
 
         public override bool HasSmartInteract(int i, int j, SmartInteractScanSettings settings)
         {
