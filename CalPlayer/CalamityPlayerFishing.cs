@@ -16,10 +16,10 @@ using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
-using Terraria.DataStructures;
 
 namespace CalamityMod.CalPlayer
 {
@@ -55,10 +55,6 @@ namespace CalamityMod.CalPlayer
             }
             if (ZoneAbyss || ZoneSulphur)
                 canSulphurFish = true;
-
-			// If your bait is the Bloodworm, set the Fisherman's Pocket Guide to display Warning!
-			if (bait == ModContent.ItemType<BloodwormItem>())
-				Player.displayedFishingInfo = Language.GetTextValue("GameUI.FishingWarning");
 
             // Old Duke spawn
             if (canSulphurFish && bait == ModContent.ItemType<BloodwormItem>() && water && !BossRushEvent.BossRushActive)
@@ -616,6 +612,10 @@ namespace CalamityMod.CalPlayer
                 Item item = Player.ActiveItem();
                 if (!canSulphurFish || item.fishingPole <= 0 || item.holdStyle != 1)
                     fishingLevel = -1;
+
+				// If your bait is the Bloodworm, set the Fisherman's Pocket Guide to display Warning!
+				// This only happens when a fishing bobber projectile exists
+				Player.displayedFishingInfo = Language.GetTextValue("GameUI.FishingWarning");
             }
         }
         #endregion
