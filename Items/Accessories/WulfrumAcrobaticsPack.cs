@@ -88,7 +88,7 @@ namespace CalamityMod.Items.Accessories
         public override void OnSpawn(Projectile projectile, IEntitySource source)
         {
             Player owner = Main.player[projectile.owner];
-            if (projectile.aiStyle == 7 && projectile.type != ProjectileType<WulfrumHook>() && owner.GetModPlayer<WulfrumPackPlayer>().WulfrumPackEquipped)
+            if (projectile.aiStyle == 7 && projectile.type != ProjectileType<WulfrumHook>() && owner.GetModPlayer<WulfrumPackPlayer>().WulfrumPackEquipped && projectile.type != ProjectileID.TrackHook)
             {
                 projectile.active = false;
             }
@@ -445,7 +445,9 @@ namespace CalamityMod.Items.Accessories
                     {
 
                         float angleToUpright = (Player.Center - p.Center).AngleBetween(-Vector2.UnitY);
-                        if (angleToUpright > MathHelper.PiOver4 * 0.45f) // Don't do any jump stuff if the player is jumping from above the hook.
+                        bool canJumpOffHook = angleToUpright > MathHelper.PiOver2 || Player.Distance(p.Center) < 38;// Don't do any jump stuff if the player is jumping from above the hook.
+
+                        if (canJumpOffHook) 
                         {
                             Vector2 velocityBoost = Vector2.Zero;
 

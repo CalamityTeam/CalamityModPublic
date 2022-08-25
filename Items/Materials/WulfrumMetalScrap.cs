@@ -13,6 +13,24 @@ namespace CalamityMod.Items.Materials
     [LegacyName("WulfrumShard")]
     public class WulfrumMetalScrap : ModItem
     {
+        public override void Load()
+        {
+            On.Terraria.Item.CanFillEmptyAmmoSlot += AvoidDefaultingToAmmoSlot;
+        }
+
+        public override void Unload()
+        {
+            On.Terraria.Item.CanFillEmptyAmmoSlot -= AvoidDefaultingToAmmoSlot;
+        }
+
+        private bool AvoidDefaultingToAmmoSlot(On.Terraria.Item.orig_CanFillEmptyAmmoSlot orig, Item self)
+        {
+            if (self.type == Type)
+                return false;
+
+            return orig(self);
+        }
+
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 25;
