@@ -11,13 +11,10 @@ namespace CalamityMod.Tiles.FurnitureAncient
 {
     public class AncientChair : ModTile
     {
-        public const int NextStyleHeight = 40;
         public override void SetStaticDefaults()
         {
             this.SetUpChair(true);
             AddMapEntry(new Color(191, 142, 111), Language.GetText("MapObject.Chair"));
-            TileID.Sets.CanBeSatOnForNPCs[Type] = true;
-            TileID.Sets.CanBeSatOnForPlayers[Type] = true;
             AdjTiles = new int[] { TileID.Chairs };
         }
 

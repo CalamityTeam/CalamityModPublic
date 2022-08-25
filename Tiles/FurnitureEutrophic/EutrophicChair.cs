@@ -11,13 +11,10 @@ namespace CalamityMod.Tiles.FurnitureEutrophic
 {
     public class EutrophicChair : ModTile
     {
-        public const int NextStyleHeight = 40;
         public override void SetStaticDefaults()
         {
             this.SetUpChair();
             AddMapEntry(new Color(191, 142, 111), Language.GetText("MapObject.Chair"));
-            TileID.Sets.CanBeSatOnForNPCs[Type] = true;
-            TileID.Sets.CanBeSatOnForPlayers[Type] = true;
             AdjTiles = new int[] { TileID.Chairs };
         }
 

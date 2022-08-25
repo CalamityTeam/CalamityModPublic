@@ -68,8 +68,14 @@ namespace CalamityMod
 
 		#region Sitting in Chairs
 		// fat is for 2 tile chairs like Exo Chair and Exo Toilet
-        public static void ChairSitInfo(int i, int j, ref TileRestingInfo info, bool fat = false)
+        public static void ChairSitInfo(int i, int j, ref TileRestingInfo info, int nextStyleHeight = 40, bool fat = false, bool hasOffset = false)
         {
+			if (hasOffset)
+			{
+				info.DirectionOffset = 0;
+				info.VisualOffset = new Vector2(-8f, 0f);
+			}
+
             Tile tile = Framing.GetTileSafely(i, j);
 			bool frameCheck = fat ? tile.TileFrameX >= 35 : tile.TileFrameX != 0;
 
@@ -91,7 +97,7 @@ namespace CalamityMod
             info.AnchorTilePosition.X = i;
             info.AnchorTilePosition.Y = j;
 
-            if (tile.TileFrameY % NextStyleHeight == 0)
+            if (tile.TileFrameY % nextStyleHeight == 0)
             {
                 info.AnchorTilePosition.Y++;
             }
@@ -127,6 +133,49 @@ namespace CalamityMod
             {
                 player.cursorItemIconReversed = true;
             }
+        }
+		#endregion
+
+		#region Sitting in Sofas/Benches
+        public static void BenchSitInfo(int i, int j, ref TileRestingInfo info, int nextStyleHeight = 40)
+        {
+            Tile tile = Framing.GetTileSafely(i, j);
+            Player player = Main.LocalPlayer;
+
+			info.DirectionOffset = 0;
+			float offset = 0f;
+			if (tile.TileFrameX < 17 && player.direction == 1)
+				offset = 8f;
+			if (tile.TileFrameX < 17 && player.direction == -1)
+				offset = -8f;
+			if (tile.TileFrameX > 34 && player.direction == 1)
+				offset = -8f;
+			if (tile.TileFrameX > 34 && player.direction == -1)
+				offset = 8f;
+			info.VisualOffset = new Vector2(offset, 0f);
+			info.TargetDirection = player.direction;
+
+            info.AnchorTilePosition.X = i;
+            info.AnchorTilePosition.Y = j;
+
+            if (tile.TileFrameY % nextStyleHeight == 0)
+            {
+                info.AnchorTilePosition.Y++;
+            }
+        }
+
+        public static void BenchMouseOver(int i, int j, int itemID)
+        {
+            Player player = Main.LocalPlayer;
+
+            if (!player.IsWithinSnappngRangeToTile(i, j, PlayerSittingHelper.ChairSittingMaxDistance))
+            {
+                return;
+            }
+
+            player.noThrow = 2;
+            player.cursorItemIconEnabled = true;
+            player.cursorItemIconID = itemID;
         }
 		#endregion
 
@@ -759,6 +808,9 @@ namespace CalamityMod
             Main.tileNoAttach[mt.Type] = true;
             Main.tileLavaDeath[mt.Type] = !lavaImmune;
             Main.tileWaterDeath[mt.Type] = false;
+            TileID.Sets.CanBeSatOnForNPCs[mt.Type] = true;
+            TileID.Sets.CanBeSatOnForPlayers[mt.Type] = true;
+            TileID.Sets.HasOutlines[mt.Type] = true;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style1x2);
             TileObjectData.newTile.CoordinateHeights = new int[] { 16, 18 };
             TileObjectData.newTile.Direction = TileObjectDirection.PlaceLeft;
@@ -1134,6 +1186,8 @@ namespace CalamityMod
             Main.tileFrameImportant[mt.Type] = true;
             Main.tileLavaDeath[mt.Type] = !lavaImmune;
             Main.tileWaterDeath[mt.Type] = false;
+            TileID.Sets.CanBeSatOnForPlayers[mt.Type] = true;
+            TileID.Sets.HasOutlines[mt.Type] = true;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style3x2);
             TileObjectData.newTile.LavaDeath = !lavaImmune;
             TileObjectData.addTile(mt.Type);

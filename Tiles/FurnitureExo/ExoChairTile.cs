@@ -15,7 +15,6 @@ namespace CalamityMod.Tiles.FurnitureExo
 {
     public class ExoChairTile : ModTile
     {
-        public const int NextStyleHeight = 40;
         public override void SetStaticDefaults()
         {
             Main.tileFrameImportant[Type] = true;
@@ -42,6 +41,7 @@ namespace CalamityMod.Tiles.FurnitureExo
             AddMapEntry(new Color(71, 95, 114), Language.GetText("MapObject.Chair"));
             TileID.Sets.CanBeSatOnForNPCs[Type] = true;
             TileID.Sets.CanBeSatOnForPlayers[Type] = true;
+            TileID.Sets.HasOutlines[Type] = true;
             AdjTiles = new int[] { TileID.Chairs };
         }
 
@@ -78,7 +78,7 @@ namespace CalamityMod.Tiles.FurnitureExo
             Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 32, ModContent.ItemType<ExoChair>());
         }
 
-        public override void ModifySittingTargetInfo(int i, int j, ref TileRestingInfo info) => CalamityUtils.ChairSitInfo(i, j, ref info, true);
+        public override void ModifySittingTargetInfo(int i, int j, ref TileRestingInfo info) => CalamityUtils.ChairSitInfo(i, j, ref info, 40, true, true);
 
         public override bool RightClick(int i, int j) => CalamityUtils.ChairRightClick(i, j);
 
