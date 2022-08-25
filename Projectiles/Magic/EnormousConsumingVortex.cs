@@ -6,34 +6,29 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using Terraria.Graphics.Shaders;
+using CalamityMod.Particles;
+using CalamityMod.Items.Weapons.Magic;
 
 namespace CalamityMod.Projectiles.Magic
 {
     public class EnormousConsumingVortex : ModProjectile
     {
+        public Player Owner => Main.player[Projectile.owner];
+
         public float Time
         {
             get => Projectile.ai[0];
             set => Projectile.ai[0] = value;
         }
 
-        public float IdealScale
-        {
-            get => Projectile.ai[1];
-            set => Projectile.ai[1] = value;
-        }
-
-        public const int TentacleSpawnRate = 20;
-        public const int PulseInterval = 18;
-        public const float PulseHitboxExpandRatio = 2.5f;
-        public const float RadialOffsetVarianceFactor = 0.1f;
         public const float StartingScale = 0.0004f;
 
-        public override void SetStaticDefaults()
-        {
-            DisplayName.SetDefault("Subsuming Vortex");
-            ProjectileID.Sets.NeedsUUID[Projectile.type] = true;
-        }
+        public const float IdealScale = 2.7f;
+
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
+        public override void SetStaticDefaults() => DisplayName.SetDefault("Subsuming Vortex");
 
         public override void SetDefaults()
         {
@@ -43,171 +38,134 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.alpha = 255;
             Projectile.penetrate = -1;
             Projectile.scale = StartingScale;
-            Projectile.timeLeft = 540;
+            Projectile.timeLeft = 90000;
             Projectile.tileCollide = false;
+            Projectile.netImportant = true;
             Projectile.DamageType = DamageClass.Magic;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 8;
+            Projectile.localNPCHitCooldown = 7;
         }
 
         // Vanilla Terraria does not sync projectile scale by default.
         public override void SendExtraAI(BinaryWriter writer) => writer.Write(Projectile.scale);
+
         public override void ReceiveExtraAI(BinaryReader reader) => Projectile.scale = reader.ReadSingle();
 
         public override void AI()
         {
-            Projectile.rotation += MathHelper.ToRadians(8f); // Spin 2 win.
-            Projectile.alpha = (int)MathHelper.Lerp(255, 0, Utils.GetLerpValue(0f, 20f, Time, true)); // Fade in completely after 20 frames.
-            Projectile.scale = MathHelper.Lerp(StartingScale, IdealScale, Utils.GetLerpValue(0f, 30f, Time, true)); // Expand completely after 30 frames.
-
-            // Determine the ideal scale in the first frame.
-            if (IdealScale == 0f)
+            // If the player is no longer able to channel the vortex, kill it.
+            if (!Owner.channel || Owner.noItems || Owner.CCed)
             {
-                IdealScale = Main.rand.NextFloat(2.2f, 3f);
+                Projectile.Kill();
+                return;
+            }
+
+            // Release energy from the book.
+            if (Time >= SubsumingVortex.VortexShootDelay)
+            {
+                Vector2 bookPosition = Owner.Center + Vector2.UnitX * Owner.direction * 22f;
+                if (Main.rand.NextBool())
+                {
+                    Vector2 energyVelocity = Main.rand.NextVector2Circular(3f, 3f);
+                    Color energyColor = CalamityUtils.MulticolorLerp(Main.rand.NextFloat(), CalamityUtils.ExoPalette);
+                    SquishyLightParticle exoEnergy = new(bookPosition, energyVelocity, 0.55f, energyColor, 40, 1f, 1.5f);
+                    GeneralParticleHandler.SpawnParticle(exoEnergy);
+                }
+
+                // Fire vortices at nearby target.
+                NPC potentialTarget = Projectile.Center.ClosestNPCAt(SubsumingVortex.SmallVortexTargetRange - 100f);
+                if (potentialTarget != null && Time % SubsumingVortex.VortexReleaseRate == SubsumingVortex.VortexReleaseRate - 1)
+                {
+                    // CheckMana returns true if the mana cost can be paid..
+                    bool allowContinuedUse = Owner.CheckMana(Owner.ActiveItem(), -1, true, false);
+                    bool vortexStillInUse = Owner.channel && allowContinuedUse && !Owner.noItems && !Owner.CCed;
+                    if (vortexStillInUse)
+                    {
+                        SoundEngine.PlaySound(SoundID.Item84, Projectile.Center);
+                        if (Main.netMode != NetmodeID.MultiplayerClient)
+                        {
+                            float hue = (Time - SubsumingVortex.VortexShootDelay) / 125f;
+                            Vector2 vortexVelocity = Projectile.SafeDirectionTo(potentialTarget.Center) * 8f;
+                            Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, vortexVelocity, ModContent.ProjectileType<ExoVortex>(), Projectile.damage, Projectile.knockBack, Projectile.owner, hue);
+                        }
+                        Projectile.netUpdate = true;
+                    }
+                    else if (!vortexStillInUse)
+                        Projectile.Kill();
+                }
+            }
+
+            // Create swirling exo energy.
+            if (Main.rand.NextBool())
+            {
+                float dustSpawnChance = Utils.Remap(Time, 12f, SubsumingVortex.VortexShootDelay + 8f, 0.25f, 0.7f);
+                for (int i = 0; i < 3; i++)
+                {
+                    if (Main.rand.NextFloat() < dustSpawnChance)
+                    {
+                        float spawnOffsetAngle = Main.rand.NextFloat(MathHelper.TwoPi);
+                        float hue = (float)Math.Sin(spawnOffsetAngle + Time / 26f) * 0.5f + 0.5f;
+                        float spawnOffsetFactor = Main.rand.NextFloat(0.3f, 0.95f);
+                        Vector2 energySpawnPosition = Projectile.Center + spawnOffsetAngle.ToRotationVector2() * Projectile.Size * spawnOffsetFactor;
+                        Vector2 energyVelocity = (spawnOffsetAngle - MathHelper.PiOver2).ToRotationVector2() * (Main.rand.NextFloat(5f, 10f) * spawnOffsetFactor) * dustSpawnChance;
+                        Color energyColor = CalamityUtils.MulticolorLerp(hue, CalamityUtils.ExoPalette);
+                        SquishyLightParticle exoEnergy = new(energySpawnPosition, energyVelocity, Projectile.scale * Main.rand.NextFloat(0.18f, 0.3f), energyColor, 32, 1f, 1.5f);
+                        GeneralParticleHandler.SpawnParticle(exoEnergy);
+                    }
+                }
+            }
+
+            // Hover above the target.
+            if (Main.myPlayer == Projectile.owner)
+            {
+                // Smoothly approach a sinusoidal offset as time goes on.
+                float verticalOffset = Utils.Remap(Time, 0f, 90f, -30f, (float)Math.Cos(Projectile.timeLeft / 32f) * 30f - 325f);
+                Vector2 hoverDestination = Owner.Top + Vector2.UnitY * verticalOffset;
+                hoverDestination += (Main.MouseWorld - hoverDestination) * SubsumingVortex.GiantVortexMouseDriftFactor;
+
+                Vector2 idealVelocity = Vector2.Zero.MoveTowards(hoverDestination - Projectile.Center, 32f);
+                Projectile.velocity = Vector2.Lerp(Projectile.velocity, idealVelocity, 0.04f);
+                Projectile.netSpam = 0;
                 Projectile.netUpdate = true;
             }
 
-            // Target enemy if possible and idly spawn tentacles.
-            if (Time < 150)
-            {
-                TargetingMovement();
-                if (Time % TentacleSpawnRate == TentacleSpawnRate - 1 && Main.myPlayer == Projectile.owner)
-                {
-                    ProduceSubsumingHentai();
-                }
-            }
-            // Slow down and pulse frequently.
-            else if (Time < 220)
-            {
-                Projectile.velocity *= 0.96f;
-                if (Time % PulseInterval == 0f)
-                {
-                    PulseEffect();
-                }
-            }
-            else if (Time >= 240)
-            {
-                ExplodeEffect();
-                Projectile.Kill();
-            }
-            Projectile.ExpandHitboxBy((int)(Projectile.scale * 62));
+            // Re-determine the hitbox size.
+            Projectile.Opacity = Utils.GetLerpValue(0f, 20f, Time, true);
+            Projectile.scale = Utils.Remap(Time, 0f, 45f, StartingScale, IdealScale);
+            Projectile.ExpandHitboxBy((int)(Projectile.scale * 62f));
+
+            AdjustPlayerValues();
+
             Time++;
         }
 
-        public void ProduceSubsumingHentai()
+        public void AdjustPlayerValues()
         {
-            int tentacleDamage = (int)(Projectile.damage * 0.25f);
-            float xStartingAcceleration = Main.rand.NextFloat(0.001f, 0.04f) * Main.rand.NextBool(2).ToDirectionInt();
-            float yStartingAcceleration = Main.rand.NextFloat(0.001f, 0.04f) * Main.rand.NextBool(2).ToDirectionInt();
-            Projectile subsumingHentai = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(),
-                Projectile.Center,
-                Vector2.UnitY.RotatedByRandom(MathHelper.TwoPi) * Main.rand.NextFloat(9f, 13f),
-                ModContent.ProjectileType<SubsumingTentacle>(),
-                tentacleDamage,
-                Projectile.knockBack * 0.5f,
-                Projectile.owner,
-                xStartingAcceleration,
-                yStartingAcceleration
-            );
-
-            subsumingHentai.tileCollide = false;
-        }
-
-        public void TargetingMovement()
-        {
-            NPC potentialTarget = Projectile.Center.ClosestNPCAt(600f, true, true);
-            if (potentialTarget != null)
-                Projectile.velocity = (Projectile.velocity * 5f + Projectile.SafeDirectionTo(potentialTarget.Center) * 7f) / 6f;
-        }
-
-        public void PulseEffect()
-        {
-            Projectile.ExpandHitboxBy(PulseHitboxExpandRatio);
-            Projectile.Damage();
-            if (!Main.dedServ)
-            {
-                SoundEngine.PlaySound(SoundID.Item43, Projectile.Center);
-                for (int i = 0; (float)i < 85; i++)
-                {
-                    float angle = i / 85f * MathHelper.TwoPi;
-                    Vector2 spawnPosition = Projectile.Center + angle.ToRotationVector2() * (500f + Main.rand.NextFloat(-8f, 8f));
-                    Vector2 velocity = (angle - (float)Math.PI).ToRotationVector2() * Main.rand.NextFloat(27f, 38.5f);
-                    Dust dust = Dust.NewDustPerfect(spawnPosition, 264, velocity);
-                    dust.scale = 0.9f;
-                    dust.fadeIn = 1.25f;
-                    dust.color = Main.hslToRgb(i / 85f, 1f, 0.8f);
-                    dust.noGravity = true;
-                }
-            }
-            Projectile.ExpandHitboxBy(1f / PulseHitboxExpandRatio);
-        }
-
-        public void ExplodeEffect()
-        {
-            SoundEngine.PlaySound(SoundID.Zombie104, Projectile.Center);
-            if (!Main.dedServ)
-            {
-                for (int i = 0; i < 200; i++)
-                {
-                    Vector2 velocity = Main.rand.NextVector2Circular(50f, 50f);
-                    Dust dust = Dust.NewDustPerfect(Projectile.Center, 264, velocity);
-                    dust.color = Main.hslToRgb(i / 100f % 1f, 1f, 0.8f);
-                    dust.fadeIn = 1.25f;
-                    dust.noGravity = true;
-                }
-            }
-            if (Main.myPlayer == Projectile.owner)
-            {
-                int vortexDamage = (int)(Projectile.damage * 0.75f);
-                NPC closestTarget = Projectile.Center.ClosestNPCAt(1600f, true, true);
-
-                for (int i = 0; i < 12; i++)
-                {
-                    float rotation = Main.rand.NextFloat(MathHelper.TwoPi);
-                    Vector2 velocity = Vector2.UnitY.RotatedBy(rotation);
-                    if (closestTarget != null)
-                        velocity = Projectile.SafeDirectionTo(closestTarget.Center, -Vector2.UnitY).RotatedByRandom(0.4f);
-
-                    velocity *= Main.rand.NextFloat(3f, 5f);
-
-                    Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), Projectile.Center,
-                        velocity,
-                        ModContent.ProjectileType<Vortex>(),
-                        vortexDamage,
-                        Projectile.knockBack,
-                        Projectile.owner,
-                        0f,
-                        Main.rand.NextFloat(0.5f, 1.8f));
-                }
-            }
+            Projectile.spriteDirection = Projectile.direction = Owner.direction;
+            Owner.heldProj = Projectile.whoAmI;
+            Owner.itemTime = 2;
+            Owner.itemAnimation = 2;
         }
 
         public override bool PreDraw(ref Color lightColor)
         {
-            int vortexesToDraw = 27;
-            for (int i = 0; i < vortexesToDraw; i++)
+            Main.spriteBatch.EnterShaderRegion(BlendState.Additive);
+            Texture2D worleyNoise = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/BlobbyNoise").Value;
+            Vector2 drawPosition = Projectile.Center - Main.screenPosition;
+            Vector2 scale = Projectile.Size / worleyNoise.Size() * 2f;
+            float spinRotation = Main.GlobalTimeWrappedHourly * 2.4f;
+            
+            GameShaders.Misc["CalamityMod:ExoVortex"].Apply();
+            
+            // Draw the vortex.
+            for (int i = 0; i < CalamityUtils.ExoPalette.Length; i++)
             {
-                float rotation = MathHelper.TwoPi / i * vortexesToDraw + Projectile.rotation;
-                float drawScale = Projectile.scale * 0.66f;
-
-                drawScale *= (float)(Math.Cos(Time / 18f + rotation * 2f) + 1f) * 0.3f + 0.7f; // Range of 0.7 to 1. Used to give variance with the scale.
-                float offsetFactor = (float)(Math.Sin(Time / 18f + rotation * 2f) + 1f) * 0.2f + 0.8f; // Range of 0.8 to 1.
-
-                // Due to the way RotatedBy works, the offset can be negative, giving the projectile a
-                // dual buzzsaw look.
-                Vector2 drawOffset = Vector2.UnitX.RotatedBy(rotation) * 30f * offsetFactor * drawScale;
-                Vector2 drawPosition = Projectile.Center + drawOffset - Main.screenPosition;
-                Color colorToDraw = Main.hslToRgb((i / (float)vortexesToDraw + Time / 40f) % 1f, 1f, 0.75f);
-                Main.EntitySpriteDraw(ModContent.Request<Texture2D>(Texture).Value,
-                                 drawPosition,
-                                 null,
-                                 colorToDraw * 0.7f,
-                                 rotation,
-                                 ModContent.Request<Texture2D>(Texture).Size() * 0.5f,
-                                 drawScale,
-                                 SpriteEffects.None,
-                                 0);
+                float spinDirection = (i % 2f == 0f).ToDirectionInt();
+                Vector2 drawOffset = (MathHelper.TwoPi * i / CalamityUtils.ExoPalette.Length + Main.GlobalTimeWrappedHourly * spinDirection * 4f).ToRotationVector2() * Projectile.scale * 15f;
+                Main.spriteBatch.Draw(worleyNoise, drawPosition + drawOffset, null, CalamityUtils.ExoPalette[i], spinDirection * spinRotation, worleyNoise.Size() * 0.5f, scale, 0, 0f);
             }
+
+            Main.spriteBatch.ExitShaderRegion();
             return false;
         }
     }
