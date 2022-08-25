@@ -42,32 +42,10 @@ namespace CalamityMod.World
         public static bool spawnedCirrus = false;
         public static bool foundHomePermafrost = false;
 
-        // Town NPC name chosen bools
-        public static bool anglerName = false;
-        public static bool armsDealerName = false;
-        public static bool clothierName = false;
-        public static bool cyborgName = false;
-        public static bool demolitionistName = false;
-        public static bool dryadName = false;
-        public static bool dyeTraderName = false;
-        public static bool goblinTinkererName = false;
-        public static bool guideName = false;
-        public static bool mechanicName = false;
-        public static bool merchantName = false;
-        public static bool nurseName = false;
-        public static bool painterName = false;
-        public static bool partyGirlName = false;
-        public static bool pirateName = false;
-        public static bool princessName = false;
-        public static bool skeletonMerchantName = false;
-        public static bool steampunkerName = false;
-        public static bool stylistName = false;
-        public static bool tavernkeepName = false;
-        public static bool taxCollectorName = false;
-        public static bool travelingMerchantName = false;
-        public static bool truffleName = false;
-        public static bool witchDoctorName = false;
-        public static bool wizardName = false;
+        // Town Pet name chosen bools
+        public static bool catName = false;
+        public static bool dogName = false;
+        public static bool bunnyName = false;
 
         // Draedon Summoning stuff.
         public static int DraedonSummonCountdown = 0;

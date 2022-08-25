@@ -41,10 +41,11 @@ namespace CalamityMod.Particles
 
         public override void CustomDraw(SpriteBatch spriteBatch)
         {
-            Vector2 scale = new Vector2(0.35f, 1.6f) * Scale;
+            Vector2 scale = new Vector2(0.5f, 1.6f) * Scale;
             Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
 
             spriteBatch.Draw(texture, Position - Main.screenPosition, null, Color, Rotation, texture.Size() * 0.5f, scale, 0, 0f);
+            spriteBatch.Draw(texture, Position - Main.screenPosition, null, Color, Rotation, texture.Size() * 0.5f, scale * new Vector2(0.45f, 1f), 0, 0f);
         }
     }
 }
