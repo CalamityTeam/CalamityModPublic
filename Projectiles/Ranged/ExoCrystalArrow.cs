@@ -17,6 +17,8 @@ namespace CalamityMod.Projectiles.Ranged
 
         public bool CreateLightning => Projectile.ai[0] == 1f;
 
+        public ref float Time => ref Projectile.ai[1];
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Exo Crystal");
@@ -40,18 +42,21 @@ namespace CalamityMod.Projectiles.Ranged
         public override void AI()
         {
             // Fade in.
-            Projectile.Opacity = Utils.GetLerpValue(300f, 297f, Projectile.timeLeft, true);
+            Projectile.Opacity = Utils.GetLerpValue(0f, 3f, Time, true);
 
             // Rapidly race towards the nearest target.
             NPC potentialTarget = Projectile.Center.ClosestNPCAt(HeavenlyGale.ArrowTargetingRange);
-            if (potentialTarget != null && Projectile.timeLeft < 290)
+            if (potentialTarget != null && Time >= 10f)
             {
                 Vector2 idealVelocity = Projectile.SafeDirectionTo(potentialTarget.Center) * 33f;
                 Projectile.velocity = (Projectile.velocity * 29f + idealVelocity) / 30f;
                 Projectile.velocity = Projectile.velocity.MoveTowards(idealVelocity, 3f);
             }
 
+            // Determine rotation.
             Projectile.rotation = Projectile.velocity.ToRotation();
+
+            Time++;
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)

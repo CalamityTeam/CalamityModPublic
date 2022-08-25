@@ -93,13 +93,15 @@ namespace CalamityMod.Projectiles.Ranged
                     SquishyLightParticle exoEnergyBolt = new(tipPosition + arrowDirection * 16f, arrowDirection * 4.5f, 0.85f, energyBoltColor, 40, 1f, 5.4f, 4f, 0.08f);
                     GeneralParticleHandler.SpawnParticle(exoEnergyBolt);
                     
+                    // Update the tip positiona for one frame.
                     tipPosition = armPosition + arrowDirection * Projectile.width * 0.5f;
 
                     if (Main.myPlayer == Projectile.owner)
                     {
+                        int arrowDamage = (int)(Projectile.damage * damageFactor);
                         bool createLightning = ChargeTimer / HeavenlyGale.MaxChargeTime >= HeavenlyGale.ChargeLightningCreationThreshold;
                         Vector2 arrowVelocity = arrowDirection * 20f;
-                        Projectile.NewProjectile(Projectile.GetSource_FromAI(), tipPosition, arrowVelocity, ModContent.ProjectileType<ExoCrystalArrow>(), (int)(Projectile.damage * damageFactor), Projectile.knockBack, Projectile.owner, createLightning.ToInt());
+                        Projectile.NewProjectile(Projectile.GetSource_FromAI(), tipPosition, arrowVelocity, ModContent.ProjectileType<ExoCrystalArrow>(), arrowDamage, Projectile.knockBack, Projectile.owner, createLightning.ToInt());
                     }
                 }
 
@@ -145,28 +147,13 @@ namespace CalamityMod.Projectiles.Ranged
             }
         }
         
-        public void SpawnArrowLoadedDust(Vector2 tipPosition)
-        {
-            if (Main.dedServ)
-                return;
-
-            for (int i = 0; i < 36; i++)
-            {
-                Dust chargeMagic = Dust.NewDustPerfect(tipPosition, 267);
-                chargeMagic.velocity = (MathHelper.TwoPi * i / 36f).ToRotationVector2() * 5f + Owner.velocity;
-                chargeMagic.scale = Main.rand.NextFloat(1f, 1.5f);
-                chargeMagic.color = Color.Violet;
-                chargeMagic.noGravity = true;
-            }
-        }
-
         public void UpdateProjectileHeldVariables(Vector2 armPosition)
         {
             if (Main.myPlayer == Projectile.owner)
             {
-                float interpolant = Utils.GetLerpValue(10f, 40f, Projectile.Distance(Main.MouseWorld), true);
+                float aimInterpolant = Utils.GetLerpValue(10f, 40f, Projectile.Distance(Main.MouseWorld), true);
                 Vector2 oldVelocity = Projectile.velocity;
-                Projectile.velocity = Vector2.Lerp(Projectile.velocity, Projectile.SafeDirectionTo(Main.MouseWorld), interpolant);
+                Projectile.velocity = Vector2.Lerp(Projectile.velocity, Projectile.SafeDirectionTo(Main.MouseWorld), aimInterpolant);
                 if (Projectile.velocity != oldVelocity)
                 {
                     Projectile.netSpam = 0;
@@ -194,7 +181,6 @@ namespace CalamityMod.Projectiles.Ranged
             else
                 armRotation = MathHelper.PiOver2 - armRotation;
             armRotation += Projectile.rotation + MathHelper.Pi + Owner.direction * MathHelper.PiOver2 + 0.12f;
-
             Owner.SetCompositeArmFront(true, Player.CompositeArmStretchAmount.Full, armRotation);
         }
 
@@ -205,11 +191,12 @@ namespace CalamityMod.Projectiles.Ranged
             Vector2 drawPosition = Projectile.Center - Main.screenPosition;
 
             // Draw the string of the bow. It reels back in the initial frames.
+            float stringNeckOffset = 40f;
             Vector2 aimDirection = Projectile.rotation.ToRotationVector2();
             Vector2 center = Projectile.Center - aimDirection * 24f;
             Vector2 topOfBow = center + Vector2.UnitY.RotatedBy(Projectile.rotation) * StringHalfHeight;
             Vector2 bottomOfBow = center - Vector2.UnitY.RotatedBy(Projectile.rotation) * StringHalfHeight;
-            Vector2 endOfString = center - Vector2.UnitX.RotatedBy(Projectile.rotation) * (StringReelbackDistance + (1f - StringReelbackInterpolant) * 20f);
+            Vector2 endOfString = center - aimDirection * (StringReelbackDistance + (1f - StringReelbackInterpolant) * stringNeckOffset * 0.5f);
 
             float chargeOffset = ChargeupInterpolant * Projectile.scale * 3f;
             Color chargeColor = Color.Lerp(Color.Lime, Color.Cyan, (float)Math.Cos(Main.GlobalTimeWrappedHourly * 7.1f) * 0.5f + 0.5f) * ChargeupInterpolant * 0.6f;
@@ -221,10 +208,10 @@ namespace CalamityMod.Projectiles.Ranged
             {
                 direction = SpriteEffects.FlipHorizontally;
                 rotation += MathHelper.Pi;
-                topOfBow -= aimDirection * 40f;
+                topOfBow -= aimDirection * stringNeckOffset;
             }
             else
-                bottomOfBow -= aimDirection * 40f;
+                bottomOfBow -= aimDirection * stringNeckOffset;
 
             Color stringColor = new(105, 239, 145);
             Main.spriteBatch.DrawLineBetter(topOfBow, endOfString, stringColor, 2f);
@@ -240,6 +227,7 @@ namespace CalamityMod.Projectiles.Ranged
             return false;
         }
 
+        // The bow itself should not do contact damage.
         public override bool? CanDamage() => false;
     }
 }
