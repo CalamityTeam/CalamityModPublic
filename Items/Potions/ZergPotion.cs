@@ -41,6 +41,7 @@ namespace CalamityMod.Items.Potions
                 AddIngredient<BlightedGel>(4).
                 AddIngredient<DemonicBoneAsh>().
                 AddTile(TileID.AlchemyTable).
+				AddConsumeItemCallback(Recipe.ConsumptionRules.Alchemy).
                 Register();
 
             CreateRecipe().
