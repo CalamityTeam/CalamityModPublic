@@ -55,7 +55,7 @@ namespace CalamityMod.Items.Weapons.Melee
             DisplayName.SetDefault("Exoblade");
             Tooltip.SetDefault("Ancient blade of Yharim's weapons and armors expert, Draedon\n" +
                                "Left clicks release multiple energy beams that home in on enemies and slice them on hit\n" +
-                               "Right clicks makes you dash in the direction of the cursor with the blade\n" +
+                               "Right clicks make you dash in the direction of the cursor with the blade\n" +
                                "Enemy hits from the blade during the dash result in massive damage and a rebound\n" +
                                "Left clicks briefly after a rebound are far stronger and create explosions on enemy hits");
             SacrificeTotal = 1;
