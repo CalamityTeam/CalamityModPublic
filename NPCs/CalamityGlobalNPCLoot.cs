@@ -188,8 +188,8 @@ namespace CalamityMod.NPCs
                     break;
 
                 // Ice Mimic
-                // Drops all of its items Calamity Style @ 25% each, Toy Sled is weighted much lower because it's a pet
-                // This requires erasing its vanilla behavior involving the Toy Sled.
+                // Drops all of its items Calamity Style @ 25% each, Toy Sled is drops on its own at a 5% chance
+				// Since one weapon is guaranteed to drop, it is at least 33.33% chance for a specific weapon
                 case NPCID.IceMimic:
                     try
                     {
@@ -206,17 +206,17 @@ namespace CalamityMod.NPCs
 							return false;
 						});
 
-                        WeightedItemStack[] iceMimicItems = new WeightedItemStack[]
-						{
+                        int[] iceMimicItems = new int[]
+                        {
 							ItemID.Frostbrand,
 							ItemID.IceBow,
-							ItemID.FlowerofFrost,
-							new WeightedItemStack(ItemID.ToySled, 0.25f, 1, 1),
-						};
+							ItemID.FlowerofFrost
+                        };
 
                         // Ice Mimics will not drop any items if spawned from statues.
                         var notStatue = npcLoot.DefineConditionalDropSet(new Conditions.NotFromStatue());
                         notStatue.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, iceMimicItems));
+						notStatue.Add(ItemID.ToySled, 20, 1, 1);
                     }
                     catch (ArgumentNullException) { }
                     break;
