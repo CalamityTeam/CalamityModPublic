@@ -14,6 +14,7 @@ using CalamityMod.Items.Tools;
 using CalamityMod.Items.Weapons.Melee;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod
@@ -23,7 +24,7 @@ namespace CalamityMod
     {
         #region Recipe Group Definitions
         public static int HardmodeAnvil, HardmodeForge, AnyLargeGem, AnyFood;
-        public static int AnyCopperBar, AnySilverBar, AnyGoldOre, AnyGoldBar, AnyEvilBar, AnyCobaltBar, AnyMythrilBar, AnyAdamantiteBar;
+        public static int AnyCopperBar, AnySilverBar, AnyGoldBar, AnyEvilBar, AnyCobaltBar, AnyMythrilBar, AnyAdamantiteBar;
         public static int EvilPowder, Boss2Material, CursedFlameIchor, AnyEvilWater, AnyEvilFlask;
         public static int AnyStoneBlock, AnySnowBlock, AnyIceBlock, SiltGroup, AnyEvilBlock, AnyGoodBlock;
         public static int AnyWoodenSword, AnyHallowedHelmet, AnyHallowedPlatemail, AnyHallowedGreaves, AnyGoldCrown, LunarPickaxe, LunarHamaxe;
@@ -175,7 +176,7 @@ namespace CalamityMod
         private static void AddOreAndBarRecipeGroups()
         {
             // Copper and Tin
-            RecipeGroup group = new RecipeGroup(() => "Any Copper Bar", new int[]
+            RecipeGroup group = new RecipeGroup(() => $"{Language.GetTextValue("LegacyMisc.37")} {Lang.GetItemNameValue(ItemID.CopperBar)}", new int[]
             {
                 ItemID.CopperBar,
                 ItemID.TinBar
@@ -183,23 +184,15 @@ namespace CalamityMod
             AnyCopperBar = RecipeGroup.RegisterGroup("AnyCopperBar", group);
 
             // Silver and Tungsten
-            group = new RecipeGroup(() => "Any Silver Bar", new int[]
+            group = new RecipeGroup(() => $"{Language.GetTextValue("LegacyMisc.37")} {Lang.GetItemNameValue(ItemID.SilverBar)}", new int[]
             {
                 ItemID.SilverBar,
                 ItemID.TungstenBar,
             });
             AnySilverBar = RecipeGroup.RegisterGroup("AnySilverBar", group);
 
-            // Gold and Platinum Ore
-            group = new RecipeGroup(() => "Any Gold Ore", new int[]
-            {
-                ItemID.GoldOre,
-                ItemID.PlatinumOre
-            });
-            AnyGoldOre = RecipeGroup.RegisterGroup("AnyGoldOre", group);
-
             // Gold and Platinum
-            group = new RecipeGroup(() => "Any Gold Bar", new int[]
+            group = new RecipeGroup(() => $"{Language.GetTextValue("LegacyMisc.37")} {Lang.GetItemNameValue(ItemID.GoldBar)}", new int[]
             {
                 ItemID.GoldBar,
                 ItemID.PlatinumBar
@@ -215,7 +208,7 @@ namespace CalamityMod
             AnyEvilBar = RecipeGroup.RegisterGroup("AnyEvilBar", group);
 
             // Cobalt and Palladium
-            group = new RecipeGroup(() => "Any Cobalt Bar", new int[]
+            group = new RecipeGroup(() => $"{Language.GetTextValue("LegacyMisc.37")} {Lang.GetItemNameValue(ItemID.CobaltBar)}", new int[]
             {
                 ItemID.CobaltBar,
                 ItemID.PalladiumBar
@@ -223,7 +216,7 @@ namespace CalamityMod
             AnyCobaltBar = RecipeGroup.RegisterGroup("AnyCobaltBar", group);
 
             // Mythril and Orichalcum
-            group = new RecipeGroup(() => "Any Mythril Bar", new int[]
+            group = new RecipeGroup(() => $"{Language.GetTextValue("LegacyMisc.37")} {Lang.GetItemNameValue(ItemID.MythrilBar)}", new int[]
             {
                 ItemID.MythrilBar,
                 ItemID.OrichalcumBar
@@ -231,7 +224,7 @@ namespace CalamityMod
             AnyMythrilBar = RecipeGroup.RegisterGroup("AnyMythrilBar", group);
 
             // Adamantite and Titanium
-            group = new RecipeGroup(() => "Any Adamantite Bar", new int[]
+            group = new RecipeGroup(() => $"{Language.GetTextValue("LegacyMisc.37")} {Lang.GetItemNameValue(ItemID.AdamantiteBar)}", new int[]
             {
                 ItemID.AdamantiteBar,
                 ItemID.TitaniumBar
@@ -285,7 +278,7 @@ namespace CalamityMod
         private static void AddBiomeBlockRecipeGroups()
         {
             // Vanilla Stone and Astral Stone
-            RecipeGroup group = new RecipeGroup(() => "Any Stone Block", new int[]
+            RecipeGroup group = new RecipeGroup(() => $"{Language.GetTextValue("LegacyMisc.37")} {Lang.GetItemNameValue(ItemID.StoneBlock)}", new int[]
             {
                 ItemID.StoneBlock,
                 ItemID.EbonstoneBlock,
@@ -296,7 +289,7 @@ namespace CalamityMod
             AnyStoneBlock = RecipeGroup.RegisterGroup("AnyStoneBlock", group);
 
             // Vanilla Snow and Astral Snow
-            group = new RecipeGroup(() => "Any Snow Block", new int[]
+            group = new RecipeGroup(() => $"{Language.GetTextValue("LegacyMisc.37")} {Lang.GetItemNameValue(ItemID.SnowBlock)}", new int[]
             {
                 ItemID.SnowBlock,
                 ModContent.ItemType<AstralSnow>()
@@ -304,7 +297,7 @@ namespace CalamityMod
             AnySnowBlock = RecipeGroup.RegisterGroup("AnySnowBlock", group);
 
             // Vanilla Ice and Astral Ice
-            group = new RecipeGroup(() => "Any Ice Block", new int[]
+            group = new RecipeGroup(() => $"{Language.GetTextValue("LegacyMisc.37")} {Lang.GetItemNameValue(ItemID.IceBlock)}", new int[]
             {
                 ItemID.IceBlock,
                 ItemID.PurpleIceBlock,
@@ -314,8 +307,8 @@ namespace CalamityMod
             });
             AnyIceBlock = RecipeGroup.RegisterGroup("AnyIceBlock", group);
 
-            // Silt, Slush, and Astral Silt
-            group = new RecipeGroup(() => "Any Silt", new int[]
+            // Silt, Slush, and Astral Silt, for Ancient Fossil
+            group = new RecipeGroup(() => $"{Language.GetTextValue("LegacyMisc.37")} {Lang.GetItemNameValue(ItemID.SiltBlock)}", new int[]
             {
                 ItemID.SiltBlock,
                 ItemID.SlushBlock,
@@ -323,7 +316,7 @@ namespace CalamityMod
             });
             SiltGroup = RecipeGroup.RegisterGroup("SiltGroup", group);
 
-            // Set of all generic Corruption/Crimson blocks
+            // Set of all generic Corruption/Crimson blocks, for Overloaded Sludge
             group = new RecipeGroup(() => "Any Evil Block", new int[]
             {
                 ItemID.EbonstoneBlock,
@@ -339,7 +332,7 @@ namespace CalamityMod
             });
             AnyEvilBlock = RecipeGroup.RegisterGroup("AnyEvilBlock", group);
 
-            // Set of all generic Hallow blocks
+            // Set of all generic Hallow blocks, this recipe group is unused
             group = new RecipeGroup(() => "Any Good Block", new int[]
             {
                 ItemID.PearlstoneBlock,
@@ -353,8 +346,8 @@ namespace CalamityMod
         
         private static void AddEquipmentRecipeGroups()
         {
-            // Wooden Swords
-            RecipeGroup group = new RecipeGroup(() => "Any Wooden Sword", new int[]
+            // Wooden Swords for Broken Biome Blade
+            RecipeGroup group = new RecipeGroup(() => $"{Language.GetTextValue("LegacyMisc.37")} {Lang.GetItemNameValue(ItemID.WoodenSword)}", new int[]
             {
                 ItemID.WoodenSword,
                 ItemID.BorealWoodSword,
@@ -366,8 +359,8 @@ namespace CalamityMod
             });
             AnyWoodenSword = RecipeGroup.RegisterGroup("AnyWoodenSword", group);
 
-            // Hallowed Helmets
-            group = new RecipeGroup(() => "Any Hallowed Helmet", new int[]
+            // Hallowed Helmets for Angelic Alliance
+            group = new RecipeGroup(() => $"{Language.GetTextValue("LegacyMisc.37")} {Lang.GetItemNameValue(ItemID.HallowedHelmet)}", new int[]
             {
                 ItemID.HallowedHelmet,
                 ItemID.HallowedHeadgear,
@@ -381,7 +374,7 @@ namespace CalamityMod
             AnyHallowedHelmet = RecipeGroup.RegisterGroup("AnyHallowedHelmet", group);
 
             // Hallowed Plate Mails
-            group = new RecipeGroup(() => "Any Hallowed Platemail", new int[]
+            group = new RecipeGroup(() => $"{Language.GetTextValue("LegacyMisc.37")} {Lang.GetItemNameValue(ItemID.HallowedPlateMail)}", new int[]
             {
                 ItemID.HallowedPlateMail,
                 ItemID.AncientHallowedPlateMail
@@ -389,22 +382,22 @@ namespace CalamityMod
             AnyHallowedPlatemail = RecipeGroup.RegisterGroup("AnyHallowedPlatemail", group);
 
             // Hallowed Greaves
-            group = new RecipeGroup(() => "Any Hallowed Greaves", new int[]
+            group = new RecipeGroup(() => $"{Language.GetTextValue("LegacyMisc.37")} {Lang.GetItemNameValue(ItemID.HallowedGreaves)}", new int[]
             {
                 ItemID.HallowedGreaves,
                 ItemID.AncientHallowedGreaves
             });
             AnyHallowedGreaves = RecipeGroup.RegisterGroup("AnyHallowedGreaves", group);
 
-            // Gold and Platinum Crowns
-            group = new RecipeGroup(() => "Any Gold Crown", new int[]
+            // Gold and Platinum Crowns for Feather Crown
+            group = new RecipeGroup(() => $"{Language.GetTextValue("LegacyMisc.37")} {Lang.GetItemNameValue(ItemID.GoldCrown)}", new int[]
             {
                 ItemID.GoldCrown,
                 ItemID.PlatinumCrown
             });
             AnyGoldCrown = RecipeGroup.RegisterGroup("AnyGoldCrown", group);
 
-            // Vanilla Luminite Pickaxes and Genesis Pickaxe
+            // Vanilla Luminite Pickaxes and Genesis Pickaxe for Crystyl Crusher
             group = new RecipeGroup(() => "Any Lunar Pickaxe", new int[]
             {
                 ItemID.SolarFlarePickaxe,
@@ -415,7 +408,7 @@ namespace CalamityMod
             });
             LunarPickaxe = RecipeGroup.RegisterGroup("LunarPickaxe", group);
 
-            // Luminite Hamaxes
+            // Luminite Hamaxes for Grax
             group = new RecipeGroup(() => "Any Lunar Hamaxe", new int[]
             {
                 ItemID.LunarHamaxeSolar,
@@ -426,7 +419,7 @@ namespace CalamityMod
             LunarHamaxe = RecipeGroup.RegisterGroup("LunarHamaxe", group);
 
             // Mana Flower+ for Ethereal Talisman
-            group = new RecipeGroup(() => "Any Mana Flower", new int[]
+            group = new RecipeGroup(() => $"{Language.GetTextValue("LegacyMisc.37")} {Lang.GetItemNameValue(ItemID.ManaFlower)}", new int[]
             {
                 ItemID.ManaFlower,
                 ItemID.ArcaneFlower,
@@ -445,7 +438,7 @@ namespace CalamityMod
             QuiversGroup = RecipeGroup.RegisterGroup("QuiversGroup", group);
 
             // Tombstones for Grave Grimreaver
-            group = new RecipeGroup(() => "Any Tombstone", new int[]
+            group = new RecipeGroup(() => $"{Language.GetTextValue("LegacyMisc.37")} {Lang.GetItemNameValue(ItemID.Tombstone)}", new int[]
             {
                 ItemID.Tombstone,
                 ItemID.GraveMarker,
@@ -461,7 +454,7 @@ namespace CalamityMod
             });
             QuiversGroup = RecipeGroup.RegisterGroup("TombstonesGroup", group);
 
-            // Wings
+            // Wings for Seraph Tracers
             group = new RecipeGroup(() => "Any Wings", new int[]
             {
                 ItemID.DemonWings,
