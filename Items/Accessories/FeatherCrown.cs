@@ -6,16 +6,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
+    [AutoloadEquip(EquipType.Face)]
     public class FeatherCrown : ModItem
     {
-        public override void Load()
-        {
-            if (Main.netMode != NetmodeID.Server)
-            {
-                EquipLoader.AddEquipTexture(Mod, "CalamityMod/Items/Accessories/FeatherCrown_Face", EquipType.Head, this);
-            }
-        }
-
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 1;
@@ -25,9 +18,8 @@ namespace CalamityMod.Items.Accessories
 
             if (Main.netMode != NetmodeID.Server)
             {
-                int equipSlot = EquipLoader.GetEquipSlot(Mod, Name, EquipType.Head);
-                ArmorIDs.Head.Sets.DrawFullHair[equipSlot] = false;
-                ArmorIDs.Head.Sets.DrawHatHair[equipSlot] = false;
+                int equipSlot = EquipLoader.GetEquipSlot(Mod, Name, EquipType.Face);
+				ArmorIDs.Face.Sets.OverrideHelmet[equipSlot] = true;
             }
         }
 
@@ -45,20 +37,6 @@ namespace CalamityMod.Items.Accessories
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.rogueVelocity += 0.15f;
             modPlayer.featherCrown = true;
-            if (!hideVisual)
-                modPlayer.featherCrownDraw = true; //this bool is just used for drawing
-        }
-
-        public override bool IsVanitySet(int head, int body, int legs) => true;
-
-        public override void PreUpdateVanitySet(Player player)
-        {
-            player.Calamity().featherCrownDraw = true; //this bool is just used for drawing
-        }
-
-        public override void UpdateVanity(Player player)
-        {
-            player.Calamity().featherCrownDraw = true;
         }
 
         public override void AddRecipes()
