@@ -1141,7 +1141,7 @@ namespace CalamityMod.NPCs.HiveMind
 					ModContent.ItemType<Shadethrower>(),
 					ModContent.ItemType<ShaderainStaff>(),
 					ModContent.ItemType<DankStaff>(),
-					new WeightedItemStack(ModContent.ItemType<RotBall>(), 1f, 50, 75),
+					new WeightedItemStack(ModContent.ItemType<RotBall>(), 1f, 30, 50),
 				}));
 
                 // Materials
