@@ -17,7 +17,7 @@ namespace CalamityMod.Projectiles.Melee
         {
             Projectile.width = 14;
             Projectile.height = 14;
-            Projectile.aiStyle = 4;
+            Projectile.aiStyle = ProjAIStyleID.Vilethorn;
             Projectile.friendly = true;
             Projectile.alpha = 255;
             Projectile.penetrate = -1;

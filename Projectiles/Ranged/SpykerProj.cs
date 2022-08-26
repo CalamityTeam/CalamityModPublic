@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.alpha = 255;
             Projectile.DamageType = DamageClass.Ranged;
             Projectile.extraUpdates = 2;
-            Projectile.aiStyle = 93;
+            Projectile.aiStyle = ProjAIStyleID.Nail;
             AIType = ProjectileID.NailFriendly;
         }
 

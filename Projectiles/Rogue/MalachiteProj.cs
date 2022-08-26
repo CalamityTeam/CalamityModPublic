@@ -24,7 +24,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.penetrate = 3;
             Projectile.alpha = 255;
             Projectile.extraUpdates = 3;
-            Projectile.aiStyle = 93;
+            Projectile.aiStyle = ProjAIStyleID.Nail;
             AIType = ProjectileID.NailFriendly;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 1;

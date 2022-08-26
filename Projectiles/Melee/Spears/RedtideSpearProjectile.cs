@@ -1,12 +1,12 @@
-﻿using System;
+﻿using CalamityMod.Items.Weapons.Melee;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Utilities;
+using System;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Items.Weapons.Melee;
 using static CalamityMod.CalamityUtils;
 
 namespace CalamityMod.Projectiles.Melee.Spears

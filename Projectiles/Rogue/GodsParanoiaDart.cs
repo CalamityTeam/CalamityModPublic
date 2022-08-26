@@ -24,7 +24,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.penetrate = 1;
             Projectile.tileCollide = false;
             Projectile.timeLeft = 600;
-            Projectile.aiStyle = 27;
+            Projectile.aiStyle = ProjAIStyleID.Beam;
         }
 
         public override void AI()

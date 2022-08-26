@@ -16,7 +16,7 @@ namespace CalamityMod.Projectiles.Typeless
             Projectile.height = 14;
             Projectile.friendly = true;
             Projectile.penetrate = 2;
-            Projectile.aiStyle = 3;
+            Projectile.aiStyle = ProjAIStyleID.Boomerang;
             Projectile.timeLeft = 300;
             AIType = ProjectileID.WoodenBoomerang;
             Projectile.usesLocalNPCImmunity = true;

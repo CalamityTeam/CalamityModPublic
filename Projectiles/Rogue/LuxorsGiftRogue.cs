@@ -21,7 +21,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.height = 18;
             Projectile.friendly = true;
             Projectile.penetrate = 4;
-            Projectile.aiStyle = 2;
+            Projectile.aiStyle = ProjAIStyleID.ThrownProjectile;
             Projectile.alpha = 255;
             Projectile.timeLeft = 300;
             AIType = ProjectileID.ThrowingKnife;

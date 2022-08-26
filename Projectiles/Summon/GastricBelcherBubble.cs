@@ -19,7 +19,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.width = Projectile.height = 18;
             Projectile.minion = true;
             Projectile.timeLeft = 180;
-            Projectile.aiStyle = 72;
+            Projectile.aiStyle = ProjAIStyleID.Bubble;
             Projectile.DamageType = DamageClass.Summon;
         }
 

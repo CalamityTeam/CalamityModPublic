@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Melee
         {
             Projectile.width = 32;
             Projectile.height = 34;
-            Projectile.aiStyle = 14;
+            Projectile.aiStyle = ProjAIStyleID.GroundProjectile;
             Projectile.friendly = true;
             Projectile.penetrate = 6;
             Projectile.extraUpdates = 1;

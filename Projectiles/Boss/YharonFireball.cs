@@ -30,7 +30,7 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.alpha = 255;
             Projectile.penetrate = -1;
             Projectile.timeLeft = 120;
-            Projectile.aiStyle = 1;
+            Projectile.aiStyle = ProjAIStyleID.Arrow;
             AIType = ProjectileID.DD2BetsyFireball;
             CooldownSlot = ImmunityCooldownID.Bosses;
         }

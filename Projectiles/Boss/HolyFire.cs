@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.ignoreWater = true;
             Projectile.alpha = 255;
             Projectile.penetrate = -1;
-            Projectile.aiStyle = 1;
+            Projectile.aiStyle = ProjAIStyleID.Arrow;
             Projectile.tileCollide = false;
             CooldownSlot = ImmunityCooldownID.Bosses;
         }

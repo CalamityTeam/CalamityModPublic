@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
@@ -26,7 +27,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.penetrate = 8;
             Projectile.timeLeft = 600;
             Projectile.DamageType = RogueDamageClass.Instance;
-            Projectile.aiStyle = 14;
+            Projectile.aiStyle = ProjAIStyleID.GroundProjectile;
         }
 
         public override void AI()

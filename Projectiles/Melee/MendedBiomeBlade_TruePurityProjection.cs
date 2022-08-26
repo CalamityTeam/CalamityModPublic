@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Melee
         public override void SetDefaults()
         {
             Projectile.width = Projectile.height = 32;
-            Projectile.aiStyle = 27;
+            Projectile.aiStyle = ProjAIStyleID.Beam;
             AIType = ProjectileID.LightBeam;
             Projectile.friendly = true;
             Projectile.penetrate = 1;

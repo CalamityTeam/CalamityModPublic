@@ -1,10 +1,10 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.Projectiles.BaseProjectiles;
+using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Projectiles.BaseProjectiles;
-using Terraria.Audio;
 namespace CalamityMod.Projectiles.Melee.Spears
 {
     public class NadirSpear : BaseSpearProjectile
@@ -18,7 +18,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
         {
             Projectile.width = 55;
             Projectile.height = 55;
-            Projectile.aiStyle = 19;
+            Projectile.aiStyle = ProjAIStyleID.Spear;
             Projectile.DamageType = DamageClass.Melee;
             Projectile.timeLeft = 90;
             Projectile.friendly = true;

@@ -23,7 +23,7 @@ namespace CalamityMod.Projectiles.Typeless
             Projectile.timeLeft = 360;
             Projectile.penetrate = 3;
             Projectile.alpha = 255;
-            Projectile.aiStyle = 93;
+            Projectile.aiStyle = ProjAIStyleID.Nail;
             AIType = ProjectileID.NailFriendly;
         }
 

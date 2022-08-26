@@ -32,7 +32,7 @@ namespace CalamityMod.Projectiles.Pets
             Projectile.netImportant = true;
             Projectile.width = 38;
             Projectile.height = 46;
-            Projectile.aiStyle = 26;
+            Projectile.aiStyle = ProjAIStyleID.Pet;
             Projectile.friendly = true;
             Projectile.penetrate = -1;
             Projectile.timeLeft *= 5;

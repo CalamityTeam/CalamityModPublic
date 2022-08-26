@@ -24,7 +24,7 @@ namespace CalamityMod.Projectiles.Typeless
         {
             Projectile.width = 22;
             Projectile.height = 22;
-            Projectile.aiStyle = 20;
+            Projectile.aiStyle = ProjAIStyleID.Drill;
             Projectile.friendly = true;
             Projectile.penetrate = -1;
             Projectile.tileCollide = false;

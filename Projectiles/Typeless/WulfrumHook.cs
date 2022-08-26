@@ -55,7 +55,7 @@ namespace CalamityMod.Projectiles.Typeless
             Projectile.tileCollide = false;
             Projectile.extraUpdates = WulfrumPackPlayer.HookUpdates;
             Projectile.netImportant = true;
-            Projectile.aiStyle = 7; //The projectile uses entirely custom AI, but for some reason terraria's only way to distinguish what is and isnt a hook is its ai style.
+            Projectile.aiStyle = ProjAIStyleID.Hook; //The projectile uses entirely custom AI, but for some reason terraria's only way to distinguish what is and isnt a hook is its ai style.
         }
 
         public override bool? CanDamage() => false;

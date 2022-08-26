@@ -21,7 +21,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.penetrate = 3;
             Projectile.timeLeft = 300;
             Projectile.DamageType = RogueDamageClass.Instance;
-            Projectile.aiStyle = 14;
+            Projectile.aiStyle = ProjAIStyleID.GroundProjectile;
         }
 
         public override void AI()

@@ -23,7 +23,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.penetrate = 1;
             Projectile.tileCollide = false;
             Projectile.timeLeft = 90;
-            Projectile.aiStyle = 27;
+            Projectile.aiStyle = ProjAIStyleID.Beam;
             Projectile.extraUpdates = 1;
         }
 

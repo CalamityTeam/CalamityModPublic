@@ -20,7 +20,7 @@ namespace CalamityMod.Projectiles.Ranged
         {
             Projectile.width = 18;
             Projectile.height = 18;
-            Projectile.aiStyle = 1;
+            Projectile.aiStyle = ProjAIStyleID.Arrow;
             Projectile.friendly = true;
             Projectile.DamageType = DamageClass.Ranged;
             Projectile.timeLeft = 600;

@@ -19,7 +19,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.height = 10;
             Projectile.friendly = true;
             Projectile.penetrate = 1;
-            Projectile.aiStyle = 1;
+            Projectile.aiStyle = ProjAIStyleID.Arrow;
             Projectile.timeLeft = 90;
             AIType = ProjectileID.WoodenArrowFriendly;
             Projectile.DamageType = RogueDamageClass.Instance;

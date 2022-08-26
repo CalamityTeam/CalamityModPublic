@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.width = 26;
             Projectile.height = 26;
             Projectile.friendly = true;
-            Projectile.aiStyle = 113;
+            Projectile.aiStyle = ProjAIStyleID.StickProjectile;
             AIType = ProjectileID.BoneJavelin;
             Projectile.penetrate = 3;
             Projectile.DamageType = RogueDamageClass.Instance;

@@ -18,7 +18,7 @@ namespace CalamityMod.Projectiles.Melee
         {
             Projectile.width = 46;
             Projectile.height = 46;
-            Projectile.aiStyle = 18;
+            Projectile.aiStyle = ProjAIStyleID.Sickle;
             Projectile.alpha = 100;
             Projectile.friendly = true;
             Projectile.DamageType = DamageClass.Melee;

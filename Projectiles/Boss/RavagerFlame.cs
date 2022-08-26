@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.alpha = 255;
             Projectile.penetrate = 1;
             Projectile.timeLeft = 300;
-            Projectile.aiStyle = 1;
+            Projectile.aiStyle = ProjAIStyleID.Arrow;
             Projectile.extraUpdates = BossRushEvent.BossRushActive ? 2 : 1;
         }
 
