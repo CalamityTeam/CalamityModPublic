@@ -1073,11 +1073,6 @@ namespace CalamityMod
             r.AddTile(TileID.CookingPots);
             r.Register();
 
-            r = Recipe.Create(ItemID.CookedFish);
-            r.AddIngredient(ModContent.ItemType<SeaMinnowItem>());
-            r.AddTile(TileID.CookingPots);
-            r.Register();
-
             r = Recipe.Create(ItemID.Sashimi);
             r.AddIngredient(ModContent.ItemType<CragBullhead>());
             r.AddTile(TileID.WorkBenches);
