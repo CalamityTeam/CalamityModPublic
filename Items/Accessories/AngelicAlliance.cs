@@ -66,8 +66,8 @@ namespace CalamityMod.Items.Accessories
         {
             CreateRecipe().
                 AddRecipeGroup("AnyHallowedHelmet").
-                AddIngredient(ItemID.HallowedPlateMail).
-                AddIngredient(ItemID.HallowedGreaves).
+                AddRecipeGroup("AnyHallowedPlatemail").
+                AddRecipeGroup("AnyHallowedGreaves").
                 AddIngredient(ItemID.PaladinsShield).
                 AddIngredient(ItemID.TrueExcalibur).
                 AddIngredient(ItemID.CrossNecklace).
