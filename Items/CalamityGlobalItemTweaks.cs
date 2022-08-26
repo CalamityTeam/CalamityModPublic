@@ -204,7 +204,7 @@ namespace CalamityMod.Items
                 { ItemID.FlowerofFrost, Do(AutoReuse, ManaExact(7), UseExact(30), DamageExact(70), ShootSpeedExact(14)) },
                 { ItemID.FlyingKnife, Do(DamageExact(70)) },
                 { ItemID.FormatC, autoReuse },
-                { ItemID.Frostbrand, Do(UseMeleeSpeed, DamageExact(140), UseTimeExact(20)) },
+                { ItemID.Frostbrand, Do(UseMeleeSpeed, DamageExact(97), UseExact(23)) },
                 { ItemID.FrostburnArrow, Do(DamageExact(8)) },
                 { ItemID.FrostStaff, Do(DamageExact(160), UseExact(37), ShootSpeedExact(20f)) }, // has 1 extra update
                 { ItemID.FrozenShield, Do(DefenseDelta(+7)) },
