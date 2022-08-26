@@ -942,6 +942,8 @@ namespace CalamityMod
         #region Astral Clay
         private static void AddAstralClayRecipes()
         {
+			// Intentionally excluding Red Brick and Red Stucco recipes
+
             // Bowl
             Recipe r = Recipe.Create(ItemID.Bowl);
             r.AddIngredient(ModContent.ItemType<AstralClay>(), 2);
@@ -950,13 +952,33 @@ namespace CalamityMod
 
             // Clay Pot
             r = Recipe.Create(ItemID.ClayPot);
-            r.AddIngredient(ModContent.ItemType<AstralClay>(), 2);
+            r.AddIngredient(ModContent.ItemType<AstralClay>(), 5);
             r.AddTile(TileID.Furnaces);
             r.Register();
 
             // Pink Vase
             r = Recipe.Create(ItemID.PinkVase);
+            r.AddIngredient(ModContent.ItemType<AstralClay>(), 4);
+            r.AddTile(TileID.Furnaces);
+            r.Register();
+
+            // Plate
+            r = Recipe.Create(ItemID.FoodPlatter);
             r.AddIngredient(ModContent.ItemType<AstralClay>(), 2);
+            r.AddTile(TileID.Furnaces);
+            r.Register();
+
+            // Teapot
+            r = Recipe.Create(ItemID.TeaKettle);
+            r.AddIngredient(ModContent.ItemType<AstralClay>(), 12);
+            r.AddIngredient(ItemID.Bone, 12);
+            r.AddTile(TileID.Furnaces);
+            r.Register();
+
+            // Wandering Jingasa
+            r = Recipe.Create(ItemID.RoninHat);
+            r.AddIngredient(ModContent.ItemType<AstralClay>(), 10);
+            r.AddIngredient(ItemID.Firefly, 3); // Does not use the recipe group in Vanilla
             r.AddTile(TileID.Furnaces);
             r.Register();
         }
@@ -1103,6 +1125,12 @@ namespace CalamityMod
 
             r = Recipe.Create(ItemID.Bacon);
             r.AddIngredient(ModContent.ItemType<PiggyItem>());
+            r.AddTile(TileID.CookingPots);
+            r.Register();
+
+            r = Recipe.Create(ItemID.BowlofSoup);
+            r.AddIngredient(ItemID.Mushroom);
+            r.AddIngredient(ModContent.ItemType<SeaMinnowItem>());
             r.AddTile(TileID.CookingPots);
             r.Register();
         }
