@@ -64,6 +64,7 @@ namespace CalamityMod.Items.Potions
                 AddIngredient(ItemID.Moonglow).
                 AddIngredient(ItemID.Fireblossom).
                 AddTile(TileID.AlchemyTable).
+				AddConsumeItemCallback(Recipe.ConsumptionRules.Alchemy).
                 Register();
 
             CreateRecipe().

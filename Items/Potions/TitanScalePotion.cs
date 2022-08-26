@@ -41,6 +41,7 @@ namespace CalamityMod.Items.Potions
                 AddIngredient(ItemID.BeetleHusk).
                 AddIngredient<CoralskinFoolfish>().
                 AddTile(TileID.AlchemyTable).
+				AddConsumeItemCallback(Recipe.ConsumptionRules.Alchemy).
                 Register();
 
             CreateRecipe(4).
