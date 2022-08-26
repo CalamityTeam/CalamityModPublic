@@ -19,7 +19,6 @@ namespace CalamityMod.Tiles.Pylons
 
         public override int? IsPylonForSale(int npcType, Player player, bool isNPCHappyEnough)
         {
-            // Pylon will sell regardless of NPC happiness.
             return isNPCHappyEnough && player.Calamity().ZoneSulphur ? AssociatedItem : null;
         }
 
