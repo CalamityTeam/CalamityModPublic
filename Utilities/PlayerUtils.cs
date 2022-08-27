@@ -303,6 +303,8 @@ namespace CalamityMod
                 hasItem = true;
             if (player.bank3.item.Any(item => items.Contains(item.type)))
                 hasItem = true;
+            if (player.bank4.item.Any(item => items.Contains(item.type)))
+                hasItem = true;
             return hasItem;
         }
         #endregion
