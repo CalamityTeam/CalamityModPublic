@@ -40,12 +40,6 @@ namespace CalamityMod.Tiles.FurnitureAcidwood
 
         public override bool RightClick(int i, int j) => CalamityUtils.BedRightClick(i, j);
 
-        public override void MouseOver(int i, int j)
-        {
-            Player player = Main.LocalPlayer;
-            player.noThrow = 2;
-            player.cursorItemIconEnabled = true;
-            player.cursorItemIconID = ModContent.ItemType<AcidwoodBed>();
-        }
+        public override void MouseOver(int i, int j) => CalamityUtils.MouseOver(i, j, ModContent.ItemType<AcidwoodBed>());
     }
 }

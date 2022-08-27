@@ -128,11 +128,19 @@ namespace CalamityMod
             player.cursorItemIconEnabled = true;
             player.cursorItemIconID = itemID;
 
-			bool frameCheck = fat ? Main.tile[i, j].TileFrameX < 35 : Main.tile[i, j].TileFrameX / 18 < 1;
+			bool frameCheck = fat ? Main.tile[i, j].TileFrameX <= 35 : Main.tile[i, j].TileFrameX / 18 < 0;
             if (frameCheck)
             {
                 player.cursorItemIconReversed = true;
             }
+        }
+
+        public static void MouseOver(int i, int j, int itemID)
+        {
+            Player player = Main.LocalPlayer;
+            player.noThrow = 2;
+            player.cursorItemIconEnabled = true;
+            player.cursorItemIconID = itemID;
         }
 		#endregion
 
