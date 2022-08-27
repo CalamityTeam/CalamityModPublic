@@ -889,7 +889,7 @@ namespace CalamityMod.NPCs
                         int type = ModContent.ProjectileType<BrimstoneHellfireball>();
                         int damage = npc.GetProjectileDamage(type);
                         Vector2 projectileVelocity = Vector2.Normalize(player.Center - npc.Center) * velocity;
-                        int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + Vector2.Normalize(projectileVelocity) * 5f, projectileVelocity, type, damage, 0f, Main.myPlayer);
+                        int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + Vector2.Normalize(projectileVelocity) * 5f, projectileVelocity, type, damage, 0f, Main.myPlayer, player.position.X, player.position.Y);
                         Main.projectile[proj].timeLeft = 240;
 
                         if (npc.ai[1] % divisor2 == divisor2 - 1f)
@@ -1631,7 +1631,7 @@ namespace CalamityMod.NPCs
                         int damage = npc.GetProjectileDamage(type);
                         Vector2 fireballVelocity = Vector2.Normalize(player.Center - npc.Center) * projectileVelocity;
                         Vector2 offset = Vector2.Normalize(fireballVelocity) * 40f;
-                        Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + offset, fireballVelocity, type, damage, 0f, Main.myPlayer);
+                        Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + offset, fireballVelocity, type, damage, 0f, Main.myPlayer, player.position.X, player.position.Y);
                     }
                 }
             }
@@ -1665,14 +1665,13 @@ namespace CalamityMod.NPCs
                         {
                             type = ModContent.ProjectileType<BrimstoneHellfireball>();
                             damage = npc.GetProjectileDamage(type);
-                            Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + offset, fireballVelocity, type, damage, 0f, Main.myPlayer);
+                            Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + offset, fireballVelocity, type, damage, 0f, Main.myPlayer, player.position.X, player.position.Y);
                         }
                         else
                         {
-                            float ai0 = type == ModContent.ProjectileType<BrimstoneHellblast>() ? 1f : 0f;
-                            int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + offset, fireballVelocity, type, damage, 0f, Main.myPlayer, ai0, 0f);
-                            if (type == ModContent.ProjectileType<BrimstoneHellfireball>())
-                                Main.projectile[proj].tileCollide = true;
+                            float ai0 = type == ModContent.ProjectileType<BrimstoneHellblast>() ? 1f : player.position.X;
+                            float ai1 = type == ModContent.ProjectileType<BrimstoneHellblast>() ? 0f : player.position.Y;
+                            Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + offset, fireballVelocity, type, damage, 0f, Main.myPlayer, ai0, ai1);
                         }
                     }
                 }

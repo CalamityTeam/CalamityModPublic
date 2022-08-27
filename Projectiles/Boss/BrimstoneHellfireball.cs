@@ -33,6 +33,9 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void AI()
         {
+            if (Projectile.Hitbox.Intersects(new Rectangle((int)Projectile.ai[0], (int)Projectile.ai[1], Player.defaultWidth, Player.defaultHeight)))
+                Projectile.tileCollide = true;
+
             // Animation
             Projectile.frameCounter++;
             if (Projectile.frameCounter > 9)
