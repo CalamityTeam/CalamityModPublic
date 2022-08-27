@@ -14,6 +14,7 @@ using CalamityMod.Items.Placeables;
 using CalamityMod.Items.Placeables.Furniture;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Items.Placeables.FurnitureCosmilite;
+using CalamityMod.Items.Placeables.FurnitureSacrilegious;
 using CalamityMod.Items.Potions;
 using CalamityMod.Items.Potions.Alcohol;
 using CalamityMod.Items.SummonItems;

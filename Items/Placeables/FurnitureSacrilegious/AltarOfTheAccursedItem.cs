@@ -1,10 +1,10 @@
 ﻿using CalamityMod.Items.Materials;
-using CalamityMod.Tiles.Furniture;
 using CalamityMod.Tiles.Furniture.CraftingStations;
+using CalamityMod.Tiles.FurnitureSacrilegious;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace CalamityMod.Items.Placeables.Furniture
+namespace CalamityMod.Items.Placeables.FurnitureSacrilegious
 {
     [LegacyName("SCalAltarItem")]
     public class AltarOfTheAccursedItem : ModItem
@@ -36,7 +36,12 @@ namespace CalamityMod.Items.Placeables.Furniture
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<BrimstoneSlag>(), 30).AddIngredient(ModContent.ItemType<AuricBar>(), 5).AddIngredient(ModContent.ItemType<CoreofCalamity>(), 1).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
+            CreateRecipe(1).
+				AddIngredient(ModContent.ItemType<BrimstoneSlag>(), 30).
+				AddIngredient(ModContent.ItemType<AuricBar>(), 5).
+				AddIngredient(ModContent.ItemType<CoreofCalamity>(), 1).
+				AddTile(ModContent.TileType<CosmicAnvil>()).
+				Register();
         }
     }
 }

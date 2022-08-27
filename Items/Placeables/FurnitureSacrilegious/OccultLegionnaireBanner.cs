@@ -1,21 +1,22 @@
-﻿using CalamityMod.Tiles.FurnitureSacrilegious;
+using CalamityMod.Tiles.Furniture.CraftingStations;
+using CalamityMod.Tiles.FurnitureSacrilegious;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Placeables.FurnitureSacrilegious
 {
-    public class OccultPlatformItem : ModItem
+    public class OccultLegionnaireBanner : ModItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Occult Platform");
-            SacrificeTotal = 200;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            Item.width = 8;
-            Item.height = 10;
+            Item.width = 26;
+            Item.height = 36;
             Item.maxStack = 999;
             Item.useTurn = true;
             Item.autoReuse = true;
@@ -23,13 +24,18 @@ namespace CalamityMod.Items.Placeables.FurnitureSacrilegious
             Item.useTime = 10;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.consumable = true;
-            Item.createTile = ModContent.TileType<OccultPlatformTile>();
             Item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.value = Item.buyPrice(0, 0, 10, 0);
+            Item.createTile = ModContent.TileType<OccultLegionnaireBannerTile>();
         }
 
         public override void AddRecipes()
         {
-            CreateRecipe(2).AddIngredient(ModContent.ItemType<OccultBrickItem>()).Register();
+            CreateRecipe(1).
+				AddIngredient(ModContent.ItemType<OccultBrickItem>(), 3).
+				AddIngredient(ItemID.Silk, 5).
+				AddTile(ModContent.TileType<CosmicAnvil>()).
+				Register();
         }
     }
 }

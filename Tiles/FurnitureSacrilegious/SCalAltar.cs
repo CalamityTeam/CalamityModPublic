@@ -1,6 +1,6 @@
 ﻿using CalamityMod.Events;
 using CalamityMod.Items.Materials;
-using CalamityMod.Items.Placeables.Furniture;
+using CalamityMod.Items.Placeables.FurnitureSacrilegious;
 using CalamityMod.Items.SummonItems;
 using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.Projectiles.Boss;
@@ -13,7 +13,7 @@ using Terraria.ModLoader;
 using Terraria.ObjectData;
 using Terraria.Audio;
 
-namespace CalamityMod.Tiles.Furniture
+namespace CalamityMod.Tiles.FurnitureSacrilegious
 {
     public class SCalAltar : ModTile
     {
@@ -23,7 +23,6 @@ namespace CalamityMod.Tiles.Furniture
         {
             Main.tileFrameImportant[Type] = true;
             Main.tileNoAttach[Type] = true;
-            Main.tileSpelunker[Type] = true;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
             TileObjectData.newTile.Width = 4;
             TileObjectData.newTile.Height = 3;

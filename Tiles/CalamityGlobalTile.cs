@@ -6,7 +6,7 @@ using CalamityMod.Tiles.Astral;
 using CalamityMod.Tiles.AstralDesert;
 using CalamityMod.Tiles.DraedonStructures;
 using CalamityMod.Tiles.DraedonSummoner;
-using CalamityMod.Tiles.Furniture;
+using CalamityMod.Tiles.FurnitureSacrilegious;
 using CalamityMod.Tiles.FurnitureExo;
 using CalamityMod.Tiles.SunkenSea;
 using Microsoft.Xna.Framework;
