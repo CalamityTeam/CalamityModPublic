@@ -866,7 +866,7 @@ namespace CalamityMod
         /// Extension which initializes a ModTile to be a chest.
         /// </summary>
         /// <param name="mt">The ModTile which is being initialized.</param>
-        internal static void SetUpChest(this ModTile mt, bool offset = false)
+        internal static void SetUpChest(this ModTile mt, bool offset = false, int offsetAmt = 4)
         {
             Main.tileSpelunker[mt.Type] = true;
             Main.tileContainer[mt.Type] = true;
@@ -880,7 +880,7 @@ namespace CalamityMod
             TileID.Sets.DisableSmartCursor[mt.Type] = true;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
             if (offset)
-                TileObjectData.newTile.DrawYOffset = 4;
+                TileObjectData.newTile.DrawYOffset = offsetAmt;
             TileObjectData.newTile.Origin = new Point16(0, 1);
             TileObjectData.newTile.CoordinateHeights = new int[] { 16, 18 };
             TileObjectData.newTile.HookCheckIfCanPlace = new PlacementHook(new Func<int, int, int, int, int, int, int>(Chest.FindEmptyChest), -1, 0, true);
