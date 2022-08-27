@@ -19,6 +19,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 "Receives 33% benefit from melee speed bonuses");
             SacrificeTotal = 1;
             ItemID.Sets.BonusAttackSpeedMultiplier[Item.type] = 0.33f;
+            ItemID.Sets.Spears[Item.type] = true;
         }
 
         public override void SetDefaults()

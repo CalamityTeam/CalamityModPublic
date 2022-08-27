@@ -19,6 +19,7 @@ namespace CalamityMod.Items.Weapons.Melee
                                "[c/5C95A1:The people of the sea were adept hunters, but they abhorred unnecessary violence.]\n" +
                                "[c/5C95A1:Unfortunately, neighboring nations were brutish, so they fashioned their tools for war.]");
             SacrificeTotal = 1;
+            ItemID.Sets.Spears[Item.type] = true;
         }
 
         public override void SetDefaults()

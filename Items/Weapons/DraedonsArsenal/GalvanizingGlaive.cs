@@ -21,6 +21,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
                 "That is also its use as a weapon\n" +
                 "Swings a spear which envelops struck foes in an energy field\n" +
                 "When done swinging, the spear discharges an extra pulse of energy");
+            ItemID.Sets.Spears[Item.type] = true;
         }
 
         public override void SetDefaults()
