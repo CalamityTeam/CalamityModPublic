@@ -15,6 +15,7 @@ namespace CalamityMod.Items.DraedonMisc
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Advanced Display");
             Tooltip.SetDefault("Can be placed on the Codebreaker\n" +
                 "Allows you to decrypt the Underworld schematic");

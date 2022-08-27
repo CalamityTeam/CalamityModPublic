@@ -16,6 +16,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Tracking Disk");
             Tooltip.SetDefault("A weapon that, as it flies, processes calculations and fires lasers\n" +
                                "Releases a flying disk that fires lasers at nearby enemies\n" +

@@ -16,6 +16,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Star Swallower Containment Unit");
             Tooltip.SetDefault("Small novelties created to easily transport and fire plasma, strangely popular with humans\n" +
             "Summons a biomechanical frog that vomits plasma onto enemies");

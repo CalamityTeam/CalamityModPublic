@@ -14,6 +14,7 @@ namespace CalamityMod.Items.DraedonMisc
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Encrypted Schematic (Underworld)");
             Tooltip.SetDefault("Requires a Codebreaker with a sophisticated display to decrypt");
         }
