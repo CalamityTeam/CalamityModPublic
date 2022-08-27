@@ -103,6 +103,7 @@ namespace CalamityMod.Items
                         ItemID.ClockworkAssaultRifle,
                         ModContent.ItemType<Meowthrower>(),
                         ItemID.LaserRifle,
+						ItemID.FireWhip,
                         ModContent.ItemType<BlackHawkRemote>(),
                         ModContent.ItemType<BlastBarrel>()
                     };
