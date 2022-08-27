@@ -9,6 +9,7 @@ using Terraria.Audio;
 using Terraria.Graphics.Shaders;
 using CalamityMod.Particles;
 using CalamityMod.Items.Weapons.Magic;
+using System.Collections.Generic;
 
 namespace CalamityMod.Projectiles.Magic
 {
@@ -44,6 +45,7 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.DamageType = DamageClass.Magic;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 7;
+            Projectile.hide = true;
         }
 
         // Vanilla Terraria does not sync projectile scale by default.
@@ -145,6 +147,12 @@ namespace CalamityMod.Projectiles.Magic
             Owner.heldProj = Projectile.whoAmI;
             Owner.itemTime = 2;
             Owner.itemAnimation = 2;
+        }
+
+        // Draw these vortices behind other projectiles to ensure that they do not obstruct SCal's projectiles.
+        public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI)
+        {
+            behindProjectiles.Add(index);
         }
 
         public override bool PreDraw(ref Color lightColor)
