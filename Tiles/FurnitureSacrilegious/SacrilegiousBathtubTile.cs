@@ -12,7 +12,7 @@ namespace CalamityMod.Tiles.FurnitureSacrilegious
             this.SetUpBathtub();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Bathtub");
-            AddMapEntry(new Color(191, 142, 111), name);
+            AddMapEntry(new Color(43, 19, 42), name);
         }
 
         public override bool CreateDust(int i, int j, ref int type)

@@ -15,7 +15,7 @@ namespace CalamityMod.Tiles.FurnitureSacrilegious
             this.SetUpCandelabra();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Candelabra");
-            AddMapEntry(new Color(253, 221, 3), name);
+            AddMapEntry(new Color(43, 19, 42), name);
             TileID.Sets.DisableSmartCursor[Type] = true;
             AdjTiles = new int[] { TileID.Candelabras };
         }
@@ -35,9 +35,9 @@ namespace CalamityMod.Tiles.FurnitureSacrilegious
         {
             if (Main.tile[i, j].TileFrameX < 18)
             {
-                r = 0.8f;
-                g = 0.9f;
-                b = 1f;
+                r = 1.5f;
+                g = 0.3f;
+                b = 0.3f;
             }
             else
             {

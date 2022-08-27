@@ -16,7 +16,7 @@ namespace CalamityMod.Tiles.FurnitureSacrilegious
         public override void SetStaticDefaults()
         {
             this.SetUpChair(true);
-            AddMapEntry(new Color(191, 142, 111), Language.GetText("MapObject.Chair"));
+            AddMapEntry(new Color(43, 19, 42), Language.GetText("MapObject.Chair"));
             AdjTiles = new int[] { TileID.Chairs };
         }
 

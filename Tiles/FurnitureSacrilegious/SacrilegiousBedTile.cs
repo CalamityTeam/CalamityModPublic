@@ -15,7 +15,7 @@ namespace CalamityMod.Tiles.FurnitureSacrilegious
             this.SetUpBed();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Bed");
-            AddMapEntry(new Color(191, 142, 111), name);
+            AddMapEntry(new Color(43, 19, 42), name);
             TileID.Sets.DisableSmartCursor[Type] = true;
             AdjTiles = new int[] { TileID.Beds };
         }
@@ -40,12 +40,6 @@ namespace CalamityMod.Tiles.FurnitureSacrilegious
 
         public override bool RightClick(int i, int j) => CalamityUtils.BedRightClick(i, j);
 
-        public override void MouseOver(int i, int j)
-        {
-            Player player = Main.LocalPlayer;
-            player.noThrow = 2;
-            player.cursorItemIconEnabled = true;
-            player.cursorItemIconID = ModContent.ItemType<SacrilegiousBed>();
-        }
+        public override void MouseOver(int i, int j) => CalamityUtils.MouseOver(i, j, ModContent.ItemType<SacrilegiousBed>());
     }
 }

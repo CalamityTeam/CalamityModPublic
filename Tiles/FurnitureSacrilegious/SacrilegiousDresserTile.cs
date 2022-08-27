@@ -15,7 +15,7 @@ namespace CalamityMod.Tiles.FurnitureSacrilegious
             this.SetUpDresser();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Sacrilegious Dresser");
-            AddMapEntry(new Color(191, 142, 111), name);
+            AddMapEntry(new Color(43, 19, 42), name);
             TileID.Sets.DisableSmartCursor[Type] = true;
             AdjTiles = new int[] { TileID.Dressers };
             ContainerName.SetDefault("Sacrilegious Dresser");

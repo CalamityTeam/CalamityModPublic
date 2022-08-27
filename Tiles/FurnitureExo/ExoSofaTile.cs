@@ -15,7 +15,7 @@ namespace CalamityMod.Tiles.FurnitureExo
         public override void SetStaticDefaults()
         {
             this.SetUpSofa(true);
-            AddMapEntry(new Color(71, 95, 114), Language.GetText("MapObject.Bench"));
+            AddMapEntry(new Color(71, 95, 114), Language.GetText("Bench"));
         }
 
         public override bool CanExplode(int i, int j) => false;

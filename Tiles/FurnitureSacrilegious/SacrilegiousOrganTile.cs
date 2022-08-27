@@ -20,7 +20,7 @@ namespace CalamityMod.Tiles.FurnitureSacrilegious
             TileObjectData.addTile(Type);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Piano");
-            AddMapEntry(new Color(191, 142, 111), name);
+            AddMapEntry(new Color(43, 19, 42), name);
             AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTable);
         }
 

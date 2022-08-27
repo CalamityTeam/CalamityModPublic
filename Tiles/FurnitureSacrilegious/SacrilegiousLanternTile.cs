@@ -14,7 +14,7 @@ namespace CalamityMod.Tiles.FurnitureSacrilegious
         public override void SetStaticDefaults()
         {
             this.SetUpLantern();
-            AddMapEntry(new Color(191, 142, 111), Language.GetText("MapObject.Lantern"));
+            AddMapEntry(new Color(43, 19, 42), Language.GetText("MapObject.Lantern"));
 
             TileID.Sets.DisableSmartCursor[Type] = true;
             AdjTiles = new int[] { TileID.HangingLanterns };
@@ -40,9 +40,9 @@ namespace CalamityMod.Tiles.FurnitureSacrilegious
         {
             if (Main.tile[i, j].TileFrameX < 18)
             {
-                r = 0.8f;
-                g = 0.9f;
-                b = 1f;
+                r = 1.5f;
+                g = 0.3f;
+                b = 0.3f;
             }
             else
             {

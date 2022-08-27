@@ -14,7 +14,7 @@ namespace CalamityMod.Tiles.FurnitureSacrilegious
             this.SetUpBookcase();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Bookcase");
-            AddMapEntry(new Color(191, 142, 111), name);
+            AddMapEntry(new Color(43, 19, 42), name);
             AnimationFrameHeight = 54;
             AdjTiles = new int[] { TileID.Bookcases };
         }

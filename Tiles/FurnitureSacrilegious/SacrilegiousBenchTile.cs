@@ -14,7 +14,7 @@ namespace CalamityMod.Tiles.FurnitureSacrilegious
         public override void SetStaticDefaults()
         {
             this.SetUpSofa();
-            AddMapEntry(new Color(191, 142, 111), Language.GetText("MapObject.Bench"));
+            AddMapEntry(new Color(43, 19, 42), Language.GetText("Bench"));
         }
 
         public override bool CreateDust(int i, int j, ref int type)

@@ -11,7 +11,7 @@ namespace CalamityMod.Tiles.FurnitureSacrilegious
         public override void SetStaticDefaults()
         {
             this.SetUpPlatform();
-            AddMapEntry(new Color(218, 169, 97));
+            AddMapEntry(new Color(85, 98, 99));
             ItemDrop = ModContent.ItemType<OccultPlatformItem>();
             TileID.Sets.DisableSmartCursor[Type] = true;
             AdjTiles = new int[] { TileID.Platforms };

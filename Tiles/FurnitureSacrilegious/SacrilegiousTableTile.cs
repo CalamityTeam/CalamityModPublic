@@ -13,7 +13,7 @@ namespace CalamityMod.Tiles.FurnitureSacrilegious
         public override void SetStaticDefaults()
         {
             this.SetUpTable();
-            AddMapEntry(new Color(191, 142, 111), Language.GetText("MapObject.Table"));
+            AddMapEntry(new Color(43, 19, 42), Language.GetText("MapObject.Table"));
             AdjTiles = new int[] { TileID.Tables };
         }
 

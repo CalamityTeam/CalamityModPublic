@@ -14,7 +14,7 @@ namespace CalamityMod.Tiles.FurnitureSacrilegious
             this.SetUpWorkBench();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Work Bench");
-            AddMapEntry(new Color(191, 142, 111), name);
+            AddMapEntry(new Color(43, 19, 42), name);
             TileID.Sets.DisableSmartCursor[Type] = true;
             AdjTiles = new int[] { TileID.WorkBenches };
         }

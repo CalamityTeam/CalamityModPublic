@@ -30,7 +30,7 @@ namespace CalamityMod.Tiles.FurnitureSacrilegious
 
             DustType = -1;
             TileID.Sets.DisableSmartCursor[Type] = true;
-            AddMapEntry(new Color(13, 88, 130), Language.GetText("MapObject.Banner"));
+            AddMapEntry(new Color(43, 19, 42), Language.GetText("MapObject.Banner"));
         }
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)

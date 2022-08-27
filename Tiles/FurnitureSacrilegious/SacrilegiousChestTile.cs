@@ -15,7 +15,7 @@ namespace CalamityMod.Tiles.FurnitureSacrilegious
             this.SetUpChest(true);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Sacrilegious Chest");
-            AddMapEntry(new Color(191, 142, 111), name, MapChestName);
+            AddMapEntry(new Color(43, 19, 42), name, MapChestName);
             TileID.Sets.DisableSmartCursor[Type] = true;
             AdjTiles = new int[] { TileID.Containers };
             ContainerName.SetDefault("Sacrilegious Chest");
