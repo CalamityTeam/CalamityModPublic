@@ -57,6 +57,7 @@ namespace CalamityMod.NPCs.Polterghast
             Main.npcFrameCount[NPC.type] = 12;
             NPCID.Sets.TrailingMode[NPC.type] = 1;
             NPCID.Sets.BossBestiaryPriority.Add(Type);
+			NPCID.Sets.MPAllowedEnemies[Type] = true;
         }
 
         public override void SetDefaults()

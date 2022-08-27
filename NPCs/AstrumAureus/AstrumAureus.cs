@@ -52,6 +52,7 @@ namespace CalamityMod.NPCs.AstrumAureus
             };
             value.Position.Y -= 20f;
             NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
+			NPCID.Sets.MPAllowedEnemies[Type] = true;
         }
 
         public override void SetDefaults()

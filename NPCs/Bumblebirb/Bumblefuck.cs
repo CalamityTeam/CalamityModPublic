@@ -43,6 +43,7 @@ namespace CalamityMod.NPCs.Bumblebirb
             value.Position.X += 20f;
             value.Position.Y += 8f;
             NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
+			NPCID.Sets.MPAllowedEnemies[Type] = true;
         }
 
         public override string Texture => "CalamityMod/NPCs/Bumblebirb/Birb";

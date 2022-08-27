@@ -46,6 +46,7 @@ namespace CalamityMod.NPCs.AquaticScourge
             value.Position.X += 40f;
             value.Position.Y += 20f;
             NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
+			NPCID.Sets.MPAllowedEnemies[Type] = true;
         }
 
         public override void SetDefaults()

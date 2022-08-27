@@ -97,6 +97,7 @@ namespace CalamityMod.NPCs.HiveMind
             };
             value.Position.Y += 3f;
             NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
+			NPCID.Sets.MPAllowedEnemies[Type] = true;
         }
 
         public override void SetDefaults()

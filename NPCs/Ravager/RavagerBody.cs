@@ -45,6 +45,7 @@ namespace CalamityMod.NPCs.Ravager
             };
             value.Position.Y -= 50f;
             NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
+			NPCID.Sets.MPAllowedEnemies[Type] = true;
         }
 
         public override void SetDefaults()

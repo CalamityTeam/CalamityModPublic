@@ -35,6 +35,7 @@ namespace CalamityMod.NPCs.GreatSandShark
             };
             value.Position.X += 60f;
             NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
+			NPCID.Sets.MPAllowedEnemies[Type] = true;
         }
 
         public override void SetDefaults()

@@ -49,6 +49,7 @@ namespace CalamityMod.NPCs.Signus
             value.Position.X += 6f;
             value.Position.Y += 10f;
             NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
+			NPCID.Sets.MPAllowedEnemies[Type] = true;
         }
 
         public override void SetDefaults()

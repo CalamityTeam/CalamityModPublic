@@ -69,6 +69,7 @@ namespace CalamityMod.NPCs.StormWeaver
             value.Position.X += 70;
             value.Position.Y += 55;
             NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
+			NPCID.Sets.MPAllowedEnemies[Type] = true;
         }
 
         public override void SetDefaults()
