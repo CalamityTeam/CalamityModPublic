@@ -17,6 +17,7 @@ namespace CalamityMod.Items.SummonItems
             DisplayName.SetDefault("Cosmic Worm");
             Tooltip.SetDefault("Summons the Devourer of Gods\n" +
                 "Not consumable");
+			ItemID.Sets.SortingPriorityBossSpawns[Type] = 17; // Celestial Sigil
         }
 
         public override void SetDefaults()

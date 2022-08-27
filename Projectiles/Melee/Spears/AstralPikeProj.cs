@@ -1,9 +1,10 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
+using CalamityMod.Projectiles.BaseProjectiles;
 using CalamityMod.Projectiles.Typeless;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Projectiles.BaseProjectiles;
 
 namespace CalamityMod.Projectiles.Melee.Spears
 {
@@ -17,7 +18,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
         public override void SetDefaults()
         {
             Projectile.width = 40;  //The width of the .png file in pixels divided by 2.
-            Projectile.aiStyle = 19;
+            Projectile.aiStyle = ProjAIStyleID.Spear;
             Projectile.DamageType = TrueMeleeDamageClass.Instance;
             Projectile.timeLeft = 90;
             Projectile.height = 40;  //The height of the .png file in pixels divided by 2.

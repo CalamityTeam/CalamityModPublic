@@ -42,6 +42,7 @@ namespace CalamityMod.Items.Potions
                 AddIngredient(ItemID.PinkGel).
                 AddIngredient(ItemID.Daybloom).
                 AddTile(TileID.AlchemyTable).
+				AddConsumeItemCallback(Recipe.ConsumptionRules.Alchemy).
                 Register();
 
             CreateRecipe().

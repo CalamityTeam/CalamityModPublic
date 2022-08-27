@@ -12,6 +12,7 @@ namespace CalamityMod.Items.SummonItems.Invasion
             DisplayName.SetDefault("Martian Distress Beacon");
             Tooltip.SetDefault("Summons the Martian Madness\n" +
                 "Not consumable");
+			ItemID.Sets.SortingPriorityBossSpawns[Type] = 16; // Solar Tablet / Bloody Tear
         }
 
         public override void SetDefaults()

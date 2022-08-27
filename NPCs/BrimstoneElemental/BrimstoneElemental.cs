@@ -41,6 +41,7 @@ namespace CalamityMod.NPCs.BrimstoneElemental
             };
             value.Position.Y -= 24f;
             NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
+			NPCID.Sets.MPAllowedEnemies[Type] = true;
         }
 
         public override void SetDefaults()

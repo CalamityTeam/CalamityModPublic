@@ -20,6 +20,7 @@ namespace CalamityMod.Items.SummonItems
                 "Summons Polterghast when used in the Dungeon\n" +
                 "Enrages in large spaces\n" +
                 "Not consumable");
+			ItemID.Sets.SortingPriorityBossSpawns[Type] = 17; // Celestial Sigil
         }
 
         public override void SetDefaults()

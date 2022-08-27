@@ -13,6 +13,7 @@ namespace CalamityMod.Items.Placeables
         {
             SacrificeTotal = 25;
             DisplayName.SetDefault("Astral Bar");
+			ItemID.Sets.SortingPriorityMaterials[Type] = 99; // Luminite
         }
 
         public override void SetDefaults()

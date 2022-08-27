@@ -19,6 +19,7 @@ namespace CalamityMod.Items.Materials
             Tooltip.SetDefault("The smoldering essence of the Witch's wrath");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(7, 6));
             ItemID.Sets.AnimatesAsSoul[Type] = true;
+			ItemID.Sets.SortingPriorityMaterials[Type] = 123;
         }
 
         public override void SetDefaults()

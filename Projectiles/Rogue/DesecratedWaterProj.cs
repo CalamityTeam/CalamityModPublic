@@ -22,7 +22,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.friendly = true;
             Projectile.ignoreWater = true;
             Projectile.penetrate = 1;
-            Projectile.aiStyle = 2;
+            Projectile.aiStyle = ProjAIStyleID.ThrownProjectile;
             Projectile.timeLeft = 300;
             AIType = ProjectileID.ThrowingKnife;
             Projectile.DamageType = RogueDamageClass.Instance;

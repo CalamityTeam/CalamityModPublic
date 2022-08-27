@@ -22,6 +22,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             };
             NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
             NPCID.Sets.CantTakeLunchMoney[Type] = true;
+            NPCID.Sets.NormalGoldCritterBestiaryPriority.Add(Type);
         }
 
         public override void SetDefaults()

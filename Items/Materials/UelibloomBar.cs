@@ -13,6 +13,7 @@ namespace CalamityMod.Items.Materials
         {
             SacrificeTotal = 25;
             DisplayName.SetDefault("Uelibloom Bar"); // Yoo-luh Bloom
+			ItemID.Sets.SortingPriorityMaterials[Type] = 106;
         }
 
         public override void SetDefaults()

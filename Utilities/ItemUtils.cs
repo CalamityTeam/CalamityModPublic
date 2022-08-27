@@ -526,6 +526,29 @@ namespace CalamityMod
             }
         }
 
+		public static void TreasureBagLightAndDust(this Item item)
+		{
+			// Spawn some light and dust when dropped in the world
+			Lighting.AddLight(item.Center, Color.White.ToVector3() * 0.4f);
+
+			if (item.timeSinceItemSpawned % 12 == 0)
+			{
+				Vector2 center = item.Center + new Vector2(0f, item.height * -0.1f);
+
+				// This creates a randomly rotated vector of length 1, which gets it's components multiplied by the parameters
+				Vector2 direction = Main.rand.NextVector2CircularEdge(item.width * 0.6f, item.height * 0.6f);
+				float distance = 0.3f + Main.rand.NextFloat() * 0.5f;
+				Vector2 velocity = new Vector2(0f, -Main.rand.NextFloat() * 0.3f - 1.5f);
+
+				Dust dust = Dust.NewDustPerfect(center + direction * distance, DustID.SilverFlame, velocity);
+				dust.scale = 0.5f;
+				dust.fadeIn = 1.1f;
+				dust.noGravity = true;
+				dust.noLight = true;
+				dust.alpha = 0;
+			}
+		}
+
 		#region Rogue Prefixes
         public static bool CanGetRoguePrefix(this Item item) => item.CountsAsClass<RogueDamageClass>() && item.maxStack == 1;
 

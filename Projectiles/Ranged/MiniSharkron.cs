@@ -16,7 +16,7 @@ namespace CalamityMod.Projectiles.Ranged
         {
             Projectile.width = 10;
             Projectile.height = 10;
-            Projectile.aiStyle = 1;
+            Projectile.aiStyle = ProjAIStyleID.Arrow;
             AIType = ProjectileID.MiniSharkron;
             Projectile.friendly = true;
             Projectile.alpha = 255;

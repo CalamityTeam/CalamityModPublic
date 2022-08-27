@@ -251,6 +251,17 @@ namespace CalamityMod.NPCs.Crags
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
             player.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120, true);
+		}
+
+		public override void OnKill()
+		{
+			// Increase the kill count of Scryllars for the Bestiary
+			if (NPC.GetWereThereAnyInteractions())
+			{
+				NPC nPC = new NPC();
+				nPC.SetDefaults(ModContent.NPCType<Scryllar>());
+				Main.BestiaryTracker.Kills.RegisterKill(nPC);
+			}
         }
 
         public override void HitEffect(int hitDirection, double damage)

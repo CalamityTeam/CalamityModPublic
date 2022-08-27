@@ -19,7 +19,7 @@ namespace CalamityMod.Projectiles.Enemy
             Projectile.height = 6;
             Projectile.hostile = true;
             Projectile.Opacity = 0f;
-            Projectile.aiStyle = 1;
+            Projectile.aiStyle = ProjAIStyleID.Arrow;
             Projectile.penetrate = -1;
         }
 

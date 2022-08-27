@@ -19,6 +19,7 @@ namespace CalamityMod.Items.SummonItems
                                "Summons Jungle Dragon, Yharon when used in the Jungle\n" +
                                "Enrages outside the fire walls\n" +
                                "Not consumable");
+			ItemID.Sets.SortingPriorityBossSpawns[Type] = 17; // Celestial Sigil
         }
 
         public override void SetDefaults()
@@ -45,7 +46,7 @@ namespace CalamityMod.Items.SummonItems
 
         public override bool? UseItem(Player player)
         {
-            SoundEngine.PlaySound(SoundID.Roar, player.position);
+            SoundEngine.PlaySound(Yharon.FireSound, player.position);
             if (Main.netMode != NetmodeID.MultiplayerClient)
                 NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<Yharon>());
             else

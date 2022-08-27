@@ -7,6 +7,7 @@ using Terraria.Graphics.Shaders;
 using static Terraria.ModLoader.ModContent;
 using CalamityMod.Items.Armor.DesertProwler;
 using CalamityMod.Particles;
+using CalamityMod.UI;
 
 namespace CalamityMod.Cooldowns
 {
@@ -41,7 +42,7 @@ namespace CalamityMod.Cooldowns
         }
 
         //Charge down at first, and then charge back up
-        private float AdjustedCompletion => PowerActive ? PowerPercent : 1 - (instance.timeLeft / (float)DesertProwlerHat.SmokeCooldown);
+        private float AdjustedCompletion => CooldownRackUI.DebugFullDisplay ? CooldownRackUI.DebugForceCompletion : PowerActive ? PowerPercent : 1 - (instance.timeLeft / (float)DesertProwlerHat.SmokeCooldown);
 
         public override void ApplyBarShaders(float opacity)
         {

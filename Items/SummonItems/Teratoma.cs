@@ -17,6 +17,7 @@ namespace CalamityMod.Items.SummonItems
             Tooltip.SetDefault("Summons the Hive Mind when used in the Corruption\n" +
                 "Enrages outside the Underground Corruption\n" +
                 "Not consumable");
+			ItemID.Sets.SortingPriorityBossSpawns[Type] = 5; // Abeemination / Deer Thing
         }
 
         public override void SetDefaults()

@@ -57,31 +57,10 @@ namespace CalamityMod
             spawnedCirrus = false;
             foundHomePermafrost = false;
 
-            anglerName = false;
-            armsDealerName = false;
-            clothierName = false;
-            cyborgName = false;
-            demolitionistName = false;
-            dryadName = false;
-            dyeTraderName = false;
-            goblinTinkererName = false;
-            guideName = false;
-            mechanicName = false;
-            merchantName = false;
-            nurseName = false;
-            painterName = false;
-            partyGirlName = false;
-            pirateName = false;
-            princessName = false;
-            skeletonMerchantName = false;
-            steampunkerName = false;
-            stylistName = false;
-            tavernkeepName = false;
-            taxCollectorName = false;
-            travelingMerchantName = false;
-            truffleName = false;
-            witchDoctorName = false;
-            wizardName = false;
+            catName = false;
+            dogName = false;
+            bunnyName = false;
+
             onionMode = false;
             revenge = false;
             TalkedToDraedon = false;
@@ -121,58 +100,14 @@ namespace CalamityMod
             if (foundHomePermafrost)
                 downed.Add("archmageHome");
 
-            #region Save NPC Names
-            if (anglerName)
-                downed.Add("anglerName");
-            if (armsDealerName)
-                downed.Add("armsDealerName");
-            if (clothierName)
-                downed.Add("clothierName");
-            if (cyborgName)
-                downed.Add("cyborgName");
-            if (demolitionistName)
-                downed.Add("demolitionistName");
-            if (dryadName)
-                downed.Add("dryadName");
-            if (dyeTraderName)
-                downed.Add("dyeTraderName");
-            if (goblinTinkererName)
-                downed.Add("goblinTinkererName");
-            if (guideName)
-                downed.Add("guideName");
-            if (mechanicName)
-                downed.Add("mechanicName");
-            if (merchantName)
-                downed.Add("merchantName");
-            if (nurseName)
-                downed.Add("nurseName");
-            if (painterName)
-                downed.Add("painterName");
-            if (partyGirlName)
-                downed.Add("partyGirlName");
-            if (pirateName)
-                downed.Add("pirateName");
-            if (princessName)
-                downed.Add("princessName");
-            if (skeletonMerchantName)
-                downed.Add("skeletonMerchantName");
-            if (steampunkerName)
-                downed.Add("steampunkerName");
-            if (stylistName)
-                downed.Add("stylistName");
-            if (tavernkeepName)
-                downed.Add("tavernkeepName");
-            if (taxCollectorName)
-                downed.Add("taxCollectorName");
-            if (travelingMerchantName)
-                downed.Add("travelingMerchantName");
-            if (truffleName)
-                downed.Add("truffleName");
-            if (witchDoctorName)
-                downed.Add("witchDoctorName");
-            if (wizardName)
-                downed.Add("wizardName");
-            #endregion
+            #region Save Pet Names
+            if (catName)
+                downed.Add("catName");
+            if (dogName)
+                downed.Add("dogName");
+            if (bunnyName)
+                downed.Add("bunnyName");
+			#endregion
 
             if (AcidRainEvent.HasTriedToSummonOldDuke)
                 downed.Add("spawnedBoomer");
@@ -209,45 +144,22 @@ namespace CalamityMod
         public override void LoadWorldData(TagCompound tag)
         {
             var downed = tag.GetList<string>("downed");
-            TalkedToDraedon = downed.Contains("TalkedToDraedon");
             onionMode = downed.Contains("onionMode");
+            TalkedToDraedon = downed.Contains("TalkedToDraedon");
             revenge = downed.Contains("revenge");
             death = downed.Contains("death");
             Abyss.AtLeftSideOfWorld = downed.Contains("abyssSide");
             BossRushEvent.BossRushActive = downed.Contains("bossRushActive");
             AcidRainEvent.AcidRainEventIsOngoing = downed.Contains("acidRain");
-
             spawnedBandit = downed.Contains("bandit");
             spawnedCirrus = downed.Contains("drunkPrincess");
             foundHomePermafrost = downed.Contains("archmageHome");
 
-            #region Load NPC Names
-            anglerName = downed.Contains("anglerName");
-            armsDealerName = downed.Contains("armsDealerName");
-            clothierName = downed.Contains("clothierName");
-            cyborgName = downed.Contains("cyborgName");
-            demolitionistName = downed.Contains("demolitionistName");
-            dryadName = downed.Contains("dryadName");
-            dyeTraderName = downed.Contains("dyeTraderName");
-            goblinTinkererName = downed.Contains("goblinTinkererName");
-            guideName = downed.Contains("guideName");
-            mechanicName = downed.Contains("mechanicName");
-            merchantName = downed.Contains("merchantName");
-            nurseName = downed.Contains("nurseName");
-            painterName = downed.Contains("painterName");
-            partyGirlName = downed.Contains("partyGirlName");
-            pirateName = downed.Contains("pirateName");
-            princessName = downed.Contains("princessName");
-            skeletonMerchantName = downed.Contains("skeletonMerchantName");
-            steampunkerName = downed.Contains("steampunkerName");
-            stylistName = downed.Contains("stylistName");
-            tavernkeepName = downed.Contains("tavernkeepName");
-            taxCollectorName = downed.Contains("taxCollectorName");
-            travelingMerchantName = downed.Contains("travelingMerchantName");
-            truffleName = downed.Contains("truffleName");
-            witchDoctorName = downed.Contains("witchDoctorName");
-            wizardName = downed.Contains("wizardName");
-            #endregion
+            #region Load Pet Names
+            catName = downed.Contains("catName");
+            dogName = downed.Contains("dogName");
+            bunnyName = downed.Contains("bunnyName");
+			#endregion
 
             AcidRainEvent.HasTriedToSummonOldDuke = downed.Contains("spawnedBoomer");
             AcidRainEvent.HasStartedAcidicDownpour = downed.Contains("startDownpour");

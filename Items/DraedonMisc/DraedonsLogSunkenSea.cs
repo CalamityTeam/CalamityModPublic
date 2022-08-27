@@ -9,6 +9,7 @@ namespace CalamityMod.Items.DraedonMisc
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Draedon's Log - Study on Sunken Aquatic Life");
             Tooltip.SetDefault("Click to view its contents");
         }

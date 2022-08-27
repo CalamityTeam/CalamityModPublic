@@ -21,7 +21,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.penetrate = 3;
             Projectile.timeLeft = 300;
             Projectile.minion = true;
-            Projectile.aiStyle = 14;
+            Projectile.aiStyle = ProjAIStyleID.GroundProjectile;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 10;
             Projectile.extraUpdates = 1;

@@ -14,6 +14,7 @@ namespace CalamityMod.Items.SummonItems.Invasion
             DisplayName.SetDefault("Caustic Tear");
             Tooltip.SetDefault("Causes an acidic downpour in the Sulphurous Sea\n" +
                 "Not consumable");
+			ItemID.Sets.SortingPriorityBossSpawns[Type] = 1; // Suspicious Looking Eye
 
         }
 

@@ -11,6 +11,7 @@ namespace CalamityMod.Items.Materials
         {
             SacrificeTotal = 25;
             DisplayName.SetDefault("Sea Remains");
+			ItemID.Sets.SortingPriorityMaterials[Type] = 60; // Meteorite
         }
 
         public override void SetDefaults()

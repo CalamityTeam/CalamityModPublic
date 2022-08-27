@@ -24,7 +24,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.friendly = true;
             Projectile.minion = true;
             Projectile.minionSlots = 0f;
-            Projectile.aiStyle = 1;
+            Projectile.aiStyle = ProjAIStyleID.Arrow;
             AIType = ProjectileID.BulletHighVelocity;
             Projectile.penetrate = 1;
             Projectile.timeLeft = 120;

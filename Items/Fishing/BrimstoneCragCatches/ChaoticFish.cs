@@ -25,6 +25,11 @@ namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
             Item.rare = ItemRarityID.Green;
         }
 
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = ContentSamples.CreativeHelper.ItemGroup.GoodieBags;
+		}
+
         public override bool CanRightClick() => true;
         public override void ModifyItemLoot(ItemLoot itemLoot) => itemLoot.Add(ModContent.ItemType<EssenceofChaos>(), 1, 5, 10);
     }

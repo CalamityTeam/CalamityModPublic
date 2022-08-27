@@ -10,6 +10,7 @@ namespace CalamityMod.Items.Materials
         {
             SacrificeTotal = 100;
             DisplayName.SetDefault("Bloodstone");
+			ItemID.Sets.SortingPriorityMaterials[Type] = 112;
         }
 
         public override void SetDefaults()

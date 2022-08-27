@@ -19,7 +19,7 @@ namespace CalamityMod.Projectiles.Summon
         {
             Projectile.width = 2;
             Projectile.height = 2;
-            Projectile.aiStyle = 1;
+            Projectile.aiStyle = ProjAIStyleID.Arrow;
             Projectile.friendly = true;
             Projectile.ignoreWater = true;
             Projectile.minion = true;

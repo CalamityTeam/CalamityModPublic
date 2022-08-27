@@ -6,6 +6,7 @@ using Terraria.Audio;
 using Terraria.Graphics.Shaders;
 using static Terraria.ModLoader.ModContent;
 using CalamityMod.Items.Armor.Wulfrum;
+using CalamityMod.UI;
 
 namespace CalamityMod.Cooldowns
 {
@@ -40,7 +41,7 @@ namespace CalamityMod.Cooldowns
         }
 
         //Charge down at first, and then charge back up
-        private float AdjustedCompletion => PowerActive ? (instance.timeLeft - WulfrumHat.BastionCooldown) / (float)WulfrumHat.BastionTime : 1 - (instance.timeLeft / (float)WulfrumHat.BastionCooldown);
+        private float AdjustedCompletion => CooldownRackUI.DebugFullDisplay ? CooldownRackUI.DebugForceCompletion : PowerActive ? (instance.timeLeft - WulfrumHat.BastionCooldown) / (float)WulfrumHat.BastionTime : 1 - (instance.timeLeft / (float)WulfrumHat.BastionCooldown);
 
         public override void ApplyBarShaders(float opacity)
         {

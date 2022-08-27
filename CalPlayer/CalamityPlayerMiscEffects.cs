@@ -2853,7 +2853,10 @@ namespace CalamityMod.CalPlayer
             }
 
             if (bloodyWormTooth)
+			{
                 Player.GetDamage<MeleeDamageClass>() += 0.07f;
+				Player.GetAttackSpeed<MeleeDamageClass>() += 0.07f;
+			}
 
             if (dAmulet)
                 Player.pStone = true;

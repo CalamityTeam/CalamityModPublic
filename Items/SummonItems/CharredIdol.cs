@@ -19,6 +19,7 @@ namespace CalamityMod.Items.SummonItems
                "Summons the Brimstone Elemental when used in the Brimstone Crags\n" +
                "Enrages outside the Brimstone Crags\n" +
                "Not consumable");
+			ItemID.Sets.SortingPriorityBossSpawns[Type] = 9; // Mechanical Skull
         }
 
         public override void SetDefaults()

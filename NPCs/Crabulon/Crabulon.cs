@@ -45,6 +45,7 @@ namespace CalamityMod.NPCs.Crabulon
             };
             value.Position.Y += 80f;
             NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
+			NPCID.Sets.MPAllowedEnemies[Type] = true;
         }
 
         public override void SetDefaults()

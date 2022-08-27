@@ -17,6 +17,7 @@ namespace CalamityMod.Items.Materials
             SacrificeTotal = 25;
             DisplayName.SetDefault("Cosmilite Bar");
             Tooltip.SetDefault("A chunk of durable and highly resilient cosmic steel");
+			ItemID.Sets.SortingPriorityMaterials[Type] = 114;
         }
 
         public override void SetDefaults()

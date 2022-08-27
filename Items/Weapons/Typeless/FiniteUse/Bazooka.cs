@@ -43,6 +43,11 @@ namespace CalamityMod.Items.Weapons.Typeless.FiniteUse
                 Item.Calamity().timesUsed = 2;
         }
 
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = (ContentSamples.CreativeHelper.ItemGroup)CalamityResearchSorting.ClasslessWeapon;
+		}
+
         public override bool OnPickup(Player player)
         {
             if (CalamityPlayer.areThereAnyDamnBosses)

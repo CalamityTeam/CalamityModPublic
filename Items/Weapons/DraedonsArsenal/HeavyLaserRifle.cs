@@ -19,6 +19,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Heavy Laser Rifle");
             Tooltip.SetDefault("Laser weapon used by heavy infantry units in Yharim's army");
         }

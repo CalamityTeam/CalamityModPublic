@@ -18,7 +18,7 @@ namespace CalamityMod.Projectiles.Melee
         {
             Projectile.width = 6;
             Projectile.height = 6;
-            Projectile.aiStyle = 24;
+            Projectile.aiStyle = ProjAIStyleID.CrystalShard;
             Projectile.friendly = true;
             Projectile.penetrate = 1;
             Projectile.alpha = 50;

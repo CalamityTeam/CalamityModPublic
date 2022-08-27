@@ -1,6 +1,6 @@
-﻿using Terraria;
+﻿using CalamityMod.Projectiles.BaseProjectiles;
+using Terraria;
 using Terraria.ID;
-using CalamityMod.Projectiles.BaseProjectiles;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee.Spears
@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
         public override void SetDefaults()
         {
             Projectile.width = 40;
-            Projectile.aiStyle = 19;
+            Projectile.aiStyle = ProjAIStyleID.Spear;
             Projectile.DamageType = TrueMeleeDamageClass.Instance;
             Projectile.timeLeft = 90;
             Projectile.height = 40;

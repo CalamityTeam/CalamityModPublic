@@ -11,6 +11,7 @@ namespace CalamityMod.Items.LabFinders
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Purple Seeking Mechanism");
             Tooltip.SetDefault("Moves swiftly towards a lab within the sky");
         }

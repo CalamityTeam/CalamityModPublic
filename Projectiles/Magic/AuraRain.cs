@@ -17,7 +17,7 @@ namespace CalamityMod.Projectiles.Magic
         {
             Projectile.width = 14;
             Projectile.height = 14;
-            Projectile.aiStyle = 45;
+            Projectile.aiStyle = ProjAIStyleID.RainCloud;
             Projectile.friendly = true;
             Projectile.penetrate = -1;
             Projectile.tileCollide = true;

@@ -1,19 +1,10 @@
-﻿using System;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿using CalamityMod.Items.Placeables.Pylons;
 using CalamityMod.Systems;
-using CalamityMod.Buffs.Placeables;
-using CalamityMod.TileEntities;
-using CalamityMod.Items.Placeables.Pylons;
-using ReLogic.Content;
-using Terraria;
-using Terraria.DataStructures;
-using Terraria.GameContent;
-using Terraria.ID;
-using Terraria.Map;
-using Terraria.ModLoader;
-using Terraria.ModLoader.Default;
 using CalamityMod.Tiles.BaseTiles;
+using Microsoft.Xna.Framework;
+using Terraria;
+using Terraria.GameContent;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.Pylons
 {

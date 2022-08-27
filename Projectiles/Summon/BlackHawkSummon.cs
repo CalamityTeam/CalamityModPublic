@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.netImportant = true;
             Projectile.friendly = true;
             Projectile.ignoreWater = true;
-            Projectile.aiStyle = 66;
+            Projectile.aiStyle = ProjAIStyleID.MiniTwins;
             Projectile.minionSlots = 1f;
             Projectile.timeLeft = 18000;
             Projectile.penetrate = -1;

@@ -22,7 +22,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.penetrate = 1;
             Projectile.tileCollide = false;
             Projectile.timeLeft = 60;
-            Projectile.aiStyle = 27;
+            Projectile.aiStyle = ProjAIStyleID.Beam;
         }
 
         public override void AI()

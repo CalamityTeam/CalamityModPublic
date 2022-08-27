@@ -29,11 +29,11 @@ namespace CalamityMod.Items.Accessories
         // Each successive level costs (400,000 * level) MORE damage, so the total required goes up quadratically.
         // Total required to reach level 60 is 732,000,000 damage dealt.
         // This is within one order of magnitude of the integer limit, so relevant values are stored as longs.
-        private const long BaseLevelCost = 400000L;
-        private static long LevelCost(int level) => BaseLevelCost * level;
-        private static long CumulativeLevelCost(int level) => (BaseLevelCost / 2L) * level * (level + 1);
-        private const int MaxLevel = 25; // was 60.
-        private const float RageDamagePerLevel = 0.01f; // x1.35 --> x1.60 (used to be x1.95, jesus)
+        internal const long BaseLevelCost = 400000L;
+        internal static long LevelCost(int level) => BaseLevelCost * level;
+        internal static long CumulativeLevelCost(int level) => (BaseLevelCost / 2L) * level * (level + 1);
+        internal const int MaxLevel = 25; // was 60.
+        internal const float RageDamagePerLevel = 0.01f; // x1.35 --> x1.60 (used to be x1.95, jesus)
 
         internal int level = 0;
         internal long totalRageDamage = 0L;
@@ -77,6 +77,8 @@ namespace CalamityMod.Items.Accessories
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.shatteredCommunity = true;
+            ShatteredCommunityPlayer scp = player.GetModPlayer<ShatteredCommunityPlayer>();
+            scp.sc = this;
 
             // Shattered Community gives (mostly) the same boosts as normal Community
             // It does not give melee speed or minion knockback, but always gives life regen (instead of only conditionally)
@@ -100,61 +102,6 @@ namespace CalamityMod.Items.Accessories
         {
             float brightness = Main.essScale;
             Lighting.AddLight(Item.Center, 0.92f * brightness, 0.42f * brightness, 0.92f * brightness);
-        }
-
-        internal static void AccumulateRageDamage(Player player, CalamityPlayer mp, long damage)
-        {
-            if (!mp.shatteredCommunity)
-                return;
-            // Static context, so the item ID has to be retrieved from TML.
-            int thisItemID = ModContent.ItemType<ShatteredCommunity>();
-            ShatteredCommunity sc = null;
-
-            // First, find the Shattered Community in the player's inventory.
-            // slots 3, 4, 5, 6, 7, 8, 9 are valid non-vanity accessories
-            for (int i = 3; i <= 9; ++i)
-            {
-                Item acc = player.armor[i];
-                if (acc.type == thisItemID)
-                    sc = acc.ModItem as ShatteredCommunity;
-            }
-
-            // Safety check in case for some reason the equipped Shattered Community isn't found.
-            if (sc is null)
-                return;
-
-            // Actually accumulate the damage.
-            sc.totalRageDamage += damage;
-
-            // Level up if applicable.
-            if (sc.level < MaxLevel && sc.totalRageDamage > CumulativeLevelCost(sc.level + 1))
-            {
-                ++sc.level;
-                sc.LevelUpEffects(player);
-            }
-        }
-
-        private void LevelUpEffects(Player player)
-        {
-            // Spawn the purple laser beam from failing the Dungeon Defenders event.
-            var source = player.GetSource_Accessory(Item);
-            int projID = ProjectileID.DD2ElderWins;
-            Vector2 offset = new Vector2(0f, 800f); // The effect is extremely tall, so start it very low down
-            Projectile fx = Projectile.NewProjectileDirect(source, player.Center + offset, Vector2.Zero, projID, 0, 0f, player.whoAmI);
-            fx.friendly = false;
-            fx.hostile = false;
-            // On the 108th update, crystal debris is spawned, so we avoid that.
-            fx.timeLeft = 107;
-            fx.MaxUpdates = 2; // Make the animation play at double speed.
-
-            // Play a weird dimensional lightning sound simultaneously.
-            var extraSound = SoundID.DD2_EtherianPortalDryadTouch with { Volume = SoundID.DD2_EtherianPortalDryadTouch.Volume * 1.4f };
-            SoundEngine.PlaySound(extraSound, player.Center);
-
-            // Display a level up text notification.
-            Rectangle textArea = new Rectangle((int)player.Center.X, (int)player.Center.Y, 1, 1);
-            Color textColor = new Color(236, 209, 236);
-            CombatText.NewText(textArea, textColor, "The Community cracks...", false, false);
         }
 
         public override void ModifyTooltips(List<TooltipLine> tooltips)
@@ -222,6 +169,52 @@ namespace CalamityMod.Items.Accessories
         {
             level = reader.ReadInt32();
             totalRageDamage = reader.ReadInt64();
+        }
+    }
+
+    public class ShatteredCommunityPlayer : ModPlayer
+    {
+        internal ShatteredCommunity sc = null;
+
+        public override void ResetEffects() => sc = null;
+
+        internal void AccumulateRageDamage(long damage)
+        {
+            if (sc is null)
+                return;
+
+            // Actually accumulate the damage.
+            sc.totalRageDamage += damage;
+
+            // Level up if applicable.
+            if (sc.level < ShatteredCommunity.MaxLevel && sc.totalRageDamage > ShatteredCommunity.CumulativeLevelCost(sc.level + 1))
+            {
+                ++sc.level;
+                LevelUpEffects(sc.Item);
+            }
+        }
+
+        private void LevelUpEffects(Item item)
+        {
+            // Spawn the purple laser beam from failing the Dungeon Defenders event.
+            var source = Player.GetSource_Accessory(item);
+            int projID = ProjectileID.DD2ElderWins;
+            Vector2 offset = new Vector2(0f, 800f); // The effect is extremely tall, so start it very low down
+            Projectile fx = Projectile.NewProjectileDirect(source, Player.Center + offset, Vector2.Zero, projID, 0, 0f, Player.whoAmI);
+            fx.friendly = false;
+            fx.hostile = false;
+            // On the 108th update, crystal debris is spawned, so we avoid that.
+            fx.timeLeft = 107;
+            fx.MaxUpdates = 2; // Make the animation play at double speed.
+
+            // Play a weird dimensional lightning sound simultaneously.
+            var extraSound = SoundID.DD2_EtherianPortalDryadTouch with { Volume = SoundID.DD2_EtherianPortalDryadTouch.Volume * 1.4f };
+            SoundEngine.PlaySound(extraSound, Player.Center);
+
+            // Display a level up text notification.
+            Rectangle textArea = new Rectangle((int)Player.Center.X, (int)Player.Center.Y, 1, 1);
+            Color textColor = new Color(236, 209, 236);
+            CombatText.NewText(textArea, textColor, "The Community cracks...", false, false);
         }
     }
 }

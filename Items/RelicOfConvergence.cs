@@ -32,6 +32,11 @@ namespace CalamityMod.Items
             Item.shoot = ModContent.ProjectileType<RelicOfConvergenceCrystal>();
         }
 
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = (ContentSamples.CreativeHelper.ItemGroup)CalamityResearchSorting.ToolsOther;
+		}
+
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0 && player.ownedProjectileCounts[ModContent.ProjectileType<RelicOfDeliveranceSpear>()] <= 0;
     }
 }

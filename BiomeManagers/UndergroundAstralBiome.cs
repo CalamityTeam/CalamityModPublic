@@ -11,6 +11,8 @@ namespace CalamityMod.BiomeManagers
         public override ModUndergroundBackgroundStyle UndergroundBackgroundStyle => ModContent.Find<ModUndergroundBackgroundStyle>("CalamityMod/AstralUndergroundBGStyle");
         public override SceneEffectPriority Priority => SceneEffectPriority.BiomeHigh;
         public override string BestiaryIcon => "CalamityMod/BiomeManagers/UndergroundAstralIcon";
+		// Could use its own unique background
+        public override string BackgroundPath => "CalamityMod/Backgrounds/MapBackgrounds/AstralBG";
 
         public override int Music => CalamityMod.Instance.GetMusicFromMusicMod("AstralUnderground") ?? MusicID.Space;
 
@@ -21,8 +23,7 @@ namespace CalamityMod.BiomeManagers
 
         public override bool IsBiomeActive(Player player)
         {
-            return !player.ZoneDungeon && (BiomeTileCounterSystem.AstralTiles > 950 || (player.ZoneSnow && BiomeTileCounterSystem.AstralTiles > 300)) && 
-                (player.ZoneDirtLayerHeight || player.ZoneRockLayerHeight || player.ZoneUnderworldHeight);
+            return !player.ZoneDungeon && BiomeTileCounterSystem.AstralTiles > 950 && (player.ZoneDirtLayerHeight || player.ZoneRockLayerHeight || player.ZoneUnderworldHeight);
         }
 
         // Just slightly above the above-ground astral biomes.

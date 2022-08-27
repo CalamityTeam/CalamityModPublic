@@ -44,9 +44,16 @@ namespace CalamityMod.Items.Fishing
             Mod thorium = CalamityMod.Instance.thorium;
             if (thorium is not null)
             {
-                itemLoot.Add(thorium.Find<ModItem>("Pearl").Type, 4, gemMin, gemMax);
-                itemLoot.Add(thorium.Find<ModItem>("Opal").Type, 4, gemMin, gemMax);
-                itemLoot.Add(thorium.Find<ModItem>("Onyx").Type, 4, gemMin, gemMax);
+				try
+				{
+					itemLoot.Add(thorium.Find<ModItem>("Pearl").Type, 4, gemMin, gemMax);
+					itemLoot.Add(thorium.Find<ModItem>("Opal").Type, 4, gemMin, gemMax);
+					itemLoot.Add(thorium.Find<ModItem>("Onyx").Type, 4, gemMin, gemMax);
+				}
+				catch
+				{
+					CalamityMod.Instance.Logger.Debug("One of the items in this file got renamed internally. Please report this in the #bugs-read-pins channel of the official Calamity discord server.");
+				}
             }
         }
     }

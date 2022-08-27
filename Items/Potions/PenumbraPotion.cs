@@ -41,6 +41,7 @@ namespace CalamityMod.Items.Potions
                 AddIngredient<SolarVeil>(3).
                 AddIngredient(ItemID.LunarTabletFragment).
                 AddTile(TileID.AlchemyTable).
+				AddConsumeItemCallback(Recipe.ConsumptionRules.Alchemy).
                 Register();
 
             CreateRecipe().

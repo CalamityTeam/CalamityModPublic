@@ -20,6 +20,7 @@ namespace CalamityMod.Items.SummonItems
                 "Unique drop changes depending on the biome fought in\n" +
                 "Enrages when fought during nighttime or when outside the Hallow or Underworld\n" +
                 "Not consumable");
+			ItemID.Sets.SortingPriorityBossSpawns[Type] = 17; // Celestial Sigil
         }
 
         public override void SetDefaults()

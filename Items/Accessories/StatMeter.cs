@@ -28,6 +28,11 @@ namespace CalamityMod.Items.Accessories
             Item.rare = ItemRarityID.Blue;
         }
 
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = (ContentSamples.CreativeHelper.ItemGroup)CalamityResearchSorting.ToolsOther;
+		}
+
         public override void ModifyTooltips(List<TooltipLine> list)
         {
             Player player = Main.player[Main.myPlayer];

@@ -13,6 +13,7 @@ namespace CalamityMod.Items.DraedonMisc
 
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 100;
             DisplayName.SetDefault("Draedon Power Cell");
             Tooltip.SetDefault("Used to charge Draedon's weaponry at a Charging Station\n" +
                                "Also can be processed by the Extractinator for spare parts");

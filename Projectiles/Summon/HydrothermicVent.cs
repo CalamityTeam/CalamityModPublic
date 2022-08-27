@@ -171,7 +171,7 @@ namespace CalamityMod.Projectiles.Summon
                             if (reversedGravity)
                                 velocityY *= -1f;
                             int flame = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.oldPosition.X + (Projectile.width / 2), Projectile.oldPosition.Y + (Projectile.height / 2), velocityX, velocityY, projectileType, Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
-                            Main.projectile[flame].aiStyle = 1;
+                            Main.projectile[flame].aiStyle = ProjAIStyleID.Arrow;
                             Main.projectile[flame].originalDamage = Projectile.originalDamage;
                         }
                         SoundEngine.PlaySound(SoundID.Item20, Projectile.position);

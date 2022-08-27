@@ -36,13 +36,18 @@ namespace CalamityMod.Items.Accessories
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.angelTreads = true;
             player.accRunSpeed = 7.5f;
-            player.rocketBoots = 3;
+            player.rocketBoots = player.vanityRocketBoots = 3;
             player.moveSpeed += 0.12f;
             player.iceSkate = true;
             player.waterWalk = true;
             player.fireWalk = true;
             player.lavaMax += 240;
             player.buffImmune[BuffID.OnFire] = true;
+        }
+
+        public override void UpdateVanity(Player player)
+        {
+            player.vanityRocketBoots = 3;
         }
 
         public override void AddRecipes()

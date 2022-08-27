@@ -31,7 +31,7 @@ using CalamityMod.Items.Armor.Wulfrum;
 using CalamityMod.Items.Dyes;
 using CalamityMod.Items.Mounts;
 using CalamityMod.Items.Mounts.Minecarts;
-using CalamityMod.Items.TreasureBags;
+using CalamityMod.Items.TreasureBags.MiscGrabBags;
 using CalamityMod.Items.VanillaArmorChanges;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
@@ -519,7 +519,6 @@ namespace CalamityMod.CalPlayer
         public bool jellyfishNecklace = false;
         public bool fairyBoots = false;
         public bool hellfireTreads = false;
-        public bool abyssDivingGear = false;
         public bool abyssalAmulet = false;
         public bool lumenousAmulet = false;
         public bool aquaticEmblem = false;
@@ -561,9 +560,7 @@ namespace CalamityMod.CalPlayer
         public bool abyssalMirror = false;
         public bool eclipseMirror = false;
         public bool featherCrown = false;
-        public bool featherCrownDraw = false;
         public bool moonCrown = false;
-        public bool moonCrownDraw = false;
         public int rogueCrownCooldown = 0;
         public bool dragonScales = false;
         public bool gloveOfPrecision = false;
@@ -1736,7 +1733,6 @@ namespace CalamityMod.CalPlayer
             jellyfishNecklace = false;
             fairyBoots = false;
             hellfireTreads = false;
-            abyssDivingGear = false;
             abyssalAmulet = false;
             lumenousAmulet = false;
             aquaticEmblem = false;
@@ -1813,9 +1809,7 @@ namespace CalamityMod.CalPlayer
             abyssalMirror = false;
             eclipseMirror = false;
             featherCrown = false;
-            featherCrownDraw = false;
             moonCrown = false;
-            moonCrownDraw = false;
             dragonScales = false;
             gloveOfPrecision = false;
             gloveOfRecklessness = false;
@@ -2110,7 +2104,6 @@ namespace CalamityMod.CalPlayer
             AbleToSelectExoMech = false;
 
             EnchantHeldItemEffects(Player, Player.Calamity(), Player.ActiveItem());
-            BaseIdleHoldoutProjectile.CheckForEveryHoldout(Player);
         }
         #endregion
 
@@ -3536,6 +3529,7 @@ namespace CalamityMod.CalPlayer
                 Player.GetDamage<TrueMeleeDamageClass>() += 0.1f;
 
             ForceVariousEffects();
+            BaseIdleHoldoutProjectile.CheckForEveryHoldout(Player);
         }
         #endregion
 
@@ -3753,7 +3747,7 @@ namespace CalamityMod.CalPlayer
                 rogueStealth += 0.5f;
                 SoundEngine.PlaySound(SilvaHeadSummon.ActivationSound, Player.Center);
 
-                var source = Player.GetSource_Accessory(FindAccessory(ModContent.ItemType<EclipseMirror>()));
+                var source = Player.GetSource_Accessory(FindAccessory(ModContent.ItemType<AbyssalMirror>()));
                 for (int i = 0; i < 10; i++)
                 {
                     int damage = (int)Player.GetTotalDamage<RogueDamageClass>().ApplyTo(55);
@@ -5627,21 +5621,6 @@ namespace CalamityMod.CalPlayer
                     Player.noFallDmg = true;
                     Player.fallStart = (int)(Player.position.Y / 16f);
                 }
-            }
-            if (abyssDivingGear && (Player.head == -1 || Player.head == ArmorIDs.Head.FamiliarWig))
-            {
-                Player.head = EquipLoader.GetEquipSlot(Mod, "AbyssalDivingGear", EquipType.Head);
-                Player.face = -1;
-            }
-            if (featherCrownDraw && (Player.head == -1 || Player.head == ArmorIDs.Head.FamiliarWig))
-            {
-                Player.head = EquipLoader.GetEquipSlot(Mod, "FeatherCrown", EquipType.Head);
-                Player.face = -1;
-            }
-            if (moonCrownDraw && (Player.head == -1 || Player.head == ArmorIDs.Head.FamiliarWig))
-            {
-                Player.head = EquipLoader.GetEquipSlot(Mod, "MoonstoneCrown", EquipType.Head);
-                Player.face = -1;
             }
             if (Player.body == EquipLoader.GetEquipSlot(Mod, "AuricTeslaBodyArmor", EquipType.Body))
             {

@@ -7,6 +7,7 @@ using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
+using CalamityMod.NPCs.SupremeCalamitas;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -24,6 +25,7 @@ namespace CalamityMod.Items.TreasureBags
             SacrificeTotal = 3;
             DisplayName.SetDefault("Treasure Coffer (Supreme Calamitas)");
             Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
+			ItemID.Sets.BossBag[Item.type] = true;
         }
 
         public override void SetDefaults()
@@ -43,6 +45,10 @@ namespace CalamityMod.Items.TreasureBags
 
         public override bool CanRightClick() => true;
 
+		public override Color? GetAlpha(Color lightColor) => Color.Lerp(lightColor, Color.White, 0.4f);
+
+        public override void PostUpdate() => Item.TreasureBagLightAndDust();
+
         public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
         {
             return CalamityUtils.DrawTreasureBagInWorld(Item, spriteBatch, ref rotation, ref scale, whoAmI);
@@ -50,6 +56,9 @@ namespace CalamityMod.Items.TreasureBags
 
         public override void ModifyItemLoot(ItemLoot itemLoot)
         {
+			// Money
+			itemLoot.Add(ItemDropRule.CoinsBasedOnNPCValue(ModContent.NPCType<SupremeCalamitas>()));
+
             // Materials
             itemLoot.Add(ModContent.ItemType<AshesofAnnihilation>(), 1, 30, 40);
 

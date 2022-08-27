@@ -1,5 +1,5 @@
 ﻿using CalamityMod.Events;
-using CalamityMod.Items.TreasureBags;
+using CalamityMod.Items.TreasureBags.MiscGrabBags;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Tiles.Abyss;
 using CalamityMod.Tiles.Astral;

@@ -24,6 +24,11 @@ namespace CalamityMod.Items
             Item.value = 0;
         }
 
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = (ContentSamples.CreativeHelper.ItemGroup)CalamityResearchSorting.ToolsOther;
+		}
+
         public override void AddRecipes()
         {
             CreateRecipe().

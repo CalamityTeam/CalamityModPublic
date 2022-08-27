@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
 
         public override void SetDefaults()
         {
-            Projectile.aiStyle = 99;
+            Projectile.aiStyle = ProjAIStyleID.Yoyo;
             Projectile.width = 18;
             Projectile.height = 18;
             Projectile.scale = 1f;

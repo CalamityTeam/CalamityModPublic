@@ -1,9 +1,10 @@
-﻿
-using CalamityMod.Dusts;
+﻿using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.DataStructures;
+using Terraria.GameContent.Metadata;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.Astral
 {
@@ -18,6 +19,9 @@ namespace CalamityMod.Tiles.Astral
             Main.tileLavaDeath[Type] = true;
             Main.tileWaterDeath[Type] = true;
             Main.tileFrameImportant[Type] = true;
+			TileID.Sets.ReplaceTileBreakUp[Type] = true;
+			TileID.Sets.SwaysInWindBasic[Type] = true;
+			TileMaterials.SetForTileId(Type, TileMaterials._materialsByName["Plant"]);
 
             DustType = ModContent.DustType<AstralBasic>();
 
@@ -32,5 +36,18 @@ namespace CalamityMod.Tiles.Astral
         {
             offsetY = 2;
         }
+
+		public override void DropCritterChance(int i, int j, ref int wormChance, ref int grassHopperChance, ref int jungleGrubChance)
+		{
+			if (NPC.CountNPCS(NPCID.EnchantedNightcrawler) < 5 && Main.rand.NextBool(400))
+			{
+				int worm = NPC.NewNPC(new EntitySource_TileBreak(i, j), i * 16 + 10, j * 16, NPCID.EnchantedNightcrawler);
+				Main.npc[worm].TargetClosest();
+				Main.npc[worm].velocity.Y = Main.rand.NextFloat(-5f, -2.1f);
+				Main.npc[worm].velocity.X = Main.rand.NextFloat(0f, 2.6f) * (float)(-Main.npc[worm].direction);
+				Main.npc[worm].direction *= -1;
+				Main.npc[worm].netUpdate = true;
+			}
+		}
     }
 }

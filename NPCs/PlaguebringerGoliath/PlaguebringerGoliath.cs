@@ -67,6 +67,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             };
             value.Position.X -= 48f;
             NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
+			NPCID.Sets.MPAllowedEnemies[Type] = true;
         }
 
         public override void SetDefaults()

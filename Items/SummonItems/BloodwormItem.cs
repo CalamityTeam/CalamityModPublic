@@ -12,13 +12,14 @@ namespace CalamityMod.Items.SummonItems
             DisplayName.SetDefault("Bloodworm");
             Tooltip.SetDefault("Summons The Old Duke if used as bait in the Sulphurous Sea\n" +
                 "Enrages outside the Sulphurous Sea");
+			ItemID.Sets.SortingPriorityBossSpawns[Type] = 17; // Celestial Sigil
         }
 
         public override void SetDefaults()
         {
             Item.width = 28;
             Item.height = 28;
-            Item.maxStack = 20;
+            Item.maxStack = 9999;
             Item.rare = ItemRarityID.Red;
             Item.Calamity().customRarity = CalamityRarity.PureGreen;
             Item.bait = 4444;

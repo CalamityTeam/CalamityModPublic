@@ -1,9 +1,9 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Projectiles.BaseProjectiles;
 using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Projectiles.BaseProjectiles;
 namespace CalamityMod.Projectiles.Melee.Spears
 {
     public class InsidiousImpalerProj : BaseSpearProjectile
@@ -16,7 +16,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
         public override void SetDefaults()
         {
             Projectile.width = 40;
-            Projectile.aiStyle = 19;
+            Projectile.aiStyle = ProjAIStyleID.Spear;
             Projectile.DamageType = DamageClass.Melee;
             Projectile.timeLeft = 90;
             Projectile.height = 40;

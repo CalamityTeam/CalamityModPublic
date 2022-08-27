@@ -5,6 +5,7 @@ using System;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.Enums;
+using Terraria.GameContent.Metadata;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
@@ -23,6 +24,8 @@ namespace CalamityMod.Tiles.Abyss
             Main.tileLavaDeath[Type] = true;
             TileID.Sets.CommonSapling[Type] = true;
             TileID.Sets.TreeSapling[Type] = true;
+			TileID.Sets.SwaysInWindBasic[Type] = true;
+			TileMaterials.SetForTileId(Type, TileMaterials._materialsByName["Plant"]);
             TileObjectData.newTile.Width = 1;
             TileObjectData.newTile.Height = 2;
             TileObjectData.newTile.Origin = new Point16(0, 1);

@@ -19,6 +19,8 @@ namespace CalamityMod.Items.PermanentBoosters
                                "Can only be used if the max amount of life fruit has been consumed\n" +
                                "");
             SacrificeTotal = 1;
+			// For some reason Life/Mana boosting items are in this set (along with Magic Mirror+)
+			ItemID.Sets.SortingPriorityBossSpawns[Type] = 18; // Life Fruit
         }
 
         public override void SetDefaults()

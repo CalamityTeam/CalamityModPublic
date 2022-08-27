@@ -41,6 +41,7 @@ namespace CalamityMod.Items.Potions
                 AddIngredient<TrapperBulb>().
                 AddIngredient<EssenceofSunlight>().
                 AddTile(TileID.AlchemyTable).
+				AddConsumeItemCallback(Recipe.ConsumptionRules.Alchemy).
                 Register();
 
             CreateRecipe().

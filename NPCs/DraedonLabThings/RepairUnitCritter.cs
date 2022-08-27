@@ -53,6 +53,7 @@ namespace CalamityMod.NPCs.DraedonLabThings
             DisplayName.SetDefault("Repair Unit");
             Main.npcFrameCount[NPC.type] = 17;
             NPCID.Sets.CountsAsCritter[NPC.type] = true;
+            NPCID.Sets.NormalGoldCritterBestiaryPriority.Add(Type);
         }
 
         public override void SetDefaults()

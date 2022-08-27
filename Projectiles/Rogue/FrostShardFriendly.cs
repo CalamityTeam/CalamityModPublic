@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             Projectile.width = 12;
             Projectile.height = 12;
-            Projectile.aiStyle = 1;
+            Projectile.aiStyle = ProjAIStyleID.Arrow;
             Projectile.coldDamage = true;
             Projectile.friendly = true;
             Projectile.penetrate = 1;

@@ -18,6 +18,7 @@ namespace CalamityMod.Items.SummonItems
                 "Summons the Profaned Guardians when used in the Hallow or Underworld during daytime\n" +
                 "Enrage when not in the Hallow or Underworld\n" +
                 "Not consumable");
+			ItemID.Sets.SortingPriorityBossSpawns[Type] = 17; // Celestial Sigil
         }
 
         public override void SetDefaults()

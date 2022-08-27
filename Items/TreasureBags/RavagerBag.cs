@@ -1,11 +1,13 @@
 ﻿using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.PermanentBoosters;
+using CalamityMod.Items.TreasureBags.MiscGrabBags;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
+using CalamityMod.NPCs.Ravager;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -23,6 +25,7 @@ namespace CalamityMod.Items.TreasureBags
             SacrificeTotal = 3;
             DisplayName.SetDefault("Treasure Bag (Ravager)");
             Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
+			ItemID.Sets.BossBag[Item.type] = true;
         }
 
         public override void SetDefaults()
@@ -42,6 +45,10 @@ namespace CalamityMod.Items.TreasureBags
 
         public override bool CanRightClick() => true;
 
+		public override Color? GetAlpha(Color lightColor) => Color.Lerp(lightColor, Color.White, 0.4f);
+
+        public override void PostUpdate() => Item.TreasureBagLightAndDust();
+
         public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
         {
             return CalamityUtils.DrawTreasureBagInWorld(Item, spriteBatch, ref rotation, ref scale, whoAmI);
@@ -49,6 +56,9 @@ namespace CalamityMod.Items.TreasureBags
 
         public override void ModifyItemLoot(ItemLoot itemLoot)
         {
+			// Money
+			itemLoot.Add(ItemDropRule.CoinsBasedOnNPCValue(ModContent.NPCType<RavagerBody>()));
+
             // Materials (contained in Geodes to prevent overwhelming item floods)
             itemLoot.AddIf(() => !DownedBossSystem.downedProvidence, ModContent.ItemType<FleshyGeode>());
             itemLoot.AddIf(() => DownedBossSystem.downedProvidence, ModContent.ItemType<NecromanticGeode>());

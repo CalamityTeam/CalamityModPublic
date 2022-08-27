@@ -22,7 +22,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.minionSlots = 0f;
             Projectile.penetrate = 1;
             Projectile.timeLeft = 600;
-            Projectile.aiStyle = 1;
+            Projectile.aiStyle = ProjAIStyleID.Arrow;
             Projectile.DamageType = DamageClass.Summon;
         }
 

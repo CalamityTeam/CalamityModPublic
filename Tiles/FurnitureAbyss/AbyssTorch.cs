@@ -46,9 +46,9 @@ namespace CalamityMod.Tiles.FurnitureAbyss
             Tile tile = Main.tile[i, j];
             if (tile.TileFrameX < 66)
             {
-                r = 0.9f;
-                g = 0.9f;
-                b = 0.9f;
+                r = 0.6f;
+                g = 0.6f;
+                b = 2.3f;
             }
         }
 

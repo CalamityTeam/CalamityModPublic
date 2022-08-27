@@ -21,5 +21,10 @@ namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
             Item.value = Item.sellPrice(gold: 10);
             Item.rare = ItemRarityID.Orange;
         }
+
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = ContentSamples.CreativeHelper.ItemGroup.Fish;
+		}
     }
 }

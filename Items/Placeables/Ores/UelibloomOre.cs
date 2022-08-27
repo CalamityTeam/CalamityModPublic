@@ -10,6 +10,7 @@ namespace CalamityMod.Items.Placeables.Ores
         {
             SacrificeTotal = 100;
             DisplayName.SetDefault("Uelibloom Ore");
+			ItemID.Sets.SortingPriorityMaterials[Type] = 105;
         }
 
         public override void SetDefaults()

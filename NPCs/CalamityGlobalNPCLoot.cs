@@ -126,16 +126,19 @@ namespace CalamityMod.NPCs
                     break;
 
                 // Mimic
-                // Drops all of its items Calamity Style @ 33.33% each
+                // Drops all of its items Calamity Style @ 25% each
                 // This requires erasing its vanilla behavior.
                 case NPCID.Mimic:
                     try
                     {
-                        // Remove the vanilla loot rule which controls all Mimic drops.
-                        var mimicLootRules = npcLoot.Get(false);
-                        mimicLootRules.RemoveAll((rule) => rule is OneFromOptionsDropRule mimicItems && mimicItems.dropIds[0] == ItemID.DualHook);
+						npcLoot.RemoveWhere((rule) =>
+						{
+							if (rule is OneFromOptionsDropRule vanillaItems)
+								return vanillaItems.dropIds[0] == ItemID.DualHook;
+							return false;
+						});
 
-                        var mimicItems = new int[]
+                        int[] mimicItems = new int[]
                         {
                             ItemID.MagicDagger,
                             ItemID.CrossNecklace,
@@ -147,7 +150,7 @@ namespace CalamityMod.NPCs
 
                         // Mimics will not drop any items if spawned from statues.
                         var notStatue = npcLoot.DefineConditionalDropSet(new Conditions.NotFromStatue());
-                        notStatue.Add(DropHelper.CalamityStyle(DropHelper.BagWeaponDropRateFraction, mimicItems));
+                        notStatue.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, mimicItems));
                     }
                     catch (ArgumentNullException) { }
                     break;
@@ -185,26 +188,35 @@ namespace CalamityMod.NPCs
                     break;
 
                 // Ice Mimic
-                // Drops all of its items Calamity Style @ 33.33% each
-                // This requires erasing its bizarre vanilla behavior involving the Toy Sled.
+                // Drops all of its items Calamity Style @ 25% each, Toy Sled is drops on its own at a 5% chance
+				// Since one weapon is guaranteed to drop, it is at least 33.33% chance for a specific weapon
                 case NPCID.IceMimic:
                     try
                     {
-                        // Remove the vanilla loot rule which controls all Ice Mimic drops.
-                        var iceMimicRootRules = npcLoot.Get(false);
-                        iceMimicRootRules.RemoveAll((rule) => rule is CommonDrop sledDrop && sledDrop.itemId == ItemID.ToySled);
+						npcLoot.RemoveWhere((rule) =>
+						{
+							if (rule is OneFromOptionsDropRule vanillaItems)
+								return vanillaItems.dropIds[0] == ItemID.Frostbrand;
+							return false;
+						});
+						npcLoot.RemoveWhere((rule) =>
+						{
+							if (rule is CommonDrop sledDrop)
+								return sledDrop.itemId == ItemID.ToySled;
+							return false;
+						});
 
-                        var iceMimicItems = new int[]
+                        int[] iceMimicItems = new int[]
                         {
-                            ItemID.Frostbrand,
-                            ItemID.IceBow,
-                            ItemID.FlowerofFrost,
-                            ItemID.ToySled,
+							ItemID.Frostbrand,
+							ItemID.IceBow,
+							ItemID.FlowerofFrost
                         };
 
                         // Ice Mimics will not drop any items if spawned from statues.
                         var notStatue = npcLoot.DefineConditionalDropSet(new Conditions.NotFromStatue());
-                        notStatue.Add(DropHelper.CalamityStyle(DropHelper.BagWeaponDropRateFraction, iceMimicItems));
+                        notStatue.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, iceMimicItems));
+						notStatue.Add(ItemID.ToySled, 20, 1, 1);
                     }
                     catch (ArgumentNullException) { }
                     break;
@@ -586,7 +598,6 @@ namespace CalamityMod.NPCs
 
                     // Master items drop in Revengeance
                     rev.Add(ItemID.MourningWoodMasterTrophy, 4);
-                    rev.Add(ItemID.WitchBroom, 20);
                     npcLoot.Add(rev);
                     break;
 
@@ -628,6 +639,7 @@ namespace CalamityMod.NPCs
                     // Master items drop in Revengeance
                     rev.Add(ItemID.EverscreamMasterTrophy, 4);
                     rev.Add(ItemID.EverscreamPetItem, 20);
+                    npcLoot.Add(rev);
                     break;
 
                 // Santa-NK1
@@ -979,7 +991,8 @@ namespace CalamityMod.NPCs
                     npcLoot.Add(subsequentWoFKills);
 
                     // Expert+ drops are also available on Normal
-                    npcLoot.AddNormalOnly(DropHelper.PerPlayer(ItemID.DemonHeart));
+					// However, Demon Heart does not work in Normal mode, so it's best to not drop it
+                    // npcLoot.AddNormalOnly(DropHelper.PerPlayer(ItemID.DemonHeart));
 
                     // WoF drops Evil Keys
                     npcLoot.Add(ItemID.CorruptionKey, 3);

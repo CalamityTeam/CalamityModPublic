@@ -1,4 +1,5 @@
 ﻿using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Melee
 {
@@ -37,7 +38,7 @@ namespace CalamityMod.Projectiles.Melee
                     if (projectile1.WithinBounds(Main.maxProjectiles))
                     {
                         Main.projectile[projectile1].DamageType = DamageClass.Melee;
-                        Main.projectile[projectile1].aiStyle = 1;
+                        Main.projectile[projectile1].aiStyle = ProjAIStyleID.Arrow;
                     }
                 }
                 Projectile.localAI[0] = 0f;

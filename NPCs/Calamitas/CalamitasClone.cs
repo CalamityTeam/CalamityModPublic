@@ -44,6 +44,7 @@ namespace CalamityMod.NPCs.Calamitas
             };
             value.Position.Y -= 10f;
             NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
+			NPCID.Sets.MPAllowedEnemies[Type] = true;
         }
 
         public override void SetDefaults()

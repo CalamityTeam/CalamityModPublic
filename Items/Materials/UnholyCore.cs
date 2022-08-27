@@ -11,6 +11,7 @@ namespace CalamityMod.Items.Materials
         {
             SacrificeTotal = 25;
             DisplayName.SetDefault("Unholy Core");
+			ItemID.Sets.SortingPriorityMaterials[Type] = 90; // Chlorophyte Ore
         }
 
         public override void SetDefaults()

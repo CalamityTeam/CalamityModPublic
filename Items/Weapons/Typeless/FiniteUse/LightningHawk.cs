@@ -40,6 +40,11 @@ namespace CalamityMod.Items.Weapons.Typeless.FiniteUse
                 Item.Calamity().timesUsed = 3;
         }
 
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = (ContentSamples.CreativeHelper.ItemGroup)CalamityResearchSorting.ClasslessWeapon;
+		}
+
         // Terraria seems to really dislike high crit values in SetDefaults
         public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 56;
 

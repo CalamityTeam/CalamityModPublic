@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public static Asset<Texture2D> ScrewOutlineTex;
         public static float ScrewBaseDamageMult = 1.5f;
         public static float ScrewBazingaModeDamageMult = 6.5f;
-        public static float ScrewBazingaAimAssistAngle = 0.52f; //This may look high but remebmer this is the FULL angle, so it actually checks for half that angle deviation
+        public static float ScrewBazingaAimAssistAngle = 0.52f; //This may look high but remember this is the FULL angle, so it actually checks for half that angle deviation
         public static float ScrewBazingaAimAssistReach = 600f;
 
         public override ModItem Clone(Item item)

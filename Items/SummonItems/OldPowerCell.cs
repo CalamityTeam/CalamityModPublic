@@ -1,9 +1,9 @@
 ﻿using CalamityMod.Events;
 using CalamityMod.Items.Materials;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Audio;
 
 namespace CalamityMod.Items.SummonItems
 {
@@ -16,6 +16,8 @@ namespace CalamityMod.Items.SummonItems
             Tooltip.SetDefault("Summons the Golem when used in the Jungle Temple\n" +
                 "Enrages outside the Jungle Temple\n" +
                 "Not consumable");
+			NPCID.Sets.MPAllowedEnemies[NPCID.Golem] = true;
+			ItemID.Sets.SortingPriorityBossSpawns[Type] = 15; // Lihzahrd Power Cell
         }
 
         public override void SetDefaults()

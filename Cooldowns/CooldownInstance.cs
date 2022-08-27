@@ -2,6 +2,7 @@
 using System.IO;
 using Terraria;
 using Terraria.ModLoader.IO;
+using CalamityMod.UI;
 
 namespace CalamityMod.Cooldowns
 {
@@ -108,7 +109,7 @@ namespace CalamityMod.Cooldowns
         /// <summary>
         /// A ratio of how "completed" an instance of a cooldown is.
         /// </summary>
-        public float Completion => duration != 0 ? timeLeft / (float)duration : 0;
+        public float Completion => CooldownRackUI.DebugFullDisplay ? CooldownRackUI.DebugForceCompletion : (duration != 0 ? timeLeft / (float)duration : 0);
 
         /// <summary>
         /// The handler which implements the behavior of this cooldown instance.

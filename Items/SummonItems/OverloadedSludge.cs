@@ -17,6 +17,7 @@ namespace CalamityMod.Items.SummonItems
             Tooltip.SetDefault("It looks corrupted\n" +
                 "Summons the Slime God\n" +
                 "Not consumable");
+			ItemID.Sets.SortingPriorityBossSpawns[Type] = 5; // Abeemination / Deer Thing
         }
 
         public override void SetDefaults()

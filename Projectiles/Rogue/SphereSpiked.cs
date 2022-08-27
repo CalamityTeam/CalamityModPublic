@@ -23,7 +23,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.friendly = true;
             Projectile.penetrate = -1;
             Projectile.ignoreWater = true;
-            Projectile.aiStyle = 3;
+            Projectile.aiStyle = ProjAIStyleID.Boomerang;
             Projectile.timeLeft = 300;
             AIType = ProjectileID.WoodenBoomerang;
             Projectile.DamageType = RogueDamageClass.Instance;

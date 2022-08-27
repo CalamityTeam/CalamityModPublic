@@ -97,6 +97,7 @@ namespace CalamityMod.NPCs.HiveMind
             };
             value.Position.Y += 3f;
             NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
+			NPCID.Sets.MPAllowedEnemies[Type] = true;
         }
 
         public override void SetDefaults()
@@ -1135,16 +1136,14 @@ namespace CalamityMod.NPCs.HiveMind
             var normalOnly = npcLoot.DefineNormalOnlyDropSet();
             {
                 // Weapons and such
-                int[] items = new int[]
-                {
-                    ModContent.ItemType<PerfectDark>(),
-                    ModContent.ItemType<Shadethrower>(),
-                    ModContent.ItemType<ShaderainStaff>(),
-                    ModContent.ItemType<DankStaff>(),
-                    ModContent.ItemType<FilthyGlove>(),
-                };
-                normalOnly.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, items));
-                normalOnly.Add(ModContent.ItemType<RotBall>(), 1, 30, 50);
+				normalOnly.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, new WeightedItemStack[]
+				{
+					ModContent.ItemType<PerfectDark>(),
+					ModContent.ItemType<Shadethrower>(),
+					ModContent.ItemType<ShaderainStaff>(),
+					ModContent.ItemType<DankStaff>(),
+					new WeightedItemStack(ModContent.ItemType<RotBall>(), 1f, 30, 50),
+				}));
 
                 // Materials
                 normalOnly.Add(ItemID.DemoniteBar, 1, 10, 15);
@@ -1154,6 +1153,7 @@ namespace CalamityMod.NPCs.HiveMind
                 normalOnly.Add(ItemDropRule.ByCondition(new Conditions.IsHardmode(), ItemID.CursedFlame, 1, 10, 20));
 
                 // Equipment
+				normalOnly.Add(ModContent.ItemType<FilthyGlove>(), DropHelper.NormalWeaponDropRateFraction);
                 normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<RottenBrain>()));
 
                 // Vanity

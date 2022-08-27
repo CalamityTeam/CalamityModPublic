@@ -608,7 +608,16 @@ namespace CalamityMod.World
 
             Mod thorium = CalamityMod.Instance.thorium;
             if (thorium != null)
-                contents.Add(new ChestItem(thorium.Find<ModItem>("MarineKelpPlanterBox").Type, WorldGen.genRand.Next(5, 9 + 1)));
+			{
+				try
+				{
+					contents.Add(new ChestItem(thorium.Find<ModItem>("MarineKelpPlanterBox").Type, WorldGen.genRand.Next(5, 9 + 1)));
+				}
+				catch
+				{
+					CalamityMod.Instance.Logger.Debug("One of the items in this file got renamed internally. Please report this in the #bugs-read-pins channel of the official Calamity discord server.");
+				}
+			}
 
             //Adds the Jungle Seeking Mechanism
             contents.Insert(0, new ChestItem(ModContent.ItemType<GreenSeekingMechanism>(), 1));

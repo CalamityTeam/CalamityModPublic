@@ -7,9 +7,11 @@ using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
+using CalamityMod.NPCs.AstrumDeus;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -22,6 +24,7 @@ namespace CalamityMod.Items.TreasureBags
             SacrificeTotal = 3;
             DisplayName.SetDefault("Treasure Bag (Astrum Deus)");
             Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
+			ItemID.Sets.BossBag[Item.type] = true;
         }
 
         public override void SetDefaults()
@@ -41,7 +44,13 @@ namespace CalamityMod.Items.TreasureBags
 
         public override bool CanRightClick() => true;
 
-        public override void PostUpdate() => CalamityUtils.ForceItemIntoWorld(Item);
+		public override Color? GetAlpha(Color lightColor) => Color.Lerp(lightColor, Color.White, 0.4f);
+
+        public override void PostUpdate()
+		{
+			CalamityUtils.ForceItemIntoWorld(Item);
+			Item.TreasureBagLightAndDust();
+		}
 
         public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
         {
@@ -50,6 +59,9 @@ namespace CalamityMod.Items.TreasureBags
 
         public override void ModifyItemLoot(ItemLoot itemLoot)
         {
+			// Money
+			itemLoot.Add(ItemDropRule.CoinsBasedOnNPCValue(ModContent.NPCType<AstrumDeusHead>()));
+
             // Materials
             itemLoot.Add(ModContent.ItemType<Stardust>(), 1, 60, 90);
             itemLoot.Add(ItemID.FallenStar, 1, 30, 50);

@@ -20,7 +20,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.DamageType = RogueDamageClass.Instance;
             Projectile.penetrate = 1;
             Projectile.timeLeft = 180;
-            Projectile.aiStyle = 1;
+            Projectile.aiStyle = ProjAIStyleID.Arrow;
             Projectile.coldDamage = true;
         }
 

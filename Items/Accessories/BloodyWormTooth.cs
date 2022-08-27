@@ -28,7 +28,6 @@ namespace CalamityMod.Items.Accessories
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.bloodyWormTooth = true;
-            player.GetAttackSpeed<MeleeDamageClass>() += 0.07f;
         }
 
         public override void AddRecipes()

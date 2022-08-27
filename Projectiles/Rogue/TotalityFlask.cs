@@ -21,7 +21,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.height = 20;
             Projectile.friendly = true;
             Projectile.penetrate = 1;
-            Projectile.aiStyle = 68;
+            Projectile.aiStyle = ProjAIStyleID.MolotovCocktail;
             Projectile.timeLeft = 180;
             Projectile.DamageType = RogueDamageClass.Instance;
         }

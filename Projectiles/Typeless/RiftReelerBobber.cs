@@ -1,7 +1,8 @@
+using CalamityMod.Items.Fishing.FishingRods;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Items.Fishing.FishingRods;
 namespace CalamityMod.Projectiles.Typeless
 {
     public class RiftReelerBobber : ModProjectile
@@ -23,7 +24,7 @@ namespace CalamityMod.Projectiles.Typeless
         {
             Projectile.width = 14;
             Projectile.height = 14;
-            Projectile.aiStyle = 61;
+            Projectile.aiStyle = ProjAIStyleID.Bobber;
             Projectile.bobber = true;
             Projectile.penetrate = -1;
         }

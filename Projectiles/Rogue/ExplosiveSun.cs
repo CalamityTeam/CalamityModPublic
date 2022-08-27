@@ -19,7 +19,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             Projectile.width = 22;
             Projectile.height = 22;
-            //projectile.aiStyle = 115;
+            //Projectile.aiStyle = ProjAIStyleID.TerrarianBeam;
             Projectile.friendly = true;
             Projectile.ignoreWater = true;
             Projectile.penetrate = 1;

@@ -1,6 +1,7 @@
 ﻿using CalamityMod.Items.Placeables;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.GameContent.Metadata;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -13,6 +14,7 @@ namespace CalamityMod.Tiles.Abyss
             Main.tileSolid[Type] = true;
             Main.tileMergeDirt[Type] = false;
             Main.tileBlockLight[Type] = true;
+			TileMaterials.SetForTileId(Type, TileMaterials._materialsByName["Wood"]);
 
             CalamityUtils.MergeWithGeneral(Type);
             CalamityUtils.MergeDecorativeTiles(Type);

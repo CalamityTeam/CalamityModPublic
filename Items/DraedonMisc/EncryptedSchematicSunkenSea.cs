@@ -12,6 +12,7 @@ namespace CalamityMod.Items.DraedonMisc
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Schematic (Sunken Sea)");
             Tooltip.SetDefault("Finely detailed diagrams of numerous devices and weaponry dance across the holographic screen.\n" +
                 "Picking up this item or holding it in your inventory permanently unlocks new recipes.\n" +

@@ -1,6 +1,6 @@
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Placeables.Ores
 {
@@ -11,6 +11,7 @@ namespace CalamityMod.Items.Placeables.Ores
             SacrificeTotal = 100;
             DisplayName.SetDefault("Auric Ore");
             Tooltip.SetDefault("Laced with the dormant power of a deity");
+			ItemID.Sets.SortingPriorityMaterials[Type] = 119;
         }
 
         public override void SetDefaults()

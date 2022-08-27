@@ -10,6 +10,7 @@ namespace CalamityMod.Items.Materials
         {
             SacrificeTotal = 5;
             DisplayName.SetDefault("Armored Shell");
+			ItemID.Sets.SortingPriorityMaterials[Type] = 107;
         }
 
         public override void SetDefaults()

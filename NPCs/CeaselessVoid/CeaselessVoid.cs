@@ -38,6 +38,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
                 Scale = 0.55f,
             };
             NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
+			NPCID.Sets.MPAllowedEnemies[Type] = true;
         }
 
         public override void SetDefaults()

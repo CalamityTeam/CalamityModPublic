@@ -106,7 +106,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                     Projectile laser = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), Projectile.Center,
                                                                       Projectile.SafeDirectionTo(target.Center) * 4f,
                                                                       ModContent.ProjectileType<TrackingDiskLaser>(),
-                                                                      damage,
+                                                                      (int)(damage * 0.6f),
                                                                       Projectile.knockBack,
                                                                       Projectile.owner,
                                                                       1f);

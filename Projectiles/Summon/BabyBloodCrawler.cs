@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.netImportant = true;
             Projectile.friendly = true;
             Projectile.minionSlots = 1f;
-            Projectile.aiStyle = 26;
+            Projectile.aiStyle = ProjAIStyleID.Pet;
             Projectile.timeLeft = 18000;
             Projectile.penetrate = -1;
             Projectile.timeLeft *= 5;

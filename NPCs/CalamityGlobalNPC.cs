@@ -3636,10 +3636,11 @@ namespace CalamityMod.NPCs
             if (CalamityLists.enemyImmunityList.Contains(npc.type) || npc.boss)
                 npc.buffImmune[BuffType<PearlAura>()] = true;
 
-            // All enemies are automatically immune to the Confused debuff, so we must specifically set them not to be.
+			// Make all Cal NPCs immune to confused unless otherwise specified
             // Extra note: Clams are not in this list as they initially immune to Confused, but are no longer immune once aggro'd. This is set in their AI().
-            if (CalamityLists.confusionEnemyList.Contains(npc.type))
-                npc.buffImmune[BuffID.Confused] = false;
+			bool cal = npc.ModNPC != null && npc.ModNPC.Mod.Name.Equals(ModContent.GetInstance<CalamityMod>().Name);
+            if (!CalamityLists.confusionEnemyList.Contains(npc.type) && cal)
+                npc.buffImmune[BuffID.Confused] = true;
 
             // Any enemy not immune to Venom shouldn't be immune to Sulphuric Poisoning as it is an upgrade.
             if (!npc.buffImmune[BuffID.Venom])
@@ -4740,6 +4741,12 @@ namespace CalamityMod.NPCs
             if (calamityBiomeZone)
             {
                 pool[0] = 0f;
+            }
+
+			// Add Enchanted Nightcrawlers as a critter to the Astral Infection
+            if (!CalamityGlobalNPC.AnyEvents(spawnInfo.Player) && spawnInfo.Player.InAstral())
+            {
+				pool[NPCID.EnchantedNightcrawler] = SpawnCondition.TownCritter.Chance;
             }
 
             if (spawnInfo.Player.Calamity().ZoneSulphur && !spawnInfo.Player.Calamity().ZoneAbyss && AcidRainEvent.AcidRainEventIsOngoing)

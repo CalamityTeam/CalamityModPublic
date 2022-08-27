@@ -13,6 +13,7 @@ namespace CalamityMod.Items.Ammo
             DisplayName.SetDefault("Astral Solution");
             Tooltip.SetDefault("Used by the Clentaminator\n" +
             "Spreads the Astral Infection");
+			ItemID.Sets.SortingPriorityTerraforming[Type] = 95; // Red Solution
         }
 
         public override void SetDefaults()

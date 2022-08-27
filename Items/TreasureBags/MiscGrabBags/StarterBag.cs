@@ -6,7 +6,7 @@ using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace CalamityMod.Items.TreasureBags
+namespace CalamityMod.Items.TreasureBags.MiscGrabBags
 {
     public class StarterBag : ModItem
     {

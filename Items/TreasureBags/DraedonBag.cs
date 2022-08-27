@@ -6,9 +6,11 @@ using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
+using CalamityMod.NPCs.ExoMechs.Apollo;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -17,12 +19,12 @@ namespace CalamityMod.Items.TreasureBags
     [LegacyName("DraedonTreasureBag")]
     public class DraedonBag : ModItem
     {
-
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 3;
             DisplayName.SetDefault("Treasure Box (Exo Mechs)");
             Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
+			ItemID.Sets.BossBag[Item.type] = true;
         }
 
         public override void SetDefaults()
@@ -42,7 +44,13 @@ namespace CalamityMod.Items.TreasureBags
 
         public override bool CanRightClick() => true;
 
-        public override void PostUpdate() => CalamityUtils.ForceItemIntoWorld(Item);
+		public override Color? GetAlpha(Color lightColor) => Color.Lerp(lightColor, Color.White, 0.4f);
+
+        public override void PostUpdate()
+		{
+			CalamityUtils.ForceItemIntoWorld(Item);
+			Item.TreasureBagLightAndDust();
+		}
 
         public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
         {
@@ -51,6 +59,9 @@ namespace CalamityMod.Items.TreasureBags
 
         public override void ModifyItemLoot(ItemLoot itemLoot)
         {
+			// Money
+			itemLoot.Add(ItemDropRule.CoinsBasedOnNPCValue(ModContent.NPCType<Apollo>()));
+
             // Originally, masks were 1/3.5, for whatever reason. Keeping it that way.
             Fraction maskFraction = new Fraction(2, 7);
 

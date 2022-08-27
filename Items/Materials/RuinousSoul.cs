@@ -14,6 +14,7 @@ namespace CalamityMod.Items.Materials
             Tooltip.SetDefault("A shard of the distant past");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 6));
             ItemID.Sets.AnimatesAsSoul[Type] = true;
+			ItemID.Sets.SortingPriorityMaterials[Type] = 111;
         }
 
         public override void SetDefaults()

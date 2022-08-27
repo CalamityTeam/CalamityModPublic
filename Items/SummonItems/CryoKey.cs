@@ -17,6 +17,7 @@ namespace CalamityMod.Items.SummonItems
             Tooltip.SetDefault("Summons Cryogen when used in the tundra\n" +
                 "Enrages outside the tundra\n" +
                 "Not consumable");
+			ItemID.Sets.SortingPriorityBossSpawns[Type] = 7; // Mechanical Eye
         }
 
         public override void SetDefaults()

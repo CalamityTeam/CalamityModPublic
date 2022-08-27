@@ -45,6 +45,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             value.Position.X += 25;
             value.Position.Y += 15;
             NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
+			NPCID.Sets.MPAllowedEnemies[Type] = true;
         }
 
         public override void SetDefaults()

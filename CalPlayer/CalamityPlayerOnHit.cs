@@ -188,7 +188,7 @@ namespace CalamityMod.CalPlayer
             if (target.type == NPCID.TargetDummy || target.type == NPCType<SuperDummyNPC>())
                 return;
             if (rageModeActive && shatteredCommunity)
-                ShatteredCommunity.AccumulateRageDamage(Player, this, damage);
+                Player.GetModPlayer<ShatteredCommunityPlayer>().AccumulateRageDamage(damage);
         }
         #endregion
 
@@ -400,7 +400,7 @@ namespace CalamityMod.CalPlayer
                     return;
 
                 if (rageModeActive && shatteredCommunity)
-                    ShatteredCommunity.AccumulateRageDamage(Player, this, damage);
+                    Player.GetModPlayer<ShatteredCommunityPlayer>().AccumulateRageDamage(damage);
             }
         }
         #endregion

@@ -48,6 +48,11 @@ namespace CalamityMod.Items.Tools
             TileTime = 6 * 60;
         }
 
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = (ContentSamples.CreativeHelper.ItemGroup)CalamityResearchSorting.ToolsOther;
+		}
+
         public override void HoldItem(Player player)
         {
             player.Calamity().mouseWorldListener = true;

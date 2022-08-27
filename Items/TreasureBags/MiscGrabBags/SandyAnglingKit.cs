@@ -3,7 +3,7 @@ using Terraria.ID;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ModLoader;
 
-namespace CalamityMod.Items.TreasureBags
+namespace CalamityMod.Items.TreasureBags.MiscGrabBags
 {
     public class SandyAnglingKit : ModItem
     {

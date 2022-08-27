@@ -20,7 +20,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.friendly = true;
             Projectile.ignoreWater = true;
             Projectile.penetrate = 2;
-            Projectile.aiStyle = 2;
+            Projectile.aiStyle = ProjAIStyleID.ThrownProjectile;
             Projectile.timeLeft = 300;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 14;

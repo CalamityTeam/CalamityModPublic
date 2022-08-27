@@ -37,6 +37,12 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.shootSpeed = 14f;
             Item.DamageType = RogueDamageClass.Instance;
         }
+
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = (ContentSamples.CreativeHelper.ItemGroup)CalamityResearchSorting.RogueWeapon;
+		}
+
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             velocity.Y *= 0.667f;
@@ -47,6 +53,7 @@ namespace CalamityMod.Items.Weapons.Rogue
                 Main.projectile[p].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
             return false;
         }
+
         public override void AddRecipes()
         {
             CreateRecipe().

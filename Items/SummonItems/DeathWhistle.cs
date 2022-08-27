@@ -18,6 +18,7 @@ namespace CalamityMod.Items.SummonItems
             Tooltip.SetDefault("A very old temple whistle\n" +
                 "Summons the Ravager\n" +
                 "Not consumable");
+			ItemID.Sets.SortingPriorityBossSpawns[Type] = 16; // Solar Tablet / Bloody Tear
         }
 
         public override void SetDefaults()

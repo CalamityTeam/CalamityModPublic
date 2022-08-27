@@ -16,7 +16,7 @@ namespace CalamityMod.Projectiles.Ranged
         {
             Projectile.width = 6;
             Projectile.height = 6;
-            Projectile.aiStyle = 27;
+            Projectile.aiStyle = ProjAIStyleID.Beam;
             Projectile.friendly = true;
             Projectile.DamageType = DamageClass.Ranged;
             Projectile.penetrate = 2;

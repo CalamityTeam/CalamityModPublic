@@ -1,10 +1,10 @@
-﻿using CalamityMod.BiomeManagers;
-using CalamityMod.Items.Placeables.Pylons;
+﻿using CalamityMod.Items.Placeables.Pylons;
 using CalamityMod.Systems;
 using CalamityMod.Tiles.BaseTiles;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.GameContent;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.Pylons
@@ -20,8 +20,10 @@ namespace CalamityMod.Tiles.Pylons
 
         public override int? IsPylonForSale(int npcType, Player player, bool isNPCHappyEnough)
         {
-            //Purchaseable regardless of happiness
-            return ModContent.GetInstance<BrimstoneCragsBiome>().IsBiomeActive(player) ? AssociatedItem : null;
+            //Purchaseable regardless of happiness, therefore, these NPCs need to be checked
+			if (npcType == NPCID.TravellingMerchant || npcType == NPCID.SkeletonMerchant)
+				return null;
+            return player.Calamity().ZoneCalamity ? AssociatedItem : null;
         }
 
         //Doesnt require npcs to function

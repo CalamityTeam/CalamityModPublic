@@ -3,6 +3,7 @@ using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.GameContent.Metadata;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -17,6 +18,7 @@ namespace CalamityMod.Tiles.Astral
         {
             Main.tileSolid[Type] = true;
             Main.tileBlockLight[Type] = true;
+			TileMaterials.SetForTileId(Type, TileMaterials._materialsByName["Wood"]);
 
             CalamityUtils.MergeWithGeneral(Type);
             CalamityUtils.MergeAstralTiles(Type);

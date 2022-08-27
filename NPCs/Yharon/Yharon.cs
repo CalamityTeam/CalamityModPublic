@@ -83,6 +83,7 @@ namespace CalamityMod.NPCs.Yharon
             value.Position.X += 26f;
             value.Position.Y -= 14f;
             NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
+			NPCID.Sets.MPAllowedEnemies[Type] = true;
         }
 
         public override void SetDefaults()

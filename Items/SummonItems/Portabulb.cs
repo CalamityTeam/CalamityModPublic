@@ -1,9 +1,9 @@
 ﻿using CalamityMod.Events;
 using CalamityMod.Items.Materials;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Audio;
 
 namespace CalamityMod.Items.SummonItems
 {
@@ -17,6 +17,8 @@ namespace CalamityMod.Items.SummonItems
             Tooltip.SetDefault("Summons Plantera when used in the Jungle\n" +
                 "Enrages outside the Underground Jungle\n" +
                 "Not consumable");
+			NPCID.Sets.MPAllowedEnemies[NPCID.Plantera] = true;
+			ItemID.Sets.SortingPriorityBossSpawns[Type] = 11; // Truffle Worm
         }
 
         public override void SetDefaults()

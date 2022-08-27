@@ -24,7 +24,7 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.penetrate = -1;
             Projectile.alpha = 255;
             Projectile.DamageType = DamageClass.Magic;
-            Projectile.aiStyle = 93;
+            Projectile.aiStyle = ProjAIStyleID.Nail;
             AIType = ProjectileID.NailFriendly;
             Projectile.extraUpdates = 1;
             Projectile.usesLocalNPCImmunity = true;

@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Magic
         public override void SetDefaults()
         {
             Projectile.width = Projectile.height = 40;
-            Projectile.aiStyle = 1;
+            Projectile.aiStyle = ProjAIStyleID.Arrow;
             AIType = ProjectileID.Bullet;
             Projectile.friendly = true;
             Projectile.DamageType = DamageClass.Magic;

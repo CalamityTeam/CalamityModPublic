@@ -14,6 +14,7 @@ namespace CalamityMod.Items.DraedonMisc
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Encrypted Schematic (Jungle)");
             Tooltip.SetDefault("Requires a Codebreaker with a fine tuned, long range sensor to decrypt");
         }

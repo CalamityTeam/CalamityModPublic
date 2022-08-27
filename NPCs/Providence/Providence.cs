@@ -101,6 +101,7 @@ namespace CalamityMod.NPCs.Providence
             };
             value.Position.Y += 6f;
             NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
+			NPCID.Sets.MPAllowedEnemies[Type] = true;
         }
 
         public override void SetDefaults()

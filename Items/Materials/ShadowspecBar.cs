@@ -18,6 +18,7 @@ namespace CalamityMod.Items.Materials
             SacrificeTotal = 25;
             DisplayName.SetDefault("Shadowspec Bar");
             Tooltip.SetDefault("A vile, black metal, so horrendous and powerful as to defy explanation");
+			ItemID.Sets.SortingPriorityMaterials[Type] = 124;
         }
 
         public override void SetDefaults()

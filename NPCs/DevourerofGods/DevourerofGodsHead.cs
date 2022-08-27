@@ -160,6 +160,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             value.Position.X += 82f;
             value.Position.Y += 38f;
             NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
+			NPCID.Sets.MPAllowedEnemies[Type] = true;
         }
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
