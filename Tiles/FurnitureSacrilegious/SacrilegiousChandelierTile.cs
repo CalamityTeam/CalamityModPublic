@@ -55,9 +55,9 @@ namespace CalamityMod.Tiles.FurnitureSacrilegious
             CalamityUtils.LightHitWire(Type, i, j, 3, 3);
         }
 
-        /*public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
+        public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
             CalamityUtils.DrawFlameEffect(ModContent.Request<Texture2D>("CalamityMod/Tiles/FurnitureSacrilegious/SacrilegiousChandelierTileFlame").Value, i, j);
-        }*/
+        }
     }
 }

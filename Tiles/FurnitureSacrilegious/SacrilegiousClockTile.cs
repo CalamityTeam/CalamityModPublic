@@ -76,10 +76,13 @@ namespace CalamityMod.Tiles.FurnitureSacrilegious
             Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y + yOffset) + zero + correction;
 
 			Rectangle rect = new Rectangle(xPos, yPos, texture.Width, texture.Height);
-			Color color = new Color(100, 255, 255, 255);
+			Color color = new Color(100, 100, 100, 0);
             Vector2 origin = rect.Size() / 2f;
 
-			spriteBatch.Draw(texture, drawOffset, rect, color, 0f, origin, 1f, SpriteEffects.None, 0f);
+            for (int c = 0; c < 5; c++)
+            {
+				spriteBatch.Draw(texture, drawOffset, rect, color, 0f, origin, 1f, SpriteEffects.None, 0f);
+			}
 		}
     }
 }
