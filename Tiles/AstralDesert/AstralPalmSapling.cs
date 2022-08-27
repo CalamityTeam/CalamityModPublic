@@ -41,7 +41,7 @@ namespace CalamityMod.Tiles.AstralDesert
             TileObjectData.newTile.RandomStyleRange = 3;
             TileObjectData.addTile(Type);
             ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Sapling");
+            name.SetDefault("MapObject.Sapling");
             AddMapEntry(new Color(200, 200, 200), name);
             DustType = ModContent.DustType<AstralBasic>();
             AdjTiles = new int[] { TileID.Saplings };
