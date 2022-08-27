@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.GameContent.Metadata;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -18,6 +19,9 @@ namespace CalamityMod.Tiles.Astral
             Main.tileLavaDeath[Type] = true;
             Main.tileWaterDeath[Type] = true;
             Main.tileFrameImportant[Type] = true;
+			TileID.Sets.ReplaceTileBreakUp[Type] = true;
+			TileID.Sets.SwaysInWindBasic[Type] = true;
+			TileMaterials.SetForTileId(Type, TileMaterials._materialsByName["Plant"]);
 
             DustType = ModContent.DustType<AstralBasic>();
 

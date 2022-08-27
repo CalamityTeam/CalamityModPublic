@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.GameContent.Metadata;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -20,6 +21,11 @@ namespace CalamityMod.Tiles.Abyss
             AddMapEntry(new Color(0, 50, 0), name);
             HitSound = SoundID.Grass;
             DustType = 2;
+			TileID.Sets.IsVine[Type] = true;
+			TileID.Sets.ReplaceTileBreakDown[Type] = true;
+			TileID.Sets.VineThreads[Type] = true;
+			TileID.Sets.DrawFlipMode[Type] = 1;
+			TileMaterials.SetForTileId(Type, TileMaterials._materialsByName["Plant"]);
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)
