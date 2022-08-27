@@ -101,7 +101,7 @@ namespace CalamityMod.Projectiles.Ranged
                         int arrowDamage = (int)(Projectile.damage * damageFactor);
                         bool createLightning = ChargeTimer / HeavenlyGale.MaxChargeTime >= HeavenlyGale.ChargeLightningCreationThreshold;
                         Vector2 arrowVelocity = arrowDirection * 20f;
-                        Projectile.NewProjectile(Projectile.GetSource_FromAI(), tipPosition, arrowVelocity, ModContent.ProjectileType<ExoCrystalArrow>(), arrowDamage, Projectile.knockBack, Projectile.owner, createLightning.ToInt());
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), tipPosition, arrowVelocity, ModContent.ProjectileType<ExoCrystalArrow>(), arrowDamage, Projectile.knockBack, Projectile.owner, createLightning.ToInt());
                     }
                 }
 
@@ -127,7 +127,7 @@ namespace CalamityMod.Projectiles.Ranged
                 ChargeTimer++;
             if (ChargeTimer == HeavenlyGale.MaxChargeTime)
             {
-                SoundEngine.PlaySound(SoundID.Item158, Projectile.Center);
+                SoundEngine.PlaySound(SoundID.Item158 with { Volume = 1.6f }, Projectile.Center);
                 for (int i = 0; i < 75; i++)
                 {
                     float offsetAngle = MathHelper.TwoPi * i / 75f;
@@ -138,7 +138,7 @@ namespace CalamityMod.Projectiles.Ranged
                     
                     Vector2 puffDustVelocity = new Vector2(unitOffsetX, unitOffsetY) * 5f;
                     Dust magic = Dust.NewDustPerfect(tipPosition, 267, puffDustVelocity);
-                    magic.scale = 1.5f;
+                    magic.scale = 1.8f;
                     magic.fadeIn = 0.5f;
                     magic.color = CalamityUtils.MulticolorLerp(i / 75f, CalamityUtils.ExoPalette);
                     magic.noGravity = true;

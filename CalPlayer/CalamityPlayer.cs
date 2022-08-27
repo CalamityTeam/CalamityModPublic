@@ -2104,7 +2104,6 @@ namespace CalamityMod.CalPlayer
             AbleToSelectExoMech = false;
 
             EnchantHeldItemEffects(Player, Player.Calamity(), Player.ActiveItem());
-            BaseIdleHoldoutProjectile.CheckForEveryHoldout(Player);
         }
         #endregion
 
@@ -3530,6 +3529,7 @@ namespace CalamityMod.CalPlayer
                 Player.GetDamage<TrueMeleeDamageClass>() += 0.1f;
 
             ForceVariousEffects();
+            BaseIdleHoldoutProjectile.CheckForEveryHoldout(Player);
         }
         #endregion
 
