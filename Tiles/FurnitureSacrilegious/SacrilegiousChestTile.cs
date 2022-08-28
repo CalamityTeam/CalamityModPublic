@@ -56,19 +56,9 @@ namespace CalamityMod.Tiles.FurnitureSacrilegious
         {
 			int brightness = 0;
 			int itemAmt = 0;
-			int index = Chest.FindChest(i, j);
-			if (index < 0 && Main.tile[i, j - 1].TileType == ModContent.TileType<SacrilegiousChestTile>())
-				index = Chest.FindChest(i, j - 1);
-			if (index < 0 && Main.tile[i - 1, j].TileType == ModContent.TileType<SacrilegiousChestTile>())
-				index = Chest.FindChest(i - 1, j);
-			if (index < 0 && Main.tile[i - 1, j - 1].TileType == ModContent.TileType<SacrilegiousChestTile>())
-				index = Chest.FindChest(i - 1, j - 1);
-
+			int index = FindChestIndex(i, j)
 			if (index >= 0)
-			{
 				itemAmt = CountItems(Main.chest[index]);
-			}
-
 			if (itemAmt > 0)
 				brightness = (itemAmt - 1) / 5;
 
@@ -83,6 +73,18 @@ namespace CalamityMod.Tiles.FurnitureSacrilegious
             {
 				spriteBatch.Draw(texture, drawPosition, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, 16), color, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 			}
+		}
+
+		private int FindChestIndex(int i, int j)
+		{
+			int index = Chest.FindChest(i, j);
+			if (index < 0 && Main.tile[i, j - 1].TileType == ModContent.TileType<SacrilegiousChestTile>())
+				index = Chest.FindChest(i, j - 1);
+			if (index < 0 && Main.tile[i - 1, j].TileType == ModContent.TileType<SacrilegiousChestTile>())
+				index = Chest.FindChest(i - 1, j);
+			if (index < 0 && Main.tile[i - 1, j - 1].TileType == ModContent.TileType<SacrilegiousChestTile>())
+				index = Chest.FindChest(i - 1, j - 1);
+			return index;
 		}
 
 		private int CountItems(Chest chest)
