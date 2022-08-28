@@ -54,14 +54,14 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.RubyStaff).
+                AddIngredient(ItemID.AmethystStaff).
                 AddIngredient<PearlShard>(3).
                 AddIngredient<SeaPrism>(5).
                 AddIngredient<Navystone>(25).
                 AddTile(TileID.Anvils).
                 Register();
             CreateRecipe().
-                AddIngredient(ItemID.DiamondStaff).
+                AddIngredient(ItemID.TopazStaff).
                 AddIngredient<PearlShard>(3).
                 AddIngredient<SeaPrism>(5).
                 AddIngredient<Navystone>(25).
