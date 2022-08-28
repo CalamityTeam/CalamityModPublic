@@ -1,10 +1,12 @@
 ﻿using CalamityMod.Items.Placeables.FurnitureSacrilegious;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent.ObjectInteractions;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles.FurnitureSacrilegious
 {
@@ -48,5 +50,54 @@ namespace CalamityMod.Tiles.FurnitureSacrilegious
         public override void MouseOver(int i, int j) => CalamityUtils.ChestMouseOver<SacrilegiousChest>("Sacrilegious Chest", i, j);
 
         public override void MouseOverFar(int i, int j) => CalamityUtils.ChestMouseFar<SacrilegiousChest>("Sacrilegious Chest", i, j);
+
+		// Make the chest brighter the more stuff it has
+        public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
+        {
+			int brightness = 0;
+			int itemAmt = 0;
+			int index = Chest.FindChest(i, j);
+			if (index < 0 && Main.tile[i, j - 1].TileType == ModContent.TileType<SacrilegiousChestTile>())
+				index = Chest.FindChest(i, j - 1);
+			if (index < 0 && Main.tile[i - 1, j].TileType == ModContent.TileType<SacrilegiousChestTile>())
+				index = Chest.FindChest(i - 1, j);
+			if (index < 0 && Main.tile[i - 1, j - 1].TileType == ModContent.TileType<SacrilegiousChestTile>())
+				index = Chest.FindChest(i - 1, j - 1);
+
+			if (index >= 0)
+			{
+				itemAmt = CountItems(Main.chest[index]);
+			}
+
+			if (itemAmt > 0)
+				brightness = (itemAmt - 1) / 5;
+
+            Tile tile = Main.tile[i, j];
+            Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Tiles/FurnitureSacrilegious/SacrilegiousChestTileGlow").Value;
+            int yOffset = TileObjectData.GetTileData(tile).DrawYOffset;
+            Vector2 drawOffset = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange, Main.offScreenRange);
+            Vector2 drawPosition = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y + yOffset) + drawOffset;
+			int alpha = brightness * 14;
+			Color color = new Color(alpha, 100, 100, 0);
+            for (int c = 0; c < brightness; c++)
+            {
+				spriteBatch.Draw(texture, drawPosition, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, 16), color, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+			}
+		}
+
+		private int CountItems(Chest chest)
+		{
+			if (chest is null)
+				return -1;
+			int amt = 0;
+            for (int i = 0; i < Chest.maxItems; i++)
+            {
+				if (chest.item[i].IsAir)
+					continue;
+				if (chest.item[i].stack > 0)
+					amt++;
+			}
+			return amt;
+		}
     }
 }
