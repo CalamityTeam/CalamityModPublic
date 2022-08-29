@@ -24,6 +24,7 @@ namespace CalamityMod.Items.Fishing.SulphurCatches
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 5;
+            ItemID.Sets.IsFishingCrate[Type] = true;
             DisplayName.SetDefault("Abyssal Crate");
             Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
         }
