@@ -105,7 +105,7 @@ namespace CalamityMod.Projectiles.Boss
             {
                 if (Projectile.owner == Main.myPlayer)
                 {
-                    int totalProjectiles = bossRush ? 48 : death ? 40 : revenge ? 36 : expertMode ? 32 : 24;
+                    int totalProjectiles = bossRush ? 38 : death ? 32 : revenge ? 29 : expertMode ? 26 : 20;
                     float radians = MathHelper.TwoPi / totalProjectiles;
                     int type = ModContent.ProjectileType<BrimstoneBarrage>();
                     float velocity = 5f;
