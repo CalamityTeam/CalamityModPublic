@@ -55,8 +55,9 @@ namespace CalamityMod.Tiles.FurnitureSacrilegious
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
 			int brightness = 0;
+			int seed = 1;
 			int itemAmt = 0;
-			int index = FindChestIndex(i, j)
+			int index = FindChestIndex(i, j, ref seed);
 			if (index >= 0)
 				itemAmt = CountItems(Main.chest[index]);
 			if (itemAmt > 0)
@@ -64,26 +65,62 @@ namespace CalamityMod.Tiles.FurnitureSacrilegious
 
             Tile tile = Main.tile[i, j];
             Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Tiles/FurnitureSacrilegious/SacrilegiousChestTileGlow").Value;
+
+			int x = i;
+			int y = j;
+			switch (seed)
+			{
+				case 2:
+					y = j - 1;
+					break;
+				case 3:
+					x = i - 1;
+					break;
+				case 4:
+					x = i - 1;
+					y = j - 1;
+					break;
+			}
+            ulong seeding = Main.TileFrameSeed ^ (ulong)((long)y << 32 | (long)(uint)x);
+
             int yOffset = TileObjectData.GetTileData(tile).DrawYOffset;
             Vector2 drawOffset = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange, Main.offScreenRange);
             Vector2 drawPosition = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y + yOffset) + drawOffset;
-			int alpha = brightness * 14;
-			Color color = new Color(alpha, 100, 100, 0);
-            for (int c = 0; c < brightness; c++)
+
+			int alpha = 255 - brightness * 36;
+			Color color = new Color(100, 80, 80, alpha);
+
+			int loopAmt = (brightness + 1) / 2;
+			if (loopAmt > 3)
+				loopAmt = 3;
+
+            for (int c = 0; c < loopAmt; c++)
             {
-				spriteBatch.Draw(texture, drawPosition, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, 16), color, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+                float shakeX = Utils.RandomInt(ref seeding, -10, 1) * 0.15f;
+                float shakeY = Utils.RandomInt(ref seeding, -10, 1) * 0.15f;
+				Vector2 shake = new Vector2(shakeX, shakeY);
+				spriteBatch.Draw(texture, drawPosition + shake, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, 16), color, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 			}
 		}
 
-		private int FindChestIndex(int i, int j)
+		private int FindChestIndex(int i, int j, ref int seed)
 		{
 			int index = Chest.FindChest(i, j);
 			if (index < 0 && Main.tile[i, j - 1].TileType == ModContent.TileType<SacrilegiousChestTile>())
+			{
 				index = Chest.FindChest(i, j - 1);
+				seed = 2;
+			}
 			if (index < 0 && Main.tile[i - 1, j].TileType == ModContent.TileType<SacrilegiousChestTile>())
+			{
 				index = Chest.FindChest(i - 1, j);
+				seed = 3;
+			}
 			if (index < 0 && Main.tile[i - 1, j - 1].TileType == ModContent.TileType<SacrilegiousChestTile>())
+			{
 				index = Chest.FindChest(i - 1, j - 1);
+				seed = 4;
+			}
 			return index;
 		}
 

@@ -41,10 +41,10 @@ namespace CalamityMod.Items.Placeables.FurnitureSacrilegious
 				AddIngredient(ModContent.ItemType<OccultPlatformItem>(), 2).
 				Register();
 
-            /*CreateRecipe(1).
+            CreateRecipe(1).
 				AddIngredient(ModContent.ItemType<OccultBrickWallItem>(), 4).
 				AddTile(TileID.WorkBenches).
-				Register();*/
+				Register();
         }
     }
 }
