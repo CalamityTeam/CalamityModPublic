@@ -131,12 +131,12 @@ namespace CalamityMod.NPCs
                 case NPCID.Mimic:
                     try
                     {
-						npcLoot.RemoveWhere((rule) =>
-						{
-							if (rule is OneFromOptionsDropRule vanillaItems)
-								return vanillaItems.dropIds[0] == ItemID.DualHook;
-							return false;
-						});
+                        npcLoot.RemoveWhere((rule) =>
+                        {
+                            if (rule is OneFromOptionsDropRule vanillaItems)
+                                return vanillaItems.dropIds[0] == ItemID.DualHook;
+                            return false;
+                        });
 
                         int[] mimicItems = new int[]
                         {
@@ -189,34 +189,34 @@ namespace CalamityMod.NPCs
 
                 // Ice Mimic
                 // Drops all of its items Calamity Style @ 25% each, Toy Sled is drops on its own at a 5% chance
-				// Since one weapon is guaranteed to drop, it is at least 33.33% chance for a specific weapon
+                // Since one weapon is guaranteed to drop, it is at least 33.33% chance for a specific weapon
                 case NPCID.IceMimic:
                     try
                     {
-						npcLoot.RemoveWhere((rule) =>
-						{
-							if (rule is OneFromOptionsDropRule vanillaItems)
-								return vanillaItems.dropIds[0] == ItemID.Frostbrand;
-							return false;
-						});
-						npcLoot.RemoveWhere((rule) =>
-						{
-							if (rule is CommonDrop sledDrop)
-								return sledDrop.itemId == ItemID.ToySled;
-							return false;
-						});
+                        npcLoot.RemoveWhere((rule) =>
+                        {
+                            if (rule is OneFromOptionsDropRule vanillaItems)
+                                return vanillaItems.dropIds[0] == ItemID.Frostbrand;
+                            return false;
+                        });
+                        npcLoot.RemoveWhere((rule) =>
+                        {
+                            if (rule is CommonDrop sledDrop)
+                                return sledDrop.itemId == ItemID.ToySled;
+                            return false;
+                        });
 
                         int[] iceMimicItems = new int[]
                         {
-							ItemID.Frostbrand,
-							ItemID.IceBow,
-							ItemID.FlowerofFrost
+                            ItemID.Frostbrand,
+                            ItemID.IceBow,
+                            ItemID.FlowerofFrost
                         };
 
                         // Ice Mimics will not drop any items if spawned from statues.
                         var notStatue = npcLoot.DefineConditionalDropSet(new Conditions.NotFromStatue());
                         notStatue.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, iceMimicItems));
-						notStatue.Add(ItemID.ToySled, 20, 1, 1);
+                        notStatue.Add(ItemID.ToySled, 20, 1, 1);
                     }
                     catch (ArgumentNullException) { }
                     break;
@@ -955,7 +955,7 @@ namespace CalamityMod.NPCs
                         ModContent.ItemType<Meowthrower>(),
                         ItemID.LaserRifle,
                         ModContent.ItemType<BlackHawkRemote>(),
-                        ItemID.FireWhip,
+                        ItemID.FireWhip, // Firecracker
                         ModContent.ItemType<BlastBarrel>(),
                     };
                     npcLoot.AddNormalOnly(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, wofWeapons));
@@ -991,7 +991,7 @@ namespace CalamityMod.NPCs
                     npcLoot.Add(subsequentWoFKills);
 
                     // Expert+ drops are also available on Normal
-					// However, Demon Heart does not work in Normal mode, so it's best to not drop it
+                    // However, Demon Heart does not work in Normal mode, so it's best to not drop it
                     // npcLoot.AddNormalOnly(DropHelper.PerPlayer(ItemID.DemonHeart));
 
                     // WoF drops Evil Keys
