@@ -2,7 +2,6 @@
 using System.IO;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.Potions;
-using CalamityMod.Buffs.StatBuffs;
 using CalamityMod.CalPlayer;
 using CalamityMod.Events;
 using CalamityMod.Items.Accessories;
@@ -11,7 +10,6 @@ using CalamityMod.Items.VanillaArmorChanges;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.NPCs.Other;
-using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.NPCs.TownNPCs;
 using CalamityMod.Particles;
 using CalamityMod.Projectiles.Magic;
@@ -32,6 +30,7 @@ using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
+using Terraria.Utilities;
 
 namespace CalamityMod.Items
 {
@@ -81,7 +80,6 @@ namespace CalamityMod.Items
         // Miscellaneous stuff
         public CalamityRarity customRarity = CalamityRarity.NoEffect;
         public int timesUsed = 0;
-        public int reforgeTier = 0;
         public bool donorItem = false;
         public bool devItem = false;
         public bool canFirePointBlankShots = false;
@@ -92,13 +90,6 @@ namespace CalamityMod.Items
         {
             StealthGenBonus = 1f;
             StealthStrikePrefixBonus = 0f;
-        }
-
-        public override bool PreReforge(Item item)
-        {
-            StealthGenBonus = 1f;
-            StealthStrikePrefixBonus = 0f;
-            return true;
         }
 
         // Ozzatron 21MAY2022: This function is required by TML 1.4's new clone behavior.
@@ -131,7 +122,6 @@ namespace CalamityMod.Items
             // Miscellaneous
             myClone.customRarity = customRarity;
             myClone.timesUsed = timesUsed;
-            myClone.reforgeTier = reforgeTier;
             myClone.donorItem = donorItem;
             myClone.devItem = devItem;
             myClone.canFirePointBlankShots = canFirePointBlankShots;
@@ -233,7 +223,7 @@ namespace CalamityMod.Items
             }
             if (modPlayer.eArtifact && item.CountsAsClass<RangedDamageClass>())
                 velocity *= 1.25f;
-		}
+        }
 
 
         public override bool Shoot(Item item, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockBack)
@@ -532,7 +522,6 @@ namespace CalamityMod.Items
             tag.Add("timesUsed", timesUsed);
             tag.Add("rarity", (int)customRarity);
             tag.Add("charge", Charge);
-            tag.Add("reforgeTier", reforgeTier);
             tag.Add("enchantmentID", AppliedEnchantment.HasValue ? AppliedEnchantment.Value.ID : 0);
             tag.Add("DischargeEnchantExhaustion", DischargeEnchantExhaustion);
             tag.Add("canFirePointBlankShots", canFirePointBlankShots);
@@ -551,7 +540,6 @@ namespace CalamityMod.Items
                 Charge = tag.GetFloat("charge");
 
             DischargeEnchantExhaustion = tag.GetFloat("DischargeEnchantExhaustion");
-            reforgeTier = tag.GetInt("reforgeTimer");
             Enchantment? savedEnchantment = EnchantmentManager.FindByID(tag.GetInt("enchantmentID"));
             if (savedEnchantment.HasValue)
             {
@@ -571,7 +559,6 @@ namespace CalamityMod.Items
             writer.Write((int)customRarity);
             writer.Write(timesUsed);
             writer.Write(Charge);
-            writer.Write(reforgeTier);
             writer.Write(AppliedEnchantment.HasValue ? AppliedEnchantment.Value.ID : 0);
             writer.Write(DischargeEnchantExhaustion);
         }
@@ -584,7 +571,6 @@ namespace CalamityMod.Items
             customRarity = (CalamityRarity)reader.ReadInt32();
             timesUsed = reader.ReadInt32();
             Charge = reader.ReadSingle();
-            reforgeTier = reader.ReadInt32();
 
             Enchantment? savedEnchantment = EnchantmentManager.FindByID(reader.ReadInt32());
             if (savedEnchantment.HasValue)
@@ -1019,7 +1005,7 @@ namespace CalamityMod.Items
                 player.GetDamage<GenericDamageClass>() -= 0.1f;
                 player.GetCritChance<GenericDamageClass>() -= 10;
                 player.setBonus = "Allows the ability to dash";
-				modPlayer.DashID = string.Empty;
+                modPlayer.DashID = string.Empty;
             }
             else if (set == "SquireTier2")
             {
@@ -1694,8 +1680,8 @@ namespace CalamityMod.Items
                 }
             }
 
-			if (player.magicQuiver && (item.useAmmo == AmmoID.Arrow || item.useAmmo == AmmoID.Stake) && Main.rand.NextBool(5))
-				dontConsumeAmmo = true;
+            if (player.magicQuiver && (item.useAmmo == AmmoID.Arrow || item.useAmmo == AmmoID.Stake) && Main.rand.NextBool(5))
+                dontConsumeAmmo = true;
             if (player.huntressAmmoCost90 && Main.rand.NextBool(10))
                 dontConsumeAmmo = true;
             if (player.ammoBox && Main.rand.NextBool(5))
@@ -1764,352 +1750,67 @@ namespace CalamityMod.Items
         }
         #endregion
 
-		#region On Create
-		public override void OnCreate(Item item, ItemCreationContext context)
-		{
-			// Crafting a rogue weapon has a 75% chance for a random modifier
-			// Negative modifiers have a 66.66% chance of being voided
-			// Note, the modifier doesn't show up in the craft text (the one that indicates you got a new item)
-			if (context is RecipeCreationContext)
-			{
-				if (item.CanGetRoguePrefix())
-				{
-					if (Main.rand.Next(4) < 3)
-					{
-						int prefix = CalamityUtils.RandomRoguePrefix();
-						if (!CalamityUtils.NegativeRoguePrefix(prefix) || Main.rand.NextBool(3))
-						{
-							item.Prefix(prefix);
-						}
-					}
-				}
-			}
-		}
-		#endregion
-
-        #region Reforging
-        private int NewPrefixType(Item item)
+        #region On Create
+        public override void OnCreate(Item item, ItemCreationContext context)
         {
-            int prefix = -2;
-            if (item.accessory)
+            // Crafting a rogue weapon has a 75% chance for a random modifier
+            // Negative modifiers have a 66.66% chance of being voided
+            // Note, the modifier doesn't show up in the craft text (the one that indicates you got a new item)
+            if (context is RecipeCreationContext)
             {
-                if (Main.LocalPlayer.Calamity().finalTierAccessoryReforge)
+                if (item.CanGetRoguePrefix())
                 {
-                    // Warding = 18, Menacing = 19, Quick = 20, Violent = 21, Lucky = 22, Silent = 23
-                    prefix = Main.rand.Next(18, 24);
-                }
-                else
-                {
-                    prefix = reforgeTier switch
+                    if (Main.rand.Next(4) < 3)
                     {
-                        1 => Main.rand.Next(1, 6), // Hard = 1, Jagged = 2, Brisk = 3, Wild = 4, Quiet = 5
-                        2 => Main.rand.Next(6, 11), // Guarding = 6, Spiked = 7, Fleeting = 8, Rash = 9, Cloaked = 10
-                        3 => Main.rand.Next(11, 13), // Precise = 11, Arcane = 12
-                        4 => Main.rand.Next(13, 18), // Armored = 13, Angry = 14, Hasty = 15, Intrepid = 16, Camouflaged = 17
-                        5 or 6 => Main.rand.Next(18, 24), // Warding = 18, Menacing = 19, Quick = 20, Violent = 21, Lucky = 22, Silent = 23
-                        _ => prefix
-                    };
-                }
-
-                prefix = prefix switch
-                {
-                    1 => PrefixID.Hard,
-                    2 => PrefixID.Jagged,
-                    3 => PrefixID.Brisk,
-                    4 => PrefixID.Wild,
-                    5 => Mod.Find<ModPrefix>("Quiet").Type,
-                    6 => PrefixID.Guarding,
-                    7 => PrefixID.Spiked,
-                    8 => PrefixID.Fleeting,
-                    9 => PrefixID.Rash,
-                    10 => Mod.Find<ModPrefix>("Cloaked").Type,
-                    11 => PrefixID.Precise,
-                    12 => PrefixID.Arcane,
-                    13 => PrefixID.Armored,
-                    14 => PrefixID.Angry,
-                    15 => PrefixID.Hasty2,
-                    16 => PrefixID.Intrepid,
-                    17 => Mod.Find<ModPrefix>("Camouflaged").Type,
-                    18 => PrefixID.Warding,
-                    19 => PrefixID.Menacing,
-                    20 => PrefixID.Quick2,
-                    21 => PrefixID.Violent,
-                    22 => PrefixID.Lucky,
-                    23 => Mod.Find<ModPrefix>("Silent").Type,
-                    _ => prefix,
-                };
-            }
-            else if (item.CountsAsClass<MeleeDamageClass>() || item.IsWhip())
-            {
-                // Yoyos, Flails, Spears, etc.
-                if ((item.channel || item.noMelee) && !item.IsWhip() && item.type != ItemID.Zenith)
-                {
-					bool isTerrarian = item.type == ItemID.Terrarian;
-
-                    prefix = reforgeTier switch
-                    {
-                        1 => Main.rand.Next(1, 3),// Keen = 1, Ruthless = 2
-                        2 => Main.rand.Next(3, 5),// Hurtful = 3, Zealous = 4
-                        3 => Main.rand.Next(5, 7),// Forceful = 5, Strong = 6
-                        4 => 7,// Demonic = 7
-                        5 => isTerrarian ? Main.rand.Next(8, 10) : 8,// Superior = 8
-                        6 => isTerrarian ? 10 : 9,// Godly = 9, Legendary2 = 10
-                        _ => prefix,
-                    };
-
-                    prefix = prefix switch
-                    {
-                        1 => PrefixID.Keen,
-                        2 => PrefixID.Ruthless,
-                        3 => PrefixID.Hurtful,
-                        4 => PrefixID.Zealous,
-                        5 => PrefixID.Forceful,
-                        6 => PrefixID.Strong,
-                        7 => PrefixID.Demonic,
-                        8 => PrefixID.Superior,
-                        9 => PrefixID.Godly,
-                        10 => PrefixID.Legendary2,
-                        _ => prefix,
-                    };
-                }
-                // All other melee weapons
-                else
-                {
-                    prefix = reforgeTier switch
-                    {
-                        1 => Main.rand.Next(1, 7),// Keen = 1, Ruthless = 2, Nimble = 3, Nasty = 4, Heavy = 5, Light = 6
-                        2 => Main.rand.Next(7, 12),// Hurtful = 7, Zealous = 8, Quick = 9, Pointy = 10, Bulky = 11
-                        3 => Main.rand.Next(12, 18),// Forceful = 12, Strong = 13, Agile = 14, Large = 15, Dangerous = 16, Sharp = 17
-                        4 => Main.rand.Next(18, 22),// Murderous = 18, Massive = 19, Unpleasant = 20, Deadly2 = 21
-                        5 => Main.rand.Next(22, 25),// Superior = 22, Demonic = 23, Savage = 24
-                        6 => item.pick > 0 || item.axe > 0 || item.hammer > 0 ? (Main.rand.NextBool() ? 25 : 6) : 25,// Legendary = 25, Light = 6 ~We are tool friendly (=
-                        _ => prefix,
-                    };
-
-                    prefix = prefix switch
-                    {
-                        1 => PrefixID.Keen,
-                        2 => PrefixID.Ruthless,
-                        3 => PrefixID.Nimble,
-                        4 => PrefixID.Nasty,
-                        5 => PrefixID.Heavy,
-                        6 => PrefixID.Light,
-                        7 => PrefixID.Hurtful,
-                        8 => PrefixID.Zealous,
-                        9 => PrefixID.Quick,
-                        10 => PrefixID.Pointy,
-                        11 => PrefixID.Bulky,
-                        12 => PrefixID.Forceful,
-                        13 => PrefixID.Strong,
-                        14 => PrefixID.Agile,
-                        15 => PrefixID.Large,
-                        16 => PrefixID.Dangerous,
-                        17 => PrefixID.Sharp,
-                        18 => PrefixID.Murderous,
-                        19 => PrefixID.Massive,
-                        20 => PrefixID.Unpleasant,
-                        21 => PrefixID.Deadly2,
-                        22 => PrefixID.Superior,
-                        23 => PrefixID.Demonic,
-                        24 => PrefixID.Savage,
-                        25 => PrefixID.Legendary,
-                        _ => prefix,
-                    };
+                        int prefix = CalamityUtils.RandomRoguePrefix();
+                        if (!CalamityUtils.NegativeRoguePrefix(prefix) || Main.rand.NextBool(3))
+                        {
+                            item.Prefix(prefix);
+                        }
+                    }
                 }
             }
-            else if (item.CountsAsClass<RangedDamageClass>())
-            {
-                prefix = reforgeTier switch
-                {
-                    1 => Main.rand.Next(1, 6),// Keen = 1, Ruthless = 2, Nimble = 3, Nasty = 4, Powerful = 5
-                    2 => Main.rand.Next(6, 9),// Hurtful = 6, Zealous = 7, Quick = 8
-                    3 => Main.rand.Next(9, 14),// Forceful = 9, Strong = 10, Agile = 11, Sighted = 12, Murderous = 13
-                    4 => Main.rand.Next(14, 19),// Superior = 14, Demonic = 15, Deadly2 = 16, Intimidating = 17, Unpleasant = 18
-                    5 => Main.rand.Next(19, 24),// Godly = 19, Rapid = 20, Hasty = 21, Deadly = 22, Staunch = 23
-                    6 => 24,// Unreal = 24
-                    _ => prefix,
-                };
-
-                prefix = prefix switch
-                {
-                    1 => PrefixID.Keen,
-                    2 => PrefixID.Ruthless,
-                    3 => PrefixID.Nimble,
-                    4 => PrefixID.Nasty,
-                    5 => PrefixID.Powerful,
-                    6 => PrefixID.Hurtful,
-                    7 => PrefixID.Zealous,
-                    8 => PrefixID.Quick,
-                    9 => PrefixID.Forceful,
-                    10 => PrefixID.Strong,
-                    11 => PrefixID.Agile,
-                    12 => PrefixID.Sighted,
-                    13 => PrefixID.Murderous,
-                    14 => PrefixID.Superior,
-                    15 => PrefixID.Demonic,
-                    16 => PrefixID.Deadly2,
-                    17 => PrefixID.Intimidating,
-                    18 => PrefixID.Unpleasant,
-                    19 => PrefixID.Godly,
-                    20 => PrefixID.Rapid,
-                    21 => PrefixID.Hasty,
-                    22 => PrefixID.Deadly,
-                    23 => PrefixID.Staunch,
-                    24 => PrefixID.Unreal,
-                    _ => prefix,
-                };
-            }
-            else if (item.CountsAsClass<MagicDamageClass>())
-            {
-                prefix = reforgeTier switch
-                {
-                    1 => Main.rand.Next(1, 6),// Keen = 1, Ruthless = 2, Nimble = 3, Nasty = 4, Furious = 5
-                    2 => Main.rand.Next(6, 11),// Hurtful = 6, Zealous = 7, Quick = 8, Taboo = 9, Manic = 10
-                    3 => Main.rand.Next(11, 17),// Forceful = 11, Strong = 12, Agile = 13, Murderous = 14, Adept = 15, Celestial = 16
-                    4 => Main.rand.Next(17, 21),// Superior = 17, Demonic = 18, Deadly2 = 19, Mystic = 20
-                    5 => Main.rand.Next(21, 23),// Godly = 21, Masterful = 22
-                    6 => 23,// Mythical = 23
-                    _ => prefix,
-                };
-
-                prefix = prefix switch
-                {
-                    1 => PrefixID.Keen,
-                    2 => PrefixID.Ruthless,
-                    3 => PrefixID.Nimble,
-                    4 => PrefixID.Nasty,
-                    5 => PrefixID.Furious,
-                    6 => PrefixID.Hurtful,
-                    7 => PrefixID.Zealous,
-                    8 => PrefixID.Quick,
-                    9 => PrefixID.Taboo,
-                    10 => PrefixID.Manic,
-                    11 => PrefixID.Forceful,
-                    12 => PrefixID.Strong,
-                    13 => PrefixID.Agile,
-                    14 => PrefixID.Murderous,
-                    15 => PrefixID.Adept,
-                    16 => PrefixID.Celestial,
-                    17 => PrefixID.Superior,
-                    18 => PrefixID.Demonic,
-                    19 => PrefixID.Deadly2,
-                    20 => PrefixID.Mystic,
-                    21 => PrefixID.Godly,
-                    22 => PrefixID.Masterful,
-                    23 => PrefixID.Mythical,
-                    _ => prefix,
-                };
-            }
-            else if (item.CountsAsClass<SummonDamageClass>())
-            {
-                prefix = reforgeTier switch
-                {
-                    1 => Main.rand.Next(1, 3),// Nimble = 1, Furious = 2
-                    2 => Main.rand.Next(3, 7),// Hurtful = 3, Quick = 4, Taboo = 5, Manic = 6
-                    3 => Main.rand.Next(7, 11),// Forceful = 7, Strong = 8, Adept = 9, Celestial = 10
-                    4 => Main.rand.Next(11, 15),// Deadly2 = 11, Mystic = 12, Superior = 13, Demonic = 14
-                    5 => Main.rand.Next(15, 18),// Masterful = 15, Mythical = 16, Godly = 17
-                    6 => 18,// Ruthless = 18
-                    _ => prefix,
-                };
-
-                prefix = prefix switch
-                {
-                    1 => PrefixID.Nimble,
-                    2 => PrefixID.Furious,
-                    3 => PrefixID.Hurtful,
-                    4 => PrefixID.Quick,
-                    5 => PrefixID.Taboo,
-                    6 => PrefixID.Manic,
-                    7 => PrefixID.Forceful,
-                    8 => PrefixID.Strong,
-                    9 => PrefixID.Adept,
-                    10 => PrefixID.Celestial,
-                    11 => PrefixID.Deadly2,
-                    12 => PrefixID.Mystic,
-                    13 => PrefixID.Superior,
-                    14 => PrefixID.Demonic,
-                    15 => PrefixID.Masterful,
-                    16 => PrefixID.Mythical,
-                    17 => PrefixID.Godly,
-                    18 => PrefixID.Ruthless,
-                    _ => prefix,
-                };
-            }
-            else if (item.CountsAsClass<RogueDamageClass>())
-            {
-                prefix = reforgeTier switch
-                {
-                    1 => Main.rand.Next(1, 3),// Radical = 1, Pointy = 2
-                    2 => Main.rand.Next(3, 5),// Sharp = 3, Glorious = 4
-                    3 => Main.rand.Next(5, 8),// Feathered = 5, Sleek = 6, Hefty = 7
-                    4 => Main.rand.Next(8, 10),// Mighty = 8, Serrated = 9
-                    5 => Main.rand.Next(10, 12),// Vicious = 10, Lethal = 11
-                    6 => 12,// Flawless = 12
-                    _ => prefix,
-                };
-
-                prefix = prefix switch
-                {
-                    1 => Mod.Find<ModPrefix>("Radical").Type,
-                    2 => Mod.Find<ModPrefix>("Pointy").Type,
-                    3 => Mod.Find<ModPrefix>("Sharp").Type,
-                    4 => Mod.Find<ModPrefix>("Glorious").Type,
-                    5 => Mod.Find<ModPrefix>("Feathered").Type,
-                    6 => Mod.Find<ModPrefix>("Sleek").Type,
-                    7 => Mod.Find<ModPrefix>("Hefty").Type,
-                    8 => Mod.Find<ModPrefix>("Mighty").Type,
-                    9 => Mod.Find<ModPrefix>("Serrated").Type,
-                    10 => Mod.Find<ModPrefix>("Vicious").Type,
-                    11 => Mod.Find<ModPrefix>("Lethal").Type,
-                    12 => Mod.Find<ModPrefix>("Flawless").Type,
-                    _ => prefix,
-                };
-            }
-
-            return prefix;
         }
+        #endregion
 
-        // Cut price in half because fuck the goblin
-        public override bool ReforgePrice(Item item, ref int reforgePrice, ref bool canApplyDiscount)
+        #region Reforge Mechanic Rework
+        private static int storedPrefix = -1;
+        public override bool PreReforge(Item item)
         {
-            reforgePrice /= 2;
+            StealthGenBonus = 1f;
+            StealthStrikePrefixBonus = 0f;
+            storedPrefix = item.prefix;
             return true;
         }
 
-        // Get cash from dickhead goblin fuck
+        // Ozzatron 31AUG2022: total rework to the reforge rework for mod compatibility
+        // you can now disable the rework with config in case it isn't enough to solve your conflicts
+        // removed data saved on items; reforging is now a coalescing flowchart that has no RNG
+        public override int ChoosePrefix(Item item, UnifiedRandom rand)
+        {
+            if (!CalamityConfig.Instance.RemoveReforgeRNG || Main.gameMenu || storedPrefix == -1)
+                return -1;
+
+            // Pick a prefix using the new system.
+            return CalamityUtils.GetReworkedReforge(item, rand, storedPrefix);
+        }
+
         public override void PostReforge(Item item)
         {
-            CalamityPlayer modPlayer = Main.LocalPlayer.Calamity();
-            if (modPlayer.itemTypeLastReforged != item.type)
-            {
-                modPlayer.reforgeTierSafety = 0;
-                modPlayer.finalTierAccessoryReforge = false;
-            }
-
-            modPlayer.itemTypeLastReforged = item.type;
-
-            if (modPlayer.reforgeTierSafety >= 6)
-            {
-                modPlayer.reforgeTierSafety = 0;
-                modPlayer.finalTierAccessoryReforge = true;
-            }
-
-            modPlayer.reforgeTierSafety++;
-            reforgeTier = modPlayer.reforgeTierSafety;
-
-            bool favorited = item.favorited;
-            item.netDefaults(item.netID);
-            item.Prefix(NewPrefixType(item));
-
-            item.Center = Main.LocalPlayer.Center;
-            item.favorited = favorited;
-
+            storedPrefix = -1;
+            // Bandit steals 20% of the total price of the reforge if she's around.
             if (NPC.AnyNPCs(ModContent.NPCType<THIEF>()))
             {
+                // Calculate the item's reforge cost.
                 int value = item.value;
-                ItemLoader.ReforgePrice(item, ref value, ref Main.LocalPlayer.discount);
+                Player p = Main.LocalPlayer;
+                ItemLoader.ReforgePrice(item, ref value, ref p.discount);
+
+                // Steal 20% of that money.
                 CalamityWorld.MoneyStolenByBandit += value / 5;
+
+                // Increment the reforge counter to allow the Bandit to refund
+                // Also triggers Tinkerer dialogue that hints to the player that money is being stolen
                 CalamityWorld.Reforges++;
             }
         }

@@ -186,6 +186,12 @@ namespace CalamityMod
         #region General Gameplay Changes
         [Header("$Mods.CalamityMod.Config.SectionTitle.Gameplay")]
 
+        [Label("$Mods.CalamityMod.Config.EntryTitle.RemoveReforgeRNG")]
+        [BackgroundColor(192, 54, 64, 192)]
+        [DefaultValue(true)]
+        [Tooltip("$Mods.CalamityMod.Config.EntryTooltip.RemoveReforgeRNG")]
+        public bool RemoveReforgeRNG { get; set; }
+
         [Label("$Mods.CalamityMod.Config.EntryTitle.EarlyHardmodeProgressionRework")]
         [BackgroundColor(192, 54, 64, 192)]
         [DefaultValue(true)]

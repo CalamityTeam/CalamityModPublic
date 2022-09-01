@@ -46,6 +46,7 @@ Config:
         "Proficiency": "Proficiency",
         "RageMeterPosX": "Rage Meter X Position",
         "RageMeterPosY": "Rage Meter Y Position",
+        "RemoveReforgeRNG": "Remove Reforge RNG",
         "RipperMeterShake": "Rage and Adrenaline Meter Shake",
         "Screenshake": "Screenshake",
         "ShopNewAlert": "New Shop Inventory Alerts",
@@ -92,6 +93,7 @@ Config:
         "Proficiency": "Enables the Proficiency system which allows the player to gain slight stat bonuses by persistently using one damage class.\nDisabling the system does not remove levels players already have, but disables their stat bonuses and prevents experience gain.",
         "RageMeterPosX": "The X position of the Rage Meter, measured as a % of your screen width.\nThe meter can be dragged with the mouse if Lock Meter Positions is disabled.",
         "RageMeterPosY": "The Y position of the Rage Meter, measured as a % of your screen height.\nThe meter can be dragged with the mouse if Lock Meter Positions is disabled.",
+        "RemoveReforgeRNG": "Removes randomness from the Goblin Tinkerer's reforges for both weapons and accessories.\nDisable this if using mods that change reforging on their own to prevent conflicts.",
         "RipperMeterShake": "How much the Rage and Adrenaline Meters shake while in use.\nSet to zero to disable the shaking entirely.",
         "Screenshake": "Enable or disable all screen-shaking effects.",
         "ShopNewAlert": "Adds an icon that appears over Town NPCs when they have new items in their shops.",
@@ -105,7 +107,7 @@ Config:
         "TownNPCSpawnRateMultiplier": "Directly multiply the rate at which town NPCs spawn and respawn.\nThis reduces waiting times if a boss or event wipes your whole town.",
         "TownNPCsSpawnAtNight": "When enabled, town NPCs can spawn and respawn at night.\nThis includes the Old Man.",
         "VanillaCooldownDisplay": "Adds the vanilla debuffs Potion Sickness and Chaos State to the Cooldown Rack.\nThis doesn't remove them from your buff list, but can help with visibility nontheless",
-		"WikiStatusMessage": "Enable or disable the status message promoting the Official Calamity Wiki that plays on world entry.",
+        "WikiStatusMessage": "Enable or disable the status message promoting the Official Calamity Wiki that plays on world entry.",
     }
 }
         
