@@ -164,9 +164,10 @@ namespace CalamityMod.UI
             OneToMany[NPCType<RavagerLegLeft>()] = Rav;
             OneToMany[NPCType<RavagerHead>()] = Rav;
 
-            int[] Slimes = new int[] { NPCType<SlimeGodCore>(), NPCType<EbonianSlimeGod>(), NPCType<SplitEbonianSlimeGod>(),
+            int[] SlimeGod = new int[] { NPCType<EbonianSlimeGod>(), NPCType<SplitEbonianSlimeGod>(),
                 NPCType<CrimulanSlimeGod>(), NPCType<SplitCrimulanSlimeGod>() };
-            OneToMany[NPCType<SlimeGodCore>()] = Slimes;
+            OneToMany[NPCType<EbonianSlimeGod>()] = SlimeGod;
+            OneToMany[NPCType<CrimulanSlimeGod>()] = SlimeGod;
 
             SetupBossExclusionList();
             SetupMinibossHPBarList();
@@ -193,6 +194,7 @@ namespace CalamityMod.UI
                 NPCType<AstrumDeusTail>(),
                 NPCType<DesertScourgeBody>(),
                 NPCType<DesertScourgeTail>(),
+                NPCType<SlimeGodCore>(),
                 NPCType<StormWeaverBody>(),
                 NPCType<StormWeaverTail>(),
                 NPCType<DevourerofGodsBody>(),
@@ -282,7 +284,6 @@ namespace CalamityMod.UI
                 [NPCID.PirateShip] = new BossEntityExtension("Cannons", NPCID.PirateShipCannon),
                 [NPCType<CeaselessVoid>()] = new BossEntityExtension("Dark Energy", NPCType<DarkEnergy>()),
                 [NPCType<RavagerBody>()] = new BossEntityExtension("Body Parts", NPCType<RavagerClawLeft>(), NPCType<RavagerClawRight>(), NPCType<RavagerLegLeft>(), NPCType<RavagerLegRight>()),
-                [NPCType<SlimeGodCore>()] = new BossEntityExtension("Large Slimes", NPCType<EbonianSlimeGod>(), NPCType<SplitEbonianSlimeGod>(), NPCType<CrimulanSlimeGod>(), NPCType<SplitCrimulanSlimeGod>()),
             };
         }
 
