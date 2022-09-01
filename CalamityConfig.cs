@@ -406,6 +406,7 @@ namespace CalamityMod
                 new("SpeedrunTimerPosX", ItemID.LaserRuler),
                 new("SpeedrunTimerPosY", ItemID.LaserRuler),
 
+                new("RemoveReforgeRNG", ItemID.TinHammer),
                 new("EarlyHardmodeProgressionRework", ItemID.Pwnhammer),
                 new("Proficiency", ModContent.ItemType<MagicLevelMeter>()),
                 new("BossZen", ModContent.ItemType<ZenPotion>()),
