@@ -1,5 +1,5 @@
 author = Fabsol and the Dev Team
-version = 2.0.1.001
+version = 2.0.1.002
 displayName = Calamity Mod
 homepage = https://discord.gg/calamity
 buildIgnore = .vs\*, Properties\*, *.csproj, *.user, obj\*, bin\*, *.config, .git\*, LICENSE, README.md, .editorconfig, .gitignore, .gitattributes
