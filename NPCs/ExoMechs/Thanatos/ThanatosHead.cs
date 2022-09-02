@@ -89,7 +89,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
         private const float defaultLifeRatio = 5f;
 
         // Base distance from the target for most attacks
-        private const float baseDistance = 400f;
+        private const float baseDistance = 800f;
 
         // Base distance from target location in order to continue turning
         private const float baseTurnDistance = 160f;
@@ -467,7 +467,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 
             // Increase speed if too far from target
             float increaseSpeedMult = 1f;
-            float increaseSpeedGateValue = 500f;
+            float increaseSpeedGateValue = 600f;
             if (distanceFromTarget > increaseSpeedGateValue)
             {
                 float distanceAmount = MathHelper.Clamp((distanceFromTarget - increaseSpeedGateValue) / (CalamityGlobalNPC.CatchUpDistance350Tiles - increaseSpeedGateValue), 0f, 1f);
@@ -485,7 +485,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 
             // Velocity and turn speed values
             float baseVelocityMult = (shouldGetBuffedByBerserkPhase ? 0.25f : 0f) + (bossRush ? 1.15f : death ? 1.1f : revenge ? 1.075f : expertMode ? 1.05f : 1f);
-            float baseVelocity = 11.1f * baseVelocityMult;
+            float baseVelocity = 10f * baseVelocityMult;
 
             // Increase top velocity if target is dead or if Thanatos is uncoiling
             if (targetDead || speedUp)
@@ -496,7 +496,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
             if (Main.getGoodWorld)
                 baseVelocity *= 1.15f;
 
-            float turnDegrees = baseVelocity * 0.11f * (shouldGetBuffedByBerserkPhase ? 1.25f : 1f);
+            float turnDegrees = baseVelocity * 0.1f * (shouldGetBuffedByBerserkPhase ? 1.25f : 1f);
 
             float turnSpeed = MathHelper.ToRadians(turnDegrees);
             float chargeVelocityMult = MathHelper.Lerp(1f, 1.5f, chargeVelocityScalar);
