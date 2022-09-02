@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Boss
         public const float TelegraphTotalTime = 60f;
         public const float TelegraphFadeTime = 30f;
         public const float TelegraphWidth = 4200f;
-        public const float LaserVelocity = 7f;
+        public const float LaserVelocity = 6.5f;
 
         public override void SetStaticDefaults()
         {
