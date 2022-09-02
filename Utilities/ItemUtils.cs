@@ -183,7 +183,7 @@ namespace CalamityMod
             else if (item.CountsAsClass<MeleeDamageClass>() || item.CountsAsClass<SummonMeleeSpeedDamageClass>())
             {
                 // Yoyos, Flails, Spears, etc.
-                if ((item.channel || item.noMelee) && item.type != ItemID.Zenith)
+                if ((item.channel || item.noMelee) && item.type != ItemID.Zenith && item.useStyle != ItemUseStyleID.Rapier)
                 {
                     // The Terrarian can get a special "Legendary" reforge
                     bool terrarian = item.type == ItemID.Terrarian;
