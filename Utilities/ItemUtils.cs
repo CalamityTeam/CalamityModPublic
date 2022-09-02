@@ -173,8 +173,8 @@ namespace CalamityMod
                 {
                     /* 0 */ new int[] { PrefixID.Hard, PrefixID.Jagged, PrefixID.Brisk, PrefixID.Wild, PrefixID.Arcane, GetCalPrefix("Quiet") },
                     /* 1 */ new int[] { PrefixID.Guarding, PrefixID.Spiked, PrefixID.Precise, PrefixID.Fleeting, PrefixID.Rash, GetCalPrefix("Cloaked") },
-                    /* 2 */ new int[] { PrefixID.Armored, PrefixID.Angry, PrefixID.Hasty, PrefixID.Intrepid, GetCalPrefix("Camouflaged") },
-                    /* 3 */ new int[] { PrefixID.Warding, PrefixID.Menacing, PrefixID.Quick, PrefixID.Violent, GetCalPrefix("Silent") },
+                    /* 2 */ new int[] { PrefixID.Armored, PrefixID.Angry, PrefixID.Hasty2, PrefixID.Intrepid, PrefixID.Arcane, GetCalPrefix("Camouflaged") },
+                    /* 3 */ new int[] { PrefixID.Warding, PrefixID.Menacing, PrefixID.Quick2, PrefixID.Violent, PrefixID.Lucky, GetCalPrefix("Silent") },
                 };
                 prefix = IteratePrefix(rand, accessoryReforgeTiers, currentPrefix);
             }
@@ -183,14 +183,16 @@ namespace CalamityMod
             else if (item.CountsAsClass<MeleeDamageClass>() || item.CountsAsClass<SummonMeleeSpeedDamageClass>())
             {
                 // Yoyos, Flails, Spears, etc.
-                if (item.channel || item.noMelee)
+                if ((item.channel || item.noMelee) && item.type != ItemID.Zenith)
                 {
+                    // The Terrarian can get a special "Legendary" reforge
+                    bool terrarian = item.type == ItemID.Terrarian;
                     int[][] meleeNoSpeedReforgeTiers = new int[][]
                     {
                         /* 0 */ new int[] { PrefixID.Keen, PrefixID.Forceful, PrefixID.Strong },
                         /* 1 */ new int[] { PrefixID.Hurtful, PrefixID.Ruthless, PrefixID.Zealous },
-                        /* 2 */ new int[] { PrefixID.Superior, PrefixID.Demonic },
-                        /* 3 */ new int[] { PrefixID.Godly }
+                        /* 2 */ terrarian ? new int[] { PrefixID.Superior, PrefixID.Demonic, PrefixID.Godly } : new int[] { PrefixID.Superior, PrefixID.Demonic },
+                        /* 3 */ terrarian ? new int[] { PrefixID.Legendary2 } : new int[] { PrefixID.Godly }
                     };
                     prefix = IteratePrefix(rand, meleeNoSpeedReforgeTiers, currentPrefix);
                 }
