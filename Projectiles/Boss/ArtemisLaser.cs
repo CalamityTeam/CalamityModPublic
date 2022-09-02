@@ -110,6 +110,17 @@ namespace CalamityMod.Projectiles.Boss
                     Projectile.netUpdate = true;
                 }
 
+                // Accelerate to max velocity.
+                if (Projectile.velocity.Length() < LaserVelocity)
+                {
+                    Projectile.velocity *= 1.0125f;
+                    if (Projectile.velocity.Length() > LaserVelocity)
+                    {
+                        Projectile.velocity.Normalize();
+                        Projectile.velocity *= LaserVelocity;
+                    }
+                }
+
                 // Direction and rotation.
                 if (Projectile.velocity.X < 0f)
                 {
@@ -134,7 +145,7 @@ namespace CalamityMod.Projectiles.Boss
 
                 // Calculate and store the velocity that will be used for laser telegraph rotation and beam firing.
                 Vector2 projectileDestination = Destination - ThingToAttachTo.Center;
-                Velocity = Vector2.Normalize(projectileDestination) * LaserVelocity;
+                Velocity = Vector2.Normalize(projectileDestination);
 
                 // Set velocity to zero.
                 Projectile.velocity = Vector2.Zero;
@@ -161,7 +172,7 @@ namespace CalamityMod.Projectiles.Boss
 
                 // Calculate and store the velocity that will be used for laser telegraph rotation and beam firing.
                 Vector2 projectileDestination = Destination - ThingToAttachTo.Center;
-                Velocity = Vector2.Normalize(projectileDestination) * LaserVelocity;
+                Velocity = Vector2.Normalize(projectileDestination);
 
                 // Direction and rotation.
                 if (Projectile.velocity.X < 0f)

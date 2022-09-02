@@ -66,7 +66,7 @@ namespace CalamityMod.BiomeManagers
         public override bool IsBiomeActive(Player player)
         {
             return MeetsBaseAbyssRequirement(player, out int playerYTileCoords) && 
-                playerYTileCoords < (Main.rockLayer + Main.maxTilesY * 0.03);
+                playerYTileCoords <= (Main.rockLayer + Main.maxTilesY * 0.03);
         }
     }
 }
