@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Armor.Astral
         {
             Item.width = 18;
             Item.height = 18;
-            Item.value = Item.buyPrice(0, 40, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity9BuyPrice;
             Item.rare = ItemRarityID.Cyan;
             Item.defense = 17; //63
         }

@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Armor.Auric
         {
             Item.width = 18;
             Item.height = 18;
-            Item.value = Item.buyPrice(1, 80, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity15BuyPrice;
             Item.defense = 12; //132
             Item.rare = ModContent.RarityType<Violet>();
         }

@@ -32,7 +32,7 @@ No positive life regen");
         {
             Item.width = 18;
             Item.height = 18;
-            Item.value = Item.sellPrice(0, 38, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity13BuyPrice;
             Item.defense = 28;
             Item.rare = ModContent.RarityType<PureGreen>();
         }

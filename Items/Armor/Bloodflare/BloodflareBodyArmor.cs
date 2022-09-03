@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Armor.Bloodflare
         {
             Item.width = 18;
             Item.height = 18;
-            Item.value = Item.buyPrice(0, 48, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity13BuyPrice;
             Item.defense = 35;
             Item.rare = ModContent.RarityType<PureGreen>();
         }

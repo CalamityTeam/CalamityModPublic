@@ -42,7 +42,7 @@ namespace CalamityMod.Items.Armor.OmegaBlue
         {
             Item.width = 18;
             Item.height = 18;
-            Item.value = Item.sellPrice(0, 35, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity13BuyPrice;
             Item.defense = 19;
             Item.rare = ModContent.RarityType<PureGreen>();
         }

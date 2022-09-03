@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Armor.PlagueReaper
         {
             Item.width = 18;
             Item.height = 18;
-            Item.value = Item.buyPrice(0, 18, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity8BuyPrice;
             Item.rare = ItemRarityID.Yellow;
             Item.defense = 11;
         }
