@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -6,22 +6,16 @@ namespace CalamityMod.Rarities
 {
 	public class Turquoise : ModRarity
 	{
+		// Turquoise is Rarity 12
 		public override Color RarityColor => new Color(0, 255, 200);
 
-		public override int GetPrefixedRarity(int offset, float valueMult)
+		public override int GetPrefixedRarity(int offset, float valueMult) => offset switch
 		{
-			switch (offset)
-			{
-				case -2:
-					return ItemRarityID.Red;
-				case -1:
-					return ItemRarityID.Purple;
-				case 1:
-					return ModContent.RarityType<PureGreen>();
-				case 2:
-					return ModContent.RarityType<DarkBlue>();
-			}
-			return Type;
-		}
+			-2 => ItemRarityID.Red,
+			-1 => ItemRarityID.Purple,
+			1 => ModContent.RarityType<PureGreen>(),
+			2 => ModContent.RarityType<DarkBlue>(),
+			_ => Type,
+		};
 	}
 }
