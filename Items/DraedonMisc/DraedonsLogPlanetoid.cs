@@ -9,6 +9,7 @@ namespace CalamityMod.Items.DraedonMisc
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Draedon's Log - Space");
             Tooltip.SetDefault("Click to view its contents");
         }

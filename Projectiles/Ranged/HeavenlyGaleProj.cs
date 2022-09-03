@@ -101,7 +101,7 @@ namespace CalamityMod.Projectiles.Ranged
                         int arrowDamage = (int)(Projectile.damage * damageFactor);
                         bool createLightning = ChargeTimer / HeavenlyGale.MaxChargeTime >= HeavenlyGale.ChargeLightningCreationThreshold;
                         Vector2 arrowVelocity = arrowDirection * 20f;
-                        Projectile.NewProjectile(Projectile.GetSource_FromAI(), tipPosition, arrowVelocity, ModContent.ProjectileType<ExoCrystalArrow>(), arrowDamage, Projectile.knockBack, Projectile.owner, createLightning.ToInt());
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), tipPosition, arrowVelocity, ModContent.ProjectileType<ExoCrystalArrow>(), arrowDamage, Projectile.knockBack, Projectile.owner, createLightning.ToInt());
                     }
                 }
 
@@ -127,7 +127,7 @@ namespace CalamityMod.Projectiles.Ranged
                 ChargeTimer++;
             if (ChargeTimer == HeavenlyGale.MaxChargeTime)
             {
-                SoundEngine.PlaySound(SoundID.Item158, Projectile.Center);
+                SoundEngine.PlaySound(SoundID.Item158 with { Volume = 1.6f }, Projectile.Center);
                 for (int i = 0; i < 75; i++)
                 {
                     float offsetAngle = MathHelper.TwoPi * i / 75f;
@@ -138,7 +138,7 @@ namespace CalamityMod.Projectiles.Ranged
                     
                     Vector2 puffDustVelocity = new Vector2(unitOffsetX, unitOffsetY) * 5f;
                     Dust magic = Dust.NewDustPerfect(tipPosition, 267, puffDustVelocity);
-                    magic.scale = 1.5f;
+                    magic.scale = 1.8f;
                     magic.fadeIn = 0.5f;
                     magic.color = CalamityUtils.MulticolorLerp(i / 75f, CalamityUtils.ExoPalette);
                     magic.noGravity = true;
@@ -161,7 +161,7 @@ namespace CalamityMod.Projectiles.Ranged
                 }
             }
 
-            Projectile.position = armPosition - Projectile.Size * 0.5f + Projectile.velocity.SafeNormalize(Vector2.UnitY) * 48f;
+            Projectile.position = armPosition - Projectile.Size * 0.5f + Projectile.velocity.SafeNormalize(Vector2.UnitY) * 36f;
             Projectile.rotation = Projectile.velocity.ToRotation();
             Projectile.spriteDirection = Projectile.direction;
             Projectile.timeLeft = 2;
@@ -175,13 +175,14 @@ namespace CalamityMod.Projectiles.Ranged
             // Make the player lower their front arm a bit to indicate the pulling of the string.
             // This is precisely calculated by representing the top half of the string as a right triangle and using SOH-CAH-TOA to
             // calculate the respective angle from the appropriate widths and heights.
-            float armRotation = (float)Math.Atan(StringHalfHeight / MathHelper.Max(StringReelbackDistance, 0.001f) * 0.5f);
+            float frontArmRotation = (float)Math.Atan(StringHalfHeight / MathHelper.Max(StringReelbackDistance, 0.001f) * 0.5f);
             if (Owner.direction == -1)
-                armRotation += MathHelper.PiOver4;
+                frontArmRotation += MathHelper.PiOver4;
             else
-                armRotation = MathHelper.PiOver2 - armRotation;
-            armRotation += Projectile.rotation + MathHelper.Pi + Owner.direction * MathHelper.PiOver2 + 0.12f;
-            Owner.SetCompositeArmFront(true, Player.CompositeArmStretchAmount.Full, armRotation);
+                frontArmRotation = MathHelper.PiOver2 - frontArmRotation;
+            frontArmRotation += Projectile.rotation + MathHelper.Pi + Owner.direction * MathHelper.PiOver2 + 0.12f;
+            Owner.SetCompositeArmFront(true, Player.CompositeArmStretchAmount.Full, frontArmRotation);
+            Owner.SetCompositeArmBack(true, Player.CompositeArmStretchAmount.Full, Projectile.velocity.ToRotation() - MathHelper.PiOver2);
         }
 
         public override bool PreDraw(ref Color lightColor)
@@ -193,7 +194,7 @@ namespace CalamityMod.Projectiles.Ranged
             // Draw the string of the bow. It reels back in the initial frames.
             float stringNeckOffset = 40f;
             Vector2 aimDirection = Projectile.rotation.ToRotationVector2();
-            Vector2 center = Projectile.Center - aimDirection * 24f;
+            Vector2 center = Projectile.Center - aimDirection * 12f;
             Vector2 topOfBow = center + Vector2.UnitY.RotatedBy(Projectile.rotation) * StringHalfHeight;
             Vector2 bottomOfBow = center - Vector2.UnitY.RotatedBy(Projectile.rotation) * StringHalfHeight;
             Vector2 endOfString = center - aimDirection * (StringReelbackDistance + (1f - StringReelbackInterpolant) * stringNeckOffset * 0.5f);

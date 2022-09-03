@@ -1,5 +1,7 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
+using CalamityMod.Events;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -93,19 +95,25 @@ namespace CalamityMod.Projectiles.Boss
         {
             SoundEngine.PlaySound(ImpactSound, Projectile.Center);
 
+            // Difficulty modes
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || bossRush;
+            bool revenge = CalamityWorld.revenge || bossRush;
+            bool expertMode = Main.expertMode || bossRush;
+
             if (Projectile.ai[1] == 0f)
             {
-                float spread = 12f * MathHelper.PiOver2 * 0.01f;
-                double startAngle = Math.Atan2(Projectile.velocity.X, Projectile.velocity.Y) - spread / 2;
-                double deltaAngle = spread / 30f;
-                double offsetAngle;
                 if (Projectile.owner == Main.myPlayer)
                 {
-                    for (int i = 0; i < 30; i++)
+                    int totalProjectiles = bossRush ? 44 : death ? 36 : revenge ? 32 : expertMode ? 28 : 20;
+                    float radians = MathHelper.TwoPi / totalProjectiles;
+                    int type = ModContent.ProjectileType<BrimstoneBarrage>();
+                    float velocity = 5f;
+                    Vector2 spinningPoint = new Vector2(0f, -velocity);
+                    for (int k = 0; k < totalProjectiles; k++)
                     {
-                        offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<BrimstoneBarrage>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 1f);
-                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<BrimstoneBarrage>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 1f);
+                        Vector2 velocity2 = spinningPoint.RotatedBy(radians * k);
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity2, type, (int)Math.Round(Projectile.damage * 0.75), 0f, Projectile.owner, 0f, 1f);
                     }
                 }
             }

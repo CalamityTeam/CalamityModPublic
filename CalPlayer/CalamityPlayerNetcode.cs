@@ -187,24 +187,6 @@ namespace CalamityMod.CalPlayer
             Player.SendPacket(packet, server);
         }
 
-        public void SyncItemTypeLastReforged(bool server)
-        {
-            ModPacket packet = Mod.GetPacket(256);
-            packet.Write((byte)CalamityModMessageType.ItemTypeLastReforgedSync);
-            packet.Write(Player.whoAmI);
-            packet.Write(itemTypeLastReforged);
-            Player.SendPacket(packet, server);
-        }
-
-        public void SyncReforgeTierSafety(bool server)
-        {
-            ModPacket packet = Mod.GetPacket(256);
-            packet.Write((byte)CalamityModMessageType.ReforgeTierSafetySync);
-            packet.Write(Player.whoAmI);
-            packet.Write(reforgeTierSafety);
-            Player.SendPacket(packet, server);
-        }
-
         public void SyncRightClick(bool server)
         {
             ModPacket packet = Mod.GetPacket(256);
@@ -363,20 +345,6 @@ namespace CalamityMod.CalPlayer
             deathCount = reader.ReadInt32();
             if (Main.netMode == NetmodeID.Server)
                 SyncDeathCount(true);
-        }
-
-        internal void HandleItemTypeLastReforged(BinaryReader reader)
-        {
-            itemTypeLastReforged = reader.ReadInt32();
-            if (Main.netMode == NetmodeID.Server)
-                SyncItemTypeLastReforged(true);
-        }
-
-        internal void HandleReforgeTierSafety(BinaryReader reader)
-        {
-            reforgeTierSafety = reader.ReadInt32();
-            if (Main.netMode == NetmodeID.Server)
-                SyncReforgeTierSafety(true);
         }
 
         internal void HandleDefenseDamage(BinaryReader reader)

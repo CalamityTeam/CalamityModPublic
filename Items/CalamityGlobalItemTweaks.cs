@@ -494,7 +494,9 @@ namespace CalamityMod.Items
                 { ItemID.TentacleSpike, autoReuse },
                 { ItemID.TerraBlade, Do(UseMeleeSpeed) },
                 { ItemID.Terragrim, trueMeleeNoSpeed },
-                { ItemID.Terrarian, Do(AutoReuse, DamageExact(352)) },
+				// Vanilla damage 190. After fixing iframes so yoyo and shots can hit simultaneously,
+				// Terrarian is extremely overpowered and requires a heavy nerf.
+                { ItemID.Terrarian, Do(AutoReuse, DamageExact(106)) },
                 { ItemID.TheAxe, Do(HammerPower(100), AxePower(175), UseTimeExact(7), TileBoostExact(+1)) },
                 { ItemID.TheBreaker, Do(HammerPower(70), UseTimeExact(13), TileBoostExact(+0)) },
                 { ItemID.TheEyeOfCthulhu, autoReuse },

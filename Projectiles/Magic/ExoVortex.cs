@@ -77,7 +77,7 @@ namespace CalamityMod.Projectiles.Magic
             target.ExoDebuffs();
         }
 
-        // Draw these vortices behind other projectiles to ensure that it does not draw on top of the big vortex.
+        // Draw these vortices behind other projectiles to ensure that they do not obstruct SCal's projectiles.
         public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI)
         {
             behindProjectiles.Add(index);

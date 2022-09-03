@@ -17,6 +17,7 @@ namespace CalamityMod.Items.DraedonMisc
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Auric Quantum Cooling Cell");
             Tooltip.SetDefault("Can be placed in the Codebreaker, completing it\n" +
                 "The completion of the Codebreaker allows you to make contact with its original creator\n" +

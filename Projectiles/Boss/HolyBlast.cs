@@ -97,23 +97,20 @@ namespace CalamityMod.Projectiles.Boss
         {
             if (Projectile.owner == Main.myPlayer)
             {
-                Vector2 shootFromVector = new Vector2(Projectile.Center.X, Projectile.Center.Y);
-                float spread = 45f * 0.0174f;
-                double startAngle = Math.Atan2(Projectile.velocity.X, Projectile.velocity.Y) - spread / 2;
-                double deltaAngle = spread / 8f;
-                double offsetAngle;
-                float velocity = 5f;
-                int totalProjectiles = (!Main.dayTime || BossRushEvent.BossRushActive) ? 5 : 4;
+                int totalProjectiles = (!Main.dayTime || BossRushEvent.BossRushActive) ? 8 : 6;
+                float radians = MathHelper.TwoPi / totalProjectiles;
                 int type = ModContent.ProjectileType<HolyFire2>();
-                int damage = (int)Math.Round(Projectile.damage * 0.75);
-                for (int i = 0; i < totalProjectiles; i++)
+                float velocity = 5f;
+                Vector2 spinningPoint = new Vector2(0f, -velocity);
+                for (int k = 0; k < totalProjectiles; k++)
                 {
-                    offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), shootFromVector.X, shootFromVector.Y, (float)(Math.Sin(offsetAngle) * velocity), (float)(Math.Cos(offsetAngle) * velocity), type, damage, 0f, Main.myPlayer, 0f, 0f);
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), shootFromVector.X, shootFromVector.Y, (float)(-Math.Sin(offsetAngle) * velocity), (float)(-Math.Cos(offsetAngle) * velocity), type, damage, 0f, Main.myPlayer, 0f, 0f);
+                    Vector2 velocity2 = spinningPoint.RotatedBy(radians * k);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity2 + Projectile.velocity * 0.25f, type, (int)Math.Round(Projectile.damage * 0.75), 0f, Projectile.owner);
                 }
             }
+
             SoundEngine.PlaySound(ImpactSound, Projectile.Center);
+
             int dustType = (Main.dayTime && !BossRushEvent.BossRushActive) ? (int)CalamityDusts.ProfanedFire : (int)CalamityDusts.Nightwither;
             for (int num193 = 0; num193 < 4; num193++)
             {

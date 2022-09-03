@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public const float ArrowTargetingRange = 1100f;
 
-        public const float MaxChargeDamageBoost = 4.5f;
+        public const float MaxChargeDamageBoost = 3f;
 
         public const float LightningDamageFactor = 0.36f;
 
@@ -44,7 +44,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            Item.damage = 554;
+            Item.damage = 350;
             Item.DamageType = DamageClass.Ranged;
             Item.width = 138;
             Item.height = 138;

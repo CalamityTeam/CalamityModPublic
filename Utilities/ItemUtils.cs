@@ -1,12 +1,13 @@
-﻿using CalamityMod.UI.CalamitasEnchants;
-using Microsoft.Xna.Framework;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using CalamityMod.UI.CalamitasEnchants;
+using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Audio;
+using Terraria.Utilities;
 
 namespace CalamityMod
 {
@@ -152,6 +153,180 @@ namespace CalamityMod
         }
         #endregion
 
+        #region Reforging Algorithm
+        internal static int GetReworkedReforge(Item item, UnifiedRandom rand, int currentPrefix)
+        {
+            CalamityMod mod = CalamityMod.Instance;
+            int GetCalPrefix(string name)
+            {
+                bool found = mod.TryFind(name, out ModPrefix ret);
+                return found ? ret.Type : 0;
+            }
+
+            // This is the hardcoded value to "do nothing", and is thus the default choice.
+            int prefix = -1;
+
+            // ACCESSORIES
+            if (item.accessory)
+            {
+                int[][] accessoryReforgeTiers = new int[][]
+                {
+                    /* 0 */ new int[] { PrefixID.Hard, PrefixID.Jagged, PrefixID.Brisk, PrefixID.Wild, GetCalPrefix("Quiet") },
+                    /* 1 */ new int[] { PrefixID.Guarding, PrefixID.Spiked, PrefixID.Precise, PrefixID.Fleeting, PrefixID.Rash, GetCalPrefix("Cloaked") },
+                    /* 2 */ new int[] { PrefixID.Armored, PrefixID.Angry, PrefixID.Hasty2, PrefixID.Intrepid, PrefixID.Arcane, GetCalPrefix("Camouflaged") },
+                    /* 3 */ new int[] { PrefixID.Warding, PrefixID.Menacing, PrefixID.Lucky, PrefixID.Quick2, PrefixID.Violent, GetCalPrefix("Silent") },
+                };
+                prefix = IteratePrefix(rand, accessoryReforgeTiers, currentPrefix);
+            }
+
+            // MELEE (includes tools and whips)
+            else if (item.CountsAsClass<MeleeDamageClass>() || item.CountsAsClass<SummonMeleeSpeedDamageClass>())
+            {
+                // Terrarian (has its own special "Legendary" for marketing reasons)
+                if (item.type == ItemID.Terrarian)
+                {
+                    int[][] terrarianReforgeTiers = new int[][]
+                    {
+                        /* 0 */ new int[] { PrefixID.Keen, PrefixID.Forceful, PrefixID.Strong },
+                        /* 1 */ new int[] { PrefixID.Hurtful, PrefixID.Ruthless, PrefixID.Zealous },
+                        /* 2 */ new int[] { PrefixID.Superior, PrefixID.Demonic, PrefixID.Godly },
+                        /* 3 */ new int[] { PrefixID.Legendary2 },
+                    };
+                    prefix = IteratePrefix(rand, terrarianReforgeTiers, currentPrefix);
+                }
+                
+                // Yoyos, Flails, Spears, etc.
+                // Spears actually work fine with Legendary, but vanilla doesn't give it to them, so we won't either.
+                // Zenith and rapiers are specifically excluded from this, so they get broadsword reforges despite not scaling with melee speed.
+                else if ((item.channel || item.noMelee) && item.type != ItemID.Zenith && item.useStyle != ItemUseStyleID.Rapier)
+                {
+                    int[][] meleeNoSpeedReforgeTiers = new int[][]
+                    {
+                        /* 0 */ new int[] { PrefixID.Keen, PrefixID.Forceful, PrefixID.Strong },
+                        /* 1 */ new int[] { PrefixID.Hurtful, PrefixID.Ruthless, PrefixID.Zealous },
+                        /* 2 */ new int[] { PrefixID.Superior, PrefixID.Demonic },
+                        /* 3 */ new int[] { PrefixID.Godly }
+                    };
+                    prefix = IteratePrefix(rand, meleeNoSpeedReforgeTiers, currentPrefix);
+                }
+
+                // All other melee weapons
+                else
+                {
+                    int[][] meleeReforgeTiers = new int[][]
+                    {
+                        /* 0 */ new int[] { PrefixID.Keen, PrefixID.Nimble, PrefixID.Nasty, PrefixID.Light, PrefixID.Heavy, PrefixID.Light, PrefixID.Forceful, PrefixID.Strong },
+                        /* 1 */ new int[] { PrefixID.Hurtful, PrefixID.Ruthless, PrefixID.Zealous, PrefixID.Quick, PrefixID.Pointy, PrefixID.Bulky },
+                        /* 2 */ new int[] { PrefixID.Murderous, PrefixID.Agile, PrefixID.Large, PrefixID.Dangerous, PrefixID.Sharp },
+                        /* 3 */ new int[] { PrefixID.Massive, PrefixID.Unpleasant, PrefixID.Savage, PrefixID.Superior },
+                        /* 4 */ new int[] { PrefixID.Demonic, PrefixID.Deadly2, PrefixID.Godly },
+                        /* 5 */ new int[] { PrefixID.Legendary } // for non-tools, Light is a mediocre low-tier reforge
+                    };
+                    int[][] toolReforgeTiers = new int[][]
+                    {
+                        /* 0 */ new int[] { PrefixID.Keen, PrefixID.Nimble, PrefixID.Nasty, PrefixID.Heavy, PrefixID.Light, PrefixID.Forceful, PrefixID.Strong },
+                        /* 1 */ new int[] { PrefixID.Hurtful, PrefixID.Ruthless, PrefixID.Zealous, PrefixID.Quick, PrefixID.Pointy, PrefixID.Bulky },
+                        /* 2 */ new int[] { PrefixID.Murderous, PrefixID.Agile, PrefixID.Large, PrefixID.Dangerous, PrefixID.Sharp },
+                        /* 3 */ new int[] { PrefixID.Massive, PrefixID.Unpleasant, PrefixID.Savage, PrefixID.Superior },
+                        /* 4 */ new int[] { PrefixID.Demonic, PrefixID.Deadly2, PrefixID.Godly },
+                        /* 5 */ new int[] { PrefixID.Legendary, PrefixID.Light } // for some tools, light is better than legendary. for others, it's equal
+                    };
+
+                    var tierListToUse = (item.pick > 0 || item.axe > 0 || item.hammer > 0) ? toolReforgeTiers : meleeReforgeTiers;
+                    prefix = IteratePrefix(rand, tierListToUse, currentPrefix);
+                }
+            }
+
+            // RANGED
+            else if (item.CountsAsClass<RangedDamageClass>())
+            {
+                int[][] rangedReforgeTiers = new int[][]
+                {
+                    /* 0 */ new int[] { PrefixID.Keen, PrefixID.Nimble, PrefixID.Nasty, PrefixID.Powerful, PrefixID.Forceful, PrefixID.Strong },
+                    /* 1 */ new int[] { PrefixID.Hurtful, PrefixID.Ruthless, PrefixID.Zealous, PrefixID.Quick, PrefixID.Intimidating },
+                    /* 2 */ new int[] { PrefixID.Murderous, PrefixID.Agile, PrefixID.Hasty, PrefixID.Staunch, PrefixID.Unpleasant },
+                    /* 3 */ new int[] { PrefixID.Superior, PrefixID.Demonic, PrefixID.Sighted },
+                    /* 4 */ new int[] { PrefixID.Godly, PrefixID.Rapid, /* ranged Deadly */ PrefixID.Deadly, /* universal Deadly */ PrefixID.Deadly2 },
+                    /* 5 */ new int[] { PrefixID.Unreal }
+                };
+                prefix = IteratePrefix(rand, rangedReforgeTiers, currentPrefix);
+            }
+
+            // MAGIC
+            else if (item.CountsAsClass<MagicDamageClass>() || item.CountsAsClass<MagicSummonHybridDamageClass>())
+            {
+                int[][] magicReforgeTiers = new int[][]
+                {
+                    /* 0 */ new int[] { PrefixID.Keen, PrefixID.Nimble, PrefixID.Nasty, PrefixID.Furious, PrefixID.Forceful, PrefixID.Strong },
+                    /* 1 */ new int[] { PrefixID.Hurtful, PrefixID.Ruthless, PrefixID.Zealous, PrefixID.Quick, PrefixID.Taboo, PrefixID.Manic },
+                    /* 2 */ new int[] { PrefixID.Murderous, PrefixID.Agile, PrefixID.Adept, PrefixID.Celestial, PrefixID.Unpleasant },
+                    /* 3 */ new int[] { PrefixID.Superior, PrefixID.Demonic, PrefixID.Mystic },
+                    /* 4 */ new int[] { PrefixID.Godly, PrefixID.Masterful, PrefixID.Deadly2 },
+                    /* 5 */ new int[] { PrefixID.Mythical }
+                };
+                prefix = IteratePrefix(rand, magicReforgeTiers, currentPrefix);
+            }
+
+            // SUMMON (not whips)
+            else if (item.CountsAsClass<SummonDamageClass>())
+            {
+                int[][] summonReforgeTiers = new int[][]
+                {
+                    /* 0 */ new int[] { PrefixID.Nimble, PrefixID.Furious },
+                    /* 1 */ new int[] { PrefixID.Forceful, PrefixID.Strong, PrefixID.Quick, PrefixID.Taboo, PrefixID.Manic },
+                    /* 2 */ new int[] { PrefixID.Hurtful, PrefixID.Adept, PrefixID.Celestial },
+                    /* 3 */ new int[] { PrefixID.Superior, PrefixID.Demonic, PrefixID.Mystic, PrefixID.Deadly2 },
+                    /* 4 */ new int[] { PrefixID.Masterful, PrefixID.Godly },
+                    /* 5 */ new int[] { PrefixID.Mythical, PrefixID.Ruthless } // you may want mythical early game for the knockback.
+                };
+                prefix = IteratePrefix(rand, summonReforgeTiers, currentPrefix);
+            }
+
+            // ROGUE (Calamity adds these reforges to all 1.4 TML throwing items)
+            else if (item.CountsAsClass<ThrowingDamageClass>())
+            {
+                // Added appropriate universal reforges to rogue, so they don't ONLY get modded prefixes.
+                int[][] rogueReforgeTiers = new int[][]
+                {
+                    /* 0 */ new int[] { PrefixID.Keen, PrefixID.Nimble, PrefixID.Nasty, PrefixID.Forceful, PrefixID.Strong, GetCalPrefix("Radical"), GetCalPrefix("Pointy") },
+                    /* 1 */ new int[] { PrefixID.Hurtful, PrefixID.Ruthless, PrefixID.Zealous, PrefixID.Quick, GetCalPrefix("Sharp"), GetCalPrefix("Glorious") },
+                    /* 2 */ new int[] { PrefixID.Murderous, PrefixID.Agile, PrefixID.Unpleasant, GetCalPrefix("Feathered"), GetCalPrefix("Sleek"), GetCalPrefix("Hefty") },
+                    /* 3 */ new int[] { PrefixID.Superior, PrefixID.Demonic, GetCalPrefix("Mighty"), GetCalPrefix("Serrated") },
+                    /* 4 */ new int[] { PrefixID.Godly, PrefixID.Deadly2, GetCalPrefix("Vicious"), GetCalPrefix("Lethal") },
+                    /* 5 */ new int[] { GetCalPrefix("Flawless") }
+                };
+                prefix = IteratePrefix(rand, rogueReforgeTiers, currentPrefix);
+            }
+
+            return prefix;
+        }
+
+        private static int GetPrefixTier(int[][] tiers, int currentPrefix)
+        {
+            for (int checkingTier = 0; checkingTier < tiers.Length; ++checkingTier)
+            {
+                int[] tierList = tiers[checkingTier];
+                for (int i = 0; i < tierList.Length; ++i)
+                    if (tierList[i] == currentPrefix)
+                        return checkingTier;
+            }
+
+            // If an invalid or modded prefix is detected, return -1.
+            // This will give a random tier 0 prefix (the "next tier"), starting fresh with a low-tier vanilla or Calamity prefix.
+            return -1;
+        }
+
+        private static int IteratePrefix(UnifiedRandom rand, int[][] reforgeTiers, int currentPrefix)
+        {
+            int currentTier = GetPrefixTier(reforgeTiers, currentPrefix);
+
+            // If max tier: give max tier reforges forever
+            // Otherwise: go up by 1 tier with every reforge, guaranteed
+            int newTier = currentTier == reforgeTiers.Length - 1 ? currentTier : currentTier + 1;
+            return rand.Next(reforgeTiers[newTier]);
+        }
+        #endregion
+
         /// <summary>
         /// Converts the given ModKeybind into a string for insertion into item tooltips.<br></br>
         /// This allows the user's actual keybind choices to be shown to them in tooltips.
@@ -265,8 +440,8 @@ namespace CalamityMod
         public static bool CheckWoodenAmmo(int type, Player player)
         {
             if (player.hasMoltenQuiver && type == ProjectileID.FireArrow)
-				return true;
-			return type == ProjectileID.WoodenArrowFriendly;
+                return true;
+            return type == ProjectileID.WoodenArrowFriendly;
         }
 
         public static Rectangle FixSwingHitbox(float hitboxWidth, float hitboxHeight)
@@ -526,69 +701,69 @@ namespace CalamityMod
             }
         }
 
-		public static void TreasureBagLightAndDust(this Item item)
-		{
-			// Spawn some light and dust when dropped in the world
-			Lighting.AddLight(item.Center, Color.White.ToVector3() * 0.4f);
+        public static void TreasureBagLightAndDust(this Item item)
+        {
+            // Spawn some light and dust when dropped in the world
+            Lighting.AddLight(item.Center, Color.White.ToVector3() * 0.4f);
 
-			if (item.timeSinceItemSpawned % 12 == 0)
-			{
-				Vector2 center = item.Center + new Vector2(0f, item.height * -0.1f);
+            if (item.timeSinceItemSpawned % 12 == 0)
+            {
+                Vector2 center = item.Center + new Vector2(0f, item.height * -0.1f);
 
-				// This creates a randomly rotated vector of length 1, which gets it's components multiplied by the parameters
-				Vector2 direction = Main.rand.NextVector2CircularEdge(item.width * 0.6f, item.height * 0.6f);
-				float distance = 0.3f + Main.rand.NextFloat() * 0.5f;
-				Vector2 velocity = new Vector2(0f, -Main.rand.NextFloat() * 0.3f - 1.5f);
+                // This creates a randomly rotated vector of length 1, which gets it's components multiplied by the parameters
+                Vector2 direction = Main.rand.NextVector2CircularEdge(item.width * 0.6f, item.height * 0.6f);
+                float distance = 0.3f + Main.rand.NextFloat() * 0.5f;
+                Vector2 velocity = new Vector2(0f, -Main.rand.NextFloat() * 0.3f - 1.5f);
 
-				Dust dust = Dust.NewDustPerfect(center + direction * distance, DustID.SilverFlame, velocity);
-				dust.scale = 0.5f;
-				dust.fadeIn = 1.1f;
-				dust.noGravity = true;
-				dust.noLight = true;
-				dust.alpha = 0;
-			}
-		}
+                Dust dust = Dust.NewDustPerfect(center + direction * distance, DustID.SilverFlame, velocity);
+                dust.scale = 0.5f;
+                dust.fadeIn = 1.1f;
+                dust.noGravity = true;
+                dust.noLight = true;
+                dust.alpha = 0;
+            }
+        }
 
-		#region Rogue Prefixes
+        #region Rogue Prefixes
         public static bool CanGetRoguePrefix(this Item item) => item.CountsAsClass<RogueDamageClass>() && item.maxStack == 1;
 
-		public static int RandomRoguePrefix()
-		{
-			Mod mod = ModContent.GetInstance<CalamityMod>();
-			int roguePrefix = Utils.SelectRandom(Main.rand, new int[]
-			{
-				mod.Find<ModPrefix>("Radical").Type,
-				mod.Find<ModPrefix>("Pointy").Type,
-				mod.Find<ModPrefix>("Sharp").Type,
-				mod.Find<ModPrefix>("Glorious").Type,
-				mod.Find<ModPrefix>("Feathered").Type,
-				mod.Find<ModPrefix>("Sleek").Type,
-				mod.Find<ModPrefix>("Hefty").Type,
-				mod.Find<ModPrefix>("Mighty").Type,
-				mod.Find<ModPrefix>("Serrated").Type,
-				mod.Find<ModPrefix>("Vicious").Type,
-				mod.Find<ModPrefix>("Lethal").Type,
-				mod.Find<ModPrefix>("Flawless").Type,
-				mod.Find<ModPrefix>("Blunt").Type,
-				mod.Find<ModPrefix>("Flimsy").Type,
-				mod.Find<ModPrefix>("Unbalanced").Type,
-				mod.Find<ModPrefix>("Atrocious").Type
-			});
-			return roguePrefix;
-		}
-
-		public static bool NegativeRoguePrefix(int prefix)
-		{
-			Mod mod = ModContent.GetInstance<CalamityMod>();
-			List<int> badPrefixes = new List<int>()
+        public static int RandomRoguePrefix()
+        {
+            Mod mod = ModContent.GetInstance<CalamityMod>();
+            int roguePrefix = Utils.SelectRandom(Main.rand, new int[]
             {
-				mod.Find<ModPrefix>("Blunt").Type,
-				mod.Find<ModPrefix>("Flimsy").Type,
-				mod.Find<ModPrefix>("Unbalanced").Type,
-				mod.Find<ModPrefix>("Atrocious").Type
-			};
-			return badPrefixes.Contains(prefix);
-		}
-		#endregion
+                mod.Find<ModPrefix>("Radical").Type,
+                mod.Find<ModPrefix>("Pointy").Type,
+                mod.Find<ModPrefix>("Sharp").Type,
+                mod.Find<ModPrefix>("Glorious").Type,
+                mod.Find<ModPrefix>("Feathered").Type,
+                mod.Find<ModPrefix>("Sleek").Type,
+                mod.Find<ModPrefix>("Hefty").Type,
+                mod.Find<ModPrefix>("Mighty").Type,
+                mod.Find<ModPrefix>("Serrated").Type,
+                mod.Find<ModPrefix>("Vicious").Type,
+                mod.Find<ModPrefix>("Lethal").Type,
+                mod.Find<ModPrefix>("Flawless").Type,
+                mod.Find<ModPrefix>("Blunt").Type,
+                mod.Find<ModPrefix>("Flimsy").Type,
+                mod.Find<ModPrefix>("Unbalanced").Type,
+                mod.Find<ModPrefix>("Atrocious").Type
+            });
+            return roguePrefix;
+        }
+
+        public static bool NegativeRoguePrefix(int prefix)
+        {
+            Mod mod = ModContent.GetInstance<CalamityMod>();
+            List<int> badPrefixes = new List<int>()
+            {
+                mod.Find<ModPrefix>("Blunt").Type,
+                mod.Find<ModPrefix>("Flimsy").Type,
+                mod.Find<ModPrefix>("Unbalanced").Type,
+                mod.Find<ModPrefix>("Atrocious").Type
+            };
+            return badPrefixes.Contains(prefix);
+        }
+        #endregion
     }
 }

@@ -14,6 +14,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Tooltip.SetDefault("Shoots a flower spear tip\n" +
                 "Summons petals from the sky on critical hits");
             SacrificeTotal = 1;
+            ItemID.Sets.Spears[Item.type] = true;
         }
 
         public override void SetDefaults()

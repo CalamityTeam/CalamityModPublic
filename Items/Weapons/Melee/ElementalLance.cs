@@ -15,6 +15,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Tooltip.SetDefault("Rend the cosmos asunder!\n" +
                 "Fires a lance beam that splits multiple times as it travels");
             SacrificeTotal = 1;
+            ItemID.Sets.Spears[Item.type] = true;
         }
 
         public override void SetDefaults()

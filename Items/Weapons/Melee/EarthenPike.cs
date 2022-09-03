@@ -13,6 +13,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Tooltip.SetDefault("Crushes enemy defenses\n" +
                 "Sprays fossil shards on use");
             SacrificeTotal = 1;
+            ItemID.Sets.Spears[Item.type] = true;
         }
 
         public override void SetDefaults()

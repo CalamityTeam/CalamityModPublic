@@ -106,11 +106,8 @@ namespace CalamityMod.CalPlayer
         public bool blockAllDashes = false;
         public bool resetHeightandWidth = false;
         public bool noLifeRegen = false;
-        public int itemTypeLastReforged = 0;
-        public int reforgeTierSafety = 0;
-        public bool finalTierAccessoryReforge = false;
         public float rangedAmmoCost = 1f;
-		public float healingPotBonus = 1f;
+        public float healingPotBonus = 1f;
         public bool heldGaelsLastFrame = false;
         internal bool hadNanomachinesLastFrame = false;
         public bool disableVoodooSpawns = false;
@@ -1212,7 +1209,6 @@ namespace CalamityMod.CalPlayer
             boost.AddWithCondition("bossHPBar", drawBossHPBar);
             boost.AddWithCondition("drawSmallText", shouldDrawSmallText);
             boost.AddWithCondition("fullHPRespawn", healToFull);
-            boost.AddWithCondition("finalTierAccessoryReforge", finalTierAccessoryReforge);
 
             boost.AddWithCondition("newMerchantInventory", newMerchantInventory);
             boost.AddWithCondition("newPainterInventory", newPainterInventory);
@@ -1281,8 +1277,6 @@ namespace CalamityMod.CalPlayer
             tag["exactSummonLevel"] = exactSummonLevel;
             tag["rogueLevel"] = rogueLevel;
             tag["exactRogueLevel"] = exactRogueLevel;
-            tag["itemTypeLastReforged"] = itemTypeLastReforged;
-            tag["reforgeTierSafety"] = reforgeTierSafety;
             tag["moveSpeedBonus"] = moveSpeedBonus;
             tag["defenseDamage"] = totalDefenseDamage;
             tag["defenseDamageRecoveryFrames"] = defenseDamageRecoveryFrames;
@@ -1313,7 +1307,6 @@ namespace CalamityMod.CalPlayer
             drawBossHPBar = boost.Contains("bossHPBar");
             shouldDrawSmallText = boost.Contains("drawSmallText");
             healToFull = boost.Contains("fullHPRespawn");
-            finalTierAccessoryReforge = boost.Contains("finalTierAccessoryReforge");
 
             newMerchantInventory = boost.Contains("newMerchantInventory");
             newPainterInventory = boost.Contains("newPainterInventory");
@@ -1367,15 +1360,6 @@ namespace CalamityMod.CalPlayer
             sCalDeathCount = tag.GetInt("sCalDeathCount");
             sCalKillCount = tag.GetInt("sCalKillCount");
             deathCount = tag.GetInt("deathCount");
-
-            // These two variables are no longer used, as the code was moved into CalamityWorld.cs to support multiplayer.
-            // As a result, their values are simply fed into a discard.
-
-            _ = tag.GetInt("moneyStolenByBandit");
-            _ = tag.GetInt("reforges");
-
-            itemTypeLastReforged = tag.GetInt("itemTypeLastReforged");
-            reforgeTierSafety = tag.GetInt("reforgeTierSafety");
 
             meleeLevel = tag.GetInt("meleeLevel");
             rangedLevel = tag.GetInt("rangedLevel");
@@ -1718,7 +1702,7 @@ namespace CalamityMod.CalPlayer
             brimflameFrenzy = false;
 
             rangedAmmoCost = 1f;
-			healingPotBonus = 1f;
+            healingPotBonus = 1f;
 
             avertorBonus = false;
 
@@ -2104,7 +2088,6 @@ namespace CalamityMod.CalPlayer
             AbleToSelectExoMech = false;
 
             EnchantHeldItemEffects(Player, Player.Calamity(), Player.ActiveItem());
-            BaseIdleHoldoutProjectile.CheckForEveryHoldout(Player);
         }
         #endregion
 
@@ -2365,7 +2348,7 @@ namespace CalamityMod.CalPlayer
             danceOfLightCharge = 0;
             bloodPactBoost = false;
             rangedAmmoCost = 1f;
-			healingPotBonus = 1f;
+            healingPotBonus = 1f;
             avertorBonus = false;
             divineBless = false;
             #endregion
@@ -3530,6 +3513,7 @@ namespace CalamityMod.CalPlayer
                 Player.GetDamage<TrueMeleeDamageClass>() += 0.1f;
 
             ForceVariousEffects();
+            BaseIdleHoldoutProjectile.CheckForEveryHoldout(Player);
         }
         #endregion
 
@@ -4108,8 +4092,8 @@ namespace CalamityMod.CalPlayer
         #region On Respawn
         public override void OnRespawn(Player player)
         {
-			if (healToFull)
-				thirdSageH = true;
+            if (healToFull)
+                thirdSageH = true;
 
             // Order the list such that less expensive minions are at the top.
             // This way cheaper minions will be spawned first, and at the end, the most expensive
@@ -5674,7 +5658,7 @@ namespace CalamityMod.CalPlayer
             if (godSlayerDashHotKeyPressed)
             {
                 // Set the player to have no registered vanilla dashes.
-				Player.dashType = 0;
+                Player.dashType = 0;
 
                 // Prevent the possibility of Shield of Cthulhu invulnerability exploits.
                 Player.eocHit = -1;
@@ -5743,7 +5727,7 @@ namespace CalamityMod.CalPlayer
         private void DisableDashes()
         {
             // Set the player to have no registered dashes.
-			Player.dashType = 0;
+            Player.dashType = 0;
             DashID = string.Empty;
 
             // Put the player in a permanent state of dash cooldown. This is removed 1/5 of a second after disabling the effect.
@@ -6245,11 +6229,11 @@ namespace CalamityMod.CalPlayer
                         iFramesToAdd += 10;
                 }
 
-				// Give bonus immunity frames based on the type of damage dealt
-				if (cooldownCounter != -1)
-					Player.hurtCooldowns[cooldownCounter] += iFramesToAdd;
-				else
-					Player.immuneTime += iFramesToAdd;
+                // Give bonus immunity frames based on the type of damage dealt
+                if (cooldownCounter != -1)
+                    Player.hurtCooldowns[cooldownCounter] += iFramesToAdd;
+                else
+                    Player.immuneTime += iFramesToAdd;
 
                 if (BossRushEvent.BossRushActive && CalamityConfig.Instance.BossRushIFrameCurse)
                     bossRushImmunityFrameCurseTimer = 180 + Player.immuneTime;
@@ -7990,8 +7974,8 @@ namespace CalamityMod.CalPlayer
             if (CalamityConfig.Instance.SpeedrunTimer)
                 CalamityMod.SpeedrunTimer.Restart();
 
-			if (CalamityConfig.Instance.WikiStatusMessage)
-				Main.NewText($"[i:{ItemID.Book}]" + " [c/EE4939:Be sure to check out the Official Calamity Mod Wiki at ][c/3989FF:calamitymod.wiki.gg][c/EE4939:!] " + $"[i:{ItemID.Book}]");
+            if (CalamityConfig.Instance.WikiStatusMessage)
+                Main.NewText($"[i:{ItemID.Book}]" + " [c/EE4939:Be sure to check out the Official Calamity Mod Wiki at ][c/3989FF:calamitymod.wiki.gg][c/EE4939:!] " + $"[i:{ItemID.Book}]");
         }
 
         /// <summary>

@@ -16,6 +16,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Tracking Disk");
             Tooltip.SetDefault("A weapon that, as it flies, processes calculations and fires lasers\n" +
                                "Releases a flying disk that fires lasers at nearby enemies\n" +
@@ -25,13 +26,13 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
         {
             CalamityGlobalItem modItem = Item.Calamity();
 
-            Item.damage = 25;
+            Item.damage = 16;
             Item.DamageType = RogueDamageClass.Instance;
 
             Item.width = 30;
             Item.height = 34;
-            Item.useTime = 42;
-            Item.useAnimation = 42;
+            Item.useTime = 45;
+            Item.useAnimation = 45;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.useTurn = false;
             Item.knockBack = 3f;

@@ -24,10 +24,10 @@ namespace CalamityMod.Projectiles.Boss
 
         public Vector2 Destination;
         public Vector2 Velocity;
-        public const float TelegraphTotalTime = 30f;
-        public const float TelegraphFadeTime = 15f;
+        public const float TelegraphTotalTime = 60f;
+        public const float TelegraphFadeTime = 30f;
         public const float TelegraphWidth = 4200f;
-        public const float LaserVelocity = 10f;
+        public const float LaserVelocity = 7f;
 
         public override void SetStaticDefaults()
         {
@@ -47,7 +47,7 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.alpha = 255;
             Projectile.penetrate = -1;
             Projectile.extraUpdates = 1;
-            Projectile.timeLeft = 600;
+            Projectile.timeLeft = 1200;
             CooldownSlot = ImmunityCooldownID.Bosses;
         }
 

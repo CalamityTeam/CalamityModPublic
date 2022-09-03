@@ -186,6 +186,12 @@ namespace CalamityMod
         #region General Gameplay Changes
         [Header("$Mods.CalamityMod.Config.SectionTitle.Gameplay")]
 
+        [Label("$Mods.CalamityMod.Config.EntryTitle.RemoveReforgeRNG")]
+        [BackgroundColor(192, 54, 64, 192)]
+        [DefaultValue(true)]
+        [Tooltip("$Mods.CalamityMod.Config.EntryTooltip.RemoveReforgeRNG")]
+        public bool RemoveReforgeRNG { get; set; }
+
         [Label("$Mods.CalamityMod.Config.EntryTitle.EarlyHardmodeProgressionRework")]
         [BackgroundColor(192, 54, 64, 192)]
         [DefaultValue(true)]
@@ -400,6 +406,7 @@ namespace CalamityMod
                 new("SpeedrunTimerPosX", ItemID.LaserRuler),
                 new("SpeedrunTimerPosY", ItemID.LaserRuler),
 
+                new("RemoveReforgeRNG", ItemID.TinHammer),
                 new("EarlyHardmodeProgressionRework", ItemID.Pwnhammer),
                 new("Proficiency", ModContent.ItemType<MagicLevelMeter>()),
                 new("BossZen", ModContent.ItemType<ZenPotion>()),

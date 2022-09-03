@@ -36,6 +36,7 @@ namespace CalamityMod.Items.Accessories
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.eGauntlet = true;
+            player.kbGlove = true;
             player.autoReuseGlove = true;
             player.meleeScaleGlove = true;
             player.GetAttackSpeed<MeleeDamageClass>() += 0.15f;

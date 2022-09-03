@@ -12,6 +12,7 @@ namespace CalamityMod.Items.Weapons.Melee
             DisplayName.SetDefault("Insidious Impaler");
             Tooltip.SetDefault("Fires a harpoon that sticks to enemies and explodes");
             SacrificeTotal = 1;
+            ItemID.Sets.Spears[Item.type] = true;
         }
 
         public override void SetDefaults()

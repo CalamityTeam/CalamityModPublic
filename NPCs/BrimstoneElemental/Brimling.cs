@@ -247,7 +247,7 @@ namespace CalamityMod.NPCs.BrimstoneElemental
                 float projectileVelocity = 5f;
                 int type = ModContent.ProjectileType<BrimstoneHellfireball>();
                 int damage = NPC.GetProjectileDamage(type);
-                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Normalize(Main.player[Main.npc[CalamityGlobalNPC.brimstoneElemental].target].Center - NPC.Center) * projectileVelocity, type, damage, 0f, Main.myPlayer, Main.player[Main.npc[CalamityGlobalNPC.brimstoneElemental].target].Center.X, Main.player[Main.npc[CalamityGlobalNPC.brimstoneElemental].target].Center.Y);
+                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Normalize(Main.player[Main.npc[CalamityGlobalNPC.brimstoneElemental].target].Center - NPC.Center) * projectileVelocity, type, damage, 0f, Main.myPlayer, Main.player[Main.npc[CalamityGlobalNPC.brimstoneElemental].target].position.X, Main.player[Main.npc[CalamityGlobalNPC.brimstoneElemental].target].position.Y);
             }
 
             // Teleport when Brim teleports
