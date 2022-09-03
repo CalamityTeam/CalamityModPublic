@@ -1,3 +1,4 @@
+using CalamityMod.Rarities;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -27,7 +28,7 @@ namespace CalamityMod.Items.Placeables.Ores
             Item.height = 10;
             Item.maxStack = 999;
             Item.value = Item.sellPrice(gold: 4);
-            Item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.rare = ModContent.RarityType<Violet>();
         }
     }
 }

@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.knockBack = 5;
-            Item.value = Item.buyPrice(0, 4, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity3BuyPrice;
             Item.rare = ItemRarityID.Orange;
             Item.UseSound = SoundID.Item43;
             Item.autoReuse = true;

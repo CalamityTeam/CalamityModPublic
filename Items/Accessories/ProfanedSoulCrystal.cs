@@ -1,16 +1,17 @@
-﻿using CalamityMod.CalPlayer;
+﻿using CalamityMod.Buffs.StatBuffs;
+using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Summon;
+using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
+using System.Linq;
 using Terraria;
+using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Audio;
-using System.Linq;
-using CalamityMod.Buffs.StatBuffs;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -65,7 +66,7 @@ namespace CalamityMod.Items.Accessories
             Item.height = 50;
             Item.accessory = true;
             Item.value = CalamityGlobalItem.RarityHotPinkBuyPrice;
-            Item.Calamity().customRarity = CalamityRarity.HotPink;
+            Item.rare = ModContent.RarityType<HotPink>();
             Item.Calamity().devItem = true;
         }
 

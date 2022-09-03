@@ -1,10 +1,11 @@
-﻿using Terraria.DataStructures;
-using CalamityMod.Projectiles.Ranged;
+﻿using CalamityMod.Projectiles.Ranged;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Audio;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
@@ -29,8 +30,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.noMelee = true;
             Item.knockBack = 1.5f;
             Item.value = CalamityGlobalItem.Rarity15BuyPrice;
-            Item.rare = ItemRarityID.Purple;
-            Item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.rare = ModContent.RarityType<Violet>();
             // No use sound is intentional
             Item.autoReuse = true;
             Item.shootSpeed = 14.5f;

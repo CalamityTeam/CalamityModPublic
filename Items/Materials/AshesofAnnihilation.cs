@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.Rarities;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
@@ -27,9 +28,8 @@ namespace CalamityMod.Items.Materials
             Item.width = 54;
             Item.height = 56;
             Item.maxStack = 999;
-            Item.rare = ItemRarityID.Purple;
             Item.value = Item.sellPrice(gold: 66, silver: 66, copper: 66);
-            Item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.rare = ModContent.RarityType<Violet>();
         }
         public void DrawPulsingAfterimage(SpriteBatch spriteBatch, Vector2 baseDrawPosition, Rectangle frame, float baseScale)
         {

@@ -1,10 +1,11 @@
-﻿using Terraria.DataStructures;
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Ranged;
+using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -31,13 +32,12 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.noMelee = true;
             Item.knockBack = 4f;
             Item.UseSound = SoundID.Item34;
-            Item.value = Item.buyPrice(1, 80, 0, 0);
-            Item.rare = ItemRarityID.Red;
+            Item.value = CalamityGlobalItem.RarityDarkBlueBuyPrice;
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<EssenceFire>();
             Item.shootSpeed = 14f;
             Item.useAmmo = AmmoID.Gel;
-            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.rare = ModContent.RarityType<DarkBlue>();
         }
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)

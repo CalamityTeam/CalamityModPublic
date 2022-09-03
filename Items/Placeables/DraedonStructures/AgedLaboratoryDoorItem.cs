@@ -1,4 +1,5 @@
 using CalamityMod.Items.Materials;
+using CalamityMod.Rarities;
 using CalamityMod.Tiles.DraedonStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -22,8 +23,7 @@ namespace CalamityMod.Items.Placeables.DraedonStructures
             Item.useAnimation = 15;
             Item.useTime = 10;
             Item.useStyle = ItemUseStyleID.Swing;
-            Item.rare = ItemRarityID.Red;
-            Item.Calamity().customRarity = CalamityRarity.DraedonRust;
+            Item.rare = ModContent.RarityType<DarkOrange>();
             Item.consumable = true;
             Item.createTile = ModContent.TileType<AgedLaboratoryDoorClosed>();
         }

@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
             Item.shoot = ModContent.ProjectileType<AquaticDischargeProj>();
             Item.shootSpeed = 2f;
-            Item.value = Item.buyPrice(0, 2, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity2BuyPrice;
             Item.rare = ItemRarityID.Green;
         }
 

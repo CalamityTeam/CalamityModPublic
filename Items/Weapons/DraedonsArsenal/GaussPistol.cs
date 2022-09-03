@@ -1,6 +1,7 @@
 ﻿using CalamityMod.CustomRecipes;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.DraedonsArsenal;
+using CalamityMod.Rarities;
 using System;
 using System.Collections.Generic;
 using Terraria;
@@ -38,8 +39,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             Item.noMelee = true;
 
             Item.value = CalamityGlobalItem.Rarity5BuyPrice;
-            Item.rare = ItemRarityID.Red;
-            modItem.customRarity = CalamityRarity.DraedonRust;
+            Item.rare = ModContent.RarityType<DarkOrange>();
 
             Item.shoot = ModContent.ProjectileType<GaussPistolShot>();
             Item.shootSpeed = 14f;

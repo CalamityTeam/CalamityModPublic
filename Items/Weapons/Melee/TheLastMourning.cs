@@ -2,6 +2,7 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.NPCs.DevourerofGods;
 using CalamityMod.Projectiles.Melee;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -35,8 +36,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.UseSound = SoundID.Item1;
 
             Item.value = CalamityGlobalItem.Rarity13BuyPrice;
-            Item.rare = ItemRarityID.Red;
-            Item.Calamity().customRarity = CalamityRarity.PureGreen;
+            Item.rare = ModContent.RarityType<PureGreen>();
             Item.Calamity().donorItem = true;
         }
 

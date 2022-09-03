@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Armor.TitanHeart
         {
             Item.width = 18;
             Item.height = 18;
-            Item.value = Item.buyPrice(0, 12, 0, 0);
+            Item.value = CalamityGlobalItem.RarityLightRedBuyPrice;
             Item.rare = ItemRarityID.LightRed;
             Item.defense = 14;
         }

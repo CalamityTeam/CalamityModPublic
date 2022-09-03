@@ -2,6 +2,7 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Plates;
 using CalamityMod.Items.Placeables.Ores;
+using CalamityMod.Rarities;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -24,8 +25,7 @@ namespace CalamityMod.Items.Accessories
             Item.width = 28;
             Item.height = 28;
             Item.accessory = true;
-            Item.rare = ItemRarityID.Red;
-            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.rare = ModContent.RarityType<DarkBlue>();
             Item.value = CalamityGlobalItem.Rarity14BuyPrice;
         }
 

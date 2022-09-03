@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
+using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -29,8 +30,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.UseSound = SoundID.Item109;
             Item.autoReuse = true;
             Item.value = CalamityGlobalItem.Rarity14BuyPrice;
-            Item.rare = ItemRarityID.Purple;
-            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.rare = ModContent.RarityType<DarkBlue>();
             Item.shoot = ModContent.ProjectileType<ScourgeoftheCosmosProj>();
             Item.shootSpeed = 15f;
         }

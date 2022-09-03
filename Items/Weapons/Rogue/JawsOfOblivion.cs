@@ -1,8 +1,9 @@
-﻿using Terraria.DataStructures;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Rogue;
-using CalamityMod.Items.Materials;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -37,7 +38,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.DamageType = RogueDamageClass.Instance;
 
             Item.value = CalamityGlobalItem.Rarity13BuyPrice;
-            Item.Calamity().customRarity = CalamityRarity.PureGreen;
+            Item.rare = ModContent.RarityType<PureGreen>();
         }
 
 		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)

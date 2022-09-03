@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.shootSpeed = 10f;
             Item.useAmmo = AmmoID.Arrow;
 
-            Item.value = Item.buyPrice(gold: 80); // crafted out of nothing but 31 ectoplasm so it has unique pricing
+            Item.value = CalamityGlobalItem.RarityYellowBuyPrice;
             Item.rare = ItemRarityID.Yellow;
             Item.Calamity().donorItem = true;
             Item.Calamity().canFirePointBlankShots = true;

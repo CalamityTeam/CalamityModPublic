@@ -1,5 +1,6 @@
 ﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
+using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
 using Terraria.ID;
@@ -30,9 +31,8 @@ namespace CalamityMod.Items.Accessories
         {
             Item.width = 38;
             Item.height = 38;
-            Item.rare = ItemRarityID.Purple;
             Item.value = CalamityGlobalItem.Rarity14BuyPrice;
-            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.rare = ModContent.RarityType<DarkBlue>();
             Item.accessory = true;
         }
 

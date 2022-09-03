@@ -1,10 +1,11 @@
 ﻿using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using CalamityMod.Projectiles.Summon;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -23,8 +24,7 @@ namespace CalamityMod.Items.Accessories
             Item.width = 24;
             Item.height = 26;
             Item.value = CalamityGlobalItem.Rarity13BuyPrice;
-            Item.Calamity().customRarity = CalamityRarity.PureGreen;
-            Item.rare = ItemRarityID.Purple;
+            Item.rare = ModContent.RarityType<PureGreen>();
             Item.accessory = true;
         }
 

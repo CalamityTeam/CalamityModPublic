@@ -1,8 +1,9 @@
-﻿using Terraria.DataStructures;
-using CalamityMod.Buffs.Summon;
+﻿using CalamityMod.Buffs.Summon;
 using CalamityMod.Projectiles.Summon;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -36,8 +37,7 @@ namespace CalamityMod.Items.Weapons.Summon
             Item.shoot = ModContent.ProjectileType<VoidConcentrationAura>();
             Item.shootSpeed = 10f;
             Item.value = CalamityGlobalItem.Rarity12BuyPrice;
-            Item.rare = ItemRarityID.Purple;
-            Item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.rare = ModContent.RarityType<Turquoise>();
         }
 
         public override bool CanUseItem(Player player)

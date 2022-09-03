@@ -1,4 +1,5 @@
-﻿using CalamityMod.Tiles.Furniture.CraftingStations;
+﻿using CalamityMod.Rarities;
+using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -24,9 +25,8 @@ namespace CalamityMod.Items.Materials
             Item.width = 46;
             Item.height = 64;
             Item.maxStack = 999;
-            Item.rare = ItemRarityID.Purple;
             Item.value = Item.sellPrice(platinum: 6, gold: 50);
-            Item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.rare = ModContent.RarityType<Violet>();
         }
 
         public void DrawBackAfterimage(SpriteBatch spriteBatch, Vector2 baseDrawPosition, Rectangle frame, float baseScale)

@@ -11,6 +11,7 @@ using CalamityMod.Items.Placeables.FurnitureSilva;
 using CalamityMod.Items.Placeables.FurnitureStatigel;
 using CalamityMod.Items.Placeables.FurnitureStratus;
 using CalamityMod.Items.Placeables.FurnitureVoid;
+using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria.ID;
@@ -40,7 +41,7 @@ namespace CalamityMod.Items.Placeables.Furniture
             Item.useStyle = ItemUseStyleID.Swing;
             Item.consumable = true;
             Item.createTile = ModContent.TileType<ThaumaticChairTile>();
-            Item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.rare = ModContent.RarityType<Violet>();
             Item.Calamity().donorItem = true;
         }
 

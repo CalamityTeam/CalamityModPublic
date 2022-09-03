@@ -1,9 +1,10 @@
-﻿using Terraria.DataStructures;
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Summon;
+using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -47,7 +48,7 @@ namespace CalamityMod.Items.Weapons.Summon
             Item.shootSpeed = 10f;
 
             Item.value = CalamityGlobalItem.Rarity16BuyPrice;
-            Item.Calamity().customRarity = CalamityRarity.HotPink;
+            Item.rare = ModContent.RarityType<HotPink>();
             Item.Calamity().devItem = true;
         }
 

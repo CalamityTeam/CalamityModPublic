@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.knockBack = 3f;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
-            Item.value = Item.buyPrice(gold: 80);
+            Item.value = CalamityGlobalItem.RarityYellowBuyPrice;
             Item.rare = ItemRarityID.Yellow;
             Item.Calamity().donorItem = true;
             Item.shoot = ModContent.ProjectileType<CorpusAvertorProj>();

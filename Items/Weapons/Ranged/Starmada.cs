@@ -1,10 +1,11 @@
-﻿using Terraria.DataStructures;
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Ores;
 using CalamityMod.Projectiles.Ranged;
+using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -33,8 +34,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.height = 50;
             Item.UseSound = SoundID.Item92;
             Item.shoot = ModContent.ProjectileType<StarfleetMK2Gun>();
-            Item.value = Item.buyPrice(1, 80, 0, 0);
-            Item.rare = ItemRarityID.Red;
+            Item.value = CalamityGlobalItem.RarityDarkBlueBuyPrice;
             Item.noMelee = true;
             Item.noUseGraphic = true;
             Item.DamageType = DamageClass.Ranged;
@@ -42,7 +42,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.useTurn = false;
             Item.useAmmo = AmmoID.FallenStar;
             Item.autoReuse = true;
-            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.rare = ModContent.RarityType<DarkBlue>();
         }
 
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;

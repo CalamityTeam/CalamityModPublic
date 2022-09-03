@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Buffs.Pets;
 using CalamityMod.Projectiles.Pets;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -23,7 +24,7 @@ namespace CalamityMod.Items.Pets
             Item.buffType = ModContent.BuffType<YharonSonBuff>();
 
             Item.value = Item.sellPrice(gold: 30);
-            Item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.rare = ModContent.RarityType<Violet>();
         }
 
         public override void UseStyle(Player player, Rectangle heldItemFrame)

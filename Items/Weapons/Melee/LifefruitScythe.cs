@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -30,8 +31,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.autoReuse = true;
             Item.height = 72;
             Item.value = CalamityGlobalItem.Rarity12BuyPrice;
-            Item.rare = ItemRarityID.Purple;
-            Item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.rare = ModContent.RarityType<Turquoise>();
             Item.shoot = ModContent.ProjectileType<LifeScythe>();
             Item.shootSpeed = 12f;
         }

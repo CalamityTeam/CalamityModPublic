@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.Rarities;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.Graphics.Shaders;
@@ -27,7 +28,7 @@ namespace CalamityMod.Items.Accessories.Wings
             Item.width = 22;
             Item.height = 20;
             Item.value = CalamityGlobalItem.Rarity15BuyPrice;
-            Item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.rare = ModContent.RarityType<Violet>();
             Item.accessory = true;
         }
 

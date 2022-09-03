@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.knockBack = 5.5f;
             Item.UseSound = null;
             Item.height = 34;
-            Item.value = Item.buyPrice(0, 2, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity2BuyPrice;
             Item.rare = ItemRarityID.Green;
             Item.shoot = ModContent.ProjectileType<FishboneBoomerangProjectile>();
             Item.shootSpeed = 3f;

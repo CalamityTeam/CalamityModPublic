@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
+using CalamityMod.Rarities;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -28,12 +29,11 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.noMelee = true;
             Item.knockBack = 3f;
             Item.value = CalamityGlobalItem.Rarity12BuyPrice;
-            Item.rare = ItemRarityID.Purple;
             Item.UseSound = SoundID.Item33;
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<GammaLaser>();
             Item.shootSpeed = 20f;
-            Item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.rare = ModContent.RarityType<Turquoise>();
         }
 
         public override void AddRecipes()

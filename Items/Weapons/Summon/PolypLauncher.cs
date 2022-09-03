@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Weapons.Summon
             Item.useStyle = ItemUseStyleID.Swing;
             Item.noMelee = true;
             Item.knockBack = 0f;
-            Item.value = Item.buyPrice(0, 2, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity2BuyPrice;
             Item.rare = 2;
             Item.UseSound = SoundID.Item44;
             Item.autoReuse = true;

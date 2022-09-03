@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Armor.Umbraphile
         {
             Item.width = 22;
             Item.height = 18;
-            Item.value = Item.buyPrice(0, 18, 0, 0);
+            Item.value = CalamityGlobalItem.RarityLimeBuyPrice;
             Item.rare = ItemRarityID.Lime;
             Item.defense = 12;
         }

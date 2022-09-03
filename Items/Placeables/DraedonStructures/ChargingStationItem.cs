@@ -1,3 +1,4 @@
+using CalamityMod.Rarities;
 using CalamityMod.Tiles.DraedonStructures;
 using Terraria;
 using Terraria.ID;
@@ -27,8 +28,7 @@ namespace CalamityMod.Items.Placeables.DraedonStructures
             Item.consumable = true;
             Item.createTile = ModContent.TileType<ChargingStation>();
 
-            Item.rare = ItemRarityID.Red;
-            Item.Calamity().customRarity = CalamityRarity.DraedonRust;
+            Item.rare = ModContent.RarityType<DarkOrange>();
             Item.value = Item.buyPrice(gold: 50);
         }
     }

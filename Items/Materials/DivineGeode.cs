@@ -1,4 +1,5 @@
-﻿using Terraria;
+﻿using CalamityMod.Rarities;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -19,9 +20,8 @@ namespace CalamityMod.Items.Materials
             Item.width = 15;
             Item.height = 12;
             Item.maxStack = 999;
-            Item.rare = ItemRarityID.Purple;
             Item.value = Item.buyPrice(0, 6, 50, 0);
-            Item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.rare = ModContent.RarityType<Turquoise>();
         }
         public override void Update(ref float gravity, ref float maxFallSpeed)
         {

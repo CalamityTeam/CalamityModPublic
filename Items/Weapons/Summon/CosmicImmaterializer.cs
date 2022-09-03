@@ -1,10 +1,11 @@
-﻿using Terraria.DataStructures;
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Summon;
+using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -33,12 +34,11 @@ namespace CalamityMod.Items.Weapons.Summon
             Item.noMelee = true;
             Item.knockBack = 0f;
             Item.value = CalamityGlobalItem.Rarity15BuyPrice;
-            Item.rare = ItemRarityID.Red;
             Item.UseSound = SoundID.Item60;
             Item.shoot = ModContent.ProjectileType<CosmicEnergySpiral>();
             Item.shootSpeed = 10f;
             Item.DamageType = DamageClass.Summon;
-            Item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.rare = ModContent.RarityType<Violet>();
         }
 
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0 && player.maxMinions >= 10;

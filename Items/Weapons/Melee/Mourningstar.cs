@@ -1,8 +1,9 @@
-﻿using Terraria.DataStructures;
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -33,8 +34,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.knockBack = 2.5f;
             Item.UseSound = SoundID.Item116;
             Item.value = CalamityGlobalItem.Rarity12BuyPrice;
-            Item.rare = ItemRarityID.Purple;
-            Item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.rare = ModContent.RarityType<Turquoise>();
             Item.shootSpeed = 24f;
             Item.shoot = ModContent.ProjectileType<MourningstarFlail>();
         }

@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Items.Materials;
+using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
 using Terraria.ID;
@@ -28,8 +29,7 @@ namespace CalamityMod.Items.Potions
             Item.consumable = true;
             Item.potion = true;
             Item.value = Item.buyPrice(0, 7, 0, 0);
-            Item.rare = ItemRarityID.Purple;
-            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.rare = ModContent.RarityType<DarkBlue>();
         }
 
         public override void AddRecipes()

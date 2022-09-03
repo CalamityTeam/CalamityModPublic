@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
+using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
@@ -42,8 +43,7 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.noMelee = true;
             Item.knockBack = 3.5f;
             Item.value = CalamityGlobalItem.RarityHotPinkBuyPrice;
-            Item.rare = 10;
-            Item.Calamity().customRarity = CalamityRarity.HotPink;
+            Item.rare = ModContent.RarityType<HotPink>();
             Item.UseSound = SoundID.Item11;
             Item.autoReuse = true;
             Item.noUseGraphic = true;

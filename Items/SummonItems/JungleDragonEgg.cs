@@ -1,10 +1,11 @@
 ﻿using CalamityMod.Events;
 using CalamityMod.Items.Materials;
 using CalamityMod.NPCs.Yharon;
+using CalamityMod.Rarities;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Audio;
 
 namespace CalamityMod.Items.SummonItems
 {
@@ -30,8 +31,7 @@ namespace CalamityMod.Items.SummonItems
             Item.useTime = 10;
             Item.useStyle = ItemUseStyleID.HoldUp;
             Item.consumable = false;
-            Item.rare = ItemRarityID.Purple;
-            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.rare = ModContent.RarityType<DarkBlue>();
         }
 
 		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)

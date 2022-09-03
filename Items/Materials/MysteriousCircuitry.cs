@@ -1,4 +1,5 @@
-﻿using Terraria;
+﻿using CalamityMod.Rarities;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -17,8 +18,7 @@ namespace CalamityMod.Items.Materials
             Item.width = 30;
             Item.height = 24;
             Item.maxStack = 999;
-            Item.rare = ItemRarityID.Red;
-            Item.Calamity().customRarity = CalamityRarity.DraedonRust;
+            Item.rare = ModContent.RarityType<DarkOrange>();
             Item.value = Item.sellPrice(silver: 6);
         }    }
 }

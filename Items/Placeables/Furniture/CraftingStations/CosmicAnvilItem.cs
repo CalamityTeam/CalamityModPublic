@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Ores;
+using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
 using Terraria.ID;
@@ -30,8 +31,7 @@ namespace CalamityMod.Items.Placeables.Furniture.CraftingStations
             Item.consumable = true;
             Item.createTile = ModContent.TileType<CosmicAnvil>();
 
-            Item.rare = ItemRarityID.Red;
-            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.rare = ModContent.RarityType<DarkBlue>();
             Item.value = Item.sellPrice(platinum: 2, gold: 50);
         }
 

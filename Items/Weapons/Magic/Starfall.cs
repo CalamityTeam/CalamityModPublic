@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.knockBack = 3.25f;
-            Item.value = Item.buyPrice(0, 95, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity9BuyPrice;
             Item.UseSound = SoundID.Item105;
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<AstralStarMagic>();

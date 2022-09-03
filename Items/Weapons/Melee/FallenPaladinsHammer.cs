@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.UseSound = SoundID.Item1;
             Item.DamageType = DamageClass.MeleeNoSpeed;
             Item.height = 28;
-            Item.value = Item.buyPrice(gold: 80);
+            Item.value = CalamityGlobalItem.RarityYellowBuyPrice;
             Item.rare = ItemRarityID.Yellow;
             Item.shoot = ModContent.ProjectileType<FallenPaladinsHammerProj>();
             Item.shootSpeed = 14f;

@@ -38,7 +38,7 @@ namespace CalamityMod.Items.Armor.Victide
         {
             Item.width = 18;
             Item.height = 18;
-            Item.value = Item.buyPrice(0, 1, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity2BuyPrice;
             Item.rare = ItemRarityID.Green;
             Item.defense = 5; //9
         }
