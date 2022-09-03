@@ -1,5 +1,6 @@
 ﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
+using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using System.Collections.Generic;
 using Terraria;
@@ -31,7 +32,7 @@ namespace CalamityMod.Items.Accessories
             Item.height = 46;
             Item.value = CalamityGlobalItem.Rarity14BuyPrice;
             Item.accessory = true;
-            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.rare = ModContent.RarityType<DarkBlue>();
         }
 
         public override void ModifyTooltips(List<TooltipLine> list)

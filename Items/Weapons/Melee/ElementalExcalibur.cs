@@ -1,11 +1,12 @@
-﻿using Terraria.DataStructures;
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
+using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -41,10 +42,9 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.width = 112;
             Item.height = 112;
             Item.value = Item.buyPrice(5, 0, 0, 0);
-            Item.rare = ItemRarityID.Purple;
             Item.shoot = ModContent.ProjectileType<ElementalExcaliburBeam>();
             Item.shootSpeed = 6f;
-            Item.Calamity().customRarity = CalamityRarity.Rainbow;
+            Item.rare = ModContent.RarityType<Rainbow>();
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults

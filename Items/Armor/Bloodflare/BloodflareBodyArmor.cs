@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Items.Materials;
+using CalamityMod.Rarities;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -22,7 +23,7 @@ namespace CalamityMod.Items.Armor.Bloodflare
             Item.height = 18;
             Item.value = Item.buyPrice(0, 48, 0, 0);
             Item.defense = 35;
-            Item.Calamity().customRarity = CalamityRarity.PureGreen;
+            Item.rare = ModContent.RarityType<PureGreen>();
         }
 
         public override void UpdateEquip(Player player)

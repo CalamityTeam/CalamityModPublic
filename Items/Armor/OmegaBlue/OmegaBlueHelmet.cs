@@ -1,12 +1,13 @@
-﻿using CalamityMod.Items.Materials;
+﻿using CalamityMod.CalPlayer;
+using CalamityMod.Cooldowns;
+using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.CalPlayer;
-using CalamityMod.Cooldowns;
-using Terraria.Audio;
 
 namespace CalamityMod.Items.Armor.OmegaBlue
 {
@@ -42,9 +43,8 @@ namespace CalamityMod.Items.Armor.OmegaBlue
             Item.width = 18;
             Item.height = 18;
             Item.value = Item.sellPrice(0, 35, 0, 0);
-            Item.rare = ItemRarityID.Red;
             Item.defense = 19;
-            Item.Calamity().customRarity = CalamityRarity.PureGreen;
+            Item.rare = ModContent.RarityType<PureGreen>();
         }
 
         public override void UpdateEquip(Player player)

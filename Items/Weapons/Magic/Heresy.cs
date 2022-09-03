@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Projectiles.Magic;
+using CalamityMod.Rarities;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -32,7 +33,7 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.knockBack = 0f;
 
             Item.value = CalamityGlobalItem.Rarity15BuyPrice;
-            Item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.rare = ModContent.RarityType<Violet>();
 
             Item.autoReuse = true;
             Item.noUseGraphic = true;

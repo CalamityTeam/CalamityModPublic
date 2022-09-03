@@ -1,9 +1,10 @@
 ﻿using CalamityMod.Projectiles.Magic;
+using CalamityMod.Rarities;
+using CalamityMod.Sounds;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Sounds;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
@@ -31,12 +32,11 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.noMelee = true;
             Item.knockBack = 1f;
             Item.value = Item.buyPrice(1, 40, 0, 0);
-            Item.rare = ItemRarityID.Purple;
             Item.UseSound = CommonCalamitySounds.WyrmScreamSound;
             Item.autoReuse = true;
             Item.shootSpeed = 8f;
             Item.shoot = ModContent.ProjectileType<EidolicWailSoundwave>();
-            Item.Calamity().customRarity = CalamityRarity.PureGreen;
+            Item.rare = ModContent.RarityType<PureGreen>();
         }
 
         public override Vector2? HoldoutOffset() => new Vector2(-5, 0);

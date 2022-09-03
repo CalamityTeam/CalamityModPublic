@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -32,12 +33,11 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.noMelee = true;
             Item.knockBack = 9f;
             Item.value = Item.buyPrice(1, 40, 0, 0);
-            Item.rare = ItemRarityID.Red;
             Item.UseSound = SoundID.Item45;
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<VenusianBolt>();
             Item.shootSpeed = 19f;
-            Item.Calamity().customRarity = CalamityRarity.PureGreen;
+            Item.rare = ModContent.RarityType<PureGreen>();
         }
 
         public override Vector2? HoldoutOrigin() => new Vector2(15, 15);

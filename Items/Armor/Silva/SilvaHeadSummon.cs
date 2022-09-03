@@ -3,11 +3,12 @@ using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Projectiles.Summon;
+using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Audio;
 
 namespace CalamityMod.Items.Armor.Silva
 {
@@ -31,8 +32,7 @@ namespace CalamityMod.Items.Armor.Silva
             Item.height = 24;
             Item.value = Item.buyPrice(0, 90, 0, 0);
             Item.defense = 13; //110
-            Item.rare = ItemRarityID.Purple;
-            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.rare = ModContent.RarityType<DarkBlue>();
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)

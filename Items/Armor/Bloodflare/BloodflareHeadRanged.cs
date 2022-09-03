@@ -1,9 +1,10 @@
 ﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
+using CalamityMod.Rarities;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Audio;
 
 namespace CalamityMod.Items.Armor.Bloodflare
 {
@@ -27,7 +28,7 @@ namespace CalamityMod.Items.Armor.Bloodflare
             Item.height = 18;
             Item.value = Item.buyPrice(0, 60, 0, 0);
             Item.defense = 34; //85
-            Item.Calamity().customRarity = CalamityRarity.PureGreen;
+            Item.rare = ModContent.RarityType<PureGreen>();
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)

@@ -1,6 +1,7 @@
-﻿using CalamityMod.Projectiles.Magic;
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Ores;
+using CalamityMod.Projectiles.Magic;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -34,8 +35,7 @@ Fires night wyverns and stars from the sky that stick to enemies and tiles and e
             Item.noMelee = true;
             Item.knockBack = 5.2f;
             Item.value = Item.buyPrice(1, 40, 0, 0);
-            Item.rare = ItemRarityID.Red;
-            Item.Calamity().customRarity = CalamityRarity.PureGreen;
+            Item.rare = ModContent.RarityType<PureGreen>();
             Item.UseSound = SoundID.Item105;
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<ClamorNoctusStar>();

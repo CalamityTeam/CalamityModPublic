@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
+using CalamityMod.Rarities;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -22,9 +23,8 @@ namespace CalamityMod.Items.LoreItems
         {
             Item.width = 20;
             Item.height = 20;
-            Item.rare = ItemRarityID.Red;
             Item.consumable = false;
-            Item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.rare = ModContent.RarityType<Violet>();
         }
 
         public override bool CanUseItem(Player player)

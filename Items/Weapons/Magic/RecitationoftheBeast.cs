@@ -1,5 +1,6 @@
-﻿using CalamityMod.Projectiles.Magic;
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
+using CalamityMod.Projectiles.Magic;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -34,11 +35,10 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.UseSound = SoundID.Item8;
             Item.autoReuse = true;
             Item.value = Item.buyPrice(1, 80, 0, 0);
-            Item.rare = ItemRarityID.Red;
             Item.shoot = ModContent.ProjectileType<BeastScythe>();
             Item.shootSpeed = 10f;
             Item.DamageType = DamageClass.Magic;
-            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.rare = ModContent.RarityType<DarkBlue>();
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults

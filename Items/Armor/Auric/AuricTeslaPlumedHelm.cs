@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Materials;
+using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
 using Terraria.ModLoader;
@@ -26,7 +27,7 @@ namespace CalamityMod.Items.Armor.Auric
             Item.height = 18;
             Item.value = Item.buyPrice(1, 80, 0, 0);
             Item.defense = 34; //132
-            Item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.rare = ModContent.RarityType<Violet>();
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)

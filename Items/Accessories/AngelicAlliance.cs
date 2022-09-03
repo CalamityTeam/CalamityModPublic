@@ -1,12 +1,13 @@
 ﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
+using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using System.Collections.Generic;
+using System.Linq;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
-using System.Linq;
-using Terraria.Audio;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -36,8 +37,7 @@ namespace CalamityMod.Items.Accessories
             Item.height = 92;
             Item.value = CalamityGlobalItem.RarityHotPinkBuyPrice;
             Item.accessory = true;
-            Item.rare = 10;
-            Item.Calamity().customRarity = CalamityRarity.HotPink;
+            Item.rare = ModContent.RarityType<HotPink>();
             Item.Calamity().devItem = true;
         }
 

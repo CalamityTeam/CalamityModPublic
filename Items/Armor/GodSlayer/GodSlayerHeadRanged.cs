@@ -1,6 +1,7 @@
 ﻿using CalamityMod.CalPlayer;
 using CalamityMod.CalPlayer.Dashes;
 using CalamityMod.Items.Materials;
+using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
 using Terraria.ModLoader;
@@ -24,7 +25,7 @@ namespace CalamityMod.Items.Armor.GodSlayer
             Item.height = 18;
             Item.value = Item.buyPrice(0, 75, 0, 0);
             Item.defense = 35; //96
-            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.rare = ModContent.RarityType<DarkBlue>();
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)

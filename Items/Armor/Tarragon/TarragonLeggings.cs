@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Items.Materials;
+using CalamityMod.Rarities;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -23,7 +24,7 @@ namespace CalamityMod.Items.Armor.Tarragon
             Item.height = 18;
             Item.value = Item.buyPrice(0, 30, 0, 0);
             Item.defense = 32;
-            Item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.rare = ModContent.RarityType<Turquoise>();
         }
 
         public override void UpdateEquip(Player player)

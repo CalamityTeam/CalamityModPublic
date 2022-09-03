@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Buffs.Potions;
+using CalamityMod.Rarities;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -27,8 +28,7 @@ The life regen boost is stronger if below 75% health
             Item.maxStack = 30;
             Item.useTurn = true;
             Item.value = Item.sellPrice(gold: 5);
-            Item.rare = ItemRarityID.Purple;
-            Item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.rare = ModContent.RarityType<Turquoise>();
             Item.useAnimation = 17;
             Item.useTime = 17;
             Item.useStyle = ItemUseStyleID.EatFood;

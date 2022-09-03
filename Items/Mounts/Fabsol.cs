@@ -1,4 +1,5 @@
-﻿using Terraria;
+﻿using CalamityMod.Rarities;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -26,7 +27,7 @@ namespace CalamityMod.Items.Mounts
             Item.mountType = ModContent.MountType<AlicornMount>();
 
             Item.value = Item.buyPrice(platinum: 3);
-            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.rare = ModContent.RarityType<DarkBlue>();
             Item.Calamity().devItem = true;
         }
     }

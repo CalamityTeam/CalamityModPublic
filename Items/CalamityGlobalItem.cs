@@ -1,6 +1,4 @@
-﻿using System;
-using System.IO;
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.Potions;
 using CalamityMod.CalPlayer;
 using CalamityMod.Events;
@@ -18,11 +16,14 @@ using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Projectiles.Typeless;
+using CalamityMod.Rarities;
 using CalamityMod.UI;
 using CalamityMod.UI.CalamitasEnchants;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
+using System.IO;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
@@ -78,7 +79,6 @@ namespace CalamityMod.Items
         #endregion
 
         // Miscellaneous stuff
-        public CalamityRarity customRarity = CalamityRarity.NoEffect;
         public int timesUsed = 0;
         public bool donorItem = false;
         public bool devItem = false;
@@ -120,7 +120,6 @@ namespace CalamityMod.Items
             myClone.DischargeEnchantExhaustion = DischargeEnchantExhaustion;
 
             // Miscellaneous
-            myClone.customRarity = customRarity;
             myClone.timesUsed = timesUsed;
             myClone.donorItem = donorItem;
             myClone.devItem = devItem;
@@ -132,11 +131,6 @@ namespace CalamityMod.Items
         #region SetDefaults
         public override void SetDefaults(Item item)
         {
-            // TODO -- Remove this in 1.4 with ModRarity.
-            // TODO -- Remove all instances of manually setting the rarity of postML items to Red.
-            if (customRarity.IsPostML() && item.rare != ItemRarityID.Purple)
-                item.rare = ItemRarityID.Purple;
-
             // All items that stack to 30, 50, 75, 99 , or 999 now stack to 9999 instead.
             if (item.maxStack == 30 || item.maxStack == 50 || item.maxStack == 75 || item.maxStack == 99 || item.maxStack == 999)
                 item.maxStack = 9999;
@@ -520,7 +514,6 @@ namespace CalamityMod.Items
         public override void SaveData(Item item, TagCompound tag)
         {
             tag.Add("timesUsed", timesUsed);
-            tag.Add("rarity", (int)customRarity);
             tag.Add("charge", Charge);
             tag.Add("enchantmentID", AppliedEnchantment.HasValue ? AppliedEnchantment.Value.ID : 0);
             tag.Add("DischargeEnchantExhaustion", DischargeEnchantExhaustion);
@@ -531,7 +524,6 @@ namespace CalamityMod.Items
         {
             canFirePointBlankShots = tag.GetBool("canFirePointBlankShots");
             timesUsed = tag.GetInt("timesUsed");
-            customRarity = (CalamityRarity)tag.GetInt("rarity");
 
             // Changed charge from int to float. If an old charge int is present, load that instead.
             if (tag.ContainsKey("Charge"))
@@ -556,7 +548,6 @@ namespace CalamityMod.Items
             // rip, no other flags. what a byte.
 
             writer.Write(flags);
-            writer.Write((int)customRarity);
             writer.Write(timesUsed);
             writer.Write(Charge);
             writer.Write(AppliedEnchantment.HasValue ? AppliedEnchantment.Value.ID : 0);
@@ -568,7 +559,6 @@ namespace CalamityMod.Items
             BitsByte flags = reader.ReadByte();
             canFirePointBlankShots = flags[0];
 
-            customRarity = (CalamityRarity)reader.ReadInt32();
             timesUsed = reader.ReadInt32();
             Charge = reader.ReadSingle();
 
@@ -1835,7 +1825,6 @@ namespace CalamityMod.Items
         public static readonly int RarityVioletBuyPrice = Item.buyPrice(1, 50, 0, 0);
         public static readonly int RarityHotPinkBuyPrice = Item.buyPrice(2, 0, 0, 0);
 
-        //These duplicates are for my sanity...
         public static readonly int Rarity12BuyPrice = Item.buyPrice(1, 20, 0, 0);
         public static readonly int Rarity13BuyPrice = Item.buyPrice(1, 30, 0, 0);
         public static readonly int Rarity14BuyPrice = Item.buyPrice(1, 40, 0, 0);
@@ -1844,27 +1833,46 @@ namespace CalamityMod.Items
 
         public static int GetBuyPrice(int rarity)
         {
-            return rarity switch
+            switch (rarity)
             {
-                0 => Rarity0BuyPrice,
-                1 => Rarity1BuyPrice,
-                2 => Rarity2BuyPrice,
-                3 => Rarity3BuyPrice,
-                4 => Rarity4BuyPrice,
-                5 => Rarity5BuyPrice,
-                6 => Rarity6BuyPrice,
-                7 => Rarity7BuyPrice,
-                8 => Rarity8BuyPrice,
-                9 => Rarity9BuyPrice,
-                10 => Rarity10BuyPrice,
-                11 => Rarity11BuyPrice,
-                (int)CalamityRarity.Turquoise => RarityTurquoiseBuyPrice,
-                (int)CalamityRarity.PureGreen => RarityPureGreenBuyPrice,
-                (int)CalamityRarity.DarkBlue => RarityDarkBlueBuyPrice,
-                (int)CalamityRarity.Violet => RarityVioletBuyPrice,
-                (int)CalamityRarity.HotPink => RarityHotPinkBuyPrice,
-                _ => 0,
-            };
+                case 0:
+					return Rarity0BuyPrice;
+                case 1:
+					return Rarity1BuyPrice;
+                case 2:
+					return Rarity2BuyPrice;
+                case 3:
+					return Rarity3BuyPrice;
+                case 4:
+					return Rarity4BuyPrice;
+                case 5:
+					return Rarity5BuyPrice;
+                case 6:
+					return Rarity6BuyPrice;
+                case 7:
+					return Rarity7BuyPrice;
+                case 8:
+					return Rarity8BuyPrice;
+                case 9:
+					return Rarity9BuyPrice;
+                case 10:
+					return Rarity10BuyPrice;
+                case 11:
+					return Rarity11BuyPrice;
+            }
+			if (rarity == ModContent.RarityType<Turquoise>())
+				return RarityTurquoiseBuyPrice;
+			if (rarity == ModContent.RarityType<PureGreen>())
+				return RarityPureGreenBuyPrice;
+			if (rarity == ModContent.RarityType<DarkBlue>())
+				return RarityDarkBlueBuyPrice;
+			if (rarity == ModContent.RarityType<Violet>())
+				return RarityVioletBuyPrice;
+			if (rarity == ModContent.RarityType<HotPink>())
+				return RarityHotPinkBuyPrice;
+
+			// Return 0 if it's not a progression based or other mod's rarity
+			return 0;
         }
 
         public static int GetBuyPrice(Item item)

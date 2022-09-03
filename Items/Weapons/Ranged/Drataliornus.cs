@@ -1,9 +1,10 @@
-﻿using Terraria.DataStructures;
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Ranged;
+using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -39,7 +40,6 @@ Right click to fire two devastating barrages of five empowered fireballs.
             Item.UseSound = SoundID.Item5;
             Item.shoot = ModContent.ProjectileType<DrataliornusBow>();
             Item.value = Item.buyPrice(platinum: 2, gold: 50);
-            Item.rare = ItemRarityID.Red;
             Item.noMelee = true;
             Item.noUseGraphic = true;
             Item.DamageType = DamageClass.Ranged;
@@ -47,7 +47,7 @@ Right click to fire two devastating barrages of five empowered fireballs.
             Item.useTurn = false;
             Item.useAmmo = AmmoID.Arrow;
             Item.autoReuse = true;
-            Item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.rare = ModContent.RarityType<Violet>();
         }
 
         public override bool AltFunctionUse(Player player)

@@ -1,5 +1,6 @@
 ﻿using Terraria.DataStructures;
 using CalamityMod.Projectiles.Summon;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -27,13 +28,12 @@ namespace CalamityMod.Items.Weapons.Summon
             Item.noMelee = true;
             Item.knockBack = 2.5f;
             Item.value = Item.buyPrice(1, 40, 0, 0);
-            Item.rare = ItemRarityID.Red;
             Item.UseSound = SoundID.Item83;
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<CalamariMinion>();
             Item.shootSpeed = 10f;
             Item.DamageType = DamageClass.Summon;
-            Item.Calamity().customRarity = CalamityRarity.PureGreen;
+            Item.rare = ModContent.RarityType<PureGreen>();
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)

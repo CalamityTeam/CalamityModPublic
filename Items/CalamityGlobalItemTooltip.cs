@@ -77,7 +77,7 @@ namespace CalamityMod.Items
             }
             if (devItem)
             {
-                TooltipLine line = new TooltipLine(Mod, "CalamityDev", CalamityUtils.ColorMessage("- Developer Item -", CalamityUtils.HotPinkRarityColor));
+                TooltipLine line = new TooltipLine(Mod, "CalamityDev", CalamityUtils.ColorMessage("- Developer Item -", CalamityUtils.DevItemColor));
                 tooltips.Add(line);
             }
         }
@@ -86,11 +86,6 @@ namespace CalamityMod.Items
         #region Rarity Coloration
         private void ApplyRarityColor(Item item, TooltipLine nameLine)
         {
-            // Apply standard post-ML rarities to the item's color first.
-            Color? standardRarityColor = CalamityUtils.GetRarityColor(customRarity);
-            if (!item.expert && standardRarityColor.HasValue)
-                nameLine.OverrideColor = standardRarityColor.Value;
-
             #region Uniquely Colored Developer Items
             if (item.type == ModContent.ItemType<Fabstaff>())
                 nameLine.OverrideColor = new Color(Main.DiscoR, 100, 255);

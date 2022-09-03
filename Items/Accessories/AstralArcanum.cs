@@ -1,11 +1,12 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
+using CalamityMod.Rarities;
 using System.Collections.Generic;
+using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using System.Linq;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -28,8 +29,7 @@ namespace CalamityMod.Items.Accessories
             Item.height = 26;
             Item.accessory = true;
             Item.value = CalamityGlobalItem.Rarity12BuyPrice;
-            Item.Calamity().customRarity = CalamityRarity.Turquoise;
-            Item.rare = ItemRarityID.Purple;
+            Item.rare = ModContent.RarityType<Turquoise>();
         }
 
         public override void ModifyTooltips(List<TooltipLine> list)

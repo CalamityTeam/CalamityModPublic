@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Projectiles.Ranged;
+using CalamityMod.Rarities;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -26,7 +27,7 @@ namespace CalamityMod.Items.Ammo
             Item.consumable = true;
             Item.knockBack = 7.5f;
             Item.value = Item.sellPrice(copper: 20);
-            Item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.rare = ModContent.RarityType<Turquoise>();
             Item.ammo = AmmoID.Bullet;
             Item.shoot = ModContent.ProjectileType<RubberMortarRoundProj>();
         }

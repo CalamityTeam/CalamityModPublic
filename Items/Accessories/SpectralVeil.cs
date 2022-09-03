@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using CalamityMod.Rarities;
+using System.Collections.Generic;
+using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using System.Linq;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -25,8 +26,7 @@ namespace CalamityMod.Items.Accessories
             Item.width = 30;
             Item.height = 38;
             Item.value = CalamityGlobalItem.Rarity12BuyPrice;
-            Item.rare = ItemRarityID.Purple;
-            Item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.rare = ModContent.RarityType<Turquoise>();
             Item.accessory = true;
         }
 
