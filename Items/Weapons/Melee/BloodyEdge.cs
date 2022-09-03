@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.useTurn = true;
             Item.height = 60;
             Item.scale = 1.25f;
-            Item.value = Item.buyPrice(0, 4, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity3BuyPrice;
             Item.rare = ItemRarityID.Orange;
         }
 

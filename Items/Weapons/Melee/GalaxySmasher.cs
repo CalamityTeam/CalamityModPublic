@@ -40,7 +40,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.UseSound = SoundID.Item1;
 
             Item.rare = ModContent.RarityType<DarkBlue>();
-            Item.value = Item.buyPrice(platinum: 1, gold: 80);
+            Item.value = CalamityGlobalItem.RarityDarkBlueBuyPrice;
 
             Item.shoot = ModContent.ProjectileType<GalaxySmasherHammer>();
             Item.shootSpeed = Speed;

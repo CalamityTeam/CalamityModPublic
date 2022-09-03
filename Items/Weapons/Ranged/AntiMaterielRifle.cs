@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.knockBack = 9.5f;
-            Item.value = Item.buyPrice(1, 80, 0, 0);
+            Item.value = CalamityGlobalItem.RarityDarkBlueBuyPrice;
             Item.UseSound = CommonCalamitySounds.LargeWeaponFireSound;
             Item.autoReuse = true;
             Item.shoot = ProjectileID.Bullet;

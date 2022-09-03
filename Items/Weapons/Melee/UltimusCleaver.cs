@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.useAnimation = 20;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.knockBack = 8f;
-            Item.value = Item.buyPrice(0, 80, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity9BuyPrice;
             Item.autoReuse = true;
             Item.UseSound = SoundID.Item1;
         }

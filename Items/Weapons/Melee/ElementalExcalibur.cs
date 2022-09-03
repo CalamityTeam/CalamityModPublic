@@ -41,7 +41,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.autoReuse = true;
             Item.width = 112;
             Item.height = 112;
-            Item.value = Item.buyPrice(5, 0, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity16BuyPrice;
             Item.shoot = ModContent.ProjectileType<ElementalExcaliburBeam>();
             Item.shootSpeed = 6f;
             Item.rare = ModContent.RarityType<Rainbow>();

@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.noMelee = true;
             Item.knockBack = 4f;
             Item.UseSound = SoundID.Item34;
-            Item.value = Item.buyPrice(1, 80, 0, 0);
+            Item.value = CalamityGlobalItem.RarityDarkBlueBuyPrice;
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<EssenceFire>();
             Item.shootSpeed = 14f;

@@ -34,7 +34,7 @@ Fires night wyverns and stars from the sky that stick to enemies and tiles and e
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.knockBack = 5.2f;
-            Item.value = Item.buyPrice(1, 40, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity14BuyPrice;
             Item.rare = ModContent.RarityType<PureGreen>();
             Item.UseSound = SoundID.Item105;
             Item.autoReuse = true;

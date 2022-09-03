@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Weapons.Summon
             Item.shoot = ModContent.ProjectileType<EndoHydraBody>();
             Item.shootSpeed = 10f;
 
-            Item.value = Item.buyPrice(2, 50, 0, 0);
+            Item.value = CalamityGlobalItem.RarityDarkBlueBuyPrice;
             Item.rare = ModContent.RarityType<DarkBlue>();
         }
 

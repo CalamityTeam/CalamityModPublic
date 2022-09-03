@@ -1819,17 +1819,29 @@ namespace CalamityMod.Items
         public static readonly int Rarity9BuyPrice = Item.buyPrice(0, 80, 0, 0);
         public static readonly int Rarity10BuyPrice = Item.buyPrice(1, 0, 0, 0);
         public static readonly int Rarity11BuyPrice = Item.buyPrice(1, 10, 0, 0);
-        public static readonly int RarityTurquoiseBuyPrice = Item.buyPrice(1, 20, 0, 0);
-        public static readonly int RarityPureGreenBuyPrice = Item.buyPrice(1, 30, 0, 0);
-        public static readonly int RarityDarkBlueBuyPrice = Item.buyPrice(1, 40, 0, 0);
-        public static readonly int RarityVioletBuyPrice = Item.buyPrice(1, 50, 0, 0);
-        public static readonly int RarityHotPinkBuyPrice = Item.buyPrice(2, 0, 0, 0);
-
         public static readonly int Rarity12BuyPrice = Item.buyPrice(1, 20, 0, 0);
         public static readonly int Rarity13BuyPrice = Item.buyPrice(1, 30, 0, 0);
         public static readonly int Rarity14BuyPrice = Item.buyPrice(1, 40, 0, 0);
         public static readonly int Rarity15BuyPrice = Item.buyPrice(1, 50, 0, 0);
         public static readonly int Rarity16BuyPrice = Item.buyPrice(2, 0, 0, 0);
+
+        public static readonly int RarityWhiteBuyPrice = Item.buyPrice(0, 0, 50, 0);
+        public static readonly int RarityBlueBuyPrice = Item.buyPrice(0, 1, 0, 0);
+        public static readonly int RarityGreenBuyPrice = Item.buyPrice(0, 2, 0, 0);
+        public static readonly int RarityOrangeBuyPrice = Item.buyPrice(0, 4, 0, 0);
+        public static readonly int RarityLightRedBuyPrice = Item.buyPrice(0, 12, 0, 0);
+        public static readonly int RarityPinkBuyPrice = Item.buyPrice(0, 24, 0, 0);
+        public static readonly int RarityLightPurpleBuyPrice = Item.buyPrice(0, 36, 0, 0);
+        public static readonly int RarityLimeBuyPrice = Item.buyPrice(0, 48, 0, 0);
+        public static readonly int RarityYellowBuyPrice = Item.buyPrice(0, 60, 0, 0);
+        public static readonly int RarityCyanBuyPrice = Item.buyPrice(0, 80, 0, 0);
+        public static readonly int RarityRedBuyPrice = Item.buyPrice(1, 0, 0, 0);
+        public static readonly int RarityPurpleBuyPrice = Item.buyPrice(1, 10, 0, 0);
+        public static readonly int RarityTurquoiseBuyPrice = Item.buyPrice(1, 20, 0, 0);
+        public static readonly int RarityPureGreenBuyPrice = Item.buyPrice(1, 30, 0, 0);
+        public static readonly int RarityDarkBlueBuyPrice = Item.buyPrice(1, 40, 0, 0);
+        public static readonly int RarityVioletBuyPrice = Item.buyPrice(1, 50, 0, 0);
+        public static readonly int RarityHotPinkBuyPrice = Item.buyPrice(2, 0, 0, 0);
 
         public static int GetBuyPrice(int rarity)
         {

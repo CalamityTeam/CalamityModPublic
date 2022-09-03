@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Summon
             Item.useStyle = ItemUseStyleID.Swing;
             Item.noMelee = true;
             Item.knockBack = 1f;
-            Item.value = Item.buyPrice(1, 40, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity14BuyPrice;
             Item.UseSound = SoundID.Item82;
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<PhantomGuy>();

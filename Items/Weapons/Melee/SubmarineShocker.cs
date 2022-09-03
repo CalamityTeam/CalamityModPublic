@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
             Item.shoot = ModContent.ProjectileType<SubmarineShockerProj>();
             Item.shootSpeed = 2f;
-            Item.value = Item.buyPrice(0, 36, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity6BuyPrice;
             Item.rare = ItemRarityID.Pink;
         }
     }

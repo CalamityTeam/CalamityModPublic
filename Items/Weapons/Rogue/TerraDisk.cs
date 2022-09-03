@@ -37,7 +37,7 @@ Stealth strikes travel slower and are rapidly orbited by the smaller disks");
             Item.useStyle = ItemUseStyleID.Swing;
             Item.UseSound = SoundID.Item1;
 
-            Item.value = Item.buyPrice(gold: 80);
+            Item.value = CalamityGlobalItem.RarityYellowBuyPrice;
             Item.rare = ItemRarityID.Yellow;
 
             Item.DamageType = RogueDamageClass.Instance;

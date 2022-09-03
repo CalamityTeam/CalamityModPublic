@@ -38,7 +38,7 @@ Right click to delete all existing spiky balls");
             Item.useAnimation = 15;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.knockBack = knockBack;
-            Item.value = Item.buyPrice(0, 18, 0, 0);
+            Item.value = CalamityGlobalItem.RarityDarkBlueBuyPrice / 10; // Stacks up to 10
             Item.rare = ModContent.RarityType<DarkBlue>();
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;

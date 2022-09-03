@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.noMelee = true;
             Item.knockBack = 9.5f;
             Item.UseSound = SoundID.Item11;
-            Item.value = Item.buyPrice(2, 50, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity15BuyPrice;
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<MagnomalyRocket>();
             Item.shootSpeed = 15f;

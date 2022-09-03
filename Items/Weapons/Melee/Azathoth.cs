@@ -45,7 +45,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.autoReuse = true;
             Item.rare = ModContent.RarityType<HotPink>();
             Item.Calamity().devItem = true;
-            Item.value = Item.buyPrice(platinum: 5);
+            Item.value = CalamityGlobalItem.Rarity16BuyPrice;
         }
 
         public override void AddRecipes()

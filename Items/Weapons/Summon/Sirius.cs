@@ -39,7 +39,7 @@ namespace CalamityMod.Items.Weapons.Summon
             Item.shoot = ModContent.ProjectileType<SiriusMinion>();
             Item.shootSpeed = 10f;
 
-            Item.value = Item.buyPrice(1, 40, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity14BuyPrice;
             Item.rare = ModContent.RarityType<PureGreen>();
         }
 

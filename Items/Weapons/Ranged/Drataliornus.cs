@@ -39,7 +39,7 @@ Right click to fire two devastating barrages of five empowered fireballs.
             Item.height = 84;
             Item.UseSound = SoundID.Item5;
             Item.shoot = ModContent.ProjectileType<DrataliornusBow>();
-            Item.value = Item.buyPrice(platinum: 2, gold: 50);
+            Item.value = CalamityGlobalItem.Rarity15BuyPrice;
             Item.noMelee = true;
             Item.noUseGraphic = true;
             Item.DamageType = DamageClass.Ranged;

@@ -39,7 +39,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.knockBack = 6.75f;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
-            Item.value = Item.buyPrice(1, 80, 0, 0);
+            Item.value = CalamityGlobalItem.RarityDarkBlueBuyPrice;
             Item.shoot = ModContent.ProjectileType<Oathblade>();
             Item.shootSpeed = 28f;
             Item.rare = ModContent.RarityType<DarkBlue>();

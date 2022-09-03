@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Weapons.Summon
             Item.useStyle = ItemUseStyleID.Swing;
             Item.noMelee = true;
             Item.knockBack = 2.5f;
-            Item.value = Item.buyPrice(1, 40, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity14BuyPrice;
             Item.UseSound = SoundID.Item83;
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<CalamariMinion>();

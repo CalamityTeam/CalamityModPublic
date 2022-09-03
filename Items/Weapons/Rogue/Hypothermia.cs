@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.noMelee = true;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.UseSound = SoundID.Item7;
-            Item.value = Item.buyPrice(1, 80, 0, 0);
+            Item.value = CalamityGlobalItem.RarityDarkBlueBuyPrice;
 
             Item.damage = 200;
             Item.useAnimation = 21;

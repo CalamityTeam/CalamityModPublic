@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.knockBack = 4f;
             Item.UseSound = SoundID.Item82;
-            Item.value = Item.buyPrice(1, 40, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity14BuyPrice;
             Item.rare = ModContent.RarityType<PureGreen>();
             Item.shootSpeed = 24f;
             Item.shoot = ModContent.ProjectileType<CrescentMoonFlail>();

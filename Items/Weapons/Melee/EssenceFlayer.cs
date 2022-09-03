@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.UseSound = SoundID.Item71;
             Item.autoReuse = true;
             Item.height = 78;
-            Item.value = Item.buyPrice(1, 80, 0, 0);
+            Item.value = CalamityGlobalItem.RarityDarkBlueBuyPrice;
             Item.shoot = ModContent.ProjectileType<EssenceScythe>();
             Item.shootSpeed = 21f;
             Item.rare = ModContent.RarityType<DarkBlue>();

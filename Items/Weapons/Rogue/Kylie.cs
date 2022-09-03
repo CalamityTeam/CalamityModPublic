@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.damage = 63;
             Item.knockBack = 12;
             Item.DamageType = DamageClass.Throwing;
-            Item.value = Item.buyPrice(0, 4, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity3BuyPrice;
             Item.rare = ItemRarityID.Orange;
             Item.useTime = 25;
             Item.useAnimation = 25;

@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.useAnimation = 20;
             Item.knockBack = 8.5f;
             Item.UseSound = SoundID.Item1;
-            Item.value = Item.buyPrice(gold: 80);
+            Item.value = CalamityGlobalItem.RarityYellowBuyPrice;
             Item.rare = ItemRarityID.Yellow;
             Item.shoot = ModContent.ProjectileType<SubductionSlicerProj>();
             Item.shootSpeed = 16f;
