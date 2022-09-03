@@ -1,3 +1,4 @@
+using CalamityMod.Rarities;
 using CalamityMod.Tiles.FurnitureSacrilegious;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -23,7 +24,7 @@ namespace CalamityMod.Items.Placeables.FurnitureSacrilegious
             Item.useStyle = ItemUseStyleID.Swing;
             Item.consumable = true;
             Item.createTile = ModContent.TileType<SacrilegiousWorkBenchTile>();
-            Item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.rare = ModContent.RarityType<Violet>();
         }
 
         public override void AddRecipes()
