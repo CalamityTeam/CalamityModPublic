@@ -11,6 +11,7 @@ namespace CalamityMod.Items.Weapons.Magic
 {
     public class TheWand : ModItem
     {
+        // The actual base damage of The Wand. The damage reported on the item is just the spark, which is irrelevant.
         public static int BaseDamage = 599;
 
         public override void SetStaticDefaults()
@@ -24,7 +25,7 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void SetDefaults()
         {
             Item.width = 40;
-            Item.damage = 1;
+            Item.damage = 14; // same as 1.4 Wand of Sparking
             Item.mana = 150;
             Item.DamageType = DamageClass.Magic;
             Item.noMelee = true;
