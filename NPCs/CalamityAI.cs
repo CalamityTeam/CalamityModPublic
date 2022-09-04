@@ -700,12 +700,12 @@ namespace CalamityMod.NPCs
 
             // How fast Brimmy moves to the destination
             float baseVelocity = (death ? 6f : revenge ? 5.5f : expertMode ? 5f : 4.5f) * (npc.ai[0] == 5f ? 0.05f : npc.ai[0] == 3f ? 1.5f : 1f);
-            baseVelocity += 5f * enrageScale;
+            baseVelocity += 3f * enrageScale;
             if (expertMode)
                 baseVelocity += death ? 3f * (1f - lifeRatio) : 2f * (1f - lifeRatio);
 
             float baseAcceleration = (death ? 0.12f : 0.1f) * (npc.ai[0] == 5f ? 0.5f : npc.ai[0] == 3f ? 1.5f : 1f);
-            baseAcceleration += 0.1f * enrageScale;
+            baseAcceleration += 0.06f * enrageScale;
             if (expertMode)
                 baseAcceleration += 0.03f * (1f - lifeRatio);
 
@@ -878,7 +878,7 @@ namespace CalamityMod.NPCs
 
                 npc.ai[1] += 1f;
                 float divisor = expertMode ? (death ? 80f : revenge ? 45f : 50f) - (float)Math.Ceiling(10f * (1f - lifeRatio)) : 50f;
-                divisor -= 5f * enrageScale;
+                divisor -= 3f * enrageScale;
                 float divisor2 = divisor * 2f;
 
                 if (npc.ai[1] % divisor == divisor - 1f)
@@ -939,14 +939,14 @@ namespace CalamityMod.NPCs
                         npc.localAI[0] += 2f;
                     if (expertMode)
                         npc.localAI[0] += 1f - lifeRatio;
-                    npc.localAI[0] += 1f * enrageScale;
+                    npc.localAI[0] += enrageScale;
 
                     if (npc.localAI[0] >= 120f)
                     {
                         npc.localAI[0] = 0f;
 
                         float projectileSpeed = death ? 9f : revenge ? 8f : 6f;
-                        projectileSpeed += 3f * enrageScale;
+                        projectileSpeed += 2f * enrageScale;
 
                         vectorCenter = player.Center - vectorCenter;
 
