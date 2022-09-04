@@ -60,7 +60,7 @@ namespace CalamityMod.BiomeManagers
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Abyss Layer 1");
+            DisplayName.SetDefault("Abyss: First Layer");
         }
 
         public override bool IsBiomeActive(Player player)
