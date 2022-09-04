@@ -24,7 +24,7 @@ namespace CalamityMod.BiomeManagers
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Fourth Layer of the Abyss");
+            DisplayName.SetDefault("Abyss Layer 4");
         }
 
         public override bool IsBiomeActive(Player player)
