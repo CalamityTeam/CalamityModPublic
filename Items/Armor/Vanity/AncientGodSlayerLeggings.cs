@@ -1,4 +1,5 @@
-﻿using Terraria;
+﻿using CalamityMod.Rarities;
+using Terraria;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Armor.Vanity
@@ -16,7 +17,7 @@ namespace CalamityMod.Items.Armor.Vanity
         {
             Item.width = 28;
             Item.height = 20;
-            Item.Calamity().customRarity = (CalamityRarity)14;
+            Item.rare = ModContent.RarityType<DarkBlue>();
             Item.value = Item.buyPrice(0, 45, 0, 0);
             Item.vanity = true;
         }

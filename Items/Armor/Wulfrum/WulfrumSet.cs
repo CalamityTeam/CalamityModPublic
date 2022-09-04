@@ -126,7 +126,7 @@ namespace CalamityMod.Items.Armor.Wulfrum
         {
             Item.width = 18;
             Item.height = 18;
-            Item.value = Item.buyPrice(0, 0, 75, 0);
+            Item.value = CalamityGlobalItem.Rarity1BuyPrice;
             Item.rare = ItemRarityID.Blue;
         }
 
@@ -301,7 +301,7 @@ namespace CalamityMod.Items.Armor.Wulfrum
         {
             Item.width = 18;
             Item.height = 18;
-            Item.value = Item.buyPrice(0, 0, 50, 0);
+            Item.value = CalamityGlobalItem.Rarity1BuyPrice;
             Item.rare = ItemRarityID.Blue;
             Item.defense = 2;
         }
@@ -335,7 +335,7 @@ namespace CalamityMod.Items.Armor.Wulfrum
         {
             Item.width = 18;
             Item.height = 18;
-            Item.value = Item.buyPrice(0, 0, 25, 0);
+            Item.value = CalamityGlobalItem.Rarity1BuyPrice;
             Item.rare = ItemRarityID.Blue;
             Item.defense = 1;
 

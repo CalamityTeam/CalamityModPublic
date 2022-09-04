@@ -400,13 +400,6 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
             // Berserk, final phase of Artemis and Apollo
             // Phase 7 - 0, 1, 2
 
-            // Predictiveness
-            float predictionAmt = bossRush ? 14f : death ? 12f : revenge ? 11f : expertMode ? 10f : 8f;
-            if (nerfedAttacks)
-                predictionAmt *= 0.5f;
-            if (SecondaryAIState == (int)SecondaryPhase.Passive)
-                predictionAmt *= 0.5f;
-
             // Gate values
             float reducedTimeForGateValue = bossRush ? 48f : death ? 32f : revenge ? 24f : expertMode ? 16f : 0f;
             float reducedTimeForGateValue_Berserk = reducedTimeForGateValue * 0.5f;
@@ -522,8 +515,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
             bool canFire = Vector2.Distance(NPC.Center, player.Center) > 320f;
 
             // Rotation
-            Vector2 predictionVector = player.velocity * predictionAmt;
-            Vector2 aimedVector = player.Center + predictionVector - NPC.Center;
+            Vector2 aimedVector = player.Center - NPC.Center;
             float rateOfRotation = 0.1f;
             Vector2 rotateTowards = player.Center - NPC.Center;
             bool readyToCharge = AIState == (float)Phase.LineUpChargeCombo && (Vector2.Distance(NPC.Center, destination) <= chargeLocationDistanceGateValue || calamityGlobalNPC.newAI[2] > 0f);
@@ -540,8 +532,8 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
             }
             else
             {
-                float x = player.Center.X + predictionVector.X - NPC.Center.X;
-                float y = player.Center.Y + predictionVector.Y - NPC.Center.Y;
+                float x = player.Center.X - NPC.Center.X;
+                float y = player.Center.Y - NPC.Center.Y;
                 rotateTowards = Vector2.Normalize(new Vector2(x, y)) * baseVelocity;
             }
 

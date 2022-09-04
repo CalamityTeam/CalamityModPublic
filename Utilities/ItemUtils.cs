@@ -27,64 +27,9 @@ namespace CalamityMod
         /// <param name="item">The item to check.</param>
         public static bool IsWhip(this Item item) => item.shoot > ProjectileID.None && ProjectileID.Sets.IsAWhip[item.shoot];
 
-        #region Item Rarity Utilities
-        internal const int TurquoiseRarityValue = 12;
-        internal static readonly Color TurquoiseRarityColor = new Color(0, 255, 200);
-        internal const int PureGreenRarityValue = 13;
-        internal static readonly Color PureGreenRarityColor = new Color(0, 255, 0);
-        internal const int DarkBlueRarityValue = 14;
-        internal static readonly Color DarkBlueRarityColor = new Color(43, 96, 222);
-        internal const int VioletRarityValue = 15;
-        internal static readonly Color VioletRarityColor = new Color(108, 45, 199);
-        internal const int HotPinkRarityValue = 16;
-        internal static readonly Color HotPinkRarityColor = new Color(255, 0, 255);
-        internal const int RainbowRarityValue = 30;
-        // The rainbow  rarity has an ever-shifting color, not a stored constant
-        internal const int DraedonRustRarityValue = 33;
-        internal static readonly Color DraedonRustRarityColor = new Color(204, 71, 35);
-        // The donator rarity isn't technically a rarity, but is a constant color used in tooltips
+        #region Color Constants
+        internal static readonly Color DevItemColor = new Color(255, 0, 255);
         internal static readonly Color DonatorItemColor = new Color(139, 0, 0);
-
-        public static readonly CalamityRarity[] postMLRarities =
-        {
-            CalamityRarity.Turquoise,
-            CalamityRarity.PureGreen,
-            CalamityRarity.DarkBlue,
-            CalamityRarity.Violet,
-            CalamityRarity.HotPink
-        };
-
-        public static bool IsPostML(this CalamityRarity calrare)
-        {
-            for(int i = 0; i < postMLRarities.Length; ++i)
-                if (postMLRarities[i] == calrare)
-                    return true;
-            return false;
-        }
-
-        public static Color? GetRarityColor(CalamityRarity calrare)
-        {
-            switch (calrare)
-            {
-                default:
-                    return null;
-                case CalamityRarity.Turquoise:
-                    return TurquoiseRarityColor;
-                case CalamityRarity.PureGreen:
-                    return PureGreenRarityColor;
-                case CalamityRarity.DarkBlue:
-                    return DarkBlueRarityColor;
-                case CalamityRarity.Violet:
-                    return VioletRarityColor;
-                case CalamityRarity.HotPink:
-                    return HotPinkRarityColor;
-
-                case CalamityRarity.Rainbow:
-                    return new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB);
-                case CalamityRarity.DraedonRust:
-                    return DraedonRustRarityColor;
-            }
-        }
         #endregion
 
         // TODO -- This probably isn't the best place to put this but it needs to be somewhere easily accessible.
@@ -171,10 +116,10 @@ namespace CalamityMod
             {
                 int[][] accessoryReforgeTiers = new int[][]
                 {
-                    /* 0 */ new int[] { PrefixID.Hard, PrefixID.Jagged, PrefixID.Brisk, PrefixID.Wild, PrefixID.Arcane, GetCalPrefix("Quiet") },
+                    /* 0 */ new int[] { PrefixID.Hard, PrefixID.Jagged, PrefixID.Brisk, PrefixID.Wild, GetCalPrefix("Quiet") },
                     /* 1 */ new int[] { PrefixID.Guarding, PrefixID.Spiked, PrefixID.Precise, PrefixID.Fleeting, PrefixID.Rash, GetCalPrefix("Cloaked") },
-                    /* 2 */ new int[] { PrefixID.Armored, PrefixID.Angry, PrefixID.Hasty, PrefixID.Intrepid, GetCalPrefix("Camouflaged") },
-                    /* 3 */ new int[] { PrefixID.Warding, PrefixID.Menacing, PrefixID.Quick, PrefixID.Violent, GetCalPrefix("Silent") },
+                    /* 2 */ new int[] { PrefixID.Armored, PrefixID.Angry, PrefixID.Hasty2, PrefixID.Intrepid, PrefixID.Arcane, GetCalPrefix("Camouflaged") },
+                    /* 3 */ new int[] { PrefixID.Warding, PrefixID.Menacing, PrefixID.Lucky, PrefixID.Quick2, PrefixID.Violent, GetCalPrefix("Silent") },
                 };
                 prefix = IteratePrefix(rand, accessoryReforgeTiers, currentPrefix);
             }
@@ -182,8 +127,23 @@ namespace CalamityMod
             // MELEE (includes tools and whips)
             else if (item.CountsAsClass<MeleeDamageClass>() || item.CountsAsClass<SummonMeleeSpeedDamageClass>())
             {
+                // Terrarian (has its own special "Legendary" for marketing reasons)
+                if (item.type == ItemID.Terrarian)
+                {
+                    int[][] terrarianReforgeTiers = new int[][]
+                    {
+                        /* 0 */ new int[] { PrefixID.Keen, PrefixID.Forceful, PrefixID.Strong },
+                        /* 1 */ new int[] { PrefixID.Hurtful, PrefixID.Ruthless, PrefixID.Zealous },
+                        /* 2 */ new int[] { PrefixID.Superior, PrefixID.Demonic, PrefixID.Godly },
+                        /* 3 */ new int[] { PrefixID.Legendary2 },
+                    };
+                    prefix = IteratePrefix(rand, terrarianReforgeTiers, currentPrefix);
+                }
+                
                 // Yoyos, Flails, Spears, etc.
-                if (item.channel || item.noMelee)
+                // Spears actually work fine with Legendary, but vanilla doesn't give it to them, so we won't either.
+                // Zenith and rapiers are specifically excluded from this, so they get broadsword reforges despite not scaling with melee speed.
+                else if ((item.channel || item.noMelee) && item.type != ItemID.Zenith && item.useStyle != ItemUseStyleID.Rapier)
                 {
                     int[][] meleeNoSpeedReforgeTiers = new int[][]
                     {

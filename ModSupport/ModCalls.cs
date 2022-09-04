@@ -1379,24 +1379,6 @@ namespace CalamityMod
         public static bool DisableAllDodges(bool disable) => Main.LocalPlayer.Calamity().disableAllDodges = disable;
         #endregion
 
-        #region Item Rarity
-        public static int GetCalamityRarity(Item item)
-        {
-            CalamityGlobalItem cgi = item.Calamity();
-            CalamityRarity calrare = cgi.customRarity;
-            if (calrare == CalamityRarity.NoEffect)
-                return item.rare;
-            return (int)calrare;
-        }
-
-        public static bool SetCalamityRarity(Item item, int rarityNum)
-        {
-            CalamityGlobalItem cgi = item.Calamity();
-            cgi.customRarity = (CalamityRarity)rarityNum;
-            return cgi.customRarity != CalamityRarity.NoEffect;
-        }
-        #endregion
-
         #region Summoner Cross Class Nerf Disabling
         public static bool SetSummonerNerfDisabledByMinion(int type, bool disableNerf)
         {
@@ -1654,35 +1636,6 @@ namespace CalamityMod
                     if (args.Length < 2 || !(args[1] is bool disableDodges))
                         return new ArgumentNullException("ERROR: Must specify a bool.");
                     return DisableAllDodges(disableDodges);
-
-                case "GetRarity":
-                case "GetItemRarity":
-                case "GetCalamityRarity":
-                case "GetPostMLRarity":
-                case "GetPostMoonLordRarity":
-                    if (args.Length < 2)
-                        return new ArgumentNullException("ERROR: Must specify an Item.");
-                    if (!(args[1] is Item))
-                        return new ArgumentException("ERROR: The first argument to \"GetCalamityRarity\" must be an Item.");
-                    Item itemToGet = (Item)args[1];
-                    return GetCalamityRarity(itemToGet);
-
-                case "SetRarity":
-                case "SetItemRarity":
-                case "SetCalamityRarity":
-                case "SetPostMLRarity":
-                case "SetPostMoonLordRarity":
-                    if (args.Length < 2)
-                        return new ArgumentNullException("ERROR: Must specify both an Item and desired rarity as an int or short ID.");
-                    if (args.Length < 3)
-                        return new ArgumentNullException("ERROR: Must specify desired rarity as an int or short ID.");
-                    if (!castID(args[2], out int rarity))
-                        return new ArgumentException("ERROR: The second argument to \"SetCalamityRarity\" must be an int or short ID.");
-                    if (!(args[1] is Item))
-                        return new ArgumentException("ERROR: The first argument to \"SetCalamityRarity\" must be an Item.");
-
-                    Item itemToSet = (Item)args[1];
-                    return SetCalamityRarity(itemToSet, rarity);
 
                 case "AcidRainActive":
                 case "IsAcidRainActive":

@@ -1,11 +1,12 @@
 ﻿using CalamityMod.Items.Materials;
+using CalamityMod.Rarities;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Content;
 using Terraria;
+using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Graphics.Shaders;
-using Microsoft.Xna.Framework;
-using ReLogic.Content;
 
 namespace CalamityMod.Items.Dyes
 {
@@ -21,8 +22,7 @@ namespace CalamityMod.Items.Dyes
 
         public override void SafeSetDefaults()
         {
-            Item.rare = ItemRarityID.Red;
-            Item.Calamity().customRarity = CalamityRarity.HotPink;
+            Item.rare = ModContent.RarityType<HotPink>();
             Item.value = Item.sellPrice(0, 10, 0, 0);
         }
 

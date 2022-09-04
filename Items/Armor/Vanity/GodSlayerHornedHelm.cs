@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Items.Armor.GodSlayer;
+using CalamityMod.Rarities;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -19,7 +20,7 @@ namespace CalamityMod.Items.Armor.Vanity
             Item.height = 18;
             Item.value = Item.buyPrice(0, 8, 0, 0);
             Item.vanity = true;
-            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.rare = ModContent.RarityType<DarkBlue>();
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)

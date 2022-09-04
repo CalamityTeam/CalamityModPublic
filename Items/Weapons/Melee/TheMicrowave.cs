@@ -44,7 +44,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.shootSpeed = 14f;
 
             Item.rare = ItemRarityID.Cyan;
-            Item.value = Item.buyPrice(gold: 95);
+            Item.value = CalamityGlobalItem.Rarity9BuyPrice;
         }
     }
 }

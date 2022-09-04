@@ -1,5 +1,6 @@
 using CalamityMod.Items.DraedonMisc;
 using CalamityMod.Items.Materials;
+using CalamityMod.Rarities;
 using CalamityMod.Tiles.DraedonStructures;
 using Terraria;
 using Terraria.ID;
@@ -27,8 +28,7 @@ namespace CalamityMod.Items.Placeables.DraedonStructures
             Item.useStyle = ItemUseStyleID.Swing;
             Item.consumable = true;
             Item.value = Item.buyPrice(gold: 5);
-            Item.rare = ItemRarityID.Orange;
-            Item.Calamity().customRarity = CalamityRarity.DraedonRust;
+            Item.rare = ModContent.RarityType<DarkOrange>();
             Item.createTile = ModContent.TileType<LabHologramProjector>();
         }
 

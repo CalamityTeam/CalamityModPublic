@@ -26,7 +26,7 @@ namespace CalamityMod.NPCs.Crabulon
             NPC.width = 14;
             NPC.height = 14;
 
-            NPC.lifeMax = 25;
+            NPC.lifeMax = 15;
             if (BossRushEvent.BossRushActive)
                 NPC.lifeMax = 15000;
             if (Main.getGoodWorld)

@@ -1,4 +1,5 @@
-﻿using CalamityMod.Tiles;
+﻿using CalamityMod.Rarities;
+using CalamityMod.Tiles;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -35,7 +36,7 @@ namespace CalamityMod.Items.Materials
             Item.consumable = true;
 
             Item.value = Item.sellPrice(platinum: 1, gold: 92);
-            Item.Calamity().customRarity = CalamityRarity.HotPink;
+            Item.rare = ModContent.RarityType<HotPink>();
             Item.Calamity().devItem = true;
         }
         public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frameI, Color drawColor, Color itemColor, Vector2 origin, float scale)

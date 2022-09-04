@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Buffs.Pets;
 using CalamityMod.Projectiles.Pets;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -30,7 +31,7 @@ namespace CalamityMod.Items.Pets
             Item.UseSound = SoundID.Meowmere;
 
             Item.value = Item.sellPrice(gold: 7);
-            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.rare = ModContent.RarityType<DarkBlue>();
             Item.Calamity().devItem = true;
         }
 

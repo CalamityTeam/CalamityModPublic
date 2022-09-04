@@ -1,10 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using CalamityMod.CalPlayer;
+using CalamityMod.Rarities;
+using CalamityMod.World;
+using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using CalamityMod.CalPlayer;
-using CalamityMod.World;
-using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
@@ -57,8 +58,7 @@ namespace CalamityMod.Items.Accessories
             Item.height = 20;
             Item.accessory = true;
             Item.value = CalamityGlobalItem.RarityHotPinkBuyPrice;
-            Item.rare = ItemRarityID.Red;
-            Item.Calamity().customRarity = CalamityRarity.HotPink;
+            Item.rare = ModContent.RarityType<HotPink>();
             Item.Calamity().devItem = true;
         }
 

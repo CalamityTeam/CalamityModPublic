@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Items.Materials;
+using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria.ID;
@@ -31,7 +32,7 @@ namespace CalamityMod.Items.Placeables.Furniture
             Item.height = 48;
             Item.maxStack = 999;
             Item.useStyle = ItemUseStyleID.Swing;
-            Item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.rare = ModContent.RarityType<Violet>();
         }
 
         public override void AddRecipes()

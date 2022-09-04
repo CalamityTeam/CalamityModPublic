@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Items.Materials;
+using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
 using Terraria.ID;
@@ -23,9 +24,9 @@ namespace CalamityMod.Items.Armor.Fearmonger
         {
             Item.width = 18;
             Item.height = 18;
-            Item.value = Item.buyPrice(gold: 45);
+            Item.value = CalamityGlobalItem.Rarity14BuyPrice;
             Item.defense = 44;
-            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.rare = ModContent.RarityType<DarkBlue>();
         }
 
         public override void UpdateEquip(Player player)

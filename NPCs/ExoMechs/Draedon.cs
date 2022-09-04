@@ -100,6 +100,8 @@ namespace CalamityMod.NPCs.ExoMechs
             NPC.aiStyle = AIType = -1;
             NPC.knockBackResist = 0f;
             NPC.DeathSound = SoundID.NPCDeath14;
+            // This is required for Draedon to be able to play his ambience.
+            NPC.boss = true;
             NPC.Calamity().ProvidesProximityRage = false;
         }
 
@@ -109,8 +111,8 @@ namespace CalamityMod.NPCs.ExoMechs
                 //We'll probably want a custom background for Exos like ML has.
                 //BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Exo,
 
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("The esteemed scientist himself. His AI is uploaded into a database, far from harm, and thus destroying his recon bodies achieves nothing.")
+                // Will move to localization whenever that is cleaned up.
+                new FlavorTextBestiaryInfoElement("The esteemed scientist himself. His AI is uploaded into a database, far from harm, and thus destroying his recon bodies achieves nothing.")
             });
         }
 
@@ -141,6 +143,20 @@ namespace CalamityMod.NPCs.ExoMechs
 
             // Prevent stupid natural despawns.
             NPC.timeLeft = 3600;
+
+            // Emit music. If the battle is ongoing, Draedon emits the battle theme.
+            if (ExoMechIsPresent)
+            {
+                Music = CalamityMod.Instance.GetMusicFromMusicMod("ExoMechs") ?? MusicID.Boss3;
+                SceneEffectPriority = SceneEffectPriority.BossLow;
+            }
+            // Otherwise, he emits his trademark ambience.
+            // This takes priority over anything except Moon Lord's music fadeout.
+            else
+            {
+                Music = MusicLoader.GetMusicSlot(Mod, "Sounds/Music/DraedonAmbience");
+                SceneEffectPriority = SceneEffectPriority.BossMedium;
+            }
 
             // Decide an initial target and play a teleport sound on the first frame.
             if (TalkTimer == 0f)
@@ -395,11 +411,6 @@ namespace CalamityMod.NPCs.ExoMechs
                 HandleDefeatStuff();
                 DefeatTimer++;
             }
-
-            if (!ExoMechIsPresent && DefeatTimer <= 0f)
-                Music = MusicLoader.GetMusicSlot(Mod, "Sounds/Music/DraedonAmbience");
-            if (ExoMechIsPresent)
-                Music = CalamityMod.Instance.GetMusicFromMusicMod("ExoMechs") ?? MusicID.Boss3;
 
             TalkTimer++;
         }

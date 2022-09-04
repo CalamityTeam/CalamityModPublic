@@ -1,6 +1,7 @@
 ﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Materials;
+using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
 using Terraria.ModLoader;
@@ -38,9 +39,9 @@ namespace CalamityMod.Items.Armor.Auric
         {
             Item.width = 38;
             Item.height = 34;
-            Item.value = Item.buyPrice(1, 44, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity15BuyPrice;
             Item.defense = 48;
-            Item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.rare = ModContent.RarityType<Violet>();
         }
 
         public override void UpdateEquip(Player player)

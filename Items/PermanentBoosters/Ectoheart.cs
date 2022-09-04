@@ -1,4 +1,5 @@
 ﻿using CalamityMod.CalPlayer;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -28,8 +29,7 @@ namespace CalamityMod.Items.PermanentBoosters
             Item.useStyle = ItemUseStyleID.HoldUp;
             Item.UseSound = SoundID.Item122;
             Item.consumable = true;
-            Item.rare = ItemRarityID.Red;
-            Item.Calamity().customRarity = CalamityRarity.PureGreen;  // Not researchable, only drops one time.
+            Item.rare = ModContent.RarityType<PureGreen>();  // Not researchable, only drops one time.
         }
 
         public override bool CanUseItem(Player player) => !player.Calamity().adrenalineBoostThree;

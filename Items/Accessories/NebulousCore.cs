@@ -1,9 +1,10 @@
 ﻿using CalamityMod.CalPlayer;
 using CalamityMod.Projectiles.Typeless;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -25,8 +26,7 @@ namespace CalamityMod.Items.Accessories
             Item.height = 14;
             Item.accessory = true;
             Item.value = CalamityGlobalItem.Rarity14BuyPrice;
-            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
-            Item.rare = ItemRarityID.Purple;
+            Item.rare = ModContent.RarityType<DarkBlue>();
         }
 
         public override void Update(ref float gravity, ref float maxFallSpeed)

@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Items.Placeables.Ores;
+using CalamityMod.Rarities;
 using CalamityMod.Tiles;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
@@ -30,7 +31,7 @@ namespace CalamityMod.Items.Materials
             Item.height = 30;
             Item.maxStack = 999;
             Item.value = Item.sellPrice(gold: 60);
-            Item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.rare = ModContent.RarityType<Violet>();
             Item.useStyle = ItemUseStyleID.Swing;
             Item.useTurn = true;
             Item.useAnimation = 15;

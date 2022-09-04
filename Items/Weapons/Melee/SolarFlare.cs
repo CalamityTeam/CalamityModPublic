@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Projectiles.Melee.Yoyos;
+using CalamityMod.Rarities;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -38,8 +39,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.shootSpeed = 16f;
 
             Item.value = CalamityGlobalItem.Rarity12BuyPrice;
-            Item.rare = ItemRarityID.Purple;
-            Item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.rare = ModContent.RarityType<Turquoise>();
         }
     }
 }

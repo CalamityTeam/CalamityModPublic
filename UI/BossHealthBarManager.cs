@@ -232,6 +232,7 @@ namespace CalamityMod.UI
                 NPCID.BigMimicCorruption,
                 NPCID.BigMimicCrimson,
                 NPCID.BigMimicHallow,
+                NPCID.BloodNautilus,
 
                 // Moon Events.
                 NPCID.MourningWood,
