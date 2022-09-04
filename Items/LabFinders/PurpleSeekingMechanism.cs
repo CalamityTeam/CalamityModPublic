@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Projectiles.Typeless;
+using CalamityMod.Rarities;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -27,7 +28,7 @@ namespace CalamityMod.Items.LabFinders
             Item.Calamity().MaxCharge = 100;
             Item.Calamity().ChargePerUse = 15;
             Item.Calamity().UsesCharge = true;
-            Item.Calamity().customRarity = CalamityRarity.DraedonRust;
+            Item.rare = ModContent.RarityType<DarkOrange>();
         }
 
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0 && CalamityWorld.PlanetoidLabCenter != Vector2.Zero;

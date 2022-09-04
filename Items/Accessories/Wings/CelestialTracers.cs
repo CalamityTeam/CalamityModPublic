@@ -1,12 +1,13 @@
 ﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
+using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
-using Terraria.Graphics.Shaders;
-using Terraria.ModLoader;
 using Terraria.DataStructures;
+using Terraria.Graphics.Shaders;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories.Wings
 {
@@ -38,7 +39,7 @@ namespace CalamityMod.Items.Accessories.Wings
             Item.height = 32;
             Item.value = CalamityGlobalItem.Rarity15BuyPrice;
             Item.accessory = true;
-            Item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.rare = ModContent.RarityType<Violet>();
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

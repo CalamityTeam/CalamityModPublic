@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.knockBack = 2f;
             Item.UseSound = SoundID.Item117;
-            Item.value = Item.buyPrice(0, 60, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity8BuyPrice;
             Item.shootSpeed = 24f;
             Item.shoot = ModContent.ProjectileType<NebulashFlail>();
         }

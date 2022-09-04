@@ -1,6 +1,7 @@
-﻿using Terraria.ModLoader;
-using CalamityMod.NPCs.AcidRain;
+﻿using CalamityMod.NPCs.AcidRain;
+using CalamityMod.Rarities;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Items.SummonItems
 {
@@ -20,8 +21,7 @@ namespace CalamityMod.Items.SummonItems
             Item.width = 28;
             Item.height = 28;
             Item.maxStack = 9999;
-            Item.rare = ItemRarityID.Red;
-            Item.Calamity().customRarity = CalamityRarity.PureGreen;
+            Item.rare = ModContent.RarityType<PureGreen>();
             Item.bait = 4444;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.autoReuse = true;

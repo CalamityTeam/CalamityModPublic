@@ -38,7 +38,7 @@ namespace CalamityMod.Items.Armor.Empyrean
         {
             Item.width = 18;
             Item.height = 18;
-            Item.value = Item.buyPrice(0, 32, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity10BuyPrice;
             Item.rare = ItemRarityID.Red;
             Item.defense = 27;
         }

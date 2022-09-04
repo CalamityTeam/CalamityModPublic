@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Items.Materials;
+using CalamityMod.Rarities;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -26,7 +27,7 @@ namespace CalamityMod.Items.Mounts
             Item.mountType = ModContent.MountType<PhuppersChair>();
 
             Item.value = Item.buyPrice(platinum: 1, gold: 50);
-            Item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.rare = ModContent.RarityType<Turquoise>();
             Item.Calamity().devItem = true;
         }
 

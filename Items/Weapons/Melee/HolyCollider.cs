@@ -1,9 +1,10 @@
 ﻿using CalamityMod.Projectiles.Melee;
+using CalamityMod.Rarities;
 using System;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Audio;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -32,9 +33,8 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.autoReuse = true;
             Item.shootSpeed = 10f;
 
-            Item.rare = ItemRarityID.Purple;
             Item.value = CalamityGlobalItem.Rarity12BuyPrice;
-            Item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.rare = ModContent.RarityType<Turquoise>();
         }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)

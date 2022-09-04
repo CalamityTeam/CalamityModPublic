@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
+using CalamityMod.Rarities;
+using Microsoft.Xna.Framework;
+using System.Collections.Generic;
+using System.Linq;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-using System.Linq;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -29,9 +30,8 @@ namespace CalamityMod.Items.Accessories
             Item.width = 34;
             Item.height = 64;
             Item.value = CalamityGlobalItem.Rarity7BuyPrice;
-            Item.rare = ItemRarityID.Lime;
             Item.accessory = true;
-            Item.Calamity().customRarity = CalamityRarity.Rainbow;
+            Item.rare = ModContent.RarityType<Rainbow>();
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

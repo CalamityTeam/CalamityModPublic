@@ -1,13 +1,14 @@
 ﻿using CalamityMod.Items.Materials;
+using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
+using Microsoft.Xna.Framework;
+using System.Collections.Generic;
+using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using System.Collections.Generic;
-using System.Linq;
 using static Microsoft.Xna.Framework.Input.Keys;
 using static Terraria.ModLoader.ModContent;
-using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.Armor.GemTech
 {
@@ -64,11 +65,10 @@ namespace CalamityMod.Items.Armor.GemTech
             Item.width = 40;
             Item.height = 32;
             Item.defense = 14;
-            Item.rare = ItemRarityID.Purple;
 
             // Exact worth of the armor piece's constituents.
             Item.value = Item.sellPrice(platinum: 6, gold: 14, silver: 88);
-            Item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.rare = ModContent.RarityType<Violet>();
             Item.Calamity().donorItem = true;
         }
 

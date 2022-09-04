@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.maxStack = 1;
             Item.value = 1000;
             Item.rare = ItemRarityID.Orange;
-            Item.value = Item.buyPrice(0, 4, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity3BuyPrice;
             Item.shoot = ModContent.ProjectileType<EnchantedAxeProj>();
             Item.shootSpeed = 30f;
             Item.DamageType = RogueDamageClass.Instance;

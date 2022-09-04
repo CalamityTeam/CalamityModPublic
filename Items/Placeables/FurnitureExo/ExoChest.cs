@@ -1,7 +1,8 @@
-﻿using CalamityMod.Tiles.Furniture.CraftingStations;
+﻿using CalamityMod.Rarities;
+using CalamityMod.Tiles.Furniture.CraftingStations;
 using CalamityMod.Tiles.FurnitureExo;
-using Terraria.ModLoader;
 using Terraria.ID;
+using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.FurnitureExo
 {
     public class ExoChest : ModItem
@@ -24,7 +25,7 @@ namespace CalamityMod.Items.Placeables.FurnitureExo
             Item.useStyle = ItemUseStyleID.Swing;
             Item.consumable = true;
             Item.createTile = ModContent.TileType<ExoChestTile>();
-            Item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.rare = ModContent.RarityType<Violet>();
         }
 
         public override void AddRecipes()

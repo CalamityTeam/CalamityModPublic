@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Weapons.Summon
             Item.useStyle = ItemUseStyleID.HoldUp;
             Item.noMelee = true;
             Item.knockBack = 1f;
-            Item.value = Item.buyPrice(0, 12, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity4BuyPrice;
             Item.UseSound = SoundID.Item15; //phaseblade sound effect
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<BlackHawkSummon>();

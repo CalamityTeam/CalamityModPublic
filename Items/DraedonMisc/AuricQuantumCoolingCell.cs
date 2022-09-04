@@ -1,5 +1,6 @@
 ﻿using CalamityMod.CustomRecipes;
 using CalamityMod.Items.Materials;
+using CalamityMod.Rarities;
 using CalamityMod.TileEntities;
 using CalamityMod.Tiles.DraedonSummoner;
 using CalamityMod.Tiles.Furniture.CraftingStations;
@@ -31,9 +32,8 @@ namespace CalamityMod.Items.DraedonMisc
             Item.maxStack = 999;
             Item.consumable = true;
             Item.useStyle = ItemUseStyleID.Swing;
-            Item.rare = ItemRarityID.Red;
             Item.useTime = Item.useAnimation = 15;
-            Item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.rare = ModContent.RarityType<Violet>();
         }
 
         public override void ModifyTooltips(List<TooltipLine> tooltips)
