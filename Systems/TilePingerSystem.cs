@@ -95,7 +95,7 @@ namespace CalamityMod.Systems
 
         public static bool AddPing(string effectName, Vector2 position, Player pinger)
         {
-            if (!Main.dedServ) 
+            if (!Main.dedServ)
                 return AddPing(tileEffects[effectName], position, pinger);
 
             return false;
@@ -131,6 +131,9 @@ namespace CalamityMod.Systems
 
         public override void PostUpdateEverything()
         {
+            if (Main.dedServ || tileEffects is null)
+                return;
+
             foreach (IPingedTileEffect effect in tileEffects.Values)
             {
                 effect.UpdateEffect();
@@ -139,7 +142,7 @@ namespace CalamityMod.Systems
 
         public override void PostDrawTiles()
         {
-            if (pingedTiles.Keys.Count + pingedNonSolidTiles.Count < 1)
+            if (pingedTiles is null || (pingedTiles.Keys.Count + pingedNonSolidTiles.Count < 1))
                 return;
 
             drawCache.Clear();
