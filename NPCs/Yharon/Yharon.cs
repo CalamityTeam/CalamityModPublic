@@ -1688,16 +1688,6 @@ namespace CalamityMod.NPCs.Yharon
                 chargeSpeed *= velocityMult;
             }
 
-            // Increase aggressiveness while invincible.
-            if (invincible)
-            {
-                phaseSwitchTimer *= 0.5f;
-                acceleration *= 1.1f;
-                velocity *= 1.1f;
-                chargeTime -= 4f;
-                chargeSpeed *= 1.1f;
-            }
-
             if (Main.getGoodWorld)
                 phaseSwitchTimer *= 0.5f;
 
