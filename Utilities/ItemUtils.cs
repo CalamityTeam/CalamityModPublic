@@ -714,7 +714,7 @@ namespace CalamityMod
 				PrefixID.Slow,
 				PrefixID.Sluggish,
 				PrefixID.Lazy,
-				PrefixID.Annoying, // Vanilla does not include this in "bad" reforges so we won't either
+				PrefixID.Annoying,
 				PrefixID.Nasty
             });
             return roguePrefix;
@@ -728,13 +728,7 @@ namespace CalamityMod
                 mod.Find<ModPrefix>("Blunt").Type,
                 mod.Find<ModPrefix>("Flimsy").Type,
                 mod.Find<ModPrefix>("Unbalanced").Type,
-                mod.Find<ModPrefix>("Atrocious").Type,
-				PrefixID.Broken,
-				PrefixID.Damaged,
-				PrefixID.Shoddy,
-				PrefixID.Slow,
-				PrefixID.Sluggish,
-				PrefixID.Lazy
+                mod.Find<ModPrefix>("Atrocious").Type
             };
             return badPrefixes.Contains(prefix);
         }
