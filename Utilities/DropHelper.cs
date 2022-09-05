@@ -110,6 +110,13 @@ namespace CalamityMod
         public static readonly Fraction BagWeaponDropRateFraction = new(1, BagWeaponDropRateInt);
         #endregion
 
+		#region Bestiary Text
+		public static string FirstKillText = "Drops only on the first kill";
+        public static string BloodMoonText = "Drops during the Blood Moon";
+        public static string MechBossText = "Drops on the first kill of the final Mechanical Boss";
+        public static string SentinelText = "Drops on the first kill of the final Sentinel of the Devourer";
+		#endregion
+
         #region Block Drops
         private static int[] AllLoadedItemIDs = null;
 
@@ -222,10 +229,12 @@ namespace CalamityMod
         /// <param name="loot">The ILoot interface for the loot table.</param>
         /// <param name="lambda">A lambda which evaluates in real-time to the condition that needs to be checked.</param>
         /// <param name="itemID">The item ID to drop.</param>
+        /// <param name="ui">Whether drops registered with this condition appear in the Bestiary. Defaults to true.</param>
+        /// <param name="desc">The description of this condition in the Bestiary. Defaults to null.</param>
         /// <returns>A LeadingConditionRule which you can attach more PerPlayer or other rules to as you want.</returns>
-        public static LeadingConditionRule AddConditionalPerPlayer(this ILoot loot, Func<bool> lambda, int itemID)
+        public static LeadingConditionRule AddConditionalPerPlayer(this ILoot loot, Func<bool> lambda, int itemID, bool ui = true, string desc = null)
         {
-            LeadingConditionRule lcr = new(If(lambda));
+            LeadingConditionRule lcr = new(If(lambda, ui, desc));
             lcr.Add(PerPlayer(itemID));
             loot.Add(lcr);
             return lcr;
@@ -238,10 +247,12 @@ namespace CalamityMod
         /// <param name="loot">The ILoot interface for the loot table.</param>
         /// <param name="lambda">A lambda which evaluates in real-time to the condition that needs to be checked.</param>
         /// <param name="itemID">The item ID to drop.</param>
+        /// <param name="ui">Whether drops registered with this condition appear in the Bestiary. Defaults to true.</param>
+        /// <param name="desc">The description of this condition in the Bestiary. Defaults to null.</param>
         /// <returns>A LeadingConditionRule which you can attach more PerPlayer or other rules to as you want.</returns>
-        public static LeadingConditionRule AddConditionalPerPlayer(this ILoot loot, Func<DropAttemptInfo, bool> lambda, int itemID)
+        public static LeadingConditionRule AddConditionalPerPlayer(this ILoot loot, Func<DropAttemptInfo, bool> lambda, int itemID, bool ui = true, string desc = null)
         {
-            LeadingConditionRule lcr = new(If(lambda));
+            LeadingConditionRule lcr = new(If(lambda, ui, desc));
             lcr.Add(PerPlayer(itemID));
             loot.Add(lcr);
             return lcr;

@@ -2590,7 +2590,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             npcLoot.AddIf(() => Main.masterMode || CalamityWorld.revenge, ModContent.ItemType<CalamitasRelic>());
 
             // Lore
-            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedSCal, ModContent.ItemType<KnowledgeCalamitas>());
+            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedSCal, ModContent.ItemType<KnowledgeCalamitas>(), desc: DropHelper.FirstKillText);
         }
         #endregion
 

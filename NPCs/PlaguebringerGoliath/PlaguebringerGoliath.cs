@@ -1283,7 +1283,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             npcLoot.AddIf(() => Main.masterMode || CalamityWorld.revenge, ModContent.ItemType<PlaguebringerGoliathRelic>());
 
             // Lore
-            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedPlaguebringer, ModContent.ItemType<KnowledgePlaguebringerGoliath>());
+            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedPlaguebringer, ModContent.ItemType<KnowledgePlaguebringerGoliath>(), desc: DropHelper.FirstKillText);
         }
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)

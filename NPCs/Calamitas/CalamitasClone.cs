@@ -216,7 +216,7 @@ namespace CalamityMod.NPCs.Calamitas
             npcLoot.AddIf(() => Main.masterMode || CalamityWorld.revenge, ModContent.ItemType<CalamitasCloneRelic>());
 
             // Lore
-            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedCalamitas, ModContent.ItemType<KnowledgeCalamitasClone>());
+            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedCalamitas, ModContent.ItemType<KnowledgeCalamitasClone>(), desc: DropHelper.FirstKillText);
         }
 
         public override void OnKill()

@@ -1350,7 +1350,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
             mainDrops.Add(ItemDropRule.ByCondition(DropHelper.If(() => Main.masterMode || CalamityWorld.revenge), ModContent.ItemType<DraedonRelic>()));
 
             // Lore item
-            mainDrops.Add(ItemDropRule.ByCondition(DropHelper.If(() => !DownedBossSystem.downedExoMechs), ModContent.ItemType<KnowledgeExoMechs>()));
+            mainDrops.Add(ItemDropRule.ByCondition(DropHelper.If(() => !DownedBossSystem.downedExoMechs, desc: DropHelper.FirstKillText), ModContent.ItemType<KnowledgeExoMechs>()));
 
             // Treasure bag
             npcLoot.Add(ItemDropRule.BossBagByCondition(DropHelper.If(CanDropLoot), ModContent.ItemType<DraedonBag>()));

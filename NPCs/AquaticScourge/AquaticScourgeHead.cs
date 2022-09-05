@@ -255,8 +255,8 @@ namespace CalamityMod.NPCs.AquaticScourge
 
             // Lore
             bool firstASKill() => !DownedBossSystem.downedAquaticScourge;
-            npcLoot.AddConditionalPerPlayer(firstASKill, ModContent.ItemType<KnowledgeAquaticScourge>());
-            npcLoot.AddConditionalPerPlayer(firstASKill, ModContent.ItemType<KnowledgeSulphurSea>());            
+            npcLoot.AddConditionalPerPlayer(firstASKill, ModContent.ItemType<KnowledgeAquaticScourge>(), desc: DropHelper.FirstKillText);
+            npcLoot.AddConditionalPerPlayer(firstASKill, ModContent.ItemType<KnowledgeSulphurSea>(), desc: DropHelper.FirstKillText);            
         }
 
         public override void OnKill()
