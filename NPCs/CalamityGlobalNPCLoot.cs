@@ -1037,8 +1037,9 @@ namespace CalamityMod.NPCs
                     npcLoot.AddNormalOnly(ModContent.ItemType<Carnage>(), 10);
 
                     // Drop Hermit's Box directly for EACH player, regardles of Expert or not. 100% chance on first kill, 10% chance afterwards.
+					// The special first kill rule is unlisted in the Bestiary
                     LeadingConditionRule firstWoFKill = new(DropHelper.If(() => !Main.hardMode));
-                    firstWoFKill.Add(DropHelper.PerPlayer(ModContent.ItemType<HermitsBoxofOneHundredMedicines>()));
+                    firstWoFKill.Add(DropHelper.PerPlayer(ModContent.ItemType<HermitsBoxofOneHundredMedicines>()), hideLootReport: true);
                     npcLoot.Add(firstWoFKill);
                     LeadingConditionRule subsequentWoFKills = new(DropHelper.If(() => Main.hardMode));
                     subsequentWoFKills.Add(DropHelper.PerPlayer(ModContent.ItemType<HermitsBoxofOneHundredMedicines>(), 10));
