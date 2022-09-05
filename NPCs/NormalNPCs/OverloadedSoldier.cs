@@ -7,6 +7,7 @@ using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.World;
 using Terraria;
 using Terraria.GameContent.Bestiary;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
@@ -404,7 +405,8 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
             npcLoot.Add(ModContent.ItemType<AncientBoneDust>());
-            npcLoot.AddIf(() => NPC.downedMoonlord, ModContent.ItemType<Phantoplasm>());
+            LeadingConditionRule postML = npcLoot.DefineConditionalDropSet(DropHelper.PostML());
+            postML.Add(ModContent.ItemType<Phantoplasm>());
         }
     }
 }

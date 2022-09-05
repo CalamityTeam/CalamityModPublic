@@ -5,6 +5,7 @@ using CalamityMod.Items.Placeables.Banners;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.GameContent.Bestiary;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.NPCs.Crags
@@ -135,8 +136,10 @@ namespace CalamityMod.NPCs.Crags
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
             npcLoot.Add(ItemID.Lens, 2);
-            npcLoot.AddIf(() => Main.hardMode, ModContent.ItemType<EssenceofChaos>(), 3);
-            npcLoot.AddIf(() => DownedBossSystem.downedProvidence, ModContent.ItemType<Bloodstone>(), 4);
+            LeadingConditionRule hardmode = npcLoot.DefineConditionalDropSet(DropHelper.Hardmode());
+            LeadingConditionRule postProv = npcLoot.DefineConditionalDropSet(DropHelper.PostProv());
+            hardmode.Add(ModContent.ItemType<EssenceofChaos>(), 3);
+            postProv.Add(ModContent.ItemType<Bloodstone>(), 4);
         }
     }
 }

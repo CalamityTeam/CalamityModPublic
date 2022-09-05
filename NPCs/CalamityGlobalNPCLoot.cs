@@ -59,6 +59,13 @@ namespace CalamityMod.NPCs
             // Convenient shortcut for all Master drops moved to Revengeance
             LeadingConditionRule rev = new LeadingConditionRule(DropHelper.RevNoMaster);
 
+			// Other shortcuts
+            LeadingConditionRule postEoC = npcLoot.DefineConditionalDropSet(DropHelper.PostEoC());
+            LeadingConditionRule hardmode = npcLoot.DefineConditionalDropSet(DropHelper.Hardmode());
+            LeadingConditionRule postCalPlant = npcLoot.DefineConditionalDropSet(DropHelper.PostCalPlant());
+            LeadingConditionRule postLevi = npcLoot.DefineConditionalDropSet(DropHelper.PostLevi());
+            LeadingConditionRule postDoG = npcLoot.DefineConditionalDropSet(DropHelper.PostDoG());
+
             switch (npc.type)
             {
                 #region Surface
@@ -81,8 +88,10 @@ namespace CalamityMod.NPCs
                 // Sky Glaze @ 3.33% IF Eye of Cthulhu dead
                 // Essence of Cinder @ 50% IF Hardmode and not statue spawned
                 case NPCID.Harpy:
-                    npcLoot.AddIf(() => NPC.downedBoss1, ModContent.ItemType<SkyGlaze>(), 30);
-                    npcLoot.AddIf(() => Main.hardMode && !npc.SpawnedFromStatue, ModContent.ItemType<EssenceofSunlight>(), 2);
+                    postEoC.Add(ModContent.ItemType<SkyGlaze>(), 30);
+                    hardmode.AddIf(() => !npc.SpawnedFromStatue, ModContent.ItemType<EssenceofSunlight>(), 2);
+                    npcLoot.Add(postEoC);
+                    npcLoot.Add(hardmode);
                     break;
 
                 // Angry Nimbus
@@ -365,7 +374,8 @@ namespace CalamityMod.NPCs
                 // Giant Cursed Skull
                 // Keelhaul @ 6.67% IF Leviathan dead
                 case NPCID.GiantCursedSkull:
-                    npcLoot.AddIf(() => DownedBossSystem.downedLeviathan, ModContent.ItemType<Keelhaul>(), 15);
+                    postLevi.Add(ModContent.ItemType<Keelhaul>(), 15);
+                    npcLoot.Add(postLevi);
                     break;
 
                 // Bone Lee
@@ -511,7 +521,8 @@ namespace CalamityMod.NPCs
                 case NPCID.SwampThing:
                 case NPCID.Fritz:
                 case NPCID.CreatureFromTheDeep:
-                    npcLoot.AddIf(() => DownedBossSystem.downedDoG, ModContent.ItemType<DarksunFragment>(), 10);
+                    postDoG.Add(ModContent.ItemType<DarksunFragment>(), 10);
+                    npcLoot.Add(postDoG);
                     break;
 
                 // Medium Solar Eclipse Enemies: The Possessed, Butcher, Dr. Man Fly
@@ -519,7 +530,8 @@ namespace CalamityMod.NPCs
                 case NPCID.ThePossessed:
                 case NPCID.Butcher:
                 case NPCID.DrManFly:
-                    npcLoot.AddIf(() => DownedBossSystem.downedDoG, ModContent.ItemType<DarksunFragment>(), 2);
+                    postDoG.Add(ModContent.ItemType<DarksunFragment>(), 2);
+                    npcLoot.Add(postDoG);
                     break;
 
                 // Reaper, Psycho
@@ -527,8 +539,10 @@ namespace CalamityMod.NPCs
                 // Darksun Fragment @ 50% IF Devourer of Gods dead
                 case NPCID.Reaper:
                 case NPCID.Psycho:
-                    npcLoot.AddIf(() => DownedBossSystem.downedCalamitas || NPC.downedPlantBoss, ModContent.ItemType<SolarVeil>(), 2, 2, 4);
-                    npcLoot.AddIf(() => DownedBossSystem.downedDoG, ModContent.ItemType<DarksunFragment>(), 2);
+                    postCalPlant.Add(ModContent.ItemType<SolarVeil>(), 2, 2, 4);
+                    npcLoot.Add(postCalPlant);
+                    postDoG.Add(ModContent.ItemType<DarksunFragment>(), 2);
+                    npcLoot.Add(postDoG);
                     break;
 
                 // Vampire / Vampire Bat (same enemy)
@@ -540,26 +554,31 @@ namespace CalamityMod.NPCs
                 case NPCID.Vampire:
                     npcLoot.ChangeDropRate(ItemID.MoonStone, 3, 20);
                     npcLoot.Add(ItemDropRule.NormalvsExpert(ItemID.BatHook, 40, 20));
-                    npcLoot.AddIf(() => DownedBossSystem.downedCalamitas || NPC.downedPlantBoss, ModContent.ItemType<SolarVeil>(), 2, 2, 4);
-                    npcLoot.AddIf(() => DownedBossSystem.downedDoG, ModContent.ItemType<DarksunFragment>(), 2);
+                    postCalPlant.Add(ModContent.ItemType<SolarVeil>(), 2, 2, 4);
+                    npcLoot.Add(postCalPlant);
+                    postDoG.Add(ModContent.ItemType<DarksunFragment>(), 2);
+                    npcLoot.Add(postDoG);
                     break;
 
                 // Eyezor
                 // 1-2 Darksun Fragment @ 100% IF Devourer of Gods dead
                 case NPCID.Eyezor:
-                    npcLoot.AddIf(() => DownedBossSystem.downedDoG, ModContent.ItemType<DarksunFragment>(), 1, 1, 2);
+                    postDoG.Add(ModContent.ItemType<DarksunFragment>(), 1, 1, 2);
+                    npcLoot.Add(postDoG);
                     break;
 
                 // Nailhead
                 // 3-5 Darksun Fragment @ 100% IF Devourer of Gods dead
                 case NPCID.Nailhead:
-                    npcLoot.AddIf(() => DownedBossSystem.downedDoG, ModContent.ItemType<DarksunFragment>(), 1, 3, 5);
+                    postDoG.Add(ModContent.ItemType<DarksunFragment>(), 1, 3, 5);
+                    npcLoot.Add(postDoG);
                     break;
 
                 // Mothron
                 // 20-30 Darksun Fragment @ 100% IF Devourer of Gods dead
                 case NPCID.Mothron:
-                    npcLoot.AddIf(() => DownedBossSystem.downedDoG, ModContent.ItemType<DarksunFragment>(), 1, 20, 30);
+                    postDoG.Add(ModContent.ItemType<DarksunFragment>(), 1, 20, 30);
+                    npcLoot.Add(postDoG);
                     break;
 
                 // Deadly Sphere
@@ -567,7 +586,8 @@ namespace CalamityMod.NPCs
                 // Darksun Fragment @ 50% IF Devourer of Gods dead
                 case NPCID.DeadlySphere:
                     npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<DefectiveSphere>(), 5, 3));
-                    npcLoot.AddIf(() => DownedBossSystem.downedDoG, ModContent.ItemType<DarksunFragment>(), 2);
+                    postDoG.Add(ModContent.ItemType<DarksunFragment>(), 2);
+                    npcLoot.Add(postDoG);
                     break;
                 #endregion
 
@@ -575,26 +595,30 @@ namespace CalamityMod.NPCs
                 // Splinterling
                 // Nightmare Fuel @ 50% IF Devourer of Gods dead
                 case NPCID.Splinterling:
-                    npcLoot.AddIf(() => DownedBossSystem.downedDoG, ModContent.ItemType<NightmareFuel>(), 2);
+                    postDoG.Add(ModContent.ItemType<NightmareFuel>(), 2);
+                    npcLoot.Add(postDoG);
                     break;
 
                 // Hellhound, Poltergeist
                 // 1-2 Nightmare Fuel @ 50% IF Devourer of Gods dead
                 case NPCID.Hellhound:
                 case NPCID.Poltergeist:
-                    npcLoot.AddIf(() => DownedBossSystem.downedDoG, ModContent.ItemType<NightmareFuel>(), 2, 1, 2);
+                    postDoG.Add(ModContent.ItemType<NightmareFuel>(), 2, 1, 2);
+                    npcLoot.Add(postDoG);
                     break;
 
                 // Headless Horseman
                 // 3-5 Nightmare Fuel @ 100% IF Devourer of Gods dead
                 case NPCID.HeadlessHorseman:
-                    npcLoot.AddIf(() => DownedBossSystem.downedDoG, ModContent.ItemType<NightmareFuel>(), 1, 3, 5);
+                    postDoG.Add(ModContent.ItemType<NightmareFuel>(), 1, 3, 5);
+                    npcLoot.Add(postDoG);
                     break;
 
                 // Mourning Wood
                 case NPCID.MourningWood:
                     // 5-10 Nightmare Fuel @ 100% IF Devourer of Gods dead
-                    npcLoot.AddIf(() => DownedBossSystem.downedDoG, ModContent.ItemType<NightmareFuel>(), 1, 5, 10);
+                    postDoG.Add(ModContent.ItemType<NightmareFuel>(), 1, 5, 10);
+                    npcLoot.Add(postDoG);
 
                     // Master items drop in Revengeance
                     rev.Add(ItemID.MourningWoodMasterTrophy, 4);
@@ -604,7 +628,8 @@ namespace CalamityMod.NPCs
                 // Pumpking
                 case NPCID.Pumpking:
                     // 10-20 Nightmare Fuel @ 100% IF Devourer of Gods dead
-                    npcLoot.AddIf(() => DownedBossSystem.downedDoG, ModContent.ItemType<NightmareFuel>(), 1, 10, 20);
+                    postDoG.Add(ModContent.ItemType<NightmareFuel>(), 1, 10, 20);
+                    npcLoot.Add(postDoG);
 
                     // Master items drop in Revengeance
                     rev.Add(ItemID.PumpkingMasterTrophy, 4);
@@ -620,7 +645,8 @@ namespace CalamityMod.NPCs
                 case NPCID.NutcrackerSpinning:
                 case NPCID.ElfCopter:
                 case NPCID.Flocko:
-                    npcLoot.AddIf(() => DownedBossSystem.downedDoG, ModContent.ItemType<EndothermicEnergy>(), 2);
+                    postDoG.Add(ModContent.ItemType<EndothermicEnergy>(), 2);
+                    npcLoot.Add(postDoG);
                     break;
 
                 // Medium Frost Moon Enemies: Krampus, Yeti, Present Mimic
@@ -628,13 +654,15 @@ namespace CalamityMod.NPCs
                 case NPCID.Krampus:
                 case NPCID.Yeti:
                 case NPCID.PresentMimic:
-                    npcLoot.AddIf(() => DownedBossSystem.downedDoG, ModContent.ItemType<EndothermicEnergy>(), 2, 1, 2);
+                    postDoG.Add(ModContent.ItemType<EndothermicEnergy>(), 2, 1, 2);
+                    npcLoot.Add(postDoG);
                     break;
 
                 // Everscream
                 case NPCID.Everscream:
                     // 3-5 Endothermic Energy @ 100% IF Devourer of Gods dead
-                    npcLoot.AddIf(() => DownedBossSystem.downedDoG, ModContent.ItemType<EndothermicEnergy>(), 1, 3, 5);
+                    postDoG.Add(ModContent.ItemType<EndothermicEnergy>(), 1, 3, 5);
+                    npcLoot.Add(postDoG);
 
                     // Master items drop in Revengeance
                     rev.Add(ItemID.EverscreamMasterTrophy, 4);
@@ -645,7 +673,8 @@ namespace CalamityMod.NPCs
                 // Santa-NK1
                 case NPCID.SantaNK1:
                     // 5-10 Endothermic Energy @ 100% IF Devourer of Gods dead
-                    npcLoot.AddIf(() => DownedBossSystem.downedDoG, ModContent.ItemType<EndothermicEnergy>(), 1, 5, 10);
+                    postDoG.Add(ModContent.ItemType<EndothermicEnergy>(), 1, 5, 10);
+                    npcLoot.Add(postDoG);
 
                     // Master items drop in Revengeance
                     rev.Add(ItemID.SantankMasterTrophy, 4);
@@ -656,7 +685,8 @@ namespace CalamityMod.NPCs
                 // Ice Queen
                 case NPCID.IceQueen:
                     // 10-20 Endothermic Energy @ 100% IF Devourer of Gods dead
-                    npcLoot.AddIf(() => DownedBossSystem.downedDoG, ModContent.ItemType<EndothermicEnergy>(), 1, 10, 20);
+                    postDoG.Add(ModContent.ItemType<EndothermicEnergy>(), 1, 10, 20);
+                    npcLoot.Add(postDoG);
 
                     // Master items drop in Revengeance
                     rev.Add(ItemID.IceQueenMasterTrophy, 4);
@@ -756,7 +786,8 @@ namespace CalamityMod.NPCs
                 // Clothier
                 // Clothiers Wrath @ 100% IF Hardmode
                 case NPCID.Clothier:
-                    npcLoot.AddIf(() => Main.hardMode, ModContent.ItemType<ClothiersWrath>());
+                    hardmode.Add(ModContent.ItemType<ClothiersWrath>());
+                    npcLoot.Add(hardmode);
                     break;
 
                 // Angler
@@ -764,9 +795,10 @@ namespace CalamityMod.NPCs
                 // OTHERWISE,
                 // Golden Fishing Rod @ 8.33% IF Hardmode
                 case NPCID.Angler:
-                    LeadingConditionRule trasherLCR = new(DropHelper.AnglerFedToTrasherCondition);
-                    trasherLCR.Add(ItemID.GoldenFishingRod);
-                    trasherLCR.OnFailedConditions(ItemDropRule.ByCondition(new Conditions.IsHardmode(), ItemID.GoldenFishingRod, 12));
+					LeadingConditionRule trasherLCR = new LeadingConditionRule(DropHelper.AnglerFedToTrasherCondition);
+                    trasherLCR.Add(ItemDropRule.ByCondition(DropHelper.TrasherText, ItemID.GoldenFishingRod));
+                    trasherLCR.OnFailedConditions(ItemDropRule.ByCondition(DropHelper.Hardmode(), ItemID.GoldenFishingRod, 12));
+                    npcLoot.Add(trasherLCR);
                     break;
                 #endregion
 
@@ -866,15 +898,27 @@ namespace CalamityMod.NPCs
 
                 case NPCID.Deerclops:
                     // Remove the vanilla loot rule for Deerclops' weapon drops.
-                    npcLoot.RemoveWhere((rule) =>
+                    try
                     {
-                        if (rule is LeadingConditionRule deerLCR)
-                            return deerLCR.ChainedRules[0] is OneFromRulesRule uselessMediary;
-                        return false;
-                    });
+                        var deerRootRules = npcLoot.Get(false);
+                        IItemDropRule notExpert = deerRootRules.Find((rule) => rule is LeadingConditionRule deerLCR && deerLCR.condition is Conditions.NotExpert);
+                        if (notExpert is LeadingConditionRule LCR_NotExpert)
+                        {
+                            LCR_NotExpert.ChainedRules.RemoveAll((chainAttempt) =>
+                                chainAttempt is Chains.TryIfSucceeded c && c.RuleToChain is OneFromOptionsNotScaledWithLuckDropRule weapons && weapons.dropIds[0] == ItemID.LucyTheAxe);
 
-                    // Define a replacement rule which drops the weapons Calamity style.
-                    npcLoot.AddNormalOnly(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, ItemID.LucyTheAxe, ItemID.PewMaticHorn, ItemID.WeatherPain, ItemID.HoundiusShootius));
+                            // Define a replacement rule which drops the weapons Calamity style.
+							var deerWeapons = new int[]
+							{
+								ItemID.LucyTheAxe,
+								ItemID.PewMaticHorn,
+								ItemID.WeatherPain,
+								ItemID.HoundiusShootius
+							};
+                            LCR_NotExpert.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, deerWeapons));
+                        }
+                    }
+                    catch (ArgumentNullException) { }
 
                     // Master items drop in Revengeance
                     rev.Add(ItemID.DeerclopsMasterTrophy);
@@ -940,44 +984,54 @@ namespace CalamityMod.NPCs
 
                 case NPCID.WallofFlesh:
                     // Remove the vanilla loot rule for Wall of Flesh's weapon drops.
-                    npcLoot.RemoveWhere((rule) =>
+                    try
                     {
-                        if (rule is LeadingConditionRule wofLCR)
-                            return wofLCR.ChainedRules[0] is OneFromOptionsNotScaledWithLuckDropRule weapons && weapons.dropIds[0] == ItemID.BreakerBlade;
-                        return false;
-                    });
+                        var wofRootRules = npcLoot.Get(false);
+                        IItemDropRule notExpert = wofRootRules.Find((rule) => rule is LeadingConditionRule wofLCR && wofLCR.condition is Conditions.NotExpert);
+                        if (notExpert is LeadingConditionRule LCR_NotExpert)
+                        {
+                            LCR_NotExpert.ChainedRules.RemoveAll((chainAttempt) =>
+                                chainAttempt is Chains.TryIfSucceeded c && c.RuleToChain is OneFromOptionsNotScaledWithLuckDropRule weapons && weapons.dropIds[0] == ItemID.BreakerBlade);
 
-                    // Define a replacement rule which drops the weapons Calamity style.
-                    var wofWeapons = new int[]
-                    {
-                        ItemID.BreakerBlade,
-                        ItemID.ClockworkAssaultRifle,
-                        ModContent.ItemType<Meowthrower>(),
-                        ItemID.LaserRifle,
-                        ModContent.ItemType<BlackHawkRemote>(),
-                        ItemID.FireWhip, // Firecracker
-                        ModContent.ItemType<BlastBarrel>(),
-                    };
-                    npcLoot.AddNormalOnly(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, wofWeapons));
+                            // Define a replacement rule which drops the weapons Calamity style.
+							var wofWeapons = new int[]
+							{
+								ItemID.BreakerBlade,
+								ItemID.ClockworkAssaultRifle,
+								ModContent.ItemType<Meowthrower>(),
+								ItemID.LaserRifle,
+								ModContent.ItemType<BlackHawkRemote>(),
+								ItemID.FireWhip, // Firecracker
+								ModContent.ItemType<BlastBarrel>(),
+							};
+                            LCR_NotExpert.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, wofWeapons));
+                        }
+                    }
+                    catch (ArgumentNullException) { }
 
                     // Remove the vanilla loot rule for Wall of Flesh's emblem drops.
-                    npcLoot.RemoveWhere((rule) =>
+                    try
                     {
-                        if (rule is LeadingConditionRule wofLCR)
-                            return wofLCR.ChainedRules[0] is OneFromOptionsNotScaledWithLuckDropRule emblems && emblems.dropIds[0] == ItemID.WarriorEmblem;
-                        return false;
-                    });
+                        var wofRootRules = npcLoot.Get(false);
+                        IItemDropRule notExpert = wofRootRules.Find((rule) => rule is LeadingConditionRule wofLCR && wofLCR.condition is Conditions.NotExpert);
+                        if (notExpert is LeadingConditionRule LCR_NotExpert)
+                        {
+                            LCR_NotExpert.ChainedRules.RemoveAll((chainAttempt) =>
+                                chainAttempt is Chains.TryIfSucceeded c && c.RuleToChain is OneFromOptionsNotScaledWithLuckDropRule emblems && emblems.dropIds[0] == ItemID.WarriorEmblem);
 
-                    // Define a replacement rule which drops the emblems Calamity style.
-                    var wofEmblems = new int[]
-                    {
-                        ItemID.WarriorEmblem,
-                        ItemID.RangerEmblem,
-                        ItemID.SorcererEmblem,
-                        ItemID.SummonerEmblem,
-                        ModContent.ItemType<RogueEmblem>(),
-                    };
-                    npcLoot.AddNormalOnly(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, wofEmblems));
+                            // Define a replacement rule which drops the emblems Calamity style.
+							var wofEmblems = new int[]
+							{
+								ItemID.WarriorEmblem,
+								ItemID.RangerEmblem,
+								ItemID.SorcererEmblem,
+								ItemID.SummonerEmblem,
+								ModContent.ItemType<RogueEmblem>(),
+							};
+                            LCR_NotExpert.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, wofEmblems));
+                        }
+                    }
+                    catch (ArgumentNullException) { }
 
                     // Would be in the bag otherwise
                     npcLoot.AddNormalOnly(ModContent.ItemType<Carnage>(), 10);
