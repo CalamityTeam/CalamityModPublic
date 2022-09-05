@@ -642,6 +642,48 @@ namespace CalamityMod
         {
             return mainRule.OnSuccess(ItemDropRule.ByCondition(If(lambda), itemID, dropRate.denominator, minQuantity, maxQuantity, dropRate.numerator), hideLootReport);
         }
+
+        /// <summary>
+        /// Adds any given drop rule as a chained rule to the given LeadingConditionRule.
+        /// </summary>
+        /// <param name="mainRule">The LeadingConditionRule which should have another drop rule registered as one of its chains.</param>
+        /// <param name="chainedRule">The drop rule which should occur given this leading condition.</param>
+        /// <param name="hideLootReport">Set to true for this drop to not appear in the Bestiary.</param>
+        /// <returns>The LeadingConditionRule (first parameter).</returns>
+        public static IItemDropRule AddFail(this LeadingConditionRule mainRule, IItemDropRule chainedRule, bool hideLootReport = false)
+        {
+            return mainRule.OnFailedConditions(chainedRule, hideLootReport);
+        }
+
+        /// <summary>
+        /// Shorthand to add a simple drop to the given LeadingConditionRule.
+        /// </summary>
+        /// <param name="mainRule">The LeadingConditionRule which should drop this item as one of its chains.</param>
+        /// <param name="itemID">The item to drop.</param>
+        /// <param name="dropRateInt">The chance that the item will drop is 1 in this number. For example, 5 gives a 1 in 5 chance.</param>
+        /// <param name="minQuantity">The minimum number of items to drop. Defaults to 1.</param>
+        /// <param name="maxQuantity">The maximum number of items to drop. Defaults to 1.</param>
+        /// <param name="hideLootReport">Set to true for this drop to not appear in the Bestiary.</param>
+        /// <returns>The LeadingConditionRule (first parameter).</returns>
+        public static IItemDropRule AddFail(this LeadingConditionRule mainRule, int itemID, int dropRateInt = 1, int minQuantity = 1, int maxQuantity = 1, bool hideLootReport = false)
+        {
+            return mainRule.OnFailedConditions(ItemDropRule.Common(itemID, dropRateInt, minQuantity, maxQuantity), hideLootReport);
+        }
+
+        /// <summary>
+        /// Shorthand to add a simple drop to the given LeadingConditionRule using a Fraction drop rate.
+        /// </summary>
+        /// <param name="mainRule">The LeadingConditionRule which should drop this item as one of its chains.</param>
+        /// <param name="itemID">The item to drop.</param>
+        /// <param name="dropRate">The chance that the item will drop as a DropHelper Fraction.</param>
+        /// <param name="minQuantity">The minimum number of items to drop. Defaults to 1.</param>
+        /// <param name="maxQuantity">The maximum number of items to drop. Defaults to 1.</param>
+        /// <param name="hideLootReport">Set to true for this drop to not appear in the Bestiary.</param>
+        /// <returns>The LeadingConditionRule (first parameter).</returns>
+        public static IItemDropRule AddFail(this LeadingConditionRule mainRule, int itemID, Fraction dropRate, int minQuantity = 1, int maxQuantity = 1, bool hideLootReport = false)
+        {
+            return mainRule.OnFailedConditions(new CommonDrop(itemID, dropRate.denominator, minQuantity, maxQuantity, dropRate.numerator), hideLootReport);
+        }
         #endregion
 
         #region ILoot Extensions
