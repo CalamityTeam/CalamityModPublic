@@ -1035,6 +1035,7 @@ namespace CalamityMod.ILEditing
             {
                 mp.hookCache = self.grappling[0];
                 self.grappling[0] = -1;
+                self.grapCount = 0;
             }
         }
 
@@ -1051,6 +1052,7 @@ namespace CalamityMod.ILEditing
             {
                 mp.hookCache = self.grappling[0];
                 self.grappling[0] = -1;
+                self.grapCount = 0;
             }
         }
 
@@ -1063,7 +1065,10 @@ namespace CalamityMod.ILEditing
             WulfrumPackPlayer mp = self.GetModPlayer<WulfrumPackPlayer>();
 
             if (mp.hookCache > -1)
+            {
                 self.grappling[0] = mp.hookCache;
+                self.grapCount = 1;
+            }
 
             mp.hookCache = -1;
         }

@@ -85,11 +85,11 @@ namespace CalamityMod.Items.Accessories
                                 break;
                             case 2: //Green team
                                 shieldColor = new Color(194, 255, 67) * 0.7f;
-                                edgeColor = CalamityUtils.MulticolorLerp(Main.GlobalTimeWrappedHourly * 0.2f, Color.GreenYellow, Color.YellowGreen, new Color(194, 255, 67));
+                                edgeColor = CalamityUtils.MulticolorLerp(Main.GlobalTimeWrappedHourly * 0.2f, Color.Chartreuse, Color.YellowGreen, new Color(194, 255, 67));
                                 break;
                             case 3: //Blue team
                                 shieldColor = new Color(64, 207, 200);
-                                edgeColor = CalamityUtils.MulticolorLerp(Main.GlobalTimeWrappedHourly * 0.2f, Color.Cyan, Color.DeepSkyBlue, new Color(64, 207, 200));
+                                edgeColor = CalamityUtils.MulticolorLerp(Main.GlobalTimeWrappedHourly * 0.2f, Color.MediumSpringGreen, Color.DeepSkyBlue, new Color(64, 207, 200));
                                 break;
                             case 4: //Yellow team
                                 shieldColor = new Color(176, 156, 45);
