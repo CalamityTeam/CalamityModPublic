@@ -139,6 +139,12 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 return;
             }
 
+            // Difficulty modes
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || bossRush;
+            bool revenge = CalamityWorld.revenge || bossRush;
+            bool expertMode = Main.expertMode || bossRush;
+
             // Increase DR if the target leaves SCal's arena.
             NPC.Calamity().DR = SupremeCataclysm.NormalBrothersDR;
             if (Main.npc[CalamityGlobalNPC.SCal].ModNPC<SupremeCalamitas>().IsTargetOutsideOfArena)
@@ -226,22 +232,16 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     DartBurstCounter = 0f;
                     SoundEngine.PlaySound(SupremeCalamitas.BrimstoneShotSound, NPC.Center);
 
-                    // TODO -- Consider changing this to use RotatedBy or ToRotationVector2.
-                    float speed = 7f;
                     int type = ModContent.ProjectileType<BrimstoneBarrage>();
                     int damage = NPC.GetProjectileDamage(type);
-                    float spread = 45f * 0.0174f;
-                    double startAngle = Math.Atan2(NPC.velocity.X, NPC.velocity.Y) - spread / 2;
-                    double deltaAngle = spread / 8f;
-                    double offsetAngle;
-                    if (Main.netMode != NetmodeID.MultiplayerClient)
+                    int totalProjectiles = bossRush ? 20 : death ? 16 : revenge ? 14 : expertMode ? 12 : 8;
+                    float radians = MathHelper.TwoPi / totalProjectiles;
+                    float velocity = 7f;
+                    Vector2 spinningPoint = new Vector2(0f, -velocity);
+                    for (int k = 0; k < totalProjectiles; k++)
                     {
-                        for (int i = 0; i < 8; i++)
-                        {
-                            offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y, (float)(Math.Sin(offsetAngle) * speed), (float)(Math.Cos(offsetAngle) * speed), type, damage, 0f, Main.myPlayer, 0f, 1f);
-                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y, (float)(-Math.Sin(offsetAngle) * speed), (float)(-Math.Cos(offsetAngle) * speed), type, damage, 0f, Main.myPlayer, 0f, 1f);
-                        }
+                        Vector2 velocity2 = spinningPoint.RotatedBy(radians * k);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, velocity2, type, damage, 0f, Main.myPlayer, 0f, 1f);
                     }
 
                     for (int i = 0; i < 6; i++)
