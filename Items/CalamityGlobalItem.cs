@@ -1737,23 +1737,8 @@ namespace CalamityMod.Items
         #region On Create
         public override void OnCreate(Item item, ItemCreationContext context)
         {
-            // Crafting a rogue weapon has a 75% chance for a random modifier
-            // Negative modifiers have a 66.66% chance of being voided
-            // Note, the modifier doesn't show up in the craft text (the one that indicates you got a new item)
-            if (context is RecipeCreationContext)
-            {
-                if (item.CanGetRoguePrefix())
-                {
-                    if (Main.rand.Next(4) < 3)
-                    {
-                        int prefix = CalamityUtils.RandomRoguePrefix();
-                        if (!CalamityUtils.NegativeRoguePrefix(prefix) || Main.rand.NextBool(3))
-                        {
-                            item.Prefix(prefix);
-                        }
-                    }
-                }
-            }
+			// ChoosePrefix also happens on craft so go reset it here too
+			storedPrefix = -1;
         }
         #endregion
 
@@ -1772,6 +1757,15 @@ namespace CalamityMod.Items
         // removed data saved on items; reforging is now a coalescing flowchart that has no RNG
         public override int ChoosePrefix(Item item, UnifiedRandom rand)
         {
+			if (storedPrefix == -1 && item.CanGetRoguePrefix())
+			{
+				// Crafting (or first reforge of) a rogue weapon has a 75% chance for a random modifier, this check is done by vanilla
+				// Negative modifiers have a 66.66% chance of being voided, Annoying modifier is intentionally ignored by vanilla
+				int prefix = CalamityUtils.RandomRoguePrefix();
+				bool keepPrefix = !CalamityUtils.NegativeRoguePrefix(prefix) || Main.rand.NextBool(3);
+				return keepPrefix ? prefix : 0;
+			}
+
             if (!CalamityConfig.Instance.RemoveReforgeRNG || Main.gameMenu || storedPrefix == -1)
                 return -1;
 
