@@ -2,6 +2,7 @@
 using CalamityMod.Items.Placeables.FurnitureBotanic;
 using CalamityMod.Items.Placeables.FurnitureCosmilite;
 using CalamityMod.Items.Placeables.FurnitureSilva;
+using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria.ID;
@@ -30,7 +31,7 @@ namespace CalamityMod.Items.Placeables.Furniture
             Item.useStyle = ItemUseStyleID.Swing;
             Item.consumable = true;
             Item.createTile = ModContent.TileType<AuricToiletTile>();
-            Item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.rare = ModContent.RarityType<Violet>();
         }
 
         public override void AddRecipes()

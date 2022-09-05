@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Projectiles.Ranged;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -27,11 +28,10 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.knockBack = 6f;
             Item.autoReuse = true;
             Item.value = CalamityGlobalItem.RarityPureGreenBuyPrice;
-            Item.rare = ItemRarityID.Red;
             Item.UseSound = SoundID.Item95;
             Item.shoot = ModContent.ProjectileType<SulphuricBlast>();
             Item.shootSpeed = 16f;
-            Item.Calamity().customRarity = CalamityRarity.PureGreen;
+            Item.rare = ModContent.RarityType<PureGreen>();
         }
 
         public override Vector2? HoldoutOffset() => Vector2.UnitX * -15f;

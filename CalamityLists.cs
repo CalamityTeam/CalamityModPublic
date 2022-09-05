@@ -1333,6 +1333,7 @@ namespace CalamityMod
                 ItemType<Brimblade>(),
                 ItemType<BlazingStar>(),
                 ItemType<Celestus>(),
+                ItemType<DynamicPursuer>(),
                 ItemType<ElementalDisk>(),
                 ItemType<EnchantedAxe>(),
                 ItemType<EpidemicShredder>(),
@@ -1360,6 +1361,7 @@ namespace CalamityMod
 
             boomerangProjList = new List<int>()
             {
+                ProjectileType<DynamicPursuerProjectile>(),
                 ProjectileType<ElementalDiskProj>(),
                 ProjectileType<ElementalDiskSplit>(),
                 ProjectileType<BlazingStarProj>(),

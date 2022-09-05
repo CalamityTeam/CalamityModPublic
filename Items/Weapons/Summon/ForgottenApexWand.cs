@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Weapons.Summon
             Item.UseSound = SoundID.Item89;
             Item.noMelee = true;
             Item.rare = ItemRarityID.Pink;
-            Item.value = Item.buyPrice(0, 36, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity6BuyPrice;
             Item.autoReuse = true;
 
             Item.knockBack = 4f;

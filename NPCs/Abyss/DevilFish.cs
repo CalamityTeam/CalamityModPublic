@@ -66,7 +66,7 @@ namespace CalamityMod.NPCs.Abyss
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
 
 				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("A sturdy fish, which has spent a long time seething in the Abyss. Males are easily identified by their forward-facing horns, and females by their curled horns.")
+				new FlavorTextBestiaryInfoElement("A sturdy fish, which has spent a long time seething in the Abyss. Males are easily identified by their forward-facing horns.")
             });
         }
 

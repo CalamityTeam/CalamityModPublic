@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Buffs.Pets;
 using CalamityMod.Projectiles.Pets;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -24,7 +25,7 @@ namespace CalamityMod.Items.Pets
             Item.buffType = ModContent.BuffType<ClassicSCalPetBuff>();
 
             Item.value = Item.sellPrice(gold: 40);
-            Item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.rare = ModContent.RarityType<Violet>();
             Item.Calamity().donorItem = true;
         }
 

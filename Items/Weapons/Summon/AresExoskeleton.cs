@@ -1,11 +1,12 @@
-﻿using Terraria.DataStructures;
+﻿using CalamityMod.Particles;
+using CalamityMod.Projectiles.Summon.SmallAresArms;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Projectiles.Summon.SmallAresArms;
-using Microsoft.Xna.Framework.Graphics;
-using CalamityMod.Particles;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
@@ -86,7 +87,7 @@ namespace CalamityMod.Items.Weapons.Summon
             Item.knockBack = 1f;
 
             Item.value = CalamityGlobalItem.RarityVioletBuyPrice;
-            Item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.rare = ModContent.RarityType<Violet>();
 
             Item.UseSound = SoundID.Item117;
             Item.shoot = ModContent.ProjectileType<ExoskeletonPlasmaCannon>();

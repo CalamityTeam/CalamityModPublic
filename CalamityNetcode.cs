@@ -247,17 +247,6 @@ namespace CalamityMod
                         break;
 
                     //
-                    // Reforge syncs
-                    //
-
-                    case CalamityModMessageType.ItemTypeLastReforgedSync:
-                        Main.player[reader.ReadInt32()].Calamity().HandleItemTypeLastReforged(reader);
-                        break;
-                    case CalamityModMessageType.ReforgeTierSafetySync:
-                        Main.player[reader.ReadInt32()].Calamity().HandleReforgeTierSafety(reader);
-                        break;
-
-                    //
                     // Mouse control syncs
                     //
 
@@ -407,10 +396,6 @@ namespace CalamityMod
         AcidRainSync,
         AcidRainOldDukeSummonSync,
         EncounteredOldDukeSync,
-
-        // Reforge syncs
-        ItemTypeLastReforgedSync, // TODO -- reforge netcode is no longer needed thanks to 1.4 clone fixes
-        ReforgeTierSafetySync,
 
         // Mouse Controls syncs
         RightClickSync,

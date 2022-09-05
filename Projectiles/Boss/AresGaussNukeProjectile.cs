@@ -150,7 +150,7 @@ namespace CalamityMod.Projectiles.Boss
             Main.spriteBatch.EnterShaderRegion();
             Texture2D telegraphBase = ModContent.Request<Texture2D>("CalamityMod/Projectiles/InvisibleProj").Value;
 
-            GameShaders.Misc["CalamityMod:CircularAoETelegraph"].UseOpacity(0.4f * MathHelper.Clamp((1 - Projectile.timeLeft / (float)timeLeft) * 8f, 0, 1));
+            GameShaders.Misc["CalamityMod:CircularAoETelegraph"].UseOpacity(0.2f * MathHelper.Clamp((1 - Projectile.timeLeft / (float)timeLeft) * 8f, 0, 1));
             GameShaders.Misc["CalamityMod:CircularAoETelegraph"].UseColor(Color.Lerp(Color.Goldenrod, Color.Gold, 0.7f * (float)Math.Pow(0.5 + 0.5 * Math.Sin(Main.GlobalTimeWrappedHourly), 3)));
             GameShaders.Misc["CalamityMod:CircularAoETelegraph"].UseSecondaryColor(Color.Lerp(Color.Yellow, Color.White, 0.5f));
             GameShaders.Misc["CalamityMod:CircularAoETelegraph"].UseSaturation(1 - Projectile.timeLeft / (float)timeLeft);
@@ -158,11 +158,11 @@ namespace CalamityMod.Projectiles.Boss
             GameShaders.Misc["CalamityMod:CircularAoETelegraph"].Apply();
 
             Vector2 drawPosition = Projectile.Center - Main.screenPosition;
-            Main.EntitySpriteDraw(telegraphBase, drawPosition, null, lightColor, 0, telegraphBase.Size() / 2f, 1070f, 0, 0);
+            Main.EntitySpriteDraw(telegraphBase, drawPosition, null, lightColor, 0, telegraphBase.Size() / 2f, 1480f, 0, 0);
             Main.spriteBatch.ExitShaderRegion();
 
-
             CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
+
             return false;
         }
 

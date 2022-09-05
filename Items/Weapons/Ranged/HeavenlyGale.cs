@@ -1,11 +1,12 @@
-﻿using Terraria.DataStructures;
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
+using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Audio;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
@@ -23,7 +24,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public const float ArrowTargetingRange = 1100f;
 
-        public const float MaxChargeDamageBoost = 3f;
+        public const float MaxChargeDamageBoost = 4f;
 
         public const float LightningDamageFactor = 0.36f;
 
@@ -60,7 +61,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.shootSpeed = 12f;
             Item.useAmmo = AmmoID.Arrow;
             Item.useTurn = true;
-            Item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.rare = ModContent.RarityType<Violet>();
             Item.value = CalamityGlobalItem.RarityVioletBuyPrice;
             Item.Calamity().canFirePointBlankShots = true;
         }

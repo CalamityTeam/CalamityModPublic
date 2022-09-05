@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
@@ -35,8 +36,7 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.autoReuse = true;
 
             Item.value = CalamityGlobalItem.Rarity14BuyPrice;
-            Item.rare = ItemRarityID.Purple;
-            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.rare = ModContent.RarityType<DarkBlue>();
 
             Item.UseSound = SoundID.Item84;
             Item.shoot = ModContent.ProjectileType<EventHorizonStar>();

@@ -39,7 +39,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.noMelee = true;
             Item.shoot = ModContent.ProjectileType<LucreciaProj>();
             Item.shootSpeed = 2f;
-            Item.value = Item.buyPrice(0, 80, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity9BuyPrice;
             Item.rare = ItemRarityID.Yellow;
         }
 

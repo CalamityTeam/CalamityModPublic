@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.useAnimation = 19;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.knockBack = baseKnockback;
-            Item.value = Item.buyPrice(0, 0, 33, 0);
+            Item.value = CalamityGlobalItem.Rarity1BuyPrice / 3; // Stacks up to 3
             Item.rare = ItemRarityID.Blue;
             Item.UseSound = SoundID.Item1;
             Item.maxStack = 3;

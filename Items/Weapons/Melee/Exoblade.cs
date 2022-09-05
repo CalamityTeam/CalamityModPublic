@@ -1,14 +1,15 @@
 ﻿using CalamityMod.Items.Materials;
+using CalamityMod.Projectiles.Melee;
+using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
+using Microsoft.Xna.Framework;
+using System.Linq;
 using Terraria;
+using Terraria.Audio;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Audio;
-using System.Linq;
-using CalamityMod.Projectiles.Melee;
 using static Terraria.ModLoader.ModContent;
-using Terraria.DataStructures;
-using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -77,9 +78,8 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.channel = true;
             Item.value = CalamityGlobalItem.Rarity15BuyPrice;
             Item.shoot = ProjectileType<ExobladeProj>();
-            Item.rare = ItemRarityID.Red;
             Item.shootSpeed = 9f;
-            Item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.rare = ModContent.RarityType<Violet>();
         }
 
         public override bool CanShoot(Player player)

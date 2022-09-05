@@ -61,7 +61,7 @@ namespace CalamityMod.BiomeManagers
                 if (point.X > Main.maxTilesX - 380)
                     sulphurPosX = true;
             }
-            return BiomeTileCounterSystem.SulphurTiles >= 300 || (player.ZoneOverworldHeight && sulphurPosX);
+            return (BiomeTileCounterSystem.SulphurTiles >= 300 || (player.ZoneOverworldHeight && sulphurPosX)) && !player.Calamity().ZoneAbyss;
         }
     }
 }

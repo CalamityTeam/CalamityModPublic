@@ -602,12 +602,12 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
             Vector2 center = NPC.Center - screenPos;
 
-            //Draw an outline to the arm when it charges up
+            // Draw an outline to the arm when it charges up
             if ((NPC.Calamity().newAI[2] < deathrayTelegraphDuration) && AIState == (float)Phase.Deathray)
             {
                 CalamityUtils.EnterShaderRegion(spriteBatch);
                 Color outlineColor = Color.Lerp(Color.OrangeRed, Color.White, NPC.Calamity().newAI[2] / deathrayTelegraphDuration);
-                Vector3 outlineHSL = Main.rgbToHsl(outlineColor); //BasicTint uses the opposite hue i guess? or smth is fucked with the way shaders get their colors. anyways, we invert it
+                Vector3 outlineHSL = Main.rgbToHsl(outlineColor); // BasicTint uses the opposite hue i guess? Or something is fucked with the way shaders get their colors. Anyways, we invert it
                 float outlineThickness = MathHelper.Clamp(NPC.Calamity().newAI[2] / deathrayTelegraphDuration * 4f, 0f, 3f);
 
                 GameShaders.Misc["CalamityMod:BasicTint"].UseOpacity(1f);
@@ -615,9 +615,8 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
                 GameShaders.Misc["CalamityMod:BasicTint"].Apply();
 
                 for (float i = 0; i < 1; i += 0.125f)
-                {
                     spriteBatch.Draw(texture, center + (i * MathHelper.TwoPi + NPC.rotation).ToRotationVector2() * outlineThickness, frame, outlineColor, NPC.rotation, vector, NPC.scale, spriteEffects, 0f);
-                }
+
                 CalamityUtils.ExitShaderRegion(spriteBatch);
             }
 
@@ -644,31 +643,29 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
             spriteBatch.End();
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
-            //Update the parameters
 
-
-
-            //Draw a pulsing version of the cannon above the real one.
+            // Update the parameters
+            // Draw a pulsing version of the cannon above the real one
             if ((NPC.Calamity().newAI[2] < deathrayTelegraphDuration) && AIState == (float)Phase.Deathray)
             {
-                //Also draw a telegraph line aha
+                // Also draw a telegraph line
                 Texture2D lineTex = ModContent.Request<Texture2D>("CalamityMod/Particles/BloomLine").Value;
                 Color outlineColor = Color.Lerp(Color.OrangeRed, Color.White, NPC.Calamity().newAI[2] / deathrayTelegraphDuration);
-                spriteBatch.Draw(lineTex, CoreSpritePosition - NPC.rotation.ToRotationVector2() * NPC.spriteDirection * 104 - screenPos, null, outlineColor, NPC.rotation - MathHelper.PiOver2 * NPC.spriteDirection, new Vector2(lineTex.Width / 2f, lineTex.Height), new Vector2(1f * NPC.Calamity().newAI[2] / deathrayTelegraphDuration, 2000f), spriteEffects, 0f);
+                spriteBatch.Draw(lineTex, CoreSpritePosition - NPC.rotation.ToRotationVector2() * NPC.spriteDirection * 104 - screenPos, null, outlineColor, NPC.rotation - MathHelper.PiOver2 * NPC.spriteDirection, new Vector2(lineTex.Width / 2f, lineTex.Height), new Vector2(1f * NPC.Calamity().newAI[2] / deathrayTelegraphDuration, 4200f), spriteEffects, 0f);
 
                 float pulseRatio = (NPC.Calamity().newAI[2] % (deathrayTelegraphDuration / 5f)) / (deathrayTelegraphDuration / 5f);
                 float pulseSize = MathHelper.Lerp(0.1f, 0.6f, (float)Math.Floor(NPC.Calamity().newAI[2] / (deathrayTelegraphDuration / 5f)) / 4f);
                 float pulseOpacity = MathHelper.Clamp((float)Math.Floor(NPC.Calamity().newAI[2] / (deathrayTelegraphDuration / 5f)) * 0.3f, 1f, 2f);
                 spriteBatch.Draw(texture, center, frame, Color.OrangeRed * MathHelper.Lerp(1f, 0f, pulseRatio) * pulseOpacity, NPC.rotation, vector, NPC.scale + pulseRatio * pulseSize, spriteEffects, 0f);
 
-                //Draw the bloom
+                // Draw the bloom
                 EnergyDrawer.DrawBloom(CoreSpritePosition);
             }
 
             EnergyDrawer.DrawPulses(CoreSpritePosition);
             EnergyDrawer.DrawSet(CoreSpritePosition);
 
-            //Back to normal
+            // Back to normal
             spriteBatch.End();
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 

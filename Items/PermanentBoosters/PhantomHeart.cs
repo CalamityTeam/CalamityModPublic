@@ -1,11 +1,12 @@
 ﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
+using System.Linq;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using System.Linq;
-using System.Collections.Generic;
 
 namespace CalamityMod.Items.PermanentBoosters
 {
@@ -29,8 +30,7 @@ namespace CalamityMod.Items.PermanentBoosters
             Item.useStyle = ItemUseStyleID.HoldUp;
             Item.UseSound = SoundID.Item29;
             Item.consumable = true;
-            Item.rare = ItemRarityID.Red;
-            Item.Calamity().customRarity = CalamityRarity.PureGreen;
+            Item.rare = ModContent.RarityType<PureGreen>();
         }
 
         public override bool CanUseItem(Player player)

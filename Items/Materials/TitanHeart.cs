@@ -8,7 +8,7 @@ namespace CalamityMod.Items.Materials
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 25;
+            SacrificeTotal = 3;
             DisplayName.SetDefault("Titan Heart");
             Tooltip.SetDefault("Also used at the Astral Beacon");
         }

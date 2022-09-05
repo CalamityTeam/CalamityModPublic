@@ -84,7 +84,7 @@ namespace CalamityMod.Projectiles.Magic
                     if (vortexStillInUse)
                     {
                         SoundEngine.PlaySound(SoundID.Item84, Projectile.Center);
-                        if (Main.netMode != NetmodeID.MultiplayerClient)
+                        if (Main.myPlayer == Projectile.owner)
                         {
                             float hue = (Time - SubsumingVortex.VortexShootDelay) / 125f;
                             Vector2 vortexVelocity = Projectile.SafeDirectionTo(potentialTarget.Center) * 8f;

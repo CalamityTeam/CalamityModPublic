@@ -1,10 +1,11 @@
-﻿using Terraria.DataStructures;
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Rogue;
+using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -37,9 +38,8 @@ Right click to delete all existing spiky balls");
             Item.useAnimation = 15;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.knockBack = knockBack;
-            Item.value = Item.buyPrice(0, 18, 0, 0);
-            Item.rare = ItemRarityID.Red;
-            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.value = CalamityGlobalItem.RarityDarkBlueBuyPrice / 10; // Stacks up to 10
+            Item.rare = ModContent.RarityType<DarkBlue>();
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
             Item.maxStack = 10;

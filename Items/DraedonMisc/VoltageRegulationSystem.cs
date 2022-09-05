@@ -1,13 +1,14 @@
-﻿using CalamityMod.Items.Materials;
+﻿using CalamityMod.CustomRecipes;
+using CalamityMod.Items.Materials;
+using CalamityMod.Rarities;
+using CalamityMod.TileEntities;
 using CalamityMod.Tiles.DraedonSummoner;
+using Microsoft.Xna.Framework;
+using System;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-using CalamityMod.TileEntities;
-using CalamityMod.CustomRecipes;
-using System.Collections.Generic;
-using System;
 
 namespace CalamityMod.Items.DraedonMisc
 {
@@ -28,8 +29,7 @@ namespace CalamityMod.Items.DraedonMisc
             Item.maxStack = 999;
             Item.consumable = true;
             Item.useStyle = ItemUseStyleID.Swing;
-            Item.rare = ItemRarityID.Purple;
-            Item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.rare = ModContent.RarityType<Turquoise>();
             Item.useTime = Item.useAnimation = 15;
         }
 

@@ -1,12 +1,13 @@
-﻿using System;
-using CalamityMod.CustomRecipes;
+﻿using CalamityMod.CustomRecipes;
 using CalamityMod.Items.Materials;
+using CalamityMod.Rarities;
+using CalamityMod.UI;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using System.Collections.Generic;
-using System.Linq;
-using CalamityMod.UI;
 
 namespace CalamityMod.Items.DraedonMisc
 {
@@ -23,8 +24,7 @@ namespace CalamityMod.Items.DraedonMisc
         {
             Item.width = 42;
             Item.height = 42;
-            Item.rare = ItemRarityID.Red;
-            Item.Calamity().customRarity = CalamityRarity.DraedonRust;
+            Item.rare = ModContent.RarityType<DarkOrange>();
             Item.maxStack = 1;
             Item.useAnimation = Item.useTime = 20;
             Item.useStyle = ItemUseStyleID.HoldUp;

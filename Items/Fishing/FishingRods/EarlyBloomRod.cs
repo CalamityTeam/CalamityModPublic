@@ -1,10 +1,11 @@
-﻿using CalamityMod.Projectiles.Typeless;
+﻿using CalamityMod.Items.Materials;
+using CalamityMod.Projectiles.Typeless;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Items.Materials;
-using Terraria.DataStructures;
 
 namespace CalamityMod.Items.Fishing.FishingRods
 {
@@ -30,8 +31,7 @@ namespace CalamityMod.Items.Fishing.FishingRods
             Item.shootSpeed = 18f;
             Item.shoot = ModContent.ProjectileType<EarlyBloomBobber>();
             Item.value = Item.buyPrice(1, 20, 0, 0);
-            Item.rare = ItemRarityID.Red;
-            Item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.rare = ModContent.RarityType<Turquoise>();
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)

@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using CalamityMod.Balancing;
+﻿using CalamityMod.Balancing;
 using CalamityMod.CalPlayer;
+using CalamityMod.Rarities;
 using CalamityMod.World;
+using System.Collections.Generic;
+using System.Linq;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -47,9 +48,8 @@ namespace CalamityMod.Items.Accessories
             Item.height = 68;
             Item.accessory = true;
             Item.defense = 48;
-            Item.rare = ItemRarityID.Red;
             Item.value = CalamityGlobalItem.RarityVioletBuyPrice;
-            Item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.rare = ModContent.RarityType<Violet>();
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

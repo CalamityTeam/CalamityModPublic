@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Armor.Statigel
         {
             Item.width = 18;
             Item.height = 18;
-            Item.value = Item.buyPrice(0, 5, 0, 0);
+            Item.value = CalamityGlobalItem.RarityLightRedBuyPrice;
             Item.rare = ItemRarityID.LightRed;
             Item.defense = 9; //27
         }

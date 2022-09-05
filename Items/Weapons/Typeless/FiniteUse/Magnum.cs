@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Typeless.FiniteUse
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.knockBack = 8f;
-            Item.value = Item.buyPrice(0, 2, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity2BuyPrice;
             Item.rare = ItemRarityID.Green;
             Item.UseSound = FireSound;
             Item.autoReuse = true;

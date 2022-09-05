@@ -32,7 +32,7 @@ Stealth strikes grant the Mushy buff to the user on enemy hits and summon homing
             Item.UseSound = SoundID.Item1;
             Item.height = 50;
             Item.rare = ItemRarityID.Green;
-            Item.value = Item.buyPrice(0, 2, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity2BuyPrice;
             Item.shoot = ModContent.ProjectileType<InfestedClawmerangProj>();
             Item.shootSpeed = 15f;
             Item.DamageType = RogueDamageClass.Instance;

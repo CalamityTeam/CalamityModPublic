@@ -1,10 +1,10 @@
-﻿using Terraria;
+﻿using CalamityMod.Items.Materials;
+using CalamityMod.Projectiles.Melee.Shortswords;
+using CalamityMod.Rarities;
+using CalamityMod.Tiles.Furniture.CraftingStations;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Items.Materials;
-using CalamityMod.Projectiles.Melee.Shortswords;
-using CalamityMod.Tiles.Furniture.CraftingStations;
-
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -38,7 +38,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.shootSpeed = 2.4f;
 
             Item.value = CalamityGlobalItem.Rarity14BuyPrice;
-            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.rare = ModContent.RarityType<DarkBlue>();
             Item.Calamity().donorItem = true; //Yatagarasu#0001
         }
 
