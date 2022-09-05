@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     // Deny me no longer!
     [LegacyName("NanoblackReaperMelee", "NanoblackReaperRogue")]
-    public class NanoblackReaper : ModItem
+    public class NanoblackReaper : RogueWeapon
     {
         public static int BaseDamage = 130;
         public static float Knockback = 9f;
@@ -51,11 +51,6 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.shoot = ModContent.ProjectileType<NanoblackMain>();
             Item.shootSpeed = Speed;
         }
-
-		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
-		{
-			itemGroup = (ContentSamples.CreativeHelper.ItemGroup)CalamityResearchSorting.RogueWeapon;
-		}
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {

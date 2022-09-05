@@ -1,5 +1,6 @@
 ﻿using CalamityMod.CustomRecipes;
 using CalamityMod.Items.Materials;
+using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Projectiles.DraedonsArsenal;
 using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
@@ -12,7 +13,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.DraedonsArsenal
 {
-    public class SystemBane : ModItem
+    public class SystemBane : RogueWeapon
     {
         public const int MaxDeployedProjectiles = 5;
 

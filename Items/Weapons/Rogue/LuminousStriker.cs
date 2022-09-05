@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class LuminousStriker : ModItem
+    public class LuminousStriker : RogueWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -39,11 +39,6 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.shootSpeed = 20f;
             Item.DamageType = RogueDamageClass.Instance;
         }
-
-		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
-		{
-			itemGroup = (ContentSamples.CreativeHelper.ItemGroup)CalamityResearchSorting.RogueWeapon;
-		}
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {

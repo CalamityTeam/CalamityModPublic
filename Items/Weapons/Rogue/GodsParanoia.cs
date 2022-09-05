@@ -11,7 +11,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class GodsParanoia : ModItem
+    public class GodsParanoia : RogueWeapon
     {
         private static int damage = 98;
         private static int knockBack = 5;
@@ -65,11 +65,6 @@ Right click to delete all existing spiky balls");
                 return player.ownedProjectileCounts[ModContent.ProjectileType<GodsParanoiaProj>()] < UseMax;
             }
         }
-
-		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
-		{
-			itemGroup = (ContentSamples.CreativeHelper.ItemGroup)CalamityResearchSorting.RogueWeapon;
-		}
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {

@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     // only renamed because vanilla added a Shroomerang
     [LegacyName("Shroomerang")]
-    public class InfestedClawmerang : ModItem
+    public class InfestedClawmerang : RogueWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -37,11 +37,6 @@ Stealth strikes grant the Mushy buff to the user on enemy hits and summon homing
             Item.shootSpeed = 15f;
             Item.DamageType = RogueDamageClass.Instance;
         }
-
-		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
-		{
-			itemGroup = (ContentSamples.CreativeHelper.ItemGroup)CalamityResearchSorting.RogueWeapon;
-		}
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {

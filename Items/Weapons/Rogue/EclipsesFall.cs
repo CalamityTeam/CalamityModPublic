@@ -10,7 +10,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class EclipsesFall : ModItem
+    public class EclipsesFall : RogueWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -39,11 +39,6 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.value = CalamityGlobalItem.Rarity14BuyPrice;
             Item.rare = ModContent.RarityType<DarkBlue>();
         }
-
-		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
-		{
-			itemGroup = (ContentSamples.CreativeHelper.ItemGroup)CalamityResearchSorting.RogueWeapon;
-		}
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {

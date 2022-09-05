@@ -7,7 +7,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Sounds;
 
-namespace CalamityMod.Items.Fishing.AstralCatches
+namespace CalamityMod.Items.Weapons.Ranged
 {
     public class PolarisParrotfish : ModItem
     {

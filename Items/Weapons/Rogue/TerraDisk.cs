@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class TerraDisk : ModItem
+    public class TerraDisk : RogueWeapon
     {
         public static int BaseDamage = 100;
         public static float Speed = 12f;
@@ -63,11 +63,6 @@ Stealth strikes travel slower and are rapidly orbited by the smaller disks");
             }
             return terraDiskCount < 3;
         }
-
-		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
-		{
-			itemGroup = (ContentSamples.CreativeHelper.ItemGroup)CalamityResearchSorting.RogueWeapon;
-		}
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {

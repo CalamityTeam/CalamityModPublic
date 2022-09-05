@@ -15,7 +15,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class DynamicPursuer : ModItem
+    public class DynamicPursuer : RogueWeapon
     {
         public override void SetStaticDefaults()
         {

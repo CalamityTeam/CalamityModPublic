@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class RegulusRiot : ModItem
+    public class RegulusRiot : RogueWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -39,11 +39,6 @@ Stealth strikes explode into energy stars");
             Item.shootSpeed = 8f;
             Item.shoot = ModContent.ProjectileType<RegulusRiotProj>();
         }
-
-		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
-		{
-			itemGroup = (ContentSamples.CreativeHelper.ItemGroup)CalamityResearchSorting.RogueWeapon;
-		}
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {

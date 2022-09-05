@@ -5,10 +5,9 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace CalamityMod.Items.Fishing.AstralCatches
+namespace CalamityMod.Items.Weapons.Rogue
 {
-    // TODO -- This is a rogue weapon. It should be in Items/Weapons/Rogue. I do not care if it comes from fishing.
-    public class GacruxianMollusk : ModItem
+    public class GacruxianMollusk : RogueWeapon
     {
         public static int BaseDamage = 36;
         public static float Knockback = 5f;
@@ -41,11 +40,6 @@ namespace CalamityMod.Items.Fishing.AstralCatches
             Item.value = CalamityGlobalItem.Rarity4BuyPrice;
             Item.rare = ItemRarityID.LightRed;
         }
-
-		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
-		{
-			itemGroup = (ContentSamples.CreativeHelper.ItemGroup)CalamityResearchSorting.RogueWeapon;
-		}
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {

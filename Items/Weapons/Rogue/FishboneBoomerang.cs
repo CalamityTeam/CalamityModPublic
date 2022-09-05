@@ -10,7 +10,7 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Weapons.Rogue
 {
     [LegacyName("SeashellBoomerang")]
-    public class FishboneBoomerang : ModItem
+    public class FishboneBoomerang : RogueWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -42,11 +42,6 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.DamageType = RogueDamageClass.Instance;
             Item.autoReuse = true;
         }
-
-		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
-		{
-			itemGroup = (ContentSamples.CreativeHelper.ItemGroup)CalamityResearchSorting.RogueWeapon;
-		}
 
         public override bool CanUseItem(Player player)
         {
