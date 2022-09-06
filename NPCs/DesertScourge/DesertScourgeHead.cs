@@ -702,9 +702,7 @@ namespace CalamityMod.NPCs.DesertScourge
                     ModContent.ItemType<Barinade>(),
                     ModContent.ItemType<StormSpray>(),
                     ModContent.ItemType<SeaboundStaff>(),
-                    ModContent.ItemType<ScourgeoftheDesert>(),
-                    ModContent.ItemType<AeroStone>(),
-                    ModContent.ItemType<SandCloak>()
+                    ModContent.ItemType<ScourgeoftheDesert>()
                 };
                 normalOnly.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, items));
 
@@ -719,6 +717,8 @@ namespace CalamityMod.NPCs.DesertScourge
 
                 // Equipment
                 normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<OceanCrest>()));
+                normalOnly.Add(ModContent.ItemType<AeroStone>(), DropHelper.NormalWeaponDropRateFraction);
+                normalOnly.Add(ModContent.ItemType<SandCloak>(), DropHelper.NormalWeaponDropRateFraction);
 
                 // Fishing
                 normalOnly.Add(ModContent.ItemType<SandyAnglingKit>());

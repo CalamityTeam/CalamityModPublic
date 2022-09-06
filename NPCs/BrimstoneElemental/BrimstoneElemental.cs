@@ -183,8 +183,7 @@ namespace CalamityMod.NPCs.BrimstoneElemental
                 {
                     ModContent.ItemType<Brimlance>(),
                     ModContent.ItemType<SeethingDischarge>(),
-                    ModContent.ItemType<DormantBrimseeker>(),
-                    ModContent.ItemType<RoseStone>(),
+                    ModContent.ItemType<DormantBrimseeker>()
                 };
                 normalOnly.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, weapons));
                 normalOnly.Add(ModContent.ItemType<Hellborn>(), 10);
@@ -193,8 +192,13 @@ namespace CalamityMod.NPCs.BrimstoneElemental
                 normalOnly.Add(ModContent.ItemType<EssenceofChaos>(), 1, 4, 8);
 
                 // Equipment
-                normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<Gehenna>()));
-                normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<Abaddon>()));
+                int[] accs = new int[]
+                {
+                    ModContent.ItemType<Gehenna>(),
+                    ModContent.ItemType<RoseStone>(),
+                    ModContent.ItemType<Abaddon>()
+                };
+                normalOnly.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, accs));
                 normalOnly.Add(ModContent.ItemType<FlameLickedShell>(), 10);
 
                 // Vanity

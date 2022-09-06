@@ -1162,9 +1162,7 @@ namespace CalamityMod.NPCs.Cryogen
                     ModContent.ItemType<Avalanche>(),
                     ModContent.ItemType<EffluviumBow>(),
                     ModContent.ItemType<SnowstormStaff>(),
-                    ModContent.ItemType<Icebreaker>(),
-                    ModContent.ItemType<CryoStone>(),
-                    ModContent.ItemType<FrostFlare>()
+                    ModContent.ItemType<Icebreaker>()
                 };
                 normalOnly.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, weapons));
                 normalOnly.Add(ModContent.ItemType<ColdDivinity>(), 10);
@@ -1177,6 +1175,8 @@ namespace CalamityMod.NPCs.Cryogen
 
                 // Equipment
                 normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<SoulofCryogen>()));
+                normalOnly.Add(ModContent.ItemType<CryoStone>(), DropHelper.NormalWeaponDropRateFraction);
+                normalOnly.Add(ModContent.ItemType<FrostFlare>(), DropHelper.NormalWeaponDropRateFraction);
             }
 
             npcLoot.Add(ItemID.FrozenKey, 3);

@@ -778,8 +778,7 @@ namespace CalamityMod.NPCs.Leviathan
                     ModContent.ItemType<Atlantis>(),
                     ModContent.ItemType<GastricBelcherStaff>(),
                     ModContent.ItemType<BrackishFlask>(),
-                    ModContent.ItemType<LeviathanTeeth>(),
-                    ModContent.ItemType<PearlofEnthrallment>()
+                    ModContent.ItemType<LeviathanTeeth>()
                 };
                 normalOnly.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, items));
 
@@ -789,6 +788,7 @@ namespace CalamityMod.NPCs.Leviathan
 
                 // Equipment
                 normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<LeviathanAmbergris>()));
+                normalOnly.Add(ModContent.ItemType<PearlofEnthrallment>(), DropHelper.NormalWeaponDropRateFraction);
                 normalOnly.Add(ModContent.ItemType<TheCommunity>(), 10);
 
                 // Fishing

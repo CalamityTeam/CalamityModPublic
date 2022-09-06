@@ -232,8 +232,7 @@ namespace CalamityMod.NPCs.AquaticScourge
                     ModContent.ItemType<Barinautical>(),
                     ModContent.ItemType<Downpour>(),
                     ModContent.ItemType<DeepseaStaff>(),
-                    ModContent.ItemType<ScourgeoftheSeas>(),
-                    ModContent.ItemType<CorrosiveSpine>()
+                    ModContent.ItemType<ScourgeoftheSeas>()
                 };
                 normalOnly.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, weapons));
 
@@ -242,6 +241,7 @@ namespace CalamityMod.NPCs.AquaticScourge
 
                 // Equipment
                 normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<AquaticEmblem>()));
+                normalOnly.Add(ModContent.ItemType<CorrosiveSpine>(), DropHelper.NormalWeaponDropRateFraction);
                 normalOnly.Add(ModContent.ItemType<DeepDiver>(), 10);
                 normalOnly.Add(ModContent.ItemType<SeasSearing>(), 10);
 
