@@ -690,7 +690,7 @@ namespace CalamityMod.NPCs.DesertScourge
             npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<DesertScourgeBag>()));
 
             // Extraneous potions
-            npcLoot.Add(DropHelper.PerPlayer(ItemID.LesserHealingPotion, 1, 8, 14), true); // Healing Potions don't show up in the Bestiary
+			npcLoot.DefineConditionalDropSet(() => true).Add(DropHelper.PerPlayer(ItemID.LesserHealingPotion, 1, 5, 15), hideLootReport: true); // Healing Potions don't show up in the Bestiary
 
             // Normal drops: Everything that would otherwise be in the bag
             var normalOnly = npcLoot.DefineNormalOnlyDropSet();
