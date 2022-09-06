@@ -54,14 +54,11 @@ namespace CalamityMod.Tiles.FurnitureSacrilegious
 		// Make the chest brighter the more stuff it has
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
-			int brightness = 0;
 			int seed = 1;
 			int itemAmt = 0;
 			int index = FindChestIndex(i, j, ref seed);
 			if (index >= 0)
 				itemAmt = CountItems(Main.chest[index]);
-			if (itemAmt > 0)
-				brightness = (itemAmt - 1) / 5;
 
             Tile tile = Main.tile[i, j];
             Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Tiles/FurnitureSacrilegious/SacrilegiousChestTileGlow").Value;
@@ -87,17 +84,18 @@ namespace CalamityMod.Tiles.FurnitureSacrilegious
             Vector2 drawOffset = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange, Main.offScreenRange);
             Vector2 drawPosition = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y + yOffset) + drawOffset;
 
-			int alpha = 255 - brightness * 36;
-			Color color = new Color(100, 80, 80, alpha);
+			int alpha = 255 - (int)(MathHelper.Lerp(0, 7, itemAmt / 40f) * 15);
+			Color color = new Color(120, 100, 100, alpha);
 
-			int loopAmt = (brightness + 1) / 2;
-			if (loopAmt > 3)
-				loopAmt = 3;
+			int loopAmt = itemAmt > 0 ? (itemAmt - 1) / 10 + 4 : 4;
+			float shakeAmt = MathHelper.Lerp(0f, 0.3f, itemAmt / 40f);
+			if (itemAmt == 0)
+				loopAmt = 0;
 
             for (int c = 0; c < loopAmt; c++)
             {
-                float shakeX = Utils.RandomInt(ref seeding, -10, 1) * 0.15f;
-                float shakeY = Utils.RandomInt(ref seeding, -10, 1) * 0.15f;
+                float shakeX = Utils.RandomInt(ref seeding, -5, 5) * shakeAmt;
+                float shakeY = Utils.RandomInt(ref seeding, -5, 5) * shakeAmt;
 				Vector2 shake = new Vector2(shakeX, shakeY);
 				spriteBatch.Draw(texture, drawPosition + shake, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, 16), color, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 			}
@@ -138,5 +136,7 @@ namespace CalamityMod.Tiles.FurnitureSacrilegious
 			}
 			return amt;
 		}
+		
+		byte Average(byte a, byte b) => (byte)((a + b) / 2);
     }
 }
