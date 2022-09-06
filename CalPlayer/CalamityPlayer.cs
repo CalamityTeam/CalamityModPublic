@@ -4373,12 +4373,6 @@ namespace CalamityMod.CalPlayer
                 int defenseAdd = (int)(target.defense * 0.5);
                 damage += defenseAdd;
             }
-            if (item.CountsAsClass<MeleeDamageClass>() && badgeOfBravery)
-            {
-                int penetratableDefense = (int)Math.Max(target.defense - Player.GetArmorPenetration<GenericDamageClass>(), 0);
-                int penetratedDefense = Math.Min(penetratableDefense, 5);
-                damage += (int)(0.5f * penetratedDefense);
-            }
             #endregion
 
             if ((target.damage > 0 || target.boss) && !target.SpawnedFromStatue && Player.whoAmI == Main.myPlayer)
@@ -4498,23 +4492,6 @@ namespace CalamityMod.CalPlayer
                     }
                 }
             }
-
-            int penetrateAmt = 0;
-            if (proj.Calamity().stealthStrike && proj.CountsAsClass<RogueDamageClass>())
-            {
-                // Nanotech is a total of 20 as it has all three bools
-                if (nanotech)
-                    penetrateAmt += 10;
-                if (filthyGlove || bloodyGlove)
-                    penetrateAmt += 10;
-            }
-            if (proj.CountsAsClass<MeleeDamageClass>() && badgeOfBravery)
-            {
-                penetrateAmt += 5;
-            }
-            int penetratableDefense = (int)Math.Max(target.defense - Player.GetArmorPenetration<GenericDamageClass>(), 0); //if find how much defense we can penetrate
-            int penetratedDefense = Math.Min(penetratableDefense, penetrateAmt); //if we have more penetrate than enemy defense, use enemy defense
-            damage += (int)(0.5f * penetratedDefense);
             #endregion
 
             #region MultiplicativeReductions
@@ -5400,7 +5377,7 @@ namespace CalamityMod.CalPlayer
             }
         }
         #endregion
-
+        
         #region Shoot
         public override bool Shoot(Item item, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockBack)
         {

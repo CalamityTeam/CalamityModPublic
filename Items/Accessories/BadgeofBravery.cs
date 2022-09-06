@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Accessories
             DisplayName.SetDefault("Badge of Bravery");
             Tooltip.SetDefault("15% increased melee speed\n" +
                                "Increases melee damage and melee crit by 5%\n" +
-                               "+5 armor penetration");
+                               "+5 melee armor penetration");
         }
 
         public override void SetDefaults()
@@ -32,6 +32,7 @@ namespace CalamityMod.Items.Accessories
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.badgeOfBravery = true;
             player.GetAttackSpeed<MeleeDamageClass>() += 0.15f;
+            player.GetArmorPenetration<MeleeDamageClass>() += 5;
         }
 
         public override void AddRecipes()
