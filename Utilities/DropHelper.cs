@@ -110,12 +110,12 @@ namespace CalamityMod
         public static readonly Fraction BagWeaponDropRateFraction = new(1, BagWeaponDropRateInt);
         #endregion
 
-		#region Bestiary Text
-		public static string FirstKillText = "Drops only on the first kill";
+        #region Bestiary Text
+        public static string FirstKillText = "Drops only on the first kill";
         public static string BloodMoonText = "Drops during the Blood Moon";
         public static string MechBossText = "Drops on the first kill of the final Mechanical Boss";
         public static string SentinelText = "Drops on the first kill of the final Sentinel of the Devourer";
-		#endregion
+        #endregion
 
         #region Block Drops
         private static int[] AllLoadedItemIDs = null;
@@ -544,10 +544,10 @@ namespace CalamityMod
             }
             return trasherNearby;
         });
-		// The text is a separate rule so it doesn't show up on the non-Trasher Fishing Rod drop which only occurs if the Angler is not fed to a Trasher
+        // The text is a separate rule so it doesn't show up on the non-Trasher Fishing Rod drop which only occurs if the Angler is not fed to a Trasher
         public static IItemDropRuleCondition TrasherText = If((info) => true, true, "Drops if fed to a Trasher");
 
-		#region Boss Defeat Conditionals
+        #region Boss Defeat Conditionals
         public static IItemDropRuleCondition PostKS(bool ui = true) => If(() => NPC.downedSlimeKing, ui, "Drops after defeating King Slime");
         public static IItemDropRuleCondition PostDS(bool ui = true) => If(() => DownedBossSystem.downedDesertScourge, ui, "Drops after defeating the Desert Scourge");
         public static IItemDropRuleCondition PostEoC(bool ui = true) => If(() => NPC.downedBoss1, ui, "Drops after defeating the Eye of Cthulhu");
@@ -602,7 +602,7 @@ namespace CalamityMod
         public static IItemDropRuleCondition PostBetsy(bool ui = true) => If(() => DownedBossSystem.downedBetsy, ui, "Drops after defeating Betsy");
         public static IItemDropRuleCondition PostT1AR(bool ui = true) => If(() => DownedBossSystem.downedEoCAcidRain, ui, "Drops after defeating the first tier of Acid Rain");
         public static IItemDropRuleCondition PostT2AR(bool ui = true) => If(() => DownedBossSystem.downedAquaticScourgeAcidRain, ui, "Drops after defeating the second tier of Acid Rain");
-		#endregion
+        #endregion
         #endregion
 
         #region Leading Condition Rule Extensions
