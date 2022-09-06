@@ -34,14 +34,7 @@ namespace CalamityMod.Items.Accessories
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.GoldCrown).
-                AddIngredient<UnholyCore>(5).
-                AddIngredient<EssenceofChaos>(10).
-                AddTile(TileID.MythrilAnvil).
-                Register();
-
-            CreateRecipe().
-                AddIngredient(ItemID.PlatinumCrown).
+                AddRecipeGroup("AnyGoldCrown").
                 AddIngredient<UnholyCore>(5).
                 AddIngredient<EssenceofChaos>(10).
                 AddTile(TileID.MythrilAnvil).
