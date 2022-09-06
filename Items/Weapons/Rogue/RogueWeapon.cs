@@ -1,16 +1,12 @@
-using Microsoft.Xna.Framework;
-using Terraria.ID;
-using Terraria.ModLoader;
+﻿using Terraria.ModLoader;
+using static Terraria.ID.ContentSamples.CreativeHelper;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
     public abstract class RogueWeapon : ModItem
     {
-		public override bool RangedPrefix() => false;
+        public override bool RangedPrefix() => false;
 
-		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
-		{
-			itemGroup = (ContentSamples.CreativeHelper.ItemGroup)CalamityResearchSorting.RogueWeapon;
-		}
+        public override void ModifyResearchSorting(ref ItemGroup itemGroup) => itemGroup = (ItemGroup)CalamityResearchSorting.RogueWeapon;
     }
 }
