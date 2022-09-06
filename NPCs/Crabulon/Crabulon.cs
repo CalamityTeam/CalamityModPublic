@@ -839,7 +839,7 @@ namespace CalamityMod.NPCs.Crabulon
             npcLoot.AddIf(() => Main.masterMode || CalamityWorld.revenge, ModContent.ItemType<CrabulonRelic>());
 
             // Lore
-            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedCrabulon, ModContent.ItemType<KnowledgeCrabulon>());
+            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedCrabulon, ModContent.ItemType<KnowledgeCrabulon>(), desc: DropHelper.FirstKillText);
         }
 
         public override void OnKill()

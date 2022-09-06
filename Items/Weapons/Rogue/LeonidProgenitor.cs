@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class LeonidProgenitor : ModItem
+    public class LeonidProgenitor : RogueWeapon
     {
         public static readonly Color blueColor = new Color(48, 208, 255);
         public static readonly Color purpleColor = new Color(208, 125, 218);
@@ -67,11 +67,6 @@ namespace CalamityMod.Items.Weapons.Rogue
                 return 1f;
             return 0.8f;
         }
-
-		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
-		{
-			itemGroup = (ContentSamples.CreativeHelper.ItemGroup)CalamityResearchSorting.RogueWeapon;
-		}
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {

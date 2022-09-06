@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class NastyCholla : ModItem
+    public class NastyCholla : RogueWeapon
     {
         public static int BaseDamage = 9;
 
@@ -41,11 +41,6 @@ Stealth strikes throw five at once");
             Item.shootSpeed = 8f;
             Item.DamageType = RogueDamageClass.Instance;
         }
-
-		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
-		{
-			itemGroup = (ContentSamples.CreativeHelper.ItemGroup)CalamityResearchSorting.RogueWeapon;
-		}
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {

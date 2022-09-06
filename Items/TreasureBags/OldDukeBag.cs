@@ -73,7 +73,7 @@ namespace CalamityMod.Items.TreasureBags
             itemLoot.Add(ModContent.ItemType<TheReaper>(), 10);
 
             // Equipment
-            itemLoot.Add(ModContent.ItemType<OldDukeScales>());
+            itemLoot.Add(ModContent.ItemType<OldDukeScales>(), DropHelper.BagWeaponDropRateFraction);
             itemLoot.Add(ModContent.ItemType<MutatedTruffle>());
             itemLoot.AddRevBagAccessories();
 

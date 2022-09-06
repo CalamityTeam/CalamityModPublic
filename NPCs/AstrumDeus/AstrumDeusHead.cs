@@ -319,7 +319,7 @@ namespace CalamityMod.NPCs.AstrumDeus
                 normalOnly.Add(ModContent.ItemType<Stardust>(), 1, 50, 80);
             }
 
-            npcLoot.Add(DropHelper.PerPlayer(ItemID.GreaterHealingPotion, 1, 8, 14));
+			npcLoot.DefineConditionalDropSet(() => true).Add(DropHelper.PerPlayer(ItemID.GreaterHealingPotion, 1, 5, 15), hideLootReport: true); // Healing Potions don't show up in the Bestiary
             lastWorm.Add(ModContent.ItemType<AstrumDeusTrophy>(), 10);
 
             // Relic
@@ -334,8 +334,8 @@ namespace CalamityMod.NPCs.AstrumDeus
 
             // Lore
             bool firstDeusKill(DropAttemptInfo info) => !DownedBossSystem.downedAstrumDeus && !ShouldNotDropThings(info.npc);
-            npcLoot.AddConditionalPerPlayer(firstDeusKill, ModContent.ItemType<KnowledgeAstrumDeus>());
-            npcLoot.AddConditionalPerPlayer(firstDeusKill, ModContent.ItemType<KnowledgeAstralInfection>());
+            npcLoot.AddConditionalPerPlayer(firstDeusKill, ModContent.ItemType<KnowledgeAstrumDeus>(), desc: DropHelper.FirstKillText);
+            npcLoot.AddConditionalPerPlayer(firstDeusKill, ModContent.ItemType<KnowledgeAstralInfection>(), desc: DropHelper.FirstKillText);
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)

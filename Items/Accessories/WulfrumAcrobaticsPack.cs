@@ -201,7 +201,10 @@ namespace CalamityMod.Items.Accessories
         public override void PostUpdateRunSpeeds()
         {
             if (hookCache != -1)
+            {
                 Player.grappling[0] = hookCache;
+                Player.grapCount = 1;
+            }
 
             hookCache = -1;
         }
@@ -211,7 +214,11 @@ namespace CalamityMod.Items.Accessories
             //If the hook cache was set from -1 in the part before the player stepped up,reset it.
             //Should this be detoured before the PlayerLoaders PreUpdateMovement call? In case another mod uses hooks in this call and their modplayer gets called before this one?
             if (hookCache > -1)
+            {
                 Player.grappling[0] = hookCache;
+                Player.grapCount = 1;
+            }
+
             hookCache = -1;
 
             if (Grappled)
@@ -504,6 +511,7 @@ namespace CalamityMod.Items.Accessories
             {
                 hookCache = Player.grappling[0];
                 Player.grappling[0] = -1;
+                Player.grapCount = 0;
             }
         }
     }

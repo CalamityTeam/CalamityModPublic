@@ -126,7 +126,7 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            npcLoot.AddIf(() => DownedBossSystem.downedCalamitas, ModContent.ItemType<Lumenyl>(), 2);
+            npcLoot.AddIf(DropHelper.PostCal(), ModContent.ItemType<Lumenyl>(), 2);
         }
 
         public override void HitEffect(int hitDirection, double damage)

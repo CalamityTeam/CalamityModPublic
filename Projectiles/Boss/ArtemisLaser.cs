@@ -53,6 +53,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SendExtraAI(BinaryWriter writer)
         {
+            writer.Write(Projectile.extraUpdates);
             writer.Write(TelegraphDelay);
             writer.WriteVector2(Destination);
             writer.WriteVector2(Velocity);
@@ -60,6 +61,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
+            Projectile.extraUpdates = reader.ReadInt32();
             TelegraphDelay = reader.ReadSingle();
             Destination = reader.ReadVector2();
             Velocity = reader.ReadVector2();

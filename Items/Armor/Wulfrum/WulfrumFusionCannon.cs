@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Armor.Wulfrum
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Experimental Wulfrum Fusion Array");
-            Tooltip.SetDefault("Fires quick bursts of medium-range pellets\n" +
+            Tooltip.SetDefault("Fires quick bursts of medium-range pellets\n" + "Ignores 10 points of enemy Defense\n" +
                 "[c/878787:\"Who needs whips when you can simply become the summon yourself?\"]");
             //Imaging hiding actually important/interesting/funny lore in there... :drool: that would be so dark souls
         }

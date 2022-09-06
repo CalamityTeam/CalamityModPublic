@@ -110,6 +110,17 @@ namespace CalamityMod
         public static readonly Fraction BagWeaponDropRateFraction = new(1, BagWeaponDropRateInt);
         #endregion
 
+        #region Bestiary Text
+        public static string FirstKillText = "Drops only on the first kill";
+        public static string BloodMoonText = "Drops during the Blood Moon";
+        public static string MechBossText = "Drops on the first kill of the final Mechanical Boss";
+        public static string SentinelText = "Drops on the first kill of the final Sentinel of the Devourer";
+        public static string ProvidenceHallowText = "Drops if Providence was summoned in the Hallow\nor if Providence is only attacked during nighttime";
+        public static string ProvidenceUnderworldText = "Drops if Providence was summoned in the Underworld\nor if Providence is only attacked during nighttime";
+        public static string ProvidenceNightText = "Drops if Providence is only attacked during nighttime";
+        public static string ProvidenceChallengeText = "Drops if Providence was defeated only with the Profaned Soul Artifact";
+        #endregion
+
         #region Block Drops
         private static int[] AllLoadedItemIDs = null;
 
@@ -222,10 +233,12 @@ namespace CalamityMod
         /// <param name="loot">The ILoot interface for the loot table.</param>
         /// <param name="lambda">A lambda which evaluates in real-time to the condition that needs to be checked.</param>
         /// <param name="itemID">The item ID to drop.</param>
+        /// <param name="ui">Whether drops registered with this condition appear in the Bestiary. Defaults to true.</param>
+        /// <param name="desc">The description of this condition in the Bestiary. Defaults to null.</param>
         /// <returns>A LeadingConditionRule which you can attach more PerPlayer or other rules to as you want.</returns>
-        public static LeadingConditionRule AddConditionalPerPlayer(this ILoot loot, Func<bool> lambda, int itemID)
+        public static LeadingConditionRule AddConditionalPerPlayer(this ILoot loot, Func<bool> lambda, int itemID, bool ui = true, string desc = null)
         {
-            LeadingConditionRule lcr = new(If(lambda));
+            LeadingConditionRule lcr = new(If(lambda, ui, desc));
             lcr.Add(PerPlayer(itemID));
             loot.Add(lcr);
             return lcr;
@@ -238,10 +251,12 @@ namespace CalamityMod
         /// <param name="loot">The ILoot interface for the loot table.</param>
         /// <param name="lambda">A lambda which evaluates in real-time to the condition that needs to be checked.</param>
         /// <param name="itemID">The item ID to drop.</param>
+        /// <param name="ui">Whether drops registered with this condition appear in the Bestiary. Defaults to true.</param>
+        /// <param name="desc">The description of this condition in the Bestiary. Defaults to null.</param>
         /// <returns>A LeadingConditionRule which you can attach more PerPlayer or other rules to as you want.</returns>
-        public static LeadingConditionRule AddConditionalPerPlayer(this ILoot loot, Func<DropAttemptInfo, bool> lambda, int itemID)
+        public static LeadingConditionRule AddConditionalPerPlayer(this ILoot loot, Func<DropAttemptInfo, bool> lambda, int itemID, bool ui = true, string desc = null)
         {
-            LeadingConditionRule lcr = new(If(lambda));
+            LeadingConditionRule lcr = new(If(lambda, ui, desc));
             lcr.Add(PerPlayer(itemID));
             loot.Add(lcr);
             return lcr;
@@ -533,6 +548,65 @@ namespace CalamityMod
             }
             return trasherNearby;
         });
+        // The text is a separate rule so it doesn't show up on the non-Trasher Fishing Rod drop which only occurs if the Angler is not fed to a Trasher
+        public static IItemDropRuleCondition TrasherText = If((info) => true, true, "Drops if fed to a Trasher");
+
+        #region Boss Defeat Conditionals
+        public static IItemDropRuleCondition PostKS(bool ui = true) => If(() => NPC.downedSlimeKing, ui, "Drops after defeating King Slime");
+        public static IItemDropRuleCondition PostDS(bool ui = true) => If(() => DownedBossSystem.downedDesertScourge, ui, "Drops after defeating the Desert Scourge");
+        public static IItemDropRuleCondition PostEoC(bool ui = true) => If(() => NPC.downedBoss1, ui, "Drops after defeating the Eye of Cthulhu");
+        public static IItemDropRuleCondition PostCrab(bool ui = true) => If(() => DownedBossSystem.downedCrabulon, ui, "Drops after defeating Crabulon");
+        public static IItemDropRuleCondition PostEvil1(bool ui = true) => If(() => NPC.downedBoss2, ui, "Drops after defeating the " + (WorldGen.crimson ? "Brain of Cthulhu" : "Eater of Worlds"));
+        public static IItemDropRuleCondition PostHM(bool ui = true) => If(() => DownedBossSystem.downedHiveMind, ui, "Drops after defeating the Hive Mind");
+        public static IItemDropRuleCondition PostPerfs(bool ui = true) => If(() => DownedBossSystem.downedPerforator, ui, "Drops after defeating the Perforators");
+        public static IItemDropRuleCondition PostEvil2(bool ui = true) => If(() => DownedBossSystem.downedHiveMind || DownedBossSystem.downedPerforator, ui, "Drops after defeating the " + (WorldGen.crimson ? "Perforators" : "Hive Mind"));
+        public static IItemDropRuleCondition PostQB(bool ui = true) => If(() => NPC.downedQueenBee, ui, "Drops after defeating the Queen Bee");
+        public static IItemDropRuleCondition PostDeer(bool ui = true) => If(() => NPC.downedDeerclops, ui, "Drops after defeating Deerclops");
+        public static IItemDropRuleCondition PostSkele(bool ui = true) => If(() => NPC.downedBoss3, ui, "Drops after defeating Skeletron");
+        public static IItemDropRuleCondition PostSG(bool ui = true) => If(() => DownedBossSystem.downedSlimeGod, ui, "Drops after defeating the Slime God");
+        public static IItemDropRuleCondition Hardmode(bool ui = true) => If(() => Main.hardMode, ui, "Drops in Hardmode");
+        public static IItemDropRuleCondition PostQS(bool ui = true) => If(() => NPC.downedQueenSlime, ui, "Drops after defeating Queen Slime");
+        public static IItemDropRuleCondition PostCryo(bool ui = true) => If(() => DownedBossSystem.downedCryogen, ui, "Drops after defeating Cryogen");
+        public static IItemDropRuleCondition PostAS(bool ui = true) => If(() => DownedBossSystem.downedAquaticScourge, ui, "Drops after defeating the Aquatic Scourge");
+        public static IItemDropRuleCondition PostBrim(bool ui = true) => If(() => DownedBossSystem.downedBrimstoneElemental, ui, "Drops after defeating the Brimstone Elemental");
+        public static IItemDropRuleCondition PostDest(bool ui = true) => If(() => NPC.downedMechBoss1, ui, "Drops after defeating the Destroyer");
+        public static IItemDropRuleCondition PostTwins(bool ui = true) => If(() => NPC.downedMechBoss2, ui, "Drops after defeating the Twins");
+        public static IItemDropRuleCondition PostSP(bool ui = true) => If(() => NPC.downedMechBoss3, ui, "Drops after defeating Skeletron Prime");
+        public static IItemDropRuleCondition Post1Mech(bool ui = true) => If(() => NPC.downedMechBossAny, ui, "Drops after defeating a Mechanical Boss");
+        public static IItemDropRuleCondition Post3Mechs(bool ui = true) => If(() => NPC.downedMechBoss1 && NPC.downedMechBoss2 && NPC.downedMechBoss3, ui, "Drops after defeating all three Mechanical Bosses");
+        public static IItemDropRuleCondition PostCal(bool ui = true) => If(() => DownedBossSystem.downedCalamitas, ui, "Drops after defeating Calamitas");
+        public static IItemDropRuleCondition PostPlant(bool ui = true) => If(() => NPC.downedPlantBoss, ui, "Drops after defeating Plantera");
+        public static IItemDropRuleCondition PostCalPlant(bool ui = true) => If(() => DownedBossSystem.downedCalamitas || NPC.downedPlantBoss, ui, "Drops after defeating Calamitas or Plantera");
+        public static IItemDropRuleCondition PostLevi(bool ui = true) => If(() => DownedBossSystem.downedLeviathan, ui, "Drops after defeating the Leviathan and Anahita");
+        public static IItemDropRuleCondition PostAureus(bool ui = true) => If(() => DownedBossSystem.downedAstrumAureus, ui, "Drops after defeating Astrum Aureus");
+        public static IItemDropRuleCondition PostGolem(bool ui = true) => If(() => NPC.downedGolemBoss, ui, "Drops after defeating Golem");
+        public static IItemDropRuleCondition PostPBG(bool ui = true) => If(() => DownedBossSystem.downedPlaguebringer, ui, "Drops after defeating the Plaguebringer Goliath");
+        public static IItemDropRuleCondition PostEoL(bool ui = true) => If(() => NPC.downedEmpressOfLight, ui, "Drops after defeating the Empress of Light");
+        public static IItemDropRuleCondition PostFish(bool ui = true) => If(() => NPC.downedFishron, ui, "Drops after defeating Duke Fishron");
+        public static IItemDropRuleCondition PostRav(bool ui = true) => If(() => DownedBossSystem.downedRavager, ui, "Drops after defeating the Ravager");
+        public static IItemDropRuleCondition PostLC(bool ui = true) => If(() => NPC.downedAncientCultist, ui, "Drops after defeating the Lunatic Cultist");
+        public static IItemDropRuleCondition PostAD(bool ui = true) => If(() => DownedBossSystem.downedAstrumDeus, ui, "Drops after defeating Astrum Deus");
+        public static IItemDropRuleCondition PostML(bool ui = true) => If(() => NPC.downedMoonlord, ui, "Drops after defeating the Moon Lord");
+        public static IItemDropRuleCondition PostGuard(bool ui = true) => If(() => DownedBossSystem.downedGuardians, ui, "Drops after defeating the Profaned Guardian");
+        public static IItemDropRuleCondition PostBirb(bool ui = true) => If(() => DownedBossSystem.downedDragonfolly, ui, "Drops after defeating the Dragonfolly");
+        public static IItemDropRuleCondition PostProv(bool ui = true) => If(() => DownedBossSystem.downedProvidence, ui, "Drops after defeating Providence");
+        public static IItemDropRuleCondition PostSig(bool ui = true) => If(() => DownedBossSystem.downedSignus, ui, "Drops after defeating Signus");
+        public static IItemDropRuleCondition PostSW(bool ui = true) => If(() => DownedBossSystem.downedStormWeaver, ui, "Drops after defeating the Storm Weaver");
+        public static IItemDropRuleCondition PostCV(bool ui = true) => If(() => DownedBossSystem.downedCeaselessVoid, ui, "Drops after defeating the Ceaseless Void");
+        public static IItemDropRuleCondition PostPolter(bool ui = true) => If(() => DownedBossSystem.downedPolterghast, ui, "Drops after defeating the Polterghast");
+        public static IItemDropRuleCondition PostOD(bool ui = true) => If(() => DownedBossSystem.downedBoomerDuke, ui, "Drops after defeating the Old Duke");
+        public static IItemDropRuleCondition PostDoG(bool ui = true) => If(() => DownedBossSystem.downedDoG, ui, "Drops after defeating the Devourer of Gods");
+        public static IItemDropRuleCondition PostYharon(bool ui = true) => If(() => DownedBossSystem.downedYharon, ui, "Drops after defeating Yharon");
+        public static IItemDropRuleCondition PostExos(bool ui = true) => If(() => DownedBossSystem.downedExoMechs, ui, "Drops after defeating the Exo Mechs");
+        public static IItemDropRuleCondition PostSCal(bool ui = true) => If(() => DownedBossSystem.downedSCal, ui, "Drops after defeating Supreme Calamitas");
+        public static IItemDropRuleCondition PostAEW(bool ui = true) => If(() => DownedBossSystem.downedAdultEidolonWyrm, ui, "Drops after defeating the Adult Eidolon Wyrm");
+        public static IItemDropRuleCondition PostClam(bool ui = true) => If(() => DownedBossSystem.downedCLAM, ui, "Drops after defeating the Giant Clam");
+        public static IItemDropRuleCondition PostClamHM(bool ui = true) => If(() => DownedBossSystem.downedCLAMHardMode, ui, "Drops after defeating the Giant Clam in Hardmode");
+        public static IItemDropRuleCondition PostGSS(bool ui = true) => If(() => DownedBossSystem.downedGSS, ui, "Drops after defeating the Great Sand Shark");
+        public static IItemDropRuleCondition PostBetsy(bool ui = true) => If(() => DownedBossSystem.downedBetsy, ui, "Drops after defeating Betsy");
+        public static IItemDropRuleCondition PostT1AR(bool ui = true) => If(() => DownedBossSystem.downedEoCAcidRain, ui, "Drops after defeating the first tier of Acid Rain");
+        public static IItemDropRuleCondition PostT2AR(bool ui = true) => If(() => DownedBossSystem.downedAquaticScourgeAcidRain, ui, "Drops after defeating the second tier of Acid Rain");
+        #endregion
         #endregion
 
         #region Leading Condition Rule Extensions
@@ -588,10 +662,11 @@ namespace CalamityMod
         /// <param name="minQuantity">The minimum number of items to drop. Defaults to 1.</param>
         /// <param name="maxQuantity">The maximum number of items to drop. Defaults to 1.</param>
         /// <param name="hideLootReport">Set to true for this drop to not appear in the Bestiary.</param>
+        /// <param name="desc">The description of this condition in the Bestiary. Defaults to null.</param>
         /// <returns>The item drop rule registered.</returns>
-        public static IItemDropRule AddIf(this LeadingConditionRule mainRule, Func<bool> lambda, int itemID, int dropRateInt = 1, int minQuantity = 1, int maxQuantity = 1, bool hideLootReport = false)
+        public static IItemDropRule AddIf(this LeadingConditionRule mainRule, Func<bool> lambda, int itemID, int dropRateInt = 1, int minQuantity = 1, int maxQuantity = 1, bool hideLootReport = false, string desc = null)
         {
-            return mainRule.OnSuccess(ItemDropRule.ByCondition(If(lambda), itemID, dropRateInt, minQuantity, maxQuantity), hideLootReport);
+            return mainRule.OnSuccess(ItemDropRule.ByCondition(If(lambda, true, desc), itemID, dropRateInt, minQuantity, maxQuantity), hideLootReport);
         }
 
         /// <summary>
@@ -604,10 +679,11 @@ namespace CalamityMod
         /// <param name="minQuantity">The minimum number of items to drop. Defaults to 1.</param>
         /// <param name="maxQuantity">The maximum number of items to drop. Defaults to 1.</param>
         /// <param name="hideLootReport">Set to true for this drop to not appear in the Bestiary.</param>
+        /// <param name="desc">The description of this condition in the Bestiary. Defaults to null.</param>
         /// <returns>The item drop rule registered.</returns>
-        public static IItemDropRule AddIf(this LeadingConditionRule mainRule, Func<bool> lambda, int itemID, Fraction dropRate, int minQuantity = 1, int maxQuantity = 1, bool hideLootReport = false)
+        public static IItemDropRule AddIf(this LeadingConditionRule mainRule, Func<bool> lambda, int itemID, Fraction dropRate, int minQuantity = 1, int maxQuantity = 1, bool hideLootReport = false, string desc = null)
         {
-            return mainRule.OnSuccess(ItemDropRule.ByCondition(If(lambda), itemID, dropRate.denominator, minQuantity, maxQuantity, dropRate.numerator), hideLootReport);
+            return mainRule.OnSuccess(ItemDropRule.ByCondition(If(lambda, true, desc), itemID, dropRate.denominator, minQuantity, maxQuantity, dropRate.numerator), hideLootReport);
         }
 
         /// <summary>
@@ -620,10 +696,12 @@ namespace CalamityMod
         /// <param name="dropRateInt">The chance that the item will drop is 1 in this number. For example, 5 gives a 1 in 5 chance.</param>
         /// <param name="minQuantity">The minimum number of items to drop. Defaults to 1.</param>
         /// <param name="maxQuantity">The maximum number of items to drop. Defaults to 1.</param>
+        /// <param name="hideLootReport">Set to true for this drop to not appear in the Bestiary.</param>
+        /// <param name="desc">The description of this condition in the Bestiary. Defaults to null.</param>
         /// <returns>The item drop rule registered.</returns>
-        public static IItemDropRule AddIf(this LeadingConditionRule mainRule, Func<DropAttemptInfo, bool> lambda, int itemID, int dropRateInt = 1, int minQuantity = 1, int maxQuantity = 1, bool hideLootReport = false)
+        public static IItemDropRule AddIf(this LeadingConditionRule mainRule, Func<DropAttemptInfo, bool> lambda, int itemID, int dropRateInt = 1, int minQuantity = 1, int maxQuantity = 1, bool hideLootReport = false, string desc = null)
         {
-            return mainRule.OnSuccess(ItemDropRule.ByCondition(If(lambda), itemID, dropRateInt, minQuantity, maxQuantity), hideLootReport);
+            return mainRule.OnSuccess(ItemDropRule.ByCondition(If(lambda, true, desc), itemID, dropRateInt, minQuantity, maxQuantity), hideLootReport);
         }
 
         /// <summary>
@@ -637,10 +715,53 @@ namespace CalamityMod
         /// <param name="minQuantity">The minimum number of items to drop. Defaults to 1.</param>
         /// <param name="maxQuantity">The maximum number of items to drop. Defaults to 1.</param>
         /// <param name="hideLootReport">Set to true for this drop to not appear in the Bestiary.</param>
+        /// <param name="desc">The description of this condition in the Bestiary. Defaults to null.</param>
         /// <returns>The item drop rule registered.</returns>
-        public static IItemDropRule AddIf(this LeadingConditionRule mainRule, Func<DropAttemptInfo, bool> lambda, int itemID, Fraction dropRate, int minQuantity = 1, int maxQuantity = 1, bool hideLootReport = false)
+        public static IItemDropRule AddIf(this LeadingConditionRule mainRule, Func<DropAttemptInfo, bool> lambda, int itemID, Fraction dropRate, int minQuantity = 1, int maxQuantity = 1, bool hideLootReport = false, string desc = null)
         {
-            return mainRule.OnSuccess(ItemDropRule.ByCondition(If(lambda), itemID, dropRate.denominator, minQuantity, maxQuantity, dropRate.numerator), hideLootReport);
+            return mainRule.OnSuccess(ItemDropRule.ByCondition(If(lambda, true, desc), itemID, dropRate.denominator, minQuantity, maxQuantity, dropRate.numerator), hideLootReport);
+        }
+
+        /// <summary>
+        /// Adds any given drop rule as a chained rule to the given LeadingConditionRule.
+        /// </summary>
+        /// <param name="mainRule">The LeadingConditionRule which should have another drop rule registered as one of its chains.</param>
+        /// <param name="chainedRule">The drop rule which should occur given this leading condition.</param>
+        /// <param name="hideLootReport">Set to true for this drop to not appear in the Bestiary.</param>
+        /// <returns>The LeadingConditionRule (first parameter).</returns>
+        public static IItemDropRule AddFail(this LeadingConditionRule mainRule, IItemDropRule chainedRule, bool hideLootReport = false)
+        {
+            return mainRule.OnFailedConditions(chainedRule, hideLootReport);
+        }
+
+        /// <summary>
+        /// Shorthand to add a simple drop to the given LeadingConditionRule.
+        /// </summary>
+        /// <param name="mainRule">The LeadingConditionRule which should drop this item as one of its chains.</param>
+        /// <param name="itemID">The item to drop.</param>
+        /// <param name="dropRateInt">The chance that the item will drop is 1 in this number. For example, 5 gives a 1 in 5 chance.</param>
+        /// <param name="minQuantity">The minimum number of items to drop. Defaults to 1.</param>
+        /// <param name="maxQuantity">The maximum number of items to drop. Defaults to 1.</param>
+        /// <param name="hideLootReport">Set to true for this drop to not appear in the Bestiary.</param>
+        /// <returns>The LeadingConditionRule (first parameter).</returns>
+        public static IItemDropRule AddFail(this LeadingConditionRule mainRule, int itemID, int dropRateInt = 1, int minQuantity = 1, int maxQuantity = 1, bool hideLootReport = false)
+        {
+            return mainRule.OnFailedConditions(ItemDropRule.Common(itemID, dropRateInt, minQuantity, maxQuantity), hideLootReport);
+        }
+
+        /// <summary>
+        /// Shorthand to add a simple drop to the given LeadingConditionRule using a Fraction drop rate.
+        /// </summary>
+        /// <param name="mainRule">The LeadingConditionRule which should drop this item as one of its chains.</param>
+        /// <param name="itemID">The item to drop.</param>
+        /// <param name="dropRate">The chance that the item will drop as a DropHelper Fraction.</param>
+        /// <param name="minQuantity">The minimum number of items to drop. Defaults to 1.</param>
+        /// <param name="maxQuantity">The maximum number of items to drop. Defaults to 1.</param>
+        /// <param name="hideLootReport">Set to true for this drop to not appear in the Bestiary.</param>
+        /// <returns>The LeadingConditionRule (first parameter).</returns>
+        public static IItemDropRule AddFail(this LeadingConditionRule mainRule, int itemID, Fraction dropRate, int minQuantity = 1, int maxQuantity = 1, bool hideLootReport = false)
+        {
+            return mainRule.OnFailedConditions(new CommonDrop(itemID, dropRate.denominator, minQuantity, maxQuantity, dropRate.numerator), hideLootReport);
         }
         #endregion
 
@@ -712,10 +833,12 @@ namespace CalamityMod
         /// <param name="dropRateInt">The chance that the item will drop is 1 in this number. For example, 5 gives a 1 in 5 chance.</param>
         /// <param name="minQuantity">The minimum number of items to drop. Defaults to 1.</param>
         /// <param name="maxQuantity">The maximum number of items to drop. Defaults to 1.</param>
+        /// <param name="ui">Whether drops registered with this condition appear in the Bestiary. Defaults to true.</param>
+        /// <param name="desc">The description of this condition in the Bestiary. Defaults to null.</param>
         /// <returns>The item drop rule registered.</returns>
-        public static IItemDropRule AddIf(this ILoot loot, Func<bool> lambda, int itemID, int dropRateInt = 1, int minQuantity = 1, int maxQuantity = 1)
+        public static IItemDropRule AddIf(this ILoot loot, Func<bool> lambda, int itemID, int dropRateInt = 1, int minQuantity = 1, int maxQuantity = 1, bool ui = true, string desc = null)
         {
-            return loot.Add(ItemDropRule.ByCondition(If(lambda), itemID, dropRateInt, minQuantity, maxQuantity));
+            return loot.Add(ItemDropRule.ByCondition(If(lambda, ui, desc), itemID, dropRateInt, minQuantity, maxQuantity));
         }
 
         /// <summary>
@@ -727,10 +850,12 @@ namespace CalamityMod
         /// <param name="dropRate">The chance that the item will drop as a DropHelper Fraction.</param>
         /// <param name="minQuantity">The minimum number of items to drop. Defaults to 1.</param>
         /// <param name="maxQuantity">The maximum number of items to drop. Defaults to 1.</param>
+        /// <param name="ui">Whether drops registered with this condition appear in the Bestiary. Defaults to true.</param>
+        /// <param name="desc">The description of this condition in the Bestiary. Defaults to null.</param>
         /// <returns>The item drop rule registered.</returns>
-        public static IItemDropRule AddIf(this ILoot loot, Func<bool> lambda, int itemID, Fraction dropRate, int minQuantity = 1, int maxQuantity = 1)
+        public static IItemDropRule AddIf(this ILoot loot, Func<bool> lambda, int itemID, Fraction dropRate, int minQuantity = 1, int maxQuantity = 1, bool ui = true, string desc = null)
         {
-            return loot.Add(ItemDropRule.ByCondition(If(lambda), itemID, dropRate.denominator, minQuantity, maxQuantity, dropRate.numerator));
+            return loot.Add(ItemDropRule.ByCondition(If(lambda, ui, desc), itemID, dropRate.denominator, minQuantity, maxQuantity, dropRate.numerator));
         }
 
         /// <summary>
@@ -743,10 +868,12 @@ namespace CalamityMod
         /// <param name="dropRateInt">The chance that the item will drop is 1 in this number. For example, 5 gives a 1 in 5 chance.</param>
         /// <param name="minQuantity">The minimum number of items to drop. Defaults to 1.</param>
         /// <param name="maxQuantity">The maximum number of items to drop. Defaults to 1.</param>
+        /// <param name="ui">Whether drops registered with this condition appear in the Bestiary. Defaults to true.</param>
+        /// <param name="desc">The description of this condition in the Bestiary. Defaults to null.</param>
         /// <returns>The item drop rule registered.</returns>
-        public static IItemDropRule AddIf(this ILoot loot, Func<DropAttemptInfo, bool> lambda, int itemID, int dropRateInt = 1, int minQuantity = 1, int maxQuantity = 1)
+        public static IItemDropRule AddIf(this ILoot loot, Func<DropAttemptInfo, bool> lambda, int itemID, int dropRateInt = 1, int minQuantity = 1, int maxQuantity = 1, bool ui = true, string desc = null)
         {
-            return loot.Add(ItemDropRule.ByCondition(If(lambda), itemID, dropRateInt, minQuantity, maxQuantity));
+            return loot.Add(ItemDropRule.ByCondition(If(lambda, ui, desc), itemID, dropRateInt, minQuantity, maxQuantity));
         }
 
         /// <summary>
@@ -759,10 +886,12 @@ namespace CalamityMod
         /// <param name="dropRate">The chance that the item will drop as a DropHelper Fraction.</param>
         /// <param name="minQuantity">The minimum number of items to drop. Defaults to 1.</param>
         /// <param name="maxQuantity">The maximum number of items to drop. Defaults to 1.</param>
+        /// <param name="ui">Whether drops registered with this condition appear in the Bestiary. Defaults to true.</param>
+        /// <param name="desc">The description of this condition in the Bestiary. Defaults to null.</param>
         /// <returns>The item drop rule registered.</returns>
-        public static IItemDropRule AddIf(this ILoot loot, Func<DropAttemptInfo, bool> lambda, int itemID, Fraction dropRate, int minQuantity = 1, int maxQuantity = 1)
+        public static IItemDropRule AddIf(this ILoot loot, Func<DropAttemptInfo, bool> lambda, int itemID, Fraction dropRate, int minQuantity = 1, int maxQuantity = 1, bool ui = true, string desc = null)
         {
-            return loot.Add(ItemDropRule.ByCondition(If(lambda), itemID, dropRate.denominator, minQuantity, maxQuantity, dropRate.numerator));
+            return loot.Add(ItemDropRule.ByCondition(If(lambda, ui, desc), itemID, dropRate.denominator, minQuantity, maxQuantity, dropRate.numerator));
         }
 
         /// <summary>

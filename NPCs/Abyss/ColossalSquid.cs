@@ -556,10 +556,10 @@ namespace CalamityMod.NPCs.Abyss
             npcLoot.Add(ItemID.BlackInk, 1, 3, 5);
             npcLoot.Add(ModContent.ItemType<InkBomb>(), 5);
 
-            var postClone = npcLoot.DefineConditionalDropSet(() => DownedBossSystem.downedCalamitas);
+            var postClone = npcLoot.DefineConditionalDropSet(DropHelper.PostCal());
             postClone.Add(DropHelper.NormalVsExpertQuantity(ModContent.ItemType<DepthCells>(), 2, 26, 38, 31, 45));
 
-            npcLoot.AddIf(() => DownedBossSystem.downedPolterghast, ModContent.ItemType<CalamarisLament>(), 3);
+            npcLoot.AddIf(DropHelper.PostPolter(), ModContent.ItemType<CalamarisLament>(), 3);
         }
 
         public override void HitEffect(int hitDirection, double damage)

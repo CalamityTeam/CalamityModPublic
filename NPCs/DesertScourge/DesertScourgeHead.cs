@@ -690,7 +690,7 @@ namespace CalamityMod.NPCs.DesertScourge
             npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<DesertScourgeBag>()));
 
             // Extraneous potions
-            npcLoot.Add(DropHelper.PerPlayer(ItemID.LesserHealingPotion, 1, 8, 14));
+			npcLoot.DefineConditionalDropSet(() => true).Add(DropHelper.PerPlayer(ItemID.LesserHealingPotion, 1, 5, 15), hideLootReport: true); // Healing Potions don't show up in the Bestiary
 
             // Normal drops: Everything that would otherwise be in the bag
             var normalOnly = npcLoot.DefineNormalOnlyDropSet();
@@ -702,9 +702,7 @@ namespace CalamityMod.NPCs.DesertScourge
                     ModContent.ItemType<Barinade>(),
                     ModContent.ItemType<StormSpray>(),
                     ModContent.ItemType<SeaboundStaff>(),
-                    ModContent.ItemType<ScourgeoftheDesert>(),
-                    ModContent.ItemType<AeroStone>(),
-                    ModContent.ItemType<SandCloak>()
+                    ModContent.ItemType<ScourgeoftheDesert>()
                 };
                 normalOnly.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, items));
 
@@ -719,6 +717,8 @@ namespace CalamityMod.NPCs.DesertScourge
 
                 // Equipment
                 normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<OceanCrest>()));
+                normalOnly.Add(ModContent.ItemType<AeroStone>(), DropHelper.NormalWeaponDropRateFraction);
+                normalOnly.Add(ModContent.ItemType<SandCloak>(), DropHelper.NormalWeaponDropRateFraction);
 
                 // Fishing
                 normalOnly.Add(ModContent.ItemType<SandyAnglingKit>());
@@ -731,7 +731,7 @@ namespace CalamityMod.NPCs.DesertScourge
             npcLoot.AddIf(() => Main.masterMode || CalamityWorld.revenge, ModContent.ItemType<DesertScourgeRelic>());
 
             // Lore
-            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedDesertScourge, ModContent.ItemType<KnowledgeDesertScourge>());
+            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedDesertScourge, ModContent.ItemType<KnowledgeDesertScourge>(), desc: DropHelper.FirstKillText);
         }
         #endregion
 

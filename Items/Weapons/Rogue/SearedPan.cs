@@ -11,7 +11,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class SearedPan : ModItem
+    public class SearedPan : RogueWeapon
     {
         public static readonly SoundStyle SmashSound = new("CalamityMod/Sounds/Item/SearedPanSmash");
 
@@ -51,11 +51,6 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.shootSpeed = 15f;
             Item.Calamity().donorItem = true;
         }
-
-		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
-		{
-			itemGroup = (ContentSamples.CreativeHelper.ItemGroup)CalamityResearchSorting.RogueWeapon;
-		}
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {

@@ -119,7 +119,7 @@ namespace CalamityMod.Projectiles.Summon
                     if (Main.projectile.IndexInRange(beam))
                     {
                         Main.projectile[beam].originalDamage = Projectile.originalDamage;
-                        Main.projectile[beam].ai[0] = Projectile.GetByUUID(Projectile.owner, Projectile.whoAmI);
+                        Main.projectile[beam].ai[0] = Projectile.identity;
                         Main.projectile[beam].Damage();
                     }
                 }

@@ -9,7 +9,7 @@ using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class SkyStabber : ModItem
+    public class SkyStabber : RogueWeapon
     {
         private static int damage = 50;
         private static int knockBack = 2;
@@ -63,11 +63,6 @@ namespace CalamityMod.Items.Weapons.Rogue
                 return player.ownedProjectileCounts[ModContent.ProjectileType<SkyStabberProj>()] < UseMax;
             }
         }
-
-		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
-		{
-			itemGroup = (ContentSamples.CreativeHelper.ItemGroup)CalamityResearchSorting.RogueWeapon;
-		}
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {

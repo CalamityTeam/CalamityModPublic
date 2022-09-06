@@ -2365,7 +2365,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<DevourerofGodsBag>()));
 
             // Extraneous potions
-            npcLoot.Add(DropHelper.PerPlayer(ModContent.ItemType<OmegaHealingPotion>(), 1, 5, 15));
+			npcLoot.DefineConditionalDropSet(() => true).Add(DropHelper.PerPlayer(ModContent.ItemType<OmegaHealingPotion>(), 1, 5, 15), hideLootReport: true); // Healing Potions don't show up in the Bestiary
 
             // Fabsol Mount
             npcLoot.AddIf((info) => info.player.Calamity().fabsolVodka, ModContent.ItemType<Fabsol>());
@@ -2405,7 +2405,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             npcLoot.Add(ModContent.ItemType<DevourerofGodsTrophy>(), 10);
 
             // Lore
-            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedDoG, ModContent.ItemType<KnowledgeDevourerofGods>());
+            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedDoG, ModContent.ItemType<KnowledgeDevourerofGods>(), desc: DropHelper.FirstKillText);
         }
 
         // Can only hit the target if within certain distance

@@ -1,6 +1,7 @@
 ﻿using CalamityMod.CustomRecipes;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
+using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Projectiles.DraedonsArsenal;
 using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
@@ -13,7 +14,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.DraedonsArsenal
 {
-    public class TrackingDisk : ModItem
+    public class TrackingDisk : RogueWeapon
     {
         public override void SetStaticDefaults()
         {

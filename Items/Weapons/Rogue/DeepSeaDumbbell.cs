@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class DeepSeaDumbbell : ModItem
+    public class DeepSeaDumbbell : RogueWeapon
     {
         private const float FlexMultMax = 5f;
         private float flexMult = 1f;
@@ -79,11 +79,6 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit) => flexMult = 1f;
         public override void OnHitPvp(Player player, Player target, int damage, bool crit) => flexMult = 1f;
 
-
-		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
-		{
-			itemGroup = (ContentSamples.CreativeHelper.ItemGroup)CalamityResearchSorting.RogueWeapon;
-		}
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {

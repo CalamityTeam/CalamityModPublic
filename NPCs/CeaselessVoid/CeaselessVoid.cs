@@ -229,7 +229,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
             npcLoot.AddIf(() => Main.masterMode || CalamityWorld.revenge, ModContent.ItemType<CeaselessVoidRelic>());
 
             // Lore
-            npcLoot.AddConditionalPerPlayer(LastSentinelKilled, ModContent.ItemType<KnowledgeSentinels>());
+            npcLoot.AddConditionalPerPlayer(LastSentinelKilled, ModContent.ItemType<KnowledgeSentinels>(), desc: DropHelper.SentinelText);
         }
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)

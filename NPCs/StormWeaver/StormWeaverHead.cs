@@ -984,7 +984,7 @@ namespace CalamityMod.NPCs.StormWeaver
             npcLoot.AddIf(() => Main.masterMode || CalamityWorld.revenge, ModContent.ItemType<StormWeaverRelic>());
 
             // Lore
-            npcLoot.AddConditionalPerPlayer(LastSentinelKilled, ModContent.ItemType<KnowledgeSentinels>());
+            npcLoot.AddConditionalPerPlayer(LastSentinelKilled, ModContent.ItemType<KnowledgeSentinels>(), desc: DropHelper.SentinelText);
         }
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)

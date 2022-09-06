@@ -192,13 +192,13 @@ namespace CalamityMod.NPCs.Calamitas
                     ModContent.ItemType<Oblivion>(),
                     ModContent.ItemType<Animosity>(),
                     ModContent.ItemType<LashesofChaos>(),
-                    ModContent.ItemType<EntropysVigil>(),
-                    ModContent.ItemType<ChaosStone>(),
+                    ModContent.ItemType<EntropysVigil>()
                 };
                 normalOnly.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, items));
 
                 // Equipment
                 normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<VoidofCalamity>()));
+                normalOnly.Add(ModContent.ItemType<ChaosStone>(), DropHelper.NormalWeaponDropRateFraction);
                 normalOnly.Add(ModContent.ItemType<Regenator>(), 10);
 
                 // Materials
@@ -216,7 +216,7 @@ namespace CalamityMod.NPCs.Calamitas
             npcLoot.AddIf(() => Main.masterMode || CalamityWorld.revenge, ModContent.ItemType<CalamitasCloneRelic>());
 
             // Lore
-            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedCalamitas, ModContent.ItemType<KnowledgeCalamitasClone>());
+            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedCalamitas, ModContent.ItemType<KnowledgeCalamitasClone>(), desc: DropHelper.FirstKillText);
         }
 
         public override void OnKill()

@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Boss
         public const float TelegraphTotalTime = 60f;
         public const float TelegraphFadeTime = 30f;
         public const float TelegraphWidth = 4200f;
-        public const float LaserVelocity = 7f;
+        public const float LaserVelocity = 7.5f;
 
         public override void SetStaticDefaults()
         {
@@ -53,12 +53,14 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SendExtraAI(BinaryWriter writer)
         {
+            writer.Write(Projectile.extraUpdates);
             writer.WriteVector2(Destination);
             writer.WriteVector2(Velocity);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
+            Projectile.extraUpdates = reader.ReadInt32();
             Destination = reader.ReadVector2();
             Velocity = reader.ReadVector2();
         }

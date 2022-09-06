@@ -319,7 +319,7 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            var postClone = npcLoot.DefineConditionalDropSet(() => DownedBossSystem.downedCalamitas);
+            var postClone = npcLoot.DefineConditionalDropSet(DropHelper.PostCal());
             postClone.Add(DropHelper.NormalVsExpertQuantity(ModContent.ItemType<DepthCells>(), 2, 3, 5, 4, 7));
         }
 

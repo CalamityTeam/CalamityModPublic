@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Boss
     {
         private const int timeLeft = 360;
 
-        private const float maxVelocity = 12f;
+        private const float maxVelocity = 10f;
 
         public override void SetStaticDefaults()
         {

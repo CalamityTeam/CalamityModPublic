@@ -9,6 +9,8 @@ using CalamityMod.Items.Fishing.SunkenSeaCatches;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Items.SummonItems;
 using CalamityMod.Items.Weapons.Melee;
+using CalamityMod.Items.Weapons.Ranged;
+using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.NPCs;
 using CalamityMod.NPCs.OldDuke;
 using CalamityMod.World;

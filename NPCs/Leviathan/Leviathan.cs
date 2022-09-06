@@ -332,7 +332,7 @@ namespace CalamityMod.NPCs.Leviathan
                     NPC.spriteDirection = NPC.direction;
 
                     NPC.ai[1] += 1f;
-                    float phaseTimer = 240f;
+                    float phaseTimer = 360f;
                     if (!sirenAlive || phase4)
                         phaseTimer -= 120f * (1f - lifeRatio);
 
@@ -408,7 +408,7 @@ namespace CalamityMod.NPCs.Leviathan
                     NPC.ai[1] += num638 / 2;
 
                     bool flag103 = false;
-                    float num640 = (!sirenAlive || phase4) ? 30f : 60f;
+                    float num640 = (!sirenAlive || phase4) ? 60f : 40f;
                     if (NPC.ai[1] > num640)
                     {
                         NPC.ai[1] = 0f;
@@ -416,7 +416,7 @@ namespace CalamityMod.NPCs.Leviathan
                         flag103 = true;
                     }
 
-                    int spawnLimit = (sirenAlive && !phase4) ? 2 : (death ? 3 : 4);
+                    int spawnLimit = (sirenAlive && !phase4) ? 1 : (death ? 2 : 3);
                     if (flag103 && NPC.CountNPCS(ModContent.NPCType<AquaticAberration>()) < spawnLimit)
                     {
                         SoundEngine.PlaySound(soundChoice, vector);
@@ -468,7 +468,7 @@ namespace CalamityMod.NPCs.Leviathan
                     NPC.direction = playerLocation < 0 ? 1 : -1;
                     NPC.spriteDirection = NPC.direction;
 
-                    if (NPC.ai[2] > ((sirenAlive && !phase4) ? 2f : 4f))
+                    if (NPC.ai[2] > spawnLimit)
                     {
                         NPC.ai[0] = canCharge ? (Main.rand.NextBool() ? 2f : 0f) : 0f;
                         NPC.ai[1] = 0f;
@@ -778,8 +778,7 @@ namespace CalamityMod.NPCs.Leviathan
                     ModContent.ItemType<Atlantis>(),
                     ModContent.ItemType<GastricBelcherStaff>(),
                     ModContent.ItemType<BrackishFlask>(),
-                    ModContent.ItemType<LeviathanTeeth>(),
-                    ModContent.ItemType<PearlofEnthrallment>()
+                    ModContent.ItemType<LeviathanTeeth>()
                 };
                 normalOnly.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, items));
 
@@ -789,6 +788,7 @@ namespace CalamityMod.NPCs.Leviathan
 
                 // Equipment
                 normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<LeviathanAmbergris>()));
+                normalOnly.Add(ModContent.ItemType<PearlofEnthrallment>(), DropHelper.NormalWeaponDropRateFraction);
                 normalOnly.Add(ModContent.ItemType<TheCommunity>(), 10);
 
                 // Fishing
@@ -805,8 +805,8 @@ namespace CalamityMod.NPCs.Leviathan
 
             // Lore
             bool shouldDropLore(DropAttemptInfo info) => !DownedBossSystem.downedLeviathan && LastAnLStanding();
-            npcLoot.AddConditionalPerPlayer(shouldDropLore, ModContent.ItemType<KnowledgeOcean>());
-            npcLoot.AddConditionalPerPlayer(shouldDropLore, ModContent.ItemType<KnowledgeLeviathanAnahita>());
+            npcLoot.AddConditionalPerPlayer(shouldDropLore, ModContent.ItemType<KnowledgeOcean>(), desc: DropHelper.FirstKillText);
+            npcLoot.AddConditionalPerPlayer(shouldDropLore, ModContent.ItemType<KnowledgeLeviathanAnahita>(), desc: DropHelper.FirstKillText);
         }
 
         public override void ModifyNPCLoot(NPCLoot npcLoot)
