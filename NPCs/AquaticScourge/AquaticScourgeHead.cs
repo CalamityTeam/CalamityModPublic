@@ -249,7 +249,7 @@ namespace CalamityMod.NPCs.AquaticScourge
                 normalOnly.Add(ModContent.ItemType<BleachedAnglingKit>());
             }
 
-            npcLoot.Add(DropHelper.PerPlayer(ItemID.GreaterHealingPotion, 1, 8, 14));
+            npcLoot.Add(DropHelper.PerPlayer(ItemID.GreaterHealingPotion, 1, 8, 14), true); // Healing Potions don't show up in the Bestiary
             npcLoot.Add(ModContent.ItemType<AquaticScourgeTrophy>(), 10);
             npcLoot.AddIf(() => Main.masterMode || CalamityWorld.revenge, ModContent.ItemType<AquaticScourgeRelic>());
 
