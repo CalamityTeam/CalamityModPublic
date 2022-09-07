@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles.FurnitureSacrilegious
     {
         public override void SetStaticDefaults()
         {
-            this.SetUpBathtub();
+            this.SetUpBathtub(true);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Bathtub");
             AddMapEntry(new Color(43, 19, 42), name);

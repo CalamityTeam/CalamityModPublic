@@ -13,7 +13,7 @@ namespace CalamityMod.Tiles.FurnitureSacrilegious
     {
         public override void SetStaticDefaults()
         {
-            this.SetUpChandelier();
+            this.SetUpChandelier(true);
             AddMapEntry(new Color(43, 19, 42), Language.GetText("MapObject.Chandelier"));
             AdjTiles = new int[] { TileID.Chandeliers };
         }

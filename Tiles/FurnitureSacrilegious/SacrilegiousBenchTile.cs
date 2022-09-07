@@ -13,7 +13,7 @@ namespace CalamityMod.Tiles.FurnitureSacrilegious
     {
         public override void SetStaticDefaults()
         {
-            this.SetUpSofa();
+            this.SetUpSofa(true);
             AddMapEntry(new Color(43, 19, 42), Language.GetText("Bench"));
         }
 

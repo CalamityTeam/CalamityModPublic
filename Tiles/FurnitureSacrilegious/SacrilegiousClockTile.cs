@@ -18,7 +18,7 @@ namespace CalamityMod.Tiles.FurnitureSacrilegious
             Main.tileLighted[Type] = true;
             AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
 
-            this.SetUpClock();
+            this.SetUpClock(true);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Grandfather Clock");
             AddMapEntry(new Color(43, 19, 42), name);

@@ -23,6 +23,7 @@ namespace CalamityMod.Tiles.FurnitureSacrilegious
         {
             Main.tileFrameImportant[Type] = true;
             Main.tileNoAttach[Type] = true;
+            Main.tileLavaDeath[Type] = false;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
             TileObjectData.newTile.Width = 4;
             TileObjectData.newTile.Height = 3;

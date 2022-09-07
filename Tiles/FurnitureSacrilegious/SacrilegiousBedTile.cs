@@ -12,7 +12,7 @@ namespace CalamityMod.Tiles.FurnitureSacrilegious
     {
         public override void SetStaticDefaults()
         {
-            this.SetUpBed();
+            this.SetUpBed(true);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Bed");
             AddMapEntry(new Color(43, 19, 42), name);

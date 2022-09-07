@@ -24,7 +24,7 @@ namespace CalamityMod.Tiles.FurnitureSacrilegious
 			TileObjectData.newTile.Origin = new Point16(0, 0);
 			TileObjectData.newTile.AnchorBottom = default(AnchorData);
 			TileObjectData.newTile.AnchorTop = new AnchorData(AnchorType.SolidTile | AnchorType.SolidSide | AnchorType.SolidBottom, TileObjectData.newTile.Width, 0);
-			TileObjectData.newTile.LavaDeath = true;
+			TileObjectData.newTile.LavaDeath = false;
 			TileObjectData.newTile.DrawYOffset = -2;
             TileObjectData.addTile(Type);
 

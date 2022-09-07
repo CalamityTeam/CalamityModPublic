@@ -11,7 +11,7 @@ namespace CalamityMod.Tiles.FurnitureSacrilegious
     {
         public override void SetStaticDefaults()
         {
-            this.SetUpWorkBench();
+            this.SetUpWorkBench(true);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Work Bench");
             AddMapEntry(new Color(43, 19, 42), name);

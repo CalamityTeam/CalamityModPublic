@@ -13,7 +13,7 @@ namespace CalamityMod.Tiles.FurnitureSacrilegious
     {
         public override void SetStaticDefaults()
         {
-            this.SetUpLamp();
+            this.SetUpLamp(true);
             AddMapEntry(new Color(43, 19, 42), Language.GetText("MapObject.FloorLamp"));
 
             TileID.Sets.DisableSmartCursor[Type] = true;

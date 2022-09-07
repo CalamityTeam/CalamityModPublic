@@ -11,7 +11,7 @@ namespace CalamityMod.Tiles.FurnitureSacrilegious
     {
         public override void SetStaticDefaults()
         {
-            this.SetUpCandle();
+            this.SetUpCandle(true);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Candle");
             AddMapEntry(new Color(43, 19, 42), name);
