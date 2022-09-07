@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.GameContent.ObjectInteractions;
 using Terraria.ID;
@@ -67,6 +68,7 @@ namespace CalamityMod.Tiles.FurnitureSacrilegious
         public override bool RightClick(int i, int j)
 		{
 			CalamityUtils.LightHitWire(Type, i, j, 2, 3);
+			SoundEngine.PlaySound(SoundID.MenuTick);
 			return true;
 		}
 
