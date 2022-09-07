@@ -12,7 +12,7 @@ namespace CalamityMod.Tiles.FurnitureSacrilegious
     {
         public override void SetStaticDefaults()
         {
-            this.SetUpSink(true);
+            this.SetUpSink(true, true, true, true);
             AddMapEntry(new Color(43, 19, 42), Language.GetText("MapObject.Sink"));
             AdjTiles = new int[] { TileID.Sinks };
         }
