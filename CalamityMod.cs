@@ -98,7 +98,6 @@ namespace CalamityMod
         public static Asset<Texture2D> manaOriginal;
         public static Asset<Texture2D> carpetOriginal;
         public static Texture2D AstralSky;
-        public static Texture2D MonolithSky;
 
         // DR data structure
         public static SortedDictionary<int, float> DRValues;
@@ -247,7 +246,6 @@ namespace CalamityMod
         private void LoadClient()
         {
             AstralSky = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/AstralSky", AssetRequestMode.ImmediateLoad).Value;
-            MonolithSky = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/MonolithSky", AssetRequestMode.ImmediateLoad).Value;
 
             // TODO -- Sky shaders should probably be loaded in a ModSystem
             Filters.Scene["CalamityMod:DevourerofGodsHead"] = new Filter(new DoGScreenShaderData("FilterMiniTower").UseColor(0.4f, 0.1f, 1.0f).UseOpacity(0.5f), EffectPriority.VeryHigh);
@@ -367,7 +365,6 @@ namespace CalamityMod
             wikithis = null;
 
             AstralSky = null;
-			MonolithSky = null;
 
             DRValues?.Clear();
             DRValues = null;
