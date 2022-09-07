@@ -28,9 +28,9 @@ namespace CalamityMod.Items.Placeables.FurnitureSacrilegious
             Item.useTime = 10;
             Item.autoReuse = true;
             Item.consumable = true;
-            Item.width = 60;
-            Item.height = 48;
-            Item.maxStack = 999;
+            Item.width = 38;
+            Item.height = 32;
+            Item.maxStack = 9999;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.rare = ModContent.RarityType<Violet>();
         }

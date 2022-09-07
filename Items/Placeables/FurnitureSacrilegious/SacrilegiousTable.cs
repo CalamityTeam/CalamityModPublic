@@ -9,15 +9,15 @@ namespace CalamityMod.Items.Placeables.FurnitureSacrilegious
     {
         public override void SetStaticDefaults()
         {
+            DisplayName.SetDefault("Sacrilegious Table");
             SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            Item.SetNameOverride("Sacrilegious Table");
-            Item.width = 28;
-            Item.height = 20;
-            Item.maxStack = 999;
+            Item.width = 38;
+            Item.height = 26;
+            Item.maxStack = 9999;
             Item.useTurn = true;
             Item.autoReuse = true;
             Item.useAnimation = 15;

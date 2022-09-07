@@ -9,16 +9,16 @@ namespace CalamityMod.Items.Placeables.FurnitureSacrilegious
     {
         public override void SetStaticDefaults()
         {
+            DisplayName.SetDefault("Sacrilegious Sink");
             SacrificeTotal = 1;
             Tooltip.SetDefault("Counts as a water, honey, and lava source");
         }
 
         public override void SetDefaults()
         {
-            Item.SetNameOverride("Sacrilegious Sink");
-            Item.width = 28;
-            Item.height = 20;
-            Item.maxStack = 999;
+            Item.width = 32;
+            Item.height = 32;
+            Item.maxStack = 9999;
             Item.useTurn = true;
             Item.autoReuse = true;
             Item.useAnimation = 15;

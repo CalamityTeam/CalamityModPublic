@@ -11,6 +11,7 @@ namespace CalamityMod.Items.Placeables.FurnitureSacrilegious
     {
         public override void SetStaticDefaults()
         {
+            DisplayName.SetDefault("Occult Legionnaire Banner");
             SacrificeTotal = 1;
         }
 
@@ -18,7 +19,7 @@ namespace CalamityMod.Items.Placeables.FurnitureSacrilegious
         {
             Item.width = 26;
             Item.height = 36;
-            Item.maxStack = 999;
+            Item.maxStack = 9999;
             Item.useTurn = true;
             Item.autoReuse = true;
             Item.useAnimation = 15;

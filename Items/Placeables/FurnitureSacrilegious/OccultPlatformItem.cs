@@ -15,9 +15,9 @@ namespace CalamityMod.Items.Placeables.FurnitureSacrilegious
 
         public override void SetDefaults()
         {
-            Item.width = 8;
-            Item.height = 10;
-            Item.maxStack = 999;
+            Item.width = 22;
+            Item.height = 18;
+            Item.maxStack = 9999;
             Item.useTurn = true;
             Item.autoReuse = true;
             Item.useAnimation = 15;
