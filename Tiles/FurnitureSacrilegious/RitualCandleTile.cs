@@ -31,6 +31,7 @@ namespace CalamityMod.Tiles.FurnitureSacrilegious
             TileObjectData.newTile.LavaDeath = false;
             TileObjectData.addTile(Type);
 
+			AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
             AddMapEntry(new Color(43, 19, 42), Language.GetText("Ritual Candle"));
 
             TileID.Sets.DisableSmartCursor[Type] = true;
