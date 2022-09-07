@@ -1,6 +1,6 @@
 ﻿using CalamityMod.Events;
 using CalamityMod.Items.Materials;
-using CalamityMod.Items.Placeables.FurnitureSacrilegious;
+using CalamityMod.Items.Placeables.Furniture.CraftingStations;
 using CalamityMod.Items.SummonItems;
 using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.Projectiles.Boss;
