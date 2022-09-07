@@ -1103,7 +1103,7 @@ namespace CalamityMod.CalPlayer
 
         public Vector2 FireDrawerPosition;
 
-		public bool monolithAccursedShader = false;
+		public int monolithAccursedShader = 10;
         #endregion Draw Effects
 
         #region Draedon Summoning
@@ -2090,8 +2090,6 @@ namespace CalamityMod.CalPlayer
             AbleToSelectExoMech = false;
 
             EnchantHeldItemEffects(Player, Player.Calamity(), Player.ActiveItem());
-
-			monolithAccursedShader = false;
         }
         #endregion
 
