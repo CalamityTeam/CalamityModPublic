@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Placeables.FurnitureSacrilegious
             CreateRecipe(1).
 				AddIngredient(ModContent.ItemType<OccultBrickItem>(), 15).
 				AddIngredient(ItemID.Silk, 5).
-				AddTile(ModContent.TileType<CosmicAnvil>()).
+				AddTile(ModContent.TileType<SCalAltar>()).
 				Register();
         }
     }

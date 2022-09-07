@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Placeables.FurnitureSacrilegious
             CreateRecipe(200).
 				AddRecipeGroup("AnyStoneBlock", 200).
 				AddIngredient(ModContent.ItemType<AshesofAnnihilation>()).
-				AddTile(ModContent.TileType<CosmicAnvil>()).
+				AddTile(ModContent.TileType<SCalAltar>()).
 				Register();
 
             CreateRecipe(1).

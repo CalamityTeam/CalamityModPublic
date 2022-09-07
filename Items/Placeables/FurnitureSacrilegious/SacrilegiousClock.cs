@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Placeables.FurnitureSacrilegious
                 AddRecipeGroup("IronBar", 3).
                 AddIngredient(ItemID.Glass, 6).
                 AddIngredient(ModContent.ItemType<OccultBrickItem>(), 10).
-                AddTile(ModContent.TileType<CosmicAnvil>()).
+                AddTile(ModContent.TileType<SCalAltar>()).
                 Register();
         }
     }

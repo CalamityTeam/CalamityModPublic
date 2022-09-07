@@ -13,7 +13,7 @@ using Terraria.ModLoader;
 using Terraria.ObjectData;
 using Terraria.Audio;
 
-namespace CalamityMod.Tiles.FurnitureSacrilegious
+namespace CalamityMod.Tiles.Furniture.CraftingStations
 {
     public class SCalAltar : ModTile
     {

@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Placeables.FurnitureSacrilegious
 				AddIngredient(ItemID.WaterBucket).
 				AddIngredient(ItemID.HoneyBucket).
 				AddIngredient(ItemID.LavaBucket).
-				AddTile(ModContent.TileType<CosmicAnvil>()).
+				AddTile(ModContent.TileType<SCalAltar>()).
 				Register();
         }
     }

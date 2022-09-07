@@ -1,11 +1,10 @@
 ﻿using CalamityMod.Items.Materials;
 using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
-using CalamityMod.Tiles.FurnitureSacrilegious;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace CalamityMod.Items.Placeables.FurnitureSacrilegious
+namespace CalamityMod.Items.Placeables.Furniture.CraftingStations
 {
     [LegacyName("SCalAltarItem")]
     public class AltarOfTheAccursedItem : ModItem
@@ -17,7 +16,8 @@ namespace CalamityMod.Items.Placeables.FurnitureSacrilegious
             Tooltip.SetDefault("Offer Ashes of Calamity at this altar to summon the Witch\n" +
                 "Doing so will create a square arena of blocks, with the altar at its center\n" +
                 "During the battle, heart pickups only heal for half as much\n" +
-                "The Witch enrages while you are outside of the arena");
+                "The Witch enrages while you are outside of the arena\n" +
+				"Used for special crafting");
         }
 
         public override void SetDefaults()
@@ -34,6 +34,11 @@ namespace CalamityMod.Items.Placeables.FurnitureSacrilegious
             Item.useStyle = ItemUseStyleID.Swing;
             Item.rare = ModContent.RarityType<Violet>();
         }
+
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = ContentSamples.CreativeHelper.ItemGroup.CraftingObjects;
+		}
 
         public override void AddRecipes()
         {
