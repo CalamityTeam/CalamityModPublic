@@ -13,7 +13,7 @@ namespace CalamityMod.Tiles.FurnitureSacrilegious
             Main.tileLighted[Type] = true;
             Main.tileSolid[Type] = true;
             Main.tileBlockLight[Type] = true;
-            DustType = 105;
+            DustType = 8;
             ItemDrop = ModContent.ItemType<OccultBrickItem>();
             AddMapEntry(new Color(63, 69, 71));
             HitSound = SoundID.Tink;

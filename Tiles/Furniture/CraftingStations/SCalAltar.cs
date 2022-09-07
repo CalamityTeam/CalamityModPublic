@@ -44,8 +44,8 @@ namespace CalamityMod.Tiles.Furniture.CraftingStations
 
         public override bool CreateDust(int i, int j, ref int type)
         {
-            // Fire dust.
-            type = 6;
+            // Red torch dust.
+            type = 60;
             return true;
         }
 
