@@ -34,7 +34,7 @@ namespace CalamityMod.Items.SummonItems
             CreateRecipe().
                 AddIngredient<AshesofAnnihilation>(5).
                 AddIngredient<AshesofCalamity>(15).
-                AddTile<CosmicAnvil>().
+                AddTile<SCalAltar>().
                 Register();
         }
     }
