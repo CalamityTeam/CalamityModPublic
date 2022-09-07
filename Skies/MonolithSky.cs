@@ -60,7 +60,7 @@ namespace CalamityMod.Skies
             }
 
             // Randomly add cinders.
-            if (Main.rand.NextBool(18) && skyActive)
+            if (Main.rand.NextBool(12) && skyActive)
             {
                 int lifetime = Main.rand.Next(285, 445);
                 float depth = Main.rand.NextFloat(1.8f, 5f);
@@ -96,7 +96,7 @@ namespace CalamityMod.Skies
         {
             if (maxDepth >= 0 && minDepth < 0)
             {
-                spriteBatch.Draw(CalamityMod.MonolithSky, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Main.ColorOfTheSkies * opacity);
+                spriteBatch.Draw(CalamityMod.MonolithSky, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), CalamityUtils.ColorSwap(Color.White, new Color(205, 100, 100), 8f) * opacity);
             }
 
             // Draw cinders.

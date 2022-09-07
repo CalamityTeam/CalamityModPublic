@@ -81,7 +81,7 @@ namespace CalamityMod.Tiles.FurnitureSacrilegious
             if (player is null)
                 return;
             if (player.active)
-                player.Calamity().monolithAccursedShader = 10;
+                player.Calamity().monolithAccursedShader = 20;
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)
