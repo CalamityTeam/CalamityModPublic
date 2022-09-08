@@ -61,9 +61,9 @@ namespace CalamityMod.Tiles.FurnitureSacrilegious
         {
             if (Main.tile[i, j].TileFrameX < 54)
             {
-                r = 1.5f;
-                g = 0.3f;
-                b = 0.3f;
+                r = 3f;
+                g = 0.6f;
+                b = 0.6f;
             }
             else
             {
