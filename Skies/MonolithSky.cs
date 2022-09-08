@@ -105,7 +105,7 @@ namespace CalamityMod.Skies
 			if (Main.LocalPlayer.Calamity().monolithAccursedShader < 1)
 				return;
 
-            if (maxDepth >= float.MaxValue && minDepth < float.MaxValue)
+            if (maxDepth >= float.MaxValue && minDepth < float.MaxValue && Main.LocalPlayer.Calamity().monolithAccursedShader > 21)
             {
 				Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/MainMenu/MenuBackground").Value;
 				if (Main.BackgroundEnabled)

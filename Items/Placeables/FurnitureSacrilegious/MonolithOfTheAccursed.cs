@@ -10,7 +10,8 @@ namespace CalamityMod.Items.Placeables.FurnitureSacrilegious
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Monolith of the Accursed");
-            Tooltip.SetDefault("Let the sky burn a blazing red");
+            Tooltip.SetDefault("Let the sky burn a blazing red\n" +
+			"The monolith has two different modes");
             SacrificeTotal = 1;
         }
 
@@ -27,7 +28,6 @@ namespace CalamityMod.Items.Placeables.FurnitureSacrilegious
             Item.consumable = true;
             Item.createTile = ModContent.TileType<MonolithOfTheAccursedTile>();
             Item.rare = ModContent.RarityType<Violet>();
-			Item.placeStyle = 1;
         }
 
         public override void AddRecipes()

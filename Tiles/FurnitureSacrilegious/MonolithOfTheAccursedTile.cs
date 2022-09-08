@@ -51,7 +51,7 @@ namespace CalamityMod.Tiles.FurnitureSacrilegious
 
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
-            if (Main.tile[i, j].TileFrameX < 27)
+            if (Main.tile[i, j].TileFrameX > 36)
             {
 				r = 1.2f;
 				g = 0.2f;
@@ -65,25 +65,64 @@ namespace CalamityMod.Tiles.FurnitureSacrilegious
             }
         }
 
+        private void ToggleMode(int i, int j)
+        {
+			int tileX = 2;
+			int tileY = 3;
+
+            int x = i - Main.tile[i, j].TileFrameX / 18 % tileX;
+            int y = j - Main.tile[i, j].TileFrameY / 18 % tileY;
+            for (int l = x; l < x + tileX; l++)
+            {
+                for (int m = y; m < y + tileY; m++)
+                {
+                    if (Main.tile[l, m].HasTile && Main.tile[l, m].TileType == Type)
+                    {
+                        if (Main.tile[l, m].TileFrameX < (36 * tileX))
+                        {
+                            Main.tile[l, m].TileFrameX += (short)(18 * tileX);
+                        }
+                        else
+                        {
+                            Main.tile[l, m].TileFrameX -= (short)(36 * tileX);
+                        }
+                    }
+                }
+            }
+            if (Wiring.running)
+            {
+                for (int k = 0; k < tileX; k++)
+                {
+                    for (int l = 0; l < tileY; l++)
+                    {
+                        Wiring.SkipWire(x + k, y + l);
+                    }
+                }
+            }
+        }
+
         public override bool RightClick(int i, int j)
 		{
-			CalamityUtils.LightHitWire(Type, i, j, 2, 3);
+			ToggleMode(i, j);
 			SoundEngine.PlaySound(SoundID.MenuTick);
 			return true;
 		}
 
-        public override void HitWire(int i, int j) => CalamityUtils.LightHitWire(Type, i, j, 2, 3);
+        public override void HitWire(int i, int j) => ToggleMode(i, j);
 
         public override void NearbyEffects(int i, int j, bool closer)
         {
-            if (Main.tile[i, j].TileFrameX > 27)
+            if (Main.tile[i, j].TileFrameX < 36)
 				return;
 
             Player player = Main.LocalPlayer;
             if (player is null)
                 return;
             if (player.active)
-                player.Calamity().monolithAccursedShader = 20;
+			{
+				int resetAmt = Main.tile[i, j].TileFrameX < 72 ? 20 : 40;
+                player.Calamity().monolithAccursedShader = resetAmt;
+			}
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)
@@ -101,17 +140,18 @@ namespace CalamityMod.Tiles.FurnitureSacrilegious
 		// For drawing the floating icon
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            if (Main.tile[i, j].TileFrameX > 27)
+            if (Main.tile[i, j].TileFrameX < 36)
 				return;
 
-			Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Tiles/FurnitureSacrilegious/MonolithOfTheAccursedTile_Icon").Value;
+			Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Tiles/FurnitureSacrilegious/MonolithOfTheAccursedTile_IconRight").Value;
             Tile tile = Main.tile[i, j];
-            int xPos = tile.TileFrameX;
+			int xPos = tile.TileFrameX;
             int yPos = tile.TileFrameY;
 
             Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
+			float xOffset = Main.tile[i, j].TileFrameX > 70 ? 52f : 16f;
+			Vector2 correction = new Vector2(xOffset , -10f);
             float yOffset = (float)Math.Sin(Main.GlobalTimeWrappedHourly * MathHelper.TwoPi / 5f) * 2f;
-			Vector2 correction = new Vector2(16f , -10f);
             Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y + yOffset) + zero + correction;
 
 			Rectangle rect = new Rectangle(xPos, yPos, texture.Width, texture.Height);
