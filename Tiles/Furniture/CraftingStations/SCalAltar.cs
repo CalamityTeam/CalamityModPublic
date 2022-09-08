@@ -1,6 +1,6 @@
 ﻿using CalamityMod.Events;
 using CalamityMod.Items.Materials;
-using CalamityMod.Items.Placeables.Furniture;
+using CalamityMod.Items.Placeables.Furniture.CraftingStations;
 using CalamityMod.Items.SummonItems;
 using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.Projectiles.Boss;
@@ -13,7 +13,7 @@ using Terraria.ModLoader;
 using Terraria.ObjectData;
 using Terraria.Audio;
 
-namespace CalamityMod.Tiles.Furniture
+namespace CalamityMod.Tiles.Furniture.CraftingStations
 {
     public class SCalAltar : ModTile
     {
@@ -23,7 +23,7 @@ namespace CalamityMod.Tiles.Furniture
         {
             Main.tileFrameImportant[Type] = true;
             Main.tileNoAttach[Type] = true;
-            Main.tileSpelunker[Type] = true;
+            Main.tileLavaDeath[Type] = false;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
             TileObjectData.newTile.Width = 4;
             TileObjectData.newTile.Height = 3;
@@ -44,8 +44,8 @@ namespace CalamityMod.Tiles.Furniture
 
         public override bool CreateDust(int i, int j, ref int type)
         {
-            // Fire dust.
-            type = 6;
+            // Red torch dust.
+            type = 60;
             return true;
         }
 

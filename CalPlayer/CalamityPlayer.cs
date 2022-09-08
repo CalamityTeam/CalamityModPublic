@@ -1102,6 +1102,8 @@ namespace CalamityMod.CalPlayer
         public FluidField ProfanedMoonlightAuroraDrawer;
 
         public Vector2 FireDrawerPosition;
+
+		public int monolithAccursedShader = 20;
         #endregion Draw Effects
 
         #region Draedon Summoning

@@ -50,6 +50,8 @@ namespace CalamityMod.Tiles.FurnitureExo
             Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 48, 32, ModContent.ItemType<ExoClock>());
         }
 
+        public override void MouseOver(int i, int j) => CalamityUtils.MouseOver(i, j, ModContent.ItemType<ExoClock>());
+
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
             int xFrameOffset = Main.tile[i, j].TileFrameX;
