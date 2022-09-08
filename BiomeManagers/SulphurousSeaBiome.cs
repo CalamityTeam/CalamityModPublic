@@ -16,6 +16,7 @@ namespace CalamityMod.BiomeManagers
         public override SceneEffectPriority Priority => SceneEffectPriority.BiomeHigh;
         public override string BestiaryIcon => "CalamityMod/BiomeManagers/SulphurousSeaIcon";
         public override string BackgroundPath => "CalamityMod/Backgrounds/MapBackgrounds/SulphurBG";
+        public override string MapBackground => "CalamityMod/Backgrounds/MapBackgrounds/SulphurBG";
 
         public override int Music
         {
