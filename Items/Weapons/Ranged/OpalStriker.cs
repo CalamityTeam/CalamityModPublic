@@ -15,7 +15,8 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Opal Striker");
-            Tooltip.SetDefault("Fires a string of opal strikes");
+            Tooltip.SetDefault("50% chance to not consume ammo\n" + 
+                "Fires a string of opal strikes");
             SacrificeTotal = 1;
         }
 

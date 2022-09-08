@@ -840,7 +840,8 @@ namespace CalamityMod.Items
             if (item.type == ItemID.Picksaw)
                 EditTooltipByNum(0, (line) => line.Text += "\nCan mine Scoria Ore located in the Abyss");
 
-            if (item.type == ItemID.SolarFlarePickaxe || item.type == ItemID.VortexPickaxe || item.type == ItemID.NebulaPickaxe || item.type == ItemID.StardustPickaxe)
+            if (item.type == ItemID.SolarFlarePickaxe || item.type == ItemID.VortexPickaxe || item.type == ItemID.NebulaPickaxe || item.type == ItemID.StardustPickaxe
+                || item.type == ItemID.SolarFlareDrill || item.type == ItemID.VortexDrill || item.type == ItemID.NebulaDrill || item.type == ItemID.StardustDrill)
                 EditTooltipByName("Knockback", (line) => line.Text += "\nCan mine Uelibloom Ore");
             #endregion
 
