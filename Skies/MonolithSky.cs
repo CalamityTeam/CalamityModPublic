@@ -108,9 +108,8 @@ namespace CalamityMod.Skies
             if (maxDepth >= float.MaxValue && minDepth < float.MaxValue && Main.LocalPlayer.Calamity().monolithAccursedShader > 21)
             {
 				Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/MainMenu/MenuBackground").Value;
-				if (Main.BackgroundEnabled)
-					texture = ModContent.Request<Texture2D>("CalamityMod/Backgrounds/MonolithBackgroundEdited").Value;
-				spriteBatch.Draw(texture, new Rectangle(0, Math.Max(0, (int)((Main.worldSurface * 16 - Main.screenPosition.Y - texture.Height * 2) * 0.1f)), Main.screenWidth, Main.screenHeight), Color.White * Math.Min(1f, (Main.screenPosition.Y - 800f) / 1000f * opacity));
+				int offset = Main.BackgroundEnabled ? 200 : 0;
+				spriteBatch.Draw(texture, new Rectangle(0, Math.Max(0, (int)((Main.worldSurface * 16 - Main.screenPosition.Y - texture.Height * 2) * 0.1f)) - offset, Main.screenWidth, Main.screenHeight), Color.White * Math.Min(1f, (Main.screenPosition.Y - 800f) / 1000f * opacity));
             }
 
             // Draw cinders.
