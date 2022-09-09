@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using System.Reflection;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -28,10 +29,12 @@ namespace CalamityMod.Systems
 		{
 			if (MusicModMusic is not null)
 				return (int)MusicModMusic;
-			// This function is private.  Todo: bug tmod devs
-			/*if (Main.swapMusic)
-				return OtherworldMusic;*/
-			return VanillaMusic;
+
+			FieldInfo swapMusicField = typeof(Main).GetField("swapMusic", BindingFlags.Static | BindingFlags.NonPublic);
+			bool musicSwapped = (bool)swapMusicField.GetValue(null);
+			bool playingOtherworld = (!Main.drunkWorld && musicSwapped) || (Main.drunkWorld && !musicSwapped);
+			// Main.swapMusic is private.  Todo: bug tmod devs to avoid reflection
+			return playingOtherworld ? OtherworldMusic : VanillaMusic;
 		}
 
         public virtual bool SetSceneEffect(Player player)
@@ -41,8 +44,17 @@ namespace CalamityMod.Systems
 
 			if (MusicModMusic is null && VanillaMusic == -1)
 				return false;
-			/*if (MusicModMusic is null && Main.swapMusic && OtherworldMusic == -1)
-				return false;*/
+
+			// Reflection only occurs if there's no music mod, and you set a vanilla track but not an Otherworld track
+			// Both vanilla and otherworld tracks should be selected in most cases which avoids unnecessary reflection
+			if (MusicModMusic is null && OtherworldMusic == -1)
+			{
+				FieldInfo swapMusicField = typeof(Main).GetField("swapMusic", BindingFlags.Static | BindingFlags.NonPublic);
+				bool musicSwapped = (bool)swapMusicField.GetValue(null);
+				bool playingOtherworld = (!Main.drunkWorld && musicSwapped) || (Main.drunkWorld && !musicSwapped);
+				if (playingOtherworld)
+					return false;
+			}
 
 			for (int j = 0; j < Main.maxNPCs; j++)
 			{
