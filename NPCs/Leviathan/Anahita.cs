@@ -232,10 +232,6 @@ namespace CalamityMod.NPCs.Leviathan
                 }
             }
 
-            // Change music.
-            if (leviAlive)
-                Music = CalamityMod.Instance.GetMusicFromMusicMod("LeviathanAndAnahita") ?? MusicID.Boss3;
-
             // Ice Shield
             if (NPC.localAI[2] < 3f)
             {

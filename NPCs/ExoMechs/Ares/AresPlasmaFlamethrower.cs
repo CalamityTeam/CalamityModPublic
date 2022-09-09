@@ -89,7 +89,6 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
             NPC.netAlways = true;
             NPC.boss = true;
             NPC.hide = true;
-            Music = CalamityMod.Instance.GetMusicFromMusicMod("ExoMechs") ?? MusicID.Boss3;
             NPC.Calamity().VulnerableToSickness = false;
             NPC.Calamity().VulnerableToElectricity = true;
         }

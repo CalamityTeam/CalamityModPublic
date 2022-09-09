@@ -286,6 +286,7 @@ namespace CalamityMod.NPCs
         public static int SCalEpiphany = -1;
         public static int SCalAcceptance = -1;
         public static int draedon = -1;
+        public static int draedonAmbience = -1;
         public static int draedonExoMechWorm = -1;
         public static int draedonExoMechTwinRed = -1;
         public static int draedonExoMechTwinGreen = -1;
@@ -519,6 +520,7 @@ namespace CalamityMod.NPCs
             ResetSavedIndex(ref SCalWorm, NPCType<SepulcherHead>());
 
             ResetSavedIndex(ref draedon, NPCType<Draedon>());
+            ResetSavedIndex(ref draedonAmbience, NPCType<Draedon>());
             ResetSavedIndex(ref draedonExoMechWorm, NPCType<ThanatosHead>());
             ResetSavedIndex(ref draedonExoMechTwinRed, NPCType<Artemis>());
             ResetSavedIndex(ref draedonExoMechTwinGreen, NPCType<Apollo>());

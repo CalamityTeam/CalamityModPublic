@@ -80,7 +80,6 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
             NPC.dontCountMe = true;
             NPC.chaseable = false;
             NPC.boss = true;
-            Music = CalamityMod.Instance.GetMusicFromMusicMod("ExoMechs") ?? MusicID.Boss3;
             NPC.Calamity().VulnerableToSickness = false;
             NPC.Calamity().VulnerableToElectricity = true;
         }

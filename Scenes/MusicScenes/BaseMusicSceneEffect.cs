@@ -19,6 +19,7 @@ namespace CalamityMod.Systems
         public abstract int VanillaMusic { get; }
         public abstract int OtherworldMusic { get; }
         public virtual int MusicDistance => 5000;
+        public virtual int[] AdditionalNPCs => new int[] { };
         #endregion
 
 		#region Overridable Methods
@@ -63,6 +64,18 @@ namespace CalamityMod.Systems
 					continue;
 
 				if (npc.type != NPCType)
+					continue;
+
+				bool inList = false;
+				for (int i = 0; i < AdditionalNPCs.Length; i++)
+				{
+					if (npc.type == AdditionalNPCs[i])
+					{
+						inList = true;
+						break;
+					}
+				}
+				if (!inList)
 					continue;
 
 				Rectangle screenRect = new Rectangle((int)Main.screenPosition.X, (int)Main.screenPosition.Y, Main.screenWidth, Main.screenHeight);

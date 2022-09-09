@@ -14,6 +14,11 @@ namespace CalamityMod.Systems
         public override int? MusicModMusic => CalamityMod.Instance.GetMusicFromMusicMod("DevourerOfGodsP1");
         public override int VanillaMusic => MusicID.Boss3;
         public override int OtherworldMusic => MusicID.OtherworldlyBoss2;
+        public override int[] AdditionalNPCs => new int[]
+		{
+			ModContent.NPCType<DevourerofGodsBody>(),
+			ModContent.NPCType<DevourerofGodsTail>()
+		};
 
         public override bool AdditionalCheck() => CalamityGlobalNPC.DoGHead != -1 && CalamityGlobalNPC.DoGP2 == -1;
     }

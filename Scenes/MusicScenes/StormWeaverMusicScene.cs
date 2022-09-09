@@ -13,5 +13,10 @@ namespace CalamityMod.Systems
         public override int? MusicModMusic => CalamityMod.Instance.GetMusicFromMusicMod("Weaver");
         public override int VanillaMusic => MusicID.Boss3;
         public override int OtherworldMusic => MusicID.OtherworldlyBoss2;
+        public override int[] AdditionalNPCs => new int[]
+		{
+			ModContent.NPCType<StormWeaverBody>(),
+			ModContent.NPCType<StormWeaverTail>()
+		};
     }
 }

@@ -1,8 +1,5 @@
+using CalamityMod.NPCs;
 using CalamityMod.NPCs.ExoMechs;
-using CalamityMod.NPCs.ExoMechs.Apollo;
-using CalamityMod.NPCs.ExoMechs.Ares;
-using CalamityMod.NPCs.ExoMechs.Artemis;
-using CalamityMod.NPCs.ExoMechs.Thanatos;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -11,11 +8,13 @@ namespace CalamityMod.Systems
 {
     public class DraedonMusicScene : BaseMusicSceneEffect
     {
-        public override SceneEffectPriority Priority => SceneEffectPriority.BossHigh;
+        public override SceneEffectPriority Priority => SceneEffectPriority.BossMedium;
 
         public override int NPCType => ModContent.NPCType<Draedon>();
-        public override int? MusicModMusic => CalamityMod.Instance.GetMusicFromMusicMod("ExoMechs");
-        public override int VanillaMusic => MusicID.Boss3;
-        public override int OtherworldMusic => MusicID.OtherworldlyBoss2;
+        public override int? MusicModMusic => MusicLoader.GetMusicSlot(Mod, "Sounds/Music/DraedonAmbience");
+        public override int VanillaMusic => -1;
+        public override int OtherworldMusic => -1;
+
+        public override bool AdditionalCheck() => CalamityGlobalNPC.draedonAmbience != -1;
     }
 }
