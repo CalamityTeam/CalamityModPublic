@@ -71,7 +71,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
         public override void ModifyTooltips(List<TooltipLine> tooltips) => CalamityGlobalItem.InsertKnowledgeTooltip(tooltips, 4);
         public override Vector2? HoldoutOffset() => new(-30f, 0f);
-        public override bool AltFunctionUse(Player player) => !(Main.projectile.IndexInRange(player.heldProj) && Main.projectile[player.heldProj].type == ModContent.ProjectileType<AnomalysNanogunHoldout>());
+        public override bool AltFunctionUse(Player player) => true;
         public override void UseItemFrame(Player player)
         {
             // Thank you Mr. IbanPlay (CoralSprout.cs)
