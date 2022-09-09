@@ -622,6 +622,7 @@ namespace CalamityMod.NPCs
 
                     // Master items drop in Revengeance
                     rev.Add(ItemID.MourningWoodMasterTrophy, 4);
+                    rev.Add(ItemID.SpookyWoodMountItem, 20);
                     npcLoot.Add(rev);
                     break;
 
