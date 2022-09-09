@@ -63,16 +63,18 @@ namespace CalamityMod.Systems
 				if (!npc.active)
 					continue;
 
-				if (npc.type != NPCType)
-					continue;
-
 				bool inList = false;
-				for (int i = 0; i < AdditionalNPCs.Length; i++)
+				if (npc.type == NPCType)
+					inList = true;
+				else
 				{
-					if (npc.type == AdditionalNPCs[i])
+					for (int i = 0; i < AdditionalNPCs.Length; i++)
 					{
-						inList = true;
-						break;
+						if (npc.type == AdditionalNPCs[i])
+						{
+							inList = true;
+							break;
+						}
 					}
 				}
 				if (!inList)
