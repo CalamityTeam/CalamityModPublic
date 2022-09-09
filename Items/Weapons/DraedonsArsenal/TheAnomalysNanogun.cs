@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("The Anomaly's Nanogun");
-            Tooltip.SetDefault("\"Welcome to the party, pal\"\n" +
+            Tooltip.SetDefault("'Welcome to the party, pal'\n" +
                 "Left click to charge up 5 rapid-fire plasma beams\n" +
                 "Right click to launch 3 fission bombs");
             SacrificeTotal = 1;
