@@ -63,7 +63,6 @@ namespace CalamityMod.NPCs.Crabulon
             AIType = -1;
             NPC.noGravity = false;
             NPC.noTileCollide = false;
-            Music = CalamityMod.Instance.GetMusicFromMusicMod("Crabulon") ?? MusicID.Boss4;
             NPC.boss = true;
             NPC.knockBackResist = 0f;
             NPC.value = Item.buyPrice(0, 10, 0, 0);
