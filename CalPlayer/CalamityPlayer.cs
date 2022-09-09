@@ -33,6 +33,7 @@ using CalamityMod.Items.Mounts;
 using CalamityMod.Items.Mounts.Minecarts;
 using CalamityMod.Items.TreasureBags.MiscGrabBags;
 using CalamityMod.Items.VanillaArmorChanges;
+using CalamityMod.Items.Weapons.DraedonsArsenal;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
@@ -250,6 +251,7 @@ namespace CalamityMod.CalPlayer
         public static readonly SoundStyle RogueStealthSound = new("CalamityMod/Sounds/Custom/RogueStealth");
         public static readonly SoundStyle DefenseDamageSound = new("CalamityMod/Sounds/Custom/DefenseDamage");
 
+        public static readonly SoundStyle IjiDeathSound = new("CalamityMod/Sounds/Custom/IjiDies");
         #endregion
 
         #region Proficiency
@@ -8078,6 +8080,17 @@ namespace CalamityMod.CalPlayer
             Color messageColor = Color.LightGray;
             Rectangle location = new Rectangle((int)Player.position.X, (int)Player.position.Y - 16, Player.width, Player.height);
             CombatText.NewText(location, messageColor, Language.GetTextValue(text));
+        }
+        #endregion
+
+        #region Kill
+        public override void Kill(double damage, int hitDirection, bool pvp, PlayerDeathReason damageSource)
+        {
+            if (Player.whoAmI == Main.myPlayer && Player.ActiveItem().type == ModContent.ItemType<TheAnomalysNanogun>())
+            {
+                if (Main.rand.NextBool(20))
+                    SoundEngine.PlaySound(IjiDeathSound, Player.Center);
+            }
         }
         #endregion
     }
