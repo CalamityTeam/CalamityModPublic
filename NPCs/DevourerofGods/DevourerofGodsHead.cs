@@ -196,7 +196,6 @@ namespace CalamityMod.NPCs.DevourerofGods
             NPC.noTileCollide = true;
             NPC.DeathSound = SoundID.NPCDeath14;
             NPC.netAlways = true;
-            Music = CalamityMod.Instance.GetMusicFromMusicMod("DevourerOfGodsP1") ?? MusicID.Boss3;
 
             if (Main.getGoodWorld)
                 NPC.scale *= 1.5f;
@@ -322,6 +321,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 
             // whoAmI variable
             CalamityGlobalNPC.DoGHead = NPC.whoAmI;
+            CalamityGlobalNPC.DoGP2 = -1;
 
             // Stop rain
             CalamityMod.StopRain();
@@ -499,8 +499,8 @@ namespace CalamityMod.NPCs.DevourerofGods
                 }
 
                 // Play music after the transiton BS
-                if (NPC.localAI[2] == 530f)
-                    Music = CalamityMod.Instance.GetMusicFromMusicMod("DevourerOfGodsP2") ?? MusicID.LunarBoss;
+                if (NPC.localAI[2] <= 530f)
+					CalamityGlobalNPC.DoGP2 = NPC.whoAmI;
 
                 // Once before DoG spawns, set new size and become visible again.
                 if (NPC.localAI[2] == 60f)

@@ -62,7 +62,6 @@ namespace CalamityMod.NPCs.Signus
             NPC.defense = 60;
             NPC.LifeMaxNERB(297000, 356400, 240000);
             NPC.value = Item.buyPrice(2, 0, 0, 0);
-            Music = CalamityMod.Instance.GetMusicFromMusicMod("Signus") ?? MusicID.Boss4;
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
             NPC.knockBackResist = 0f;

@@ -82,7 +82,6 @@ namespace CalamityMod.NPCs.StormWeaver
             NPC.lifeMax = 825500;
             NPC.LifeMaxNERB(NPC.lifeMax, NPC.lifeMax, 475000);
             NPC.value = Item.buyPrice(2, 0, 0, 0);
-            Music = CalamityMod.Instance.GetMusicFromMusicMod("Weaver") ?? MusicID.Boss3;
 
             // Phase one settings
             CalamityGlobalNPC global = NPC.Calamity();

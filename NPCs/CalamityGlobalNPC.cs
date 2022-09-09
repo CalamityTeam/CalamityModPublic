@@ -274,10 +274,17 @@ namespace CalamityMod.NPCs
         public static int ghostBossClone = -1;
         public static int ghostBoss = -1;
         public static int DoGHead = -1;
+        public static int DoGP2 = -1;
+        public static int yharon = -1;
+        public static int yharonP2 = -1;
         public static int SCalCataclysm = -1;
         public static int SCalCatastrophe = -1;
         public static int SCal = -1;
         public static int SCalWorm = -1;
+        public static int SCalGrief = -1;
+        public static int SCalLament = -1;
+        public static int SCalEpiphany = -1;
+        public static int SCalAcceptance = -1;
         public static int draedon = -1;
         public static int draedonExoMechWorm = -1;
         public static int draedonExoMechTwinRed = -1;
@@ -499,9 +506,16 @@ namespace CalamityMod.NPCs
             ResetSavedIndex(ref ghostBossClone, NPCType<PolterPhantom>());
             ResetSavedIndex(ref ghostBoss, NPCType<Polterghast.Polterghast>());
             ResetSavedIndex(ref DoGHead, NPCType<DevourerofGodsHead>());
+            ResetSavedIndex(ref DoGP2, NPCType<DevourerofGodsHead>());
+            ResetSavedIndex(ref yharon, NPCType<Yharon.Yharon>());
+            ResetSavedIndex(ref yharonP2, NPCType<Yharon.Yharon>());
             ResetSavedIndex(ref SCalCataclysm, NPCType<SupremeCataclysm>());
             ResetSavedIndex(ref SCalCatastrophe, NPCType<SupremeCatastrophe>());
             ResetSavedIndex(ref SCal, NPCType<SupremeCalamitas.SupremeCalamitas>());
+            ResetSavedIndex(ref SCalGrief, NPCType<SupremeCalamitas.SupremeCalamitas>());
+            ResetSavedIndex(ref SCalLament, NPCType<SupremeCalamitas.SupremeCalamitas>());
+            ResetSavedIndex(ref SCalEpiphany, NPCType<SupremeCalamitas.SupremeCalamitas>());
+            ResetSavedIndex(ref SCalAcceptance, NPCType<SupremeCalamitas.SupremeCalamitas>());
             ResetSavedIndex(ref SCalWorm, NPCType<SepulcherHead>());
 
             ResetSavedIndex(ref draedon, NPCType<Draedon>());

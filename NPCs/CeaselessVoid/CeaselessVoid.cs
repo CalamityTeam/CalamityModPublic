@@ -53,7 +53,6 @@ namespace CalamityMod.NPCs.CeaselessVoid
             global.DR = 0.5f;
             NPC.LifeMaxNERB(64400, 77280, 72000);
             NPC.value = Item.buyPrice(2, 0, 0, 0);
-            Music = CalamityMod.Instance.GetMusicFromMusicMod("CeaselessVoid") ?? MusicID.Boss3;
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
             NPC.aiStyle = -1;

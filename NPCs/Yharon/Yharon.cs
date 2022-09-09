@@ -108,8 +108,6 @@ namespace CalamityMod.NPCs.Yharon
             NPC.noTileCollide = true;
             NPC.netAlways = true;
 
-            Music = CalamityMod.Instance.GetMusicFromMusicMod("YharonP1") ?? MusicID.Boss3;
-
             NPC.DeathSound = DeathSound;
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToCold = true;
@@ -190,6 +188,9 @@ namespace CalamityMod.NPCs.Yharon
             bool death = CalamityWorld.death || bossRush;
 
             float pie = (float)Math.PI;
+
+			CalamityGlobalNPC.yharon = NPC.whoAmI;
+			CalamityGlobalNPC.yharonP2 = -1;
 
             // Start phase 2 or not
             if (startSecondAI)
@@ -1524,6 +1525,8 @@ namespace CalamityMod.NPCs.Yharon
         #region AI2
         public void Yharon_AI2(bool expertMode, bool revenge, bool death, bool bossRush, float pie, float lifeRatio, CalamityGlobalNPC calamityGlobalNPC)
         {
+			CalamityGlobalNPC.yharonP2 = NPC.whoAmI;
+
             float phase2GateValue = revenge ? 0.44f : expertMode ? 0.385f : 0.275f;
             bool phase2 = death || lifeRatio <= phase2GateValue;
             float phase3GateValue = death ? 0.358f : revenge ? 0.275f : expertMode ? 0.22f : 0.138f;
@@ -1540,9 +1543,6 @@ namespace CalamityMod.NPCs.Yharon
 
             if (!moveCloser)
             {
-                // When Yharon begins Phase 2, switch music to Roar of the Jungle Dragon.
-                Music = CalamityMod.Instance.GetMusicFromMusicMod("YharonP2") ?? MusicID.LunarBoss;
-
                 moveCloser = true;
 
                 string key = "Mods.CalamityMod.FlameText";

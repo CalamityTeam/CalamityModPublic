@@ -91,7 +91,6 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             NPC.noTileCollide = true;
             NPC.HitSound = SoundID.NPCHit4;
             NPC.DeathSound = SoundID.NPCDeath14;
-            Music = CalamityMod.Instance.GetMusicFromMusicMod("PlaguebringerGoliath") ?? MusicID.Boss3;
             NPC.Calamity().VulnerableToSickness = false;
             NPC.Calamity().VulnerableToElectricity = true;
         }

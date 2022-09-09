@@ -74,7 +74,6 @@ namespace CalamityMod.NPCs.Leviathan
             NPC.noGravity = true;
             NPC.boss = true;
             NPC.netAlways = true;
-            Music = CalamityMod.Instance.GetMusicFromMusicMod("LeviathanAndAnahita") ?? MusicID.Boss3;
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToSickness = true;
             NPC.Calamity().VulnerableToElectricity = true;
