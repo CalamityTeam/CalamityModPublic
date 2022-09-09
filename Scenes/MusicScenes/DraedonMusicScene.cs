@@ -12,8 +12,8 @@ namespace CalamityMod.Systems
 
         public override int NPCType => ModContent.NPCType<Draedon>();
         public override int? MusicModMusic => MusicLoader.GetMusicSlot(Mod, "Sounds/Music/DraedonAmbience");
-        public override int VanillaMusic => MusicLoader.GetMusicSlot(Mod, "Sounds/Music/DraedonAmbience");
-        public override int OtherworldMusic => MusicLoader.GetMusicSlot(Mod, "Sounds/Music/DraedonAmbience");
+        public override int VanillaMusic => -1;
+        public override int OtherworldMusic => -1;
 
         public override bool AdditionalCheck() => CalamityGlobalNPC.draedonAmbience != -1;
     }
