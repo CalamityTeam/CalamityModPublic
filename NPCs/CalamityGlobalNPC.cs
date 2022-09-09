@@ -253,6 +253,7 @@ namespace CalamityMod.NPCs
         public static int primeCannon = -1;
         public static int primeVice = -1;
         public static int primeSaw = -1;
+        public static int aquaticScourge = -1;
         public static int brimstoneElemental = -1;
         public static int cataclysm = -1;
         public static int catastrophe = -1;
@@ -477,6 +478,7 @@ namespace CalamityMod.NPCs
             ResetSavedIndex(ref primeCannon, NPCID.PrimeCannon);
             ResetSavedIndex(ref primeVice, NPCID.PrimeVice);
             ResetSavedIndex(ref primeSaw, NPCID.PrimeSaw);
+            ResetSavedIndex(ref aquaticScourge, NPCType<AquaticScourgeHead>());
             ResetSavedIndex(ref brimstoneElemental, NPCType<BrimstoneElemental.BrimstoneElemental>());
             ResetSavedIndex(ref cataclysm, NPCType<Cataclysm>());
             ResetSavedIndex(ref catastrophe, NPCType<Catastrophe>());

@@ -17,9 +17,11 @@ namespace CalamityMod.Systems
         public abstract int VanillaMusic { get; }
         public abstract int OtherworldMusic { get; }
         public virtual int MusicDistance => 5000;
-        public virtual bool AdditionalCheck => true;
-        public virtual bool AdditionalCheckNPC(int index) => true;
         #endregion
+
+		#region Overridable Methods
+        public virtual bool AdditionalCheck() => true;
+		#endregion
 
         public virtual int SetMusic()
 		{
@@ -33,7 +35,7 @@ namespace CalamityMod.Systems
 
         public virtual bool SetSceneEffect(Player player)
 		{
-			if (!AdditionalCheck)
+			if (!AdditionalCheck())
 				return false;
 
 			if (MusicModMusic is null && VanillaMusic == -1)
@@ -49,9 +51,6 @@ namespace CalamityMod.Systems
 
 				if (npc.type != NPCType)
 					continue;
-
-				if (!AdditionalCheckNPC(j))
-					return false;
 
 				Rectangle screenRect = new Rectangle((int)Main.screenPosition.X, (int)Main.screenPosition.Y, Main.screenWidth, Main.screenHeight);
 				Rectangle npcBox = new Rectangle((int)npc.Center.X - MusicDistance, (int)npc.Center.Y - MusicDistance, MusicDistance * 2, MusicDistance * 2);
