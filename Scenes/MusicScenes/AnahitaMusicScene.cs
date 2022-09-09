@@ -1,3 +1,4 @@
+using CalamityMod.NPCs;
 using CalamityMod.NPCs.Leviathan;
 using Terraria;
 using Terraria.ID;
@@ -13,5 +14,7 @@ namespace CalamityMod.Systems
         public override int? MusicModMusic => CalamityMod.Instance.GetMusicFromMusicMod("Anahita");
         public override int VanillaMusic => MusicID.Boss3;
         public override int OtherworldMusic => MusicID.OtherworldlyBoss2;
+
+        public override bool AdditionalCheck() => CalamityGlobalNPC.leviathan != -1;
     }
 }
