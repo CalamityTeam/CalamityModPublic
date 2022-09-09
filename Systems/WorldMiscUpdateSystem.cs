@@ -405,7 +405,11 @@ namespace CalamityMod.Systems
         #region Handle Dungeon Guardian Spawns
         public static void TrySpawnDungeonGuardian(Player player)
         {
-            if (Main.netMode == NetmodeID.MultiplayerClient || !player.ZoneDungeon || NPC.downedBoss3 || player.dead)
+            bool dontSpawn = NPC.downedBoss3;
+            if (!Main.drunkWorld || player.position.Y / 16f >= (float)(Main.dungeonY + 40))
+                dontSpawn = false;
+
+            if (Main.netMode == NetmodeID.MultiplayerClient || !player.ZoneDungeon || dontSpawn || player.dead)
                 return;
 
             if (!NPC.AnyNPCs(NPCID.DungeonGuardian))
