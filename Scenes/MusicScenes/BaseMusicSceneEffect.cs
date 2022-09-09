@@ -7,8 +7,9 @@ namespace CalamityMod.Systems
     public abstract class BaseMusicSceneEffect : ModSceneEffect
     {
 		// Scene Effect Priorities
-		// Prehardmode Bosses: SceneEffectPriority.BossLow
-		// Hardmode and minor PML Bosses: SceneEffectPriority.BossMedium
+		// Setting it to SceneEffectPriority.BossLow on bosses makes Boss 1 play for half a second so don't do that
+		// ??? (Anahita Lure): SceneEffectPriority.BossLow
+		// Most Bosses: SceneEffectPriority.BossMedium
 		// Major PML Bosses: SceneEffectPriority.BossHigh
 
         #region Overridable Properties

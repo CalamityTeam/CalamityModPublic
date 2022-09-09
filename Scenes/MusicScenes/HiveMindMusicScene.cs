@@ -7,7 +7,7 @@ namespace CalamityMod.Systems
 {
     public class HiveMindMusicScene : BaseMusicSceneEffect
     {
-        public override SceneEffectPriority Priority => SceneEffectPriority.BossLow;
+        public override SceneEffectPriority Priority => SceneEffectPriority.BossMedium;
 
         public override int NPCType => ModContent.NPCType<HiveMind>();
         public override int? MusicModMusic => CalamityMod.Instance.GetMusicFromMusicMod("HiveMind");

@@ -7,7 +7,7 @@ namespace CalamityMod.Systems
 {
     public class DesertScourgeMusicScene : BaseMusicSceneEffect
     {
-        public override SceneEffectPriority Priority => SceneEffectPriority.BossLow;
+        public override SceneEffectPriority Priority => SceneEffectPriority.BossMedium;
 
         public override int NPCType => ModContent.NPCType<DesertScourgeHead>();
         public override int? MusicModMusic => CalamityMod.Instance.GetMusicFromMusicMod("DesertScourge");
