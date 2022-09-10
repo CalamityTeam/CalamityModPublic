@@ -91,7 +91,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
         public override float UseSpeedMultiplier(Player player)
         {
             if (player.altFunctionUse == 2)
-                return AnomalysNanogunHoldout.PlasmaFireTimer / AnomalysNanogunHoldout.MPFBFireTimer;
+                return (float)AnomalysNanogunHoldout.PlasmaFireTimer / AnomalysNanogunHoldout.MPFBFireTimer;
 
             return 1f;
         }
