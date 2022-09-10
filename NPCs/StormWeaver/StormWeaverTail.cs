@@ -30,7 +30,6 @@ namespace CalamityMod.NPCs.StormWeaver
             NPC.height = 80;
             NPC.lifeMax = 825500;
             NPC.LifeMaxNERB(NPC.lifeMax, NPC.lifeMax, 475000);
-            Music = CalamityMod.Instance.GetMusicFromMusicMod("Weaver") ?? MusicID.Boss3;
 
             // Phase one settings
             NPC.takenDamageMultiplier = 2f;

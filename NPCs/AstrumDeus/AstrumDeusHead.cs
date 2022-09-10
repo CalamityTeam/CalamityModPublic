@@ -86,7 +86,6 @@ namespace CalamityMod.NPCs.AstrumDeus
             NPC.HitSound = SoundID.NPCHit4;
             NPC.DeathSound = DeathSound;
             NPC.netAlways = true;
-            Music = CalamityMod.Instance.GetMusicFromMusicMod("AstrumDeus") ?? MusicID.Boss3;
             NPC.Calamity().VulnerableToHeat = true;
             NPC.Calamity().VulnerableToSickness = false;
             SpawnModBiomes = new int[1] { ModContent.GetInstance<AbovegroundAstralBiome>().Type };

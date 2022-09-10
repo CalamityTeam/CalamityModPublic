@@ -219,7 +219,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             NPC.canGhostHeal = false;
             NPC.noGravity = true;
             NPC.noTileCollide = true;
-            Music = CalamityMod.Instance.GetMusicFromMusicMod("SupremeCalamitas1") ?? MusicID.Boss2;
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToCold = true;
             NPC.Calamity().VulnerableToSickness = true;
@@ -355,6 +354,10 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             #region StartUp
 
             CalamityGlobalNPC.SCal = NPC.whoAmI;
+			CalamityGlobalNPC.SCalGrief = NPC.whoAmI;
+			CalamityGlobalNPC.SCalLament = -1;
+			CalamityGlobalNPC.SCalEpiphany = -1;
+			CalamityGlobalNPC.SCalAcceptance = -1;
 
             bool wormAlive = false;
             if (CalamityGlobalNPC.SCalWorm != -1)
@@ -872,7 +875,10 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             if (!startThirdAttack && lifeRatio <= 0.5f)
             {
                 // Switch from the Grief section of Stained, Brutal Calamity to the Lament section.
-                Music = CalamityMod.Instance.GetMusicFromMusicMod("SupremeCalamitas2") ?? MusicID.Boss3;
+				CalamityGlobalNPC.SCalGrief = -1;
+				CalamityGlobalNPC.SCalLament = NPC.whoAmI;
+				CalamityGlobalNPC.SCalEpiphany = -1;
+				CalamityGlobalNPC.SCalAcceptance = -1;
 
                 if (!bossRush)
                 {
@@ -945,7 +951,10 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             if (!startFourthAttack && lifeRatio <= 0.3f)
             {
                 // Switch from the Lament section of Stained, Brutal Calamity to the Epiphany section.
-                Music = CalamityMod.Instance.GetMusicFromMusicMod("SupremeCalamitas3") ?? MusicID.LunarBoss;
+				CalamityGlobalNPC.SCalGrief = -1;
+				CalamityGlobalNPC.SCalLament = -1;
+                CalamityGlobalNPC.SCalEpiphany = NPC.whoAmI;
+				CalamityGlobalNPC.SCalAcceptance = -1;
 
                 if (!bossRush)
                 {
@@ -1035,7 +1044,10 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 if (gettingTired5)
                 {
                     // Switch from the Epiphany section of Stained, Brutal Calamity to the Acceptance section.
-                    Music = CalamityMod.Instance.GetMusicFromMusicMod("SupremeCalamitas4") ?? MusicID.Eerie;
+                    CalamityGlobalNPC.SCalGrief = -1;
+                    CalamityGlobalNPC.SCalLament = -1;
+                    CalamityGlobalNPC.SCalEpiphany = -1;
+                    CalamityGlobalNPC.SCalAcceptance = NPC.whoAmI;
 
                     if (NPC.velocity.Y < 9f)
                         NPC.velocity.Y += 0.185f;

@@ -100,8 +100,6 @@ namespace CalamityMod.NPCs.ExoMechs
             NPC.aiStyle = AIType = -1;
             NPC.knockBackResist = 0f;
             NPC.DeathSound = SoundID.NPCDeath14;
-            // This is required for Draedon to be able to play his ambience.
-            NPC.boss = true;
             NPC.Calamity().ProvidesProximityRage = false;
         }
 
@@ -140,23 +138,16 @@ namespace CalamityMod.NPCs.ExoMechs
         {
             // Set the whoAmI variable.
             CalamityGlobalNPC.draedon = NPC.whoAmI;
+            CalamityGlobalNPC.draedonAmbience = -1;
 
             // Prevent stupid natural despawns.
             NPC.timeLeft = 3600;
 
             // Emit music. If the battle is ongoing, Draedon emits the battle theme.
-            if (ExoMechIsPresent)
-            {
-                Music = CalamityMod.Instance.GetMusicFromMusicMod("ExoMechs") ?? MusicID.Boss3;
-                SceneEffectPriority = SceneEffectPriority.BossLow;
-            }
             // Otherwise, he emits his trademark ambience.
             // This takes priority over anything except Moon Lord's music fadeout.
-            else
-            {
-                Music = MusicLoader.GetMusicSlot(Mod, "Sounds/Music/DraedonAmbience");
-                SceneEffectPriority = SceneEffectPriority.BossMedium;
-            }
+            if (!ExoMechIsPresent)
+				CalamityGlobalNPC.draedonAmbience = NPC.whoAmI;
 
             // Decide an initial target and play a teleport sound on the first frame.
             if (TalkTimer == 0f)

@@ -118,7 +118,6 @@ namespace CalamityMod.NPCs.HiveMind
             NPC.boss = true;
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath1;
-            Music = CalamityMod.Instance.GetMusicFromMusicMod("HiveMind") ?? MusicID.Boss2;
 
             if (Main.expertMode)
             {

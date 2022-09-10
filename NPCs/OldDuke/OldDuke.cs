@@ -77,7 +77,6 @@ namespace CalamityMod.NPCs.OldDuke
             NPC.boss = true;
             NPC.netAlways = true;
             NPC.timeLeft = NPC.activeTime * 30;
-            Music = CalamityMod.Instance.GetMusicFromMusicMod("BoomerDuke") ?? MusicID.DukeFishron;
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToSickness = false;
             NPC.Calamity().VulnerableToElectricity = true;

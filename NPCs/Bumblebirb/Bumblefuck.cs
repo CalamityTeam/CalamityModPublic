@@ -66,7 +66,6 @@ namespace CalamityMod.NPCs.Bumblebirb
             NPC.knockBackResist = 0f;
             NPC.boss = true;
             NPC.noTileCollide = true;
-            Music = CalamityMod.Instance.GetMusicFromMusicMod("Dragonfolly") ?? MusicID.Boss4;
             NPC.lavaImmune = true;
             NPC.noGravity = true;
             NPC.value = Item.buyPrice(1, 25, 0, 0);
