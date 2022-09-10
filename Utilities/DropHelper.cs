@@ -372,6 +372,24 @@ namespace CalamityMod
             public string GetConditionDescription() => description;
         }
 
+        internal class LambdaDropRuleCondition2 : IItemDropRuleCondition
+        {
+            private readonly Func<DropAttemptInfo, bool> conditionLambda;
+            private readonly Func<bool> visibleInUI;
+            private readonly string description;
+
+            internal LambdaDropRuleCondition2(Func<DropAttemptInfo, bool> lambda, Func<bool> ui, string desc = null)
+            {
+                conditionLambda = lambda;
+                visibleInUI = ui;
+                description = desc;
+            }
+
+            public bool CanDrop(DropAttemptInfo info) => conditionLambda(info);
+            public bool CanShowItemDropInUI() => visibleInUI();
+            public string GetConditionDescription() => description;
+        }
+
         /// <summary>
         /// Creates a new LambdaDropRuleCondition which executes the code of your choosing to decide whether this item drop should occur.<br />
         /// This version of "If" does <b>NOT</b> use the DropAttemptInfo struct that is available.<br />
@@ -395,6 +413,11 @@ namespace CalamityMod
             bool LambdaInfoWrapper(DropAttemptInfo _) => lambda();
             return new LambdaDropRuleCondition(LambdaInfoWrapper, ui, desc);
         }
+        public static IItemDropRuleCondition If(Func<bool> lambda, Func<bool> ui, string desc = null)
+        {
+            bool LambdaInfoWrapper(DropAttemptInfo _) => lambda();
+            return new LambdaDropRuleCondition2(LambdaInfoWrapper, ui, desc);
+        }
 
         /// <summary>
         /// Creates a new LambdaDropRuleCondition which executes the code of your choosing to decide whether this item drop should occur.<br />
@@ -415,6 +438,10 @@ namespace CalamityMod
         public static IItemDropRuleCondition If(Func<DropAttemptInfo, bool> lambda, bool ui = true, string desc = null)
         {
             return new LambdaDropRuleCondition(lambda, ui, desc);
+        }
+        public static IItemDropRuleCondition If(Func<DropAttemptInfo, bool> lambda, Func<bool> ui, string desc = null)
+        {
+            return new LambdaDropRuleCondition2(lambda, ui, desc);
         }
         #endregion
 
@@ -483,14 +510,6 @@ namespace CalamityMod
             return p.Calamity().tarraSet;
         });
 
-        public static IItemDropRuleCondition RevNoMaster = If((info) =>
-        {
-            if (Main.masterMode)
-                return false;
-
-            return CalamityWorld.revenge;
-        });
-
         private static bool CanDropBloodOrbs(DropAttemptInfo info)
         {
             // Blood Orbs do not drop unless it's a Blood Moon.
@@ -550,6 +569,8 @@ namespace CalamityMod
         });
         // The text is a separate rule so it doesn't show up on the non-Trasher Fishing Rod drop which only occurs if the Angler is not fed to a Trasher
         public static IItemDropRuleCondition TrasherText = If((info) => true, true, "Drops if fed to a Trasher");
+
+        public static IItemDropRuleCondition RevNoMaster = If((info) => !Main.masterMode && CalamityWorld.revenge, () => !Main.masterMode && CalamityWorld.revenge, "This is a Revengeance Mode drop rate");
 
         #region Boss Defeat Conditionals
         public static IItemDropRuleCondition PostKS(bool ui = true) => If(() => NPC.downedSlimeKing, ui, "Drops after defeating King Slime");

@@ -180,6 +180,7 @@ namespace CalamityMod.Items
                 case ItemID.MechanicalWheelPiece:
                 case ItemID.MinecartMech:
                 case ItemID.SporeSac:
+                case ItemID.WitchBroom:
                 case ItemID.EmpressFlightBooster:
                 case ItemID.ShinyStone:
                 case ItemID.ShrimpyTruffle:
