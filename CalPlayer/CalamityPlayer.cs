@@ -1103,7 +1103,7 @@ namespace CalamityMod.CalPlayer
 
         public Vector2 FireDrawerPosition;
 
-		public int monolithAccursedShader = 20;
+		public int monolithAccursedShader = 0;
         #endregion Draw Effects
 
         #region Draedon Summoning

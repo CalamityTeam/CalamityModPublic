@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -128,7 +128,7 @@ namespace CalamityMod.Skies
             }
         }
 
-        public override Color OnTileColor(Color color) => CalamityUtils.ColorSwap(new Color(205, 100, 100), color, 8f) * opacity;
+        public override Color OnTileColor(Color color) => Color.Lerp(color, new Color(205, 100, 100), opacity);
 
 		public override float GetCloudAlpha() => (1f - opacity) * 0.3f + 0.7f;
     }
