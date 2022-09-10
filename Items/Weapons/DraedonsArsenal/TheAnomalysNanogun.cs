@@ -34,7 +34,10 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
         {
             CalamityGlobalItem modItem = Item.Calamity();
 
-            SetPlasmaDefaults();
+            Item.damage = 500;
+            Item.knockBack = 4.5f;
+            Item.useTime = Item.useAnimation = AnomalysNanogunHoldout.PlasmaFireTimer;
+            Item.shootSpeed = 5f;
             Item.width = 102;
             Item.height = 44;
             Item.DamageType = DamageClass.Ranged;
@@ -53,22 +56,6 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             modItem.ChargePerAltUse = 0.125f;
         }
 
-        private void SetPlasmaDefaults()
-        {
-            Item.damage = 500;
-            Item.knockBack = 4.5f;
-            Item.useTime = Item.useAnimation = AnomalysNanogunHoldout.PlasmaFireTimer;
-            Item.shootSpeed = 5f;
-        }
-
-        private void SetMPFBDefaults()
-        {
-            Item.damage = 250;
-            Item.knockBack = 5.5f;
-            Item.useTime = Item.useAnimation = AnomalysNanogunHoldout.MPFBFireTimer;
-            Item.shootSpeed = 13f;
-        }
-
         public override void ModifyTooltips(List<TooltipLine> tooltips) => CalamityGlobalItem.InsertKnowledgeTooltip(tooltips, 4);
         public override Vector2? HoldoutOffset() => new(-30f, 0f);
         public override bool AltFunctionUse(Player player) => true;
@@ -84,41 +71,29 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             player.SetCompositeArmFront(true, Player.CompositeArmStretchAmount.Full, armPointingDirection - MathHelper.PiOver2);
         }
 
-        // Stats are set before firing
+        // Adjust based on right or left click
         public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
         {
             Vector2 rotationVector = velocity.SafeNormalize(Vector2.UnitX);
             position = player.MountedCenter + rotationVector * AnomalysNanogunHoldout.GunLength;
-            float damageRatio = (float)damage / Item.damage;
+            velocity = rotationVector * 5f;
 
             // Right click is the MPBF Devastator
             if (player.altFunctionUse == 2)
             {
-                // Correct the stats if left click was previously used
-                if (!PlasmaChargeSelected)
-                    return;
-
-                SetMPFBDefaults();
-                PlasmaChargeSelected = false;
+                damage = (int)(damage * 0.5f);
+                knockback *= 0.8f;
+                velocity = rotationVector * 13f;
             }
+        }
 
-            // Left click is the plasma beams
-            else
-            {
-                // Correct the stats if right click was previously used
-                if (PlasmaChargeSelected)
-                    return;
+        // The clicks have different use times
+        public override float UseSpeedMultiplier(Player player)
+        {
+            if (player.altFunctionUse == 2)
+                return AnomalysNanogunHoldout.PlasmaFireTimer / AnomalysNanogunHoldout.MPFBFireTimer;
 
-                SetPlasmaDefaults();
-                PlasmaChargeSelected = true;
-            }
-
-            velocity = rotationVector * Item.shootSpeed;
-            knockback = Item.knockBack;
-            damage = (int)(damageRatio * Item.damage);
-
-            player.itemAnimation = Item.useAnimation;
-            player.itemTime = Item.useTime;
+            return 1f;
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)

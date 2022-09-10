@@ -17,13 +17,13 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
         #region Properties
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
         public static Texture2D ScopeTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/DraedonsArsenal/AnomalysNanogunScope", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
-        public ref float AIShot => ref Projectile.ai[0];
         public ref float AITimer => ref Projectile.ai[1];
         public Player Owner => Main.player[Projectile.owner];
         public Vector2 MouseDistance => Owner.Calamity().mouseWorld - Owner.MountedCenter;
         public ref float ScopeRotation => ref Projectile.localAI[0];
         public ref float ScopeScale => ref Projectile.localAI[1];
         public ref float TargetRecoil => ref Projectile.localAI[0];
+        public bool UseMPFBAI { get => Projectile.ai[0] == MPFBAIType; }
         #endregion
 
         #region Weapon Attributes
@@ -33,7 +33,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
         public const int MPFBFireTimer = 59;
         public const float MPFBRecoil = MathHelper.Pi - MathHelper.PiOver4;
         public const float MPFBScreenShakePower = 5f;
-        public static float MPFBPushback = 15f;
+        public const float MPFBPushback = 15f;
 
         public const int PlasmaChargeupTimer = 40;
         public const int PlasmaCooldownTimer = 20;
@@ -67,7 +67,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             Projectile.Center = Owner.MountedCenter;
             Owner.heldProj = Projectile.whoAmI;
 
-            if (Projectile.ai[0] == MPFBAIType)
+            if (UseMPFBAI)
                 UpdateMPFB();
             else
                 UpdatePlasmaBeam();
@@ -148,6 +148,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
         }
 
         // VIOLENTLY adjusts the aim vector of the cannon to point towards the target recoil
+        // Then point back down as it reloads
         private float UpdateAimPostShotRecoil(Vector2 target) => Vector2.Lerp(target * Owner.direction, Owner.itemRotation.ToRotationVector2(), 0.795f).ToRotation();
 
         // AI for the left click
@@ -197,7 +198,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
         public override void PostDraw(Color lightColor)
         {
-            if (Projectile.ai[0] != MPFBAIType && AITimer - PlasmaChargeupTimer <= 0)
+            if (!UseMPFBAI && AITimer - PlasmaChargeupTimer <= 0)
             {
                 Vector2 drawCenter = (Projectile.Center + Projectile.rotation.ToRotationVector2() * GunLength) - Main.screenPosition;
                 Main.EntitySpriteDraw(ScopeTexture, drawCenter, null, Color.White, ScopeRotation, ScopeTexture.Bounds.Size() / 2f, ScopeScale, SpriteEffects.None, 0);
