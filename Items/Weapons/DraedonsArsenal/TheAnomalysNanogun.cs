@@ -11,6 +11,7 @@ using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using CalamityMod.CustomRecipes;
 using System;
+using CalamityMod.Rarities;
 
 namespace CalamityMod.Items.Weapons.DraedonsArsenal
 {
@@ -46,8 +47,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             Item.UseSound = null;
 
             Item.value = CalamityGlobalItem.RarityDarkBlueBuyPrice;
-            Item.rare = ItemRarityID.Blue;
-            modItem.customRarity = CalamityRarity.DarkBlue;
+            Item.rare = ModContent.RarityType<DarkBlue>();
             modItem.donorItem = true;
 
             modItem.UsesCharge = true;
