@@ -474,7 +474,7 @@ namespace CalamityMod.NPCs.SunkenSea
             npcLoot.Add(ModContent.ItemType<GiantClamTrophy>(), 10);
 
             // Relic
-            npcLoot.AddIf(() => Main.masterMode || CalamityWorld.revenge, ModContent.ItemType<GiantClamRelic>(), 4);
+            npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).Add(ModContent.ItemType<GiantClamRelic>(), 4);
         }
     }
 }

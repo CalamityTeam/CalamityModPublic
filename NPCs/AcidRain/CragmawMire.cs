@@ -510,7 +510,7 @@ namespace CalamityMod.NPCs.AcidRain
             postPolter.AddFail(ModContent.ItemType<SpentFuelContainer>(), hideLootReport: DownedBossSystem.downedPolterghast);
 
             npcLoot.Add(ModContent.ItemType<CragmawMireTrophy>(), 10);
-            npcLoot.AddIf(() => Main.masterMode || CalamityWorld.revenge, ModContent.ItemType<CragmawMireRelic>(), 4);
+            npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).Add(ModContent.ItemType<CragmawMireRelic>(), 4);
         }
     }
 }

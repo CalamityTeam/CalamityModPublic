@@ -452,7 +452,7 @@ namespace CalamityMod.NPCs.AcidRain
             npcLoot.Add(ItemID.SharkFin, 1, 2, 4);
             npcLoot.Add(ModContent.ItemType<SulphuricAcidCannon>(), 3);
             npcLoot.Add(ModContent.ItemType<MaulerTrophy>(), 10);
-            npcLoot.AddIf(() => Main.masterMode || CalamityWorld.revenge, ModContent.ItemType<MaulerRelic>(), 4);
+            npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).Add(ModContent.ItemType<MaulerRelic>(), 4);
         }
 
         public override void HitEffect(int hitDirection, double damage)

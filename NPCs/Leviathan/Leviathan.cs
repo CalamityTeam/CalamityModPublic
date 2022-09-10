@@ -800,7 +800,7 @@ namespace CalamityMod.NPCs.Leviathan
             }
 
             // Relic
-            npcLoot.AddIf(() => (Main.masterMode || CalamityWorld.revenge) && LastAnLStanding(), ModContent.ItemType<LeviathanAnahitaRelic>());
+            npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).AddIf((info) => LastAnLStanding(), ModContent.ItemType<LeviathanAnahitaRelic>());
 
             // Lore
             bool shouldDropLore(DropAttemptInfo info) => !DownedBossSystem.downedLeviathan && LastAnLStanding();

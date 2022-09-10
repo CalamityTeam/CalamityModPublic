@@ -248,7 +248,7 @@ namespace CalamityMod.NPCs.AquaticScourge
 
 			npcLoot.DefineConditionalDropSet(() => true).Add(DropHelper.PerPlayer(ItemID.GreaterHealingPotion, 1, 5, 15), hideLootReport: true); // Healing Potions don't show up in the Bestiary
             npcLoot.Add(ModContent.ItemType<AquaticScourgeTrophy>(), 10);
-            npcLoot.AddIf(() => Main.masterMode || CalamityWorld.revenge, ModContent.ItemType<AquaticScourgeRelic>());
+            npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).Add(ModContent.ItemType<AquaticScourgeRelic>());
 
             // Lore
             bool firstASKill() => !DownedBossSystem.downedAquaticScourge;

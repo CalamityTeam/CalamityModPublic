@@ -9,6 +9,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.Utilities;
 
@@ -390,6 +391,24 @@ namespace CalamityMod
             public string GetConditionDescription() => description;
         }
 
+        internal class LambdaDropRuleCondition3 : IItemDropRuleCondition
+        {
+            private readonly Func<DropAttemptInfo, bool> conditionLambda;
+            private readonly Func<bool> visibleInUI;
+            private readonly Func<string> description;
+
+            internal LambdaDropRuleCondition3(Func<DropAttemptInfo, bool> lambda, Func<bool> ui, Func<string> desc)
+            {
+                conditionLambda = lambda;
+                visibleInUI = ui;
+                description = desc;
+            }
+
+            public bool CanDrop(DropAttemptInfo info) => conditionLambda(info);
+            public bool CanShowItemDropInUI() => visibleInUI();
+            public string GetConditionDescription() => description();
+        }
+
         /// <summary>
         /// Creates a new LambdaDropRuleCondition which executes the code of your choosing to decide whether this item drop should occur.<br />
         /// This version of "If" does <b>NOT</b> use the DropAttemptInfo struct that is available.<br />
@@ -418,6 +437,11 @@ namespace CalamityMod
             bool LambdaInfoWrapper(DropAttemptInfo _) => lambda();
             return new LambdaDropRuleCondition2(LambdaInfoWrapper, ui, desc);
         }
+        public static IItemDropRuleCondition If(Func<bool> lambda, Func<bool> ui, Func<string> desc)
+        {
+            bool LambdaInfoWrapper(DropAttemptInfo _) => lambda();
+            return new LambdaDropRuleCondition3(LambdaInfoWrapper, ui, desc);
+        }
 
         /// <summary>
         /// Creates a new LambdaDropRuleCondition which executes the code of your choosing to decide whether this item drop should occur.<br />
@@ -442,6 +466,10 @@ namespace CalamityMod
         public static IItemDropRuleCondition If(Func<DropAttemptInfo, bool> lambda, Func<bool> ui, string desc = null)
         {
             return new LambdaDropRuleCondition2(lambda, ui, desc);
+        }
+        public static IItemDropRuleCondition If(Func<DropAttemptInfo, bool> lambda, Func<bool> ui, Func<string> desc)
+        {
+            return new LambdaDropRuleCondition3(lambda, ui, desc);
         }
         #endregion
 
@@ -571,6 +599,10 @@ namespace CalamityMod
         public static IItemDropRuleCondition TrasherText = If((info) => true, true, "Drops if fed to a Trasher");
 
         public static IItemDropRuleCondition RevNoMaster = If((info) => !Main.masterMode && CalamityWorld.revenge, () => !Main.masterMode && CalamityWorld.revenge, "This is a Revengeance Mode drop rate");
+        public static IItemDropRuleCondition RevAndMaster = If((info) => Main.masterMode || CalamityWorld.revenge, () => Main.masterMode || CalamityWorld.revenge, () =>
+		{
+			return Main.masterMode ? Language.GetTextValue("Bestiary_ItemDropConditions.IsMasterMode") : "This is a Revengeance Mode drop rate";
+		});
 
         #region Boss Defeat Conditionals
         public static IItemDropRuleCondition PostKS(bool ui = true) => If(() => NPC.downedSlimeKing, ui, "Drops after defeating King Slime");
