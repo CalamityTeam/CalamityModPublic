@@ -8,10 +8,13 @@ namespace CalamityMod.Systems
     public abstract class BaseMusicSceneEffect : ModSceneEffect
     {
 		// Scene Effect Priorities
-		// Setting it to SceneEffectPriority.BossLow on bosses makes Boss 1 play for half a second so don't do that
 		// ??? (Anahita Lure): SceneEffectPriority.BossLow
 		// Most Bosses: SceneEffectPriority.BossMedium
-		// Major PML Bosses: SceneEffectPriority.BossHigh
+		// Major Post-ML Bosses: SceneEffectPriority.BossHigh
+		//
+		// BossLow = default for modded bosses but has a bug where Boss 1 is queued for 1 frame
+		// BossMedium = overrides all vanilla boss music, including events
+		// BossHigh = overrides even ML's pre-spawning music fadeout
 
         #region Overridable Properties
         public abstract int NPCType { get; }
