@@ -4,12 +4,13 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.Banners
 {
-    public class WulfrumPylonBanner : ModItem
+    [LegacyName("WulfrumPylonBanner")]
+    public class WulfrumAmplifierBanner : ModItem
     {
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 1;
-            Tooltip.SetDefault("{$CommonItemTooltip.BannerBonus}Wulfrum Pylon");
+            Tooltip.SetDefault("{$CommonItemTooltip.BannerBonus}Wulfrum Amplifier");
         }
 
         public override void SetDefaults()

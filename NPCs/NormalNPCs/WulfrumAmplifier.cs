@@ -14,7 +14,7 @@ using CalamityMod.Sounds;
 
 namespace CalamityMod.NPCs.NormalNPCs
 {
-    public class WulfrumPylon : ModNPC
+    public class WulfrumAmplifier : ModNPC
     {
         public bool Charging
         {
@@ -26,17 +26,11 @@ namespace CalamityMod.NPCs.NormalNPCs
             get => NPC.ai[1];
             set => NPC.ai[1] = value;
         }
-        public static List<int> SuperchargableEnemies = new List<int>()
-        {
-            ModContent.NPCType<WulfrumDrone>(),
-            ModContent.NPCType<WulfrumGyrator>(),
-            ModContent.NPCType<WulfrumHovercraft>()
-        };
         public const float ChargeRadiusMax = 495f;
         public const float SuperchargeTime = 720f;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Wulfrum Pylon");
+            DisplayName.SetDefault("Wulfrum Amplifier");
             Main.npcFrameCount[NPC.type] = 6;
             NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
             {
@@ -61,7 +55,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             NPC.HitSound = SoundID.NPCHit4;
             NPC.DeathSound = CommonCalamitySounds.WulfrumNPCDeathSound;
             Banner = NPC.type;
-            BannerItem = ModContent.ItemType<WulfrumPylonBanner>();
+            BannerItem = ModContent.ItemType<WulfrumAmplifierBanner>();
             NPC.Calamity().VulnerableToSickness = false;
             NPC.Calamity().VulnerableToElectricity = true;
         }
@@ -79,6 +73,14 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void AI()
         {
+            List<int> SuperchargableEnemies = new List<int>()
+            {
+                ModContent.NPCType<WulfrumDrone>(),
+                ModContent.NPCType<WulfrumGyrator>(),
+                ModContent.NPCType<WulfrumHovercraft>(),
+                ModContent.NPCType<WulfrumRover>()
+            };
+
             NPC.TargetClosest(false);
 
             Player player = Main.player[NPC.target];
@@ -129,15 +131,14 @@ namespace CalamityMod.NPCs.NormalNPCs
                     }
                 }
 
-                for (int i = 0; i < Main.npc.Length; i++)
+                for (int i = 0; i < Main.maxNPCs; i++)
                 {
                     NPC npcAtIndex = Main.npc[i];
                     if (!npcAtIndex.active)
                         continue;
 
-                    // For some strange reason, the Wulfrum Rover is not counted when it's added to a static list.
-                    // What I assume is going on is that it hasn't been loaded yet since it's later alphabetically (Pylon is before Rover).
-                    // As a result, they are checked separately.
+                    // For some strange reason, the Wulfrum enemies are not counted when SuperchargableEnemies is a static list declared up front.
+                    // What I assume is going on is that it hasn't been loaded yet since it's later alphabetically (Amplifier is before the other enemies).
                     if (!SuperchargableEnemies.Contains(npcAtIndex.type) && npcAtIndex.type != ModContent.NPCType<WulfrumRover>())
                         continue;
                     if (npcAtIndex.ai[3] > 0f)
@@ -172,16 +173,16 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            float pylonMult = !NPC.AnyNPCs(ModContent.NPCType<WulfrumPylon>()) ? 1.3f : 1f;
+            float amplifierMult = !NPC.AnyNPCs(ModContent.NPCType<WulfrumAmplifier>()) ? 1.3f : 1f;
 
             if (spawnInfo.PlayerSafe || spawnInfo.Player.Calamity().ZoneSulphur)
                 return 0f;
 
             // Spawn less frequently in the inner third of the world.
             if (spawnInfo.PlayerFloorX > Main.maxTilesX * 0.333f && spawnInfo.PlayerFloorX < Main.maxTilesX - Main.maxTilesX * 0.333f)
-                return SpawnCondition.OverworldDaySlime.Chance * (Main.hardMode ? 0.01f : 0.06f) * pylonMult;
+                return SpawnCondition.OverworldDaySlime.Chance * (Main.hardMode ? 0.01f : 0.06f) * amplifierMult;
 
-            return SpawnCondition.OverworldDaySlime.Chance * (Main.hardMode ? 0.033f : 0.15f) * pylonMult;
+            return SpawnCondition.OverworldDaySlime.Chance * (Main.hardMode ? 0.033f : 0.15f) * amplifierMult;
         }
 
         public override void HitEffect(int hitDirection, double damage)
@@ -199,7 +200,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
                 if (!Main.dedServ)
                 {
-                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("WulfrumPylonGore").Type, 1f);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("WulfrumAmplifierGore").Type, 1f);
 
                     int randomGoreCount = Main.rand.Next(1, 4);
                     for (int i = 0; i < randomGoreCount; i++)

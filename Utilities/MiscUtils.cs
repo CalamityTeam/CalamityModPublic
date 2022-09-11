@@ -725,7 +725,7 @@ namespace CalamityMod
                     item = ModContent.ItemType<WulfrumRoverBanner>();
                     break;
                 case 126:
-                    item = ModContent.ItemType<WulfrumPylonBanner>();
+                    item = ModContent.ItemType<WulfrumAmplifierBanner>();
                     break;
                 default:
                     break;
@@ -1084,7 +1084,7 @@ namespace CalamityMod
                     npc = ModContent.NPCType<WulfrumRover>();
                     break;
                 case 126:
-                    npc = ModContent.NPCType<WulfrumPylon>();
+                    npc = ModContent.NPCType<WulfrumAmplifier>();
                     break;
                 default:
                     break;

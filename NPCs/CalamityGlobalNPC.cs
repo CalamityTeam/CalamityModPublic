@@ -4612,7 +4612,7 @@ namespace CalamityMod.NPCs
                 spawnRate = (int)(spawnRate * 0.2);
                 maxSpawns = (int)(maxSpawns * 5f);
             }
-            if (NPC.AnyNPCs(NPCType<WulfrumPylon>()))
+            if (NPC.AnyNPCs(NPCType<WulfrumAmplifier>()))
             {
                 int otherWulfrumEnemies = NPC.CountNPCS(NPCType<WulfrumDrone>()) + NPC.CountNPCS(NPCType<WulfrumGyrator>()) + NPC.CountNPCS(NPCType<WulfrumHovercraft>()) + NPC.CountNPCS(NPCType<WulfrumRover>());
                 if (otherWulfrumEnemies < 4)
