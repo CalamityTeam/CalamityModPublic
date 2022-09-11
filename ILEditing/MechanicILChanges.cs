@@ -546,7 +546,7 @@ namespace CalamityMod.ILEditing
                 Vector2 desaturatedDrawPosition = drawPosition + Vector2.One;
 
                 // If the blazing mouse is actually going to do damage, draw an indicator aura.
-                if (Main.LocalPlayer.Calamity().blazingCursorDamage && !Main.mapFullscreen)
+                if (!Main.mapFullscreen)
                 {
                     int size = 450;
                     FluidFieldManager.AdjustSizeRelativeToGraphicsQuality(ref size);

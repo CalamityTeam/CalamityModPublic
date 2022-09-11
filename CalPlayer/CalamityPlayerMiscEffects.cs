@@ -107,7 +107,7 @@ namespace CalamityMod.CalPlayer
             OldPositions[0] = Player.position;
 
             // Hurt the nearest NPC to the mouse if using the burning mouse.
-            if (blazingCursorDamage)
+            if (blazingCursorDamage || blazingCursorVisuals)
                 HandleBlazingMouseEffects();
 
             // Revengeance effects
@@ -504,6 +504,10 @@ namespace CalamityMod.CalPlayer
         {
             // The sigil's brightness slowly fades away every frame if not incinerating anything.
             blazingMouseAuraFade = MathHelper.Clamp(blazingMouseAuraFade - 0.025f, 0.25f, 1f);
+
+            // Allows the blazing aura to display if the accessory is vanity, but it deals no damage
+            if (!blazingCursorDamage)
+				return;
 
             // miscCounter is used to limit Calamity's hit rate.
             int framesPerHit = 60 / Calamity.HitsPerSecond;
