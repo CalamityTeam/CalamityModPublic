@@ -1380,10 +1380,6 @@ namespace CalamityMod
         #endregion
 
         #region Can Fire Point Blank Shots
-        public static bool CanFirePointBlank(Item item) => item is null ? false : item.Calamity().canFirePointBlankShots;
-
-        public static bool SetFirePointBlank(Item item) => item is null ? false : (item.Calamity().canFirePointBlankShots = true);
-
         /// <summary>
         /// Gets whether the given item can fire point blank shots.
         /// </summary>
