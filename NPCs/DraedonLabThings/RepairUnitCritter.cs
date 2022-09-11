@@ -1,4 +1,5 @@
 ﻿using CalamityMod.BiomeManagers;
+using CalamityMod.Items.Critters;
 using CalamityMod.Items.DraedonMisc;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -52,6 +53,7 @@ namespace CalamityMod.NPCs.DraedonLabThings
         {
             DisplayName.SetDefault("Repair Unit");
             Main.npcFrameCount[NPC.type] = 17;
+            Main.npcCatchable[NPC.type] = true;
             NPCID.Sets.CountsAsCritter[NPC.type] = true;
             NPCID.Sets.NormalGoldCritterBestiaryPriority.Add(Type);
         }
@@ -70,6 +72,7 @@ namespace CalamityMod.NPCs.DraedonLabThings
             NPC.chaseable = false;
             NPC.HitSound = SoundID.NPCHit4;
             NPC.DeathSound = SoundID.NPCDeath44;
+            NPC.catchItem = (short)ModContent.ItemType<RepairUnitItem>();
             SpawnModBiomes = new int[1] { ModContent.GetInstance<ArsenalLabBiome>().Type };
         }
 
@@ -351,6 +354,16 @@ namespace CalamityMod.NPCs.DraedonLabThings
             spriteBatch.Draw(critterTexture, drawPosition, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, NPC.frame.Size() * 0.5f, NPC.scale, direction, 0f);
             spriteBatch.Draw(glowmask, drawPosition, NPC.frame, NPC.GetAlpha(Color.White), NPC.rotation, NPC.frame.Size() * 0.5f, NPC.scale, direction, 0f);
             return false;
+        }
+
+        public override void OnCaughtBy(Player player, Item item, bool failed)
+        {
+            try
+            {
+            } catch
+            {
+                return;
+            }
         }
     }
 }
