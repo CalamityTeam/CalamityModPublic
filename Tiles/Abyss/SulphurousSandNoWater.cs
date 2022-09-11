@@ -15,6 +15,8 @@ namespace CalamityMod.Tiles.Abyss
             CalamityUtils.MergeWithGeneral(Type);
             CalamityUtils.MergeWithAbyss(Type);
 
+            TileID.Sets.CanBeDugByShovel[Type] = true;
+
             DustType = 32;
             ItemDrop = ModContent.ItemType<Items.Placeables.SulphurousSand>();
             AddMapEntry(new Color(150, 100, 50));
