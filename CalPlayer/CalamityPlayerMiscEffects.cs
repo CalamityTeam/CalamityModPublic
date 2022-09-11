@@ -3982,8 +3982,6 @@ namespace CalamityMod.CalPlayer
                         CalamityUtils.ConsumeItemViaQuickBuff(Player, item, HadalStew.BuffType, HadalStew.BuffDuration, true);
                     if (item.type == ModContent.ItemType<Margarita>())
                         CalamityUtils.ConsumeItemViaQuickBuff(Player, item, Margarita.BuffType, Margarita.BuffDuration, false);
-                    if (item.type == ModContent.ItemType<Bloodfin>())
-                        CalamityUtils.ConsumeItemViaQuickBuff(Player, item, Bloodfin.BuffType, Bloodfin.BuffDuration, false);
                 }
             }
         }
