@@ -3666,14 +3666,14 @@ namespace CalamityMod.NPCs
 
             // Sets certain vanilla NPCs and all town NPCs to be immune to most debuffs.
             if (CalamityLists.DestroyerIDs.Contains(npc.type) || npc.type == NPCID.SkeletronHead || npc.type == NPCID.SpikeBall || npc.type == NPCID.BlazingWheel ||
-                (CalamityLists.EaterofWorldsIDs.Contains(npc.type) && BossRushEvent.BossRushActive) || npc.type == NPCID.DD2EterniaCrystal || npc.townNPC)
+                (CalamityLists.EaterofWorldsIDs.Contains(npc.type) && BossRushEvent.BossRushActive) || npc.type == NPCID.DD2EterniaCrystal || npc.townNPC || NPCID.Sets.ActsLikeTownNPC[npc.type])
             {
                 for (int k = 0; k < npc.buffImmune.Length; k++)
                 {
                     npc.buffImmune[k] = true;
                 }
 
-                if (npc.townNPC)
+                if (npc.townNPC || NPCID.Sets.ActsLikeTownNPC[npc.type])
                 {
                     npc.buffImmune[BuffID.Wet] = false;
                     npc.buffImmune[BuffID.Slimed] = false;
