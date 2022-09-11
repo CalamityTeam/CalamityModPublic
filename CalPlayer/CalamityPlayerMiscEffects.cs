@@ -1233,6 +1233,8 @@ namespace CalamityMod.CalPlayer
                 ChlorophyteHealDelay--;
             if (monolithAccursedShader > 0)
                 monolithAccursedShader--;
+            if (miningSetCooldown > 0)
+                miningSetCooldown--;
 
             // God Slayer Armor dash debuff immunity
             if (DashID == GodSlayerDash.ID && Player.dashDelay < 0)

@@ -643,5 +643,100 @@ namespace CalamityMod
 
             return !Main.tileContainer[tile.TileType] && !tileExcludeList.Contains(tile.TileType);
         }
+
+        /// <summary>
+        /// Gets the item drop of an ore tile
+        /// </summary>
+        /// <param name="tile"></param>
+        /// <returns>The item a tile breaks when drops if it's an ore</returns>
+        public static int GetOreItemID(this Tile tile)
+        {
+            int item = -1;
+
+			// If it's not ore, then return
+			if (!TileID.Sets.Ore[tile.TileType])
+				return item;
+
+            ModTile moddedTile = TileLoader.GetTile(tile.TileType);
+
+            //Getting the item drop of a modded tile is pretty easy.
+            if (moddedTile != null)
+                item = moddedTile.ItemDrop;
+
+            //There is no easy way for getting vanilla item drops :(
+            else
+            {
+                switch (tile.TileType)
+                {
+                    case TileID.LunarOre:
+                        item = ItemID.LunarOre;
+                        break;
+                    case TileID.Chlorophyte:
+                        item = ItemID.ChlorophyteOre;
+                        break;
+                    case TileID.Titanium:
+                        item = ItemID.TitaniumOre;
+                        break;
+                    case TileID.Adamantite:
+                        item = ItemID.AdamantiteOre;
+                        break;
+                    case TileID.Orichalcum:
+                        item = ItemID.OrichalcumOre;
+                        break;
+                    case TileID.Mythril:
+                        item = ItemID.MythrilOre;
+                        break;
+                    case TileID.Palladium:
+                        item = ItemID.PalladiumOre;
+                        break;
+                    case TileID.Cobalt:
+                        item = ItemID.CobaltOre;
+                        break;
+                    case TileID.Hellstone:
+                        item = ItemID.Hellstone;
+                        break;
+                    case TileID.Obsidian:
+                        item = ItemID.Obsidian;
+                        break;
+                    case TileID.Meteorite:
+                        item = ItemID.Meteorite;
+                        break;
+                    case TileID.Demonite:
+                        item = ItemID.DemoniteOre;
+                        break;
+                    case TileID.Crimtane:
+						item = ItemID.CrimtaneOre;
+                        break;
+                    case TileID.Platinum:
+                        item = ItemID.PlatinumOre;
+                        break;
+                    case TileID.Gold:
+                        item = ItemID.GoldOre;
+                        break;
+                    case TileID.Tungsten:
+                        item = ItemID.TungstenOre;
+                        break;
+                    case TileID.Silver:
+                        item = ItemID.SilverOre;
+                        break;
+                    case TileID.Lead:
+                        item = ItemID.LeadOre;
+                        break;
+                    case TileID.Iron:
+                        item = ItemID.IronOre;
+                        break;
+                    case TileID.Tin:
+                        item = ItemID.TinOre;
+                        break;
+                    case TileID.Copper:
+                        item = ItemID.CopperOre;
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            return item;
+        }
     }
 }

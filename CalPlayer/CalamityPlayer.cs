@@ -610,6 +610,8 @@ namespace CalamityMod.CalPlayer
         public bool silverMedkit = false;
         public int silverMedkitTimer = 0;
         public bool goldArmorGoldDrops = false;
+		public bool miningSet = false;
+		public int miningSetCooldown = 0;
         public bool desertProwler = false;
         public bool snowRuffianSet = false;
         public bool forbiddenCirclet = false;
@@ -1739,6 +1741,9 @@ namespace CalamityMod.CalPlayer
             silverMedkit = false;
             goldArmorGoldDrops = false;
 
+			miningSet = false;
+			miningSetCooldown = 0;
+
             eskimoSet = false; //vanilla armor
             meteorSet = false; //vanilla armor, for Space Gun nerf
 
@@ -2361,6 +2366,8 @@ namespace CalamityMod.CalPlayer
             silverMedkit = false;
             silverMedkitTimer = 0;
             goldArmorGoldDrops = false;
+			miningSet = false;
+			miningSetCooldown = 0;
             flamethrowerBoost = false;
             hoverboardBoost = false; //hoverboard + shroomite visage
             shadowSpeed = false;

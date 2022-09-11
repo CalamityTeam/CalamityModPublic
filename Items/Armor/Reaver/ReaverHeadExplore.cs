@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Armor.Reaver
         {
             SacrificeTotal = 1;
             DisplayName.SetDefault("Reaver Headgear");
-            Tooltip.SetDefault("10% increased pick speed and 20% increased block/wall placement speed\n" +
+            Tooltip.SetDefault("40% increased pick speed and block/wall placement speed\n" +
                 "Temporary immunity to lava and can move freely through liquids");
         }
 
@@ -44,7 +44,7 @@ namespace CalamityMod.Items.Armor.Reaver
 
         public override void UpdateArmorSet(Player player)
         {
-            player.setBonus = "Causes nearby treasure to sparkle\n" +
+            player.setBonus = "Highlights all treasure nearby\n" +
                 "Increased item grab range and block placement range\n" +
                 "Mining tiles restores breath while underwater\n" +
                 "Summons a reaver orb to light up the area around you\n" +
@@ -53,7 +53,8 @@ namespace CalamityMod.Items.Armor.Reaver
             var modPlayer = player.Calamity();
             modPlayer.reaverExplore = true;
             modPlayer.wearingRogueArmor = true;
-            player.blockRange += 2;
+            player.findTreasure = true;
+            player.blockRange += 4;
             player.aggro -= 200;
 
             if (player.whoAmI == Main.myPlayer)
@@ -68,47 +69,14 @@ namespace CalamityMod.Items.Armor.Reaver
                     Projectile.NewProjectile(source, player.Center, Vector2.Zero, ModContent.ProjectileType<ReaverOrb>(), 0, 0f, player.whoAmI);
                 }
             }
-            if (player.miscCounter % 10 == 0)
-            {
-                var searchDist = 17;
-                var x = (int)player.Center.X / 16;
-                var y = (int)player.Center.Y / 16;
-                for (var i = x - searchDist; i <= x + searchDist; ++i)
-                {
-                    for (var j = y - searchDist; j <= y + searchDist; ++j)
-                    {
-                        if (Main.rand.NextBool(4) && new Vector2(x - i, y - j).Length() < searchDist && i > 0 && i < Main.maxTilesX - 1 && j > 0 && j < Main.maxTilesY - 1 && Main.tile[i, j] != null && Main.tile[i, j].HasTile)
-                        {
-                            var shouldSparkle = false;
-                            //Check for the money piles
-                            if (Main.tile[i, j].TileType == TileID.SmallPiles && Main.tile[i, j].TileFrameY == 18)
-                            {
-                                if (Main.tile[i, j].TileFrameX >= 576 && Main.tile[i, j].TileFrameX <= 882)
-                                    shouldSparkle = true;
-                            }
-                            else if (Main.tile[i, j].TileType == TileID.LargePiles && Main.tile[i, j].TileFrameX >= 864 && Main.tile[i, j].TileFrameX <= 1170)
-                                shouldSparkle = true;
-
-                            if (shouldSparkle || Main.tileSpelunker[Main.tile[i, j].TileType] || Main.tileAlch[Main.tile[i, j].TileType] && Main.tile[i, j].TileType != TileID.ImmatureHerbs)
-                            {
-                                var sparkle = Dust.NewDust(new Vector2(i * 16, j * 16), 16, 16, 204, 0f, 0f, 150, new Color(), 0.3f);
-                                var dust = Main.dust[sparkle];
-                                dust.fadeIn = 0.75f;
-                                dust.velocity = dust.velocity * 0.1f;
-                                dust.noLight = true;
-                            }
-                        }
-                    }
-                }
-            }
         }
 
         public override void UpdateEquip(Player player)
         {
             player.ignoreWater = true;
-            player.pickSpeed -= 0.1f;
-            player.tileSpeed += 0.2f;
-            player.wallSpeed += 0.2f;
+            player.pickSpeed -= 0.4f;
+            player.tileSpeed += 0.4f;
+            player.wallSpeed += 0.4f;
             player.lavaMax += 420;
         }
 

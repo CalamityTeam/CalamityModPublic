@@ -232,6 +232,19 @@ namespace CalamityMod.Tiles
                 if (player.breath > player.breathMax)
                     player.breath = player.breathMax;
             }
+			// Mining set gives a chance for additional ore. This can be abused for infinite ore but it has a cooldown to prevent too much abuse
+            if (player.Calamity().miningSet && player.Calamity().miningSetCooldown <= 0 && !fail)
+            {
+                int item = tile.GetOreItemID();
+                Vector2 pos = new Vector2(i, j) * 16;
+				// 25% chance for additional ore
+                if (Main.rand.NextBool(4) && item != -1)
+				{
+                    Item.NewItem(new EntitySource_TileBreak(i, j), pos, item);
+					// Cooldown varies between 1 and 3 seconds
+					player.Calamity().miningSetCooldown = Main.rand.Next(60, 181);
+				}
+            }
         }
 
         // LATER -- clean up copied decompiled pot code here
