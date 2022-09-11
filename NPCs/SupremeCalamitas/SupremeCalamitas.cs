@@ -354,10 +354,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             #region StartUp
 
             CalamityGlobalNPC.SCal = NPC.whoAmI;
-			CalamityGlobalNPC.SCalGrief = NPC.whoAmI;
-			CalamityGlobalNPC.SCalLament = -1;
-			CalamityGlobalNPC.SCalEpiphany = -1;
-			CalamityGlobalNPC.SCalAcceptance = -1;
+			HandleMusicVariables();
 
             bool wormAlive = false;
             if (CalamityGlobalNPC.SCalWorm != -1)
@@ -874,12 +871,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             }
             if (!startThirdAttack && lifeRatio <= 0.5f)
             {
-                // Switch from the Grief section of Stained, Brutal Calamity to the Lament section.
-				CalamityGlobalNPC.SCalGrief = -1;
-				CalamityGlobalNPC.SCalLament = NPC.whoAmI;
-				CalamityGlobalNPC.SCalEpiphany = -1;
-				CalamityGlobalNPC.SCalAcceptance = -1;
-
                 if (!bossRush)
                 {
                     string key = "Mods.CalamityMod.SCalBH3Text";
@@ -950,12 +941,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             }
             if (!startFourthAttack && lifeRatio <= 0.3f)
             {
-                // Switch from the Lament section of Stained, Brutal Calamity to the Epiphany section.
-				CalamityGlobalNPC.SCalGrief = -1;
-				CalamityGlobalNPC.SCalLament = -1;
-                CalamityGlobalNPC.SCalEpiphany = NPC.whoAmI;
-				CalamityGlobalNPC.SCalAcceptance = -1;
-
                 if (!bossRush)
                 {
                     string key = "Mods.CalamityMod.SCalBH4Text";
@@ -1043,12 +1028,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             {
                 if (gettingTired5)
                 {
-                    // Switch from the Epiphany section of Stained, Brutal Calamity to the Acceptance section.
-                    CalamityGlobalNPC.SCalGrief = -1;
-                    CalamityGlobalNPC.SCalLament = -1;
-                    CalamityGlobalNPC.SCalEpiphany = -1;
-                    CalamityGlobalNPC.SCalAcceptance = NPC.whoAmI;
-
                     if (NPC.velocity.Y < 9f)
                         NPC.velocity.Y += 0.185f;
                     NPC.noTileCollide = false;
@@ -2531,6 +2510,25 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
                 heart.netUpdate = true;
             }
+        }
+
+        public void HandleMusicVariables()
+        {
+            float lifeRatio = NPC.life / (float)NPC.lifeMax;
+
+            CalamityGlobalNPC.SCalGrief = -1;
+            CalamityGlobalNPC.SCalLament = -1;
+            CalamityGlobalNPC.SCalEpiphany = -1;
+            CalamityGlobalNPC.SCalAcceptance = -1;
+
+            if (startFifthAttack && gettingTired5)
+                CalamityGlobalNPC.SCalAcceptance = NPC.whoAmI;
+            else if (lifeRatio <= 0.3f)
+                CalamityGlobalNPC.SCalEpiphany = NPC.whoAmI;
+            else if (lifeRatio <= 0.5f)
+                CalamityGlobalNPC.SCalLament = NPC.whoAmI;
+            else
+                CalamityGlobalNPC.SCalGrief = NPC.whoAmI;
         }
 
         #region Loot
