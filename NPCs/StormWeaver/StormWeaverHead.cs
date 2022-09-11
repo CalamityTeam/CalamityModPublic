@@ -972,9 +972,10 @@ namespace CalamityMod.NPCs.StormWeaver
                 // Vanity
                 normalOnly.Add(ModContent.ItemType<StormWeaverMask>(), 7);
                 normalOnly.Add(ModContent.ItemType<LittleLight>(), 10);
-                normalOnly.Add(ItemDropRule.Common(ModContent.ItemType<AncientGodSlayerHelm>(), 20).
-                    OnSuccess(ItemDropRule.Common(ModContent.ItemType<AncientGodSlayerChestplate>())).
-                    OnSuccess(ItemDropRule.Common(ModContent.ItemType<AncientGodSlayerLeggings>())));
+				var godSlayerVanity = ItemDropRule.Common(ModContent.ItemType<AncientGodSlayerHelm>(), 20);
+				godSlayerVanity.OnSuccess(ItemDropRule.Common(ModContent.ItemType<AncientGodSlayerChestplate>()));
+				godSlayerVanity.OnSuccess(ItemDropRule.Common(ModContent.ItemType<AncientGodSlayerLeggings>()));
+				normalOnly.Add(godSlayerVanity);
             }
 
             npcLoot.Add(ModContent.ItemType<WeaverTrophy>(), 10);

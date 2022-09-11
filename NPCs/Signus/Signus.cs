@@ -797,9 +797,10 @@ namespace CalamityMod.NPCs.Signus
 
                 // Vanity
                 normalOnly.Add(ModContent.ItemType<SignusMask>(), 7);
-                normalOnly.Add(ItemDropRule.Common(ModContent.ItemType<AncientGodSlayerHelm>(), 20).
-                    OnSuccess(ItemDropRule.Common(ModContent.ItemType<AncientGodSlayerChestplate>())).
-                    OnSuccess(ItemDropRule.Common(ModContent.ItemType<AncientGodSlayerLeggings>())));
+				var godSlayerVanity = ItemDropRule.Common(ModContent.ItemType<AncientGodSlayerHelm>(), 20);
+				godSlayerVanity.OnSuccess(ItemDropRule.Common(ModContent.ItemType<AncientGodSlayerChestplate>()));
+				godSlayerVanity.OnSuccess(ItemDropRule.Common(ModContent.ItemType<AncientGodSlayerLeggings>()));
+				normalOnly.Add(godSlayerVanity);
             }
 
             npcLoot.Add(ModContent.ItemType<SignusTrophy>(), 10);

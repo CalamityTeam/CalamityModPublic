@@ -217,9 +217,10 @@ namespace CalamityMod.NPCs.CeaselessVoid
 
                 // Vanity
                 normalOnly.Add(ModContent.ItemType<CeaselessVoidMask>(), 7);
-                normalOnly.Add(ItemDropRule.Common(ModContent.ItemType<AncientGodSlayerHelm>(), 20).
-                    OnSuccess(ItemDropRule.Common(ModContent.ItemType<AncientGodSlayerChestplate>())).
-                    OnSuccess(ItemDropRule.Common(ModContent.ItemType<AncientGodSlayerLeggings>())));
+				var godSlayerVanity = ItemDropRule.Common(ModContent.ItemType<AncientGodSlayerHelm>(), 20);
+				godSlayerVanity.OnSuccess(ItemDropRule.Common(ModContent.ItemType<AncientGodSlayerChestplate>()));
+				godSlayerVanity.OnSuccess(ItemDropRule.Common(ModContent.ItemType<AncientGodSlayerLeggings>()));
+				normalOnly.Add(godSlayerVanity);
             }
 
             npcLoot.Add(ModContent.ItemType<CeaselessVoidTrophy>(), 10);
