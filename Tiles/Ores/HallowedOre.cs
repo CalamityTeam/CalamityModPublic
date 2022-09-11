@@ -15,6 +15,9 @@ namespace CalamityMod.Tiles.Ores
             Main.tileBlockLight[Type] = true;
             Main.tileOreFinderPriority[Type] = 690;
 
+            TileID.Sets.Ore[Type] = true;
+            TileID.Sets.OreMergesWithMud[Type] = true;
+
             CalamityUtils.MergeWithGeneral(Type);
             ItemDrop = ModContent.ItemType<Items.Placeables.Ores.HallowedOre>();
             ModTranslation name = CreateMapEntryName();
