@@ -215,7 +215,7 @@ namespace CalamityMod.World
             }
             int num = 35;
             Rectangle rectangle = new Rectangle((i - num) * 16, (j - num) * 16, num * 2 * 16, num * 2 * 16);
-            for (int k = 0; k < 255; k++)
+            for (int k = 0; k < Main.maxPlayers; k++)
             {
                 if (Main.player[k].active)
                 {
@@ -226,7 +226,7 @@ namespace CalamityMod.World
                     }
                 }
             }
-            for (int l = 0; l < 200; l++)
+            for (int l = 0; l < Main.maxNPCs; l++)
             {
                 if (Main.npc[l].active)
                 {
@@ -491,30 +491,30 @@ namespace CalamityMod.World
                             float outerEdgePercent = (percent - blurPercent) / (1f - blurPercent);
                             if (rand.NextFloat(1f) > outerEdgePercent)
                             {
-                                ConvertToAstral(x, y);
+                                ConvertToAstral(x, y, true);
                             }
                         }
                         else
                         {
-                            ConvertToAstral(x, y);
+                            ConvertToAstral(x, y, true);
                         }
                     }
                 }
             }
         }
 
-        public static void ConvertToAstral(int startX, int endX, int startY, int endY)
+        public static void ConvertToAstral(int startX, int endX, int startY, int endY, bool convertOre = false)
         {
             for (int x = startX; x <= endX; x++)
             {
                 for (int y = startY; y <= endY; y++)
                 {
-                    ConvertToAstral(x, y);
+                    ConvertToAstral(x, y, convertOre);
                 }
             }
         }
 
-        public static void ConvertToAstral(int x, int y)
+        public static void ConvertToAstral(int x, int y, bool convertOre = false)
         {
             if (WorldGen.InWorld(x, y, 1))
             {
@@ -660,6 +660,21 @@ namespace CalamityMod.World
                                 Main.tile[x, y].TileType = (ushort)ModContent.TileType<AstralMonolith>();
                                 WorldGen.SquareTileFrame(x, y, true);
                                 NetMessage.SendTileSquare(-1, x, y, 1);
+                                break;
+                            case TileID.Copper:
+                            case TileID.Iron:
+                            case TileID.Silver:
+                            case TileID.Gold:
+                            case TileID.Tin:
+                            case TileID.Lead:
+                            case TileID.Tungsten:
+                            case TileID.Platinum:
+								if (convertOre)
+								{
+									Main.tile[x, y].TileType = (ushort)ModContent.TileType<AstralOre>();
+									WorldGen.SquareTileFrame(x, y, true);
+									NetMessage.SendTileSquare(-1, x, y, 1);
+								}
                                 break;
                             case TileID.LeafBlock:
                             case TileID.Sunflower:
