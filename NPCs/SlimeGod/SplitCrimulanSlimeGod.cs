@@ -727,5 +727,25 @@ namespace CalamityMod.NPCs.SlimeGod
         {
             player.AddBuff(BuffID.Darkness, 240, true);
         }
+
+        public override void OnHitByItem(Player player, Item item, int damage, float knockback, bool crit)
+        {
+			if (CalamityGlobalNPC.slimeGod == -1)
+				return;
+
+			NPC slimeGod = Main.npc[CalamityGlobalNPC.slimeGod];
+			slimeGod.playerInteraction[player] = true;
+        }
+
+        public override void OnHitByProjectile(Projectile projectile, int damage, float knockback, bool crit)
+        {
+			if (projectile.npcProj || projectile.trap)
+				return;
+			if (CalamityGlobalNPC.slimeGod == -1)
+				return;
+
+			NPC slimeGod = Main.npc[CalamityGlobalNPC.slimeGod];
+			slimeGod.playerInteraction[projectile.owner] = true;
+        }
     }
 }
