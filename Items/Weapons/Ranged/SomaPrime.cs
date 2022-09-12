@@ -28,7 +28,7 @@ Replaces standard bullets with High Velocity Bullets
 
         public override void SetDefaults()
         {
-            Item.damage = 252;
+            Item.damage = 370;
             Item.DamageType = DamageClass.Ranged;
             Item.width = 94;
             Item.height = 34;
