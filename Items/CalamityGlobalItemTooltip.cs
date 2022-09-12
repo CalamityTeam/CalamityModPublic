@@ -485,7 +485,8 @@ namespace CalamityMod.Items
             // +1 to Abyss light level
             string abyssSmallLightLine = "\nProvides a small amount of light in the abyss";
 
-            if (item.type == ItemID.CrimsonHeart || item.type == ItemID.ShadowOrb || item.type == ItemID.MagicLantern || item.type == ItemID.JellyfishNecklace || item.type == ItemID.MiningHelmet)
+            if (item.type == ItemID.CrimsonHeart || item.type == ItemID.ShadowOrb || item.type == ItemID.MagicLantern || item.type == ItemID.JellyfishNecklace ||
+                item.type == ItemID.MiningHelmet || item.type == ItemID.UltrabrightHelmet)
                 EditTooltipByNum(0, (line) => line.Text += abyssSmallLightLine);
             if (item.type == ItemID.JellyfishDivingGear)
                 EditTooltipByNum(1, (line) => line.Text += abyssSmallLightLine);

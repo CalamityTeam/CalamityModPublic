@@ -98,7 +98,7 @@ namespace CalamityMod
             CalamityPlayer mp = player.Calamity();
             int light = mp.externalAbyssLight;
             bool underwater = player.IsUnderwater();
-            bool miningHelmet = player.head == ArmorIDs.Head.MiningHelmet;
+            bool miningHelmet = player.head == ArmorIDs.Head.MiningHelmet || player.head == ArmorIDs.Head.UltraBrightHelmet;
 
             // The campfire bonus does not apply while in the Abyss.
             if (!mp.ZoneAbyss && (player.HasBuff(BuffID.Campfire) || Main.SceneMetrics.HasCampfire))
