@@ -241,8 +241,8 @@ namespace CalamityMod.Tiles
                 if (Main.rand.NextBool(4) && item != -1)
 				{
                     Item.NewItem(new EntitySource_TileBreak(i, j), pos, item);
-					// Cooldown varies between 1 and 3 seconds
-					player.Calamity().miningSetCooldown = Main.rand.Next(60, 181);
+					// Cooldown varies between 3 and 6 seconds
+					player.Calamity().miningSetCooldown = Main.rand.Next(180, 361);
 				}
             }
         }
