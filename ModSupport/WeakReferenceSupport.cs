@@ -67,6 +67,7 @@ using CalamityMod.NPCs.TownNPCs;
 using CalamityMod.NPCs.Yharon;
 using CalamityMod.Projectiles.DraedonsArsenal;
 using CalamityMod.Projectiles.Summon;
+using CalamityMod.Projectiles.Summon.Umbrella;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;

@@ -4,7 +4,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
 
-namespace CalamityMod.Projectiles.Summon
+namespace CalamityMod.Projectiles.Summon.Umbrella
 {
     public class MagicRifle : ModProjectile
     {

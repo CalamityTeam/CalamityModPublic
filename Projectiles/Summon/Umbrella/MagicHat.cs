@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-namespace CalamityMod.Projectiles.Summon
+namespace CalamityMod.Projectiles.Summon.Umbrella
 {
     public class MagicHat : ModProjectile
     {
