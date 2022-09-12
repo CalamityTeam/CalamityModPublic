@@ -149,6 +149,12 @@ namespace CalamityMod
                 light += 2;
             if (mp.sirenPet)
                 light += underwater ? 3 : 1;
+            if (player.petFlagPumpkingPet)
+                light += 3;
+            if (player.petFlagGolemPet)
+                light += 3;
+            if (player.petFlagFairyQueenPet)
+                light += 3;
             if (player.wisp)
                 light += 3;
             if (player.suspiciouslookingTentacle)

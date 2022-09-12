@@ -503,7 +503,7 @@ namespace CalamityMod.Items
             // +3 to Abyss light level
             string abyssLargeLightLine = "\nProvides a large amount of light in the abyss";
 
-            if (item.type == ItemID.WispinaBottle)
+            if (item.type == ItemID.WispinaBottle || item.type == ItemID.PumpkingPetItem || item.type == ItemID.GolemPetItem || item.type == ItemID.FairyQueenPetItem)
                 EditTooltipByNum(0, (line) => line.Text += abyssLargeLightLine);
             if (item.type == ItemID.SuspiciousLookingTentacle)
                 EditTooltipByNum(1, (line) => line.Text += abyssLargeLightLine);
