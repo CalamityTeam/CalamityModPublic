@@ -123,15 +123,5 @@ namespace CalamityMod.NPCs.NormalNPCs
                 }
             }
         }
-
-        public override void OnCaughtBy(Player player, Item item, bool failed)
-        {
-            try
-            {
-            } catch
-            {
-                return;
-            }
-        }
     }
 }

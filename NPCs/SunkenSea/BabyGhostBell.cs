@@ -167,15 +167,5 @@ namespace CalamityMod.NPCs.SunkenSea
                 }
             }
         }
-
-        public override void OnCaughtBy(Player player, Item item, bool failed)
-        {
-            try
-            {
-            } catch
-            {
-                return;
-            }
-        }
     }
 }

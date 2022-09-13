@@ -355,15 +355,5 @@ namespace CalamityMod.NPCs.DraedonLabThings
             spriteBatch.Draw(glowmask, drawPosition, NPC.frame, NPC.GetAlpha(Color.White), NPC.rotation, NPC.frame.Size() * 0.5f, NPC.scale, direction, 0f);
             return false;
         }
-
-        public override void OnCaughtBy(Player player, Item item, bool failed)
-        {
-            try
-            {
-            } catch
-            {
-                return;
-            }
-        }
     }
 }
