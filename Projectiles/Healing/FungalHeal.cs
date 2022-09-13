@@ -18,7 +18,7 @@ namespace CalamityMod.Projectiles.Healing
             Projectile.alpha = 255;
             Projectile.tileCollide = false;
             Projectile.extraUpdates = 10;
-            Projectile.timeLeft = 300;
+            Projectile.timeLeft = 600;
         }
 
         public override void AI()
