@@ -2397,9 +2397,6 @@ namespace CalamityMod.Projectiles
                 damage = (int)Math.Ceiling(damage * proximityDamageFactor);
             }
 
-            if (!projectile.npcProj && !projectile.trap && projectile.CountsAsClass<RogueDamageClass>() && stealthStrike && modPlayer.stealthStrikeAlwaysCrits)
-                crit = true;
-
             // Aerial Bane does 50% damage to "airborne" enemies. This is just simple math to revert that as it is a very unbalanced mechanic.
             if (projectile.type == ProjectileID.DD2BetsyArrow)
             {

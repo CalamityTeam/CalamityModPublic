@@ -287,7 +287,6 @@ namespace CalamityMod.CalPlayer
         public bool stealthStrikeThisFrame = false;
         public bool stealthStrikeHalfCost = false;
         public bool stealthStrike75Cost = false;
-        public bool stealthStrikeAlwaysCrits = false;
         public bool wearingRogueArmor = false;
         public float accStealthGenBoost = 0f;
 
@@ -6681,7 +6680,6 @@ namespace CalamityMod.CalPlayer
             stealthStrikeThisFrame = false;
             stealthStrikeHalfCost = false;
             stealthStrike75Cost = false;
-            stealthStrikeAlwaysCrits = false;
 
             // stealthAcceleration only resets if you don't have either of the accelerator accessories equipped
             if (!darkGodSheath && !eclipseMirror)
@@ -6791,11 +6789,6 @@ namespace CalamityMod.CalPlayer
 
             double stealthAddedDamage = rogueStealth * BalancingConstants.UniversalStealthStrikeDamageFactor * useTimeFactor * stealthGenFactor;
             stealthDamage += (float)stealthAddedDamage;
-
-            // Show 100% crit chance if your stealth strikes always crit.
-            // In practice, this is only for visuals because Terraria determines crit status on hit.
-            if (stealthStrikeAlwaysCrits && StealthStrikeAvailable())
-                Player.GetCritChance<RogueDamageClass>() = 100f;
 
             // Stealth slightly decreases aggro.
             Player.aggro -= (int)(rogueStealth * 300f);
