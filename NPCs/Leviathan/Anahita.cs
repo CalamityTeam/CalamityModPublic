@@ -847,6 +847,12 @@ namespace CalamityMod.NPCs.Leviathan
             potionType = ItemID.GreaterHealingPotion;
         }
 
+        public override void OnKill()
+        {
+            if (Leviathan.LastAnLStanding())
+                Leviathan.RealOnKill(NPC);
+        }
+
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
             Leviathan.DefineAnahitaLeviathanLoot(npcLoot);
