@@ -16,6 +16,9 @@ namespace CalamityMod.Items.VanillaArmorChanges
         public override string ArmorSetName => "Mining";
 
         public const float MiningSpeed = 0.4f;
+        public const int BonusOreChance = 4;
+        public const int CooldownMin = 180;
+        public const int CooldownMax = 360;
 
         public override void UpdateSetBonusText(ref string setBonusText)
         {

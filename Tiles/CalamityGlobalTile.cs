@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Events;
 using CalamityMod.Items.TreasureBags.MiscGrabBags;
+using CalamityMod.Items.VanillaArmorChanges;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Tiles.Abyss;
 using CalamityMod.Tiles.Astral;
@@ -238,11 +239,11 @@ namespace CalamityMod.Tiles
                 int item = tile.GetOreItemID();
                 Vector2 pos = new Vector2(i, j) * 16;
 				// 25% chance for additional ore
-                if (Main.rand.NextBool(4) && item != -1)
+                if (Main.rand.NextBool(MiningArmorSetChange.BonusOreChance) && item != -1)
 				{
                     Item.NewItem(new EntitySource_TileBreak(i, j), pos, item);
 					// Cooldown varies between 3 and 6 seconds
-					player.Calamity().miningSetCooldown = Main.rand.Next(180, 361);
+					player.Calamity().miningSetCooldown = Main.rand.Next(MiningArmorSetChange.CooldownMin, MiningArmorSetChange.CooldownMax + 1);
 				}
             }
         }
