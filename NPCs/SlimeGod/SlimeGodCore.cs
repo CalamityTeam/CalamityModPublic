@@ -235,6 +235,15 @@ namespace CalamityMod.NPCs.SlimeGod
                         Main.dust[num624].velocity *= 2f;
                     }
 
+                    // Let the player know that the Slime God isn't dead fr
+                    if (!DownedBossSystem.downedSlimeGod)
+                    {
+                        string key = "Mods.CalamityMod.SlimeGodRun";
+                        Color messageColor = Color.Magenta;
+
+                        CalamityUtils.DisplayLocalizedText(key, messageColor);
+                    }
+
                     NPC.active = false;
                     NPC.HitEffect();
                     NPC.NPCLoot();

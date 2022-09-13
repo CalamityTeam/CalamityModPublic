@@ -23,16 +23,6 @@ namespace CalamityMod.Projectiles.Healing
 
         public override void AI()
         {
-            if (Projectile.localAI[0] == 0f)
-            {
-                Player player = Main.player[Projectile.owner];
-                Item item = player.ActiveItem();
-                bool summonNotWhip = item.CountsAsClass<SummonDamageClass>() && !item.CountsAsClass<SummonMeleeSpeedDamageClass>();
-                if (summonNotWhip || item.hammer > 0 || item.pick > 0 || item.axe > 0)
-                    Projectile.timeLeft = 600;
-                Projectile.localAI[0] += 1f;
-            }
-
             Projectile.HealingProjectile((int)Projectile.ai[1], (int)Projectile.ai[0], 5f, 15f);
             float num494 = Projectile.velocity.X * 0.334f;
             float num495 = -(Projectile.velocity.Y * 0.334f);

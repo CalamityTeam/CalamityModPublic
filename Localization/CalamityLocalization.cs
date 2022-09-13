@@ -34,7 +34,7 @@ namespace CalamityMod.Localization
                 new [] { "PlagueBossText", "PLAGUE NUKE BARRAGE ARMED, PREPARING FOR LAUNCH!!!" },
                 new [] { "PlagueBossText2", "MISSILES LAUNCHED, TARGETING ROUTINE INITIATED!!!" },
 
-                new [] { "ProfanedBossText", "The air is burning..." },
+                new [] { "ProfanedBossText", "Holy flames burn away at your wings..." },
                 new [] { "ProfanedBossText2", "Shrieks are echoing from the dungeon." },
                 new [] { "ProfanedBossText3", "The calamitous beings have been inundated with bloodstone." },
                 new [] { "ProfanedBossText4", "The Profaned Goddess has recognised your devotion to purity!" },
@@ -216,6 +216,8 @@ namespace CalamityMod.Localization
                 new [] { "CometShardText", "You have already used a Comet Shard. Using more would make you nauseous." },
                 new [] { "EtherealCoreText", "You have already used an Ethereal Core. It's best to not use more than you are able to." },
                 new [] { "PhantomHeartText", "You have already used a Phantom Heart. It's probably good that you can't use another." },
+
+                new [] { "SlimeGodRun", "The Slime God flees to fight another day..." },
             };
         }
 
