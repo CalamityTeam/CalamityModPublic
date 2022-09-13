@@ -714,7 +714,7 @@ namespace CalamityMod.NPCs.SlimeGod
 				return;
 
 			NPC slimeGod = Main.npc[CalamityGlobalNPC.slimeGod];
-			slimeGod.playerInteraction[player] = true;
+			slimeGod.playerInteraction[player.whoAmI] = true;
         }
 
         public override void OnHitByProjectile(Projectile projectile, int damage, float knockback, bool crit)
