@@ -1667,15 +1667,6 @@ namespace CalamityMod.NPCs
 
                 case NPCID.CultistBoss:
                     SetNewBossJustDowned(npc);
-
-                    // Deus text (this is not a loot function)
-                    if (!NPC.downedAncientCultist)
-                    {
-                        string key4 = "Mods.CalamityMod.DeusText";
-                        Color messageColor4 = Color.Gold;
-
-                        CalamityUtils.DisplayLocalizedText(key4, messageColor4);
-                    }
                     break;
 
                 case NPCID.LunarTowerSolar:
