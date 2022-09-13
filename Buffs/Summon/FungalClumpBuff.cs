@@ -1,5 +1,5 @@
 using CalamityMod.CalPlayer;
-using CalamityMod.Projectiles.Summon;
+using CalamityMod.Projectiles.Typeless;
 using Terraria;
 using Terraria.ModLoader;
 
