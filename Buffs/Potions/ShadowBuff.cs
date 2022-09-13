@@ -8,7 +8,7 @@ namespace CalamityMod.Buffs.Potions
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Shadow");
-            Description.SetDefault("You're invisible, certain rogue weapons give and gain buffs, and stealth generation is boosted.");
+            Description.SetDefault("Rogue weapons spawn projectiles on hit, and stealth generation is boosted.");
             Main.debuff[Type] = false;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = false;
@@ -16,7 +16,6 @@ namespace CalamityMod.Buffs.Potions
 
         public override void Update(Player player, ref int buffIndex)
         {
-            player.invis = true;
             player.Calamity().shadow = true;
         }
     }

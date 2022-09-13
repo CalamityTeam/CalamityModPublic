@@ -313,7 +313,7 @@ namespace CalamityMod.Items
 
             // Invisibility Potion provides various rogue boosts
             if (item.type == ItemID.InvisibilityPotion)
-                EditTooltipByNum(0, (line) => line.Text += "\nBoosts various rogue stats depending on held weapon");
+                EditTooltipByNum(0, (line) => line.Text += "\n8% increased rogue stealth regen");
 
             // Golden Fishing Rod inherently contains High Test Fishing Line
             if (item.type == ItemID.GoldenFishingRod)

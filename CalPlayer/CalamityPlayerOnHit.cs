@@ -1234,55 +1234,12 @@ namespace CalamityMod.CalPlayer
 
             if (shadow && shadowPotCooldown <= 0 && modProj.stealthStrikeHitCount < 5)
             {
-                if (CalamityLists.javelinProjList.Contains(proj.type))
-                {
-                    int randrot = Main.rand.Next(-30, 391);
-                    Vector2 SoulSpeed = new Vector2(13f, 13f).RotatedBy(MathHelper.ToRadians(randrot));
-                    int soul = Projectile.NewProjectile(spawnSource, proj.Center, SoulSpeed, ProjectileType<PenumbraSoul>(), (int)(proj.damage * 0.1), 3f, proj.owner, 0f, 0f);
-                    if (soul.WithinBounds(Main.maxProjectiles))
-                        Main.projectile[soul].DamageType = DamageClass.Generic;
-                    shadowPotCooldown = 30;
-                }
-                if (CalamityLists.spikyBallProjList.Contains(proj.type))
-                {
-                    int scythe = Projectile.NewProjectile(spawnSource, proj.Center, Vector2.Zero, ProjectileType<CosmicScythe>(), (int)(proj.damage * 0.05), 3f, proj.owner, 1f, 0f);
-                    if (scythe.WithinBounds(Main.maxProjectiles))
-                        Main.projectile[scythe].DamageType = DamageClass.Generic;
-                    Main.projectile[scythe].usesLocalNPCImmunity = true;
-                    Main.projectile[scythe].localNPCHitCooldown = 10;
-                    Main.projectile[scythe].penetrate = 2;
-                    shadowPotCooldown = 30;
-                }
-                if (CalamityLists.daggerProjList.Contains(proj.type))
-                {
-                    Vector2 shardVelocity = new Vector2(Main.rand.NextFloat(-1f, 1f), Main.rand.NextFloat(-1f, 1f));
-                    shardVelocity.Normalize();
-                    shardVelocity *= 5f;
-                    int shard = Projectile.NewProjectile(spawnSource, proj.Center, shardVelocity, ProjectileType<EquanimityDarkShard>(), (int)(proj.damage * 0.15), 0f, proj.owner);
-                    if (shard.WithinBounds(Main.maxProjectiles))
-                        Main.projectile[shard].DamageType = DamageClass.Generic;
-                    Main.projectile[shard].timeLeft = 150;
-                    shadowPotCooldown = 30;
-                }
-                if (CalamityLists.boomerangProjList.Contains(proj.type))
-                {
-                    int spiritDamage = (int)(proj.damage * 0.2);
-                    Projectile ghost = CalamityUtils.SpawnOrb(proj, spiritDamage, ProjectileID.SpectreWrath, 800f, 4f);
-                    if (ghost.whoAmI.WithinBounds(Main.maxProjectiles))
-                    {
-                        ghost.DamageType = DamageClass.Generic;
-                        ghost.penetrate = 1;
-                    }
-                    shadowPotCooldown = 30;
-                }
-                if (CalamityLists.flaskBombProjList.Contains(proj.type))
-                {
-                    int blackhole = Projectile.NewProjectile(spawnSource, proj.Center, Vector2.Zero, ProjectileType<ShadowBlackhole>(), (int)(proj.damage * 0.05), 3f, proj.owner, 0f, 0f);
-                    if (blackhole.WithinBounds(Main.maxProjectiles))
-                        Main.projectile[blackhole].DamageType = DamageClass.Generic;
-                    Main.projectile[blackhole].Center = proj.Center;
-                    shadowPotCooldown = 30;
-                }
+				int randrot = Main.rand.Next(-30, 391);
+				Vector2 SoulSpeed = new Vector2(13f, 13f).RotatedBy(MathHelper.ToRadians(randrot));
+				int soul = Projectile.NewProjectile(spawnSource, proj.Center, SoulSpeed, ProjectileType<PenumbraSoul>(), (int)(proj.damage * 0.1), 3f, proj.owner, 0f, 0f);
+				if (soul.WithinBounds(Main.maxProjectiles))
+					Main.projectile[soul].DamageType = DamageClass.Generic;
+				shadowPotCooldown = 30;
             }
 
             if (npcCheck)

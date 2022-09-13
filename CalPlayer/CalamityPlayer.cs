@@ -6823,15 +6823,10 @@ namespace CalamityMod.CalPlayer
                     stealthGenMoving += 0.15f;
             }
 
-            if (CalamityLists.daggerList.Contains(Player.ActiveItem().type) && Player.invis)
+            if (Player.invis || shadow)
             {
                 stealthGenStandstill += 0.08f;
                 stealthGenMoving += 0.08f;
-            }
-            if (shadow)
-            {
-                stealthGenStandstill += 0.1f;
-                stealthGenMoving += 0.1f;
             }
 
             //Accessory modifiers can boost these stats

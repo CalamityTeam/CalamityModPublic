@@ -2570,18 +2570,6 @@ namespace CalamityMod.CalPlayer
             if (CalamityLists.highTestFishList.Contains(Player.ActiveItem().type))
                 Player.accFishingLine = true;
 
-            if (CalamityLists.boomerangList.Contains(Player.ActiveItem().type) && Player.invis)
-                Player.GetDamage<ThrowingDamageClass>() += 0.1f;
-
-            if (CalamityLists.javelinList.Contains(Player.ActiveItem().type) && Player.invis)
-                Player.GetArmorPenetration<GenericDamageClass>() += 5;
-
-            if (CalamityLists.flaskBombList.Contains(Player.ActiveItem().type) && Player.invis)
-                rogueVelocity += 0.1f;
-
-            if (CalamityLists.spikyBallList.Contains(Player.ActiveItem().type) && Player.invis)
-                Player.GetCritChance<RogueDamageClass>() += 10;
-
             if (planarSpeedBoost != 0)
             {
                 if (Player.ActiveItem().type != ModContent.ItemType<PridefulHuntersPlanarRipper>())
