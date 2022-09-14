@@ -4800,6 +4800,7 @@ namespace CalamityMod.NPCs
                 nearLab |= CalamityUtils.ManhattanDistance(checkPosition, CalamityWorld.JungleLabCenter / 16f) < 180f;
                 nearLab |= CalamityUtils.ManhattanDistance(checkPosition, CalamityWorld.HellLabCenter / 16f) < 180f;
                 nearLab |= CalamityUtils.ManhattanDistance(checkPosition, CalamityWorld.IceLabCenter / 16f) < 180f;
+                bool nearPlagueLab = CalamityUtils.ManhattanDistance(checkPosition, CalamityWorld.JungleLabCenter / 16f) < 180f;
 
                 bool isLabWall = aboveSpawnTile.WallType == WallType<HazardChevronWall>() || aboveSpawnTile.WallType == WallType<LaboratoryPanelWall>() || aboveSpawnTile.WallType == WallType<LaboratoryPlateBeam>();
                 isLabWall |= aboveSpawnTile.WallType == WallType<LaboratoryPlatePillar>() || aboveSpawnTile.WallType == WallType<LaboratoryPlatingWall>() || aboveSpawnTile.WallType == WallType<RustedPlateBeam>();
@@ -4808,7 +4809,19 @@ namespace CalamityMod.NPCs
 
                 WeightedRandom<int> pool = new WeightedRandom<int>();
                 pool.Add(NPCID.None, 0f);
-                pool.Add(NPCType<RepairUnitCritter>(), 0.2f);
+                pool.Add(NPCType<RepairUnitCritter>(), 0.1f);
+                if (nearPlagueLab)
+                {
+                    pool.Add(NPCType<NanodroidPlagueGreen>(), 0.05f);
+                    pool.Add(NPCType<NanodroidPlagueRed>(), 0.05f);
+                    pool.Add(NPCType<NanodroidDisfunctional>(), 0.01f);
+                }
+                else
+                {
+                    pool.Add(NPCType<Nanodroid>(), 0.1f);
+                    pool.Add(NPCType<NanodroidDisfunctional>(), 0.1f);
+                }
+
 
                 int typeToSpawn = pool.Get();
                 if (typeToSpawn != NPCID.None)
