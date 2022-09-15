@@ -14,9 +14,9 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Blazing Star");
-            Tooltip.SetDefault("Stacks up to 4\n" +
+            Tooltip.SetDefault("Stacks up to 3\n" +
                                "Stealth strikes release all stars at once with infinite piercing");
-            SacrificeTotal = 4;
+            SacrificeTotal = 3;
         }
 
         public override void SetDefaults()
@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.value = CalamityGlobalItem.Rarity3BuyPrice;
             Item.rare = ItemRarityID.LightRed;
             Item.UseSound = SoundID.Item1;
-            Item.maxStack = 4;
+            Item.maxStack = 3;
 
             Item.shootSpeed = Speed;
             Item.shoot = ModContent.ProjectileType<BlazingStarProj>();
