@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             DisplayName.SetDefault("Sticky Spiky Ball");
             Tooltip.SetDefault(@"Throws a spiky ball that sticks to everything
-Stealth strikes throw seven at once and last a lot longer");
+Stealth strikes throw four at once and last a lot longer");
             SacrificeTotal = 99;
         }
 
@@ -43,7 +43,7 @@ Stealth strikes throw seven at once and last a lot longer");
             if (player.Calamity().StealthStrikeAvailable()) //setting the stealth strike
             {
                 int spread = 3;
-                for (int i = 0; i < 7; i++)
+                for (int i = 0; i < 4; i++)
                 {
                     Vector2 perturbedspeed = new Vector2(velocity.X + Main.rand.Next(-3,4), velocity.Y + Main.rand.Next(-3,4)).RotatedBy(MathHelper.ToRadians(spread));
                     int proj = Projectile.NewProjectile(source, position, perturbedspeed, type, damage, knockback, player.whoAmI);
