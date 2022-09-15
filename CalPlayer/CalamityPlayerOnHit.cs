@@ -1161,7 +1161,10 @@ namespace CalamityMod.CalPlayer
                         int featherDamage = (int)Player.GetTotalDamage<RogueDamageClass>().ApplyTo(15);
                         int feather = Projectile.NewProjectile(spawnSource, source, velocity, ProjectileType<StickyFeather>(), featherDamage, 3f, proj.owner);
                         if (feather.WithinBounds(Main.maxProjectiles))
+						{
                             Main.projectile[feather].DamageType = DamageClass.Generic;
+                            Main.projectile[feather].extraUpdates += 3;
+						}
                     }
                     spawnedFeathers = true;
                 }
