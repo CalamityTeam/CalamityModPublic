@@ -402,7 +402,7 @@ namespace CalamityMod.Items
                 { ItemID.QueenSlimeCrystal, nonConsumableBossSummon },
                 { ItemID.QueenSpiderStaff, Do(UseExact(25)) },
                 { ItemID.RainbowCrystalStaff, Do(UseExact(15)) },
-                { ItemID.RainbowRod, Do(DamageExact(50), UseExact(35)) },
+                { ItemID.RainbowRod, Do(DamageExact(50), ManaExact(12), UseExact(35)) },
                 { ItemID.RainbowWhip, autoReuse },
                 { ItemID.Rally, Do(AutoReuse, DamageExact(20)) },
                 { ItemID.RavenStaff, Do(AutoReuse, UseExact(20)) },
