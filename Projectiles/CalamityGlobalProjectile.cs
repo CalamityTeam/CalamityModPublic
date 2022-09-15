@@ -2575,7 +2575,7 @@ namespace CalamityMod.Projectiles
                         for (int i = 0; i < 2; i++)
                         {
                             Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
-                            int damage = (int)player.GetTotalDamage<RogueDamageClass>().ApplyTo(20);
+                            int damage = (int)player.GetTotalDamage<RogueDamageClass>().ApplyTo(25);
                             int soul = Projectile.NewProjectile(projectile.GetSource_FromThis(), projectile.Center, velocity, ProjectileType<LostSoulFriendly>(), damage, 0f, projectile.owner);
                             Main.projectile[soul].tileCollide = false;
                             if (soul.WithinBounds(Main.maxProjectiles))
