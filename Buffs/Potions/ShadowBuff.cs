@@ -8,7 +8,7 @@ namespace CalamityMod.Buffs.Potions
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Shadow");
-            Description.SetDefault("You are a shadow, rogue weapons spawn projectiles on hit, and stealth generation is boosted.");
+            Description.SetDefault("You are a shadow, rogue weapons spawn projectiles on hit, and stealth generation is boosted by 8%");
             Main.debuff[Type] = false;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = false;

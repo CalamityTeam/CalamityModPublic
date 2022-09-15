@@ -6811,21 +6811,10 @@ namespace CalamityMod.CalPlayer
             if (Player.itemAnimation > 0 || finalDawnProjCount > 0)
                 return 0f;
 
-            // Penumbra Potion provides various boosts to rogue stealth generation
             if (penumbra)
             {
-                if (Main.eclipse || umbraphileSet)
-                {
-                    stealthGenStandstill += 0.2f;
-                    stealthGenMoving += 0.2f;
-                }
-                else if (!Main.dayTime)
-                {
-                    stealthGenStandstill += 0.15f;
-                    stealthGenMoving += 0.15f;
-                }
-                else // daytime
-                    stealthGenMoving += 0.15f;
+				stealthGenStandstill += 0.15f;
+				stealthGenMoving += 0.1f;
             }
 
             if (Player.invis || shadow)
