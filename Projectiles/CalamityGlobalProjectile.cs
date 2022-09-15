@@ -135,6 +135,10 @@ namespace CalamityMod.Projectiles
         {
             CreatedByPlayerDash = source is ProjectileSource_PlayerDashHit;
 
+			IEntitySource sourceItem = source as EntitySource_ItemUse_WithAmmo;
+			if (sourceItem != null)
+				extorterBoost = true;
+
             // TODO -- it would be nice to move frame one hacks here, but this runs in the middle of NewProjectile
             // which is way too early, the projectile's own initialization isn't even done yet
         }
@@ -2566,12 +2570,12 @@ namespace CalamityMod.Projectiles
             {
                 if (projectile.CountsAsClass<RogueDamageClass>())
                 {
-                    if (modPlayer.etherealExtorter && Main.player[projectile.owner].ownedProjectileCounts[ProjectileType<LostSoulFriendly>()] < 5)
+                    if (modPlayer.etherealExtorter && extorterBoost && Main.player[projectile.owner].ownedProjectileCounts[ProjectileType<LostSoulFriendly>()] < 5)
                     {
                         for (int i = 0; i < 2; i++)
                         {
                             Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
-                            int damage = (int)player.GetTotalDamage<RogueDamageClass>().ApplyTo(25);
+                            int damage = (int)player.GetTotalDamage<RogueDamageClass>().ApplyTo(20);
                             int soul = Projectile.NewProjectile(projectile.GetSource_FromThis(), projectile.Center, velocity, ProjectileType<LostSoulFriendly>(), damage, 0f, projectile.owner);
                             Main.projectile[soul].tileCollide = false;
                             if (soul.WithinBounds(Main.maxProjectiles))
