@@ -485,7 +485,8 @@ namespace CalamityMod.Items
             // +1 to Abyss light level
             string abyssSmallLightLine = "\nProvides a small amount of light in the abyss";
 
-            if (item.type == ItemID.CrimsonHeart || item.type == ItemID.ShadowOrb || item.type == ItemID.MagicLantern || item.type == ItemID.JellyfishNecklace || item.type == ItemID.MiningHelmet)
+            if (item.type == ItemID.CrimsonHeart || item.type == ItemID.ShadowOrb || item.type == ItemID.MagicLantern || item.type == ItemID.JellyfishNecklace ||
+                item.type == ItemID.MiningHelmet || item.type == ItemID.UltrabrightHelmet)
                 EditTooltipByNum(0, (line) => line.Text += abyssSmallLightLine);
             if (item.type == ItemID.JellyfishDivingGear)
                 EditTooltipByNum(1, (line) => line.Text += abyssSmallLightLine);
@@ -502,7 +503,7 @@ namespace CalamityMod.Items
             // +3 to Abyss light level
             string abyssLargeLightLine = "\nProvides a large amount of light in the abyss";
 
-            if (item.type == ItemID.WispinaBottle)
+            if (item.type == ItemID.WispinaBottle || item.type == ItemID.PumpkingPetItem || item.type == ItemID.GolemPetItem || item.type == ItemID.FairyQueenPetItem)
                 EditTooltipByNum(0, (line) => line.Text += abyssLargeLightLine);
             if (item.type == ItemID.SuspiciousLookingTentacle)
                 EditTooltipByNum(1, (line) => line.Text += abyssLargeLightLine);
@@ -840,7 +841,8 @@ namespace CalamityMod.Items
             if (item.type == ItemID.Picksaw)
                 EditTooltipByNum(0, (line) => line.Text += "\nCan mine Scoria Ore located in the Abyss");
 
-            if (item.type == ItemID.SolarFlarePickaxe || item.type == ItemID.VortexPickaxe || item.type == ItemID.NebulaPickaxe || item.type == ItemID.StardustPickaxe)
+            if (item.type == ItemID.SolarFlarePickaxe || item.type == ItemID.VortexPickaxe || item.type == ItemID.NebulaPickaxe || item.type == ItemID.StardustPickaxe
+                || item.type == ItemID.SolarFlareDrill || item.type == ItemID.VortexDrill || item.type == ItemID.NebulaDrill || item.type == ItemID.StardustDrill)
                 EditTooltipByName("Knockback", (line) => line.Text += "\nCan mine Uelibloom Ore");
             #endregion
 

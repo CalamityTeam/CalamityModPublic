@@ -34,7 +34,6 @@ namespace CalamityMod.NPCs.DesertScourge
             NPC.knockBackResist = 0f;
             NPC.alpha = 255;
             NPC.boss = true;
-            Music = CalamityMod.Instance.GetMusicFromMusicMod("DesertScourge") ?? MusicID.Boss1;
             NPC.behindTiles = true;
             NPC.noGravity = true;
             NPC.noTileCollide = true;

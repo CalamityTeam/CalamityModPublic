@@ -78,7 +78,6 @@ namespace CalamityMod.NPCs.Ravager
             NPC.alpha = 255;
             NPC.HitSound = SoundID.NPCHit41;
             NPC.DeathSound = SoundID.NPCDeath14;
-            Music = CalamityMod.Instance.GetMusicFromMusicMod("Ravager") ?? MusicID.Boss4;
             NPC.Calamity().VulnerableToSickness = false;
             NPC.Calamity().VulnerableToWater = true;
         }
@@ -867,13 +866,13 @@ namespace CalamityMod.NPCs.Ravager
                 normalOnly.Add(ModContent.ItemType<CorpusAvertor>(), 20);
 
                 // Materials
-                normalOnly.Add(ItemDropRule.ByCondition(DropHelper.If(() => !DownedBossSystem.downedProvidence), ModContent.ItemType<FleshyGeode>()));
-                normalOnly.Add(ItemDropRule.ByCondition(DropHelper.If(() => DownedBossSystem.downedProvidence), ModContent.ItemType<NecromanticGeode>()));
+                normalOnly.Add(ItemDropRule.ByCondition(DropHelper.If(() => !DownedBossSystem.downedProvidence), ModContent.ItemType<FleshyGeode>()), hideLootReport: DownedBossSystem.downedProvidence);
+                normalOnly.Add(ItemDropRule.ByCondition(DropHelper.If(() => DownedBossSystem.downedProvidence), ModContent.ItemType<NecromanticGeode>()), hideLootReport: !DownedBossSystem.downedProvidence);
 
                 // Equipment
                 normalOnly.Add(ModContent.ItemType<BloodPact>(), 3);
                 normalOnly.Add(ModContent.ItemType<FleshTotem>(), 3);
-                normalOnly.Add(ItemDropRule.ByCondition(DropHelper.If(() => DownedBossSystem.downedProvidence), ModContent.ItemType<BloodflareCore>()));
+                normalOnly.Add(ItemDropRule.ByCondition(DropHelper.PostProv(), ModContent.ItemType<BloodflareCore>()));
 
                 // Vanity
                 normalOnly.Add(ModContent.ItemType<RavagerMask>(), 7);
@@ -882,10 +881,10 @@ namespace CalamityMod.NPCs.Ravager
             npcLoot.Add(ModContent.ItemType<RavagerTrophy>(), 10);
 
             // Relic
-            npcLoot.AddIf(() => Main.masterMode || CalamityWorld.revenge, ModContent.ItemType<RavagerRelic>());
+            npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).Add(ModContent.ItemType<RavagerRelic>());
 
             // Lore
-            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedRavager, ModContent.ItemType<KnowledgeRavager>());
+            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedRavager, ModContent.ItemType<KnowledgeRavager>(), desc: DropHelper.FirstKillText);
         }
     }
 }

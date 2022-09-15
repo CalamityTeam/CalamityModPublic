@@ -62,7 +62,6 @@ namespace CalamityMod.NPCs.Signus
             NPC.defense = 60;
             NPC.LifeMaxNERB(297000, 356400, 240000);
             NPC.value = Item.buyPrice(2, 0, 0, 0);
-            Music = CalamityMod.Instance.GetMusicFromMusicMod("Signus") ?? MusicID.Boss4;
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
             NPC.knockBackResist = 0f;
@@ -798,18 +797,19 @@ namespace CalamityMod.NPCs.Signus
 
                 // Vanity
                 normalOnly.Add(ModContent.ItemType<SignusMask>(), 7);
-                normalOnly.Add(ItemDropRule.Common(ModContent.ItemType<AncientGodSlayerHelm>(), 20).
-                    OnSuccess(ItemDropRule.Common(ModContent.ItemType<AncientGodSlayerChestplate>())).
-                    OnSuccess(ItemDropRule.Common(ModContent.ItemType<AncientGodSlayerLeggings>())));
+				var godSlayerVanity = ItemDropRule.Common(ModContent.ItemType<AncientGodSlayerHelm>(), 20);
+				godSlayerVanity.OnSuccess(ItemDropRule.Common(ModContent.ItemType<AncientGodSlayerChestplate>()));
+				godSlayerVanity.OnSuccess(ItemDropRule.Common(ModContent.ItemType<AncientGodSlayerLeggings>()));
+				normalOnly.Add(godSlayerVanity);
             }
 
             npcLoot.Add(ModContent.ItemType<SignusTrophy>(), 10);
 
             // Relic
-            npcLoot.AddIf(() => Main.masterMode || CalamityWorld.revenge, ModContent.ItemType<SignusRelic>());
+            npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).Add(ModContent.ItemType<SignusRelic>());
 
             // Lore
-            npcLoot.AddConditionalPerPlayer(LastSentinelKilled, ModContent.ItemType<KnowledgeSentinels>());
+            npcLoot.AddConditionalPerPlayer(LastSentinelKilled, ModContent.ItemType<KnowledgeSentinels>(), desc: DropHelper.SentinelText);
         }
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)

@@ -73,7 +73,6 @@ namespace CalamityMod.NPCs.AstrumAureus
             NPC.value = Item.buyPrice(0, 60, 0, 0);
             NPC.boss = true;
             NPC.DeathSound = SoundID.NPCDeath14;
-            Music = CalamityMod.Instance.GetMusicFromMusicMod("AstrumAureus") ?? MusicID.Boss3;
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
             NPC.Calamity().VulnerableToHeat = true;
@@ -362,10 +361,10 @@ namespace CalamityMod.NPCs.AstrumAureus
             npcLoot.Add(ModContent.ItemType<AstrumAureusTrophy>(), 10);
 
             // Relic
-            npcLoot.AddIf(() => Main.masterMode || CalamityWorld.revenge, ModContent.ItemType<AstrumAureusRelic>());
+            npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).Add(ModContent.ItemType<AstrumAureusRelic>());
 
             // Lore
-            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedAstrumAureus, ModContent.ItemType<KnowledgeAstrumAureus>());
+            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedAstrumAureus, ModContent.ItemType<KnowledgeAstrumAureus>(), desc: DropHelper.FirstKillText);
         }
 
         public override void OnKill()

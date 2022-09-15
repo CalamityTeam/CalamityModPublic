@@ -123,9 +123,6 @@ namespace CalamityMod.NPCs.AquaticScourge
 
         public override void AI()
         {
-            if (NPC.justHit || NPC.life <= NPC.lifeMax * 0.999 || BossRushEvent.BossRushActive || Main.getGoodWorld)
-                Music = CalamityMod.Instance.GetMusicFromMusicMod("AquaticScourge") ?? MusicID.Boss2;
-
             CalamityAI.AquaticScourgeAI(NPC, Mod, true);
         }
 
@@ -232,8 +229,7 @@ namespace CalamityMod.NPCs.AquaticScourge
                     ModContent.ItemType<Barinautical>(),
                     ModContent.ItemType<Downpour>(),
                     ModContent.ItemType<DeepseaStaff>(),
-                    ModContent.ItemType<ScourgeoftheSeas>(),
-                    ModContent.ItemType<CorrosiveSpine>()
+                    ModContent.ItemType<ScourgeoftheSeas>()
                 };
                 normalOnly.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, weapons));
 
@@ -242,6 +238,7 @@ namespace CalamityMod.NPCs.AquaticScourge
 
                 // Equipment
                 normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<AquaticEmblem>()));
+                normalOnly.Add(ModContent.ItemType<CorrosiveSpine>(), DropHelper.NormalWeaponDropRateFraction);
                 normalOnly.Add(ModContent.ItemType<DeepDiver>(), 10);
                 normalOnly.Add(ModContent.ItemType<SeasSearing>(), 10);
 
@@ -249,14 +246,14 @@ namespace CalamityMod.NPCs.AquaticScourge
                 normalOnly.Add(ModContent.ItemType<BleachedAnglingKit>());
             }
 
-            npcLoot.Add(DropHelper.PerPlayer(ItemID.GreaterHealingPotion, 1, 8, 14));
+			npcLoot.DefineConditionalDropSet(() => true).Add(DropHelper.PerPlayer(ItemID.GreaterHealingPotion, 1, 5, 15), hideLootReport: true); // Healing Potions don't show up in the Bestiary
             npcLoot.Add(ModContent.ItemType<AquaticScourgeTrophy>(), 10);
-            npcLoot.AddIf(() => Main.masterMode || CalamityWorld.revenge, ModContent.ItemType<AquaticScourgeRelic>());
+            npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).Add(ModContent.ItemType<AquaticScourgeRelic>());
 
             // Lore
             bool firstASKill() => !DownedBossSystem.downedAquaticScourge;
-            npcLoot.AddConditionalPerPlayer(firstASKill, ModContent.ItemType<KnowledgeAquaticScourge>());
-            npcLoot.AddConditionalPerPlayer(firstASKill, ModContent.ItemType<KnowledgeSulphurSea>());            
+            npcLoot.AddConditionalPerPlayer(firstASKill, ModContent.ItemType<KnowledgeAquaticScourge>(), desc: DropHelper.FirstKillText);
+            npcLoot.AddConditionalPerPlayer(firstASKill, ModContent.ItemType<KnowledgeSulphurSea>(), desc: DropHelper.FirstKillText);            
         }
 
         public override void OnKill()

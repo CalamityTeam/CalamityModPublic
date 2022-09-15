@@ -7,6 +7,7 @@ using System.IO;
 using Terraria;
 using Terraria.GameContent;
 using Terraria.GameContent.Bestiary;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
@@ -172,7 +173,8 @@ namespace CalamityMod.NPCs.SunkenSea
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
             npcLoot.Add(ItemID.JellyfishNecklace, 100);
-            npcLoot.AddIf(() => DownedBossSystem.downedDesertScourge, ModContent.ItemType<VoltaicJelly>(), 5);
+            LeadingConditionRule postDS = npcLoot.DefineConditionalDropSet(DropHelper.PostDS());
+            postDS.Add(ModContent.ItemType<VoltaicJelly>(), 5);
         }
     }
 }

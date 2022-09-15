@@ -65,7 +65,6 @@ namespace CalamityMod.NPCs.BrimstoneElemental
             NPC.netAlways = true;
             NPC.HitSound = SoundID.NPCHit23;
             NPC.DeathSound = SoundID.NPCDeath39;
-            Music = CalamityMod.Instance.GetMusicFromMusicMod("BrimstoneElemental") ?? MusicID.Boss4;
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToCold = true;
             NPC.Calamity().VulnerableToWater = true;
@@ -183,8 +182,7 @@ namespace CalamityMod.NPCs.BrimstoneElemental
                 {
                     ModContent.ItemType<Brimlance>(),
                     ModContent.ItemType<SeethingDischarge>(),
-                    ModContent.ItemType<DormantBrimseeker>(),
-                    ModContent.ItemType<RoseStone>(),
+                    ModContent.ItemType<DormantBrimseeker>()
                 };
                 normalOnly.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, weapons));
                 normalOnly.Add(ModContent.ItemType<Hellborn>(), 10);
@@ -193,8 +191,13 @@ namespace CalamityMod.NPCs.BrimstoneElemental
                 normalOnly.Add(ModContent.ItemType<EssenceofChaos>(), 1, 4, 8);
 
                 // Equipment
-                normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<Gehenna>()));
-                normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<Abaddon>()));
+                int[] accs = new int[]
+                {
+                    ModContent.ItemType<Gehenna>(),
+                    ModContent.ItemType<RoseStone>(),
+                    ModContent.ItemType<Abaddon>()
+                };
+                normalOnly.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, accs));
                 normalOnly.Add(ModContent.ItemType<FlameLickedShell>(), 10);
 
                 // Vanity
@@ -206,10 +209,10 @@ namespace CalamityMod.NPCs.BrimstoneElemental
             npcLoot.Add(ModContent.ItemType<BrimstoneElementalTrophy>(), 10);
 
             // Relic
-            npcLoot.AddIf(() => Main.masterMode || CalamityWorld.revenge, ModContent.ItemType<BrimstoneElementalRelic>());
+            npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).Add(ModContent.ItemType<BrimstoneElementalRelic>());
 
             // Lore
-            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedBrimstoneElemental, ModContent.ItemType<KnowledgeBrimstoneElemental>());
+            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedBrimstoneElemental, ModContent.ItemType<KnowledgeBrimstoneElemental>(), desc: DropHelper.FirstKillText);
         }
 
         public override void OnKill()

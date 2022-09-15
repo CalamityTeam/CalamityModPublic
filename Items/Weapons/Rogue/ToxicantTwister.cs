@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class ToxicantTwister : ModItem
+    public class ToxicantTwister : RogueWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             Item.width = 42;
             Item.height = 46;
-            Item.damage = 323;
+            Item.damage = 300;
             Item.noMelee = true;
             Item.noUseGraphic = true;
             Item.useAnimation = Item.useTime = 20;
@@ -39,17 +39,17 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.rare = ModContent.RarityType<PureGreen>();
         }
 
-		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
-		{
-			itemGroup = (ContentSamples.CreativeHelper.ItemGroup)CalamityResearchSorting.RogueWeapon;
-		}
-
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            int boomer = Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
-            if (boomer.WithinBounds(Main.maxProjectiles))
-                Main.projectile[boomer].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
-            return false;
+            if (player.Calamity().StealthStrikeAvailable())
+            {
+                damage = (int)(damage * 1.35f);
+                int boomer = Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
+                if (boomer.WithinBounds(Main.maxProjectiles))
+                    Main.projectile[boomer].Calamity().stealthStrike = true;
+                return false;
+            }
+            return true;
         }
     }
 }

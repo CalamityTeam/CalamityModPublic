@@ -1,16 +1,16 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.Enums;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Default;
 using Terraria.ObjectData;
 using static Terraria.ModLoader.ModContent;
-using Terraria.Audio;
-using Terraria.GameContent;
 
 namespace CalamityMod
 {
@@ -128,11 +128,19 @@ namespace CalamityMod
             player.cursorItemIconEnabled = true;
             player.cursorItemIconID = itemID;
 
-			bool frameCheck = fat ? Main.tile[i, j].TileFrameX < 35 : Main.tile[i, j].TileFrameX / 18 < 1;
+			bool frameCheck = fat ? Main.tile[i, j].TileFrameX <= 35 : Main.tile[i, j].TileFrameX / 18 < 0;
             if (frameCheck)
             {
                 player.cursorItemIconReversed = true;
             }
+        }
+
+        public static void MouseOver(int i, int j, int itemID)
+        {
+            Player player = Main.LocalPlayer;
+            player.noThrow = 2;
+            player.cursorItemIconEnabled = true;
+            player.cursorItemIconID = itemID;
         }
 		#endregion
 
@@ -858,7 +866,7 @@ namespace CalamityMod
         /// Extension which initializes a ModTile to be a chest.
         /// </summary>
         /// <param name="mt">The ModTile which is being initialized.</param>
-        internal static void SetUpChest(this ModTile mt, bool offset = false)
+        internal static void SetUpChest(this ModTile mt, bool offset = false, int offsetAmt = 4)
         {
             Main.tileSpelunker[mt.Type] = true;
             Main.tileContainer[mt.Type] = true;
@@ -872,7 +880,7 @@ namespace CalamityMod
             TileID.Sets.DisableSmartCursor[mt.Type] = true;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
             if (offset)
-                TileObjectData.newTile.DrawYOffset = 4;
+                TileObjectData.newTile.DrawYOffset = offsetAmt;
             TileObjectData.newTile.Origin = new Point16(0, 1);
             TileObjectData.newTile.CoordinateHeights = new int[] { 16, 18 };
             TileObjectData.newTile.HookCheckIfCanPlace = new PlacementHook(new Func<int, int, int, int, int, int, int>(Chest.FindEmptyChest), -1, 0, true);
@@ -1164,12 +1172,18 @@ namespace CalamityMod
         /// </summary>
         /// <param name="mt">The ModTile which is being initialized.</param>
         /// <param name="lavaImmune">Whether this tile is supposed to be immune to lava. Defaults to false.</param>
-        internal static void SetUpSink(this ModTile mt, bool lavaImmune = false)
+        /// <param name="water">Whether this tile counts as a water source. Defaults to true.</param>
+        /// <param name="lava">Whether this tile counts as a lava source. Defaults to false.</param>
+        /// <param name="honey">Whether this tile counts as a honey source. Defaults to false.</param>
+        internal static void SetUpSink(this ModTile mt, bool lavaImmune = false, bool water = true, bool lava = false, bool honey = false)
         {
             Main.tileLighted[mt.Type] = true;
             Main.tileFrameImportant[mt.Type] = true;
             Main.tileLavaDeath[mt.Type] = !lavaImmune;
             Main.tileWaterDeath[mt.Type] = false;
+            TileID.Sets.CountsAsWaterSource[mt.Type] = water;
+            TileID.Sets.CountsAsHoneySource[mt.Type] = lava;
+            TileID.Sets.CountsAsLavaSource[mt.Type] = honey;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
             TileObjectData.newTile.LavaDeath = !lavaImmune;
             TileObjectData.addTile(mt.Type);

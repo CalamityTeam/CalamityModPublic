@@ -46,8 +46,9 @@ namespace CalamityMod.Projectiles
         // Damage Adjusters
         public const float PierceResistHarshness = 0.12f;
         public const float PierceResistCap = 0.8f;
-        // TODO -- Remove this. Vanilla originalDamage now applies to all projectiles.
-        public int defDamage = 0;
+
+        // defDamage was being used for frame1 hacks. this stands in as the replacement for that logic.
+        private bool frameOneHacksExecuted = false;
 
         // Enables "supercrits". When crit is over 100%, projectiles with this bool enabled can "supercrit".
         // For every 100% critical strike chance over 100%, "supercrit" projectiles do a guaranteed +100% damage.
@@ -133,6 +134,9 @@ namespace CalamityMod.Projectiles
         public override void OnSpawn(Projectile projectile, IEntitySource source)
         {
             CreatedByPlayerDash = source is ProjectileSource_PlayerDashHit;
+
+            // TODO -- it would be nice to move frame one hacks here, but this runs in the middle of NewProjectile
+            // which is way too early, the projectile's own initialization isn't even done yet
         }
         #endregion On Spawn
 
@@ -163,9 +167,7 @@ namespace CalamityMod.Projectiles
             if (projectile.minion && ExplosiveEnchantCountdown > 0)
             {
                 ExplosiveEnchantCountdown--;
-                if (defDamage == 0)
-                    defDamage = projectile.damage;
-                projectile.damage = (int)(defDamage * MathHelper.SmoothStep(1f, 1.6f, 1f - ExplosiveEnchantCountdown / (float)ExplosiveEnchantTime));
+                projectile.damage = (int)(projectile.originalDamage * MathHelper.SmoothStep(1f, 1.6f, 1f - ExplosiveEnchantCountdown / (float)ExplosiveEnchantTime));
 
                 // Make fizzle sounds and fire dust to indicate the impending explosion.
                 if (ExplosiveEnchantCountdown <= 300)
@@ -1062,7 +1064,9 @@ namespace CalamityMod.Projectiles
 
                 else if (projectile.type == ProjectileID.DeathLaser && projectile.ai[0] == 1f)
                 {
-                    if (defDamage == 0)
+                    // Unlikely that vanilla sets originalDamage for hostile projectiles.
+                    // TODO -- this might not work and mech boss projectiles might deal too much damage again.
+                    if (projectile.originalDamage == 0)
                     {
                         // Reduce mech boss projectile damage depending on the new ore progression changes
                         if (CalamityConfig.Instance.EarlyHardmodeProgressionRework && !BossRushEvent.BossRushActive)
@@ -1073,7 +1077,7 @@ namespace CalamityMod.Projectiles
                                 projectile.damage = (int)(projectile.damage * 0.9);
                         }
 
-                        defDamage = projectile.damage;
+                        projectile.originalDamage = projectile.damage;
                     }
 
                     projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + MathHelper.PiOver2;
@@ -1943,7 +1947,7 @@ namespace CalamityMod.Projectiles
             Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
 
-            if (defDamage == 0)
+            if (!frameOneHacksExecuted)
             {
                 if (projectile.hostile)
                 {
@@ -1989,57 +1993,62 @@ namespace CalamityMod.Projectiles
 
                     if (modPlayer.camper && !player.StandingStill())
                         projectile.damage = (int)(projectile.damage * 0.1);
-                }
 
-                defDamage = projectile.damage;
-            }
-
-            // Setting this in SetDefaults didn't work
-            switch (projectile.type)
-            {
-                case ProjectileID.Bee:
-                case ProjectileID.Wasp:
-                case ProjectileID.TinyEater:
-                case ProjectileID.GiantBee:
-                case ProjectileID.Bat:
-                    projectile.extraUpdates = 1;
-                    break;
-            }
-
-            if (NPC.downedMoonlord)
-            {
-                if (CalamityLists.dungeonProjectileBuffList.Contains(projectile.type))
-                {
-                    //Prevents them being buffed in Skeletron, Skeletron Prime, or Golem fights
-                    if (((projectile.type == ProjectileID.RocketSkeleton || projectile.type == ProjectileID.Shadowflames) && projectile.ai[1] == 1f) ||
-                        (NPC.golemBoss > 0 && (projectile.type == ProjectileID.InfernoHostileBolt || projectile.type == ProjectileID.InfernoHostileBlast)))
+                    if (projectile.CountsAsClass<RogueDamageClass>() && stealthStrike)
                     {
-                        projectile.damage = defDamage;
-                    }
-                    else
-                        projectile.damage = defDamage + 30;
-                }
-            }
-
-            if (DownedBossSystem.downedDoG && (Main.pumpkinMoon || Main.snowMoon || Main.eclipse))
-            {
-                if (CalamityLists.eventProjectileBuffList.Contains(projectile.type))
-                    projectile.damage = defDamage + 15;
-            }
-
-            if (projectile.type == ProjectileID.GiantBee || projectile.type == ProjectileID.Bee)
-            {
-                if (projectile.timeLeft > 570) //all of these have a time left of 600 or 660
-                {
-                    if (player.ActiveItem().type == ItemID.BeesKnees)
-                    {
-                        // projectile.magic = false /* tModPorter - this is redundant, for more info see https://github.com/tModLoader/tModLoader/wiki/Update-Migration-Guide#damage-classes */ ;
-                        projectile.DamageType = DamageClass.Ranged;
+                        if (modPlayer.filthyGlove || modPlayer.bloodyGlove)
+                            projectile.ArmorPenetration += 10;
+                        if (modPlayer.nanotech)
+                            projectile.ArmorPenetration += 10; // 20 total
                     }
                 }
+
+                if (NPC.downedMoonlord)
+                {
+                    if (CalamityLists.dungeonProjectileBuffList.Contains(projectile.type))
+                    {
+                        // ai[1] being set to 1 is done only by the Calamity usages of these projectiles in Skeletron and Skeletron Prime boss fights
+                        bool isSkeletronBossProjectile = (projectile.type == ProjectileID.RocketSkeleton || projectile.type == ProjectileID.Shadowflames) && projectile.ai[1] == 1f;
+
+                        // These projectiles will not be buffed if Golem is alive
+                        bool isGolemBossProjectile = NPC.golemBoss > 0 && (projectile.type == ProjectileID.InfernoHostileBolt || projectile.type == ProjectileID.InfernoHostileBlast);
+
+                        if (!isSkeletronBossProjectile && !isGolemBossProjectile)
+                            projectile.damage += 30;
+                    }
+                }
+
+                if (DownedBossSystem.downedDoG && (Main.pumpkinMoon || Main.snowMoon || Main.eclipse))
+                {
+                    if (CalamityLists.eventProjectileBuffList.Contains(projectile.type))
+                        projectile.damage += 15;
+                }
+
+                // Setting this in SetDefaults didn't work
+                switch (projectile.type)
+                {
+                    case ProjectileID.Bee:
+                    case ProjectileID.Wasp:
+                    case ProjectileID.TinyEater:
+                    case ProjectileID.GiantBee:
+                    case ProjectileID.Bat:
+                        projectile.extraUpdates = 1;
+                        break;
+                }
+
+                if (projectile.type == ProjectileID.GiantBee || projectile.type == ProjectileID.Bee)
+                {
+                    if (projectile.timeLeft > 570) //all of these have a time left of 600 or 660
+                    {
+                        if (player.ActiveItem().type == ItemID.BeesKnees)
+                            projectile.DamageType = DamageClass.Ranged;
+                    }
+                }
+                else if (projectile.type == ProjectileID.SoulDrain)
+                    projectile.DamageType = DamageClass.Magic;
+
+                frameOneHacksExecuted = true;
             }
-            else if (projectile.type == ProjectileID.SoulDrain)
-                projectile.DamageType = DamageClass.Magic;
 
             // Accelerate for 1.5 seconds to full velocity
             if (projectile.type == ProjectileID.HallowBossLastingRainbow && (CalamityWorld.revenge || BossRushEvent.BossRushActive))

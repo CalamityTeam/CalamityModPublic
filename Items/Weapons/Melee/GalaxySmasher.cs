@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Weapons.Melee
     [LegacyName("GalaxySmasherMelee", "GalaxySmasherRogue")]
     public class GalaxySmasher : ModItem
     {
-        public static int BaseDamage = 264;
+        public static int BaseDamage = 300;
         public static float Speed = 18f;
 
         public override void SetStaticDefaults()

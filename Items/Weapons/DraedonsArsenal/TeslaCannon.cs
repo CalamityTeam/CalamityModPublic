@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 {
     public class TeslaCannon : ModItem
     {
-        private int BaseDamage = 1050;
+        private int BaseDamage = 1360;
 
         public static readonly SoundStyle FireSound = new("CalamityMod/Sounds/Item/TeslaCannonFire");
         

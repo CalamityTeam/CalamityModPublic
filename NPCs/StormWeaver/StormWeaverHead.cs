@@ -82,7 +82,6 @@ namespace CalamityMod.NPCs.StormWeaver
             NPC.lifeMax = 825500;
             NPC.LifeMaxNERB(NPC.lifeMax, NPC.lifeMax, 475000);
             NPC.value = Item.buyPrice(2, 0, 0, 0);
-            Music = CalamityMod.Instance.GetMusicFromMusicMod("Weaver") ?? MusicID.Boss3;
 
             // Phase one settings
             CalamityGlobalNPC global = NPC.Calamity();
@@ -964,18 +963,19 @@ namespace CalamityMod.NPCs.StormWeaver
                 // Vanity
                 normalOnly.Add(ModContent.ItemType<StormWeaverMask>(), 7);
                 normalOnly.Add(ModContent.ItemType<LittleLight>(), 10);
-                normalOnly.Add(ItemDropRule.Common(ModContent.ItemType<AncientGodSlayerHelm>(), 20).
-                    OnSuccess(ItemDropRule.Common(ModContent.ItemType<AncientGodSlayerChestplate>())).
-                    OnSuccess(ItemDropRule.Common(ModContent.ItemType<AncientGodSlayerLeggings>())));
+				var godSlayerVanity = ItemDropRule.Common(ModContent.ItemType<AncientGodSlayerHelm>(), 20);
+				godSlayerVanity.OnSuccess(ItemDropRule.Common(ModContent.ItemType<AncientGodSlayerChestplate>()));
+				godSlayerVanity.OnSuccess(ItemDropRule.Common(ModContent.ItemType<AncientGodSlayerLeggings>()));
+				normalOnly.Add(godSlayerVanity);
             }
 
             npcLoot.Add(ModContent.ItemType<WeaverTrophy>(), 10);
 
             // Relic
-            npcLoot.AddIf(() => Main.masterMode || CalamityWorld.revenge, ModContent.ItemType<StormWeaverRelic>());
+            npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).Add(ModContent.ItemType<StormWeaverRelic>());
 
             // Lore
-            npcLoot.AddConditionalPerPlayer(LastSentinelKilled, ModContent.ItemType<KnowledgeSentinels>());
+            npcLoot.AddConditionalPerPlayer(LastSentinelKilled, ModContent.ItemType<KnowledgeSentinels>(), desc: DropHelper.SentinelText);
         }
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)

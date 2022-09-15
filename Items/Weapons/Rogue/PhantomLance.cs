@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class PhantomLance : ModItem
+    public class PhantomLance : RogueWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -44,11 +44,6 @@ Stealth strikes don't slow down and souls always deal full damage");
             Item.shootSpeed = 10f;
             Item.shoot = ModContent.ProjectileType<PhantomLanceProj>();
         }
-
-		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
-		{
-			itemGroup = (ContentSamples.CreativeHelper.ItemGroup)CalamityResearchSorting.RogueWeapon;
-		}
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {

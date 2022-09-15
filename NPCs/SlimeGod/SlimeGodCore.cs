@@ -70,7 +70,6 @@ namespace CalamityMod.NPCs.SlimeGod
             NPC.dontTakeDamage = true;
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath1;
-            Music = CalamityMod.Instance.GetMusicFromMusicMod("SlimeGod") ?? MusicID.Boss1;
             NPC.Calamity().VulnerableToHeat = true;
             NPC.Calamity().VulnerableToSickness = false;
         }
@@ -234,6 +233,15 @@ namespace CalamityMod.NPCs.SlimeGod
                         Main.dust[num624].velocity *= 5f;
                         num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 4, 0f, 0f, NPC.alpha, color, 2f);
                         Main.dust[num624].velocity *= 2f;
+                    }
+
+                    // Let the player know that the Slime God isn't dead fr
+                    if (!DownedBossSystem.downedSlimeGod)
+                    {
+                        string key = "Mods.CalamityMod.SlimeGodRun";
+                        Color messageColor = Color.Magenta;
+
+                        CalamityUtils.DisplayLocalizedText(key, messageColor);
                     }
 
                     NPC.active = false;
@@ -605,10 +613,10 @@ namespace CalamityMod.NPCs.SlimeGod
             npcLoot.Add(ModContent.ItemType<SlimeGodTrophy>(), 10);
 
             // Relic
-            npcLoot.AddIf(() => Main.masterMode || CalamityWorld.revenge, ModContent.ItemType<SlimeGodRelic>());
+            npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).Add(ModContent.ItemType<SlimeGodRelic>());
 
             // Lore
-            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedSlimeGod, ModContent.ItemType<KnowledgeSlimeGod>());
+            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedSlimeGod, ModContent.ItemType<KnowledgeSlimeGod>(), desc: DropHelper.FirstKillText);
         }
 
         public override void HitEffect(int hitDirection, double damage)

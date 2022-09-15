@@ -8,7 +8,7 @@ using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class PoisonPack : ModItem
+    public class PoisonPack : RogueWeapon
     {
         private static int baseDamage = 20;
         private static float baseKnockback = 1.8f;
@@ -62,11 +62,6 @@ namespace CalamityMod.Items.Weapons.Rogue
                 return player.ownedProjectileCounts[ModContent.ProjectileType<PoisonBol>()] < UseMax;
             }
         }
-
-		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
-		{
-			itemGroup = (ContentSamples.CreativeHelper.ItemGroup)CalamityResearchSorting.RogueWeapon;
-		}
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {

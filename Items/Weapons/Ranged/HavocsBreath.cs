@@ -12,6 +12,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Havoc's Breath");
+            Tooltip.SetDefault("50% chance to not consume gel");
             SacrificeTotal = 1;
         }
 

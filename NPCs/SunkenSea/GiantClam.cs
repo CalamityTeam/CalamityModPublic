@@ -450,8 +450,7 @@ namespace CalamityMod.NPCs.SunkenSea
 
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            var hardmode = npcLoot.DefineConditionalDropSet(new Conditions.IsHardmode());
-            var postDesertScourge = npcLoot.DefineConditionalDropSet(() => DownedBossSystem.downedDesertScourge);
+            var hardmode = npcLoot.DefineConditionalDropSet(DropHelper.Hardmode());
 
             // Materials
             npcLoot.Add(ModContent.ItemType<Navystone>(), 1, 30, 40);
@@ -468,14 +467,14 @@ namespace CalamityMod.NPCs.SunkenSea
             hardmode.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, weapons));
 
             // Equipment
-            postDesertScourge.Add(ModContent.ItemType<GiantPearl>(), 3);
-            postDesertScourge.Add(ModContent.ItemType<AmidiasPendant>(), 3);
+            npcLoot.Add(ModContent.ItemType<GiantPearl>(), 3);
+            npcLoot.Add(ModContent.ItemType<AmidiasPendant>(), 3);
 
             // Trophy
             npcLoot.Add(ModContent.ItemType<GiantClamTrophy>(), 10);
 
             // Relic
-            npcLoot.AddIf(() => Main.masterMode || CalamityWorld.revenge, ModContent.ItemType<GiantClamRelic>(), 4);
+            npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).Add(ModContent.ItemType<GiantClamRelic>(), 4);
         }
     }
 }

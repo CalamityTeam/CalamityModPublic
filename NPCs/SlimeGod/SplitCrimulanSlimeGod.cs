@@ -53,7 +53,6 @@ namespace CalamityMod.NPCs.SlimeGod
             NPC.noTileCollide = false;
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath1;
-            Music = CalamityMod.Instance.GetMusicFromMusicMod("SlimeGod") ?? MusicID.Boss1;
             NPC.aiStyle = -1;
             AIType = -1;
             NPC.Calamity().VulnerableToHeat = true;
@@ -727,6 +726,26 @@ namespace CalamityMod.NPCs.SlimeGod
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
             player.AddBuff(BuffID.Darkness, 240, true);
+        }
+
+        public override void OnHitByItem(Player player, Item item, int damage, float knockback, bool crit)
+        {
+			if (CalamityGlobalNPC.slimeGod == -1)
+				return;
+
+			NPC slimeGod = Main.npc[CalamityGlobalNPC.slimeGod];
+			slimeGod.playerInteraction[player.whoAmI] = true;
+        }
+
+        public override void OnHitByProjectile(Projectile projectile, int damage, float knockback, bool crit)
+        {
+			if (projectile.npcProj || projectile.trap)
+				return;
+			if (CalamityGlobalNPC.slimeGod == -1)
+				return;
+
+			NPC slimeGod = Main.npc[CalamityGlobalNPC.slimeGod];
+			slimeGod.playerInteraction[projectile.owner] = true;
         }
     }
 }

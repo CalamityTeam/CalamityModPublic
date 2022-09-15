@@ -118,7 +118,6 @@ namespace CalamityMod.NPCs.HiveMind
             NPC.boss = true;
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath1;
-            Music = CalamityMod.Instance.GetMusicFromMusicMod("HiveMind") ?? MusicID.Boss2;
 
             if (Main.expertMode)
             {
@@ -1150,7 +1149,7 @@ namespace CalamityMod.NPCs.HiveMind
                 normalOnly.Add(ItemID.RottenChunk, 1, 10, 15);
                 normalOnly.Add(ItemID.CorruptSeeds, 1, 10, 15);
                 normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<RottenMatter>(), 1, 25, 30));
-                normalOnly.Add(ItemDropRule.ByCondition(new Conditions.IsHardmode(), ItemID.CursedFlame, 1, 10, 20));
+                normalOnly.Add(ItemDropRule.ByCondition(DropHelper.Hardmode(), ItemID.CursedFlame, 1, 10, 20));
 
                 // Equipment
 				normalOnly.Add(ModContent.ItemType<FilthyGlove>(), DropHelper.NormalWeaponDropRateFraction);
@@ -1164,10 +1163,10 @@ namespace CalamityMod.NPCs.HiveMind
             npcLoot.Add(ModContent.ItemType<HiveMindTrophy>(), 10);
 
             // Relic
-            npcLoot.AddIf(() => Main.masterMode || CalamityWorld.revenge, ModContent.ItemType<HiveMindRelic>());
+            npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).Add(ModContent.ItemType<HiveMindRelic>());
 
             // Lore
-            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedHiveMind, ModContent.ItemType<KnowledgeHiveMind>());
+            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedHiveMind, ModContent.ItemType<KnowledgeHiveMind>(), desc: DropHelper.FirstKillText);
         }
     }
 }

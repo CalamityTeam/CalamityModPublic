@@ -66,7 +66,6 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             NPC.noTileCollide = true;
             AIType = -1;
             NPC.boss = true;
-            Music = CalamityMod.Instance.GetMusicFromMusicMod("Guardians") ?? MusicID.Boss1;
             NPC.value = Item.buyPrice(1, 0, 0, 0);
             NPC.HitSound = SoundID.NPCHit52;
             NPC.DeathSound = SoundID.NPCDeath55;
@@ -513,10 +512,10 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             npcLoot.Add(ModContent.ItemType<ProfanedCore>());
 
             // Relic
-            npcLoot.AddIf(() => Main.masterMode || CalamityWorld.revenge, ModContent.ItemType<ProfanedGuardiansRelic>());
+            npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).Add(ModContent.ItemType<ProfanedGuardiansRelic>());
 
             // Lore
-            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedGuardians, ModContent.ItemType<KnowledgeProfanedGuardians>());
+            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedGuardians, ModContent.ItemType<KnowledgeProfanedGuardians>(), desc: DropHelper.FirstKillText);
         }
 
         public override void OnKill()

@@ -68,14 +68,14 @@ namespace CalamityMod.Items.TreasureBags
                 ModContent.ItemType<Barinautical>(),
                 ModContent.ItemType<Downpour>(),
                 ModContent.ItemType<DeepseaStaff>(),
-                ModContent.ItemType<ScourgeoftheSeas>(),
-                ModContent.ItemType<CorrosiveSpine>()
+                ModContent.ItemType<ScourgeoftheSeas>()
             }));
             itemLoot.Add(ModContent.ItemType<SeasSearing>(), 10);
 
             // Equipment
             itemLoot.Add(ModContent.ItemType<AquaticEmblem>());
             itemLoot.Add(ModContent.ItemType<DeepDiver>(), 10);
+            itemLoot.Add(ModContent.ItemType<CorrosiveSpine>(), DropHelper.BagWeaponDropRateFraction);
             itemLoot.AddRevBagAccessories();
 
             // Vanity

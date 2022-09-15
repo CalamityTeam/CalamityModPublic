@@ -74,7 +74,6 @@ namespace CalamityMod.NPCs.Leviathan
             NPC.noGravity = true;
             NPC.boss = true;
             NPC.netAlways = true;
-            Music = CalamityMod.Instance.GetMusicFromMusicMod("LeviathanAndAnahita") ?? MusicID.Boss3;
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToSickness = true;
             NPC.Calamity().VulnerableToElectricity = true;
@@ -778,8 +777,7 @@ namespace CalamityMod.NPCs.Leviathan
                     ModContent.ItemType<Atlantis>(),
                     ModContent.ItemType<GastricBelcherStaff>(),
                     ModContent.ItemType<BrackishFlask>(),
-                    ModContent.ItemType<LeviathanTeeth>(),
-                    ModContent.ItemType<PearlofEnthrallment>()
+                    ModContent.ItemType<LeviathanTeeth>()
                 };
                 normalOnly.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, items));
 
@@ -789,6 +787,7 @@ namespace CalamityMod.NPCs.Leviathan
 
                 // Equipment
                 normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<LeviathanAmbergris>()));
+                normalOnly.Add(ModContent.ItemType<PearlofEnthrallment>(), DropHelper.NormalWeaponDropRateFraction);
                 normalOnly.Add(ModContent.ItemType<TheCommunity>(), 10);
 
                 // Fishing
@@ -801,12 +800,12 @@ namespace CalamityMod.NPCs.Leviathan
             }
 
             // Relic
-            npcLoot.AddIf(() => (Main.masterMode || CalamityWorld.revenge) && LastAnLStanding(), ModContent.ItemType<LeviathanAnahitaRelic>());
+            npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).AddIf((info) => LastAnLStanding(), ModContent.ItemType<LeviathanAnahitaRelic>());
 
             // Lore
             bool shouldDropLore(DropAttemptInfo info) => !DownedBossSystem.downedLeviathan && LastAnLStanding();
-            npcLoot.AddConditionalPerPlayer(shouldDropLore, ModContent.ItemType<KnowledgeOcean>());
-            npcLoot.AddConditionalPerPlayer(shouldDropLore, ModContent.ItemType<KnowledgeLeviathanAnahita>());
+            npcLoot.AddConditionalPerPlayer(shouldDropLore, ModContent.ItemType<KnowledgeOcean>(), desc: DropHelper.FirstKillText);
+            npcLoot.AddConditionalPerPlayer(shouldDropLore, ModContent.ItemType<KnowledgeLeviathanAnahita>(), desc: DropHelper.FirstKillText);
         }
 
         public override void ModifyNPCLoot(NPCLoot npcLoot)

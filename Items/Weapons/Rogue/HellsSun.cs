@@ -9,7 +9,7 @@ using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class HellsSun : ModItem
+    public class HellsSun : RogueWeapon
     {
         private static int damage = 85;
         private static int knockBack = 5;
@@ -64,11 +64,6 @@ namespace CalamityMod.Items.Weapons.Rogue
                 return player.ownedProjectileCounts[ModContent.ProjectileType<HellsSunProj>()] < UseMax;
             }
         }
-
-		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
-		{
-			itemGroup = (ContentSamples.CreativeHelper.ItemGroup)CalamityResearchSorting.RogueWeapon;
-		}
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {

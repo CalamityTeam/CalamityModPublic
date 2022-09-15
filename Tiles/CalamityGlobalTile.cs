@@ -1,13 +1,13 @@
 ﻿using CalamityMod.Events;
 using CalamityMod.Items.TreasureBags.MiscGrabBags;
+using CalamityMod.Items.VanillaArmorChanges;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Tiles.Abyss;
 using CalamityMod.Tiles.Astral;
 using CalamityMod.Tiles.AstralDesert;
 using CalamityMod.Tiles.DraedonStructures;
 using CalamityMod.Tiles.DraedonSummoner;
-using CalamityMod.Tiles.Furniture;
-using CalamityMod.Tiles.FurnitureExo;
+using CalamityMod.Tiles.Furniture.CraftingStations;
 using CalamityMod.Tiles.SunkenSea;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -233,6 +233,19 @@ namespace CalamityMod.Tiles
                 if (player.breath > player.breathMax)
                     player.breath = player.breathMax;
             }
+			// Mining set gives a chance for additional ore. This can be abused for infinite ore but it has a cooldown to prevent too much abuse
+            if (player.Calamity().miningSet && player.Calamity().miningSetCooldown <= 0 && !fail)
+            {
+                int item = tile.GetOreItemID();
+                Vector2 pos = new Vector2(i, j) * 16;
+				// 25% chance for additional ore
+                if (Main.rand.NextBool(MiningArmorSetChange.BonusOreChance) && item != -1)
+				{
+                    Item.NewItem(new EntitySource_TileBreak(i, j), pos, item);
+					// Cooldown varies between 3 and 6 seconds
+					player.Calamity().miningSetCooldown = Main.rand.Next(MiningArmorSetChange.CooldownMin, MiningArmorSetChange.CooldownMax + 1);
+				}
+            }
         }
 
         // LATER -- clean up copied decompiled pot code here
@@ -287,27 +300,6 @@ namespace CalamityMod.Tiles
             }
 
             return true;
-        }
-
-        public override int[] AdjTiles (int type)
-        {
-            // Ashen, Ancient and Profaned Sinks all count as a lava source instead of a water source
-            // Exo Sinks count as a water, lava, and honey source
-            if (type == ModContent.TileType<FurnitureAncient.AncientSink>() ||
-                type == ModContent.TileType<FurnitureAshen.AshenSink>() ||
-                type == ModContent.TileType<FurnitureProfaned.ProfanedSink>() ||
-                type == ModContent.TileType<ExoSinkTile>())
-            {
-                Main.LocalPlayer.adjLava = true;
-            }
-            // Botanic Sink counts as a honey source instead of a water source
-            if (type == ModContent.TileType<FurnitureBotanic.BotanicSink>() ||
-                type == ModContent.TileType<ExoSinkTile>())
-            {
-                Main.LocalPlayer.adjHoney = true;
-            }
-
-            return new int[0];
         }
 
         public static bool ShouldNotBreakDueToAboveTile(int x, int y)

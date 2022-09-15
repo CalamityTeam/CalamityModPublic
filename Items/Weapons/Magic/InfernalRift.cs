@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.noMelee = true;
             Item.knockBack = 7f;
             Item.value = CalamityGlobalItem.Rarity6BuyPrice;
-            Item.rare = ItemRarityID.Pink;
+            Item.rare = ItemRarityID.Yellow;
             Item.UseSound = SoundID.Item9;
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<InfernalBlade>();

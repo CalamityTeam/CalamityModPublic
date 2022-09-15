@@ -33,6 +33,7 @@ using CalamityMod.Items.Mounts;
 using CalamityMod.Items.Mounts.Minecarts;
 using CalamityMod.Items.TreasureBags.MiscGrabBags;
 using CalamityMod.Items.VanillaArmorChanges;
+using CalamityMod.Items.Weapons.DraedonsArsenal;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
@@ -250,6 +251,7 @@ namespace CalamityMod.CalPlayer
         public static readonly SoundStyle RogueStealthSound = new("CalamityMod/Sounds/Custom/RogueStealth");
         public static readonly SoundStyle DefenseDamageSound = new("CalamityMod/Sounds/Custom/DefenseDamage");
 
+        public static readonly SoundStyle IjiDeathSound = new("CalamityMod/Sounds/Custom/IjiDies");
         #endregion
 
         #region Proficiency
@@ -608,6 +610,8 @@ namespace CalamityMod.CalPlayer
         public bool silverMedkit = false;
         public int silverMedkitTimer = 0;
         public bool goldArmorGoldDrops = false;
+		public bool miningSet = false;
+		public int miningSetCooldown = 0;
         public bool desertProwler = false;
         public bool snowRuffianSet = false;
         public bool forbiddenCirclet = false;
@@ -1102,6 +1106,8 @@ namespace CalamityMod.CalPlayer
         public FluidField ProfanedMoonlightAuroraDrawer;
 
         public Vector2 FireDrawerPosition;
+
+		public int monolithAccursedShader = 0;
         #endregion Draw Effects
 
         #region Draedon Summoning
@@ -1735,6 +1741,9 @@ namespace CalamityMod.CalPlayer
             silverMedkit = false;
             goldArmorGoldDrops = false;
 
+			miningSet = false;
+			miningSetCooldown = 0;
+
             eskimoSet = false; //vanilla armor
             meteorSet = false; //vanilla armor, for Space Gun nerf
 
@@ -2357,6 +2366,8 @@ namespace CalamityMod.CalPlayer
             silverMedkit = false;
             silverMedkitTimer = 0;
             goldArmorGoldDrops = false;
+			miningSet = false;
+			miningSetCooldown = 0;
             flamethrowerBoost = false;
             hoverboardBoost = false; //hoverboard + shroomite visage
             shadowSpeed = false;
@@ -4373,12 +4384,6 @@ namespace CalamityMod.CalPlayer
                 int defenseAdd = (int)(target.defense * 0.5);
                 damage += defenseAdd;
             }
-            if (item.CountsAsClass<MeleeDamageClass>() && badgeOfBravery)
-            {
-                int penetratableDefense = (int)Math.Max(target.defense - Player.GetArmorPenetration<GenericDamageClass>(), 0);
-                int penetratedDefense = Math.Min(penetratableDefense, 5);
-                damage += (int)(0.5f * penetratedDefense);
-            }
             #endregion
 
             if ((target.damage > 0 || target.boss) && !target.SpawnedFromStatue && Player.whoAmI == Main.myPlayer)
@@ -4498,23 +4503,6 @@ namespace CalamityMod.CalPlayer
                     }
                 }
             }
-
-            int penetrateAmt = 0;
-            if (proj.Calamity().stealthStrike && proj.CountsAsClass<RogueDamageClass>())
-            {
-                // Nanotech is a total of 20 as it has all three bools
-                if (nanotech)
-                    penetrateAmt += 10;
-                if (filthyGlove || bloodyGlove)
-                    penetrateAmt += 10;
-            }
-            if (proj.CountsAsClass<MeleeDamageClass>() && badgeOfBravery)
-            {
-                penetrateAmt += 5;
-            }
-            int penetratableDefense = (int)Math.Max(target.defense - Player.GetArmorPenetration<GenericDamageClass>(), 0); //if find how much defense we can penetrate
-            int penetratedDefense = Math.Min(penetratableDefense, penetrateAmt); //if we have more penetrate than enemy defense, use enemy defense
-            damage += (int)(0.5f * penetratedDefense);
             #endregion
 
             #region MultiplicativeReductions
@@ -5400,7 +5388,7 @@ namespace CalamityMod.CalPlayer
             }
         }
         #endregion
-
+        
         #region Shoot
         public override bool Shoot(Item item, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockBack)
         {
@@ -8099,6 +8087,17 @@ namespace CalamityMod.CalPlayer
             Color messageColor = Color.LightGray;
             Rectangle location = new Rectangle((int)Player.position.X, (int)Player.position.Y - 16, Player.width, Player.height);
             CombatText.NewText(location, messageColor, Language.GetTextValue(text));
+        }
+        #endregion
+
+        #region Kill
+        public override void Kill(double damage, int hitDirection, bool pvp, PlayerDeathReason damageSource)
+        {
+            if (Player.whoAmI == Main.myPlayer && Player.ActiveItem().type == ModContent.ItemType<TheAnomalysNanogun>())
+            {
+                if (Main.rand.NextBool(20))
+                    SoundEngine.PlaySound(IjiDeathSound, Player.Center);
+            }
         }
         #endregion
     }

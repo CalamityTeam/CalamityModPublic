@@ -158,7 +158,7 @@ ItemTooltip:
         '''
     CragsPylon:
         '''
-        Teleport to another pylon when 2 villagers are nearby
+        Teleport to another pylon
         The nature of the Crags allows you to teleport to this pylon without nearby villagers
         You can only place one per type and in the matching biome
         '''

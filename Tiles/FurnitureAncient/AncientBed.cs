@@ -76,12 +76,7 @@ namespace CalamityMod.Tiles.FurnitureAncient
 
             return true;
         }
-        public override void MouseOver(int i, int j)
-        {
-            Player player = Main.LocalPlayer;
-            player.noThrow = 2;
-            player.cursorItemIconEnabled = true;
-            player.cursorItemIconID = ModContent.ItemType<Items.Placeables.FurnitureAncient.AncientBed>();
-        }
+
+        public override void MouseOver(int i, int j) => CalamityUtils.MouseOver(i, j, ModContent.ItemType<Items.Placeables.FurnitureAncient.AncientBed>());
     }
 }

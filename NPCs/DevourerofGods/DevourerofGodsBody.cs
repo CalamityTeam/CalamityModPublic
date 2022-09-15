@@ -67,7 +67,6 @@ namespace CalamityMod.NPCs.DevourerofGods
             NPC.DeathSound = SoundID.NPCDeath14;
             NPC.netAlways = true;
             NPC.boss = true;
-            Music = CalamityMod.Instance.GetMusicFromMusicMod("DevourerOfGodsP1") ?? MusicID.Boss3;
             NPC.dontCountMe = true;
 
             if (Main.getGoodWorld)
@@ -145,10 +144,6 @@ namespace CalamityMod.NPCs.DevourerofGods
             if (phase2)
             {
                 phase2Started = true;
-
-                // Play music after the transiton BS
-                if (Main.npc[(int)NPC.ai[2]].localAI[2] == 530f)
-                    Music = CalamityMod.Instance.GetMusicFromMusicMod("DevourerOfGodsP2") ?? MusicID.LunarBoss;
 
                 // Once before DoG spawns, set new size
                 if (Main.npc[(int)NPC.ai[2]].localAI[2] == 60f)

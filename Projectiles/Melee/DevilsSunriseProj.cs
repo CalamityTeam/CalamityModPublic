@@ -38,7 +38,7 @@ namespace CalamityMod.Projectiles.Melee
                 Projectile.ai[1] += 1f;
 
             if (Projectile.ai[1] == 255f)
-                Projectile.damage = (int)((double)Projectile.Calamity().defDamage * 2.0);
+                Projectile.damage = 2 * Projectile.originalDamage;
 
             red = 64 + (int)(Projectile.ai[1] * 0.75f);
             if (red > 255)

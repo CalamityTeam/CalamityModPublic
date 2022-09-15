@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class WebBall : ModItem
+    public class WebBall : RogueWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -37,11 +37,6 @@ Stealth strikes slow enemies down longer");
             Item.shootSpeed = 6.5f;
             Item.DamageType = RogueDamageClass.Instance;
         }
-
-		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
-		{
-			itemGroup = (ContentSamples.CreativeHelper.ItemGroup)CalamityResearchSorting.RogueWeapon;
-		}
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {

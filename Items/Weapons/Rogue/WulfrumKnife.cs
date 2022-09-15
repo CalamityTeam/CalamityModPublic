@@ -10,7 +10,7 @@ using CalamityMod.Particles;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class WulfrumKnife : ModItem
+    public class WulfrumKnife : RogueWeapon
     {
         public static readonly SoundStyle Throw3Sound = new("CalamityMod/Sounds/Item/WulfrumKnifeThrowFull") { PitchVariance = 0.4f };
         public static readonly SoundStyle Throw2Sound = new("CalamityMod/Sounds/Item/WulfrumKnifeThrowTwo") { PitchVariance = 0.4f };
@@ -53,11 +53,6 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.shootSpeed = 4f;
             Item.DamageType = RogueDamageClass.Instance;
         }
-
-		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
-		{
-			itemGroup = (ContentSamples.CreativeHelper.ItemGroup)CalamityResearchSorting.RogueWeapon;
-		}
 
         //Magnetization
         public override void HoldItem(Player player)

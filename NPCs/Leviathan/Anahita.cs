@@ -68,7 +68,6 @@ namespace CalamityMod.NPCs.Leviathan
             NPC.noTileCollide = true;
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath1;
-            Music = CalamityMod.Instance.GetMusicFromMusicMod("Anahita") ?? MusicID.Boss3;
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToSickness = true;
             NPC.Calamity().VulnerableToElectricity = true;
@@ -232,10 +231,6 @@ namespace CalamityMod.NPCs.Leviathan
                     return;
                 }
             }
-
-            // Change music.
-            if (leviAlive)
-                Music = CalamityMod.Instance.GetMusicFromMusicMod("LeviathanAndAnahita") ?? MusicID.Boss3;
 
             // Ice Shield
             if (NPC.localAI[2] < 3f)
@@ -850,6 +845,12 @@ namespace CalamityMod.NPCs.Leviathan
         public override void BossLoot(ref string name, ref int potionType)
         {
             potionType = ItemID.GreaterHealingPotion;
+        }
+
+        public override void OnKill()
+        {
+            if (Leviathan.LastAnLStanding())
+                Leviathan.RealOnKill(NPC);
         }
 
         public override void ModifyNPCLoot(NPCLoot npcLoot)

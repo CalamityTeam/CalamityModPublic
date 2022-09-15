@@ -7,7 +7,7 @@ using CalamityMod.Projectiles.Rogue;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class TheSyringe : ModItem
+    public class TheSyringe : RogueWeapon
     {
         public static int BaseDamage = 60;
         public static float Knockback = 5f;
@@ -42,11 +42,6 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.rare = ItemRarityID.Yellow;
             Item.DamageType = RogueDamageClass.Instance;
         }
-
-		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
-		{
-			itemGroup = (ContentSamples.CreativeHelper.ItemGroup)CalamityResearchSorting.RogueWeapon;
-		}
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {

@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class EpidemicShredder : ModItem
+    public class EpidemicShredder : RogueWeapon
     {
         public override void SetStaticDefaults()
         {

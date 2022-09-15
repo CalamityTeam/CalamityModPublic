@@ -281,6 +281,9 @@ namespace CalamityMod
             Filters.Scene["CalamityMod:ExoMechs"] = new Filter(new ExoMechsScreenShaderData("FilterMiniTower").UseColor(ExoMechsSky.DrawColor).UseOpacity(0.25f), EffectPriority.VeryHigh);
             SkyManager.Instance["CalamityMod:ExoMechs"] = new ExoMechsSky();
 
+            Filters.Scene["CalamityMod:MonolithAccursed"] = new Filter(new MonolithScreenShaderData("FilterMiniTower").UseColor(1.1f, 0.3f, 0.3f).UseOpacity(0.65f), EffectPriority.VeryHigh);
+            SkyManager.Instance["CalamityMod:MonolithAccursed"] = new MonolithSky();
+
             SkyManager.Instance["CalamityMod:Astral"] = new AstralSky();
             SkyManager.Instance["CalamityMod:Cryogen"] = new CryogenSky();
             SkyManager.Instance["CalamityMod:StormWeaverFlash"] = new StormWeaverFlashSky();

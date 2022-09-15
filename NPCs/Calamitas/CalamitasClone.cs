@@ -72,7 +72,6 @@ namespace CalamityMod.NPCs.Calamitas
             NPC.noTileCollide = true;
             NPC.HitSound = SoundID.NPCHit4;
             NPC.DeathSound = SoundID.NPCDeath14;
-            Music = CalamityMod.Instance.GetMusicFromMusicMod("Calamitas") ?? MusicID.Boss2;
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToCold = true;
             NPC.Calamity().VulnerableToWater = true;
@@ -192,13 +191,13 @@ namespace CalamityMod.NPCs.Calamitas
                     ModContent.ItemType<Oblivion>(),
                     ModContent.ItemType<Animosity>(),
                     ModContent.ItemType<LashesofChaos>(),
-                    ModContent.ItemType<EntropysVigil>(),
-                    ModContent.ItemType<ChaosStone>(),
+                    ModContent.ItemType<EntropysVigil>()
                 };
                 normalOnly.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, items));
 
                 // Equipment
                 normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<VoidofCalamity>()));
+                normalOnly.Add(ModContent.ItemType<ChaosStone>(), DropHelper.NormalWeaponDropRateFraction);
                 normalOnly.Add(ModContent.ItemType<Regenator>(), 10);
 
                 // Materials
@@ -207,16 +206,18 @@ namespace CalamityMod.NPCs.Calamitas
 
                 // Vanity
                 normalOnly.Add(ModContent.ItemType<CalamitasMask>(), 7);
-                normalOnly.Add(ItemDropRule.Common(ModContent.ItemType<HoodOfCalamity>(), 10).OnSuccess(ItemDropRule.Common(ModContent.ItemType<RobesOfCalamity>())));
+                var calVanity = ItemDropRule.Common(ModContent.ItemType<HoodOfCalamity>(), 10);
+                calVanity.OnSuccess(ItemDropRule.Common(ModContent.ItemType<RobesOfCalamity>()));
+                normalOnly.Add(calVanity);
             }
 
             npcLoot.Add(ModContent.ItemType<CalamitasTrophy>(), 10);
 
             // Relic
-            npcLoot.AddIf(() => Main.masterMode || CalamityWorld.revenge, ModContent.ItemType<CalamitasCloneRelic>());
+            npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).Add(ModContent.ItemType<CalamitasCloneRelic>());
 
             // Lore
-            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedCalamitas, ModContent.ItemType<KnowledgeCalamitasClone>());
+            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedCalamitas, ModContent.ItemType<KnowledgeCalamitasClone>(), desc: DropHelper.FirstKillText);
         }
 
         public override void OnKill()

@@ -225,7 +225,7 @@ namespace CalamityMod.NPCs.Abyss
         {
             npcLoot.AddIf(() => NPC.downedBoss3, ModContent.ItemType<AbyssShocker>(), 10);
 
-            var postClone = npcLoot.DefineConditionalDropSet(() => DownedBossSystem.downedCalamitas);
+            var postClone = npcLoot.DefineConditionalDropSet(DropHelper.PostCal());
             postClone.Add(DropHelper.NormalVsExpertQuantity(ModContent.ItemType<DepthCells>(), 2, 5, 7, 10, 14));
 
             npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<LifeJelly>(), 7, 5));

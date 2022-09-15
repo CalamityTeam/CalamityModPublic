@@ -63,7 +63,6 @@ namespace CalamityMod.NPCs.Crabulon
             AIType = -1;
             NPC.noGravity = false;
             NPC.noTileCollide = false;
-            Music = CalamityMod.Instance.GetMusicFromMusicMod("Crabulon") ?? MusicID.Boss4;
             NPC.boss = true;
             NPC.knockBackResist = 0f;
             NPC.value = Item.buyPrice(0, 10, 0, 0);
@@ -836,10 +835,10 @@ namespace CalamityMod.NPCs.Crabulon
             npcLoot.Add(ModContent.ItemType<CrabulonTrophy>(), 10);
 
             // Relic
-            npcLoot.AddIf(() => Main.masterMode || CalamityWorld.revenge, ModContent.ItemType<CrabulonRelic>());
+            npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).Add(ModContent.ItemType<CrabulonRelic>());
 
             // Lore
-            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedCrabulon, ModContent.ItemType<KnowledgeCrabulon>());
+            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedCrabulon, ModContent.ItemType<KnowledgeCrabulon>(), desc: DropHelper.FirstKillText);
         }
 
         public override void OnKill()

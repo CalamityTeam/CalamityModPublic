@@ -48,13 +48,17 @@ namespace CalamityMod.Items.Accessories
                     continue;
 
                 RoverDrivePlayer modPlayer = Main.player[i].GetModPlayer<RoverDrivePlayer>();
-                if (!modPlayer.VisibleShield ||  modPlayer.ProtectionMatrixDurability <= 0)
+                bool forcedVisibility = !modPlayer.ShieldVisibility.HasValue ? false : modPlayer.ShieldVisibility.Value;
+
+                //Skip if not forced, if it has a value (aka false since if it was true forced visibility would be true
+                if (!forcedVisibility && (modPlayer.ShieldVisibility.HasValue || (modPlayer.ProtectionMatrixDurability <= 0)))
                     continue;
 
                 float scale = 0.15f + 0.03f * (0.5f + 0.5f * (float)Math.Sin(Main.GlobalTimeWrappedHourly * 0.5f + i * 0.2f));
 
                 if (playerFound == false)
                 {
+                    float shieldStrentgh = forcedVisibility ? 1f : (float)Math.Pow(Main.LocalPlayer.GetModPlayer<RoverDrivePlayer>().ProtectionMatrixDurability / (float)ProtectionMatrixDurabilityMax, 0.5f);
                     float noiseScale = MathHelper.Lerp(0.4f, 0.8f, (float)Math.Sin(Main.GlobalTimeWrappedHourly * 0.3f) * 0.5f + 0.5f);
 
                     Effect shieldEffect = Filters.Scene["RoverDriveShield"].GetShader().Shader;
@@ -65,15 +69,56 @@ namespace CalamityMod.Items.Accessories
                     //shieldEffect.Parameters["resolution"].SetValue(resolution);
 
                     float baseShieldOpacity = 0.9f + 0.1f * (float)Math.Sin(Main.GlobalTimeWrappedHourly * 2f);
-                    shieldEffect.Parameters["shieldOpacity"].SetValue(baseShieldOpacity * (0.5f + 0.5f * (float)Math.Pow(Main.LocalPlayer.GetModPlayer<RoverDrivePlayer>().ProtectionMatrixDurability / (float)ProtectionMatrixDurabilityMax, 0.5f)));
+                    shieldEffect.Parameters["shieldOpacity"].SetValue(baseShieldOpacity * (0.5f + 0.5f * shieldStrentgh));
                     shieldEffect.Parameters["shieldEdgeBlendStrenght"].SetValue(4f);
 
-                    Color blueTint = new Color(51, 102, 255);
-                    Color cyanTint = new Color(71, 202, 255);
-                    Color wulfGreen = new Color(194, 255, 67) * 0.8f;
-                    Color edgeColor = CalamityUtils.MulticolorLerp(Main.GlobalTimeWrappedHourly * 0.2f, blueTint, cyanTint, wulfGreen);
-                    shieldEffect.Parameters["shieldColor"].SetValue(blueTint.ToVector3());
+                    Color edgeColor;
+                    Color shieldColor;
+
+                    if (Main.netMode != NetmodeID.SinglePlayer && Main.player[i].team != 0)
+                    {
+                        switch (Main.player[i].team)
+                        {
+                            case 1: //Red team
+                                shieldColor = new Color(178, 24, 31);
+                                edgeColor = CalamityUtils.MulticolorLerp(Main.GlobalTimeWrappedHourly * 0.2f, Color.Tomato, Color.Crimson, shieldColor);
+                                break;
+                            case 2: //Green team
+                                shieldColor = new Color(194, 255, 67) * 0.7f;
+                                edgeColor = CalamityUtils.MulticolorLerp(Main.GlobalTimeWrappedHourly * 0.2f, Color.Chartreuse, Color.YellowGreen, new Color(194, 255, 67));
+                                break;
+                            case 3: //Blue team
+                                shieldColor = new Color(64, 207, 200);
+                                edgeColor = CalamityUtils.MulticolorLerp(Main.GlobalTimeWrappedHourly * 0.2f, Color.MediumSpringGreen, Color.DeepSkyBlue, new Color(64, 207, 200));
+                                break;
+                            case 4: //Yellow team
+                                shieldColor = new Color(176, 156, 45);
+                                edgeColor = CalamityUtils.MulticolorLerp(Main.GlobalTimeWrappedHourly * 0.2f, Color.Gold, Color.Coral, Color.LightGoldenrodYellow);
+                                break;
+                            case 5: //Purple team
+                            default:
+                                shieldColor = new Color(173, 111, 221);
+                                edgeColor = CalamityUtils.MulticolorLerp(Main.GlobalTimeWrappedHourly * 0.2f, Color.DeepPink, Color.MediumOrchid, Color.MediumPurple);
+                                break;
+                        }
+                        
+                    }
+
+                    else
+                    {
+                        Color blueTint = new Color(51, 102, 255);
+                        Color cyanTint = new Color(71, 202, 255);
+                        Color wulfGreen = new Color(194, 255, 67) * 0.8f;
+                        edgeColor = CalamityUtils.MulticolorLerp(Main.GlobalTimeWrappedHourly * 0.2f, blueTint, cyanTint, wulfGreen);
+                        shieldColor = blueTint;
+                    }
+
+
+
+                    shieldEffect.Parameters["shieldColor"].SetValue(shieldColor.ToVector3());
                     shieldEffect.Parameters["shieldEdgeColor"].SetValue(edgeColor.ToVector3());
+
+
 
 
                     Main.spriteBatch.End();
@@ -137,10 +182,15 @@ namespace CalamityMod.Items.Accessories
             //modPlayer.roverDrive = true;
 
             modPlayer.RoverDriveOn = true;
-            modPlayer.VisibleShield = !hideVisual;
+            modPlayer.ShieldVisibility = hideVisual ? false : null;
 
             if (modPlayer.ProtectionMatrixDurability > 0)
                 player.statDefense += ProtectionMatrixDefenseBoost;
+        }
+
+        public override void UpdateVanity(Player player)
+        {
+            player.GetModPlayer<RoverDrivePlayer>().ShieldVisibility = true;
         }
 
         //Scrappable for 3-6 wulfrum scrap or a 20% chance to get an energy core
@@ -160,7 +210,7 @@ namespace CalamityMod.Items.Accessories
     public class RoverDrivePlayer : ModPlayer
     {
         public bool RoverDriveOn;
-        public bool VisibleShield;
+        public bool? ShieldVisibility; //Null for default, false for never, true for always
         public int ProtectionMatrixDurability = 0;
         public int ProtectionMatrixCharge = 0;
 
@@ -174,7 +224,7 @@ namespace CalamityMod.Items.Accessories
                 ProtectionMatrixDurability = 0;
 
             RoverDriveOn = false;
-            VisibleShield = false;
+            ShieldVisibility = false;
         }
 
         public override void PostHurt(bool pvp, bool quiet, double damage, int hitDirection, bool crit, int cooldownCounter)

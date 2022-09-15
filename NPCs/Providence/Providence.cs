@@ -124,7 +124,6 @@ namespace CalamityMod.NPCs.Providence
             NPC.noGravity = true;
             NPC.noTileCollide = true;
             NPC.netAlways = true;
-            Music = CalamityMod.Instance.GetMusicFromMusicMod("Providence") ?? MusicID.LunarBoss;
             NPC.DeathSound = DeathSound;
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToCold = true;
@@ -1550,28 +1549,28 @@ namespace CalamityMod.NPCs.Providence
             npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<ProvidenceBag>()));
 
             // Drops Rune of Cos on first kill
-            npcLoot.AddIf(() => !DownedBossSystem.downedProvidence, ModContent.ItemType<RuneofKos>());
+            npcLoot.AddIf(() => !DownedBossSystem.downedProvidence, ModContent.ItemType<RuneofKos>(), desc: DropHelper.FirstKillText);
 
             npcLoot.AddIf(info =>
             {
                 Providence prov = info.npc.ModNPC<Providence>();
                 return prov.biomeType != 2 || !prov.hasTakenDaytimeDamage;
-            }, ModContent.ItemType<ElysianWings>());
+            }, ModContent.ItemType<ElysianWings>(), desc: DropHelper.ProvidenceHallowText);
             npcLoot.AddIf(info =>
             {
                 Providence prov = info.npc.ModNPC<Providence>();
                 return prov.biomeType == 2 || !prov.hasTakenDaytimeDamage;
-            }, ModContent.ItemType<ElysianAegis>());
+            }, ModContent.ItemType<ElysianAegis>(), desc: DropHelper.ProvidenceUnderworldText);
             npcLoot.AddIf(info =>
             {
                 Providence prov = info.npc.ModNPC<Providence>();
                 return prov.challenge;
-            }, ModContent.ItemType<ProfanedSoulCrystal>());
+            }, ModContent.ItemType<ProfanedSoulCrystal>(), desc: DropHelper.ProvidenceChallengeText);
             npcLoot.AddIf(info =>
             {
                 Providence prov = info.npc.ModNPC<Providence>();
                 return !prov.hasTakenDaytimeDamage;
-            }, ModContent.ItemType<ProfanedMoonlightDye>(), 1, 4, 4);
+            }, ModContent.ItemType<ProfanedMoonlightDye>(), 1, 4, 4, desc: DropHelper.ProvidenceNightText);
 
             // Normal drops: Everything that would otherwise be in the bag
             var normalOnly = npcLoot.DefineNormalOnlyDropSet();
@@ -1604,10 +1603,10 @@ namespace CalamityMod.NPCs.Providence
             npcLoot.Add(ModContent.ItemType<ProvidenceTrophy>(), 10);
 
             // Relic
-            npcLoot.AddIf(() => Main.masterMode || CalamityWorld.revenge, ModContent.ItemType<ProvidenceRelic>());
+            npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).Add(ModContent.ItemType<ProvidenceRelic>());
 
             // Lore
-            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedProvidence, ModContent.ItemType<KnowledgeProvidence>());
+            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedProvidence, ModContent.ItemType<KnowledgeProvidence>(), desc: DropHelper.FirstKillText);
         }
 
         private void SpawnLootBox()

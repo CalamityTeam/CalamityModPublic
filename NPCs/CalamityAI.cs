@@ -39,6 +39,9 @@ namespace CalamityMod.NPCs
             bool revenge = CalamityWorld.revenge || bossRush;
             bool death = CalamityWorld.death || bossRush;
 
+			if (head)
+				CalamityGlobalNPC.aquaticScourge = npc.whoAmI;
+
             // Adjust hostility and stats
             if (npc.justHit || npc.life <= npc.lifeMax * 0.999 || bossRush || Main.getGoodWorld)
             {

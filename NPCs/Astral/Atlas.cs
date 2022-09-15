@@ -141,13 +141,6 @@ namespace CalamityMod.NPCs.Astral
                 NPC.knockBackResist = 0.04f;
                 NPC.lifeMax = 1600;
             }
-            if (NPC.downedAncientCultist)
-            {
-                NPC.damage = 150;
-                NPC.defense = 75;
-                NPC.knockBackResist = 0f;
-                NPC.lifeMax = 2400;
-            }
             if (CalamityWorld.death)
             {
                 target_walkAcceleration = 0.18f;
@@ -636,10 +629,6 @@ namespace CalamityMod.NPCs.Astral
             if (CalamityGlobalNPC.AnyEvents(spawnInfo.Player))
             {
                 return 0f;
-            }
-            else if (spawnInfo.Player.InAstral(1) && NPC.downedAncientCultist && !DownedBossSystem.downedAstrumDeus)
-            {
-                return 0.27f;
             }
             else if (spawnInfo.Player.InAstral(1))
             {

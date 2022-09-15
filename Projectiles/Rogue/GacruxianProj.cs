@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class GacruxianProj : ModProjectile
     {
-        public override string Texture => "CalamityMod/Items/Fishing/AstralCatches/GacruxianMollusk";
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/GacruxianMollusk";
 
         public override void SetStaticDefaults()
         {

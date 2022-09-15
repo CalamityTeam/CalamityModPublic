@@ -21,6 +21,9 @@ namespace CalamityMod.Tiles.Ores
             CalamityUtils.MergeWithGeneral(Type);
             CalamityUtils.MergeAstralTiles(Type);
 
+            TileID.Sets.Ore[Type] = true;
+            TileID.Sets.OreMergesWithMud[Type] = true;
+
             MinPick = 210;
             DustType = 173;
             ItemDrop = ModContent.ItemType<Items.Placeables.Ores.AstralOre>();

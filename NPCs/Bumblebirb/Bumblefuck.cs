@@ -66,7 +66,6 @@ namespace CalamityMod.NPCs.Bumblebirb
             NPC.knockBackResist = 0f;
             NPC.boss = true;
             NPC.noTileCollide = true;
-            Music = CalamityMod.Instance.GetMusicFromMusicMod("Dragonfolly") ?? MusicID.Boss4;
             NPC.lavaImmune = true;
             NPC.noGravity = true;
             NPC.value = Item.buyPrice(1, 25, 0, 0);
@@ -420,8 +419,7 @@ namespace CalamityMod.NPCs.Bumblebirb
                 {
                     ModContent.ItemType<GildedProboscis>(),
                     ModContent.ItemType<GoldenEagle>(),
-                    ModContent.ItemType<RougeSlash>(),
-                    ModContent.ItemType<FollyFeed>(),
+                    ModContent.ItemType<RougeSlash>()
                 };
                 normalOnly.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, items));
                 normalOnly.Add(ModContent.ItemType<Swordsplosion>(), 10);
@@ -431,6 +429,7 @@ namespace CalamityMod.NPCs.Bumblebirb
 
                 // Equipment
                 normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<DynamoStemCells>()));
+                normalOnly.Add(ModContent.ItemType<FollyFeed>(), DropHelper.NormalWeaponDropRateFraction);
 
                 // Vanity
                 normalOnly.Add(ModContent.ItemType<BumblefuckMask>(), 7);
@@ -439,10 +438,10 @@ namespace CalamityMod.NPCs.Bumblebirb
             npcLoot.Add(ModContent.ItemType<DragonfollyTrophy>(), 10);
 
             // Relic
-            npcLoot.AddIf(() => Main.masterMode || CalamityWorld.revenge, ModContent.ItemType<DragonfollyRelic>());
+            npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).Add(ModContent.ItemType<DragonfollyRelic>());
 
             // Lore
-            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedDragonfolly, ModContent.ItemType<KnowledgeDragonfolly>());
+            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedDragonfolly, ModContent.ItemType<KnowledgeDragonfolly>(), desc: DropHelper.FirstKillText);
         }
 
         public override void OnKill()

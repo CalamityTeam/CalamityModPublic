@@ -6,12 +6,13 @@ using CalamityMod.Items.Materials;
 using CalamityMod.Items.Weapons.Magic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
+using Terraria.Audio;
 using Terraria.GameContent.Bestiary;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
-using System;
-using Terraria.Audio;
 
 namespace CalamityMod.NPCs.AcidRain
 {
@@ -153,7 +154,8 @@ namespace CalamityMod.NPCs.AcidRain
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
             npcLoot.Add(ModContent.ItemType<SulphuricScale>(), 2, 1, 3);
-            npcLoot.AddIf(() => DownedBossSystem.downedAquaticScourge, ModContent.ItemType<SlitheringEels>(), 20);
+            LeadingConditionRule postAS = npcLoot.DefineConditionalDropSet(DropHelper.PostAS());
+            postAS.Add(ModContent.ItemType<SlitheringEels>(), 20);
         }
 
         public override void FindFrame(int frameHeight)

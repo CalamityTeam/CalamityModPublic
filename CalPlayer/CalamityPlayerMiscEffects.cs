@@ -107,7 +107,7 @@ namespace CalamityMod.CalPlayer
             OldPositions[0] = Player.position;
 
             // Hurt the nearest NPC to the mouse if using the burning mouse.
-            if (blazingCursorDamage)
+            if (blazingCursorDamage || blazingCursorVisuals)
                 HandleBlazingMouseEffects();
 
             // Revengeance effects
@@ -505,6 +505,10 @@ namespace CalamityMod.CalPlayer
             // The sigil's brightness slowly fades away every frame if not incinerating anything.
             blazingMouseAuraFade = MathHelper.Clamp(blazingMouseAuraFade - 0.025f, 0.25f, 1f);
 
+            // Allows the blazing aura to display if the accessory is vanity, but it deals no damage
+            if (!blazingCursorDamage)
+				return;
+
             // miscCounter is used to limit Calamity's hit rate.
             int framesPerHit = 60 / Calamity.HitsPerSecond;
             if (Player.miscCounter % framesPerHit != 1)
@@ -516,7 +520,7 @@ namespace CalamityMod.CalPlayer
             for (int i = 0; i < Main.maxNPCs; i++)
             {
                 NPC target = Main.npc[i];
-                if (!target.active || !target.Hitbox.Intersects(sigilHitbox) || target.immortal || target.dontTakeDamage || target.townNPC)
+                if (!target.active || !target.Hitbox.Intersects(sigilHitbox) || target.immortal || target.dontTakeDamage || target.townNPC || NPCID.Sets.ActsLikeTownNPC[target.type] || NPCID.Sets.CountsAsCritter[target.type])
                     continue;
 
                 // Brighten the sigil because it is dealing damage. This can only happen once per hit event.
@@ -1227,6 +1231,10 @@ namespace CalamityMod.CalPlayer
                 adamantiteSetDefenseBoostInterpolant = 0f;
             if (ChlorophyteHealDelay > 0)
                 ChlorophyteHealDelay--;
+            if (monolithAccursedShader > 0)
+                monolithAccursedShader--;
+            if (miningSetCooldown > 0)
+                miningSetCooldown--;
 
             // God Slayer Armor dash debuff immunity
             if (DashID == GodSlayerDash.ID && Player.dashDelay < 0)
@@ -3976,8 +3984,6 @@ namespace CalamityMod.CalPlayer
                         CalamityUtils.ConsumeItemViaQuickBuff(Player, item, HadalStew.BuffType, HadalStew.BuffDuration, true);
                     if (item.type == ModContent.ItemType<Margarita>())
                         CalamityUtils.ConsumeItemViaQuickBuff(Player, item, Margarita.BuffType, Margarita.BuffDuration, false);
-                    if (item.type == ModContent.ItemType<Bloodfin>())
-                        CalamityUtils.ConsumeItemViaQuickBuff(Player, item, Bloodfin.BuffType, Bloodfin.BuffDuration, false);
                 }
             }
         }

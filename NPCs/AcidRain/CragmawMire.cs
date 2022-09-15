@@ -1,22 +1,22 @@
 ﻿using CalamityMod.BiomeManagers;
+using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Placeables.Furniture.BossRelics;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
+using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Projectiles.Enemy;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.Audio;
 using Terraria.GameContent.Bestiary;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Buffs.StatDebuffs;
-using CalamityMod.Items.Weapons.Rogue;
 using Terraria.Utilities;
 using Terraria.WorldBuilding;
-using Terraria.Audio;
 
 namespace CalamityMod.NPCs.AcidRain
 {
@@ -502,14 +502,15 @@ namespace CalamityMod.NPCs.AcidRain
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
             // If post-Polter, the drop rates are 10%. Otherwise they're 100%.
-            // This is accomplished by adding rules if the CONDITION "Post-Polter" fails.
+			// This is accomplished by adding rules if the CONDITION "Post-Polter" fails.
             LeadingConditionRule postPolter = npcLoot.DefineConditionalDropSet(() => DownedBossSystem.downedPolterghast);
-            postPolter.Add(ModContent.ItemType<NuclearRod>(), 10);
-            postPolter.Add(ModContent.ItemType<SpentFuelContainer>(), 10);
-            postPolter.OnFailedConditions(ItemDropRule.Common(ModContent.ItemType<NuclearRod>()));
-            postPolter.OnFailedConditions(ItemDropRule.Common(ModContent.ItemType<SpentFuelContainer>()));
+            postPolter.Add(ModContent.ItemType<NuclearRod>(), 10, hideLootReport: !DownedBossSystem.downedPolterghast);
+            postPolter.Add(ModContent.ItemType<SpentFuelContainer>(), 10, hideLootReport: !DownedBossSystem.downedPolterghast);
+            postPolter.AddFail(ModContent.ItemType<NuclearRod>(), hideLootReport: DownedBossSystem.downedPolterghast);
+            postPolter.AddFail(ModContent.ItemType<SpentFuelContainer>(), hideLootReport: DownedBossSystem.downedPolterghast);
+
             npcLoot.Add(ModContent.ItemType<CragmawMireTrophy>(), 10);
-            npcLoot.AddIf(() => Main.masterMode || CalamityWorld.revenge, ModContent.ItemType<CragmawMireRelic>(), 4);
+            npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).Add(ModContent.ItemType<CragmawMireRelic>(), 4);
         }
     }
 }

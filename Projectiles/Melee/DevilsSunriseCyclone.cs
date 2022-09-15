@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -42,12 +42,12 @@ namespace CalamityMod.Projectiles.Melee
                 if (!Main.player[Projectile.owner].channel)
                 {
                     Projectile.ai[1] = -1f;
-                    Projectile.damage = Projectile.Calamity().defDamage;
+                    Projectile.damage = Projectile.originalDamage;
                 }
             }
 
             if (Projectile.ai[1] >= 255f)
-                Projectile.damage = (int)((double)Projectile.Calamity().defDamage * 2.0);
+                Projectile.damage = 2 * Projectile.originalDamage;
 
             red = 64 + (int)(Projectile.ai[1] * 0.75f);
             if (red > 255)

@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class SpentFuelContainer : ModItem
+    public class SpentFuelContainer : RogueWeapon
     {
 
         public override void SetStaticDefaults()

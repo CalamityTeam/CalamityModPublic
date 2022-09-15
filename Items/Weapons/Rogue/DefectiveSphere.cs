@@ -8,7 +8,7 @@ using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class DefectiveSphere : ModItem
+    public class DefectiveSphere : RogueWeapon
     {
         public static int BaseDamage = 130;
         public static float Speed = 15f;
@@ -63,11 +63,6 @@ Stealth strikes launch all 4 sphere types at once");
                 return true;
             }
         }
-
-		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
-		{
-			itemGroup = (ContentSamples.CreativeHelper.ItemGroup)CalamityResearchSorting.RogueWeapon;
-		}
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {

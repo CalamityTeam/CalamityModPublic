@@ -17,6 +17,9 @@ namespace CalamityMod.Tiles.Ores
             CalamityUtils.MergeWithGeneral(Type);
             CalamityUtils.MergeWithSet(Type, TileID.LunarOre);
 
+            TileID.Sets.Ore[Type] = true;
+            TileID.Sets.OreMergesWithMud[Type] = true;
+
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Exodium");
             AddMapEntry(new Color(51, 48, 68), name);
