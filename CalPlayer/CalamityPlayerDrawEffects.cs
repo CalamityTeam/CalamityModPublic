@@ -544,6 +544,12 @@ namespace CalamityMod.CalPlayer
                     drawInfo.GoreCache.Add(heart);
                 }
             }
+			if (calamityPlayer.shadow && CalamityConfig.Instance.StealthInvisibility)
+			{
+				r *= 0f;
+				g *= 0f;
+				b *= 0f;
+			}
         }
         #endregion
 
