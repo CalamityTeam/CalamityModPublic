@@ -3116,7 +3116,6 @@ namespace CalamityMod.CalPlayer
             if (eArtifact)
             {
                 Player.manaCost *= 0.85f;
-                Player.GetDamage<ThrowingDamageClass>() += 0.15f;
                 Player.maxMinions += 2;
             }
 
