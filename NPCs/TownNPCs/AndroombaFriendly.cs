@@ -28,7 +28,7 @@ namespace CalamityMod.NPCs.TownNPCs
             NPC.aiStyle = -1;
             AIType = -1;
             NPC.damage = 0;
-            NPC.width = 40;
+            NPC.width = 36;
             NPC.height = 16;
             NPC.lifeMax = 80;
             NPC.knockBackResist = 0f;
@@ -37,7 +37,7 @@ namespace CalamityMod.NPCs.TownNPCs
             NPC.chaseable = false;
             NPC.HitSound = SoundID.NPCHit4;
             NPC.DeathSound = SoundID.NPCDeath44;
-            NPC.catchItem = (short)ModContent.ItemType<RepairUnitItem>();
+            NPC.catchItem = (short)ModContent.ItemType<CleaningRoomba>();
             SpawnModBiomes = new int[1] { ModContent.GetInstance<ArsenalLabBiome>().Type };
         }
 
@@ -59,73 +59,24 @@ namespace CalamityMod.NPCs.TownNPCs
             {
                 case 0:
                     {
-                        if (Main.netMode != NetmodeID.Server)
+                        if (NPC.ai[1] == 0)
                         {
-                            bool holdingsol = ((Main.LocalPlayer.HeldItem.type >= ItemID.GreenSolution && Main.LocalPlayer.HeldItem.type <= ItemID.RedSolution) || Main.LocalPlayer.HeldItem.type == ModContent.ItemType<AstralSolution>());
-                            if (NPC.Hitbox.Contains(Main.MouseWorld.ToPoint()) && holdingsol && Main.LocalPlayer.Distance(NPC.Center) < 450)
-                            {
-                                Main.LocalPlayer.cursorItemIconEnabled = true;
-                                Main.LocalPlayer.cursorItemIconID = Main.LocalPlayer.HeldItem.type;
-                                Main.LocalPlayer.cursorItemIconText = "";
-                                NPC.ShowNameOnHover = false;
-
-                                if (Main.mouseRight && Main.mouseRightRelease && Main.LocalPlayer.Distance(NPC.Center) < 300)
-                                {
-                                    NPC.netUpdate = true;
-                                    Main.LocalPlayer.ConsumeItem(Main.LocalPlayer.HeldItem.type);
-                                    SoundEngine.PlaySound(SoundID.Item87);
-
-                                    int soltype = 0;
-                                    if (Main.LocalPlayer.HeldItem.type == ModContent.ItemType<AstralSolution>())
-                                    {
-                                        soltype = 5;
-                                    }
-                                    else
-                                    {
-                                        switch (Main.LocalPlayer.HeldItem.type)
-                                        {
-                                            case ItemID.GreenSolution:
-                                                soltype = 0;
-                                                break;
-                                            case ItemID.PurpleSolution:
-                                                soltype = 1;
-                                                break;
-                                            case ItemID.BlueSolution:
-                                                soltype = 2;
-                                                break;
-                                            case ItemID.DarkBlueSolution:
-                                                soltype = 3;
-                                                break;
-                                            case ItemID.RedSolution:
-                                                soltype = 4;
-                                                break;
-                                        }
-                                    }
-                                    NPC.ai[3] = soltype;
-                                    ChangeAI(1);
-                                }
-                            }
-
-                            else
-                                NPC.ShowNameOnHover = true;
+                            NPC.ai[2] = (Main.LocalPlayer.position.X <= NPC.position.X) ? 1 : -1;
                         }
+                        GrabSolution(true);
                     }
                     break;
                 // Main
                 case 1:
                     {
-                        if (NPC.ai[1] == 0)
-                        {
-                            NPC.ai[2] = NPC.direction;
-                        }
                         NPC.ai[1]++;
                         NPC.velocity.X = NPC.ai[2] * 2;
                         if (!Collision.CanHit(NPC.Center - Vector2.UnitX * NPC.ai[2] * 8f, 2, 2, NPC.Center + Vector2.UnitX * NPC.ai[2] * 32f, 8, 8))
                         {
-                            NPC.ai[2] *= -1;
                             ChangeAI(2);
                         }
                         Convert((int)NPC.ai[3]);
+                        GrabSolution(false);
                     }
                     break;
                 // Turn
@@ -133,8 +84,66 @@ namespace CalamityMod.NPCs.TownNPCs
                     {
                         NPC.velocity.X = 0;
                         Convert((int)NPC.ai[3]);
+                        GrabSolution(false);
                     }
                     break;
+            }
+        }
+
+        public void GrabSolution(bool reset = false)
+        {
+            if (Main.netMode != NetmodeID.Server)
+            {
+                bool holdingsol = ((Main.LocalPlayer.HeldItem.type >= ItemID.GreenSolution && Main.LocalPlayer.HeldItem.type <= ItemID.RedSolution) || Main.LocalPlayer.HeldItem.type == ModContent.ItemType<AstralSolution>());
+                if (NPC.Hitbox.Contains(Main.MouseWorld.ToPoint()) && holdingsol && Main.LocalPlayer.Distance(NPC.Center) < 450)
+                {
+                    Main.LocalPlayer.cursorItemIconEnabled = true;
+                    Main.LocalPlayer.cursorItemIconID = Main.LocalPlayer.HeldItem.type;
+                    Main.LocalPlayer.cursorItemIconText = "";
+                    NPC.ShowNameOnHover = false;
+
+                    if (Main.mouseRight && Main.mouseRightRelease && Main.LocalPlayer.Distance(NPC.Center) < 300)
+                    {
+                        NPC.netUpdate = true;
+                        Main.LocalPlayer.ConsumeItem(Main.LocalPlayer.HeldItem.type);
+                        SoundEngine.PlaySound(SoundID.Item87);
+
+                        int soltype = 0;
+                        if (Main.LocalPlayer.HeldItem.type == ModContent.ItemType<AstralSolution>())
+                        {
+                            soltype = 5;
+                        }
+                        else
+                        {
+                            switch (Main.LocalPlayer.HeldItem.type)
+                            {
+                                case ItemID.GreenSolution:
+                                    soltype = 0;
+                                    break;
+                                case ItemID.PurpleSolution:
+                                    soltype = 1;
+                                    break;
+                                case ItemID.BlueSolution:
+                                    soltype = 2;
+                                    break;
+                                case ItemID.DarkBlueSolution:
+                                    soltype = 3;
+                                    break;
+                                case ItemID.RedSolution:
+                                    soltype = 4;
+                                    break;
+                            }
+                        }
+                        NPC.ai[3] = soltype;
+                        if (reset)
+                        {
+                            ChangeAI(1);
+                        }
+                    }
+                }
+
+                else
+                    NPC.ShowNameOnHover = true;
             }
         }
 
@@ -148,7 +157,7 @@ namespace CalamityMod.NPCs.TownNPCs
             }
             else
             {
-                AstralBiome.ConvertToAstral(x - 1, x + 1, y - 1, y + 1);
+                AstralBiome.ConvertToAstral(x - 2, x + 2, y - 2, y + 2);
             }
         }
 
@@ -188,13 +197,14 @@ namespace CalamityMod.NPCs.TownNPCs
             // Turnaround
             else if (NPC.ai[0] == 2)
             {
-                if (NPC.frame.Y < frameHeight * 5 || NPC.frame.Y > frameHeight * 8)
+                if (NPC.frame.Y < frameHeight * 5)
                 {
                     NPC.frameCounter = 0.0;
                     NPC.frame.Y = frameHeight * 5;
                 }
                 if (NPC.frame.Y > frameHeight * 8)
                 {
+                    NPC.ai[2] *= -1;
                     ChangeAI(1);
                 }
             }

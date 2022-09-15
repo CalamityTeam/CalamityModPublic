@@ -35,7 +35,7 @@ namespace CalamityMod.NPCs.DraedonLabThings
             NPC.chaseable = false;
             NPC.HitSound = SoundID.NPCHit4;
             NPC.DeathSound = SoundID.NPCDeath44;
-            NPC.catchItem = (short)ModContent.ItemType<RepairUnitItem>();
+            NPC.catchItem = (short)ModContent.ItemType<CleaningRoomba>();
             SpawnModBiomes = new int[1] { ModContent.GetInstance<ArsenalLabBiome>().Type };
             DrawOffsetY = -17;
         }
@@ -84,7 +84,7 @@ namespace CalamityMod.NPCs.DraedonLabThings
                 case 1:
                 case 3:
                     {
-                        NPC.velocity = Vector2.Zero;
+                        NPC.velocity.X = 0;
                         if (NPC.ai[1] == 0)
                         {
                             if (NPC.ai[0] == 1)
@@ -93,6 +93,7 @@ namespace CalamityMod.NPCs.DraedonLabThings
                             }
                             if (NPC.ai[0] == 3)
                             {
+                                NPC.catchItem = 0;
                                 SoundEngine.PlaySound(NPC.DeathSound, NPC.Center);
                             }
                         }
@@ -225,15 +226,6 @@ namespace CalamityMod.NPCs.DraedonLabThings
         {
             for (int i = 0; i < 6; i++)
                 Dust.NewDustDirect(NPC.position, NPC.width, NPC.height, 226);
-        }
-
-        public override void OnCaughtBy(Player player, Item item, bool failed)
-        {
-            // You can't catch what's dead
-            if (NPC.ai[0] >= 3)
-            {
-                failed = true;
-            }
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
