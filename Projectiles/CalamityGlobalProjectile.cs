@@ -2583,13 +2583,14 @@ namespace CalamityMod.Projectiles
                         }
                     }
 
-                    if (modPlayer.scuttlersJewel && stealthStrike)
+                    if (modPlayer.scuttlersJewel && stealthStrike && modPlayer.scuttlerCooldown <= 0)
                     {
-                        int damage = (int)player.GetTotalDamage<RogueDamageClass>().ApplyTo(15);
+                        int damage = (int)player.GetTotalDamage<RogueDamageClass>().ApplyTo(20);
                         int spike = Projectile.NewProjectile(projectile.GetSource_FromThis(), projectile.Center, Vector2.Zero, ProjectileType<JewelSpike>(), damage, projectile.knockBack, projectile.owner);
                         Main.projectile[spike].frame = 4;
                         if (spike.WithinBounds(Main.maxProjectiles))
                             Main.projectile[spike].DamageType = DamageClass.Generic;
+						modPlayer.scuttlerCooldown = 30;
                     }
                 }
 

@@ -538,6 +538,7 @@ namespace CalamityMod.CalPlayer
         public bool handWarmer = false;
         public bool ursaSergeant = false;
         public bool scuttlersJewel = false;
+        public int scuttlerCooldown = 0;
         public bool thiefsDime = false;
         public bool dynamoStemCells = false;
         public bool etherealExtorter = false;
@@ -2189,6 +2190,7 @@ namespace CalamityMod.CalPlayer
             andromedaCripple = 0;
             theBeeCooldown = 0;
             killSpikyBalls = false;
+			scuttlerCooldown = 0;
             rogueCrownCooldown = 0;
             icicleCooldown = 0;
             statisTimer = 0;

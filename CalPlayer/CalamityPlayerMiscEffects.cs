@@ -1101,6 +1101,8 @@ namespace CalamityMod.CalPlayer
                 silvaMageCooldown--;
             if (tarraMageHealCooldown > 0)
                 tarraMageHealCooldown--;
+            if (scuttlerCooldown > 0)
+                scuttlerCooldown--;
             if (rogueCrownCooldown > 0)
                 rogueCrownCooldown--;
             if (spectralVeilImmunity > 0)
