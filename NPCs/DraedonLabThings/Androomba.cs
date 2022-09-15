@@ -16,7 +16,6 @@ namespace CalamityMod.NPCs.DraedonLabThings
         public SoundStyle HurrySound = new("CalamityMod/Sounds/Custom/WulfrumDroidHurry", 2) { PitchVariance = 0.3f };
         public override void SetStaticDefaults()
         {
-            this.HideFromBestiary();
             DisplayName.SetDefault("Androomba");
             Main.npcFrameCount[NPC.type] = 22;
             NPCID.Sets.CountsAsCritter[NPC.type] = true;
