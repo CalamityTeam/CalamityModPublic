@@ -21,17 +21,17 @@ Stealth strike throws a volley of knives");
         public override void SetDefaults()
         {
             Item.width = 18;
-            Item.damage = 25;
-            Item.noMelee = true;
-            Item.consumable = true;
-            Item.noUseGraphic = true;
-            Item.useAnimation = 11;
-            Item.useStyle = ItemUseStyleID.Swing;
-            Item.useTime = 18;
-            Item.knockBack = 2f;
-            Item.UseSound = SoundID.Item1;
-            Item.autoReuse = true;
             Item.height = 32;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+
+            Item.damage = 16;
+            Item.useAnimation = Item.useTime = 20;
+            Item.knockBack = 2f;
+            Item.autoReuse = true;
+            Item.consumable = true;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.UseSound = SoundID.Item1;
             Item.maxStack = 999;
             Item.shoot = ModContent.ProjectileType<FeatherKnifeProjectile>();
             Item.shootSpeed = 25f;
