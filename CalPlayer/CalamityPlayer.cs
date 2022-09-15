@@ -287,6 +287,7 @@ namespace CalamityMod.CalPlayer
         public bool stealthStrikeThisFrame = false;
         public bool stealthStrikeHalfCost = false;
         public bool stealthStrike75Cost = false;
+        public bool stealthStrike90Cost = false;
         public bool wearingRogueArmor = false;
         public float accStealthGenBoost = 0f;
 
@@ -6681,6 +6682,7 @@ namespace CalamityMod.CalPlayer
             stealthStrikeThisFrame = false;
             stealthStrikeHalfCost = false;
             stealthStrike75Cost = false;
+            stealthStrike90Cost = false;
 
             // stealthAcceleration only resets if you don't have either of the accelerator accessories equipped
             if (!darkGodSheath && !eclipseMirror)
@@ -6880,6 +6882,8 @@ namespace CalamityMod.CalPlayer
                 consumptionMult = 0.5f;
             else if (stealthStrike75Cost)
                 consumptionMult = 0.75f;
+            else if (stealthStrike90Cost)
+                consumptionMult = 0.9f;
             return rogueStealth >= rogueStealthMax * consumptionMult;
         }
 
@@ -6903,6 +6907,12 @@ namespace CalamityMod.CalPlayer
             else if (stealthStrike75Cost)
             {
                 rogueStealth -= 0.75f * stealthToLose;
+                if (rogueStealth <= 0f)
+                    rogueStealth = 0f;
+            }
+            else if (stealthStrike90Cost)
+            {
+                rogueStealth -= 0.9f * stealthToLose;
                 if (rogueStealth <= 0f)
                     rogueStealth = 0f;
             }
