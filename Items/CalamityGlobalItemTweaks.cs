@@ -41,6 +41,8 @@ namespace CalamityMod.Items
                 { ItemID.AmberStaff, Do(DamageExact(19), UseTimeExact(15), UseAnimationExact(40)) },
                 { ItemID.AmethystStaff, Do(ManaExact(2)) },
                 { ItemID.Anchor, Do(DamageExact(107), UseExact(30)) },
+                { ItemID.AncientHallowedGreaves, Do(DefenseDelta(+2)) },
+                { ItemID.AncientHallowedPlateMail, Do(DefenseDelta(+3)) },
                 { ItemID.AnkhShield, Do(DefenseDelta(+8)) },
                 { ItemID.AntlionClaw, Do(ScaleRatio(1.5f), DamageRatio(1.5f), UseExact(14)) },
                 { ItemID.AquaScepter, Do(DamageExact(21), ShootSpeedExact(25f)) },
