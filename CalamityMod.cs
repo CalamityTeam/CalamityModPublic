@@ -118,7 +118,7 @@ namespace CalamityMod
 
         // Debuff immunities, these are used in the NPCDebuffs file
         public static int[] slimeEnemyImmunities = new int[1] { BuffID.Poisoned };
-        public static int[] iceEnemyImmunities = new int[3] { BuffID.Frostburn, BuffID.Frostburn2, ModContent.BuffType<GlacialState>(), ModContent.BuffType<ExoFreeze>() };
+        public static int[] iceEnemyImmunities = new int[4] { BuffID.Frostburn, BuffID.Frostburn2, ModContent.BuffType<GlacialState>(), ModContent.BuffType<ExoFreeze>() };
         public static int[] sulphurEnemyImmunities = new int[4] { BuffID.Poisoned, BuffID.Venom, ModContent.BuffType<SulphuricPoisoning>(), ModContent.BuffType<Irradiated>() };
         public static int[] sunkenSeaEnemyImmunities = new int[2] { ModContent.BuffType<Eutrophication>(), ModContent.BuffType<PearlAura>() };
         public static int[] abyssEnemyImmunities = new int[1] { ModContent.BuffType<CrushDepth>() };
