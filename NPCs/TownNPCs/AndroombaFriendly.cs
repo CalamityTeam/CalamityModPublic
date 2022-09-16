@@ -19,7 +19,6 @@ namespace CalamityMod.NPCs.TownNPCs
         {
             DisplayName.SetDefault("Androomba Pal");
             Main.npcFrameCount[NPC.type] = 9;
-            NPCID.Sets.CountsAsCritter[NPC.type] = true;
         }
 
         public override void SetDefaults()
