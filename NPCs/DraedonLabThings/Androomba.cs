@@ -35,7 +35,7 @@ namespace CalamityMod.NPCs.DraedonLabThings
             NPC.chaseable = false;
             NPC.HitSound = SoundID.NPCHit4;
             NPC.DeathSound = SoundID.NPCDeath44;
-            NPC.catchItem = (short)ModContent.ItemType<CleaningRoomba>();
+            NPC.catchItem = (short)ModContent.ItemType<AndroombaItem>();
             SpawnModBiomes = new int[1] { ModContent.GetInstance<ArsenalLabBiome>().Type };
             DrawOffsetY = -17;
         }
@@ -45,7 +45,7 @@ namespace CalamityMod.NPCs.DraedonLabThings
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
 
 				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("Slowly moving back and forth, these contraptions endlessly operate with the fruitless goal of cleaning the long abandoned labs.")
+				new FlavorTextBestiaryInfoElement("Slowly moving back and forth, these contraptions operate endlessly with the fruitless goal of cleaning the long, now abandoned labs.")
             });
         }
 

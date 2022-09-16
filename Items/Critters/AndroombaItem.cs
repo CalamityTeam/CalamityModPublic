@@ -6,13 +6,13 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Critters
 {
-    public class CleaningRoomba : ModItem
+    public class AndroombaItem : ModItem
     {
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 5;
-            DisplayName.SetDefault("Cleaning Roomba");
-            Tooltip.SetDefault("Right click the roomba with a solution to insert it\n"+"While a solution is inserted, the roomba will activate and start spreading the contents of the solution");
+            DisplayName.SetDefault("Androomba");
+            Tooltip.SetDefault("Right click the roomba with a solution to insert it\n"+"While a solution is inserted, the roomba will start spreading its contents");
         }
 
         public override void SetDefaults()

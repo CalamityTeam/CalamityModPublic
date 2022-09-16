@@ -33,7 +33,7 @@ namespace CalamityMod.NPCs.DraedonLabThings
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
 
                 // Will move to localization whenever that is cleaned up.
-                new FlavorTextBestiaryInfoElement("Not every creation has to be large and flashy to be a success, sometimes it's good to take a step back and appreciate how much the smaller things contribute.")
+                new FlavorTextBestiaryInfoElement("Not every creation has to be large and flashy to be a success, sometimes it's good to take a step back and appreciate how much that smaller things such as these devices contribute.")
             });
         }
 

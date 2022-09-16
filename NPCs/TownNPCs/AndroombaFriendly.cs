@@ -15,10 +15,9 @@ namespace CalamityMod.NPCs.TownNPCs
 {
     public class AndroombaFriendly : ModNPC
     {
-        public static Rectangle MouseScreenArea => Utils.CenteredRectangle(Main.MouseScreen, Vector2.One * 2f);
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Androomba");
+            DisplayName.SetDefault("Androomba Pal");
             Main.npcFrameCount[NPC.type] = 9;
             NPCID.Sets.CountsAsCritter[NPC.type] = true;
         }
@@ -31,13 +30,14 @@ namespace CalamityMod.NPCs.TownNPCs
             NPC.width = 36;
             NPC.height = 16;
             NPC.lifeMax = 80;
+            NPC.friendly = true;
             NPC.knockBackResist = 0f;
             NPC.noGravity = true;
             NPC.noTileCollide = false;
             NPC.chaseable = false;
             NPC.HitSound = SoundID.NPCHit4;
             NPC.DeathSound = SoundID.NPCDeath44;
-            NPC.catchItem = (short)ModContent.ItemType<CleaningRoomba>();
+            NPC.catchItem = (short)ModContent.ItemType<AndroombaItem>();
             SpawnModBiomes = new int[1] { ModContent.GetInstance<ArsenalLabBiome>().Type };
         }
 
@@ -46,7 +46,7 @@ namespace CalamityMod.NPCs.TownNPCs
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
 
 				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("placeholdertext")
+				new FlavorTextBestiaryInfoElement("Easily reversed engineered, these robots can be made to spread whatever you put into them, giving them a new purpose.")
             });
         }
 
@@ -105,8 +105,6 @@ namespace CalamityMod.NPCs.TownNPCs
                     if (Main.mouseRight && Main.mouseRightRelease && Main.LocalPlayer.Distance(NPC.Center) < 300)
                     {
                         NPC.netUpdate = true;
-                        Main.LocalPlayer.ConsumeItem(Main.LocalPlayer.HeldItem.type);
-                        SoundEngine.PlaySound(SoundID.Item87);
 
                         int soltype = 0;
                         if (Main.LocalPlayer.HeldItem.type == ModContent.ItemType<AstralSolution>())
@@ -134,10 +132,15 @@ namespace CalamityMod.NPCs.TownNPCs
                                     break;
                             }
                         }
-                        NPC.ai[3] = soltype;
-                        if (reset)
+                        if (NPC.ai[3] != soltype || NPC.ai[0] == 0)
                         {
-                            ChangeAI(1);
+                            Main.LocalPlayer.ConsumeItem(Main.LocalPlayer.HeldItem.type);
+                            SoundEngine.PlaySound(SoundID.Item87);
+                            NPC.ai[3] = soltype;
+                            if (reset)
+                            {
+                                ChangeAI(1);
+                            }
                         }
                     }
                 }
@@ -153,6 +156,32 @@ namespace CalamityMod.NPCs.TownNPCs
             int y = (int)(NPC.Center.Y / 16f);
             if (conversionType <= 4)
             {
+                ConvertType type = ConvertType.Pure;
+                switch (conversionType)
+                {
+                    case 0:
+                        type = ConvertType.Pure;
+                        break;
+                    case 1:
+                        type = ConvertType.Corrupt;
+                        break;
+                    case 2:
+                        type = ConvertType.Hallow;
+                        break;
+                    case 4:
+                        type = ConvertType.Crimson;
+                        break;
+                }
+                for (int i = 0; i < 3; i++)
+                {
+                    for (int j = 0; j < 3; j++)
+                    {
+                        AstralBiome.ConvertFromAstral(x + i, y + j, type);
+                        AstralBiome.ConvertFromAstral(x - i, y - j, type);
+                        AstralBiome.ConvertFromAstral(x + i, y - j, type);
+                        AstralBiome.ConvertFromAstral(x - i, y + j, type);
+                    }
+                }
                 WorldGen.Convert(x, y, conversionType, 2);
             }
             else
@@ -204,6 +233,7 @@ namespace CalamityMod.NPCs.TownNPCs
                 }
                 if (NPC.frame.Y > frameHeight * 8)
                 {
+                    NPC.frame.Y = frameHeight;
                     NPC.ai[2] *= -1;
                     ChangeAI(1);
                 }
