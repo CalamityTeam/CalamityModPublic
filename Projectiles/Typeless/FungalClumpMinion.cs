@@ -58,6 +58,8 @@ namespace CalamityMod.Projectiles.Typeless
                 }
             }
 
+			Projectile.damage = (int)player.GetBestClassDamage().ApplyTo(Projectile.originalDamage);
+
             //Animation
             Projectile.frameCounter++;
             if (Projectile.frameCounter > 6)
