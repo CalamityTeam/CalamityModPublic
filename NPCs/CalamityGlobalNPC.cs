@@ -898,6 +898,15 @@ namespace CalamityMod.NPCs
                     damage = baseFrostBurnDoTValue / 4;
             }
 
+            // Frostbite
+            if (npc.onFrostBurn2)
+            {
+                int baseFrostBiteDoTValue = (int)((npc.oiled ? 100 : 50) * vanillaColdDamageMult);
+                npc.lifeRegen -= baseFrostBiteDoTValue;
+                if (damage < baseFrostBiteDoTValue / 4)
+                    damage = baseFrostBiteDoTValue / 4;
+            }
+
             // Nightwither
             if (nightwither > 0)
             {
@@ -5291,6 +5300,10 @@ namespace CalamityMod.NPCs
                         buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/StatDebuffs/WhisperingDeath").Value);
                     if (wither > 0)
                         buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/StatDebuffs/WitherDebuff").Value);
+
+                    // Visual debuff
+                    if (RancorBurnTime > 0)
+                        buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/RancorBurn").Value);
 
                     // Vanilla damage over time debuffs
                     if (electrified > 0)
