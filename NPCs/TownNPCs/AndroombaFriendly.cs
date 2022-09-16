@@ -31,6 +31,7 @@ namespace CalamityMod.NPCs.TownNPCs
             NPC.height = 16;
             NPC.lifeMax = 80;
             NPC.friendly = true;
+            NPC.townNPC = true;
             NPC.knockBackResist = 0f;
             NPC.noGravity = true;
             NPC.noTileCollide = false;
@@ -39,6 +40,11 @@ namespace CalamityMod.NPCs.TownNPCs
             NPC.DeathSound = SoundID.NPCDeath44;
             NPC.catchItem = (short)ModContent.ItemType<AndroombaItem>();
             SpawnModBiomes = new int[1] { ModContent.GetInstance<ArsenalLabBiome>().Type };
+        }
+
+        public override bool CanChat()
+        {
+            return false;
         }
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)

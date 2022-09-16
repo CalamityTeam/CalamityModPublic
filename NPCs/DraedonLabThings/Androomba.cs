@@ -45,7 +45,7 @@ namespace CalamityMod.NPCs.DraedonLabThings
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
 
 				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("Slowly moving back and forth, these contraptions operate endlessly with the fruitless goal of cleaning the long, now abandoned labs.")
+				new FlavorTextBestiaryInfoElement("Slowly moving back and forth, these contraptions operate endlessly with the fruitless goal of cleaning the now long abandoned labs.")
             });
         }
 
