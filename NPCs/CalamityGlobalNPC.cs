@@ -737,13 +737,14 @@ namespace CalamityMod.NPCs
                 CalamityLists.AquaticScourgeIDs.Contains(npc.type) || CalamityLists.AstrumDeusIDs.Contains(npc.type) || CalamityLists.StormWeaverIDs.Contains(npc.type);
             bool slimeGod = CalamityLists.SlimeGodIDs.Contains(npc.type);
 
-            double heatDamageMult = npc.drippingSlime ? ((wormBoss || slimeGod) ? 2D : 5D) : 1D;
+            bool slimed = npc.drippingSlime || npc.drippingSparkleSlime;
+            double heatDamageMult = slimed ? ((wormBoss || slimeGod) ? 2D : 5D) : 1D;
             if (VulnerableToHeat.HasValue)
             {
                 if (VulnerableToHeat.Value)
-                    heatDamageMult *= npc.drippingSlime ? ((wormBoss || slimeGod) ? 1.5 : 2D) : ((wormBoss || slimeGod) ? 2D : 5D);
+                    heatDamageMult *= slimed ? ((wormBoss || slimeGod) ? 1.5 : 2D) : ((wormBoss || slimeGod) ? 2D : 5D);
                 else
-                    heatDamageMult *= npc.drippingSlime ? 0.2 : 0.5;
+                    heatDamageMult *= slimed ? 0.2 : 0.5;
             }
 
             double coldDamageMult = 1D;
@@ -3688,6 +3689,7 @@ namespace CalamityMod.NPCs
                     npc.buffImmune[BuffID.Slimed] = false;
                     npc.buffImmune[BuffID.Lovestruck] = false;
                     npc.buffImmune[BuffID.Stinky] = false;
+                    npc.buffImmune[BuffID.GelBalloonBuff] = false;
                 }
             }
 
