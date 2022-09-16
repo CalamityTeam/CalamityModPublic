@@ -4365,6 +4365,17 @@ namespace CalamityMod.NPCs
             // Apply balancing resists/vulnerabilities.
             BalancingChangesManager.ApplyFromProjectile(npc, ref damage, projectile);
 
+            if (CalamityLists.GrenadeResistIDs.Contains(projectile.type))
+            {
+                // Eater of Worlds has a vanilla resist in Expert+, this gives it to him in Normal mode
+                bool hasResist = CalamityLists.EaterofWorldsIDs.Contains(npc.type) && !Main.expertMode;
+                // Add a resist for BoC's creepers and Prehardmode worm bosses
+                if (npc.type == NPCID.Creeper || CalamityLists.DesertScourgeIDs.Contains(npc.type) || CalamityLists.PerforatorIDs.Contains(npc.type))
+                    hasResist = true;
+                if (hasResist)
+                    damage = (int)(damage * 0.2);
+            }
+
             if (CalamityLists.pierceResistList.Contains(npc.type))
                 PierceResistGlobal(projectile, npc, ref damage);
 
@@ -4375,14 +4386,6 @@ namespace CalamityMod.NPCs
         // TODO -- What in god's name is this?
         private void PierceResistGlobal(Projectile projectile, NPC npc, ref int damage)
         {
-            if (CalamityLists.GrenadeResistIDs.Contains(projectile.type))
-            {
-                if (!CalamityLists.EaterofWorldsIDs.Contains(npc.type))
-                    damage = (int)(damage * 0.2);
-                else if (!Main.expertMode)
-                    damage = (int)(damage * 0.2);
-            }
-
             // Thanatos segments do not trigger pierce resistance if they are closed
             if (CalamityLists.ThanatosIDs.Contains(npc.type) && unbreakableDR)
                 return;
