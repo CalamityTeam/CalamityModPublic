@@ -5225,6 +5225,8 @@ namespace CalamityMod.NPCs
                     // Damage over time debuffs
                     if (astralInfection > 0)
                         buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/AstralInfectionDebuff").Value);
+                    if (banishingFire > 0)
+                        buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/BanishingFire").Value);
                     if (bFlames > 0)
                         buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/BrimstoneFlames").Value);
                     if (bBlood > 0)
@@ -5233,16 +5235,18 @@ namespace CalamityMod.NPCs
                         buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/CrushDepth").Value);
                     if (dFlames > 0)
                         buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/DemonFlames").Value);
-                    if (gsInferno > 0)
-                        buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/GodSlayerInferno").Value);
                     if (dragonFire > 0)
                         buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/Dragonfire").Value);
+                    if (gsInferno > 0)
+                        buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/GodSlayerInferno").Value);
                     if (hFlames > 0)
                         buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/HolyFlames").Value);
                     if (nightwither > 0)
                         buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/Nightwither").Value);
                     if (pFlames > 0)
                         buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/Plague").Value);
+                    if (sagePoisonTime > 0)
+                        buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/SagePoison").Value);
                     if (shellfishVore > 0)
                         buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/ShellfishClaps").Value);
                     if (somaShredStacks > 0)
@@ -5251,10 +5255,10 @@ namespace CalamityMod.NPCs
                         buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/SnapClamDebuff").Value);
                     if (sulphurPoison > 0)
                         buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/SulphuricPoisoning").Value);
-                    if (sagePoisonTime > 0)
-                        buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/SagePoison").Value);
                     if (vaporfied > 0)
                         buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/Vaporfied").Value);
+                    if (vulnerabilityHex > 0)
+                        buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/VulnerabilityHex").Value);
 
                     // Stat debuffs
                     if (aCrunch > 0)
@@ -5317,6 +5321,12 @@ namespace CalamityMod.NPCs
                         buffTextureList.Add(TextureAssets.Buff[BuffID.DryadsWard].Value);
                     if (npc.soulDrain && npc.realLife == -1)
                         buffTextureList.Add(TextureAssets.Buff[BuffID.SoulDrain].Value);
+                    if (npc.onFire3) // Hellfire
+                        buffTextureList.Add(TextureAssets.Buff[BuffID.OnFire3].Value);
+                    if (npc.onFrostBurn2) // Frostbite
+                        buffTextureList.Add(TextureAssets.Buff[BuffID.Frostburn2].Value);
+                    if (npc.tentacleSpiked)
+                        buffTextureList.Add(TextureAssets.Buff[BuffID.TentacleSpike].Value);
 
                     // Vanilla stat debuffs
                     if (npc.confused)
@@ -5339,6 +5349,10 @@ namespace CalamityMod.NPCs
                         buffTextureList.Add(TextureAssets.Buff[BuffID.Wet].Value);
                     if (npc.drippingSlime)
                         buffTextureList.Add(TextureAssets.Buff[BuffID.Slimed].Value);
+                    if (npc.drippingSparkleSlime)
+                        buffTextureList.Add(TextureAssets.Buff[BuffID.GelBalloonBuff].Value);
+                    if (npc.markedByScytheWhip) // Dark Harvest whip, the only Whip debuff that has an NPC bool
+                        buffTextureList.Add(TextureAssets.Buff[BuffID.ScytheWhipEnemyDebuff].Value);
 
                     // Total amount of elements in the buff list
                     int buffTextureListLength = buffTextureList.Count;
