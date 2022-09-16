@@ -393,7 +393,7 @@ namespace CalamityMod.CalPlayer
 
                 ProjLifesteal(target, proj, damage, crit);
                 ProjOnHit(proj, target.Center, crit, (target.damage > 5 || target.boss) && !target.SpawnedFromStatue);
-                NPCDebuffs(target, proj.CountsAsClass<MeleeDamageClass>(), proj.CountsAsClass<RangedDamageClass>(), proj.CountsAsClass<MagicDamageClass>(), proj.IsSummon(), proj.CountsAsClass<ThrowingDamageClass>(), true);
+                NPCDebuffs(target, proj.CountsAsClass<MeleeDamageClass>(), proj.CountsAsClass<RangedDamageClass>(), proj.CountsAsClass<MagicDamageClass>(), proj.CountsAsClass<SummonDamageClass>(), proj.CountsAsClass<ThrowingDamageClass>(), true);
 
                 // Shattered Community tracks all damage dealt with Rage Mode (ignoring dummies).
                 if (target.type == NPCID.TargetDummy || target.type == NPCType<SuperDummyNPC>())
@@ -615,7 +615,7 @@ namespace CalamityMod.CalPlayer
                     target.AddBuff(BuffType<Plague>(), 300);
                 }
                 ProjOnHit(proj, target.Center, crit, true);
-                PvpDebuffs(target, proj.CountsAsClass<MeleeDamageClass>(), proj.CountsAsClass<RangedDamageClass>(), proj.CountsAsClass<MagicDamageClass>(), proj.IsSummon(), proj.CountsAsClass<ThrowingDamageClass>(), true);
+                PvpDebuffs(target, proj.CountsAsClass<MeleeDamageClass>(), proj.CountsAsClass<RangedDamageClass>(), proj.CountsAsClass<MagicDamageClass>(), proj.CountsAsClass<SummonDamageClass>(), proj.CountsAsClass<ThrowingDamageClass>(), true);
             }
         }
         #endregion
@@ -762,7 +762,7 @@ namespace CalamityMod.CalPlayer
                 RangedOnHit(proj, modProj, position, crit, npcCheck);
             if (proj.CountsAsClass<MagicDamageClass>())
                 MagicOnHit(proj, modProj, position, crit, npcCheck);
-            if (proj.IsSummon())
+            if (proj.CountsAsClass<SummonDamageClass>())
                 SummonOnHit(proj, modProj, position, crit, npcCheck);
             if (proj.CountsAsClass<ThrowingDamageClass>())
                 RogueOnHit(proj, modProj, position, crit, npcCheck);
@@ -902,6 +902,11 @@ namespace CalamityMod.CalPlayer
         private void SummonOnHit(Projectile proj, CalamityGlobalProjectile modProj, Vector2 position, bool crit, bool npcCheck)
         {
             var source = proj.GetSource_FromThis();
+
+			// Whips don't trigger these effects
+			if (proj.aiStyle == ProjAIStyleID.Whip)
+				return;
+
             if (npcCheck)
             {
                 if (phantomicArtifact)

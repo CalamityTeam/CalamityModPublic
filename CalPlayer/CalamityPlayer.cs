@@ -2588,7 +2588,7 @@ namespace CalamityMod.CalPlayer
                 for (int projIndex = 0; projIndex < Main.maxProjectiles; projIndex++)
                 {
                     Projectile proj = Main.projectile[projIndex];
-                    if (proj.minionSlots <= 0f || !proj.IsSummon())
+                    if (proj.minionSlots <= 0f || !proj.CountsAsClass<SummonDamageClass>())
                         continue;
                     if (proj.active && proj.owner == Player.whoAmI)
                     {
@@ -4427,7 +4427,7 @@ namespace CalamityMod.CalPlayer
             if (proj.npcProj || proj.trap)
                 return;
 
-            bool isSummon = proj.IsSummon();
+            bool isSummon = proj.CountsAsClass<SummonDamageClass>();
             Item heldItem = Player.ActiveItem();
 
             #region MultiplierBoosts
@@ -4620,7 +4620,7 @@ namespace CalamityMod.CalPlayer
                         if (Main.netMode == NetmodeID.MultiplayerClient)
                             SyncLevel(false, (int)ClassType.Magic);
                     }
-                    else if (proj.IsSummon() && summonLevel <= 12500)
+                    else if (proj.CountsAsClass<SummonDamageClass>() && summonLevel <= 12500)
                     {
                         if (!ReduceCooldown((int)ClassType.Summon))
                         {
