@@ -1,4 +1,6 @@
 ﻿using CalamityMod.Buffs.Summon;
+using CalamityMod.Items.Weapons.Ranged;
+using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.CalPlayer;
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
@@ -41,9 +43,10 @@ namespace CalamityMod.Projectiles.Summon
         // The false gun's damage is changed to the appropriate value every time a Tactical Plague Jet wants to fire a bullet.
         private static void DefineFalseGun()
         {
-            int p90ID = ModContent.ItemType<Items.Weapons.Ranged.P90>();
+            int p90ID = ModContent.ItemType<P90>();
             FalseGun = new Item();
             FalseGun.SetDefaults(p90ID, true);
+			FalseGun.damage = TacticalPlagueEngine.BaseDamage;
             FalseGun.consumeAmmoOnFirstShotOnly = false;
             FalseGun.consumeAmmoOnLastShotOnly = false;
 
@@ -174,14 +177,14 @@ namespace CalamityMod.Projectiles.Summon
                     }
 
                     // Fire the selected bullet, nothing special.
-                    else { 
-                        projIndex = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.SafeDirectionTo(potentialTarget.Center) * shootSpeed, projID, damage, kb, Projectile.owner);}
+                    else
+                        projIndex = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.SafeDirectionTo(potentialTarget.Center) * shootSpeed, projID, damage, kb, Projectile.owner);
 
                     // Regardless of what was fired, force it to be a summon projectile so that summon accessories work.
                     if (projIndex.WithinBounds(Main.maxProjectiles))
                     {
                         Main.projectile[projIndex].DamageType = DamageClass.Summon;
-                        Main.projectile[projIndex].originalDamage = Projectile.originalDamage;
+                        Main.projectile[projIndex].minion = false;
                     }
                 }
 
