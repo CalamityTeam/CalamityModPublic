@@ -73,7 +73,8 @@ namespace CalamityMod.NPCs.DraedonLabThings
                         // If she sees someone, start running
                         for (int i = 0; i < Main.maxPlayers; i++)
                         {
-                            if (Collision.CanHit(NPC.position, NPC.width, NPC.height, Main.player[i].position, Main.player[i].width, Main.player[i].height) && NPC.ai[1] > 300)
+                            Player player = Main.player[i];
+                            if (Collision.CanHit(NPC.position, NPC.width, NPC.height, player.position, player.width, player.height) && NPC.ai[1] > 300)
                             {
                                 ChangeAI(1);
                             }
@@ -140,6 +141,7 @@ namespace CalamityMod.NPCs.DraedonLabThings
         {
             NPC.ai[0] = phase;
             NPC.ai[1] = 0;
+            NPC.netUpdate = true;
         }
 
         public override bool? CanBeHitByItem(Player player, Item item) => null;

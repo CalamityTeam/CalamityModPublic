@@ -4,6 +4,8 @@ using CalamityMod.Items.Critters;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
+using System.IO;
 using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent;
@@ -39,6 +41,7 @@ namespace CalamityMod.NPCs.TownNPCs
             NPC.DeathSound = SoundID.NPCDeath44;
             NPC.catchItem = (short)ModContent.ItemType<AndroombaItem>();
             SpawnModBiomes = new int[1] { ModContent.GetInstance<ArsenalLabBiome>().Type };
+            NPC.dontTakeDamage = true;
         }
 
         public override bool CanChat()
@@ -199,6 +202,7 @@ namespace CalamityMod.NPCs.TownNPCs
         {
             NPC.ai[0] = phase;
             NPC.ai[1] = 0;
+            NPC.netUpdate = true;
         }
 
         public override bool? CanBeHitByItem(Player player, Item item) => null;
