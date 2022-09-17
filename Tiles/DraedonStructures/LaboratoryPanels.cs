@@ -14,6 +14,7 @@ namespace CalamityMod.Tiles.DraedonStructures
             Main.tileMergeDirt[Type] = true;
 
             CalamityUtils.MergeWithGeneral(Type);
+            CalamityUtils.SetMerge(Type, ModContent.TileType<HazardChevronPanels>());
 
             HitSound = SoundID.Tink;
             DustType = 109;
