@@ -762,7 +762,7 @@ namespace CalamityMod.CalPlayer
                 RangedOnHit(proj, modProj, position, crit, npcCheck);
             if (proj.CountsAsClass<MagicDamageClass>())
                 MagicOnHit(proj, modProj, position, crit, npcCheck);
-            if (proj.CountsAsClass<SummonDamageClass>())
+            if (proj.CountsAsClass<SummonDamageClass>() && !proj.CountsAsClass<SummonMeleeSpeedDamageClass>())
                 SummonOnHit(proj, modProj, position, crit, npcCheck);
             if (proj.CountsAsClass<ThrowingDamageClass>())
                 RogueOnHit(proj, modProj, position, crit, npcCheck);
@@ -902,10 +902,6 @@ namespace CalamityMod.CalPlayer
         private void SummonOnHit(Projectile proj, CalamityGlobalProjectile modProj, Vector2 position, bool crit, bool npcCheck)
         {
             var source = proj.GetSource_FromThis();
-
-			// Whips don't trigger these effects
-			if (proj.aiStyle == ProjAIStyleID.Whip)
-				return;
 
             if (npcCheck)
             {
