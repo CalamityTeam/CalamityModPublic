@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Events;
+using CalamityMod.Items;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Ammo;
 using CalamityMod.Items.Ammo.FiniteUse;
@@ -1098,6 +1099,10 @@ namespace CalamityMod.NPCs
                     {
                         chat = "Space just got way too close for comfort.";
                     }
+                    if (Main.rand.NextBool(6) && !Main.LocalPlayer.InventoryHas(ItemID.RodofDiscord) && !Main.LocalPlayer.InventoryHas(ModContent.ItemType<NormalityRelocator>()) && !Main.LocalPlayer.ZoneHallow)
+                    {
+                        chat = "I wanted to sell you a special rod I found in the Hallow, but it appears I have misplaced it. Maybe a trip back there would refresh my memory.";
+                    }
 
                     break;
 
@@ -1183,6 +1188,17 @@ namespace CalamityMod.NPCs
                     if (Main.rand.NextBool(10) && DownedBossSystem.downedDoG)
                     {
                         chat = "Is it me or are your weapons getting bigger and bigger?";
+                    }
+
+                    // If you've beaten Skeletron and don't have Quad-Barrel Shotgun, drop a hint
+                    // This does not show up if you're post-Plantera since the weapon should be irrelevant by then
+                    if (Main.rand.NextBool(6) && NPC.downedBoss3 && !NPC.downedPlantBoss && !Main.LocalPlayer.InventoryHas(ItemID.QuadBarrelShotgun) && !Main.LocalPlayer.ZoneGraveyard)
+                    {
+                        chat = "That old man left a cranky old gun on his deathbed. You catching my drift?";
+                    }
+                    if (Main.rand.NextBool(6) && Main.LocalPlayer.InventoryHas(ItemID.QuadBarrelShotgun))
+                    {
+                        chat = "Hah! Look at that rusty old shotty. It looks straight out of the 70's!";
                     }
 
                     break;
