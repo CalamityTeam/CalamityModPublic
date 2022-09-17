@@ -1191,12 +1191,12 @@ namespace CalamityMod.NPCs
                     }
 
                     // If you've beaten Skeletron and don't have Quad-Barrel Shotgun, drop a hint
-                    // This does not show up if you're post-Plantera since the weapon should be irrelevant by then
-                    if (Main.rand.NextBool(6) && NPC.downedBoss3 && !NPC.downedPlantBoss && !Main.LocalPlayer.InventoryHas(ItemID.QuadBarrelShotgun) && !Main.LocalPlayer.ZoneGraveyard)
+                    // This does not show up if you're in hardmode since the weapon is irrelevant by then
+                    if (Main.rand.NextBool(5) && NPC.downedBoss3 && !Main.hardMode && !Main.LocalPlayer.InventoryHas(ItemID.QuadBarrelShotgun) && !Main.LocalPlayer.ZoneGraveyard)
                     {
                         chat = "That old man left a cranky old gun on his deathbed. You catching my drift?";
                     }
-                    if (Main.rand.NextBool(6) && Main.LocalPlayer.InventoryHas(ItemID.QuadBarrelShotgun))
+                    if (Main.rand.NextBool(5) && Main.LocalPlayer.InventoryHas(ItemID.QuadBarrelShotgun))
                     {
                         chat = "Hah! Look at that rusty old shotty. It looks straight out of the 70's!";
                     }
