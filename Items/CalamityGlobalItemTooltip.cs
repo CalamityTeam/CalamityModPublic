@@ -311,7 +311,7 @@ namespace CalamityMod.Items
                 EditTooltipByNum(0, (line) => line.Text += extraLine);
             }
 
-            // Invisibility Potion provides various rogue boosts
+            // Invisibility Potion provides stealth regen
             if (item.type == ItemID.InvisibilityPotion)
                 EditTooltipByNum(0, (line) => line.Text += "\n8% increased rogue stealth regen");
 
