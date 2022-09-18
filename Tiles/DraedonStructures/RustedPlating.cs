@@ -13,7 +13,6 @@ namespace CalamityMod.Tiles.DraedonStructures
             Main.tileBlockLight[Type] = true;
 
             CalamityUtils.MergeWithGeneral(Type);
-            CalamityUtils.SetMerge(Type, ModContent.TileType<LaboratoryPlating>());
 
             HitSound = SoundID.Tink;
             DustType = 32;
