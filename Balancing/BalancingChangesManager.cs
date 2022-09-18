@@ -3,6 +3,7 @@ using CalamityMod.NPCs.Crabulon;
 using CalamityMod.NPCs.ExoMechs.Apollo;
 using CalamityMod.NPCs.ExoMechs.Artemis;
 using CalamityMod.NPCs.OldDuke;
+using CalamityMod.NPCs.Providence;
 using CalamityMod.NPCs.Ravager;
 using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.Projectiles.Magic;
@@ -194,8 +195,13 @@ namespace CalamityMod.Balancing
             #endregion Astrum Deus
 
             #region Moon Lord
-            // 30% resist to the shockwave attunement from the True biome blade.
+            // 90% resist to the shockwave attunement from the True biome blade.
             NPCSpecificBalancingChanges.Add(new NPCBalancingChange(NPCID.MoonLordCore, Do(new ProjectileResistBalancingRule(0.1f, ProjectileType<MercurialTides>(), ProjectileType<MercurialTidesMonolith>(), ProjectileType<MercurialTidesBlast>()))));
+            #endregion
+
+            #region Providence
+            // 80% resist to Hell's Sun.
+            NPCSpecificBalancingChanges.Add(new NPCBalancingChange(NPCType<Providence>(), new ProjectileResistBalancingRule(0.2f, ProjectileType<HellsSunProj>())));
             #endregion
 
             #region Ceaseless Void / Dark Energies
