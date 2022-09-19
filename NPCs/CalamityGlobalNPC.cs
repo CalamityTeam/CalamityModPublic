@@ -832,6 +832,26 @@ namespace CalamityMod.NPCs
                     damage = baseHellfireDoTValue / 4;
             }
 
+			// Daybroken
+			if (npc.daybreak)
+			{
+				int projAmt = 0;
+				int num7 = 4;
+				for (int k = 0; k < Main.maxProjectiles; k++)
+				{
+					if (Main.projectile[k].active && Main.projectile[k].type == ProjectileID.Daybreak && Main.projectile[k].ai[0] == 1f && Main.projectile[k].ai[1] == npc.whoAmI)
+						projAmt++;
+				}
+
+				if (projAmt == 0)
+					projAmt = 1;
+
+                int baseDaybreakDoTValue = (int)(projAmt * 2 * 100 * vanillaHeatDamageMult);
+                npc.lifeRegen -= baseDaybreakDoTValue;
+                if (damage < baseDaybreakDoTValue / 4)
+                    damage = baseDaybreakDoTValue / 4;
+			}
+
             // Shadowflame
             if (npc.shadowFlame)
             {
