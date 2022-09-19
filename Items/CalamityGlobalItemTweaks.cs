@@ -38,7 +38,7 @@ namespace CalamityMod.Items
                 { ItemID.AdamantiteSword, Do(UseTurn, ScaleRatio(1.5f), UseRatio(0.8f), DamageExact(77)) },
                 { ItemID.AdamantiteWaraxe, Do(AxePower(160), UseTimeExact(10), TileBoostExact(+1)) },
                 { ItemID.Amarok, autoReuse },
-                { ItemID.AmberStaff, Do(DamageExact(19), UseTimeExact(15), UseAnimationExact(40)) },
+                { ItemID.AmberStaff, Do(UseTimeExact(15), UseAnimationExact(45), ReuseDelayExact(10)) },
                 { ItemID.AmethystStaff, Do(ManaExact(2)) },
                 { ItemID.Anchor, Do(DamageExact(107), UseExact(30)) },
                 { ItemID.AncientHallowedGreaves, Do(DefenseDelta(+2)) },
@@ -1261,6 +1261,51 @@ namespace CalamityMod.Items
             }
         }
         internal static IItemTweak UseTimeRatio(float f) => new UseTimeRatioRule(f);
+
+        internal class ReuseDelayDeltaRule : IItemTweak
+        {
+            internal readonly int delta = 0;
+
+            public ReuseDelayDeltaRule(int d) => delta = d;
+            public bool AppliesTo(Item it) => IsUsable(it);
+            public void ApplyTweak(Item it)
+            {
+                it.reuseDelay += delta;
+                if (it.reuseDelay < 1)
+                    it.reuseDelay = 1;
+            }
+        }
+        internal static IItemTweak ReuseDelayDelta(int d) => new ReuseDelayDeltaRule(d);
+
+        internal class ReuseDelayExactRule : IItemTweak
+        {
+            internal readonly int newUseAnimation = 0;
+
+            public ReuseDelayExactRule(int rd) => newReuseDelay = rd;
+            public bool AppliesTo(Item it) => IsUsable(it);
+            public void ApplyTweak(Item it)
+            {
+                it.reuseDelay = newUseAnimation;
+                if (it.reuseDelay < 1)
+                    it.reuseDelay = 1;
+            }
+        }
+        internal static IItemTweak ReuseDelayExact(int rd) => new ReuseDelayExactRule(rd);
+
+        internal class ReuseDelayRatioRule : IItemTweak
+        {
+            internal readonly float ratio = 1f;
+
+            public ReuseDelayRatioRule(float f) => ratio = f;
+            public bool AppliesTo(Item it) => IsUsable(it);
+            public void ApplyTweak(Item it)
+            {
+                it.reuseDelay = (int)(it.reuseDelay * ratio);
+                if (it.reuseDelay < 1)
+                    it.reuseDelay = 1;
+            }
+        }
+        internal static IItemTweak ReuseDelayRatio(float f) => new ReuseDelayRatioRule(f);
         #endregion
 
         #region Use Turn
