@@ -23,6 +23,7 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.localNPCHitCooldown = 35;
             Projectile.tileCollide = false;
             Projectile.hostile = true;
+            CooldownSlot = ImmunityCooldownID.TileContactDamage;
         }
 
         public override void AI()
@@ -36,12 +37,6 @@ namespace CalamityMod.Projectiles.Magic
             damage = Main.rand.Next(GloriousEnd.PlayerExplosionDmgMin, GloriousEnd.PlayerExplosionDmgMax + 1);
             if (Projectile.ai[0] == 1f)
                 damage /= 2;
-
-			//DR applies after defense, so undo it first
-			damage = (int)(damage * (1 / (1 - target.endurance)));
-
-			//Then proceed to ignore all defense
-			damage += (int)(0.5f * target.GetCurrentDefense(true));
         }
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
@@ -51,20 +46,7 @@ namespace CalamityMod.Projectiles.Magic
                 damage = Main.rand.Next(GloriousEnd.PlayerExplosionDmgMin, GloriousEnd.PlayerExplosionDmgMax + 1);
                 if (Projectile.ai[0] == 1f)
                     damage /= 2;
-
-				//DR applies after defense, so undo it first
-				damage = (int)(damage * (1 / (1 - target.Calamity().DR)));
-
-				//Then proceed to ignore all defense
-				int penetratableDefense = (int)Math.Max(target.defense - Main.player[Projectile.owner].GetArmorPenetration<GenericDamageClass>(), 0);
-				int penetratedDefense = Math.Min(penetratableDefense, target.defense);
-				damage += (int)(0.5f * penetratedDefense);
             }
-        }
-
-        public override void OnHitPlayer(Player target, int damage, bool crit)
-        {
-            target.GiveIFrames(target.longInvince ? 100 : 60, true);
         }
     }
 }
