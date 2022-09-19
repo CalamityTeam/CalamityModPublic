@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using CalamityMod.Balancing;
+﻿using CalamityMod.Balancing;
 using CalamityMod.CalPlayer;
 using CalamityMod.World;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -26,12 +26,8 @@ namespace CalamityMod.Items.Accessories
             Item.height = 26;
             Item.value = CalamityGlobalItem.Rarity3BuyPrice;
             Item.rare = ItemRarityID.Orange;
+            Item.accessory = true;
         }
-
-		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
-		{
-			itemGroup = (ContentSamples.CreativeHelper.ItemGroup)CalamityResearchSorting.ToolsOther;
-		}
 
         public override void ModifyTooltips(List<TooltipLine> list)
         {
