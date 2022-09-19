@@ -4542,6 +4542,29 @@ namespace CalamityMod.NPCs
                         Main.player[playerIndex].Spawn(PlayerSpawnContext.RecallFromItem);
                 }
             }
+
+            if (pFlames > 0 && npc.life <= 0)
+            {
+                Rectangle hitbox = npc.Hitbox;
+                for (int i = 0; i < 20; i++)
+                {
+                    int idx = Dust.NewDust(hitbox.TopLeft(), npc.width, npc.height, 89, 0f, -2.5f);
+                    Dust dust = Main.dust[idx];
+                    dust.alpha = 200;
+                    dust.velocity *= 1.4f;
+                    dust.scale += Main.rand.NextFloat();
+                }
+
+                if (Main.netMode != NetmodeID.MultiplayerClient)
+                {
+                    for (int j = 0; j < Main.maxNPCs; j++)
+                    {
+                        NPC nPC = Main.npc[j];
+                        if (nPC.active && !nPC.buffImmune[ModContent.BuffType<Plague>()] && npc.Distance(nPC.Center) < 100f && !nPC.dontTakeDamage && nPC.lifeMax > 5 && !nPC.friendly && !nPC.townNPC)
+                            nPC.AddBuff(ModContent.BuffType<Plague>(), 300);
+                    }
+                }
+            }
         }
         #endregion
 
