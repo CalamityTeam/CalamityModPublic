@@ -171,17 +171,6 @@ namespace CalamityMod.Localization
                 new [] { "BossRushTierFourEndText2", "Go forth and conquer 'til the ritual's end!" },
                 new [] { "BossRushTierFiveEndText", "Hmm? You expected a reward beyond this mere pebble? Patience, the true reward will become apparent in time..." },
 
-                new [] { "MeleeLevelUp", "Melee weapon proficiency level up!" },
-                new [] { "MeleeLevelUpFinal", "Melee weapon proficiency maxed out!" },
-                new [] { "RangedLevelUp", "Ranged weapon proficiency level up!" },
-                new [] { "RangedLevelUpFinal", "Ranged weapon proficiency maxed out!" },
-                new [] { "MagicLevelUp", "Magic weapon proficiency level up!" },
-                new [] { "MagicLevelUpFinal", "Magic weapon proficiency maxed out!" },
-                new [] { "SummonLevelUp", "Summoner weapon proficiency level up!" },
-                new [] { "SummonLevelUpFinal", "Summoner weapon proficiency maxed out!" },
-                new [] { "RogueLevelUp", "Rogue weapon proficiency level up!" },
-                new [] { "RogueLevelUpFinal", "Rogue weapon proficiency maxed out!" },
-
                 new [] { "OpenSunkenSea", "The depths of the underground desert are rumbling..." },
                 new [] { "SandstormTrigger", "The desert wind is blowing furiously!" },
 

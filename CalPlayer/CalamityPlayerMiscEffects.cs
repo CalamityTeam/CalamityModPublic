@@ -670,10 +670,6 @@ namespace CalamityMod.CalPlayer
                 }
             }
 
-            // Proficiency level ups
-            if (CalamityConfig.Instance.Proficiency)
-                GetExactLevelUp();
-
             // Max mana bonuses
             Player.statManaMax2 +=
                 (permafrostsConcoction ? 50 : 0) +
@@ -3476,9 +3472,6 @@ namespace CalamityMod.CalPlayer
                 Player.GetDamage<MeleeDamageClass>() += 0.05f;
                 Player.GetCritChance<MeleeDamageClass>() += 5;
             }
-
-            if (CalamityConfig.Instance.Proficiency)
-                GetStatBonuses();
 
             // Amalgam boosts
             if (Main.myPlayer == Player.whoAmI)
