@@ -1279,13 +1279,13 @@ namespace CalamityMod.Items
 
         internal class ReuseDelayExactRule : IItemTweak
         {
-            internal readonly int newUseAnimation = 0;
+            internal readonly int newReuseDelay = 0;
 
             public ReuseDelayExactRule(int rd) => newReuseDelay = rd;
             public bool AppliesTo(Item it) => IsUsable(it);
             public void ApplyTweak(Item it)
             {
-                it.reuseDelay = newUseAnimation;
+                it.reuseDelay = newReuseDelay;
                 if (it.reuseDelay < 1)
                     it.reuseDelay = 1;
             }
