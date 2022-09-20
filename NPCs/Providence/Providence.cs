@@ -1561,11 +1561,11 @@ namespace CalamityMod.NPCs.Providence
                 Providence prov = info.npc.ModNPC<Providence>();
                 return prov.biomeType == 2 || !prov.hasTakenDaytimeDamage;
             }, ModContent.ItemType<ElysianAegis>(), desc: DropHelper.ProvidenceUnderworldText);
-            npcLoot.AddIf(info =>
+            npcLoot.DefineConditionalDropSet(DropHelper.If((info) =>
             {
                 Providence prov = info.npc.ModNPC<Providence>();
                 return prov.challenge;
-            }, ModContent.ItemType<ProfanedSoulCrystal>(), desc: DropHelper.ProvidenceChallengeText);
+            }, () => Main.expertMode, DropHelper.ProvidenceChallengeText)).Add(ModContent.ItemType<ProfanedSoulCrystal>());
             npcLoot.AddIf(info =>
             {
                 Providence prov = info.npc.ModNPC<Providence>();

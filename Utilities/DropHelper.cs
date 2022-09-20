@@ -119,7 +119,7 @@ namespace CalamityMod
         public static string ProvidenceHallowText = "Drops if Providence was summoned in the Hallow\nor if Providence is only attacked during nighttime";
         public static string ProvidenceUnderworldText = "Drops if Providence was summoned in the Underworld\nor if Providence is only attacked during nighttime";
         public static string ProvidenceNightText = "Drops if Providence is only attacked during nighttime";
-        public static string ProvidenceChallengeText = "Drops if Providence was defeated only with the Profaned Soul Artifact";
+        public static string ProvidenceChallengeText = $"Drops if Providence was defeated only with the [i:{ModContent.ItemType<ProfanedSoulArtifact>()}] Profaned Soul Artifact\nThis is an Expert Mode drop rate";
         #endregion
 
         #region Block Drops
