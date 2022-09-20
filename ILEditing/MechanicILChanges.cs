@@ -514,14 +514,16 @@ namespace CalamityMod.ILEditing
         #region Fire Cursor Effect for the Calamity Accessory
         private static void UseCoolFireCursorEffect(On.Terraria.Main.orig_DrawCursor orig, Vector2 bonus, bool smart)
         {
+            Player player = Main.LocalPlayer;
+
             // Do nothing special if the player has a regular mouse or is on the menu/map.
-            if (Main.gameMenu || Main.mapFullscreen || !Main.LocalPlayer.Calamity().blazingCursorVisuals)
+            if (Main.gameMenu || Main.mapFullscreen || !player.Calamity().blazingCursorVisuals)
             {
                 orig(bonus, smart);
                 return;
             }
 
-            if (Main.LocalPlayer.dead)
+            if (player.dead)
             {
                 Main.ClearSmartInteract();
                 Main.TileInteractionLX = (Main.TileInteractionHX = (Main.TileInteractionLY = (Main.TileInteractionHY = -1)));
@@ -552,8 +554,8 @@ namespace CalamityMod.ILEditing
                     FluidFieldManager.AdjustSizeRelativeToGraphicsQuality(ref size);
 
                     float scale = MathHelper.Max(Main.screenWidth, Main.screenHeight) / size;
-                    ref FluidField calamityFireDrawer = ref Main.LocalPlayer.Calamity().CalamityFireDrawer;
-                    ref Vector2 firePosition = ref Main.LocalPlayer.Calamity().FireDrawerPosition;
+                    ref FluidField calamityFireDrawer = ref player.Calamity().CalamityFireDrawer;
+                    ref Vector2 firePosition = ref player.Calamity().FireDrawerPosition;
                     if (calamityFireDrawer is null || calamityFireDrawer.Size != size)
                         calamityFireDrawer = FluidFieldManager.CreateField(size, scale, 0.1f, 50f, 0.992f);
 
@@ -565,13 +567,13 @@ namespace CalamityMod.ILEditing
                     int horizontalArea = (int)Math.Ceiling(5f / calamityFireDrawer.Scale);
                     int verticalArea = (int)Math.Ceiling(5f / calamityFireDrawer.Scale);
 
-                    calamityFireDrawer.ShouldUpdate = true;
+                    calamityFireDrawer.ShouldUpdate = player.miscCounter % 4 == 0;
                     calamityFireDrawer.UpdateAction = () =>
                     {
                         Color color = Color.Lerp(Color.Red, Color.Orange, (float)Math.Sin(Main.GlobalTimeWrappedHourly * 6f) * 0.5f + 0.5f);
 
                         // Use a rainbow color if the player has the rainbow cursor equipped as well as Calamity.
-                        if (Main.LocalPlayer.hasRainbowCursor)
+                        if (player.hasRainbowCursor)
                             color = Color.Lerp(color, Main.hslToRgb(Main.GlobalTimeWrappedHourly * 0.97f % 1f, 1f, 0.6f), 0.75f);
 
                         for (int i = -horizontalArea; i <= horizontalArea; i++)
@@ -594,7 +596,7 @@ namespace CalamityMod.ILEditing
                             velocity *= Main.rand.NextFloat(0.9f, 1.1f);
 
                             for (int j = -verticalArea; j <= verticalArea; j++)
-                                Main.LocalPlayer.Calamity().CalamityFireDrawer.CreateSource(x + size / 2 + i, y + size / 2 + j, 1f, color, velocity);
+                                player.Calamity().CalamityFireDrawer.CreateSource(x + size / 2 + i, y + size / 2 + j, 1f, color, velocity);
                         }
                     };
 

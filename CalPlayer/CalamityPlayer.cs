@@ -5485,7 +5485,7 @@ namespace CalamityMod.CalPlayer
                 ProfanedMoonlightAuroraDrawer.ShouldUpdate = Player.miscCounter % 4 == 0;
                 ProfanedMoonlightAuroraDrawer.UpdateAction = () =>
                 {
-					// Aurora Count does not scale to save on resources if you have a lot of dyes
+                    // Aurora Count does not scale to save on resources if you have a lot of dyes
                     int auroraCount = 5;						
                     for (int i = 0; i < auroraCount; i++)
                     {
