@@ -300,8 +300,6 @@ GameTips:
     DefenseDamageTip: "Certain attacks will chip away at your defense, but it will quickly regenerate afterward."
     PointBlankTip: "Ranged weapons fired at point blank will do a lot more damage."
     RevengeanceTip: "Need a challenge beyond Expert Mode? Try Revengeance Mode!"
-    AdrenalineTip: "In Revengeance Mode, you gain Adrenaline while fighting bosses and not getting hit. Press the Adrenaline Hotkey when the meter is full for a large damage boost!"
-    RageTip: "In Revengeance Mode, you gain Rage while near enemies. Press the Rage Hotkey when the meter is full for a temporary damage boost!"
     BloodOrbTip: "Blood Orbs collected during the Blood Moon can craft almost any potion."
     KeybindsTip: "Modded controls can be bound in Settings."
 }
