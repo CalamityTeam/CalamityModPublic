@@ -792,6 +792,33 @@ namespace CalamityMod.ILEditing
         {
             ILCursor cursor = new ILCursor(il);
 
+            // Locate the local index for the liquid color.
+            int liquidColorLocalIndex = 0;
+            MethodInfo lightingGetColorMethod = typeof(Lighting).GetMethod("GetColor", new Type[] { typeof(int), typeof(int) });
+            if (!cursor.TryGotoNext(MoveType.Before, c => c.MatchCallOrCallvirt(lightingGetColorMethod)))
+            {
+                LogFailure("Custom Lava Drawing", "Could not lighting GetColor call.");
+                return;
+            }
+            if (!cursor.TryGotoNext(c => c.MatchStloc(out liquidColorLocalIndex)))
+            {
+                LogFailure("Custom Lava Drawing", "Could not lighting GetColor local variable index.");
+                return;
+            }
+
+            // Shortly after the liquid color local is the liquid type integer. Locate it.
+            int liquidTypeLocalIndex = 0;
+            if (!cursor.TryGotoNext(MoveType.Before, c => c.MatchLdcI4(0)))
+            {
+                LogFailure("Custom Lava Drawing", "Could not default value for the liquid type.");
+                return;
+            }
+            if (!cursor.TryGotoNext(c => c.MatchStloc(out liquidTypeLocalIndex)))
+            {
+                LogFailure("Custom Lava Drawing", "Could not liquid type local variable index.");
+                return;
+            }
+
             // Select the lava color.
             if (!cursor.TryGotoNext(MoveType.After, c => c.MatchCallOrCallvirt<Lighting>("get_NotRetro")))
             {
@@ -800,13 +827,13 @@ namespace CalamityMod.ILEditing
             }
 
             // Pass the texture in so that the method can ensure it is not messing around with non-lava textures.
-            cursor.Emit(OpCodes.Ldloc, 13);
+            cursor.Emit(OpCodes.Ldloc, liquidColorLocalIndex);
             cursor.Emit(OpCodes.Ldsfld, typeof(TextureAssets).GetField("Liquid"));
-            cursor.Emit(OpCodes.Ldloc, 15);
+            cursor.Emit(OpCodes.Ldloc, liquidTypeLocalIndex);
             cursor.Emit(OpCodes.Ldelem_Ref);
             cursor.Emit(OpCodes.Call, textureGetValueMethod);
             cursor.EmitDelegate<Func<Color, Texture2D, Color>>((initialColor, initialTexture) => SelectLavaColor(initialTexture, initialColor));
-            cursor.Emit(OpCodes.Stloc, 13);
+            cursor.Emit(OpCodes.Stloc, liquidColorLocalIndex);
 
             // Go back to the start and change textures as necessary.
             cursor.Index = 0;
