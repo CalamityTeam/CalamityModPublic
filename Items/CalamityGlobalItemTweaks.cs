@@ -1271,8 +1271,8 @@ namespace CalamityMod.Items
             public void ApplyTweak(Item it)
             {
                 it.reuseDelay += delta;
-                if (it.reuseDelay < 1)
-                    it.reuseDelay = 1;
+                if (it.reuseDelay < 0)
+                    it.reuseDelay = 0;
             }
         }
         internal static IItemTweak ReuseDelayDelta(int d) => new ReuseDelayDeltaRule(d);
@@ -1286,8 +1286,8 @@ namespace CalamityMod.Items
             public void ApplyTweak(Item it)
             {
                 it.reuseDelay = newReuseDelay;
-                if (it.reuseDelay < 1)
-                    it.reuseDelay = 1;
+                if (it.reuseDelay < 0)
+                    it.reuseDelay = 0;
             }
         }
         internal static IItemTweak ReuseDelayExact(int rd) => new ReuseDelayExactRule(rd);
@@ -1301,8 +1301,8 @@ namespace CalamityMod.Items
             public void ApplyTweak(Item it)
             {
                 it.reuseDelay = (int)(it.reuseDelay * ratio);
-                if (it.reuseDelay < 1)
-                    it.reuseDelay = 1;
+                if (it.reuseDelay < 0)
+                    it.reuseDelay = 0;
             }
         }
         internal static IItemTweak ReuseDelayRatio(float f) => new ReuseDelayRatioRule(f);
