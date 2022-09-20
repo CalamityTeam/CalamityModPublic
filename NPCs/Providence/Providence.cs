@@ -1897,8 +1897,8 @@ namespace CalamityMod.NPCs.Providence
                     ModContent.ProjectileType<ApparatusExplosion>()
                 };
 
-                bool allowedClass = projectile.IsSummon() || (!projectile.CountsAsClass<MeleeDamageClass>() && !projectile.CountsAsClass<RangedDamageClass>() && 
-                    !projectile.CountsAsClass<MagicDamageClass>() && !projectile.CountsAsClass<ThrowingDamageClass>());
+                bool allowedClass = projectile.CountsAsClass<SummonDamageClass>() || (!projectile.CountsAsClass<MeleeDamageClass>() && !projectile.CountsAsClass<RangedDamageClass>() && 
+                    !projectile.CountsAsClass<MagicDamageClass>() && !projectile.CountsAsClass<ThrowingDamageClass>() && !projectile.CountsAsClass<SummonMeleeSpeedDamageClass>());
                 bool allowedDamage = allowedClass && damage <= 75; //Flat 75 regardless of difficulty.
                 //Absorber on-hit effects likely won't proc this but Deific Amulet and Astral Bulwark stars will proc this.
                 bool allowedBabs = Main.player[projectile.owner].Calamity().pArtifact && !Main.player[projectile.owner].Calamity().profanedCrystalBuffs;

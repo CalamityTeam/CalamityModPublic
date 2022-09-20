@@ -1,9 +1,9 @@
 ﻿using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
-using CalamityMod.Projectiles.Summon;
+using CalamityMod.Projectiles.Typeless;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -28,8 +28,6 @@ namespace CalamityMod.Items.Accessories
             Item.accessory = true;
         }
 
-        public override bool CanEquipAccessory(Player player, int slot, bool modded) => !player.Calamity().fungalClump;
-
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();
@@ -44,7 +42,7 @@ namespace CalamityMod.Items.Accessories
                 {
                     var source = player.GetSource_Accessory(Item);
                     int damage = (int)player.GetBestClassDamage().ApplyTo(FungalClumpDamage);
-                    int p = Projectile.NewProjectile(source, player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<FungalClumpMinion>(), damage, 1f, player.whoAmI, 0f, 0f);
+                    int p = Projectile.NewProjectile(source, player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<FungalClumpMinion>(), damage, 1f, player.whoAmI);
                     if (Main.projectile.IndexInRange(p))
                         Main.projectile[p].originalDamage = FungalClumpDamage;
                 }

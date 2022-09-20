@@ -41,8 +41,6 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             if (player.Calamity().StealthStrikeAvailable())
             {
-                damage = (int)(damage * 1.4f);
-
                 for (int i = -6; i <= 6; i += 6)
                 {
                     Vector2 perturbedSpeed = velocity.RotatedBy(MathHelper.ToRadians(i));

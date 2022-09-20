@@ -135,6 +135,10 @@ namespace CalamityMod.Projectiles
         {
             CreatedByPlayerDash = source is ProjectileSource_PlayerDashHit;
 
+			IEntitySource sourceItem = source as EntitySource_ItemUse_WithAmmo;
+			if (sourceItem != null)
+				extorterBoost = true;
+
             // TODO -- it would be nice to move frame one hacks here, but this runs in the middle of NewProjectile
             // which is way too early, the projectile's own initialization isn't even done yet
         }
@@ -2397,9 +2401,6 @@ namespace CalamityMod.Projectiles
                 damage = (int)Math.Ceiling(damage * proximityDamageFactor);
             }
 
-            if (!projectile.npcProj && !projectile.trap && projectile.CountsAsClass<RogueDamageClass>() && stealthStrike && modPlayer.stealthStrikeAlwaysCrits)
-                crit = true;
-
             // Aerial Bane does 50% damage to "airborne" enemies. This is just simple math to revert that as it is a very unbalanced mechanic.
             if (projectile.type == ProjectileID.DD2BetsyArrow)
             {
@@ -2569,7 +2570,7 @@ namespace CalamityMod.Projectiles
             {
                 if (projectile.CountsAsClass<RogueDamageClass>())
                 {
-                    if (modPlayer.etherealExtorter && Main.player[projectile.owner].ownedProjectileCounts[ProjectileType<LostSoulFriendly>()] < 5)
+                    if (modPlayer.etherealExtorter && extorterBoost && Main.player[projectile.owner].ownedProjectileCounts[ProjectileType<LostSoulFriendly>()] < 5)
                     {
                         for (int i = 0; i < 2; i++)
                         {
@@ -2582,13 +2583,14 @@ namespace CalamityMod.Projectiles
                         }
                     }
 
-                    if (modPlayer.scuttlersJewel && stealthStrike)
+                    if (modPlayer.scuttlersJewel && stealthStrike && modPlayer.scuttlerCooldown <= 0)
                     {
-                        int damage = (int)player.GetTotalDamage<RogueDamageClass>().ApplyTo(15);
+                        int damage = (int)player.GetTotalDamage<RogueDamageClass>().ApplyTo(20);
                         int spike = Projectile.NewProjectile(projectile.GetSource_FromThis(), projectile.Center, Vector2.Zero, ProjectileType<JewelSpike>(), damage, projectile.knockBack, projectile.owner);
                         Main.projectile[spike].frame = 4;
                         if (spike.WithinBounds(Main.maxProjectiles))
                             Main.projectile[spike].DamageType = DamageClass.Generic;
+						modPlayer.scuttlerCooldown = 30;
                     }
                 }
 

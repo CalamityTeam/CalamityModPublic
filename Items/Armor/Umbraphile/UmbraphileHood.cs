@@ -42,8 +42,7 @@ namespace CalamityMod.Items.Armor.Umbraphile
             modPlayer.rogueStealthMax += 1.1f;
             player.setBonus = "+110 maximum stealth\n" +
 				"Rogue weapons have a chance to create explosions on hit\n" +
-                "Stealth strikes always create an explosion\n" +
-                "Penumbra potions always build stealth at max effectiveness";
+                "Stealth strikes always create an explosion";
             player.Calamity().wearingRogueArmor = true;
         }
 

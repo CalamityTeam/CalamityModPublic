@@ -1,4 +1,4 @@
-﻿using CalamityMod.Items.Placeables;
+﻿using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -11,8 +11,7 @@ namespace CalamityMod.Items.Accessories
         {
             SacrificeTotal = 1;
             DisplayName.SetDefault("Coin of Deceit");
-            Tooltip.SetDefault("Stealth strikes only expend 75% of your max stealth\n" +
-            "6% increased rogue crit chance");
+            Tooltip.SetDefault("Stealth strikes only expend 90% of your max stealth");
         }
 
         public override void SetDefaults()
@@ -26,16 +25,15 @@ namespace CalamityMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.GetCritChance<ThrowingDamageClass>() += 6;
-            player.Calamity().stealthStrike75Cost = true;
+            player.Calamity().stealthStrike90Cost = true;
         }
 
         public override void AddRecipes()
         {
             CreateRecipe().
                 AddRecipeGroup("AnyGoldBar", 4).
-                AddRecipeGroup("AnyCopperBar", 8).
-                AddIngredient<Acidwood>(5).
+                AddRecipeGroup("AnyEvilBar", 8).
+                AddIngredient<WulfrumMetalScrap>(5).
                 AddTile(TileID.Anvils).
                 Register();
         }

@@ -1,8 +1,9 @@
-﻿using System;
+﻿using CalamityMod.DataStructures;
+using CalamityMod.Particles;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using CalamityMod.Particles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -11,11 +12,9 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using static CalamityMod.CalamityUtils;
 using static Terraria.ModLoader.ModContent;
-using CalamityMod.DataStructures;
 
-namespace CalamityMod.Projectiles.Melee
+namespace CalamityMod.Projectiles.Summon
 {
-
     public class CnidarianJellyfishOnTheString : ModProjectile
     {
         public const int SegmentCount = 10;

@@ -51,6 +51,7 @@ namespace CalamityMod.Items.Armor.SnowRuffian
                 AddRecipeGroup("AnySnowBlock", 30).
                 AddRecipeGroup("AnyIceBlock", 15).
                 AddIngredient(ItemID.BorealWood, 45).
+                AddIngredient(ItemID.FlinxFur, 2).
                 AddTile(TileID.Anvils).
                 Register();
         }

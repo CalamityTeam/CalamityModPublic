@@ -20,8 +20,8 @@ namespace CalamityMod.NPCs.Abyss
         public override void SetDefaults()
         {
             NPC.damage = 65; //70
-            NPC.width = 54; //28
-            NPC.height = 76; //28
+            NPC.width = 40; //28
+            NPC.height = 54; //28
             NPC.defense = 50;
             NPC.lifeMax = 60000;
             NPC.aiStyle = -1; //new
@@ -117,9 +117,9 @@ namespace CalamityMod.NPCs.Abyss
                 NPC.position.Y = NPC.position.Y + num192;
 
                 if (num191 < 0f)
-                    NPC.spriteDirection = -1;
-                else if (num191 > 0f)
                     NPC.spriteDirection = 1;
+                else if (num191 > 0f)
+                    NPC.spriteDirection = -1;
             }
         }
 

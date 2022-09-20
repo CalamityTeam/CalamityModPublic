@@ -345,7 +345,7 @@ namespace CalamityMod.Projectiles.Summon
                                                                            8f,
                                                                            Projectile.owner,
                                                                            Projectile.whoAmI);
-                    deathLaser.originalDamage = damage;
+                    deathLaser.originalDamage = LaserBaseDamage;
                     if (player.HeldItem != null && deathLaser.whoAmI.WithinBounds(Main.maxProjectiles))
                         deathLaser.DamageType = DamageClass.Summon;
                 }

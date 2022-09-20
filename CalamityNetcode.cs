@@ -25,41 +25,6 @@ namespace CalamityMod
                 switch (msgType)
                 {
                     //
-                    // Proficiency levels
-                    //
-
-                    case CalamityModMessageType.MeleeLevelSync:
-                        Main.player[reader.ReadInt32()].Calamity().HandleLevels(reader, 0);
-                        break;
-                    case CalamityModMessageType.RangedLevelSync:
-                        Main.player[reader.ReadInt32()].Calamity().HandleLevels(reader, 1);
-                        break;
-                    case CalamityModMessageType.MagicLevelSync:
-                        Main.player[reader.ReadInt32()].Calamity().HandleLevels(reader, 2);
-                        break;
-                    case CalamityModMessageType.SummonLevelSync:
-                        Main.player[reader.ReadInt32()].Calamity().HandleLevels(reader, 3);
-                        break;
-                    case CalamityModMessageType.RogueLevelSync:
-                        Main.player[reader.ReadInt32()].Calamity().HandleLevels(reader, 4);
-                        break;
-                    case CalamityModMessageType.ExactMeleeLevelSync:
-                        Main.player[reader.ReadInt32()].Calamity().HandleExactLevels(reader, 0);
-                        break;
-                    case CalamityModMessageType.ExactRangedLevelSync:
-                        Main.player[reader.ReadInt32()].Calamity().HandleExactLevels(reader, 1);
-                        break;
-                    case CalamityModMessageType.ExactMagicLevelSync:
-                        Main.player[reader.ReadInt32()].Calamity().HandleExactLevels(reader, 2);
-                        break;
-                    case CalamityModMessageType.ExactSummonLevelSync:
-                        Main.player[reader.ReadInt32()].Calamity().HandleExactLevels(reader, 3);
-                        break;
-                    case CalamityModMessageType.ExactRogueLevelSync:
-                        Main.player[reader.ReadInt32()].Calamity().HandleExactLevels(reader, 4);
-                        break;
-
-                    //
                     // Player mechanic syncs
                     //
 
@@ -335,19 +300,6 @@ namespace CalamityMod
 
     public enum CalamityModMessageType : byte
     {
-        // Proficiency levels
-        // TODO -- simplify proficiency netcode, there do not need to be this many separate packet types
-        MeleeLevelSync,
-        RangedLevelSync,
-        MagicLevelSync,
-        SummonLevelSync,
-        RogueLevelSync,
-        ExactMeleeLevelSync,
-        ExactRangedLevelSync,
-        ExactMagicLevelSync,
-        ExactSummonLevelSync,
-        ExactRogueLevelSync,
-
         // Player mechanic syncs
         DefenseDamageSync, // TODO -- this can't be synced every 60 frames, it needs to be synced when the player gets hit, or every time it heals up
         RageSync, // TODO -- this can't be synced every 60 frames, it needs to be synced every time the player is

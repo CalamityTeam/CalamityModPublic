@@ -198,12 +198,6 @@ namespace CalamityMod
         [Tooltip("$Mods.CalamityMod.Config.EntryTooltip.EarlyHardmodeProgressionRework")]
         public bool EarlyHardmodeProgressionRework { get; set; }
 
-        [Label("$Mods.CalamityMod.Config.EntryTitle.Proficiency")]
-        [BackgroundColor(192, 54, 64, 192)]
-        [DefaultValue(true)]
-        [Tooltip("$Mods.CalamityMod.Config.EntryTooltip.Proficiency")]
-        public bool Proficiency { get; set; }
-
         [Label("$Mods.CalamityMod.Config.EntryTitle.BossZen")]
         [BackgroundColor(192, 54, 64, 192)]
         [DefaultValue(true)]
@@ -408,7 +402,6 @@ namespace CalamityMod
 
                 new("RemoveReforgeRNG", ItemID.TinHammer),
                 new("EarlyHardmodeProgressionRework", ItemID.Pwnhammer),
-                new("Proficiency", ModContent.ItemType<MagicLevelMeter>()),
                 new("BossZen", ModContent.ItemType<ZenPotion>()),
                 new("TownNPCsSpawnAtNight", ItemID.ClothierVoodooDoll),
                 new("TownNPCSpawnRateMultiplier", ItemID.GuideVoodooDoll),

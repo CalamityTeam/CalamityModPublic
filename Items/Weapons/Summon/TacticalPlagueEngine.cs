@@ -10,6 +10,8 @@ namespace CalamityMod.Items.Weapons.Summon
 {
     public class TacticalPlagueEngine : ModItem
     {
+        public static int BaseDamage = 52;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Tactical Plague Engine");
@@ -21,7 +23,7 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void SetDefaults()
         {
-            Item.damage = 52;
+            Item.damage = BaseDamage;
             Item.mana = 10;
             Item.width = 28;
             Item.height = 20;
@@ -44,7 +46,7 @@ namespace CalamityMod.Items.Weapons.Summon
             {
                 int p = Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, type, damage, knockback, player.whoAmI, 0f, 1f);
                 if (Main.projectile.IndexInRange(p))
-                    Main.projectile[p].originalDamage = Item.damage;
+                    Main.projectile[p].originalDamage = BaseDamage;
             }
             return false;
         }

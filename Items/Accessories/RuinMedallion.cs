@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Accessories
         {
             SacrificeTotal = 1;
             DisplayName.SetDefault("Ruin Medallion");
-            Tooltip.SetDefault("Stealth strikes only expend 50% of your max stealth\n" +
+            Tooltip.SetDefault("Stealth strikes only expend 75% of your max stealth\n" +
                 "6% increased rogue damage, and 6% increased rogue crit chance");
         }
 
@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            modPlayer.stealthStrikeHalfCost = true;
+            modPlayer.stealthStrike75Cost = true;
             player.GetCritChance<ThrowingDamageClass>() += 6;
             player.GetDamage<ThrowingDamageClass>() += 0.06f;
         }

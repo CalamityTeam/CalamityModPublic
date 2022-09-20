@@ -670,10 +670,6 @@ namespace CalamityMod.CalPlayer
                 }
             }
 
-            // Proficiency level ups
-            if (CalamityConfig.Instance.Proficiency)
-                GetExactLevelUp();
-
             // Max mana bonuses
             Player.statManaMax2 +=
                 (permafrostsConcoction ? 50 : 0) +
@@ -1101,6 +1097,8 @@ namespace CalamityMod.CalPlayer
                 silvaMageCooldown--;
             if (tarraMageHealCooldown > 0)
                 tarraMageHealCooldown--;
+            if (scuttlerCooldown > 0)
+                scuttlerCooldown--;
             if (rogueCrownCooldown > 0)
                 rogueCrownCooldown--;
             if (spectralVeilImmunity > 0)
@@ -2570,18 +2568,6 @@ namespace CalamityMod.CalPlayer
             if (CalamityLists.highTestFishList.Contains(Player.ActiveItem().type))
                 Player.accFishingLine = true;
 
-            if (CalamityLists.boomerangList.Contains(Player.ActiveItem().type) && Player.invis)
-                Player.GetDamage<ThrowingDamageClass>() += 0.1f;
-
-            if (CalamityLists.javelinList.Contains(Player.ActiveItem().type) && Player.invis)
-                Player.GetArmorPenetration<GenericDamageClass>() += 5;
-
-            if (CalamityLists.flaskBombList.Contains(Player.ActiveItem().type) && Player.invis)
-                rogueVelocity += 0.1f;
-
-            if (CalamityLists.spikyBallList.Contains(Player.ActiveItem().type) && Player.invis)
-                Player.GetCritChance<RogueDamageClass>() += 10;
-
             if (planarSpeedBoost != 0)
             {
                 if (Player.ActiveItem().type != ModContent.ItemType<PridefulHuntersPlanarRipper>())
@@ -3126,7 +3112,6 @@ namespace CalamityMod.CalPlayer
             if (eArtifact)
             {
                 Player.manaCost *= 0.85f;
-                Player.GetDamage<ThrowingDamageClass>() += 0.15f;
                 Player.maxMinions += 2;
             }
 
@@ -3487,9 +3472,6 @@ namespace CalamityMod.CalPlayer
                 Player.GetDamage<MeleeDamageClass>() += 0.05f;
                 Player.GetCritChance<MeleeDamageClass>() += 5;
             }
-
-            if (CalamityConfig.Instance.Proficiency)
-                GetStatBonuses();
 
             // Amalgam boosts
             if (Main.myPlayer == Player.whoAmI)

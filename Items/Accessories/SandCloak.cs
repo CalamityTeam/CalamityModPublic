@@ -12,9 +12,9 @@ namespace CalamityMod.Items.Accessories
         {
             SacrificeTotal = 1;
             DisplayName.SetDefault("Sand Cloak");
-            Tooltip.SetDefault("+1 defense and 5% increased movement speed\n" +
+            Tooltip.SetDefault("+2 defense and 5% increased movement speed\n" +
                 "TOOLTIP LINE HERE\n" +
-                "This effect has a 30 second cooldown before it can be used again");
+                "This effect has a 25 second cooldown before it can be used again");
         }
 
         public override void SetDefaults()
@@ -32,12 +32,12 @@ namespace CalamityMod.Items.Accessories
             TooltipLine line = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip1");
 
             if (line != null)
-                line.Text = "Press " + hotkey + " to consume 25% of your maximum stealth to create a protective dust veil which provides +6 defense and +2 life regen";
+                line.Text = "Press " + hotkey + " to consume 10% of your maximum stealth to create a protective dust veil which provides +6 defense and +2 life regen";
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.statDefense += 1;
+            player.statDefense += 2;
             player.moveSpeed += 0.05f;
             player.Calamity().sandCloak = true;
         }

@@ -4,7 +4,7 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.ModLoader;
 
-namespace CalamityMod.Projectiles.Melee
+namespace CalamityMod.Projectiles.Summon
 {
     public class CnidarianSpark : ModProjectile
     {
