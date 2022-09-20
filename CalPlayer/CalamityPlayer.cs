@@ -5482,10 +5482,11 @@ namespace CalamityMod.CalPlayer
                     ProfanedMoonlightAuroraDrawer = FluidFieldManager.CreateField(size, scale, 0.1f, 50f, 0.992f);
 
                 int sourceArea = (int)Math.Ceiling(6f / ProfanedMoonlightAuroraDrawer.Scale) + 1;
-                ProfanedMoonlightAuroraDrawer.ShouldUpdate = true;
+                ProfanedMoonlightAuroraDrawer.ShouldUpdate = Player.miscCounter % 4 == 0;
                 ProfanedMoonlightAuroraDrawer.UpdateAction = () =>
                 {
-                    int auroraCount = totalMoonlightDyes / 2 + 4;
+					// Aurora Count does not scale to save on resources if you have a lot of dyes
+                    int auroraCount = 5;						
                     for (int i = 0; i < auroraCount; i++)
                     {
                         float auroraPower = MathHelper.Clamp(totalMoonlightDyes / 3f, 0f, 1f);
