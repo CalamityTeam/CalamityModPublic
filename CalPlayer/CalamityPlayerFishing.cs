@@ -143,6 +143,7 @@ namespace CalamityMod.CalPlayer
                         fishList.AddWithCondition<int>(ModContent.ItemType<AldebaranAlewife>(), ZoneAstral);
                         fishList.AddWithCondition<int>(ModContent.ItemType<CoralskinFoolfish>(), ZoneSunkenSea);
                         fishList.AddWithCondition<int>(ModContent.ItemType<SunkenSailfish>(), ZoneSunkenSea);
+                        fishList.AddWithCondition<int>(ModContent.ItemType<Shadowfish>(), !Main.dayTime && !Player.ZoneSkyHeight);
                     }
 
                     if (fishList.Any())
@@ -392,6 +393,14 @@ namespace CalamityMod.CalPlayer
                     if (attempt.uncommon && Main.rand.NextBool(chance))
                     {
                         itemDrop = ModContent.ItemType<EnchantedStarfish>();
+                    }
+                }
+
+                if (!Player.ZoneSkyHeight && !Main.dayTime)
+                {
+                    if (attempt.uncommon && Main.rand.NextBool(10))
+                    {
+                        itemDrop = ModContent.ItemType<Shadowfish>();
                     }
                 }
 

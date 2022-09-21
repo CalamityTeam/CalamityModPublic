@@ -41,8 +41,7 @@ namespace CalamityMod.Items.Potions
             CreateRecipe(2).
                 AddIngredient(ItemID.InvisibilityPotion).
                 AddIngredient<Shadowfish>().
-                AddTile(TileID.AlchemyTable).
-				AddConsumeItemCallback(Recipe.ConsumptionRules.Alchemy).
+                AddTile(TileID.Bottles).
                 Register();
 
             CreateRecipe().
