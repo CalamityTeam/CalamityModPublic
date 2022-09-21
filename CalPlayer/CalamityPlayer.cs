@@ -6616,7 +6616,7 @@ namespace CalamityMod.CalPlayer
 				stealthGenMoving += 0.1f;
             }
 
-            if (Player.invis || shadow)
+            if (shadow)
             {
                 stealthGenStandstill += 0.08f;
                 stealthGenMoving += 0.08f;

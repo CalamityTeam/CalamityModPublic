@@ -2358,12 +2358,6 @@ namespace CalamityMod.CalPlayer
                 Player.GetCritChance<GenericDamageClass>() += ProfanedRagePotion.CritBoost;
             }
 
-            if (shadow)
-            {
-                if (Player.FindBuffIndex(BuffID.Invisibility) > -1)
-                    Player.ClearBuff(BuffID.Invisibility);
-            }
-
             if (irradiated)
                 Player.statDefense -= 10;
 

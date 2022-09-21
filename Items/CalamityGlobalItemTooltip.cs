@@ -311,10 +311,6 @@ namespace CalamityMod.Items
                 EditTooltipByNum(0, (line) => line.Text += extraLine);
             }
 
-            // Invisibility Potion provides stealth regen
-            if (item.type == ItemID.InvisibilityPotion)
-                EditTooltipByNum(0, (line) => line.Text += "\n8% increased rogue stealth regen");
-
             // Golden Fishing Rod inherently contains High Test Fishing Line
             if (item.type == ItemID.GoldenFishingRod)
                 EditTooltipByName("NeedsBait", (line) => line.Text += "\nIts fishing line will never break");
