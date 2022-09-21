@@ -231,35 +231,22 @@ namespace CalamityMod.Projectiles.Summon
                     Projectile.ai[1] += 2f;
                     if (Main.myPlayer == Projectile.owner)
                     {
-                        int projType;
-                        float dmgMult;
-                        if (Main.rand.NextBool(5))
+                        int projType = Utils.SelectRandom(Main.rand, new int[]
                         {
-                            projType = ModContent.ProjectileType<CosmicViperSplittingRocket>();
-                            dmgMult = 0.75f;
-                        }
-                        else if (Main.rand.NextBool(3))
-                        {
-                            projType = ModContent.ProjectileType<CosmicViperHomingRocket>();
-                            dmgMult = 1f;
-                        }
-                        else
-                        {
-                            projType = ModContent.ProjectileType<CosmicViperConcussionMissile>();
-                            dmgMult = 1.5f;
-                        }
+                            ModContent.ProjectileType<CosmicViperSplittingRocket>(),
+                            ModContent.ProjectileType<CosmicViperHomingRocket>(),
+                            ModContent.ProjectileType<CosmicViperConcussionMissile>()
+                        });
 
                         Vector2 velocity = targetVec - Projectile.Center;
                         velocity.Normalize();
                         velocity *= speedMult;
 
                         //add some inaccuracy
-                        velocity.Y += Main.rand.NextFloat(-30f, 30f) * 0.05f;
-                        velocity.X += Main.rand.NextFloat(-30f, 30f) * 0.05f;
+                        velocity.Y += Main.rand.NextFloat(-15f, 15f) * 0.05f;
+                        velocity.X += Main.rand.NextFloat(-15f, 15f) * 0.05f;
 
-                        int p = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, projType, (int)(Projectile.damage * dmgMult), Projectile.knockBack, Projectile.owner, targetIndex, 0f);
-                        if (Main.projectile.IndexInRange(p))
-                            Main.projectile[p].originalDamage = (int)(Projectile.originalDamage * dmgMult);
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, projType, Projectile.damage, Projectile.knockBack, Projectile.owner, targetIndex, 0f);
                         Projectile.netUpdate = true;
                     }
                 }

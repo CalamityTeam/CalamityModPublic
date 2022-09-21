@@ -22,7 +22,6 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.width = 14;
             Projectile.height = 14;
             Projectile.friendly = true;
-            Projectile.DamageType = DamageClass.Ranged;
             Projectile.tileCollide = false;
             Projectile.penetrate = -1;
             Projectile.timeLeft = 600;
@@ -132,14 +131,8 @@ namespace CalamityMod.Projectiles.Summon
                             {
                                 for (int i = 0; i < numProj; i++)
                                 {
-                                    Vector2 speed = new Vector2((float)Main.rand.Next(-50, 51), (float)Main.rand.Next(-50, 51));
-                                    while (speed.X == 0f && speed.Y == 0f)
-                                    {
-                                        speed = new Vector2((float)Main.rand.Next(-50, 51), (float)Main.rand.Next(-50, 51));
-                                    }
-                                    speed.Normalize();
-                                    speed *= (float)Main.rand.Next(30, 61) * 0.1f * 2f;
-                                    int rocket = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, speed, ModContent.ProjectileType<CosmicViperSplitRocket1>(), (int)(Projectile.damage * 0.25f), Projectile.knockBack, Projectile.owner, Main.rand.Next(2), 0f);
+                                    Vector2 speed = CalamityUtils.RandomVelocity(50f, 30f, 60f, 0.2f);
+                                    int rocket = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, speed, ModContent.ProjectileType<CosmicViperSplitRocket1>(), Projectile.damage / numProj, Projectile.knockBack, Projectile.owner, Main.rand.Next(2), 0f);
                                     if (Main.projectile.IndexInRange(rocket))
                                         Main.projectile[rocket].originalDamage = (int)(Projectile.originalDamage * 0.25f);
                                 }
@@ -178,27 +171,19 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void Kill(int timeLeft)
         {
-            Projectile.position.X = Projectile.position.X + (float)(Projectile.width / 2);
-            Projectile.position.Y = Projectile.position.Y + (float)(Projectile.height / 2);
-            Projectile.width = 50;
-            Projectile.height = 50;
-            Projectile.position.X = Projectile.position.X - (float)(Projectile.width / 2);
-            Projectile.position.Y = Projectile.position.Y - (float)(Projectile.height / 2);
-            Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 10;
-            Projectile.Damage();
-            for (int num621 = 0; num621 < 3; num621++)
+			Projectile.ExpandHitboxBy(50);
+            for (int i = 0; i < 3; i++)
             {
-                int num622 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, Main.rand.NextBool(3) ? 56 : 242, 0f, 0f, 100, default, 2f);
-                Main.dust[num622].velocity *= 3f;
+                int idx = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, Main.rand.NextBool(3) ? 56 : 242, 0f, 0f, 100, default, 2f);
+                Main.dust[idx].velocity *= 3f;
                 if (Main.rand.NextBool(2))
                 {
-                    Main.dust[num622].scale = 0.5f;
+                    Main.dust[idx].scale = 0.5f;
                 }
                 if (Main.rand.NextBool(2))
                 {
-                    Main.dust[num622].scale *= 0.5f;
-                    Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+                    Main.dust[idx].scale *= 0.5f;
+                    Main.dust[idx].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
                 }
             }
         }
