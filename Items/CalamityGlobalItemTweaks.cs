@@ -290,7 +290,7 @@ namespace CalamityMod.Items
                 { ItemID.MaceWhip, autoReuse },
                 { ItemID.MagicalHarp, Do(DamageExact(50), ShootSpeedExact(12f)) },
                 { ItemID.MagicDagger, Do(AutoReuse, DamageExact(77), UseExact(16), ShootSpeedExact(30)) },
-                { ItemID.MagicMissile, Do(DamageExact(20), ManaExact(10), UseAnimationExact(20), UseTimeExact(5)) },
+                { ItemID.MagicMissile, Do(DamageExact(20), ManaExact(10), UseAnimationExact(20), UseTimeExact(10)) },
                 { ItemID.MagnetSphere, Do(DamageRatio(1.1f)) },
                 { ItemID.ManaCrystal, autoReuse },
                 { ItemID.Marrow, Do(PointBlank, AutoReuse, DamageExact(69)) },
