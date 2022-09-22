@@ -135,7 +135,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void PostDraw(Color lightColor)
         {
-	    Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Ranged/PhangasmGlow").Value;
+	        Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Ranged/PhangasmGlow").Value;
             SpriteEffects spriteEffects = SpriteEffects.None;
             if (Projectile.spriteDirection == -1)
                 spriteEffects = SpriteEffects.FlipHorizontally;
