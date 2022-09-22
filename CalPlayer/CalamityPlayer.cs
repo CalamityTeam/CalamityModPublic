@@ -5754,7 +5754,7 @@ namespace CalamityMod.CalPlayer
 
                 hellbornBoost = 0;
 
-                if (amidiasBlessing)
+                if (amidiasBlessing && damage > 50)
                 {
                     Player.ClearBuff(ModContent.BuffType<AmidiasBlessing>());
                     SoundEngine.PlaySound(SoundID.Item96, Player.position);
