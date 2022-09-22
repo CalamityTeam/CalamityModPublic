@@ -3,6 +3,7 @@ using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -22,8 +23,8 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetDefaults()
         {
             Item.damage = 180;
-            Item.width = 20;
-            Item.height = 12;
+            Item.width = 48;
+            Item.height = 82;
             Item.useTime = 12;
             Item.useAnimation = 12;
             Item.useStyle = ItemUseStyleID.Shoot;
@@ -48,6 +49,11 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<PhangasmBow>(), damage, knockback, player.whoAmI);
             return false;
+        }
+
+        public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
+        {
+            Item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Ranged/PhangasmGlow").Value);
         }
 
         public override void AddRecipes()

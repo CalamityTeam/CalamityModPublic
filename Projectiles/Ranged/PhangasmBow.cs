@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -18,7 +19,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetDefaults()
         {
-            Projectile.width = 40;
+            Projectile.width = 48;
             Projectile.height = 82;
             Projectile.friendly = true;
             Projectile.penetrate = -1;
@@ -130,6 +131,16 @@ namespace CalamityMod.Projectiles.Ranged
             player.itemTime = 2;
             player.itemAnimation = 2;
             player.itemRotation = (float)Math.Atan2((double)(Projectile.velocity.Y * (float)Projectile.direction), (double)(Projectile.velocity.X * (float)Projectile.direction));
+        }
+
+        public override void PostDraw(Color lightColor)
+        {
+	    Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Ranged/PhangasmGlow").Value;
+            SpriteEffects spriteEffects = SpriteEffects.None;
+            if (Projectile.spriteDirection == -1)
+                spriteEffects = SpriteEffects.FlipHorizontally;
+
+            Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition, null, Color.White, Projectile.rotation, new Vector2(texture.Width / 2f, texture.Height / 2f), Projectile.scale, spriteEffects, 0);
         }
 
         public override bool? CanDamage() => false;
