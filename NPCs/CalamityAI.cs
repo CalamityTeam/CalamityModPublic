@@ -4102,6 +4102,12 @@ namespace CalamityMod.NPCs
                             npc.life -= damageAmt;
                             npc.HealEffect(-damageAmt, true);
 
+                            if (npc.life <= ((npc.lifeMax / 200) * 5) && !npc.ModNPC<CeaselessVoid.CeaselessVoid>().playedbuildsound)
+                            {
+                                SoundEngine.PlaySound(CeaselessVoid.CeaselessVoid.BuildupSound, npc.Center);
+                                npc.ModNPC<CeaselessVoid.CeaselessVoid>().playedbuildsound = true;
+                            }
+
                             if (npc.life <= 0)
                             {
                                 npc.life = 0;

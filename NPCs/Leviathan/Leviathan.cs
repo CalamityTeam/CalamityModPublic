@@ -40,6 +40,7 @@ namespace CalamityMod.NPCs.Leviathan
 
         public static readonly SoundStyle RoarMeteorSound = new("CalamityMod/Sounds/Custom/LeviathanRoarMeteor");
         public static readonly SoundStyle RoarChargeSound = new("CalamityMod/Sounds/Custom/LeviathanRoarCharge");
+        public static readonly SoundStyle EmergeSound = new("CalamityMod/Sounds/Custom/LeviathanEmerge");
 
         public override void SetStaticDefaults()
         {
@@ -260,7 +261,10 @@ namespace CalamityMod.NPCs.Leviathan
                     NPC.velocity = new Vector2(0f, -velocityY);
 
                     if (calamityGlobalNPC.newAI[3] == 10f)
+                    {
+                        SoundEngine.PlaySound(EmergeSound, vector);
                         SoundEngine.PlaySound(soundChoiceRage, vector);
+                    }
 
                     NPC.Opacity = MathHelper.Clamp(calamityGlobalNPC.newAI[3] / spawnAnimationTime, 0f, 1f);
 
