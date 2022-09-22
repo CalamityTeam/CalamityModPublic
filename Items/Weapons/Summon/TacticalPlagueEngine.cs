@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             DisplayName.SetDefault("Tactical Plague Engine");
             Tooltip.SetDefault("Summons a plague jet to pummel your enemies into submission\n" +
-                               "Jets will fire ammo from your inventory, 66% chance to not consume ammo\n" +
+                               "Jets will fire ammo from your inventory, 50% chance to not consume ammo\n" +
                                "Sometimes shoots a missile instead of a bullet");
             SacrificeTotal = 1;
         }
@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Weapons.Summon
             Item.autoReuse = true;
             Item.DamageType = DamageClass.Summon;
             Item.shoot = ModContent.ProjectileType<TacticalPlagueJet>();
-            Item.shootSpeed = 16f;
+            Item.shootSpeed = 7f; // Affects bullet speed
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
@@ -44,7 +44,7 @@ namespace CalamityMod.Items.Weapons.Summon
             {
                 int p = Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, type, damage, knockback, player.whoAmI, 0f, 1f);
                 if (Main.projectile.IndexInRange(p))
-                    Main.projectile[p].originalDamage = Item.damage;
+                   Main.projectile[p].originalDamage = Item.damage;
             }
             return false;
         }

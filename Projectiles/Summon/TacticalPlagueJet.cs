@@ -42,7 +42,7 @@ namespace CalamityMod.Projectiles.Summon
 
         // Defines an Item which is a hacked clone of a P90, edited to be summon class instead of ranged.
         // The false gun's damage is changed to the appropriate value every time a Tactical Plague Jet wants to fire a bullet.
-        private static void DefineFalseGun()
+        private static void DefineFalseGun(int baseDamage)
         {
             int p90ID = ModContent.ItemType<P90>();
             int TPEID = ModContent.ItemType<TacticalPlagueEngine>();
@@ -50,11 +50,12 @@ namespace CalamityMod.Projectiles.Summon
             PlagueEngine = new Item();
             FalseGun.SetDefaults(p90ID, true);
             PlagueEngine.SetDefaults(TPEID, true);
-            FalseGun.damage = PlagueEngine.damage;
+            FalseGun.damage = baseDamage;
+            FalseGun.knockBack = PlagueEngine.knockBack;
+            FalseGun.shootSpeed = PlagueEngine.shootSpeed;
             FalseGun.consumeAmmoOnFirstShotOnly = false;
             FalseGun.consumeAmmoOnLastShotOnly = false;
 
-            // FalseGun.ranged = false /* tModPorter - this is redundant, for more info see https://github.com/tModLoader/tModLoader/wiki/Update-Migration-Guide#damage-classes */ ;
             FalseGun.DamageType = DamageClass.Summon;
         }
 
@@ -79,7 +80,7 @@ namespace CalamityMod.Projectiles.Summon
 
                 // Construct a fake item to use with vanilla code for the sake of firing bullets.
                 if (FalseGun is null)
-                    DefineFalseGun();
+                    DefineFalseGun(Projectile.originalDamage);
                 Projectile.localAI[0] = 1f;
             }
 
