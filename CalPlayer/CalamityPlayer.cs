@@ -5703,11 +5703,11 @@ namespace CalamityMod.CalPlayer
                     // Adrenaline is not lost when hit if using Draedon's Heart.
                     if (!draedonsHeart && !adrenalineModeActive && damage > 0)
                     {
-                        adrenaline = 0f;
                         if (adrenaline >= adrenalineMax)
                         {
                             SoundEngine.PlaySound(AdrenalineHurtSound, Player.Center);
                         }
+                        adrenaline = 0f;
                     }
 
                     // If using Draedon's Heart and not actively healing with Nanomachines, pause generation briefly.
