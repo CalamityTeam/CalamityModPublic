@@ -32,7 +32,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void AI()
         {
-            if (hasHitEnemy == true && Projectile.timeLeft < 575)
+            if (hasHitEnemy && Projectile.timeLeft < 575)
             {
                 Projectile.velocity.X *= 1.005f; //you broke up, time to yeet yourself out
                 Projectile.velocity.Y *= 1.005f;
@@ -81,14 +81,7 @@ namespace CalamityMod.Projectiles.Rogue
             Vector2 velocityNew;
             if (minDist < 999f)
             {
-                if (Projectile.Calamity().stealthStrike && hasHitEnemy == false)
-                {
-                    Projectile.damage = (int)(Projectile.damage * 1.5f);
-                }
-                else
-                {
-                    Projectile.damage = (int)(Projectile.damage * 1.1f);
-                }
+                Projectile.damage = (int)(Projectile.damage * 1.1f);
                 hasHitEnemy = true;
                 targetNPC = index;
                 velocityNew = Main.npc[index].Center - Projectile.Center;
