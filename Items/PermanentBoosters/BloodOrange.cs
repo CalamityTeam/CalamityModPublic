@@ -2,6 +2,7 @@
 using CalamityMod.Items.Materials;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System.Linq;
@@ -11,6 +12,7 @@ namespace CalamityMod.Items.PermanentBoosters
 {
     public class BloodOrange : ModItem
     {
+        public static readonly SoundStyle UseSound = new("CalamityMod/Sounds/Item/BloodOrangeConsume");
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Blood Orange");
@@ -31,7 +33,7 @@ namespace CalamityMod.Items.PermanentBoosters
             Item.rare = ItemRarityID.LightPurple;
             Item.useTime = 30;
             Item.useStyle = ItemUseStyleID.HoldUp;
-            Item.UseSound = SoundID.Item4;
+            Item.UseSound = UseSound;
             Item.consumable = true;
         }
 

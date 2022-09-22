@@ -5598,6 +5598,7 @@ namespace CalamityMod.CalPlayer
             if (bloodPact && Main.rand.NextBool(4))
             {
                 Player.AddBuff(ModContent.BuffType<BloodyBoost>(), 600);
+                SoundEngine.PlaySound(new SoundStyle("CalamityMod/Sounds/Custom/BloodPactCrit"), Player.Center);
                 damageMult += 1.25;
             }
 
@@ -5698,7 +5699,10 @@ namespace CalamityMod.CalPlayer
                     // Being hit for zero from Paladin's Shield damage share does not cancel Adrenaline.
                     // Adrenaline is not lost when hit if using Draedon's Heart.
                     if (!draedonsHeart && !adrenalineModeActive && damage > 0)
+                    {
+                        SoundEngine.PlaySound(new SoundStyle("CalamityMod/Sounds/Custom/AdrenalineMajorLoss"), Player.Center);
                         adrenaline = 0f;
+                    }
 
                     // If using Draedon's Heart and not actively healing with Nanomachines, pause generation briefly.
                     if (draedonsHeart && !adrenalineModeActive)

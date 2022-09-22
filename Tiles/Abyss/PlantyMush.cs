@@ -1,6 +1,7 @@
 ﻿using CalamityMod.Walls;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -8,6 +9,7 @@ namespace CalamityMod.Tiles.Abyss
 {
     public class PlantyMush : ModTile
     {
+        public static readonly SoundStyle MineSound = new("CalamityMod/Sounds/Custom/PlantyMushMine", 3);
         public override void SetStaticDefaults()
         {
             Main.tileSolid[Type] = true;
@@ -23,7 +25,7 @@ namespace CalamityMod.Tiles.Abyss
             name.SetDefault("Planty Mush");
             AddMapEntry(new Color(0, 120, 0), name);
             MineResist = 1f;
-            HitSound = SoundID.Dig;
+            HitSound = MineSound;
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)

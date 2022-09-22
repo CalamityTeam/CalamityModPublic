@@ -27,6 +27,8 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
         public static int phase1IconIndex;
         public static int phase2IconIndex;
 
+        public static readonly SoundStyle LensSound = new("CalamityMod/Sounds/Custom/ExoTwinsEject");
+
         internal static void LoadHeadIcons()
         {
             string phase1IconPath = "CalamityMod/NPCs/ExoMechs/Artemis/ArtemisHead";
@@ -1114,7 +1116,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
                     // Shoot lens gore at the target at the proper time
                     if (calamityGlobalNPC.newAI[2] == lensPopTime)
                     {
-                        SoundEngine.PlaySound(CommonCalamitySounds.LargeWeaponFireSound, NPC.Center);
+                        SoundEngine.PlaySound(LensSound, NPC.Center);
                         Vector2 lensDirection = Vector2.Normalize(aimedVector);
                         Vector2 offset = lensDirection * 70f;
 
