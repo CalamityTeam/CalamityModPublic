@@ -21,7 +21,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
         public override float MaxScale => 1f;
         public override float Lifetime => 12f;
-        public override float MaxLaserLength => 2200f;
+        public override float MaxLaserLength => 5500f;
         public override Color LaserOverlayColor => Color.White;
         public override Color LightCastColor => Color.OrangeRed;
 

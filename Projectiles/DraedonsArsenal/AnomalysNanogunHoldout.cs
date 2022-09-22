@@ -108,7 +108,8 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
                 // Make it POWERFUL
                 Owner.Calamity().GeneralScreenShakePower = MPFBScreenShakePower;
-                Owner.velocity += Projectile.velocity.SafeNormalize(Vector2.UnitX) * -MPFBPushback;
+                if (Owner.velocity.Length() < 50f)
+                    Owner.velocity += Projectile.velocity.SafeNormalize(Vector2.UnitX) * -MPFBPushback;
 
                 // Assign target recoil
                 Vector2 direction = MouseDistance.SafeNormalize(Vector2.UnitX);

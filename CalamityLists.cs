@@ -140,6 +140,8 @@ namespace CalamityMod
         public static List<int> AresIDs;
         public static List<int> SkeletronPrimeIDs;
         public static List<int> StormWeaverIDs;
+        public static List<int> RavagerIDs;
+        public static List<int> GolemIDs;
         public static List<int> BoundNPCIDs;
 
         public static List<int> GrenadeResistIDs;
@@ -1804,6 +1806,26 @@ namespace CalamityMod
                 NPCType<StormWeaverTail>()
             };
 
+            // Purposefully does not include the freed head
+            RavagerIDs = new List<int>
+            {
+                NPCType<RavagerBody>(),
+                NPCType<RavagerClawLeft>(),
+                NPCType<RavagerClawRight>(),
+                NPCType<RavagerLegLeft>(),
+                NPCType<RavagerLegRight>(),
+                NPCType<RavagerHead>()
+            };
+
+            GolemIDs = new List<int>
+            {
+                NPCID.Golem,
+                NPCID.GolemHead,
+                NPCID.GolemHeadFree,
+                NPCID.GolemFistLeft,
+                NPCID.GolemFistRight
+            };
+
             GrenadeResistIDs = new List<int>
             {
                 ProjectileID.Grenade,
@@ -2427,6 +2449,8 @@ namespace CalamityMod
             AresIDs = null;
             SkeletronPrimeIDs = null;
             StormWeaverIDs = null;
+            RavagerIDs = null;
+			GolemIDs = null;
             BoundNPCIDs = null;
             GrenadeResistIDs = null;
             ZeroContactDamageNPCList = null;

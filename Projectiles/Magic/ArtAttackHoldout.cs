@@ -21,7 +21,6 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.width = 70;
             Projectile.height = 70;
             Projectile.friendly = false;
-            // projectile.magic = false /* tModPorter - this is redundant, for more info see https://github.com/tModLoader/tModLoader/wiki/Update-Migration-Guide#damage-classes */ ;
             Projectile.tileCollide = false;
             Projectile.ignoreWater = true;
             Projectile.timeLeft = 90000;

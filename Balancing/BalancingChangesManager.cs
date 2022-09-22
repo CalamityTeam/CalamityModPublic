@@ -155,15 +155,32 @@ namespace CalamityMod.Balancing
             // 40% resist to Cryophobia
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.AquaticScourgeIDs, Do(new ProjectileResistBalancingRule(0.6f, ProjectileType<CryoBlast>()))));
 
-            // 15% resust to Snowstorm Staff
+            // 15% resist to Snowstorm Staff
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.DestroyerIDs, Do(new ProjectileResistBalancingRule(0.85f, ProjectileType<Snowflake>()))));
 
             #endregion The Destroyer
+
+            #region Plantera
+
+            // 60% resist to Art Attack
+            NPCSpecificBalancingChanges.AddRange(Bundle(new List<int> { NPCID.Plantera, NPCID.PlanterasTentacle }, Do(new ProjectileResistBalancingRule(0.4f, ProjectileType<ArtAttackStrike>()))));
+
+            #endregion Plantera
+
+            #region Golem
+
+            // 50% resist to Art Attack
+            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.GolemIDs, Do(new ProjectileResistBalancingRule(0.5f, ProjectileType<ArtAttackStrike>()))));
+
+            #endregion Golem
 
             #region Ravager
 
             // 50% resist to true melee.
             NPCSpecificBalancingChanges.Add(new NPCBalancingChange(NPCType<RavagerBody>(), new TrueMeleeResistBalancingRule(0.5f)));
+
+            // 60% resist to Art Attack
+            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.RavagerIDs, Do(new ProjectileResistBalancingRule(0.4f, ProjectileType<ArtAttackStrike>()))));
 
             #endregion Ravager
 
