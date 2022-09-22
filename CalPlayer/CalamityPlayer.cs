@@ -245,12 +245,14 @@ namespace CalamityMod.CalPlayer
         public static readonly SoundStyle RageFilledSound = new("CalamityMod/Sounds/Custom/AbilitySounds/FullRage");
         public static readonly SoundStyle RageActivationSound = new("CalamityMod/Sounds/Custom/AbilitySounds/RageActivate");
         public static readonly SoundStyle RageEndSound = new("CalamityMod/Sounds/Custom/AbilitySounds/RageEnd");
-        
+
         public static readonly SoundStyle AdrenalineFilledSound = new("CalamityMod/Sounds/Custom/AbilitySounds/FullAdrenaline");
         public static readonly SoundStyle AdrenalineActivationSound = new("CalamityMod/Sounds/Custom/AbilitySounds/AdrenalineActivate");
+        public static readonly SoundStyle AdrenalineHurtSound = new("CalamityMod/Sounds/Custom/AdrenalineMajorLoss");
 
         public static readonly SoundStyle RogueStealthSound = new("CalamityMod/Sounds/Custom/RogueStealth");
         public static readonly SoundStyle DefenseDamageSound = new("CalamityMod/Sounds/Custom/DefenseDamage");
+        public static readonly SoundStyle BloodCritSound = new("CalamityMod/Sounds/Custom/BloodPactCrit");
 
         public static readonly SoundStyle IjiDeathSound = new("CalamityMod/Sounds/Custom/IjiDies");
         #endregion
@@ -5598,7 +5600,7 @@ namespace CalamityMod.CalPlayer
             if (bloodPact && Main.rand.NextBool(4))
             {
                 Player.AddBuff(ModContent.BuffType<BloodyBoost>(), 600);
-                SoundEngine.PlaySound(new SoundStyle("CalamityMod/Sounds/Custom/BloodPactCrit"), Player.Center);
+                SoundEngine.PlaySound(BloodCritSound, Player.Center);
                 damageMult += 1.25;
             }
 
@@ -5700,8 +5702,11 @@ namespace CalamityMod.CalPlayer
                     // Adrenaline is not lost when hit if using Draedon's Heart.
                     if (!draedonsHeart && !adrenalineModeActive && damage > 0)
                     {
-                        SoundEngine.PlaySound(new SoundStyle("CalamityMod/Sounds/Custom/AdrenalineMajorLoss"), Player.Center);
                         adrenaline = 0f;
+                        if (adrenaline >= adrenalineMax)
+                        {
+                            SoundEngine.PlaySound(AdrenalineHurtSound, Player.Center);
+                        }
                     }
 
                     // If using Draedon's Heart and not actively healing with Nanomachines, pause generation briefly.
