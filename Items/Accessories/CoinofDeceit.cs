@@ -11,7 +11,8 @@ namespace CalamityMod.Items.Accessories
         {
             SacrificeTotal = 1;
             DisplayName.SetDefault("Coin of Deceit");
-            Tooltip.SetDefault("Stealth strikes only expend 90% of your max stealth");
+            Tooltip.SetDefault("Stealth strikes only expend 85% of your max stealth\n" +
+                "6% increased rogue crit chance");
         }
 
         public override void SetDefaults()
@@ -25,7 +26,8 @@ namespace CalamityMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.Calamity().stealthStrike90Cost = true;
+            player.Calamity().stealthStrike85Cost = true;
+            player.GetCritChance<ThrowingDamageClass>() += 6;
         }
 
         public override void AddRecipes()
