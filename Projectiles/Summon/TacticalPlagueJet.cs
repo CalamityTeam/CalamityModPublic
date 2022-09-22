@@ -14,6 +14,7 @@ namespace CalamityMod.Projectiles.Summon
     public class TacticalPlagueJet : ModProjectile
     {
         public static Item FalseGun = null;
+        public static Item PlagueEngine = null;
 
         public override void SetStaticDefaults()
         {
@@ -44,9 +45,12 @@ namespace CalamityMod.Projectiles.Summon
         private static void DefineFalseGun()
         {
             int p90ID = ModContent.ItemType<P90>();
+            int TPEID = ModContent.ItemType<TacticalPlagueEngine>();
             FalseGun = new Item();
+            PlagueEngine = new Item();
             FalseGun.SetDefaults(p90ID, true);
-			FalseGun.damage = TacticalPlagueEngine.BaseDamage;
+            PlagueEngine.SetDefaults(TPEID, true);
+            FalseGun.damage = PlagueEngine.damage;
             FalseGun.consumeAmmoOnFirstShotOnly = false;
             FalseGun.consumeAmmoOnLastShotOnly = false;
 
