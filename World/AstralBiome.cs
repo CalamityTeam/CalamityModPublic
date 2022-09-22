@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Utilities;
@@ -19,6 +20,7 @@ namespace CalamityMod.World
 {
     public class AstralBiome
     {
+        public static readonly SoundStyle MeteorSound = new("CalamityMod/Sounds/Custom/AstralStarFall");
         public static bool CanAstralMeteorSpawn()
         {
             int astralOreCount = 0;
@@ -382,6 +384,9 @@ namespace CalamityMod.World
                 NetMessage.SendTileSquare(-1, i, j, 40, TileChangeType.None);
                 if (CanAstralBiomeSpawn())
                 {
+                    if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active)
+                        SoundEngine.PlaySound(MeteorSound, Main.player[Main.myPlayer].position);
+
                     DoAstralConversion(new Point(i, j));
 
                     // Upward checks go up 180 tiles. If for whatever reason the placement Y position
