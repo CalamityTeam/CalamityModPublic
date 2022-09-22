@@ -255,6 +255,7 @@ namespace CalamityMod.CalPlayer
         public static readonly SoundStyle BloodCritSound = new("CalamityMod/Sounds/Custom/BloodPactCrit");
 
         public static readonly SoundStyle IjiDeathSound = new("CalamityMod/Sounds/Custom/IjiDies");
+        public static readonly SoundStyle DrownSound = new("CalamityMod/Sounds/Custom/AbyssDrown");
         #endregion
 
         #region Rogue
@@ -6321,6 +6322,8 @@ namespace CalamityMod.CalPlayer
             PlayerDeathReason damageSource = PlayerDeathReason.ByOther(Player.Male ? 14 : 15);
             if (abyssDeath)
             {
+                SoundEngine.PlaySound(DrownSound, Player.position);
+
                 if (Main.rand.NextBool(2))
                 {
                     damageSource = PlayerDeathReason.ByCustomReason(Player.name + " is food for the Wyrms.");
