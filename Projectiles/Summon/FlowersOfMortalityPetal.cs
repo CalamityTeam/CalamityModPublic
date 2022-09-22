@@ -29,7 +29,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.netImportant = true;
             Projectile.friendly = true;
             Projectile.ignoreWater = true;
-            Projectile.minionSlots = 0.5f;
+            Projectile.minionSlots = 0.6f;
             Projectile.timeLeft = 90000;
             Projectile.penetrate = -1;
             Projectile.tileCollide = false;

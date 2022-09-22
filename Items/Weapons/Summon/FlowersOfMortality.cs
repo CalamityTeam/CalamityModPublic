@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             DisplayName.SetDefault("Flowers of Mortality");
             Tooltip.SetDefault("Summons five rainbow flowers over your head\n" +
-                               "The combined flowers consume two and a half minion slots");
+                               "The combined flowers consume three minion slots");
             SacrificeTotal = 1;
         }
 
