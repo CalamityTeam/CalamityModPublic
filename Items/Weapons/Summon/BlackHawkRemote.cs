@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Summon
             Item.UseSound = SoundID.Item15; //phaseblade sound effect
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<BlackHawkSummon>();
-            Item.shootSpeed = 10f;
+            Item.shootSpeed = 6f; // Affects bullet speed
             Item.DamageType = DamageClass.Summon;
             Item.rare = ItemRarityID.LightRed;
         }

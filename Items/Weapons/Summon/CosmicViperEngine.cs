@@ -38,7 +38,7 @@ namespace CalamityMod.Items.Weapons.Summon
             Item.UseSound = SoundID.Item15; //phaseblade sound effect
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<CosmicViperSummon>();
-            Item.shootSpeed = 10f;
+            Item.shootSpeed = 10f; // Affects bullet speed
             Item.DamageType = DamageClass.Summon;
 
             Item.value = CalamityGlobalItem.Rarity14BuyPrice;
