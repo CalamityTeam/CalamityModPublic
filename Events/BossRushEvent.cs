@@ -257,8 +257,9 @@ namespace CalamityMod.Events
                     Player player = Main.player[ClosestPlayerToWorldCenter];
 
                     SoundEngine.PlaySound(Polterghast.SpawnSound, player.Center);
+                    NPC.SpawnOnPlayer(ClosestPlayerToWorldCenter, type);
 
-                }, usesSpecialSound:True, permittedNPCs: new int[] { ModContent.NPCType<PhantomFuckYou>(), ModContent.NPCType<PolterghastHook>(), ModContent.NPCType<PolterPhantom>() }),
+                }, usesSpecialSound: true, permittedNPCs: new int[] { ModContent.NPCType<PhantomFuckYou>(), ModContent.NPCType<PolterghastHook>(), ModContent.NPCType<PolterPhantom>() }),
 
                 new Boss(ModContent.NPCType<PlaguebringerGoliath>(), permittedNPCs: new int[] { ModContent.NPCType<PlagueHomingMissile>(), ModContent.NPCType<PlagueMine>() }),
 
