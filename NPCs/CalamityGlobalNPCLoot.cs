@@ -1839,6 +1839,7 @@ namespace CalamityMod.NPCs
 
                     if (lastPlayer >= 0)
                     {
+                        SoundEngine.PlaySound(Polterghast.Polterghast.SpawnSound, Main.player[lastPlayer].Center);
                         NPC.SpawnOnPlayer(lastPlayer, ModContent.NPCType<Polterghast.Polterghast>());
                         CalamityMod.ghostKillCount = 0;
                     }

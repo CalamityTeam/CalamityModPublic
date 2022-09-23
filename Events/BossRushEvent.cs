@@ -252,7 +252,13 @@ namespace CalamityMod.Events
                     NPC.SpawnOnPlayer(ClosestPlayerToWorldCenter, type);
                 }, usesSpecialSound: true, permittedNPCs: new int[] { ModContent.NPCType<AstrumDeusBody>(), ModContent.NPCType<AstrumDeusTail>() }),
 
-                new Boss(ModContent.NPCType<Polterghast>(), TimeChangeContext.Day, permittedNPCs: new int[] { ModContent.NPCType<PhantomFuckYou>(), ModContent.NPCType<PolterghastHook>(), ModContent.NPCType<PolterPhantom>() }),
+                new Boss(ModContent.NPCType<Polterghast>(), TimeChangeContext.Day, type =>
+                {
+                    Player player = Main.player[ClosestPlayerToWorldCenter];
+
+                    SoundEngine.PlaySound(Polterghast.SpawnSound, player.Center);
+
+                }, usesSpecialSound:True, permittedNPCs: new int[] { ModContent.NPCType<PhantomFuckYou>(), ModContent.NPCType<PolterghastHook>(), ModContent.NPCType<PolterPhantom>() }),
 
                 new Boss(ModContent.NPCType<PlaguebringerGoliath>(), permittedNPCs: new int[] { ModContent.NPCType<PlagueHomingMissile>(), ModContent.NPCType<PlagueMine>() }),
 
