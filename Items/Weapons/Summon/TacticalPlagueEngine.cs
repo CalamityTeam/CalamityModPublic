@@ -14,8 +14,10 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             DisplayName.SetDefault("Tactical Plague Engine");
             Tooltip.SetDefault("Summons a plague jet to pummel your enemies into submission\n" +
-                               "Jets will fire ammo from your inventory, 50% chance to not consume ammo\n" +
-                               "Sometimes shoots a missile instead of a bullet");
+                               "Jets will fire bullets from your inventory\n" +
+                               "50% chance to not consume ammo\n" +
+                               "Sometimes shoots a missile instead of a bullet\n" +
+                               "Missiles do not consume ammo");
             SacrificeTotal = 1;
         }
 
