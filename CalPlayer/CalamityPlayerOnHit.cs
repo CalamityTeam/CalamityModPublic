@@ -1246,6 +1246,11 @@ namespace CalamityMod.CalPlayer
 				shadowPotCooldown = 30;
             }
 
+            if (raiderTalisman && modProj.stealthStrike)
+            {
+                raiderCritBonus = RaidersTalisman.RaiderBonus;
+            }
+
             if (npcCheck)
             {
                 // Umbraphile cannot trigger off of itself. It is guaranteed on stealth strikes and 25% chance otherwise.
@@ -1254,12 +1259,6 @@ namespace CalamityMod.CalPlayer
                     // Umbraphile Rogue Blasts: 25%, softcap starts at 200 base damage
                     int umbraBlastDamage = CalamityUtils.DamageSoftCap(proj.damage * 0.25, 50);
                     Projectile.NewProjectile(spawnSource, proj.Center, Vector2.Zero, ProjectileType<UmbraphileBoom>(), umbraBlastDamage, 0f, Player.whoAmI);
-                }
-
-                if (raiderTalisman && raiderStack < 150 && crit && raiderCooldown <= 0)
-                {
-                    raiderStack++;
-                    raiderCooldown = 30;
                 }
                 if (electricianGlove && modProj.stealthStrike && modProj.stealthStrikeHitCount < 5)
                 {

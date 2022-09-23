@@ -1083,8 +1083,8 @@ namespace CalamityMod.CalPlayer
                 soundCooldown--;
             if (shadowPotCooldown > 0)
                 shadowPotCooldown--;
-            if (raiderCooldown > 0)
-                raiderCooldown--;
+            if (raiderCritBonus > 0f)
+                raiderCritBonus -= RaidersTalisman.RaiderBonus / (float)CalamityUtils.SecondsToFrames(RaidersTalisman.RaiderCooldown);
             if (gSabatonCooldown > 0)
                 gSabatonCooldown--;
             if (gSabatonFall > 0)
@@ -1388,12 +1388,9 @@ namespace CalamityMod.CalPlayer
             }
 
             // Raider Talisman bonus
-            if (raiderTalisman)
+            if (raiderTalisman && !StealthStrikeAvailable())
             {
-                // Nanotech use to have an exclusive nerf here, but since they are currently equal, there
-                // is no check to indicate such.
-                float damageMult = 0.15f;
-                Player.GetDamage<ThrowingDamageClass>() += raiderStack / 150f * damageMult;
+                Player.GetCritChance<ThrowingDamageClass>() += raiderCritBonus;
             }
 
             if (kamiBoost)
