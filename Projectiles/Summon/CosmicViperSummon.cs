@@ -259,15 +259,22 @@ namespace CalamityMod.Projectiles.Summon
                     Projectile.ai[1] += 2f;
                     if (Main.myPlayer == Projectile.owner)
                     {
-                        int projType = Utils.SelectRandom(Main.rand, new int[]
+                        // Fire a rocket every other time
+                        bool shootRocket = ++Projectile.localAI[1] % 2f == 0f;
+                        int projType = ModContent.ProjectileType<CosmicViperSplittingRocket>();
+                        switch (Projectile.localAI[1] % 3f)
                         {
-                            ModContent.ProjectileType<CosmicViperSplittingRocket>(),
-                            ModContent.ProjectileType<CosmicViperHomingRocket>(),
-                            ModContent.ProjectileType<CosmicViperConcussionMissile>()
-                        });
+                            case 0f:
+                                projType = ModContent.ProjectileType<CosmicViperSplittingRocket>();
+                                break;
+                            case 1f:
+                                projType = ModContent.ProjectileType<CosmicViperHomingRocket>();
+                                break;
+                            case 2f:
+                                projType = ModContent.ProjectileType<CosmicViperConcussionMissile>();
+                                break;
+                        }
 
-                        // Fire a rocket for a 50% chance
-                        bool shootRocket = Main.rand.NextBool();
                         // Rockets never consume ammo + 50% chance to not consume ammo.
                         bool dontConsumeAmmo = Main.rand.NextBool() || shootRocket;
                         int projIndex;

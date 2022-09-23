@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Weapons.Summon
             Tooltip.SetDefault("Summons a cosmic gunship to shoot down your foes\n" +
                                "Gunships will fire bullets from your inventory\n" +
                                "50% chance to not consume ammo\n" +
-                               "50% chance to shoot a rocket instead of a bullet\n" +
+                               "Alternates firing rockets and bullets\n" +
                                "Rockets do not consume ammo");
             SacrificeTotal = 1;
         }
