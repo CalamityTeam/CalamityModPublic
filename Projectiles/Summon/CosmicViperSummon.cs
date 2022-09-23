@@ -1,5 +1,7 @@
 ﻿using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
+using CalamityMod.Items.Weapons.Ranged;
+using CalamityMod.Items.Weapons.Summon;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -10,6 +12,9 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class CosmicViperSummon : ModProjectile
     {
+        public static Item FalseGun = null;
+        public static Item CosmicViper = null;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Cosmic Viper");
@@ -35,6 +40,25 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.DamageType = DamageClass.Summon;
         }
 
+        // Defines an Item which is a hacked clone of a P90, edited to be summon class instead of ranged.
+        // The false gun's damage is changed to the appropriate value every time a Tactical Plague Jet wants to fire a bullet.
+        private static void DefineFalseGun(int baseDamage)
+        {
+            int p90ID = ModContent.ItemType<P90>();
+            int CVEID = ModContent.ItemType<CosmicViperEngine>();
+            FalseGun = new Item();
+            CosmicViper = new Item();
+            FalseGun.SetDefaults(p90ID, true);
+            CosmicViper.SetDefaults(CVEID, true);
+            FalseGun.damage = baseDamage;
+            FalseGun.knockBack = CosmicViper.knockBack;
+            FalseGun.shootSpeed = CosmicViper.shootSpeed;
+            FalseGun.consumeAmmoOnFirstShotOnly = false;
+            FalseGun.consumeAmmoOnLastShotOnly = false;
+
+            FalseGun.DamageType = DamageClass.Summon;
+        }
+
         public override void AI()
         {
             Player player = Main.player[Projectile.owner];
@@ -53,6 +77,11 @@ namespace CalamityMod.Projectiles.Summon
                     Main.dust[dusty].noGravity = true;
                     Main.dust[dusty].velocity = vector7;
                 }
+
+                // Construct a fake item to use with vanilla code for the sake of firing bullets.
+                if (FalseGun is null)
+                    DefineFalseGun(Projectile.originalDamage);
+
                 Projectile.localAI[0] += 1f;
             }
 
@@ -90,7 +119,7 @@ namespace CalamityMod.Projectiles.Summon
             Vector2 targetVec = Projectile.position;
             bool foundTarget = false;
             int targetIndex = -1;
-            if (player.HasMinionAttackTargetNPC)
+            if (player.HasMinionAttackTargetNPC && player.HasAmmo(FalseGun))
             {
                 NPC npc = Main.npc[player.MinionAttackTargetNPC];
                 if (npc.CanBeChasedBy(Projectile, false))
@@ -107,7 +136,7 @@ namespace CalamityMod.Projectiles.Summon
                     }
                 }
             }
-            if (!foundTarget)
+            if (!foundTarget && player.HasAmmo(FalseGun))
             {
                 for (int npcIndex = 0; npcIndex < Main.maxNPCs; npcIndex++)
                 {
@@ -223,7 +252,6 @@ namespace CalamityMod.Projectiles.Summon
             }
             if (Projectile.ai[0] == 0f)
             {
-                float speedMult = 6f;
                 if (foundTarget && Projectile.ai[1] == 0f)
                 {
                     //play cool sound
@@ -238,15 +266,36 @@ namespace CalamityMod.Projectiles.Summon
                             ModContent.ProjectileType<CosmicViperConcussionMissile>()
                         });
 
-                        Vector2 velocity = targetVec - Projectile.Center;
-                        velocity.Normalize();
-                        velocity *= speedMult;
+                        // Fire a rocket for a 50% chance
+                        bool shootRocket = Main.rand.NextBool();
+                        // Rockets never consume ammo + 50% chance to not consume ammo.
+                        bool dontConsumeAmmo = Main.rand.NextBool() || shootRocket;
+                        int projIndex;
 
-                        //add some inaccuracy
-                        velocity.Y += Main.rand.NextFloat(-15f, 15f) * 0.05f;
-                        velocity.X += Main.rand.NextFloat(-15f, 15f) * 0.05f;
+                        // Vanilla function tricked into using a fake gun item with the appropriate base damage as the "firing item".
+                        player.PickAmmo(FalseGun, out int projID, out float shootSpeed, out int damage, out float kb, out _, dontConsumeAmmo);
 
-                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, projType, Projectile.damage, Projectile.knockBack, Projectile.owner, targetIndex, 0f);
+                        Vector2 velocity = Projectile.SafeDirectionTo(targetVec) * shootSpeed;
+
+                        // One in every 20 shots is a rocket which deals 1.5x total damage and extreme knockback.
+                        if (shootRocket)
+                        {
+                            //add some inaccuracy
+                            velocity.Y += Main.rand.NextFloat(-15f, 15f) * 0.05f;
+                            velocity.X += Main.rand.NextFloat(-15f, 15f) * 0.05f;
+                            projIndex = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, projType, damage, kb, Projectile.owner);
+                        }
+
+                        // Fire the selected bullet, nothing special.
+                        else
+                            projIndex = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, projID, damage, kb, Projectile.owner);
+
+                        // Regardless of what was fired, force it to be a summon projectile so that summon accessories work.
+                        if (projIndex.WithinBounds(Main.maxProjectiles))
+                        {
+                            Main.projectile[projIndex].DamageType = DamageClass.Summon;
+                            Main.projectile[projIndex].minion = false;
+                        }
                         Projectile.netUpdate = true;
                     }
                 }
