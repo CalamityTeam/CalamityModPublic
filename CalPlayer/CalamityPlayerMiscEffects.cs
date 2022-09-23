@@ -2846,6 +2846,11 @@ namespace CalamityMod.CalPlayer
 				Player.GetAttackSpeed<MeleeDamageClass>() += 0.07f;
 			}
 
+            if (filthyGlove)
+            {
+                bonusStealthDamage += nanotech ? 0.05f : 0.1f;
+            }
+
             if (dAmulet)
                 Player.pStone = true;
 

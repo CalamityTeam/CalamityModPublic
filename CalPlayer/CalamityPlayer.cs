@@ -271,6 +271,7 @@ namespace CalamityMod.CalPlayer
 
         // TODO -- Stealth needs to be its own damage class so that stealth bonuses only apply to stealth strikes
         public float stealthDamage = 0f; // This is extra Rogue Damage that is only added for stealth strikes.
+        public double bonusStealthDamage = 0;
         public float rogueVelocity = 1f;
         public float rogueAmmoCost = 1f;
         #endregion
@@ -2192,6 +2193,7 @@ namespace CalamityMod.CalPlayer
             stealthAcceleration = 1f;
 
             stealthDamage = 0f;
+            bonusStealthDamage = 0;
             rogueVelocity = 1f;
             rogueAmmoCost = 1f;
             #endregion
@@ -4370,12 +4372,9 @@ namespace CalamityMod.CalPlayer
             // Rippers are always checked for application, because there are ways to get rippers outside of Rev now
             CalamityUtils.ApplyRippersToDamage(this, proj.IsTrueMelee(), ref damageMult);
 
-            if (filthyGlove && proj.Calamity().stealthStrike && proj.CountsAsClass<RogueDamageClass>())
+            if (proj.Calamity().stealthStrike && proj.CountsAsClass<RogueDamageClass>())
             {
-                if (nanotech)
-                    damageMult += 0.05;
-                else
-                    damageMult += 0.1;
+                damageMult += bonusStealthDamage;
             }
 
             if (proj.type == ProjectileID.Gungnir)
@@ -5195,9 +5194,6 @@ namespace CalamityMod.CalPlayer
         {
             if (bladeArmEnchant)
                 return false;
-
-            if (rottenDogTooth && item.CountsAsClass<RogueDamageClass>())
-                damage = (int)(damage * (1f + RottenDogtooth.StealthStrikeDamageMultiplier));
 
             if (veneratedLocket)
             {
@@ -6477,6 +6473,7 @@ namespace CalamityMod.CalPlayer
 
             // these other parameters are rebuilt every frame based on the items you have equipped
             stealthDamage = 0f;
+            bonusStealthDamage = 0;
             rogueStealthMax = 0f;
             stealthGenStandstill = 1f;
             stealthGenMoving = 1f;
