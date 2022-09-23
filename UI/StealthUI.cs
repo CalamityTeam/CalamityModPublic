@@ -108,7 +108,7 @@ namespace CalamityMod.UI
 							"Once you have built max stealth, you will be able to perform a Stealth Strike\n" +
 							"Rogue stealth only reduces when you attack, it does not reduce while moving\n" +
 							"The higher your rogue stealth the higher your rogue damage and crit\n" +
-							"Having more stealth regeneration slightly decreases your damage per hit in return\n" +
+							"Having more stealth regeneration slightly decreases the damage bonus from stealth\n" +
 							"This is offset by you being able to use stealth strikes far more often";
 					}
 
