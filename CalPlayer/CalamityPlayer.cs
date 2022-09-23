@@ -4103,6 +4103,13 @@ namespace CalamityMod.CalPlayer
                 acidRoundMultiplier = item.useTime / 20D;
             else
                 acidRoundMultiplier = 1D;
+
+			if (item.CountsAsClass<RogueDamageClass>())
+			{
+				// Apply weapon modifier stealth strike damage bonus
+				if (item.Calamity().StealthStrikePrefixBonus != 0f && StealthStrikeAvailable())
+					damage += 1f - item.Calamity().StealthStrikePrefixBonus;
+			}
         }
 
         public override void ModifyWeaponKnockback(Item item, ref StatModifier knockback)
