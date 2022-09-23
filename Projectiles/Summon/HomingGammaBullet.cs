@@ -28,6 +28,9 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.tileCollide = true;
             Projectile.ignoreWater = true;
             Projectile.DamageType = DamageClass.Summon;
+            Projectile.penetrate = 5;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 20;
         }
 
         public override void AI()
@@ -36,8 +39,8 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.rotation = Projectile.velocity.ToRotation();
 
             NPC potentialTarget = Projectile.Center.MinionHoming(1000f, Main.player[Projectile.owner]);
-            if (potentialTarget != null && !Projectile.WithinRange(potentialTarget.Center, 100f) && Projectile.timeLeft < 290)
-                Projectile.velocity = (Projectile.velocity * 6f + Projectile.SafeDirectionTo(potentialTarget.Center) * 15f) / 7f;
+            if (potentialTarget != null && !Projectile.WithinRange(potentialTarget.Center, 100f) && Projectile.timeLeft < 320)
+                Projectile.velocity = (Projectile.velocity * 16f + Projectile.SafeDirectionTo(potentialTarget.Center) * 15f) / 17f;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 240);

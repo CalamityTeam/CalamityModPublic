@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void SetDefaults()
         {
-            Item.damage = 180;
+            Item.damage = 355;
             Item.mana = 10;
             Item.width = 46;
             Item.height = 28;

@@ -160,27 +160,10 @@ namespace CalamityMod.Balancing
 
             #endregion The Destroyer
 
-            #region Plantera
-
-            // 60% resist to Art Attack
-            NPCSpecificBalancingChanges.AddRange(Bundle(new List<int> { NPCID.Plantera, NPCID.PlanterasTentacle }, Do(new ProjectileResistBalancingRule(0.4f, ProjectileType<ArtAttackStrike>()))));
-
-            #endregion Plantera
-
-            #region Golem
-
-            // 50% resist to Art Attack
-            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.GolemIDs, Do(new ProjectileResistBalancingRule(0.5f, ProjectileType<ArtAttackStrike>()))));
-
-            #endregion Golem
-
             #region Ravager
 
             // 50% resist to true melee.
             NPCSpecificBalancingChanges.Add(new NPCBalancingChange(NPCType<RavagerBody>(), new TrueMeleeResistBalancingRule(0.5f)));
-
-            // 60% resist to Art Attack
-            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.RavagerIDs, Do(new ProjectileResistBalancingRule(0.4f, ProjectileType<ArtAttackStrike>()))));
 
             #endregion Ravager
 
@@ -195,6 +178,9 @@ namespace CalamityMod.Balancing
 
             // 25% resist to Resurrection Butterfly.
             NPCSpecificBalancingChanges.Add(new NPCBalancingChange(NPCID.CultistBoss, Do(new ProjectileResistBalancingRule(0.75f, ProjectileType<SakuraBullet>(), ProjectileType<PurpleButterfly>()))));
+
+            // 30% resist to Art Attack.
+            NPCSpecificBalancingChanges.Add(new NPCBalancingChange(NPCID.CultistBoss, Do(new ProjectileResistBalancingRule(0.7f, ProjectileType<ArtAttackStrike>()))));
 
             #endregion Cultist
 
