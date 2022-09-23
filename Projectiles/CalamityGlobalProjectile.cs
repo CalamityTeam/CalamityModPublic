@@ -2318,6 +2318,8 @@ namespace CalamityMod.Projectiles
 
             // optimization to remove conversion X/Y loop for irrelevant projectiles
             bool isConversionProjectile = projectile.type == ProjectileID.PurificationPowder
+                || projectile.type == ProjectileID.VilePowder
+                || projectile.type == ProjectileID.ViciousPowder
                 || projectile.type == ProjectileID.PureSpray
                 || projectile.type == ProjectileID.CorruptSpray
                 || projectile.type == ProjectileID.CrimsonSpray
@@ -2330,8 +2332,7 @@ namespace CalamityMod.Projectiles
                 int x = (int)(projectile.Center.X / 16f);
                 int y = (int)(projectile.Center.Y / 16f);
 
-                bool isPowder = projectile.type == ProjectileID.PurificationPowder;
-                /* || projectile.type == ProjectileID.VilePowder || projectile.type == ProjectileID.ViciousPowder */
+                bool isPowder = projectile.type == ProjectileID.PurificationPowder || projectile.type == ProjectileID.VilePowder || projectile.type == ProjectileID.ViciousPowder;
 
                 for (int i = x - 1; i <= x + 1; i++)
                 {
@@ -2341,12 +2342,11 @@ namespace CalamityMod.Projectiles
                         {
                             AstralBiome.ConvertFromAstral(i, j, ConvertType.Pure, !isPowder);
                         }
-                        //commented out for Terraria 1.4 when vile/vicious powder spread corruption/crimson
-                        if (projectile.type == ProjectileID.CorruptSpray)// || projectile.type == ProjectileID.VilePowder)
+                        if (projectile.type == ProjectileID.CorruptSpray || projectile.type == ProjectileID.VilePowder)
                         {
                             AstralBiome.ConvertFromAstral(i, j, ConvertType.Corrupt, !isPowder);
                         }
-                        if (projectile.type == ProjectileID.CrimsonSpray)// || projectile.type == ProjectileID.ViciousPowder)
+                        if (projectile.type == ProjectileID.CrimsonSpray || projectile.type == ProjectileID.ViciousPowder)
                         {
                             AstralBiome.ConvertFromAstral(i, j, ConvertType.Crimson, !isPowder);
                         }
