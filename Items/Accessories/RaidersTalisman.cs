@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Accessories
             SacrificeTotal = 1;
             DisplayName.SetDefault("Raider's Talisman");
             Tooltip.SetDefault($"Landing a stealth strike grants a {(int)RaiderBonus}% crit bonus to non-stealth strikes\n" +
-                $"This damage bonus decays over {RaiderCooldown} seconds");
+                $"This crit bonus decays over {RaiderCooldown} seconds");
         }
 
         public override void SetDefaults()

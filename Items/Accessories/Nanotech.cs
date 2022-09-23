@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Accessories
                 "Stealth strikes have +20 armor penetration, deal 5% more damage, and heal for 1 HP\n" +
                 "15% increased rogue damage and 15% increased rogue velocity\n" +
                 $"Landing a stealth strike grants a {(int)RaidersTalisman.RaiderBonus}% crit bonus to non-stealth strikes\n" +
-                $"This damage bonus decays over {RaidersTalisman.RaiderCooldown} seconds");
+                $"This crit bonus decays over {RaidersTalisman.RaiderCooldown} seconds");
         }
 
         public override void SetDefaults()
