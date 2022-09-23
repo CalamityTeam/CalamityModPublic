@@ -82,6 +82,7 @@ namespace CalamityMod.Projectiles.Magic
                     float dmgKBMult = Main.rand.NextFloat(0.25f, 0.75f);
                     Projectile star = CalamityUtils.ProjectileRain(source, Projectile.Center, Projectile.velocity.X, 100f, 500f, 800f, Main.rand.NextFloat(10f, 20f), ModContent.ProjectileType<AstralStarMagic>(), (int)(Projectile.damage * dmgKBMult), Projectile.knockBack * dmgKBMult, Projectile.owner);
                     star.timeLeft = 120;
+                    star.ai[0] = 1f;
                 }
             }
 
