@@ -251,7 +251,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
 
         public override void HitEffect(int hitDirection, double damage)
         {
-            if (NPC.soundDelay == 0)
+            if (NPC.soundDelay == 0 && NPC.life >= NPC.lifeMax * 0.05f)
             {
                 NPC.soundDelay = 8;
                 SoundEngine.PlaySound(CommonCalamitySounds.OtherwordlyHitSound, NPC.Center);
