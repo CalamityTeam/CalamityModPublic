@@ -18,14 +18,15 @@ namespace CalamityMod.Projectiles.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Flesh Ball");
-            Main.projFrames[Projectile.type] = 4;
+            Main.projFrames[Projectile.type] = 6;
             ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
             ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            Projectile.width = Projectile.height = 32;
+            Projectile.width = 46;
+            Projectile.height = 38;
             Projectile.netImportant = true;
             Projectile.friendly = true;
             Projectile.ignoreWater = true;
@@ -74,7 +75,7 @@ namespace CalamityMod.Projectiles.Summon
         internal void DetermineFrames()
         {
             Projectile.frameCounter++;
-            if (Projectile.frameCounter % 5 == 4)
+            if (Projectile.frameCounter % 5 == 6)
                 Projectile.frame = (Projectile.frame + 1) % Main.projFrames[Projectile.type];
         }
 
