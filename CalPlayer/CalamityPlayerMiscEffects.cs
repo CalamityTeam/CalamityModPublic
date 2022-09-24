@@ -659,7 +659,9 @@ namespace CalamityMod.CalPlayer
 
                 for (int i = 0; i < Main.maxNPCs; i++)
                 {
-                    if (!Main.npc[i].active || Main.npc[i].friendly || Main.npc[i].lifeMax < 5 || alreadyTargetedNPCs.Contains(i) || Main.npc[i].realLife >= 0 || Main.npc[i].dontTakeDamage || Main.npc[i].immortal)
+                    NPC target = Main.npc[i];
+                    if (!target.active || target.friendly || target.lifeMax < 5 || alreadyTargetedNPCs.Contains(i) || target.realLife >= 0 ||
+                        target.dontTakeDamage || target.immortal || target.townNPC || NPCID.Sets.ActsLikeTownNPC[target.type] || NPCID.Sets.CountsAsCritter[target.type])
                         continue;
 
                     var source = Player.GetSource_Accessory(FindAccessory(ModContent.ItemType<DaawnlightSpiritOrigin>()));
