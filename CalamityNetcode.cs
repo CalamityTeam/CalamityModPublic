@@ -3,6 +3,7 @@ using CalamityMod.Items;
 using CalamityMod.NPCs;
 using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.NPCs.Providence;
+using CalamityMod.NPCs.TownNPCs;
 using CalamityMod.TileEntities;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -84,6 +85,18 @@ namespace CalamityMod
                     case CalamityModMessageType.DeleteAllSuperDummies:
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                             SuperDummy.DeleteDummies();
+                        break;
+                    case CalamityModMessageType.SyncAndroombaSolution:
+                        int index = reader.ReadInt32();
+                        int solType = reader.ReadInt32();
+                        if (Main.netMode != NetmodeID.MultiplayerClient)
+                            AndroombaFriendly.SwapSolution(index, solType);
+                        break;
+                    case CalamityModMessageType.SyncAndroombaAI:
+                        int idx = reader.ReadInt32();
+                        int phase = reader.ReadInt32();
+                        if (Main.netMode != NetmodeID.MultiplayerClient)
+                            AndroombaFriendly.ChangeAI(idx, phase);
                         break;
                     case CalamityModMessageType.ServersideSpawnOldDuke:
                         byte playerIndex2 = reader.ReadByte();
@@ -313,6 +326,8 @@ namespace CalamityMod
         SyncCalamityNPCAIArray,
         SpawnSuperDummy,
         DeleteAllSuperDummies,
+        SyncAndroombaSolution,
+        SyncAndroombaAI,
         ServersideSpawnOldDuke,
         ArmoredDiggerCountdownSync, // TODO -- remove this mechanic entirely
         ProvidenceDyeConditionSync, // TODO -- this packetstorms if you hit Provi with spam weapons. It should ONLY send a packet if the status changes.

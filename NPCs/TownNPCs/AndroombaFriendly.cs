@@ -1,5 +1,4 @@
 ﻿using CalamityMod.BiomeManagers;
-using CalamityMod.Items.Ammo;
 using CalamityMod.Items.Critters;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -50,7 +49,6 @@ namespace CalamityMod.NPCs.TownNPCs
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
-
                 // Will move to localization whenever that is cleaned up.
                 new FlavorTextBestiaryInfoElement("Easily reversed engineered, these robots can be made to spread whatever you put into them, giving them a new purpose.")
             });
@@ -69,7 +67,6 @@ namespace CalamityMod.NPCs.TownNPCs
                         {
                             NPC.ai[2] = (Main.LocalPlayer.position.X <= NPC.position.X) ? 1 : -1;
                         }
-                        GrabSolution(true);
                     }
                     break;
                 // Main
@@ -79,10 +76,9 @@ namespace CalamityMod.NPCs.TownNPCs
                         NPC.velocity.X = NPC.ai[2] * 2;
                         if (!Collision.CanHit(NPC.Center - Vector2.UnitX * NPC.ai[2] * 8f, 2, 2, NPC.Center + Vector2.UnitX * NPC.ai[2] * 32f, 8, 8))
                         {
-                            ChangeAI(2);
+                            ChangeAIHook(2);
                         }
                         Convert((int)NPC.ai[3]);
-                        GrabSolution(false);
                     }
                     break;
                 // Turn
@@ -90,69 +86,8 @@ namespace CalamityMod.NPCs.TownNPCs
                     {
                         NPC.velocity.X = 0;
                         Convert((int)NPC.ai[3]);
-                        GrabSolution(false);
                     }
                     break;
-            }
-        }
-
-        public void GrabSolution(bool reset = false)
-        {
-            if (Main.netMode != NetmodeID.Server)
-            {
-                bool holdingsol = ((Main.LocalPlayer.HeldItem.type >= ItemID.GreenSolution && Main.LocalPlayer.HeldItem.type <= ItemID.RedSolution) || Main.LocalPlayer.HeldItem.type == ModContent.ItemType<AstralSolution>());
-                if (NPC.Hitbox.Contains(Main.MouseWorld.ToPoint()) && holdingsol && Main.LocalPlayer.Distance(NPC.Center) < 450)
-                {
-                    Main.LocalPlayer.cursorItemIconEnabled = true;
-                    Main.LocalPlayer.cursorItemIconID = Main.LocalPlayer.HeldItem.type;
-                    Main.LocalPlayer.cursorItemIconText = "";
-                    NPC.ShowNameOnHover = false;
-
-                    if (Main.mouseRight && Main.mouseRightRelease && Main.LocalPlayer.Distance(NPC.Center) < 300)
-                    {
-                        NPC.netUpdate = true;
-
-                        int soltype = 0;
-                        if (Main.LocalPlayer.HeldItem.type == ModContent.ItemType<AstralSolution>())
-                        {
-                            soltype = 5;
-                        }
-                        else
-                        {
-                            switch (Main.LocalPlayer.HeldItem.type)
-                            {
-                                case ItemID.GreenSolution:
-                                    soltype = 0;
-                                    break;
-                                case ItemID.PurpleSolution:
-                                    soltype = 1;
-                                    break;
-                                case ItemID.BlueSolution:
-                                    soltype = 2;
-                                    break;
-                                case ItemID.DarkBlueSolution:
-                                    soltype = 3;
-                                    break;
-                                case ItemID.RedSolution:
-                                    soltype = 4;
-                                    break;
-                            }
-                        }
-                        if (NPC.ai[3] != soltype || NPC.ai[0] == 0)
-                        {
-                            Main.LocalPlayer.ConsumeItem(Main.LocalPlayer.HeldItem.type);
-                            SoundEngine.PlaySound(SoundID.Item87);
-                            NPC.ai[3] = soltype;
-                            if (reset)
-                            {
-                                ChangeAI(1);
-                            }
-                        }
-                    }
-                }
-
-                else
-                    NPC.ShowNameOnHover = true;
             }
         }
 
@@ -196,11 +131,47 @@ namespace CalamityMod.NPCs.TownNPCs
             }
         }
 
-        public void ChangeAI(int phase)
+        public void ChangeAIHook(int phase)
         {
-            NPC.ai[0] = phase;
-            NPC.ai[1] = 0;
-            NPC.netUpdate = true;
+            if (Main.netMode == NetmodeID.SinglePlayer)
+            {
+                ChangeAI(NPC.whoAmI, phase);
+            }
+            else
+            {
+                var netMessage = Mod.GetPacket();
+                netMessage.Write((byte)CalamityModMessageType.SyncAndroombaAI);
+                netMessage.Write(NPC.whoAmI);
+                netMessage.Write(phase);
+                netMessage.Send();
+            }
+        }
+
+        public static void ChangeAI(int index, int phase)
+        {
+            NPC npc = Main.npc[index];
+
+            if (npc is null || !npc.active)
+                return;
+
+            npc.ai[0] = phase;
+            npc.ai[1] = 0;
+            npc.netUpdate = true;
+            if (Main.netMode == NetmodeID.Server)
+                NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, index);
+        }
+
+        public static void SwapSolution(int index, int solutionType)
+        {
+            NPC npc = Main.npc[index];
+
+            if (npc is null || !npc.active)
+                return;
+
+            npc.ai[3] = solutionType;
+            npc.netUpdate = true;
+            if (Main.netMode == NetmodeID.Server)
+                NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, index);
         }
 
         public override bool? CanBeHitByItem(Player player, Item item) => null;
@@ -242,7 +213,7 @@ namespace CalamityMod.NPCs.TownNPCs
                 {
                     NPC.frame.Y = frameHeight;
                     NPC.ai[2] *= -1;
-                    ChangeAI(1);
+                    ChangeAIHook(1);
                 }
             }
             // Sleep
