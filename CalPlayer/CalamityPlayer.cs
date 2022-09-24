@@ -6831,6 +6831,9 @@ namespace CalamityMod.CalPlayer
         #region Defense Damage Function
         private void DealDefenseDamage(int damage)
         {
+            if (damage <= 0)
+                return;
+
             double ratioToUse = DefenseDamageRatio;
             if (draedonsHeart)
                 ratioToUse *= 0.5;
