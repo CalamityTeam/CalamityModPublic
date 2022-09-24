@@ -21,6 +21,7 @@ namespace CalamityMod.NPCs.TownNPCs
         {
             DisplayName.SetDefault("Androomba Pal");
             Main.npcFrameCount[NPC.type] = 9;
+            Main.npcCatchable[NPC.type] = true;
         }
 
         public override void SetDefaults()
@@ -44,17 +45,14 @@ namespace CalamityMod.NPCs.TownNPCs
             NPC.dontTakeDamage = true;
         }
 
-        public override bool CanChat()
-        {
-            return false;
-        }
+        public override bool CanChat() => false;
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
 
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("Easily reversed engineered, these robots can be made to spread whatever you put into them, giving them a new purpose.")
+                // Will move to localization whenever that is cleaned up.
+                new FlavorTextBestiaryInfoElement("Easily reversed engineered, these robots can be made to spread whatever you put into them, giving them a new purpose.")
             });
         }
 
@@ -213,8 +211,8 @@ namespace CalamityMod.NPCs.TownNPCs
         {
             /*
             -Frame 0: Asleep
-		    -Frames 1-4: Moving
-		    -Frames 5-9: Turning
+            -Frames 1-4: Moving
+            -Frames 5-9: Turning
             */
             NPC.frameCounter += 1.0;
             if (NPC.frameCounter > 6.0)

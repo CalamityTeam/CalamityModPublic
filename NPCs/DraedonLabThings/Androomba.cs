@@ -19,6 +19,7 @@ namespace CalamityMod.NPCs.DraedonLabThings
             DisplayName.SetDefault("Androomba");
             Main.npcFrameCount[NPC.type] = 22;
             NPCID.Sets.CountsAsCritter[NPC.type] = true;
+            Main.npcCatchable[NPC.type] = true;
         }
 
         public override void SetDefaults()

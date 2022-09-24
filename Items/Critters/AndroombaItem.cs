@@ -29,27 +29,8 @@ namespace CalamityMod.Items.Critters
             Item.value = Item.buyPrice(0, 0, 30, 0);
             Item.width = 36;
             Item.height = 16;
-            //Item.makeNPC = (short)ModContent.NPCType<AndroombaFriendly>();  This doesn't work apparently
+            Item.makeNPC = (short)ModContent.NPCType<AndroombaFriendly>();
             Item.rare = ModContent.RarityType<DarkOrange>();
-        }
-
-        public override bool? UseItem(Player player)
-        {
-            if (Main.LocalPlayer.Distance(Main.MouseWorld) < 300)
-            {
-                if (Main.netMode != NetmodeID.MultiplayerClient)
-                {
-                    NPC.NewNPC(new EntitySource_BossSpawn(player), (int)Main.MouseWorld.X, (int)Main.MouseWorld.Y, ModContent.NPCType<AndroombaFriendly>(), 1);
-                }
-                else
-                    NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, ModContent.NPCType<AndroombaFriendly>());
-
-                return true;
-            }
-            else
-            {
-                return false;
-            }
         }
     }
 }
