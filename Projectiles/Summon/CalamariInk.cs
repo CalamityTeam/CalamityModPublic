@@ -22,12 +22,14 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.width = 14;
             Projectile.height = 14;
             Projectile.friendly = true;
-            Projectile.penetrate = 1;
+            Projectile.penetrate = 5;
             Projectile.timeLeft = 180;
             Projectile.minion = true;
             Projectile.minionSlots = 0f;
-            Projectile.extraUpdates = 1;
+            Projectile.extraUpdates = 2;
             Projectile.DamageType = DamageClass.Summon;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = -1;
         }
 
         public override void AI()

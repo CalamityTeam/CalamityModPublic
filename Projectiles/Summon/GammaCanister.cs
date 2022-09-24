@@ -26,6 +26,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.tileCollide = true;
             Projectile.ignoreWater = true;
             Projectile.DamageType = DamageClass.Summon;
+            Projectile.extraUpdates = 1;
         }
         public override void AI()
         {

@@ -98,7 +98,6 @@ namespace CalamityMod.Projectiles.Summon
                 SoundEngine.PlaySound(SoundID.Zombie35, Projectile.position);
             }
 
-            // 
             if (Projectile.ai[0] == 2f)
             {
                 Projectile.ai[1] -= 1f;
@@ -141,20 +140,20 @@ namespace CalamityMod.Projectiles.Summon
             // Prevent clumping
             Projectile.MinionAntiClump();
 
-            // 
+            // Find a target
             Vector2 shootPosition = Projectile.position;
-            float range = 3000f;
+            float range = 3500f;
             bool foundTarget = false;
             Vector2 center = player.Center;
-            Vector2 value = new Vector2(0.5f);
-            value.Y = 0f;
+            Vector2 half = new Vector2(0.5f);
+            half.Y = 0f;
             int targetIndex = -1;
             if (player.HasMinionAttackTargetNPC)
             {
                 NPC npc = Main.npc[player.MinionAttackTargetNPC];
                 if (npc.CanBeChasedBy(Projectile, false))
                 {
-                    Vector2 npcPos = npc.position + npc.Size * value;
+                    Vector2 npcPos = npc.position + npc.Size * half;
                     float npcDist = Vector2.Distance(npcPos, center);
                     if (!foundTarget && npcDist < range && Collision.CanHitLine(Projectile.position, Projectile.width, Projectile.height, npc.position, npc.width, npc.height))
                     {
@@ -171,7 +170,7 @@ namespace CalamityMod.Projectiles.Summon
                     NPC npc = Main.npc[k];
                     if (npc.CanBeChasedBy(Projectile, false))
                     {
-                        Vector2 npcPos = npc.position + npc.Size * value;
+                        Vector2 npcPos = npc.position + npc.Size * half;
                         float npcDist = Vector2.Distance(npcPos, center);
                         if (!foundTarget && npcDist < range && Collision.CanHitLine(Projectile.position, Projectile.width, Projectile.height, npc.position, npc.width, npc.height))
                         {
@@ -183,6 +182,8 @@ namespace CalamityMod.Projectiles.Summon
                     }
                 }
             }
+
+            // Return to the player when far away
             int returnDist = 3500;
             if (foundTarget)
             {
@@ -193,99 +194,100 @@ namespace CalamityMod.Projectiles.Summon
                 Projectile.ai[0] = 1f;
                 Projectile.netUpdate = true;
             }
+
+            // Position towards the target
             if (foundTarget && Projectile.ai[0] == 0f)
             {
-                Vector2 vector4 = shootPosition - Projectile.Center;
-                float num17 = vector4.Length();
-                vector4.Normalize();
-                vector4 = shootPosition - Vector2.UnitY * 80f;
-                int num18 = (int)vector4.Y / 16;
-                if (num18 < 0)
+                Vector2 shootDir = shootPosition - Projectile.Center;
+                shootDir.Normalize();
+                shootDir = shootPosition - Vector2.UnitY * 80f;
+                int tileY = (int)shootDir.Y / 16;
+                if (tileY < 0)
                 {
-                    num18 = 0;
+                    tileY = 0;
                 }
-                Tile tile = Main.tile[(int)vector4.X / 16, num18];
+                Tile tile = Main.tile[(int)shootDir.X / 16, tileY];
                 if (tile != null && tile.HasTile && Main.tileSolid[tile.TileType] && !Main.tileSolidTop[tile.TileType])
                 {
-                    vector4 += Vector2.UnitY * 16f;
-                    tile = Main.tile[(int)vector4.X / 16, (int)vector4.Y / 16];
+                    shootDir += Vector2.UnitY * 16f;
+                    tile = Main.tile[(int)shootDir.X / 16, (int)shootDir.Y / 16];
                     if (tile != null && tile.HasTile && Main.tileSolid[tile.TileType] && !Main.tileSolidTop[tile.TileType])
                     {
-                        vector4 += Vector2.UnitY * 16f;
+                        shootDir += Vector2.UnitY * 16f;
                     }
                 }
-                vector4 -= Projectile.Center;
-                num17 = vector4.Length();
-                vector4.Normalize();
-                if (num17 > 300f && num17 <= 1600f && Projectile.localAI[0] == 0f)
+                shootDir -= Projectile.Center;
+                float distance = shootDir.Length();
+                shootDir.Normalize();
+                if (distance > 300f && distance <= 1600f && Projectile.localAI[0] == 0f)
                 {
                     Projectile.ai[0] = 2f;
-                    Projectile.ai[1] = (int)(num17 / 10f);
-                    Projectile.extraUpdates = (int)(Projectile.ai[1] * 2f);
-                    Projectile.velocity = vector4 * 15f;
+                    Projectile.ai[1] = (int)(distance / 10f);
+                    Projectile.extraUpdates = (int)(Projectile.ai[1] * 2f) + 1;
+                    Projectile.velocity = shootDir * 20f;
                     Projectile.localAI[0] = 60f;
                     return;
                 }
-                if (num17 > 200f)
+                if (distance > 200f)
                 {
                     float scaleFactor2 = 20f;
-                    vector4 *= scaleFactor2;
-                    Projectile.velocity.X = (Projectile.velocity.X * 60f + vector4.X) / 61f;
-                    Projectile.velocity.Y = (Projectile.velocity.Y * 60f + vector4.Y) / 61f;
+                    shootDir *= scaleFactor2;
+                    Projectile.velocity.X = (Projectile.velocity.X * 30f + shootDir.X) / 31f;
+                    Projectile.velocity.Y = (Projectile.velocity.Y * 30f + shootDir.Y) / 31f;
                 }
-                if (num17 > 70f && num17 < 130f)
+                if (distance > 70f && distance < 130f)
                 {
                     float scaleFactor3 = 18f;
-                    if (num17 < 100f)
+                    if (distance < 100f)
                     {
                         scaleFactor3 = -7.5f;
                     }
-                    vector4 *= scaleFactor3;
-                    Projectile.velocity = (Projectile.velocity * 30f + vector4) / 31f;
-                    if (Math.Abs(vector4.X) > Math.Abs(vector4.Y))
+                    shootDir *= scaleFactor3;
+                    Projectile.velocity = (Projectile.velocity * 15f + shootDir) / 16f;
+                    if (Math.Abs(shootDir.X) > Math.Abs(shootDir.Y))
                     {
-                        Projectile.velocity.X = (Projectile.velocity.X * 15f + vector4.X) / 16f;
+                        Projectile.velocity.X = (Projectile.velocity.X * 6f + shootDir.X) / 7f;
                     }
                 }
                 else
                 {
-                    Projectile.velocity *= 0.97f;
+                    Projectile.velocity *= 0.99f;
                 }
             }
+
+            // Idle Behavior
             else
             {
-                // Idle Behavior
                 if (!Collision.CanHitLine(Projectile.Center, 1, 1, Main.player[Projectile.owner].Center, 1, 1))
                 {
                     Projectile.ai[0] = 1f;
                 }
-                float num21 = 12f; //6
+                float returnSpd = 12f; //6
                 if (Projectile.ai[0] == 1f)
                 {
-                    num21 = 18f; //15
+                    returnSpd = 18f; //15
                 }
-                Vector2 center2 = Projectile.Center;
-                Vector2 vector6 = player.Center - center2 + new Vector2(0f, -60f);
-                float num23 = vector6.Length();
-                if (num23 > 200f && num21 < 13.5f)
+                Vector2 returnPos = player.Center - Projectile.Center + new Vector2(0f, -60f);
+                float returnPosDist = returnPos.Length();
+                if (returnPosDist > 200f && returnSpd < 13.5f)
                 {
-                    num21 = 13.5f; //9
+                    returnSpd = 13.5f; //9
                 }
-                if (num23 < 800f && Projectile.ai[0] == 1f)
+                if (returnPosDist < 800f && Projectile.ai[0] == 1f)
                 {
                     Projectile.ai[0] = 0f;
                     Projectile.netUpdate = true;
                 }
-                if (num23 > 4000f)
+                if (returnPosDist > 4000f)
                 {
                     Projectile.position.X = player.Center.X - (Projectile.width / 2);
                     Projectile.position.Y = player.Center.Y - (Projectile.width / 2);
                 }
-                if (num23 > 70f)
+                if (returnPosDist > 70f)
                 {
-                    vector6.Normalize();
-                    vector6 *= num21;
-                    Projectile.velocity = (Projectile.velocity * 20f + vector6) / 21f;
+                    returnPos.Normalize();
+                    returnPos *= returnSpd;
+                    Projectile.velocity = (Projectile.velocity * 20f + returnPos) / 21f;
                 }
                 else
                 {
@@ -300,6 +302,8 @@ namespace CalamityMod.Projectiles.Summon
 
             // Update rotation
             Projectile.rotation = Projectile.velocity.X * 0.025f;
+
+            // Update shoot cooldown
             if (Projectile.ai[1] > 0f)
             {
                 Projectile.ai[1] += 1f;
@@ -317,13 +321,13 @@ namespace CalamityMod.Projectiles.Summon
             // Shoot projectiles
             if (Projectile.ai[0] == 0f)
             {
-                float inkShootSpeed = 12f;
+                float inkShootSpeed = 15f;
                 int projID = ModContent.ProjectileType<CalamariInk>();
                 if (foundTarget)
                 {
                     if (Math.Abs((shootPosition - Projectile.Center).ToRotation() - MathHelper.PiOver2) > MathHelper.PiOver4)
                     {
-                        Projectile.velocity += (shootPosition - Projectile.Center - Vector2.UnitY * 100f).SafeNormalize(Vector2.Zero);
+                        Projectile.velocity += (shootPosition - Projectile.Center - Vector2.UnitY * 100f).SafeNormalize(Vector2.Zero) * 2f;
                         return;
                     }
                     if ((shootPosition - Projectile.Center).Length() <= 600f && Projectile.ai[1] == 0f)
