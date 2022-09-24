@@ -181,6 +181,7 @@ namespace CalamityMod
                 return;
 
 			wiki.Call("AddModURL", calamity, CalamityWikiURL);
+			wiki.Call("0", calamity, CalamityWikiURL);
 
 			// Clear up name conflicts
             void ItemRedirect(int item, string pageName)
