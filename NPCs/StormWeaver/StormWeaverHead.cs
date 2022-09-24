@@ -855,7 +855,8 @@ namespace CalamityMod.NPCs.StormWeaver
                 chargePhaseGateValue *= 0.5f;
 
             int buffDuration = NPC.Calamity().newAI[0] >= chargePhaseGateValue ? 480 : 240;
-            player.AddBuff(BuffID.Electrified, buffDuration, true);
+            if (damage > 0)
+                player.AddBuff(BuffID.Electrified, buffDuration, true);
         }
 
         public override bool CheckActive()

@@ -4149,6 +4149,12 @@ namespace CalamityMod.NPCs
         #region On Hit Player
         public override void OnHitPlayer(NPC npc, Player target, int damage, bool crit)
         {
+            if (damage > 0)
+                return;
+
+            if (target.Calamity().sulfurSet)
+                npc.AddBuff(BuffID.Poisoned, 120);
+
             if (target.Calamity().snowman)
             {
                 if (npc.type == NPCID.Demon || npc.type == NPCID.VoodooDemon || npc.type == NPCID.RedDevil)
@@ -4159,6 +4165,27 @@ namespace CalamityMod.NPCs
 
             switch (npc.type)
             {
+                case NPCID.ShadowFlameApparition:
+                    target.AddBuff(BuffType<Shadowflame>(), 180);
+                    break;
+                case NPCID.ChaosBall:
+                    if (Main.hardMode || CalamityPlayer.areThereAnyDamnBosses)
+                        target.AddBuff(BuffType<Shadowflame>(), 180);
+                    break;
+
+                case NPCID.Spazmatism:
+                    if (npc.ai[0] != 1f && npc.ai[0] != 2f && npc.ai[0] != 0f)
+                        target.AddBuff(BuffID.Bleeding, 600);
+                    break;
+
+                case NPCID.Plantera:
+                    if (npc.life < npc.lifeMax / 2)
+                        target.AddBuff(BuffID.Poisoned, 600);
+                    break;
+                case NPCID.PlanterasTentacle:
+                    target.AddBuff(BuffID.Poisoned, 300);
+                    break;
+
                 case NPCID.Golem:
                     target.AddBuff(BuffType<ArmorCrunch>(), 480);
                     break;
@@ -4168,6 +4195,32 @@ namespace CalamityMod.NPCs
                 case NPCID.GolemFistRight:
                 case NPCID.GolemFistLeft:
                     target.AddBuff(BuffType<ArmorCrunch>(), 240);
+                    break;
+
+                case NPCID.AncientDoom:
+                    target.AddBuff(BuffType<Shadowflame>(), 180);
+                    break;
+                case NPCID.AncientLight:
+                    target.AddBuff(BuffType<HolyFlames>(), 180);
+                    break;
+
+                case NPCID.HallowBoss:
+                    target.AddBuff(BuffType<HolyFlames>(), 480);
+                    break;
+
+                case NPCID.BloodNautilus:
+                    target.AddBuff(BuffType<BurningBlood>(), 480);
+                    break;
+
+                case NPCID.GoblinShark:
+                case NPCID.BloodEelHead:
+                    target.AddBuff(BuffType<BurningBlood>(), 300);
+                    break;
+                case NPCID.BloodEelBody:
+                    target.AddBuff(BuffType<BurningBlood>(), 180);
+                    break;
+                case NPCID.BloodEelTail:
+                    target.AddBuff(BuffType<BurningBlood>(), 120);
                     break;
 
                 case NPCID.Lavabat:
