@@ -1634,6 +1634,8 @@ namespace CalamityMod.NPCs
             if (type == NPCID.Steampunker)
             {
                 SetShopItem(ref shop, ref nextSlot, ItemType<AstralSolution>(), price: Item.buyPrice(0, 0, 5));
+                SetShopItem(ref shop, ref nextSlot, ItemID.PurpleSolution, Main.LocalPlayer.ZoneGraveyard && WorldGen.crimson, price: Item.buyPrice(0, 0, 5));
+                SetShopItem(ref shop, ref nextSlot, ItemID.RedSolution, Main.LocalPlayer.ZoneGraveyard && !WorldGen.crimson, price: Item.buyPrice(0, 0, 5));
             }
 
             if (type == NPCID.Wizard)
@@ -1644,7 +1646,7 @@ namespace CalamityMod.NPCs
                 SetShopItem(ref shop, ref nextSlot, ItemID.PotionOfReturn, true, Item.buyPrice(0, goldCost, 0, 0));
                 SetShopItem(ref shop, ref nextSlot, ItemType<HowlsHeart>());
                 SetShopItem(ref shop, ref nextSlot, ItemID.MagicMissile, price: Item.buyPrice(0, 5));
-                SetShopItem(ref shop, ref nextSlot, ItemID.RodofDiscord, Main.hardMode && Main.LocalPlayer.ZoneHallow, price: Item.buyPrice(10), true);
+                SetShopItem(ref shop, ref nextSlot, ItemID.RodofDiscord, Main.hardMode && Main.LocalPlayer.ZoneHallow, price: Item.buyPrice(10));
                 SetShopItem(ref shop, ref nextSlot, ItemID.SpectreStaff, NPC.downedGolemBoss, Item.buyPrice(0, 25));
                 SetShopItem(ref shop, ref nextSlot, ItemID.InfernoFork, NPC.downedGolemBoss, Item.buyPrice(0, 25));
                 SetShopItem(ref shop, ref nextSlot, ItemID.ShadowbeamStaff, NPC.downedGolemBoss, Item.buyPrice(0, 25));
@@ -1691,7 +1693,7 @@ namespace CalamityMod.NPCs
             }
         }
 
-        public void SetShopItem(ref Chest shop, ref int nextSlot, int itemID, bool condition = true, int? price = null, bool ignoreDiscount = false)
+        public void SetShopItem(ref Chest shop, ref int nextSlot, int itemID, bool condition = true, int? price = null)
         {
             if (condition)
             {
@@ -1699,8 +1701,6 @@ namespace CalamityMod.NPCs
                 if (price != null)
                 {
                     shop.item[nextSlot].shopCustomPrice = price;
-                    if (Main.LocalPlayer.discount && !ignoreDiscount)
-                      shop.item[nextSlot].shopCustomPrice = (int)(shop.item[nextSlot].shopCustomPrice * 0.8);
                 }
 
                 nextSlot++;
