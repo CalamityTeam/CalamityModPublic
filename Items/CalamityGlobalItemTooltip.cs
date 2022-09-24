@@ -484,7 +484,7 @@ namespace CalamityMod.Items
             if (item.type == ItemID.CrimsonHeart || item.type == ItemID.ShadowOrb || item.type == ItemID.MagicLantern || item.type == ItemID.JellyfishNecklace ||
                 item.type == ItemID.MiningHelmet || item.type == ItemID.UltrabrightHelmet)
                 EditTooltipByNum(0, (line) => line.Text += abyssSmallLightLine);
-            if (item.type == ItemID.JellyfishDivingGear)
+            if (item.type == ItemID.JellyfishDivingGear || item.type == ItemID.Magiluminescence)
                 EditTooltipByNum(1, (line) => line.Text += abyssSmallLightLine);
 
             // +2 to Abyss light level
@@ -594,7 +594,8 @@ namespace CalamityMod.Items
 
             // Magiluminescence nerf and clear explanation of what it actually does.
             if (item.type == ItemID.Magiluminescence)
-                EditTooltipByNum(0, (line) => line.Text = "Increases movement acceleration and deceleration by 1.25x");
+                EditTooltipByNum(0, (line) => line.Text = "Increases movement acceleration and deceleration by 1.25x\n" +
+                "Increases movement speed by 1.05x. This bonus applies to running boot accessories");
 
             // Soaring Insignia nerf and clear explanation of what it actually does.
             if (item.type == ItemID.EmpressFlightBooster)

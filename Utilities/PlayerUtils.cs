@@ -107,6 +107,8 @@ namespace CalamityMod
                 light += 1;
             if (miningHelmet)
                 light += 1;
+            if (player.hasMagiluminescence)
+                light += 1;
             if (player.lightOrb)
                 light += 1;
             if (player.crimsonHeart)

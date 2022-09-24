@@ -77,7 +77,7 @@ namespace CalamityMod.ILEditing
                 LogFailure("Magiluminescence Nerf", "Could not locate the Magiluminescence max run speed multiplier.");
                 return;
             }
-            cursor.Next.Operand = 1f;
+            cursor.Next.Operand = 1.05f;
 
             // Nerf the acc run speed boost from 1.2x to 1x.
             if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(1.2f)))
@@ -85,7 +85,7 @@ namespace CalamityMod.ILEditing
                 LogFailure("Magiluminescence Nerf", "Could not locate the Magiluminescence acc run speed multiplier.");
                 return;
             }
-            cursor.Next.Operand = 1f;
+            cursor.Next.Operand = 1.05f;
 
             // Nerf the run slowdown boost from 2x to 1.25x.
             if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(2f)))
