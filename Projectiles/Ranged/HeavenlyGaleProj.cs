@@ -93,7 +93,7 @@ namespace CalamityMod.Projectiles.Ranged
                     SquishyLightParticle exoEnergyBolt = new(tipPosition + arrowDirection * 16f, arrowDirection * 4.5f, 0.85f, energyBoltColor, 40, 1f, 5.4f, 4f, 0.08f);
                     GeneralParticleHandler.SpawnParticle(exoEnergyBolt);
                     
-                    // Update the tip positiona for one frame.
+                    // Update the tip position for one frame.
                     tipPosition = armPosition + arrowDirection * Projectile.width * 0.5f;
 
                     if (Main.myPlayer == Projectile.owner)
