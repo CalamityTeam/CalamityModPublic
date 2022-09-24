@@ -64,6 +64,9 @@ namespace CalamityMod.Projectiles.Enemy
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
+            if (damage <= 0)
+                return;
+
             if (Projectile.alpha == 80)
                 target.AddBuff(BuffID.Darkness, 300, true);
         }

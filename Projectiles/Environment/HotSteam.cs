@@ -32,8 +32,12 @@ namespace CalamityMod.Projectiles.Environment
                 dust.alpha = 127;
             }
         }
+
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
+            if (damage <= 0)
+                return;
+
             target.AddBuff(BuffID.Poisoned, 180);
         }
     }
