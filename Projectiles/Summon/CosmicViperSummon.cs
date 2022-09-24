@@ -41,7 +41,7 @@ namespace CalamityMod.Projectiles.Summon
         }
 
         // Defines an Item which is a hacked clone of a P90, edited to be summon class instead of ranged.
-        // The false gun's damage is changed to the appropriate value every time a Tactical Plague Jet wants to fire a bullet.
+        // The false gun's damage is changed to the appropriate value every time a Cosmic Viper wants to fire a bullet.
         private static void DefineFalseGun(int baseDamage)
         {
             int p90ID = ModContent.ItemType<P90>();
