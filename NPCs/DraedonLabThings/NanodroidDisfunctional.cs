@@ -32,6 +32,20 @@ namespace CalamityMod.NPCs.DraedonLabThings
             {
                 Lighting.AddLight(NPC.Center, 0.25f, 0.1f, 0f);
             }
+            for (int i = 0; i < Main.maxPlayers; i++)
+            {
+                Player player = Main.player[i];
+                if (player is null || !player.active)
+                    continue;
+
+                if (NPC.Hitbox.Intersects(player.HitboxForBestiaryNearbyCheck))
+                {
+                    NPC nPC = new NPC();
+                    nPC.SetDefaults(ModContent.NPCType<Nanodroid>());
+                    Main.BestiaryTracker.Sights.RegisterWasNearby(nPC);
+                    break;
+                }
+            }
         }
 
         public override bool? CanBeHitByItem(Player player, Item item) => null;
@@ -51,16 +65,6 @@ namespace CalamityMod.NPCs.DraedonLabThings
         {
             for (int i = 0; i < 6; i++)
                 Dust.NewDustDirect(NPC.position, NPC.width, NPC.height, 226);
-        }
-
-        public override void OnKill()
-        {
-            if (NPC.GetWereThereAnyInteractions())
-            {
-                NPC nPC = new NPC();
-                nPC.SetDefaults(ModContent.NPCType<Nanodroid>());
-                Main.BestiaryTracker.Kills.RegisterKill(nPC);
-            }
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)

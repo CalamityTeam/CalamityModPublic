@@ -46,6 +46,22 @@ namespace CalamityMod.NPCs.NormalNPCs
             NPC.Calamity().VulnerableToSickness = true;
         }
 
+        public override void AI()
+        {
+            for (int i = 0; i < Main.maxPlayers; i++)
+            {
+                Player player = Main.player[i];
+                if (player is null || !player.active)
+                    continue;
+
+                if (NPC.Hitbox.Intersects(player.HitboxForBestiaryNearbyCheck))
+                {
+                    Main.BestiaryTracker.Sights.RegisterWasNearby(NPC);
+                    break;
+                }
+            }
+        }
+
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {

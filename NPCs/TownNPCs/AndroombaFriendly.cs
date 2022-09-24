@@ -89,6 +89,19 @@ namespace CalamityMod.NPCs.TownNPCs
                     }
                     break;
             }
+
+            for (int i = 0; i < Main.maxPlayers; i++)
+            {
+                Player player = Main.player[i];
+                if (player is null || !player.active)
+                    continue;
+
+                if (NPC.Hitbox.Intersects(player.HitboxForBestiaryNearbyCheck))
+                {
+                    Main.BestiaryTracker.Sights.RegisterWasNearby(NPC);
+                    break;
+                }
+            }
         }
 
         public void Convert(int conversionType)
