@@ -98,7 +98,7 @@ namespace CalamityMod.NPCs.TownNPCs
 
                 if (NPC.Hitbox.Intersects(player.HitboxForBestiaryNearbyCheck))
                 {
-                    Main.BestiaryTracker.Sights.RegisterWasNearby(NPC);
+                    Main.BestiaryTracker.Chats.RegisterChatStartWith(NPC);
                     break;
                 }
             }

@@ -20,6 +20,7 @@ namespace CalamityMod.NPCs.DraedonLabThings
             Main.npcFrameCount[NPC.type] = 22;
             NPCID.Sets.CountsAsCritter[NPC.type] = true;
             Main.npcCatchable[NPC.type] = true;
+            NPCID.Sets.NormalGoldCritterBestiaryPriority.Add(Type);
         }
 
         public override void SetDefaults()
@@ -135,6 +136,19 @@ namespace CalamityMod.NPCs.DraedonLabThings
                         NPC.damage = 10; // Stay aware from fire, kids
                     }
                     break;
+            }
+
+            for (int i = 0; i < Main.maxPlayers; i++)
+            {
+                Player player = Main.player[i];
+                if (player is null || !player.active)
+                    continue;
+
+                if (NPC.Hitbox.Intersects(player.HitboxForBestiaryNearbyCheck))
+                {
+                    Main.BestiaryTracker.Kills.RegisterKill(NPC);
+                    break;
+                }
             }
         }
 

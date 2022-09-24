@@ -56,7 +56,9 @@ namespace CalamityMod.NPCs.NormalNPCs
 
                 if (NPC.Hitbox.Intersects(player.HitboxForBestiaryNearbyCheck))
                 {
-                    Main.BestiaryTracker.Sights.RegisterWasNearby(NPC);
+                    NPC nPC = new NPC();
+                    nPC.SetDefaults(ModContent.NPCType<Piggy>());
+                    Main.BestiaryTracker.Kills.RegisterKill(nPC);
                     break;
                 }
             }

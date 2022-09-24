@@ -133,7 +133,7 @@ namespace CalamityMod.NPCs.DraedonLabThings
 
                 if (NPC.Hitbox.Intersects(player.HitboxForBestiaryNearbyCheck))
                 {
-                    Main.BestiaryTracker.Sights.RegisterWasNearby(NPC);
+                    Main.BestiaryTracker.Kills.RegisterKill(NPC);
                     break;
                 }
             }
