@@ -461,7 +461,8 @@ namespace CalamityMod.NPCs.OldDuke
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(ModContent.BuffType<Irradiated>(), 480);
+            if (damage > 0)
+                player.AddBuff(ModContent.BuffType<Irradiated>(), 480);
         }
 
         public override void HitEffect(int hitDirection, double damage)

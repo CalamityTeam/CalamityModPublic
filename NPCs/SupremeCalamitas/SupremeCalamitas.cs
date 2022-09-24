@@ -2890,7 +2890,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(ModContent.BuffType<VulnerabilityHex>(), 600, true);
+            if (damage > 0)
+                player.AddBuff(ModContent.BuffType<VulnerabilityHex>(), 600, true);
         }
     }
 }

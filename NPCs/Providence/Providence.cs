@@ -315,7 +315,7 @@ namespace CalamityMod.NPCs.Providence
             float maxDistance = (AIState == (int)Phase.FlameCocoon || AIState == (int)Phase.SpearCocoon) ? shorterDistance : baseDistance;
             if (Vector2.Distance(player.Center, vector) > maxDistance)
             {
-                if (!player.dead && player.active)
+                if (!player.dead && player.active && !player.creativeGodMode)
                     player.AddBuff(ModContent.BuffType<HolyInferno>(), 2);
             }
 

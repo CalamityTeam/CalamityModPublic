@@ -529,7 +529,8 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(ModContent.BuffType<HolyFlames>(), 300, true);
+            if (damage > 0)
+                player.AddBuff(ModContent.BuffType<HolyFlames>(), 300, true);
         }
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)

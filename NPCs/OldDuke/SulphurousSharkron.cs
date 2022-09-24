@@ -264,7 +264,8 @@ namespace CalamityMod.NPCs.OldDuke
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(ModContent.BuffType<Irradiated>(), 240);
+            if (damage > 0)
+                player.AddBuff(ModContent.BuffType<Irradiated>(), 240);
         }
 
         public override bool CheckDead()

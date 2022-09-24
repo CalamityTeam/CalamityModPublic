@@ -657,7 +657,8 @@ namespace CalamityMod.NPCs.GreatSandShark
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(BuffID.Bleeding, 600, true);
+            if (damage > 0)
+                player.AddBuff(BuffID.Bleeding, 600, true);
         }
     }
 }

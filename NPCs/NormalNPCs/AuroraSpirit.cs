@@ -98,8 +98,11 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(BuffID.Frostburn, 90, true);
-            player.AddBuff(BuffID.Chilled, 60, true);
+            if (damage > 0)
+            {
+                player.AddBuff(BuffID.Frostburn, 90, true);
+                player.AddBuff(BuffID.Chilled, 60, true);
+            }
         }
 
         public override void AI()
