@@ -203,6 +203,7 @@ namespace CalamityMod.CalPlayer
         public int bloodflareHeartTimer = 300;
         public int polarisBoostCounter = 0;
         public int dragonRageHits = 0;
+        public int dragonRageCooldown = 0;
         public float modStealth = 1f;
         public float aquaticBoostMax = 10000f;
         public float aquaticBoost = 0f;
@@ -2129,6 +2130,7 @@ namespace CalamityMod.CalPlayer
             externalColdImmunity = externalHeatImmunity = false;
             polarisBoostCounter = 0;
             dragonRageHits = 0;
+			dragonRageCooldown = 0;
             spectralVeilImmunity = 0;
             jetPackDash = 0;
             jetPackDirection = 0;

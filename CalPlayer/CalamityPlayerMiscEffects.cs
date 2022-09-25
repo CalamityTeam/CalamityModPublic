@@ -1079,6 +1079,8 @@ namespace CalamityMod.CalPlayer
                 KameiBladeUseDelay--;
             if (galileoCooldown > 0)
                 galileoCooldown--;
+            if (dragonRageCooldown > 0)
+                dragonRageCooldown--;
             if (soundCooldown > 0)
                 soundCooldown--;
             if (shadowPotCooldown > 0)

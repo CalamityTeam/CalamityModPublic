@@ -179,8 +179,8 @@ namespace CalamityMod.Balancing
             // 25% resist to Resurrection Butterfly.
             NPCSpecificBalancingChanges.Add(new NPCBalancingChange(NPCID.CultistBoss, Do(new ProjectileResistBalancingRule(0.75f, ProjectileType<SakuraBullet>(), ProjectileType<PurpleButterfly>()))));
 
-            // 30% resist to Art Attack.
-            NPCSpecificBalancingChanges.Add(new NPCBalancingChange(NPCID.CultistBoss, Do(new ProjectileResistBalancingRule(0.7f, ProjectileType<ArtAttackStrike>()))));
+            // 20% resist to Art Attack and Nightglow.
+            NPCSpecificBalancingChanges.Add(new NPCBalancingChange(NPCID.CultistBoss, Do(new ProjectileResistBalancingRule(0.8f, ProjectileType<ArtAttackStrike>(), ProjectileID.FairyQueenMagicItemShot))));
 
             #endregion Cultist
 
@@ -256,23 +256,23 @@ namespace CalamityMod.Balancing
 
             #region Ares
 
-            // 75% resist to Dragon Rage projectiles.
-            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.AresIDs, Do(new ProjectileSpecificRequirementBalancingRule(0.25f, DragonRageFilter))));
-
-            // 60% resist to Murasama.
-            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.AresIDs, Do(new ProjectileResistBalancingRule(0.4f, ProjectileType<MurasamaSlash>()))));
-
             // 50% resist to true melee.
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.AresIDs, Do(new TrueMeleeResistBalancingRule(0.5f))));
-
-            // 50% resist to Enforcer projectiles.
-            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.AresIDs, Do(new ProjectileResistBalancingRule(0.5f, ProjectileType<EssenceFlame2>()))));
 
             // 30% resist to the Spin Throw part of the Ark of the Cosmos' combo
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.AresIDs, Do(new ProjectileSpecificRequirementBalancingRule(0.7f, AotCThrowCombo))));
 
+            // 25% resist to Murasama.
+            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.AresIDs, Do(new ProjectileResistBalancingRule(0.75f, ProjectileType<MurasamaSlash>()))));
+
+            // 20% resist to Dragon Rage projectiles.
+            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.AresIDs, Do(new ProjectileSpecificRequirementBalancingRule(0.8f, DragonRageFilter))));
+
             // 20% resist to Eclipse's Fall.
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.AresIDs, Do(new ProjectileResistBalancingRule(0.8f, ProjectileType<EclipsesSmol>(), ProjectileType<EclipsesFallMain>()))));
+
+            // 15% resist to Enforcer projectiles.
+            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.AresIDs, Do(new ProjectileResistBalancingRule(0.85f, ProjectileType<EssenceFlame2>()))));
 
             // 10% resist to Seraphim lasers
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new ProjectileResistBalancingRule(0.9f, ProjectileType<SeraphimBeamLarge>()))));
@@ -305,6 +305,9 @@ namespace CalamityMod.Balancing
             // 65% resist to true melee.
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new TrueMeleeResistBalancingRule(0.35f))));
 
+            // 65% resist to Enforcer projectiles.
+            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new ProjectileResistBalancingRule(0.35f, ProjectileType<EssenceFlame2>()))));
+
             // 50% resist to Chicken Cannon.
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new ProjectileResistBalancingRule(0.5f, ProjectileType<ChickenExplosion>()))));
 
@@ -329,11 +332,14 @@ namespace CalamityMod.Balancing
             // 30% resist to the Spin Throw part of the Ark of the Cosmos' combo
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new ProjectileSpecificRequirementBalancingRule(0.7f, AotCThrowCombo))));
 
-            // 30% resist to Eclipe Fall.
+            // 30% resist to Eclipse Fall.
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new ProjectileResistBalancingRule(0.7f, ProjectileType<EclipsesFallMain>()))));
 
             // 30% resist to Sirius.
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new ProjectileResistBalancingRule(0.7f, ProjectileType<SiriusExplosion>()))));
+
+            // 25% resist to Dragon Rage projectiles.
+            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new ProjectileSpecificRequirementBalancingRule(0.75f, DragonRageFilter))));
 
             // 25% resist to Godslayer Slugs.
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new ProjectileResistBalancingRule(0.75f, ProjectileType<GodSlayerSlugProj>()))));
@@ -343,9 +349,6 @@ namespace CalamityMod.Balancing
 
             // 20% resist to Eradicator beams.
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new ProjectileResistBalancingRule(0.8f, ProjectileType<NebulaShot>()))));
-
-            // 20% resist to Utensil Poker.
-            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new ProjectileResistBalancingRule(0.8f, ProjectileType<Fork>(), ProjectileType<CarvingFork>()))));
 
             // 20% resist to Voltaic Climax / Void Vortex hitscan beams.
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new ProjectileResistBalancingRule(0.8f, ProjectileType<ClimaxBeam>()))));
