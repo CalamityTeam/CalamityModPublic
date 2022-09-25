@@ -29,6 +29,8 @@ namespace CalamityMod.NPCs
 {
     public partial class CalamityGlobalNPC : GlobalNPC
     {
+        public static readonly SoundStyle PlagueSound = new("CalamityMod/Sounds/Custom/PlagueUnleash");
+
         #region Modify NPC Loot Main Hook
         public override void ModifyNPCLoot(NPC npc, NPCLoot npcLoot)
         {
@@ -1651,6 +1653,9 @@ namespace CalamityMod.NPCs
                     // If Golem has never been killed, send a message about the Plague.
                     if (!NPC.downedGolemBoss)
                     {
+                        if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active)
+                            SoundEngine.PlaySound(PlagueSound, Main.player[Main.myPlayer].position);
+
                         string key3 = "Mods.CalamityMod.BabyBossText";
                         Color messageColor3 = Color.Lime;
 
@@ -1834,6 +1839,7 @@ namespace CalamityMod.NPCs
 
                     if (lastPlayer >= 0)
                     {
+                        SoundEngine.PlaySound(Polterghast.Polterghast.SpawnSound, Main.player[lastPlayer].Center);
                         NPC.SpawnOnPlayer(lastPlayer, ModContent.NPCType<Polterghast.Polterghast>());
                         CalamityMod.ghostKillCount = 0;
                     }

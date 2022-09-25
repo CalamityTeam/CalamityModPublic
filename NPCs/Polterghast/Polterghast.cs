@@ -50,6 +50,11 @@ namespace CalamityMod.NPCs.Polterghast
 
         private int despawnTimer = 600;
         private bool reachedChargingPoint = false;
+        public static readonly SoundStyle HitSound = new("CalamityMod/Sounds/NPCHit/PolterghastHit");
+        public static readonly SoundStyle P2Sound = new("CalamityMod/Sounds/Custom/PolterghastP2Transition");
+        public static readonly SoundStyle P3Sound = new("CalamityMod/Sounds/Custom/PolterghastP3Transition");
+        public static readonly SoundStyle SpawnSound = new("CalamityMod/Sounds/Custom/PolterghastSpawn");
+        public static readonly SoundStyle PhantomSound = new("CalamityMod/Sounds/Custom/PolterghastPhantomSpawn");
 
         public override void SetStaticDefaults()
         {
@@ -80,7 +85,7 @@ namespace CalamityMod.NPCs.Polterghast
             NPC.noGravity = true;
             NPC.noTileCollide = true;
             NPC.netAlways = true;
-            NPC.HitSound = SoundID.NPCHit7;
+            NPC.HitSound = HitSound;
             NPC.DeathSound = SoundID.NPCDeath39;
             NPC.Calamity().VulnerableToSickness = false;
         }
@@ -725,7 +730,7 @@ namespace CalamityMod.NPCs.Polterghast
                     calamityGlobalNPC.newAI[2] = 0f;
                     calamityGlobalNPC.newAI[3] = 0f;
 
-                    SoundEngine.PlaySound(SoundID.Item122, NPC.Center);
+                    SoundEngine.PlaySound(P2Sound, NPC.Center);
 
                     if (Main.netMode != NetmodeID.Server)
                     {
@@ -876,7 +881,7 @@ namespace CalamityMod.NPCs.Polterghast
                         }
                     }
 
-                    SoundEngine.PlaySound(SoundID.Item122, NPC.Center);
+                    SoundEngine.PlaySound(P3Sound, NPC.Center);
 
                     if (Main.netMode != NetmodeID.Server)
                     {
@@ -968,6 +973,7 @@ namespace CalamityMod.NPCs.Polterghast
 
                         if (NPC.CountNPCS(ModContent.NPCType<PhantomSpiritL>()) < 2 && Main.netMode != NetmodeID.MultiplayerClient && !charging && !chargePhase)
                         {
+                            SoundEngine.PlaySound(PhantomSound, NPC.Center);
                             int num762 = NPC.NewNPC(NPC.GetSource_FromAI(), (int)vector.X, (int)vector.Y, ModContent.NPCType<PhantomSpiritL>());
                             Main.npc[num762].velocity.X = num758;
                             Main.npc[num762].velocity.Y = num760;

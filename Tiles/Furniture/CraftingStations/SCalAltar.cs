@@ -17,6 +17,8 @@ namespace CalamityMod.Tiles.Furniture.CraftingStations
 {
     public class SCalAltar : ModTile
     {
+        public static readonly SoundStyle SummonSound = new("CalamityMod/Sounds/Custom/SCalAltarSummon");
+
         public const int Width = 4;
         public const int Height = 3;
         public override void SetStaticDefaults()
@@ -78,7 +80,7 @@ namespace CalamityMod.Tiles.Furniture.CraftingStations
             Vector2 ritualSpawnPosition = new Vector2(left + Width / 2, top).ToWorldCoordinates();
             ritualSpawnPosition += new Vector2(-10f, -24f);
 
-            SoundEngine.PlaySound(SoundID.DD2_EtherianPortalOpen, ritualSpawnPosition);
+            SoundEngine.PlaySound(SummonSound, ritualSpawnPosition);
             Projectile.NewProjectile(new EntitySource_WorldEvent(), ritualSpawnPosition, Vector2.Zero, ModContent.ProjectileType<SCalRitualDrama>(), 0, 0f, Main.myPlayer);
 
             if (!usingSpecialItem)

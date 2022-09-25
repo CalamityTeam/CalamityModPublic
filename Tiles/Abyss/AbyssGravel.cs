@@ -1,6 +1,7 @@
 ﻿
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -8,6 +9,7 @@ namespace CalamityMod.Tiles.Abyss
 {
     public class AbyssGravel : ModTile
     {
+        public static readonly SoundStyle MineSound = new("CalamityMod/Sounds/Custom/AbyssGravelMine", 3);
         public override void SetStaticDefaults()
         {
             Main.tileSolid[Type] = true;
@@ -21,7 +23,7 @@ namespace CalamityMod.Tiles.Abyss
             AddMapEntry(new Color(25, 28, 54));
             MineResist = 5f;
             MinPick = 65;
-            HitSound = SoundID.Tink;
+            HitSound = MineSound;
             DustType = 33;
         }
 

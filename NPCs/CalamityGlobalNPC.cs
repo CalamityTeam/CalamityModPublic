@@ -3684,9 +3684,9 @@ namespace CalamityMod.NPCs
             if (CalamityLists.enemyImmunityList.Contains(npc.type) || npc.boss)
                 npc.buffImmune[BuffType<PearlAura>()] = true;
 
-			// Make all Cal NPCs immune to confused unless otherwise specified
+            // Make all Cal NPCs immune to confused unless otherwise specified
             // Extra note: Clams are not in this list as they initially immune to Confused, but are no longer immune once aggro'd. This is set in their AI().
-			bool cal = npc.ModNPC != null && npc.ModNPC.Mod.Name.Equals(ModContent.GetInstance<CalamityMod>().Name);
+            bool cal = npc.ModNPC != null && npc.ModNPC.Mod.Name.Equals(ModContent.GetInstance<CalamityMod>().Name);
             if (!CalamityLists.confusionEnemyList.Contains(npc.type) && cal)
                 npc.buffImmune[BuffID.Confused] = true;
 
@@ -4318,9 +4318,9 @@ namespace CalamityMod.NPCs
 
             // Supercrits
             var cgp = projectile.Calamity();
-            if (cgp.supercritHits  != 0)
+            if (cgp.supercritHits != 0)
             {
-                cgp.supercritHits --;
+                cgp.supercritHits--;
                 float critOver100 = (projectile.ContinuouslyUpdateDamage ? player.GetCritChance(projectile.DamageType) : projectile.CritChance) - 100f;
 
                 // Supercrits can "supercrit" over and over for each extra 100% critical strike chance.
@@ -4871,10 +4871,10 @@ namespace CalamityMod.NPCs
                 pool[0] = 0f;
             }
 
-			// Add Enchanted Nightcrawlers as a critter to the Astral Infection
+            // Add Enchanted Nightcrawlers as a critter to the Astral Infection
             if (!CalamityGlobalNPC.AnyEvents(spawnInfo.Player) && spawnInfo.Player.InAstral())
             {
-				pool[NPCID.EnchantedNightcrawler] = SpawnCondition.TownCritter.Chance;
+                pool[NPCID.EnchantedNightcrawler] = SpawnCondition.TownCritter.Chance;
             }
 
             if (spawnInfo.Player.Calamity().ZoneSulphur && !spawnInfo.Player.Calamity().ZoneAbyss && AcidRainEvent.AcidRainEventIsOngoing)

@@ -11,6 +11,7 @@ namespace CalamityMod.NPCs.Ravager
 {
     public class RockPillar : ModNPC
     {
+        public static readonly SoundStyle HitSound = new("CalamityMod/Sounds/NPCHit/RavagerRockPillarHit", 3);
         public override void SetStaticDefaults()
         {
             this.HideFromBestiary();
@@ -32,7 +33,7 @@ namespace CalamityMod.NPCs.Ravager
             NPC.aiStyle = -1;
             AIType = -1;
             NPC.knockBackResist = 0f;
-            NPC.HitSound = SoundID.NPCHit41;
+            NPC.HitSound = RavagerBody.PillarSound;
             NPC.DeathSound = SoundID.NPCDeath14;
             NPC.Calamity().VulnerableToSickness = false;
             NPC.Calamity().VulnerableToWater = true;
