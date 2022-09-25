@@ -32,9 +32,11 @@ namespace CalamityMod.NPCs.Abyss
             {
                 Scale = 0.75f,
                 CustomTexturePath = "CalamityMod/ExtraTextures/Bestiary/GulperEel_Bestiary",
-                PortraitPositionXOverride = 40
+                PortraitPositionXOverride = 40,
+                PortraitPositionYOverride = 20
             };
-            value.Position.X += 20;
+            value.Position.X += 50;
+            value.Position.Y += 20;
             NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 
