@@ -254,28 +254,6 @@ namespace CalamityMod.CalPlayer
         public static readonly SoundStyle IjiDeathSound = new("CalamityMod/Sounds/Custom/IjiDies");
         #endregion
 
-        #region Proficiency
-        private const int levelTier1 = 1500;
-        private const int levelTier2 = 5500;
-        private const int levelTier3 = 12500;
-        public int meleeLevel = 0;
-        public int rangedLevel = 0;
-        public int magicLevel = 0;
-        public int rogueLevel = 0;
-        public int summonLevel = 0;
-        public bool shootFireworksLevelUpMelee = true;
-        public bool shootFireworksLevelUpRanged = true;
-        public bool shootFireworksLevelUpMagic = true;
-        public bool shootFireworksLevelUpSummon = true;
-        public bool shootFireworksLevelUpRogue = true;
-        public int exactMeleeLevel = 0;
-        public int exactRangedLevel = 0;
-        public int exactMagicLevel = 0;
-        public int exactSummonLevel = 0;
-        public int exactRogueLevel = 0;
-        public int gainLevelCooldown = 120;
-        #endregion
-
         #region Rogue
         public float rogueStealth = 0f;
         public float rogueStealthMax = 0f;
@@ -287,12 +265,13 @@ namespace CalamityMod.CalPlayer
         public bool stealthStrikeThisFrame = false;
         public bool stealthStrikeHalfCost = false;
         public bool stealthStrike75Cost = false;
-        public bool stealthStrikeAlwaysCrits = false;
+        public bool stealthStrike85Cost = false;
         public bool wearingRogueArmor = false;
         public float accStealthGenBoost = 0f;
 
         // TODO -- Stealth needs to be its own damage class so that stealth bonuses only apply to stealth strikes
         public float stealthDamage = 0f; // This is extra Rogue Damage that is only added for stealth strikes.
+        public double bonusStealthDamage = 0;
         public float rogueVelocity = 1f;
         public float rogueAmmoCost = 1f;
         #endregion
@@ -411,11 +390,6 @@ namespace CalamityMod.CalPlayer
         #endregion
 
         #region Accessory
-        public bool fasterMeleeLevel = false;
-        public bool fasterRangedLevel = false;
-        public bool fasterMagicLevel = false;
-        public bool fasterSummonLevel = false;
-        public bool fasterRogueLevel = false;
         public bool luxorsGift = false;
         public bool fungalSymbiote = false;
         public bool trinketOfChi = false;
@@ -472,8 +446,7 @@ namespace CalamityMod.CalPlayer
         public bool aBrain = false;
         public bool amalgam = false;
         public bool raiderTalisman = false;
-        public int raiderStack = 0;
-        public int raiderCooldown = 0;
+        public float raiderCritBonus = RaidersTalisman.RaiderBonus;
         public bool gSabaton = false;
         public int gSabatonFall = 0;
         public int gSabatonCooldown = 0;
@@ -538,6 +511,7 @@ namespace CalamityMod.CalPlayer
         public bool handWarmer = false;
         public bool ursaSergeant = false;
         public bool scuttlersJewel = false;
+        public int scuttlerCooldown = 0;
         public bool thiefsDime = false;
         public bool dynamoStemCells = false;
         public bool etherealExtorter = false;
@@ -1273,16 +1247,6 @@ namespace CalamityMod.CalPlayer
             tag["aquaticBoostPower"] = aquaticBoost;
             tag["sCalDeathCount"] = sCalDeathCount;
             tag["sCalKillCount"] = sCalKillCount;
-            tag["meleeLevel"] = meleeLevel;
-            tag["exactMeleeLevel"] = exactMeleeLevel;
-            tag["rangedLevel"] = rangedLevel;
-            tag["exactRangedLevel"] = exactRangedLevel;
-            tag["magicLevel"] = magicLevel;
-            tag["exactMagicLevel"] = exactMagicLevel;
-            tag["summonLevel"] = summonLevel;
-            tag["exactSummonLevel"] = exactSummonLevel;
-            tag["rogueLevel"] = rogueLevel;
-            tag["exactRogueLevel"] = exactRogueLevel;
             tag["moveSpeedBonus"] = moveSpeedBonus;
             tag["defenseDamage"] = totalDefenseDamage;
             tag["defenseDamageRecoveryFrames"] = defenseDamageRecoveryFrames;
@@ -1366,17 +1330,6 @@ namespace CalamityMod.CalPlayer
             sCalDeathCount = tag.GetInt("sCalDeathCount");
             sCalKillCount = tag.GetInt("sCalKillCount");
             deathCount = tag.GetInt("deathCount");
-
-            meleeLevel = tag.GetInt("meleeLevel");
-            rangedLevel = tag.GetInt("rangedLevel");
-            magicLevel = tag.GetInt("magicLevel");
-            summonLevel = tag.GetInt("summonLevel");
-            rogueLevel = tag.GetInt("rogueLevel");
-            exactMeleeLevel = tag.GetInt("exactMeleeLevel");
-            exactRangedLevel = tag.GetInt("exactRangedLevel");
-            exactMagicLevel = tag.GetInt("exactMagicLevel");
-            exactSummonLevel = tag.GetInt("exactSummonLevel");
-            exactRogueLevel = tag.GetInt("exactRogueLevel");
 
             if (tag.ContainsKey("moveSpeedBonus"))
                 moveSpeedBonus = tag.GetFloat("moveSpeedBonus");
@@ -1522,12 +1475,6 @@ namespace CalamityMod.CalPlayer
 
             afflicted = false;
             affliction = false;
-
-            fasterMeleeLevel = false;
-            fasterRangedLevel = false;
-            fasterMagicLevel = false;
-            fasterSummonLevel = false;
-            fasterRogueLevel = false;
 
             dodgeScarf = false;
             evasionScarf = false;
@@ -2167,8 +2114,7 @@ namespace CalamityMod.CalPlayer
             spiritOriginConvertedCrit = 0;
             rage = 0f;
             adrenaline = 0f;
-            raiderStack = 0;
-            raiderCooldown = 0;
+            raiderCritBonus = 0f;
             gSabatonFall = 0;
             gSabatonCooldown = 0;
             astralStarRainCooldown = 0;
@@ -2189,6 +2135,7 @@ namespace CalamityMod.CalPlayer
             andromedaCripple = 0;
             theBeeCooldown = 0;
             killSpikyBalls = false;
+			scuttlerCooldown = 0;
             rogueCrownCooldown = 0;
             icicleCooldown = 0;
             statisTimer = 0;
@@ -2244,6 +2191,7 @@ namespace CalamityMod.CalPlayer
             stealthAcceleration = 1f;
 
             stealthDamage = 0f;
+            bonusStealthDamage = 0;
             rogueVelocity = 1f;
             rogueAmmoCost = 1f;
             #endregion
@@ -2586,7 +2534,7 @@ namespace CalamityMod.CalPlayer
                 for (int projIndex = 0; projIndex < Main.maxProjectiles; projIndex++)
                 {
                     Projectile proj = Main.projectile[projIndex];
-                    if (proj.minionSlots <= 0f || !proj.IsSummon())
+                    if (proj.minionSlots <= 0f || !proj.CountsAsClass<SummonDamageClass>())
                         continue;
                     if (proj.active && proj.owner == Player.whoAmI)
                     {
@@ -2604,14 +2552,15 @@ namespace CalamityMod.CalPlayer
                     Player.HealEffect(2);
                 }
             }
-            if (CalamityKeybinds.SandCloakHotkey.JustPressed && sandCloak && Main.myPlayer == Player.whoAmI && rogueStealth >= rogueStealthMax * 0.25f &&
+            if (CalamityKeybinds.SandCloakHotkey.JustPressed && sandCloak && Main.myPlayer == Player.whoAmI && rogueStealth >= rogueStealthMax * 0.1f &&
                 wearingRogueArmor && rogueStealthMax > 0 && !Player.HasCooldown(Cooldowns.SandCloak.ID))
             {
-                Player.AddCooldown(Cooldowns.SandCloak.ID, CalamityUtils.SecondsToFrames(30));
+                Player.AddCooldown(Cooldowns.SandCloak.ID, CalamityUtils.SecondsToFrames(25));
 
                 var source = Player.GetSource_Accessory(FindAccessory(ModContent.ItemType<Items.Accessories.SandCloak>()));
-                rogueStealth -= rogueStealthMax * 0.25f;
-                Projectile.NewProjectile(source, Player.Center, Vector2.Zero, ModContent.ProjectileType<SandCloakVeil>(), 7, 8, Player.whoAmI);
+                rogueStealth -= rogueStealthMax * 0.1f;
+                int veil = Projectile.NewProjectile(source, Player.Center, Vector2.Zero, ModContent.ProjectileType<SandCloakVeil>(), 7, 8, Player.whoAmI);
+				Main.projectile[veil].Center = Player.Center;
                 SoundEngine.PlaySound(SoundID.Item45, Player.position);
             }
             if (CalamityKeybinds.SpectralVeilHotKey.JustPressed && spectralVeil && Main.myPlayer == Player.whoAmI && rogueStealth >= rogueStealthMax * 0.25f &&
@@ -3311,9 +3260,6 @@ namespace CalamityMod.CalPlayer
             // Nerfs the effectiveness of Beetle Scale Mail.
             if (Player.beetleOffense && Player.beetleOrbs > 0)
                 meleeSpeedMult -= 0.1f * Player.beetleOrbs;
-
-            if (CalamityConfig.Instance.Proficiency)
-                meleeSpeedMult += GetMeleeSpeedBonus();
 
             if (GemTechSet && GemTechState.IsYellowGemActive)
                 meleeSpeedMult += GemTechHeadgear.MeleeSpeedBoost;
@@ -4155,6 +4101,13 @@ namespace CalamityMod.CalPlayer
                 acidRoundMultiplier = item.useTime / 20D;
             else
                 acidRoundMultiplier = 1D;
+
+			if (item.CountsAsClass<RogueDamageClass>())
+			{
+				// Apply weapon modifier stealth strike damage bonus
+				if (item.Calamity().StealthStrikePrefixBonus != 0f && StealthStrikeAvailable())
+					damage += 1f - item.Calamity().StealthStrikePrefixBonus;
+			}
         }
 
         public override void ModifyWeaponKnockback(Item item, ref StatModifier knockback)
@@ -4385,38 +4338,6 @@ namespace CalamityMod.CalPlayer
                 damage += defenseAdd;
             }
             #endregion
-
-            if ((target.damage > 0 || target.boss) && !target.SpawnedFromStatue && Player.whoAmI == Main.myPlayer)
-            {
-                if (CalamityConfig.Instance.Proficiency && item.DamageType == DamageClass.Melee)
-                {
-                    if (gainLevelCooldown <= 0)
-                    {
-                        gainLevelCooldown = 120;
-                        if (meleeLevel <= 12500)
-                        {
-                            if (!ReduceCooldown((int)ClassType.Melee))
-                            {
-                                if (!Main.hardMode && meleeLevel >= 1500)
-                                    gainLevelCooldown = 1200; //20 seconds
-                                if (!NPC.downedMoonlord && meleeLevel >= 5500)
-                                    gainLevelCooldown = 2400; //40 seconds
-                            }
-                            else
-                                gainLevelCooldown /= 2;
-
-                            if (fasterMeleeLevel)
-                                gainLevelCooldown /= 2;
-
-                            meleeLevel++;
-                            shootFireworksLevelUpMelee = true;
-
-                            if (Main.netMode == NetmodeID.MultiplayerClient)
-                                SyncLevel(false, (int)ClassType.Melee);
-                        }
-                    }
-                }
-            }
         }
 
         public override void ModifyHitNPCWithProj(Projectile proj, NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
@@ -4424,7 +4345,7 @@ namespace CalamityMod.CalPlayer
             if (proj.npcProj || proj.trap)
                 return;
 
-            bool isSummon = proj.IsSummon();
+            bool isSummon = proj.CountsAsClass<SummonDamageClass>();
             Item heldItem = Player.ActiveItem();
 
             #region MultiplierBoosts
@@ -4456,12 +4377,9 @@ namespace CalamityMod.CalPlayer
             // Rippers are always checked for application, because there are ways to get rippers outside of Rev now
             CalamityUtils.ApplyRippersToDamage(this, proj.IsTrueMelee(), ref damageMult);
 
-            if (filthyGlove && proj.Calamity().stealthStrike && proj.CountsAsClass<RogueDamageClass>())
+            if (proj.Calamity().stealthStrike && proj.CountsAsClass<RogueDamageClass>())
             {
-                if (nanotech)
-                    damageMult += 0.05;
-                else
-                    damageMult += 0.1;
+                damageMult += bonusStealthDamage;
             }
 
             if (proj.type == ProjectileID.Gungnir)
@@ -4548,119 +4466,6 @@ namespace CalamityMod.CalPlayer
             // Handle on-hit ranged effects for the gem tech armor set.
             if (proj.CountsAsClass<RangedDamageClass>() && proj.type != ModContent.ProjectileType<GemTechGreenFlechette>())
                 GemTechState.RangedOnHitEffects(target, damage);
-
-            if ((target.damage > 0 || target.boss) && !target.SpawnedFromStatue && CalamityConfig.Instance.Proficiency)
-            {
-                if (gainLevelCooldown <= 0) //max is 12501 to avoid setting off fireworks forever
-                {
-                    gainLevelCooldown = 120; //2 seconds
-                    if (proj.CountsAsClass<MeleeDamageClass>() && meleeLevel <= 12500)
-                    {
-                        if (!ReduceCooldown((int)ClassType.Melee))
-                        {
-                            if (!Main.hardMode && meleeLevel >= 1500)
-                                gainLevelCooldown = 1200; //20 seconds
-                            if (!NPC.downedMoonlord && meleeLevel >= 5500)
-                                gainLevelCooldown = 2400; //40 seconds
-                        }
-                        else
-                            gainLevelCooldown /= 2;
-
-                        if (fasterMeleeLevel)
-                            gainLevelCooldown /= 2;
-
-                        meleeLevel++;
-                        shootFireworksLevelUpMelee = true;
-
-                        if (Main.netMode == NetmodeID.MultiplayerClient)
-                            SyncLevel(false, (int)ClassType.Melee);
-                    }
-                    else if (proj.CountsAsClass<RangedDamageClass>() && rangedLevel <= 12500)
-                    {
-                        if (!ReduceCooldown((int)ClassType.Ranged))
-                        {
-                            if (!Main.hardMode && rangedLevel >= 1500)
-                                gainLevelCooldown = 1200; //20 seconds
-                            if (!NPC.downedMoonlord && rangedLevel >= 5500)
-                                gainLevelCooldown = 2400; //40 seconds
-                        }
-                        else
-                            gainLevelCooldown /= 2;
-
-                        if (fasterRangedLevel)
-                            gainLevelCooldown /= 2;
-
-                        rangedLevel++;
-                        shootFireworksLevelUpRanged = true;
-
-                        if (Main.netMode == NetmodeID.MultiplayerClient)
-                            SyncLevel(false, (int)ClassType.Ranged);
-                    }
-                    else if (proj.CountsAsClass<MagicDamageClass>() && magicLevel <= 12500)
-                    {
-                        if (!ReduceCooldown((int)ClassType.Magic))
-                        {
-                            if (!Main.hardMode && magicLevel >= 1500)
-                                gainLevelCooldown = 1200; //20 seconds
-                            if (!NPC.downedMoonlord && magicLevel >= 5500)
-                                gainLevelCooldown = 2400; //40 seconds
-                        }
-                        else
-                            gainLevelCooldown /= 2;
-
-                        if (fasterMagicLevel)
-                            gainLevelCooldown /= 2;
-
-                        magicLevel++;
-                        shootFireworksLevelUpMagic = true;
-
-                        if (Main.netMode == NetmodeID.MultiplayerClient)
-                            SyncLevel(false, (int)ClassType.Magic);
-                    }
-                    else if (proj.IsSummon() && summonLevel <= 12500)
-                    {
-                        if (!ReduceCooldown((int)ClassType.Summon))
-                        {
-                            if (!Main.hardMode && summonLevel >= 1500)
-                                gainLevelCooldown = 1200; //20 seconds
-                            if (!NPC.downedMoonlord && summonLevel >= 5500)
-                                gainLevelCooldown = 2400; //40 seconds
-                        }
-                        else
-                            gainLevelCooldown /= 2;
-
-                        if (fasterSummonLevel)
-                            gainLevelCooldown /= 2;
-
-                        summonLevel++;
-                        shootFireworksLevelUpSummon = true;
-
-                        if (Main.netMode == NetmodeID.MultiplayerClient)
-                            SyncLevel(false, (int)ClassType.Summon);
-                    }
-                    else if (proj.CountsAsClass<RogueDamageClass>() && rogueLevel <= 12500)
-                    {
-                        if (!ReduceCooldown((int)ClassType.Rogue))
-                        {
-                            if (!Main.hardMode && rogueLevel >= 1500)
-                                gainLevelCooldown = 1200; //20 seconds
-                            if (!NPC.downedMoonlord && rogueLevel >= 5500)
-                                gainLevelCooldown = 2400; //40 seconds
-                        }
-                        else
-                            gainLevelCooldown /= 2;
-
-                        if (fasterRogueLevel)
-                            gainLevelCooldown /= 2;
-
-                        rogueLevel++;
-                        shootFireworksLevelUpRogue = true;
-
-                        if (Main.netMode == NetmodeID.MultiplayerClient)
-                            SyncLevel(false, (int)ClassType.Rogue);
-                    }
-                }
-            }
         }
         #endregion
 
@@ -5240,7 +5045,7 @@ namespace CalamityMod.CalPlayer
             {
                 if (proj.type == ProjectileID.TorchGod)
                 {
-                    int fireDebuffTypes = 8;
+                    int fireDebuffTypes = CalamityWorld.death ? 9 : CalamityWorld.revenge ? 7 : Main.expertMode ? 5 : 3;
                     switch (Main.rand.Next(fireDebuffTypes))
                     {
                         case 0:
@@ -5248,30 +5053,34 @@ namespace CalamityMod.CalPlayer
                             break;
 
                         case 1:
-                            Player.AddBuff(BuffID.CursedInferno, 300);
+                            Player.AddBuff(BuffID.Frostburn, 300);
                             break;
 
                         case 2:
-                            Player.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 300);
+                            Player.AddBuff(BuffID.CursedInferno, 300);
                             break;
 
                         case 3:
-                            Player.AddBuff(ModContent.BuffType<Shadowflame>(), 150);
+                            Player.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 300);
                             break;
 
                         case 4:
-                            Player.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 150);
+                            Player.AddBuff(ModContent.BuffType<Shadowflame>(), 150);
                             break;
 
                         case 5:
-                            Player.AddBuff(ModContent.BuffType<HolyFlames>(), 300);
+                            Player.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 150);
                             break;
 
                         case 6:
-                            Player.AddBuff(ModContent.BuffType<VulnerabilityHex>(), 300);
+                            Player.AddBuff(ModContent.BuffType<HolyFlames>(), 300);
                             break;
 
                         case 7:
+                            Player.AddBuff(ModContent.BuffType<VulnerabilityHex>(), 300);
+                            break;
+
+                        case 8:
                             Player.AddBuff(ModContent.BuffType<Dragonfire>(), 300);
                             break;
                     }
@@ -5394,9 +5203,6 @@ namespace CalamityMod.CalPlayer
         {
             if (bladeArmEnchant)
                 return false;
-
-            if (rottenDogTooth && item.CountsAsClass<RogueDamageClass>())
-                damage = (int)(damage * (1f + RottenDogtooth.StealthStrikeDamageMultiplier));
 
             if (veneratedLocket)
             {
@@ -5681,10 +5487,11 @@ namespace CalamityMod.CalPlayer
                     ProfanedMoonlightAuroraDrawer = FluidFieldManager.CreateField(size, scale, 0.1f, 50f, 0.992f);
 
                 int sourceArea = (int)Math.Ceiling(6f / ProfanedMoonlightAuroraDrawer.Scale) + 1;
-                ProfanedMoonlightAuroraDrawer.ShouldUpdate = true;
+                ProfanedMoonlightAuroraDrawer.ShouldUpdate = Player.miscCounter % 4 == 0;
                 ProfanedMoonlightAuroraDrawer.UpdateAction = () =>
                 {
-                    int auroraCount = totalMoonlightDyes / 2 + 4;
+                    // Aurora Count does not scale to save on resources if you have a lot of dyes
+                    int auroraCount = 5;						
                     for (int i = 0; i < auroraCount; i++)
                     {
                         float auroraPower = MathHelper.Clamp(totalMoonlightDyes / 3f, 0f, 1f);
@@ -5952,7 +5759,7 @@ namespace CalamityMod.CalPlayer
 
                 hellbornBoost = 0;
 
-                if (amidiasBlessing)
+                if (amidiasBlessing && damage > 50)
                 {
                     Player.ClearBuff(ModContent.BuffType<AmidiasBlessing>());
                     SoundEngine.PlaySound(SoundID.Item96, Player.position);
@@ -6675,13 +6482,14 @@ namespace CalamityMod.CalPlayer
 
             // these other parameters are rebuilt every frame based on the items you have equipped
             stealthDamage = 0f;
+            bonusStealthDamage = 0;
             rogueStealthMax = 0f;
             stealthGenStandstill = 1f;
             stealthGenMoving = 1f;
             stealthStrikeThisFrame = false;
             stealthStrikeHalfCost = false;
             stealthStrike75Cost = false;
-            stealthStrikeAlwaysCrits = false;
+            stealthStrike85Cost = false;
 
             // stealthAcceleration only resets if you don't have either of the accelerator accessories equipped
             if (!darkGodSheath && !eclipseMirror)
@@ -6710,9 +6518,9 @@ namespace CalamityMod.CalPlayer
                 playRogueStealthSound = true;
 
             // Calculate stealth generation and gain stealth accordingly
-            // 1f is normal speed, anything higher is faster. Default stealth generation is 3 seconds while standing still.
+            // 1f is normal speed, anything higher is faster. Default stealth generation is 2 seconds while standing still.
             float currentStealthGen = UpdateStealthGenStats();
-            rogueStealth += rogueStealthMax * (currentStealthGen / 180f); // 180 frames = 3 seconds
+            rogueStealth += rogueStealthMax * (currentStealthGen / 120f); // 120 frames = 2 seconds
             if (rogueStealth > rogueStealthMax)
                 rogueStealth = rogueStealthMax;
 
@@ -6792,11 +6600,6 @@ namespace CalamityMod.CalPlayer
             double stealthAddedDamage = rogueStealth * BalancingConstants.UniversalStealthStrikeDamageFactor * useTimeFactor * stealthGenFactor;
             stealthDamage += (float)stealthAddedDamage;
 
-            // Show 100% crit chance if your stealth strikes always crit.
-            // In practice, this is only for visuals because Terraria determines crit status on hit.
-            if (stealthStrikeAlwaysCrits && StealthStrikeAvailable())
-                Player.GetCritChance<RogueDamageClass>() = 100f;
-
             // Stealth slightly decreases aggro.
             Player.aggro -= (int)(rogueStealth * 300f);
         }
@@ -6813,32 +6616,22 @@ namespace CalamityMod.CalPlayer
             if (Player.itemAnimation > 0 || finalDawnProjCount > 0)
                 return 0f;
 
-            // Penumbra Potion provides various boosts to rogue stealth generation
             if (penumbra)
             {
-                if (Main.eclipse || umbraphileSet)
-                {
-                    stealthGenStandstill += 0.2f;
-                    stealthGenMoving += 0.2f;
-                }
-                else if (!Main.dayTime)
-                {
-                    stealthGenStandstill += 0.15f;
-                    stealthGenMoving += 0.15f;
-                }
-                else // daytime
-                    stealthGenMoving += 0.15f;
+				stealthGenStandstill += 0.15f;
+				stealthGenMoving += 0.1f;
             }
 
-            if (CalamityLists.daggerList.Contains(Player.ActiveItem().type) && Player.invis)
+            if (shadow)
             {
                 stealthGenStandstill += 0.08f;
                 stealthGenMoving += 0.08f;
             }
-            if (shadow)
+
+            if (eArtifact)
             {
-                stealthGenStandstill += 0.1f;
-                stealthGenMoving += 0.1f;
+				stealthGenStandstill += 0.1f;
+				stealthGenMoving += 0.1f;
             }
 
             //Accessory modifiers can boost these stats
@@ -6891,6 +6684,8 @@ namespace CalamityMod.CalPlayer
                 consumptionMult = 0.5f;
             else if (stealthStrike75Cost)
                 consumptionMult = 0.75f;
+            else if (stealthStrike85Cost)
+                consumptionMult = 0.85f;
             return rogueStealth >= rogueStealthMax * consumptionMult;
         }
 
@@ -6917,938 +6712,14 @@ namespace CalamityMod.CalPlayer
                 if (rogueStealth <= 0f)
                     rogueStealth = 0f;
             }
+            else if (stealthStrike85Cost)
+            {
+                rogueStealth -= 0.9f * stealthToLose;
+                if (rogueStealth <= 0f)
+                    rogueStealth = 0f;
+            }
             else
                 rogueStealth = remainingStealth;
-        }
-        #endregion
-
-        #region Proficiency Stuff
-        private bool ReduceCooldown(int classType)
-        {
-            switch (classType)
-            {
-                case (int)ClassType.Melee:
-
-                    if (meleeLevel < levelTier3 && (rangedLevel >= levelTier3 || magicLevel >= levelTier3 || summonLevel >= levelTier3 || rogueLevel >= levelTier3))
-                        return true;
-                    if (meleeLevel < levelTier2 && (rangedLevel >= levelTier2 || magicLevel >= levelTier2 || summonLevel >= levelTier2 || rogueLevel >= levelTier2))
-                        return true;
-                    if (meleeLevel < levelTier1 && (rangedLevel >= levelTier1 || magicLevel >= levelTier1 || summonLevel >= levelTier1 || rogueLevel >= levelTier1))
-                        return true;
-
-                    break;
-
-                case (int)ClassType.Ranged:
-
-                    if (rangedLevel < levelTier3 && (meleeLevel >= levelTier3 || magicLevel >= levelTier3 || summonLevel >= levelTier3 || rogueLevel >= levelTier3))
-                        return true;
-                    if (rangedLevel < levelTier2 && (meleeLevel >= levelTier2 || magicLevel >= levelTier2 || summonLevel >= levelTier2 || rogueLevel >= levelTier2))
-                        return true;
-                    if (rangedLevel < levelTier1 && (meleeLevel >= levelTier1 || magicLevel >= levelTier1 || summonLevel >= levelTier1 || rogueLevel >= levelTier1))
-                        return true;
-
-                    break;
-
-                case (int)ClassType.Magic:
-
-                    if (magicLevel < levelTier3 && (rangedLevel >= levelTier3 || meleeLevel >= levelTier3 || summonLevel >= levelTier3 || rogueLevel >= levelTier3))
-                        return true;
-                    if (magicLevel < levelTier2 && (rangedLevel >= levelTier2 || meleeLevel >= levelTier2 || summonLevel >= levelTier2 || rogueLevel >= levelTier2))
-                        return true;
-                    if (magicLevel < levelTier1 && (rangedLevel >= levelTier1 || meleeLevel >= levelTier1 || summonLevel >= levelTier1 || rogueLevel >= levelTier1))
-                        return true;
-
-                    break;
-
-                case (int)ClassType.Summon:
-
-                    if (summonLevel < levelTier3 && (rangedLevel >= levelTier3 || magicLevel >= levelTier3 || meleeLevel >= levelTier3 || rogueLevel >= levelTier3))
-                        return true;
-                    if (summonLevel < levelTier2 && (rangedLevel >= levelTier2 || magicLevel >= levelTier2 || meleeLevel >= levelTier2 || rogueLevel >= levelTier2))
-                        return true;
-                    if (summonLevel < levelTier1 && (rangedLevel >= levelTier1 || magicLevel >= levelTier1 || meleeLevel >= levelTier1 || rogueLevel >= levelTier1))
-                        return true;
-
-                    break;
-
-                case (int)ClassType.Rogue:
-
-                    if (rogueLevel < levelTier3 && (rangedLevel >= levelTier3 || magicLevel >= levelTier3 || summonLevel >= levelTier3 || meleeLevel >= levelTier3))
-                        return true;
-                    if (rogueLevel < levelTier2 && (rangedLevel >= levelTier2 || magicLevel >= levelTier2 || summonLevel >= levelTier2 || meleeLevel >= levelTier2))
-                        return true;
-                    if (rogueLevel < levelTier1 && (rangedLevel >= levelTier1 || magicLevel >= levelTier1 || summonLevel >= levelTier1 || meleeLevel >= levelTier1))
-                        return true;
-
-                    break;
-            }
-            return false;
-        }
-
-        public void GetExactLevelUp()
-        {
-            if (gainLevelCooldown > 0)
-                gainLevelCooldown--;
-
-            #region MeleeLevels
-            switch (meleeLevel)
-            {
-                case 100:
-                    ExactLevelUp(0, 1, false);
-                    break;
-                case 300:
-                    ExactLevelUp(0, 2, false);
-                    break;
-                case 600:
-                    ExactLevelUp(0, 3, false);
-                    break;
-                case 1000:
-                    ExactLevelUp(0, 4, false);
-                    break;
-                case 1500:
-                    ExactLevelUp(0, 5, false);
-                    break;
-                case 2100:
-                    ExactLevelUp(0, 6, false);
-                    break;
-                case 2800:
-                    ExactLevelUp(0, 7, false);
-                    break;
-                case 3600:
-                    ExactLevelUp(0, 8, false);
-                    break;
-                case 4500:
-                    ExactLevelUp(0, 9, false);
-                    break;
-                case 5500:
-                    ExactLevelUp(0, 10, false);
-                    break;
-                case 6600:
-                    ExactLevelUp(0, 11, false);
-                    break;
-                case 7800:
-                    ExactLevelUp(0, 12, false);
-                    break;
-                case 9100:
-                    ExactLevelUp(0, 13, false);
-                    break;
-                case 10500:
-                    ExactLevelUp(0, 14, false);
-                    break;
-                case 12500: //celebration or some shit for final level, yay
-                    ExactLevelUp(0, 15, true);
-                    break;
-                default:
-                    break;
-            }
-            #endregion
-
-            #region RangedLevels
-            switch (rangedLevel)
-            {
-                case 100:
-                    ExactLevelUp(1, 1, false);
-                    break;
-                case 300:
-                    ExactLevelUp(1, 2, false);
-                    break;
-                case 600:
-                    ExactLevelUp(1, 3, false);
-                    break;
-                case 1000:
-                    ExactLevelUp(1, 4, false);
-                    break;
-                case 1500:
-                    ExactLevelUp(1, 5, false);
-                    break;
-                case 2100:
-                    ExactLevelUp(1, 6, false);
-                    break;
-                case 2800:
-                    ExactLevelUp(1, 7, false);
-                    break;
-                case 3600:
-                    ExactLevelUp(1, 8, false);
-                    break;
-                case 4500:
-                    ExactLevelUp(1, 9, false);
-                    break;
-                case 5500:
-                    ExactLevelUp(1, 10, false);
-                    break;
-                case 6600:
-                    ExactLevelUp(1, 11, false);
-                    break;
-                case 7800:
-                    ExactLevelUp(1, 12, false);
-                    break;
-                case 9100:
-                    ExactLevelUp(1, 13, false);
-                    break;
-                case 10500:
-                    ExactLevelUp(1, 14, false);
-                    break;
-                case 12500: //celebration or some shit for final level, yay
-                    ExactLevelUp(1, 15, true);
-                    break;
-                default:
-                    break;
-            }
-            #endregion
-
-            #region MagicLevels
-            switch (magicLevel)
-            {
-                case 100:
-                    ExactLevelUp(2, 1, false);
-                    break;
-                case 300:
-                    ExactLevelUp(2, 2, false);
-                    break;
-                case 600:
-                    ExactLevelUp(2, 3, false);
-                    break;
-                case 1000:
-                    ExactLevelUp(2, 4, false);
-                    break;
-                case 1500:
-                    ExactLevelUp(2, 5, false);
-                    break;
-                case 2100:
-                    ExactLevelUp(2, 6, false);
-                    break;
-                case 2800:
-                    ExactLevelUp(2, 7, false);
-                    break;
-                case 3600:
-                    ExactLevelUp(2, 8, false);
-                    break;
-                case 4500:
-                    ExactLevelUp(2, 9, false);
-                    break;
-                case 5500:
-                    ExactLevelUp(2, 10, false);
-                    break;
-                case 6600:
-                    ExactLevelUp(2, 11, false);
-                    break;
-                case 7800:
-                    ExactLevelUp(2, 12, false);
-                    break;
-                case 9100:
-                    ExactLevelUp(2, 13, false);
-                    break;
-                case 10500:
-                    ExactLevelUp(2, 14, false);
-                    break;
-                case 12500: //celebration or some shit for final level, yay
-                    ExactLevelUp(2, 15, true);
-                    break;
-                default:
-                    break;
-            }
-            #endregion
-
-            #region SummonLevels
-            switch (summonLevel)
-            {
-                case 100:
-                    ExactLevelUp(3, 1, false);
-                    break;
-                case 300:
-                    ExactLevelUp(3, 2, false);
-                    break;
-                case 600:
-                    ExactLevelUp(3, 3, false);
-                    break;
-                case 1000:
-                    ExactLevelUp(3, 4, false);
-                    break;
-                case 1500:
-                    ExactLevelUp(3, 5, false);
-                    break;
-                case 2100:
-                    ExactLevelUp(3, 6, false);
-                    break;
-                case 2800:
-                    ExactLevelUp(3, 7, false);
-                    break;
-                case 3600:
-                    ExactLevelUp(3, 8, false);
-                    break;
-                case 4500:
-                    ExactLevelUp(3, 9, false);
-                    break;
-                case 5500:
-                    ExactLevelUp(3, 10, false);
-                    break;
-                case 6600:
-                    ExactLevelUp(3, 11, false);
-                    break;
-                case 7800:
-                    ExactLevelUp(3, 12, false);
-                    break;
-                case 9100:
-                    ExactLevelUp(3, 13, false);
-                    break;
-                case 10500:
-                    ExactLevelUp(3, 14, false);
-                    break;
-                case 12500: //celebration or some shit for final level, yay
-                    ExactLevelUp(3, 15, true);
-                    break;
-                default:
-                    break;
-            }
-            #endregion
-
-            #region RogueLevels
-            switch (rogueLevel)
-            {
-                case 100:
-                    ExactLevelUp(4, 1, false);
-                    break;
-                case 300:
-                    ExactLevelUp(4, 2, false);
-                    break;
-                case 600:
-                    ExactLevelUp(4, 3, false);
-                    break;
-                case 1000:
-                    ExactLevelUp(4, 4, false);
-                    break;
-                case 1500:
-                    ExactLevelUp(4, 5, false);
-                    break;
-                case 2100:
-                    ExactLevelUp(4, 6, false);
-                    break;
-                case 2800:
-                    ExactLevelUp(4, 7, false);
-                    break;
-                case 3600:
-                    ExactLevelUp(4, 8, false);
-                    break;
-                case 4500:
-                    ExactLevelUp(4, 9, false);
-                    break;
-                case 5500:
-                    ExactLevelUp(4, 10, false);
-                    break;
-                case 6600:
-                    ExactLevelUp(4, 11, false);
-                    break;
-                case 7800:
-                    ExactLevelUp(4, 12, false);
-                    break;
-                case 9100:
-                    ExactLevelUp(4, 13, false);
-                    break;
-                case 10500:
-                    ExactLevelUp(4, 14, false);
-                    break;
-                case 12500: //celebration or some shit for final level, yay
-                    ExactLevelUp(4, 15, true);
-                    break;
-                default:
-                    break;
-            }
-            #endregion
-        }
-
-        private void ExactLevelUp(int levelUpType, int level, bool final)
-        {
-            var source = new ProjectileSource_LevelUp(Player);
-            Color messageColor = Color.Orange;
-            switch (levelUpType)
-            {
-                case 0:
-                    exactMeleeLevel = level;
-                    if (shootFireworksLevelUpMelee)
-                    {
-                        string key = final ? "Mods.CalamityMod.MeleeLevelUpFinal" : "Mods.CalamityMod.MeleeLevelUp";
-                        shootFireworksLevelUpMelee = false;
-                        if (Player.whoAmI == Main.myPlayer)
-                        {
-                            if (final)
-                            {
-                                int prof = Projectile.NewProjectile(source, Player.Center.X, Player.Center.Y, 0f, -5f, ProjectileID.RocketFireworkRed + Main.rand.Next(4),
-                                    0, 0f, Main.myPlayer, 0f, 1f);
-                                // Main.projectile[prof].ranged = false /* tModPorter - this is redundant, for more info see https://github.com/tModLoader/tModLoader/wiki/Update-Migration-Guide#damage-classes */ ;
-                            }
-                            else
-                            {
-                                int prof = Projectile.NewProjectile(source, Player.Center.X, Player.Center.Y, 0f, -5f, ProjectileID.RocketFireworksBoxRed + Main.rand.Next(4),
-                                    0, 0f, Main.myPlayer, 0f, 0f);
-                                // Main.projectile[prof].ranged = false /* tModPorter - this is redundant, for more info see https://github.com/tModLoader/tModLoader/wiki/Update-Migration-Guide#damage-classes */ ;
-                            }
-                            Main.NewText(Language.GetTextValue(key), messageColor);
-                        }
-                    }
-                    break;
-                case 1:
-                    exactRangedLevel = level;
-                    if (shootFireworksLevelUpRanged)
-                    {
-                        string key = final ? "Mods.CalamityMod.RangedLevelUpFinal" : "Mods.CalamityMod.RangedLevelUp";
-                        messageColor = Color.GreenYellow;
-                        shootFireworksLevelUpRanged = false;
-                        if (Player.whoAmI == Main.myPlayer)
-                        {
-                            if (final)
-                            {
-                                int prof = Projectile.NewProjectile(source, Player.Center.X, Player.Center.Y, 0f, -5f, ProjectileID.RocketFireworkRed + Main.rand.Next(4),
-                                    0, 0f, Main.myPlayer, 0f, 1f);
-                                // Main.projectile[prof].ranged = false /* tModPorter - this is redundant, for more info see https://github.com/tModLoader/tModLoader/wiki/Update-Migration-Guide#damage-classes */ ;
-                            }
-                            else
-                            {
-                                int prof = Projectile.NewProjectile(source, Player.Center.X, Player.Center.Y, 0f, -5f, ProjectileID.RocketFireworksBoxRed + Main.rand.Next(4),
-                                    0, 0f, Main.myPlayer, 0f, 0f);
-                                // Main.projectile[prof].ranged = false /* tModPorter - this is redundant, for more info see https://github.com/tModLoader/tModLoader/wiki/Update-Migration-Guide#damage-classes */ ;
-                            }
-                            Main.NewText(Language.GetTextValue(key), messageColor);
-                        }
-                    }
-                    break;
-                case 2:
-                    exactMagicLevel = level;
-                    if (shootFireworksLevelUpMagic)
-                    {
-                        string key = final ? "Mods.CalamityMod.MagicLevelUpFinal" : "Mods.CalamityMod.MagicLevelUp";
-                        messageColor = Color.DodgerBlue;
-                        shootFireworksLevelUpMagic = false;
-                        if (Player.whoAmI == Main.myPlayer)
-                        {
-                            if (final)
-                            {
-                                int prof = Projectile.NewProjectile(source, Player.Center.X, Player.Center.Y, 0f, -5f, ProjectileID.RocketFireworkRed + Main.rand.Next(4),
-                                    0, 0f, Main.myPlayer, 0f, 1f);
-                                // Main.projectile[prof].ranged = false /* tModPorter - this is redundant, for more info see https://github.com/tModLoader/tModLoader/wiki/Update-Migration-Guide#damage-classes */ ;
-                            }
-                            else
-                            {
-                                int prof = Projectile.NewProjectile(source, Player.Center.X, Player.Center.Y, 0f, -5f, ProjectileID.RocketFireworksBoxRed + Main.rand.Next(4),
-                                    0, 0f, Main.myPlayer, 0f, 0f);
-                                // Main.projectile[prof].ranged = false /* tModPorter - this is redundant, for more info see https://github.com/tModLoader/tModLoader/wiki/Update-Migration-Guide#damage-classes */ ;
-                            }
-                            Main.NewText(Language.GetTextValue(key), messageColor);
-                        }
-                    }
-                    break;
-                case 3:
-                    exactSummonLevel = level;
-                    if (shootFireworksLevelUpSummon)
-                    {
-                        string key = final ? "Mods.CalamityMod.SummonLevelUpFinal" : "Mods.CalamityMod.SummonLevelUp";
-                        messageColor = Color.Aquamarine;
-                        shootFireworksLevelUpSummon = false;
-                        if (Player.whoAmI == Main.myPlayer)
-                        {
-                            if (final)
-                            {
-                                int prof = Projectile.NewProjectile(source, Player.Center.X, Player.Center.Y, 0f, -5f, ProjectileID.RocketFireworkRed + Main.rand.Next(4),
-                                    0, 0f, Main.myPlayer, 0f, 1f);
-                                // Main.projectile[prof].ranged = false /* tModPorter - this is redundant, for more info see https://github.com/tModLoader/tModLoader/wiki/Update-Migration-Guide#damage-classes */ ;
-                            }
-                            else
-                            {
-                                int prof = Projectile.NewProjectile(source, Player.Center.X, Player.Center.Y, 0f, -5f, ProjectileID.RocketFireworksBoxRed + Main.rand.Next(4),
-                                    0, 0f, Main.myPlayer, 0f, 0f);
-                                // Main.projectile[prof].ranged = false /* tModPorter - this is redundant, for more info see https://github.com/tModLoader/tModLoader/wiki/Update-Migration-Guide#damage-classes */ ;
-                            }
-                            Main.NewText(Language.GetTextValue(key), messageColor);
-                        }
-                    }
-                    break;
-                case 4:
-                    exactRogueLevel = level;
-                    if (shootFireworksLevelUpRogue)
-                    {
-                        string key = final ? "Mods.CalamityMod.RogueLevelUpFinal" : "Mods.CalamityMod.RogueLevelUp";
-                        messageColor = Color.Orchid;
-                        shootFireworksLevelUpRogue = false;
-                        if (Player.whoAmI == Main.myPlayer)
-                        {
-                            if (final)
-                            {
-                                int prof = Projectile.NewProjectile(source, Player.Center.X, Player.Center.Y, 0f, -5f, ProjectileID.RocketFireworkRed + Main.rand.Next(4),
-                                    0, 0f, Main.myPlayer, 0f, 1f);
-                                // Main.projectile[prof].ranged = false /* tModPorter - this is redundant, for more info see https://github.com/tModLoader/tModLoader/wiki/Update-Migration-Guide#damage-classes */ ;
-                            }
-                            else
-                            {
-                                int prof = Projectile.NewProjectile(source, Player.Center.X, Player.Center.Y, 0f, -5f, ProjectileID.RocketFireworksBoxRed + Main.rand.Next(4),
-                                    0, 0f, Main.myPlayer, 0f, 0f);
-                                // Main.projectile[prof].ranged = false /* tModPorter - this is redundant, for more info see https://github.com/tModLoader/tModLoader/wiki/Update-Migration-Guide#damage-classes */ ;
-                            }
-                            Main.NewText(Language.GetTextValue(key), messageColor);
-                        }
-                    }
-                    break;
-            }
-            if (Main.netMode == NetmodeID.MultiplayerClient)
-            {
-                SyncExactLevel(false, levelUpType);
-            }
-        }
-
-        public void GetStatBonuses()
-        {
-            #region MeleeLevelBoosts
-            if (meleeLevel >= 12500)
-            {
-                Player.GetDamage<MeleeDamageClass>() += 0.06f;
-                Player.GetCritChance<MeleeDamageClass>() += 3;
-            }
-            else if (meleeLevel >= 10500)
-            {
-                Player.GetDamage<MeleeDamageClass>() += 0.06f;
-                Player.GetCritChance<MeleeDamageClass>() += 3;
-            }
-            else if (meleeLevel >= 9100)
-            {
-                Player.GetDamage<MeleeDamageClass>() += 0.06f;
-                Player.GetCritChance<MeleeDamageClass>() += 3;
-            }
-            else if (meleeLevel >= 7800)
-            {
-                Player.GetDamage<MeleeDamageClass>() += 0.05f;
-                Player.GetCritChance<MeleeDamageClass>() += 3;
-            }
-            else if (meleeLevel >= 6600)
-            {
-                Player.GetDamage<MeleeDamageClass>() += 0.05f;
-                Player.GetCritChance<MeleeDamageClass>() += 3;
-            }
-            else if (meleeLevel >= 5500) //hm limit
-            {
-                Player.GetDamage<MeleeDamageClass>() += 0.05f;
-                Player.GetCritChance<MeleeDamageClass>() += 2;
-            }
-            else if (meleeLevel >= 4500)
-            {
-                Player.GetDamage<MeleeDamageClass>() += 0.05f;
-                Player.GetCritChance<MeleeDamageClass>() += 2;
-            }
-            else if (meleeLevel >= 3600)
-            {
-                Player.GetDamage<MeleeDamageClass>() += 0.04f;
-                Player.GetCritChance<MeleeDamageClass>() += 2;
-            }
-            else if (meleeLevel >= 2800)
-            {
-                Player.GetDamage<MeleeDamageClass>() += 0.04f;
-                Player.GetCritChance<MeleeDamageClass>() += 1;
-            }
-            else if (meleeLevel >= 2100)
-            {
-                Player.GetDamage<MeleeDamageClass>() += 0.04f;
-                Player.GetCritChance<MeleeDamageClass>() += 1;
-            }
-            else if (meleeLevel >= 1500) //prehm limit
-            {
-                Player.GetDamage<MeleeDamageClass>() += 0.03f;
-                Player.GetCritChance<MeleeDamageClass>() += 1;
-            }
-            else if (meleeLevel >= 1000)
-            {
-                Player.GetDamage<MeleeDamageClass>() += 0.02f;
-                Player.GetCritChance<MeleeDamageClass>() += 1;
-            }
-            else if (meleeLevel >= 600)
-            {
-                Player.GetDamage<MeleeDamageClass>() += 0.02f;
-            }
-            else if (meleeLevel >= 300)
-                Player.GetDamage<MeleeDamageClass>() += 0.02f;
-            else if (meleeLevel >= 100)
-                Player.GetDamage<MeleeDamageClass>() += 0.01f;
-            #endregion
-
-            #region RangedLevelBoosts
-            if (rangedLevel >= 12500)
-            {
-                Player.GetDamage<RangedDamageClass>() += 0.06f;
-                Player.moveSpeed += 0.06f;
-                Player.GetCritChance<RangedDamageClass>() += 3;
-            }
-            else if (rangedLevel >= 10500)
-            {
-                Player.GetDamage<RangedDamageClass>() += 0.05f;
-                Player.moveSpeed += 0.06f;
-                Player.GetCritChance<RangedDamageClass>() += 3;
-            }
-            else if (rangedLevel >= 9100)
-            {
-                Player.GetDamage<RangedDamageClass>() += 0.05f;
-                Player.moveSpeed += 0.05f;
-                Player.GetCritChance<RangedDamageClass>() += 3;
-            }
-            else if (rangedLevel >= 7800)
-            {
-                Player.GetDamage<RangedDamageClass>() += 0.04f;
-                Player.moveSpeed += 0.05f;
-                Player.GetCritChance<RangedDamageClass>() += 3;
-            }
-            else if (rangedLevel >= 6600)
-            {
-                Player.GetDamage<RangedDamageClass>() += 0.04f;
-                Player.moveSpeed += 0.04f;
-                Player.GetCritChance<RangedDamageClass>() += 3;
-            }
-            else if (rangedLevel >= 5500)
-            {
-                Player.GetDamage<RangedDamageClass>() += 0.04f;
-                Player.moveSpeed += 0.04f;
-                Player.GetCritChance<RangedDamageClass>() += 2;
-            }
-            else if (rangedLevel >= 4500)
-            {
-                Player.GetDamage<RangedDamageClass>() += 0.03f;
-                Player.moveSpeed += 0.04f;
-                Player.GetCritChance<RangedDamageClass>() += 2;
-            }
-            else if (rangedLevel >= 3600)
-            {
-                Player.GetDamage<RangedDamageClass>() += 0.03f;
-                Player.moveSpeed += 0.03f;
-                Player.GetCritChance<RangedDamageClass>() += 2;
-            }
-            else if (rangedLevel >= 2800)
-            {
-                Player.GetDamage<RangedDamageClass>() += 0.02f;
-                Player.moveSpeed += 0.03f;
-                Player.GetCritChance<RangedDamageClass>() += 2;
-            }
-            else if (rangedLevel >= 2100)
-            {
-                Player.GetDamage<RangedDamageClass>() += 0.02f;
-                Player.moveSpeed += 0.03f;
-                Player.GetCritChance<RangedDamageClass>() += 1;
-            }
-            else if (rangedLevel >= 1500)
-            {
-                Player.GetDamage<RangedDamageClass>() += 0.02f;
-                Player.moveSpeed += 0.02f;
-                Player.GetCritChance<RangedDamageClass>() += 1;
-            }
-            else if (rangedLevel >= 1000)
-            {
-                Player.GetDamage<RangedDamageClass>() += 0.02f;
-                Player.moveSpeed += 0.01f;
-                Player.GetCritChance<RangedDamageClass>() += 1;
-            }
-            else if (rangedLevel >= 600)
-            {
-                Player.GetDamage<RangedDamageClass>() += 0.02f;
-                Player.GetCritChance<RangedDamageClass>() += 1;
-            }
-            else if (rangedLevel >= 300)
-                Player.GetDamage<RangedDamageClass>() += 0.02f;
-            else if (rangedLevel >= 100)
-                Player.GetDamage<RangedDamageClass>() += 0.01f;
-            #endregion
-
-            #region MagicLevelBoosts
-            if (magicLevel >= 12500)
-            {
-                Player.GetDamage<MagicDamageClass>() += 0.06f;
-                Player.manaCost *= 0.94f;
-                Player.GetCritChance<MagicDamageClass>() += 3;
-            }
-            else if (magicLevel >= 10500)
-            {
-                Player.GetDamage<MagicDamageClass>() += 0.05f;
-                Player.manaCost *= 0.94f;
-                Player.GetCritChance<MagicDamageClass>() += 3;
-            }
-            else if (magicLevel >= 9100)
-            {
-                Player.GetDamage<MagicDamageClass>() += 0.05f;
-                Player.manaCost *= 0.95f;
-                Player.GetCritChance<MagicDamageClass>() += 3;
-            }
-            else if (magicLevel >= 7800)
-            {
-                Player.GetDamage<MagicDamageClass>() += 0.04f;
-                Player.manaCost *= 0.95f;
-                Player.GetCritChance<MagicDamageClass>() += 3;
-            }
-            else if (magicLevel >= 6600)
-            {
-                Player.GetDamage<MagicDamageClass>() += 0.04f;
-                Player.manaCost *= 0.96f;
-                Player.GetCritChance<MagicDamageClass>() += 3;
-            }
-            else if (magicLevel >= 5500)
-            {
-                Player.GetDamage<MagicDamageClass>() += 0.04f;
-                Player.manaCost *= 0.96f;
-                Player.GetCritChance<MagicDamageClass>() += 2;
-            }
-            else if (magicLevel >= 4500)
-            {
-                Player.GetDamage<MagicDamageClass>() += 0.04f;
-                Player.manaCost *= 0.97f;
-                Player.GetCritChance<MagicDamageClass>() += 2;
-            }
-            else if (magicLevel >= 3600)
-            {
-                Player.GetDamage<MagicDamageClass>() += 0.03f;
-                Player.manaCost *= 0.97f;
-                Player.GetCritChance<MagicDamageClass>() += 2;
-            }
-            else if (magicLevel >= 2800)
-            {
-                Player.GetDamage<MagicDamageClass>() += 0.03f;
-                Player.manaCost *= 0.98f;
-                Player.GetCritChance<MagicDamageClass>() += 2;
-            }
-            else if (magicLevel >= 2100)
-            {
-                Player.GetDamage<MagicDamageClass>() += 0.03f;
-                Player.manaCost *= 0.98f;
-                Player.GetCritChance<MagicDamageClass>() += 1;
-            }
-            else if (magicLevel >= 1500)
-            {
-                Player.GetDamage<MagicDamageClass>() += 0.02f;
-                Player.manaCost *= 0.98f;
-                Player.GetCritChance<MagicDamageClass>() += 1;
-            }
-            else if (magicLevel >= 1000)
-            {
-                Player.GetDamage<MagicDamageClass>() += 0.02f;
-                Player.manaCost *= 0.99f;
-                Player.GetCritChance<MagicDamageClass>() += 1;
-            }
-            else if (magicLevel >= 600)
-            {
-                Player.GetDamage<MagicDamageClass>() += 0.02f;
-                Player.manaCost *= 0.99f;
-            }
-            else if (magicLevel >= 300)
-                Player.GetDamage<MagicDamageClass>() += 0.02f;
-            else if (magicLevel >= 100)
-                Player.GetDamage<MagicDamageClass>() += 0.01f;
-            #endregion
-
-            #region SummonLevelBoosts
-            if (summonLevel >= 12500)
-            {
-                Player.GetDamage<SummonDamageClass>() += 0.12f;
-                Player.GetKnockback(DamageClass.Summon) += 3.0f;
-            }
-            else if (summonLevel >= 10500)
-            {
-                Player.GetDamage<SummonDamageClass>() += 0.1f;
-                Player.GetKnockback(DamageClass.Summon) += 3.0f;
-            }
-            else if (summonLevel >= 9100)
-            {
-                Player.GetDamage<SummonDamageClass>() += 0.09f;
-                Player.GetKnockback(DamageClass.Summon) += 2.7f;
-            }
-            else if (summonLevel >= 7800)
-            {
-                Player.GetDamage<SummonDamageClass>() += 0.08f;
-                Player.GetKnockback(DamageClass.Summon) += 2.4f;
-            }
-            else if (summonLevel >= 6600)
-            {
-                Player.GetDamage<SummonDamageClass>() += 0.07f;
-                Player.GetKnockback(DamageClass.Summon) += 2.1f;
-            }
-            else if (summonLevel >= 5500)
-            {
-                Player.GetDamage<SummonDamageClass>() += 0.07f;
-                Player.GetKnockback(DamageClass.Summon) += 1.8f;
-            }
-            else if (summonLevel >= 4500)
-            {
-                Player.GetDamage<SummonDamageClass>() += 0.06f;
-                Player.GetKnockback(DamageClass.Summon) += 1.8f;
-            }
-            else if (summonLevel >= 3600)
-            {
-                Player.GetDamage<SummonDamageClass>() += 0.05f;
-                Player.GetKnockback(DamageClass.Summon) += 1.5f;
-            }
-            else if (summonLevel >= 2800)
-            {
-                Player.GetDamage<SummonDamageClass>() += 0.04f;
-                Player.GetKnockback(DamageClass.Summon) += 1.2f;
-            }
-            else if (summonLevel >= 2100)
-            {
-                Player.GetDamage<SummonDamageClass>() += 0.04f;
-                Player.GetKnockback(DamageClass.Summon) += 0.9f;
-            }
-            else if (summonLevel >= 1500)
-            {
-                Player.GetDamage<SummonDamageClass>() += 0.03f;
-                Player.GetKnockback(DamageClass.Summon) += 0.6f;
-            }
-            else if (summonLevel >= 1000)
-            {
-                Player.GetDamage<SummonDamageClass>() += 0.03f;
-                Player.GetKnockback(DamageClass.Summon) += 0.3f;
-            }
-            else if (summonLevel >= 600)
-            {
-                Player.GetDamage<SummonDamageClass>() += 0.02f;
-                Player.GetKnockback(DamageClass.Summon) += 0.3f;
-            }
-            else if (summonLevel >= 300)
-                Player.GetDamage<SummonDamageClass>() += 0.02f;
-            else if (summonLevel >= 100)
-                Player.GetDamage<SummonDamageClass>() += 0.01f;
-            #endregion
-
-            #region RogueLevelBoosts
-            ref StatModifier throwingDamage = ref Player.GetDamage<ThrowingDamageClass>();
-            ref float throwingCrit = ref Player.GetCritChance<ThrowingDamageClass>();
-            if (rogueLevel >= 12500)
-            {
-                throwingDamage += 0.06f;
-                rogueVelocity += 0.06f;
-                throwingCrit += 3;
-            }
-            else if (rogueLevel >= 10500)
-            {
-                throwingDamage += 0.05f;
-                rogueVelocity += 0.06f;
-                throwingCrit += 3;
-            }
-            else if (rogueLevel >= 9100)
-            {
-                throwingDamage += 0.05f;
-                rogueVelocity += 0.05f;
-                throwingCrit += 3;
-            }
-            else if (rogueLevel >= 7800)
-            {
-                throwingDamage += 0.04f;
-                rogueVelocity += 0.05f;
-                throwingCrit += 3;
-            }
-            else if (rogueLevel >= 6600)
-            {
-                throwingDamage += 0.04f;
-                rogueVelocity += 0.04f;
-                throwingCrit += 3;
-            }
-            else if (rogueLevel >= 5500)
-            {
-                throwingDamage += 0.04f;
-                rogueVelocity += 0.04f;
-                throwingCrit += 2;
-            }
-            else if (rogueLevel >= 4500)
-            {
-                throwingDamage += 0.03f;
-                rogueVelocity += 0.04f;
-                throwingCrit += 2;
-            }
-            else if (rogueLevel >= 3600)
-            {
-                throwingDamage += 0.03f;
-                rogueVelocity += 0.03f;
-                throwingCrit += 2;
-            }
-            else if (rogueLevel >= 2800)
-            {
-                throwingDamage += 0.03f;
-                rogueVelocity += 0.03f;
-                throwingCrit += 1;
-            }
-            else if (rogueLevel >= 2100)
-            {
-                throwingDamage += 0.02f;
-                rogueVelocity += 0.03f;
-                throwingCrit += 1;
-            }
-            else if (rogueLevel >= 1500)
-            {
-                throwingDamage += 0.02f;
-                rogueVelocity += 0.02f;
-                throwingCrit += 1;
-            }
-            else if (rogueLevel >= 1000)
-            {
-                throwingDamage += 0.02f;
-                rogueVelocity += 0.01f;
-                throwingCrit += 1;
-            }
-            else if (rogueLevel >= 600)
-            {
-                throwingDamage += 0.02f;
-                rogueVelocity += 0.01f;
-            }
-            else if (rogueLevel >= 300)
-                throwingDamage += 0.02f;
-            else if (rogueLevel >= 100)
-                throwingDamage += 0.01f;
-            #endregion
-        }
-
-        private float GetMeleeSpeedBonus()
-        {
-            float meleeSpeedBonus = 0f;
-            if (meleeLevel >= 12500)
-            {
-                meleeSpeedBonus += 0.06f;
-            }
-            else if (meleeLevel >= 10500)
-            {
-                meleeSpeedBonus += 0.05f;
-            }
-            else if (meleeLevel >= 9100)
-            {
-                meleeSpeedBonus += 0.04f;
-            }
-            else if (meleeLevel >= 7800)
-            {
-                meleeSpeedBonus += 0.04f;
-            }
-            else if (meleeLevel >= 6600)
-            {
-                meleeSpeedBonus += 0.03f;
-            }
-            else if (meleeLevel >= 5500) //hm limit
-            {
-                meleeSpeedBonus += 0.03f;
-            }
-            else if (meleeLevel >= 4500)
-            {
-                meleeSpeedBonus += 0.02f;
-            }
-            else if (meleeLevel >= 3600)
-            {
-                meleeSpeedBonus += 0.02f;
-            }
-            else if (meleeLevel >= 2800)
-            {
-                meleeSpeedBonus += 0.02f;
-            }
-            else if (meleeLevel >= 2100)
-            {
-                meleeSpeedBonus += 0.01f;
-            }
-            else if (meleeLevel >= 1500) //prehm limit
-            {
-                meleeSpeedBonus += 0.01f;
-            }
-            else if (meleeLevel >= 1000)
-            {
-                meleeSpeedBonus += 0.01f;
-            }
-            else if (meleeLevel >= 600)
-            {
-                meleeSpeedBonus += 0.01f;
-            }
-            return meleeSpeedBonus;
         }
         #endregion
 

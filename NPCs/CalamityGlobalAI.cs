@@ -6122,9 +6122,15 @@ namespace CalamityMod.NPCs
                 int damage = 10;
 
                 int projType = ProjectileID.SandBallFalling;
-                int projAmt = Main.rand.Next(8, 14);
-                if (Main.rand.NextBool(1000))
-                    projAmt = Main.rand.Next(80, 131);
+
+                // 3 to 5 in Death, if FTW is also enabled, 8 to 13 (random chance for 10x the amount)
+                int projAmt = Main.rand.Next(3, 6);
+                if (Main.getGoodWorld)
+                {
+                    projAmt = Main.rand.Next(8, 14);
+                    if (Main.rand.NextBool(1000))
+                        projAmt = Main.rand.Next(80, 131);
+                }
 
                 for (int i = 0; i < projAmt; i++)
                 {

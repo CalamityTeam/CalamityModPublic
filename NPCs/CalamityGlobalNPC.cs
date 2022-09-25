@@ -737,13 +737,14 @@ namespace CalamityMod.NPCs
                 CalamityLists.AquaticScourgeIDs.Contains(npc.type) || CalamityLists.AstrumDeusIDs.Contains(npc.type) || CalamityLists.StormWeaverIDs.Contains(npc.type);
             bool slimeGod = CalamityLists.SlimeGodIDs.Contains(npc.type);
 
-            double heatDamageMult = npc.drippingSlime ? ((wormBoss || slimeGod) ? 2D : 5D) : 1D;
+            bool slimed = npc.drippingSlime || npc.drippingSparkleSlime;
+            double heatDamageMult = slimed ? ((wormBoss || slimeGod) ? 2D : 5D) : 1D;
             if (VulnerableToHeat.HasValue)
             {
                 if (VulnerableToHeat.Value)
-                    heatDamageMult *= npc.drippingSlime ? ((wormBoss || slimeGod) ? 1.5 : 2D) : ((wormBoss || slimeGod) ? 2D : 5D);
+                    heatDamageMult *= slimed ? ((wormBoss || slimeGod) ? 1.5 : 2D) : ((wormBoss || slimeGod) ? 2D : 5D);
                 else
-                    heatDamageMult *= npc.drippingSlime ? 0.2 : 0.5;
+                    heatDamageMult *= slimed ? 0.2 : 0.5;
             }
 
             double coldDamageMult = 1D;
@@ -831,6 +832,26 @@ namespace CalamityMod.NPCs
                     damage = baseHellfireDoTValue / 4;
             }
 
+			// Daybroken
+			if (npc.daybreak)
+			{
+				int projAmt = 0;
+				int num7 = 4;
+				for (int k = 0; k < Main.maxProjectiles; k++)
+				{
+					if (Main.projectile[k].active && Main.projectile[k].type == ProjectileID.Daybreak && Main.projectile[k].ai[0] == 1f && Main.projectile[k].ai[1] == npc.whoAmI)
+						projAmt++;
+				}
+
+				if (projAmt == 0)
+					projAmt = 1;
+
+                int baseDaybreakDoTValue = (int)(projAmt * 2 * 100 * vanillaHeatDamageMult);
+                npc.lifeRegen -= baseDaybreakDoTValue;
+                if (damage < baseDaybreakDoTValue / 4)
+                    damage = baseDaybreakDoTValue / 4;
+			}
+
             // Shadowflame
             if (npc.shadowFlame)
             {
@@ -896,6 +917,15 @@ namespace CalamityMod.NPCs
                 npc.lifeRegen -= baseFrostBurnDoTValue;
                 if (damage < baseFrostBurnDoTValue / 4)
                     damage = baseFrostBurnDoTValue / 4;
+            }
+
+            // Frostbite
+            if (npc.onFrostBurn2)
+            {
+                int baseFrostBiteDoTValue = (int)((npc.oiled ? 100 : 50) * vanillaColdDamageMult);
+                npc.lifeRegen -= baseFrostBiteDoTValue;
+                if (damage < baseFrostBiteDoTValue / 4)
+                    damage = baseFrostBiteDoTValue / 4;
             }
 
             // Nightwither
@@ -3679,6 +3709,7 @@ namespace CalamityMod.NPCs
                     npc.buffImmune[BuffID.Slimed] = false;
                     npc.buffImmune[BuffID.Lovestruck] = false;
                     npc.buffImmune[BuffID.Stinky] = false;
+                    npc.buffImmune[BuffID.GelBalloonBuff] = false;
                 }
             }
 
@@ -4354,6 +4385,17 @@ namespace CalamityMod.NPCs
             // Apply balancing resists/vulnerabilities.
             BalancingChangesManager.ApplyFromProjectile(npc, ref damage, projectile);
 
+            if (CalamityLists.GrenadeResistIDs.Contains(projectile.type))
+            {
+                // Eater of Worlds has a vanilla resist in Expert+, this gives it to him in Normal mode
+                bool hasResist = CalamityLists.EaterofWorldsIDs.Contains(npc.type) && !Main.expertMode;
+                // Add a resist for BoC's creepers and Prehardmode worm bosses
+                if (npc.type == NPCID.Creeper || CalamityLists.DesertScourgeIDs.Contains(npc.type) || CalamityLists.PerforatorIDs.Contains(npc.type))
+                    hasResist = true;
+                if (hasResist)
+                    damage = (int)(damage * 0.2);
+            }
+
             if (CalamityLists.pierceResistList.Contains(npc.type))
                 PierceResistGlobal(projectile, npc, ref damage);
 
@@ -4364,14 +4406,6 @@ namespace CalamityMod.NPCs
         // TODO -- What in god's name is this?
         private void PierceResistGlobal(Projectile projectile, NPC npc, ref int damage)
         {
-            if (CalamityLists.GrenadeResistIDs.Contains(projectile.type))
-            {
-                if (!CalamityLists.EaterofWorldsIDs.Contains(npc.type))
-                    damage = (int)(damage * 0.2);
-                else if (!Main.expertMode)
-                    damage = (int)(damage * 0.2);
-            }
-
             // Thanatos segments do not trigger pierce resistance if they are closed
             if (CalamityLists.ThanatosIDs.Contains(npc.type) && unbreakableDR)
                 return;
@@ -4382,7 +4416,7 @@ namespace CalamityMod.NPCs
 
             damage -= (int)(damage * damageReduction);
 
-            if ((projectile.penetrate > 1 || projectile.penetrate == -1) && !CalamityLists.pierceResistExceptionList.Contains(projectile.type) && !projectile.IsSummon() && projectile.aiStyle != 15 && projectile.aiStyle != 39 && projectile.aiStyle != 99)
+            if ((projectile.penetrate > 1 || projectile.penetrate == -1) && !CalamityLists.pierceResistExceptionList.Contains(projectile.type) && !projectile.CountsAsClass<SummonDamageClass>() && projectile.aiStyle != 15 && projectile.aiStyle != 39 && projectile.aiStyle != 99)
                 projectile.Calamity().timesPierced++;
         }
         #endregion
@@ -4506,6 +4540,29 @@ namespace CalamityMod.NPCs
                     bool appropriatePlayer = Main.myPlayer == playerIndex;
                     if (Main.player[playerIndex].active && appropriatePlayer)
                         Main.player[playerIndex].Spawn(PlayerSpawnContext.RecallFromItem);
+                }
+            }
+
+            if (pFlames > 0 && npc.life <= 0)
+            {
+                Rectangle hitbox = npc.Hitbox;
+                for (int i = 0; i < 20; i++)
+                {
+                    int idx = Dust.NewDust(hitbox.TopLeft(), npc.width, npc.height, 89, 0f, -2.5f);
+                    Dust dust = Main.dust[idx];
+                    dust.alpha = 200;
+                    dust.velocity *= 1.4f;
+                    dust.scale += Main.rand.NextFloat();
+                }
+
+                if (Main.netMode != NetmodeID.MultiplayerClient)
+                {
+                    for (int j = 0; j < Main.maxNPCs; j++)
+                    {
+                        NPC nPC = Main.npc[j];
+                        if (nPC.active && !nPC.buffImmune[ModContent.BuffType<Plague>()] && npc.Distance(nPC.Center) < 100f && !nPC.dontTakeDamage && nPC.lifeMax > 5 && !nPC.friendly && !nPC.townNPC)
+                            nPC.AddBuff(ModContent.BuffType<Plague>(), 300);
+                    }
                 }
             }
         }
@@ -5225,6 +5282,8 @@ namespace CalamityMod.NPCs
                     // Damage over time debuffs
                     if (astralInfection > 0)
                         buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/AstralInfectionDebuff").Value);
+                    if (banishingFire > 0)
+                        buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/BanishingFire").Value);
                     if (bFlames > 0)
                         buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/BrimstoneFlames").Value);
                     if (bBlood > 0)
@@ -5233,16 +5292,18 @@ namespace CalamityMod.NPCs
                         buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/CrushDepth").Value);
                     if (dFlames > 0)
                         buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/DemonFlames").Value);
-                    if (gsInferno > 0)
-                        buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/GodSlayerInferno").Value);
                     if (dragonFire > 0)
                         buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/Dragonfire").Value);
+                    if (gsInferno > 0)
+                        buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/GodSlayerInferno").Value);
                     if (hFlames > 0)
                         buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/HolyFlames").Value);
                     if (nightwither > 0)
                         buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/Nightwither").Value);
                     if (pFlames > 0)
                         buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/Plague").Value);
+                    if (sagePoisonTime > 0)
+                        buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/SagePoison").Value);
                     if (shellfishVore > 0)
                         buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/ShellfishClaps").Value);
                     if (somaShredStacks > 0)
@@ -5251,10 +5312,10 @@ namespace CalamityMod.NPCs
                         buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/SnapClamDebuff").Value);
                     if (sulphurPoison > 0)
                         buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/SulphuricPoisoning").Value);
-                    if (sagePoisonTime > 0)
-                        buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/SagePoison").Value);
                     if (vaporfied > 0)
                         buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/Vaporfied").Value);
+                    if (vulnerabilityHex > 0)
+                        buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/VulnerabilityHex").Value);
 
                     // Stat debuffs
                     if (aCrunch > 0)
@@ -5288,6 +5349,10 @@ namespace CalamityMod.NPCs
                     if (wither > 0)
                         buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/StatDebuffs/WitherDebuff").Value);
 
+                    // Visual debuff
+                    if (RancorBurnTime > 0)
+                        buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/RancorBurn").Value);
+
                     // Vanilla damage over time debuffs
                     if (electrified > 0)
                         buffTextureList.Add(TextureAssets.Buff[BuffID.Electrified].Value);
@@ -5317,6 +5382,12 @@ namespace CalamityMod.NPCs
                         buffTextureList.Add(TextureAssets.Buff[BuffID.DryadsWard].Value);
                     if (npc.soulDrain && npc.realLife == -1)
                         buffTextureList.Add(TextureAssets.Buff[BuffID.SoulDrain].Value);
+                    if (npc.onFire3) // Hellfire
+                        buffTextureList.Add(TextureAssets.Buff[BuffID.OnFire3].Value);
+                    if (npc.onFrostBurn2) // Frostbite
+                        buffTextureList.Add(TextureAssets.Buff[BuffID.Frostburn2].Value);
+                    if (npc.tentacleSpiked)
+                        buffTextureList.Add(TextureAssets.Buff[BuffID.TentacleSpike].Value);
 
                     // Vanilla stat debuffs
                     if (npc.confused)
@@ -5339,6 +5410,10 @@ namespace CalamityMod.NPCs
                         buffTextureList.Add(TextureAssets.Buff[BuffID.Wet].Value);
                     if (npc.drippingSlime)
                         buffTextureList.Add(TextureAssets.Buff[BuffID.Slimed].Value);
+                    if (npc.drippingSparkleSlime)
+                        buffTextureList.Add(TextureAssets.Buff[BuffID.GelBalloonBuff].Value);
+                    if (npc.markedByScytheWhip) // Dark Harvest whip, the only Whip debuff that has an NPC bool
+                        buffTextureList.Add(TextureAssets.Buff[BuffID.ScytheWhipEnemyDebuff].Value);
 
                     // Total amount of elements in the buff list
                     int buffTextureListLength = buffTextureList.Count;

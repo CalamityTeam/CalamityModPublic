@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using CalamityMod.Items.Materials;
-using CalamityMod.Projectiles.Melee;
+using CalamityMod.Projectiles.Summon;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -8,11 +8,11 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
 
-namespace CalamityMod.Items.Weapons.Melee
+namespace CalamityMod.Items.Weapons.Summon
 {
     public class Cnidarian : ModItem
     {
-        public override string Texture => "CalamityMod/Items/Weapons/Melee/CnidarianFishingRod";
+        public override string Texture => "CalamityMod/Items/Weapons/Summon/CnidarianFishingRod";
 
         public override void SetStaticDefaults()
         {
@@ -135,7 +135,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
         {
-            Texture2D properSprite = ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Melee/Cnidarian").Value;
+            Texture2D properSprite = ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Summon/Cnidarian").Value;
 
             spriteBatch.DrawNewInventorySprite(properSprite, new Vector2(42f, 34), position, drawColor, origin, scale);
             return false;
@@ -143,7 +143,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
         {
-            Texture2D properSprite = ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Melee/Cnidarian").Value;
+            Texture2D properSprite = ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Summon/Cnidarian").Value;
 
             spriteBatch.Draw(properSprite, Item.position - Main.screenPosition, null, lightColor, rotation, properSprite.Size() / 2f, scale, 0, 0);
             return false;

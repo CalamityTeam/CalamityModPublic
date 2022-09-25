@@ -24,11 +24,11 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            Item.damage = 2250;
+            Item.damage = 1800;
             Item.knockBack = 9.5f;
             Item.DamageType = DamageClass.Ranged;
-            Item.useTime = 55;
-            Item.useAnimation = 55;
+            Item.useTime = 60;
+            Item.useAnimation = 60;
             Item.shoot = ProjectileID.BulletHighVelocity;
             Item.shootSpeed = 12f;
             Item.useAmmo = AmmoID.Bullet;

@@ -11,6 +11,7 @@ namespace CalamityMod.Items.Fishing
             DisplayName.SetDefault("Fish of Night");
             Tooltip.SetDefault("Right click to extract souls");
             SacrificeTotal = 10;
+            ItemID.Sets.CanBePlacedOnWeaponRacks[Item.type] = true;
         }
 
         public override void SetDefaults()

@@ -783,7 +783,6 @@ namespace CalamityMod
                 { Vanilla(ItemID.TrueExcalibur), ChangeIngredientStack(ItemID.ChlorophyteBar, 12) },
                 { Vanilla(ItemID.TerraBlade), AddIngredient(ModContent.ItemType<LivingShard>(), 12) },
                 { Vanilla(ItemID.Zenith), AddIngredient(ModContent.ItemType<AuricBar>(), 5) },
-                { Vanilla(ItemID.Magiluminescence), MagiluminescenceRecipeEdit },
                 { Vanilla(ItemID.FireGauntlet), AddIngredient(ModContent.ItemType<ScoriaBar>(), 5) },
                 { Vanilla(ItemID.SpiritFlame), AddGroup(AnyAdamantiteBar, 2) },
                 { VanillaEach(ItemID.BeetleHelmet, ItemID.BeetleScaleMail, ItemID.BeetleShell, ItemID.BeetleLeggings), SwapIngredients(0, 1) },
@@ -916,14 +915,6 @@ namespace CalamityMod
             r.ChangeIngredientStack(ItemID.SoulofSight, intendedStack);
             r.ChangeIngredientStack(ItemID.SoulofMight, intendedStack);
             r.ChangeIngredientStack(ItemID.SoulofFright, intendedStack);
-        }
-
-        // Change Magiluminescence's recipe to require more ingredients
-        private static void MagiluminescenceRecipeEdit(Recipe r)
-        {
-            r.ChangeIngredientStack(ItemID.DemoniteBar, 20);
-            r.ChangeIngredientStack(ItemID.CrimtaneBar, 20);
-            r.ChangeIngredientStack(ItemID.Topaz, 15);
         }
 
         private static void WormFoodRecipeEdit(Recipe r)

@@ -4,7 +4,8 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables
 {
-    public class ChaoticBrick : ModItem
+    [LegacyName("ChaoticBrick")]
+    public class ScoriaBrick : ModItem
     {
         public override void SetStaticDefaults() => SacrificeTotal = 100;
 
@@ -21,7 +22,7 @@ namespace CalamityMod.Items.Placeables
             Item.useTime = 10;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.consumable = true;
-            Item.createTile = ModContent.TileType<Tiles.ChaoticBrick>();
+            Item.createTile = ModContent.TileType<Tiles.ScoriaBrick>();
         }
 
         public override void AddRecipes()
@@ -33,7 +34,7 @@ namespace CalamityMod.Items.Placeables
                 Register();
 
             CreateRecipe().
-                AddIngredient<ChaoticBrickWall>(4).
+                AddIngredient<ScoriaBrickWall>(4).
                 AddTile(TileID.WorkBenches).
                 Register();
         }

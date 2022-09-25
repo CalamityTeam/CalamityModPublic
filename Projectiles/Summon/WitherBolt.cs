@@ -89,7 +89,7 @@ namespace CalamityMod.Projectiles.Summon
                 {
                     Vector2 spawnPosition = Projectile.Center + Main.rand.NextVector2CircularEdge(8f, 8f);
                     int seeker = Projectile.NewProjectile(Projectile.GetSource_FromThis(), spawnPosition, Main.rand.NextVector2Circular(12f, 12f), ModContent.ProjectileType<PlagueSeeker>(), Projectile.damage / 2, Projectile.knockBack, Projectile.owner);
-                    Main.projectile[seeker].originalDamage = Projectile.damage / 2;
+                    Main.projectile[seeker].originalDamage = Projectile.originalDamage / 2;
                     Main.projectile[seeker].DamageType = DamageClass.Summon;
                 }
             }

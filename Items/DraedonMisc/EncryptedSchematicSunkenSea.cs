@@ -1,8 +1,13 @@
 ﻿using CalamityMod.CustomRecipes;
 using CalamityMod.Items.Materials;
+using CalamityMod.Items.Weapons.DraedonsArsenal;
+using CalamityMod.Items.DraedonMisc;
 using CalamityMod.UI;
 using CalamityMod.Rarities;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -52,6 +57,43 @@ namespace CalamityMod.Items.DraedonMisc
                 AddCondition(SchematicRecipe.ConstructRecipeCondition("Sunken Sea", out Predicate<Recipe> condition), condition).
                 AddTile(TileID.Anvils).
                 Register();
+        }
+
+        public override void ModifyTooltips(List<TooltipLine> list)
+        {
+            TooltipLine line = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip0");
+            if (RecipeUnlockHandler.HasUnlockedT1ArsenalRecipes)
+            {
+                int insertIndex = list.FindIndex(x => x.Name == "Tooltip2" && x.Mod == "Terraria");
+                if (insertIndex != -1)
+                {
+                    TooltipLine meleeDisplay = new TooltipLine(this.Mod, "CalamityMod:MeleeDisplay", $"[i:{ModContent.ItemType<GaussDagger>()}] Gauss Dagger");
+                    meleeDisplay.OverrideColor = new Color(236, 255, 31);
+                    list.Insert(insertIndex + 1, meleeDisplay);
+
+                    TooltipLine rangedDisplay = new TooltipLine(this.Mod, "CalamityMod:RangedDisplay", $"[i:{ModContent.ItemType<Taser>()}] Taser");
+                    rangedDisplay.OverrideColor = new Color(31, 242, 245);
+                    list.Insert(insertIndex + 2, rangedDisplay);
+
+                    TooltipLine mageDisplay = new TooltipLine(this.Mod, "CalamityMod:MageDisplay", $"[i:{ModContent.ItemType<PulsePistol>()}] Pulse Pistol");
+                    mageDisplay.OverrideColor = new Color(201, 41, 255);
+                    list.Insert(insertIndex + 3, mageDisplay);
+
+                    TooltipLine summonDisplay = new TooltipLine(this.Mod, "CalamityMod:SummonDisplay", $"[i:{ModContent.ItemType<StarSwallowerContainmentUnit>()}] Star Swallower Containment Unit");
+                    summonDisplay.OverrideColor = new Color(149, 243, 43);
+                    list.Insert(insertIndex + 4, summonDisplay);
+
+                    TooltipLine rogueDisplay = new TooltipLine(this.Mod, "CalamityMod:RogueDisplay", $"[i:{ModContent.ItemType<TrackingDisk>()}] Tracking Disk");
+                    rogueDisplay.OverrideColor = new Color(255, 64, 31);
+                    list.Insert(insertIndex + 5, rogueDisplay);
+
+                    TooltipLine machineDisplay = new TooltipLine(this.Mod, "CalamityMod:CodeDisplay", $"[i:{ModContent.ItemType<DecryptionComputer>()}] Decryption Computer");
+                    machineDisplay.OverrideColor = new Color(165, 118, 104);
+                    list.Insert(insertIndex + 6, machineDisplay);
+
+                }
+            }
+
         }
 
         public override bool? UseItem(Player player)

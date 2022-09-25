@@ -12,6 +12,7 @@ namespace CalamityMod.Items.Fishing
             DisplayName.SetDefault("Sunbeam Fish");
             Tooltip.SetDefault("Right click to extract essence");
             SacrificeTotal = 10;
+            ItemID.Sets.CanBePlacedOnWeaponRacks[Item.type] = true;
         }
 
         public override void SetDefaults()

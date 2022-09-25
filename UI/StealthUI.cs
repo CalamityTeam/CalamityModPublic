@@ -107,7 +107,9 @@ namespace CalamityMod.UI
 						textToDisplay += "Rogue stealth builds while not attacking and slower while moving\n" +
 							"Once you have built max stealth, you will be able to perform a Stealth Strike\n" +
 							"Rogue stealth only reduces when you attack, it does not reduce while moving\n" +
-							"The higher your rogue stealth the higher your rogue damage, crit, and movement speed";
+							"The higher your rogue stealth the higher your rogue damage and crit\n" +
+							"Having more stealth regeneration slightly decreases the damage bonus from stealth\n" +
+							"This is offset by you being able to use stealth strikes far more often";
 					}
 
 					Main.instance.MouseText(textToDisplay, 0, 0, -1, -1, -1, -1);

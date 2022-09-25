@@ -28,7 +28,12 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.localNPCHitCooldown = 12;
         }
 
-        public override bool? CanHitNPC(NPC target) => Projectile.timeLeft < 60;
+        public override bool? CanHitNPC(NPC target)
+        {
+            if (Projectile.timeLeft < 60)
+                return false;
+            return null;
+        }
 
         public override void AI()
         {

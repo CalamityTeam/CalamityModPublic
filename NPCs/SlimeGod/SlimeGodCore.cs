@@ -244,6 +244,11 @@ namespace CalamityMod.NPCs.SlimeGod
                         CalamityUtils.DisplayLocalizedText(key, messageColor);
                     }
 
+                    // Set Slime God to have interacted with all players
+                    for (int i = 0; i < Main.maxPlayers; i++)
+                    {
+                        NPC.ApplyInteraction(i);
+                    }
                     NPC.active = false;
                     NPC.HitEffect();
                     NPC.NPCLoot();

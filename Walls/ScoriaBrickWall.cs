@@ -4,12 +4,13 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Walls
 {
-    public class ChaoticBrickWall : ModWall
+    [LegacyName("ChaoticBrickWall")]
+    public class ScoriaBrickWall : ModWall
     {
         public override void SetStaticDefaults()
         {
             Main.wallHouse[Type] = true;
-            ItemDrop = ModContent.ItemType<Items.Placeables.Walls.ChaoticBrickWall>();
+            ItemDrop = ModContent.ItemType<Items.Placeables.Walls.ScoriaBrickWall>();
             AddMapEntry(new Color(255, 0, 0));
             DustType = 105;
         }

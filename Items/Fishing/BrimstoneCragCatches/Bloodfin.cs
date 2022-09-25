@@ -19,6 +19,7 @@ Grants a buff that boosts life regen for 10 seconds
 The life regen boost is stronger if below 75% health
 10 second duration");
             SacrificeTotal = 30;
+            ItemID.Sets.CanBePlacedOnWeaponRacks[Item.type] = true;
         }
 
         public override void SetDefaults()

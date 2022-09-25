@@ -3,6 +3,7 @@ using CalamityMod.NPCs.Crabulon;
 using CalamityMod.NPCs.ExoMechs.Apollo;
 using CalamityMod.NPCs.ExoMechs.Artemis;
 using CalamityMod.NPCs.OldDuke;
+using CalamityMod.NPCs.Providence;
 using CalamityMod.NPCs.Ravager;
 using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.Projectiles.Magic;
@@ -154,7 +155,7 @@ namespace CalamityMod.Balancing
             // 40% resist to Cryophobia
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.AquaticScourgeIDs, Do(new ProjectileResistBalancingRule(0.6f, ProjectileType<CryoBlast>()))));
 
-            // 15% resust to Snowstorm Staff
+            // 15% resist to Snowstorm Staff
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.DestroyerIDs, Do(new ProjectileResistBalancingRule(0.85f, ProjectileType<Snowflake>()))));
 
             #endregion The Destroyer
@@ -169,7 +170,7 @@ namespace CalamityMod.Balancing
             #region Duke Fishron
 
             // 35% vulnerability to Resurrection Butterfly.
-            NPCSpecificBalancingChanges.Add(new NPCBalancingChange(NPCID.CultistBoss, Do(new ProjectileResistBalancingRule(1.35f, ProjectileType<SakuraBullet>(), ProjectileType<PurpleButterfly>()))));
+            NPCSpecificBalancingChanges.Add(new NPCBalancingChange(NPCID.DukeFishron, Do(new ProjectileResistBalancingRule(1.35f, ProjectileType<SakuraBullet>(), ProjectileType<PurpleButterfly>()))));
 
             #endregion Duke Fishron
 
@@ -177,6 +178,9 @@ namespace CalamityMod.Balancing
 
             // 25% resist to Resurrection Butterfly.
             NPCSpecificBalancingChanges.Add(new NPCBalancingChange(NPCID.CultistBoss, Do(new ProjectileResistBalancingRule(0.75f, ProjectileType<SakuraBullet>(), ProjectileType<PurpleButterfly>()))));
+
+            // 30% resist to Art Attack.
+            NPCSpecificBalancingChanges.Add(new NPCBalancingChange(NPCID.CultistBoss, Do(new ProjectileResistBalancingRule(0.7f, ProjectileType<ArtAttackStrike>()))));
 
             #endregion Cultist
 
@@ -194,8 +198,13 @@ namespace CalamityMod.Balancing
             #endregion Astrum Deus
 
             #region Moon Lord
-            // 30% resist to the shockwave attunement from the True biome blade.
+            // 90% resist to the shockwave attunement from the True biome blade.
             NPCSpecificBalancingChanges.Add(new NPCBalancingChange(NPCID.MoonLordCore, Do(new ProjectileResistBalancingRule(0.1f, ProjectileType<MercurialTides>(), ProjectileType<MercurialTidesMonolith>(), ProjectileType<MercurialTidesBlast>()))));
+            #endregion
+
+            #region Providence
+            // 80% resist to Hell's Sun.
+            NPCSpecificBalancingChanges.Add(new NPCBalancingChange(NPCType<Providence>(), new ProjectileResistBalancingRule(0.2f, ProjectileType<HellsSunProj>())));
             #endregion
 
             #region Ceaseless Void / Dark Energies

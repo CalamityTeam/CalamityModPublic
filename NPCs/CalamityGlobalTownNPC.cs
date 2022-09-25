@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Events;
+using CalamityMod.Items;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Ammo;
 using CalamityMod.Items.Ammo.FiniteUse;
@@ -1098,6 +1099,10 @@ namespace CalamityMod.NPCs
                     {
                         chat = "Space just got way too close for comfort.";
                     }
+                    if (Main.rand.NextBool(6) && !Main.LocalPlayer.InventoryHas(ItemID.RodofDiscord) && !Main.LocalPlayer.InventoryHas(ModContent.ItemType<NormalityRelocator>()) && !Main.LocalPlayer.ZoneHallow)
+                    {
+                        chat = "I wanted to sell you a special rod I found in the Hallow, but it appears I have misplaced it. Maybe a trip back there would refresh my memory.";
+                    }
 
                     break;
 
@@ -1183,6 +1188,17 @@ namespace CalamityMod.NPCs
                     if (Main.rand.NextBool(10) && DownedBossSystem.downedDoG)
                     {
                         chat = "Is it me or are your weapons getting bigger and bigger?";
+                    }
+
+                    // If you've beaten Skeletron and don't have Quad-Barrel Shotgun, drop a hint
+                    // This does not show up if you're in hardmode since the weapon is irrelevant by then
+                    if (Main.rand.NextBool(5) && NPC.downedBoss3 && !Main.hardMode && !Main.LocalPlayer.InventoryHas(ItemID.QuadBarrelShotgun) && !Main.LocalPlayer.ZoneGraveyard)
+                    {
+                        chat = "That old man left a cranky old gun on his deathbed. You catching my drift?";
+                    }
+                    if (Main.rand.NextBool(5) && Main.LocalPlayer.InventoryHas(ItemID.QuadBarrelShotgun))
+                    {
+                        chat = "Hah! Look at that rusty old shotty. It looks straight out of the 70's!";
                     }
 
                     break;
@@ -1581,12 +1597,7 @@ namespace CalamityMod.NPCs
             if (type == NPCID.GoblinTinkerer)
             {
                 SetShopItem(ref shop, ref nextSlot, ItemID.StinkPotion, true, Item.buyPrice(0, 1, 0, 0));
-                SetShopItem(ref shop, ref nextSlot, ItemType<MeleeLevelMeter>(), price: Item.buyPrice(0, 5));
-                SetShopItem(ref shop, ref nextSlot, ItemType<RangedLevelMeter>(), price: Item.buyPrice(0, 5));
-                SetShopItem(ref shop, ref nextSlot, ItemType<MagicLevelMeter>(), price: Item.buyPrice(0, 5));
-                SetShopItem(ref shop, ref nextSlot, ItemType<SummonLevelMeter>(), price: Item.buyPrice(0, 5));
-                SetShopItem(ref shop, ref nextSlot, ItemType<RogueLevelMeter>(), price: Item.buyPrice(0, 5));
-                SetShopItem(ref shop, ref nextSlot, ItemType<StatMeter>(), price: Item.buyPrice(0, 5));
+                SetShopItem(ref shop, ref nextSlot, ItemType<StatMeter>());
             }
 
             if (type == NPCID.Mechanic)
@@ -1623,6 +1634,8 @@ namespace CalamityMod.NPCs
             if (type == NPCID.Steampunker)
             {
                 SetShopItem(ref shop, ref nextSlot, ItemType<AstralSolution>(), price: Item.buyPrice(0, 0, 5));
+                SetShopItem(ref shop, ref nextSlot, ItemID.PurpleSolution, Main.LocalPlayer.ZoneGraveyard && WorldGen.crimson, price: Item.buyPrice(0, 0, 5));
+                SetShopItem(ref shop, ref nextSlot, ItemID.RedSolution, Main.LocalPlayer.ZoneGraveyard && !WorldGen.crimson, price: Item.buyPrice(0, 0, 5));
             }
 
             if (type == NPCID.Wizard)
@@ -1633,7 +1646,7 @@ namespace CalamityMod.NPCs
                 SetShopItem(ref shop, ref nextSlot, ItemID.PotionOfReturn, true, Item.buyPrice(0, goldCost, 0, 0));
                 SetShopItem(ref shop, ref nextSlot, ItemType<HowlsHeart>());
                 SetShopItem(ref shop, ref nextSlot, ItemID.MagicMissile, price: Item.buyPrice(0, 5));
-                SetShopItem(ref shop, ref nextSlot, ItemID.RodofDiscord, Main.hardMode && Main.LocalPlayer.ZoneHallow, price: Item.buyPrice(10), true);
+                SetShopItem(ref shop, ref nextSlot, ItemID.RodofDiscord, Main.hardMode && Main.LocalPlayer.ZoneHallow, price: Item.buyPrice(10));
                 SetShopItem(ref shop, ref nextSlot, ItemID.SpectreStaff, NPC.downedGolemBoss, Item.buyPrice(0, 25));
                 SetShopItem(ref shop, ref nextSlot, ItemID.InfernoFork, NPC.downedGolemBoss, Item.buyPrice(0, 25));
                 SetShopItem(ref shop, ref nextSlot, ItemID.ShadowbeamStaff, NPC.downedGolemBoss, Item.buyPrice(0, 25));
@@ -1680,7 +1693,7 @@ namespace CalamityMod.NPCs
             }
         }
 
-        public void SetShopItem(ref Chest shop, ref int nextSlot, int itemID, bool condition = true, int? price = null, bool ignoreDiscount = false)
+        public void SetShopItem(ref Chest shop, ref int nextSlot, int itemID, bool condition = true, int? price = null)
         {
             if (condition)
             {
@@ -1688,8 +1701,6 @@ namespace CalamityMod.NPCs
                 if (price != null)
                 {
                     shop.item[nextSlot].shopCustomPrice = price;
-                    if (Main.LocalPlayer.discount && !ignoreDiscount)
-                      shop.item[nextSlot].shopCustomPrice = (int)(shop.item[nextSlot].shopCustomPrice * 0.8);
                 }
 
                 nextSlot++;

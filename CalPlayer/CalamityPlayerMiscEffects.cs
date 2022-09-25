@@ -659,7 +659,9 @@ namespace CalamityMod.CalPlayer
 
                 for (int i = 0; i < Main.maxNPCs; i++)
                 {
-                    if (!Main.npc[i].active || Main.npc[i].friendly || Main.npc[i].lifeMax < 5 || alreadyTargetedNPCs.Contains(i) || Main.npc[i].realLife >= 0 || Main.npc[i].dontTakeDamage || Main.npc[i].immortal)
+                    NPC target = Main.npc[i];
+                    if (!target.active || target.friendly || target.lifeMax < 5 || alreadyTargetedNPCs.Contains(i) || target.realLife >= 0 ||
+                        target.dontTakeDamage || target.immortal || target.townNPC || NPCID.Sets.ActsLikeTownNPC[target.type] || NPCID.Sets.CountsAsCritter[target.type])
                         continue;
 
                     var source = Player.GetSource_Accessory(FindAccessory(ModContent.ItemType<DaawnlightSpiritOrigin>()));
@@ -669,10 +671,6 @@ namespace CalamityMod.CalPlayer
                         spiritOriginBullseyeShootCountdown = 45;
                 }
             }
-
-            // Proficiency level ups
-            if (CalamityConfig.Instance.Proficiency)
-                GetExactLevelUp();
 
             // Max mana bonuses
             Player.statManaMax2 +=
@@ -1085,8 +1083,8 @@ namespace CalamityMod.CalPlayer
                 soundCooldown--;
             if (shadowPotCooldown > 0)
                 shadowPotCooldown--;
-            if (raiderCooldown > 0)
-                raiderCooldown--;
+            if (raiderCritBonus > 0f)
+                raiderCritBonus -= RaidersTalisman.RaiderBonus / (float)CalamityUtils.SecondsToFrames(RaidersTalisman.RaiderCooldown);
             if (gSabatonCooldown > 0)
                 gSabatonCooldown--;
             if (gSabatonFall > 0)
@@ -1101,6 +1099,8 @@ namespace CalamityMod.CalPlayer
                 silvaMageCooldown--;
             if (tarraMageHealCooldown > 0)
                 tarraMageHealCooldown--;
+            if (scuttlerCooldown > 0)
+                scuttlerCooldown--;
             if (rogueCrownCooldown > 0)
                 rogueCrownCooldown--;
             if (spectralVeilImmunity > 0)
@@ -1388,12 +1388,9 @@ namespace CalamityMod.CalPlayer
             }
 
             // Raider Talisman bonus
-            if (raiderTalisman)
+            if (raiderTalisman && !StealthStrikeAvailable())
             {
-                // Nanotech use to have an exclusive nerf here, but since they are currently equal, there
-                // is no check to indicate such.
-                float damageMult = 0.15f;
-                Player.GetDamage<ThrowingDamageClass>() += raiderStack / 150f * damageMult;
+                Player.GetCritChance<ThrowingDamageClass>() += raiderCritBonus;
             }
 
             if (kamiBoost)
@@ -2360,12 +2357,6 @@ namespace CalamityMod.CalPlayer
                 Player.GetCritChance<GenericDamageClass>() += ProfanedRagePotion.CritBoost;
             }
 
-            if (shadow)
-            {
-                if (Player.FindBuffIndex(BuffID.Invisibility) > -1)
-                    Player.ClearBuff(BuffID.Invisibility);
-            }
-
             if (irradiated)
                 Player.statDefense -= 10;
 
@@ -2569,18 +2560,6 @@ namespace CalamityMod.CalPlayer
 
             if (CalamityLists.highTestFishList.Contains(Player.ActiveItem().type))
                 Player.accFishingLine = true;
-
-            if (CalamityLists.boomerangList.Contains(Player.ActiveItem().type) && Player.invis)
-                Player.GetDamage<ThrowingDamageClass>() += 0.1f;
-
-            if (CalamityLists.javelinList.Contains(Player.ActiveItem().type) && Player.invis)
-                Player.GetArmorPenetration<GenericDamageClass>() += 5;
-
-            if (CalamityLists.flaskBombList.Contains(Player.ActiveItem().type) && Player.invis)
-                rogueVelocity += 0.1f;
-
-            if (CalamityLists.spikyBallList.Contains(Player.ActiveItem().type) && Player.invis)
-                Player.GetCritChance<RogueDamageClass>() += 10;
 
             if (planarSpeedBoost != 0)
             {
@@ -2866,6 +2845,11 @@ namespace CalamityMod.CalPlayer
 				Player.GetAttackSpeed<MeleeDamageClass>() += 0.07f;
 			}
 
+            if (filthyGlove)
+            {
+                bonusStealthDamage += nanotech ? 0.05f : 0.1f;
+            }
+
             if (dAmulet)
                 Player.pStone = true;
 
@@ -3126,7 +3110,6 @@ namespace CalamityMod.CalPlayer
             if (eArtifact)
             {
                 Player.manaCost *= 0.85f;
-                Player.GetDamage<ThrowingDamageClass>() += 0.15f;
                 Player.maxMinions += 2;
             }
 
@@ -3487,9 +3470,6 @@ namespace CalamityMod.CalPlayer
                 Player.GetDamage<MeleeDamageClass>() += 0.05f;
                 Player.GetCritChance<MeleeDamageClass>() += 5;
             }
-
-            if (CalamityConfig.Instance.Proficiency)
-                GetStatBonuses();
 
             // Amalgam boosts
             if (Main.myPlayer == Player.whoAmI)

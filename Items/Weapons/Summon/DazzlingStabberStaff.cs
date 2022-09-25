@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Weapons.Summon
             Item.UseSound = SoundID.DD2_DarkMageHealImpact;
             Item.DamageType = DamageClass.Summon;
             Item.mana = 10;
-            Item.damage = 56;
+            Item.damage = 127;
             Item.knockBack = 2f;
             Item.autoReuse = true;
             Item.useTime = Item.useAnimation = 15;

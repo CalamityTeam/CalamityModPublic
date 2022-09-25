@@ -66,7 +66,7 @@ namespace CalamityMod.Items.Weapons.Summon
                     ModContent.ProjectileType<EndoBeam>()
                 });
 
-                SummonEndoCooper(source, AttackMode, Main.MouseWorld, damage, knockback, player, out _, out _);
+                SummonEndoCooper(source, AttackMode, Main.MouseWorld, damage, Item.damage, knockback, player, out _, out _);
 
                 AttackMode++;
                 if (AttackMode > 3)
@@ -75,7 +75,7 @@ namespace CalamityMod.Items.Weapons.Summon
             return false;
         }
 
-        public static void SummonEndoCooper(IEntitySource source, int attackMode, Vector2 spawnPosition, int damage, float knockback, Player owner, out int bodyIndex, out int limbsIndex)
+        public static void SummonEndoCooper(IEntitySource source, int attackMode, Vector2 spawnPosition, int damage, int baseDamage, float knockback, Player owner, out int bodyIndex, out int limbsIndex)
         {
             bodyIndex = limbsIndex = -1;
             if (Main.myPlayer != owner.whoAmI)
@@ -93,8 +93,8 @@ namespace CalamityMod.Items.Weapons.Summon
             bodyIndex = Projectile.NewProjectile(source, spawnPosition, Vector2.Zero, ModContent.ProjectileType<EndoCooperBody>(), (int)(damage * dmgMult), knockback, owner.whoAmI, attackMode, 0f);
             limbsIndex = Projectile.NewProjectile(source, spawnPosition, Vector2.Zero, ModContent.ProjectileType<EndoCooperLimbs>(), (int)(damage * dmgMult), knockback, owner.whoAmI, attackMode, bodyIndex);
             Main.projectile[bodyIndex].ai[1] = limbsIndex;
-            Main.projectile[bodyIndex].originalDamage = (int)(damage * dmgMult);
-            Main.projectile[limbsIndex].originalDamage = (int)(damage * dmgMult);
+            Main.projectile[bodyIndex].originalDamage = (int)(baseDamage * dmgMult);
+            Main.projectile[limbsIndex].originalDamage = (int)(baseDamage * dmgMult);
         }
 
         public override void AddRecipes()

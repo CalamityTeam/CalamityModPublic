@@ -43,7 +43,6 @@ Config:
         "FasterTilePlacement": "Faster Base Tile Placement Speed",
         "NerfExpertDebuffs": "Remove Increased Debuff Duration",
         "ParticleLimit": "Max Particle Limit",
-        "Proficiency": "Proficiency",
         "RageMeterPosX": "Rage Meter X Position",
         "RageMeterPosY": "Rage Meter Y Position",
         "RemoveReforgeRNG": "Remove Reforge RNG",
@@ -90,7 +89,6 @@ Config:
         "FasterTilePlacement": "Increases the player's base tile placement speed",
         "NerfExpertDebuffs": "Disables Expert Mode doubling (and Master Mode tripling) the duration of debuffs on the player.\nCalamity is balanced around this setting being enabled.",
         "ParticleLimit": "Sets the maximum of particle effects that can exist at once.\nParticles are separate from dust and gores.\nTurn down to improve performance.",
-        "Proficiency": "Enables the Proficiency system which allows the player to gain slight stat bonuses by persistently using one damage class.\nDisabling the system does not remove levels players already have, but disables their stat bonuses and prevents experience gain.",
         "RageMeterPosX": "The X position of the Rage Meter, measured as a % of your screen width.\nThe meter can be dragged with the mouse if Lock Meter Positions is disabled.",
         "RageMeterPosY": "The Y position of the Rage Meter, measured as a % of your screen height.\nThe meter can be dragged with the mouse if Lock Meter Positions is disabled.",
         "RemoveReforgeRNG": "Removes randomness from the Goblin Tinkerer's reforges for both weapons and accessories.\nDisable this if using mods that change reforging on their own to prevent conflicts.",
@@ -272,6 +270,38 @@ TownNPCMood:
         DislikeNPC: "Such a racket! All {NPCName} does is make noise, day in and day out! I can’t stand her!",
         LikeNPC_Princess: "What a strangely pleasant kid, {NPCName} is to be around.",
     },
+}
+
+GameTips:
+{
+    SunkenSeaTip: "Deep below the Underground Desert lie the ruined outskirts of a fallen kingdom."
+    ArsenalLabTip: "Old labs can be found scattered throughout the Underground."
+    PlanetoidTip: "You can find Planetoids in outer space!"
+    AbyssTip: "The Abyss can be found deep below the Sulphurous Sea. It's very difficult to explore without proper diving gear."
+    BanditTip: "The Bandit is most interested in those who save up enough money worth to swindle."
+    RefundTip: "If you've been reforging a lot with the Goblin Tinkerer, it might pay off to give the Bandit a visit."
+    DrunkPrincessTip: "The Drunk Princess is great to party with. If you carry her favorite vodka, she might move in."
+    SeaKingTip: "The Sea King used to like clams. He changed his mind when he got eaten by one."
+    AmidiasBlessingTip: "The Sea King can provide a bubble to aid with breathing underwater to any who ask for help."
+    ArchmageTip: "The Archmage can be freed if you destroy the very castle he was imprisoned in."
+    BrimstoneWitchTip: "The Brimstone Witch can enchant items to grant them new powers."
+    TitanHeartTip: "Titan Hearts can be used as an offering at a Beacon found in the Astral Infection."
+    NightProvTip: "Summoning the sun goddess under the light of the moon massively empowers her strength and endurance."
+    DayEoLTip: "Summoning the fae goddess under the light of day will start a vicious and persistent battle."
+    BossEnemyTip: "Killing the most harmless of enemies can awaken the wrath of a much stronger monster. Slay them at your own risk!"
+    RoDAbyssTip: "Use the Rod of Discord in the Abyss at your own risk. The chaotic traces left behind may attract the attention of unwanted foes."
+    TerminusTip: "An ancient artifact resides at the bottom of the Abyss. Use with great caution."
+    CodebreakerTip: "The Codebreaker can be upgraded, allowing you to decrypt new schematics found in various labs around the world."
+    ChargeTip: "Certain weaponry requires charge to use. Weapons can be charged at a Charging Station with Draedon Power Cells."
+    PowerCellTip: "Power Cell Factories generate Draedon Power Cells over time."
+    FactoryChargingTip: "Power Cell Factories and Charging Stations can be looted from labs in the Underground."
+    StealthTip: "Wearing any rogue class armor lets you build stealth!"
+    SummonNerfTip: "Holding a non-summoner weapon reduces the damage of your minions."
+    DefenseDamageTip: "Certain attacks will chip away at your defense, but it will quickly regenerate afterward."
+    PointBlankTip: "Ranged weapons fired at point blank will do a lot more damage."
+    RevengeanceTip: "Need a challenge beyond Expert Mode? Try Revengeance Mode!"
+    BloodOrbTip: "Blood Orbs collected during the Blood Moon can craft almost any potion."
+    KeybindsTip: "Modded controls can be bound in Settings."
 }
 
 }}

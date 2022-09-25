@@ -25,6 +25,7 @@ namespace CalamityMod.Items.Weapons.Typeless
                                "You gain a small cooldown when summoning a new bulwark.\n" +
                                "If a bulwark already exists, using this item will relocate it");
             SacrificeTotal = 1;
+            ItemID.Sets.CanBePlacedOnWeaponRacks[Item.type] = true;
         }
 
         public override void SetDefaults()

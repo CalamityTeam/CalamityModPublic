@@ -6,7 +6,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace CalamityMod.Projectiles.Summon
+namespace CalamityMod.Projectiles.Typeless
 {
     public class FungalClumpMinion : ModProjectile
     {
@@ -28,11 +28,9 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.friendly = true;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 10;
-            Projectile.minionSlots = 0f;
             Projectile.timeLeft = 18000;
             Projectile.penetrate = -1;
             Projectile.timeLeft *= 5;
-            Projectile.minion = true;
             Projectile.tileCollide = false;
         }
 
@@ -59,6 +57,8 @@ namespace CalamityMod.Projectiles.Summon
                 }
             }
 
+			Projectile.damage = (int)player.GetBestClassDamage().ApplyTo(Projectile.originalDamage);
+
             //Animation
             Projectile.frameCounter++;
             if (Projectile.frameCounter > 6)
@@ -74,16 +74,16 @@ namespace CalamityMod.Projectiles.Summon
             //Initializing dust and damage
             if (Projectile.localAI[0] == 0f)
             {
-                int num226 = 36;
-                for (int num227 = 0; num227 < num226; num227++)
+                int dustAmt = 36;
+                for (int i = 0; i < dustAmt; i++)
                 {
-                    Vector2 vector6 = Vector2.Normalize(Projectile.velocity) * new Vector2((float)Projectile.width / 2f, (float)Projectile.height) * 0.75f;
-                    vector6 = vector6.RotatedBy((double)((float)(num227 - (num226 / 2 - 1)) * 6.28318548f / (float)num226), default) + Projectile.Center;
-                    Vector2 vector7 = vector6 - Projectile.Center;
-                    int num228 = Dust.NewDust(vector6 + vector7, 0, 0, 56, vector7.X * 1.5f, vector7.Y * 1.5f, 100, default, 1.4f);
-                    Main.dust[num228].noGravity = true;
-                    Main.dust[num228].noLight = true;
-                    Main.dust[num228].velocity = vector7;
+                    Vector2 spawnPos = Vector2.Normalize(Projectile.velocity) * new Vector2((float)Projectile.width / 2f, (float)Projectile.height) * 0.75f;
+                    spawnPos = spawnPos.RotatedBy((double)((float)(i - (dustAmt / 2 - 1)) * MathHelper.TwoPi / (float)dustAmt), default) + Projectile.Center;
+                    Vector2 velocity = spawnPos - Projectile.Center;
+                    int idx = Dust.NewDust(spawnPos + velocity, 0, 0, 56, velocity.X * 1.5f, velocity.Y * 1.5f, 100, default, 1.4f);
+                    Main.dust[idx].noGravity = true;
+                    Main.dust[idx].noLight = true;
+                    Main.dust[idx].velocity = velocity;
                 }
                 Projectile.localAI[0] += 1f;
             }

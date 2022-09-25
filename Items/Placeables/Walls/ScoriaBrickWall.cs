@@ -4,12 +4,13 @@ using Terraria.ID;
 
 namespace CalamityMod.Items.Placeables.Walls
 {
-    public class ChaoticBrickWall : ModItem
+    [LegacyName("ChaoticBrickWall")]
+    public class ScoriaBrickWall : ModItem
     {
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 400;
-            DisplayName.SetDefault("Chaotic Brick Wall");
+            DisplayName.SetDefault("Scoria Brick Wall");
         }
         public override void SetDefaults()
         {
@@ -22,12 +23,12 @@ namespace CalamityMod.Items.Placeables.Walls
             Item.useTime = 7;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.consumable = true;
-            Item.createWall = ModContent.WallType<WallTiles.ChaoticBrickWall>();
+            Item.createWall = ModContent.WallType<WallTiles.ScoriaBrickWall>();
         }
 
         public override void AddRecipes()
         {
-            CreateRecipe(4).AddIngredient(ModContent.ItemType<ChaoticBrick>(), 1).AddTile(TileID.WorkBenches).Register();
+            CreateRecipe(4).AddIngredient(ModContent.ItemType<ScoriaBrick>(), 1).AddTile(TileID.WorkBenches).Register();
         }
     }
 }

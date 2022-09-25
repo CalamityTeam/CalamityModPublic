@@ -11,9 +11,9 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class HellsSun : RogueWeapon
     {
-        private static int damage = 85;
+        private static int damage = 240;
         private static int knockBack = 5;
-        private static float SdamageMult = 0.6f;
+        private static float SdamageMult = 0.12f;
 
         public override void SetStaticDefaults()
         {

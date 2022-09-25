@@ -1,5 +1,6 @@
 using CalamityMod.Items.Weapons.Magic;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Magic
 {
@@ -23,6 +24,7 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.localNPCHitCooldown = 35;
             Projectile.tileCollide = false;
             Projectile.hostile = true;
+            CooldownSlot = ImmunityCooldownID.TileContactDamage;
         }
 
         public override void AI()
@@ -46,11 +48,6 @@ namespace CalamityMod.Projectiles.Magic
                 if (Projectile.ai[0] == 1f)
                     damage /= 2;
             }
-        }
-
-        public override void OnHitPlayer(Player target, int damage, bool crit)
-        {
-            target.GiveIFrames(target.longInvince ? 100 : 60, true);
         }
     }
 }
