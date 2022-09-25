@@ -11,6 +11,7 @@ namespace CalamityMod.Items.Fishing
             DisplayName.SetDefault("Glimmering Gemfish");
             Tooltip.SetDefault("Right click to extract gems");
             SacrificeTotal = 10;
+            ItemID.Sets.CanBePlacedOnWeaponRacks[Item.type] = true;
         }
 
         public override void SetDefaults()

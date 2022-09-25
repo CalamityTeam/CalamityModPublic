@@ -11,6 +11,7 @@ namespace CalamityMod.Items.Fishing.AstralCatches
             DisplayName.SetDefault("Twinkling Pollox"); //Bass substitute
             Tooltip.SetDefault("The scales gleam like crystals");
             SacrificeTotal = 3;
+            ItemID.Sets.CanBePlacedOnWeaponRacks[Item.type] = true;
         }
 
         public override void SetDefaults()

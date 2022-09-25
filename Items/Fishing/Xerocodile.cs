@@ -12,6 +12,7 @@ namespace CalamityMod.Items.Fishing
             DisplayName.SetDefault("Xerocodile");
             Tooltip.SetDefault("Right click to extract blood orbs");
             SacrificeTotal = 10;
+            ItemID.Sets.CanBePlacedOnWeaponRacks[Item.type] = true;
         }
 
         public override void SetDefaults()

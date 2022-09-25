@@ -10,6 +10,7 @@ namespace CalamityMod.Items.Fishing.AstralCatches
         {
             DisplayName.SetDefault("Procyonid Prawn");
             SacrificeTotal = 3;
+            ItemID.Sets.CanBePlacedOnWeaponRacks[Item.type] = true;
         }
 
         public override void SetDefaults()
