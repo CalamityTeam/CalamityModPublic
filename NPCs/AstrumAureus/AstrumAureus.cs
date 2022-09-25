@@ -33,7 +33,7 @@ namespace CalamityMod.NPCs.AstrumAureus
     [AutoloadBossHead]
     public class AstrumAureus : ModNPC
     {
-        public static readonly SoundStyle HitSound = new("CalamityMod/Sounds/NPCHit/AstrumAureusHit");
+        public static readonly SoundStyle HitSound = new("CalamityMod/Sounds/NPCHit/AureusHit", 4);
         public static readonly SoundStyle StompSound = new("CalamityMod/Sounds/Custom/LegStomp");
 
         private bool stomping = false;
