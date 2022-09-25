@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.DraedonLabThings
 {
-    public class NanodroidDisfunctional : ModNPC
+    public class NanodroidDysfunctional : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -26,7 +26,7 @@ namespace CalamityMod.NPCs.DraedonLabThings
             NPC.height = 12;
             NPC.HitSound = SoundID.NPCHit4;
             NPC.DeathSound = SoundID.NPCDeath44;
-            NPC.catchItem = (short)ModContent.ItemType<NanodroidDisfunctionalItem>();
+            NPC.catchItem = (short)ModContent.ItemType<NanodroidDysfunctionalItem>();
         }
 
         public override void AI()
@@ -73,7 +73,7 @@ namespace CalamityMod.NPCs.DraedonLabThings
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             Texture2D critterTexture = TextureAssets.Npc[NPC.type].Value;
-            Texture2D glowmask = ModContent.Request<Texture2D>("CalamityMod/NPCs/DraedonLabThings/NanodroidDisfunctional_Glow").Value;
+            Texture2D glowmask = ModContent.Request<Texture2D>("CalamityMod/NPCs/DraedonLabThings/NanodroidDysfunctional_Glow").Value;
             Vector2 drawPosition = NPC.Center - screenPos + Vector2.UnitY * NPC.gfxOffY;
             SpriteEffects direction = NPC.spriteDirection == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
             spriteBatch.Draw(critterTexture, drawPosition, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, NPC.frame.Size() * 0.5f, NPC.scale, direction, 0f);

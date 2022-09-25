@@ -4816,12 +4816,12 @@ namespace CalamityMod.NPCs
                 {
                     pool.Add(NPCType<NanodroidPlagueGreen>(), 0.025f);
                     pool.Add(NPCType<NanodroidPlagueRed>(), 0.025f);
-                    pool.Add(NPCType<NanodroidDisfunctional>(), 0.02f);
+                    pool.Add(NPCType<NanodroidDysfunctional>(), 0.02f);
                 }
                 else
                 {
                     pool.Add(NPCType<Nanodroid>(), 0.05f);
-                    pool.Add(NPCType<NanodroidDisfunctional>(), 0.05f);
+                    pool.Add(NPCType<NanodroidDysfunctional>(), 0.05f);
                 }
 
 

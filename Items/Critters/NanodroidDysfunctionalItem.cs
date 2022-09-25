@@ -6,12 +6,12 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Critters
 {
-    public class NanodroidDisfunctionalItem : ModItem
+    public class NanodroidDysfunctionalItem : ModItem
     {
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 5;
-            DisplayName.SetDefault("Disfunctional Nanodroid");
+            DisplayName.SetDefault("Dysfunctional Nanodroid");
         }
 
         public override void SetDefaults()
@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Critters
             Item.value = Item.buyPrice(0, 0, 30);
             Item.width = 16;
             Item.height = 10;
-            Item.makeNPC = (short)ModContent.NPCType<NanodroidDisfunctional>();
+            Item.makeNPC = (short)ModContent.NPCType<NanodroidDysfunctional>();
             Item.rare = ModContent.RarityType<DarkOrange>();
         }
     }
