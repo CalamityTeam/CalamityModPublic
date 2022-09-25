@@ -175,6 +175,10 @@ namespace CalamityMod
 
         public static void WikiThisSupport()
         {
+			// Wikithis is a clientside mod
+            if (Main.netMode == NetmodeID.Server)
+                return;
+
             CalamityMod calamity = GetInstance<CalamityMod>();
             Mod wiki = calamity.wikithis;
             if (wiki is null)
@@ -186,11 +190,11 @@ namespace CalamityMod
 			// Clear up name conflicts
             void ItemRedirect(int item, string pageName)
             {
-				wiki.Call(1, new List<int>() { item }, pageName);
+				wiki.Call(1, item, pageName);
             }
             void EnemyRedirect(int item, string pageName)
             {
-				wiki.Call(2, new List<int>() { item }, pageName);
+				wiki.Call(2, item, pageName);
             }
 
 			// Items
