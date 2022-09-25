@@ -172,6 +172,7 @@ namespace CalamityMod.Items
                 case ItemID.WormScarf:
                 case ItemID.BrainOfConfusion:
                 case ItemID.HiveBackpack:
+                case ItemID.BoneHelm:
                 case ItemID.BoneGlove:
                 // case ItemID.DemonHeart:
                 case ItemID.VolatileGelatin:

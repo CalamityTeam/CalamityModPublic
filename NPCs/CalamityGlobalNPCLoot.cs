@@ -892,6 +892,9 @@ namespace CalamityMod.NPCs
                     }
                     catch (ArgumentNullException) { }
 
+                    // Expert+ drops are also available on Normal
+                    npcLoot.AddNormalOnly(DropHelper.PerPlayer(ItemID.BoneHelm));
+
                     // Master items drop in Revengeance
                     rev.Add(ItemID.DeerclopsMasterTrophy);
                     rev.Add(ItemID.DeerclopsPetItem, 4);
