@@ -826,7 +826,8 @@ namespace CalamityMod.NPCs.Ravager
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(ModContent.BuffType<ArmorCrunch>(), 480, true);
+            if (damage > 0)
+                player.AddBuff(ModContent.BuffType<ArmorCrunch>(), 480, true);
         }
 
         public override void BossLoot(ref string name, ref int potionType)

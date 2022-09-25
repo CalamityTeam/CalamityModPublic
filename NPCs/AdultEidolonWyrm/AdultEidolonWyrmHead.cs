@@ -1435,7 +1435,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            if (NPC.Opacity == 1f)
+            if (NPC.Opacity == 1f && damage > 0)
                 player.AddBuff(ModContent.BuffType<CrushDepth>(), 600, true);
         }
     }

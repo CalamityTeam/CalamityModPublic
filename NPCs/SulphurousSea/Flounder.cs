@@ -97,7 +97,8 @@ namespace CalamityMod.NPCs.SulphurousSea
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(ModContent.BuffType<Irradiated>(), 120);
+            if (damage > 0)
+                player.AddBuff(ModContent.BuffType<Irradiated>(), 120);
         }
 
         public override void FindFrame(int frameHeight)

@@ -4975,57 +4975,6 @@ namespace CalamityMod.CalPlayer
         #endregion
 
         #region On Hit
-        public override void OnHitByNPC(NPC npc, int damage, bool crit)
-        {
-            if (sulfurSet)
-                npc.AddBuff(BuffID.Poisoned, 120);
-
-            if (npc.type == NPCID.ShadowFlameApparition || (npc.type == NPCID.ChaosBall && (Main.hardMode || areThereAnyDamnBosses)))
-            {
-                Player.AddBuff(ModContent.BuffType<Shadowflame>(), 180);
-            }
-            else if (npc.type == NPCID.Spazmatism && npc.ai[0] != 1f && npc.ai[0] != 2f && npc.ai[0] != 0f)
-            {
-                Player.AddBuff(BuffID.Bleeding, 600);
-            }
-            else if (npc.type == NPCID.Plantera && npc.life < npc.lifeMax / 2)
-            {
-                Player.AddBuff(BuffID.Poisoned, 600);
-            }
-            else if (npc.type == NPCID.PlanterasTentacle)
-            {
-                Player.AddBuff(BuffID.Poisoned, 300);
-            }
-            else if (npc.type == NPCID.AncientDoom)
-            {
-                Player.AddBuff(ModContent.BuffType<Shadowflame>(), 180);
-            }
-            else if (npc.type == NPCID.AncientLight)
-            {
-                Player.AddBuff(ModContent.BuffType<HolyFlames>(), 180);
-            }
-            else if (npc.type == NPCID.HallowBoss)
-            {
-                Player.AddBuff(ModContent.BuffType<HolyFlames>(), 480);
-            }
-            else if (npc.type == NPCID.BloodNautilus)
-            {
-                Player.AddBuff(ModContent.BuffType<BurningBlood>(), 480);
-            }
-            else if (npc.type == NPCID.GoblinShark || npc.type == NPCID.BloodEelHead)
-            {
-                Player.AddBuff(ModContent.BuffType<BurningBlood>(), 300);
-            }
-            else if (npc.type == NPCID.BloodEelBody)
-            {
-                Player.AddBuff(ModContent.BuffType<BurningBlood>(), 180);
-            }
-            else if (npc.type == NPCID.BloodEelTail)
-            {
-                Player.AddBuff(ModContent.BuffType<BurningBlood>(), 120);
-            }
-        }
-
         public override void OnHitByProjectile(Projectile proj, int damage, bool crit)
         {
             if (sulfurSet && !proj.friendly)
@@ -6886,6 +6835,9 @@ namespace CalamityMod.CalPlayer
         #region Defense Damage Function
         private void DealDefenseDamage(int damage)
         {
+            if (damage <= 0)
+                return;
+
             double ratioToUse = DefenseDamageRatio;
             if (draedonsHeart)
                 ratioToUse *= 0.5;

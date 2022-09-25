@@ -171,7 +171,11 @@ namespace CalamityMod.NPCs.AcidRain
             postAS.AddFail(ModContent.ItemType<CausticCroakerStaff>(), 20, hideLootReport: DownedBossSystem.downedAquaticScourge);
         }
 
-        public override void OnHitPlayer(Player target, int damage, bool crit) => target.AddBuff(ModContent.BuffType<Irradiated>(), 120);
+        public override void OnHitPlayer(Player target, int damage, bool crit)
+        {
+            if (damage > 0)
+                target.AddBuff(ModContent.BuffType<Irradiated>(), 120);
+        }
 
         public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor) => CalamityGlobalNPC.DrawGlowmask(NPC, spriteBatch, ModContent.Request<Texture2D>(Texture + "Glow").Value, true);
     }

@@ -69,7 +69,8 @@ namespace CalamityMod.NPCs.SlimeGod
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(BuffID.Weak, 90, true);
+            if (damage > 0)
+                player.AddBuff(BuffID.Weak, 90, true);
         }
 
         public override Color? GetAlpha(Color drawColor)

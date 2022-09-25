@@ -444,7 +444,8 @@ namespace CalamityMod.NPCs.AcidRain
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(ModContent.BuffType<Irradiated>(), 420);
+            if (damage > 0)
+                player.AddBuff(ModContent.BuffType<Irradiated>(), 420);
         }
 
         public override void ModifyNPCLoot(NPCLoot npcLoot)
