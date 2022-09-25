@@ -196,7 +196,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            if (damage <= 0 || TelegraphDelay <= TelegraphTotalTime))
+            if (damage <= 0 || TelegraphDelay <= TelegraphTotalTime)
                 return;
 
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 180);
