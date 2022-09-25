@@ -96,6 +96,19 @@ namespace CalamityMod.CalPlayer
                 // be refreshed and copied from RegisteredGameModes. Without this, the above behavior is not reflected ingame, as GameModeData is a value type, not a reference type.
                 Main.GameMode = Main.GameMode;
             }
+            // If people want to suffer, let them suffer
+			else
+            {
+                var copy = Main.RegisteredGameModes[GameModeID.Expert];
+                copy.DebuffTimeMultiplier = 2f;
+                Main.RegisteredGameModes[GameModeID.Expert] = copy;
+
+                copy = Main.RegisteredGameModes[GameModeID.Master];
+                copy.DebuffTimeMultiplier = 2.5f;
+                Main.RegisteredGameModes[GameModeID.Master] = copy;
+
+                Main.GameMode = Main.GameMode;
+            }
 
             // Go through the old positions for the player.
             for (int i = Player.Calamity().OldPositions.Length - 1; i > 0; i--)
