@@ -125,6 +125,9 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
+            if (damage <= 0)
+                return;
+
             if (Projectile.velocity.Y >= -16f)
                 target.AddBuff(ModContent.BuffType<Dragonfire>(), 240);
         }

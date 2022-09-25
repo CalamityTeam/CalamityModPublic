@@ -26,8 +26,12 @@ namespace CalamityMod.Projectiles.Enemy
             Lighting.AddLight(Projectile.Center, Color.White.ToVector3() * 1.25f);
             Projectile.rotation = Projectile.velocity.ToRotation();
         }
+
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
+            if (damage <= 0)
+                return;
+
             target.AddBuff(ModContent.BuffType<Irradiated>(), 300);
         }
         public override void Kill(int timeLeft)

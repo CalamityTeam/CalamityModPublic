@@ -148,8 +148,11 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.active = false;
         }
 
-        public override void OnHitPlayer(Player target, int damage, bool crit)
+        public override void OnHitPvp(Player target, int damage, bool crit)
         {
+            if (damage <= 0)
+                return;
+
             if (Main.myPlayer == Projectile.owner)
             {
                 Split(true, true);

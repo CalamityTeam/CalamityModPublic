@@ -49,6 +49,11 @@ namespace CalamityMod.Projectiles.Boss
 
         public override bool CanHitPlayer(Player target) => CalamityUtils.CircularHitboxCollision(Projectile.Center, CurrentRadius * Projectile.scale * 0.4f, target.Hitbox) && Projectile.timeLeft > 6;
 
-        public override void OnHitPlayer(Player target, int damage, bool crit) => target.AddBuff(BuffID.OnFire, 480);
+        public override void OnHitPlayer(Player target, int damage, bool crit)
+		{
+			if (damage <= 0)
+				return;
+			target.AddBuff(BuffID.OnFire, 480);
+		}
     }
 }

@@ -4977,7 +4977,7 @@ namespace CalamityMod.CalPlayer
         #region On Hit
         public override void OnHitByProjectile(Projectile proj, int damage, bool crit)
         {
-            if (sulfurSet && !proj.friendly)
+            if (sulfurSet && !proj.friendly && damage > 0)
             {
                 if (Main.player[proj.owner] is null)
                 {
@@ -4992,7 +4992,7 @@ namespace CalamityMod.CalPlayer
                 }
             }
 
-            if (proj.hostile)
+            if (proj.hostile && damage > 0)
             {
                 if (proj.type == ProjectileID.TorchGod)
                 {

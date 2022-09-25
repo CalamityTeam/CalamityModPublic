@@ -98,6 +98,9 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
+            if (damage <= 0)
+                return;
+
             if (TelegraphDelay > TelegraphTotalTime)
                 target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 180);
         }
