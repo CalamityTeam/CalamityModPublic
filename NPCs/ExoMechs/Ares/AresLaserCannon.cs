@@ -63,6 +63,9 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
         //This stores the sound slot of the crystyl crusher sound it makes, so it may be properly updated in terms of position.
         private SlotId DeathraySoundSlot;
 
+        //Telegraph sound
+        public static readonly SoundStyle TelSound = new("CalamityMod/Sounds/Custom/AresLaserArmCharge");
+
         public override void SetStaticDefaults()
         {
             this.HideFromBestiary();
@@ -402,7 +405,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
                     {
                         // Play a charge up sound so that the player knows when it's about to fire the deathray
                         if (calamityGlobalNPC.newAI[2] == deathrayTelegraphDuration - 100f && !fireNormalLasers)
-                            DeathraySoundSlot = SoundEngine.PlaySound(CrystylCrusher.ChargeSound, NPC.Center);
+                            DeathraySoundSlot = SoundEngine.PlaySound(TelSound, NPC.Center);
 
                         // Smooth movement towards the location Ares Laser Cannon is meant to be at
                         CalamityUtils.SmoothMovement(NPC, movementDistanceGateValue, distanceFromDestination, baseVelocity, 0f, false);
