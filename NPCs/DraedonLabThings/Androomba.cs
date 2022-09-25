@@ -67,7 +67,6 @@ namespace CalamityMod.NPCs.DraedonLabThings
                         }
                         NPC.ai[1]++;
                         NPC.velocity.X = NPC.ai[2] * 2;
-                        //if (NPC.collideX)
                         if (!Collision.CanHit(NPC.Center - Vector2.UnitX * NPC.ai[2] * 8f, 2, 2, NPC.Center + Vector2.UnitX * NPC.ai[2] * 32f, 8, 8))
                         {
                             NPC.ai[2] *= -1;
@@ -76,7 +75,7 @@ namespace CalamityMod.NPCs.DraedonLabThings
                         for (int i = 0; i < Main.maxPlayers; i++)
                         {
                             Player player = Main.player[i];
-                            if (Collision.CanHit(NPC.position, NPC.width, NPC.height, player.position, player.width, player.height) && NPC.ai[1] > 300)
+                            if (Collision.CanHit(NPC.position, NPC.width, NPC.height, player.position, player.width, player.height))
                             {
                                 ChangeAI(1);
                             }

@@ -65,7 +65,8 @@ namespace CalamityMod.NPCs.TownNPCs
                     {
                         if (NPC.ai[1] == 0)
                         {
-                            NPC.ai[2] = (Main.LocalPlayer.position.X <= NPC.position.X) ? 1 : -1;
+                            Player closest = Main.player[Player.FindClosest(NPC.position, 9999, 9999)];
+                            NPC.ai[2] = (closest.position.X <= NPC.position.X) ? 1 : -1;
                         }
                     }
                     break;

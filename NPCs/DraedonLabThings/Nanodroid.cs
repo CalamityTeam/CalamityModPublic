@@ -1,4 +1,5 @@
 ﻿using CalamityMod.BiomeManagers;
+using CalamityMod.Items.Critters;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -16,6 +17,7 @@ namespace CalamityMod.NPCs.DraedonLabThings
             DisplayName.SetDefault("Nanodroid");
             Main.npcFrameCount[NPC.type] = 8;
             NPCID.Sets.CountsAsCritter[NPC.type] = true;
+            Main.npcCatchable[NPC.type] = true;
         }
 
         public override void SetDefaults()
@@ -25,6 +27,7 @@ namespace CalamityMod.NPCs.DraedonLabThings
             NPC.height = 12;
             NPC.HitSound = SoundID.NPCHit4;
             NPC.DeathSound = SoundID.NPCDeath44;
+            NPC.catchItem = (short)ModContent.ItemType<NanodroidItem>();
             SpawnModBiomes = new int[1] { ModContent.GetInstance<ArsenalLabBiome>().Type };
         }
 
