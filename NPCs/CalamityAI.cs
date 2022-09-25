@@ -4072,7 +4072,7 @@ namespace CalamityMod.NPCs
                         }
                     }
 
-                    float succPower = 0.1f + finalPhaseDustRatio * 0.1f;
+                    float succPower = 0.125f + finalPhaseDustRatio * 0.125f;
                     for (int i = 0; i < Main.maxPlayers; i++)
                     {
                         float distance = Vector2.Distance(Main.player[i].Center, vector);
@@ -4087,11 +4087,6 @@ namespace CalamityMod.NPCs
                                     Main.player[i].velocity.X += succPower * multiplier;
                                 else
                                     Main.player[i].velocity.X -= succPower * multiplier;
-
-                                if (Main.player[i].Center.Y < vector.Y)
-                                    Main.player[i].velocity.Y += succPower * multiplier;
-                                else
-                                    Main.player[i].velocity.Y -= succPower * multiplier;
                             }
                         }
                     }

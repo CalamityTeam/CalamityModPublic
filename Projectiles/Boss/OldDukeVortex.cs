@@ -97,7 +97,7 @@ namespace CalamityMod.Projectiles.Boss
                 }
 
                 float distanceRequired = 800f * Projectile.scale;
-                float succPower = 0.4f;
+                float succPower = 0.5f;
                 for (int i = 0; i < Main.maxPlayers; i++)
                 {
                     Player player = Main.player[i];
@@ -118,11 +118,6 @@ namespace CalamityMod.Projectiles.Boss
                                 player.velocity.X += succPower * multiplier;
                             else
                                 player.velocity.X -= succPower * multiplier;
-
-                            if (player.Center.Y < Projectile.Center.Y)
-                                player.velocity.Y += succPower * multiplier;
-                            else
-                                player.velocity.Y -= succPower * multiplier;
                         }
                     }
                 }
