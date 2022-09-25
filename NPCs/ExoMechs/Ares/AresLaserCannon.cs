@@ -60,7 +60,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
         // Total duration of the deathray
         private const float deathrayDuration = 60f;
 
-        //This stores the sound slot of the crystyl crusher sound it makes, so it may be properly updated in terms of position.
+        //This stores the sound slot of the telegraph sound it makes, so it may be properly updated in terms of position.
         private SlotId DeathraySoundSlot;
 
         //Telegraph sound
@@ -404,7 +404,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
                     if (calamityGlobalNPC.newAI[2] < deathrayTelegraphDuration)
                     {
                         // Play a charge up sound so that the player knows when it's about to fire the deathray
-                        if (calamityGlobalNPC.newAI[2] == deathrayTelegraphDuration - 100f && !fireNormalLasers)
+                        if (calamityGlobalNPC.newAI[2] == 1 && !fireNormalLasers)
                             DeathraySoundSlot = SoundEngine.PlaySound(TelSound, NPC.Center);
 
                         // Smooth movement towards the location Ares Laser Cannon is meant to be at

@@ -38,6 +38,8 @@ namespace CalamityMod.NPCs.SlimeGod
 
         public static readonly SoundStyle PossessionSound = new("CalamityMod/Sounds/Custom/SlimeGodPossession");
         public static readonly SoundStyle ExitSound = new("CalamityMod/Sounds/Custom/SlimeGodExit");
+        public static readonly SoundStyle ShotSound = new("CalamityMod/Sounds/Custom/SlimeGodShot", 2);
+        public static readonly SoundStyle BigShotSound = new("CalamityMod/Sounds/Custom/SlimeGodBigShot", 2);
 
         public override void SetStaticDefaults()
         {
@@ -386,7 +388,7 @@ namespace CalamityMod.NPCs.SlimeGod
 
                 if (calamityGlobalNPC.newAI[2] % divisor == 0f)
                 {
-                    SoundEngine.PlaySound(SoundID.Item33, NPC.Center);
+                    SoundEngine.PlaySound(ShotSound, NPC.Center);
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         if (Main.rand.NextBool())

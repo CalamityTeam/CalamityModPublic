@@ -14,6 +14,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
 using CalamityMod.Items.Weapons.DraedonsArsenal;
+using ReLogic.Utilities;
 
 namespace CalamityMod.NPCs.ExoMechs.Ares
 {
@@ -57,6 +58,12 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
         // Total duration of the plasma bolt firing phase
         private const float plasmaBoltDuration = 120f;
+
+        //This stores the sound slot of the telegraph sound it makes, so it may be properly updated in terms of position.
+        private SlotId TelegraphSoundSlot;
+
+        //Telegraph sound
+        public static readonly SoundStyle TelSound = new("CalamityMod/Sounds/Custom/AresPlasmaArmCharge");
 
         public override void SetStaticDefaults()
         {
@@ -399,6 +406,10 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
                     calamityGlobalNPC.newAI[2] += 1f;
                     if (calamityGlobalNPC.newAI[2] < plasmaBoltTelegraphDuration)
                     {
+                        // Play a charge up sound so that the player knows when it's about to fire fireballs
+                        if (calamityGlobalNPC.newAI[2] == 1)
+                            TelegraphSoundSlot = SoundEngine.PlaySound(TelSound, NPC.Center);
+
                         // Set frames to plasma orb charge up frames, which begin on frame 12
                         if (calamityGlobalNPC.newAI[2] == 1f)
                         {
@@ -460,6 +471,12 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
             // Smooth movement towards the location Ares Plasma Flamethrower is meant to be at
             CalamityUtils.SmoothMovement(NPC, movementDistanceGateValue, distanceFromDestination, baseVelocity, 0f, false);
+
+            //Update the telegraph sound if it's being done.
+            if (TelegraphSoundSlot != null && SoundEngine.TryGetActiveSound(TelegraphSoundSlot, out var telSound) && telSound.IsPlaying)
+            {
+                telSound.Position = NPC.Center;
+            }
         }
 
         public override bool CanHitPlayer(Player target, ref int cooldownSlot) => false;
