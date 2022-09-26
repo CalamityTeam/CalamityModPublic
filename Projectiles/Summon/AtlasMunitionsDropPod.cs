@@ -23,9 +23,9 @@ namespace CalamityMod.Projectiles.Summon
             set => Projectile.ai[1] = value.ToInt();
         }
 
-        public const float Gravity = 0.45f;
+        public const float Gravity = 1.1f;
 
-        public const float MaxFallSpeed = 15.5f;
+        public const float MaxFallSpeed = 24f;
 
         public override void SetStaticDefaults()
         {
@@ -52,8 +52,9 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void AI()
         {
-            if (Projectile.velocity.Y == 0f)
+            if (Projectile.velocity.Y == 0f && !HasCollidedWithGround)
             {
+                PerformGroundCollisionEffects();
                 HasCollidedWithGround = true;
                 Projectile.netUpdate = true;
             }
@@ -92,6 +93,29 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.velocity.Y += Gravity;
             if (Projectile.velocity.Y > MaxFallSpeed)
                 Projectile.velocity.Y = MaxFallSpeed;
+        }
+
+        public void PerformGroundCollisionEffects()
+        {
+            // Mechanical Cart laser dust. Looks epic.
+            int dustID = 182;
+            int dustCount = 54;
+            for (int i = 0; i < dustCount; i += 2)
+            {
+                float pairSpeed = Main.rand.NextFloat(0.5f, 16f);
+                Dust d = Dust.NewDustDirect(Projectile.BottomRight, 0, 0, dustID);
+                d.velocity = Vector2.UnitX * pairSpeed;
+                d.scale = 2.7f;
+                d.noGravity = true;
+
+                d = Dust.NewDustDirect(Projectile.BottomRight, 0, 0, dustID);
+                d.velocity = Vector2.UnitX * -pairSpeed;
+                d.scale = 2.7f;
+                d.noGravity = true;
+            }
+
+            SoundEngine.PlaySound(SoundID.DD2_ExplosiveTrapExplode, Projectile.Center);
+            Owner.Calamity().GeneralScreenShakePower = Utils.Remap(Owner.Distance(Projectile.Center), 1800f, 1000f, 0f, 4.5f);
         }
 
         // As a means of obscuring contents when they spawn (such as ensuring that the minigun doesn't seem to pop into existence), this projectile draws above most other projectiles.
