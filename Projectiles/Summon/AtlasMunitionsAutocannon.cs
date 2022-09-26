@@ -116,8 +116,8 @@ namespace CalamityMod.Projectiles.Summon
                 if (InOverdriveMode)
                 {
                     minFrame = 9;
-                    maxFrame = 15;
-                    frameToResetToAtLimit = 13;
+                    maxFrame = 16;
+                    frameToResetToAtLimit = 14;
                 }
 
                 // Transitions from overdrive mode use frames 15-19 as a transition period before moving back to 6 along with disabling overdrive mode and transition flag.
