@@ -836,7 +836,7 @@ namespace CalamityMod.NPCs
                     npcLoot.AddNormalOnly(EoWKill);
 
 					// Would be in the bag otherwise
-                    npcLoot.AddIf((info) => info.npc.boss), ModContent.ItemType<ThankYouPainting>(), ThankYouPainting.DropInt);
+                    npcLoot.AddIf((info) => info.npc.boss, ModContent.ItemType<ThankYouPainting>(), ThankYouPainting.DropInt);
 
                     // Master items drop in Revengeance
                     rev.AddIf((info) => info.npc.boss, ItemID.EaterofWorldsMasterTrophy);
