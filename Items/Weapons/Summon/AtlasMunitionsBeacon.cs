@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.Rarities;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
@@ -41,7 +42,13 @@ namespace CalamityMod.Items.Weapons.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Atlas Munitions Beacon");
-            Tooltip.SetDefault("Surprisingly easy to pick up");
+            Tooltip.SetDefault("Drops down a crate from the sky that opens up to reveal a mounted, stationary cannon\n" +
+                "The cannon will fire at any potential enemies within its range, and enter overdrive mode if said enemy is close to the cannon\n" +
+                "When in overdrive mode the cannon uses three barrels that each collectively fire. The cannon also heats up the more it fires in overdrive mode\n" +
+                "Players may right click to pick up the cannon and use it for themselves, if they are selecting an Atlas Munitions Beacon. When players fire the cannon, it automatically enters overdrive mode\n" +
+                "If the held cannon becomes hot due to overdrive mode, you are forced to drop it. Otherwise, right clicking allows you to drop it manually\n" +
+                "If the held cannon is dropped back onto the mount, it is attached again" +
+                "It's surprisingly easy to pick up");
             SacrificeTotal = 1;
         }
 
@@ -63,7 +70,7 @@ namespace CalamityMod.Items.Weapons.Summon
             Item.shootSpeed = 10f;
             Item.noUseGraphic = true;
             Item.DamageType = DamageClass.Summon;
-            Item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.rare = ModContent.RarityType<Violet>();
         }
 
         public override bool CanUseItem(Player player)
