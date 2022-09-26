@@ -1,5 +1,7 @@
-using CalamityMod.Buffs.Pets;
+﻿using CalamityMod.Buffs.Pets;
 using CalamityMod.Projectiles.Pets;
+using CalamityMod.Rarities;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -10,25 +12,28 @@ namespace CalamityMod.Items.Pets
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Brimstone Jewel");
             Tooltip.SetDefault("The ultimate reward for defeating such a beast...\n" +
-			"Who knew she'd be so darn cute!");
+                "Who knew she'd be so darn cute!");
         }
 
         public override void SetDefaults()
         {
-            item.CloneDefaults(ItemID.ZephyrFish);
-            item.shoot = ModContent.ProjectileType<SCalPet>();
-            item.buffType = ModContent.BuffType<SCalPetBuff>();
-            item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.Dedicated;
+            Item.CloneDefaults(ItemID.ZephyrFish);
+            Item.shoot = ModContent.ProjectileType<SCalPet>();
+            Item.buffType = ModContent.BuffType<ClassicSCalPetBuff>();
+
+            Item.value = Item.sellPrice(gold: 40);
+            Item.rare = ModContent.RarityType<Violet>();
+            Item.Calamity().donorItem = true;
         }
 
-        public override void UseStyle(Player player)
+        public override void UseStyle(Player player, Rectangle heldItemFrame)
         {
             if (player.whoAmI == Main.myPlayer && player.itemTime == 0)
             {
-                player.AddBuff(item.buffType, 3600, true);
+                player.AddBuff(Item.buffType, 3600, true);
             }
         }
     }

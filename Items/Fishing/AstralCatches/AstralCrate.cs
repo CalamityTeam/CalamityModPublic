@@ -1,6 +1,6 @@
-using CalamityMod.Items.Accessories;
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Critters;
+using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Items.Placeables.Ores;
 using CalamityMod.Items.Potions;
@@ -10,8 +10,8 @@ using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.Tiles.Astral;
-using CalamityMod.World;
 using Terraria;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -21,91 +21,79 @@ namespace CalamityMod.Items.Fishing.AstralCatches
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 5;
+            ItemID.Sets.IsFishingCrate[Type] = true;
+            ItemID.Sets.IsFishingCrateHardmode[Type] = true;
             DisplayName.SetDefault("Astral Crate");
             Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
         }
 
         public override void SetDefaults()
         {
-            item.maxStack = 999;
-            item.consumable = true;
-            item.width = 32;
-            item.height = 32;
-            item.rare = 2;
-            item.value = Item.sellPrice(gold: 1);
-            item.createTile = ModContent.TileType<AstralCrateTile>();
-            item.useTurn = true;
-            item.autoReuse = true;
-            item.useAnimation = 15;
-            item.useTime = 10;
-            item.useStyle = ItemUseStyleID.SwingThrow;
+            Item.maxStack = 999;
+            Item.consumable = true;
+            Item.width = 32;
+            Item.height = 32;
+            Item.rare = ItemRarityID.Green;
+            Item.value = Item.sellPrice(gold: 1);
+            Item.createTile = ModContent.TileType<AstralCrateTile>();
+            Item.useTurn = true;
+            Item.autoReuse = true;
+            Item.useAnimation = 15;
+            Item.useTime = 10;
+            Item.useStyle = ItemUseStyleID.Swing;
         }
 
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = ContentSamples.CreativeHelper.ItemGroup.Crates;
+		}
+
         public override bool CanRightClick() => true;
-
-        public override void RightClick(Player player)
+        public override void ModifyItemLoot(ItemLoot itemLoot)
         {
-            //Modded materials
-            DropHelper.DropItem(player, ModContent.ItemType<Stardust>(), 10, 20);
-            DropHelper.DropItem(player, ItemID.FallenStar, 10, 20);
-			DropHelper.DropItemChance(player, ItemID.Meteorite, 0.5f, 10, 20);
-			DropHelper.DropItemChance(player, ItemID.MeteoriteBar, 0.25f, 5, 10);
-            if (CalamityWorld.downedAstrageldon)
-            {
-                DropHelper.DropItemChance(player, ModContent.ItemType<AstralJelly>(), 0.5f, 5, 10);
-            }
-            if (CalamityWorld.downedStarGod)
-            {
-                DropHelper.DropItemChance(player, ModContent.ItemType<AstralOre>(), 0.5f, 10, 20);
-                DropHelper.DropItemChance(player, ModContent.ItemType<AstralBar>(), 0.25f, 5, 10);
-                DropHelper.DropItemChance(player, ModContent.ItemType<MeldBlob>(), 0.25f, 5, 10);
-            }
+            var postAstrumAureus = itemLoot.DefineConditionalDropSet(() => DownedBossSystem.downedAstrumAureus);
+            var postAstrumDeus = itemLoot.DefineConditionalDropSet(() => DownedBossSystem.downedAstrumDeus);
 
-            // Weapons
-            DropHelper.DropItemFromSetCondition(player, CalamityWorld.downedAstrageldon, 0.2f,
-                ModContent.ItemType<StellarKnife>(),
-                ModContent.ItemType<AstralachneaStaff>(),
-                ModContent.ItemType<TitanArm>(),
-                ModContent.ItemType<HivePod>(),
+            // Materials
+            itemLoot.Add(ModContent.ItemType<Stardust>(), 1, 5, 10);
+            itemLoot.Add(ItemID.FallenStar, 1, 5, 10);
+            itemLoot.Add(ItemID.Meteorite, 5, 10, 20);
+            itemLoot.Add(ItemID.MeteoriteBar, 10, 1, 3);
+
+            postAstrumAureus.Add(ModContent.ItemType<AureusCell>(), 5, 2, 5);
+            postAstrumDeus.Add(ModContent.ItemType<AstralOre>(), 5, 10, 20);
+            postAstrumDeus.Add(ModContent.ItemType<AstralBar>(), 10, 1, 3);
+            postAstrumDeus.Add(ModContent.ItemType<MeldBlob>(), 4, 5, 10);
+
+            // Weapons (and Starburster Core)
+            postAstrumAureus.Add(new OneFromOptionsDropRule(10, 1,
                 ModContent.ItemType<AstralScythe>(),
+                ModContent.ItemType<TitanArm>(),
                 ModContent.ItemType<StellarCannon>(),
-                ModContent.ItemType<StarbusterCore>());
+                ModContent.ItemType<AstralachneaStaff>(),
+                ModContent.ItemType<HivePod>(),
+                ModContent.ItemType<StellarKnife>(),
+                ModContent.ItemType<StarbusterCore>()
+            ));
 
-            //Pet
-            DropHelper.DropItemChance(player, ModContent.ItemType<AstrophageItem>(), 10);
+            // Pet
+            itemLoot.Add(ModContent.ItemType<AstrophageItem>(), 10);
 
-            //Bait
-            DropHelper.DropItemChance(player, ModContent.ItemType<TwinklerItem>(), 5, 1, 3);
-            DropHelper.DropItemChance(player, ItemID.EnchantedNightcrawler, 5, 1, 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<ArcturusAstroidean>(), 5, 1, 3);
-            DropHelper.DropItemChance(player, ItemID.Firefly, 3, 1, 3);
+            // Bait
+            itemLoot.Add(ModContent.ItemType<TwinklerItem>(), 5, 1, 3);
+            itemLoot.Add(ItemID.EnchantedNightcrawler, 5, 1, 3);
+            itemLoot.Add(ModContent.ItemType<ArcturusAstroidean>(), 5, 1, 3);
+            itemLoot.Add(ItemID.Firefly, 3, 1, 3);
 
-            //Potions
-            DropHelper.DropItemChance(player, ItemID.ObsidianSkinPotion, 10, 1, 3);
-            DropHelper.DropItemChance(player, ItemID.SwiftnessPotion, 10, 1, 3);
-            DropHelper.DropItemChance(player, ItemID.IronskinPotion, 10, 1, 3);
-            DropHelper.DropItemChance(player, ItemID.NightOwlPotion, 10, 1, 3);
-            DropHelper.DropItemChance(player, ItemID.ShinePotion, 10, 1, 3);
-            DropHelper.DropItemChance(player, ItemID.MiningPotion, 10, 1, 3);
-            DropHelper.DropItemChance(player, ItemID.HeartreachPotion, 10, 1, 3);
-            DropHelper.DropItemChance(player, ItemID.TrapsightPotion, 10, 1, 3); //Dangersense Potion
-            if (CalamityWorld.downedStarGod)
-            {
-                DropHelper.DropItem(player, Main.rand.Next(100) >= 49 ? ItemID.SuperHealingPotion : ItemID.SuperManaPotion, 5, 10);
-            }
-            else
-            {
-                DropHelper.DropItem(player, Main.rand.Next(100) >= 49 ? ItemID.GreaterHealingPotion : ItemID.GreaterManaPotion, 5, 10);
-            }
-            if (CalamityWorld.downedAstrageldon)
-            {
-                DropHelper.DropItemChance(player, ModContent.ItemType<AstralInjection>(), 4, 1, 3);
-                DropHelper.DropItemChance(player, ModContent.ItemType<GravityNormalizerPotion>(), 4, 1, 3);
-            }
+            // Potions
+            postAstrumAureus.Add(ModContent.ItemType<AstralInjection>(), 10, 1, 3);
+            postAstrumAureus.Add(ModContent.ItemType<GravityNormalizerPotion>(), 10, 1, 3);
+            itemLoot.AddCratePotionRules();
 
-            //Money
-            DropHelper.DropItem(player, ItemID.SilverCoin, 10, 90);
-            DropHelper.DropItemChance(player, ItemID.GoldCoin, 0.5f, 1, 5);
+            // Money
+            itemLoot.Add(ItemID.SilverCoin, 1, 10, 90);
+            itemLoot.Add(ItemID.GoldCoin, 2, 1, 5);
         }
     }
 }

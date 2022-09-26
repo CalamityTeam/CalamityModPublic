@@ -1,7 +1,9 @@
+﻿using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.Graphics.Effects;
 using Terraria.ModLoader;
 
@@ -35,12 +37,12 @@ namespace CalamityMod.NPCs.Signus
                     x = Vector2.Distance(Main.player[Main.myPlayer].Center, Main.npc[this.SignusIndex].Center);
                 }
 
-				float maxIntensity = 0.1f;
-				if (CalamityWorld.revenge)
-				{
-					maxIntensity = 1f - (float)Main.npc[this.SignusIndex].life / (float)Main.npc[this.SignusIndex].lifeMax;
-				}
-				return (1f - Utils.SmoothStep(3000f, 6000f, x)) * maxIntensity;
+                float maxIntensity = 0.1f;
+                if (CalamityWorld.revenge || BossRushEvent.BossRushActive)
+                {
+                    maxIntensity = 1f - (float)Main.npc[this.SignusIndex].life / (float)Main.npc[this.SignusIndex].lifeMax;
+                }
+                return (1f - Utils.SmoothStep(3000f, 6000f, x)) * maxIntensity;
             }
             return 0f;
         }
@@ -58,12 +60,12 @@ namespace CalamityMod.NPCs.Signus
             {
                 return true;
             }
-			SignusIndex = -1;
+            SignusIndex = -1;
             for (int i = 0; i < Main.npc.Length; i++)
             {
                 if (Main.npc[i].active && Main.npc[i].type == SignusType)
                 {
-					SignusIndex = i;
+                    SignusIndex = i;
                     break;
                 }
             }
@@ -75,7 +77,7 @@ namespace CalamityMod.NPCs.Signus
             if (maxDepth >= 0 && minDepth < 0)
             {
                 float intensity = this.GetIntensity();
-                spriteBatch.Draw(Main.blackTileTexture, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color.Black * intensity);
+                spriteBatch.Draw(TextureAssets.BlackTile.Value, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color.Black * intensity);
             }
         }
 

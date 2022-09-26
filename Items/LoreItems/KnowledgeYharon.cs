@@ -1,6 +1,6 @@
-using CalamityMod.CalPlayer;
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
+using CalamityMod.Rarities;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -13,17 +13,17 @@ namespace CalamityMod.Items.LoreItems
         {
             DisplayName.SetDefault("Jungle Dragon, Yharon");
             Tooltip.SetDefault("I would not be able to bear a world without my faithful companion by my side.\n" +
-                "Fortunately, fate will have it so that it is a world I shall never have to see, for better or for worse.\n" +
-                "Favorite this item to gain nearly-infinite wing flight time, but at the cost of a 25% decrease to all damage.");
+                "Fortunately, fate will have it so that it is a world I shall never have to see, for better or for worse.");
+            SacrificeTotal = 1;
+            ItemID.Sets.ItemNoGravity[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.width = 20;
-            item.height = 20;
-            item.rare = 10;
-            item.consumable = false;
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.width = 20;
+            Item.height = 20;
+            Item.consumable = false;
+            Item.rare = ModContent.RarityType<DarkBlue>();
         }
 
         public override bool CanUseItem(Player player)
@@ -31,21 +31,9 @@ namespace CalamityMod.Items.LoreItems
             return false;
         }
 
-        public override void UpdateInventory(Player player)
-        {
-            CalamityPlayer modPlayer = player.Calamity();
-			if (item.favorited)
-				modPlayer.yharonLore = true;
-        }
-
         public override void AddRecipes()
         {
-            ModRecipe r = new ModRecipe(mod);
-            r.SetResult(this);
-            r.AddTile(TileID.Bookcases);
-            r.AddIngredient(ModContent.ItemType<YharonTrophy>());
-            r.AddIngredient(ModContent.ItemType<VictoryShard>(), 10);
-            r.AddRecipe();
+            CreateRecipe(1).AddTile(TileID.Bookcases).AddIngredient(ModContent.ItemType<YharonTrophy>()).AddIngredient(ModContent.ItemType<PearlShard>(), 10).Register();
         }
     }
 }

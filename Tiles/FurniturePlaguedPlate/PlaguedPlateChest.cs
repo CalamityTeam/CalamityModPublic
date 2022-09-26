@@ -1,5 +1,7 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
+using Terraria.GameContent.ObjectInteractions;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -7,16 +9,16 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
 {
     public class PlaguedPlateChest : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
-            this.SetUpChest();
+            this.SetUpChest(true);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Plagued Chest");
             AddMapEntry(new Color(191, 142, 111), name, MapChestName);
-            disableSmartCursor = true;
-            adjTiles = new int[] { TileID.Containers };
-            chest = "Plagued Chest";
-            chestDrop = ModContent.ItemType<Items.Placeables.FurniturePlaguedPlate.PlaguedPlateChest>();
+            TileID.Sets.DisableSmartCursor[Type] = true;
+            AdjTiles = new int[] { TileID.Containers };
+            ContainerName.SetDefault("Plagued Chest");
+            ChestDrop = ModContent.ItemType<Items.Placeables.FurniturePlagued.PlaguedPlateChest>();
         }
 
         public override bool CreateDust(int i, int j, ref int type)
@@ -30,54 +32,29 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
             num = fail ? 1 : 3;
         }
 
-        public override bool HasSmartInteract()
-        {
-            return true;
-        }
+        public override bool HasSmartInteract(int i, int j, SmartInteractScanSettings settings) => true;
 
-        public string MapChestName(string name, int i, int j)
-        {
-            int left = i;
-            int top = j;
-            Tile tile = Main.tile[i, j];
-            if (tile.frameX % 36 != 0)
-            {
-                left--;
-            }
-            if (tile.frameY != 0)
-            {
-                top--;
-            }
-            int chest = Chest.FindChest(left, top);
-            if (Main.chest[chest].name == "")
-            {
-                return name;
-            }
-            else
-            {
-                return name + ": " + Main.chest[chest].name;
-            }
-        }
+        public string MapChestName(string name, int i, int j) => CalamityUtils.GetMapChestName(name, i, j);
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 32, 32, chestDrop);
+            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 32, 32, ChestDrop);
             Chest.DestroyChest(i, j);
         }
 
-        public override bool NewRightClick(int i, int j)
+        public override bool RightClick(int i, int j)
         {
             return CalamityUtils.ChestRightClick(i, j);
         }
 
         public override void MouseOver(int i, int j)
         {
-            CalamityUtils.ChestMouseOver<Items.Placeables.FurniturePlaguedPlate.PlaguedPlateChest>("Plagued Chest", i, j);
+            CalamityUtils.ChestMouseOver<Items.Placeables.FurniturePlagued.PlaguedPlateChest>("Plagued Chest", i, j);
         }
 
         public override void MouseOverFar(int i, int j)
         {
-            CalamityUtils.ChestMouseFar<Items.Placeables.FurniturePlaguedPlate.PlaguedPlateChest>("Plagued Chest", i, j);
+            CalamityUtils.ChestMouseFar<Items.Placeables.FurniturePlagued.PlaguedPlateChest>("Plagued Chest", i, j);
         }
     }
 }

@@ -1,4 +1,4 @@
-using CalamityMod.Items.Accessories;
+﻿using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Furniture.DevPaintings;
@@ -7,57 +7,81 @@ using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.NPCs.Calamitas;
-using CalamityMod.World;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.GameContent.ItemDropRules;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.TreasureBags
 {
     public class CalamitasBag : ModItem
     {
-        public override int BossBagNPC => ModContent.NPCType<CalamitasRun3>();
-
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Treasure Bag");
+            SacrificeTotal = 3;
+            DisplayName.SetDefault("Treasure Bag (Calamitas)");
             Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
+			ItemID.Sets.BossBag[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.maxStack = 999;
-            item.consumable = true;
-            item.width = 24;
-            item.height = 24;
-            item.rare = 9;
-            item.expert = true;
+            Item.maxStack = 999;
+            Item.consumable = true;
+            Item.width = 24;
+            Item.height = 24;
+            Item.rare = ItemRarityID.Cyan;
+            Item.expert = true;
         }
+
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = ContentSamples.CreativeHelper.ItemGroup.BossBags;
+		}
 
         public override bool CanRightClick() => true;
 
-        public override void OpenBossBag(Player player)
+		public override Color? GetAlpha(Color lightColor) => Color.Lerp(lightColor, Color.White, 0.4f);
+
+        public override void PostUpdate() => Item.TreasureBagLightAndDust();
+
+        public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
         {
-            player.TryGettingDevArmor();
+            return CalamityUtils.DrawTreasureBagInWorld(Item, spriteBatch, ref rotation, ref scale, whoAmI);
+        }
+
+        public override void ModifyItemLoot(ItemLoot itemLoot)
+        {
+			// Money
+			itemLoot.Add(ItemDropRule.CoinsBasedOnNPCValue(ModContent.NPCType<CalamitasClone>()));
 
             // Materials
-            DropHelper.DropItem(player, ModContent.ItemType<CalamityDust>(), 14, 18);
-            DropHelper.DropItem(player, ModContent.ItemType<BlightedLens>(), 1, 3);
-            DropHelper.DropItem(player, ModContent.ItemType<EssenceofChaos>(), 5, 9);
-            DropHelper.DropItemCondition(player, ModContent.ItemType<Bloodstone>(), CalamityWorld.downedProvidence, 35, 45);
+            itemLoot.Add(ModContent.ItemType<AshesofCalamity>(), 1, 30, 35);
+            itemLoot.Add(ModContent.ItemType<EssenceofChaos>(), 1, 10, 15);
 
             // Weapons
-            DropHelper.DropItemChance(player, ModContent.ItemType<TheEyeofCalamitas>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<Animosity>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<CalamitasInferno>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<BlightedEyeStaff>(), 3);
+            itemLoot.Add(DropHelper.CalamityStyle(DropHelper.BagWeaponDropRateFraction, new int[]
+            {
+                ModContent.ItemType<Oblivion>(),
+                ModContent.ItemType<Animosity>(),
+                ModContent.ItemType<LashesofChaos>(),
+                ModContent.ItemType<EntropysVigil>()
+            }));
 
             // Equipment
-            DropHelper.DropItem(player, ModContent.ItemType<CalamityRing>());
-            DropHelper.DropItemChance(player, ModContent.ItemType<ChaosStone>(), 10);
+            itemLoot.Add(ModContent.ItemType<ChaosStone>(), DropHelper.BagWeaponDropRateFraction);
+            itemLoot.Add(ModContent.ItemType<VoidofCalamity>());
+            itemLoot.Add(ModContent.ItemType<Regenator>(), 10);
+            itemLoot.AddRevBagAccessories();
 
             // Vanity
-            DropHelper.DropItemChance(player, ModContent.ItemType<CalamitasMask>(), 7);
-            DropHelper.DropItemChance(player, ModContent.ItemType<NincityPainting>(), 20);
+            itemLoot.Add(ModContent.ItemType<CalamitasMask>(), 7);
+            itemLoot.Add(ModContent.ItemType<NincityPainting>(), 20);
+            var calamityRobes = ItemDropRule.Common(ModContent.ItemType<RobesOfCalamity>(), 10);
+            calamityRobes.OnSuccess(ItemDropRule.Common(ModContent.ItemType<HoodOfCalamity>()));
+            itemLoot.Add(calamityRobes);
         }
     }
 }

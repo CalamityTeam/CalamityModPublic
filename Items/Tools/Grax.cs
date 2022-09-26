@@ -1,54 +1,81 @@
-using CalamityMod.Buffs.StatBuffs;
+﻿using CalamityMod.Buffs.StatBuffs;
 using CalamityMod.Items.Materials;
+using CalamityMod.Rarities;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Items.Tools
 {
     public class Grax : ModItem
     {
+        private const int HammerPower = 110;
+        private const int AxePower = 180 / 5;
+
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Grax");
-            Tooltip.SetDefault("Hitting an enemy will greatly boost your defense and melee stats for a short time");
+            Tooltip.SetDefault("Hitting an enemy will greatly boost your defense, melee damage and melee crit for a short time\n" +
+                "Right click to use without hammering down walls or chopping down trees");
+            ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.width = 62;
-            item.height = 62;
-            item.damage = 500;
-            item.melee = true;
-            item.useAnimation = 16;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 4;
-            item.useTurn = true;
-            item.axe = 50;
-            item.hammer = 200;
-            item.knockBack = 8f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.tileBoost += 5;
-            item.value = Item.buyPrice(1, 20, 0, 0);
-            item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.damage = 472;
+            Item.knockBack = 8f;
+            Item.useTime = 4;
+            Item.useAnimation = 16;
+            Item.hammer = HammerPower;
+            Item.axe = AxePower;
+            Item.tileBoost += 5;
+
+            Item.width = 62;
+            Item.height = 62;
+            Item.scale = 1.5f;
+            Item.DamageType = DamageClass.Melee;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTurn = true;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            Item.rare = ModContent.RarityType<Turquoise>();
+        }
+
+        public override bool AltFunctionUse(Player player) => true;
+
+        public override bool CanUseItem(Player player)
+        {
+            //TODO - Pressure the tmod devs into adding another method akin to ModifyToolStats that gets ran early enough to work.
+            if (player.altFunctionUse == 2)
+            {
+                Item.axe = 0;
+                Item.hammer = 0;
+            }
+            else
+            {
+                Item.axe = AxePower;
+                Item.hammer = HammerPower;
+            }
+            return base.CanUseItem(player);
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<InfernaCutter>());
-            recipe.AddIngredient(ModContent.ItemType<DraedonBar>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<UeliaceBar>(), 5);
-            recipe.AddRecipeGroup("LunarHamaxe");
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient<InfernaCutter>().
+                AddRecipeGroup("LunarHamaxe").
+                AddIngredient<MolluskHusk>(10).
+                AddIngredient<PerennialBar>(5).
+                AddIngredient<UelibloomBar>(5).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            player.AddBuff(ModContent.BuffType<GraxDefense>(), 600);
+            player.AddBuff(ModContent.BuffType<GraxBoost>(), 600);
         }
     }
 }

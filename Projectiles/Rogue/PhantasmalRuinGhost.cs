@@ -1,60 +1,51 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-	public class PhantasmalRuinGhost : ModProjectile
+    public class PhantasmalRuinGhost : ModProjectile
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Phantasmal Ghost");
+            DisplayName.SetDefault("Phantasmal Afterimage");
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 30;
-            projectile.height = 30;
-            projectile.friendly = true;
-            projectile.penetrate = 1;
-            projectile.tileCollide = false;
-            projectile.timeLeft = 240;
-            projectile.extraUpdates = 1;
-            projectile.Calamity().rogue = true;
+            Projectile.width = 30;
+            Projectile.height = 30;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.penetrate = 1;
+            Projectile.tileCollide = false;
+            Projectile.timeLeft = 240;
+            Projectile.extraUpdates = 1;
+            Projectile.DamageType = RogueDamageClass.Instance;
         }
 
         public override void AI()
         {
-			if (projectile.timeLeft >= 207)
-			{
-				projectile.alpha += 6;
-			}
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 0.785f;
-            Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 175, projectile.velocity.X * 0.25f, projectile.velocity.Y * 0.25f, 0, default(Color), 0.85f);
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 600f, 18f, 20f);
+            // Set the projectile's direction correctly
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver4;
+
+            // The projectile rapidly fades in as it starts existing
+            if (Projectile.timeLeft >= 207)
+                Projectile.alpha += 6;
+
+            CalamityUtils.HomeInOnNPC(Projectile, true, 300f, 12f, 40f);
         }
 
-        public override void Kill(int timeLeft)
-        {
-            projectile.position = projectile.Center;
-            projectile.width = projectile.height = 110;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
-            projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-            projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
-			projectile.damage /= 2;
-            projectile.Damage();
-        }
+        public override Color? GetAlpha(Color lightColor) => new Color(100, 200, 255, 100);
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-			if (projectile.timeLeft > 239)
-				return false;
+            if (Projectile.timeLeft > 239)
+                return false;
 
-            Texture2D tex = Main.projectileTexture[projectile.type];
-            spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(lightColor), projectile.rotation, tex.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
+            Texture2D tex = ModContent.Request<Texture2D>(Texture).Value;
+            Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation, tex.Size() / 2f, Projectile.scale, SpriteEffects.None, 0);
             return false;
         }
     }

@@ -1,54 +1,66 @@
+﻿using CalamityMod.CustomRecipes;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.DraedonsArsenal;
+using CalamityMod.Rarities;
+using System;
+using System.Collections.Generic;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.Sounds;
 
 namespace CalamityMod.Items.Weapons.DraedonsArsenal
 {
     public class GaussPistol : ModItem
-	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Gauss Pistol");
-			Tooltip.SetDefault("Fires a devastating high velocity blast with extreme knockback");
-		}
+    {
+        public override void SetStaticDefaults()
+        {
+            SacrificeTotal = 1;
+            DisplayName.SetDefault("Gauss Pistol");
+            Tooltip.SetDefault("A simple pistol that utilizes magic power; a weapon for the more magically adept\n" +
+            "Fires a devastating high velocity blast with extreme knockback");
+        }
 
-		public override void SetDefaults()
-		{
-			item.width = 40;
-			item.height = 22;
-			item.magic = true;
-			item.mana = 6;
-			item.damage = 70;
-			item.knockBack = 11f;
-			item.useTime = item.useAnimation = 20;
-			item.autoReuse = true;
+        public override void SetDefaults()
+        {
+            CalamityGlobalItem modItem = Item.Calamity();
 
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/GaussWeaponFire");
-			item.noMelee = true;
+            Item.width = 40;
+            Item.height = 22;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 6;
+            Item.damage = 110;
+            Item.knockBack = 11f;
+            Item.useTime = Item.useAnimation = 20;
+            Item.autoReuse = true;
 
-			item.value = CalamityGlobalItem.Rarity5BuyPrice;
-			item.rare = ItemRarityID.Red;
-			item.Calamity().customRarity = CalamityRarity.DraedonRust;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.UseSound = CommonCalamitySounds.GaussWeaponFire;
+            Item.noMelee = true;
 
-			item.shoot = ModContent.ProjectileType<GaussPistolShot>();
-			item.shootSpeed = 14f;
+            Item.value = CalamityGlobalItem.Rarity5BuyPrice;
+            Item.rare = ModContent.RarityType<DarkOrange>();
 
-			item.Calamity().ChargeMax = 85;
-			item.Calamity().Chargeable = true;
-		}
+            Item.shoot = ModContent.ProjectileType<GaussPistolShot>();
+            Item.shootSpeed = 14f;
 
-		public override void AddRecipes()
-		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 12);
-			recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 8);
-			recipe.AddIngredient(ItemID.HallowedBar, 10);
-			recipe.AddIngredient(ItemID.SpaceGun);
-			recipe.AddTile(TileID.MythrilAnvil);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
-		}
-	}
+            modItem.MaxCharge = 85f;
+            modItem.UsesCharge = true;
+            modItem.ChargePerUse = 0.05f;
+        }
+
+        public override void ModifyTooltips(List<TooltipLine> tooltips) => CalamityGlobalItem.InsertKnowledgeTooltip(tooltips, 2);
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient<MysteriousCircuitry>(12).
+                AddIngredient<DubiousPlating>(8).
+                AddRecipeGroup("AnyMythrilBar", 10).
+                AddIngredient(ItemID.SoulofMight, 20).
+                AddCondition(ArsenalTierGatedRecipe.ConstructRecipeCondition(2, out Predicate<Recipe> condition), condition).
+                AddTile(TileID.MythrilAnvil).
+                Register();
+        }
+    }
 }

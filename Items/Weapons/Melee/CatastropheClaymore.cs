@@ -1,3 +1,4 @@
+﻿using Terraria.DataStructures;
 using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -12,53 +13,39 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             DisplayName.SetDefault("Catastrophe Claymore");
             Tooltip.SetDefault("Fires explosive energy bolts");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.width = 56;
-            item.damage = 67;
-            item.melee = true;
-            item.useAnimation = 23;
-            item.useTime = 23;
-            item.useTurn = true;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 6.25f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 56;
-            item.value = Item.buyPrice(0, 48, 0, 0);
-            item.rare = 6;
-            item.shoot = ModContent.ProjectileType<CalamityAura>();
-            item.shootSpeed = 11f;
+            Item.width = 56;
+            Item.damage = 98;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = 23;
+            Item.useTime = 23;
+            Item.useTurn = true;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 6.25f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.height = 56;
+            Item.value = CalamityGlobalItem.Rarity7BuyPrice;
+            Item.rare = ItemRarityID.LightPurple;
+            Item.shoot = ModContent.ProjectileType<CalamityAura>();
+            Item.shootSpeed = 11f;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-			type = Utils.SelectRandom(Main.rand, new int[]
-			{
-				ModContent.ProjectileType<CalamityAura>(),
-				ModContent.ProjectileType<CalamityAuraType2>(),
-				ModContent.ProjectileType<CalamityAuraType3>()
-			});
+            type = Utils.SelectRandom(Main.rand, new int[]
+            {
+                ModContent.ProjectileType<CalamityAura>(),
+                ModContent.ProjectileType<CalamityAuraType2>(),
+                ModContent.ProjectileType<CalamityAuraType3>()
+            });
 
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, Main.myPlayer);
+            Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, type, damage, knockback, Main.myPlayer);
             return false;
-        }
-
-        public override void AddRecipes()
-        {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.HallowedBar, 10);
-            recipe.AddIngredient(ItemID.CrystalShard, 15);
-            recipe.AddIngredient(ItemID.SoulofNight, 5);
-            recipe.AddRecipeGroup("CursedFlameIchor", 5);
-            recipe.AddIngredient(ItemID.SoulofMight, 3);
-            recipe.AddIngredient(ItemID.SoulofSight, 3);
-            recipe.AddIngredient(ItemID.SoulofFright, 3);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)
@@ -74,8 +61,8 @@ namespace CalamityMod.Items.Weapons.Melee
             if (Main.rand.NextBool(3))
             {
                 target.AddBuff(BuffID.Ichor, 60);
-                target.AddBuff(BuffID.OnFire, 300);
-                target.AddBuff(BuffID.Frostburn, 150);
+                target.AddBuff(BuffID.OnFire, 180);
+                target.AddBuff(BuffID.Frostburn, 120);
             }
         }
 
@@ -84,9 +71,23 @@ namespace CalamityMod.Items.Weapons.Melee
             if (Main.rand.NextBool(3))
             {
                 target.AddBuff(BuffID.Ichor, 60);
-                target.AddBuff(BuffID.OnFire, 300);
-                target.AddBuff(BuffID.Frostburn, 150);
+                target.AddBuff(BuffID.OnFire, 180);
+                target.AddBuff(BuffID.Frostburn, 120);
             }
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient(ItemID.HallowedBar, 10).
+                AddIngredient(ItemID.CrystalShard, 7).
+                AddIngredient(ItemID.SoulofNight, 5).
+                AddRecipeGroup("CursedFlameIchor", 5).
+                AddIngredient(ItemID.SoulofMight, 3).
+                AddIngredient(ItemID.SoulofSight, 3).
+                AddIngredient(ItemID.SoulofFright, 3).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

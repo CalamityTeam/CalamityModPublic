@@ -1,7 +1,9 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
+using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -13,27 +15,28 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             DisplayName.SetDefault("Minigun");
             Tooltip.SetDefault("80% chance to not consume ammo");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 390;
-            item.ranged = true;
-            item.width = 72;
-            item.height = 34;
-            item.useTime = 3;
-            item.useAnimation = 3;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 2.5f;
-            item.value = Item.buyPrice(1, 80, 0, 0);
-            item.rare = 10;
-            item.UseSound = SoundID.Item41;
-            item.autoReuse = true;
-            item.shoot = ProjectileID.PurificationPowder;
-            item.shootSpeed = 22f;
-            item.useAmmo = 97;
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.damage = 275;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 92;
+            Item.height = 44;
+            Item.useTime = 3;
+            Item.useAnimation = 3;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 2.5f;
+            Item.value = CalamityGlobalItem.Rarity15BuyPrice;
+            Item.UseSound = SoundID.Item41;
+            Item.autoReuse = true;
+            Item.shoot = ProjectileID.PurificationPowder;
+            Item.shootSpeed = 22f;
+            Item.useAmmo = AmmoID.Bullet;
+            Item.rare = ModContent.RarityType<Violet>();
+            Item.Calamity().canFirePointBlankShots = true;
         }
 
         public override Vector2? HoldoutOffset()
@@ -41,30 +44,24 @@ namespace CalamityMod.Items.Weapons.Ranged
             return new Vector2(-10, 0);
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            float SpeedX = speedX + (float)Main.rand.Next(-15, 16) * 0.05f;
-            float SpeedY = speedY + (float)Main.rand.Next(-15, 16) * 0.05f;
-            Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+            float SpeedX = velocity.X + Main.rand.Next(-15, 16) * 0.05f;
+            float SpeedY = velocity.Y + Main.rand.Next(-15, 16) * 0.05f;
+            Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, type, damage, knockback, player.whoAmI);
             return false;
         }
 
-        public override bool ConsumeAmmo(Player player)
-        {
-            if (Main.rand.Next(0, 100) < 80)
-                return false;
-            return true;
-        }
+        public override bool CanConsumeAmmo(Item ammo, Player player) => Main.rand.NextFloat() > 0.8f;
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.ChainGun);
-            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 5);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient(ItemID.ChainGun).
+                AddIngredient<ClockGatlignum>().
+                AddIngredient<AuricBar>(5).
+                AddTile<CosmicAnvil>().
+                Register();
         }
     }
 }

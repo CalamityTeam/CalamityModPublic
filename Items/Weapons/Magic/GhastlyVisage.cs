@@ -1,9 +1,11 @@
-using CalamityMod.Projectiles.Magic;
+﻿using CalamityMod.Projectiles.Magic;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.DataStructures;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
@@ -13,51 +15,41 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             DisplayName.SetDefault("Ghastly Visage");
             Tooltip.SetDefault("Fires homing ghast energy that explodes");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 92;
-            item.magic = true;
-            item.noUseGraphic = true;
-            item.channel = true;
-            item.mana = 20;
-            item.width = 32;
-            item.height = 36;
-            item.useTime = 27;
-            item.useAnimation = 27;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 5f;
-            item.value = Item.buyPrice(1, 40, 0, 0);
-            item.rare = 10;
-            item.shootSpeed = 9f;
-            item.shoot = ModContent.ProjectileType<GhastlyVisageProj>();
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
+            Item.damage = 80;
+            Item.DamageType = DamageClass.Magic;
+            Item.noUseGraphic = true;
+            Item.channel = true;
+            Item.mana = 20;
+            Item.width = 32;
+            Item.height = 36;
+            Item.useTime = 27;
+            Item.useAnimation = 27;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 5f;
+            Item.shootSpeed = 9f;
+            Item.shoot = ModContent.ProjectileType<GhastlyVisageProj>();
+
+            Item.value = CalamityGlobalItem.Rarity13BuyPrice;
+            Item.rare = ModContent.RarityType<PureGreen>();
         }
 
-        public override bool CanUseItem(Player player)
+        // This weapon uses a holdout projectile.
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;
+
+        public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
-            for (int i = 0; i < Main.projectile.Length; i++)
-            {
-                Projectile p = Main.projectile[i];
-                if (p.active && p.type == ModContent.ProjectileType<GhastlyVisageProj>() && p.owner == player.whoAmI)
-                {
-                    return false;
-                }
-            }
-            return true;
+            Item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Magic/GhastlyVisageGlow").Value);
         }
 
-		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
-		{
-			Vector2 origin = new Vector2(16f, 16f);
-			spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Items/Weapons/Magic/GhastlyVisageGlow"), item.Center - Main.screenPosition, null, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
-		}
-
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<GhastlyVisageProj>(), damage, knockBack, player.whoAmI, 0f, 0f);
+            Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<GhastlyVisageProj>(), damage, knockback, player.whoAmI);
             return false;
         }
     }

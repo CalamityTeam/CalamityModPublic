@@ -1,4 +1,5 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
+using CalamityMod.Items.Placeables;
 using CalamityMod.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -14,25 +15,26 @@ namespace CalamityMod.Items.Weapons.Ranged
             DisplayName.SetDefault("Storm Surge");
             Tooltip.SetDefault("Fear the storm\n" +
                 "Does not consume ammo");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 22;
-            item.ranged = true;
-            item.width = 58;
-            item.height = 22;
-            item.useTime = 15;
-            item.useAnimation = 15;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 5f;
-            item.UseSound = SoundID.Item122;
-            item.value = Item.buyPrice(0, 4, 0, 0);
-            item.rare = 3;
-            item.autoReuse = false;
-            item.shoot = ModContent.ProjectileType<StormSurgeTornado>();
-            item.shootSpeed = 12f;
+            Item.damage = 18;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 58;
+            Item.height = 22;
+            Item.useTime = 18;
+            Item.useAnimation = 18;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 5f;
+            Item.UseSound = SoundID.Item122;
+            Item.value = CalamityGlobalItem.Rarity2BuyPrice;
+            Item.rare = ItemRarityID.Green;
+            Item.autoReuse = true; //GRRRRRRRRRRRRRRRR false begone
+            Item.shoot = ModContent.ProjectileType<StormSurgeTornado>();
+            Item.shootSpeed = 12f;
         }
 
         public override Vector2? HoldoutOffset()
@@ -42,13 +44,13 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<StormlionMandible>());
-            recipe.AddIngredient(ModContent.ItemType<VictideBar>(), 2);
-            recipe.AddIngredient(ModContent.ItemType<AerialiteBar>(), 2);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient<StormlionMandible>().
+                AddIngredient<PearlShard>(3).
+                AddIngredient<SeaPrism>(7).
+                AddIngredient<Navystone>(10).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

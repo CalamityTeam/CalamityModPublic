@@ -1,79 +1,80 @@
-using Microsoft.Xna.Framework;
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Summon
 {
-	public class BloodBreath : ModProjectile
+    public class BloodBreath : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
+        public float Time
+        {
+            get => Projectile.ai[0];
+            set => Projectile.ai[0] = value;
+        }
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Fire");
-            ProjectileID.Sets.MinionShot[projectile.type] = true;
+            ProjectileID.Sets.MinionShot[Projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 6;
-            projectile.height = 6;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.minion = true;
-            projectile.minionSlots = 0f;
-            projectile.penetrate = 2;
-            projectile.extraUpdates = 3;
-            projectile.timeLeft = 40;
-            projectile.usesIDStaticNPCImmunity = true;
-            projectile.idStaticNPCHitCooldown = 9;
+            Projectile.width = 6;
+            Projectile.height = 6;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.minion = true;
+            Projectile.minionSlots = 0f;
+            Projectile.penetrate = 2;
+            Projectile.extraUpdates = 3;
+            Projectile.timeLeft = 40;
+            Projectile.usesIDStaticNPCImmunity = true;
+            Projectile.idStaticNPCHitCooldown = 9;
+            Projectile.DamageType = DamageClass.Summon;
         }
 
         public override void AI()
         {
-            Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.77f / 255f, (255 - projectile.alpha) * 0.15f / 255f, (255 - projectile.alpha) * 0.08f / 255f);
-            if (projectile.ai[0] > 7f)
+            // Emit blood red light.
+            Lighting.AddLight(Projectile.Center, Projectile.Opacity * 0.77f, Projectile.Opacity * 0.15f, Projectile.Opacity * 0.08f);
+
+            // Create blood dust.
+            Time++;
+            if (Time > 7f)
             {
                 float dustScale = 1f;
-                if (projectile.ai[0] == 8f)
+                switch ((int)Time)
                 {
-                    dustScale = 0.25f;
+                    case 8:
+                        dustScale = 0.25f;
+                        break;
+                    case 9:
+                        dustScale = 0.5f;
+                        break;
+                    case 10:
+                        dustScale = 0.75f;
+                        break;
                 }
-                else if (projectile.ai[0] == 9f)
-                {
-                    dustScale = 0.5f;
-                }
-                else if (projectile.ai[0] == 10f)
-                {
-                    dustScale = 0.75f;
-                }
-                projectile.ai[0] += 1f;
+                Time++;
                 if (Main.rand.NextBool(2))
                 {
-                    for (int i = 0; i < 1; i++)
+                    Dust dust = Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, 5, Projectile.velocity.X * 0.2f, Projectile.velocity.Y * 0.2f, 100);
+                    if (Main.rand.NextBool(3))
                     {
-                        int idx = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 5, projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 100, default, 1f);
-                        Dust dust = Main.dust[idx];
-                        if (Main.rand.NextBool(3))
-                        {
-                            dust.noGravity = true;
-                            dust.scale *= 3f;
-                            dust.velocity.X *= 2f;
-                            dust.velocity.Y *= 2f;
-                        }
-                        else
-                        {
-                            dust.scale *= 1.5f;
-                        }
-                        dust.velocity.X *= 1.2f;
-                        dust.velocity.Y *= 1.2f;
-                        dust.scale *= dustScale;
+                        dust.noGravity = true;
+                        dust.scale *= 3f;
+                        dust.velocity *= 2f;
                     }
+                    else
+                    {
+                        dust.scale *= 1.5f;
+                    }
+                    dust.velocity *= 1.2f;
+                    dust.scale *= dustScale;
                 }
             }
-            else
-            {
-                projectile.ai[0] += 1f;
-            }
-            projectile.rotation += 0.3f * projectile.direction;
+            Projectile.rotation += 0.3f * Projectile.direction;
         }
     }
 }

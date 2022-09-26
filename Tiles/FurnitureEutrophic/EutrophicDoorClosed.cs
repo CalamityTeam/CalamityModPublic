@@ -1,21 +1,22 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
+using Terraria.GameContent.ObjectInteractions;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureEutrophic
 {
     public class EutrophicDoorClosed : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpDoorClosed();
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Eutrophic Door");
-            AddMapEntry(new Color(191, 142, 111), name);
-            disableSmartCursor = true;
-            adjTiles = new int[] { TileID.ClosedDoor };
-            openDoorID = ModContent.TileType<EutrophicDoorOpen>();
+            AddMapEntry(new Color(191, 142, 111), Language.GetText("MapObject.Door"));
+            TileID.Sets.DisableSmartCursor[Type] = true;
+            AdjTiles = new int[] { TileID.ClosedDoor };
+            OpenDoorID = ModContent.TileType<EutrophicDoorOpen>();
         }
 
         public override bool CreateDust(int i, int j, ref int type)
@@ -29,22 +30,19 @@ namespace CalamityMod.Tiles.FurnitureEutrophic
             num = fail ? 1 : 3;
         }
 
-        public override bool HasSmartInteract()
-        {
-            return true;
-        }
+        public override bool HasSmartInteract(int i, int j, SmartInteractScanSettings settings) => true;
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 16, 48, ModContent.ItemType<Items.Placeables.FurnitureEutrophic.EutrophicDoor>());
+            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 48, ModContent.ItemType<Items.Placeables.FurnitureEutrophic.EutrophicDoor>());
         }
 
         public override void MouseOver(int i, int j)
         {
             Player player = Main.LocalPlayer;
             player.noThrow = 2;
-            player.showItemIcon = true;
-            player.showItemIcon2 = ModContent.ItemType<Items.Placeables.FurnitureEutrophic.EutrophicDoor>();
+            player.cursorItemIconEnabled = true;
+            player.cursorItemIconID = ModContent.ItemType<Items.Placeables.FurnitureEutrophic.EutrophicDoor>();
         }
     }
 }

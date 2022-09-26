@@ -1,49 +1,53 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Rogue;
+using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-	public class Penumbra : RogueWeapon
+    public class Penumbra : RogueWeapon
     {
         public static float ShootSpeed = 8f;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Penumbra");
-            Tooltip.SetDefault("Throws a shadow bomb that explodes into homing souls \n" +
+            Tooltip.SetDefault("Throws a shadow bomb that explodes into homing souls\n" +
                                "Stealth strikes make the bomb manifest on the cursor and explode into more souls");
+            SacrificeTotal = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
-            item.width = 46;
-            item.height = 32;
-            item.autoReuse = true;
-            item.noUseGraphic = true;
-            item.noMelee = true;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.UseSound = SoundID.Item103;
-            item.value = Item.buyPrice(1, 80, 0, 0);
-            item.rare = 10;
+            Item.width = 46;
+            Item.height = 32;
+            Item.autoReuse = true;
+            Item.noUseGraphic = true;
+            Item.noMelee = true;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.UseSound = SoundID.Item103;
+            Item.value = CalamityGlobalItem.RarityDarkBlueBuyPrice;
 
-            item.damage = 1600;
-            item.useAnimation = 40;
-            item.useTime = 40;
-            item.crit = 16;
-            item.knockBack = 8f;
-            item.shoot = ModContent.ProjectileType<PenumbraBomb>();
-            item.shootSpeed = ShootSpeed;
+            Item.damage = 1008;
+            Item.useAnimation = 40;
+            Item.useTime = 40;
+            Item.knockBack = 8f;
+            Item.shoot = ModContent.ProjectileType<PenumbraBomb>();
+            Item.shootSpeed = ShootSpeed;
 
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
-            item.Calamity().rogue = true;
+            Item.rare = ModContent.RarityType<DarkBlue>();
+            Item.DamageType = RogueDamageClass.Instance;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-        {    
+        // Terraria seems to really dislike high crit values in SetDefaults
+        public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 16;
+
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        {
             if (player.Calamity().StealthStrikeAvailable())
             {
                 Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
@@ -59,8 +63,9 @@ namespace CalamityMod.Items.Weapons.Rogue
                     num79 = 0f;
                 }
                 vector2 += new Vector2(num78, num79);
-                int proj = Projectile.NewProjectile(vector2, new Vector2(0f,-0.5f), ModContent.ProjectileType<PenumbraBomb>(), damage, knockBack, player.whoAmI, 0f, 1f);
-                Main.projectile[proj].Calamity().stealthStrike = true;
+                int proj = Projectile.NewProjectile(source, vector2, new Vector2(0f,-0.5f), ModContent.ProjectileType<PenumbraBomb>(), damage, knockback, player.whoAmI, 0f, 1f);
+                if (proj.WithinBounds(Main.maxProjectiles))
+                    Main.projectile[proj].Calamity().stealthStrike = true;
                 return false;
             }
             return true;
@@ -68,13 +73,12 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 6);
-            recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 24);
-            recipe.AddIngredient(ModContent.ItemType<RuinousSoul>(), 6);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient<RuinousSoul>(6).
+                AddIngredient<CosmiliteBar>(8).
+                AddIngredient<NightmareFuel>(20).
+                AddTile<CosmicAnvil>().
+                Register();
         }
     }
 }

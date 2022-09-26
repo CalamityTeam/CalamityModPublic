@@ -1,9 +1,11 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.FurnitureBotanic;
 using CalamityMod.Items.Placeables.FurnitureCosmilite;
 using CalamityMod.Items.Placeables.FurnitureSilva;
+using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture;
 using CalamityMod.Tiles.Furniture.CraftingStations;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.Furniture
 {
@@ -11,35 +13,30 @@ namespace CalamityMod.Items.Placeables.Furniture
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Auric Toilet");
-            Tooltip.SetDefault("This was used by the gods");
+            Tooltip.SetDefault("This was used by the gods \n" +
+                "Sitting on such a throne would be a disgrace to all");
         }
 
         public override void SetDefaults()
         {
-            item.width = 12;
-            item.height = 30;
-            item.maxStack = 99;
-            item.useTurn = true;
-            item.autoReuse = true;
-            item.useAnimation = 15;
-            item.useTime = 10;
-            item.useStyle = 1;
-            item.consumable = true;
-            item.createTile = ModContent.TileType<AuricToiletTile>();
-			item.Calamity().postMoonLordRarity = 15;
+            Item.width = 12;
+            Item.height = 30;
+            Item.maxStack = 999;
+            Item.useTurn = true;
+            Item.autoReuse = true;
+            Item.useAnimation = 15;
+            Item.useTime = 10;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.consumable = true;
+            Item.createTile = ModContent.TileType<AuricToiletTile>();
+            Item.rare = ModContent.RarityType<Violet>();
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<BotanicChair>());
-            recipe.AddIngredient(ModContent.ItemType<CosmiliteChair>());
-            recipe.AddIngredient(ModContent.ItemType<SilvaChair>());
-            recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 4);
-            recipe.SetResult(this);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<BotanicChair>()).AddIngredient(ModContent.ItemType<CosmiliteChair>()).AddIngredient(ModContent.ItemType<SilvaChair>()).AddIngredient(ModContent.ItemType<AuricBar>(), 5).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
         }
     }
 }

@@ -1,5 +1,5 @@
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -10,29 +10,38 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Aorta");
-            ProjectileID.Sets.YoyosLifeTimeMultiplier[projectile.type] = 11f;
-            ProjectileID.Sets.YoyosMaximumRange[projectile.type] = 220f;
-            ProjectileID.Sets.YoyosTopSpeed[projectile.type] = 8.5f;
+            ProjectileID.Sets.YoyosLifeTimeMultiplier[Projectile.type] = 11f;
+            ProjectileID.Sets.YoyosMaximumRange[Projectile.type] = 260f;
+            ProjectileID.Sets.YoyosTopSpeed[Projectile.type] = 8.5f;
 
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 4;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
         public override void SetDefaults()
         {
-            projectile.aiStyle = 99;
-            projectile.width = 16;
-            projectile.height = 16;
-            projectile.scale = 1f;
-            projectile.friendly = true;
-            projectile.melee = true;
-            projectile.penetrate = -1;
-            projectile.MaxUpdates = 2;
+            Projectile.aiStyle = ProjAIStyleID.Yoyo;
+            Projectile.width = 16;
+            Projectile.height = 16;
+            Projectile.scale = 1f;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.MeleeNoSpeed;
+            Projectile.penetrate = -1;
+            Projectile.MaxUpdates = 2;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 20;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override void AI()
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.MagnetSphereHitscan(Projectile, 240f, 6f, 180f, 3, ModContent.ProjectileType<Blood2>(), 0.25);
+            if ((Projectile.position - Main.player[Projectile.owner].position).Length() > 3200f) //200 blocks
+                Projectile.Kill();
+        }
+
+        public override bool PreDraw(ref Color lightColor)
+        {
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;
         }
     }

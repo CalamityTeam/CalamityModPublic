@@ -5,6 +5,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class CelestialReaperAfterimage : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/CelestialReaper";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Celestial Reaper");
@@ -12,25 +14,31 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetDefaults()
         {
-            projectile.width = 66;
-            projectile.height = 76;
-            projectile.friendly = true;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 51;
-            projectile.tileCollide = false;
-            projectile.Calamity().rogue = true;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 5;
+            Projectile.width = 66;
+            Projectile.height = 76;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = 51;
+            Projectile.tileCollide = false;
+            Projectile.DamageType = RogueDamageClass.Instance;
+            Projectile.timeLeft = 180;
         }
+
+        public override bool? CanHitNPC(NPC target) => Projectile.timeLeft < 150 && target.CanBeChasedBy(Projectile);
+
         public override void AI()
         {
-            projectile.rotation += MathHelper.ToRadians(30f); //buzzsaw scythe
-            NPC target = projectile.position.ClosestNPCAt(640f);
-            if (target != null)
+            Projectile.rotation += MathHelper.ToRadians(30f); // Buzzsaw scythe.
+
+            if (Projectile.timeLeft < 150)
             {
-                projectile.velocity = (projectile.velocity * 20f + projectile.DirectionTo(target.Center) * 20f) / 21f;
+                NPC target = Projectile.Center.ClosestNPCAt(640f);
+                if (target != null)
+                    Projectile.velocity = (Projectile.velocity * 20f + Projectile.SafeDirectionTo(target.Center) * 20f) / 21f;
             }
-            projectile.alpha += 5;
+
+            Projectile.alpha += 5;
         }
     }
 }

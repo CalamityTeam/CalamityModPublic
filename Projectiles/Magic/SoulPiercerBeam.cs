@@ -1,11 +1,12 @@
-using Microsoft.Xna.Framework;
-using System;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Magic
 {
     public class SoulPiercerBeam : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Piercer");
@@ -13,51 +14,41 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetDefaults()
         {
-            projectile.width = 4;
-            projectile.height = 4;
-            projectile.friendly = true;
-            projectile.magic = true;
-            projectile.penetrate = -1;
-            projectile.extraUpdates = 100;
-            projectile.timeLeft = 240;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 5;
+            Projectile.width = 4;
+            Projectile.height = 4;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Magic;
+            Projectile.ignoreWater = true;
+            Projectile.penetrate = -1;
+            Projectile.extraUpdates = 100;
+            Projectile.timeLeft = 240;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
         }
 
         public override void AI()
         {
-            projectile.localAI[0] += 1f;
-            if (projectile.localAI[0] > 9f)
+            Projectile.localAI[0] += 1f;
+            if (Projectile.localAI[0] > 9f)
             {
-                for (int num447 = 0; num447 < 4; num447++)
-                {
-                    Vector2 vector33 = projectile.position;
-                    vector33 -= projectile.velocity * ((float)num447 * 0.25f);
-                    projectile.alpha = 255;
-                    int num448 = Dust.NewDust(vector33, 1, 1, 173, 0f, 0f, 0, default, 0.5f);
-                    Main.dust[num448].position = vector33;
-                    Main.dust[num448].scale = (float)Main.rand.Next(70, 110) * 0.007f;
-                    Main.dust[num448].velocity *= 0.2f;
-                }
+                Vector2 vector33 = Projectile.position;
+                vector33 -= Projectile.velocity;
+                Projectile.alpha = 255;
+                int num448 = Dust.NewDust(vector33, 1, 1, 173, 0f, 0f, 0, default, 0.5f);
+                Main.dust[num448].position = vector33;
+                Main.dust[num448].scale = Main.rand.Next(70, 110) * 0.014f;
+                Main.dust[num448].velocity *= 0.2f;
             }
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
+            var source = Projectile.GetSource_FromThis();
             for (int x = 0; x < 3; x++)
             {
-                float xPos = projectile.ai[0] > 0 ? projectile.position.X + 500 : projectile.position.X - 500;
-                Vector2 vector2 = new Vector2(xPos, projectile.position.Y + Main.rand.Next(-500, 501));
-                float num80 = xPos;
-                float speedX = (float)target.position.X - vector2.X;
-                float speedY = (float)target.position.Y - vector2.Y;
-                float dir = (float)Math.Sqrt((double)(speedX * speedX + speedY * speedY));
-                dir = 10 / num80;
-                speedX *= dir * 150;
-                speedY *= dir * 150;
-                if (projectile.owner == Main.myPlayer)
+                if (Projectile.owner == Main.myPlayer)
                 {
-                    Projectile.NewProjectile(vector2.X, vector2.Y, speedX, speedY, ModContent.ProjectileType<SoulPiercerBolt>(), (int)((double)projectile.damage * 0.5), 0f, projectile.owner);
+                    CalamityUtils.ProjectileBarrage(source, Projectile.Center, target.Center, true, -500f, 500f, 0f, 500f, 10f, ModContent.ProjectileType<SoulPiercerBolt>(), (int)(Projectile.damage * 0.5), 0f, Projectile.owner, false, 0f);
                 }
             }
         }

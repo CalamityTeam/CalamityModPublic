@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using Terraria;
 using Terraria.ID;
@@ -14,15 +14,16 @@ namespace CalamityMod.Items.LoreItems
             Tooltip.SetDefault("The ever-rejuvenating guardians of the profaned flame.\n" +
                 "Much like a phoenix from the ashes their deaths are simply a part of their life cycle.\n" +
                 "Many times my forces have had to destroy these beings in search of the Profaned Goddess.");
+            SacrificeTotal = 1;
+            ItemID.Sets.ItemNoGravity[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.width = 20;
-            item.height = 20;
-            item.rare = 10;
-            item.consumable = false;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.width = 20;
+            Item.height = 20;
+            Item.rare = ItemRarityID.Purple;
+            Item.consumable = false;
         }
 
         public override bool CanUseItem(Player player)
@@ -32,12 +33,7 @@ namespace CalamityMod.Items.LoreItems
 
         public override void AddRecipes()
         {
-            ModRecipe r = new ModRecipe(mod);
-            r.SetResult(this);
-            r.AddTile(TileID.Bookcases);
-            r.AddIngredient(ModContent.ItemType<ProfanedGuardianTrophy>());
-            r.AddIngredient(ModContent.ItemType<VictoryShard>(), 10);
-            r.AddRecipe();
+            CreateRecipe(1).AddTile(TileID.Bookcases).AddIngredient(ModContent.ItemType<ProfanedGuardianTrophy>()).AddIngredient(ModContent.ItemType<PearlShard>(), 10).Register();
         }
     }
 }

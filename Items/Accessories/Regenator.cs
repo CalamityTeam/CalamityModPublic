@@ -1,6 +1,7 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -8,19 +9,19 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Regenator");
             Tooltip.SetDefault("Reduces max HP by 50% but greatly improves life regeneration");
         }
 
         public override void SetDefaults()
         {
-            item.width = 36;
-            item.height = 32;
-            item.value = CalamityGlobalItem.Rarity5BuyPrice;
-            item.rare = 5;
-            item.defense = 6;
-            item.accessory = true;
-            item.Calamity().customRarity = CalamityRarity.RareVariant;
+            Item.width = 34;
+            Item.height = 56;
+            Item.value = CalamityGlobalItem.Rarity7BuyPrice;
+            Item.rare = ItemRarityID.Lime;
+            Item.defense = 10;
+            Item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

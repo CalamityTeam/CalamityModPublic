@@ -1,45 +1,46 @@
-using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.CalPlayer.Dashes;
 
 namespace CalamityMod.Items.Accessories
 {
     [AutoloadEquip(EquipType.Shield)]
     public class AsgardsValor : ModItem
     {
+        public const int ShieldSlamIFrames = 12;
+
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Asgard's Valor");
-            Tooltip.SetDefault("Grants immunity to fire blocks and knockback\n" +
-				"Immune to most debuffs and reduces the damage caused by the Brimstone Flames debuff\n" +
-                "10% damage reduction while submerged in liquid\n" +
+            Tooltip.SetDefault("Grants immunity to knockback\n" +
+                "Immune to most debuffs\n" +
+                "+16 defense while submerged in liquid\n" +
                 "+20 max life\n" +
-                "Grants a holy dash which can be used to ram enemies\n" +
-                "Toggle visibility of this accessory to enable/disable the dash");
+                "Grants a holy dash which can be used to ram enemies");
         }
 
         public override void SetDefaults()
         {
-            item.width = 38;
-            item.height = 44;
-            item.value = CalamityGlobalItem.Rarity7BuyPrice;
-            item.rare = 7;
-            item.defense = 8;
-            item.accessory = true;
+            Item.width = 38;
+            Item.height = 44;
+            Item.value = CalamityGlobalItem.Rarity7BuyPrice;
+            Item.rare = ItemRarityID.Lime;
+            Item.defense = 16;
+            Item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            if (!hideVisual)
-            { modPlayer.dashMod = 2; }
+            modPlayer.DashID = AsgardsValorDash.ID;
+            player.dashType = 0;
             player.noKnockback = true;
             player.fireWalk = true;
-			modPlayer.abaddon = true;
+            player.buffImmune[BuffID.OnFire] = true;
             player.buffImmune[BuffID.Chilled] = true;
             player.buffImmune[BuffID.Frostburn] = true;
             player.buffImmune[BuffID.Weak] = true;
@@ -51,23 +52,22 @@ namespace CalamityMod.Items.Accessories
             player.buffImmune[BuffID.Silenced] = true;
             player.buffImmune[BuffID.Cursed] = true;
             player.buffImmune[BuffID.Darkness] = true;
+            player.buffImmune[BuffID.WindPushed] = true;
+            player.buffImmune[BuffID.Stoned] = true;
             player.statLifeMax2 += 20;
             if (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
-            { player.endurance += 0.1f; }
+            { player.statDefense += 16; }
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.AnkhShield);
-            recipe.AddIngredient(ModContent.ItemType<OrnateShield>());
-            recipe.AddIngredient(ModContent.ItemType<ShieldoftheOcean>());
-            recipe.AddIngredient(ModContent.ItemType<Abaddon>());
-            recipe.AddIngredient(ModContent.ItemType<CoreofCalamity>());
-            recipe.AddIngredient(ItemID.LifeFruit, 5);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient(ItemID.AnkhShield).
+                AddIngredient<OrnateShield>().
+                AddIngredient<ShieldoftheOcean>().
+                AddIngredient<CoreofCalamity>().
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

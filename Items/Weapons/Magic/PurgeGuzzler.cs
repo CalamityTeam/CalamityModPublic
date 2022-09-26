@@ -1,49 +1,54 @@
-using CalamityMod.Projectiles.Magic;
+﻿using CalamityMod.Projectiles.Magic;
+using CalamityMod.Rarities;
+using CalamityMod.Sounds;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Items.Weapons.Magic
 {
     public class PurgeGuzzler : ModItem
     {
+        private const float Spread = 0.025f;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Purge Guzzler");
-            Tooltip.SetDefault("Fires three beams of holy energy");
+            Tooltip.SetDefault("Emits three beams of holy energy in a tight spread");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 80;
-            item.magic = true;
-            item.mana = 12;
-            item.width = 58;
-            item.height = 44;
-            item.useTime = 12;
-            item.useAnimation = 12;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 4.5f;
-            item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon");
-            item.value = Item.buyPrice(1, 20, 0, 0);
-            item.rare = 10;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<HolyLaser>();
-            item.shootSpeed = 6f;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.width = 58;
+            Item.height = 44;
+            Item.damage = 120;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 22;
+            Item.useTime = 24;
+            Item.useAnimation = 24;
+            Item.autoReuse = true;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 4.5f;
+            Item.UseSound = CommonCalamitySounds.LaserCannonSound;
+            Item.shoot = ModContent.ProjectileType<HolyLaser>();
+            Item.shootSpeed = 6f;
+
+            Item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            Item.rare = ModContent.RarityType<Turquoise>();
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            int numProj = 2;
-            float rotation = MathHelper.ToRadians(4);
-            for (int i = 0; i < numProj + 1; i++)
-            {
-                Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numProj - 1)));
-                Projectile.NewProjectile(position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, type, damage, knockBack, player.whoAmI, 0f, 0f);
-            }
-            return false;
+            // Fire extra lasers to the left and right
+            Projectile.NewProjectile(source, position, velocity.RotatedBy(-Spread), type, damage, knockback, player.whoAmI);
+            Projectile.NewProjectile(source, position, velocity.RotatedBy(+Spread), type, damage, knockback, player.whoAmI);
+
+            // Still also fire the center laser
+            return true;
         }
     }
 }

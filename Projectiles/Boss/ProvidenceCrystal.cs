@@ -1,3 +1,4 @@
+﻿using CalamityMod.Events;
 using CalamityMod.NPCs.Providence;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -7,6 +8,7 @@ using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 namespace CalamityMod.Projectiles.Boss
 {
     public class ProvidenceCrystal : ModProjectile
@@ -18,116 +20,127 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-            projectile.width = 160;
-            projectile.height = 160;
-            projectile.ignoreWater = true;
-            projectile.timeLeft = CalamityWorld.bossRushActive ? 1500 : (CalamityWorld.death ? 2100 : 3600);
-            projectile.alpha = 255;
-            projectile.tileCollide = false;
-            projectile.penetrate = -1;
-            cooldownSlot = 1;
+            Projectile.width = 160;
+            Projectile.height = 160;
+            Projectile.ignoreWater = true;
+            Projectile.timeLeft = BossRushEvent.BossRushActive ? 1500 : CalamityWorld.death ? 2100 : 3600;
+            Projectile.alpha = 255;
+            Projectile.tileCollide = false;
+            Projectile.penetrate = -1;
+            CooldownSlot = ImmunityCooldownID.Bosses;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
         {
-            writer.Write(projectile.localAI[0]);
+            writer.Write(Projectile.localAI[0]);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
-            projectile.localAI[0] = reader.ReadSingle();
+            Projectile.localAI[0] = reader.ReadSingle();
         }
 
         public override void AI()
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             if (player.dead || NPC.CountNPCS(ModContent.NPCType<Providence>()) < 1)
             {
-                projectile.active = false;
-                projectile.netUpdate = true;
+                Projectile.active = false;
+                Projectile.netUpdate = true;
                 return;
             }
 
-            projectile.position.X = Main.player[projectile.owner].Center.X - (projectile.width / 2);
-            projectile.position.Y = Main.player[projectile.owner].Center.Y - (projectile.height / 2) + Main.player[projectile.owner].gfxOffY - 360f;
-            if (Main.player[projectile.owner].gravDir == -1f)
+            bool dayTime = Main.dayTime && !BossRushEvent.BossRushActive;
+
+            Projectile.position.X = Main.player[Projectile.owner].Center.X - (Projectile.width / 2);
+            Projectile.position.Y = Main.player[Projectile.owner].Center.Y - (Projectile.height / 2) + Main.player[Projectile.owner].gfxOffY - 360f;
+            if (Main.player[Projectile.owner].gravDir == -1f)
             {
-                projectile.position.Y = projectile.position.Y + 400f;
-                projectile.rotation = 3.14f;
+                Projectile.position.Y = Projectile.position.Y + 400f;
+                Projectile.rotation = 3.14f;
             }
             else
             {
-                projectile.rotation = 0f;
+                Projectile.rotation = 0f;
             }
-            projectile.position.X = (int)projectile.position.X;
-            projectile.position.Y = (int)projectile.position.Y;
-            projectile.velocity = Vector2.Zero;
-            projectile.alpha -= 5;
-            if (projectile.alpha < 0)
+            Projectile.position.X = (int)Projectile.position.X;
+            Projectile.position.Y = (int)Projectile.position.Y;
+            Projectile.velocity = Vector2.Zero;
+            Projectile.alpha -= 5;
+            if (Projectile.alpha < 0)
             {
-                projectile.alpha = 0;
+                Projectile.alpha = 0;
             }
-            if (projectile.direction == 0)
+            if (Projectile.direction == 0)
             {
-                projectile.direction = Main.player[projectile.owner].direction;
+                Projectile.direction = Main.player[Projectile.owner].direction;
             }
-            if (projectile.alpha == 0 && Main.rand.NextBool(15))
+            if (Projectile.alpha == 0 && Main.rand.NextBool(15))
             {
-                Dust dust34 = Main.dust[Dust.NewDust(projectile.Top, 0, 0, 267, 0f, 0f, 100, Main.dayTime ? new Color(255, 200, Main.DiscoB) : new Color(Main.DiscoR, 200, 255), 1f)];
+                Dust dust34 = Main.dust[Dust.NewDust(Projectile.Top, 0, 0, 267, 0f, 0f, 100, dayTime ? new Color(255, 200, Main.DiscoB) : new Color(Main.DiscoR, 200, 255), 1f)];
                 dust34.velocity.X = 0f;
                 dust34.noGravity = true;
                 dust34.fadeIn = 1f;
-                dust34.position = projectile.Center + Vector2.UnitY.RotatedByRandom(6.2831854820251465) * (4f * Main.rand.NextFloat() + 26f);
+                dust34.position = Projectile.Center + Vector2.UnitY.RotatedByRandom(6.2831854820251465) * (4f * Main.rand.NextFloat() + 26f);
                 dust34.scale = 0.5f;
             }
 
-            projectile.localAI[0] += 1f;
-            if (projectile.localAI[0] >= (Main.dayTime ? 300f : 30f))
+            float lifeRatio = Projectile.ai[0];
+
+            // Increment timer
+            Projectile.localAI[0] += 1f;
+
+            // Spawn daytime shards every 300 frames
+            // Spawn nighttime shards every 30 frames
+            if (Projectile.localAI[0] >= (dayTime ? 300f : 30f))
             {
-                projectile.localAI[0] = 0f;
-                Main.PlaySound(SoundID.Item109, projectile.position);
-                projectile.netUpdate = true;
-                if (projectile.owner == Main.myPlayer)
+                // Spawn shards every 30 frames at night or at 300 frames during day
+                if (Projectile.localAI[0] % 30f == 0f || dayTime)
                 {
-					int totalProjectiles = Main.dayTime ? 15 : (projectile.localAI[0] % 60f == 0f ? 15 : 10);
-					float speedX = Main.dayTime ? -21f : -15f;
-					float speedAdjustment = Math.Abs(speedX * 2f / (totalProjectiles - 1));
-					float speedY = -3f;
-                    for (int i = 0; i < totalProjectiles; i++)
+                    SoundEngine.PlaySound(SoundID.Item109, Projectile.position);
+                    Projectile.netUpdate = true;
+                    if (Projectile.owner == Main.myPlayer)
                     {
-                        float x4 = Main.dayTime ? Main.rgbToHsl(new Color(255, 200, Main.DiscoB)).X : Main.rgbToHsl(new Color(Main.DiscoR, 200, 255)).X;
-                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, speedX + speedAdjustment * i, speedY, ModContent.ProjectileType<ProvidenceCrystalShard>(), projectile.damage, projectile.knockBack, projectile.owner, x4, projectile.whoAmI);
+                        int totalProjectiles = dayTime ? 15 : (Projectile.localAI[0] % 60f == 0f ? 15 : 10);
+                        float speedX = dayTime ? -21f : -15f;
+                        float speedAdjustment = Math.Abs(speedX * 2f / (totalProjectiles - 1));
+                        float speedY = -3f;
+                        for (int i = 0; i < totalProjectiles; i++)
+                        {
+                            float x4 = dayTime ? Main.rgbToHsl(new Color(255, 200, Main.DiscoB)).X : Main.rgbToHsl(new Color(Main.DiscoR, 200, 255)).X;
+                            float randomSpread = dayTime ? 0f : Main.rand.Next(-150, 151) * 0.01f * (1f - lifeRatio);
+                            Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, speedX + speedAdjustment * i + randomSpread, speedY, ModContent.ProjectileType<ProvidenceCrystalShard>(), Projectile.damage, Projectile.knockBack, Projectile.owner, x4, Projectile.whoAmI);
+                        }
                     }
+
+                    // Reset timer
+                    if (Projectile.localAI[0] >= 60f)
+                        Projectile.localAI[0] = 0f;
                 }
             }
         }
 
         public override Color? GetAlpha(Color lightColor)
         {
-            return new Color(255 - projectile.alpha, 255 - projectile.alpha, 255 - projectile.alpha, 0);
+            return new Color(255 - Projectile.alpha, 255 - Projectile.alpha, 255 - Projectile.alpha, 0);
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            Color color25 = Lighting.GetColor((int)(projectile.position.X + projectile.width * 0.5) / 16, (int)((projectile.position.Y + projectile.height * 0.5) / 16.0));
-            Vector2 vector59 = projectile.position + new Vector2(projectile.width, projectile.height) / 2f + Vector2.UnitY * projectile.gfxOffY - Main.screenPosition;
-            Texture2D texture2D34 = Main.projectileTexture[projectile.type];
-            Rectangle rectangle17 = texture2D34.Frame(1, Main.projFrames[projectile.type], 0, projectile.frame);
-            Color alpha5 = projectile.GetAlpha(color25);
+            Color color25 = Lighting.GetColor((int)(Projectile.position.X + Projectile.width * 0.5) / 16, (int)((Projectile.position.Y + Projectile.height * 0.5) / 16.0));
+            Vector2 vector59 = Projectile.position + new Vector2(Projectile.width, Projectile.height) / 2f + Vector2.UnitY * Projectile.gfxOffY - Main.screenPosition;
+            Texture2D texture2D34 = ModContent.Request<Texture2D>(Texture).Value;
+            Rectangle rectangle17 = texture2D34.Frame(1, Main.projFrames[Projectile.type], 0, Projectile.frame);
+            Color alpha5 = Projectile.GetAlpha(color25);
             Vector2 origin11 = rectangle17.Size() / 2f;
-            float scaleFactor5 = (float)Math.Cos(6.28318548f * (projectile.localAI[0] / 60f)) + 3f + 3f;
+            float scaleFactor5 = (float)Math.Cos(MathHelper.TwoPi * (Projectile.localAI[0] / 60f)) + 3f + 3f;
             for (float num286 = 0f; num286 < 4f; num286 += 1f)
             {
-                double angle = num286 * 1.57079637f;
+                double angle = num286 * MathHelper.PiOver2;
                 Vector2 center = default;
-                Main.spriteBatch.Draw(texture2D34, vector59 + Vector2.UnitY.RotatedBy(angle, center) * scaleFactor5, new Microsoft.Xna.Framework.Rectangle?(rectangle17), alpha5 * 0.2f, projectile.rotation, origin11, projectile.scale, SpriteEffects.None, 0f);
+                Main.spriteBatch.Draw(texture2D34, vector59 + Vector2.UnitY.RotatedBy(angle, center) * scaleFactor5, new Microsoft.Xna.Framework.Rectangle?(rectangle17), alpha5 * 0.2f, Projectile.rotation, origin11, Projectile.scale, SpriteEffects.None, 0);
             }
             return false;
         }
-
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)	
-        {
-			target.Calamity().lastProjectileHit = projectile;
-		}
     }
 }

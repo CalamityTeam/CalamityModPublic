@@ -1,9 +1,11 @@
+﻿using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -13,74 +15,64 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             DisplayName.SetDefault("Hellfire Flamberge");
             Tooltip.SetDefault("Fires a spread of volcanic fireballs");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.width = 58;
-            item.damage = 90;
-            item.melee = true;
-            item.useAnimation = 20;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 20;
-            item.useTurn = true;
-            item.knockBack = 7.75f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 60;
-            item.value = Item.buyPrice(0, 80, 0, 0);
-            item.rare = 8;
-            item.shoot = ModContent.ProjectileType<ChaosFlameSmall>();
-            item.shootSpeed = 20f;
+            Item.width = 58;
+            Item.damage = 90;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = 20;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 20;
+            Item.useTurn = true;
+            Item.knockBack = 7.75f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.height = 60;
+            Item.value = CalamityGlobalItem.Rarity9BuyPrice;
+            Item.rare = ItemRarityID.Yellow;
+            Item.shoot = ModContent.ProjectileType<VolcanicFireball>();
+            Item.shootSpeed = 20f;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            Main.PlaySound(SoundID.Item20, player.position);
+            SoundEngine.PlaySound(SoundID.Item20, player.position);
             for (int index = 0; index < 3; ++index)
             {
-                float SpeedX = speedX + (float)Main.rand.Next(-40, 41) * 0.05f;
-                float SpeedY = speedY + (float)Main.rand.Next(-40, 41) * 0.05f;
-				float damageMult = 0.5f;
+                float SpeedX = velocity.X + (float)Main.rand.Next(-40, 41) * 0.05f;
+                float SpeedY = velocity.Y + (float)Main.rand.Next(-40, 41) * 0.05f;
+                float damageMult = 0.5f;
                 switch (index)
                 {
                     case 0:
-                        type = ModContent.ProjectileType<ChaosFlameSmall>();
-                        break;
                     case 1:
-                        type = ModContent.ProjectileType<ChaosFlameSmall>();
+                        type = ModContent.ProjectileType<VolcanicFireball>();
                         break;
                     case 2:
-                        type = ModContent.ProjectileType<ChaosFlameLarge>();
-						damageMult = 0.75f;
+                        type = ModContent.ProjectileType<VolcanicFireballLarge>();
+                        damageMult = 0.75f;
                         break;
                     default:
                         break;
                 }
-                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, (int)(damage * damageMult), knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, type, (int)(damage * damageMult), knockback, player.whoAmI, 0f, 0f);
             }
             return false;
-        }
-
-        public override void AddRecipes()
-        {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<CruptixBar>(), 15);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
             if (Main.rand.NextBool(3))
             {
-                int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, Main.rand.NextBool(3) ? 16 : 174);
+                Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, Main.rand.NextBool(3) ? 16 : 174);
             }
-            if (Main.rand.NextBool(5))
+            if (Main.rand.NextBool(5) && Main.netMode != NetmodeID.Server)
             {
-				int smoke = Gore.NewGore(new Vector2(hitbox.X, hitbox.Y), default, Main.rand.Next(375, 378), 0.75f);
-				Main.gore[smoke].behindTiles = true;
+                int smoke = Gore.NewGore(player.GetSource_ItemUse(Item), new Vector2(hitbox.X, hitbox.Y), default, Main.rand.Next(375, 378), 0.75f);
+                Main.gore[smoke].behindTiles = true;
             }
         }
 
@@ -92,6 +84,14 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
             target.AddBuff(BuffID.OnFire, 300);
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient<ScoriaBar>(15).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

@@ -1,5 +1,4 @@
-using CalamityMod.CalPlayer;
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using Terraria;
 using Terraria.ID;
@@ -12,17 +11,17 @@ namespace CalamityMod.Items.LoreItems
         {
             DisplayName.SetDefault("Crabulon");
             Tooltip.SetDefault("A crab and its mushrooms, a love story.\n" +
-                "It's interesting how creatures can adapt given certain circumstances.\n" +
-                "Favorite this item to gain the Mushy buff while underground or in the mushroom biome.\n" +
-				"However, your movement speed will be decreased while in these areas due to you being covered in fungi.");
+                "It's interesting how creatures can adapt given certain circumstances.");
+            SacrificeTotal = 1;
+            ItemID.Sets.ItemNoGravity[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.width = 20;
-            item.height = 20;
-            item.rare = 2;
-            item.consumable = false;
+            Item.width = 20;
+            Item.height = 20;
+            Item.rare = ItemRarityID.Green;
+            Item.consumable = false;
         }
 
         public override bool CanUseItem(Player player)
@@ -30,21 +29,9 @@ namespace CalamityMod.Items.LoreItems
             return false;
         }
 
-        public override void UpdateInventory(Player player)
-        {
-			CalamityPlayer modPlayer = player.Calamity();
-			if (item.favorited)
-				modPlayer.crabulonLore = true;
-        }
-
         public override void AddRecipes()
         {
-            ModRecipe r = new ModRecipe(mod);
-            r.SetResult(this);
-            r.AddTile(TileID.Bookcases);
-            r.AddIngredient(ModContent.ItemType<CrabulonTrophy>());
-            r.AddIngredient(ModContent.ItemType<VictoryShard>(), 10);
-            r.AddRecipe();
+            CreateRecipe(1).AddTile(TileID.Bookcases).AddIngredient(ModContent.ItemType<CrabulonTrophy>()).AddIngredient(ModContent.ItemType<PearlShard>(), 10).Register();
         }
     }
 }

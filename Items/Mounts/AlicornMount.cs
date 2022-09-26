@@ -1,72 +1,112 @@
-using CalamityMod.Buffs.Mounts;
+﻿using CalamityMod.Buffs.Mounts;
 using CalamityMod.CalPlayer;
+using CalamityMod.NPCs.TownNPCs;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Microsoft.Xna.Framework.Graphics;
+using Terraria.Audio;
 
 namespace CalamityMod.Items.Mounts
 {
-    public class AlicornMount : ModMountData
+    public class AlicornMount : ModMount
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
-            mountData.spawnDust = 234;
-            mountData.spawnDustNoGravity = true;
-            mountData.buff = ModContent.BuffType<AlicornBuff>();
-            mountData.heightBoost = 34;
-            mountData.fallDamage = 0f; //0.5
-            mountData.runSpeed = 7f; //12
-            mountData.dashSpeed = 21f; //8
-            mountData.flightTimeMax = 500;
-            mountData.fatigueMax = 0;
-            mountData.jumpHeight = 12;
-            mountData.acceleration = 0.45f;
-            mountData.jumpSpeed = 8f; //10
-            mountData.swimSpeed = 4f;
-            mountData.blockExtraJumps = false;
-            mountData.totalFrames = 15;
-            mountData.constantJump = false;
-            int[] array = new int[mountData.totalFrames];
+            MountData.spawnDust = 234;
+            MountData.spawnDustNoGravity = true;
+            MountData.buff = ModContent.BuffType<AlicornBuff>();
+            MountData.heightBoost = 35;
+            MountData.fallDamage = 0f;
+            MountData.runSpeed = 5.6f;
+            MountData.dashSpeed = 16.8f;
+            MountData.flightTimeMax = 500;
+            MountData.fatigueMax = 0;
+            MountData.jumpHeight = 12;
+            MountData.acceleration = 0.4f;
+            MountData.jumpSpeed = 8.01f;
+            MountData.swimSpeed = 4f;
+            MountData.blockExtraJumps = false;
+            MountData.totalFrames = 15;
+            MountData.constantJump = false;
+            int baseYOffset = 26;
+            int[] array = new int[MountData.totalFrames];
             for (int l = 0; l < array.Length; l++)
             {
-                array[l] = 30;
+                array[l] = baseYOffset;
             }
-            array[1] = 28;
-            array[3] = 28;
-            array[5] = 28;
-            array[7] = 28;
-            array[12] = 28;
-            mountData.playerYOffsets = array;
-            mountData.xOffset = 0;
-            mountData.bodyFrame = 3;
-            mountData.yOffset = 7; //-8
-            mountData.playerHeadOffset = 36; //30
-            mountData.standingFrameCount = 1;
-            mountData.standingFrameDelay = 12;
-            mountData.standingFrameStart = 0;
-            mountData.runningFrameCount = 8; //7
-            mountData.runningFrameDelay = 36; //36
-            mountData.runningFrameStart = 1; //9
-            mountData.flyingFrameCount = 6; //0
-            mountData.flyingFrameDelay = 4; //0
-            mountData.flyingFrameStart = 9; //0
-            mountData.inAirFrameCount = 1; //1
-            mountData.inAirFrameDelay = 12; //12
-            mountData.inAirFrameStart = 10; //10
-            mountData.idleFrameCount = 5; //4
-            mountData.idleFrameDelay = 12; //12
-            mountData.idleFrameStart = 0;
-            mountData.idleFrameLoop = true;
-            mountData.swimFrameCount = mountData.inAirFrameCount;
-            mountData.swimFrameDelay = mountData.inAirFrameDelay;
-            mountData.swimFrameStart = mountData.inAirFrameStart;
+            array[1] = array[3] = array[5] = array[7] = array[12] = baseYOffset - 2;
+            MountData.playerYOffsets = array;
+            MountData.xOffset = -4;
+            MountData.bodyFrame = 3;
+            MountData.yOffset = 5; //-8
+            MountData.playerHeadOffset = 36; //30
+            MountData.standingFrameCount = 1;
+            MountData.standingFrameDelay = 12;
+            MountData.standingFrameStart = 0;
+            MountData.runningFrameCount = 8; //7
+            MountData.runningFrameDelay = 42; //36
+            MountData.runningFrameStart = 1; //9
+            MountData.flyingFrameCount = 6; //0
+            MountData.flyingFrameDelay = 4; //0
+            MountData.flyingFrameStart = 9; //0
+            MountData.inAirFrameCount = 1; //1
+            MountData.inAirFrameDelay = 12; //12
+            MountData.inAirFrameStart = 10; //10
+            MountData.idleFrameCount = 1; //4
+            MountData.idleFrameDelay = 12; //12
+            MountData.idleFrameStart = 5;
+            MountData.idleFrameLoop = true;
+            MountData.swimFrameCount = MountData.inAirFrameCount;
+            MountData.swimFrameDelay = MountData.inAirFrameDelay;
+            MountData.swimFrameStart = MountData.inAirFrameStart;
             if (Main.netMode != NetmodeID.Server)
             {
-                mountData.frontTextureExtra = ModContent.GetTexture("CalamityMod/Items/Mounts/AlicornMountExtra");
-                mountData.textureWidth = mountData.backTexture.Width;
-                mountData.textureHeight = mountData.backTexture.Height;
+                MountData.frontTextureExtra = ModContent.Request<Texture2D>("CalamityMod/Items/Mounts/AlicornMountExtra");
+                MountData.textureWidth = MountData.backTexture.Width();
+                MountData.textureHeight = MountData.backTexture.Height();
+            }
+        }
+
+        public override void SetMount(Player player, ref bool skipDust)
+        {
+            for (int i = 0; i < Main.maxNPCs; i++)
+            {
+                if (Main.npc[i].type == ModContent.NPCType<FAP>())
+                {
+                    Main.npc[i].active = false;
+                    Main.npc[i].netUpdate = true;
+                    break;
+                }
+            }
+        }
+
+        public override void Dismount(Player player, ref bool skipDust)
+        {
+            bool anyPlayerOnFabMount = false;
+            for (int i = 0; i < Main.maxPlayers; i++)
+            {
+                Player player2 = Main.player[i];
+                if (!player2.active)
+                    continue;
+
+                // The player that is dismounting is technically not on the mount anymore.
+                if (player2.Calamity().fab && player2.whoAmI != player.whoAmI)
+                {
+                    anyPlayerOnFabMount = true;
+                    break;
+                }
+            }
+
+            // Spawn Cirrus if no other players are on the Alicorn mount.
+            if (!anyPlayerOnFabMount)
+            {
+                if (!NPC.AnyNPCs(ModContent.NPCType<FAP>()))
+                {
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
+                        NPC.NewNPC(NPC.GetSource_TownSpawn(), (int)player.Center.X, (int)player.Center.Y, ModContent.NPCType<FAP>());
+                }
             }
         }
 
@@ -74,10 +114,9 @@ namespace CalamityMod.Items.Mounts
         {
             CalamityPlayer modPlayer = player.Calamity();
             if (modPlayer.fabsolVodka)
-            {
-                player.allDamage += 0.1f;
-            }
-            if (Math.Abs(player.velocity.X) > 12f || Math.Abs(player.velocity.Y) > 12f)
+                player.GetDamage<GenericDamageClass>() += 0.1f;
+
+            if (player.velocity.Length() > 9f)
             {
                 int rand = Main.rand.Next(2);
                 bool momo = false;
@@ -98,12 +137,13 @@ namespace CalamityMod.Items.Mounts
                 int dust = Dust.NewDust(new Vector2(rect.X, rect.Y), rect.Width, rect.Height, 234, 0, 0, 0, meme);
                 Main.dust[dust].noGravity = true;
             }
+
             if (player.velocity.Y != 0f)
             {
                 if (player.mount.PlayerOffset == 28)
                 {
                     if (!player.flapSound)
-                        Main.PlaySound(SoundID.Item32, player.position);
+                        SoundEngine.PlaySound(SoundID.Item32, player.position);
                     player.flapSound = true;
                 }
                 else

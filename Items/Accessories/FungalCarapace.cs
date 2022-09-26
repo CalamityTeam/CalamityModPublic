@@ -1,6 +1,7 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -8,18 +9,19 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Fungal Carapace");
-            Tooltip.SetDefault("You emit a mushroom spore explosion when you are hit");
+            Tooltip.SetDefault("You emit a cloud of mushroom spores when you are hit");
         }
 
         public override void SetDefaults()
         {
-            item.defense = 2;
-            item.width = 20;
-            item.height = 24;
-            item.value = CalamityGlobalItem.Rarity4BuyPrice;
-            item.rare = 4;
-            item.accessory = true;
+            Item.defense = 6;
+            Item.width = 20;
+            Item.height = 24;
+            Item.value = CalamityGlobalItem.Rarity4BuyPrice;
+            Item.rare = ItemRarityID.LightRed;
+            Item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

@@ -1,10 +1,17 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Magic
 {
     public class NightsRayBeam : ModProjectile
     {
+        public ref float Time => ref Projectile.ai[0];
+        public bool HasFiredSideBeams
+        {
+            get => Projectile.ai[1] == 1f;
+            set => Projectile.ai[1] = value.ToInt();
+        }
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ray");
@@ -12,36 +19,45 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetDefaults()
         {
-            projectile.width = 4;
-            projectile.height = 4;
-            projectile.friendly = true;
-            projectile.magic = true;
-            projectile.penetrate = 10;
-            projectile.extraUpdates = 100;
-            projectile.timeLeft = 150;
+            Projectile.width = 4;
+            Projectile.height = 4;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Magic;
+            Projectile.ignoreWater = true;
+            Projectile.penetrate = 10;
+            Projectile.extraUpdates = 100;
+            Projectile.timeLeft = 150;
         }
 
         public override void AI()
         {
-            projectile.localAI[1] += 1f;
-            if (projectile.localAI[1] >= 29f && projectile.owner == Main.myPlayer)
+            Time++;
+            if (Time >= 10f)
             {
-                projectile.localAI[1] = 0f;
-                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<NightOrb>(), (int)(projectile.damage * 0.6), projectile.knockBack, projectile.owner, 0f, 0f);
-            }
-
-            projectile.localAI[0] += 1f;
-            if (projectile.localAI[0] > 9f)
-            {
-                for (int num447 = 0; num447 < 3; num447++)
+                for (int i = 0; i < 2; i++)
                 {
-                    Vector2 vector33 = projectile.position;
-                    vector33 -= projectile.velocity * ((float)num447 * 0.25f);
-                    int num448 = Dust.NewDust(vector33, 1, 1, 27, 0f, 0f, 0, default, 1.25f);
-                    Main.dust[num448].position = vector33;
-                    Main.dust[num448].scale = (float)Main.rand.Next(70, 110) * 0.013f;
-					Main.dust[num448].velocity *= 0.1f;
-				}
+                    Vector2 dustSpawnPos = Projectile.position - Projectile.velocity * i / 2f;
+                    Dust corruptMagic = Dust.NewDustPerfect(dustSpawnPos, 27);
+                    corruptMagic.color = Color.Lerp(Color.Fuchsia, Color.Magenta, Main.rand.NextFloat(0.6f));
+                    corruptMagic.scale = Main.rand.NextFloat(0.96f, 1.04f);
+                    corruptMagic.noGravity = true;
+                    corruptMagic.velocity *= 0.1f;
+                }
+            }
+        }
+
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            if (!HasFiredSideBeams && Projectile.owner == Main.myPlayer)
+            {
+                Vector2 baseSpawnPositionOffset = Main.rand.NextVector2CircularEdge(40f, 40f);
+                for (int i = 0; i < 4; i++)
+                {
+                    Vector2 spawnPosition = target.Center + baseSpawnPositionOffset.RotatedBy(MathHelper.TwoPi * i / 4f);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), spawnPosition, Vector2.Zero, ModContent.ProjectileType<NightOrb>(), (int)(Projectile.damage * 0.8), Projectile.knockBack, Projectile.owner);
+                }
+                HasFiredSideBeams = true;
+                Projectile.netUpdate = true;
             }
         }
     }

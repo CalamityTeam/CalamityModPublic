@@ -1,33 +1,55 @@
+﻿using CalamityMod.Rarities;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.DataStructures;
+using Terraria.GameContent;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Materials
 {
-	public class NightmareFuel : ModItem
+    public class NightmareFuel : ModItem
     {
+        public int frameCounter = 0;
+        public int frame = 0;
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 100;
             DisplayName.SetDefault("Nightmare Fuel");
             Tooltip.SetDefault("May drain your sanity");
-            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(6, 6));
-        }
-
-        public override void Update(ref float gravity, ref float maxFallSpeed)
-        {
-            float num = (float)Main.rand.Next(90, 111) * 0.01f;
-            num *= Main.essScale;
-            Lighting.AddLight((int)((item.position.X + (float)(item.width / 2)) / 16f), (int)((item.position.Y + (float)(item.height / 2)) / 16f), 0.7f * num, 0.7f * num, 0f);
+            Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 6));
+            ItemID.Sets.AnimatesAsSoul[Type] = true;
+            ItemID.Sets.ItemNoGravity[Item.type] = true;
+			ItemID.Sets.SortingPriorityMaterials[Type] = 115;
         }
 
         public override void SetDefaults()
         {
-            item.width = 20;
-            item.height = 20;
-            item.maxStack = 999;
-            item.rare = 10;
-            item.value = Item.sellPrice(gold: 2);
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.width = 38;
+            Item.height = 36;
+            Item.maxStack = 999;
+            Item.value = Item.sellPrice(gold: 2);
+            Item.rare = ModContent.RarityType<DarkBlue>();
+        }
+
+        public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
+        {
+            Texture2D texture = TextureAssets.Item[Item.type].Value;
+            spriteBatch.Draw(texture, Item.position - Main.screenPosition, Item.GetCurrentFrame(ref frame, ref frameCounter, 6, 6), lightColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);
+            return false;
+        }
+
+        public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
+        {
+            Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Items/Materials/NightmareFuelGlow").Value;
+            spriteBatch.Draw(texture, Item.position - Main.screenPosition, Item.GetCurrentFrame(ref frame, ref frameCounter, 6, 6, false), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);
+        }
+
+        public override void Update(ref float gravity, ref float maxFallSpeed)
+        {
+            float brightness = Main.essScale * Main.rand.NextFloat(0.9f, 1.1f);
+            Lighting.AddLight(Item.Center, 0.7f * brightness, 0.7f * brightness, 0f);
         }
     }
 }

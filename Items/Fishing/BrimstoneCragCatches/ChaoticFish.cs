@@ -1,6 +1,7 @@
+﻿using CalamityMod.Items.Materials;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Items.Materials;
 
 namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
 {
@@ -10,26 +11,27 @@ namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
         {
             DisplayName.SetDefault("Chaotic Fish");
             Tooltip.SetDefault("The horns lay a curse on those who touch it\n" +
-			"Right click to extract essence");
+            "Right click to extract essence");
+            SacrificeTotal = 10;
+            ItemID.Sets.CanBePlacedOnWeaponRacks[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.width = 30;
-            item.height = 28;
-            item.maxStack = 999;
-            item.value = Item.sellPrice(silver: 10);
-            item.rare = 2;
+            Item.width = 30;
+            Item.height = 28;
+            Item.maxStack = 999;
+            Item.consumable = true;
+            Item.value = Item.sellPrice(silver: 10);
+            Item.rare = ItemRarityID.Green;
         }
 
-        public override bool CanRightClick()
-        {
-            return true;
-        }
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = ContentSamples.CreativeHelper.ItemGroup.GoodieBags;
+		}
 
-        public override void RightClick(Player player)
-        {
-            DropHelper.DropItem(player, ModContent.ItemType<EssenceofChaos>(), 5, 10);
-        }
+        public override bool CanRightClick() => true;
+        public override void ModifyItemLoot(ItemLoot itemLoot) => itemLoot.Add(ModContent.ItemType<EssenceofChaos>(), 1, 5, 10);
     }
 }

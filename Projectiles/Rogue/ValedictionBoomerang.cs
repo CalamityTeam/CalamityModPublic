@@ -1,180 +1,186 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-	public class ValedictionBoomerang : ModProjectile
-	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Valediction");
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 6;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
-		}
+    public class ValedictionBoomerang : ModProjectile
+    {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/Valediction";
 
-		public override void SetDefaults()
-		{
-			projectile.width = projectile.height = 70;
-			projectile.friendly = true;
-			projectile.tileCollide = false;
-			projectile.penetrate = -1;
-			projectile.extraUpdates = 3;
-			projectile.usesLocalNPCImmunity = true;
-			projectile.localNPCHitCooldown = 15;
-			projectile.Calamity().rogue = true;
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Valediction");
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 6;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
+        }
 
-		public override void AI()
-		{
-			Player player = Main.player[projectile.owner];
-			if (projectile.soundDelay == 0)
-			{
-				projectile.soundDelay = 8;
-				Main.PlaySound(SoundID.Item7, projectile.position);
-			}
-			if (projectile.ai[0] == 0f)
-			{
-				projectile.ai[1] += 1f;
-				if (projectile.ai[1] >= 60f)
-				{
-					projectile.ai[0] = 1f;
-					projectile.ai[1] = 0f;
-					projectile.netUpdate = true;
-				}
-				else
-				{
-					CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 400f, 20f, 20f);
-				}
-			}
-			else
-			{
-				float returnSpeed = 30f;
-				float acceleration = 5f;
-				Vector2 projVector = player.Center - projectile.Center;
-				float playerDist = projVector.Length();
-				if (playerDist > 3000f)
-				{
-					projectile.Kill();
-				}
-				playerDist = returnSpeed / playerDist;
-				projVector.X *= playerDist;
-				projVector.Y *= playerDist;
-				if (projectile.velocity.X < projVector.X)
-				{
-					projectile.velocity.X += acceleration;
-					if (projectile.velocity.X < 0f && projVector.X > 0f)
-					{
-						projectile.velocity.X += acceleration;
-					}
-				}
-				else if (projectile.velocity.X > projVector.X)
-				{
-					projectile.velocity.X -= acceleration;
-					if (projectile.velocity.X > 0f && projVector.X < 0f)
-					{
-						projectile.velocity.X -= acceleration;
-					}
-				}
-				if (projectile.velocity.Y < projVector.Y)
-				{
-					projectile.velocity.Y += acceleration;
-					if (projectile.velocity.Y < 0f && projVector.Y > 0f)
-					{
-						projectile.velocity.Y += acceleration;
-					}
-				}
-				else if (projectile.velocity.Y > projVector.Y)
-				{
-					projectile.velocity.Y -= acceleration;
-					if (projectile.velocity.Y > 0f && projVector.Y < 0f)
-					{
-						projectile.velocity.Y -= acceleration;
-					}
-				}
-				if (Main.myPlayer == projectile.owner)
-				{
-					Rectangle projHitbox = new Rectangle((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height);
-					Rectangle playerHitbox = new Rectangle((int)player.position.X, (int)player.position.Y, player.width, player.height);
-					if (projHitbox.Intersects(playerHitbox))
-					{
-						projectile.Kill();
-					}
-				}
-			}
-			projectile.rotation += 0.5f;
-		}
+        public override void SetDefaults()
+        {
+            Projectile.width = Projectile.height = 70;
+            Projectile.friendly = true;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
+            Projectile.penetrate = -1;
+            Projectile.extraUpdates = 3;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 15;
+            Projectile.DamageType = RogueDamageClass.Instance;
+        }
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-		{
-			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
-			return false;
-		}
+        public override void AI()
+        {
+            Player player = Main.player[Projectile.owner];
+            if (Projectile.soundDelay == 0)
+            {
+                Projectile.soundDelay = 8;
+                SoundEngine.PlaySound(SoundID.Item7, Projectile.position);
+            }
+            if (Projectile.ai[0] == 0f)
+            {
+                Projectile.ai[1] += 1f;
+                if (Projectile.ai[1] >= 60f)
+                {
+                    Projectile.ai[0] = 1f;
+                    Projectile.ai[1] = 0f;
+                    Projectile.netUpdate = true;
+                }
+                else
+                {
+                    CalamityUtils.HomeInOnNPC(Projectile, true, 200f, 12f, 20f);
+                }
+            }
+            else
+            {
+                float returnSpeed = 30f;
+                float acceleration = 5f;
+                Vector2 projVector = player.Center - Projectile.Center;
+                float playerDist = projVector.Length();
+                if (playerDist > 3000f)
+                {
+                    Projectile.Kill();
+                }
+                playerDist = returnSpeed / playerDist;
+                projVector.X *= playerDist;
+                projVector.Y *= playerDist;
+                if (Projectile.velocity.X < projVector.X)
+                {
+                    Projectile.velocity.X += acceleration;
+                    if (Projectile.velocity.X < 0f && projVector.X > 0f)
+                    {
+                        Projectile.velocity.X += acceleration;
+                    }
+                }
+                else if (Projectile.velocity.X > projVector.X)
+                {
+                    Projectile.velocity.X -= acceleration;
+                    if (Projectile.velocity.X > 0f && projVector.X < 0f)
+                    {
+                        Projectile.velocity.X -= acceleration;
+                    }
+                }
+                if (Projectile.velocity.Y < projVector.Y)
+                {
+                    Projectile.velocity.Y += acceleration;
+                    if (Projectile.velocity.Y < 0f && projVector.Y > 0f)
+                    {
+                        Projectile.velocity.Y += acceleration;
+                    }
+                }
+                else if (Projectile.velocity.Y > projVector.Y)
+                {
+                    Projectile.velocity.Y -= acceleration;
+                    if (Projectile.velocity.Y > 0f && projVector.Y < 0f)
+                    {
+                        Projectile.velocity.Y -= acceleration;
+                    }
+                }
+                if (Main.myPlayer == Projectile.owner)
+                {
+                    Rectangle projHitbox = new Rectangle((int)Projectile.position.X, (int)Projectile.position.Y, Projectile.width, Projectile.height);
+                    Rectangle playerHitbox = new Rectangle((int)player.position.X, (int)player.position.Y, player.width, player.height);
+                    if (projHitbox.Intersects(playerHitbox))
+                    {
+                        Projectile.Kill();
+                    }
+                }
+            }
+            Projectile.rotation += 0.5f;
+        }
 
-		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-		{
-			target.AddBuff(ModContent.BuffType<CrushDepth>(), 600);
-			OnHitEffects();
-		}
+        public override bool PreDraw(ref Color lightColor)
+        {
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
+            return false;
+        }
 
-		public override void OnHitPvp(Player target, int damage, bool crit)
-		{
-			target.AddBuff(ModContent.BuffType<CrushDepth>(), 600);
-			OnHitEffects();
-		}
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            target.AddBuff(ModContent.BuffType<CrushDepth>(), 180);
+            OnHitEffects();
+        }
 
-		private void OnHitEffects()
-		{
-			int typhoonAmt = 3;
-			if (projectile.owner == Main.myPlayer && projectile.Calamity().stealthStrike)
-			{
-				Main.PlaySound(SoundID.Item84, projectile.position);
-				for (int typhoonCount = 0; typhoonCount < typhoonAmt; typhoonCount++)
-				{
-					Vector2 velocity = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-					while (velocity.X == 0f && velocity.Y == 0f)
-					{
-						velocity = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-					}
-					velocity.Normalize();
-					velocity *= (float)Main.rand.Next(70, 101) * 0.1f;
-					Projectile typhoon = Projectile.NewProjectileDirect(projectile.Center, velocity, ModContent.ProjectileType<NuclearFuryProjectile>(), projectile.damage / 2, 0f, projectile.owner);
-					typhoon.Calamity().forceRogue = true;
-					typhoon.usesLocalNPCImmunity = true;
-					typhoon.localNPCHitCooldown = 10;
-				}
-			}
-		}
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            target.AddBuff(ModContent.BuffType<CrushDepth>(), 180);
+            OnHitEffects();
+        }
 
-		public override void Kill(int timeLeft)
-		{
-			Main.PlaySound(SoundID.Item21, projectile.position);
-			projectile.position = projectile.Center;
-			projectile.width = projectile.height = 100;
-			projectile.Center = projectile.position;
-			for (int d = 0; d < 5; d++)
-			{
-				int water = Dust.NewDust(projectile.position, projectile.width, projectile.height, 33, 0f, 0f, 100, default, 2f);
-				Main.dust[water].velocity *= 3f;
-				if (Main.rand.NextBool(2))
-				{
-					Main.dust[water].scale = 0.5f;
-					Main.dust[water].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
-				}
-			}
-			for (int d = 0; d < 8; d++)
-			{
-				int water = Dust.NewDust(projectile.position, projectile.width, projectile.height, 33, 0f, 0f, 100, default, 3f);
-				Main.dust[water].noGravity = true;
-				Main.dust[water].velocity *= 5f;
-				water = Dust.NewDust(projectile.position, projectile.width, projectile.height, 33, 0f, 0f, 100, default, 2f);
-				Main.dust[water].velocity *= 2f;
-			}
-		}
-	}
+        private void OnHitEffects()
+        {
+            int typhoonAmt = 3;
+            int typhoonDamage = (int)(Projectile.damage * 0.3f);
+            if (Projectile.owner == Main.myPlayer && Projectile.numHits < 1 && Projectile.Calamity().stealthStrike)
+            {
+                SoundEngine.PlaySound(SoundID.Item84, Projectile.position);
+                for (int typhoonCount = 0; typhoonCount < typhoonAmt; typhoonCount++)
+                {
+                    Vector2 velocity = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
+                    while (velocity.X == 0f && velocity.Y == 0f)
+                    {
+                        velocity = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
+                    }
+                    velocity.Normalize();
+                    velocity *= (float)Main.rand.Next(70, 101) * 0.1f;
+                    Projectile typhoon = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<NuclearFuryProjectile>(), typhoonDamage, 0f, Projectile.owner);
+                    if (typhoon.whoAmI.WithinBounds(Main.maxProjectiles))
+                    {
+                        typhoon.DamageType = RogueDamageClass.Instance;
+                        typhoon.usesLocalNPCImmunity = true;
+                        typhoon.localNPCHitCooldown = 10;
+                    }
+                }
+            }
+        }
+
+        public override void Kill(int timeLeft)
+        {
+            SoundEngine.PlaySound(SoundID.Item21, Projectile.position);
+            Projectile.position = Projectile.Center;
+            Projectile.width = Projectile.height = 100;
+            Projectile.Center = Projectile.position;
+            for (int d = 0; d < 5; d++)
+            {
+                int water = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 33, 0f, 0f, 100, default, 2f);
+                Main.dust[water].velocity *= 3f;
+                if (Main.rand.NextBool(2))
+                {
+                    Main.dust[water].scale = 0.5f;
+                    Main.dust[water].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+                }
+            }
+            for (int d = 0; d < 8; d++)
+            {
+                int water = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 33, 0f, 0f, 100, default, 3f);
+                Main.dust[water].noGravity = true;
+                Main.dust[water].velocity *= 5f;
+                water = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 33, 0f, 0f, 100, default, 2f);
+                Main.dust[water].velocity *= 2f;
+            }
+        }
+    }
 }

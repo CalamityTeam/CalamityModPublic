@@ -1,8 +1,9 @@
-using CalamityMod.Projectiles.Melee;
+﻿using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.Projectiles.Melee.Shortswords;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -11,49 +12,35 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Aquatic Discharge");
-            Tooltip.SetDefault("Enemies release electric sparks on death");
+            Tooltip.SetDefault("Enemies release electric sparks on hit");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.useStyle = ItemUseStyleID.Stabbing;
-            item.useTurn = false;
-            item.useAnimation = 12;
-            item.useTime = 12;
-            item.width = 32;
-            item.height = 32;
-            item.damage = 23;
-            item.melee = true;
-            item.knockBack = 5.5f;
-            item.UseSound = SoundID.Item1;
-            item.useTurn = true;
-            item.autoReuse = true;
-            item.value = Item.buyPrice(0, 2, 0, 0);
-            item.rare = 2;
+            Item.useStyle = ItemUseStyleID.Rapier;
+            Item.DamageType = TrueMeleeDamageClass.Instance;
+            Item.useTurn = false;
+            Item.useAnimation = 18;
+            Item.useTime = 18;
+            Item.width = 32;
+            Item.height = 32;
+            Item.damage = 23;
+            Item.knockBack = 5.5f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.noUseGraphic = true;
+            Item.noMelee = true;
+
+            Item.shoot = ModContent.ProjectileType<AquaticDischargeProj>();
+            Item.shootSpeed = 2f;
+            Item.value = CalamityGlobalItem.Rarity2BuyPrice;
+            Item.rare = ItemRarityID.Green;
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
-            if (Main.rand.NextBool(5))
-            {
-                int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 226);
-            }
-        }
 
-        public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
-        {
-            if (target.life <= 0)
-            {
-                Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<Spark>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f)), knockback, Main.myPlayer);
-            }
-        }
-
-        public override void OnHitPvp(Player player, Player target, int damage, bool crit)
-        {
-            if (target.statLife <= 0)
-            {
-                Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<Spark>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f)), item.knockBack, Main.myPlayer);
-            }
         }
     }
 }

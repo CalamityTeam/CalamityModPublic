@@ -1,20 +1,16 @@
-using CalamityMod.CalPlayer;
-using CalamityMod.Buffs.Mounts;
+﻿using CalamityMod.Buffs.Mounts;
 using CalamityMod.Items;
 using CalamityMod.Projectiles.Summon.AndromedaUI;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System;
+using Terraria.Audio;
+using CalamityMod.Items.Weapons.DraedonsArsenal;
 
 namespace CalamityMod.Projectiles.Summon
 {
-	public class AndromedaHead : EquipTexture
-    {
-        public override bool DrawHead() => false;
-    }
     public class GiantIbanRobotOfDoom : ModProjectile
     {
         public int FrameX = 0;
@@ -27,6 +23,11 @@ namespace CalamityMod.Projectiles.Summon
                 FrameX = value / 7;
                 FrameY = value % 7;
             }
+        }
+        public float ClickCooldown
+        {
+            get => Projectile.ai[0];
+            set => Projectile.ai[0] = value;
         }
         public bool LeftBracketActive = false;
         public bool RightBracketActive = true; // This is supposed to be the default bracket, according to Iban. Ask him before changing this.
@@ -45,58 +46,40 @@ namespace CalamityMod.Projectiles.Summon
         /// This cooldown is set in <see cref="CalamityGlobalItem.PerformAndromedaAttacks"/>
         /// </summary>
         public int LaserCooldown = 0;
-        public static Vector2 LightningShootOffset;
-        public const int SpecialLightningBaseDamage = 5600;
-        public const int RegicideBaseDamageSmall = 12650;
-        public const int RegicideBaseDamageLarge = 17800;
-        public const int LaserBaseDamage = 21000;
+        public const int LaserBaseDamage = 4200;
+        public const int RegicideBaseDamageSmall = 1897;
+        public const int RegicideBaseDamageLarge = 5200;
 
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Andromeda");
-            ProjectileID.Sets.NeedsUUID[projectile.type] = true;
+            ProjectileID.Sets.NeedsUUID[Projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 152;
-            projectile.height = 212;
-            projectile.netImportant = true;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.timeLeft = 18000;
-            projectile.timeLeft *= 5;
-            projectile.tileCollide = false;
-            projectile.alpha = 255;
-            projectile.usesIDStaticNPCImmunity = true;
-            projectile.idStaticNPCHitCooldown = 11;
+            Projectile.width = 152;
+            Projectile.height = 212;
+            Projectile.netImportant = true;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft = 18000;
+            Projectile.timeLeft *= 5;
+            Projectile.tileCollide = false;
+            Projectile.alpha = 255;
+            Projectile.usesIDStaticNPCImmunity = true;
+            Projectile.idStaticNPCHitCooldown = 11;
+            Projectile.DamageType = DamageClass.Summon;
         }
         public override void AI()
         {
-            Player player = Main.player[projectile.owner];
-            InitializeValues(player);
+            Player player = Main.player[Projectile.owner];
             HandleCooldowns(player);
             ManipulatePlayerValues(player);
             RegisterRightClick(player);
             SetFrames(player);
             SetSpriteDirection(player);
             player.AddBuff(LeftIconActive ? ModContent.BuffType<AndromedaSmallBuff>() : ModContent.BuffType<AndromedaBuff>(), 2);
-        }
-        public void InitializeValues(Player player)
-        {
-            if (projectile.localAI[0] == 0f)
-            {
-                projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
-                projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
-                projectile.localAI[0] = 1f;
-            }
-            if (player.MinionDamage() != projectile.Calamity().spawnedPlayerMinionDamageValue)
-            {
-                int trueDamage = (int)(projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    projectile.Calamity().spawnedPlayerMinionDamageValue *
-                    player.MinionDamage());
-                projectile.damage = trueDamage;
-            }
         }
         public void HandleCooldowns(Player player)
         {
@@ -107,7 +90,7 @@ namespace CalamityMod.Projectiles.Summon
             if (LaserCooldown > 0)
             {
                 LaserCooldown--;
-                LaserBeam(player);
+                FireLaserBeam(player);
             }
         }
         public void ManipulatePlayerValues(Player player)
@@ -115,10 +98,10 @@ namespace CalamityMod.Projectiles.Summon
             if (!player.active || player.dead)
             {
                 player.Calamity().andromedaState = AndromedaPlayerState.Inactive;
-                projectile.Kill();
+                Projectile.Kill();
                 return;
             }
-            projectile.Center = player.Center + Vector2.UnitY * (6f + player.gfxOffY);
+            Projectile.Center = player.Center + Vector2.UnitY * (6f + player.gfxOffY);
             player.Calamity().andromedaState = LeftIconActive ? AndromedaPlayerState.SmallRobot : AndromedaPlayerState.LargeRobot;
             player.channel = false;
             if (RightIconCooldown > RightIconAttackTime)
@@ -128,7 +111,7 @@ namespace CalamityMod.Projectiles.Summon
                 for (int i = 0; i < 4; i++)
                 {
                     Vector2 spinningPoint = new Vector2(0f, -28f).RotatedBy(RightIconCooldown / 60f * MathHelper.TwoPi)
-                        .RotatedBy(projectile.velocity.ToRotation())
+                        .RotatedBy(Projectile.velocity.ToRotation())
                         .RotatedBy(MathHelper.Lerp(MathHelper.ToRadians(-40f), MathHelper.ToRadians(40f), i / 4f));
 
                     Vector2 center = player.Center + new Vector2(6f, -2f).RotatedBy(player.velocity.ToRotation());
@@ -149,10 +132,13 @@ namespace CalamityMod.Projectiles.Summon
                 {
                     ExitChargeModeEarly(player);
                 }
-                player.velocity = Vector2.Lerp(player.velocity, projectile.DirectionTo(Main.MouseWorld) * RightIconLungeSpeed, 0.225f);
-                projectile.rotation = player.velocity.ToRotation() + MathHelper.PiOver2;
+
+                player.velocity = Vector2.Lerp(player.velocity, Projectile.SafeDirectionTo(Main.MouseWorld, Vector2.UnitY) * RightIconLungeSpeed, 0.225f);
+                Projectile.rotation = player.velocity.ToRotation() + MathHelper.PiOver2;
             }
-            else projectile.rotation = 0f;
+            else
+                Projectile.rotation = 0f;
+
             if (player.mount != null) // Kill any mounts
             {
                 player.mount.Dismount(player);
@@ -160,9 +146,9 @@ namespace CalamityMod.Projectiles.Summon
         }
         public void RegisterRightClick(Player player)
         {
-            if (Main.mouseRight && projectile.ai[0] <= 0f)
+            if (Main.mouseRight && ClickCooldown <= 0f)
             {
-                projectile.ai[0] = 30f;
+                ClickCooldown = 30f;
                 // Exit the charge mode early.
                 if (RightIconCooldown > RightIconAttackTime)
                 {
@@ -187,25 +173,26 @@ namespace CalamityMod.Projectiles.Summon
                 {
                     if (Main.myPlayer == player.whoAmI)
                     {
-                        Projectile ui = Projectile.NewProjectileDirect(Main.MouseWorld,
+                        Projectile ui = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), 
+                                                 Main.MouseWorld,
                                                  Vector2.Zero,
                                                  ModContent.ProjectileType<AndromedaUI_Background>(),
                                                  0,
                                                  0f,
                                                  player.whoAmI);
-                        ui.localAI[0] = Projectile.GetByUUID(projectile.owner, projectile.whoAmI);
+                        ui.localAI[0] = Projectile.GetByUUID(Projectile.owner, Projectile.whoAmI);
                         ui.netUpdate = true;
                     }
                 }
             }
-            else if (projectile.ai[0] > 0f)
+            else if (ClickCooldown > 0f)
             {
-                projectile.ai[0]--;
+                ClickCooldown--;
             }
         }
         public void SetFrames(Player player)
         {
-            projectile.frameCounter++;
+            Projectile.frameCounter++;
             if (RightIconCooldown <= RightIconAttackTime)
             {
                 if (Math.Abs(player.velocity.Y) != 0f)
@@ -233,14 +220,14 @@ namespace CalamityMod.Projectiles.Summon
             // Quickly go to flying frames
             if (CurrentFrame == 0)
             {
-                if (projectile.frameCounter >= 4)
+                if (Projectile.frameCounter >= 4)
                 {
                     CurrentFrame++;
-                    projectile.frameCounter = 0;
+                    Projectile.frameCounter = 0;
                 }
             }
             // Flying frames
-            else if (projectile.frameCounter % 4 == 3)
+            else if (Projectile.frameCounter % 4 == 3)
             {
                 CurrentFrame++;
                 if (CurrentFrame >= 6)
@@ -250,7 +237,7 @@ namespace CalamityMod.Projectiles.Summon
             // Dust effect
 
             Vector2 dustOffset = new Vector2(94f, 58f);
-            if (projectile.spriteDirection == -1)
+            if (Projectile.spriteDirection == -1)
             {
                 dustOffset.X = 214 - dustOffset.X;
             }
@@ -258,8 +245,8 @@ namespace CalamityMod.Projectiles.Summon
             {
                 for (int i = 0; i < 2; i++)
                 {
-                    Dust dust = Dust.NewDustPerfect(projectile.position + dustOffset, 263);
-                    dust.velocity = Vector2.Normalize(dust.position - projectile.Top).RotatedByRandom(0.4f) * Main.rand.NextFloat(4f, 7f) + projectile.velocity;
+                    Dust dust = Dust.NewDustPerfect(Projectile.position + dustOffset, 263);
+                    dust.velocity = Vector2.Normalize(dust.position - Projectile.Top).RotatedByRandom(0.4f) * Main.rand.NextFloat(4f, 7f) + Projectile.velocity;
                     dust.color = Color.SkyBlue;
                     dust.scale = Main.rand.NextFloat(0.9f, 1.35f);
                     dust.noGravity = true;
@@ -272,15 +259,15 @@ namespace CalamityMod.Projectiles.Summon
         }
         public void SetWalkingFrames()
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             int walkInterval = (int)MathHelper.Clamp(8 - Math.Abs(player.velocity.X) / 3.5f, 1, 8);
             if (player.velocity.X == 0f)
             {
                 CurrentFrame = 0;
             }
-            else if (projectile.frameCounter >= walkInterval)
+            else if (Projectile.frameCounter >= walkInterval)
             {
-                projectile.frameCounter = 0;
+                Projectile.frameCounter = 0;
                 CurrentFrame++;
                 if (CurrentFrame >= 13)
                 {
@@ -295,12 +282,12 @@ namespace CalamityMod.Projectiles.Summon
         {
             if (RightIconCooldown > RightIconAttackTime)
             {
-                projectile.spriteDirection = (Math.Cos(projectile.rotation) > 0).ToDirectionInt();
+                Projectile.spriteDirection = (Math.Cos(Projectile.rotation) > 0).ToDirectionInt();
                 return;
             }
             if (player.velocity.X != 0) // So that the original sprite direction is maintained when there is no X movement.
             {
-                projectile.spriteDirection = (player.velocity.X > 0).ToDirectionInt();
+                Projectile.spriteDirection = (player.velocity.X > 0).ToDirectionInt();
             }
             int slashIndex = -1;
 
@@ -308,7 +295,7 @@ namespace CalamityMod.Projectiles.Summon
             {
                 if (Main.projectile[i].active &&
                     Main.projectile[i].type == ModContent.ProjectileType<AndromedaRegislash>() &&
-                    Main.projectile[i].owner == projectile.owner)
+                    Main.projectile[i].owner == Projectile.owner)
                 {
                     slashIndex = i;
                     break;
@@ -319,7 +306,7 @@ namespace CalamityMod.Projectiles.Summon
             {
                 if (Main.projectile[slashIndex].frameCounter > 0) // To ensure that the starting variables of the blade have been initialized
                 {
-                    projectile.spriteDirection = (Math.Cos(Main.projectile[slashIndex].rotation) > 0).ToDirectionInt(); // ai[1] is the blade's starting rotation
+                    Projectile.spriteDirection = (Math.Cos(Main.projectile[slashIndex].rotation) > 0).ToDirectionInt(); // ai[1] is the blade's starting rotation
                 }
             }
 
@@ -329,7 +316,7 @@ namespace CalamityMod.Projectiles.Summon
             {
                 if (Main.projectile[i].active &&
                     Main.projectile[i].type == ModContent.ProjectileType<AndromedaDeathRay>() &&
-                    Main.projectile[i].owner == projectile.owner)
+                    Main.projectile[i].owner == Projectile.owner)
                 {
                     laserBeamIndex = i;
                     break;
@@ -338,86 +325,36 @@ namespace CalamityMod.Projectiles.Summon
 
             if (laserBeamIndex != -1)
             {
-                projectile.spriteDirection = (Math.Cos(Main.projectile[laserBeamIndex].velocity.ToRotation()) > 0).ToDirectionInt(); // ai[1] is the blade's starting rotation
+                Projectile.spriteDirection = (Math.Cos(Main.projectile[laserBeamIndex].velocity.ToRotation()) > 0).ToDirectionInt(); // ai[1] is the blade's starting rotation
             }
         }
-        public void LaserBeam(Player player)
+        public void FireLaserBeam(Player player)
         {
             if (LaserCooldown % (AndromedaDeathRay.TrueTimeLeft - 10) == (AndromedaDeathRay.TrueTimeLeft - 11))
             {
-                if (projectile.owner == Main.myPlayer)
+                if (Projectile.owner == Main.myPlayer)
                 {
-                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LargeMechGaussRifle"), projectile.Center);
-                    int damage = LaserBaseDamage;
-                    if (player.HeldItem != null)
-                    {
-                        if (player.HeldItem.magic)
-                        {
-                            damage = (int)(damage * player.MagicDamage());
-                        }
-                        else if (player.HeldItem.melee)
-                        {
-                            damage = (int)(damage * player.MeleeDamage());
-                        }
-                        else if (player.HeldItem.ranged)
-                        {
-                            damage = (int)(damage * player.RangedDamage());
-                        }
-                        else if (player.HeldItem.summon)
-                        {
-                            damage = (int)(damage * player.MinionDamage());
-                        }
-                        else if (player.HeldItem.Calamity().rogue)
-                        {
-                            damage = (int)(damage * player.RogueDamage());
-                        }
-                        else
-                        {
-                            damage = (int)(damage * player.AverageDamage());
-                        }
-                    }
-                    Vector2 laserVelocity = (Main.MouseWorld - (Main.player[projectile.owner].Center + new Vector2(projectile.spriteDirection == 1 ? 48f : 22f, -28f))).SafeNormalize(Vector2.UnitX * projectile.spriteDirection);
-                    Projectile deathLaser = Projectile.NewProjectileDirect(projectile.Center,
+                    SoundEngine.PlaySound(GaussRifle.FireSound, Projectile.Center);
+                    int damage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(LaserBaseDamage);
+                    Vector2 laserVelocity = (Main.MouseWorld - (Main.player[Projectile.owner].Center + new Vector2(Projectile.spriteDirection == 1 ? 48f : 22f, -28f))).SafeNormalize(Vector2.UnitX * Projectile.spriteDirection);
+                    Projectile deathLaser = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(),
+                                                                           Projectile.Center,
                                                                            laserVelocity,
                                                                            ModContent.ProjectileType<AndromedaDeathRay>(),
                                                                            damage,
                                                                            8f,
-                                                                           projectile.owner,
-                                                                           projectile.whoAmI);
-                    if (player.HeldItem != null)
-                    {
-                        if (player.HeldItem.magic)
-                        {
-                            deathLaser.Calamity().forceMagic = true;
-                        }
-                        else if (player.HeldItem.melee)
-                        {
-                            deathLaser.Calamity().forceMelee = true;
-                        }
-                        else if (player.HeldItem.ranged)
-                        {
-                            deathLaser.Calamity().forceRanged = true;
-                        }
-                        else if (player.HeldItem.summon)
-                        {
-                            deathLaser.Calamity().forceMinion = true;
-                        }
-                        else if (player.HeldItem.Calamity().rogue)
-                        {
-                            deathLaser.Calamity().forceRogue = true;
-                        }
-                        else
-                        {
-                            deathLaser.Calamity().forceTypeless = true;
-                        }
-                    }
+                                                                           Projectile.owner,
+                                                                           Projectile.whoAmI);
+                    deathLaser.originalDamage = LaserBaseDamage;
+                    if (player.HeldItem != null && deathLaser.whoAmI.WithinBounds(Main.maxProjectiles))
+                        deathLaser.DamageType = DamageClass.Summon;
                 }
             }
         }
         public void ExitChargeModeEarly(Player player)
         {
             RightIconCooldown = RightIconAttackTime;
-            Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LargeMechGaussRifle"), projectile.Center);
+            SoundEngine.PlaySound(GaussRifle.FireSound, Projectile.Center);
             SpecialAttackExplosionDust(player);
         }
         public void SpecialAttackExplosionDust(Player player)
@@ -432,17 +369,17 @@ namespace CalamityMod.Projectiles.Summon
                         for (int speedSign = -1; speedSign <= 1; speedSign += 2)
                         {
                             float angle = MathHelper.Lerp(0f, MathHelper.TwoPi / 10f, (outwardness - 190f) / 170f);
-                            Dust dust = Dust.NewDustPerfect(projectile.Center, 221);
+                            Dust dust = Dust.NewDustPerfect(Projectile.Center, 221);
                             dust.noGravity = true;
                             dust.scale = 1.6f;
                             dust.position = player.Center + outwardness * (MathHelper.TwoPi / 10f * angleInterval).ToRotationVector2().RotatedBy(angle);
-                            dust.velocity = player.DirectionTo(dust.position) * 8f * speedSign;
+                            dust.velocity = player.SafeDirectionTo(dust.position) * 8f * speedSign;
 
-                            dust = Dust.NewDustPerfect(projectile.Center, 221);
+                            dust = Dust.NewDustPerfect(Projectile.Center, 221);
                             dust.noGravity = true;
                             dust.scale = 1.6f;
                             dust.position = player.Center + outwardness * (MathHelper.TwoPi / 10f * angleInterval).ToRotationVector2().RotatedBy(-angle);
-                            dust.velocity = player.DirectionTo(dust.position) * 8f * speedSign;
+                            dust.velocity = player.SafeDirectionTo(dust.position) * 8f * speedSign;
                         }
                     }
                 }
@@ -470,12 +407,12 @@ namespace CalamityMod.Projectiles.Summon
                 }
             }
         }
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor) => false; // Drawing is done completely by the player.
+        public override bool PreDraw(ref Color lightColor) => false; // Drawing is done completely by the player.
         public override bool OnTileCollide(Vector2 oldVelocity) => false;
-        public override bool CanDamage() => false;
+        public override bool? CanDamage() => false;
         public override void Kill(int timeLeft)
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             player.width = 20;
             player.height = 42;
         }

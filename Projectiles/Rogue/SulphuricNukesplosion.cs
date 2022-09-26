@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.StatDebuffs;
+﻿using CalamityMod.Buffs.StatDebuffs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -8,7 +8,7 @@ using CalamityMod.Dusts;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-	public class SulphuricNukesplosion : ModProjectile
+    public class SulphuricNukesplosion : ModProjectile
     {
         public int frameX = 0;
         public int frameY = 0;
@@ -26,16 +26,16 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetDefaults()
         {
-            projectile.width = 140;
-            projectile.height = 290;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.timeLeft = 300;
-            projectile.tileCollide = false;
-            projectile.alpha = 255;
-            projectile.Calamity().rogue = true;
-            projectile.usesIDStaticNPCImmunity = true;
-            projectile.idStaticNPCHitCooldown = 11;
+            Projectile.width = 140;
+            Projectile.height = 290;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft = 300;
+            Projectile.tileCollide = false;
+            Projectile.alpha = 255;
+            Projectile.DamageType = RogueDamageClass.Instance;
+            Projectile.usesIDStaticNPCImmunity = true;
+            Projectile.idStaticNPCHitCooldown = 11;
         }
 
         public override bool PreAI()
@@ -44,20 +44,20 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 if (boomerTime == 0)
                 {
-                    projectile.timeLeft = boomerTime == 0 ? 99 : projectile.timeLeft;
-                    projectile.position = projectile.Center;
-                    projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-                    projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
-                    projectile.idStaticNPCHitCooldown = 9;
+                    Projectile.timeLeft = boomerTime == 0 ? 99 : Projectile.timeLeft;
+                    Projectile.position = Projectile.Center;
+                    Projectile.position.X = Projectile.position.X - (float)(Projectile.width / 2);
+                    Projectile.position.Y = Projectile.position.Y - (float)(Projectile.height / 2);
+                    Projectile.idStaticNPCHitCooldown = 9;
 
                     boomerTime = 1;
                 }
 
 
-                if (projectile.timeLeft <= 15)
+                if (Projectile.timeLeft <= 15)
                     dustloop--;
 
-                projectile.Damage();
+                Projectile.Damage();
             }
 
             if (stealthyNuke && frameX >= 1)
@@ -75,9 +75,9 @@ namespace CalamityMod.Projectiles.Rogue
                     speed = randVelocity / speed;
                     randX *= speed;
                     randY *= speed;
-                    int idx = Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType);
-                    Main.dust[idx].position.X = projectile.Center.X + Main.rand.NextFloat(-10f, 10f);
-                    Main.dust[idx].position.Y = projectile.Center.Y + Main.rand.NextFloat(-10f, 10f);
+                    int idx = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, dustType);
+                    Main.dust[idx].position.X = Projectile.Center.X + Main.rand.NextFloat(-10f, 10f);
+                    Main.dust[idx].position.Y = Projectile.Center.Y + Main.rand.NextFloat(-10f, 10f);
                     Main.dust[idx].velocity.X = randX;
                     Main.dust[idx].velocity.Y = randY;
                     Main.dust[idx].scale = scale;
@@ -94,14 +94,14 @@ namespace CalamityMod.Projectiles.Rogue
         {
             if (boomerTime == -1)
             {
-                if (projectile.Calamity().stealthStrike)
+                if (Projectile.Calamity().stealthStrike)
                 {
                     stealthyNuke = true;
                 }
 
                 //2-6
-                projectile.frameCounter += 1;
-                if (projectile.frameCounter % 6 == 0)
+                Projectile.frameCounter += 1;
+                if (Projectile.frameCounter % 6 == 0)
                 {
                     frameY += 1;
                     if (frameY >= 7)
@@ -112,58 +112,45 @@ namespace CalamityMod.Projectiles.Rogue
                     if (frameX >= 2)
                     {
                         if (!stealthyNuke)
-                            projectile.Kill();
+                            Projectile.Kill();
                         else
                         {
                             boomerTime = 0;
-                            projectile.hide = true;
+                            Projectile.hide = true;
                         }
                     }
                 }
-                if (projectile.localAI[0] == 0f)
+                if (Projectile.localAI[0] == 0f)
                 {
-                    projectile.position.Y -= projectile.height / 2; //position adjustments
-                    projectile.localAI[0] = 1f;
+                    Projectile.position.Y -= Projectile.height / 2; //position adjustments
+                    Projectile.localAI[0] = 1f;
                 }
             }
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<Irradiated>(), 10 * (stealthyNuke ? 120 : 60)); //10 sec if not stealthstrike, otherwise 20;
+            target.AddBuff(ModContent.BuffType<Irradiated>(), 10 * (stealthyNuke ? 60 : 30)); //5 sec if not stealthstrike, otherwise 10;
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<Irradiated>(), 10 * (stealthyNuke ? 120 : 60)); //10 sec if not stealthstrike, otherwise 20;
+            target.AddBuff(ModContent.BuffType<Irradiated>(), 10 * (stealthyNuke ? 60 : 30)); //5 sec if not stealthstrike, otherwise 10;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            Rectangle frame = new Rectangle(frameX * projectile.width, frameY * projectile.height, projectile.width, projectile.height);
-            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Projectiles/Rogue/SulphuricNukesplosion"), projectile.Center - Main.screenPosition, frame, Color.White, projectile.rotation, projectile.Size / 2, 1f, SpriteEffects.None, 0f);
+            Rectangle frame = new Rectangle(frameX * Projectile.width, frameY * Projectile.height, Projectile.width, Projectile.height);
+            Main.EntitySpriteDraw(ModContent.Request<Texture2D>("CalamityMod/Projectiles/Rogue/SulphuricNukesplosion").Value, Projectile.Center - Main.screenPosition, frame, Color.White, Projectile.rotation, Projectile.Size / 2, 1f, SpriteEffects.None, 0);
             return false;
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) //custom collision when it's explosion, yes i didn't want to make yet another projectile for the stealth explosion :hdfailure:
         {
             if (boomerTime == -1)
-                projHitbox.Intersects(targetHitbox); 
+                projHitbox.Intersects(targetHitbox);
 
-            float dist1 = Vector2.Distance(projectile.Center, targetHitbox.TopLeft());
-            float dist2 = Vector2.Distance(projectile.Center, targetHitbox.TopRight());
-            float dist3 = Vector2.Distance(projectile.Center, targetHitbox.BottomLeft());
-            float dist4 = Vector2.Distance(projectile.Center, targetHitbox.BottomRight());
-
-            float minDist = dist1;
-            if (dist2 < minDist)
-                minDist = dist2;
-            if (dist3 < minDist)
-                minDist = dist3;
-            if (dist4 < minDist)
-                minDist = dist4;
-
-            return minDist <= 200f;
+            return CalamityUtils.CircularHitboxCollision(Projectile.Center, 200f, targetHitbox);
         }
     }
 }

@@ -1,15 +1,18 @@
-using CalamityMod.Projectiles.Melee;
+﻿using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Rogue
 {
     public class LionfishProj : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/Lionfish";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Lionfish");
@@ -17,69 +20,58 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetDefaults()
         {
-            projectile.width = 30;
-            projectile.height = 30;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.penetrate = -1;
-            projectile.alpha = 255;
-            projectile.Calamity().rogue = true;
-			projectile.timeLeft = CalamityUtils.SecondsToFrames(20f);
+            Projectile.width = 30;
+            Projectile.height = 30;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.penetrate = -1;
+            Projectile.alpha = 255;
+            Projectile.DamageType = RogueDamageClass.Instance;
+            Projectile.timeLeft = CalamityUtils.SecondsToFrames(20f);
         }
 
         public override void AI()
         {
-            int num982 = 25;
-            if (projectile.alpha > 0)
+            if (Projectile.alpha > 0)
             {
-                projectile.alpha -= num982;
+                Projectile.alpha -= 25;
             }
-            if (projectile.alpha < 0)
+            if (Projectile.alpha < 0)
             {
-                projectile.alpha = 0;
+                Projectile.alpha = 0;
             }
-            if (projectile.ai[0] == 0f)
+            if (Projectile.ai[0] == 0f)
             {
-                projectile.ai[1] += 1f;
-                if (projectile.ai[1] >= 45f)
+                Projectile.spriteDirection = Projectile.direction = (Projectile.velocity.X > 0).ToDirectionInt();
+                Projectile.rotation = Projectile.velocity.ToRotation() + (Projectile.spriteDirection == 1 ? 0f : MathHelper.Pi);
+                Projectile.ai[1] += 1f;
+                if (Projectile.ai[1] >= 45f)
                 {
-                    float num986 = 0.98f;
-                    float num987 = 0.35f;
-                    projectile.ai[1] = 45f;
-                    projectile.velocity.X = projectile.velocity.X * num986;
-                    projectile.velocity.Y = projectile.velocity.Y + num987;
-                    if (projectile.velocity.X < 0f)
+                    float horizontalMult = 0.98f;
+                    float fallSpeed = 0.35f;
+                    Projectile.velocity.X *= horizontalMult;
+                    Projectile.velocity.Y += fallSpeed;
+                }
+                if (Projectile.Calamity().stealthStrike)
+                {
+                    if (Projectile.timeLeft % 8 == 0 && Projectile.owner == Main.myPlayer)
                     {
-                        projectile.spriteDirection = -1;
-                        projectile.rotation = (float)Math.Atan2((double)-(double)projectile.velocity.Y, (double)-(double)projectile.velocity.X);
-                    }
-                    else
-                    {
-                        projectile.spriteDirection = 1;
-                        projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X);
+                        Vector2 velocity = Projectile.DirectionFrom(Main.player[Projectile.owner].Center);
+                        velocity *= Main.rand.NextFloat(4.5f, 6.5f);
+                        velocity = velocity.RotatedBy((Main.rand.NextDouble() - 0.5) * Math.PI * 0.5, default);
+                        int spike = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<UrchinSpikeFugu>(), (int)(Projectile.damage * 0.5), Projectile.knockBack * 0.5f, Projectile.owner, -10f, 0f);
+                        if (spike.WithinBounds(Main.maxProjectiles))
+                            Main.projectile[spike].DamageType = RogueDamageClass.Instance;
                     }
                 }
-				if (projectile.Calamity().stealthStrike)
-				{
-					if (projectile.timeLeft % 8 == 0 && projectile.owner == Main.myPlayer)
-					{
-						Vector2 vector62 = Main.player[projectile.owner].Center - projectile.Center;
-						Vector2 vector63 = vector62 * -1f;
-						vector63.Normalize();
-						vector63 *= (float)Main.rand.Next(45, 65) * 0.1f;
-						vector63 = vector63.RotatedBy((Main.rand.NextDouble() - 0.5) * 1.5707963705062866, default);
-						int spike = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, vector63.X, vector63.Y, ModContent.ProjectileType<UrchinSpikeFugu>(), (int)(projectile.damage * 0.5), projectile.knockBack * 0.5f, projectile.owner, -10f, 0f);
-						Main.projectile[spike].Calamity().forceRogue = true;
-					}
-				}
             }
             //Sticky Behaviour
-            projectile.StickyProjAI(15);
+            Projectile.StickyProjAI(15);
         }
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            projectile.ModifyHitNPCSticky(6, false);
+            Projectile.ModifyHitNPCSticky(6, false);
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
@@ -91,32 +83,32 @@ namespace CalamityMod.Projectiles.Rogue
             return null;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D tex = Main.projectileTexture[projectile.type];
-            spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(lightColor), projectile.rotation, tex.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
+            Texture2D tex = ModContent.Request<Texture2D>(Texture).Value;
+            SpriteEffects spriteEffects = SpriteEffects.None;
+            if (Projectile.spriteDirection == -1)
+                spriteEffects = SpriteEffects.FlipHorizontally;
+            Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation, tex.Size() / 2f, Projectile.scale, spriteEffects, 0);
             return false;
         }
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.Dig, projectile.position);
-            projectile.position = projectile.Center;
-            projectile.width = projectile.height = 72;
-            projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-            projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
-            for (int num193 = 0; num193 < 3; num193++)
+            SoundEngine.PlaySound(SoundID.Dig, Projectile.position);
+            Projectile.ExpandHitboxBy(72);
+            for (int d = 0; d < 3; d++)
             {
-                Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 14, 0f, 0f, 100, new Color(0, 255, 255), 1.5f);
+                Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 14, 0f, 0f, 100, new Color(0, 255, 255), 1.5f);
             }
-            for (int num194 = 0; num194 < 30; num194++)
+            for (int d = 0; d < 30; d++)
             {
-                int num195 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 14, 0f, 0f, 0, new Color(0, 255, 255), 2.5f);
-                Main.dust[num195].noGravity = true;
-                Main.dust[num195].velocity *= 3f;
-                num195 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 14, 0f, 0f, 100, new Color(0, 255, 255), 1.5f);
-                Main.dust[num195].velocity *= 2f;
-                Main.dust[num195].noGravity = true;
+                int idx = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 14, 0f, 0f, 0, new Color(0, 255, 255), 2.5f);
+                Main.dust[idx].noGravity = true;
+                Main.dust[idx].velocity *= 3f;
+                idx = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 14, 0f, 0f, 100, new Color(0, 255, 255), 1.5f);
+                Main.dust[idx].velocity *= 2f;
+                Main.dust[idx].noGravity = true;
             }
         }
 

@@ -5,6 +5,8 @@ namespace CalamityMod.Projectiles.Typeless
 {
     public class UnstableSpark : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Unstable Spark");
@@ -12,80 +14,87 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void SetDefaults()
         {
-            projectile.width = 6;
-            projectile.height = 12;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.timeLeft = 120;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
+            Projectile.width = 6;
+            Projectile.height = 12;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft = 90;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
+        }
+
+        // Reduce damage of projectiles if more than the cap are active
+        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        {
+            int projectileCount = Main.player[Projectile.owner].ownedProjectileCounts[Projectile.type];
+            int cap = 5;
+            int oldDamage = damage;
+            if (projectileCount > cap)
+            {
+                damage -= (int)(oldDamage * ((projectileCount - cap) * 0.05));
+                if (damage < 1)
+                    damage = 1;
+            }
         }
 
         public override void AI()
         {
-            if (projectile.velocity.X != projectile.velocity.X)
+            if (Projectile.velocity.X != Projectile.velocity.X)
             {
-                projectile.velocity.X = projectile.velocity.X * -0.1f;
+                Projectile.velocity.X = Projectile.velocity.X * -0.1f;
             }
-            if (projectile.velocity.X != projectile.velocity.X)
+            if (Projectile.velocity.X != Projectile.velocity.X)
             {
-                projectile.velocity.X = projectile.velocity.X * -0.5f;
+                Projectile.velocity.X = Projectile.velocity.X * -0.5f;
             }
-            if (projectile.velocity.Y != projectile.velocity.Y && projectile.velocity.Y > 1f)
+            if (Projectile.velocity.Y != Projectile.velocity.Y && Projectile.velocity.Y > 1f)
             {
-                projectile.velocity.Y = projectile.velocity.Y * -0.5f;
+                Projectile.velocity.Y = Projectile.velocity.Y * -0.5f;
             }
-            projectile.ai[0] += 1f;
-            if (projectile.ai[0] > 5f)
+            Projectile.ai[0] += 1f;
+            if (Projectile.ai[0] > 5f)
             {
-                projectile.ai[0] = 5f;
-                if (projectile.velocity.Y == 0f && projectile.velocity.X != 0f)
+                Projectile.ai[0] = 5f;
+                if (Projectile.velocity.Y == 0f && Projectile.velocity.X != 0f)
                 {
-                    projectile.velocity.X = projectile.velocity.X * 0.97f;
-                    if ((double)projectile.velocity.X > -0.01 && (double)projectile.velocity.X < 0.01)
+                    Projectile.velocity.X = Projectile.velocity.X * 0.97f;
+                    if (Projectile.velocity.X > -0.01 && Projectile.velocity.X < 0.01)
                     {
-                        projectile.velocity.X = 0f;
-                        projectile.netUpdate = true;
+                        Projectile.velocity.X = 0f;
+                        Projectile.netUpdate = true;
                     }
                 }
-                projectile.velocity.Y = projectile.velocity.Y + 0.2f;
+                Projectile.velocity.Y = Projectile.velocity.Y + 0.2f;
             }
-            projectile.rotation += projectile.velocity.X * 0.1f;
-            int num199 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 206, 0f, 0f, 100, default, 0.5f);
+            Projectile.rotation += Projectile.velocity.X * 0.1f;
+            int num199 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 206, 0f, 0f, 100, default, 0.5f);
             Dust dust = Main.dust[num199];
             dust.position.X -= 2f;
             dust.position.Y += 2f;
-            dust.scale += (float)Main.rand.Next(50) * 0.01f;
+            dust.scale += Main.rand.Next(50) * 0.01f;
             dust.noGravity = true;
             dust.velocity.Y -= 2f;
             if (Main.rand.NextBool(2))
             {
-                int num200 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 206, 0f, 0f, 100, default, 0.5f);
+                int num200 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 206, 0f, 0f, 100, default, 0.5f);
                 Dust dust2 = Main.dust[num200];
                 dust2.position.X -= 2f;
                 dust2.position.Y += 2f;
-                dust2.scale += 0.3f + (float)Main.rand.Next(50) * 0.01f;
+                dust2.scale += 0.3f + Main.rand.Next(50) * 0.01f;
                 dust2.noGravity = true;
                 dust2.velocity *= 0.1f;
             }
-            if ((double)projectile.velocity.Y < 0.25 && (double)projectile.velocity.Y > 0.15)
+            if (Projectile.velocity.Y < 0.25 && Projectile.velocity.Y > 0.15)
             {
-                projectile.velocity.X = projectile.velocity.X * 0.8f;
+                Projectile.velocity.X = Projectile.velocity.X * 0.8f;
             }
-            projectile.rotation = -projectile.velocity.X * 0.05f;
-            if (projectile.velocity.Y > 16f)
+            Projectile.rotation = -Projectile.velocity.X * 0.05f;
+            if (Projectile.velocity.Y > 16f)
             {
-                projectile.velocity.Y = 16f;
+                Projectile.velocity.Y = 16f;
             }
         }
 
-        public override bool OnTileCollide(Vector2 oldVelocity)
-        {
-            if (projectile.penetrate == 0)
-            {
-                projectile.Kill();
-            }
-            return false;
-        }
+        public override bool OnTileCollide(Vector2 oldVelocity) => false;
     }
 }

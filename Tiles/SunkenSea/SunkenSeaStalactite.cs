@@ -5,26 +5,26 @@ namespace CalamityMod.Tiles.SunkenSea
 {
     public class SunkenSeaStalactite : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileFrameImportant[Type] = true;
             Main.tileNoFail[Type] = true;
             Main.tileObsidianKill[Type] = true;
             Main.tileBlockLight[Type] = true;
-            dustType = 96;
+            DustType = 96;
             AddMapEntry(new Color(0, 50, 50));
 
-            base.SetDefaults();
+            base.SetStaticDefaults();
         }
 
-        public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height)
+        public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height, ref short tileFrameX, ref short tileFrameY)
         {
             Tile tile = Main.tile[i, j];
-            if (tile.frameY <= 18 || tile.frameY == 72)
+            if (tile.TileFrameY <= 18 || tile.TileFrameY == 72)
             {
                 offsetY = -2;
             }
-            else if ((tile.frameY >= 36 && tile.frameY <= 54) || tile.frameY == 90)
+            else if ((tile.TileFrameY >= 36 && tile.TileFrameY <= 54) || tile.TileFrameY == 90)
             {
                 offsetY = 2;
             }

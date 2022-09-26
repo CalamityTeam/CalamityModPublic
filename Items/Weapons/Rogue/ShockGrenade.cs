@@ -1,3 +1,4 @@
+﻿using Terraria.DataStructures;
 using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -7,42 +8,44 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-	public class ShockGrenade : RogueWeapon
+    public class ShockGrenade : RogueWeapon
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Shock Grenade");
             Tooltip.SetDefault("Throws a grenade that explodes into a burst of lightning\n" +
                 "Stealth strikes cause the grenade to leave an electrifying aura when it explodes");
+            SacrificeTotal = 99;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
-            item.width = 14;
-            item.damage = 90;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.consumable = true;
-            item.useAnimation = 18;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 18;
-            item.knockBack = 1f;
-            item.autoReuse = true;
-            item.height = 30;
-            item.maxStack = 999;
-            item.value = Item.buyPrice(0, 1, 0, 0);
-            item.rare = 8;
-            item.shoot = ModContent.ProjectileType<ShockGrenadeProjectile>();
-            item.shootSpeed = 7.5f;
-            item.Calamity().rogue = true;
+            Item.width = 14;
+            Item.damage = 90;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.consumable = true;
+            Item.useAnimation = 18;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 18;
+            Item.knockBack = 1f;
+            Item.autoReuse = true;
+            Item.height = 30;
+            Item.maxStack = 999;
+            Item.value = Item.buyPrice(0, 1, 0, 0);
+            Item.rare = ItemRarityID.Yellow;
+            Item.shoot = ModContent.ProjectileType<ShockGrenadeProjectile>();
+            Item.shootSpeed = 12.5f;
+            Item.DamageType = RogueDamageClass.Instance;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.Calamity().StealthStrikeAvailable())
             {
-                int p = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
-                Main.projectile[p].Calamity().stealthStrike = true;
+                int p = Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, type, damage, knockback, player.whoAmI);
+                if (p.WithinBounds(Main.maxProjectiles))
+                    Main.projectile[p].Calamity().stealthStrike = true;
                 return false;
             }
             return true;
@@ -50,19 +53,17 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
-            Vector2 origin = new Vector2(item.width / 2, item.height / 2);
-            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Items/Weapons/Rogue/ShockGrenadeGlow"), item.Center - Main.screenPosition, null, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
+            Item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Rogue/ShockGrenadeGlow").Value);
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Grenade, 10);
-            recipe.AddIngredient(ItemID.MartianConduitPlating, 2);
-            recipe.AddIngredient(ItemID.Nanites, 1);
-            recipe.AddTile(TileID.WorkBenches);
-            recipe.SetResult(this, 10);
-            recipe.AddRecipe();
+            CreateRecipe(100).
+                AddIngredient(ItemID.Grenade, 20).
+                AddIngredient(ItemID.MartianConduitPlating, 5).
+                AddIngredient(ItemID.Nanites, 5).
+                AddTile(TileID.WorkBenches).
+                Register();
         }
     }
 }

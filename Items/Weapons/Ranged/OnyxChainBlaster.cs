@@ -1,3 +1,4 @@
+﻿using Terraria.DataStructures;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -12,27 +13,28 @@ namespace CalamityMod.Items.Weapons.Ranged
             DisplayName.SetDefault("Onyx Chain Blaster");
             Tooltip.SetDefault("50% chance to not consume ammo\n" +
                 "Fires a spread of bullets and an onyx shard");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 40;
-            item.ranged = true;
-            item.width = 64;
-            item.height = 32;
-            item.useTime = 15;
-            item.useAnimation = 15;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 4.5f;
-            item.value = Item.buyPrice(1, 20, 0, 0);
-            item.rare = 10;
-            item.UseSound = SoundID.Item36;
-            item.autoReuse = true;
-            item.shoot = ProjectileID.PurificationPowder;
-            item.shootSpeed = 24f;
-            item.useAmmo = 97;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.damage = 40;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 64;
+            Item.height = 32;
+            Item.useTime = 15;
+            Item.useAnimation = 15;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 4.5f;
+            Item.value = CalamityGlobalItem.Rarity10BuyPrice;
+            Item.rare = ItemRarityID.Red;
+            Item.UseSound = SoundID.Item36;
+            Item.autoReuse = true;
+            Item.shoot = ProjectileID.BlackBolt;
+            Item.shootSpeed = 24f;
+            Item.useAmmo = AmmoID.Bullet;
+            Item.Calamity().canFirePointBlankShots = true;
         }
 
         public override Vector2? HoldoutOffset()
@@ -40,21 +42,25 @@ namespace CalamityMod.Items.Weapons.Ranged
             return new Vector2(-5, 0);
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            float SpeedX = speedX + (float)Main.rand.Next(-25, 26) * 0.05f;
-            float SpeedY = speedY + (float)Main.rand.Next(-25, 26) * 0.05f;
-            Projectile.NewProjectile(position.X, position.Y, SpeedX * 0.9f, SpeedY * 0.9f, ProjectileID.BlackBolt, damage, knockBack, player.whoAmI, 0f, 0f);
-            for (int i = 0; i <= 3; i++)
+            // Fire the Onyx Shard that is characteristic of the Onyx Blaster
+            // The shard deals 250% damage and double knockback
+            int shardDamage = (int)(2.5f * damage);
+            float shardKB = 2f * knockback;
+            Vector2 offset = new Vector2(Main.rand.Next(-25, 26) * 0.05f, Main.rand.Next(-25, 26) * 0.05f);
+            Projectile shard = Projectile.NewProjectileDirect(source, position, velocity + offset, ProjectileID.BlackBolt, shardDamage, shardKB, player.whoAmI, 0f, 0f);
+            shard.timeLeft = (int)(shard.timeLeft * 1.25f);
+
+            for (int i = 0; i < 4; i++)
             {
-                float SpeedNewX = speedX + (float)Main.rand.Next(-45, 46) * 0.05f;
-                float SpeedNewY = speedY + (float)Main.rand.Next(-45, 46) * 0.05f;
-                Projectile.NewProjectile(position.X, position.Y, SpeedNewX, SpeedNewY, type, (int)(damage * 1.25f), knockBack, player.whoAmI, 0f, 0f);
+                offset = new Vector2(Main.rand.Next(-45, 46) * 0.05f, Main.rand.Next(-45, 46) * 0.05f);
+                Projectile.NewProjectile(source, position, velocity + offset, type, damage, knockback, player.whoAmI, 0f, 0f);
             }
             return false;
         }
 
-        public override bool ConsumeAmmo(Player player)
+        public override bool CanConsumeAmmo(Item ammo, Player player)
         {
             if (Main.rand.Next(0, 100) < 50)
                 return false;
@@ -63,13 +69,12 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.OnyxBlaster);
-            recipe.AddIngredient(ItemID.ChainGun);
-            recipe.AddIngredient(ItemID.LunarBar, 5);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient(ItemID.OnyxBlaster).
+                AddIngredient(ItemID.ChainGun).
+                AddIngredient(ItemID.LunarBar, 5).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

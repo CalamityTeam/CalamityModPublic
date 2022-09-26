@@ -1,19 +1,19 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureStatigel
 {
     public class StatigelSink : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpSink();
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Statigel Sink");
-            AddMapEntry(new Color(191, 142, 111), name);
-            adjTiles = new int[] { TileID.Sinks };
+            AddMapEntry(new Color(191, 142, 111), Language.GetText("MapObject.Sink"));
+            AdjTiles = new int[] { TileID.Sinks };
         }
 
         public override bool CreateDust(int i, int j, ref int type)
@@ -29,7 +29,7 @@ namespace CalamityMod.Tiles.FurnitureStatigel
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 16, 32, ModContent.ItemType<Items.Placeables.FurnitureStatigel.StatigelSink>());
+            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 32, ModContent.ItemType<Items.Placeables.FurnitureStatigel.StatigelSink>());
         }
     }
 }

@@ -1,4 +1,3 @@
-using CalamityMod.World;
 using CalamityMod.Tiles.Crags;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -12,35 +11,32 @@ namespace CalamityMod.Tiles.Ores
         private int sheetWidth = 288;
         private int sheetHeight = 270;
 
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileSolid[Type] = true;
             Main.tileBlockLight[Type] = true;
             Main.tileLighted[Type] = true;
-            Main.tileValue[Type] = 720;
+            Main.tileOreFinderPriority[Type] = 675;
 
             CalamityUtils.MergeWithGeneral(Type);
             CalamityUtils.MergeWithHell(Type);
 
-            drop = ModContent.ItemType<Items.Placeables.Ores.CharredOre>();
+            TileID.Sets.Ore[Type] = true;
+
+            ItemDrop = ModContent.ItemType<Items.Placeables.Ores.CharredOre>();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Charred Ore");
             AddMapEntry(new Color(17, 16, 26), name);
-            mineResist = 6f;
-            minPick = 180;
-            soundType = SoundID.Tink;
-            dustType = 235;
+            MineResist = 6f;
+            MinPick = 150;
+            HitSound = SoundID.Tink;
+            DustType = 235;
             Main.tileSpelunker[Type] = true;
-        }
-
-        public override bool CanKillTile(int i, int j, ref bool blockDamaged)
-        {
-            return CalamityWorld.downedBrimstoneElemental;
         }
 
         public override bool CanExplode(int i, int j)
         {
-            return CalamityWorld.downedBrimstoneElemental;
+            return false;
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)

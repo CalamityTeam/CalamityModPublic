@@ -1,6 +1,7 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -8,27 +9,23 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Cryo Stone");
             Tooltip.SetDefault("One of the ancient relics\n" +
-                "Increases damage reduction by 5% and all damage by 3%");
-            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(4, 4));
+                "Creates a rotating ice shield around you that damages and slows down enemies on contact");
+            Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(4, 4));
+            ItemID.Sets.AnimatesAsSoul[Type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.width = 40;
-            item.height = 40;
-            item.value = CalamityGlobalItem.Rarity5BuyPrice;
-            item.rare = 5;
-            item.defense = 6;
-            item.accessory = true;
+            Item.width = 40;
+            Item.height = 40;
+            Item.value = CalamityGlobalItem.Rarity5BuyPrice;
+            Item.rare = ItemRarityID.Pink;
+            Item.accessory = true;
         }
 
-        public override void UpdateAccessory(Player player, bool hideVisual)
-        {
-            Lighting.AddLight((int)player.Center.X / 16, (int)player.Center.Y / 16, 0f, 0.25f, 0.6f);
-            player.endurance += 0.05f;
-            player.allDamage += 0.03f;
-        }
+        public override void UpdateAccessory(Player player, bool hideVisual) => player.Calamity().CryoStone = true;
     }
 }

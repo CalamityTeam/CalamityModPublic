@@ -1,7 +1,9 @@
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
-using CalamityMod.CalPlayer;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -13,41 +15,43 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             DisplayName.SetDefault("The Mutilator");
             Tooltip.SetDefault("Striking an enemy below 20% life will trigger a bloodsplosion\n" +
-                               "Bloodsplosions cause hearts to drop that can be picked up to heal you");
+                "Bloodsplosions cause hearts to drop that can be picked up to heal you");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.width = 90;
-            item.height = 90;
-            item.damage = 700;
-            item.melee = true;
-            item.useAnimation = 18;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 18;
-            item.useTurn = true;
-            item.knockBack = 8f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.value = Item.buyPrice(1, 40, 0, 0);
-            item.rare = 10;
-            item.shootSpeed = 10f;
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
+            Item.width = 90;
+            Item.height = 90;
+            Item.scale = 1.5f;
+            Item.damage = 483;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = 18;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 18;
+            Item.useTurn = true;
+            Item.knockBack = 8f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.shootSpeed = 10f;
+
+            Item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            Item.rare = ModContent.RarityType<Turquoise>();
         }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
             if (target.life <= (target.lifeMax * 0.2f) && target.canGhostHeal)
             {
-				if (!CalamityPlayer.areThereAnyDamnBosses || Main.rand.NextBool(2))
-				{
-					int heartDrop = CalamityPlayer.areThereAnyDamnBosses ? 1 : Main.rand.Next(1, 3);
-					for (int i = 0; i < heartDrop; i++)
-					{
-						Item.NewItem((int)target.position.X, (int)target.position.Y, target.width, target.height, 58, 1, false, 0, false, false);
-					}
-				}
-                Main.PlaySound(SoundID.Item14, target.position);
+                if (!CalamityPlayer.areThereAnyDamnBosses || Main.rand.NextBool(2))
+                {
+                    int heartDrop = CalamityPlayer.areThereAnyDamnBosses ? 1 : Main.rand.Next(1, 3);
+                    for (int i = 0; i < heartDrop; i++)
+                    {
+                        Item.NewItem(player.GetSource_OnHit(target), (int)target.position.X, (int)target.position.Y, target.width, target.height, 58, 1, false, 0, false, false);
+                    }
+                }
+                SoundEngine.PlaySound(SoundID.Item14, target.position);
                 target.position.X += target.width / 2;
                 target.position.Y += target.height / 2;
                 target.position.X -= target.width / 2;
@@ -75,11 +79,10 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<BloodstoneCore>(), 5);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient<BloodstoneCore>(5).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

@@ -1,6 +1,8 @@
+﻿using CalamityMod.Events;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.Graphics.Effects;
 using Terraria.ModLoader;
 
@@ -14,13 +16,11 @@ namespace CalamityMod.NPCs.Calamitas
 
         public override void Update(GameTime gameTime)
         {
-            if (isActive && intensity < 1f)
+            if (CalIndex == -1 || BossRushEvent.BossRushActive)
             {
-                intensity += 0.01f;
-            }
-            else if (!isActive && intensity > 0f)
-            {
-                intensity -= 0.01f;
+                UpdateCalIndex();
+                if (CalIndex == -1 || BossRushEvent.BossRushActive)
+                    isActive = false;
             }
         }
 
@@ -33,7 +33,7 @@ namespace CalamityMod.NPCs.Calamitas
                 {
                     x = Vector2.Distance(Main.player[Main.myPlayer].Center, Main.npc[this.CalIndex].Center);
                 }
-                return 1f - Utils.SmoothStep(3000f, 6000f, x);
+                return (1f - Utils.SmoothStep(3000f, 6000f, x));
             }
             return 0f;
         }
@@ -46,7 +46,7 @@ namespace CalamityMod.NPCs.Calamitas
 
         private bool UpdateCalIndex()
         {
-            int CalType = ModContent.NPCType<CalamitasRun3>();
+            int CalType = ModContent.NPCType<CalamitasClone>();
             if (CalIndex >= 0 && Main.npc[CalIndex].active && Main.npc[CalIndex].type == CalType)
             {
                 return true;
@@ -69,7 +69,7 @@ namespace CalamityMod.NPCs.Calamitas
             if (maxDepth >= 0 && minDepth < 0)
             {
                 float intensity = this.GetIntensity();
-                spriteBatch.Draw(Main.blackTileTexture, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color.Black * intensity);
+                spriteBatch.Draw(TextureAssets.BlackTile.Value, new Rectangle(0, 0, Main.screenWidth * 2, Main.screenHeight * 2), Color.Black * intensity);
             }
         }
 

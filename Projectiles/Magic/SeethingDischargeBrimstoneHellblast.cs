@@ -1,86 +1,99 @@
-using CalamityMod.Dusts;
+﻿using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Magic
 {
     public class SeethingDischargeBrimstoneHellblast : ModProjectile
     {
+        private bool initialized = false;
+        public override string Texture => "CalamityMod/Projectiles/Boss/BrimstoneHellblast";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Hellblast");
-            Main.projFrames[projectile.type] = 4;
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            Main.projFrames[Projectile.type] = 4;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 4;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 40;
-            projectile.height = 40;
-            projectile.friendly = true;
-            projectile.magic = true;
-            projectile.ignoreWater = true;
-            projectile.tileCollide = false;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 255;
-            projectile.alpha = 0;
+            Projectile.width = 40;
+            Projectile.height = 40;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Magic;
+            Projectile.ignoreWater = true;
+            Projectile.tileCollide = false;
+            Projectile.penetrate = 4;
+            Projectile.timeLeft = 255;
+            Projectile.alpha = 0;
         }
 
         public override void AI()
         {
-            projectile.frameCounter++;
-            if (projectile.frameCounter >= 10)
+            if (!initialized)
             {
-                projectile.frame++;
-                projectile.frameCounter = 0;
+                if (Projectile.npcProj)
+                {
+                    Projectile.usesLocalNPCImmunity = true;
+                    Projectile.localNPCHitCooldown = 5;
+                    Projectile.penetrate = 10;
+                }
+                initialized = true;
             }
-            if (projectile.frame >= 4)
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter >= 10)
             {
-                projectile.frame = 0;
+                Projectile.frame++;
+                Projectile.frameCounter = 0;
             }
-            projectile.alpha += 1;
-            Lighting.AddLight(projectile.Center, 0.9f, 0f, 0f);
-            if (projectile.ai[1] == 0f)
+            if (Projectile.frame >= 4)
             {
-                projectile.ai[1] = 1f;
-                Main.PlaySound(SoundID.Item20, projectile.position);
+                Projectile.frame = 0;
             }
-            projectile.velocity.X *= 1.03f;
-            projectile.velocity.Y *= 1.03f;
-            if (projectile.velocity.X < 0f)
+            Projectile.alpha += 1;
+            Lighting.AddLight(Projectile.Center, 0.9f, 0f, 0f);
+            if (Projectile.ai[1] == 0f)
             {
-                projectile.spriteDirection = -1;
-                projectile.rotation = (float)Math.Atan2((double)-(double)projectile.velocity.Y, (double)-(double)projectile.velocity.X);
+                Projectile.ai[1] = 1f;
+                SoundEngine.PlaySound(SoundID.Item20, Projectile.position);
+            }
+            Projectile.velocity.X *= 1.03f;
+            Projectile.velocity.Y *= 1.03f;
+            if (Projectile.velocity.X < 0f)
+            {
+                Projectile.spriteDirection = -1;
+                Projectile.rotation = (float)Math.Atan2((double)-(double)Projectile.velocity.Y, (double)-(double)Projectile.velocity.X);
             }
             else
             {
-                projectile.spriteDirection = 1;
-                projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X);
+                Projectile.spriteDirection = 1;
+                Projectile.rotation = (float)Math.Atan2((double)Projectile.velocity.Y, (double)Projectile.velocity.X);
             }
         }
 
         public override Color? GetAlpha(Color lightColor)
         {
-            return new Color(250, 50, 50, projectile.alpha);
+            return new Color(250, 50, 50, Projectile.alpha);
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;
         }
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.Item20, projectile.position);
+            SoundEngine.PlaySound(SoundID.Item20, Projectile.position);
             for (int dust = 0; dust <= 5; dust++)
             {
-                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, (int)CalamityDusts.Brimstone, 0f, 0f);
+                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, (int)CalamityDusts.Brimstone, 0f, 0f);
             }
         }
     }

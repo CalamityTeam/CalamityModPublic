@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.StatDebuffs;
+﻿using CalamityMod.Buffs.StatDebuffs;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -11,28 +11,29 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             DisplayName.SetDefault("Teardrop Cleaver");
             Tooltip.SetDefault("Makes your enemies cry");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.width = 56;
-            item.damage = 18;
-            item.melee = true;
-            item.useAnimation = 24;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 24;
-            item.useTurn = true;
-            item.knockBack = 4.5f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 66;
-            item.value = Item.buyPrice(0, 2, 0, 0);
-            item.rare = 2;
+            Item.width = 56;
+            Item.damage = 24;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = 24;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 24;
+            Item.useTurn = true;
+            Item.knockBack = 5.5f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.height = 66;
+            Item.value = CalamityGlobalItem.Rarity2BuyPrice;
+            Item.rare = ItemRarityID.Green;
         }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<TemporalSadness>(), 120);
+            target.AddBuff(ModContent.BuffType<TemporalSadness>(), 60);
         }
     }
 }

@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Rogue
 {
@@ -14,56 +14,56 @@ namespace CalamityMod.Projectiles.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Eyeball");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 4;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 30;
-            projectile.height = 26;
-            projectile.friendly = true;
-            projectile.tileCollide = true;
-            projectile.timeLeft = 280;
-            projectile.penetrate = -1;
-            projectile.Calamity().rogue = true;
+            Projectile.width = 30;
+            Projectile.height = 26;
+            Projectile.friendly = true;
+            Projectile.tileCollide = true;
+            Projectile.timeLeft = 280;
+            Projectile.penetrate = -1;
+            Projectile.DamageType = RogueDamageClass.Instance;
         }
 
         public override void AI()
         {
-            projectile.rotation = projectile.velocity.ToRotation();
-            if (Math.Abs(projectile.velocity.X) > 23f)
+            Projectile.rotation = Projectile.velocity.ToRotation();
+            if (Math.Abs(Projectile.velocity.X) > 23f)
             {
-                projectile.velocity.X = Math.Sign(projectile.velocity.X) * 23f;
+                Projectile.velocity.X = Math.Sign(Projectile.velocity.X) * 23f;
             }
-            if (Math.Abs(projectile.velocity.Y) > 23f)
+            if (Math.Abs(Projectile.velocity.Y) > 23f)
             {
-                projectile.velocity.Y = Math.Sign(projectile.velocity.Y) * 23f;
+                Projectile.velocity.Y = Math.Sign(Projectile.velocity.Y) * 23f;
             }
         }
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            if (projectile.velocity != oldVelocity)
+            if (Projectile.velocity != oldVelocity)
             {
-                projectile.velocity = Main.rand.NextFloat(-1.15f, -0.85f) * oldVelocity * Bounciness;
+                Projectile.velocity = Main.rand.NextFloat(-1.15f, -0.85f) * oldVelocity * Bounciness;
             }
-            Main.PlaySound(SoundID.NPCHit, (int)projectile.Center.X, (int)projectile.Center.Y, 19, 0.7f);
+            SoundEngine.PlaySound(SoundID.NPCHit19 with { Volume = SoundID.NPCHit19.Volume * 0.7f}, Projectile.Center);
             return false;
         }
         public override void Kill(int timeLeft)
         {
-            //explode into a larger display of blood. Yay
-            Main.PlaySound(SoundID.NPCHit, (int)projectile.Center.X, (int)projectile.Center.Y, 19, 0.7f);
+            // Explode into a large display of blood.
+            SoundEngine.PlaySound(SoundID.NPCHit19 with { Volume = SoundID.NPCHit19.Volume * 0.7f}, Projectile.Center);
             int dustCount = Main.rand.Next(15, 26);
             for (int index = 0; index < dustCount; index++)
             {
-                Vector2 velocity = Vector2.Normalize(Utils.RandomVector2(Main.rand, -1000f, 1000f)) * Main.rand.NextFloat(4f, 9f) + projectile.velocity / 2f;
-                Dust.NewDust(projectile.Center, 4, 4, DustID.Blood, velocity.X, velocity.Y);
+                Vector2 velocity = Main.rand.NextVector2Unit() * Main.rand.NextFloat(4f, 9f) + Projectile.velocity / 2f;
+                Dust.NewDust(Projectile.Center, 4, 4, DustID.Blood, velocity.X, velocity.Y);
             }
         }
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 2);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 2);
             return false;
         }
     }

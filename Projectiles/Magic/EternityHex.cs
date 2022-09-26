@@ -1,214 +1,239 @@
-using CalamityMod.Items.Weapons.Magic;
+﻿using CalamityMod.Items.Weapons.Magic;
+using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.GameContent.Drawing;
+using Terraria.Graphics.Shaders;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Magic
 {
     public class EternityHex : ModProjectile
     {
-        public const float bossLifeMaxDamageMult = 1f / 350f;
-        public const float normalEnemyLifeMaxDamageMult = 1f / 100f;
-        public const int trueTimeLeft = 310;
-        public const int extraUpdateCount = 1;
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
+        internal PrimitiveTrail LemniscateDrawer = null;
+        public int TargetNPCIndex
+        {
+            get => (int)Projectile.ai[0];
+            set => Projectile.ai[0] = value;
+        }
+        public float LemniscateAngle
+        {
+            get => Projectile.ai[1];
+            set => Projectile.ai[1] = value;
+        }
+        public float Time
+        {
+            get => Projectile.localAI[0];
+            set => Projectile.localAI[0] = value;
+        }
+        public int BookProjectileIndex
+        {
+            get => (int)Projectile.localAI[1];
+            set => Projectile.localAI[1] = value;
+        }
+        public const int Lifetime = 310;
+        public const float BossLifeMaxDamageMult = 1f / 350f;
+        public const float NormalEnemyLifeMaxDamageMult = 1f / 100f;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Eternity");
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 63;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 4;
-            projectile.height = 4;
-            projectile.tileCollide = false;
-            projectile.timeLeft = int.MaxValue; //Killed manually
-            projectile.extraUpdates = extraUpdateCount;
-            projectile.alpha = 255;
+            Projectile.width = 4;
+            Projectile.height = 4;
+            Projectile.tileCollide = false;
+            Projectile.extraUpdates = 1;
+            Projectile.alpha = 255;
         }
+
         public override void AI()
         {
-			Player player = Main.player[projectile.owner];
-            if (projectile.ai[0] >= Main.npc.Length || projectile.ai[0] < 0)
+            Player player = Main.player[Projectile.owner];
+            if (TargetNPCIndex >= Main.npc.Length || TargetNPCIndex < 0)
             {
                 DeathDust();
-                projectile.Kill();
+                Projectile.Kill();
                 return;
             }
 
-            NPC target = Main.npc[(int)projectile.ai[0]];
+            NPC target = Main.npc[TargetNPCIndex];
+
+            // Delete the hex (and everything else by extension) if any necessary components are incorrect/would cause errors.
+            if (BookProjectileIndex >= Main.projectile.Length || BookProjectileIndex < 0 || Time < 0)
+            {
+                DeathDust();
+                Projectile.Kill();
+                return;
+            }
 
             if (!target.active)
             {
-                NPC potentialNPC = projectile.Center.ClosestNPCAt(4400f, true, true);
-                if (potentialNPC != null)
+                NPC potentialTarget = Main.MouseWorld.ClosestNPCAt(4400f, true, true);
+                if (potentialTarget != null)
                 {
-                    projectile.ai[0] = potentialNPC.whoAmI;
-                    target = Main.npc[(int)projectile.ai[0]];
-                    for (int i = 0; i < Main.projectile.Length; i++)
-                    {
-                        Projectile proj = Main.projectile[i];
-                        if ((proj.whoAmI == projectile.whoAmI ||
-                            proj.type == ModContent.ProjectileType<EternityCrystal>() ||
-                            proj.type == ModContent.ProjectileType<EternityCircle>()) &&
-                            proj.active && proj.owner == projectile.owner)
-                        {
-                            if (proj.type == ModContent.ProjectileType<EternityCrystal>() || 
-                                proj.type == ModContent.ProjectileType<EternityCircle>())
-                                proj.ai[0] = projectile.ai[0];
-                            for (int j = 0; j < 44; j++)
-                            {
-                                Dust dust = Dust.NewDustPerfect(proj.Center, Eternity.dustID, newColor: new Color(245, 112, 218));
-                                dust.velocity = Utils.NextVector2Unit(Main.rand) * Main.rand.NextFloat(2f, 6f);
-                                dust.noGravity = true;
-                            }
-                        }
-                    }
+                    // If something happens to the original NPC, such as death, attempt to locate a new target and attack to them.
+                    ChooseNewTarget(potentialTarget);
+                    target = potentialTarget;
                 }
+                // If there is no NPC to attack to, die.
                 else
                 {
                     DeathDust();
-                    projectile.Kill();
+                    Projectile.Kill();
                     return;
                 }
             }
 
-            if (projectile.localAI[1] >= Main.projectile.Length || projectile.localAI[0] < 0)
-            {
-                DeathDust();
-                projectile.Kill();
-                return;
-            }
-
-            Projectile book = Main.projectile[(int)projectile.localAI[1]];
+            Projectile book = Main.projectile[BookProjectileIndex];
 
             if (!book.active)
             {
                 DeathDust();
-                projectile.Kill();
+                Projectile.Kill();
                 return;
             }
 
-            projectile.localAI[0] += 1f;
-            //Infinity loop in dust
+            Time++;
+
+            // Generate a field of dust with a color that fades to black with time in the shape of a Lemniscate of Bernoulli.
             for (int i = 0; i < 3; i++)
             {
-                projectile.ai[1] += MathHelper.TwoPi / 175f;
-
-                //Causes the lemniscate to smoothen out and look better
-                float scale = 2f / (3f - (float)Math.Cos(2 * projectile.ai[1]));
-                float outwardMultiplier = MathHelper.Clamp(projectile.localAI[0] / 2f + 20f, 20f, 230f);
-                Vector2 additiveVector = new Vector2(scale * (float)Math.Cos(projectile.ai[1]), scale * (float)Math.Sin(2f * projectile.ai[1]) / 2f);
-
-                projectile.Center = target.Center + additiveVector * outwardMultiplier;
-
-                float timeRatio = MathHelper.Clamp(projectile.localAI[0] / trueTimeLeft, 0f, 1f);
-                Color dustColor = Color.Lerp(new Color(245, 112, 218), new Color(28, 13, 118), timeRatio);
-                int dustIndex = Dust.NewDust(projectile.Center, 0, 0, Eternity.dustID, newColor: dustColor);
-                Main.dust[dustIndex].velocity = Vector2.Zero;
-                Main.dust[dustIndex].noGravity = true;
-                Main.dust[dustIndex].scale = MathHelper.Clamp(timeRatio * 1.5f, 0.6f, 1.5f);
+                LemniscateAngle += MathHelper.TwoPi / 200f;
+                DetermineLemniscatePosition(target);
             }
-            if (projectile.localAI[0] < trueTimeLeft * 2 - 40)
+
+            if (Time >= Lifetime * Projectile.MaxUpdates)
             {
-                float range = projectile.localAI[0] / (trueTimeLeft * 2f - 40);
-                float random = Main.rand.NextFloat();
-                if (random <= (range * 0.6f + 0.4f))
-                {
-                    for (int iterative = 0; iterative < 12; iterative++)
-                    {
-                        //For where on the imaginary circle the dust appears
-                        float randTwoPi = Main.rand.NextFloat() * MathHelper.TwoPi;
-                        //For determining the circle of the radius and the velocity
-                        float rand01 = Main.rand.NextFloat();
-                        Vector2 spawnPosition = target.Center + randTwoPi.ToRotationVector2() * (70f + 530f * rand01);
-                        Vector2 velocity = (randTwoPi - 3f * MathHelper.Pi / 8f).ToRotationVector2() * (10f + 9f * Main.rand.NextFloat() + 4f * rand01);
-                        Dust swirlingDust = Dust.NewDustPerfect(spawnPosition, Eternity.dustID, new Vector2?(velocity), 0, Main.rand.NextBool(3) ? Eternity.blueColor : Eternity.pinkColor, 1.4f);
-                        swirlingDust.scale = 0.8f;
-                        swirlingDust.fadeIn = 0.95f + rand01 * 0.3f;
-                        swirlingDust.noGravity = true;
-                    }
-                }
-                if (random <= (range * 0.6f + 0.4f) / 30f)
-                {
-                    if (!target.immortal &&
-                        !target.dontTakeDamage &&
-                        !target.townNPC)
-                    {
-                        int damage = 2;
-                        //To give a bit of variety in how damage is calculated, I decided to incorporate width and height
-                        damage += (int)Math.Sqrt(target.width * target.height) * 10; //Leviathan damage from this calculation = floor(sqrt(850, 450)) * 10 = 6184 damage
-                        damage += (int)(target.boss ? target.lifeMax * bossLifeMaxDamageMult : target.lifeMax * normalEnemyLifeMaxDamageMult);
-                        damage += target.damage * 5;
-                        //The same damage value on each hit could cause the bugs channel to go apeshit lol
-                        damage = (int)(damage * Main.rand.NextFloat(0.9f, 1.1f));
-                        damage = (int)MathHelper.Clamp(damage, 1f, Eternity.BaseDamage * player.MagicDamage() * 3);
-                        RegisterDPS(damage);
-
-                        target.StrikeNPC(damage, 0f, 0, false);
-                    }
-                }
-                //This is where most of the damage comes from. Be careful when messing with this
-                if ((int)projectile.localAI[0] % 30 == 0 &&
-                    CalamityUtils.CountProjectiles(ModContent.ProjectileType<EternityHoming>()) < Eternity.MaxHomers)
-                {
-                    int homerCount = 6;
-                    int trueMeleeID = ModContent.ProjectileType<EternityHoming>();
-                    int trueMeleeDamage = (int)(Eternity.BaseDamage * player.MagicDamage() * 0.8f);
-                    float angleVariance = MathHelper.TwoPi / homerCount;
-                    float spinOffsetAngle = MathHelper.Pi / (2f * homerCount);
-                    Vector2 posVec = Vector2.UnitX.RotatedByRandom(MathHelper.TwoPi) * 10f;
-
-                    for (int i = 0; i < homerCount; ++i)
-                    {
-                        posVec = posVec.RotatedBy(angleVariance);
-                        Vector2 velocity = new Vector2(posVec.X, posVec.Y).RotatedBy(spinOffsetAngle);
-                        velocity = Vector2.Normalize(velocity) * 10f;
-                        Projectile.NewProjectile(target.Center + posVec * 4f, velocity, trueMeleeID, trueMeleeDamage, 0f, projectile.owner, projectile.ai[0]);
-                    }
-                }
+                Projectile.Kill();
+                return;
             }
-            else if (projectile.localAI[0] < trueTimeLeft * 2)
-            {
-                if (Main.rand.NextBool(3) && !target.dontTakeDamage && !target.immortal && !target.townNPC)
-                {
-                    int damage = (int)(Eternity.BaseDamage * 0.5f * player.MagicDamage());
-                    damage = (int)(damage * Main.rand.NextFloat(0.9f, 1.1f));
-                    RegisterDPS(damage);
-                    target.StrikeNPC(damage, 0f, 0, false);
-                    int totalProjectiles = Main.rand.Next(8, 14) * 2;
-                    float spread = MathHelper.ToRadians(Main.rand.Next(24, 36));
-                    double startAngle = Math.Atan2(projectile.velocity.X, projectile.velocity.Y) - spread / 2; // Where the projectiles start spawning at, don't change this
-                    double deltaAngle = spread / totalProjectiles; // Angle between each projectile
-                    double offsetAngle;
-                    float velocity = Main.rand.NextFloat(6f, 26f);
 
-                    for (int i = 0; i < 6; i++)
-                    {
-                        offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                        Dust.NewDustPerfect(target.Center, Eternity.dustID, -velocity * ((float)offsetAngle).ToRotationVector2(), 0, Eternity.pinkColor);
-                        Dust.NewDustPerfect(target.Center, Eternity.dustID, velocity * ((float)offsetAngle).ToRotationVector2(), 0, Eternity.blueColor);
-                    }
-                }
-            }
-            else
+
+            float effectRate = MathHelper.Lerp(0.4f, 1f, Time / (Lifetime * Projectile.MaxUpdates - 40));
+            float random = Main.rand.NextFloat();
+
+            Projectile.Opacity = Utils.GetLerpValue(Lifetime * Projectile.MaxUpdates, (Lifetime - 60f) * Projectile.MaxUpdates, Time, true);
+
+            // Spawn a bunch of swirling dust around the target's position, hexing them.
+            if (random <= effectRate)
+                SpawnSwirlingDust(target);
+
+            // Randomly strike the target directly.
+            if (Main.myPlayer == Projectile.owner && random <= effectRate / 20f && !target.immortal && !target.dontTakeDamage && !target.townNPC)
             {
-                projectile.Kill();
+                int damage = (int)player.GetTotalDamage<MagicDamageClass>().ApplyTo(Eternity.BaseDamage * 3f);
+                int strike = Projectile.NewProjectile(Projectile.GetSource_FromAI(), target.Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), damage, 0f, Projectile.owner, target.whoAmI);
+                if (Main.projectile.IndexInRange(strike))
+                    Main.projectile[strike].DamageType = DamageClass.Magic;
+            }
+
+            // Release bursts of homing dark magic bolts periodically. The amount of bolts that can be summoned has a hard limit.
+            // This is where most of the damage comes from. Be careful when messing with this.
+            if ((int)Time % 30 == 0 && CalamityUtils.CountProjectiles(ModContent.ProjectileType<EternityHoming>()) < Eternity.MaxHomers)
+            {
+                int homerCount = 6;
+                int damage = (int)player.GetTotalDamage<MagicDamageClass>().ApplyTo(0.8f * Eternity.BaseDamage);
+                for (int i = 0; i < homerCount; i++)
+                {
+                    Vector2 velocity = Vector2.UnitY.RotatedBy(MathHelper.TwoPi / homerCount * i).RotatedByRandom(0.3f) * 10f;
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), target.Center + velocity * 4f, velocity, ModContent.ProjectileType<EternityHoming>(), damage, 0f, Projectile.owner, TargetNPCIndex);
+                }
             }
         }
+
         public void DeathDust()
         {
             for (int i = 0; i < 44; i++)
             {
-                Dust dust = Dust.NewDustPerfect(projectile.Center, Eternity.dustID, newColor: new Color(245, 112, 218));
-                dust.velocity = Utils.NextVector2Unit(Main.rand) * Main.rand.NextFloat(2f, 6f);
+                Dust dust = Dust.NewDustPerfect(Projectile.Center, Eternity.DustID, newColor: new Color(245, 112, 218));
+                dust.velocity = Main.rand.NextVector2Unit() * Main.rand.NextFloat(2f, 6f);
                 dust.noGravity = true;
             }
         }
-        //So that the player can gauge the DPS of this weapon effectively (StrikeNPC alone will not register the DPS to the player. I have to do this myself)
-        private void RegisterDPS(int damage)
+
+        public void DetermineLemniscatePosition(NPC target)
         {
-            Main.player[projectile.owner].addDPS(damage);
+            // This value causes the lemniscate to smoothen out and look better.
+            // This added factor results in Lemniscate of Bernoulli instead of a Lemniscate of Gerono. The latter is considerably more squashed and
+            // looks less cool.
+            float scale = 2f / (3f - (float)Math.Cos(2 * LemniscateAngle));
+
+            float outwardMultiplier = MathHelper.Lerp(4f, 220f, Utils.GetLerpValue(0f, 120f, Time, true));
+            Vector2 lemniscateOffset = scale * new Vector2((float)Math.Cos(LemniscateAngle), (float)Math.Sin(2f * LemniscateAngle) / 2f);
+            Projectile.Center = target.Center + lemniscateOffset * outwardMultiplier;
+        }
+
+        public void ChooseNewTarget(NPC newTarget)
+        {
+            TargetNPCIndex = newTarget.whoAmI;
+
+            // Adjust the target index for the other components of the projectile.
+            for (int i = 0; i < Main.projectile.Length; i++)
+            {
+                Projectile proj = Main.projectile[i];
+                if (!proj.active)
+                    continue;
+                if (proj.owner != Projectile.owner)
+                    continue;
+                if (proj.type != ModContent.ProjectileType<EternityCrystal>() && proj.type != ModContent.ProjectileType<EternityCircle>())
+                    continue;
+
+                proj.ai[0] = TargetNPCIndex;
+                DeathDust();
+            }
+        }
+
+        public static void SpawnSwirlingDust(NPC target)
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                float randomAngle = Main.rand.NextFloat() * MathHelper.TwoPi;
+                float outwardnessFactor = Main.rand.NextFloat();
+                Vector2 spawnPosition = target.Center + randomAngle.ToRotationVector2() * MathHelper.Lerp(70f, EternityCircle.TargetOffsetRadius - 60f, outwardnessFactor);
+                Vector2 velocity = (randomAngle - 3f * MathHelper.Pi / 8f).ToRotationVector2() * (10f + 9f * Main.rand.NextFloat() + 4f * outwardnessFactor);
+                Dust swirlingDust = Dust.NewDustPerfect(spawnPosition, 267, new Vector2?(velocity), 0, Main.rand.NextBool(3) ? Eternity.BlueColor : Eternity.PinkColor, 1.4f);
+                swirlingDust.scale = 1.2f;
+                swirlingDust.fadeIn = 0.25f + outwardnessFactor * 0.1f;
+                swirlingDust.noGravity = true;
+            }
+        }
+
+        public Color PrimitiveColorFunction(float completionRatio)
+        {
+            float leftoverTimeScale = (float)Math.Sin(Main.GlobalTimeWrappedHourly * 4f) * 0.5f + 0.5f;
+            leftoverTimeScale *= 0.5f;
+
+            Color headColor = Color.Lerp(Color.Black, Color.Magenta, 0.1f);
+            Color tailColor = Color.Lerp(Color.Magenta, Color.Cyan, completionRatio * 0.5f + leftoverTimeScale);
+            float opacity = (float)Math.Pow(Utils.GetLerpValue(1f, 0.61f, completionRatio, true), 0.4) * Projectile.Opacity;
+            float fadeToMagenta = MathHelper.SmoothStep(0f, 1f, (float)Math.Pow(completionRatio, 0.6D));
+
+            return Color.Lerp(headColor, tailColor, fadeToMagenta) * opacity;
+        }
+
+        public static float PrimitiveWidthFunction(float completionRatio)
+        {
+            float widthInterpolant = Utils.GetLerpValue(0f, 0.12f, completionRatio, true);
+            return MathHelper.SmoothStep(1f, 10f, widthInterpolant);
+        }
+
+        public override bool PreDraw(ref Color lightColor)
+        {
+            if (LemniscateDrawer is null)
+                LemniscateDrawer = new PrimitiveTrail(PrimitiveWidthFunction, PrimitiveColorFunction, null, GameShaders.Misc["CalamityMod:TrailStreak"]);
+
+            GameShaders.Misc["CalamityMod:TrailStreak"].SetShaderTexture(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/EternityStreak"));
+            LemniscateDrawer.Draw(Projectile.oldPos, Projectile.Size * 0.5f - Main.screenPosition, 84);
+            return false;
         }
     }
 }

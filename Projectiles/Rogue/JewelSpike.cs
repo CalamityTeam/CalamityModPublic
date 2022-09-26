@@ -1,4 +1,4 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Rogue
@@ -8,52 +8,51 @@ namespace CalamityMod.Projectiles.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Spike");
-            Main.projFrames[projectile.type] = 5;
+            Main.projFrames[Projectile.type] = 5;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 36;
-            projectile.height = 44;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.timeLeft = 40;
-            projectile.Calamity().rogue = true;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
+            Projectile.width = 36;
+            Projectile.height = 44;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.timeLeft = 40;
+            Projectile.DamageType = RogueDamageClass.Instance;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
         }
 
         public override void AI()
         {
-			projectile.velocity *= 0f;
-            if (Main.rand.NextBool(5) && projectile.frame < 3)
+            Projectile.velocity *= 0f;
+
+            if (Main.rand.NextBool(5) && Projectile.frame < 3)
             {
-                int crystalDust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 87, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
-				Main.dust[crystalDust].noGravity = true;
+                int crystalDust = Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 87, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
+                Main.dust[crystalDust].noGravity = true;
             }
-            projectile.frameCounter++;
-            if (projectile.frameCounter > 4 && projectile.frame > 0)
+
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter > 4 && Projectile.frame > 0)
             {
-                projectile.frame--;
-                projectile.frameCounter = 0;
+                Projectile.frame--;
+                Projectile.frameCounter = 0;
             }
-            if (projectile.frame < 0) //just in case
-            {
-                projectile.frame = 0;
-            }
+            if (Projectile.frame < 0)
+                Projectile.frame = 0;
         }
 
         public override void Kill(int timeLeft)
         {
-            if (projectile.owner == Main.myPlayer)
+            if (Projectile.owner == Main.myPlayer)
             {
                 for (int index = 0; index < 3; ++index)
                 {
-                    float SpeedX = -projectile.velocity.X * Main.rand.Next(40, 70) * 0.01f + Main.rand.Next(-20, 21) * 0.4f;
-                    float SpeedY = -projectile.velocity.Y * Main.rand.Next(40, 70) * 0.01f + Main.rand.Next(-20, 21) * 0.4f;
-                    int shard = Projectile.NewProjectile(projectile.Center.X + SpeedX, projectile.Center.Y + SpeedY, SpeedX, SpeedY, ProjectileID.CrystalShard, projectile.damage / 4, 0f, projectile.owner);
-					Main.projectile[shard].Calamity().forceRogue = true;
+                    float SpeedX = -Projectile.velocity.X * Main.rand.Next(40, 70) * 0.01f + Main.rand.Next(-20, 21) * 0.4f;
+                    float SpeedY = -Projectile.velocity.Y * Main.rand.Next(40, 70) * 0.01f + Main.rand.Next(-20, 21) * 0.4f;
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X + SpeedX, Projectile.Center.Y + SpeedY, SpeedX, SpeedY, ProjectileID.CrystalShard, Projectile.damage / 4, 0f, Projectile.owner);
                 }
             }
         }

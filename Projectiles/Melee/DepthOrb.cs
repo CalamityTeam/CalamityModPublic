@@ -5,6 +5,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 namespace CalamityMod.Projectiles.Melee
 {
     public class DepthOrb : ModProjectile
@@ -16,46 +17,46 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetDefaults()
         {
-            projectile.width = 20;
-            projectile.height = 20;
-            projectile.aiStyle = 27;
-            projectile.friendly = true;
-            projectile.melee = true;
-            projectile.ignoreWater = true;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 30;
+            Projectile.width = 20;
+            Projectile.height = 20;
+            Projectile.aiStyle = ProjAIStyleID.Beam;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.ignoreWater = true;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = 30;
         }
 
         public override void AI()
         {
-            Lighting.AddLight(projectile.Center, 0f, 0f, 0.5f);
-            int num458 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 33, 0f, 0f, 100, default, 0.6f);
+            Lighting.AddLight(Projectile.Center, 0f, 0f, 0.5f);
+            int num458 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 33, 0f, 0f, 100, default, 0.6f);
             Main.dust[num458].noGravity = true;
             Main.dust[num458].velocity *= 0.5f;
-            Main.dust[num458].velocity += projectile.velocity * 0.1f;
+            Main.dust[num458].velocity += Projectile.velocity * 0.1f;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-			if (projectile.timeLeft > 25)
-				return false;
+            if (Projectile.timeLeft > 25)
+                return false;
 
-			Texture2D tex = Main.projectileTexture[projectile.type];
-            spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(lightColor), projectile.rotation, tex.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
+            Texture2D tex = ModContent.Request<Texture2D>(Texture).Value;
+            Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation, tex.Size() / 2f, Projectile.scale, SpriteEffects.None, 0);
             return false;
         }
 
         public override Color? GetAlpha(Color lightColor)
         {
-            return new Color(50, 50, 255, projectile.alpha);
+            return new Color(50, 50, 255, Projectile.alpha);
         }
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.Item10, projectile.position);
-            projectile.position = projectile.Center;
-            projectile.width = projectile.height = 64;
-			projectile.Center = projectile.position;
+            SoundEngine.PlaySound(SoundID.Item10, Projectile.position);
+            Projectile.position = Projectile.Center;
+            Projectile.width = Projectile.height = 64;
+            Projectile.Center = Projectile.position;
             for (int dustIndex = 0; dustIndex < 30; dustIndex++)
             {
                 float num463 = (float)Main.rand.Next(-10, 11);
@@ -65,28 +66,27 @@ namespace CalamityMod.Projectiles.Melee
                 num466 = num465 / num466;
                 num463 *= num466;
                 num464 *= num466;
-                int num467 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 33, 0f, 0f, 100, default, 1.2f);
+                int num467 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 33, 0f, 0f, 100, default, 1.2f);
                 Dust dust = Main.dust[num467];
                 dust.noGravity = true;
-                dust.position.X = projectile.Center.X;
-                dust.position.Y = projectile.Center.Y;
+                dust.position.X = Projectile.Center.X;
+                dust.position.Y = Projectile.Center.Y;
                 dust.position.X += (float)Main.rand.Next(-10, 11);
                 dust.position.Y += (float)Main.rand.Next(-10, 11);
                 dust.velocity.X = num463;
                 dust.velocity.Y = num464;
             }
-            projectile.maxPenetrate = -1;
-            projectile.penetrate = -1;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
-			projectile.damage /= 2;
-            projectile.Damage();
+            Projectile.maxPenetrate = -1;
+            Projectile.penetrate = -1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
+            Projectile.damage /= 2;
+            Projectile.Damage();
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-			if (Main.rand.NextBool(2))
-				target.AddBuff(ModContent.BuffType<CrushDepth>(), 180);
+            target.AddBuff(ModContent.BuffType<CrushDepth>(), 120);
         }
     }
 }

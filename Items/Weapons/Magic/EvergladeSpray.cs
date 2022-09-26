@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
 using Terraria;
 using Terraria.ID;
@@ -12,42 +12,41 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             DisplayName.SetDefault("Everglade Spray");
             Tooltip.SetDefault("Fires a stream of burning green ichor");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 28;
-            item.magic = true;
-            item.mana = 8;
-            item.width = 34;
-            item.height = 30;
-            item.useTime = 6;
-            item.useAnimation = 18;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 4.5f;
-            item.value = Item.buyPrice(0, 60, 0, 0);
-            item.rare = 7;
-            item.UseSound = SoundID.Item13;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<EvergladeSprayProjectile>();
-            item.shootSpeed = 10f;
+            Item.damage = 28;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 8;
+            Item.width = 34;
+            Item.height = 30;
+            Item.useTime = 6;
+            Item.useAnimation = 18;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 4.5f;
+            Item.value = CalamityGlobalItem.Rarity8BuyPrice;
+            Item.rare = ItemRarityID.Lime;
+            Item.UseSound = SoundID.Item13;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<EvergladeSprayProjectile>();
+            Item.shootSpeed = 10f;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.GoldenShower);
-            recipe.AddIngredient(ModContent.ItemType<DraedonBar>(), 3);
-            recipe.AddTile(TileID.Bookcases);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.CursedFlames);
-            recipe.AddIngredient(ModContent.ItemType<DraedonBar>(), 3);
-            recipe.AddTile(TileID.Bookcases);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient(ItemID.GoldenShower).
+                AddIngredient<PerennialBar>(3).
+                AddTile(TileID.Bookcases).
+                Register();
+            CreateRecipe().
+                AddIngredient(ItemID.CursedFlames).
+                AddIngredient<PerennialBar>(3).
+                AddTile(TileID.Bookcases).
+                Register();
         }
     }
 }

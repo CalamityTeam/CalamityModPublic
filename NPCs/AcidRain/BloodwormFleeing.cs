@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -10,50 +10,51 @@ namespace CalamityMod.NPCs.AcidRain
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Bloodworm");
-            Main.npcFrameCount[npc.type] = 5;
+            Main.npcFrameCount[NPC.type] = 5;
+            NPCID.Sets.NPCBestiaryDrawModifiers bestiaryData = new NPCID.Sets.NPCBestiaryDrawModifiers(0) { Hide = true };
+            NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, bestiaryData);
         }
 
         public override void SetDefaults()
         {
-            npc.damage = 0;
-            npc.width = 12;
-            npc.height = 42;
-            npc.defense = 0;
-            npc.lifeMax = 5;
-            npc.knockBackResist = 0f;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
-            npc.lavaImmune = true;
-            npc.noGravity = true;
-            npc.noTileCollide = true;
-            npc.HitSound = SoundID.NPCHit20;
-            npc.DeathSound = SoundID.NPCDeath12;
+            NPC.damage = 0;
+            NPC.width = 12;
+            NPC.height = 42;
+            NPC.defense = 0;
+            NPC.lifeMax = 5;
+            NPC.knockBackResist = 0f;
+            NPC.lavaImmune = true;
+            NPC.noGravity = true;
+            NPC.noTileCollide = true;
+            NPC.HitSound = SoundID.NPCHit20;
+            NPC.DeathSound = SoundID.NPCDeath12;
         }
 
         public override void AI()
         {
-            Player player = Main.player[Player.FindClosest(npc.Center, 1, 1)];
-            if (npc.velocity == Vector2.Zero)
-                npc.velocity = Vector2.UnitY * 12f;
+            Player player = Main.player[Player.FindClosest(NPC.Center, 1, 1)];
+            if (NPC.velocity == Vector2.Zero)
+                NPC.velocity = Vector2.UnitY * 12f;
+
             float intertia = 24f;
-            npc.velocity = (npc.velocity * intertia - npc.DirectionTo(player.Center) * 12f) / (intertia + 1f);
-            npc.velocity.Y = Math.Abs(npc.velocity.Y);
-            npc.rotation = npc.velocity.ToRotation() - MathHelper.PiOver2;
-		}
+
+            // Attempt to flee from the nearest player.
+            NPC.velocity = (NPC.velocity * intertia - NPC.SafeDirectionTo(player.Center) * 12f) / (intertia + 1f);
+
+            // But always dig downward.
+            NPC.velocity.Y = Math.Abs(NPC.velocity.Y);
+            NPC.rotation = NPC.velocity.ToRotation() - MathHelper.PiOver2;
+        }
 
         public override void FindFrame(int frameHeight)
         {
-            npc.frameCounter++;
-            if (npc.frameCounter >= 5)
+            NPC.frameCounter++;
+            if (NPC.frameCounter >= 5)
             {
-                npc.frameCounter = 0;
-                npc.frame.Y += frameHeight;
-                if (npc.frame.Y >= Main.npcFrameCount[npc.type] * frameHeight)
-                {
-                    npc.frame.Y = 0;
-                }
+                NPC.frameCounter = 0;
+                NPC.frame.Y += frameHeight;
+                if (NPC.frame.Y >= Main.npcFrameCount[NPC.type] * frameHeight)
+                    NPC.frame.Y = 0;
             }
         }
 
@@ -61,7 +62,7 @@ namespace CalamityMod.NPCs.AcidRain
         {
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
             }
         }
     }

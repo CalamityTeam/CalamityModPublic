@@ -10,7 +10,7 @@ namespace CalamityMod.Tiles.Abyss
 {
     public class SulphurousRib5 : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileFrameImportant[Type] = true;
             TileObjectData.newTile.Width = 1;
@@ -31,9 +31,9 @@ namespace CalamityMod.Tiles.Abyss
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Ribs");
             AddMapEntry(new Color(57, 48, 83), name);
-            dustType = (int)CalamityDusts.SulfurousSeaAcid;
+            DustType = (int)CalamityDusts.SulfurousSeaAcid;
 
-            base.SetDefaults();
+            base.SetStaticDefaults();
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)

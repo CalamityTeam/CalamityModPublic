@@ -1,6 +1,4 @@
-
-using CalamityMod.World;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -9,29 +7,31 @@ namespace CalamityMod.Tiles.Ores
 {
     public class CryonicOre : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileLighted[Type] = true;
             Main.tileSolid[Type] = true;
             Main.tileBlockLight[Type] = true;
-            Main.tileValue[Type] = 675;
+            Main.tileOreFinderPriority[Type] = 675;
 
             CalamityUtils.MergeWithGeneral(Type);
             CalamityUtils.MergeWithSnow(Type);
 
-            drop = ModContent.ItemType<Items.Placeables.Ores.CryonicOre>();
+            TileID.Sets.Ore[Type] = true;
+
+            ItemDrop = ModContent.ItemType<Items.Placeables.Ores.CryonicOre>();
             ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Cryonic Ore");
+            name.SetDefault("Cryonic");
             AddMapEntry(new Color(0, 0, 150), name);
-            mineResist = 3f;
-            minPick = 180;
-            soundType = SoundID.Tink;
+            MineResist = 3f;
+            MinPick = 180;
+            HitSound = SoundID.Tink;
             Main.tileSpelunker[Type] = true;
         }
 
         public override bool CanExplode(int i, int j)
         {
-            return CalamityWorld.downedCryogen;
+            return false;
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)

@@ -1,37 +1,31 @@
+﻿using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Walls
 {
     public class VoidstoneWallUnsafe : ModWall
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
-            dustType = 187;
+            DustType = 187;
+            AddMapEntry(new Color(0, 0, 0));
         }
 
         public override void RandomUpdate(int i, int j)
         {
-            if (Main.tile[i, j].liquid <= 0 && j < Main.maxTilesY - 205)
+            if (Main.tile[i, j].LiquidAmount <= 0 && j < Main.maxTilesY - 205)
             {
-                Main.tile[i, j].liquid = 255;
-                Main.tile[i, j].lava(false);
+                Main.tile[i, j].LiquidAmount = 255;
+                Main.tile[i, j].Get<LiquidData>().LiquidType = LiquidID.Water;
             }
         }
 
-        public override void KillWall(int i, int j, ref bool fail)
-        {
-            fail = true;
-        }
+        public override void KillWall(int i, int j, ref bool fail) => fail = true;
 
-        public override bool CanExplode(int i, int j)
-        {
-            return false;
-        }
+        public override bool CanExplode(int i, int j) => false;
 
-        public override void NumDust(int i, int j, bool fail, ref int num)
-        {
-            num = fail ? 1 : 3;
-        }
+        public override void NumDust(int i, int j, bool fail, ref int num) => num = fail ? 1 : 3;
     }
 }

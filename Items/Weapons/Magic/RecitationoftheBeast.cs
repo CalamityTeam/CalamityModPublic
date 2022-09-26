@@ -1,8 +1,10 @@
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
-using CalamityMod.Items.Materials;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -14,57 +16,59 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             DisplayName.SetDefault("Recitation of the Beast");
             Tooltip.SetDefault("A thousand years sealed in the demon's realm will teach you a thing or two\n" +
-							   "Summons beast scythes around the player in a small circle,\n" +
+                               "Summons beast scythes around the player in a small circle,\n" +
                                "before firing toward the cursor and home in to nearby enemies");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-			item.mana = 24;
-            item.width = 38;
-            item.height = 34;
-            item.damage = 300;
-            item.crit += 20;
-            item.noMelee = true;
-            item.useAnimation = 18;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.useTime = 18;
-            item.knockBack = 8.5f;
-            item.UseSound = SoundID.Item8;
-            item.autoReuse = true;
-            item.value = Item.buyPrice(1, 80, 0, 0);
-            item.rare = 10;
-            item.shoot = ModContent.ProjectileType<BeastScythe>();
-            item.shootSpeed = 10f;
-            item.magic = true;
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.mana = 24;
+            Item.width = 38;
+            Item.height = 54;
+            Item.damage = 128;
+            Item.noMelee = true;
+            Item.useAnimation = 18;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.useTime = 18;
+            Item.knockBack = 8.5f;
+            Item.UseSound = SoundID.Item8;
+            Item.autoReuse = true;
+            Item.value = CalamityGlobalItem.RarityDarkBlueBuyPrice;
+            Item.shoot = ModContent.ProjectileType<BeastScythe>();
+            Item.shootSpeed = 10f;
+            Item.DamageType = DamageClass.Magic;
+            Item.rare = ModContent.RarityType<DarkBlue>();
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        // Terraria seems to really dislike high crit values in SetDefaults
+        public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 20;
+
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-			float spread = 60f * 0.0174f;
-			double startAngle = Math.Atan2(speedX, speedY) - spread / 2;
-			double deltaAngle = spread / 6f;
-			double offsetAngle;
-			int i;
-			for (i = 0; i < 3; i++)
-			{
-				offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-				Projectile.NewProjectile(player.Center.X, player.Center.Y, (float)(Math.Sin(offsetAngle) * 2f), (float)(Math.Cos(offsetAngle) * 2f), type, damage, knockBack, Main.myPlayer, 0f, 0f);
-				Projectile.NewProjectile(player.Center.X, player.Center.Y, (float)(-Math.Sin(offsetAngle) * 2f), (float)(-Math.Cos(offsetAngle) * 2f), type, damage, knockBack, Main.myPlayer, 0f, 0f);
-			}
+            float spread = 60f * 0.0174f;
+            double startAngle = Math.Atan2(velocity.X, velocity.Y) - spread / 2;
+            double deltaAngle = spread / 6f;
+            double offsetAngle;
+            int i;
+            for (i = 0; i < 3; i++)
+            {
+                offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
+                Projectile.NewProjectile(source, player.Center.X, player.Center.Y, (float)(Math.Sin(offsetAngle) * 2f), (float)(Math.Cos(offsetAngle) * 2f), type, damage, knockback, Main.myPlayer, 0f, 0f);
+                Projectile.NewProjectile(source, player.Center.X, player.Center.Y, (float)(-Math.Sin(offsetAngle) * 2f), (float)(-Math.Cos(offsetAngle) * 2f), type, damage, knockback, Main.myPlayer, 0f, 0f);
+            }
             return false;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.DemonScythe);
-            recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 17);
-            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 8);
-            recipe.AddTile(TileID.Bookcases);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient(ItemID.DemonScythe).
+                AddIngredient<CoreofChaos>(12).
+                AddIngredient<CosmiliteBar>(8).
+                AddIngredient<NightmareFuel>(20).
+                AddTile(TileID.Bookcases).
+                Register();
         }
     }
 }

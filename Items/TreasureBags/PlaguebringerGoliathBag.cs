@@ -1,4 +1,4 @@
-using CalamityMod.Items.Accessories;
+﻿using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Pets;
@@ -8,8 +8,10 @@ using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.NPCs.PlaguebringerGoliath;
-using CalamityMod.World;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -17,57 +19,74 @@ namespace CalamityMod.Items.TreasureBags
 {
     public class PlaguebringerGoliathBag : ModItem
     {
-        public override int BossBagNPC => ModContent.NPCType<PlaguebringerGoliath>();
-
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Treasure Bag");
+            SacrificeTotal = 3;
+            DisplayName.SetDefault("Treasure Bag (The Plaguebringer Goliath)");
             Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
+			ItemID.Sets.BossBag[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.maxStack = 999;
-            item.consumable = true;
-            item.width = 24;
-            item.height = 24;
-            item.rare = 9;
-            item.expert = true;
+            Item.maxStack = 999;
+            Item.consumable = true;
+            Item.width = 24;
+            Item.height = 24;
+            Item.rare = ItemRarityID.Cyan;
+            Item.expert = true;
         }
+
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = ContentSamples.CreativeHelper.ItemGroup.BossBags;
+		}
 
         public override bool CanRightClick() => true;
 
-        public override void OpenBossBag(Player player)
+		public override Color? GetAlpha(Color lightColor) => Color.Lerp(lightColor, Color.White, 0.4f);
+
+        public override void PostUpdate() => Item.TreasureBagLightAndDust();
+
+        public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
         {
-            player.TryGettingDevArmor();
+            return CalamityUtils.DrawTreasureBagInWorld(Item, spriteBatch, ref rotation, ref scale, whoAmI);
+        }
+
+        public override void ModifyItemLoot(ItemLoot itemLoot)
+        {
+			// Money
+			itemLoot.Add(ItemDropRule.CoinsBasedOnNPCValue(ModContent.NPCType<PlaguebringerGoliath>()));
 
             // Materials
-            DropHelper.DropItem(player, ModContent.ItemType<PlagueCellCluster>(), 13, 17);
-            DropHelper.DropItem(player, ModContent.ItemType<InfectedArmorPlating>(), 16, 20);
-            DropHelper.DropItem(player, ItemID.Stinger, 4, 8);
+            itemLoot.Add(ModContent.ItemType<PlagueCellCanister>(), 1, 25, 30);
+            itemLoot.Add(ModContent.ItemType<InfectedArmorPlating>(), 1, 30, 35);
+            itemLoot.Add(ItemID.Stinger, 1, 4, 8);
 
             // Weapons
-            DropHelper.DropItemChance(player, ModContent.ItemType<VirulentKatana>(), 3); // Virulence
-            DropHelper.DropItemChance(player, ModContent.ItemType<DiseasedPike>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<ThePlaguebringer>(), 3); // Pandemic
-            DropHelper.DropItemChance(player, ModContent.ItemType<Malevolence>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<PestilentDefiler>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<TheHive>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<MepheticSprayer>(), 3); // Blight Spewer
-            DropHelper.DropItemChance(player, ModContent.ItemType<PlagueStaff>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<TheSyringe>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<FuelCellBundle>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<InfectedRemote>(), 3);
-            float malachiteChance = DropHelper.LegendaryDropRateFloat;
-            DropHelper.DropItemCondition(player, ModContent.ItemType<Malachite>(), CalamityWorld.revenge, malachiteChance);
+            itemLoot.Add(DropHelper.CalamityStyle(DropHelper.BagWeaponDropRateFraction, new int[]
+            {
+                ModContent.ItemType<DiseasedPike>(),
+                ModContent.ItemType<Pandemic>(),
+                ModContent.ItemType<Virulence>(),
+                ModContent.ItemType<BlightSpewer>(),
+                ModContent.ItemType<Malevolence>(),
+                ModContent.ItemType<PestilentDefiler>(),
+                ModContent.ItemType<TheHive>(),
+                ModContent.ItemType<PlagueStaff>(),
+                ModContent.ItemType<FuelCellBundle>(),
+                ModContent.ItemType<InfectedRemote>(),
+                ModContent.ItemType<TheSyringe>()
+            }));
+            itemLoot.Add(ModContent.ItemType<Malachite>(), 10);
 
             // Equipment
-            DropHelper.DropItem(player, ModContent.ItemType<ToxicHeart>());
-            DropHelper.DropItemChance(player, ModContent.ItemType<BloomStone>(), 10);
+            itemLoot.Add(ModContent.ItemType<ToxicHeart>());
+            itemLoot.AddRevBagAccessories();
 
             // Vanity
-            DropHelper.DropItemChance(player, ModContent.ItemType<PlaguebringerGoliathMask>(), 7);
-            DropHelper.DropItemChance(player, ModContent.ItemType<PlagueCaller>(), 10);
+            itemLoot.Add(ModContent.ItemType<PlaguebringerGoliathMask>(), 7);
+            itemLoot.Add(ModContent.ItemType<PlagueCaller>(), 10);
         }
     }
 }

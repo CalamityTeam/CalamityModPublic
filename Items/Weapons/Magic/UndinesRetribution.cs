@@ -1,9 +1,10 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -15,37 +16,33 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             DisplayName.SetDefault("Undine's Retribution");
             Tooltip.SetDefault("Casts a swarm of homing spears");
-            Item.staff[item.type] = true;
+            Item.staff[Item.type] = true;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 30;
-            item.magic = true;
-            item.mana = 15;
-            item.width = 64;
-            item.height = 64;
-            item.useTime = 18;
-            item.useAnimation = 18;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 3.5f;
-            item.value = Item.buyPrice(0, 60, 0, 0);
-            item.rare = 7;
-            item.UseSound = SoundID.Item66;
-            item.autoReuse = true;
-            item.shootSpeed = 12f;
-            item.shoot = ModContent.ProjectileType<UndinesRetributionSpear>();
+            Item.damage = 38;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 15;
+            Item.width = 64;
+            Item.height = 64;
+            Item.useTime = 18;
+            Item.useAnimation = 18;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 3.5f;
+            Item.value = CalamityGlobalItem.Rarity8BuyPrice;
+            Item.rare = ItemRarityID.Lime;
+            Item.UseSound = SoundID.Item66;
+            Item.autoReuse = true;
+            Item.shootSpeed = 12f;
+            Item.shoot = ModContent.ProjectileType<UndinesRetributionSpear>();
         }
 
-        public override Vector2? HoldoutOrigin()
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            return new Vector2(15, 15);
-        }
-
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-        {
-            float num72 = item.shootSpeed;
+            float num72 = Item.shootSpeed;
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
             float num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
             float num79 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;
@@ -84,20 +81,19 @@ namespace CalamityMod.Items.Weapons.Magic
                 float speedX6 = num78 + (float)Main.rand.Next(-60, 61) * 0.02f;
                 float speedY7 = num79 + (float)Main.rand.Next(-60, 61) * 0.02f;
                 float ai1 = Main.rand.NextFloat() + 0.5f;
-                int bullet2 = Projectile.NewProjectile(vector2.X, vector2.Y, speedX6, -speedY7, type, damage, knockBack, player.whoAmI, 0.0f, ai1);
+                int bullet2 = Projectile.NewProjectile(source, vector2.X, vector2.Y, speedX6, -speedY7, type, damage, knockback, player.whoAmI, 0.0f, ai1);
             }
             return false;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<DepthCells>(), 30);
-            recipe.AddIngredient(ModContent.ItemType<Lumenite>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<Tenebris>(), 10);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient<DepthCells>(30).
+                AddIngredient<Lumenyl>(10).
+                AddIngredient<Tenebris>(10).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

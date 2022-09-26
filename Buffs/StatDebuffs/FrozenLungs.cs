@@ -5,7 +5,7 @@ namespace CalamityMod.Buffs.StatDebuffs
 {
     public class FrozenLungs : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Frozen Lungs");
             Description.SetDefault("The icy waters restrict your breathing");
@@ -13,7 +13,6 @@ namespace CalamityMod.Buffs.StatDebuffs
             Main.debuff[Type] = true;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = true;
-            longerExpertDebuff = false;
         }
 
         public override void Update(Player player, ref int buffIndex)

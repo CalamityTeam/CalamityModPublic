@@ -1,37 +1,38 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
+using CalamityMod.Rarities;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Content;
 using Terraria;
+using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Graphics.Shaders;
-using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.Dyes
 {
     public class ShadowspecDye : BaseDye
     {
-        public override ArmorShaderData ShaderDataToBind => new ArmorShaderData(new Ref<Effect>(mod.GetEffect("Effects/Dyes/ShadowspecDyeShader")), "DyePass").
+        public override ArmorShaderData ShaderDataToBind => new ArmorShaderData(new Ref<Effect>(Mod.Assets.Request<Effect>("Effects/Dyes/ShadowspecDyeShader", AssetRequestMode.ImmediateLoad).Value), "DyePass").
             UseColor(new Color(46, 27, 60)).UseSecondaryColor(new Color(132, 142, 191)).UseImage("Images/Misc/Perlin");
         public override void SafeSetStaticDefaults()
         {
+            SacrificeTotal = 3;
             DisplayName.SetDefault("Shadowspec Dye");
         }
 
-		public override void SafeSetDefaults()
-		{
-            item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.Developer;
-            item.value = Item.sellPrice(0, 10, 0, 0);
+        public override void SafeSetDefaults()
+        {
+            Item.rare = ModContent.RarityType<HotPink>();
+            Item.value = Item.sellPrice(0, 10, 0, 0);
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.BottledWater, 2);
-            recipe.AddIngredient(ModContent.ItemType<ShadowspecBar>());
-            recipe.AddTile(TileID.DyeVat);
-            recipe.SetResult(this, 2);
-            recipe.AddRecipe();
+            CreateRecipe(2).
+                AddIngredient(ItemID.BottledWater, 2).
+                AddIngredient<ShadowspecBar>().
+                AddTile(TileID.DyeVat).
+                Register();
         }
     }
 }

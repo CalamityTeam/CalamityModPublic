@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.Alcohol;
+﻿using CalamityMod.Buffs.Alcohol;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -9,27 +9,28 @@ namespace CalamityMod.Items.Potions.Alcohol
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 5;
             DisplayName.SetDefault("Evergreen Gin");
-            Tooltip.SetDefault(@"It tastes like a Christmas tree if you can imagine that
-Boosts nature-based weapon damage by 15% and damage reduction by 5%
+            Tooltip.SetDefault(@"It tastes like a Christmas tree, if you can imagine that
+Multiplies all sickness and water-related debuff damage by 1.25
 Reduces life regen by 1");
         }
 
         public override void SetDefaults()
         {
-            item.width = 28;
-            item.height = 18;
-            item.useTurn = true;
-            item.maxStack = 30;
-            item.rare = 4;
-            item.useAnimation = 17;
-            item.useTime = 17;
-            item.useStyle = ItemUseStyleID.EatingUsing;
-            item.UseSound = SoundID.Item3;
-            item.consumable = true;
-            item.buffType = ModContent.BuffType<EvergreenGinBuff>();
-            item.buffTime = 18000; //5 minutes
-            item.value = Item.buyPrice(0, 16, 60, 0);
+            Item.width = 28;
+            Item.height = 18;
+            Item.useTurn = true;
+            Item.maxStack = 30;
+            Item.rare = ItemRarityID.Lime;
+            Item.useAnimation = 17;
+            Item.useTime = 17;
+            Item.useStyle = ItemUseStyleID.DrinkLiquid;
+            Item.UseSound = SoundID.Item3;
+            Item.consumable = true;
+            Item.buffType = ModContent.BuffType<EvergreenGinBuff>();
+            Item.buffTime = CalamityUtils.SecondsToFrames(480f);
+            Item.value = Item.buyPrice(0, 5, 30, 0);
         }
     }
 }

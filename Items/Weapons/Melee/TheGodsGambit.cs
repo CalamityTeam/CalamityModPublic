@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using CalamityMod.Projectiles.Melee.Yoyos;
 using Terraria;
@@ -12,43 +12,44 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("The God's Gambit");
-            Tooltip.SetDefault("Fires a stream of slime when enemies are near");
-            ItemID.Sets.Yoyo[item.type] = true;
-            ItemID.Sets.GamepadExtraRange[item.type] = 15;
-            ItemID.Sets.GamepadSmartQuickReach[item.type] = true;
+            Tooltip.SetDefault("Fires a stream of slime when enemies are near\n" +
+            "A very agile yoyo");
+            ItemID.Sets.Yoyo[Item.type] = true;
+            ItemID.Sets.GamepadExtraRange[Item.type] = 15;
+            ItemID.Sets.GamepadSmartQuickReach[Item.type] = true;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.width = 40;
-            item.height = 26;
-            item.melee = true;
-            item.damage = 33;
-            item.knockBack = 3.5f;
-            item.useTime = 21;
-            item.useAnimation = 21;
-            item.autoReuse = true;
+            Item.width = 40;
+            Item.height = 26;
+            Item.DamageType = DamageClass.MeleeNoSpeed;
+            Item.damage = 29;
+            Item.knockBack = 3.5f;
+            Item.useTime = 21;
+            Item.useAnimation = 21;
+            Item.autoReuse = true;
 
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.UseSound = SoundID.Item1;
-            item.channel = true;
-            item.noUseGraphic = true;
-            item.noMelee = true;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.UseSound = SoundID.Item1;
+            Item.channel = true;
+            Item.noUseGraphic = true;
+            Item.noMelee = true;
 
-            item.shoot = ModContent.ProjectileType<GodsGambitYoyo>();
-            item.shootSpeed = 10f;
+            Item.shoot = ModContent.ProjectileType<GodsGambitYoyo>();
+            Item.shootSpeed = 10f;
 
-            item.rare = 4;
-            item.value = Item.buyPrice(gold: 12);
+            Item.rare = ItemRarityID.LightRed;
+            Item.value = CalamityGlobalItem.RarityLightRedBuyPrice;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<PurifiedGel>(), 30);
-            recipe.AddTile(ModContent.TileType<StaticRefiner>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient<PurifiedGel>(30).
+                AddTile<StaticRefiner>().
+                Register();
         }
     }
 }

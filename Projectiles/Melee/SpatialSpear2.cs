@@ -1,9 +1,9 @@
 using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Melee
 {
@@ -16,95 +16,92 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetDefaults()
         {
-            projectile.width = 10;
-            projectile.height = 10;
-            projectile.friendly = true;
-            projectile.melee = true;
-            projectile.tileCollide = false;
-            projectile.penetrate = 2;
-            projectile.timeLeft = 120;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 6;
+            Projectile.width = 10;
+            Projectile.height = 10;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.tileCollide = false;
+            Projectile.penetrate = 2;
+            Projectile.timeLeft = 60;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 6;
         }
 
         public override void AI()
         {
-            Lighting.AddLight(projectile.Center, 0.05f, 0.05f, 1f);
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 0.785f;
-            if (projectile.localAI[1] == 0f)
+            Lighting.AddLight(Projectile.Center, 0.05f, 0.05f, 1f);
+            Projectile.rotation = (float)Math.Atan2(Projectile.velocity.Y, Projectile.velocity.X) + MathHelper.PiOver4;
+            if (Projectile.localAI[1] == 0f)
             {
-                projectile.scale -= 0.01f;
-                projectile.alpha += 15;
-                if (projectile.alpha >= 125)
+                Projectile.scale -= 0.01f;
+                Projectile.alpha += 15;
+                if (Projectile.alpha >= 125)
                 {
-                    projectile.alpha = 130;
-                    projectile.localAI[1] = 1f;
+                    Projectile.alpha = 130;
+                    Projectile.localAI[1] = 1f;
                 }
             }
-            else if (projectile.localAI[1] == 1f)
+            else if (Projectile.localAI[1] == 1f)
             {
-                projectile.scale += 0.01f;
-                projectile.alpha -= 15;
-                if (projectile.alpha <= 0)
+                Projectile.scale += 0.01f;
+                Projectile.alpha -= 15;
+                if (Projectile.alpha <= 0)
                 {
-                    projectile.alpha = 0;
-                    projectile.localAI[1] = 0f;
+                    Projectile.alpha = 0;
+                    Projectile.localAI[1] = 0f;
                 }
             }
             if (Main.rand.NextBool(8))
             {
-                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 56, projectile.velocity.X * 0.1f, projectile.velocity.Y * 0.1f);
+                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 56, Projectile.velocity.X * 0.1f, Projectile.velocity.Y * 0.1f);
             }
-            projectile.localAI[0] += 1f;
-            if (projectile.localAI[0] >= 60f)
+            Projectile.localAI[0] += 1f;
+            if (Projectile.localAI[0] >= 30f)
             {
-                projectile.localAI[0] = 0f;
+                Projectile.localAI[0] = 0f;
                 int numProj = 2;
-                float rotation = MathHelper.ToRadians(20);
-                if (projectile.owner == Main.myPlayer)
+                float rotation = MathHelper.ToRadians(10);
+                if (Projectile.owner == Main.myPlayer)
                 {
                     for (int i = 0; i < numProj + 1; i++)
                     {
-                        Vector2 perturbedSpeed = new Vector2(projectile.velocity.X, projectile.velocity.Y).RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numProj - 1)));
-                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, perturbedSpeed.X * 0.5f, perturbedSpeed.Y * 0.5f, ModContent.ProjectileType<SpatialSpear3>(), (int)((double)projectile.damage * 0.5), projectile.knockBack * 0.5f, projectile.owner, 0f, 0f);
+                        Vector2 perturbedSpeed = Projectile.velocity.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numProj - 1)));
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, perturbedSpeed, ModContent.ProjectileType<SpatialSpear3>(), (int)(Projectile.damage * 0.5), Projectile.knockBack * 0.5f, Projectile.owner, 0f, 0f);
                     }
                 }
             }
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-			if (projectile.timeLeft > 115)
-				return false;
+            if (Projectile.timeLeft > 55)
+                return false;
 
-			Texture2D tex = Main.projectileTexture[projectile.type];
-            spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(lightColor), projectile.rotation, tex.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
+            Texture2D tex = ModContent.Request<Texture2D>(Texture).Value;
+            Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation, tex.Size() / 2f, Projectile.scale, SpriteEffects.None, 0);
             return false;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
-            target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
-            target.AddBuff(ModContent.BuffType<Plague>(), 120);
-            target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
+            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 90);
+            target.AddBuff(BuffID.Frostburn, 90);
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 90);
         }
 
         public override void Kill(int timeLeft)
         {
-            int num3;
-            for (int num795 = 4; num795 < 12; num795 = num3 + 1)
+            for (int num795 = 4; num795 < 12; num795++)
             {
-                float num796 = projectile.oldVelocity.X * (30f / (float)num795);
-                float num797 = projectile.oldVelocity.Y * (30f / (float)num795);
-                int num798 = Dust.NewDust(new Vector2(projectile.oldPosition.X - num796, projectile.oldPosition.Y - num797), 8, 8, 56, projectile.oldVelocity.X, projectile.oldVelocity.Y, 100, default, 1.8f);
+                float num796 = Projectile.oldVelocity.X * (30f / num795);
+                float num797 = Projectile.oldVelocity.Y * (30f / num795);
+                int num798 = Dust.NewDust(new Vector2(Projectile.oldPosition.X - num796, Projectile.oldPosition.Y - num797), 8, 8, 56, Projectile.oldVelocity.X, Projectile.oldVelocity.Y, 100, default, 1.8f);
                 Main.dust[num798].noGravity = true;
                 Dust dust = Main.dust[num798];
                 dust.velocity *= 0.5f;
-                num798 = Dust.NewDust(new Vector2(projectile.oldPosition.X - num796, projectile.oldPosition.Y - num797), 8, 8, 56, projectile.oldVelocity.X, projectile.oldVelocity.Y, 100, default, 1.4f);
+                num798 = Dust.NewDust(new Vector2(Projectile.oldPosition.X - num796, Projectile.oldPosition.Y - num797), 8, 8, 56, Projectile.oldVelocity.X, Projectile.oldVelocity.Y, 100, default, 1.4f);
                 dust = Main.dust[num798];
                 dust.velocity *= 0.05f;
-                num3 = num795;
             }
         }
     }

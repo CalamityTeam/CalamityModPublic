@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
@@ -10,19 +10,20 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Necklace of Vexation");
             Tooltip.SetDefault("Revenge\n" +
             "20% increased damage when under 50% life\n" +
-			"All attacks inflict Cursed Inferno and Venom while wearing Reaver armor");
+            "All attacks inflict Cursed Inferno and Venom while wearing Reaver armor");
         }
 
         public override void SetDefaults()
         {
-            item.width = 26;
-            item.height = 34;
-            item.value = CalamityGlobalItem.Rarity7BuyPrice;
-            item.rare = 7;
-            item.accessory = true;
+            Item.width = 26;
+            Item.height = 34;
+            Item.value = CalamityGlobalItem.Rarity7BuyPrice;
+            Item.rare = ItemRarityID.Lime;
+            Item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -33,12 +34,11 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<DraedonBar>(), 2);
-            recipe.AddIngredient(ItemID.AvengerEmblem);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient(ItemID.AvengerEmblem).
+                AddIngredient<PerennialBar>(2).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

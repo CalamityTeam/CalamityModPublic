@@ -7,11 +7,11 @@ namespace CalamityMod.Walls
 {
     public class AstralBrickWall : ModWall
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.wallHouse[Type] = true;
             Main.wallLargeFrames[Type] = 2;
-            drop = ModContent.ItemType<Items.Placeables.Walls.AstralBrickWall>();
+            ItemDrop = ModContent.ItemType<Items.Placeables.Walls.AstralBrickWall>();
             AddMapEntry(new Color(74, 74, 97));
         }
 
@@ -21,9 +21,6 @@ namespace CalamityMod.Walls
             return false;
         }
 
-        public override void NumDust(int i, int j, bool fail, ref int num)
-        {
-            num = fail ? 1 : 3;
-        }
+        public override void NumDust(int i, int j, bool fail, ref int num) => num = fail ? 1 : 3;
     }
 }

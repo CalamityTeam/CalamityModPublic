@@ -1,6 +1,7 @@
-using CalamityMod.Projectiles.Melee;
+﻿using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -11,28 +12,29 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Aegis Blade");
-            Tooltip.SetDefault("Legendary Drop\n" +
-                "Striking an enemy with the blade causes an earthen eruption\n" +
-                "Right click to fire an aegis bolt\n" +
-                "Revengeance drop");
+            Tooltip.SetDefault("Striking an enemy with the blade causes an earthen eruption\n" +
+                "Right click to fire an aegis bolt");
+            SacrificeTotal = 1;
+            ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.width = 58;
-            item.damage = 68;
-            item.melee = true;
-            item.useAnimation = item.useTime = 15;
-            item.useTurn = true;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 4.25f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 58;
-            item.rare = 7;
-            item.value = Item.buyPrice(0, 60, 0, 0);
-            item.shootSpeed = 14f;
-            item.Calamity().customRarity = CalamityRarity.ItemSpecific;
+            Item.width = 72;
+            Item.height = 72;
+            Item.scale = 1.2f;
+            Item.damage = 108;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = Item.useTime = 15;
+            Item.useTurn = true;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 4.25f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.shootSpeed = 14f;
+
+            Item.value = CalamityGlobalItem.Rarity8BuyPrice;
+            Item.rare = ItemRarityID.Yellow;
         }
 
         public override bool AltFunctionUse(Player player)
@@ -44,48 +46,54 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             if (player.altFunctionUse == 2)
             {
-                item.noMelee = true;
-                item.UseSound = SoundID.Item73;
-                item.shoot = ModContent.ProjectileType<AegisBeam>();
+                Item.noMelee = true;
+                Item.UseSound = SoundID.Item73;
+                Item.shoot = ModContent.ProjectileType<AegisBeam>();
             }
             else
             {
-                item.noMelee = false;
-                item.UseSound = SoundID.Item1;
-                item.shoot = ProjectileID.None;
+                Item.noMelee = false;
+                Item.UseSound = SoundID.Item1;
+                Item.shoot = ProjectileID.None;
             }
             return base.CanUseItem(player);
         }
 
-		public override float UseTimeMultiplier	(Player player)
-		{
-			if (player.altFunctionUse != 2)
-				return 1f;
-			return 0.75f;
-		}
-
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override float UseSpeedMultiplier(Player player)
         {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<AegisBeam>(), (int)(damage * 0.85), knockBack, player.whoAmI, 0f, 0f);
+            if (player.altFunctionUse != 2)
+                return 1f;
+            return 1.33f;
+        }
+
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        {
+            Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<AegisBeam>(), (int)(damage * 0.3), knockback, player.whoAmI);
             return false;
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
             if (Main.rand.NextBool(3))
-            {
-                int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 246, 0f, 0f, 0, new Color(255, Main.DiscoG, 53));
-            }
+                Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 246, 0f, 0f, 0, new Color(255, Main.DiscoG, 53));
         }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<AegisBlast>(), (int)(item.damage * player.MeleeDamage()), knockback, Main.myPlayer);
+            var source = player.GetSource_ItemUse(Item);
+            if (crit)
+                damage /= 2;
+
+            Projectile.NewProjectile(source, target.Center, Vector2.Zero, ModContent.ProjectileType<AegisBlast>(), damage, knockback, Main.myPlayer);
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-            Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<AegisBlast>(), (int)(item.damage * player.MeleeDamage()), item.knockBack, Main.myPlayer);
+            var source = player.GetSource_ItemUse(Item);
+            if (crit)
+                damage /= 2;
+
+            Projectile.NewProjectile(source, target.Center, Vector2.Zero, ModContent.ProjectileType<AegisBlast>(), damage, Item.knockBack, Main.myPlayer);
         }
     }
 }

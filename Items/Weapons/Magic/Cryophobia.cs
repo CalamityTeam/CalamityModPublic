@@ -1,6 +1,5 @@
-using CalamityMod.Projectiles.Magic;
+﻿using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
-using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -11,33 +10,31 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Cryophobia");
-            Tooltip.SetDefault("Chill");
+            Tooltip.SetDefault("Chill\n" +
+                "Fires an icy wave that splits multiple times and explodes into shards");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 24;
-            item.magic = true;
-            item.mana = 18;
-            item.width = 56;
-            item.height = 34;
-            item.useTime = 22;
-            item.useAnimation = 22;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 1.5f;
-            item.value = Item.buyPrice(0, 2, 0, 0);
-            item.rare = 2;
-            item.UseSound = SoundID.Item117;
-            item.autoReuse = true;
-            item.shootSpeed = 12f;
-            item.shoot = ModContent.ProjectileType<CryoBlast>();
-            item.Calamity().customRarity = CalamityRarity.RareVariant;
+            Item.damage = 128;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 18;
+            Item.width = 56;
+            Item.height = 34;
+            Item.useTime = 40;
+            Item.useAnimation = 40;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 1.5f;
+            Item.value = CalamityGlobalItem.Rarity6BuyPrice;
+            Item.rare = ItemRarityID.LightPurple;
+            Item.UseSound = SoundID.Item117;
+            Item.autoReuse = true;
+            Item.shootSpeed = 6f;
+            Item.shoot = ModContent.ProjectileType<CryoBlast>();
         }
 
-        public override Vector2? HoldoutOffset()
-        {
-            return new Vector2(-10, 0);
-        }
+        public override Vector2? HoldoutOffset() => new Vector2(-10, 0);
     }
 }

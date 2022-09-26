@@ -1,8 +1,10 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Ranged;
+using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -14,51 +16,54 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             DisplayName.SetDefault("Rubico Prime");
             Tooltip.SetDefault("Semi-automatic sniper that fires in 5 second bursts\n" +
-                "Fires impact rounds that have an increased crit multiplier and deal bonus damage to inorganic targets");
-				//would do less to organic targets if like this wasn't meant to be used against yharon lole
+                "Fires impact rounds that have an increased crit multiplier");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 2601;
-            item.ranged = true;
-            item.crit += 40;
-            item.knockBack = 10f;
-            item.useTime = 30;
-            item.useAnimation = 300;
-            item.autoReuse = false;
+            Item.damage = 1178;
+            Item.DamageType = DamageClass.Ranged;
+            Item.knockBack = 10f;
+            Item.useTime = 30;
+            Item.useAnimation = 300;
+            Item.autoReuse = false;
 
-            item.useStyle = 5;
-            item.noMelee = true;
-            item.width = 82;
-            item.height = 28;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.width = 82;
+            Item.height = 28;
 
-            item.shoot = 10;
-            item.shootSpeed = 12f;
-            item.useAmmo = AmmoID.Bullet;
+            Item.shoot = ProjectileID.PurificationPowder;
+            Item.shootSpeed = 12f;
+            Item.useAmmo = AmmoID.Bullet;
 
-            item.value = CalamityGlobalItem.Rarity15BuyPrice;
-            item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.Dedicated;
+            Item.value = CalamityGlobalItem.Rarity14BuyPrice;
+            Item.rare = ModContent.RarityType<DarkBlue>();
+            Item.Calamity().donorItem = true;
+            Item.Calamity().canFirePointBlankShots = true;
         }
+
+        // Terraria seems to really dislike high crit values in SetDefaults
+        public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 40;
 
         public override Vector2? HoldoutOffset() => new Vector2(-10, 0);
 
-        public override void AddRecipes()
+
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<PestilentDefiler>());
-            recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 5);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<ImpactRound>(), damage, knockback, player.whoAmI, 0f, 0f);
+            return false;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override void AddRecipes()
         {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<ImpactRound>(), damage, knockBack, player.whoAmI, 0f, 0f);
-            return false;
+            CreateRecipe().
+                AddIngredient<PestilentDefiler>().
+                AddIngredient<CosmiliteBar>(8).
+                AddIngredient<NightmareFuel>(20).
+                AddTile<CosmicAnvil>().
+                Register();
         }
     }
 }

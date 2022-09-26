@@ -1,10 +1,11 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
+using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
@@ -14,43 +15,42 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             DisplayName.SetDefault("Fabstaff");
             Tooltip.SetDefault("Casts a bouncing beam that splits when enemies are near it");
-            Item.staff[item.type] = true;
+            Item.staff[Item.type] = true;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 616;
-            item.magic = true;
-            item.mana = 50;
-            item.width = 84;
-            item.height = 84;
-            item.useTime = 20;
-            item.useAnimation = 20;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 5f;
-            item.value = Item.buyPrice(5, 0, 0, 0);
-            item.rare = 10;
-            item.UseSound = SoundID.Item60;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<FabRay>();
-            item.shootSpeed = 6f;
-            item.Calamity().customRarity = CalamityRarity.ItemSpecific;
+            Item.damage = 125;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 50;
+            Item.width = 84;
+            Item.height = 84;
+            Item.useTime = 20;
+            Item.useAnimation = 20;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 5f;
+
+            Item.value = CalamityGlobalItem.Rarity16BuyPrice;
+            Item.rare = ModContent.RarityType<HotPink>();
+            Item.Calamity().devItem = true;
+
+            Item.UseSound = SoundID.Item60;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<FabRay>();
+            Item.shootSpeed = 13.5f;
         }
 
-        public override Vector2? HoldoutOrigin()
-        {
-            return new Vector2(15, 15);
-        }
-
+        
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 100);
-            recipe.AddIngredient(ModContent.ItemType<ShadowspecBar>(), 50);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient(ItemID.RainbowRod).
+                AddIngredient<Phantoplasm>(10).
+                AddIngredient<ShadowspecBar>(5).
+                AddTile<DraedonsForge>().
+                Register();
         }
     }
 }

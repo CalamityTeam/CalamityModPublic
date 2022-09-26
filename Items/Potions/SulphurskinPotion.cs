@@ -1,5 +1,7 @@
-using CalamityMod.Buffs.Potions;
+﻿using CalamityMod.Buffs.Potions;
 using CalamityMod.Items.Materials;
+using CalamityMod.Items.Placeables;
+using CalamityMod.Items.Weapons.Rogue;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -10,41 +12,42 @@ namespace CalamityMod.Items.Potions
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 20;
             DisplayName.SetDefault("Sulphurskin Potion");
             Tooltip.SetDefault("Reduces the effects of the sulphuric waters");
         }
 
         public override void SetDefaults()
         {
-            item.width = 28;
-            item.height = 18;
-            item.useTurn = true;
-            item.maxStack = 30;
-            item.rare = 3;
-            item.useAnimation = 17;
-            item.useTime = 17;
-            item.useStyle = ItemUseStyleID.EatingUsing;
-            item.UseSound = SoundID.Item3;
-            item.consumable = true;
-            item.buffType = ModContent.BuffType<SulphurskinBuff>();
-            item.buffTime = 7200; //2 minutes
-            item.value = Item.buyPrice(0, 2, 0, 0);
+            Item.width = 28;
+            Item.height = 18;
+            Item.useTurn = true;
+            Item.maxStack = 30;
+            Item.value = Item.buyPrice(0, 1, 0, 0);
+            Item.rare = ItemRarityID.Green;
+            Item.useAnimation = 17;
+            Item.useTime = 17;
+            Item.useStyle = ItemUseStyleID.DrinkLiquid;
+            Item.UseSound = SoundID.Item3;
+            Item.consumable = true;
+            Item.buffType = ModContent.BuffType<SulphurskinBuff>();
+            Item.buffTime = CalamityUtils.SecondsToFrames(150f);
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<SulfuricScale>()); //possibly add herbs if added to sulph sea
-            recipe.AddIngredient(ItemID.BottledWater);
-            recipe.AddTile(TileID.Bottles);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<BloodOrb>(), 10);
-            recipe.AddIngredient(ItemID.BottledWater);
-            recipe.AddTile(TileID.AlchemyTable);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient(ItemID.BottledWater).
+                AddIngredient<SulphurousSand>(15).
+                AddIngredient<UrchinStinger>(15).
+                AddTile(TileID.Bottles).
+                Register();
+
+            CreateRecipe().
+                AddIngredient(ItemID.BottledWater).
+                AddIngredient<BloodOrb>(10).
+                AddTile(TileID.AlchemyTable).
+                Register();
         }
     }
 }

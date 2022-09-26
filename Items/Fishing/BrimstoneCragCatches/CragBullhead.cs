@@ -1,5 +1,6 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
 {
@@ -9,15 +10,22 @@ namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
         {
             DisplayName.SetDefault("Crag Bullhead"); //Bass substitute
             Tooltip.SetDefault("Its scales are scorching hot");
+            SacrificeTotal = 3;
+            ItemID.Sets.CanBePlacedOnWeaponRacks[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.width = 32;
-            item.height = 36;
-            item.maxStack = 999;
-            item.value = Item.sellPrice(silver: 5);
-            item.rare = 1;
+            Item.width = 32;
+            Item.height = 36;
+            Item.maxStack = 999;
+            Item.value = Item.sellPrice(silver: 5);
+            Item.rare = ItemRarityID.Blue;
         }
+
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = ContentSamples.CreativeHelper.ItemGroup.Fish;
+		}
     }
 }

@@ -1,3 +1,4 @@
+﻿using Terraria.DataStructures;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
@@ -13,30 +14,32 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Devastation");
-            Tooltip.SetDefault("Fires galaxy blasts that explode");
+            Tooltip.SetDefault("Fires galaxy blasts that explode\n" +
+                "Receives 33% benefit from melee speed bonuses");
+            SacrificeTotal = 1;
+            ItemID.Sets.BonusAttackSpeedMultiplier[Item.type] = 0.33f;
         }
 
         public override void SetDefaults()
         {
-            item.width = 72;
-            item.damage = 160;
-            item.melee = true;
-            item.useAnimation = 24;
-            item.useTime = 24;
-            item.useTurn = true;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 4.25f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 72;
-            item.value = Item.buyPrice(1, 20, 0, 0);
-            item.rare = 10;
-            item.shoot = ModContent.ProjectileType<GalaxyBlast>();
-            item.shootSpeed = 16f;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.width = 72;
+            Item.damage = 132;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = 24;
+            Item.useTime = 24;
+            Item.useTurn = true;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 4.25f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.height = 72;
+            Item.value = CalamityGlobalItem.Rarity10BuyPrice;
+            Item.rare = ItemRarityID.Red;
+            Item.shoot = ModContent.ProjectileType<GalaxyBlast>();
+            Item.shootSpeed = 16f;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             switch (Main.rand.Next(6))
             {
@@ -52,8 +55,8 @@ namespace CalamityMod.Items.Weapons.Melee
                 default:
                     break;
             }
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, Main.myPlayer);
-            float num72 = item.shootSpeed;
+            Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, type, damage, knockback, Main.myPlayer);
+            float num72 = Item.shootSpeed;
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
             float num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
             float num79 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;
@@ -95,23 +98,11 @@ namespace CalamityMod.Items.Weapons.Melee
                 num79 *= num80;
                 float speedX4 = num78 + (float)Main.rand.Next(-40, 41) * 0.02f;
                 float speedY5 = num79 + (float)Main.rand.Next(-40, 41) * 0.02f;
-                Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<GalaxyBlast>(), damage / 2, knockBack, player.whoAmI, 0f, (float)Main.rand.Next(5));
-                Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<GalaxyBlastType2>(), damage / 2, knockBack, player.whoAmI, 0f, (float)Main.rand.Next(3));
-                Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<GalaxyBlastType3>(), damage / 2, knockBack, player.whoAmI, 0f, (float)Main.rand.Next(1));
+                Projectile.NewProjectile(source, vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<GalaxyBlast>(), damage / 2, knockback, player.whoAmI, 0f, (float)Main.rand.Next(5));
+                Projectile.NewProjectile(source, vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<GalaxyBlastType2>(), damage / 2, knockback, player.whoAmI, 0f, (float)Main.rand.Next(3));
+                Projectile.NewProjectile(source, vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<GalaxyBlastType3>(), damage / 2, knockback, player.whoAmI, 0f, (float)Main.rand.Next(1));
             }
             return false;
-        }
-
-        public override void AddRecipes()
-        {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<CatastropheClaymore>());
-            recipe.AddIngredient(ItemID.LunarBar, 5);
-            recipe.AddIngredient(ModContent.ItemType<AstralBar>(), 10);
-            recipe.AddIngredient(ItemID.MeteoriteBar, 10);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)
@@ -124,16 +115,27 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(BuffID.Ichor, 120);
-            target.AddBuff(BuffID.OnFire, 600);
-            target.AddBuff(BuffID.Frostburn, 300);
+            target.AddBuff(BuffID.Ichor, 60);
+            target.AddBuff(BuffID.OnFire, 180);
+            target.AddBuff(BuffID.Frostburn, 120);
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-            target.AddBuff(BuffID.Ichor, 120);
-            target.AddBuff(BuffID.OnFire, 600);
-            target.AddBuff(BuffID.Frostburn, 300);
+            target.AddBuff(BuffID.Ichor, 60);
+            target.AddBuff(BuffID.OnFire, 180);
+            target.AddBuff(BuffID.Frostburn, 120);
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient<CatastropheClaymore>().
+                AddIngredient(ItemID.LunarBar, 5).
+                AddIngredient<AstralBar>(10).
+                AddIngredient(ItemID.MeteoriteBar, 10).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
@@ -10,8 +10,9 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Honey Dew");
-            Tooltip.SetDefault("5% increased damage reduction, +5 defense, and increased life regen while in the Jungle\n" +
+            Tooltip.SetDefault("5% increased damage reduction, +9 defense and increased life regen while in the Jungle\n" +
             "Poison and Venom immunity\n" +
             "Honey-like life regen with no speed penalty\n" +
             "Most bee/hornet enemies and projectiles do 75% damage to you");
@@ -19,48 +20,49 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetDefaults()
         {
-            item.width = 20;
-            item.height = 20;
-            item.value = CalamityGlobalItem.Rarity4BuyPrice;
-            item.rare = 4;
-            item.accessory = true;
+            Item.width = 20;
+            Item.height = 20;
+            Item.value = CalamityGlobalItem.Rarity5BuyPrice;
+            Item.rare = ItemRarityID.Pink;
+            Item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.beeResist = true;
+
             if (player.ZoneJungle)
             {
                 player.lifeRegen += 1;
-                player.statDefense += 5;
+                player.statDefense += 9;
                 player.endurance += 0.05f;
             }
+
             player.buffImmune[BuffID.Venom] = true;
             player.buffImmune[BuffID.Poisoned] = true;
+
             if (!player.honey && player.lifeRegen < 0)
             {
                 player.lifeRegen += 2;
                 if (player.lifeRegen > 0)
-                {
                     player.lifeRegen = 0;
-                }
             }
+
             player.lifeRegenTime += 1;
             player.lifeRegen += 2;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<LivingDew>());
-            recipe.AddIngredient(ItemID.BottledHoney, 10);
-            recipe.AddIngredient(ModContent.ItemType<TrapperBulb>(), 2);
-            recipe.AddIngredient(ModContent.ItemType<GypsyPowder>());
-            recipe.AddIngredient(ModContent.ItemType<BeetleJuice>(), 3);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient<LivingDew>().
+                AddIngredient(ItemID.BottledHoney, 10).
+                AddIngredient<TrapperBulb>(2).
+                AddIngredient(ItemID.ButterflyDust).
+                AddIngredient<BeetleJuice>(3).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

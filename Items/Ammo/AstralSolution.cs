@@ -1,4 +1,4 @@
-using CalamityMod.Projectiles.Typeless;
+﻿using CalamityMod.Projectiles.Typeless;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -9,25 +9,33 @@ namespace CalamityMod.Items.Ammo
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 99;
             DisplayName.SetDefault("Astral Solution");
             Tooltip.SetDefault("Used by the Clentaminator\n" +
-			"Spreads the Astral Infection");
+            "Spreads the Astral Infection");
+			ItemID.Sets.SortingPriorityTerraforming[Type] = 95; // Red Solution
         }
 
         public override void SetDefaults()
         {
-            item.ammo = AmmoID.Solution;
-            item.shoot = ModContent.ProjectileType<AstralSpray>() - ProjectileID.PureSpray;
-            item.width = 10;
-            item.height = 12;
-            item.value = Item.buyPrice(0, 0, 5, 0);
-            item.rare = 3;
-            item.maxStack = 999;
-            item.consumable = true;
+            Item.ammo = AmmoID.Solution;
+            Item.shoot = ModContent.ProjectileType<AstralSpray>() - ProjectileID.PureSpray;
+            Item.width = 10;
+            Item.height = 12;
+            Item.value = Item.buyPrice(0, 0, 5, 0);
+            Item.rare = ItemRarityID.Orange;
+            Item.maxStack = 999;
+            SacrificeTotal = 99;
+            Item.consumable = true;
             return;
         }
 
-        public override bool ConsumeAmmo(Player player)
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = ContentSamples.CreativeHelper.ItemGroup.Solutions;
+		}
+
+        public override bool CanConsumeAmmo(Item ammo, Player player)
         {
             return !(player.itemAnimation < player.ActiveItem().useAnimation - 3);
         }

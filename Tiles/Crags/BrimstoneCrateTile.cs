@@ -1,14 +1,15 @@
 using CalamityMod.Items.Fishing.BrimstoneCragCatches;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles.Crags
 {
-	public class BrimstoneCrateTile : ModTile
+    public class BrimstoneCrateTile : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileSolidTop[Type] = true;
             Main.tileLighted[Type] = true;
@@ -23,7 +24,7 @@ namespace CalamityMod.Tiles.Crags
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Brimstone Crate");
             AddMapEntry(new Color(128, 0, 0), name); //Maroon
-            dustType = 60;
+            DustType = 60;
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)
@@ -33,7 +34,7 @@ namespace CalamityMod.Tiles.Crags
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 16, 32, ModContent.ItemType<BrimstoneCrate>());
+            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 32, ModContent.ItemType<BrimstoneCrate>());
         }
     }
 }

@@ -1,4 +1,4 @@
-using CalamityMod.Projectiles.Typeless;
+﻿using CalamityMod.Projectiles.Typeless;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -12,26 +12,32 @@ namespace CalamityMod.Items
             DisplayName.SetDefault("Relic of Convergence");
             Tooltip.SetDefault("Creates a profaned crystal that charges power\n" +
                                "Holding out the crystal slows the player down\n" +
-                               "At the end of its life, the crystal heals the player");
+                               "At the end of its life, the crystal heals the player for 70 HP");
+            SacrificeTotal = 1;
+            ItemID.Sets.CanBePlacedOnWeaponRacks[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.width = 32;
-            item.height = 46;
-            item.useTime = item.useAnimation = 25;
-            item.reuseDelay = 15;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.UseSound = SoundID.DD2_DarkMageCastHeal;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.channel = true;
-            item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
-            item.value = CalamityGlobalItem.RarityTurquoiseBuyPrice;
-            item.shoot = ModContent.ProjectileType<RelicOfConvergenceCrystal>();
+            Item.width = 32;
+            Item.height = 46;
+            Item.useTime = Item.useAnimation = 25;
+            Item.reuseDelay = 15;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.UseSound = SoundID.DD2_DarkMageCastHeal;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.channel = true;
+            Item.value = CalamityGlobalItem.Rarity11BuyPrice;
+            Item.rare = ItemRarityID.Purple;
+            Item.shoot = ModContent.ProjectileType<RelicOfConvergenceCrystal>();
         }
 
-        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0 && player.ownedProjectileCounts[ModContent.ProjectileType<RelicOfDeliveranceSpear>()] <= 0;
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = (ContentSamples.CreativeHelper.ItemGroup)CalamityResearchSorting.ToolsOther;
+		}
+
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0 && player.ownedProjectileCounts[ModContent.ProjectileType<RelicOfDeliveranceSpear>()] <= 0;
     }
 }

@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.Potions;
+﻿using CalamityMod.Buffs.Potions;
 using CalamityMod.Items.Fishing.BrimstoneCragCatches;
 using CalamityMod.Items.Materials;
 using Terraria;
@@ -11,44 +11,44 @@ namespace CalamityMod.Items.Potions
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 20;
             DisplayName.SetDefault("Shadow Potion");
-            Tooltip.SetDefault("Causes the player to disappear while not attacking\n" +
-			"Holding different types of rogue weapons give the player boosts\n" +
-			"Different types of rogue weapons spawn different projectiles on hit\n" +
-			"Stealth generation is increased by 10%");
+            Tooltip.SetDefault("Turns the player into a shadow with glowing eyes\n" +
+			"Rogue weapons spawn projectiles on hit\n" +
+            "Stealth generation is increased by 8%\n" +
+			"Visual effects can be disabled with the Stealth Invisibility config");
         }
 
         public override void SetDefaults()
         {
-            item.width = 28;
-            item.height = 18;
-            item.useTurn = true;
-            item.maxStack = 30;
-            item.rare = 3;
-            item.useAnimation = 17;
-            item.useTime = 17;
-            item.useStyle = 2;
-            item.UseSound = SoundID.Item3;
-            item.consumable = true;
-            item.buffType = ModContent.BuffType<ShadowBuff>();
-            item.buffTime = 18000; //5 minutes
-            item.value = Item.buyPrice(0, 2, 0, 0);
+            Item.width = 28;
+            Item.height = 18;
+            Item.useTurn = true;
+            Item.maxStack = 30;
+            Item.rare = ItemRarityID.Orange;
+            Item.useAnimation = 17;
+            Item.useTime = 17;
+            Item.useStyle = ItemUseStyleID.DrinkLiquid;
+            Item.UseSound = SoundID.Item3;
+            Item.consumable = true;
+            Item.buffType = ModContent.BuffType<ShadowBuff>();
+            Item.buffTime = CalamityUtils.SecondsToFrames(480f);
+            Item.value = Item.buyPrice(0, 2, 0, 0);
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Shadowfish>());
-            recipe.AddIngredient(ItemID.InvisibilityPotion);
-            recipe.AddTile(TileID.AlchemyTable);
-            recipe.SetResult(this, 2);
-            recipe.AddRecipe();
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<BloodOrb>(), 10);
-            recipe.AddIngredient(ItemID.InvisibilityPotion);
-            recipe.AddTile(TileID.AlchemyTable);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(2).
+                AddIngredient(ItemID.InvisibilityPotion).
+                AddIngredient<Shadowfish>().
+                AddTile(TileID.Bottles).
+                Register();
+
+            CreateRecipe().
+                AddIngredient(ItemID.BottledWater).
+                AddIngredient<BloodOrb>(20).
+                AddTile(TileID.AlchemyTable).
+                Register();
         }
     }
 }

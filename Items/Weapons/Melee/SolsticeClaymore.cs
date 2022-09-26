@@ -1,4 +1,5 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
@@ -15,41 +16,26 @@ namespace CalamityMod.Items.Weapons.Melee
             DisplayName.SetDefault("Solstice Claymore");
             Tooltip.SetDefault("Changes projectile color based on the time of year\n" +
                                "Inflicts daybroken during the day and nightwither during the night");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.width = 86;
-            item.damage = 520;
-            item.melee = true;
-            item.useAnimation = 16;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 16;
-            item.useTurn = true;
-            item.knockBack = 6.5f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 86;
-            item.value = Item.buyPrice(1, 20, 0, 0);
-            item.rare = 10;
-            item.shoot = ModContent.ProjectileType<SolsticeBeam>();
-            item.shootSpeed = 16f;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
-        }
-
-        public override void AddRecipes()
-        {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.BeamSword);
-            recipe.AddIngredient(ModContent.ItemType<AstralBar>(), 20);
-            recipe.AddIngredient(ItemID.FragmentSolar, 5);
-            recipe.AddIngredient(ItemID.FragmentVortex, 5);
-            recipe.AddIngredient(ItemID.FragmentStardust, 5);
-            recipe.AddIngredient(ItemID.FragmentNebula, 5);
-            recipe.AddIngredient(ItemID.LunarBar, 5);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            Item.width = 86;
+            Item.damage = 300;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = 16;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 16;
+            Item.useTurn = true;
+            Item.knockBack = 6.5f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.height = 86;
+            Item.value = CalamityGlobalItem.Rarity10BuyPrice;
+            Item.rare = ItemRarityID.Red;
+            Item.shoot = ModContent.ProjectileType<SolsticeBeam>();
+            Item.shootSpeed = 16f;
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)
@@ -92,6 +78,17 @@ namespace CalamityMod.Items.Weapons.Melee
             {
                 target.AddBuff(ModContent.BuffType<Nightwither>(), 300);
             }
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient(ItemID.BeamSword).
+                AddIngredient<AstralBar>(20).
+                AddIngredient<GalacticaSingularity>(5).
+                AddIngredient(ItemID.LunarBar, 5).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

@@ -1,52 +1,56 @@
+﻿using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-	public class BallisticPoisonBomb : RogueWeapon
+    public class BallisticPoisonBomb : RogueWeapon
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ballistic Poison Bomb");
             Tooltip.SetDefault("Throws a sticky bomb that explodes into spikes and poison clouds\n" +
-			"Stealth strikes throw three at once");
+            "Stealth strikes throw three at once");
+            SacrificeTotal = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
-            item.width = 30;
-            item.damage = 50;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.useAnimation = 26;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 26;
-            item.knockBack = 6.5f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 38;
-            item.value = Item.buyPrice(0, 60, 0, 0);
-            item.rare = 7;
-            item.shoot = ModContent.ProjectileType<BallisticPoisonBombProj>();
-            item.shootSpeed = 12f;
-            item.Calamity().rogue = true;
+            Item.width = 30;
+            Item.damage = 50;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.useAnimation = 26;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 26;
+            Item.knockBack = 6.5f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.height = 38;
+            Item.value = CalamityGlobalItem.Rarity8BuyPrice;
+            Item.rare = ItemRarityID.Lime;
+            Item.shoot = ModContent.ProjectileType<BallisticPoisonBombProj>();
+            Item.shootSpeed = 12f;
+            Item.DamageType = RogueDamageClass.Instance;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.Calamity().StealthStrikeAvailable()) //setting the stealth strike
             {
                 int spread = 5;
                 for (int i = 0; i < 3; i++)
                 {
-                    Vector2 perturbedspeed = new Vector2(speedX + Main.rand.Next(-3,4), speedY + Main.rand.Next(-3,4)).RotatedBy(MathHelper.ToRadians(spread));
-                    int proj = Projectile.NewProjectile(position.X, position.Y, perturbedspeed.X, perturbedspeed.Y, type, damage, knockBack, player.whoAmI, 0f, 0f);
-                    Main.projectile[proj].Calamity().stealthStrike = true;
+                    Vector2 perturbedspeed = new Vector2(velocity.X + Main.rand.Next(-3,4), velocity.Y + Main.rand.Next(-3,4)).RotatedBy(MathHelper.ToRadians(spread));
+                    int proj = Projectile.NewProjectile(source, position, perturbedspeed, type, Math.Max(damage / 3, 1), knockback, player.whoAmI);
+                    if (proj.WithinBounds(Main.maxProjectiles))
+                        Main.projectile[proj].Calamity().stealthStrike = true;
                     spread -= Main.rand.Next(2,6);
                 }
                 return false;
@@ -56,14 +60,13 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<SeafoamBomb>());
-            recipe.AddIngredient(ModContent.ItemType<DepthCells>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<SulphurousSand>(), 20);
-            recipe.AddIngredient(ModContent.ItemType<Tenebris>(), 10);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient<SeafoamBomb>().
+                AddIngredient<DepthCells>(10).
+                AddIngredient<SulphurousSand>(20).
+                AddIngredient<Tenebris>(10).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

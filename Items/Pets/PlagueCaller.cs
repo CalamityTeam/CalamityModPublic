@@ -1,5 +1,6 @@
-using CalamityMod.Buffs.Pets;
+﻿using CalamityMod.Buffs.Pets;
 using CalamityMod.Projectiles.Pets;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -10,23 +11,24 @@ namespace CalamityMod.Items.Pets
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Plague Caller");
             Tooltip.SetDefault("Summons a baby Plaguebringer pet");
         }
 
         public override void SetDefaults()
         {
-            item.CloneDefaults(ItemID.ZephyrFish);
-            item.shoot = ModContent.ProjectileType<PlaguebringerBab>();
-            item.buffType = ModContent.BuffType<PlaguebringerBabBuff>();
-            item.rare = 7;
+            Item.CloneDefaults(ItemID.ZephyrFish);
+            Item.shoot = ModContent.ProjectileType<PlaguebringerBab>();
+            Item.buffType = ModContent.BuffType<PlaguebringerBabBuff>();
+            Item.rare = ItemRarityID.Lime;
         }
 
-        public override void UseStyle(Player player)
+        public override void UseStyle(Player player, Rectangle heldItemFrame)
         {
             if (player.whoAmI == Main.myPlayer && player.itemTime == 0)
             {
-                player.AddBuff(item.buffType, 3600, true);
+                player.AddBuff(Item.buffType, 3600, true);
             }
         }
     }

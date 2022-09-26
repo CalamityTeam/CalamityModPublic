@@ -1,3 +1,4 @@
+﻿using Terraria.DataStructures;
 using CalamityMod.Projectiles.Summon;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -6,54 +7,56 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
-	public class ScabRipper : ModItem
+    public class ScabRipper : ModItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Scab Ripper");
             Tooltip.SetDefault("Summons a baby blood crawler to protect you");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 15;
-            item.mana = 10;
-            item.width = 66;
-            item.height = 70;
-            item.useTime = item.useAnimation = 35;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.noMelee = true;
-            item.knockBack = 0.5f;
-            item.value = Item.buyPrice(0, 2, 0, 0);
-            item.rare = 2;
-            item.UseSound = SoundID.Item83;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<BabyBloodCrawler>();
-            item.shootSpeed = 10f;
-            item.summon = true;
+            Item.damage = 15;
+            Item.mana = 10;
+            Item.width = 66;
+            Item.height = 70;
+            Item.useTime = Item.useAnimation = 30;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.noMelee = true;
+            Item.knockBack = 0.5f;
+            Item.value = CalamityGlobalItem.Rarity2BuyPrice;
+            Item.rare = ItemRarityID.Green;
+            Item.UseSound = SoundID.Item83;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<BabyBloodCrawler>();
+            Item.shootSpeed = 10f;
+            Item.DamageType = DamageClass.Summon;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.altFunctionUse != 2)
             {
                 position = Main.MouseWorld;
-                speedX = 0;
-                speedY = 0;
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
+                velocity.X = 0;
+                velocity.Y = 0;
+                int p = Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, type, damage, knockback, player.whoAmI);
+                if (Main.projectile.IndexInRange(p))
+                    Main.projectile[p].originalDamage = Item.damage;
             }
             return false;
         }
-		
+
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.CrimtaneBar, 5);
-            recipe.AddIngredient(ItemID.TissueSample, 9);
-            recipe.AddIngredient(ItemID.Shadewood, 20);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient(ItemID.CrimtaneBar, 5).
+                AddIngredient(ItemID.TissueSample, 9).
+                AddIngredient(ItemID.Shadewood, 20).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

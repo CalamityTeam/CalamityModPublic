@@ -5,7 +5,7 @@ using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Magic
 {
-	public class BrimstoneHomer : ModProjectile
+    public class BrimstoneHomer : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -14,24 +14,27 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetDefaults()
         {
-            projectile.width = 8;
-            projectile.height = 8;
-            projectile.friendly = true;
-            projectile.magic = true;
-            projectile.ignoreWater = true;
-            projectile.penetrate = 1;
-            projectile.extraUpdates = 1;
-            projectile.timeLeft = 180;
+            Projectile.width = 8;
+            Projectile.height = 8;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Magic;
+            Projectile.ignoreWater = true;
+            Projectile.penetrate = 1;
+            Projectile.extraUpdates = 1;
+            Projectile.timeLeft = 180;
         }
+
+        public override bool? CanHitNPC(NPC target) => Projectile.timeLeft < 150 && target.CanBeChasedBy(Projectile);
 
         public override void AI()
         {
-            projectile.rotation += 0.7f * projectile.direction;
+            Projectile.rotation += 0.7f * Projectile.direction;
 
-			int brimstone = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 1f);
-			Main.dust[brimstone].noGravity = true;
+            int brimstone = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 1f);
+            Main.dust[brimstone].noGravity = true;
 
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 500f, 8f, 20f);
+            if (Projectile.timeLeft < 150)
+                CalamityUtils.HomeInOnNPC(Projectile, !Projectile.tileCollide, 200f, 8f, 20f);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

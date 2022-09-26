@@ -1,7 +1,8 @@
-using CalamityMod.CalPlayer;
-using CalamityMod.World;
-using System.Collections.Generic;
+﻿using CalamityMod.CalPlayer;
+using CalamityMod.Rarities;
 using Terraria;
+using Terraria.DataStructures;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories.Wings
@@ -11,46 +12,31 @@ namespace CalamityMod.Items.Accessories.Wings
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Elysian Wings");
             Tooltip.SetDefault("Blessed by the Profaned Flame\n" +
-				"Horizontal speed: 9.75\n" +
+                "Horizontal speed: 9.50\n" +
                 "Acceleration multiplier: 2.7\n" +
                 "Great vertical speed\n" +
-                "Flight time: 200\n" +
-				"Temporary immunity to lava and 40% increased movement speed");
+                "Flight time: 240\n" +
+                "Temporary immunity to lava and 10% increased movement speed");
+            ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new WingStats(240, 9.5f, 2.7f);
         }
 
         public override void SetDefaults()
         {
-            item.width = 36;
-            item.height = 32;
-            item.value = CalamityGlobalItem.Rarity12BuyPrice;
-            item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
-            item.accessory = true;
-        }
-
-        public override void ModifyTooltips(List<TooltipLine> list)
-        {
-			if (CalamityWorld.death)
-			{
-				foreach (TooltipLine line2 in list)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Tooltip5")
-					{
-						line2.text = "Temporary immunity to lava and 40% increased movement speed\n" +
-						"Provides heat protection in Death Mode";
-					}
-				}
-			}
+            Item.width = 36;
+            Item.height = 32;
+            Item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            Item.rare = ModContent.RarityType<Turquoise>();
+            Item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            player.moveSpeed += 0.4f;
+            player.moveSpeed += 0.1f;
             player.lavaMax += 240;
-            player.wingTimeMax = 200;
             player.noFallDmg = true;
             modPlayer.elysianFire = true;
             if (hideVisual)
@@ -66,12 +52,6 @@ namespace CalamityMod.Items.Accessories.Wings
             maxCanAscendMultiplier = 1f;
             maxAscentMultiplier = 3f;
             constantAscend = 0.135f;
-        }
-
-        public override void HorizontalWingSpeeds(Player player, ref float speed, ref float acceleration)
-        {
-            speed = 9.75f;
-            acceleration *= 2.7f;
         }
     }
 }

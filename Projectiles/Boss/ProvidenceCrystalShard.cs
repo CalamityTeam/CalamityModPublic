@@ -1,3 +1,4 @@
+﻿using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
@@ -5,6 +6,7 @@ using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 namespace CalamityMod.Projectiles.Boss
 {
     public class ProvidenceCrystalShard : ModProjectile
@@ -16,81 +18,83 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-            projectile.width = 34;
-            projectile.height = 34;
-            projectile.hostile = true;
-            projectile.alpha = 255;
-            projectile.penetrate = 1;
-            projectile.tileCollide = false;
-            projectile.timeLeft = 600;
-            cooldownSlot = 1;
+            Projectile.Calamity().DealsDefenseDamage = true;
+            Projectile.width = 34;
+            Projectile.height = 34;
+            Projectile.hostile = true;
+            Projectile.alpha = 255;
+            Projectile.penetrate = 1;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
+            Projectile.timeLeft = 600;
+            CooldownSlot = ImmunityCooldownID.Bosses;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
         {
-            writer.Write(projectile.localAI[0]);
-            writer.Write(projectile.localAI[1]);
+            writer.Write(Projectile.localAI[0]);
+            writer.Write(Projectile.localAI[1]);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
-            projectile.localAI[0] = reader.ReadSingle();
-            projectile.localAI[1] = reader.ReadSingle();
+            Projectile.localAI[0] = reader.ReadSingle();
+            Projectile.localAI[1] = reader.ReadSingle();
         }
 
         public override void AI()
         {
-			if (!Main.dayTime)
-				projectile.extraUpdates = 1;
+            if (!Main.dayTime || BossRushEvent.BossRushActive)
+                Projectile.extraUpdates = 1;
 
-			if (projectile.timeLeft < 300)
+            if (Projectile.timeLeft < 300)
             {
-                projectile.tileCollide = true;
+                Projectile.tileCollide = true;
             }
-            Color newColor2 = Main.hslToRgb(projectile.ai[0], 1f, 0.5f);
-            if (projectile.alpha > 0)
+            Color newColor2 = Main.hslToRgb(Projectile.ai[0], 1f, 0.5f);
+            if (Projectile.alpha > 0)
             {
-                projectile.alpha -= 8;
+                Projectile.alpha -= 8;
             }
-            if (projectile.alpha < 0)
+            if (Projectile.alpha < 0)
             {
-                projectile.alpha = 0;
+                Projectile.alpha = 0;
             }
-            if (projectile.alpha == 0)
+            if (Projectile.alpha == 0)
             {
-                Lighting.AddLight(projectile.Center, newColor2.ToVector3() * 0.5f);
+                Lighting.AddLight(Projectile.Center, newColor2.ToVector3() * 0.5f);
             }
-            projectile.velocity.X *= 0.995f;
-            if (projectile.velocity.Y < 0f)
+            Projectile.velocity.X *= 0.995f;
+            if (Projectile.velocity.Y < 0f)
             {
-                projectile.velocity.Y *= 0.98f;
+                Projectile.velocity.Y *= 0.98f;
             }
             else
             {
-                projectile.velocity.Y *= 1.06f;
-                float fallSpeed = (CalamityWorld.revenge || CalamityWorld.bossRushActive || !Main.dayTime) ? 3.5f : 3f;
-                if (projectile.velocity.Y > fallSpeed)
+                Projectile.velocity.Y *= 1.06f;
+                float fallSpeed = (CalamityWorld.revenge || BossRushEvent.BossRushActive || !Main.dayTime) ? 3.5f : 3f;
+                if (Projectile.velocity.Y > fallSpeed)
                 {
-                    projectile.velocity.Y = fallSpeed;
+                    Projectile.velocity.Y = fallSpeed;
                 }
             }
-            if (projectile.velocity.Y > -0.5f && projectile.localAI[1] == 0f)
+            if (Projectile.velocity.Y > -0.5f && Projectile.localAI[1] == 0f)
             {
-                projectile.localAI[1] = 1f;
-                projectile.velocity.Y = 0.5f;
+                Projectile.localAI[1] = 1f;
+                Projectile.velocity.Y = 0.5f;
             }
-            projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) - 1.57f;
+            Projectile.rotation = (float)Math.Atan2(Projectile.velocity.Y, Projectile.velocity.X) - 1.57f;
             int num3;
             for (int num979 = 0; num979 < 2; num979 = num3 + 1)
             {
                 if (Main.rand.NextBool(10))
                 {
-                    Vector2 value55 = Vector2.UnitY.RotatedBy(num979 * 3.14159274f).RotatedBy(projectile.rotation);
-                    Dust dust24 = Main.dust[Dust.NewDust(projectile.Center, 0, 0, 267, 0f, 0f, 225, newColor2, 1.5f)];
+                    Vector2 value55 = Vector2.UnitY.RotatedBy(num979 * 3.14159274f).RotatedBy(Projectile.rotation);
+                    Dust dust24 = Main.dust[Dust.NewDust(Projectile.Center, 0, 0, 267, 0f, 0f, 225, newColor2, 1.5f)];
                     dust24.noGravity = true;
                     dust24.noLight = true;
-                    dust24.scale = projectile.Opacity * projectile.localAI[0];
-                    dust24.position = projectile.Center;
+                    dust24.scale = Projectile.Opacity * Projectile.localAI[0];
+                    dust24.position = Projectile.Center;
                     dust24.velocity = value55 * 2.5f;
                 }
                 num3 = num979;
@@ -100,11 +104,11 @@ namespace CalamityMod.Projectiles.Boss
                 if (Main.rand.NextBool(10))
                 {
                     Vector2 value56 = Vector2.UnitY.RotatedBy(num980 * 3.14159274f);
-                    Dust dust25 = Main.dust[Dust.NewDust(projectile.Center, 0, 0, 267, 0f, 0f, 225, newColor2, 1.5f)];
+                    Dust dust25 = Main.dust[Dust.NewDust(Projectile.Center, 0, 0, 267, 0f, 0f, 225, newColor2, 1.5f)];
                     dust25.noGravity = true;
                     dust25.noLight = true;
-                    dust25.scale = projectile.Opacity * projectile.localAI[0];
-                    dust25.position = projectile.Center;
+                    dust25.scale = Projectile.Opacity * Projectile.localAI[0];
+                    dust25.position = Projectile.Center;
                     dust25.velocity = value56 * 2.5f;
                 }
                 num3 = num980;
@@ -120,7 +124,7 @@ namespace CalamityMod.Projectiles.Boss
                     vector136.Normalize();
                 }
                 vector136 *= 20f + Main.rand.NextFloat() * 100f;
-                Vector2 vector137 = projectile.Center + vector136;
+                Vector2 vector137 = Projectile.Center + vector136;
                 Point point3 = vector137.ToTileCoordinates();
                 bool flag52 = true;
                 if (!WorldGen.InWorld(point3.X, point3.Y, 0))
@@ -152,17 +156,17 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.Item27, projectile.position);
+            SoundEngine.PlaySound(SoundID.Item27, Projectile.position);
             Vector2 spinningpoint = new Vector2(0f, -3f).RotatedByRandom(3.1415927410125732);
             float num69 = Main.rand.Next(7, 13);
             Vector2 value5 = new Vector2(2.1f, 2f);
-            Color newColor = Main.hslToRgb(projectile.ai[0], 1f, 0.5f);
+            Color newColor = Main.hslToRgb(Projectile.ai[0], 1f, 0.5f);
             newColor.A = 255;
             float num72;
             for (float num70 = 0f; num70 < num69; num70 = num72 + 1f)
             {
-                int num71 = Dust.NewDust(projectile.Center, 0, 0, 267, 0f, 0f, 0, newColor, 1f);
-                Main.dust[num71].position = projectile.Center;
+                int num71 = Dust.NewDust(Projectile.Center, 0, 0, 267, 0f, 0f, 0, newColor, 1f);
+                Main.dust[num71].position = Projectile.Center;
                 Main.dust[num71].velocity = spinningpoint.RotatedBy(6.28318548f * num70 / num69) * value5 * (0.8f + Main.rand.NextFloat() * 0.4f);
                 Main.dust[num71].noGravity = true;
                 Main.dust[num71].scale = 2f;
@@ -177,8 +181,8 @@ namespace CalamityMod.Projectiles.Boss
             }
             for (float num73 = 0f; num73 < num69; num73 = num72 + 1f)
             {
-                int num74 = Dust.NewDust(projectile.Center, 0, 0, 267, 0f, 0f, 0, newColor, 1f);
-                Main.dust[num74].position = projectile.Center;
+                int num74 = Dust.NewDust(Projectile.Center, 0, 0, 267, 0f, 0f, 0, newColor, 1f);
+                Main.dust[num74].position = Projectile.Center;
                 Main.dust[num74].velocity = spinningpoint.RotatedBy(6.28318548f * num73 / num69) * value5 * (0.8f + Main.rand.NextFloat() * 0.4f);
                 Dust dust = Main.dust[num74];
                 dust.velocity *= Main.rand.NextFloat() * 0.8f;
@@ -197,12 +201,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override Color? GetAlpha(Color lightColor)
         {
-            return new Color(255 - projectile.alpha, 255 - projectile.alpha, 255 - projectile.alpha, 0);
+            return new Color(255 - Projectile.alpha, 255 - Projectile.alpha, 255 - Projectile.alpha, 0);
         }
-
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)	
-        {
-			target.Calamity().lastProjectileHit = projectile;
-		}
     }
 }

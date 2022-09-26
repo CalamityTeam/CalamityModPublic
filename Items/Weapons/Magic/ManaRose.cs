@@ -1,8 +1,8 @@
-using CalamityMod.Projectiles.Magic;
+﻿using CalamityMod.Projectiles.Magic;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
@@ -11,44 +11,40 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Mana Rose");
-            Tooltip.SetDefault("Casts a mana bolt that explodes into smaller bolts");
-            Item.staff[item.type] = true;
+            Tooltip.SetDefault("Casts a mana flower that explodes into petals");
+            Item.staff[Item.type] = true;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 10;
-            item.magic = true;
-            item.mana = 8;
-            item.width = 38;
-            item.height = 38;
-            item.useTime = 27;
-            item.useAnimation = 27;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 3.25f;
-            item.value = Item.buyPrice(0, 2, 0, 0);
-            item.rare = 2;
-            item.UseSound = SoundID.Item109;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<ManaBolt>();
-            item.shootSpeed = 10f;
+            Item.damage = 20;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 8;
+            Item.width = 38;
+            Item.height = 38;
+            Item.useTime = 38;
+            Item.useAnimation = 38;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 3.25f;
+            Item.value = CalamityGlobalItem.Rarity2BuyPrice;
+            Item.rare = ItemRarityID.Green;
+            Item.UseSound = SoundID.Item109;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<ManaBolt>();
+            Item.shootSpeed = 10f;
         }
 
-        public override Vector2? HoldoutOrigin()
-        {
-            return new Vector2(10, 10);
-        }
-
+        
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.NaturesGift);
-            recipe.AddIngredient(ItemID.JungleRose);
-            recipe.AddIngredient(ItemID.Moonglow, 5);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient(ItemID.NaturesGift).
+                AddIngredient(ItemID.JungleRose).
+                AddIngredient(ItemID.Moonglow, 5).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

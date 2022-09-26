@@ -1,7 +1,9 @@
-using CalamityMod.Projectiles.Melee;
+﻿using CalamityMod.Projectiles.Melee;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -14,40 +16,39 @@ namespace CalamityMod.Items.Weapons.Melee
             DisplayName.SetDefault("Excelsus");
             Tooltip.SetDefault("Fires a spread of spinning blades\n" +
                 "Summons laser fountains on hit");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.width = 78;
-            item.damage = 340;
-            item.melee = true;
-            item.useAnimation = 15;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 15;
-            item.useTurn = true;
-            item.knockBack = 8f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 94;
-            item.value = Item.buyPrice(1, 40, 0, 0);
-            item.rare = 10;
-            item.shoot = ModContent.ProjectileType<ExcelsusMain>();
-            item.shootSpeed = 12f;
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
+            Item.width = 78;
+            Item.damage = 279;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = 15;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 15;
+            Item.useTurn = true;
+            Item.knockBack = 8f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.height = 94;
+            Item.value = CalamityGlobalItem.Rarity14BuyPrice;
+            Item.rare = ModContent.RarityType<DarkBlue>();
+            Item.shoot = ModContent.ProjectileType<ExcelsusMain>();
+            Item.shootSpeed = 12f;
         }
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
-            Vector2 origin = new Vector2(39f, 47f);
-            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Items/Weapons/Melee/ExcelsusGlow"), item.Center - Main.screenPosition, null, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
+            Item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Melee/ExcelsusGlow").Value);
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             for (int index = 0; index < 3; ++index)
             {
-                float SpeedX = speedX + (float)Main.rand.Next(-30, 31) * 0.05f;
-                float SpeedY = speedY + (float)Main.rand.Next(-30, 31) * 0.05f;
+                float SpeedX = velocity.X + Main.rand.NextFloat(-1.5f, 1.5f);
+                float SpeedY = velocity.Y + Main.rand.NextFloat(-1.5f, 1.5f);
                 switch (index)
                 {
                     case 0:
@@ -60,19 +61,21 @@ namespace CalamityMod.Items.Weapons.Melee
                         type = ModContent.ProjectileType<ExcelsusPink>();
                         break;
                 }
-                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, type, damage, knockback, player.whoAmI, 0f, 0f);
             }
             return false;
         }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<LaserFountain>(), 0, 0, Main.myPlayer);
+            var source = player.GetSource_ItemUse(Item);
+            Projectile.NewProjectile(source, target.Center, Vector2.Zero, ModContent.ProjectileType<LaserFountain>(), 0, 0, player.whoAmI);
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-            Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<LaserFountain>(), 0, 0, Main.myPlayer);
+            var source = player.GetSource_ItemUse(Item);
+            Projectile.NewProjectile(source, target.Center, Vector2.Zero, ModContent.ProjectileType<LaserFountain>(), 0, 0, player.whoAmI);
         }
     }
 }

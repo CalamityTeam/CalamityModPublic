@@ -1,5 +1,7 @@
+﻿using CalamityMod.Rarities;
 using Terraria;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Items.Armor.Vanity
 {
     [AutoloadEquip(EquipType.Body)]
@@ -7,16 +9,17 @@ namespace CalamityMod.Items.Armor.Vanity
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Ancient God Slayer Chestplate");
         }
 
         public override void SetDefaults()
         {
-            item.width = 28;
-            item.height = 20;
-            item.Calamity().customRarity = (CalamityRarity)14;
-            item.vanity = true;
-            item.value = Item.buyPrice(0, 60, 0, 0);
+            Item.width = 28;
+            Item.height = 20;
+            Item.rare = ModContent.RarityType<DarkBlue>();
+            Item.vanity = true;
+            Item.value = Item.buyPrice(0, 60, 0, 0);
         }
     }
 }

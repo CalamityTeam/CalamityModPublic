@@ -1,9 +1,10 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 namespace CalamityMod.Projectiles.Magic
 {
     public class SHPB : ModProjectile
@@ -13,67 +14,67 @@ namespace CalamityMod.Projectiles.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("SHPB");
-            Main.projFrames[projectile.type] = 4;
+            Main.projFrames[Projectile.type] = 4;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 24;
-            projectile.height = 24;
-            projectile.friendly = true;
-            projectile.alpha = 255;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 300;
-            projectile.magic = true;
+            Projectile.width = 24;
+            Projectile.height = 24;
+            Projectile.friendly = true;
+            Projectile.alpha = 255;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = 300;
+            Projectile.DamageType = DamageClass.Magic;
         }
 
         public override void AI()
         {
             float num = (float)Main.rand.Next(90, 111) * 0.01f;
             num *= Main.essScale;
-            Lighting.AddLight(projectile.Center, 1f * num, 0.2f * num, 0.75f * num);
-            projectile.alpha -= 2;
-            projectile.frameCounter++;
-            if (projectile.frameCounter > 4)
+            Lighting.AddLight(Projectile.Center, 1f * num, 0.2f * num, 0.75f * num);
+            Projectile.alpha -= 2;
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter > 4)
             {
-                projectile.frame++;
-                projectile.frameCounter = 0;
+                Projectile.frame++;
+                Projectile.frameCounter = 0;
             }
-            if (projectile.frame > 3)
+            if (Projectile.frame > 3)
             {
-                projectile.frame = 0;
+                Projectile.frame = 0;
             }
-            projectile.ai[0] = (float)Main.rand.Next(-100, 101) * 0.0025f;
-            projectile.ai[1] = (float)Main.rand.Next(-100, 101) * 0.0025f;
-            if (projectile.localAI[0] == 0f)
+            Projectile.ai[0] = (float)Main.rand.Next(-100, 101) * 0.0025f;
+            Projectile.ai[1] = (float)Main.rand.Next(-100, 101) * 0.0025f;
+            if (Projectile.localAI[0] == 0f)
             {
-                projectile.scale += 0.05f;
-                if ((double)projectile.scale > 1.2)
+                Projectile.scale += 0.05f;
+                if ((double)Projectile.scale > 1.2)
                 {
-                    projectile.localAI[0] = 1f;
+                    Projectile.localAI[0] = 1f;
                 }
             }
             else
             {
-                projectile.scale -= 0.05f;
-                if ((double)projectile.scale < 0.8)
+                Projectile.scale -= 0.05f;
+                if ((double)Projectile.scale < 0.8)
                 {
-                    projectile.localAI[0] = 0f;
+                    Projectile.localAI[0] = 0f;
                 }
             }
-            projectile.velocity.X *= 0.985f;
-            projectile.velocity.Y *= 0.985f;
-            float num472 = projectile.Center.X;
-            float num473 = projectile.Center.Y;
+            Projectile.velocity.X *= 0.985f;
+            Projectile.velocity.Y *= 0.985f;
+            float num472 = Projectile.Center.X;
+            float num473 = Projectile.Center.Y;
             float num474 = 250f;
             bool flag17 = false;
             for (int num475 = 0; num475 < 200; num475++)
             {
-                if (Main.npc[num475].CanBeChasedBy(projectile, false) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[num475].Center, 1, 1))
+                if (Main.npc[num475].CanBeChasedBy(Projectile, false) && Collision.CanHit(Projectile.Center, 1, 1, Main.npc[num475].Center, 1, 1))
                 {
                     float num476 = Main.npc[num475].position.X + (float)(Main.npc[num475].width / 2);
                     float num477 = Main.npc[num475].position.Y + (float)(Main.npc[num475].height / 2);
-                    float num478 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num476) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num477);
+                    float num478 = Math.Abs(Projectile.position.X + (float)(Projectile.width / 2) - num476) + Math.Abs(Projectile.position.Y + (float)(Projectile.height / 2) - num477);
                     if (num478 < num474)
                     {
                         num474 = num478;
@@ -86,31 +87,31 @@ namespace CalamityMod.Projectiles.Magic
                 explosionTimer--;
                 if (explosionTimer <= 0)
                 {
-                    projectile.Kill();
+                    Projectile.Kill();
                 }
             }
         }
 
         public override Color? GetAlpha(Color lightColor)
         {
-            return new Color(255, Main.DiscoG, 155, projectile.alpha);
+            return new Color(255, Main.DiscoG, 155, Projectile.alpha);
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D texture2D13 = Main.projectileTexture[projectile.type];
-            int num214 = Main.projectileTexture[projectile.type].Height / Main.projFrames[projectile.type];
-            int y6 = num214 * projectile.frame;
-            Main.spriteBatch.Draw(texture2D13, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y6, texture2D13.Width, num214)), projectile.GetAlpha(lightColor), projectile.rotation, new Vector2((float)texture2D13.Width / 2f, (float)num214 / 2f), projectile.scale, SpriteEffects.None, 0f);
+            Texture2D texture2D13 = ModContent.Request<Texture2D>(Texture).Value;
+            int num214 = ModContent.Request<Texture2D>(Texture).Value.Height / Main.projFrames[Projectile.type];
+            int y6 = num214 * Projectile.frame;
+            Main.spriteBatch.Draw(texture2D13, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y6, texture2D13.Width, num214)), Projectile.GetAlpha(lightColor), Projectile.rotation, new Vector2((float)texture2D13.Width / 2f, (float)num214 / 2f), Projectile.scale, SpriteEffects.None, 0);
             return false;
         }
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.Item105, projectile.position);
-            if (projectile.owner == Main.myPlayer)
+            SoundEngine.PlaySound(SoundID.Item105, Projectile.position);
+            if (Projectile.owner == Main.myPlayer)
             {
-                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<SHPExplosion>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<SHPExplosion>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
             }
         }
     }

@@ -1,20 +1,19 @@
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Buffs.StatDebuffs
 {
     public class WhisperingDeath : ModBuff
     {
-        public static int DefenseReduction = 20;
-
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Whispering Death");
-            Description.SetDefault("Death approaches; defense, attack power, and life regen reduced");
+            Description.SetDefault("Death approaches; movement speed, attack power and life regen reduced");
             Main.debuff[Type] = true;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = true;
-            longerExpertDebuff = false;
+            BuffID.Sets.LongerExpertDebuff[Type] = true;
         }
 
         public override void Update(Player player, ref int buffIndex)
@@ -24,10 +23,10 @@ namespace CalamityMod.Buffs.StatDebuffs
 
         public override void Update(NPC npc, ref int buffIndex)
         {
-			if (npc.Calamity().wDeath < npc.buffTime[buffIndex])
-				npc.Calamity().wDeath = npc.buffTime[buffIndex];
-			npc.DelBuff(buffIndex);
-			buffIndex--;
+            if (npc.Calamity().wDeath < npc.buffTime[buffIndex])
+                npc.Calamity().wDeath = npc.buffTime[buffIndex];
+            npc.DelBuff(buffIndex);
+            buffIndex--;
         }
     }
 }

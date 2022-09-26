@@ -1,6 +1,8 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
+using CalamityMod.CalPlayer.Dashes;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -9,32 +11,31 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Counter Scarf");
-            Tooltip.SetDefault("True melee strikes deal 15% more damage\n" +
+            Tooltip.SetDefault("10% increased true melee damage\n" +
                 "Grants the ability to dash; dashing into an attack will cause you to dodge it\n" +
-                "After a dodge you will be granted a buff to all damage, melee speed, and all crit chance for a short time\n" +
-                "After a successful dodge you must wait 15 seconds before you can dodge again\n" +
-                "This cooldown will be twice as long if you have Chaos State\n" +
-                "While on cooldown, Chaos State will last twice as long\n" +
-                "Revengeance drop");
+                "After a successful dodge you must wait 30 seconds before you can dodge again");
         }
 
         public override void SetDefaults()
         {
-            item.width = 26;
-            item.height = 26;
-            item.value = CalamityGlobalItem.Rarity2BuyPrice;
-            item.rare = 2;
-            item.accessory = true;
+            Item.width = 26;
+            Item.height = 26;
+            Item.value = CalamityGlobalItem.Rarity3BuyPrice;
+            Item.rare = ItemRarityID.Orange;
+            Item.accessory = true;
         }
 
-        public override bool CanEquipAccessory(Player player, int slot) => !player.Calamity().dodgeScarf;
+        public override bool CanEquipAccessory(Player player, int slot, bool modded) => !player.Calamity().dodgeScarf;
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
+            player.GetDamage<TrueMeleeDamageClass>() += 0.1f;
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.dodgeScarf = true;
-            modPlayer.dashMod = 1;
+            modPlayer.DashID = CounterScarfDash.ID;
+            player.dashType = 0;
         }
     }
 }

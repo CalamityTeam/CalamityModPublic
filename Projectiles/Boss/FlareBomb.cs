@@ -1,10 +1,12 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 namespace CalamityMod.Projectiles.Boss
 {
     public class FlareBomb : ModProjectile
@@ -12,165 +14,185 @@ namespace CalamityMod.Projectiles.Boss
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Flare Bomb");
-            Main.projFrames[projectile.type] = 4;
+            Main.projFrames[Projectile.type] = 5;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 30;
-            projectile.height = 30;
-            projectile.hostile = true;
-            projectile.scale = 1.5f;
-            projectile.ignoreWater = true;
-            projectile.penetrate = 1;
-            projectile.alpha = 50;
-            projectile.timeLeft = 180;
-            cooldownSlot = 1;
+            Projectile.Calamity().DealsDefenseDamage = true;
+            Projectile.width = 64;
+            Projectile.height = 66;
+            Projectile.hostile = true;
+            Projectile.scale = 1.5f;
+            Projectile.ignoreWater = true;
+            Projectile.penetrate = 1;
+            Projectile.alpha = 50;
+            Projectile.timeLeft = 180;
+            CooldownSlot = ImmunityCooldownID.Bosses;
         }
 
         public override void AI()
         {
-            bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
+            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
 
-            projectile.frameCounter++;
-            if (projectile.frameCounter > 4)
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter > 4)
             {
-                projectile.frame++;
-                projectile.frameCounter = 0;
+                Projectile.frame++;
+                Projectile.frameCounter = 0;
             }
-            if (projectile.frame > 3)
-            {
-                projectile.frame = 0;
-            }
+            if (Projectile.frame >= Main.projFrames[Projectile.type])
+                Projectile.frame = 0;
 
-            Lighting.AddLight(projectile.Center, 0.5f, 0.25f, 0f);
+            Lighting.AddLight(Projectile.Center, 0.5f, 0.25f, 0f);
 
-            if (projectile.timeLeft > 30 && projectile.alpha > 0)
-            {
-                projectile.alpha -= 25;
-            }
-            if (projectile.timeLeft > 30 && projectile.alpha < 128 && Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
-            {
-                projectile.alpha = 128;
-            }
-            if (projectile.alpha < 0)
-            {
-                projectile.alpha = 0;
-            }
+            if (Projectile.timeLeft > 30 && Projectile.alpha > 0)
+                Projectile.alpha -= 25;
+            if (Projectile.timeLeft > 30 && Projectile.alpha < 128 && Collision.SolidCollision(Projectile.position, Projectile.width, Projectile.height))
+                Projectile.alpha = 128;
+            if (Projectile.alpha < 0)
+                Projectile.alpha = 0;
 
-			if (projectile.timeLeft > 135 && projectile.ai[1] == 1f)
-				return;
+            if (Projectile.ai[0] == -1f || (Projectile.timeLeft > 135 && Projectile.ai[1] == 1f))
+                return;
 
-			float num953 = revenge ? 110f : 100f;
-			float num954 = 40f;
-			float scaleFactor12 = revenge ? 50f : 40f;
-
-			if (projectile.ai[1] == 1f)
-			{
-				num953 *= 0.7f;
-				scaleFactor12 *= 0.7f;
-			}
-
-			int num959 = (int)projectile.ai[0];
+            float inertia = revenge ? 70f : 77f;
+            float num954 = 40f;
+            float scaleFactor12 = revenge ? 35f : 28f;
+            int num959 = (int)Projectile.ai[0];
             if (num959 >= 0 && Main.player[num959].active && !Main.player[num959].dead)
             {
-                if (projectile.Distance(Main.player[num959].Center) > num954)
+                if (Projectile.Distance(Main.player[num959].Center) > num954)
                 {
-                    Vector2 vector102 = projectile.DirectionTo(Main.player[num959].Center);
-                    if (vector102.HasNaNs())
-                    {
-                        vector102 = Vector2.UnitY;
-                    }
-                    projectile.velocity = (projectile.velocity * (num953 - 1f) + vector102 * scaleFactor12) / num953;
+                    Vector2 moveDirection = Projectile.SafeDirectionTo(Main.player[num959].Center, Vector2.UnitY);
+                    Projectile.velocity = (Projectile.velocity * (inertia - 1f) + moveDirection * scaleFactor12) / inertia;
                 }
             }
             else
             {
-                if (projectile.ai[0] != -1f)
+                if (Projectile.ai[0] != -1f)
                 {
-                    projectile.ai[0] = -1f;
-                    projectile.netUpdate = true;
+                    Projectile.ai[0] = -1f;
+                    Projectile.netUpdate = true;
                 }
             }
 
-			if (projectile.timeLeft < 60 || projectile.ai[1] == 1f)
-				return;
+            if (Projectile.timeLeft < 60)
+                return;
 
-			float num1247 = 0.5f;
-			for (int num1248 = 0; num1248 < Main.maxProjectiles; num1248++)
-			{
-				if (Main.projectile[num1248].active)
-				{
-					if (num1248 != projectile.whoAmI && Main.projectile[num1248].type == projectile.type)
-					{
-						if (Vector2.Distance(projectile.Center, Main.projectile[num1248].Center) < 24f)
-						{
-							if (projectile.position.X < Main.projectile[num1248].position.X)
-								projectile.velocity.X -= num1247;
-							else
-								projectile.velocity.X += num1247;
+            float num1247 = 0.5f;
+            for (int num1248 = 0; num1248 < Main.maxProjectiles; num1248++)
+            {
+                if (Main.projectile[num1248].active)
+                {
+                    if (num1248 != Projectile.whoAmI && Main.projectile[num1248].type == Projectile.type)
+                    {
+                        if (Vector2.Distance(Projectile.Center, Main.projectile[num1248].Center) < 24f)
+                        {
+                            if (Projectile.position.X < Main.projectile[num1248].position.X)
+                                Projectile.velocity.X -= num1247;
+                            else
+                                Projectile.velocity.X += num1247;
 
-							if (projectile.position.Y < Main.projectile[num1248].position.Y)
-								projectile.velocity.Y -= num1247;
-							else
-								projectile.velocity.Y += num1247;
-						}
-					}
-				}
-			}
-		}
-
-        public override Color? GetAlpha(Color lightColor)
-        {
-            return new Color(255, Main.DiscoG, 53, projectile.alpha);
+                            if (Projectile.position.Y < Main.projectile[num1248].position.Y)
+                                Projectile.velocity.Y -= num1247;
+                            else
+                                Projectile.velocity.Y += num1247;
+                        }
+                    }
+                }
+            }
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override Color? GetAlpha(Color lightColor) => new Color(200, 200, 200, Projectile.alpha);
+
+        public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D texture2D13 = Main.projectileTexture[projectile.type];
-            int num214 = Main.projectileTexture[projectile.type].Height / Main.projFrames[projectile.type];
-            int y6 = num214 * projectile.frame;
-            Main.spriteBatch.Draw(texture2D13, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y6, texture2D13.Width, num214)), projectile.GetAlpha(lightColor), projectile.rotation, new Vector2((float)texture2D13.Width / 2f, (float)num214 / 2f), projectile.scale, SpriteEffects.None, 0f);
+            Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
+            int num214 = texture.Height / Main.projFrames[Projectile.type];
+            int y6 = num214 * Projectile.frame;
+            Main.spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Rectangle(0, y6, texture.Width, num214), Projectile.GetAlpha(lightColor), Projectile.rotation, new Vector2(texture.Width / 2f, num214 / 2f), Projectile.scale, SpriteEffects.None, 0);
             return false;
         }
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.Item14, projectile.position);
-            projectile.position = projectile.Center;
-            projectile.width = projectile.height = 48;
-            projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-            projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
-            projectile.Damage();
-            for (int num621 = 0; num621 < 3; num621++)
+            SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);
+            Projectile.ExpandHitboxBy(48);
+            for (int d = 0; d < 2; d++)
             {
-                int num622 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 244, 0f, 0f, 100, default, 2f);
-                Main.dust[num622].velocity *= 3f;
+                int idx = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 244, 0f, 0f, 100, default, 1f);
+                Main.dust[idx].velocity *= 3f;
                 if (Main.rand.NextBool(2))
                 {
-                    Main.dust[num622].scale = 0.5f;
-                    Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+                    Main.dust[idx].scale = 0.5f;
+                    Main.dust[idx].fadeIn = 1f + Main.rand.NextFloat(0.1f, 1f);
                 }
             }
-            for (int num623 = 0; num623 < 5; num623++)
+            for (int d = 0; d < 4; d++)
             {
-                int num624 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 244, 0f, 0f, 100, default, 3f);
-                Main.dust[num624].noGravity = true;
-                Main.dust[num624].velocity *= 5f;
-                num624 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 244, 0f, 0f, 100, default, 2f);
-                Main.dust[num624].velocity *= 2f;
+                int idx = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 244, 0f, 0f, 100, default, 2f);
+                Main.dust[idx].noGravity = true;
+                Main.dust[idx].velocity *= 5f;
+                idx = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 244, 0f, 0f, 100, default, 1f);
+                Main.dust[idx].velocity *= 2f;
             }
-			CalamityUtils.ExplosionGores(projectile.Center, 3);
+
+            if (Main.netMode != NetmodeID.Server)
+            {
+                Vector2 goreSource = Projectile.Center;
+                int goreAmt = 3;
+                Vector2 source = new Vector2(goreSource.X - 24f, goreSource.Y - 24f);
+                for (int goreIndex = 0; goreIndex < goreAmt; goreIndex++)
+                {
+                    float velocityMult = 0.33f;
+                    if (goreIndex < (goreAmt / 3))
+                    {
+                        velocityMult = 0.66f;
+                    }
+                    if (goreIndex >= (2 * goreAmt / 3))
+                    {
+                        velocityMult = 1f;
+                    }
+                    Mod mod = ModContent.GetInstance<CalamityMod>();
+                    int type = Main.rand.Next(61, 64);
+                    int smoke = Gore.NewGore(Projectile.GetSource_Death(), source, default, type, 1f);
+                    Gore gore = Main.gore[smoke];
+                    gore.velocity *= velocityMult;
+                    gore.velocity.X += 1f;
+                    gore.velocity.Y += 1f;
+                    type = Main.rand.Next(61, 64);
+                    smoke = Gore.NewGore(Projectile.GetSource_Death(), source, default, type, 1f);
+                    gore = Main.gore[smoke];
+                    gore.velocity *= velocityMult;
+                    gore.velocity.X -= 1f;
+                    gore.velocity.Y += 1f;
+                    type = Main.rand.Next(61, 64);
+                    smoke = Gore.NewGore(Projectile.GetSource_Death(), source, default, type, 1f);
+                    gore = Main.gore[smoke];
+                    gore.velocity *= velocityMult;
+                    gore.velocity.X += 1f;
+                    gore.velocity.Y -= 1f;
+                    type = Main.rand.Next(61, 64);
+                    smoke = Gore.NewGore(Projectile.GetSource_Death(), source, default, type, 1f);
+                    gore = Main.gore[smoke];
+                    gore.velocity *= velocityMult;
+                    gore.velocity.X -= 1f;
+                    gore.velocity.Y -= 1f;
+                }
+            }
+
+            Projectile.Damage();
         }
 
-		public override void OnHitPlayer(Player target, int damage, bool crit)
-		{
-			target.AddBuff(ModContent.BuffType<LethalLavaBurn>(), 180);
-		}
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => CalamityUtils.CircularHitboxCollision(Projectile.Center, 16f * Projectile.scale, targetHitbox);
 
-		public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)	
+        public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-			target.Calamity().lastProjectileHit = projectile;
-		}
+            if (damage <= 0)
+                return;
+
+            target.AddBuff(ModContent.BuffType<Dragonfire>(), 240);
+        }
     }
 }

@@ -1,6 +1,7 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.Graphics.Effects;
 using Terraria.ID;
 
@@ -35,7 +36,7 @@ namespace CalamityMod.Skies
         {
             if (maxDepth >= 3.40282347E+38f && minDepth < 3.40282347E+38f)
             {
-                spriteBatch.Draw(CalamityMod.AstralSky, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Main.bgColor * opacity);
+                spriteBatch.Draw(CalamityMod.AstralSky, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Main.ColorOfTheSkies * opacity);
 
                 //Terraria's conditions.
                 if (Main.netMode != NetmodeID.Server)
@@ -46,7 +47,7 @@ namespace CalamityMod.Skies
                         if (star == null)
                             continue;
 
-                        Texture2D t2D = Main.starTexture[star.type];
+                        Texture2D t2D = TextureAssets.Star[star.type].Value;
                         Vector2 origin = new Vector2(t2D.Width * 0.5f, t2D.Height * 0.5f);
 
                         int bgTop = (int)((-Main.screenPosition.Y) / (Main.worldSurface * 16.0 - 600.0) * 200.0);
@@ -63,6 +64,9 @@ namespace CalamityMod.Skies
 
         public override void Update(GameTime gameTime)
         {
+            if (!Main.LocalPlayer.Calamity().ZoneAstral)
+                skyActive = false;
+
             if (skyActive && opacity < 1f)
             {
                 opacity += 0.02f;

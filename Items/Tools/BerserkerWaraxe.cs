@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -10,34 +10,35 @@ namespace CalamityMod.Items.Tools
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Berserker Waraxe");
         }
 
         public override void SetDefaults()
         {
-            item.damage = 51;
-            item.melee = true;
-            item.width = 66;
-            item.height = 56;
-            item.useTime = 7;
-            item.useAnimation = 27;
-            item.useTurn = true;
-            item.axe = 30;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 8;
-            item.value = Item.buyPrice(0, 60, 0, 0);
-            item.rare = 7;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
+            Item.damage = 51;
+            Item.knockBack = 8f;
+            Item.useTime = 5;
+            Item.useAnimation = 13;
+            Item.axe = 180 / 5;
+
+            Item.DamageType = DamageClass.Melee;
+            Item.width = 66;
+            Item.height = 56;
+            Item.useTurn = true;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.value = Item.buyPrice(0, 60, 0, 0);
+            Item.rare = ItemRarityID.Lime;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<DraedonBar>(), 9);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient<PerennialBar>(9).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)

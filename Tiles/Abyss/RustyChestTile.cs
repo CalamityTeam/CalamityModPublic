@@ -1,6 +1,8 @@
-using CalamityMod.Items.Placeables.Furniture;
+﻿using CalamityMod.Items.Placeables.Furniture;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
+using Terraria.GameContent.ObjectInteractions;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -8,16 +10,16 @@ namespace CalamityMod.Tiles.Abyss
 {
     public class RustyChestTile : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpChest();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Rusty Chest");
             AddMapEntry(new Color(191, 142, 111), name, MapChestName);
-            disableSmartCursor = true;
-            adjTiles = new int[] { TileID.Containers };
-            chest = "Rusty Chest";
-            chestDrop = ModContent.ItemType<RustyChest>();
+            TileID.Sets.DisableSmartCursor[Type] = true;
+            AdjTiles = new int[] { TileID.Containers };
+            ContainerName.SetDefault("Rusty Chest");
+            ChestDrop = ModContent.ItemType<RustyChest>();
         }
 
         public override bool CreateDust(int i, int j, ref int type)
@@ -26,31 +28,9 @@ namespace CalamityMod.Tiles.Abyss
             return false;
         }
 
-        public override bool HasSmartInteract() => true;
+        public override bool HasSmartInteract(int i, int j, SmartInteractScanSettings settings) => true;
 
-        public string MapChestName(string name, int i, int j)
-        {
-            // Bounds check
-            if (i < 0 || i >= Main.maxTilesX || j < 0 || j >= Main.maxTilesY)
-                return name;
-
-            // Tile null check
-            Tile tile = Main.tile[i, j];
-            if (tile is null)
-                return name;
-
-            int left = i;
-            int top = j;
-            if (tile.frameX % 36 != 0)
-                left--;
-            if (tile.frameY != 0)
-                top--;
-
-            int chest = Chest.FindChest(left, top);
-            if (chest == -1)
-                return name;
-            return name + (Main.chest[chest].name != "" ? ": " + Main.chest[chest].name : "");
-        }
+        public string MapChestName(string name, int i, int j) => CalamityUtils.GetMapChestName(name, i, j);
 
         public override void NumDust(int i, int j, bool fail, ref int num)
         {
@@ -59,11 +39,11 @@ namespace CalamityMod.Tiles.Abyss
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 32, 32, chestDrop);
+            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 32, 32, ChestDrop);
             Chest.DestroyChest(i, j);
         }
 
-        public override bool NewRightClick(int i, int j)
+        public override bool RightClick(int i, int j)
         {
             return CalamityUtils.ChestRightClick(i, j);
         }

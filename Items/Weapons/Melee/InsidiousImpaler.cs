@@ -1,50 +1,43 @@
-using CalamityMod.Projectiles.Melee.Spears;
+﻿using CalamityMod.Projectiles.Melee.Spears;
+using CalamityMod.Rarities;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-	public class InsidiousImpaler : ModItem
+    public class InsidiousImpaler : ModItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Insidious Impaler");
             Tooltip.SetDefault("Fires a harpoon that sticks to enemies and explodes");
+            SacrificeTotal = 1;
+            ItemID.Sets.Spears[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.width = 66;
-            item.damage = 390;
-            item.melee = true;
-            item.noMelee = true;
-            item.useTurn = true;
-            item.noUseGraphic = true;
-            item.useAnimation = 20;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.useTime = 20;
-            item.knockBack = 8f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 70;
-            item.value = Item.buyPrice(1, 40, 0, 0);
-            item.Calamity().postMoonLordRarity = 13;
-			item.rare = 10;
-            item.shoot = ModContent.ProjectileType<InsidiousImpalerProj>();
-            item.shootSpeed = 5f;
+            Item.width = 66;
+            Item.damage = 210;
+            Item.DamageType = DamageClass.Melee;
+            Item.noMelee = true;
+            Item.useTurn = true;
+            Item.noUseGraphic = true;
+            Item.useAnimation = 20;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.useTime = 20;
+            Item.knockBack = 8f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.height = 70;
+            Item.shoot = ModContent.ProjectileType<InsidiousImpalerProj>();
+            Item.shootSpeed = 5f;
+
+            Item.value = CalamityGlobalItem.Rarity13BuyPrice;
+            Item.rare = ModContent.RarityType<PureGreen>();
         }
 
-        public override bool CanUseItem(Player player)
-        {
-            for (int i = 0; i < Main.maxProjectiles; ++i)
-            {
-                if (Main.projectile[i].active && Main.projectile[i].owner == Main.myPlayer && Main.projectile[i].type == item.shoot)
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;
     }
 }

@@ -1,6 +1,6 @@
-using CalamityMod.CalPlayer;
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
+using CalamityMod.Rarities;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -11,39 +11,36 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Reaper Tooth Necklace");
-            Tooltip.SetDefault("Increases armor penetration by 100\n" +
-                "Increases all damage by 25%\n" +
-                "Cuts your defense and damage reduction in half");
+            Tooltip.SetDefault("A grisly trophy from the ultimate predator\n" + "15% increased damage\n" + "Increases armor penetration by 15");
         }
 
         public override void SetDefaults()
         {
-            item.width = 26;
-            item.height = 26;
-            item.value = CalamityGlobalItem.Rarity13BuyPrice;
-            item.rare = 10;
-            item.accessory = true;
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
+            Item.width = 44;
+            Item.height = 50;
+            Item.accessory = true;
+            Item.value = CalamityGlobalItem.Rarity13BuyPrice;
+            Item.rare = ModContent.RarityType<PureGreen>();
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            CalamityPlayer modPlayer = player.Calamity();
-            modPlayer.reaperToothNecklace = true;
-            player.armorPenetration += 100;
+            player.GetDamage<GenericDamageClass>() += 0.15f;
+            player.GetArmorPenetration<GenericDamageClass>() += 15;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<ReaperTooth>(), 6);
-            recipe.AddIngredient(ModContent.ItemType<Lumenite>(), 15);
-            recipe.AddIngredient(ModContent.ItemType<DepthCells>(), 15);
-            recipe.AddIngredient(ModContent.ItemType<Tenebris>(), 5);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient<SandSharkToothNecklace>().
+                AddIngredient<ReaperTooth>(6).
+                AddIngredient<Lumenyl>(15).
+                AddIngredient<DepthCells>(15).
+                AddIngredient<Tenebris>(5).
+                AddTile(TileID.TinkerersWorkbench).
+                Register();
         }
     }
 }

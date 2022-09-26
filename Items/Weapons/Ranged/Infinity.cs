@@ -1,6 +1,10 @@
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Ranged;
+using CalamityMod.Rarities;
+using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -13,32 +17,33 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Infinity");
-            Tooltip.SetDefault("Bad PC\n" +
-                "Fires a barrage of energy bolts that split and bounce\n" +
+            Tooltip.SetDefault("Fires a barrage of energy bolts that split and bounce\n" +
                 "Right click to fire a barrage of normal bullets\n" +
                 "They say infinity is neverending, yet you hold it in your hands");
+            SacrificeTotal = 1;
+            ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 30;
-            item.ranged = true;
-            item.width = 56;
-            item.height = 24;
-            item.useTime = 2;
-            item.reuseDelay = 6;
-            item.useAnimation = 1800;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 1f;
-            item.value = Item.buyPrice(1, 20, 0, 0);
-            item.rare = 10;
-            item.UseSound = SoundID.Item31;
-            item.autoReuse = true;
-            item.shoot = ProjectileID.PurificationPowder;
-            item.shootSpeed = 12f;
-            item.useAmmo = 97;
-            item.Calamity().customRarity = CalamityRarity.RareVariant;
+            Item.damage = 130;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 56;
+            Item.height = 24;
+            Item.useTime = 2;
+            Item.reuseDelay = 6;
+            Item.useAnimation = 18;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 1f;
+            Item.value = CalamityGlobalItem.RarityDarkBlueBuyPrice;
+            Item.rare = ModContent.RarityType<DarkBlue>();
+            Item.UseSound = SoundID.Item31;
+            Item.autoReuse = true;
+            Item.shoot = ProjectileID.PurificationPowder;
+            Item.shootSpeed = 12f;
+            Item.useAmmo = AmmoID.Bullet;
+            Item.Calamity().canFirePointBlankShots = true;
         }
 
         public override Vector2? HoldoutOffset()
@@ -51,17 +56,16 @@ namespace CalamityMod.Items.Weapons.Ranged
             return true;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-
             if (player.altFunctionUse == 2)
             {
                 //If you right click, shoots an helix of normal bullets
-                Vector2 num7 = new Vector2(speedX, speedY).RotatedBy(MathHelper.ToRadians(rotation));
-                Vector2 num8 = new Vector2(speedX, speedY).RotatedBy(MathHelper.ToRadians(-rotation));
-                int shot1 = Projectile.NewProjectile(position.X, position.Y, num7.X, num7.Y, type, damage, knockBack, player.whoAmI, 0f, 0f);
+                Vector2 num7 = velocity.RotatedBy(MathHelper.ToRadians(rotation));
+                Vector2 num8 = velocity.RotatedBy(MathHelper.ToRadians(-rotation));
+                int shot1 = Projectile.NewProjectile(source, position.X, position.Y, num7.X, num7.Y, type, damage, knockback, player.whoAmI, 0f, 0f);
                 Main.projectile[shot1].timeLeft = 180;
-                int shot2 = Projectile.NewProjectile(position.X, position.Y, num8.X, num8.Y, type, damage, knockBack, player.whoAmI, 0f, 0f);
+                int shot2 = Projectile.NewProjectile(source, position.X, position.Y, num8.X, num8.Y, type, damage, knockback, player.whoAmI, 0f, 0f);
                 Main.projectile[shot2].timeLeft = 180;
                 //Code to constantly make the shooting go side to side to make the helix
                 if (limit)
@@ -85,11 +89,11 @@ namespace CalamityMod.Items.Weapons.Ranged
             else
             {
                 //If left click, do the same as above but spawn Charged Blasts instead
-                Vector2 num7 = new Vector2(speedX, speedY).RotatedBy(MathHelper.ToRadians(rotation));
-                Vector2 num8 = new Vector2(speedX, speedY).RotatedBy(MathHelper.ToRadians(-rotation));
-                int shot1 = Projectile.NewProjectile(position.X, position.Y, num7.X, num7.Y, ModContent.ProjectileType<ChargedBlast>(), damage, knockBack, player.whoAmI, 0f, 0f);
+                Vector2 num7 = velocity.RotatedBy(MathHelper.ToRadians(rotation));
+                Vector2 num8 = velocity.RotatedBy(MathHelper.ToRadians(-rotation));
+                int shot1 = Projectile.NewProjectile(source, position.X, position.Y, num7.X, num7.Y, ModContent.ProjectileType<ChargedBlast>(), damage, knockback, player.whoAmI, 0f, 0f);
                 Main.projectile[shot1].timeLeft = 180;
-                int shot2 = Projectile.NewProjectile(position.X, position.Y, num8.X, num8.Y, ModContent.ProjectileType<ChargedBlast>(), damage, knockBack, player.whoAmI, 0f, 0f);
+                int shot2 = Projectile.NewProjectile(source, position.X, position.Y, num8.X, num8.Y, ModContent.ProjectileType<ChargedBlast>(), damage, knockback, player.whoAmI, 0f, 0f);
                 Main.projectile[shot2].timeLeft = 180;
                 if (limit)
                 {
@@ -109,6 +113,15 @@ namespace CalamityMod.Items.Weapons.Ranged
                 }
                 return false;
             }
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient<Shredder>().
+                AddIngredient<CosmiliteBar>(10).
+                AddTile<CosmicAnvil>().
+                Register();
         }
     }
 }

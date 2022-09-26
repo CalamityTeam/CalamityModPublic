@@ -1,5 +1,6 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -10,38 +11,40 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Clothier's Wrath");
+            Tooltip.SetDefault("Shoots 3 shadowflame skulls");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 24;
-            item.magic = true;
-            item.mana = 15;
-            item.width = 28;
-            item.height = 30;
-            item.useTime = 22;
-            item.useAnimation = 22;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 3f;
-            item.value = Item.buyPrice(0, 4, 0, 0);
-            item.rare = 3;
-            item.UseSound = SoundID.Item8;
-            item.autoReuse = true;
-            item.shoot = ProjectileID.ClothiersCurse;
-            item.shootSpeed = 6f;
-            item.Calamity().customRarity = CalamityRarity.RareVariant;
+            Item.damage = 38;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 15;
+            Item.width = 28;
+            Item.height = 30;
+            Item.useTime = 22;
+            Item.useAnimation = 22;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 3f;
+            Item.value = CalamityGlobalItem.Rarity4BuyPrice;
+            Item.rare = ItemRarityID.LightRed;
+            Item.UseSound = SoundID.Item8;
+            Item.autoReuse = true;
+            Item.shoot = ProjectileID.ClothiersCurse;
+            Item.shootSpeed = 6f;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            int numProj = 2;
+            int numProj = 3;
             float rotation = MathHelper.ToRadians(2);
-            for (int i = 0; i < numProj + 1; i++)
+            for (int i = 0; i < numProj; i++)
             {
-                Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numProj - 1)));
-                int proj = Projectile.NewProjectile(position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, type, damage, knockBack, player.whoAmI, 0f, 0f);
-                Main.projectile[proj].Calamity().forceMagic = true;
+                Vector2 perturbedSpeed = velocity.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (float)(numProj - 1)));
+                int proj = Projectile.NewProjectile(source, position, perturbedSpeed, type, damage, knockback, player.whoAmI);
+                if (proj.WithinBounds(Main.maxProjectiles))
+                    Main.projectile[proj].DamageType = DamageClass.Magic;
             }
             return false;
         }

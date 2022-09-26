@@ -1,8 +1,11 @@
-using CalamityMod.Buffs.StatDebuffs;
+﻿using CalamityMod.Buffs.StatDebuffs;
+using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
+
 namespace CalamityMod.Projectiles.Boss
 {
     public class IceBomb : ModProjectile
@@ -14,48 +17,92 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-            projectile.width = 30;
-            projectile.height = 30;
-            projectile.hostile = true;
-            projectile.alpha = 50;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 300;
+            Projectile.Calamity().DealsDefenseDamage = true;
+            Projectile.width = 30;
+            Projectile.height = 30;
+            Projectile.scale = 0.6f;
+            Projectile.hostile = true;
+            Projectile.coldDamage = true;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = 300;
         }
+
+        public override bool CanHitPlayer(Player target) => Projectile.ai[0] >= 120f;
 
         public override void AI()
         {
-            projectile.velocity *= 0.99f;
+            Projectile.velocity *= 0.98f;
+
+            if (Projectile.ai[0] < 120f)
+            {
+                Projectile.ai[0] += 1f;
+                if (Projectile.ai[0] == 120f)
+                {
+                    for (int num621 = 0; num621 < 8; num621++)
+                    {
+                        int num622 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 67, 0f, 0f, 100, default, 2f);
+                        Main.dust[num622].velocity *= 3f;
+                        if (Main.rand.NextBool(2))
+                        {
+                            Main.dust[num622].scale = 0.5f;
+                            Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
+                        }
+                    }
+                    for (int num623 = 0; num623 < 14; num623++)
+                    {
+                        int num624 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 67, 0f, 0f, 100, default, 3f);
+                        Main.dust[num624].noGravity = true;
+                        Main.dust[num624].velocity *= 5f;
+                        num624 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 67, 0f, 0f, 100, default, 2f);
+                        Main.dust[num624].velocity *= 2f;
+                    }
+
+                    Projectile.scale = 1.2f;
+                    Projectile.ExpandHitboxBy((int)(30f * Projectile.scale));
+                    SoundEngine.PlaySound(SoundID.Item30, Projectile.Center);
+                }
+            }
+        }
+
+        public override Color? GetAlpha(Color lightColor)
+        {
+            return new Color(255, 255, 255, Projectile.alpha);
         }
 
         public override void Kill(int timeLeft)
         {
-            Lighting.AddLight((int)((projectile.position.X + (float)(projectile.width / 2)) / 16f), (int)((projectile.position.Y + (float)(projectile.height / 2)) / 16f), 0.01f, 0.25f, 0.25f);
-            Main.PlaySound(SoundID.Item27, projectile.position);
-            float spread = 60f * 0.0174f;
-            double startAngle = Math.Atan2(projectile.velocity.X, projectile.velocity.Y) - spread / 2;
-            double deltaAngle = spread / 8f;
-            double offsetAngle;
-            int i;
-            if (projectile.owner == Main.myPlayer)
+            SoundEngine.PlaySound(SoundID.Item27, Projectile.position);
+
+            if (Projectile.owner == Main.myPlayer)
             {
-                for (i = 0; i < 3; i++)
+                int totalProjectiles = 8;
+                float radians = MathHelper.TwoPi / totalProjectiles;
+                int type = ModContent.ProjectileType<IceRain>();
+                int damage = (int)Math.Round(Projectile.damage * 0.75);
+                float velocity = 1f;
+                Vector2 spinningPoint = new Vector2(0f, -velocity);
+                for (int k = 0; k < totalProjectiles; k++)
                 {
-                    offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<IceRain>(), projectile.damage, projectile.knockBack, projectile.owner, 1f, 0f);
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<IceRain>(), projectile.damage, projectile.knockBack, projectile.owner, 1f, 0f);
+                    Vector2 vector255 = spinningPoint.RotatedBy(radians * k);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, vector255, type, damage, 0f, Projectile.owner, 1f, 0f);
                 }
             }
-            for (int k = 0; k < 3; k++)
-            {
-                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 67, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
-            }
+
+            for (int k = 0; k < 10; k++)
+                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 67, Projectile.oldVelocity.X * 0.5f, Projectile.oldVelocity.Y * 0.5f);
         }
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            target.AddBuff(BuffID.Frostburn, 120, true);
-            target.AddBuff(BuffID.Chilled, 90, true);
-            target.AddBuff(ModContent.BuffType<GlacialState>(), 60);
+            if (damage <= 0)
+                return;
+
+            if (Projectile.ai[0] >= 120f)
+            {
+                target.AddBuff(BuffID.Frostburn, 180, true);
+                target.AddBuff(BuffID.Chilled, 90, true);
+                target.AddBuff(ModContent.BuffType<GlacialState>(), 60);
+            }
         }
     }
 }

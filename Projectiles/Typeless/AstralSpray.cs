@@ -1,62 +1,63 @@
-using CalamityMod.World;
-using Microsoft.Xna.Framework;
+﻿using CalamityMod.World;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Typeless
 {
     public class AstralSpray : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetDefaults()
         {
-            projectile.width = 16;
-            projectile.height = 16;
-            projectile.aiStyle = -1;
-            projectile.friendly = true;
-            projectile.alpha = 255;
-            projectile.penetrate = -1;
-            projectile.extraUpdates = 2;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
+            Projectile.width = 16;
+            Projectile.height = 16;
+            Projectile.aiStyle = -1;
+            Projectile.friendly = true;
+            Projectile.alpha = 255;
+            Projectile.penetrate = -1;
+            Projectile.extraUpdates = 2;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
         }
 
-        public override bool CanDamage() => false;
+        public override bool? CanDamage() => false;
 
         public override bool PreAI()
         {
-            if (projectile.owner == Main.myPlayer/* && Main.netMode != NetmodeID.MultiplayerClient*/)
+            if (Main.myPlayer == Projectile.owner)
             {
-                int x = (int)(projectile.Center.X / 16f);
-                int y = (int)(projectile.Center.Y / 16f);
-                WorldGenerationMethods.ConvertToAstral(x - 1, x + 1, y - 1, y + 1);
+                int x = (int)(Projectile.Center.X / 16f);
+                int y = (int)(Projectile.Center.Y / 16f);
+
+                AstralBiome.ConvertToAstral(x - 1, x + 1, y - 1, y + 1);
             }
-            if (projectile.timeLeft > 133)
+            if (Projectile.timeLeft > 133)
             {
-                projectile.timeLeft = 133;
+                Projectile.timeLeft = 133;
             }
-            if (projectile.ai[0] > 7f)
+            if (Projectile.ai[0] > 7f)
             {
                 float scalar = 1f;
-                if (projectile.ai[0] == 8f)
+                if (Projectile.ai[0] == 8f)
                 {
                     scalar = 0.2f;
                 }
-                else if (projectile.ai[0] == 9f)
+                else if (Projectile.ai[0] == 9f)
                 {
                     scalar = 0.4f;
                 }
-                else if (projectile.ai[0] == 10f)
+                else if (Projectile.ai[0] == 10f)
                 {
                     scalar = 0.6f;
                 }
-                else if (projectile.ai[0] == 11f)
+                else if (Projectile.ai[0] == 11f)
                 {
                     scalar = 0.8f;
                 }
-                projectile.ai[0]++;
+                Projectile.ai[0]++;
                 for (int i = 0; i < 1; i++)
                 {
-                    int d = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 118, projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 100);
+                    int d = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 118, Projectile.velocity.X * 0.2f, Projectile.velocity.Y * 0.2f, 100);
                     Main.dust[d].noGravity = true;
                     Main.dust[d].scale *= 1.75f * scalar;
                     Main.dust[d].velocity.X *= 2f;
@@ -65,9 +66,9 @@ namespace CalamityMod.Projectiles.Typeless
             }
             else
             {
-                projectile.ai[0]++;
+                Projectile.ai[0]++;
             }
-            projectile.rotation += 0.3f * projectile.direction;
+            Projectile.rotation += 0.3f * Projectile.direction;
             return false;
         }
     }

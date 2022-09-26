@@ -1,7 +1,9 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Items.Accessories
 {
     [AutoloadEquip(EquipType.Face)]
@@ -9,22 +11,34 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Abaddon");
-            Tooltip.SetDefault("Reduces the damage caused by the Brimstone Flames debuff");
+            Tooltip.SetDefault("Grants immunity to Brimstone Flames and Searing Lava");
         }
 
         public override void SetDefaults()
         {
-            item.width = 26;
-            item.height = 26;
-            item.value = CalamityGlobalItem.Rarity5BuyPrice;
-            item.rare = 5;
-            item.accessory = true;
+            Item.width = 26;
+            Item.height = 26;
+            Item.value = CalamityGlobalItem.Rarity5BuyPrice;
+            Item.rare = ItemRarityID.Pink;
+            Item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-			player.Calamity().abaddon = true;
+            player.Calamity().abaddon = true;
+            player.buffImmune[ModContent.BuffType<BrimstoneFlames>()] = true;
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddRecipeGroup("AnyGoldCrown").
+                AddIngredient<UnholyCore>(5).
+                AddIngredient<EssenceofChaos>(10).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

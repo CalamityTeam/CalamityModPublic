@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -9,35 +9,36 @@ namespace CalamityMod.Projectiles.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Bullet");
-            ProjectileID.Sets.MinionShot[projectile.type] = true;
+            ProjectileID.Sets.MinionShot[Projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 10;
-            projectile.height = 12;
-            projectile.friendly = true;
-            projectile.minion = true;
-            projectile.minionSlots = 0f;
-            projectile.ignoreWater = true;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 360;
+            Projectile.width = 10;
+            Projectile.height = 12;
+            Projectile.friendly = true;
+            Projectile.minion = true;
+            Projectile.minionSlots = 0f;
+            Projectile.ignoreWater = true;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = 360;
+            Projectile.DamageType = DamageClass.Summon;
         }
         public override void AI()
         {
-            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
-            projectile.velocity.X *= 0.99f;
-            if (projectile.velocity.Y < 9f)
-                projectile.velocity.Y += 0.085f;
-            projectile.tileCollide = projectile.timeLeft <= 180;
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
+            Projectile.velocity.X *= 0.99f;
+            if (Projectile.velocity.Y < 9f)
+                Projectile.velocity.Y += 0.085f;
+            Projectile.tileCollide = Projectile.timeLeft <= 180;
         }
         public override void Kill(int timeLeft)
         {
             for (int i = 0; i < 5; i++)
             {
-                Dust dust = Dust.NewDustPerfect(projectile.Center, DustID.Grass);
+                Dust dust = Dust.NewDustPerfect(Projectile.Center, DustID.Grass);
+                dust.velocity = Main.rand.NextVector2Circular(2f, 2f);
                 dust.noGravity = true;
-                dust.velocity = Vector2.One.RotatedByRandom(MathHelper.TwoPi) * Main.rand.NextFloat(2);
             }
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

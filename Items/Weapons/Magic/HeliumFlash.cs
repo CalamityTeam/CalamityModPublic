@@ -1,8 +1,7 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
+using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
-using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -11,43 +10,47 @@ namespace CalamityMod.Items.Weapons.Magic
 {
     public class HeliumFlash : ModItem
     {
+        internal const float ExplosionDamageMultiplier = 0.125f;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Helium Flash");
             Tooltip.SetDefault("The power of a galaxy, if only for mere moments\n" +
-			"Launches volatile star cores which erupt into colossal fusion blasts");
-            Item.staff[item.type] = true;
+            "Launches volatile star cores which erupt into colossal fusion blasts");
+            Item.staff[Item.type] = true;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.width = 76;
-            item.height = 76;
-            item.magic = true;
-            item.damage = 1111;
-            item.knockBack = 9.5f;
-            item.mana = 26;
-            item.useAnimation = 37;
-            item.useTime = 37;
-            item.autoReuse = true;
-            item.noMelee = true;
+            Item.width = 112;
+            Item.height = 112;
+            Item.DamageType = DamageClass.Magic;
+            Item.damage = 2727;
+            Item.knockBack = 9.5f;
+            Item.mana = 26;
+            Item.useAnimation = 40;
+            Item.useTime = 40;
+            Item.autoReuse = true;
+            Item.noMelee = true;
 
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.UseSound = SoundID.Item73;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.UseSound = SoundID.Item73;
 
-            item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.Violet;
-            item.value = Item.buyPrice(2, 50, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity15BuyPrice;
+            Item.rare = ModContent.RarityType<Violet>();
 
-            item.shoot = ModContent.ProjectileType<VolatileStarcore>();
-            item.shootSpeed = 15f;
+            Item.shoot = ModContent.ProjectileType<VolatileStarcore>();
+            Item.shootSpeed = 15f;
         }
 
+        // TODO -- Fancy visual flare doesn't work with resprited Helium Flash, adjust dust positions
+        /*
         // Creates dust at the tip of the staff when used.
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            Vector2 dir = new Vector2(speedX, speedY);
-            double angle = Math.Atan2(speedY, speedX) + MathHelper.PiOver4;
+            Vector2 dir = velocity;
+            double angle = Math.Atan2(velocity.Y, velocity.X) + MathHelper.PiOver4;
             dir = dir.SafeNormalize(Vector2.Zero);
             dir *= 64f * 1.4142f; // distance to gleaming point on staff
             Vector2 dustPos = position + dir;
@@ -90,20 +93,19 @@ namespace CalamityMod.Items.Weapons.Magic
             }
             return true;
         }
+        */
 
         public override void AddRecipes()
         {
-            ModRecipe r = new ModRecipe(mod);
-            r.SetResult(this);
-            r.AddTile(ModContent.TileType<DraedonsForge>());
-            r.AddIngredient(ModContent.ItemType<VenusianTrident>());
-            r.AddIngredient(ModContent.ItemType<CalamitasInferno>());
-            r.AddIngredient(ModContent.ItemType<ForbiddenSun>());
-            r.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 10);
-            r.AddIngredient(ModContent.ItemType<DarksunFragment>(), 10);
-            r.AddIngredient(ItemID.FragmentSolar, 80);
-            r.AddIngredient(ItemID.FragmentNebula, 20);
-            r.AddRecipe();
+            CreateRecipe().
+                AddIngredient<VenusianTrident>().
+                AddIngredient<LashesofChaos>().
+                AddIngredient<ForbiddenSun>().
+                AddIngredient(ItemID.FragmentSolar, 20).
+                AddIngredient(ItemID.FragmentNebula, 5).
+                AddIngredient<AuricBar>(5).
+                AddTile<CosmicAnvil>().
+                Register();
         }
     }
 }

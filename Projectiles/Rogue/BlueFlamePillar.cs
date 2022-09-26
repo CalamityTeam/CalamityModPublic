@@ -16,20 +16,20 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetDefaults()
         {
-            projectile.width = 80;
-            projectile.height = 322;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.timeLeft = 180;
-            projectile.tileCollide = false;
-            projectile.alpha = 255;
-            projectile.Calamity().rogue = true;
+            Projectile.width = 80;
+            Projectile.height = 322;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft = 180;
+            Projectile.tileCollide = false;
+            Projectile.alpha = 255;
+            Projectile.DamageType = RogueDamageClass.Instance;
         }
         public override void AI()
         {
             //2-6
-            projectile.frameCounter += 1;
-            if (projectile.frameCounter % 7 == 6)
+            Projectile.frameCounter += 1;
+            if (Projectile.frameCounter % 7 == 6)
             {
                 frameY += 1;
                 if (frameY >= 6)
@@ -39,19 +39,20 @@ namespace CalamityMod.Projectiles.Rogue
                 }
                 if (frameX >= 3)
                 {
-                    projectile.Kill();
+                    Projectile.Kill();
                 }
             }
-            if (projectile.localAI[0] == 0f)
+            if (Projectile.localAI[0] == 0f)
             {
-                projectile.position.Y -= projectile.height / 2; //position adjustments
-                projectile.localAI[0] = 1f;
+                Projectile.position.Y -= Projectile.height / 2; //position adjustments
+                Projectile.localAI[0] = 1f;
             }
         }
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
+            Texture2D tex = ModContent.Request<Texture2D>(Texture).Value;
             Rectangle frame = new Rectangle(frameX * 80, frameY * 322, 80, 322);
-            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Projectiles/Rogue/BlueFlamePillar"), projectile.Center - Main.screenPosition, frame, Color.White, projectile.rotation, projectile.Size / 2, 1f, SpriteEffects.None, 0f);
+            Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition, frame, Color.White, Projectile.rotation, Projectile.Size / 2, 1f, SpriteEffects.None, 0);
             return false;
         }
     }

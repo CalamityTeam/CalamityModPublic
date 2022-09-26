@@ -1,4 +1,5 @@
-using CalamityMod.Items.Placeables.Ores;
+﻿using CalamityMod.Items.Placeables.Ores;
+using CalamityMod.Tiles;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -9,25 +10,32 @@ namespace CalamityMod.Items.Materials
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 25;
             DisplayName.SetDefault("Aerialite Bar");
+			ItemID.Sets.SortingPriorityMaterials[Type] = 69; // Hellstone
         }
 
         public override void SetDefaults()
         {
-            item.width = 30;
-            item.height = 24;
-            item.maxStack = 999;
-            item.value = Item.sellPrice(silver: 30);
-            item.rare = 3;
+            Item.createTile = ModContent.TileType<AerialiteBarTile>();
+            Item.width = 30;
+            Item.height = 24;
+            Item.maxStack = 999;
+            Item.value = Item.sellPrice(silver: 30);
+            Item.rare = ItemRarityID.Orange;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTurn = true;
+            Item.useAnimation = 15;
+            Item.useTime = 10;
+            Item.autoReuse = true;
+            Item.consumable = true;
         }
-
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<AerialiteOre>(), 4);
-            recipe.AddTile(TileID.Furnaces);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient<AerialiteOre>(4).
+                AddTile(TileID.Furnaces).
+                Register();
         }
     }
 }

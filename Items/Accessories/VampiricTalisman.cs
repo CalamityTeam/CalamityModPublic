@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
@@ -10,6 +10,7 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Vampiric Talisman");
             Tooltip.SetDefault(@"Rogue projectiles give lifesteal on crits
 12% increased rogue damage");
@@ -17,28 +18,27 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetDefaults()
         {
-            item.width = 50;
-            item.height = 26;
-            item.value = CalamityGlobalItem.Rarity6BuyPrice;
-            item.accessory = true;
-            item.rare = 6;
+            Item.width = 58;
+            Item.height = 20;
+            Item.value = CalamityGlobalItem.Rarity7BuyPrice;
+            Item.accessory = true;
+            Item.rare = ItemRarityID.Lime;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.vampiricTalisman = true;
-            player.Calamity().throwingDamage += 0.12f;
+            player.GetDamage<ThrowingDamageClass>() += 0.12f;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<RogueEmblem>());
-            recipe.AddIngredient(ModContent.ItemType<SolarVeil>(), 10);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient<RogueEmblem>().
+                AddIngredient<SolarVeil>(10).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

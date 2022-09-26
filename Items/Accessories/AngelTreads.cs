@@ -1,7 +1,5 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
-using CalamityMod.World;
-using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -13,66 +11,56 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Angel Treads");
             Tooltip.SetDefault("Extreme speed!\n" +
                                "36% increased running acceleration\n" +
                                "Increased flight time\n" +
                                "Greater mobility on ice\n" +
                                "Water and lava walking\n" +
+                               "Immunity to the On Fire! debuff\n" +
                                "Temporary immunity to lava");
         }
 
         public override void SetDefaults()
         {
-            item.width = 36;
-            item.height = 32;
-            item.value = CalamityGlobalItem.Rarity6BuyPrice;
-            item.rare = 6;
-            item.accessory = true;
-        }
-
-        public override void ModifyTooltips(List<TooltipLine> list)
-        {
-			if (CalamityWorld.death)
-			{
-				foreach (TooltipLine line2 in list)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Tooltip5")
-					{
-						line2.text = "Temporary immunity to lava\n" +
-						"Provides heat protection in Death Mode";
-					}
-				}
-			}
+            Item.width = 32;
+            Item.height = 36;
+            Item.value = CalamityGlobalItem.Rarity6BuyPrice;
+            Item.rare = ItemRarityID.LightPurple;
+            Item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            modPlayer.harpyRing = true;
-            player.accRunSpeed = 8f;
-            player.rocketBoots = 3;
-            player.moveSpeed += 0.16f;
+            modPlayer.angelTreads = true;
+            player.accRunSpeed = 7.5f;
+            player.rocketBoots = player.vanityRocketBoots = 3;
+            player.moveSpeed += 0.12f;
             player.iceSkate = true;
             player.waterWalk = true;
             player.fireWalk = true;
             player.lavaMax += 240;
+            player.buffImmune[BuffID.OnFire] = true;
+        }
+
+        public override void UpdateVanity(Player player)
+        {
+            player.vanityRocketBoots = 3;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.FrostsparkBoots);
-            recipe.AddIngredient(ItemID.LavaWaders);
-            recipe.AddIngredient(ModContent.ItemType<HarpyRing>());
-            recipe.AddIngredient(ModContent.ItemType<EssenceofCinder>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<AerialiteBar>(), 20);
-            recipe.AddIngredient(ItemID.SoulofMight);
-            recipe.AddIngredient(ItemID.SoulofSight);
-            recipe.AddIngredient(ItemID.SoulofFright);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient(ItemID.TerrasparkBoots).
+                AddIngredient<HarpyRing>().
+                AddIngredient<EssenceofSunlight>(5).
+                AddIngredient(ItemID.SoulofMight).
+                AddIngredient(ItemID.SoulofSight).
+                AddIngredient(ItemID.SoulofFright).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

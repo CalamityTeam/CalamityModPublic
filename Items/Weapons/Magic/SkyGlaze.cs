@@ -1,7 +1,8 @@
-using CalamityMod.Projectiles.Magic;
+﻿using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -13,37 +14,33 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             DisplayName.SetDefault("Sky Glaze");
             Tooltip.SetDefault("Fires feathers from the sky that stick to enemies and tiles and explode");
-            Item.staff[item.type] = true;
+            Item.staff[Item.type] = true;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 15;
-            item.magic = true;
-            item.mana = 8;
-            item.width = 52;
-            item.height = 74;
-            item.useTime = 25;
-            item.useAnimation = 25;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 3.5f;
-            item.value = Item.buyPrice(0, 1, 0, 0);
-            item.rare = 1;
-            item.UseSound = SoundID.Item102;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<StickyFeather>();
-            item.shootSpeed = 15f;
+            Item.damage = 15;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 8;
+            Item.width = 52;
+            Item.height = 74;
+            Item.useTime = 25;
+            Item.useAnimation = 25;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 3.5f;
+            Item.value = CalamityGlobalItem.Rarity1BuyPrice;
+            Item.rare = ItemRarityID.Blue;
+            Item.UseSound = SoundID.Item102;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<StickyFeather>();
+            Item.shootSpeed = 15f;
         }
 
-        public override Vector2? HoldoutOrigin()
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            return new Vector2(15, 15);
-        }
-
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-        {
-            float num72 = item.shootSpeed;
+            float num72 = Item.shootSpeed;
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
             float num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
             float num79 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;
@@ -63,8 +60,8 @@ namespace CalamityMod.Items.Weapons.Magic
                 num80 = num72 / num80;
             }
 
-            int num107 = 3;
-            for (int num108 = 0; num108 < num107; num108++)
+            int featherAmt = 3;
+            for (int num108 = 0; num108 < featherAmt; num108++)
             {
                 vector2 = new Vector2(player.position.X + (float)player.width * 0.5f + (float)(Main.rand.Next(201) * -(float)player.direction) + ((float)Main.mouseX + Main.screenPosition.X - player.position.X), player.MountedCenter.Y - 600f);
                 vector2.X = (vector2.X + player.Center.X) / 2f + (float)Main.rand.Next(-200, 201);
@@ -85,7 +82,7 @@ namespace CalamityMod.Items.Weapons.Magic
                 num79 *= num80;
                 float speedX4 = num78 + (float)Main.rand.Next(-30, 31) * 0.02f;
                 float speedY5 = num79 + (float)Main.rand.Next(-30, 31) * 0.02f;
-                Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, type, damage, knockBack, player.whoAmI, 0f, (float)Main.rand.Next(15));
+                Projectile.NewProjectile(source, vector2.X, vector2.Y, speedX4, speedY5, type, damage, knockback, player.whoAmI, 0f, (float)Main.rand.Next(15));
             }
             return false;
         }

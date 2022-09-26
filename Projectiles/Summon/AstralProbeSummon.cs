@@ -1,69 +1,62 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Dusts;
 using CalamityMod.Buffs.Summon;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Summon
 {
-	public class AstralProbeSummon : ModProjectile
+    public class AstralProbeSummon : ModProjectile
     {
         private double rotation = 0;
-		private double rotationVariation = 0;
+        private double rotationVariation = 0;
 
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Astral Probe");
-            ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
-            ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
+            ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
+            ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 22;
-            projectile.height = 22;
-            projectile.ignoreWater = true;
-            projectile.minionSlots = 1f;
-            projectile.timeLeft = 18000;
-            projectile.tileCollide = false;
-            projectile.friendly = true;
-            projectile.timeLeft *= 5;
-            projectile.penetrate = -1;
-            projectile.minion = true;
+            Projectile.width = 22;
+            Projectile.height = 22;
+            Projectile.ignoreWater = true;
+            Projectile.minionSlots = 1f;
+            Projectile.timeLeft = 18000;
+            Projectile.tileCollide = false;
+            Projectile.friendly = true;
+            Projectile.timeLeft *= 5;
+            Projectile.penetrate = -1;
+            Projectile.minion = true;
+            Projectile.DamageType = DamageClass.Summon;
         }
 
         public override void AI()
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
-            if (projectile.localAI[0] == 0f)
+            if (Projectile.localAI[0] == 0f)
             {
-                projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
-                projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
-
-				rotationVariation = Main.rand.NextDouble() * 0.015;
+                rotationVariation = Main.rand.NextDouble() * 0.015;
 
                 int dustAmt = 36;
                 for (int dustIndex = 0; dustIndex < dustAmt; dustIndex++)
                 {
-                    Vector2 dustSource = Vector2.Normalize(projectile.velocity) * new Vector2((float)projectile.width / 2f, (float)projectile.height) * 0.75f;
-                    dustSource = dustSource.RotatedBy((double)((float)(dustIndex - (dustAmt / 2 - 1)) * MathHelper.TwoPi / (float)dustAmt), default) + projectile.Center;
-                    Vector2 dustVel = dustSource - projectile.Center;
+                    Vector2 dustSource = Vector2.Normalize(Projectile.velocity) * new Vector2((float)Projectile.width / 2f, (float)Projectile.height) * 0.75f;
+                    dustSource = dustSource.RotatedBy((double)((float)(dustIndex - (dustAmt / 2 - 1)) * MathHelper.TwoPi / (float)dustAmt), default) + Projectile.Center;
+                    Vector2 dustVel = dustSource - Projectile.Center;
                     int astral = Dust.NewDust(dustSource + dustVel, 0, 0, (Main.rand.NextBool(2) ? ModContent.DustType<AstralOrange>() : ModContent.DustType<AstralBlue>()), dustVel.X * 1.75f, dustVel.Y * 1.75f, 100, default, 1.1f);
                     Main.dust[astral].noGravity = true;
                     Main.dust[astral].velocity = dustVel;
                 }
-                projectile.localAI[0] += 1f;
+                Projectile.localAI[0] += 1f;
             }
-            if (player.MinionDamage() != projectile.Calamity().spawnedPlayerMinionDamageValue)
-            {
-                int damage2 = (int)((float)projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    projectile.Calamity().spawnedPlayerMinionDamageValue * player.MinionDamage());
-                projectile.damage = damage2;
-            }
-            bool correctMinion = projectile.type == ModContent.ProjectileType<AstralProbeSummon>();
+            bool correctMinion = Projectile.type == ModContent.ProjectileType<AstralProbeSummon>();
             player.AddBuff(ModContent.BuffType<AstralProbeBuff>(), 3600);
             if (correctMinion)
             {
@@ -73,89 +66,58 @@ namespace CalamityMod.Projectiles.Summon
                 }
                 if (modPlayer.aProbe)
                 {
-                    projectile.timeLeft = 2;
+                    Projectile.timeLeft = 2;
                 }
             }
-            float range = 1000f;
-            Vector2 targetVec = projectile.position;
-            bool foundTarget = false;
-			int targetIndex = -1;
-            if (player.HasMinionAttackTargetNPC)
+            NPC target = Projectile.Center.MinionHoming(1000f, player, true, true);
+            Vector2 vector = player.Center - Projectile.Center;
+            if (target != null)
             {
-                NPC npc = Main.npc[player.MinionAttackTargetNPC];
-                if (npc.CanBeChasedBy(projectile, false))
-                {
-                    float npcDist = Vector2.Distance(npc.Center, projectile.Center);
-                    if (!foundTarget && npcDist < range)
-                    {
-                        targetVec = npc.Center;
-                        foundTarget = true;
-						targetIndex = npc.whoAmI;
-                    }
-                }
+                Projectile.spriteDirection = Projectile.direction = ((target.Center.X - Projectile.Center.X) > 0).ToDirectionInt();
+                Projectile.rotation = Projectile.rotation.AngleTowards(Projectile.AngleTo(target.Center) + (Projectile.spriteDirection == 1 ? 0f : MathHelper.Pi), 0.1f);
             }
-            if (!foundTarget)
+            else
             {
-                for (int num645 = 0; num645 < Main.maxNPCs; num645++)
-                {
-                    NPC npc = Main.npc[num645];
-                    if (npc.CanBeChasedBy(projectile, false))
-                    {
-                        float npcDist = Vector2.Distance(npc.Center, projectile.Center);
-                        if (!foundTarget && npcDist < range)
-                        {
-                            targetVec = npc.Center;
-                            foundTarget = true;
-							targetIndex = num645;
-                        }
-                    }
-                }
+                Projectile.spriteDirection = Projectile.direction = (Projectile.velocity.X > 0).ToDirectionInt();
+                Projectile.rotation = Projectile.rotation.AngleLerp(vector.ToRotation() - (Projectile.spriteDirection == 1 ? 0f : MathHelper.Pi * Projectile.direction), 0.1f);
             }
-            Vector2 vector = player.Center - projectile.Center;
-            if (foundTarget)
-            {
-				projectile.spriteDirection = projectile.direction = ((targetVec.X - projectile.Center.X) > 0).ToDirectionInt();
-                projectile.rotation = projectile.rotation.AngleTowards(projectile.AngleTo(targetVec) + (projectile.spriteDirection == 1 ? 0f : MathHelper.Pi), 0.1f);
-            }
-			else
-			{
-				projectile.spriteDirection = projectile.direction = (projectile.velocity.X > 0).ToDirectionInt();
-                projectile.rotation = projectile.rotation.AngleLerp(vector.ToRotation() - (projectile.spriteDirection == 1 ? 0f : MathHelper.Pi * projectile.direction), 0.1f);
-			}
-            projectile.Center = player.Center + new Vector2(80, 0).RotatedBy(rotation);
+            Projectile.Center = player.Center + new Vector2(80, 0).RotatedBy(rotation);
             rotation += 0.03 + rotationVariation;
             if (rotation >= 360)
             {
                 rotation = 0;
             }
-            projectile.velocity.X = (vector.X > 0f) ? -0.000001f : 0f;
+            Projectile.velocity.X = (vector.X > 0f) ? -0.000001f : 0f;
 
-            if (projectile.ai[1] > 0f)
+            if (Projectile.ai[1] > 0f)
             {
-                projectile.ai[1] += (float)Main.rand.Next(1, 3);
+                Projectile.ai[1] += (float)Main.rand.Next(1, 3);
             }
-            if (projectile.ai[1] > 80f)
+            if (Projectile.ai[1] > 80f)
             {
-                projectile.ai[1] = 0f;
-                projectile.netUpdate = true;
+                Projectile.ai[1] = 0f;
+                Projectile.netUpdate = true;
             }
-			float speedMult = 6f;
-			int projType = ModContent.ProjectileType<AstralProbeRound>();
-			if (foundTarget && projectile.ai[1] == 0f && targetVec != projectile.position)
-			{
-				Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 12, 0.5f, 0f);
-				projectile.ai[1] += 1f;
-				if (Main.myPlayer == projectile.owner)
-				{
-					Vector2 velocity = targetVec - projectile.Center;
-					velocity.Normalize();
-					velocity *= speedMult;
-					Projectile.NewProjectile(projectile.Center, velocity, projType, projectile.damage, 0f, projectile.owner, targetIndex, 0f);
-					projectile.netUpdate = true;
-				}
-			}
+            float speedMult = 6f;
+            int projType = ModContent.ProjectileType<AstralProbeRound>();
+            if (target != null && Projectile.ai[1] == 0f)
+            {
+                SoundEngine.PlaySound(SoundID.Item12 with { Volume = SoundID.Item12.Volume * 0.5f }, Projectile.position);
+                Projectile.ai[1] += 1f;
+                if (Main.myPlayer == Projectile.owner)
+                {
+                    Vector2 velocity = target.Center - Projectile.Center;
+                    velocity.Normalize();
+                    velocity *= speedMult;
+                    int round = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, projType, Projectile.damage, 0f, Projectile.owner, target.whoAmI, 0f);
+                    if (Main.projectile.IndexInRange(round))
+                        Main.projectile[round].originalDamage = Projectile.originalDamage;
+
+                    Projectile.netUpdate = true;
+                }
+            }
         }
 
-        public override bool CanDamage() => false;
+        public override bool? CanDamage() => false;
     }
 }

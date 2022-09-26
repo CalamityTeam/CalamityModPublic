@@ -1,7 +1,8 @@
-using CalamityMod.Projectiles.Typeless;
+﻿using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -13,18 +14,18 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Gehenna");
             Tooltip.SetDefault("Drops brimstone fireballs from the sky occasionally");
         }
 
         public override void SetDefaults()
         {
-            item.width = 26;
-            item.height = 26;
-            item.value = CalamityGlobalItem.Rarity5BuyPrice;
-            item.expert = true;
-            item.rare = 5;
-            item.accessory = true;
+            Item.width = 26;
+            Item.height = 26;
+            Item.value = CalamityGlobalItem.Rarity5BuyPrice;
+            Item.rare = ItemRarityID.Pink;
+            Item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -38,6 +39,7 @@ namespace CalamityMod.Items.Accessories
                 FireCountdown--;
                 if (FireCountdown == 0)
                 {
+                    var source = player.GetSource_Accessory(Item);
                     if (player.whoAmI == Main.myPlayer)
                     {
                         int speed2 = 25;
@@ -53,7 +55,8 @@ namespace CalamityMod.Items.Accessories
                             spawn.X = spawn.X + i * 30 - (FireProjectiles * 15);
                             Vector2 velocity = baseVelocity.RotatedBy(MathHelper.ToRadians(-FireAngleSpread / 2 + (FireAngleSpread * i / (float)FireProjectiles)));
                             velocity.X = velocity.X + 3 * Main.rand.NextFloat() - 1.5f;
-                            Projectile.NewProjectile(spawn.X, spawn.Y, velocity.X, velocity.Y, ModContent.ProjectileType<BrimstoneHellfireballFriendly2>(), (int)(54 * player.AverageDamage()), 5f, Main.myPlayer, 0f, 0f);
+                            int damage = (int)player.GetBestClassDamage().ApplyTo(54);
+                            Projectile.NewProjectile(source, spawn.X, spawn.Y, velocity.X, velocity.Y, ModContent.ProjectileType<BrimstoneHellfireballFriendly2>(), damage, 5f, Main.myPlayer, 0f, 0f);
                         }
                     }
                 }

@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.Summon;
+﻿using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using System;
@@ -9,64 +9,51 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class BelladonnaSpirit : ModProjectile
     {
+        public float PetalFireTimer
+        {
+            get => Projectile.ai[0];
+            set => Projectile.ai[0] = value;
+        }
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Belladonna Spirit");
-            Main.projFrames[projectile.type] = 4;
-            ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
-            ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
+            Main.projFrames[Projectile.type] = 5;
+            ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
+            ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 38;
-            projectile.height = 36;
-            projectile.netImportant = true;
-            projectile.friendly = true;
-            projectile.minionSlots = 1;
-            projectile.timeLeft = 18000;
-            projectile.penetrate = -1;
-            projectile.timeLeft *= 5;
-            projectile.minion = true;
-            projectile.tileCollide = false;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
+            Projectile.width = 28;
+            Projectile.height = 48;
+            Projectile.netImportant = true;
+            Projectile.friendly = true;
+            Projectile.minionSlots = 1;
+            Projectile.timeLeft = 18000;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft *= 5;
+            Projectile.minion = true;
+            Projectile.tileCollide = false;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
+            Projectile.DamageType = DamageClass.Summon;
         }
 
         public override void AI()
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
-            if (projectile.localAI[0] == 0f)
+            if (Projectile.localAI[0] == 0f)
             {
-                projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
-                projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
-                for (int i = 0; i < 45; i++)
-                {
-                    float angle = MathHelper.TwoPi / 45f * i;
-                    Vector2 velocity = angle.ToRotationVector2() * 4f;
-                    Dust dust = Dust.NewDustPerfect(projectile.Center + velocity * 2.75f, 39, velocity);
-                    dust.noGravity = true;
-                }
-                projectile.localAI[0] = 1f;
+                Initialize(player);
+                Projectile.localAI[0] = 1f;
             }
-            if (projectile.frameCounter++ > 6f)
+            if (Projectile.frameCounter++ > 6f)
             {
-                projectile.frame++;
-                projectile.frameCounter = 0;
+                Projectile.frame = (Projectile.frame + 1) % Main.projFrames[Projectile.type];
+                Projectile.frameCounter = 0;
             }
-            if (projectile.frame >= Main.projFrames[projectile.type])
-            {
-                projectile.frame = 0;
-            }
-            if (player.MinionDamage() != projectile.Calamity().spawnedPlayerMinionDamageValue)
-            {
-                int trueDamage = (int)((float)projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    projectile.Calamity().spawnedPlayerMinionDamageValue *
-                    player.MinionDamage());
-                projectile.damage = trueDamage;
-            }
-            bool isCorrectProjectile = projectile.type == ModContent.ProjectileType<BelladonnaSpirit>();
+            bool isCorrectProjectile = Projectile.type == ModContent.ProjectileType<BelladonnaSpirit>();
             player.AddBuff(ModContent.BuffType<BelladonnaSpiritBuff>(), 3600);
             if (isCorrectProjectile)
             {
@@ -76,73 +63,100 @@ namespace CalamityMod.Projectiles.Summon
                 }
                 if (modPlayer.belladonaSpirit)
                 {
-                    projectile.timeLeft = 2;
+                    Projectile.timeLeft = 2;
                 }
             }
-            if (projectile.velocity.X > 0.25f)
+
+            if (Projectile.velocity.X > 0.25f)
+                Projectile.spriteDirection = -1;
+            else if (Projectile.velocity.X < -0.25f)
+                Projectile.spriteDirection = 1;
+
+            NPC potentialTarget = Projectile.Center.MinionHoming(1200f, player);
+            if (potentialTarget is null)
             {
-                projectile.spriteDirection = 1;
-            }
-            else if (projectile.velocity.X < -0.25f)
-            {
-                projectile.spriteDirection = -1;
-            }
-            NPC potentialTarget = projectile.Center.MinionHoming(1200f, player);
-            Vector2 targetPosition = player.Bottom;
-            if (potentialTarget == null)
-            {
-                projectile.velocity.X = (player.Center.X + player.direction * 75f - projectile.Center.X) / 60f;
-                if (projectile.Distance(player.Center) > 2500f ||
-                    targetPosition.Y - projectile.Top.Y > 360f)
-                {
-                    projectile.Center = player.Center;
-                    projectile.netUpdate = true;
-                }
-                else if (targetPosition.Y - projectile.Top.Y < -550f)
-                {
-                    projectile.velocity.Y += Math.Sign(targetPosition.Y - targetPosition.Y) * 0.08f;
-                }
-                else
-                {
-                    projectile.velocity.Y = (targetPosition.Y - projectile.Center.Y) / 60f;
-                }
+                Vector2 targetPosition = player.Bottom;
+                FollowPlayer(player, targetPosition);
             }
             else
             {
-                targetPosition = potentialTarget.Center;
-                if (Math.Abs(targetPosition.X - projectile.Center.X) < 180f)
-                {
-                    projectile.velocity.X *= 0.95f;
-                    projectile.ai[0]++;
-                    if (Main.myPlayer == projectile.owner && projectile.ai[0] % 20f == 19f)
-                    {
-                        for (int i = -1; i <= 1; i++)
-                        {
-                            float angle = Main.rand.NextFloat(-0.1f, 0.1f) + i * 0.05f;
-                            Projectile.NewProjectile(projectile.Center + new Vector2(0f, -6f),
-                                projectile.DirectionTo(potentialTarget.Center).RotatedBy(angle) * 7.5f, ModContent.ProjectileType<BelladonnaPetal>(),
-                                projectile.damage, projectile.knockBack, projectile.owner);
-                        }
-                    }
-                    if (Main.myPlayer == projectile.owner && projectile.ai[0] % 180f == 179f)
-                    {
-                        for (int i = 0; i <= 4; i++)
-                        {
-                            float angle = MathHelper.Lerp(MathHelper.ToRadians(-Main.rand.NextFloat(30f, 36f)), MathHelper.ToRadians(Main.rand.NextFloat(30f, 36f)), i / 4f);
-                            Projectile.NewProjectile(projectile.Center + new Vector2(0f, -6f),
-                                new Vector2(0f, -9f).RotatedBy(angle), ModContent.ProjectileType<BelladonnaPetal>(),
-                                projectile.damage, projectile.knockBack, projectile.owner);
-                        }
-                    }
-                }
-                else
-                {
-                    projectile.velocity.X += (targetPosition.X - projectile.Center.X + potentialTarget.spriteDirection * 75f > 0).ToDirectionInt() * 0.5f;
-                    projectile.velocity.X = MathHelper.Clamp(projectile.velocity.X, -12f, 12f);
-                }
-                projectile.velocity.Y = (targetPosition.Y - projectile.Center.Y + potentialTarget.spriteDirection * 75f) / 90f;
+                TargetNPC(potentialTarget);
             }
-			projectile.MinionAntiClump();
+            Projectile.MinionAntiClump();
+        }
+        public void Initialize(Player player)
+        {
+            for (int i = 0; i < 45; i++)
+            {
+                float angle = MathHelper.TwoPi / 45f * i;
+                Vector2 velocity = angle.ToRotationVector2() * 4f;
+                Dust dust = Dust.NewDustPerfect(Projectile.Center + velocity * 2.75f, 39, velocity);
+                dust.noGravity = true;
+            }
+        }
+        public void FollowPlayer(Player player, Vector2 targetPosition)
+        {
+            Projectile.velocity.X = (player.Center.X + player.direction * 75f - Projectile.Center.X) / 60f;
+            if (Projectile.Distance(player.Center) > 2500f ||
+                targetPosition.Y - Projectile.Top.Y > 360f)
+            {
+                Projectile.Center = player.Center;
+                Projectile.netUpdate = true;
+            }
+            else if (targetPosition.Y - Projectile.Top.Y < -550f)
+            {
+                Projectile.velocity.Y += Math.Sign(targetPosition.Y - targetPosition.Y) * 0.08f;
+            }
+            else
+            {
+                Projectile.velocity.Y = (targetPosition.Y - Projectile.Center.Y) / 60f;
+            }
+        }
+        public void TargetNPC(NPC target)
+        {
+            Vector2 targetPosition = target.Center;
+            if (Math.Abs(targetPosition.X - Projectile.Center.X) < 180f)
+            {
+                Projectile.velocity.X *= 0.95f;
+                PetalFireTimer++;
+                if (Main.myPlayer == Projectile.owner)
+                    FirePetals(target);
+            }
+            else
+            {
+                Projectile.velocity.X += (targetPosition.X - Projectile.Center.X + target.spriteDirection * 75f > 0).ToDirectionInt() * 0.5f;
+                Projectile.velocity.X = MathHelper.Clamp(Projectile.velocity.X, -12f, 12f);
+            }
+            Projectile.velocity.Y = (targetPosition.Y - Projectile.Center.Y + target.spriteDirection * 75f) / 90f;
+        }
+        public void FirePetals(NPC target)
+        {
+            int petalID = ModContent.ProjectileType<BelladonnaPetal>();
+            if (PetalFireTimer % 20f == 19f)
+            {
+                for (int i = -1; i <= 1; i++)
+                {
+                    float angle = Main.rand.NextFloat(-0.1f, 0.1f) + i * 0.05f;
+                    Vector2 petalSpawnPosition = Projectile.Center - Vector2.UnitY * 6f;
+                    Vector2 petalShootVelocity = Projectile.SafeDirectionTo(target.Center).RotatedBy(angle) * 7.5f;
+                    int p = Projectile.NewProjectile(Projectile.GetSource_FromThis(), petalSpawnPosition, petalShootVelocity, petalID, Projectile.damage, Projectile.knockBack, Projectile.owner);
+                    if (Main.projectile.IndexInRange(p))
+                        Main.projectile[p].originalDamage = Projectile.originalDamage;
+                }
+            }
+
+            if (PetalFireTimer % 180f == 179f)
+            {
+                for (int i = 0; i < 5; i++)
+                {
+                    float angle = MathHelper.Lerp(MathHelper.ToRadians(-Main.rand.NextFloat(30f, 36f)), MathHelper.ToRadians(Main.rand.NextFloat(30f, 36f)), i / 4f);
+                    Vector2 petalSpawnPosition = Projectile.Center - Vector2.UnitY * 6f;
+                    Vector2 petalShootVelocity = -Vector2.UnitY.RotatedBy(angle) * 9f;
+                    int p = Projectile.NewProjectile(Projectile.GetSource_FromThis(), petalSpawnPosition, petalShootVelocity, petalID, Projectile.damage, Projectile.knockBack, Projectile.owner);
+                    if (Main.projectile.IndexInRange(p))
+                        Main.projectile[p].originalDamage = Projectile.originalDamage;
+                }
+            }
         }
     }
 }

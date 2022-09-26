@@ -1,9 +1,10 @@
-using CalamityMod.Projectiles.Melee;
+﻿using CalamityMod.Projectiles.Melee;
 using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -13,61 +14,51 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             DisplayName.SetDefault("Forbidden Oathblade");
             Tooltip.SetDefault("Fires a demonic scythe and critical hits cause shadowflame explosions");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.width = 74;
-            item.height = 74;
-            item.damage = 64;
-            item.melee = true;
-            item.useAnimation = 25;
-            item.useTime = 25;
-            item.useTurn = true;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 6.5f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = 5;
-            item.shoot = ModContent.ProjectileType<ForbiddenOathbladeProjectile>();
-            item.shootSpeed = 3f;
-        }
-
-        public override void AddRecipes()
-        {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<BladecrestOathsword>());
-            recipe.AddIngredient(ModContent.ItemType<OldLordOathsword>());
-            recipe.AddIngredient(ItemID.SoulofFright, 5);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            Item.width = 74;
+            Item.height = 74;
+            Item.scale = 1.5f;
+            Item.damage = 110;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = 25;
+            Item.useTime = 25;
+            Item.useTurn = true;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 6.5f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.value = CalamityGlobalItem.Rarity6BuyPrice;
+            Item.rare = ItemRarityID.Pink;
+            Item.shoot = ModContent.ProjectileType<ForbiddenOathbladeProjectile>();
+            Item.shootSpeed = 10f;
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
             if (Main.rand.NextBool(3))
-            {
-                int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 173);
-            }
+                Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 173);
         }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(BuffID.ShadowFlame, 240);
+            target.AddBuff(BuffID.ShadowFlame, 120);
             target.AddBuff(BuffID.OnFire, 240);
             if (crit)
             {
-                target.AddBuff(BuffID.ShadowFlame, 720);
+                target.AddBuff(BuffID.ShadowFlame, 360);
                 target.AddBuff(BuffID.OnFire, 720);
-                player.ApplyDamageToNPC(target, (int)(item.damage * (player.allDamage + player.meleeDamage - 1f)) * 2, 0f, 0, false);
+                int onHitDamage = player.CalcIntDamage<MeleeDamageClass>(2 * Item.damage);
+                player.ApplyDamageToNPC(target, onHitDamage, 0f, 0, false);
                 float num50 = 1.7f;
                 float num51 = 0.8f;
                 float num52 = 2f;
                 Vector2 value3 = (target.rotation - 1.57079637f).ToRotationVector2();
                 Vector2 value4 = value3 * target.velocity.Length();
-                Main.PlaySound(SoundID.Item14, target.position);
+                SoundEngine.PlaySound(SoundID.Item14, target.position);
                 int num3;
                 for (int num53 = 0; num53 < 40; num53 = num3 + 1)
                 {
@@ -104,14 +95,24 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<Shadowflame>(), 240);
+            target.AddBuff(ModContent.BuffType<Shadowflame>(), 120);
             target.AddBuff(BuffID.OnFire, 240);
             if (crit)
             {
-                target.AddBuff(ModContent.BuffType<Shadowflame>(), 720);
+                target.AddBuff(ModContent.BuffType<Shadowflame>(), 360);
                 target.AddBuff(BuffID.OnFire, 720);
-                Main.PlaySound(SoundID.Item14, target.position);
+                SoundEngine.PlaySound(SoundID.Item14, target.position);
             }
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient<BladecrestOathsword>().
+                AddIngredient<OldLordOathsword>().
+                AddIngredient(ItemID.SoulofFright, 5).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

@@ -1,10 +1,12 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Events;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Projectiles.Boss
 {
     public class AstralShot2 : ModProjectile
@@ -12,65 +14,80 @@ namespace CalamityMod.Projectiles.Boss
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Astral Laser");
-            Main.projFrames[projectile.type] = 4;
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            Main.projFrames[Projectile.type] = 4;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 10;
-            projectile.height = 10;
-            projectile.hostile = true;
-            projectile.ignoreWater = true;
-			projectile.tileCollide = false;
-            projectile.alpha = 255;
-            projectile.penetrate = -1;
-            projectile.timeLeft = 600;
+            Projectile.width = 10;
+            Projectile.height = 10;
+            Projectile.hostile = true;
+            Projectile.ignoreWater = true;
+            Projectile.tileCollide = false;
+            Projectile.alpha = 255;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft = 600;
         }
 
         public override void AI()
         {
-			Vector2 targetLocation = new Vector2(projectile.ai[0], projectile.ai[1]);
-			if (Vector2.Distance(targetLocation, projectile.Center) < 80f)
-				projectile.tileCollide = true;
-
-            projectile.frameCounter++;
-            if (projectile.frameCounter > 4)
+            if (Projectile.ai[0] == 1f)
             {
-                projectile.frame++;
-                projectile.frameCounter = 0;
+                Projectile.extraUpdates = 2;
+                bool bossRush = BossRushEvent.BossRushActive;
+                float maxVelocity = bossRush ? 3.75f : 3f;
+                if (Projectile.velocity.Length() < maxVelocity)
+                {
+                    Projectile.velocity *= bossRush ? 1.02f : 1.015f;
+                    if (Projectile.velocity.Length() > maxVelocity)
+                    {
+                        Projectile.velocity.Normalize();
+                        Projectile.velocity *= maxVelocity;
+                    }
+                }
             }
-            if (projectile.frame > 3)
+            else
             {
-                projectile.frame = 0;
-            }
-            
-            if (projectile.alpha > 0)
-            {
-                projectile.alpha -= 25;
-            }
-            if (projectile.alpha < 0)
-            {
-                projectile.alpha = 0;
+                Vector2 targetLocation = new Vector2(Projectile.ai[0], Projectile.ai[1]);
+                if (Vector2.Distance(targetLocation, Projectile.Center) < 80f)
+                    Projectile.tileCollide = true;
             }
 
-            projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + 1.57f;
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter > 4)
+            {
+                Projectile.frame++;
+                Projectile.frameCounter = 0;
+            }
+            if (Projectile.frame > 3)
+                Projectile.frame = 0;
+
+            if (Projectile.alpha > 0)
+                Projectile.alpha -= 25;
+            if (Projectile.alpha < 0)
+                Projectile.alpha = 0;
+
+            Projectile.rotation = (float)Math.Atan2(Projectile.velocity.Y, Projectile.velocity.X) + MathHelper.PiOver2;
         }
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 180);
+            if (damage <= 0)
+                return;
+
+            target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 120);
         }
 
         public override Color? GetAlpha(Color lightColor)
         {
-            return new Color(255, 255, 255, projectile.alpha);
+            return new Color(255, 255, 255, Projectile.alpha);
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;
         }
     }

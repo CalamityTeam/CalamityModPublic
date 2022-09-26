@@ -1,7 +1,9 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Rogue;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -9,50 +11,50 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class BloodsoakedCrasher : RogueWeapon //This weapon has been coded by Ben || Termi
     {
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Bloodsoaked Crasher");
-			Tooltip.SetDefault("Slows down when hitting an enemy. Speeds up otherwise\n" +
-			"Heals on enemy hits\n" +
-			"Stealth strikes spawn homing blood on enemy hits");
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Bloodsoaked Crasher");
+            Tooltip.SetDefault("Slows down when hitting an enemy. Speeds up otherwise\n" +
+            "Heals on enemy hits\n" +
+            "Stealth strikes spawn homing blood on enemy hits");
+            SacrificeTotal = 1;
+        }
 
-		public override void SafeSetDefaults()
-		{
-			item.damage = 300;
-			item.knockBack = 3f;
-			item.autoReuse = true;
-			item.Calamity().rogue = true;
-			item.useAnimation = item.useTime = 18;
-			item.shootSpeed = 15f;
-			item.shoot = ModContent.ProjectileType<BloodsoakedCrashax>();
+        public override void SetDefaults()
+        {
+            Item.damage = 245;
+            Item.knockBack = 3f;
+            Item.autoReuse = true;
+            Item.DamageType = RogueDamageClass.Instance;
+            Item.useAnimation = Item.useTime = 24;
+            Item.shootSpeed = 9f;
+            Item.shoot = ModContent.ProjectileType<BloodsoakedCrashax>();
 
-			item.width = 66;
-			item.height = 64;
-			item.noMelee = true;
-			item.noUseGraphic = true;
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.UseSound = SoundID.Item1;
-			item.value = Item.buyPrice(1, 40, 0, 0);
-			item.rare = 10;
-			item.Calamity().customRarity = CalamityRarity.PureGreen;
-		}
+            Item.width = 66;
+            Item.height = 64;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.UseSound = SoundID.Item1;
+            Item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            Item.rare = ModContent.RarityType<Turquoise>();
+        }
 
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-		{
-			int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
-			Main.projectile[proj].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable(); //setting the stealth strike
-			return false;
-		}
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        {
+            int proj = Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
+            if (proj.WithinBounds(Main.maxProjectiles))
+                Main.projectile[proj].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
+            return false;
+        }
 
-		public override void AddRecipes()
-		{
-			ModRecipe recipe = new ModRecipe(mod); //post-Prov rogue weapon
-			recipe.AddIngredient(ModContent.ItemType<CrushsawCrasher>());
-			recipe.AddIngredient(ModContent.ItemType<BloodstoneCore>(), 12);
-			recipe.AddTile(TileID.LunarCraftingStation);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
-		}
-	}
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient<CrushsawCrasher>().
+                AddIngredient<BloodstoneCore>(12).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
+        }
+    }
 }

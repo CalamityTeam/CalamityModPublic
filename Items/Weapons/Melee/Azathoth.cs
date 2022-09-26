@@ -1,5 +1,6 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee.Yoyos;
+using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
 using Terraria.ID;
@@ -13,48 +14,48 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             DisplayName.SetDefault("Azathoth");
             Tooltip.SetDefault("Fires cosmic orbs that blast nearby enemies with lasers\n" +
-			"A very agile yoyo\n" +
-			"Destroy the universe in the blink of an eye");
-            ItemID.Sets.Yoyo[item.type] = true;
-            ItemID.Sets.GamepadExtraRange[item.type] = 15;
-            ItemID.Sets.GamepadSmartQuickReach[item.type] = true;
+            "A very agile yoyo\n" +
+            "Destroy the universe in the blink of an eye");
+            ItemID.Sets.Yoyo[Item.type] = true;
+            ItemID.Sets.GamepadExtraRange[Item.type] = 15;
+            ItemID.Sets.GamepadSmartQuickReach[Item.type] = true;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.width = 30;
-            item.height = 26;
-            item.melee = true;
-            item.damage = 200;
-            item.knockBack = 6f;
-            item.useTime = 20;
-            item.useAnimation = 20;
-            item.autoReuse = true;
+            Item.width = 40;
+            Item.height = 54;
+            Item.DamageType = DamageClass.MeleeNoSpeed;
+            Item.damage = 80;
+            Item.knockBack = 6f;
+            Item.useTime = 20;
+            Item.useAnimation = 20;
+            Item.autoReuse = true;
 
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.UseSound = SoundID.Item1;
-            item.channel = true;
-            item.noUseGraphic = true;
-            item.noMelee = true;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.UseSound = SoundID.Item1;
+            Item.channel = true;
+            Item.noUseGraphic = true;
+            Item.noMelee = true;
 
-            item.shoot = ModContent.ProjectileType<AzathothYoyo>();
-            item.shootSpeed = 16f;
+            Item.shoot = ModContent.ProjectileType<AzathothYoyo>();
+            Item.shootSpeed = 16f;
 
-            item.rare = 10;
-            item.autoReuse = true;
-            item.Calamity().customRarity = CalamityRarity.Developer;
-            item.value = Item.buyPrice(platinum: 5);
+            Item.autoReuse = true;
+            Item.rare = ModContent.RarityType<HotPink>();
+            Item.Calamity().devItem = true;
+            Item.value = CalamityGlobalItem.Rarity16BuyPrice;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Terrarian);
-            recipe.AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<CoreofCalamity>(), 3);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient(ItemID.Terrarian).
+                AddIngredient<CoreofCalamity>(3).
+                AddIngredient<ShadowspecBar>(5).
+                AddTile<DraedonsForge>().
+                Register();
         }
     }
 }

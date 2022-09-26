@@ -1,3 +1,4 @@
+﻿using Terraria.DataStructures;
 using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -12,45 +13,33 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             DisplayName.SetDefault("True Caustic Edge");
             Tooltip.SetDefault("Fires a bouncing caustic beam\n" +
-				"Bounces increase the beam's damage\n" +
-                "Inflicts on fire, poison, and venom");
+                "Inflicts poison and venom");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.width = 64;
-            item.damage = 100;
-            item.melee = true;
-            item.useAnimation = 28;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 28;
-            item.useTurn = true;
-            item.knockBack = 5.75f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 74;
-            item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = 5;
-            item.shoot = ModContent.ProjectileType<TrueCausticEdgeProjectile>();
-            item.shootSpeed = 16f;
+            Item.width = 64;
+            Item.damage = 150;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = 28;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 28;
+            Item.useTurn = true;
+            Item.knockBack = 5.75f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.height = 74;
+            Item.value = CalamityGlobalItem.Rarity4BuyPrice;
+            Item.rare = ItemRarityID.LightRed;
+            Item.shoot = ModContent.ProjectileType<TrueCausticEdgeProjectile>();
+            Item.shootSpeed = 16f;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, (int)(damage * 0.75), knockBack, player.whoAmI, 0f, 0f);
+            Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, type, (int)(damage * 0.75), knockback, player.whoAmI, 0f, 0f);
             return false;
-        }
-
-        public override void AddRecipes()
-        {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<CausticEdge>());
-            recipe.AddRecipeGroup("AnyEvilFlask", 5);
-            recipe.AddIngredient(ItemID.FlaskofPoison, 5);
-            recipe.AddIngredient(ItemID.Deathweed, 3);
-            recipe.AddTile(TileID.DemonAltar);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)
@@ -63,16 +52,25 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(BuffID.Poisoned, 600);
-            target.AddBuff(BuffID.OnFire, 300);
-            target.AddBuff(BuffID.Venom, 300);
+            target.AddBuff(BuffID.Poisoned, 300);
+            target.AddBuff(BuffID.Venom, 150);
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-            target.AddBuff(BuffID.Poisoned, 600);
-            target.AddBuff(BuffID.OnFire, 300);
-            target.AddBuff(BuffID.Venom, 300);
+            target.AddBuff(BuffID.Poisoned, 300);
+            target.AddBuff(BuffID.Venom, 150);
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient<CausticEdge>().
+                AddRecipeGroup("AnyEvilFlask", 5).
+                AddIngredient(ItemID.FlaskofPoison, 5).
+                AddIngredient(ItemID.Deathweed, 4).
+                AddTile(TileID.DemonAltar).
+                Register();
         }
     }
 }

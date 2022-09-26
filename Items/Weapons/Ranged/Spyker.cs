@@ -1,7 +1,9 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Ranged;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -12,28 +14,28 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Spyker");
-            Tooltip.SetDefault("Fires spikes that stick to enemies, tiles, and explode into shrapnel");
+            Tooltip.SetDefault("Converts musket balls into spikes that stick to enemies, tiles and explode into shrapnel");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 240;
-            item.ranged = true;
-            item.width = 44;
-            item.height = 26;
-            item.useTime = 13;
-            item.useAnimation = 13;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 6f;
-            item.value = Item.buyPrice(1, 20, 0, 0);
-            item.rare = 10;
-            item.UseSound = SoundID.Item108;
-            item.autoReuse = true;
-            item.shootSpeed = 9f;
-            item.shoot = ModContent.ProjectileType<SpykerProj>();
-            item.useAmmo = AmmoID.Bullet;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.damage = 150;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 44;
+            Item.height = 26;
+            Item.useTime = 13;
+            Item.useAnimation = 13;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 6f;
+            Item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            Item.rare = ModContent.RarityType<Turquoise>();
+            Item.UseSound = SoundID.Item108;
+            Item.autoReuse = true;
+            Item.shootSpeed = 9f;
+            Item.shoot = ModContent.ProjectileType<SpykerProj>();
+            Item.useAmmo = AmmoID.Bullet;
         }
 
         public override Vector2? HoldoutOffset()
@@ -41,21 +43,24 @@ namespace CalamityMod.Items.Weapons.Ranged
             return new Vector2(-5, 0);
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<SpykerProj>(), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+            if (type == ProjectileID.Bullet)
+                Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<SpykerProj>(), damage, knockback, player.whoAmI);
+            else
+                Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
+
             return false;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Needler>());
-            recipe.AddIngredient(ItemID.Stynger);
-            recipe.AddIngredient(ModContent.ItemType<UeliaceBar>(), 5);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient<Needler>().
+                AddIngredient(ItemID.Stynger).
+                AddIngredient<UelibloomBar>(5).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

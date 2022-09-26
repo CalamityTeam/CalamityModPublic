@@ -1,3 +1,4 @@
+﻿using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Summon;
 using Microsoft.Xna.Framework;
@@ -15,41 +16,43 @@ namespace CalamityMod.Items.Weapons.Summon
             Tooltip.SetDefault("Summons a long-abandoned drone to support you\n" +
                                "Clicking on an enemy gives them a tiny prick, causing them to become aggravated\n" +
                                "The drone hovers above nearby enemies and inflicts irradiated");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.mana = 10;
-            item.width = 28;
-            item.height = 20;
-            item.useTime = item.useAnimation = 35;
-            item.useStyle = ItemUseStyleID.HoldingUp;
-            item.noMelee = true;
-            item.knockBack = 0.5f;
-            item.value = CalamityGlobalItem.Rarity1BuyPrice;
-            item.rare = 1;
-            item.UseSound = SoundID.Item15; // Phaseblade sound effect
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<RustyDrone>();
-            item.shootSpeed = 10f;
-            item.summon = true;
+            Item.mana = 10;
+            Item.width = 28;
+            Item.height = 20;
+            Item.useTime = Item.useAnimation = 34;
+            Item.useStyle = ItemUseStyleID.HoldUp;
+            Item.noMelee = true;
+            Item.knockBack = 0.5f;
+            Item.value = CalamityGlobalItem.Rarity1BuyPrice;
+            Item.rare = ItemRarityID.Blue;
+            Item.UseSound = SoundID.Item15; // Phaseblade sound effect
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<RustyDrone>();
+            Item.shootSpeed = 10f;
+            Item.DamageType = DamageClass.Summon;
         }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.altFunctionUse != 2)
             {
-                Projectile.NewProjectile(Main.MouseWorld, Vector2.Zero, type, damage, knockBack, player.whoAmI, 0f, 1f);
+                int p = Projectile.NewProjectile(source, Main.MouseWorld, Vector2.Zero, type, damage, knockback, player.whoAmI, 0f, 1f);
+                if (Main.projectile.IndexInRange(p))
+                    Main.projectile[p].originalDamage = Item.damage;
             }
             return false;
         }
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);;
-            recipe.AddIngredient(ModContent.ItemType<SulfuricScale>(), 20);
-            recipe.AddRecipeGroup("IronBar", 10);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient<SulphuricScale>(20).
+                AddRecipeGroup("AnySilverBar", 10).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

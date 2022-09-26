@@ -1,9 +1,10 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
+using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
@@ -12,51 +13,54 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Terra Ray");
-            Tooltip.SetDefault("Casts an energy ray that splits if enemies are near it");
-            Item.staff[item.type] = true;
+            Tooltip.SetDefault("Casts an energy ray that splits into energy on enemy hits\n" +
+                "More energy is created the farther along the ray the hit enemy is");
+            Item.staff[Item.type] = true;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 50;
-            item.magic = true;
-            item.mana = 10;
-            item.width = 54;
-            item.height = 54;
-            item.useTime = 24;
-            item.useAnimation = 24;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 4f;
-            item.value = Item.buyPrice(0, 80, 0, 0);
-            item.rare = 8;
-            item.UseSound = SoundID.Item60;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<TerraBeam>();
-            item.shootSpeed = 6f;
+            Item.damage = 50;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 10;
+            Item.width = 54;
+            Item.height = 54;
+            Item.useTime = 24;
+            Item.useAnimation = 24;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 4f;
+            Item.value = CalamityGlobalItem.Rarity9BuyPrice;
+            Item.rare = ItemRarityID.Yellow;
+            Item.UseSound = SoundID.Item60;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<TerraBeam>();
+            Item.shootSpeed = 6f;
         }
 
-        public override Vector2? HoldoutOrigin()
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            return new Vector2(15, 15);
+            Vector2 shootVelocity = velocity;
+            Vector2 shootPosition = position + shootVelocity * 8f;
+            Projectile.NewProjectile(source, shootPosition, shootVelocity, type, damage, knockback, player.whoAmI);
+            return false;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<NightsRay>());
-            recipe.AddIngredient(ModContent.ItemType<ValkyrieRay>());
-            recipe.AddIngredient(ModContent.ItemType<LivingShard>(), 7);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<CarnageRay>());
-            recipe.AddIngredient(ModContent.ItemType<ValkyrieRay>());
-            recipe.AddIngredient(ModContent.ItemType<LivingShard>(), 7);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient<NightsRay>().
+                AddIngredient<ValkyrieRay>().
+                AddIngredient<LivingShard>(12).
+                AddTile(TileID.MythrilAnvil).
+                Register();
+            CreateRecipe().
+                AddIngredient<CarnageRay>().
+                AddIngredient<ValkyrieRay>().
+                AddIngredient<LivingShard>(12).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

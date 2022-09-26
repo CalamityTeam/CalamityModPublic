@@ -1,6 +1,7 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Ores;
 using CalamityMod.Projectiles.Ranged;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -8,53 +9,54 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
-	public class HalleysInferno : ModItem
-	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Halley's Inferno");
-			Tooltip.SetDefault("Halley came sooner than expected\n" +
-			"Fires a flaming comet\n" +
-			"50% chance to not consume gel\n" +
-			"Right click to zoom out");
-		}
+    public class HalleysInferno : ModItem
+    {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Halley's Inferno");
+            Tooltip.SetDefault("Halley came sooner than expected\n" +
+            "Fires a flaming comet\n" +
+            "50% chance to not consume gel\n" +
+            "Right click to zoom out");
+            SacrificeTotal = 1;
+        }
 
-		public override void SetDefaults()
-		{
-			item.damage = 1666;
-			item.crit += 20;
-			item.knockBack = 5f;
-			item.ranged = true;
-			item.useTime = item.useAnimation = 30;
-			item.autoReuse = true;
-			item.useAmmo = AmmoID.Gel;
-			item.shootSpeed = 14.6f;
-			item.shoot = ModContent.ProjectileType<HalleysComet>();
+        public override void SetDefaults()
+        {
+            Item.damage = 1350;
+            Item.knockBack = 5f;
+            Item.DamageType = DamageClass.Ranged;
+            Item.useTime = Item.useAnimation = 30;
+            Item.autoReuse = true;
+            Item.useAmmo = AmmoID.Gel;
+            Item.shootSpeed = 14.6f;
+            Item.shoot = ModContent.ProjectileType<HalleysComet>();
 
-			item.width = 84;
-			item.height = 34;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.noMelee = true;
-			item.UseSound = SoundID.Item34;
-			item.value = Item.buyPrice(1, 40, 0, 0);
-			item.rare = 10;
-			item.Calamity().customRarity = CalamityRarity.PureGreen;
-		}
+            Item.width = 84;
+            Item.height = 34;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.UseSound = SoundID.Item34;
+            Item.value = CalamityGlobalItem.Rarity14BuyPrice;
+            Item.rare = ModContent.RarityType<PureGreen>();
+        }
 
-		public override Vector2? HoldoutOffset() => new Vector2(-15, 0);
+        // Terraria seems to really dislike high crit values in SetDefaults
+        public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 20;
 
-		public override bool ConsumeAmmo(Player player) => Main.rand.Next(100) >= 50;
+        public override Vector2? HoldoutOffset() => new Vector2(-15, 0);
 
-		public override void AddRecipes()
-		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ModContent.ItemType<Lumenite>(), 6);
-			recipe.AddIngredient(ModContent.ItemType<RuinousSoul>(), 4);
-			recipe.AddIngredient(ModContent.ItemType<ExodiumClusterOre>(), 12);
-			recipe.AddIngredient(ItemID.SniperScope);
-			recipe.AddTile(TileID.LunarCraftingStation);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
-		}
-	}
+        public override bool CanConsumeAmmo(Item ammo, Player player) => Main.rand.Next(100) >= 50;
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient(ItemID.RifleScope).
+                AddIngredient<Lumenyl>(6).
+                AddIngredient<RuinousSoul>(4).
+                AddIngredient<ExodiumCluster>(12).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
+        }
+    }
 }

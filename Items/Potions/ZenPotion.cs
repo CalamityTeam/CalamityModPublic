@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.Potions;
+﻿using CalamityMod.Buffs.Potions;
 using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
@@ -10,44 +10,47 @@ namespace CalamityMod.Items.Potions
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 20;
             DisplayName.SetDefault("Zen Potion");
-            Tooltip.SetDefault("Reduces spawn rates...a lot...");
+            Tooltip.SetDefault("Vastly decreases enemy spawn rate");
         }
 
         public override void SetDefaults()
         {
-            item.width = 28;
-            item.height = 18;
-            item.useTurn = true;
-            item.maxStack = 999;
-            item.rare = 3;
-            item.useAnimation = 17;
-            item.useTime = 17;
-            item.useStyle = ItemUseStyleID.EatingUsing;
-            item.UseSound = SoundID.Item3;
-            item.consumable = true;
-            item.buffType = ModContent.BuffType<Zen>();
-            item.buffTime = 36000;
-            item.value = Item.buyPrice(0, 2, 0, 0);
+            Item.width = 28;
+            Item.height = 18;
+            Item.useTurn = true;
+            Item.maxStack = 30;
+            Item.rare = ItemRarityID.Orange;
+            Item.useAnimation = 17;
+            Item.useTime = 17;
+            Item.useStyle = ItemUseStyleID.DrinkLiquid;
+            Item.UseSound = SoundID.Item3;
+            Item.value = Item.buyPrice(0, 2, 0, 0);
+            Item.rare = ItemRarityID.LightRed;
+            Item.consumable = true;
+            Item.buffType = ModContent.BuffType<Zen>();
+            Item.buffTime = CalamityUtils.SecondsToFrames(900f);
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<CoreofEleum>(), 3);
-            recipe.AddIngredient(ModContent.ItemType<EbonianGel>(), 2);
-            recipe.AddIngredient(ItemID.PinkGel);
-            recipe.AddIngredient(ItemID.BottledWater);
-            recipe.AddTile(TileID.AlchemyTable);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<BloodOrb>(), 20);
-			recipe.AddIngredient(ModContent.ItemType<CoreofEleum>());
-			recipe.AddIngredient(ItemID.BottledWater);
-            recipe.AddTile(TileID.AlchemyTable);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient(ItemID.BottledWater).
+                AddIngredient<PurifiedGel>(2).
+                AddIngredient<BlightedGel>(2).
+                AddIngredient(ItemID.PinkGel).
+                AddIngredient(ItemID.Daybloom).
+                AddTile(TileID.AlchemyTable).
+				AddConsumeItemCallback(Recipe.ConsumptionRules.Alchemy).
+                Register();
+
+            CreateRecipe().
+                AddIngredient(ItemID.BottledWater).
+                AddIngredient<BloodOrb>(20).
+                AddIngredient<PurifiedGel>(2).
+                AddTile(TileID.AlchemyTable).
+                Register();
         }
     }
 }

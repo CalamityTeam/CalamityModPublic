@@ -1,4 +1,4 @@
-
+﻿
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -8,18 +8,18 @@ namespace CalamityMod.Tiles.AstralDesert
 {
     public class AstralDesertStalactite : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileFrameImportant[Type] = true;
             Main.tileNoFail[Type] = true;
             Main.tileObsidianKill[Type] = true;
             Main.tileBlockLight[Type] = true;
 
-            dustType = ModContent.DustType<AstralBasic>();
+            DustType = ModContent.DustType<AstralBasic>();
 
             AddMapEntry(new Color(79, 61, 97));
 
-            base.SetDefaults();
+            base.SetStaticDefaults();
         }
 
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
@@ -28,14 +28,14 @@ namespace CalamityMod.Tiles.AstralDesert
             return false;
         }
 
-        public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height)
+        public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height, ref short tileFrameX, ref short tileFrameY)
         {
             Tile tile = Main.tile[i, j];
-            if (tile.frameY <= 18 || tile.frameY == 72)
+            if (tile.TileFrameY <= 18 || tile.TileFrameY == 72)
             {
                 offsetY = -2;
             }
-            else if ((tile.frameY >= 36 && tile.frameY <= 54) || tile.frameY == 90)
+            else if ((tile.TileFrameY >= 36 && tile.TileFrameY <= 54) || tile.TileFrameY == 90)
             {
                 offsetY = 2;
             }

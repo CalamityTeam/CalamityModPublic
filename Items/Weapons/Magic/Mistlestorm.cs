@@ -1,9 +1,10 @@
-using CalamityMod.Items.Materials;
-using System;
+﻿using CalamityMod.Items.Materials;
+using CalamityMod.Rarities;
+using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
@@ -13,63 +14,58 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             DisplayName.SetDefault("Mistlestorm");
             Tooltip.SetDefault("Casts a storm of pine needles and leaves");
-            Item.staff[item.type] = true;
+            Item.staff[Item.type] = true;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 66;
-            item.magic = true;
-            item.mana = 5;
-            item.width = 48;
-            item.height = 48;
-            item.useTime = 6;
-            item.useAnimation = 6;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 3.5f;
-            item.value = Item.buyPrice(1, 40, 0, 0);
-            item.rare = 10;
-            item.UseSound = SoundID.Item39;
-            item.autoReuse = true;
-            item.shoot = ProjectileID.PineNeedleFriendly;
-            item.shootSpeed = 24f;
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
+            Item.damage = 45;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 5;
+            Item.width = 48;
+            Item.height = 48;
+            Item.useTime = 6;
+            Item.useAnimation = 6;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 3.5f;
+            Item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            Item.rare = ModContent.RarityType<Turquoise>();
+            Item.UseSound = SoundID.Item39;
+            Item.autoReuse = true;
+            Item.shoot = ProjectileID.PineNeedleFriendly;
+            Item.shootSpeed = 24f;
         }
 
-        public override Vector2? HoldoutOrigin()
-        {
-            return new Vector2(15, 15);
-        }
-
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             int num106 = 2 + Main.rand.Next(3);
             for (int num107 = 0; num107 < num106; num107++)
             {
                 float num110 = 0.025f * (float)num107;
-                speedX += (float)Main.rand.Next(-35, 36) * num110;
-                speedY += (float)Main.rand.Next(-35, 36) * num110;
-                float num84 = (float)Math.Sqrt((double)(speedX * speedX + speedY * speedY));
-                num84 = item.shootSpeed / num84;
-                speedX *= num84;
-                speedY *= num84;
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, (float)Main.rand.Next(0, 10 * (num107 + 1)), 0f);
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ProjectileID.Leaf, damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+                velocity.X += (float)Main.rand.Next(-35, 36) * num110;
+                velocity.Y += (float)Main.rand.Next(-35, 36) * num110;
+                float num84 = velocity.Length();
+                num84 = Item.shootSpeed / num84;
+                velocity.X *= num84;
+                velocity.Y *= num84;
+                Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI, (float)Main.rand.Next(0, 10 * (num107 + 1)), 0f);
+                Projectile.NewProjectile(source, position, velocity, ProjectileID.Leaf, damage, knockback, player.whoAmI);
             }
             return false;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Razorpine);
-            recipe.AddIngredient(ItemID.LeafBlower);
-            recipe.AddIngredient(ModContent.ItemType<UeliaceBar>(), 7);
-            recipe.AddIngredient(ModContent.ItemType<DarkPlasma>());
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient(ItemID.Razorpine).
+                AddIngredient(ItemID.LeafBlower).
+                AddIngredient<UelibloomBar>(7).
+                AddIngredient<DarkPlasma>().
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

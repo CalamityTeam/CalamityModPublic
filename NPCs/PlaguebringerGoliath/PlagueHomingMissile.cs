@@ -1,211 +1,228 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
+using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
+
 namespace CalamityMod.NPCs.PlaguebringerGoliath
 {
     public class PlagueHomingMissile : ModNPC
     {
         public override void SetStaticDefaults()
         {
+            this.HideFromBestiary();
             DisplayName.SetDefault("Plague Homing Missile");
-            Main.npcFrameCount[npc.type] = 4;
-			NPCID.Sets.TrailingMode[npc.type] = 1;
-		}
+            Main.npcFrameCount[NPC.type] = 4;
+            NPCID.Sets.TrailingMode[NPC.type] = 1;
+        }
 
         public override void SetDefaults()
         {
-            npc.damage = 90;
-            npc.width = 22;
-            npc.height = 22;
-            npc.defense = 10;
-            npc.lifeMax = CalamityWorld.bossRushActive ? 20000 : 200;
-            npc.aiStyle = -1;
-            aiType = -1;
-            npc.knockBackResist = 0f;
-            npc.HitSound = SoundID.NPCHit4;
-            npc.DeathSound = SoundID.NPCDeath14;
-            npc.noGravity = true;
-            npc.canGhostHeal = false;
-            npc.noTileCollide = true;
-            npc.buffImmune[BuffID.ShadowFlame] = true;
-            npc.buffImmune[BuffID.Venom] = true;
-            npc.buffImmune[BuffID.OnFire] = true;
-            npc.buffImmune[BuffID.Poisoned] = true;
-            npc.buffImmune[ModContent.BuffType<BrimstoneFlames>()] = true;
-            npc.buffImmune[ModContent.BuffType<Plague>()] = true;
+            NPC.Calamity().canBreakPlayerDefense = true;
+            NPC.GetNPCDamage();
+            NPC.width = 22;
+            NPC.height = 22;
+            NPC.defense = 20;
+            NPC.lifeMax = BossRushEvent.BossRushActive ? 5000 : 500;
+            NPC.aiStyle = -1;
+            AIType = -1;
+            NPC.knockBackResist = 0f;
+            NPC.HitSound = SoundID.NPCHit4;
+            NPC.DeathSound = SoundID.NPCDeath14;
+            NPC.noGravity = true;
+            NPC.canGhostHeal = false;
+            NPC.noTileCollide = true;
+            NPC.Calamity().VulnerableToSickness = false;
+            NPC.Calamity().VulnerableToElectricity = true;
         }
 
         public override void AI()
         {
-            Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.015f, 0.1f, 0f);
-            if (Math.Abs(npc.velocity.X) >= 3f || Math.Abs(npc.velocity.Y) >= 3f)
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || bossRush;
+            bool revenge = CalamityWorld.revenge || bossRush;
+            bool expertMode = Main.expertMode || bossRush;
+
+            Lighting.AddLight(NPC.Center, 0.015f, 0.1f, 0f);
+
+            if (Math.Abs(NPC.velocity.X) >= 3f || Math.Abs(NPC.velocity.Y) >= 3f)
             {
                 float num247 = 0f;
                 float num248 = 0f;
-                if (Main.rand.Next(2) == 1)
+                if (Main.rand.NextBool())
                 {
-                    num247 = npc.velocity.X * 0.5f;
-                    num248 = npc.velocity.Y * 0.5f;
+                    num247 = NPC.velocity.X * 0.5f;
+                    num248 = NPC.velocity.Y * 0.5f;
                 }
-                int num249 = Dust.NewDust(new Vector2(npc.position.X + 3f + num247, npc.position.Y + 3f + num248) - npc.velocity * 0.5f, npc.width - 8, npc.height - 8, 6, 0f, 0f, 100, default, 0.5f);
+                int num249 = Dust.NewDust(new Vector2(NPC.position.X + 3f + num247, NPC.position.Y + 3f + num248) - NPC.velocity * 0.5f, NPC.width - 8, NPC.height - 8, 6, 0f, 0f, 100, default, 0.5f);
                 Main.dust[num249].scale *= 2f + (float)Main.rand.Next(10) * 0.1f;
                 Main.dust[num249].velocity *= 0.2f;
                 Main.dust[num249].noGravity = true;
-                num249 = Dust.NewDust(new Vector2(npc.position.X + 3f + num247, npc.position.Y + 3f + num248) - npc.velocity * 0.5f, npc.width - 8, npc.height - 8, 31, 0f, 0f, 100, default, 0.25f);
+                num249 = Dust.NewDust(new Vector2(NPC.position.X + 3f + num247, NPC.position.Y + 3f + num248) - NPC.velocity * 0.5f, NPC.width - 8, NPC.height - 8, 31, 0f, 0f, 100, default, 0.25f);
                 Main.dust[num249].fadeIn = 1f + (float)Main.rand.Next(5) * 0.1f;
                 Main.dust[num249].velocity *= 0.05f;
             }
             else if (Main.rand.NextBool(4))
             {
-                int num252 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 31, 0f, 0f, 100, default, 0.5f);
+                int num252 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 31, 0f, 0f, 100, default, 0.5f);
                 Main.dust[num252].scale = 0.1f + (float)Main.rand.Next(5) * 0.1f;
                 Main.dust[num252].fadeIn = 1.5f + (float)Main.rand.Next(5) * 0.1f;
                 Main.dust[num252].noGravity = true;
-                Main.dust[num252].position = npc.Center + new Vector2(0f, (float)(-(float)npc.height / 2)).RotatedBy((double)npc.rotation, default) * 1.1f;
-                Main.rand.Next(2);
-                num252 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 6, 0f, 0f, 100, default, 1f);
+                Main.dust[num252].position = NPC.Center + new Vector2(0f, (float)(-(float)NPC.height / 2)).RotatedBy((double)NPC.rotation, default) * 1.1f;
+                num252 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 6, 0f, 0f, 100, default, 1f);
                 Main.dust[num252].scale = 1f + (float)Main.rand.Next(5) * 0.1f;
                 Main.dust[num252].noGravity = true;
-                Main.dust[num252].position = npc.Center + new Vector2(0f, (float)(-(float)npc.height / 2 - 6)).RotatedBy((double)npc.rotation, default) * 1.1f;
+                Main.dust[num252].position = NPC.Center + new Vector2(0f, (float)(-(float)NPC.height / 2 - 6)).RotatedBy((double)NPC.rotation, default) * 1.1f;
             }
-            npc.rotation = npc.velocity.ToRotation() + 1.57079637f;
-            if (npc.ai[2] < 90f)
+
+            NPC.rotation = NPC.velocity.ToRotation() + MathHelper.PiOver2;
+
+            float timeBeforeHoming = 120f - NPC.ai[3] * 0.5f;
+            if (NPC.ai[2] < timeBeforeHoming)
             {
-                npc.ai[2] += 1f;
+                NPC.ai[2] += 1f;
                 return;
             }
-            int num3;
-            if (npc.ai[0] == 0f && npc.ai[1] > 0f)
+
+            if (NPC.ai[0] == 0f && NPC.ai[1] == 0f)
             {
-                npc.ai[1] -= 1f;
+                NPC.ai[0] = 1f;
+                NPC.ai[1] = (float)Player.FindClosest(NPC.position, NPC.width, NPC.height);
+                NPC.netUpdate = true;
+                float num754 = NPC.velocity.Length();
+                NPC.velocity = Vector2.Normalize(NPC.velocity) * (num754 + 1f);
             }
-            else if (npc.ai[0] == 0f && npc.ai[1] == 0f)
+            else if (NPC.ai[0] == 1f)
             {
-                npc.ai[0] = 1f;
-                npc.ai[1] = (float)Player.FindClosest(npc.position, npc.width, npc.height);
-                npc.netUpdate = true;
-                float num754 = npc.velocity.Length();
-                npc.velocity = Vector2.Normalize(npc.velocity) * (num754 + 1f);
-            }
-            else if (npc.ai[0] == 1f)
-            {
-                npc.localAI[1] += 1f;
-                float num757 = 600f;
-                float num758 = 0f;
-                float num759 = 300f;
-                if (npc.localAI[1] == num757)
+                NPC.localAI[1] += 1f;
+                float timeBeforeExploding = 480f + NPC.ai[3] * 2f;
+                float homingDuration = (bossRush ? 430f : death ? 340f : revenge ? 290f : expertMode ? 240f : 150f) + NPC.ai[3] * 2f;
+                if (NPC.localAI[1] == timeBeforeExploding)
                 {
                     CheckDead();
-                    npc.life = 0;
+                    NPC.life = 0;
                     return;
                 }
-                if (npc.localAI[1] >= num758 && npc.localAI[1] < num758 + num759)
+
+                if (NPC.localAI[1] < homingDuration)
                 {
-                    npc.noTileCollide = true;
-                    Vector2 v3 = Main.player[(int)npc.ai[1]].Center - npc.Center;
-                    float num760 = npc.velocity.ToRotation();
+                    NPC.noTileCollide = true;
+                    Vector2 v3 = Main.player[(int)NPC.ai[1]].Center - NPC.Center;
+                    float num760 = NPC.velocity.ToRotation();
                     float num761 = v3.ToRotation();
-					float angle = num761 - num760;
-					angle = MathHelper.WrapAngle(angle);
-                    npc.velocity = npc.velocity.RotatedBy(angle * 0.2, default);
+                    float angle = num761 - num760;
+                    angle = MathHelper.WrapAngle(angle);
+                    NPC.velocity = NPC.velocity.RotatedBy(angle * 0.2);
                 }
                 else
                 {
-                    npc.noTileCollide = false;
+                    NPC.noTileCollide = false;
+
+                    if (NPC.velocity.Length() < (bossRush ? 25f : 20f))
+                        NPC.velocity *= 1.01f;
+
+                    if (Collision.SolidCollision(NPC.position, NPC.width, NPC.height))
+                    {
+                        CheckDead();
+                        NPC.life = 0;
+                        return;
+                    }
                 }
             }
-            for (int num767 = 0; num767 < Main.maxPlayers; num767 = num3 + 1)
+
+            float distanceBeforeExploding = 42f;
+            for (int i = 0; i < Main.maxPlayers; i++)
             {
-                Player player5 = Main.player[num767];
-                if (player5.active && !player5.dead && Vector2.Distance(player5.Center, npc.Center) <= 42f)
+                Player player = Main.player[i];
+                if (player.active && !player.dead && Vector2.Distance(player.Center, NPC.Center) <= distanceBeforeExploding)
                 {
                     CheckDead();
-                    npc.life = 0;
+                    NPC.life = 0;
                     return;
                 }
-                num3 = num767;
             }
         }
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-		{
-			SpriteEffects spriteEffects = SpriteEffects.None;
-			if (npc.spriteDirection == 1)
-				spriteEffects = SpriteEffects.FlipHorizontally;
-
-			Texture2D texture2D15 = Main.npcTexture[npc.type];
-			Vector2 vector11 = new Vector2((float)(Main.npcTexture[npc.type].Width / 2), (float)(Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type] / 2));
-			Color color36 = Color.White;
-			float amount9 = 0.5f;
-			int num153 = 5;
-
-			if (CalamityConfig.Instance.Afterimages)
-			{
-				for (int num155 = 1; num155 < num153; num155 += 2)
-				{
-					Color color38 = lightColor;
-					color38 = Color.Lerp(color38, color36, amount9);
-					color38 = npc.GetAlpha(color38);
-					color38 *= (float)(num153 - num155) / 15f;
-					Vector2 vector41 = npc.oldPos[num155] + new Vector2((float)npc.width, (float)npc.height) / 2f - Main.screenPosition;
-					vector41 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
-					vector41 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
-					spriteBatch.Draw(texture2D15, vector41, npc.frame, color38, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
-				}
-			}
-
-			Vector2 vector43 = npc.Center - Main.screenPosition;
-			vector43 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
-			vector43 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
-			spriteBatch.Draw(texture2D15, vector43, npc.frame, npc.GetAlpha(lightColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
-
-			texture2D15 = ModContent.GetTexture("CalamityMod/NPCs/PlaguebringerGoliath/PlagueHomingMissileGlow");
-			Color color37 = Color.Lerp(Color.White, Color.Red, 0.5f);
-
-			if (CalamityConfig.Instance.Afterimages)
-			{
-				for (int num163 = 1; num163 < num153; num163++)
-				{
-					Color color41 = color37;
-					color41 = Color.Lerp(color41, color36, amount9);
-					color41 *= (float)(num153 - num163) / 15f;
-					Vector2 vector44 = npc.oldPos[num163] + new Vector2((float)npc.width, (float)npc.height) / 2f - Main.screenPosition;
-					vector44 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
-					vector44 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
-					spriteBatch.Draw(texture2D15, vector44, npc.frame, color41, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
-				}
-			}
-
-			spriteBatch.Draw(texture2D15, vector43, npc.frame, color37, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
-
-			return false;
-		}
-
-		public override void FindFrame(int frameHeight)
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
-            npc.frameCounter += 0.15f;
-            npc.frameCounter %= Main.npcFrameCount[npc.type];
-            int frame = (int)npc.frameCounter;
-            npc.frame.Y = frame * frameHeight;
+            SpriteEffects spriteEffects = SpriteEffects.None;
+            if (NPC.spriteDirection == 1)
+                spriteEffects = SpriteEffects.FlipHorizontally;
+
+            Texture2D texture2D15 = TextureAssets.Npc[NPC.type].Value;
+            Vector2 vector11 = new Vector2((float)(TextureAssets.Npc[NPC.type].Value.Width / 2), (float)(TextureAssets.Npc[NPC.type].Value.Height / Main.npcFrameCount[NPC.type] / 2));
+            Color color36 = Color.White;
+            float amount9 = 0.5f;
+            int num153 = 5;
+
+            if (CalamityConfig.Instance.Afterimages)
+            {
+                for (int num155 = 1; num155 < num153; num155 += 2)
+                {
+                    Color color38 = drawColor;
+                    color38 = Color.Lerp(color38, color36, amount9);
+                    color38 = NPC.GetAlpha(color38);
+                    color38 *= (float)(num153 - num155) / 15f;
+                    Vector2 vector41 = NPC.oldPos[num155] + new Vector2((float)NPC.width, (float)NPC.height) / 2f - screenPos;
+                    vector41 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[NPC.type])) * NPC.scale / 2f;
+                    vector41 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY);
+                    spriteBatch.Draw(texture2D15, vector41, NPC.frame, color38, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
+                }
+            }
+
+            Vector2 vector43 = NPC.Center - screenPos;
+            vector43 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[NPC.type])) * NPC.scale / 2f;
+            vector43 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY);
+            spriteBatch.Draw(texture2D15, vector43, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
+
+            texture2D15 = ModContent.Request<Texture2D>("CalamityMod/NPCs/PlaguebringerGoliath/PlagueHomingMissileGlow").Value;
+            Color color37 = Color.Lerp(Color.White, Color.Red, 0.5f);
+
+            if (CalamityConfig.Instance.Afterimages)
+            {
+                for (int num163 = 1; num163 < num153; num163++)
+                {
+                    Color color41 = color37;
+                    color41 = Color.Lerp(color41, color36, amount9);
+                    color41 *= (float)(num153 - num163) / 15f;
+                    Vector2 vector44 = NPC.oldPos[num163] + new Vector2((float)NPC.width, (float)NPC.height) / 2f - screenPos;
+                    vector44 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[NPC.type])) * NPC.scale / 2f;
+                    vector44 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY);
+                    spriteBatch.Draw(texture2D15, vector44, NPC.frame, color41, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
+                }
+            }
+
+            spriteBatch.Draw(texture2D15, vector43, NPC.frame, color37, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
+
+            return false;
+        }
+
+        public override void FindFrame(int frameHeight)
+        {
+            NPC.frameCounter += 0.15f;
+            NPC.frameCounter %= Main.npcFrameCount[NPC.type];
+            int frame = (int)NPC.frameCounter;
+            NPC.frame.Y = frame * frameHeight;
         }
 
         public override bool CheckDead()
         {
-            Main.PlaySound(SoundID.Item14, npc.position);
-            npc.position.X = npc.position.X + (float)(npc.width / 2);
-            npc.position.Y = npc.position.Y + (float)(npc.height / 2);
-            npc.width = npc.height = 216;
-            npc.position.X = npc.position.X - (float)(npc.width / 2);
-            npc.position.Y = npc.position.Y - (float)(npc.height / 2);
+            SoundEngine.PlaySound(SoundID.Item14, NPC.position);
+            NPC.position.X = NPC.position.X + (float)(NPC.width / 2);
+            NPC.position.Y = NPC.position.Y + (float)(NPC.height / 2);
+            NPC.width = NPC.height = 216;
+            NPC.position.X = NPC.position.X - (float)(NPC.width / 2);
+            NPC.position.Y = NPC.position.Y - (float)(NPC.height / 2);
             for (int num621 = 0; num621 < 15; num621++)
             {
-                int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 89, 0f, 0f, 100, default, 2f);
+                int num622 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 89, 0f, 0f, 100, default, 2f);
                 Main.dust[num622].velocity *= 3f;
                 if (Main.rand.NextBool(2))
                 {
@@ -216,37 +233,33 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             }
             for (int num623 = 0; num623 < 30; num623++)
             {
-                int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 89, 0f, 0f, 100, default, 3f);
+                int num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 89, 0f, 0f, 100, default, 3f);
                 Main.dust[num624].noGravity = true;
                 Main.dust[num624].velocity *= 5f;
-                num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 89, 0f, 0f, 100, default, 2f);
+                num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 89, 0f, 0f, 100, default, 2f);
                 Main.dust[num624].velocity *= 2f;
                 Main.dust[num624].noGravity = true;
             }
             return true;
         }
 
-        public override bool PreNPCLoot()
-        {
-            return false;
-        }
-
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(ModContent.BuffType<Plague>(), 180, true);
+            if (damage > 0)
+                player.AddBuff(ModContent.BuffType<Plague>(), 240, true);
         }
 
         public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.Plague, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.Plague, hitDirection, -1f, 0, default, 1f);
             }
-            if (npc.life <= 0)
+            if (NPC.life <= 0)
             {
                 for (int k = 0; k < 10; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.Plague, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.Plague, hitDirection, -1f, 0, default, 1f);
                 }
             }
         }

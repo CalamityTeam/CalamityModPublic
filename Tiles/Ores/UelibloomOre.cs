@@ -1,4 +1,4 @@
-
+﻿
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -8,27 +8,30 @@ namespace CalamityMod.Tiles.Ores
 {
     public class UelibloomOre : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileSolid[Type] = true;
             Main.tileBlockLight[Type] = true;
-            Main.tileValue[Type] = 950;
+            Main.tileOreFinderPriority[Type] = 950;
 
             CalamityUtils.MergeWithGeneral(Type);
 
-            drop = ModContent.ItemType<Items.Placeables.Ores.UelibloomOre>();
+            TileID.Sets.Ore[Type] = true;
+            TileID.Sets.OreMergesWithMud[Type] = true;
+
+            ItemDrop = ModContent.ItemType<Items.Placeables.Ores.UelibloomOre>();
             ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Uelibloom Ore");
+            name.SetDefault("Uelibloom");
             AddMapEntry(new Color(0, 255, 0), name);
-            mineResist = 5f;
-            minPick = 225;
-            soundType = SoundID.Tink;
+            MineResist = 5f;
+            MinPick = 225;
+            HitSound = SoundID.Tink;
             Main.tileSpelunker[Type] = true;
         }
 
         public override bool CanExplode(int i, int j)
         {
-            return NPC.downedMoonlord;
+            return false;
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)

@@ -1,7 +1,8 @@
-using CalamityMod.Items.Armor;
+﻿using CalamityMod.Items.Armor.Daedalus;
 using CalamityMod.Items.Materials;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -13,36 +14,38 @@ namespace CalamityMod.Items.Accessories.Wings
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Starlight Wings");
             Tooltip.SetDefault("Wings of the Nightingale\n" +
-                "Horizontal speed: 7.5\n" +
-                "Acceleration multiplier: 1\n" +
+                "Horizontal speed: 7.50\n" +
+                "Acceleration multiplier: 1.0\n" +
                 "Average vertical speed\n" +
                 "Flight time: 150\n" +
                 "5% increased damage and critical strike chance while wearing the Daedalus Armor");
+            ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new WingStats(150, 7.5f, 1f);
         }
 
         public override void SetDefaults()
         {
-            item.width = 22;
-            item.height = 20;
-            item.value = CalamityGlobalItem.Rarity5BuyPrice;
-            item.rare = 5;
-            item.accessory = true;
+            Item.width = 22;
+            Item.height = 20;
+            Item.value = CalamityGlobalItem.Rarity5BuyPrice;
+            Item.rare = ItemRarityID.Pink;
+            Item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            if ((player.armor[0].type == ModContent.ItemType<DaedalusHat>() || player.armor[0].type == ModContent.ItemType<DaedalusHeadgear>() ||
-                player.armor[0].type == ModContent.ItemType<DaedalusHelm>() || player.armor[0].type == ModContent.ItemType<DaedalusHelmet>() ||
-                player.armor[0].type == ModContent.ItemType<DaedalusVisor>()) &&
+            if ((player.armor[0].type == ModContent.ItemType<DaedalusHeadMagic>() || player.armor[0].type == ModContent.ItemType<DaedalusHeadSummon>() ||
+                player.armor[0].type == ModContent.ItemType<DaedalusHeadMelee>() || player.armor[0].type == ModContent.ItemType<DaedalusHeadRanged>() ||
+                player.armor[0].type == ModContent.ItemType<DaedalusHeadRogue>()) &&
                 player.armor[1].type == ModContent.ItemType<DaedalusBreastplate>() && player.armor[2].type == ModContent.ItemType<DaedalusLeggings>())
             {
-                player.allDamage += 0.05f;
-                player.Calamity().AllCritBoost(5);
+                player.GetDamage<GenericDamageClass>() += 0.05f;
+                player.GetCritChance<GenericDamageClass>() += 5;
             }
 
-            if (player.controlJump && player.wingTime > 0f && !player.jumpAgainCloud && player.jump == 0 && player.velocity.Y != 0f && !hideVisual)
+            if (player.controlJump && player.wingTime > 0f && !player.canJumpAgain_Cloud && player.jump == 0 && player.velocity.Y != 0f && !hideVisual)
             {
                 int num59 = 4;
                 if (player.direction == 1)
@@ -58,7 +61,6 @@ namespace CalamityMod.Items.Accessories.Wings
                 }
                 Main.dust[num60].shader = GameShaders.Armor.GetSecondaryShader(player.cWings, player);
             }
-            player.wingTimeMax = 150;
             player.noFallDmg = true;
         }
 
@@ -71,20 +73,14 @@ namespace CalamityMod.Items.Accessories.Wings
             constantAscend = 0.1f;
         }
 
-        public override void HorizontalWingSpeeds(Player player, ref float speed, ref float acceleration)
-        {
-            speed = 7.5f;
-        }
-
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<VerstaltiteBar>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<EssenceofEleum>());
-            recipe.AddIngredient(ItemID.SoulofFlight, 20);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient<CryonicBar>(5).
+                AddIngredient<EssenceofEleum>().
+                AddIngredient(ItemID.SoulofFlight, 20).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

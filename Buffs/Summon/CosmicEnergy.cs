@@ -7,12 +7,13 @@ namespace CalamityMod.Buffs.Summon
 {
     public class CosmicEnergy : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Cosmic Energy");
             Description.SetDefault("The cosmic energy will protect you");
             Main.buffNoTimeDisplay[Type] = true;
             Main.buffNoSave[Type] = true;
+            //Main.persistentBuff[Type] = true;
         }
 
         public override void Update(Player player, ref int buffIndex)

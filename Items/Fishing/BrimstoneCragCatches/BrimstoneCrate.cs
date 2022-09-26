@@ -1,6 +1,6 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
+using CalamityMod.Items.Potions;
 using CalamityMod.Tiles.Crags;
-using CalamityMod.World;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -11,66 +11,58 @@ namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 5;
+            ItemID.Sets.IsFishingCrate[Type] = true;
             DisplayName.SetDefault("Brimstone Crate");
             Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
         }
 
         public override void SetDefaults()
         {
-            item.maxStack = 999;
-            item.consumable = true;
-            item.width = 32;
-            item.height = 32;
-            item.rare = 2;
-            item.value = Item.sellPrice(gold: 1);
-            item.createTile = ModContent.TileType<BrimstoneCrateTile>();
-            item.useTurn = true;
-            item.autoReuse = true;
-            item.useAnimation = 15;
-            item.useTime = 10;
-            item.useStyle = ItemUseStyleID.SwingThrow;
+            Item.maxStack = 999;
+            Item.consumable = true;
+            Item.width = 32;
+            Item.height = 32;
+            Item.rare = ItemRarityID.Green;
+            Item.value = Item.sellPrice(gold: 1);
+            Item.createTile = ModContent.TileType<BrimstoneCrateTile>();
+            Item.useTurn = true;
+            Item.autoReuse = true;
+            Item.useAnimation = 15;
+            Item.useTime = 10;
+            Item.useStyle = ItemUseStyleID.Swing;
         }
 
-        public override bool CanRightClick() => true;
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = ContentSamples.CreativeHelper.ItemGroup.Crates;
+		}
 
-        public override void RightClick(Player player)
+        public override bool CanRightClick() => true;
+        public override void ModifyItemLoot(ItemLoot itemLoot)
         {
-            //Modded materials
-			DropHelper.DropItem(player, ModContent.ItemType<DemonicBoneAsh>(), 3, 5);
-            DropHelper.DropItemCondition(player, ModContent.ItemType<EssenceofChaos>(), Main.hardMode, 0.5f, 5, 15);
-            DropHelper.DropItemCondition(player, ModContent.ItemType<BlightedLens>(), Main.hardMode, 0.15f, 2, 6);
-            DropHelper.DropItemCondition(player, ModContent.ItemType<UnholyCore>(), CalamityWorld.downedBrimstoneElemental, 0.5f, 5, 15);
-            DropHelper.DropItemCondition(player, ModContent.ItemType<Bloodstone>(), CalamityWorld.downedProvidence, 0.25f, 8, 10);
+            // Materials
+            itemLoot.Add(ItemID.Obsidian, 1, 2, 5);
+            itemLoot.Add(ItemID.Hellstone, 4, 2, 5);
+            itemLoot.Add(ItemID.HellstoneBar, 10, 1, 3);
+            itemLoot.Add(ModContent.ItemType<DemonicBoneAsh>(), 1, 1, 4);
+            itemLoot.AddIf(() => DownedBossSystem.downedBrimstoneElemental, ModContent.ItemType<UnholyCore>(), 10, 1, 3);
+            itemLoot.AddIf(() => DownedBossSystem.downedProvidence, ModContent.ItemType<Bloodstone>(), 2, 1, 3);
 
             // Weapons (none)
 
-            //Bait
-            DropHelper.DropItemChance(player, ItemID.MasterBait, 10, 1, 2);
-            DropHelper.DropItemChance(player, ItemID.JourneymanBait, 5, 1, 3);
-            DropHelper.DropItemChance(player, ItemID.ApprenticeBait, 3, 2, 3);
+            // Bait
+            itemLoot.Add(ItemID.MasterBait, 10, 1, 2);
+            itemLoot.Add(ItemID.JourneymanBait, 5, 1, 3);
+            itemLoot.Add(ItemID.ApprenticeBait, 3, 2, 3);
 
-            //Potions
-            DropHelper.DropItemChance(player, ItemID.ObsidianSkinPotion, 10, 1, 3);
-            DropHelper.DropItemChance(player, ItemID.SwiftnessPotion, 10, 1, 3);
-            DropHelper.DropItemChance(player, ItemID.IronskinPotion, 10, 1, 3);
-            DropHelper.DropItemChance(player, ItemID.NightOwlPotion, 10, 1, 3);
-            DropHelper.DropItemChance(player, ItemID.ShinePotion, 10, 1, 3);
-            DropHelper.DropItemChance(player, ItemID.MiningPotion, 10, 1, 3);
-            DropHelper.DropItemChance(player, ItemID.HeartreachPotion, 10, 1, 3);
-            DropHelper.DropItemChance(player, ItemID.TrapsightPotion, 10, 1, 3); //Dangersense Potion
-            DropHelper.DropItemChance(player, ItemID.InfernoPotion, 10, 1, 3);
-            if (Main.hardMode)
-            {
-                DropHelper.DropItem(player, Main.rand.Next(100) >= 49 ? ItemID.GreaterHealingPotion: ItemID.GreaterManaPotion, 5, 10);
-            }
-            else
-            {
-                DropHelper.DropItem(player, Main.rand.Next(100) >= 49 ? ItemID.HealingPotion : ItemID.ManaPotion, 5, 10);
-            }
+            // Potions
+            itemLoot.Add(ItemID.InfernoPotion, 10, 1, 3);
+            itemLoot.AddCratePotionRules();
 
-            //Money
-            DropHelper.DropItem(player, ItemID.SilverCoin, 10, 90);
-            DropHelper.DropItemChance(player, ItemID.GoldCoin, 0.5f, 1, 5);
+            // Money
+            itemLoot.Add(ItemID.SilverCoin, 1, 10, 90);
+            itemLoot.Add(ItemID.GoldCoin, 2, 1, 5);
         }
     }
 }

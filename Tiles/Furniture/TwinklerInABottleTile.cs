@@ -1,39 +1,45 @@
-using CalamityMod.Items.Placeables.Furniture;
+﻿using CalamityMod.Items.Placeables.Furniture;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.Furniture
 {
-	public class TwinklerInABottleTile : ModTile
+    public class TwinklerInABottleTile : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpLantern();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Twinkler in a Bottle");
             AddMapEntry(new Color(255, 99, 71), name);
-            animationFrameHeight = 36;
+            AnimationFrameHeight = 36;
 
-            disableSmartCursor = true;
-            adjTiles = new int[] { TileID.Torches };
+            TileID.Sets.DisableSmartCursor[Type] = true;
+            AdjTiles = new int[] { TileID.HangingLanterns, TileID.FireflyinaBottle, TileID.LightningBuginaBottle };
         }
 
         public override void AnimateTile(ref int frame, ref int frameCounter)
         {
-			int frameAmt = 15;
-			int timeNeeded = 6;
-			frameCounter++;
-			if (frameCounter >= timeNeeded)
-			{
+            int frameAmt = 15;
+            int timeNeeded = 6;
+            frameCounter++;
+            if (frameCounter >= timeNeeded)
+            {
                 frame++;
                 frameCounter = 0;
-			}
-			if (frame >= frameAmt)
-			{
-				frame = 0;
-			}
+            }
+            if (frame >= frameAmt)
+            {
+                frame = 0;
+            }
+        }
+
+        public override void AnimateIndividualTile(int type, int i, int j, ref int frameXOffset, ref int frameYOffset)
+        {
+            frameYOffset = this.GetAnimationOffset(i, j, 15, 16, 18, 1, 2, AnimationFrameHeight);
         }
 
         public override bool CreateDust(int i, int j, ref int type)
@@ -49,14 +55,14 @@ namespace CalamityMod.Tiles.Furniture
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 16, 32, ModContent.ItemType<TwinklerInABottle>());
+            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 32, ModContent.ItemType<TwinklerInABottle>());
         }
 
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
-			r = 1f;
-			g = 0.39f;
-			b = 0.28f;
+            r = 1f;
+            g = 0.39f;
+            b = 0.28f;
         }
     }
 }

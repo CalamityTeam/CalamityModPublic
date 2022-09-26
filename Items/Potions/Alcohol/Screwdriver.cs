@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.Alcohol;
+﻿using CalamityMod.Buffs.Alcohol;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -9,27 +9,28 @@ namespace CalamityMod.Items.Potions.Alcohol
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 5;
             DisplayName.SetDefault("Screwdriver");
             Tooltip.SetDefault(@"Do you have a screw loose?
-Boosts piercing projectile damage by 10%
+Multiplies piercing projectile damage by 1.05
 Reduces life regen by 1");
         }
 
         public override void SetDefaults()
         {
-            item.width = 28;
-            item.height = 18;
-            item.useTurn = true;
-            item.maxStack = 30;
-            item.rare = 4;
-            item.useAnimation = 17;
-            item.useTime = 17;
-            item.useStyle = ItemUseStyleID.EatingUsing;
-            item.UseSound = SoundID.Item3;
-            item.consumable = true;
-            item.buffType = ModContent.BuffType<ScrewdriverBuff>();
-            item.buffTime = 18000; //5 minutes
-            item.value = Item.buyPrice(0, 16, 60, 0);
+            Item.width = 16;
+            Item.height = 26;
+            Item.useTurn = true;
+            Item.maxStack = 30;
+            Item.rare = ItemRarityID.LightPurple;
+            Item.useAnimation = 17;
+            Item.useTime = 17;
+            Item.useStyle = ItemUseStyleID.DrinkLiquid;
+            Item.UseSound = SoundID.Item3;
+            Item.consumable = true;
+            Item.buffType = ModContent.BuffType<ScrewdriverBuff>();
+            Item.buffTime = CalamityUtils.SecondsToFrames(480f);
+            Item.value = Item.buyPrice(0, 4, 0, 0);
         }
     }
 }

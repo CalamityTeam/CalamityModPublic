@@ -1,3 +1,4 @@
+﻿using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
@@ -13,52 +14,40 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             DisplayName.SetDefault("Darklight Greatsword");
             Tooltip.SetDefault("Fires darklight blades that split on death");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.width = 58;
-            item.damage = 75;
-            item.melee = true;
-            item.useAnimation = 24;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 24;
-            item.useTurn = true;
-            item.knockBack = 5;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 60;
-            item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = 5;
-            item.shoot = ModContent.ProjectileType<DarkBeam>();
-            item.shootSpeed = 16f;
+            Item.width = 92;
+            Item.damage = 123;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = 36;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 36;
+            Item.useTurn = true;
+            Item.knockBack = 5;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.height = 100;
+            Item.scale = 1.5f;
+            Item.value = CalamityGlobalItem.Rarity6BuyPrice;
+            Item.rare = ItemRarityID.Pink;
+            Item.shoot = ModContent.ProjectileType<DarkBeam>();
+            Item.shootSpeed = 25f;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-			type = Main.rand.NextBool(2) ? type : ModContent.ProjectileType<LightBeam>();
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, (int)(damage * 0.6), knockBack, player.whoAmI, 0f, 0f);
+            type = Main.rand.NextBool(2) ? type : ModContent.ProjectileType<LightBeam>();
+            Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, type, (int)(damage * 0.8), knockback, player.whoAmI);
             return false;
-        }
-
-        public override void AddRecipes()
-        {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<VerstaltiteBar>(), 12);
-            recipe.AddIngredient(ItemID.FallenStar, 5);
-            recipe.AddIngredient(ItemID.SoulofNight);
-            recipe.AddIngredient(ItemID.SoulofLight);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
             if (Main.rand.NextBool(3))
-            {
-                int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 29);
-            }
+                Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 29);
         }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
@@ -69,6 +58,17 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
             target.AddBuff(BuffID.Frostburn, 180);
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient<CryonicBar>(12).
+                AddIngredient(ItemID.FallenStar, 5).
+                AddIngredient(ItemID.SoulofNight).
+                AddIngredient(ItemID.SoulofLight).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

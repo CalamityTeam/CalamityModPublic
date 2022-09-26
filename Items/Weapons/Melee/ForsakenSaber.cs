@@ -1,3 +1,4 @@
+﻿using Terraria.DataStructures;
 using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -11,42 +12,38 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Forsaken Saber");
-            Tooltip.SetDefault("Shoots a sand blade that alters its velocity as it travels");
+            Tooltip.SetDefault("Shoots three sand blades that alter their velocity as they travel");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.width = 46;
-            item.damage = 65;
-            item.melee = true;
-            item.useAnimation = 18;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 18;
-            item.useTurn = true;
-            item.knockBack = 6;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 56;
-            item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = 5;
-            item.shoot = ModContent.ProjectileType<SandBlade>();
-            item.shootSpeed = 5f;
+            Item.width = 46;
+            Item.damage = 65;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = 18;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 18;
+            Item.useTurn = true;
+            Item.knockBack = 6;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.height = 56;
+            Item.value = CalamityGlobalItem.Rarity6BuyPrice;
+            Item.rare = ItemRarityID.Pink;
+            Item.shoot = ModContent.ProjectileType<SandBlade>();
+            Item.shootSpeed = 15f;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, (int)(damage * 0.8), knockBack, player.whoAmI, 0f, 0f);
+            for (int projectiles = 0; projectiles < 3; projectiles++)
+            {
+                float SpeedX = velocity.X + Main.rand.Next(-40, 41) * 0.05f;
+                float SpeedY = velocity.Y + Main.rand.Next(-40, 41) * 0.05f;
+                Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, type, (int)(damage * 0.8), knockback, player.whoAmI);
+            }
             return false;
-        }
-
-        public override void AddRecipes()
-        {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.AncientBattleArmorMaterial, 2);
-            recipe.AddRecipeGroup("AnyAdamantiteBar", 5);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)
@@ -55,6 +52,15 @@ namespace CalamityMod.Items.Weapons.Melee
             {
                 int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 159);
             }
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddRecipeGroup("AnyAdamantiteBar", 5).
+                AddIngredient(ItemID.AncientBattleArmorMaterial, 2).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

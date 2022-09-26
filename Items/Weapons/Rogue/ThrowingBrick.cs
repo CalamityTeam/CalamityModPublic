@@ -1,3 +1,4 @@
+﻿using Terraria.DataStructures;
 using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -13,46 +14,49 @@ namespace CalamityMod.Items.Weapons.Rogue
             Tooltip.SetDefault("Prove its resistance by throwing it upwards and catching it with your face\n" +
                 "Throws a brick that shatters if stealth is full.");
             DisplayName.SetDefault("Throwing Brick");
+            SacrificeTotal = 99;
         }
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
-            item.damage = 7;
-            item.shootSpeed = 12f;
-            item.shoot = ModContent.ProjectileType<Brick>();
-            item.width = 26;
-            item.height = 20;
-            item.useTime = 20;
-            item.useAnimation = 20;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 5f;
-            item.crit = 20;
-            item.value = Item.buyPrice(0, 0, 0, 50);
-            item.rare = 0;
-            item.maxStack = 999;
-            item.UseSound = SoundID.Item1;
-            item.consumable = true;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.Calamity().rogue = true;
+            Item.damage = 14;
+            Item.shootSpeed = 12f;
+            Item.shoot = ModContent.ProjectileType<Brick>();
+            Item.width = 26;
+            Item.height = 20;
+            Item.useTime = Item.useAnimation = 40;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 5f;
+            Item.value = Item.buyPrice(0, 0, 0, 50);
+            Item.rare = ItemRarityID.White;
+            Item.maxStack = 999;
+            Item.UseSound = SoundID.Item1;
+            Item.consumable = true;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.DamageType = RogueDamageClass.Instance;
         }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+
+        // Terraria seems to really dislike high crit values in SetDefaults
+        public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 20;
+
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             //Check if stealth is full
             if (player.Calamity().StealthStrikeAvailable())
             {
-                int p = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Brick>(), damage, knockBack, player.whoAmI, 1);
-                Main.projectile[p].Calamity().stealthStrike = true;
+                int p = Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, type, damage, knockback, player.whoAmI, 1);
+                if (p.WithinBounds(Main.maxProjectiles))
+                    Main.projectile[p].Calamity().stealthStrike = true;
                 return false;
             }
             return true;
         }
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.RedBrick, 5);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this, 15);
-            recipe.AddRecipe();
+            CreateRecipe(20).
+                AddIngredient(ItemID.RedBrick, 5).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

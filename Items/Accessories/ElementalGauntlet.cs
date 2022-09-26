@@ -1,69 +1,59 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
+using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
-using CalamityMod.World;
-using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
+    [AutoloadEquip(new EquipType[] { EquipType.HandsOn, EquipType.HandsOff } )]
     public class ElementalGauntlet : ModItem
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Elemental Gauntlet");
-            Tooltip.SetDefault("Melee attacks and projectiles inflict most debuffs\n" +
+            Tooltip.SetDefault("Melee attacks and projectiles inflict on fire, frostburn and holy flames\n" +
                 "15% increased melee speed, damage, and 5% increased melee critical strike chance\n" +
-				"20% increased true melee damage\n" +
-                "Increased invincibility after taking damage\n" +
+                "20% increased true melee damage\n" +
                 "Temporary immunity to lava\n" +
                 "Increased melee knockback\n" +
-                "Melee attacks have a chance to instantly kill normal enemies");
+                "Enables auto swing for melee weapons\n" +
+                "Increases the size of melee weapons");
         }
 
         public override void SetDefaults()
         {
-            item.width = 22;
-            item.height = 38;
-            item.value = CalamityGlobalItem.Rarity14BuyPrice;
-            item.accessory = true;
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
-        }
-
-        public override void ModifyTooltips(List<TooltipLine> list)
-        {
-			if (CalamityWorld.death)
-			{
-				foreach (TooltipLine line2 in list)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Tooltip6")
-					{
-						line2.text = "Melee attacks have a chance to instantly kill normal enemies\n" +
-						"Provides heat and cold protection in Death Mode";
-					}
-				}
-			}
+            Item.width = 22;
+            Item.height = 38;
+            Item.value = CalamityGlobalItem.Rarity14BuyPrice;
+            Item.accessory = true;
+            Item.rare = ModContent.RarityType<DarkBlue>();
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.eGauntlet = true;
+            player.kbGlove = true;
+            player.autoReuseGlove = true;
+            player.meleeScaleGlove = true;
+            player.GetAttackSpeed<MeleeDamageClass>() += 0.15f;
+            player.GetDamage<TrueMeleeDamageClass>() += 0.1f;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.FireGauntlet);
-            recipe.AddIngredient(ModContent.ItemType<YharimsInsignia>());
-            recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 20);
-            recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 20);
-            recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 20);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient(ItemID.FireGauntlet).
+                AddIngredient<YharimsInsignia>().
+                AddIngredient(ItemID.LunarBar, 8).
+                AddIngredient<GalacticaSingularity>(4).
+                AddIngredient<AscendantSpiritEssence>(4).
+                AddTile<CosmicAnvil>().
+                Register();
         }
     }
 }

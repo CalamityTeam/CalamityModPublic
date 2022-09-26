@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.Potions;
+﻿using CalamityMod.Buffs.Potions;
 using CalamityMod.Items.Fishing.SunkenSeaCatches;
 using CalamityMod.Items.Materials;
 using Terraria;
@@ -11,45 +11,47 @@ namespace CalamityMod.Items.Potions
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 20;
             DisplayName.SetDefault("Soaring Potion");
             Tooltip.SetDefault("Increases flight time and horizontal flight speed by 10%\n" +
-				"Restores a fraction of your wing flight time after a true melee strike\n" +
-				"The amount of flight time restored scales with your melee stats and weapon swing speed");
+                "Restores a fraction of your wing flight time after a true melee strike\n" +
+                "The amount of flight time restored scales with your melee stats and weapon swing speed");
         }
 
         public override void SetDefaults()
         {
-            item.width = 28;
-            item.height = 18;
-            item.useTurn = true;
-            item.maxStack = 999;
-            item.rare = 3;
-            item.useAnimation = 17;
-            item.useTime = 17;
-            item.useStyle = ItemUseStyleID.EatingUsing;
-            item.UseSound = SoundID.Item3;
-            item.consumable = true;
-            item.buffType = ModContent.BuffType<Soaring>();
-            item.buffTime = 14400;
-            item.value = Item.buyPrice(0, 2, 0, 0);
+            Item.width = 28;
+            Item.height = 18;
+            Item.useTurn = true;
+            Item.maxStack = 30;
+            Item.rare = ItemRarityID.Orange;
+            Item.useAnimation = 17;
+            Item.useTime = 17;
+            Item.useStyle = ItemUseStyleID.DrinkLiquid;
+            Item.UseSound = SoundID.Item3;
+            Item.value = Item.buyPrice(0, 2, 0, 0);
+            Item.rare = ItemRarityID.LightRed;
+            Item.consumable = true;
+            Item.buffType = ModContent.BuffType<Soaring>();
+            Item.buffTime = CalamityUtils.SecondsToFrames(360f);
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.BottledWater);
-            recipe.AddIngredient(ItemID.Feather);
-            recipe.AddIngredient(ItemID.SoulofFlight);
-            recipe.AddIngredient(ModContent.ItemType<SunkenSailfish>());
-            recipe.AddTile(TileID.AlchemyTable);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.BottledWater);
-            recipe.AddIngredient(ModContent.ItemType<BloodOrb>(), 30);
-            recipe.AddTile(TileID.AlchemyTable);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient(ItemID.BottledWater).
+                AddIngredient(ItemID.SoulofFlight).
+                AddIngredient<SunkenSailfish>().
+                AddTile(TileID.AlchemyTable).
+				AddConsumeItemCallback(Recipe.ConsumptionRules.Alchemy).
+                Register();
+
+            CreateRecipe().
+                AddIngredient(ItemID.BottledWater).
+                AddIngredient<BloodOrb>(30).
+                AddIngredient(ItemID.SoulofFlight).
+                AddTile(TileID.AlchemyTable).
+                Register();
         }
     }
 }

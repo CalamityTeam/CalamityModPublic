@@ -1,10 +1,12 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Rogue;
+using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
+using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
@@ -16,35 +18,37 @@ namespace CalamityMod.Items.Weapons.Rogue
             Tooltip.SetDefault(@"Creates a massive explosion on impact
 Explodes into spikes and homing energy
 Stealth strikes release energy as they fly");
+            SacrificeTotal = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
-            item.width = 34;
-            item.damage = 2250;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.useAnimation = 24;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 24;
-            item.knockBack = 8f;
-            item.UseSound = SoundID.Item15;
-            item.autoReuse = true;
-            item.height = 36;
-            item.value = Item.buyPrice(platinum: 2, gold: 50);
-            item.rare = 10;
-            item.shoot = ModContent.ProjectileType<SupernovaBomb>();
-            item.shootSpeed = 16f;
-            item.Calamity().rogue = true;
-            item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.width = 34;
+            Item.damage = 675;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.useAnimation = 24;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 24;
+            Item.knockBack = 8f;
+            Item.UseSound = SoundID.Item15;
+            Item.autoReuse = true;
+            Item.height = 36;
+            Item.value = CalamityGlobalItem.Rarity15BuyPrice;
+            Item.shoot = ModContent.ProjectileType<SupernovaBomb>();
+            Item.shootSpeed = 16f;
+            Item.DamageType = RogueDamageClass.Instance;
+            Item.rare = ModContent.RarityType<Violet>();
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.Calamity().StealthStrikeAvailable()) //setting the stealth strike
             {
-                int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, 0f, 0f);
-                Main.projectile[stealth].Calamity().stealthStrike = true;
+                damage = (int)(damage * 1.08f);
+                int stealth = Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
+                if (stealth.WithinBounds(Main.maxProjectiles))
+                    Main.projectile[stealth].Calamity().stealthStrike = true;
                 return false;
             }
             return true;
@@ -52,19 +56,16 @@ Stealth strikes release energy as they fly");
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-
-            recipe.AddIngredient(ModContent.ItemType<TotalityBreakers>());
-            recipe.AddIngredient(ModContent.ItemType<BallisticPoisonBomb>());
-            recipe.AddIngredient(ModContent.ItemType<ShockGrenade>(), 200);
-            recipe.AddIngredient(ModContent.ItemType<Penumbra>());
-            recipe.AddIngredient(ModContent.ItemType<StarofDestruction>());
-			recipe.AddIngredient(ModContent.ItemType<SealedSingularity>());
-
-			recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 4);
-			recipe.AddTile(ModContent.TileType<DraedonsForge>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient<TotalityBreakers>().
+                AddIngredient<BallisticPoisonBomb>().
+                AddIngredient<ShockGrenade>(200).
+                AddIngredient<Penumbra>().
+                AddIngredient<StarofDestruction>().
+                AddIngredient<SealedSingularity>().
+                AddIngredient<MiracleMatter>().
+                AddTile<DraedonsForge>().
+                Register();
         }
     }
 }

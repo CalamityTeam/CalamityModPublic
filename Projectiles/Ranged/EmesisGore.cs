@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 using CalamityMod.Buffs.DamageOverTime;
 
 namespace CalamityMod.Projectiles.Ranged
-{   
+{
     public class EmesisGore : ModProjectile
     {
         public int HurtCounter = 0;
@@ -17,14 +17,15 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetDefaults()
         {
-            projectile.width = 12;
-            projectile.height = 12;
-            projectile.friendly = true;
-            projectile.penetrate = 10;
-            projectile.timeLeft = 600;
-            projectile.ranged = true;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 6;
+            Projectile.width = 12;
+            Projectile.height = 12;
+            Projectile.friendly = true;
+            Projectile.penetrate = 10;
+            Projectile.timeLeft = 600;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.ignoreWater = true;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 6;
         }
         public override void SendExtraAI(BinaryWriter writer)
         {
@@ -36,28 +37,28 @@ namespace CalamityMod.Projectiles.Ranged
         }
         public override void AI()
         {
-            projectile.StickyProjAI(15);
+            Projectile.StickyProjAI(15);
 
             // Override the default DOT used in the method above.
-            if (projectile.ai[0] == 1f)
+            if (Projectile.ai[0] == 1f)
             {
-                projectile.localAI[0] = 5f;
-                projectile.velocity = Vector2.Zero;
+                Projectile.localAI[0] = 5f;
+                Projectile.velocity = Vector2.Zero;
                 HurtCounter++;
                 if (HurtCounter % HurtTimeIncrement == 0)
                 {
-                    Main.npc[(int)projectile.ai[1]].HitEffect(0, 50.0);
+                    Main.npc[(int)Projectile.ai[1]].HitEffect(0, 50.0);
                 }
             }
             else
             {
-                projectile.rotation += (projectile.velocity.X > 0).ToDirectionInt() * MathHelper.ToRadians(8f);
+                Projectile.rotation += (Projectile.velocity.X > 0).ToDirectionInt() * MathHelper.ToRadians(8f);
             }
-            if (projectile.timeLeft % 12 == 11)
+            if (Projectile.timeLeft % 12 == 11)
             {
-                for (int i = 0; i < (projectile.ai[0] == 1f ? 3 : 1); i++)
+                for (int i = 0; i < (Projectile.ai[0] == 1f ? 3 : 1); i++)
                 {
-                    Dust dust = Dust.NewDustDirect(projectile.position, 10, 10, 27);
+                    Dust dust = Dust.NewDustDirect(Projectile.position, 10, 10, 27);
                     dust.velocity = Vector2.One.RotatedByRandom(MathHelper.TwoPi);
                     dust.noGravity = true;
                 }
@@ -66,7 +67,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            projectile.ModifyHitNPCSticky(8, true);
+            Projectile.ModifyHitNPCSticky(8, true);
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
@@ -86,6 +87,6 @@ namespace CalamityMod.Projectiles.Ranged
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
             target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 60);
-		}
+        }
     }
 }

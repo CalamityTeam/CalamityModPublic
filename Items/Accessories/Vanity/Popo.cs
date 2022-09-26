@@ -1,42 +1,55 @@
-using CalamityMod.CalPlayer;
-using CalamityMod.World;
-using System.Collections.Generic;
+﻿using CalamityMod.CalPlayer;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories.Vanity
 {
     public class Popo : ModItem
     {
+        public override void Load()
+        {
+            if (Main.netMode != NetmodeID.Server)
+            {
+                EquipLoader.AddEquipTexture(Mod, "CalamityMod/Items/Accessories/Vanity/Popo_Head", EquipType.Head, this);
+                EquipLoader.AddEquipTexture(Mod, "CalamityMod/Items/Accessories/Vanity/PopoNoseless_Head", EquipType.Head, name: "PopoNoseless");
+                EquipLoader.AddEquipTexture(Mod, "CalamityMod/Items/Accessories/Vanity/Popo_Body", EquipType.Body, this);
+                EquipLoader.AddEquipTexture(Mod, "CalamityMod/Items/Accessories/Vanity/Popo_Legs", EquipType.Legs, this);
+            }
+        }
+
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Magic Scarf and Hat");
             Tooltip.SetDefault("Don't let the demons steal your nose\n" +
-				"Transforms the holder into a snowman");
+                "Transforms the holder into a snowman");
+
+            if (Main.netMode == NetmodeID.Server)
+                return;
+
+            int equipSlotBody = EquipLoader.GetEquipSlot(Mod, Name, EquipType.Body);
+            ArmorIDs.Body.Sets.HidesTopSkin[equipSlotBody] = true;
+            ArmorIDs.Body.Sets.HidesArms[equipSlotBody] = true;
+
+            int equipSlotLegs = EquipLoader.GetEquipSlot(Mod, Name, EquipType.Legs);
+            ArmorIDs.Legs.Sets.HidesBottomSkin[equipSlotLegs] = true;
         }
 
         public override void SetDefaults()
         {
-            item.width = 26;
-            item.height = 30;
-            item.accessory = true;
-            item.value = CalamityGlobalItem.Rarity5BuyPrice;
-            item.rare = 5;
+            Item.width = 26;
+            Item.height = 30;
+            Item.accessory = true;
+            Item.value = CalamityGlobalItem.Rarity5BuyPrice;
+            Item.rare = ItemRarityID.Pink;
+            Item.Calamity().devItem = true;
         }
 
-        public override void ModifyTooltips(List<TooltipLine> list)
+        public override void UpdateVanity(Player player)
         {
-			if (CalamityWorld.death)
-			{
-				foreach (TooltipLine line2 in list)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Tooltip1")
-					{
-						line2.text = "Transforms the holder into a snowman\n" +
-						"Provides heat and cold protection in Death Mode";
-					}
-				}
-			}
+            player.Calamity().snowmanHide = false;
+            player.Calamity().snowmanForce = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -47,38 +60,6 @@ namespace CalamityMod.Items.Accessories.Vanity
             {
                 modPlayer.snowmanHide = true;
             }
-        }
-    }
-
-    public class PopoHead : EquipTexture
-    {
-        public override bool DrawHead()
-        {
-            return false;
-        }
-    }
-
-    public class PopoNoselessHead : EquipTexture
-    {
-        public override bool DrawHead()
-        {
-            return false;
-        }
-    }
-
-    public class PopoBody : EquipTexture
-    {
-        public override bool DrawBody()
-        {
-            return false;
-        }
-    }
-
-    public class PopoLegs : EquipTexture
-    {
-        public override bool DrawLegs()
-        {
-            return false;
         }
     }
 }

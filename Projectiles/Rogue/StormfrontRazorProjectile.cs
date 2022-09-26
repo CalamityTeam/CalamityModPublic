@@ -1,80 +1,83 @@
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Rogue
 {
     public class StormfrontRazorProjectile : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/StormfrontRazor";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Stormfront Knife");
-            Main.projFrames[projectile.type] = 4;
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            Main.projFrames[Projectile.type] = 4;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 4;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 20;
-            projectile.height = 20;
-            projectile.friendly = true;
-            projectile.penetrate = 5;
-            projectile.timeLeft = 300;
-            projectile.extraUpdates = 1;
-            projectile.Calamity().rogue = true;
+            Projectile.width = 20;
+            Projectile.height = 20;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.penetrate = 5;
+            Projectile.timeLeft = 300;
+            Projectile.extraUpdates = 1;
+            Projectile.DamageType = RogueDamageClass.Instance;
         }
 
         public override void AI()
         {
-            projectile.frameCounter++;
-            if (projectile.frameCounter >= 6)
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter >= 6)
             {
-                projectile.frame++;
-                projectile.frameCounter = 0;
+                Projectile.frame++;
+                Projectile.frameCounter = 0;
             }
-            if (projectile.frame >= 4)
+            if (Projectile.frame >= 4)
             {
-                projectile.frame = 0;
+                Projectile.frame = 0;
             }
-            drawOriginOffsetX = 50;
-            drawOriginOffsetY = 20;
-            projectile.ai[0]++;
-            projectile.spriteDirection = projectile.direction = (projectile.velocity.X > 0).ToDirectionInt();
-            projectile.rotation = projectile.velocity.ToRotation() + (projectile.spriteDirection == 1 ? 0f : MathHelper.Pi);
-            projectile.rotation += projectile.spriteDirection * MathHelper.ToRadians(45f);
-            if (projectile.ai[1] == 0)
+            DrawOriginOffsetX = 50;
+            DrawOriginOffsetY = 20;
+            Projectile.ai[0]++;
+            Projectile.spriteDirection = Projectile.direction = (Projectile.velocity.X > 0).ToDirectionInt();
+            Projectile.rotation = Projectile.velocity.ToRotation() + (Projectile.spriteDirection == 1 ? 0f : MathHelper.Pi);
+            Projectile.rotation += Projectile.spriteDirection * MathHelper.ToRadians(45f);
+            if (Projectile.ai[1] == 0)
             {
-                projectile.ai[1] = 1;
+                Projectile.ai[1] = 1;
             }
-            float sparkFreq = 80 / projectile.ai[1];
-            if (projectile.ai[0] >= sparkFreq)
+            float sparkFreq = 125f / Projectile.ai[1];
+            if (Projectile.ai[0] >= sparkFreq)
             {
                 Vector2 sparkS = new Vector2(Main.rand.NextFloat(-14f, 14f), Main.rand.NextFloat(-14f, 14f));
-                Projectile.NewProjectile(projectile.Center, sparkS, ModContent.ProjectileType<Stormfrontspark>(), projectile.damage, 3f, projectile.owner);
-                projectile.ai[0] = 0;
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, sparkS, ModContent.ProjectileType<Stormfrontspark>(), Projectile.damage, 3f, Projectile.owner);
+                Projectile.ai[0] = 0;
             }
             if (Main.rand.NextBool(10))
             {
-                int d = Dust.NewDust(projectile.Center, projectile.width, projectile.height, 246, 0f, 0f, 100, new Color(255, Main.DiscoG, 53), 1f);
+                int d = Dust.NewDust(Projectile.Center, Projectile.width, Projectile.height, 246, 0f, 0f, 100, new Color(255, Main.DiscoG, 53), 1f);
                 Main.dust[d].scale += (float)Main.rand.Next(50) * 0.01f;
                 Main.dust[d].noGravity = true;
-                Main.dust[d].position = projectile.Center;
+                Main.dust[d].position = Projectile.Center;
             }
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            Collision.HitTiles(projectile.position + projectile.velocity, projectile.velocity, projectile.width, projectile.height);
-            Main.PlaySound(SoundID.Dig, projectile.position);
+            Collision.HitTiles(Projectile.position + Projectile.velocity, Projectile.velocity, Projectile.width, Projectile.height);
+            SoundEngine.PlaySound(SoundID.Dig, Projectile.position);
             return true;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;
         }
     }

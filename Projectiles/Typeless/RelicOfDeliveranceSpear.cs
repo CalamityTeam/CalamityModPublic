@@ -1,14 +1,13 @@
-using CalamityMod.CalPlayer;
-using CalamityMod.Dusts;
+﻿using CalamityMod.Dusts;
 using CalamityMod.Items.Weapons.Typeless;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Typeless
 {
@@ -24,115 +23,116 @@ namespace CalamityMod.Projectiles.Typeless
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Relic of Deliverance");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
-            Main.projFrames[projectile.type] = 4;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
+            Main.projFrames[Projectile.type] = 4;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 68;
-            projectile.height = 32;
-            projectile.penetrate = -1;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 8;
+            Projectile.width = 68;
+            Projectile.height = 32;
+            Projectile.penetrate = -1;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 8;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
         {
-            writer.Write(projectile.localAI[0]);
-            writer.Write(projectile.localAI[1]);
+            writer.Write(Projectile.localAI[0]);
+            writer.Write(Projectile.localAI[1]);
             writer.WriteVector2(IdealVelocity);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
-            projectile.localAI[0] = reader.ReadSingle();
-            projectile.localAI[1] = reader.ReadSingle();
+            Projectile.localAI[0] = reader.ReadSingle();
+            Projectile.localAI[1] = reader.ReadSingle();
             IdealVelocity = reader.ReadVector2();
         }
 
         public override void AI()
         {
-            Player player = Main.player[projectile.owner];
-            if (player.dead || 
-                projectile.Center.Y < 200f ||
-                projectile.Center.X < 200f ||
-                projectile.Center.X > Main.maxTilesX * 16f - 200f)
+            Player player = Main.player[Projectile.owner];
+            if (player.dead ||
+                Projectile.Center.Y < 200f ||
+                Projectile.Center.X < 200f ||
+                Projectile.Center.X > Main.maxTilesX * 16f - 200f)
             {
-                projectile.Kill();
+                Projectile.Kill();
                 return;
             }
-            projectile.frameCounter++;
-            if (projectile.frameCounter > 4)
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter > 4)
             {
-                projectile.frame++;
-                projectile.frameCounter = 0;
+                Projectile.frame++;
+                Projectile.frameCounter = 0;
             }
-            if (projectile.frame >= Main.projFrames[projectile.type])
+            if (Projectile.frame >= Main.projFrames[Projectile.type])
             {
-                projectile.frame = 0;
+                Projectile.frame = 0;
             }
-            projectile.ai[0]++;
-            if (projectile.velocity == Vector2.Zero)
+            Projectile.ai[0]++;
+            if (Projectile.velocity == Vector2.Zero)
             {
                 // Immediately die if the player is not holding the spear
                 if (player.ActiveItem() == null)
                 {
-                    projectile.Kill();
+                    Projectile.Kill();
                     return;
                 }
                 if (player.ActiveItem().type != ModContent.ItemType<RelicOfDeliverance>())
                 {
-                    projectile.Kill();
+                    Projectile.Kill();
                     return;
                 }
-                projectile.rotation = projectile.AngleTo(Main.MouseWorld);
-                projectile.Center = player.Center;
-                if (projectile.ai[0] >= WaitTimeRequiredForCharge)
+                Projectile.rotation = Projectile.AngleTo(Main.MouseWorld);
+                Projectile.Center = player.Center;
+                if (Projectile.ai[0] >= WaitTimeRequiredForCharge)
                 {
                     // Begin the lunge
-                    if (Main.mouseLeft && !Main.blockMouse && !player.mouseInterface)
+                    bool noObstaclesInWay = Collision.CanHitLine(Projectile.Center, 1, 1, Projectile.Center + Projectile.SafeDirectionTo(Main.MouseWorld) * 25f, 1, 1);
+                    if (Main.myPlayer == Projectile.owner && Main.mouseLeft && !Main.blockMouse && !player.mouseInterface && noObstaclesInWay)
                     {
-                        float chargeSpeed = MathHelper.Lerp(MinChargeSpeed, MaxChargeSpeed, (projectile.ai[0] - WaitTimeRequiredForCharge) / WaitTimeRequiredForMaximumCharge);
+                        float chargeSpeed = MathHelper.Lerp(MinChargeSpeed, MaxChargeSpeed, (Projectile.ai[0] - WaitTimeRequiredForCharge) / WaitTimeRequiredForMaximumCharge);
                         if (chargeSpeed > MaxChargeSpeed)
                             chargeSpeed = MaxChargeSpeed;
-                        projectile.velocity = projectile.DirectionTo(Main.MouseWorld) * chargeSpeed;
-                        IdealVelocity = projectile.velocity;
-                        projectile.ai[1] = chargeSpeed;
-                        Main.PlaySound(SoundID.Item73, projectile.Center);
-                        projectile.netUpdate = true;
+                        Projectile.velocity = Projectile.SafeDirectionTo(Main.MouseWorld) * chargeSpeed;
+                        IdealVelocity = Projectile.velocity;
+                        Projectile.ai[1] = chargeSpeed;
+                        SoundEngine.PlaySound(SoundID.Item73, Projectile.Center);
+                        Projectile.netUpdate = true;
                     }
                     // Charge-up dust
-                    if (projectile.ai[0] <= WaitTimeRequiredForCharge + WaitTimeRequiredForMaximumCharge)
+                    if (Projectile.ai[0] <= WaitTimeRequiredForCharge + WaitTimeRequiredForMaximumCharge)
                     {
                         for (int i = 0; i < 3; i++)
                         {
-                            Vector2 dustPosition = Utils.NextVector2Circular(Main.rand, projectile.width * 1.6f, projectile.height * 2.3f) / 2f + projectile.Center;
+                            Vector2 dustPosition = Utils.NextVector2Circular(Main.rand, Projectile.width * 1.6f, Projectile.height * 2.3f) / 2f + Projectile.Center;
                             Dust dust = Dust.NewDustPerfect(dustPosition, (int)CalamityDusts.ProfanedFire);
-                            dust.velocity = projectile.DirectionFrom(dust.position) * projectile.Distance(dust.position) / 11f;
+                            dust.velocity = Projectile.SafeDirectionTo(dust.position) * Projectile.Distance(dust.position) / -11f;
                             dust.velocity += player.velocity;
                             dust.noGravity = true;
                             dust.fadeIn = 1.6f;
                         }
-                        projectile.Center += Utils.NextVector2Circular(Main.rand, 1.8f, 1.8f);
+                        Projectile.Center += Utils.NextVector2Circular(Main.rand, 1.8f, 1.8f);
                     }
                     // Full charge dust indicator
-                    if (projectile.ai[0] == WaitTimeRequiredForCharge + WaitTimeRequiredForMaximumCharge)
+                    if (Projectile.ai[0] == WaitTimeRequiredForCharge + WaitTimeRequiredForMaximumCharge)
                     {
                         for (int i = 0; i < 60; i++)
                         {
-                            Dust dust = Dust.NewDustPerfect(projectile.Center, (int)CalamityDusts.ProfanedFire);
+                            Dust dust = Dust.NewDustPerfect(Projectile.Center, (int)CalamityDusts.ProfanedFire);
                             dust.velocity = Utils.NextVector2Circular(Main.rand, 9f, 9f) * Main.rand.NextFloat(0.8f, 1.2f);
                             dust.velocity += player.velocity;
                             dust.noGravity = true;
                             dust.fadeIn = 1.6f;
                         }
-                        Main.PlaySound(SoundID.DD2_DarkMageHealImpact, projectile.Center);
+                        SoundEngine.PlaySound(SoundID.DD2_DarkMageHealImpact, Projectile.Center);
                     }
-                    player.direction = (Math.Cos(projectile.rotation) > 0).ToDirectionInt();
+                    player.direction = (Math.Cos(Projectile.rotation) > 0).ToDirectionInt();
                 }
             }
             else
@@ -141,101 +141,105 @@ namespace CalamityMod.Projectiles.Typeless
                 // However, if the mouse position is really close to the projectile, don't do anything.
                 // Being close to the target may cause erratic movements.
                 // The projectile.localAI[1] part is to prevent the projectile from redirecting on a frame-by-frame basis (Main.mouseLeft seems to mean mouse hold, not release).
-                if (projectile.Distance(Main.MouseWorld) > 60f &&
+                if (Projectile.Distance(Main.MouseWorld) > 60f &&
                     Main.mouseLeft && !Main.blockMouse && !player.mouseInterface &&
-                    projectile.localAI[0] <= MaxCharges &&
-                    projectile.localAI[1] <= 0f)
+                    Projectile.localAI[0] <= MaxCharges &&
+                    Projectile.localAI[1] <= 0f)
                 {
-                    IdealVelocity = projectile.DirectionTo(Main.MouseWorld) * projectile.ai[1];
-                    projectile.localAI[0]++;
-                    projectile.localAI[1] = 40f;
-                    Main.PlaySound(SoundID.Item73, projectile.Center);
-                    projectile.netUpdate = true;
+                    IdealVelocity = Projectile.SafeDirectionTo(Main.MouseWorld) * Projectile.ai[1];
+                    Projectile.localAI[0]++;
+                    Projectile.localAI[1] = 40f;
+                    SoundEngine.PlaySound(SoundID.Item73, Projectile.Center);
+                    Projectile.netUpdate = true;
                 }
-                else if (projectile.localAI[0] > MaxCharges)
+                else if (Projectile.localAI[0] > MaxCharges)
                 {
-                    if (projectile.timeLeft > 120)
+                    if (Projectile.timeLeft > 120)
                     {
-                        projectile.timeLeft = 120;
+                        Projectile.timeLeft = 120;
                     }
-                    projectile.alpha = (int)MathHelper.Lerp(0, 255, 1f - projectile.timeLeft / 120f);
+                    Projectile.alpha = (int)MathHelper.Lerp(0, 255, 1f - Projectile.timeLeft / 120f);
                 }
-                if (projectile.velocity != IdealVelocity)
+                if (Projectile.velocity != IdealVelocity)
                 {
-                    projectile.velocity = Vector2.Lerp(projectile.velocity, IdealVelocity, 0.125f);
+                    Projectile.velocity = Vector2.Lerp(Projectile.velocity, IdealVelocity, 0.125f);
                 }
 
-                if (!CalamityPlayer.areThereAnyDamnBosses && player.Calamity().burdenBreakerYeet)
-                {
-                    if (projectile.ai[1] < 500f)
-                    {
-                        projectile.ai[1] *= 1.02f;
-                        IdealVelocity = Vector2.Normalize(IdealVelocity) * projectile.ai[1];
-                    }
-                    else
-                    {
-                        projectile.Kill();
-                        return;
-                    }
-                }
-
-                player.velocity = projectile.velocity;
+                player.velocity = Projectile.velocity;
                 // Count down the charge cooldown
-                if (projectile.localAI[1] > 0f)
-                    projectile.localAI[1]--;
-                projectile.rotation = projectile.velocity.ToRotation();
+                if (Projectile.localAI[1] > 0f)
+                    Projectile.localAI[1]--;
+                Projectile.rotation = Projectile.velocity.ToRotation();
                 // Player manipulations (setting the center point and disallowing mounts).
-                player.Center = projectile.Center;
+                player.Center = Projectile.Center;
                 // Adjust the player's held projectile type.
                 if (player.heldProj == -1)
-                    player.heldProj = projectile.whoAmI;
+                    player.heldProj = Projectile.whoAmI;
                 if (player.mount != null)
                 {
                     player.mount.Dismount(player);
                 }
-                player.direction = (projectile.velocity.X > 0).ToDirectionInt();
+                player.direction = (Projectile.velocity.X > 0).ToDirectionInt();
                 // Generate dust
-                if (projectile.ai[0] % DustSpawnInterval == DustSpawnInterval - 1f)
+                if (Projectile.ai[0] % DustSpawnInterval == DustSpawnInterval - 1f)
                 {
                     for (int i = 0; i < 12; i++)
                     {
-                        Dust dust = Dust.NewDustPerfect(projectile.Center + (projectile.Size / 2f).RotatedBy(projectile.rotation), (int)CalamityDusts.ProfanedFire);
-                        dust.velocity = projectile.velocity.RotatedBy(MathHelper.ToRadians(20f * (i % 2 == 0).ToDirectionInt()));
+                        Dust dust = Dust.NewDustPerfect(Projectile.Center + (Projectile.Size / 2f).RotatedBy(Projectile.rotation), (int)CalamityDusts.ProfanedFire);
+                        dust.velocity = Projectile.velocity.RotatedBy(MathHelper.ToRadians(20f * (i % 2 == 0).ToDirectionInt()));
                         dust.noGravity = true;
                         dust.fadeIn = 1.8f;
                     }
                 }
             }
             // Don't die when colliding with tiles unless the spear is lunging (and after a bit of time has passed).
-            projectile.tileCollide = projectile.velocity != Vector2.Zero && projectile.ai[0] >= WaitTimeRequiredForCharge + 10f;
+            Projectile.tileCollide = Projectile.velocity != Vector2.Zero && Projectile.ai[0] >= WaitTimeRequiredForCharge + 10f;
 
-            Lighting.AddLight(projectile.Center, Color.LightGoldenrodYellow.ToVector3());
+            // Die immediately if the owner of this projectile is clipping into tiles because of its movement.
+            if (Collision.SolidCollision(player.position, player.width, player.height) && Projectile.velocity != Vector2.Zero)
+            {
+                player.velocity.Y = 0f;
+                DoDeathDust(Projectile.oldVelocity);
+
+                Projectile.Kill();
+            }
+
+            Lighting.AddLight(Projectile.Center, Color.LightGoldenrodYellow.ToVector3());
         }
-
-        public override bool CanDamage() => projectile.velocity != Vector2.Zero;
-
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public void DoDeathDust(Vector2 oldVelocity)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
-            return false;
-        }
-        // Force the spear to have "priority" when drawing so that it draws over the player.
-        public override void DrawBehind(int index, List<int> drawCacheProjsBehindNPCsAndTiles, 
-                                                   List<int> drawCacheProjsBehindNPCs,
-                                                   List<int> drawCacheProjsBehindProjectiles, List<int> drawCacheProjsOverWiresUI) => drawCacheProjsOverWiresUI.Add(index);
+            if (Main.dedServ)
+                return;
 
-        public override bool OnTileCollide(Vector2 oldVelocity)
-        {
             for (int i = 0; i < 60; i++)
             {
-                Vector2 spawnOffset = (projectile.Size / 2f).RotatedBy(projectile.rotation);
+                Vector2 spawnOffset = (Projectile.Size / 2f).RotatedBy(Projectile.rotation);
                 spawnOffset += Utils.NextVector2Circular(Main.rand, 10f, 10f);
-                Dust dust = Dust.NewDustPerfect(projectile.Center + spawnOffset, (int)CalamityDusts.ProfanedFire);
+                Dust dust = Dust.NewDustPerfect(Projectile.Center + spawnOffset, (int)CalamityDusts.ProfanedFire);
                 dust.velocity = Utils.NextVector2Circular(Main.rand, 5f, 5f) + oldVelocity;
                 dust.noGravity = true;
                 dust.fadeIn = 1.9f;
             }
-            Main.PlaySound(SoundID.Item14, projectile.Center);
+            SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);
+        }
+
+
+        public override bool? CanDamage() => Projectile.velocity != Vector2.Zero ? null : false;
+
+        public override bool PreDraw(ref Color lightColor)
+        {
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
+            return false;
+        }
+        // Force the spear to have "priority" when drawing so that it draws over the player.
+        public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI)
+        {
+            overWiresUI.Add(index);
+        }
+
+        public override bool OnTileCollide(Vector2 oldVelocity)
+        {
+            DoDeathDust(oldVelocity);
             return base.OnTileCollide(oldVelocity);
         }
     }

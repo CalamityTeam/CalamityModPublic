@@ -1,6 +1,6 @@
+﻿using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Boss
@@ -9,44 +9,47 @@ namespace CalamityMod.Projectiles.Boss
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Cursed Rain");
+            DisplayName.SetDefault("Shade Rain");
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 4;
-            projectile.height = 40;
-            projectile.hostile = true;
-            projectile.extraUpdates = 1;
-            projectile.penetrate = -1;
-            projectile.ignoreWater = true;
-            projectile.timeLeft = 300;
+            Projectile.width = 4;
+            Projectile.height = 40;
+            Projectile.hostile = true;
+            Projectile.extraUpdates = 1;
+            Projectile.penetrate = -1;
+            Projectile.ignoreWater = true;
+            Projectile.timeLeft = 300;
         }
 
         public override void AI()
         {
-            projectile.alpha = 50;
+            Projectile.alpha = 50;
         }
 
         public override void Kill(int timeLeft)
         {
-            int num310 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y + (float)projectile.height - 2f), 2, 2, 14, 0f, 0f, 0, default, 1f);
+            int num310 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y + (float)Projectile.height - 2f), 2, 2, 14, 0f, 0f, 0, default, 1f);
             Dust dust = Main.dust[num310];
             dust.position.X -= 2f;
             dust.alpha = 38;
             dust.velocity *= 0.1f;
-            dust.velocity += -projectile.oldVelocity * 0.25f;
+            dust.velocity += -Projectile.oldVelocity * 0.25f;
             dust.scale = 0.95f;
         }
 
         public override Color? GetAlpha(Color lightColor)
         {
-            return new Color(102, 255, 102, projectile.alpha);
+            return new Color(102, 255, 102, Projectile.alpha);
         }
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            target.AddBuff(BuffID.CursedInferno, 90);
+            if (damage <= 0)
+                return;
+
+            target.AddBuff(ModContent.BuffType<Shadowflame>(), 120);
         }
     }
 }

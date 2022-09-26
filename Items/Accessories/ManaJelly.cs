@@ -1,6 +1,7 @@
-using System;
+﻿using System;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -8,6 +9,7 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Mana Jelly");
             Tooltip.SetDefault("+20 max mana\n" +
                 "Standing still boosts mana regen");
@@ -15,11 +17,11 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetDefaults()
         {
-            item.width = 20;
-            item.height = 24;
-            item.value = CalamityGlobalItem.Rarity1BuyPrice;
-            item.rare = 1;
-            item.accessory = true;
+            Item.width = 20;
+            Item.height = 24;
+            Item.value = CalamityGlobalItem.Rarity1BuyPrice;
+            Item.rare = ItemRarityID.Blue;
+            Item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -27,7 +29,7 @@ namespace CalamityMod.Items.Accessories
             player.statManaMax2 += 20;
             if ((double)Math.Abs(player.velocity.X) < 0.05 && (double)Math.Abs(player.velocity.Y) < 0.05 && player.itemAnimation == 0)
             {
-                player.manaRegenBonus += 2;
+                player.manaRegenBonus += 4;
             }
         }
     }

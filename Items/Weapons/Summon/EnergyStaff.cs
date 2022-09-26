@@ -1,3 +1,4 @@
+﻿using Terraria.DataStructures;
 using CalamityMod.Projectiles.Summon;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -12,35 +13,35 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             DisplayName.SetDefault("Energy Staff");
             Tooltip.SetDefault("Summons a profaned energy turret to fight for you");
-            Item.staff[item.type] = true;
+            Item.staff[Item.type] = true;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 170;
-            item.summon = true;
-            item.sentry = true;
-            item.mana = 25;
-            item.width = 66;
-            item.height = 68;
-            item.useTime = item.useAnimation = 15;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 5f;
-            item.value = Item.buyPrice(1, 20, 0, 0);
-            item.rare = 10;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<ProfanedEnergy>();
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.damage = 128;
+            Item.DamageType = DamageClass.Summon;
+            Item.sentry = true;
+            Item.mana = 10;
+            Item.width = 66;
+            Item.height = 68;
+            Item.useTime = Item.useAnimation = 14;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 5f;
+            Item.value = CalamityGlobalItem.Rarity11BuyPrice;
+            Item.rare = ItemRarityID.Purple;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<ProfanedEnergy>();
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            if (player.altFunctionUse != 2)
-            {
-                Projectile.NewProjectile(Main.MouseWorld, Vector2.Zero, type, damage, knockBack, player.whoAmI, 8f);
-				player.UpdateMaxTurrets();
-            }
+            //CalamityUtils.OnlyOneSentry(player, type);
+            int p = Projectile.NewProjectile(source, Main.MouseWorld, Vector2.Zero, type, damage, knockback, player.whoAmI, 16f);
+            if (Main.projectile.IndexInRange(p))
+                Main.projectile[p].originalDamage = Item.damage;
+            player.UpdateMaxTurrets();
             return false;
         }
     }

@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Rogue
 {
@@ -14,30 +15,31 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetDefaults()
         {
-            projectile.width = 12;
-            projectile.height = 14;
-            projectile.friendly = true;
-            projectile.alpha = 0;
-            projectile.penetrate = 1;
-            projectile.tileCollide = true;
-            projectile.timeLeft = 120;
-            projectile.Calamity().rogue = true;
+            Projectile.width = 12;
+            Projectile.height = 14;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.alpha = 0;
+            Projectile.penetrate = 1;
+            Projectile.tileCollide = true;
+            Projectile.timeLeft = 120;
+            Projectile.DamageType = RogueDamageClass.Instance;
         }
 
         public override void AI()
         {
-            projectile.velocity.Y += 0.1f;
-            projectile.rotation += 0.4f * projectile.direction;
-            if (projectile.timeLeft < 130)
+            Projectile.velocity.Y += 0.1f;
+            Projectile.rotation += 0.4f * Projectile.direction;
+            if (Projectile.timeLeft < 130)
             {
                 float minDist = 999f;
                 int index = 0;
                 for (int i = 0; i < Main.npc.Length; i++)
                 {
                     NPC npc = Main.npc[i];
-                    if (!npc.friendly && !npc.townNPC && npc.active && !npc.dontTakeDamage && npc.chaseable)
+                    if (npc.CanBeChasedBy(Projectile, false))
                     {
-                        float dist = (projectile.Center - npc.Center).Length();
+                        float dist = (Projectile.Center - npc.Center).Length();
                         if (dist < minDist)
                         {
                             minDist = dist;
@@ -49,26 +51,26 @@ namespace CalamityMod.Projectiles.Rogue
                 Vector2 velocityNew;
                 if (minDist < 999f)
                 {
-                    velocityNew = Main.npc[index].Center - projectile.Center;
+                    velocityNew = Main.npc[index].Center - Projectile.Center;
                     velocityNew.Normalize();
-                    projectile.velocity += velocityNew;
-                    if (projectile.velocity.Length() > 10f)
+                    Projectile.velocity += velocityNew;
+                    if (Projectile.velocity.Length() > 10f)
                     {
-                        projectile.velocity.Normalize();
-                        projectile.velocity *= 10f;
+                        Projectile.velocity.Normalize();
+                        Projectile.velocity *= 10f;
                     }
                 }
             }
 
-            if (projectile.timeLeft < 51)
+            if (Projectile.timeLeft < 51)
             {
-                projectile.alpha += 5;
+                Projectile.alpha += 5;
             }
         }
 
         public override bool? CanHitNPC(NPC target)
         {
-            if (projectile.timeLeft < 130)
+            if (Projectile.timeLeft < 130)
             {
                 return null;
             }
@@ -80,9 +82,9 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            Collision.HitTiles(projectile.position + projectile.velocity, projectile.velocity, projectile.width, projectile.height);
-            Main.PlaySound(SoundID.Dig, projectile.position);
-            projectile.Kill();
+            Collision.HitTiles(Projectile.position + Projectile.velocity, Projectile.velocity, Projectile.width, Projectile.height);
+            SoundEngine.PlaySound(SoundID.Dig, Projectile.position);
+            Projectile.Kill();
             return true;
         }
     }

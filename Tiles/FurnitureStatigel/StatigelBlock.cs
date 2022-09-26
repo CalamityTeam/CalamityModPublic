@@ -6,7 +6,7 @@ namespace CalamityMod.Tiles.FurnitureStatigel
 {
     public class StatigelBlock : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileSolid[Type] = true;
             Main.tileMergeDirt[Type] = true;
@@ -16,7 +16,7 @@ namespace CalamityMod.Tiles.FurnitureStatigel
             CalamityUtils.MergeDecorativeTiles(Type);
             CalamityUtils.MergeSmoothTiles(Type);
 
-            drop = ModContent.ItemType<Items.Placeables.FurnitureStatigel.StatigelBlock>();
+            ItemDrop = ModContent.ItemType<Items.Placeables.FurnitureStatigel.StatigelBlock>();
             AddMapEntry(new Color(215, 74, 121));
         }
 

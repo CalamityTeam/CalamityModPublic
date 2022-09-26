@@ -1,3 +1,4 @@
+﻿using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Projectiles.Summon;
@@ -14,47 +15,47 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             DisplayName.SetDefault("Dreadmine Staff");
             Tooltip.SetDefault("Summons a dreadmine turret to fight for you");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 60;
-            item.mana = 10;
-            item.width = 44;
-            item.height = 44;
-            item.useTime = item.useAnimation = 25;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.noMelee = true;
-            item.knockBack = 4.5f;
-            item.value = Item.buyPrice(0, 60, 0, 0);
-            item.rare = 7;
-            item.UseSound = SoundID.Item113;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<DreadmineTurret>();
-            item.shootSpeed = 10f;
-            item.summon = true;
-            item.sentry = true;
+            Item.damage = 60;
+            Item.mana = 10;
+            Item.width = 44;
+            Item.height = 44;
+            Item.useTime = Item.useAnimation = 25;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.noMelee = true;
+            Item.knockBack = 4.5f;
+            Item.value = CalamityGlobalItem.Rarity8BuyPrice;
+            Item.rare = ItemRarityID.Lime;
+            Item.UseSound = SoundID.Item113;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<DreadmineTurret>();
+            Item.shootSpeed = 10f;
+            Item.DamageType = DamageClass.Summon;
+            Item.sentry = true;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            position = Main.MouseWorld;
-            speedX = 0;
-            speedY = 0;
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
+            //CalamityUtils.OnlyOneSentry(player, type);
+            int p = Projectile.NewProjectile(source, Main.MouseWorld, Vector2.Zero, type, damage, knockback, player.whoAmI);
+            if (Main.projectile.IndexInRange(p))
+                Main.projectile[p].originalDamage = Item.damage;
             player.UpdateMaxTurrets();
             return false;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<DepthCells>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<Lumenite>(), 30);
-            recipe.AddIngredient(ModContent.ItemType<Tenebris>(), 10);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient<DepthCells>(10).
+                AddIngredient<Lumenyl>(30).
+                AddIngredient<Tenebris>(10).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

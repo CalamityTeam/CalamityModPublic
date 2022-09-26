@@ -1,61 +1,66 @@
-using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.CalPlayer;
+using CalamityMod.CalPlayer.Dashes;
 using CalamityMod.Items.Materials;
+using CalamityMod.Rarities;
+using CalamityMod.Tiles.Furniture.CraftingStations;
 using System.Collections.Generic;
+using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Items.Accessories
 {
-	[AutoloadEquip(EquipType.Shield)]
+    [AutoloadEquip(EquipType.Shield)]
     public class AsgardianAegis : ModItem
     {
+        public const int ShieldSlamIFrames = 12;
+
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Asgardian Aegis");
-            Tooltip.SetDefault("Grants immunity to fire blocks and knockback\n" +
+            Tooltip.SetDefault("Grants immunity to knockback\n" +
                 "Immune to most debuffs\n" +
-                "+40 max life\n" +
+                "+40 max life and increased life regeneration\n" +
                 "Grants a supreme holy flame dash\n" +
                 "Can be used to ram enemies\n" +
                 "TOOLTIP LINE HERE\n" +
                 "Activating this buff will reduce your movement speed and increase enemy aggro\n" +
-                "10% damage reduction while submerged in liquid\n" +
-                "Toggle visibility of this accessory to enable/disable the dash");
+                "+20 defense while submerged in liquid");
         }
 
         public override void SetDefaults()
         {
-            item.width = 60;
-            item.height = 54;
-            item.value = CalamityGlobalItem.Rarity14BuyPrice;
-            item.defense = 10;
-            item.accessory = true;
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.width = 60;
+            Item.height = 54;
+            Item.value = CalamityGlobalItem.Rarity14BuyPrice;
+            Item.defense = 28;
+            Item.accessory = true;
+            Item.rare = ModContent.RarityType<DarkBlue>();
         }
 
         public override void ModifyTooltips(List<TooltipLine> list)
         {
-            string hotkey = CalamityMod.AegisHotKey.TooltipHotkeyString();
-            foreach (TooltipLine line2 in list)
-            {
-                if (line2.mod == "Terraria" && line2.Name == "Tooltip5")
-                {
-                    line2.text = "Press " + hotkey + " to activate buffs to all damage, crit chance, and defense";
-                }
-            }
+            string hotkey = CalamityKeybinds.AegisHotKey.TooltipHotkeyString();
+            TooltipLine line = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip5");
+
+            if (line != null)
+                line.Text = "Press " + hotkey + " to activate buffs to all damage, crit chance, and defense";
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            if (!hideVisual)
-            { modPlayer.dashMod = 4; }
+            modPlayer.DashID = AsgardianAegisDash.ID;
+            player.dashType = 0;
             modPlayer.elysianAegis = true;
             player.noKnockback = true;
             player.fireWalk = true;
             player.statLifeMax2 += 40;
+            player.lifeRegen++;
+            player.buffImmune[BuffID.OnFire] = true;
             player.buffImmune[BuffID.Chilled] = true;
             player.buffImmune[BuffID.Frostburn] = true;
             player.buffImmune[BuffID.Weak] = true;
@@ -67,24 +72,23 @@ namespace CalamityMod.Items.Accessories
             player.buffImmune[BuffID.Silenced] = true;
             player.buffImmune[BuffID.Cursed] = true;
             player.buffImmune[BuffID.Darkness] = true;
-            player.buffImmune[ModContent.BuffType<BrimstoneFlames>()] = true;
+            player.buffImmune[BuffID.WindPushed] = true;
+            player.buffImmune[BuffID.Stoned] = true;
             player.buffImmune[ModContent.BuffType<HolyFlames>()] = true;
-            player.buffImmune[ModContent.BuffType<GlacialState>()] = true;
             player.buffImmune[ModContent.BuffType<GodSlayerInferno>()] = true;
             if (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
-            { player.endurance += 0.1f; }
+            { player.statDefense += 20; }
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<AsgardsValor>());
-            recipe.AddIngredient(ModContent.ItemType<ElysianAegis>());
-            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 5);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient<AsgardsValor>().
+                AddIngredient<ElysianAegis>().
+                AddIngredient<CosmiliteBar>(10).
+                AddIngredient<AscendantSpiritEssence>(4).
+                AddTile<CosmicAnvil>().
+                Register();
         }
     }
 }

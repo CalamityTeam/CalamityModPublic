@@ -1,3 +1,4 @@
+﻿using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -9,35 +10,37 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Bloody Worm Scarf");
-            Tooltip.SetDefault("10% increased damage reduction and increased melee stats");
+            Tooltip.SetDefault("7% increased damage reduction\n" +
+                "7% increased melee damage and speed");
         }
 
         public override void SetDefaults()
         {
-            item.width = 26;
-            item.height = 42;
-            item.value = CalamityGlobalItem.Rarity4BuyPrice;
-            item.expert = true;
-            item.rare = 4;
-            item.accessory = true;
+            Item.defense = 7;
+            Item.width = 26;
+            Item.height = 42;
+            Item.value = CalamityGlobalItem.Rarity4BuyPrice;
+            Item.rare = ItemRarityID.LightRed;
+            Item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.meleeDamage += 0.1f;
-            player.meleeSpeed += 0.1f;
-            player.endurance += 0.1f;
+            CalamityPlayer modPlayer = player.Calamity();
+            modPlayer.bloodyWormTooth = true;
+            player.endurance += 0.07f;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<BloodyWormTooth>());
-            recipe.AddIngredient(ItemID.WormScarf);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient<BloodyWormTooth>().
+                AddIngredient(ItemID.WormScarf).
+                AddIngredient(ItemID.SoulofNight, 3).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

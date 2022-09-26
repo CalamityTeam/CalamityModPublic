@@ -1,90 +1,104 @@
+﻿using CalamityMod.BiomeManagers;
 using CalamityMod.Dusts;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Pets;
 using CalamityMod.Items.Placeables.Banners;
-using CalamityMod.World;
 using Terraria;
 using Terraria.ID;
+using Terraria.GameContent.Bestiary;
 using Terraria.ModLoader;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Buffs.DamageOverTime;
 namespace CalamityMod.NPCs.AcidRain
 {
-	public class Radiator : ModNPC
+    public class Radiator : ModNPC
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Radiator");
-            Main.npcFrameCount[npc.type] = 4;
+            Main.npcFrameCount[NPC.type] = 4;
         }
 
         public override void SetDefaults()
         {
-            npc.aiStyle = 67;
-            npc.damage = 10;
-            npc.width = 24;
-            npc.height = 24;
-            npc.defense = 5;
-            npc.lifeMax = 100;
+            NPC.aiStyle = 67;
+            NPC.damage = 10;
+            NPC.width = 24;
+            NPC.height = 24;
+            NPC.defense = 5;
+            NPC.lifeMax = 50;
 
-            if (CalamityWorld.downedPolterghast)
+            if (DownedBossSystem.downedPolterghast)
             {
-                npc.damage = 200;
-                npc.lifeMax = 4000;
-                npc.defense = 20;
+                NPC.damage = 60;
+                NPC.lifeMax = 3250;
+                NPC.defense = 20;
             }
-            else if (CalamityWorld.downedAquaticScourge)
+            else if (DownedBossSystem.downedAquaticScourge)
             {
-                npc.damage = 75;
-                npc.lifeMax = 640;
-                npc.defense = 10;
+                NPC.damage = 30;
+                NPC.lifeMax = 130;
+                NPC.defense = 10;
             }
 
-            npc.knockBackResist = 0f;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
-            npc.value = Item.buyPrice(0, 0, 5, 0);
-            npc.lavaImmune = false;
-            npc.noGravity = false;
-            npc.noTileCollide = false;
-            npc.HitSound = SoundID.NPCHit1;
-            npc.DeathSound = SoundID.NPCDeath1;
-			aiType = NPCID.GlowingSnail;
-            banner = npc.type;
-            bannerItem = ModContent.ItemType<RadiatorBanner>();
-            npc.catchItem = (short)ModContent.ItemType<RadiatingCrystal>();
+            NPC.knockBackResist = 0f;
+            NPC.value = Item.buyPrice(0, 0, 5, 0);
+            NPC.lavaImmune = false;
+            NPC.noGravity = false;
+            NPC.noTileCollide = false;
+            NPC.HitSound = SoundID.NPCHit1;
+            NPC.DeathSound = SoundID.NPCDeath1;
+            AIType = NPCID.GlowingSnail;
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<RadiatorBanner>();
+            NPC.catchItem = (short)ModContent.ItemType<RadiatingCrystal>();
+            NPC.Calamity().VulnerableToHeat = false;
+            NPC.Calamity().VulnerableToSickness = false;
+            NPC.Calamity().VulnerableToElectricity = true;
+            NPC.Calamity().VulnerableToWater = false;
+            SpawnModBiomes = new int[1] { ModContent.GetInstance<AcidRainBiome>().Type };
+        }
+
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+
+				// Will move to localization whenever that is cleaned up.
+				new FlavorTextBestiaryInfoElement("Like many other sea slugs, it ingests toxins from its environments and displays them along its back in a flashy display. The toxins in the sulphurous sea however, are a bit more potent than others.")
+            });
         }
 
         public override void AI()
-        {			
-            Lighting.AddLight(npc.Center, 0.3f, 1.5f, 0.3f);
+        {
+            Lighting.AddLight(NPC.Center, 0.3f, 1.5f, 0.3f);
 
-            int auraSize = 200; //roughly 12 blocks (half the size of Wither Beast aura)
-			Player player = Main.player[Main.myPlayer];
-			if (!player.dead && player.active && (double) (player.Center - npc.Center).Length() < auraSize)
+			if (Main.netMode != NetmodeID.Server)
 			{
-				player.AddBuff(ModContent.BuffType<Irradiated>(), 3, false);
-				player.AddBuff(BuffID.Poisoned, 2, false);
-				if (CalamityWorld.downedPolterghast)
+				int auraSize = 200; //roughly 12 blocks (half the size of Wither Beast aura)
+				Player player = Main.player[Main.myPlayer];
+				if (!player.dead && player.active && (player.Center - NPC.Center).Length() < auraSize && !player.creativeGodMode)
 				{
-					player.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 3, false);
-					player.AddBuff(BuffID.Venom, 2, false);
+					player.AddBuff(ModContent.BuffType<Irradiated>(), 3, false);
+					player.AddBuff(BuffID.Poisoned, 2, false);
+					if (DownedBossSystem.downedPolterghast)
+					{
+						player.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 3, false);
+						player.AddBuff(BuffID.Venom, 2, false);
+					}
 				}
 			}
         }
 
         public override void FindFrame(int frameHeight)
         {
-            npc.frameCounter++;
-            if (npc.frameCounter > 8)
+            NPC.frameCounter++;
+            if (NPC.frameCounter > 8)
             {
-                npc.frameCounter = 0;
-                npc.frame.Y += frameHeight;
-                if (npc.frame.Y > frameHeight * 2)
+                NPC.frameCounter = 0;
+                NPC.frame.Y += frameHeight;
+                if (NPC.frame.Y > frameHeight * 2)
                 {
-                    npc.frame.Y = 0;
+                    NPC.frame.Y = 0;
                 }
             }
         }
@@ -93,24 +107,13 @@ namespace CalamityMod.NPCs.AcidRain
         {
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.SulfurousSeaAcid, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.SulfurousSeaAcid, hitDirection, -1f, 0, default, 1f);
             }
         }
 
-        public override void OnCatchNPC(Player player, Item item)
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            try
-            {
-            } 
-            catch
-            {
-                return;
-            }
-        }
-
-        public override void NPCLoot()
-        {
-            DropHelper.DropItemChance(npc, ModContent.ItemType<SulfuricScale>(), 2 * (CalamityWorld.downedAquaticScourge ? 6 : 1), 1, 3);
+            npcLoot.Add(ModContent.ItemType<SulphuricScale>(), 2, 1, 3);
         }
     }
 }

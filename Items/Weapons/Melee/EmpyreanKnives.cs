@@ -1,10 +1,11 @@
-using CalamityMod.Items.Materials;
-using CalamityMod.Items.Weapons.Rogue;
-using CalamityMod.Projectiles.Hybrid;
+﻿using CalamityMod.Items.Materials;
+using CalamityMod.Projectiles.Melee;
+using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -16,32 +17,32 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             DisplayName.SetDefault("Empyrean Knives");
             Tooltip.SetDefault("Throws a flurry of bouncing knives that can heal the user");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.width = 18;
-            item.damage = 600;
-            item.melee = true;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.useAnimation = 15;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 15;
-            item.knockBack = 3f;
-            item.UseSound = SoundID.Item39;
-            item.autoReuse = true;
-            item.height = 20;
-            item.value = Item.buyPrice(2, 50, 0, 0);
-            item.rare = 10;
-            item.shoot = ModContent.ProjectileType<EmpyreanKnife>();
-            item.shootSpeed = 15f;
-            item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.width = 18;
+            Item.damage = 230;
+            Item.DamageType = DamageClass.MeleeNoSpeed;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.useAnimation = 15;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 15;
+            Item.knockBack = 3f;
+            Item.UseSound = SoundID.Item39;
+            Item.autoReuse = true;
+            Item.height = 20;
+            Item.value = CalamityGlobalItem.Rarity14BuyPrice;
+            Item.rare = ModContent.RarityType<DarkBlue>();
+            Item.shoot = ModContent.ProjectileType<EmpyreanKnife>();
+            Item.shootSpeed = 15f;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            float num72 = item.shootSpeed;
+            float num72 = Item.shootSpeed;
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
             Vector2 value = Vector2.UnitX.RotatedBy((double)player.fullRotation, default);
             Vector2 vector3 = Main.MouseWorld - vector2;
@@ -94,21 +95,20 @@ namespace CalamityMod.Items.Weapons.Melee
                 num149 *= num80;
                 float x4 = vector2.X;
                 float y4 = vector2.Y;
-                Projectile.NewProjectile(x4, y4, num148, num149, type, damage, knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(source, x4, y4, num148, num149, type, damage, knockback, player.whoAmI, 0f, 0f);
             }
             return false;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.VampireKnives);
-            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<LunarKunai>(), 999);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient(ItemID.VampireKnives).
+                AddIngredient<MonstrousKnives>().
+                AddIngredient<CosmiliteBar>(8).
+                AddIngredient<DarksunFragment>(8).
+                AddTile<CosmicAnvil>().
+                Register();
         }
     }
 }

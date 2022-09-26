@@ -1,3 +1,4 @@
+﻿using Terraria.DataStructures;
 using CalamityMod.Projectiles.Summon;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -11,33 +12,36 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             DisplayName.SetDefault("Fuel Cell Bundle");
             Tooltip.SetDefault("Releases a small, special variant of the plaguebringers");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.mana = 10;
-            item.damage = 20;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.width = 32;
-            item.height = 32;
-            item.useTime = item.useAnimation = 20;
-            item.noMelee = true;
-            item.knockBack = 7f;
-            item.value = Item.buyPrice(0, 80, 0, 0);
-            item.rare = 8;
-            item.UseSound = SoundID.Item106;
-            item.autoReuse = true;
-            item.noUseGraphic = true;
-            item.shoot = ModContent.ProjectileType<PlaguebringerMK2>(); //not the flask, so this weapon works w/ minion targetting
-            item.shootSpeed = 11f;
-            item.summon = true;
+            Item.mana = 10;
+            Item.damage = 20;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.width = 32;
+            Item.height = 32;
+            Item.useTime = Item.useAnimation = 20;
+            Item.noMelee = true;
+            Item.knockBack = 7f;
+            Item.value = CalamityGlobalItem.Rarity9BuyPrice;
+            Item.rare = ItemRarityID.Yellow;
+            Item.UseSound = SoundID.Item106;
+            Item.autoReuse = true;
+            Item.noUseGraphic = true;
+            Item.shoot = ModContent.ProjectileType<PlaguebringerMK2>(); //not the flask, so this weapon works w/ minion targetting
+            Item.shootSpeed = 11f;
+            Item.DamageType = DamageClass.Summon;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.altFunctionUse != 2) //throws a flask
             {
-                Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<MK2FlaskSummon>(), damage, knockBack, player.whoAmI);
+                int p = Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<MK2FlaskSummon>(), damage, knockback, player.whoAmI);
+                if (Main.projectile.IndexInRange(p))
+                    Main.projectile[p].originalDamage = Item.damage;
             }
             return false;
         }

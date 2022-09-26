@@ -5,39 +5,36 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Placeables.LivingFire
 {
-	public class LivingBrimstoneFireBlock : ModItem
+    public class LivingBrimstoneFireBlock : ModItem
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 100;
             DisplayName.SetDefault("Living Brimstone Fire Block");
         }
 
         public override void SetDefaults()
         {
-            item.width = 10;
-            item.height = 12;
-            item.maxStack = 999;
-            item.useTurn = true;
-            item.autoReuse = true;
-            item.useAnimation = 15;
-            item.useTime = 10;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.consumable = true;
-            item.createTile = ModContent.TileType<LivingBrimstoneFireBlockTile>();
+            Item.width = 10;
+            Item.height = 12;
+            Item.maxStack = 999;
+            Item.useTurn = true;
+            Item.autoReuse = true;
+            Item.useAnimation = 15;
+            Item.useTime = 10;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.consumable = true;
+            Item.createTile = ModContent.TileType<LivingBrimstoneFireBlockTile>();
         }
 
         public override void PostUpdate()
         {
-            Lighting.AddLight((int)((item.position.X + item.width / 2) / 16f), (int)((item.position.Y + item.height / 2) / 16f), 1f, 0f, 0f);
+            Lighting.AddLight((int)((Item.position.X + Item.width / 2) / 16f), (int)((Item.position.Y + Item.height / 2) / 16f), 1f, 0f, 0f);
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.LivingFireBlock, 20);
-            recipe.AddIngredient(ModContent.ItemType<BrimstoneSlag>());
-            recipe.SetResult(this, 20);
-            recipe.AddRecipe();
+            CreateRecipe(20).AddIngredient(ItemID.LivingFireBlock, 20).AddIngredient(ModContent.ItemType<BrimstoneSlag>()).Register();
         }
     }
 }

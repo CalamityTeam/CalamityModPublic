@@ -9,29 +9,26 @@ namespace CalamityMod.Items.Placeables.Walls.DraedonStructures
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 400;
         }
 
         public override void SetDefaults()
         {
-            item.width = 12;
-            item.height = 12;
-            item.maxStack = 999;
-            item.useTurn = true;
-            item.autoReuse = true;
-            item.useAnimation = 15;
-            item.useTime = 7;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.consumable = true;
-            item.createWall = ModContent.WallType<WallTiles.LaboratoryPlatePillar>();
+            Item.width = 12;
+            Item.height = 12;
+            Item.maxStack = 999;
+            Item.useTurn = true;
+            Item.autoReuse = true;
+            Item.useAnimation = 15;
+            Item.useTime = 7;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.consumable = true;
+            Item.createWall = ModContent.WallType<WallTiles.LaboratoryPlatePillar>();
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<TileItems.LaboratoryPlating>());
-            recipe.SetResult(this, 4);
-            recipe.AddTile(TileID.WorkBenches);
-            recipe.AddRecipe();
+            CreateRecipe(4).AddIngredient(ModContent.ItemType<TileItems.LaboratoryPlating>()).AddTile(TileID.WorkBenches).Register();
         }
     }
 }

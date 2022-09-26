@@ -1,8 +1,10 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Summon;
+using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -10,80 +12,74 @@ namespace CalamityMod.Items.Weapons.Summon
 {
     public class SarosPossession : ModItem
     {
-		int radianceSlots;
+        int radianceSlots;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Saros Possession");
             Tooltip.SetDefault("Gain absolute control over light itself\n" +
-							   "Summons a radiant aura\n" +
+                               "Summons a radiant aura\n" +
                                "Consumes all of the remaining minion slots on use\n" +
-							   "Must be used from the hotbar\n" +
+                               "Must be used from the hotbar\n" +
                                "Increased power based on the number of minion slots used");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.width = 56;
-            item.height = 56;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.noMelee = true;
-            item.UseSound = SoundID.DD2_BetsyFlameBreath;
+            Item.width = 56;
+            Item.height = 56;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.noMelee = true;
+            Item.UseSound = SoundID.DD2_BetsyFlameBreath;
 
-            item.summon = true;
-            item.mana = 100;
-            item.damage = 426;
-            item.knockBack = 4f;
-            item.useTime = item.useAnimation = 10;
-            item.shoot = ModContent.ProjectileType<RadiantResolutionAura>();
-            item.shootSpeed = 10f;
+            Item.DamageType = DamageClass.Summon;
+            Item.mana = 10;
+            Item.damage = 210;
+            Item.knockBack = 4f;
+            Item.useTime = Item.useAnimation = 10;
+            Item.shoot = ModContent.ProjectileType<SarosAura>();
+            Item.shootSpeed = 10f;
 
-            item.value = Item.buyPrice(2, 50, 0, 0);
-            item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.value = CalamityGlobalItem.Rarity14BuyPrice;
+            Item.rare = ModContent.RarityType<DarkBlue>();
         }
 
-		public override void HoldItem(Player player)
+        public override void HoldItem(Player player)
         {
-			double minionCount = 0;
-			for (int j = 0; j < Main.projectile.Length; j++)
-			{
-                Projectile proj = Main.projectile[j];
-				if (proj.active && proj.owner == player.whoAmI && proj.minion && proj.type != item.shoot)
-				{
-					minionCount += proj.minionSlots;
-				}
-			}
-            radianceSlots = (int)(player.maxMinions - minionCount);
-		}
-
-        public override bool CanUseItem(Player player)
-		{
-			return radianceSlots >= 1;
-		}
-
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-        {
-            for (int x = 0; x < Main.projectile.Length; x++)
+            double minionCount = 0;
+            for (int j = 0; j < Main.projectile.Length; j++)
             {
-                Projectile proj = Main.projectile[x];
-                if (proj.active && proj.owner == player.whoAmI && proj.type == type)
+                Projectile proj = Main.projectile[j];
+                if (proj.active && proj.owner == player.whoAmI && proj.minion && proj.type != Item.shoot)
                 {
-                    proj.Kill();
-					break;
+                    minionCount += proj.minionSlots;
                 }
             }
-            Projectile.NewProjectile(position, Vector2.Zero, type, damage, knockBack, player.whoAmI, radianceSlots);
+            radianceSlots = (int)(player.maxMinions - minionCount);
+        }
+
+        public override bool CanUseItem(Player player)
+        {
+            return radianceSlots >= 1;
+        }
+
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        {
+            CalamityUtils.KillShootProjectiles(true, type, player);
+            int p = Projectile.NewProjectile(source, position, Vector2.Zero, type, damage, knockback, player.whoAmI, radianceSlots);
+            if (Main.projectile.IndexInRange(p))
+                Main.projectile[p].originalDamage = Item.damage;
             return false;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Sirius>());
-            recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 50);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient<Sirius>().
+                AddIngredient<CosmiliteBar>(8).
+                AddIngredient<DarksunFragment>(8).
+                AddTile<CosmicAnvil>().
+                Register();
         }
     }
 }

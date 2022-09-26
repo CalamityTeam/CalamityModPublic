@@ -1,3 +1,4 @@
+﻿using Terraria.DataStructures;
 using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -12,41 +13,52 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             DisplayName.SetDefault("Spear of Destiny");
             Tooltip.SetDefault("Throws three spears with the outer two having homing capabilities\n" +
-			"Stealth strikes cause all three spears to home in, ignore tiles, and pierce more");
+            "Stealth strikes cause all three spears to home in, ignore tiles, and pierce more");
+            SacrificeTotal = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
-            item.width = 52;
-            item.damage = 25;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.useAnimation = 20;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 20;
-            item.knockBack = 2f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 52;
-            item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = 5;
-            item.shoot = ModContent.ProjectileType<SpearofDestinyProjectile>();
-            item.shootSpeed = 20f;
-            item.Calamity().rogue = true;
-            item.Calamity().customRarity = CalamityRarity.RareVariant;
+            Item.width = 52;
+            Item.damage = 26;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.useAnimation = 20;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 20;
+            Item.knockBack = 2f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.height = 52;
+            Item.value = CalamityGlobalItem.Rarity6BuyPrice;
+            Item.rare = ItemRarityID.LightPurple;
+            Item.shoot = ModContent.ProjectileType<SpearofDestinyProjectile>();
+            Item.shootSpeed = 20f;
+            Item.DamageType = RogueDamageClass.Instance;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-			int index = 7;
+            int index = 7;
             for (int i = -index; i <= index; i += index)
             {
-				int projType = (i != 0 || player.Calamity().StealthStrikeAvailable()) ? type : ModContent.ProjectileType<IchorSpearProj>();
-                Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedBy(MathHelper.ToRadians(i));
-                int spear = Projectile.NewProjectile(position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, projType, damage, knockBack, player.whoAmI, 0f, 0f);
-				Main.projectile[spear].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
+                int projType = (i != 0 || player.Calamity().StealthStrikeAvailable()) ? type : ModContent.ProjectileType<IchorSpearProj>();
+                Vector2 perturbedSpeed = velocity.RotatedBy(MathHelper.ToRadians(i));
+                int spear = Projectile.NewProjectile(source, position, perturbedSpeed, projType, damage, knockback, player.whoAmI);
+                if (spear.WithinBounds(Main.maxProjectiles))
+                    Main.projectile[spear].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
             }
             return false;
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient(ItemID.HallowedBar, 7).
+                AddIngredient(ItemID.SoulofLight, 5).
+                AddIngredient(ItemID.SoulofFright, 5).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Items.Armor;
 using Terraria;
 using Terraria.ID;
@@ -10,19 +10,20 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Shield of the Ocean");
             Tooltip.SetDefault("Increased defense by 5 when submerged in liquid\n" +
-			"Increases movement speed and life regen while wearing the Victide armor");
+            "Increases movement speed and life regen while wearing the Victide armor");
         }
 
         public override void SetDefaults()
         {
-            item.width = 24;
-            item.height = 28;
-            item.value = CalamityGlobalItem.Rarity2BuyPrice;
-            item.rare = 2;
-            item.defense = 2;
-            item.accessory = true;
+            Item.width = 24;
+            Item.height = 28;
+            Item.value = CalamityGlobalItem.Rarity2BuyPrice;
+            Item.rare = ItemRarityID.Green;
+            Item.defense = 2;
+            Item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -31,10 +32,7 @@ namespace CalamityMod.Items.Accessories
             {
                 player.statDefense += 5;
             }
-            if ((player.armor[0].type == ModContent.ItemType<VictideHeadgear>() || player.armor[0].type == ModContent.ItemType<VictideHelm>() ||
-                player.armor[0].type == ModContent.ItemType<VictideHelmet>() || player.armor[0].type == ModContent.ItemType<VictideMask>() ||
-                player.armor[0].type == ModContent.ItemType<VictideVisage>()) &&
-                player.armor[1].type == ModContent.ItemType<VictideBreastplate>() && player.armor[2].type == ModContent.ItemType<VictideLeggings>())
+            if (player.Calamity().victideSet)
             {
                 player.moveSpeed += 0.1f;
                 player.lifeRegen += 2;
@@ -43,12 +41,11 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<VictideBar>(), 5);
-            recipe.AddIngredient(ItemID.Coral, 5);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient<SeaRemains>(5).
+                AddIngredient(ItemID.Starfish, 5).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

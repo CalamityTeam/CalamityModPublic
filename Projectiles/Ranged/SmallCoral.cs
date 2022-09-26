@@ -2,9 +2,10 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 namespace CalamityMod.Projectiles.Ranged
 {
-	public class SmallCoral : ModProjectile
+    public class SmallCoral : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -13,35 +14,36 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetDefaults()
         {
-            projectile.width = 16;
-            projectile.height = 22;
-            projectile.friendly = true;
-            projectile.ranged = true;
-            projectile.penetrate = 1;
-            projectile.aiStyle = 1;
+            Projectile.width = 16;
+            Projectile.height = 22;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.penetrate = 1;
+            Projectile.aiStyle = ProjAIStyleID.Arrow;
+            Projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.DefaultPointBlankDuration;
         }
 
         public override void AI()
         {
-            projectile.velocity.X *= 0.9995f;
-            projectile.velocity.Y = projectile.velocity.Y + 0.01f;
-			projectile.rotation = projectile.velocity.ToRotation();
-			if (projectile.direction == -1)
-				projectile.rotation += MathHelper.Pi;
+            Projectile.velocity.X *= 0.9995f;
+            Projectile.velocity.Y = Projectile.velocity.Y + 0.01f;
+            Projectile.rotation = Projectile.velocity.ToRotation();
+            if (Projectile.direction == -1)
+                Projectile.rotation += MathHelper.Pi;
         }
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.Item10, projectile.Center);
-            projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
-            projectile.position.Y = projectile.position.Y + (float)(projectile.height / 2);
-            projectile.width = 16;
-            projectile.height = 16;
-            projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-            projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
+            SoundEngine.PlaySound(SoundID.Item10, Projectile.Center);
+            Projectile.position.X = Projectile.position.X + (float)(Projectile.width / 2);
+            Projectile.position.Y = Projectile.position.Y + (float)(Projectile.height / 2);
+            Projectile.width = 16;
+            Projectile.height = 16;
+            Projectile.position.X = Projectile.position.X - (float)(Projectile.width / 2);
+            Projectile.position.Y = Projectile.position.Y - (float)(Projectile.height / 2);
             for (int num621 = 0; num621 < 5; num621++)
             {
-                int num195 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 51, projectile.oldVelocity.X / 4, projectile.oldVelocity.Y / 4, 0, new Color(234, 183, 100), 1f);
+                int num195 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 51, Projectile.oldVelocity.X / 4, Projectile.oldVelocity.Y / 4, 0, new Color(234, 183, 100), 1f);
                 Main.dust[num195].noGravity = true;
                 Main.dust[num195].velocity *= 2f;
             }

@@ -1,7 +1,8 @@
-using CalamityMod.World;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.GameContent;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -12,90 +13,113 @@ namespace CalamityMod.NPCs.Perforator
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Perforator Cyst");
-            Main.npcFrameCount[npc.type] = 4;
+            Main.npcFrameCount[NPC.type] = 4;
+            NPCID.Sets.BossBestiaryPriority.Add(Type);
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0);
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 
         public override void SetDefaults()
         {
-            npc.npcSlots = 0.1f;
-            npc.aiStyle = -1;
-            aiType = -1;
-            npc.damage = 0;
-            npc.width = 30; //324
-            npc.height = 26; //216
-            npc.defense = 0;
-            npc.lifeMax = 1000;
-            npc.knockBackResist = 0f;
-            npc.chaseable = false;
-            npc.HitSound = SoundID.NPCHit13;
-            npc.rarity = 2;
+            NPC.npcSlots = 0.1f;
+            NPC.aiStyle = -1;
+            AIType = -1;
+            NPC.damage = 0;
+            NPC.width = 30; //324
+            NPC.height = 26; //216
+            NPC.defense = 0;
+            NPC.lifeMax = 1000;
+            NPC.knockBackResist = 0f;
+            NPC.chaseable = false;
+            NPC.HitSound = SoundID.NPCHit13;
+            NPC.rarity = 2;
+            NPC.Calamity().VulnerableToHeat = true;
+            NPC.Calamity().VulnerableToCold = true;
+            NPC.Calamity().VulnerableToSickness = true;
+            NPC.Calamity().ProvidesProximityRage = false;
+        }
+
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCrimson,
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.UndergroundCrimson,
+
+				// Will move to localization whenever that is cleaned up.
+				new FlavorTextBestiaryInfoElement("A pulsing patch of anarchistic eyes and teeth. It is the culmination of the crimson’s flesh and should be avoided at all costs.")
+            });
         }
 
         public override void FindFrame(int frameHeight)
         {
-            npc.frameCounter += 0.15f;
-            npc.frameCounter %= Main.npcFrameCount[npc.type];
-            int frame = (int)npc.frameCounter;
-            npc.frame.Y = frame * frameHeight;
+            NPC.frameCounter += 0.15f;
+            NPC.frameCounter %= Main.npcFrameCount[NPC.type];
+            int frame = (int)NPC.frameCounter;
+            NPC.frame.Y = frame * frameHeight;
         }
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-		{
-			SpriteEffects spriteEffects = SpriteEffects.None;
-			if (npc.spriteDirection == 1)
-				spriteEffects = SpriteEffects.FlipHorizontally;
-
-			Texture2D texture2D15 = Main.npcTexture[npc.type];
-			Vector2 vector11 = new Vector2((float)(Main.npcTexture[npc.type].Width / 2), (float)(Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type] / 2));
-
-			Vector2 vector43 = npc.Center - Main.screenPosition;
-			vector43 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
-			vector43 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
-			spriteBatch.Draw(texture2D15, vector43, npc.frame, npc.GetAlpha(lightColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
-
-			texture2D15 = ModContent.GetTexture("CalamityMod/NPCs/Perforator/PerforatorCystGlow");
-			Color color37 = Color.Lerp(Color.White, Color.Yellow, 0.5f);
-
-			spriteBatch.Draw(texture2D15, vector43, npc.frame, color37, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
-
-			return false;
-		}
-
-		public override float SpawnChance(NPCSpawnInfo spawnInfo)
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
-            if (spawnInfo.playerSafe || NPC.AnyNPCs(ModContent.NPCType<PerforatorCyst>()) || NPC.AnyNPCs(ModContent.NPCType<PerforatorHive>()) || spawnInfo.player.Calamity().crimsonLore)
-            {
+            SpriteEffects spriteEffects = SpriteEffects.None;
+            if (NPC.spriteDirection == 1)
+                spriteEffects = SpriteEffects.FlipHorizontally;
+
+            Texture2D texture2D15 = TextureAssets.Npc[NPC.type].Value;
+            Vector2 vector11 = new Vector2((float)(TextureAssets.Npc[NPC.type].Value.Width / 2), (float)(TextureAssets.Npc[NPC.type].Value.Height / Main.npcFrameCount[NPC.type] / 2));
+
+            Vector2 vector43 = NPC.Center - screenPos;
+            vector43 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[NPC.type])) * NPC.scale / 2f;
+            vector43 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY);
+            spriteBatch.Draw(texture2D15, vector43, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
+
+            texture2D15 = ModContent.Request<Texture2D>("CalamityMod/NPCs/Perforator/PerforatorCystGlow").Value;
+            Color color37 = Color.Lerp(Color.White, Color.Yellow, 0.5f);
+
+            spriteBatch.Draw(texture2D15, vector43, NPC.frame, color37, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
+
+            return false;
+        }
+
+        public override float SpawnChance(NPCSpawnInfo spawnInfo)
+        {
+            if (CalamityGlobalNPC.AnyEvents(spawnInfo.Player))
                 return 0f;
-            }
-            else if (NPC.downedBoss2 && !CalamityWorld.downedPerforator)
-            {
-                return SpawnCondition.Crimson.Chance * 1.5f;
-            }
-            return SpawnCondition.Crimson.Chance * (Main.hardMode ? 0.05f : 0.5f);
+            if (spawnInfo.Player.Calamity().disablePerfCystSpawns)
+                return 0f;
+
+            bool anyBossElements = NPC.AnyNPCs(ModContent.NPCType<PerforatorCyst>()) || NPC.AnyNPCs(ModContent.NPCType<PerforatorHive>());
+            bool crimson = TileID.Sets.Crimson[spawnInfo.SpawnTileType] || spawnInfo.SpawnTileType == TileID.Crimtane && spawnInfo.Player.ZoneCrimson;
+            if (spawnInfo.PlayerSafe || anyBossElements || !crimson)
+                return 0f;
+
+            if (NPC.downedBoss2 && !DownedBossSystem.downedPerforator)
+                return 1.5f;
+
+            return Main.hardMode ? 0.05f : 0.5f;
         }
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
-            npc.lifeMax = 2000;
-            npc.damage = 0;
+            NPC.lifeMax = 2000;
+            NPC.damage = 0;
         }
 
         public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
             }
-            if (npc.life <= 0)
+            if (NPC.life <= 0)
             {
                 for (int k = 0; k < 20; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
                 }
                 if (Main.netMode != NetmodeID.MultiplayerClient && NPC.CountNPCS(ModContent.NPCType<PerforatorHive>()) < 1)
                 {
-                    Vector2 spawnAt = npc.Center + new Vector2(0f, (float)npc.height / 2f);
-                    NPC.NewNPC((int)spawnAt.X, (int)spawnAt.Y, ModContent.NPCType<PerforatorHive>());
+                    Vector2 spawnAt = NPC.Center + new Vector2(0f, (float)NPC.height / 2f);
+                    NPC.NewNPC(NPC.GetSource_Death(), (int)spawnAt.X, (int)spawnAt.Y, ModContent.NPCType<PerforatorHive>());
                 }
             }
         }

@@ -8,7 +8,7 @@ namespace CalamityMod.Buffs.Pets
 {
     public class FurtasticDuoBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Furtastic Duo");
             Description.SetDefault("They just did! The Furtastic Duo will accompany you!");
@@ -28,7 +28,7 @@ namespace CalamityMod.Buffs.Pets
                 List<int> pets = new List<int> { ModContent.ProjectileType<Bear>(), ModContent.ProjectileType<KendraPet>() };
                 foreach (int petProjID in pets)
                     if (player.ownedProjectileCounts[petProjID] <= 0)
-                        Projectile.NewProjectile(player.Center, Vector2.Zero, petProjID, 0, 0f, player.whoAmI);
+                        Projectile.NewProjectile(player.GetSource_Buff(buffIndex), player.Center, Vector2.Zero, petProjID, 0, 0f, player.whoAmI);
             }
         }
     }

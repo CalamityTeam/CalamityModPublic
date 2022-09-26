@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
@@ -6,47 +6,46 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class StealthNimbusCloud : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Magic/ShadeNimbusCloud";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Nimbus");
-            Main.projFrames[projectile.type] = 4;
+            Main.projFrames[Projectile.type] = 4;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 28;
-            projectile.height = 28;
-            projectile.netImportant = true;
-            projectile.penetrate = -1;
-			projectile.timeLeft = 25;
-            projectile.Calamity().rogue = true;
+            Projectile.width = 28;
+            Projectile.height = 28;
+            Projectile.netImportant = true;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft = 25;
+            Projectile.DamageType = RogueDamageClass.Instance;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D texture = Main.projectileTexture[projectile.type];
-			if (projectile.ai[0] == 1f)
-				texture = ModContent.GetTexture("CalamityMod/Projectiles/Rogue/StealthNimbusCloud2");
-            int height = texture.Height / Main.projFrames[projectile.type];
-            int frameHeight = height * projectile.frame;
-			SpriteEffects spriteEffects = SpriteEffects.None;
-			if (projectile.spriteDirection == -1)
-				spriteEffects = SpriteEffects.FlipHorizontally;
-            Main.spriteBatch.Draw(texture, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, frameHeight, texture.Width, height)), projectile.GetAlpha(lightColor), projectile.rotation, new Vector2((float)texture.Width / 2f, (float)height / 2f), projectile.scale, spriteEffects, 0f);
+            Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
+            if (Projectile.ai[0] == 1f)
+                texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Rogue/StealthNimbusCloud2").Value;
+            int height = texture.Height / Main.projFrames[Projectile.type];
+            int frameHeight = height * Projectile.frame;
+            Main.spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, frameHeight, texture.Width, height)), Projectile.GetAlpha(lightColor), Projectile.rotation, new Vector2((float)texture.Width / 2f, (float)height / 2f), Projectile.scale, SpriteEffects.None, 0);
             return false;
         }
 
         public override void AI()
         {
-            projectile.rotation += projectile.velocity.X * 0.02f;
-            projectile.frameCounter++;
-            if (projectile.frameCounter > 4)
+            Projectile.rotation += Projectile.velocity.X * 0.02f;
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter > 4)
             {
-                projectile.frameCounter = 0;
-                projectile.frame++;
-                if (projectile.frame > 3)
+                Projectile.frameCounter = 0;
+                Projectile.frame++;
+                if (Projectile.frame > 3)
                 {
-                    projectile.frame = 0;
+                    Projectile.frame = 0;
                     return;
                 }
             }
@@ -54,12 +53,12 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void Kill(int timeLeft)
         {
-            if (projectile.owner == Main.myPlayer)
+            if (Projectile.owner == Main.myPlayer)
             {
-                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<StealthNimbus>(), projectile.damage, projectile.knockBack, projectile.owner, projectile.ai[0], 0f);
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<StealthNimbus>(), Projectile.damage, Projectile.knockBack, Projectile.owner, Projectile.ai[0], 0f);
             }
         }
 
-        public override bool CanDamage() => false;
+        public override bool? CanDamage() => false;
     }
 }

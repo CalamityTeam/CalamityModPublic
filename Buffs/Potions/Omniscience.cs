@@ -5,14 +5,13 @@ namespace CalamityMod.Buffs.Potions
 {
     public class Omniscience : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Omniscience");
             Description.SetDefault("You can see everything");
             Main.debuff[Type] = false;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = false;
-            longerExpertDebuff = false;
         }
 
         public override void Update(Player player, ref int buffIndex)

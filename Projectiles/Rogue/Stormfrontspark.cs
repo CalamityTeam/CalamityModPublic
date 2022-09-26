@@ -5,6 +5,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class Stormfrontspark : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Spark");
@@ -12,18 +14,19 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetDefaults()
         {
-            projectile.friendly = true;
-            projectile.width = 6;
-            projectile.height = 12;
-            projectile.timeLeft = 240;
-            projectile.penetrate = -1;
-            projectile.Calamity().rogue = true;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.width = 6;
+            Projectile.height = 12;
+            Projectile.timeLeft = 240;
+            Projectile.penetrate = -1;
+            Projectile.DamageType = RogueDamageClass.Instance;
         }
 
         public override void AI()
         {
-            projectile.rotation += projectile.velocity.X * 0.1f;
-            int num199 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 246, 0f, 0f, 100, new Color(255, Main.DiscoG, 53), 1f);
+            Projectile.rotation += Projectile.velocity.X * 0.1f;
+            int num199 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 246, 0f, 0f, 100, new Color(255, Main.DiscoG, 53), 1f);
             Dust dust = Main.dust[num199];
             dust.position.X -= 2f;
             dust.position.Y += 2f;
@@ -32,7 +35,7 @@ namespace CalamityMod.Projectiles.Rogue
             dust.velocity.Y -= 2f;
             if (Main.rand.NextBool(2))
             {
-                int num200 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 246, 0f, 0f, 100, new Color(255, Main.DiscoG, 53), 1f);
+                int num200 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 246, 0f, 0f, 100, new Color(255, Main.DiscoG, 53), 1f);
                 Dust dust2 = Main.dust[num200];
                 dust2.position.X -= 2f;
                 dust2.position.Y += 2f;
@@ -40,25 +43,18 @@ namespace CalamityMod.Projectiles.Rogue
                 dust2.noGravity = true;
                 dust2.velocity *= 0.1f;
             }
-            if ((double)projectile.velocity.Y < 0.25 && (double)projectile.velocity.Y > 0.15)
+            if ((double)Projectile.velocity.Y < 0.25 && (double)Projectile.velocity.Y > 0.15)
             {
-                projectile.velocity.X = projectile.velocity.X * 0.8f;
+                Projectile.velocity.X = Projectile.velocity.X * 0.8f;
             }
-            projectile.rotation = -projectile.velocity.X * 0.05f;
-            projectile.velocity.Y += 0.15f;
-            if (projectile.velocity.Y > 16f)
+            Projectile.rotation = -Projectile.velocity.X * 0.05f;
+            Projectile.velocity.Y += 0.15f;
+            if (Projectile.velocity.Y > 16f)
             {
-                projectile.velocity.Y = 16f;
+                Projectile.velocity.Y = 16f;
             }
         }
 
-        public override bool OnTileCollide(Vector2 oldVelocity)
-        {
-            if (projectile.penetrate == 0)
-            {
-                projectile.Kill();
-            }
-            return false;
-        }
+        public override bool OnTileCollide(Vector2 oldVelocity) => false;
     }
 }

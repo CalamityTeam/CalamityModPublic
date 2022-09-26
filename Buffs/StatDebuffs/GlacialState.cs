@@ -1,20 +1,20 @@
+using CalamityMod.NPCs;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Buffs.StatDebuffs
 {
     public class GlacialState : ModBuff
     {
-        public static int DefenseReduction = 10;
-
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Glacial State");
-            Description.SetDefault("Cannot move and defense is shattered");
+            Description.SetDefault("Cannot move");
             Main.debuff[Type] = true;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = true;
-            longerExpertDebuff = false;
+            BuffID.Sets.LongerExpertDebuff[Type] = true;
         }
 
         public override void Update(Player player, ref int buffIndex)
@@ -24,10 +24,12 @@ namespace CalamityMod.Buffs.StatDebuffs
 
         public override void Update(NPC npc, ref int buffIndex)
         {
-			if (npc.Calamity().gState < npc.buffTime[buffIndex])
-				npc.Calamity().gState = npc.buffTime[buffIndex];
-			npc.DelBuff(buffIndex);
-			buffIndex--;
+            if (npc.Calamity().gState < npc.buffTime[buffIndex])
+                npc.Calamity().gState = npc.buffTime[buffIndex];
+            if ((CalamityLists.enemyImmunityList.Contains(npc.type) || npc.boss) && npc.Calamity().debuffResistanceTimer <= 0)
+                npc.Calamity().debuffResistanceTimer = CalamityGlobalNPC.slowingDebuffResistanceMin + npc.Calamity().gState;
+            npc.DelBuff(buffIndex);
+            buffIndex--;
         }
     }
 }

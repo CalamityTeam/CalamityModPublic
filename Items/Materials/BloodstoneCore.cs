@@ -1,3 +1,4 @@
+﻿using CalamityMod.Rarities;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -8,28 +9,28 @@ namespace CalamityMod.Items.Materials
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 25;
             DisplayName.SetDefault("Bloodstone Core");
+			ItemID.Sets.SortingPriorityMaterials[Type] = 113;
         }
 
         public override void SetDefaults()
         {
-            item.width = 15;
-            item.height = 12;
-            item.maxStack = 999;
-            item.rare = 10;
-            item.value = Item.sellPrice(gold: 4);
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
+            Item.width = 15;
+            Item.height = 12;
+            Item.maxStack = 999;
+            Item.value = Item.sellPrice(gold: 4);
+            Item.rare = ModContent.RarityType<Turquoise>();
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Bloodstone>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<BloodOrb>(), 2);
-            recipe.AddIngredient(ModContent.ItemType<Phantoplasm>());
-            recipe.AddTile(TileID.AdamantiteForge);
-            recipe.SetResult(this, 2);
-            recipe.AddRecipe();
+            CreateRecipe(2).
+                AddIngredient<Bloodstone>(5).
+                AddIngredient<BloodOrb>().
+                AddIngredient<Phantoplasm>().
+                AddTile(TileID.AdamantiteForge).
+                Register();
         }
     }
 }

@@ -1,4 +1,4 @@
-
+﻿
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
@@ -10,7 +10,7 @@ namespace CalamityMod.Tiles.FurnitureProfaned
     {
         int subsheetWidth = 324;
         int subsheetHeight = 90;
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileSolid[Type] = true;
             Main.tileNoAttach[Type] = true;
@@ -20,10 +20,9 @@ namespace CalamityMod.Tiles.FurnitureProfaned
             CalamityUtils.MergeDecorativeTiles(Type);
             CalamityUtils.MergeSmoothTiles(Type);
 
-            soundType = SoundID.Shatter;
-            mineResist = 1f;
-            minPick = 225;
-            drop = ModContent.ItemType<Items.Placeables.FurnitureProfaned.ProfanedCrystal>();
+            HitSound = SoundID.Shatter;
+            MineResist = 1f;
+            ItemDrop = ModContent.ItemType<Items.Placeables.FurnitureProfaned.ProfanedCrystal>();
             AddMapEntry(new Color(181, 136, 177));
         }
 

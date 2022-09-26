@@ -1,7 +1,6 @@
-using CalamityMod.World;
-using System.Collections.Generic;
-using Terraria;
+﻿using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -9,6 +8,7 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Permafrost's Concoction");
             Tooltip.SetDefault(@"Increases maximum mana by 50 and reduces mana cost by 15%
 Increases life regen as life decreases
@@ -19,26 +19,11 @@ You are encased in an ice barrier for 3 seconds when revived");
 
         public override void SetDefaults()
         {
-            item.accessory = true;
-            item.width = 36;
-            item.height = 34;
-            item.value = CalamityGlobalItem.Rarity5BuyPrice;
-            item.rare = 5;
-        }
-
-        public override void ModifyTooltips(List<TooltipLine> list)
-        {
-			if (CalamityWorld.death)
-			{
-				foreach (TooltipLine line2 in list)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Tooltip4")
-					{
-						line2.text = "You are encased in an ice barrier for 3 seconds when revived\n" +
-						"Provides heat and cold protection in Death Mode";
-					}
-				}
-			}
+            Item.accessory = true;
+            Item.width = 36;
+            Item.height = 34;
+            Item.value = CalamityGlobalItem.Rarity5BuyPrice;
+            Item.rare = ItemRarityID.Pink;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

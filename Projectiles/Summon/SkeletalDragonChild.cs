@@ -1,77 +1,65 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Summon
 {
-	public class SkeletalDragonChild : ModProjectile
+    public class SkeletalDragonChild : ModProjectile
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Child");
-            Main.projFrames[projectile.type] = 4;
-            ProjectileID.Sets.MinionShot[projectile.type] = true;
+            Main.projFrames[Projectile.type] = 4;
+            ProjectileID.Sets.MinionShot[Projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 52;
-            projectile.height = 48;
-            projectile.netImportant = true;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 7;
-            projectile.minionSlots = 0f;
-            projectile.extraUpdates = 1;
-            projectile.timeLeft = 18000;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.timeLeft *= 5;
-            projectile.minion = true;
+            Projectile.width = 52;
+            Projectile.height = 48;
+            Projectile.netImportant = true;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 7;
+            Projectile.minionSlots = 0f;
+            Projectile.extraUpdates = 1;
+            Projectile.timeLeft = 18000;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.timeLeft *= 5;
+            Projectile.minion = true;
+            Projectile.DamageType = DamageClass.Summon;
         }
 
         public override void AI()
         {
-            Player player = Main.player[projectile.owner];
-            if (projectile.localAI[0] == 0f)
+            Player player = Main.player[Projectile.owner];
+            if (Projectile.ai[0] < 0 || Projectile.ai[0] >= Main.projectile.Length)
             {
-                projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
-                projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
-                projectile.localAI[0] = 1f;
-            }
-            if (player.MinionDamage() != projectile.Calamity().spawnedPlayerMinionDamageValue)
-            {
-                int trueDamage = (int)(projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    projectile.Calamity().spawnedPlayerMinionDamageValue *
-                    player.MinionDamage());
-                projectile.damage = trueDamage;
-            }
-
-            if (projectile.ai[0] < 0 || projectile.ai[0] >= Main.projectile.Length)
-            {
-                projectile.Kill();
+                Projectile.Kill();
                 return;
             }
 
-            Projectile mother = Main.projectile[(int)projectile.ai[0]];
+            Projectile mother = Main.projectile[(int)Projectile.ai[0]];
 
             if (!mother.active || mother.type != ModContent.ProjectileType<SkeletalDragonMother>())
             {
-                projectile.Kill();
+                Projectile.Kill();
                 return;
             }
 
-            NPC target = projectile.Center.MinionHoming(SkeletalDragonMother.DistanceToCheck * 0.666f, player);
+            NPC target = Projectile.Center.MinionHoming(SkeletalDragonMother.DistanceToCheck * 0.666f, player);
 
             if (target != null)
             {
-                projectile.ai[1]++;
-                if (projectile.ai[1] % 55f == 54f &&
-                    Main.myPlayer == projectile.owner)
+                Projectile.ai[1]++;
+                if (Projectile.ai[1] % 55f == 54f && Main.myPlayer == Projectile.owner)
                 {
-                    Projectile.NewProjectile(projectile.Center, projectile.DirectionTo(target.Center) * 19f, ModContent.ProjectileType<BloodSpit>(), mother.damage, mother.knockBack, mother.owner);
+                    int p = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.SafeDirectionTo(target.Center) * 19f, ModContent.ProjectileType<BloodSpit>(), mother.damage, mother.knockBack, mother.owner);
+                    if (Main.projectile.IndexInRange(p))
+                        Main.projectile[p].originalDamage = Projectile.originalDamage;
                 }
             }
 
@@ -80,58 +68,58 @@ namespace CalamityMod.Projectiles.Summon
             {
                 if (target != null)
                 {
-                    if (projectile.Distance(mother.Center) > 620f)
+                    if (Projectile.Distance(mother.Center) > 620f)
                     {
-                        projectile.velocity = (mother.Center - projectile.Center) / 45f;
+                        Projectile.velocity = (mother.Center - Projectile.Center) / 45f;
                     }
                     else
                     {
-                        projectile.velocity = (projectile.velocity * 19f + projectile.DirectionTo(mother.Center) * 16f) / 20f;
+                        Projectile.velocity = (Projectile.velocity * 19f + Projectile.SafeDirectionTo(mother.Center) * 18f) / 20f;
                     }
                 }
                 else
                 {
-                    if (projectile.Distance(mother.Center) > 250f)
+                    if (Projectile.Distance(mother.Center) > 250f)
                     {
-                        projectile.velocity = (mother.Center - projectile.Center) / 28f;
+                        Projectile.velocity = (mother.Center - Projectile.Center) / 28f;
                     }
                     else
                     {
-                        projectile.velocity += new Vector2(Math.Sign(mother.Center.X - projectile.Center.X), Math.Sign(mother.Center.Y - projectile.Center.Y)) * new Vector2(0.04f, 0.0225f);
-                        if (projectile.velocity.Length() > 8f)
+                        Projectile.velocity += new Vector2(Math.Sign(mother.Center.X - Projectile.Center.X), Math.Sign(mother.Center.Y - Projectile.Center.Y)) * new Vector2(0.04f, 0.0225f);
+                        if (Projectile.velocity.Length() > 8f)
                         {
-                            projectile.velocity *= 8f / projectile.velocity.Length();
+                            Projectile.velocity *= 8f / Projectile.velocity.Length();
                         }
                     }
                 }
             }
             else
             {
-                if (projectile.Distance(mother.Center) > 250f)
+                if (Projectile.Distance(mother.Center) > 250f)
                 {
-                    projectile.velocity = (mother.Center - projectile.Center) / 28f;
+                    Projectile.velocity = (mother.Center - Projectile.Center) / 28f;
                 }
                 else
                 {
-                    projectile.velocity += new Vector2(Math.Sign(mother.Center.X - projectile.Center.X), Math.Sign(mother.Center.Y - projectile.Center.Y)) * new Vector2(0.04f, 0.0225f);
-                    if (projectile.velocity.Length() > 8f)
+                    Projectile.velocity += new Vector2(Math.Sign(mother.Center.X - Projectile.Center.X), Math.Sign(mother.Center.Y - Projectile.Center.Y)) * new Vector2(0.04f, 0.0225f);
+                    if (Projectile.velocity.Length() > 8f)
                     {
-                        projectile.velocity *= 8f / projectile.velocity.Length();
+                        Projectile.velocity *= 8f / Projectile.velocity.Length();
                     }
                 }
             }
 
-            projectile.direction = projectile.spriteDirection = (projectile.velocity.X > 0).ToDirectionInt();
+            Projectile.direction = Projectile.spriteDirection = (Projectile.velocity.X > 0).ToDirectionInt();
 
-            projectile.frameCounter++;
-            if (projectile.frameCounter > 6)
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter > 6)
             {
-                projectile.frame++;
-                projectile.frameCounter = 0;
+                Projectile.frame++;
+                Projectile.frameCounter = 0;
             }
-            if (projectile.frame >= Main.projFrames[projectile.type])
+            if (Projectile.frame >= Main.projFrames[Projectile.type])
             {
-                projectile.frame = 0;
+                Projectile.frame = 0;
             }
         }
     }

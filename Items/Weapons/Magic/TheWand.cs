@@ -1,5 +1,6 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
+using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -10,58 +11,59 @@ namespace CalamityMod.Items.Weapons.Magic
 {
     public class TheWand : ModItem
     {
-        public static int BaseDamage = 998;
+        // The actual base damage of The Wand. The damage reported on the item is just the spark, which is irrelevant.
+        public static int BaseDamage = 599;
 
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("The Wand");
             Tooltip.SetDefault("The ultimate wand");
-            Item.staff[item.type] = true;
+            Item.staff[Item.type] = true;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.width = 40;
-            item.damage = 1;
-            item.mana = 150;
-            item.magic = true;
-            item.noMelee = true;
-            item.useAnimation = 250;
-            item.useTime = 250;
-            item.useTurn = true;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.knockBack = 0.5f;
-            item.UseSound = SoundID.Item102;
-            item.autoReuse = true;
-            item.height = 36;
-            item.value = Item.buyPrice(2, 50, 0, 0);
-            item.rare = 10;
-            item.shoot = ModContent.ProjectileType<SparkInfernal>();
-            item.shootSpeed = 24f;
-            item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.width = 40;
+            Item.damage = 14; // same as 1.4 Wand of Sparking
+            Item.mana = 150;
+            Item.DamageType = DamageClass.Magic;
+            Item.noMelee = true;
+            Item.useAnimation = 19;
+            Item.useTime = 19;
+            Item.useTurn = true;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.knockBack = 0.5f;
+            Item.UseSound = SoundID.Item102;
+            Item.autoReuse = true;
+            Item.height = 36;
+            Item.value = CalamityGlobalItem.Rarity15BuyPrice;
+            Item.shoot = ModContent.ProjectileType<SparkInfernal>();
+            Item.shootSpeed = 24f;
+            Item.rare = ModContent.RarityType<Violet>();
         }
 
-        public override Vector2? HoldoutOrigin()
+        public override bool CanUseItem(Player player)
         {
-            return new Vector2(10, 10);
-        }
-
-        public override void AddRecipes()
-        {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.WandofSparking);
-            recipe.AddIngredient(ModContent.ItemType<HellcasterFragment>(), 5);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            int numWandBolts = player.ownedProjectileCounts[ModContent.ProjectileType<SparkInfernal>()];
+            int numTornadoStarters = player.ownedProjectileCounts[ModContent.ProjectileType<InfernadoMarkFriendly>()];
+            int numTornadoPieces = player.ownedProjectileCounts[ModContent.ProjectileType<InfernadoFriendly>()];
+            return numWandBolts + numTornadoStarters + numTornadoPieces < 1;
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
             if (Main.rand.NextBool(3))
-            {
-                int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 6);
-            }
+                Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 6);
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient(ItemID.WandofSparking).
+                AddIngredient<YharonSoulFragment>(8).
+                AddTile<CosmicAnvil>().
+                Register();
         }
     }
 }

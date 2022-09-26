@@ -1,4 +1,4 @@
-using CalamityMod.Projectiles.Magic;
+﻿using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -12,48 +12,46 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             DisplayName.SetDefault("Lazhar");
             Tooltip.SetDefault("Fires a bouncing laser that explodes on enemy hits");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 100;
-            item.magic = true;
-            item.mana = 4;
-            item.width = 42;
-            item.height = 20;
-            item.useTime = 7;
-            item.useAnimation = 7;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 5f;
-            item.value = Item.buyPrice(0, 95, 0, 0);
-            item.rare = 9;
-            item.UseSound = SoundID.Item12;
-            item.autoReuse = true;
-            item.shootSpeed = 15f;
-            item.shoot = ModContent.ProjectileType<SolarBeam2>();
+            Item.damage = 100;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 4;
+            Item.width = 42;
+            Item.height = 20;
+            Item.useTime = 7;
+            Item.useAnimation = 7;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 5f;
+            Item.value = CalamityGlobalItem.Rarity10BuyPrice;
+            Item.rare = ItemRarityID.Red;
+            Item.UseSound = SoundID.Item12;
+            Item.autoReuse = true;
+            Item.shootSpeed = 15f;
+            Item.shoot = ModContent.ProjectileType<SolarBeam2>();
         }
 
         public override Vector2? HoldoutOffset() => new Vector2(-5, 0);
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-        {
-            float SpeedX = speedX + (float)Main.rand.Next(-15, 16) * 0.05f;
-            float SpeedY = speedY + (float)Main.rand.Next(-15, 16) * 0.05f;
-            Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
-            return false;
-        }
+		public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
+		{
+            velocity.X += (float)Main.rand.Next(-15, 16) * 0.05f;
+            velocity.Y += (float)Main.rand.Next(-15, 16) * 0.05f;
+		}
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.HeatRay);
-            recipe.AddIngredient(ModContent.ItemType<Zapper>());
-            recipe.AddIngredient(ItemID.FragmentSolar, 10);
-            recipe.AddIngredient(ItemID.ChlorophyteBar, 6);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).
+                AddIngredient(ItemID.SpaceGun).
+                AddIngredient(ItemID.HeatRay).
+                AddIngredient(ItemID.FragmentSolar, 10).
+                AddIngredient(ItemID.ChlorophyteBar, 6).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

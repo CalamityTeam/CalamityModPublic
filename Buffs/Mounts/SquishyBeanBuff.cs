@@ -6,7 +6,7 @@ namespace CalamityMod.Buffs.Mounts
 {
     public class SquishyBeanBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Squishy Bean");
             Description.SetDefault("BEAN MAN. BEAN DO T H E  B EA N IS HER E");

@@ -1,37 +1,29 @@
+﻿using CalamityMod.Items.Placeables.Furniture.Fountains;
 using Microsoft.Xna.Framework;
-using System.Linq;
 using Terraria;
+using Terraria.DataStructures;
+using Terraria.GameContent.ObjectInteractions;
+using Terraria.Localization;
 using Terraria.ModLoader;
-using CalamityMod.Items.Placeables.Furniture.Fountains;
 
 namespace CalamityMod.Tiles.Furniture.Fountains
 {
-	public class AbyssFountainTile : ModTile
-	{
-		public override void SetDefaults()
-		{
+    public class AbyssFountainTile : ModTile
+    {
+        public override void SetStaticDefaults()
+        {
             this.SetUpFountain();
-			ModTranslation name = CreateMapEntryName();
-			name.SetDefault("Abyss Water Fountain");
-			AddMapEntry(new Color(71, 93, 107), name);
-            animationFrameHeight = 72;
+            AddMapEntry(new Color(71, 93, 107), Language.GetText("MapObject.WaterFountain"));
+            AnimationFrameHeight = 72;
         }
 
         public override void NearbyEffects(int i, int j, bool closer)
         {
-            if (Main.tile[i, j].frameX < 36)
-            {
-                if (CalamityGlobalTile.WaterStyles.Any((style) => style.Name == "AbyssWater"))
-                {
-                    Main.fountainColor = CalamityGlobalTile.WaterStyles.FirstOrDefault((style) => style.Name == "AbyssWater").Type;
-                }
-            }
+            if (Main.tile[i, j].TileFrameX < 36)
+                CalamityGlobalTile.SetActiveFountainColor(ModContent.Find<ModWaterStyle>("CalamityMod/AbyssWater").Slot);
         }
 
-        public override bool HasSmartInteract()
-        {
-            return true;
-        }
+        public override bool HasSmartInteract(int i, int j, SmartInteractScanSettings settings) => true;
 
         public override bool CreateDust(int i, int j, ref int type)
         {
@@ -56,8 +48,8 @@ namespace CalamityMod.Tiles.Furniture.Fountains
         }
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
-		{
-			Item.NewItem(i * 16, j * 16, 16, 32, ModContent.ItemType<AbyssFountainItem>());
+        {
+            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 32, ModContent.ItemType<AbyssFountainItem>());
         }
 
         public override void HitWire(int i, int j)
@@ -65,7 +57,7 @@ namespace CalamityMod.Tiles.Furniture.Fountains
             CalamityUtils.LightHitWire(Type, i, j, 2, 4);
         }
 
-        public override bool NewRightClick(int i, int j)
+        public override bool RightClick(int i, int j)
         {
             CalamityUtils.LightHitWire(Type, i, j, 2, 4);
             return true;
@@ -75,8 +67,8 @@ namespace CalamityMod.Tiles.Furniture.Fountains
         {
             Player player = Main.LocalPlayer;
             player.noThrow = 2;
-            player.showItemIcon = true;
-            player.showItemIcon2 = ModContent.ItemType<AbyssFountainItem>();
+            player.cursorItemIconEnabled = true;
+            player.cursorItemIconID = ModContent.ItemType<AbyssFountainItem>();
         }
     }
 }

@@ -1,3 +1,4 @@
+﻿using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
@@ -13,70 +14,61 @@ namespace CalamityMod.Items.Weapons.Ranged
             DisplayName.SetDefault("Firestorm Cannon");
             Tooltip.SetDefault("70% chance to not consume flares\n" +
                 "Right click to fire a spread of flares");
+            SacrificeTotal = 1;
+            ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 9;
-            item.ranged = true;
-            item.width = 56;
-            item.height = 28;
-            item.useTime = 9;
-            item.useAnimation = 9;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 1.5f;
-            item.value = Item.buyPrice(0, 2, 0, 0);
-            item.rare = 2;
-            item.UseSound = SoundID.Item11;
-            item.autoReuse = true;
-            item.shoot = ProjectileID.Flare;
-            item.shootSpeed = 5.5f;
-            item.useAmmo = 931;
+            Item.damage = 10;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 56;
+            Item.height = 28;
+            Item.useTime = 20;
+            Item.useAnimation = 20;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 1.5f;
+            Item.value = CalamityGlobalItem.Rarity2BuyPrice;
+            Item.rare = ItemRarityID.Green;
+            Item.UseSound = SoundID.Item11;
+            Item.autoReuse = true;
+            Item.shoot = ProjectileID.Flare;
+            Item.shootSpeed = 5.5f;
+            Item.useAmmo = AmmoID.Flare;
+            Item.Calamity().canFirePointBlankShots = true;
         }
 
-        public override Vector2? HoldoutOffset()
+        public override Vector2? HoldoutOffset() => new Vector2(-10, 0);
+
+        public override bool CanConsumeAmmo(Item ammo, Player player) => Main.rand.Next(100) >= 70;
+
+        public override bool AltFunctionUse(Player player) => true;
+
+        public override float UseSpeedMultiplier(Player player)
         {
-            return new Vector2(-10, 0);
+            if (player.altFunctionUse == 2)
+                return 1 / 3f;
+            return 1f;
         }
 
-        public override bool ConsumeAmmo(Player player)
-        {
-            if (Main.rand.Next(0, 100) < 70)
-                return false;
-            return true;
-        }
-
-        public override bool AltFunctionUse(Player player)
-        {
-            return true;
-        }
-
-        public override bool CanUseItem(Player player)
-        {
-            return base.CanUseItem(player);
-        }
-
-		public override float UseTimeMultiplier	(Player player)
-		{
-			if (player.altFunctionUse == 2)
-				return 0.3333f;
-			return 1f;
-		}
-
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.altFunctionUse == 2)
             {
+                velocity *= 2f;
                 int num6 = Main.rand.Next(4, 6);
                 for (int index = 0; index < num6; ++index)
                 {
-                    float SpeedX = speedX + (float)Main.rand.Next(-50, 51) * 0.05f;
-                    float SpeedY = speedY + (float)Main.rand.Next(-50, 51) * 0.05f;
-                    int flare = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, (int)((double)damage * 1.4), knockBack, player.whoAmI, 0.0f, 0.0f);
-                    Main.projectile[flare].penetrate = 1;
-                    Main.projectile[flare].timeLeft = 600;
-                    Main.projectile[flare].Calamity().forceRanged = true;
+                    float SpeedX = velocity.X + (float)Main.rand.Next(-50, 51) * 0.05f;
+                    float SpeedY = velocity.Y + (float)Main.rand.Next(-50, 51) * 0.05f;
+                    int flare = Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, type, (int)((double)damage * 1.4), knockback, player.whoAmI);
+                    if (flare.WithinBounds(Main.maxProjectiles))
+                    {
+                        Main.projectile[flare].penetrate = 1;
+                        Main.projectile[flare].timeLeft = 600;
+                        Main.projectile[flare].DamageType = DamageClass.Ranged;
+                    }
                 }
                 return false;
             }
@@ -85,12 +77,15 @@ namespace CalamityMod.Items.Weapons.Ranged
                 int num6 = Main.rand.Next(1, 3);
                 for (int index = 0; index < num6; ++index)
                 {
-                    float SpeedX = speedX + (float)Main.rand.Next(-40, 41) * 0.05f;
-                    float SpeedY = speedY + (float)Main.rand.Next(-40, 41) * 0.05f;
-                    int projectile = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0.0f, 0.0f);
-                    Main.projectile[projectile].Calamity().forceRanged = true;
-                    Main.projectile[projectile].timeLeft = 200;
-                    Main.projectile[projectile].penetrate = 3;
+                    float SpeedX = velocity.X + (float)Main.rand.Next(-40, 41) * 0.05f;
+                    float SpeedY = velocity.Y + (float)Main.rand.Next(-40, 41) * 0.05f;
+                    int flare = Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, type, damage, knockback, player.whoAmI);
+                    if (flare.WithinBounds(Main.maxProjectiles))
+                    {
+                        Main.projectile[flare].DamageType = DamageClass.Ranged;
+                        Main.projectile[flare].timeLeft = 200;
+                        Main.projectile[flare].penetrate = 3;
+                    }
                 }
                 return false;
             }
@@ -98,14 +93,13 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.FlareGun);
-            recipe.AddIngredient(ItemID.Boomstick);
-            recipe.AddRecipeGroup("AnyGoldBar", 10);
-            recipe.AddIngredient(ModContent.ItemType<VictoryShard>(), 10);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient(ItemID.FlareGun).
+                AddIngredient(ItemID.Boomstick).
+                AddRecipeGroup("AnyGoldBar", 10).
+                AddIngredient<PearlShard>(10).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

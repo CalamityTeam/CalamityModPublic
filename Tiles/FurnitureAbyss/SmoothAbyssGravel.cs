@@ -8,7 +8,7 @@ namespace CalamityMod.Tiles.FurnitureAbyss
 {
     public class SmoothAbyssGravel : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileSolid[Type] = true;
             Main.tileMergeDirt[Type] = true;
@@ -19,10 +19,9 @@ namespace CalamityMod.Tiles.FurnitureAbyss
             CalamityUtils.MergeDecorativeTiles(Type);
             CalamityUtils.MergeWithAbyss(Type);
 
-            soundType = SoundID.Tink;
-            mineResist = 2f;
-            minPick = 65;
-            drop = ModContent.ItemType<Items.Placeables.FurnitureAbyss.SmoothAbyssGravel>();
+            HitSound = SoundID.Tink;
+            MineResist = 2.1f;
+            ItemDrop = ModContent.ItemType<Items.Placeables.FurnitureAbyss.SmoothAbyssGravel>();
             AddMapEntry(new Color(49, 56, 77));
         }
 

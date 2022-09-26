@@ -1,4 +1,4 @@
-using CalamityMod.Items.Placeables.Walls.DraedonStructures;
+﻿using CalamityMod.Items.Placeables.Walls.DraedonStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.DraedonStructures
@@ -7,36 +7,27 @@ namespace CalamityMod.Items.Placeables.DraedonStructures
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 100;
         }
 
         public override void SetDefaults()
         {
-            item.width = 12;
-            item.height = 12;
-            item.maxStack = 999;
-            item.useTurn = true;
-            item.autoReuse = true;
-            item.useAnimation = 15;
-            item.useTime = 10;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.consumable = true;
-            item.createTile = ModContent.TileType<Tiles.DraedonStructures.HazardChevronPanels>();
+            Item.width = 12;
+            Item.height = 12;
+            Item.maxStack = 999;
+            Item.useTurn = true;
+            Item.autoReuse = true;
+            Item.useAnimation = 15;
+            Item.useTime = 10;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.consumable = true;
+            Item.createTile = ModContent.TileType<Tiles.DraedonStructures.HazardChevronPanels>();
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<LaboratoryPanels>(), 10);
-            recipe.AddIngredient(ItemID.YellowPaint);
-            recipe.AddIngredient(ItemID.BlackPaint);
-            recipe.SetResult(this, 10);
-            recipe.AddTile(TileID.WorkBenches);
-            recipe.AddRecipe();
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<HazardChevronWall>(), 4);
-            recipe.SetResult(this, 1);
-            recipe.AddTile(TileID.WorkBenches);
-            recipe.AddRecipe();
+            CreateRecipe(10).AddIngredient(ModContent.ItemType<LaboratoryPanels>(), 10).AddIngredient(ItemID.YellowPaint).AddIngredient(ItemID.BlackPaint).AddTile(TileID.WorkBenches).Register();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<HazardChevronWall>(), 4).AddTile(TileID.WorkBenches).Register();
         }
     }
 }

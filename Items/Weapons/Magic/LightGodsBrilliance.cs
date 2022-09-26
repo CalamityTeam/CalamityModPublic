@@ -1,7 +1,9 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -13,59 +15,52 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             DisplayName.SetDefault("Light God's Brilliance");
             Tooltip.SetDefault("Casts small, homing light beads along with explosive light balls");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 100;
-            item.magic = true;
-            item.mana = 4;
-            item.width = 34;
-            item.height = 36;
-            item.useTime = 3;
-            item.useAnimation = 3;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 3f;
-            item.value = Item.buyPrice(1, 80, 0, 0);
-            item.rare = 10;
-            item.UseSound = SoundID.Item9;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<LightBead>();
-            item.shootSpeed = 25f;
-            item.Calamity().customRarity = CalamityRarity.Dedicated;
+            Item.damage = 64;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 4;
+            Item.width = 34;
+            Item.height = 36;
+            Item.useTime = Item.useAnimation = 4;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 3f;
+            Item.value = CalamityGlobalItem.RarityDarkBlueBuyPrice;
+            Item.rare = ModContent.RarityType<DarkBlue>();
+            Item.Calamity().donorItem = true;
+            Item.UseSound = SoundID.Item9;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<LightBead>();
+            Item.shootSpeed = 25f;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            int num6 = Main.rand.Next(2, 5);
-            for (int index = 0; index < num6; ++index)
-            {
-                float SpeedX = speedX + (float)Main.rand.Next(-50, 51) * 0.05f;
-                float SpeedY = speedY + (float)Main.rand.Next(-50, 51) * 0.05f;
-                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, (int)(double)damage, knockBack, player.whoAmI, 0.0f, 0.0f);
-            }
+            Vector2 beadVelocity = velocity + Main.rand.NextVector2Square(-2.5f, 2.5f);
+            Projectile.NewProjectile(source, position, beadVelocity, type, damage, knockback, player.whoAmI);
+
             if (Main.rand.NextBool(3))
-            {
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<LightBall>(), (int)((double)damage * 2.0), knockBack, player.whoAmI, 0.0f, 0.0f);
-            }
+                Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<LightBall>(), damage * 2, knockback, player.whoAmI);
 
             return false;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<ShadecrystalTome>());
-            recipe.AddIngredient(ModContent.ItemType<AbyssalTome>());
-            recipe.AddIngredient(ItemID.HolyWater, 10);
-            recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 5);
-            recipe.AddIngredient(ItemID.SoulofLight, 30);
-            recipe.AddIngredient(ModContent.ItemType<EffulgentFeather>(), 5);
-            recipe.AddTile(TileID.Bookcases);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient<ShadecrystalTome>().
+                AddIngredient<AbyssalTome>().
+                AddIngredient(ItemID.HolyWater, 10).
+                AddIngredient(ItemID.SoulofLight, 30).
+                AddIngredient<EffulgentFeather>(5).
+                AddIngredient<CosmiliteBar>(8).
+                AddIngredient<NightmareFuel>(20).
+                AddTile(TileID.Bookcases).
+                Register();
         }
     }
 }

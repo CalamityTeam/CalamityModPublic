@@ -2,10 +2,13 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 namespace CalamityMod.Projectiles.Magic
 {
     public class ThunderstormShotSplit : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Shot");
@@ -13,36 +16,36 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetDefaults()
         {
-            projectile.width = 4;
-            projectile.height = 4;
-            projectile.friendly = true;
-            projectile.magic = true;
-            projectile.tileCollide = false;
-            projectile.penetrate = 1;
-            projectile.alpha = 255;
-            projectile.timeLeft = 600;
-            projectile.extraUpdates = 15;
+            Projectile.width = 4;
+            Projectile.height = 4;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Magic;
+            Projectile.tileCollide = false;
+            Projectile.penetrate = 1;
+            Projectile.alpha = 255;
+            Projectile.timeLeft = 600;
+            Projectile.extraUpdates = 15;
         }
 
         public override void AI()
         {
-            if (projectile.timeLeft < 420)
+            if (Projectile.timeLeft < 420)
             {
-                projectile.tileCollide = true;
+                Projectile.tileCollide = true;
             }
-            projectile.ai[0] += 1f;
-            if (projectile.ai[0] > 6f)
+            Projectile.ai[0] += 1f;
+            if (Projectile.ai[0] > 6f)
             {
                 for (int num121 = 0; num121 < 5; num121++)
                 {
-                    Dust dust = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, 107, projectile.velocity.X, projectile.velocity.Y, 100, default, 0.5f)];
+                    Dust dust = Main.dust[Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 107, Projectile.velocity.X, Projectile.velocity.Y, 100, default, 0.5f)];
                     dust.velocity = Vector2.Zero;
-                    dust.position -= projectile.velocity / 5f * (float)num121;
+                    dust.position -= Projectile.velocity / 5f * (float)num121;
                     dust.noGravity = true;
                     dust.noLight = true;
-                    Dust dust2 = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, 229, projectile.velocity.X, projectile.velocity.Y, 100, default, 0.5f)];
+                    Dust dust2 = Main.dust[Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 229, Projectile.velocity.X, Projectile.velocity.Y, 100, default, 0.5f)];
                     dust2.velocity = Vector2.Zero;
-                    dust2.position -= projectile.velocity / 5f * (float)num121;
+                    dust2.position -= Projectile.velocity / 5f * (float)num121;
                     dust2.noGravity = true;
                     dust2.noLight = true;
                 }
@@ -51,17 +54,17 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.Item125, projectile.position);
-            projectile.position = projectile.Center;
-            projectile.width = projectile.height = 16;
-            projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-            projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
+            SoundEngine.PlaySound(SoundID.Item125, Projectile.position);
+            Projectile.position = Projectile.Center;
+            Projectile.width = Projectile.height = 16;
+            Projectile.position.X = Projectile.position.X - (float)(Projectile.width / 2);
+            Projectile.position.Y = Projectile.position.Y - (float)(Projectile.height / 2);
             int num226 = 36;
             for (int num227 = 0; num227 < num226; num227++)
             {
-                Vector2 vector6 = Vector2.Normalize(projectile.velocity) * new Vector2((float)projectile.width / 2f, (float)projectile.height) * 0.75f; //0.75
-                vector6 = vector6.RotatedBy((double)((float)(num227 - (num226 / 2 - 1)) * 6.28318548f / (float)num226), default) + projectile.Center;
-                Vector2 vector7 = vector6 - projectile.Center;
+                Vector2 vector6 = Vector2.Normalize(Projectile.velocity) * new Vector2((float)Projectile.width / 2f, (float)Projectile.height) * 0.75f; //0.75
+                vector6 = vector6.RotatedBy((double)((float)(num227 - (num226 / 2 - 1)) * 6.28318548f / (float)num226), default) + Projectile.Center;
+                Vector2 vector7 = vector6 - Projectile.Center;
                 int num228 = Dust.NewDust(vector6 + vector7, 0, 0, 229, vector7.X, vector7.Y, 100, default, 0.6f);
                 Main.dust[num228].noGravity = true;
                 Main.dust[num228].noLight = true;
@@ -69,15 +72,15 @@ namespace CalamityMod.Projectiles.Magic
             }
             for (int num227 = 0; num227 < num226; num227++)
             {
-                Vector2 vector6 = Vector2.Normalize(projectile.velocity) * new Vector2((float)projectile.width / 2f, (float)projectile.height) * 0.5f;
-                vector6 = vector6.RotatedBy((double)((float)(num227 - (num226 / 2 - 1)) * 6.28318548f / (float)num226), default) + projectile.Center;
-                Vector2 vector7 = vector6 - projectile.Center;
+                Vector2 vector6 = Vector2.Normalize(Projectile.velocity) * new Vector2((float)Projectile.width / 2f, (float)Projectile.height) * 0.5f;
+                vector6 = vector6.RotatedBy((double)((float)(num227 - (num226 / 2 - 1)) * 6.28318548f / (float)num226), default) + Projectile.Center;
+                Vector2 vector7 = vector6 - Projectile.Center;
                 int num228 = Dust.NewDust(vector6 + vector7, 0, 0, 107, vector7.X, vector7.Y, 100, default, 0.6f);
                 Main.dust[num228].noGravity = true;
                 Main.dust[num228].noLight = true;
                 Main.dust[num228].velocity = vector7;
             }
-            projectile.Damage();
+            Projectile.Damage();
         }
     }
 }

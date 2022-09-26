@@ -1,9 +1,10 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
+using Terraria.IO;
 using Terraria.ModLoader;
-using Terraria.World.Generation;
+using Terraria.WorldBuilding;
 
 namespace CalamityMod.World.Planets
 {
@@ -11,6 +12,114 @@ namespace CalamityMod.World.Planets
     {
         private Rectangle _area;
 
+        public static void GenerateAllBasePlanetoids(GenerationProgress progress, GameConfiguration config)
+        {
+            progress.Message = "Enriching low Terraria orbit";
+            var config2 = WorldGenConfiguration.FromEmbeddedPath("Terraria.GameContent.WorldBuilding.Configuration.json");
+
+            int GrassPlanetoidCount = Main.maxTilesX / 1100;
+            int LCPlanetoidCount = Main.maxTilesX / 800;
+            int MudPlanetoidCount = Main.maxTilesX / 1100;
+
+            const int MainPlanetoidAttempts = 3000;
+            int i = 0;
+            while (i < MainPlanetoidAttempts)
+            {
+                if (config2.CreateBiome<MainPlanet>().Place(new Point(WorldGen.genRand.Next(Main.maxTilesX / 2 - 300, Main.maxTilesX / 2 + 300), WorldGen.genRand.Next(128, 134)), WorldGen.structures))
+                {
+                    break;
+                }
+                i++;
+            }
+
+            const int CrystalHeartPlanetoidAttempts = 15000;
+            i = 0;
+            while (LCPlanetoidCount > 0 && i < CrystalHeartPlanetoidAttempts)
+            {
+                int x = WorldGen.genRand.Next((int)(Main.maxTilesX * 0.2), (int)(Main.maxTilesX * 0.8));
+                int y = WorldGen.genRand.Next(70, 101);
+
+                bool placed = config2.CreateBiome<HeartPlanet>().Place(new Point(x, y), WorldGen.structures);
+
+                if (placed)
+                    LCPlanetoidCount--;
+                i++;
+            }
+
+            const int GrassPlanetoidAttempts = 12000;
+            i = 0;
+            while (GrassPlanetoidCount > 0 && i < GrassPlanetoidAttempts)
+            {
+                int x = WorldGen.genRand.Next((int)(Main.maxTilesX * 0.333), (int)(Main.maxTilesX * 0.666));
+                int y = WorldGen.genRand.Next(100, 131);
+
+
+                bool placed = config2.CreateBiome<GrassPlanet>().Place(new Point(x, y), WorldGen.structures);
+
+                if (placed)
+                    GrassPlanetoidCount--;
+                i++;
+            }
+
+            const int MudPlanetoidAttempts = 12000;
+            i = 0;
+            while (MudPlanetoidCount > 0 && i < MudPlanetoidAttempts)
+            {
+                int x = WorldGen.genRand.Next((int)(Main.maxTilesX * 0.3f), (int)(Main.maxTilesX * 0.7f));
+                int y = WorldGen.genRand.Next(100, 131);
+
+                bool placed = config2.CreateBiome<MudPlanet>().Place(new Point(x, y), WorldGen.structures);
+
+                if (placed)
+                    MudPlanetoidCount--;
+                i++;
+            }
+
+            // Checkerboard of Spikes and Wooden Spikes.
+            if (Main.getGoodWorld)
+            {
+                for (int j = 0; j < Main.maxTilesX; j++)
+                {
+                    for (int k = 0; k < (int)(Main.maxTilesY * 0.2f); k++)
+                    {
+                        bool convertToRegularSpikes = (j % 2 == 0 && k % 2 == 0) || (j % 2 != 0 && k % 2 != 0);
+                        if (Main.tile[j, k].TileType == TileID.WoodenSpikes && convertToRegularSpikes)
+                            Main.tile[j, k].TileType = TileID.Spikes;
+
+                        if (Main.tile[j, k].TileType == TileID.WoodenSpikes || Main.tile[j, k].TileType == TileID.Spikes)
+                        {
+                            // Random lava too :^)
+                            if (WorldGen.genRand.NextBool(3))
+                            {
+                                Main.tile[j, k].Get<TileWallWireStateData>().HasTile = false;
+                                Main.tile[j, k].LiquidAmount = 255;
+                                Main.tile[j, k].Get<LiquidData>().LiquidType = LiquidID.Lava;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        public static bool InvalidSkyPlacementArea(Rectangle area)
+        {
+            Mod varia = CalamityMod.Instance.varia;
+            for (int i = area.Left; i < area.Right; i++)
+            {
+                for (int j = area.Top; j < area.Bottom; j++)
+                {
+                    if (Main.tile[i, j].TileType == TileID.Cloud || Main.tile[i, j].TileType == TileID.RainCloud || Main.tile[i, j].TileType == TileID.Sunplate)
+                        return false;
+
+                    if (varia != null &&
+                        (Main.tile[i, j].TileType == varia.Find<ModTile>("StarplateBrick").Type || Main.tile[i, j].TileType == varia.Find<ModTile>("ForgottenCloud").Type))
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
         public bool CheckIfPlaceable(Point origin, int radius, StructureMap structures)
         {
             //Fluff is used to create padding between the planets. this is the minimum distance between planets (they can't be within "fluff" blocks)
@@ -19,24 +128,8 @@ namespace CalamityMod.World.Planets
             int diameter = myRadius * 2;
             _area = new Rectangle(origin.X - myRadius, origin.Y - myRadius, diameter, diameter);
 
-            Mod varia = ModLoader.GetMod("Varia");
-            for (int i = _area.Left; i < _area.Right; i++)
-            {
-                for (int j = _area.Top; j < _area.Bottom; j++)
-                {
-                    if (Main.tile[i, j].type == TileID.Cloud || Main.tile[i, j].type == TileID.RainCloud || Main.tile[i, j].type == TileID.Sunplate)
-                    {
-                        return false;
-                    }
-                    if (varia != null)
-                    {
-                        if (Main.tile[i, j].type == varia.TileType("StarplateBrick") || Main.tile[i, j].type == varia.TileType("ForgottenCloud"))
-                        {
-                            return false;
-                        }
-                    }
-                }
-            }
+            if (!InvalidSkyPlacementArea(_area))
+                return false;
 
             if (!structures.CanPlace(_area))
             {

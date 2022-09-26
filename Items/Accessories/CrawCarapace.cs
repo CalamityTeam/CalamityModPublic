@@ -1,5 +1,6 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -7,25 +8,24 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Craw Carapace");
-            Tooltip.SetDefault("5% increased damage reduction\n" +
-                "Enemies take damage when they touch you");
+            Tooltip.SetDefault("Enemies take damage when they touch you");
         }
 
         public override void SetDefaults()
         {
-            item.defense = 3;
-            item.width = 28;
-            item.height = 28;
-            item.value = CalamityGlobalItem.Rarity1BuyPrice;
-            item.rare = 1;
-            item.accessory = true;
+            Item.defense = 5;
+            Item.width = 28;
+            Item.height = 28;
+            Item.value = CalamityGlobalItem.Rarity1BuyPrice;
+            Item.rare = ItemRarityID.Blue;
+            Item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.endurance += 0.05f;
-            player.thorns += 0.25f;
+            player.thorns += 0.5f;
         }
     }
 }

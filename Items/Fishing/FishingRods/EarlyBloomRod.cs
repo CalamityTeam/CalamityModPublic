@@ -1,56 +1,57 @@
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Typeless;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Items.Materials;
+
 namespace CalamityMod.Items.Fishing.FishingRods
 {
-	public class EarlyBloomRod : ModItem
+    public class EarlyBloomRod : ModItem
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Early Bloom Rod");
             Tooltip.SetDefault("Fires six lines at once. Line never snaps.\n" +
-				"The early bird catches the fish.");
+                "The early bird catches the fish.");
         }
 
         public override void SetDefaults()
         {
-			//item.CloneDefaults(2289); //Wooden Fishing Pole
-			item.width = 24;
-			item.height = 28;
-			item.useAnimation = 8;
-			item.useTime = 8;
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.UseSound = SoundID.Item1;
-			item.fishingPole = 60;
-			item.shootSpeed = 18f;
-			item.shoot = ModContent.ProjectileType<EarlyBloomBobber>();
-            item.value = Item.buyPrice(1, 20, 0, 0);
-            item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.width = 24;
+            Item.height = 28;
+            Item.useAnimation = 8;
+            Item.useTime = 8;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.UseSound = SoundID.Item1;
+            Item.fishingPole = 60;
+            Item.shootSpeed = 18f;
+            Item.shoot = ModContent.ProjectileType<EarlyBloomBobber>();
+            Item.value = Item.buyPrice(1, 20, 0, 0);
+            Item.rare = ModContent.RarityType<Turquoise>();
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             for (int index = 0; index < 6; ++index)
             {
-                float SpeedX = speedX + (float)Main.rand.Next(-75, 76) * 0.05f;
-                float SpeedY = speedY + (float)Main.rand.Next(-75, 76) * 0.05f;
-                int linecolor = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, 0, 0f, player.whoAmI, 0.0f, 0.0f);
+                float SpeedX = velocity.X + Main.rand.NextFloat(-3.75f, 3.75f);
+                float SpeedY = velocity.Y + Main.rand.NextFloat(-3.75f, 3.75f);
+                Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, type, 0, 0f, player.whoAmI);
             }
             return false;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.WoodFishingPole); //wood -> fossilized wood
-            recipe.AddIngredient(ModContent.ItemType<UeliaceBar>(), 10);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient(ItemID.WoodFishingPole).
+                AddIngredient<UelibloomBar>(10).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

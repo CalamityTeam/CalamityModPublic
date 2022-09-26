@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -9,12 +9,13 @@ namespace CalamityMod.Tiles.FurnitureCosmilite
 {
     public class CosmiliteSconce : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileLighted[Type] = true;
             Main.tileFrameImportant[Type] = true;
-            Main.tileLavaDeath[Type] = true;
+            Main.tileLavaDeath[Type] = false;
 
+            TileObjectData.newTile.LavaDeath = false;
             TileObjectData.newTile.Height = 3;
             TileObjectData.newTile.Width = 1;
             TileObjectData.newTile.CoordinateWidth = 16;
@@ -28,10 +29,10 @@ namespace CalamityMod.Tiles.FurnitureCosmilite
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Cosmilite Sconce");
             AddMapEntry(new Color(191, 142, 111), name);
-            animationFrameHeight = 54;
-            disableSmartCursor = true;
-            adjTiles = new int[] { TileID.Torches };
-			TileID.Sets.FramesOnKillWall[Type] = true;
+            AnimationFrameHeight = 54;
+            TileID.Sets.DisableSmartCursor[Type] = true;
+            TileID.Sets.FramesOnKillWall[Type] = true;
+            AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
         }
 
         public override bool CreateDust(int i, int j, ref int type)
@@ -48,7 +49,7 @@ namespace CalamityMod.Tiles.FurnitureCosmilite
 
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
-            if (Main.tile[i, j].frameX < 18)
+            if (Main.tile[i, j].TileFrameX < 18)
             {
                 r = 1f;
                 g = 0.6f;
@@ -64,7 +65,7 @@ namespace CalamityMod.Tiles.FurnitureCosmilite
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 16, 32, ModContent.ItemType<Items.Placeables.FurnitureCosmilite.CosmiliteSconce>());
+            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 32, ModContent.ItemType<Items.Placeables.FurnitureCosmilite.CosmiliteSconce>());
         }
 
         public override void HitWire(int i, int j)

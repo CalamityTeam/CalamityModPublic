@@ -1,4 +1,4 @@
-using CalamityMod.Items.Placeables.Ores;
+﻿using CalamityMod.Items.Placeables.Ores;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -9,26 +9,26 @@ namespace CalamityMod.Items.Materials
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 25;
             DisplayName.SetDefault("Unholy Core");
+			ItemID.Sets.SortingPriorityMaterials[Type] = 90; // Chlorophyte Ore
         }
 
         public override void SetDefaults()
         {
-            item.width = 15;
-            item.height = 12;
-            item.maxStack = 999;
-            item.value = Item.sellPrice(silver: 80);
-            item.rare = 6;
+            Item.width = 15;
+            Item.height = 12;
+            Item.maxStack = 999;
+            Item.value = Item.sellPrice(silver: 80);
+            Item.rare = ItemRarityID.Pink;
         }
-
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<CharredOre>(), 4);
-            recipe.AddIngredient(ItemID.Hellstone, 4);
-            recipe.AddTile(TileID.AdamantiteForge);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient<CharredOre>(4).
+                AddIngredient(ItemID.Hellstone, 4).
+                AddTile(TileID.Hellforge).
+                Register();
         }
     }
 }

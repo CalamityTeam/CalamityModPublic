@@ -1,5 +1,4 @@
-using CalamityMod.CalPlayer;
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using Terraria;
 using Terraria.ID;
@@ -13,38 +12,24 @@ namespace CalamityMod.Items.LoreItems
         {
             DisplayName.SetDefault("The Ocean");
             Tooltip.SetDefault("Take care to not disturb the deep waters of this world.\n" +
-                "You may awaken something more terrifying than death itself.\n" +
-                "Favorite this item to prevent the mysterious siren lure from spawning.");
+                "You may awaken something more terrifying than death itself.");
+            SacrificeTotal = 1;
+            ItemID.Sets.ItemNoGravity[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.width = 20;
-            item.height = 20;
-            item.rare = 7;
-            item.consumable = false;
+            Item.width = 20;
+            Item.height = 20;
+            Item.rare = ItemRarityID.Lime;
+            Item.consumable = false;
         }
 
-        public override bool CanUseItem(Player player)
-        {
-            return false;
-        }
-
-        public override void UpdateInventory(Player player)
-        {
-            CalamityPlayer modPlayer = player.Calamity();
-			if (item.favorited)
-				modPlayer.oceanLore = true;
-        }
+        public override bool CanUseItem(Player player) => false;
 
         public override void AddRecipes()
         {
-            ModRecipe r = new ModRecipe(mod);
-            r.SetResult(this);
-            r.AddTile(TileID.Bookcases);
-            r.AddIngredient(ModContent.ItemType<LeviathanTrophy>());
-            r.AddIngredient(ModContent.ItemType<VictoryShard>(), 10);
-            r.AddRecipe();
+            CreateRecipe(1).AddTile(TileID.Bookcases).AddIngredient(ModContent.ItemType<LeviathanTrophy>()).AddIngredient(ModContent.ItemType<PearlShard>(), 10).Register();
         }
     }
 }

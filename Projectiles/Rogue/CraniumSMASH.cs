@@ -1,48 +1,96 @@
-﻿using Terraria;
+﻿using Microsoft.Xna.Framework;
+using Terraria;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
+using Terraria.ID;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-	public class CraniumSMASH : ModProjectile
-	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Cranium SMASH");
-		}
+    public class CraniumSMASH : ModProjectile
+    {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
-		public override void SetDefaults()
-		{
-			projectile.width = 192;
-			projectile.height = 192;
-			projectile.friendly = true;
-			projectile.ignoreWater = true;
-			projectile.tileCollide = false;
-			projectile.penetrate = -1;
-			projectile.timeLeft = 10;
-			projectile.Calamity().rogue = true;
-			projectile.usesLocalNPCImmunity = true;
-			projectile.localNPCHitCooldown = -2;
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Cranium SMASH");
+        }
 
-		public override void AI()
-		{
-			if (projectile.ai[0] == 0f)
-				SpawnExplosionDust();
-			if (projectile.ai[0] <= 1f)
-				projectile.ai[0]++;
-		}
+        public override void SetDefaults()
+        {
+            Projectile.width = 192;
+            Projectile.height = 192;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.tileCollide = false;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft = 10;
+            Projectile.DamageType = RogueDamageClass.Instance;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = -2;
+        }
 
-		void SpawnExplosionDust()
-		{
-			Main.PlaySound(2, (int)projectile.Center.X, (int)projectile.Center.Y, 14);
-			CalamityUtils.ExplosionGores(projectile.Center, 3);
-			for (int num194 = 0; num194 < 25; num194++)
-			{
-				int num195 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 135, 0f, 0f, 100, default, 2f);
-				Main.dust[num195].noGravity = true;
-				Main.dust[num195].velocity *= 0f;
-			}
-		}
-	}
+        public override void AI()
+        {
+            if (Projectile.ai[0] == 0f)
+                SpawnExplosionDust();
+            if (Projectile.ai[0] <= 1f)
+                Projectile.ai[0]++;
+        }
+
+        void SpawnExplosionDust()
+        {
+            SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);
+
+            if (Main.netMode != NetmodeID.Server)
+            {
+                Vector2 goreSource = Projectile.Center;
+                int goreAmt = 3;
+                Vector2 source = new Vector2(goreSource.X - 24f, goreSource.Y - 24f);
+                for (int goreIndex = 0; goreIndex < goreAmt; goreIndex++)
+                {
+                    float velocityMult = 0.33f;
+                    if (goreIndex < (goreAmt / 3))
+                    {
+                        velocityMult = 0.66f;
+                    }
+                    if (goreIndex >= (2 * goreAmt / 3))
+                    {
+                        velocityMult = 1f;
+                    }
+                    Mod mod = ModContent.GetInstance<CalamityMod>();
+                    int type = Main.rand.Next(61, 64);
+                    int smoke = Gore.NewGore(Projectile.GetSource_FromAI(), source, default, type, 1f);
+                    Gore gore = Main.gore[smoke];
+                    gore.velocity *= velocityMult;
+                    gore.velocity.X += 1f;
+                    gore.velocity.Y += 1f;
+                    type = Main.rand.Next(61, 64);
+                    smoke = Gore.NewGore(Projectile.GetSource_FromAI(), source, default, type, 1f);
+                    gore = Main.gore[smoke];
+                    gore.velocity *= velocityMult;
+                    gore.velocity.X -= 1f;
+                    gore.velocity.Y += 1f;
+                    type = Main.rand.Next(61, 64);
+                    smoke = Gore.NewGore(Projectile.GetSource_FromAI(), source, default, type, 1f);
+                    gore = Main.gore[smoke];
+                    gore.velocity *= velocityMult;
+                    gore.velocity.X += 1f;
+                    gore.velocity.Y -= 1f;
+                    type = Main.rand.Next(61, 64);
+                    smoke = Gore.NewGore(Projectile.GetSource_FromAI(), source, default, type, 1f);
+                    gore = Main.gore[smoke];
+                    gore.velocity *= velocityMult;
+                    gore.velocity.X -= 1f;
+                    gore.velocity.Y -= 1f;
+                }
+            }
+
+            for (int num194 = 0; num194 < 25; num194++)
+            {
+                int num195 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 135, 0f, 0f, 100, default, 2f);
+                Main.dust[num195].noGravity = true;
+                Main.dust[num195].velocity *= 0f;
+            }
+        }
+    }
 }

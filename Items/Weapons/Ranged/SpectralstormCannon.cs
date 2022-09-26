@@ -1,3 +1,4 @@
+﻿using Terraria.DataStructures;
 using CalamityMod.Projectiles.Rogue;
 using Terraria;
 using Terraria.ID;
@@ -12,64 +13,71 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             DisplayName.SetDefault("Spectralstorm Cannon");
             Tooltip.SetDefault("70% chance to not consume flares\n" +
-                "Fires a storm of ectoplasm and flares");
+                "Fires a storm of lost souls and flares");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 48;
-            item.ranged = true;
-            item.width = 66;
-            item.height = 26;
-            item.useTime = 4;
-            item.useAnimation = 12;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 1.5f;
-            item.value = Item.buyPrice(0, 95, 0, 0);
-            item.rare = 9;
-            item.UseSound = SoundID.Item11;
-            item.autoReuse = true;
-            item.shoot = ProjectileID.Flare;
-            item.shootSpeed = 9.5f;
-            item.useAmmo = 931;
+            Item.damage = 48;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 66;
+            Item.height = 26;
+            Item.useTime = 4;
+            Item.useAnimation = 12;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 1.5f;
+            Item.value = CalamityGlobalItem.Rarity10BuyPrice;
+            Item.rare = ItemRarityID.Red;
+            Item.UseSound = SoundID.Item11;
+            Item.autoReuse = true;
+            Item.shoot = ProjectileID.Flare;
+            Item.shootSpeed = 9.5f;
+            Item.useAmmo = AmmoID.Flare;
+            Item.Calamity().canFirePointBlankShots = true;
         }
 
         public override Vector2? HoldoutOffset() => new Vector2(-10, 0);
 
-        public override bool ConsumeAmmo(Player player)
+        public override bool CanConsumeAmmo(Item ammo, Player player)
         {
             if (Main.rand.Next(0, 100) < 70)
                 return false;
             return true;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            int num6 = Main.rand.Next(1, 2);
-            for (int index = 0; index < num6; ++index)
+            float SpeedX = velocity.X + (float)Main.rand.Next(-40, 41) * 0.05f;
+            float SpeedY = velocity.Y + (float)Main.rand.Next(-40, 41) * 0.05f;
+            int flare = Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, type, damage, knockback, player.whoAmI);
+            if (flare.WithinBounds(Main.maxProjectiles))
             {
-                float SpeedX = speedX + (float)Main.rand.Next(-40, 41) * 0.05f;
-                float SpeedY = speedY + (float)Main.rand.Next(-40, 41) * 0.05f;
-                int projectile = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
-                Main.projectile[projectile].timeLeft = 200;
-                Main.projectile[projectile].Calamity().forceRanged = true;
+                Main.projectile[flare].timeLeft = 200;
+                Main.projectile[flare].DamageType = DamageClass.Ranged;
             }
-            int proj = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<LostSoulFriendly>(), damage, knockBack, player.whoAmI, 0f, 0f);
-            Main.projectile[proj].timeLeft = 600;
-            Main.projectile[proj].Calamity().forceRanged = true;
+
+            float SpeedX2 = velocity.X + (float)Main.rand.Next(-20, 21) * 0.05f;
+            float SpeedY2 = velocity.Y + (float)Main.rand.Next(-20, 21) * 0.05f;
+            int soul = Projectile.NewProjectile(source, position.X, position.Y, SpeedX2, SpeedY2, ModContent.ProjectileType<LostSoulFriendly>(), damage, knockback, player.whoAmI, 2f, 0f);
+            if (soul.WithinBounds(Main.maxProjectiles))
+            {
+                Main.projectile[soul].timeLeft = 600;
+                Main.projectile[soul].DamageType = DamageClass.Ranged;
+                Main.projectile[soul].frame = Main.rand.Next(4);
+            }
             return false;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<FirestormCannon>());
-            recipe.AddIngredient(ItemID.FragmentVortex, 20);
-            recipe.AddIngredient(ItemID.Ectoplasm, 10);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient<FirestormCannon>().
+                AddIngredient(ItemID.FragmentVortex, 20).
+                AddIngredient(ItemID.Ectoplasm, 10).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

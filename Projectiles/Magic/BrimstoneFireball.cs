@@ -1,11 +1,11 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 namespace CalamityMod.Projectiles.Magic
 {
     public class BrimstoneFireball : ModProjectile
@@ -13,27 +13,27 @@ namespace CalamityMod.Projectiles.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Fireball");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 20;
-            projectile.height = 20;
-            projectile.friendly = true;
-            projectile.magic = true;
-            projectile.penetrate = 4;
-            projectile.timeLeft = 300;
+            Projectile.width = 20;
+            Projectile.height = 20;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Magic;
+            Projectile.penetrate = 4;
+            Projectile.timeLeft = 300;
         }
 
         public override void AI()
         {
-            Lighting.AddLight(projectile.Center, 0.25f, 0f, 0f);
-            if (projectile.wet && !projectile.lavaWet)
+            Lighting.AddLight(Projectile.Center, 0.25f, 0f, 0f);
+            if (Projectile.wet && !Projectile.lavaWet)
             {
-                projectile.Kill();
-                if (projectile.owner == Main.myPlayer)
+                Projectile.Kill();
+                if (Projectile.owner == Main.myPlayer)
                 {
                     int fireballAmt = Main.rand.Next(2, 4);
                     for (int j = 0; j < fireballAmt; j++)
@@ -45,76 +45,76 @@ namespace CalamityMod.Projectiles.Magic
                         }
                         velocity.Normalize();
                         velocity *= Main.rand.NextFloat(70f, 100f) * 0.1f;
-                        Projectile.NewProjectile(projectile.oldPosition.X + (float)(projectile.width / 2), projectile.oldPosition.Y + (float)(projectile.height / 2), velocity.X, velocity.Y, ModContent.ProjectileType<BrimstoneHomer>(), (int)(projectile.damage * 0.85), 0f, projectile.owner, 0f, 0f);
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.oldPosition.X + (float)(Projectile.width / 2), Projectile.oldPosition.Y + (float)(Projectile.height / 2), velocity.X, velocity.Y, ModContent.ProjectileType<BrimstoneHomer>(), (int)(Projectile.damage * 0.85), 0f, Projectile.owner, 0f, 0f);
                     }
                 }
             }
-            projectile.localAI[0] += 1f;
-            if (projectile.localAI[0] > 4f)
+            Projectile.localAI[0] += 1f;
+            if (Projectile.localAI[0] > 4f)
             {
-				int brimstone = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 2f);
-				Main.dust[brimstone].noGravity = true;
-				Main.dust[brimstone].velocity *= 0f;
+                int brimstone = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 2f);
+                Main.dust[brimstone].noGravity = true;
+                Main.dust[brimstone].velocity *= 0f;
             }
-			projectile.ai[0] += 1f;
-			if (projectile.ai[0] > 5f)
-			{
-				projectile.ai[0] = 5f;
-				if (projectile.velocity.Y == 0.0 && projectile.velocity.X != 0.0)
-				{
-					projectile.velocity.X *= 0.97f;
-					if (projectile.velocity.X > -0.01f && projectile.velocity.X < 0.01f)
-					{
-						projectile.velocity.X = 0f;
-						projectile.netUpdate = true;
-					}
-				}
-				projectile.velocity.Y += 0.2f;
-				projectile.rotation += (Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y)) * 0.1f * projectile.direction;
-			}
-			if (projectile.velocity.Y <= 16f)
-				return;
-			projectile.velocity.Y = 16f;
+            Projectile.ai[0] += 1f;
+            if (Projectile.ai[0] > 5f)
+            {
+                Projectile.ai[0] = 5f;
+                if (Projectile.velocity.Y == 0.0 && Projectile.velocity.X != 0.0)
+                {
+                    Projectile.velocity.X *= 0.97f;
+                    if (Projectile.velocity.X > -0.01f && Projectile.velocity.X < 0.01f)
+                    {
+                        Projectile.velocity.X = 0f;
+                        Projectile.netUpdate = true;
+                    }
+                }
+                Projectile.velocity.Y += 0.2f;
+                Projectile.rotation += (Math.Abs(Projectile.velocity.X) + Math.Abs(Projectile.velocity.Y)) * 0.1f * Projectile.direction;
+            }
+            if (Projectile.velocity.Y <= 16f)
+                return;
+            Projectile.velocity.Y = 16f;
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 20);
-            projectile.penetrate--;
-            if (projectile.penetrate <= 0)
+            SoundEngine.PlaySound(SoundID.Item20, Projectile.position);
+            Projectile.penetrate--;
+            if (Projectile.penetrate <= 0)
             {
-                projectile.Kill();
+                Projectile.Kill();
             }
             else
             {
-                projectile.ai[0] += 0.1f;
-                if (projectile.velocity.X != oldVelocity.X)
+                Projectile.ai[0] += 0.1f;
+                if (Projectile.velocity.X != oldVelocity.X)
                 {
-                    projectile.velocity.X = -oldVelocity.X;
+                    Projectile.velocity.X = -oldVelocity.X;
                 }
-                if (projectile.velocity.Y != oldVelocity.Y)
+                if (Projectile.velocity.Y != oldVelocity.Y)
                 {
-                    projectile.velocity.Y = -oldVelocity.Y;
+                    Projectile.velocity.Y = -oldVelocity.Y;
                 }
-                projectile.velocity *= 0.8f;
+                Projectile.velocity *= 0.8f;
             }
             return false;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;
         }
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 20);
+            SoundEngine.PlaySound(SoundID.Item20, Projectile.position);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.immune[projectile.owner] = 8;
+            target.immune[Projectile.owner] = 8;
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
         }
     }

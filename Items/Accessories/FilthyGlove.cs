@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.ID;
@@ -6,21 +6,23 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
+    [AutoloadEquip(new EquipType[] { EquipType.HandsOn, EquipType.HandsOff } )]
     public class FilthyGlove : ModItem
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Filthy Glove");
             Tooltip.SetDefault("Stealth strikes have +10 armor penetration and deal 10% more damage");
         }
 
         public override void SetDefaults()
         {
-            item.width = 24;
-            item.height = 38;
-            item.value = CalamityGlobalItem.Rarity3BuyPrice;
-            item.accessory = true;
-            item.rare = 3;
+            Item.width = 24;
+            Item.height = 38;
+            Item.value = CalamityGlobalItem.Rarity3BuyPrice;
+            Item.accessory = true;
+            Item.rare = ItemRarityID.Orange;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -31,13 +33,12 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.RottenChunk, 4);
-            recipe.AddIngredient(ItemID.DemoniteBar, 4);
-            recipe.AddIngredient(ModContent.ItemType<TrueShadowScale>(), 5);
-            recipe.AddTile(TileID.DemonAltar);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient(ItemID.RottenChunk, 4).
+                AddIngredient(ItemID.DemoniteBar, 4).
+                AddIngredient<RottenMatter>(5).
+                AddTile(TileID.DemonAltar).
+                Register();
         }
     }
 }

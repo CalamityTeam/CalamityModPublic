@@ -1,132 +1,123 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Pets;
+using CalamityMod.Items.Placeables;
 using CalamityMod.Items.Potions;
+using CalamityMod.Items.Tools.ClimateChange;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
-using CalamityMod.Tiles.Abyss;
-using CalamityMod.World;
+using CalamityMod.Items.Placeables.Ores;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.ItemDropRules;
+
+using CrateTile = CalamityMod.Tiles.Abyss.AbyssalCrateTile;
 
 namespace CalamityMod.Items.Fishing.SulphurCatches
 {
-	public class AbyssalCrate : ModItem
+    public class AbyssalCrate : ModItem
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 5;
+            ItemID.Sets.IsFishingCrate[Type] = true;
             DisplayName.SetDefault("Abyssal Crate");
             Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
         }
 
         public override void SetDefaults()
         {
-            item.maxStack = 999;
-            item.consumable = true;
-            item.width = 32;
-            item.height = 32;
-            item.rare = 2;
-            item.value = Item.sellPrice(gold: 1);
-            item.createTile = ModContent.TileType<AbyssalCrateTile>();
-            item.useTurn = true;
-            item.autoReuse = true;
-            item.useAnimation = 15;
-            item.useTime = 10;
-            item.useStyle = ItemUseStyleID.SwingThrow;
+            Item.maxStack = 999;
+            Item.consumable = true;
+            Item.width = 32;
+            Item.height = 32;
+            Item.rare = ItemRarityID.Green;
+            Item.value = Item.sellPrice(gold: 1);
+            Item.createTile = ModContent.TileType<CrateTile>();
+            Item.useTurn = true;
+            Item.autoReuse = true;
+            Item.useAnimation = 15;
+            Item.useTime = 10;
+            Item.useStyle = ItemUseStyleID.Swing;
         }
 
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = ContentSamples.CreativeHelper.ItemGroup.Crates;
+		}
+
         public override bool CanRightClick() => true;
-
-        public override void RightClick(Player player)
+        public override void ModifyItemLoot(ItemLoot itemLoot)
         {
-            //Modded materials
-            DropHelper.DropItem(player, ModContent.ItemType<Items.Placeables.SulphurousSand>(), 5, 10);
-            DropHelper.DropItem(player, ModContent.ItemType<Items.Placeables.SulphurousSandstone>(), 5, 10);
-            DropHelper.DropItem(player, ModContent.ItemType<Acidwood>(), 5, 10);
-            DropHelper.DropItemChance(player, ItemID.Starfish, 0.5f, 2, 3);
-            DropHelper.DropItemChance(player, ItemID.Seashell, 0.5f, 2, 3);
-            DropHelper.DropItemChance(player, ItemID.Coral, 0.5f, 2, 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<CloakingGland>(), 0.5f, 2, 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<VictoryShard>(), 0.5f, 2, 3);
-			if (CalamityWorld.downedEoCAcidRain)
-			{
-				DropHelper.DropItemChance(player, ModContent.ItemType<SulfuricScale>(), 0.5f, 5, 10);
-			}
-			if (CalamityWorld.downedAquaticScourgeAcidRain)
-			{
-				DropHelper.DropItemChance(player, ModContent.ItemType<CorrodedFossil>(), 0.5f, 5, 10);
-			}
-            if (CalamityWorld.downedCalamitas)
-            {
-                DropHelper.DropItemChance(player, ModContent.ItemType<DepthCells>(), 0.5f, 5, 10);
-                DropHelper.DropItemChance(player, ModContent.ItemType<Lumenite>(), 0.5f, 5, 10);
-                DropHelper.DropItemChance(player, ModContent.ItemType<Items.Placeables.PlantyMush>(), 0.5f, 5, 10);
-                DropHelper.DropItemChance(player, ModContent.ItemType<Items.Placeables.Tenebris>(), 0.5f, 5, 10);
-            }
-            if (NPC.downedGolemBoss)
-            {
-                DropHelper.DropItemChance(player, ModContent.ItemType<CruptixBar>(), 0.25f, 5, 10);
-            }
-            if (CalamityWorld.downedPolterghast)
-            {
-                DropHelper.DropItemChance(player, ModContent.ItemType<ReaperTooth>(), 0.25f, 5, 10);
-            }
+            // The contents of this crate depend massively on progression, so it uses a large number of LeadingConditionRules.
+            var tier1AbyssAvailable = itemLoot.DefineConditionalDropSet(() => DownedBossSystem.downedSlimeGod || Main.hardMode);
+            var tier2AbyssAvailable = itemLoot.DefineConditionalDropSet(() => DownedBossSystem.downedCalamitas);
+            var scoriaAvailable = itemLoot.DefineConditionalDropSet(() => NPC.downedGolemBoss);
+            var tier1AcidRain = itemLoot.DefineConditionalDropSet(() => DownedBossSystem.downedEoCAcidRain);
+            var tier2AcidRain = itemLoot.DefineConditionalDropSet(() => DownedBossSystem.downedAquaticScourgeAcidRain);
+            var tier3AcidRain = itemLoot.DefineConditionalDropSet(() => DownedBossSystem.downedPolterghast && DownedBossSystem.downedBoomerDuke);
 
-            // Weapons
-            DropHelper.DropItemFromSetCondition(player, NPC.downedBoss3, 0.2f,
-                ModContent.ItemType<Archerfish>(),
+            // Materials
+            itemLoot.Add(ModContent.ItemType<SulphurousSand>(), 1, 5, 10);
+            itemLoot.Add(ModContent.ItemType<SulphurousSandstone>(), 1, 5, 10);
+            itemLoot.Add(ModContent.ItemType<HardenedSulphurousSandstone>(), 1, 5, 10);
+            itemLoot.Add(ModContent.ItemType<Acidwood>(), 1, 5, 10);
+
+            tier1AcidRain.Add(ModContent.ItemType<SulphuricScale>(), 10, 1, 3);
+            tier2AcidRain.Add(ModContent.ItemType<CorrodedFossil>(), 10, 1, 3);
+            tier2AbyssAvailable.Add(ModContent.ItemType<DepthCells>(), 5, 2, 5);
+            tier2AbyssAvailable.Add(ModContent.ItemType<Lumenyl>(), 5, 2, 5);
+            tier2AbyssAvailable.Add(ModContent.ItemType<PlantyMush>(), 5, 2, 5);
+            tier2AbyssAvailable.Add(ModContent.ItemType<Tenebris>(), 5, 2, 5);
+            scoriaAvailable.Add(ModContent.ItemType<ScoriaOre>(), 5, 16, 28);
+            scoriaAvailable.Add(ModContent.ItemType<ScoriaBar>(), new Fraction(15, 100), 4, 7);
+            tier3AcidRain.Add(ModContent.ItemType<ReaperTooth>(), 10, 1, 5);
+
+            // Pre-HM Abyss Weapons
+            tier1AbyssAvailable.Add(new OneFromOptionsDropRule(10, 1,
                 ModContent.ItemType<BallOFugu>(),
+                ModContent.ItemType<Archerfish>(),
+                ModContent.ItemType<BlackAnurian>(),
                 ModContent.ItemType<HerringStaff>(),
-                ModContent.ItemType<Lionfish>(),
-                ModContent.ItemType<BlackAnurian>());
+                ModContent.ItemType<Lionfish>()
+            ));
 
-            DropHelper.DropItemFromSetCondition(player, CalamityWorld.downedAquaticScourgeAcidRain, 0.2f,
-                ModContent.ItemType<SkyfinBombers>(),
-                ModContent.ItemType<NuclearRod>(),
+            // Post-AS Acid Rain Weapons (and Nuclear Rod)
+            tier2AcidRain.Add(new OneFromOptionsDropRule(10, 1,
                 ModContent.ItemType<SulphurousGrabber>(),
                 ModContent.ItemType<FlakToxicannon>(),
-                ModContent.ItemType<SpentFuelContainer>(),
+                ModContent.ItemType<BelchingSaxophone>(),
                 ModContent.ItemType<SlitheringEels>(),
-                ModContent.ItemType<BelchingSaxophone>());
+                ModContent.ItemType<SkyfinBombers>(),
+                ModContent.ItemType<SpentFuelContainer>(),
+                ModContent.ItemType<NuclearRod>()
+            ));
 
-            // Equipment
-            DropHelper.DropItemFromSetCondition(player, NPC.downedBoss3, 0.4f,
-                ModContent.ItemType<StrangeOrb>(),
+            // Pre-HM Abyss Equipment (and Torrential Tear)
+            tier1AbyssAvailable.Add(new OneFromOptionsDropRule(4, 1,
+                ModContent.ItemType<AnechoicPlating>(),
                 ModContent.ItemType<DepthCharm>(),
                 ModContent.ItemType<IronBoots>(),
-                ModContent.ItemType<AnechoicPlating>());
+                ModContent.ItemType<StrangeOrb>(),
+                ModContent.ItemType<TorrentialTear>()
+            ));
 
-            //Bait
-            DropHelper.DropItemChance(player, ItemID.MasterBait, 10, 1, 2);
-            DropHelper.DropItemChance(player, ItemID.JourneymanBait, 5, 1, 3);
-            DropHelper.DropItemChance(player, ItemID.ApprenticeBait, 3, 2, 3);
+            // Bait
+            itemLoot.Add(ItemID.MasterBait, 10, 1, 2);
+            itemLoot.Add(ItemID.JourneymanBait, 5, 1, 3);
+            itemLoot.Add(ItemID.ApprenticeBait, 3, 2, 3);
 
-            //Potions
-            DropHelper.DropItemChance(player, ItemID.ObsidianSkinPotion, 10, 1, 3);
-            DropHelper.DropItemChance(player, ItemID.SwiftnessPotion, 10, 1, 3);
-            DropHelper.DropItemChance(player, ItemID.IronskinPotion, 10, 1, 3);
-            DropHelper.DropItemChance(player, ItemID.NightOwlPotion, 10, 1, 3);
-            DropHelper.DropItemChance(player, ItemID.ShinePotion, 10, 1, 3);
-            DropHelper.DropItemChance(player, ItemID.MiningPotion, 10, 1, 3);
-            DropHelper.DropItemChance(player, ItemID.HeartreachPotion, 10, 1, 3);
-            DropHelper.DropItemChance(player, ItemID.TrapsightPotion, 10, 1, 3); //Dangersense Potion
-            DropHelper.DropItemChance(player, ModContent.ItemType<AnechoicCoating>(), 10, 1, 3);
-            if (Main.hardMode)
-            {
-                DropHelper.DropItem(player, Main.rand.Next(100) >= 49 ? ItemID.GreaterHealingPotion : ItemID.GreaterManaPotion, 5, 10);
-            }
-            else
-            {
-                DropHelper.DropItem(player, Main.rand.Next(100) >= 49 ? ItemID.HealingPotion : ItemID.ManaPotion, 5, 10);
-            }
+            // Potions
+            itemLoot.Add(ModContent.ItemType<AnechoicCoating>(), 10, 1, 3);
+            itemLoot.AddCratePotionRules();
 
-            //Money
-            DropHelper.DropItem(player, ItemID.SilverCoin, 10, 90);
-            DropHelper.DropItemChance(player, ItemID.GoldCoin, 0.5f, 1, 5);
+            // Money
+            itemLoot.Add(ItemID.SilverCoin, 1, 10, 90);
+            itemLoot.Add(ItemID.GoldCoin, 2, 1, 5);
         }
     }
 }

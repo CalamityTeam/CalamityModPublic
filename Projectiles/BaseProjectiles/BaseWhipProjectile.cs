@@ -15,61 +15,61 @@ namespace CalamityMod.Projectiles.BaseProjectiles
 
         public virtual void Behavior()
         {
-            Player player = Main.player[projectile.owner];
-            if (projectile.localAI[1] > 0f)
+            Player player = Main.player[Projectile.owner];
+            if (Projectile.localAI[1] > 0f)
             {
-                projectile.localAI[1] -= 1f;
+                Projectile.localAI[1] -= 1f;
             }
             // Rapidly appear
-            projectile.alpha -= 42;
-            if (projectile.alpha < 0)
+            Projectile.alpha -= 42;
+            if (Projectile.alpha < 0)
             {
-                projectile.alpha = 0;
+                Projectile.alpha = 0;
             }
             // Determine the starting velocity direction
-            if (projectile.localAI[0] == 0f)
+            if (Projectile.localAI[0] == 0f)
             {
-                projectile.localAI[0] = projectile.velocity.ToRotation();
+                Projectile.localAI[0] = Projectile.velocity.ToRotation();
             }
-            float direction = (projectile.localAI[0].ToRotationVector2().X >= 0f).ToDirectionInt();
-            if (projectile.ai[1] <= 0f)
+            float direction = (Projectile.localAI[0].ToRotationVector2().X >= 0f).ToDirectionInt();
+            if (Projectile.ai[1] <= 0f)
             {
                 direction *= -1f;
             }
-            // As ai[0], the timer, goes up, 
-            Vector2 velocityAdditive = (direction * (projectile.ai[0] / 30f * MathHelper.TwoPi - MathHelper.PiOver2)).ToRotationVector2();
+            // As ai[0], the timer, goes up,
+            Vector2 velocityAdditive = (direction * (Projectile.ai[0] / 30f * MathHelper.TwoPi - MathHelper.PiOver2)).ToRotationVector2();
 
             // ai[1] = A starting rotation value. With a min of 0 and a max of pi/4
             // The larger it is, the larger the outward distance we travel.
             // It will always be compressed a bit relative to the X travel movement, however,
             // because sin(pi/4) = 1/sqrt(2), which is less than the default multiplier the X distance
             // receives: 1.
-            velocityAdditive.Y *= (float)Math.Sin(projectile.ai[1]);
-            if (projectile.ai[1] <= 0f)
+            velocityAdditive.Y *= (float)Math.Sin(Projectile.ai[1]);
+            if (Projectile.ai[1] <= 0f)
             {
                 velocityAdditive.Y *= -1f;
             }
             // Rotate by the starting velocity angle, to maintain the original rotation instead of
             // Constantly rotating upward or sideways
-            velocityAdditive = velocityAdditive.RotatedBy(projectile.localAI[0]);
-            projectile.ai[0] += 1f;
-            if (projectile.ai[0] < 30f)
+            velocityAdditive = velocityAdditive.RotatedBy(Projectile.localAI[0]);
+            Projectile.ai[0] += 1f;
+            if (Projectile.ai[0] < 30f)
             {
-                projectile.velocity += 48f * velocityAdditive;
+                Projectile.velocity += 48f * velocityAdditive;
             }
             else
             {
-                projectile.Kill();
+                Projectile.Kill();
             }
             // Adjust position so that we're always sticking to the player.
-            projectile.position = player.RotatedRelativePoint(player.MountedCenter, true) - projectile.Size / 2f;
-            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
-            projectile.spriteDirection = projectile.direction;
-            projectile.timeLeft = 2;
-            player.ChangeDir(projectile.direction);
+            Projectile.position = player.RotatedRelativePoint(player.MountedCenter, true) - Projectile.Size / 2f;
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
+            Projectile.spriteDirection = Projectile.direction;
+            Projectile.timeLeft = 2;
+            player.ChangeDir(Projectile.direction);
             player.itemTime = 2;
             player.itemAnimation = 2;
-            player.itemRotation = (projectile.velocity * projectile.direction).ToRotation();
+            player.itemRotation = (Projectile.velocity * Projectile.direction).ToRotation();
 
             // Adjust the center based on player attributes.
             Vector2 centerDelta = Main.OffsetsPlayerOnhand[player.bodyFrame.Y / 56] * 2f;
@@ -82,12 +82,12 @@ namespace CalamityMod.Projectiles.BaseProjectiles
                 centerDelta.Y = player.bodyFrame.Height - centerDelta.Y;
             }
             if (player.heldProj == -1)
-                player.heldProj = projectile.whoAmI;
+                player.heldProj = Projectile.whoAmI;
             centerDelta -= new Vector2(player.bodyFrame.Width - player.width, player.bodyFrame.Height - 42) / 2f;
-            projectile.Center = player.RotatedRelativePoint(player.position + centerDelta, true) - projectile.velocity;
+            Projectile.Center = player.RotatedRelativePoint(player.position + centerDelta, true) - Projectile.velocity;
 
             // Cool dust
-            if (projectile.alpha == 0)
+            if (Projectile.alpha == 0)
             {
                 GenerateDust();
             }
@@ -101,7 +101,7 @@ namespace CalamityMod.Projectiles.BaseProjectiles
             Behavior();
             ExtraBehavior();
         }
-        public Texture2D FlailTexture => Main.projectileTexture[projectile.type];
+        public Texture2D FlailTexture => ModContent.Request<Texture2D>(Texture).Value;
 
         #region Virtual Values
         public virtual Color SpecialDrawColor => new Color(255, 200, 0);
@@ -125,10 +125,10 @@ namespace CalamityMod.Projectiles.BaseProjectiles
             // Dust moving along the whip
             for (int i = 0; i < 2; i++)
             {
-                Dust dust = Dust.NewDustDirect(projectile.position + projectile.velocity * 2f, projectile.width, projectile.height, ExudeDustType, 0f, 0f, 100, SpecialDrawColor, 2f);
+                Dust dust = Dust.NewDustDirect(Projectile.position + Projectile.velocity * 2f, Projectile.width, Projectile.height, ExudeDustType, 0f, 0f, 100, SpecialDrawColor, 2f);
                 dust.noGravity = true;
                 dust.velocity *= 2f;
-                dust.velocity += projectile.localAI[0].ToRotationVector2();
+                dust.velocity += Projectile.localAI[0].ToRotationVector2();
                 dust.fadeIn = 1.5f;
             }
             float counterMax = 18f;
@@ -137,11 +137,11 @@ namespace CalamityMod.Projectiles.BaseProjectiles
             {
                 if (Main.rand.NextBool(4))
                 {
-                    Vector2 spawnPosition = projectile.position + projectile.velocity + projectile.velocity * (counter / counterMax);
-                    Dust dust = Dust.NewDustDirect(spawnPosition, projectile.width, projectile.height, WhipDustType, 0f, 0f, 100, SpecialDrawColor, 1f);
+                    Vector2 spawnPosition = Projectile.position + Projectile.velocity + Projectile.velocity * (counter / counterMax);
+                    Dust dust = Dust.NewDustDirect(spawnPosition, Projectile.width, Projectile.height, WhipDustType, 0f, 0f, 100, SpecialDrawColor, 1f);
                     dust.noGravity = true;
                     dust.fadeIn = 0.5f;
-                    dust.velocity += projectile.localAI[0].ToRotationVector2();
+                    dust.velocity += Projectile.localAI[0].ToRotationVector2();
                     dust.noLight = true;
                 }
                 counter++;
@@ -150,25 +150,25 @@ namespace CalamityMod.Projectiles.BaseProjectiles
         #endregion
 
         #region Draw Helpers
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             // If the velocity is zero, don't draw anything.
             // Doing so would lead to various divison by 0 errors during the normalization process.
-            if (projectile.velocity == Vector2.Zero)
+            if (Projectile.velocity == Vector2.Zero)
             {
                 return false;
             }
 
             DrawHandleSprite(in lightColor);
 
-            Vector2 normalizedVelocity = Vector2.Normalize(projectile.velocity);
-            
-            float speed = projectile.velocity.Length() + 16f - 40f * projectile.scale;
+            Vector2 normalizedVelocity = Vector2.Normalize(Projectile.velocity);
 
-            Vector2 bodyDrawPosition = projectile.Center.Floor() + normalizedVelocity * projectile.scale * 20f;
+            float speed = Projectile.velocity.Length() + 16f - 40f * Projectile.scale;
+
+            Vector2 bodyDrawPosition = Projectile.Center.Floor() + normalizedVelocity * Projectile.scale * 20f;
             DrawType2BodySprite(in speed, in normalizedVelocity, in lightColor, ref bodyDrawPosition);
 
-            bodyDrawPosition = projectile.Center.Floor() + normalizedVelocity * projectile.scale * 20f;
+            bodyDrawPosition = Projectile.Center.Floor() + normalizedVelocity * Projectile.scale * 20f;
             DrawType1BodySprite(in speed, in normalizedVelocity, in lightColor, ref bodyDrawPosition);
 
             Vector2 whipEndPosition = bodyDrawPosition;
@@ -183,15 +183,15 @@ namespace CalamityMod.Projectiles.BaseProjectiles
         public void DrawHandleSprite(in Color lightColor)
         {
             Rectangle handleFrame = new Rectangle(0, 0, FlailTexture.Width, HandleHeight);
-            Main.spriteBatch.Draw(FlailTexture,
-                                  projectile.Center.Floor() - Main.screenPosition + Vector2.UnitY * Main.player[projectile.owner].gfxOffY,
+            Main.EntitySpriteDraw(FlailTexture,
+                                  Projectile.Center.Floor() - Main.screenPosition + Vector2.UnitY * Main.player[Projectile.owner].gfxOffY,
                                   new Rectangle?(handleFrame),
                                   lightColor,
-                                  projectile.rotation + MathHelper.Pi,
+                                  Projectile.rotation + MathHelper.Pi,
                                   handleFrame.Size() / 2f - Vector2.UnitY * 4f,
-                                  projectile.scale,
+                                  Projectile.scale,
                                   SpriteEffects.None,
-                                  0f);
+                                  0);
         }
 
         /// <summary>
@@ -219,15 +219,15 @@ namespace CalamityMod.Projectiles.BaseProjectiles
                     {
                         drawPositionDeltaMult *= 0.75f;
                     }
-                    Main.spriteBatch.Draw(FlailTexture,
-                                          bodyDrawPosition - Main.screenPosition + Vector2.UnitY * Main.player[projectile.owner].gfxOffY,
+                    Main.EntitySpriteDraw(FlailTexture,
+                                          bodyDrawPosition - Main.screenPosition + Vector2.UnitY * Main.player[Projectile.owner].gfxOffY,
                                           new Rectangle?(type1BodyFrame),
                                           lightColor,
-                                          projectile.rotation + MathHelper.Pi,
+                                          Projectile.rotation + MathHelper.Pi,
                                           new Vector2(type1BodyFrame.Width / 2, 0f),
-                                          projectile.scale,
+                                          Projectile.scale,
                                           SpriteEffects.None,
-                                          0f);
+                                          0);
                     bodyDrawPosition += normalizedVelocity * drawPositionDeltaMult;
                 }
             }
@@ -256,17 +256,17 @@ namespace CalamityMod.Projectiles.BaseProjectiles
                     {
                         type2BodyFrame.Height = (int)(speed - counter);
                     }
-                    Main.spriteBatch.Draw(FlailTexture,
-                                          bodyDrawPosition - Main.screenPosition + Vector2.UnitY * Main.player[projectile.owner].gfxOffY,
+                    Main.EntitySpriteDraw(FlailTexture,
+                                          bodyDrawPosition - Main.screenPosition + Vector2.UnitY * Main.player[Projectile.owner].gfxOffY,
                                           new Rectangle?(type2BodyFrame),
                                           lightColor,
-                                          projectile.rotation + MathHelper.Pi,
+                                          Projectile.rotation + MathHelper.Pi,
                                           new Vector2(type2BodyFrame.Width / 2, 0f),
-                                          projectile.scale,
+                                          Projectile.scale,
                                           SpriteEffects.None,
-                                          0f);
-                    counter += type2BodyFrame.Height * projectile.scale;
-                    bodyDrawPosition += normalizedVelocity * type2BodyFrame.Height * projectile.scale;
+                                          0);
+                    counter += type2BodyFrame.Height * Projectile.scale;
+                    bodyDrawPosition += normalizedVelocity * type2BodyFrame.Height * Projectile.scale;
                 }
             }
         }
@@ -279,15 +279,15 @@ namespace CalamityMod.Projectiles.BaseProjectiles
         public void DrawWhipTail(in Vector2 whipEndPosition, in Color lightColor)
         {
             Rectangle tailFrame = new Rectangle(0, TailStartY, FlailTexture.Width, TailHeight);
-            Main.spriteBatch.Draw(FlailTexture,
-                whipEndPosition - Main.screenPosition + Vector2.UnitY * Main.player[projectile.owner].gfxOffY,
+            Main.EntitySpriteDraw(FlailTexture,
+                whipEndPosition - Main.screenPosition + Vector2.UnitY * Main.player[Projectile.owner].gfxOffY,
                 new Rectangle?(tailFrame),
                 lightColor,
-                projectile.rotation + MathHelper.Pi, 
+                Projectile.rotation + MathHelper.Pi,
                 FlailTexture.Frame(1, 1, 0, 0).Top(),
-                projectile.scale,
+                Projectile.scale,
                 SpriteEffects.None,
-                0f);
+                0);
         }
         #endregion
 
@@ -295,8 +295,8 @@ namespace CalamityMod.Projectiles.BaseProjectiles
         public override void CutTiles()
         {
             DelegateMethods.tilecut_0 = TileCuttingContext.AttackProjectile;
-            Vector2 unit = projectile.velocity;
-            Utils.PlotTileLine(projectile.Center, projectile.Center + unit, projectile.width * projectile.scale, new Utils.PerLinePoint(DelegateMethods.CutTiles));
+            Vector2 unit = Projectile.velocity;
+            Utils.PlotTileLine(Projectile.Center, Projectile.Center + unit, Projectile.width * Projectile.scale, DelegateMethods.CutTiles);
         }
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
@@ -305,7 +305,7 @@ namespace CalamityMod.Projectiles.BaseProjectiles
                 return true;
             }
             float _ = 0f;
-            if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), projectile.Center, projectile.Center + projectile.velocity, 16f * projectile.scale, ref _))
+            if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center, Projectile.Center + Projectile.velocity, 16f * Projectile.scale, ref _))
             {
                 return true;
             }

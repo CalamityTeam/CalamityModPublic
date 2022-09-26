@@ -1,7 +1,8 @@
-using CalamityMod.Projectiles.Magic;
+﻿using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -13,52 +14,39 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             DisplayName.SetDefault("Icicle Staff");
             Tooltip.SetDefault("Casts icicles from the sky");
-            Item.staff[item.type] = true;
+            Item.staff[Item.type] = true;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 10;
-            item.magic = true;
-            item.mana = 6;
-            item.width = 44;
-            item.height = 44;
-            item.useTime = 15;
-            item.useAnimation = 30;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 2f;
-            item.value = Item.buyPrice(0, 1, 0, 0);
-            item.rare = 1;
-            item.UseSound = SoundID.Item8;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<IcicleStaffProj>();
-            item.shootSpeed = 11f;
+            Item.damage = 10;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 6;
+            Item.width = 44;
+            Item.height = 44;
+            Item.useTime = 7;
+            Item.useAnimation = 14;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 2f;
+            Item.value = CalamityGlobalItem.Rarity1BuyPrice;
+            Item.rare = ItemRarityID.Blue;
+            Item.UseSound = SoundID.Item8;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<IcicleStaffProj>();
+            Item.shootSpeed = 11f;
         }
 
-        public override Vector2? HoldoutOrigin()
-        {
-            return new Vector2(15, 15);
-        }
-
-        public override void AddRecipes()
-        {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddRecipeGroup("AnyIceBlock", 25);
-            recipe.AddIngredient(ItemID.Shiverthorn, 3);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-        }
-
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             int i = Main.myPlayer;
-            float num72 = item.shootSpeed;
-            int num73 = item.damage;
-            float num74 = item.knockBack;
-            num74 = player.GetWeaponKnockback(item, num74);
-            player.itemTime = item.useTime;
+            float num72 = velocity.Length();
+            int num73 = damage;
+            float num74 = knockback;
+            num74 = player.GetWeaponKnockback(Item, num74);
+            player.itemTime = Item.useTime;
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
             float num78 = (float)Main.mouseX - Main.screenPosition.X - vector2.X;
             float num79 = (float)Main.mouseY - Main.screenPosition.Y - vector2.Y;
@@ -78,31 +66,35 @@ namespace CalamityMod.Items.Weapons.Magic
                 num80 = num72 / num80;
             }
 
-            int num107 = 1;
-            for (int num108 = 0; num108 < num107; num108++)
-            {
-                vector2 = new Vector2(player.position.X + (float)player.width * 0.5f + (float)(Main.rand.Next(201) * -(float)player.direction) + ((float)Main.mouseX + Main.screenPosition.X - player.position.X), player.MountedCenter.Y - 600f);
-                vector2.X = (vector2.X + player.Center.X) / 2f + (float)Main.rand.Next(-200, 201);
-                vector2.Y -= (float)(100 * num108);
-                num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
-                num79 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;
-                if (num79 < 0f)
-                {
-                    num79 *= -1f;
-                }
-                if (num79 < 20f)
-                {
-                    num79 = 20f;
-                }
-                num80 = (float)Math.Sqrt((double)(num78 * num78 + num79 * num79));
-                num80 = num72 / num80;
-                num78 *= num80;
-                num79 *= num80;
-                float speedX4 = num78;
-                float speedY5 = num79 + (float)Main.rand.Next(-40, 41) * 0.02f;
-                Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<IcicleStaffProj>(), num73, num74, i, 0f, (float)Main.rand.Next(10));
-            }
+			vector2 = new Vector2(player.position.X + (float)player.width * 0.5f + (float)(Main.rand.Next(201) * -(float)player.direction) + ((float)Main.mouseX + Main.screenPosition.X - player.position.X), player.MountedCenter.Y - 600f);
+			vector2.X = (vector2.X + player.Center.X) / 2f + (float)Main.rand.Next(-200, 201);
+			num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
+			num79 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;
+			if (num79 < 0f)
+			{
+				num79 *= -1f;
+			}
+			if (num79 < 20f)
+			{
+				num79 = 20f;
+			}
+			num80 = (float)Math.Sqrt((double)(num78 * num78 + num79 * num79));
+			num80 = num72 / num80;
+			num78 *= num80;
+			num79 *= num80;
+			float speedX4 = num78;
+			float speedY5 = num79 + (float)Main.rand.Next(-40, 41) * 0.02f;
+			Projectile.NewProjectile(source, vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<IcicleStaffProj>(), num73, num74, i, 0f, (float)Main.rand.Next(10));
             return false;
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddRecipeGroup("AnyIceBlock", 25).
+                AddIngredient(ItemID.Shiverthorn, 3).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

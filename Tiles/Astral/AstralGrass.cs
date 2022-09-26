@@ -1,27 +1,29 @@
-using CalamityMod.Dusts;
+﻿using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.GameContent.Metadata;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.Astral
 {
-	public class AstralGrass : ModTile
+    public class AstralGrass : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileSolid[Type] = true;
             Main.tileBlockLight[Type] = true;
             Main.tileBrick[Type] = true;
+			TileMaterials.SetForTileId(Type, TileMaterials._materialsByName["Grass"]);
 
             CalamityUtils.SetMerge(Type, ModContent.TileType<AstralDirt>());
             CalamityUtils.SetMerge(Type, TileID.Grass);
             CalamityUtils.SetMerge(Type, TileID.CorruptGrass);
             CalamityUtils.SetMerge(Type, TileID.HallowedGrass);
-            CalamityUtils.SetMerge(Type, TileID.FleshGrass);
+            CalamityUtils.SetMerge(Type, TileID.CrimsonGrass);
 
-            dustType = ModContent.DustType<AstralBasic>();
-            drop = ModContent.ItemType<Items.Placeables.AstralDirt>();
+            DustType = ModContent.DustType<AstralBasic>();
+            ItemDrop = ModContent.ItemType<Items.Placeables.AstralDirt>();
 
             AddMapEntry(new Color(133, 109, 140));
 
@@ -31,8 +33,7 @@ namespace CalamityMod.Tiles.Astral
             //Grass framing (<3 terraria devs)
             TileID.Sets.NeedsGrassFraming[Type] = true;
             TileID.Sets.NeedsGrassFramingDirt[Type] = ModContent.TileType<AstralDirt>();
-
-            SetModTree(new AstralTree());
+            TileID.Sets.CanBeDugByShovel[Type] = true;
         }
 
         public override void NumDust(int i, int j, bool fail, ref int Type)
@@ -44,14 +45,8 @@ namespace CalamityMod.Tiles.Astral
         {
             if (fail && !effectOnly)
             {
-                Main.tile[i, j].type = (ushort)ModContent.TileType<AstralDirt>();
+                Main.tile[i, j].TileType = (ushort)ModContent.TileType<AstralDirt>();
             }
-        }
-
-        public override int SaplingGrowthType(ref int style)
-        {
-            style = 0;
-            return ModContent.TileType<AstralTreeSapling>();
         }
     }
 }

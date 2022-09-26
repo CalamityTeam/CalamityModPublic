@@ -1,9 +1,10 @@
-using CalamityMod.Dusts;
+﻿using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.Enums;
+using Terraria.GameContent.Metadata;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
@@ -15,11 +16,15 @@ namespace CalamityMod.Tiles.AstralDesert
         //All of this code is taken directly from Example Mod.
         //Cheers Blushie
 
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileFrameImportant[Type] = true;
             Main.tileNoAttach[Type] = true;
             Main.tileLavaDeath[Type] = true;
+            TileID.Sets.CommonSapling[Type] = true;
+            TileID.Sets.TreeSapling[Type] = true;
+			TileID.Sets.SwaysInWindBasic[Type] = true;
+			TileMaterials.SetForTileId(Type, TileMaterials._materialsByName["Plant"]);
             TileObjectData.newTile.Width = 1;
             TileObjectData.newTile.Height = 2;
             TileObjectData.newTile.Origin = new Point16(0, 1);
@@ -35,12 +40,11 @@ namespace CalamityMod.Tiles.AstralDesert
             TileObjectData.newTile.LavaDeath = true;
             TileObjectData.newTile.RandomStyleRange = 3;
             TileObjectData.addTile(Type);
-            sapling = true;
             ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Sapling");
+            name.SetDefault("MapObject.Sapling");
             AddMapEntry(new Color(200, 200, 200), name);
-            dustType = ModContent.DustType<AstralBasic>();
-            adjTiles = new int[] { TileID.Saplings };
+            DustType = ModContent.DustType<AstralBasic>();
+            AdjTiles = new int[] { TileID.Saplings };
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)
@@ -48,12 +52,15 @@ namespace CalamityMod.Tiles.AstralDesert
             num = fail ? 1 : 3;
         }
 
+        
         public override void RandomUpdate(int i, int j)
         {
-            if (WorldGen.genRand.Next(20) == 0)
+            if (WorldGen.genRand.Next(20) == 0 || true)
             {
                 bool isPlayerNear = WorldGen.PlayerLOS(i, j);
-                bool success = WorldGen.GrowTree(i, j);
+
+                bool success = WorldGen.GrowPalmTree(i, j);
+
                 if (success && isPlayerNear)
                 {
                     WorldGen.TreeGrowFXCheck(i, j);

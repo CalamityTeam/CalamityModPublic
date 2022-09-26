@@ -1,6 +1,7 @@
-using CalamityMod.Buffs.Placeables;
+﻿using CalamityMod.Buffs.Placeables;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
@@ -9,7 +10,7 @@ namespace CalamityMod.Tiles.Furniture
 {
     public class YellowCandle : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileLighted[Type] = true;
             Main.tileFrameImportant[Type] = true;
@@ -18,9 +19,10 @@ namespace CalamityMod.Tiles.Furniture
             TileObjectData.addTile(Type);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Spiteful Candle");
+            AdjTiles = new int[] { TileID.Candles };
             AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
             AddMapEntry(new Color(238, 145, 105), name);
-            animationFrameHeight = 34;
+            AnimationFrameHeight = 34;
         }
 
         public override void AnimateTile(ref int frame, ref int frameCounter)
@@ -38,19 +40,19 @@ namespace CalamityMod.Tiles.Furniture
             Player player = Main.LocalPlayer;
             if (player == null || !player.active || player.dead)
                 return;
-            player.AddBuff(ModContent.BuffType<YellowDamageCandle>(), 20);
+            player.AddBuff(ModContent.BuffType<CirrusYellowCandleBuff>(), 20);
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
                 for (int m = 0; m < Main.maxNPCs; m++)
                 {
                     if (Main.npc[m].active && !Main.npc[m].friendly)
                     {
-                        Main.npc[m].buffImmune[ModContent.BuffType<YellowDamageCandle>()] = false;
+                        Main.npc[m].buffImmune[ModContent.BuffType<CirrusYellowCandleBuff>()] = false;
                         if (Main.npc[m].Calamity().DR >= 0.99f)
                         {
-                            Main.npc[m].buffImmune[ModContent.BuffType<YellowDamageCandle>()] = true;
+                            Main.npc[m].buffImmune[ModContent.BuffType<CirrusYellowCandleBuff>()] = true;
                         }
-                        Main.npc[m].AddBuff(ModContent.BuffType<YellowDamageCandle>(), 20, false);
+                        Main.npc[m].AddBuff(ModContent.BuffType<CirrusYellowCandleBuff>(), 20, false);
                     }
                 }
             }
@@ -65,7 +67,7 @@ namespace CalamityMod.Tiles.Furniture
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 16, 32, ModContent.ItemType<Items.Placeables.Furniture.YellowCandle>());
+            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 32, ModContent.ItemType<Items.Placeables.Furniture.SpitefulCandle>());
         }
     }
 }

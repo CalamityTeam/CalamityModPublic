@@ -1,11 +1,14 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 namespace CalamityMod.Projectiles.Magic
 {
     public class PlasmaShot : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Shot");
@@ -13,26 +16,26 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetDefaults()
         {
-            projectile.width = 6;
-            projectile.height = 6;
-            projectile.friendly = true;
-            projectile.magic = true;
-            projectile.penetrate = 1;
-            projectile.alpha = 255;
-            projectile.timeLeft = 600;
-            projectile.extraUpdates = 10;
+            Projectile.width = 6;
+            Projectile.height = 6;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Magic;
+            Projectile.penetrate = 1;
+            Projectile.alpha = 255;
+            Projectile.timeLeft = 600;
+            Projectile.extraUpdates = 10;
         }
 
         public override void AI()
         {
-            projectile.ai[0] += 1f;
-            if (projectile.ai[0] > 6f)
+            Projectile.ai[0] += 1f;
+            if (Projectile.ai[0] > 6f)
             {
-                for (int num121 = 0; num121 < 10; num121++)
+                for (int d = 0; d < 10; d++)
                 {
-                    Dust dust = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, 107, projectile.velocity.X, projectile.velocity.Y, 100, default, 1f)];
+                    Dust dust = Main.dust[Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 107, Projectile.velocity.X, Projectile.velocity.Y, 100, default, 1f)];
                     dust.velocity = Vector2.Zero;
-                    dust.position -= projectile.velocity / 5f * (float)num121;
+                    dust.position -= Projectile.velocity / 5f * d;
                     dust.noGravity = true;
                     dust.noLight = true;
                 }
@@ -41,21 +44,21 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.Item14, projectile.position);
-            int num220 = Main.rand.Next(20, 31);
-            if (projectile.owner == Main.myPlayer)
+            SoundEngine.PlaySound(SoundID.Item14, Projectile.position);
+            int cloudAmt = Main.rand.Next(20, 31);
+            if (Projectile.owner == Main.myPlayer)
             {
-                for (int num221 = 0; num221 < num220; num221++)
+                for (int i = 0; i < cloudAmt; i++)
                 {
-                    Vector2 value17 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-                    value17.Normalize();
-                    value17 *= (float)Main.rand.Next(10, 201) * 0.01f;
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value17.X, value17.Y, 511 + Main.rand.Next(3), projectile.damage, 1f, projectile.owner, 0f, (float)Main.rand.Next(-45, 1));
+                    Vector2 velocity = CalamityUtils.RandomVelocity(100f, 10f, 200f, 0.01f);
+                    Projectile cloud = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ProjectileID.ToxicCloud + Main.rand.Next(3), Projectile.damage, 1f, Projectile.owner, 0f, Main.rand.Next(-45, 1));
+                    cloud.usesIDStaticNPCImmunity = true;
+                    cloud.idStaticNPCHitCooldown = 10;
                 }
             }
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 107, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
+                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 107, Projectile.oldVelocity.X * 0.5f, Projectile.oldVelocity.Y * 0.5f);
             }
         }
     }

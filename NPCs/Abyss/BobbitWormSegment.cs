@@ -1,7 +1,8 @@
-using System.Linq;
+﻿using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Utilities;
 
 namespace CalamityMod.NPCs.Abyss
 {
@@ -9,62 +10,63 @@ namespace CalamityMod.NPCs.Abyss
     {
         public override void SetStaticDefaults()
         {
+            this.HideFromBestiary();
             DisplayName.SetDefault("Bobbit Worm");
         }
 
         public override void SetDefaults()
         {
-            npc.lavaImmune = true;
-            npc.aiStyle = -1;
-            npc.damage = 0;
-            npc.alpha = 255;
-            npc.width = 26;
-            npc.height = 26;
-            npc.defense = 0;
-            npc.lifeMax = 100;
-            npc.knockBackResist = 0f;
-            aiType = -1;
-            npc.dontTakeDamage = true;
-            npc.HitSound = SoundID.NPCHit1;
-            npc.DeathSound = SoundID.NPCDeath1;
+            NPC.lavaImmune = true;
+            NPC.aiStyle = -1;
+            NPC.damage = 0;
+            NPC.alpha = 255;
+            NPC.width = 26;
+            NPC.height = 26;
+            NPC.defense = 0;
+            NPC.lifeMax = 100;
+            NPC.knockBackResist = 0f;
+            AIType = -1;
+            NPC.dontTakeDamage = true;
+            NPC.HitSound = SoundID.NPCHit1;
+            NPC.DeathSound = SoundID.NPCDeath1;
         }
 
         public override void AI()
         {
-			if (npc.ai[0] == 0f)
-			{
-				for (int i = 0; i < CalamityGlobalNPC.bobbitWormBottom.Length; i++)
-				{
-					if (CalamityGlobalNPC.bobbitWormBottom[i] == -1)
-					{
-						CalamityGlobalNPC.bobbitWormBottom[i] = npc.whoAmI;
-						npc.ai[0] = (float)i;
-						break;
-					}
-				}
-			}
+            if (NPC.ai[0] == 0f)
+            {
+                for (int i = 0; i < CalamityGlobalNPC.bobbitWormBottom.Length; i++)
+                {
+                    if (CalamityGlobalNPC.bobbitWormBottom[i] == -1)
+                    {
+                        CalamityGlobalNPC.bobbitWormBottom[i] = NPC.whoAmI;
+                        NPC.ai[0] = (float)i;
+                        break;
+                    }
+                }
+            }
 
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
-                if (npc.ai[1] == 0f)
+                if (NPC.ai[1] == 0f)
                 {
-                    npc.ai[1] = 1f;
-                    int spawnedNPC = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, ModContent.NPCType<BobbitWormHead>(), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
-					Main.npc[spawnedNPC].ai[2] = (float)CalamityGlobalNPC.bobbitWormBottom[(int)npc.ai[0]];
-					npc.ai[2] = (float)spawnedNPC;
-				}
+                    NPC.ai[1] = 1f;
+                    int spawnedNPC = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<BobbitWormHead>(), NPC.whoAmI, 0f, 0f, 0f, 0f, 255);
+                    Main.npc[spawnedNPC].ai[2] = (float)CalamityGlobalNPC.bobbitWormBottom[(int)NPC.ai[0]];
+                    NPC.ai[2] = (float)spawnedNPC;
+                }
             }
 
-            if (!Main.npc[(int)npc.ai[2]].active || Main.npc[(int)npc.ai[2]].life <= 0)
+            if (!Main.npc[(int)NPC.ai[2]].active || Main.npc[(int)NPC.ai[2]].life <= 0)
             {
-                npc.active = false;
-                npc.netUpdate = true;
+                NPC.active = false;
+                NPC.netUpdate = true;
             }
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.player.Calamity().ZoneAbyssLayer4 && spawnInfo.water)
+            if (spawnInfo.Player.Calamity().ZoneAbyssLayer4 && spawnInfo.Water)
             {
                 if (CalamityGlobalNPC.bobbitWormBottom.Contains(-1))
                     return SpawnCondition.CaveJellyfish.Chance * 0.3f;

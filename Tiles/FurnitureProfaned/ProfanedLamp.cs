@@ -1,23 +1,23 @@
-using CalamityMod.Dusts.Furniture;
+﻿using CalamityMod.Dusts.Furniture;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureProfaned
 {
     public class ProfanedLamp : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
-            this.SetUpLamp();
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Profaned Lamp");
-            AddMapEntry(new Color(191, 142, 111), name);
+            this.SetUpLamp(true);
+            AddMapEntry(new Color(253, 221, 3), Language.GetText("MapObject.FloorLamp"));
 
-            disableSmartCursor = true;
-            adjTiles = new int[] { TileID.Torches };
+            TileID.Sets.DisableSmartCursor[Type] = true;
+            AdjTiles = new int[] { TileID.Lamps };
         }
 
         public override bool CreateDust(int i, int j, ref int type)
@@ -34,12 +34,12 @@ namespace CalamityMod.Tiles.FurnitureProfaned
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 16, 32, ModContent.ItemType<Items.Placeables.FurnitureProfaned.ProfanedLamp>());
+            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 32, ModContent.ItemType<Items.Placeables.FurnitureProfaned.ProfanedLamp>());
         }
 
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
-            if (Main.tile[i, j].frameX < 18)
+            if (Main.tile[i, j].TileFrameX < 18)
             {
                 r = 1f;
                 g = 0.85f;
@@ -60,12 +60,12 @@ namespace CalamityMod.Tiles.FurnitureProfaned
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            CalamityUtils.DrawFlameEffect(ModContent.GetTexture("CalamityMod/Tiles/FurnitureProfaned/ProfanedLampFlame"), i, j);
+            CalamityUtils.DrawFlameEffect(ModContent.Request<Texture2D>("CalamityMod/Tiles/FurnitureProfaned/ProfanedLampFlame").Value, i, j);
         }
 
-        public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
+        public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref TileDrawInfo drawData)
         {
-            if (Main.tile[i, j].frameY == 0)
+            if (Main.tile[i, j].TileFrameY == 0 && Main.tile[i, j].TileFrameX < 18)
             {
                 CalamityUtils.DrawFlameSparks(246, 5, i, j);
             }

@@ -1,8 +1,9 @@
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
+using CalamityMod.Buffs.DamageOverTime;
 
 namespace CalamityMod.Projectiles.Melee
 {
@@ -13,21 +14,22 @@ namespace CalamityMod.Projectiles.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Meteor");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 46;
-            projectile.height = 46;
-            projectile.alpha = 150;
-            projectile.friendly = true;
-            projectile.melee = true;
-            projectile.tileCollide = false;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 180;
-            projectile.ignoreWater = true;
+            Projectile.width = 46;
+            Projectile.height = 46;
+            Projectile.alpha = 150;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.tileCollide = false;
+            Projectile.penetrate = 1;
+            Projectile.extraUpdates = 2;
+            Projectile.timeLeft = 180;
+            Projectile.ignoreWater = true;
         }
 
         public override void AI()
@@ -36,86 +38,65 @@ namespace CalamityMod.Projectiles.Melee
             noTileHitCounter -= randomToSubtract;
             if (noTileHitCounter == 0)
             {
-                projectile.tileCollide = true;
+                Projectile.tileCollide = true;
             }
-            if (projectile.soundDelay == 0)
+            if (Projectile.soundDelay == 0)
             {
-                projectile.soundDelay = 20 + Main.rand.Next(40);
+                Projectile.soundDelay = 20 + Main.rand.Next(40);
                 if (Main.rand.NextBool(5))
                 {
-                    Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 20);
+                    SoundEngine.PlaySound(SoundID.Item20, Projectile.position);
                 }
             }
-            projectile.localAI[0] += 1f;
-            if (projectile.localAI[0] == 30f)
+            Projectile.localAI[0] += 1f;
+            if (Projectile.localAI[0] == 30f)
             {
-                projectile.localAI[0] = 0f;
+                Projectile.localAI[0] = 0f;
                 for (int l = 0; l < 12; l++)
                 {
-                    Vector2 vector3 = Vector2.UnitX * (float)-(float)projectile.width / 2f;
+                    Vector2 vector3 = Vector2.UnitX * (float)-(float)Projectile.width / 2f;
                     vector3 += -Vector2.UnitY.RotatedBy((double)((float)l * 3.14159274f / 6f), default) * new Vector2(8f, 16f);
-                    vector3 = vector3.RotatedBy((double)(projectile.rotation - 1.57079637f), default);
-                    int num9 = Dust.NewDust(projectile.Center, 0, 0, 244, 0f, 0f, 160, default, 1f);
+                    vector3 = vector3.RotatedBy((double)(Projectile.rotation - 1.57079637f), default);
+                    int num9 = Dust.NewDust(Projectile.Center, 0, 0, 244, 0f, 0f, 160, default, 1f);
                     Main.dust[num9].scale = 1.1f;
                     Main.dust[num9].noGravity = true;
-                    Main.dust[num9].position = projectile.Center + vector3;
-                    Main.dust[num9].velocity = projectile.velocity * 0.1f;
-                    Main.dust[num9].velocity = Vector2.Normalize(projectile.Center - projectile.velocity * 3f - Main.dust[num9].position) * 1.25f;
+                    Main.dust[num9].position = Projectile.Center + vector3;
+                    Main.dust[num9].velocity = Projectile.velocity * 0.1f;
+                    Main.dust[num9].velocity = Vector2.Normalize(Projectile.Center - Projectile.velocity * 3f - Main.dust[num9].position) * 1.25f;
                 }
             }
-            projectile.alpha -= 15;
+            Projectile.alpha -= 15;
             int num58 = 150;
-            if (projectile.Center.Y >= projectile.ai[1])
+            if (Projectile.Center.Y >= Projectile.ai[1])
             {
                 num58 = 0;
             }
-            if (projectile.alpha < num58)
+            if (Projectile.alpha < num58)
             {
-                projectile.alpha = num58;
+                Projectile.alpha = num58;
             }
-            projectile.rotation = projectile.velocity.ToRotation() - 1.57079637f;
-            if (Main.rand.NextBool(36))
-            {
-                Vector2 value3 = Vector2.UnitX.RotatedByRandom(1.5707963705062866).RotatedBy((double)projectile.velocity.ToRotation(), default);
-                int num59 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 244, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f, 150, default, 1.2f);
-                Main.dust[num59].velocity = value3 * 0.66f;
-                Main.dust[num59].position = projectile.Center + value3 * 12f;
-            }
-            if (projectile.ai[1] == 1f)
-            {
-                projectile.light = 0.9f;
-                if (Main.rand.NextBool(30))
-                {
-                    Dust.NewDust(projectile.position, projectile.width, projectile.height, 244, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f, 150, default, 1.2f);
-                }
-                if (Main.rand.NextBool(60))
-                {
-                    Dust.NewDust(projectile.position, projectile.width, projectile.height, 244, projectile.velocity.X * 1.5f, projectile.velocity.Y * 1.5f, 150, default, 2f);
-                }
-            }
-            Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.75f / 255f, (255 - projectile.alpha) * 0.5f / 255f, (255 - projectile.alpha) * 0f / 255f);
+            Projectile.rotation = Projectile.velocity.ToRotation() - MathHelper.PiOver2;
         }
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 20);
-            for (int k = 0; k < 10; k++)
+            for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 244, 0f, 0f);
+                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 244, 0f, 0f);
             }
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(BuffID.Daybreak, 600);
+            target.AddBuff(ModContent.BuffType<Dragonfire>(), 180);
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-			if (projectile.timeLeft > 175)
-				return false;
+            if (Projectile.timeLeft > 175)
+                return false;
 
-			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;
         }
     }

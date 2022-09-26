@@ -1,5 +1,6 @@
+﻿using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
-using CalamityMod.Projectiles.Hybrid;
+using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -12,43 +13,47 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Mangrove Chakram");
+            Tooltip.SetDefault("Stealth strikes leave a trail of lingering flowers");
+            SacrificeTotal = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
-            item.width = 38;
-            item.damage = 84;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.autoReuse = true;
-            item.useAnimation = 14;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 14;
-            item.knockBack = 7.5f;
-            item.UseSound = SoundID.Item1;
-            item.height = 38;
-            item.value = Item.buyPrice(0, 60, 0, 0);
-            item.rare = 7;
-            item.shoot = ModContent.ProjectileType<MangroveChakramProjectile>();
-            item.shootSpeed = 16f;
-            item.Calamity().rogue = true;
+            Item.width = 38;
+            Item.damage = 84;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.autoReuse = true;
+            Item.useAnimation = 14;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 14;
+            Item.knockBack = 7.5f;
+            Item.UseSound = SoundID.Item1;
+            Item.height = 38;
+            Item.value = CalamityGlobalItem.Rarity8BuyPrice;
+            Item.rare = ItemRarityID.Lime;
+            Item.shoot = ModContent.ProjectileType<MangroveChakramProjectile>();
+            Item.shootSpeed = 16f;
+            Item.DamageType = RogueDamageClass.Instance;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
-            Main.projectile[proj].Calamity().forceRogue = true;
-			Main.projectile[proj].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
+            if (player.Calamity().StealthStrikeAvailable())
+                damage = (int)(damage * 1.25f);
+
+            int proj = Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
+            if (proj.WithinBounds(Main.maxProjectiles))
+                Main.projectile[proj].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
             return false;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<DraedonBar>(), 7);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient<PerennialBar>(7).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

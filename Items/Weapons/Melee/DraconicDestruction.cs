@@ -1,5 +1,6 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
+using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -15,38 +16,28 @@ namespace CalamityMod.Items.Weapons.Melee
             DisplayName.SetDefault("Draconic Destruction");
             Tooltip.SetDefault("Fires a draconic sword beam that explodes into additional beams\n" +
                 "Additional beams fly up and down to shred enemies");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.width = 94;
-            item.damage = 350;
-            item.melee = true;
-            item.useAnimation = 24;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 24;
-            item.useTurn = true;
-            item.knockBack = 7.25f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 94;
-            item.value = Item.buyPrice(5, 0, 0, 0);
-            item.rare = 10;
-            item.shoot = ModContent.ProjectileType<DracoBeam>();
-            item.shootSpeed = 14f;
-            item.Calamity().customRarity = CalamityRarity.ItemSpecific;
-        }
+            Item.width = 90;
+            Item.damage = 250;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = 24;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 24;
+            Item.useTurn = true;
+            Item.knockBack = 7.25f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.height = 90;
+            Item.shoot = ModContent.ProjectileType<DracoBeam>();
+            Item.shootSpeed = 14f;
 
-        public override void AddRecipes()
-        {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<CoreofCinder>(), 3);
-            recipe.AddIngredient(ModContent.ItemType<CoreofEleum>(), 3);
-            recipe.AddIngredient(ItemID.FragmentSolar, 10);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            Item.value = CalamityGlobalItem.Rarity16BuyPrice;
+            Item.rare = ModContent.RarityType<HotPink>();
+            Item.Calamity().devItem = true;
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)
@@ -60,6 +51,17 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(BuffID.Daybreak, 600);
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient<ShadowspecBar>(5).
+                AddIngredient<CoreofSunlight>(3).
+                AddIngredient<CoreofEleum>(3).
+                AddIngredient(ItemID.FragmentSolar, 10).
+                AddTile(ModContent.TileType<DraedonsForge>()).
+                Register();
         }
     }
 }

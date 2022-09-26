@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles.SunkenSea
 {
     public class TableCoral : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileFrameImportant[Type] = true;
             Main.tileNoAttach[Type] = true;
@@ -21,13 +21,13 @@ namespace CalamityMod.Tiles.SunkenSea
             TileObjectData.addAlternate(1);
             TileObjectData.newTile.AnchorRight = new AnchorData(AnchorType.SolidTile, 2, 0);
             TileObjectData.addTile(Type);
-            dustType = 253;
+            DustType = 253;
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Table Coral");
             AddMapEntry(new Color(0, 0, 80));
-            mineResist = 3f;
+            MineResist = 3f;
 
-            base.SetDefaults();
+            base.SetStaticDefaults();
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)

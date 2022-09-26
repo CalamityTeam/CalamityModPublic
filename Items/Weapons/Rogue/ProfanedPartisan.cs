@@ -1,9 +1,11 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Rogue;
+using CalamityMod.Rarities;
+using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
@@ -14,39 +16,42 @@ namespace CalamityMod.Items.Weapons.Rogue
             DisplayName.SetDefault("Profaned Partisan");
             Tooltip.SetDefault(@"Fires an unholy spear that explodes on death
 Stealth strikes spawn smaller spears to fly along side it");
+            SacrificeTotal = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
-            item.damage = 231;
-            item.knockBack = 8f;
-            item.crit += 15;
+            Item.damage = 322;
+            Item.knockBack = 8f;
 
-            item.width = 56;
-            item.height = 56;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.noMelee = true;
-            item.noUseGraphic = true;
+            Item.width = 56;
+            Item.height = 56;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
 
-            item.value = Item.buyPrice(1, 20, 0, 0);
-            item.useTime = 18;
-            item.useAnimation = 18;
-            item.UseSound = SoundID.Item1;
-            item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.Turquoise; //12
-            item.Calamity().rogue = true;
+            Item.useTime = 18;
+            Item.useAnimation = 18;
+            Item.UseSound = SoundID.Item1;
+            Item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            Item.rare = ModContent.RarityType<Turquoise>();
+            Item.DamageType = RogueDamageClass.Instance;
 
-            item.autoReuse = true;
-            item.shootSpeed = 6f;
-            item.shoot = ModContent.ProjectileType<ProfanedPartisanproj>();
+            Item.autoReuse = true;
+            Item.shootSpeed = 6f;
+            Item.shoot = ModContent.ProjectileType<ProfanedPartisanProj>();
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        // Terraria seems to really dislike high crit values in SetDefaults
+        public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 15;
+
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.Calamity().StealthStrikeAvailable()) //setting the stealth strike
             {
-                int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, 0f, 0f);
-                Main.projectile[stealth].Calamity().stealthStrike = true;
+                int stealth = Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
+                if (stealth.WithinBounds(Main.maxProjectiles))
+                    Main.projectile[stealth].Calamity().stealthStrike = true;
                 return false;
             }
             return true;
@@ -54,15 +59,12 @@ Stealth strikes spawn smaller spears to fly along side it");
 
         public override void AddRecipes()
         {
-
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<CrystalPiercer>(), 200);
-            recipe.AddIngredient(ModContent.ItemType<UeliaceBar>(), 6);
-            recipe.AddIngredient(ModContent.ItemType<DivineGeode>(), 4);
-            recipe.AddIngredient(ModContent.ItemType <UnholyEssence>(), 25);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient<CrystalPiercer>(500).
+                AddIngredient<UelibloomBar>(6).
+                AddIngredient<DivineGeode>(4).
+                AddIngredient<UnholyEssence>(25).
+                AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

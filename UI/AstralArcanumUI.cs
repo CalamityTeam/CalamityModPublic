@@ -1,13 +1,16 @@
-
-using CalamityMod.World;
+﻿using CalamityMod.Events;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
+using Terraria.GameContent;
+using ReLogic.Content;
 
 namespace CalamityMod.UI
 {
+    // TODO -- This can be made into a ModSystem with simple OnModLoad and Unload hooks.
     public static class AstralArcanumUI
     {
         enum CircleStyle
@@ -30,7 +33,7 @@ namespace CalamityMod.UI
 
         public static void Load(Mod mod)
         {
-            CircleTextures = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/AstralArcanumCircles");
+            CircleTextures = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/AstralArcanumCircles", AssetRequestMode.ImmediateLoad).Value;
             CircleNames = new string[]
             {
                 "Underworld",
@@ -66,12 +69,13 @@ namespace CalamityMod.UI
         public static void UpdateAndDraw(SpriteBatch sb)
         {
             //Don't do anything if not open
-            bool forceOpenAndTeleport = CalamityWorld.bossRushStage == 12 && !NPCs.CalamityGlobalNPC.AnyBossNPCS() && !Main.player[Main.myPlayer].ZoneUnderworldHeight;
+            bool forceOpenAndTeleport = BossRushEvent.BossRushStage < BossRushEvent.Bosses.Count - 1 && BossRushEvent.CurrentlyFoughtBoss == NPCID.WallofFlesh &&
+                !CalamityUtils.AnyBossNPCS() && !Main.player[Main.myPlayer].ZoneUnderworldHeight;
             if (forceOpenAndTeleport)
             {
                 Open = true;
             }
-            else if (CalamityWorld.bossRushActive)
+            else if (BossRushEvent.BossRushActive)
                 Open = false;
             if (!Open)
                 return;
@@ -134,7 +138,7 @@ namespace CalamityMod.UI
             {
                 LastHovered = selectedCircle;
                 if (LastHovered != -1)
-                    Main.PlaySound(SoundID.MenuTick, -1, -1, 1, 1f, 0f);
+                    SoundEngine.PlaySound(SoundID.MenuTick);
             }
 
             string text = "Select";
@@ -143,8 +147,8 @@ namespace CalamityMod.UI
                 text = CircleNames[selectedCircle];
             }
 
-            Vector2 size = Main.fontMouseText.MeasureString(text);
-            Utils.DrawBorderStringFourWay(sb, Main.fontMouseText, text, CenterPoint.X - size.X / 2f, CenterPoint.Y + CircleOffset + CircleTextureSize / 2 + 4, Color.White, Color.Black, default);
+            Vector2 size = FontAssets.MouseText.Value.MeasureString(text);
+            Utils.DrawBorderStringFourWay(sb, FontAssets.MouseText.Value, text, CenterPoint.X - size.X / 2f, CenterPoint.Y + CircleOffset + CircleTextureSize / 2 + 4, Color.White, Color.Black, default);
         }
 
         public static void DoTeleportation(int circle)
@@ -158,11 +162,11 @@ namespace CalamityMod.UI
                 if (Main.netMode == NetmodeID.SinglePlayer)
                 {
                     p.TeleportationPotion();
-                    Main.PlaySound(SoundID.Item, (int)p.position.X, (int)p.position.Y, 6, 1f, 0f);
+                    SoundEngine.PlaySound(SoundID.Item6, p.position);
                 }
                 else if (Main.netMode == NetmodeID.MultiplayerClient)
                 {
-                    NetMessage.SendData(MessageID.TeleportationPotion, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
+                    NetMessage.SendData(MessageID.RequestTeleportationByServer, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
                 }
             }
             else

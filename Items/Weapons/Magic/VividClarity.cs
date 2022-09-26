@@ -1,8 +1,10 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
+using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -14,44 +16,39 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             DisplayName.SetDefault("Vivid Clarity");
             Tooltip.SetDefault("Fires five randomized beams of elemental energy at the cursor\n" +
-							   "On enemy and tile hits, beams either explode into a big flash,\n" +
-							   "summon an additonal laser from the sky,\n" +
-							   "or split into energy orbs\n" +
-                               "High IQ increases the weapon's potential");
-            Item.staff[item.type] = true;
+                               "On enemy and tile hits, beams either explode into a big flash,\n" +
+                               "summon an additonal laser from the sky,\n" +
+                               "or split into energy orbs\n" +
+                               "Its majesty inspires a stroke of unparalleled genius");
+            Item.staff[Item.type] = true;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 515;
-            item.magic = true;
-            item.mana = 42;
-            item.width = 90;
-            item.height = 112;
-            item.useAnimation = 20;
-            item.useTime = 4;
-            item.reuseDelay = item.useAnimation;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 7.5f;
-            item.value = Item.buyPrice(2, 50, 0, 0);
-            item.rare = 10;
-            item.UseSound = SoundID.Item60;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<VividBeam>();
-            item.shootSpeed = 6f;
-            item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.damage = 155;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 42;
+            Item.width = 90;
+            Item.height = 112;
+            Item.useAnimation = 20;
+            Item.useTime = 4;
+            Item.reuseDelay = Item.useAnimation;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 7.5f;
+            Item.value = CalamityGlobalItem.Rarity15BuyPrice;
+            Item.UseSound = SoundID.Item60;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<VividBeam>();
+            Item.shootSpeed = 6f;
+            Item.rare = ModContent.RarityType<Violet>();
         }
 
-        public override Vector2? HoldoutOrigin()
-        {
-            return new Vector2(20, 20);
-        }
-
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo projSource, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             Vector2 playerPos = player.RotatedRelativePoint(player.MountedCenter, true);
-            float speed = item.shootSpeed;
+            float speed = Item.shootSpeed;
             float xPos = (float)Main.mouseX + Main.screenPosition.X - playerPos.X;
             float yPos = (float)Main.mouseY + Main.screenPosition.Y - playerPos.Y;
             float f = Main.rand.NextFloat() * MathHelper.TwoPi;
@@ -67,28 +64,36 @@ namespace CalamityMod.Items.Weapons.Magic
                 }
                 f = Main.rand.NextFloat() * MathHelper.TwoPi;
             }
-            Vector2 velocity = Main.MouseWorld - source;
+            Vector2 velocityReal = Main.MouseWorld - source;
             Vector2 velocityVariation = new Vector2(xPos, yPos).SafeNormalize(Vector2.UnitY) * speed;
-            velocity = velocity.SafeNormalize(velocityVariation) * speed;
-            velocity = Vector2.Lerp(velocity, velocityVariation, 0.25f);
-            Projectile.NewProjectile(source, velocity, type, damage, knockBack, player.whoAmI, 0f, Main.rand.Next(3));
+            velocityReal = velocityReal.SafeNormalize(velocityVariation) * speed;
+            velocityReal = Vector2.Lerp(velocityReal, velocityVariation, 0.25f);
+            Projectile.NewProjectile(projSource, source, velocityReal, type, damage, knockback, player.whoAmI, 0f, Main.rand.Next(3));
             return false;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<ElementalRay>());
-            recipe.AddIngredient(ModContent.ItemType<ArchAmaryllis>());
-            recipe.AddIngredient(ModContent.ItemType<AsteroidStaff>());
-            recipe.AddIngredient(ModContent.ItemType<UltraLiquidator>());
-            recipe.AddIngredient(ModContent.ItemType<PhantasmalFury>());
-            recipe.AddIngredient(ModContent.ItemType<ShadowboltStaff>());
-            recipe.AddIngredient(ModContent.ItemType<HeliumFlash>());
-			recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 4);
-			recipe.AddTile(ModContent.TileType<DraedonsForge>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient<ElementalRay>().
+                AddIngredient<ThornBlossom>().
+                AddIngredient<AsteroidStaff>().
+                AddIngredient<UltraLiquidator>().
+                AddIngredient<PhantasmalFury>().
+                AddIngredient<ShadowboltStaff>().
+                AddIngredient<MiracleMatter>().
+                AddTile<DraedonsForge>().
+                Register();
+            CreateRecipe().
+                AddIngredient<ElementalRay>().
+                AddIngredient<ThePrince>().
+                AddIngredient<AsteroidStaff>().
+                AddIngredient<UltraLiquidator>().
+                AddIngredient<PhantasmalFury>().
+                AddIngredient<ShadowboltStaff>().
+                AddIngredient<MiracleMatter>().
+                AddTile<DraedonsForge>().
+                Register();
         }
     }
 }

@@ -1,7 +1,8 @@
-using Terraria.ModLoader;
+﻿using Terraria.ModLoader;
 
 namespace CalamityMod.Localization
 {
+    // TODO -- this all has to be moved to enUS.hjson, along with every other string in Calamity
     public class CalamityLocalization
     {
         private static string[][] _localizations;
@@ -21,8 +22,6 @@ namespace CalamityMod.Localization
 
                 new [] { "SteelSkullBossText", "A blood red inferno lingers in the night..." },
 
-                new [] { "BrimmyBossText", "A protective spell has been lifted from the crags! You can now mine Charred Ore." },
-
                 new [] { "WetWormBossText", "The sulphuric sky darkens..." },
 
                 new [] { "PlantBossText", "The ocean depths are trembling." },
@@ -31,12 +30,11 @@ namespace CalamityMod.Localization
 
                 new [] { "MoonBossText", "The profaned flame blazes fiercely!" },
                 new [] { "MoonBossText2", "Cosmic terrors are watching..." },
-                new [] { "MoonBossText3", "The bloody moon beckons..." },
 
                 new [] { "PlagueBossText", "PLAGUE NUKE BARRAGE ARMED, PREPARING FOR LAUNCH!!!" },
                 new [] { "PlagueBossText2", "MISSILES LAUNCHED, TARGETING ROUTINE INITIATED!!!" },
 
-                new [] { "ProfanedBossText", "The air is burning..." },
+                new [] { "ProfanedBossText", "Holy flames burn away at your wings..." },
                 new [] { "ProfanedBossText2", "Shrieks are echoing from the dungeon." },
                 new [] { "ProfanedBossText3", "The calamitous beings have been inundated with bloodstone." },
                 new [] { "ProfanedBossText4", "The Profaned Goddess has recognised your devotion to purity!" },
@@ -46,47 +44,48 @@ namespace CalamityMod.Localization
                 new [] { "GhostBossText3", "Long-dead prisoners seek their zealous revenge..." },
                 new [] { "GhostBossText4", "The souls released stir the acidic storms..." },
 
-                new [] { "SupremeBossText3", "Alright, let's get started. Not sure why you're bothering." }, // start
-                new [] { "SupremeBossText4", "You seem so confident, even though you are painfully ignorant of what has yet to transpire." }, //75%
-                new [] { "SupremeBossText5", "Everything was going well until you came along." }, //75%
-                new [] { "SupremeBossText6", "Brothers, could you assist me for a moment? This ordeal is growing tiresome." }, //45%
-                new [] { "SupremeBossText", "Don't worry, I still have plenty of tricks left." }, //40%
-                new [] { "SupremeBossText7", "Hmm...perhaps I should let the little ones out to play for a while." },//30%
-                new [] { "SupremeBossText8", "Impressive...but still not good enough!" }, //20%
-                new [] { "SupremeBossText9", "I'm just getting started!" }, //10%
-                new [] { "SupremeBossText20", "How are you still alive!?" }, //8%
-                new [] { "SupremeBossText21", "Just stop!" }, //6%
-                new [] { "SupremeBossText22", "Even if you defeat me you would still have the lord to contend with!" }, //4%
-                new [] { "SupremeBossText23", "He has never lost a battle!" }, //2%
-                new [] { "SupremeBossText24", "Not even I could defeat him! What hope do you have!?" }, //1%
-                new [] { "SupremeBossText25", "He has grown far stronger since we last fought...you stand no chance." }, //1% after 10 seconds
-                new [] { "SupremeBossText26", "Well...I suppose this is the end..." }, //1% after 15 seconds
-                new [] { "SupremeBossText27", "Perhaps one of these times I'll change my mind..." }, //1% after first win
-                new [] { "SupremeBossText28", "You aren't hurting as much as I'd like...are you cheating?" }, //not taking enough damage
-                new [] { "SupremeBossText2", "Go to hell." }, //cheater
-                new [] { "SupremeBossText10", "At long last I am free...for a time. I'll keep coming back, just like you. Until we meet again, farewell." }, //end after 20 seconds
-                new [] { "SupremeBossText11", "Do you enjoy going through hell?" }, //rebattle after killing once
-                new [] { "SupremeBossText12", "Don't get me wrong, I like pain too, but you're just ridiculous." }, //rebattle after killing four times
-                new [] { "SupremeBossText13", "You must enjoy dying more than most people, huh?" }, //rebattle five deaths
-                new [] { "SupremeBossText14", "Do you have a fetish for getting killed or something?" }, //rebattle twenty deaths
-                new [] { "SupremeBossText15", "Alright, I'm done counting. You probably died this much just to see what I'd say." }, //rebattle fifty deaths
-                new [] { "SupremeBossText16", "You didn't die at all huh? Welp, you probably cheated. Do it again, for real this time...but here's your reward I guess." }, //die 0 times
-                new [] { "SupremeBossText17", "One death? That's it? ...I guess you earned this then." },  //die 1 time and win
-                new [] { "SupremeBossText18", "Two deaths, nice job. Here's your reward." }, //die 2 times and win
-                new [] { "SupremeBossText19", "Third time's the charm. Here's a special reward." }, //die 3 times and win
+                new [] { "SCalSummonText", "Do you enjoy going through hell?" },
+                new [] { "SCalStartText", "You should have just died..." },
+                new [] { "SCalBH2Text", "It wasn't too long ago you barely managed to defeat my doppelganger. Quite the failure, wasn't it?" },
+                new [] { "SCalBH3Text", "You've harnessed great power, but you wield it for no one but yourself." },
+                new [] { "SCalBrothersText", "Would you like to meet my family? Horrible, isn't it?" },
+                new [] { "SCalPhase2Text", "You will suffer greatly." },
+                new [] { "SCalBH4Text", "It's absurd to even think of trying to get away. As long as you live, you will suffer." },
+                new [] { "SCalSeekerRingText", "An upstart who recklessly stole and killed their way to power. I wonder, who does that remind me of...?" },
+                new [] { "SCalBH5Text", "You have no stake in this battle. No one gave you any say in this matter!" },
+                new [] { "SCalSepulcher2Text", "Once the dust has settled and only one remains, if it is you, what value will this have had?!" },
+                new [] { "SCalDesparationText1", "Just stop!" },
+                new [] { "SCalDesparationText2", "I have no future if I lose here." },
+                new [] { "SCalDesparationText3", "Once you have bested me, you will only have one path forward." },
+                new [] { "SCalDesparationText4", "And that path... also has no future." },
+                new [] { "SCalAcceptanceText1", "Even if he has thrown all else away, his power remains." },
+                new [] { "SCalAcceptanceText2", "I have no more energy left to resent him, or you..." },
+                new [] { "SCalAcceptanceText3", "It will all be in your hands now." },
 
-                new [] { "EdgyBossText", "Don't get cocky, kid!" },
-                new [] { "EdgyBossText2", "You think...you can butcher...ME!?" },
-                new [] { "EdgyBossText3", "A fatal mistake!" },
-                new [] { "EdgyBossText4", "Good luck recovering from that!" },
-                new [] { "EdgyBossText5", "Delicious..." },
-                new [] { "EdgyBossText6", "Did that hurt?" },
-                new [] { "EdgyBossText7", "Nothing personal, kid." },
-                new [] { "EdgyBossText8", "Are you honestly that bad at dodging?" },
-                new [] { "EdgyBossText9", "Of all my segments to get hit by..." },
-                new [] { "EdgyBossText10", "It's not over yet, kid!" },
-                new [] { "EdgyBossText11", "A GOD DOES NOT FEAR DEATH!" },
-                new [] { "EdgyBossText12", "You are no god...but I shall feast upon your essence regardless!" },
+                // Some of these keys are incorrect in terms of their contents, but they remain as their bases + an addon at the end to make it
+                // easier to define them.
+                new [] { "SCalSummonTextRematch", "If you’re looking for some fourth-degree burns, you’ve got the right person." },
+                new [] { "SCalStartTextRematch", "When the time comes, would you like to join my creation?" },
+                new [] { "SCalBH2TextRematch", "You’ll still have to work hard for this victory." },
+                new [] { "SCalBH3TextRematch", "I haven’t had such an interesting target dummy to test my magic on in a long time." },
+                new [] { "SCalBrothersTextRematch", "Empty shells of their former selves. I doubt even a scrap of their spirits remain." },
+                new [] { "SCalPhase2TextRematch", "Here we go again." },
+                new [] { "SCalBH4TextRematch", "I wonder if you’ve seen these in your nightmares since our first battle?" },
+                new [] { "SCalSeekerRingTextRematch", "Your skill hasn't faltered in the least." },
+                new [] { "SCalBH5TextRematch", "Isn't this exciting?" },
+                new [] { "SCalSepulcher2TextRematch", "Here comes the crawling tomb, one last time." },
+                new [] { "SCalDesparationText1Rematch", "A terrific display, I concede this match to you." },
+                new [] { "SCalDesparationText2Rematch", "No doubt you will face enemies stronger than I." },
+                new [] { "SCalDesparationText3Rematch", "I trust you will not make the same mistakes he did." },
+                new [] { "SCalDesparationText4Rematch", "I can’t imagine what your future holds now." },
+
+                new [] { "EdgyBossText", "Don't get cocky!" },
+                new [] { "EdgyBossText2", "A fatal mistake!" },
+                new [] { "EdgyBossText3", "Delicious..." },
+                new [] { "EdgyBossText4", "Did that hurt?" },
+                new [] { "EdgyBossText5", "It's not over yet!" },
+                new [] { "EdgyBossText6", "A GOD DOES NOT FEAR DEATH!" },
+                new [] { "EdgyBossText7", "You are no god... but I shall feast upon your essence regardless!" },
                 new [] { "DoGBossText", "The frigid moon shimmers brightly." },
                 new [] { "DoGBossText2", "The harvest moon glows eerily." },
 
@@ -107,6 +106,42 @@ namespace CalamityMod.Localization
 
                 new [] { "CryogenBossText", "Cryogen is derping out!" },
 
+                new [] { "DraedonIntroductionText1", "I have waited long for this moment." },
+                new [] { "DraedonIntroductionText2", "Your nature fascinates me, for I do not understand it." },
+                new [] { "DraedonIntroductionText3", "You will face my creations which have surpassed gods." },
+                new [] { "DraedonIntroductionText4", "And you will show me your disposition through battle." },
+                new [] { "DraedonIntroductionText5", "Now, choose." },
+                new [] { "DraedonExoPhase1Text1", "Designs improved with time and knowledge are the essence of my work." },
+                new [] { "DraedonExoPhase1Text2", "Through no other method can I approach perfection." },
+                new [] { "DraedonExoPhase2Text1", "Your performance falls neatly within the margins of error." },
+                new [] { "DraedonExoPhase2Text2", "That is quite satisfactory. We will proceed to the next phase of testing." },
+                new [] { "DraedonExoPhase3Text1", "Ever since I was alerted to your presence, I have processed your battles in order to make my machines stronger." },
+                new [] { "DraedonExoPhase3Text2", "Even now, I monitor your actions. Nothing should escape the bounds of my calculations." },
+                new [] { "DraedonExoPhase4Text1", "Curious. Very curious." },
+                new [] { "DraedonExoPhase4Text2", "You progress steadily against more difficult challenges." },
+                new [] { "DraedonExoPhase5Text1", "Your nature remains unknown to me. This will not do." },
+                new [] { "DraedonExoPhase5Text2", "...I sought perfection. Fate must favor irony, for that must have been my first mistake." },
+                new [] { "DraedonExoPhase6Text1", "Absurd." },
+                new [] { "DraedonExoPhase6Text2", "I will no longer let my calculations impede my observation of this battle." },
+                new [] { "DraedonExoPhase6Text3", "I shall show you the full fury of my final machine." },
+                new [] { "DraedonAresEnrageText", "How foolish. You cannot escape." },
+                new [] { "DraedonResummonText", "Make your choice." },
+                new [] { "DraedonEndText1", "An unknown factor-a catalyst is what you are." },
+                new [] { "DraedonEndText2", "Nearly as alien as I, to this land and its history." },
+                new [] { "DraedonEndText3", "...Excuse my introspection. I must gather my thoughts after that display." },
+                new [] { "DraedonEndText4", "This land has become stale and stiff with blood that has been spilled until now." },
+                new [] { "DraedonEndText5", "You have also spilled blood, but it may be enough to usher a new age... Of what, I do not know. But it is something I am eager to see." },
+                new [] { "DraedonEndText6", "Now. You wish to reach the Tyrant. I cannot assist you in that." },
+                new [] { "DraedonEndText7", "It is not a matter of spite, for I would wish nothing more than to observe such a conflict." },
+                new [] { "DraedonEndText8", "But you have managed before. You will find a way eventually." },
+                new [] { "DraedonEndText9", "I must acknowledge your triumph, but I will return now to my machinery." },
+                new [] { "DraedonEndKillAttemptText", "...Quite unnecessary." },
+
+                new [] { "HardmodeOreTier1Text", "Your world has been blessed with Cobalt and Palladium!" },
+                new [] { "HardmodeOreTier2Text", "Your world has been blessed with Mythril and Orichalcum!" },
+                new [] { "HardmodeOreTier3Text", "Your world has been blessed with Adamantite and Titanium!" },
+                new [] { "HardmodeOreTier4Text", "The hallow has been blessed with consecrated stone!" },
+
                 new [] { "BloodMoonText", "The Blood Moon is rising..." },
 
                 new [] { "DargonBossText", "The dark sun awaits." },
@@ -115,17 +150,15 @@ namespace CalamityMod.Localization
                 new [] { "RevengeText", "Revengeance is active." },
                 new [] { "RevengeText2", "Revengeance is not active." },
 
-                new [] { "DeathText", "Death is active, enjoy the fun." },
-                new [] { "DeathText2", "Death is not active, not fun enough for you?" },
+                new [] { "DeathText", "Death is active; enjoy the fun." },
+                new [] { "DeathText2", "Death is not active; not fun enough for you?" },
 
                 new [] { "ArmageddonText", "Bosses will now kill you instantly." },
                 new [] { "ArmageddonText2", "Bosses will no longer kill you instantly." },
+                new [] { "ArmageddonDodgeDisable", "All of your dodges are now disabled." },
+                new [] { "ArmageddonDodgeEnable", "All of your dodges are now re-enabled." },
 
-                new [] { "DefiledText", "Your soul is mine..." },
-                new [] { "DefiledText2", "Your soul is yours once more..." },
-
-                new [] { "IronHeartText", "Iron Heart is active, don't die." },
-                new [] { "IronHeartText2", "Iron Heart is not active, you can die again." },
+                new [] { "ChangingTheRules", "You cannot change the rules now!" },
 
                 new [] { "FlameText", "The air is getting warmer around you." },
 
@@ -138,19 +171,6 @@ namespace CalamityMod.Localization
                 new [] { "BossRushTierFourEndText2", "Go forth and conquer 'til the ritual's end!" },
                 new [] { "BossRushTierFiveEndText", "Hmm? You expected a reward beyond this mere pebble? Patience, the true reward will become apparent in time..." },
 
-                new [] { "BossSpawnText", "Something is approaching..." },
-
-                new [] { "MeleeLevelUp", "Melee weapon proficiency level up!" },
-                new [] { "MeleeLevelUpFinal", "Melee weapon proficiency maxed out!" },
-                new [] { "RangedLevelUp", "Ranged weapon proficiency level up!" },
-                new [] { "RangedLevelUpFinal", "Ranged weapon proficiency maxed out!" },
-                new [] { "MagicLevelUp", "Magic weapon proficiency level up!" },
-                new [] { "MagicLevelUpFinal", "Magic weapon proficiency maxed out!" },
-                new [] { "SummonLevelUp", "Summoner weapon proficiency level up!" },
-                new [] { "SummonLevelUpFinal", "Summoner weapon proficiency maxed out!" },
-                new [] { "RogueLevelUp", "Rogue weapon proficiency level up!" },
-                new [] { "RogueLevelUpFinal", "Rogue weapon proficiency maxed out!" },
-
                 new [] { "OpenSunkenSea", "The depths of the underground desert are rumbling..." },
                 new [] { "SandstormTrigger", "The desert wind is blowing furiously!" },
 
@@ -161,7 +181,32 @@ namespace CalamityMod.Localization
                 new [] { "AprilFools2", "A boomer awaits..." }, //possible alternative to GhostBossText4
 
                 new [] { "AcidRainStart", "A toxic downpour falls over the wasteland seas!" },
-                new [] { "AcidRainEnd", "The sulphuric skies begin to clear..." }
+                new [] { "AcidRainEnd", "The sulphuric skies begin to clear..." },
+
+                new [] { "DefenseDamage", "Defense Damage" },
+
+                new [] { "Tier1ArsenalRecipeCondition", "View an unencrypted schematic from the lab near the Sunken Sea" },
+                new [] { "Tier2ArsenalRecipeCondition", "Decrypt a schematic from the lab in the large planetoid in the sky" },
+                new [] { "Tier3ArsenalRecipeCondition", "Decrypt a schematic from the lab deep within the jungle" },
+                new [] { "Tier4ArsenalRecipeCondition", "Decrypt a schematic from the lab near the edges of the underworld" },
+                new [] { "Tier5ArsenalRecipeCondition", "Decrypt a schematic from the lab deep within the frozen caverns" },
+
+                new [] { "SunkenSeaSchematicRecipeCondition", "Place a schematic from the lab near the Sunken Sea in your inventory at least once" },
+                new [] { "PlanetoidSchematicRecipeCondition", "Place a schematic from the lab in the large planetoid in your inventory at least once" },
+                new [] { "JungleSchematicRecipeCondition", "Place a schematic from the lab deep within the jungle in your inventory at least once" },
+                new [] { "UnderworldSchematicRecipeCondition", "Place a schematic from the lab near the edges of the underworld in your inventory at least once" },
+                new [] { "IceSchematicRecipeCondition", "Place a schematic from the lab within the frozen caverns in your inventory at least once" },
+
+                new [] { "BloodOrangeText", "You have already consumed a Blood Orange. Eating any more would not be good for you." },
+                new [] { "MiracleFruitText", "You have already consumed a Miracle Fruit. Having another would make you sick." },
+                new [] { "ElderberryText", "You have already consumed an Elderberry. It is probably not wise to eat more than one." },
+                new [] { "DragonfruitText", "You have already consumed a Dragonfruit. Your stomach cannot take any more." },
+
+                new [] { "CometShardText", "You have already used a Comet Shard. Using more would make you nauseous." },
+                new [] { "EtherealCoreText", "You have already used an Ethereal Core. It's best to not use more than you are able to." },
+                new [] { "PhantomHeartText", "You have already used a Phantom Heart. It's probably good that you can't use another." },
+
+                new [] { "SlimeGodRun", "The Slime God flees to fight another day..." },
             };
         }
 
@@ -175,9 +220,9 @@ namespace CalamityMod.Localization
             Load();
             foreach (string[] localization in _localizations)
             {
-                ModTranslation text = ModContent.GetInstance<CalamityMod>().CreateTranslation(localization[0]);
+                ModTranslation text = LocalizationLoader.CreateTranslation($"Mods.{CalamityMod.Instance.Name}.{localization[0]}");
                 text.SetDefault(localization[1]);
-                ModContent.GetInstance<CalamityMod>().AddTranslation(text);
+                LocalizationLoader.AddTranslation(text);
             }
             Unload();
         }

@@ -2,66 +2,66 @@ using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Rogue
 {
-	public class DuststormCloud : ModProjectile
-	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Cloud");
-			Main.projFrames[projectile.type] = 4;
-		}
+    public class DuststormCloud : ModProjectile
+    {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Cloud");
+            Main.projFrames[Projectile.type] = 4;
+        }
 
-		public override void SetDefaults()
-		{
-			projectile.width = 38;
-			projectile.height = 14;
-			projectile.friendly = true;
-			projectile.alpha = 255;
-			projectile.penetrate = -1;
-			projectile.tileCollide = false;
-			projectile.ignoreWater = true;
-			projectile.timeLeft = 3600;
-			projectile.Calamity().rogue = true;
-			projectile.usesIDStaticNPCImmunity = true;
-			projectile.idStaticNPCHitCooldown = 5;
-		}
+        public override void SetDefaults()
+        {
+            Projectile.width = 38;
+            Projectile.height = 14;
+            Projectile.friendly = true;
+            Projectile.alpha = 255;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
+            Projectile.timeLeft = 3600;
+            Projectile.DamageType = RogueDamageClass.Instance;
+            Projectile.usesIDStaticNPCImmunity = true;
+            Projectile.idStaticNPCHitCooldown = 5;
+        }
 
-		public override void AI()
-		{
-			projectile.frameCounter++;
-			if (projectile.frameCounter > 6)
-			{
-				projectile.frame++;
-				projectile.frameCounter = 0;
-			}
-			if (projectile.frame >= Main.projFrames[projectile.type])
-			{
-				projectile.frame = 0;
-			}
-			projectile.velocity *= 0.995f;
-			projectile.ai[1] += 1f;
-			if (projectile.ai[1] >= 120f)
-			{
-				if (projectile.alpha < 255)
-				{
-					projectile.alpha += 5;
-					if (projectile.alpha > 255)
-					{
-						projectile.alpha = 255;
-					}
-				}
-				else if (projectile.owner == Main.myPlayer)
-				{
-					projectile.Kill();
-				}
-			}
-			else if (projectile.alpha > 80)
-			{
-				projectile.alpha -= 30;
-				if (projectile.alpha < 80)
-				{
-					projectile.alpha = 80;
-				}
-			}
-		}
-	}
+        public override void AI()
+        {
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter > 6)
+            {
+                Projectile.frame++;
+                Projectile.frameCounter = 0;
+            }
+            if (Projectile.frame >= Main.projFrames[Projectile.type])
+            {
+                Projectile.frame = 0;
+            }
+            Projectile.velocity *= 0.995f;
+            Projectile.ai[1] += 1f;
+            if (Projectile.ai[1] >= 120f)
+            {
+                if (Projectile.alpha < 255)
+                {
+                    Projectile.alpha += 5;
+                    if (Projectile.alpha > 255)
+                    {
+                        Projectile.alpha = 255;
+                    }
+                }
+                else if (Projectile.owner == Main.myPlayer)
+                {
+                    Projectile.Kill();
+                }
+            }
+            else if (Projectile.alpha > 80)
+            {
+                Projectile.alpha -= 30;
+                if (Projectile.alpha < 80)
+                {
+                    Projectile.alpha = 80;
+                }
+            }
+        }
+    }
 }

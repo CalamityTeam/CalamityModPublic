@@ -1,5 +1,6 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Items.Materials
 {
@@ -7,16 +8,16 @@ namespace CalamityMod.Items.Materials
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 25;
             DisplayName.SetDefault("Infected Armor Plating"); //haha recycled and recolored Corroded Metal Plating from T2 Acid Rain
         }
 
         public override void SetDefaults()
         {
-            item.width = 20;
-            item.height = 20;
-            item.maxStack = 999;
-            item.value = Item.buyPrice(0, 5, 0, 0);
-            item.rare = 8;
-        }
-    }
+            Item.width = 20;
+            Item.height = 20;
+            Item.maxStack = 999;
+            Item.value = Item.buyPrice(0, 5, 0, 0);
+            Item.rare = ItemRarityID.Yellow;
+        }    }
 }

@@ -1,11 +1,13 @@
-using CalamityMod.Buffs.StatDebuffs;
+﻿using CalamityMod.Events;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.NPCs.HiveMind
 {
     public class DankCreeper : ModNPC
@@ -13,84 +15,103 @@ namespace CalamityMod.NPCs.HiveMind
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Dank Creeper");
+            NPCID.Sets.BossBestiaryPriority.Add(Type);
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0);
+            value.Position.X += 1f;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 
         public override void SetDefaults()
         {
-            npc.damage = 25;
-            npc.width = 70;
-            npc.height = 70;
-            npc.defense = 6;
-            npc.lifeMax = 90;
-            if (CalamityWorld.bossRushActive)
-            {
-                npc.lifeMax = 20000;
-            }
-            npc.aiStyle = -1;
-            aiType = -1;
-            npc.knockBackResist = CalamityWorld.bossRushActive ? 0f : 0.3f;
-            npc.noGravity = true;
-            npc.noTileCollide = true;
-            npc.canGhostHeal = false;
-            npc.HitSound = SoundID.NPCHit1;
-            npc.DeathSound = SoundID.NPCDeath1;
+            NPC.Calamity().canBreakPlayerDefense = true;
+            NPC.GetNPCDamage();
+            NPC.width = 70;
+            NPC.height = 70;
+            NPC.defense = 6;
+
+            NPC.lifeMax = 90;
+            if (BossRushEvent.BossRushActive)
+                NPC.lifeMax = 2000;
+            if (Main.getGoodWorld)
+                NPC.lifeMax *= 4;
+
+            NPC.aiStyle = -1;
+            AIType = -1;
+            NPC.knockBackResist = BossRushEvent.BossRushActive ? 0f : 0.3f;
+            NPC.noGravity = true;
+            NPC.noTileCollide = true;
+            NPC.canGhostHeal = false;
+            NPC.HitSound = SoundID.NPCHit1;
+            NPC.DeathSound = SoundID.NPCDeath1;
+            NPC.Calamity().VulnerableToHeat = true;
+            NPC.Calamity().VulnerableToCold = true;
+            NPC.Calamity().VulnerableToSickness = true;
+        }
+
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            int associatedNPCType = ModContent.NPCType<HiveMind>();
+            bestiaryEntry.UIInfoProvider = new CommonEnemyUICollectionInfoProvider(ContentSamples.NpcBestiaryCreditIdsByNpcNetIds[associatedNPCType], quickUnlock: true);
+
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCorruption,
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.UndergroundCorruption,
+
+				// Will move to localization whenever that is cleaned up.
+				new FlavorTextBestiaryInfoElement("Though their core is the same as a hive blob, their armored shell of shadow scale prevents them from dying quite as easily. They also carry a noxious gas within them.")
+            });
         }
 
         public override void AI()
         {
-            npc.TargetClosest(true);
+            NPC.TargetClosest();
             bool revenge = CalamityWorld.revenge;
             float speed = revenge ? 12f : 11f;
-            if (CalamityWorld.bossRushActive)
+            if (BossRushEvent.BossRushActive)
                 speed = 18f;
 
-			if (npc.ai[1] < 90f)
-				npc.ai[1] += 1f;
-			speed = MathHelper.Lerp(3f, speed, npc.ai[1] / 90f);
+            if (NPC.ai[1] < 90f)
+                NPC.ai[1] += 1f;
 
-            Vector2 vector167 = new Vector2(npc.Center.X + (npc.direction * 20), npc.Center.Y + 6f);
-            float num1373 = Main.player[npc.target].position.X + Main.player[npc.target].width * 0.5f - vector167.X;
-            float num1374 = Main.player[npc.target].Center.Y - vector167.Y;
+            speed = MathHelper.Lerp(3f, speed, NPC.ai[1] / 90f);
+
+            NPC.rotation = NPC.velocity.X * 0.05f;
+
+            Vector2 vector167 = new Vector2(NPC.Center.X + (NPC.direction * 20), NPC.Center.Y + 6f);
+            float num1373 = Main.player[NPC.target].position.X + Main.player[NPC.target].width * 0.5f - vector167.X;
+            float num1374 = Main.player[NPC.target].Center.Y - vector167.Y;
             float num1375 = (float)Math.Sqrt(num1373 * num1373 + num1374 * num1374);
             float num1376 = speed / num1375;
             num1373 *= num1376;
             num1374 *= num1376;
-            npc.ai[0] -= 1f;
-            if (num1375 < 200f || npc.ai[0] > 0f)
+            NPC.ai[0] -= 1f;
+            if (num1375 < 200f || NPC.ai[0] > 0f)
             {
                 if (num1375 < 200f)
                 {
-                    npc.ai[0] = 20f;
+                    NPC.ai[0] = 20f;
                 }
-                if (npc.velocity.X < 0f)
+                if (NPC.velocity.X < 0f)
                 {
-                    npc.direction = -1;
+                    NPC.direction = -1;
                 }
                 else
                 {
-                    npc.direction = 1;
+                    NPC.direction = 1;
                 }
                 return;
             }
-            npc.velocity.X = (npc.velocity.X * 50f + num1373) / 51f;
-            npc.velocity.Y = (npc.velocity.Y * 50f + num1374) / 51f;
+            NPC.velocity.X = (NPC.velocity.X * 50f + num1373) / 51f;
+            NPC.velocity.Y = (NPC.velocity.Y * 50f + num1374) / 51f;
             if (num1375 < 350f)
             {
-                npc.velocity.X = (npc.velocity.X * 10f + num1373) / 11f;
-                npc.velocity.Y = (npc.velocity.Y * 10f + num1374) / 11f;
+                NPC.velocity.X = (NPC.velocity.X * 10f + num1373) / 11f;
+                NPC.velocity.Y = (NPC.velocity.Y * 10f + num1374) / 11f;
             }
             if (num1375 < 300f)
             {
-                npc.velocity.X = (npc.velocity.X * 7f + num1373) / 8f;
-                npc.velocity.Y = (npc.velocity.Y * 7f + num1374) / 8f;
-            }
-        }
-
-        public override void OnHitPlayer(Player player, int damage, bool crit)
-        {
-            if (CalamityWorld.revenge)
-            {
-                player.AddBuff(ModContent.BuffType<MarkedforDeath>(), 120);
+                NPC.velocity.X = (NPC.velocity.X * 7f + num1373) / 8f;
+                NPC.velocity.Y = (NPC.velocity.Y * 7f + num1374) / 8f;
             }
         }
 
@@ -98,25 +119,34 @@ namespace CalamityMod.NPCs.HiveMind
         {
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, 13, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(NPC.position, NPC.width, NPC.height, 13, hitDirection, -1f, 0, default, 1f);
             }
-            if (npc.life <= 0)
+            if (NPC.life <= 0)
             {
                 for (int k = 0; k < 20; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 13, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(NPC.position, NPC.width, NPC.height, 13, hitDirection, -1f, 0, default, 1f);
                 }
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/HiveMindGores/DankCreeperGore"), 1f);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/HiveMindGores/DankCreeperGore2"), 1f);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/HiveMindGores/DankCreeperGore3"), 1f);
+                if (Main.netMode != NetmodeID.Server)
+                {
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("DankCreeperGore").Type, 1f);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("DankCreeperGore2").Type, 1f);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("DankCreeperGore3").Type, 1f);
+                }
             }
         }
 
-        public override void NPCLoot()
+        public override void OnKill()
         {
-            if (Main.expertMode && Main.netMode != NetmodeID.MultiplayerClient)
+            int closestPlayer = Player.FindClosest(NPC.Center, 1, 1);
+            if (Main.rand.NextBool(4) && Main.player[closestPlayer].statLife < Main.player[closestPlayer].statLifeMax2)
+                Item.NewItem(NPC.GetSource_Loot(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
+
+            if ((Main.expertMode || BossRushEvent.BossRushActive) && Main.netMode != NetmodeID.MultiplayerClient)
             {
-                Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0f, 0f, ModContent.ProjectileType<ShadeNimbusHostile>(), 14, 0f, Main.myPlayer, 0f, 0f);
+                int type = ModContent.ProjectileType<ShadeNimbusHostile>();
+                int damage = NPC.GetProjectileDamage(type);
+                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, type, damage, 0f, Main.myPlayer);
             }
         }
     }

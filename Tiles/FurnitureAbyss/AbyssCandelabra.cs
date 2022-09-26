@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -7,14 +8,14 @@ namespace CalamityMod.Tiles.FurnitureAbyss
 {
     public class AbyssCandelabra : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
-            this.SetUpCandelabra();
+            this.SetUpCandelabra(true);
             ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Abyss Candelabra");
-            AddMapEntry(new Color(191, 142, 111), name);
-            disableSmartCursor = true;
-            adjTiles = new int[] { TileID.Torches };
+            name.SetDefault("Candelabra");
+            AddMapEntry(new Color(253, 221, 3), name);
+            TileID.Sets.DisableSmartCursor[Type] = true;
+            AdjTiles = new int[] { TileID.Candelabras };
         }
 
         public override bool CreateDust(int i, int j, ref int type)
@@ -30,7 +31,7 @@ namespace CalamityMod.Tiles.FurnitureAbyss
 
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
-            if (Main.tile[i, j].frameX < 18)
+            if (Main.tile[i, j].TileFrameX < 18)
             {
                 r = 0.8f;
                 g = 0.9f;
@@ -46,7 +47,7 @@ namespace CalamityMod.Tiles.FurnitureAbyss
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 16, 16, ModContent.ItemType<Items.Placeables.FurnitureAbyss.AbyssCandelabra>());
+            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 16, ModContent.ItemType<Items.Placeables.FurnitureAbyss.AbyssCandelabra>());
         }
 
         public override void HitWire(int i, int j)

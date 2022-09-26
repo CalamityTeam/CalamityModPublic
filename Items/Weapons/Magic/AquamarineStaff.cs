@@ -1,9 +1,11 @@
-using CalamityMod.Items.Placeables;
+﻿using CalamityMod.Items.Placeables;
+using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
+using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
@@ -13,42 +15,37 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             DisplayName.SetDefault("Aquamarine Staff");
             Tooltip.SetDefault("Shoots two blue bolts");
-            Item.staff[item.type] = true;
+            Item.staff[Item.type] = true;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 10;
-            item.magic = true;
-            item.mana = 3;
-            item.width = 38;
-            item.height = 38;
-            item.useTime = 15;
-            item.useAnimation = 15;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 2.5f;
-            item.value = Item.buyPrice(0, 2, 0, 0);
-            item.rare = 2;
-            item.UseSound = SoundID.Item43;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<AquamarineBolt>();
-            item.shootSpeed = 9f;
+            Item.damage = 17;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 3;
+            Item.width = 38;
+            Item.height = 38;
+            Item.useTime = 22;
+            Item.useAnimation = 22;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 2.5f;
+            Item.value = CalamityGlobalItem.Rarity2BuyPrice;
+            Item.rare = ItemRarityID.Green;
+            Item.UseSound = SoundID.Item43;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<AquamarineBolt>();
+            Item.shootSpeed = 14f;
         }
 
-        public override Vector2? HoldoutOrigin()
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            return new Vector2(10, 10);
-        }
-
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-        {
-            int num6 = Main.rand.Next(2, 3);
-            for (int index = 0; index < num6; ++index)
+            for (int index = 0; index < 2; ++index)
             {
-                float SpeedX = speedX + (float)Main.rand.Next(-30, 31) * 0.05f;
-                float SpeedY = speedY + (float)Main.rand.Next(-30, 31) * 0.05f;
-                int projectile = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+                float SpeedX = velocity.X + (float)Main.rand.Next(-30, 31) * 0.05f;
+                float SpeedY = velocity.Y + (float)Main.rand.Next(-30, 31) * 0.05f;
+                int projectile = Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, type, damage, knockback, player.whoAmI, 0.0f, 0.0f);
                 Main.projectile[projectile].timeLeft = 180;
             }
             return false;
@@ -56,20 +53,20 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.RubyStaff);
-            recipe.AddIngredient(ModContent.ItemType<SeaPrism>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<Navystone>(), 25);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.DiamondStaff);
-            recipe.AddIngredient(ModContent.ItemType<SeaPrism>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<Navystone>(), 25);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient(ItemID.AmethystStaff).
+                AddIngredient<PearlShard>(3).
+                AddIngredient<SeaPrism>(5).
+                AddIngredient<Navystone>(25).
+                AddTile(TileID.Anvils).
+                Register();
+            CreateRecipe().
+                AddIngredient(ItemID.TopazStaff).
+                AddIngredient<PearlShard>(3).
+                AddIngredient<SeaPrism>(5).
+                AddIngredient<Navystone>(25).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

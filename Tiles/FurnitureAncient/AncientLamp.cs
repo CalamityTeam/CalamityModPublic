@@ -1,22 +1,22 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureAncient
 {
     public class AncientLamp : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpLamp(true);
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Ancient Lamp");
-            AddMapEntry(new Color(191, 142, 111), name);
-            animationFrameHeight = 54;
-            disableSmartCursor = true;
-            adjTiles = new int[] { TileID.Torches };
+            AddMapEntry(new Color(253, 221, 3), Language.GetText("MapObject.FloorLamp"));
+            AnimationFrameHeight = 54;
+            TileID.Sets.DisableSmartCursor[Type] = true;
+            AdjTiles = new int[] { TileID.Lamps };
         }
 
         public override bool CreateDust(int i, int j, ref int type)
@@ -40,7 +40,7 @@ namespace CalamityMod.Tiles.FurnitureAncient
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 16, 32, ModContent.ItemType<Items.Placeables.FurnitureAncient.AncientLamp>());
+            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 32, ModContent.ItemType<Items.Placeables.FurnitureAncient.AncientLamp>());
         }
 
         public override void HitWire(int i, int j)
@@ -50,13 +50,13 @@ namespace CalamityMod.Tiles.FurnitureAncient
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            CalamityUtils.DrawFlameEffect(ModContent.GetTexture("CalamityMod/Tiles/FurnitureAncient/AncientLampFlame"), i, j);
+            CalamityUtils.DrawFlameEffect(ModContent.Request<Texture2D>("CalamityMod/Tiles/FurnitureAncient/AncientLampFlame").Value, i, j);
         }
 
-        public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
+        public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref TileDrawInfo drawData)
         {
             Tile tile = Main.tile[i, j];
-            if (tile.frameY == 18)
+            if (tile.TileFrameY == 18 && tile.TileFrameX < 18)
             {
                 CalamityUtils.DrawFlameSparks(60, 5, i, j);
             }

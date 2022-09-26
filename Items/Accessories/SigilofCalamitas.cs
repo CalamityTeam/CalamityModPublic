@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -10,47 +10,42 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Sigil of Calamitas");
-            Tooltip.SetDefault("10% increased magic damage and 10% decreased mana usage\n" +
-                "Increases pickup range for mana stars and you restore mana when damaged\n" +
-                "+100 max mana and reveals treasure locations if visibility is on");
-            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(6, 8));
+            Tooltip.SetDefault("15% increased magic damage and 10% decreased mana usage\n" +
+                "+100 max mana\n" +
+                "Increases pickup range for mana stars");
+            Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 8));
+            ItemID.Sets.AnimatesAsSoul[Type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.width = 28;
-            item.height = 32;
-            item.value = CalamityGlobalItem.Rarity8BuyPrice;
-            item.rare = 8;
-            item.accessory = true;
+            Item.width = 28;
+            Item.height = 32;
+            Item.value = CalamityGlobalItem.Rarity8BuyPrice;
+            Item.rare = ItemRarityID.Yellow;
+            Item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.magicCuffs = true;
             player.manaMagnet = true;
-            if (!hideVisual)
-                player.findTreasure = true;
             player.statManaMax2 += 100;
-            player.magicDamage += 0.1f;
+            player.GetDamage<MagicDamageClass>() += 0.15f;
             player.manaCost *= 0.9f;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.SorcererEmblem);
-            recipe.AddIngredient(ItemID.CelestialCuffs);
-            recipe.AddIngredient(ItemID.CrystalShard, 20);
-            recipe.AddIngredient(ModContent.ItemType<CalamityDust>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<CoreofChaos>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<CruptixBar>(), 2);
-            recipe.AddIngredient(ModContent.ItemType<ChaosAmulet>());
-            recipe.AddRecipeGroup("AnyEvilWater", 10);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient(ItemID.CelestialEmblem).
+                AddRecipeGroup("AnyEvilWater", 10).
+                AddIngredient<AshesofCalamity>(10).
+                AddIngredient<CoreofChaos>(5).
+                AddIngredient<ScoriaBar>(2).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

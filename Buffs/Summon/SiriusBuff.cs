@@ -7,12 +7,13 @@ namespace CalamityMod.Buffs.Summon
 {
     public class SiriusBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Sirius");
             Description.SetDefault("A bit too bright, but it helps you");
             Main.buffNoTimeDisplay[Type] = true;
             Main.buffNoSave[Type] = true;
+            //Main.persistentBuff[Type] = true;
         }
 
         public override void Update(Player player, ref int buffIndex)

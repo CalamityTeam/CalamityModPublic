@@ -8,7 +8,7 @@ namespace CalamityMod.Tiles.SunkenSea
 {
     public class FanCoral : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileFrameImportant[Type] = true;
             Main.tileNoAttach[Type] = true;
@@ -16,13 +16,13 @@ namespace CalamityMod.Tiles.SunkenSea
             TileObjectData.newTile.CopyFrom(TileObjectData.Style3x3);
             TileObjectData.newTile.Direction = TileObjectDirection.None;
             TileObjectData.addTile(Type);
-            dustType = 253;
+            DustType = 253;
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Fan Coral");
             AddMapEntry(new Color(0, 0, 80));
-            mineResist = 3f;
+            MineResist = 3f;
 
-            base.SetDefaults();
+            base.SetStaticDefaults();
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)

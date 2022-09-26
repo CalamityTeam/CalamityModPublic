@@ -1,13 +1,16 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Ranged
 {
     public class FlakKrakenGun : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Ranged/FlakKraken";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Flak Kraken");
@@ -15,49 +18,51 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetDefaults()
         {
-            projectile.width = 152;
-            projectile.height = 58;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.ranged = true;
-            projectile.ignoreWater = true;
+            Projectile.width = 152;
+            Projectile.height = 58;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.ignoreWater = true;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 8;
         }
 
         public override void AI()
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             float num = 0f;
             Vector2 vector = player.RotatedRelativePoint(player.MountedCenter, true);
-            if (projectile.spriteDirection == -1)
+            if (Projectile.spriteDirection == -1)
             {
                 num = 3.14159274f;
             }
             float num26 = 30f;
-            if (projectile.ai[0] > 90f)
+            if (Projectile.ai[0] > 90f)
             {
                 num26 = 15f;
             }
-            if (projectile.ai[0] > 120f)
+            if (Projectile.ai[0] > 120f)
             {
                 num26 = 5f;
             }
-            projectile.damage = (int)(player.ActiveItem().damage * player.RangedDamage());
-            projectile.ai[0] += 1f;
-            projectile.ai[1] += 1f;
+            Projectile.damage = (int)player.GetTotalDamage<RangedDamageClass>().ApplyTo(player.ActiveItem().damage);
+            Projectile.ai[0] += 1f;
+            Projectile.ai[1] += 1f;
             int num27 = 10;
             bool flag10 = false;
-            if (projectile.ai[0] % num26 == 0f)
+            if (Projectile.ai[0] % num26 == 0f)
             {
                 flag10 = true;
             }
-            if (projectile.ai[1] >= 1f)
+            if (Projectile.ai[1] >= 1f)
             {
-                projectile.ai[1] = 0f;
+                Projectile.ai[1] = 0f;
                 flag10 = true;
-                if (Main.myPlayer == projectile.owner)
+                if (Main.myPlayer == Projectile.owner)
                 {
-                    float scaleFactor5 = player.ActiveItem().shootSpeed * projectile.scale;
+                    float scaleFactor5 = player.ActiveItem().shootSpeed * Projectile.scale;
                     Vector2 value12 = vector;
                     Vector2 value13 = Main.screenPosition + new Vector2((float)Main.mouseX, (float)Main.mouseY) - value12;
                     if (player.gravDir == -1f)
@@ -69,30 +74,30 @@ namespace CalamityMod.Projectiles.Ranged
                     {
                         vector11 = -Vector2.UnitY;
                     }
-                    vector11 = Vector2.Normalize(Vector2.Lerp(vector11, Vector2.Normalize(projectile.velocity), 0.92f)); //0.92
+                    vector11 = Vector2.Normalize(Vector2.Lerp(vector11, Vector2.Normalize(Projectile.velocity), 0.92f)); //0.92
                     vector11 *= scaleFactor5;
-                    if (vector11.X != projectile.velocity.X || vector11.Y != projectile.velocity.Y)
+                    if (vector11.X != Projectile.velocity.X || vector11.Y != Projectile.velocity.Y)
                     {
-                        projectile.netUpdate = true;
+                        Projectile.netUpdate = true;
                     }
-                    projectile.velocity = vector11;
+                    Projectile.velocity = vector11;
                 }
             }
-            if (projectile.soundDelay <= 0)
+            if (Projectile.soundDelay <= 0)
             {
-                projectile.soundDelay = num27;
-                projectile.soundDelay *= 2;
-                if (projectile.ai[0] != 1f && projectile.ai[0] <= 500f)
+                Projectile.soundDelay = num27;
+                Projectile.soundDelay *= 2;
+                if (Projectile.ai[0] != 1f && Projectile.ai[0] <= 500f)
                 {
-                    Main.PlaySound(SoundID.Item15, projectile.position);
+                    SoundEngine.PlaySound(SoundID.Item15, Projectile.position);
                 }
             }
-            if (flag10 && Main.myPlayer == projectile.owner)
+            if (flag10 && Main.myPlayer == Projectile.owner)
             {
                 bool flag12 = player.channel && !player.noItems && !player.CCed;
                 if (flag12)
                 {
-                    if (projectile.ai[0] == 1f)
+                    if (Projectile.ai[0] == 1f)
                     {
                         Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
                         float num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
@@ -107,25 +112,27 @@ namespace CalamityMod.Projectiles.Ranged
                             num79 = 0f;
                         }
                         vector2 += new Vector2(num78, num79);
-                        int num29 = projectile.damage;
-                        Projectile.NewProjectile(vector2.X, vector2.Y, 0f, 0f, ModContent.ProjectileType<FlakKrakenProj>(), num29, projectile.knockBack, projectile.owner, 0f, (float)projectile.whoAmI);
-                        projectile.netUpdate = true;
+                        int num29 = Projectile.damage;
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), vector2.X, vector2.Y, 0f, 0f, ModContent.ProjectileType<FlakKrakenProj>(), num29, Projectile.knockBack, Projectile.owner, 0f, (float)Projectile.whoAmI);
+                        Projectile.netUpdate = true;
                     }
                 }
                 else
                 {
-                    projectile.Kill();
+                    Projectile.Kill();
                 }
             }
-            projectile.position = player.RotatedRelativePoint(player.MountedCenter, true) - projectile.Size / 2f;
-            projectile.rotation = projectile.velocity.ToRotation() + num;
-            projectile.spriteDirection = projectile.direction;
-            projectile.timeLeft = 2;
-            player.ChangeDir(projectile.direction);
-            player.heldProj = projectile.whoAmI;
+            Projectile.position = player.RotatedRelativePoint(player.MountedCenter, true) - Projectile.Size / 2f;
+            Projectile.rotation = Projectile.velocity.ToRotation() + num;
+            Projectile.spriteDirection = Projectile.direction;
+            Projectile.timeLeft = 2;
+            player.ChangeDir(Projectile.direction);
+            player.heldProj = Projectile.whoAmI;
             player.itemTime = 2;
             player.itemAnimation = 2;
-            player.itemRotation = (float)Math.Atan2((double)(projectile.velocity.Y * (float)projectile.direction), (double)(projectile.velocity.X * (float)projectile.direction));
+            player.itemRotation = (float)Math.Atan2((double)(Projectile.velocity.Y * (float)Projectile.direction), (double)(Projectile.velocity.X * (float)Projectile.direction));
         }
+
+        public override bool? CanDamage() => false;
     }
 }

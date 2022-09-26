@@ -12,7 +12,9 @@ namespace CalamityMod.Dusts
         Phantoplasm = 60,
         Plague = 46,
         ProfanedFire = 244,
-		Nightwither = 185,
-        PurpleCosmolite = 173
+        Nightwither = 185,
+        PurpleCosmilite = 173,
+        // This is what God Slayer Slugs use, at least. I'm not sure about other Cosmilite stuff, didn't bother to check.
+        BlueCosmilite = 180,
     }
 }

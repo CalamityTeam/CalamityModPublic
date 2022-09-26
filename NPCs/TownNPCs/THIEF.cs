@@ -1,4 +1,4 @@
-using CalamityMod.Items.Accessories;
+﻿using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Pets;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Projectiles.Rogue;
@@ -7,71 +7,101 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using Terraria;
-using Terraria.ID;
+using Terraria.GameContent.Bestiary;
 using Terraria.GameContent.Events;
+using Terraria.GameContent.Personalities;
+using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
+using Terraria.Audio;
+using CalamityMod.Items;
+
 namespace CalamityMod.NPCs.TownNPCs
 {
     [AutoloadHead]
     public class THIEF : ModNPC
     {
-        string npcName;
-
         public static List<string> PossibleNames = new List<string>()
         {
+            // Patron names
+            "Xplizzy", // <@!98826096237109248> Whitegiraffe#6342
+            "Freakish", // <@!750363283520749598> Freakish#0001
+            "Calder", // <@!601897959176798228> Paltham#8859
+
+            // Original names
             "Laura", "Mie", "Bonnie",
             "Sarah", "Diane", "Kate",
             "Penelope", "Marisa", "Maribel",
             "Valerie", "Jessica", "Rowan",
             "Jessie", "Jade", "Hearn",
-            "Amber", "Anne", "Indiana", "Xplizzy"
+            "Amber", "Anne", "Indiana"
         };
 
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Bandit");
 
-            Main.npcFrameCount[npc.type] = 23;
-            NPCID.Sets.ExtraFramesCount[npc.type] = 9;
-            NPCID.Sets.AttackFrameCount[npc.type] = 4;
-            NPCID.Sets.DangerDetectRange[npc.type] = 500;
-            NPCID.Sets.AttackType[npc.type] = 0;
-            NPCID.Sets.AttackTime[npc.type] = 60;
-            NPCID.Sets.AttackAverageChance[npc.type] = 10;
+            Main.npcFrameCount[NPC.type] = 23;
+            NPCID.Sets.ExtraFramesCount[NPC.type] = 9;
+            NPCID.Sets.AttackFrameCount[NPC.type] = 4;
+            NPCID.Sets.DangerDetectRange[NPC.type] = 500;
+            NPCID.Sets.AttackType[NPC.type] = 0;
+            NPCID.Sets.AttackTime[NPC.type] = 60;
+            NPCID.Sets.AttackAverageChance[NPC.type] = 10;
+            NPC.Happiness
+                .SetBiomeAffection<DesertBiome>(AffectionLevel.Like)
+                .SetBiomeAffection<JungleBiome>(AffectionLevel.Dislike)
+                .SetNPCAffection(NPCID.GoblinTinkerer, AffectionLevel.Like)
+                .SetNPCAffection(NPCID.Dryad, AffectionLevel.Dislike)
+            ;
+			NPCID.Sets.NPCBestiaryDrawModifiers drawModifiers = new NPCID.Sets.NPCBestiaryDrawModifiers(0) {
+				Velocity = 1f // Draws the NPC in the bestiary as if its walking +1 tiles in the x direction
+			};
+			NPCID.Sets.NPCBestiaryDrawOffset.Add(NPC.type, drawModifiers);
         }
 
         public override void SetDefaults()
         {
-            npc.townNPC = true;
-            npc.friendly = true;
-            npc.lavaImmune = false;
-            npc.width = 18;
-            npc.height = 44;
-            npc.aiStyle = 7;
-            npc.damage = 10;
-            npc.defense = 15;
-            npc.lifeMax = 250; //Im not special :(
-            npc.HitSound = SoundID.NPCHit1;
-            npc.DeathSound = SoundID.NPCDeath1;
-            npc.knockBackResist = 0.5f;
-            animationType = NPCID.PartyGirl;
+            NPC.townNPC = true;
+            NPC.friendly = true;
+            NPC.lavaImmune = false;
+            NPC.width = 18;
+            NPC.height = 44;
+            NPC.aiStyle = 7;
+            NPC.damage = 10;
+            NPC.defense = 15;
+            NPC.lifeMax = 250; //Im not special :(
+            NPC.HitSound = SoundID.NPCHit1;
+            NPC.DeathSound = SoundID.NPCDeath1;
+            NPC.knockBackResist = 0.5f;
+            AnimationType = NPCID.PartyGirl;
         }
 
-		public override void AI()
-		{
-			if (!CalamityWorld.spawnedBandit)
-			{
-				CalamityWorld.spawnedBandit = true;
-			}
-		}
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Desert,                   
+
+                // Will move to localization whenever that is cleaned up.
+                new FlavorTextBestiaryInfoElement("A kleptomaniac who is a bit of a coward when it comes to face-to-face fights. She’s rather good at getting herself both into and out of dicey situations.")
+            });
+        }
+
+        public override void AI()
+        {
+            if (!CalamityWorld.spawnedBandit)
+            {
+                CalamityWorld.spawnedBandit = true;
+            }
+        }
 
         public override bool CanTownNPCSpawn(int numTownNPCs, int money)
         {
             for (int k = 0; k < Main.maxPlayers; k++)
             {
                 Player player = Main.player[k];
-				bool rich = player.InventoryHas(ItemID.PlatinumCoin) || player.PortableStorageHas(ItemID.PlatinumCoin);
+                bool rich = player.InventoryHas(ItemID.PlatinumCoin) || player.PortableStorageHas(ItemID.PlatinumCoin);
                 if (player.active && rich)
                 {
                     return NPC.downedBoss3 || CalamityWorld.spawnedBandit;
@@ -80,11 +110,7 @@ namespace CalamityMod.NPCs.TownNPCs
             return CalamityWorld.spawnedBandit;
         }
 
-        public override string TownNPCName()
-        {
-            npcName = PossibleNames[Main.rand.Next(PossibleNames.Count)];
-            return npcName;
-        }
+        public override List<string> SetNPCNameList() => PossibleNames;
 
         public override string GetChat()
         {
@@ -98,28 +124,27 @@ namespace CalamityMod.NPCs.TownNPCs
             }
             else if (!Main.dayTime && !Main.bloodMoon)
             {
-                PossibleDialogs.Add("You know what's really cool? Watching the glint of throwing stars as they reflect the moon.");
+                PossibleDialogs.Add("Hm, the stars are too bright tonight. Makes sneaking around a little more difficult.");
                 PossibleDialogs.Add("You think those stars that fall occasionally would make good throwing weapons?");
-                PossibleDialogs.Add("Statis' clan's got nothing on me. Mostly cause they're all dead.");
             }
 
             if (BirthdayParty.PartyIsUp)
             {
                 PossibleDialogs.Add("Where is my party hat? Well, I stole it of course.");
             }
-            if (npc.GivenName == "Laura")
+            if (NPC.GivenName == "Laura")
             {
                 PossibleDialogs.Add("The nice thing about maps is I can track anything that has fallen.");
             }
-            if (npc.GivenName == "Penelope")
+            if (NPC.GivenName == "Penelope")
             {
                 PossibleDialogs.Add("Imagine how fast you could throw if you just had more hands.");
             }
-            if (npc.GivenName == "Valerie")
+            if (NPC.GivenName == "Valerie")
             {
                 PossibleDialogs.Add("I also take food for currency.");
             }
-            if (npc.GivenName == "Rowan")
+            if (NPC.GivenName == "Rowan")
             {
                 PossibleDialogs.Add("Usually I only think of animals as food or target practice, but dragons are an exception.");
             }
@@ -127,37 +152,30 @@ namespace CalamityMod.NPCs.TownNPCs
             PossibleDialogs.Add("Anything is a weapon if you throw it hard enough.");
             PossibleDialogs.Add("That's your chucking arm? You need to work out more.");
             PossibleDialogs.Add("Listen here. It's all in the wrist, the wrist! Oh, forget it.");
-            PossibleDialogs.Add("I don't think Mom and Dad are proud of the job I have right now.");
-            PossibleDialogs.Add("Eh you know how it goes; steal from the rich, give to the poor. Of course, for a price.");
-            PossibleDialogs.Add("Want to hear about this one time I was stuck in a room with a rabid dog and a dead guy?");
-            PossibleDialogs.Add("Argh snakes. For some reason it's always snakes.");
-            PossibleDialogs.Add("Maybe I'm bitter. It's been a long time, so whatever. Just do a good job out there.");
+            PossibleDialogs.Add("Eh you know how it goes; steal from the rich, give to the poor, but I do take a cut of the profit.");
+            PossibleDialogs.Add("Snakes! Why does it always have to be snakes!");
+            PossibleDialogs.Add("It's super nice you know, to just have everything you want. Some people never got that luxury.");
             PossibleDialogs.Add("It's not stealing! I'm just borrowing it until I die!");
 
             if (Main.LocalPlayer.InventoryHas(ItemID.BoneGlove))
             {
-                PossibleDialogs.Add("Wouldn't be the first time I used my friends' remains as weapons.");
+                PossibleDialogs.Add("Wouldn't be the first time I used remains as weapons.");
             }
             if (Main.hardMode)
             {
-                PossibleDialogs.Add("With all of this new stuff cropping up, looks like we got some easy loot and new items to craft up, eh? Well, YOU craft them, I'll steal em.");
-                PossibleDialogs.Add("Draedon thinks he can build awesome machines, but he doesn't know how much crap I've stolen from him and sold by dismantling his drones.");
-                PossibleDialogs.Add("Gramma always said never to invade ancient temples or you'll be cursed and die. Let's say both of us attest that is untrue. We're still alive. Somewhat.");
+                PossibleDialogs.Add("All sorts of new weapons to be found and looted. Get to that, and I'll share some of my collection too!");
+                PossibleDialogs.Add("There's so much scrap around this land with valuable parts to them. Makes you wonder who could afford to leave em all around.");
+                PossibleDialogs.Add("Crypts, tombs, dungeons, those're all just treasure troves to me. The dead are dead, they've got nothing to do with it.");
             }
             if (NPC.downedMoonlord)
             {
-                PossibleDialogs.Add("I heard that there's some really neat and awesome rogue items you can get. Show em to me if you ever get the time.");
-                PossibleDialogs.Add("Providence HATES it when you take her stuff. I learned that the hard way.");
-                PossibleDialogs.Add("You think I can get away with looting from ghosts? It ain't like they can pick things up.");
+                PossibleDialogs.Add("If you find anything cool, make sure to drop by and show it to me, I promise I’ll keep my hands off it.");
+                PossibleDialogs.Add("So many new things to steal, I can’t think of where to start!");
+                PossibleDialogs.Add("If I end up angering some deities or whatever, would you mind taking the blame for me?");
             }
-            if (Main.LocalPlayer.InventoryHas(ModContent.ItemType<Valediction>()) ||
-                Main.LocalPlayer.InventoryHas(ModContent.ItemType<TheReaper>()))
+            if (Main.LocalPlayer.InventoryHas(ModContent.ItemType<Valediction>()))
             {
                 PossibleDialogs.Add("Oh man, did you rip that off a shark!? Now that's a weapon!");
-            }
-            if (CalamityWorld.downedDoG)
-            {
-                PossibleDialogs.Add("I tried looting Storm Weaver's armor once. Before I could get a chunk of the stuff... well let's just say the bigger, fatter cosmic worm arrived and it didn't end well.");
             }
             if (Main.LocalPlayer.ZoneJungle)
             {
@@ -171,11 +189,17 @@ namespace CalamityMod.NPCs.TownNPCs
                 PossibleDialogs.Add($"Don't tell {nerd.GivenName}, but I took some of his stuff and replaced it with Angel Statues.");
             }
 
+            int witch = NPC.FindFirstNPC(ModContent.NPCType<WITCH>());
+            if(witch != -1)
+            {
+                PossibleDialogs.Add("Hey, hey, has Calamitas seriously moved in here with us? Why???");
+            }
+
             int cirrusIndex = NPC.FindFirstNPC(ModContent.NPCType<FAP>());
             if (cirrusIndex != -1)
             {
                 NPC cirrus = Main.npc[cirrusIndex]; //please help me I'm stuck in a children's video game - Fabsol
-                PossibleDialogs.Add($"I learned never to steal {cirrus.GivenName}'s drinks. She doesn't appreciate me right now so I'll go back to hiding.");
+                PossibleDialogs.Add($"I learned never to steal {cirrus.GivenName}'s drinks. She doesn't appreciate me right now, so I'll go back to hiding.");
             }
 
             int armsDealerIndex = NPC.FindFirstNPC(NPCID.ArmsDealer);
@@ -196,10 +220,19 @@ namespace CalamityMod.NPCs.TownNPCs
             if (goblinIndex != -1 && CalamityWorld.Reforges >= 1)
             {
                 CalamityWorld.Reforges = 0;
-                Main.LocalPlayer.SellItem(CalamityWorld.MoneyStolenByBandit, 1);
+                int[] coinCounts = Utils.CoinsSplit(CalamityWorld.MoneyStolenByBandit);
+                if (coinCounts[0] > 0)
+                    Item.NewItem(NPC.GetSource_Loot(), NPC.Hitbox, ItemID.CopperCoin, coinCounts[0]);
+                if (coinCounts[1] > 0)
+                    Item.NewItem(NPC.GetSource_Loot(), NPC.Hitbox, ItemID.SilverCoin, coinCounts[1]);
+                if (coinCounts[2] > 0)
+                    Item.NewItem(NPC.GetSource_Loot(), NPC.Hitbox, ItemID.GoldCoin, coinCounts[2]);
+                if (coinCounts[3] > 0)
+                    Item.NewItem(NPC.GetSource_Loot(), NPC.Hitbox, ItemID.PlatinumCoin, coinCounts[3]);
+
                 CalamityWorld.MoneyStolenByBandit = 0;
                 NPC goblinFucker = Main.npc[goblinIndex];
-                Main.PlaySound(SoundID.Coins, -1, -1, 1, 1f, 0f); // Money dink sound
+                SoundEngine.PlaySound(SoundID.Coins); // Money dink sound
                 switch (Main.rand.Next(2))
                 {
                     case 0:
@@ -207,15 +240,15 @@ namespace CalamityMod.NPCs.TownNPCs
                     case 1:
                         return "Hey, if government officials can get tax, why can't I? The heck do you mean that these two things are nothing alike?";
                 }
-                CalamityMod.UpdateServerBoolean();
+                CalamityNetcode.SyncWorld();
             }
             return "Sorry, I got nothing. Perhaps you could reforge something and come back later...";
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
-            var something = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/NPCs/TownNPCs/THIEF" + (BirthdayParty.PartyIsUp ? "Alt" : "")), npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY) - new Vector2(0f, 6f), npc.frame, drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, something, 0);
+            var something = NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+            spriteBatch.Draw(ModContent.Request<Texture2D>("CalamityMod/NPCs/TownNPCs/THIEF" + (BirthdayParty.PartyIsUp ? "Alt" : "")).Value, NPC.Center - screenPos + new Vector2(0, NPC.gfxOffY) - new Vector2(0f, 6f), NPC.frame, drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, something, 0);
             return false;
         }
 
@@ -229,8 +262,8 @@ namespace CalamityMod.NPCs.TownNPCs
         {
             if (firstButton)
             {
-				Main.LocalPlayer.Calamity().newBanditInventory = false;
-				shop = true;
+                Main.LocalPlayer.Calamity().newBanditInventory = false;
+                shop = true;
             }
             else
             {
@@ -255,7 +288,16 @@ namespace CalamityMod.NPCs.TownNPCs
             nextSlot++;
             shop.item[nextSlot].SetDefaults(ItemID.TigerClimbingGear);
             nextSlot++;
-            if (CalamityWorld.downedSlimeGod)
+            shop.item[nextSlot].SetDefaults(ItemID.InvisibilityPotion);
+            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 1, 0, 0);
+            nextSlot++;
+            shop.item[nextSlot].SetDefaults(ItemID.NightOwlPotion);
+            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 1, 0, 0);
+            nextSlot++;
+            shop.item[nextSlot].SetDefaults(ItemID.TrapsightPotion);
+            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 1, 0, 0);
+            nextSlot++;
+            if (DownedBossSystem.downedSlimeGod)
             {
                 shop.item[nextSlot].SetDefaults(ModContent.ItemType<GelDart>());
                 nextSlot++;
@@ -278,18 +320,11 @@ namespace CalamityMod.NPCs.TownNPCs
                 shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 60, 0, 0);
                 nextSlot++;
             }
-            if (NPC.downedMechBoss1 || NPC.downedMechBoss2 || NPC.downedMechBoss3)
-			{
-                shop.item[nextSlot].SetDefaults(ModContent.ItemType<BouncingBetty>());
-				nextSlot++;
-                shop.item[nextSlot].SetDefaults(ModContent.ItemType<LatcherMine>());
-				nextSlot++;
-            }
-			if (CalamityWorld.downedCalamitas)
-			{
+            if (DownedBossSystem.downedCalamitas)
+            {
                 shop.item[nextSlot].SetDefaults(ModContent.ItemType<DeepWounder>());
-				nextSlot++;
-			}
+                nextSlot++;
+            }
             if (NPC.downedPlantBoss)
             {
                 shop.item[nextSlot].SetDefaults(ModContent.ItemType<MonkeyDarts>());
@@ -300,48 +335,45 @@ namespace CalamityMod.NPCs.TownNPCs
                 nextSlot++;
             }
             if (NPC.downedGolemBoss)
-			{
-				shop.item[nextSlot].SetDefaults(ModContent.ItemType<EtherealExtorter>());
-				shop.item[nextSlot].shopCustomPrice = Item.buyPrice(1, 0, 0, 0);
-				nextSlot++;
-			}
+            {
+                shop.item[nextSlot].SetDefaults(ModContent.ItemType<EtherealExtorter>());
+                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(1, 0, 0, 0);
+                nextSlot++;
+            }
             if (NPC.downedMoonlord)
             {
                 shop.item[nextSlot].SetDefaults(ModContent.ItemType<CelestialReaper>());
                 shop.item[nextSlot].shopCustomPrice = Item.buyPrice(2, 0, 0, 0);
                 nextSlot++;
             }
-            if (CalamityWorld.downedProvidence)
-			{
-				shop.item[nextSlot].SetDefaults(ModContent.ItemType<SylvanSlasher>());
-				shop.item[nextSlot].shopCustomPrice = Item.buyPrice(5, 0, 0, 0);
-				nextSlot++;
-			}
-            if (CalamityWorld.downedDoG)
+            if (DownedBossSystem.downedDoG)
             {
                 shop.item[nextSlot].SetDefaults(ModContent.ItemType<VeneratedLocket>());
                 shop.item[nextSlot].shopCustomPrice = Item.buyPrice(25, 0, 0, 0);
                 nextSlot++;
             }
-            if (CalamityWorld.buffedEclipse && !CalamityWorld.dragonScalesBought)
+            if (DownedBossSystem.downedYharon)
             {
                 shop.item[nextSlot].SetDefaults(ModContent.ItemType<DragonScales>());
                 shop.item[nextSlot].shopCustomPrice = Item.buyPrice(40, 0, 0, 0);
                 nextSlot++;
             }
             //:BearWatchingYou:
-			shop.item[nextSlot].SetDefaults(ModContent.ItemType<BearEye>());
-			nextSlot++;
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<BearsEye>());
+            nextSlot++;
         }
 
         public override void HitEffect(int hitDirection, double damage)
         {
-            if (npc.life <= 0)
+            if (NPC.life <= 0)
             {
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Bandit/Bandit"), 1f);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Bandit/Bandit2"), 1f);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Bandit/Bandit3"), 1f);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Bandit/Bandit4"), 1f);
+                if (Main.netMode != NetmodeID.Server)
+                {
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Bandit").Type, 1f);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Bandit2").Type, 1f);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Bandit3").Type, 1f);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Bandit4").Type, 1f);
+                }
             }
         }
 

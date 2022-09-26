@@ -1,3 +1,4 @@
+﻿using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
@@ -9,73 +10,77 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class BlazingStar : RogueWeapon
     {
-        public static int BaseDamage = 92;
-        public static float Speed = 13f;
+        public const float Speed = 13f;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Blazing Star");
             Tooltip.SetDefault("Stacks up to 3\n" +
                                "Stealth strikes release all stars at once with infinite piercing");
+            SacrificeTotal = 3;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
-            item.damage = BaseDamage;
-            item.crit = 4;
-            item.Calamity().rogue = true;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.width = 1;
-            item.height = 1;
-            item.useTime = 15;
-            item.useAnimation = 15;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 4f;
-            item.value = Item.buyPrice(0, 4, 0, 0);
-            item.rare = 4;
-            item.UseSound = SoundID.Item1;
-            item.maxStack = 3;
+            Item.damage = 129;
+            Item.DamageType = RogueDamageClass.Instance;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.width = 1;
+            Item.height = 1;
+            Item.useTime = 15;
+            Item.useAnimation = 15;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 4f;
+            Item.value = CalamityGlobalItem.Rarity3BuyPrice;
+            Item.rare = ItemRarityID.LightRed;
+            Item.UseSound = SoundID.Item1;
+            Item.maxStack = 3;
 
-            item.shootSpeed = Speed;
-            item.shoot = ModContent.ProjectileType<BlazingStarProj>();
+            Item.shootSpeed = Speed;
+            Item.shoot = ModContent.ProjectileType<BlazingStarProj>();
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        // Terraria seems to really dislike high crit values in SetDefaults
+        public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 4;
+
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.Calamity().StealthStrikeAvailable())
             {
-                if (item.stack != 1)
+                if (Item.stack != 1)
                 {
-                    for (int i = 0; i < item.stack; i++)
+                    damage = (int)(damage * 1.55f);
+
+                    for (int i = 0; i < Item.stack; i++)
                     {
-                        Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedBy(MathHelper.Lerp(-MathHelper.ToRadians(8f), MathHelper.ToRadians(8f), i / (float)(item.stack - 1)));
-                        int projectileIndex2 = Projectile.NewProjectile(position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, i == 1 ? type : ModContent.ProjectileType<BlazingStarProj>(), damage, knockBack, player.whoAmI, 0f, 0f);
-                        Main.projectile[projectileIndex2].Calamity().stealthStrike = true;
-                        int projectileIndex = Projectile.NewProjectile(position, perturbedSpeed, type, damage, knockBack, player.whoAmI, 0f);
-                        Main.projectile[projectileIndex].penetrate = -1;
-                        Main.projectile[projectileIndex].Calamity().stealthStrike = true;
+                        Vector2 perturbedSpeed = velocity.RotatedBy(MathHelper.Lerp(-MathHelper.ToRadians(8f), MathHelper.ToRadians(8f), i / (float)(Item.stack - 1)));
+                        Projectile proj = Projectile.NewProjectileDirect(source, position, perturbedSpeed, type, damage, knockback, player.whoAmI);
+                        if (proj.whoAmI.WithinBounds(Main.maxProjectiles))
+                            proj.Calamity().stealthStrike = true;
+
+                        Projectile projectile = Projectile.NewProjectileDirect(source, position, perturbedSpeed, type, damage, knockback, player.whoAmI);
+                        if (projectile.whoAmI.WithinBounds(Main.maxProjectiles))
+                        {
+                            projectile.penetrate = -1;
+                            projectile.Calamity().stealthStrike = true;
+                        }
 
                     }
                     return false;
                 }
-                return true;
             }
             return true;
         }
 
-        public override bool CanUseItem(Player player)
-        {
-            return player.ownedProjectileCounts[item.shoot] < item.stack;
-        }
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] < Item.stack;
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Glaive>(), 1);
-            recipe.AddIngredient(ItemID.HellstoneBar, 3);
-            recipe.AddIngredient(ModContent.ItemType<EssenceofChaos>(), 4);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient<Glaive>().
+                AddIngredient(ItemID.HellstoneBar, 3).
+                AddIngredient<EssenceofChaos>(4).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

@@ -1,7 +1,7 @@
-
-using CalamityMod.Dusts;
+﻿using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.GameContent.Metadata;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -9,10 +9,11 @@ namespace CalamityMod.Tiles.Astral
 {
     public class AstralDirt : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileSolid[Type] = true;
             Main.tileBlockLight[Type] = true;
+			TileMaterials.SetForTileId(Type, TileMaterials._materialsByName["Dirt"]);
 
             CalamityUtils.MergeWithGeneral(Type);
             CalamityUtils.MergeAstralTiles(Type);
@@ -20,14 +21,15 @@ namespace CalamityMod.Tiles.Astral
             CalamityUtils.SetMerge(Type, TileID.Grass);
             CalamityUtils.SetMerge(Type, TileID.CorruptGrass);
             CalamityUtils.SetMerge(Type, TileID.HallowedGrass);
-            CalamityUtils.SetMerge(Type, TileID.FleshGrass);
+            CalamityUtils.SetMerge(Type, TileID.CrimsonGrass);
 
-            dustType = ModContent.DustType<AstralBasic>();
-            drop = ModContent.ItemType<Items.Placeables.AstralDirt>();
+            DustType = ModContent.DustType<AstralBasic>();
+            ItemDrop = ModContent.ItemType<Items.Placeables.AstralDirt>();
 
             AddMapEntry(new Color(65, 56, 83));
 
             TileID.Sets.ChecksForMerge[Type] = true;
+            TileID.Sets.CanBeDugByShovel[Type] = true;
             TileID.Sets.CanBeClearedDuringOreRunner[Type] = true;
         }
 
@@ -44,7 +46,7 @@ namespace CalamityMod.Tiles.Astral
             Tile down = Main.tile[i, j + 1];
             Tile left = Main.tile[i - 1, j];
             Tile right = Main.tile[i + 1, j];
-            if (WorldGen.genRand.Next(3) == 0 && (up.type == ModContent.TileType<AstralGrass>() || down.type == ModContent.TileType<AstralGrass>() || left.type == ModContent.TileType<AstralGrass>() || right.type == ModContent.TileType<AstralGrass>()))
+            if (WorldGen.genRand.Next(3) == 0 && (up.TileType == ModContent.TileType<AstralGrass>() || down.TileType == ModContent.TileType<AstralGrass>() || left.TileType == ModContent.TileType<AstralGrass>() || right.TileType == ModContent.TileType<AstralGrass>()))
             {
                 WorldGen.SpreadGrass(i, j, Type, ModContent.TileType<AstralGrass>(), false);
             }

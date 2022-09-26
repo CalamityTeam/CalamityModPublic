@@ -1,4 +1,4 @@
-using CalamityMod.Items.Accessories;
+﻿using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Pets;
@@ -8,7 +8,10 @@ using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.NPCs.Perforator;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -16,54 +19,73 @@ namespace CalamityMod.Items.TreasureBags
 {
     public class PerforatorBag : ModItem
     {
-        public override int BossBagNPC => ModContent.NPCType<PerforatorHive>();
-
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Treasure Bag");
+            SacrificeTotal = 3;
+            DisplayName.SetDefault("Treasure Bag (The Perforators)");
             Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
+			ItemID.Sets.BossBag[Item.type] = true;
+            ItemID.Sets.PreHardmodeLikeBossBag[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.maxStack = 999;
-            item.consumable = true;
-            item.width = 24;
-            item.height = 24;
-            item.rare = 9;
-            item.expert = true;
+            Item.maxStack = 999;
+            Item.consumable = true;
+            Item.width = 24;
+            Item.height = 24;
+            Item.rare = ItemRarityID.Cyan;
+            Item.expert = true;
         }
 
-        public override bool CanRightClick()
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = ContentSamples.CreativeHelper.ItemGroup.BossBags;
+		}
+
+        public override bool CanRightClick() => true;
+
+		public override Color? GetAlpha(Color lightColor) => Color.Lerp(lightColor, Color.White, 0.4f);
+
+        public override void PostUpdate() => Item.TreasureBagLightAndDust();
+
+        public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
         {
-            return true;
+            return CalamityUtils.DrawTreasureBagInWorld(Item, spriteBatch, ref rotation, ref scale, whoAmI);
         }
 
-        public override void OpenBossBag(Player player)
+        public override void ModifyItemLoot(ItemLoot itemLoot)
         {
+			// Money
+			itemLoot.Add(ItemDropRule.CoinsBasedOnNPCValue(ModContent.NPCType<PerforatorHive>()));
+
             // Materials
-            DropHelper.DropItem(player, ItemID.Vertebrae, 10, 20);
-            DropHelper.DropItem(player, ItemID.CrimtaneBar, 9, 14);
-            DropHelper.DropItem(player, ModContent.ItemType<BloodSample>(), 30, 40);
-            DropHelper.DropItemCondition(player, ItemID.Ichor, Main.hardMode, 15, 30);
+            itemLoot.Add(ModContent.ItemType<BloodSample>(), 1, 30, 40);
+            itemLoot.Add(ItemID.CrimtaneBar, 1, 15, 20);
+            itemLoot.Add(ItemID.Vertebrae, 1, 15, 20);
+            itemLoot.AddIf(() => Main.hardMode, ItemID.Ichor, 1, 25, 30);
+            itemLoot.Add(ItemID.CrimsonSeeds, 1, 10, 15);
 
             // Weapons
-            DropHelper.DropItemChance(player, ModContent.ItemType<VeinBurster>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<BloodyRupture>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<SausageMaker>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<Aorta>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<Eviscerator>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<BloodBath>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<BloodClotStaff>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<ToothBall>(), 3, 50, 75);
+            itemLoot.Add(DropHelper.CalamityStyle(DropHelper.BagWeaponDropRateFraction, new WeightedItemStack[]
+            {
+                ModContent.ItemType<Aorta>(),
+                ModContent.ItemType<SausageMaker>(),
+                ModContent.ItemType<VeinBurster>(),
+                ModContent.ItemType<Eviscerator>(),
+                ModContent.ItemType<BloodBath>(),
+                ModContent.ItemType<BloodClotStaff>(),
+                new WeightedItemStack(ModContent.ItemType<ToothBall>(), 1f, 50, 75),
+            }));
 
             // Equipment
-            DropHelper.DropItem(player, ModContent.ItemType<BloodyWormTooth>());
-            DropHelper.DropItemChance(player, ModContent.ItemType<BloodstainedGlove>(), 3);
+            itemLoot.Add(ModContent.ItemType<BloodstainedGlove>(), DropHelper.BagWeaponDropRateFraction);
+            itemLoot.Add(ModContent.ItemType<BloodyWormTooth>());
+            itemLoot.AddRevBagAccessories();
 
             // Vanity
-            DropHelper.DropItemChance(player, ModContent.ItemType<PerforatorMask>(), 7);
-            DropHelper.DropItemChance(player, ModContent.ItemType<BloodyVein>(), 10);
+            itemLoot.Add(ModContent.ItemType<PerforatorMask>(), 7);
+            itemLoot.Add(ModContent.ItemType<BloodyVein>(), 10);;
         }
     }
 }

@@ -1,4 +1,5 @@
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Magic
 {
@@ -11,20 +12,20 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetDefaults()
         {
-            projectile.width = 14;
-            projectile.height = 14;
-            projectile.aiStyle = 14;
-            projectile.penetrate = 2;
-            projectile.timeLeft = 200;
-            projectile.magic = true;
-            projectile.friendly = true;
+            Projectile.width = 14;
+            Projectile.height = 14;
+            Projectile.aiStyle = ProjAIStyleID.GroundProjectile;
+            Projectile.penetrate = 2;
+            Projectile.timeLeft = 200;
+            Projectile.DamageType = DamageClass.Magic;
+            Projectile.friendly = true;
         }
 
         public override void AI()
         {
             if (Main.rand.NextBool(3))
             {
-                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 64, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 64, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
             }
         }
     }

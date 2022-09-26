@@ -1,6 +1,8 @@
+﻿using CalamityMod.BiomeManagers;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using CalamityMod.Items.Materials;
+using CalamityMod.Items.Accessories.Wings;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Tiles.AstralDesert;
 using CalamityMod.World;
@@ -8,8 +10,13 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.GameContent;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
+using ReLogic.Content;
+using CalamityMod.Sounds;
 
 namespace CalamityMod.NPCs.Astral
 {
@@ -21,76 +28,90 @@ namespace CalamityMod.NPCs.Astral
         {
             DisplayName.SetDefault("Hadarian");
             if (!Main.dedServ)
-                glowmask = ModContent.GetTexture("CalamityMod/NPCs/Astral/HadarianGlow");
-            Main.npcFrameCount[npc.type] = 7;
+                glowmask = ModContent.Request<Texture2D>("CalamityMod/NPCs/Astral/HadarianGlow", AssetRequestMode.ImmediateLoad).Value;
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0);
+            value.Position.X += 10f;
+            value.Position.Y += 10f;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
+            Main.npcFrameCount[NPC.type] = 7;
         }
 
         public override void SetDefaults()
         {
-            npc.width = 50;
-            npc.height = 40;
-            npc.aiStyle = -1;
-            npc.damage = 50;
-            npc.defense = 8;
-			npc.DR_NERD(0.15f);
-            npc.lifeMax = 330;
-            npc.DeathSound = mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/AstralEnemyDeath");
-            npc.knockBackResist = 0.75f;
-            npc.value = Item.buyPrice(0, 0, 15, 0);
-            banner = npc.type;
-            bannerItem = ModContent.ItemType<HadarianBanner>();
-            npc.buffImmune[ModContent.BuffType<AstralInfectionDebuff>()] = true;
-            if (CalamityWorld.downedAstrageldon)
+            NPC.width = 50;
+            NPC.height = 40;
+            NPC.aiStyle = -1;
+            NPC.damage = 50;
+            NPC.defense = 8;
+            NPC.DR_NERD(0.15f);
+            NPC.lifeMax = 330;
+            NPC.DeathSound = CommonCalamitySounds.AstralNPCDeathSound;
+            NPC.knockBackResist = 0.75f;
+            NPC.value = Item.buyPrice(0, 0, 15, 0);
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<HadarianBanner>();
+            if (DownedBossSystem.downedAstrumAureus)
             {
-                npc.damage = 80;
-                npc.defense = 18;
-                npc.knockBackResist = 0.65f;
-                npc.lifeMax = 490;
+                NPC.damage = 80;
+                NPC.defense = 18;
+                NPC.knockBackResist = 0.65f;
+                NPC.lifeMax = 490;
             }
+            NPC.Calamity().VulnerableToHeat = true;
+            NPC.Calamity().VulnerableToSickness = false;
+            SpawnModBiomes = new int[1] { ModContent.GetInstance<AbovegroundAstralDesertBiome>().Type };
+        }
+
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+                // Will move to localization whenever that is cleaned up.
+                new FlavorTextBestiaryInfoElement("The membrane of their wings is particularly tough, for material so thin. It has been known to guard them against burns and projectiles as they mercilessly tear at their foes.")
+            });
         }
 
         public override void AI()
         {
-            CalamityGlobalNPC.DoVultureAI(npc, (CalamityWorld.death ? 0.225f : 0.15f), (CalamityWorld.death ? 5.25f : 3.5f), 32, 50, 150, 150);
+            CalamityGlobalNPC.DoVultureAI(NPC, (CalamityWorld.death ? 0.225f : 0.15f), (CalamityWorld.death ? 5.25f : 3.5f), 32, 50, 150, 150);
 
             //usually done in framing but I put it here because it makes more sense to.
-            npc.rotation = npc.velocity.X * 0.1f;
+            NPC.rotation = NPC.velocity.X * 0.1f;
         }
 
         public override void FindFrame(int frameHeight)
         {
-            if (npc.velocity.Y == 0f)
+            if (NPC.velocity.Y == 0f)
             {
-                npc.spriteDirection = npc.direction;
+                NPC.spriteDirection = NPC.direction;
             }
             else
             {
-                if ((double)npc.velocity.X > 0.5)
+                if ((double)NPC.velocity.X > 0.5)
                 {
-                    npc.spriteDirection = 1;
+                    NPC.spriteDirection = 1;
                 }
-                if ((double)npc.velocity.X < -0.5)
+                if ((double)NPC.velocity.X < -0.5)
                 {
-                    npc.spriteDirection = -1;
+                    NPC.spriteDirection = -1;
                 }
             }
 
-            if (npc.velocity.X == 0f && npc.velocity.Y == 0f)
+            if ((NPC.velocity.X == 0f && NPC.velocity.Y == 0f) && !NPC.IsABestiaryIconDummy)
             {
-                npc.frame.Y = 0;
-                npc.frameCounter = 0.0;
+                NPC.frame.Y = 0;
+                NPC.frameCounter = 0.0;
             }
             else
             {
-                npc.frameCounter++;
-                if (npc.frameCounter > 5)
+                NPC.frameCounter++;
+                if (NPC.frameCounter > 5)
                 {
-                    npc.frameCounter = 0;
-                    npc.frame.Y += frameHeight;
+                    NPC.frameCounter = 0;
+                    NPC.frame.Y += frameHeight;
                 }
-                if (npc.frame.Y > frameHeight * 6 || npc.frame.Y == 0)
+                if (NPC.frame.Y > frameHeight * 6 || NPC.frame.Y == 0)
                 {
-                    npc.frame.Y = frameHeight;
+                    NPC.frame.Y = frameHeight;
                 }
             }
 
@@ -99,21 +120,21 @@ namespace CalamityMod.NPCs.Astral
 
         private void DoWingDust(int frameHeight)
         {
-            int frame = npc.frame.Y / frameHeight;
+            int frame = NPC.frame.Y / frameHeight;
             Dust d = null;
             switch (frame)
             {
                 case 1:
-                    d = CalamityGlobalNPC.SpawnDustOnNPC(npc, 82, frameHeight, ModContent.DustType<AstralOrange>(), new Rectangle(38, 16, 22, 20), Vector2.Zero, 0.35f);
+                    d = CalamityGlobalNPC.SpawnDustOnNPC(NPC, 82, frameHeight, ModContent.DustType<AstralOrange>(), new Rectangle(38, 16, 22, 20), Vector2.Zero, 0.35f);
                     break;
                 case 2:
-                    d = CalamityGlobalNPC.SpawnDustOnNPC(npc, 82, frameHeight, ModContent.DustType<AstralOrange>(), new Rectangle(38, 24, 30, 14), Vector2.Zero);
+                    d = CalamityGlobalNPC.SpawnDustOnNPC(NPC, 82, frameHeight, ModContent.DustType<AstralOrange>(), new Rectangle(38, 24, 30, 14), Vector2.Zero);
                     break;
                 case 3:
-                    d = CalamityGlobalNPC.SpawnDustOnNPC(npc, 82, frameHeight, ModContent.DustType<AstralOrange>(), new Rectangle(44, 28, 32, 20), Vector2.Zero);
+                    d = CalamityGlobalNPC.SpawnDustOnNPC(NPC, 82, frameHeight, ModContent.DustType<AstralOrange>(), new Rectangle(44, 28, 32, 20), Vector2.Zero);
                     break;
                 case 4:
-                    d = CalamityGlobalNPC.SpawnDustOnNPC(npc, 82, frameHeight, ModContent.DustType<AstralOrange>(), new Rectangle(42, 36, 18, 30), Vector2.Zero, 0.3f);
+                    d = CalamityGlobalNPC.SpawnDustOnNPC(NPC, 82, frameHeight, ModContent.DustType<AstralOrange>(), new Rectangle(42, 36, 18, 30), Vector2.Zero, 0.3f);
                     break;
             }
 
@@ -123,71 +144,66 @@ namespace CalamityMod.NPCs.Astral
             }
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
-            if (npc.ai[0] == 0f)
+            if (NPC.IsABestiaryIconDummy)
+                return true;
+
+            if (NPC.ai[0] == 0f)
             {
-                Vector2 position = npc.Bottom - new Vector2(19f, 42f);
+                Vector2 position = NPC.Bottom - new Vector2(19f, 42f);
                 //20 34 38 42
                 Rectangle src = new Rectangle(20, 34, 38, 42);
-                spriteBatch.Draw(Main.npcTexture[npc.type], position - Main.screenPosition, src, drawColor, npc.rotation, default, 1f, npc.spriteDirection == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
+                spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, position - screenPos, src, drawColor, NPC.rotation, default, 1f, NPC.spriteDirection == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
                 //draw glowmask
-                spriteBatch.Draw(glowmask, position - Main.screenPosition, src, Color.White * 0.6f, npc.rotation, default, 1f, npc.spriteDirection == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
+                spriteBatch.Draw(glowmask, position - screenPos, src, Color.White * 0.6f, NPC.rotation, default, 1f, NPC.spriteDirection == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
                 return false;
             }
             return true;
         }
 
-        public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
-            if (npc.ai[0] != 0f)
+            if (NPC.ai[0] != 0f)
             {
                 Vector2 origin = new Vector2(41f, 39f);
 
                 //draw glowmask
-                spriteBatch.Draw(glowmask, npc.Center - Main.screenPosition - new Vector2(0f, 12f), npc.frame, Color.White * 0.6f, npc.rotation, origin, 1f, npc.spriteDirection == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
+                spriteBatch.Draw(glowmask, NPC.Center - screenPos - new Vector2(0f, 12f), NPC.frame, Color.White * 0.6f, NPC.rotation, origin, 1f, NPC.spriteDirection == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
             }
         }
 
         public override void HitEffect(int hitDirection, double damage)
         {
-            if (npc.soundDelay == 0)
+            if (NPC.soundDelay == 0)
             {
-                npc.soundDelay = 15;
-                switch (Main.rand.Next(3))
-                {
-                    case 0:
-                        Main.PlaySound(mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/AstralEnemyHit"), npc.Center);
-                        break;
-                    case 1:
-                        Main.PlaySound(mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/AstralEnemyHit2"), npc.Center);
-                        break;
-                    case 2:
-                        Main.PlaySound(mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/AstralEnemyHit3"), npc.Center);
-                        break;
-                }
+                NPC.soundDelay = 15;
+                SoundEngine.PlaySound(CommonCalamitySounds.AstralNPCHitSound, NPC.Center);
             }
 
-            CalamityGlobalNPC.DoHitDust(npc, hitDirection, (Main.rand.Next(0, Math.Max(0, npc.life)) == 0) ? 5 : ModContent.DustType<AstralEnemy>(), 1f, 3, 20);
+            CalamityGlobalNPC.DoHitDust(NPC, hitDirection, (Main.rand.Next(0, Math.Max(0, NPC.life)) == 0) ? 5 : ModContent.DustType<AstralEnemy>(), 1f, 3, 20);
 
             //if dead do gores
-            if (npc.life <= 0)
+            if (NPC.life <= 0)
             {
-                for (int i = 0; i < 5; i++)
+                if (Main.netMode != NetmodeID.Server)
                 {
-                    Gore.NewGore(npc.Center, npc.velocity * 0.3f, mod.GetGoreSlot("Gores/Hadarian/HadarianGore" + i));
+                    for (int i = 0; i < 5; i++)
+                    {
+                        Gore.NewGore(NPC.GetSource_Death(), NPC.Center, NPC.velocity * 0.3f, Mod.Find<ModGore>("HadarianGore" + i).Type);
+                    }
                 }
             }
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            Tile tile = Main.tile[spawnInfo.spawnTileX, spawnInfo.spawnTileY];
-            if (CalamityGlobalNPC.AnyEvents(spawnInfo.player))
+            Tile tile = Main.tile[spawnInfo.SpawnTileX, spawnInfo.SpawnTileY];
+            if (CalamityGlobalNPC.AnyEvents(spawnInfo.Player))
             {
                 return 0f;
             }
-            else if (spawnInfo.player.InAstral(3) && spawnInfo.spawnTileType == ModContent.TileType<AstralSand>() && tile.wall == WallID.None)
+            else if (spawnInfo.Player.InAstral(3) && spawnInfo.SpawnTileType == ModContent.TileType<AstralSand>() && tile.WallType == WallID.None)
             {
                 return 0.25f;
             }
@@ -196,20 +212,14 @@ namespace CalamityMod.NPCs.Astral
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 120, true);
+            if (damage > 0)
+                player.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 120, true);
         }
 
-        public override void NPCLoot()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Stardust>(), Main.rand.Next(2, 4));
-            if (Main.expertMode)
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Stardust>());
-            }
-            if (CalamityWorld.downedAstrageldon && Main.rand.NextBool(2))
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<HadarianMembrane>(), Main.rand.Next(1, 3));
-            }
+            npcLoot.Add(DropHelper.NormalVsExpertQuantity(ModContent.ItemType<Stardust>(), 1, 1, 3, 1, 4));
+            npcLoot.AddIf(() => DownedBossSystem.downedAstrumAureus, ModContent.ItemType<HadarianWings>(), 10);
         }
     }
 }

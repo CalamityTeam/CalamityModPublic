@@ -1,4 +1,5 @@
-using CalamityMod.Projectiles.Magic;
+﻿using CalamityMod.Projectiles.Magic;
+using CalamityMod.Rarities;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -8,24 +9,26 @@ namespace CalamityMod.Items.Ammo
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 99;
             DisplayName.SetDefault("Blood Rune");
             Tooltip.SetDefault("Used with the Ice Barrage \n" +
-                               "Found in some sort of runic landscape");
+                "Found in some sort of runic landscape");
         }
 
         public override void SetDefaults()
         {
-            item.damage = 1;
-            item.width = 22;
-            item.height = 24;
-            item.maxStack = 999;
-            item.consumable = true;
-            item.knockBack = 10f;
-            item.value = Item.buyPrice(0, 1, 0, 0);
-            item.Calamity().customRarity = CalamityRarity.Dedicated;
-            item.shoot = ModContent.ProjectileType<IceBarrageMain>();
-            item.shootSpeed = 0f;
-            item.ammo = item.type; // CONSIDER -- Would item.type work here instead of a self reference?
+            Item.damage = 1;
+            Item.width = 22;
+            Item.height = 24;
+            Item.maxStack = 999;
+            Item.consumable = true;
+            Item.knockBack = 10f;
+            Item.value = Item.buyPrice(gold: 1);
+            Item.rare = ModContent.RarityType<DarkBlue>();
+            Item.Calamity().donorItem = true;
+            Item.shoot = ModContent.ProjectileType<IceBarrageMain>();
+            Item.shootSpeed = 0f;
+            Item.ammo = Item.type;
         }
     }
 }

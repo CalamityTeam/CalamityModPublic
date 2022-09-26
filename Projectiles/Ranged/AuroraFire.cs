@@ -7,11 +7,13 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-	public class AuroraFire : ModProjectile
+    public class AuroraFire : ModProjectile
     {
-		private const int framesBeforeTurning = 70;
-		private bool initialized = false;
-		private int radianAmt = 0;
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
+        private const int framesBeforeTurning = 70;
+        private bool initialized = false;
+        private int radianAmt = 0;
 
         public override void SetStaticDefaults()
         {
@@ -20,59 +22,59 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetDefaults()
         {
-            projectile.width = 12;
-            projectile.height = 12;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.ranged = true;
-            projectile.penetrate = -1;
-            projectile.extraUpdates = 3;
-			projectile.tileCollide = false;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 20;
+            Projectile.width = 12;
+            Projectile.height = 12;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.penetrate = -1;
+            Projectile.extraUpdates = 3;
+            Projectile.tileCollide = false;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 20;
         }
 
         public override void AI()
         {
-			if (projectile.ai[0] % 2 == 0)
-				projectile.ai[0]++;
+            if (Projectile.ai[0] % 2 == 0)
+                Projectile.ai[0]++;
 
-			if (!initialized)
-			{
-				int pointCount = (int)projectile.ai[0];
-				radianAmt = 180 + (int)(360 / (pointCount * 2));
-				projectile.timeLeft = framesBeforeTurning * pointCount - 1;
-				initialized = true;
-			}
-
-			//Velocity movement
-			projectile.localAI[1]++;
-			if (projectile.localAI[1] % framesBeforeTurning == 0)
-			{
-				projectile.velocity = projectile.velocity.RotatedBy(MathHelper.ToRadians(radianAmt));
-			}
-
-			//Dust behavior
-            projectile.localAI[0] += 1f;
-            if (projectile.localAI[0] > 4f)
+            if (!initialized)
             {
-				int dustType = Utils.SelectRandom(Main.rand, new int[]
-				{
-					ModContent.DustType<AstralBlue>(),
-					ModContent.DustType<AstralOrange>()
-				});
+                int pointCount = (int)Projectile.ai[0];
+                radianAmt = 180 + (int)(360 / (pointCount * 2));
+                Projectile.timeLeft = framesBeforeTurning * pointCount - 1;
+                initialized = true;
+            }
+
+            //Velocity movement
+            Projectile.localAI[1]++;
+            if (Projectile.localAI[1] % framesBeforeTurning == 0)
+            {
+                Projectile.velocity = Projectile.velocity.RotatedBy(MathHelper.ToRadians(radianAmt));
+            }
+
+            //Dust behavior
+            Projectile.localAI[0] += 1f;
+            if (Projectile.localAI[0] > 4f)
+            {
+                int dustType = Utils.SelectRandom(Main.rand, new int[]
+                {
+                    ModContent.DustType<AstralBlue>(),
+                    ModContent.DustType<AstralOrange>()
+                });
                 for (int i = 0; i < 5; i++)
                 {
-                    int astral = Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType, 0f, 0f, 100, default, 0.8f);
+                    int astral = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, dustType, 0f, 0f, 100, default, 0.8f);
                     Dust dust = Main.dust[astral];
                     dust.noGravity = true;
                     dust.velocity *= 0f;
-					dust.scale *= Main.rand.NextFloat();
+                    dust.scale *= Main.rand.NextFloat();
                 }
             }
 
-			//rotation code for when sproot
-			projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
+            //rotation code for when sproot
+            Projectile.rotation = (float)Math.Atan2((double)Projectile.velocity.Y, (double)Projectile.velocity.X) + 1.57f;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

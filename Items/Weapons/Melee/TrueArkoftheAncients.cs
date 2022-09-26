@@ -1,160 +1,192 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
+    // TODO -- CANNOT RENAME THIS to ArkoftheAncients without corrupting existing items
     public class TrueArkoftheAncients : ModItem
     {
+        public float Combo = 1f;
+        public float Charge = 0f;
+        public static float chargeDamageMultiplier = 1.45f; //Extra damage from charge
+        public static float beamDamageMultiplier = 0.8f; //Damage multiplier for the charged shots (remember it applies ontop of the charge damage multiplied
+        public static float glassStarDamageMultiplier = 0.4f; //Damage multiplier for the glass stars it shoots (Shoots 3x glass stars when not charged, shoots 2x glass stars + one beam when charged)
+
+        public static float blastDamageMultiplier = 0.5f; //Damage multiplier applied ontop of the charge damage multiplier mutliplied by the amount of charges consumed. So if you consume 5 charges, the blast will get multiplied by 5 times the damage multiplier
+        public static float blastFalloffSpeed = 0.1f; //How much the blast damage falls off as you hit more and more targets
+        public static float blastFalloffStrenght = 0.75f; //Value between 0 and 1 that determines how much falloff increases affect the damage : Closer to 0 = damage falls off less intensely, closer to 1 : damage falls off way harder
+
+        const string ParryTooltip = "Using RMB will extend the Ark out in front of you. Hitting an enemy with it will parry them, granting you a small window of invulnerability\n" +
+                "You can also parry projectiles and temporarily make them deal 160 less damage\n" +
+                "Parrying will empower the next 10 swings of the sword, boosting their damage and letting them throw stronger projectiles\n" +
+                "Using RMB and pressing up while the Ark is empowered will release all the charges in a powerful burst of energy";
+
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("True Ark of the Ancients");
-            Tooltip.SetDefault("A heavenly blade forged to vanquish all evil");
+            DisplayName.SetDefault("Ark of the Ancients");
+            Tooltip.SetDefault("This line gets set in ModifyTooltips\n" +
+                "A heavenly blade forged to vanquish all evil");
+            SacrificeTotal = 1;
+        }
+
+        public override void ModifyTooltips(List<TooltipLine> tooltips)
+        {
+            if (tooltips == null)
+                return;
+
+            Player player = Main.player[Main.myPlayer];
+            if (player is null)
+                return;
+
+            var tooltip = tooltips.FirstOrDefault(x => x.Name == "Tooltip0" && x.Mod == "Terraria");
+            if (tooltip != null)
+            {
+                tooltip.Text = ParryTooltip;
+                tooltip.OverrideColor = Color.CornflowerBlue;
+            }
         }
 
         public override void SetDefaults()
         {
-            item.width = 60;
-            item.damage = 98;
-            item.melee = true;
-            item.useAnimation = 25;
-            item.useTime = 25;
-            item.useTurn = true;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 6.5f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 60;
-            item.value = Item.buyPrice(0, 80, 0, 0);
-            item.rare = 8;
-            item.shoot = ModContent.ProjectileType<EonBeam>();
-            item.shootSpeed = 12f;
+            Item.width = Item.height = 72;
+            Item.damage = 188;
+            Item.DamageType = DamageClass.MeleeNoSpeed;
+            Item.noUseGraphic = true;
+            Item.noMelee = true;
+            Item.useAnimation = 25;
+            Item.useTime = 25;
+            Item.useTurn = true;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.knockBack = 6.5f;
+            Item.UseSound = null;
+            Item.autoReuse = true;
+            Item.value = CalamityGlobalItem.Rarity9BuyPrice;
+            Item.rare = ItemRarityID.Yellow;
+            Item.shoot = ProjectileID.PurificationPowder;
+            Item.shootSpeed = 12f;
+        }
+        public override bool AltFunctionUse(Player player) => true;
+
+        public override bool CanUseItem(Player player)
+        {
+            return !Main.projectile.Any(n => n.active && n.owner == player.whoAmI && n.type == ProjectileType<TrueArkoftheAncientsSwungBlade>());
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override void HoldItem(Player player)
         {
-            switch (Main.rand.Next(2))
-            {
-                case 0:
-                    type = ModContent.ProjectileType<EonBeam>();
-                    break;
-                case 1:
-                    type = ModContent.ProjectileType<EonBeamV2>();
-                    break;
-            }
-            int beam = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, (int)(damage * 0.75), knockBack, Main.myPlayer, 1f);
-			Main.projectile[beam].localNPCHitCooldown = 14;
-            int i = Main.myPlayer;
-            float num72 = Main.rand.Next(18, 27);
-            float num74 = knockBack;
-            num74 = player.GetWeaponKnockback(item, num74);
-            player.itemTime = item.useTime;
-            Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
-            Vector2 value = Vector2.UnitX.RotatedBy((double)player.fullRotation, default);
-            Vector2 vector3 = Main.MouseWorld - vector2;
-            float num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
-            float num79 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;
-            if (player.gravDir == -1f)
-            {
-                num79 = Main.screenPosition.Y + (float)Main.screenHeight - (float)Main.mouseY - vector2.Y;
-            }
-            float num80 = (float)Math.Sqrt((double)(num78 * num78 + num79 * num79));
-            if ((float.IsNaN(num78) && float.IsNaN(num79)) || (num78 == 0f && num79 == 0f))
-            {
-                num78 = (float)player.direction;
-                num79 = 0f;
-                num80 = num72;
-            }
-            else
-            {
-                num80 = num72 / num80;
-            }
+            player.Calamity().mouseWorldListener = true;
+        }
 
-            for (int num108 = 0; num108 < Main.rand.Next(1,3); num108++)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        {
+            if (player.altFunctionUse == 2)
             {
-                vector2 = new Vector2(player.position.X + (float)player.width * 0.5f + (float)(Main.rand.Next(201) * -(float)player.direction) + ((float)Main.mouseX + Main.screenPosition.X - player.position.X), player.MountedCenter.Y - 600f);
-                vector2.X = (vector2.X + player.Center.X) / 2f + (float)Main.rand.Next(-200, 201);
-                vector2.Y -= (float)(100 * num108);
-                num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
-                num79 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;
-                if (num79 < 0f)
+                if (Charge > 0 && player.controlUp)
                 {
-                    num79 *= -1f;
-                }
-                if (num79 < 20f)
-                {
-                    num79 = 20f;
-                }
-                num80 = (float)Math.Sqrt((double)(num78 * num78 + num79 * num79));
-                num80 = num72 / num80;
-                num78 *= num80;
-                num79 *= num80;
+                    float angle = player.SafeDirectionTo(Main.MouseWorld, Vector2.UnitY).ToRotation();
+                    Vector2 laserVector = player.SafeDirectionTo(Main.MouseWorld, Vector2.UnitY) * 600;
+                    Projectile.NewProjectile(source, player.Center + angle.ToRotationVector2() * 90f, laserVector, ProjectileType<TrueAncientBlast>(), (int)(damage * Charge * chargeDamageMultiplier * blastDamageMultiplier), 0, player.whoAmI);
 
-                float speedX2 = num78 + (float)Main.rand.Next(-160, 161) * 0.02f;
-                float speedY2 = num79 + (float)Main.rand.Next(-160, 161) * 0.02f;
-                int proj = Projectile.NewProjectile(vector2.X, vector2.Y, speedX2, speedY2, ProjectileID.HallowStar, damage / 3, num74, i, 0f, (float)Main.rand.Next(10));
-                Main.projectile[proj].Calamity().forceMelee = true;
+                    if (Main.LocalPlayer.Calamity().GeneralScreenShakePower < 3)
+                        Main.LocalPlayer.Calamity().GeneralScreenShakePower = 3;
 
-				speedX2 = num78 + (float)Main.rand.Next(-80, 81) * 0.02f;
-				speedY2 = num79 + (float)Main.rand.Next(-80, 81) * 0.02f;
-				Projectile.NewProjectile(vector2.X, vector2.Y, speedX2, speedY2, ModContent.ProjectileType<TerraBall>(), damage / 3, num74, i, 0f, (float)Main.rand.Next(5));
+                    Charge = 0;
+                }
+
+                else if (!Main.projectile.Any(n => n.active && n.owner == player.whoAmI && (n.type == ProjectileType<ArkoftheAncientsParryHoldout>() || n.type == ProjectileType<TrueArkoftheAncientsParryHoldout>() || n.type == ProjectileType<ArkoftheElementsParryHoldout>() || n.type == ProjectileType<ArkoftheCosmosParryHoldout>())))
+                    Projectile.NewProjectile(source, player.Center, velocity, ProjectileType<TrueArkoftheAncientsParryHoldout>(), damage, 0, player.whoAmI, 0, 0);
+
+                return false;
             }
+
+            //Failsafe
+            if (Combo != -1 && Combo != 1)
+                Combo = 1;
+
+            if (Charge > 0)
+                damage = (int)(chargeDamageMultiplier * damage);
+            Projectile.NewProjectile(source, player.Center, velocity, ProjectileType<TrueArkoftheAncientsSwungBlade>(), damage, knockback, player.whoAmI, Combo, Charge);
+            Combo *= -1f;
+
+            //Shoot an extra star projectile every upwards swing
+            if (Combo == -1f)
+            {
+                //Only shoot the center star if theres no charge
+                if (Charge == 0)
+                    Projectile.NewProjectile(source, player.Center + Utils.SafeNormalize(velocity, Vector2.Zero) * 20, velocity, ProjectileType<AncientStar>(), (int)(damage * glassStarDamageMultiplier), knockback, player.whoAmI);
+
+                Vector2 Shift = Utils.SafeNormalize(velocity.RotatedBy(MathHelper.PiOver2), Vector2.Zero) * 30;
+
+                Projectile.NewProjectile(source, player.Center + Shift, velocity.RotatedBy(MathHelper.PiOver4 * 0.3f) , ProjectileType<AncientStar>(), (int)(damage * glassStarDamageMultiplier), knockback, player.whoAmI, Charge > 0 ? 1 : 0);
+                Projectile.NewProjectile(source, player.Center - Shift, velocity.RotatedBy(-MathHelper.PiOver4 * 0.3f), ProjectileType<AncientStar>(), (int)(damage * glassStarDamageMultiplier), knockback, player.whoAmI, Charge > 0 ? 1 : 0);
+            }
+
+
+            Charge--;
+            if (Charge < 0)
+                Charge = 0;
+
             return false;
+        }
+
+        public override ModItem Clone(Item item)
+        {
+            var clone = base.Clone(item);
+
+            if (clone is TrueArkoftheAncients a && item.ModItem is TrueArkoftheAncients a2)
+                a.Charge = a2.Charge;
+
+            return clone;
+        }
+
+        public override void NetSend(BinaryWriter writer)
+        {
+            writer.Write(Charge);
+        }
+
+        public override void NetReceive(BinaryReader reader)
+        {
+            Charge = reader.ReadSingle();
+        }
+
+        public override void PostDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
+        {
+            if (Charge <= 0)
+                return;
+
+            var barBG = Request<Texture2D>("CalamityMod/ExtraTextures/GenericBarBack").Value;
+            var barFG = Request<Texture2D>("CalamityMod/ExtraTextures/GenericBarFront").Value;
+
+            float barScale = 1.5f;
+
+            Vector2 drawPos = position + Vector2.UnitY * ( frame.Height - 2f ) * scale + Vector2.UnitX * (frame.Width - barBG.Width * barScale) * scale * 0.5f;
+            Rectangle frameCrop = new Rectangle(0, 0, (int)(Charge / 10f * barFG.Width), barFG.Height);
+            Color color = Main.hslToRgb((Main.GlobalTimeWrappedHourly * 0.6f) % 1, 1, 0.85f + (float)Math.Sin(Main.GlobalTimeWrappedHourly * 3f) * 0.1f);
+
+            spriteBatch.Draw(barBG, drawPos, null, color, 0f, origin, scale * barScale, 0f, 0f);
+            spriteBatch.Draw(barFG, drawPos, frameCrop, color * 0.8f, 0f, origin, scale * barScale, 0f, 0f);
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<ArkoftheAncients>());
-            recipe.AddIngredient(ModContent.ItemType<CoreofCalamity>());
-            recipe.AddIngredient(ItemID.BrokenHeroSword);
-            recipe.AddIngredient(ModContent.ItemType<LivingShard>(), 3);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-        }
-
-        public override void MeleeEffects(Player player, Rectangle hitbox)
-        {
-            if (Main.rand.NextBool(5))
-            {
-                int num249 = Main.rand.Next(3);
-                if (num249 == 0)
-                {
-                    num249 = 15;
-                }
-                else if (num249 == 1)
-                {
-                    num249 = 57;
-                }
-                else
-                {
-                    num249 = 58;
-                }
-                int num250 = Dust.NewDust(new Vector2((float)hitbox.X, (float)hitbox.Y), hitbox.Width, hitbox.Height, num249, (float)(player.direction * 2), 0f, 150, default, 1.3f);
-                Main.dust[num250].velocity *= 0.2f;
-            }
-        }
-
-        public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
-        {
-            if (Main.rand.NextBool(2))
-            {
-                target.AddBuff(ModContent.BuffType<HolyFlames>(), 300);
-            }
-        }
-
-        public override void OnHitPvp(Player player, Player target, int damage, bool crit)
-        {
-            if (Main.rand.NextBool(2))
-            {
-                target.AddBuff(ModContent.BuffType<HolyFlames>(), 300);
-            }
+            CreateRecipe().
+                AddIngredient<FracturedArk>().
+                AddIngredient(ItemID.TrueExcalibur).
+                AddIngredient<CoreofCalamity>().
+                AddIngredient<LivingShard>(15).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

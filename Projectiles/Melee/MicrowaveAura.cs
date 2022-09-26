@@ -1,14 +1,18 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Projectiles.Melee.Yoyos;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.Audio;
+using CalamityMod.Items.Weapons.Melee;
 
 namespace CalamityMod.Projectiles.Melee
 {
-	public class MicrowaveAura : ModProjectile
+    public class MicrowaveAura : ModProjectile
     {
-		private int radius = 100;
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
+        private int radius = 100;
 
         public override void SetStaticDefaults()
         {
@@ -17,70 +21,68 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetDefaults()
         {
-            projectile.melee = true;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
-			projectile.width = 200;
-			projectile.height = 200;
-			projectile.friendly = true;
-			projectile.tileCollide = false;
-			projectile.penetrate = -1;
-			projectile.alpha = 255;
-			projectile.ignoreWater = true;
-			projectile.timeLeft = 300;
+            Projectile.DamageType = DamageClass.MeleeNoSpeed;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
+            Projectile.width = 200;
+            Projectile.height = 200;
+            Projectile.friendly = true;
+            Projectile.tileCollide = false;
+            Projectile.penetrate = -1;
+            Projectile.alpha = 255;
+            Projectile.ignoreWater = true;
+            Projectile.timeLeft = 300;
         }
 
-		public override void AI()
-		{
-			Projectile parent = Main.projectile[0];
-			bool active = false;
-			for (int i = 0; i < Main.projectile.Length; i++)
-			{
-				Projectile p = Main.projectile[i];
-				if (p.identity == projectile.ai[0] && p.active && p.type == ModContent.ProjectileType<MicrowaveYoyo>())
-				{
-					parent = p;
-					active = true;
-				}
-			}
-
-			if (active)
-			{
-				projectile.Center = parent.Center;
-				projectile.timeLeft = 2;
-			}
-			else
-			{
-				projectile.Kill();
-			}
-
-			if (!parent.active)
-			{
-				projectile.Kill();
-			}
-		}
+        public override void AI()
+        {
+            Projectile parent = FindParent();
+            if (parent != null && parent.active)
+            {
+                Projectile.Center = parent.Center;
+                Projectile.timeLeft = 2;
+            }
+            else
+            {
+                Projectile.Kill();
+            }
+        }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 180);
+            if (target.life <= 0 && (FindParent().ModProjectile as MicrowaveYoyo).soundCooldown <= 0)
+            {
+                SoundEngine.PlaySound(TheMicrowave.BeepSound, Projectile.Center);
+                (FindParent().ModProjectile as MicrowaveYoyo).soundCooldown = 60;
+            }
         }
 
-        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
+        public override void OnHitPvp(Player target, int damage, bool crit)
         {
-            float dist1 = Vector2.Distance(projectile.Center, targetHitbox.TopLeft());
-            float dist2 = Vector2.Distance(projectile.Center, targetHitbox.TopRight());
-            float dist3 = Vector2.Distance(projectile.Center, targetHitbox.BottomLeft());
-            float dist4 = Vector2.Distance(projectile.Center, targetHitbox.BottomRight());
-
-            float minDist = dist1;
-            if (dist2 < minDist)
-                minDist = dist2;
-            if (dist3 < minDist)
-                minDist = dist3;
-            if (dist4 < minDist)
-                minDist = dist4;
-
-            return minDist <= radius;
+            target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 180);
+            if (target.statLife <= 0 && (FindParent().ModProjectile as MicrowaveYoyo).soundCooldown <= 0)
+            {
+                SoundEngine.PlaySound(TheMicrowave.BeepSound, Projectile.Center);
+                (FindParent().ModProjectile as MicrowaveYoyo).soundCooldown = 60;
+            }
         }
+
+        private Projectile FindParent()
+        {
+            Projectile parent = null;
+            for (int i = 0; i < Main.maxProjectiles; i++)
+            {
+                Projectile p = Main.projectile[i];
+                if (p.identity == Projectile.ai[0] && p.active && p.type == ModContent.ProjectileType<MicrowaveYoyo>() && p.owner == Projectile.owner)
+                {
+                    parent = p;
+                    break;
+                }
+            }
+            return parent;
+        }
+
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => CalamityUtils.CircularHitboxCollision(Projectile.Center, radius, targetHitbox);
     }
 }

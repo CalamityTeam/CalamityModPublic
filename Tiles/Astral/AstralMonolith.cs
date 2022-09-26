@@ -1,8 +1,9 @@
-
+﻿
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.GameContent.Metadata;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -13,10 +14,11 @@ namespace CalamityMod.Tiles.Astral
         private static int sheetWidth = 216;
         private static int sheetHeight = 72;
 
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileSolid[Type] = true;
             Main.tileBlockLight[Type] = true;
+			TileMaterials.SetForTileId(Type, TileMaterials._materialsByName["Wood"]);
 
             CalamityUtils.MergeWithGeneral(Type);
             CalamityUtils.MergeAstralTiles(Type);
@@ -25,7 +27,7 @@ namespace CalamityMod.Tiles.Astral
             CalamityUtils.SetMerge(Type, TileID.LivingWood);
             CalamityUtils.SetMerge(Type, TileID.LivingMahogany);
 
-            drop = ModContent.ItemType<Items.Placeables.AstralMonolith>();
+            ItemDrop = ModContent.ItemType<Items.Placeables.AstralMonolith>();
             AddMapEntry(new Color(45, 36, 63));
         }
 
@@ -41,11 +43,11 @@ namespace CalamityMod.Tiles.Astral
             int yPos = j % 4;
 
             if ((xPos == 0 && yPos == 2) || (xPos == 1 && yPos == 3) || (xPos == 3 && yPos == 1))
-                Main.tile[i, j].frameNumber(Main.tile[i, j - 1].frameNumber());
+                Main.tile[i, j].Get<TileWallWireStateData>().TileFrameNumber = Main.tile[i, j - 1].TileFrameNumber;
             else if (xPos == 2 && yPos == 2)
-                Main.tile[i, j].frameNumber(Main.tile[i - 1, j].frameNumber());
+                Main.tile[i, j].Get<TileWallWireStateData>().TileFrameNumber = Main.tile[i - 1, j].TileFrameNumber;
             else if (xPos == 2 && yPos == 3)
-                Main.tile[i, j].frameNumber(Main.tile[i - 1, j - 1].frameNumber());
+                Main.tile[i, j].Get<TileWallWireStateData>().TileFrameNumber = Main.tile[i - 1, j - 1].TileFrameNumber;
 
             GetDrawSpecifics(i, j, ref xPos, ref yPos);
 
@@ -65,19 +67,19 @@ namespace CalamityMod.Tiles.Astral
             xOffset *= sheetWidth;
             yOffset *= sheetHeight;
 
-            int xPos = tile.frameX;
-            int yPos = tile.frameY;
+            int xPos = tile.TileFrameX;
+            int yPos = tile.TileFrameY;
             xPos += xOffset;
             yPos += yOffset;
-            Texture2D glowmask = ModContent.GetTexture("CalamityMod/Tiles/Astral/AstralMonolithGlow");
+            Texture2D glowmask = ModContent.Request<Texture2D>("CalamityMod/Tiles/Astral/AstralMonolithGlow").Value;
             Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
             Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + zero;
             Color drawColour = GetDrawColour(i, j, new Color(50, 50, 50, 50));
-            if (!tile.halfBrick() && tile.slope() == 0)
+            if (!tile.IsHalfBlock && tile.Slope == 0)
             {
                 Main.spriteBatch.Draw(glowmask, drawOffset, new Rectangle?(new Rectangle(xPos, yPos, 18, 18)), drawColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
             }
-            else if (tile.halfBrick())
+            else if (tile.IsHalfBlock)
             {
                 Main.spriteBatch.Draw(glowmask, drawOffset + new Vector2(0f, 8f), new Rectangle?(new Rectangle(xPos, yPos, 18, 8)), drawColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
             }
@@ -93,7 +95,7 @@ namespace CalamityMod.Tiles.Astral
         {
             Tile tile = Main.tile[i, j];
             // Make sure the features work as intended
-            if (tile.frameNumber() == 1)
+            if (tile.TileFrameNumber == 1)
             {
                 if (xPos == 0 && (yPos == 1 || yPos == 2))
                     yPos += 3;
@@ -102,7 +104,7 @@ namespace CalamityMod.Tiles.Astral
                 else if (xPos == 3 && (yPos == 0 || yPos == 1))
                     yPos += 4;
             }
-            else if (tile.frameNumber() == 2)
+            else if (tile.TileFrameNumber == 2)
             {
                 if (xPos == 1 && yPos == 0)
                 {
@@ -129,7 +131,7 @@ namespace CalamityMod.Tiles.Astral
 
         private Color GetDrawColour(int i, int j, Color colour)
         {
-            int colType = Main.tile[i, j].color();
+            int colType = Main.tile[i, j].TileColor;
             Color paintCol = WorldGen.paintColor(colType);
             if (colType >= 13 && colType <= 24)
             {

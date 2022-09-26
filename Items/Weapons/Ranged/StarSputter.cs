@@ -1,3 +1,4 @@
+﻿using Terraria.DataStructures;
 using CalamityMod.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -8,35 +9,36 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class StarSputter : ModItem
     {
-		private int counter = 0;
+        private int counter = 0;
 
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Star Sputter");
             Tooltip.SetDefault("Fires a chain of comets\n" +
-			"Fires a bigger, more powerful comet every four rounds\n" +
-			"Look to the stars for a galaxy far, far away");
+            "Fires a bigger, more powerful comet every four rounds\n" +
+            "Look to the stars for a galaxy far, far away");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 112;
-            item.ranged = true;
-            item.width = 80;
-            item.height = 26;
-            item.useTime = 8;
-            item.reuseDelay = 15;
-            item.useAnimation = 24;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 15f;
-            item.value = Item.buyPrice(0, 95, 0, 0);
-            item.rare = 9;
-            item.UseSound = SoundID.Item92;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<SputterComet>();
-            item.shootSpeed = 15f;
-            item.useAmmo = 75;
+            Item.damage = 112;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 80;
+            Item.height = 26;
+            Item.useTime = 8;
+            Item.reuseDelay = 15;
+            Item.useAnimation = 24;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 15f;
+            Item.value = CalamityGlobalItem.RarityCyanBuyPrice;
+            Item.rare = ItemRarityID.Cyan;
+            Item.UseSound = SoundID.Item92;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<SputterComet>();
+            Item.shootSpeed = 15f;
+            Item.useAmmo = AmmoID.FallenStar;
         }
 
         public override Vector2? HoldoutOffset()
@@ -44,21 +46,21 @@ namespace CalamityMod.Items.Weapons.Ranged
             return new Vector2(-5, 0);
         }
 
-        public override bool ConsumeAmmo(Player player) //consume ammo only once per round
+        public override bool CanConsumeAmmo(Item ammo, Player player) //consume ammo only once per round
         {
             if (counter == 1 || counter == 2 || counter == 4 || counter == 5 || counter == 7 || counter == 8 || counter == 10 || counter == 11)
                 return false;
             return true;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-			counter++;
+            counter++;
             if (counter == 10)
             {
-                Projectile.NewProjectile(position.X, position.Y, speedX * 0.8f, speedY * 0.8f, ModContent.ProjectileType<SputterCometBig>(), (int)(damage * 1.5f), knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(source, position.X, position.Y, velocity.X * 0.8f, velocity.Y * 0.8f, ModContent.ProjectileType<SputterCometBig>(), (int)(damage * 1.5f), knockback, player.whoAmI, 0f, 0f);
             }
-			if (counter >= 12)
+            if (counter >= 12)
                 counter = 0;
             return true;
         }

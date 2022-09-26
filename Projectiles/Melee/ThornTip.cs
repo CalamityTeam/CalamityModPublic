@@ -2,7 +2,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Melee
 {
-	public class ThornTip : ModProjectile
+    public class ThornTip : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -11,16 +11,16 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetDefaults()
         {
-			projectile.width = 28;
-			projectile.height = 28;
-			projectile.aiStyle = 4;
-			projectile.friendly = true;
-			projectile.penetrate = 1;
-			projectile.tileCollide = false;
-			projectile.alpha = 255;
-			projectile.ignoreWater = true;
-			projectile.melee = true;
-			aiType = ProjectileID.VilethornTip;
+            Projectile.width = 28;
+            Projectile.height = 28;
+            Projectile.aiStyle = ProjAIStyleID.Vilethorn;
+            Projectile.friendly = true;
+            Projectile.penetrate = 1;
+            Projectile.tileCollide = false;
+            Projectile.alpha = 255;
+            Projectile.ignoreWater = true;
+            Projectile.DamageType = DamageClass.Melee;
+            AIType = ProjectileID.VilethornTip;
         }
     }
 }

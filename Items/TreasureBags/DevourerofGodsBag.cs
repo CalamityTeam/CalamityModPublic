@@ -1,7 +1,6 @@
-using CalamityMod.Items.Accessories;
+﻿using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.Materials;
-using CalamityMod.Items.Mounts;
 using CalamityMod.Items.Pets;
 using CalamityMod.Items.Placeables.FurnitureCosmilite;
 using CalamityMod.Items.Weapons.Magic;
@@ -14,74 +13,86 @@ using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.GameContent.ItemDropRules;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.TreasureBags
 {
     public class DevourerofGodsBag : ModItem
     {
-        public override int BossBagNPC => ModContent.NPCType<DevourerofGodsHeadS>();
-
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Treasure Bag");
+            SacrificeTotal = 3;
+            DisplayName.SetDefault("Treasure Bag (The Devourer of Gods)");
             Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
+			ItemID.Sets.BossBag[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.maxStack = 999;
-            item.consumable = true;
-            item.width = 24;
-            item.height = 24;
-            item.rare = 9;
-            item.expert = true;
+            Item.maxStack = 999;
+            Item.consumable = true;
+            Item.width = 36;
+            Item.height = 34;
+            Item.rare = ItemRarityID.Cyan;
+            Item.expert = true;
+        }
+
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = ContentSamples.CreativeHelper.ItemGroup.BossBags;
+		}
+
+        public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
+        {
+            return CalamityUtils.DrawTreasureBagInWorld(Item, spriteBatch, ref rotation, ref scale, whoAmI);
         }
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
-            Vector2 origin = new Vector2(18f, 20f); //18, 17
-            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Items/TreasureBags/DevourerofGodsBagGlow"), item.Center - Main.screenPosition, null, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
+            Item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.Request<Texture2D>("CalamityMod/Items/TreasureBags/DevourerofGodsBagGlow").Value);
         }
 
-        public override bool CanRightClick()
-        {
-            return true;
-        }
+        public override bool CanRightClick() => true;
 
-        public override void PostUpdate() => CalamityUtils.ForceItemIntoWorld(item);
+		public override Color? GetAlpha(Color lightColor) => Color.Lerp(lightColor, Color.White, 0.4f);
 
-        public override void OpenBossBag(Player player)
+        public override void PostUpdate()
+		{
+			CalamityUtils.ForceItemIntoWorld(Item);
+			Item.TreasureBagLightAndDust();
+		}
+
+        public override void ModifyItemLoot(ItemLoot itemLoot)
         {
-            player.TryGettingDevArmor();
+			// Money
+			itemLoot.Add(ItemDropRule.CoinsBasedOnNPCValue(ModContent.NPCType<DevourerofGodsHead>()));
 
             // Materials
-            DropHelper.DropItem(player, ModContent.ItemType<CosmiliteBar>(), 30, 39);
-            DropHelper.DropItem(player, ModContent.ItemType<CosmiliteBrick>(), 200, 320);
+            itemLoot.Add(ModContent.ItemType<CosmiliteBar>(), 1, 30, 40);
+            itemLoot.Add(ModContent.ItemType<CosmiliteBrick>(), 1, 200, 320);
 
             // Weapons
-            DropHelper.DropItemChance(player, ModContent.ItemType<Excelsus>(), 3);
-            float dischargeChance = DropHelper.LegendaryDropRateFloat;
-            DropHelper.DropItemCondition(player, ModContent.ItemType<CosmicDischarge>(), CalamityWorld.revenge, dischargeChance);
-            DropHelper.DropItemChance(player, ModContent.ItemType<TheObliterator>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<Deathwind>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<Skullmasher>(), DropHelper.RareVariantDropRateInt);
-            DropHelper.DropItemChance(player, ModContent.ItemType<Norfleet>(), DropHelper.RareVariantDropRateInt);
-            DropHelper.DropItemChance(player, ModContent.ItemType<DeathhailStaff>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<StaffoftheMechworm>(), 3);
-			if (Main.rand.NextBool(3))
-			{
-				DropHelper.DropItemFromSetChance(player, 1f, ModContent.ItemType<EradicatorMelee>(), ModContent.ItemType<Eradicator>());
-			}
+            itemLoot.Add(DropHelper.CalamityStyle(DropHelper.BagWeaponDropRateFraction, new int[]
+            {
+                ModContent.ItemType<Excelsus>(),
+                ModContent.ItemType<TheObliterator>(),
+                ModContent.ItemType<Deathwind>(),
+                ModContent.ItemType<DeathhailStaff>(),
+                ModContent.ItemType<StaffoftheMechworm>(),
+                ModContent.ItemType<Eradicator>()
+            }));
+            itemLoot.Add(ModContent.ItemType<CosmicDischarge>(), 10);
+            itemLoot.Add(ModContent.ItemType<Norfleet>(), 10);
 
             // Equipment
-            DropHelper.DropItem(player, ModContent.ItemType<NebulousCore>());
-            bool vodka = player.Calamity().fabsolVodka;
-            DropHelper.DropItemCondition(player, ModContent.ItemType<Fabsol>(), CalamityWorld.revenge && vodka);
+            itemLoot.Add(ModContent.ItemType<NebulousCore>());
+            itemLoot.AddRevBagAccessories();
 
             // Vanity
-            DropHelper.DropItemChance(player, ModContent.ItemType<DevourerofGodsMask>(), 7);
-            DropHelper.DropItemCondition(player, ModContent.ItemType<CosmicPlushie>(), CalamityWorld.death && player.difficulty == 2);
+            itemLoot.Add(ModContent.ItemType<DevourerofGodsMask>(), 7);
+            itemLoot.AddIf((info) => CalamityWorld.death && info.player.difficulty == 2, ModContent.ItemType<CosmicPlushie>());
         }
     }
 }

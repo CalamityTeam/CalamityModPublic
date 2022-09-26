@@ -1,5 +1,7 @@
-using CalamityMod.Buffs.Pets;
+﻿using CalamityMod.Buffs.Pets;
 using CalamityMod.Projectiles.Pets;
+using CalamityMod.Rarities;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -10,32 +12,34 @@ namespace CalamityMod.Items.Pets
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Cosmic Plushie");
             Tooltip.SetDefault("Summons the devourer of the cosmos...?\nSharp objects possibly included\nSuppresses friendly red devils");
         }
 
         public override void SetDefaults()
         {
-            item.damage = 0;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useAnimation = 20;
-            item.useTime = 20;
-            item.noMelee = true;
-            item.width = 28;
-            item.height = 36;
-            item.value = Item.sellPrice(0, 7, 0, 0);
-            item.shoot = ModContent.ProjectileType<ChibiiDoggo>();
-            item.buffType = ModContent.BuffType<ChibiiBuff>();
-            item.rare = 10;
-            item.UseSound = new Terraria.Audio.LegacySoundStyle(SoundID.Meowmere, 5);
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.damage = 0;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useAnimation = 20;
+            Item.useTime = 20;
+            Item.noMelee = true;
+            Item.width = 28;
+            Item.height = 36;
+            Item.shoot = ModContent.ProjectileType<ChibiiDoggo>();
+            Item.buffType = ModContent.BuffType<ChibiiDoGBuff>();
+            Item.UseSound = SoundID.Meowmere;
+
+            Item.value = Item.sellPrice(gold: 7);
+            Item.rare = ModContent.RarityType<DarkBlue>();
+            Item.Calamity().devItem = true;
         }
 
-        public override void UseStyle(Player player)
+        public override void UseStyle(Player player, Rectangle heldItemFrame)
         {
             if (player.whoAmI == Main.myPlayer && player.itemTime == 0)
             {
-                player.AddBuff(item.buffType, 15, true);
+                player.AddBuff(Item.buffType, 15, true);
             }
         }
     }

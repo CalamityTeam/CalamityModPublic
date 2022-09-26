@@ -1,3 +1,4 @@
+﻿using Terraria.DataStructures;
 using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -11,40 +12,41 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Storm Saber");
-            Tooltip.SetDefault("Fires two storm beams\n" +
-			"One from blade and one from the sky");
+            Tooltip.SetDefault("Fires two homing storm beams\n" +
+            "One from blade and one from the sky");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.width = 58;
-            item.damage = 68;
-            item.melee = true;
-            item.useAnimation = 23;
-            item.useTime = 23;
-            item.useTurn = true;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 6f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 68;
-            item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = 5;
-            item.shoot = ModContent.ProjectileType<StormBeam>();
-            item.shootSpeed = 12f;
+            Item.width = 58;
+            Item.damage = 66;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = 23;
+            Item.useTime = 23;
+            Item.useTurn = true;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 6f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.height = 64;
+            Item.value = CalamityGlobalItem.Rarity6BuyPrice;
+            Item.rare = ItemRarityID.Pink;
+            Item.shoot = ModContent.ProjectileType<StormBeam>();
+            Item.shootSpeed = 12f;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, (int)(damage * 0.8), knockBack, player.whoAmI, 0f, 0f);
+            Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, type, (int)(damage * 0.8), knockback, player.whoAmI, 0f, 0f);
 
             Vector2 spawnPos = new Vector2(player.MountedCenter.X + Main.rand.Next(-200, 201), player.MountedCenter.Y - 600f);
             Vector2 targetPos = Main.MouseWorld + new Vector2(Main.rand.Next(-30, 31), Main.rand.Next(-30, 31));
-            Vector2 velocity = targetPos - spawnPos;
+            velocity = targetPos - spawnPos;
             velocity.Normalize();
             velocity *= 13f;
 
-            Projectile.NewProjectile(spawnPos, velocity, type, (int)(damage * 0.6), knockBack, player.whoAmI);
+            Projectile.NewProjectile(source, spawnPos, velocity, type, (int)(damage * 0.6), knockback, player.whoAmI);
             return false;
         }
 

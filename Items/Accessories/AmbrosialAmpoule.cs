@@ -1,7 +1,6 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
-using CalamityMod.World;
-using System.Collections.Generic;
+using CalamityMod.Items.Placeables;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -12,69 +11,47 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Ambrosial Ampoule");
-            Tooltip.SetDefault("25% increased mining speed\n" +
-                "You emit light\n" +
+            Tooltip.SetDefault("You emit light\n" +
                 "5% increased damage reduction and increased life regen\n" +
-                "Poison, Freeze, Chill, Frostburn, and Venom immunity\n" +
-                "Honey-like life regen with no speed penalty\n" +
-                "Most bee/hornet enemies and projectiles do 75% damage to you");
+                "Grants immunity to the Frozen, Chilled, Frostburn, Cursed Inferno and Burning Blood debuffs");
         }
 
         public override void SetDefaults()
         {
-            item.defense = 4;
-            item.width = 20;
-            item.height = 20;
-            item.value = CalamityGlobalItem.Rarity5BuyPrice;
-            item.rare = 5;
-            item.accessory = true;
-        }
-
-        public override void ModifyTooltips(List<TooltipLine> list)
-        {
-			if (CalamityWorld.death)
-			{
-				foreach (TooltipLine line2 in list)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Tooltip5")
-					{
-						line2.text = "Most bee/hornet enemies and projectiles do 75% damage to you\n" +
-						"Provides cold protection in Death Mode";
-					}
-				}
-			}
+            Item.defense = 6;
+            Item.width = 20;
+            Item.height = 20;
+            Item.value = CalamityGlobalItem.Rarity5BuyPrice;
+            Item.rare = ItemRarityID.Pink;
+            Item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            modPlayer.beeResist = true;
             modPlayer.aAmpoule = true;
+            modPlayer.rOoze = true;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<CorruptFlask>());
-            recipe.AddIngredient(ModContent.ItemType<ArchaicPowder>());
-            recipe.AddIngredient(ModContent.ItemType<RadiantOoze>());
-            recipe.AddIngredient(ModContent.ItemType<HoneyDew>());
-            recipe.AddIngredient(ModContent.ItemType<Stardust>(), 15);
-            recipe.AddIngredient(ModContent.ItemType<CryoBar>(), 5);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<CrimsonFlask>());
-            recipe.AddIngredient(ModContent.ItemType<ArchaicPowder>());
-            recipe.AddIngredient(ModContent.ItemType<RadiantOoze>());
-            recipe.AddIngredient(ModContent.ItemType<HoneyDew>());
-            recipe.AddIngredient(ModContent.ItemType<Stardust>(), 15);
-            recipe.AddIngredient(ModContent.ItemType<CryoBar>(), 5);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient<CorruptFlask>().
+                AddIngredient<RadiantOoze>().
+                AddIngredient<CryonicBar>(5).
+                AddIngredient<SeaPrism>(10).
+                AddTile(TileID.MythrilAnvil).
+                Register();
+
+            CreateRecipe().
+                AddIngredient<CrimsonFlask>().
+                AddIngredient<RadiantOoze>().
+                AddIngredient<CryonicBar>(5).
+                AddIngredient<SeaPrism>(10).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

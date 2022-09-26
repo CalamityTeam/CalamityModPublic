@@ -1,93 +1,94 @@
 using System;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.CalPlayer;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-	public class LunarKunaiProj : ModProjectile
+    public class LunarKunaiProj : ModProjectile
     {
-		bool lunarEnhance = false;
+        bool lunarEnhance = false;
 
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Kunai");
-			Main.projFrames[projectile.type] = 2;
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Kunai");
+            Main.projFrames[Projectile.type] = 2;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 4;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
+        }
 
         public override void SetDefaults()
         {
-            projectile.width = 14;
-            projectile.height = 14;
-            projectile.friendly = true;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 300;
-            projectile.Calamity().rogue = true;
-		}
+            Projectile.width = 14;
+            Projectile.height = 14;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = 300;
+            Projectile.DamageType = RogueDamageClass.Instance;
+        }
 
         public override void AI()
         {
-            CalamityPlayer modPlayer = Main.player[projectile.owner].Calamity();
-        	projectile.ai[0] += 1f;
-			if(projectile.ai[0] == 1f && modPlayer.StealthStrikeAvailable())
-				lunarEnhance = true;
-			else if (projectile.ai[0] >= 50f)
-				lunarEnhance = true;
+            CalamityPlayer modPlayer = Main.player[Projectile.owner].Calamity();
+            Projectile.ai[0] += 1f;
+            if(Projectile.ai[0] == 1f && modPlayer.StealthStrikeAvailable())
+                lunarEnhance = true;
+            else if (Projectile.ai[0] >= 50f)
+                lunarEnhance = true;
 
-			if (lunarEnhance)
-				projectile.frame = 1;
-			else
-				projectile.frame = 0;
+            if (lunarEnhance)
+                Projectile.frame = 1;
+            else
+                Projectile.frame = 0;
 
-			projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, (lunarEnhance ? 1000f : 500f), (lunarEnhance ? 35f : 15f), 20f);
+            Projectile.rotation = (float)Math.Atan2((double)Projectile.velocity.Y, (double)Projectile.velocity.X) + 1.57f;
+            CalamityUtils.HomeInOnNPC(Projectile, !Projectile.tileCollide, lunarEnhance ? 300f : 150f, lunarEnhance ? 12f : 8f, 20f);
             if (Main.rand.Next(6) == 0 && lunarEnhance)
-            	Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 229, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 229, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
         }
 
         public override void Kill(int timeLeft)
         {
-			if (lunarEnhance)
-			{
-				Main.PlaySound(SoundID.Item14, projectile.Center);
-				projectile.position = projectile.Center;
-				projectile.width = projectile.height = 28;
-				projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-				projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
-				projectile.damage /= 4;
-				projectile.usesLocalNPCImmunity = true;
-				projectile.localNPCHitCooldown = 10;
-				for (int num194 = 0; num194 < 10; num194++)
-				{
-					int num195 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 229, 0f, 0f, 0, default, 1.5f);
-					Main.dust[num195].noGravity = true;
-					Main.dust[num195].velocity *= 3f;
-					num195 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 229, 0f, 0f, 100, default, 1f);
-					Main.dust[num195].velocity *= 2f;
-					Main.dust[num195].noGravity = true;
-				}
-				projectile.Damage();
-			}
-			else
-			{
-				for (int i = 0; i < 5; i++)
-				{
-					int num304 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 265, 0f, 0f, 100, default, 1f);
-					Main.dust[num304].noGravity = true;
-					Main.dust[num304].velocity *= 1.2f;
-					Main.dust[num304].velocity -= projectile.oldVelocity * 0.3f;
-				}
-			}
+            if (lunarEnhance)
+            {
+                SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);
+                Projectile.position = Projectile.Center;
+                Projectile.width = Projectile.height = 28;
+                Projectile.position.X = Projectile.position.X - (float)(Projectile.width / 2);
+                Projectile.position.Y = Projectile.position.Y - (float)(Projectile.height / 2);
+                Projectile.damage /= 4;
+                Projectile.usesLocalNPCImmunity = true;
+                Projectile.localNPCHitCooldown = 10;
+                for (int num194 = 0; num194 < 10; num194++)
+                {
+                    int num195 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 229, 0f, 0f, 0, default, 1.5f);
+                    Main.dust[num195].noGravity = true;
+                    Main.dust[num195].velocity *= 3f;
+                    num195 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 229, 0f, 0f, 100, default, 1f);
+                    Main.dust[num195].velocity *= 2f;
+                    Main.dust[num195].noGravity = true;
+                }
+                Projectile.Damage();
+            }
+            else
+            {
+                for (int i = 0; i < 5; i++)
+                {
+                    int num304 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 265, 0f, 0f, 100, default, 1f);
+                    Main.dust[num304].noGravity = true;
+                    Main.dust[num304].velocity *= 1.2f;
+                    Main.dust[num304].velocity -= Projectile.oldVelocity * 0.3f;
+                }
+            }
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;
         }
     }

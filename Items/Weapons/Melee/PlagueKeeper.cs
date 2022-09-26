@@ -1,6 +1,7 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -13,63 +14,76 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             DisplayName.SetDefault("Plague Keeper");
             Tooltip.SetDefault("Fires a plague and bee cloud");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.width = 74;
-            item.damage = 80;
-            item.melee = true;
-            item.useAnimation = 20;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 20;
-            item.useTurn = true;
-            item.knockBack = 6f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 90;
-            item.value = Item.buyPrice(1, 20, 0, 0);
-            item.rare = 10;
-            item.shoot = ModContent.ProjectileType<PlagueBeeDust>();
-            item.shootSpeed = 9f;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
-        }
-
-        public override void AddRecipes()
-        {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<VirulentKatana>());
-            recipe.AddIngredient(ItemID.BeeKeeper);
-            recipe.AddIngredient(ItemID.FragmentSolar, 10);
-			recipe.AddIngredient(ModContent.ItemType<InfectedArmorPlating>(), 5);
-            recipe.AddIngredient(ItemID.LunarBar, 5);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            Item.width = 74;
+            Item.damage = 80;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = 20;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 20;
+            Item.useTurn = true;
+            Item.knockBack = 6f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.height = 90;
+            Item.value = CalamityGlobalItem.Rarity10BuyPrice;
+            Item.rare = ItemRarityID.Red;
+            Item.shoot = ModContent.ProjectileType<VirulentBeeWave>();
+            Item.shootSpeed = 9f;
         }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
+            var source = player.GetSource_ItemUse(Item);
+            if (crit)
+                damage /= 2;
+
             target.AddBuff(ModContent.BuffType<Plague>(), 300);
             for (int i = 0; i < 3; i++)
             {
-                int bee = Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, player.beeType(),
-                    player.beeDamage((int)(item.damage * player.MeleeDamage()) / 3), player.beeKB(0f), player.whoAmI, 0f, 0f);
-                Main.projectile[bee].penetrate = 1;
-                Main.projectile[bee].Calamity().forceMelee = true;
+                int bee = Projectile.NewProjectile(source, player.Center, Vector2.Zero, player.beeType(),
+                    player.beeDamage(damage / 3), player.beeKB(0f), player.whoAmI);
+                if (bee.WithinBounds(Main.maxProjectiles))
+                {
+                    Main.projectile[bee].penetrate = 1;
+                    Main.projectile[bee].DamageType = DamageClass.Melee;
+                }
             }
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
+            var source = player.GetSource_ItemUse(Item);
+            if (crit)
+                damage /= 2;
+
             target.AddBuff(ModContent.BuffType<Plague>(), 300);
             for (int i = 0; i < 3; i++)
             {
-                int bee = Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, player.beeType(),
-                    player.beeDamage((int)(item.damage * player.MeleeDamage()) / 3), player.beeKB(0f), player.whoAmI, 0f, 0f);
-                Main.projectile[bee].penetrate = 1;
-                Main.projectile[bee].Calamity().forceMelee = true;
+                int bee = Projectile.NewProjectile(source, player.Center, Vector2.Zero, player.beeType(),
+                    player.beeDamage(damage / 3), player.beeKB(0f), player.whoAmI);
+                if (bee.WithinBounds(Main.maxProjectiles))
+                {
+                    Main.projectile[bee].penetrate = 1;
+                    Main.projectile[bee].DamageType = DamageClass.Melee;
+                }
             }
-		}
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient<Virulence>().
+                AddIngredient(ItemID.BeeKeeper).
+                AddIngredient(ItemID.FragmentSolar, 10).
+                AddIngredient<InfectedArmorPlating>(5).
+                AddIngredient(ItemID.LunarBar, 5).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
+        }
     }
 }

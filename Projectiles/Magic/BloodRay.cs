@@ -1,11 +1,18 @@
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Magic
 {
     public class BloodRay : ModProjectile
     {
+        public const int Lifetime = 150;
+        public const float MaxExponentialDamageBoost = 3f;
+        public static readonly float ExponentialDamageBoost = (float)Math.Pow(MaxExponentialDamageBoost, 1f / Lifetime);
+        public ref float Time => ref Projectile.ai[0];
+        public ref float InitialDamage => ref Projectile.ai[1];
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Blood Ray");
@@ -13,35 +20,40 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetDefaults()
         {
-            projectile.width = 4;
-            projectile.height = 4;
-            projectile.friendly = true;
-            projectile.magic = true;
-            projectile.penetrate = 10;
-            projectile.extraUpdates = 100;
-            projectile.timeLeft = 150;
+            Projectile.width = 4;
+            Projectile.height = 4;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Magic;
+            Projectile.ignoreWater = true;
+            Projectile.penetrate = 10;
+            Projectile.extraUpdates = 100;
+            Projectile.timeLeft = Lifetime;
         }
 
         public override void AI()
         {
-            projectile.localAI[1] += 1f;
-            if (projectile.localAI[1] >= 29f && projectile.owner == Main.myPlayer)
+            // Just doing damage = (int)(damage * scalar) wouldn't work here.
+            // The exponential base would be too small for a weapon like this, and the
+            // cast (which removes the fractional part) would overtake any increases before the damage can rise.
+            if (InitialDamage == 0f)
             {
-                projectile.localAI[1] = 0f;
-                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<BloodOrb>(), (int)(projectile.damage * 0.6), projectile.knockBack, projectile.owner, 0f, 0f);
+                InitialDamage = Projectile.damage;
+                Projectile.netUpdate = true;
             }
 
-            projectile.localAI[0] += 1f;
-            if (projectile.localAI[0] > 9f)
+            Time++;
+            Projectile.damage = (int)(InitialDamage * Math.Pow(ExponentialDamageBoost, Time));
+
+            if (Time >= 12f)
             {
-                for (int num447 = 0; num447 < 2; num447++)
+                for (int i = 0; i < 2; i++)
                 {
-                    Vector2 vector33 = projectile.position;
-                    vector33 -= projectile.velocity * ((float)num447 * 0.25f);
-                    int num448 = Dust.NewDust(vector33, 1, 1, (int)CalamityDusts.Brimstone, 0f, 0f, 0, default, 1.5f);
-                    Main.dust[num448].position = vector33;
-                    Main.dust[num448].scale = (float)Main.rand.Next(70, 110) * 0.013f;
-                    Main.dust[num448].velocity *= 0.1f;
+                    int dustType = Main.rand.NextBool(4) ? 182 : (int)CalamityDusts.Brimstone;
+                    Vector2 dustSpawnPos = Projectile.position - Projectile.velocity * i / 2f;
+                    Dust crimtameMagic = Dust.NewDustPerfect(dustSpawnPos, dustType);
+                    crimtameMagic.scale = Main.rand.NextFloat(0.96f, 1.04f) * MathHelper.Lerp(1f, 1.7f, Time / Lifetime);
+                    crimtameMagic.noGravity = true;
+                    crimtameMagic.velocity *= 0.1f;
                 }
             }
         }

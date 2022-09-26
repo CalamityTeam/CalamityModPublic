@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
@@ -12,6 +12,7 @@ namespace CalamityMod.Items.Tools
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Inferna Cutter");
             Tooltip.SetDefault("Critical hits with the blade cause small explosions\n" +
                 "Generates a number of small sparks when swung");
@@ -19,22 +20,26 @@ namespace CalamityMod.Items.Tools
 
         public override void SetDefaults()
         {
-            item.damage = 110;
-			item.crit += 10;
-            item.melee = true;
-            item.width = 62;
-            item.height = 46;
-            item.useTime = 8;
-            item.useAnimation = 12;
-            item.useTurn = true;
-            item.axe = 27;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 7f;
-            item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = 5;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
+            Item.damage = 110;
+            Item.knockBack = 7f;
+            Item.useTime = 8;
+            Item.useAnimation = 12;
+            Item.axe = 135 / 5;
+            Item.tileBoost += 1;
+
+            Item.DamageType = DamageClass.Melee;
+            Item.width = 80;
+            Item.height = 66;
+            Item.useTurn = true;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.value = Item.buyPrice(0, 36, 0, 0);
+            Item.rare = ItemRarityID.Pink;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
         }
+
+        // Terraria seems to really dislike high crit values in SetDefaults
+        public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 10;
 
         public override void UseItemHitbox(Player player, ref Rectangle hitbox, ref bool noHitbox)
         {
@@ -43,13 +48,12 @@ namespace CalamityMod.Items.Tools
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<PurityAxe>());
-            recipe.AddIngredient(ItemID.SoulofFright, 8);
-            recipe.AddIngredient(ModContent.ItemType<EssenceofChaos>(), 3);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient<AxeofPurity>().
+                AddIngredient(ItemID.SoulofFright, 8).
+                AddIngredient<EssenceofChaos>(3).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)
@@ -117,8 +121,11 @@ namespace CalamityMod.Items.Tools
                     num340 *= 1.5f;
                     num342 *= (float)player.direction;
                     num341 *= player.gravDir;
-                    int spark = Projectile.NewProjectile((float)(hitbox.X + hitbox.Width / 2) + num342, (float)(hitbox.Y + hitbox.Height / 2) + num341, (float)player.direction * num340, num339 * player.gravDir, ProjectileID.Spark, (int)(item.damage * 0.2f * player.MeleeDamage()), 0f, player.whoAmI, 0f, 0f);
-					Main.projectile[spark].Calamity().forceMelee = true;
+                    var source = player.GetSource_ItemUse(Item);
+                    int damage = (int)player.GetTotalDamage<MeleeDamageClass>().ApplyTo(Item.damage * 0.2f);
+                    int spark = Projectile.NewProjectile(source, (float)(hitbox.X + hitbox.Width / 2) + num342, (float)(hitbox.Y + hitbox.Height / 2) + num341, (float)player.direction * num340, num339 * player.gravDir, ProjectileID.Spark, damage, 0f, player.whoAmI);
+                    if (spark.WithinBounds(Main.maxProjectiles))
+                        Main.projectile[spark].DamageType = DamageClass.Melee;
                 }
             }
             if (Main.rand.NextBool(4))
@@ -131,11 +138,14 @@ namespace CalamityMod.Items.Tools
         {
             if (crit)
             {
-                int boom = Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<FuckYou>(), (int)(item.damage * player.MeleeDamage()), knockback, player.whoAmI, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
-                Main.projectile[boom].Calamity().forceMelee = true;
+                damage /= 2;
+                var source = player.GetSource_ItemUse(Item);
+                int boom = Projectile.NewProjectile(source, target.Center, Vector2.Zero, ModContent.ProjectileType<FuckYou>(), damage, knockback, player.whoAmI, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
+                if (boom.WithinBounds(Main.maxProjectiles))
+                    Main.projectile[boom].DamageType = DamageClass.Melee;
             }
             target.AddBuff(BuffID.OnFire, 300);
-            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 300);
+            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 150);
         }
     }
 }

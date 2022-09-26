@@ -1,4 +1,4 @@
-using CalamityMod.Items.Accessories;
+﻿using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.PermanentBoosters;
@@ -12,64 +12,81 @@ using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.GameContent.ItemDropRules;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.TreasureBags
 {
     public class PolterghastBag : ModItem
     {
-        public override int BossBagNPC => ModContent.NPCType<Polterghast>();
-
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Treasure Bag");
+            SacrificeTotal = 3;
+            DisplayName.SetDefault("Treasure Bag (Polterghast)");
             Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
+			ItemID.Sets.BossBag[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.maxStack = 999;
-            item.consumable = true;
-            item.width = 24;
-            item.height = 24;
-            item.rare = 9;
-            item.expert = true;
+            Item.maxStack = 999;
+            Item.consumable = true;
+            Item.width = 32;
+            Item.height = 34;
+            Item.rare = ItemRarityID.Cyan;
+            Item.expert = true;
         }
 
-		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
 		{
-			Vector2 origin = new Vector2(16f, 20f); //16, 17
-			spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Items/TreasureBags/PolterghastBagGlow"), item.Center - Main.screenPosition, null, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
+			itemGroup = ContentSamples.CreativeHelper.ItemGroup.BossBags;
 		}
 
-		public override bool CanRightClick()
+        public override bool CanRightClick() => true;
+
+		public override Color? GetAlpha(Color lightColor) => Color.Lerp(lightColor, Color.White, 0.4f);
+
+        public override void PostUpdate() => Item.TreasureBagLightAndDust();
+
+        public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
         {
-            return true;
+            return CalamityUtils.DrawTreasureBagInWorld(Item, spriteBatch, ref rotation, ref scale, whoAmI);
         }
 
-        public override void OpenBossBag(Player player)
+        public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
-            player.TryGettingDevArmor();
+            Item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.Request<Texture2D>("CalamityMod/Items/TreasureBags/PolterghastBagGlow").Value);
+        }
+
+        public override void ModifyItemLoot(ItemLoot itemLoot)
+        {
+			// Money
+			itemLoot.Add(ItemDropRule.CoinsBasedOnNPCValue(ModContent.NPCType<Polterghast>()));
 
             // Materials
-            DropHelper.DropItem(player, ModContent.ItemType<RuinousSoul>(), 10, 20);
-            DropHelper.DropItem(player, ModContent.ItemType<Phantoplasm>(), 20, 30);
+            itemLoot.Add(ModContent.ItemType<RuinousSoul>(), 1, 10, 20);
+            itemLoot.Add(ModContent.ItemType<Phantoplasm>(), 1, 40, 50);
 
             // Weapons
-            DropHelper.DropItemChance(player, ModContent.ItemType<TerrorBlade>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<BansheeHook>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<DaemonsFlame>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<FatesReveal>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<GhastlyVisage>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<EtherealSubjugator>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<GhoulishGouger>(), 3);
+            itemLoot.Add(DropHelper.CalamityStyle(DropHelper.BagWeaponDropRateFraction, new int[]
+            {
+                ModContent.ItemType<BansheeHook>(),
+                ModContent.ItemType<TerrorBlade>(),
+                ModContent.ItemType<DaemonsFlame>(),
+                ModContent.ItemType<FatesReveal>(),
+                ModContent.ItemType<GhastlyVisage>(),
+                ModContent.ItemType<EtherealSubjugator>(),
+                ModContent.ItemType<GhoulishGouger>()
+            }));
 
             // Equipment
-            DropHelper.DropItem(player, ModContent.ItemType<Affliction>());
-            DropHelper.DropItemCondition(player, ModContent.ItemType<Ectoheart>(), CalamityWorld.revenge && !player.Calamity().adrenalineBoostThree);
+            itemLoot.Add(ModContent.ItemType<Affliction>());
+            itemLoot.AddIf((info) => CalamityWorld.revenge && !info.player.Calamity().adrenalineBoostThree, ModContent.ItemType<Ectoheart>());
+            itemLoot.AddRevBagAccessories();
 
             // Vanity
-            DropHelper.DropItemChance(player, ModContent.ItemType<PolterghastMask>(), 7);
+            itemLoot.Add(ModContent.ItemType<PolterghastMask>(), 7);
         }
     }
 }

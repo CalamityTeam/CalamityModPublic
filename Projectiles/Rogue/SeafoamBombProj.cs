@@ -1,9 +1,11 @@
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 namespace CalamityMod.Projectiles.Rogue
 {
-	public class SeafoamBombProj : ModProjectile
+    public class SeafoamBombProj : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -12,42 +14,84 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetDefaults()
         {
-            projectile.width = 14;
-            projectile.height = 20;
-            projectile.friendly = true;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 240;
-            projectile.Calamity().rogue = true;
+            Projectile.width = 14;
+            Projectile.height = 20;
+            Projectile.friendly = true;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = 240;
+            Projectile.DamageType = RogueDamageClass.Instance;
         }
 
         public override void AI()
         {
-            projectile.rotation += projectile.velocity.X * 0.1f;
-            projectile.velocity.Y = projectile.velocity.Y + 0.15f;
-            projectile.velocity.X = projectile.velocity.X * 0.99f;
+            Projectile.rotation += Projectile.velocity.X * 0.1f;
+            Projectile.velocity.Y = Projectile.velocity.Y + 0.15f;
+            Projectile.velocity.X = Projectile.velocity.X * 0.99f;
         }
 
         public override void Kill(int timeLeft)
         {
-            projectile.position = projectile.Center;
-            projectile.width = projectile.height = projectile.Calamity().stealthStrike ? 256 : 128;
-            projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-            projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
-            projectile.maxPenetrate = -1;
-            projectile.penetrate = -1;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
-            projectile.Damage();
-            Main.PlaySound(SoundID.Item14, projectile.Center);
+            Projectile.position = Projectile.Center;
+            Projectile.width = Projectile.height = Projectile.Calamity().stealthStrike ? 256 : 128;
+            Projectile.position.X = Projectile.position.X - (float)(Projectile.width / 2);
+            Projectile.position.Y = Projectile.position.Y - (float)(Projectile.height / 2);
+            Projectile.maxPenetrate = -1;
+            Projectile.penetrate = -1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
+            Projectile.Damage();
+            SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);
 
-            for (int i = 0; i < (projectile.Calamity().stealthStrike ? 5 : 1); i++)
+            for (int i = 0; i < (Projectile.Calamity().stealthStrike ? 5 : 1); i++)
             {
-                float posX = projectile.Center.X + (projectile.Calamity().stealthStrike ? Main.rand.Next(-50, 51) : 0);
-                float posY = projectile.Center.Y + (projectile.Calamity().stealthStrike ? Main.rand.Next(-50, 51) : 0);
-                Projectile.NewProjectile(posX, posY, 0f, 0f, ModContent.ProjectileType<SeafoamBubble>(), (int)((double)projectile.damage * 0.4), 0f, projectile.owner, 0f, 0f);
+                float posX = Projectile.Center.X + (Projectile.Calamity().stealthStrike ? Main.rand.Next(-50, 51) : 0);
+                float posY = Projectile.Center.Y + (Projectile.Calamity().stealthStrike ? Main.rand.Next(-50, 51) : 0);
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), posX, posY, 0f, 0f, ModContent.ProjectileType<SeafoamBubble>(), (int)((double)Projectile.damage * 0.4), 0f, Projectile.owner, 0f, 0f);
             }
 
-			CalamityUtils.ExplosionGores(projectile.Center, (projectile.Calamity().stealthStrike ? 6 : 3));
+            if (Main.netMode != NetmodeID.Server)
+            {
+                Vector2 goreSource = Projectile.Center;
+                int goreAmt = Projectile.Calamity().stealthStrike ? 6 : 3;
+                Vector2 source = new Vector2(goreSource.X - 24f, goreSource.Y - 24f);
+                for (int goreIndex = 0; goreIndex < goreAmt; goreIndex++)
+                {
+                    float velocityMult = 0.33f;
+                    if (goreIndex < (goreAmt / 3))
+                    {
+                        velocityMult = 0.66f;
+                    }
+                    if (goreIndex >= (2 * goreAmt / 3))
+                    {
+                        velocityMult = 1f;
+                    }
+                    Mod mod = ModContent.GetInstance<CalamityMod>();
+                    int type = Main.rand.Next(61, 64);
+                    int smoke = Gore.NewGore(Projectile.GetSource_Death(), source, default, type, 1f);
+                    Gore gore = Main.gore[smoke];
+                    gore.velocity *= velocityMult;
+                    gore.velocity.X += 1f;
+                    gore.velocity.Y += 1f;
+                    type = Main.rand.Next(61, 64);
+                    smoke = Gore.NewGore(Projectile.GetSource_Death(), source, default, type, 1f);
+                    gore = Main.gore[smoke];
+                    gore.velocity *= velocityMult;
+                    gore.velocity.X -= 1f;
+                    gore.velocity.Y += 1f;
+                    type = Main.rand.Next(61, 64);
+                    smoke = Gore.NewGore(Projectile.GetSource_Death(), source, default, type, 1f);
+                    gore = Main.gore[smoke];
+                    gore.velocity *= velocityMult;
+                    gore.velocity.X += 1f;
+                    gore.velocity.Y -= 1f;
+                    type = Main.rand.Next(61, 64);
+                    smoke = Gore.NewGore(Projectile.GetSource_Death(), source, default, type, 1f);
+                    gore = Main.gore[smoke];
+                    gore.velocity *= velocityMult;
+                    gore.velocity.X -= 1f;
+                    gore.velocity.Y -= 1f;
+                }
+            }
         }
     }
 }

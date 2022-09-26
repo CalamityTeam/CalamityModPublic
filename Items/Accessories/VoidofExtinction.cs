@@ -1,10 +1,8 @@
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Typeless;
-using CalamityMod.World;
 using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -19,73 +17,67 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Void of Extinction");
-            Tooltip.SetDefault("No longer cursed\n" +
-                "Drops brimstone fireballs from the sky occasionally\n" +
-                "15% increase to all damage\n" +
-                "Brimstone fire rains down while invincibility is active\n" +
-                "Temporary immunity to lava, greatly reduces lava burn damage, and 25% increased damage while in lava");
+            Tooltip.SetDefault("Drops brimstone fireballs from the sky occasionally\n" +
+                "10% increase to all damage\n" +
+                "Melee attacks inflict Hellfire\n" +
+                "Brimstone fire rains down after getting hit\n" +
+                "Reduces damage from touching lava\n" +
+                "Grants immunity to Burning, On Fire!, Brimstone Flames and Searing Lava");
         }
 
         public override void SetDefaults()
         {
-            item.width = 26;
-            item.height = 26;
-            item.value = CalamityGlobalItem.Rarity8BuyPrice;
-            item.expert = true;
-            item.rare = 8;
-            item.accessory = true;
+            Item.width = 26;
+            Item.height = 26;
+            Item.value = CalamityGlobalItem.Rarity8BuyPrice;
+            Item.rare = ItemRarityID.Yellow;
+            Item.accessory = true;
+            Item.defense = 8;
         }
 
-        public override void ModifyTooltips(List<TooltipLine> list)
-        {
-			if (CalamityWorld.death)
-			{
-				foreach (TooltipLine line2 in list)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Tooltip4")
-					{
-						line2.text = "Temporary immunity to lava, greatly reduces lava burn damage, and 25% increased damage while in lava\n" +
-						"Provides heat protection in Death Mode";
-					}
-				}
-			}
-        }
-
-        public override bool CanEquipAccessory(Player player, int slot) => !player.Calamity().calamityRing;
+        public override bool CanEquipAccessory(Player player, int slot, bool modded) => !player.Calamity().voidOfCalamity;
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.ObsidianRose);
-            recipe.AddIngredient(ModContent.ItemType<Gehenna>());
-            recipe.AddIngredient(ModContent.ItemType<CalamityRing>());
-            recipe.AddIngredient(ModContent.ItemType<CoreofChaos>());
-            recipe.AddIngredient(ModContent.ItemType<CruptixBar>(), 3);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient(ItemID.MoltenSkullRose).
+                AddIngredient<Gehenna>().
+                AddIngredient<Abaddon>().
+                AddIngredient<VoidofCalamity>().
+                AddIngredient<CoreofChaos>().
+                AddIngredient<ScoriaBar>(3).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
+            var source = player.GetSource_Accessory(Item);
             CalamityPlayer modPlayer = player.Calamity();
-            modPlayer.calamityRing = true;
-			modPlayer.voidOfExtinction = true;
+            modPlayer.voidOfCalamity = true;
+            modPlayer.voidOfExtinction = true;
+            modPlayer.abaddon = true;
+            player.buffImmune[ModContent.BuffType<BrimstoneFlames>()] = true;
+            player.magmaStone = true;
+            player.buffImmune[BuffID.OnFire] = true;
+            player.fireWalk = true;
             player.lavaRose = true;
-            player.lavaMax += 240;
-            player.allDamage += 0.15f;
-            if (player.lavaWet)
-            {
-                player.allDamage += 0.25f;
-            }
+            player.GetDamage<GenericDamageClass>() += 0.1f;
             if (player.immune)
             {
-                if (Main.rand.NextBool(10))
+                if (player.miscCounter % 10 == 0)
                 {
                     if (player.whoAmI == Main.myPlayer)
                     {
-						CalamityUtils.ProjectileRain(player.Center, 400f, 100f, 500f, 800f, 22f, ModContent.ProjectileType<StandingFire>(), (int)(30 * player.AverageDamage()), 5f, player.whoAmI, 0, 1, 60);
+                        int damage = (int)player.GetBestClassDamage().ApplyTo(30);
+                        Projectile fire = CalamityUtils.ProjectileRain(source, player.Center, 400f, 100f, 500f, 800f, 22f, ModContent.ProjectileType<StandingFire>(), damage, 5f, player.whoAmI);
+                        if (fire.whoAmI.WithinBounds(Main.maxProjectiles))
+                        {
+                            fire.usesLocalNPCImmunity = true;
+                            fire.localNPCHitCooldown = 60;
+                        }
                     }
                 }
             }
@@ -113,7 +105,8 @@ namespace CalamityMod.Items.Accessories
                             spawn.X += i * 30 - (FireProjectiles * 15);
                             Vector2 velocity = baseVelocity.RotatedBy(MathHelper.ToRadians(-FireAngleSpread / 2 + (FireAngleSpread * i / (float)FireProjectiles)));
                             velocity.X = velocity.X + 3 * Main.rand.NextFloat() - 1.5f;
-                            Projectile.NewProjectile(spawn, velocity, ModContent.ProjectileType<BrimstoneHellfireballFriendly2>(), (int)(70 * player.AverageDamage()), 5f, Main.myPlayer, 0f, 0f);
+                            int damage = (int)player.GetBestClassDamage().ApplyTo(70);
+                            Projectile.NewProjectile(source, spawn, velocity, ModContent.ProjectileType<BrimstoneHellfireballFriendly2>(), damage, 5f, Main.myPlayer, 0f, 0f);
                         }
                     }
                 }

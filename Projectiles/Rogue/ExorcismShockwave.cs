@@ -1,4 +1,3 @@
-
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
@@ -7,6 +6,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class ExorcismShockwave : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public static float radius = 100;
 
         public override void SetStaticDefaults()
@@ -16,26 +17,26 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetDefaults()
         {
-            projectile.width = (int)radius * 2;
-            projectile.height = (int)radius * 2;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
-            projectile.timeLeft = 9;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = -1;
-            projectile.Calamity().rogue = true;
+            Projectile.width = (int)radius * 2;
+            Projectile.height = (int)radius * 2;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
+            Projectile.timeLeft = 9;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = -1;
+            Projectile.DamageType = RogueDamageClass.Instance;
         }
 
         public override void AI()
         {
-            if (projectile.timeLeft >= 5)
+            if (Projectile.timeLeft >= 5)
             {
-                projectile.alpha = (int)((1 - projectile.ai[0]) * 255f);
+                Projectile.alpha = (int)((1 - Projectile.ai[0]) * 255f);
 
                 // Blast wave should be brighter the higher the charge of the projectile when it is killed
-                int numDust = (int)(40 * projectile.ai[0]) + 10;
+                int numDust = (int)(40 * Projectile.ai[0]) + 10;
 
                 for (int i = 0; i < numDust; i++)
                 {
@@ -60,24 +61,24 @@ namespace CalamityMod.Projectiles.Rogue
                     circleVelocity.Normalize();
                     circleVelocity *= radius / 10f;
 
-                    int circle = Dust.NewDust(projectile.Center, 1, 1, dustType, circleVelocity.X, circleVelocity.Y, 0, default, 1.5f);
+                    int circle = Dust.NewDust(Projectile.Center, 1, 1, dustType, circleVelocity.X, circleVelocity.Y, 0, default, 1.5f);
                     Main.dust[circle].noGravity = true;
                 }
 
                 // Cross
-                Vector2 dustLeft = (new Vector2(-1, 0)).RotatedBy(projectile.rotation);
-                Vector2 dustRight = (new Vector2(1, 0)).RotatedBy(projectile.rotation);
-                Vector2 dustUp = (new Vector2(0, -1)).RotatedBy(projectile.rotation);
-                Vector2 dustDown = (new Vector2(0, 1) * 2f).RotatedBy(projectile.rotation);
+                Vector2 dustLeft = (new Vector2(-1, 0)).RotatedBy(Projectile.rotation);
+                Vector2 dustRight = (new Vector2(1, 0)).RotatedBy(Projectile.rotation);
+                Vector2 dustUp = (new Vector2(0, -1)).RotatedBy(Projectile.rotation);
+                Vector2 dustDown = (new Vector2(0, 1) * 2f).RotatedBy(Projectile.rotation);
 
                 int dustScale = 7;
-                Vector2 dustPos = projectile.Center - new Vector2((dustScale - 1) * 0.5f, (dustScale - 1) * 0.5f);
+                Vector2 dustPos = Projectile.Center - new Vector2((dustScale - 1) * 0.5f, (dustScale - 1) * 0.5f);
 
                 float minSpeed = 0f;
                 float maxSpeed = 5f;
                 float minScale = 1.9f;
                 float maxScale = 2.1f;
-                int dustCount = (int)(5 * projectile.ai[0]);
+                int dustCount = (int)(5 * Projectile.ai[0]);
 
                 for (int i = 0; i < dustCount; i++)
                 {
@@ -122,10 +123,10 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            float dist1 = Vector2.Distance(projectile.Center, target.Hitbox.TopLeft());
-            float dist2 = Vector2.Distance(projectile.Center, target.Hitbox.TopRight());
-            float dist3 = Vector2.Distance(projectile.Center, target.Hitbox.BottomLeft());
-            float dist4 = Vector2.Distance(projectile.Center, target.Hitbox.BottomRight());
+            float dist1 = Vector2.Distance(Projectile.Center, target.Hitbox.TopLeft());
+            float dist2 = Vector2.Distance(Projectile.Center, target.Hitbox.TopRight());
+            float dist3 = Vector2.Distance(Projectile.Center, target.Hitbox.BottomLeft());
+            float dist4 = Vector2.Distance(Projectile.Center, target.Hitbox.BottomRight());
 
             float damageScale = dist1;
             if (dist2 < damageScale)
@@ -140,22 +141,6 @@ namespace CalamityMod.Projectiles.Rogue
             damage = (int)(damage * damageScale);
         }
 
-        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
-        {
-            float dist1 = Vector2.Distance(projectile.Center, targetHitbox.TopLeft());
-            float dist2 = Vector2.Distance(projectile.Center, targetHitbox.TopRight());
-            float dist3 = Vector2.Distance(projectile.Center, targetHitbox.BottomLeft());
-            float dist4 = Vector2.Distance(projectile.Center, targetHitbox.BottomRight());
-
-            float minDist = dist1;
-            if (dist2 < minDist)
-                minDist = dist2;
-            if (dist3 < minDist)
-                minDist = dist3;
-            if (dist4 < minDist)
-                minDist = dist4;
-
-            return minDist <= radius;
-        }
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => CalamityUtils.CircularHitboxCollision(Projectile.Center, radius, targetHitbox);
     }
 }

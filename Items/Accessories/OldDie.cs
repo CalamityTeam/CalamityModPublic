@@ -1,5 +1,5 @@
-using CalamityMod.CalPlayer;
-using Terraria;
+﻿using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
@@ -8,24 +8,21 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Old Die");
             Tooltip.SetDefault("Lucky for you, the curse doesn't affect you. Mostly.\n" +
-                               "Increases the randomness of attack damage");
+                               "Increases luck by 20%");
         }
 
         public override void SetDefaults()
         {
-            item.width = 24;
-            item.height = 26;
-            item.rare = 3;
-            item.value = CalamityGlobalItem.Rarity3BuyPrice;
-            item.accessory = true;
+            Item.width = 24;
+            Item.height = 26;
+            Item.rare = ItemRarityID.Orange;
+            Item.value = CalamityGlobalItem.Rarity3BuyPrice;
+            Item.accessory = true;
         }
 
-        public override void UpdateAccessory(Player player, bool hideVisual)
-        {
-            CalamityPlayer modPlayer = player.Calamity();
-            modPlayer.oldDie = true;
-        }
+        public override void UpdateAccessory(Player player, bool hideVisual) => player.luck += 0.2f;
     }
 }

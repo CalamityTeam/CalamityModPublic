@@ -1,4 +1,5 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
+using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
 using Terraria.ID;
@@ -11,34 +12,33 @@ namespace CalamityMod.Items.Potions
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Omega Healing Potion");
+            SacrificeTotal = 30;
         }
 
         public override void SetDefaults()
         {
-            item.width = 28;
-            item.height = 18;
-            item.useTurn = true;
-            item.maxStack = 999;
-            item.healLife = 300;
-            item.useAnimation = 17;
-            item.useTime = 17;
-            item.useStyle = ItemUseStyleID.EatingUsing;
-            item.UseSound = SoundID.Item3;
-            item.consumable = true;
-            item.potion = true;
-            item.rare = 10;
-            item.value = Item.buyPrice(0, 7, 0, 0);
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
+            Item.width = 24;
+            Item.height = 32;
+            Item.useTurn = true;
+            Item.maxStack = 30;
+            Item.healLife = 300;
+            Item.useAnimation = 17;
+            Item.useTime = 17;
+            Item.useStyle = ItemUseStyleID.DrinkLiquid;
+            Item.UseSound = SoundID.Item3;
+            Item.consumable = true;
+            Item.potion = true;
+            Item.value = Item.buyPrice(0, 7, 0, 0);
+            Item.rare = ModContent.RarityType<DarkBlue>();
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<SupremeHealingPotion>());
-            recipe.AddIngredient(ModContent.ItemType<BloodOrb>(), 10);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient<SupremeHealingPotion>().
+                AddIngredient<BloodOrb>(10).
+                AddTile<CosmicAnvil>().
+                Register();
         }
     }
 }

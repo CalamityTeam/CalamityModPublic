@@ -1,8 +1,7 @@
+﻿using Terraria.DataStructures;
 using CalamityMod.Buffs.Summon;
 using CalamityMod.Projectiles.Summon;
-using CalamityMod.World;
 using Microsoft.Xna.Framework;
-using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -14,60 +13,36 @@ namespace CalamityMod.Items.Weapons.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Cold Divinity");
-            Tooltip.SetDefault("Legendary Drop\n" +
-							   "Summons the power of the ancient ice castle\n" +
-                               "For each minion slot used, you will gain an additional orbiting shield spike\n" +
-                               "These spikes accelerate rapidly towards a nearby enemy to inflict heavy damage\n" +
-                               "They take some time to regenerate after launching themselves at the target, however\n" +
-                               "On right click, summons a duplicate ring around the targeted enemy, which slowly converges before exploding\n" +
-                               "Minion damage bonuses apply to this weapon twice for more damage\n" +
-                               "Revengeance Drop");
-            Item.staff[item.type] = true;
+            Tooltip.SetDefault("Summons the power of the ancient ice castle\n" +
+                "For each minion slot used, you will gain an additional orbiting shield spike\n" +
+                "These spikes accelerate rapidly towards a nearby enemy to inflict heavy damage\n" +
+                "They take some time to regenerate after launching themselves at the target, however\n" +
+                "On right click, summons a duplicate ring around the targeted enemy, which slowly converges before exploding");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 60;
-            item.mana = 20;
-            item.width = 52;
-            item.height = 50;
-            item.useTime = item.useAnimation = 25;
-            item.useStyle = ItemUseStyleID.HoldingUp;
-            item.noMelee = true;
-            item.knockBack = 4.5f;
-            item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = 5;
-            item.Calamity().customRarity = CalamityRarity.ItemSpecific;
-            item.UseSound = SoundID.Item30;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<ColdDivinityPointyThing>();
-            item.shootSpeed = 10f;
-            item.summon = true;
+            Item.damage = 48;
+            Item.mana = 10;
+            Item.width = 52;
+            Item.height = 50;
+            Item.useTime = Item.useAnimation = 24;
+            Item.useStyle = ItemUseStyleID.HoldUp;
+            Item.noMelee = true;
+            Item.knockBack = 4.5f;
+            Item.UseSound = SoundID.Item30;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<ColdDivinityPointyThing>();
+            Item.shootSpeed = 10f;
+            Item.DamageType = DamageClass.Summon;
+
+            Item.value = CalamityGlobalItem.Rarity5BuyPrice;
+            Item.rare = ItemRarityID.Pink;
         }
 
-        public override void ModifyTooltips(List<TooltipLine> list)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-			if (CalamityWorld.death)
-			{
-				foreach (TooltipLine line2 in list)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Tooltip7")
-					{
-						line2.text = "Provides heat and cold protection in Death Mode when in use\n" +
-						"Revengeance Drop";
-					}
-				}
-			}
-        }
-
-        public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
-		{
-			mult += player.MinionDamage() - 1f;
-		}
-
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-        {
-            //damage = (int)(damage * player.MinionDamage());
             float totalMinionSlots = 0f;
             for (int i = 0; i < Main.projectile.Length; i++)
             {
@@ -80,13 +55,15 @@ namespace CalamityMod.Items.Weapons.Summon
             {
                 player.AddBuff(ModContent.BuffType<ColdDivinityBuff>(), 120, true);
                 position = Main.MouseWorld;
-                Projectile.NewProjectile(position, Vector2.Zero, type, damage, knockBack, player.whoAmI);
+                int p = Projectile.NewProjectile(source, position, Vector2.Zero, type, damage, knockback, player.whoAmI);
+                if (Main.projectile.IndexInRange(p))
+                    Main.projectile[p].originalDamage = Item.damage;
                 int pointyThingCount = 0;
                 for (int i = 0; i < Main.projectile.Length; i++)
                 {
                     if (Main.projectile[i].active && Main.projectile[i].type == type && Main.projectile[i].owner == player.whoAmI)
                     {
-                        if (!(Main.projectile[i].modProjectile as ColdDivinityPointyThing).circlingPlayer)
+                        if (!(Main.projectile[i].ModProjectile as ColdDivinityPointyThing).circlingPlayer)
                             continue;
                         pointyThingCount++;
                     }
@@ -97,7 +74,7 @@ namespace CalamityMod.Items.Weapons.Summon
                 {
                     if (Main.projectile[i].active && Main.projectile[i].type == type && Main.projectile[i].owner == player.whoAmI && Main.projectile[i].ai[1] == 0f)
                     {
-                        if (!(Main.projectile[i].modProjectile as ColdDivinityPointyThing).circlingPlayer)
+                        if (!(Main.projectile[i].ModProjectile as ColdDivinityPointyThing).circlingPlayer)
                             continue;
                         Main.projectile[i].ai[0] = angle;
                         Main.projectile[i].netUpdate = true;
@@ -119,5 +96,4 @@ namespace CalamityMod.Items.Weapons.Summon
             return base.AltFunctionUse(player);
         }
     }
-
 }

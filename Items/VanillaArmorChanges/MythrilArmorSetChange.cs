@@ -1,0 +1,69 @@
+﻿using CalamityMod.Projectiles.Typeless;
+using Microsoft.Xna.Framework;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
+
+namespace CalamityMod.Items.VanillaArmorChanges
+{
+    public class MythrilArmorSetChange : VanillaArmorChange
+    {
+        public override int? HeadPieceID => ItemID.MythrilHelmet;
+
+        public override int? BodyPieceID => ItemID.MythrilChainmail;
+
+        public override int? LegPieceID => ItemID.MythrilGreaves;
+
+        public override int[] AlternativeHeadPieceIDs => new int[] { ItemID.MythrilHood, ItemID.MythrilHat };
+
+        public override string ArmorSetName => "Mythril";
+
+        public const int MaxManaBoost = 20;
+        public const int ChestplateDamagePercentageBoost = 5;
+        public const int LeggingsCritChanceBoost = 4;
+        public const int FlareFrameSpawnDelay = 9;
+        public const int FlareDamageSoftcap = 105;
+
+        public override void UpdateSetBonusText(ref string setBonusText)
+        {
+            setBonusText += "\nEnemy hits release mythril flares, which home in on enemies after a short delay\n" +
+                $"Once a flare is created, there is a {FlareFrameSpawnDelay} frame delay before another one can appear";
+        }
+
+        public override void ApplyHeadPieceEffect(Player player)
+        {
+            if (player.armor[0].type == ItemID.MythrilHood)
+                player.statManaMax2 += MaxManaBoost;
+        }
+
+        public override void ApplyBodyPieceEffect(Player player)
+        {
+            player.GetDamage<GenericDamageClass>() += ChestplateDamagePercentageBoost * 0.01f;
+        }
+
+        public override void ApplyLegPieceEffect(Player player) => player.GetCritChance<GenericDamageClass>() += LeggingsCritChanceBoost;
+
+        public override void ApplyArmorSetBonus(Player player)
+        {
+            player.Calamity().MythrilSet = true;
+        }
+
+        public static void OnHitEffects(NPC victim, int originalDamage, Player owner)
+        {
+            // Don't spawn anything if the player isn't actually wearing the set.
+            if (!owner.Calamity().MythrilSet)
+                return;
+
+            // Don't spawn anything if the on-hit delay is still counting down.
+            if (owner.Calamity().MythrilFlareSpawnCountdown > 0)
+                return;
+
+            // Reset the spawn delay.
+            owner.Calamity().MythrilFlareSpawnCountdown = FlareFrameSpawnDelay;
+
+            int flareDamage = CalamityUtils.DamageSoftCap(originalDamage * 0.4, FlareDamageSoftcap);
+            Vector2 flareSpawnPosition = victim.Center + Main.rand.NextVector2Circular(10f, 10f);
+            Projectile.NewProjectile(owner.GetSource_ItemUse(owner.ActiveItem()), flareSpawnPosition, Vector2.Zero, ModContent.ProjectileType<MythrilFlare>(), flareDamage, 0f, owner.whoAmI);
+        }
+    }
+}

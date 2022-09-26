@@ -1,8 +1,9 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -12,48 +13,46 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             DisplayName.SetDefault("Stellar Striker");
             Tooltip.SetDefault("Summons a swarm of lunar flares from the sky on enemy hits");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.width = 84;
-            item.damage = 640;
-            item.melee = true;
-            item.useAnimation = 25;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 25;
-            item.useTurn = true;
-            item.knockBack = 7.75f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 90;
-            item.value = Item.buyPrice(1, 20, 0, 0);
-            item.rare = 10;
-            item.shootSpeed = 12f;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.width = 84;
+            Item.height = 90;
+            Item.scale = 1.5f;
+            Item.damage = 480;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = 25;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 25;
+            Item.useTurn = true;
+            Item.knockBack = 7.75f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.value = CalamityGlobalItem.Rarity10BuyPrice;
+            Item.rare = ItemRarityID.Red;
+            Item.shootSpeed = 12f;
         }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            if (target.type == NPCID.TargetDummy)
-            {
-                return;
-            }
             if (player.whoAmI == Main.myPlayer)
-                SpawnFlares(player, knockback);
+                SpawnFlares(player, knockback, damage, crit);
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
             if (player.whoAmI == Main.myPlayer)
-                SpawnFlares(player, item.knockBack);
+                SpawnFlares(player, Item.knockBack, damage, crit);
         }
 
-        private void SpawnFlares(Player player, float knockBack)
+        private void SpawnFlares(Player player, float knockback, int damage, bool crit)
         {
-            Main.PlaySound(SoundID.Item88, player.position);
+            var source = player.GetSource_ItemUse(Item);
+            SoundEngine.PlaySound(SoundID.Item88, player.position);
             int i = Main.myPlayer;
-            float num72 = item.shootSpeed;
+            float num72 = Item.shootSpeed;
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
             float num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
             float num79 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;
@@ -72,6 +71,9 @@ namespace CalamityMod.Items.Weapons.Melee
             {
                 num80 = num72 / num80;
             }
+
+            if (crit)
+                damage /= 2;
 
             int num112 = 2;
             for (int num113 = 0; num113 < num112; num113++)
@@ -95,8 +97,9 @@ namespace CalamityMod.Items.Weapons.Melee
                 num79 *= num80;
                 float num114 = num78;
                 float num115 = num79 + (float)Main.rand.Next(-80, 81) * 0.02f;
-                int proj = Projectile.NewProjectile(vector2.X, vector2.Y, num114, num115, ProjectileID.LunarFlare, (int)(item.damage * player.MeleeDamage() * 0.5), knockBack, i, 0f, (float)Main.rand.Next(3));
-                Main.projectile[proj].Calamity().forceMelee = true;
+                int proj = Projectile.NewProjectile(source, vector2.X, vector2.Y, num114, num115, ProjectileID.LunarFlare, (int)(damage * 0.5), knockback, i, 0f, (float)Main.rand.Next(3));
+                if (proj.WithinBounds(Main.maxProjectiles))
+                    Main.projectile[proj].DamageType = DamageClass.Melee;
             }
         }
 
@@ -110,12 +113,11 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<CometQuasher>());
-            recipe.AddIngredient(ItemID.LunarBar, 5);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient<CometQuasher>().
+                AddIngredient(ItemID.LunarBar, 5).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

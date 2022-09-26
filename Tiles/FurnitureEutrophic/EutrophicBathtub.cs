@@ -1,5 +1,6 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
@@ -7,15 +8,15 @@ namespace CalamityMod.Tiles.FurnitureEutrophic
 {
     public class EutrophicBathtub : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpBathtub();
             TileObjectData.newTile.CopyFrom(TileObjectData.Style4x2);
             TileObjectData.addTile(Type);
             ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Eutrophic Bathtub");
+            name.SetDefault("Bathtub");
             AddMapEntry(new Color(191, 142, 111), name);
-            animationFrameHeight = 54;
+            AnimationFrameHeight = 54;
         }
 
         public override bool CreateDust(int i, int j, ref int type)
@@ -31,7 +32,7 @@ namespace CalamityMod.Tiles.FurnitureEutrophic
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 16, 32, ModContent.ItemType<Items.Placeables.FurnitureEutrophic.EutrophicBathtub>());
+            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 32, ModContent.ItemType<Items.Placeables.FurnitureEutrophic.EutrophicBathtub>());
         }
     }
 }

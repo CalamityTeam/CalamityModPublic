@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-	public class NastyChollaNeedle : ModProjectile
+    public class NastyChollaNeedle : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -14,36 +14,36 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetDefaults()
         {
-            projectile.width = 10;
-            projectile.height = 10;
-            projectile.friendly = true;
-            projectile.Calamity().rogue = true;
-            projectile.penetrate = 3;
-            projectile.timeLeft = 180;
-            projectile.aiStyle = 1;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = -2;
+            Projectile.width = 10;
+            Projectile.height = 10;
+            Projectile.friendly = true;
+            Projectile.DamageType = RogueDamageClass.Instance;
+            Projectile.penetrate = 3;
+            Projectile.timeLeft = 180;
+            Projectile.aiStyle = ProjAIStyleID.Arrow;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = -2;
         }
 
         public override void AI()
         {
-			projectile.spriteDirection = projectile.direction = (projectile.velocity.X > 0).ToDirectionInt();
-			projectile.rotation = projectile.velocity.ToRotation() + (projectile.spriteDirection == 1 ? 0f : MathHelper.Pi);
-			//Rotating 45 degrees if shooting right
-			if (projectile.spriteDirection == 1)
-			{
-				projectile.rotation += MathHelper.ToRadians(45f);
-			}
-			//Rotating 45 degrees if shooting right
-			if (projectile.spriteDirection == -1)
-			{
-				projectile.rotation -= MathHelper.ToRadians(45f);
-			}
-            projectile.velocity.X *= 0.9995f;
-            projectile.velocity.Y = projectile.velocity.Y + 0.01f;
+            Projectile.spriteDirection = Projectile.direction = (Projectile.velocity.X > 0).ToDirectionInt();
+            Projectile.rotation = Projectile.velocity.ToRotation() + (Projectile.spriteDirection == 1 ? 0f : MathHelper.Pi);
+            //Rotating 45 degrees if shooting right
+            if (Projectile.spriteDirection == 1)
+            {
+                Projectile.rotation += MathHelper.ToRadians(45f);
+            }
+            //Rotating 45 degrees if shooting right
+            if (Projectile.spriteDirection == -1)
+            {
+                Projectile.rotation -= MathHelper.ToRadians(45f);
+            }
+            Projectile.velocity.X *= 0.9995f;
+            Projectile.velocity.Y = Projectile.velocity.Y + 0.01f;
         }
 
-		//So you can stick a needle up the Tinkerer's ass
+        //So you can stick a needle up the Tinkerer's ass
         public override bool? CanHitNPC(NPC target) => target.type != NPCID.DD2EterniaCrystal && !target.immortal && !target.dontTakeDamage;
     }
 }

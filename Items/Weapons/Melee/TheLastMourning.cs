@@ -1,7 +1,9 @@
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
+using CalamityMod.NPCs.DevourerofGods;
 using CalamityMod.Projectiles.Melee;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -10,106 +12,54 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class TheLastMourning : ModItem
     {
-        public static int BaseDamage = 480;
-
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("The Last Mourning");
             Tooltip.SetDefault("Summons flaming pumpkins and mourning skulls that split into fire orbs on enemy hits");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.width = 94;
-            item.height = 94;
-            item.melee = true;
-            item.damage = BaseDamage;
-            item.knockBack = 8.5f;
-            item.useAnimation = 24;
-            item.useTime = 24;
-            item.autoReuse = true;
-            item.useTurn = true;
+            Item.width = 94;
+            Item.height = 94;
+            Item.scale = 1.5f;
+            Item.DamageType = DamageClass.Melee;
+            Item.damage = 360;
+            Item.knockBack = 8.5f;
+            Item.useAnimation = 20;
+            Item.useTime = 20;
+            Item.autoReuse = true;
+            Item.useTurn = true;
 
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.UseSound = SoundID.Item1;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.UseSound = SoundID.Item1;
 
-            item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.Dedicated;
-            item.value = Item.buyPrice(1, 40, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity13BuyPrice;
+            Item.rare = ModContent.RarityType<PureGreen>();
+            Item.Calamity().donorItem = true;
         }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            int logicCheckScreenHeight = Main.LogicCheckScreenHeight;
-            int logicCheckScreenWidth = Main.LogicCheckScreenWidth;
-            int num = Main.rand.Next(100, 300);
-            int num2 = Main.rand.Next(100, 300);
-            switch (Main.rand.Next(4))
+            if (crit)
+                damage /= 2;
+
+            bool isDoGSegment = target.type == ModContent.NPCType<DevourerofGodsBody>() || target.type == ModContent.NPCType<CosmicGuardianBody>();
+            if (!isDoGSegment || Main.rand.NextBool(3))
             {
-                case 0:
-                    num -= logicCheckScreenWidth / 2 + num;
-                    break;
-                case 1:
-                    num += logicCheckScreenWidth / 2 - num;
-                    break;
-                case 2:
-                    num2 -= logicCheckScreenHeight / 2 + num2;
-                    break;
-                case 3:
-                    num2 += logicCheckScreenHeight / 2 - num2;
-                    break;
-                default:
-                    break;
+                CalamityPlayer.HorsemansBladeOnHit(player, target.whoAmI, damage, knockback, 0, ModContent.ProjectileType<MourningSkull>());
+                CalamityPlayer.HorsemansBladeOnHit(player, target.whoAmI, damage, knockback, 1);
             }
-            num += (int)player.position.X;
-            num2 += (int)player.position.Y;
-            float speed = 8f;
-            Vector2 vector = new Vector2((float)num, (float)num2);
-            float num3 = target.position.X - vector.X;
-            float num4 = target.position.Y - vector.Y;
-            float num5 = (float)Math.Sqrt((double)(num3 * num3 + num4 * num4));
-            num5 = speed / num5;
-            num3 *= num5;
-            num4 *= num5;
-            Projectile.NewProjectile((float)num, (float)num2, num3, num4, ModContent.ProjectileType<MourningSkull>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f) * 1.5f), knockback, player.whoAmI, (float)target.whoAmI, 0f);
-            CalamityGlobalItem.HorsemansBladeOnHit(player, target.whoAmI, (int)(item.damage * (player.allDamage + player.meleeDamage - 1f) * 1.5f), knockback, true);
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-            int logicCheckScreenHeight = Main.LogicCheckScreenHeight;
-            int logicCheckScreenWidth = Main.LogicCheckScreenWidth;
-            int num = Main.rand.Next(100, 300);
-            int num2 = Main.rand.Next(100, 300);
-            switch (Main.rand.Next(4))
-            {
-                case 0:
-                    num -= logicCheckScreenWidth / 2 + num;
-                    break;
-                case 1:
-                    num += logicCheckScreenWidth / 2 - num;
-                    break;
-                case 2:
-                    num2 -= logicCheckScreenHeight / 2 + num2;
-                    break;
-                case 3:
-                    num2 += logicCheckScreenHeight / 2 - num2;
-                    break;
-                default:
-                    break;
-            }
-            num += (int)player.position.X;
-            num2 += (int)player.position.Y;
-            float speed = 8f;
-            Vector2 vector = new Vector2((float)num, (float)num2);
-            float num3 = target.position.X - vector.X;
-            float num4 = target.position.Y - vector.Y;
-            float num5 = (float)Math.Sqrt((double)(num3 * num3 + num4 * num4));
-            num5 = speed / num5;
-            num3 *= num5;
-            num4 *= num5;
-            Projectile.NewProjectile((float)num, (float)num2, num3, num4, ModContent.ProjectileType<MourningSkull>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f) * 1.5f), item.knockBack, player.whoAmI, (float)target.whoAmI, 0f);
-            CalamityGlobalItem.HorsemansBladeOnHit(player, target.whoAmI, (int)(item.damage * (player.allDamage + player.meleeDamage - 1f) * 1.5f), item.knockBack, true);
+            if (crit)
+                damage /= 2;
+
+            CalamityPlayer.HorsemansBladeOnHit(player, -1, damage, Item.knockBack, 0, ModContent.ProjectileType<MourningSkull>());
+            CalamityPlayer.HorsemansBladeOnHit(player, -1, damage, Item.knockBack, 1);
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)
@@ -138,14 +88,13 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void AddRecipes()
         {
-            ModRecipe r = new ModRecipe(mod);
-            r.AddIngredient(ModContent.ItemType<BalefulHarvester>());
-            r.AddIngredient(ItemID.SoulofNight, 30);
-            r.AddIngredient(ModContent.ItemType<ReaperTooth>(), 5);
-            r.AddIngredient(ModContent.ItemType<RuinousSoul>(), 3);
-            r.AddTile(TileID.LunarCraftingStation);
-            r.SetResult(this);
-            r.AddRecipe();
+            CreateRecipe().
+                AddIngredient<BalefulHarvester>().
+                AddIngredient(ItemID.SoulofNight, 30).
+                AddIngredient<ReaperTooth>(5).
+                AddIngredient<RuinousSoul>(3).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

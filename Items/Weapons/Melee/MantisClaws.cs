@@ -1,4 +1,4 @@
-using CalamityMod.Projectiles.Typeless;
+﻿using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -12,23 +12,24 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             DisplayName.SetDefault("Mantis Claws");
             Tooltip.SetDefault("Explodes on enemy hits");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.width = 26;
-            item.damage = 120;
-            item.melee = true;
-            item.useAnimation = 8;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 8;
-            item.useTurn = true;
-            item.knockBack = 7f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 20;
-            item.value = Item.buyPrice(0, 60, 0, 0);
-            item.rare = 7;
+            Item.width = 26;
+            Item.damage = 88;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = 8;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 8;
+            Item.useTurn = true;
+            Item.knockBack = 7f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.height = 20;
+            Item.value = CalamityGlobalItem.Rarity8BuyPrice;
+            Item.rare = ItemRarityID.Lime;
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)
@@ -41,14 +42,18 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-			//does no damage. Explosion is visual
-            Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<FuckYou>(), 0, 0f, player.whoAmI, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
+            var source = player.GetSource_ItemUse(Item);
+
+            //does no damage. Explosion is visual
+            Projectile.NewProjectile(source, target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<FuckYou>(), 0, 0f, player.whoAmI, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-			//does no damage. Explosion is visual
-            int boom = Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<FuckYou>(), 0, 0f, player.whoAmI, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
+            var source = player.GetSource_ItemUse(Item);
+
+            //does no damage. Explosion is visual
+            int boom = Projectile.NewProjectile(source, target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<FuckYou>(), 0, 0f, player.whoAmI, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
         }
     }
 }

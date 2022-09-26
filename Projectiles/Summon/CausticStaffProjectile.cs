@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.StatDebuffs;
+﻿using CalamityMod.Buffs.StatDebuffs;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -10,52 +10,86 @@ namespace CalamityMod.Projectiles.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Thorn");
-            ProjectileID.Sets.MinionShot[projectile.type] = true;
+            ProjectileID.Sets.MinionShot[Projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 10;
-            projectile.height = 10;
-            projectile.friendly = true;
-            projectile.minion = true;
-            projectile.minionSlots = 0f;
-            projectile.ignoreWater = true;
-            projectile.penetrate = 3;
-            projectile.timeLeft = 360;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
-			projectile.extraUpdates = 1;
-			projectile.tileCollide = false;
+            Projectile.width = 10;
+            Projectile.height = 10;
+            Projectile.friendly = true;
+            Projectile.minion = true;
+            Projectile.minionSlots = 0f;
+            Projectile.ignoreWater = true;
+            Projectile.penetrate = 3;
+            Projectile.timeLeft = 360;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
+            Projectile.extraUpdates = 1;
+            Projectile.tileCollide = false;
+            Projectile.DamageType = DamageClass.Summon;
         }
         public override void AI()
         {
-            int num822 = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Fire, 0f, 0f, 0, default, 0.5f);
-            Dust dust = Main.dust[num822];
+            int fire = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 6, 0f, 0f, 0, default, 0.5f);
+            Dust dust = Main.dust[fire];
             dust.velocity *= 0.1f;
             dust.scale = 1.3f;
             dust.noGravity = true;
-            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
-            projectile.velocity.X *= 0.99f;
-            if (projectile.velocity.Y < 9f)
-                projectile.velocity.Y += 0.085f;
+
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
+            Projectile.velocity.X *= 0.99f;
+            if (Projectile.velocity.Y < 9f)
+                Projectile.velocity.Y += 0.085f;
         }
         public override void Kill(int timeLeft)
         {
             for (int i = 0; i < 5; i++)
             {
-                Dust dust = Dust.NewDustPerfect(projectile.Center, DustID.Fire);
+                Dust dust = Dust.NewDustPerfect(Projectile.Center, 6);
                 dust.noGravity = true;
-                dust.velocity = Vector2.One.RotatedByRandom(MathHelper.TwoPi) * Main.rand.NextFloat(2);
+                dust.velocity = Vector2.UnitY.RotatedByRandom(MathHelper.TwoPi) * Main.rand.NextFloat(2f);
             }
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<MarkedforDeath>(), 180);
-            target.AddBuff(BuffID.Ichor, 180);
-            target.AddBuff(BuffID.Venom, 180);
-            target.AddBuff(BuffID.CursedInferno, 180);
-            target.AddBuff(BuffID.OnFire, 180);
+            Player player = Main.player[Projectile.owner];
+            if ((player.ActiveItem().CountsAsClass<SummonDamageClass>() &&
+                !player.ActiveItem().CountsAsClass<MeleeDamageClass>() &&
+                !player.ActiveItem().CountsAsClass<RangedDamageClass>() &&
+                !player.ActiveItem().CountsAsClass<MagicDamageClass>() &&
+                !player.ActiveItem().CountsAsClass<ThrowingDamageClass>()) ||
+                player.ActiveItem().hammer > 0 ||
+                player.ActiveItem().pick > 0 ||
+                player.ActiveItem().axe > 0)
+            {
+                int duration = Main.rand.Next(60, 181); // Anywhere between 1 and 3 seconds
+                switch ((int)Projectile.ai[0])
+                {
+                    case 0:
+                        if (target.Calamity().marked <= 0)
+                            target.AddBuff(ModContent.BuffType<MarkedforDeath>(), duration);
+                        break;
+                    case 1:
+                        if (!target.ichor)
+                            target.AddBuff(BuffID.Ichor, duration);
+                        break;
+                    case 2:
+                        if (!target.venom)
+                            target.AddBuff(BuffID.Venom, duration);
+                        break;
+                    case 3:
+                        if (!target.onFire2)
+                            target.AddBuff(BuffID.CursedInferno, duration);
+                        break;
+                    case 4:
+                        if (!target.onFire)
+                            target.AddBuff(BuffID.OnFire, duration);
+                        break;
+                    default:
+                        break;
+                }
+            }
         }
     }
 }

@@ -1,3 +1,4 @@
+﻿using Terraria.DataStructures;
 using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -12,35 +13,37 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             DisplayName.SetDefault("Lionfish");
             Tooltip.SetDefault("Sticks to enemies and injects a potent toxin\n" +
-			"Stealth strikes are trailed by homing urchin spikes");
+            "Stealth strikes are trailed by homing urchin spikes");
+            SacrificeTotal = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
-            item.width = 40;
-            item.damage = 45;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.useAnimation = 22;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 22;
-            item.knockBack = 2.5f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 40;
-            item.value = Item.buyPrice(0, 4, 0, 0);
-            item.rare = 3;
-            item.shoot = ModContent.ProjectileType<LionfishProj>();
-            item.shootSpeed = 12f;
-            item.Calamity().rogue = true;
+            Item.width = 40;
+            Item.damage = 45;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.useAnimation = 22;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 22;
+            Item.knockBack = 2.5f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.height = 40;
+            Item.value = CalamityGlobalItem.Rarity3BuyPrice;
+            Item.rare = ItemRarityID.Orange;
+            Item.shoot = ModContent.ProjectileType<LionfishProj>();
+            Item.shootSpeed = 12f;
+            Item.DamageType = RogueDamageClass.Instance;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.Calamity().StealthStrikeAvailable()) //setting the stealth strike
             {
-                int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, 0f, 0f);
-                Main.projectile[stealth].Calamity().stealthStrike = true;
+                int stealth = Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
+                if (stealth.WithinBounds(Main.maxProjectiles))
+                    Main.projectile[stealth].Calamity().stealthStrike = true;
                 return false;
             }
             return true;

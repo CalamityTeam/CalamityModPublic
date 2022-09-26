@@ -1,6 +1,7 @@
-using CalamityMod.Projectiles.BaseProjectiles;
+﻿using CalamityMod.Projectiles.BaseProjectiles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Content;
 using System;
 using System.Linq;
 using Terraria;
@@ -10,63 +11,66 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 {
     public class MountedScannerLaser : BaseLaserbeamProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public int OwnerIndex
         {
-            get => Projectile.GetByUUID(projectile.owner, projectile.ai[1]);
-            set => projectile.ai[1] = value;
+            get => Projectile.GetByUUID(Projectile.owner, Projectile.ai[1]);
+            set => Projectile.ai[1] = value;
         }
-        public override float MaxScale => 0.5f + (float)Math.Cos(Main.GlobalTime * 10f) * 0.07f;
+        public override float MaxScale => 0.5f + (float)Math.Cos(Main.GlobalTimeWrappedHourly * 10f) * 0.07f;
         public override float MaxLaserLength => 900f;
         public override float Lifetime => 70f;
         public override Color LaserOverlayColor => Color.Red;
         public override Color LightCastColor => LaserOverlayColor;
-        public override Texture2D LaserBeginTexture => ModContent.GetTexture("CalamityMod/ExtraTextures/Lasers/UltimaRayStart");
-        public override Texture2D LaserMiddleTexture => ModContent.GetTexture("CalamityMod/ExtraTextures/Lasers/UltimaRayMid");
-        public override Texture2D LaserEndTexture => ModContent.GetTexture("CalamityMod/ExtraTextures/Lasers/UltimaRayEnd");
+        public override Texture2D LaserBeginTexture => ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/UltimaRayStart", AssetRequestMode.ImmediateLoad).Value;
+        public override Texture2D LaserMiddleTexture => ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/UltimaRayMid", AssetRequestMode.ImmediateLoad).Value;
+        public override Texture2D LaserEndTexture => ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/UltimaRayEnd", AssetRequestMode.ImmediateLoad).Value;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Deathray");
-            ProjectileID.Sets.MinionShot[projectile.type] = true;
+            ProjectileID.Sets.MinionShot[Projectile.type] = true;
         }
         public override void SetDefaults()
         {
-            projectile.width = projectile.height = 17;
-            projectile.friendly = true;
-            projectile.minion = true;
-            projectile.minionSlots = 0f;
-            projectile.penetrate = -1;
-            projectile.alpha = 255;
-            projectile.localNPCHitCooldown = 15;
-            projectile.usesLocalNPCImmunity = true;
+            Projectile.width = Projectile.height = 17;
+            Projectile.friendly = true;
+            Projectile.minion = true;
+            Projectile.minionSlots = 0f;
+            Projectile.penetrate = -1;
+            Projectile.alpha = 255;
+            Projectile.localNPCHitCooldown = 15;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.DamageType = DamageClass.Summon;
         }
         public override float DetermineLaserLength()
         {
             float[] samples = new float[4];
-            Collision.LaserScan(projectile.Center, projectile.velocity, projectile.width * projectile.scale, MaxLaserLength, samples);
+            Collision.LaserScan(Projectile.Center, Projectile.velocity, Projectile.width * Projectile.scale, MaxLaserLength, samples);
             return samples.Average();
         }
         public override void UpdateLaserMotion()
         {
             if (OwnerIndex == -1)
             {
-                projectile.Kill();
+                Projectile.Kill();
                 return;
             }
-            projectile.velocity = Vector2.Lerp(projectile.velocity, Main.projectile[OwnerIndex].rotation.ToRotationVector2().RotatedBy(Math.Cos(Time / 25) * 0.05f), 0.125f);
-            projectile.rotation = projectile.velocity.ToRotation() - MathHelper.PiOver2;
+            Projectile.velocity = Vector2.Lerp(Projectile.velocity, Main.projectile[OwnerIndex].rotation.ToRotationVector2().RotatedBy(Math.Cos(Time / 25) * 0.05f), 0.125f);
+            Projectile.rotation = Projectile.velocity.ToRotation() - MathHelper.PiOver2;
         }
         public override void AttachToSomething()
         {
             if (OwnerIndex == -1)
             {
-                projectile.Kill();
+                Projectile.Kill();
                 return;
             }
-            projectile.Center = Main.projectile[OwnerIndex].Center + Main.projectile[OwnerIndex].rotation.ToRotationVector2() * 18f;
+            Projectile.Center = Main.projectile[OwnerIndex].Center + Main.projectile[OwnerIndex].rotation.ToRotationVector2() * 18f;
 
             // Kill the projectile if the owner isn't targeting anything anymore.
             if (Main.projectile[OwnerIndex].localAI[0] == 0f)
-                projectile.Kill();
+                Projectile.Kill();
         }
         public override bool ShouldUpdatePosition() => false;
         public override void ExtraBehavior()
@@ -74,7 +78,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             // Spawn dust at the end of the laser.
             if (!Main.dedServ)
             {
-                Vector2 laserSpawnPosition = projectile.Center + projectile.velocity * (LaserLength - 14f);
+                Vector2 laserSpawnPosition = Projectile.Center + Projectile.velocity * (LaserLength - 14f);
                 for (int i = 0; i < 3; i++)
                 {
                     Dust dust = Dust.NewDustPerfect(laserSpawnPosition + Main.rand.NextVector2Circular(8f, 8f), 261);
@@ -87,12 +91,12 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-			projectile.damage /= 3;
-		}
+            Projectile.damage = (int)(Projectile.damage * 0.6);
+        }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-			projectile.damage /= 3;
-		}
+            Projectile.damage = (int)(Projectile.damage * 0.6);
+        }
     }
 }

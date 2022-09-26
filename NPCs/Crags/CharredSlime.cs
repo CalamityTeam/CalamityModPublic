@@ -1,10 +1,12 @@
-using CalamityMod.World;
-using CalamityMod.Buffs.StatDebuffs;
+﻿using CalamityMod.BiomeManagers;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Placeables.Ores;
 using CalamityMod.Items.Materials;
 using Terraria;
+using Terraria.GameContent.Bestiary;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.NPCs.Crags
@@ -14,75 +16,86 @@ namespace CalamityMod.NPCs.Crags
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Charred Slime");
-            Main.npcFrameCount[npc.type] = 2;
+            Main.npcFrameCount[NPC.type] = 2;
         }
 
         public override void SetDefaults()
         {
-            npc.aiStyle = 1;
-			aiType = NPCID.LavaSlime;
-            npc.damage = 40;
-            npc.width = 40;
-            npc.height = 30;
-            npc.defense = 10;
-            npc.lifeMax = 250;
-            npc.knockBackResist = 0f;
-            animationType = NPCID.CorruptSlime;
-            npc.value = Item.buyPrice(0, 0, 5, 0);
-            npc.alpha = 50;
-            npc.lavaImmune = true;
-            npc.noGravity = false;
-            npc.noTileCollide = false;
-            npc.HitSound = SoundID.NPCHit1;
-            npc.DeathSound = SoundID.NPCDeath1;
-            if (CalamityWorld.downedProvidence)
+            NPC.aiStyle = 1;
+            AIType = NPCID.LavaSlime;
+            NPC.damage = 40;
+            NPC.width = 40;
+            NPC.height = 30;
+            NPC.defense = 10;
+            NPC.lifeMax = 250;
+            NPC.knockBackResist = 0f;
+            AnimationType = NPCID.CorruptSlime;
+            NPC.value = Item.buyPrice(0, 0, 5, 0);
+            NPC.alpha = 50;
+            NPC.lavaImmune = true;
+            NPC.noGravity = false;
+            NPC.noTileCollide = false;
+            NPC.HitSound = SoundID.NPCHit1;
+            NPC.DeathSound = SoundID.NPCDeath1;
+            if (DownedBossSystem.downedProvidence)
             {
-                npc.damage = 227;
-                npc.defense = 90;
-                npc.lifeMax = 7500;
-                npc.value = Item.buyPrice(0, 0, 50, 0);
+                NPC.damage = 80;
+                NPC.defense = 20;
+                NPC.lifeMax = 3500;
             }
-            banner = npc.type;
-            bannerItem = ModContent.ItemType<CharredSlimeBanner>();
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<CharredSlimeBanner>();
+            NPC.Calamity().VulnerableToHeat = false;
+            NPC.Calamity().VulnerableToCold = true;
+            NPC.Calamity().VulnerableToWater = true;
+            SpawnModBiomes = new int[1] { ModContent.GetInstance<BrimstoneCragsBiome>().Type };
+        }
+
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+
+				// Will move to localization whenever that is cleaned up.
+				new FlavorTextBestiaryInfoElement("Lava slimes are the only ones that manage to survive in the heat of hell, having replaced their moisture with liquid rock. That said, their mannerisms are the same, and they seek out and devour anything they can.")
+            });
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (!CalamityWorld.downedBrimstoneElemental)
+            if (!DownedBossSystem.downedBrimstoneElemental)
             {
                 return 0f;
             }
-            return spawnInfo.player.Calamity().ZoneCalamity ? 0.08f : 0f;
+            return spawnInfo.Player.Calamity().ZoneCalamity ? 0.08f : 0f;
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            if (CalamityWorld.revenge)
-            {
-                player.AddBuff(ModContent.BuffType<Horror>(), 180, true);
-            }
+            if (damage > 0)
+                player.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120, true);
         }
 
         public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.Brimstone, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.Brimstone, hitDirection, -1f, 0, default, 1f);
             }
-            if (npc.life <= 0)
+            if (NPC.life <= 0)
             {
                 for (int k = 0; k < 20; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.Brimstone, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.Brimstone, hitDirection, -1f, 0, default, 1f);
                 }
             }
         }
 
-        public override void NPCLoot()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropItem(npc, ModContent.ItemType<CharredOre>(), 10, 26);
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<Bloodstone>(), CalamityWorld.downedProvidence, 2, 1, 1);
-            DropHelper.DropItemChance(npc, ModContent.ItemType<EssenceofChaos>(), 3, 1, 1);
+            npcLoot.Add(ModContent.ItemType<CharredOre>(), 1, 10, 26);
+            npcLoot.Add(ModContent.ItemType<EssenceofChaos>(), 3);
+            LeadingConditionRule postProv = npcLoot.DefineConditionalDropSet(DropHelper.PostProv());
+            postProv.Add(ModContent.ItemType<Bloodstone>(), 4);
         }
     }
 }

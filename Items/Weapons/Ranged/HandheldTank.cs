@@ -1,7 +1,10 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Ranged;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -9,58 +12,58 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class HandheldTank : ModItem
     {
+        public static readonly SoundStyle UseSound = new("CalamityMod/Sounds/Item/TankCannon") { PitchVariance = 0.5f };
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Handheld Tank");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.width = 110;
-            item.height = 46;
-            item.ranged = true;
-            item.damage = 1000;
-            item.crit += 15;
-            item.knockBack = 16f;
-            item.useTime = 71;
-            item.useAnimation = 71;
-            item.autoReuse = true;
+            Item.width = 110;
+            Item.height = 46;
+            Item.DamageType = DamageClass.Ranged;
+            Item.damage = 940;
+            Item.knockBack = 16f;
+            Item.useTime = 71;
+            Item.useAnimation = 71;
+            Item.autoReuse = true;
 
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/TankCannon");
-            item.noMelee = true;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.UseSound = UseSound;
+            Item.noMelee = true;
 
-            item.value = Item.buyPrice(1, 20, 0, 0);
-            item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.Dedicated;
+            Item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            Item.rare = ModContent.RarityType<Turquoise>();
+            Item.Calamity().donorItem = true;
 
-            item.shoot = ModContent.ProjectileType<HandheldTankShell>();
-            item.shootSpeed = 6f;
-            item.useAmmo = AmmoID.Rocket;
+            Item.shoot = ModContent.ProjectileType<HandheldTankShell>();
+            Item.shootSpeed = 6f;
+            Item.useAmmo = AmmoID.Rocket;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        // Terraria seems to really dislike high crit values in SetDefaults
+        public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 15;
+
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<HandheldTankShell>(), damage, knockBack, player.whoAmI, 0f, 0f);
+            Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<HandheldTankShell>(), damage, knockback, player.whoAmI, 0f, 0f);
             return false;
         }
 
-        public override Vector2? HoldoutOffset()
-        {
-            return new Vector2(-33, 0);
-        }
+        public override Vector2? HoldoutOffset() => new Vector2(-33, 0);
 
         public override void AddRecipes()
         {
-            ModRecipe r = new ModRecipe(mod);
-            r.AddIngredient(ModContent.ItemType<Shroomer>());
-            r.AddIngredient(ItemID.IronBar, 50);
-            r.anyIronBar = true;
-            r.AddIngredient(ModContent.ItemType<DivineGeode>(), 5);
-            r.AddIngredient(ItemID.TigerSkin);
-            r.AddTile(TileID.LunarCraftingStation);
-            r.SetResult(this);
-            r.AddRecipe();
+            CreateRecipe().
+                AddIngredient<Shroomer>().
+                AddRecipeGroup("IronBar", 50).
+                AddIngredient<DivineGeode>(5).
+                AddIngredient(ItemID.TigerSkin).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

@@ -1,4 +1,5 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -10,37 +11,37 @@ namespace CalamityMod.Items.Tools
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Blossom Pickaxe");
             Tooltip.SetDefault("Can mine Auric Ore");
         }
 
         public override void SetDefaults()
         {
-            item.damage = 90;
-            item.melee = true;
-            item.width = 50;
-            item.height = 52;
-            item.useTime = 5;
-            item.useAnimation = 10;
-            item.useTurn = true;
-            item.pick = 275;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 6.5f;
-            item.value = Item.buyPrice(1, 20, 0, 0);
-            item.rare = 10;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.tileBoost += 6;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.damage = 92;
+            Item.knockBack = 6.5f;
+            Item.useTime = 4;
+            Item.useAnimation = 12;
+            Item.pick = 250;
+            Item.tileBoost += 5;
+
+            Item.DamageType = DamageClass.Melee;
+            Item.width = 50;
+            Item.height = 52;
+            Item.useTurn = true;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.rare = ModContent.RarityType<Turquoise>();
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<UeliaceBar>(), 7);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient<UelibloomBar>(7).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)

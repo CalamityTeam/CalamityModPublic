@@ -7,12 +7,13 @@ namespace CalamityMod.Buffs.Summon
 {
     public class CorvidHarbringerBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Raven");
             Description.SetDefault("The powerful raven will protect you");
             Main.buffNoTimeDisplay[Type] = true;
             Main.buffNoSave[Type] = true;
+            //Main.persistentBuff[Type] = true;
         }
 
         public override void Update(Player player, ref int buffIndex)

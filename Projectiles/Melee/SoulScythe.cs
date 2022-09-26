@@ -1,9 +1,9 @@
 using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Melee
 {
@@ -12,48 +12,48 @@ namespace CalamityMod.Projectiles.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Scythe");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 1;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 10;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 1;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 50;
-            projectile.height = 50;
-            projectile.aiStyle = 18;
-            projectile.alpha = 55;
-            projectile.friendly = true;
-            projectile.melee = true;
-            projectile.penetrate = 3;
-            projectile.timeLeft = 420;
-            projectile.ignoreWater = true;
-            projectile.tileCollide = false;
-            aiType = ProjectileID.DeathSickle;
+            Projectile.width = 50;
+            Projectile.height = 50;
+            Projectile.aiStyle = ProjAIStyleID.Sickle;
+            Projectile.alpha = 55;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.penetrate = 3;
+            Projectile.timeLeft = 420;
+            Projectile.ignoreWater = true;
+            Projectile.tileCollide = false;
+            AIType = ProjectileID.DeathSickle;
         }
 
         public override void AI()
         {
-            Lighting.AddLight(projectile.Center, 0f, 0.5f, 0f);
+            Lighting.AddLight(Projectile.Center, 0f, 0.5f, 0f);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.immune[projectile.owner] = 6;
-            target.AddBuff(BuffID.OnFire, 300);
-            target.AddBuff(ModContent.BuffType<Plague>(), 300);
+            target.immune[Projectile.owner] = 6;
+            target.AddBuff(ModContent.BuffType<Plague>(), 180);
+            target.AddBuff(BuffID.CursedInferno, 90);
             if (target.life <= (target.lifeMax * 0.15f))
             {
-                Main.PlaySound(SoundID.Item14, projectile.position);
-                if (projectile.owner == Main.myPlayer)
+                SoundEngine.PlaySound(SoundID.Item14, Projectile.position);
+                if (Projectile.owner == Main.myPlayer)
                 {
-					Projectile.NewProjectile(target.Center.X, target.Center.Y, projectile.velocity.X * 0f, projectile.velocity.Y * 0f, ModContent.ProjectileType<SoulScytheExplosion>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), target.Center.X, target.Center.Y, Projectile.velocity.X * 0f, Projectile.velocity.Y * 0f, ModContent.ProjectileType<SoulScytheExplosion>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
                 }
             }
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 2);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 2);
             return false;
         }
     }

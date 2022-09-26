@@ -1,80 +1,81 @@
+﻿using CalamityMod.CustomRecipes;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.DraedonsArsenal;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
+using System;
+using System.Collections.Generic;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.DraedonsArsenal
 {
-	public class PulseTurretRemote : ModItem
-	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Pulse Turret Remote");
-			Tooltip.SetDefault("Summons a pulse turret which eradicates nearby foes with focused energy blasts\n" +
-							   "Especially effective against inorganic targets");
-		}
+    public class PulseTurretRemote : ModItem
+    {
+        public override void SetStaticDefaults()
+        {
+            SacrificeTotal = 1;
+            DisplayName.SetDefault("Pulse Turret Remote");
+            Tooltip.SetDefault("A device used to defend against the weaker, less cognizant rogue creations of Draedon\n" +
+                               "Summons a pulse turret which eradicates nearby foes with focused energy blasts\n" +
+                               "Only one pulse turret may exist at a time");
+        }
 
-		public override void SetDefaults()
-		{
-			item.width = 28;
-			item.height = 26;
-			item.summon = true;
-			item.sentry = true;
-			item.damage = 100;
-			item.knockBack = 0f;
-			item.mana = 10;
-			item.useTime = item.useAnimation = 25;
-			item.autoReuse = true;
+        public override void SetDefaults()
+        {
+            CalamityGlobalItem modItem = Item.Calamity();
 
-			item.useStyle = ItemUseStyleID.HoldingUp;
-			item.UseSound = SoundID.Item15;
-			item.noMelee = true;
+            Item.width = 28;
+            Item.height = 26;
+            Item.DamageType = DamageClass.Summon;
+            Item.sentry = true;
+            Item.damage = 100;
+            Item.knockBack = 0f;
+            Item.mana = 10;
+            Item.useTime = Item.useAnimation = 24;
+            Item.autoReuse = true;
 
-			item.value = CalamityGlobalItem.Rarity5BuyPrice;
-			item.rare = ItemRarityID.Red;
-			item.Calamity().customRarity = CalamityRarity.DraedonRust;
+            Item.useStyle = ItemUseStyleID.HoldUp;
+            Item.UseSound = SoundID.Item15;
+            Item.noMelee = true;
 
-			item.shoot = ModContent.ProjectileType<PulseTurret>();
-			item.shootSpeed = 1f;
-		}
+            Item.value = CalamityGlobalItem.Rarity8BuyPrice;
+            Item.rare = ModContent.RarityType<DarkOrange>();
 
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-		{
-			Point mouseTileCoords = Main.MouseWorld.ToTileCoordinates();
-			if (!CalamityUtils.ParanoidTileRetrieval(mouseTileCoords.X, mouseTileCoords.Y).active())
-			{
-				int existingTurrets = player.ownedProjectileCounts[type];
-				if (existingTurrets > 0)
-				{
-					for (int i = 0; i < Main.projectile.Length || existingTurrets > 0; i++)
-					{
-						if (Main.projectile[i].type == type &&
-							Main.projectile[i].owner == player.whoAmI &&
-							Main.projectile[i].active)
-						{
-							Main.projectile[i].Kill();
-							existingTurrets--;
-						}
-					}
-				}
-				Projectile.NewProjectile(Main.MouseWorld, Vector2.Zero, type, damage, knockBack, player.whoAmI);
-				//player.UpdateMaxTurrets();
-			}
-			return false;
-		}
+            Item.shoot = ModContent.ProjectileType<PulseTurret>();
+            Item.shootSpeed = 1f;
 
-		public override void AddRecipes()
-		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 12);
-			recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 18);
-			recipe.AddIngredient(ModContent.ItemType<InfectedArmorPlating>(), 5);
-			recipe.AddIngredient(ModContent.ItemType<BarofLife>(), 5);
-			recipe.AddTile(TileID.MythrilAnvil);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
-		}
-	}
+            modItem.UsesCharge = true;
+            modItem.MaxCharge = 135f;
+            modItem.ChargePerUse = 1f;
+            modItem.ChargePerAltUse = 0f;
+        }
+
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        {
+            CalamityUtils.OnlyOneSentry(player, type);
+            int turret = Projectile.NewProjectile(source, Main.MouseWorld, Vector2.Zero, type, damage, knockback, player.whoAmI);
+            if (Main.projectile.IndexInRange(turret))
+                Main.projectile[turret].originalDamage = Item.damage;
+
+            player.UpdateMaxTurrets();
+            return false;
+        }
+
+        public override void ModifyTooltips(List<TooltipLine> tooltips) => CalamityGlobalItem.InsertKnowledgeTooltip(tooltips, 3);
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient<MysteriousCircuitry>(12).
+                AddIngredient<DubiousPlating>(18).
+                AddIngredient<InfectedArmorPlating>(10).
+                AddIngredient<LifeAlloy>(5).
+                AddCondition(ArsenalTierGatedRecipe.ConstructRecipeCondition(3, out Predicate<Recipe> condition), condition).
+                AddTile(TileID.MythrilAnvil).
+                Register();
+        }
+    }
 }

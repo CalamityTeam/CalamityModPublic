@@ -1,4 +1,4 @@
-using CalamityMod.Projectiles.Melee;
+﻿using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -7,39 +7,42 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-	public class Greentide : ModItem
+    public class Greentide : ModItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Greentide");
             Tooltip.SetDefault("Summons teeth from the sky on hit");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 95;
-            item.melee = true;
-            item.width = 62;
-            item.height = 62;
-            item.useTime = 24;
-            item.useAnimation = 24;
-            item.useTurn = true;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 7;
-            item.value = Item.buyPrice(0, 60, 0, 0);
-            item.rare = 7;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.shootSpeed = 18f;
+            Item.damage = 95;
+            Item.DamageType = DamageClass.Melee;
+            Item.width = 62;
+            Item.height = 62;
+            Item.scale = 1.5f;
+            Item.useTime = 24;
+            Item.useAnimation = 24;
+            Item.useTurn = true;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 7;
+            Item.value = CalamityGlobalItem.Rarity8BuyPrice;
+            Item.rare = ItemRarityID.Lime;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.shootSpeed = 18f;
         }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
+            var source = player.GetSource_ItemUse(Item);
             int i = Main.myPlayer;
-            float num72 = item.shootSpeed;
+            float num72 = Item.shootSpeed;
             float num74 = knockback;
-            num74 = player.GetWeaponKnockback(item, num74);
-            player.itemTime = item.useTime;
+            num74 = player.GetWeaponKnockback(Item, num74);
+            player.itemTime = Item.useTime;
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
             float num78 = (float)Main.mouseX - Main.screenPosition.X - vector2.X;
             float num79 = (float)Main.mouseY - Main.screenPosition.Y - vector2.Y;
@@ -59,8 +62,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 num80 = num72 / num80;
             }
 
-            int num107 = 4;
-            for (int num108 = 0; num108 < num107; num108++)
+            for (int num108 = 0; num108 < 3; num108++)
             {
                 vector2 = new Vector2(player.position.X + (float)player.width * 0.5f + (float)(Main.rand.Next(201) * -(float)player.direction) + ((float)Main.mouseX + Main.screenPosition.X - player.position.X), player.MountedCenter.Y - 600f);
                 vector2.X = (vector2.X + player.Center.X) / 2f + (float)Main.rand.Next(-200, 201);
@@ -81,17 +83,19 @@ namespace CalamityMod.Items.Weapons.Melee
                 num79 *= num80;
                 float speedX4 = num78;
                 float speedY5 = num79 + (float)Main.rand.Next(-180, 181) * 0.02f;
-                Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<GreenWater>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f)), num74, i, 0f, (float)Main.rand.Next(10));
+                int greenWaterDamage = player.CalcIntDamage<MeleeDamageClass>(Item.damage);
+                Projectile.NewProjectile(source, vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<GreenWater>(), greenWaterDamage, num74, i, 0f, (float)Main.rand.Next(10));
             }
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
+            var source = player.GetSource_ItemUse(Item);
             int i = Main.myPlayer;
-            float num72 = item.shootSpeed;
-            float num74 = item.knockBack;
-            num74 = player.GetWeaponKnockback(item, num74);
-            player.itemTime = item.useTime;
+            float num72 = Item.shootSpeed;
+            float num74 = Item.knockBack;
+            num74 = player.GetWeaponKnockback(Item, num74);
+            player.itemTime = Item.useTime;
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
             float num78 = (float)Main.mouseX - Main.screenPosition.X - vector2.X;
             float num79 = (float)Main.mouseY - Main.screenPosition.Y - vector2.Y;
@@ -133,7 +137,8 @@ namespace CalamityMod.Items.Weapons.Melee
                 num79 *= num80;
                 float speedX4 = num78;
                 float speedY5 = num79 + (float)Main.rand.Next(-180, 181) * 0.02f;
-                Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<GreenWater>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f)), num74, i, 0f, (float)Main.rand.Next(10));
+                int greenWaterDamage = player.CalcIntDamage<MeleeDamageClass>(Item.damage);
+                Projectile.NewProjectile(source, vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<GreenWater>(), greenWaterDamage, num74, i, 0f, (float)Main.rand.Next(10));
             }
         }
 

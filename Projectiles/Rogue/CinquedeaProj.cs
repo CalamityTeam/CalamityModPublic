@@ -1,88 +1,90 @@
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-	public class CinquedeaProj : ModProjectile
+    public class CinquedeaProj : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/Cinquedea";
+
         internal float gravspin = 0f;
 
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Cinquedea");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 4;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 10;
-            projectile.height = 10;
-            projectile.friendly = true;
-            projectile.penetrate = 2;
-            projectile.tileCollide = false;
-            projectile.extraUpdates = 1;
-            projectile.Calamity().rogue = true;
+            Projectile.width = 10;
+            Projectile.height = 10;
+            Projectile.friendly = true;
+            Projectile.penetrate = 2;
+            Projectile.tileCollide = false;
+            Projectile.extraUpdates = 1;
+            Projectile.DamageType = RogueDamageClass.Instance;
         }
 
         public override void AI()
         {
-            drawOriginOffsetY = 11;
-            drawOffsetX = -22;
+            DrawOriginOffsetY = 11;
+            DrawOffsetX = -22;
 
-            bool stealthstrike = projectile.ai[1] == 1 && projectile.penetrate == 1;
-            if (projectile.spriteDirection == 1)
+            bool stealthstrike = Projectile.ai[1] == 1 && Projectile.penetrate == 1;
+            if (Projectile.spriteDirection == 1)
             {
-                gravspin = projectile.velocity.Y * 0.03f;
+                gravspin = Projectile.velocity.Y * 0.03f;
             }
-            if (projectile.spriteDirection == -1)
+            if (Projectile.spriteDirection == -1)
             {
-                gravspin = projectile.velocity.Y * -0.03f;
+                gravspin = Projectile.velocity.Y * -0.03f;
             }
-            projectile.ai[0]++;
+            Projectile.ai[0]++;
             //Fucking slopes
-            if (projectile.ai[0] > 2f)
+            if (Projectile.ai[0] > 2f)
             {
-                projectile.tileCollide = true;
+                Projectile.tileCollide = true;
             }
             //Face-forward rotation code
-            if ((projectile.ai[0] <= 80 && !stealthstrike) || stealthstrike || projectile.velocity.Y <= 0)
+            if ((Projectile.ai[0] <= 80 && !stealthstrike) || stealthstrike || Projectile.velocity.Y <= 0)
             {
-                projectile.spriteDirection = projectile.direction = (projectile.velocity.X > 0).ToDirectionInt();
-                projectile.rotation = projectile.velocity.ToRotation() + (projectile.spriteDirection == 1 ? 0f : MathHelper.Pi);
+                Projectile.spriteDirection = Projectile.direction = (Projectile.velocity.X > 0).ToDirectionInt();
+                Projectile.rotation = Projectile.velocity.ToRotation() + (Projectile.spriteDirection == 1 ? 0f : MathHelper.Pi);
                 //Rotating 45 degrees if shooting right
-                if (projectile.spriteDirection == 1)
+                if (Projectile.spriteDirection == 1)
                 {
-                    projectile.rotation += MathHelper.ToRadians(45f);
+                    Projectile.rotation += MathHelper.ToRadians(45f);
                 }
                 //Rotating 45 degrees if shooting left
-                if (projectile.spriteDirection == -1)
+                if (Projectile.spriteDirection == -1)
                 {
-                    projectile.rotation -= MathHelper.ToRadians(45f);
+                    Projectile.rotation -= MathHelper.ToRadians(45f);
                 }
             }
 
             //Stealth strike
             if (stealthstrike)
             {
-				CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 800f, 7f, 20f);
+                CalamityUtils.HomeInOnNPC(Projectile, true, 250f, 7f, 20f);
             }
             //Gravity code
             else
             {
-                if (projectile.ai[0] > 80)
+                if (Projectile.ai[0] > 80)
                 {
-                    projectile.velocity.Y = projectile.velocity.Y + 0.15f;
-                    if (projectile.velocity.Y > 0)
+                    Projectile.velocity.Y = Projectile.velocity.Y + 0.15f;
+                    if (Projectile.velocity.Y > 0)
                     {
-                        projectile.rotation += gravspin;
+                        Projectile.rotation += gravspin;
                     }
-                    if (projectile.velocity.Y > 10f)
+                    if (Projectile.velocity.Y > 10f)
                     {
-                        projectile.velocity.Y = 10f;
+                        Projectile.velocity.Y = 10f;
                     }
                 }
             }
@@ -90,21 +92,21 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            Collision.HitTiles(projectile.position + projectile.velocity, projectile.velocity, projectile.width, projectile.height);
-            Main.PlaySound(0, projectile.position);
+            Collision.HitTiles(Projectile.position + Projectile.velocity, Projectile.velocity, Projectile.width, Projectile.height);
+            SoundEngine.PlaySound(SoundID.Dig, Projectile.position);
             return true;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            if (projectile.ai[1] == 1f && projectile.penetrate == 1)
-                projectile.timeLeft = 180;
+            if (Projectile.ai[1] == 1f && Projectile.penetrate == 1)
+                Projectile.timeLeft = 180;
         }
     }
 }

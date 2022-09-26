@@ -1,3 +1,4 @@
+﻿using CalamityMod.Buffs.StatBuffs;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -10,24 +11,30 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Mycelial Claws");
+            Tooltip.SetDefault("Grants the Mushy buff for 6 seconds on enemy hits");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.width = 22;
-            item.damage = 14;
-            item.melee = true;
-            item.useAnimation = 6;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 6;
-            item.useTurn = true;
-            item.knockBack = 3.75f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 24;
-            item.value = Item.buyPrice(0, 2, 0, 0);
-            item.rare = 2;
+            Item.width = 22;
+            Item.damage = 21;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = 7;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 7;
+            Item.useTurn = true;
+            Item.knockBack = 3.75f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.height = 24;
+            Item.value = CalamityGlobalItem.Rarity2BuyPrice;
+            Item.rare = ItemRarityID.Green;
         }
+
+        public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit) => player.AddBuff(ModContent.BuffType<Mushy>(), 360);
+
+        public override void OnHitPvp(Player player, Player target, int damage, bool crit) => player.AddBuff(ModContent.BuffType<Mushy>(), 360);
 
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {

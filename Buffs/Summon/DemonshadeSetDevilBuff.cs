@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Projectiles.Typeless;
 using Terraria;
 using Terraria.ModLoader;
@@ -7,7 +7,7 @@ namespace CalamityMod.Buffs.Summon
 {
     public class DemonshadeSetDevilBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Red Devil");
             Description.SetDefault("The red devil will protect you");

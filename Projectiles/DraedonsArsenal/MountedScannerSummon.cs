@@ -1,131 +1,118 @@
 ﻿using CalamityMod.Buffs.Summon;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
+using CalamityMod.Sounds;
+
 namespace CalamityMod.Projectiles.DraedonsArsenal
 {
     public class MountedScannerSummon : ModProjectile
     {
         public float AngularOffsetRelativeToPlayer
         {
-            get => projectile.ai[0];
-            set => projectile.ai[0] = value;
+            get => Projectile.ai[0];
+            set => Projectile.ai[0] = value;
         }
         public float Time
         {
-            get => projectile.ai[1];
-            set => projectile.ai[1] = value;
+            get => Projectile.ai[1];
+            set => Projectile.ai[1] = value;
         }
         public const float OffsetDistanceFromPlayer = 60f;
         public const float LaserFireRate = 40f;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Mounted Scanner");
-            ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
-            ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
-            ProjectileID.Sets.NeedsUUID[projectile.type] = true;
+            ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
+            ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
+            ProjectileID.Sets.NeedsUUID[Projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 24;
-            projectile.height = 18;
-            projectile.netImportant = true;
-            projectile.friendly = true;
-            projectile.minionSlots = 1;
-            projectile.timeLeft = 18000;
-            projectile.penetrate = -1;
-            projectile.timeLeft *= 5;
-            projectile.minion = true;
-            projectile.tileCollide = false;
+            Projectile.width = 24;
+            Projectile.height = 18;
+            Projectile.netImportant = true;
+            Projectile.friendly = true;
+            Projectile.minionSlots = 1;
+            Projectile.timeLeft = 18000;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft *= 5;
+            Projectile.minion = true;
+            Projectile.tileCollide = false;
+            Projectile.DamageType = DamageClass.Summon;
         }
         public override void AI()
         {
-            Player player = Main.player[projectile.owner];
-            projectile.Center = player.Center + AngularOffsetRelativeToPlayer.ToRotationVector2() * OffsetDistanceFromPlayer;
-            if (projectile.localAI[0] == 0f)
-            {
-                projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
-                projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
-            }
-            AdjustDamage(player);
+            Player player = Main.player[Projectile.owner];
+            Projectile.Center = player.Center + AngularOffsetRelativeToPlayer.ToRotationVector2() * OffsetDistanceFromPlayer;
             GrantBuffs(player);
 
-            NPC potentialTarget = projectile.Center.MinionHoming(960f, player);
+            NPC potentialTarget = Projectile.Center.MinionHoming(960f, player);
             if (potentialTarget is null)
             {
                 AdjustVisualValues_Idle(player);
-                projectile.localAI[0] = 0f;
+                Projectile.localAI[0] = 0f;
             }
             else
             {
                 AttackTarget(potentialTarget);
-                projectile.localAI[0] = 1f;
+                Projectile.localAI[0] = 1f;
             }
             Time++;
         }
-        // While this projectile cannot attack, the projectiles it shoots derive from the damage.
-        public void AdjustDamage(Player player)
-        {
-            if (player.MinionDamage() != projectile.Calamity().spawnedPlayerMinionDamageValue)
-            {
-                int trueDamage = (int)(projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    projectile.Calamity().spawnedPlayerMinionDamageValue *
-                    player.MinionDamage());
-                projectile.damage = trueDamage;
-            }
-        }
         public void GrantBuffs(Player player)
         {
-            bool isCorrectProjectile = projectile.type == ModContent.ProjectileType<MountedScannerSummon>();
+            bool isCorrectProjectile = Projectile.type == ModContent.ProjectileType<MountedScannerSummon>();
             player.AddBuff(ModContent.BuffType<MountedScannerBuff>(), 3600);
             if (isCorrectProjectile)
             {
                 if (player.dead)
                     player.Calamity().mountedScanner = false;
                 if (player.Calamity().mountedScanner)
-                    projectile.timeLeft = 2;
+                    Projectile.timeLeft = 2;
             }
         }
         public void AdjustVisualValues_Idle(Player player)
         {
             if (player.velocity.Length() > 1.5f)
             {
-                projectile.spriteDirection = (player.velocity.X > 0).ToDirectionInt();
-                projectile.rotation = player.velocity.ToRotation() + (projectile.spriteDirection == -1).ToInt() * MathHelper.Pi;
+                Projectile.spriteDirection = (player.velocity.X > 0).ToDirectionInt();
+                Projectile.rotation = player.velocity.ToRotation() + (Projectile.spriteDirection == -1).ToInt() * MathHelper.Pi;
             }
             else
             {
-                projectile.spriteDirection = 1;
-                projectile.rotation = projectile.rotation.AngleLerp(MathHelper.PiOver2, 0.075f);
+                Projectile.spriteDirection = 1;
+                Projectile.rotation = Projectile.rotation.AngleLerp(MathHelper.PiOver2, 0.075f);
             }
         }
         public void AttackTarget(NPC target)
         {
-            projectile.spriteDirection = 1;
-            projectile.rotation = projectile.AngleTo(target.Center);
-            if (!Collision.CanHitLine(projectile.position, projectile.width, projectile.height, target.position, target.width, target.height))
+            Projectile.spriteDirection = 1;
+            Projectile.rotation = Projectile.AngleTo(target.Center);
+            if (!Collision.CanHitLine(Projectile.position, Projectile.width, Projectile.height, target.position, target.width, target.height))
                 return;
+
             if (Time % 80f == 79f)
             {
-                if (projectile.owner == Main.myPlayer)
+                if (Projectile.owner == Main.myPlayer)
                 {
-                    Projectile.NewProjectile(projectile.Center,
-                                         projectile.DirectionTo(target.Center),
+                    int p = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center,
+                                         Projectile.SafeDirectionTo(target.Center, Vector2.UnitY),
                                          ModContent.ProjectileType<MountedScannerLaser>(),
-                                         projectile.damage,
-                                         projectile.knockBack,
-                                         projectile.owner,
+                                         Projectile.damage,
+                                         Projectile.knockBack,
+                                         Projectile.owner,
                                          0f,
-                                         projectile.whoAmI);
+                                         Projectile.whoAmI);
+                    if (Main.projectile.IndexInRange(p))
+                        Main.projectile[p].originalDamage = Projectile.originalDamage;
                 }
-                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon"), projectile.Center);
+                SoundEngine.PlaySound(CommonCalamitySounds.LaserCannonSound, Projectile.Center);
             }
         }
-        public override bool CanDamage() => false;
+        public override bool? CanDamage() => false;
     }
 }

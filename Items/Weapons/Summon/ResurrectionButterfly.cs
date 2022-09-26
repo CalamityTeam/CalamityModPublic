@@ -1,3 +1,4 @@
+﻿using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Summon;
 using Microsoft.Xna.Framework;
@@ -8,42 +9,44 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
-	public class ResurrectionButterfly : ModItem
+    public class ResurrectionButterfly : ModItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Resurrection Butterfly");
             Tooltip.SetDefault("Remembering the melancholy of human existence\n" +
-                "Even ghosts stray from the path of righteousness");
+                "Even ghosts stray from the path of righteousness\n" +
+                "Summons a pair of butterflies to fight for you");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 65;
-            item.mana = 10;
-            item.width = 46;
-            item.height = 46;
-            item.useTime = item.useAnimation = 20;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.noMelee = true;
-            item.knockBack = 1f;
-            item.value = Item.buyPrice(0, 80, 0, 0);
-            item.rare = 8;
-            item.Calamity().customRarity = CalamityRarity.Dedicated;
-            item.UseSound = SoundID.Item44;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<PinkButterfly>();
-            item.shootSpeed = 10f;
-            item.summon = true;
+            Item.damage = 65;
+            Item.mana = 10;
+            Item.width = 46;
+            Item.height = 46;
+            Item.useTime = Item.useAnimation = 20;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.noMelee = true;
+            Item.knockBack = 1f;
+
+            Item.value = CalamityGlobalItem.Rarity8BuyPrice;
+            Item.rare = ItemRarityID.Yellow;
+            Item.Calamity().donorItem = true;
+
+            Item.UseSound = SoundID.Item44;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<PinkButterfly>();
+            Item.shootSpeed = 10f;
+            Item.DamageType = DamageClass.Summon;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             int i = Main.myPlayer;
-            float num72 = item.shootSpeed;
-            float num74 = knockBack;
-            num74 = player.GetWeaponKnockback(item, num74);
-            player.itemTime = item.useTime;
+            float num72 = Item.shootSpeed;
+            player.itemTime = Item.useTime;
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
             float num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
             float num79 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;
@@ -68,24 +71,25 @@ namespace CalamityMod.Items.Weapons.Summon
             vector2.Y = (float)Main.mouseY + Main.screenPosition.Y;
             Vector2 spinningpoint = new Vector2(num78, num79);
             spinningpoint = spinningpoint.RotatedBy(1.5707963705062866, default);
-            Projectile.NewProjectile(vector2.X + spinningpoint.X, vector2.Y + spinningpoint.Y, spinningpoint.X, spinningpoint.Y, ModContent.ProjectileType<PinkButterfly>(), damage, num74, i, 0f, 0f);
+            int p = Projectile.NewProjectile(source, vector2.X + spinningpoint.X, vector2.Y + spinningpoint.Y, spinningpoint.X, spinningpoint.Y, ModContent.ProjectileType<PinkButterfly>(), damage, knockback, i, 0f, 0f);
+            if (Main.projectile.IndexInRange(p))
+                Main.projectile[p].originalDamage = Item.damage;
             spinningpoint = spinningpoint.RotatedBy(-3.1415927410125732, default);
-            Projectile.NewProjectile(vector2.X + spinningpoint.X, vector2.Y + spinningpoint.Y, spinningpoint.X, spinningpoint.Y, ModContent.ProjectileType<PurpleButterfly>(), damage, num74, i, 0f, 0f);
+            p = Projectile.NewProjectile(source, vector2.X + spinningpoint.X, vector2.Y + spinningpoint.Y, spinningpoint.X, spinningpoint.Y, ModContent.ProjectileType<PurpleButterfly>(), damage, knockback, i, 0f, 0f);
+            if (Main.projectile.IndexInRange(p))
+                Main.projectile[p].originalDamage = Item.damage;
             return false;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe r = new ModRecipe(mod);
-            r.AddIngredient(ItemID.Silk, 40);
-            r.AddIngredient(ItemID.Ectoplasm, 20);
-            r.AddIngredient(ModContent.ItemType<BarofLife>(), 5);
-            r.AddIngredient(ItemID.ButterflyDust, 2);
-            r.AddIngredient(ModContent.ItemType<GypsyPowder>());
-            //r.AddIngredient(ModContent.ItemType<SpiritGenerator>());
-            r.AddTile(TileID.Loom);
-            r.SetResult(this);
-            r.AddRecipe();
+            CreateRecipe().
+                AddIngredient(ItemID.Silk, 40).
+                AddIngredient(ItemID.Ectoplasm, 20).
+                AddIngredient<LifeAlloy>(5).
+                AddIngredient(ItemID.ButterflyDust, 2).
+                AddTile(TileID.Loom).
+                Register();
         }
     }
 }

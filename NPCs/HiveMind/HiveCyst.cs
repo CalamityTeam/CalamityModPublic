@@ -1,6 +1,6 @@
-using CalamityMod.World;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -11,68 +11,89 @@ namespace CalamityMod.NPCs.HiveMind
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Hive Cyst");
-            Main.npcFrameCount[npc.type] = 4;
+            Main.npcFrameCount[NPC.type] = 4;
+            NPCID.Sets.BossBestiaryPriority.Add(Type);
         }
 
         public override void SetDefaults()
         {
-            npc.npcSlots = 0f;
-            npc.aiStyle = -1;
-            aiType = -1;
-            npc.damage = 0;
-            npc.width = 30; //324
-            npc.height = 30; //216
-            npc.defense = 0;
-            npc.lifeMax = 1000;
-            npc.knockBackResist = 0f;
-            npc.chaseable = false;
-            npc.HitSound = SoundID.NPCHit1;
-            npc.rarity = 2;
+            NPC.npcSlots = 0f;
+            NPC.aiStyle = -1;
+            AIType = -1;
+            NPC.damage = 0;
+            NPC.width = 30; //324
+            NPC.height = 30; //216
+            NPC.defense = 0;
+            NPC.lifeMax = 1000;
+            NPC.knockBackResist = 0f;
+            NPC.chaseable = false;
+            NPC.HitSound = SoundID.NPCHit1;
+            NPC.rarity = 2;
+            NPC.Calamity().VulnerableToHeat = true;
+            NPC.Calamity().VulnerableToCold = true;
+            NPC.Calamity().VulnerableToSickness = true;
+            NPC.Calamity().ProvidesProximityRage = false;
+        }
+
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCorruption,
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.UndergroundCorruption,
+
+				// Will move to localization whenever that is cleaned up.
+				new FlavorTextBestiaryInfoElement("The blemish of a colonial superorganism, the mass of organic matter pulses like a heart. The growth is the result of the corruption’s beings forming together.")
+            });
         }
 
         public override void FindFrame(int frameHeight)
         {
-            npc.frameCounter += 0.15f;
-            npc.frameCounter %= Main.npcFrameCount[npc.type];
-            int frame = (int)npc.frameCounter;
-            npc.frame.Y = frame * frameHeight;
+            NPC.frameCounter += 0.15f;
+            NPC.frameCounter %= Main.npcFrameCount[NPC.type];
+            int frame = (int)NPC.frameCounter;
+            NPC.frame.Y = frame * frameHeight;
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.playerSafe || NPC.AnyNPCs(ModContent.NPCType<HiveCyst>()) || NPC.AnyNPCs(ModContent.NPCType<HiveMind>()) || NPC.AnyNPCs(ModContent.NPCType<HiveMindP2>()) || spawnInfo.player.Calamity().corruptionLore)
-            {
+            if (CalamityGlobalNPC.AnyEvents(spawnInfo.Player))
                 return 0f;
-            }
-            else if (NPC.downedBoss2 && !CalamityWorld.downedHiveMind)
-            {
-                return SpawnCondition.Corruption.Chance * 1.5f;
-            }
-            return SpawnCondition.Corruption.Chance * (Main.hardMode ? 0.05f : 0.5f);
+            if (spawnInfo.Player.Calamity().disableHiveCystSpawns)
+                return 0f;
+
+            bool anyBossElements = NPC.AnyNPCs(ModContent.NPCType<HiveCyst>()) || NPC.AnyNPCs(ModContent.NPCType<HiveMind>());
+            bool corrupt = TileID.Sets.Corrupt[spawnInfo.SpawnTileType] || spawnInfo.SpawnTileType == TileID.Demonite && spawnInfo.Player.ZoneCorrupt;
+            if (anyBossElements || spawnInfo.PlayerSafe || !corrupt)
+                return 0f;
+
+            if (NPC.downedBoss2 && !DownedBossSystem.downedHiveMind)
+                return 1.5f;
+
+            return Main.hardMode ? 0.05f : 0.5f;
         }
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
-            npc.lifeMax = 2000;
-            npc.damage = 0;
+            NPC.lifeMax = 2000;
+            NPC.damage = 0;
         }
 
         public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, 14, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(NPC.position, NPC.width, NPC.height, 14, hitDirection, -1f, 0, default, 1f);
             }
-            if (npc.life <= 0)
+            if (NPC.life <= 0)
             {
                 for (int k = 0; k < 20; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 14, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(NPC.position, NPC.width, NPC.height, 14, hitDirection, -1f, 0, default, 1f);
                 }
                 if (Main.netMode != NetmodeID.MultiplayerClient && NPC.CountNPCS(ModContent.NPCType<HiveMind>()) < 1)
                 {
-                    Vector2 spawnAt = npc.Center + new Vector2(0f, (float)npc.height / 2f);
-                    NPC.NewNPC((int)spawnAt.X, (int)spawnAt.Y, ModContent.NPCType<HiveMind>());
+                    Vector2 spawnAt = NPC.Bottom;
+                    NPC.NewNPC(NPC.GetSource_Death(), (int)spawnAt.X, (int)spawnAt.Y, ModContent.NPCType<HiveMind>());
                 }
             }
         }

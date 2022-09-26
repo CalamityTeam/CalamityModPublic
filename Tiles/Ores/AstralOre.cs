@@ -1,8 +1,6 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Tiles.Astral;
-using CalamityMod.World;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -11,39 +9,43 @@ namespace CalamityMod.Tiles.Ores
 {
     public class AstralOre : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileLighted[Type] = true;
             Main.tileSolid[Type] = true;
             Main.tileBlockLight[Type] = true;
-            Main.tileValue[Type] = 900;
+            Main.tileOreFinderPriority[Type] = 900;
             Main.tileSpelunker[Type] = true;
             Main.tileShine2[Type] = true;
 
             CalamityUtils.MergeWithGeneral(Type);
             CalamityUtils.MergeAstralTiles(Type);
 
-            minPick = 210;
-            dustType = 173;
-            drop = ModContent.ItemType<Items.Placeables.Ores.AstralOre>();
+            TileID.Sets.Ore[Type] = true;
+            TileID.Sets.OreMergesWithMud[Type] = true;
+
+            MinPick = 210;
+            DustType = 173;
+            ItemDrop = ModContent.ItemType<Items.Placeables.Ores.AstralOre>();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Astral Ore");
             AddMapEntry(new Color(255, 153, 255), name);
-            mineResist = 5f;
-            soundType = SoundID.Tink;
+            MineResist = 5f;
+            HitSound = SoundID.Tink;
 
             TileID.Sets.Ore[Type] = true;
             TileID.Sets.ChecksForMerge[Type] = true;
+            TileID.Sets.DoesntGetReplacedWithTileReplacement[Type] = true;
         }
 
         public override bool CanKillTile(int i, int j, ref bool blockDamaged)
         {
-            return CalamityWorld.downedStarGod;
+            return DownedBossSystem.downedAstrumDeus;
         }
 
         public override bool CanExplode(int i, int j)
         {
-            return CalamityWorld.downedStarGod;
+            return false;
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)
@@ -64,16 +66,11 @@ namespace CalamityMod.Tiles.Ores
             r = 0.09f;
             g = 0.03f;
             b = 0.07f;
-
-            float minStrength = 3.4f;
-            float bonusStrength = 0.5f;
-            float strength = minStrength + (float)Math.Sin(MathHelper.ToRadians((float)(Main.time / 6.0))) * bonusStrength;
-            Lighting.AddLight(new Vector2(i * 16 + 8f, j * 16 + 8f), r * strength, g * strength, b * strength);
         }
 
         public override void FloorVisuals(Player player)
         {
-            player.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 1);
+            player.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 2);
             base.FloorVisuals(player);
         }
 

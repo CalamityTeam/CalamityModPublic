@@ -1,109 +1,110 @@
-using System;
+﻿using System;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-	public class LuminousStrikerProj : ModProjectile
+    public class LuminousStrikerProj : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Luminous Striker");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 6;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
-		}
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/LuminousStriker";
+
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Luminous Striker");
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 6;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
+        }
 
         public override void SetDefaults()
         {
-            projectile.width = 30;
-            projectile.height = 30;
-            projectile.friendly = true;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 120;
-            projectile.Calamity().rogue = true;
-		}
+            Projectile.width = 30;
+            Projectile.height = 30;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.penetrate = 4;
+            Projectile.localNPCHitCooldown = 13;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.timeLeft = 120;
+            Projectile.DamageType = RogueDamageClass.Instance;
+        }
 
         public override void AI()
         {
-            CalamityPlayer modPlayer = Main.player[projectile.owner].Calamity();
-			if (projectile.ai[0] == 0f && modPlayer.StealthStrikeAvailable())
-			{
-                projectile.Calamity().stealthStrike = true;
-				projectile.timeLeft = 600;
-				projectile.ai[0] = 1f;
-			}
+            if (Projectile.ai[0] == 0f && Projectile.Calamity().stealthStrike)
+            {
+                Projectile.timeLeft = 600;
+                Projectile.ai[0] = 1f;
+            }
 
-        	if (Main.rand.NextBool(4))
-            	Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 176, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+            if (Main.rand.NextBool(4))
+                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 176, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
 
-			projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 0.785f;
+            Projectile.rotation = (float)Math.Atan2(Projectile.velocity.Y, Projectile.velocity.X) + MathHelper.PiOver4;
 
-        	if (projectile.timeLeft % 4 == 0)
-			{
-        		if (projectile.owner == Main.myPlayer)
-        		{
-					if (projectile.Calamity().stealthStrike)
-					{
-						Projectile.NewProjectile(projectile.Center.X + Main.rand.NextFloat(-15f, 15f), projectile.Center.Y + Main.rand.NextFloat(-15f, 15f), projectile.velocity.X, projectile.velocity.Y, ModContent.ProjectileType<LuminousShard>(), (int)(projectile.damage * 0.25), projectile.knockBack * 0.25f, projectile.owner, 0f, 0f);
-					}
-					else
-						Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 0f, -2f, ModContent.ProjectileType<LuminousShard>(), (int)(projectile.damage * 0.25), projectile.knockBack * 0.25f, projectile.owner, 0f, 0f);
+            if (Projectile.timeLeft % 4 == 0)
+            {
+                if (Projectile.owner == Main.myPlayer)
+                {
+                    if (Projectile.Calamity().stealthStrike)
+                    {
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X + Main.rand.NextFloat(-15f, 15f), Projectile.Center.Y + Main.rand.NextFloat(-15f, 15f), Projectile.velocity.X, Projectile.velocity.Y, ModContent.ProjectileType<LuminousShard>(), (int)(Projectile.damage * 0.25), Projectile.knockBack * 0.25f, Projectile.owner);
+                    }
+                    else
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, Projectile.velocity.X * 0f, -2f, ModContent.ProjectileType<LuminousShard>(), (int)(Projectile.damage * 0.25), Projectile.knockBack * 0.25f, Projectile.owner);
                 }
-			}
+            }
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;
         }
 
-		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-			if (projectile.owner == Main.myPlayer)
-			{
-				for (int i = 0; i < 7; i++)
-				{
-					Vector2 speed = new Vector2((float)Main.rand.Next(-50, 51), (float)Main.rand.Next(-50, 51));
-					while (speed.X == 0f && speed.Y == 0f)
-					{
-						speed = new Vector2((float)Main.rand.Next(-50, 51), (float)Main.rand.Next(-50, 51));
-					}
-					speed.Normalize();
-					speed *= ((float)Main.rand.Next(30, 61) * 0.1f) * 2f;
-					Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, speed.X, speed.Y, ModContent.ProjectileType<LuminousShard>(), (int)(projectile.damage * 0.25), projectile.knockBack * 0.25f, projectile.owner, 0f, 0f);
-				}
-			}
-		}
+            if (Projectile.owner == Main.myPlayer)
+            {
+                for (int i = 0; i < 7; i++)
+                {
+                    Vector2 speed = new Vector2(Main.rand.Next(-50, 51), Main.rand.Next(-50, 51));
+                    while (speed.X == 0f && speed.Y == 0f)
+                    {
+                        speed = new Vector2(Main.rand.Next(-50, 51), Main.rand.Next(-50, 51));
+                    }
+                    speed.Normalize();
+                    speed *= Main.rand.Next(30, 61) * 0.1f * 2f;
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, speed.X, speed.Y, ModContent.ProjectileType<LuminousShard>(), (int)(Projectile.damage * 0.25), Projectile.knockBack * 0.25f, Projectile.owner);
+                }
+            }
+        }
 
-		public override void OnHitPvp(Player target, int damage, bool crit)
+        public override void OnHitPvp(Player target, int damage, bool crit)
         {
-			if (projectile.owner == Main.myPlayer)
-			{
-				for (int i = 0; i < 7; i++)
-				{
-					Vector2 speed = new Vector2((float)Main.rand.Next(-50, 51), (float)Main.rand.Next(-50, 51));
-					while (speed.X == 0f && speed.Y == 0f)
-					{
-						speed = new Vector2((float)Main.rand.Next(-50, 51), (float)Main.rand.Next(-50, 51));
-					}
-					speed.Normalize();
-					speed *= ((float)Main.rand.Next(30, 61) * 0.1f) * 2f;
-					Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, speed.X, speed.Y, ModContent.ProjectileType<LuminousShard>(), (int)(projectile.damage * 0.25), projectile.knockBack * 0.25f, projectile.owner, 0f, 0f);
-				}
-			}
-		}
+            if (Projectile.owner == Main.myPlayer)
+            {
+                for (int i = 0; i < 7; i++)
+                {
+                    Vector2 speed = new Vector2(Main.rand.Next(-50, 51), Main.rand.Next(-50, 51));
+                    while (speed.X == 0f && speed.Y == 0f)
+                    {
+                        speed = new Vector2(Main.rand.Next(-50, 51), Main.rand.Next(-50, 51));
+                    }
+                    speed.Normalize();
+                    speed *= Main.rand.Next(30, 61) * 0.1f * 2f;
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, speed.X, speed.Y, ModContent.ProjectileType<LuminousShard>(), (int)(Projectile.damage * 0.25), Projectile.knockBack * 0.25f, Projectile.owner);
+                }
+            }
+        }
 
         public override void Kill(int timeLeft)
         {
-        	for (int i = 0; i <= 10; i++)
-        	{
-        		Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 176, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
-        	}
+            for (int i = 0; i <= 10; i++)
+            {
+                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 176, Projectile.oldVelocity.X * 0.5f, Projectile.oldVelocity.Y * 0.5f);
+            }
         }
     }
 }

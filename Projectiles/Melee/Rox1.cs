@@ -1,8 +1,9 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Melee
 {
@@ -10,44 +11,44 @@ namespace CalamityMod.Projectiles.Melee
     {
         public override void SetDefaults()
         {
-            projectile.width = 20;
-            projectile.height = 20;
-            projectile.friendly = true;
-            projectile.melee = true;
-            projectile.extraUpdates = 1;
+            Projectile.width = 20;
+            Projectile.height = 20;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.extraUpdates = 1;
         }
 
         public override void AI()
         {
             //Gravity
-            projectile.velocity.Y = projectile.velocity.Y + 0.13f;
-            if (projectile.velocity.Y > 16f)
+            Projectile.velocity.Y = Projectile.velocity.Y + 0.13f;
+            if (Projectile.velocity.Y > 16f)
             {
-                projectile.velocity.Y = 16f;
+                Projectile.velocity.Y = 16f;
             }
             //Projectile rotation
-            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
-            projectile.spriteDirection = projectile.direction;
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
+            Projectile.spriteDirection = Projectile.direction;
             //Dust trail
             if (Main.rand.NextBool(10))
             {
-                Dust.NewDust(projectile.position, projectile.width, projectile.height, 191, projectile.velocity.X * 0.4f, projectile.velocity.Y * 0.4f, 160, default, 0.7f);
+                Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 191, Projectile.velocity.X * 0.4f, Projectile.velocity.Y * 0.4f, 160, default, 0.7f);
             }
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             //Changes the texture of the projectile
-            if (projectile.ai[0] == 1f)
+            if (Projectile.ai[0] == 1f)
             {
-                Texture2D texture = ModContent.GetTexture("CalamityMod/Projectiles/Melee/Rox2");
-                Main.spriteBatch.Draw(texture, projectile.Center - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, texture.Width, 20)), projectile.GetAlpha(lightColor), projectile.rotation, new Vector2(texture.Width / 2f, 20 / 2f), projectile.scale, SpriteEffects.None, 0f);
+                Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Melee/Rox2").Value;
+                Main.spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, texture.Width, 20)), Projectile.GetAlpha(lightColor), Projectile.rotation, new Vector2(texture.Width / 2f, 20 / 2f), Projectile.scale, SpriteEffects.None, 0);
                 return false;
             }
-            if (projectile.ai[0] == 2f)
+            if (Projectile.ai[0] == 2f)
             {
-                Texture2D texture = ModContent.GetTexture("CalamityMod/Projectiles/Melee/Rox3");
-                Main.spriteBatch.Draw(texture, projectile.Center - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, texture.Width, 20)), projectile.GetAlpha(lightColor), projectile.rotation, new Vector2(texture.Width / 2f, 20 / 2f), projectile.scale, SpriteEffects.None, 0f);
+                Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Melee/Rox3").Value;
+                Main.spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, texture.Width, 20)), Projectile.GetAlpha(lightColor), Projectile.rotation, new Vector2(texture.Width / 2f, 20 / 2f), Projectile.scale, SpriteEffects.None, 0);
                 return false;
             }
             return true;
@@ -57,10 +58,10 @@ namespace CalamityMod.Projectiles.Melee
         {
             for (int i = 0; i < 8; i++)
             {
-                Dust.NewDust(projectile.position, projectile.width, projectile.height, 191, -projectile.velocity.X * 0.4f, -projectile.velocity.Y * 0.4f, 120, default, 1.2f);
+                Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 191, -Projectile.velocity.X * 0.4f, -Projectile.velocity.Y * 0.4f, 120, default, 1.2f);
             }
-            Main.PlaySound(SoundID.Dig, projectile.position);
-            projectile.Kill();
+            SoundEngine.PlaySound(SoundID.Dig, Projectile.position);
+            Projectile.Kill();
             return false;
         }
     }

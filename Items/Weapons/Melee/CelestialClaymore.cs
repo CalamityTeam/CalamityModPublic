@@ -1,3 +1,4 @@
+﻿using Terraria.DataStructures;
 using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
 using System;
@@ -13,29 +14,30 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             DisplayName.SetDefault("Celestial Claymore");
             Tooltip.SetDefault("Spawns cosmic energy flames near the player that generate large explosions");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.width = item.height = 54;
-            item.damage = 70;
-            item.melee = true;
-            item.useAnimation = 23;
-            item.useTime = 23;
-            item.useTurn = true;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 5.25f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = 5;
-            item.shoot = ModContent.ProjectileType<CosmicSpiritBomb1>();
-            item.shootSpeed = 0.1f;
+            Item.width = Item.height = 54;
+            Item.damage = 70;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = 19;
+            Item.useTime = 19;
+            Item.useTurn = true;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 5.25f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.value = CalamityGlobalItem.Rarity4BuyPrice;
+            Item.rare = ItemRarityID.LightRed;
+            Item.shoot = ModContent.ProjectileType<CosmicSpiritBomb1>();
+            Item.shootSpeed = 0.1f;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            float num72 = item.shootSpeed;
+            float num72 = Item.shootSpeed;
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
             float num78 = (float)Main.mouseX + Main.screenPosition.X + vector2.X;
             float num79 = (float)Main.mouseY + Main.screenPosition.Y + vector2.Y;
@@ -87,7 +89,7 @@ namespace CalamityMod.Items.Weapons.Melee
                     default:
                         break;
                 }
-                Projectile.NewProjectile(vector2.X, vector2.Y, 0f, 0f, type, (int)(damage * 0.8), knockBack, player.whoAmI, 0f, (float)Main.rand.Next(3));
+                Projectile.NewProjectile(source, vector2.X, vector2.Y, 0f, 0f, type, (int)(damage * 0.8), knockback, player.whoAmI, 0f, (float)Main.rand.Next(3));
             }
             return false;
         }

@@ -1,5 +1,4 @@
-using CalamityMod.Items.Materials;
-using System.Collections.Generic;
+﻿using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -12,31 +11,17 @@ namespace CalamityMod.Items.LoreItems
         {
             DisplayName.SetDefault("King Slime");
             Tooltip.SetDefault("Only a fool could be caught by this pitiful excuse for a hunter.\n" +
-                "Unfortunately, our world has no shortage of those.\n" +
-				"Favorite this item to gain 5% increased movement speed and 2% increased jump speed.\n" +
-				"However, your defense is reduced by 3 due to your gelatinous body.");
+                "Unfortunately, our world has no shortage of those.");
+            SacrificeTotal = 1;
+            ItemID.Sets.ItemNoGravity[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.width = 20;
-            item.height = 20;
-            item.rare = 1;
-            item.consumable = false;
-        }
-
-        public override void ModifyTooltips(List<TooltipLine> list)
-        {
-            bool autoJump = Main.player[Main.myPlayer].autoJump;
-			string hasJumpBoost = "Place in your inventory to gain 5% increased movement speed and 2% increased jump speed.";
-			string noJumpBoost = "Place in your inventory to gain 5% increased movement speed.";
-            foreach (TooltipLine line2 in list)
-            {
-                if (line2.mod == "Terraria" && line2.Name == "Tooltip2")
-                {
-                    line2.text = autoJump ? noJumpBoost : hasJumpBoost;
-                }
-            }
+            Item.width = 20;
+            Item.height = 20;
+            Item.rare = ItemRarityID.Blue;
+            Item.consumable = false;
         }
 
         public override bool CanUseItem(Player player)
@@ -44,20 +29,9 @@ namespace CalamityMod.Items.LoreItems
             return false;
         }
 
-        public override void UpdateInventory(Player player)
-        {
-			if (item.favorited)
-				player.Calamity().kingSlimeLore = true;
-        }
-
         public override void AddRecipes()
         {
-            ModRecipe r = new ModRecipe(mod);
-            r.SetResult(this);
-            r.AddTile(TileID.Bookcases);
-            r.AddIngredient(ItemID.KingSlimeTrophy);
-            r.AddIngredient(ModContent.ItemType<VictoryShard>(), 10);
-            r.AddRecipe();
+            CreateRecipe(1).AddTile(TileID.Bookcases).AddIngredient(ItemID.KingSlimeTrophy).AddIngredient(ModContent.ItemType<PearlShard>(), 10).Register();
         }
     }
 }

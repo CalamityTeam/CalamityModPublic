@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -6,43 +6,44 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-	public class YoungDuke : ModProjectile
+    public class YoungDuke : ModProjectile
     {
         public const float DistanceBeforeCharge = 420f;
 
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Young Old Duke");
-            Main.projFrames[projectile.type] = 16;
-            ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
-            ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
+            Main.projFrames[Projectile.type] = 16;
+            ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
+            ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 30;
-            projectile.height = 30;
-            projectile.netImportant = true;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.timeLeft = 18000;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.timeLeft *= 5;
-            projectile.minion = true;
+            Projectile.width = 30;
+            Projectile.height = 30;
+            Projectile.netImportant = true;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.timeLeft = 18000;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.timeLeft *= 5;
+            Projectile.minion = true;
+            Projectile.DamageType = DamageClass.Summon;
         }
 
         public override void AI()
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
             if (!modPlayer.miniOldDuke)
             {
-                projectile.active = false;
+                Projectile.active = false;
                 return;
             }
 
-            bool correctMinion = projectile.type == ModContent.ProjectileType<YoungDuke>();
+            bool correctMinion = Projectile.type == ModContent.ProjectileType<YoungDuke>();
             if (correctMinion)
             {
                 if (player.dead)
@@ -51,77 +52,59 @@ namespace CalamityMod.Projectiles.Summon
                 }
                 if (modPlayer.youngDuke)
                 {
-                    projectile.timeLeft = 2;
+                    Projectile.timeLeft = 2;
                 }
             }
-
-            // Adjust damage as needed
-            if (projectile.localAI[0] == 0f)
-            {
-                projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
-                projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
-                projectile.localAI[0] = 1f;
-            }
-            if (player.MinionDamage() != projectile.Calamity().spawnedPlayerMinionDamageValue)
-            {
-                int trueDamage = (int)(projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    projectile.Calamity().spawnedPlayerMinionDamageValue *
-                    player.MinionDamage());
-                projectile.damage = trueDamage;
-            }
-
+            
             bool playerHalfLife = player.statLife <= player.statLifeMax2 * 0.5f;
 
             // Frames
-            projectile.frameCounter++;
-            if (projectile.frameCounter > 6)
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter > 6)
             {
-                projectile.frame++;
-                projectile.frameCounter = 0;
+                Projectile.frame++;
+                Projectile.frameCounter = 0;
             }
-            if (projectile.frame >= Main.projFrames[projectile.type])
+            if (Projectile.frame >= Main.projFrames[Projectile.type])
             {
-                projectile.frame = 0;
+                Projectile.frame = 0;
             }
-            if (playerHalfLife && projectile.frame < Main.projFrames[projectile.type] / 2)
+            if (playerHalfLife && Projectile.frame < Main.projFrames[Projectile.type] / 2)
             {
-                projectile.frame += Main.projFrames[projectile.type] / 2;
+                Projectile.frame += Main.projFrames[Projectile.type] / 2;
             }
-            else if (!playerHalfLife && projectile.frame >= Main.projFrames[projectile.type] / 2)
+            else if (!playerHalfLife && Projectile.frame >= Main.projFrames[Projectile.type] / 2)
             {
-                projectile.frame -= Main.projFrames[projectile.type] / 2;
+                Projectile.frame -= Main.projFrames[Projectile.type] / 2;
             }
 
-            NPC potentialTarget = projectile.Center.ClosestNPCAt(1600f);
+            NPC potentialTarget = Projectile.Center.ClosestNPCAt(1600f);
             if (potentialTarget != null)
             {
-                if (projectile.Distance(potentialTarget.Center) < DistanceBeforeCharge)
+                if (Projectile.Distance(potentialTarget.Center) < DistanceBeforeCharge)
                 {
-                    projectile.ai[0] += 1f;
+                    Projectile.ai[0] += 1f;
                     int timePerCharge = playerHalfLife ? 25 : 35;
                     float chargeSpeed = playerHalfLife ? 25f : 20f;
-                    if (projectile.ai[0] >= timePerCharge)
+                    if (Projectile.ai[0] >= timePerCharge)
                     {
-                        projectile.velocity = projectile.DirectionTo(potentialTarget.Center) * chargeSpeed;
-                        projectile.ai[0] = 0f;
+                        Projectile.velocity = Projectile.SafeDirectionTo(potentialTarget.Center) * chargeSpeed;
+                        Projectile.ai[0] = 0f;
                     }
                     else
-                        projectile.velocity *= 0.9825f;
+                        Projectile.velocity *= 0.9825f;
                 }
                 else
                 {
                     float intertia = 0.94f;
                     float homeSpeed = playerHalfLife ? 38f : 32f;
-                    projectile.velocity = Vector2.Lerp(projectile.velocity,
-                        projectile.DirectionTo(potentialTarget.Center) * homeSpeed,
-                        1f - intertia);
+                    Projectile.velocity = Vector2.Lerp(Projectile.velocity, Projectile.SafeDirectionTo(potentialTarget.Center) * homeSpeed, 1f - intertia);
                 }
             }
-            else if (projectile.Distance(player.Center) > 140f)
-            {
-                projectile.velocity = (projectile.velocity * 30f + projectile.DirectionTo(player.Center) * 16f) / 31f;
-            }
-            projectile.direction = projectile.spriteDirection = (projectile.velocity.X > 0).ToDirectionInt();
+            else if (!Projectile.WithinRange(player.Center, 140f))
+                Projectile.velocity = (Projectile.velocity * 30f + Projectile.SafeDirectionTo(player.Center) * 16f) / 31f;
+
+            Projectile.direction = Projectile.spriteDirection = (Projectile.velocity.X > 0).ToDirectionInt();
         }
     }
 }

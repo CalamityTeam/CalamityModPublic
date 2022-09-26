@@ -1,3 +1,5 @@
+﻿using CalamityMod.Items.Materials;
+using CalamityMod.Rarities;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -10,21 +12,32 @@ namespace CalamityMod.Items.Mounts
         {
             DisplayName.SetDefault("Brimrose");
             Tooltip.SetDefault("Summons a brimrose mount");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.width = 64;
-            item.height = 64;
-            item.useTime = 20;
-            item.useAnimation = 20;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.value = Item.buyPrice(1, 50, 0, 0);
-            item.rare = 9;
-            item.expert = true;
-            item.UseSound = SoundID.Item3;
-            item.noMelee = true;
-            item.mountType = ModContent.MountType<PhuppersChair>();
+            Item.width = 64;
+            Item.height = 64;
+            Item.useTime = 20;
+            Item.useAnimation = 20;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.UseSound = SoundID.Item3;
+            Item.noMelee = true;
+            Item.mountType = ModContent.MountType<PhuppersChair>();
+
+            Item.value = Item.buyPrice(platinum: 1, gold: 50);
+            Item.rare = ModContent.RarityType<Turquoise>();
+            Item.Calamity().devItem = true;
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient<UnholyCore>(5).
+                AddIngredient<Bloodstone>(20).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

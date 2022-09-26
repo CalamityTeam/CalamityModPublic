@@ -1,19 +1,19 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureCosmilite
 {
     public class CosmiliteChandelier : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
-            this.SetUpChandelier();
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Cosmilite Chandelier");
-            AddMapEntry(new Color(191, 142, 111), name);
-            adjTiles = new int[] { TileID.Torches };
+            this.SetUpChandelier(true);
+            AddMapEntry(new Color(191, 142, 111), Language.GetText("MapObject.Chandelier"));
+            AdjTiles = new int[] { TileID.Chandeliers };
         }
 
         public override bool CreateDust(int i, int j, ref int type)
@@ -30,7 +30,7 @@ namespace CalamityMod.Tiles.FurnitureCosmilite
 
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
-            if (Main.tile[i, j].frameX < 18)
+            if (Main.tile[i, j].TileFrameX < 18)
             {
                 r = 1f;
                 g = 0.6f;
@@ -46,7 +46,7 @@ namespace CalamityMod.Tiles.FurnitureCosmilite
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 48, 48, ModContent.ItemType<Items.Placeables.FurnitureCosmilite.CosmiliteChandelier>());
+            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 48, 48, ModContent.ItemType<Items.Placeables.FurnitureCosmilite.CosmiliteChandelier>());
         }
 
         public override void HitWire(int i, int j)

@@ -1,11 +1,10 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
-using CalamityMod.Items.Weapons.Melee;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Utilities;
 namespace CalamityMod.NPCs.NormalNPCs
 {
     public class CrimulanBlightSlime : ModNPC
@@ -13,36 +12,46 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Crimulan Blight Slime");
-            Main.npcFrameCount[npc.type] = 4;
+            Main.npcFrameCount[NPC.type] = 4;
         }
 
         public override void SetDefaults()
         {
-            npc.aiStyle = 1;
-			aiType = NPCID.DungeonSlime;
-			npc.damage = 30;
-            npc.width = 60;
-            npc.height = 42;
-            npc.defense = 8;
-            npc.lifeMax = 130;
-            npc.knockBackResist = 0.3f;
-            animationType = NPCID.RainbowSlime;
-            npc.value = Item.buyPrice(0, 0, 2, 0);
-            npc.alpha = 105;
-            npc.lavaImmune = false;
-            npc.noGravity = false;
-            npc.noTileCollide = false;
-            npc.HitSound = SoundID.NPCHit1;
-            npc.DeathSound = SoundID.NPCDeath1;
-            npc.buffImmune[BuffID.OnFire] = true;
-            npc.buffImmune[BuffID.Confused] = false;
-            banner = npc.type;
-            bannerItem = ModContent.ItemType<CrimulanBlightSlimeBanner>();
+            NPC.aiStyle = 1;
+            AIType = NPCID.DungeonSlime;
+            NPC.damage = 30;
+            NPC.width = 60;
+            NPC.height = 42;
+            NPC.defense = 8;
+            NPC.lifeMax = 130;
+            NPC.knockBackResist = 0.3f;
+            AnimationType = NPCID.RainbowSlime;
+            NPC.value = Item.buyPrice(0, 0, 2, 0);
+            NPC.alpha = 105;
+            NPC.lavaImmune = false;
+            NPC.noGravity = false;
+            NPC.noTileCollide = false;
+            NPC.HitSound = SoundID.NPCHit1;
+            NPC.DeathSound = SoundID.NPCDeath1;
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<CrimulanBlightSlimeBanner>();
+            NPC.Calamity().VulnerableToHeat = true;
+            NPC.Calamity().VulnerableToSickness = false;
+        }
+
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCrimson,
+
+				// Will move to localization whenever that is cleaned up.
+				new FlavorTextBestiaryInfoElement("Seemingly, these are slimes which have been given the blessing of a higher being, They seek out and devour but not for themselves, which is a rarity among slimes.")
+            });
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.playerSafe || spawnInfo.player.Calamity().ZoneAbyss)
+            if (spawnInfo.PlayerSafe || spawnInfo.Player.Calamity().ZoneAbyss)
             {
                 return 0f;
             }
@@ -53,31 +62,27 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
             }
-            if (npc.life <= 0)
+            if (NPC.life <= 0)
             {
                 for (int k = 0; k < 40; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
                 }
             }
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(BuffID.ManaSickness, 120, true);
-            player.AddBuff(BuffID.Confused, 120, true);
+            if (damage > 0)
+                player.AddBuff(BuffID.Darkness, 240, true);
         }
 
-        public override void NPCLoot()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            int item = Item.NewItem(npc.Center, npc.Size, ModContent.ItemType<EbonianGel>(), Main.rand.Next(15, 21), false, 0, false, false);
-            Main.item[item].color = new Color(250, 50, 50, 255);
-            NetMessage.SendData(88, -1, -1, null, item, 1f, 0f, 0f, 0, 0, 0);
-
-            DropHelper.DropItem(npc, ItemID.Gel, 10, 14);
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<Carnage>(), NPC.downedBoss3, 0.01f, 1, 1);
+            npcLoot.Add(ItemID.Gel, 1, 10, 14);
+            npcLoot.Add(ModContent.ItemType<BlightedGel>(), 1, 15, 21);
         }
     }
 }

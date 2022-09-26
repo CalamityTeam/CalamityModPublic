@@ -1,79 +1,88 @@
+﻿using CalamityMod.CustomRecipes;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.DraedonsArsenal;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
+using System;
+using System.Collections.Generic;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Items.Weapons.DraedonsArsenal
 {
-	public class GatlingLaser : ModItem
-	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Gatling Laser");
-			Tooltip.SetDefault("Large laser cannon used primarily by Yharim's fleet and base defense force\n" +
-							   "Highly accurate, but lacks the power to punch through defensive targets");
-		}
+    public class GatlingLaser : ModItem
+    {
+        public static readonly SoundStyle FireSound = new("CalamityMod/Sounds/Item/GatlingLaserFireStart");
+        public static readonly SoundStyle FireLoopSound = new("CalamityMod/Sounds/Item/GatlingLaserFireLoop");
+        public static readonly SoundStyle FireEndSound = new("CalamityMod/Sounds/Item/GatlingLaserFireEnd");
 
-		public override void SetDefaults()
-		{
-			item.width = 58;
-			item.height = 24;
-			item.magic = true;
-			item.damage = 54;
-			item.knockBack = 1f;
-			item.useTime = 2;
-			item.useAnimation = 2;
-			item.noUseGraphic = true;
-			item.autoReuse = false;
-			item.channel = true;
 
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/GatlingLaserFireStart");
-			item.noMelee = true;
+        // This is the amount of charge consumed every time the holdout projectile fires a laser.
+        public const float HoldoutChargeUse = 0.0075f;
 
-			item.value = CalamityGlobalItem.Rarity8BuyPrice;
-			item.rare = ItemRarityID.Red;
-			item.Calamity().customRarity = CalamityRarity.DraedonRust;
+        public override void SetStaticDefaults()
+        {
+            SacrificeTotal = 1;
+            DisplayName.SetDefault("Gatling Laser");
+            Tooltip.SetDefault("Large laser cannon used primarily by Yharim's fleet and base defense force");
+        }
 
-			item.shoot = ModContent.ProjectileType<GatlingLaserProj>();
-			item.shootSpeed = 24f;
+        public override void SetDefaults()
+        {
+            CalamityGlobalItem modItem = Item.Calamity();
 
-			item.Calamity().Chargeable = true;
-			item.Calamity().ChargeMax = 135;
-		}
+            Item.width = 43;
+            Item.height = 24;
+            Item.DamageType = DamageClass.Magic;
+            Item.damage = 43;
+            Item.knockBack = 1f;
+            Item.useTime = 2;
+            Item.useAnimation = 2;
+            Item.noUseGraphic = true;
+            Item.autoReuse = false;
+            Item.channel = true;
+            Item.mana = 6;
 
-		public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.UseSound = FireSound;
+            Item.noMelee = true;
 
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-		{
-			Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<GatlingLaserProj>(), damage, knockBack, player.whoAmI, 0f, 0f);
-			return false;
-		}
+            Item.value = CalamityGlobalItem.Rarity8BuyPrice;
+            Item.rare = ModContent.RarityType<DarkOrange>();
 
-		// Disable vanilla ammo consumption
-		public override bool ConsumeAmmo(Player player)
-		{
-			return false;
-		}
+            Item.shoot = ModContent.ProjectileType<GatlingLaserProj>();
+            Item.shootSpeed = 24f;
 
-		public override Vector2? HoldoutOffset()
-		{
-			return new Vector2(-20, 0);
-		}
+            modItem.UsesCharge = true;
+            modItem.MaxCharge = 135f;
+            modItem.ChargePerUse = 0f; // This weapon is a holdout. Charge is consumed by the holdout projectile.
+        }
 
-		public override void AddRecipes()
-		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 10);
-			recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 20);
-			recipe.AddIngredient(ModContent.ItemType<BarofLife>(), 5);
-			recipe.AddIngredient(ModContent.ItemType<InfectedArmorPlating>(), 5);
-			recipe.AddIngredient(ItemID.LaserMachinegun);
-			recipe.AddTile(TileID.LunarCraftingStation);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
-		}
-	}
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;
+
+        public override void ModifyTooltips(List<TooltipLine> tooltips) => CalamityGlobalItem.InsertKnowledgeTooltip(tooltips, 3);
+
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        {
+            Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<GatlingLaserProj>(), damage, knockback, player.whoAmI, 0f, 0f);
+            return false;
+        }
+
+        public override Vector2? HoldoutOffset() => new Vector2(-20, 0);
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient<MysteriousCircuitry>(15).
+                AddIngredient<DubiousPlating>(15).
+                AddIngredient<InfectedArmorPlating>(10).
+                AddIngredient<LifeAlloy>(5).
+                AddCondition(ArsenalTierGatedRecipe.ConstructRecipeCondition(3, out Predicate<Recipe> condition), condition).
+                AddTile(TileID.MythrilAnvil).
+                Register();
+        }
+    }
 }

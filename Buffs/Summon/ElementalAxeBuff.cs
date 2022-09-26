@@ -7,12 +7,13 @@ namespace CalamityMod.Buffs.Summon
 {
     public class ElementalAxeBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Elemental Axe");
             Description.SetDefault("The elemental axe will protect you");
             Main.buffNoTimeDisplay[Type] = true;
             Main.buffNoSave[Type] = true;
+            //Main.persistentBuff[Type] = true;
         }
 
         public override void Update(Player player, ref int buffIndex)

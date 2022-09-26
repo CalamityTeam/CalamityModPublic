@@ -1,7 +1,7 @@
-using CalamityMod.Projectiles.Magic;
+﻿using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Weapons.Magic
@@ -11,31 +11,32 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Wrath of the Ancients");
-            Tooltip.SetDefault("Casts a granite energy pulse");
+            Tooltip.SetDefault("Summons an energy pulse at the cursor to periodically summon homing spirits");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 47;
-            item.magic = true;
-            item.mana = 20;
-            item.width = 28;
-            item.height = 30;
-            item.useTime = 38;
-            item.useAnimation = 38;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 6f;
-            item.value = Item.buyPrice(0, 80, 0, 0);
-            item.rare = 8;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<GranitePulse>();
-            item.shootSpeed = 9f;
+            Item.damage = 47;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 20;
+            Item.width = 28;
+            Item.height = 30;
+            Item.useTime = 38;
+            Item.useAnimation = 38;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 6f;
+            Item.value = CalamityGlobalItem.Rarity9BuyPrice;
+            Item.rare = ItemRarityID.Yellow;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<GranitePulse>();
+            Item.shootSpeed = 9f;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            Projectile.NewProjectile(Main.MouseWorld, Vector2.Zero, type, damage, knockBack, player.whoAmI, 0f, 0f);
+            Projectile.NewProjectile(source, Main.MouseWorld, Vector2.Zero, type, damage, knockback, player.whoAmI, 0f, 0f);
             return false;
         }
     }

@@ -1,37 +1,52 @@
-using CalamityMod.Items.Accessories;
+﻿using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Placeables.Banners;
 using System.IO;
 using Terraria;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Utilities;
 namespace CalamityMod.NPCs.NormalNPCs
 {
-	public class CrawlerSapphire : ModNPC
+    public class CrawlerSapphire : ModNPC
     {
         private bool detected = false;
 
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Sapphire Crawler");
-            Main.npcFrameCount[npc.type] = 5;
+            Main.npcFrameCount[NPC.type] = 5;
         }
 
         public override void SetDefaults()
         {
-            npc.npcSlots = 0.3f;
-            npc.aiStyle = -1;
-            npc.damage = 18;
-            npc.width = 44;
-            npc.height = 34;
-            npc.defense = 6;
-            npc.lifeMax = 90;
-            npc.knockBackResist = 0.65f;
-            aiType = -1;
-            npc.value = Item.buyPrice(0, 0, 1, 0);
-            npc.HitSound = SoundID.NPCHit33;
-            npc.DeathSound = SoundID.NPCDeath36;
-            banner = npc.type;
-            bannerItem = ModContent.ItemType<SapphireCrawlerBanner>();
+            NPC.npcSlots = 0.3f;
+            NPC.aiStyle = -1;
+            NPC.damage = 18;
+            NPC.width = 44;
+            NPC.height = 34;
+            NPC.defense = 6;
+            NPC.lifeMax = 90;
+            NPC.knockBackResist = 0.65f;
+            AIType = -1;
+            NPC.value = Item.buyPrice(0, 0, 1, 0);
+            NPC.HitSound = SoundID.NPCHit33;
+            NPC.DeathSound = SoundID.NPCDeath36;
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<SapphireCrawlerBanner>();
+            NPC.Calamity().VulnerableToHeat = true;
+            NPC.Calamity().VulnerableToCold = true;
+            NPC.Calamity().VulnerableToSickness = true;
+        }
+
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Underground,
+
+				// Will move to localization whenever that is cleaned up.
+				new FlavorTextBestiaryInfoElement("A lizard, its back inundated with crystals. These provide protection, but they are easily spooked and can be harvested for the rare gems upon their backs.")
+            });
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -48,63 +63,63 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             if (!detected)
             {
-                npc.frame.Y = frameHeight * 4;
-                npc.frameCounter = 0.0;
+                NPC.frame.Y = frameHeight * 4;
+                NPC.frameCounter = 0.0;
                 return;
             }
-            npc.spriteDirection = -npc.direction;
-            npc.frameCounter += (double)(npc.velocity.Length() / 8f);
-            if (npc.frameCounter > 2.0)
+            NPC.spriteDirection = -NPC.direction;
+            NPC.frameCounter += (double)(NPC.velocity.Length() / 8f);
+            if (NPC.frameCounter > 2.0)
             {
-                npc.frame.Y = npc.frame.Y + frameHeight;
-                npc.frameCounter = 0.0;
+                NPC.frame.Y = NPC.frame.Y + frameHeight;
+                NPC.frameCounter = 0.0;
             }
-            if (npc.frame.Y >= frameHeight * 3)
+            if (NPC.frame.Y >= frameHeight * 3)
             {
-                npc.frame.Y = 0;
+                NPC.frame.Y = 0;
             }
         }
 
         public override void AI()
         {
             if (!detected)
-                npc.TargetClosest(true);
-            if (((Main.player[npc.target].Center - npc.Center).Length() < 100f && Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position,
-                    Main.player[npc.target].width, Main.player[npc.target].height)) || npc.justHit)
+                NPC.TargetClosest();
+            if (((Main.player[NPC.target].Center - NPC.Center).Length() < 100f && Collision.CanHit(NPC.position, NPC.width, NPC.height, Main.player[NPC.target].position,
+                    Main.player[NPC.target].width, Main.player[NPC.target].height)) || NPC.justHit)
                 detected = true;
             if (!detected)
                 return;
-            CalamityAI.GemCrawlerAI(npc, mod, 5.5f, 0.055f);
+            CalamityAI.GemCrawlerAI(NPC, Mod, 5.5f, 0.055f);
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.playerSafe || spawnInfo.player.Calamity().ZoneAbyss || spawnInfo.player.Calamity().ZoneSunkenSea)
+            if (spawnInfo.PlayerSafe || spawnInfo.Player.Calamity().ZoneAbyss || spawnInfo.Player.Calamity().ZoneSunkenSea)
             {
                 return 0f;
             }
-            return SpawnCondition.Underground.Chance * 0.03f;
+            return SpawnCondition.Underground.Chance * 0.0325f;
         }
 
         public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, 68, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(NPC.position, NPC.width, NPC.height, 68, hitDirection, -1f, 0, default, 1f);
             }
-            if (npc.life <= 0)
+            if (NPC.life <= 0)
             {
                 for (int k = 0; k < 20; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 68, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(NPC.position, NPC.width, NPC.height, 68, hitDirection, -1f, 0, default, 1f);
                 }
             }
         }
 
-        public override void NPCLoot()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropItem(npc, ItemID.Sapphire, 2, 4);
-            DropHelper.DropItemChance(npc, ModContent.ItemType<ScuttlersJewel>(), 10);
+            npcLoot.Add(ItemID.Sapphire, 1, 2, 4);
+            npcLoot.Add(ModContent.ItemType<ScuttlersJewel>(), 6);
         }
     }
 }

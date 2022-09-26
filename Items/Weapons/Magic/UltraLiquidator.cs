@@ -1,84 +1,86 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
+using CalamityMod.Items.Placeables;
 using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
-	public class UltraLiquidator : ModItem
-	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Ultra Liquidator");
-			Tooltip.SetDefault("Summons liquidation blades that summon more blades on enemy hits\n" +
-							   "The blades inflict ichor, cursed inferno, on fire, and frostburn");
-			Item.staff[item.type] = true;
-		}
+    public class UltraLiquidator : ModItem
+    {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Ultra Liquidator");
+            Tooltip.SetDefault("Summons liquidation blades that summon more blades on enemy hits\n" +
+                               "The blades inflict ichor, cursed inferno and brimstone flames");
+            Item.staff[Item.type] = true;
+            SacrificeTotal = 1;
+        }
 
-		public override void SetDefaults()
-		{
-			item.damage = 145;
-			item.crit = 30;
-			item.knockBack = 7f;
-			item.useTime = 3;
-			item.reuseDelay = item.useAnimation = 15;
-			item.mana = 25;
-			item.magic = true;
-			item.autoReuse = true;
-			item.shootSpeed = 16f;
-			item.shoot = ModContent.ProjectileType<LiquidBlade>();
+        public override void SetDefaults()
+        {
+            Item.damage = 120;
+            Item.knockBack = 5f;
+            Item.useTime = 3;
+            Item.reuseDelay = Item.useAnimation = 15;
+            Item.mana = 25;
+            Item.DamageType = DamageClass.Magic;
+            Item.autoReuse = true;
+            Item.shootSpeed = 16f;
+            Item.shoot = ModContent.ProjectileType<LiquidBlade>();
 
-			item.width = item.height = 16;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.noMelee = true;
-			item.UseSound = SoundID.Item9;
-			item.value = Item.buyPrice(1, 20, 0, 0);
-			item.rare = 10;
-			item.Calamity().customRarity = CalamityRarity.Turquoise;
-		}
+            Item.width = Item.height = 70;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.UseSound = SoundID.Item9;
+            Item.value = CalamityGlobalItem.Rarity11BuyPrice;
+            Item.rare = ItemRarityID.Purple;
+        }
 
-		public override Vector2? HoldoutOrigin() => new Vector2(15, 15);
+        // Terraria seems to really dislike high crit values in SetDefaults
+        public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 30;
 
-		public override void AddRecipes()
-		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ModContent.ItemType<InfernalRift>());
-			recipe.AddRecipeGroup("CursedFlameIchor", 20);
-			recipe.AddIngredient(ItemID.AquaScepter);
-			recipe.AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 5);
-			recipe.AddIngredient(ItemID.LunarBar, 5);
-			recipe.AddTile(TileID.LunarCraftingStation);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
-		}
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo projSource, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        {
+            Vector2 playerPos = player.RotatedRelativePoint(player.MountedCenter, true);
+            float speed = Item.shootSpeed;
+            float xVec = Main.mouseX + Main.screenPosition.X - playerPos.X;
+            float yVec = Main.mouseY + Main.screenPosition.Y - playerPos.Y;
+            float f = Main.rand.NextFloat() * MathHelper.TwoPi;
+            float lowerBoundOffset = 20f;
+            float upperBoundOffset = 60f;
+            Vector2 source = playerPos + f.ToRotationVector2() * MathHelper.Lerp(lowerBoundOffset, upperBoundOffset, Main.rand.NextFloat());
+            for (int i = 0; i < 50; i++)
+            {
+                source = playerPos + f.ToRotationVector2() * MathHelper.Lerp(lowerBoundOffset, upperBoundOffset, Main.rand.NextFloat());
+                if (Collision.CanHit(playerPos, 0, 0, source + (source - playerPos).SafeNormalize(Vector2.UnitX) * 8f, 0, 0))
+                {
+                    break;
+                }
+                f = Main.rand.NextFloat() * MathHelper.TwoPi;
+            }
+            Vector2 velocityReal = Main.MouseWorld - source;
+            Vector2 upperVelocityLimit = new Vector2(xVec, yVec).SafeNormalize(Vector2.UnitY) * speed;
+            velocityReal = velocityReal.SafeNormalize(upperVelocityLimit) * speed;
+            velocityReal = Vector2.Lerp(velocityReal, upperVelocityLimit, 0.25f);
+            Projectile.NewProjectile(projSource, source, velocityReal, type, damage, knockback, player.whoAmI, 0f, 0f);
+            return false;
+        }
 
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-		{
-			Vector2 playerPos = player.RotatedRelativePoint(player.MountedCenter, true);
-			float speed = item.shootSpeed;
-			float xVec = (float)Main.mouseX + Main.screenPosition.X - playerPos.X;
-			float yVec = (float)Main.mouseY + Main.screenPosition.Y - playerPos.Y;
-			float f = Main.rand.NextFloat() * MathHelper.TwoPi;
-			float lowerBoundOffset = 20f;
-			float upperBoundOffset = 60f;
-			Vector2 source = playerPos + f.ToRotationVector2() * MathHelper.Lerp(lowerBoundOffset, upperBoundOffset, Main.rand.NextFloat());
-			for (int i = 0; i < 50; i++)
-			{
-				source = playerPos + f.ToRotationVector2() * MathHelper.Lerp(lowerBoundOffset, upperBoundOffset, Main.rand.NextFloat());
-				if (Collision.CanHit(playerPos, 0, 0, source + (source - playerPos).SafeNormalize(Vector2.UnitX) * 8f, 0, 0))
-				{
-					break;
-				}
-				f = Main.rand.NextFloat() * MathHelper.TwoPi;
-			}
-			Vector2 velocity = Main.MouseWorld - source;
-			Vector2 upperVelocityLimit = new Vector2(xVec, yVec).SafeNormalize(Vector2.UnitY) * speed;
-			velocity = velocity.SafeNormalize(upperVelocityLimit) * speed;
-			velocity = Vector2.Lerp(velocity, upperVelocityLimit, 0.25f);
-			Projectile.NewProjectile(source, velocity, type, damage, knockBack, player.whoAmI, 0f, 0f);
-			return false;
-		}
-	}
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient<InfernalRift>().
+                AddIngredient(ItemID.AquaScepter).
+                AddRecipeGroup("CursedFlameIchor", 20).
+                AddIngredient<SeaPrism>(10).
+                AddIngredient<GalacticaSingularity>(5).
+                AddIngredient(ItemID.LunarBar, 5).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
+        }
+    }
 }

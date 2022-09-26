@@ -1,101 +1,120 @@
+﻿using CalamityMod.CustomRecipes;
 using CalamityMod.Items.Materials;
-using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Projectiles.DraedonsArsenal;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
+using System;
+using System.Collections.Generic;
 using Terraria;
+using Terraria.Audio;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.DraedonsArsenal
 {
-	public class PlasmaCaster : ModItem
-	{
-		public const int BaseDamage = 1100;
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Plasma Caster");
-			Tooltip.SetDefault("Industrial tool used to fuse metal together with super-heated plasma\n" +
-				"Melts through target defense to deal extra damage to high defense targets\n" +
-				"Right click for turbo mode");
-		}
+    // still awkward that the item called Plasma Rifle is the same class and exact same tier as this item
+    public class PlasmaCaster : ModItem
+    {
+        public static readonly SoundStyle FireSound = new("CalamityMod/Sounds/Item/PlasmaCasterFire");
 
-		public override void SetDefaults()
-		{
-			item.width = 62;
-			item.height = 30;
-			item.magic = true;
-			item.damage = BaseDamage;
-			item.knockBack = 7f;
-			item.useTime = 45;
-			item.useAnimation = 45;
-			item.autoReuse = true;
+        public const int BaseDamage = 705;
+        public override void SetStaticDefaults()
+        {
+            SacrificeTotal = 1;
+            DisplayName.SetDefault("Plasma Caster");
+            Tooltip.SetDefault("Industrial tool used to fuse metal together with super-heated plasma\n" +
+                "Right click for turbo mode");
 
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/PlasmaCasterFire");
-			item.noMelee = true;
+            ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
+        }
 
-			item.value = CalamityGlobalItem.RarityTurquoiseBuyPrice;
-			item.rare = ItemRarityID.Red;
-			item.Calamity().customRarity = CalamityRarity.DraedonRust;
+        public override void SetDefaults()
+        {
+            CalamityGlobalItem modItem = Item.Calamity();
 
-			item.shoot = ModContent.ProjectileType<PlasmaCasterShot>();
-			item.shootSpeed = 5f;
+            Item.width = 62;
+            Item.height = 30;
+            Item.DamageType = DamageClass.Magic;
+            Item.damage = BaseDamage;
+            Item.knockBack = 7f;
+            Item.useTime = 45;
+            Item.useAnimation = 45;
+            Item.autoReuse = true;
+            Item.mana = 24;
 
-			item.Calamity().Chargeable = true;
-			item.Calamity().ChargeMax = 190;
-		}
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.UseSound = FireSound;
+            Item.noMelee = true;
 
-		public override bool AltFunctionUse(Player player) => true;
+            Item.value = CalamityGlobalItem.RarityTurquoiseBuyPrice;
+            Item.rare = ModContent.RarityType<DarkOrange>();
 
-		public override float UseTimeMultiplier	(Player player)
-		{
-			if (player.altFunctionUse == 2)
-				return 3f;
-			return 1f;
-		}
+            Item.shoot = ModContent.ProjectileType<PlasmaCasterShot>();
+            Item.shootSpeed = 5f;
 
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-		{
-			Vector2 velocity = new Vector2(speedX, speedY);
-			if (velocity.Length() > 5f)
-			{
-				velocity.Normalize();
-				velocity *= 5f;
-			}
+            modItem.UsesCharge = true;
+            modItem.MaxCharge = 190f;
+            modItem.ChargePerUse = 0.32f;
+            modItem.ChargePerAltUse = 0.12f; // turbo mode is more energy inefficient
+        }
 
-			float SpeedX = velocity.X + (float)Main.rand.Next(-3, 4) * 0.05f;
-			float SpeedY = velocity.Y + (float)Main.rand.Next(-3, 4) * 0.05f;
-			float damageMult = 1f;
-			float kbMult = 1f;
-			if (player.altFunctionUse == 2)
-			{
-				SpeedX = velocity.X + (float)Main.rand.Next(-15, 16) * 0.05f;
-				SpeedY = velocity.Y + (float)Main.rand.Next(-15, 16) * 0.05f;
-				damageMult = 0.3333f;
-				kbMult = 3f / 7f;
-			}
+        public override bool AltFunctionUse(Player player) => true;
 
-			Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<PlasmaCasterShot>(), (int)(damage * damageMult), knockBack * kbMult, player.whoAmI, 0f, 0f);
-			return false;
-		}
+        public override float UseSpeedMultiplier(Player player)
+        {
+            if (player.altFunctionUse == 2)
+                return 3f;
+            return 1f;
+        }
 
-		public override Vector2? HoldoutOffset()
-		{
-			return new Vector2(-10, 0);
-		}
+        public override void ModifyManaCost(Player player, ref float reduce, ref float mult)
+        {
+            if (player.altFunctionUse == 2)
+                mult /= 3f;
+        }
 
-		public override void AddRecipes()
-		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 15);
-			recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 15);
-			recipe.AddIngredient(ModContent.ItemType<UeliaceBar>(), 8);
-			recipe.AddIngredient(ItemID.LunarBar, 4);
-			// still awkward that the item called Plasma Rifle is the same class and exact same tier as this item
-			recipe.AddIngredient(ModContent.ItemType<Wingman>());
-			recipe.AddTile(TileID.LunarCraftingStation);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
-		}
-	}
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        {
+            if (velocity.Length() > 5f)
+            {
+                velocity.Normalize();
+                velocity *= 5f;
+            }
+
+            float SpeedX = velocity.X + Main.rand.Next(-3, 4) * 0.05f;
+            float SpeedY = velocity.Y + Main.rand.Next(-3, 4) * 0.05f;
+            float damageMult = 1f;
+            float kbMult = 1f;
+            if (player.altFunctionUse == 2)
+            {
+                SpeedX = velocity.X + Main.rand.Next(-15, 16) * 0.05f;
+                SpeedY = velocity.Y + Main.rand.Next(-15, 16) * 0.05f;
+                damageMult = 0.3333f;
+                kbMult = 3f / 7f;
+            }
+
+            Projectile.NewProjectile(source, position, new Vector2(SpeedX, SpeedY), ModContent.ProjectileType<PlasmaCasterShot>(), (int)(damage * damageMult), knockback * kbMult, player.whoAmI, 0f, 0f);
+            return false;
+        }
+
+        public override Vector2? HoldoutOffset()
+        {
+            return new Vector2(-10, 0);
+        }
+
+        public override void ModifyTooltips(List<TooltipLine> tooltips) => CalamityGlobalItem.InsertKnowledgeTooltip(tooltips, 4);
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient<MysteriousCircuitry>(18).
+                AddIngredient<DubiousPlating>(12).
+                AddIngredient<UelibloomBar>(8).
+                AddIngredient(ItemID.LunarBar, 4).
+                AddCondition(ArsenalTierGatedRecipe.ConstructRecipeCondition(4, out Predicate<Recipe> condition), condition).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
+        }
+    }
 }

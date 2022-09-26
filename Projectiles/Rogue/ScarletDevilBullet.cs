@@ -1,9 +1,9 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Rogue
 {
-	public class ScarletDevilBullet : ModProjectile
+    public class ScarletDevilBullet : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -12,56 +12,52 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetDefaults()
         {
-            projectile.width = 16;
-            projectile.height = 16;
-            projectile.friendly = true;
-            projectile.timeLeft = 140;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
-            projectile.Calamity().rogue = true;
+            Projectile.width = 16;
+            Projectile.height = 16;
+            Projectile.friendly = true;
+            Projectile.timeLeft = 140;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
         }
 
         public override void AI()
         {
-            projectile.ai[0] += 1f;
-            if (projectile.ai[0] <= 60f)
+            Projectile.ai[0] += 1f;
+            if (Projectile.ai[0] <= 60f)
             {
-                projectile.velocity.X *= 0.975f;
-                projectile.velocity.Y *= 0.975f;
+                Projectile.velocity.X *= 0.975f;
+                Projectile.velocity.Y *= 0.975f;
             }
             else
             {
-				Vector2 center = projectile.Center;
-				float maxDistance = 1000f;
-				bool homeIn = false;
+                Vector2 center = Projectile.Center;
+                float maxDistance = 1000f;
+                bool homeIn = false;
 
-				for (int i = 0; i < Main.maxNPCs; i++)
-				{
-					if (Main.npc[i].CanBeChasedBy(projectile, false))
-					{
-						float extraDistance = (float)(Main.npc[i].width / 2) + (float)(Main.npc[i].height / 2);
+                for (int i = 0; i < Main.maxNPCs; i++)
+                {
+                    if (Main.npc[i].CanBeChasedBy(Projectile, false))
+                    {
+                        float extraDistance = (float)(Main.npc[i].width / 2) + (float)(Main.npc[i].height / 2);
 
-						if (Vector2.Distance(Main.npc[i].Center, projectile.Center) < (maxDistance + extraDistance))
-						{
-							center = Main.npc[i].Center;
-							homeIn = true;
-							break;
-						}
-					}
-				}
+                        if (Vector2.Distance(Main.npc[i].Center, Projectile.Center) < (maxDistance + extraDistance))
+                        {
+                            center = Main.npc[i].Center;
+                            homeIn = true;
+                            break;
+                        }
+                    }
+                }
 
-				if (homeIn)
-				{
-					Vector2 homeInVector = projectile.DirectionTo(center);
-					if (homeInVector.HasNaNs())
-						homeInVector = Vector2.UnitY;
-
-					projectile.velocity = (projectile.velocity * 10f + homeInVector * 30f) / (11f);
-				}
+                if (homeIn)
+                {
+                    Vector2 moveDirection = Projectile.SafeDirectionTo(center, Vector2.UnitY);
+                    Projectile.velocity = (Projectile.velocity * 10f + moveDirection * 30f) / (11f);
+                }
                 else
                 {
-                    projectile.velocity.X = 0f;
-                    projectile.velocity.Y = 0f;
+                    Projectile.velocity.X = 0f;
+                    Projectile.velocity.Y = 0f;
                 }
             }
         }
@@ -69,6 +65,13 @@ namespace CalamityMod.Projectiles.Rogue
         public override Color? GetAlpha(Color lightColor)
         {
             return new Color(250, 250, 250);
+        }
+
+        public override bool? CanDamage()
+        {
+            if (Projectile.Calamity().stealthStrike && Projectile.ai[0] < 60f)
+                return false;
+            return null;
         }
     }
 }

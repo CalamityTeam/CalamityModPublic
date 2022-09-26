@@ -1,8 +1,9 @@
-using CalamityMod.Projectiles.Magic;
+﻿using CalamityMod.Projectiles.Magic;
+using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
@@ -12,37 +13,34 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             DisplayName.SetDefault("Downpour");
             Tooltip.SetDefault("Fires a spray of water that drips extra trails of water");
-            Item.staff[item.type] = true;
+            Item.staff[Item.type] = true;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 43;
-            item.magic = true;
-            item.mana = 10;
-            item.width = 42;
-            item.height = 42;
-            item.useTime = 15;
-            item.useAnimation = 15;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 3f;
-            item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = 5;
-            item.UseSound = SoundID.Item13;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<WaterStream>();
-            item.shootSpeed = 14f;
+            Item.damage = 50;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 10;
+            Item.width = 42;
+            Item.height = 42;
+            Item.useTime = 15;
+            Item.useAnimation = 15;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 3f;
+            Item.value = CalamityGlobalItem.Rarity6BuyPrice;
+            Item.rare = ItemRarityID.Pink;
+            Item.UseSound = SoundID.Item13;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<WaterStream>();
+            Item.shootSpeed = 14f;
         }
 
-        public override Vector2? HoldoutOrigin()
-        {
-            return new Vector2(10, 10);
-        }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+            Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI, 0.0f, 0.0f);
             return false;
         }
     }

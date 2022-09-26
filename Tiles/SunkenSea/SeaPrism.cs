@@ -1,5 +1,4 @@
-using CalamityMod.World;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -8,7 +7,7 @@ namespace CalamityMod.Tiles.SunkenSea
 {
     public class SeaPrism : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileSolid[Type] = true;
             Main.tileBlockLight[Type] = true;
@@ -17,25 +16,24 @@ namespace CalamityMod.Tiles.SunkenSea
             CalamityUtils.MergeWithDesert(Type);
 
             TileID.Sets.ChecksForMerge[Type] = true;
-            dustType = 33;
-            drop = ModContent.ItemType<Items.Placeables.SeaPrism>();
+            DustType = 33;
+            ItemDrop = ModContent.ItemType<Items.Placeables.SeaPrism>();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Sea Prism");
             AddMapEntry(new Color(0, 150, 200), name);
-            mineResist = 3f;
-            minPick = 55;
-            soundType = SoundID.Tink;
+            MineResist = 3f;
+            HitSound = SoundID.Tink;
             Main.tileSpelunker[Type] = true;
         }
 
         public override bool CanKillTile(int i, int j, ref bool blockDamaged)
         {
-            return CalamityWorld.downedDesertScourge;
+            return DownedBossSystem.downedDesertScourge;
         }
 
         public override bool CanExplode(int i, int j)
         {
-            return CalamityWorld.downedDesertScourge;
+            return DownedBossSystem.downedDesertScourge;
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)

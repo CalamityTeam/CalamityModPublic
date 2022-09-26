@@ -1,7 +1,9 @@
-using CalamityMod.Projectiles.Rogue;
+﻿using CalamityMod.Projectiles.Rogue;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -12,45 +14,45 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ghoulish Gouger");
-            Tooltip.SetDefault("Throws a ghoulish scythe that ignores immunity frames\n" +
-			"Stealth strikes spawn souls on enemy hits");
+            Tooltip.SetDefault("Throws sets of four ghoulish scythes at ultra high velocity\n" +
+                "Stealth strikes summon a flurry of tormented souls on hit");
+            SacrificeTotal = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
-            item.width = 74;
-            item.damage = 110;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.useAnimation = 12;
-            item.useTime = 12;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 7.5f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 68;
-            item.value = Item.buyPrice(1, 40, 0, 0);
-            item.rare = 10;
-            item.shoot = ModContent.ProjectileType<GhoulishGougerBoomerang>();
-            item.shootSpeed = 20f;
-            item.Calamity().rogue = true;
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
+            Item.width = 74;
+            Item.height = 68;
+
+            Item.damage = 166;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.useTime = 6;
+            Item.useAnimation = 24;
+            Item.reuseDelay = 11;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 7.5f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<GhoulishGougerBoomerang>();
+            Item.shootSpeed = 16f;
+            Item.DamageType = RogueDamageClass.Instance;
+
+            Item.value = CalamityGlobalItem.Rarity13BuyPrice;
+            Item.rare = ModContent.RarityType<PureGreen>();
         }
 
-		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
-		{
-			Vector2 origin = new Vector2(37f, 32f);
-			spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Items/Weapons/Rogue/GhoulishGougerGlow"), item.Center - Main.screenPosition, null, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
-		}
-
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
-            if (player.Calamity().StealthStrikeAvailable())
-            {
-                int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, 0f, 0f);
-                Main.projectile[proj].Calamity().stealthStrike = true;
-            }
-            return true;
+            Item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Rogue/GhoulishGougerGlow").Value);
         }
-	}
+
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        {
+            int proj = Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
+            if (proj.WithinBounds(Main.maxProjectiles))
+                Main.projectile[proj].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
+            return false;
+        }
+    }
 }

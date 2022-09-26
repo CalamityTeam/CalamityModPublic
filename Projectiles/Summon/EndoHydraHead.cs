@@ -1,200 +1,248 @@
+﻿using CalamityMod.DataStructures;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-	public class EndoHydraHead : ModProjectile
+    public class EndoHydraHead : ModProjectile
     {
         public Vector2 DeltaPosition;
+        public Vector2 DeltaPositionMoving;
+        public Vector2[] OldVelocities = new Vector2[20];
+        public int BodyUUIDIndex => Projectile.GetByUUID(Projectile.owner, Projectile.ai[0]);
+        public float Time
+        {
+            get => Projectile.ai[1];
+            set => Projectile.ai[1] = value;
+        }
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Hydra Head");
-            Main.projFrames[projectile.type] = 5;
-            ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
-            ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
+            Main.projFrames[Projectile.type] = 5;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 20;
+            ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
+            ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 30;
-            projectile.height = 30;
-            projectile.netImportant = true;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.minionSlots = 1f;
-            projectile.timeLeft = 18000;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.timeLeft *= 5;
-            projectile.minion = true;
-			projectile.coldDamage = true;
+            Projectile.width = 30;
+            Projectile.height = 30;
+            Projectile.netImportant = true;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.minionSlots = 1f;
+            Projectile.timeLeft = 18000;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.timeLeft *= 5;
+            Projectile.minion = true;
+            Projectile.coldDamage = true;
+            Projectile.DamageType = DamageClass.Summon;
         }
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             DeltaPosition = reader.ReadVector2();
+            DeltaPositionMoving = reader.ReadVector2();
         }
         public override void SendExtraAI(BinaryWriter writer)
         {
             writer.WriteVector2(DeltaPosition);
+            writer.WriteVector2(DeltaPositionMoving);
         }
         public override void AI()
         {
-            Player player = Main.player[projectile.owner];
-            if (projectile.ai[0] < 0 || projectile.ai[0] >= Main.projectile.Length)
+            Player player = Main.player[Projectile.owner];
+            if (BodyUUIDIndex < 0 || BodyUUIDIndex >= Main.projectile.Length)
             {
-                projectile.Kill();
+                Projectile.Kill();
                 return;
             }
-            Projectile body = Main.projectile[(int)projectile.ai[0]];
+            Projectile body = Main.projectile[BodyUUIDIndex];
             if (!body.active)
             {
-                projectile.Kill();
+                Projectile.Kill();
                 return;
             }
 
-            if (projectile.localAI[0] == 0f)
+            int totalHeads = CalamityUtils.CountProjectiles(Projectile.type);
+            if (Projectile.localAI[0] == 0f)
             {
-                int totalHeads = CalamityUtils.CountProjectiles(projectile.type);
-                DeltaPosition = new Vector2(Main.rand.NextFloat(-72f - 8f * totalHeads, 72f + 8f * totalHeads), -Main.rand.NextFloat(8f, 84f + 4f * totalHeads));
-                projectile.netUpdate = true;
+                DeltaPosition = DeltaPositionMoving = new Vector2(Main.rand.NextFloat(-72f - 8f * totalHeads, 72f + 8f * totalHeads), -Main.rand.NextFloat(8f, 84f + 4f * totalHeads));
+                Projectile.netUpdate = true;
 
-                projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
-                projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
-				projectile.localAI[0] = 1f;
-			}
-            if (player.MinionDamage() != projectile.Calamity().spawnedPlayerMinionDamageValue)
-            {
-                int trueDamage = (int)(projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    projectile.Calamity().spawnedPlayerMinionDamageValue *
-                    player.MinionDamage());
-                projectile.damage = trueDamage;
+                if (!Main.dedServ)
+                {
+                    for (int i = 0; i < 18; i++)
+                    {
+                        Dust dust = Dust.NewDustPerfect(Projectile.Center, 113);
+                        dust.velocity = new Vector2(0f, -5f).RotatedBy(i / 18f * MathHelper.TwoPi);
+                        dust.noGravity = true;
+                        dust.scale = 1.2f;
+                    }
+                }
+
+                Projectile.localAI[0] = 1f;
             }
-            Vector2 bodyTop = body.Center + new Vector2(body.spriteDirection == 1 ? 12 : -14, -50f) + DeltaPosition;
+            Time++;
+
+            if (Time % (60f + totalHeads * 6f) == 59f + totalHeads * 6f)
+                DeltaPosition = new Vector2(Main.rand.NextFloat(-72f - 8f * totalHeads, 72f + 8f * totalHeads), -Main.rand.NextFloat(8f, 84f + 4f * totalHeads));
+            if (Vector2.Distance(DeltaPosition, DeltaPositionMoving) > 0.2f)
+                DeltaPositionMoving = Vector2.Lerp(DeltaPositionMoving, DeltaPosition, 0.125f);
+
+            Vector2 returnPosition = body.Center + new Vector2(body.spriteDirection == 1 ? 12 : -14, -50f) + DeltaPositionMoving;
 
             // Beam shooting
-            if (body.ai[0] >= 0 && body.ai[0] < Main.projectile.Length)
+            if (body.ai[0] >= 0 && body.ai[0] < Main.maxNPCs)
             {
-                if (Main.npc[(int)body.ai[0]].active &&
-                    Main.npc[(int)body.ai[0]].CanBeChasedBy(null, false) &&
-                    projectile.Distance(Main.npc[(int)body.ai[0]].Center) < EndoHydraBody.DistanceToCheck &&
-                    Collision.CanHit(projectile.Center, 1, 1, Main.npc[(int)body.ai[0]].Center, 1, 1) &&
-                    Main.myPlayer == projectile.owner)
+                NPC target = Main.npc[(int)body.ai[0]];
+                bool targetAliveAndInLineOfSight = target.active && Projectile.Distance(target.Center) < EndoHydraBody.DistanceToCheck;
+                if (targetAliveAndInLineOfSight && target.CanBeChasedBy() && Main.myPlayer == Projectile.owner)
                 {
-                    projectile.ai[1]++;
-                    if (projectile.ai[1] % 40f == 24f)
+                    if (Time % 40f == 24f)
                     {
-                        Projectile.NewProjectile(projectile.Center,
-                            6f * projectile.DirectionTo(Main.npc[(int)body.ai[0]].Center),
-                            ModContent.ProjectileType<EndoRay>(), projectile.damage, projectile.knockBack, projectile.owner);
+                        int p = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.SafeDirectionTo(target.Center) * 6f, ModContent.ProjectileType<EndoRay>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                        if (Main.projectile.IndexInRange(p))
+                            Main.projectile[p].originalDamage = Projectile.originalDamage;
                     }
 
-                    if (projectile.ai[1] % 40f >= 33f)
-                        projectile.frame = Main.projFrames[projectile.type] - 1;
-                    else if (projectile.ai[1] % 40f >= 27f)
-                        projectile.frame = Main.projFrames[projectile.type] - 2;
-                    else if (projectile.ai[1] % 40f >= 22f)
-                        projectile.frame = Main.projFrames[projectile.type] - 3;
-                    else if (projectile.ai[1] % 40f >= 17f)
-                        projectile.frame = Main.projFrames[projectile.type] - 4;
+                    if (Time % 40f >= 33f)
+                        Projectile.frame = Main.projFrames[Projectile.type] - 1;
+                    else if (Time % 40f >= 27f)
+                        Projectile.frame = Main.projFrames[Projectile.type] - 2;
+                    else if (Time % 40f >= 22f)
+                        Projectile.frame = Main.projFrames[Projectile.type] - 3;
+                    else if (Time % 40f >= 17f)
+                        Projectile.frame = Main.projFrames[Projectile.type] - 4;
 
-                    projectile.direction = projectile.spriteDirection = (Main.npc[(int)body.ai[0]].Center.X - projectile.Center.X > 0).ToDirectionInt();
-                    bodyTop.X -= 48f * (Main.npc[(int)body.ai[0]].Center.X - projectile.Center.X > 0).ToDirectionInt();
+                    Projectile.direction = Projectile.spriteDirection = (player.Center.X - Projectile.Center.X > 0).ToDirectionInt();
+                    if (Math.Abs(player.Center.X - Projectile.Center.X) < 80f)
+                        Projectile.direction = Projectile.spriteDirection = player.direction;
+                    returnPosition.X -= 48f * (target.Center.X - Projectile.Center.X > 0).ToDirectionInt();
                 }
                 else
                 {
-                    projectile.direction = projectile.spriteDirection = (player.Center.X - projectile.Center.X > 0).ToDirectionInt();
-                    projectile.frame = 0;
+                    Projectile.direction = Projectile.spriteDirection = (player.Center.X - Projectile.Center.X > 0).ToDirectionInt();
+                    if (Math.Abs(player.Center.X - Projectile.Center.X) < 80f)
+                        Projectile.direction = Projectile.spriteDirection = player.direction;
+                    Projectile.frame = 0;
                 }
             }
             else
             {
-                projectile.direction = projectile.spriteDirection = (player.Center.X - projectile.Center.X > 0).ToDirectionInt();
-                projectile.frame = 0;
+                Projectile.direction = Projectile.spriteDirection = player.direction;
+                Projectile.frame = 0;
             }
 
-            if (projectile.Distance(bodyTop) > 28f)
+            float distanceFromTarget = Projectile.Distance(returnPosition);
+            if (distanceFromTarget > 7f)
             {
-                projectile.velocity += new Vector2(Math.Sign(bodyTop.X - projectile.Center.X), Math.Sign(bodyTop.Y - projectile.Center.Y)) * new Vector2(0.015f, 0.025f) * Main.rand.NextFloat(0.98f, 1.02f);
-                if (Math.Abs(projectile.velocity.X) > 2.5f)
-                {
-                    projectile.velocity.X = 2.5f * Math.Sign(projectile.velocity.X);
-                }
-                if (Math.Abs(projectile.velocity.Y) > 1.6f)
-                {
-                    projectile.velocity.Y = 1.6f * Math.Sign(projectile.velocity.Y);
-                }
-                projectile.velocity += (bodyTop - projectile.Center) / 10f;
+                float speed = MathHelper.Lerp(2f, 17f, Utils.GetLerpValue(10f, 70f, distanceFromTarget, true));
+                Projectile.velocity = (Projectile.velocity * 9f + Projectile.SafeDirectionTo(returnPosition) * speed) / 10f;
             }
-            else projectile.velocity *= 0.98f;
-            projectile.Center = new Vector2(projectile.Center.X, MathHelper.Clamp(projectile.Center.Y, 1f, bodyTop.Y - 8f));
-            if (projectile.localAI[1] == 0f)
+
+            if (Projectile.Center.Y > body.Center.Y - 50f)
+                Projectile.Center = new Vector2(Projectile.Center.X, body.Center.Y - 50f);
+
+            if (Projectile.Distance(returnPosition) > 120f)
             {
-                for (int i = 0; i < 18; i++)
-                {
-                    Dust dust = Dust.NewDustPerfect(projectile.Center, 113);
-                    dust.velocity = new Vector2(0f, -5f).RotatedBy(i / 18f * MathHelper.TwoPi);
-                    dust.noGravity = true;
-                    dust.scale = 1.2f;
-                }
-                projectile.localAI[1] = 1f;
+                Projectile.Center = returnPosition + Projectile.DirectionFrom(returnPosition) * 120f;
             }
+
+            Projectile.MinionAntiClump(0.15f);
+            AdjustOldVelocityArray();
         }
+
+        public void AdjustOldVelocityArray()
+        {
+            for (int i = OldVelocities.Length - 1; i > 0; i--)
+            {
+                OldVelocities[i] = OldVelocities[i - 1];
+            }
+            OldVelocities[0] = Projectile.velocity;
+        }
+
         public override void Kill(int timeLeft)
         {
             for (int i = 0; i < 10; i++)
             {
-                Dust.NewDust(projectile.position, projectile.width, projectile.height, 67);
+                Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 67);
             }
         }
-        public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            if (projectile.ai[0] < 0 || projectile.ai[0] >= Main.projectile.Length)
-            {
-                return;
-            }
-            Projectile body = Main.projectile[(int)projectile.ai[0]];
+            if (BodyUUIDIndex < 0 || BodyUUIDIndex >= Main.projectile.Length)
+                return false;
+            Projectile body = Main.projectile[BodyUUIDIndex];
             if (!body.active)
+                return false;
+
+            Texture2D chain = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/EndoHydraChain").Value;
+            Vector2 start = body.Center + new Vector2(body.spriteDirection == 1 ? 12 : -14, -30f);
+            Vector2 end = Projectile.Center + (Projectile.spriteDirection == 1).ToInt() * 10 * Vector2.UnitX;
+
+            List<Vector2> controlPoints = new List<Vector2>
             {
-                return;
+                start
+            };
+            for (int i = 0; i < OldVelocities.Length; i++)
+            {
+                // Incorporate the past movement into neck turns, giving it rubber band-like movment.
+                // Become less responsive at the neck ends. Having the ends have typical movement can look strange sometimes.
+                float swayResponsiveness = Utils.GetLerpValue(0f, 6f, i, true) * Utils.GetLerpValue(OldVelocities.Length, OldVelocities.Length - 6f, i, true);
+                swayResponsiveness *= 2.5f;
+                Vector2 swayTotalOffset = OldVelocities[i] * swayResponsiveness;
+                controlPoints.Add(Vector2.Lerp(start, end, i / (float)OldVelocities.Length) + swayTotalOffset);
+            }
+            controlPoints.Add(end);
+
+            int chainPointCount = (int)(Vector2.Distance(controlPoints.First(), controlPoints.Last()) / 5f);
+            if (chainPointCount < 12)
+                chainPointCount = 12;
+            BezierCurve bezierCurve = new BezierCurve(controlPoints.ToArray());
+            List<Vector2> chainPoints = bezierCurve.GetPoints(chainPointCount);
+
+            for (int i = 0; i < chainPoints.Count; i++)
+            {
+                Vector2 positionAtPoint = chainPoints[i];
+                if (Vector2.Distance(positionAtPoint, Projectile.Center) < 10f)
+                    continue;
+                float angleAtPoint = i == chainPoints.Count - 1 ? (end - chainPoints[i]).ToRotation() : (chainPoints[i + 1] - chainPoints[i]).ToRotation();
+                angleAtPoint += MathHelper.PiOver2;
+                Main.EntitySpriteDraw(chain,
+                                 positionAtPoint - Main.screenPosition,
+                                 null,
+                                 Color.Lerp(Color.White, Color.Transparent, 0.6f),
+                                 angleAtPoint,
+                                 chain.Size() / 2f,
+                                 1f,
+                                 SpriteEffects.None,
+                                 0);
             }
 
-            Texture2D chain = ModContent.GetTexture("CalamityMod/Projectiles/Summon/EndoHydraChain");
-            Vector2 start = projectile.Center + (projectile.spriteDirection == 1).ToInt() * 10 * Vector2.UnitX;
-            Vector2 end = body.Center - projectile.DirectionTo(body.Center) * 20f;
-            Vector2 bodyTop = body.Center + new Vector2(body.spriteDirection == 1 ? 12 : -12, -32f);
-
-            for (int i = 0; i <= (int)projectile.Distance(end) / 10 + 1; i++)
-            {
-                float ratio = i / (projectile.Distance(end) / 10 + 1);
-                Vector2 positionAtPoint = start + (bodyTop - start) * ratio;
-                if (projectile.Distance(positionAtPoint) > 9)
-                {
-                    float angleAtPoint = (start - positionAtPoint).ToRotation();
-                    if (i < (int)projectile.Distance(end) / 10 + 1)
-                    {
-                        float nextRatio = (i + 1f) / (projectile.Distance(end) / 10 + 1);
-                        Vector2 nextPositionAtPoint = start + (bodyTop - start) * nextRatio;
-
-                        angleAtPoint = (nextPositionAtPoint - positionAtPoint).ToRotation();
-                    }
-                    angleAtPoint += MathHelper.PiOver2;
-                    spriteBatch.Draw(chain,
-                        positionAtPoint - Main.screenPosition,
-                        null,
-                        Color.Lerp(Color.White, Color.Transparent, 0.6f),
-                        angleAtPoint,
-                        chain.Size() / 2f,
-                        1f,
-                        SpriteEffects.None,
-                        0f);
-                }
-            }
+            // PreDraw is used instead of PostDraw because of draw order. Drawing the chains after the head
+            // would cause them to be drawn on top of the head, which we do not want.
+            Texture2D headTexture = ModContent.Request<Texture2D>(Texture).Value;
+            Main.EntitySpriteDraw(headTexture,
+                             Projectile.Center - Main.screenPosition + Vector2.UnitY * Projectile.gfxOffY,
+                             headTexture.Frame(1, Main.projFrames[Projectile.type], 0, Projectile.frame),
+                             lightColor,
+                             Projectile.rotation,
+                             Projectile.Size * 0.5f,
+                             Projectile.scale,
+                             Projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None,
+                             0);
+            return false;
         }
-        public override bool CanDamage() => false;
+        public override bool? CanDamage() => false;
     }
 }

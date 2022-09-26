@@ -1,4 +1,7 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
+using CalamityMod.Projectiles.Ranged;
+using CalamityMod.Rarities;
+using CalamityMod.Sounds;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -11,69 +14,52 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Dodu's Handcannon");
-            Tooltip.SetDefault("The power of the nut rests in your hands");
+            Tooltip.SetDefault("The power of the nut rests in your hands\n" +
+                "Fires high explosive peanut shells, literally");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.width = 70;
-            item.height = 42;
-            item.damage = 485;
-            item.crit += 16;
-            item.ranged = true;
-            item.useTime = 30;
-            item.useAnimation = 30;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 10f;
+            Item.width = 62;
+            Item.height = 34;
+            Item.damage = 857;
+            Item.DamageType = DamageClass.Ranged;
+            Item.useTime = 30;
+            Item.useAnimation = 30;
+            Item.autoReuse = true;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 6f;
 
-            item.value = Item.buyPrice(1, 40, 0, 0);
-            item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.Dedicated;
+            // Reduce volume to 30% so it stops destroying people's ears.
+            Item.UseSound = CommonCalamitySounds.LargeWeaponFireSound with { Volume = 0.3f };
 
-            item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LargeWeaponFire");
+            Item.shoot = ModContent.ProjectileType<HighExplosivePeanutShell>();
+            Item.shootSpeed = 13f;
+            Item.useAmmo = AmmoID.Bullet;
 
-            item.shootSpeed = 24f;
-            item.shoot = ProjectileID.BulletHighVelocity;
-            item.useAmmo = 97;
+            Item.value = CalamityGlobalItem.Rarity13BuyPrice;
+            Item.rare = ModContent.RarityType<PureGreen>();
+            Item.Calamity().donorItem = true;
+            Item.Calamity().canFirePointBlankShots = true;
         }
 
-        public override Vector2? HoldoutOffset()
+        public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
         {
-            return new Vector2(-15, 5);
+            type = Item.shoot;
         }
 
-        public override bool CanUseItem(Player player)
-        {
-            return CalamityGlobalItem.HasEnoughAmmo(player, item, 5);
-        }
-
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-        {
-            for (int i = 0; i < 5; i++)
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ProjectileID.BulletHighVelocity, damage, knockBack, player.whoAmI, 0f, 0f);
-
-            // Consume 5 ammo per shot
-            CalamityGlobalItem.ConsumeAdditionalAmmo(player, item, 5);
-
-            return false;
-        }
-
-        // Disable vanilla ammo consumption
-        public override bool ConsumeAmmo(Player player)
-        {
-            return false;
-        }
+        public override Vector2? HoldoutOffset() => new Vector2(-17, 5);
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Aeries>());
-            recipe.AddIngredient(ModContent.ItemType<RuinousSoul>(), 5);
-            recipe.AddIngredient(ItemID.LunarBar, 15);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient<PearlGod>().
+                AddIngredient<RuinousSoul>(5).
+                AddIngredient(ItemID.LunarBar, 15).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

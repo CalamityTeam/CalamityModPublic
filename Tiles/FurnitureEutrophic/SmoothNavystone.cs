@@ -8,7 +8,7 @@ namespace CalamityMod.Tiles.FurnitureEutrophic
 {
     public class SmoothNavystone : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileSolid[Type] = true;
             Main.tileMergeDirt[Type] = true;
@@ -20,9 +20,8 @@ namespace CalamityMod.Tiles.FurnitureEutrophic
             CalamityUtils.MergeWithDesert(Type);
 
             TileID.Sets.ChecksForMerge[Type] = true;
-            soundType = SoundID.Tink;
-            minPick = 55;
-            drop = ModContent.ItemType<Items.Placeables.FurnitureEutrophic.SmoothNavystone>();
+            HitSound = SoundID.Tink;
+            ItemDrop = ModContent.ItemType<Items.Placeables.FurnitureEutrophic.SmoothNavystone>();
             AddMapEntry(new Color(39, 48, 53));
         }
 

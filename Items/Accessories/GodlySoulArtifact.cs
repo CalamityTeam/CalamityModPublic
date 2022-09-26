@@ -1,7 +1,8 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Plates;
 using CalamityMod.Items.Placeables.Ores;
+using CalamityMod.Rarities;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -12,19 +13,19 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Godly Soul Artifact");
             Tooltip.SetDefault("Loyalty\n" +
-                "Summons two Sons of Yharon to fight for you");
+                "For each Fiery Draconid you have summoned, you gain 1 minion slot");
         }
 
         public override void SetDefaults()
         {
-            item.width = 28;
-            item.height = 28;
-            item.value = CalamityGlobalItem.Rarity15BuyPrice;
-            item.accessory = true;
-            item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.width = 28;
+            Item.height = 28;
+            Item.accessory = true;
+            Item.rare = ModContent.RarityType<Violet>();
+            Item.value = CalamityGlobalItem.Rarity15BuyPrice;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -35,14 +36,12 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Cinderplate>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<EssenceofCinder>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<HellcasterFragment>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<ExodiumClusterOre>(), 15);
-            recipe.AddTile(TileID.DemonAltar);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient<ExodiumCluster>(25).
+                AddIngredient<Plagueplate>(25).
+                AddIngredient<YharonSoulFragment>(5).
+                AddTile(TileID.DemonAltar).
+                Register();
         }
     }
 }

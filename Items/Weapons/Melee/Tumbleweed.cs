@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
 using Terraria;
 using Terraria.ID;
@@ -12,38 +12,38 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             DisplayName.SetDefault("Tumbleweed");
             Tooltip.SetDefault("Releases a rolling tumbleweed on hit");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 125;
-            item.melee = true;
-            item.width = 30;
-            item.height = 10;
-            item.useTime = 20;
-            item.useAnimation = 20;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.knockBack = 8f;
-            item.value = Item.buyPrice(0, 60, 0, 0);
-            item.rare = 7;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.channel = true;
-            item.shoot = ModContent.ProjectileType<TumbleweedFlail>();
-            item.shootSpeed = 12f;
+            Item.damage = 125;
+            Item.DamageType = DamageClass.MeleeNoSpeed;
+            Item.width = 30;
+            Item.height = 10;
+            Item.useTime = 20;
+            Item.useAnimation = 20;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.knockBack = 8f;
+            Item.value = CalamityGlobalItem.Rarity8BuyPrice;
+            Item.rare = ItemRarityID.Lime;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.channel = true;
+            Item.shoot = ModContent.ProjectileType<TumbleweedFlail>();
+            Item.shootSpeed = 12f;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Sunfury);
-            recipe.AddIngredient(ModContent.ItemType<GrandScale>());
-            recipe.AddIngredient(ItemID.SoulofMight, 5);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient(ItemID.Sunfury).
+                AddIngredient<GrandScale>().
+                AddIngredient(ItemID.SoulofMight, 5).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

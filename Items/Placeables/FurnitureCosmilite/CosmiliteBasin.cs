@@ -1,40 +1,39 @@
-using Terraria.ID;
+﻿using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Tiles.FurnitureCosmilite;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 
 namespace CalamityMod.Items.Placeables.FurnitureCosmilite
 {
-	public class CosmiliteBasin : ModItem
-	{
-		public override void SetStaticDefaults()
-		{
-            DisplayName.SetDefault("Cosmilite Basin");
-		}
-
-		public override void SetDefaults()
-		{
-			item.width = 8;
-			item.height = 10;
-			item.maxStack = 999;
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.useAnimation = 15;
-			item.useTime = 10;
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.consumable = true;
-			item.createTile = ModContent.TileType<CosmiliteBasinTile>();
-		}
-
-		public override void AddRecipes()
+    public class CosmiliteBasin : ModItem
+    {
+        public override void SetStaticDefaults()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<CosmiliteBrick>(), 10);
-            recipe.AddIngredient(ItemID.IronBar, 5);
-            recipe.anyIronBar = true;
-            recipe.SetResult(this, 1);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
-            recipe.AddRecipe();
+            SacrificeTotal = 1;
+            DisplayName.SetDefault("Cosmilite Basin");
         }
-	}
+
+        public override void SetDefaults()
+        {
+            Item.width = 8;
+            Item.height = 10;
+            Item.maxStack = 999;
+            Item.useTurn = true;
+            Item.autoReuse = true;
+            Item.useAnimation = 15;
+            Item.useTime = 10;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.consumable = true;
+            Item.createTile = ModContent.TileType<CosmiliteBasinTile>();
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe(1).
+                AddIngredient(ModContent.ItemType<CosmiliteBrick>(), 10).
+                AddRecipeGroup("IronBar", 5).
+                AddTile(ModContent.TileType<CosmicAnvil>()).
+                Register();
+        }
+    }
 }

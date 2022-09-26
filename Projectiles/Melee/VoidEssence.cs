@@ -1,6 +1,5 @@
-using CalamityMod.Items.Weapons.Melee;
+﻿using CalamityMod.Items.Weapons.Melee;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -17,46 +16,46 @@ namespace CalamityMod.Projectiles.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Void Essence");
-            Main.projFrames[projectile.type] = NumAnimationFrames;
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 6;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            Main.projFrames[Projectile.type] = NumAnimationFrames;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 6;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
         public override void SetDefaults()
         {
-            projectile.height = 24;
-            projectile.width = 24;
-            projectile.melee = true;
-            projectile.timeLeft = 100;
-            projectile.friendly = true;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
-            projectile.alpha = 80;
+            Projectile.height = 24;
+            Projectile.width = 24;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.timeLeft = 100;
+            Projectile.friendly = true;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
+            Projectile.alpha = 80;
 
-            projectile.penetrate = 8;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 4;
-            projectile.extraUpdates = 1;
+            Projectile.penetrate = 8;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 4;
+            Projectile.extraUpdates = 1;
         }
 
         public override void AI()
         {
-            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
-            drawOffsetX = 1;
-            drawOriginOffsetY = 4;
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
+            DrawOffsetX = 1;
+            DrawOriginOffsetY = 4;
 
             // Update animation
-            projectile.frameCounter++;
-            if (projectile.frameCounter > AnimationFrameTime)
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter > AnimationFrameTime)
             {
-                projectile.frame++;
-                projectile.frameCounter = 0;
+                Projectile.frame++;
+                Projectile.frameCounter = 0;
             }
-            if (projectile.frame >= NumAnimationFrames)
-                projectile.frame = 0;
+            if (Projectile.frame >= NumAnimationFrames)
+                Projectile.frame = 0;
 
             // Produce light
-            Lighting.AddLight(projectile.Center, 0.9f, 0.9f, 1.0f);
+            Lighting.AddLight(Projectile.Center, 0.9f, 0.9f, 1.0f);
 
             // Continuously trail dust
             int trailDust = 1;
@@ -64,25 +63,25 @@ namespace CalamityMod.Projectiles.Melee
             {
                 int dustID = Main.rand.NextBool(8) ? 66 : 143;
 
-                int idx = Dust.NewDust(projectile.position - projectile.velocity, projectile.width, projectile.height, dustID);
+                int idx = Dust.NewDust(Projectile.position - Projectile.velocity, Projectile.width, Projectile.height, dustID);
                 Main.dust[idx].noGravity = true;
-                Main.dust[idx].velocity += projectile.velocity * 0.8f;
+                Main.dust[idx].velocity += Projectile.velocity * 0.8f;
             }
 
             // If tentacle is currently on cooldown, reduce the cooldown.
-            if (projectile.ai[0] > 0f)
-                projectile.ai[0] -= 1f;
+            if (Projectile.ai[0] > 0f)
+                Projectile.ai[0] -= 1f;
 
             // Home in on nearby enemies if homing is enabled
-            if (projectile.ai[1] == 0f)
+            if (Projectile.ai[1] == 0f)
                 HomingAI();
 
             // Fade out if about to despawn
-            if (projectile.timeLeft <= 40 && projectile.timeLeft % 5 == 0)
+            if (Projectile.timeLeft <= 40 && Projectile.timeLeft % 5 == 0)
             {
-                projectile.alpha += 20;
-                if (projectile.alpha > 255)
-                    projectile.alpha = 255;
+                Projectile.alpha += 20;
+                if (Projectile.alpha > 255)
+                    Projectile.alpha = 255;
             }
         }
 
@@ -99,9 +98,9 @@ namespace CalamityMod.Projectiles.Melee
                     continue;
 
                 // Won't home in through walls and won't chase invulnerable targets.
-                if (npc.CanBeChasedBy(projectile, false) && Collision.CanHit(projectile.Center, 1, 1, npc.Center, 1, 1))
+                if (npc.CanBeChasedBy(Projectile, false) && Collision.CanHit(Projectile.Center, 1, 1, npc.Center, 1, 1))
                 {
-                    float dist = (projectile.Center - npc.Center).Length();
+                    float dist = (Projectile.Center - npc.Center).Length();
                     if (dist < maxHomingRange)
                     {
                         targetIdx = i;
@@ -115,48 +114,48 @@ namespace CalamityMod.Projectiles.Melee
             if (hasHomingTarget)
             {
                 NPC target = Main.npc[targetIdx];
-                Vector2 homingVector = (target.Center - projectile.Center).SafeNormalize(Vector2.Zero) * Nadir.ShootSpeed;
+                Vector2 homingVector = (target.Center - Projectile.Center).SafeNormalize(Vector2.Zero) * Nadir.ShootSpeed;
                 float homingRatio = 35f;
-                projectile.velocity = (projectile.velocity * homingRatio + homingVector) / (homingRatio + 1f);
+                Projectile.velocity = (Projectile.velocity * homingRatio + homingVector) / (homingRatio + 1f);
 
                 // If the target is close enough and tentacle is off cooldown, summon one.
                 // maxHomingRange doubles as the distance to the target.
-                if (projectile.ai[0] <= 0f && maxHomingRange <= TentacleRange)
+                if (Projectile.ai[0] <= 0f && maxHomingRange <= TentacleRange)
                 {
-                    Vector2 projVel = (target.Center - projectile.Center).SafeNormalize(Vector2.Zero);
+                    Vector2 projVel = (target.Center - Projectile.Center).SafeNormalize(Vector2.Zero);
                     projVel *= 6f;
                     SpawnTentacle(projVel);
-                    projectile.ai[0] = TentacleCooldown;
+                    Projectile.ai[0] = TentacleCooldown;
                 }
             }
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-			if (projectile.timeLeft > 95)
-				return false;
+            if (Projectile.timeLeft > 95)
+                return false;
 
-			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             // Rapidly screech to a halt upon touching an enemy and disable homing.
-            projectile.velocity *= 0.4f;
-            projectile.ai[1] = 1f;
+            Projectile.velocity *= 0.4f;
+            Projectile.ai[1] = 1f;
 
             // Fade out a bit with every hit
-            projectile.alpha += 20;
-            if (projectile.alpha > 255)
-                projectile.alpha = 255;
+            Projectile.alpha += 20;
+            if (Projectile.alpha > 255)
+                Projectile.alpha = 255;
 
             // Explode into dust (as if being shredded apart on contact)
             int onHitDust = Main.rand.Next(6, 11);
             for (int i = 0; i < onHitDust; ++i)
             {
                 int dustID = Main.rand.NextBool() ? 198 : 199;
-                int idx = Dust.NewDust(projectile.position, projectile.width, projectile.height, dustID, 0f, 0f);
+                int idx = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, dustID, 0f, 0f);
 
                 Main.dust[idx].noGravity = true;
                 float speed = Main.rand.NextFloat(1.4f, 2.6f);
@@ -173,7 +172,7 @@ namespace CalamityMod.Projectiles.Melee
             for (int i = 0; i < killDust; ++i)
             {
                 int dustID = Main.rand.NextBool() ? 198 : 199;
-                int idx = Dust.NewDust(projectile.position, projectile.width, projectile.height, dustID, 0f, 0f);
+                int idx = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, dustID, 0f, 0f);
 
                 Main.dust[idx].noGravity = true;
                 float speed = Main.rand.NextFloat(2.0f, 3.1f);
@@ -193,8 +192,8 @@ namespace CalamityMod.Projectiles.Melee
 
         private void SpawnTentacle(Vector2 tentacleVelocity)
         {
-            int damage = projectile.damage;
-            float kb = projectile.knockBack;
+            int damage = Projectile.damage;
+            float kb = Projectile.knockBack;
 
             // Randomize tentacle behavior variables
             float ai0 = Main.rand.NextFloat(0.01f, 0.08f);
@@ -202,8 +201,8 @@ namespace CalamityMod.Projectiles.Melee
             float ai1 = Main.rand.NextFloat(0.01f, 0.08f);
             ai1 *= Main.rand.NextBool() ? -1f : 1f;
 
-            if (projectile.owner == Main.myPlayer)
-                Projectile.NewProjectile(projectile.Center, tentacleVelocity, ModContent.ProjectileType<VoidTentacle>(), damage, kb, projectile.owner, ai0, ai1);
+            if (Projectile.owner == Main.myPlayer)
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, tentacleVelocity, ModContent.ProjectileType<VoidTentacle>(), damage, kb, Projectile.owner, ai0, ai1);
         }
     }
 }

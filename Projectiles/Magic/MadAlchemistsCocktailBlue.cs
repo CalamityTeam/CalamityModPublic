@@ -1,8 +1,9 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Magic
 {
@@ -10,48 +11,54 @@ namespace CalamityMod.Projectiles.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Mad Alchemist's Cocktail Blue");
+            DisplayName.SetDefault("Mad Alchemist's Blue Cocktail");
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 24;
-            projectile.height = 24;
-            projectile.friendly = true;
-            projectile.magic = true;
-            projectile.ignoreWater = true;
-            projectile.penetrate = 1;
+            Projectile.width = 24;
+            Projectile.height = 24;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Magic;
+            Projectile.ignoreWater = true;
+            Projectile.penetrate = 1;
         }
 
         public override void AI()
         {
-            projectile.rotation += Math.Abs(projectile.velocity.X) * 0.04f * (float)projectile.direction;
-            projectile.ai[0] += 1f;
-            if (projectile.ai[0] >= 90f)
+            Projectile.rotation += Math.Abs(Projectile.velocity.X) * 0.04f * (float)Projectile.direction;
+            Projectile.ai[0] += 1f;
+            if (Projectile.ai[0] >= 90f)
             {
-                projectile.velocity.Y = projectile.velocity.Y + 0.4f;
-                projectile.velocity.X = projectile.velocity.X * 0.97f;
+                Projectile.velocity.Y = Projectile.velocity.Y + 0.4f;
+                Projectile.velocity.X = Projectile.velocity.X * 0.97f;
             }
-            if (projectile.velocity.Y > 16f)
+            if (Projectile.velocity.Y > 16f)
             {
-                projectile.velocity.Y = 16f;
+                Projectile.velocity.Y = 16f;
             }
         }
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.Item107, projectile.position);
-            Gore.NewGore(projectile.Center, -projectile.oldVelocity * 0.2f, 704, 1f);
-            Gore.NewGore(projectile.Center, -projectile.oldVelocity * 0.2f, 705, 1f);
-            int num220 = Main.rand.Next(20, 31);
-            if (projectile.owner == Main.myPlayer)
+            SoundEngine.PlaySound(SoundID.Item107, Projectile.position);
+
+            if (Main.netMode != NetmodeID.Server)
             {
-                for (int num221 = 0; num221 < num220; num221++)
+                Gore.NewGore(Projectile.GetSource_Death(), Projectile.Center, -Projectile.oldVelocity * 0.2f, 704, 1f);
+                Gore.NewGore(Projectile.GetSource_Death(), Projectile.Center, -Projectile.oldVelocity * 0.2f, 705, 1f);
+            }
+
+            int numClouds = 9;
+            int cloudDamage = Projectile.damage / 2;
+            if (Projectile.owner == Main.myPlayer)
+            {
+                for (int i = 0; i < numClouds; i++)
                 {
-                    Vector2 value17 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-                    value17.Normalize();
-                    value17 *= (float)Main.rand.Next(10, 201) * 0.01f;
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value17.X, value17.Y, ModContent.ProjectileType<MadAlchemistsCocktailGasCloud>(), projectile.damage / 4, 0f, projectile.owner, 0f, (float)Main.rand.Next(-45, 1));
+                    Vector2 v = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
+                    v.Normalize();
+                    v *= (float)Main.rand.Next(10, 201) * 0.01f;
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, v.X, v.Y, ModContent.ProjectileType<MadAlchemistsCocktailGasCloud>(), cloudDamage, 0f, Projectile.owner, 0f, (float)Main.rand.Next(-45, 1));
                 }
             }
         }

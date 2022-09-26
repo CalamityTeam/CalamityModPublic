@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
@@ -10,18 +10,19 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Harpy Ring");
-            Tooltip.SetDefault("20% increased movement speed\n" +
-                "Boosts your maximum flight time by 25%");
+            Tooltip.SetDefault("10% increased movement speed\n" +
+                "Boosts your maximum flight time by 20%");
         }
 
         public override void SetDefaults()
         {
-            item.width = 20;
-            item.height = 22;
-            item.value = CalamityGlobalItem.Rarity3BuyPrice;
-            item.rare = 3;
-            item.accessory = true;
+            Item.width = 20;
+            Item.height = 22;
+            Item.value = CalamityGlobalItem.Rarity3BuyPrice;
+            Item.rare = ItemRarityID.Orange;
+            Item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -32,13 +33,12 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<AerialiteBar>(), 2);
-            recipe.AddIngredient(ItemID.Feather, 5);
-            recipe.AddIngredient(ItemID.FallenStar);
-            recipe.AddTile(TileID.SkyMill);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient<AerialiteBar>(2).
+                AddIngredient(ItemID.Feather, 5).
+                AddIngredient(ItemID.FallenStar).
+                AddTile(TileID.SkyMill).
+                Register();
         }
     }
 }

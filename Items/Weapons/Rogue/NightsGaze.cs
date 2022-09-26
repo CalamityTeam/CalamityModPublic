@@ -1,9 +1,11 @@
-using CalamityMod.Projectiles.Rogue;
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Ores;
+using CalamityMod.Projectiles.Rogue;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -15,60 +17,59 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             DisplayName.SetDefault("Night's Gaze");
             Tooltip.SetDefault("Strike your foes with this spear of the night\n" +
-				"Throws a spear that shatters when it hits an enemy\n" +
-				"Stealth strikes cause the spear to summon homing stars as it flies");
+                "Throws a spear that shatters when it hits an enemy\n" +
+                "Stealth strikes cause the spear to summon homing stars as it flies");
+            SacrificeTotal = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
-            item.width = 82;
-            item.damage = 800;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.useAnimation = 20;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 20;
-            item.knockBack = 1f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 82;
-            item.maxStack = 1;
-            item.value = Item.buyPrice(1, 40, 0, 0);
-            item.rare = 10;
-            item.shoot = ModContent.ProjectileType<NightsGazeProjectile>();
-            item.shootSpeed = 30f;
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
-            item.Calamity().rogue = true;
+            Item.width = 82;
+            Item.damage = 531;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.useAnimation = 20;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 20;
+            Item.knockBack = 1f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.height = 82;
+            Item.maxStack = 1;
+            Item.shoot = ModContent.ProjectileType<NightsGazeProjectile>();
+            Item.shootSpeed = 30f;
+            Item.value = CalamityGlobalItem.Rarity13BuyPrice;
+            Item.rare = ModContent.RarityType<PureGreen>();
+            Item.DamageType = RogueDamageClass.Instance;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.Calamity().StealthStrikeAvailable())
             {
-                int p = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
-                Main.projectile[p].Calamity().stealthStrike = true;
+                damage = (int)(damage * 1.22);
+                int p = Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, type, damage, knockback, player.whoAmI);
+                if (p.WithinBounds(Main.maxProjectiles))
+                    Main.projectile[p].Calamity().stealthStrike = true;
                 return false;
             }
             return true;
         }
 
-		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
-		{
-			Texture2D texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Rogue/NightsGazeGlow");
-			Vector2 origin = new Vector2(texture.Width / 2f, texture.Height / 2f - 2f);
-			spriteBatch.Draw(texture, item.Center - Main.screenPosition, null, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
-		}
+        public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
+        {
+            Item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Rogue/NightsGazeGlow").Value);
+        }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Lumenite>(), 7);
-            recipe.AddIngredient(ModContent.ItemType<RuinousSoul>(), 4);
-            recipe.AddIngredient(ModContent.ItemType<ExodiumClusterOre>(), 12);
-            recipe.AddIngredient(ItemID.DayBreak);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this, 1);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient(ItemID.DayBreak).
+                AddIngredient<Lumenyl>(7).
+                AddIngredient<RuinousSoul>(4).
+                AddIngredient<ExodiumCluster>(12).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

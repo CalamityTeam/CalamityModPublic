@@ -1,6 +1,7 @@
+﻿using CalamityMod.Projectiles.BaseProjectiles;
 using Terraria;
 using Terraria.ID;
-using CalamityMod.Projectiles.BaseProjectiles;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee.Spears
 {
@@ -13,20 +14,19 @@ namespace CalamityMod.Projectiles.Melee.Spears
 
         public override void SetDefaults()
         {
-            projectile.width = 40;  //The width of the .png file in pixels divided by 2.
-            projectile.aiStyle = 19;
-            projectile.melee = true;  //Dictates whether this is a melee-class weapon.
-            projectile.timeLeft = 90;
-            projectile.height = 40;  //The height of the .png file in pixels divided by 2.
-            projectile.friendly = true;
-            projectile.hostile = false;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
-            projectile.penetrate = -1;
-            projectile.ownerHitCheck = true;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 1;
-            //projectile.Calamity().trueMelee = true;
+            Projectile.width = 40;  //The width of the .png file in pixels divided by 2.
+            Projectile.aiStyle = ProjAIStyleID.Spear;
+            Projectile.DamageType = TrueMeleeDamageClass.Instance;
+            Projectile.timeLeft = 90;
+            Projectile.height = 40;  //The height of the .png file in pixels divided by 2.
+            Projectile.friendly = true;
+            Projectile.hostile = false;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
+            Projectile.penetrate = -1;
+            Projectile.ownerHitCheck = true;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 4;
         }
 
         // These numbers sure are common, huh? yeah, they are
@@ -37,17 +37,17 @@ namespace CalamityMod.Projectiles.Melee.Spears
         {
             if (Main.rand.NextBool(4))
             {
-                int num = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 60, projectile.direction * 2, 0f, 150, default, 1f);
+                int num = Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 60, Projectile.direction * 2, 0f, 150, default, 1f);
                 Main.dust[num].noGravity = true;
             }
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            if (target.type == NPCID.TargetDummy || !target.canGhostHeal || Main.player[projectile.owner].moonLeech)
+            if (!target.canGhostHeal || Main.player[Projectile.owner].moonLeech)
                 return;
 
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             player.statLife += 1;
             player.HealEffect(1);
         }

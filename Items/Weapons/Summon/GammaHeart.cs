@@ -1,6 +1,8 @@
-using CalamityMod.Projectiles.Summon;
+﻿using CalamityMod.Projectiles.Summon;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -11,35 +13,36 @@ namespace CalamityMod.Items.Weapons.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Gamma Heart");
-            Tooltip.SetDefault("Summons radioactive heads that are bound by your body\n" +
-                               "If the entity already exists, using this item again will cause it to gain more heads");
+            Tooltip.SetDefault("Summons radioactive heads that are bound by your body");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.width = 58;
-            item.height = 60;
-            item.useStyle = ItemUseStyleID.HoldingUp;
-            item.noMelee = true;
-            item.UseSound = SoundID.Item42;
-            item.summon = true;
-            item.mana = 16;
-            item.damage = 120;
-            item.knockBack = 3f;
-            item.autoReuse = true;
-            item.useTime = item.useAnimation = 15;
-            item.shoot = ModContent.ProjectileType<GammaHead>();
-            item.shootSpeed = 10f;
-            item.value = CalamityGlobalItem.RarityPureGreenBuyPrice;
-            item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
+            Item.width = 58;
+            Item.height = 60;
+            Item.useStyle = ItemUseStyleID.HoldUp;
+            Item.noMelee = true;
+            Item.UseSound = SoundID.Item42;
+            Item.DamageType = DamageClass.Summon;
+            Item.mana = 10;
+            Item.damage = 120;
+            Item.knockBack = 3f;
+            Item.autoReuse = true;
+            Item.useTime = Item.useAnimation = 14;
+            Item.shoot = ModContent.ProjectileType<GammaHead>();
+            Item.shootSpeed = 10f;
+            Item.value = CalamityGlobalItem.RarityPureGreenBuyPrice;
+            Item.rare = ModContent.RarityType<PureGreen>();
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.altFunctionUse != 2)
             {
-                Projectile.NewProjectileDirect(player.Center, Vector2.Zero, type, damage, knockBack, player.whoAmI);
+                int p = Projectile.NewProjectile(source, player.Center, Vector2.Zero, type, damage, knockback, player.whoAmI);
+                if (Main.projectile.IndexInRange(p))
+                    Main.projectile[p].originalDamage = Item.damage;
             }
             return false;
         }

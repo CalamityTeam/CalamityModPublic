@@ -1,6 +1,5 @@
-using CalamityMod.Events;
+﻿using CalamityMod.Events;
 using CalamityMod.Items.Materials;
-using CalamityMod.World;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -11,40 +10,49 @@ namespace CalamityMod.Items.SummonItems.Invasion
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Caustic Tear");
-            Tooltip.SetDefault("Causes an acidic downpour in the Sulphurous Sea");
+            Tooltip.SetDefault("Causes an acidic downpour in the Sulphurous Sea\n" +
+                "Not consumable");
+			ItemID.Sets.SortingPriorityBossSpawns[Type] = 1; // Suspicious Looking Eye
+
         }
 
         public override void SetDefaults()
         {
-            item.width = 28;
-            item.height = 18;
-            item.maxStack = 99;
-            item.rare = 1;
-            item.useAnimation = 45;
-            item.useTime = 45;
-            item.useStyle = ItemUseStyleID.HoldingUp;
-            item.consumable = true;
+            Item.width = 28;
+            Item.height = 18;
+            Item.maxStack = 1;
+            Item.rare = ItemRarityID.Green;
+            Item.useAnimation = 10;
+            Item.useTime = 10;
+            Item.useStyle = ItemUseStyleID.HoldUp;
+            Item.consumable = false;
         }
+
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = ContentSamples.CreativeHelper.ItemGroup.EventItem;
+		}
 
         public override bool CanUseItem(Player player)
         {
-            return !CalamityWorld.rainingAcid;
+            return !AcidRainEvent.AcidRainEventIsOngoing;
         }
 
-        public override bool UseItem(Player player)
+        public override bool? UseItem(Player player)
         {
-            CalamityMod.UpdateServerBoolean();
+            CalamityNetcode.SyncWorld();
             AcidRainEvent.TryStartEvent(true);
             return true;
         }
+
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<SulfuricScale>(), 4);
-            recipe.needWater = true;
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient<SulphuricScale>(5).
+                AddCondition(Recipe.Condition.NearWater).
+                Register();
         }
     }
 }

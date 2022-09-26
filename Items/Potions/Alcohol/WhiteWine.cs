@@ -1,5 +1,6 @@
-using CalamityMod.Buffs.Alcohol;
+﻿using CalamityMod.Buffs.Alcohol;
 using Terraria;
+using Terraria.GameInput;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -9,33 +10,48 @@ namespace CalamityMod.Items.Potions.Alcohol
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 5;
             DisplayName.SetDefault("White Wine");
             Tooltip.SetDefault(@"I drank a full barrel of this stuff once in one night, I couldn't remember who I was the next day
 Boosts magic damage by 10%
-Reduces defense by 6 and life regen by 1");
+Reduces defense by 6% and life regen by 1");
         }
 
         public override void SetDefaults()
         {
-            item.width = 28;
-            item.height = 18;
-            item.useTurn = true;
-            item.maxStack = 30;
-            item.rare = 4;
-            item.useAnimation = 17;
-            item.useTime = 17;
-            item.useStyle = ItemUseStyleID.EatingUsing;
-            item.UseSound = SoundID.Item3;
-            item.consumable = true;
-            item.healMana = 400;
-            item.buffType = ModContent.BuffType<WhiteWineBuff>();
-            item.buffTime = 10800; //3 minutes
-            item.value = Item.buyPrice(0, 16, 60, 0);
+            Item.width = 28;
+            Item.height = 18;
+            Item.useTurn = true;
+            Item.maxStack = 30;
+            Item.rare = ItemRarityID.LightPurple;
+            Item.useAnimation = 17;
+            Item.useTime = 17;
+            Item.useStyle = ItemUseStyleID.DrinkLiquid;
+            Item.UseSound = SoundID.Item3;
+            Item.consumable = true;
+            Item.healMana = 400;
+            Item.buffType = ModContent.BuffType<WhiteWineBuff>();
+            Item.buffTime = CalamityUtils.SecondsToFrames(300f);
+            Item.value = Item.buyPrice(0, 4, 0, 0);
         }
 
-        public override void OnConsumeItem(Player player)
+        public override bool? UseItem(Player player)
         {
-            player.AddBuff(ModContent.BuffType<WhiteWineBuff>(), 10800);
+            if (PlayerInput.Triggers.JustPressed.QuickBuff)
+            {
+                player.statMana += Item.healMana;
+                if (player.statMana > player.statManaMax2)
+                {
+                    player.statMana = player.statManaMax2;
+                }
+                player.AddBuff(BuffID.ManaSickness, Player.manaSickTime, true);
+                if (Main.myPlayer == player.whoAmI)
+                {
+                    player.ManaEffect(Item.healMana);
+                }
+            }
+            player.AddBuff(Item.buffType, Item.buffTime);
+            return true;
         }
     }
 }

@@ -1,30 +1,28 @@
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Terraria.ModLoader;
 using CalamityMod.Items.Fishing.FishingRods;
+using Microsoft.Xna.Framework;
+using Terraria.ID;
+using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Typeless
 {
-	public class HeronBobber : ModProjectile
+    public class HeronBobber : ModProjectile
     {
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Heron Bobber");
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Heron Bobber");
+        }
 
         public override void SetDefaults()
         {
-			//projectile.CloneDefaults(360); //Wooden Bobber
-			projectile.width = 14;
-			projectile.height = 14;
-			projectile.aiStyle = 61;
-            projectile.bobber = true;
-            projectile.penetrate = -1;
+            Projectile.width = 14;
+            Projectile.height = 14;
+            Projectile.aiStyle = ProjAIStyleID.Bobber;
+            Projectile.bobber = true;
+            Projectile.penetrate = -1;
         }
 
-        public override bool PreDrawExtras(SpriteBatch spriteBatch)
+        public override bool PreDrawExtras()
         {
-            CalamityUtils.DrawFishingLine(projectile, ModContent.ItemType<HeronRod>(), new Color(101, 149, 154, 100));
-            return false;
-		}
+            return Projectile.DrawFishingLine(ModContent.ItemType<HeronRod>(), new Color(101, 149, 154, 100));
+        }
     }
 }

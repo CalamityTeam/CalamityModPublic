@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.Summon;
+﻿using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -15,25 +15,26 @@ namespace CalamityMod.Projectiles.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Small Skeleton");
-            ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
-            ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
-            Main.projFrames[projectile.type] = 7;
+            ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
+            ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
+            Main.projFrames[Projectile.type] = 7;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 24;
-            projectile.height = 34;
-            projectile.netImportant = true;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.aiStyle = aiType = -1;
-            projectile.minionSlots = 1f;
-            projectile.timeLeft = 18000;
-            projectile.penetrate = -1;
-            projectile.tileCollide = true;
-            projectile.timeLeft *= 5;
-            projectile.minion = true;
+            Projectile.width = 24;
+            Projectile.height = 34;
+            Projectile.netImportant = true;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.aiStyle = AIType = -1;
+            Projectile.minionSlots = 1f;
+            Projectile.timeLeft = 18000;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = true;
+            Projectile.timeLeft *= 5;
+            Projectile.minion = true;
+            Projectile.DamageType = DamageClass.Summon;
         }
         public override void SendExtraAI(BinaryWriter writer)
         {
@@ -45,42 +46,32 @@ namespace CalamityMod.Projectiles.Summon
         }
         public override void AI()
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
 
-            if (projectile.localAI[0] == 0f)
+            if (Projectile.localAI[0] == 0f)
             {
-                projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
-                projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
                 Variant = Main.rand.Next(3);
-                projectile.netUpdate = true;
-                projectile.localAI[0] += 1f;
+                Projectile.netUpdate = true;
+                Projectile.localAI[0] += 1f;
             }
-            if (player.MinionDamage() != projectile.Calamity().spawnedPlayerMinionDamageValue)
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter % 6f == 5f)
             {
-                int trueDamage = (int)(projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    projectile.Calamity().spawnedPlayerMinionDamageValue *
-                    player.MinionDamage());
-                projectile.damage = trueDamage;
+                Projectile.frame++;
+                Projectile.frameCounter = 0;
+            }
+            if (Projectile.frame < 1)
+            {
+                Projectile.frame = 1;
+            }
+            if (Projectile.frame >= Main.projFrames[Projectile.type])
+            {
+                Projectile.frame = 1;
             }
 
-            projectile.frameCounter++;
-            if (projectile.frameCounter % 6f == 5f)
-            {
-                projectile.frame++;
-                projectile.frameCounter = 0;
-            }
-            if (projectile.frame < 1)
-            {
-                projectile.frame = 1;
-            }
-            if (projectile.frame >= Main.projFrames[projectile.type])
-            {
-                projectile.frame = 1;
-            }
-
-            bool isCorrectProjectile = projectile.type == ModContent.ProjectileType<SmallSkeletonMinion>();
-            player.AddBuff(ModContent.BuffType<StaffOfNecrosteocytesBuff>(), 3600);
+            bool isCorrectProjectile = Projectile.type == ModContent.ProjectileType<SmallSkeletonMinion>();
+            player.AddBuff(ModContent.BuffType<SmallSkeletonBuff>(), 3600);
             if (isCorrectProjectile)
             {
                 if (player.dead)
@@ -89,90 +80,89 @@ namespace CalamityMod.Projectiles.Summon
                 }
                 if (modPlayer.necrosteocytesDudes)
                 {
-                    projectile.timeLeft = 2;
+                    Projectile.timeLeft = 2;
                 }
             }
-            NPC potentialTarget = projectile.Center.MinionHoming(900f, player);
-            if (projectile.velocity.Y == 0 && (HoleBelow() || (projectile.Distance(player.Center) > 205f && projectile.position.X == projectile.oldPosition.X)))
+            NPC potentialTarget = Projectile.Center.MinionHoming(900f, player);
+            if (Projectile.velocity.Y == 0 && (HoleBelow() || (Projectile.Distance(player.Center) > 205f && Projectile.position.X == Projectile.oldPosition.X)))
             {
-                projectile.velocity.Y = -10f;
+                Projectile.velocity.Y = -10f;
             }
-            else if (projectile.velocity.Y != 0f)
+            else if (Projectile.velocity.Y != 0f)
             {
-                projectile.frame = 2;
+                Projectile.frame = 2;
             }
-            if (projectile.velocity.Y > -16f)
+            if (Projectile.velocity.Y > -16f)
             {
-                projectile.velocity.Y += 0.3f;
+                Projectile.velocity.Y += 0.3f;
             }
 
-            projectile.ai[0]++;
-            if (projectile.ai[0] % 60f == 59f && Main.myPlayer == projectile.owner)
+            Projectile.ai[0]++;
+            if (Projectile.ai[0] % 60f == 59f && Main.myPlayer == Projectile.owner)
             {
                 int type = Utils.SelectRandom(Main.rand, ModContent.ProjectileType<BoneMatter>(), ModContent.ProjectileType<BoneMatter2>());
-                Projectile.NewProjectile(projectile.Center, Vector2.Zero, type, projectile.damage, projectile.knockBack, projectile.owner);
+                int p = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, type, Projectile.damage, Projectile.knockBack, Projectile.owner);
+                if (Main.projectile.IndexInRange(p))
+                    Main.projectile[p].originalDamage = Projectile.originalDamage;
             }
-            if (potentialTarget == null)
+            if (potentialTarget is null)
             {
-                if (Math.Abs(player.Center.X - projectile.Center.X + 40f * projectile.minionPos) > 160f)
+                if (Math.Abs(player.Center.X - Projectile.Center.X + 40f * Projectile.minionPos) > 160f)
                 {
-                    projectile.velocity.X += Main.rand.NextFloat(0.11f, 0.16f) * (player.Center.X - projectile.Center.X + 40f * projectile.minionPos > 0f).ToDirectionInt();
-                    projectile.velocity.X = MathHelper.Clamp(projectile.velocity.X, -13f, 13f);
+                    Projectile.velocity.X += Main.rand.NextFloat(0.11f, 0.16f) * (player.Center.X - Projectile.Center.X + 40f * Projectile.minionPos > 0f).ToDirectionInt();
+                    Projectile.velocity.X = MathHelper.Clamp(Projectile.velocity.X, -13f, 13f);
                 }
                 else
                 {
-                    projectile.velocity.X *= 0.95f;
+                    Projectile.velocity.X *= 0.95f;
                 }
-                if (projectile.Distance(player.Center) <= 150f)
+                if (Projectile.Distance(player.Center) <= 150f)
                 {
-                    projectile.frame = 0;
+                    Projectile.frame = 0;
                 }
-                if (projectile.Distance(player.Center) > 1600f)
+                if (Projectile.Distance(player.Center) > 1600f)
                 {
-                    projectile.Center = player.Center;
-                    projectile.netUpdate = true;
+                    Projectile.Center = player.Center;
+                    Projectile.netUpdate = true;
                 }
             }
             else
             {
-                if (Math.Abs(potentialTarget.Center.X - projectile.Center.X + 40f) > 40f)
+                if (Math.Abs(potentialTarget.Center.X - Projectile.Center.X + (int)MathHelper.Min(potentialTarget.width / 2, 40f)) > (int)MathHelper.Min(potentialTarget.width / 2, 40f))
                 {
-                    projectile.velocity.X += Main.rand.NextFloat(0.08f, 0.15f) * (potentialTarget.Center.X - projectile.Center.X > 0f).ToDirectionInt();
-                    projectile.velocity.X = MathHelper.Clamp(projectile.velocity.X, -16f, 16f);
+                    Projectile.velocity.X += Main.rand.NextFloat(0.08f, 0.15f) * (potentialTarget.Center.X - Projectile.Center.X > 0f).ToDirectionInt();
+                    Projectile.velocity.X = MathHelper.Clamp(Projectile.velocity.X, -16f, 16f);
                 }
                 else
                 {
-                    projectile.velocity.X *= 0.95f;
+                    Projectile.velocity.X *= 0.95f;
                 }
-                if (projectile.Distance(player.Center) > 1400f)
+                if (Projectile.Distance(player.Center) > 1400f)
                 {
-                    projectile.Center = player.Center;
-                    projectile.netUpdate = true;
+                    Projectile.Center = player.Center;
+                    Projectile.netUpdate = true;
                 }
+                Projectile.MinionAntiClump(0.075f);
             }
-            if (projectile.velocity.X > 0.25f)
-            {
-                projectile.spriteDirection = 1;
-            }
-            else if (projectile.velocity.X < -0.25f)
-            {
-                projectile.spriteDirection = -1;
-            }
+            if (Projectile.velocity.X > 0.25f)
+                Projectile.spriteDirection = 1;
+            else if (Projectile.velocity.X < -0.25f)
+                Projectile.spriteDirection = -1;
         }
         public bool HoleBelow()
         {
             int tileWidth = 4;
-            int tileX = (int)(projectile.Center.X / 16f) - tileWidth;
-            if (projectile.velocity.X > 0)
+            int tileX = (int)(Projectile.Center.X / 16f) - tileWidth;
+            if (Projectile.velocity.X > 0)
             {
                 tileX += tileWidth;
             }
-            int tileY = (int)((projectile.position.Y + projectile.height) / 16f);
+            int tileY = (int)((Projectile.position.Y + Projectile.height) / 16f);
             for (int y = tileY; y < tileY + 2; y++)
             {
                 for (int x = tileX; x < tileX + tileWidth; x++)
                 {
-                    if (Main.tile[x, y].active())
+                    if (Main.tile[x, y].HasTile)
                     {
                         return false;
                     }
@@ -180,18 +170,20 @@ namespace CalamityMod.Projectiles.Summon
             }
             return true;
         }
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            Rectangle frame = new Rectangle(Variant * projectile.width, projectile.frame * projectile.height, projectile.width, projectile.height);
-            SpriteEffects spriteEffects = (projectile.spriteDirection == 1) ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-            spriteBatch.Draw(ModContent.GetTexture(Texture), projectile.Center - Main.screenPosition, frame, Color.White, projectile.rotation, projectile.Size / 2f, 1f, spriteEffects, 0f);
+            Rectangle frame = new Rectangle(Variant * Projectile.width, Projectile.frame * Projectile.height, Projectile.width, Projectile.height);
+            SpriteEffects spriteEffects = (Projectile.spriteDirection == 1) ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+            Main.EntitySpriteDraw(ModContent.Request<Texture2D>(Texture).Value, Projectile.Center - Main.screenPosition, frame, Color.White, Projectile.rotation, Projectile.Size / 2f, 1f, spriteEffects, 0);
             return false;
         }
-        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
+
+        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
         {
-            fallThrough = projectile.Bottom.Y < Main.player[projectile.owner].Top.Y - 120f;
-            return base.TileCollideStyle(ref width, ref height, ref fallThrough);
+            fallThrough = Projectile.Bottom.Y < Main.player[Projectile.owner].Top.Y - 120f;
+            return base.TileCollideStyle(ref width, ref height, ref fallThrough, ref hitboxCenterFrac);
         }
+
         public override bool OnTileCollide(Vector2 oldVelocity) => false;
     }
 }

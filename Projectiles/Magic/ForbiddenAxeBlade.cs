@@ -1,54 +1,53 @@
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Magic
 {
-	public class ForbiddenAxeBlade : ModProjectile
+    public class ForbiddenAxeBlade : ModProjectile
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Blade");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 6;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 6;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 26;
-            projectile.height = 26;
-            projectile.friendly = true;
-            projectile.penetrate = 1;
-            projectile.alpha = 255;
-            projectile.timeLeft = 300;
-            projectile.magic = true;
+            Projectile.width = 26;
+            Projectile.height = 26;
+            Projectile.friendly = true;
+            Projectile.penetrate = 1;
+            Projectile.alpha = 255;
+            Projectile.timeLeft = 300;
+            Projectile.DamageType = DamageClass.Magic;
         }
 
         public override void AI()
         {
-            projectile.alpha -= 3;
-            projectile.rotation += 0.75f;
+            Projectile.alpha -= 3;
+            Projectile.rotation += 0.75f;
 
-            projectile.ai[1] += 1f;
-            if (projectile.ai[1] <= 20f)
+            Projectile.ai[1] += 1f;
+            if (Projectile.ai[1] <= 20f)
             {
-                projectile.velocity *= 0.85f;
+                Projectile.velocity *= 0.85f;
             }
-            else if (projectile.ai[1] > 20f && projectile.ai[1] <= 39f)
+            else if (Projectile.ai[1] > 20f && Projectile.ai[1] <= 39f)
             {
-                projectile.velocity *= 1.25f;
-				CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 300f, 10f, 20f);
+                Projectile.velocity *= 1.25f;
+                CalamityUtils.HomeInOnNPC(Projectile, !Projectile.tileCollide, 300f, 10f, 20f);
             }
-            else if (projectile.ai[1] == 40f)
+            else if (Projectile.ai[1] == 40f)
             {
-                projectile.ai[1] = 0f;
+                Projectile.ai[1] = 0f;
             }
 
             if (Main.rand.NextBool(8))
             {
-                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 159, projectile.velocity.X * 0.1f, projectile.velocity.Y * 0.1f);
+                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 159, Projectile.velocity.X * 0.1f, Projectile.velocity.Y * 0.1f);
             }
         }
 
@@ -56,13 +55,13 @@ namespace CalamityMod.Projectiles.Magic
         {
             for (int k = 0; k < 3; k++)
             {
-                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 159, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
+                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 159, Projectile.oldVelocity.X * 0.5f, Projectile.oldVelocity.Y * 0.5f);
             }
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;
         }
     }

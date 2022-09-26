@@ -1,6 +1,7 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -8,19 +9,20 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Trinket of Chi");
-            Tooltip.SetDefault("After 2 seconds of standing still and not attacking you gain a buff\n" +
+            Tooltip.SetDefault("After 1 second of standing still and not attacking you gain a buff\n" +
                 "This buff boosts your damage by 50% and decreases damage taken by 15%\n" +
                 "The buff deactivates after you move or attack once");
         }
 
         public override void SetDefaults()
         {
-            item.width = 34;
-            item.height = 32;
-            item.value = CalamityGlobalItem.Rarity3BuyPrice;
-            item.rare = 3;
-            item.accessory = true;
+            Item.width = 34;
+            Item.height = 32;
+            Item.value = CalamityGlobalItem.Rarity3BuyPrice;
+            Item.rare = ItemRarityID.Orange;
+            Item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

@@ -1,3 +1,4 @@
+﻿using Terraria.DataStructures;
 using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -8,46 +9,64 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class StellarKnife : RogueWeapon
     {
-        int knifeCount = 15;
+        int knifeCount = 10;
+        int knifeLimit = 20;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Stellar Knife");
             Tooltip.SetDefault("Throws knives that stop middair and then home into enemies\n" +
                                "Stealth strikes throw a volley of " + knifeCount + " knives in a spread\n" +
                                "Za Warudo");
+            SacrificeTotal = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
-            item.width = 32;
-            item.height = 34;
-            item.damage = 50;
-            item.crit += 4;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.useAnimation = 9;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 9;
-            item.knockBack = 4f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.value = Item.buyPrice(0, 60, 0, 0);
-            item.rare = 7;
-            item.shoot = ModContent.ProjectileType<StellarKnifeProj>();
-            item.shootSpeed = 10f;
-            item.Calamity().rogue = true;
+            Item.width = 32;
+            Item.height = 34;
+            Item.damage = 50;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.useAnimation = 9;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 9;
+            Item.knockBack = 4f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.value = CalamityGlobalItem.Rarity8BuyPrice;
+            Item.rare = ItemRarityID.Lime;
+            Item.shoot = ModContent.ProjectileType<StellarKnifeProj>();
+            Item.shootSpeed = 10f;
+            Item.DamageType = RogueDamageClass.Instance;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        // Terraria seems to really dislike high crit values in SetDefaults
+        public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 4;
+
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            if (player.Calamity().StealthStrikeAvailable() && player.ownedProjectileCounts[ModContent.ProjectileType<StellarKnifeProj>()] < 10)
+            if (player.Calamity().StealthStrikeAvailable() && player.ownedProjectileCounts[Item.shoot] < knifeLimit)
             {
+                damage = (int)(damage * 1.1f);
+
+                int knifeAmt = knifeCount;
+                if ((player.ownedProjectileCounts[Item.shoot] + knifeCount) >= knifeLimit)
+                    knifeAmt = knifeLimit - player.ownedProjectileCounts[Item.shoot];
+                if (knifeAmt <= 0)
+                {
+                    int knife = Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
+                    if (knife.WithinBounds(Main.maxProjectiles))
+                        Main.projectile[knife].Calamity().stealthStrike = true;
+                }
+
                 int spread = 20;
                 for (int i = 0; i < knifeCount; i++)
                 {
-                    speedX *= 0.9f;
-                    Vector2 perturbedspeed = new Vector2(speedX, speedY + Main.rand.Next(-3, 4)).RotatedBy(MathHelper.ToRadians(spread));
-                    Projectile.NewProjectile(position, perturbedspeed, type, damage, knockBack, player.whoAmI, 1f, i % 5 == 0 ? 1f : 0f);
+                    velocity.X *= 0.9f;
+                    Vector2 perturbedspeed = new Vector2(velocity.X, velocity.Y + Main.rand.Next(-3, 4)).RotatedBy(MathHelper.ToRadians(spread));
+                    int knife2 = Projectile.NewProjectile(source, position, perturbedspeed, type, damage, knockback, player.whoAmI, 1f, i % 5 == 0 ? 1f : 0f);
+                    if (knife2.WithinBounds(Main.maxProjectiles))
+                        Main.projectile[knife2].Calamity().stealthStrike = true;
                     spread -= Main.rand.Next(1, 3);
                 }
                 return false;

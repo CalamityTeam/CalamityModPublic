@@ -1,17 +1,19 @@
-using CalamityMod.Tiles.Abyss;
+﻿using CalamityMod.Tiles.Abyss;
 using CalamityMod.Walls;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
+using System.Collections.Generic;
 using Terraria;
-using Terraria.GameContent.Achievements;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Ranged
 {
     public class RubberMortarRoundProj : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Ammo/RubberMortarRound";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Round");
@@ -19,348 +21,231 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetDefaults()
         {
-            projectile.width = 14;
-            projectile.height = 14;
-            projectile.friendly = true;
-            projectile.penetrate = 3;
-            projectile.timeLeft = 300;
-            projectile.ranged = true;
+            Projectile.width = 14;
+            Projectile.height = 14;
+            Projectile.friendly = true;
+            Projectile.penetrate = 3;
+            Projectile.timeLeft = 300;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
         }
 
         public override void AI()
         {
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
-            if (projectile.owner == Main.myPlayer && projectile.timeLeft <= 3)
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
+            if (Projectile.velocity.Length() >= 8f)
             {
-                projectile.tileCollide = false;
-                projectile.ai[1] = 0f;
-                projectile.alpha = 255;
-                projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
-                projectile.position.Y = projectile.position.Y + (float)(projectile.height / 2);
-                projectile.width = 200;
-                projectile.height = 200;
-                projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-                projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
-                projectile.knockBack = 10f;
-            }
-            else
-            {
-                if (Math.Abs(projectile.velocity.X) >= 8f || Math.Abs(projectile.velocity.Y) >= 8f)
+                for (int d = 0; d < 2; d++)
                 {
-                    for (int num246 = 0; num246 < 2; num246++)
+                    float xOffset = 0f;
+                    float yOffset = 0f;
+                    if (d == 1)
                     {
-                        float num247 = 0f;
-                        float num248 = 0f;
-                        if (num246 == 1)
-                        {
-                            num247 = projectile.velocity.X * 0.5f;
-                            num248 = projectile.velocity.Y * 0.5f;
-                        }
-                        int num249 = Dust.NewDust(new Vector2(projectile.position.X + 3f + num247, projectile.position.Y + 3f + num248) - projectile.velocity * 0.5f, projectile.width - 8, projectile.height - 8, 6, 0f, 0f, 100, default, 1f);
-                        Main.dust[num249].scale *= 2f + (float)Main.rand.Next(10) * 0.1f;
-                        Main.dust[num249].velocity *= 0.2f;
-                        Main.dust[num249].noGravity = true;
-                        num249 = Dust.NewDust(new Vector2(projectile.position.X + 3f + num247, projectile.position.Y + 3f + num248) - projectile.velocity * 0.5f, projectile.width - 8, projectile.height - 8, 31, 0f, 0f, 100, default, 0.5f);
-                        Main.dust[num249].fadeIn = 1f + (float)Main.rand.Next(5) * 0.1f;
-                        Main.dust[num249].velocity *= 0.05f;
+                        xOffset = Projectile.velocity.X * 0.5f;
+                        yOffset = Projectile.velocity.Y * 0.5f;
                     }
+                    int fire = Dust.NewDust(new Vector2(Projectile.position.X + 3f + xOffset, Projectile.position.Y + 3f + yOffset) - Projectile.velocity * 0.5f, Projectile.width - 8, Projectile.height - 8, 6, 0f, 0f, 100, default, 1f);
+                    Main.dust[fire].scale *= 2f + (float)Main.rand.Next(10) * 0.1f;
+                    Main.dust[fire].velocity *= 0.2f;
+                    Main.dust[fire].noGravity = true;
+                    int smoke = Dust.NewDust(new Vector2(Projectile.position.X + 3f + xOffset, Projectile.position.Y + 3f + yOffset) - Projectile.velocity * 0.5f, Projectile.width - 8, Projectile.height - 8, DustID.Smoke, 0f, 0f, 100, default, 0.5f);
+                    Main.dust[smoke].fadeIn = 1f + (float)Main.rand.Next(5) * 0.1f;
+                    Main.dust[smoke].velocity *= 0.05f;
                 }
             }
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D tex = Main.projectileTexture[projectile.type];
-            spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(lightColor), projectile.rotation, tex.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
+            Texture2D tex = ModContent.Request<Texture2D>(Texture).Value;
+            Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation, tex.Size() / 2f, Projectile.scale, SpriteEffects.None, 0);
             return false;
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            projectile.position = projectile.Center;
-            projectile.width = projectile.height = 160;
-            projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-            projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
-            projectile.maxPenetrate = -1;
-            projectile.penetrate = -1;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
-            projectile.Damage();
-            Main.PlaySound(SoundID.Item14, projectile.position);
-            for (int num621 = 0; num621 < 40; num621++)
+            int penetrateAmt = Projectile.penetrate;
+            Projectile.ExpandHitboxBy(200);
+            Projectile.maxPenetrate = Projectile.penetrate = -1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
+            Projectile.Damage();
+            SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);
+            Projectile.penetrate = penetrateAmt;
+
+            SpawnDust();
+
+            if (Main.netMode != NetmodeID.Server)
             {
-                int num622 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 31, 0f, 0f, 100, default, 2f);
-                Main.dust[num622].velocity *= 3f;
-                if (Main.rand.NextBool(2))
+                Vector2 goreSource = Projectile.Center;
+                int goreAmt = 3;
+                Vector2 source = new Vector2(goreSource.X - 24f, goreSource.Y - 24f);
+                for (int goreIndex = 0; goreIndex < goreAmt; goreIndex++)
                 {
-                    Main.dust[num622].scale = 0.5f;
-                    Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+                    float velocityMult = 0.33f;
+                    if (goreIndex < (goreAmt / 3))
+                    {
+                        velocityMult = 0.66f;
+                    }
+                    if (goreIndex >= (2 * goreAmt / 3))
+                    {
+                        velocityMult = 1f;
+                    }
+                    Mod mod = ModContent.GetInstance<CalamityMod>();
+                    int type = Main.rand.Next(61, 64);
+                    int smoke = Gore.NewGore(Projectile.GetSource_FromAI(), source, default, type, 1f);
+                    Gore gore = Main.gore[smoke];
+                    gore.velocity *= velocityMult;
+                    gore.velocity.X += 1f;
+                    gore.velocity.Y += 1f;
+                    type = Main.rand.Next(61, 64);
+                    smoke = Gore.NewGore(Projectile.GetSource_FromAI(), source, default, type, 1f);
+                    gore = Main.gore[smoke];
+                    gore.velocity *= velocityMult;
+                    gore.velocity.X -= 1f;
+                    gore.velocity.Y += 1f;
+                    type = Main.rand.Next(61, 64);
+                    smoke = Gore.NewGore(Projectile.GetSource_FromAI(), source, default, type, 1f);
+                    gore = Main.gore[smoke];
+                    gore.velocity *= velocityMult;
+                    gore.velocity.X += 1f;
+                    gore.velocity.Y -= 1f;
+                    type = Main.rand.Next(61, 64);
+                    smoke = Gore.NewGore(Projectile.GetSource_FromAI(), source, default, type, 1f);
+                    gore = Main.gore[smoke];
+                    gore.velocity *= velocityMult;
+                    gore.velocity.X -= 1f;
+                    gore.velocity.Y -= 1f;
                 }
             }
-            for (int num623 = 0; num623 < 70; num623++)
+
+            Projectile.ExpandHitboxBy(14);
+
+            if (Projectile.owner == Main.myPlayer)
             {
-                int num624 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 6, 0f, 0f, 100, default, 3f);
-                Main.dust[num624].noGravity = true;
-                Main.dust[num624].velocity *= 5f;
-                num624 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 6, 0f, 0f, 100, default, 2f);
-                Main.dust[num624].velocity *= 2f;
+                DestroyTiles();
             }
-			CalamityUtils.ExplosionGores(projectile.Center, 3);
-            if (projectile.owner == Main.myPlayer)
+
+            Projectile.penetrate--;
+            if (Projectile.penetrate <= 0)
             {
-                int num814 = 5;
-                int num815 = (int)(projectile.position.X / 16f - (float)num814);
-                int num816 = (int)(projectile.position.X / 16f + (float)num814);
-                int num817 = (int)(projectile.position.Y / 16f - (float)num814);
-                int num818 = (int)(projectile.position.Y / 16f + (float)num814);
-                if (num815 < 0)
-                {
-                    num815 = 0;
-                }
-                if (num816 > Main.maxTilesX)
-                {
-                    num816 = Main.maxTilesX;
-                }
-                if (num817 < 0)
-                {
-                    num817 = 0;
-                }
-                if (num818 > Main.maxTilesY)
-                {
-                    num818 = Main.maxTilesY;
-                }
-                bool flag3 = false;
-                for (int num819 = num815; num819 <= num816; num819++)
-                {
-                    for (int num820 = num817; num820 <= num818; num820++)
-                    {
-                        float num821 = Math.Abs((float)num819 - projectile.position.X / 16f);
-                        float num822 = Math.Abs((float)num820 - projectile.position.Y / 16f);
-                        double num823 = Math.Sqrt((double)(num821 * num821 + num822 * num822));
-                        if (num823 < (double)num814 && Main.tile[num819, num820] != null && Main.tile[num819, num820].wall == 0)
-                        {
-                            flag3 = true;
-                            break;
-                        }
-                    }
-                }
-                AchievementsHelper.CurrentlyMining = true;
-                for (int num824 = num815; num824 <= num816; num824++)
-                {
-                    for (int num825 = num817; num825 <= num818; num825++)
-                    {
-                        float num826 = Math.Abs((float)num824 - projectile.position.X / 16f);
-                        float num827 = Math.Abs((float)num825 - projectile.position.Y / 16f);
-                        double num828 = Math.Sqrt((double)(num826 * num826 + num827 * num827));
-                        if (num828 < (double)num814)
-                        {
-                            if (Main.tile[num824, num825] != null && Main.tile[num824, num825].active() && Main.tile[num824, num825].type != (ushort)ModContent.TileType<AbyssGravel>())
-                            {
-                                WorldGen.KillTile(num824, num825, false, false, false);
-                                if (!Main.tile[num824, num825].active() && Main.netMode != NetmodeID.SinglePlayer)
-                                {
-                                    NetMessage.SendData(MessageID.TileChange, -1, -1, null, 0, (float)num824, (float)num825, 0f, 0, 0, 0);
-                                }
-                            }
-                            for (int num829 = num824 - 1; num829 <= num824 + 1; num829++)
-                            {
-                                for (int num830 = num825 - 1; num830 <= num825 + 1; num830++)
-                                {
-                                    if (Main.tile[num829, num830] != null && Main.tile[num829, num830].wall > 0 && Main.tile[num829, num830].wall != (byte)ModContent.WallType<AbyssGravelWall>() && flag3)
-                                    {
-                                        WorldGen.KillWall(num829, num830, false);
-                                        if (Main.tile[num829, num830].wall == 0 && Main.netMode != NetmodeID.SinglePlayer)
-                                        {
-                                            NetMessage.SendData(MessageID.TileChange, -1, -1, null, 2, (float)num829, (float)num830, 0f, 0, 0, 0);
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-                AchievementsHelper.CurrentlyMining = false;
-                if (Main.netMode != NetmodeID.SinglePlayer)
-                {
-                    NetMessage.SendData(MessageID.KillProjectile, -1, -1, null, projectile.identity, (float)projectile.owner, 0f, 0f, 0, 0, 0);
-                }
-                if (!projectile.noDropItem)
-                {
-                    int num831 = -1;
-                    if (Main.netMode == NetmodeID.MultiplayerClient && num831 >= 0)
-                    {
-                        NetMessage.SendData(MessageID.SyncItem, -1, -1, null, num831, 1f, 0f, 0f, 0, 0, 0);
-                    }
-                }
-            }
-            projectile.penetrate--;
-            if (projectile.penetrate <= 0)
-            {
-                projectile.Kill();
-                projectile.active = false;
+                Projectile.Kill();
+                Projectile.active = false;
             }
             else
             {
-                projectile.ai[0] += 0.1f;
-                if (projectile.velocity.X != oldVelocity.X)
+                if (Projectile.velocity.X != oldVelocity.X)
                 {
-                    projectile.velocity.X = -oldVelocity.X;
+                    Projectile.velocity.X = -oldVelocity.X;
                 }
-                if (projectile.velocity.Y != oldVelocity.Y)
+                if (Projectile.velocity.Y != oldVelocity.Y)
                 {
-                    projectile.velocity.Y = -oldVelocity.Y;
+                    Projectile.velocity.Y = -oldVelocity.Y;
                 }
-                projectile.velocity *= 1.25f;
+                Projectile.velocity *= 1.25f;
             }
             return false;
         }
 
         public override void Kill(int timeLeft)
         {
-            projectile.position = projectile.Center;
-            projectile.width = projectile.height = 160;
-            projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-            projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
-            projectile.maxPenetrate = -1;
-            projectile.penetrate = -1;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
-            projectile.Damage();
-            Main.PlaySound(SoundID.Item14, projectile.position);
-            for (int num621 = 0; num621 < 40; num621++)
+            Projectile.ExpandHitboxBy(200);
+            Projectile.maxPenetrate = Projectile.penetrate = -1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
+            Projectile.knockBack *= 5f;
+            Projectile.Damage();
+            SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);
+
+            SpawnDust();
+
+            if (Main.netMode != NetmodeID.Server)
             {
-                int num622 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 31, 0f, 0f, 100, default, 2f);
-                Main.dust[num622].velocity *= 3f;
+                Vector2 goreSource = Projectile.Center;
+                int goreAmt = 3;
+                Vector2 source = new Vector2(goreSource.X - 24f, goreSource.Y - 24f);
+                for (int goreIndex = 0; goreIndex < goreAmt; goreIndex++)
+                {
+                    float velocityMult = 0.33f;
+                    if (goreIndex < (goreAmt / 3))
+                    {
+                        velocityMult = 0.66f;
+                    }
+                    if (goreIndex >= (2 * goreAmt / 3))
+                    {
+                        velocityMult = 1f;
+                    }
+                    Mod mod = ModContent.GetInstance<CalamityMod>();
+                    int type = Main.rand.Next(61, 64);
+                    int smoke = Gore.NewGore(Projectile.GetSource_Death(), source, default, type, 1f);
+                    Gore gore = Main.gore[smoke];
+                    gore.velocity *= velocityMult;
+                    gore.velocity.X += 1f;
+                    gore.velocity.Y += 1f;
+                    type = Main.rand.Next(61, 64);
+                    smoke = Gore.NewGore(Projectile.GetSource_Death(), source, default, type, 1f);
+                    gore = Main.gore[smoke];
+                    gore.velocity *= velocityMult;
+                    gore.velocity.X -= 1f;
+                    gore.velocity.Y += 1f;
+                    type = Main.rand.Next(61, 64);
+                    smoke = Gore.NewGore(Projectile.GetSource_Death(), source, default, type, 1f);
+                    gore = Main.gore[smoke];
+                    gore.velocity *= velocityMult;
+                    gore.velocity.X += 1f;
+                    gore.velocity.Y -= 1f;
+                    type = Main.rand.Next(61, 64);
+                    smoke = Gore.NewGore(Projectile.GetSource_Death(), source, default, type, 1f);
+                    gore = Main.gore[smoke];
+                    gore.velocity *= velocityMult;
+                    gore.velocity.X -= 1f;
+                    gore.velocity.Y -= 1f;
+                }
+            }
+
+            Projectile.ExpandHitboxBy(14);
+
+            if (Projectile.owner == Main.myPlayer)
+            {
+                DestroyTiles();
+            }
+        }
+
+        private void SpawnDust()
+        {
+            for (int d = 0; d < 40; d++)
+            {
+                int smoke = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Smoke, 0f, 0f, 100, default, 2f);
+                Main.dust[smoke].velocity *= 3f;
                 if (Main.rand.NextBool(2))
                 {
-                    Main.dust[num622].scale = 0.5f;
-                    Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+                    Main.dust[smoke].scale = 0.5f;
+                    Main.dust[smoke].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
                 }
             }
-            for (int num623 = 0; num623 < 70; num623++)
+            for (int d = 0; d < 70; d++)
             {
-                int num624 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 6, 0f, 0f, 100, default, 3f);
-                Main.dust[num624].noGravity = true;
-                Main.dust[num624].velocity *= 5f;
-                num624 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 6, 0f, 0f, 100, default, 2f);
-                Main.dust[num624].velocity *= 2f;
+                int fire = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 6, 0f, 0f, 100, default, 3f);
+                Main.dust[fire].noGravity = true;
+                Main.dust[fire].velocity *= 5f;
+                fire = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 6, 0f, 0f, 100, default, 2f);
+                Main.dust[fire].velocity *= 2f;
             }
-            for (int num625 = 0; num625 < 3; num625++)
+        }
+
+        private void DestroyTiles()
+        {
+            CalamityUtils.ExplodeandDestroyTiles(Projectile, 5, false, new List<int>()
             {
-                float scaleFactor10 = 0.33f;
-                if (num625 == 1)
-                {
-                    scaleFactor10 = 0.66f;
-                }
-                if (num625 == 2)
-                {
-                    scaleFactor10 = 1f;
-                }
-                int num626 = Gore.NewGore(new Vector2(projectile.position.X + (float)(projectile.width / 2) - 24f, projectile.position.Y + (float)(projectile.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
-                Gore gore = Main.gore[num626];
-                gore.velocity *= scaleFactor10;
-                gore.velocity.X += 1f;
-                gore.velocity.Y += 1f;
-                num626 = Gore.NewGore(new Vector2(projectile.position.X + (float)(projectile.width / 2) - 24f, projectile.position.Y + (float)(projectile.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
-                gore.velocity *= scaleFactor10;
-                gore.velocity.X -= 1f;
-                gore.velocity.Y += 1f;
-                num626 = Gore.NewGore(new Vector2(projectile.position.X + (float)(projectile.width / 2) - 24f, projectile.position.Y + (float)(projectile.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
-                gore.velocity *= scaleFactor10;
-                gore.velocity.X += 1f;
-                gore.velocity.Y -= 1f;
-                num626 = Gore.NewGore(new Vector2(projectile.position.X + (float)(projectile.width / 2) - 24f, projectile.position.Y + (float)(projectile.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
-                gore.velocity *= scaleFactor10;
-                gore.velocity.X -= 1f;
-                gore.velocity.Y -= 1f;
-            }
-            if (projectile.owner == Main.myPlayer)
+                ModContent.TileType<AbyssGravel>(),
+                ModContent.TileType<Voidstone>()
+            },
+            new List<int>()
             {
-                int num814 = 5;
-                int num815 = (int)(projectile.position.X / 16f - (float)num814);
-                int num816 = (int)(projectile.position.X / 16f + (float)num814);
-                int num817 = (int)(projectile.position.Y / 16f - (float)num814);
-                int num818 = (int)(projectile.position.Y / 16f + (float)num814);
-                if (num815 < 0)
-                {
-                    num815 = 0;
-                }
-                if (num816 > Main.maxTilesX)
-                {
-                    num816 = Main.maxTilesX;
-                }
-                if (num817 < 0)
-                {
-                    num817 = 0;
-                }
-                if (num818 > Main.maxTilesY)
-                {
-                    num818 = Main.maxTilesY;
-                }
-                bool flag3 = false;
-                for (int num819 = num815; num819 <= num816; num819++)
-                {
-                    for (int num820 = num817; num820 <= num818; num820++)
-                    {
-                        float num821 = Math.Abs((float)num819 - projectile.position.X / 16f);
-                        float num822 = Math.Abs((float)num820 - projectile.position.Y / 16f);
-                        double num823 = Math.Sqrt((double)(num821 * num821 + num822 * num822));
-                        if (num823 < (double)num814 && Main.tile[num819, num820] != null && Main.tile[num819, num820].wall == 0)
-                        {
-                            flag3 = true;
-                            break;
-                        }
-                    }
-                }
-                AchievementsHelper.CurrentlyMining = true;
-                for (int num824 = num815; num824 <= num816; num824++)
-                {
-                    for (int num825 = num817; num825 <= num818; num825++)
-                    {
-                        float num826 = Math.Abs((float)num824 - projectile.position.X / 16f);
-                        float num827 = Math.Abs((float)num825 - projectile.position.Y / 16f);
-                        double num828 = Math.Sqrt((double)(num826 * num826 + num827 * num827));
-                        if (num828 < (double)num814)
-                        {
-                            if (Main.tile[num824, num825] != null && Main.tile[num824, num825].active())
-                            {
-                                WorldGen.KillTile(num824, num825, false, false, false);
-                                if (!Main.tile[num824, num825].active() && Main.netMode != NetmodeID.SinglePlayer)
-                                {
-                                    NetMessage.SendData(MessageID.TileChange, -1, -1, null, 0, (float)num824, (float)num825, 0f, 0, 0, 0);
-                                }
-                            }
-                            for (int num829 = num824 - 1; num829 <= num824 + 1; num829++)
-                            {
-                                for (int num830 = num825 - 1; num830 <= num825 + 1; num830++)
-                                {
-                                    if (Main.tile[num829, num830] != null && Main.tile[num829, num830].wall > 0 && flag3)
-                                    {
-                                        WorldGen.KillWall(num829, num830, false);
-                                        if (Main.tile[num829, num830].wall == 0 && Main.netMode != NetmodeID.SinglePlayer)
-                                        {
-                                            NetMessage.SendData(MessageID.TileChange, -1, -1, null, 2, (float)num829, (float)num830, 0f, 0, 0, 0);
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-                AchievementsHelper.CurrentlyMining = false;
-                if (Main.netMode != NetmodeID.SinglePlayer)
-                {
-                    NetMessage.SendData(MessageID.KillProjectile, -1, -1, null, projectile.identity, (float)projectile.owner, 0f, 0f, 0, 0, 0);
-                }
-                if (!projectile.noDropItem)
-                {
-                    int num831 = -1;
-                    if (Main.netMode == NetmodeID.MultiplayerClient && num831 >= 0)
-                    {
-                        NetMessage.SendData(MessageID.SyncItem, -1, -1, null, num831, 1f, 0f, 0f, 0, 0, 0);
-                    }
-                }
-            }
+                ModContent.WallType<AbyssGravelWall>(),
+                ModContent.WallType<VoidstoneWallUnsafe>()
+            });
         }
     }
 }

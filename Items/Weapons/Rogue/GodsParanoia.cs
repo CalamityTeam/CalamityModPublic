@@ -1,17 +1,19 @@
-using Terraria;
-using Terraria.ID;
-using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Rogue;
+using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
-using CalamityMod.CalPlayer;
+using Microsoft.Xna.Framework;
+using Terraria;
+using Terraria.DataStructures;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-	public class GodsParanoia : RogueWeapon
+    public class GodsParanoia : RogueWeapon
     {
-        private static int damage = 125;
+        private static int damage = 98;
         private static int knockBack = 5;
 
         public override void SetStaticDefaults()
@@ -21,57 +23,59 @@ namespace CalamityMod.Items.Weapons.Rogue
 Attaches to enemies and summons a localized storm of god slayer kunai
 Stealth strikes home in faster and summon kunai at a faster rate
 Right click to delete all existing spiky balls");
+            SacrificeTotal = 10;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
-            item.damage = damage;
-            item.Calamity().rogue = true;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.width = 1;
-            item.height = 1;
-            item.useTime = 15;
-            item.useAnimation = 15;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = knockBack;
-            item.value = Item.buyPrice(0, 18, 0, 0);
-            item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.maxStack = 10;
+            Item.damage = damage;
+            Item.DamageType = RogueDamageClass.Instance;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.width = 1;
+            Item.height = 1;
+            Item.useTime = 15;
+            Item.useAnimation = 15;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = knockBack;
+            Item.value = CalamityGlobalItem.RarityDarkBlueBuyPrice / 10; // Stacks up to 10
+            Item.rare = ModContent.RarityType<DarkBlue>();
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.maxStack = 10;
 
-            item.shootSpeed = 5f;
-            item.shoot = ModContent.ProjectileType<GodsParanoiaProj>();
+            Item.shootSpeed = 5f;
+            Item.shoot = ModContent.ProjectileType<GodsParanoiaProj>();
 
         }
 
-		public override bool CanUseItem(Player player)
-		{
-			if (player.altFunctionUse == 2)
-			{
-				item.shoot = 0;
-				item.shootSpeed = 0f;
-				return player.ownedProjectileCounts[ModContent.ProjectileType<GodsParanoiaProj>()] > 0;
-			}
-			else
-			{
-				item.shoot = ModContent.ProjectileType<GodsParanoiaProj>();
-				item.shootSpeed = 5f;
-				int UseMax = item.stack;
-				return player.ownedProjectileCounts[ModContent.ProjectileType<GodsParanoiaProj>()] < UseMax;
-			}
-		}
+        public override bool CanUseItem(Player player)
+        {
+            if (player.altFunctionUse == 2)
+            {
+                Item.shoot = ProjectileID.None;
+                Item.shootSpeed = 0f;
+                return player.ownedProjectileCounts[ModContent.ProjectileType<GodsParanoiaProj>()] > 0;
+            }
+            else
+            {
+                Item.shoot = ModContent.ProjectileType<GodsParanoiaProj>();
+                Item.shootSpeed = 5f;
+                int UseMax = Item.stack;
+                return player.ownedProjectileCounts[ModContent.ProjectileType<GodsParanoiaProj>()] < UseMax;
+            }
+        }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             CalamityPlayer modPlayer = player.Calamity();
-			modPlayer.killSpikyBalls = false;
+            modPlayer.killSpikyBalls = false;
             if (modPlayer.StealthStrikeAvailable()) //setting the stealth strike
             {
-                int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, 0f, 0f);
-                Main.projectile[stealth].Calamity().stealthStrike = true;
+                damage = (int)(damage * 1.345);
+                int stealth = Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
+                if (stealth.WithinBounds(Main.maxProjectiles))
+                    Main.projectile[stealth].Calamity().stealthStrike = true;
                 return false;
             }
             return true;
@@ -80,21 +84,17 @@ Right click to delete all existing spiky balls");
         public override bool AltFunctionUse(Player player)
         {
             CalamityPlayer modPlayer = player.Calamity();
-			modPlayer.killSpikyBalls = true;
+            modPlayer.killSpikyBalls = true;
             return true;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-
-            recipe.AddIngredient(ItemID.SpikyBall, 200);
-            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 2);
-            recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 2);
-            recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 2);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient(ItemID.SpikyBall, 200).
+                AddIngredient<CosmiliteBar>().
+                AddTile<CosmicAnvil>().
+                Register();
         }
     }
 }

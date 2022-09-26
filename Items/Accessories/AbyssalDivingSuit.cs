@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using Terraria;
@@ -9,11 +9,24 @@ namespace CalamityMod.Items.Accessories
 {
     public class AbyssalDivingSuit : ModItem
     {
+        public override void Load()
+        {
+            // All code below runs only if we're not loading on a server
+            if (Main.netMode != NetmodeID.Server)
+            {
+                // Add equip textures
+                EquipLoader.AddEquipTexture(Mod, $"{Texture}_{EquipType.Head}", EquipType.Head, this);
+                EquipLoader.AddEquipTexture(Mod, $"{Texture}_{EquipType.Body}", EquipType.Body, this);
+                EquipLoader.AddEquipTexture(Mod, $"{Texture}_{EquipType.Legs}", EquipType.Legs, this);
+            }
+        }
+
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Abyssal Diving Suit");
             Tooltip.SetDefault("Transforms the holder into an armored diver\n" +
-                "Increases movement speed while underwater and moves slowly outside of water\n" +
+                "Increases max movement speed and acceleration while underwater but you move slowly outside of water\n" +
                 "The suits' armored plates reduce damage taken by 15%\n" +
                 "The plates will only take damage if the damage taken is over 50\n" +
                 "After the suit has taken too much damage its armored plates will take 3 minutes to regenerate\n" +
@@ -25,17 +38,28 @@ namespace CalamityMod.Items.Accessories
                 "Greatly reduces breath loss in the abyss\n" +
                 "Reduces creature's ability to detect you in the abyss\n" +
                 "Reduces the defense reduction that the abyss causes\n" +
+                "Grants immunity to the sulphurous waters\n" +
                 "Allows you to fall faster while in liquids");
         }
 
         public override void SetDefaults()
         {
-            item.width = 18;
-            item.height = 18;
-            item.accessory = true;
-            item.value = CalamityGlobalItem.Rarity12BuyPrice;
-            item.rare = 10;
-			item.Calamity().postMoonLordRarity = 12;
+            Item.width = 18;
+            Item.height = 18;
+            Item.accessory = true;
+            Item.value = CalamityGlobalItem.Rarity11BuyPrice;
+            Item.rare = ItemRarityID.Purple;
+
+            if (Main.netMode != NetmodeID.Server)
+            {
+                int equipSlotHead = EquipLoader.GetEquipSlot(Mod, Name, EquipType.Head);
+                int equipSlotBody = EquipLoader.GetEquipSlot(Mod, Name, EquipType.Body);
+                int equipSlotLegs = EquipLoader.GetEquipSlot(Mod, Name, EquipType.Legs);
+                ArmorIDs.Head.Sets.DrawHead[equipSlotHead] = false;
+                ArmorIDs.Body.Sets.HidesTopSkin[equipSlotBody] = true;
+                ArmorIDs.Body.Sets.HidesArms[equipSlotBody] = true;
+                ArmorIDs.Legs.Sets.HidesBottomSkin[equipSlotLegs] = true;
+            }
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -43,48 +67,28 @@ namespace CalamityMod.Items.Accessories
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.abyssalDivingSuit = true;
             if (hideVisual)
-            {
                 modPlayer.abyssalDivingSuitHide = true;
-            }
+        }
+
+        public override void UpdateVanity(Player player)
+        {
+            player.Calamity().abyssalDivingSuitHide = false;
+            player.Calamity().abyssalDivingSuitForce = true;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<AbyssalDivingGear>());
-            recipe.AddIngredient(ModContent.ItemType<AnechoicPlating>());
-            recipe.AddIngredient(ModContent.ItemType<IronBoots>());
-            recipe.AddIngredient(ModContent.ItemType<Lumenite>(), 40);
-            recipe.AddIngredient(ModContent.ItemType<DepthCells>(), 40);
-            recipe.AddIngredient(ModContent.ItemType<Tenebris>(), 15);
-            recipe.AddIngredient(ItemID.LunarBar, 5);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-        }
-    }
-
-    public class AbyssalDivingSuitHead : EquipTexture
-    {
-        public override bool DrawHead()
-        {
-            return false;
-        }
-    }
-
-    public class AbyssalDivingSuitBody : EquipTexture
-    {
-        public override bool DrawBody()
-        {
-            return false;
-        }
-    }
-
-    public class AbyssalDivingSuitLegs : EquipTexture
-    {
-        public override bool DrawLegs()
-        {
-            return false;
+            CreateRecipe().
+                AddIngredient<AbyssalDivingGear>().
+                AddIngredient<AnechoicPlating>().
+                AddIngredient<IronBoots>().
+                AddIngredient<MolluskHusk>(15).
+                AddIngredient<Lumenyl>(40).
+                AddIngredient<DepthCells>(40).
+                AddIngredient<Tenebris>(15).
+                AddIngredient(ItemID.LunarBar, 5).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

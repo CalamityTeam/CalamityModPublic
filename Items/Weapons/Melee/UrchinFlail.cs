@@ -1,4 +1,4 @@
-using CalamityMod.Projectiles.Melee;
+﻿using CalamityMod.Projectiles.Melee;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -11,27 +11,28 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             DisplayName.SetDefault("Urchin Flail");
             Tooltip.SetDefault("Launch an urchin ball, which shoots a spike on contact with an enemy");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 20;
-            item.melee = true;
-            item.width = 44;
-            item.height = 36;
-            item.useTime = 25;
-            item.useAnimation = 25;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.knockBack = 6f;
-            item.value = Item.buyPrice(0, 2, 0, 0);
-            item.rare = 2;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.channel = true;
-            item.shoot = ModContent.ProjectileType<UrchinBall>();
-            item.shootSpeed = 12f;
+            Item.damage = 33;
+            Item.DamageType = DamageClass.MeleeNoSpeed;
+            Item.width = 44;
+            Item.height = 36;
+            Item.useTime = 25;
+            Item.useAnimation = 25;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.knockBack = 6f;
+            Item.value = CalamityGlobalItem.Rarity2BuyPrice;
+            Item.rare = ItemRarityID.Green;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.channel = true;
+            Item.shoot = ModContent.ProjectileType<UrchinBall>();
+            Item.shootSpeed = 12f;
         }
     }
 }

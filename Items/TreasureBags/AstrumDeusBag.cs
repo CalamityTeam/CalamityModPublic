@@ -1,14 +1,17 @@
-using CalamityMod.Items.Accessories;
+﻿using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Pets;
+using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
-using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.NPCs.AstrumDeus;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -16,50 +19,70 @@ namespace CalamityMod.Items.TreasureBags
 {
     public class AstrumDeusBag : ModItem
     {
-        public override int BossBagNPC => ModContent.NPCType<AstrumDeusHeadSpectral>();
-
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Treasure Bag");
+            SacrificeTotal = 3;
+            DisplayName.SetDefault("Treasure Bag (Astrum Deus)");
             Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
+			ItemID.Sets.BossBag[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.maxStack = 999;
-            item.consumable = true;
-            item.width = 24;
-            item.height = 24;
-            item.expert = true;
-            item.rare = 9;
+            Item.maxStack = 999;
+            Item.consumable = true;
+            Item.width = 24;
+            Item.height = 24;
+            Item.expert = true;
+            Item.rare = ItemRarityID.Cyan;
         }
+
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = ContentSamples.CreativeHelper.ItemGroup.BossBags;
+		}
 
         public override bool CanRightClick() => true;
 
-        public override void PostUpdate() => CalamityUtils.ForceItemIntoWorld(item);
+		public override Color? GetAlpha(Color lightColor) => Color.Lerp(lightColor, Color.White, 0.4f);
 
-        public override void OpenBossBag(Player player)
+        public override void PostUpdate()
+		{
+			CalamityUtils.ForceItemIntoWorld(Item);
+			Item.TreasureBagLightAndDust();
+		}
+
+        public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
         {
-            player.TryGettingDevArmor();
+            return CalamityUtils.DrawTreasureBagInWorld(Item, spriteBatch, ref rotation, ref scale, whoAmI);
+        }
+
+        public override void ModifyItemLoot(ItemLoot itemLoot)
+        {
+			// Money
+			itemLoot.Add(ItemDropRule.CoinsBasedOnNPCValue(ModContent.NPCType<AstrumDeusHead>()));
 
             // Materials
-            DropHelper.DropItem(player, ModContent.ItemType<Stardust>(), 60, 90);
-            DropHelper.DropItem(player, ItemID.FallenStar, 100, 180);
+            itemLoot.Add(ModContent.ItemType<Stardust>(), 1, 60, 90);
+            itemLoot.Add(ItemID.FallenStar, 1, 30, 50);
 
             // Weapons
-            DropHelper.DropItemChance(player, ModContent.ItemType<TheMicrowave>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<StarSputter>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<Starfall>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<GodspawnHelixStaff>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<RegulusRiot>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<Quasar>(), DropHelper.RareVariantDropRateInt);
+            itemLoot.Add(DropHelper.CalamityStyle(DropHelper.BagWeaponDropRateFraction, new int[]
+            {
+                ModContent.ItemType<TheMicrowave>(),
+                ModContent.ItemType<StarSputter>(),
+                ModContent.ItemType<Starfall>(),
+                ModContent.ItemType<GodspawnHelixStaff>(),
+                ModContent.ItemType<RegulusRiot>()
+            }));
 
             // Equipment
-			DropHelper.DropItemRIV(player, ModContent.ItemType<AstralBulwark>(), ModContent.ItemType<HideofAstrumDeus>(), 1f, DropHelper.RareVariantDropRateFloat);
-            DropHelper.DropItemChance(player, ModContent.ItemType<ChromaticOrb>(), 5);
+            itemLoot.Add(ModContent.ItemType<HideofAstrumDeus>());
+            itemLoot.AddRevBagAccessories();
+            itemLoot.Add(ModContent.ItemType<ChromaticOrb>(), 5);
 
             // Vanity
-            DropHelper.DropItemChance(player, ModContent.ItemType<AstrumDeusMask>(), 7);
+            itemLoot.Add(ModContent.ItemType<AstrumDeusMask>(), 7);
         }
     }
 }

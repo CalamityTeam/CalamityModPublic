@@ -1,6 +1,7 @@
-
+﻿
 using Terraria;
-using Terraria.World.Generation;
+using Terraria.ID;
+using Terraria.WorldBuilding;
 
 namespace CalamityMod.World
 {
@@ -20,6 +21,21 @@ namespace CalamityMod.World
                 return _random.NextFloat(oneInThisValue) <= 1f;
             }
         }
+
+        public class IsWater : GenCondition
+        {
+            protected override bool CheckValidity(int x, int y)
+            {
+                Tile tile = CalamityUtils.ParanoidTileRetrieval(x, y);
+                return tile.LiquidAmount >= 200 && tile.LiquidType == LiquidID.Water;
+            }
+        }
+
+        public class SolidOrPlatform : GenCondition
+        {
+            protected override bool CheckValidity(int x, int y) => TileID.Sets.Platforms[CalamityUtils.ParanoidTileRetrieval(x, y).TileType] || WorldGen.SolidTile(x, y);
+        }
+
         public class IsNotTouchingAir : GenCondition
         {
             private bool _useDiagonals;
@@ -37,7 +53,7 @@ namespace CalamityMod.World
                             continue;
                         if (!WorldGen.InWorld(i, j))
                             continue;
-                        if (!_tiles[i, j].active())
+                        if (!_tiles[i, j].HasTile)
                         {
                             return false;
                         }

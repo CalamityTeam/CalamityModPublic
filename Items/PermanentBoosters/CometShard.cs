@@ -1,8 +1,11 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace CalamityMod.Items.PermanentBoosters
 {
@@ -12,18 +15,21 @@ namespace CalamityMod.Items.PermanentBoosters
         {
             DisplayName.SetDefault("Comet Shard");
             Tooltip.SetDefault("Permanently increases maximum mana by 50");
+            SacrificeTotal = 1;
+			// For some reason Life/Mana boosting items are in this set (along with Magic Mirror+)
+			ItemID.Sets.SortingPriorityBossSpawns[Type] = 19; // Mana Crystal
         }
 
         public override void SetDefaults()
         {
-            item.width = 20;
-            item.height = 20;
-            item.useAnimation = 30;
-            item.rare = 5;
-            item.useTime = 30;
-            item.useStyle = ItemUseStyleID.HoldingUp;
-            item.UseSound = SoundID.Item29;
-            item.consumable = true;
+            Item.width = 20;
+            Item.height = 20;
+            Item.useAnimation = 30;
+            Item.rare = ItemRarityID.LightRed;
+            Item.useTime = 30;
+            Item.useStyle = ItemUseStyleID.HoldUp;
+            Item.UseSound = SoundID.Item29;
+            Item.consumable = true;
         }
 
         public override bool CanUseItem(Player player)
@@ -31,16 +37,21 @@ namespace CalamityMod.Items.PermanentBoosters
             CalamityPlayer modPlayer = player.Calamity();
             if (modPlayer.cShard)
             {
+                string key = "Mods.CalamityMod.CometShardText";
+                Color messageColor = Color.DarkOrchid;
+                CalamityUtils.DisplayLocalizedText(key, messageColor);
+
+
                 return false;
             }
             return true;
         }
 
-        public override bool UseItem(Player player)
+        public override bool? UseItem(Player player)
         {
             if (player.itemAnimation > 0 && player.itemTime == 0)
             {
-                player.itemTime = item.useTime;
+                player.itemTime = Item.useTime;
                 if (Main.myPlayer == player.whoAmI)
                 {
                     player.ManaEffect(50);
@@ -51,15 +62,22 @@ namespace CalamityMod.Items.PermanentBoosters
             return true;
         }
 
+        public override void ModifyTooltips(List<TooltipLine> list)
+        {
+            TooltipLine line = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip2");
+
+            if (line != null && Main.LocalPlayer.Calamity().cShard)
+                line.Text = "[c/8a8a8a:You have already consumed this item]";
+        }
+
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.MeteoriteBar, 10);
-            recipe.AddIngredient(ItemID.FallenStar, 50);
-            recipe.AddIngredient(ModContent.ItemType<Stardust>(), 150);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient(ItemID.MeteoriteBar, 10).
+                AddIngredient(ItemID.FallenStar, 20).
+                AddIngredient<Stardust>(150).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

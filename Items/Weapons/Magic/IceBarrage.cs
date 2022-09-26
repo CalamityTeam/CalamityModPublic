@@ -1,9 +1,11 @@
-using CalamityMod.Items.Ammo;
+﻿using CalamityMod.Items.Ammo;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
-using CalamityMod.Tiles.Furniture.CraftingStations;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -11,76 +13,75 @@ namespace CalamityMod.Items.Weapons.Magic
 {
     public class IceBarrage : ModItem
     {
+        public static readonly SoundStyle CastSound = new("CalamityMod/Sounds/Item/IceBarrageCast");
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ice Barrage");
             Tooltip.SetDefault("Oh dear, you are dead!\n" +
-							   "Casts a deadly and powerful ice spell in the location of the cursor\n" +
-							   "This ice spell locks itself to the position of nearby enemies\n" +
-                               "Consumes 2 Blood Runes every time its used");
+                "Casts a deadly and powerful ice spell in the location of the cursor\n" +
+                "This ice spell locks itself to the position of nearby enemies\n" +
+                "Consumes 2 Blood Runes every time it's used");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.width = 60;
-            item.height = 60;
-            item.Calamity().customRarity = CalamityRarity.Dedicated;
-            item.value = Item.buyPrice(1, 80, 0, 0);
-            item.useStyle = ItemUseStyleID.HoldingUp;
-            item.magic = true;
-            item.mana = 180;
-            item.noMelee = true;
-            item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/IceBarrageCast");
+            Item.width = 60;
+            Item.height = 60;
+            Item.useStyle = ItemUseStyleID.HoldUp;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 180;
+            Item.noMelee = true;
+            Item.UseSound = CastSound;
 
-            item.damage = 5800;
-            item.knockBack = 6f;
-            item.useTime = 300;
-            item.useAnimation = 300;
-            item.reuseDelay = 60;
-            item.shoot = ModContent.ProjectileType<IceBarrageMain>();
-            item.shootSpeed = 2f;
-            item.useAmmo = ModContent.ItemType<BloodRune>();
+            Item.value = CalamityGlobalItem.Rarity14BuyPrice;
+            Item.rare = ModContent.RarityType<DarkBlue>();
+            Item.Calamity().donorItem = true;
+
+            Item.damage = 2250;
+            Item.knockBack = 6f;
+            Item.useTime = 300;
+            Item.useAnimation = 300;
+            Item.reuseDelay = 60;
+            Item.shoot = ModContent.ProjectileType<IceBarrageMain>();
+            Item.shootSpeed = 2f;
+            Item.useAmmo = ModContent.ItemType<BloodRune>();
         }
 
-        public override bool CanUseItem(Player player)
-        {
-            return CalamityGlobalItem.HasEnoughAmmo(player, item, 2);
-        }
+        public override bool CanUseItem(Player player) => CalamityGlobalItem.HasEnoughAmmo(player, Item, 2);
 
-        public override bool ConsumeAmmo(Player player)
-        {
-            return false;
-        }
+        public override bool CanConsumeAmmo(Item ammo, Player player) => false;
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
             vector2.X = Main.mouseX + Main.screenPosition.X;
             vector2.Y = Main.mouseY + Main.screenPosition.Y;
-            Projectile.NewProjectile(vector2, Vector2.Zero, type, damage, knockBack, player.whoAmI, 0f, 0f);
+            Projectile.NewProjectile(source, vector2, Vector2.Zero, type, damage, knockback, player.whoAmI, 0f, 0f);
 
-            CalamityGlobalItem.ConsumeAdditionalAmmo(player, item, 2);
+            CalamityGlobalItem.ConsumeAdditionalAmmo(player, Item, 2);
 
             return false;
         }
 
-        public override void AddRecipes()
-        {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.BlizzardStaff);
-            recipe.AddIngredient(ItemID.IceRod);
-            recipe.AddIngredient(ModContent.ItemType<IcicleStaff>());
-            recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 23);
-            recipe.AddIngredient(ModContent.ItemType<CryoBar>(), 18);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-        }
-
-        public override void UseStyle(Player player)
+        public override void UseStyle(Player player, Rectangle rectangle)
         {
             player.itemLocation.X -= 8f * player.direction;
             player.itemRotation = player.direction * MathHelper.ToRadians(-45f);
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient(ItemID.BlizzardStaff).
+                AddIngredient(ItemID.IceRod).
+                AddIngredient<IcicleStaff>().
+                AddIngredient<CosmiliteBar>(8).
+                AddIngredient<EndothermicEnergy>(40).
+                AddIngredient<CryonicBar>(18).
+                AddTile(TileID.IceMachine).
+                Register();
         }
     }
 }

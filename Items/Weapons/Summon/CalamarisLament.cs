@@ -1,4 +1,6 @@
+﻿using Terraria.DataStructures;
 using CalamityMod.Projectiles.Summon;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -12,36 +14,38 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             DisplayName.SetDefault("Calamari's Lament");
             Tooltip.SetDefault("Summons a squid to fight for you");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 158;
-            item.mana = 10;
-            item.width = 62;
-            item.height = 62;
-            item.useTime = item.useAnimation = 10;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.noMelee = true;
-            item.knockBack = 2.5f;
-            item.value = Item.buyPrice(1, 40, 0, 0);
-            item.rare = 10;
-            item.UseSound = SoundID.Item83;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<CalamariMinion>();
-            item.shootSpeed = 10f;
-            item.summon = true;
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
+            Item.damage = 110;
+            Item.mana = 10;
+            Item.width = 62;
+            Item.height = 62;
+            Item.useTime = Item.useAnimation = 10;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.noMelee = true;
+            Item.knockBack = 2.5f;
+            Item.value = CalamityGlobalItem.Rarity14BuyPrice;
+            Item.UseSound = SoundID.Item83;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<CalamariMinion>();
+            Item.shootSpeed = 10f;
+            Item.DamageType = DamageClass.Summon;
+            Item.rare = ModContent.RarityType<PureGreen>();
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.altFunctionUse != 2)
             {
                 position = Main.MouseWorld;
-                speedX = 0;
-                speedY = 0;
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
+                velocity.X = 0;
+                velocity.Y = 0;
+                int p = Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, type, damage, knockback, player.whoAmI);
+                if (Main.projectile.IndexInRange(p))
+                    Main.projectile[p].originalDamage = Item.damage;
             }
             return false;
         }

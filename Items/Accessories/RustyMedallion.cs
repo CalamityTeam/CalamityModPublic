@@ -1,3 +1,4 @@
+﻿using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using Terraria;
@@ -10,32 +11,35 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Rusty Medallion");
-            Tooltip.SetDefault("Causes most ranged weapons to sometimes release acid droplets from the sky");
+            Tooltip.SetDefault("Causes most ranged weapons to sometimes release acid droplets from the sky\n" +
+                "Grants immunity to Irradiated");
         }
 
         public override void SetDefaults()
         {
-            item.width = 18;
-            item.height = 32;
-            item.rare = 1;
-            item.value = CalamityGlobalItem.Rarity1BuyPrice;
-            item.accessory = true;
+            Item.width = 18;
+            Item.height = 32;
+            Item.rare = ItemRarityID.Blue;
+            Item.value = CalamityGlobalItem.Rarity1BuyPrice;
+            Item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.rustyMedal = true;
+            player.buffImmune[ModContent.BuffType<Irradiated>()] = true;
         }
+
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<SulfuricScale>(), 20);
-            recipe.AddRecipeGroup("IronBar", 10);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient<SulphuricScale>(20).
+                AddRecipeGroup("AnySilverBar", 10).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

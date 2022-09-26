@@ -1,3 +1,4 @@
+﻿using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Summon;
 using Microsoft.Xna.Framework;
@@ -13,49 +14,51 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             DisplayName.SetDefault("Dank Staff");
             Tooltip.SetDefault("Summons a dank creeper to fight for you");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 7;
-            item.mana = 10;
-            item.width = 58;
-            item.height = 58;
-            item.useTime = item.useAnimation = 30;
-            item.scale = 0.85f;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.noMelee = true;
-            item.knockBack = 2.25f;
-            item.value = Item.buyPrice(0, 4, 0, 0);
-            item.rare = 3;
-            item.UseSound = SoundID.Item44;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<DankCreeperMinion>();
-            item.shootSpeed = 10f;
-            item.summon = true;
+            Item.damage = 7;
+            Item.mana = 10;
+            Item.width = 58;
+            Item.height = 58;
+            Item.useTime = Item.useAnimation = 30;
+            Item.scale = 0.85f;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.noMelee = true;
+            Item.knockBack = 2.25f;
+            Item.value = CalamityGlobalItem.Rarity3BuyPrice;
+            Item.rare = ItemRarityID.Orange;
+            Item.UseSound = SoundID.Item44;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<DankCreeperMinion>();
+            Item.shootSpeed = 10f;
+            Item.DamageType = DamageClass.Summon;
         }
 
-        public override void AddRecipes()
-        {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.RottenChunk, 3);
-            recipe.AddIngredient(ItemID.DemoniteBar, 8);
-            recipe.AddIngredient(ModContent.ItemType<TrueShadowScale>(), 7);
-            recipe.AddTile(TileID.DemonAltar);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-        }
-
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.altFunctionUse != 2)
             {
                 position = Main.MouseWorld;
-                speedX = 0;
-                speedY = 0;
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
+                velocity.X = 0;
+                velocity.Y = 0;
+                int p = Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, type, damage, knockback, player.whoAmI);
+                if (Main.projectile.IndexInRange(p))
+                    Main.projectile[p].originalDamage = Item.damage;
             }
             return false;
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient(ItemID.RottenChunk, 3).
+                AddIngredient(ItemID.DemoniteBar, 8).
+                AddIngredient<RottenMatter>(7).
+                AddTile(TileID.DemonAltar).
+                Register();
         }
     }
 }

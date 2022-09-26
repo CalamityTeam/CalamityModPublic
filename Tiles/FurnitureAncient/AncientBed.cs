@@ -1,21 +1,23 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
+using Terraria.GameContent;
+using Terraria.GameContent.ObjectInteractions;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureAncient
 {
     public class AncientBed : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpBed(true);
             ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Ancient Bed");
+            name.SetDefault("Bed");
             AddMapEntry(new Color(191, 142, 111), name);
-            disableSmartCursor = true;
-            adjTiles = new int[] { TileID.Beds };
-            bed = true;
+            AdjTiles = new int[] { TileID.Beds };
         }
 
         public override bool CreateDust(int i, int j, ref int type)
@@ -30,27 +32,51 @@ namespace CalamityMod.Tiles.FurnitureAncient
             num = fail ? 1 : 3;
         }
 
-        public override bool HasSmartInteract()
-        {
-            return true;
-        }
+        public override bool HasSmartInteract(int i, int j, SmartInteractScanSettings settings) => true;
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 64, 32, ModContent.ItemType<Items.Placeables.FurnitureAncient.AncientBed>());
+            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 64, 32, ModContent.ItemType<Items.Placeables.FurnitureAncient.AncientBed>());
         }
 
-        public override bool NewRightClick(int i, int j)
-        {
-            return CalamityUtils.BedRightClick(i, j);
-        }
-
-        public override void MouseOver(int i, int j)
+        public override bool RightClick(int i, int j)
         {
             Player player = Main.LocalPlayer;
-            player.noThrow = 2;
-            player.showItemIcon = true;
-            player.showItemIcon2 = ModContent.ItemType<Items.Placeables.FurnitureAncient.AncientBed>();
+            Tile tile = Main.tile[i , j];
+            int spawnX = i - tile.TileFrameX / 18 + (tile.TileFrameX >= 72 ? 5 : 2);
+            int spawnY = j + 2;
+            if (tile.TileFrameY % 38 != 0)
+            {
+                spawnY--;
+            }
+
+            if (!Player.IsHoveringOverABottomSideOfABed(i, j))
+            {
+                if (player.IsWithinSnappngRangeToTile(i, j, PlayerSleepingHelper.BedSleepingMaxDistance))
+                {
+                    player.GamepadEnableGrappleCooldown();
+                    player.sleeping.StartSleeping(player, i, j - 1);
+                }
+            }
+            else
+            {
+                player.FindSpawn();
+
+                if (player.SpawnX == spawnX && player.SpawnY == spawnY)
+                {
+                    player.RemoveSpawn();
+                    Main.NewText(Language.GetTextValue("Game.SpawnPointRemoved"), byte.MaxValue, 240, 20);
+                }
+                else if (Player.CheckSpawn(spawnX, spawnY))
+                {
+                    player.ChangeSpawn(spawnX, spawnY);
+                    Main.NewText(Language.GetTextValue("Game.SpawnPointSet"), byte.MaxValue, 240, 20);
+                }
+            }
+
+            return true;
         }
+
+        public override void MouseOver(int i, int j) => CalamityUtils.MouseOver(i, j, ModContent.ItemType<Items.Placeables.FurnitureAncient.AncientBed>());
     }
 }

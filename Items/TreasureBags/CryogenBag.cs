@@ -1,5 +1,4 @@
-
-using CalamityMod.Items.Accessories;
+﻿using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Accessories.Wings;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.Materials;
@@ -9,8 +8,10 @@ using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.NPCs.Cryogen;
-using CalamityMod.World;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -18,59 +19,66 @@ namespace CalamityMod.Items.TreasureBags
 {
     public class CryogenBag : ModItem
     {
-        public override int BossBagNPC => ModContent.NPCType<Cryogen>();
-
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Treasure Bag");
+            SacrificeTotal = 3;
+            DisplayName.SetDefault("Treasure Bag (Cryogen)");
             Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
+			ItemID.Sets.BossBag[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.maxStack = 999;
-            item.consumable = true;
-            item.width = 24;
-            item.height = 24;
-            item.rare = 9;
-            item.expert = true;
+            Item.maxStack = 999;
+            Item.consumable = true;
+            Item.width = 24;
+            Item.height = 24;
+            Item.rare = ItemRarityID.Cyan;
+            Item.expert = true;
         }
 
-        public override bool CanRightClick()
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = ContentSamples.CreativeHelper.ItemGroup.BossBags;
+		}
+
+        public override bool CanRightClick() => true;
+
+		public override Color? GetAlpha(Color lightColor) => Color.Lerp(lightColor, Color.White, 0.4f);
+
+        public override void PostUpdate() => Item.TreasureBagLightAndDust();
+
+        public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
         {
-            return true;
+            return CalamityUtils.DrawTreasureBagInWorld(Item, spriteBatch, ref rotation, ref scale, whoAmI);
         }
 
-        public override void OpenBossBag(Player player)
+        public override void ModifyItemLoot(ItemLoot itemLoot)
         {
-            player.TryGettingDevArmor();
+			// Money
+			itemLoot.Add(ItemDropRule.CoinsBasedOnNPCValue(ModContent.NPCType<Cryogen>()));
 
             // Materials
-            DropHelper.DropItem(player, ModContent.ItemType<CryoBar>(), 20, 40);
-            DropHelper.DropItem(player, ModContent.ItemType<EssenceofEleum>(), 5, 9);
-            DropHelper.DropItem(player, ItemID.FrostCore);
+            itemLoot.Add(ModContent.ItemType<EssenceofEleum>(), 1, 5, 9);
 
             // Weapons
-            DropHelper.DropItemChance(player, ModContent.ItemType<Avalanche>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<GlacialCrusher>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<EffluviumBow>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<BittercoldStaff>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<SnowstormStaff>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<Icebreaker>(), 3);
-            float divinityChance = DropHelper.LegendaryDropRateFloat;
-            DropHelper.DropItemCondition(player, ModContent.ItemType<ColdDivinity>(), CalamityWorld.revenge, divinityChance);
+            itemLoot.Add(DropHelper.CalamityStyle(DropHelper.BagWeaponDropRateFraction, new int[]
+            {
+                ModContent.ItemType<Avalanche>(),
+                ModContent.ItemType<Icebreaker>(),
+                ModContent.ItemType<EffluviumBow>(),
+                ModContent.ItemType<SnowstormStaff>(),
+            }));
+            itemLoot.Add(ModContent.ItemType<ColdDivinity>(), 10);
 
             // Equipment
-            DropHelper.DropItem(player, ModContent.ItemType<SoulofCryogen>());
-            DropHelper.DropItemCondition(player, ModContent.ItemType<FrostFlare>(), CalamityWorld.revenge);
-            DropHelper.DropItemChance(player, ModContent.ItemType<CryoStone>(), 10);
-            DropHelper.DropItemChance(player, ModContent.ItemType<Regenator>(), DropHelper.RareVariantDropRateInt);
+            itemLoot.Add(ModContent.ItemType<SoulofCryogen>());
+            itemLoot.Add(ModContent.ItemType<CryoStone>(), DropHelper.BagWeaponDropRateFraction);
+            itemLoot.Add(ModContent.ItemType<FrostFlare>(), DropHelper.BagWeaponDropRateFraction);
+            itemLoot.AddRevBagAccessories();
 
             // Vanity
-            DropHelper.DropItemChance(player, ModContent.ItemType<CryogenMask>(), 7);
-
-            // Other
-            DropHelper.DropItemChance(player, ItemID.FrozenKey, 5);
+            itemLoot.Add(ModContent.ItemType<CryogenMask>(), 7);
         }
     }
 }

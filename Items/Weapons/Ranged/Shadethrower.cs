@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -13,26 +13,27 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             DisplayName.SetDefault("Shadethrower");
             Tooltip.SetDefault("66% chance to not consume gel");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 16;
-            item.ranged = true;
-            item.width = 76;
-            item.height = 30;
-            item.useTime = 10;
-            item.useAnimation = 30;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 1.5f;
-            item.UseSound = SoundID.Item34;
-            item.value = Item.buyPrice(0, 4, 0, 0);
-            item.rare = 3;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<ShadeFire>();
-            item.shootSpeed = 5.5f;
-            item.useAmmo = 23;
+            Item.damage = 24;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 76;
+            Item.height = 30;
+            Item.useTime = 10;
+            Item.useAnimation = 10;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 1.5f;
+            Item.UseSound = SoundID.Item34;
+            Item.value = CalamityGlobalItem.Rarity3BuyPrice;
+            Item.rare = ItemRarityID.Orange;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<ShadeFire>();
+            Item.shootSpeed = 8f;
+            Item.useAmmo = AmmoID.Gel;
         }
 
         public override Vector2? HoldoutOffset()
@@ -40,7 +41,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             return new Vector2(-5, 0);
         }
 
-        public override bool ConsumeAmmo(Player player)
+        public override bool CanConsumeAmmo(Item ammo, Player player)
         {
             if (Main.rand.Next(0, 100) < 66)
                 return false;
@@ -49,13 +50,12 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.RottenChunk, 3);
-            recipe.AddIngredient(ItemID.DemoniteBar, 7);
-            recipe.AddIngredient(ModContent.ItemType<TrueShadowScale>(), 10);
-            recipe.AddTile(TileID.DemonAltar);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient(ItemID.RottenChunk, 3).
+                AddIngredient(ItemID.DemoniteBar, 7).
+                AddIngredient<RottenMatter>(10).
+                AddTile(TileID.DemonAltar).
+                Register();
         }
     }
 }

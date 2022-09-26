@@ -1,47 +1,53 @@
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
+using CalamityMod.Sounds;
+
 namespace CalamityMod.Projectiles.Enemy
 {
     public class DraedonLaser : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/LaserProj";
+
+        // The DrawBeam method relies on localAI[0] for its calculations. A different parameter won't work.
         public float TrailLength
         {
-            get => projectile.ai[0];
-            set => projectile.ai[0] = value;
+            get => Projectile.localAI[0];
+            set => Projectile.localAI[0] = value;
         }
         public const int MaxTrailPoints = 50;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Laser");
+            DisplayName.SetDefault("Lab Turret Laser");
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 6;
-            projectile.height = 6;
-            projectile.hostile = true;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
-            projectile.alpha = 255;
-            projectile.penetrate = 1;
-            projectile.extraUpdates = 4;
-            projectile.timeLeft = 240;
+            Projectile.width = 6;
+            Projectile.height = 6;
+            Projectile.hostile = true;
+            Projectile.tileCollide = true;
+            Projectile.ignoreWater = true;
+            Projectile.alpha = 255;
+            Projectile.penetrate = 1;
+            Projectile.extraUpdates = 4;
+            Projectile.timeLeft = 240;
         }
 
         public override void AI()
         {
-            if (projectile.localAI[0] == 0f)
+            if (Projectile.localAI[0] == 0f)
             {
-                Main.PlaySound(SoundID.Item12, (int)projectile.Center.X, (int)projectile.Center.Y);
-                projectile.localAI[0] = 1f;
+                // play a sound frame 1. changed this from space gun sound because that sound was way too annoying
+                var sound = SoundEngine.PlaySound(CommonCalamitySounds.LaserCannonSound with { Volume = CommonCalamitySounds.LaserCannonSound.Volume * 0.35f}, Projectile.Center);
+
+                Projectile.localAI[0] = 1f;
             }
-            projectile.alpha = (int)(Math.Sin(projectile.timeLeft / 240f * MathHelper.Pi) * 1.6f * 255f);
-            if (projectile.alpha > 255)
-                projectile.alpha = 255;
+            Projectile.alpha = (int)(Math.Sin(Projectile.timeLeft / 240f * MathHelper.Pi) * 1.6f * 255f);
+            if (Projectile.alpha > 255)
+                Projectile.alpha = 255;
             TrailLength += 1.5f;
             if (TrailLength > MaxTrailPoints)
             {
@@ -51,32 +57,6 @@ namespace CalamityMod.Projectiles.Enemy
 
         public override Color? GetAlpha(Color lightColor) => new Color(255, 190, 255, 0);
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-        {
-            Texture2D texture = ModContent.GetTexture(Texture);
-            float adjustedXOrigin = (texture.Width - projectile.width) * 0.5f + projectile.width * 0.5f;
-            SpriteEffects spriteEffects = SpriteEffects.None;
-            if (projectile.spriteDirection == -1)
-            {
-                spriteEffects = SpriteEffects.FlipHorizontally;
-            }
-            Rectangle roughScreenBounds = new Rectangle((int)Main.screenPosition.X - 500, (int)Main.screenPosition.Y - 500, Main.screenWidth + 1000, Main.screenHeight + 1000);
-            // Only draw when within the bounds of the screen for performance reasons.
-            if (projectile.Hitbox.Intersects(roughScreenBounds))
-            {
-                Vector2 drawPosition = new Vector2(projectile.position.X + adjustedXOrigin, projectile.position.Y + projectile.height / 2) - Main.screenPosition;
-                drawPosition += Vector2.UnitY * projectile.gfxOffY;
-                for (int i = 1; i <= (int)TrailLength; i++)
-                {
-                    Vector2 drawOffset = Vector2.Normalize(projectile.velocity) * i * 1.5f;
-                    Color drawColor = projectile.GetAlpha(lightColor); // The parameter doesn't really matter. The lightColor parameter in GetAlpha is ignored in this case.
-                    drawColor.A = (byte)(255 - projectile.alpha);
-                    drawColor *= (MaxTrailPoints - i) / (float)MaxTrailPoints;
-                    float scale = MathHelper.Lerp(0.45f, 1f, 1f - i / TrailLength) * projectile.scale;
-                    spriteBatch.Draw(texture, drawPosition - drawOffset, null, drawColor, projectile.rotation, new Vector2(adjustedXOrigin, projectile.height * 0.5f), scale, spriteEffects, 0f);
-                }
-            }
-            return false;
-        }
+        public override bool PreDraw(ref Color lightColor) => Projectile.DrawBeam(MaxTrailPoints, 1.5f, lightColor);
     }
 }

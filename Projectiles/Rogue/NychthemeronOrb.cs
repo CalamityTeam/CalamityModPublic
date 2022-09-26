@@ -1,4 +1,4 @@
-
+﻿
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -20,15 +20,15 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetDefaults()
         {
-            projectile.width = 10;
-            projectile.height = 10;
-            projectile.friendly = true;
-            projectile.tileCollide = false;
-            projectile.penetrate = -1;
-            projectile.timeLeft = 600;
-            projectile.Calamity().rogue = true;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
+            Projectile.width = 10;
+            Projectile.height = 10;
+            Projectile.friendly = true;
+            Projectile.tileCollide = false;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft = 600;
+            Projectile.DamageType = RogueDamageClass.Instance;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
         }
 
         public override void AI()
@@ -37,41 +37,43 @@ namespace CalamityMod.Projectiles.Rogue
             for (int i = 0; i < Main.projectile.Length; i++)
             {
                 Projectile p = Main.projectile[i];
-                if (p.identity == projectile.ai[1] && p.active)
+                if (p.identity == Projectile.ai[1] && p.active)
                 {
                     isActive = true;
                 }
             }
             if (!isActive)
             {
-                projectile.localAI[0] = 1f;
-                projectile.penetrate = 1;
+                Projectile.localAI[0] = 1f;
+                Projectile.penetrate = 1;
             }
 
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
 
-            if (projectile.localAI[0] == 0f)
+            if (Projectile.localAI[0] == 0f)
             {
                 // Orbit
-                projectile.rotation += rotationSpeeds[(int)projectile.localAI[1]];
+                Projectile.rotation += rotationSpeeds[(int)Projectile.localAI[1]];
 
                 Vector2 relativePos = new Vector2(0, -1);
-                relativePos *= playerDists[(int)projectile.localAI[1]];
-                relativePos = relativePos.RotatedBy(projectile.rotation);
-                projectile.Center = player.Center + relativePos;
-                velocity = projectile.position - projectile.oldPosition;
+                relativePos *= playerDists[(int)Projectile.localAI[1]];
+                relativePos = relativePos.RotatedBy(Projectile.rotation);
+                Projectile.Center = player.Center + relativePos;
+                velocity = Projectile.position - Projectile.oldPosition;
             }
-            else if (projectile.localAI[0] == 1f)
+            else if (Projectile.localAI[0] == 1f)
             {
+                if (Projectile.timeLeft > 240 && Projectile.Calamity().lineColor == 1)
+                    Projectile.timeLeft = 240;
                 // Follow Enemy
                 float minDist = 999f;
                 int index = 0;
                 for (int i = 0; i < Main.npc.Length; i++)
                 {
                     NPC npc = Main.npc[i];
-                    if (!npc.friendly && !npc.townNPC && npc.active && !npc.dontTakeDamage && npc.chaseable)
+                    if (npc.CanBeChasedBy(Projectile, false))
                     {
-                        float dist = (projectile.Center - npc.Center).Length();
+                        float dist = (Projectile.Center - npc.Center).Length();
                         if (dist < minDist)
                         {
                             minDist = dist;
@@ -83,40 +85,35 @@ namespace CalamityMod.Projectiles.Rogue
                 Vector2 velocityNew;
                 if (minDist < 999f)
                 {
-                    velocityNew = Main.npc[index].Center - projectile.Center;
+                    velocityNew = Main.npc[index].Center - Projectile.Center;
                     velocityNew.Normalize();
-                    projectile.velocity += velocityNew;
-                    if (projectile.velocity.Length() > 10f)
+                    Projectile.velocity += velocityNew;
+                    if (Projectile.velocity.Length() > 10f)
                     {
-                        projectile.velocity.Normalize();
-                        projectile.velocity *= 10f;
+                        Projectile.velocity.Normalize();
+                        Projectile.velocity *= 10f;
                     }
-                    velocity = projectile.velocity;
+                    velocity = Projectile.velocity;
                 }
                 else
                 {
-                    projectile.velocity = velocity;
+                    Projectile.velocity = velocity;
                 }
             }
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D texLight = Main.projectileTexture[projectile.type];
-            Texture2D texDark = ModContent.GetTexture("CalamityMod/Projectiles/Rogue/NychthemeronOrb2");
-            if (projectile.ai[0] == 0f)
+            Texture2D texLight = ModContent.Request<Texture2D>(Texture).Value;
+            Texture2D texDark = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Rogue/NychthemeronOrb2").Value;
+            if (Projectile.ai[0] == 0f)
             {
-                spriteBatch.Draw(texLight, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(lightColor), projectile.rotation, texLight.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
+                Main.EntitySpriteDraw(texLight, Projectile.Center - Main.screenPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation, texLight.Size() / 2f, Projectile.scale, SpriteEffects.None, 0);
             }
-            else if (projectile.ai[0] == 1f)
+            else if (Projectile.ai[0] == 1f)
             {
-                spriteBatch.Draw(texDark, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(lightColor), projectile.rotation, texDark.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
+                Main.EntitySpriteDraw(texDark, Projectile.Center - Main.screenPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation, texDark.Size() / 2f, Projectile.scale, SpriteEffects.None, 0);
             }
-            return false;
-        }
-
-        public override bool OnTileCollide(Vector2 oldVelocity)
-        {
             return false;
         }
     }

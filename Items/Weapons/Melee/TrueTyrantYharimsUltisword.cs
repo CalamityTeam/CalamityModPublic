@@ -1,9 +1,10 @@
-using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatBuffs;
+﻿using CalamityMod.Buffs.StatBuffs;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -17,29 +18,29 @@ namespace CalamityMod.Items.Weapons.Melee
             Tooltip.SetDefault("Fires blazing, hyper, and sunlight blades\n" +
                 "Gives the player the tyrant's fury buff on enemy hits\n" +
                 "This buff increases melee damage by 30% and melee crit chance by 10%");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.width = 102;
-            item.damage = 185;
-            item.melee = true;
-            item.useAnimation = 18;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 18;
-            item.useTurn = true;
-            item.knockBack = 7.5f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 102;
-            item.value = Item.buyPrice(1, 20, 0, 0);
-            item.rare = 10;
-            item.shoot = ModContent.ProjectileType<BlazingPhantomBlade>();
-            item.shootSpeed = 12f;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.width = 102;
+            Item.damage = 112;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = 18;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 18;
+            Item.useTurn = true;
+            Item.knockBack = 7.5f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.height = 102;
+            Item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            Item.rare = ModContent.RarityType<Turquoise>();
+            Item.shoot = ModContent.ProjectileType<BlazingPhantomBlade>();
+            Item.shootSpeed = 12f;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             switch (Main.rand.Next(3))
             {
@@ -55,19 +56,9 @@ namespace CalamityMod.Items.Weapons.Melee
                 default:
                     break;
             }
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, Main.myPlayer);
+            int proj = Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, type, damage, knockback, Main.myPlayer);
+            Main.projectile[proj].extraUpdates += 1;
             return false;
-        }
-
-        public override void AddRecipes()
-        {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<TyrantYharimsUltisword>());
-            recipe.AddIngredient(ModContent.ItemType<CoreofCalamity>());
-            recipe.AddIngredient(ModContent.ItemType<UeliaceBar>(), 15);
-            recipe.AddTile(TileID.DemonAltar);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)
@@ -81,15 +72,25 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
             player.AddBuff(ModContent.BuffType<TyrantsFury>(), 300);
-            target.AddBuff(BuffID.OnFire, 300);
-            target.AddBuff(BuffID.Venom, 300);
+            target.AddBuff(BuffID.Poisoned, 300);
+            target.AddBuff(BuffID.Venom, 150);
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
             player.AddBuff(ModContent.BuffType<TyrantsFury>(), 300);
-            target.AddBuff(BuffID.OnFire, 300);
-            target.AddBuff(BuffID.Venom, 300);
+            target.AddBuff(BuffID.Poisoned, 300);
+            target.AddBuff(BuffID.Venom, 150);
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient<TyrantYharimsUltisword>().
+                AddIngredient<CoreofCalamity>().
+                AddIngredient<UelibloomBar>(15).
+                AddTile(TileID.DemonAltar).
+                Register();
         }
     }
 }

@@ -1,21 +1,22 @@
-using CalamityMod.Dusts.Furniture;
+﻿using CalamityMod.Dusts.Furniture;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
+using Terraria.GameContent;
+using Terraria.GameContent.ObjectInteractions;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureSilva
 {
     public class SilvaChair : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
-            this.SetUpChair();
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Silva Chair");
-            AddMapEntry(new Color(191, 142, 111), name);
-            disableSmartCursor = true;
-            adjTiles = new int[] { TileID.Chairs };
+            this.SetUpChair(true);
+            AddMapEntry(new Color(191, 142, 111), Language.GetText("MapObject.Chair"));
+            AdjTiles = new int[] { TileID.Chairs };
         }
 
         public override bool CreateDust(int i, int j, ref int type)
@@ -32,7 +33,18 @@ namespace CalamityMod.Tiles.FurnitureSilva
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 16, 32, ModContent.ItemType<Items.Placeables.FurnitureSilva.SilvaChair>());
+            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 32, ModContent.ItemType<Items.Placeables.FurnitureSilva.SilvaChair>());
+        }
+
+        public override void ModifySittingTargetInfo(int i, int j, ref TileRestingInfo info) => CalamityUtils.ChairSitInfo(i, j, ref info);
+
+        public override bool RightClick(int i, int j) => CalamityUtils.ChairRightClick(i, j);
+
+        public override void MouseOver(int i, int j) => CalamityUtils.ChairMouseOver(i, j, ModContent.ItemType<Items.Placeables.FurnitureSilva.SilvaChair>());
+
+        public override bool HasSmartInteract(int i, int j, SmartInteractScanSettings settings)
+        {
+            return settings.player.IsWithinSnappngRangeToTile(i, j, PlayerSittingHelper.ChairSittingMaxDistance);
         }
     }
 }

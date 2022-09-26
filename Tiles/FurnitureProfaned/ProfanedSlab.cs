@@ -1,4 +1,4 @@
-
+﻿
 using CalamityMod.Dusts.Furniture;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles.FurnitureProfaned
 {
     public class ProfanedSlab : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileSolid[Type] = true;
             Main.tileBlockLight[Type] = true;
@@ -19,12 +19,11 @@ namespace CalamityMod.Tiles.FurnitureProfaned
             CalamityUtils.MergeSmoothTiles(Type);
             CalamityUtils.SetMerge(Type, ModContent.TileType<ProfanedRock>());
 
-            soundType = SoundID.Tink;
-            mineResist = 4f;
-            minPick = 225;
-            drop = ModContent.ItemType<Items.Placeables.FurnitureProfaned.ProfanedSlab>();
+            HitSound = SoundID.Tink;
+            MineResist = 4f;
+            ItemDrop = ModContent.ItemType<Items.Placeables.FurnitureProfaned.ProfanedSlab>();
             AddMapEntry(new Color(122, 66, 59));
-            animationFrameHeight = 90;
+            AnimationFrameHeight = 90;
         }
         int animationFrameWidth = 234;
 
@@ -37,7 +36,7 @@ namespace CalamityMod.Tiles.FurnitureProfaned
         public override void AnimateIndividualTile(int type, int i, int j, ref int frameXOffset, ref int frameYOffset)
         {
             frameXOffset = i % 4 * animationFrameWidth;
-            frameYOffset = j % 4 * animationFrameHeight;
+            frameYOffset = j % 4 * AnimationFrameHeight;
         }
     }
 }

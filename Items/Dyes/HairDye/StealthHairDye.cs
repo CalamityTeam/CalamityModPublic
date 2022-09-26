@@ -1,4 +1,4 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -11,19 +11,20 @@ namespace CalamityMod.Items.Dyes.HairDye
             DisplayName.SetDefault("Stealth Hair Dye");
         }
 
-		public override void SetDefaults()
-		{
-			item.width = 20;
-			item.height = 26;
-			item.maxStack = 99;
-			item.value = Item.buyPrice(gold: 5);
-			item.rare = 2;
-			item.UseSound = SoundID.Item3;
-			item.useStyle = ItemUseStyleID.EatingUsing;
-			item.useTurn = true;
-			item.useAnimation = 17;
-			item.useTime = 17;
-			item.consumable = true;
-		}
-	}
+        public override void SetDefaults()
+        {
+            Item.width = 20;
+            Item.height = 26;
+            Item.maxStack = 99;
+            Item.value = Item.buyPrice(gold: 5);
+            Item.rare = ItemRarityID.Green;
+            Item.UseSound = SoundID.Item3;
+            Item.useStyle = ItemUseStyleID.DrinkLiquid;
+            Item.useTurn = true;
+            Item.useAnimation = 17;
+            Item.useTime = 17;
+            Item.consumable = true;
+            SacrificeTotal = 1;
+        }
+    }
 }

@@ -1,3 +1,4 @@
+﻿using Terraria.DataStructures;
 using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -12,48 +13,48 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             DisplayName.SetDefault("Metal Monstrosity");
             Tooltip.SetDefault("This has to hurt\n" +
-							   "Hurls a heavy metal ball that shatters on impact\n" +
+                               "Hurls a heavy metal ball that shatters on impact\n" +
                                "Stealth strikes cause the ball to release spikes as it travels");
+            SacrificeTotal = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
-            item.width = 32;
-            item.height = 32;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.autoReuse = true;
-            item.noUseGraphic = true;
-            item.noMelee = true;
-            item.UseSound = SoundID.Item1;
-            item.rare = 3;
-            item.value = Item.buyPrice(0, 4, 0, 0);
+            Item.width = 32;
+            Item.height = 32;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.autoReuse = true;
+            Item.noUseGraphic = true;
+            Item.noMelee = true;
+            Item.UseSound = SoundID.Item1;
+            Item.rare = ItemRarityID.Orange;
+            Item.value = CalamityGlobalItem.Rarity3BuyPrice;
 
-            item.damage = 30;
-            item.useAnimation = 40;
-            item.useTime = 40;
-            item.knockBack = 7f;
-            item.shoot = ModContent.ProjectileType<MetalChunk>();
-            item.shootSpeed = 7f;
+            Item.damage = 30;
+            Item.useAnimation = 40;
+            Item.useTime = 40;
+            Item.knockBack = 7f;
+            Item.shoot = ModContent.ProjectileType<MetalChunk>();
+            Item.shootSpeed = 7f;
 
-            item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<MetalChunk>(), damage, knockBack, player.whoAmI, 0f, 0f);
-            if (player.Calamity().StealthStrikeAvailable())
+            int proj = Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<MetalChunk>(), damage, knockback, player.whoAmI);
+            if (player.Calamity().StealthStrikeAvailable() && proj.WithinBounds(Main.maxProjectiles))
                 Main.projectile[proj].Calamity().stealthStrike = true;
             return false;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.SpikyBall, 500);
-            recipe.AddIngredient(ItemID.Spike, 80);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient(ItemID.SpikyBall, 500).
+                AddIngredient(ItemID.Spike, 80).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

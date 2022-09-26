@@ -1,4 +1,4 @@
-using CalamityMod.Projectiles.Ranged;
+﻿using CalamityMod.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -12,25 +12,26 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             DisplayName.SetDefault("Stellar Cannon");
             Tooltip.SetDefault("Launches an explosive astral crystal");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 175;
-            item.ranged = true;
-            item.width = 50;
-            item.height = 30;
-            item.useTime = 40;
-            item.useAnimation = 40;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 7f;
-            item.value = Item.buyPrice(0, 60, 0, 0);
-            item.rare = 7;
-            item.UseSound = SoundID.Item92;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<AstralCannonProjectile>();
-            item.shootSpeed = 2f;
+            Item.damage = 175;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 50;
+            Item.height = 30;
+            Item.useTime = 40;
+            Item.useAnimation = 40;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 7f;
+            Item.value = CalamityGlobalItem.Rarity8BuyPrice;
+            Item.rare = ItemRarityID.Lime;
+            Item.UseSound = SoundID.Item92;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<AstralCannonProjectile>();
+            Item.shootSpeed = 2f;
         }
 
         public override Vector2? HoldoutOffset()

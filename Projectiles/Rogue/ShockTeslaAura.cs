@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class ShockTeslaAura : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Typeless/TeslaAura";
+
         private const float radius = 98f;
         private const int lifetime = 240;
         private const int framesX = 3;
@@ -20,53 +22,53 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetDefaults()
         {
-            projectile.width = 218;
-            projectile.height = 218;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.tileCollide = false;
-            projectile.penetrate = -1;
-            projectile.timeLeft = lifetime;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 20;
-            projectile.Calamity().rogue = true;
+            Projectile.width = 218;
+            Projectile.height = 218;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.tileCollide = false;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft = lifetime;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 20;
+            Projectile.DamageType = RogueDamageClass.Instance;
         }
 
         public override void AI()
         {
-            projectile.frameCounter++;
-            if (projectile.frameCounter > 3)
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter > 3)
             {
-                projectile.localAI[0]++;
-                projectile.frameCounter = 0;
+                Projectile.localAI[0]++;
+                Projectile.frameCounter = 0;
             }
-            if (projectile.localAI[0] >= framesY)
+            if (Projectile.localAI[0] >= framesY)
             {
-                projectile.localAI[0] = 0;
-                projectile.localAI[1]++;
+                Projectile.localAI[0] = 0;
+                Projectile.localAI[1]++;
             }
-            if (projectile.localAI[1] >= framesX)
+            if (Projectile.localAI[1] >= framesX)
             {
-                projectile.localAI[1] = 0;
+                Projectile.localAI[1] = 0;
             }
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D sprite = Main.projectileTexture[projectile.type];
+            Texture2D sprite = ModContent.Request<Texture2D>(Texture).Value;
 
             Color drawColour = Color.White;
-            Rectangle sourceRect = new Rectangle(projectile.width * (int)projectile.localAI[1], projectile.height * (int)projectile.localAI[0], projectile.width, projectile.height);
-            Vector2 origin = new Vector2(projectile.width / 2, projectile.height / 2);
+            Rectangle sourceRect = new Rectangle(Projectile.width * (int)Projectile.localAI[1], Projectile.height * (int)Projectile.localAI[0], Projectile.width, Projectile.height);
+            Vector2 origin = new Vector2(Projectile.width / 2, Projectile.height / 2);
 
             float opacity = 1f;
             int sparkCount = 0;
             int fadeTime = 20;
 
-            if (projectile.timeLeft < fadeTime)
+            if (Projectile.timeLeft < fadeTime)
             {
-                opacity = projectile.timeLeft * (1f / fadeTime);
-                sparkCount = fadeTime - projectile.timeLeft;
+                opacity = Projectile.timeLeft * (1f / fadeTime);
+                sparkCount = fadeTime - Projectile.timeLeft;
             }
 
             for (int i = 0; i < sparkCount * 2; i++)
@@ -82,20 +84,20 @@ namespace CalamityMod.Projectiles.Rogue
                 dustPos.Normalize();
                 dustPos *= radius + Main.rand.NextFloat(-rangeDiff, rangeDiff);
 
-                int dust = Dust.NewDust(projectile.Center + dustPos, 1, 1, dustType, 0, 0, 0, default, 0.75f);
+                int dust = Dust.NewDust(Projectile.Center + dustPos, 1, 1, dustType, 0, 0, 0, default, 0.75f);
                 Main.dust[dust].noGravity = true;
             }
 
-            spriteBatch.Draw(sprite, projectile.Center - Main.screenPosition, sourceRect, drawColour * opacity, projectile.rotation, origin, 1f, SpriteEffects.None, 0f);
+            Main.EntitySpriteDraw(sprite, Projectile.Center - Main.screenPosition, sourceRect, drawColour * opacity, Projectile.rotation, origin, 1f, SpriteEffects.None, 0);
             return false;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(BuffID.Electrified, 300);
+            target.AddBuff(BuffID.Electrified, 180);
 
-			if (target.knockBackResist <= 0f)
-				return;
+            if (target.knockBackResist <= 0f)
+                return;
 
             if (CalamityGlobalNPC.ShouldAffectNPC(target))
             {
@@ -104,7 +106,7 @@ namespace CalamityMod.Projectiles.Rogue
                 {
                     knockbackMultiplier = 0;
                 }
-                Vector2 trueKnockback = target.Center - projectile.Center;
+                Vector2 trueKnockback = target.Center - Projectile.Center;
                 trueKnockback.Normalize();
                 target.velocity = trueKnockback * knockbackMultiplier;
             }
@@ -112,25 +114,9 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-            target.AddBuff(BuffID.Electrified, 300);
+            target.AddBuff(BuffID.Electrified, 180);
         }
 
-        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
-        {
-            float dist1 = Vector2.Distance(projectile.Center, targetHitbox.TopLeft());
-            float dist2 = Vector2.Distance(projectile.Center, targetHitbox.TopRight());
-            float dist3 = Vector2.Distance(projectile.Center, targetHitbox.BottomLeft());
-            float dist4 = Vector2.Distance(projectile.Center, targetHitbox.BottomRight());
-
-            float minDist = dist1;
-            if (dist2 < minDist)
-                minDist = dist2;
-            if (dist3 < minDist)
-                minDist = dist3;
-            if (dist4 < minDist)
-                minDist = dist4;
-
-            return minDist <= radius;
-        }
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => CalamityUtils.CircularHitboxCollision(Projectile.Center, radius, targetHitbox);
     }
 }

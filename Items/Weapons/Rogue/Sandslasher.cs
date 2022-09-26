@@ -1,3 +1,4 @@
+﻿using Terraria.DataStructures;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -7,57 +8,58 @@ using CalamityMod.Projectiles.Rogue;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-	public class Sandslasher : RogueWeapon
+    public class Sandslasher : RogueWeapon
     {
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Sandslasher");
-			Tooltip.SetDefault("Throws a huge shuriken made out of fused sand unaffected by gravity which slowly accelerates horizontally\n"
-							  +"It does more damage depending on how fast it goes horizontally and how long it has been flying for\n"
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Sandslasher");
+            Tooltip.SetDefault("Throws a huge shuriken made out of fused sand unaffected by gravity which slowly accelerates horizontally\n"
+                              +"It does more damage depending on how fast it goes horizontally and how long it has been flying for\n"
                               +"Stealth strikes periodically release sand clouds");
+            SacrificeTotal = 1;
         }
 
-		public override void SafeSetDefaults()
-		{
-			item.width = 40;
-			item.height = 40;
-			item.damage = 115;
-			item.noMelee = true;
-			item.noUseGraphic = true;
-			item.useAnimation = 20;
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 20;
-			item.knockBack = 5f;
-			item.UseSound = SoundID.Item1;
-			item.autoReuse = true;
-            item.value = Item.buyPrice(0, 60, 0, 0);
-            item.rare = 7;
-            item.shoot = ModContent.ProjectileType<SandslasherProj>();
-			item.shootSpeed = 7f;
-            item.Calamity().rogue = true;
-		}
-
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override void SetDefaults()
         {
-            if(player.Calamity().StealthStrikeAvailable())
+            Item.width = 40;
+            Item.height = 40;
+            Item.damage = 115;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.useAnimation = 20;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 20;
+            Item.knockBack = 5f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.value = CalamityGlobalItem.Rarity8BuyPrice;
+            Item.rare = ItemRarityID.Lime;
+            Item.shoot = ModContent.ProjectileType<SandslasherProj>();
+            Item.shootSpeed = 7f;
+            Item.DamageType = RogueDamageClass.Instance;
+        }
+
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        {
+            if (player.Calamity().StealthStrikeAvailable())
             {
-                int proj = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
-                Main.projectile[proj].Calamity().stealthStrike = true;
+                int proj = Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, type, damage, knockback, player.whoAmI);
+                if (proj.WithinBounds(Main.maxProjectiles))
+                    Main.projectile[proj].Calamity().stealthStrike = true;
                 return false;
             }
             return true;
         }
 
         public override void AddRecipes()
-	    {
-	        ModRecipe recipe = new ModRecipe(mod);
-	        recipe.AddIngredient(ModContent.ItemType<GrandScale>());
-			recipe.AddIngredient(ModContent.ItemType<CoreofCinder>(), 6);
-            recipe.AddRecipeGroup("AnyGoldBar", 10);
-            recipe.AddIngredient(ItemID.HardenedSand, 25);
-            recipe.AddTile(TileID.MythrilAnvil);
-	        recipe.SetResult(this);
-	        recipe.AddRecipe();
-	    }
-	}
+        {
+            CreateRecipe().
+                AddIngredient<GrandScale>().
+                AddIngredient<CoreofSunlight>(6).
+                AddRecipeGroup("AnyGoldBar", 10).
+                AddIngredient(ItemID.HardenedSand, 25).
+                AddTile(TileID.MythrilAnvil).
+                Register();
+        }
+    }
 }

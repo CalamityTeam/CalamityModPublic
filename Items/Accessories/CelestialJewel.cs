@@ -1,9 +1,11 @@
+﻿using CalamityMod.Items.Placeables;
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Potions;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using System.Linq;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -11,31 +13,30 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Celestial Jewel");
             Tooltip.SetDefault("Boosts life regen even while under the effects of a damaging debuff\n" +
-                "While under the effects of a damaging debuff you will gain 20 defense\n" +
+                "While under the effects of a damaging debuff you will gain 11 defense\n" +
                 "TOOLTIP LINE HERE");
         }
 
         public override void SetDefaults()
         {
-            item.width = 26;
-            item.height = 26;
-            item.value = CalamityGlobalItem.Rarity7BuyPrice;
-            item.rare = 7;
-            item.accessory = true;
+            Item.defense = 8;
+            Item.width = 26;
+            Item.height = 26;
+            Item.value = CalamityGlobalItem.Rarity7BuyPrice;
+            Item.rare = ItemRarityID.Lime;
+            Item.accessory = true;
         }
 
         public override void ModifyTooltips(List<TooltipLine> list)
         {
-            string hotkey = CalamityMod.AstralTeleportHotKey.TooltipHotkeyString();
-            foreach (TooltipLine line2 in list)
-            {
-                if (line2.mod == "Terraria" && line2.Name == "Tooltip2")
-                {
-                    line2.text = "Press " + hotkey + " to teleport to a random location";
-                }
-            }
+            string hotkey = CalamityKeybinds.AstralTeleportHotKey.TooltipHotkeyString();
+            TooltipLine line = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip2");
+
+            if (line != null)
+                line.Text = "Press " + hotkey + " to teleport to a random location while no bosses are alive";
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -46,12 +47,13 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<CrownJewel>());
-            recipe.AddIngredient(ModContent.ItemType<AstralJelly>(), 20);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient<CrownJewel>().
+                AddIngredient(ItemID.TeleportationPotion, 3).
+                AddIngredient<AureusCell>(15).
+                AddIngredient<SeaPrism>(15).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

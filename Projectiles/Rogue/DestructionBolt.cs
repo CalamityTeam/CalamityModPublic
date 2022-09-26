@@ -1,157 +1,157 @@
-using System;
+﻿using System;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 namespace CalamityMod.Projectiles.Rogue
 {
     public class DestructionBolt : ModProjectile
     {
-		public int dustType = 191;
+        public int dustType = 191;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Destruction Bolt");
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 1;
-		}
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 10;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 1;
+        }
 
         public override void SetDefaults()
         {
-            projectile.width = 12;
-            projectile.height = 12;
-            projectile.friendly = true;
-            projectile.penetrate = 1;
-            projectile.extraUpdates = 1;
-            projectile.alpha = 255;
-			projectile.timeLeft = 300;
-			projectile.Calamity().rogue = true;
-			projectile.tileCollide = false;
-		}
-
-		public override void AI()
-		{
-            if (Main.rand.Next(8) == 0)
-            {
-                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, dustType, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
-            }
-
-			if (projectile.alpha > 0)
-				projectile.alpha -= 8;
-
-			projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
-
-			float num29 = 5f;
-			float num30 = 300f;
-			float scaleFactor = 6f;
-			Vector2 value7 = new Vector2(10f, 20f);
-			int num32 = 3 * projectile.MaxUpdates;
-			if (projectile.ai[1] == 0f)
-			{
-				projectile.ai[1] = 1f;
-				projectile.localAI[0] = (float)-(float)Main.rand.Next(48);
-			}
-			else if (projectile.ai[1] == 1f && projectile.owner == Main.myPlayer)
-			{
-				if (projectile.alpha < 128)
-				{
-					int num35 = -1;
-					float num36 = num30;
-					for (int num37 = 0; num37 < Main.maxNPCs; num37++)
-					{
-						if (Main.npc[num37].active && Main.npc[num37].CanBeChasedBy(projectile, false))
-						{
-							Vector2 center3 = Main.npc[num37].Center;
-							float num38 = Vector2.Distance(center3, projectile.Center);
-							if (num38 < num36 && num35 == -1 && Collision.CanHitLine(projectile.Center, 1, 1, center3, 1, 1))
-							{
-								num36 = num38;
-								num35 = num37;
-							}
-						}
-					}
-					if (num36 < 4f)
-					{
-						projectile.Kill();
-						return;
-					}
-					if (num35 != -1)
-					{
-						projectile.ai[1] = num29 + 1f;
-						projectile.ai[0] = (float)num35;
-						projectile.netUpdate = true;
-					}
-				}
-			}
-			else if (projectile.ai[1] > num29)
-			{
-				projectile.ai[1] += 1f;
-				int num39 = (int)projectile.ai[0];
-				if (!Main.npc[num39].active || !Main.npc[num39].CanBeChasedBy(projectile, false))
-				{
-					projectile.ai[1] = 1f;
-					projectile.ai[0] = 0f;
-					projectile.netUpdate = true;
-				}
-				else
-				{
-					projectile.velocity.ToRotation();
-					Vector2 vector6 = Main.npc[num39].Center - projectile.Center;
-					if (vector6.Length() < 10f)
-					{
-						projectile.Kill();
-						return;
-					}
-					if (vector6 != Vector2.Zero)
-					{
-						vector6.Normalize();
-						vector6 *= scaleFactor;
-					}
-					float num40 = 30f;
-					projectile.velocity = (projectile.velocity * (num40 - 1f) + vector6) / num40;
-				}
-			}
-			if (projectile.ai[1] >= 1f && projectile.ai[1] < num29)
-			{
-				projectile.ai[1] += 1f;
-				if (projectile.ai[1] == num29)
-				{
-					projectile.ai[1] = 1f;
-				}
-			}
-			projectile.localAI[0] += 1f;
-			if (projectile.localAI[0] == 48f)
-			{
-				projectile.localAI[0] = 0f;
-			}
-		}
-
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-        {
-			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 2);
-			return false;
+            Projectile.width = 12;
+            Projectile.height = 12;
+            Projectile.friendly = true;
+            Projectile.penetrate = 1;
+            Projectile.extraUpdates = 1;
+            Projectile.alpha = 255;
+            Projectile.timeLeft = 300;
+            Projectile.DamageType = RogueDamageClass.Instance;
+            Projectile.tileCollide = false;
         }
 
-		public override bool CanDamage()
-		{
-			return projectile.alpha < 128;
-		}
-
-		public override void Kill(int timeLeft)
+        public override void AI()
         {
-            projectile.position = projectile.Center;
-            projectile.width = projectile.height = 50;
-            projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-            projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
-            projectile.maxPenetrate = -1;
-            projectile.penetrate = -1;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
-            projectile.Damage();
-			Main.PlaySound(SoundID.Item14, (int)projectile.position.X, (int)projectile.position.Y);
-			for (int num621 = 0; num621 < 20; num621++)
+            if (Main.rand.Next(8) == 0)
             {
-                int num622 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 31, 0f, 0f, 100, default, 2f);
+                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, dustType, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
+            }
+
+            if (Projectile.alpha > 0)
+                Projectile.alpha -= 8;
+
+            Projectile.rotation = (float)Math.Atan2(Projectile.velocity.Y, Projectile.velocity.X) + MathHelper.PiOver2;
+
+            float num29 = 5f;
+            float num30 = 300f;
+            float scaleFactor = 6f;
+            Vector2 value7 = new Vector2(10f, 20f);
+            int num32 = 3 * Projectile.MaxUpdates;
+            if (Projectile.ai[1] == 0f)
+            {
+                Projectile.ai[1] = 1f;
+                Projectile.localAI[0] = (float)-(float)Main.rand.Next(48);
+            }
+            else if (Projectile.ai[1] == 1f && Projectile.owner == Main.myPlayer)
+            {
+                if (Projectile.alpha < 128)
+                {
+                    int num35 = -1;
+                    float num36 = num30;
+                    for (int num37 = 0; num37 < Main.maxNPCs; num37++)
+                    {
+                        if (Main.npc[num37].active && Main.npc[num37].CanBeChasedBy(Projectile, false))
+                        {
+                            Vector2 center3 = Main.npc[num37].Center;
+                            float num38 = Vector2.Distance(center3, Projectile.Center);
+                            if (num38 < num36 && num35 == -1 && Collision.CanHitLine(Projectile.Center, 1, 1, center3, 1, 1))
+                            {
+                                num36 = num38;
+                                num35 = num37;
+                            }
+                        }
+                    }
+                    if (num36 < 4f)
+                    {
+                        Projectile.Kill();
+                        return;
+                    }
+                    if (num35 != -1)
+                    {
+                        Projectile.ai[1] = num29 + 1f;
+                        Projectile.ai[0] = (float)num35;
+                        Projectile.netUpdate = true;
+                    }
+                }
+            }
+            else if (Projectile.ai[1] > num29)
+            {
+                Projectile.ai[1] += 1f;
+                int num39 = (int)Projectile.ai[0];
+                if (!Main.npc[num39].active || !Main.npc[num39].CanBeChasedBy(Projectile, false))
+                {
+                    Projectile.ai[1] = 1f;
+                    Projectile.ai[0] = 0f;
+                    Projectile.netUpdate = true;
+                }
+                else
+                {
+                    Projectile.velocity.ToRotation();
+                    Vector2 vector6 = Main.npc[num39].Center - Projectile.Center;
+                    if (vector6.Length() < 10f)
+                    {
+                        Projectile.Kill();
+                        return;
+                    }
+                    if (vector6 != Vector2.Zero)
+                    {
+                        vector6.Normalize();
+                        vector6 *= scaleFactor;
+                    }
+                    float num40 = 30f;
+                    Projectile.velocity = (Projectile.velocity * (num40 - 1f) + vector6) / num40;
+                }
+            }
+            if (Projectile.ai[1] >= 1f && Projectile.ai[1] < num29)
+            {
+                Projectile.ai[1] += 1f;
+                if (Projectile.ai[1] == num29)
+                {
+                    Projectile.ai[1] = 1f;
+                }
+            }
+            Projectile.localAI[0] += 1f;
+            if (Projectile.localAI[0] == 48f)
+            {
+                Projectile.localAI[0] = 0f;
+            }
+        }
+
+        public override bool PreDraw(ref Color lightColor)
+        {
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 2);
+            return false;
+        }
+
+        public override bool? CanDamage()
+        {
+            return Projectile.alpha < 128 ? null : false;
+        }
+
+        public override void Kill(int timeLeft)
+        {
+            Projectile.position = Projectile.Center;
+            Projectile.width = Projectile.height = 50;
+            Projectile.position.X = Projectile.position.X - (float)(Projectile.width / 2);
+            Projectile.position.Y = Projectile.position.Y - (float)(Projectile.height / 2);
+            Projectile.maxPenetrate = -1;
+            Projectile.penetrate = -1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
+            Projectile.Damage();
+            SoundEngine.PlaySound(SoundID.Item14, Projectile.position);
+            for (int num621 = 0; num621 < 20; num621++)
+            {
+                int num622 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 31, 0f, 0f, 100, default, 2f);
                 Main.dust[num622].velocity *= 3f;
                 if (Main.rand.NextBool(2))
                 {
@@ -161,13 +161,56 @@ namespace CalamityMod.Projectiles.Rogue
             }
             for (int num623 = 0; num623 < 45; num623++)
             {
-                int num624 = Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType, 0f, 0f, 100, default, 3f);
+                int num624 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, dustType, 0f, 0f, 100, default, 3f);
                 Main.dust[num624].noGravity = true;
                 Main.dust[num624].velocity *= 5f;
-                num624 = Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType, 0f, 0f, 100, default, 2f);
+                num624 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, dustType, 0f, 0f, 100, default, 2f);
                 Main.dust[num624].velocity *= 2f;
             }
-			CalamityUtils.ExplosionGores(projectile.Center, 9);
+
+            if (Main.netMode != NetmodeID.Server)
+            {
+                Vector2 goreSource = Projectile.Center;
+                int goreAmt = 9;
+                Vector2 source = new Vector2(goreSource.X - 24f, goreSource.Y - 24f);
+                for (int goreIndex = 0; goreIndex < goreAmt; goreIndex++)
+                {
+                    float velocityMult = 0.33f;
+                    if (goreIndex < (goreAmt / 3))
+                    {
+                        velocityMult = 0.66f;
+                    }
+                    if (goreIndex >= (2 * goreAmt / 3))
+                    {
+                        velocityMult = 1f;
+                    }
+                    Mod mod = ModContent.GetInstance<CalamityMod>();
+                    int type = Main.rand.Next(61, 64);
+                    int smoke = Gore.NewGore(Projectile.GetSource_Death(), source, default, type, 1f);
+                    Gore gore = Main.gore[smoke];
+                    gore.velocity *= velocityMult;
+                    gore.velocity.X += 1f;
+                    gore.velocity.Y += 1f;
+                    type = Main.rand.Next(61, 64);
+                    smoke = Gore.NewGore(Projectile.GetSource_Death(), source, default, type, 1f);
+                    gore = Main.gore[smoke];
+                    gore.velocity *= velocityMult;
+                    gore.velocity.X -= 1f;
+                    gore.velocity.Y += 1f;
+                    type = Main.rand.Next(61, 64);
+                    smoke = Gore.NewGore(Projectile.GetSource_Death(), source, default, type, 1f);
+                    gore = Main.gore[smoke];
+                    gore.velocity *= velocityMult;
+                    gore.velocity.X += 1f;
+                    gore.velocity.Y -= 1f;
+                    type = Main.rand.Next(61, 64);
+                    smoke = Gore.NewGore(Projectile.GetSource_Death(), source, default, type, 1f);
+                    gore = Main.gore[smoke];
+                    gore.velocity *= velocityMult;
+                    gore.velocity.X -= 1f;
+                    gore.velocity.Y -= 1f;
+                }
+            }
         }
     }
 }

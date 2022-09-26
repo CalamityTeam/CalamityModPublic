@@ -1,6 +1,7 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -8,25 +9,34 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Bloody Worm Tooth");
-            Tooltip.SetDefault("5% increased damage reduction and increased melee stats\n" +
-                               "10% increased damage reduction and melee stats when below 50% life");
+            Tooltip.SetDefault("7% increased melee damage and speed");
         }
 
         public override void SetDefaults()
         {
-            item.width = 12;
-            item.height = 15;
-            item.value = CalamityGlobalItem.Rarity3BuyPrice;
-            item.expert = true;
-            item.rare = 3;
-            item.accessory = true;
+            Item.defense = 7;
+            Item.width = 12;
+            Item.height = 15;
+            Item.value = CalamityGlobalItem.Rarity3BuyPrice;
+            Item.rare = ItemRarityID.Orange;
+            Item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.bloodyWormTooth = true;
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient<RottenBrain>().
+                AddTile(TileID.TinkerersWorkbench).
+                AddCondition(Recipe.Condition.InGraveyardBiome).
+                Register();
         }
     }
 }

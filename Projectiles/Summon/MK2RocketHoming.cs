@@ -1,9 +1,9 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 namespace CalamityMod.Projectiles.Summon
 {
     public class MK2RocketHoming : ModProjectile
@@ -11,45 +11,45 @@ namespace CalamityMod.Projectiles.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Rocket");
-            Main.projFrames[projectile.type] = 6;
-            ProjectileID.Sets.MinionShot[projectile.type] = true;
+            Main.projFrames[Projectile.type] = 6;
+            ProjectileID.Sets.MinionShot[Projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 14;
-            projectile.height = 14;
-            projectile.extraUpdates = 1;
-			projectile.tileCollide = false;
-            projectile.friendly = true;
-            projectile.minion = true;
-            projectile.minionSlots = 0f;
-            projectile.ignoreWater = true;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 600;
+            Projectile.width = 14;
+            Projectile.height = 14;
+            Projectile.extraUpdates = 1;
+            Projectile.tileCollide = false;
+            Projectile.friendly = true;
+            Projectile.minion = true;
+            Projectile.minionSlots = 0f;
+            Projectile.ignoreWater = true;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = 600;
+            Projectile.DamageType = DamageClass.Summon;
         }
 
-		public override void AI()
+        public override void AI()
         {
-            Player player = Main.player[projectile.owner];
-            NPC potentialTarget = projectile.Center.MinionHoming(1000f, player);
+            Player player = Main.player[Projectile.owner];
+            NPC potentialTarget = Projectile.Center.MinionHoming(1000f, player);
 
             if (potentialTarget != null)
+                Projectile.velocity = (Projectile.velocity * 24f + Projectile.SafeDirectionTo(potentialTarget.Center) * 14f) / 25f;
+
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter > 6)
             {
-                projectile.velocity = (projectile.velocity * 24f + projectile.DirectionTo(potentialTarget.Center) * 14f) / 25f;
+                Projectile.frame++;
+                Projectile.frameCounter = 0;
             }
-            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
-            projectile.frameCounter++;
-            if (projectile.frameCounter > 6)
+            if (Projectile.frame >= Main.projFrames[Projectile.type])
             {
-                projectile.frame++;
-                projectile.frameCounter = 0;
+                Projectile.frame = 0;
             }
-			if (projectile.frame >= Main.projFrames[projectile.type])
-			{
-				projectile.frame = 0;
-			}
-		}
+        }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
@@ -58,14 +58,14 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.Item14, projectile.Center);
+            SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-			if (projectile.timeLeft > 599)
-				return false;
-			return true;
-		}
+            if (Projectile.timeLeft > 599)
+                return false;
+            return true;
+        }
     }
 }

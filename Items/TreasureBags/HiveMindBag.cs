@@ -1,13 +1,17 @@
-using CalamityMod.Items.Accessories;
+﻿using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.Materials;
+using CalamityMod.Items.Pets;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.NPCs.HiveMind;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -15,52 +19,71 @@ namespace CalamityMod.Items.TreasureBags
 {
     public class HiveMindBag : ModItem
     {
-        public override int BossBagNPC => ModContent.NPCType<HiveMindP2>();
-
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Treasure Bag");
+            SacrificeTotal = 3;
+            DisplayName.SetDefault("Treasure Bag (The Hive Mind)");
             Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
+			ItemID.Sets.BossBag[Item.type] = true;
+            ItemID.Sets.PreHardmodeLikeBossBag[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.maxStack = 999;
-            item.consumable = true;
-            item.width = 24;
-            item.height = 24;
-            item.rare = 9;
-            item.expert = true;
+            Item.maxStack = 999;
+            Item.consumable = true;
+            Item.width = 24;
+            Item.height = 24;
+            Item.rare = ItemRarityID.Cyan;
+            Item.expert = true;
         }
 
-        public override bool CanRightClick()
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = ContentSamples.CreativeHelper.ItemGroup.BossBags;
+		}
+
+        public override bool CanRightClick() => true;
+
+		public override Color? GetAlpha(Color lightColor) => Color.Lerp(lightColor, Color.White, 0.4f);
+
+        public override void PostUpdate() => Item.TreasureBagLightAndDust();
+
+        public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
         {
-            return true;
+            return CalamityUtils.DrawTreasureBagInWorld(Item, spriteBatch, ref rotation, ref scale, whoAmI);
         }
 
-        public override void OpenBossBag(Player player)
+        public override void ModifyItemLoot(ItemLoot itemLoot)
         {
+			// Money
+			itemLoot.Add(ItemDropRule.CoinsBasedOnNPCValue(ModContent.NPCType<HiveMind>()));
+
             // Materials
-            DropHelper.DropItem(player, ItemID.RottenChunk, 10, 20);
-            DropHelper.DropItem(player, ItemID.DemoniteBar, 9, 14);
-            DropHelper.DropItem(player, ModContent.ItemType<TrueShadowScale>(), 30, 40);
-            DropHelper.DropItemCondition(player, ItemID.CursedFlame, Main.hardMode, 15, 30);
+            itemLoot.Add(ModContent.ItemType<RottenMatter>(), 1, 30, 40);
+            itemLoot.Add(ItemID.DemoniteBar, 1, 15, 20);
+            itemLoot.Add(ItemID.RottenChunk, 1, 15, 20);
+            itemLoot.AddIf(() => Main.hardMode, ItemID.CursedFlame, 1, 25, 30);
+            itemLoot.Add(ItemID.CorruptSeeds, 1, 10, 15);
 
             // Weapons
-            DropHelper.DropItemChance(player, ModContent.ItemType<PerfectDark>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<LeechingDagger>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<Shadethrower>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<ShadowdropStaff>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<ShaderainStaff>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<DankStaff>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<RotBall>(), 3, 50, 75);
+            itemLoot.Add(DropHelper.CalamityStyle(DropHelper.BagWeaponDropRateFraction, new WeightedItemStack[]
+            {
+                ModContent.ItemType<PerfectDark>(),
+                ModContent.ItemType<Shadethrower>(),
+                ModContent.ItemType<ShaderainStaff>(),
+                ModContent.ItemType<DankStaff>(),
+                new WeightedItemStack(ModContent.ItemType<RotBall>(), 1f, 50, 75),
+            }));
 
             // Equipment
-            DropHelper.DropItem(player, ModContent.ItemType<RottenBrain>());
-            DropHelper.DropItemChance(player, ModContent.ItemType<FilthyGlove>(), 3);
+            itemLoot.Add(ModContent.ItemType<FilthyGlove>(), DropHelper.BagWeaponDropRateFraction);
+            itemLoot.Add(ModContent.ItemType<RottenBrain>());
+            itemLoot.AddRevBagAccessories();
 
             // Vanity
-            DropHelper.DropItemChance(player, ModContent.ItemType<HiveMindMask>(), 7);
+            itemLoot.Add(ModContent.ItemType<HiveMindMask>(), 7);
+            itemLoot.Add(ModContent.ItemType<RottingEyeball>(), 10);
         }
     }
 }

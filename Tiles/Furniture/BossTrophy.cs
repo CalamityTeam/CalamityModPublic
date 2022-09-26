@@ -1,6 +1,7 @@
-using CalamityMod.Items.Placeables.Furniture.Trophies;
+﻿using CalamityMod.Items.Placeables.Furniture.Trophies;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
@@ -9,7 +10,7 @@ namespace CalamityMod.Tiles.Furniture
 {
     public class BossTrophy : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileFrameImportant[Type] = true;
             Main.tileLavaDeath[Type] = true;
@@ -17,12 +18,12 @@ namespace CalamityMod.Tiles.Furniture
             TileObjectData.newTile.StyleHorizontal = true;
             TileObjectData.newTile.StyleWrapLimit = 36;
             TileObjectData.addTile(Type);
-            dustType = 7;
-            disableSmartCursor = true;
+            DustType = 7;
+            TileID.Sets.DisableSmartCursor[Type] = true;
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Trophy");
             AddMapEntry(new Color(120, 85, 60), name);
-			TileID.Sets.FramesOnKillWall[Type] = true;
+            TileID.Sets.FramesOnKillWall[Type] = true;
         }
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
@@ -85,10 +86,10 @@ namespace CalamityMod.Tiles.Furniture
                     item = ModContent.ItemType<PolterghastTrophy>();
                     break;
                 case 18:
-                    item = ModContent.ItemType<BumblebirbTrophy>();
+                    item = ModContent.ItemType<DragonfollyTrophy>();
                     break;
                 case 19:
-                    item = ModContent.ItemType<AstrageldonTrophy>();
+                    item = ModContent.ItemType<AstrumAureusTrophy>();
                     break;
                 case 20:
                     item = ModContent.ItemType<AstrumDeusTrophy>();
@@ -99,12 +100,12 @@ namespace CalamityMod.Tiles.Furniture
                 case 22:
                     item = ModContent.ItemType<RavagerTrophy>();
                     break;
-				case 23:
-					item = ModContent.ItemType<AquaticScourgeTrophy>();
-					break;
-				case 24:
-					item = ModContent.ItemType<OldDukeTrophy>();
-					break;
+                case 23:
+                    item = ModContent.ItemType<AquaticScourgeTrophy>();
+                    break;
+                case 24:
+                    item = ModContent.ItemType<OldDukeTrophy>();
+                    break;
                 case 25:
                     item = ModContent.ItemType<ProfanedGuardianTrophy>();
                     break;
@@ -114,10 +115,28 @@ namespace CalamityMod.Tiles.Furniture
                 case 27:
                     item = ModContent.ItemType<AnahitaTrophy>();
                     break;
-			}
+                case 28:
+                    item = ModContent.ItemType<ApolloTrophy>();
+                    break;
+                case 29:
+                    item = ModContent.ItemType<ArtemisTrophy>();
+                    break;
+                case 30:
+                    item = ModContent.ItemType<AresTrophy>();
+                    break;
+                case 31:
+                    item = ModContent.ItemType<ThanatosTrophy>();
+                    break;
+                case 32:
+                    item = ModContent.ItemType<SupremeCatastropheTrophy>();
+                    break;
+                case 33:
+                    item = ModContent.ItemType<SupremeCataclysmTrophy>();
+                    break;
+            }
             if (item > 0)
             {
-                Item.NewItem(i * 16, j * 16, 48, 48, item);
+                Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 48, 48, item);
             }
         }
     }

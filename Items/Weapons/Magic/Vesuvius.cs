@@ -1,7 +1,8 @@
-using CalamityMod.Projectiles.Magic;
+﻿using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -12,79 +13,66 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Vesuvius");
-            Tooltip.SetDefault("Legendary drop\n" +
-                "Asteroids give the Molten buff on enemy hits\n" +
+            Tooltip.SetDefault("Asteroids give the Molten buff on enemy hits\n" +
                 "Calls down a swarm of molten asteroids\n" +
-                "Right click to fire a spread of molten asteroids from the staff\n" +
-                "Revengeance drop");
-            Item.staff[item.type] = true;
+                "Right click to fire a spread of molten asteroids from the staff");
+            Item.staff[Item.type] = true;
+            ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.width = 62;
-            item.damage = 75;
-            item.mana = 6;
-            item.magic = true;
-            item.useAnimation = item.useTime = 15;
-            item.noMelee = true;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.knockBack = 3f;
-            item.UseSound = SoundID.Item88;
-            item.autoReuse = true;
-            item.height = 62;
-            item.value = Item.buyPrice(0, 80, 0, 0);
-            item.rare = 8;
-            item.shootSpeed = 20f;
-            item.shoot = ModContent.ProjectileType<AsteroidMolten>();
-            item.Calamity().customRarity = CalamityRarity.ItemSpecific;
+            Item.width = 62;
+            Item.damage = 60;
+            Item.mana = 6;
+            Item.DamageType = DamageClass.Magic;
+            Item.useAnimation = Item.useTime = 15;
+            Item.noMelee = true;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.knockBack = 3f;
+            Item.UseSound = SoundID.Item88;
+            Item.autoReuse = true;
+            Item.height = 62;
+            Item.shootSpeed = 20f;
+            Item.shoot = ModContent.ProjectileType<AsteroidMolten>();
+
+            Item.value = CalamityGlobalItem.Rarity8BuyPrice;
+            Item.rare = ItemRarityID.Yellow;
         }
 
-        /*public override Vector2? HoldoutOrigin()
-        {
-            return new Vector2(30, 30);
-        }*/
+        public override bool AltFunctionUse(Player player) => true;
 
-        public override bool AltFunctionUse(Player player)
+        public override void ModifyManaCost(Player player, ref float reduce, ref float mult)
         {
-            return true;
+            if (player.altFunctionUse == 2)
+                mult *= 1.5f;
         }
 
-        public override bool CanUseItem(Player player)
+        public override float UseSpeedMultiplier(Player player)
         {
-            return base.CanUseItem(player);
+            if (player.altFunctionUse != 2)
+                return 1f;
+            return 1.33f;
         }
 
-		public override void ModifyManaCost(Player player, ref float reduce, ref float mult)
-		{
-			if (player.altFunctionUse == 2)
-				mult *= 1.5f;
-		}
-
-		public override float UseTimeMultiplier	(Player player)
-		{
-			if (player.altFunctionUse != 2)
-				return 1f;
-			return 0.75f;
-		}
-
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.altFunctionUse == 2)
             {
-                int num6 = Main.rand.Next(4, 6);
-                for (int index = 0; index < num6; ++index)
+                int meteorAmt = Main.rand.Next(4, 6);
+                for (int i = 0; i < meteorAmt; ++i)
                 {
-                    float SpeedX = speedX + (float)Main.rand.Next(-30, 31) * 0.05f;
-                    float SpeedY = speedY + (float)Main.rand.Next(-30, 31) * 0.05f;
+                    float SpeedX = velocity.X + (float)Main.rand.Next(-30, 31) * 0.05f;
+                    float SpeedY = velocity.Y + (float)Main.rand.Next(-30, 31) * 0.05f;
                     float ai0 = (float)Main.rand.Next(6);
-                    Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, ai0, 0.5f + (float)Main.rand.NextDouble() * 0.9f);
+                    Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, type, damage, knockback, player.whoAmI, ai0, 0.5f + (float)Main.rand.NextDouble() * 0.9f);
                 }
                 return false;
             }
             else
             {
-                float num72 = item.shootSpeed;
+                float num72 = Item.shootSpeed;
                 Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
                 float num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
                 float num79 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;
@@ -126,7 +114,7 @@ namespace CalamityMod.Items.Weapons.Magic
                     float num114 = num78;
                     float num115 = num79 + (float)Main.rand.Next(-40, 41) * 0.02f;
                     float ai0 = (float)Main.rand.Next(6);
-                    Projectile.NewProjectile(vector2.X, vector2.Y, num114 * 0.75f, num115 * 0.75f, type, damage, knockBack, player.whoAmI, ai0, 0.5f + (float)Main.rand.NextDouble() * 0.9f); //0.3
+                    Projectile.NewProjectile(source, vector2.X, vector2.Y, num114 * 0.75f, num115 * 0.75f, type, damage, knockback, player.whoAmI, ai0, 0.5f + (float)Main.rand.NextDouble() * 0.9f); //0.3
                 }
                 return false;
             }

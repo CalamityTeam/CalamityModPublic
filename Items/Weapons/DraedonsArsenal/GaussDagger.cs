@@ -1,6 +1,9 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
+using CalamityMod.Items.Placeables;
 using CalamityMod.Projectiles.DraedonsArsenal;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -9,34 +12,41 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 {
     public class GaussDagger : ModItem
     {
-        public const int HitsRequiredForFlux = 3;
+        public const int HitsRequiredForFlux = 2;
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Gauss Dagger");
-            Tooltip.SetDefault("Repeat strikes envelop foes in magnetic flux");
+            Tooltip.SetDefault("Slicing foes, it causes a flux of energy to form on the area tearing at them with turbulent forces\n" +
+            "Repeat strikes envelop foes in magnetic flux");
         }
         public override void SetDefaults()
         {
-            item.damage = 30;
-            item.melee = true;
-            item.width = 26;
-            item.height = 26;
-            item.useTime = 24;
-            item.useAnimation = 24;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTurn = false;
-            item.knockBack = 7f;
+            CalamityGlobalItem modItem = Item.Calamity();
 
-            item.value = CalamityGlobalItem.Rarity3BuyPrice;
-            item.rare = ItemRarityID.Red;
-            item.Calamity().customRarity = CalamityRarity.DraedonRust;
+            Item.damage = 25;
+            Item.DamageType = DamageClass.Melee;
+            Item.width = 26;
+            Item.height = 26;
+            Item.scale = 1.5f;
+            Item.useTime = 24;
+            Item.useAnimation = 24;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTurn = true;
+            Item.knockBack = 7f;
 
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
+            Item.value = CalamityGlobalItem.Rarity3BuyPrice;
+            Item.rare = ModContent.RarityType<DarkOrange>();
 
-            item.Calamity().Chargeable = true;
-            item.Calamity().ChargeMax = 50;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+
+            modItem.UsesCharge = true;
+            modItem.MaxCharge = 50f;
+            modItem.ChargePerUse = 0.05f;
         }
+
+        public override void ModifyTooltips(List<TooltipLine> tooltips) => CalamityGlobalItem.InsertKnowledgeTooltip(tooltips, 1);
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
         {
@@ -46,21 +56,23 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
                 target.Calamity().GaussFluxTimer = 0;
                 if (player.whoAmI == Main.myPlayer)
                 {
-                    Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<GaussFlux>(), damage, 0f, player.whoAmI, 0f, target.whoAmI);
+                    if (crit)
+                        damage /= 2;
+
+                    Projectile.NewProjectile(player.GetSource_ItemUse(Item), target.Center, Vector2.Zero, ModContent.ProjectileType<GaussFlux>(), damage, 0f, player.whoAmI, 0f, target.whoAmI);
                 }
             }
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 7);
-            recipe.AddIngredient(ModContent.ItemType<AerialiteBar>(), 4);
-            recipe.AddIngredient(ItemID.MeteoriteBar, 4);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient<MysteriousCircuitry>(5).
+                AddIngredient<DubiousPlating>(7).
+                AddIngredient<AerialiteBar>(4).
+                AddIngredient<SeaPrism>(7).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

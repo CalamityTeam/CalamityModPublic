@@ -13,25 +13,25 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetDefaults()
         {
-            projectile.width = 32;
-            projectile.height = 28;
-            projectile.friendly = true;
-            projectile.alpha = 0;
-            projectile.penetrate = -1;
-            projectile.tileCollide = true;
-            projectile.ignoreWater = true;
-            projectile.timeLeft = 100;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = -1;
-            projectile.Calamity().rogue = true;
+            Projectile.width = 32;
+            Projectile.height = 28;
+            Projectile.friendly = true;
+            Projectile.alpha = 0;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = true;
+            Projectile.ignoreWater = true;
+            Projectile.timeLeft = 100;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = -1;
+            Projectile.DamageType = RogueDamageClass.Instance;
         }
 
         public override void AI()
         {
-            if (projectile.timeLeft < 50)
-                projectile.alpha += 5;
-            if (projectile.timeLeft < 75)
-                projectile.velocity *= 0.95f;
+            if (Projectile.timeLeft < 50)
+                Projectile.alpha += 5;
+            if (Projectile.timeLeft < 75)
+                Projectile.velocity *= 0.95f;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

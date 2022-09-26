@@ -1,21 +1,22 @@
-using CalamityMod.Items.Placeables.Furniture;
+﻿using CalamityMod.Items.Placeables.Furniture;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles.Furniture
 {
-	public class SeaMinnowJarTile : ModTile
+    public class SeaMinnowJarTile : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileLighted[Type] = true;
             Main.tileFrameImportant[Type] = true;
             Main.tileLavaDeath[Type] = true;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
             TileObjectData.addTile(Type);
-            animationFrameHeight = 36;
+            AnimationFrameHeight = 36;
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Sea Minnow Jar");
             AddMapEntry(new Color(65, 105, 225), name);
@@ -34,23 +35,28 @@ namespace CalamityMod.Tiles.Furniture
 
         public override void AnimateTile(ref int frame, ref int frameCounter)
         {
-			int frameAmt = 12;
-			int timeNeeded = 6;
-			frameCounter++;
-			if (frameCounter >= timeNeeded)
-			{
+            int frameAmt = 12;
+            int timeNeeded = 6;
+            frameCounter++;
+            if (frameCounter >= timeNeeded)
+            {
                 frame++;
                 frameCounter = 0;
-			}
-			if (frame >= frameAmt)
-			{
-				frame = 0;
-			}
+            }
+            if (frame >= frameAmt)
+            {
+                frame = 0;
+            }
+        }
+
+        public override void AnimateIndividualTile(int type, int i, int j, ref int frameXOffset, ref int frameYOffset)
+        {
+            frameYOffset = this.GetAnimationOffset(i, j, 12, 18, 18, 2, 2, AnimationFrameHeight);
         }
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 16, 32, ModContent.ItemType<SeaMinnowJar>());
+            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 32, ModContent.ItemType<SeaMinnowJar>());
         }
     }
 }

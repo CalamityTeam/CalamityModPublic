@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class CrescentMoonFlail : BaseWhipProjectile
     {
-		public int moonCounter = 6;
+        public int moonCounter = 6;
 
         public override void SetStaticDefaults()
         {
@@ -17,17 +17,18 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetDefaults()
         {
-            projectile.width = 16;
-            projectile.height = 16;
-            projectile.friendly = true;
-            projectile.alpha = 255;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.melee = true;
-            projectile.ignoreWater = true;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 3;
+            Projectile.width = 16;
+            Projectile.height = 16;
+            Projectile.friendly = true;
+            Projectile.alpha = 255;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.DamageType = DamageClass.MeleeNoSpeed;
+            Projectile.ignoreWater = true;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 8;
         }
+
         public override Color SpecialDrawColor => default;
         public override int ExudeDustType => 176;
         public override int WhipDustType => 176;
@@ -38,12 +39,13 @@ namespace CalamityMod.Projectiles.Melee
         public override int BodyType2SectionHeight => 18;
         public override int TailStartY => 108;
         public override int TailHeight => 50;
+
         public override void ExtraBehavior()
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             if (moonCounter > 0)
                 moonCounter--;
-            if (moonCounter <= 0 && projectile.owner == Main.myPlayer)
+            if (moonCounter <= 0 && Projectile.owner == Main.myPlayer)
             {
                 Vector2 vectorBruh = Main.OffsetsPlayerOnhand[player.bodyFrame.Y / 56] * 2f;
                 if (player.direction != 1)
@@ -55,8 +57,9 @@ namespace CalamityMod.Projectiles.Melee
                     vectorBruh.Y = (float)player.bodyFrame.Height - vectorBruh.Y;
                 }
                 vectorBruh -= new Vector2((float)(player.bodyFrame.Width - player.width), (float)(player.bodyFrame.Height - 42)) / 2f;
-                Vector2 newCenter = player.RotatedRelativePoint(Main.player[projectile.owner].position + vectorBruh, true) + projectile.velocity;
-                Projectile.NewProjectile(newCenter.X, newCenter.Y, 0f, 0f, ModContent.ProjectileType<CrescentMoonProj>(), (int)((double)projectile.damage * 0.4), 0f, projectile.owner, 0f, 0f);
+                Vector2 newCenter = player.RotatedRelativePoint(Main.player[Projectile.owner].position + vectorBruh, true) + Projectile.velocity;
+                int moonDamage = (int)(Projectile.damage * 0.18f);
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), newCenter.X, newCenter.Y, 0f, 0f, ModContent.ProjectileType<CrescentMoonProj>(), moonDamage, 0f, Projectile.owner, 0f, 0f);
                 moonCounter = 6;
             }
         }
@@ -64,7 +67,7 @@ namespace CalamityMod.Projectiles.Melee
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(ModContent.BuffType<Nightwither>(), 240);
-            projectile.localAI[1] = 4f;
+            Projectile.localAI[1] = 4f;
         }
     }
 }

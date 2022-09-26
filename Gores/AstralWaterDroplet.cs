@@ -1,40 +1,23 @@
-
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.GameContent.Shaders;
 using Terraria.Graphics.Effects;
 using Terraria.ModLoader;
 using Terraria.ID;
+using Terraria.Audio;
+using Terraria.DataStructures;
 
 namespace CalamityMod.Gores
 {
     public class AstralWaterDroplet : ModGore
     {
-        public override void OnSpawn(Gore gore)
+        public override void OnSpawn(Gore gore, IEntitySource source)
         {
             gore.numFrames = 15;
             gore.behindTiles = true;
             gore.timeLeft = Gore.goreTime * 3;
         }
-        public override bool DrawBehind(Gore gore)
-        {
-            Main.instance.LoadGore(gore.type);
 
-            int num = Main.goreTexture[gore.type].Height / (int)gore.numFrames;
-
-            Color alpha = gore.GetAlpha(Lighting.GetColor((int)((double)gore.position.X + (double)Main.goreTexture[gore.type].Width * 0.5) / 16, (int)(((double)gore.position.Y + (double)num * 0.5) / 16.0)));
-
-            Main.spriteBatch.Draw(
-                Main.goreTexture[gore.type],
-                new Vector2(gore.position.X - Main.screenPosition.X + (float)(Main.goreTexture[gore.type].Width / 2), gore.position.Y - Main.screenPosition.Y + (float)(num / 2) - 2f),
-                new Rectangle(0, num * (int)gore.frame, Main.goreTexture[gore.type].Width, num),
-                alpha, gore.rotation,
-                new Vector2((float)(Main.goreTexture[gore.type].Width / 2), (float)(num / 2)),
-                gore.scale, SpriteEffects.None, 0f);
-
-            return false;
-        }
         public override bool Update(Gore gore)
         {
             if ((double)gore.position.Y < Main.worldSurface * 16.0 + 8.0)
@@ -51,7 +34,7 @@ namespace CalamityMod.Gores
             {
                 int num2 = (int)(gore.position.X / 16f);
                 int num3 = (int)(gore.position.Y / 16f) - 1;
-                if (WorldGen.InWorld(num2, num3, 0) && !Main.tile[num2, num3].active())
+                if (WorldGen.InWorld(num2, num3, 0) && !Main.tile[num2, num3].HasTile)
                 {
                     gore.active = false;
                 }
@@ -79,9 +62,9 @@ namespace CalamityMod.Gores
                 {
                     gore.frameCounter = 0;
                     gore.frame += 1;
-                    if (gore.frame == 5)
+                    if (gore.frame == 5 && Main.netMode != NetmodeID.Server)
                     {
-                        int num4 = Gore.NewGore(gore.position, gore.velocity, gore.type, 1f);
+                        int num4 = Gore.NewGore(new EntitySource_Misc("0"), gore.position, gore.velocity, gore.type, 1f);
                         Main.gore[num4].frame = 9;
                         Main.gore[num4].velocity *= 0f;
                     }
@@ -147,7 +130,7 @@ namespace CalamityMod.Gores
                     gore.frameCounter = 0;
                     if (gore.type != 716 && gore.type != 717 && gore.type != 943)
                     {
-                        Main.PlaySound(SoundID.Drip, (int)gore.position.X + 8, (int)gore.position.Y + 8, Main.rand.Next(2), 1f, 0f);
+                        SoundEngine.PlaySound(SoundID.Drip, gore.position + Vector2.One * 8);
                     }
                 }
             }
@@ -159,16 +142,16 @@ namespace CalamityMod.Gores
                     gore.frameCounter = 0;
                     if (gore.type != 716 && gore.type != 717 && gore.type != 943)
                     {
-                        Main.PlaySound(SoundID.Drip, (int)gore.position.X + 8, (int)gore.position.Y + 8, 2, 1f, 0f);
+                        SoundEngine.PlaySound(SoundID.Drip, gore.position + Vector2.One * 8);
                     }
                     ((WaterShaderData)Filters.Scene["WaterDistortion"].GetShader()).QueueRipple(gore.position + new Vector2(8f, 8f), 1f, RippleShape.Square, 0f);
                 }
                 int num21 = (int)(gore.position.X + 8f) / 16;
                 int num22 = (int)(gore.position.Y + 14f) / 16;
-                if (Main.tile[num21, num22] != null && Main.tile[num21, num22].liquid > 0)
+                if (Main.tile[num21, num22] != null && Main.tile[num21, num22].LiquidAmount > 0)
                 {
                     gore.velocity *= 0f;
-                    gore.position.Y = (float)(num22 * 16 - (int)(Main.tile[num21, num22].liquid / 16));
+                    gore.position.Y = (float)(num22 * 16 - (int)(Main.tile[num21, num22].LiquidAmount / 16));
                 }
             }
 

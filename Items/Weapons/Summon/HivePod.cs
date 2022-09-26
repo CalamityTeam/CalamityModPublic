@@ -1,3 +1,4 @@
+﻿using Terraria.DataStructures;
 using CalamityMod.Projectiles.Summon;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -12,33 +13,35 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             DisplayName.SetDefault("Hive Pod");
             Tooltip.SetDefault("Summons an astral hive to protect you");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 90;
-            item.mana = 10;
-            item.summon = true;
-            item.sentry = true;
-            item.width = 46;
-            item.height = 50;
-            item.useTime = item.useAnimation = 20;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.noMelee = true;
-            item.knockBack = 4f;
-            item.value = Item.buyPrice(0, 60, 0, 0);
-            item.rare = 7;
-            item.UseSound = SoundID.Item78;
-            item.shoot = ModContent.ProjectileType<Hive>();
+            Item.damage = 75;
+            Item.mana = 10;
+            Item.DamageType = DamageClass.Summon;
+            Item.sentry = true;
+            Item.autoReuse = true;
+            Item.width = 46;
+            Item.height = 50;
+            Item.useTime = Item.useAnimation = 20;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.noMelee = true;
+            Item.knockBack = 4f;
+            Item.value = CalamityGlobalItem.Rarity8BuyPrice;
+            Item.rare = ItemRarityID.Lime;
+            Item.UseSound = SoundID.Item78;
+            Item.shoot = ModContent.ProjectileType<Hive>();
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            if (player.altFunctionUse != 2)
-            {
-                Projectile.NewProjectile(Main.MouseWorld, Vector2.Zero, type, damage, knockBack, player.whoAmI);
-                player.UpdateMaxTurrets();
-            }
+            //CalamityUtils.OnlyOneSentry(player, type);
+            int p = Projectile.NewProjectile(source, Main.MouseWorld, Vector2.Zero, type, damage, knockback, player.whoAmI);
+            if (Main.projectile.IndexInRange(p))
+                Main.projectile[p].originalDamage = Item.damage;
+            player.UpdateMaxTurrets();
             return false;
         }
     }

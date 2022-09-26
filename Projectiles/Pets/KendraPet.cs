@@ -1,13 +1,16 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.Audio;
 namespace CalamityMod.Projectiles.Pets
 {
     public class KendraPet : ModProjectile
     {
+        public static readonly SoundStyle BarkSound = new("CalamityMod/Sounds/Item/KendraBark");
+
         private int chosenIdle = 0;
         private int idleTimer = 0;
         private int idleBarkTimer = 0;
@@ -17,25 +20,25 @@ namespace CalamityMod.Projectiles.Pets
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Kendra");
-            Main.projFrames[projectile.type] = 31;
-            Main.projPet[projectile.type] = true;
+            Main.projFrames[Projectile.type] = 31;
+            Main.projPet[Projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            projectile.netImportant = true;
-            projectile.width = 46;
-            projectile.height = 46;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.timeLeft *= 5;
-            projectile.tileCollide = true;
+            Projectile.netImportant = true;
+            Projectile.width = 46;
+            Projectile.height = 46;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft *= 5;
+            Projectile.tileCollide = true;
         }
 
-        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
+        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
         {
-            Player player = Main.player[projectile.owner];
-            Vector2 center2 = projectile.Center;
+            Player player = Main.player[Projectile.owner];
+            Vector2 center2 = Projectile.Center;
             Vector2 vector48 = player.Center - center2;
             float playerDistance = vector48.Length();
             fallThrough = playerDistance > 200f;
@@ -44,10 +47,10 @@ namespace CalamityMod.Projectiles.Pets
 
         public override void AI()
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             if (!player.active)
             {
-                projectile.active = false;
+                Projectile.active = false;
                 return;
             }
             CalamityPlayer modPlayer = player.Calamity();
@@ -57,138 +60,138 @@ namespace CalamityMod.Projectiles.Pets
             }
             if (modPlayer.kendra)
             {
-                projectile.timeLeft = 2;
+                Projectile.timeLeft = 2;
             }
-            Vector2 vector46 = projectile.position;
+            Vector2 vector46 = Projectile.position;
             if (!fly)
             {
-                projectile.rotation = 0;
-                Vector2 center2 = projectile.Center;
+                Projectile.rotation = 0;
+                Vector2 center2 = Projectile.Center;
                 Vector2 vector48 = player.Center - center2;
                 float playerDistance = vector48.Length();
-                if (projectile.velocity.Y == 0f && (HoleBelow() || (playerDistance > 110f && projectile.position.X == projectile.oldPosition.X)))
+                if (Projectile.velocity.Y == 0f && (HoleBelow() || (playerDistance > 110f && Projectile.position.X == Projectile.oldPosition.X)))
                 {
-                    projectile.velocity.Y = -5f;
+                    Projectile.velocity.Y = -5f;
                 }
-                projectile.velocity.Y += 0.2f;
-                if (projectile.velocity.Y > 7f)
+                Projectile.velocity.Y += 0.2f;
+                if (Projectile.velocity.Y > 7f)
                 {
-                    projectile.velocity.Y = 7f;
+                    Projectile.velocity.Y = 7f;
                 }
                 if (playerDistance > 600f)
                 {
                     fly = true;
-                    projectile.velocity.X = 0f;
-                    projectile.velocity.Y = 0f;
-                    projectile.tileCollide = false;
+                    Projectile.velocity.X = 0f;
+                    Projectile.velocity.Y = 0f;
+                    Projectile.tileCollide = false;
                 }
                 if (playerDistance > 100f)
                 {
-                    if (player.position.X - projectile.position.X > 0f)
+                    if (player.position.X - Projectile.position.X > 0f)
                     {
-                        projectile.velocity.X += 0.1f;
-                        if (projectile.velocity.X > 7f)
+                        Projectile.velocity.X += 0.1f;
+                        if (Projectile.velocity.X > 7f)
                         {
-                            projectile.velocity.X = 7f;
+                            Projectile.velocity.X = 7f;
                         }
                     }
                     else
                     {
-                        projectile.velocity.X -= 0.1f;
-                        if (projectile.velocity.X < -7f)
+                        Projectile.velocity.X -= 0.1f;
+                        if (Projectile.velocity.X < -7f)
                         {
-                            projectile.velocity.X = -7f;
+                            Projectile.velocity.X = -7f;
                         }
                     }
                 }
                 if (playerDistance < 100f)
                 {
-                    if (projectile.velocity.X != 0f)
+                    if (Projectile.velocity.X != 0f)
                     {
-                        if (projectile.velocity.X > 0.5f)
+                        if (Projectile.velocity.X > 0.5f)
                         {
-                            projectile.velocity.X -= 0.15f;
+                            Projectile.velocity.X -= 0.15f;
                         }
-                        else if (projectile.velocity.X < -0.5f)
+                        else if (Projectile.velocity.X < -0.5f)
                         {
-                            projectile.velocity.X += 0.15f;
+                            Projectile.velocity.X += 0.15f;
                         }
-                        else if (projectile.velocity.X < 0.5f && projectile.velocity.X > -0.5f)
+                        else if (Projectile.velocity.X < 0.5f && Projectile.velocity.X > -0.5f)
                         {
-                            projectile.velocity.X = 0f;
+                            Projectile.velocity.X = 0f;
                         }
                     }
                 }
-                if (projectile.position.X == projectile.oldPosition.X && projectile.position.Y == projectile.oldPosition.Y && projectile.velocity.X == 0)
+                if (Projectile.position.X == Projectile.oldPosition.X && Projectile.position.Y == Projectile.oldPosition.Y && Projectile.velocity.X == 0)
                 {
-                    projectile.frameCounter++;
+                    Projectile.frameCounter++;
                     switch (chosenIdle)
                     {
                         case 1:
                             if (idleTimer == 0)
                             {
-                                projectile.frame = 0;
+                                Projectile.frame = 0;
                             }
                             idleTimer++;
-                            if (projectile.frameCounter > 6)
+                            if (Projectile.frameCounter > 6)
                             {
-                                projectile.frame++;
-                                projectile.frameCounter = 0;
+                                Projectile.frame++;
+                                Projectile.frameCounter = 0;
                             }
-                            if (projectile.frame > 4)
+                            if (Projectile.frame > 4)
                             {
                                 chosenIdle = 0;
                             }
-                            if (projectile.frame < 1)
+                            if (Projectile.frame < 1)
                             {
-                                projectile.frame = 1;
+                                Projectile.frame = 1;
                             }
                             break;
                         case 2:
                             if (idleTimer == 0)
                             {
-                                projectile.frame = 0;
+                                Projectile.frame = 0;
                             }
                             idleTimer++;
-                            if (projectile.frameCounter > 6)
+                            if (Projectile.frameCounter > 6)
                             {
-                                projectile.frame++;
-                                projectile.frameCounter = 0;
+                                Projectile.frame++;
+                                Projectile.frameCounter = 0;
                             }
-                            if (projectile.frame > 13)
+                            if (Projectile.frame > 13)
                             {
                                 chosenIdle = 0;
                             }
-                            if (projectile.frame < 5)
+                            if (Projectile.frame < 5)
                             {
-                                projectile.frame = 5;
+                                Projectile.frame = 5;
                             }
                             break;
                         case 3:
                             if (idleTimer == 0)
                             {
-                                projectile.frame = 0;
+                                Projectile.frame = 0;
                             }
                             idleTimer++;
-                            if (projectile.frameCounter > 6)
+                            if (Projectile.frameCounter > 6)
                             {
-                                projectile.frame++;
-                                projectile.frameCounter = 0;
+                                Projectile.frame++;
+                                Projectile.frameCounter = 0;
                             }
-                            if (projectile.frame > 24)
+                            if (Projectile.frame > 24)
                             {
                                 chosenIdle = 0;
                             }
-                            if (projectile.frame < 19)
+                            if (Projectile.frame < 19)
                             {
-                                projectile.frame = 19;
+                                Projectile.frame = 19;
                             }
                             break;
                     }
                     if (chosenIdle == 0)
                     {
-                        projectile.frame = 0;
-                        projectile.frameCounter = 6;
+                        Projectile.frame = 0;
+                        Projectile.frameCounter = 6;
                         idleTimer++;
                         if (idleTimer > 360)
                         {
@@ -198,55 +201,55 @@ namespace CalamityMod.Projectiles.Pets
                         idleBarkTimer++;
                         if (idleBarkTimer > 1080 && Main.rand.NextBool(2))
                         {
-                            Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/KendraBark"), (int)projectile.position.X, (int)projectile.position.Y);
+                            SoundEngine.PlaySound(BarkSound, Projectile.position);
                             chosenIdle = 3;
                             idleBarkTimer = 0;
                             idleTimer = 0;
                         }
                     }
                 }
-                else if (projectile.velocity.Y > 0.3f && projectile.position.Y != projectile.oldPosition.Y)
+                else if (Projectile.velocity.Y > 0.3f && Projectile.position.Y != Projectile.oldPosition.Y)
                 {
-                    projectile.frame = 16;
-                    projectile.frameCounter = 0;
+                    Projectile.frame = 16;
+                    Projectile.frameCounter = 0;
                 }
                 else
                 {
-                    projectile.frameCounter++;
-                    if (projectile.frameCounter > 6)
+                    Projectile.frameCounter++;
+                    if (Projectile.frameCounter > 6)
                     {
-                        projectile.frame++;
-                        projectile.frameCounter = 0;
+                        Projectile.frame++;
+                        Projectile.frameCounter = 0;
                     }
-                    if (projectile.frame > 18)
+                    if (Projectile.frame > 18)
                     {
-                        projectile.frame = 14;
+                        Projectile.frame = 14;
                     }
-                    if (projectile.frame < 14)
+                    if (Projectile.frame < 14)
                     {
-                        projectile.frame = 14;
+                        Projectile.frame = 14;
                     }
                 }
             }
             else if (fly)
             {
                 float num16 = 0.3f;
-                projectile.tileCollide = false;
-                Vector2 vector3 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
-                float horiPos = Main.player[projectile.owner].position.X + (float)(Main.player[projectile.owner].width / 2) - vector3.X;
-                float vertiPos = Main.player[projectile.owner].position.Y + (float)(Main.player[projectile.owner].height / 2) - vector3.Y;
+                Projectile.tileCollide = false;
+                Vector2 vector3 = new Vector2(Projectile.position.X + (float)Projectile.width * 0.5f, Projectile.position.Y + (float)Projectile.height * 0.5f);
+                float horiPos = Main.player[Projectile.owner].position.X + (float)(Main.player[Projectile.owner].width / 2) - vector3.X;
+                float vertiPos = Main.player[Projectile.owner].position.Y + (float)(Main.player[Projectile.owner].height / 2) - vector3.Y;
                 vertiPos += (float)Main.rand.Next(-10, 21);
                 horiPos += (float)Main.rand.Next(-10, 21);
-                horiPos += (float)(60 * -(float)Main.player[projectile.owner].direction);
+                horiPos += (float)(60 * -(float)Main.player[Projectile.owner].direction);
                 vertiPos -= 60f;
                 float playerDistance = (float)Math.Sqrt((double)(horiPos * horiPos + vertiPos * vertiPos));
                 float num21 = 18.5f;
                 float num27 = (float)Math.Sqrt((double)(horiPos * horiPos + vertiPos * vertiPos));
                 if (playerDistance > 2000f)
                 {
-                    projectile.position.X = Main.player[projectile.owner].Center.X - (float)(projectile.width / 2);
-                    projectile.position.Y = Main.player[projectile.owner].Center.Y - (float)(projectile.height / 2);
-                    projectile.netUpdate = true;
+                    Projectile.position.X = Main.player[Projectile.owner].Center.X - (float)(Projectile.width / 2);
+                    Projectile.position.Y = Main.player[Projectile.owner].Center.Y - (float)(Projectile.height / 2);
+                    Projectile.netUpdate = true;
                 }
                 if (playerDistance < 100f)
                 {
@@ -259,17 +262,17 @@ namespace CalamityMod.Projectiles.Pets
                     {
                         playerStill = 0;
                     }
-                    if (playerStill > 60 && !Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
+                    if (playerStill > 60 && !Collision.SolidCollision(Projectile.position, Projectile.width, Projectile.height))
                     {
                         fly = false;
-                        projectile.tileCollide = true;
+                        Projectile.tileCollide = true;
                     }
                 }
                 if (playerDistance < 50f)
                 {
-                    if (Math.Abs(projectile.velocity.X) > 2f || Math.Abs(projectile.velocity.Y) > 2f)
+                    if (Math.Abs(Projectile.velocity.X) > 2f || Math.Abs(Projectile.velocity.Y) > 2f)
                     {
-                        projectile.velocity *= 0.9f;
+                        Projectile.velocity *= 0.9f;
                     }
                     num16 = 0.01f;
                 }
@@ -287,88 +290,88 @@ namespace CalamityMod.Projectiles.Pets
                     horiPos *= playerDistance;
                     vertiPos *= playerDistance;
                 }
-                if (projectile.velocity.X <= horiPos)
+                if (Projectile.velocity.X <= horiPos)
                 {
-                    projectile.velocity.X = projectile.velocity.X + num16;
-                    if (num16 > 0.05f && projectile.velocity.X < 0f)
+                    Projectile.velocity.X = Projectile.velocity.X + num16;
+                    if (num16 > 0.05f && Projectile.velocity.X < 0f)
                     {
-                        projectile.velocity.X = projectile.velocity.X + num16;
+                        Projectile.velocity.X = Projectile.velocity.X + num16;
                     }
                 }
-                if (projectile.velocity.X > horiPos)
+                if (Projectile.velocity.X > horiPos)
                 {
-                    projectile.velocity.X = projectile.velocity.X - num16;
-                    if (num16 > 0.05f && projectile.velocity.X > 0f)
+                    Projectile.velocity.X = Projectile.velocity.X - num16;
+                    if (num16 > 0.05f && Projectile.velocity.X > 0f)
                     {
-                        projectile.velocity.X = projectile.velocity.X - num16;
+                        Projectile.velocity.X = Projectile.velocity.X - num16;
                     }
                 }
-                if (projectile.velocity.Y <= vertiPos)
+                if (Projectile.velocity.Y <= vertiPos)
                 {
-                    projectile.velocity.Y = projectile.velocity.Y + num16;
-                    if (num16 > 0.05f && projectile.velocity.Y < 0f)
+                    Projectile.velocity.Y = Projectile.velocity.Y + num16;
+                    if (num16 > 0.05f && Projectile.velocity.Y < 0f)
                     {
-                        projectile.velocity.Y = projectile.velocity.Y + num16 * 2f;
+                        Projectile.velocity.Y = Projectile.velocity.Y + num16 * 2f;
                     }
                 }
-                if (projectile.velocity.Y > vertiPos)
+                if (Projectile.velocity.Y > vertiPos)
                 {
-                    projectile.velocity.Y = projectile.velocity.Y - num16;
-                    if (num16 > 0.05f && projectile.velocity.Y > 0f)
+                    Projectile.velocity.Y = Projectile.velocity.Y - num16;
+                    if (num16 > 0.05f && Projectile.velocity.Y > 0f)
                     {
-                        projectile.velocity.Y = projectile.velocity.Y - num16 * 2f;
+                        Projectile.velocity.Y = Projectile.velocity.Y - num16 * 2f;
                     }
                 }
-                projectile.rotation = projectile.velocity.X * 0.015f;
-                projectile.frameCounter++;
-                if (projectile.frameCounter > 6)
+                Projectile.rotation = Projectile.velocity.X * 0.015f;
+                Projectile.frameCounter++;
+                if (Projectile.frameCounter > 6)
                 {
-                    projectile.frame++;
-                    projectile.frameCounter = 0;
+                    Projectile.frame++;
+                    Projectile.frameCounter = 0;
                 }
-                if (projectile.frame > 30)
+                if (Projectile.frame > 30)
                 {
-                    projectile.frame = 25;
+                    Projectile.frame = 25;
                 }
-                if (projectile.frame < 25)
+                if (Projectile.frame < 25)
                 {
-                    projectile.frame = 25;
+                    Projectile.frame = 25;
                 }
             }
-            if (projectile.velocity.X > 0.25f)
+            if (Projectile.velocity.X > 0.25f)
             {
-                projectile.spriteDirection = -1;
+                Projectile.spriteDirection = -1;
             }
-            else if (projectile.velocity.X < -0.25f)
+            else if (Projectile.velocity.X < -0.25f)
             {
-                projectile.spriteDirection = 1;
+                Projectile.spriteDirection = 1;
             }
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            SpriteEffects spriteEffects = projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
-            Texture2D texture2D13 = Main.projectileTexture[projectile.type];
-            int num214 = Main.projectileTexture[projectile.type].Height / Main.projFrames[projectile.type];
-            int y6 = num214 * projectile.frame;
-            Main.spriteBatch.Draw(texture2D13, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y6, texture2D13.Width, num214)), projectile.GetAlpha(lightColor), projectile.rotation, new Vector2((float)texture2D13.Width / 2f, (float)num214 / 2f), projectile.scale, spriteEffects, 0f);
+            SpriteEffects spriteEffects = Projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+            Texture2D texture2D13 = ModContent.Request<Texture2D>(Texture).Value;
+            int num214 = ModContent.Request<Texture2D>(Texture).Value.Height / Main.projFrames[Projectile.type];
+            int y6 = num214 * Projectile.frame;
+            Main.spriteBatch.Draw(texture2D13, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y6, texture2D13.Width, num214)), Projectile.GetAlpha(lightColor), Projectile.rotation, new Vector2((float)texture2D13.Width / 2f, (float)num214 / 2f), Projectile.scale, spriteEffects, 0);
             return false;
         }
 
         private bool HoleBelow()
         {
             int tileWidth = 4;
-            int tileX = (int)(projectile.Center.X / 16f) - tileWidth;
-            if (projectile.velocity.X > 0)
+            int tileX = (int)(Projectile.Center.X / 16f) - tileWidth;
+            if (Projectile.velocity.X > 0)
             {
                 tileX += tileWidth;
             }
-            int tileY = (int)((projectile.position.Y + projectile.height) / 16f);
+            int tileY = (int)((Projectile.position.Y + Projectile.height) / 16f);
             for (int y = tileY; y < tileY + 2; y++)
             {
                 for (int x = tileX; x < tileX + tileWidth; x++)
                 {
-                    if (Main.tile[x, y].active())
+                    if (Main.tile[x, y].HasTile)
                     {
                         return false;
                     }

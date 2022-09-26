@@ -1,188 +1,197 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
 using Microsoft.Xna.Framework;
 using System;
 using System.IO;
 using Terraria;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Utilities;
+using Terraria.Audio;
+
 namespace CalamityMod.NPCs.NormalNPCs
 {
     public class Sunskater : ModNPC
     {
+        public static readonly SoundStyle DeathSound = new("CalamityMod/Sounds/NPCKilled/Sunskater") { Volume = 0.9f};
+
         private bool hasBeenHit = false;
 
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Sunskater");
-            Main.npcFrameCount[npc.type] = 4;
+            Main.npcFrameCount[NPC.type] = 4;
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0);
         }
 
         public override void SetDefaults()
         {
-            npc.noGravity = true;
-            npc.lavaImmune = true;
-            npc.damage = 20;
-            npc.width = 58;
-            npc.height = 22;
-            npc.defense = 4;
-            npc.lifeMax = 100;
-            npc.aiStyle = -1;
-            aiType = -1;
-            npc.value = Item.buyPrice(0, 0, 5, 0);
-            npc.HitSound = SoundID.NPCHit50;
-            npc.DeathSound = mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/Sunskater");
-            npc.knockBackResist = 0.7f;
-            banner = npc.type;
-            bannerItem = ModContent.ItemType<SunskaterBanner>();
+            NPC.noGravity = true;
+            NPC.lavaImmune = true;
+            NPC.damage = 20;
+            NPC.width = 58;
+            NPC.height = 22;
+            NPC.defense = 4;
+            NPC.lifeMax = 100;
+            NPC.aiStyle = -1;
+            AIType = -1;
+            NPC.value = Item.buyPrice(0, 0, 5, 0);
+            NPC.HitSound = SoundID.NPCHit50;
+            NPC.DeathSound = DeathSound;
+            NPC.knockBackResist = 0.7f;
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<SunskaterBanner>();
+            NPC.Calamity().VulnerableToHeat = false;
+            NPC.Calamity().VulnerableToCold = true;
+            NPC.Calamity().VulnerableToSickness = true;
+            NPC.Calamity().VulnerableToWater = true;
+        }
+
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Sky,
+
+				// Will move to localization whenever that is cleaned up.
+				new FlavorTextBestiaryInfoElement("Some creatures which skirt the edges of our atmosphere tend to absorb and channel the sun’s rays better than others. At any rate, this is a passive creature that means you no harm. You should return the favor.")
+            });
         }
 
         public override void SendExtraAI(BinaryWriter writer)
         {
             writer.Write(hasBeenHit);
-            writer.Write(npc.chaseable);
+            writer.Write(NPC.chaseable);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             hasBeenHit = reader.ReadBoolean();
-            npc.chaseable = reader.ReadBoolean();
+            NPC.chaseable = reader.ReadBoolean();
         }
 
         public override void AI()
         {
-            npc.spriteDirection = (npc.direction > 0) ? 1 : -1;
-            npc.noGravity = true;
-            if (npc.direction == 0)
+            NPC.spriteDirection = (NPC.direction > 0) ? 1 : -1;
+            NPC.noGravity = true;
+            if (NPC.direction == 0)
             {
-                npc.TargetClosest(true);
+                NPC.TargetClosest(true);
             }
-            if (npc.justHit)
+            if (NPC.justHit)
             {
                 hasBeenHit = true;
             }
-            npc.chaseable = hasBeenHit;
-            if (!npc.wet)
+            NPC.chaseable = hasBeenHit;
+            if (!NPC.wet)
             {
                 bool flag14 = hasBeenHit;
-                npc.TargetClosest(false);
-                if ((Main.player[npc.target].wet || Main.player[npc.target].dead) && flag14)
+                NPC.TargetClosest(false);
+                if ((Main.player[NPC.target].wet || Main.player[NPC.target].dead) && flag14)
                 {
                     flag14 = false;
                 }
                 if (!flag14)
                 {
-                    if (npc.collideX)
+                    if (NPC.collideX)
                     {
-                        npc.velocity.X = npc.velocity.X * -1f;
-                        npc.direction *= -1;
-                        npc.netUpdate = true;
+                        NPC.velocity.X = NPC.velocity.X * -1f;
+                        NPC.direction *= -1;
+                        NPC.netUpdate = true;
                     }
-                    if (npc.collideY)
+                    if (NPC.collideY)
                     {
-                        npc.netUpdate = true;
-                        if (npc.velocity.Y > 0f)
+                        NPC.netUpdate = true;
+                        if (NPC.velocity.Y > 0f)
                         {
-                            npc.velocity.Y = Math.Abs(npc.velocity.Y) * -1f;
-                            npc.directionY = -1;
-                            npc.ai[0] = -1f;
+                            NPC.velocity.Y = Math.Abs(NPC.velocity.Y) * -1f;
+                            NPC.directionY = -1;
+                            NPC.ai[0] = -1f;
                         }
-                        else if (npc.velocity.Y < 0f)
+                        else if (NPC.velocity.Y < 0f)
                         {
-                            npc.velocity.Y = Math.Abs(npc.velocity.Y);
-                            npc.directionY = 1;
-                            npc.ai[0] = 1f;
+                            NPC.velocity.Y = Math.Abs(NPC.velocity.Y);
+                            NPC.directionY = 1;
+                            NPC.ai[0] = 1f;
                         }
                     }
                 }
                 if (flag14)
                 {
-                    npc.TargetClosest(true);
-                    npc.velocity.X = npc.velocity.X + (float)npc.direction * 0.15f;
-                    npc.velocity.Y = npc.velocity.Y + (float)npc.directionY * 0.15f;
-					npc.velocity.X = MathHelper.Clamp(npc.velocity.X, -10f, 10f);
-					npc.velocity.Y = MathHelper.Clamp(npc.velocity.Y, -10f, 10f);
+                    NPC.TargetClosest(true);
+                    NPC.velocity.X = NPC.velocity.X + (float)NPC.direction * 0.15f;
+                    NPC.velocity.Y = NPC.velocity.Y + (float)NPC.directionY * 0.15f;
+                    NPC.velocity.X = MathHelper.Clamp(NPC.velocity.X, -10f, 10f);
+                    NPC.velocity.Y = MathHelper.Clamp(NPC.velocity.Y, -10f, 10f);
                 }
                 else
                 {
-                    npc.velocity.X += (float)npc.direction * 0.1f;
-                    if (npc.velocity.X < -2f || npc.velocity.X > 2f)
+                    NPC.velocity.X += (float)NPC.direction * 0.1f;
+                    if (NPC.velocity.X < -2f || NPC.velocity.X > 2f)
                     {
-                        npc.velocity.X *= 0.95f;
+                        NPC.velocity.X *= 0.95f;
                     }
-                    if (npc.ai[0] == -1f)
+                    if (NPC.ai[0] == -1f)
                     {
-                        npc.velocity.Y -= 0.01f;
-                        if (npc.velocity.Y < -0.3f)
+                        NPC.velocity.Y -= 0.01f;
+                        if (NPC.velocity.Y < -0.3f)
                         {
-                            npc.ai[0] = 1f;
+                            NPC.ai[0] = 1f;
                         }
                     }
                     else
                     {
-                        npc.velocity.Y += 0.01f;
-                        if (npc.velocity.Y > 0.3f)
+                        NPC.velocity.Y += 0.01f;
+                        if (NPC.velocity.Y > 0.3f)
                         {
-                            npc.ai[0] = -1f;
+                            NPC.ai[0] = -1f;
                         }
                     }
                 }
-                int num258 = (int)(npc.position.X + (float)(npc.width / 2)) / 16;
-                int num259 = (int)(npc.position.Y + (float)(npc.height / 2)) / 16;
-                if (Main.tile[num258, num259 - 1] == null)
+                int num258 = (int)(NPC.position.X + (float)(NPC.width / 2)) / 16;
+                int num259 = (int)(NPC.position.Y + (float)(NPC.height / 2)) / 16;
+                if (Main.tile[num258, num259 - 1].LiquidAmount < 128) //problem?
                 {
-                    Main.tile[num258, num259 - 1] = new Tile();
-                }
-                if (Main.tile[num258, num259 + 1] == null)
-                {
-                    Main.tile[num258, num259 + 1] = new Tile();
-                }
-                if (Main.tile[num258, num259 + 2] == null)
-                {
-                    Main.tile[num258, num259 + 2] = new Tile();
-                }
-                if (Main.tile[num258, num259 - 1].liquid < 128) //problem?
-                {
-                    if (Main.tile[num258, num259 + 1].active())
+                    if (Main.tile[num258, num259 + 1].HasTile)
                     {
-                        npc.ai[0] = -1f;
+                        NPC.ai[0] = -1f;
                     }
-                    else if (Main.tile[num258, num259 + 2].active())
+                    else if (Main.tile[num258, num259 + 2].HasTile)
                     {
-                        npc.ai[0] = -1f;
+                        NPC.ai[0] = -1f;
                     }
                 }
-                if (npc.velocity.Y > 0.4f || npc.velocity.Y < -0.4f)
+                if (NPC.velocity.Y > 0.4f || NPC.velocity.Y < -0.4f)
                 {
-                    npc.velocity.Y *= 0.95f;
+                    NPC.velocity.Y *= 0.95f;
                 }
             }
             else
             {
-                if (npc.velocity.Y == 0f)
+                if (NPC.velocity.Y == 0f)
                 {
-                    npc.velocity.X *= 0.94f;
-                    if (npc.velocity.X > -0.2f && npc.velocity.X < 0.2f)
+                    NPC.velocity.X *= 0.94f;
+                    if (NPC.velocity.X > -0.2f && NPC.velocity.X < 0.2f)
                     {
-                        npc.velocity.X = 0f;
+                        NPC.velocity.X = 0f;
                     }
                 }
-                npc.velocity.Y = npc.velocity.Y + 0.3f;
-                if (npc.velocity.Y > 5f)
+                NPC.velocity.Y = NPC.velocity.Y + 0.3f;
+                if (NPC.velocity.Y > 5f)
                 {
-                    npc.velocity.Y = 5f;
+                    NPC.velocity.Y = 5f;
                 }
-                npc.ai[0] = 1f;
+                NPC.ai[0] = 1f;
             }
-            npc.rotation = npc.velocity.Y * (float)npc.direction * 0.1f;
-            if ((double)npc.rotation < -0.1)
+            NPC.rotation = NPC.velocity.Y * (float)NPC.direction * 0.1f;
+            if ((double)NPC.rotation < -0.1)
             {
-                npc.rotation = -0.1f;
+                NPC.rotation = -0.1f;
             }
-            if ((double)npc.rotation > 0.1)
+            if ((double)NPC.rotation > 0.1)
             {
-                npc.rotation = 0.1f;
+                NPC.rotation = 0.1f;
                 return;
             }
         }
@@ -198,15 +207,15 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void FindFrame(int frameHeight)
         {
-            npc.frameCounter += hasBeenHit ? 0.15f : 0.075f;
-            npc.frameCounter %= Main.npcFrameCount[npc.type];
-            int frame = (int)npc.frameCounter;
-            npc.frame.Y = frame * frameHeight;
+            NPC.frameCounter += hasBeenHit ? 0.15f : 0.075f;
+            NPC.frameCounter %= Main.npcFrameCount[NPC.type];
+            int frame = (int)NPC.frameCounter;
+            NPC.frame.Y = frame * frameHeight;
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.playerSafe)
+            if (spawnInfo.PlayerSafe)
             {
                 return 0f;
             }
@@ -215,29 +224,23 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(BuffID.OnFire, 120, true);
-            player.AddBuff(ModContent.BuffType<HolyFlames>(), 120, true);
+            if (damage > 0)
+                player.AddBuff(ModContent.BuffType<HolyFlames>(), 120, true);
         }
 
-        public override void NPCLoot()
-        {
-            if (Main.hardMode && Main.rand.NextBool(3))
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<EssenceofCinder>());
-            }
-        }
+        public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.AddIf(() => Main.hardMode, ModContent.ItemType<EssenceofSunlight>(), 3);
 
         public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, 64, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(NPC.position, NPC.width, NPC.height, 64, hitDirection, -1f, 0, default, 1f);
             }
-            if (npc.life <= 0)
+            if (NPC.life <= 0)
             {
                 for (int k = 0; k < 25; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 64, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(NPC.position, NPC.width, NPC.height, 64, hitDirection, -1f, 0, default, 1f);
                 }
             }
         }

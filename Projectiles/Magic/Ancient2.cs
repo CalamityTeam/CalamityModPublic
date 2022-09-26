@@ -1,93 +1,118 @@
+﻿using CalamityMod.DataStructures;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Magic
 {
     public class Ancient2 : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Magic/Ancient";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ancient");
+            Main.projFrames[Projectile.type] = 6;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 10;
-            projectile.height = 10;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.magic = true;
-            projectile.penetrate = 4;
-            projectile.extraUpdates = 12;
-            projectile.timeLeft = 30;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 2;
+            Projectile.width = 50;
+            Projectile.height = 50;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.DamageType = DamageClass.Magic;
+            Projectile.penetrate = 4;
+            Projectile.extraUpdates = 12;
+            Projectile.timeLeft = 30;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 6;
+            Projectile.scale = 0.5f;
         }
 
         public override void AI()
         {
-            Lighting.AddLight(projectile.Center, 0.3f, 0.25f, 0f);
-            if (projectile.timeLeft > 30)
+            Lighting.AddLight(Projectile.Center, 0.3f, 0.25f, 0f);
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter > 3)
             {
-                projectile.timeLeft = 30;
+                Projectile.frame++;
+                Projectile.frameCounter = 0;
             }
-            if (projectile.ai[0] > 7f)
+            if (Projectile.frame >= Main.projFrames[Projectile.type])
             {
-                float num296 = 1f;
-                if (projectile.ai[0] == 8f)
+                Projectile.frame = 0;
+            }
+            Projectile.rotation += (Math.Abs(Projectile.velocity.X) + Math.Abs(Projectile.velocity.Y)) * 0.01f * (float)Projectile.direction;
+            if (Projectile.ai[0] > 7f && Projectile.numUpdates % 2 == 0)
+            {
+                int dustType = 22;
+                int idx = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, dustType, Projectile.velocity.X * 0.2f, Projectile.velocity.Y * 0.2f, 100, default, 1f);
+                Dust dust = Main.dust[idx];
+                if (Main.rand.NextBool(2))
                 {
-                    num296 = 0.25f;
-                }
-                else if (projectile.ai[0] == 9f)
-                {
-                    num296 = 0.5f;
-                }
-                else if (projectile.ai[0] == 10f)
-                {
-                    num296 = 0.75f;
-                }
-                projectile.ai[0] += 1f;
-                int num297 = 32;
-                for (int num298 = 0; num298 < 2; num298++)
-                {
-                    int num299 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, num297, projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 100, default, 1f);
-                    Dust dust = Main.dust[num299];
-                    if (Main.rand.NextBool(2))
-                    {
-                        dust.noGravity = true;
-                        dust.scale *= 1.5f;
-                        dust.velocity.X *= 3f;
-                        dust.velocity.Y *= 3f;
-                    }
+                    dust.noGravity = true;
+                    dust.scale *= 2f;
                     dust.velocity.X *= 2f;
                     dust.velocity.Y *= 2f;
-                    dust.scale *= num296;
                 }
-                for (int num298 = 0; num298 < 2; num298++)
+                else
                 {
-                    int num299 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, num297, projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 100, default, 1f);
-                    Dust dust = Main.dust[num299];
-                    if (Main.rand.NextBool(3))
-                    {
-                        dust.noGravity = true;
-                        dust.scale *= 3f;
-                        dust.velocity.X *= 2f;
-                        dust.velocity.Y *= 2f;
-                    }
-                    else
-                    {
-                        dust.scale *= 2f;
-                    }
-                    dust.velocity.X *= 1.2f;
-                    dust.velocity.Y *= 1.2f;
-                    dust.scale *= num296;
+                    dust.scale *= 1.25f;
+                }
+                dust.velocity.X *= 3f;
+                dust.velocity.Y *= 3f;
+                idx = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, dustType, Projectile.velocity.X * 0.2f, Projectile.velocity.Y * 0.2f, 100, default, 1f);
+                if (Main.rand.NextBool(3))
+                {
+                    dust.noGravity = true;
+                    dust.scale *= 2.5f;
+                    dust.velocity.X *= 1.5f;
+                    dust.velocity.Y *= 1.5f;
+                }
+                else
+                {
+                    dust.scale *= 1.5f;
+                }
+                dust.velocity.X *= 1.1f;
+                dust.velocity.Y *= 1.1f;
+            }
+            Projectile.ai[0] += 1f;
+            Projectile.rotation += 0.3f * (float)Projectile.direction;
+        }
+
+        public override bool PreDraw(ref Color lightColor)
+        {
+            Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
+            Vector2 drawPos = Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY);
+            int height = texture.Height / Main.projFrames[Projectile.type];
+            int frameHeight = height * Projectile.frame;
+            Rectangle rectangle = new Rectangle(0, frameHeight, texture.Width, height);
+            Vector2 origin = new Vector2(texture.Width / 2f, height / 2f);
+            Main.EntitySpriteDraw(texture, drawPos, new Microsoft.Xna.Framework.Rectangle?(rectangle), lightColor, Projectile.rotation, origin, Projectile.scale, SpriteEffects.None, 0);
+
+            // Dust effects
+            Circle dustCircle = new Circle(Projectile.Center, Projectile.width / 2);
+
+            for (int i = 0; i < 20; i++)
+            {
+                // Dust
+                Vector2 dustPos = dustCircle.RandomPointInCircle();
+                if ((dustPos - Projectile.Center).Length() > 48)
+                {
+                    int dustIndex = Dust.NewDust(dustPos, 1, 1, 22);
+                    Main.dust[dustIndex].noGravity = true;
+                    Main.dust[dustIndex].fadeIn = 1f;
+                    Vector2 dustVelocity = Projectile.Center - Main.dust[dustIndex].position;
+                    float distToCenter = dustVelocity.Length();
+                    dustVelocity.Normalize();
+                    dustVelocity = dustVelocity.RotatedBy(MathHelper.ToRadians(-90f));
+                    dustVelocity *= distToCenter * 0.04f;
+                    Main.dust[dustIndex].velocity = dustVelocity;
                 }
             }
-            else
-            {
-                projectile.ai[0] += 1f;
-            }
-            projectile.rotation += 0.3f * (float)projectile.direction;
+            return false;
         }
     }
 }

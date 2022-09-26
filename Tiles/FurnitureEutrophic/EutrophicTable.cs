@@ -1,19 +1,19 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureEutrophic
 {
     public class EutrophicTable : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpTable();
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Eutrophic Table");
-            AddMapEntry(new Color(191, 142, 111), name);
-            adjTiles = new int[] { TileID.Tables };
+            AddMapEntry(new Color(191, 142, 111), Language.GetText("MapObject.Table"));
+            AdjTiles = new int[] { TileID.Tables };
         }
 
         public override bool CreateDust(int i, int j, ref int type)
@@ -29,7 +29,7 @@ namespace CalamityMod.Tiles.FurnitureEutrophic
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 16, 32, ModContent.ItemType<Items.Placeables.FurnitureEutrophic.EutrophicTable>());
+            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 32, ModContent.ItemType<Items.Placeables.FurnitureEutrophic.EutrophicTable>());
         }
     }
 }

@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -8,7 +8,7 @@ namespace CalamityMod.Tiles.Abyss
 {
     public class LumenylCrystals : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileLighted[Type] = true;
             Main.tileNoFail[Type] = true;
@@ -18,10 +18,9 @@ namespace CalamityMod.Tiles.Abyss
             name.SetDefault("Lumenyl");
             AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
             AddMapEntry(new Color(0, 150, 200), name);
-            soundType = SoundID.Item;
-            soundStyle = 27;
-            dustType = 67;
-            drop = ModContent.ItemType<Lumenite>();
+            HitSound = SoundID.Item27;
+            DustType = 67;
+            ItemDrop = ModContent.ItemType<Lumenyl>();
             Main.tileSpelunker[Type] = true;
         }
 
@@ -39,36 +38,36 @@ namespace CalamityMod.Tiles.Abyss
 
         public override bool CanPlace(int i, int j)
         {
-            if (Main.tile[i, j + 1].slope() == 0 && !Main.tile[i, j + 1].halfBrick())
+            if (Main.tile[i, j + 1].Slope == 0 && !Main.tile[i, j + 1].IsHalfBlock)
                 return true;
-            if (Main.tile[i, j - 1].slope() == 0 && !Main.tile[i, j - 1].halfBrick())
+            if (Main.tile[i, j - 1].Slope == 0 && !Main.tile[i, j - 1].IsHalfBlock)
                 return true;
-            if (Main.tile[i + 1, j].slope() == 0 && !Main.tile[i + 1, j].halfBrick())
+            if (Main.tile[i + 1, j].Slope == 0 && !Main.tile[i + 1, j].IsHalfBlock)
                 return true;
-            if (Main.tile[i - 1, j].slope() == 0 && !Main.tile[i - 1, j].halfBrick())
+            if (Main.tile[i - 1, j].Slope == 0 && !Main.tile[i - 1, j].IsHalfBlock)
                 return true;
             return false;
         }
 
         public override void PlaceInWorld(int i, int j, Item item)
         {
-            if (Main.tile[i, j + 1].active() && Main.tileSolid[Main.tile[i, j + 1].type] && Main.tile[i, j + 1].slope() == 0 && !Main.tile[i, j + 1].halfBrick())
+            if (Main.tile[i, j + 1].HasTile && Main.tileSolid[Main.tile[i, j + 1].TileType] && Main.tile[i, j + 1].Slope == 0 && !Main.tile[i, j + 1].IsHalfBlock)
             {
-                Main.tile[i, j].frameY = (short)(0 * 18);
+                Main.tile[i, j].TileFrameY = (short)(0 * 18);
             }
-            else if (Main.tile[i, j - 1].active() && Main.tileSolid[Main.tile[i, j - 1].type] && Main.tile[i, j - 1].slope() == 0 && !Main.tile[i, j - 1].halfBrick())
+            else if (Main.tile[i, j - 1].HasTile && Main.tileSolid[Main.tile[i, j - 1].TileType] && Main.tile[i, j - 1].Slope == 0 && !Main.tile[i, j - 1].IsHalfBlock)
             {
-                Main.tile[i, j].frameY = (short)(1 * 18);
+                Main.tile[i, j].TileFrameY = (short)(1 * 18);
             }
-            else if (Main.tile[i + 1, j].active() && Main.tileSolid[Main.tile[i + 1, j].type] && Main.tile[i + 1, j].slope() == 0 && !Main.tile[i + 1, j].halfBrick())
+            else if (Main.tile[i + 1, j].HasTile && Main.tileSolid[Main.tile[i + 1, j].TileType] && Main.tile[i + 1, j].Slope == 0 && !Main.tile[i + 1, j].IsHalfBlock)
             {
-                Main.tile[i, j].frameY = (short)(2 * 18);
+                Main.tile[i, j].TileFrameY = (short)(2 * 18);
             }
-            else if (Main.tile[i - 1, j].active() && Main.tileSolid[Main.tile[i - 1, j].type] && Main.tile[i - 1, j].slope() == 0 && !Main.tile[i - 1, j].halfBrick())
+            else if (Main.tile[i - 1, j].HasTile && Main.tileSolid[Main.tile[i - 1, j].TileType] && Main.tile[i - 1, j].Slope == 0 && !Main.tile[i - 1, j].IsHalfBlock)
             {
-                Main.tile[i, j].frameY = (short)(3 * 18);
+                Main.tile[i, j].TileFrameY = (short)(3 * 18);
             }
-            Main.tile[i, j].frameX = (short)(WorldGen.genRand.Next(18) * 18);
+            Main.tile[i, j].TileFrameX = (short)(WorldGen.genRand.Next(18) * 18);
         }
     }
 }

@@ -1,5 +1,6 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Items.Materials
 {
@@ -7,17 +8,18 @@ namespace CalamityMod.Items.Materials
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 5;
             DisplayName.SetDefault("Grand Scale");
             Tooltip.SetDefault("Large scale of an apex predator");
         }
 
         public override void SetDefaults()
         {
-            item.width = 15;
-            item.height = 12;
-            item.maxStack = 999;
-            item.value = Item.buyPrice(0, 4, 50, 0);
-            item.rare = 7;
+            Item.width = 15;
+            Item.height = 12;
+            Item.maxStack = 999;
+            Item.value = Item.buyPrice(0, 4, 50, 0);
+            Item.rare = ItemRarityID.Lime;
         }
     }
 }

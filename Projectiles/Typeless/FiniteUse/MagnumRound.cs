@@ -1,5 +1,4 @@
-using CalamityMod.CalPlayer;
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -14,27 +13,22 @@ namespace CalamityMod.Projectiles.Typeless.FiniteUse
 
         public override void SetDefaults()
         {
-            projectile.width = 4;
-            projectile.height = 4;
-            projectile.light = 0.5f;
-            projectile.alpha = 255;
-            projectile.extraUpdates = 10;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.aiStyle = 1;
-            aiType = ProjectileID.BulletHighVelocity;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 600;
+            Projectile.width = 4;
+            Projectile.height = 4;
+            Projectile.light = 0.5f;
+            Projectile.alpha = 255;
+            Projectile.extraUpdates = 10;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.aiStyle = ProjAIStyleID.Arrow;
+            AIType = ProjectileID.BulletHighVelocity;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = 600;
         }
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            if (target.Organic())
-            {
-                damage += target.lifeMax / 25; //400 + 80 = 480 + (100000 / 25 = 4000) = 4480, if crit = 5600 = 5.6% of boss HP
-            }
-            if (damage > target.lifeMax / 15 && CalamityPlayer.areThereAnyDamnBosses)
-                damage = target.lifeMax / 15;
+            damage += target.lifeMax / 75; // 400 + 80 = 480 + (100000 / 75 = 1333) = 1813 = 1.813% of boss HP
         }
     }
 }

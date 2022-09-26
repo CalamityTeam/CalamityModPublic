@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class HypothermiaShard : ModProjectile
     {
-		private float counter = 0f;
+        private float counter = 0f;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ice Shard");
@@ -16,52 +16,53 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetDefaults()
         {
-            projectile.width = 6;
-            projectile.height = 6;
-            projectile.scale = 1f;
-            projectile.friendly = true;
-            projectile.alpha = 50;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 600;
-            projectile.Calamity().rogue = true;
-			projectile.extraUpdates = 3;
+            Projectile.width = 6;
+            Projectile.height = 6;
+            Projectile.scale = 1f;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.alpha = 50;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = 600;
+            Projectile.DamageType = RogueDamageClass.Instance;
+            Projectile.extraUpdates = 3;
         }
 
         public override void AI()
         {
-            Lighting.AddLight(projectile.Center, 0.1f, 0f, 0.5f);
-            projectile.rotation += projectile.velocity.X * 0.2f;
+            Lighting.AddLight(Projectile.Center, 0.1f, 0f, 0.5f);
+            Projectile.rotation += Projectile.velocity.X * 0.2f;
             counter += 0.25f;
             if (Main.rand.NextBool(10))
             {
-                int num300 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 191, 0f, 0f, 0, default, 0.8f);
+                int num300 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 191, 0f, 0f, 0, default, 0.8f);
                 Main.dust[num300].noGravity = true;
                 Main.dust[num300].velocity *= 0.2f;
             }
-            projectile.velocity *= 0.996f;
+            Projectile.velocity *= 0.996f;
             if (counter > 100f)
             {
-                projectile.scale -= 0.05f;
-                if ((double)projectile.scale <= 0.2)
+                Projectile.scale -= 0.05f;
+                if ((double)Projectile.scale <= 0.2)
                 {
-                    projectile.scale = 0.2f;
-                    projectile.Kill();
+                    Projectile.scale = 0.2f;
+                    Projectile.Kill();
                 }
-                projectile.width = (int)(6f * projectile.scale);
-                projectile.height = (int)(6f * projectile.scale);
+                Projectile.width = (int)(6f * Projectile.scale);
+                Projectile.height = (int)(6f * Projectile.scale);
             }
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-			if (projectile.velocity.X != oldVelocity.X)
-			{
-				projectile.velocity.X = -oldVelocity.X;
-			}
-			if (projectile.velocity.Y != oldVelocity.Y)
-			{
-				projectile.velocity.Y = -oldVelocity.Y;
-			}
+            if (Projectile.velocity.X != oldVelocity.X)
+            {
+                Projectile.velocity.X = -oldVelocity.X;
+            }
+            if (Projectile.velocity.Y != oldVelocity.Y)
+            {
+                Projectile.velocity.Y = -oldVelocity.Y;
+            }
             return false;
         }
 
@@ -69,7 +70,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             for (int k = 0; k < 3; k++)
             {
-                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 191, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f, 0, default, 0.8f);
+                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 191, Projectile.oldVelocity.X * 0.5f, Projectile.oldVelocity.Y * 0.5f, 0, default, 0.8f);
             }
         }
 
@@ -83,24 +84,24 @@ namespace CalamityMod.Projectiles.Rogue
             target.AddBuff(BuffID.Frostburn, 120);
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             //Changes the texture of the projectile
-            Texture2D texture = Main.projectileTexture[projectile.type];
-            if (projectile.ai[0] == 1f)
+            Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
+            if (Projectile.ai[0] == 1f)
             {
-                texture = ModContent.GetTexture("CalamityMod/Projectiles/Rogue/HypothermiaShard2");
+                texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Rogue/HypothermiaShard2").Value;
             }
-            if (projectile.ai[0] == 2f)
+            if (Projectile.ai[0] == 2f)
             {
-                texture = ModContent.GetTexture("CalamityMod/Projectiles/Rogue/HypothermiaShard3");
+                texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Rogue/HypothermiaShard3").Value;
             }
-            if (projectile.ai[0] == 3f)
+            if (Projectile.ai[0] == 3f)
             {
-                texture = ModContent.GetTexture("CalamityMod/Projectiles/Rogue/HypothermiaShard4");
+                texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Rogue/HypothermiaShard4").Value;
             }
-			Main.spriteBatch.Draw(texture, projectile.Center - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, texture.Width, texture.Height)), projectile.GetAlpha(lightColor), projectile.rotation, new Vector2(texture.Width / 2f, texture.Height / 2f), projectile.scale, SpriteEffects.None, 0f);
-			return false;
+            Main.spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, texture.Width, texture.Height)), Projectile.GetAlpha(lightColor), Projectile.rotation, new Vector2(texture.Width / 2f, texture.Height / 2f), Projectile.scale, SpriteEffects.None, 0);
+            return false;
         }
     }
 }

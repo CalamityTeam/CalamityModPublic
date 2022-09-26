@@ -1,7 +1,8 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Projectiles.Melee;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -17,40 +18,27 @@ namespace CalamityMod.Items.Weapons.Melee
             Tooltip.SetDefault("Fires a trident that rains additional tridents as it travels\n" +
                 "Hitting enemies will inflict the crush depth debuff\n" +
                 "The lower the enemies' defense, the more damage they take from this debuff");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.width = 122;
-            item.height = 122;
-            item.damage = 380;
-            item.melee = true;
-            item.useAnimation = 22;
-            item.useTime = 22;
-            item.useTurn = true;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 9f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.value = Item.buyPrice(1, 40, 0, 0);
-            item.rare = 10;
-            item.shoot = ModContent.ProjectileType<NeptuneOrb>();
-            item.shootSpeed = 12f;
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
-        }
+            Item.width = 122;
+            Item.height = 122;
+            Item.damage = 251;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = 22;
+            Item.useTime = 22;
+            Item.useTurn = true;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 9f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<NeptuneOrb>();
+            Item.shootSpeed = 12f;
 
-        public override void AddRecipes()
-        {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<AbyssBlade>());
-            recipe.AddIngredient(ModContent.ItemType<RuinousSoul>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<DepthCells>(), 15);
-            recipe.AddIngredient(ModContent.ItemType<Lumenite>(), 15);
-            recipe.AddIngredient(ModContent.ItemType<Tenebris>(), 5);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            Item.value = CalamityGlobalItem.Rarity13BuyPrice;
+            Item.rare = ModContent.RarityType<PureGreen>();
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)
@@ -63,12 +51,25 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<CrushDepth>(), 600);
+            target.AddBuff(ModContent.BuffType<CrushDepth>(), 300);
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<CrushDepth>(), 600);
+            target.AddBuff(ModContent.BuffType<CrushDepth>(), 300);
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient<AbyssBlade>().
+                AddIngredient<RuinousSoul>(5).
+                AddIngredient<Phantoplasm>(5).
+                AddIngredient<DepthCells>(15).
+                AddIngredient<Lumenyl>(15).
+                AddIngredient<Tenebris>(5).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

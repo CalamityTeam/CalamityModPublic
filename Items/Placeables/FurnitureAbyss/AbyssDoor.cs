@@ -9,30 +9,28 @@ namespace CalamityMod.Items.Placeables.FurnitureAbyss
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.width = 14;
-            item.height = 28;
-            item.maxStack = 99;
-            item.useTurn = true;
-            item.autoReuse = true;
-            item.useAnimation = 15;
-            item.useTime = 10;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.consumable = true;
-            item.value = 0;
-            item.createTile = ModContent.TileType<AbyssDoorClosed>();
+            Item.width = 14;
+            Item.height = 28;
+            Item.maxStack = 99;
+            Item.useTurn = true;
+            Item.autoReuse = true;
+            Item.useAnimation = 15;
+            Item.useTime = 10;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.consumable = true;
+            Item.value = 0;
+            Item.createTile = ModContent.TileType<AbyssDoorClosed>();
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<SmoothAbyssGravel>(), 6);
-            recipe.SetResult(this, 1);
-            recipe.AddTile(ModContent.TileType<VoidCondenser>());
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<SmoothAbyssGravel>(), 6).AddTile(ModContent.TileType<VoidCondenser>()).Register();
         }
     }
 }

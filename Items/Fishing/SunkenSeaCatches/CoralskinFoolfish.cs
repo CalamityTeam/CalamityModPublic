@@ -1,5 +1,6 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Items.Fishing.SunkenSeaCatches
 {
@@ -9,15 +10,22 @@ namespace CalamityMod.Items.Fishing.SunkenSeaCatches
         {
             DisplayName.SetDefault("Coralskin Foolfish"); //Potion material
             Tooltip.SetDefault("Camouflage is one of nature's best defenses");
+            SacrificeTotal = 3;
+            ItemID.Sets.CanBePlacedOnWeaponRacks[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.width = 28;
-            item.height = 28;
-            item.maxStack = 999;
-            item.value = Item.sellPrice(silver: 7);
-            item.rare = 2;
+            Item.width = 28;
+            Item.height = 28;
+            Item.maxStack = 999;
+            Item.value = Item.sellPrice(silver: 7);
+            Item.rare = ItemRarityID.Green;
         }
+
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = ContentSamples.CreativeHelper.ItemGroup.Fish;
+		}
     }
 }

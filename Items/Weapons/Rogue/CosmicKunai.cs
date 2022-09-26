@@ -1,6 +1,9 @@
-using CalamityMod.Projectiles.Rogue;
+﻿using CalamityMod.Projectiles.Rogue;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -8,47 +11,55 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class CosmicKunai : RogueWeapon
     {
+        private int counter = 0;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Cosmic Kunai");
             Tooltip.SetDefault("Fires a stream of short-range kunai\n" +
                 "Stealth strikes spawn 5 Cosmic Scythes which home and explode");
+            SacrificeTotal = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
-            item.width = 26;
-            item.damage = 150;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.useTime = 2;
-            item.useAnimation = 10;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 5f;
-            item.UseSound = SoundID.Item109;
-            item.autoReuse = true;
-            item.height = 48;
-            item.value = Item.buyPrice(1, 40, 0, 0);
-            item.rare = 10;
-            item.shoot = ModContent.ProjectileType<CosmicKunaiProj>();
-            item.shootSpeed = 28f;
-            item.Calamity().rogue = true;
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
+            Item.width = 26;
+            Item.damage = 92;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.useTime = 2;
+            Item.useAnimation = 10;
+            Item.reuseDelay = 1;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 5f;
+            Item.UseSound = SoundID.Item109;
+            Item.autoReuse = true;
+            Item.height = 48;
+            Item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            Item.rare = ModContent.RarityType<Turquoise>();
+            Item.shoot = ModContent.ProjectileType<CosmicKunaiProj>();
+            Item.shootSpeed = 28f;
+            Item.DamageType = RogueDamageClass.Instance;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            int stealth = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
-            if (player.Calamity().StealthStrikeAvailable() && player.ownedProjectileCounts[ModContent.ProjectileType<CosmicScythe>()] < 10)
+            int stealth = Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
+            if (player.Calamity().StealthStrikeAvailable() && player.ownedProjectileCounts[ModContent.ProjectileType<CosmicScythe>()] < 10 && counter == 0 && stealth.WithinBounds(Main.maxProjectiles))
             {
-				Main.projectile[stealth].Calamity().stealthStrike = true;
-                Main.PlaySound(SoundID.Item73, player.position);
+                damage = (int)(damage * 3.21);
+                Main.projectile[stealth].Calamity().stealthStrike = true;
+                SoundEngine.PlaySound(SoundID.Item73, player.position);
                 for (float i = 0; i < 5; i++)
                 {
                     float angle = MathHelper.TwoPi / 5f * i;
-                    Projectile.NewProjectile(player.Center, angle.ToRotationVector2() * 8f, ModContent.ProjectileType<CosmicScythe>(), (int)(damage * 0.8f), knockBack, player.whoAmI, angle, 0f);
+                    Projectile.NewProjectile(source, player.Center, angle.ToRotationVector2() * 8f, ModContent.ProjectileType<CosmicScythe>(), (int)(damage * 0.8f), knockback, player.whoAmI, angle, 0f);
                 }
             }
+
+            counter++;
+            if (counter >= Item.useAnimation / Item.useTime)
+                counter = 0;
             return false;
         }
     }

@@ -1,5 +1,7 @@
+﻿using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
+using CalamityMod.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -13,35 +15,42 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             DisplayName.SetDefault("Floodtide");
             Tooltip.SetDefault("Launches sharks, because sharks are awesome!");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 89;
-            item.melee = true;
-            item.width = 60;
-            item.height = 64;
-            item.useTime = 23;
-            item.useAnimation = 23;
-            item.useTurn = true;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 6f;
-            item.value = Item.buyPrice(0, 60, 0, 0);
-            item.rare = 7;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.shoot = ProjectileID.MiniSharkron;
-            item.shootSpeed = 7f;
+            Item.damage = 89;
+            Item.DamageType = DamageClass.Melee;
+            Item.width = 80;
+            Item.height = 92;
+            Item.useTime = 21;
+            Item.useAnimation = 21;
+            Item.useTurn = true;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 6f;
+            Item.value = CalamityGlobalItem.Rarity8BuyPrice;
+            Item.rare = ItemRarityID.Lime;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<MiniSharkron>();
+            Item.shootSpeed = 18f;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override void UseStyle(Player player, Rectangle heldItemFrame)
+        {
+            player.itemLocation += new Vector2(-4f * player.direction, 2f * player.gravDir).RotatedBy(player.itemRotation);
+        }
+
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             for (int i = 0; i < 2; i++)
             {
-                float SpeedX = speedX + (float)Main.rand.Next(-20, 21) * 0.05f;
-                float SpeedY = speedY + (float)Main.rand.Next(-20, 21) * 0.05f;
-                int proj = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
-                Main.projectile[proj].Calamity().forceMelee = true;
+                float SpeedX = velocity.X + (float)Main.rand.Next(-20, 21) * 0.05f;
+                float SpeedY = velocity.Y + (float)Main.rand.Next(-20, 21) * 0.05f;
+                int proj = Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, type, damage, knockback, player.whoAmI, 0f, 0f);
+                if (proj.WithinBounds(Main.maxProjectiles))
+                    Main.projectile[proj].DamageType = DamageClass.Melee;
             }
             return false;
         }
@@ -56,16 +65,15 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<VictideBar>(), 5);
-            recipe.AddIngredient(ItemID.SharkFin, 2);
-            recipe.AddRecipeGroup("AnyAdamantiteBar", 5);
-            recipe.AddIngredient(ModContent.ItemType<DepthCells>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<Lumenite>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<Tenebris>(), 5);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient<SeaRemains>(5).
+                AddIngredient(ItemID.SharkFin, 2).
+                AddRecipeGroup("AnyAdamantiteBar", 5).
+                AddIngredient<DepthCells>(10).
+                AddIngredient<Lumenyl>(10).
+                AddIngredient<Tenebris>(5).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

@@ -1,12 +1,14 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Environment
 {
-	public class GeyserTelegraph : ModProjectile
+    public class GeyserTelegraph : ModProjectile
     {
-		private bool initialized = false;
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
+        private bool initialized = false;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Geyser");
@@ -14,39 +16,42 @@ namespace CalamityMod.Projectiles.Environment
 
         public override void SetDefaults()
         {
-            projectile.width = 6;
-            projectile.height = 12;
-            projectile.hostile = true;
-            projectile.penetrate = -1;
-            projectile.timeLeft = 100;
-			projectile.trap = true;
+            Projectile.width = 6;
+            Projectile.height = 12;
+            Projectile.hostile = true;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft = 100;
+            Projectile.trap = true;
         }
 
         public override void AI()
         {
-			if (!initialized)
-			{
-				int projectileType = ModContent.ProjectileType<SmokeTelegraph>();
-				float randomVelocity = Main.rand.NextFloat() + 0.5f;
-				int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, -8f * randomVelocity, projectileType, 0, 0f, projectile.owner, 0f, 0f);
-				Main.projectile[proj].netUpdate = true;
-				initialized = true;
-			}
-		}
+            if (!initialized && Main.myPlayer != Projectile.owner)
+            {
+                int projectileType = ModContent.ProjectileType<SmokeTelegraph>();
+                float randomVelocity = Main.rand.NextFloat() + 0.5f;
+                int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, 0f, -8f * randomVelocity, projectileType, 0, 0f, Projectile.owner, 0f, 0f);
+                Main.projectile[proj].netUpdate = true;
+                initialized = true;
+            }
+        }
 
-		public override void Kill(int timeLeft)
-		{
-			int projectileType = ProjectileID.GeyserTrap;
-			if (projectile.ai[0] == 1f)
-			{
-				projectileType = ModContent.ProjectileType<BrimstoneGeyser>();
-			}
-			float randomVelocity = Main.rand.NextFloat() + 0.5f;
-			int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, -8f * randomVelocity, projectileType, 20, 2f, projectile.owner, 0f, 0f);
-			Main.projectile[proj].friendly = false;
-			Main.projectile[proj].netUpdate = true;
-		}
+        public override void Kill(int timeLeft)
+        {
+            if (Main.myPlayer != Projectile.owner)
+                return;
 
-		public override bool OnTileCollide(Vector2 oldVelocity) => false;
-	}
+            int projectileType = ProjectileID.GeyserTrap;
+            if (Projectile.ai[0] == 1f)
+            {
+                projectileType = ModContent.ProjectileType<BrimstoneGeyser>();
+            }
+            float randomVelocity = Main.rand.NextFloat() + 0.5f;
+            int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, 0f, -8f * randomVelocity, projectileType, 20, 2f, Projectile.owner, 0f, 0f);
+            Main.projectile[proj].friendly = false;
+            Main.projectile[proj].netUpdate = true;
+        }
+
+        public override bool OnTileCollide(Vector2 oldVelocity) => false;
+    }
 }

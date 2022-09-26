@@ -1,63 +1,52 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
-	public class InfernalRift : ModItem
+    public class InfernalRift : ModItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Infernal Rift");
             Tooltip.SetDefault("Summons infernal blades that spawn additional blades on enemy hits");
-            Item.staff[item.type] = true;
+            Item.staff[Item.type] = true;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 40;
-            item.magic = true;
-            item.mana = 15;
-            item.width = 16;
-            item.height = 16;
-            item.useAnimation = 16;
-            item.useTime = 4;
-            item.reuseDelay = item.useAnimation + 6;
-            item.crit = 25;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 7f;
-            item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = 5;
-            item.UseSound = SoundID.Item9;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<InfernalBlade>();
-            item.shootSpeed = 16f;
+            Item.damage = 40;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 15;
+            Item.width = 16;
+            Item.height = 16;
+            Item.useAnimation = 30;
+            Item.useTime = 2;
+            Item.reuseDelay = Item.useAnimation + 6;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 7f;
+            Item.value = CalamityGlobalItem.Rarity6BuyPrice;
+            Item.rare = ItemRarityID.Yellow;
+            Item.UseSound = SoundID.Item9;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<InfernalBlade>();
+            Item.shootSpeed = 16f;
         }
 
-        public override Vector2? HoldoutOrigin()
-        {
-            return new Vector2(15, 15);
-        }
+        // Terraria seems to really dislike high crit values in SetDefaults
+        public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 25;
 
-        public override void AddRecipes()
-        {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.SkyFracture);
-            recipe.AddIngredient(ModContent.ItemType<EssenceofChaos>(), 3);
-            recipe.AddIngredient(ItemID.SoulofFright, 10);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-        }
-
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
-            float num72 = item.shootSpeed;
+            float num72 = Item.shootSpeed;
             float num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
             float num79 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;
             float f = Main.rand.NextFloat() * 6.28318548f;
@@ -78,8 +67,18 @@ namespace CalamityMod.Items.Weapons.Magic
             Vector2 vector15 = new Vector2(num78, num79).SafeNormalize(Vector2.UnitY) * num72;
             vector14 = vector14.SafeNormalize(vector15) * num72;
             vector14 = Vector2.Lerp(vector14, vector15, 0.25f);
-            Projectile.NewProjectile(vector13, vector14, type, damage, knockBack, player.whoAmI, 0f, 0f);
+            Projectile.NewProjectile(source, vector13, vector14, type, damage, knockback, player.whoAmI, 0f, 0f);
             return false;
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient(ItemID.SkyFracture).
+                AddIngredient<EssenceofChaos>(3).
+                AddIngredient<ScoriaBar>(10).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

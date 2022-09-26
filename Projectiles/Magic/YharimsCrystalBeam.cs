@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
@@ -44,19 +44,19 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetDefaults()
         {
-            projectile.width = 18;
-            projectile.height = 18;
-            projectile.magic = true;
-            projectile.penetrate = -1;
-            projectile.alpha = 255;
+            Projectile.width = 18;
+            Projectile.height = 18;
+            Projectile.DamageType = DamageClass.Magic;
+            Projectile.penetrate = -1;
+            Projectile.alpha = 255;
             // The beam itself still stops on tiles, but its invisible "source" projectile ignores them.
-            projectile.tileCollide = false;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 5;
+            Projectile.tileCollide = false;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
         }
 
-        public override void SendExtraAI(BinaryWriter writer) => writer.Write(projectile.localAI[1]);
-        public override void ReceiveExtraAI(BinaryReader reader) => projectile.localAI[1] = reader.ReadSingle();
+        public override void SendExtraAI(BinaryWriter writer) => writer.Write(Projectile.localAI[1]);
+        public override void ReceiveExtraAI(BinaryReader reader) => Projectile.localAI[1] = reader.ReadSingle();
 
         // projectile.ai[0] = 0 through N-1, chosen at spawn = Which beam ID this is (they all have different rotations and colors)
         // projectile.ai[1] = Index of the crystal projectile "hosting" this beam
@@ -65,10 +65,10 @@ namespace CalamityMod.Projectiles.Magic
         public override void AI()
         {
             // If something has gone wrong with either the beam or the host crystal, destroy the beam.
-            Projectile hostCrystal = Main.projectile[(int)projectile.ai[1]];
-            if (projectile.type != ModContent.ProjectileType<YharimsCrystalBeam>() || !hostCrystal.active || hostCrystal.type != ModContent.ProjectileType<YharimsCrystalPrism>())
+            Projectile hostCrystal = Main.projectile[(int)Projectile.ai[1]];
+            if (Projectile.type != ModContent.ProjectileType<YharimsCrystalBeam>() || !hostCrystal.active || hostCrystal.type != ModContent.ProjectileType<YharimsCrystalPrism>())
             {
-                projectile.Kill();
+                Projectile.Kill();
                 return;
             }
             Vector2 hostCrystalDir = Vector2.Normalize(hostCrystal.velocity);
@@ -76,13 +76,13 @@ namespace CalamityMod.Projectiles.Magic
 
             // Update the beam's damage based on the host crystal's current damage value, which accounts for Mana Sickness.
             // Yharim's Crystal smoothly scales up its damage instead of suddenly jumping to a higher damage output.
-            projectile.damage = (int)(hostCrystal.damage * GetDamageMultiplier(chargeRatio));
+            Projectile.damage = (int)(hostCrystal.damage * GetDamageMultiplier(chargeRatio));
 
             // The beam cannot strike enemies until at a certain charge level.
-            projectile.friendly = hostCrystal.ai[0] > YharimsCrystalPrism.DamageStart;
+            Projectile.friendly = hostCrystal.ai[0] > YharimsCrystalPrism.DamageStart;
 
             // This offset is used to make the beams orient differently.
-            float beamIdOffset = (int)projectile.ai[0] - YharimsCrystalPrism.NumBeams / 2f + 0.5f;
+            float beamIdOffset = (int)Projectile.ai[0] - YharimsCrystalPrism.NumBeams / 2f + 0.5f;
             float beamSpread;
             float spinRate;
             float beamStartSidewaysOffset;
@@ -91,7 +91,7 @@ namespace CalamityMod.Projectiles.Magic
             // Variables scale smoothly while the crystal is charging up, but are fixed once it is at max charge.
             if (chargeRatio < 1f)
             {
-                projectile.scale = MathHelper.Lerp(0f, MaxBeamScale, chargeRatio);
+                Projectile.scale = MathHelper.Lerp(0f, MaxBeamScale, chargeRatio);
                 beamSpread = MathHelper.Lerp(1.22f, 0f, chargeRatio);
                 beamStartSidewaysOffset = MathHelper.Lerp(20f, 6f, chargeRatio);
                 beamStartForwardsOffset = MathHelper.Lerp(-17f, -13f, chargeRatio);
@@ -101,7 +101,7 @@ namespace CalamityMod.Projectiles.Magic
                 if (chargeRatio <= 0.66f)
                 {
                     float phaseRatio = chargeRatio * 1.5f;
-                    projectile.Opacity = MathHelper.Lerp(0f, 0.4f, phaseRatio);
+                    Projectile.Opacity = MathHelper.Lerp(0f, 0.4f, phaseRatio);
                     spinRate = MathHelper.Lerp(20f, 16f, phaseRatio);
                 }
 
@@ -110,14 +110,14 @@ namespace CalamityMod.Projectiles.Magic
                 else
                 {
                     float phaseRatio = (chargeRatio - 0.66f) * 3f;
-                    projectile.Opacity = MathHelper.Lerp(0.4f, 1f, phaseRatio);
+                    Projectile.Opacity = MathHelper.Lerp(0.4f, 1f, phaseRatio);
                     spinRate = MathHelper.Lerp(16f, 6f, phaseRatio);
                 }
             }
             else
             {
-                projectile.scale = MaxBeamScale;
-                projectile.Opacity = 1f;
+                Projectile.scale = MaxBeamScale;
+                Projectile.Opacity = 1f;
                 beamSpread = 0f;
                 spinRate = 6f;
                 beamStartSidewaysOffset = 6f;
@@ -133,42 +133,42 @@ namespace CalamityMod.Projectiles.Magic
             Vector2 beamSpanVector = (unitRot * yVec).RotatedBy(hostCrystalAngle);
 
             // Calculate the beam's emanating position. Start with the crystal center.
-            projectile.Center = hostCrystal.Center;
+            Projectile.Center = hostCrystal.Center;
             // Add a fixed offset to align with the crystal's spritesheet (?)
-            projectile.position += hostCrystalDir * BeamPosOffset + new Vector2(0f, -hostCrystal.gfxOffY);
+            Projectile.position += hostCrystalDir * BeamPosOffset + new Vector2(0f, -hostCrystal.gfxOffY);
             // Add the forwards offset, measured in pixels.
-            projectile.position += hostCrystalDir * beamStartForwardsOffset;
+            Projectile.position += hostCrystalDir * beamStartForwardsOffset;
             // Add the sideways offset vector, which is calculated for the current angle of the beam and scales with the beam's sideways offset.
-            projectile.position += beamSpanVector;
+            Projectile.position += beamSpanVector;
 
             // Set the beam's velocity to point towards its current spread direction and sanity check it. It should have magnitude 1.
-            projectile.velocity = hostCrystalDir.RotatedBy(sinusoidYOffset);
-            if (projectile.velocity.HasNaNs() || projectile.velocity == Vector2.Zero)
-                projectile.velocity = -Vector2.UnitY;
-            projectile.rotation = projectile.velocity.ToRotation();
+            Projectile.velocity = hostCrystalDir.RotatedBy(sinusoidYOffset);
+            if (Projectile.velocity.HasNaNs() || Projectile.velocity == Vector2.Zero)
+                Projectile.velocity = -Vector2.UnitY;
+            Projectile.rotation = Projectile.velocity.ToRotation();
 
             // By default, the interpolation starts at the projectile's center.
             // If the host crystal is fully charged, the interpolation starts at the host crystal's center instead.
             // Overriding that, if the player shoves the crystal into or through a wall, the interpolation starts at the player's center.
-            Vector2 samplingPoint = projectile.Center;
+            Vector2 samplingPoint = Projectile.Center;
             if(hostCrystal.ai[0] >= YharimsCrystalPrism.MaxCharge)
                 samplingPoint = hostCrystal.Center;
-            if (!Collision.CanHitLine(Main.player[projectile.owner].Center, 0, 0, hostCrystal.Center, 0, 0))
-                samplingPoint = Main.player[projectile.owner].Center;
+            if (!Collision.CanHitLine(Main.player[Projectile.owner].Center, 0, 0, hostCrystal.Center, 0, 0))
+                samplingPoint = Main.player[Projectile.owner].Center;
 
             // Perform a laser scan to calculate the correct length of the beam.
             // Alternatively, if the beam ignores tiles, just set it to be the max beam length with the following line.
             // projectile.localAI[1] = MaxBeamLength;
             float[] laserScanResults = new float[NumSamplePoints];
-            Collision.LaserScan(samplingPoint, projectile.velocity, BeamTileCollisionWidth * projectile.scale, MaxBeamLength, laserScanResults);
+            Collision.LaserScan(samplingPoint, Projectile.velocity, BeamTileCollisionWidth * Projectile.scale, MaxBeamLength, laserScanResults);
             float avg = 0f;
             for (int i = 0; i < laserScanResults.Length; ++i)
                 avg += laserScanResults[i];
             avg /= NumSamplePoints;
-            projectile.localAI[1] = MathHelper.Lerp(projectile.localAI[1], avg, BeamLengthChangeFactor);
+            Projectile.localAI[1] = MathHelper.Lerp(Projectile.localAI[1], avg, BeamLengthChangeFactor);
 
             // X = beam length. Y = beam width.
-            Vector2 beamDims = new Vector2(projectile.velocity.Length() * projectile.localAI[1], projectile.width * projectile.scale);
+            Vector2 beamDims = new Vector2(Projectile.velocity.Length() * Projectile.localAI[1], Projectile.width * Projectile.scale);
 
             // Only produce dust and cause water ripples if the beam is above a certain charge level.
             Color beamColor = GetBeamColor();
@@ -180,19 +180,19 @@ namespace CalamityMod.Projectiles.Magic
                 if (Main.netMode != NetmodeID.Server)
                 {
                     WaterShaderData wsd = (WaterShaderData)Filters.Scene["WaterDistortion"].GetShader();
-                    // A universal time-based sinusoid which updates extremely rapidly. GlobalTime is 0 to 3600, measured in seconds.
-                    float waveSine = 0.1f * (float)Math.Sin(Main.GlobalTime * 20f);
-                    Vector2 ripplePos = projectile.position + new Vector2(beamDims.X * 0.5f, 0f).RotatedBy(projectile.rotation);
+                    // A universal time-based sinusoid which updates extremely rapidly. GlobalTimeWrappedHourly is 0 to 3600, measured in seconds.
+                    float waveSine = 0.1f * (float)Math.Sin(Main.GlobalTimeWrappedHourly * 20f);
+                    Vector2 ripplePos = Projectile.position + new Vector2(beamDims.X * 0.5f, 0f).RotatedBy(Projectile.rotation);
                     // WaveData is encoded as a Color. Not sure why, considering Vector3 exists.
                     Color waveData = new Color(0.5f, 0.1f * Math.Sign(waveSine) + 0.5f, 0f, 1f) * Math.Abs(waveSine);
-                    wsd.QueueRipple(ripplePos, waveData, beamDims, RippleShape.Square, projectile.rotation);
+                    wsd.QueueRipple(ripplePos, waveData, beamDims, RippleShape.Square, Projectile.rotation);
                 }
             }
 
             // Make the beam cast light along its length. The brightness of the light scales with the charge.
             // v3_1 is an unnamed decompiled variable which is the color of the light cast by DelegateMethods.CastLight
             DelegateMethods.v3_1 = beamColor.ToVector3() * BeamLightBrightness * chargeRatio;
-            Utils.PlotTileLine(projectile.Center, projectile.Center + projectile.velocity * projectile.localAI[1], beamDims.Y, new Utils.PerLinePoint(DelegateMethods.CastLight));
+            Utils.PlotTileLine(Projectile.Center, Projectile.Center + Projectile.velocity * Projectile.localAI[1], beamDims.Y, DelegateMethods.CastLight);
         }
 
         // Uses a simple polynomial (x^3) to get sudden but smooth damage increase near the end of the charge-up period.
@@ -210,38 +210,38 @@ namespace CalamityMod.Projectiles.Magic
                 return true;
             // Otherwise, perform an AABB line collision check to check the whole beam.
             float _ = float.NaN;
-            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), projectile.Center, projectile.Center + projectile.velocity * projectile.localAI[1], BeamHitboxCollisionWidth * projectile.scale, ref _);
+            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center, Projectile.Center + Projectile.velocity * Projectile.localAI[1], BeamHitboxCollisionWidth * Projectile.scale, ref _);
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             // If the beam doesn't have a defined direction, don't draw anything.
-            if (projectile.velocity == Vector2.Zero)
+            if (Projectile.velocity == Vector2.Zero)
                 return false;
 
-            Texture2D tex = Main.projectileTexture[projectile.type];
-            float beamLength = projectile.localAI[1];
-            Vector2 centerFloored = projectile.Center.Floor() + projectile.velocity * projectile.scale * BeamRenderTileOffset;
-            Vector2 scaleVec = new Vector2(projectile.scale);
+            Texture2D tex = ModContent.Request<Texture2D>(Texture).Value;
+            float beamLength = Projectile.localAI[1];
+            Vector2 centerFloored = Projectile.Center.Floor() + Projectile.velocity * Projectile.scale * BeamRenderTileOffset;
+            Vector2 scaleVec = new Vector2(Projectile.scale);
 
             // Reduce the beam length proportional to its square area to reduce block penetration.
-            beamLength -= BeamLengthReductionFactor * projectile.scale * projectile.scale;
+            beamLength -= BeamLengthReductionFactor * Projectile.scale * Projectile.scale;
 
             DelegateMethods.f_1 = 1f; // f_1 is an unnamed decompiled variable whose function is unknown. Leave it at 1.
             Vector2 beamStartPos = centerFloored - Main.screenPosition;
-            Vector2 beamEndPos = beamStartPos + projectile.velocity * beamLength;
+            Vector2 beamEndPos = beamStartPos + Projectile.velocity * beamLength;
             Utils.LaserLineFraming llf = new Utils.LaserLineFraming(DelegateMethods.RainbowLaserDraw);
 
             // Draw the outer beam
             // c_1 is an unnamed decompiled variable which is the render color of the beam drawn by DelegateMethods.RainbowLaserDraw
             Color outerBeamColor = GetBeamColor();
-            DelegateMethods.c_1 = outerBeamColor * OuterBeamOpacityMultiplier * projectile.Opacity;
+            DelegateMethods.c_1 = outerBeamColor * OuterBeamOpacityMultiplier * Projectile.Opacity;
             Utils.DrawLaser(Main.spriteBatch, tex, beamStartPos, beamEndPos, scaleVec, llf);
 
             // Draw the inner beam (reduced size)
             scaleVec *= 0.5f;
             Color innerBeamColor = Color.White;
-            DelegateMethods.c_1 = innerBeamColor * InnerBeamOpacityMultiplier * projectile.Opacity;
+            DelegateMethods.c_1 = innerBeamColor * InnerBeamOpacityMultiplier * Projectile.Opacity;
             Utils.DrawLaser(Main.spriteBatch, tex, beamStartPos, beamEndPos, scaleVec, llf);
             return false;
         }
@@ -249,11 +249,11 @@ namespace CalamityMod.Projectiles.Magic
         private void ProduceBeamDust(Color beamColor)
         {
             // Create a few dust per frame a small distance from where the beam ends.
-            Vector2 laserEndPos = projectile.Center + projectile.velocity * (projectile.localAI[1] - MainDustBeamEndOffset * projectile.scale);
+            Vector2 laserEndPos = Projectile.Center + Projectile.velocity * (Projectile.localAI[1] - MainDustBeamEndOffset * Projectile.scale);
             for (int i = 0; i < 2; ++i)
             {
                 // 50% chance for the dust to come off on either side of the beam.
-                float dustAngle = projectile.rotation + (Main.rand.NextBool() ? 1f : -1f) * MathHelper.PiOver2;
+                float dustAngle = Projectile.rotation + (Main.rand.NextBool() ? 1f : -1f) * MathHelper.PiOver2;
                 float dustStartDist = Main.rand.NextFloat(1f, 1.8f);
                 Vector2 dustVel = dustAngle.ToRotationVector2() * dustStartDist;
                 int d = Dust.NewDust(laserEndPos, 0, 0, 244, dustVel.X, dustVel.Y, 0, beamColor, 3.3f);
@@ -262,14 +262,14 @@ namespace CalamityMod.Projectiles.Magic
                 Main.dust[d].scale = 1.2f;
 
                 // Scale up dust with the projectile if it's large.
-                if (projectile.scale > 1f)
+                if (Projectile.scale > 1f)
                 {
-                    Main.dust[d].velocity *= projectile.scale;
-                    Main.dust[d].scale *= projectile.scale;
+                    Main.dust[d].velocity *= Projectile.scale;
+                    Main.dust[d].scale *= Projectile.scale;
                 }
 
                 // If the beam isn't at max scale, then make additional smaller dust.
-                if (projectile.scale != MaxBeamScale)
+                if (Projectile.scale != MaxBeamScale)
                 {
                     Dust smallDust = Dust.CloneDust(d);
                     smallDust.scale /= 2f;
@@ -280,7 +280,7 @@ namespace CalamityMod.Projectiles.Magic
             if (Main.rand.NextBool(5))
             {
                 // Velocity, flipped sideways, times -50% to 50% of beam width.
-                Vector2 dustOffset = projectile.velocity.RotatedBy(MathHelper.PiOver2) * (Main.rand.NextFloat() - 0.5f) * projectile.width;
+                Vector2 dustOffset = Projectile.velocity.RotatedBy(MathHelper.PiOver2) * (Main.rand.NextFloat() - 0.5f) * Projectile.width;
                 Vector2 dustPos = laserEndPos + dustOffset - Vector2.One * SidewaysDustBeamEndOffset;
                 int dustID = 244;
                 int d = Dust.NewDust(dustPos, 8, 8, dustID, 0f, 0f, 100, beamColor, 5f);
@@ -293,7 +293,7 @@ namespace CalamityMod.Projectiles.Magic
 
         private Color GetBeamColor()
         {
-            float customHue = GetHue(projectile.ai[0]);
+            float customHue = GetHue(Projectile.ai[0]);
             float sat = 0.66f;
             Color c = Main.hslToRgb(customHue, sat, 0.53f);
             c.A = 64;
@@ -303,8 +303,8 @@ namespace CalamityMod.Projectiles.Magic
         // indexing = 0 through N-1 (it's beam ID, stored in projectile.ai[0])
         private float GetHue(float indexing)
         {
-            string name = Main.player[projectile.owner].name ?? "";
-            if (Main.player[projectile.owner].active)
+            string name = Main.player[Projectile.owner].name ?? "";
+            if (Main.player[Projectile.owner].active)
             {
                 switch (name)
                 {
@@ -351,10 +351,10 @@ namespace CalamityMod.Projectiles.Magic
         {
             // tilecut_0 is an unnamed decompiled variable which tells CutTiles how the tiles are being cut (in this case, via a projectile).
             DelegateMethods.tilecut_0 = TileCuttingContext.AttackProjectile;
-            Utils.PerLinePoint cut = new Utils.PerLinePoint(DelegateMethods.CutTiles);
-            Vector2 beamStartPos = projectile.Center;
-            Vector2 beamEndPos = beamStartPos + projectile.velocity * projectile.localAI[1];
-            Utils.PlotTileLine(beamStartPos, beamEndPos, projectile.width * projectile.scale, cut);
+            Utils.TileActionAttempt cut = DelegateMethods.CutTiles;
+            Vector2 beamStartPos = Projectile.Center;
+            Vector2 beamEndPos = beamStartPos + Projectile.velocity * Projectile.localAI[1];
+            Utils.PlotTileLine(beamStartPos, beamEndPos, Projectile.width * Projectile.scale, cut);
         }
     }
 }

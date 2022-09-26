@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -9,23 +9,23 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Aquatic Emblem");
             Tooltip.SetDefault("Most ocean enemies become friendly and provides waterbreathing\n" +
                 "Being underwater slowly boosts your defense over time but also slows movement speed\n" +
                 "The defense boost and movement speed reduction slowly vanish while outside of water\n" +
-                "Maximum defense boost is 30, maximum movement speed reduction is 5%\n" +
+                "Maximum defense boost is 50, maximum movement speed reduction is 10%\n" +
                 "Provides a small amount of light in the abyss\n" +
                 "Moderately reduces breath loss in the abyss");
         }
 
         public override void SetDefaults()
         {
-            item.width = 18;
-            item.height = 26;
-            item.value = CalamityGlobalItem.Rarity5BuyPrice;
-            item.rare = 5;
-            item.accessory = true;
-            item.expert = true;
+            Item.width = 18;
+            Item.height = 26;
+            Item.value = CalamityGlobalItem.Rarity5BuyPrice;
+            Item.rare = ItemRarityID.Pink;
+            Item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

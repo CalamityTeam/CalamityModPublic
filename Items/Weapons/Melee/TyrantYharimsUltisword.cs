@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.StatBuffs;
+﻿using CalamityMod.Buffs.StatBuffs;
 using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -15,37 +15,26 @@ namespace CalamityMod.Items.Weapons.Melee
             Tooltip.SetDefault("Fires homing blazing blades\n" +
                 "Gives the player the tyrant's fury buff on enemy hits\n" +
                 "This buff increases melee damage by 30% and melee crit chance by 10%");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.width = 88;
-            item.damage = 64;
-            item.melee = true;
-            item.useAnimation = 26;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 26;
-            item.useTurn = true;
-            item.knockBack = 5.5f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 88;
-            item.value = Item.buyPrice(0, 80, 0, 0);
-            item.rare = 8;
-            item.shoot = ModContent.ProjectileType<BlazingPhantomBlade>();
-            item.shootSpeed = 12f;
-        }
-
-        public override void AddRecipes()
-        {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<TrueCausticEdge>());
-            recipe.AddIngredient(ItemID.BrokenHeroSword);
-            recipe.AddIngredient(ItemID.FlaskofVenom, 5);
-            recipe.AddIngredient(ItemID.ChlorophyteBar, 15);
-            recipe.AddTile(TileID.DemonAltar);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            Item.width = 88;
+            Item.damage = 64;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = 26;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 26;
+            Item.useTurn = true;
+            Item.knockBack = 5.5f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.height = 88;
+            Item.value = CalamityGlobalItem.Rarity9BuyPrice;
+            Item.rare = ItemRarityID.Yellow;
+            Item.shoot = ModContent.ProjectileType<BlazingPhantomBlade>();
+            Item.shootSpeed = 12f;
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)
@@ -59,15 +48,26 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
             player.AddBuff(ModContent.BuffType<TyrantsFury>(), 180);
-            target.AddBuff(BuffID.OnFire, 180);
-            target.AddBuff(BuffID.Venom, 180);
+            target.AddBuff(BuffID.Poisoned, 300);
+            target.AddBuff(BuffID.Venom, 150);
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
             player.AddBuff(ModContent.BuffType<TyrantsFury>(), 180);
-            target.AddBuff(BuffID.OnFire, 180);
-            target.AddBuff(BuffID.Venom, 180);
+            target.AddBuff(BuffID.Poisoned, 300);
+            target.AddBuff(BuffID.Venom, 150);
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient<TrueCausticEdge>().
+                AddIngredient(ItemID.BrokenHeroSword).
+                AddIngredient(ItemID.FlaskofVenom, 5).
+                AddIngredient(ItemID.ChlorophyteBar, 15).
+                AddTile(TileID.DemonAltar).
+                Register();
         }
     }
 }

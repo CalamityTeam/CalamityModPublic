@@ -1,8 +1,10 @@
-using CalamityMod.Projectiles.Typeless;
+﻿using CalamityMod.Projectiles.Typeless;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
+using CalamityMod.Buffs.DamageOverTime;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -12,35 +14,38 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Yharim's Gift");
             Tooltip.SetDefault("The power of a god pulses from within this artifact\n" +
-                               "Flaming meteors rain down while invincibility is active\n" +
+                               "Flaming meteors rain down after getting hit\n" +
                                "Exploding dragon dust is left behind as you move\n" +
-                               "Defense increased by 30 and damage increased by 15%");
+                               "Damage and movement speed increased by 15%");
         }
 
         public override void SetDefaults()
         {
-            item.width = 20;
-            item.height = 22;
-            item.value = CalamityGlobalItem.Rarity14BuyPrice;
-            item.accessory = true;
-            item.expert = true;
-            item.rare = 10;
+            Item.defense = 30;
+            Item.width = 20;
+            Item.height = 22;
+            Item.accessory = true;
+            Item.value = CalamityGlobalItem.Rarity15BuyPrice;
+            Item.rare = ModContent.RarityType<Violet>();
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.allDamage += 0.15f;
-            player.statDefense += 30;
-            if ((double)player.velocity.X > 0 || (double)player.velocity.Y > 0 || (double)player.velocity.X < -0.1 || (double)player.velocity.Y < -0.1)
+            var source = player.GetSource_Accessory(Item);
+            player.moveSpeed += 0.15f;
+            player.GetDamage<GenericDamageClass>() += 0.15f;
+            if (!player.StandingStill())
             {
                 dragonTimer--;
                 if (dragonTimer <= 0)
                 {
                     if (player.whoAmI == Main.myPlayer)
                     {
-                        int projectile1 = Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<DragonDust>(), (int)(350 * player.AverageDamage()), 5f, player.whoAmI, 0f, 0f);
+                        int damage = (int)player.GetBestClassDamage().ApplyTo(175);
+                        int projectile1 = Projectile.NewProjectile(source, player.Center, Vector2.Zero, ModContent.ProjectileType<DragonDust>(), damage, 5f, player.whoAmI, 0f, 0f);
                         Main.projectile[projectile1].timeLeft = 60;
                     }
                     dragonTimer = 60;
@@ -52,28 +57,12 @@ namespace CalamityMod.Items.Accessories
             }
             if (player.immune)
             {
-                if (Main.rand.NextBool(8))
+                if (player.miscCounter % 8 == 0)
                 {
                     if (player.whoAmI == Main.myPlayer)
                     {
-                        for (int l = 0; l < 1; l++)
-                        {
-                            float x = player.position.X + (float)Main.rand.Next(-400, 400);
-                            float y = player.position.Y - (float)Main.rand.Next(500, 800);
-                            Vector2 vector = new Vector2(x, y);
-                            float num15 = player.position.X + (float)(player.width / 2) - vector.X;
-                            float num16 = player.position.Y + (float)(player.height / 2) - vector.Y;
-                            num15 += (float)Main.rand.Next(-100, 101);
-                            int num17 = 22;
-                            float num18 = (float)Math.Sqrt((double)(num15 * num15 + num16 * num16));
-                            num18 = (float)num17 / num18;
-                            num15 *= num18;
-                            num16 *= num18;
-                            int num19 = Projectile.NewProjectile(x, y, num15, num16, ModContent.ProjectileType<SkyFlareFriendly>(), (int)(750 * player.AverageDamage()), 9f, player.whoAmI, 0f, 0f);
-                            Main.projectile[num19].ai[1] = player.position.Y;
-                            Main.projectile[num19].hostile = false;
-                            Main.projectile[num19].friendly = true;
-                        }
+                        int damage = (int)player.GetBestClassDamage().ApplyTo(375);
+                        CalamityUtils.ProjectileRain(source, player.Center, 400f, 100f, 500f, 800f, 22f, ModContent.ProjectileType<SkyFlareFriendly>(), damage, 9f, player.whoAmI);
                     }
                 }
             }

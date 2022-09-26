@@ -1,3 +1,4 @@
+﻿using Terraria.DataStructures;
 using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -11,45 +12,49 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Burning Strife");
-            Tooltip.SetDefault("Throws a shadowflame spiky ball that bursts into flames\n" + 
+            Tooltip.SetDefault("Throws a shadowflame spiky ball that bursts into flames\n" +
                                "Stealth Strikes make the ball linger and explode more violently\n" +
                                "'Definitely not pocket safe'");
+            SacrificeTotal = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
-            item.width = 16;
-            item.height = 28;
-            item.UseSound = SoundID.Item1;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = 5;
-            item.autoReuse = true;
-            item.noUseGraphic = true;
-            item.noMelee = true;
+            Item.width = 16;
+            Item.height = 28;
+            Item.UseSound = SoundID.Item1;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.value = CalamityGlobalItem.Rarity6BuyPrice;
+            Item.rare = ItemRarityID.Pink;
+            Item.autoReuse = true;
+            Item.noUseGraphic = true;
+            Item.noMelee = true;
 
-            item.useAnimation = 25;
-            item.useTime = 25;
-            item.damage = 80;
-            item.crit = 8;
-            item.shootSpeed = 8f;
-            item.shoot = ModContent.ProjectileType<BurningStrifeProj>();
+            Item.useAnimation = 25;
+            Item.useTime = 25;
+            Item.damage = 96;
+            Item.shootSpeed = 8f;
+            Item.shoot = ModContent.ProjectileType<BurningStrifeProj>();
 
-            item.Calamity().rogue = true; 
+            Item.DamageType = RogueDamageClass.Instance;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        // Terraria seems to really dislike high crit values in SetDefaults
+        public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 8;
+
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             float speedMult = 1f;
             if (player.Calamity().StealthStrikeAvailable())
-			{
-				speedMult = 1.25f;
-			}
-            int proj = Projectile.NewProjectile(position, new Vector2(speedX * speedMult, speedY * speedMult), ModContent.ProjectileType<BurningStrifeProj>(), damage, knockBack, player.whoAmI);
-            if (player.Calamity().StealthStrikeAvailable())
+            {
+                speedMult = 1.25f;
+                damage = (int)(damage * 1.3f);
+            }
+            int proj = Projectile.NewProjectile(source, position, new Vector2(velocity.X * speedMult, velocity.Y * speedMult), type, damage, knockback, player.whoAmI);
+            if (player.Calamity().StealthStrikeAvailable() && proj.WithinBounds(Main.maxProjectiles))
             {
                 Main.projectile[proj].Calamity().stealthStrike = true;
-                Main.projectile[proj].penetrate = 5;            
+                Main.projectile[proj].penetrate = 5;
             }
             return false;
         }

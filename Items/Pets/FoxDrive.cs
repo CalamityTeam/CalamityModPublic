@@ -1,5 +1,7 @@
-using CalamityMod.Buffs.Pets;
+﻿using CalamityMod.Buffs.Pets;
 using CalamityMod.Projectiles.Pets;
+using CalamityMod.Rarities;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -10,24 +12,28 @@ namespace CalamityMod.Items.Pets
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Fox Drive");
             Tooltip.SetDefault("'It contains 1 file on it'\n'Fox.cs'");
         }
 
         public override void SetDefaults()
         {
-            item.CloneDefaults(ItemID.ZephyrFish);
-            item.shoot = ModContent.ProjectileType<FoxPet>();
-            item.buffType = ModContent.BuffType<Fox>();
-            item.rare = 9;
-            item.expert = true;
+            Item.CloneDefaults(ItemID.ZephyrFish);
+            Item.shoot = ModContent.ProjectileType<FoxPet>();
+            Item.buffType = ModContent.BuffType<FoxPetBuff>();
+            Item.expert = true;
+
+            Item.value = Item.sellPrice(gold: 30);
+            Item.rare = ModContent.RarityType<Violet>();
+            Item.Calamity().devItem = true;
         }
 
-        public override void UseStyle(Player player)
+        public override void UseStyle(Player player, Rectangle heldItemFrame)
         {
             if (player.whoAmI == Main.myPlayer && player.itemTime == 0)
             {
-                player.AddBuff(item.buffType, 3600, true);
+                player.AddBuff(Item.buffType, 3600, true);
             }
         }
     }

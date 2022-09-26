@@ -1,7 +1,7 @@
-using CalamityMod.Items.Accessories;
+﻿using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
-using CalamityMod.Items.Materials;
 using CalamityMod.Items.PermanentBoosters;
+using CalamityMod.Items.TreasureBags.MiscGrabBags;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
@@ -9,71 +9,83 @@ using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.NPCs.Ravager;
 using CalamityMod.World;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.GameContent.ItemDropRules;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.TreasureBags
 {
     public class RavagerBag : ModItem
     {
-        public override int BossBagNPC => ModContent.NPCType<RavagerBody>();
-
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Treasure Bag");
+            SacrificeTotal = 3;
+            DisplayName.SetDefault("Treasure Bag (Ravager)");
             Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
+			ItemID.Sets.BossBag[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.maxStack = 999;
-            item.consumable = true;
-            item.width = 24;
-            item.height = 24;
-            item.expert = true;
-            item.rare = 9;
+            Item.maxStack = 999;
+            Item.consumable = true;
+            Item.width = 24;
+            Item.height = 24;
+            Item.expert = true;
+            Item.rare = ItemRarityID.Cyan;
         }
 
-        public override bool CanRightClick()
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = ContentSamples.CreativeHelper.ItemGroup.BossBags;
+		}
+
+        public override bool CanRightClick() => true;
+
+		public override Color? GetAlpha(Color lightColor) => Color.Lerp(lightColor, Color.White, 0.4f);
+
+        public override void PostUpdate() => Item.TreasureBagLightAndDust();
+
+        public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
         {
-            return true;
+            return CalamityUtils.DrawTreasureBagInWorld(Item, spriteBatch, ref rotation, ref scale, whoAmI);
         }
 
-        public override void OpenBossBag(Player player)
+        public override void ModifyItemLoot(ItemLoot itemLoot)
         {
-            player.TryGettingDevArmor();
+			// Money
+			itemLoot.Add(ItemDropRule.CoinsBasedOnNPCValue(ModContent.NPCType<RavagerBody>()));
 
-            // Materials
-            int barMin = CalamityWorld.downedProvidence ? 7 : 2;
-            int barMax = CalamityWorld.downedProvidence ? 12 : 3;
-            int coreMin = CalamityWorld.downedProvidence ? 2 : 1;
-            int coreMax = CalamityWorld.downedProvidence ? 4 : 3;
-            DropHelper.DropItemCondition(player, ModContent.ItemType<Bloodstone>(), CalamityWorld.downedProvidence, 60, 70);
-            DropHelper.DropItem(player, ModContent.ItemType<VerstaltiteBar>(), barMin, barMax);
-            DropHelper.DropItem(player, ModContent.ItemType<DraedonBar>(), barMin, barMax);
-            DropHelper.DropItem(player, ModContent.ItemType<CruptixBar>(), barMin, barMax);
-            DropHelper.DropItem(player, ModContent.ItemType<CoreofCinder>(), coreMin, coreMax);
-            DropHelper.DropItem(player, ModContent.ItemType<CoreofEleum>(), coreMin, coreMax);
-            DropHelper.DropItem(player, ModContent.ItemType<CoreofChaos>(), coreMin, coreMax);
-            DropHelper.DropItemCondition(player, ModContent.ItemType<BarofLife>(), CalamityWorld.downedProvidence);
-            DropHelper.DropItemCondition(player, ModContent.ItemType<CoreofCalamity>(), CalamityWorld.downedProvidence, 0.5f);
+            // Materials (contained in Geodes to prevent overwhelming item floods)
+            itemLoot.AddIf(() => !DownedBossSystem.downedProvidence, ModContent.ItemType<FleshyGeode>());
+            itemLoot.AddIf(() => DownedBossSystem.downedProvidence, ModContent.ItemType<NecromanticGeode>());
 
             // Weapons
-            DropHelper.DropItemChance(player, ModContent.ItemType<UltimusCleaver>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<RealmRavager>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<Hematemesis>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<SpikecragStaff>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<CraniumSmasher>(), 3);
-            DropHelper.DropItemFromSetChance(player, 0.05f, ModContent.ItemType<CorpusAvertorMelee>(), ModContent.ItemType<CorpusAvertor>());
+            itemLoot.Add(DropHelper.CalamityStyle(DropHelper.BagWeaponDropRateFraction, new int[]
+            {
+                ModContent.ItemType<UltimusCleaver>(),
+                ModContent.ItemType<RealmRavager>(),
+                ModContent.ItemType<Hematemesis>(),
+                ModContent.ItemType<SpikecragStaff>(),
+                ModContent.ItemType<CraniumSmasher>(),
+            }));
+            itemLoot.Add(ModContent.ItemType<Vesuvius>(), 10);
+            itemLoot.Add(ModContent.ItemType<CorpusAvertor>(), 20);
 
             // Equipment
-            DropHelper.DropItemChance(player, ModContent.ItemType<BloodPact>(), 0.5f);
-            DropHelper.DropItemChance(player, ModContent.ItemType<FleshTotem>(), 0.5f);
-            DropHelper.DropItemCondition(player, ModContent.ItemType<BloodflareCore>(), CalamityWorld.downedProvidence);
-            DropHelper.DropItemCondition(player, ModContent.ItemType<InfernalBlood>(), CalamityWorld.revenge && !player.Calamity().rageBoostTwo);
+            itemLoot.Add(ItemDropRule.OneFromOptionsNotScalingWithLuck(1,
+                ModContent.ItemType<BloodPact>(),
+                ModContent.ItemType<FleshTotem>()
+            ));
+            itemLoot.AddIf(() => DownedBossSystem.downedProvidence, ModContent.ItemType<BloodflareCore>());
+            itemLoot.AddRevBagAccessories();
+            itemLoot.AddIf((info) => CalamityWorld.revenge && !info.player.Calamity().rageBoostTwo, ModContent.ItemType<InfernalBlood>());
 
             // Vanity
-            DropHelper.DropItemChance(player, ModContent.ItemType<RavagerMask>(), 7);
+            itemLoot.Add(ModContent.ItemType<RavagerMask>(), 7);
         }
     }
 }

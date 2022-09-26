@@ -1,167 +1,177 @@
 using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
+
 namespace CalamityMod.Projectiles.Rogue
 {
-	public class ReaperProjectile : ModProjectile
+    public class ReaperProjectile : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/TheReaper";
+
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Scythe");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 6;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            DisplayName.SetDefault("The Reaper");
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 6;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 70;
-            projectile.height = 70;
-            projectile.friendly = true;
-            projectile.tileCollide = false;
-            projectile.penetrate = 12;
-            projectile.timeLeft = 750;
-            projectile.extraUpdates = 3;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 15;
-            projectile.Calamity().rogue = true;
+            Projectile.width = 70;
+            Projectile.height = 70;
+            Projectile.friendly = true;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
+            Projectile.penetrate = -1;
+            Projectile.extraUpdates = 3;
+            Projectile.timeLeft = Projectile.MaxUpdates * 90;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 26; // can't hit too fast, but can hit many many times
+            Projectile.DamageType = RogueDamageClass.Instance;
         }
 
         public override void AI()
         {
-            if (projectile.soundDelay == 0)
+            if (Projectile.soundDelay == 0)
             {
-                projectile.soundDelay = 8;
-                Main.PlaySound(SoundID.Item7, projectile.position);
+                Projectile.soundDelay = 8;
+                SoundEngine.PlaySound(SoundID.Item7, Projectile.position);
             }
-            if (projectile.localAI[0] == 0f)
+            if (Projectile.localAI[0] == 0f)
             {
-                projectile.ai[1] += 1f;
-                if (projectile.ai[1] >= 60f)
+                Projectile.ai[1] += 1f;
+
+                // If the Reaper lands a hit, switch to second behavior mode immediately.
+                if (Projectile.ai[1] >= 60f || Projectile.numHits > 0)
                 {
-                    projectile.localAI[0] = 1f;
-                    projectile.ai[1] = 0f;
-                    projectile.netUpdate = true;
+                    Projectile.localAI[0] = 1f;
+                    Projectile.ai[1] = 0f;
+                    Projectile.netUpdate = true;
                 }
+
+                // Initial homing before landing a hit.
                 else
-                {
-					CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 400f, 20f, 20f);
-                }
+                    CalamityUtils.HomeInOnNPC(Projectile, true, 250f, 12f, 14f);
             }
+
+            // Homing after landing a hit. This homing repeatedly turns on and off.
             else
             {
-                float num633 = 700f;
-                bool flag24 = false;
-                if (projectile.ai[0] == 1f)
+                float homingRange = 700f;
+                bool noHomingThisFrame = false;
+                if (Projectile.ai[0] == 1f)
                 {
-                    projectile.ai[1] += 1f;
-                    if (projectile.ai[1] > 40f)
+                    Projectile.ai[1] += 1f;
+                    if (Projectile.ai[1] > 40f)
                     {
-                        projectile.ai[1] = 1f;
-                        projectile.ai[0] = 0f;
-                        projectile.netUpdate = true;
+                        Projectile.ai[1] = 1f;
+                        Projectile.ai[0] = 0f;
+                        Projectile.netUpdate = true;
                     }
                     else
-                    {
-                        flag24 = true;
-                    }
+                        noHomingThisFrame = true;
                 }
-                if (flag24)
-                {
+
+                if (noHomingThisFrame)
                     return;
-                }
-                Vector2 vector46 = projectile.position;
-                bool flag25 = false;
-                for (int num645 = 0; num645 < Main.maxNPCs; num645++)
+
+                Vector2 homingTarget = Projectile.Center;
+                bool foundTarget = false;
+                for (int i = 0; i < Main.maxNPCs; i++)
                 {
-                    NPC nPC2 = Main.npc[num645];
-                    if (nPC2.CanBeChasedBy(projectile, false))
+                    NPC nPC2 = Main.npc[i];
+                    if (nPC2.CanBeChasedBy(Projectile, false))
                     {
-                        float num646 = Vector2.Distance(nPC2.Center, projectile.Center);
-                        if (!flag25)
+                        float npcDist = Vector2.Distance(nPC2.Center, Projectile.Center);
+                        if (!foundTarget)
                         {
-                            num633 = num646;
-                            vector46 = nPC2.Center;
-                            flag25 = true;
+                            homingRange = npcDist;
+                            homingTarget = nPC2.Center;
+                            foundTarget = true;
+                            break;
                         }
                     }
                 }
-                if (flag25 && projectile.ai[0] == 0f)
+
+                if (foundTarget && Projectile.ai[0] == 0f)
                 {
-                    Vector2 vector47 = vector46 - projectile.Center;
-                    float num648 = vector47.Length();
-                    vector47.Normalize();
-                    if (num648 > 200f)
+                    Vector2 delta = homingTarget - Projectile.Center;
+                    float distance = delta.Length();
+                    delta /= distance;
+
+                    if (distance > 200f)
                     {
-                        float scaleFactor2 = 8f;
-                        vector47 *= scaleFactor2;
-                        projectile.velocity = (projectile.velocity * 40f + vector47) / 41f;
+                        float homingScalar = 11f;
+                        delta *= homingScalar;
+                        Projectile.velocity = (Projectile.velocity * 40f + delta) / 41f;
                     }
                     else
                     {
-                        float num649 = 4f;
-                        vector47 *= -num649;
-                        projectile.velocity = (projectile.velocity * 40f + vector47) / 41f;
+                        float homingScalar = 3.6f;
+                        delta *= -homingScalar; // yes this is intentionally backwards
+                        Projectile.velocity = (Projectile.velocity * 40f + delta) / 41f;
                     }
                 }
-                if (projectile.ai[1] > 0f)
+
+                if (Projectile.ai[1] > 0f)
                 {
-                    projectile.ai[1] += (float)Main.rand.Next(1, 4);
+                    Projectile.ai[1] += (float)Main.rand.Next(1, 4);
                 }
-                if (projectile.ai[1] > 40f)
+                if (Projectile.ai[1] > 40f)
                 {
-                    projectile.ai[1] = 0f;
-                    projectile.netUpdate = true;
+                    Projectile.ai[1] = 0f;
+                    Projectile.netUpdate = true;
                 }
-                if (projectile.ai[0] == 0f)
+                if (Projectile.ai[0] == 0f)
                 {
-                    if (projectile.ai[1] == 0f && flag25 && num633 < 500f)
+                    if (Projectile.ai[1] == 0f && foundTarget && homingRange < 500f)
                     {
-                        projectile.ai[1] += 1f;
-                        if (Main.myPlayer == projectile.owner)
+                        Projectile.ai[1] += 1f;
+                        if (Main.myPlayer == Projectile.owner)
                         {
-                            projectile.ai[0] = 1f;
-                            Vector2 value20 = vector46 - projectile.Center;
+                            Projectile.ai[0] = 1f;
+                            Vector2 value20 = homingTarget - Projectile.Center;
                             value20.Normalize();
-                            projectile.velocity = value20 * 8f;
-                            projectile.netUpdate = true;
+                            Projectile.velocity = value20 * 8f;
+                            Projectile.netUpdate = true;
                         }
                     }
                 }
             }
-            projectile.rotation += 0.5f;
+            Projectile.rotation += 0.07f;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<CrushDepth>(), 600);
+            target.AddBuff(ModContent.BuffType<CrushDepth>(), 180);
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<CrushDepth>(), 600);
+            target.AddBuff(ModContent.BuffType<CrushDepth>(), 180);
         }
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.Item21, projectile.position);
-            projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
-            projectile.position.Y = projectile.position.Y + (float)(projectile.height / 2);
-            projectile.width = 100;
-            projectile.height = 100;
-            projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-            projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
+            SoundEngine.PlaySound(SoundID.Item21, Projectile.position);
+            Projectile.position.X = Projectile.position.X + (float)(Projectile.width / 2);
+            Projectile.position.Y = Projectile.position.Y + (float)(Projectile.height / 2);
+            Projectile.width = 100;
+            Projectile.height = 100;
+            Projectile.position.X = Projectile.position.X - (float)(Projectile.width / 2);
+            Projectile.position.Y = Projectile.position.Y - (float)(Projectile.height / 2);
             for (int num621 = 0; num621 < 5; num621++)
             {
-                int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 33, 0f, 0f, 100, default, 2f);
+                int num622 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 33, 0f, 0f, 100, default, 2f);
                 Main.dust[num622].velocity *= 3f;
                 if (Main.rand.NextBool(2))
                 {
@@ -171,10 +181,10 @@ namespace CalamityMod.Projectiles.Rogue
             }
             for (int num623 = 0; num623 < 8; num623++)
             {
-                int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 33, 0f, 0f, 100, default, 3f);
+                int num624 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 33, 0f, 0f, 100, default, 3f);
                 Main.dust[num624].noGravity = true;
                 Main.dust[num624].velocity *= 5f;
-                num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 33, 0f, 0f, 100, default, 2f);
+                num624 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 33, 0f, 0f, 100, default, 2f);
                 Main.dust[num624].velocity *= 2f;
             }
         }

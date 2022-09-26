@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Placeables.Plates;
 using CalamityMod.Items.Placeables.Ores;
 using System.Collections.Generic;
@@ -6,6 +6,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using System.Linq;
 
 namespace CalamityMod.Items
 {
@@ -16,33 +17,36 @@ namespace CalamityMod.Items
             DisplayName.SetDefault("Normality Relocator");
             Tooltip.SetDefault("I'll be there in the blink of an eye\n" +
                 "This line is modified below\n" +
-				"Teleportation is disabled while Chaos State is active\n" +
-                "Boosts movement and fall speed by 10%\n" +
+                "Fall speed is doubled for 30 frames after teleporting\n" +
+                "Teleportation is disabled while Chaos State is active\n" +
                 "Works while in the inventory");
-            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(6, 7));
+            Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 7));
+            ItemID.Sets.AnimatesAsSoul[Type] = true;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.width = 38;
-            item.height = 38;
-            item.value = Item.buyPrice(1, 20, 0, 0);
-            item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.Dedicated;
+            Item.width = 38;
+            Item.height = 38;
+            Item.value = CalamityGlobalItem.Rarity10BuyPrice;
+            Item.rare = ItemRarityID.Red;
+            Item.Calamity().donorItem = true;
         }
 
         public override void ModifyTooltips(List<TooltipLine> list)
         {
-            string hotkey = CalamityMod.NormalityRelocatorHotKey.TooltipHotkeyString();
-            foreach (TooltipLine line2 in list)
-            {
-                if (line2.mod == "Terraria" && line2.Name == "Tooltip1")
-                {
-                    line2.text = "Press " + hotkey + " to teleport to the position of the mouse";
-                }
-            }
+            string hotkey = CalamityKeybinds.NormalityRelocatorHotKey.TooltipHotkeyString();
+            TooltipLine line = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip1");
+
+            if (line != null)
+                line.Text = "Press " + hotkey + " to teleport to the position of the mouse";
         }
 
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = (ContentSamples.CreativeHelper.ItemGroup)CalamityResearchSorting.ToolsOther;
+		}
 
         public override void UpdateInventory(Player player)
         {
@@ -52,14 +56,13 @@ namespace CalamityMod.Items
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.RodofDiscord);
-            recipe.AddIngredient(ItemID.FragmentStardust, 30);
-            recipe.AddIngredient(ModContent.ItemType<ExodiumClusterOre>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<Cinderplate>(), 5);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient(ItemID.RodofDiscord).
+                AddIngredient<Cinderplate>(5).
+                AddIngredient<ExodiumCluster>(10).
+                AddIngredient(ItemID.FragmentStardust, 30).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

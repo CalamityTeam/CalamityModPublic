@@ -1,11 +1,12 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Melee
 {
-	public class CosmicOrb : ModProjectile
+    public class CosmicOrb : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -14,78 +15,75 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetDefaults()
         {
-            projectile.extraUpdates = 0;
-            projectile.width = 14;
-            projectile.height = 14;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.melee = true;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 1;
+            Projectile.extraUpdates = 0;
+            Projectile.width = 14;
+            Projectile.height = 14;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.DamageType = DamageClass.MeleeNoSpeed;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
         }
 
         public override void AI()
         {
-            Lighting.AddLight(projectile.Center, new Vector3(0.075f, 0.5f, 0.15f));
+            Lighting.AddLight(Projectile.Center, new Vector3(0.075f, 0.5f, 0.15f));
 
-            projectile.velocity *= 0.985f;
-            projectile.rotation += projectile.velocity.X * 0.2f;
+            Projectile.velocity *= 0.985f;
+            Projectile.rotation += Projectile.velocity.X * 0.2f;
 
-            if (projectile.velocity.X > 0f)
+            if (Projectile.velocity.X > 0f)
             {
-                projectile.rotation += 0.08f;
+                Projectile.rotation += 0.08f;
             }
             else
             {
-                projectile.rotation -= 0.08f;
+                Projectile.rotation -= 0.08f;
             }
 
-            projectile.ai[1] += 1f;
-            if (projectile.ai[1] > 30f)
+            Projectile.ai[1] += 1f;
+            if (Projectile.ai[1] > 30f)
             {
-                projectile.alpha += 10;
-                if (projectile.alpha >= 255)
+                Projectile.alpha += 10;
+                if (Projectile.alpha >= 255)
                 {
-                    projectile.alpha = 255;
-                    projectile.Kill();
+                    Projectile.alpha = 255;
+                    Projectile.Kill();
                     return;
                 }
             }
 
-			CalamityGlobalProjectile.MagnetSphereHitscan(projectile, 500f, 6f, 8f, 5, ModContent.ProjectileType<CosmicBolt>());
+            CalamityUtils.MagnetSphereHitscan(Projectile, 300f, 6f, 8f, 5, ModContent.ProjectileType<CosmicBolt>());
         }
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.Item54, projectile.position);
-            Vector2 arg_6751_0 = projectile.Center;
-            int num3;
-            for (int num191 = 0; num191 < 10; num191 = num3 + 1)
+            SoundEngine.PlaySound(SoundID.Item54, Projectile.position);
+            for (int i = 0; i < 10; i++)
             {
-                int num192 = (int)(10f * projectile.scale);
-                int num193 = Dust.NewDust(projectile.Center - Vector2.One * (float)num192, num192 * 2, num192 * 2, 107, 0f, 0f, 0, default, 1f);
-                Dust dust20 = Main.dust[num193];
-                Vector2 value8 = Vector2.Normalize(dust20.position - projectile.Center);
-                dust20.position = projectile.Center + value8 * (float)num192 * projectile.scale;
-                if (num191 < 30)
+                int num192 = (int)(10f * Projectile.scale);
+                int d = Dust.NewDust(Projectile.Center - Vector2.One * (float)num192, num192 * 2, num192 * 2, 242, 0f, 0f, 0, default, 1f);
+                Dust dust = Main.dust[d];
+                Vector2 offset = Vector2.Normalize(dust.position - Projectile.Center);
+                dust.position = Projectile.Center + offset * (float)num192 * Projectile.scale;
+                if (i < 30)
                 {
-                    dust20.velocity = value8 * dust20.velocity.Length();
+                    dust.velocity = offset * dust.velocity.Length();
                 }
                 else
                 {
-                    dust20.velocity = value8 * (float)Main.rand.Next(45, 91) / 10f;
+                    dust.velocity = offset * Main.rand.NextFloat(4.5f, 9f);
                 }
-                dust20.color = Main.hslToRgb((float)(0.40000000596046448 + Main.rand.NextDouble() * 0.20000000298023224), 0.9f, 0.5f);
-                dust20.color = Color.Lerp(dust20.color, Color.White, 0.3f);
-                dust20.noGravity = true;
-                dust20.scale = 0.7f;
-                num3 = num191;
+                dust.color = Main.hslToRgb(0.95f, 0.41f + Main.rand.NextFloat() * 0.2f, 0.93f);
+                dust.color = Color.Lerp(dust.color, Color.White, 0.3f);
+                dust.noGravity = true;
+                dust.scale = 0.7f;
             }
         }
 
         public override Color? GetAlpha(Color lightColor)
         {
-            return new Color(0, 255 - projectile.alpha, 0, 0);
+            return new Color(200 - Projectile.alpha, 200 - Projectile.alpha, 200 - Projectile.alpha, 200 - Projectile.alpha);
         }
     }
 }

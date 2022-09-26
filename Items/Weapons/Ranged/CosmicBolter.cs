@@ -1,3 +1,4 @@
+﻿using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
@@ -12,62 +13,68 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Cosmic Bolter");
-            Tooltip.SetDefault("Fires three sliding energy bolts");
+            Tooltip.SetDefault("Fires three arrows at once\n" +
+                "Converts wooden arrows into sliding energy bolts");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 35;
-            item.ranged = true;
-            item.width = 40;
-            item.height = 76;
-            item.useTime = 20;
-            item.useAnimation = 20;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 2.75f;
-            item.value = Item.buyPrice(0, 80, 0, 0);
-            item.rare = 8;
-            item.UseSound = SoundID.Item75;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<LunarBolt2>();
-            item.shootSpeed = 10f;
-            item.useAmmo = AmmoID.Arrow;
+            Item.damage = 39;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 40;
+            Item.height = 76;
+            Item.useTime = 20;
+            Item.useAnimation = 20;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 2.75f;
+            Item.value = CalamityGlobalItem.Rarity9BuyPrice;
+            Item.rare = ItemRarityID.Yellow;
+            Item.UseSound = SoundID.Item75;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<LunarBolt2>();
+            Item.shootSpeed = 10f;
+            Item.useAmmo = AmmoID.Arrow;
+            Item.Calamity().canFirePointBlankShots = true;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo spawnSource, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
-            float num117 = 0.314159274f;
-            int num118 = 3;
-            Vector2 vector7 = new Vector2(speedX, speedY);
-            vector7.Normalize();
-            vector7 *= 30f;
-            bool flag11 = Collision.CanHit(vector2, 0, 0, vector2 + vector7, 0, 0);
-            for (int num119 = 0; num119 < num118; num119++)
+            Vector2 source = player.RotatedRelativePoint(player.MountedCenter, true);
+            float piOver10 = MathHelper.Pi * 0.1f;
+            int projAmt = 3;
+
+            velocity.Normalize();
+            velocity *= 30f;
+            bool canHit = Collision.CanHit(source, 0, 0, source + velocity, 0, 0);
+            for (int i = 0; i < projAmt; i++)
             {
-                float num120 = (float)num119 - ((float)num118 - 1f) / 2f;
-                Vector2 value9 = vector7.RotatedBy((double)(num117 * num120), default);
-                if (!flag11)
+                float offsetAmt = i - (projAmt - 1f) / 2f;
+                Vector2 offset = velocity.RotatedBy(piOver10 * offsetAmt, default);
+                if (!canHit)
+                    offset -= velocity;
+
+                if (CalamityUtils.CheckWoodenAmmo(type, player))
+                    Projectile.NewProjectile(spawnSource, source + offset, velocity, ModContent.ProjectileType<LunarBolt2>(), damage, knockback, player.whoAmI);
+                else
                 {
-                    value9 -= vector7;
+                    int proj = Projectile.NewProjectile(spawnSource, source + offset, velocity, type, damage, knockback, player.whoAmI);
+                    Main.projectile[proj].noDropItem = true;
                 }
-                int num121 = Projectile.NewProjectile(vector2.X + value9.X, vector2.Y + value9.Y, speedX, speedY, ModContent.ProjectileType<LunarBolt2>(), damage, knockBack, player.whoAmI, 0f, 0f);
-                Main.projectile[num121].noDropItem = true;
             }
             return false;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<LunarianBow>());
-            recipe.AddIngredient(ModContent.ItemType<LivingShard>(), 5);
-            recipe.AddIngredient(ItemID.HallowedBar, 5);
-            recipe.AddIngredient(ItemID.SoulofSight, 5);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient<LunarianBow>().
+                AddIngredient<LivingShard>(12).
+                AddIngredient(ItemID.HallowedBar, 5).
+                AddIngredient(ItemID.SoulofSight, 5).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

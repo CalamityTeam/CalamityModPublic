@@ -6,11 +6,11 @@ namespace CalamityMod.Walls
 {
     public class ElumplateWall : ModWall
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.wallHouse[Type] = true;
 
-            drop = ModContent.ItemType<Items.Placeables.Walls.ElumplateWall>();
+            ItemDrop = ModContent.ItemType<Items.Placeables.Walls.ElumplateWall>();
             AddMapEntry(new Color(79, 117, 138));
         }
 
@@ -21,9 +21,6 @@ namespace CalamityMod.Walls
             return false;
         }
 
-        public override void NumDust(int i, int j, bool fail, ref int num)
-        {
-            num = fail ? 1 : 3;
-        }
+        public override void NumDust(int i, int j, bool fail, ref int num) => num = fail ? 1 : 3;
     }
 }

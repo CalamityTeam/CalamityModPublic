@@ -1,5 +1,6 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -13,27 +14,30 @@ namespace CalamityMod.Items.Weapons.Ranged
             Tooltip.SetDefault(@"50% chance to not consume ammo
 Fires a powerful sniper round
 Right click to fire a burst of bullets");
+            SacrificeTotal = 1;
+            ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 25;
-            item.ranged = true;
-            item.width = 70;
-            item.height = 18;
-            item.useTime = 4;
-            item.reuseDelay = 15;
-            item.useAnimation = 12;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 2f;
-            item.value = Item.buyPrice(0, 60, 0, 0);
-            item.rare = 7;
-            item.UseSound = SoundID.Item31;
-            item.autoReuse = true;
-            item.shoot = ProjectileID.PurificationPowder;
-            item.shootSpeed = 11f;
-            item.useAmmo = 97;
+            Item.damage = 33; // was 25
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 70;
+            Item.height = 18;
+            Item.useTime = 4;
+            Item.reuseDelay = 15;
+            Item.useAnimation = 12;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 2f;
+            Item.value = CalamityGlobalItem.Rarity8BuyPrice;
+            Item.rare = ItemRarityID.Lime;
+            Item.UseSound = SoundID.Item31;
+            Item.autoReuse = true;
+            Item.shoot = ProjectileID.PurificationPowder;
+            Item.shootSpeed = 11f;
+            Item.useAmmo = AmmoID.Bullet;
+            Item.Calamity().canFirePointBlankShots = true;
         }
 
         public override Vector2? HoldoutOffset()
@@ -50,40 +54,40 @@ Right click to fire a burst of bullets");
         {
             if (player.altFunctionUse == 2)
             {
-                item.useTime = 4;
-                item.reuseDelay = 13;
-                item.useAnimation = 12;
-                item.UseSound = SoundID.Item31;
-                item.shootSpeed = 10f;
+                Item.useTime = 4;
+                Item.reuseDelay = 13;
+                Item.useAnimation = 12;
+                Item.UseSound = SoundID.Item31;
+                Item.shootSpeed = 10f;
             }
             else
             {
-                item.useTime = 35;
-                item.reuseDelay = 0;
-                item.useAnimation = 35;
-                item.UseSound = SoundID.Item40;
-                item.shootSpeed = 15f;
+                Item.useTime = 35;
+                Item.reuseDelay = 0;
+                Item.useAnimation = 35;
+                Item.UseSound = SoundID.Item40;
+                Item.shootSpeed = 15f;
             }
             return base.CanUseItem(player);
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.altFunctionUse == 2)
             {
-                float SpeedX = speedX + (float)Main.rand.Next(-10, 11) * 0.05f;
-                float SpeedY = speedY + (float)Main.rand.Next(-10, 11) * 0.05f;
-                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
+                float SpeedX = velocity.X + (float)Main.rand.Next(-10, 11) * 0.05f;
+                float SpeedY = velocity.Y + (float)Main.rand.Next(-10, 11) * 0.05f;
+                Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, type, damage, knockback, player.whoAmI, 0f, 0f);
                 return false;
             }
             else
             {
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ProjectileID.BulletHighVelocity, (int)(damage * 5.8f), knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, ProjectileID.BulletHighVelocity, (int)(damage * 5.8f), knockback, player.whoAmI, 0f, 0f);
                 return false;
             }
         }
 
-        public override bool ConsumeAmmo(Player player)
+        public override bool CanConsumeAmmo(Item ammo, Player player)
         {
             if (Main.rand.Next(0, 100) < 50)
                 return false;

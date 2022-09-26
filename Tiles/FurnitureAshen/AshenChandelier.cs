@@ -1,7 +1,9 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureAshen
@@ -10,14 +12,12 @@ namespace CalamityMod.Tiles.FurnitureAshen
     {
         int animationFrame = 0;
 
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpChandelier(true);
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Ashen Chandelier");
-            AddMapEntry(new Color(191, 142, 111), name);
-            animationFrameHeight = 54;
-            adjTiles = new int[] { TileID.Torches };
+            AddMapEntry(new Color(191, 142, 111), Language.GetText("MapObject.Chandelier"));
+            AnimationFrameHeight = 54;
+            AdjTiles = new int[] { TileID.Chandeliers };
         }
 
         public override bool CreateDust(int i, int j, ref int type)
@@ -45,7 +45,7 @@ namespace CalamityMod.Tiles.FurnitureAshen
 
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
-            if (Main.tile[i, j].frameX < 18)
+            if (Main.tile[i, j].TileFrameX < 18)
             {
                 r = 1f;
                 g = 0.5f;
@@ -61,7 +61,7 @@ namespace CalamityMod.Tiles.FurnitureAshen
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 48, 48, ModContent.ItemType<Items.Placeables.FurnitureAshen.AshenChandelier>());
+            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 48, 48, ModContent.ItemType<Items.Placeables.FurnitureAshen.AshenChandelier>());
         }
 
         public override void HitWire(int i, int j)
@@ -71,13 +71,13 @@ namespace CalamityMod.Tiles.FurnitureAshen
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            CalamityUtils.DrawStaticFlameEffect(ModContent.GetTexture("CalamityMod/Tiles/FurnitureAshen/AshenChandelierFlame"), i, j, offsetY: animationFrame * animationFrameHeight);
+            CalamityUtils.DrawStaticFlameEffect(ModContent.Request<Texture2D>("CalamityMod/Tiles/FurnitureAshen/AshenChandelierFlame").Value, i, j, offsetY: animationFrame * AnimationFrameHeight);
         }
 
-        public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
+        public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref TileDrawInfo drawData)
         {
             Tile tile = Main.tile[i, j];
-            if (tile.frameY == 18)
+            if (tile.TileFrameY == 18 && tile.TileFrameX < 54)
             {
                 CalamityUtils.DrawFlameSparks(60, 5, i, j);
             }

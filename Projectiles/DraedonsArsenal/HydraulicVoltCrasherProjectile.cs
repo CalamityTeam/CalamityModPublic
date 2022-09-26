@@ -1,111 +1,135 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.Items;
+using CalamityMod.Items.Weapons.DraedonsArsenal;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
+using CalamityMod.Sounds;
 
 namespace CalamityMod.Projectiles.DraedonsArsenal
 {
     public class HydraulicVoltCrasherProjectile : ModProjectile
     {
+        private int chargeCooldown = 0;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Hydraulic Volt Crasher");
-            Main.projFrames[projectile.type] = 3;
+            Main.projFrames[Projectile.type] = 3;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 56;
-            projectile.height = 26;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.hide = true;
-            projectile.ownerHitCheck = true;
-            projectile.melee = true;
-            projectile.scale = 1.1f;
+            Projectile.width = 56;
+            Projectile.height = 56;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.hide = true;
+            Projectile.ownerHitCheck = true;
+            Projectile.DamageType = TrueMeleeNoSpeedDamageClass.Instance;
+            Projectile.scale = 1.75f;
         }
+
         public override void AI()
         {
-            projectile.timeLeft = 60;
-            projectile.frameCounter++;
-            if (projectile.frameCounter % 4f == 3f)
+            Projectile.timeLeft = 60;
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter % 4f == 3f)
             {
-                projectile.frame++;
-                if (projectile.frame >= Main.projFrames[projectile.type])
+                Projectile.frame++;
+                if (Projectile.frame >= Main.projFrames[Projectile.type])
                 {
-                    projectile.frame = 0;
+                    Projectile.frame = 0;
                 }
             }
+            // Decrement charge cooldown
+            if (chargeCooldown > 0)
+                chargeCooldown = 0;
             // Play idle sounds every so often.
-            if (projectile.soundDelay <= 0)
+            if (Projectile.soundDelay <= 0)
             {
-                Main.PlaySound(SoundID.Item22, projectile.position);
-                projectile.soundDelay = 30;
+                SoundEngine.PlaySound(SoundID.Item22, Projectile.position);
+                Projectile.soundDelay = 30;
             }
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             Vector2 center = player.RotatedRelativePoint(player.MountedCenter);
+
             if (Main.myPlayer == player.whoAmI)
             {
-                if (player.channel)
+                // Get the projectile owner's held item. If it's not a modded item, stop now to prevent weird errors.
+                Item heldItem = player.ActiveItem();
+                if (heldItem.type < ItemID.Count)
                 {
-                    // Attempt to use power from the held item.
-                    if (player.ActiveItem().type >= ItemID.Count &&
-                        player.ActiveItem().Calamity().Chargeable &&
-                        player.ActiveItem().Calamity().CurrentCharge > 0 &&
-                        Main.rand.NextBool(50))
-                    {
-                        player.ActiveItem().Calamity().CurrentCharge--;
-                    }
+                    Projectile.Kill();
+                    return;
+                }
 
-                    float speed = player.inventory[player.selectedItem].shootSpeed * projectile.scale;
+                // Update the damage of the holdout projectile constantly so that it decreases as charge decreases, even while in use.
+                Projectile.damage = player.GetWeaponDamage(heldItem);
+
+                // Check if the player's held item still has sufficient charge. If so, and they're still using it, take a tiny bit of charge from it.
+                CalamityGlobalItem modItem = heldItem.Calamity();
+                if (player.channel && modItem.Charge >= HydraulicVoltCrasher.HoldoutChargeUse)
+                {
+                    modItem.Charge -= HydraulicVoltCrasher.HoldoutChargeUse;
+
+                    float speed = player.inventory[player.selectedItem].shootSpeed * Projectile.scale;
                     Vector2 toPointTo = Main.MouseWorld;
                     if (player.gravDir == -1f)
                     {
                         toPointTo.Y = Main.screenHeight - toPointTo.Y;
                     }
                     toPointTo = Vector2.Normalize(toPointTo - center) * speed;
-                    if (toPointTo != projectile.velocity)
+                    if (toPointTo != Projectile.velocity)
                     {
-                        projectile.netUpdate = true;
+                        Projectile.netUpdate = true;
                     }
-                    projectile.velocity = toPointTo;
+                    Projectile.velocity = toPointTo;
                 }
                 else
                 {
-                    projectile.Kill();
+                    Projectile.Kill();
                 }
             }
-            player.ChangeDir((projectile.velocity.X > 0).ToDirectionInt());
-            player.heldProj = projectile.whoAmI;
+            player.ChangeDir((Projectile.velocity.X > 0).ToDirectionInt());
+            player.heldProj = Projectile.whoAmI;
 
             player.itemAnimation = 2;
             player.itemTime = 2; // Note: player.SetDummyItemTime(frame) exists in 1.4 which accomplishes this task
 
-            player.itemRotation = (projectile.velocity * player.direction).ToRotation();
-            projectile.direction = projectile.spriteDirection = player.direction;
-            projectile.rotation = projectile.velocity.ToRotation() + (projectile.direction == -1).ToInt() * MathHelper.Pi;
+            player.itemRotation = (Projectile.velocity * player.direction).ToRotation();
+            Projectile.direction = Projectile.spriteDirection = player.direction;
+            Projectile.rotation = Projectile.velocity.ToRotation() + (Projectile.direction == -1).ToInt() * MathHelper.Pi;
 
             if (Main.rand.NextBool(5))
             {
-                Vector2 spawnPosition = projectile.Center;
-                spawnPosition += projectile.Size.RotatedBy(projectile.velocity.ToRotation() - MathHelper.ToRadians(25f)) * 0.65f * projectile.scale;
+                Vector2 spawnPosition = Projectile.velocity;
+                spawnPosition.Normalize();
+                spawnPosition *= Projectile.Size;
+                spawnPosition += Projectile.Center;
                 Dust dust = Dust.NewDustPerfect(spawnPosition, 226);
-                dust.velocity = projectile.velocity.SafeNormalize(Vector2.Zero) * Main.rand.NextFloat(2f, 3.6f);
+                dust.velocity = Projectile.velocity.SafeNormalize(Vector2.Zero) * Main.rand.NextFloat(2f, 3.6f);
                 dust.velocity += player.velocity * 0.4f;
             }
-            projectile.position = center - projectile.Size * 0.5f;
-            projectile.position -= projectile.velocity.ToRotation().ToRotationVector2() * 8f;
-            projectile.velocity.X *= Main.rand.NextFloat(0.97f, 1.03f);
+            Projectile.position = center - Projectile.Size * 0.5f;
+            Projectile.position -= Projectile.velocity.ToRotation().ToRotationVector2() * 8f;
+            Projectile.velocity.X *= Main.rand.NextFloat(0.97f, 1.03f);
         }
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/PlasmaBolt"), target.Center);
+            SoundEngine.PlaySound(CommonCalamitySounds.PlasmaBoltSound, target.Center);
+            if (chargeCooldown > 0)
+                return;
+            chargeCooldown = 60;
             TryToSuperchargeNPC(target);
             for (int i = 0; i < Main.npc.Length; i++)
             {
                 if (i != target.whoAmI &&
-                    target.CanBeChasedBy(null, false) &&
+                    Main.npc[i].CanBeChasedBy(Projectile, false) &&
                     Main.npc[i].Distance(target.Center) < 240f)
                 {
                     if (TryToSuperchargeNPC(Main.npc[i]))
@@ -122,6 +146,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 }
             }
         }
+
         public bool TryToSuperchargeNPC(NPC npc)
         {
             // Prevent supercharging an enemy twice.
@@ -134,15 +159,28 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                     return false;
                 }
             }
-            Projectile.NewProjectileDirect(npc.Center,
+            Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), npc.Center,
                                            Vector2.Zero,
                                            ModContent.ProjectileType<VoltageStream>(),
-                                           (int)(projectile.damage * 0.35),
+                                           (int)(Projectile.damage * 0.8),
                                            0f,
-                                           projectile.owner,
+                                           Projectile.owner,
                                            0f,
                                            npc.whoAmI);
             return true;
+        }
+
+        public override bool PreDraw(ref Color lightColor)
+        {
+            Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
+            int height = texture.Height / Main.projFrames[Projectile.type];
+            int frameHeight = height * Projectile.frame;
+            SpriteEffects spriteEffects = SpriteEffects.None;
+            if (Projectile.spriteDirection == -1)
+                spriteEffects = SpriteEffects.FlipHorizontally;
+
+            Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, frameHeight, texture.Width, height)), lightColor, Projectile.rotation, new Vector2(texture.Width / 2f, height / 2f), Projectile.scale, spriteEffects, 0);
+            return false;
         }
     }
 }

@@ -1,3 +1,4 @@
+﻿using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Plates;
@@ -12,37 +13,38 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Eldritch Soul Artifact");
             Tooltip.SetDefault("Knowledge\n" +
-                "Boosts melee speed by 10%, shoot speed by 25%, rogue damage by 15%, max minions by 2, and reduces mana cost by 15%");
+                "Boosts melee speed by 10%, ranged velocity by 25%, rogue stealth regen by 10%, max minions by 2 and reduces mana cost by 15%\n" +
+                "Grants immunity to Whispering Death");
         }
 
         public override void SetDefaults()
         {
-            item.width = 28;
-            item.height = 28;
-            item.value = CalamityGlobalItem.Rarity12BuyPrice;
-            item.accessory = true;
-            item.rare = 10;
-            item.Calamity().postMoonLordRarity = 12;
+            Item.width = 64;
+            Item.height = 58;
+            Item.accessory = true;
+            Item.value = CalamityGlobalItem.Rarity11BuyPrice;
+            Item.rare = ItemRarityID.Purple;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.eArtifact = true;
+            player.buffImmune[ModContent.BuffType<WhisperingDeath>()] = true;
+            player.GetAttackSpeed<MeleeDamageClass>() += 0.1f;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Cinderplate>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<EssenceofChaos>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<ExodiumClusterOre>(), 15);
-            recipe.AddTile(TileID.DemonAltar);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient<ExodiumCluster>(25).
+                AddIngredient<Navyplate>(25).
+                AddIngredient<Phantoplasm>(5).
+                AddTile(TileID.DemonAltar).
+                Register();
         }
     }
 }

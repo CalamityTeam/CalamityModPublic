@@ -3,6 +3,8 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class LightBallExplosion : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Explosion");
@@ -10,15 +12,15 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetDefaults()
         {
-            projectile.width = 300;
-            projectile.height = 300;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.tileCollide = false;
-            projectile.penetrate = -1;
-            projectile.timeLeft = 5;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 3;
+            Projectile.width = 300;
+            Projectile.height = 300;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.tileCollide = false;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft = 5;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 6;
         }
     }
 }

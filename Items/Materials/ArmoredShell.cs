@@ -1,4 +1,6 @@
+﻿using CalamityMod.Rarities;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Materials
@@ -7,16 +9,17 @@ namespace CalamityMod.Items.Materials
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 5;
             DisplayName.SetDefault("Armored Shell");
+			ItemID.Sets.SortingPriorityMaterials[Type] = 107;
         }
 
         public override void SetDefaults()
         {
-            item.width = 46;
-            item.height = 34;
-            item.maxStack = 999;
-            item.value = Item.buyPrice(0, 7, 0, 0);
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
-        }
-    }
+            Item.width = 46;
+            Item.height = 34;
+            Item.maxStack = 999;
+            Item.value = Item.buyPrice(0, 7, 0, 0);
+            Item.rare = ModContent.RarityType<Turquoise>();
+        }    }
 }

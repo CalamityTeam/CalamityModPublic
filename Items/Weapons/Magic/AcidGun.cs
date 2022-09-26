@@ -1,7 +1,9 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
+using CalamityMod.Items.Placeables;
 using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -13,47 +15,47 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             DisplayName.SetDefault("Acid Gun");
             Tooltip.SetDefault("Releases three streams of acid");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 20;
-            item.magic = true;
-            item.mana = 9;
-            item.width = 48;
-            item.height = 30;
-            item.useTime = item.useAnimation = 20;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 1.5f;
-            item.value = Item.buyPrice(0, 1, 0, 0);
-            item.rare = 1;
-            item.UseSound = SoundID.Item13;
-            item.autoReuse = true;
-            item.shootSpeed = 14f;
-            item.shoot = ModContent.ProjectileType<AcidGunStream>();
+            Item.damage = 17;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 9;
+            Item.width = 42;
+            Item.height = 28;
+            Item.useTime = Item.useAnimation = 45;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 1.5f;
+            Item.value = CalamityGlobalItem.Rarity2BuyPrice;
+            Item.rare = ItemRarityID.Green;
+            Item.UseSound = SoundID.Item13;
+            Item.autoReuse = true;
+            Item.shootSpeed = 14f;
+            Item.shoot = ModContent.ProjectileType<AcidGunStream>();
         }
 
         public override Vector2? HoldoutOffset() => new Vector2(-5, 0);
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             for (int i = 0; i < 3; i++)
             {
                 float angle = MathHelper.Lerp(-0.145f, 0.145f, i / 3f);
-                Projectile.NewProjectile(position, new Vector2(speedX, speedY).RotatedBy(angle), type, damage, knockBack, player.whoAmI);
+                Projectile.NewProjectile(source, position, velocity.RotatedBy(angle), type, damage, knockback, player.whoAmI);
             }
             return false;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<SulfuricScale>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<Acidwood>(), 35);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient<SulphuricScale>(10).
+                AddIngredient<Acidwood>(35).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

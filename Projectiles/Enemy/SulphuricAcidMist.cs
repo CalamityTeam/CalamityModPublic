@@ -1,7 +1,10 @@
+﻿using CalamityMod.Buffs.StatDebuffs;
+using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Enemy
 {
@@ -10,73 +13,87 @@ namespace CalamityMod.Projectiles.Enemy
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Acid Mist");
-            Main.projFrames[projectile.type] = 10;
+            Main.projFrames[Projectile.type] = 10;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 30;
-            projectile.height = 30;
-            projectile.hostile = true;
-            projectile.ignoreWater = true;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 300;
-            projectile.alpha = 255;
+            Projectile.width = 20;
+            Projectile.height = 20;
+            Projectile.hostile = true;
+            Projectile.ignoreWater = true;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = 600;
+            Projectile.Opacity = 0f;
         }
 
         public override void AI()
         {
-            projectile.frameCounter++;
-            if (projectile.frameCounter > 6)
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter > 4)
             {
-                projectile.frame++;
-                projectile.frameCounter = 0;
+                Projectile.frame++;
+                Projectile.frameCounter = 0;
             }
-            if (projectile.frame > 9)
+            if (Projectile.frame > 9)
+                Projectile.frame = 0;
+
+            if (Projectile.ai[1] == 0f)
             {
-                projectile.frame = 0;
+                Projectile.ai[1] = 1f;
+                SoundEngine.PlaySound(SoundID.Item111, Projectile.position);
             }
-            if (projectile.ai[1] == 0f)
+
+            if (Projectile.velocity.X < 0f)
             {
-                projectile.ai[1] = 1f;
-                Main.PlaySound(SoundID.Item111, projectile.position);
-            }
-            if (projectile.velocity.X < 0f)
-            {
-                projectile.spriteDirection = -1;
-                projectile.rotation = (float)Math.Atan2((double)-(double)projectile.velocity.Y, (double)-(double)projectile.velocity.X);
+                Projectile.spriteDirection = -1;
+                Projectile.rotation = (float)Math.Atan2((double)-(double)Projectile.velocity.Y, (double)-(double)Projectile.velocity.X);
             }
             else
             {
-                projectile.spriteDirection = 1;
-                projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X);
+                Projectile.spriteDirection = 1;
+                Projectile.rotation = (float)Math.Atan2((double)Projectile.velocity.Y, (double)Projectile.velocity.X);
             }
-            projectile.ai[0] += 1f;
-            if (projectile.ai[0] >= 180f)
+
+            Projectile.ai[0] += 1f;
+            if (Projectile.ai[0] >= 480f)
             {
-                if (projectile.alpha < 255)
+                if (Projectile.Opacity > 0f)
                 {
-                    projectile.alpha += 5;
-                    if (projectile.alpha > 255)
+                    Projectile.Opacity -= 0.02f;
+                    if (Projectile.Opacity <= 0f)
                     {
-                        projectile.alpha = 255;
-                        projectile.Kill();
+                        Projectile.Opacity = 0f;
+                        Projectile.Kill();
                     }
                 }
             }
-            else if (projectile.alpha > 80)
+            else if (Projectile.Opacity < 0.9f)
             {
-                projectile.alpha -= 30;
-                if (projectile.alpha < 80)
-                {
-                    projectile.alpha = 80;
-                }
+                Projectile.Opacity += 0.12f;
+                if (Projectile.Opacity > 0.9f)
+                    Projectile.Opacity = 0.9f;
             }
         }
 
+        public override bool PreDraw(ref Color lightColor)
+        {
+            lightColor.R = (byte)(255 * Projectile.Opacity);
+            lightColor.G = (byte)(255 * Projectile.Opacity);
+            lightColor.B = (byte)(255 * Projectile.Opacity);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
+            return false;
+        }
+
+        public override bool CanHitPlayer(Player target) => Projectile.Opacity >= 0.9f;
+
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            target.AddBuff(BuffID.Venom, 120);
+            if (damage <= 0)
+                return;
+
+            if (Projectile.Opacity >= 0.9f)
+                target.AddBuff(ModContent.BuffType<Irradiated>(), 120);
         }
     }
 }

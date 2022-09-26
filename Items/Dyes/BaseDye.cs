@@ -1,4 +1,4 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -15,15 +15,15 @@ namespace CalamityMod.Items.Dyes
         {
             if (!Main.dedServ)
             {
-                GameShaders.Armor.BindShader(item.type, ShaderDataToBind);
+                GameShaders.Armor.BindShader(Item.type, ShaderDataToBind);
             }
             SafeSetStaticDefaults();
         }
         public sealed override void SetDefaults()
-		{
-            byte dye = item.dye;
-            item.CloneDefaults(ItemID.GelDye);
-            item.dye = dye;
+        {
+            int dye = Item.dye;
+            Item.CloneDefaults(ItemID.GelDye);
+            Item.dye = dye;
             SafeSetDefaults();
         }
         /// <summary>

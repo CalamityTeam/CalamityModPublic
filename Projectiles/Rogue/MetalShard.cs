@@ -1,13 +1,14 @@
-
+﻿
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-	public class MetalShard : ModProjectile
+    public class MetalShard : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -16,32 +17,32 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetDefaults()
         {
-            projectile.friendly = true;
-            projectile.width = 12;
-            projectile.height = 12;
-            projectile.Calamity().rogue = true;
-            projectile.penetrate = 10;
-            projectile.extraUpdates = 1;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 60;
+            Projectile.friendly = true;
+            Projectile.width = 12;
+            Projectile.height = 12;
+            Projectile.DamageType = RogueDamageClass.Instance;
+            Projectile.penetrate = 10;
+            Projectile.extraUpdates = 1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 60;
         }
 
         public override void AI()
         {
             //Rotation
-            if (projectile.ai[0] == 0f)
-                projectile.rotation += 0.1f;
+            if (Projectile.ai[0] == 0f)
+                Projectile.rotation += 0.1f;
             //Gravity
-            projectile.velocity.Y += 0.1f;
-            if (projectile.velocity.Y > 16f)
-                projectile.velocity.Y = 16f;
+            Projectile.velocity.Y += 0.1f;
+            if (Projectile.velocity.Y > 16f)
+                Projectile.velocity.Y = 16f;
             //Sticky Behaviour
-            projectile.StickyProjAI(15);
+            Projectile.StickyProjAI(15);
         }
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            projectile.ModifyHitNPCSticky(8 , true);
+            Projectile.ModifyHitNPCSticky(8 , true);
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
@@ -53,22 +54,22 @@ namespace CalamityMod.Projectiles.Rogue
             return null;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             Texture2D texture;
-            if (projectile.localAI[1] == 0f)
-                projectile.localAI[1] = Main.rand.Next(1, 4);
-            switch (projectile.localAI[1])
+            if (Projectile.localAI[1] == 0f)
+                Projectile.localAI[1] = Main.rand.Next(1, 4);
+            switch (Projectile.localAI[1])
             {
-                
-                case 2f: texture = ModContent.GetTexture("CalamityMod/Projectiles/Rogue/MetalShard2");
+
+                case 2f: texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Rogue/MetalShard2").Value;
                          break;
-                case 3f: texture = ModContent.GetTexture("CalamityMod/Projectiles/Rogue/MetalShard3");
+                case 3f: texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Rogue/MetalShard3").Value;
                          break;
-                default: texture = ModContent.GetTexture("CalamityMod/Projectiles/Rogue/MetalShard");
+                default: texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Rogue/MetalShard").Value;
                          break;
             }
-            Main.spriteBatch.Draw(texture, projectile.Center - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, texture.Width, texture.Height)), projectile.GetAlpha(lightColor), projectile.rotation, new Vector2(texture.Width / 2f, texture.Height / 2f), projectile.scale, SpriteEffects.None, 0f);
+            Main.spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, texture.Width, texture.Height)), Projectile.GetAlpha(lightColor), Projectile.rotation, new Vector2(texture.Width / 2f, texture.Height / 2f), Projectile.scale, SpriteEffects.None, 0);
             return false;
         }
 
@@ -76,13 +77,13 @@ namespace CalamityMod.Projectiles.Rogue
         {
             for (int i = 0; i < 6; i++)
             {
-                Dust.NewDust(projectile.Center, projectile.width, projectile.height, DustID.Lead, 0f, 0f, 0, default, 1f);
+                Dust.NewDust(Projectile.Center, Projectile.width, Projectile.height, DustID.Lead, 0f, 0f, 0, default, 1f);
             }
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            Main.PlaySound(SoundID.Dig, projectile.Center);
+            SoundEngine.PlaySound(SoundID.Dig, Projectile.Center);
             return true;
         }
     }

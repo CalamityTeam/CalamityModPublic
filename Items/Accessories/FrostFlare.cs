@@ -1,9 +1,8 @@
-using CalamityMod.CalPlayer;
-using CalamityMod.World;
-using System.Collections.Generic;
+﻿using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -11,39 +10,24 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Frost Flare");
             Tooltip.SetDefault("All melee attacks and projectiles inflict frostburn\n" +
-                "Immunity to frostburn, chilled, and frozen\n" +
-                "Resistant to cold attacks and +1 life regen\n" +
-                "Being above 75% life grants the player 10% increased damage\n" +
-                "Being below 25% life grants the player 10 defense and 15% increased max movement speed and acceleration\n" +
-				"Revengeance drop");
-            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(5, 4));
+                "Immunity to frostburn, chilled and frozen\n" +
+                "Being above 75% life grants 10% increased damage\n" +
+                "Being below 25% life grants 20 defense and 15% increased max movement speed and acceleration\n" +
+                "Grants resistance against cold attacks");
+            Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(5, 4));
+            ItemID.Sets.AnimatesAsSoul[Type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.width = 20;
-            item.height = 24;
-            item.lifeRegen = 1;
-            item.value = CalamityGlobalItem.Rarity5BuyPrice;
-            item.rare = 5;
-            item.accessory = true;
-        }
-
-        public override void ModifyTooltips(List<TooltipLine> list)
-        {
-			if (CalamityWorld.death)
-			{
-				foreach (TooltipLine line2 in list)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Tooltip5")
-					{
-						line2.text = "Provides heat and cold protection in Death Mode\n" +
-						"Revengeance drop";
-					}
-				}
-			}
+            Item.width = 20;
+            Item.height = 24;
+            Item.value = CalamityGlobalItem.Rarity5BuyPrice;
+            Item.rare = ItemRarityID.Pink;
+            Item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

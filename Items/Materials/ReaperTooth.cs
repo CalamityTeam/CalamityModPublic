@@ -1,4 +1,6 @@
+﻿using CalamityMod.Rarities;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Materials
@@ -7,18 +9,18 @@ namespace CalamityMod.Items.Materials
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 5;
             DisplayName.SetDefault("Reaper Tooth");
             Tooltip.SetDefault("Sharp enough to cut diamonds");
         }
 
         public override void SetDefaults()
         {
-            item.width = 26;
-            item.height = 26;
-            item.maxStack = 999;
-            item.value = Item.buyPrice(0, 7, 0, 0);
-            item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
+            Item.width = 26;
+            Item.height = 26;
+            Item.maxStack = 999;
+            Item.value = Item.buyPrice(0, 7, 0, 0);
+            Item.rare = ModContent.RarityType<PureGreen>();
         }
     }
 }

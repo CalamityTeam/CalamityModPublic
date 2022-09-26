@@ -1,3 +1,4 @@
+﻿using Terraria.DataStructures;
 using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -11,47 +12,53 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             DisplayName.SetDefault("Palladium Javelin");
             Tooltip.SetDefault("Stealth strikes split into more javelins");
+            SacrificeTotal = 99;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
-            item.width = 44;
-            item.damage = 50;
-            item.noMelee = true;
-            item.consumable = true;
-            item.noUseGraphic = true;
-            item.useAnimation = 19;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 19;
-            item.knockBack = 5.5f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 44;
-            item.shoot = ProjectileID.StarAnise;
-            item.maxStack = 999;
-            item.value = 1200;
-            item.rare = 4;
-            item.shoot = ModContent.ProjectileType<PalladiumJavelinProjectile>();
-            item.shootSpeed = 16f;
-            item.Calamity().rogue = true;
+            Item.width = 44;
+            Item.damage = 68;
+            Item.noMelee = true;
+            Item.consumable = true;
+            Item.noUseGraphic = true;
+            Item.useAnimation = 19;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 19;
+            Item.knockBack = 5.5f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.height = 44;
+            Item.shoot = ProjectileID.StarAnise;
+            Item.maxStack = 999;
+            Item.value = 1200;
+            Item.rare = ItemRarityID.LightRed;
+            Item.shoot = ModContent.ProjectileType<PalladiumJavelinProjectile>();
+            Item.shootSpeed = 16f;
+            Item.DamageType = RogueDamageClass.Instance;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-			int javelin = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, 0f, 0f);
-			Main.projectile[javelin].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
-			if (!player.Calamity().StealthStrikeAvailable())
-				Main.projectile[javelin].usesLocalNPCImmunity = false;
-			return false;
+            if (player.Calamity().StealthStrikeAvailable())
+                damage = (int)(damage * 1.425f);
+
+            int javelin = Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
+            if (javelin.WithinBounds(Main.maxProjectiles))
+            {
+                Main.projectile[javelin].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
+                if (!player.Calamity().StealthStrikeAvailable())
+                    Main.projectile[javelin].usesLocalNPCImmunity = false;
+            }
+            return false;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.PalladiumBar);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this, 20);
-            recipe.AddRecipe();
+            CreateRecipe(100).
+                AddIngredient(ItemID.PalladiumBar).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

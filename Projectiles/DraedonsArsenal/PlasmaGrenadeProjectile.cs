@@ -1,47 +1,53 @@
-using CalamityMod.Dusts;
+﻿using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.Audio;
+using CalamityMod.Items.Weapons.DraedonsArsenal;
 
 namespace CalamityMod.Projectiles.DraedonsArsenal
 {
     public class PlasmaGrenadeProjectile : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/DraedonsArsenal/PlasmaGrenade";
+
+        private static readonly float Gravity = 0.09f;
+
         public float Time
         {
-            get => projectile.ai[0];
-            set => projectile.ai[0] = value;
+            get => Projectile.ai[0];
+            set => Projectile.ai[0] = value;
         }
-        public const float FallAcceleration = 0.15f;
-        public const float MaxFallSpeed = 12f;
+
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Web Ball");
+            DisplayName.SetDefault("Plasma Grenade");
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 22;
-            projectile.height = 28;
-            projectile.friendly = true;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 180;
-            projectile.Calamity().rogue = true;
+            Projectile.width = 22;
+            Projectile.height = 28;
+            Projectile.friendly = true;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = 300;
+            Projectile.MaxUpdates = 2;
+            Projectile.DamageType = RogueDamageClass.Instance;
         }
 
         public override void AI()
         {
-            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
-            Vector2 projectileTop = projectile.Center + new Vector2(0f, projectile.height * -0.5f).RotatedBy(projectile.rotation);
-            if (projectile.velocity.Y < MaxFallSpeed && Time > 30f)
-            {
-                projectile.velocity.Y += 0.5f;
-            }
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
+            Vector2 projectileTop = Projectile.Center + new Vector2(0f, Projectile.height * -0.5f).RotatedBy(Projectile.rotation);
+
+            if (Time > 10f)
+                Projectile.velocity.Y += Gravity;
+
             if (!Main.dedServ)
             {
                 Dust dust = Dust.NewDustPerfect(projectileTop, 107);
-                dust.velocity = projectile.rotation.ToRotationVector2().RotatedByRandom(0.35f) * Main.rand.NextFloat(2f, 4f);
-                dust.velocity += projectile.velocity;
+                dust.velocity = Projectile.rotation.ToRotationVector2().RotatedByRandom(0.35f) * Main.rand.NextFloat(2f, 4f);
+                dust.velocity += Projectile.velocity * 0.25f;
                 dust.scale = Main.rand.NextFloat(0.95f, 1.3f);
             }
             Time++;
@@ -49,18 +55,19 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
         public override void Kill(int timeLeft)
         {
-            if (projectile.Calamity().stealthStrike)
+            SoundEngine.PlaySound(PlasmaGrenade.ExplosionSound, Projectile.position);
+            if (Projectile.Calamity().stealthStrike)
             {
-                if (Main.myPlayer == projectile.owner)
+                if (Main.myPlayer == Projectile.owner)
                 {
-                    Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<MassivePlasmaExplosion>(), projectile.damage * 2, projectile.knockBack * 2f, projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<MassivePlasmaExplosion>(), Projectile.damage, Projectile.knockBack * 2f, Projectile.owner);
                 }
                 if (!Main.dedServ)
                 {
                     for (int i = 0; i < 220; i++)
                     {
                         int type = Main.rand.NextBool(2) ? 261 : 107;
-                        Dust dust = Dust.NewDustPerfect(projectile.Center + Main.rand.NextVector2Circular(10f, 10f), type);
+                        Dust dust = Dust.NewDustPerfect(Projectile.Center + Main.rand.NextVector2Circular(10f, 10f), type);
                         dust.scale = Main.rand.NextFloat(1.6f, 2.2f);
                         dust.velocity = Main.rand.NextVector2CircularEdge(75f, 75f);
                         dust.noGravity = true;
@@ -73,16 +80,17 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             }
             else
             {
-                CalamityGlobalProjectile.ExpandHitboxBy(projectile, 360);
-				projectile.usesLocalNPCImmunity = true;
-				projectile.localNPCHitCooldown = 10;
-                projectile.Damage();
+                Projectile.ExpandHitboxBy(360);
+                if (Main.myPlayer == Projectile.owner)
+                {
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<PlasmaGrenadeSmallExplosion>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                }
                 if (!Main.dedServ)
                 {
                     for (int i = 0; i < 120; i++)
                     {
                         int type = Main.rand.NextBool(3) ? 261 : (int)CalamityDusts.SulfurousSeaAcid;
-                        Dust dust = Dust.NewDustPerfect(projectile.Center + Main.rand.NextVector2Circular(10f, 10f), type);
+                        Dust dust = Dust.NewDustPerfect(Projectile.Center + Main.rand.NextVector2Circular(10f, 10f), type);
                         dust.scale = Main.rand.NextFloat(1.3f, 1.5f);
                         dust.velocity = Main.rand.NextVector2CircularEdge(15f, 15f);
                         dust.noGravity = true;

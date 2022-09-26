@@ -1,8 +1,9 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -13,53 +14,43 @@ namespace CalamityMod.Items.Weapons.Melee
             DisplayName.SetDefault("Hellkite");
             Tooltip.SetDefault("Contains the power of an ancient drake\n" +
                 "Summons flame geyser explosions on enemy hits");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.width = 84;
-            item.damage = 100;
-            item.melee = true;
-            item.useAnimation = 22;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 22;
-            item.useTurn = true;
-            item.knockBack = 8f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 84;
-            item.value = Item.buyPrice(0, 60, 0, 0);
-            item.rare = 7;
-        }
-
-        public override void AddRecipes()
-        {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<DraedonBar>(), 8);
-            recipe.AddIngredient(ItemID.FieryGreatsword);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            Item.width = 84;
+            Item.damage = 180;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = 30;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 30;
+            Item.useTurn = true;
+            Item.knockBack = 8f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.height = 84;
+            Item.value = CalamityGlobalItem.Rarity8BuyPrice;
+            Item.rare = ItemRarityID.Lime;
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
             if (Main.rand.NextBool(4))
-            {
-                int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 174);
-            }
+                Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 174);
         }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(BuffID.OnFire, 600);
-            player.ApplyDamageToNPC(target, (int)(item.damage * (player.allDamage + player.meleeDamage - 1f)), 0f, 0, false);
+            target.AddBuff(BuffID.OnFire, 300);
+            int onHitDamage = player.CalcIntDamage<MeleeDamageClass>(Item.damage);
+            player.ApplyDamageToNPC(target, onHitDamage, 0f, 0, false);
             float num50 = 1.7f;
             float num51 = 0.8f;
             float num52 = 2f;
             Vector2 value3 = (target.rotation - 1.57079637f).ToRotationVector2();
             Vector2 value4 = value3 * target.velocity.Length();
-            Main.PlaySound(SoundID.Item14, target.position);
+            SoundEngine.PlaySound(SoundID.Item14, target.position);
             int num3;
             for (int num53 = 0; num53 < 40; num53 = num3 + 1)
             {
@@ -95,8 +86,17 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-            target.AddBuff(BuffID.OnFire, 600);
-            Main.PlaySound(SoundID.Item14, target.position);
+            target.AddBuff(BuffID.OnFire, 300);
+            SoundEngine.PlaySound(SoundID.Item14, target.position);
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient(ItemID.FieryGreatsword).
+                AddIngredient<PerennialBar>(8).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

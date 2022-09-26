@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
@@ -10,37 +10,37 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Ruin Medallion");
-            Tooltip.SetDefault("Stealth strikes only expend 50% of your max stealth\n" +
+            Tooltip.SetDefault("Stealth strikes only expend 75% of your max stealth\n" +
                 "6% increased rogue damage, and 6% increased rogue crit chance");
         }
 
         public override void SetDefaults()
         {
-            item.width = 20;
-            item.height = 28;
-            item.value = CalamityGlobalItem.Rarity5BuyPrice;
-            item.rare = 5;
-            item.accessory = true;
+            Item.width = 20;
+            Item.height = 28;
+            Item.value = CalamityGlobalItem.Rarity5BuyPrice;
+            Item.rare = ItemRarityID.Pink;
+            Item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            modPlayer.stealthStrikeHalfCost = true;
-            modPlayer.throwingCrit += 6;
-            modPlayer.throwingDamage += 0.06f;
+            modPlayer.stealthStrike75Cost = true;
+            player.GetCritChance<ThrowingDamageClass>() += 6;
+            player.GetDamage<ThrowingDamageClass>() += 0.06f;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<CoinofDeceit>());
-            recipe.AddIngredient(ModContent.ItemType<UnholyCore>(), 4);
-            recipe.AddIngredient(ModContent.ItemType<EssenceofChaos>(), 2);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient<CoinofDeceit>().
+                AddIngredient<UnholyCore>(4).
+                AddIngredient<EssenceofChaos>(2).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

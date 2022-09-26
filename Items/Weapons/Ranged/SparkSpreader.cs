@@ -1,4 +1,4 @@
-using CalamityMod.Projectiles.Ranged;
+﻿using CalamityMod.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -6,48 +6,48 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
-	public class SparkSpreader : ModItem
-	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Spark Spreader");
-			Tooltip.SetDefault("20% chance to not consume gel");
-		}
+    public class SparkSpreader : ModItem
+    {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Spark Spreader");
+            Tooltip.SetDefault("70% chance to not consume gel");
+            SacrificeTotal = 1;
+        }
 
-		public override void SetDefaults()
-		{
-			item.damage = 7;
-			item.knockBack = 1f;
-			item.ranged = true;
-			item.autoReuse = true;
-			item.useTime = 10;
-			item.useAnimation = 30;
-			item.useAmmo = AmmoID.Gel;
-			item.shootSpeed = 5f;
-			item.shoot = ModContent.ProjectileType<SparkSpreaderFire>();
+        public override void SetDefaults()
+        {
+            Item.damage = 7;
+            Item.knockBack = 1f;
+            Item.DamageType = DamageClass.Ranged;
+            Item.autoReuse = true;
+            Item.useTime = 10;
+            Item.useAnimation = 30;
+            Item.useAmmo = AmmoID.Gel;
+            Item.shootSpeed = 5f;
+            Item.shoot = ModContent.ProjectileType<SparkSpreaderFire>();
 
-			item.width = 52;
-			item.height = 20;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.noMelee = true;
-			item.UseSound = SoundID.Item34;
-			item.value = Item.buyPrice(0, 1, 0, 0);
-			item.rare = 1;
-		}
+            Item.width = 52;
+            Item.height = 20;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.UseSound = SoundID.Item34;
+            Item.value = CalamityGlobalItem.Rarity1BuyPrice;
+            Item.rare = ItemRarityID.Blue;
+        }
 
-		public override Vector2? HoldoutOffset() => new Vector2(-4, 0);
+        public override Vector2? HoldoutOffset() => new Vector2(-4, 0);
 
-		public override bool ConsumeAmmo(Player player) => Main.rand.Next(100) >= 20;
+        public override bool CanConsumeAmmo(Item ammo, Player player) => Main.rand.Next(100) >= 70;
 
-		public override void AddRecipes()
-		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ItemID.FlareGun);
-			recipe.AddIngredient(ItemID.Ruby);
-			recipe.AddIngredient(ItemID.Gel, 12);
-			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
-		}
-	}
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient(ItemID.FlareGun).
+                AddIngredient(ItemID.Ruby).
+                AddIngredient(ItemID.Gel, 12).
+                AddTile(TileID.Anvils).
+                Register();
+        }
+    }
 }

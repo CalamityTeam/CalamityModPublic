@@ -1,5 +1,6 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
+using CalamityMod.Rarities;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -13,39 +14,38 @@ namespace CalamityMod.Items.Weapons.Magic
             DisplayName.SetDefault("Primordial Ancient");
             Tooltip.SetDefault("An ancient relic from an ancient land\n" +
                 "Casts a gigantic blast of dust");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 305;
-            item.magic = true;
-            item.mana = 20;
-            item.width = 36;
-            item.height = 48;
-            item.useTime = 18;
-            item.useAnimation = 18;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 5;
-            item.value = Item.buyPrice(1, 80, 0, 0);
-            item.rare = 10;
-            item.UseSound = SoundID.Item20;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<Ancient>();
-            item.shootSpeed = 8f;
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.damage = 170;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 20;
+            Item.width = 40;
+            Item.height = 56;
+            Item.useTime = 18;
+            Item.useAnimation = 18;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 5;
+            Item.value = CalamityGlobalItem.RarityDarkBlueBuyPrice;
+            Item.UseSound = SoundID.Item20;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<Ancient>();
+            Item.shootSpeed = 8f;
+            Item.rare = ModContent.RarityType<DarkBlue>();
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<PrimordialEarth>());
-            recipe.AddIngredient(ItemID.AncientBattleArmorMaterial, 10);
-            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 5);
-            recipe.AddTile(TileID.Bookcases);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient(ModContent.ItemType<PrimordialEarth>()).
+                AddIngredient(ItemID.AncientBattleArmorMaterial, 5).
+                AddIngredient<CosmiliteBar>(8).
+                AddIngredient<EndothermicEnergy>(20).
+                AddTile(TileID.Bookcases).
+                Register();
         }
     }
 }

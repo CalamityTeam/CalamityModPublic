@@ -1,33 +1,33 @@
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-	public class HyperiusBulletProj : ModProjectile
+    public class HyperiusBulletProj : ModProjectile
     {
         private Color currentColor = Color.Black;
-        
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Hyperius Bullet");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 6;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 6;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 8;
-            projectile.height = 8;
-            projectile.aiStyle = 1;
-            projectile.friendly = true;
-            projectile.ranged = true;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 600;
-            projectile.extraUpdates = 1;
-            aiType = ProjectileID.Bullet;
+            Projectile.width = 4;
+            Projectile.height = 4;
+            Projectile.aiStyle = ProjAIStyleID.Arrow;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = 600;
+            Projectile.extraUpdates = 3;
+            AIType = ProjectileID.Bullet;
+            Projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.DefaultPointBlankDuration;
         }
 
         public override void AI()
@@ -35,10 +35,10 @@ namespace CalamityMod.Projectiles.Ranged
             if (currentColor == Color.Black)
             {
                 int startPoint = Main.rand.Next(6);
-                projectile.localAI[0] = startPoint;
+                Projectile.localAI[0] = startPoint;
                 currentColor = GetStartingColor(startPoint);
             }
-            Visuals(projectile, ref currentColor);
+            Visuals(Projectile, ref currentColor);
         }
 
         internal static void Visuals(Projectile projectile, ref Color c)
@@ -67,28 +67,29 @@ namespace CalamityMod.Projectiles.Ranged
             return currentColor;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesFromEdge(Projectile, 0, lightColor);
             return false;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-			OnHitEffects(target.Center);
+            OnHitEffects(target.Center);
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-			OnHitEffects(target.Center);
+            OnHitEffects(target.Center);
         }
 
-		private void OnHitEffects(Vector2 targetPos)
-		{
-			if (projectile.owner == Main.myPlayer)
-			{
-				CalamityUtils.ProjectileBarrage(projectile.Center, targetPos, Main.rand.NextBool(), 800f, 800f, 0f, 800f, 10f, ModContent.ProjectileType<HyperiusSplit>(), (int)(projectile.damage * 0.6), 1f, projectile.owner, true);
-			}
+        private void OnHitEffects(Vector2 targetPos)
+        {
+            if (Projectile.owner == Main.myPlayer)
+            {
+                var source = Projectile.GetSource_FromThis();
+                CalamityUtils.ProjectileBarrage(source, Projectile.Center, targetPos, Main.rand.NextBool(), 800f, 800f, 0f, 800f, 10f, ModContent.ProjectileType<HyperiusSplit>(), (int)(Projectile.damage * 0.6), 1f, Projectile.owner, true);
+            }
         }
 
         public override void Kill(int timeLeft)
@@ -100,7 +101,7 @@ namespace CalamityMod.Projectiles.Ranged
                 int dustType = dustTypes[Main.rand.Next(3)];
                 float scale = Main.rand.NextFloat(0.4f, 0.9f);
                 float velScale = Main.rand.NextFloat(3f, 5.5f);
-                int dustID = Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType);
+                int dustID = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, dustType);
                 Main.dust[dustID].noGravity = true;
                 Main.dust[dustID].scale = scale;
                 Main.dust[dustID].velocity *= velScale;

@@ -1,4 +1,6 @@
+﻿using CalamityMod.Rarities;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Materials
@@ -7,25 +9,25 @@ namespace CalamityMod.Items.Materials
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 25;
             DisplayName.SetDefault("Divine Geode");
             Tooltip.SetDefault("A chunk of crystallized holy energy");
+			ItemID.Sets.SortingPriorityMaterials[Type] = 104;
         }
 
         public override void SetDefaults()
         {
-            item.width = 15;
-            item.height = 12;
-            item.maxStack = 999;
-            item.rare = 10;
-            item.value = Item.buyPrice(0, 6, 50, 0);
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.width = 15;
+            Item.height = 12;
+            Item.maxStack = 999;
+            Item.value = Item.buyPrice(0, 6, 50, 0);
+            Item.rare = ModContent.RarityType<Turquoise>();
         }
-
         public override void Update(ref float gravity, ref float maxFallSpeed)
         {
             float num = (float)Main.rand.Next(90, 111) * 0.01f;
             num *= Main.essScale;
-            Lighting.AddLight((int)((item.position.X + (float)(item.width / 2)) / 16f), (int)((item.position.Y + (float)(item.height / 2)) / 16f), 0.45f * num, 0.3f * num, 0f * num);
+            Lighting.AddLight((int)((Item.position.X + (float)(Item.width / 2)) / 16f), (int)((Item.position.Y + (float)(Item.height / 2)) / 16f), 0.45f * num, 0.3f * num, 0f * num);
         }
     }
 }

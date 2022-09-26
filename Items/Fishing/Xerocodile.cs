@@ -1,47 +1,36 @@
+﻿using CalamityMod.Items.Materials;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Items.Materials;
 
 namespace CalamityMod.Items.Fishing
 {
-	public class Xerocodile : ModItem
+    public class Xerocodile : ModItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Xerocodile");
             Tooltip.SetDefault("Right click to extract blood orbs");
+            SacrificeTotal = 10;
+            ItemID.Sets.CanBePlacedOnWeaponRacks[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.width = 30;
-            item.height = 28;
-            item.maxStack = 999;
-            item.value = Item.sellPrice(silver: 10);
-            item.rare = 2;
+            Item.width = 30;
+            Item.height = 28;
+            Item.maxStack = 999;
+            Item.consumable = true;
+            Item.value = Item.sellPrice(silver: 10);
+            Item.rare = ItemRarityID.Green;
         }
 
-        public override bool CanRightClick()
-        {
-            return true;
-        }
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = ContentSamples.CreativeHelper.ItemGroup.GoodieBags;
+		}
 
-        public override void RightClick(Player player)
-        {
-            DropHelper.DropItem(player, ModContent.ItemType<BloodOrb>(), 5, 15);
-        }
-
-        /*public override void RightClick(Player player)
-        {
-			if (Main.rand.NextBool(3))
-				DropHelper.DropItem(player, ModContent.ItemType<TheCamper>(), 1, 1);
-			else if (Main.rand.NextBool(2))
-				DropHelper.DropItem(player, ModContent.ItemType<CheatTestThing>(), 1, 1);
-			else
-			{
-				DropHelper.DropItem(player, ModContent.ItemType<CheatTestThing>(), 1, 1);
-				DropHelper.DropItem(player, ModContent.ItemType<TheCamper>(), 1, 1);
-			}
-        }*/
+        public override bool CanRightClick() => true;
+        public override void ModifyItemLoot(ItemLoot itemLoot) => itemLoot.Add(ModContent.ItemType<BloodOrb>(), 1, 5, 15);
     }
 }

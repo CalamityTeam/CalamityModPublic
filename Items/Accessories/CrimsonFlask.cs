@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -9,36 +9,38 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Crimson Flask");
-            Tooltip.SetDefault("7% increased damage reduction and +3 defense while in the crimson");
+            Tooltip.SetDefault("4% increased damage reduction and +6 defense while in the crimson\n" +
+                "Grants immunity to the Burning Blood debuff");
         }
 
         public override void SetDefaults()
         {
-            item.width = 20;
-            item.height = 20;
-            item.value = CalamityGlobalItem.Rarity2BuyPrice;
-            item.rare = 2;
-            item.accessory = true;
+            Item.width = 20;
+            Item.height = 20;
+            Item.value = CalamityGlobalItem.Rarity2BuyPrice;
+            Item.rare = ItemRarityID.Green;
+            Item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
+            player.buffImmune[ModContent.BuffType<BurningBlood>()] = true;
             if (player.ZoneCrimson)
             {
-                player.statDefense += 3;
-                player.endurance += 0.07f;
+                player.statDefense += 6;
+                player.endurance += 0.04f;
             }
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<BloodlettingEssence>(), 3);
-            recipe.AddIngredient(ItemID.Vertebrae, 10);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient(ItemID.ViciousPowder, 15).
+                AddIngredient(ItemID.Vertebrae, 10).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

@@ -1,10 +1,10 @@
 
 using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Rogue
 {
@@ -15,61 +15,62 @@ namespace CalamityMod.Projectiles.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Night's Gaze Star");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 8;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 1;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 8;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 1;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 10;
-            projectile.height = 10;
-            projectile.friendly = true;
-            projectile.penetrate = 5;
-            projectile.timeLeft = lifetime;
-            projectile.Calamity().rogue = true;
-            projectile.localAI[0] = 10f;
+            Projectile.width = 10;
+            Projectile.height = 10;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.penetrate = 5;
+            Projectile.timeLeft = lifetime;
+            Projectile.DamageType = RogueDamageClass.Instance;
+            Projectile.localAI[0] = 10f;
         }
 
         public override void AI()
         {
-            projectile.rotation += projectile.direction * 0.05f;
+            Projectile.rotation += Projectile.direction * 0.05f;
 
-            if (projectile.ai[0] == 0f)
+            if (Projectile.ai[0] == 0f)
             {
-                if (projectile.timeLeft < (lifetime - projectile.ai[1]) && projectile.localAI[0] >= 0)
+                if (Projectile.timeLeft < (lifetime - Projectile.ai[1]) && Projectile.localAI[0] >= 0)
                 {
-                    projectile.velocity.Normalize();
-                    projectile.velocity *= projectile.localAI[0];
-                    projectile.localAI[0]--;
+                    Projectile.velocity.Normalize();
+                    Projectile.velocity *= Projectile.localAI[0];
+                    Projectile.localAI[0]--;
                 }
-                else if (projectile.timeLeft >= (lifetime - projectile.ai[1]))
+                else if (Projectile.timeLeft >= (lifetime - Projectile.ai[1]))
                 {
                     for (int i = 0; i < 3; i++)
                     {
                         float dustVelocity = Main.rand.NextFloat(0f, 0.5f);
-						int dustType = Utils.SelectRandom(Main.rand, new int[]
-						{
-							109,
-							111,
-							132
-						});
+                        int dustType = Utils.SelectRandom(Main.rand, new int[]
+                        {
+                            109,
+                            111,
+                            132
+                        });
 
-                        int dust = Dust.NewDust(projectile.Center, 1, 1, dustType, projectile.velocity.X, projectile.velocity.Y, 0, default, 1.5f);
+                        int dust = Dust.NewDust(Projectile.Center, 1, 1, dustType, Projectile.velocity.X, Projectile.velocity.Y, 0, default, 1.5f);
                         Main.dust[dust].noGravity = true;
                         Main.dust[dust].velocity *= dustVelocity;
                     }
                 }
             }
-            else if (projectile.ai[0] == 1f)
+            else if (Projectile.ai[0] == 1f)
             {
                 float minDist = 999f;
                 int index = 0;
                 for (int i = 0; i < Main.npc.Length; i++)
                 {
                     NPC npc = Main.npc[i];
-                    if (!npc.friendly && !npc.townNPC && npc.active && !npc.dontTakeDamage && npc.chaseable)
+                    if (npc.CanBeChasedBy(Projectile, false))
                     {
-                        float dist = (projectile.Center - npc.Center).Length();
+                        float dist = (Projectile.Center - npc.Center).Length();
                         if (dist < minDist)
                         {
                             minDist = dist;
@@ -80,18 +81,18 @@ namespace CalamityMod.Projectiles.Rogue
 
                 if (minDist < 999f)
                 {
-                    Vector2 velocityNew = Main.npc[index].Center - projectile.Center;
+                    Vector2 velocityNew = Main.npc[index].Center - Projectile.Center;
                     float speed = 10f;
                     velocityNew.Normalize();
-                    projectile.velocity = velocityNew * speed;
+                    Projectile.velocity = velocityNew * speed;
                 }
             }
-            if (projectile.soundDelay == 0)
+            if (Projectile.soundDelay == 0)
             {
-                projectile.soundDelay = 20 + Main.rand.Next(40);
+                Projectile.soundDelay = 20 + Main.rand.Next(40);
                 if (Main.rand.NextBool(5))
                 {
-                    Main.PlaySound(SoundID.Item9, projectile.position);
+                    SoundEngine.PlaySound(SoundID.Item9, Projectile.position);
                 }
             }
         }
@@ -108,14 +109,14 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            Collision.HitTiles(projectile.position + projectile.velocity, projectile.velocity, projectile.width, projectile.height);
-            projectile.Kill();
+            Collision.HitTiles(Projectile.position + Projectile.velocity, Projectile.velocity, Projectile.width, Projectile.height);
+            Projectile.Kill();
             return false;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, Color.White, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], Color.White, 1);
             return false;
         }
 
@@ -123,14 +124,14 @@ namespace CalamityMod.Projectiles.Rogue
         {
             for (int i = 0; i < 5; i++)
             {
-				int dustType = Utils.SelectRandom(Main.rand, new int[]
-				{
-					109,
-					111,
-					132
-				});
+                int dustType = Utils.SelectRandom(Main.rand, new int[]
+                {
+                    109,
+                    111,
+                    132
+                });
 
-                int dust = Dust.NewDust(projectile.Center, 1, 1, dustType, projectile.velocity.X, projectile.velocity.Y, 0, default, 1.5f);
+                int dust = Dust.NewDust(Projectile.Center, 1, 1, dustType, Projectile.velocity.X, Projectile.velocity.Y, 0, default, 1.5f);
                 Main.dust[dust].noGravity = true;
             }
         }

@@ -3,8 +3,10 @@ using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Healing
 {
-	public class BurntSiennaProj : ModProjectile
+    public class BurntSiennaProj : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Sienna");
@@ -12,26 +14,26 @@ namespace CalamityMod.Projectiles.Healing
 
         public override void SetDefaults()
         {
-            projectile.width = 4;
-            projectile.height = 4;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.alpha = 255;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 180;
+            Projectile.width = 4;
+            Projectile.height = 4;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.alpha = 255;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = 180;
+			Projectile.tileCollide = false;
         }
 
-		public override void AI()
-		{
-			projectile.velocity.X *= 0.95f;
-			projectile.velocity.Y *= 0.95f;
+        public override void AI()
+        {
+            Projectile.velocity *= 0.95f;
 
-			projectile.HealingProjectile(3, (int)projectile.ai[0], 6f, 15f, false);
-			int dusty = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 246, 0f, 0f, 100, default, 1f);
-			Dust dust = Main.dust[dusty];
-			dust.noGravity = true;
-			dust.position.X -= projectile.velocity.X * 0.2f;
-			dust.position.Y += projectile.velocity.Y * 0.2f;
-		}
+            Projectile.HealingProjectile(3, (int)Projectile.ai[0], 6f, 15f, false);
+            int dusty = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 246, 0f, 0f, 100, default, 1f);
+            Dust dust = Main.dust[dusty];
+            dust.noGravity = true;
+            dust.position.X -= Projectile.velocity.X * 0.2f;
+            dust.position.Y += Projectile.velocity.Y * 0.2f;
+        }
     }
 }

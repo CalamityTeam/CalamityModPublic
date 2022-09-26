@@ -1,90 +1,88 @@
-using CalamityMod.World;
-using CalamityMod.Items.Accessories;
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Accessories;
+using CalamityMod.Items.Armor.Vanity;
+using CalamityMod.Items.TreasureBags.MiscGrabBags;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.NPCs.AquaticScourge;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Items.Armor.Vanity;
 
 namespace CalamityMod.Items.TreasureBags
 {
     public class AquaticScourgeBag : ModItem
     {
-        public override int BossBagNPC => ModContent.NPCType<AquaticScourgeHead>();
-
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Treasure Bag");
+            SacrificeTotal = 3;
+            DisplayName.SetDefault("Treasure Bag (Aquatic Scourge)");
             Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
+			ItemID.Sets.BossBag[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.maxStack = 999;
-            item.consumable = true;
-            item.width = 24;
-            item.height = 24;
-            item.rare = 9;
-            item.expert = true;
+            Item.maxStack = 999;
+            Item.consumable = true;
+            Item.width = 24;
+            Item.height = 24;
+            Item.rare = ItemRarityID.Cyan;
+            Item.expert = true;
         }
 
-        public override bool CanRightClick()
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = ContentSamples.CreativeHelper.ItemGroup.BossBags;
+		}
+
+        public override bool CanRightClick() => true;
+
+		public override Color? GetAlpha(Color lightColor) => Color.Lerp(lightColor, Color.White, 0.4f);
+
+        public override void PostUpdate()
+		{
+			CalamityUtils.ForceItemIntoWorld(Item);
+			Item.TreasureBagLightAndDust();
+		}
+
+        public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
         {
-            return true;
+            return CalamityUtils.DrawTreasureBagInWorld(Item, spriteBatch, ref rotation, ref scale, whoAmI);
         }
 
-        public override void PostUpdate() => CalamityUtils.ForceItemIntoWorld(item);
-
-        public override void OpenBossBag(Player player)
+        public override void ModifyItemLoot(ItemLoot itemLoot)
         {
-            // AS is available PHM, so this check is necessary to keep vanilla consistency
-            if (Main.hardMode)
-                player.TryGettingDevArmor();
-
-            // Materials
-            DropHelper.DropItem(player, ModContent.ItemType<VictoryShard>(), 15, 25);
-            DropHelper.DropItem(player, ItemID.Coral, 7, 11);
-            DropHelper.DropItem(player, ItemID.Seashell, 7, 11);
-            DropHelper.DropItem(player, ItemID.Starfish, 7, 11);
+			// Money
+			itemLoot.Add(ItemDropRule.CoinsBasedOnNPCValue(ModContent.NPCType<AquaticScourgeHead>()));
 
             // Weapons
-            DropHelper.DropItemChance(player, ModContent.ItemType<SubmarineShocker>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<Barinautical>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<Downpour>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<DeepseaStaff>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<ScourgeoftheSeas>(), 3);
-            float searingChance = DropHelper.LegendaryDropRateFloat;
-            DropHelper.DropItemCondition(player, ModContent.ItemType<SeasSearing>(), CalamityWorld.revenge, searingChance);
+            itemLoot.Add(DropHelper.CalamityStyle(DropHelper.BagWeaponDropRateFraction, new int[]
+            {
+                ModContent.ItemType<SubmarineShocker>(),
+                ModContent.ItemType<Barinautical>(),
+                ModContent.ItemType<Downpour>(),
+                ModContent.ItemType<DeepseaStaff>(),
+                ModContent.ItemType<ScourgeoftheSeas>()
+            }));
+            itemLoot.Add(ModContent.ItemType<SeasSearing>(), 10);
 
             // Equipment
-            DropHelper.DropItem(player, ModContent.ItemType<AquaticEmblem>());
-            DropHelper.DropItemChance(player, ModContent.ItemType<AeroStone>(), 8);
-            DropHelper.DropItemCondition(player, ModContent.ItemType<CorrosiveSpine>(), CalamityWorld.revenge, 0.25f);
+            itemLoot.Add(ModContent.ItemType<AquaticEmblem>());
+            itemLoot.Add(ModContent.ItemType<DeepDiver>(), 10);
+            itemLoot.Add(ModContent.ItemType<CorrosiveSpine>(), DropHelper.BagWeaponDropRateFraction);
+            itemLoot.AddRevBagAccessories();
 
             // Vanity
-            DropHelper.DropItemChance(player, ModContent.ItemType<AquaticScourgeMask>(), 7);
+            itemLoot.Add(ModContent.ItemType<AquaticScourgeMask>(), 7);
 
             // Fishing
-            DropHelper.DropItemChance(player, ItemID.AnglerTackleBag, 15);
-            DropHelper.DropItemChance(player, ItemID.HighTestFishingLine, 10);
-            DropHelper.DropItemChance(player, ItemID.TackleBox, 10);
-            DropHelper.DropItemChance(player, ItemID.AnglerEarring, 10);
-            DropHelper.DropItemChance(player, ItemID.FishermansGuide, 8);
-            DropHelper.DropItemChance(player, ItemID.WeatherRadio, 8);
-            DropHelper.DropItemChance(player, ItemID.Sextant, 8);
-            DropHelper.DropItemChance(player, ItemID.AnglerHat, 3);
-            DropHelper.DropItemChance(player, ItemID.AnglerVest, 3);
-            DropHelper.DropItemChance(player, ItemID.AnglerPants, 3);
-            DropHelper.DropItemChance(player, ItemID.FishingPotion, 3, 2, 3);
-            DropHelper.DropItemChance(player, ItemID.SonarPotion, 3, 2, 3);
-            DropHelper.DropItemChance(player, ItemID.CratePotion, 3, 2, 3);
-            DropHelper.DropItemChance(player, ItemID.GoldenBugNet, 12);
+            itemLoot.Add(ModContent.ItemType<BleachedAnglingKit>());
         }
     }
 }

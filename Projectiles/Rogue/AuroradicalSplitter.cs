@@ -1,85 +1,85 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 namespace CalamityMod.Projectiles.Rogue
 {
-	public class AuroradicalSplitter : ModProjectile
+    public class AuroradicalSplitter : ModProjectile
     {
-		public int[] dustTypes = new int[]
-		{
-			ModContent.DustType<AstralBlue>(),
-			ModContent.DustType<AstralOrange>()
-		};
+        public int[] dustTypes = new int[]
+        {
+            ModContent.DustType<AstralBlue>(),
+            ModContent.DustType<AstralOrange>()
+        };
 
         public override string Texture => "CalamityMod/Projectiles/Rogue/AuroradicalStar";
 
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Auroradical Star");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 4;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 50;
-            projectile.height = 50;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.tileCollide = false;
-            projectile.alpha = 100;
-            projectile.penetrate = -1;
-            projectile.timeLeft = 50;
-			projectile.Calamity().rogue = true;
-			projectile.localNPCHitCooldown = 10;
-			projectile.usesLocalNPCImmunity = true;
+            Projectile.width = 50;
+            Projectile.height = 50;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.tileCollide = false;
+            Projectile.alpha = 100;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft = 50;
+            Projectile.DamageType = RogueDamageClass.Instance;
+            Projectile.localNPCHitCooldown = 10;
+            Projectile.usesLocalNPCImmunity = true;
         }
 
         public override void AI()
         {
-			//Rotation
-            projectile.rotation += (Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y)) * 0.01f * (float)projectile.direction;
+            //Rotation
+            Projectile.rotation += (Math.Abs(Projectile.velocity.X) + Math.Abs(Projectile.velocity.Y)) * 0.01f * (float)Projectile.direction;
 
-			//Lighting
-            Lighting.AddLight(projectile.Center, 0.3f, 0.5f, 0.1f);
+            //Lighting
+            Lighting.AddLight(Projectile.Center, 0.3f, 0.5f, 0.1f);
 
-			//sound effects
-            if (projectile.soundDelay == 0)
+            //sound effects
+            if (Projectile.soundDelay == 0)
             {
-                projectile.soundDelay = 20 + Main.rand.Next(40);
+                Projectile.soundDelay = 20 + Main.rand.Next(40);
                 if (Main.rand.NextBool(5))
                 {
-                    Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 9);
+                    SoundEngine.PlaySound(SoundID.Item9, Projectile.position);
                 }
             }
 
-			//Change the scale size a little bit to make it pulse in and out
+            //Change the scale size a little bit to make it pulse in and out
             float scaleAmt = (float)Main.mouseTextColor / 200f - 0.35f;
             scaleAmt *= 0.2f;
-            projectile.scale = scaleAmt + 0.95f;
+            Projectile.scale = scaleAmt + 0.95f;
 
-			//Spawn dust
-            projectile.ai[0] += 1f;
-            if (projectile.ai[0] > 15f)
+            //Spawn dust
+            Projectile.ai[0] += 1f;
+            if (Projectile.ai[0] > 15f)
             {
-                int astral = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, Main.rand.Next(dustTypes), 0f, 0f, 100, default, 0.8f);
+                int astral = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, Main.rand.Next(dustTypes), 0f, 0f, 100, default, 0.8f);
                 Main.dust[astral].noGravity = true;
                 Main.dust[astral].velocity *= 0f;
             }
-		}
+        }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;
         }
 
-        public override Color? GetAlpha(Color lightColor) => new Color(200, 200, 200, projectile.alpha);
+        public override Color? GetAlpha(Color lightColor) => new Color(200, 200, 200, Projectile.alpha);
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
@@ -93,35 +93,38 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void Kill(int timeLeft)
         {
-			if (Main.myPlayer != projectile.owner)
-				return;
-            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 9, 1f, 0f);
+            if (Main.myPlayer != Projectile.owner)
+                return;
+            SoundEngine.PlaySound(SoundID.Item9, Projectile.position);
             for (float i = 0; i < 5; i++)
             {
                 float angle = MathHelper.TwoPi / 5f * i;
-                int star = Projectile.NewProjectile(projectile.Center, angle.ToRotationVector2() * 5f, ModContent.ProjectileType<AuroradicalStar>(), (int)(projectile.damage * 0.87), projectile.knockBack, projectile.owner, 0f, 0f);
-				Main.projectile[star].Calamity().stealthStrike = projectile.Calamity().stealthStrike;
+                int star = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, angle.ToRotationVector2() * 5f, ModContent.ProjectileType<AuroradicalStar>(), (int)(Projectile.damage * 0.87), Projectile.knockBack, Projectile.owner, 0f, 0f);
+                Main.projectile[star].Calamity().stealthStrike = Projectile.Calamity().stealthStrike;
             }
-            projectile.position = projectile.Center;
-            projectile.width = projectile.height = 96;
-            projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-            projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
+            Projectile.position = Projectile.Center;
+            Projectile.width = Projectile.height = 96;
+            Projectile.position.X = Projectile.position.X - (float)(Projectile.width / 2);
+            Projectile.position.Y = Projectile.position.Y - (float)(Projectile.height / 2);
             for (int d = 0; d < 2; d++)
             {
-                Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, Main.rand.Next(dustTypes), 0f, 0f, 50, default, 1f);
+                Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, Main.rand.Next(dustTypes), 0f, 0f, 50, default, 1f);
             }
             for (int d = 0; d < 20; d++)
             {
-                int astral = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, Main.rand.Next(dustTypes), 0f, 0f, 0, default, 1.5f);
+                int astral = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, Main.rand.Next(dustTypes), 0f, 0f, 0, default, 1.5f);
                 Main.dust[astral].noGravity = true;
                 Main.dust[astral].velocity *= 3f;
-                astral = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 173, 0f, 0f, 50, default, 1f);
+                astral = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 173, 0f, 0f, 50, default, 1f);
                 Main.dust[astral].velocity *= 2f;
                 Main.dust[astral].noGravity = true;
             }
-            for (int g = 0; g < 3; g++)
+            if (Main.netMode != NetmodeID.Server)
             {
-                Gore.NewGore(projectile.position, new Vector2(projectile.velocity.X * 0.05f, projectile.velocity.Y * 0.05f), Main.rand.Next(16, 18), 1f);
+                for (int g = 0; g < 3; g++)
+                {
+                    Gore.NewGore(Projectile.GetSource_Death(), Projectile.position, new Vector2(Projectile.velocity.X * 0.05f, Projectile.velocity.Y * 0.05f), Main.rand.Next(16, 18), 1f);
+                }
             }
         }
     }

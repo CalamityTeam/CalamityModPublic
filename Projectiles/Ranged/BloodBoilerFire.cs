@@ -4,12 +4,15 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Ranged
 {
     public class BloodBoilerFire : ModProjectile
     {
-		private bool playedSound = false;
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
+        private bool playedSound = false;
 
         public override void SetStaticDefaults()
         {
@@ -18,53 +21,54 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetDefaults()
         {
-            projectile.width = 6;
-            projectile.height = 6;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.ranged = true;
-            projectile.penetrate = -1;
-            projectile.extraUpdates = 1;
-            projectile.usesIDStaticNPCImmunity = true;
-            projectile.idStaticNPCHitCooldown = 10;
-            projectile.timeLeft = 240;
+            Projectile.width = 6;
+            Projectile.height = 6;
+            Projectile.scale = 2f;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.penetrate = -1;
+            Projectile.extraUpdates = 1;
+            Projectile.usesIDStaticNPCImmunity = true;
+            Projectile.idStaticNPCHitCooldown = 5;
+            Projectile.timeLeft = 300;
         }
 
         public override void AI()
         {
-			if (!playedSound)
-			{
-                Main.PlaySound(SoundID.Item34, (int)projectile.position.X, (int)projectile.position.Y);
-				playedSound = true;
-			}
-
-            if (projectile.scale <= 1.5f)
+            if (!playedSound)
             {
-                projectile.scale *= 1.01f;
+                SoundEngine.PlaySound(SoundID.Item34, Projectile.position);
+                playedSound = true;
             }
-            Lighting.AddLight(projectile.Center, 1f, 0f, 0f);
-            if (projectile.ai[0] > 7f)
+
+            if (Projectile.scale <= 3f)
+                Projectile.scale *= 1.01f;
+
+            Lighting.AddLight(Projectile.Center, 1f, 0f, 0f);
+
+            if (Projectile.ai[0] > 7f)
             {
                 float num296 = 1f;
-                if (projectile.ai[0] == 8f)
+                if (Projectile.ai[0] == 8f)
                 {
                     num296 = 0.25f;
                 }
-                else if (projectile.ai[0] == 9f)
+                else if (Projectile.ai[0] == 9f)
                 {
                     num296 = 0.5f;
                 }
-                else if (projectile.ai[0] == 10f)
+                else if (Projectile.ai[0] == 10f)
                 {
                     num296 = 0.75f;
                 }
-                projectile.ai[0] += 1f;
+                Projectile.ai[0] += 1f;
                 int num297 = 5;
                 if (Main.rand.NextBool(2))
                 {
                     for (int num298 = 0; num298 < 1; num298++)
                     {
-                        int num299 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, num297, projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 100, default, 1f);
+                        int num299 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, num297, Projectile.velocity.X * 0.2f, Projectile.velocity.Y * 0.2f, 100, default, 1f);
                         Dust dust = Main.dust[num299];
                         if (Main.rand.NextBool(3))
                         {
@@ -80,7 +84,7 @@ namespace CalamityMod.Projectiles.Ranged
                         dust.velocity.X *= 1.2f;
                         dust.velocity.Y *= 1.2f;
                         dust.scale *= num296;
-                        dust.velocity += projectile.velocity;
+                        dust.velocity += Projectile.velocity;
                         if (!dust.noGravity)
                         {
                             dust.velocity *= 0.5f;
@@ -90,82 +94,87 @@ namespace CalamityMod.Projectiles.Ranged
             }
             else
             {
-                projectile.ai[0] += 1f;
+                Projectile.ai[0] += 1f;
             }
-            projectile.rotation += 0.3f * (float)projectile.direction;
+            Projectile.rotation += 0.3f * (float)Projectile.direction;
 
-			if (projectile.timeLeft == 160)
-				projectile.ai[1] = 1f;
-			if (projectile.ai[1] == 1f)
-			{
-				projectile.extraUpdates = 2;
+            if (Projectile.timeLeft == 160)
+                Projectile.ai[1] = 1f;
 
-                Player player = Main.player[projectile.owner];
+            if (Projectile.ai[1] == 1f)
+            {
+                Projectile.tileCollide = false;
+
+                Projectile.extraUpdates = 2;
+
+                Player player = Main.player[Projectile.owner];
 
                 // Delete the projectile if it's excessively far away.
                 Vector2 playerCenter = player.Center;
-                float xDist = playerCenter.X - projectile.Center.X;
-                float yDist = playerCenter.Y - projectile.Center.Y;
+                float xDist = playerCenter.X - Projectile.Center.X;
+                float yDist = playerCenter.Y - Projectile.Center.Y;
                 float dist = (float)Math.Sqrt((double)(xDist * xDist + yDist * yDist));
                 if (dist > 3000f)
-                    projectile.Kill();
+                    Projectile.Kill();
 
                 dist = 20f / dist;
                 xDist *= dist;
                 yDist *= dist;
 
                 // Home back in on the player.
-                if (projectile.velocity.X < xDist)
+                if (Projectile.velocity.X < xDist)
                 {
-                    projectile.velocity.X = projectile.velocity.X + 5f;
-                    if (projectile.velocity.X < 0f && xDist > 0f)
-                        projectile.velocity.X += 5f;
+                    Projectile.velocity.X = Projectile.velocity.X + 5f;
+                    if (Projectile.velocity.X < 0f && xDist > 0f)
+                        Projectile.velocity.X += 5f;
                 }
-                else if (projectile.velocity.X > xDist)
+                else if (Projectile.velocity.X > xDist)
                 {
-                    projectile.velocity.X = projectile.velocity.X - 5f;
-                    if (projectile.velocity.X > 0f && xDist < 0f)
-                        projectile.velocity.X -= 5f;
+                    Projectile.velocity.X = Projectile.velocity.X - 5f;
+                    if (Projectile.velocity.X > 0f && xDist < 0f)
+                        Projectile.velocity.X -= 5f;
                 }
-                if (projectile.velocity.Y < yDist)
+                if (Projectile.velocity.Y < yDist)
                 {
-                    projectile.velocity.Y = projectile.velocity.Y + 5f;
-                    if (projectile.velocity.Y < 0f && yDist > 0f)
-                        projectile.velocity.Y += 5f;
+                    Projectile.velocity.Y = Projectile.velocity.Y + 5f;
+                    if (Projectile.velocity.Y < 0f && yDist > 0f)
+                        Projectile.velocity.Y += 5f;
                 }
-                else if (projectile.velocity.Y > yDist)
+                else if (Projectile.velocity.Y > yDist)
                 {
-                    projectile.velocity.Y = projectile.velocity.Y - 5f;
-                    if (projectile.velocity.Y > 0f && yDist < 0f)
-                        projectile.velocity.Y -= 5f;
+                    Projectile.velocity.Y = Projectile.velocity.Y - 5f;
+                    if (Projectile.velocity.Y > 0f && yDist < 0f)
+                        Projectile.velocity.Y -= 5f;
                 }
 
                 // Delete the projectile if it touches its owner. Has a chance to heal the player again
-                if (Main.myPlayer == projectile.owner)
-                    if (projectile.Hitbox.Intersects(player.Hitbox))
-					{
-						if (Main.rand.NextBool(3) && !Main.player[projectile.owner].moonLeech)
-						{
-							player.statLife += 1;
-							player.HealEffect(1);
-						}
-                        projectile.Kill();
-					}
-			}
+                if (Main.myPlayer == Projectile.owner)
+                {
+                    if (Projectile.Hitbox.Intersects(player.Hitbox))
+                    {
+                        if (Main.rand.NextBool(3) && !Main.player[Projectile.owner].moonLeech)
+                        {
+                            player.statLife += 1;
+                            player.HealEffect(1);
+                        }
+                        Projectile.Kill();
+                    }
+                }
+            }
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 360);
-            target.AddBuff(ModContent.BuffType<BurningBlood>(), 360);
-            if (target.type == NPCID.TargetDummy || !target.canGhostHeal || Main.player[projectile.owner].moonLeech)
-            {
+            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 240);
+            target.AddBuff(ModContent.BuffType<BurningBlood>(), 240);
+
+            if (!target.canGhostHeal || Main.player[Projectile.owner].moonLeech)
                 return;
-            }
-            Player player = Main.player[projectile.owner];
+
+            Player player = Main.player[Projectile.owner];
             if (Main.rand.NextBool(2))
             {
-				int healAmt = Main.rand.Next(1,4);
+                int healAmt = Main.rand.Next(1, 4);
                 player.statLife += healAmt;
                 player.HealEffect(healAmt);
             }

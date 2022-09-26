@@ -1,5 +1,9 @@
+﻿using CalamityMod.Balancing;
 using CalamityMod.CalPlayer;
-using CalamityMod.Items.Materials;
+using CalamityMod.Rarities;
+using CalamityMod.World;
+using System.Collections.Generic;
+using System.Linq;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -7,52 +11,93 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
-	public class DraedonsHeart : ModItem
+    public class DraedonsHeart : ModItem
     {
+        private const double ContactDamageReduction = 0.15D;
+
+        // Duration of Nanomachines in frames.
+        internal static readonly int NanomachinesDuration = 120;
+        // Health gained per frame while using Nanomachines.
+        internal static readonly int NanomachinesHealPerFrame = 3;
+        // Duration of time where Nanomachines won't accumulate after taking damage, in frames.
+        internal static readonly int NanomachinePauseAfterDamage = 60;
+
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Draedon's Heart");
-            Tooltip.SetDefault("Gives 10% increased damage while you have the absolute rage buff\n" +
-                "Increases your chance of getting the absolute rage buff\n" +
-                "Boosts your damage by 5% and max movement speed and acceleration by 5%\n" +
-                "Rage mode does more damage\n" +
-                "You gain rage over time\n" +
-                "The Horror debuff lasts twice as long,\n" +
-                "but it instead grants various buffs to the player\n" +
-                "Receiving a hit causes you to only lose half of your max adrenaline rather than all of it\n" +
-                "Standing still regenerates your life quickly and boosts your defense by 25");
-            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(5, 7));
+            Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(5, 11));
+            ItemID.Sets.AnimatesAsSoul[Type] = true;
+
+            string seconds = NanomachinePauseAfterDamage == 60 ? "second" : "seconds";
+            string pauseDurationTooltip = $"{NanomachinePauseAfterDamage / 60} {seconds}";
+            string totalHealTooltip = $"{NanomachinesHealPerFrame * NanomachinesDuration}";
+            string healDurationTooltip = $"{NanomachinesDuration / 60}";
+
+            Tooltip.SetDefault("15% reduced contact damage from enemies\n" +
+                "Reduces defense damage taken by 50%\n" + "Replaces Adrenaline with the Nanomachines meter\n" +
+                $"Unlike Adrenaline, you lose no Nanomachines when you take damage, but they stop accumulating for {pauseDurationTooltip}\n" +
+                $"With full Nanomachines, press & to heal {totalHealTooltip} health over {healDurationTooltip} seconds\n" +
+                "While healing, you take @% less damage\n" +
+                "'Nanomachines, son.'");
         }
 
         public override void SetDefaults()
         {
-            item.width = 26;
-            item.height = 26;
-            item.value = CalamityGlobalItem.Rarity14BuyPrice;
-            item.accessory = true;
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.width = 52;
+            Item.height = 68;
+            Item.accessory = true;
+            Item.defense = 48;
+            Item.value = CalamityGlobalItem.RarityVioletBuyPrice;
+            Item.rare = ModContent.RarityType<Violet>();
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();
-			modPlayer.laudanum = true;
-			modPlayer.stressPills = true;
+
+            // On the first frame of equipping Draedon's Heart, lose all adrenaline.
+            // This occurs because you didn't have nanomachines LAST frame.
+            if (!modPlayer.hadNanomachinesLastFrame)
+                modPlayer.adrenaline = 0f;
+
             modPlayer.draedonsHeart = true;
+            modPlayer.hadNanomachinesLastFrame = true;
+            modPlayer.AdrenalineDuration = NanomachinesDuration;
+            modPlayer.contactDamageReduction += ContactDamageReduction;
         }
 
-        public override void AddRecipes()
+        public override void ModifyTooltips(List<TooltipLine> list)
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<HeartofDarkness>());
-            recipe.AddIngredient(ModContent.ItemType<StressPills>());
-            recipe.AddIngredient(ModContent.ItemType<Laudanum>());
-            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 5);
-            recipe.AddIngredient(ItemID.Nanites, 250);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            // The 3rd tooltip line "Replaces Adrenaline..." is replaced on Normal or Expert
+            TooltipLine nanomachineMeterLine = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip2");
+            if (nanomachineMeterLine != null && !CalamityWorld.revenge)
+                nanomachineMeterLine.Text = "Adds the Nanomachines meter";
+
+            // The 4th tooltip line "Unlike Adrenaline..." is replaced on Normal or Expert
+            TooltipLine doesntStopOnDamageLine = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip3");
+            if (doesntStopOnDamageLine != null && !CalamityWorld.revenge)
+                doesntStopOnDamageLine.Text = "Nanomachines accumulate over time while fighting bosses\n" +
+                    $"Taking damage stops the accumulation for {NanomachinePauseAfterDamage / 60} seconds";
+
+            // The 5th tooltip line "With full Nanomachines" has the & replaced with the hotkey.
+            string adrenKey = CalamityKeybinds.AdrenalineHotKey.TooltipHotkeyString();
+            TooltipLine hotkeyLine = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip4");
+            if (hotkeyLine != null)
+            {
+                string tooltipWithHotkey = hotkeyLine.Text.Replace("&", adrenKey);
+                hotkeyLine.Text = tooltipWithHotkey;
+            }
+
+            // The 6th tooltip line "While healing..." has the @ replaced with full adrenaline DR.
+            // For whatever reason this method overrides the entire line instead of replacing the character as intended, so we duplicate the line.
+            string fullAdrenDRString = (100f * BalancingConstants.FullAdrenalineDR).ToString("N0");
+            TooltipLine healingDRLine = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip5");
+            if (healingDRLine != null)
+            {
+                string tooltipWithDR = fullAdrenDRString.Replace("@", fullAdrenDRString);
+                healingDRLine.Text = "While healing, you take " + tooltipWithDR + "% less damage";
+            }
         }
     }
 }

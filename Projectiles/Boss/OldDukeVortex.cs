@@ -1,172 +1,146 @@
-using CalamityMod.Buffs.StatDebuffs;
+﻿using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Boss
 {
-	public class OldDukeVortex : ModProjectile
+    public class OldDukeVortex : ModProjectile
     {
+        public static readonly SoundStyle SpawnSound = new("CalamityMod/Sounds/Custom/OldDukeVortex");
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Sulphurous Vortex");
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 6;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
-		}
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 6;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
+        }
 
         public override void SetDefaults()
         {
-            projectile.width = 408;
-            projectile.height = 408;
-			projectile.scale = 0.004f;
-			projectile.hostile = true;
-            projectile.alpha = 255;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-			projectile.ignoreWater = true;
-			projectile.timeLeft = 1800;
-			cooldownSlot = 1;
-		}
+            Projectile.Calamity().DealsDefenseDamage = true;
+            Projectile.width = 408;
+            Projectile.height = 408;
+            Projectile.scale = 0.004f;
+            Projectile.hostile = true;
+            Projectile.alpha = 255;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
+            Projectile.timeLeft = 1800;
+            CooldownSlot = ImmunityCooldownID.Bosses;
+        }
 
         public override void AI()
         {
-			if (projectile.scale < 1f)
-			{
-				if (projectile.alpha > 0)
-					projectile.alpha -= 1;
-
-				projectile.scale += 0.004f;
-				if (projectile.scale > 1f)
-					projectile.scale = 1f;
-
-				projectile.width = projectile.height = (int)(408f * projectile.scale);
-			}
-			else
-			{
-				if (projectile.timeLeft <= 85)
-				{
-					if (projectile.alpha < 255)
-						projectile.alpha += 3;
-
-					projectile.scale += 0.012f;
-					projectile.width = projectile.height = (int)(408f * projectile.scale);
-				}
-				else
-					projectile.width = projectile.height = 408;
-			}
-
-			projectile.velocity = Vector2.Normalize(new Vector2(projectile.ai[0], projectile.ai[1]) - projectile.Center) * 1.5f;
-
-			projectile.rotation -= 0.1f * (float)(1D - (projectile.alpha / 255D));
-
-			float lightAmt = 2f * projectile.scale;
-			Lighting.AddLight(projectile.Center, lightAmt, lightAmt * 2f, lightAmt);
-
-			if (projectile.soundDelay == 0)
+            if (Projectile.scale < 1f)
             {
-				projectile.soundDelay = 174;
-				Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/OldDukeVortex"), (int)projectile.Center.X, (int)projectile.Center.Y);
-			}
+                if (Projectile.alpha > 0)
+                    Projectile.alpha -= 1;
 
-			if (projectile.timeLeft > 85)
-			{
-				int numDust = (int)(0.2f * MathHelper.TwoPi * 408f * projectile.scale);
-				float angleIncrement = MathHelper.TwoPi / (float)numDust;
-				Vector2 dustOffset = new Vector2(408f * projectile.scale, 0f);
-				dustOffset = dustOffset.RotatedByRandom(MathHelper.TwoPi);
+                Projectile.scale += 0.004f;
+                if (Projectile.scale > 1f)
+                    Projectile.scale = 1f;
 
-				int var = (int)(408f * projectile.scale);
-				for (int i = 0; i < numDust; i++)
-				{
-					if (Main.rand.NextBool(var))
-					{
-						dustOffset = dustOffset.RotatedBy(angleIncrement);
-						int dust = Dust.NewDust(projectile.Center, 1, 1, (int)CalamityDusts.SulfurousSeaAcid);
-						Main.dust[dust].position = projectile.Center + dustOffset;
-						Main.dust[dust].noGravity = true;
-						Main.dust[dust].velocity = Vector2.Normalize(projectile.Center - Main.dust[dust].position) * 24f;
-						Main.dust[dust].scale = projectile.scale * 3f;
-					}
-				}
+                Projectile.width = Projectile.height = (int)(408f * Projectile.scale);
+            }
+            else
+            {
+                if (Projectile.timeLeft <= 85)
+                {
+                    if (Projectile.alpha < 255)
+                        Projectile.alpha += 3;
 
-				float distanceRequired = 800f * projectile.scale;
-				float succPower = 0.4f;
-				for (int i = 0; i < Main.maxPlayers; i++)
-				{
-					Player player = Main.player[i];
-					
-					float distance = Vector2.Distance(player.Center, projectile.Center);
-					if (distance < distanceRequired && player.grappling[0] == -1)
-					{
-						if (Collision.CanHit(projectile.Center, 1, 1, player.Center, 1, 1))
-						{
-							float distanceRatio = distance / distanceRequired;
+                    Projectile.scale += 0.012f;
+                    Projectile.width = Projectile.height = (int)(408f * Projectile.scale);
+                }
+                else
+                    Projectile.width = Projectile.height = 408;
+            }
 
-							float wingTimeSet = (float)Math.Ceiling((float)player.wingTimeMax * 0.5f * distanceRatio);
-							if (player.wingTime > wingTimeSet)
-								player.wingTime = wingTimeSet;
+            Projectile.velocity = Vector2.Normalize(new Vector2(Projectile.ai[0], Projectile.ai[1]) - Projectile.Center) * 1.5f;
 
-							float multiplier = 1f - distanceRatio;
-							if (player.Center.X < projectile.Center.X)
-								player.velocity.X += succPower * multiplier;
-							else
-								player.velocity.X -= succPower * multiplier;
+            Projectile.rotation -= 0.1f * (float)(1D - (Projectile.alpha / 255D));
 
-							if (player.Center.Y < projectile.Center.Y)
-								player.velocity.Y += succPower * multiplier;
-							else
-								player.velocity.Y -= succPower * multiplier;
-						}
-					}
-				}
-			}
-		}
+            float lightAmt = 2f * Projectile.scale;
+            Lighting.AddLight(Projectile.Center, lightAmt, lightAmt * 2f, lightAmt);
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-		{
-			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
-			return false;
-		}
+            if (Projectile.soundDelay == 0)
+            {
+                Projectile.soundDelay = 174;
+                SoundEngine.PlaySound(SpawnSound, Projectile.Center);
+            }
 
-		public override bool CanHitPlayer(Player target)
-		{
-			if (projectile.timeLeft > 1680 || projectile.timeLeft <= 85)
-			{
-				return false;
-			}
-			return true;
-		}
+            if (Projectile.timeLeft > 85)
+            {
+                int numDust = (int)(0.2f * MathHelper.TwoPi * 408f * Projectile.scale);
+                float angleIncrement = MathHelper.TwoPi / (float)numDust;
+                Vector2 dustOffset = new Vector2(408f * Projectile.scale, 0f);
+                dustOffset = dustOffset.RotatedByRandom(MathHelper.TwoPi);
 
-		public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
-		{
-			float dist1 = Vector2.Distance(projectile.Center, targetHitbox.TopLeft());
-			float dist2 = Vector2.Distance(projectile.Center, targetHitbox.TopRight());
-			float dist3 = Vector2.Distance(projectile.Center, targetHitbox.BottomLeft());
-			float dist4 = Vector2.Distance(projectile.Center, targetHitbox.BottomRight());
+                int var = (int)(408f * Projectile.scale);
+                for (int i = 0; i < numDust; i++)
+                {
+                    if (Main.rand.NextBool(var))
+                    {
+                        dustOffset = dustOffset.RotatedBy(angleIncrement);
+                        int dust = Dust.NewDust(Projectile.Center, 1, 1, (int)CalamityDusts.SulfurousSeaAcid);
+                        Main.dust[dust].position = Projectile.Center + dustOffset;
+                        Main.dust[dust].noGravity = true;
+                        Main.dust[dust].velocity = Vector2.Normalize(Projectile.Center - Main.dust[dust].position) * 24f;
+                        Main.dust[dust].scale = Projectile.scale * 3f;
+                    }
+                }
 
-			float minDist = dist1;
-			if (dist2 < minDist)
-				minDist = dist2;
-			if (dist3 < minDist)
-				minDist = dist3;
-			if (dist4 < minDist)
-				minDist = dist4;
+                float distanceRequired = 800f * Projectile.scale;
+                float succPower = 0.5f;
+                for (int i = 0; i < Main.maxPlayers; i++)
+                {
+                    Player player = Main.player[i];
 
-			return minDist <= 210f * projectile.scale;
-		}
+                    float distance = Vector2.Distance(player.Center, Projectile.Center);
+                    if (distance < distanceRequired && player.grappling[0] == -1)
+                    {
+                        if (Collision.CanHit(Projectile.Center, 1, 1, player.Center, 1, 1))
+                        {
+                            float distanceRatio = distance / distanceRequired;
 
-		public override void OnHitPlayer(Player target, int damage, bool crit)
+                            float wingTimeSet = (float)Math.Ceiling((float)player.wingTimeMax * 0.5f * distanceRatio);
+                            if (player.wingTime > wingTimeSet)
+                                player.wingTime = wingTimeSet;
+
+                            float multiplier = 1f - distanceRatio;
+                            if (player.Center.X < Projectile.Center.X)
+                                player.velocity.X += succPower * multiplier;
+                            else
+                                player.velocity.X -= succPower * multiplier;
+                        }
+                    }
+                }
+            }
+        }
+
+        public override bool PreDraw(ref Color lightColor)
         {
-			target.AddBuff(ModContent.BuffType<Irradiated>(), 600);
-		}
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
+            return false;
+        }
 
-		public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
-		{
-			target.Calamity().lastProjectileHit = projectile;
-		}
-	}
+        public override bool CanHitPlayer(Player target) => Projectile.timeLeft <= 1680 && Projectile.timeLeft > 85;
+
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => CalamityUtils.CircularHitboxCollision(Projectile.Center, 210f * Projectile.scale, targetHitbox);
+
+        public override void OnHitPlayer(Player target, int damage, bool crit)
+        {
+            if (damage <= 0)
+                return;
+
+            if (Projectile.timeLeft <= 1680 && Projectile.timeLeft > 85)
+                target.AddBuff(ModContent.BuffType<Irradiated>(), 600);
+        }
+    }
 }

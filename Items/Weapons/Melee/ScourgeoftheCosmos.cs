@@ -1,8 +1,7 @@
-using CalamityMod.Items.Materials;
-using CalamityMod.Items.Weapons.Rogue;
-using CalamityMod.Projectiles.Hybrid;
+﻿using CalamityMod.Items.Materials;
+using CalamityMod.Projectiles.Melee;
+using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
-using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -14,39 +13,36 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             DisplayName.SetDefault("Scourge of the Cosmos");
             Tooltip.SetDefault("Throws a bouncing cosmic scourge that emits tiny homing cosmic scourges on death and tile hits");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.width = 18;
-            item.damage = 1300;
-            item.melee = true;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.useAnimation = 20;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.useTime = 20;
-            item.knockBack = 5f;
-            item.UseSound = SoundID.Item109;
-            item.autoReuse = true;
-            item.height = 20;
-            item.value = Item.buyPrice(2, 50, 0, 0);
-            item.rare = 10;
-            item.shoot = ModContent.ProjectileType<ScourgeoftheCosmosProj>();
-            item.shootSpeed = 15f;
-            item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.width = Item.height = 64;
+            Item.damage = 478;
+            Item.DamageType = DamageClass.MeleeNoSpeed;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.useAnimation = 20;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.useTime = 20;
+            Item.knockBack = 5f;
+            Item.UseSound = SoundID.Item109;
+            Item.autoReuse = true;
+            Item.value = CalamityGlobalItem.Rarity14BuyPrice;
+            Item.rare = ModContent.RarityType<DarkBlue>();
+            Item.shoot = ModContent.ProjectileType<ScourgeoftheCosmosProj>();
+            Item.shootSpeed = 15f;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.ScourgeoftheCorruptor);
-            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<XerocPitchfork>(), 200);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient(ItemID.ScourgeoftheCorruptor).
+                AddIngredient<Bonebreaker>().
+                AddIngredient<CosmiliteBar>(10).
+                AddTile<CosmicAnvil>().
+                Register();
         }
     }
 }

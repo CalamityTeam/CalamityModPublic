@@ -1,9 +1,12 @@
-using CalamityMod.Items.Placeables.Banners;
+﻿using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.World;
+using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Utilities;
 
 namespace CalamityMod.NPCs.NormalNPCs
 {
@@ -12,32 +15,49 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Mantis Shrimp");
-            Main.npcFrameCount[npc.type] = 6;
+            Main.npcFrameCount[NPC.type] = 6;
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            {
+                SpriteDirection = 1
+            };
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 
         public override void SetDefaults()
         {
-            npc.damage = 200;
-            npc.width = 40;
-            npc.height = 24;
-            npc.defense = 10;
-			npc.DR_NERD(0.1f);
-            npc.lifeMax = 30;
-            npc.aiStyle = 3;
-            aiType = NPCID.Crab;
-            npc.value = Item.buyPrice(0, 0, 1, 0);
-            npc.HitSound = SoundID.NPCHit1;
-            npc.DeathSound = SoundID.NPCDeath1;
-            npc.buffImmune[BuffID.Daybreak] = true;
-            npc.buffImmune[BuffID.Confused] = false;
-            banner = npc.type;
-            bannerItem = ModContent.ItemType<MantisShrimpBanner>();
+            NPC.damage = 200;
+            NPC.width = 40;
+            NPC.height = 24;
+            NPC.defense = 10;
+            NPC.DR_NERD(0.1f);
+            NPC.lifeMax = 30;
+            NPC.aiStyle = 3;
+            AIType = NPCID.Crab;
+            NPC.value = Item.buyPrice(0, 0, 1, 0);
+            NPC.HitSound = SoundID.NPCHit1;
+            NPC.DeathSound = SoundID.NPCDeath1;
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<MantisShrimpBanner>();
+            NPC.Calamity().VulnerableToHeat = false;
+            NPC.Calamity().VulnerableToSickness = true;
+            NPC.Calamity().VulnerableToElectricity = true;
+            NPC.Calamity().VulnerableToWater = false;
+        }
+
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Ocean,
+
+                // Will move to localization whenever that is cleaned up.
+                new FlavorTextBestiaryInfoElement("Should it land a blow with its rounded front claws, it will tear your flesh and shatter your bones. Needless to say, avoid this at all costs.")
+            });
         }
 
         public override void AI()
         {
-            npc.spriteDirection = (npc.direction > 0) ? -1 : 1;
-            float num79 = (Main.player[npc.target].Center - npc.Center).Length();
+            NPC.spriteDirection = (NPC.direction > 0) ? -1 : 1;
+            float num79 = (Main.player[NPC.target].Center - NPC.Center).Length();
             num79 *= 0.0025f;
             if ((double)num79 > 1.5)
             {
@@ -53,27 +73,27 @@ namespace CalamityMod.NPCs.NormalNPCs
                 num78 = 2.5f - num79;
             }
             num78 *= (CalamityWorld.death ? 1.2f : 0.8f);
-            if (npc.velocity.X < -num78 || npc.velocity.X > num78)
+            if (NPC.velocity.X < -num78 || NPC.velocity.X > num78)
             {
-                if (npc.velocity.Y == 0f)
+                if (NPC.velocity.Y == 0f)
                 {
-                    npc.velocity *= 0.8f;
+                    NPC.velocity *= 0.8f;
                 }
             }
-            else if (npc.velocity.X < num78 && npc.direction == 1)
+            else if (NPC.velocity.X < num78 && NPC.direction == 1)
             {
-                npc.velocity.X = npc.velocity.X + 1f;
-                if (npc.velocity.X > num78)
+                NPC.velocity.X = NPC.velocity.X + 1f;
+                if (NPC.velocity.X > num78)
                 {
-                    npc.velocity.X = num78;
+                    NPC.velocity.X = num78;
                 }
             }
-            else if (npc.velocity.X > -num78 && npc.direction == -1)
+            else if (NPC.velocity.X > -num78 && NPC.direction == -1)
             {
-                npc.velocity.X = npc.velocity.X - 1f;
-                if (npc.velocity.X < -num78)
+                NPC.velocity.X = NPC.velocity.X - 1f;
+                if (NPC.velocity.X < -num78)
                 {
-                    npc.velocity.X = -num78;
+                    NPC.velocity.X = -num78;
                 }
             }
         }
@@ -81,47 +101,38 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
             if (Main.netMode != NetmodeID.MultiplayerClient)
-            {
-                Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, ProjectileID.SolarWhipSwordExplosion, 0, 0f, Main.myPlayer);
-            }
+                Projectile.NewProjectile(NPC.GetSource_FromAI(), player.Center, Vector2.Zero, ProjectileID.SolarWhipSwordExplosion, 0, 0f, Main.myPlayer);
         }
 
         public override void FindFrame(int frameHeight)
         {
-            npc.frameCounter += 0.15f;
-            npc.frameCounter %= Main.npcFrameCount[npc.type];
-            int frame = (int)npc.frameCounter;
-            npc.frame.Y = frame * frameHeight;
+            NPC.frameCounter += 0.15f;
+            NPC.frameCounter %= Main.npcFrameCount[NPC.type];
+            int frame = (int)NPC.frameCounter;
+            NPC.frame.Y = frame * frameHeight;
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.playerSafe || spawnInfo.player.Calamity().ZoneSulphur)
-            {
+            if (spawnInfo.PlayerSafe || !Main.hardMode || spawnInfo.Player.Calamity().ZoneSulphur)
                 return 0f;
-            }
+
             return SpawnCondition.OceanMonster.Chance * 0.2f;
         }
 
-        public override void NPCLoot()
-        {
-            if (Main.rand.NextBool(5) && NPC.downedPlantBoss)
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<MantisClaws>());
-            }
-        }
+        public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.AddIf(() => NPC.downedPlantBoss, ModContent.ItemType<MantisClaws>(), 5);
 
         public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < 3; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
             }
-            if (npc.life <= 0)
+            if (NPC.life <= 0)
             {
                 for (int k = 0; k < 15; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
                 }
             }
         }

@@ -1,13 +1,16 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Ranged
 {
     public class DrataliornusBow : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Ranged/Drataliornus";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Drataliornus");
@@ -15,27 +18,27 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetDefaults()
         {
-            projectile.width = 64;
-            projectile.height = 84;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.ranged = true;
-            projectile.ignoreWater = true;
+            Projectile.width = 64;
+            Projectile.height = 84;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.ignoreWater = true;
         }
 
         public override void AI() //mostly phangasm code
         {
-            Lighting.AddLight(projectile.Center, 255f / 255f, 154f / 255f, 58f / 255f);
-            Player player = Main.player[projectile.owner];
+            Lighting.AddLight(Projectile.Center, 255f / 255f, 154f / 255f, 58f / 255f);
+            Player player = Main.player[Projectile.owner];
 
-            projectile.ai[1]--; //usetime timer
+            Projectile.ai[1]--; //usetime timer
 
-            if (projectile.ai[0] >= 0) //spinup timer
+            if (Projectile.ai[0] >= 0) //spinup timer
             {
-                projectile.ai[0]++;
+                Projectile.ai[0]++;
 
-                switch ((int)projectile.ai[0])
+                switch ((int)Projectile.ai[0])
                 {
                     case 36:
                     case 72:
@@ -46,17 +49,17 @@ namespace CalamityMod.Projectiles.Ranged
                     case 252:
                     case 288:
                     case 324:
-                        projectile.localAI[0]++;
+                        Projectile.localAI[0]++;
                         break;
 
                     case 360:
-                        projectile.localAI[0]++;
-                        projectile.ai[0] = -1f; //fully spun up, don't need timer anymore
+                        Projectile.localAI[0]++;
+                        Projectile.ai[0] = -1f; //fully spun up, don't need timer anymore
 
                         const int num226 = 36; //dusts indicate fully spun up
                         for (int num227 = 0; num227 < num226; num227++)
                         {
-                            Vector2 vector6 = Vector2.Normalize(projectile.velocity) * 9f;
+                            Vector2 vector6 = Vector2.Normalize(Projectile.velocity) * 9f;
                             vector6 = vector6.RotatedBy((num227 - (num226 / 2 - 1)) * 6.28318548f / num226, default) + player.Center;
                             Vector2 vector7 = vector6 - player.Center;
                             int num228 = Dust.NewDust(vector6 + vector7, 0, 0, 127, 0f, 0f, 0, default, 4f);
@@ -67,53 +70,53 @@ namespace CalamityMod.Projectiles.Ranged
                 }
             }
 
-            int baseUseTime = 35;
+            int baseUseTime = 38;
             int modifier = 3;
             bool timeToFire = false;
-            if (projectile.ai[1] <= 0f)
+            if (Projectile.ai[1] <= 0f)
             {
-                projectile.ai[1] = baseUseTime - modifier * projectile.localAI[0];
+                Projectile.ai[1] = baseUseTime - modifier * Projectile.localAI[0];
                 timeToFire = true;
             }
 
-            bool canFire = player.channel && player.HasAmmo(player.ActiveItem(), true) && !player.noItems && !player.CCed;
+            bool canFire = player.channel && player.HasAmmo(player.ActiveItem()) && !player.noItems && !player.CCed;
 
-            if (projectile.soundDelay <= 0 && canFire)
+            if (Projectile.soundDelay <= 0 && canFire)
             {
-                projectile.soundDelay = baseUseTime - modifier * (int)projectile.localAI[0];
-                if (projectile.ai[0] != 1f)
-                    Main.PlaySound(SoundID.Item5, projectile.position);
+                Projectile.soundDelay = baseUseTime - modifier * (int)Projectile.localAI[0];
+                if (Projectile.ai[0] != 1f)
+                    SoundEngine.PlaySound(SoundID.Item5, Projectile.position);
             }
 
-            if (timeToFire && Main.myPlayer == projectile.owner)
+            if (timeToFire && Main.myPlayer == Projectile.owner)
             {
                 if (canFire) //fire an angery flame
                 {
-                    int type = 14;
+                    int type = ProjectileID.WoodenArrowFriendly; //Gets changed below anyways
                     float scaleFactor = 18f;
                     int damage = player.GetWeaponDamage(player.ActiveItem());
                     float knockBack = player.ActiveItem().knockBack;
 
-                    player.PickAmmo(player.ActiveItem(), ref type, ref scaleFactor, ref canFire, ref damage, ref knockBack, false);
+                    player.PickAmmo(player.ActiveItem(), out type, out scaleFactor, out damage, out knockBack, out _);
 
                     type = ModContent.ProjectileType<DrataliornusFlame>();
                     knockBack = player.GetWeaponKnockback(player.ActiveItem(), knockBack);
 
                     Vector2 playerPosition = player.RotatedRelativePoint(player.MountedCenter, true);
-                    projectile.velocity = Main.screenPosition - playerPosition;
-                    projectile.velocity.X += Main.mouseX;
-                    projectile.velocity.Y += Main.mouseY;
+                    Projectile.velocity = Main.screenPosition - playerPosition;
+                    Projectile.velocity.X += Main.mouseX;
+                    Projectile.velocity.Y += Main.mouseY;
                     if (player.gravDir == -1f)
-                        projectile.velocity.Y = Main.screenHeight - Main.mouseY + Main.screenPosition.Y - playerPosition.Y;
+                        Projectile.velocity.Y = Main.screenHeight - Main.mouseY + Main.screenPosition.Y - playerPosition.Y;
 
-                    projectile.velocity.Normalize();
+                    Projectile.velocity.Normalize();
 
-                    float variation = (1f + projectile.localAI[0]) * 3f; //variation increases as fire rate increases
+                    float variation = (1f + Projectile.localAI[0]) * 3f; //variation increases as fire rate increases
                     Vector2 position = playerPosition + Utils.RandomVector2(Main.rand, -variation, variation);
-                    Vector2 speed = projectile.velocity * scaleFactor * (0.6f + Main.rand.NextFloat() * 0.6f);
+                    Vector2 speed = Projectile.velocity * scaleFactor * (0.6f + Main.rand.NextFloat() * 0.6f);
 
                     float ai0 = 0f;
-                    if (projectile.ai[0] < 0f) //if fully spun up
+                    if (Projectile.ai[0] < 0f) //if fully spun up
                     {
                         if (Main.rand.NextBool(3)) //chance to shoot homing
                         {
@@ -126,34 +129,31 @@ namespace CalamityMod.Projectiles.Ranged
                         }
                     }
 
-                    Projectile.NewProjectile(position, speed, type, damage, knockBack, projectile.owner, ai0, 0f);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), position, speed, type, damage, knockBack, Projectile.owner, ai0, 0f);
 
-                    projectile.netUpdate = true;
+                    Projectile.netUpdate = true;
                 }
                 else
                 {
-                    projectile.Kill();
+                    Projectile.Kill();
                 }
             }
 
             //display projectile
-            projectile.rotation = projectile.velocity.ToRotation();
-            Vector2 displayOffset = new Vector2(32, 0).RotatedBy(projectile.rotation);
-            projectile.Center = player.RotatedRelativePoint(player.MountedCenter, true) + displayOffset;
-            if (projectile.spriteDirection == -1)
-                projectile.rotation += 3.14159274f;
-            projectile.spriteDirection = projectile.direction;
-            projectile.timeLeft = 2;
-            player.ChangeDir(projectile.direction);
-            player.heldProj = projectile.whoAmI;
+            Projectile.rotation = Projectile.velocity.ToRotation();
+            Vector2 displayOffset = new Vector2(32, 0).RotatedBy(Projectile.rotation);
+            Projectile.Center = player.RotatedRelativePoint(player.MountedCenter, true) + displayOffset;
+            if (Projectile.spriteDirection == -1)
+                Projectile.rotation += MathHelper.Pi;
+            Projectile.spriteDirection = Projectile.direction;
+            Projectile.timeLeft = 2;
+            player.ChangeDir(Projectile.direction);
+            player.heldProj = Projectile.whoAmI;
             player.itemTime = 2;
             player.itemAnimation = 2;
-            player.itemRotation = (float)Math.Atan2(projectile.velocity.Y * projectile.direction, projectile.velocity.X * projectile.direction);
+            player.itemRotation = (float)Math.Atan2(Projectile.velocity.Y * Projectile.direction, Projectile.velocity.X * Projectile.direction);
         }
 
-        public override bool CanDamage()
-        {
-            return false;
-        }
+        public override bool? CanDamage() => false;
     }
 }

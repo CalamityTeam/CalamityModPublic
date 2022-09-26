@@ -1,4 +1,6 @@
+﻿using CalamityMod.Rarities;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Materials
@@ -7,17 +9,18 @@ namespace CalamityMod.Items.Materials
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 100;
             DisplayName.SetDefault("Bloodstone");
+			ItemID.Sets.SortingPriorityMaterials[Type] = 112;
         }
 
         public override void SetDefaults()
         {
-            item.width = 13;
-            item.height = 10;
-            item.maxStack = 999;
-            item.value = Item.sellPrice(silver: 60);
-            item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
+            Item.width = 13;
+            Item.height = 10;
+            Item.maxStack = 999;
+            Item.value = Item.sellPrice(silver: 60);
+            Item.rare = ModContent.RarityType<Turquoise>();
         }
     }
 }

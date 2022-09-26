@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.Potions;
+﻿using CalamityMod.Buffs.Potions;
 using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
@@ -8,47 +8,50 @@ namespace CalamityMod.Items.Potions
 {
     public class YharimsStimulants : ModItem
     {
+        internal static readonly int CritBoost = 2;
+        
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 20;
             DisplayName.SetDefault("Yharim's Stimulants");
-            Tooltip.SetDefault("Gives decent buffs to ALL offensive and defensive stats");
+            Tooltip.SetDefault("Increases defense by 10, knockback by 25%, damage reduction by 4%,\n" +
+                "mining speed by 10%, damage by 5%, critical strike chance by 2%, minion knockback by 100%,\n" +
+                "movement and melee speed by 7.5%");
         }
 
         public override void SetDefaults()
         {
-            item.width = 28;
-            item.height = 18;
-            item.useTurn = true;
-            item.maxStack = 999;
-            item.rare = 3;
-            item.useAnimation = 17;
-            item.useTime = 17;
-            item.useStyle = ItemUseStyleID.EatingUsing;
-            item.UseSound = SoundID.Item3;
-            item.consumable = true;
-            item.buffType = ModContent.BuffType<YharimPower>();
-            item.buffTime = 108000;
-            item.value = Item.buyPrice(0, 2, 0, 0);
+            Item.width = 40;
+            Item.height = 40;
+            Item.useTurn = true;
+            Item.maxStack = 30;
+            Item.rare = ItemRarityID.Orange;
+            Item.useAnimation = 17;
+            Item.useTime = 17;
+            Item.useStyle = ItemUseStyleID.DrinkLiquid;
+            Item.UseSound = SoundID.Item3;
+            Item.consumable = true;
+            Item.buffType = ModContent.BuffType<YharimPower>();
+            Item.buffTime = CalamityUtils.SecondsToFrames(1800f);
+            Item.value = Item.buyPrice(0, 2, 0, 0);
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.EndurancePotion);
-            recipe.AddIngredient(ItemID.IronskinPotion);
-            recipe.AddIngredient(ItemID.SwiftnessPotion);
-            recipe.AddIngredient(ItemID.ArcheryPotion);
-            recipe.AddIngredient(ItemID.MagicPowerPotion);
-            recipe.AddIngredient(ItemID.TitanPotion);
-            recipe.AddTile(TileID.AlchemyTable);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<BloodOrb>(), 50);
-            recipe.AddIngredient(ItemID.BottledWater);
-            recipe.AddTile(TileID.AlchemyTable);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddRecipeGroup("AnyFood").
+                AddIngredient(ItemID.EndurancePotion).
+                AddIngredient(ItemID.IronskinPotion).
+                AddIngredient(ItemID.SwiftnessPotion).
+                AddIngredient(ItemID.TitanPotion).
+                AddTile(TileID.AlchemyTable).
+                Register();
+
+            CreateRecipe().
+                AddIngredient(ItemID.BottledWater).
+                AddIngredient<BloodOrb>(50).
+                AddTile(TileID.AlchemyTable).
+                Register();
         }
     }
 }

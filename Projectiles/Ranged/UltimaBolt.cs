@@ -10,35 +10,36 @@ namespace CalamityMod.Projectiles.Ranged
     {
         public float Bounces
         {
-            get => projectile.ai[0];
-            set => projectile.ai[0] = value;
+            get => Projectile.ai[0];
+            set => Projectile.ai[0] = value;
         }
-        public float DefaultHue => ((float)Math.Sin(Main.GlobalTime * 2.5f) + 1) * 0.5f;
+        public float DefaultHue => ((float)Math.Sin(Main.GlobalTimeWrappedHourly * 2.5f) + 1) * 0.5f;
         public const int MaxBounces = 1;
         public override void SetStaticDefaults()
         {
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 3;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 3;
             DisplayName.SetDefault("Ultima Bolt");
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 18;
-            projectile.height = 42;
-            projectile.friendly = true;
-            projectile.ranged = true;
-            projectile.arrow = true;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 300;
+            Projectile.width = 18;
+            Projectile.height = 42;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.arrow = true;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = 300;
+            Projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.DefaultPointBlankDuration;
         }
 
         public override void AI()
         {
-            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
         }
 
-        public Color GetColorFromHue(float hue) => Main.hslToRgb(hue, 1f, 0.725f) * projectile.Opacity;
+        public Color GetColorFromHue(float hue) => Main.hslToRgb(hue, 1f, 0.725f) * Projectile.Opacity;
         public override Color? GetAlpha(Color lightColor) => GetColorFromHue(DefaultHue);
 
         public void ProduceExplosionDust(int dustCount)
@@ -47,7 +48,7 @@ namespace CalamityMod.Projectiles.Ranged
             {
                 for (int i = 0; i < dustCount; i++)
                 {
-                    Dust dust = Dust.NewDustPerfect(projectile.Center, 267);
+                    Dust dust = Dust.NewDustPerfect(Projectile.Center, 267);
                     dust.color = Main.hslToRgb(Main.rand.NextFloat(), 1f, 0.8f);
                     dust.scale = Main.rand.NextFloat(1f, 1.25f);
                     dust.velocity = Main.rand.NextVector2Circular(7f, 7f);
@@ -60,17 +61,17 @@ namespace CalamityMod.Projectiles.Ranged
         {
             if (Bounces >= MaxBounces)
             {
-                projectile.Kill();
+                Projectile.Kill();
                 return false;
             }
 
-            if (projectile.velocity.X != oldVelocity.X)
+            if (Projectile.velocity.X != oldVelocity.X)
             {
-                projectile.velocity.X = -oldVelocity.X;
+                Projectile.velocity.X = -oldVelocity.X;
             }
-            if (projectile.velocity.Y != oldVelocity.Y)
+            if (Projectile.velocity.Y != oldVelocity.Y)
             {
-                projectile.velocity.Y = -oldVelocity.Y;
+                Projectile.velocity.Y = -oldVelocity.Y;
             }
             Bounces++;
             ProduceExplosionDust(24);
@@ -78,34 +79,34 @@ namespace CalamityMod.Projectiles.Ranged
             return false;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D texture = ModContent.GetTexture(Texture);
-            for (int i = 0; i < projectile.oldPos.Length; i++)
+            Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
+            for (int i = 0; i < Projectile.oldPos.Length; i++)
             {
                 if (i > 0)
                 {
-                    CalamityUtils.DistanceClamp(ref projectile.oldPos[i], ref projectile.oldPos[i - 1], 8f); // Ensure the max distance between the old positions isn't too great. It looks weird if it is.
+                    CalamityUtils.DistanceClamp(ref Projectile.oldPos[i], ref Projectile.oldPos[i - 1], 8f); // Ensure the max distance between the old positions isn't too great. It looks weird if it is.
                 }
-                float completionRatio = i / (float)projectile.oldPos.Length;
+                float completionRatio = i / (float)Projectile.oldPos.Length;
                 Color color = GetColorFromHue((DefaultHue + completionRatio * 0.5f) % 1f) * (float)Math.Pow(1f - completionRatio, 2);
-                spriteBatch.Draw(texture,
-                                 projectile.oldPos[i] + texture.Size() * 0.5f - Main.screenPosition,
+                Main.EntitySpriteDraw(texture,
+                                 Projectile.oldPos[i] + texture.Size() * 0.5f - Main.screenPosition,
                                  null,
                                  color,
-                                 projectile.rotation,
+                                 Projectile.rotation,
                                  texture.Size() * 0.5f,
-                                 projectile.scale,
+                                 Projectile.scale,
                                  SpriteEffects.None,
-                                 0f);
+                                 0);
             }
             return false;
         }
 
         public override void Kill(int timeLeft)
         {
-            CalamityGlobalProjectile.ExpandHitboxBy(projectile, 90, 90);
-            projectile.Damage();
+            Projectile.ExpandHitboxBy(90, 90);
+            Projectile.Damage();
             ProduceExplosionDust(32);
         }
     }

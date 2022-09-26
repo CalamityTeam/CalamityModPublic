@@ -1,8 +1,8 @@
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Ranged
 {
@@ -11,54 +11,58 @@ namespace CalamityMod.Projectiles.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Arrow");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 1;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 10;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 1;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 10;
-            projectile.height = 10;
-            projectile.friendly = true;
-            projectile.ranged = true;
-            projectile.arrow = true;
-            projectile.penetrate = 1;
-            projectile.aiStyle = 1;
-            projectile.timeLeft = 600;
-            aiType = ProjectileID.WoodenArrowFriendly;
+            Projectile.width = 10;
+            Projectile.height = 10;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.arrow = true;
+            Projectile.penetrate = 1;
+            Projectile.aiStyle = ProjAIStyleID.Arrow;
+            Projectile.timeLeft = 600;
+            AIType = ProjectileID.WoodenArrowFriendly;
+            Projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.DefaultPointBlankDuration;
         }
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.Item14, projectile.position);
-            if (projectile.owner == Main.myPlayer)
+            SoundEngine.PlaySound(SoundID.Item14, Projectile.position);
+            if (Projectile.owner == Main.myPlayer)
             {
-                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<PlagueExplosionFriendly>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<PlagueExplosionFriendly>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
                 int num516 = 6;
                 for (int num517 = 0; num517 < num516; num517++)
                 {
                     if (num517 % 2 != 1 || Main.rand.NextBool(3))
                     {
-                        Vector2 value20 = projectile.position;
-                        Vector2 value21 = projectile.oldVelocity;
+                        Vector2 value20 = Projectile.position;
+                        Vector2 value21 = Projectile.oldVelocity;
                         value21.Normalize();
                         value21 *= 8f;
                         float num518 = (float)Main.rand.Next(-35, 36) * 0.01f;
                         float num519 = (float)Main.rand.Next(-35, 36) * 0.01f;
                         value20 -= value21 * (float)num517;
-                        num518 += projectile.oldVelocity.X / 6f;
-                        num519 += projectile.oldVelocity.Y / 6f;
-                        int num520 = Projectile.NewProjectile(value20.X, value20.Y, num518, num519, Main.player[projectile.owner].beeType(), Main.player[projectile.owner].beeDamage(projectile.damage / 2), Main.player[projectile.owner].beeKB(0f), Main.myPlayer, 0f, 0f);
-                        Main.projectile[num520].Calamity().forceRanged = true;
-                        Main.projectile[num520].penetrate = 2;
+                        num518 += Projectile.oldVelocity.X / 6f;
+                        num519 += Projectile.oldVelocity.Y / 6f;
+                        int bee = Projectile.NewProjectile(Projectile.GetSource_FromThis(), value20.X, value20.Y, num518, num519, Main.player[Projectile.owner].beeType(), Main.player[Projectile.owner].beeDamage(Projectile.damage / 2), Main.player[Projectile.owner].beeKB(0f), Main.myPlayer);
+                        if (bee.WithinBounds(Main.maxProjectiles))
+                        {
+                            Main.projectile[bee].penetrate = 2;
+                            Main.projectile[bee].DamageType = DamageClass.Ranged;
+                        }
                     }
                 }
             }
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 2);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 2);
             return false;
         }
     }

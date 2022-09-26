@@ -1,8 +1,11 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Placeables;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace CalamityMod.Items.PermanentBoosters
 {
@@ -12,18 +15,21 @@ namespace CalamityMod.Items.PermanentBoosters
         {
             DisplayName.SetDefault("Ethereal Core");
             Tooltip.SetDefault("Permanently increases maximum mana by 50");
+            SacrificeTotal = 1;
+			// For some reason Life/Mana boosting items are in this set (along with Magic Mirror+)
+			ItemID.Sets.SortingPriorityBossSpawns[Type] = 19; // Mana Crystal
         }
 
         public override void SetDefaults()
         {
-            item.width = 20;
-            item.height = 20;
-            item.useAnimation = 30;
-            item.rare = 10;
-            item.useTime = 30;
-            item.useStyle = ItemUseStyleID.HoldingUp;
-            item.UseSound = SoundID.Item29;
-            item.consumable = true;
+            Item.width = 20;
+            Item.height = 20;
+            Item.useAnimation = 30;
+            Item.rare = ItemRarityID.Red;
+            Item.useTime = 30;
+            Item.useStyle = ItemUseStyleID.HoldUp;
+            Item.UseSound = SoundID.Item29;
+            Item.consumable = true;
         }
 
         public override bool CanUseItem(Player player)
@@ -31,16 +37,21 @@ namespace CalamityMod.Items.PermanentBoosters
             CalamityPlayer modPlayer = player.Calamity();
             if (modPlayer.eCore)
             {
+                string key = "Mods.CalamityMod.EtherealCoreText";
+                Color messageColor = Color.Purple;
+                CalamityUtils.DisplayLocalizedText(key, messageColor);
+
+
                 return false;
             }
             return true;
         }
 
-        public override bool UseItem(Player player)
+        public override bool? UseItem(Player player)
         {
             if (player.itemAnimation > 0 && player.itemTime == 0)
             {
-                player.itemTime = item.useTime;
+                player.itemTime = Item.useTime;
                 if (Main.myPlayer == player.whoAmI)
                 {
                     player.ManaEffect(50);
@@ -51,16 +62,23 @@ namespace CalamityMod.Items.PermanentBoosters
             return true;
         }
 
+        public override void ModifyTooltips(List<TooltipLine> list)
+        {
+            TooltipLine line = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip2");
+
+            if (line != null && Main.LocalPlayer.Calamity().eCore)
+                line.Text = "[c/8a8a8a:You have already consumed this item]";
+        }
+
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.MeteoriteBar, 25);
-            recipe.AddIngredient(ModContent.ItemType<AstralBar>(), 25);
-            recipe.AddIngredient(ItemID.FragmentNebula, 20);
-            recipe.AddIngredient(ItemID.FallenStar, 50);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient(ItemID.MeteoriteBar, 25).
+                AddIngredient<AstralBar>(25).
+                AddIngredient(ItemID.FragmentNebula, 20).
+                AddIngredient(ItemID.FallenStar, 50).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

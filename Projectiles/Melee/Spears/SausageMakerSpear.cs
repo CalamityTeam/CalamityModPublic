@@ -1,6 +1,7 @@
+﻿using CalamityMod.Projectiles.BaseProjectiles;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Projectiles.BaseProjectiles;
 namespace CalamityMod.Projectiles.Melee.Spears
 {
     public class SausageMakerSpear : BaseSpearProjectile
@@ -12,18 +13,17 @@ namespace CalamityMod.Projectiles.Melee.Spears
 
         public override void SetDefaults()
         {
-            projectile.width = 44;  //The width of the .png file in pixels divided by 2.
-            projectile.aiStyle = 19;
-            projectile.melee = true;  //Dictates whether this is a melee-class weapon.
-            projectile.timeLeft = 90;
-            projectile.height = 42;  //The height of the .png file in pixels divided by 2.
-            projectile.friendly = true;
-            projectile.hostile = false;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
-            projectile.penetrate = -1;
-            projectile.ownerHitCheck = true;
-            //projectile.Calamity().trueMelee = true;
+            Projectile.width = 44;  //The width of the .png file in pixels divided by 2.
+            Projectile.aiStyle = ProjAIStyleID.Spear;
+            Projectile.DamageType = TrueMeleeDamageClass.Instance;
+            Projectile.timeLeft = 90;
+            Projectile.height = 42;  //The height of the .png file in pixels divided by 2.
+            Projectile.friendly = true;
+            Projectile.hostile = false;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
+            Projectile.penetrate = -1;
+            Projectile.ownerHitCheck = true;
         }
 
         public override float InitialSpeed => 3f;
@@ -32,15 +32,15 @@ namespace CalamityMod.Projectiles.Melee.Spears
         public override void ExtraBehavior()
         {
             if (Main.rand.NextBool(5))
-                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 5, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 5, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            if (projectile.owner == Main.myPlayer)
+            if (Projectile.owner == Main.myPlayer)
             {
                 for (int i = 0; i < 2; i++)
                 {
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 1.2f, projectile.velocity.Y * 1.2f, ModContent.ProjectileType<Blood2>(), projectile.damage / 2, projectile.knockBack * 0.5f, projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity * 1.2f, ModContent.ProjectileType<Blood2>(), Projectile.damage / 2, Projectile.knockBack * 0.5f, Projectile.owner, 0f, 0f);
                 }
             }
         }

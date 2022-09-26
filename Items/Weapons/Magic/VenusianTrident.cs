@@ -1,58 +1,55 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
+using CalamityMod.Rarities;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
     public class VenusianTrident : ModItem
     {
-        public static int BaseDamage = 180;
+        public static int BaseDamage = 108;
 
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Venusian Trident");
-            Tooltip.SetDefault("Casts an inferno bolt that erupts into a gigantic explosion of fire and magma shards");
-            Item.staff[item.type] = true;
+            Tooltip.SetDefault("Casts an infernal trident that erupts into a gigantic explosion of fire and magma shards");
+            Item.staff[Item.type] = true;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.damage = BaseDamage;
-            item.magic = true;
-            item.mana = 20;
-            item.width = 48;
-            item.height = 48;
-            item.useTime = 25;
-            item.useAnimation = 25;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 9f;
-            item.value = Item.buyPrice(1, 40, 0, 0);
-            item.rare = 10;
-            item.UseSound = SoundID.Item45;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<VenusianBolt>();
-            item.shootSpeed = 19f;
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
+            Item.damage = BaseDamage;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 20;
+            Item.width = 70;
+            Item.height = 68;
+            Item.useTime = 25;
+            Item.useAnimation = 25;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 9f;
+            Item.value = CalamityGlobalItem.Rarity14BuyPrice;
+            Item.UseSound = SoundID.Item45;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<VenusianBolt>();
+            Item.shootSpeed = 19f;
+            Item.rare = ModContent.RarityType<PureGreen>();
         }
 
-        public override Vector2? HoldoutOrigin()
-        {
-            return new Vector2(15, 15);
-        }
+        public override Vector2? HoldoutOrigin() => new Vector2(15, 15);
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.InfernoFork);
-            recipe.AddIngredient(ModContent.ItemType<RuinousSoul>(), 2);
-            recipe.AddIngredient(ModContent.ItemType<TwistingNether>());
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient(ItemID.InfernoFork).
+                AddIngredient<RuinousSoul>(2).
+                AddIngredient<TwistingNether>().
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

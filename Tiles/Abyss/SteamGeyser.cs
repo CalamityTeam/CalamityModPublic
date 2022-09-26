@@ -1,8 +1,9 @@
-using CalamityMod.Dusts;
+﻿using CalamityMod.Dusts;
 using CalamityMod.Projectiles.Environment;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
@@ -10,7 +11,7 @@ namespace CalamityMod.Tiles.Abyss
 {
     public class SteamGeyser : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileFrameImportant[Type] = true;
             Main.tileNoAttach[Type] = true;
@@ -20,10 +21,12 @@ namespace CalamityMod.Tiles.Abyss
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Geyser");
             AddMapEntry(new Color(150, 100, 50), name);
-            dustType = (int)CalamityDusts.SulfurousSeaAcid;
+            DustType = (int)CalamityDusts.SulfurousSeaAcid;
 
-            base.SetDefaults();
+            base.SetStaticDefaults();
         }
+
+        public override bool IsTileDangerous(int i, int j, Player player) => true;
 
         public override void NumDust(int i, int j, bool fail, ref int num)
         {
@@ -41,7 +44,7 @@ namespace CalamityMod.Tiles.Abyss
                 {
                     float yeetSpeed = MathHelper.Clamp(10f - (10f * Math.Abs(Main.LocalPlayer.Bottom.Y - j * 16) / 300f), 0f, 10f);
                     Main.LocalPlayer.velocity.Y -= yeetSpeed;
-                    Projectile.NewProjectile(i * 16 + 8, j * 16 - 20, 0f, -10f, ModContent.ProjectileType<HotSteam>(), 25, 0f);
+                    Projectile.NewProjectile(new EntitySource_WorldEvent(), i * 16 + 8, j * 16 - 20, 0f, -10f, ModContent.ProjectileType<HotSteam>(), Main.expertMode ? 12 : 15, 0f);
                 }
             }
         }

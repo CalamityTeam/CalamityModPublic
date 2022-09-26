@@ -1,16 +1,18 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Melee
 {
     public class DivineHatchetBoomerang : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Melee/SeekingScorcher";
+
         private bool hasHitEnemy = false;
         private static int Lifetime = 300;
         private static int ReboundTime = 100;
@@ -20,203 +22,200 @@ namespace CalamityMod.Projectiles.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Scorching Seeker");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 8;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 1;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 8;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 1;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 60;
-            projectile.height = 60;
-            projectile.friendly = true;
-            projectile.tileCollide = false;
-            projectile.penetrate = 3;
-            projectile.timeLeft = Lifetime;
-            projectile.melee = true;
-			projectile.extraUpdates = 1;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
+            Projectile.width = 60;
+            Projectile.height = 60;
+            Projectile.friendly = true;
+            Projectile.tileCollide = false;
+            Projectile.penetrate = 4;
+            Projectile.timeLeft = Lifetime;
+            Projectile.DamageType = DamageClass.MeleeNoSpeed;
+            Projectile.extraUpdates = 1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
         }
 
         public override void AI()
         {
-			//holy dust
+            //holy dust
             if (Main.rand.NextBool(8))
             {
-                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 244, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 244, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
             }
 
             // Boomerang rotation
-            projectile.rotation += 0.4f * (float)projectile.direction;
+            Projectile.rotation += 0.4f * (float)Projectile.direction;
 
             // Boomerang sound
-            if (projectile.soundDelay == 0)
+            if (Projectile.soundDelay == 0)
             {
-                projectile.soundDelay = 8;
-                Main.PlaySound(SoundID.Item7, projectile.position);
+                Projectile.soundDelay = 8;
+                SoundEngine.PlaySound(SoundID.Item7, Projectile.position);
             }
 
             // Returns after some number of frames in the air
-            if (projectile.timeLeft < Lifetime - ReboundTime)
-                projectile.ai[0] = 1f;
+            if (Projectile.timeLeft < Lifetime - ReboundTime)
+                Projectile.ai[0] = 1f;
 
-            if (projectile.ai[0] != 0f)
+            if (Projectile.ai[0] != 0f)
             {
                 float returnSpeed = 26f;
                 float acceleration = 1.4f;
 
-                Player owner = Main.player[projectile.owner];
+                Player owner = Main.player[Projectile.owner];
 
                 // Delete the projectile if it's excessively far away.
                 Vector2 playerCenter = owner.Center;
-                float xDist = playerCenter.X - projectile.Center.X;
-                float yDist = playerCenter.Y - projectile.Center.Y;
+                float xDist = playerCenter.X - Projectile.Center.X;
+                float yDist = playerCenter.Y - Projectile.Center.Y;
                 float dist = (float)Math.Sqrt((double)(xDist * xDist + yDist * yDist));
                 if (dist > 3000f)
-                    projectile.Kill();
+                    Projectile.Kill();
 
                 dist = returnSpeed / dist;
                 xDist *= dist;
                 yDist *= dist;
 
                 // Home back in on the player.
-                if (projectile.velocity.X < xDist)
+                if (Projectile.velocity.X < xDist)
                 {
-                    projectile.velocity.X = projectile.velocity.X + acceleration;
-                    if (projectile.velocity.X < 0f && xDist > 0f)
-                        projectile.velocity.X += acceleration;
+                    Projectile.velocity.X += acceleration;
+                    if (Projectile.velocity.X < 0f && xDist > 0f)
+                        Projectile.velocity.X += acceleration;
                 }
-                else if (projectile.velocity.X > xDist)
+                else if (Projectile.velocity.X > xDist)
                 {
-                    projectile.velocity.X = projectile.velocity.X - acceleration;
-                    if (projectile.velocity.X > 0f && xDist < 0f)
-                        projectile.velocity.X -= acceleration;
+                    Projectile.velocity.X -= acceleration;
+                    if (Projectile.velocity.X > 0f && xDist < 0f)
+                        Projectile.velocity.X -= acceleration;
                 }
-                if (projectile.velocity.Y < yDist)
+                if (Projectile.velocity.Y < yDist)
                 {
-                    projectile.velocity.Y = projectile.velocity.Y + acceleration;
-                    if (projectile.velocity.Y < 0f && yDist > 0f)
-                        projectile.velocity.Y += acceleration;
+                    Projectile.velocity.Y += acceleration;
+                    if (Projectile.velocity.Y < 0f && yDist > 0f)
+                        Projectile.velocity.Y += acceleration;
                 }
-                else if (projectile.velocity.Y > yDist)
+                else if (Projectile.velocity.Y > yDist)
                 {
-                    projectile.velocity.Y = projectile.velocity.Y - acceleration;
-                    if (projectile.velocity.Y > 0f && yDist < 0f)
-                        projectile.velocity.Y -= acceleration;
+                    Projectile.velocity.Y -= acceleration;
+                    if (Projectile.velocity.Y > 0f && yDist < 0f)
+                        Projectile.velocity.Y -= acceleration;
                 }
 
                 // Delete the projectile if it touches its owner.
-                if (Main.myPlayer == projectile.owner)
-                    if (projectile.Hitbox.Intersects(owner.Hitbox))
-                        projectile.Kill();
+                if (Main.myPlayer == Projectile.owner)
+                    if (Projectile.Hitbox.Intersects(owner.Hitbox))
+                        Projectile.Kill();
 
-				//home in on nearby NPCs if not returning to player
-				if (projectile.penetrate != -1)
-				{
-					if (!hasHitEnemy)
-					{
-						float range = 999f;
-						for (int a = 0; a < Main.npc.Length; a++)
-						{
-							if (Main.npc[a].CanBeChasedBy(projectile, false))
-							{
-								float var2 = Main.npc[a].position.X + (Main.npc[a].width / 2);
-								float var3 = Main.npc[a].position.Y + (Main.npc[a].height / 2);
-								float distance2npc = Math.Abs(projectile.position.X + (projectile.width / 2) - var2) + Math.Abs(projectile.position.Y + (projectile.height / 2) - var3);
-								if (distance2npc < range)
-								{
-									Vector2 newVelocity = Main.npc[a].Center - projectile.Center;
-									newVelocity.Normalize();
-									newVelocity *= 15f;
-									projectile.velocity = newVelocity;
-								}
-							}
-						}
-					}
-					else
-					{
-						if (targetNPC >= 0)
-						{
-							Vector2 newVelocity = Main.npc[targetNPC].Center - projectile.Center;
-							newVelocity.Normalize();
-							newVelocity *= 15f;
-							projectile.velocity = newVelocity;
-						}
-					}
-				}
+                //home in on nearby NPCs if not returning to player
+                if (Projectile.penetrate != -1)
+                {
+                    if (!hasHitEnemy)
+                    {
+                        float range = 999f;
+                        for (int a = 0; a < Main.npc.Length; a++)
+                        {
+                            if (Main.npc[a].CanBeChasedBy(Projectile, false))
+                            {
+                                if (Vector2.Distance(Main.npc[a].Center, Projectile.Center) < range)
+                                {
+                                    Vector2 newVelocity = Main.npc[a].Center - Projectile.Center;
+                                    newVelocity.Normalize();
+                                    newVelocity *= 15f;
+                                    Projectile.velocity = newVelocity;
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (targetNPC >= 0)
+                        {
+                            Vector2 newVelocity = Main.npc[targetNPC].Center - Projectile.Center;
+                            newVelocity.Normalize();
+                            newVelocity *= 15f;
+                            Projectile.velocity = newVelocity;
+                        }
+                    }
+                }
             }
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;
         }
 
-		//glowmask effect
+        //glowmask effect
         public override Color? GetAlpha(Color lightColor) => new Color(200, 200, 200, 200);
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-			//inflict Holy Flames for 6 seconds
-			target.AddBuff(ModContent.BuffType<HolyFlames>(), 360);
+            //inflict Holy Flames for 6 seconds
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 180);
 
-			if (projectile.penetrate != -1)
-			{
-				//find a nearby NPC to track
-				float minDist = 999f;
-				int index = 0;
-				for (int i = 0; i < Main.npc.Length; i++)
-				{
-					bool hasHitNPC = false;
-					for (int j = 0; j < previousNPCs.Count; j++)
-					{
-						if (previousNPCs[j] == i)
-						{
-							hasHitNPC = true;
-						}
-					}
+            if (Projectile.penetrate != -1)
+            {
+                //find a nearby NPC to track
+                float minDist = 999f;
+                int index = 0;
+                for (int i = 0; i < Main.npc.Length; i++)
+                {
+                    bool hasHitNPC = false;
+                    for (int j = 0; j < previousNPCs.Count; j++)
+                    {
+                        if (previousNPCs[j] == i)
+                        {
+                            hasHitNPC = true;
+                        }
+                    }
 
-					NPC npc = Main.npc[i];
-					if (npc == target)
-					{
-						previousNPCs.Add(i);
-					}
-					if (!npc.friendly && !npc.townNPC && npc.active && !npc.dontTakeDamage && npc.chaseable && npc != target && !hasHitNPC && npc.type != NPCID.TargetDummy)
-					{
-						float dist = (projectile.Center - npc.Center).Length();
-						if (dist < minDist)
-						{
-							minDist = dist;
-							index = i;
-						}
-					}
-				}
+                    NPC npc = Main.npc[i];
+                    if (npc == target)
+                    {
+                        previousNPCs.Add(i);
+                    }
+                    if (npc.CanBeChasedBy(Projectile, false) && npc != target && !hasHitNPC)
+                    {
+                        float dist = (Projectile.Center - npc.Center).Length();
+                        if (dist < minDist)
+                        {
+                            minDist = dist;
+                            index = i;
+                        }
+                    }
+                }
 
-				Vector2 velocityNew;
-				if (minDist < 999f)
-				{
-					hasHitEnemy = true;
-					targetNPC = index;
-					velocityNew = Main.npc[index].Center - projectile.Center;
-					velocityNew.Normalize();
-					velocityNew *= 15f;
-					projectile.velocity = velocityNew;
-				}
-				else
-				{
-					projectile.penetrate = -1;
-					projectile.ai[0] = 1f;
-					targetNPC = -1;
-				}
-			}
+                Vector2 velocityNew;
+                if (minDist < 999f)
+                {
+                    hasHitEnemy = true;
+                    targetNPC = index;
+                    velocityNew = Main.npc[index].Center - Projectile.Center;
+                    velocityNew.Normalize();
+                    velocityNew *= 15f;
+                    Projectile.velocity = velocityNew;
+                }
+                else
+                {
+                    Projectile.penetrate = -1;
+                    Projectile.ai[0] = 1f;
+                    targetNPC = -1;
+                }
+            }
 
             // After its last hit, starts returning instead of vanishing. Can pierce infinitely on the way back.
-            if (projectile.penetrate == 1)
+            if (Projectile.penetrate == 1)
             {
-                projectile.penetrate = -1;
-                projectile.ai[0] = 1f;
-				targetNPC = -1;
+                Projectile.penetrate = -1;
+                Projectile.ai[0] = 1f;
+                targetNPC = -1;
             }
         }
     }

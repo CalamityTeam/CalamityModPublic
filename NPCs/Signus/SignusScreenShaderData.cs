@@ -20,12 +20,12 @@ namespace CalamityMod.NPCs.Signus
             {
                 return;
             }
-			SignusIndex = -1;
+            SignusIndex = -1;
             for (int i = 0; i < Main.npc.Length; i++)
             {
                 if (Main.npc[i].active && Main.npc[i].type == SignusType)
                 {
-					SignusIndex = i;
+                    SignusIndex = i;
                     break;
                 }
             }

@@ -1,5 +1,6 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Ranged;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
@@ -14,53 +15,49 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             DisplayName.SetDefault("Blood Boiler");
             Tooltip.SetDefault("Fires a stream of lifestealing bloodfire\n" +
-				"Must be used in 10 second bursts\n" +
-                "Uses your life as ammo");
+                "Uses your health as ammo\n" + "25% chance to not consume ammo");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 415;
-            item.ranged = true;
-            item.width = 60;
-            item.height = 30;
-            item.useTime = 5;
-            item.useAnimation = 600;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 4f;
-            item.value = Item.buyPrice(1, 40, 0, 0);
-            item.rare = 10;
-            item.autoReuse = true;
-            item.shootSpeed = 12f;
-            item.shoot = ModContent.ProjectileType<BloodBoilerFire>();
-            item.Calamity().postMoonLordRarity = 13;
+            Item.damage = 250;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 60;
+            Item.height = 30;
+            Item.useTime = 5;
+            Item.useAnimation = 15;
+            Item.autoReuse = true;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 4f;
+            Item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            Item.rare = ModContent.RarityType<Turquoise>();
+            Item.shootSpeed = 12f;
+            Item.shoot = ModContent.ProjectileType<BloodBoilerFire>();
         }
 
-        public override Vector2? HoldoutOffset()
-        {
-            return new Vector2(-5, 0);
-        }
+        public override Vector2? HoldoutOffset() => new Vector2(-5, 0);
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-			//using this weapon once will subtract 120 health in total
-            player.statLife -= 1;
+            if (Main.rand.NextFloat() > 0.75f)
+                --player.statLife;
             if (player.statLife <= 0)
             {
-                player.KillMe(PlayerDeathReason.ByCustomReason(Main.rand.NextBool(2) ? player.name + " suffered from severe anemia." : player.name + " was unable to obtain a blood transfusion."), 1000.0, 0, false);
+                PlayerDeathReason pdr = PlayerDeathReason.ByCustomReason(Main.rand.NextBool(2) ? player.name + " suffered from severe anemia." : player.name + " was unable to obtain a blood transfusion.");
+                player.KillMe(pdr, 1000.0, 0, false);
+                return false;
             }
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0.0f, 0.0f);
-            return false;
+            return true;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<BloodstoneCore>(), 6);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient<BloodstoneCore>(6).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

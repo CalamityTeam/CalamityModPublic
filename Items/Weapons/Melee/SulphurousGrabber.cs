@@ -1,4 +1,4 @@
-using CalamityMod.Projectiles.Melee.Yoyos;
+﻿using CalamityMod.Projectiles.Melee.Yoyos;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -11,34 +11,35 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             DisplayName.SetDefault("Sulphurous Grabber");
             Tooltip.SetDefault("Occasionally releases a ring of colored bubbles\n" +
-			"The yoyo powers up after touching a green bubble\n" +
-			"A very agile yoyo");
-            ItemID.Sets.Yoyo[item.type] = true;
-            ItemID.Sets.GamepadExtraRange[item.type] = 15;
-            ItemID.Sets.GamepadSmartQuickReach[item.type] = true;
+            "The yoyo powers up after touching a green bubble\n" +
+            "A very agile yoyo");
+            ItemID.Sets.Yoyo[Item.type] = true;
+            ItemID.Sets.GamepadExtraRange[Item.type] = 15;
+            ItemID.Sets.GamepadSmartQuickReach[Item.type] = true;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.width = 50;
-            item.height = 36;
-            item.melee = true;
-            item.damage = 45;
-            item.knockBack = 3.5f;
-            item.useTime = 25;
-            item.useAnimation = 25;
+            Item.width = 50;
+            Item.height = 36;
+            Item.DamageType = DamageClass.MeleeNoSpeed;
+            Item.damage = 82;
+            Item.knockBack = 3.5f;
+            Item.useTime = 25;
+            Item.useAnimation = 25;
 
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.UseSound = SoundID.Item1;
-            item.channel = true;
-            item.noUseGraphic = true;
-            item.noMelee = true;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.UseSound = SoundID.Item1;
+            Item.channel = true;
+            Item.noUseGraphic = true;
+            Item.noMelee = true;
 
-            item.shoot = ModContent.ProjectileType<SulphurousGrabberYoyo>();
-            item.shootSpeed = 12f;
+            Item.shoot = ModContent.ProjectileType<SulphurousGrabberYoyo>();
+            Item.shootSpeed = 12f;
 
-            item.rare = 5;
-            item.value = Item.buyPrice(gold: 36);
+            Item.rare = ItemRarityID.Pink;
+            Item.value = CalamityGlobalItem.RarityPinkBuyPrice;
         }
     }
 }

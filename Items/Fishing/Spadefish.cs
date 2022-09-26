@@ -1,34 +1,36 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Fishing
 {
-	public class Spadefish : ModItem
+    public class Spadefish : ModItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Spadefish");
             Tooltip.SetDefault("How can a fish be used to dig through the ground?\n" +
-				"Some questions are best left unanswered.");
+                "Some questions are best left unanswered.");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 15;
-            item.melee = true;
-            item.width = 46;
-            item.height = 44;
-            item.useTime = 10;
-            item.useAnimation = 20;
-            item.useTurn = true;
-            item.pick = 30;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 2f;
-            item.value = Item.buyPrice(0, 2, 0, 0);
-            item.rare = 2;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
+            Item.damage = 15;
+            Item.knockBack = 2f;
+            Item.useTime = 7;
+            Item.useAnimation = 20;
+            Item.pick = 34;
+
+            Item.DamageType = DamageClass.Melee;
+            Item.width = 46;
+            Item.height = 44;
+            Item.useTurn = true;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.value = Item.buyPrice(0, 2, 0, 0);
+            Item.rare = ItemRarityID.Green;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
         }
     }
 }

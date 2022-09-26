@@ -1,11 +1,10 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
-using CalamityMod.Projectiles.Typeless;
-using Microsoft.Xna.Framework;
-using System;
-using Terraria;
-using Terraria.ModLoader;
 using CalamityMod.Projectiles.BaseProjectiles;
+using CalamityMod.Projectiles.Typeless;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee.Spears
 {
@@ -18,18 +17,17 @@ namespace CalamityMod.Projectiles.Melee.Spears
 
         public override void SetDefaults()
         {
-            projectile.width = 40;  //The width of the .png file in pixels divided by 2.
-            projectile.aiStyle = 19;
-            projectile.melee = true;  //Dictates whether projectile is a melee-class weapon.
-            projectile.timeLeft = 90;
-            projectile.height = 40;  //The height of the .png file in pixels divided by 2.
-            projectile.friendly = true;
-            projectile.hostile = false;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
-            projectile.penetrate = -1;
-            projectile.ownerHitCheck = true;
-            //projectile.Calamity().trueMelee = true;
+            Projectile.width = 40;  //The width of the .png file in pixels divided by 2.
+            Projectile.aiStyle = ProjAIStyleID.Spear;
+            Projectile.DamageType = TrueMeleeDamageClass.Instance;
+            Projectile.timeLeft = 90;
+            Projectile.height = 40;  //The height of the .png file in pixels divided by 2.
+            Projectile.friendly = true;
+            Projectile.hostile = false;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
+            Projectile.penetrate = -1;
+            Projectile.ownerHitCheck = true;
         }
 
         public override float InitialSpeed => 3f;
@@ -38,31 +36,26 @@ namespace CalamityMod.Projectiles.Melee.Spears
         public override void ExtraBehavior()
         {
             if (Main.rand.NextBool(5))
-                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, ModContent.DustType<AstralOrange>(), projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, ModContent.DustType<AstralOrange>(), Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 120);
-            target.immune[projectile.owner] = 6;
+            target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 300);
+            target.immune[Projectile.owner] = 6;
             if (crit)
             {
+                var source = Projectile.GetSource_FromThis();
                 for (int i = 0; i < 3; i++)
                 {
-                    float xPos = projectile.position.X + 800f * Main.rand.NextBool(2).ToDirectionInt();
-                    Vector2 spawnPosition = new Vector2(xPos, projectile.position.Y - Main.rand.Next(-800, 801));
-                    float speedX = target.position.X - spawnPosition.X;
-                    float speedY = target.position.Y - spawnPosition.Y;
-                    float magnitude = (float)Math.Sqrt(speedX * speedX + speedY * speedY);
-                    magnitude = 10f / xPos;
-                    speedX *= magnitude * 150f;
-                    speedY *= magnitude * 150f;
-                    speedX = MathHelper.Clamp(speedX, -15f, 15f);
-                    speedY = MathHelper.Clamp(speedY, -15f, 15f);
-                    if (projectile.owner == Main.myPlayer)
+                    if (Projectile.owner == Main.myPlayer)
                     {
-                        int proj = Projectile.NewProjectile(spawnPosition.X, spawnPosition.Y, speedX, speedY, ModContent.ProjectileType<AstralStar>(), (int)(projectile.damage * 0.2), 1f, projectile.owner);
-                        Main.projectile[proj].Calamity().forceMelee = true;
+                        Projectile star = CalamityUtils.ProjectileBarrage(source, Projectile.Center, target.Center, Main.rand.NextBool(), 800f, 800f, 800f, 800f, 10f, ModContent.ProjectileType<AstralStar>(), (int)(Projectile.damage * 0.4), 1f, Projectile.owner, true);
+                        if (star.whoAmI.WithinBounds(Main.maxProjectiles))
+                        {
+                            star.DamageType = DamageClass.Melee;
+                            star.ai[0] = 3f;
+                        }
                     }
                 }
             }

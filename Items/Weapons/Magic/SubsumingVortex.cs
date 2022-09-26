@@ -1,71 +1,76 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
+using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
-	public class SubsumingVortex : ModItem
+    public class SubsumingVortex : ModItem
     {
-        public const int MaxVortexCount = 4;
+        public const int VortexReleaseRate = 32;
+
+        public const int VortexShootDelay = 56;
+
+        public const float SmallVortexTargetRange = 1300f;
+
+        public const float GiantVortexMouseDriftFactor = 0.35f;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Subsuming Vortex");
-            Tooltip.SetDefault("Fires a giant slow-moving vortex\n" +
-                               "When an enemy is nearby, the vortex releases tentacles that redirect towards the enemy.\n" +
-                               "After some time, the vortex slows down, charges, and eventually explodes.\n" +
-                               $"Only {MaxVortexCount} vortexes can exist at once.");
+            Tooltip.SetDefault("Casts a gigantic vortex above your head with a bias towards the mouse\n" +
+                               "When enemies are near the vortex, it sends multiple fast-moving smaller vortices towards them");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 480;
-            item.magic = true;
-            item.mana = 20;
-            item.width = 38;
-            item.height = 48;
-            item.UseSound = SoundID.Item84;
-            item.useTime = 20;
-            item.useAnimation = 20;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 5f;
-            item.value = Item.buyPrice(2, 50, 0, 0);
-            item.rare = 10;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<EnormousConsumingVortex>();
-            item.shootSpeed = 7f;
-            item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.damage = 533;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 12;
+            Item.width = 38;
+            Item.height = 48;
+            Item.UseSound = SoundID.Item84;
+            Item.useTime = Item.useAnimation = 60;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 5f;
+            Item.rare = ModContent.RarityType<Violet>();
+            Item.value = CalamityGlobalItem.Rarity15BuyPrice;
+            Item.autoReuse = true;
+            Item.channel = true;
+            Item.shoot = ModContent.ProjectileType<EnormousConsumingVortex>();
+            Item.shootSpeed = 7f;
         }
+
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
-            Vector2 origin = new Vector2(19f, 22f);
-            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Items/Weapons/Magic/SubsumingVortexGlow"), item.Center - Main.screenPosition, null, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
+            Item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Magic/SubsumingVortexGlow").Value);
         }
 
-        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] < MaxVortexCount;
-
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
+            Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
             return false;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<AuguroftheElements>());
-            recipe.AddIngredient(ModContent.ItemType<EventHorizon>());
-            recipe.AddIngredient(ModContent.ItemType<TearsofHeaven>());
-			recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 4);
-			recipe.AddTile(ModContent.TileType<DraedonsForge>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient<AuguroftheElements>().
+                AddIngredient<EventHorizon>().
+                AddIngredient<TearsofHeaven>().
+                AddIngredient<MiracleMatter>().
+                AddTile<DraedonsForge>().
+                Register();
         }
     }
 }

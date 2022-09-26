@@ -1,64 +1,62 @@
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee
 {
-	public class BlazingPhantomBlade : ModProjectile
+    public class BlazingPhantomBlade : ModProjectile
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Blazing Phantom Blade");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 6;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 6;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 50;
-            projectile.height = 50;
-            projectile.aiStyle = 18;
-            projectile.alpha = 100;
-            projectile.friendly = true;
-            projectile.melee = true;
-            projectile.tileCollide = false;
-            projectile.penetrate = 5;
-            projectile.timeLeft = 180;
-            projectile.ignoreWater = true;
-            aiType = ProjectileID.DeathSickle;
+            Projectile.width = 50;
+            Projectile.height = 50;
+            Projectile.aiStyle = ProjAIStyleID.Sickle;
+            Projectile.alpha = 100;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.tileCollide = false;
+            Projectile.penetrate = 5;
+            Projectile.timeLeft = 180;
+            Projectile.ignoreWater = true;
+            AIType = ProjectileID.DeathSickle;
         }
 
         public override void AI()
         {
-            Lighting.AddLight(projectile.Center, 0.6f, 0f, 0f);
+            Lighting.AddLight(Projectile.Center, 0.6f, 0f, 0f);
 
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 500f, 8f, 20f);
+            CalamityUtils.HomeInOnNPC(Projectile, true, 250f, 8f, 20f);
         }
 
         public override Color? GetAlpha(Color lightColor)
         {
-            if (projectile.timeLeft < 85)
+            if (Projectile.timeLeft < 85)
             {
-                byte b2 = (byte)(projectile.timeLeft * 3);
-                byte a2 = (byte)(100f * ((float)b2 / 255f));
-                return new Color((int)b2, (int)b2, (int)b2, (int)a2);
+                byte b2 = (byte)(Projectile.timeLeft * 3);
+                byte a2 = (byte)(100f * (b2 / 255f));
+                return new Color(b2, b2, b2, a2);
             }
             return new Color(255, 255, 255, 100);
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.immune[projectile.owner] = 5;
-            target.AddBuff(BuffID.OnFire, 120);
-            target.AddBuff(BuffID.Venom, 120);
+            target.immune[Projectile.owner] = 5;
+            target.AddBuff(BuffID.OnFire, 180);
         }
     }
 }

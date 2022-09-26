@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -6,55 +6,55 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class BloodSpit : ModProjectile
     {
+        public const int OnDeathHealValue = 1;
+
+        public Player Owner => Main.player[Projectile.owner];
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Spit");
-            Main.projFrames[projectile.type] = 3;
-            ProjectileID.Sets.MinionShot[projectile.type] = true;
+            Main.projFrames[Projectile.type] = 3;
+            ProjectileID.Sets.MinionShot[Projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 8;
-            projectile.height = 8;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.minion = true;
-            projectile.minionSlots = 0f;
-            projectile.timeLeft = 150;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 6;
+            Projectile.width = 8;
+            Projectile.height = 8;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.minion = true;
+            Projectile.minionSlots = 0f;
+            Projectile.timeLeft = 150;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 6;
+            Projectile.DamageType = DamageClass.Summon;
         }
 
         public override void AI()
         {
-            Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.77f / 255f, (255 - projectile.alpha) * 0.15f / 255f, (255 - projectile.alpha) * 0.08f / 255f);
-            projectile.rotation = projectile.velocity.ToRotation() - MathHelper.PiOver2;
-            projectile.frameCounter++;
-            if (projectile.frameCounter > 4)
+            Lighting.AddLight(Projectile.Center, Projectile.Opacity * 0.77f, Projectile.Opacity * 0.15f, Projectile.Opacity * 0.08f);
+            Projectile.rotation = Projectile.velocity.ToRotation() - MathHelper.PiOver2;
+            if (Projectile.frameCounter++ > 4)
             {
-                projectile.frame++;
-                projectile.frameCounter = 0;
-            }
-            if (projectile.frame >= Main.projFrames[projectile.type])
-            {
-                projectile.frame = 0;
+                Projectile.frame = (Projectile.frame + 1) % Main.projFrames[Projectile.type];
+                Projectile.frameCounter = 0;
             }
         }
+
         public override void Kill(int timeLeft)
         {
             for (int i = 0; i < 15; i++)
             {
-                Dust dust = Dust.NewDustDirect(projectile.position + projectile.velocity, projectile.width, projectile.height, 5, projectile.velocity.X * 0.1f, projectile.velocity.Y * 0.1f);
-                dust.velocity = Utils.NextVector2Unit(Main.rand) * Main.rand.NextFloat(1f, 2f);
-                dust.noGravity = true;
+                Dust blood = Dust.NewDustDirect(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 5, Projectile.velocity.X * 0.1f, Projectile.velocity.Y * 0.1f);
+                blood.velocity = Main.rand.NextVector2Circular(1f, 2f);
+                blood.noGravity = true;
             }
-            Main.player[projectile.owner].HealEffect(1, false);
-            Main.player[projectile.owner].statLife += 1;
-            if (Main.player[projectile.owner].statLife > Main.player[projectile.owner].statLifeMax2)
-            {
-                Main.player[projectile.owner].statLife = Main.player[projectile.owner].statLifeMax2;
-            }
+
+            Owner.HealEffect(OnDeathHealValue, false);
+            Owner.statLife += OnDeathHealValue;
+            if (Owner.statLife > Owner.statLifeMax2)
+                Owner.statLife = Owner.statLifeMax2;
         }
     }
 }

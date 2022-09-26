@@ -1,7 +1,9 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -9,54 +11,56 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class DevilsSunrise : ModItem
     {
-        public static int BaseDamage = 360;
+        public static int BaseDamage = 480;
 
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Devil's Sunrise");
             Tooltip.SetDefault("Balls? Smalls.");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.width = 66;
-            item.height = 66;
-            item.melee = true;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.channel = true;
-            item.damage = BaseDamage;
-            item.crit += 10;
-            item.knockBack = 4f;
-            item.useAnimation = 25;
-            item.useTime = 5;
-            item.autoReuse = false;
-            item.useStyle = ItemUseStyleID.HoldingOut;
+            Item.width = 66;
+            Item.height = 66;
+            Item.DamageType = TrueMeleeNoSpeedDamageClass.Instance;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.channel = true;
+            Item.damage = BaseDamage;
+            Item.knockBack = 4f;
+            Item.useAnimation = 25;
+            Item.useTime = 5;
+            Item.autoReuse = false;
+            Item.useStyle = ItemUseStyleID.Shoot;
 
-            item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.Dedicated;
-            item.value = Item.buyPrice(1, 40, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            Item.rare = ModContent.RarityType<Turquoise>();
+            Item.Calamity().donorItem = true;
 
-            item.shoot = ModContent.ProjectileType<DevilsSunriseProj>();
-            item.shootSpeed = 24f;
+            Item.shoot = ModContent.ProjectileType<DevilsSunriseProj>();
+            Item.shootSpeed = 24f;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        // Terraria seems to really dislike high crit values in SetDefaults
+        public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 10;
+
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<DevilsSunriseProj>(), damage, knockBack, player.whoAmI, 0f, 0f);
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<DevilsSunriseCyclone>(), damage, knockBack, player.whoAmI, 0f, 0f);
+            Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<DevilsSunriseProj>(), damage, knockback, player.whoAmI, 0f, 0f);
+            Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<DevilsSunriseCyclone>(), damage, knockback, player.whoAmI, 0f, 0f);
             return false;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe r = new ModRecipe(mod);
-            r.AddIngredient(ItemID.Arkhalis);
-            r.AddIngredient(ModContent.ItemType<DemonicBoneAsh>(), 10);
-            r.AddIngredient(ModContent.ItemType<BloodstoneCore>(), 25);
-            r.AddTile(TileID.LunarCraftingStation);
-            r.SetResult(this);
-            r.AddRecipe();
+            CreateRecipe().
+                AddIngredient(ItemID.Terragrim).
+                AddIngredient<DemonicBoneAsh>(10).
+                AddIngredient<BloodstoneCore>(25).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

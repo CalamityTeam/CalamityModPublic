@@ -1,6 +1,6 @@
-using CalamityMod.CalPlayer;
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
+using CalamityMod.Rarities;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -13,17 +13,17 @@ namespace CalamityMod.Items.LoreItems
         {
             DisplayName.SetDefault("Old Duke");
             Tooltip.SetDefault("Strange, to find out that the mutant terror of the seas was not alone in its unique biology.\n" +
-                "Perhaps I was mistaken to classify the creature from its relation to pigrons alone.\n" +
-                "Favorite this item to convert negative effects from the Acid Rain debuff to positive effects.");
+                "Perhaps I was mistaken to classify the creature from its relation to pigrons alone.");
+            SacrificeTotal = 1;
+            ItemID.Sets.ItemNoGravity[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.width = 20;
-            item.height = 20;
-            item.rare = 10;
-            item.Calamity().postMoonLordRarity = 13;
-            item.consumable = false;
+            Item.width = 20;
+            Item.height = 20;
+            Item.rare = ModContent.RarityType<PureGreen>();
+            Item.consumable = false;
         }
 
         public override bool CanUseItem(Player player)
@@ -31,21 +31,9 @@ namespace CalamityMod.Items.LoreItems
             return false;
         }
 
-		public override void UpdateInventory(Player player)
-		{
-			CalamityPlayer modPlayer = player.Calamity();
-			if (item.favorited)
-				modPlayer.boomerDukeLore = true;
-		}
-
         public override void AddRecipes()
         {
-            ModRecipe r = new ModRecipe(mod);
-            r.SetResult(this);
-            r.AddTile(TileID.Bookcases);
-            r.AddIngredient(ModContent.ItemType<OldDukeTrophy>());
-            r.AddIngredient(ModContent.ItemType<VictoryShard>(), 10);
-            r.AddRecipe();
+            CreateRecipe(1).AddTile(TileID.Bookcases).AddIngredient(ModContent.ItemType<OldDukeTrophy>()).AddIngredient(ModContent.ItemType<PearlShard>(), 10).Register();
         }
     }
 }

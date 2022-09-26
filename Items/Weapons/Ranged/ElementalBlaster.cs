@@ -1,9 +1,9 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
-using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.Sounds;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
@@ -14,26 +14,26 @@ namespace CalamityMod.Items.Weapons.Ranged
             DisplayName.SetDefault("Elemental Blaster");
             Tooltip.SetDefault("Does not consume ammo\n" +
                 "Fires a storm of rainbow blasts");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 66;
-            item.ranged = true;
-            item.width = 104;
-            item.height = 42;
-            item.useTime = 2;
-            item.useAnimation = 6;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 1.75f;
-            item.value = Item.buyPrice(1, 20, 0, 0);
-            item.rare = 10;
-            item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/PlasmaBolt");
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<RainbowBlast>();
-            item.shootSpeed = 18f;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.damage = 50;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 104;
+            Item.height = 42;
+            Item.useTime = 2;
+            Item.useAnimation = 6;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 1.75f;
+            Item.value = CalamityGlobalItem.Rarity11BuyPrice;
+            Item.rare = ItemRarityID.Purple;
+            Item.UseSound = CommonCalamitySounds.PlasmaBoltSound;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<RainbowBlast>();
+            Item.shootSpeed = 18f;
         }
 
         public override Vector2? HoldoutOffset()
@@ -43,15 +43,14 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<SpectralstormCannon>());
-            recipe.AddIngredient(ModContent.ItemType<ClockGatlignum>());
-            recipe.AddIngredient(ModContent.ItemType<PaintballBlaster>());
-            recipe.AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 5);
-            recipe.AddIngredient(ItemID.LunarBar, 5);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient<SpectralstormCannon>().
+                AddIngredient<ClockGatlignum>().
+                AddIngredient<SpeedBlaster>().
+                AddIngredient<GalacticaSingularity>(5).
+                AddIngredient(ItemID.LunarBar, 5).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

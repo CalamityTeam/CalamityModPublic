@@ -1,8 +1,10 @@
-using CalamityMod.Projectiles.Melee.Spears;
+﻿using CalamityMod.Projectiles.Melee.Spears;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -14,49 +16,40 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             DisplayName.SetDefault("Banshee Hook");
             Tooltip.SetDefault("Swings a banshee hook that fires blades and explodes on hit");
+            SacrificeTotal = 1;
+            ItemID.Sets.Spears[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.width = 120;
-            item.damage = 155;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.channel = true;
-            item.melee = true;
-            item.useAnimation = 21;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.useTime = 21;
-            item.knockBack = 8.5f;
-            item.UseSound = SoundID.DD2_GhastlyGlaivePierce;
-            item.autoReuse = true;
-            item.height = 108;
-            item.value = Item.buyPrice(1, 40, 0, 0);
-            item.rare = 10;
-            item.shoot = ModContent.ProjectileType<BansheeHookProj>();
-            item.shootSpeed = 42f;
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
+            Item.width = 120;
+            Item.damage = 238;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.channel = true;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = 21;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.useTime = 21;
+            Item.knockBack = 8.5f;
+            Item.UseSound = SoundID.DD2_GhastlyGlaivePierce;
+            Item.autoReuse = true;
+            Item.height = 108;
+            Item.shoot = ModContent.ProjectileType<BansheeHookProj>();
+            Item.shootSpeed = 42f;
+
+            Item.value = CalamityGlobalItem.Rarity13BuyPrice;
+            Item.rare = ModContent.RarityType<PureGreen>();
         }
 
-		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
-		{
-			Vector2 origin = new Vector2(60f, 52f);
-			spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Items/Weapons/Melee/BansheeHookGlow"), item.Center - Main.screenPosition, null, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
-		}
-
-		public override bool CanUseItem(Player player)
+        public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
-            for (int i = 0; i < 1000; ++i)
-            {
-                if (Main.projectile[i].active && Main.projectile[i].owner == Main.myPlayer && Main.projectile[i].type == item.shoot)
-                {
-                    return false;
-                }
-            }
-            return true;
+            Item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Melee/BansheeHookGlow").Value);
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;
+
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             float num82 = (float)Main.mouseX + Main.screenPosition.X - position.X;
             float num83 = (float)Main.mouseY + Main.screenPosition.Y - position.Y;
@@ -69,17 +62,17 @@ namespace CalamityMod.Items.Weapons.Melee
             {
                 num82 = (float)player.direction;
                 num83 = 0f;
-                num84 = item.shootSpeed;
+                num84 = Item.shootSpeed;
             }
             else
             {
-                num84 = item.shootSpeed / num84;
+                num84 = Item.shootSpeed / num84;
             }
             num82 *= num84;
             num83 *= num84;
-            float ai4 = Main.rand.NextFloat() * item.shootSpeed * 0.75f * (float)player.direction;
-            Vector2 velocity = new Vector2(num82, num83);
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, ai4, 0.0f);
+            float ai4 = Main.rand.NextFloat() * Item.shootSpeed * 0.75f * (float)player.direction;
+            velocity = new Vector2(num82, num83);
+            Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI, ai4, 0.0f);
             return false;
         }
     }

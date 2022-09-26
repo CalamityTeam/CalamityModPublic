@@ -1,13 +1,16 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Items.Accessories
 {
+    [AutoloadEquip(EquipType.Back)]
     public class GiantShell : ModItem
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Giant Shell");
             Tooltip.SetDefault("15% reduced movement speed\n" +
                 "Taking a hit will make you move very fast for a short time");
@@ -15,12 +18,12 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetDefaults()
         {
-            item.defense = 6;
-            item.width = 20;
-            item.height = 24;
-            item.value = CalamityGlobalItem.Rarity1BuyPrice;
-            item.rare = 1;
-            item.accessory = true;
+            Item.defense = 10;
+            Item.width = 30;
+            Item.height = 28;
+            Item.value = CalamityGlobalItem.Rarity1BuyPrice;
+            Item.rare = ItemRarityID.Blue;
+            Item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

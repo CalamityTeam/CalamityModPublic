@@ -1,5 +1,6 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee.Spears;
+using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
 using Terraria.ID;
@@ -9,7 +10,7 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class Nadir : ModItem
     {
-        public static int BaseDamage = 700;
+        public static int BaseDamage = 280;
         public static float ShootSpeed = 12f;
 
         public override void SetStaticDefaults()
@@ -17,51 +18,45 @@ namespace CalamityMod.Items.Weapons.Melee
             DisplayName.SetDefault("Nadir");
             Tooltip.SetDefault("Fires void essences which flay nearby enemies with tentacles\n" + "Ignores immunity frames\n" +
                 "'The abyss has stared back at you long enough. It now speaks, and it does not speak softly.'");
+            SacrificeTotal = 1;
+            ItemID.Sets.Spears[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.width = 144;
-            item.height = 144;
-            item.noUseGraphic = true;
-            item.melee = true;
-            item.damage = BaseDamage;
-            item.knockBack = 8f;
-            item.useAnimation = 18;
-            item.useTime = 18;
-            item.autoReuse = true;
-            item.noMelee = true;
+            Item.width = 144;
+            Item.height = 144;
+            Item.noUseGraphic = true;
+            Item.DamageType = DamageClass.Melee;
+            Item.damage = BaseDamage;
+            Item.knockBack = 8f;
+            Item.useAnimation = 18;
+            Item.useTime = 18;
+            Item.autoReuse = true;
+            Item.noMelee = true;
 
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.UseSound = SoundID.Item1;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.UseSound = SoundID.Item1;
 
-            item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.Dedicated;
-            item.value = Item.buyPrice(1, 80, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity14BuyPrice;
+            Item.rare = ModContent.RarityType<DarkBlue>();
+            Item.Calamity().donorItem = true;
 
-            item.shoot = ModContent.ProjectileType<NadirSpear>();
-            item.shootSpeed = ShootSpeed;
+            Item.shoot = ModContent.ProjectileType<NadirSpear>();
+            Item.shootSpeed = ShootSpeed;
         }
 
-        public override bool CanUseItem(Player player)
-        {
-            for (int i = 0; i < Main.projectile.Length; ++i)
-                if (Main.projectile[i].active && Main.projectile[i].owner == Main.myPlayer && Main.projectile[i].type == item.shoot)
-                    return false;
-            return true;
-        }
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<SpatialLance>());
-            recipe.AddIngredient(ModContent.ItemType<TwistingNether>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 15);
-            recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 15);
-            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 10);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient<ElementalLance>().
+                AddIngredient<TwistingNether>(5).
+                AddIngredient<CosmiliteBar>(8).
+                AddIngredient<DarksunFragment>(8).
+                AddTile<CosmicAnvil>().
+                Register();
         }
     }
 }

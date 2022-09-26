@@ -5,8 +5,10 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Ranged
 {
-	public class PlanarRipperExplosion : ModProjectile
+    public class PlanarRipperExplosion : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Explosion");
@@ -14,33 +16,33 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetDefaults()
         {
-            projectile.width = 50;
-            projectile.height = 50;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.tileCollide = false;
-            projectile.ranged = true;
-            projectile.penetrate = -1;
-            projectile.timeLeft = 30;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = -1;
+            Projectile.width = 50;
+            Projectile.height = 50;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.tileCollide = false;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft = 30;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = -1;
         }
 
         public override void AI()
         {
-            Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.01f / 255f, (255 - projectile.alpha) * 0.05f / 255f, (255 - projectile.alpha) * 0.15f / 255f);
+            Lighting.AddLight(Projectile.Center, (255 - Projectile.alpha) * 0.01f / 255f, (255 - Projectile.alpha) * 0.05f / 255f, (255 - Projectile.alpha) * 0.15f / 255f);
             float num461 = 25f;
-            if (projectile.ai[0] > 180f)
+            if (Projectile.ai[0] > 180f)
             {
-                num461 -= (projectile.ai[0] - 180f) / 2f;
+                num461 -= (Projectile.ai[0] - 180f) / 2f;
             }
             if (num461 <= 0f)
             {
                 num461 = 0f;
-                projectile.Kill();
+                Projectile.Kill();
             }
             num461 *= 0.7f;
-            projectile.ai[0] += 4f;
+            Projectile.ai[0] += 4f;
             int num462 = 0;
             while ((float)num462 < num461)
             {
@@ -51,17 +53,22 @@ namespace CalamityMod.Projectiles.Ranged
                 num466 = num465 / num466;
                 num463 *= num466;
                 num464 *= num466;
-                int num467 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 132, 0f, 0f, 100, default, 0.5f);
+                int num467 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 132, 0f, 0f, 100, default, 0.5f);
                 Dust dust = Main.dust[num467];
                 dust.noGravity = true;
-                dust.position.X = projectile.Center.X;
-                dust.position.Y = projectile.Center.Y;
+                dust.position.X = Projectile.Center.X;
+                dust.position.Y = Projectile.Center.Y;
                 dust.position.X += (float)Main.rand.Next(-10, 11);
                 dust.position.Y += (float)Main.rand.Next(-10, 11);
                 dust.velocity.X = num463;
                 dust.velocity.Y = num464;
                 num462++;
             }
+        }
+
+        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        {
+            Projectile.damage = (int)(Projectile.damage * 0.75);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

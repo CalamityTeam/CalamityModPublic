@@ -1,109 +1,84 @@
-using CalamityMod.Items.Materials;
-using CalamityMod.Projectiles.Ranged;
+﻿using CalamityMod.Items.Materials;
+using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
-	public class HeavenlyGale : ModItem
-	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Heavenly Gale");
-			Tooltip.SetDefault("Fires a barrage of 5 random exo arrows\n" +
-				"Green exo arrows explode into a tornado on death\n" +
-				"Blue exo arrows cause a second group of arrows to fire on enemy hits\n" +
-				"Orange exo arrows cause explosions on death\n" +
-				"Teal exo arrows ignore enemy immunity frames\n" +
-				"66% chance to not consume ammo");
-		}
+    public class HeavenlyGale : ModItem
+    {
+        public const int ShootDelay = 32;
 
-		public override void SetDefaults()
-		{
-			item.damage = 600;
-			item.ranged = true;
-			item.width = 44;
-			item.height = 58;
-			item.useTime = 11;
-			item.useAnimation = 22;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.noMelee = true;
-			item.knockBack = 4f;
-			item.value = Item.buyPrice(2, 50, 0, 0);
-			item.rare = 10;
-			item.UseSound = SoundID.Item5;
-			item.autoReuse = true;
-			item.shoot = ProjectileID.WoodenArrowFriendly;
-			item.shootSpeed = 17f;
-			item.useAmmo = AmmoID.Arrow;
-			item.Calamity().customRarity = CalamityRarity.Violet;
-		}
+        public const int ArrowsPerBurst = 9;
 
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-		{
-			Vector2 source = player.RotatedRelativePoint(player.MountedCenter, true);
-			float dmgMult = 1f;
-			float piOver10 = MathHelper.Pi * 0.1f;
-			int arrowAmt = 5;
-			Vector2 speed = new Vector2(speedX, speedY);
-			speed.Normalize();
-			speed *= 40f;
-			bool canHit = Collision.CanHit(source, 0, 0, source + speed, 0, 0);
-			for (int i = 0; i < arrowAmt; i++)
-			{
-				float offsetAmt = i - (arrowAmt - 1f) / 2f;
-				Vector2 offset = speed.RotatedBy((double)(piOver10 * offsetAmt), default);
-				if (!canHit)
-				{
-					offset -= speed;
-				}
-				int arrow = Utils.SelectRandom(Main.rand, new int[]
-				{
-					ProjectileType<TealExoArrow>(),
-					ProjectileType<OrangeExoArrow>(),
-					ProjectileType<BlueExoArrow>(),
-					ProjectileType<GreenExoArrow>()
-				});
-				if (player.ownedProjectileCounts[ProjectileType<GreenExoArrow>()] + player.ownedProjectileCounts[ProjectileType<ExoTornado>()] > 5)
-				{
-					arrow = Utils.SelectRandom(Main.rand, new int[]
-					{
-						ProjectileType<TealExoArrow>(),
-						ProjectileType<OrangeExoArrow>(),
-						ProjectileType<BlueExoArrow>()
-					});
-				}
-				if (arrow == ProjectileType<TealExoArrow>())
-					dmgMult = 0.5f;
-				Projectile.NewProjectile(source.X + offset.X, source.Y + offset.Y, speedX, speedY, arrow, (int)(damage * dmgMult), knockBack, player.whoAmI);
-			}
-			return false;
-		}
+        public const int ArrowShootRate = 4;
 
-		public override bool ConsumeAmmo(Player player)
-		{
-			if (Main.rand.Next(0, 100) < 66)
-				return false;
-			return true;
-		}
+        public const int ArrowShootTime = ArrowsPerBurst * ArrowShootRate;
 
-		public override void AddRecipes()
-		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ItemType<Alluvion>());
-			recipe.AddIngredient(ItemType<AstrealDefeat>());
-			recipe.AddIngredient(ItemType<ClockworkBow>());
-			recipe.AddIngredient(ItemType<Galeforce>());
-			recipe.AddIngredient(ItemType<PlanetaryAnnihilation>());
-			recipe.AddIngredient(ItemType<TheBallista>());
-			recipe.AddIngredient(ItemType<AuricBar>(), 4);
-			recipe.AddTile(TileType<DraedonsForge>());
-			recipe.SetResult(this);
-			recipe.AddRecipe();
-		}
-	}
+        public const int MaxChargeTime = 300;
+
+        public const float ArrowTargetingRange = 1100f;
+
+        public const float MaxChargeDamageBoost = 4.5f;
+
+        public const float LightningDamageFactor = 0.36f;
+
+        public const float ChargeLightningCreationThreshold = 0.8f;
+
+        public static readonly SoundStyle FireSound = new("CalamityMod/Sounds/Item/HeavenlyGaleFire");
+
+        public static readonly SoundStyle LightningStrikeSound = new("CalamityMod/Sounds/Custom/HeavenlyGaleLightningStrike");
+
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Heavenly Gale");
+            Tooltip.SetDefault("Fires a rapid stream of supercharged exo-crystals\n" +
+                "Holding the bow and waiting for some time before firing causes the crystals to become more powerful\n" +
+                "If the crystals are sufficiently powerful enough they will summon torrents of exo-lightning above whatever target they hit");
+            SacrificeTotal = 1;
+        }
+
+        public override void SetDefaults()
+        {
+            Item.damage = 350;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 138;
+            Item.height = 138;
+            Item.useTime = 42;
+            Item.useAnimation = 42;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 4f;
+            Item.UseSound = SoundID.Item5;
+            Item.autoReuse = true;
+            Item.noUseGraphic = true;
+            Item.shoot = ProjectileID.WoodenArrowFriendly;
+            Item.shootSpeed = 12f;
+            Item.useAmmo = AmmoID.Arrow;
+            Item.useTurn = true;
+            Item.rare = ModContent.RarityType<Violet>();
+            Item.value = CalamityGlobalItem.RarityVioletBuyPrice;
+            Item.Calamity().canFirePointBlankShots = true;
+        }
+
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo spawnSource, Vector2 position, Vector2 velocity, int type, int damage, float knockback) => false;
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient<PlanetaryAnnihilation>().
+                AddIngredient<Alluvion>().
+                AddIngredient<ClockworkBow>().
+                AddIngredient<Galeforce>(). //Why is this here
+                AddIngredient<TheBallista>().
+                AddIngredient<MiracleMatter>().
+                AddTile<DraedonsForge>().
+                Register();
+        }
+    }
 }

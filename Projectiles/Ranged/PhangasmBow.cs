@@ -1,13 +1,17 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Ranged
 {
     public class PhangasmBow : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Ranged/Phangasm";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Phangasm");
@@ -15,75 +19,75 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetDefaults()
         {
-            projectile.width = 40;
-            projectile.height = 82;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.ranged = true;
-            projectile.ignoreWater = true;
+            Projectile.width = 48;
+            Projectile.height = 82;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.ignoreWater = true;
         }
 
         public override void AI()
         {
-            Lighting.AddLight(projectile.Center, 0f, 0.7f, 0.5f);
-            Player player = Main.player[projectile.owner];
+            Lighting.AddLight(Projectile.Center, 0f, 0.7f, 0.5f);
+            Player player = Main.player[Projectile.owner];
             float num = 0f;
             Vector2 vector = player.RotatedRelativePoint(player.MountedCenter, true);
-            if (projectile.spriteDirection == -1)
+            if (Projectile.spriteDirection == -1)
             {
-                num = 3.14159274f;
+                num = MathHelper.Pi;
             }
-            projectile.ai[0] += 1f;
+            Projectile.ai[0] += 1f;
             int num39 = 0;
-            if (projectile.ai[0] >= 90f)
+            if (Projectile.ai[0] >= 90f)
             {
                 num39++;
             }
-            if (projectile.ai[0] >= 180f)
+            if (Projectile.ai[0] >= 180f)
             {
                 num39++;
             }
-            if (projectile.ai[0] >= 270f)
+            if (Projectile.ai[0] >= 270f)
             {
                 num39++;
             }
             int num40 = 24;
             int num41 = 2;
-            projectile.ai[1] -= 1f;
+            Projectile.ai[1] -= 1f;
             bool flag15 = false;
-            if (projectile.ai[1] <= 0f)
+            if (Projectile.ai[1] <= 0f)
             {
-                projectile.ai[1] = (float)(num40 - num41 * num39);
+                Projectile.ai[1] = (float)(num40 - num41 * num39);
                 flag15 = true;
-                int arg_1EF4_0 = (int)projectile.ai[0] / (num40 - num41 * num39);
+                int arg_1EF4_0 = (int)Projectile.ai[0] / (num40 - num41 * num39);
             }
-            bool flag16 = player.channel && player.HasAmmo(player.ActiveItem(), true) && !player.noItems && !player.CCed;
-            if (projectile.localAI[0] > 0f)
+            bool flag16 = player.channel && player.HasAmmo(player.ActiveItem()) && !player.noItems && !player.CCed;
+            if (Projectile.localAI[0] > 0f)
             {
-                projectile.localAI[0] -= 1f;
+                Projectile.localAI[0] -= 1f;
             }
-            if (projectile.soundDelay <= 0 && flag16)
+            if (Projectile.soundDelay <= 0 && flag16)
             {
-                projectile.soundDelay = num40 - num41 * num39;
-                if (projectile.ai[0] != 1f)
+                Projectile.soundDelay = num40 - num41 * num39;
+                if (Projectile.ai[0] != 1f)
                 {
-                    Main.PlaySound(SoundID.Item5, projectile.position);
+                    SoundEngine.PlaySound(SoundID.Item5, Projectile.position);
                 }
-                projectile.localAI[0] = 12f;
+                Projectile.localAI[0] = 12f;
             }
             player.phantasmTime = 2;
-            if (flag15 && Main.myPlayer == projectile.owner)
+            if (flag15 && Main.myPlayer == Projectile.owner)
             {
-                int num42 = 14;
+                int num42 = ProjectileID.WoodenArrowFriendly;
                 float scaleFactor11 = 14f;
                 int weaponDamage2 = player.GetWeaponDamage(player.ActiveItem());
                 float weaponKnockback2 = player.ActiveItem().knockBack;
                 if (flag16)
                 {
-                    player.PickAmmo(player.ActiveItem(), ref num42, ref scaleFactor11, ref flag16, ref weaponDamage2, ref weaponKnockback2, false);
+                    player.PickAmmo(player.ActiveItem(), out num42, out scaleFactor11, out weaponDamage2, out weaponKnockback2, out _);
                     weaponKnockback2 = player.GetWeaponKnockback(player.ActiveItem(), weaponKnockback2);
-                    float scaleFactor12 = player.ActiveItem().shootSpeed * projectile.scale;
+                    float scaleFactor12 = player.ActiveItem().shootSpeed * Projectile.scale;
                     Vector2 vector19 = vector;
                     Vector2 value18 = Main.screenPosition + new Vector2((float)Main.mouseX, (float)Main.mouseY) - vector19;
                     if (player.gravDir == -1f)
@@ -96,37 +100,49 @@ namespace CalamityMod.Projectiles.Ranged
                         value19 = -Vector2.UnitY;
                     }
                     value19 *= scaleFactor12;
-                    if (value19.X != projectile.velocity.X || value19.Y != projectile.velocity.Y)
+                    if (value19.X != Projectile.velocity.X || value19.Y != Projectile.velocity.Y)
                     {
-                        projectile.netUpdate = true;
+                        Projectile.netUpdate = true;
                     }
-                    projectile.velocity = value19 * 0.55f;
-                    for (int num43 = 0; num43 < 10; num43++)
+                    Projectile.velocity = value19 * 0.55f;
+                    for (int num43 = 0; num43 < 5; num43++)
                     {
-                        Vector2 vector20 = Vector2.Normalize(projectile.velocity) * scaleFactor11 * (0.6f + Main.rand.NextFloat() * 0.8f);
+                        Vector2 vector20 = Vector2.Normalize(Projectile.velocity) * scaleFactor11 * (0.6f + Main.rand.NextFloat() * 0.8f);
                         if (float.IsNaN(vector20.X) || float.IsNaN(vector20.Y))
                         {
                             vector20 = -Vector2.UnitY;
                         }
                         Vector2 vector21 = vector19 + Utils.RandomVector2(Main.rand, -15f, 15f);
-                        int num44 = Projectile.NewProjectile(vector21.X, vector21.Y, vector20.X, vector20.Y, num42, weaponDamage2, weaponKnockback2, projectile.owner, 0f, 0f);
+                        int num44 = Projectile.NewProjectile(Projectile.GetSource_FromThis(), vector21, vector20, num42, weaponDamage2, weaponKnockback2, Projectile.owner);
                         Main.projectile[num44].noDropItem = true;
                     }
                 }
                 else
                 {
-                    projectile.Kill();
+                    Projectile.Kill();
                 }
             }
-            projectile.position = player.RotatedRelativePoint(player.MountedCenter, true) - projectile.Size / 2f;
-            projectile.rotation = projectile.velocity.ToRotation() + num;
-            projectile.spriteDirection = projectile.direction;
-            projectile.timeLeft = 2;
-            player.ChangeDir(projectile.direction);
-            player.heldProj = projectile.whoAmI;
+            Projectile.position = player.RotatedRelativePoint(player.MountedCenter, true) - Projectile.Size / 2f;
+            Projectile.rotation = Projectile.velocity.ToRotation() + num;
+            Projectile.spriteDirection = Projectile.direction;
+            Projectile.timeLeft = 2;
+            player.ChangeDir(Projectile.direction);
+            player.heldProj = Projectile.whoAmI;
             player.itemTime = 2;
             player.itemAnimation = 2;
-            player.itemRotation = (float)Math.Atan2((double)(projectile.velocity.Y * (float)projectile.direction), (double)(projectile.velocity.X * (float)projectile.direction));
+            player.itemRotation = (float)Math.Atan2((double)(Projectile.velocity.Y * (float)Projectile.direction), (double)(Projectile.velocity.X * (float)Projectile.direction));
         }
+
+        public override void PostDraw(Color lightColor)
+        {
+	        Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Ranged/PhangasmGlow").Value;
+            SpriteEffects spriteEffects = SpriteEffects.None;
+            if (Projectile.spriteDirection == -1)
+                spriteEffects = SpriteEffects.FlipHorizontally;
+
+            Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition, null, Color.White, Projectile.rotation, new Vector2(texture.Width / 2f, texture.Height / 2f), Projectile.scale, spriteEffects, 0);
+        }
+
+        public override bool? CanDamage() => false;
     }
 }

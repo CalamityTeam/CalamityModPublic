@@ -1,14 +1,16 @@
-
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Rogue
 {
     public class NychthemeronProjectile : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/Nychthemeron";
+
         public static int lifetime = 300;
 
         public override void SetStaticDefaults()
@@ -18,71 +20,72 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetDefaults()
         {
-            projectile.width = 10;
-            projectile.height = 10;
-            projectile.friendly = true;
-            projectile.penetrate = 4;
-            projectile.timeLeft = lifetime;
-            projectile.Calamity().rogue = true;
+            Projectile.width = 10;
+            Projectile.height = 10;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.penetrate = 4;
+            Projectile.timeLeft = lifetime;
+            Projectile.DamageType = RogueDamageClass.Instance;
         }
 
         public override void AI()
         {
-            if (projectile.ai[0] == 0f)
+            if (Projectile.ai[0] == 0f)
             {
                 // Thrown out and floating in the air
-                projectile.velocity *= 0.99f;
+                Projectile.velocity *= 0.99f;
             }
             else
             {
-                Player owner = Main.player[projectile.owner];
+                Player owner = Main.player[Projectile.owner];
 
-                projectile.tileCollide = false;
+                Projectile.tileCollide = false;
 
                 // Recall to the player
-                Vector2 toPlayer = owner.Center - projectile.Center;
+                Vector2 toPlayer = owner.Center - Projectile.Center;
                 toPlayer.Normalize();
-                toPlayer *= projectile.ai[0];
-                projectile.velocity = toPlayer;
+                toPlayer *= Projectile.ai[0];
+                Projectile.velocity = toPlayer;
 
-                projectile.ai[0] += 0.5f;
-				projectile.extraUpdates = 1;
-                if (projectile.ai[0] > 20f)
+                Projectile.ai[0] += 0.5f;
+                Projectile.extraUpdates = 1;
+                if (Projectile.ai[0] > 20f)
                 {
-                    projectile.ai[0] = 20f;
+                    Projectile.ai[0] = 20f;
                 }
 
                 // Delete the projectile if it touches its owner.
-                if (Main.myPlayer == projectile.owner && projectile.Hitbox.Intersects(owner.Hitbox))
+                if (Main.myPlayer == Projectile.owner && Projectile.Hitbox.Intersects(owner.Hitbox))
                 {
-                    projectile.Kill();
+                    Projectile.Kill();
                 }
             }
-            projectile.rotation += 0.4f * projectile.direction * ((float)projectile.timeLeft / (float)lifetime);
+            Projectile.rotation += 0.4f * Projectile.direction * ((float)Projectile.timeLeft / (float)lifetime);
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D tex = Main.projectileTexture[projectile.type];
-            spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(lightColor), projectile.rotation, tex.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
+            Texture2D tex = ModContent.Request<Texture2D>(Texture).Value;
+            Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation, tex.Size() / 2f, Projectile.scale, SpriteEffects.None, 0);
             return false;
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            Collision.HitTiles(projectile.position + projectile.velocity, projectile.velocity, projectile.width, projectile.height);
-            Main.PlaySound(SoundID.Dig, projectile.position);
+            Collision.HitTiles(Projectile.position + Projectile.velocity, Projectile.velocity, Projectile.width, Projectile.height);
+            SoundEngine.PlaySound(SoundID.Dig, Projectile.position);
 
             float minScale = 0.9f;
             float maxScale = 1.1f;
             int numDust = 2;
             for (int i = 0; i < numDust; i++)
             {
-                Dust.NewDust(projectile.position, 4, 4, 236, projectile.velocity.X, projectile.velocity.Y, 0, default, Main.rand.NextFloat(minScale, maxScale));
-                Dust.NewDust(projectile.position, 4, 4, 240, projectile.velocity.X, projectile.velocity.Y, 0, default, Main.rand.NextFloat(minScale, maxScale));
+                Dust.NewDust(Projectile.position, 4, 4, 236, Projectile.velocity.X, Projectile.velocity.Y, 0, default, Main.rand.NextFloat(minScale, maxScale));
+                Dust.NewDust(Projectile.position, 4, 4, 240, Projectile.velocity.X, Projectile.velocity.Y, 0, default, Main.rand.NextFloat(minScale, maxScale));
             }
 
-            projectile.Kill();
+            Projectile.Kill();
             return false;
         }
 
@@ -95,8 +98,8 @@ namespace CalamityMod.Projectiles.Rogue
                 int numDust = 2;
                 for (int i = 0; i < numDust; i++)
                 {
-                    Dust.NewDust(projectile.position, 4, 4, 236, projectile.velocity.X, projectile.velocity.Y, 0, default, Main.rand.NextFloat(minScale, maxScale));
-                    Dust.NewDust(projectile.position, 4, 4, 240, projectile.velocity.X, projectile.velocity.Y, 0, default, Main.rand.NextFloat(minScale, maxScale));
+                    Dust.NewDust(Projectile.position, 4, 4, 236, Projectile.velocity.X, Projectile.velocity.Y, 0, default, Main.rand.NextFloat(minScale, maxScale));
+                    Dust.NewDust(Projectile.position, 4, 4, 240, Projectile.velocity.X, Projectile.velocity.Y, 0, default, Main.rand.NextFloat(minScale, maxScale));
                 }
             }
         }

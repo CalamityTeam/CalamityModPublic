@@ -7,12 +7,13 @@ namespace CalamityMod.Buffs.Summon
 {
     public class CausticStaffBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Caustic Dragon");
             Description.SetDefault("A mini jungle dragon is following you");
             Main.buffNoTimeDisplay[Type] = true;
             Main.buffNoSave[Type] = true;
+            //Main.persistentBuff[Type] = true;
         }
 
         public override void Update(Player player, ref int buffIndex)

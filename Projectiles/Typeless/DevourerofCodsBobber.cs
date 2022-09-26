@@ -1,42 +1,70 @@
+using CalamityMod.Items.Fishing.FishingRods;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Items.Fishing.FishingRods;
 
 namespace CalamityMod.Projectiles.Typeless
 {
-	public class DevourerofCodsBobber : ModProjectile
+    public class DevourerofCodsBobber : ModProjectile
     {
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Devourer of Cods Bobber");
-		}
+        private bool initialized = false;
+        private Color fishingLineColor;
+        public Color[] PossibleLineColors = new Color[]
+        {
+            new Color(252, 109, 202, 100), //a pink color
+            new Color(39, 151, 171, 100) // a blue color
+        };
+
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Devourer of Cods Bobber");
+        }
 
         public override void SetDefaults()
         {
-			//projectile.CloneDefaults(360); //Wooden Bobber
-			projectile.width = 14;
-			projectile.height = 14;
-			projectile.aiStyle = 61;
-            projectile.bobber = true;
-            projectile.penetrate = -1;
+            Projectile.width = 14;
+            Projectile.height = 14;
+            Projectile.aiStyle = ProjAIStyleID.Bobber;
+            Projectile.bobber = true;
+            Projectile.penetrate = -1;
         }
 
-		//fuck glowmasks btw
+        //What if we want to randomize the line color
+        public override void AI()
+        {
+            if (!initialized)
+            {
+                //Decide color of the pole by randomizing the array
+                fishingLineColor = Main.rand.Next(PossibleLineColors);
+                initialized = true;
+            }
+        }
 
+        //fuck glowmasks btw
         //i second this notion -Dominic
-        public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override void PostDraw(Color lightColor)
         {
-            Rectangle frame = new Rectangle(0, 0, Main.projectileTexture[projectile.type].Width, Main.projectileTexture[projectile.type].Height);
-            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Projectiles/Typeless/DevourerofCodsGlow"), projectile.Center - Main.screenPosition, frame, Color.White, projectile.rotation, projectile.Size / 2, 1f, SpriteEffects.None, 0f);
+            Texture2D glowmask = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Typeless/DevourerofCodsGlow").Value;
+            float xOffset = (glowmask.Width - Projectile.width) * 0.5f + Projectile.width * 0.5f;
+            Vector2 drawPos = Projectile.position - Main.screenPosition;
+            drawPos.X += xOffset;
+            drawPos.Y += Projectile.height / 2f + Projectile.gfxOffY;
+            Rectangle frame = new(0, 0, glowmask.Width, glowmask.Height);
+            Vector2 origin = new Vector2(xOffset, Projectile.height / 2f);
+            SpriteEffects spriteEffects = Projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+
+            if (Projectile.ai[0] <= 1f)
+            {
+                Main.spriteBatch.Draw(glowmask, drawPos, frame, Color.White, Projectile.rotation, origin, Projectile.scale, spriteEffects, 0);
+            }
         }
 
-        public override bool PreDrawExtras(SpriteBatch spriteBatch)
+        public override bool PreDrawExtras()
         {
-            Lighting.AddLight(projectile.Center, 0.35f, 0f, 0.25f);
-            CalamityUtils.DrawFishingLine(projectile, ModContent.ItemType<TheDevourerofCods>(), projectile.Calamity().lineColor == 1 ? new Color(252, 109, 202, 100) : new Color(39, 151, 171, 100));
-            return false;
-		}
+            Lighting.AddLight(Projectile.Center, 0.35f, 0f, 0.25f);
+            return Projectile.DrawFishingLine(ModContent.ItemType<TheDevourerofCods>(), fishingLineColor);
+        }
     }
 }

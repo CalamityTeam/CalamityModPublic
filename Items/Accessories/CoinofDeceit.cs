@@ -1,3 +1,4 @@
+﻿using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -8,32 +9,35 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Coin of Deceit");
-            Tooltip.SetDefault("6% increased rogue crit chance");
+            Tooltip.SetDefault("Stealth strikes only expend 85% of your max stealth\n" +
+                "6% increased rogue crit chance");
         }
 
         public override void SetDefaults()
         {
-            item.width = 20;
-            item.height = 22;
-            item.value = CalamityGlobalItem.Rarity1BuyPrice;
-            item.accessory = true;
-            item.rare = 1;
+            Item.width = 20;
+            Item.height = 22;
+            Item.value = CalamityGlobalItem.Rarity1BuyPrice;
+            Item.accessory = true;
+            Item.rare = ItemRarityID.Blue;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.Calamity().throwingCrit += 6;
+            player.Calamity().stealthStrike85Cost = true;
+            player.GetCritChance<ThrowingDamageClass>() += 6;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddRecipeGroup("AnyGoldBar", 4);
-            recipe.AddRecipeGroup("AnyCopperBar", 8);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddRecipeGroup("AnyGoldBar", 4).
+                AddRecipeGroup("AnyEvilBar", 8).
+                AddIngredient<WulfrumMetalScrap>(5).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

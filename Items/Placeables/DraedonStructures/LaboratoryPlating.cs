@@ -1,4 +1,4 @@
-using CalamityMod.Items.Placeables.Walls.DraedonStructures;
+﻿using CalamityMod.Items.Placeables.Walls.DraedonStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.DraedonStructures
@@ -7,51 +7,54 @@ namespace CalamityMod.Items.Placeables.DraedonStructures
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.width = 12;
-            item.height = 12;
-            item.maxStack = 999;
-            item.useTurn = true;
-            item.autoReuse = true;
-            item.useAnimation = 15;
-            item.useTime = 10;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.consumable = true;
-            item.createTile = ModContent.TileType<Tiles.DraedonStructures.LaboratoryPlating>();
+            Item.width = 12;
+            Item.height = 12;
+            Item.maxStack = 999;
+            Item.useTurn = true;
+            Item.autoReuse = true;
+            Item.useAnimation = 15;
+            Item.useTime = 10;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.consumable = true;
+            Item.createTile = ModContent.TileType<Tiles.DraedonStructures.LaboratoryPlating>();
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.IronBar);
-            recipe.anyIronBar = true;
-            recipe.AddIngredient(ItemID.StoneBlock, 3);
-            recipe.SetResult(this, 3);
-            recipe.AddTile(TileID.HeavyWorkBench);
-            recipe.AddRecipe();
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<RustedPlating>(), 1);
-            recipe.SetResult(this, 1);
-            recipe.AddTile(TileID.Anvils);
-            recipe.AddRecipe();
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<LaboratoryPlatingWall>(), 4);
-            recipe.SetResult(this, 1);
-            recipe.AddTile(TileID.WorkBenches);
-            recipe.AddRecipe();
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<LaboratoryPlateBeam>(), 4);
-            recipe.SetResult(this, 1);
-            recipe.AddTile(TileID.WorkBenches);
-            recipe.AddRecipe();
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<LaboratoryPlatePillar>(), 4);
-            recipe.SetResult(this, 1);
-            recipe.AddTile(TileID.WorkBenches);
-            recipe.AddRecipe();
+            CreateRecipe(25).
+                AddRecipeGroup("IronBar").
+                AddRecipeGroup("AnyStoneBlock", 3).
+                AddTile(TileID.HeavyWorkBench).
+                Register();
+
+            CreateRecipe(1).
+                AddIngredient(ModContent.ItemType<RustedPlating>()).
+                AddTile(TileID.Anvils).
+                Register();
+
+            CreateRecipe(1).
+                AddIngredient(ModContent.ItemType<LaboratoryShelf>(), 2).
+                Register();
+
+            CreateRecipe(1).
+                AddIngredient(ModContent.ItemType<LaboratoryPlatingWall>(), 4).
+                AddTile(TileID.WorkBenches).
+                Register();
+
+            CreateRecipe(1).
+                AddIngredient(ModContent.ItemType<LaboratoryPlateBeam>(), 4).
+                AddTile(TileID.WorkBenches).
+                Register();
+
+            CreateRecipe(1).
+                AddIngredient(ModContent.ItemType<LaboratoryPlatePillar>(), 4).
+                AddTile(TileID.WorkBenches).
+                Register();
         }
     }
 }

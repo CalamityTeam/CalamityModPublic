@@ -8,7 +8,7 @@ namespace CalamityMod.Tiles.Abyss
 {
     public class SulphuricFossil2 : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileLighted[Type] = true;
             Main.tileFrameImportant[Type] = true;
@@ -20,7 +20,7 @@ namespace CalamityMod.Tiles.Abyss
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Fossil");
             AddMapEntry(new Color(113, 90, 71), name);
-            dustType = (int)CalamityDusts.SulfurousSeaAcid;
+            DustType = (int)CalamityDusts.SulfurousSeaAcid;
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)

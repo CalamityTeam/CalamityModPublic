@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -9,45 +8,49 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 {
     public class VoltageStream : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public float Time
         {
-            get => projectile.ai[0];
-            set => projectile.ai[0] = value;
+            get => Projectile.ai[0];
+            set => Projectile.ai[0] = value;
         }
+
         public NPC Target
         {
-            get => Main.npc[(int)projectile.ai[1]];
-            set => projectile.ai[1] = value.whoAmI;
+            get => Main.npc[(int)Projectile.ai[1]];
+            set => Projectile.ai[1] = value.whoAmI;
         }
+
         public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Voltage Stream");
-		}
+        {
+            DisplayName.SetDefault("Voltage Stream");
+        }
 
         public override void SetDefaults()
         {
-            projectile.width = 8;
-            projectile.height = 8;
-            projectile.friendly = true;
-            projectile.melee = true;
-            projectile.penetrate = -1;
-            projectile.timeLeft = 600;
-			projectile.usesLocalNPCImmunity = true;
-			projectile.localNPCHitCooldown = 9;
+            Projectile.width = 8;
+            Projectile.height = 8;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.penetrate = 5;
+            Projectile.timeLeft = 180;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 12;
         }
 
         public override void AI()
         {
-			Lighting.AddLight(projectile.Center, Color.SkyBlue.ToVector3());
+            Lighting.AddLight(Projectile.Center, Color.SkyBlue.ToVector3());
             if (!Target.active)
             {
-                projectile.Kill();
+                Projectile.Kill();
                 return;
             }
-            projectile.Center = Target.Center;
+            Projectile.Center = Target.Center;
             if (Time < 90f)
             {
-                float completionRatio = Utils.InverseLerp(0f, 90f, Time, true);
+                float completionRatio = Utils.GetLerpValue(0f, 90f, Time, true);
                 float offsetRatioOnSprite = (float)Math.Sin(completionRatio * MathHelper.ToRadians(720f)) * 0.5f + 0.5f;
                 Vector2 dustInitialPosition = Vector2.Lerp(Target.Top, Target.Bottom, offsetRatioOnSprite);
                 for (int i = 0; i < 4; i++)
@@ -71,14 +74,13 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             {
                 for (int i = 0; i < 50; i++)
                 {
-                    float angle = MathHelper.TwoPi / 50f * i + Utils.InverseLerp(90f, 150f, Time, true) * MathHelper.ToRadians(1080f);
-                    float radius = MathHelper.Lerp(0f, 25f, Utils.InverseLerp(90f, 150f, Time, true));
+                    float angle = MathHelper.TwoPi / 50f * i + Utils.GetLerpValue(90f, 150f, Time, true) * MathHelper.ToRadians(1080f);
+                    float radius = MathHelper.Lerp(0f, 25f, Utils.GetLerpValue(90f, 150f, Time, true));
                     Dust dust = Dust.NewDustPerfect(Target.Center + angle.ToRotationVector2() * radius, 226);
                     dust.velocity = Vector2.Zero;
                     if (Main.rand.NextBool(6))
-                    {
-                        dust.velocity = Target.DirectionTo(dust.position) * 4.5f;
-                    }
+                        dust.velocity = Target.SafeDirectionTo(dust.position) * 4.5f;
+
                     dust.noGravity = true;
                 }
             }
@@ -93,32 +95,23 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                     dust.velocity *= 2.1f;
                     dust.noGravity = true;
                 }
-                Target.AddBuff(BuffID.Electrified, 60 * 10);
-                projectile.Kill();
+                Target.AddBuff(BuffID.Electrified, 180);
+                Projectile.Kill();
             }
             Time++;
 
-			if (projectile.damage <= 0)
-				projectile.Kill();
+            if (Projectile.damage <= 0)
+                Projectile.Kill();
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-			ReduceDamage();
-		}
+            Projectile.damage = (int)(Projectile.damage * 0.75);
+        }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-			ReduceDamage();
-		}
-
-		private void ReduceDamage()
-		{
-			projectile.damage = (int)(projectile.damage * 0.75);
-		}
-
-		public override void Kill(int timeLeft)
-		{
-		}
-	}
+            Projectile.damage = (int)(Projectile.damage * 0.75);
+        }
+    }
 }

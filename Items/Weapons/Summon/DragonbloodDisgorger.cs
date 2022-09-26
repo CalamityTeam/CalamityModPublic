@@ -1,13 +1,15 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Summon;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
-	public class DragonbloodDisgorger : ModItem
+    public class DragonbloodDisgorger : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -15,42 +17,43 @@ namespace CalamityMod.Items.Weapons.Summon
             Tooltip.SetDefault("Summons a skeletal dragon and her two children\n" +
                                "Requires 6 minion slots to be summoned\n" +
                                "There can only be one family");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 300;
-            item.mana = 30;
-            item.width = 64;
-            item.height = 62;
-            item.useTime = item.useAnimation = 15;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.noMelee = true;
-            item.knockBack = 4f;
-            item.value = Item.buyPrice(1, 40, 0, 0);
-            item.rare = 8;
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
-            item.UseSound = SoundID.DD2_SkeletonDeath;
-            item.shoot = ModContent.ProjectileType<SkeletalDragonMother>();
-            item.shootSpeed = 10f;
-            item.summon = true;
+            Item.damage = 215;
+            Item.mana = 10;
+            Item.width = 64;
+            Item.height = 62;
+            Item.useTime = Item.useAnimation = 15;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.noMelee = true;
+            Item.knockBack = 4f;
+            Item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            Item.rare = ModContent.RarityType<Turquoise>();
+            Item.UseSound = SoundID.DD2_SkeletonDeath;
+            Item.shoot = ModContent.ProjectileType<SkeletalDragonMother>();
+            Item.shootSpeed = 10f;
+            Item.DamageType = DamageClass.Summon;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            Projectile.NewProjectile(Main.MouseWorld, Vector2.Zero, type, damage, knockBack, player.whoAmI);
+            int p = Projectile.NewProjectile(source, Main.MouseWorld, Vector2.Zero, type, damage, knockback, player.whoAmI);
+            if (Main.projectile.IndexInRange(p))
+                Main.projectile[p].originalDamage = Item.damage;
             return false;
         }
 
-        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0 && player.maxMinions >= 5;
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0 && player.maxMinions >= 5;
 
         public override void AddRecipes()
         {
-            ModRecipe r = new ModRecipe(mod);
-            r.AddIngredient(ModContent.ItemType<BloodstoneCore>(), 12);
-            r.AddTile(TileID.LunarCraftingStation);
-            r.SetResult(this);
-            r.AddRecipe();
+            CreateRecipe().
+                AddIngredient<BloodstoneCore>(12).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

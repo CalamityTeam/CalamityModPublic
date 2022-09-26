@@ -4,11 +4,14 @@ using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-	public class CobaltEnergy : ModProjectile
+    public class CobaltEnergy : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         private bool hasHitEnemy = false;
         private int targetNPC = -1;
         private List<int> previousNPCs = new List<int>() { -1 };
@@ -20,38 +23,38 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetDefaults()
         {
-            projectile.width = 10;
-            projectile.height = 10;
-            projectile.friendly = true;
-            projectile.penetrate = 3;
-            projectile.timeLeft = 600;
-            projectile.Calamity().rogue = true;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
+            Projectile.width = 10;
+            Projectile.height = 10;
+            Projectile.friendly = true;
+            Projectile.penetrate = 3;
+            Projectile.timeLeft = 600;
+            Projectile.DamageType = RogueDamageClass.Instance;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
         }
 
         public override void AI()
         {
-			for (int index = 0; index < 2; ++index)
-			{
-				int ruby = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 88, projectile.velocity.X, projectile.velocity.Y, 90, new Color(), 1.2f);
-				Dust dust = Main.dust[ruby];
-				dust.noGravity = true;
-				dust.velocity *= 0.3f;
-			}
-
-            if (!hasHitEnemy && projectile.timeLeft < 575)
+            for (int index = 0; index < 2; ++index)
             {
-				CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 350f, 12f, 20f);
+                int ruby = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 88, Projectile.velocity.X, Projectile.velocity.Y, 90, new Color(), 1.2f);
+                Dust dust = Main.dust[ruby];
+                dust.noGravity = true;
+                dust.velocity *= 0.3f;
+            }
+
+            if (!hasHitEnemy && Projectile.timeLeft < 575)
+            {
+                CalamityUtils.HomeInOnNPC(Projectile, !Projectile.tileCollide, 200f, 12f, 20f);
             }
             else if (hasHitEnemy)
             {
                 if (targetNPC >= 0)
                 {
-                    Vector2 newVelocity = Main.npc[targetNPC].Center - projectile.Center;
+                    Vector2 newVelocity = Main.npc[targetNPC].Center - Projectile.Center;
                     newVelocity.Normalize();
                     newVelocity *= 15f;
-                    projectile.velocity = newVelocity;
+                    Projectile.velocity = newVelocity;
                 }
             }
         }
@@ -76,9 +79,9 @@ namespace CalamityMod.Projectiles.Rogue
                 {
                     previousNPCs.Add(i);
                 }
-                if (!npc.friendly && !npc.townNPC && npc.active && !npc.dontTakeDamage && npc.chaseable && npc != target && !hasHitNPC && npc.type != NPCID.TargetDummy)
+                if (npc.CanBeChasedBy(Projectile, false) && npc != target && !hasHitNPC)
                 {
-                    float dist = (projectile.Center - npc.Center).Length();
+                    float dist = (Projectile.Center - npc.Center).Length();
                     if (dist < minDist)
                     {
                         minDist = dist;
@@ -92,39 +95,39 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 hasHitEnemy = true;
                 targetNPC = index;
-                velocityNew = Main.npc[index].Center - projectile.Center;
+                velocityNew = Main.npc[index].Center - Projectile.Center;
                 velocityNew.Normalize();
                 velocityNew *= 15f;
-                projectile.velocity = velocityNew;
+                Projectile.velocity = velocityNew;
             }
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            Collision.HitTiles(projectile.position + projectile.velocity, projectile.velocity, projectile.width, projectile.height);
-            Main.PlaySound(0, projectile.position);
-            projectile.Kill();
+            Collision.HitTiles(Projectile.position + Projectile.velocity, Projectile.velocity, Projectile.width, Projectile.height);
+            SoundEngine.PlaySound(SoundID.Dig, Projectile.position);
+            Projectile.Kill();
             return false;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D tex = Main.projectileTexture[projectile.type];
-            spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(lightColor), projectile.rotation, tex.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
+            Texture2D tex = ModContent.Request<Texture2D>(Texture).Value;
+            Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation, tex.Size() / 2f, Projectile.scale, SpriteEffects.None, 0);
             return false;
         }
 
         public override void Kill(int timeLeft)
         {
-			Main.PlaySound(0, (int)projectile.position.X, (int)projectile.position.Y, 1, 1f, 0f);
-			for (int index1 = 0; index1 < 15; ++index1)
-			{
-				int ruby = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 88, projectile.oldVelocity.X, projectile.oldVelocity.Y, 50, new Color(), 1.2f);
-				Dust dust = Main.dust[ruby];
-				dust.noGravity = true;
-				dust.scale *= 1.25f;
-				dust.velocity *= 0.5f;
-			}
-		}
+            SoundEngine.PlaySound(SoundID.Dig, Projectile.position);
+            for (int index1 = 0; index1 < 15; ++index1)
+            {
+                int ruby = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 88, Projectile.oldVelocity.X, Projectile.oldVelocity.Y, 50, new Color(), 1.2f);
+                Dust dust = Main.dust[ruby];
+                dust.noGravity = true;
+                dust.scale *= 1.25f;
+                dust.velocity *= 0.5f;
+            }
+        }
     }
 }

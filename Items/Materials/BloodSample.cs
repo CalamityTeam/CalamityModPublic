@@ -1,5 +1,6 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Items.Materials
 {
@@ -7,16 +8,17 @@ namespace CalamityMod.Items.Materials
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 25;
             DisplayName.SetDefault("Blood Sample");
+			ItemID.Sets.SortingPriorityMaterials[Type] = 68; // Sturdy Fossil
         }
 
         public override void SetDefaults()
         {
-            item.width = 16;
-            item.height = 22;
-            item.maxStack = 999;
-            item.value = Item.buyPrice(0, 0, 50, 0);
-            item.rare = 2;
-        }
-    }
+            Item.width = 26;
+            Item.height = 34;
+            Item.maxStack = 999;
+            Item.value = Item.buyPrice(0, 0, 50, 0);
+            Item.rare = ItemRarityID.Orange;
+        }    }
 }

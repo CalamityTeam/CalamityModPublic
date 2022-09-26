@@ -1,7 +1,8 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Plates;
 using CalamityMod.Items.Placeables.Ores;
+using CalamityMod.Rarities;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -12,20 +13,20 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Dimensional Soul Artifact");
             Tooltip.SetDefault("Power\n" +
-                "Boosts all damage by 25%\n" +
-                "But at what cost?");
+                "Boosts all damage by 25%, but at what cost?\n" +
+                "Increases all damage taken by 15%");
         }
 
         public override void SetDefaults()
         {
-            item.width = 28;
-            item.height = 28;
-            item.value = CalamityGlobalItem.Rarity14BuyPrice;
-            item.accessory = true;
-            item.rare = 10;
-            item.Calamity().postMoonLordRarity = 14;
+            Item.width = 28;
+            Item.height = 28;
+            Item.accessory = true;
+            Item.rare = ModContent.RarityType<DarkBlue>();
+            Item.value = CalamityGlobalItem.Rarity14BuyPrice;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -36,14 +37,12 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Cinderplate>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<EssenceofEleum>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<ExodiumClusterOre>(), 15);
-            recipe.AddTile(TileID.DemonAltar);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient<ExodiumCluster>(25).
+                AddIngredient<Elumplate>(25).
+                AddIngredient<CosmiliteBar>(5).
+                AddTile(TileID.DemonAltar).
+                Register();
         }
     }
 }

@@ -1,3 +1,4 @@
+﻿using Terraria.DataStructures;
 using CalamityMod.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -11,54 +12,50 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Shroomer");
-            Tooltip.SetDefault("Has a chance to fire an extremely powerful homing mushroom");
+            Tooltip.SetDefault("Fires bullets and an extremely powerful homing mushroom");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 150;
-            item.ranged = true;
-            item.width = 96;
-            item.height = 40;
-            item.crit += 35;
-            item.useTime = 27;
-            item.useAnimation = 27;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 9.75f;
-            item.value = Item.buyPrice(0, 95, 0, 0);
-            item.rare = 9;
-            item.UseSound = SoundID.Item40;
-            item.autoReuse = true;
-            item.shoot = ProjectileID.PurificationPowder;
-            item.shootSpeed = 10f;
-            item.useAmmo = 97;
+            Item.damage = 150;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 90;
+            Item.height = 28;
+            Item.useTime = 27;
+            Item.useAnimation = 27;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 9.75f;
+            Item.value = CalamityGlobalItem.Rarity10BuyPrice;
+            Item.rare = ItemRarityID.Red;
+            Item.UseSound = SoundID.Item40;
+            Item.autoReuse = true;
+            Item.shoot = ProjectileID.Bullet;
+            Item.shootSpeed = 10f;
+            Item.useAmmo = AmmoID.Bullet;
+            Item.Calamity().canFirePointBlankShots = true;
         }
 
-        public override Vector2? HoldoutOffset()
-        {
-            return new Vector2(-25, 0);
-        }
+        // Terraria seems to really dislike high crit values in SetDefaults
+        public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 35;
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override Vector2? HoldoutOffset() => new Vector2(-25, 0);
+
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
-            if (Main.rand.NextBool(5))
-            {
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Shroom>(), (int)((double)damage * 1.5), knockBack, player.whoAmI, 0f, 0f);
-            }
-            return false;
+            Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<Shroom>(), (int)(damage * 0.5), knockback, player.whoAmI);
+            return true;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.SniperRifle);
-            recipe.AddIngredient(ItemID.ShroomiteBar, 11);
-            recipe.AddIngredient(ItemID.FragmentVortex, 15);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient(ItemID.SniperRifle).
+                AddIngredient(ItemID.ShroomiteBar, 11).
+                AddIngredient(ItemID.FragmentVortex, 15).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

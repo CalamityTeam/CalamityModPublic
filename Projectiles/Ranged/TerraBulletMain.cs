@@ -1,9 +1,8 @@
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Ranged
 {
@@ -11,73 +10,65 @@ namespace CalamityMod.Projectiles.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Bullet");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 2;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            DisplayName.SetDefault("Terra Bullet");
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 2;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 8;
-            projectile.height = 8;
-            projectile.aiStyle = 1;
-            projectile.friendly = true;
-            projectile.ranged = true;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 600;
-            projectile.alpha = 255;
-            projectile.extraUpdates = 1;
-            aiType = ProjectileID.Bullet;
+            Projectile.width = 4;
+            Projectile.height = 4;
+            Projectile.aiStyle = ProjAIStyleID.Arrow;
+            AIType = ProjectileID.Bullet;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = 600;
+            Projectile.alpha = 255;
+            Projectile.extraUpdates = 3;
+            Projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.DefaultPointBlankDuration;
         }
 
         public override void AI()
         {
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
-            Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0f / 255f, (255 - projectile.alpha) * 0.25f / 255f, (255 - projectile.alpha) * 0f / 255f);
-            projectile.localAI[0] += 1f;
-            if (projectile.localAI[0] >= 6f)
+            Lighting.AddLight(Projectile.Center, 0f, 0.4f, 0f);
+
+            // localAI is used as an invisibility counter. The bullet fades into existence after 15 startup frames.
+            Projectile.localAI[0] += 1f;
+            if (Projectile.localAI[0] > 4f)
             {
-                if (projectile.alpha > 0)
-                {
-                    projectile.alpha -= 17;
-                }
-                for (int num136 = 0; num136 < 2; num136++)
-                {
-                    float x2 = projectile.position.X - projectile.velocity.X / 10f * (float)num136;
-                    float y2 = projectile.position.Y - projectile.velocity.Y / 10f * (float)num136;
-                    int num137 = Dust.NewDust(new Vector2(x2, y2), 1, 1, 74, 0f, 0f, 0, default, 0.8f);
-                    Main.dust[num137].alpha = projectile.alpha;
-                    Main.dust[num137].position.X = x2;
-                    Main.dust[num137].position.Y = y2;
-                    Main.dust[num137].velocity *= 0f;
-                    Main.dust[num137].noGravity = true;
-                }
+                // After 15 frames, the alpha will be exactly 0
+                if (Projectile.alpha > 0)
+                    Projectile.alpha -= 17;
+
+                // Dust type 74, scale 0.8, no gravity, no light, no velocity
+                Vector2 pos = Projectile.Center - Projectile.velocity * 0.1f;
+                Dust d = Dust.NewDustDirect(pos, 0, 0, 74, Scale: 0.8f);
+                d.position = pos;
+                d.velocity = Vector2.Zero;
+                d.noGravity = true;
+                d.noLight = true;
             }
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
-            for (int k = 0; k < projectile.oldPos.Length; k++)
-            {
-                Vector2 drawPos = projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY);
-                Color color = projectile.GetAlpha(lightColor) * ((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length);
-                spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, null, color, projectile.rotation, drawOrigin, projectile.scale, SpriteEffects.None, 0f);
-            }
-            return true;
+            CalamityUtils.DrawAfterimagesFromEdge(Projectile, 0, lightColor);
+            return false;
         }
 
         public override void Kill(int timeLeft)
         {
-            if (projectile.owner == Main.myPlayer)
+            if (Projectile.owner == Main.myPlayer)
             {
                 for (int b = 0; b < 2; b++)
                 {
-					Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
-                    Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<TerraBulletSplit>(), (int)(projectile.damage * 0.3), 0f, projectile.owner, 0f, 0f);
+                    Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<TerraBulletSplit>(), (int)(Projectile.damage * 0.3), 0f, Projectile.owner, 0f, 0f);
                 }
             }
-            Main.PlaySound(SoundID.Item118, projectile.position);
+            SoundEngine.PlaySound(SoundID.Item118, Projectile.position);
         }
     }
 }

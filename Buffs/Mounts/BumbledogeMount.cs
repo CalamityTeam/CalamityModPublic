@@ -6,7 +6,7 @@ namespace CalamityMod.Buffs.Mounts
 {
     public class BumbledogeMount : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Bumbledoge");
             Description.SetDefault("Wait a second. That's not right...");

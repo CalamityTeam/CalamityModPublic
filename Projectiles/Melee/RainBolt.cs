@@ -2,10 +2,13 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 namespace CalamityMod.Projectiles.Melee
 {
-	public class RainBolt : ModProjectile
+    public class RainBolt : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Bolt");
@@ -13,37 +16,40 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetDefaults()
         {
-            projectile.width = 10;
-            projectile.height = 10;
-            projectile.friendly = true;
-            projectile.melee = true;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 150;
+            Projectile.width = 10;
+            Projectile.height = 10;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = 180;
         }
+
+        public override bool? CanHitNPC(NPC target) => Projectile.timeLeft < 150 && target.CanBeChasedBy(Projectile);
 
         public override void AI()
         {
-            projectile.velocity *= 0.95f;
-
-            if (projectile.localAI[0] == 0f)
+            if (Projectile.localAI[0] == 0f)
             {
-                Main.PlaySound(SoundID.Item9, projectile.Center);
-                projectile.localAI[0] += 1f;
+                SoundEngine.PlaySound(SoundID.Item9, Projectile.Center);
+                Projectile.localAI[0] += 1f;
             }
 
-            int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 66, 0f, 0f, 100, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 2f);
+            int num469 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 66, 0f, 0f, 100, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 2f);
             Main.dust[num469].noGravity = true;
             Main.dust[num469].velocity *= 0f;
 
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 400f, 14f, 20f);
+            if (Projectile.timeLeft < 150)
+                CalamityUtils.HomeInOnNPC(Projectile, !Projectile.tileCollide, 600f, 12f, 20f);
+            else
+                Projectile.velocity *= 0.95f;
         }
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.Item60, projectile.Center);
+            SoundEngine.PlaySound(SoundID.Item60, Projectile.Center);
             for (int k = 0; k < 5; k++)
             {
-                int rain = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 66, 0f, 0f, 100, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB));
+                int rain = Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 66, 0f, 0f, 100, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB));
                 Main.dust[rain].noGravity = true;
                 Main.dust[rain].velocity *= 4f;
             }

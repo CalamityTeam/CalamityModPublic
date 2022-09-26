@@ -1,5 +1,7 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ModLoader;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 namespace CalamityMod.Projectiles.Melee
 {
     public class Orbacle : ModProjectile
@@ -13,34 +15,46 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetDefaults()
         {
-            projectile.width = 20;
-            projectile.height = 20;
-            projectile.friendly = true;
-            projectile.melee = true;
-            projectile.ignoreWater = true;
-            projectile.penetrate = -1;
-            projectile.extraUpdates = 1;
-            projectile.timeLeft = Lifetime;
+            Projectile.width = 20;
+            Projectile.height = 20;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.MeleeNoSpeed;
+            Projectile.ignoreWater = true;
+            Projectile.penetrate = -1;
+            Projectile.extraUpdates = 1;
+            Projectile.timeLeft = Lifetime;
 
-            projectile.alpha = 80;
+            Projectile.alpha = 80;
 
             // Auric orbs never hit the same enemy more than once.
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = -1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = -1;
         }
 
+        public override bool PreDraw(ref Color lightColor)
+        {
+            Main.spriteBatch.SetBlendState(BlendState.Additive);
+
+            Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
+            Vector2 drawPosition = Projectile.Center - Main.screenPosition;
+            Vector2 origin = texture.Size() * 0.5f;
+            Color color = new Color(83, 137, 230); // Auric Blue but slightly more blue. (#5389e6)
+            Main.EntitySpriteDraw(texture, drawPosition, null, color, Projectile.rotation, origin, Projectile.scale, SpriteEffects.None, 0);
+            Main.spriteBatch.SetBlendState(BlendState.AlphaBlend);
+            return false;
+        }
         public override void AI()
         {
             // Produces golden dust while in flight
             int dustType = Main.rand.NextBool(3) ? 244 : 246;
             float scale = 0.8f + Main.rand.NextFloat(0.6f);
-            int idx = Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType);
+            int idx = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, dustType);
             Main.dust[idx].noGravity = true;
-            Main.dust[idx].velocity = projectile.velocity / 3f;
+            Main.dust[idx].velocity = Projectile.velocity / 3f;
             Main.dust[idx].scale = scale;
 
-            projectile.alpha += 4;
-            projectile.velocity *= 0.88f;
+            Projectile.alpha += 4;
+            Projectile.velocity *= 0.88f;
         }
     }
 }

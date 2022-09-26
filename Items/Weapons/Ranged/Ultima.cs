@@ -1,9 +1,11 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Ores;
 using CalamityMod.Projectiles.Ranged;
+using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -16,55 +18,56 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             DisplayName.SetDefault("Ultima");
             Tooltip.SetDefault("Casts a continuous stream of plasma bolts\n" +
-                               "Over time the bolts are replaced with powerful lasers\n" +
-                               "Bolts power up into solid beams as you continue shooting\n" +
-                               "90% chance to not consume ammo");
+                "Over time the bolts are replaced with powerful lasers\n" +
+                "Bolts power up into solid beams as you continue shooting\n" +
+                "90% chance to not consume ammo");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 119;
-            item.ranged = true;
-            item.width = 44;
-            item.height = 58;
-            item.useTime = item.useAnimation = 3;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 2f;
-            item.value = CalamityGlobalItem.RarityVioletBuyPrice;
-            item.rare = 10;
-            item.UseSound = SoundID.Item33;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<UltimaBowProjectile>();
-            item.shootSpeed = 18f;
-            item.useAmmo = AmmoID.Arrow;
-            item.channel = true;
-            item.useTurn = false;
-            item.autoReuse = true;
-            item.noUseGraphic = true;
-            item.Calamity().customRarity = CalamityRarity.Dedicated;
+            Item.damage = 116;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 44;
+            Item.height = 58;
+            Item.useTime = Item.useAnimation = 8;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 2f;
+            Item.UseSound = SoundID.Item33;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<UltimaBowProjectile>();
+            Item.shootSpeed = 18f;
+            Item.useAmmo = AmmoID.Arrow;
+            Item.channel = true;
+            Item.useTurn = false;
+            Item.autoReuse = true;
+            Item.noUseGraphic = true;
+            Item.value = CalamityGlobalItem.Rarity14BuyPrice;
+            Item.rare = ModContent.RarityType<DarkBlue>();
+            Item.Calamity().donorItem = true;
+            Item.Calamity().canFirePointBlankShots = true;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            Projectile.NewProjectile(position, new Vector2(speedX, speedY).SafeNormalize(Vector2.UnitX * player.direction), ModContent.ProjectileType<UltimaBowProjectile>(), 0, 0f, player.whoAmI);
+            Projectile.NewProjectile(source, position, velocity.SafeNormalize(Vector2.UnitX * player.direction), ModContent.ProjectileType<UltimaBowProjectile>(), 0, 0f, player.whoAmI);
             return false;
         }
 
-        public override bool ConsumeAmmo(Player player) => Main.rand.Next(0, 100) >= 90;
+        public override bool CanConsumeAmmo(Item ammo, Player player) => Main.rand.Next(0, 100) >= 90;
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.PulseBow);
-            recipe.AddIngredient(ItemID.LaserRifle);
-            recipe.AddIngredient(ModContent.ItemType<TheStorm>());
-            recipe.AddIngredient(ModContent.ItemType<AstralRepeater>());
-            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<ExodiumClusterOre>(), 15);
-            recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 15);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient(ItemID.PulseBow).
+                AddIngredient(ItemID.LaserRifle).
+                AddIngredient<TheStorm>().
+                AddIngredient<AstralRepeater>().
+                AddIngredient<ExodiumCluster>(15).
+                AddIngredient<CosmiliteBar>(8).
+                AddIngredient<DarksunFragment>(8).
+                AddTile<CosmicAnvil>().
+                Register();
         }
     }
 }

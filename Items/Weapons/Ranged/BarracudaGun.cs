@@ -1,3 +1,4 @@
+﻿using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Projectiles.Ranged;
@@ -14,26 +15,27 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             DisplayName.SetDefault("Barracuda Gun");
             Tooltip.SetDefault("Fires two barracudas that latch onto enemies");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 63;
-            item.channel = true;
-            item.ranged = true;
-            item.width = 54;
-            item.height = 28;
-            item.useTime = 20;
-            item.useAnimation = 20;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 1f;
-            item.value = Item.buyPrice(0, 80, 0, 0);
-            item.rare = 8;
-            item.UseSound = SoundID.Item10;
-            item.autoReuse = true;
-            item.shootSpeed = 15f;
-            item.shoot = ModContent.ProjectileType<MechanicalBarracuda>();
+            Item.damage = 63;
+            Item.channel = true;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 54;
+            Item.height = 28;
+            Item.useTime = 20;
+            Item.useAnimation = 20;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 1f;
+            Item.value = CalamityGlobalItem.Rarity9BuyPrice;
+            Item.rare = ItemRarityID.Yellow;
+            Item.UseSound = SoundID.Item10;
+            Item.autoReuse = true;
+            Item.shootSpeed = 15f;
+            Item.shoot = ModContent.ProjectileType<MechanicalBarracuda>();
         }
 
         public override Vector2? HoldoutOffset()
@@ -41,28 +43,28 @@ namespace CalamityMod.Items.Weapons.Ranged
             return new Vector2(-10, 0);
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            for (int index = 0; index < 2; ++index)
+            int numProj = 2;
+            float rotation = MathHelper.ToRadians(3);
+            for (int i = 0; i < numProj; i++)
             {
-                float SpeedX = speedX + (float)Main.rand.Next(-10, 11) * 0.05f;
-                float SpeedY = speedY + (float)Main.rand.Next(-10, 11) * 0.05f;
-                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
+                Vector2 perturbedSpeed = velocity.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (float)(numProj - 1)));
+                Projectile.NewProjectile(source, position, perturbedSpeed, type, damage, knockback, player.whoAmI);
             }
             return false;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.PiranhaGun);
-            recipe.AddIngredient(ModContent.ItemType<CoreofCalamity>(), 2);
-            recipe.AddIngredient(ModContent.ItemType<BarofLife>());
-            recipe.AddIngredient(ModContent.ItemType<Tenebris>(), 5);
-            recipe.AddIngredient(ItemID.SharkFin, 2);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient(ItemID.PiranhaGun).
+                AddIngredient<CoreofCalamity>(2).
+                AddIngredient<LifeAlloy>().
+                AddIngredient<Tenebris>(5).
+                AddIngredient(ItemID.SharkFin, 2).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

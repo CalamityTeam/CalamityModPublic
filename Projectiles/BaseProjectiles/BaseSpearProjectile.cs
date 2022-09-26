@@ -25,113 +25,110 @@ namespace CalamityMod.Projectiles.BaseProjectiles
                 // ai[0] = Speed value of the spear. Changes as time goes by.
                 // localAI[0] = Special effect 0-1 flag value. Actived right before the spear goes backward.
 
-                Player player = Main.player[projectile.owner];
+                Player player = Main.player[Projectile.owner];
 
                 // Adjust owner stats based on this projectile
-                player.direction = projectile.direction;
-                player.heldProj = projectile.whoAmI;
+                player.direction = Projectile.direction;
+                player.heldProj = Projectile.whoAmI;
                 player.itemTime = player.itemAnimation;
 
                 // Stick to the player
-                projectile.position = player.Center - projectile.Size / 2f;
+                Projectile.position = player.Center - Projectile.Size / 2f;
 
                 // And move outward/inward based on the speed variable.
-                projectile.position += projectile.velocity * projectile.ai[0];
+                Projectile.position += Projectile.velocity * Projectile.ai[0];
 
                 // If we're not movement, start.
-                if (projectile.ai[0] == 0f)
+                if (Projectile.ai[0] == 0f)
                 {
-                    projectile.ai[0] = InitialSpeed;
-                    projectile.netUpdate = true;
+                    Projectile.ai[0] = InitialSpeed;
+                    Projectile.netUpdate = true;
                 }
                 // Reel back
                 if (player.itemAnimation < player.itemAnimationMax / 3)
                 {
-                    projectile.ai[0] -= ReelbackSpeed;
+                    Projectile.ai[0] -= ReelbackSpeed;
 
                     // If we haven't done the special effect yet (assuming there is one), do it.
                     // Note : Null Coalescing does not work in this case because we are invoking a method, not setting a value.
-                    if (projectile.localAI[0] == 0f && EffectBeforeReelback != null && Main.myPlayer == projectile.owner)
+                    if (Projectile.localAI[0] == 0f && EffectBeforeReelback != null && Main.myPlayer == Projectile.owner)
                     {
-                        projectile.localAI[0] = 1f;
-                        EffectBeforeReelback.Invoke(projectile);
+                        Projectile.localAI[0] = 1f;
+                        EffectBeforeReelback.Invoke(Projectile);
                     }
                 }
                 // Move forward
                 else
                 {
-                    projectile.ai[0] += ForwardSpeed;
+                    Projectile.ai[0] += ForwardSpeed;
                 }
 
                 // If at the end of the animation, kill the projectile.
                 if (player.itemAnimation == 0)
-                    projectile.Kill();
+                    Projectile.Kill();
 
-                projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2 + MathHelper.PiOver4;
-                if (projectile.spriteDirection == -1)
-                    projectile.rotation -= MathHelper.PiOver2;
+                Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2 + MathHelper.PiOver4;
+                if (Projectile.spriteDirection == -1)
+                    Projectile.rotation -= MathHelper.PiOver2;
             }
             else if (SpearAiType == SpearType.GhastlyGlaiveSpear)
             {
-                Player player = Main.player[projectile.owner];
+                Player player = Main.player[Projectile.owner];
 
                 Vector2 playerRelativePoint = player.RotatedRelativePoint(player.MountedCenter, true);
 
-                projectile.direction = player.direction;
-                player.heldProj = projectile.whoAmI;
-                projectile.Center = playerRelativePoint;
+                Projectile.direction = player.direction;
+                player.heldProj = Projectile.whoAmI;
+                Projectile.Center = playerRelativePoint;
                 if (player.dead)
                 {
-                    projectile.Kill();
+                    Projectile.Kill();
                     return;
                 }
                 // If the player isn't stuck, be it from the stoned or frozen debuff, do the usual AI
                 if (!player.frozen)
                 {
                     // Pretty much the same as regular spears.
-                    if (Main.player[projectile.owner].itemAnimation < Main.player[projectile.owner].itemAnimationMax / 3)
+                    if (Main.player[Projectile.owner].itemAnimation < Main.player[Projectile.owner].itemAnimationMax / 3)
                     {
-                        if (projectile.localAI[0] == 0f && EffectBeforeReelback != null && Main.myPlayer == projectile.owner)
+                        if (Projectile.localAI[0] == 0f && EffectBeforeReelback != null && Main.myPlayer == Projectile.owner)
                         {
-                            projectile.localAI[0] = 1f;
-                            EffectBeforeReelback.Invoke(projectile);
+                            Projectile.localAI[0] = 1f;
+                            EffectBeforeReelback.Invoke(Projectile);
                         }
                     }
-                    projectile.spriteDirection = projectile.direction = player.direction;
+                    Projectile.spriteDirection = Projectile.direction = player.direction;
                     // Decrement alpha if it's greater than zero. A 255 starting alpha is
                     // not required, this is just a solution for relevant edge-cases.
-                    if (projectile.alpha > 0)
+                    if (Projectile.alpha > 0)
                     {
-                        projectile.alpha -= 127;
-                        if (projectile.alpha < 0)
-                            projectile.alpha = 0;
+                        Projectile.alpha -= 127;
+                        if (Projectile.alpha < 0)
+                            Projectile.alpha = 0;
                     }
-                    if (projectile.localAI[0] > 0f)
+                    if (Projectile.localAI[0] > 0f)
                     {
-                        projectile.localAI[0] -= 1f;
+                        Projectile.localAI[0] -= 1f;
                     }
                     float inverseAnimationCompletion = 1f - (player.itemAnimation / (float)player.itemAnimationMax);
-                    float originalVelocityDirection = projectile.velocity.ToRotation();
-                    float originalVelocitySpeed = projectile.velocity.Length();
+                    float originalVelocityDirection = Projectile.velocity.ToRotation();
+                    float originalVelocitySpeed = Projectile.velocity.Length();
 
                     // The motion moves in an imaginary circle, but the cane does not because it relies on
                     // its ai[0] X multiplier, giving it the "swiping" motion.
-                    Vector2 flatVelocity = Vector2.UnitX.RotatedBy(MathHelper.Pi + inverseAnimationCompletion * MathHelper.TwoPi) * 
-                        new Vector2(originalVelocitySpeed, projectile.ai[0]);
+                    Vector2 flatVelocity = Vector2.UnitX.RotatedBy(MathHelper.Pi + inverseAnimationCompletion * MathHelper.TwoPi) *
+                        new Vector2(originalVelocitySpeed, Projectile.ai[0]);
 
-                    projectile.position += flatVelocity.RotatedBy(originalVelocityDirection) + 
+                    Projectile.position += flatVelocity.RotatedBy(originalVelocityDirection) +
                         new Vector2(originalVelocitySpeed + TravelSpeed, 0f).RotatedBy(originalVelocityDirection);
 
                     // Determine how to rotate. The larger the 40 value is, the more rapidly the projectile rotates.
-                    Vector2 destination = playerRelativePoint + flatVelocity.RotatedBy(originalVelocityDirection) +
-                        new Vector2(originalVelocitySpeed + TravelSpeed + 40f, 0f).RotatedBy(originalVelocityDirection);
-                    projectile.rotation = player.AngleTo(destination) + MathHelper.PiOver4 * player.direction; //or this
+                    Vector2 destination = playerRelativePoint + flatVelocity.RotatedBy(originalVelocityDirection) + originalVelocityDirection.ToRotationVector2() * (originalVelocitySpeed + TravelSpeed + 40f);
+                    Projectile.rotation = player.AngleTo(destination) + MathHelper.PiOver4 * player.direction; //or this
 
                     // Rotate 180 degrees if facing to the right
-                    if (projectile.spriteDirection == -1)
-                        projectile.rotation += MathHelper.Pi;
-
-                    player.DirectionTo(projectile.Center);
+                    if (Projectile.spriteDirection == -1)
+                        Projectile.rotation += MathHelper.Pi;
                 }
 
                 // Kill the hook if the player's item use cycle is almost over and reset the reuseDelay
@@ -139,7 +136,7 @@ namespace CalamityMod.Projectiles.BaseProjectiles
                 // decremented by the useTime. On reset it reverts to useAnimation - 1
                 if (player.itemAnimation == 2)
                 {
-                    projectile.Kill();
+                    Projectile.Kill();
                     player.reuseDelay = 2;
                 }
             }
@@ -151,7 +148,7 @@ namespace CalamityMod.Projectiles.BaseProjectiles
         public override void AI()
         {
             Behavior();
-            if ((SpearAiType == SpearType.GhastlyGlaiveSpear && !Main.player[projectile.owner].frozen) || 
+            if ((SpearAiType == SpearType.GhastlyGlaiveSpear && !Main.player[Projectile.owner].frozen) ||
                 SpearAiType == SpearType.TypicalSpear)
             {
                 ExtraBehavior();

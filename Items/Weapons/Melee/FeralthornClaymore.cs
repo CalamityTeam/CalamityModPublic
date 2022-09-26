@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -13,66 +13,62 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             DisplayName.SetDefault("Feralthorn Claymore");
             Tooltip.SetDefault("Summons thorns on enemy hits");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.width = 68;
-            item.damage = 63;
-            item.melee = true;
-            item.useAnimation = 13;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 13;
-            item.useTurn = true;
-            item.knockBack = 7.25f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 66;
-            item.value = Item.buyPrice(0, 60, 0, 0);
-            item.rare = 7;
-        }
-
-        public override void AddRecipes()
-        {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<DraedonBar>(), 12);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            Item.width = 68;
+            Item.damage = 80;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = 13;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 13;
+            Item.useTurn = true;
+            Item.knockBack = 7.25f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.height = 66;
+            Item.value = CalamityGlobalItem.Rarity8BuyPrice;
+            Item.rare = ItemRarityID.Lime;
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
             if (Main.rand.NextBool(4))
-            {
-                int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 44);
-            }
+                Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 44);
         }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(BuffID.Venom, 300);
-            for (int x = 0; x < 2; x++)
-            {
-                Projectile.NewProjectile(player.position.X + 40f + (float)Main.rand.Next(0, 151), player.position.Y + 36f, 0f, -18f, ModContent.ProjectileType<ThornBase>(), (int)(item.damage * player.MeleeDamage() * 0.2), 0f, Main.myPlayer, 0f, 0f);
-            }
-            for (int x = 0; x < 2; x++)
-            {
-                Projectile.NewProjectile(player.position.X - 40f + (float)Main.rand.Next(-150, 1), player.position.Y + 36f, 0f, -18f, ModContent.ProjectileType<ThornBase>(), (int)(item.damage * player.MeleeDamage() * 0.2), 0f, Main.myPlayer, 0f, 0f);
-            }
+
+            var source = player.GetSource_ItemUse(Item);
+            if (crit)
+                damage /= 2;
+
+            Projectile.NewProjectile(source, player.position.X + 40f + Main.rand.Next(0, 151), player.position.Y + 36f, 0f, -18f, ModContent.ProjectileType<ThornBase>(), (int)(damage * 0.25), 0f, Main.myPlayer);
+            Projectile.NewProjectile(source, player.position.X - 40f + Main.rand.Next(-150, 1), player.position.Y + 36f, 0f, -18f, ModContent.ProjectileType<ThornBase>(), (int)(damage * 0.25), 0f, Main.myPlayer);
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
             target.AddBuff(BuffID.Venom, 300);
-            for (int x = 0; x < 2; x++)
-            {
-                Projectile.NewProjectile(player.position.X + 40f + (float)Main.rand.Next(0, 151), player.position.Y + 36f, 0f, -18f, ModContent.ProjectileType<ThornBase>(), (int)(item.damage * player.MeleeDamage() * 0.2), 0f, Main.myPlayer, 0f, 0f);
-            }
-            for (int x = 0; x < 2; x++)
-            {
-                Projectile.NewProjectile(player.position.X - 40f + (float)Main.rand.Next(-150, 1), player.position.Y + 36f, 0f, -18f, ModContent.ProjectileType<ThornBase>(), (int)(item.damage * player.MeleeDamage() * 0.2), 0f, Main.myPlayer, 0f, 0f);
-            }
+
+            var source = player.GetSource_ItemUse(Item);
+            if (crit)
+                damage /= 2;
+
+            Projectile.NewProjectile(source, player.position.X + 40f + Main.rand.Next(0, 151), player.position.Y + 36f, 0f, -18f, ModContent.ProjectileType<ThornBase>(), (int)(damage * 0.25), 0f, Main.myPlayer);
+            Projectile.NewProjectile(source, player.position.X - 40f + Main.rand.Next(-150, 1), player.position.Y + 36f, 0f, -18f, ModContent.ProjectileType<ThornBase>(), (int)(damage * 0.25), 0f, Main.myPlayer);
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient<PerennialBar>(12).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

@@ -1,3 +1,4 @@
+﻿using Terraria.DataStructures;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
@@ -13,27 +14,29 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             DisplayName.SetDefault("Magna Striker");
             Tooltip.SetDefault("Fires a string of opal and magna strikes");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 35;
-            item.ranged = true;
-            item.width = 60;
-            item.height = 22;
-            item.useTime = 5;
-            item.reuseDelay = 6;
-            item.useAnimation = 20;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 2.25f;
-            item.value = Item.buyPrice(0, 80, 0, 0);
-            item.rare = 8;
-            item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/OpalStrike");
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<OpalStrike>();
-            item.shootSpeed = 15f;
-            item.useAmmo = 97;
+            Item.damage = 35;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 72;
+            Item.height = 38;
+            Item.useTime = 5;
+            Item.reuseDelay = 6;
+            Item.useAnimation = 20;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 2.25f;
+            Item.value = CalamityGlobalItem.Rarity9BuyPrice;
+            Item.rare = ItemRarityID.Yellow;
+            Item.UseSound = OpalStriker.FireSound;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<OpalStrike>();
+            Item.shootSpeed = 15f;
+            Item.useAmmo = AmmoID.Bullet;
+            Item.Calamity().canFirePointBlankShots = true;
         }
 
         public override Vector2? HoldoutOffset()
@@ -41,30 +44,29 @@ namespace CalamityMod.Items.Weapons.Ranged
             return new Vector2(-5, 0);
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             int randomProj = Main.rand.Next(2);
             if (randomProj == 0)
             {
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<OpalStrike>(), (int)(damage * 0.75), knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<OpalStrike>(), (int)(damage * 0.75), knockback, player.whoAmI, 0f, 0f);
             }
             else
             {
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<MagnaStrike>(), damage, knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<MagnaStrike>(), damage, knockback, player.whoAmI, 0f, 0f);
             }
             return false;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<OpalStriker>());
-            recipe.AddIngredient(ModContent.ItemType<MagnaCannon>());
-            recipe.AddRecipeGroup("AnyAdamantiteBar", 6);
-            recipe.AddIngredient(ItemID.Ectoplasm, 5);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient<OpalStriker>().
+                AddIngredient<MagnaCannon>().
+                AddRecipeGroup("AnyAdamantiteBar", 6).
+                AddIngredient(ItemID.Ectoplasm, 5).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

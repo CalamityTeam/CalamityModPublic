@@ -1,30 +1,32 @@
-using CalamityMod.Buffs.Summon;
+﻿using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using CalamityMod.Projectiles.Summon;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
+
 namespace CalamityMod.Items.Accessories
 {
     public class RoseStone : ModItem
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Rose Stone");
             Tooltip.SetDefault("One of the ancient relics\n" +
-               "Increases max life by 20, life regen by 1, and all damage by 3%\n" +
                "Summons a brimstone elemental to fight for you");
         }
 
         public override void SetDefaults()
         {
-            item.width = 20;
-            item.height = 20;
-            item.value = CalamityGlobalItem.Rarity5BuyPrice;
-            item.rare = 5;
-            item.accessory = true;
+            Item.width = 20;
+            Item.height = 20;
+            Item.value = CalamityGlobalItem.Rarity5BuyPrice;
+            Item.rare = ItemRarityID.Pink;
+            Item.accessory = true;
         }
 
-        public override bool CanEquipAccessory(Player player, int slot)
+        public override bool CanEquipAccessory(Player player, int slot, bool modded)
         {
             CalamityPlayer modPlayer = player.Calamity();
             if (modPlayer.elementalHeart)
@@ -36,21 +38,21 @@ namespace CalamityMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            Lighting.AddLight((int)player.Center.X / 16, (int)player.Center.Y / 16, 0.6f, 0f, 0.25f);
-            player.lifeRegen += 1;
-            player.statLifeMax2 += 20;
-            player.allDamage += 0.03f;
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.brimstoneWaifu = true;
             if (player.whoAmI == Main.myPlayer)
             {
+                var source = player.GetSource_Accessory(Item);
                 if (player.FindBuffIndex(ModContent.BuffType<BrimstoneWaifu>()) == -1)
                 {
                     player.AddBuff(ModContent.BuffType<BrimstoneWaifu>(), 3600, true);
                 }
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<BrimstoneElementalMinion>()] < 1)
                 {
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<BrimstoneElementalMinion>(), (int)(45 * player.MinionDamage()), 2f, Main.myPlayer, 0f, 0f);
+                    int damage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(60);
+                    int p = Projectile.NewProjectile(source, player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<BrimstoneElementalMinion>(), damage, 2f, Main.myPlayer, 0f, 0f);
+                    if (Main.projectile.IndexInRange(p))
+                        Main.projectile[p].originalDamage = 60;
                 }
             }
         }

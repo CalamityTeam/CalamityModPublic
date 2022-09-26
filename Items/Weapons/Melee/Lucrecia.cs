@@ -1,10 +1,11 @@
+﻿using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.Projectiles.Melee.Shortswords;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -15,86 +16,42 @@ namespace CalamityMod.Items.Weapons.Melee
             DisplayName.SetDefault("Lucrecia");
             Tooltip.SetDefault("Finesse\n" +
                 "Striking an enemy makes you immune for a short time\n" +
-                "Using this weapon drains your life\n" +
-                "Fires a DNA chain");
+                "Fires a DNA chain\n" +
+                "Receives 33% benefit from melee speed bonuses");
+            SacrificeTotal = 1;
+            ItemID.Sets.BonusAttackSpeedMultiplier[Item.type] = 0.33f;
         }
 
         public override void SetDefaults()
         {
-            item.useStyle = ItemUseStyleID.Stabbing;
-            item.useTurn = false;
-            item.useAnimation = 25;
-            item.useTime = 25;
-            item.width = 58;
-            item.height = 58;
-            item.damage = 90;
-            item.melee = true;
-            item.knockBack = 8.25f;
-            item.UseSound = SoundID.Item1;
-            item.useTurn = true;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<DNA>();
-            item.shootSpeed = 32f;
-            item.value = Item.buyPrice(0, 80, 0, 0);
-            item.rare = 8;
-        }
-
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-        {
-            player.statLife -= 5;
-            if (player.lifeRegen > 0)
-            {
-                player.lifeRegen = 0;
-            }
-            player.lifeRegenTime = 0;
-            if (Main.myPlayer == player.whoAmI)
-            {
-                player.HealEffect(-5, true);
-            }
-            if (player.statLife <= 0)
-            {
-                player.KillMe(PlayerDeathReason.ByCustomReason(player.name + "'s DNA was destroyed."), 1000.0, 0, false);
-            }
-            Projectile.NewProjectile(position.X, position.Y, item.shootSpeed * player.direction, 0f, type, damage, knockBack, player.whoAmI, 0f, 0f);
-            return false;
+            Item.useStyle = ItemUseStyleID.Rapier;
+            Item.DamageType = TrueMeleeDamageClass.Instance;
+            Item.useTurn = false;
+            Item.useAnimation = 25;
+            Item.useTime = 25;
+            Item.width = 58;
+            Item.height = 58;
+            Item.damage = 90;
+            Item.knockBack = 8.25f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.noUseGraphic = true;
+            Item.noMelee = true;
+            Item.shoot = ModContent.ProjectileType<LucreciaProj>();
+            Item.shootSpeed = 2f;
+            Item.value = CalamityGlobalItem.Rarity9BuyPrice;
+            Item.rare = ItemRarityID.Yellow;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<CoreofCalamity>());
-            recipe.AddIngredient(ModContent.ItemType<BarofLife>(), 5);
-            recipe.AddIngredient(ItemID.SoulofLight, 5);
-            recipe.AddIngredient(ItemID.SoulofNight, 5);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-        }
-
-        public override void MeleeEffects(Player player, Rectangle hitbox)
-        {
-            if (Main.rand.NextBool(5))
-            {
-                int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 234);
-            }
-        }
-
-        public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
-        {
-            if (!player.immune)
-            {
-                player.immune = true;
-                player.immuneTime = 5;
-            }
-        }
-
-        public override void OnHitPvp(Player player, Player target, int damage, bool crit)
-        {
-            if (!player.immune)
-            {
-                player.immune = true;
-                player.immuneTime = 5;
-            }
+            CreateRecipe().
+                AddIngredient<CoreofCalamity>().
+                AddIngredient<LifeAlloy>(5).
+                AddIngredient(ItemID.SoulofLight, 5).
+                AddIngredient(ItemID.SoulofNight, 5).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

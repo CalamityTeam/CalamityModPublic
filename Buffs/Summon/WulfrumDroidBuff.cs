@@ -7,12 +7,13 @@ namespace CalamityMod.Buffs.Summon
 {
     public class WulfrumDroidBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Wulfrum Droid");
             Description.SetDefault("The wulfrum droid will protect you");
             Main.buffNoTimeDisplay[Type] = true;
             Main.buffNoSave[Type] = true;
+            //Main.persistentBuff[Type] = true;
         }
 
         public override void Update(Player player, ref int buffIndex)

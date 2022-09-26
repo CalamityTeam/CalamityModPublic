@@ -3,6 +3,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Melee
 {
@@ -15,47 +16,47 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetDefaults()
         {
-            projectile.width = 20;
-            projectile.height = 20;
-            projectile.friendly = true;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 120;
-            projectile.alpha = 255;
-            projectile.melee = true;
+            Projectile.width = 20;
+            Projectile.height = 20;
+            Projectile.friendly = true;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = 120;
+            Projectile.alpha = 255;
+            Projectile.DamageType = DamageClass.Melee;
         }
 
         public override void AI()
         {
-            Lighting.AddLight(projectile.Center, 0.25f, 0.25f, 0f);
-            projectile.rotation += 1f;
-            projectile.alpha -= 25;
-            if (projectile.alpha < 0)
+            Lighting.AddLight(Projectile.Center, 0.25f, 0.25f, 0f);
+            Projectile.rotation += 1f;
+            Projectile.alpha -= 25;
+            if (Projectile.alpha < 0)
             {
-                projectile.alpha = 0;
+                Projectile.alpha = 0;
             }
-            if (projectile.localAI[0] == 0f)
+            if (Projectile.localAI[0] == 0f)
             {
-                Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 73);
-                projectile.localAI[0] += 1f;
+                SoundEngine.PlaySound(SoundID.Item73, Projectile.position);
+                Projectile.localAI[0] += 1f;
             }
-            int num458 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 246, 0f, 0f, 100, new Color(255, Main.DiscoG, 53), 0.8f);
+            int num458 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 246, 0f, 0f, 100, new Color(255, Main.DiscoG, 53), 0.8f);
             Main.dust[num458].noGravity = true;
             Main.dust[num458].velocity *= 0.5f;
-            Main.dust[num458].velocity += projectile.velocity * 0.1f;
+            Main.dust[num458].velocity += Projectile.velocity * 0.1f;
         }
 
         public override void Kill(int timeLeft)
         {
-            projectile.position = projectile.Center;
-            projectile.width = projectile.height = 64;
-            projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-            projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
-            projectile.maxPenetrate = -1;
-            projectile.penetrate = -1;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
-            projectile.Damage();
-            Main.PlaySound(SoundID.Item20, projectile.Center);
+            Projectile.position = Projectile.Center;
+            Projectile.width = Projectile.height = 64;
+            Projectile.position.X = Projectile.position.X - (float)(Projectile.width / 2);
+            Projectile.position.Y = Projectile.position.Y - (float)(Projectile.height / 2);
+            Projectile.maxPenetrate = -1;
+            Projectile.penetrate = -1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
+            Projectile.Damage();
+            SoundEngine.PlaySound(SoundID.Item20, Projectile.Center);
             for (int d = 0; d <= 30; d++)
             {
                 float num463 = (float)Main.rand.Next(-10, 11);
@@ -65,23 +66,23 @@ namespace CalamityMod.Projectiles.Melee
                 num466 = speed / num466;
                 num463 *= num466;
                 num464 *= num466;
-                int num467 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 246, 0f, 0f, 100, new Color(255, Main.DiscoG, 53), 1.2f);
+                int num467 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 246, 0f, 0f, 100, new Color(255, Main.DiscoG, 53), 1.2f);
                 Dust dust = Main.dust[num467];
                 dust.noGravity = true;
-                dust.position.X = projectile.Center.X;
-                dust.position.Y = projectile.Center.Y;
+                dust.position.X = Projectile.Center.X;
+                dust.position.Y = Projectile.Center.Y;
                 dust.position.X += (float)Main.rand.Next(-10, 11);
                 dust.position.Y += (float)Main.rand.Next(-10, 11);
                 dust.velocity.X = num463;
                 dust.velocity.Y = num464;
             }
             int flameAmt = Main.rand.Next(2, 4);
-            if (projectile.owner == Main.myPlayer)
+            if (Projectile.owner == Main.myPlayer)
             {
                 for (int i = 0; i < flameAmt; i++)
                 {
-					Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
-                    Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<AegisFlame>(), (int)(projectile.damage * 0.75), 0f, projectile.owner, 0f, 0f);
+                    Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<AegisFlame>(), (int)(Projectile.damage * 0.75), 0f, Projectile.owner, 0f, 0f);
                 }
             }
         }

@@ -1,3 +1,4 @@
+﻿using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
@@ -13,40 +14,44 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             DisplayName.SetDefault("Crystal Piercer");
             Tooltip.SetDefault("Throws a crystal javelin that pierces infinitely\n" +
-			"Stealth strikes travel through blocks, ignore gravity, and summon crystal shards as they fly");
+            "Stealth strikes travel through blocks, ignore gravity, and summon crystal shards as they fly");
+            SacrificeTotal = 99;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
-            item.width = 62;
-            item.damage = 52;
-            item.noMelee = true;
-            item.consumable = true;
-            item.noUseGraphic = true;
-            item.useAnimation = 17;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 17;
-            item.knockBack = 6f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 62;
-            item.maxStack = 999;
-            item.value = 2500;
-            item.rare = 5;
-            item.shoot = ModContent.ProjectileType<CrystalPiercerProjectile>();
-            item.shootSpeed = 20f;
-            item.Calamity().rogue = true;
+            Item.width = 62;
+            Item.damage = 52;
+            Item.noMelee = true;
+            Item.consumable = true;
+            Item.noUseGraphic = true;
+            Item.useAnimation = 17;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 17;
+            Item.knockBack = 6f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.height = 62;
+            Item.maxStack = 999;
+            Item.value = 2500;
+            Item.rare = ItemRarityID.Pink;
+            Item.shoot = ModContent.ProjectileType<CrystalPiercerProjectile>();
+            Item.shootSpeed = 20f;
+            Item.DamageType = RogueDamageClass.Instance;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.Calamity().StealthStrikeAvailable()) //setting the stealth strike
             {
-                int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, 0f, 0f);
-                Main.projectile[stealth].Calamity().stealthStrike = true;
-                Main.projectile[stealth].aiStyle = -1;
-                Main.projectile[stealth].tileCollide = false;
-                Main.projectile[stealth].usesLocalNPCImmunity = true;
+                int stealth = Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
+                if (stealth.WithinBounds(Main.maxProjectiles))
+                {
+                    Main.projectile[stealth].Calamity().stealthStrike = true;
+                    Main.projectile[stealth].aiStyle = -1;
+                    Main.projectile[stealth].tileCollide = false;
+                    Main.projectile[stealth].usesLocalNPCImmunity = true;
+                }
                 return false;
             }
             return true;
@@ -54,11 +59,10 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<VerstaltiteBar>());
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this, 20);
-            recipe.AddRecipe();
+            CreateRecipe(100).
+                AddIngredient<CryonicBar>().
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

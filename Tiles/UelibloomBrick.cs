@@ -1,10 +1,10 @@
-
-using CalamityMod.Dusts.Furniture;
+﻿using CalamityMod.Dusts.Furniture;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.DataStructures;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles
 {
@@ -13,7 +13,7 @@ namespace CalamityMod.Tiles
         private int extraFrameHeight = 36;
         private int extraFrameWidth = 90;
 
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileSolid[Type] = true;
             Main.tileMergeDirt[Type] = false;
@@ -22,9 +22,9 @@ namespace CalamityMod.Tiles
             CalamityUtils.MergeWithGeneral(Type);
             CalamityUtils.MergeDecorativeTiles(Type);
 
-            soundType = SoundID.Tink;
-            minPick = 200;
-            drop = ModContent.ItemType<Items.Placeables.UelibloomBrick>();
+            MineResist = 2f;
+            HitSound = SoundID.Tink;
+            ItemDrop = ModContent.ItemType<Items.Placeables.UelibloomBrick>();
             AddMapEntry(new Color(174, 108, 46));
         }
 
@@ -35,21 +35,17 @@ namespace CalamityMod.Tiles
             return false;
         }
 
-        public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
+        public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref TileDrawInfo drawData)
         {
-            if ((Main.tile[i - 1, j - 1].type != Type || Main.tile[i, j - 1].type != Type || Main.tile[i + 1, j - 1].type != Type ||
-                Main.tile[i - 1, j - 2].type != Type || Main.tile[i, j - 2].type != Type || Main.tile[i + 1, j - 2].type != Type) && 
-                nextSpecialDrawIndex < Main.specX.Length)
+            if (Main.tile[i - 1, j - 1].TileType != Type || Main.tile[i, j - 1].TileType != Type || Main.tile[i + 1, j - 1].TileType != Type ||
+                Main.tile[i - 1, j - 2].TileType != Type || Main.tile[i, j - 2].TileType != Type || Main.tile[i + 1, j - 2].TileType != Type)
             {
-                Main.specX[nextSpecialDrawIndex] = i;
-                Main.specY[nextSpecialDrawIndex] = j;
-                nextSpecialDrawIndex++;
+                try
+                {
+                    Main.instance.TilesRenderer.AddSpecialLegacyPoint(i, j);
+                }
+                catch {}
             }
-        }
-
-        public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
-        {
-            return TileFraming.BrimstoneFraming(i, j, resetFrame);
         }
 
         public override void SpecialDraw(int i, int j, SpriteBatch spriteBatch)
@@ -57,11 +53,16 @@ namespace CalamityMod.Tiles
             Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
             Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + zero;
             Color drawColour = GetDrawColour(i, j);
-            Texture2D leaves = ModContent.GetTexture("CalamityMod/Tiles/UelibloomBrick_Leaves");
+            Texture2D leaves = ModContent.Request<Texture2D>("CalamityMod/Tiles/UelibloomBrick_Leaves").Value;
 
             DrawExtraTop(i, j, leaves, drawOffset, drawColour);
             DrawExtraWallEnds(i, j, leaves, drawOffset, drawColour);
             DrawExtraDrapes(i, j, leaves, drawOffset, drawColour);
+        }
+
+        public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
+        {
+            return TileFraming.BrimstoneFraming(i, j, resetFrame);
         }
 
         #region 'Extra Drapes' Drawing
@@ -183,12 +184,12 @@ namespace CalamityMod.Tiles
         private bool CheckTile(int type, bool equal, int x, int y, int i, int j)
         {
             //Subtract y so that y is vertical for ease of readability
-            return Main.tile[i + x, j - y].type == type == equal;
+            return Main.tile[i + x, j - y].TileType == type == equal;
         }
 
         private Color GetDrawColour(int i, int j)
         {
-            int colType = Main.tile[i, j].color();
+            int colType = Main.tile[i, j].TileColor;
             Color paintCol = WorldGen.paintColor(colType);
             if (colType < 13)
             {
@@ -234,7 +235,7 @@ namespace CalamityMod.Tiles
 
         private int GetExtraVariant(int i, int j)
         {
-            return Main.tile[i, j].frameNumber() * extraFrameWidth;
+            return Main.tile[i, j].TileFrameNumber * extraFrameWidth;
         }
 
         /*

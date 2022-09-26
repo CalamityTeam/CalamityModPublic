@@ -1,6 +1,4 @@
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -9,71 +7,79 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class FantasyTalismanStealth : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/Rogue/FantasyTalismanProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Talisman");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 3;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 3;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 10;
-            projectile.height = 10;
-            projectile.friendly = true;
-            projectile.Calamity().rogue = true;
-            projectile.ignoreWater = true;
-            projectile.aiStyle = 1;
-            aiType = ProjectileID.BulletHighVelocity;
-            projectile.penetrate = -1;
-            projectile.timeLeft = 600;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = -1;
+            Projectile.width = 10;
+            Projectile.height = 10;
+            Projectile.friendly = true;
+            Projectile.DamageType = RogueDamageClass.Instance;
+            Projectile.ignoreWater = true;
+            Projectile.aiStyle = ProjAIStyleID.Arrow;
+            AIType = ProjectileID.BulletHighVelocity;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft = 600;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = -1;
         }
 
         public override void AI()
         {
-            projectile.spriteDirection = projectile.direction = (projectile.velocity.X > 0).ToDirectionInt();
-            projectile.rotation = projectile.velocity.ToRotation() + (projectile.spriteDirection == 1 ? 0f : MathHelper.Pi);
+            Projectile.spriteDirection = Projectile.direction = (Projectile.velocity.X > 0).ToDirectionInt();
+            Projectile.rotation = Projectile.velocity.ToRotation() + (Projectile.spriteDirection == 1 ? 0f : MathHelper.Pi);
             if (Main.rand.NextBool(3))
             {
-                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 175, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 175, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
             }
-			if (projectile.ai[0] != 1f)
-			{
-				if (projectile.timeLeft % 10 == 0)
-				{
-					if (projectile.owner == Main.myPlayer)
-					{
-						Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<LostSoulFriendly>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
-					}
-				}
-			}
-            projectile.StickyProjAI(4);
-            if (projectile.ai[0] == 1f)
+            if (Projectile.ai[0] != 1f)
             {
-				if (projectile.timeLeft % 4 == 0)
-				{
-					if (Main.rand.NextBool(2))
-					{
-						int spiritDamage = projectile.damage / 2;
-						Projectile ghost = CalamityGlobalProjectile.SpawnOrb(projectile, spiritDamage, ProjectileID.SpectreWrath, 800f, 4f);
-						ghost.Calamity().forceRogue = true;
-						ghost.penetrate = 1;
-					}
-				}
+                if (Projectile.timeLeft % 10 == 0)
+                {
+                    if (Projectile.owner == Main.myPlayer)
+                    {
+                        // Use a tiny velocity to ensure that rotation works correctly.
+                        // The speed should be so low that it will make no meaningful mechanical difference.
+                        Vector2 soulVelocity = Projectile.velocity.SafeNormalize(Vector2.Zero) * 0.0001f;
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, soulVelocity, ModContent.ProjectileType<LostSoulFriendly>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
+                    }
+                }
             }
-		}
+            Projectile.StickyProjAI(4);
+            if (Projectile.ai[0] == 1f)
+            {
+                if (Projectile.timeLeft % 4 == 0)
+                {
+                    if (Main.rand.NextBool(2))
+                    {
+                        int spiritDamage = Projectile.damage / 2;
+                        Projectile ghost = CalamityUtils.SpawnOrb(Projectile, spiritDamage, ProjectileID.SpectreWrath, 800f, 4f);
+                        if (ghost.whoAmI.WithinBounds(Main.maxProjectiles))
+                        {
+                            ghost.DamageType = RogueDamageClass.Instance;
+                            ghost.penetrate = 1;
+                        }
+                    }
+                }
+            }
+        }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 2);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 2);
             return false;
         }
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            projectile.ModifyHitNPCSticky(1, true);
+            Projectile.ModifyHitNPCSticky(1, true);
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)

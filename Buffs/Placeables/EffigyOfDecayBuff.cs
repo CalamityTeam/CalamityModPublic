@@ -5,7 +5,7 @@ namespace CalamityMod.Buffs.Placeables
 {
     public class EffigyOfDecayBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Effigy of Decay");
             Description.SetDefault("The sulphuric waters empower you");
@@ -13,7 +13,6 @@ namespace CalamityMod.Buffs.Placeables
             Main.debuff[Type] = false;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = true;
-            longerExpertDebuff = false;
         }
 
         public override void Update(Player player, ref int buffIndex)

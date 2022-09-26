@@ -1,3 +1,4 @@
+﻿using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
@@ -14,40 +15,42 @@ namespace CalamityMod.Items.Weapons.Rogue
             DisplayName.SetDefault("Contaminated Bile");
             Tooltip.SetDefault("Throws a flask of sickly green, irradiated bile which explodes on collision\n" +
                                "Stealth strikes make the explosion much more violent and powerful");
+            SacrificeTotal = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
-            item.damage = 9;
-            item.width = item.height = 24;
-            item.useAnimation = item.useTime = 31;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 4.5f;
-            item.rare = 2;
-            item.value = Item.buyPrice(0, 2, 0, 0);
-            item.UseSound = SoundID.Item106;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<ContaminatedBileFlask>();
-            item.shootSpeed = 15f;
-            item.Calamity().rogue = true;
+            Item.damage = 9;
+            Item.width = Item.height = 24;
+            Item.useAnimation = Item.useTime = 31;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 4.5f;
+            Item.rare = ItemRarityID.Green;
+            Item.value = CalamityGlobalItem.Rarity2BuyPrice;
+            Item.UseSound = SoundID.Item106;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<ContaminatedBileFlask>();
+            Item.shootSpeed = 15f;
+            Item.DamageType = RogueDamageClass.Instance;
         }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            Vector2 velocity = new Vector2(speedX, speedY);
-            int p = Projectile.NewProjectile(position, velocity, type, damage, knockBack, player.whoAmI);
-            Main.projectile[p].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
+            int p = Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
+            if (p.WithinBounds(Main.maxProjectiles))
+                Main.projectile[p].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
             return false;
         }
+
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.BottledWater);
-            recipe.AddIngredient(ModContent.ItemType<SulfuricScale>(), 10);
-            recipe.AddTile(TileID.Bottles);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient(ItemID.BottledWater).
+                AddIngredient<SulphuricScale>(10).
+                AddTile(TileID.Bottles).
+                Register();
         }
     }
 }

@@ -7,20 +7,20 @@ namespace CalamityMod.Tiles.SunkenSea
 {
     public class SeaAnemone : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
-            animationFrameHeight = 36;
+            AnimationFrameHeight = 36;
             Main.tileFrameImportant[Type] = true;
             Main.tileNoAttach[Type] = true;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
             TileObjectData.addTile(Type);
-            dustType = 253;
+            DustType = 253;
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Sea Anemone");
             AddMapEntry(new Color(0, 0, 80));
-            mineResist = 2f;
+            MineResist = 2f;
 
-            base.SetDefaults();
+            base.SetStaticDefaults();
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)

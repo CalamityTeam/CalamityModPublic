@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatBuffs;
 using CalamityMod.Buffs.StatDebuffs;
 using Microsoft.Xna.Framework;
@@ -10,7 +10,7 @@ using CalamityMod.Projectiles.BaseProjectiles;
 
 namespace CalamityMod.Projectiles.Melee
 {
-	public class CosmicDischargeFlail : BaseWhipProjectile
+    public class CosmicDischargeFlail : BaseWhipProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -19,18 +19,20 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetDefaults()
         {
-            projectile.width = 16;
-            projectile.height = 16;
-            projectile.friendly = true;
-            projectile.alpha = 255;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.melee = true;
-            projectile.ignoreWater = true;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 4;
-			projectile.coldDamage = true;
+            Projectile.width = 16;
+            Projectile.height = 16;
+            Projectile.friendly = true;
+            Projectile.alpha = 255;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.DamageType = DamageClass.MeleeNoSpeed;
+            Projectile.ignoreWater = true;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 6;
+            Projectile.coldDamage = true;
+            Projectile.extraUpdates = 1;
         }
+
         public override Color SpecialDrawColor => new Color(150, 255, 255);
         public override int ExudeDustType => 67;
         public override int WhipDustType => 187;
@@ -42,23 +44,25 @@ namespace CalamityMod.Projectiles.Melee
         public override int TailStartY => 114;
         public override int TailHeight => 84;
 
-        //All of this wouldnt be here if depthLayer fucking worked, i wanna hit someone - Shucks
-        public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+        // All of this wouldnt be here if depthLayer fucking worked, i wanna hit someone - Shucks
+        // the hell you mean, depthlayer is a useless fucking variable bro - Iban 2022
+        // Not necessarily. Terraria is just made in such a way that we're forced to use sprite batch states that ignore it - Dominic 2022
+        public override void PostDraw(Color lightColor)
         {
-            Vector2 mountedCenter = Main.player[projectile.owner].MountedCenter;
-            Color colorAtCenter = Lighting.GetColor((int)(projectile.position.X + projectile.width * 0.5) / 16,
-                (int)((projectile.position.Y + projectile.height * 0.5) / 16.0));
-            if (projectile.hide && !ProjectileID.Sets.DontAttachHideToAlpha[projectile.type])
+            Vector2 mountedCenter = Main.player[Projectile.owner].MountedCenter;
+            Color colorAtCenter = Lighting.GetColor((int)(Projectile.position.X + Projectile.width * 0.5) / 16,
+                (int)((Projectile.position.Y + Projectile.height * 0.5) / 16.0));
+            if (Projectile.hide && !ProjectileID.Sets.DontAttachHideToAlpha[Projectile.type])
             {
                 colorAtCenter = Lighting.GetColor((int)mountedCenter.X / 16, (int)(mountedCenter.Y / 16f));
             }
-            Color drawColor = projectile.GetAlpha(colorAtCenter);
-            float speed = projectile.velocity.Length() + 16f - 40f * projectile.scale;
-            Vector2 normalizedVelocity = Vector2.Normalize(projectile.velocity);
+            Color drawColor = Projectile.GetAlpha(colorAtCenter);
+            float speed = Projectile.velocity.Length() + 16f - 40f * Projectile.scale;
+            Vector2 normalizedVelocity = Vector2.Normalize(Projectile.velocity);
             Rectangle type1BodyFrame = new Rectangle(0, BodyType1StartY, FlailTexture.Width, BodyType1SectionHeight);
-            Vector2 bodyDrawPosition = projectile.Center.Floor();
-            bodyDrawPosition += normalizedVelocity * projectile.scale * 33f;
-            
+            Vector2 bodyDrawPosition = Projectile.Center.Floor();
+            bodyDrawPosition += normalizedVelocity * Projectile.scale * 33f;
+
             if (speed > 0f)
             {
                 float counter = 0f;
@@ -69,16 +73,16 @@ namespace CalamityMod.Projectiles.Melee
                         type1BodyFrame.Height = (int)(speed - counter);
                     }
                     Main.spriteBatch.Draw(FlailTexture,
-                                          bodyDrawPosition - Main.screenPosition + Vector2.UnitY * Main.player[projectile.owner].gfxOffY,
+                                          bodyDrawPosition - Main.screenPosition + Vector2.UnitY * Main.player[Projectile.owner].gfxOffY,
                                           new Microsoft.Xna.Framework.Rectangle?(type1BodyFrame),
                                           drawColor,
-                                          projectile.rotation + MathHelper.Pi,
+                                          Projectile.rotation + MathHelper.Pi,
                                           new Vector2((float)(type1BodyFrame.Width / 2), 0f),
-                                          projectile.scale,
+                                          Projectile.scale,
                                           SpriteEffects.None,
                                           0.6f);
-                    counter += type1BodyFrame.Height * projectile.scale;
-                    bodyDrawPosition += normalizedVelocity * (float)type1BodyFrame.Height * projectile.scale;
+                    counter += type1BodyFrame.Height * Projectile.scale;
+                    bodyDrawPosition += normalizedVelocity * (float)type1BodyFrame.Height * Projectile.scale;
                 }
             }
         }
@@ -90,7 +94,7 @@ namespace CalamityMod.Projectiles.Melee
                 return true;
             }
             float num8 = 0f;
-            if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), projectile.Center, projectile.Center + projectile.velocity, 16f * projectile.scale, ref num8))
+            if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center, Projectile.Center + Projectile.velocity, 16f * Projectile.scale, ref num8))
             {
                 return true;
             }
@@ -99,18 +103,15 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            Player player = Main.player[projectile.owner];
-            target.AddBuff(BuffID.Frostburn, 300);
-            target.AddBuff(ModContent.BuffType<Nightwither>(), 300);
-            if (Main.rand.NextBool(3))
+            Player player = Main.player[Projectile.owner];
+            target.AddBuff(BuffID.Frostburn, 180);
+            target.AddBuff(ModContent.BuffType<Nightwither>(), 180);
+            target.AddBuff(ModContent.BuffType<GlacialState>(), 60);
+            if (Projectile.localAI[1] <= 0f && Projectile.owner == Main.myPlayer)
             {
-                target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<CosmicIceBurst>(), Projectile.damage, 10f, Projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
             }
-            if (projectile.localAI[1] <= 0f && projectile.owner == Main.myPlayer)
-            {
-                Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<CosmicIceBurst>(), projectile.damage, 10f, projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
-            }
-            projectile.localAI[1] = 4f;
+            Projectile.localAI[1] = 4f;
             player.AddBuff(ModContent.BuffType<CosmicFreeze>(), 300);
         }
     }

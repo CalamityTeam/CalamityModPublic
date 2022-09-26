@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Projectiles.Melee.Spears;
@@ -14,44 +14,49 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             DisplayName.SetDefault("Tenebreus Tides");
             Tooltip.SetDefault("Inundatio ex Laminis\n" +
-			"Shoots a water spear that pierces enemies and terrain\n" +
-			"Striking enemies summon liquid blades and spears to assault the struck foe");
+                "Shoots a water spear that pierces enemies and terrain\n" +
+                "Striking enemies summon liquid blades and spears to assault the struck foe\n" +
+                "Receives 33% benefit from melee speed bonuses");
+            SacrificeTotal = 1;
+            ItemID.Sets.BonusAttackSpeedMultiplier[Item.type] = 0.33f;
+            ItemID.Sets.Spears[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 80;
-            item.knockBack = 4.5f;
-            item.melee = true;
-            item.useAnimation = item.useTime = 14;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<TenebreusTidesProjectile>();
-            item.shootSpeed = 12f;
+            Item.damage = 80;
+            Item.knockBack = 4.5f;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = Item.useTime = 14;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<TenebreusTidesProjectile>();
+            Item.shootSpeed = 12f;
 
-            item.width = item.height = 72;
-            item.useStyle = 5;
-            item.UseSound = SoundID.Item1;
-            item.noMelee = true;
-            item.useTurn = true;
-            item.noUseGraphic = true;
-            item.value = CalamityGlobalItem.Rarity9BuyPrice;
-            item.rare = 9;
-			item.Calamity().customRarity = CalamityRarity.Dedicated;
+            Item.value = CalamityGlobalItem.Rarity9BuyPrice;
+            Item.rare = ItemRarityID.Cyan;
+            Item.Calamity().donorItem = true;
+
+            Item.width = Item.height = 68;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.UseSound = SoundID.Item1;
+            Item.noMelee = true;
+            Item.useTurn = true;
+            Item.noUseGraphic = true;
         }
 
-        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<AmidiasTrident>());
-            recipe.AddIngredient(ModContent.ItemType<Atlantis>());
-            recipe.AddIngredient(ItemID.InfluxWaver);
-            recipe.AddIngredient(ModContent.ItemType<Tenebris>(), 25);
-            recipe.AddIngredient(ModContent.ItemType<Lumenite>(), 50);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient<AmidiasTrident>().
+                AddIngredient<Atlantis>().
+                AddIngredient(ItemID.InfluxWaver).
+                AddIngredient<SeaPrism>(20).
+                AddIngredient<Tenebris>(25).
+                AddIngredient<Lumenyl>(50).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

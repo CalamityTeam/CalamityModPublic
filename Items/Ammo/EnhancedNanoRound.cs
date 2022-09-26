@@ -1,41 +1,43 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Ranged;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Items.Ammo
 {
     public class EnhancedNanoRound : ModItem
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 99;
             DisplayName.SetDefault("Enhanced Nano Round");
             Tooltip.SetDefault("Confuses enemies and releases a cloud of nanites when enemies die");
         }
 
         public override void SetDefaults()
         {
-            item.damage = 12;
-            item.ranged = true;
-            item.width = 8;
-            item.height = 8;
-            item.maxStack = 999;
-            item.consumable = true;
-            item.knockBack = 5.5f;
-            item.value = 500;
-            item.rare = 3;
-            item.shoot = ModContent.ProjectileType<EnhancedNanoRoundProj>();
-            item.shootSpeed = 8f;
-            item.ammo = 97;
+            Item.damage = 12;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 8;
+            Item.height = 8;
+            Item.maxStack = 999;
+            Item.consumable = true;
+            Item.knockBack = 5.5f;
+            Item.value = Item.sellPrice(copper: 16);
+            Item.rare = ItemRarityID.Lime;
+            Item.shoot = ModContent.ProjectileType<EnhancedNanoRoundProj>();
+            Item.shootSpeed = 8f;
+            Item.ammo = AmmoID.Bullet;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.NanoBullet, 250);
-            recipe.AddIngredient(ModContent.ItemType<EssenceofEleum>());
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this, 250);
-            recipe.AddRecipe();
+            CreateRecipe(250).
+                AddIngredient(ItemID.NanoBullet, 250).
+                AddIngredient<EssenceofEleum>().
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

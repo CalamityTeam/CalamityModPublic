@@ -1,50 +1,56 @@
-using CalamityMod.Items.Materials;
-using CalamityMod.Items.Armor;
+﻿using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.CalPlayer.Dashes;
+using CalamityMod.Items.Armor.Daedalus;
 
 namespace CalamityMod.Items.Accessories
 {
-	[AutoloadEquip(EquipType.Shield)]
-	public class OrnateShield : ModItem
+    [AutoloadEquip(EquipType.Shield)]
+    public class OrnateShield : ModItem
     {
+        public const int ShieldSlamIFrames = 12;
+
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Ornate Shield");
-            Tooltip.SetDefault("Boosted damage reduction and health while wearing the Daedalus armor");
+            Tooltip.SetDefault("8% increased damage reduction and +20 health while wearing the Daedalus armor\n" +
+                "Grants a frost dash");
         }
 
         public override void SetDefaults()
         {
-            item.width = 36;
-            item.height = 32;
-            item.value = CalamityGlobalItem.Rarity5BuyPrice;
-            item.rare = 5;
-            item.defense = 8;
-            item.accessory = true;
+            Item.width = 36;
+            Item.height = 32;
+            Item.value = CalamityGlobalItem.Rarity5BuyPrice;
+            Item.rare = ItemRarityID.Pink;
+            Item.defense = 8;
+            Item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            if ((player.armor[0].type == ModContent.ItemType<DaedalusHat>() || player.armor[0].type == ModContent.ItemType<DaedalusHeadgear>() ||
-                player.armor[0].type == ModContent.ItemType<DaedalusHelm>() || player.armor[0].type == ModContent.ItemType<DaedalusHelmet>() ||
-                player.armor[0].type == ModContent.ItemType<DaedalusVisor>()) &&
+            if ((player.armor[0].type == ModContent.ItemType<DaedalusHeadMagic>() || player.armor[0].type == ModContent.ItemType<DaedalusHeadSummon>() ||
+                player.armor[0].type == ModContent.ItemType<DaedalusHeadMelee>() || player.armor[0].type == ModContent.ItemType<DaedalusHeadRanged>() ||
+                player.armor[0].type == ModContent.ItemType<DaedalusHeadRogue>()) &&
                 player.armor[1].type == ModContent.ItemType<DaedalusBreastplate>() && player.armor[2].type == ModContent.ItemType<DaedalusLeggings>())
             {
                 player.endurance += 0.08f;
                 player.statLifeMax2 += 20;
             }
+            player.Calamity().DashID = OrnateShieldDash.ID;
+            player.dashType = 0;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<VerstaltiteBar>(), 5);
-            recipe.AddIngredient(ItemID.CrystalShard, 10);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient<CryonicBar>(5).
+                AddIngredient(ItemID.CrystalShard, 10).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

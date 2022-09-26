@@ -1,5 +1,5 @@
+﻿using Terraria.DataStructures;
 using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
 using System;
@@ -14,44 +14,46 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Swordsplosion");
-            Tooltip.SetDefault("Sword swarm");
+            Tooltip.SetDefault("Sword swarm\n" +
+                "Receives 33% benefit from melee speed bonuses");
+            SacrificeTotal = 1;
+            ItemID.Sets.BonusAttackSpeedMultiplier[Item.type] = 0.33f;
         }
 
         public override void SetDefaults()
         {
-            item.width = 84;
-            item.damage = 60;
-            item.melee = true;
-            item.useAnimation = 30;
-            item.useTime = 30;
-            item.useTurn = true;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 15f;
-            item.UseSound = SoundID.Item60;
-            item.autoReuse = true;
-            item.height = 84;
-            item.value = Item.buyPrice(1, 20, 0, 0);
-            item.rare = 10;
-            item.shoot = ModContent.ProjectileType<EonBeam>();
-            item.shootSpeed = 16f;
-            item.Calamity().customRarity = CalamityRarity.RareVariant;
+            Item.width = 88;
+            Item.damage = 48;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = 30;
+            Item.useTime = 30;
+            Item.useTurn = true;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 7f;
+            Item.UseSound = SoundID.Item60;
+            Item.autoReuse = true;
+            Item.height = 90;
+            Item.value = CalamityGlobalItem.Rarity11BuyPrice;
+            Item.rare = ItemRarityID.Purple;
+            Item.shoot = ModContent.ProjectileType<SwordsplosionBlue>();
+            Item.shootSpeed = 16f;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             switch (Main.rand.Next(4))
             {
                 case 0:
-                    type = ModContent.ProjectileType<EonBeam>();
+                    type = ModContent.ProjectileType<SwordsplosionBlue>();
                     break;
                 case 1:
-                    type = ModContent.ProjectileType<EonBeamV2>();
+                    type = ModContent.ProjectileType<SwordsplosionGreen>();
                     break;
                 case 2:
-                    type = ModContent.ProjectileType<EonBeamV3>();
+                    type = ModContent.ProjectileType<SwordsplosionPurple>();
                     break;
                 case 3:
-                    type = ModContent.ProjectileType<EonBeamV4>();
+                    type = ModContent.ProjectileType<SwordsplosionRed>();
                     break;
             }
             float num72 = Main.rand.Next(22, 30);
@@ -88,7 +90,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 num79 *= num80;
                 float speedX4 = num78 + (float)Main.rand.Next(-360, 361) * 0.02f;
                 float speedY5 = num79 + (float)Main.rand.Next(-360, 361) * 0.02f;
-                Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, type, damage, knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(source, vector2.X, vector2.Y, speedX4, speedY5, type, damage, knockback, player.whoAmI, 2f, 0f);
             }
             return false;
         }
@@ -105,18 +107,16 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<HolyFlames>(), 480);
-            target.AddBuff(ModContent.BuffType<GlacialState>(), 480);
-            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 480);
-            target.AddBuff(ModContent.BuffType<Plague>(), 480);
+            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
+            target.AddBuff(BuffID.Frostburn, 120);
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<HolyFlames>(), 480);
-            target.AddBuff(ModContent.BuffType<GlacialState>(), 480);
-            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 480);
-            target.AddBuff(ModContent.BuffType<Plague>(), 480);
+            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
+            target.AddBuff(BuffID.Frostburn, 120);
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
         }
     }
 }

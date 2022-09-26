@@ -6,7 +6,7 @@ namespace CalamityMod.Buffs.Mounts
 {
     public class GazeOfCrysthamyrBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Gaze of Crysthamyr");
             Description.SetDefault("You are riding a shadow dragon");

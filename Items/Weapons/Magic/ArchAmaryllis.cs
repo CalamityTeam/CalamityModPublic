@@ -1,4 +1,4 @@
-using CalamityMod.Projectiles.Magic;
+﻿using CalamityMod.Projectiles.Magic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -11,43 +11,38 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Arch Amaryllis");
-            Tooltip.SetDefault("Casts a beaming bolt that explodes into smaller homing bolts");
-            Item.staff[item.type] = true;
+            Tooltip.SetDefault("Casts a beaming flower that explodes into homing petals");
+            Item.staff[Item.type] = true;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 75;
-            item.magic = true;
-            item.mana = 10;
-            item.width = 66;
-            item.height = 68;
-            item.useTime = 23;
-            item.useAnimation = 23;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 7.5f;
-            item.value = Item.buyPrice(0, 95, 0, 0);
-            item.rare = 9;
-            item.UseSound = SoundID.Item109;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<BeamingBolt>();
-            item.shootSpeed = 20f;
-        }
-
-        public override Vector2? HoldoutOrigin()
-        {
-            return new Vector2(15, 15);
+            Item.damage = 75;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 10;
+            Item.width = 66;
+            Item.height = 68;
+            Item.useTime = 23;
+            Item.useAnimation = 23;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 7.5f;
+            Item.value = CalamityGlobalItem.Rarity10BuyPrice;
+            Item.rare = ItemRarityID.Red;
+            Item.UseSound = SoundID.Item109;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<BeamingBolt>();
+            Item.shootSpeed = 20f;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<GleamingMagnolia>());
-            recipe.AddIngredient(ItemID.FragmentNebula, 10);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient<GleamingMagnolia>().
+                AddIngredient(ItemID.FragmentNebula, 10).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

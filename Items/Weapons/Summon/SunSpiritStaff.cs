@@ -1,3 +1,4 @@
+﻿using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Summon;
 using Microsoft.Xna.Framework;
@@ -12,49 +13,46 @@ namespace CalamityMod.Items.Weapons.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Sun Spirit Staff");
-            Tooltip.SetDefault("Summons a solar spirit to protect you");
+            Tooltip.SetDefault("Summons a solar spirit to protect you\n" +
+                "There can only be one spirit");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 12;
-            item.mana = 10;
-            item.width = 44;
-            item.height = 42;
-            item.useTime = item.useAnimation = 35;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.noMelee = true;
-            item.knockBack = 1.15f;
-            item.value = Item.buyPrice(0, 2, 0, 0);
-            item.rare = 2;
-            item.UseSound = SoundID.Item44;
-            item.shoot = ModContent.ProjectileType<SolarPixie>();
-            item.summon = true;
+            Item.damage = 12;
+            Item.mana = 10;
+            Item.width = 44;
+            Item.height = 48;
+            Item.useTime = Item.useAnimation = 35;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.noMelee = true;
+            Item.knockBack = 1.15f;
+            Item.value = CalamityGlobalItem.Rarity1BuyPrice;
+            Item.rare = ItemRarityID.Blue;
+            Item.UseSound = SoundID.Item44;
+            Item.shoot = ModContent.ProjectileType<SolarPixie>();
+            Item.DamageType = DamageClass.Summon;
+        }
+
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;
+
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        {
+            CalamityUtils.KillShootProjectiles(true, type, player);
+            int p = Projectile.NewProjectile(source, position, Vector2.Zero, type, damage, knockback, player.whoAmI);
+            if (Main.projectile.IndexInRange(p))
+                Main.projectile[p].originalDamage = Item.damage;
+            return false;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.SandstoneBrick, 20);
-            recipe.AddIngredient(ModContent.ItemType<DesertFeather>(), 2);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-        }
-
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-        {
-            for (int x = 0; x < Main.maxProjectiles; x++)
-            {
-                Projectile proj = Main.projectile[x];
-                if (proj.active && proj.owner == player.whoAmI && proj.type == type)
-                {
-                    proj.Kill();
-					break;
-                }
-            }
-            Projectile.NewProjectile(position, Vector2.Zero, type, damage, knockBack, player.whoAmI);
-            return false;
+            CreateRecipe().
+                AddIngredient(ItemID.SandstoneBrick, 20).
+                AddIngredient<DesertFeather>(2).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

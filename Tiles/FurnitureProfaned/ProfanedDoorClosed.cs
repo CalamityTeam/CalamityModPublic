@@ -1,22 +1,23 @@
-using CalamityMod.Dusts.Furniture;
+﻿using CalamityMod.Dusts.Furniture;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
+using Terraria.GameContent.ObjectInteractions;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureProfaned
 {
     public class ProfanedDoorClosed : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
-            this.SetUpDoorClosed();
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Profaned Door");
-            AddMapEntry(new Color(191, 142, 111), name);
-            disableSmartCursor = true;
-            adjTiles = new int[] { TileID.ClosedDoor };
-            openDoorID = ModContent.TileType<ProfanedDoorOpen>();
+            this.SetUpDoorClosed(true);
+            AddMapEntry(new Color(191, 142, 111), Language.GetText("MapObject.Door"));
+            TileID.Sets.DisableSmartCursor[Type] = true;
+            AdjTiles = new int[] { TileID.ClosedDoor };
+            OpenDoorID = ModContent.TileType<ProfanedDoorOpen>();
         }
 
         public override bool CreateDust(int i, int j, ref int type)
@@ -31,22 +32,19 @@ namespace CalamityMod.Tiles.FurnitureProfaned
             num = fail ? 1 : 3;
         }
 
-        public override bool HasSmartInteract()
-        {
-            return true;
-        }
+        public override bool HasSmartInteract(int i, int j, SmartInteractScanSettings settings) => true;
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 16, 48, ModContent.ItemType<Items.Placeables.FurnitureProfaned.ProfanedDoor>());
+            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 48, ModContent.ItemType<Items.Placeables.FurnitureProfaned.ProfanedDoor>());
         }
 
         public override void MouseOver(int i, int j)
         {
             Player player = Main.LocalPlayer;
             player.noThrow = 2;
-            player.showItemIcon = true;
-            player.showItemIcon2 = ModContent.ItemType<Items.Placeables.FurnitureProfaned.ProfanedDoor>();
+            player.cursorItemIconEnabled = true;
+            player.cursorItemIconID = ModContent.ItemType<Items.Placeables.FurnitureProfaned.ProfanedDoor>();
         }
     }
 }

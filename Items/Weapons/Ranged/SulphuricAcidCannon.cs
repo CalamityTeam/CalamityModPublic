@@ -1,6 +1,6 @@
-using CalamityMod.Projectiles.Ranged;
+﻿using CalamityMod.Projectiles.Ranged;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
-using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -11,32 +11,29 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Sulphuric Acid Cannon");
-            Tooltip.SetDefault("Fires an acidic bubble that sticks to enemies and emits sulphuric gas");
+            Tooltip.SetDefault("Fires an acidic shot that sticks to enemies and dissolves them");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 220;
-            item.ranged = true;
-            item.width = 90;
-            item.height = 30;
-            item.useTime = 18;
-            item.useAnimation = 18;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 6f;
-            item.autoReuse = true;
-            item.value = Item.buyPrice(1, 40, 0, 0);
-            item.rare = 10;
-            item.UseSound = SoundID.Item95;
-            item.shoot = ModContent.ProjectileType<SulphuricAcidBubble2>();
-            item.shootSpeed = 16f;
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
+            Item.damage = 144;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 90;
+            Item.height = 30;
+            Item.useTime = 18;
+            Item.useAnimation = 18;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 6f;
+            Item.autoReuse = true;
+            Item.value = CalamityGlobalItem.RarityPureGreenBuyPrice;
+            Item.UseSound = SoundID.Item95;
+            Item.shoot = ModContent.ProjectileType<SulphuricBlast>();
+            Item.shootSpeed = 16f;
+            Item.rare = ModContent.RarityType<PureGreen>();
         }
 
-        public override Vector2? HoldoutOffset()
-        {
-            return new Vector2(-15, 0);
-        }
+        public override Vector2? HoldoutOffset() => Vector2.UnitX * -15f;
     }
 }

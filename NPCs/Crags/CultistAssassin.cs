@@ -1,8 +1,10 @@
-using CalamityMod.Buffs.StatDebuffs;
+﻿using CalamityMod.BiomeManagers;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
-using CalamityMod.World;
 using Terraria;
+using Terraria.GameContent.Bestiary;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.NPCs.Crags
@@ -12,68 +14,86 @@ namespace CalamityMod.NPCs.Crags
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Cultist Assassin");
-            Main.npcFrameCount[npc.type] = 4;
+            Main.npcFrameCount[NPC.type] = 4;
         }
 
         public override void SetDefaults()
         {
-            npc.lavaImmune = true;
-            npc.aiStyle = 3;
-            npc.damage = 50;
-            npc.width = 18; //324
-            npc.height = 40; //216
-            npc.defense = 25;
-            npc.lifeMax = 80;
-            npc.knockBackResist = 0.5f;
-            animationType = NPCID.ZombieXmas;
-            aiType = NPCID.ChaosElemental;
-            npc.value = Item.buyPrice(0, 0, 2, 0);
-            npc.HitSound = SoundID.NPCHit1;
-            npc.DeathSound = SoundID.NPCDeath50;
-            if (CalamityWorld.downedProvidence)
+            NPC.lavaImmune = true;
+            NPC.aiStyle = 3;
+            NPC.damage = 50;
+            NPC.width = 18;
+            NPC.height = 40;
+            NPC.defense = 16;
+            NPC.lifeMax = 80;
+            NPC.knockBackResist = 0.5f;
+            AnimationType = NPCID.ZombieXmas;
+            AIType = NPCID.ChaosElemental;
+            NPC.value = Item.buyPrice(0, 0, 10, 0);
+            NPC.HitSound = SoundID.NPCHit1;
+            NPC.DeathSound = SoundID.NPCDeath50;
+            if (DownedBossSystem.downedProvidence)
             {
-                npc.damage = 250;
-                npc.defense = 130;
-                npc.lifeMax = 5000;
-                npc.value = Item.buyPrice(0, 0, 50, 0);
+                NPC.damage = 100;
+                NPC.defense = 30;
+                NPC.lifeMax = 3000;
             }
-            banner = npc.type;
-            bannerItem = ModContent.ItemType<CultistAssassinBanner>();
-			npc.buffImmune[BuffID.Confused] = false;
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<CultistAssassinBanner>();
+            NPC.Calamity().VulnerableToHeat = false;
+            NPC.Calamity().VulnerableToCold = true;
+            NPC.Calamity().VulnerableToSickness = true;
+            NPC.Calamity().VulnerableToWater = true;
+            SpawnModBiomes = new int[1] { ModContent.GetInstance<BrimstoneCragsBiome>().Type };
+        }
+
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheDungeon,
+
+				// Will move to localization whenever that is cleaned up.
+				new FlavorTextBestiaryInfoElement("A devotee, their mind lost to the raging, hating fires of the brimstone flames. None have ever seen under their hood, and none ever should.")
+            });
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            return (spawnInfo.player.Calamity().ZoneCalamity || spawnInfo.player.ZoneDungeon) && Main.hardMode ? 0.04f : 0f;
+            return (spawnInfo.Player.Calamity().ZoneCalamity || spawnInfo.Player.ZoneDungeon) && Main.hardMode ? 0.04f : 0f;
+        }
+
+        public override void OnHitPlayer(Player player, int damage, bool crit)
+        {
+            if (damage > 0)
+                player.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120, true);
         }
 
         public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
             }
-            if (npc.life <= 0)
+            if (NPC.life <= 0)
             {
                 for (int k = 0; k < 20; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
+                }
+                if (Main.netMode != NetmodeID.Server)
+                {
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("CultistAssassin").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("CultistAssassin2").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("CultistAssassin3").Type, NPC.scale);
                 }
             }
         }
 
-        public override void OnHitPlayer(Player player, int damage, bool crit)
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            if (CalamityWorld.revenge)
-            {
-                player.AddBuff(ModContent.BuffType<Horror>(), 180, true);
-            }
-        }
-
-        public override void NPCLoot()
-        {
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<Bloodstone>(), CalamityWorld.downedProvidence, 2, 1, 1);
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<EssenceofChaos>(), Main.hardMode, 3, 1, 1);
+            npcLoot.Add(ModContent.ItemType<EssenceofChaos>(), 3);
+            LeadingConditionRule postProv = npcLoot.DefineConditionalDropSet(DropHelper.PostProv());
+            postProv.Add(ModContent.ItemType<Bloodstone>(), 4);
         }
     }
 }

@@ -7,13 +7,12 @@ namespace CalamityMod.Tiles
 {
     public class AerialiteBrick : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileSolid[Type] = true;
             Main.tileBlockLight[Type] = true;
-            soundType = SoundID.Tink;
-            minPick = 50;
-            drop = ModContent.ItemType<Items.Placeables.AerialiteBrick>();
+            HitSound = SoundID.Tink;
+            ItemDrop = ModContent.ItemType<Items.Placeables.AerialiteBrick>();
             AddMapEntry(new Color(68, 58, 145));
         }
 

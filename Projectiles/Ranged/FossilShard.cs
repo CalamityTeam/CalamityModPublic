@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.StatDebuffs;
+﻿using CalamityMod.Buffs.StatDebuffs;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -13,20 +13,22 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetDefaults()
         {
-            projectile.width = 10;
-            projectile.height = 10;
-            projectile.friendly = true;
-            projectile.ranged = true;
-            projectile.penetrate = 1;
-            projectile.aiStyle = 1;
-            projectile.timeLeft = 120;
-            aiType = ProjectileID.WoodenArrowFriendly;
+            Projectile.width = 10;
+            Projectile.height = 10;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.penetrate = 1;
+            Projectile.aiStyle = ProjAIStyleID.Arrow;
+            Projectile.timeLeft = 120;
+            AIType = ProjectileID.WoodenArrowFriendly;
         }
 
         public override void AI()
         {
-            projectile.rotation += projectile.velocity.Y;
-            projectile.velocity.Y *= 1.05f;
+            if (Projectile.velocity.Y <= 0f)
+                Projectile.velocity.Y = 0.1f;
+            Projectile.rotation += Projectile.velocity.Y;
+            Projectile.velocity.Y *= 1.05f;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -38,7 +40,7 @@ namespace CalamityMod.Projectiles.Ranged
         {
             for (int i = 0; i <= 2; i++)
             {
-                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 32, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
+                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 32, Projectile.oldVelocity.X * 0.5f, Projectile.oldVelocity.Y * 0.5f);
             }
         }
     }

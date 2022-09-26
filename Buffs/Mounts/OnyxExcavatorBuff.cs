@@ -6,7 +6,7 @@ namespace CalamityMod.Buffs.Mounts
 {
     public class OnyxExcavatorBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Onyx Excavator");
             Description.SetDefault("Drill");

@@ -1,3 +1,4 @@
+﻿using Terraria.DataStructures;
 using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -11,33 +12,34 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             DisplayName.SetDefault("Urchin Stinger");
             Tooltip.SetDefault("Stealth strikes stick to enemies while releasing sulfuric bubbles");
+            SacrificeTotal = 99;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
-            item.width = 10;
-            item.damage = 17;
-            item.noMelee = true;
-            item.consumable = true;
-            item.noUseGraphic = true;
-            item.useAnimation = 14;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 14;
-            item.knockBack = 1.5f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 26;
-            item.maxStack = 999;
-            item.value = 200;
-            item.rare = 1;
-            item.shoot = ModContent.ProjectileType<UrchinStingerProj>();
-            item.shootSpeed = 12f;
-            item.Calamity().rogue = true;
+            Item.width = 10;
+            Item.damage = 17;
+            Item.noMelee = true;
+            Item.consumable = true;
+            Item.noUseGraphic = true;
+            Item.useAnimation = 14;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 14;
+            Item.knockBack = 1.5f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.height = 26;
+            Item.maxStack = 999;
+            Item.value = 200;
+            Item.rare = ItemRarityID.Blue;
+            Item.shoot = ModContent.ProjectileType<UrchinStingerProj>();
+            Item.shootSpeed = 12f;
+            Item.DamageType = RogueDamageClass.Instance;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<UrchinStingerProj>(), damage, knockBack, player.whoAmI, 0f, 0f);
+            int proj = Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<UrchinStingerProj>(), damage, knockback, player.whoAmI, 0f, 0f);
             if (player.Calamity().StealthStrikeAvailable())
                 Main.projectile[proj].Calamity().stealthStrike = true;
             return false;

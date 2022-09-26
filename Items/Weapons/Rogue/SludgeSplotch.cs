@@ -1,9 +1,11 @@
+﻿using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
@@ -14,37 +16,39 @@ namespace CalamityMod.Items.Weapons.Rogue
             DisplayName.SetDefault("Sludge Splotch");
             Tooltip.SetDefault("Slows non-boss enemies slightly\n" +
                 "Stealth strikes cause the main ball of sludge to split on hit, inflicting more damage");
+            SacrificeTotal = 99;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
-            item.width = 32;
-            item.damage = 30;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.consumable = true;
-            item.useAnimation = 18;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 18;
-            item.knockBack = 1f;
-            item.autoReuse = true;
-            item.height = 30;
-            item.maxStack = 999;
-            item.value = Item.buyPrice(0, 1, 0, 0);
-            item.rare = 1;
-            item.shoot = ModContent.ProjectileType<SludgeSplotchProj1>();
-            item.shootSpeed = 10f;
-            item.Calamity().rogue = true;
+            Item.width = 32;
+            Item.damage = 30;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.consumable = true;
+            Item.useAnimation = 18;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 18;
+            Item.knockBack = 1f;
+            Item.autoReuse = true;
+            Item.height = 30;
+            Item.maxStack = 999;
+            Item.value = Item.sellPrice(0, 0, 0, 40);
+            Item.rare = ItemRarityID.Green;
+            Item.shoot = ModContent.ProjectileType<SludgeSplotchProj1>();
+            Item.shootSpeed = 10f;
+            Item.DamageType = RogueDamageClass.Instance;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            Main.PlaySound(SoundID.NPCKilled, (int)player.position.X, (int)player.position.Y, 9, 2, 0);
+            SoundEngine.PlaySound(SoundID.NPCDeath9 with { Volume = SoundID.NPCDeath9.Volume * 2f }, player.position);
 
             if (player.Calamity().StealthStrikeAvailable())
             {
-                int p = Projectile.NewProjectile(position.X, position.Y, speedX * 1.2f, speedY * 1.2f, type, damage, knockBack * 3, player.whoAmI, 0f, 1f);
-                Main.projectile[p].Calamity().stealthStrike = true;
+                int p = Projectile.NewProjectile(source, position.X, position.Y, velocity.X * 1.2f, velocity.Y * 1.2f, type, damage, knockback * 3, player.whoAmI, 0f, 1f);
+                if (p.WithinBounds(Main.maxProjectiles))
+                    Main.projectile[p].Calamity().stealthStrike = true;
                 return false;
             }
             return true;
@@ -52,12 +56,10 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<EbonianGel>(), 2);
-            recipe.AddIngredient(ModContent.ItemType<MurkySludge>());
-            recipe.AddRecipeGroup("Boss2Material", 5);
-            recipe.SetResult(this, 50);
-            recipe.AddRecipe();
+            CreateRecipe(100).
+                AddIngredient<BlightedGel>(15).
+                AddRecipeGroup("Boss2Material").
+                Register();
         }
     }
 }

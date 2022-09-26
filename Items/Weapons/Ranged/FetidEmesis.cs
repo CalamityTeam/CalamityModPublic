@@ -1,6 +1,9 @@
-using CalamityMod.Projectiles.Ranged;
+﻿using CalamityMod.Projectiles.Ranged;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -11,52 +14,54 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Fetid Emesis");
-            Tooltip.SetDefault("Has a chance to release rotten chunks instead of bullets.");
+            Tooltip.SetDefault("40% chance to not consume ammo\n" +
+            "Has a chance to release rotten chunks instead of bullets");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 200;
-            item.ranged = true;
-            item.width = 76;
-            item.height = 46;
-            item.useTime = item.useAnimation = 6;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 3f;
-            item.value = Item.buyPrice(1, 40, 0, 0);
-            item.Calamity().postMoonLordRarity = 13;
-			item.rare = 10;
-            item.UseSound = SoundID.Item11;
-            item.autoReuse = true;
-            item.shoot = ProjectileID.PurificationPowder;
-            item.shootSpeed = 16f;
-            item.useAmmo = AmmoID.Bullet;
+            Item.damage = 129;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 76;
+            Item.height = 46;
+            Item.useTime = Item.useAnimation = 6;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 3f;
+            Item.UseSound = SoundID.Item11;
+            Item.autoReuse = true;
+            Item.shoot = ProjectileID.PurificationPowder;
+            Item.shootSpeed = 16f;
+            Item.useAmmo = AmmoID.Bullet;
+
+            Item.value = CalamityGlobalItem.Rarity13BuyPrice;
+            Item.rare = ModContent.RarityType<PureGreen>();
+            Item.Calamity().canFirePointBlankShots = true;
         }
 
-        public override Vector2? HoldoutOffset()
-        {
-            return new Vector2(-5, 0);
-        }
+        public override bool CanConsumeAmmo(Item ammo, Player player) => Main.rand.Next(100) > 40;
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override Vector2? HoldoutOffset() => new Vector2(-5, 0);
+
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (Main.rand.NextBool(8))
             {
-                Projectile.NewProjectile(position, new Vector2(speedX, speedY) * 0.45f,
-                    ModContent.ProjectileType<EmesisGore>(), damage, knockBack, player.whoAmI);
+                Projectile.NewProjectile(source, position, velocity * 0.8f,
+                    ModContent.ProjectileType<EmesisGore>(), damage, knockback, player.whoAmI);
                 for (int i = 0; i < 5; i++)
                 {
                     Dust dust = Dust.NewDustDirect(position, 10, 10, 27);
-                    dust.velocity = Vector2.Normalize(new Vector2(speedX, speedY)).RotatedByRandom(MathHelper.ToRadians(15f));
+                    dust.velocity = Vector2.Normalize(velocity).RotatedByRandom(MathHelper.ToRadians(15f));
                     dust.noGravity = true;
                 }
-				if (player.Calamity().soundCooldown <= 0)
-				{
-					// WoF vomit sound.
-					Main.PlaySound(SoundID.NPCKilled, (int)position.X, (int)position.Y, 13, 0.5f, 0f);
-					player.Calamity().soundCooldown = 120;
-				}
+                if (player.Calamity().soundCooldown <= 0)
+                {
+                    // WoF vomit sound.
+                    SoundEngine.PlaySound(SoundID.NPCDeath13 with { Volume = SoundID.NPCDeath13.Volume * 0.5f }, position);
+                    player.Calamity().soundCooldown = 120;
+                }
                 return false;
             }
             return true;

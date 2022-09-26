@@ -1,11 +1,11 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ModLoader;
 using CalamityMod.Buffs.DamageOverTime;
 namespace CalamityMod.Projectiles.Ranged
 {
-	public class SepticSkewerHarpoon : ModProjectile
+    public class SepticSkewerHarpoon : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -14,47 +14,49 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetDefaults()
         {
-            projectile.width = 4;
-            projectile.height = 4;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.alpha = 255;
-            projectile.ranged = true;
-            projectile.extraUpdates = 1;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 8;
-			projectile.timeLeft = 900;
+            Projectile.width = 4;
+            Projectile.height = 4;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.alpha = 255;
+            Projectile.ignoreWater = true;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.extraUpdates = 1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 8;
+            Projectile.timeLeft = 900;
+            Projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.DefaultPointBlankDuration;
         }
 
         public override void AI()
         {
-			Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             if (Main.rand.NextBool(5))
             {
-                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 171, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 171, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
             }
-            Vector2 vector62 = player.Center - projectile.Center;
-            projectile.ai[1] += 1f;
-            if (projectile.ai[1] > 5f)
+            Vector2 vector62 = player.Center - Projectile.Center;
+            Projectile.ai[1] += 1f;
+            if (Projectile.ai[1] > 5f)
             {
-                projectile.alpha = 0;
+                Projectile.alpha = 0;
             }
-            if ((int)projectile.ai[1] % 4 == 0 && projectile.owner == Main.myPlayer && Main.rand.NextBool(5))
+            if (Projectile.ai[1] % 8f == 0f && Projectile.owner == Main.myPlayer && Main.rand.NextBool(5))
             {
                 Vector2 vector63 = vector62 * -1f;
                 vector63.Normalize();
-                vector63 *= (float)Main.rand.Next(45, 65) * 0.1f;
-                vector63 = vector63.RotatedBy((Main.rand.NextDouble() - 0.5) * MathHelper.PiOver2, default);
-                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, vector63.X, vector63.Y, ModContent.ProjectileType<SepticSkewerBacteria>(), (int)((double)projectile.damage * 0.4), projectile.knockBack * 0.2f, projectile.owner, -10f, 0f);
+                vector63 *= Main.rand.Next(45, 65) * 0.1f;
+                vector63 = vector63.RotatedBy((Main.rand.NextDouble() - 0.5) * MathHelper.PiOver2);
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, vector63.X, vector63.Y, ModContent.ProjectileType<SepticSkewerBacteria>(), (int)(Projectile.damage * 0.175), Projectile.knockBack * 0.2f, Projectile.owner, -10f, 0f);
             }
             if (player.dead)
             {
-                projectile.Kill();
+                Projectile.Kill();
                 return;
             }
-            if (projectile.alpha == 0)
+            if (Projectile.alpha == 0)
             {
-                if (projectile.position.X + (float)(projectile.width / 2) > player.position.X + (float)(player.width / 2))
+                if (Projectile.position.X + (float)(Projectile.width / 2) > player.position.X + (float)(player.width / 2))
                 {
                     player.ChangeDir(1);
                 }
@@ -63,66 +65,66 @@ namespace CalamityMod.Projectiles.Ranged
                     player.ChangeDir(-1);
                 }
             }
-            if (projectile.ai[0] == 0f)
+            if (Projectile.ai[0] == 0f)
             {
-                projectile.extraUpdates = 2;
+                Projectile.extraUpdates = 2;
             }
             else
             {
-                projectile.extraUpdates = 3;
+                Projectile.extraUpdates = 3;
             }
-            Vector2 vector14 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
+            Vector2 vector14 = new Vector2(Projectile.position.X + (float)Projectile.width * 0.5f, Projectile.position.Y + (float)Projectile.height * 0.5f);
             float xDist = player.position.X + (float)(player.width / 2) - vector14.X;
             float yDist = player.position.Y + (float)(player.height / 2) - vector14.Y;
             float playerDist = (float)Math.Sqrt((double)(xDist * xDist + yDist * yDist));
-            if (projectile.ai[0] == 0f)
+            if (Projectile.ai[0] == 0f)
             {
                 if (playerDist > 2000f)
                 {
-                    projectile.ai[0] = 1f;
+                    Projectile.ai[0] = 1f;
                 }
-                projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
-                projectile.ai[1] += 1f;
-                if (projectile.ai[1] > 5f)
+                Projectile.rotation = (float)Math.Atan2((double)Projectile.velocity.Y, (double)Projectile.velocity.X) + 1.57f;
+                Projectile.ai[1] += 1f;
+                if (Projectile.ai[1] > 5f)
                 {
-                    projectile.alpha = 0;
+                    Projectile.alpha = 0;
                 }
-                if (projectile.ai[1] > 8f)
+                if (Projectile.ai[1] > 8f)
                 {
-                    projectile.ai[1] = 8f;
+                    Projectile.ai[1] = 8f;
                 }
-                if (projectile.ai[1] >= 10f)
+                if (Projectile.ai[1] >= 10f)
                 {
-                    projectile.ai[1] = 15f;
-                    projectile.velocity.Y = projectile.velocity.Y + 0.3f;
+                    Projectile.ai[1] = 15f;
+                    Projectile.velocity.Y = Projectile.velocity.Y + 0.3f;
                 }
             }
-            else if (projectile.ai[0] == 1f)
+            else if (Projectile.ai[0] == 1f)
             {
-                projectile.tileCollide = false;
-                projectile.rotation = (float)Math.Atan2((double)yDist, (double)xDist) - 1.57f;
+                Projectile.tileCollide = false;
+                Projectile.rotation = (float)Math.Atan2((double)yDist, (double)xDist) - 1.57f;
                 float returnSpeed = 20f;
                 if (playerDist < 50f)
                 {
-                    projectile.Kill();
+                    Projectile.Kill();
                 }
                 playerDist = returnSpeed / playerDist;
                 xDist *= playerDist;
                 yDist *= playerDist;
-                projectile.velocity.X = xDist;
-                projectile.velocity.Y = yDist;
+                Projectile.velocity.X = xDist;
+                Projectile.velocity.Y = yDist;
             }
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            projectile.ai[0] = 1f;
+            Projectile.ai[0] = 1f;
             return false;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 300);
+            target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 180);
         }
     }
 }

@@ -1,11 +1,13 @@
-using CalamityMod.Items.Placeables.Banners;
+﻿using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.World;
 using Terraria;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Utilities;
 namespace CalamityMod.NPCs.NormalNPCs
 {
-	public class Bohldohr : ModNPC
+    public class Bohldohr : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -14,62 +16,69 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void SetDefaults()
         {
-            npc.aiStyle = -1;
-            aiType = -1;
-            npc.damage = 150;
-            npc.width = 40;
-            npc.height = 40;
-            npc.defense = 18;
-            npc.lifeMax = 300;
-            npc.knockBackResist = 0.95f;
-            npc.value = Item.buyPrice(0, 0, 10, 0);
-            npc.HitSound = SoundID.NPCHit7;
-            npc.DeathSound = SoundID.NPCDeath35;
-            npc.behindTiles = true;
-            banner = npc.type;
-            bannerItem = ModContent.ItemType<BOHLDOHRBanner>();
-            npc.buffImmune[BuffID.Confused] = false;
+            NPC.Calamity().canBreakPlayerDefense = true;
+            NPC.aiStyle = -1;
+            AIType = -1;
+            NPC.damage = 80;
+            NPC.width = 40;
+            NPC.height = 40;
+            NPC.defense = 18;
+            NPC.lifeMax = 300;
+            NPC.knockBackResist = 0.95f;
+            NPC.value = Item.buyPrice(0, 0, 10, 0);
+            NPC.HitSound = SoundID.NPCHit7;
+            NPC.DeathSound = SoundID.NPCDeath35;
+            NPC.behindTiles = true;
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<BohldohrBanner>();
+            NPC.Calamity().VulnerableToSickness = false;
+            NPC.Calamity().VulnerableToWater = true;
+        }
+
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheTemple,
+
+				// Will move to localization whenever that is cleaned up.
+				new FlavorTextBestiaryInfoElement("A distant relative to the gem-covered lizards found within the caverns. This species instead covers itself with the smooth bricks of the Temple and curls into a ball for locomotion.")
+            });
         }
 
         public override void AI()
         {
-            CalamityAI.UnicornAI(npc, mod, true, CalamityWorld.death ? 6f : 4f, 5f, 0.2f);
+            CalamityAI.UnicornAI(NPC, Mod, true, CalamityWorld.death ? 6f : 4f, 5f, 0.2f);
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.playerSafe)
+            if (spawnInfo.PlayerSafe)
             {
                 return 0f;
             }
-            return SpawnCondition.JungleTemple.Chance * 0.05f;
+            return SpawnCondition.JungleTemple.Chance * 0.1f;
         }
 
         public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, 155, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(NPC.position, NPC.width, NPC.height, 155, hitDirection, -1f, 0, default, 1f);
             }
-            if (npc.life <= 0)
+            if (NPC.life <= 0)
             {
                 for (int k = 0; k < 20; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 155, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(NPC.position, NPC.width, NPC.height, 155, hitDirection, -1f, 0, default, 1f);
                 }
             }
         }
 
-        public override void NPCLoot()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            if (CalamityWorld.downedSCal)
-            {
-                // RIP LORDE
-                // Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<NO>());
-            }
-            DropHelper.DropItem(npc, ItemID.LihzahrdBrick, 10, 30);
-            DropHelper.DropItemChance(npc, ItemID.LunarTabletFragment, 7, 1, 3); //solar tablet fragment
-            DropHelper.DropItemChance(npc, ItemID.LihzahrdPowerCell, 50);
+            npcLoot.Add(ItemID.LihzahrdBrick, 1, 10, 26);
+            npcLoot.Add(ItemID.LunarTabletFragment, 7, 10, 26);
+            npcLoot.Add(ItemID.LihzahrdPowerCell, 50);
         }
     }
 }

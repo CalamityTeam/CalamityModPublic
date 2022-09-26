@@ -1,5 +1,6 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Items.Materials
 {
@@ -7,16 +8,17 @@ namespace CalamityMod.Items.Materials
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 100;
             DisplayName.SetDefault("Meld Blob");
         }
 
         public override void SetDefaults()
         {
-            item.width = 16;
-            item.height = 14;
-            item.maxStack = 999;
-            item.value = Item.sellPrice(silver: 20);
-            item.rare = 9;
+            Item.width = 16;
+            Item.height = 14;
+            Item.maxStack = 999;
+            Item.value = Item.sellPrice(silver: 20);
+            Item.rare = ItemRarityID.Cyan;
         }
     }
 }

@@ -1,5 +1,4 @@
 using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -8,6 +7,8 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class TerraFireGreen2 : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Fire");
@@ -15,43 +16,43 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetDefaults()
         {
-            projectile.width = 12;
-            projectile.height = 12;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.ranged = true;
-            projectile.penetrate = 2;
-            projectile.extraUpdates = 3;
-            projectile.timeLeft = 90;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 9;
+            Projectile.width = 12;
+            Projectile.height = 12;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.penetrate = 2;
+            Projectile.extraUpdates = 3;
+            Projectile.timeLeft = 90;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 9;
         }
 
         public override void AI()
         {
-            Lighting.AddLight(projectile.Center, 0.15f, 0.45f, 0f);
-            if (projectile.ai[0] > 7f)
+            Lighting.AddLight(Projectile.Center, 0.15f, 0.45f, 0f);
+            if (Projectile.ai[0] > 7f)
             {
                 float num296 = 1f;
-                if (projectile.ai[0] == 8f)
+                if (Projectile.ai[0] == 8f)
                 {
                     num296 = 0.25f;
                 }
-                else if (projectile.ai[0] == 9f)
+                else if (Projectile.ai[0] == 9f)
                 {
                     num296 = 0.5f;
                 }
-                else if (projectile.ai[0] == 10f)
+                else if (Projectile.ai[0] == 10f)
                 {
                     num296 = 0.75f;
                 }
-                projectile.ai[0] += 1f;
+                Projectile.ai[0] += 1f;
                 int num297 = 66;
                 if (Main.rand.NextBool(2))
                 {
                     for (int num298 = 0; num298 < 2; num298++)
                     {
-                        int num299 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, num297, projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 100, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 0.75f);
+                        int num299 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, num297, Projectile.velocity.X * 0.2f, Projectile.velocity.Y * 0.2f, 100, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 0.75f);
                         Dust dust = Main.dust[num299];
                         if (Main.rand.NextBool(3))
                         {
@@ -68,25 +69,24 @@ namespace CalamityMod.Projectiles.Ranged
                         dust.velocity.X *= 1.2f;
                         dust.velocity.Y *= 1.2f;
                         dust.scale *= num296;
-                        dust.velocity += projectile.velocity;
+                        dust.velocity += Projectile.velocity;
                     }
                 }
             }
             else
             {
-                projectile.ai[0] += 1f;
+                Projectile.ai[0] += 1f;
             }
-            projectile.rotation += 0.3f * (float)projectile.direction;
+            Projectile.rotation += 0.3f * (float)Projectile.direction;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(ModContent.BuffType<Plague>(), 120);
-            target.AddBuff(BuffID.CursedInferno, 120);
+            target.AddBuff(BuffID.CursedInferno, 90);
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
-            target.AddBuff(BuffID.OnFire, 300);
-            target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
-            target.AddBuff(BuffID.Frostburn, 300);
+            target.AddBuff(BuffID.OnFire, 240);
+            target.AddBuff(BuffID.Frostburn, 120);
         }
     }
 }

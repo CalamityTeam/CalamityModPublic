@@ -1,6 +1,9 @@
+using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Projectiles.Typeless
 {
     public class NebulaDust : ModProjectile
@@ -12,54 +15,56 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void SetDefaults()
         {
-            projectile.width = 32;
-            projectile.height = 32;
-            projectile.friendly = true;
-            projectile.alpha = 255;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
-            projectile.timeLeft = 3600;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 3;
+            Projectile.width = 32;
+            Projectile.height = 32;
+            Projectile.friendly = true;
+            Projectile.Opacity = 0f;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
+            Projectile.timeLeft = 3600;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 3;
         }
 
         public override void AI()
         {
-            projectile.rotation += projectile.velocity.X * 0.02f;
-            if (projectile.velocity.X < 0f)
-            {
-                projectile.rotation -= Math.Abs(projectile.velocity.Y) * 0.02f;
-            }
+            Projectile.rotation += Projectile.velocity.X * 0.02f;
+
+            if (Projectile.velocity.X < 0f)
+                Projectile.rotation -= Math.Abs(Projectile.velocity.Y) * 0.02f;
             else
+                Projectile.rotation += Math.Abs(Projectile.velocity.Y) * 0.02f;
+
+            Projectile.velocity *= 0.98f;
+
+            Projectile.ai[0] += 1f;
+            if (Projectile.ai[0] >= 60f)
             {
-                projectile.rotation += Math.Abs(projectile.velocity.Y) * 0.02f;
+                if (Projectile.Opacity > 0f)
+                {
+                    Projectile.Opacity -= 0.02f;
+                    if (Projectile.Opacity < 0f)
+                        Projectile.Opacity = 0f;
+                }
+                else if (Projectile.owner == Main.myPlayer)
+                    Projectile.Kill();
             }
-            projectile.velocity *= 0.98f;
-            projectile.ai[0] += 1f;
-            if (projectile.ai[0] >= 60f)
+            else if (Projectile.Opacity < 0.7f)
             {
-                if (projectile.alpha < 255)
-                {
-                    projectile.alpha += 5;
-                    if (projectile.alpha > 255)
-                    {
-                        projectile.alpha = 255;
-                    }
-                }
-                else if (projectile.owner == Main.myPlayer)
-                {
-                    projectile.Kill();
-                }
+                Projectile.Opacity += 0.1f;
+                if (Projectile.Opacity > 0.7f)
+                    Projectile.Opacity = 0.7f;
             }
-            else if (projectile.alpha > 80)
-            {
-                projectile.alpha -= 30;
-                if (projectile.alpha < 80)
-                {
-                    projectile.alpha = 80;
-                }
-            }
+        }
+
+        public override bool PreDraw(ref Color lightColor)
+        {
+            lightColor.R = (byte)(255 * Projectile.Opacity);
+            lightColor.G = (byte)(255 * Projectile.Opacity);
+            lightColor.B = (byte)(255 * Projectile.Opacity);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
+            return false;
         }
     }
 }

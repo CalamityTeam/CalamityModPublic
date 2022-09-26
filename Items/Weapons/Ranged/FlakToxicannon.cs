@@ -1,6 +1,6 @@
+﻿using Terraria.DataStructures;
 using CalamityMod.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -15,35 +15,36 @@ namespace CalamityMod.Items.Weapons.Ranged
             Tooltip.SetDefault("Fires angled shots in the direction of the cursor\n" +
                                "Can only be shot in a cone direction above the player\n" +
                                "High IQ required");
+            SacrificeTotal = 1;
         }
         public override void SetDefaults()
         {
-            item.damage = 31;
-            item.ranged = true;
-            item.width = 88;
-            item.height = 28;
-            item.useTime = item.useAnimation = 13;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.useTurn = false;
-            item.noMelee = true;
-            item.knockBack = 7f;
-            item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = 5;
-            item.UseSound = SoundID.Item109;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<ToxicannonShot>();
-            item.shootSpeed = 9f;
+            Item.damage = 50;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 88;
+            Item.height = 28;
+            Item.useTime = Item.useAnimation = 8;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.useTurn = false;
+            Item.noMelee = true;
+            Item.knockBack = 7f;
+            Item.value = CalamityGlobalItem.Rarity6BuyPrice;
+            Item.rare = ItemRarityID.Pink;
+            Item.UseSound = SoundID.Item109;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<ToxicannonShot>();
+            Item.shootSpeed = 9f;
         }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            float angle = new Vector2(speedX, speedY).ToRotation() + MathHelper.PiOver2;
+            float angle = velocity.ToRotation() + MathHelper.PiOver2;
             if (angle <= -MathHelper.PiOver4 || angle >= MathHelper.PiOver4)
                 return false;
             angle -= MathHelper.PiOver2;
 
-            Vector2 velocity = angle.ToRotationVector2() * (float)Math.Sqrt(speedX * speedX + speedY * speedY) * new Vector2(1f, 2f);
 
-            Projectile.NewProjectile(position, velocity, ModContent.ProjectileType<ToxicannonShot>(), damage, knockBack, player.whoAmI);
+
+            Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<ToxicannonShot>(), damage, knockback, player.whoAmI);
             return false;
         }
     }

@@ -1,4 +1,4 @@
-using CalamityMod.Items.Weapons.Rogue;
+﻿using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -7,9 +7,11 @@ using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
-{   
+{
     public class UrchinStingerProj : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/UrchinStinger";
+
         private int projdmg = 0;
         public override void SetStaticDefaults()
         {
@@ -18,40 +20,41 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetDefaults()
         {
-            projectile.width = 10;
-            projectile.height = 10;
-            projectile.friendly = true;
-            projectile.penetrate = 2;
-            projectile.aiStyle = 2;
-            projectile.timeLeft = 600;
-            aiType = ProjectileID.ThrowingKnife;
-            projectile.Calamity().rogue = true;
+            Projectile.width = 10;
+            Projectile.height = 10;
+            Projectile.friendly = true;
+            Projectile.penetrate = 2;
+            Projectile.aiStyle = ProjAIStyleID.ThrownProjectile;
+            Projectile.timeLeft = 600;
+            AIType = ProjectileID.ThrowingKnife;
+            Projectile.DamageType = RogueDamageClass.Instance;
         }
 
         public override bool PreAI()
         {
-            if (projectile.Calamity().stealthStrike)
+            if (Projectile.Calamity().stealthStrike)
             {
-                projectile.StickyProjAI(15);
-                projectile.localAI[1]++;
-                if (projectile.localAI[1] <= 20f && projectile.ai[0] != 1f)
+                Projectile.StickyProjAI(15);
+                Projectile.localAI[1]++;
+                if (Projectile.localAI[1] <= 20f && Projectile.ai[0] != 1f)
                 {
-                    projectile.spriteDirection = projectile.direction = (projectile.velocity.X > 0).ToDirectionInt();
-                    projectile.rotation = projectile.velocity.ToRotation() + (projectile.spriteDirection == 1 ? 0f : MathHelper.Pi) + MathHelper.ToRadians(90) * projectile.direction;
+                    Projectile.spriteDirection = Projectile.direction = (Projectile.velocity.X > 0).ToDirectionInt();
+                    Projectile.rotation = Projectile.velocity.ToRotation() + (Projectile.spriteDirection == 1 ? 0f : MathHelper.Pi) + MathHelper.ToRadians(90) * Projectile.direction;
                 }
-                if (projectile.localAI[1] > 20f && projectile.ai[0] != 1f)
+                if (Projectile.localAI[1] > 20f && Projectile.ai[0] != 1f)
                 {
-                    projectile.velocity.Y += 0.4f;
-                    projectile.velocity.X *= 0.97f;
-                    if (projectile.velocity.Y > 16f)
-                        projectile.velocity.Y = 16f;
-                    projectile.rotation += 0.2f * projectile.direction;
+                    Projectile.velocity.Y += 0.4f;
+                    Projectile.velocity.X *= 0.97f;
+                    if (Projectile.velocity.Y > 16f)
+                        Projectile.velocity.Y = 16f;
+                    Projectile.rotation += 0.2f * Projectile.direction;
                 }
-                if (projectile.localAI[0] % 40 == 0 && projectile.ai[0] == 1f)
+                if (Projectile.localAI[0] % 40 == 0 && Projectile.ai[0] == 1f)
                 {
                     Vector2 projspeed = new Vector2(Main.rand.NextFloat(-4f, 4f), Main.rand.NextFloat(-4f, 4f));
-                    int proj = Projectile.NewProjectile(projectile.Center, projspeed, ModContent.ProjectileType<SulphuricAcidBubbleFriendly>(), (int)(projdmg * 0.5f), 1f, projectile.owner, 0f, 0f);
-                    Main.projectile[proj].Calamity().forceRogue = true;
+                    int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, projspeed, ModContent.ProjectileType<SulphuricAcidBubbleFriendly>(), (int)(projdmg * 0.5f), 1f, Projectile.owner);
+                    if (proj.WithinBounds(Main.maxProjectiles))
+                        Main.projectile[proj].DamageType = RogueDamageClass.Instance;
                 }
                 return false;
             }
@@ -60,16 +63,16 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            if (projectile.Calamity().stealthStrike)
+            if (Projectile.Calamity().stealthStrike)
             {
-                projdmg = projectile.damage;
-                projectile.ModifyHitNPCSticky(4, false);
+                projdmg = Projectile.damage;
+                Projectile.ModifyHitNPCSticky(4, false);
             }
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
-            if (projectile.Calamity().stealthStrike)
+            if (Projectile.Calamity().stealthStrike)
             {
                 if (targetHitbox.Width > 8 && targetHitbox.Height > 8)
                 {
@@ -82,18 +85,18 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(BuffID.Venom, 360);
+            target.AddBuff(BuffID.Venom, 180);
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-            target.AddBuff(BuffID.Venom, 360);
+            target.AddBuff(BuffID.Venom, 180);
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D tex = Main.projectileTexture[projectile.type];
-            spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(lightColor), projectile.rotation, tex.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
+            Texture2D tex = ModContent.Request<Texture2D>(Texture).Value;
+            Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation, tex.Size() / 2f, Projectile.scale, SpriteEffects.None, 0);
             return false;
         }
 
@@ -101,7 +104,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             if (Main.rand.NextBool(2))
             {
-                Item.NewItem((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height, ModContent.ItemType<UrchinStinger>());
+                Item.NewItem(Projectile.GetSource_DropAsItem(), (int)Projectile.position.X, (int)Projectile.position.Y, Projectile.width, Projectile.height, ModContent.ItemType<UrchinStinger>());
             }
         }
     }

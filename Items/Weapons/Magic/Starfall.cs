@@ -1,6 +1,7 @@
-using CalamityMod.Projectiles.Magic;
+﻿using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -12,32 +13,35 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             DisplayName.SetDefault("Starfall");
             Tooltip.SetDefault("Casts a spread of astral stars at the mouse cursor");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 50;
-            item.crit += 25;
-            item.magic = true;
-            item.mana = 15;
-            item.rare = 9;
-            item.width = 28;
-            item.height = 30;
-            item.useTime = 14;
-            item.useAnimation = 14;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 3.25f;
-            item.value = Item.buyPrice(0, 95, 0, 0);
-            item.UseSound = SoundID.Item105;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<AstralStarMagic>();
-            item.shootSpeed = 12f;
+            Item.damage = 57;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 15;
+            Item.rare = ItemRarityID.Cyan;
+            Item.width = 38;
+            Item.height = 40;
+            Item.useTime = 14;
+            Item.useAnimation = 14;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 3.25f;
+            Item.value = CalamityGlobalItem.Rarity9BuyPrice;
+            Item.UseSound = SoundID.Item105;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<AstralStarMagic>();
+            Item.shootSpeed = 12f;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        // Terraria seems to really dislike high crit values in SetDefaults
+        public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 25;
+
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            float num72 = item.shootSpeed;
+            float num72 = Item.shootSpeed;
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
             float num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
             float num79 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;
@@ -59,7 +63,7 @@ namespace CalamityMod.Items.Weapons.Magic
             {
                 float speedX4 = 2f + (float)Main.rand.Next(-8, 5);
                 float speedY5 = 15f + (float)Main.rand.Next(1, 6);
-                int star = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, type, damage, knockBack, player.whoAmI, 0f, 0f);
+                int star = Projectile.NewProjectile(source, vector2.X, vector2.Y, speedX4, speedY5, type, damage, knockback, player.whoAmI, 0f, 0f);
             }
             return false;
         }

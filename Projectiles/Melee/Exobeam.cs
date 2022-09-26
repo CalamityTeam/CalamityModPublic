@@ -1,187 +1,203 @@
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
+using CalamityMod.Items.Weapons.Typeless;
+using CalamityMod.Items.Weapons.Melee;
+using Terraria.Graphics.Shaders;
+using Terraria.Graphics.Effects;
+using static CalamityMod.CalamityUtils;
+using static Terraria.ModLoader.ModContent;
+using System;
+using Microsoft.Xna.Framework.Graphics;
+using System.Linq;
+using ReLogic.Content;
+
 namespace CalamityMod.Projectiles.Melee
 {
     public class Exobeam : ModProjectile
     {
-        private int counter = 0;
+        public int TargetIndex = -1;
+
+        public static float MaxWidth = 30;
+        public ref float Time => ref Projectile.ai[0];
+        public PrimitiveTrail TrailDrawer = null;
+        public PrimitiveTrail MiniTrailDrawer = null;
+
+        public static Asset<Texture2D> BloomTex;
+        public static Asset<Texture2D> SlashTex;
+        public static Asset<Texture2D> TrailTex;
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Beam");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            DisplayName.SetDefault("Exobeam");
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 30;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 16;
-            projectile.height = 16;
-            projectile.friendly = true;
-            projectile.melee = true;
-            projectile.ignoreWater = true;
-            projectile.penetrate = 1;
-            projectile.extraUpdates = 1;
-            projectile.alpha = 255;
-            projectile.timeLeft = 600;
-            projectile.light = 1f;
+            Projectile.width = 16;
+            Projectile.height = 16;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.MeleeNoSpeed;
+            Projectile.ignoreWater = true;
+            Projectile.tileCollide = false;
+            Projectile.penetrate = 1;
+            Projectile.extraUpdates = 1;
+            Projectile.alpha = 255;
+            Projectile.timeLeft = 600;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = Projectile.MaxUpdates * 12;
         }
 
         public override void AI()
         {
-            if (projectile.localAI[1] == 0f)
+            // Aim very, very quickly at targets.
+            // This takes a small amount of time to happen, to allow the blade to go in its intended direction before immediately racing
+            // towards the nearest target.
+            if (Time >= Exoblade.BeamNoHomeTime)
             {
-                Main.PlaySound(SoundID.Item60, (int)projectile.position.X, (int)projectile.position.Y);
-                projectile.localAI[1] += 1f;
-            }
-            counter++;
-            if (counter == 12)
-            {
-                counter = 0;
-                for (int l = 0; l < 12; l++)
+                if (TargetIndex >= 0)
                 {
-                    Vector2 vector3 = Vector2.UnitX * (float)-(float)projectile.width / 2f;
-                    vector3 += -Vector2.UnitY.RotatedBy((double)((float)l * 3.14159274f / 6f), default) * new Vector2(8f, 16f);
-                    vector3 = vector3.RotatedBy((double)(projectile.rotation - 1.57079637f), default);
-                    int num9 = Dust.NewDust(projectile.Center, 0, 0, 107, 0f, 0f, 160, new Color(0, 255, 255), 1f);
-                    Main.dust[num9].scale = 1.1f;
-                    Main.dust[num9].noGravity = true;
-                    Main.dust[num9].position = projectile.Center + vector3;
-                    Main.dust[num9].velocity = projectile.velocity * 0.1f;
-                    Main.dust[num9].velocity = Vector2.Normalize(projectile.Center - projectile.velocity * 3f - Main.dust[num9].position) * 1.25f;
-                }
-            }
-            projectile.alpha -= 40;
-            if (projectile.alpha < 0)
-            {
-                projectile.alpha = 0;
-            }
-            if (projectile.ai[0] == 0f)
-            {
-                projectile.localAI[0] += 1f;
-                if (projectile.localAI[0] >= 90f)
-                {
-                    projectile.localAI[0] = 0f;
-                    projectile.ai[0] = 1f;
-                    projectile.netUpdate = true;
-                }
-            }
-            else if (projectile.ai[0] == 1f)
-            {
-                projectile.localAI[0] += 1f;
-                if (projectile.localAI[0] >= 60f)
-                {
-                    projectile.localAI[0] = 0f;
-                    projectile.ai[0] = 2f;
-                    projectile.ai[1] = (float)Player.FindClosest(projectile.position, projectile.width, projectile.height);
-                    projectile.netUpdate = true;
-                }
-            }
-            else if (projectile.ai[0] == 2f)
-            {
-                Vector2 vector70 = Main.player[(int)projectile.ai[1]].Center - projectile.Center;
-                if (vector70.Length() < 30f)
-                {
-                    projectile.Kill();
-                    return;
-                }
-                vector70.Normalize();
-                vector70 *= 14f;
-                vector70 = Vector2.Lerp(projectile.velocity, vector70, 0.6f);
-                if (vector70.Y < 24f)
-                {
-                    vector70.Y = 24f;
-                }
-                float num804 = 0.4f;
-                if (projectile.velocity.X < vector70.X)
-                {
-                    projectile.velocity.X = projectile.velocity.X + num804;
-                    if (projectile.velocity.X < 0f && vector70.X > 0f)
+                    if (!Main.npc[TargetIndex].active || !Main.npc[TargetIndex].CanBeChasedBy())
+                        TargetIndex = -1;
+
+                    else
                     {
-                        projectile.velocity.X = projectile.velocity.X + num804;
+                        Vector2 idealVelocity = Projectile.SafeDirectionTo(Main.npc[TargetIndex].Center) * (Projectile.velocity.Length() + 3.5f);
+                        Projectile.velocity = Vector2.Lerp(Projectile.velocity, idealVelocity, 0.08f);
                     }
                 }
-                else if (projectile.velocity.X > vector70.X)
+
+                if (TargetIndex == -1)
                 {
-                    projectile.velocity.X = projectile.velocity.X - num804;
-                    if (projectile.velocity.X > 0f && vector70.X < 0f)
-                    {
-                        projectile.velocity.X = projectile.velocity.X - num804;
-                    }
-                }
-                if (projectile.velocity.Y < vector70.Y)
-                {
-                    projectile.velocity.Y = projectile.velocity.Y + num804;
-                    if (projectile.velocity.Y < 0f && vector70.Y > 0f)
-                    {
-                        projectile.velocity.Y = projectile.velocity.Y + num804;
-                    }
-                }
-                else if (projectile.velocity.Y > vector70.Y)
-                {
-                    projectile.velocity.Y = projectile.velocity.Y - num804;
-                    if (projectile.velocity.Y > 0f && vector70.Y < 0f)
-                    {
-                        projectile.velocity.Y = projectile.velocity.Y - num804;
-                    }
+                    NPC potentialTarget = Projectile.Center.ClosestNPCAt(1600f, false);
+                    if (potentialTarget != null)
+                        TargetIndex = potentialTarget.whoAmI;
+
+                    else
+                        Projectile.velocity *= 0.99f;
                 }
             }
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 0.785f;
+
+            Projectile.rotation = Projectile.velocity.ToRotation();
+
+            if (Main.rand.NextBool(2))
+            {
+                Color dustColor = Main.hslToRgb(Main.rand.NextFloat(), 1f, 0.9f);
+                Dust must = Dust.NewDustPerfect(Projectile.Center + Main.rand.NextVector2Circular(20f, 20f) + Projectile.velocity, 267, Projectile.velocity * -2.6f, 0, dustColor);
+                must.scale = 0.3f;
+                must.fadeIn = Main.rand.NextFloat() * 1.2f;
+                must.noGravity = true;
+            }
+
+            Projectile.scale = Utils.GetLerpValue(0f, 0.1f, Projectile.timeLeft / 600f, true);
+
+            if (Projectile.FinalExtraUpdate())
+                Time++;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-			target.ExoDebuffs();
+            SoundEngine.PlaySound(Exoblade.BeamHitSound, target.Center);
+            if (Main.myPlayer == Projectile.owner)
+            {
+                int slash = Projectile.NewProjectile(Projectile.GetSource_FromAI(), target.Center, Projectile.velocity * 0.1f, ModContent.ProjectileType<ExobeamSlashCreator>(), Projectile.damage, 0f, Projectile.owner, target.whoAmI, Projectile.velocity.ToRotation());
+                if (Main.projectile.IndexInRange(slash))
+                    Main.projectile[slash].timeLeft = 20;
+            }
+
+            target.ExoDebuffs();
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-			target.ExoDebuffs();
+            target.ExoDebuffs();
         }
 
-        public override Color? GetAlpha(Color lightColor)
+        public override Color? GetAlpha(Color lightColor) => Color.White with { A = 0 } * Projectile.Opacity;
+
+
+        public float TrailWidth(float completionRatio)
         {
-            return new Color(0, 255, 255, projectile.alpha);
+            float width = Utils.GetLerpValue(1f, 0.4f, completionRatio, true) * (float)Math.Sin(Math.Acos(1 - Utils.GetLerpValue(0f, 0.15f, completionRatio, true)));
+
+            width *= Utils.GetLerpValue(0f, 0.1f, Projectile.timeLeft / 600f, true);
+
+            return width * MaxWidth;
+        }
+        public Color TrailColor(float completionRatio)
+        {
+            Color baseColor = Color.Lerp(Color.Cyan, new Color(0, 0, 255), completionRatio);
+
+            return baseColor;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-        {
-			if (projectile.timeLeft > 595)
-				return false;
+        public float MiniTrailWidth(float completionRatio) => TrailWidth(completionRatio) * 0.8f;
+        public Color MiniTrailColor(float completionRatio) => Color.White;
 
-			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+
+        public override bool PreDraw(ref Color lightColor)
+        {
+            if (Projectile.timeLeft > 595)
+                return false;
+
+            Texture2D texture = Terraria.GameContent.TextureAssets.Projectile[Projectile.type].Value;
+            float bladeScale = Utils.GetLerpValue(3f, 13f, Projectile.velocity.Length(), true) * 1.2f;
+
+            //Draw the blade.
+            Main.EntitySpriteDraw(texture, Projectile.oldPos[2] + Projectile.Size / 2f - Main.screenPosition, null, Color.White with { A = 0 }, Projectile.rotation + MathHelper.PiOver4, texture.Size() / 2f, bladeScale * Projectile.scale, 0, 0);
+
+
+
+
+
+            if (BloomTex == null)
+                BloomTex = ModContent.Request<Texture2D>("CalamityMod/Particles/BloomCircle");
+            Texture2D bloomTex = BloomTex.Value;
+
+            Color mainColor = MulticolorLerp((Main.GlobalTimeWrappedHourly * 0.5f + Projectile.whoAmI * 0.12f) % 1, Color.Cyan, Color.Lime, Color.GreenYellow, Color.Goldenrod, Color.Orange);
+            Color secondaryColor = MulticolorLerp((Main.GlobalTimeWrappedHourly * 0.5f + Projectile.whoAmI * 0.12f + 0.2f) % 1, Color.Cyan, Color.Lime, Color.GreenYellow, Color.Goldenrod, Color.Orange);
+
+            //Draw the bloom unde the trail
+            Main.EntitySpriteDraw(bloomTex, Projectile.oldPos[2] + Projectile.Size / 2f - Main.screenPosition, null, (mainColor * 0.1f) with { A = 0 }, 0, bloomTex.Size() / 2f, 1.3f * Projectile.scale, 0, 0);
+            Main.EntitySpriteDraw(bloomTex, Projectile.oldPos[1] + Projectile.Size / 2f - Main.screenPosition, null, (mainColor * 0.5f) with { A = 0 }, 0, bloomTex.Size() / 2f, 0.34f * Projectile.scale, 0, 0);
+
+
+            TrailDrawer ??= new(TrailWidth, TrailColor, null, GameShaders.Misc["CalamityMod:ExobladePierce"]);
+            MiniTrailDrawer ??= new(MiniTrailWidth, MiniTrailColor, null, GameShaders.Misc["CalamityMod:ExobladePierce"]);
+
+            Main.spriteBatch.EnterShaderRegion();
+
+            if (TrailTex == null)
+                TrailTex = Request<Texture2D>("CalamityMod/ExtraTextures/BasicTrail");
+
+            GameShaders.Misc["CalamityMod:ExobladePierce"].SetShaderTexture(TrailTex);
+            GameShaders.Misc["CalamityMod:ExobladePierce"].UseImage2("Images/Extra_189");
+            GameShaders.Misc["CalamityMod:ExobladePierce"].UseColor(mainColor);
+            GameShaders.Misc["CalamityMod:ExobladePierce"].UseSecondaryColor(secondaryColor);
+            GameShaders.Misc["CalamityMod:ExobladePierce"].Apply();
+
+            GameShaders.Misc["CalamityMod:ExobladePierce"].Apply();
+            
+            TrailDrawer.Draw(Projectile.oldPos, Projectile.Size * 0.5f - Main.screenPosition, 30, Projectile.oldRot);
+
+            GameShaders.Misc["CalamityMod:ExobladePierce"].UseColor(Color.White);
+            GameShaders.Misc["CalamityMod:ExobladePierce"].UseSecondaryColor(Color.White);
+
+            MiniTrailDrawer.Draw(Projectile.oldPos, Projectile.Size * 0.5f - Main.screenPosition, 30, Projectile.oldRot);
+
+            Main.spriteBatch.ExitShaderRegion();
+
+            //Draw the bloom above the trail
+            Main.EntitySpriteDraw(bloomTex, Projectile.oldPos[2] + Projectile.Size / 2f - Main.screenPosition, null, (Color.White * 0.2f) with { A = 0 }, 0, bloomTex.Size() / 2f, 0.78f * Projectile.scale, 0, 0);
+            Main.EntitySpriteDraw(bloomTex, Projectile.oldPos[1] + Projectile.Size / 2f - Main.screenPosition, null, (Color.White * 0.5f) with { A = 0 }, 0, bloomTex.Size() / 2f, 0.2f * Projectile.scale, 0, 0);
+            
+            
+            
             return false;
-        }
-
-        public override void Kill(int timeLeft)
-        {
-            projectile.position = projectile.Center;
-            projectile.width = projectile.height = 192;
-            projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-            projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
-            projectile.maxPenetrate = -1;
-            projectile.penetrate = -1;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
-            projectile.Damage();
-            Main.PlaySound(SoundID.Zombie, (int)projectile.Center.X, (int)projectile.Center.Y, 103);
-            for (int num193 = 0; num193 < 3; num193++)
-            {
-                Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 107, 0f, 0f, 100, new Color(0, 255, 255), 1.5f);
-            }
-            for (int num194 = 0; num194 < 30; num194++)
-            {
-                int num195 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 107, 0f, 0f, 0, new Color(0, 255, 255), 2.5f);
-                Main.dust[num195].noGravity = true;
-                Main.dust[num195].velocity *= 3f;
-                num195 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 107, 0f, 0f, 100, new Color(0, 255, 255), 1.5f);
-                Main.dust[num195].velocity *= 2f;
-                Main.dust[num195].noGravity = true;
-            }
         }
     }
 }

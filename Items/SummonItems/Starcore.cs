@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Items.Potions;
 using Terraria.ID;
@@ -10,27 +10,34 @@ namespace CalamityMod.Items.SummonItems
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Starcore");
             Tooltip.SetDefault("May the stars guide your way\n" +
-                "Summons Astrum Deus at the Astral Beacon but is not consumed.");
+                "Summons Astrum Deus at the Astral Beacon, but is not consumed\n" +
+                "Enrages during the day");
+			ItemID.Sets.SortingPriorityBossSpawns[Type] = 16; // Solar Tablet / Bloody Tear
         }
 
         public override void SetDefaults()
         {
-            item.width = 34;
-            item.height = 40;
-            item.rare = 9;
+            Item.width = 34;
+            Item.height = 40;
+            Item.rare = ItemRarityID.Cyan;
         }
+
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = ContentSamples.CreativeHelper.ItemGroup.BossItem;
+		}
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Stardust>(), 25);
-            recipe.AddIngredient(ModContent.ItemType<AstralJelly>(), 8);
-            recipe.AddIngredient(ModContent.ItemType<AstralBar>(), 4);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient<Stardust>(25).
+                AddIngredient<AureusCell>(8).
+                AddIngredient<AstralBar>(4).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

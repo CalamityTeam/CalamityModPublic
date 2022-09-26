@@ -1,7 +1,10 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Rogue;
+using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
+using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -13,43 +16,54 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             DisplayName.SetDefault("Scarlet Devil");
             Tooltip.SetDefault("Throws an ultra high velocity spear, which creates more projectiles that home in\n" +
-            "The spear creates a Scarlet Blast upon hitting an enemy\n" +
-            "Stealth strikes grant you lifesteal\n" +
-            "'Divine Spear \"Spear the Gungnir\"'");
+                "The spear creates a Scarlet Blast upon hitting an enemy\n" +
+                "Stealth strikes grant you lifesteal and summon a star of projectiles upon hitting an enemy\n" +
+                "'Divine Spear \"Spear the Gungnir\"'");
+            SacrificeTotal = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
-            item.width = 94;
-            item.height = 94;
-            item.damage = 40000;
-            item.crit += 20;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.useAnimation = 60;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 60;
-            item.knockBack = 8f;
-            item.UseSound = SoundID.Item60;
-            item.autoReuse = true;
-            item.value = Item.buyPrice(5, 0, 0, 0);
-            item.rare = 8;
-            item.shoot = ModContent.ProjectileType<ScarletDevilProjectile>();
-            item.shootSpeed = 30f;
-            item.Calamity().rogue = true;
-            item.Calamity().customRarity = CalamityRarity.ItemSpecific;
+            Item.width = 108;
+            Item.height = 108;
+            Item.damage = 8000;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.useAnimation = Item.useTime = 81;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 8f;
+            Item.UseSound = SoundID.Item60;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<ScarletDevilProjectile>();
+            Item.shootSpeed = 30f;
+            Item.DamageType = RogueDamageClass.Instance;
+
+            Item.value = CalamityGlobalItem.Rarity16BuyPrice;
+            Item.rare = ModContent.RarityType<HotPink>();
+            Item.Calamity().devItem = true;
         }
+
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        {
+            int proj = Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
+            if (Main.projectile.IndexInRange(proj))
+                Main.projectile[proj].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
+            return false;
+        }
+
+        // Terraria seems to really dislike high crit values in SetDefaults
+        public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 20;
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<ProfanedTrident>());
-            recipe.AddIngredient(ModContent.ItemType<BloodstoneCore>(), 15);
-            recipe.AddIngredient(ItemID.SoulofNight, 15);
-            recipe.AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient<Wrathwing>().
+                AddIngredient<PhantasmalRuin>().
+                AddIngredient<BloodstoneCore>(15).
+                AddIngredient(ItemID.SoulofNight, 15).
+                AddIngredient<ShadowspecBar>(5).
+                AddTile<DraedonsForge>().
+                Register();
         }
     }
 }

@@ -1,6 +1,6 @@
-using Microsoft.Xna.Framework;
-using System;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -12,38 +12,38 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             DisplayName.SetDefault("Hyphae Rod");
             Tooltip.SetDefault("Creates mushroom spores near the player");
-            Item.staff[item.type] = true;
+            Item.staff[Item.type] = true;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 15;
-            item.magic = true;
-            item.mana = 7;
-            item.width = 34;
-            item.height = 34;
-            item.useTime = 24;
-            item.useAnimation = 24;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 2f;
-            item.value = Item.buyPrice(0, 2, 0, 0);
-            item.rare = 2;
-            item.UseSound = SoundID.Item8;
-            item.autoReuse = true;
-            item.shoot = ProjectileID.TruffleSpore;
-            item.shootSpeed = 1f;
+            Item.damage = 22;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 7;
+            Item.width = 34;
+            Item.height = 34;
+            Item.useTime = 24;
+            Item.useAnimation = 24;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 2f;
+            Item.value = CalamityGlobalItem.Rarity2BuyPrice;
+            Item.rare = ItemRarityID.Green;
+            Item.UseSound = SoundID.Item8;
+            Item.autoReuse = true;
+            Item.shoot = ProjectileID.TruffleSpore;
+            Item.shootSpeed = 1f;
         }
 
-        public override Vector2? HoldoutOrigin() => new Vector2(15, 15);
-
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo projSource, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            float speed = item.shootSpeed;
+            float speed = Item.shootSpeed;
             Vector2 source = player.RotatedRelativePoint(player.MountedCenter, true);
             float xDist = (float)Main.mouseX + Main.screenPosition.X + source.X;
             float yDist = (float)Main.mouseY + Main.screenPosition.Y + source.Y;
-			Vector2 spawnVec = new Vector2(xDist, yDist);
+            Vector2 spawnVec = new Vector2(xDist, yDist);
             if (player.gravDir == -1f)
             {
                 spawnVec.Y = Main.screenPosition.Y + (float)Main.screenHeight + (float)Main.mouseY + source.Y;
@@ -82,9 +82,12 @@ namespace CalamityMod.Items.Weapons.Magic
                 spawnVec.Y *= distance;
                 spawnVec.X += (float)Main.rand.Next(-180, 181) * 0.02f;
                 spawnVec.Y += (float)Main.rand.Next(-180, 181) * 0.02f;
-                int proj = Projectile.NewProjectile(source, spawnVec, type, damage, knockBack, player.whoAmI, 0f, Main.rand.Next(3));
-                Main.projectile[proj].Calamity().forceMagic = true;
-                Main.projectile[proj].timeLeft = CalamityUtils.SecondsToFrames(8f);
+                int proj = Projectile.NewProjectile(projSource, source, spawnVec, type, damage, knockback, player.whoAmI, 0f, Main.rand.Next(3));
+                if (proj.WithinBounds(Main.maxProjectiles))
+                {
+                    Main.projectile[proj].DamageType = DamageClass.Magic;
+                    Main.projectile[proj].timeLeft = CalamityUtils.SecondsToFrames(3f);
+                }
             }
             return false;
         }

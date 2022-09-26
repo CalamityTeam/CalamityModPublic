@@ -1,8 +1,10 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
+using Terraria.DataStructures;
 
 namespace CalamityMod.Items.Accessories.Wings
 {
@@ -11,34 +13,36 @@ namespace CalamityMod.Items.Accessories.Wings
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("MOAB");
             Tooltip.SetDefault("The mother of all balloons\n" +
                 "Counts as wings\n" +
-                "Horizontal speed: 6.5\n" +
-                "Acceleration multiplier: 1\n" +
+                "Horizontal speed: 6.50\n" +
+                "Acceleration multiplier: 1.0\n" +
                 "Good vertical speed\n" +
                 "Flight time: 75\n" +
-                "16% increased jump speed and allows auto-jump\n" +
+                "10% increased jump speed and allows constant jumping\n" +
                 "Grants the player cloud, blizzard, and sandstorm mid-air jumps");
+            ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new WingStats(75, 6.5f, 1f);
         }
 
         public override void SetDefaults()
         {
-            item.width = 28;
-            item.height = 32;
-            item.value = CalamityGlobalItem.Rarity6BuyPrice;
-            item.rare = 6;
-            item.accessory = true;
+            Item.width = 28;
+            Item.height = 32;
+            Item.value = CalamityGlobalItem.Rarity6BuyPrice;
+            Item.rare = ItemRarityID.LightPurple;
+            Item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            if (player.controlJump && player.wingTime > 0f && !player.jumpAgainCloud && player.jump == 0 && player.velocity.Y != 0f && !hideVisual)
+            if (player.controlJump && player.wingTime > 0f && !player.canJumpAgain_Cloud && player.jump == 0 && player.velocity.Y != 0f && !hideVisual)
             {
                 player.rocketDelay2--;
                 if (player.rocketDelay2 <= 0)
                 {
-                    Main.PlaySound(SoundID.Item13, player.position);
+                    SoundEngine.PlaySound(SoundID.Item13, player.position);
                     player.rocketDelay2 = 60;
                 }
                 int dustAmt = 2;
@@ -48,7 +52,7 @@ namespace CalamityMod.Items.Accessories.Wings
                 }
                 for (int index = 0; index < dustAmt; index++)
                 {
-                    int type = DustID.Fire;
+                    int type = 6;
                     if (player.head == 41)
                     {
                         int arg_58FD_0 = player.body;
@@ -86,14 +90,13 @@ namespace CalamityMod.Items.Accessories.Wings
                     }
                 }
             }
-            player.doubleJumpCloud = true;
-            player.doubleJumpSandstorm = true;
-            player.doubleJumpBlizzard = true;
+            player.hasJumpOption_Cloud = true;
+            player.hasJumpOption_Sandstorm = true;
+            player.hasJumpOption_Blizzard = true;
             player.jumpBoost = true;
             player.autoJump = true;
             player.noFallDmg = true;
-            player.jumpSpeedBoost += 0.8f;
-            player.wingTimeMax = 75;
+            player.jumpSpeedBoost += 0.5f;
         }
 
         public override void VerticalWingSpeeds(Player player, ref float ascentWhenFalling, ref float ascentWhenRising, ref float maxCanAscendMultiplier, ref float maxAscentMultiplier, ref float constantAscend)
@@ -105,24 +108,18 @@ namespace CalamityMod.Items.Accessories.Wings
             constantAscend = 0.125f;
         }
 
-        public override void HorizontalWingSpeeds(Player player, ref float speed, ref float acceleration)
-        {
-            speed = 6.5f;
-        }
-
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.FrogLeg);
-            recipe.AddIngredient(ItemID.BundleofBalloons);
-            recipe.AddIngredient(ItemID.LuckyHorseshoe);
-            recipe.AddIngredient(ItemID.Jetpack);
-            recipe.AddIngredient(ItemID.SoulofMight);
-            recipe.AddIngredient(ItemID.SoulofSight);
-            recipe.AddIngredient(ItemID.SoulofFright);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient(ItemID.FrogLeg).
+                AddIngredient(ItemID.BundleofBalloons).
+                AddIngredient(ItemID.LuckyHorseshoe).
+                AddIngredient(ItemID.Jetpack).
+                AddIngredient(ItemID.SoulofMight).
+                AddIngredient(ItemID.SoulofSight).
+                AddIngredient(ItemID.SoulofFright).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

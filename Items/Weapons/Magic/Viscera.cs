@@ -1,9 +1,10 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
+using CalamityMod.Rarities;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
@@ -14,42 +15,36 @@ namespace CalamityMod.Items.Weapons.Magic
             DisplayName.SetDefault("Viscera");
             Tooltip.SetDefault("Fires a blood beam that heals you on enemy hits\n" +
                 "The more tiles and enemies the beam bounces off of or travels through the more healing the beam does");
-            Item.staff[item.type] = true;
+            Item.staff[Item.type] = true;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 153;
-            item.magic = true;
-            item.mana = 15;
-            item.width = 50;
-            item.height = 52;
-            item.useTime = 14;
-            item.useAnimation = 14;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 6f;
-            item.value = Item.buyPrice(1, 40, 0, 0);
-            item.rare = 10;
-            item.UseSound = SoundID.Item20;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<VisceraBeam>();
-            item.shootSpeed = 6f;
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
-        }
-
-        public override Vector2? HoldoutOrigin()
-        {
-            return new Vector2(15, 15);
+            Item.damage = 100;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 15;
+            Item.width = 50;
+            Item.height = 52;
+            Item.useTime = 14;
+            Item.useAnimation = 14;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 6f;
+            Item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            Item.rare = ModContent.RarityType<Turquoise>();
+            Item.UseSound = SoundID.Item20;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<VisceraBeam>();
+            Item.shootSpeed = 6f;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<BloodstoneCore>(), 4);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient<BloodstoneCore>(4).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

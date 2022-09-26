@@ -7,13 +7,13 @@ namespace CalamityMod.Tiles.FurnitureVoid
 {
     public class SmoothVoidstonePlatform : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
-            this.SetUpPlatform();
+            this.SetUpPlatform(true);
             AddMapEntry(new Color(191, 142, 111));
-            drop = ModContent.ItemType<Items.Placeables.FurnitureVoid.SmoothVoidstonePlatform>();
-            disableSmartCursor = true;
-            adjTiles = new int[] { TileID.Platforms };
+            ItemDrop = ModContent.ItemType<Items.Placeables.FurnitureVoid.SmoothVoidstonePlatform>();
+            TileID.Sets.DisableSmartCursor[Type] = true;
+            AdjTiles = new int[] { TileID.Platforms };
         }
 
         public override bool CreateDust(int i, int j, ref int type)

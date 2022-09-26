@@ -1,3 +1,4 @@
+﻿using CalamityMod.Dusts;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -5,6 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -13,98 +15,114 @@ namespace CalamityMod.NPCs.Polterghast
     public class PhantomFuckYou : ModNPC
     {
         private bool start = true;
-        private int timer = 0;
 
         public override void SetStaticDefaults()
         {
+            this.HideFromBestiary();
             DisplayName.SetDefault("Phantom");
-			NPCID.Sets.TrailingMode[npc.type] = 1;
-		}
+            NPCID.Sets.TrailingMode[NPC.type] = 1;
+        }
 
         public override void SetDefaults()
         {
-            npc.aiStyle = -1;
-            aiType = -1;
-            npc.width = 30;
-            npc.height = 30;
-            npc.noGravity = true;
-            npc.noTileCollide = true;
-            npc.damage = 0;
-            npc.lifeMax = 1500;
-            npc.dontTakeDamage = true;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
-            npc.HitSound = SoundID.NPCHit4;
-            npc.DeathSound = SoundID.NPCDeath14;
+            NPC.aiStyle = -1;
+            AIType = -1;
+            NPC.width = 30;
+            NPC.height = 30;
+            NPC.defense = 45;
+            NPC.DR_NERD(0.1f);
+            NPC.noGravity = true;
+            NPC.noTileCollide = true;
+            NPC.canGhostHeal = false;
+            NPC.damage = 0;
+            NPC.LifeMaxNERB(Main.expertMode ? 22500 : 17500, CalamityWorld.death ? 45000 : 37500, 30000);
+            NPC.HitSound = SoundID.NPCHit36;
+            NPC.DeathSound = SoundID.NPCDeath39;
+            NPC.Calamity().VulnerableToSickness = false;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
         {
             writer.Write(start);
-            writer.Write(timer);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             start = reader.ReadBoolean();
-            timer = reader.ReadInt32();
         }
 
         public override bool PreAI()
         {
-            bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
-
             if (start)
             {
                 start = false;
 
-                for (int num621 = 0; num621 < 5; num621++)
-                    Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 180, 0f, 0f, 100, default, 2f);
+                for (int i = 0; i < 10; i++)
+                {
+                    int dust = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, (int)CalamityDusts.Ectoplasm, 0f, 0f, 100, default, 2f);
+                    Main.dust[dust].noGravity = true;
+                }
 
-                npc.ai[1] = npc.ai[0];
+                NPC.ai[1] = NPC.ai[0];
             }
 
             if (CalamityGlobalNPC.ghostBoss < 0 || !Main.npc[CalamityGlobalNPC.ghostBoss].active)
             {
-                npc.active = false;
-                npc.netUpdate = true;
+                NPC.active = false;
+                NPC.netUpdate = true;
                 return false;
             }
 
-			// Percent life remaining, Polter
-			float lifeRatio = Main.npc[CalamityGlobalNPC.ghostBoss].life / Main.npc[CalamityGlobalNPC.ghostBoss].lifeMax;
+            float chargePhaseGateValue = 480f;
+            if (Main.getGoodWorld)
+                chargePhaseGateValue *= 0.5f;
 
-			npc.TargetClosest(true);
+            bool chargePhase = Main.npc[CalamityGlobalNPC.ghostBoss].Calamity().newAI[0] >= chargePhaseGateValue - 60f;
 
-            Vector2 direction = Main.player[npc.target].Center - npc.Center;
+            // Percent life remaining, Polter
+            float lifeRatio = Main.npc[CalamityGlobalNPC.ghostBoss].life / Main.npc[CalamityGlobalNPC.ghostBoss].lifeMax;
+
+            // Scale multiplier based on nearby active tiles
+            float tileEnrageMult = Main.npc[CalamityGlobalNPC.ghostBoss].ai[3];
+
+            NPC.TargetClosest(true);
+
+            Vector2 direction = Main.player[NPC.target].Center - NPC.Center;
             direction.Normalize();
-            direction *= 9f;
-            npc.rotation = direction.ToRotation();
+            direction *= 0.5f;
+            NPC.rotation = direction.ToRotation();
 
-            timer++;
-            if (timer >= 150)
+            if (!chargePhase)
             {
-                if (Main.netMode != NetmodeID.MultiplayerClient)
-                {
-                    int damage = expertMode ? 62 : 75;
-                    Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X * 0.05f, direction.Y * 0.05f, ModContent.ProjectileType<PhantomMine>(), damage, 1f, npc.target);
-                }
+                NPC.ai[2] += 1f;
+                float shootMineGateValue = 150f;
+                if (Main.getGoodWorld)
+                    shootMineGateValue *= 0.5f;
 
-                timer = 0;
+                if (NPC.ai[2] >= shootMineGateValue)
+                {
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
+                    {
+                        int type = ModContent.ProjectileType<PhantomMine>();
+                        int damage = NPC.GetProjectileDamage(type);
+                        float maxVelocity = 8f * tileEnrageMult;
+                        float acceleration = 1.15f + (tileEnrageMult - 1f) * 0.15f;
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, direction, type, damage, 1f, NPC.target, maxVelocity, acceleration);
+                    }
+                    NPC.ai[2] = 0f;
+                }
             }
 
-			NPC parent = Main.npc[NPC.FindFirstNPC(ModContent.NPCType<Polterghast>())];
-			double deg = npc.ai[1];
+            NPC parent = Main.npc[NPC.FindFirstNPC(ModContent.NPCType<Polterghast>())];
+            double deg = NPC.ai[1];
             double rad = deg * (Math.PI / 180);
             double dist = 500;
-            npc.position.X = parent.Center.X - (int)(Math.Cos(rad) * dist) - npc.width / 2;
-            npc.position.Y = parent.Center.Y - (int)(Math.Sin(rad) * dist) - npc.height / 2;
-			float SPEEN = 1f - lifeRatio * 2f;
-			if (SPEEN < 0f)
-				SPEEN = 0f;
-			npc.ai[1] += 0.5f + SPEEN;
+            NPC.position.X = parent.Center.X - (int)(Math.Cos(rad) * dist) - NPC.width / 2;
+            NPC.position.Y = parent.Center.Y - (int)(Math.Sin(rad) * dist) - NPC.height / 2;
+            float SPEEN = 1f - lifeRatio * 2f;
+            if (SPEEN < 0f)
+                SPEEN = 0f;
+            NPC.ai[1] += (Main.getGoodWorld ? 1.5f : 0.5f) + SPEEN;
             return false;
         }
 
@@ -118,39 +136,71 @@ namespace CalamityMod.NPCs.Polterghast
             return false;
         }
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-		{
-			SpriteEffects spriteEffects = SpriteEffects.None;
-			if (npc.spriteDirection == 1)
-				spriteEffects = SpriteEffects.FlipHorizontally;
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
+        {
+            SpriteEffects spriteEffects = SpriteEffects.None;
+            if (NPC.spriteDirection == 1)
+                spriteEffects = SpriteEffects.FlipHorizontally;
 
-			Texture2D texture2D15 = Main.npcTexture[npc.type];
-			Vector2 vector11 = new Vector2(Main.npcTexture[npc.type].Width / 2, Main.npcTexture[npc.type].Height / 2);
-			Color color36 = Color.White;
-			float amount9 = 0.5f;
-			int num153 = 5;
+            Texture2D texture2D15 = TextureAssets.Npc[NPC.type].Value;
+            Vector2 vector11 = new Vector2(TextureAssets.Npc[NPC.type].Value.Width / 2, TextureAssets.Npc[NPC.type].Value.Height / 2);
+            Color color36 = Color.White;
+            float amount9 = 0.5f;
+            int num153 = 5;
 
-			if (CalamityConfig.Instance.Afterimages)
-			{
-				for (int num155 = 1; num155 < num153; num155 += 2)
-				{
-					Color color38 = lightColor;
-					color38 = Color.Lerp(color38, color36, amount9);
-					color38 = npc.GetAlpha(color38);
-					color38 *= (num153 - num155) / 15f;
-					Vector2 vector41 = npc.oldPos[num155] + new Vector2(npc.width, npc.height) / 2f - Main.screenPosition;
-					vector41 -= new Vector2(texture2D15.Width, texture2D15.Height) * npc.scale / 2f;
-					vector41 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
-					spriteBatch.Draw(texture2D15, vector41, npc.frame, color38, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
-				}
-			}
+            if (CalamityConfig.Instance.Afterimages)
+            {
+                for (int num155 = 1; num155 < num153; num155 += 2)
+                {
+                    Color color38 = drawColor;
+                    color38 = Color.Lerp(color38, color36, amount9);
+                    color38 = NPC.GetAlpha(color38);
+                    color38 *= (num153 - num155) / 15f;
+                    Vector2 vector41 = NPC.oldPos[num155] + new Vector2(NPC.width, NPC.height) / 2f - screenPos;
+                    vector41 -= new Vector2(texture2D15.Width, texture2D15.Height) * NPC.scale / 2f;
+                    vector41 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY);
+                    spriteBatch.Draw(texture2D15, vector41, NPC.frame, color38, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
+                }
+            }
 
-			Vector2 vector43 = npc.Center - Main.screenPosition;
-			vector43 -= new Vector2(texture2D15.Width, texture2D15.Height) * npc.scale / 2f;
-			vector43 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
-			spriteBatch.Draw(texture2D15, vector43, npc.frame, npc.GetAlpha(lightColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+            Vector2 vector43 = NPC.Center - screenPos;
+            vector43 -= new Vector2(texture2D15.Width, texture2D15.Height) * NPC.scale / 2f;
+            vector43 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY);
+            spriteBatch.Draw(texture2D15, vector43, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
 
-			return false;
-		}
-	}
+            return false;
+        }
+
+        public override void HitEffect(int hitDirection, double damage)
+        {
+            Dust.NewDust(NPC.position, NPC.width, NPC.height, 180, hitDirection, -1f, 0, default, 1f);
+            if (NPC.life <= 0)
+            {
+                NPC.position.X = NPC.position.X + (NPC.width / 2);
+                NPC.position.Y = NPC.position.Y + (NPC.height / 2);
+                NPC.width = 45;
+                NPC.height = 45;
+                NPC.position.X = NPC.position.X - (NPC.width / 2);
+                NPC.position.Y = NPC.position.Y - (NPC.height / 2);
+                for (int num621 = 0; num621 < 2; num621++)
+                {
+                    int num622 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, (int)CalamityDusts.Phantoplasm, 0f, 0f, 100, default, 2f);
+                    Main.dust[num622].velocity *= 3f;
+                    if (Main.rand.NextBool(2))
+                    {
+                        Main.dust[num622].scale = 0.5f;
+                        Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
+                    }
+                }
+                for (int num623 = 0; num623 < 10; num623++)
+                {
+                    int num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 180, 0f, 0f, 100, default, 3f);
+                    Main.dust[num624].noGravity = true;
+                    Main.dust[num624].velocity *= 5f;
+                    num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 180, 0f, 0f, 100, default, 2f);
+                    Main.dust[num624].velocity *= 2f;
+                }
+            }
+        }
+    }
 }

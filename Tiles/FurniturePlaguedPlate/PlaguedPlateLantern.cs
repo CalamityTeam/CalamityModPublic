@@ -1,21 +1,21 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurniturePlaguedPlate
 {
     public class PlaguedPlateLantern : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
-            this.SetUpLantern();
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Plagued Lantern");
-            AddMapEntry(new Color(191, 142, 111), name);
+            this.SetUpLantern(true);
+            AddMapEntry(new Color(191, 142, 111), Language.GetText("MapObject.Lantern"));
 
-            disableSmartCursor = true;
-            adjTiles = new int[] { TileID.Torches };
+            TileID.Sets.DisableSmartCursor[Type] = true;
+            AdjTiles = new int[] { TileID.HangingLanterns };
         }
 
         public override bool CreateDust(int i, int j, ref int type)
@@ -31,12 +31,12 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 16, 32, ModContent.ItemType<Items.Placeables.FurniturePlaguedPlate.PlaguedPlateLantern>());
+            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 32, ModContent.ItemType<Items.Placeables.FurniturePlagued.PlaguedPlateLantern>());
         }
 
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
-            if (Main.tile[i, j].frameX < 18)
+            if (Main.tile[i, j].TileFrameX < 18)
             {
                 r = 0.4f;
                 g = 1f;

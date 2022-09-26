@@ -1,7 +1,8 @@
-using CalamityMod.Projectiles.Typeless;
+﻿using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -13,17 +14,18 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Amidias' Pendant");
             Tooltip.SetDefault("Periodically rains down prism shards that can briefly stun enemies");
         }
 
         public override void SetDefaults()
         {
-            item.width = 26;
-            item.height = 46;
-            item.value = CalamityGlobalItem.Rarity2BuyPrice;
-            item.rare = 2;
-            item.accessory = true;
+            Item.width = 26;
+            Item.height = 46;
+            Item.value = CalamityGlobalItem.Rarity2BuyPrice;
+            Item.rare = ItemRarityID.Green;
+            Item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -39,6 +41,7 @@ namespace CalamityMod.Items.Accessories
                 {
                     if (player.whoAmI == Main.myPlayer)
                     {
+                        var source = player.GetSource_Accessory(Item);
                         int speed2 = 25;
                         float spawnX = Main.rand.Next(1000) - 500 + player.Center.X;
                         float spawnY = -1000 + player.Center.Y;
@@ -69,7 +72,8 @@ namespace CalamityMod.Items.Accessories
                                     damage = 30;
                                     break;
                             }
-                            Projectile.NewProjectile(spawn.X, spawn.Y, velocity.X / 3, velocity.Y / 2, type, (int)(damage * player.AverageDamage()), 5f, Main.myPlayer, 0f, 0f);
+                            int finalDamage = (int)player.GetBestClassDamage().ApplyTo(damage);
+                            Projectile.NewProjectile(source, spawn.X, spawn.Y, velocity.X / 3, velocity.Y / 2, type, finalDamage, 5f, Main.myPlayer, 0f, 0f);
                         }
                     }
                 }

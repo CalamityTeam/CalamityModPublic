@@ -1,5 +1,6 @@
-using CalamityMod.Buffs.StatDebuffs;
+﻿using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Materials;
+using CalamityMod.Items.Placeables;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -12,37 +13,38 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             DisplayName.SetDefault("Basher");
             Tooltip.SetDefault("Inflicts irradiated on enemy hits");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.width = 40;
-            item.height = 42;
-            item.damage = 17;
-            item.melee = true;
-            item.useAnimation = item.useTime = 26;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 7f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.useTurn = true;
-            item.value = Item.buyPrice(0, 1, 0, 0);
-            item.rare = 1;
-        }
-
-        public override void AddRecipes()
-        {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<SulfuricScale>(), 12);
-            recipe.AddIngredient(ModContent.ItemType<Acidwood>(), 30);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            Item.width = 56;
+            Item.height = 60;
+            Item.damage = 30;
+            Item.scale = 1.05f;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = Item.useTime = 26;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 7f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.useTurn = true;
+            Item.value = CalamityGlobalItem.Rarity1BuyPrice;
+            Item.rare = ItemRarityID.Blue;
         }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<Irradiated>(), 120);
+            target.AddBuff(ModContent.BuffType<Irradiated>(), 300);
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe(1).
+                AddIngredient<SulphuricScale>(12).
+                AddIngredient<Acidwood>(30).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

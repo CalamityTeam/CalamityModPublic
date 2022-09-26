@@ -1,15 +1,18 @@
-using CalamityMod.Projectiles.Melee;
+﻿using CalamityMod.Projectiles.Melee;
 using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Ranged
 {
     public class StarfleetMK2Gun : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Ranged/Starmada";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Starmada");
@@ -17,134 +20,124 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetDefaults()
         {
-            projectile.width = 122;
-            projectile.height = 50;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.ranged = true;
-            projectile.ignoreWater = true;
+            Projectile.width = 122;
+            Projectile.height = 50;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.ignoreWater = true;
         }
 
         public override void AI()
         {
-            Lighting.AddLight(projectile.Center, 32f / 255f, 208f / 255f, 255f / 255f);
-            Player player = Main.player[projectile.owner];
-            projectile.ai[1]--;
-            if (projectile.ai[0] >= 0f)
+            Lighting.AddLight(Projectile.Center, 32f / 255f, 208f / 255f, 255f / 255f);
+            Player player = Main.player[Projectile.owner];
+            Projectile.ai[1]--;
+            if (Projectile.ai[0] >= 0f)
             {
-                projectile.ai[0] += 1f;
-                switch ((int)projectile.ai[0])
+                Projectile.ai[0] += 1f;
+                switch ((int)Projectile.ai[0])
                 {
                     case 90:
                     case 180:
                     case 270:
                     case 360:
                     case 450:
-                        projectile.localAI[0] += 1f;
+                        Projectile.localAI[0] += 1f;
                         break;
                     case 540:
-                        projectile.localAI[0] += 1f;
-                        projectile.ai[0] = -1f;
-                        Main.PlaySound(SoundID.Item14, projectile.position);
-                        int num226 = 36;
-                        for (int num227 = 0; num227 < num226; num227++)
+                        Projectile.localAI[0] += 1f;
+                        Projectile.ai[0] = -1f;
+                        SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);
+                        int dustAmt = 36;
+                        for (int d = 0; d < dustAmt; d++)
                         {
-                            Vector2 vector6 = Vector2.Normalize(projectile.velocity) * 9f;
-                            vector6 = vector6.RotatedBy((num227 - (num226 / 2 - 1)) * 6.28318548f / num226, default) + player.Center;
-                            Vector2 vector7 = vector6 - player.Center;
-                            int num228 = Dust.NewDust(vector6 + vector7, 0, 0, 221, 0f, 0f, 0, default, 4f);
-                            Main.dust[num228].noGravity = true;
-                            Main.dust[num228].velocity = vector7;
+                            Vector2 source = Vector2.Normalize(Projectile.velocity) * 9f;
+                            source = source.RotatedBy((d - (dustAmt / 2 - 1)) * MathHelper.TwoPi / dustAmt, default) + player.Center;
+                            Vector2 dustVel = source - player.Center;
+                            int index = Dust.NewDust(source + dustVel, 0, 0, 221, 0f, 0f, 0, default, 4f);
+                            Main.dust[index].noGravity = true;
+                            Main.dust[index].velocity = dustVel;
                         }
                         break;
                 }
             }
-            int baseUseTime = 27;
+            int baseUseTime = 27; //Ranges from 27 to 15 use time
             int modifier = 2;
             bool timeToFire = false;
-            if (projectile.ai[1] <= 0f)
+            if (Projectile.ai[1] <= 0f)
             {
-                projectile.ai[1] = baseUseTime - modifier * projectile.localAI[0];
+                Projectile.ai[1] = baseUseTime - modifier * Projectile.localAI[0];
                 timeToFire = true;
             }
-            bool canFire = player.channel && player.HasAmmo(player.ActiveItem(), true) && !player.noItems && !player.CCed;
-            if (projectile.soundDelay <= 0 && canFire)
+            bool canFire = player.channel && player.HasAmmo(player.ActiveItem()) && !player.noItems && !player.CCed;
+            if (Projectile.soundDelay <= 0 && canFire)
             {
-                projectile.soundDelay = baseUseTime - modifier * (int)projectile.localAI[0];
-                if (projectile.ai[0] != 1f)
-                    Main.PlaySound(SoundID.Item92, projectile.position);
+                Projectile.soundDelay = baseUseTime - modifier * (int)Projectile.localAI[0];
+                if (Projectile.ai[0] != 1f)
+                    SoundEngine.PlaySound(SoundID.Item92, Projectile.Center);
             }
-            player.phantasmTime = 2;
-            if (timeToFire && Main.myPlayer == projectile.owner)
+            if (timeToFire && Main.myPlayer == Projectile.owner)
             {
                 if (canFire)
                 {
                     int type = ModContent.ProjectileType<FallenStarProj>();
-                    float scaleFactor = 16f;
+                    float shootSpeed = 16f;
                     int damage = player.GetWeaponDamage(player.ActiveItem());
                     float knockBack = player.ActiveItem().knockBack;
-                    player.PickAmmo(player.ActiveItem(), ref type, ref scaleFactor, ref canFire, ref damage, ref knockBack, false);
+                    player.PickAmmo(player.ActiveItem(), out type, out shootSpeed, out damage, out knockBack, out _);
                     for (int i = 0; i < 5; i++)
                     {
                         knockBack = player.GetWeaponKnockback(player.ActiveItem(), knockBack);
                         Vector2 playerPosition = player.RotatedRelativePoint(player.MountedCenter, true);
-                        projectile.velocity = Main.screenPosition - playerPosition;
-                        projectile.velocity.X += Main.mouseX;
-                        projectile.velocity.Y += Main.mouseY;
+                        Projectile.velocity = Main.screenPosition - playerPosition;
+                        Projectile.velocity.X += Main.mouseX;
+                        Projectile.velocity.Y += Main.mouseY;
                         if (player.gravDir == -1f)
-                            projectile.velocity.Y = Main.screenHeight - Main.mouseY + Main.screenPosition.Y - playerPosition.Y;
-                        projectile.velocity.Normalize();
-                        float variation = (1f + projectile.localAI[0]) * 3f;
+                            Projectile.velocity.Y = Main.screenHeight - Main.mouseY + Main.screenPosition.Y - playerPosition.Y;
+                        Projectile.velocity.Normalize();
+                        float variation = (1f + Projectile.localAI[0]) * 3f;
                         Vector2 position = playerPosition + Utils.RandomVector2(Main.rand, -variation, variation);
-                        Vector2 speed = projectile.velocity * scaleFactor * (0.6f + Main.rand.NextFloat() * 0.6f);
-                        switch (Main.rand.Next(5))
+                        Vector2 speed = Projectile.velocity * shootSpeed * Main.rand.NextFloat(0.6f, 1.2f);
+                        type = Utils.SelectRandom(Main.rand, new int[]
                         {
-                            case 0:
-                                type = ModContent.ProjectileType<PlasmaBlast>();
-                                break;
-                            case 1:
-                                type = ModContent.ProjectileType<AstralStar>();
-                                break;
-                            case 2:
-                                type = ModContent.ProjectileType<GalacticaComet>();
-                                break;
-                            case 3: //falling star projectile
-                                break;
-                            case 4: //starfury projectile
-                                type = ProjectileID.Starfury;
-                                break;
+                            ModContent.ProjectileType<PlasmaBlast>(),
+                            ModContent.ProjectileType<AstralStar>(),
+                            ModContent.ProjectileType<GalacticaComet>(),
+                            ModContent.ProjectileType<FallenStarProj>(),
+                            ProjectileID.Starfury
+                        });
+                        int star = Projectile.NewProjectile(Projectile.GetSource_FromThis(), position, speed, type, damage, knockBack, Projectile.owner);
+                        if (star.WithinBounds(Main.maxProjectiles))
+                        {
+                            Main.projectile[star].penetrate = 1;
+                            Main.projectile[star].timeLeft = 300;
+                            Main.projectile[star].DamageType = DamageClass.Ranged;
+                            Main.projectile[star].netUpdate = true;
                         }
-                        int star = Projectile.NewProjectile(position, speed, type, damage, knockBack, projectile.owner, 0f, 0f);
-                        Main.projectile[star].penetrate = 1;
-                        Main.projectile[star].timeLeft = 300;
-                        Main.projectile[star].Calamity().forceRanged = true;
-                        Main.projectile[star].netUpdate = true;
-                        projectile.netUpdate = true;
+                        Projectile.netUpdate = true;
                     }
                 }
                 else
                 {
-                    projectile.Kill();
+                    Projectile.Kill();
                 }
             }
-            projectile.rotation = projectile.velocity.ToRotation();
-            Vector2 displayOffset = new Vector2(32, 0).RotatedBy(projectile.rotation);
-            projectile.Center = player.RotatedRelativePoint(player.MountedCenter, true) + displayOffset;
-            if (projectile.spriteDirection == -1)
-                projectile.rotation += 3.14159274f;
-            projectile.spriteDirection = projectile.direction;
-            projectile.timeLeft = 2;
-            player.ChangeDir(projectile.direction);
-            player.heldProj = projectile.whoAmI;
+            Projectile.rotation = Projectile.velocity.ToRotation();
+            Vector2 displayOffset = new Vector2(27f, -10f * Projectile.direction).RotatedBy(Projectile.rotation);
+            Projectile.Center = player.RotatedRelativePoint(player.MountedCenter, true) + displayOffset;
+            if (Projectile.spriteDirection == -1)
+                Projectile.rotation += MathHelper.Pi;
+            Projectile.spriteDirection = Projectile.direction;
+            Projectile.timeLeft = 2;
+            player.ChangeDir(Projectile.direction);
+            player.heldProj = Projectile.whoAmI;
             player.itemTime = 2;
             player.itemAnimation = 2;
-            player.itemRotation = (float)Math.Atan2(projectile.velocity.Y * projectile.direction, projectile.velocity.X * projectile.direction);
+            player.itemRotation = (float)Math.Atan2(Projectile.velocity.Y * Projectile.direction, Projectile.velocity.X * Projectile.direction);
         }
 
-        public override bool CanDamage()
-        {
-            return false;
-        }
+        public override bool? CanDamage() => false;
     }
 }

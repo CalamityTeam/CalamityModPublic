@@ -1,6 +1,8 @@
-using CalamityMod.Projectiles.Rogue;
+﻿using CalamityMod.Projectiles.Rogue;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -12,41 +14,46 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             DisplayName.SetDefault("The Reaper");
             Tooltip.SetDefault("Slice 'n dice\n" +
-			"Stealth strikes throw four at once");
+                "Stealth strikes throw four at once");
+            SacrificeTotal = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
-            item.width = 80;
-            item.damage = 150;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.useAnimation = 22;
-            item.useTime = 22;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 4f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 64;
-            item.value = Item.buyPrice(1, 40, 0, 0);
-            item.rare = 10;
-            item.shoot = ModContent.ProjectileType<ReaperProjectile>();
-            item.shootSpeed = 20f;
-            item.Calamity().rogue = true;
-            item.Calamity().customRarity = CalamityRarity.RareVariant;
+            Item.width = 106;
+            Item.damage = 122;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.useAnimation = 22;
+            Item.useTime = 22;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 4f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.height = 104;
+            Item.shoot = ModContent.ProjectileType<ReaperProjectile>();
+            Item.shootSpeed = 20f;
+            Item.DamageType = RogueDamageClass.Instance;
+
+            Item.value = CalamityGlobalItem.Rarity13BuyPrice;
+            Item.rare = ModContent.RarityType<PureGreen>();
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.Calamity().StealthStrikeAvailable()) //setting the stealth strike
             {
+                damage = (int)(damage * 0.8);
+
                 int spread = 10;
                 for (int i = 0; i < 4; i++)
                 {
-                    Vector2 perturbedspeed = new Vector2(speedX + Main.rand.Next(-3,4), speedY + Main.rand.Next(-3,4)).RotatedBy(MathHelper.ToRadians(spread));
-                    int proj = Projectile.NewProjectile(position.X, position.Y, perturbedspeed.X, perturbedspeed.Y, type, damage / 2, knockBack, player.whoAmI, 0f, 0f);
-                    Main.projectile[proj].Calamity().stealthStrike = true;
-                    Main.projectile[proj].penetrate = 6;
+                    Vector2 perturbedspeed = new Vector2(velocity.X + Main.rand.Next(-3,4), velocity.Y + Main.rand.Next(-3,4)).RotatedBy(MathHelper.ToRadians(spread));
+                    int proj = Projectile.NewProjectile(source, position, perturbedspeed, type, damage / 2, knockback, player.whoAmI);
+                    if (proj.WithinBounds(Main.maxProjectiles))
+                    {
+                        Main.projectile[proj].Calamity().stealthStrike = true;
+                    }
                     spread -= Main.rand.Next(5,8);
                 }
                 return false;

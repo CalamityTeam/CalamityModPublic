@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -10,37 +10,30 @@ namespace CalamityMod.Items.PermanentBoosters
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Infernal Blood");
-            Tooltip.SetDefault("Permanently makes Rage Mode do 15% more damage\n" +
+            Tooltip.SetDefault("Permanently increases the duration of Rage Mode by 1 second\n" +
                 "Revengeance drop");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.width = 20;
-            item.height = 20;
-            item.useAnimation = 30;
-            item.rare = 8;
-            item.useTime = 30;
-            item.useStyle = ItemUseStyleID.HoldingUp;
-            item.UseSound = SoundID.Item122;
-            item.consumable = true;
+            Item.width = 20;
+            Item.height = 20;
+            Item.useAnimation = 30;
+            Item.rare = ItemRarityID.Yellow;
+            Item.useTime = 30;
+            Item.useStyle = ItemUseStyleID.HoldUp;
+            Item.UseSound = SoundID.Item122;
+            Item.consumable = true;  // Not researchable, only drops one time.
         }
 
-        public override bool CanUseItem(Player player)
-        {
-            CalamityPlayer modPlayer = player.Calamity();
-            if (modPlayer.rageBoostTwo)
-            {
-                return false;
-            }
-            return true;
-        }
+        public override bool CanUseItem(Player player) => !player.Calamity().rageBoostTwo;
 
-        public override bool UseItem(Player player)
+        public override bool? UseItem(Player player)
         {
             if (player.itemAnimation > 0 && player.itemTime == 0)
             {
-                player.itemTime = item.useTime;
+                player.itemTime = Item.useTime;
                 CalamityPlayer modPlayer = player.Calamity();
                 modPlayer.rageBoostTwo = true;
             }

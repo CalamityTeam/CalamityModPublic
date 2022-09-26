@@ -1,18 +1,21 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Events;
 using CalamityMod.Dusts;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
-using Terraria.DataStructures;
-using Terraria.ModLoader;
 using Terraria.ID;
+using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Boss
 {
     public class HolyBurnOrb : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/StarProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Holy Orb");
@@ -20,128 +23,103 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-            projectile.width = 30;
-            projectile.height = 30;
-            projectile.hostile = true;
-            projectile.ignoreWater = true;
-            projectile.tileCollide = false;
-			projectile.alpha = 255;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 200;
+            Projectile.width = Projectile.height = 30;
+            Projectile.hostile = true;
+            Projectile.ignoreWater = true;
+            Projectile.tileCollide = false;
+            Projectile.alpha = 255;
+            CooldownSlot = ImmunityCooldownID.Bosses;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = 200;
+            Projectile.Calamity().DealsDefenseDamage = true;
         }
 
         public override void AI()
         {
-			if (projectile.ai[0] < 240f)
-			{
-				projectile.ai[0] += 1f;
+            if (Projectile.ai[0] == 0f && BossRushEvent.BossRushActive)
+                Projectile.velocity *= 1.25f;
 
-				if (projectile.timeLeft < 160)
-					projectile.timeLeft = 160;
-			}
-
-			bool expertMode = Main.expertMode;
-
-			if (projectile.velocity.Length() < 16f)
-				projectile.velocity *= 1.01f;
-
-			projectile.ai[1] = Player.FindClosest(projectile.position, projectile.width, projectile.height);
-			int num487 = (int)projectile.ai[1];
-			float num491 = Vector2.Distance(Main.player[num487].Center, projectile.Center);
-
-            if (num491 < 50f && !Main.player[num487].dead && projectile.position.X < Main.player[num487].position.X + Main.player[num487].width && projectile.position.X + projectile.width > Main.player[num487].position.X && projectile.position.Y < Main.player[num487].position.Y + Main.player[num487].height && projectile.position.Y + projectile.height > Main.player[num487].position.Y)
+            if (Projectile.ai[0] < 240f)
             {
-                int num492 = expertMode ? -150 : -100;
-                if (CalamityWorld.death || CalamityWorld.bossRushActive)
-                    num492 = -200;
-				if (!Main.dayTime)
-					num492 = -300;
+                Projectile.ai[0] += 1f;
 
-                Main.player[num487].HealEffect(num492, false);
-                Main.player[num487].statLife += num492;
-                if (Main.player[num487].statLife > Main.player[num487].statLifeMax2)
-                {
-                    Main.player[num487].statLife = Main.player[num487].statLifeMax2;
-                }
-                if (Main.player[num487].statLife < 0 || CalamityWorld.armageddon)
-                {
-                    Main.player[num487].KillMe(PlayerDeathReason.ByCustomReason(Main.player[Main.myPlayer].name + " burst into sinless ash."), 1000.0, 0, false);
-                }
-                NetMessage.SendData(MessageID.SpiritHeal, -1, -1, null, num487, num492);
-                projectile.Kill();
+                if (Projectile.timeLeft < 160)
+                    Projectile.timeLeft = 160;
             }
+
+            if (Projectile.velocity.Length() < 16f)
+                Projectile.velocity *= 1.01f;
         }
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-		{
-			Texture2D value = Main.projectileTexture[projectile.type];
-			Color baseColor = Main.dayTime ? new Color(255, 200, 100, 255) : new Color(100, 200, 255, 255);
-			Color color33 = baseColor * 0.5f;
-			color33.A = 0;
-			Vector2 vector28 = projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY);
-			Color color34 = color33;
-			Vector2 origin5 = value.Size() / 2f;
-			Color color35 = color33 * 0.5f;
-			float num162 = CalamityUtils.GetLerpValue(15f, 30f, projectile.timeLeft, clamped: true) * CalamityUtils.GetLerpValue(240f, 200f, projectile.timeLeft, clamped: true) * (1f + 0.2f * (float)Math.Cos(Main.GlobalTime % 30f / 0.5f * ((float)Math.PI * 2f) * 3f)) * 0.8f;
-			Vector2 vector29 = new Vector2(0.5f, 1.5f) * num162;
-			Vector2 vector30 = new Vector2(0.5f, 1.5f) * num162;
-			color34 *= num162;
-			color35 *= num162;
-
-			int num163 = 0;
-			Vector2 position3 = vector28 + projectile.velocity.SafeNormalize(Vector2.Zero) * CalamityUtils.GetLerpValue(0.5f, 1f, projectile.localAI[0] / 60f, clamped: true) * num163;
-
-			SpriteEffects spriteEffects = SpriteEffects.None;
-			if (projectile.spriteDirection == -1)
-				spriteEffects = SpriteEffects.FlipHorizontally;
-
-			spriteBatch.Draw(value, position3, null, color34, MathHelper.PiOver2, origin5, vector29, spriteEffects, 0);
-			spriteBatch.Draw(value, position3, null, color34, 0f, origin5, vector30, spriteEffects, 0);
-			spriteBatch.Draw(value, position3, null, color35, MathHelper.PiOver2, origin5, vector29 * 0.6f, spriteEffects, 0);
-			spriteBatch.Draw(value, position3, null, color35, 0f, origin5, vector30 * 0.6f, spriteEffects, 0);
-
-			spriteBatch.Draw(value, position3, null, color34, MathHelper.PiOver4, origin5, vector29 * 0.6f, spriteEffects, 0);
-			spriteBatch.Draw(value, position3, null, color34, MathHelper.PiOver4 * 3f, origin5, vector30 * 0.6f, spriteEffects, 0);
-			spriteBatch.Draw(value, position3, null, color35, MathHelper.PiOver4, origin5, vector29 * 0.36f, spriteEffects, 0);
-			spriteBatch.Draw(value, position3, null, color35, MathHelper.PiOver4 * 3f, origin5, vector30 * 0.36f, spriteEffects, 0);
-
-			return false;
-		}
-
-		public override void Kill(int timeLeft)
+        public override bool PreDraw(ref Color lightColor)
         {
-            Main.PlaySound(SoundID.Item14, projectile.Center);
-            projectile.position.X = projectile.position.X + (projectile.width / 2);
-            projectile.position.Y = projectile.position.Y + (projectile.height / 2);
-            projectile.width = 50;
-            projectile.height = 50;
-            projectile.position.X = projectile.position.X - (projectile.width / 2);
-            projectile.position.Y = projectile.position.Y - (projectile.height / 2);
-			int dustType = Main.dayTime ? (int)CalamityDusts.ProfanedFire : (int)CalamityDusts.Nightwither;
-			for (int num621 = 0; num621 < 10; num621++)
+            float lerpMult = Utils.GetLerpValue(15f, 30f, Projectile.timeLeft, clamped: true) * Utils.GetLerpValue(240f, 200f, Projectile.timeLeft, clamped: true) * (1f + 0.2f * (float)Math.Cos(Main.GlobalTimeWrappedHourly % 30f / 0.5f * (MathHelper.Pi * 2f) * 3f)) * 0.8f;
+
+            Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
+            Vector2 drawPos = Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY);
+            Color baseColor = (Main.dayTime && !BossRushEvent.BossRushActive) ? new Color(255, 200, 100, 255) : new Color(100, 200, 255, 255);
+            baseColor *= 0.5f;
+            baseColor.A = 0;
+            Color colorA = baseColor;
+            Color colorB = baseColor * 0.5f;
+            colorA *= lerpMult;
+            colorB *= lerpMult;
+            Vector2 origin = texture.Size() / 2f;
+            Vector2 scale = new Vector2(0.5f, 1.5f) * lerpMult;
+
+            SpriteEffects spriteEffects = SpriteEffects.None;
+            if (Projectile.spriteDirection == -1)
+                spriteEffects = SpriteEffects.FlipHorizontally;
+
+            float upRight = MathHelper.PiOver4;
+            float up = MathHelper.PiOver2;
+            float upLeft = 3f * MathHelper.PiOver4;
+            float left = MathHelper.Pi;
+            Main.EntitySpriteDraw(texture, drawPos, null, colorA, upLeft, origin, scale, spriteEffects, 0);
+            Main.EntitySpriteDraw(texture, drawPos, null, colorA, upRight, origin, scale, spriteEffects, 0);
+            Main.EntitySpriteDraw(texture, drawPos, null, colorB, upLeft, origin, scale * 0.6f, spriteEffects, 0);
+            Main.EntitySpriteDraw(texture, drawPos, null, colorB, upRight, origin, scale * 0.6f, spriteEffects, 0);
+            Main.EntitySpriteDraw(texture, drawPos, null, colorA, up, origin, scale * 0.6f, spriteEffects, 0);
+            Main.EntitySpriteDraw(texture, drawPos, null, colorA, left, origin, scale * 0.6f, spriteEffects, 0);
+            Main.EntitySpriteDraw(texture, drawPos, null, colorB, up, origin, scale * 0.36f, spriteEffects, 0);
+            Main.EntitySpriteDraw(texture, drawPos, null, colorB, left, origin, scale * 0.36f, spriteEffects, 0);
+
+            return false;
+        }
+
+        public override void Kill(int timeLeft)
+        {
+            SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);
+            Projectile.ExpandHitboxBy(50);
+            int dustType = (Main.dayTime && !BossRushEvent.BossRushActive) ? (int)CalamityDusts.ProfanedFire : (int)CalamityDusts.Nightwither;
+            for (int d = 0; d < 5; d++)
             {
-                int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, dustType, 0f, 0f, 100, default, 2f);
-                Main.dust[num622].velocity *= 3f;
+                int holy = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, dustType, 0f, 0f, 100, default, 2f);
+                Main.dust[holy].velocity *= 3f;
                 if (Main.rand.NextBool(2))
                 {
-                    Main.dust[num622].scale = 0.5f;
-                    Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
+                    Main.dust[holy].scale = 0.5f;
+                    Main.dust[holy].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
                 }
             }
-            for (int num623 = 0; num623 < 15; num623++)
+            for (int d = 0; d < 8; d++)
             {
-                int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, dustType, 0f, 0f, 100, default, 3f);
-                Main.dust[num624].noGravity = true;
-                Main.dust[num624].velocity *= 5f;
-                num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, dustType, 0f, 0f, 100, default, 2f);
-                Main.dust[num624].velocity *= 2f;
+                int fire = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, dustType, 0f, 0f, 100, default, 3f);
+                Main.dust[fire].noGravity = true;
+                Main.dust[fire].velocity *= 5f;
+                fire = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, dustType, 0f, 0f, 100, default, 2f);
+                Main.dust[fire].velocity *= 2f;
             }
         }
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-			int buffType = Main.dayTime ? ModContent.BuffType<HolyFlames>() : ModContent.BuffType<Nightwither>();
-			target.AddBuff(buffType, 60);
-		}
+            if (damage <= 0)
+                return;
+
+            int buffType = (Main.dayTime && !BossRushEvent.BossRushActive) ? ModContent.BuffType<HolyFlames>() : ModContent.BuffType<Nightwither>();
+            target.AddBuff(buffType, 180);
+            Projectile.Kill();
+        }
     }
 }

@@ -1,5 +1,4 @@
-using CalamityMod.Items.Materials;
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -9,36 +8,38 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Corrupt Flask");
-            Tooltip.SetDefault("7% increased damage reduction and +3 defense while in the corruption");
+            Tooltip.SetDefault("4% increased damage reduction and +6 defense while in the corruption\n" +
+                "Grants immunity to the Cursed Inferno debuff");
         }
 
         public override void SetDefaults()
         {
-            item.width = 20;
-            item.height = 20;
-            item.value = CalamityGlobalItem.Rarity2BuyPrice;
-            item.rare = 2;
-            item.accessory = true;
+            Item.width = 20;
+            Item.height = 20;
+            Item.value = CalamityGlobalItem.Rarity2BuyPrice;
+            Item.rare = ItemRarityID.Green;
+            Item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
+            player.buffImmune[BuffID.CursedInferno] = true;
             if (player.ZoneCorrupt)
             {
-                player.statDefense += 3;
-                player.endurance += 0.07f;
+                player.statDefense += 6;
+                player.endurance += 0.04f;
             }
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<FetidEssence>(), 3);
-            recipe.AddIngredient(ItemID.RottenChunk, 10);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient(ItemID.VilePowder, 15).
+                AddIngredient(ItemID.RottenChunk, 10).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

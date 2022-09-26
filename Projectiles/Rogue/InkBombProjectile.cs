@@ -1,7 +1,8 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 namespace CalamityMod.Projectiles.Rogue
 {
     public class InkBombProjectile : ModProjectile
@@ -13,23 +14,23 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetDefaults()
         {
-            projectile.width = 14;
-            projectile.height = 22;
-            projectile.friendly = true;
-            projectile.alpha = 0;
-            projectile.penetrate = 1;
-            projectile.tileCollide = true;
-            projectile.ignoreWater = true;
-            projectile.timeLeft = 50;
-            projectile.Calamity().rogue = true;
+            Projectile.width = 14;
+            Projectile.height = 22;
+            Projectile.friendly = true;
+            Projectile.alpha = 0;
+            Projectile.penetrate = 1;
+            Projectile.tileCollide = true;
+            Projectile.ignoreWater = true;
+            Projectile.timeLeft = 50;
+            Projectile.DamageType = RogueDamageClass.Instance;
         }
 
         public override void AI()
         {
-            projectile.velocity.Y += 0.1f;
-            projectile.rotation += projectile.velocity.X * 0.1f;
+            Projectile.velocity.Y += 0.1f;
+            Projectile.rotation += Projectile.velocity.X * 0.1f;
 
-            if (projectile.timeLeft == 1)
+            if (Projectile.timeLeft == 1)
                 CreateInk();
         }
 
@@ -52,8 +53,8 @@ namespace CalamityMod.Projectiles.Rogue
 
         private void CreateInk()
         {
-			Player player = Main.player[projectile.owner];
-            Main.PlaySound(SoundID.Item14, projectile.position);
+            Player player = Main.player[Projectile.owner];
+            SoundEngine.PlaySound(SoundID.Item14, Projectile.position);
             for (int i = 0; i < 20; i++)
             {
                 int projType = Main.rand.Next(0, 3);
@@ -70,10 +71,11 @@ namespace CalamityMod.Projectiles.Rogue
                         inkType = ModContent.ProjectileType<InkCloud3>();
                         break;
                 }
-                int inkID = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, Main.rand.NextFloat(-2f, 2f), Main.rand.NextFloat(-2f, 2f), inkType, (int)(22 * player.RogueDamage()), 7, projectile.owner);
+                int damage = (int)player.GetTotalDamage<RogueDamageClass>().ApplyTo(22);
+                int inkID = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, Main.rand.NextFloat(-2f, 2f), Main.rand.NextFloat(-2f, 2f), inkType, damage, 7, Projectile.owner);
                 Main.projectile[inkID].timeLeft += Main.rand.Next(-20, 25);
             }
-            projectile.Kill();
+            Projectile.Kill();
         }
     }
 }

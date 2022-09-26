@@ -1,88 +1,95 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Rogue;
+using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-	public class Hypothermia : RogueWeapon
+    public class Hypothermia : RogueWeapon
     {
-		private int counter = 0;
-		private bool stealthChunks = false;
+        // For more consistent DPS, always alternates between throwing 1 and 2 instead of picking randomly
+        private bool throwTwo = true;
 
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Hypothermia");
-            Tooltip.SetDefault("Fires a constant barrage of black ice shards\n" +
-                               "Stealth strikes launch a chain short ranged ice chunks that shatter into ice shards");
+            Tooltip.SetDefault("Throws a constant barrage of black ice shards\n" +
+                               "Stealth strikes hurl a set of razor sharp ice chunks that shatter on impact");
+            SacrificeTotal = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
-            item.width = 46;
-            item.height = 32;
-            item.autoReuse = true;
-            item.noUseGraphic = true;
-            item.noMelee = true;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.UseSound = SoundID.Item9;
-            item.value = Item.buyPrice(1, 80, 0, 0);
-            item.rare = 10;
+            Item.width = 46;
+            Item.height = 32;
+            Item.autoReuse = true;
+            Item.noUseGraphic = true;
+            Item.noMelee = true;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.UseSound = SoundID.Item7;
+            Item.value = CalamityGlobalItem.RarityDarkBlueBuyPrice;
 
-            item.damage = 369;
-            item.useAnimation = 21;
-            item.useTime = 3;
-            item.crit = 16;
-            item.knockBack = 3f;
-            item.shoot = ModContent.ProjectileType<HypothermiaShard>();
-            item.shootSpeed = 8f;
+            Item.damage = 200;
+            Item.useAnimation = 21;
+            Item.useTime = 3;
+            Item.reuseDelay = 1;
+            Item.knockBack = 3f;
+            Item.shoot = ModContent.ProjectileType<HypothermiaShard>();
+            Item.shootSpeed = 8f;
 
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
-            item.Calamity().rogue = true;
+            Item.rare = ModContent.RarityType<DarkBlue>();
+            Item.DamageType = RogueDamageClass.Instance;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        // Terraria seems to really dislike high crit values in SetDefaults
+        public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 16;
+
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            if (player.Calamity().StealthStrikeAvailable()) //setting up the stealth strikes
-			{
-				stealthChunks = true;
-			}
-			if (stealthChunks)
+            if (player.Calamity().StealthStrikeAvailable())
             {
-                int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<HypothermiaChunk>(), damage, knockBack, player.whoAmI, 0f, 0f);
-                Main.projectile[stealth].Calamity().stealthStrike = true;
+                int stealthDamage = (int)(damage * 1.2f);
+                for (int i = 0; i < 4; ++i)
+                {
+                    Vector2 chunkVelocity = velocity.RotatedByRandom(0.07f) * Main.rand.NextFloat(1.1f, 1.18f);
+                    int stealth = Projectile.NewProjectile(source, position, chunkVelocity, ModContent.ProjectileType<HypothermiaChunk>(), stealthDamage, knockback, player.whoAmI);
+                    if (stealth.WithinBounds(Main.maxProjectiles))
+                        Main.projectile[stealth].Calamity().stealthStrike = true;
+                }
+
+                // On a stealth strike, only the chunks are thrown.
+                return false;
             }
-			else
-			{
-				int projAmt = Main.rand.Next(1, 3);
-				for (int index = 0; index < projAmt; ++index)
-				{
-					float SpeedX = speedX + (float)Main.rand.Next(-40, 41) * 0.05f;
-					float SpeedY = speedY + (float)Main.rand.Next(-40, 41) * 0.05f;
-					Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, Main.rand.Next(4), 0f);
-				}
-			}
-			counter++;
-			if (counter >= 7)
-			{
-				counter = 0;
-				stealthChunks = false;
-			}
+
+            // Regular attacks alternate between throwing one and two shards at a time.
+            int projAmt = throwTwo ? 2 : 1;
+            throwTwo = !throwTwo;
+
+            for (int i = 0; i < projAmt; ++i)
+            {
+                float SpeedX = velocity.X + Main.rand.NextFloat(-2f, 2f);
+                float SpeedY = velocity.Y + Main.rand.NextFloat(-2f, 2f);
+                int texID = Main.rand.Next(4);
+                Projectile.NewProjectile(source, position, new Vector2(SpeedX, SpeedY), type, damage, knockback, player.whoAmI, texID, 0f);
+            }
+
             return false;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 6);
-            recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 24);
-            recipe.AddIngredient(ModContent.ItemType<RuinousSoul>(), 6);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient(ItemID.IceBlock, 100).
+                AddIngredient<RuinousSoul>(6).
+                AddIngredient<CosmiliteBar>(8).
+                AddIngredient<EndothermicEnergy>(20).
+                AddTile<CosmicAnvil>().
+                Register();
         }
     }
 }

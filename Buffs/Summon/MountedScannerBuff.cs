@@ -7,12 +7,13 @@ namespace CalamityMod.Buffs.Summon
 {
     public class MountedScannerBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Mounted Scanner");
             Description.SetDefault("Powerful machinery surrounds you");
             Main.buffNoTimeDisplay[Type] = true;
             Main.buffNoSave[Type] = true;
+            //Main.persistentBuff[Type] = true;
         }
 
         public override void Update(Player player, ref int buffIndex)

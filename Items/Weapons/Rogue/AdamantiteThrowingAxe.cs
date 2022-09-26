@@ -1,3 +1,4 @@
+﻿using Terraria.DataStructures;
 using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -11,49 +12,52 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             DisplayName.SetDefault("Adamantite Throwing Axe");
             Tooltip.SetDefault("Stealth strikes summon lightning bolts on enemy hits");
+            SacrificeTotal = 99;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
-            item.width = 26;
-            item.damage = 44;
-            item.noMelee = true;
-            item.consumable = true;
-            item.noUseGraphic = true;
-            item.useAnimation = 12;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 12;
-            item.knockBack = 3.25f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 30;
-            item.maxStack = 999;
-            item.value = 1600;
-            item.rare = 4;
-            item.shoot = ModContent.ProjectileType<AdamantiteThrowingAxeProjectile>();
-            item.shootSpeed = 12f;
-            item.Calamity().rogue = true;
+            Item.width = 26;
+            Item.damage = 44;
+            Item.noMelee = true;
+            Item.consumable = true;
+            Item.noUseGraphic = true;
+            Item.useAnimation = 12;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 12;
+            Item.knockBack = 3.25f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.height = 30;
+            Item.maxStack = 999;
+            Item.value = 1600;
+            Item.rare = ItemRarityID.LightRed;
+            Item.shoot = ModContent.ProjectileType<AdamantiteThrowingAxeProjectile>();
+            Item.shootSpeed = 12f;
+            Item.DamageType = RogueDamageClass.Instance;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-			if (player.Calamity().StealthStrikeAvailable())
-			{
-				int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, 0f, 0f);
-				Main.projectile[stealth].Calamity().stealthStrike = true;
-				Main.projectile[stealth].usesLocalNPCImmunity = true;
-				return false;
-			}
-			return true;
+            if (player.Calamity().StealthStrikeAvailable())
+            {
+                int stealth = Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
+                if (stealth.WithinBounds(Main.maxProjectiles))
+                {
+                    Main.projectile[stealth].Calamity().stealthStrike = true;
+                    Main.projectile[stealth].usesLocalNPCImmunity = true;
+                }
+                return false;
+            }
+            return true;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.AdamantiteBar);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this, 25);
-            recipe.AddRecipe();
+            CreateRecipe(100).
+                AddIngredient(ItemID.AdamantiteBar).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

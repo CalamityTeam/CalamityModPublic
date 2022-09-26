@@ -1,5 +1,4 @@
-using CalamityMod.Projectiles.Melee.Yoyos;
-using Terraria;
+﻿using CalamityMod.Projectiles.Melee.Yoyos;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -11,44 +10,45 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             DisplayName.SetDefault("Yin-Yo");
             Tooltip.SetDefault("Fires light or dark shards when enemies are near\n" +
-                "Light shards fly up and down while dark shards fly left and right");
-            ItemID.Sets.Yoyo[item.type] = true;
-            ItemID.Sets.GamepadExtraRange[item.type] = 15;
-            ItemID.Sets.GamepadSmartQuickReach[item.type] = true;
+                "Shards fly back and forth\n" +
+                "A very agile yoyo");
+            ItemID.Sets.Yoyo[Item.type] = true;
+            ItemID.Sets.GamepadExtraRange[Item.type] = 15;
+            ItemID.Sets.GamepadSmartQuickReach[Item.type] = true;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.width = 26;
-            item.height = 24;
-            item.melee = true;
-            item.damage = 34;
-            item.knockBack = 3.5f;
-            item.useTime = 25;
-            item.useAnimation = 25;
-            item.autoReuse = true;
+            Item.width = 26;
+            Item.height = 24;
+            Item.DamageType = DamageClass.MeleeNoSpeed;
+            Item.damage = 50;
+            Item.knockBack = 3.5f;
+            Item.useTime = 25;
+            Item.useAnimation = 25;
+            Item.autoReuse = true;
 
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.UseSound = SoundID.Item1;
-            item.channel = true;
-            item.noUseGraphic = true;
-            item.noMelee = true;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.UseSound = SoundID.Item1;
+            Item.channel = true;
+            Item.noUseGraphic = true;
+            Item.noMelee = true;
 
-            item.shoot = ModContent.ProjectileType<YinYoyo>();
-            item.shootSpeed = 12f;
+            Item.shoot = ModContent.ProjectileType<YinYoyo>();
+            Item.shootSpeed = 12f;
 
-            item.rare = 5;
-            item.value = Item.buyPrice(gold: 36);
+            Item.value = CalamityGlobalItem.Rarity4BuyPrice;
+            Item.rare = ItemRarityID.LightRed;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.DarkShard);
-            recipe.AddIngredient(ItemID.LightShard);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient(ItemID.DarkShard).
+                AddIngredient(ItemID.LightShard).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

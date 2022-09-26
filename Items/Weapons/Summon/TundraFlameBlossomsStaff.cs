@@ -1,3 +1,4 @@
+﻿using Terraria.DataStructures;
 using CalamityMod.Projectiles.Summon;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -12,59 +13,50 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             DisplayName.SetDefault("Tundra Flame Blossoms Staff");
             Tooltip.SetDefault("Summons three unusual flowers over your head\n" +
-			"Each flower consumes one minion slot");
+            "Each flower consumes one minion slot");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 45;
-            item.mana = 10;
-            item.width = 52;
-            item.height = 60;
-            item.useTime = item.useAnimation = 25;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.noMelee = true;
-            item.knockBack = 3f;
-            item.value = CalamityGlobalItem.Rarity5BuyPrice;
-            item.rare = 5;
-            item.UseSound = SoundID.Item46;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<TundraFlameBlossom>();
-            item.shootSpeed = 10f;
-            item.summon = true;
+            Item.damage = 45;
+            Item.mana = 10;
+            Item.width = 52;
+            Item.height = 60;
+            Item.useTime = Item.useAnimation = 25;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.noMelee = true;
+            Item.knockBack = 3f;
+            Item.value = CalamityGlobalItem.Rarity5BuyPrice;
+            Item.rare = ItemRarityID.Pink;
+            Item.UseSound = SoundID.Item46;
+            Item.shoot = ModContent.ProjectileType<TundraFlameBlossom>();
+            Item.shootSpeed = 10f;
+            Item.DamageType = DamageClass.Summon;
         }
 
-        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] < 3; //If you already have all 3, no need to resummon
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] < 3; //If you already have all 3, no need to resummon
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            for (int x = 0; x < Main.maxProjectiles; x++)
-            {
-                Projectile proj = Main.projectile[x];
-                if (proj.active && proj.owner == player.whoAmI && proj.type == type)
-                {
-                    proj.Kill();
-                }
-            }
+            CalamityUtils.KillShootProjectiles(false, type, player);
             for (int i = 0; i < 3; i++)
             {
-                Projectile blossom = Projectile.NewProjectileDirect(player.Center, Vector2.Zero, type, damage, knockBack, player.whoAmI, 0f, 0f);
+                Projectile blossom = Projectile.NewProjectileDirect(source, player.Center, Vector2.Zero, type, damage, knockback, player.whoAmI, 0f, 0f);
                 blossom.ai[1] = (int)(MathHelper.TwoPi / 3f * i * 32f);
                 blossom.rotation = blossom.ai[1] / 32f;
+                blossom.originalDamage = Item.damage;
             }
             return false;
         }
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<CinderBlossomStaff>());
-            recipe.AddIngredient(ModContent.ItemType<FrostBlossomStaff>());
-            recipe.AddIngredient(ItemID.HallowedBar, 5);
-            recipe.AddIngredient(ItemID.SoulofLight, 15);
-            recipe.AddIngredient(ItemID.SoulofNight, 15);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient<CinderBlossomStaff>().
+                AddIngredient<FrostBlossomStaff>().
+                AddIngredient(ItemID.SoulofLight, 5).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

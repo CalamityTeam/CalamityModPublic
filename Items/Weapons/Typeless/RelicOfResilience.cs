@@ -1,13 +1,15 @@
-using CalamityMod.Buffs.Cooldowns;
-using CalamityMod.Projectiles.Damageable;
+﻿using CalamityMod.Projectiles.Damageable;
+using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
+using System.Linq;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Typeless
 {
-	public class RelicOfResilience : ModItem
+    public class RelicOfResilience : ModItem
     {
         public const int CooldownSeconds = 5;
         public const float WeaknessDR = 0.45f;
@@ -22,43 +24,58 @@ namespace CalamityMod.Items.Weapons.Typeless
                                $"This reformation can only happen {ArtifactOfResilienceBulwark.MaxReformations} times.\n" +
                                "You gain a small cooldown when summoning a new bulwark.\n" +
                                "If a bulwark already exists, using this item will relocate it");
+            SacrificeTotal = 1;
+            ItemID.Sets.CanBePlacedOnWeaponRacks[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.width = 40;
-            item.height = 34;
-            item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
-            item.useAnimation = item.useTime = 28;
-            item.useStyle = ItemUseStyleID.HoldingUp;
-            item.UseSound = SoundID.Item45;
-            item.autoReuse = true;
-            item.noMelee = true;
-            item.value = CalamityGlobalItem.RarityTurquoiseBuyPrice;
-            item.shoot = ModContent.ProjectileType<ArtifactOfResilienceBulwark>();
-            item.shootSpeed = 0f;
+            Item.width = 40;
+            Item.height = 34;
+            Item.useAnimation = Item.useTime = 28;
+            Item.useStyle = ItemUseStyleID.HoldUp;
+            Item.UseSound = SoundID.Item45;
+            Item.autoReuse = true;
+            Item.noMelee = true;
+            Item.value = CalamityGlobalItem.Rarity11BuyPrice;
+            Item.rare = ItemRarityID.Purple;
+            Item.shoot = ModContent.ProjectileType<ArtifactOfResilienceBulwark>();
+            Item.shootSpeed = 0f;
         }
-        public override bool CanUseItem(Player player) => !player.HasBuff(ModContent.BuffType<ResilienceCooldown>());
-        public override bool UseItem(Player player) => true;
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = (ContentSamples.CreativeHelper.ItemGroup)CalamityResearchSorting.ToolsOther;
+		}
+
+        public override bool CanUseItem(Player player) => !player.HasCooldown(Cooldowns.RelicOfResilience.ID);
+        public override bool? UseItem(Player player) => true;
+
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            player.AddBuff(ModContent.BuffType<ResilienceCooldown>(), CooldownSeconds * 60);
-            if (player.ownedProjectileCounts[item.shoot] > 0)
+            player.AddCooldown(Cooldowns.RelicOfResilience.ID, CalamityUtils.SecondsToFrames(CooldownSeconds));
+            int[] shardTypes = new int[]
+            {
+                ModContent.ProjectileType<ArtifactOfResilienceShard1>(),
+                ModContent.ProjectileType<ArtifactOfResilienceShard2>(),
+                ModContent.ProjectileType<ArtifactOfResilienceShard3>(),
+                ModContent.ProjectileType<ArtifactOfResilienceShard4>(),
+                ModContent.ProjectileType<ArtifactOfResilienceShard5>(),
+                ModContent.ProjectileType<ArtifactOfResilienceShard6>(),
+            };
+            if (player.ownedProjectileCounts[Item.shoot] > 0)
             {
                 for (int i = 0; i < Main.projectile.Length; i++)
                 {
-                    if (Main.projectile[i].type == item.shoot)
+                    if (Main.projectile[i].type == Item.shoot)
                     {
                         Main.projectile[i].Center = Main.MouseWorld;
                         Main.projectile[i].netUpdate = true;
                     }
                 }
             }
-            else
-            {
-                Projectile.NewProjectile(Main.MouseWorld, Vector2.Zero, type, damage, knockBack, player.whoAmI, 0f, 0f);
-            }
+            else if (shardTypes.All(proj => player.ownedProjectileCounts[proj] == 0))
+                Projectile.NewProjectile(source, Main.MouseWorld, Vector2.Zero, type, damage, knockback, player.whoAmI, 0f, 0f);
             return false;
         }
     }

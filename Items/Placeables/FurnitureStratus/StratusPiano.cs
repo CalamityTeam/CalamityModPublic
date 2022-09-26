@@ -6,31 +6,26 @@ namespace CalamityMod.Items.Placeables.FurnitureStratus
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.width = 26;
-            item.height = 26;
-            item.maxStack = 999;
-            item.useTurn = true;
-            item.autoReuse = true;
-            item.useAnimation = 15;
-            item.useTime = 10;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.consumable = true;
-            item.createTile = ModContent.TileType<Tiles.FurnitureStratus.StratusPiano>();
+            Item.width = 26;
+            Item.height = 26;
+            Item.maxStack = 999;
+            Item.useTurn = true;
+            Item.autoReuse = true;
+            Item.useAnimation = 15;
+            Item.useTime = 10;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.consumable = true;
+            Item.createTile = ModContent.TileType<Tiles.FurnitureStratus.StratusPiano>();
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<StratusBricks>(), 15);
-            recipe.AddIngredient(ItemID.Bone, 4);
-            recipe.AddIngredient(ItemID.Book, 1);
-            recipe.SetResult(this, 1);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<StratusBricks>(), 15).AddIngredient(ItemID.Bone, 4).AddIngredient(ItemID.Book, 1).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

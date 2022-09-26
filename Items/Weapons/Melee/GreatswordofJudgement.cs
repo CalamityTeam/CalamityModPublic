@@ -1,5 +1,4 @@
-using CalamityMod.Projectiles.Melee;
-using Terraria;
+﻿using CalamityMod.Projectiles.Melee;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -15,35 +14,34 @@ namespace CalamityMod.Items.Weapons.Melee
                                "'No matter where you may be you are never alone\n" +
                                "I shall always be at your side, my lord'\n" +
                                "Fires a white orb that emits white rain on death for a time");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.width = 78;
-            item.damage = 60;
-            item.melee = true;
-            item.useAnimation = 18;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 18;
-            item.useTurn = true;
-            item.knockBack = 7f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 78;
-            item.value = Item.buyPrice(1, 20, 0, 0);
-            item.rare = 10;
-            item.shoot = ModContent.ProjectileType<JudgementProj>();
-            item.shootSpeed = 10f;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.width = 78;
+            Item.damage = 48;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = 18;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 18;
+            Item.useTurn = true;
+            Item.knockBack = 7f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.height = 78;
+            Item.value = CalamityGlobalItem.Rarity10BuyPrice;
+            Item.rare = ItemRarityID.Red;
+            Item.shoot = ModContent.ProjectileType<JudgementProj>();
+            Item.shootSpeed = 10f;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.LunarBar, 7);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient(ItemID.LunarBar, 7).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

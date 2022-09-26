@@ -1,3 +1,4 @@
+﻿using Terraria.DataStructures;
 using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Items.Materials;
 using Microsoft.Xna.Framework;
@@ -7,48 +8,52 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
-	public class FlurrystormCannon : ModItem
+    public class FlurrystormCannon : ModItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Flurrystorm Cannon");
             Tooltip.SetDefault("Fires a chain of snowballs that become faster over time\n" +
-			"Has a chance to also fire an ice chunk that shatters into shards\n" +
-			"50% chance to not consume snowballs");
+            "Has a chance to also fire an ice chunk that shatters into shards\n" +
+            "50% chance to not consume snowballs");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 12;
-            item.width = 58;
-            item.height = 34;
-            item.useTime = 8;
-            item.useAnimation = 8;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.knockBack = 1.2f;
-            item.value = Item.buyPrice(0, 4, 0, 0);
-            item.rare = 3;
-            item.UseSound = SoundID.Item11;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.ranged = true;
-            item.channel = true;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<FlurrystormCannonShooting>();
-			item.useAmmo = AmmoID.Snowball;
-            item.Calamity().customRarity = CalamityRarity.Dedicated;
-			item.shootSpeed = 18f;
+            Item.damage = 12;
+            Item.width = 68;
+            Item.height = 38;
+            Item.useTime = 16;
+            Item.useAnimation = 16;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.knockBack = 1.2f;
+
+            Item.value = CalamityGlobalItem.Rarity3BuyPrice;
+            Item.rare = ItemRarityID.Orange;
+            Item.Calamity().donorItem = true;
+
+            Item.UseSound = SoundID.Item11;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.DamageType = DamageClass.Ranged;
+            Item.channel = true;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<FlurrystormCannonShooting>();
+            Item.useAmmo = AmmoID.Snowball;
+            Item.shootSpeed = 18f;
+            Item.Calamity().canFirePointBlankShots = true;
         }
 
-        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;
 
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<FlurrystormCannonShooting>(), damage, knockBack, player.whoAmI, 0f, 0f);
+            Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<FlurrystormCannonShooting>(), damage, knockback, player.whoAmI, 0f, 0f);
             return false;
         }
 
-        public override bool ConsumeAmmo(Player player)
+        public override bool CanConsumeAmmo(Item ammo, Player player)
         {
             if (Main.rand.Next(0, 100) < 50)
                 return false;
@@ -57,16 +62,15 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.SnowballCannon);
-            recipe.AddIngredient(ModContent.ItemType<AerialiteBar>(), 10);
-            recipe.AddIngredient(ItemID.Bone, 50);
-            recipe.AddIngredient(ModContent.ItemType<VictoryShard>(), 25);
-            recipe.AddIngredient(ItemID.WaterBucket, 3);
-            recipe.AddIngredient(ItemID.IllegalGunParts);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient(ItemID.SnowballCannon).
+                AddIngredient(ItemID.IllegalGunParts).
+                AddIngredient<AerialiteBar>(10).
+                AddIngredient(ItemID.Bone, 50).
+                AddIngredient<PearlShard>(25).
+                AddIngredient(ItemID.WaterBucket, 3).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

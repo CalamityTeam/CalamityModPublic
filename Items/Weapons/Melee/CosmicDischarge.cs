@@ -1,6 +1,8 @@
-using CalamityMod.Projectiles.Melee;
+﻿using CalamityMod.Projectiles.Melee;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -11,38 +13,37 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Cosmic Discharge");
-            Tooltip.SetDefault("Legendary Drop\n" +
-                "Striking an enemy with the whip causes glacial explosions and grants the player the cosmic freeze buff\n" +
-                "This buff gives the player increased life regen while standing still and freezes enemies near the player\n" +
-                "Revengeance drop");
+            Tooltip.SetDefault("Striking an enemy with the whip causes glacial explosions and grants the player the cosmic freeze buff\n" +
+                "This buff gives the player increased life regen while standing still and freezes enemies near the player");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.width = 50;
-            item.height = 52;
-            item.damage = 1000;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.channel = true;
-            item.autoReuse = true;
-            item.melee = true;
-            item.useAnimation = 15;
-            item.useTime = 15;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.knockBack = 0.5f;
-            item.UseSound = SoundID.Item122;
-            item.value = Item.buyPrice(1, 40, 0, 0);
-            item.rare = 10;
-            item.shootSpeed = 24f;
-            item.shoot = ModContent.ProjectileType<CosmicDischargeFlail>();
-            item.Calamity().customRarity = CalamityRarity.ItemSpecific;
+            Item.width = 50;
+            Item.height = 52;
+            Item.damage = 400;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.channel = true;
+            Item.autoReuse = true;
+            Item.DamageType = DamageClass.MeleeNoSpeed;
+            Item.useAnimation = 15;
+            Item.useTime = 15;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.knockBack = 0.5f;
+            Item.UseSound = SoundID.Item122;
+            Item.shootSpeed = 24f;
+            Item.shoot = ModContent.ProjectileType<CosmicDischargeFlail>();
+
+            Item.value = CalamityGlobalItem.Rarity14BuyPrice;
+            Item.rare = ModContent.RarityType<DarkBlue>();
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             float ai3 = (Main.rand.NextFloat() - 0.75f) * 0.7853982f; //0.5
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, ai3);
+            Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, type, damage, knockback, player.whoAmI, 0f, ai3);
             return false;
         }
     }

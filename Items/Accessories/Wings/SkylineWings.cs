@@ -1,6 +1,6 @@
-using CalamityMod.Items.Armor;
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -11,33 +11,26 @@ namespace CalamityMod.Items.Accessories.Wings
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Skyline Wings");
             Tooltip.SetDefault("Horizontal speed: 6.25\n" +
-                "Acceleration multiplier: 1\n" +
+                "Acceleration multiplier: 1.0\n" +
                 "Average vertical speed\n" +
-                "Flight time: 60\n" +
-				"5% increased jump speed while wearing the Aerospec armor");
+                "Flight time: 80");
+            ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new WingStats(80, 6.5f, 1f);
         }
 
         public override void SetDefaults()
         {
-            item.width = 22;
-            item.height = 20;
-            item.value = CalamityGlobalItem.Rarity3BuyPrice;
-            item.rare = 3;
-            item.accessory = true;
+            Item.width = 22;
+            Item.height = 20;
+            Item.value = CalamityGlobalItem.Rarity3BuyPrice;
+            Item.rare = ItemRarityID.Orange;
+            Item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            if ((player.armor[0].type == ModContent.ItemType<AerospecHat>() || player.armor[0].type == ModContent.ItemType<AerospecHeadgear>() ||
-                player.armor[0].type == ModContent.ItemType<AerospecHelm>() || player.armor[0].type == ModContent.ItemType<AerospecHood>() ||
-                player.armor[0].type == ModContent.ItemType<AerospecHelmet>()) &&
-                player.armor[1].type == ModContent.ItemType<AerospecBreastplate>() && player.armor[2].type == ModContent.ItemType<AerospecLeggings>())
-            {
-				player.jumpSpeedBoost += 0.25f;
-            }
-            player.wingTimeMax = 60;
             player.noFallDmg = true;
         }
 
@@ -57,14 +50,13 @@ namespace CalamityMod.Items.Accessories.Wings
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<AerialiteBar>(), 5);
-            recipe.AddIngredient(ItemID.Feather, 5);
-            recipe.AddIngredient(ItemID.FallenStar, 5);
-            recipe.AddIngredient(ItemID.Bone, 15);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient<AerialiteBar>(5).
+                AddIngredient(ItemID.Feather, 5).
+                AddIngredient(ItemID.FallenStar, 5).
+                AddIngredient(ItemID.Bone, 15).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

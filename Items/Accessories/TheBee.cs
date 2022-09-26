@@ -1,6 +1,7 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -8,21 +9,20 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("The Bee");
-            Tooltip.SetDefault("Causes stars to fall and releases bees when injured\n" +
-							   "When at full HP, your damage is increased based on your damage reduction\n" +
-                               "Damage taken at full HP is halved\n" +
-							   "This has a 10 second cooldown");
+            Tooltip.SetDefault("When at full HP, your damage is increased based on your damage reduction\n" +
+                            "Damage taken at full HP is halved\n" +
+                            "This has a 10 second cooldown");
         }
 
         public override void SetDefaults()
         {
-            item.width = 24;
-            item.height = 28;
-            item.value = CalamityGlobalItem.Rarity4BuyPrice;
-            item.rare = 4;
-            item.accessory = true;
-            item.Calamity().customRarity = CalamityRarity.RareVariant;
+            Item.width = 24;
+            Item.height = 28;
+            Item.value = CalamityGlobalItem.Rarity3BuyPrice;
+            Item.rare = ItemRarityID.Orange;
+            Item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

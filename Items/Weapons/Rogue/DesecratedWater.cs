@@ -1,3 +1,4 @@
+﻿using Terraria.DataStructures;
 using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -14,34 +15,36 @@ namespace CalamityMod.Items.Weapons.Rogue
             DisplayName.SetDefault("Desecrated Water");
             Tooltip.SetDefault(@"Throws an unholy flask of water that explodes into an explosion of bubbles on death
 Stealth strikes spawn additional bubbles that inflict Ichor and Cursed Inferno");
+            SacrificeTotal = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
-            item.damage = BaseDamage;
-            item.width = 22;
-            item.height = 24;
-            item.useAnimation = 29;
-            item.useTime = 29;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 4.5f;
-            item.rare = 6;
-            item.UseSound = SoundID.Item106;
-            item.autoReuse = true;
-            item.value = Item.buyPrice(gold: 48); //sell price of 9 gold 60 silver
-            item.shoot = ModContent.ProjectileType<DesecratedWaterProj>();
-            item.shootSpeed = 12f;
-            item.Calamity().rogue = true;
+            Item.damage = BaseDamage;
+            Item.width = 22;
+            Item.height = 24;
+            Item.useAnimation = 29;
+            Item.useTime = 29;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 4.5f;
+            Item.value = CalamityGlobalItem.Rarity5BuyPrice;
+            Item.rare = ItemRarityID.Pink;
+            Item.UseSound = SoundID.Item106;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<DesecratedWaterProj>();
+            Item.shootSpeed = 12f;
+            Item.DamageType = RogueDamageClass.Instance;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.Calamity().StealthStrikeAvailable()) //setting the stealth strike
             {
-                int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, 0f, 0f);
-                Main.projectile[stealth].Calamity().stealthStrike = true;
+                int stealth = Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
+                if (stealth.WithinBounds(Main.maxProjectiles))
+                    Main.projectile[stealth].Calamity().stealthStrike = true;
                 return false;
             }
             return true;
@@ -49,14 +52,13 @@ Stealth strikes spawn additional bubbles that inflict Ichor and Cursed Inferno")
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddRecipeGroup("AnyEvilWater", 100);
-            recipe.AddIngredient(ItemID.HallowedBar, 5);
-            recipe.AddRecipeGroup("CursedFlameIchor", 5);
-            recipe.AddIngredient(ItemID.SoulofNight, 7);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddRecipeGroup("AnyEvilWater", 100).
+                AddRecipeGroup("AnyAdamantiteBar", 5).
+                AddRecipeGroup("CursedFlameIchor", 5).
+                AddIngredient(ItemID.SoulofNight, 7).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

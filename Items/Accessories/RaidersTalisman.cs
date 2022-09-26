@@ -1,5 +1,4 @@
-using CalamityMod.CalPlayer;
-using System.Collections.Generic;
+﻿using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -8,34 +7,24 @@ namespace CalamityMod.Items.Accessories
 {
     public class RaidersTalisman : ModItem
     {
+        public const float RaiderBonus = 12f;
+        public const int RaiderCooldown = 5;
+
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Raider's Talisman");
-            Tooltip.SetDefault("Whenever you crit an enemy with a rogue weapon your rogue damage increases\n" +
-                "This effect can stack up to 150 times\n" +
-				"Max rogue damage boost is 15%\n" +
-                "This line is modified below");
+            Tooltip.SetDefault($"Landing a stealth strike grants a {(int)RaiderBonus}% crit bonus to non-stealth strikes\n" +
+                $"This crit bonus decays over {RaiderCooldown} seconds");
         }
 
         public override void SetDefaults()
         {
-            item.width = 20;
-            item.height = 20;
-            item.value = CalamityGlobalItem.Rarity2BuyPrice;
-            item.rare = 2;
-            item.accessory = true;
-        }
-
-        public override void ModifyTooltips(List<TooltipLine> list)
-        {
-            int critLevel = Main.player[Main.myPlayer].Calamity().raiderStack;
-            foreach (TooltipLine line2 in list)
-            {
-                if (line2.mod == "Terraria" && line2.Name == "Tooltip3")
-                {
-                    line2.text = "Rogue Crit Level: " + critLevel;
-                }
-            }
+            Item.width = 30;
+            Item.height = 36;
+            Item.value = CalamityGlobalItem.Rarity2BuyPrice;
+            Item.rare = ItemRarityID.Green;
+            Item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -46,12 +35,11 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Leather, 5);
-            recipe.AddIngredient(ItemID.Obsidian, 20);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient(ItemID.Leather, 5).
+                AddIngredient(ItemID.Obsidian, 20).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

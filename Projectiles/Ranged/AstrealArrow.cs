@@ -1,5 +1,4 @@
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -12,89 +11,91 @@ namespace CalamityMod.Projectiles.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Astreal Arrow");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 10;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 18;
-            projectile.height = 18;
-            projectile.alpha = 255;
-            projectile.friendly = true;
-            projectile.ranged = true;
-            projectile.arrow = true;
-            projectile.extraUpdates = 1;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 600;
+            Projectile.width = 18;
+            Projectile.height = 18;
+            Projectile.alpha = 255;
+            Projectile.ignoreWater = true;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.arrow = true;
+            Projectile.extraUpdates = 1;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = 600;
+            Projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.DefaultPointBlankDuration;
         }
 
         public override void AI()
         {
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
+            Projectile.rotation = (float)Math.Atan2((double)Projectile.velocity.Y, (double)Projectile.velocity.X) + 1.57f;
 
-            if (projectile.localAI[0] == 0f)
+            if (Projectile.localAI[0] == 0f)
             {
-                projectile.scale -= 0.02f;
-                projectile.alpha += 30;
-                if (projectile.alpha >= 250)
+                Projectile.scale -= 0.02f;
+                Projectile.alpha += 30;
+                if (Projectile.alpha >= 250)
                 {
-                    projectile.alpha = 255;
-                    projectile.localAI[0] = 1f;
+                    Projectile.alpha = 255;
+                    Projectile.localAI[0] = 1f;
                 }
             }
-            else if (projectile.localAI[0] == 1f)
+            else if (Projectile.localAI[0] == 1f)
             {
-                projectile.scale += 0.02f;
-                projectile.alpha -= 30;
-                if (projectile.alpha <= 0)
+                Projectile.scale += 0.02f;
+                Projectile.alpha -= 30;
+                if (Projectile.alpha <= 0)
                 {
-                    projectile.alpha = 0;
-                    projectile.localAI[0] = 0f;
+                    Projectile.alpha = 0;
+                    Projectile.localAI[0] = 0f;
                 }
             }
 
-			if (projectile.velocity.Length() < 16f)
-			{
-				switch ((int)projectile.ai[0])
-				{
-					case 0:
-						projectile.velocity.X *= 1.02f;
-						break;
-					case 1:
-						projectile.velocity.Y *= 1.02f;
-						break;
-					case 2:
-						projectile.velocity.X += 0.1f;
-						projectile.velocity.Y *= 1.01f;
-						break;
-					case 3:
-						projectile.velocity.Y += 0.1f;
-						projectile.velocity.X *= 1.01f;
-						break;
-					default:
+            if (Projectile.velocity.Length() < 16f)
+            {
+                switch ((int)Projectile.ai[0])
+                {
+                    case 0:
+                        Projectile.velocity.X *= 1.02f;
                         break;
-				}
-			}
-            
-            if (Main.rand.NextBool(5))
-                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 173, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+                    case 1:
+                        Projectile.velocity.Y *= 1.02f;
+                        break;
+                    case 2:
+                        Projectile.velocity.X += 0.1f;
+                        Projectile.velocity.Y *= 1.01f;
+                        break;
+                    case 3:
+                        Projectile.velocity.Y += 0.1f;
+                        Projectile.velocity.X *= 1.01f;
+                        break;
+                    default:
+                        break;
+                }
+            }
 
-			projectile.ai[1] += (float)Main.rand.Next(3) + 1f;
-            if (projectile.ai[1] >= 180f)
+            if (Main.rand.NextBool(5))
+                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 173, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
+
+            Projectile.ai[1] += Main.rand.Next(2) + 1;
+            if (Projectile.ai[1] >= 135f)
             {
-				projectile.ai[1] = 0f;
-				projectile.netUpdate = true;
-				if (projectile.owner == Main.myPlayer)
+                Projectile.ai[1] = 0f;
+                Projectile.netUpdate = true;
+                if (Projectile.owner == Main.myPlayer)
                 {
-                    Projectile.NewProjectile(projectile.Center, projectile.velocity, ModContent.ProjectileType<AstrealFlame>(), (int)(projectile.damage * 0.5), projectile.knockBack, projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity, ModContent.ProjectileType<AstrealFlame>(), (int)(Projectile.damage * 0.5), Projectile.knockBack, Projectile.owner, 0f, 0f);
                 }
             }
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;
         }
 
@@ -102,13 +103,13 @@ namespace CalamityMod.Projectiles.Ranged
         {
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 173, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
+                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 173, Projectile.oldVelocity.X * 0.5f, Projectile.oldVelocity.Y * 0.5f);
             }
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(BuffID.ShadowFlame, 360);
+            target.AddBuff(BuffID.ShadowFlame, 180);
         }
     }
 }

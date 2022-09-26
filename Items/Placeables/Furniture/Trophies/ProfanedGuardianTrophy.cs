@@ -1,4 +1,4 @@
-using CalamityMod.Tiles.Furniture;
+using CalamityMod.Tiles.Furniture.BossTrophies;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.Furniture.Trophies
@@ -7,24 +7,24 @@ namespace CalamityMod.Items.Placeables.Furniture.Trophies
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Profaned Guardian Trophy");
         }
 
         public override void SetDefaults()
         {
-            item.width = 30;
-            item.height = 30;
-            item.maxStack = 99;
-            item.useTurn = true;
-            item.autoReuse = true;
-            item.useAnimation = 15;
-            item.useTime = 10;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.consumable = true;
-            item.value = 50000;
-            item.rare = 1;
-            item.createTile = ModContent.TileType<BossTrophy>();
-            item.placeStyle = 25;
+            Item.width = 30;
+            Item.height = 30;
+            Item.maxStack = 99;
+            Item.useTurn = true;
+            Item.autoReuse = true;
+            Item.useAnimation = 15;
+            Item.useTime = 10;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.consumable = true;
+            Item.value = 50000;
+            Item.rare = ItemRarityID.Blue;
+            Item.createTile = ModContent.TileType<ProfanedGuardianTrophyTile>();
         }
     }
 }

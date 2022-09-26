@@ -1,8 +1,9 @@
-using CalamityMod.Projectiles.Typeless;
+﻿using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Rogue
 {
@@ -15,77 +16,80 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetDefaults()
         {
-            projectile.width = 14;
-            projectile.height = 14;
-            projectile.timeLeft = 720;
-            projectile.friendly = true;
-            projectile.extraUpdates = 1;
-            projectile.Calamity().rogue = true;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 40;
+            Projectile.width = 14;
+            Projectile.height = 14;
+            Projectile.timeLeft = 720;
+            Projectile.ignoreWater = true;
+            Projectile.friendly = true;
+            Projectile.extraUpdates = 1;
+            Projectile.DamageType = RogueDamageClass.Instance;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 40;
         }
 
         public override void AI()
         {
-            projectile.ai[0]++;
+            Projectile.ai[0]++;
             //Rotation code
-            projectile.rotation += projectile.velocity.X * 0.05f * projectile.direction;
+            Projectile.rotation += Projectile.velocity.X * 0.05f * Projectile.direction;
             //Gravity
-            projectile.velocity.Y += 0.05f;
-            if (projectile.velocity.Y > 16f)
-                projectile.velocity.Y = 16f;
+            Projectile.velocity.Y += 0.05f;
+            if (Projectile.velocity.Y > 16f)
+                Projectile.velocity.Y = 16f;
             //Dust
-            if (projectile.ai[0] >= 25f)
+            if (Projectile.ai[0] >= 25f)
             {
-                Dust.NewDust(projectile.Center, 1, 1, DustID.Shadowflame, -projectile.velocity.X * 0.3f, -projectile.velocity.Y * 0.3f, 0, default, 1.1f);
-                projectile.ai[0] = 0f;
+                Dust.NewDust(Projectile.Center, 1, 1, DustID.Shadowflame, -Projectile.velocity.X * 0.3f, -Projectile.velocity.Y * 0.3f, 0, default, 1.1f);
+                Projectile.ai[0] = 0f;
             }
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            if (projectile.velocity.X != oldVelocity.X)
-                projectile.velocity.X = -oldVelocity.X;
-            if (projectile.velocity.Y != oldVelocity.Y)
-                projectile.velocity.Y = -oldVelocity.Y * 0.7f;
-            projectile.velocity.X *= 0.9f;
+            if (Projectile.velocity.X != oldVelocity.X)
+                Projectile.velocity.X = -oldVelocity.X;
+            if (Projectile.velocity.Y != oldVelocity.Y)
+                Projectile.velocity.Y = -oldVelocity.Y * 0.7f;
+            Projectile.velocity.X *= 0.9f;
             return false;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(BuffID.ShadowFlame, 180);
-            if (projectile.Calamity().stealthStrike && projectile.penetrate != 1)
+            if (Projectile.Calamity().stealthStrike && Projectile.penetrate != 1)
             {
-                Main.PlaySound(SoundID.Item, projectile.Center, 103);
-                int proj = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<ShadowflameExplosionBig>(), (int)(projectile.damage * 0.25), projectile.knockBack, projectile.owner);
-                Main.projectile[proj].Center = projectile.Center;
-                Main.projectile[proj].Calamity().rogue = true;
+                SoundEngine.PlaySound(SoundID.Item103, Projectile.Center);
+                int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<ShadowflameExplosionBig>(), (int)(Projectile.damage * 0.33), Projectile.knockBack, Projectile.owner);
+                Main.projectile[proj].timeLeft += 20;
+                Main.projectile[proj].Center = Projectile.Center;
+                Main.projectile[proj].DamageType = RogueDamageClass.Instance;
             }
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
             target.AddBuff(BuffID.ShadowFlame, 180);
-            if (projectile.Calamity().stealthStrike && projectile.penetrate != 1)
+            if (Projectile.Calamity().stealthStrike && Projectile.penetrate != 1)
             {
-                Main.PlaySound(SoundID.Item, projectile.Center, 103);
-                int proj = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<ShadowflameExplosionBig>(), (int)(projectile.damage * 0.25), projectile.knockBack, projectile.owner);
-                Main.projectile[proj].Center = projectile.Center;
-                Main.projectile[proj].Calamity().rogue = true;
+                SoundEngine.PlaySound(SoundID.Item103, Projectile.Center);
+                int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<ShadowflameExplosionBig>(), (int)(Projectile.damage * 0.33), Projectile.knockBack, Projectile.owner);
+                Main.projectile[proj].timeLeft += 20;
+                Main.projectile[proj].Center = Projectile.Center;
+                Main.projectile[proj].DamageType = RogueDamageClass.Instance;
             }
         }
 
         public override void Kill(int timeLeft)
         {
             int proj;
-            Main.PlaySound(SoundID.Item, projectile.Center, 103);
-            if(projectile.Calamity().stealthStrike)
-                proj = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<ShadowflameExplosionBig>(), (int)(projectile.damage * 0.25), projectile.knockBack, projectile.owner);
+            SoundEngine.PlaySound(SoundID.Item103, Projectile.Center);
+            if(Projectile.Calamity().stealthStrike)
+                proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<ShadowflameExplosionBig>(), (int)(Projectile.damage * 0.33), Projectile.knockBack, Projectile.owner);
             else
-                proj = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<ShadowflameExplosion>(), (int)(projectile.damage * 0.25), projectile.knockBack, projectile.owner);
-            Main.projectile[proj].Center = projectile.Center;
-            Main.projectile[proj].Calamity().rogue = true;
+                proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<ShadowflameExplosion>(), (int)(Projectile.damage * 0.33), Projectile.knockBack, Projectile.owner);
+            Main.projectile[proj].Center = Projectile.Center;
+            Main.projectile[proj].DamageType = RogueDamageClass.Instance;
         }
     }
 }

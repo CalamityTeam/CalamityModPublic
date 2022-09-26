@@ -1,31 +1,28 @@
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Terraria;
-using Terraria.ModLoader;
 using CalamityMod.Items.Fishing.FishingRods;
+using Microsoft.Xna.Framework;
+using Terraria.ID;
+using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Typeless
 {
-	public class WulfrumBobber : ModProjectile
+    public class WulfrumBobber : ModProjectile
     {
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Wulfrum Bobber");
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Wulfrum Bobber");
+        }
 
         public override void SetDefaults()
         {
-			//projectile.CloneDefaults(360); //Wooden Bobber
-			projectile.width = 14;
-			projectile.height = 14;
-			projectile.aiStyle = 61;
-            projectile.bobber = true;
-            projectile.penetrate = -1;
+            Projectile.width = 14;
+            Projectile.height = 14;
+            Projectile.aiStyle = ProjAIStyleID.Bobber;
+            Projectile.bobber = true;
+            Projectile.penetrate = -1;
         }
 
-        public override bool PreDrawExtras(SpriteBatch spriteBatch)
+        public override bool PreDrawExtras()
         {
-            CalamityUtils.DrawFishingLine(projectile, ModContent.ItemType<WulfrumRod>(), new Color(200, 200, 200, 100), 38, 28f);
-            return false;
-		}
+            return Projectile.DrawFishingLine(ModContent.ItemType<WulfrumRod>(), new Color(200, 200, 200, 100), 38, 28f);
+        }
     }
 }

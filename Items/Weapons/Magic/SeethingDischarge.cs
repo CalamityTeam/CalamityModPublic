@@ -1,8 +1,11 @@
-using CalamityMod.Projectiles.Magic;
+﻿using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.Sounds;
+
 namespace CalamityMod.Items.Weapons.Magic
 {
     public class SeethingDischarge : ModItem
@@ -11,39 +14,40 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             DisplayName.SetDefault("Seething Discharge");
             Tooltip.SetDefault("Fires a barrage of brimstone blasts");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 58;
-            item.magic = true;
-            item.mana = 15;
-            item.width = 28;
-            item.height = 32;
-            item.useTime = 24;
-            item.useAnimation = 24;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 6.75f;
-            item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/FlareSound");
-            item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = 5;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<SeethingDischargeBrimstoneBarrage>();
-            item.shootSpeed = 6f;
+            Item.damage = 52;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 15;
+            Item.width = 28;
+            Item.height = 32;
+            Item.useTime = 24;
+            Item.useAnimation = 24;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 6.75f;
+            Item.UseSound = CommonCalamitySounds.FlareSound;
+            Item.value = CalamityGlobalItem.Rarity6BuyPrice;
+            Item.rare = ItemRarityID.Pink;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<SeethingDischargeBrimstoneBarrage>();
+            Item.shootSpeed = 12f;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            float SpeedX = speedX + 10f * 0.05f;
-            float SpeedY = speedY + 10f * 0.05f;
-            float SpeedX2 = speedX - 10f * 0.05f;
-            float SpeedY2 = speedY - 10f * 0.05f;
-            float SpeedX3 = speedX + 0f * 0.05f;
-            float SpeedY3 = speedY + 0f * 0.05f;
-            Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
-            Projectile.NewProjectile(position.X, position.Y, SpeedX2, SpeedY2, ModContent.ProjectileType<SeethingDischargeBrimstoneHellblast>(), damage, knockBack, player.whoAmI, 0f, 0f);
-            Projectile.NewProjectile(position.X, position.Y, SpeedX3, SpeedY3, type, damage, knockBack, player.whoAmI, 0f, 0f);
+            float SpeedX = velocity.X + 10f * 0.05f;
+            float SpeedY = velocity.Y + 10f * 0.05f;
+            float SpeedX2 = velocity.X - 10f * 0.05f;
+            float SpeedY2 = velocity.Y - 10f * 0.05f;
+            float SpeedX3 = velocity.X + 0f * 0.05f;
+            float SpeedY3 = velocity.Y + 0f * 0.05f;
+            Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, type, damage, knockback, player.whoAmI, 0f, 0f);
+            Projectile.NewProjectile(source, position.X, position.Y, SpeedX2, SpeedY2, ModContent.ProjectileType<SeethingDischargeBrimstoneHellblast>(), damage, knockback, player.whoAmI, 0f, 0f);
+            Projectile.NewProjectile(source, position.X, position.Y, SpeedX3, SpeedY3, type, damage, knockback, player.whoAmI, 0f, 0f);
             return false;
         }
     }

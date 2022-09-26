@@ -1,3 +1,4 @@
+﻿using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Projectiles.Rogue;
@@ -8,56 +9,59 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-	public class Prismalline : RogueWeapon
-	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Prismalline");
-			Tooltip.SetDefault("Throws daggers that split after a while\n" +
-			"Stealth strikes additionally explode into prism shards and briefly stun enemies");
-		}
+    public class Prismalline : RogueWeapon
+    {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Prismalline");
+            Tooltip.SetDefault("Throws daggers that split after a while\n" +
+            "Stealth strikes additionally explode into prism shards and briefly stun enemies");
+            SacrificeTotal = 1;
+        }
 
-		public override void SafeSetDefaults()
-		{
-			item.width = 46;
-			item.damage = 18;
-			item.crit += 4;
-			item.noMelee = true;
-			item.noUseGraphic = true;
-			item.useAnimation = 16;
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useTime = 16;
-			item.knockBack = 5f;
-			item.UseSound = SoundID.Item1;
-			item.autoReuse = true;
-			item.height = 46;
-			item.value = Item.buyPrice(0, 36, 0, 0);
-			item.rare = 5;
-			item.shoot = ModContent.ProjectileType<PrismallineProj>();
-			item.shootSpeed = 16f;
-			item.Calamity().rogue = true;
-		}
+        public override void SetDefaults()
+        {
+            Item.width = 46;
+            Item.damage = 24;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.useAnimation = 16;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 16;
+            Item.knockBack = 5f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.height = 46;
+            Item.value = CalamityGlobalItem.Rarity6BuyPrice;
+            Item.rare = ItemRarityID.Pink;
+            Item.shoot = ModContent.ProjectileType<PrismallineProj>();
+            Item.shootSpeed = 16f;
+            Item.DamageType = RogueDamageClass.Instance;
+        }
 
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-		{
-			if (player.Calamity().StealthStrikeAvailable())
-			{
-				int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, 0f, 0f);
-				Main.projectile[proj].Calamity().stealthStrike = true;
-				return false;
-			}
-			return true;
-		}
+        // Terraria seems to really dislike high crit values in SetDefaults
+        public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 4;
 
-		public override void AddRecipes()
-		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ModContent.ItemType<Crystalline>());
-			recipe.AddIngredient(ModContent.ItemType<MolluskHusk>(), 5);
-			recipe.AddIngredient(ModContent.ItemType<SeaPrism>(), 5);
-			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
-		}
-	}
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        {
+            if (player.Calamity().StealthStrikeAvailable())
+            {
+                int proj = Projectile.NewProjectile(source, position, velocity, type, (int)(damage * 1.15f), knockback, player.whoAmI);
+                if (proj.WithinBounds(Main.maxProjectiles))
+                    Main.projectile[proj].Calamity().stealthStrike = true;
+                return false;
+            }
+            return true;
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient<Crystalline>().
+                AddIngredient<MolluskHusk>(5).
+                AddIngredient<SeaPrism>(5).
+                AddTile(TileID.Anvils).
+                Register();
+        }
+    }
 }

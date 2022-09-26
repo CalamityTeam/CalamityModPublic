@@ -1,5 +1,4 @@
-using CalamityMod.CalPlayer;
-using CalamityMod.World;
+﻿using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -15,43 +14,40 @@ namespace CalamityMod.Projectiles.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Cloudy Waifu");
-            Main.projFrames[projectile.type] = 8;
-            ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
-            ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
+            Main.projFrames[Projectile.type] = 8;
+            ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
+            ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 58;
-            projectile.height = 116;
-            projectile.netImportant = true;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.minionSlots = 0f;
-            projectile.timeLeft = 18000;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.timeLeft *= 5;
-            projectile.minion = true;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 20 -
-                (NPC.downedGolemBoss ? 5 : 0) -
-                (NPC.downedMoonlord ? 5 : 0) -
-                (CalamityWorld.downedDoG ? 4 : 0) -
-                (CalamityWorld.downedYharon ? 3 : 0);
+            Projectile.width = 58;
+            Projectile.height = 116;
+            Projectile.netImportant = true;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.minionSlots = 0f;
+            Projectile.timeLeft = 18000;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.timeLeft *= 5;
+            Projectile.minion = true;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 20;
+            Projectile.DamageType = DamageClass.Summon;
         }
 
         public override void AI()
         {
-            bool flag64 = projectile.type == ModContent.ProjectileType<CloudElementalMinion>();
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
             if (!modPlayer.cloudWaifu && !modPlayer.allWaifus)
             {
-                projectile.active = false;
+                Projectile.active = false;
                 return;
             }
-            if (flag64)
+            bool correctMinion = Projectile.type == ModContent.ProjectileType<CloudElementalMinion>();
+            if (correctMinion)
             {
                 if (player.dead)
                 {
@@ -59,49 +55,40 @@ namespace CalamityMod.Projectiles.Summon
                 }
                 if (modPlayer.cWaifu)
                 {
-                    projectile.timeLeft = 2;
+                    Projectile.timeLeft = 2;
                 }
             }
             dust--;
             if (dust >= 0)
             {
-                projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
-                projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
-                int num501 = 50;
-                for (int num502 = 0; num502 < num501; num502++)
+                int dustAmt = 50;
+                for (int d = 0; d < dustAmt; d++)
                 {
-                    int num503 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y + 16f), projectile.width, projectile.height - 16, 16, 0f, 0f, 0, default, 1f);
-                    Main.dust[num503].velocity *= 2f;
-                    Main.dust[num503].scale *= 1.15f;
+                    int index = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y + 16f), Projectile.width, Projectile.height - 16, 16, 0f, 0f, 0, default, 1f);
+                    Main.dust[index].velocity *= 2f;
+                    Main.dust[index].scale *= 1.15f;
                 }
             }
-            if (player.MinionDamage() != projectile.Calamity().spawnedPlayerMinionDamageValue)
+            if (Math.Abs(Projectile.velocity.X) > 0.2f)
             {
-                int damage2 = (int)((float)projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    projectile.Calamity().spawnedPlayerMinionDamageValue *
-                    player.MinionDamage());
-                projectile.damage = damage2;
-            }
-            if (Math.Abs(projectile.velocity.X) > 0.2f)
-            {
-                projectile.spriteDirection = -projectile.direction;
+                Projectile.spriteDirection = -Projectile.direction;
             }
             float lightScalar = (float)Main.rand.Next(90, 111) * 0.01f;
             lightScalar *= Main.essScale;
-            Lighting.AddLight(projectile.Center, 0.25f * lightScalar, 0.55f * lightScalar, 0.75f * lightScalar);
+            Lighting.AddLight(Projectile.Center, 0.25f * lightScalar, 0.55f * lightScalar, 0.75f * lightScalar);
 
-			projectile.frameCounter++;
-			if (projectile.frameCounter > 16)
-			{
-				projectile.frame++;
-				projectile.frameCounter = 0;
-			}
-			if (projectile.frame > 7)
-			{
-				projectile.frame = 0;
-			}
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter > 6)
+            {
+                Projectile.frame++;
+                Projectile.frameCounter = 0;
+            }
+            if (Projectile.frame > 7)
+            {
+                Projectile.frame = 0;
+            }
 
-			projectile.ChargingMinionAI(500f, 800f, 1200f, 400f, 0, 30f, 8f, -4f, 40f, 8f, false, true, 1);
+            Projectile.ChargingMinionAI(500f, 800f, 1200f, 400f, 0, 30f, 8f, 4f, new Vector2(500f, -60f), 40f, 8f, false, true, 1);
         }
     }
 }

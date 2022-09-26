@@ -1,18 +1,19 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Walls
 {
     public class ProfanedCrystalWall : ModWall
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.wallHouse[Type] = true;
             Main.wallLargeFrames[Type] = 2;
 
-            soundType = 13;
-            drop = ModContent.ItemType<Items.Placeables.Walls.ProfanedCrystalWall>();
+            HitSound = SoundID.Shatter;
+            ItemDrop = ModContent.ItemType<Items.Placeables.Walls.ProfanedCrystalWall>();
             AddMapEntry(new Color(125, 97, 123));
         }
 
@@ -22,9 +23,6 @@ namespace CalamityMod.Walls
             return false;
         }
 
-        public override void NumDust(int i, int j, bool fail, ref int num)
-        {
-            num = fail ? 1 : 3;
-        }
+        public override void NumDust(int i, int j, bool fail, ref int num) => num = fail ? 1 : 3;
     }
 }

@@ -1,14 +1,17 @@
-using CalamityMod.Buffs.StatDebuffs;
+﻿using CalamityMod.BiomeManagers;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.World;
 using Terraria;
+using Terraria.GameContent.Bestiary;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.NPCs.Crags
 {
-	public class DespairStone : ModNPC
+    public class DespairStone : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -17,67 +20,83 @@ namespace CalamityMod.NPCs.Crags
 
         public override void SetDefaults()
         {
-            npc.aiStyle = -1;
-            aiType = -1;
-            npc.damage = 40;
-            npc.width = 72; //324
-            npc.height = 72; //216
-            npc.defense = 38;
-			npc.DR_NERD(0.35f);
-            npc.lifeMax = 120;
-            npc.knockBackResist = 0f;
-            npc.value = Item.buyPrice(0, 0, 5, 0);
-            npc.HitSound = SoundID.NPCHit41;
-            npc.DeathSound = SoundID.NPCDeath14;
-            npc.behindTiles = true;
-            npc.lavaImmune = true;
-            if (CalamityWorld.downedProvidence)
+            NPC.aiStyle = -1;
+            AIType = -1;
+            NPC.damage = 40;
+            NPC.width = 72;
+            NPC.height = 72;
+            NPC.defense = 38;
+            NPC.DR_NERD(0.35f);
+            NPC.lifeMax = 120;
+            NPC.knockBackResist = 0f;
+            NPC.value = Item.buyPrice(0, 0, 5, 0);
+            NPC.HitSound = SoundID.NPCHit41;
+            NPC.DeathSound = SoundID.NPCDeath14;
+            NPC.behindTiles = true;
+            NPC.lavaImmune = true;
+            if (DownedBossSystem.downedProvidence)
             {
-                npc.damage = 190;
-                npc.defense = 185;
-                npc.lifeMax = 5000;
-                npc.value = Item.buyPrice(0, 0, 50, 0);
+                NPC.damage = 80;
+                NPC.defense = 50;
+                NPC.lifeMax = 3000;
             }
-            banner = npc.type;
-            bannerItem = ModContent.ItemType<DespairStoneBanner>();
-			npc.buffImmune[BuffID.Confused] = false;
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<DespairStoneBanner>();
+            NPC.Calamity().VulnerableToHeat = false;
+            NPC.Calamity().VulnerableToCold = true;
+            NPC.Calamity().VulnerableToWater = true;
+            SpawnModBiomes = new int[1] { ModContent.GetInstance<BrimstoneCragsBiome>().Type };
+        }
+
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+
+				// Will move to localization whenever that is cleaned up.
+				new FlavorTextBestiaryInfoElement("A condensed, volatile stone of brimstone slag. It is said that the souls of many, fighting to get out from within, are what cause it to tear across the ground.")
+            });
         }
 
         public override void AI()
         {
-            CalamityAI.UnicornAI(npc, mod, true, CalamityWorld.death ? 6f : 4f, 5f, 0.2f);
-        }
-
-        public override void OnHitPlayer(Player player, int damage, bool crit)
-        {
-            if (CalamityWorld.revenge)
-            {
-                player.AddBuff(ModContent.BuffType<Horror>(), 180, true);
-            }
+            CalamityAI.UnicornAI(NPC, Mod, true, CalamityWorld.death ? 6f : 4f, 5f, 0.2f);
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            return spawnInfo.player.Calamity().ZoneCalamity ? 0.25f : 0f;
+            return spawnInfo.Player.Calamity().ZoneCalamity ? 0.25f : 0f;
         }
 
-        public override void NPCLoot()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<Bloodstone>(), CalamityWorld.downedProvidence, 2, 1, 1);
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<EssenceofChaos>(), Main.hardMode, 3, 1, 1);
+            LeadingConditionRule hardmode = npcLoot.DefineConditionalDropSet(DropHelper.Hardmode());
+            LeadingConditionRule postProv = npcLoot.DefineConditionalDropSet(DropHelper.PostProv());
+            hardmode.Add(ModContent.ItemType<EssenceofChaos>(), 3);
+            postProv.Add(ModContent.ItemType<Bloodstone>(), 4);
+        }
+
+        public override void OnHitPlayer(Player player, int damage, bool crit)
+        {
+            if (damage > 0)
+                player.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120, true);
         }
 
         public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.Brimstone, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.Brimstone, hitDirection, -1f, 0, default, 1f);
             }
-            if (npc.life <= 0)
+            if (NPC.life <= 0)
             {
                 for (int k = 0; k < 40; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.Brimstone, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.Brimstone, hitDirection, -1f, 0, default, 1f);
+                }
+                if (Main.netMode != NetmodeID.Server)
+                {
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("DespairStone").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("DespairStone2").Type, NPC.scale);
                 }
             }
         }

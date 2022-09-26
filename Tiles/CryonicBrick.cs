@@ -1,4 +1,3 @@
-
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
@@ -10,7 +9,7 @@ namespace CalamityMod.Tiles
     {
         int subsheetHeight = 90;
         int subsheetWidth = 234;
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileSolid[Type] = true;
             Main.tileBlockLight[Type] = true;
@@ -18,9 +17,8 @@ namespace CalamityMod.Tiles
             CalamityUtils.MergeWithGeneral(Type);
             CalamityUtils.MergeDecorativeTiles(Type);
 
-            soundType = SoundID.Tink;
-            minPick = 100;
-            drop = ModContent.ItemType<Items.Placeables.CryonicBrick>();
+            HitSound = SoundID.Tink;
+            ItemDrop = ModContent.ItemType<Items.Placeables.CryonicBrick>();
             AddMapEntry(new Color(99, 131, 199));
         }
 
@@ -36,7 +34,6 @@ namespace CalamityMod.Tiles
             int yPos = j % 4;
             frameXOffset = xPos * subsheetWidth;
             frameYOffset = yPos * subsheetHeight;
-            ;
         }
     }
 }

@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.Potions;
+﻿using CalamityMod.Buffs.Potions;
 using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
@@ -10,6 +10,7 @@ namespace CalamityMod.Items.Potions
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 20;
             DisplayName.SetDefault("Crumbling Potion");
             Tooltip.SetDefault("Increases melee and rogue critical strike chance by 5%\n" +
                 "Melee and rogue attacks break enemy armor");
@@ -17,37 +18,37 @@ namespace CalamityMod.Items.Potions
 
         public override void SetDefaults()
         {
-            item.width = 28;
-            item.height = 18;
-            item.useTurn = true;
-            item.maxStack = 999;
-            item.rare = 3;
-            item.useAnimation = 17;
-            item.useTime = 17;
-            item.useStyle = ItemUseStyleID.EatingUsing;
-            item.UseSound = SoundID.Item3;
-            item.consumable = true;
-            item.buffType = ModContent.BuffType<ArmorCrumbling>();
-            item.buffTime = 18000;
-            item.value = Item.buyPrice(0, 2, 0, 0);
+            Item.width = 28;
+            Item.height = 18;
+            Item.useTurn = true;
+            Item.maxStack = 30;
+            Item.useAnimation = 17;
+            Item.useTime = 17;
+            Item.useStyle = ItemUseStyleID.DrinkLiquid;
+            Item.UseSound = SoundID.Item3;
+            Item.value = Item.buyPrice(0, 2, 0, 0);
+            Item.rare = ItemRarityID.LightRed;
+            Item.consumable = true;
+            Item.buffType = ModContent.BuffType<ArmorCrumbling>();
+            Item.buffTime = CalamityUtils.SecondsToFrames(480f);
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.BottledWater, 5);
-            recipe.AddIngredient(ModContent.ItemType<AncientBoneDust>());
-            recipe.AddIngredient(ItemID.AncientBattleArmorMaterial);
-            recipe.AddIngredient(ModContent.ItemType<EssenceofCinder>());
-            recipe.AddTile(TileID.AlchemyTable);
-            recipe.SetResult(this, 5);
-            recipe.AddRecipe();
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.BottledWater);
-            recipe.AddIngredient(ModContent.ItemType<BloodOrb>(), 20);
-            recipe.AddTile(TileID.AlchemyTable);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(5).
+                AddIngredient(ItemID.BottledWater, 5).
+                AddIngredient<AncientBoneDust>().
+                AddIngredient<EssenceofSunlight>().
+                AddTile(TileID.AlchemyTable).
+				AddConsumeItemCallback(Recipe.ConsumptionRules.Alchemy).
+                Register();
+
+            CreateRecipe().
+                AddIngredient(ItemID.BottledWater).
+                AddIngredient<BloodOrb>(20).
+                AddIngredient<EssenceofSunlight>().
+                AddTile(TileID.AlchemyTable).
+                Register();
         }
     }
 }

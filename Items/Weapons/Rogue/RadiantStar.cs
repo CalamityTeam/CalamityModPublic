@@ -1,3 +1,4 @@
+﻿using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Projectiles.Rogue;
@@ -14,51 +15,53 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             DisplayName.SetDefault("Radiant Star");
             Tooltip.SetDefault("Throws daggers that explode and split after a while\n" +
-                "Stealth strike splits more with a devastating explosion");
+                "Stealth strike splits more with a devastating explosion and sucks enemies in");
+            SacrificeTotal = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
-            item.width = 52;
-            item.damage = 55; //33
-            item.crit += 8;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.useAnimation = 12;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 12;
-            item.knockBack = 5f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 48;
-            item.value = Item.buyPrice(0, 95, 0, 0);
-            item.rare = 9;
-            item.shoot = ModContent.ProjectileType<RadiantStarKnife>();
-            item.shootSpeed = 20f;
-            item.Calamity().rogue = true;
+            Item.width = 52;
+            Item.damage = 55; //33
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.useAnimation = 12;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 12;
+            Item.knockBack = 5f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.height = 48;
+            Item.value = CalamityGlobalItem.Rarity9BuyPrice;
+            Item.rare = ItemRarityID.Cyan;
+            Item.shoot = ModContent.ProjectileType<RadiantStarKnife>();
+            Item.shootSpeed = 20f;
+            Item.DamageType = RogueDamageClass.Instance;
+        }
+
+        // Terraria seems to really dislike high crit values in SetDefaults
+        public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 8;
+
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        {
+            if (player.Calamity().StealthStrikeAvailable())
+            {
+                int stealth = Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
+                if (stealth.WithinBounds(Main.maxProjectiles))
+                    Main.projectile[stealth].Calamity().stealthStrike = true;
+                return false;
+            }
+            return true;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Prismalline>());
-            recipe.AddIngredient(ModContent.ItemType<AstralBar>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<Stardust>(), 15);
-            recipe.AddIngredient(ItemID.FallenStar, 10);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-        }
-
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-        {
-            if (player.Calamity().StealthStrikeAvailable())
-            {
-                int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, 0f, 0f);
-                Main.projectile[stealth].Calamity().stealthStrike = true;
-                return false;
-            }
-            return true;
+            CreateRecipe().
+                AddIngredient<Prismalline>().
+                AddIngredient<AstralBar>(10).
+                AddIngredient<Stardust>(15).
+                AddIngredient(ItemID.FallenStar, 10).
+                AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

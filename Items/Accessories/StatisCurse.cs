@@ -1,3 +1,4 @@
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.DataStructures;
@@ -11,42 +12,44 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Statis' Curse");
-            Tooltip.SetDefault("Increased max minions by 3 and 10% increased minion damage\n" +
+            Tooltip.SetDefault("Increases max minions by 3, does not stack with downgrades\n" +
+                "10% increased minion damage\n" +
                 "Increased minion knockback\n" +
-                "Grants shadowflame powers to all minions\n" +
-                "Minions make enemies cry on hit");
-            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(8, 4));
+                "Minions inflict holy flames and shadowflames on hit\n" +
+                "Grants immunity to Shadowflame");
+            Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(8, 4));
+            ItemID.Sets.AnimatesAsSoul[Type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.width = 28;
-            item.height = 32;
-            item.value = CalamityGlobalItem.Rarity10BuyPrice;
-            item.rare = 10;
-            item.accessory = true;
+            Item.width = 28;
+            Item.height = 32;
+            Item.value = CalamityGlobalItem.Rarity10BuyPrice;
+            Item.rare = ItemRarityID.Red;
+            Item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.shadowMinions = true;
-            modPlayer.tearMinions = true;
-            player.minionKB += 2.75f;
-            player.minionDamage += 0.1f;
-            player.maxMinions += 3;
+            modPlayer.holyMinions = true;
+            player.GetKnockback<SummonDamageClass>() += 2.75f;
+            player.GetDamage<SummonDamageClass>() += 0.1f;
+            player.buffImmune[ModContent.BuffType<Shadowflame>()] = true;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.FragmentStardust, 10);
-            recipe.AddIngredient(ModContent.ItemType<StatisBlessing>());
-            recipe.AddIngredient(ModContent.ItemType<TheFirstShadowflame>());
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient<StatisBlessing>().
+                AddIngredient<TheFirstShadowflame>().
+                AddIngredient(ItemID.FragmentStardust, 10).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

@@ -1,10 +1,10 @@
-using CalamityMod.Items.Accessories;
-using CalamityMod.Items.Materials;
-using CalamityMod.Items.Weapons.Summon;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Ranged;
+using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -12,6 +12,8 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class Drataliornus : ModItem
     {
+        private const double RightClickDamageRatio = 0.6;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Drataliornus");
@@ -20,31 +22,32 @@ Fireballs rain meteors, leave dragon dust trails, and launch additional bolts at
 Taking damage while firing the stream will interrupt it and reduce your wing flight time.
 Right click to fire two devastating barrages of five empowered fireballs.
 'Just don't get hit'");
+            SacrificeTotal = 1;
+            ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 700;
-            item.knockBack = 1f;
-            item.shootSpeed = 18f;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.useAnimation = 24;
-            item.useTime = 12;
-            item.reuseDelay = 48;
-            item.width = 64;
-            item.height = 84;
-            item.UseSound = SoundID.Item5;
-            item.shoot = ModContent.ProjectileType<DrataliornusBow>();
-            item.value = Item.buyPrice(platinum: 2, gold: 50);
-            item.rare = 10;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.ranged = true;
-            item.channel = true;
-            item.useTurn = false;
-            item.useAmmo = AmmoID.Arrow;
-            item.autoReuse = true;
-            item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.damage = 129;
+            Item.knockBack = 1f;
+            Item.shootSpeed = 18f;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.useAnimation = 24;
+            Item.useTime = 12;
+            Item.reuseDelay = 48;
+            Item.width = 64;
+            Item.height = 84;
+            Item.UseSound = SoundID.Item5;
+            Item.shoot = ModContent.ProjectileType<DrataliornusBow>();
+            Item.value = CalamityGlobalItem.Rarity15BuyPrice;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.DamageType = DamageClass.Ranged;
+            Item.channel = true;
+            Item.useTurn = false;
+            Item.useAmmo = AmmoID.Arrow;
+            Item.autoReuse = true;
+            Item.rare = ModContent.RarityType<Violet>();
         }
 
         public override bool AltFunctionUse(Player player)
@@ -56,38 +59,41 @@ Right click to fire two devastating barrages of five empowered fireballs.
         {
             if (player.altFunctionUse == 2)
             {
-                item.noUseGraphic = false;
+                Item.noUseGraphic = false;
             }
             else
             {
-                item.noUseGraphic = true;
-				if (player.ownedProjectileCounts[item.shoot] > 0)
-				{
+                Item.noUseGraphic = true;
+                if (player.ownedProjectileCounts[Item.shoot] > 0)
+                {
                     return false;
-				}
+                }
             }
             return base.CanUseItem(player);
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.altFunctionUse == 2) //tsunami
             {
+                int flameID = ModContent.ProjectileType<DrataliornusFlame>();
+                const int numFlames = 5;
+                int flameDamage = (int)(damage * RightClickDamageRatio);
+
                 const float num3 = 0.471238898f;
-                const int num4 = 5;
-                Vector2 spinningpoint = new Vector2(speedX, speedY);
+                Vector2 spinningpoint = velocity;
                 spinningpoint.Normalize();
                 spinningpoint *= 36f;
-                for (int index1 = 0; index1 < num4; ++index1)
+                for (int index1 = 0; index1 < numFlames; ++index1)
                 {
-                    float num8 = index1 - (num4 - 1) / 2;
+                    float num8 = index1 - (numFlames - 1) / 2;
                     Vector2 vector2_5 = spinningpoint.RotatedBy(num3 * num8, new Vector2());
-                    Projectile.NewProjectile(position.X + vector2_5.X, position.Y + vector2_5.Y, speedX, speedY, ModContent.ProjectileType<DrataliornusFlame>(), (int)(damage * 0.69), knockBack, player.whoAmI, 1f, 0f);
+                    Projectile.NewProjectile(source, position.X + vector2_5.X, position.Y + vector2_5.Y, velocity.X, velocity.Y, flameID, flameDamage, knockback, player.whoAmI, 1f, 0f);
                 }
             }
             else
             {
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<DrataliornusBow>(), 0, 0f, player.whoAmI);
+                Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<DrataliornusBow>(), 0, 0f, player.whoAmI);
             }
 
             return false;
@@ -100,20 +106,13 @@ Right click to fire two devastating barrages of five empowered fireballs.
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<BlossomFlux>());
-            recipe.AddIngredient(ModContent.ItemType<DaemonsFlame>());
-            recipe.AddIngredient(ModContent.ItemType<Deathwind>());
-            recipe.AddIngredient(ModContent.ItemType<HeavenlyGale>());
-            recipe.AddIngredient(ModContent.ItemType<DragonsBreath>(), 2);
-            recipe.AddIngredient(ModContent.ItemType<ChickenCannon>(), 2);
-            recipe.AddIngredient(ModContent.ItemType<AngryChickenStaff>(), 2);
-            recipe.AddIngredient(ModContent.ItemType<YharimsGift>(), 3);
-            recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 12);
-            recipe.AddIngredient(ModContent.ItemType<EffulgentFeather>(), 60);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient<BlossomFlux>().
+                AddIngredient<EffulgentFeather>(12).
+                AddIngredient<YharonSoulFragment>(4).
+                AddIngredient<AuricBar>(5).
+                AddTile<CosmicAnvil>().
+                Register();
         }
     }
 }

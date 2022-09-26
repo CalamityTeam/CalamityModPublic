@@ -1,5 +1,6 @@
-using CalamityMod.Dusts;
+﻿using CalamityMod.Dusts;
 using CalamityMod.Projectiles.Melee;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -8,7 +9,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class GacruxianProj : ModProjectile
     {
-        private int sparkTrailTimer = 10;
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/GacruxianMollusk";
 
         public override void SetStaticDefaults()
         {
@@ -17,37 +18,35 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetDefaults()
         {
-            projectile.width = 20;
-            projectile.height = 20;
-            projectile.friendly = true;
-            projectile.penetrate = 1;
-            projectile.aiStyle = 113;
-            projectile.timeLeft = 600;
-            aiType = ProjectileID.BoneJavelin;
-            projectile.Calamity().rogue = true;
+            Projectile.width = 20;
+            Projectile.height = 20;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.penetrate = 1;
+            Projectile.aiStyle = ProjAIStyleID.StickProjectile;
+            Projectile.timeLeft = 600;
+            AIType = ProjectileID.BoneJavelin;
+            Projectile.DamageType = RogueDamageClass.Instance;
         }
 
         public override void AI()
         {
-            sparkTrailTimer--;
             if (Main.rand.NextBool(4))
             {
-                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, ModContent.DustType<AstralOrange>(), projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, ModContent.DustType<AstralOrange>(), Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
             }
-            if (sparkTrailTimer == 0)
+            if (Projectile.timeLeft % 15 == 0)
             {
-                if (projectile.Calamity().stealthStrike == true)
+                if (Projectile.Calamity().stealthStrike)
                 {
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 0f, projectile.velocity.Y * 0f, ModContent.ProjectileType<GacruxianHome>(), (int)((double)projectile.damage * 0.3), projectile.knockBack, projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<GacruxianHome>(), (int)(Projectile.damage * 0.3), Projectile.knockBack, Projectile.owner);
                 }
                 else
                 {
-                    int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 0f, projectile.velocity.Y * 0f, ModContent.ProjectileType<UltimusCleaverDust>(), (int)((double)projectile.damage * 0.75), projectile.knockBack, projectile.owner, 0f, 0f);
-                    Main.projectile[proj].Calamity().forceRogue = true;
-                    Main.projectile[proj].localNPCHitCooldown = 10;
-                    Main.projectile[proj].penetrate = 3;
+                    int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<UltimusCleaverDust>(), (int)(Projectile.damage * 0.75), Projectile.knockBack, Projectile.owner);
+                    if (proj.WithinBounds(Main.maxProjectiles))
+                        Main.projectile[proj].DamageType = RogueDamageClass.Instance;
                 }
-                sparkTrailTimer = 10;
             }
         }
 
@@ -55,7 +54,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             for (int i = 0; i <= 10; i++)
             {
-                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, ModContent.DustType<AstralOrange>(), projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
+                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, ModContent.DustType<AstralOrange>(), Projectile.oldVelocity.X * 0.5f, Projectile.oldVelocity.Y * 0.5f);
             }
         }
     }

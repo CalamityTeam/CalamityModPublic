@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -10,36 +10,38 @@ namespace CalamityMod.Items.Tools
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Aerial Hamaxe");
         }
 
         public override void SetDefaults()
         {
-            item.damage = 20;
-            item.melee = true;
-            item.width = 44;
-            item.height = 44;
-            item.useTime = 18;
-            item.useAnimation = 26;
-            item.useTurn = true;
-            item.axe = 25;
-            item.hammer = 65;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 7f;
-            item.value = Item.buyPrice(0, 4, 0, 0);
-            item.rare = 3;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
+            Item.damage = 20;
+            Item.knockBack = 7f;
+            Item.useTime = 16;
+            Item.useAnimation = 26;
+            Item.hammer = 70;
+            Item.axe = 125 / 5;
+            Item.tileBoost += 1;
+
+            Item.DamageType = DamageClass.Melee;
+            Item.width = 44;
+            Item.height = 44;
+            Item.useTurn = true;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.value = Item.buyPrice(0, 4, 0, 0);
+            Item.rare = ItemRarityID.Orange;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<AerialiteBar>(), 6);
-            recipe.AddIngredient(ItemID.SunplateBlock, 5);
-            recipe.AddTile(TileID.SkyMill);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient<AerialiteBar>(6).
+                AddIngredient(ItemID.SunplateBlock, 5).
+                AddTile(TileID.SkyMill).
+                Register();
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)

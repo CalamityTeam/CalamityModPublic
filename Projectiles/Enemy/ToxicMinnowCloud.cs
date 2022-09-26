@@ -1,3 +1,4 @@
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -8,103 +9,82 @@ namespace CalamityMod.Projectiles.Enemy
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Cloud");
-            Main.projFrames[projectile.type] = 4;
+            DisplayName.SetDefault("Toxic Cloud");
+            Main.projFrames[Projectile.type] = 4;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 32;
-            projectile.height = 32;
-            projectile.hostile = true;
-            projectile.friendly = true;
-            projectile.alpha = 255;
-            projectile.penetrate = 7;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
-            projectile.timeLeft = 600;
+            Projectile.width = 52;
+            Projectile.height = 48;
+            Projectile.hostile = true;
+            Projectile.friendly = true;
+            Projectile.alpha = 255;
+            Projectile.penetrate = 7;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
+            Projectile.timeLeft = 600;
         }
 
         public override void AI()
         {
-            projectile.frameCounter++;
-            if (projectile.frameCounter > 9)
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter > 9)
             {
-                projectile.frame++;
-                projectile.frameCounter = 0;
+                Projectile.frame++;
+                Projectile.frameCounter = 0;
             }
-            if (projectile.frame > 3)
-            {
-                projectile.frame = 0;
-            }
+            if (Projectile.frame > 3)
+                Projectile.frame = 0;
+
             if (Main.rand.NextBool(2))
-            {
-                projectile.velocity *= 0.95f;
-            }
+                Projectile.velocity *= 0.95f;
             else if (Main.rand.NextBool(2))
-            {
-                projectile.velocity *= 0.9f;
-            }
+                Projectile.velocity *= 0.9f;
             else if (Main.rand.NextBool(2))
-            {
-                projectile.velocity *= 0.85f;
-            }
+                Projectile.velocity *= 0.85f;
             else
+                Projectile.velocity *= 0.8f;
+
+            Projectile.ai[0] += 1f;
+            if (Projectile.ai[0] >= 560f)
             {
-                projectile.velocity *= 0.8f;
+                if (Projectile.alpha < 255)
+                {
+                    Projectile.alpha += 5;
+                    if (Projectile.alpha > 255)
+                        Projectile.alpha = 255;
+                }
+                else if (Projectile.owner == Main.myPlayer)
+                    Projectile.Kill();
             }
-            projectile.ai[0] += 1f;
-            if (projectile.ai[0] >= 560f)
+            else if (Projectile.alpha > 80)
             {
-                if (projectile.alpha < 255)
-                {
-                    projectile.alpha += 5;
-                    if (projectile.alpha > 255)
-                    {
-                        projectile.alpha = 255;
-                    }
-                }
-                else if (projectile.owner == Main.myPlayer)
-                {
-                    projectile.Kill();
-                }
-            }
-            else if (projectile.alpha > 80)
-            {
-                projectile.alpha -= 30;
-                if (projectile.alpha < 80)
-                {
-                    projectile.alpha = 80;
-                }
+                Projectile.alpha -= 30;
+                if (Projectile.alpha < 80)
+                    Projectile.alpha = 80;
             }
         }
 
-		public override bool CanHitPlayer(Player target)
-		{
-			if (projectile.timeLeft < 40)
-			{
-				return false;
-			}
-			return true;
-		}
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => CalamityUtils.CircularHitboxCollision(Projectile.Center, 20f, targetHitbox);
 
-		public override void OnHitPlayer(Player target, int damage, bool crit)
+        public override bool CanHitPlayer(Player target) => Projectile.alpha == 80;
+
+        public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            target.AddBuff(BuffID.Poisoned, 600);
+            if (damage <= 0)
+                return;
+
+            if (Projectile.alpha == 80)
+                target.AddBuff(BuffID.Poisoned, 240);
         }
 
-		public override bool? CanHitNPC(NPC target)
-		{
-			if (projectile.timeLeft < 40)
-			{
-				return false;
-			}
-			return null;
-		}
+        public override bool? CanHitNPC(NPC target) => Projectile.alpha == 80;
 
-		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(BuffID.Poisoned, 600);
+            if (Projectile.alpha == 80)
+                target.AddBuff(BuffID.Poisoned, 240);
         }
     }
 }

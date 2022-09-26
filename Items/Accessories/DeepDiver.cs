@@ -1,6 +1,8 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
+using CalamityMod.CalPlayer.Dashes;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -8,29 +10,30 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Deep Diver");
-            Tooltip.SetDefault("15% increased damage, defense, and movement speed when underwater\n" +
+            Tooltip.SetDefault("15% increased damage, movement speed and +15 defense while underwater\n" +
                                 "While underwater you gain the ability to dash great distances");
         }
 
         public override void SetDefaults()
         {
-            item.width = 24;
-            item.height = 28;
-            item.value = CalamityGlobalItem.Rarity2BuyPrice;
-            item.rare = 2;
-            item.defense = 2;
-            item.accessory = true;
-            item.Calamity().customRarity = CalamityRarity.RareVariant;
+            Item.width = 24;
+            Item.height = 28;
+            Item.value = CalamityGlobalItem.Rarity5BuyPrice;
+            Item.rare = ItemRarityID.Pink;
+            Item.defense = 8;
+            Item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            if (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
+            if (player.IsUnderwater())
             {
                 CalamityPlayer modPlayer = player.Calamity();
                 modPlayer.deepDiver = true;
-                modPlayer.dashMod = 5;
+                modPlayer.DashID = DeepDiverDash.ID;
+                player.dashType = 0;
             }
         }
     }

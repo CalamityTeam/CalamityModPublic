@@ -1,4 +1,4 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -9,21 +9,22 @@ namespace CalamityMod.Items.Mounts
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Tundra Leash");
-            Tooltip.SetDefault("Summons an angry dog mount");
+            Tooltip.SetDefault("Summons a Rimehound mount");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.width = 16;
-            item.height = 16;
-            item.useTime = 20;
-            item.useAnimation = 20;
-            item.useStyle = ItemUseStyleID.HoldingUp;
-            item.rare = 3;
-            item.value = Item.buyPrice(0, 9, 0, 0);
-            item.UseSound = SoundID.NPCHit56;
-            item.noMelee = true;
-            item.mountType = ModContent.MountType<AngryDogMount>();
+            Item.width = 16;
+            Item.height = 16;
+            Item.useTime = 20;
+            Item.useAnimation = 20;
+            Item.useStyle = ItemUseStyleID.HoldUp;
+            Item.rare = ItemRarityID.Orange;
+            Item.value = Item.buyPrice(0, 9, 0, 0);
+            Item.UseSound = SoundID.NPCHit56;
+            Item.noMelee = true;
+            Item.mountType = ModContent.MountType<RimehoundMount>();
         }
     }
 }

@@ -1,43 +1,51 @@
-using CalamityMod.Events;
-using CalamityMod.NPCs.Abyss;
+﻿using CalamityMod.Events;
 using CalamityMod.NPCs.AquaticScourge;
 using CalamityMod.NPCs.AstrumDeus;
 using CalamityMod.NPCs.Calamitas;
 using CalamityMod.NPCs.CeaselessVoid;
 using CalamityMod.NPCs.DesertScourge;
 using CalamityMod.NPCs.DevourerofGods;
+using CalamityMod.NPCs.ExoMechs.Apollo;
+using CalamityMod.NPCs.ExoMechs.Ares;
+using CalamityMod.NPCs.ExoMechs.Artemis;
+using CalamityMod.NPCs.ExoMechs.Thanatos;
 using CalamityMod.NPCs.GreatSandShark;
 using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.NPCs.Perforator;
-using CalamityMod.NPCs.PlaguebringerGoliath;
+using CalamityMod.NPCs.PlagueEnemies;
+using CalamityMod.NPCs.ProfanedGuardians;
 using CalamityMod.NPCs.Providence;
 using CalamityMod.NPCs.Ravager;
 using CalamityMod.NPCs.SlimeGod;
 using CalamityMod.NPCs.StormWeaver;
 using CalamityMod.NPCs.SunkenSea;
 using CalamityMod.NPCs.SupremeCalamitas;
-using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Content;
 using ReLogic.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.GameContent.Events;
+using Terraria.GameContent.UI.BigProgressBar;
 using Terraria.ID;
 using Terraria.ModLoader;
 
+using static Terraria.ModLoader.ModContent;
+
 namespace CalamityMod.UI
 {
-	/*
+    /*
     Heyo! Here's some things you might need to know about this class and where to change things:
 
     In the "Load" method is where the "OneToMany" dictionary is updated.
     If an NPC is made up of multiple segments (such as EoW, etc.) that all have separate health but would be considered a single boss, you can update the dictionary.
     The boss health bar will automatically keep track of all segments of that type and add up the health.
 
-    The "SetupExclusionList" method allows you to check for if certain mods are loaded and setup the exclusion list based on what mods are loaded.
+    The "SetupBossExclusionList" method allows you to check for if certain mods are loaded and setup the exclusion list based on what mods are loaded.
     For now I've had to load calamity separately, you might want to change that by just passing in Calamity itself etc.
 
     If you need to add a special kind of health bar, like the EoW one which counts the number of segments left, let me know.
@@ -48,50 +56,62 @@ namespace CalamityMod.UI
     (although the flickering in the start animation will always happen in the first 20 frames or so)
 
     As for toggling, in the Mod File, you can simply add a boolean check and not draw or update the health bar manager.
-    There is a "SHOULD_DRAW_SMALLTEXT_HEALTH" field below here which is public, if that's false then the smalltext won't draw.
+    There is a "CanDrawExtraSmallText" field below here which is public, if that's false then the smalltext won't draw.
 
     That should be it -- ask if you have any questions!
     */
 
-	internal static class BossHealthBarManager
+    public class BossHealthBarManager : ModBossBarStyle
     {
-        private static readonly int MAX_BARS = 4;
+        public struct BossEntityExtension
+        {
+            public string NameOfExtensions;
+            public int[] TypesToSearchFor;
+            public BossEntityExtension(string name, params int[] types)
+            {
+                NameOfExtensions = name;
+                TypesToSearchFor = types;
+            }
+        }
 
-        public static bool SHOULD_DRAW_SMALLTEXT_HEALTH = true;
+        public static bool CanDrawExtraSmallText = true;
+        public static int MaximumBars = 4;
 
-        private static List<BossHPUI> Bars;
+        public static List<BossHPUI> Bars;
 
-        private static DynamicSpriteFont HPBarFont;
-        private static Texture2D BossMainHPBar;
-        private static Texture2D BossComboHPBar;
-        private static Texture2D BossSeperatorBar;
+        public static DynamicSpriteFont HPBarFont;
+        public static Texture2D BossMainHPBar;
+        public static Texture2D BossComboHPBar;
+        public static Texture2D BossSeperatorBar;
 
         public static Dictionary<int, int[]> OneToMany;
-        private static List<int> ExclusionList;
+        public static List<int> BossExclusionList;
         public static List<int> MinibossHPBarList;
+        public static Dictionary<int, BossEntityExtension> EntityExtensionHandler = new Dictionary<int, BossEntityExtension>();
+        public static Dictionary<NPCSpecialHPGetRequirement, NPCSpecialHPGetFunction> SpecialHPRequirements = new Dictionary<NPCSpecialHPGetRequirement, NPCSpecialHPGetFunction>();
 
-        public static void Load(Mod mod)
+        public delegate bool NPCSpecialHPGetRequirement(NPC npc);
+        public delegate long NPCSpecialHPGetFunction(NPC npc, bool checkingForMaxLife);
+
+        internal static void Load(Mod mod)
         {
             Bars = new List<BossHPUI>();
 
             if (!Main.dedServ)
             {
-                BossMainHPBar = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/BossHPMainBar");
-                BossComboHPBar = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/BossHPComboBar");
-                BossSeperatorBar = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/BossHPSeperatorBar");
+                BossMainHPBar = Request<Texture2D>("CalamityMod/ExtraTextures/UI/BossHPMainBar", AssetRequestMode.ImmediateLoad).Value;
+                BossComboHPBar = Request<Texture2D>("CalamityMod/ExtraTextures/UI/BossHPComboBar", AssetRequestMode.ImmediateLoad).Value;
+                BossSeperatorBar = Request<Texture2D>("CalamityMod/ExtraTextures/UI/BossHPSeperatorBar", AssetRequestMode.ImmediateLoad).Value;
 
                 PlatformID id = Environment.OSVersion.Platform;
-                if (id == PlatformID.Win32NT && !Environment.Is64BitProcess)
-                {
-                    HPBarFont = mod.GetFont("Fonts/HPBarFont");
-                }
+                if (id == PlatformID.Win32NT)
+                    HPBarFont = Request<DynamicSpriteFont>("CalamityMod/Fonts/HPBarFont", AssetRequestMode.ImmediateLoad).Value;
                 else
-                {
-                    HPBarFont = Main.fontMouseText;
-                }
+                    HPBarFont = FontAssets.MouseText.Value;
             }
 
             OneToMany = new Dictionary<int, int[]>();
+
             int[] EoW = new int[] { NPCID.EaterofWorldsHead, NPCID.EaterofWorldsBody, NPCID.EaterofWorldsTail };
             OneToMany[NPCID.EaterofWorldsHead] = EoW;
             OneToMany[NPCID.EaterofWorldsBody] = EoW;
@@ -129,875 +149,602 @@ namespace CalamityMod.UI
             OneToMany[NPCID.PirateShipCannon] = Ship;
 
             int[] MoonLord = new int[] { NPCID.MoonLordHead, NPCID.MoonLordHand, NPCID.MoonLordCore };
-            OneToMany[NPCID.MoonLordHead] = MoonLord;
-            OneToMany[NPCID.MoonLordHand] = MoonLord;
             OneToMany[NPCID.MoonLordCore] = MoonLord;
 
-            int[] Void = new int[] { ModContent.NPCType<CeaselessVoid>(), ModContent.NPCType<DarkEnergy>(), ModContent.NPCType<DarkEnergy2>(), ModContent.NPCType<DarkEnergy3>() };
-            OneToMany[ModContent.NPCType<CeaselessVoid>()] = Void;
-            OneToMany[ModContent.NPCType<DarkEnergy>()] = Void;
-            OneToMany[ModContent.NPCType<DarkEnergy2>()] = Void;
-            OneToMany[ModContent.NPCType<DarkEnergy3>()] = Void;
+            int[] Void = new int[] { NPCType<CeaselessVoid>(), NPCType<DarkEnergy>() };
+            OneToMany[NPCType<CeaselessVoid>()] = Void;
+            OneToMany[NPCType<DarkEnergy>()] = Void;
 
-            int[] Rav = new int[] { ModContent.NPCType<RavagerBody>(), ModContent.NPCType<RavagerClawRight>(), ModContent.NPCType<RavagerClawLeft>(),
-                ModContent.NPCType<RavagerLegRight>(), ModContent.NPCType<RavagerLegLeft>(), ModContent.NPCType<RavagerHead>() };
-            OneToMany[ModContent.NPCType<RavagerBody>()] = Rav;
-            OneToMany[ModContent.NPCType<RavagerClawRight>()] = Rav;
-            OneToMany[ModContent.NPCType<RavagerClawLeft>()] = Rav;
-            OneToMany[ModContent.NPCType<RavagerLegRight>()] = Rav;
-            OneToMany[ModContent.NPCType<RavagerLegLeft>()] = Rav;
-            OneToMany[ModContent.NPCType<RavagerHead>()] = Rav;
+            int[] Rav = new int[] { NPCType<RavagerBody>(), NPCType<RavagerClawRight>(), NPCType<RavagerClawLeft>(),
+                NPCType<RavagerLegRight>(), NPCType<RavagerLegLeft>(), NPCType<RavagerHead>() };
+            OneToMany[NPCType<RavagerBody>()] = Rav;
+            OneToMany[NPCType<RavagerClawRight>()] = Rav;
+            OneToMany[NPCType<RavagerClawLeft>()] = Rav;
+            OneToMany[NPCType<RavagerLegRight>()] = Rav;
+            OneToMany[NPCType<RavagerLegLeft>()] = Rav;
+            OneToMany[NPCType<RavagerHead>()] = Rav;
 
-            int[] Slimes = new int[] { ModContent.NPCType<SlimeGodCore>(), ModContent.NPCType<SlimeGod>(), ModContent.NPCType<SlimeGodSplit>(),
-                ModContent.NPCType<SlimeGodRun>(), ModContent.NPCType<SlimeGodRunSplit>() };
-            OneToMany[ModContent.NPCType<SlimeGodCore>()] = Slimes;
-            OneToMany[ModContent.NPCType<SlimeGod>()] = Slimes;
-            OneToMany[ModContent.NPCType<SlimeGodSplit>()] = Slimes;
-            OneToMany[ModContent.NPCType<SlimeGodRun>()] = Slimes;
-            OneToMany[ModContent.NPCType<SlimeGodRunSplit>()] = Slimes;
+            int[] SlimeGod = new int[] { NPCType<EbonianSlimeGod>(), NPCType<SplitEbonianSlimeGod>(),
+                NPCType<CrimulanSlimeGod>(), NPCType<SplitCrimulanSlimeGod>() };
+            OneToMany[NPCType<EbonianSlimeGod>()] = SlimeGod;
+            OneToMany[NPCType<CrimulanSlimeGod>()] = SlimeGod;
 
-            SetupExclusionList();
+            SetupBossExclusionList();
             SetupMinibossHPBarList();
+            SetupExtensionHandlerList();
+            SetupRequirementsList();
         }
 
-        private static void SetupExclusionList()
+        public static void SetupBossExclusionList()
         {
-            ExclusionList = new List<int>
+            BossExclusionList = new List<int>
             {
                 NPCID.MoonLordFreeEye,
                 NPCID.MoonLordHead,
                 NPCID.MoonLordHand,
-                NPCID.MoonLordCore,
                 NPCID.WyvernLegs,
                 NPCID.WyvernBody,
                 NPCID.WyvernBody2,
                 NPCID.WyvernBody3,
                 NPCID.WyvernTail,
-                ModContent.NPCType<AquaticScourgeBody>(),
-                ModContent.NPCType<AquaticScourgeBodyAlt>(),
-                ModContent.NPCType<AquaticScourgeTail>(),
-                ModContent.NPCType<AstrumDeusBodySpectral>(),
-                ModContent.NPCType<AstrumDeusTailSpectral>(),
-                ModContent.NPCType<DesertScourgeBody>(),
-                ModContent.NPCType<DesertScourgeTail>(),
-                ModContent.NPCType<StormWeaverHead>(),
-                ModContent.NPCType<StormWeaverBody>(),
-                ModContent.NPCType<StormWeaverTail>(),
-                ModContent.NPCType<StormWeaverBodyNaked>(),
-                ModContent.NPCType<StormWeaverTailNaked>(),
-                ModContent.NPCType<DevourerofGodsBody>(),
-                ModContent.NPCType<DevourerofGodsTail>(),
-                ModContent.NPCType<DevourerofGodsBodyS>(),
-                ModContent.NPCType<DevourerofGodsTailS>()
+                NPCType<AquaticScourgeBody>(),
+                NPCType<AquaticScourgeBodyAlt>(),
+                NPCType<AquaticScourgeTail>(),
+                NPCType<AstrumDeusBody>(),
+                NPCType<AstrumDeusTail>(),
+                NPCType<DesertScourgeBody>(),
+                NPCType<DesertScourgeTail>(),
+                NPCType<SlimeGodCore>(),
+                NPCType<StormWeaverBody>(),
+                NPCType<StormWeaverTail>(),
+                NPCType<DevourerofGodsBody>(),
+                NPCType<DevourerofGodsTail>(),
+                NPCType<ThanatosBody1>(),
+                NPCType<ThanatosBody2>(),
+                NPCType<ThanatosTail>(),
+                NPCType<AresGaussNuke>(),
+                NPCType<AresLaserCannon>(),
+                NPCType<AresPlasmaFlamethrower>(),
+                NPCType<AresTeslaCannon>(),
             };
         }
 
-        private static void SetupMinibossHPBarList()
+        public static void SetupMinibossHPBarList()
         {
             MinibossHPBarList = new List<int>
             {
-                //DD2 Event
+                // DD2 Event.
                 NPCID.DD2Betsy,
                 NPCID.DD2OgreT2,
                 NPCID.DD2OgreT3,
-                NPCID.DD2DarkMageT1, //800 HP
+                NPCID.DD2DarkMageT1, // 800 HP, T1 variant.
                 NPCID.DD2DarkMageT3,
 
-                //Prehardmode
+                // Prehardmode.
                 NPCID.DungeonGuardian,
 
-                //Hardmode
-                NPCID.GoblinSummoner, //2000 HP
-				NPCID.WyvernHead,
+                // Hardmode.
+                NPCID.GoblinSummoner, // 2000 HP
+                NPCID.WyvernHead,
                 NPCID.Paladin,
                 NPCID.IceGolem,
                 NPCID.SandElemental,
                 NPCID.BigMimicCorruption,
                 NPCID.BigMimicCrimson,
                 NPCID.BigMimicHallow,
+                NPCID.BloodNautilus,
 
-                //Moon Events
+                // Moon Events.
                 NPCID.MourningWood,
                 NPCID.Pumpking,
                 NPCID.Everscream,
                 NPCID.SantaNK1,
                 NPCID.IceQueen,
 
-                //Eclipse
+                // Eclipse.
                 NPCID.Mothron,
 
-                //Prehardmode
-                ModContent.NPCType<GiantClam>(),
-                ModContent.NPCType<PerforatorHeadSmall>(),
-                ModContent.NPCType<PerforatorHeadMedium>(),
-                ModContent.NPCType<PerforatorHeadLarge>(),
+                // Martian Madness.
+                NPCID.MartianSaucerCore,
 
-                //Hardmode
-                ModContent.NPCType<ThiccWaifu>(),
-                ModContent.NPCType<Horse>(),
-                ModContent.NPCType<GreatSandShark>(),
-                ModContent.NPCType<PlaguebringerShade>(),
-                ModContent.NPCType<ArmoredDiggerHead>(),
-                ModContent.NPCType<CalamitasRun>(), //Clone's brothers
-                ModContent.NPCType<CalamitasRun2>(),
+                // Prehardmode Modded.
+                NPCType<GiantClam>(),
+                NPCType<PerforatorHeadSmall>(),
+                NPCType<PerforatorHeadMedium>(),
+                NPCType<PerforatorHeadLarge>(),
 
-                //Abyss
-                ModContent.NPCType<EidolonWyrmHeadHuge>(),
+                // Hardmode Modded.
+                NPCType<ThiccWaifu>(),
+                NPCType<Horse>(),
+                NPCType<GreatSandShark>(),
+                NPCType<PlaguebringerMiniboss>(),
+                NPCType<ArmoredDiggerHead>(),
+                NPCType<Cataclysm>(), //Clone's brothers
+                NPCType<Catastrophe>(),
 
-                //Post-ML
-                ModContent.NPCType<SupremeCataclysm>(),
-                ModContent.NPCType<SupremeCatastrophe>(),
-                ModContent.NPCType<ProvSpawnDefense>(),
-                ModContent.NPCType<ProvSpawnOffense>(),
-                ModContent.NPCType<ProvSpawnHealer>()
+                // Post-ML Modded.
+                NPCType<SupremeCataclysm>(),
+                NPCType<SupremeCatastrophe>(),
+                NPCType<ProvSpawnDefense>(),
+                NPCType<ProvSpawnOffense>(),
+                NPCType<ProvSpawnHealer>(),
+                NPCType<ProfanedGuardianDefender>(),
+                NPCType<ProfanedGuardianHealer>()
             };
-            MinibossHPBarList.AddRange(AcidRainEvent.AllMinibosses);
         }
 
-        public static void Unload()
+        public static void SetupExtensionHandlerList()
+        {
+            EntityExtensionHandler = new Dictionary<int, BossEntityExtension>()
+            {
+                [NPCID.EaterofWorldsHead] = new BossEntityExtension("Segments", NPCID.EaterofWorldsHead, NPCID.EaterofWorldsBody, NPCID.EaterofWorldsTail),
+                [NPCID.BrainofCthulhu] = new BossEntityExtension("Creepers", NPCID.Creeper),
+                [NPCID.SkeletronHead] = new BossEntityExtension("Hands", NPCID.SkeletronHand),
+                [NPCID.SkeletronPrime] = new BossEntityExtension("Arms", NPCID.PrimeCannon, NPCID.PrimeSaw, NPCID.PrimeVice, NPCID.PrimeLaser),
+                [NPCID.MartianSaucerCore] = new BossEntityExtension("Guns", NPCID.MartianSaucerTurret, NPCID.MartianSaucerCannon),
+                [NPCID.PirateShip] = new BossEntityExtension("Cannons", NPCID.PirateShipCannon),
+                [NPCType<CeaselessVoid>()] = new BossEntityExtension("Dark Energy", NPCType<DarkEnergy>()),
+                [NPCType<RavagerBody>()] = new BossEntityExtension("Body Parts", NPCType<RavagerClawLeft>(), NPCType<RavagerClawRight>(), NPCType<RavagerLegLeft>(), NPCType<RavagerLegRight>()),
+            };
+        }
+
+        // Collection simplification looks horrendous in the context of delegate creation.
+        // Warnings pertaining to it in this section are disabled as a result.
+#pragma warning disable IDE0028 // Simplify collection initialization
+        public static void SetupRequirementsList()
+        {
+            SpecialHPRequirements = new Dictionary<NPCSpecialHPGetRequirement, NPCSpecialHPGetFunction>();
+            SpecialHPRequirements.Add(npc => npc.Calamity().SplittingWorm, (npc, checkingForMaxLife) =>
+            {
+                // Go across the entire worm and accumulate life. The expectation is that the boss follows the linked-list-esque standard
+                // where ai variables act as a way of accessing previous/next segments. In this case, the intent is to begin at the head and go to the tail.
+                long life = 0L;
+                NPC currentSegment = npc;
+
+                // Head ... -> Main.npc[(int)currentSegment.ai[0]] -> currentSegment.whoAmI -> ... Tail.
+
+                // What this is doing is checking if the next segment agrees with the fact that the previous segment is what it is attaching to.
+                // If it doesn't, that means that we have reached the end of the worm.
+                int failsafeCounter = 0;
+                while (Main.npc.IndexInRange((int)currentSegment.ai[0]) && Main.npc[(int)currentSegment.ai[0]].ai[1] == currentSegment.whoAmI)
+                {
+                    // If a segment is not active for some reason, don't go any further.
+                    if (!currentSegment.active)
+                        break;
+
+                    life += checkingForMaxLife ? currentSegment.lifeMax : currentSegment.life;
+                    currentSegment = Main.npc[(int)currentSegment.ai[0]];
+
+                    failsafeCounter++;
+                    if (failsafeCounter > Main.maxNPCs)
+                        break;
+                }
+
+                return life;
+            });
+
+            SpecialHPRequirements.Add(npc => npc.type == NPCID.MoonLordCore, (npc, checkingForMaxLife) =>
+            {
+                long life = checkingForMaxLife ? npc.lifeMax : npc.life;
+                if (npc.ai[0] == 2f)
+                    life = 0L;
+
+                for (int i = 0; i < Main.maxNPCs; i++)
+                {
+                    bool isMoonLordPiece = Main.npc[i].type == NPCID.MoonLordHand || Main.npc[i].type == NPCID.MoonLordHead;
+                    if (!Main.npc[i].active || !isMoonLordPiece || Main.npc[i].ai[3] != npc.whoAmI)
+                        continue;
+
+                    // Don't count HP towards the total if the NPC is in its dead state.
+                    if (Main.npc[i].Calamity().newAI[0] == 1f)
+                        continue;
+
+                    life += checkingForMaxLife ? Main.npc[i].lifeMax : Main.npc[i].life;
+                }
+
+                return life;
+            });
+        }
+#pragma warning restore IDE0028 // Simplify collection initialization
+
+        public override void Unload()
         {
             BossMainHPBar = null;
             BossComboHPBar = null;
             BossSeperatorBar = null;
             HPBarFont = null;
             Bars = null;
-            ExclusionList = null;
+            BossExclusionList = null;
             MinibossHPBarList = null;
             OneToMany = null;
+            EntityExtensionHandler = null;
+            SpecialHPRequirements = null;
         }
 
-        public static void Update()
+        public override void Update(IBigProgressBar currentBar, ref BigProgressBarInfo info)
         {
-            for (int i = 0; i < Main.npc.Length; i++)
+            for (int i = 0; i < Main.maxNPCs; i++)
             {
-                //Is NPC active
-                if (!Main.npc[i].active)
+                // Ignore inactive NPCs and NPCs that should not be given a bar, even if it meets other criteria.
+                if (!Main.npc[i].active || BossExclusionList.Contains(Main.npc[i].type))
                     continue;
 
-                //Is npc in exclusion list
-                int type = Main.npc[i].type;
-                if (Main.npc[i].type == NPCID.MoonLordCore)
-                {
-                    AttemptAddBar(i, NPCID.MoonLordCore);
-                }
-                if (ExclusionList.Contains(type))
-                    continue;
-
-                if (Main.npc[i].type == NPCID.BrainofCthulhu)
-                {
-                    AttemptAddBar(i, NPCID.BrainofCthulhu);
-                }
-                else if (Main.npc[i].type == NPCID.SkeletronHead)
-                {
-                    AttemptAddBar(i, NPCID.SkeletronHead);
-                }
-                else if (Main.npc[i].type == NPCID.SkeletronPrime)
-                {
-                    AttemptAddBar(i, NPCID.SkeletronPrime);
-                }
-                else if (Main.npc[i].type == NPCID.Golem)
-                {
-                    AttemptAddBar(i, NPCID.Golem);
-                }
-                else if (Main.npc[i].type == NPCID.MartianSaucerCore)
-                {
-                    AttemptAddBar(i, NPCID.MartianSaucerCore);
-                }
-                else if (Main.npc[i].type == NPCID.PirateShip)
-                {
-                    AttemptAddBar(i, NPCID.PirateShip);
-                }
-                else if (Main.npc[i].type == ModContent.NPCType<CalamitasRun3>())
-                {
-                    AttemptAddBar(i, ModContent.NPCType<CalamitasRun3>());
-                }
-                else if (Main.npc[i].type == ModContent.NPCType<CeaselessVoid>())
-                {
-                    AttemptAddBar(i, ModContent.NPCType<CeaselessVoid>());
-                }
-                else if (Main.npc[i].type == ModContent.NPCType<PerforatorHive>())
-                {
-                    AttemptAddBar(i, ModContent.NPCType<PerforatorHive>());
-                }
-                else if (Main.npc[i].type == ModContent.NPCType<RavagerBody>())
-                {
-                    AttemptAddBar(i, ModContent.NPCType<RavagerBody>());
-                }
-                else if (Main.npc[i].type == ModContent.NPCType<SlimeGodCore>())
-                {
-                    AttemptAddBar(i, ModContent.NPCType<SlimeGodCore>());
-                }
-                else if (Main.npc[i].boss || MinibossHPBarList.Contains(type))
-                {
-                    AttemptAddBar(i);
-                }
-                //If, specifically, they're the eater of worlds head
-                if (Main.npc[i].type == NPCID.EaterofWorldsHead)
-                {
-                    AttemptAddBar(i, NPCID.EaterofWorldsHead);
-                }
+                bool isEoWSegment = Main.npc[i].type == NPCID.EaterofWorldsBody || Main.npc[i].type == NPCID.EaterofWorldsTail;
+                if ((Main.npc[i].IsABoss() && !isEoWSegment) || MinibossHPBarList.Contains(Main.npc[i].type) || Main.npc[i].Calamity().CanHaveBossHealthBar)
+                    AttemptToAddBar(i);
             }
 
             for (int i = 0; i < Bars.Count; i++)
             {
                 BossHPUI ui = Bars[i];
-                //Update the bar
+
+                // Update the bar.
                 ui.Update();
-                //Is the NPC the bar is attached to dead?
-                if (ui.IsDead())
+
+                // Remove the bar if it's done with its closing animation.
+                if (ui.CloseAnimationTimer >= BossHPUI.CloseAnimationTime)
                 {
-                    //begin closing anim of the UI
-                    ui.StartClosing();
-                }
-                if (ui.ShouldClose())
-                {
-                    //remove this bar
                     Bars.RemoveAt(i);
                     i--;
                 }
             }
         }
 
-        private static void AttemptAddBar(int index, int type = -1)
+        public static void AttemptToAddBar(int index)
         {
-            //Limit the number of bars.
-            if (Bars.Count >= MAX_BARS)
+            // Limit the number of bars.
+            if (Bars.Count >= MaximumBars)
                 return;
 
-            bool hasBar = false;
+            // Do not attempt to create a new bar for an NPC that's already in the list of bars.
+            NPC npc = Main.npc[index];
+            bool canAddBar = npc.active && npc.life > 0 && Bars.All(b => b.NPCIndex != index) && !npc.Calamity().ShouldCloseHPBar;
 
-            foreach (BossHPUI ui in Bars)
-            {
-                int id = ui.GetNPCID();
-                if (id == index)
-                {
-                    hasBar = true;
-                    break;
-                }
-                //Sort out the eater of worlds splitting into multiple segments and multiple of them being heads
-                if (type == NPCID.EaterofWorldsHead)
-                {
-                    if (Main.npc[id].type == NPCID.EaterofWorldsHead)
-                    {
-                        hasBar = true;
-                    }
-                }
-            }
+            // SPECIAL CASE: Artemis and Apollo should be registered as one boss, as they share HP.
+            // Apollo is the only NPC to recieve a bar, with a special overriding name.
+            string overridingName = null;
+            if (npc.type == NPCType<Artemis>())
+                canAddBar = false;
+            if (npc.type == NPCType<Apollo>())
+                overridingName = $"{Artemis.NameToDisplay} and {Apollo.NameToDisplay}";
 
-            if (!hasBar)
-            {
-                BossHPUI newUI = new BossHPUI(index);
-
-                if (type != -1)
-                {
-                    newUI.SetupForType(type);
-                }
-
-                Bars.Add(newUI);
-            }
+            if (canAddBar)
+                Bars.Add(new BossHPUI(index, overridingName));
         }
 
-        public static void Draw(SpriteBatch sb)
-        {
-            int startHeight = 100; //100
-            int heightPerOne = 70; //70
+        public override bool PreventDraw => true;
 
+        public override void Draw(SpriteBatch spriteBatch, IBigProgressBar currentBar, BigProgressBarInfo info)
+        {
+            int startHeight = 100;
+            int x = Main.screenWidth - 420;
             int y = Main.screenHeight - startHeight;
-            int x = Main.screenWidth - 420 + ((Main.playerInventory || Main.invasionType > 0 || Main.pumpkinMoon || Main.snowMoon || DD2Event.Ongoing || CalamityWorld.rainingAcid) ? -250 : 0);
+            if (Main.playerInventory || Main.invasionType > 0 || Main.pumpkinMoon || Main.snowMoon || DD2Event.Ongoing || AcidRainEvent.AcidRainEventIsOngoing)
+                x -= 250;
 
             foreach (BossHPUI ui in Bars)
             {
-                ui.Draw(sb, x, y);
-                y -= heightPerOne;
+                ui.Draw(spriteBatch, x, y);
+                y -= BossHPUI.VerticalOffsetPerBar;
             }
         }
 
-        //Actual UI handling class
-        internal class BossHPUI
+        public class BossHPUI
         {
-            private static readonly Color OrangeColour = new Color(229, 189, 62);
-            private static readonly Color OrangeBorderColour = new Color(197, 127, 46);
-
-            private static readonly int MainBarYOffset = 28;
-            private static readonly int SepBarYOffset = 18;
-            private static readonly int BarMaxWidth = 400;
-            private static readonly int OpenAnimTime = 80;
-            private static readonly int CloseAnimTime = 120;
-
-            enum SpecialType : byte
-            {
-                None,
-                EaterOfWorlds,
-                Creep,
-                Skelet,
-                SkeletPrime,
-                MartSaucer,
-                PirShip
-            }
-
-            enum SpecialType2 : byte
-            {
-                None,
-                Ceaseless,
-                Ravage,
-                SlimeCore
-            }
-
-            private int _npcLocation;
-            private SpecialType _special = SpecialType.None;
-            private SpecialType2 _special2 = SpecialType2.None;
-            private int[] _specialData = new int[7];
-            private int[] _specialData2 = new int[7];
-            private float _maxHealth;
-            private int _prevLife;
-            private bool _inCombo = false;
-            private int _comboStartHealth;
-            private int _damageCountdown;
-            private NPC _npc
+            public int NPCIndex = -1;
+            public int IntendedNPCType = -1;
+            public int OpenAnimationTimer;
+            public int CloseAnimationTimer;
+            public int EnrageTimer;
+            public int IncreasingDefenseOrDRTimer;
+            public int ComboDamageCountdown;
+            public long PreviousLife;
+            public long HealthAtStartOfCombo;
+            public long InitialMaxLife;
+            public string OverridingName = null;
+            public NPC AssociatedNPC => Main.npc.IndexInRange(NPCIndex) ? Main.npc[NPCIndex] : null;
+            public int NPCType => AssociatedNPC?.type ?? -1;
+            public long CombinedNPCLife
             {
                 get
                 {
-                    return Main.npc[_npcLocation];
-                }
-            }
+                    if (AssociatedNPC is null || !AssociatedNPC.active)
+                        return 0L;
 
-            private string _lastName = "";
+                    long life = AssociatedNPC.life;
 
-            private bool _oneToMany = false;
-            private int[] _arrayOfIds;
-
-            //EDITABLE
-            public void SetupForType(int type)
-            {
-                if (type == ModContent.NPCType<SlimeGodCore>())
-                {
-                    _special2 = SpecialType2.SlimeCore;
-                }
-                else if (type == ModContent.NPCType<RavagerBody>())
-                {
-                    _special2 = SpecialType2.Ravage;
-                }
-                else if (type == ModContent.NPCType<CeaselessVoid>())
-                {
-                    _special2 = SpecialType2.Ceaseless;
-                }
-                else
-                {
-                    switch (type)
+                    // Immediately check for special logged edge-cases. If one is hit, go with what it says.
+                    foreach (KeyValuePair<NPCSpecialHPGetRequirement, NPCSpecialHPGetFunction> requirement in SpecialHPRequirements)
                     {
-                        case NPCID.EaterofWorldsHead:
-                            _special = SpecialType.EaterOfWorlds;
-                            break;
-                        case NPCID.BrainofCthulhu:
-                            _special = SpecialType.Creep;
-                            break;
-                        case NPCID.SkeletronHead:
-                            _special = SpecialType.Skelet;
-                            break;
-                        case NPCID.SkeletronPrime:
-                            _special = SpecialType.SkeletPrime;
-                            break;
-                        case NPCID.MartianSaucerCore:
-                            _special = SpecialType.MartSaucer;
-                            break;
-                        case NPCID.PirateShip:
-                            _special = SpecialType.PirShip;
-                            break;
+                        if (requirement.Key(AssociatedNPC))
+                            return requirement.Value(AssociatedNPC, false);
                     }
-                }
-            }
 
-            //ANIMATION FIELDS
-            private int _openAnimCounter = OpenAnimTime;
-            private int _closeAnimCounter;
+                    // Don't check any further if the NPC is not a part of any one-to-many relationship.
+                    if (!OneToMany.ContainsKey(NPCType))
+                        return life;
 
-            public BossHPUI(int id)
-            {
-                _npcLocation = id;
-
-                _maxHealth = Main.npc[id].lifeMax;
-
-                if (OneToMany.ContainsKey(Main.npc[id].type))
-                {
-                    _oneToMany = true;
-                    _arrayOfIds = OneToMany[Main.npc[id].type];
-                }
-            }
-
-            public int GetNPCID()
-            {
-                return _npcLocation;
-            }
-            public bool ShouldClose()
-            {
-                return _closeAnimCounter >= CloseAnimTime;
-            }
-            public void StartClosing()
-            {
-                if (_closeAnimCounter == 0)
-                    _closeAnimCounter = 1;
-            }
-
-            public bool IsDead()
-            {
-                bool dead = false;
-
-                if (_npc == null)
-                    dead = true;
-
-                int life = _npc.life;
-                if (life < 0 || !_npc.active || _npc.lifeMax < 800)
-                    dead = true;
-
-                if (_oneToMany)
-                {
-                    for (int i = 0; i < Main.npc.Length; i++)
+                    // Otherwise, check if any of said relationship NPCs are enraged.
+                    for (int i = 0; i < Main.maxNPCs; i++)
                     {
-                        if (Main.npc[i].active && Main.npc[i].life > 0 && _arrayOfIds.Contains(Main.npc[i].type))
-                        {
-                            dead = false;
-                        }
+                        if (!Main.npc[i].active || Main.npc[i].life <= 0 || !OneToMany[NPCType].Contains(Main.npc[i].type))
+                            continue;
+
+                        life += Main.npc[i].life;
                     }
-                }
 
-                if (dead && _lastName == "")
+                    return life;
+                }
+            }
+            public long CombinedNPCMaxLife
+            {
+                get
                 {
-                    _lastName = _npc.FullName;
-                }
+                    if (AssociatedNPC is null || !AssociatedNPC.active)
+                        return 0L;
 
-                return dead;
+                    long maxLife = AssociatedNPC.lifeMax;
+
+                    // Immediately check for special logged edge-cases. If one is hit, go with what it says.
+                    foreach (KeyValuePair<NPCSpecialHPGetRequirement, NPCSpecialHPGetFunction> requirement in SpecialHPRequirements)
+                    {
+                        if (requirement.Key(AssociatedNPC))
+                            return requirement.Value(AssociatedNPC, true);
+                    }
+
+                    // Don't check any further if the NPC is not a part of any one-to-many relationship.
+                    if (!OneToMany.ContainsKey(NPCType))
+                        return maxLife;
+
+                    // Otherwise, check if any of said relationship NPCs are enraged.
+                    for (int i = 0; i < Main.maxNPCs; i++)
+                    {
+                        if (!Main.npc[i].active || Main.npc[i].life <= 0 || !OneToMany[NPCType].Contains(Main.npc[i].type))
+                            continue;
+
+                        maxLife += Main.npc[i].lifeMax;
+                    }
+
+                    return maxLife;
+                }
+            }
+            public bool NPCIsEnraged
+            {
+                get
+                {
+                    if (AssociatedNPC is null || !AssociatedNPC.active)
+                        return false;
+
+                    if (AssociatedNPC.Calamity().CurrentlyEnraged)
+                        return true;
+
+                    // Don't check any further if the NPC is not a part of any one-to-many relationship.
+                    if (!OneToMany.ContainsKey(NPCType))
+                        return false;
+
+                    // Otherwise, check if any of said relationship NPCs are enraged.
+                    for (int i = 0; i < Main.maxNPCs; i++)
+                    {
+                        if (!Main.npc[i].active || Main.npc[i].life <= 0 || !OneToMany[NPCType].Contains(Main.npc[i].type))
+                            continue;
+
+                        if (Main.npc[i].Calamity().CurrentlyEnraged)
+                            return true;
+                    }
+                    return false;
+                }
+            }
+            public bool NPCIsIncreasingDefenseOrDR
+            {
+                get
+                {
+                    if (AssociatedNPC is null || !AssociatedNPC.active)
+                        return false;
+
+                    if (AssociatedNPC.Calamity().CurrentlyIncreasingDefenseOrDR)
+                        return true;
+
+                    // Don't check any further if the NPC is not a part of any one-to-many relationship.
+                    if (!OneToMany.ContainsKey(NPCType))
+                        return false;
+
+                    // Otherwise, check if any of said relationship NPCs are increasing their defense or DR.
+                    for (int i = 0; i < Main.maxNPCs; i++)
+                    {
+                        if (!Main.npc[i].active || Main.npc[i].life <= 0 || !OneToMany[NPCType].Contains(Main.npc[i].type))
+                            continue;
+
+                        if (Main.npc[i].Calamity().CurrentlyIncreasingDefenseOrDR)
+                            return true;
+                    }
+                    return false;
+                }
+            }
+            public float NPCLifeRatio
+            {
+                get
+                {
+                    float lifeRatio = CombinedNPCLife / (float)InitialMaxLife;
+
+                    // Handle division by 0 edge-cases.
+                    if (float.IsNaN(lifeRatio) || float.IsInfinity(lifeRatio))
+                        return 0f;
+
+                    return lifeRatio;
+                }
+            }
+
+            public const int MainBarYOffset = 28;
+            public const int SeparatorBarYOffset = 18;
+            public const int BarMaxWidth = 400;
+            public const int OpenAnimationTime = 80;
+            public const int CloseAnimationTime = 120;
+            public const int EnrageAnimationTime = 120;
+            public const int IncreasedDefenseOrDRAnimationTime = 120;
+            public const int VerticalOffsetPerBar = 70;
+            public const float SmallTextScale = 0.75f;
+            public static Color MainColor = new Color(229, 189, 62);
+            public static Color MainBorderColour = new Color(197, 127, 46);
+
+            public BossHPUI(int index, string overridingName = null)
+            {
+                NPCIndex = index;
+
+                // Store the intended NPC type for this bar.
+                // This is necessary because it is possible for the NPC slot to become occupied by something else when the NPC becomes
+                // inactive. If this happens and the bar isn't done closing, it will simply think that the new occupant is what is should attach to, regardless
+                // of if it's actually supposed to have a bar in the first place. By verifying NPC type, we can be sure that this does not happen.
+                // And if an NPC of the same type does this, it doesn't matter, because that means it was valid to begin with.
+                if (AssociatedNPC != null && AssociatedNPC.active)
+                {
+                    IntendedNPCType = AssociatedNPC.type;
+                    PreviousLife = CombinedNPCLife;
+                }
+                OverridingName = overridingName;
             }
 
             public void Update()
             {
-                if (_closeAnimCounter != 0)
+                // Handle combos.
+                if (CombinedNPCLife != PreviousLife && PreviousLife != 0)
+                {
+                    // If there's no ongoing combo, begin one.
+                    if (ComboDamageCountdown <= 0)
+                        HealthAtStartOfCombo = CombinedNPCLife;
+
+                    ComboDamageCountdown = 30;
+                }
+                PreviousLife = CombinedNPCLife;
+
+                if (ComboDamageCountdown > 0)
+                    ComboDamageCountdown--;
+
+                // Update timers as necessary.
+                if (AssociatedNPC is null || !AssociatedNPC.active || NPCType != IntendedNPCType || AssociatedNPC.Calamity().ShouldCloseHPBar)
+                {
+                    EnrageTimer = Utils.Clamp(EnrageTimer - 4, 0, EnrageAnimationTime);
+                    IncreasingDefenseOrDRTimer = Utils.Clamp(IncreasingDefenseOrDRTimer - 4, 0, IncreasedDefenseOrDRAnimationTime);
+                    CloseAnimationTimer = Utils.Clamp(CloseAnimationTimer + 1, 0, CloseAnimationTime);
                     return;
-
-                int currentLife = _npc.life;
-
-                //Calculate current life based all types that are available and considered part of one boss
-                if (_oneToMany)
-                {
-                    currentLife = 0;
-                    int maxLife = 0;
-                    for (int i = 0; i < Main.npc.Length; i++)
-                    {
-                        if (Main.npc[i].active && Main.npc[i].life > 0 && _arrayOfIds.Contains(Main.npc[i].type))
-                        {
-                            if ((Main.npc[i].type == NPCID.MoonLordHead && (Main.npc[i].ai[0] == -2f || Main.npc[i].ai[0] == -3f || Main.npc[i].Calamity().newAI[0] == 1f)) ||
-								(Main.npc[i].type == NPCID.MoonLordHand && (Main.npc[i].ai[0] == -2f || Main.npc[i].Calamity().newAI[0] == 1f)) ||
-								(Main.npc[i].type == NPCID.MoonLordCore && Main.npc[i].ai[0] == 2f))
-                                continue;
-
-                            currentLife += Main.npc[i].life;
-                            maxLife += Main.npc[i].lifeMax;
-                        }
-                    }
-                    if (maxLife > _maxHealth)
-                    {
-                        _maxHealth = maxLife;
-                    }
                 }
 
-                //Damage countdown
-                if (_damageCountdown > 0)
-                {
-                    _damageCountdown--;
-                    if (_damageCountdown == 0)
-                    {
-                        //This means we need to finish the combo
-                        _comboStartHealth = 0;
-                        _inCombo = false;
-                    }
-                }
-                //If the current life is not eqaul to the previous frame of life (_prevLife != 0 ensures it's not on it's first frame)
-                if (currentLife != _prevLife && _prevLife != 0)
-                {
-                    //If there's no ongoing combo
-                    if (!_inCombo)
-                    {
-                        //This means we need to start a combo
-                        _comboStartHealth = _prevLife;
-                        _inCombo = true;
-                    }
-                    _damageCountdown = 30; //60
-                }
-                _prevLife = currentLife;
+                OpenAnimationTimer = Utils.Clamp(OpenAnimationTimer + 1, 0, OpenAnimationTime);
+                EnrageTimer = Utils.Clamp(EnrageTimer + NPCIsEnraged.ToDirectionInt(), 0, EnrageAnimationTime);
+                IncreasingDefenseOrDRTimer = Utils.Clamp(IncreasingDefenseOrDRTimer + NPCIsIncreasingDefenseOrDR.ToDirectionInt(), 0, IncreasedDefenseOrDRAnimationTime);
 
-                switch (_special)
-                {
-                    default:
-                        break;
-                    case SpecialType.EaterOfWorlds:
-                        //Count the segments of the EoW
-                        int count = 0;
-                        for (int i = 0; i < Main.npc.Length; i++)
-                        {
-                            if (IsEoW(i))
-                            {
-                                count++;
-                            }
-                        }
-                        _specialData[0] = count;
-                        break;
-                    case SpecialType.Creep:
-                        int count2 = NPC.CountNPCS(NPCID.Creeper);
-                        _specialData[1] = count2;
-                        break;
-                    case SpecialType.Skelet:
-                        int count3 = NPC.CountNPCS(NPCID.SkeletronHand);
-                        _specialData[2] = count3;
-                        break;
-                    case SpecialType.SkeletPrime:
-                        int count4 = NPC.CountNPCS(NPCID.PrimeVice) + NPC.CountNPCS(NPCID.PrimeCannon) +
-                            NPC.CountNPCS(NPCID.PrimeSaw) + NPC.CountNPCS(NPCID.PrimeLaser);
-                        _specialData[3] = count4;
-                        break;
-                    case SpecialType.MartSaucer:
-                        int count5 = NPC.CountNPCS(NPCID.MartianSaucerTurret) + NPC.CountNPCS(NPCID.MartianSaucerCannon);
-                        _specialData[4] = count5;
-                        break;
-                    case SpecialType.PirShip:
-                        int count6 = NPC.CountNPCS(NPCID.PirateShipCannon);
-                        _specialData[5] = count6;
-                        break;
-                }
-
-                switch (_special2)
-                {
-                    default:
-                        break;
-                    case SpecialType2.Ceaseless:
-                        int count = NPC.CountNPCS(ModContent.NPCType<DarkEnergy>()) +
-                            NPC.CountNPCS(ModContent.NPCType<DarkEnergy2>()) +
-                            NPC.CountNPCS(ModContent.NPCType<DarkEnergy3>());
-                        _specialData2[0] = count;
-                        break;
-                    case SpecialType2.Ravage:
-                        int count2 = NPC.CountNPCS(ModContent.NPCType<RavagerClawRight>()) +
-                            NPC.CountNPCS(ModContent.NPCType<RavagerClawLeft>()) +
-                            NPC.CountNPCS(ModContent.NPCType<RavagerLegRight>()) +
-                            NPC.CountNPCS(ModContent.NPCType<RavagerLegLeft>()) +
-                            NPC.CountNPCS(ModContent.NPCType<RavagerHead>());
-                        _specialData2[1] = count2;
-                        break;
-                    case SpecialType2.SlimeCore:
-                        int count3 = NPC.CountNPCS(ModContent.NPCType<SlimeGod>()) +
-                            NPC.CountNPCS(ModContent.NPCType<SlimeGodSplit>()) +
-                            NPC.CountNPCS(ModContent.NPCType<SlimeGodRun>()) +
-                            NPC.CountNPCS(ModContent.NPCType<SlimeGodRunSplit>());
-                        _specialData2[2] = count3;
-                        break;
-                }
+                if (CombinedNPCMaxLife != 0 && (InitialMaxLife == 0 || InitialMaxLife < CombinedNPCMaxLife))
+                    InitialMaxLife = CombinedNPCMaxLife;
             }
+
             public void Draw(SpriteBatch sb, int x, int y)
             {
-                //Draw the respective animations.
-                //Easier to separate them, even if it does result in more copy pasted code overall.
-                if (_openAnimCounter > 0)
-                {
-                    DrawOpenAnim(sb, x, y);
-                    return;
-                }
+                float animationCompletionRatio = MathHelper.Clamp(OpenAnimationTimer / (float)OpenAnimationTime, 0f, 1f);
+                if (CloseAnimationTimer > 0)
+                    animationCompletionRatio = 1f - MathHelper.Clamp(CloseAnimationTimer / (float)CloseAnimationTime, 0f, 1f);
 
-                if (_closeAnimCounter > 0)
-                {
-                    DrawCloseAnim(sb, x, y);
-                    return;
-                }
+                float openAnimationFlicker = animationCompletionRatio;
+                if (OpenAnimationTimer == 4 || OpenAnimationTimer == 8 || OpenAnimationTimer == 16)
+                    openAnimationFlicker = Main.rand.NextFloat(0.7f, 0.8f);
+                if (OpenAnimationTimer == 3 || OpenAnimationTimer == 7 || OpenAnimationTimer == 15)
+                    openAnimationFlicker = Main.rand.NextFloat(0.4f, 0.5f);
 
-                float percentHealth = _prevLife / _maxHealth;
-                int mainBarWidth = (int)(BarMaxWidth * percentHealth);
+                // Draw the main health bar.
+                int mainBarWidth = (int)MathHelper.Min(BarMaxWidth * animationCompletionRatio, BarMaxWidth * NPCLifeRatio);
+                sb.Draw(BossMainHPBar, new Rectangle(x, y + MainBarYOffset, mainBarWidth, BossMainHPBar.Height), Color.White);
 
-                if (_inCombo)
+                // Draw a red damage health bar if performing a conbo.
+                if (ComboDamageCountdown > 0)
                 {
-                    //DRAW COMBO HEALTH BAR
-                    int comboBarWidth = (int)(BarMaxWidth * (_comboStartHealth / _maxHealth)) - mainBarWidth;
+                    int comboBarWidth = (int)(BarMaxWidth * HealthAtStartOfCombo / (float)InitialMaxLife) - mainBarWidth;
                     float alpha = 1f;
-                    if (_damageCountdown < 6)
-                    {
-                        float val = _damageCountdown * 0.166f;
-                        alpha *= val;
-                        comboBarWidth = (int)(comboBarWidth * val);
-                    }
 
-                    sb.Draw(BossComboHPBar, new Rectangle(x + mainBarWidth, y + MainBarYOffset, comboBarWidth, 15), Color.White * alpha);
+                    // Shrink the bar on the last 6 frames of the damage countdown.
+                    if (ComboDamageCountdown < 6)
+                        comboBarWidth = (int)(comboBarWidth * ComboDamageCountdown / 6f);
+
+                    sb.Draw(BossComboHPBar, new Rectangle(x + mainBarWidth, y + MainBarYOffset, comboBarWidth, BossComboHPBar.Height), Color.White * alpha);
                 }
 
-                //DRAW MAIN HEALTH BAR
-                sb.Draw(BossMainHPBar, new Rectangle(x, y + MainBarYOffset, mainBarWidth, 15), Color.White);
+                // Draw a white separator bar.
+                // Enrage bar color takes priority over defense or DR increase bar color, because it's more important to display the enrage.
+                Color separatorColor = new Color(240, 240, 255) * animationCompletionRatio;
+                if (NPCIsEnraged)
+                    separatorColor = Color.Lerp(new Color(240, 240, 255), Color.Red * 0.5f, EnrageTimer / (float)EnrageAnimationTime) * animationCompletionRatio;
+                else if (NPCIsIncreasingDefenseOrDR)
+                    separatorColor = Color.Lerp(new Color(240, 240, 255), Color.LightGray * 0.5f, IncreasingDefenseOrDRTimer / (float)IncreasedDefenseOrDRAnimationTime) * animationCompletionRatio;
 
-                //DRAW WHITE(ISH) LINE
-                sb.Draw(BossSeperatorBar, new Rectangle(x, y + SepBarYOffset, BarMaxWidth, 6), new Color(240, 240, 255));
+                // Draw the bar.
+                sb.Draw(BossSeperatorBar, new Rectangle(x, y + SeparatorBarYOffset, BarMaxWidth, 6), separatorColor);
 
-                //DRAW TEXT
-                string percentHealthText = (percentHealth * 100).ToString("N1") + "%";
-                if (_prevLife == _maxHealth)
-                    percentHealthText = "100%";
-                Vector2 textSize = HPBarFont.MeasureString(percentHealthText);
-                DrawBorderStringEightWay(sb, HPBarFont, percentHealthText, new Vector2(x, y + 22 - textSize.Y), OrangeColour, OrangeBorderColour * 0.25f);
-
-                string name = _npc.FullName;
-                Vector2 nameSize = Main.fontMouseText.MeasureString(name);
-                DrawBorderStringEightWay(sb, Main.fontMouseText, name, new Vector2(x + BarMaxWidth - nameSize.X, y + 23 - nameSize.Y), Color.White, Color.Black * 0.2f);
-
-                // TODO -- Make small text health a toggle in ModConfig.
-                if (SHOULD_DRAW_SMALLTEXT_HEALTH)
-                {
-                    float textScale = 0.75f;
-
-                    switch (_special)
-                    {
-                        default:
-                            break;
-                        case SpecialType.EaterOfWorlds:
-                            string count = "(Segments left: " + _specialData[0] + ")";
-                            Vector2 countSize = Main.fontItemStack.MeasureString(count) * textScale;
-                            float countX = Math.Max(x, x + mainBarWidth - countSize.X);
-                            DrawBorderStringEightWay(sb, Main.fontItemStack, count, new Vector2(countX, y + MainBarYOffset + 17), Color.White, Color.Black * 0.24f, textScale);
-                            return;
-                        case SpecialType.Creep:
-                            string count2 = "(Creepers left: " + _specialData[1] + ")";
-                            Vector2 countSize2 = Main.fontItemStack.MeasureString(count2) * textScale;
-                            float countX2 = Math.Max(x, x + mainBarWidth - countSize2.X);
-                            DrawBorderStringEightWay(sb, Main.fontItemStack, count2, new Vector2(countX2, y + MainBarYOffset + 17), Color.White, Color.Black * 0.24f, textScale);
-                            return;
-                        case SpecialType.Skelet:
-                            string count3 = "(Hands left: " + _specialData[2] + ")";
-                            Vector2 countSize3 = Main.fontItemStack.MeasureString(count3) * textScale;
-                            float countX3 = Math.Max(x, x + mainBarWidth - countSize3.X);
-                            DrawBorderStringEightWay(sb, Main.fontItemStack, count3, new Vector2(countX3, y + MainBarYOffset + 17), Color.White, Color.Black * 0.24f, textScale);
-                            return;
-                        case SpecialType.SkeletPrime:
-                            string count4 = "(Arms left: " + _specialData[3] + ")";
-                            Vector2 countSize4 = Main.fontItemStack.MeasureString(count4) * textScale;
-                            float countX4 = Math.Max(x, x + mainBarWidth - countSize4.X);
-                            DrawBorderStringEightWay(sb, Main.fontItemStack, count4, new Vector2(countX4, y + MainBarYOffset + 17), Color.White, Color.Black * 0.24f, textScale);
-                            return;
-                        case SpecialType.MartSaucer:
-                            string count5 = "(Guns left: " + _specialData[4] + ")";
-                            Vector2 countSize5 = Main.fontItemStack.MeasureString(count5) * textScale;
-                            float countX5 = Math.Max(x, x + mainBarWidth - countSize5.X);
-                            DrawBorderStringEightWay(sb, Main.fontItemStack, count5, new Vector2(countX5, y + MainBarYOffset + 17), Color.White, Color.Black * 0.24f, textScale);
-                            return;
-                        case SpecialType.PirShip:
-                            string count6 = "(Cannons left: " + _specialData[5] + ")";
-                            Vector2 countSize6 = Main.fontItemStack.MeasureString(count6) * textScale;
-                            float countX6 = Math.Max(x, x + mainBarWidth - countSize6.X);
-                            DrawBorderStringEightWay(sb, Main.fontItemStack, count6, new Vector2(countX6, y + MainBarYOffset + 17), Color.White, Color.Black * 0.24f, textScale);
-                            return;
-                    }
-
-                    switch (_special2)
-                    {
-                        default:
-                            break;
-                        case SpecialType2.Ceaseless:
-                            string count2 = "(Dark Energy left: " + _specialData2[0] + ")";
-                            Vector2 countSize2 = Main.fontItemStack.MeasureString(count2) * textScale;
-                            float countX2 = Math.Max(x, x + mainBarWidth - countSize2.X);
-                            DrawBorderStringEightWay(sb, Main.fontItemStack, count2, new Vector2(countX2, y + MainBarYOffset + 17), Color.White, Color.Black * 0.24f, textScale);
-                            return;
-                        case SpecialType2.Ravage:
-                            string count4 = "(Body Parts left: " + _specialData2[1] + ")";
-                            Vector2 countSize4 = Main.fontItemStack.MeasureString(count4) * textScale;
-                            float countX4 = Math.Max(x, x + mainBarWidth - countSize4.X);
-                            DrawBorderStringEightWay(sb, Main.fontItemStack, count4, new Vector2(countX4, y + MainBarYOffset + 17), Color.White, Color.Black * 0.24f, textScale);
-                            return;
-                        case SpecialType2.SlimeCore:
-                            string count5 = "(Large Slimes left: " + _specialData2[2] + ")";
-                            Vector2 countSize5 = Main.fontItemStack.MeasureString(count5) * textScale;
-                            float countX5 = Math.Max(x, x + mainBarWidth - countSize5.X);
-                            DrawBorderStringEightWay(sb, Main.fontItemStack, count5, new Vector2(countX5, y + MainBarYOffset + 17), Color.White, Color.Black * 0.24f, textScale);
-							return;
-                    }
-
-                    string actualLife = "(" + _npc.life + " / " + _npc.lifeMax + ")";
-                    Vector2 lifeSize = Main.fontItemStack.MeasureString(actualLife) * textScale;
-                    float lifeX = Math.Max(x, x + mainBarWidth - lifeSize.X);
-                    DrawBorderStringEightWay(sb, Main.fontItemStack, actualLife, new Vector2(lifeX, y + MainBarYOffset + 17), Color.White, Color.Black * 0.24f, textScale);
-                }
-            }
-            public void DrawOpenAnim(SpriteBatch sb, int x, int y)
-            {
-                float percentThroughAnim = (OpenAnimTime - _openAnimCounter) / (float)OpenAnimTime;
-                int mainBarWidth = (int)(BarMaxWidth * MathHelper.SmoothStep(0f, 1f, percentThroughAnim));
-
-                float flickerValue = percentThroughAnim;
-                //FLICKER 3 TIMES, QUICK AND DIRTY METHOD
-                if (_openAnimCounter == OpenAnimTime - 4 || _openAnimCounter == OpenAnimTime - 8 || _openAnimCounter == OpenAnimTime - 16)
-                {
-                    flickerValue = Main.rand.NextFloat(0.7f, 0.8f);
-                }
-                else if (_openAnimCounter == OpenAnimTime - 5 || _openAnimCounter == OpenAnimTime - 9 || _openAnimCounter == OpenAnimTime - 17)
-                {
-                    flickerValue = Main.rand.NextFloat(0.4f, 0.5f);
-                }
-
-                //DRAW MAIN HEALTH BAR
-                sb.Draw(BossMainHPBar, new Rectangle(x, y + MainBarYOffset, mainBarWidth, 15), Color.White * flickerValue);
-
-                //DRAW WHITE(ISH) LINE
-                sb.Draw(BossSeperatorBar, new Rectangle(x, y + SepBarYOffset, BarMaxWidth, 6), new Color(240, 240, 255) * flickerValue);
-
-                //DRAW TEXT
-                string percentHealthText = "100%";
-                Vector2 textSize = HPBarFont.MeasureString(percentHealthText);
-                DrawBorderStringEightWay(sb, HPBarFont, percentHealthText, new Vector2(x, y + 22 - textSize.Y), OrangeColour * flickerValue, OrangeBorderColour * 0.25f * flickerValue);
-
-                string name = _npc.FullName;
-                Vector2 nameSize = Main.fontMouseText.MeasureString(name);
-                DrawBorderStringEightWay(sb, Main.fontMouseText, name, new Vector2(x + BarMaxWidth - nameSize.X, y + 23 - nameSize.Y), Color.White * flickerValue, Color.Black * 0.2f * flickerValue);
-
-                if (SHOULD_DRAW_SMALLTEXT_HEALTH)
-                {
-                    float textScale = 0.75f;
-
-                    switch (_special)
-                    {
-                        default:
-                            break;
-                        case SpecialType.EaterOfWorlds:
-                            string count = "(Segments left: " + _specialData[0] + ")";
-                            Vector2 countSize = Main.fontItemStack.MeasureString(count) * textScale;
-                            float countX = Math.Max(x, x + mainBarWidth - countSize.X);
-                            DrawBorderStringEightWay(sb, Main.fontItemStack, count, new Vector2(countX, y + MainBarYOffset + 17), Color.White * flickerValue, Color.Black * 0.24f * flickerValue, textScale);
-                            _openAnimCounter--;
-                            return;
-                        case SpecialType.Creep:
-                            string count2 = "(Creepers left: " + _specialData[1] + ")";
-                            Vector2 countSize2 = Main.fontItemStack.MeasureString(count2) * textScale;
-                            float countX2 = Math.Max(x, x + mainBarWidth - countSize2.X);
-                            DrawBorderStringEightWay(sb, Main.fontItemStack, count2, new Vector2(countX2, y + MainBarYOffset + 17), Color.White * flickerValue, Color.Black * 0.24f * flickerValue, textScale);
-                            _openAnimCounter--;
-                            return;
-                        case SpecialType.Skelet:
-                            string count3 = "(Hands left: " + _specialData[2] + ")";
-                            Vector2 countSize3 = Main.fontItemStack.MeasureString(count3) * textScale;
-                            float countX3 = Math.Max(x, x + mainBarWidth - countSize3.X);
-                            DrawBorderStringEightWay(sb, Main.fontItemStack, count3, new Vector2(countX3, y + MainBarYOffset + 17), Color.White * flickerValue, Color.Black * 0.24f * flickerValue, textScale);
-                            _openAnimCounter--;
-                            return;
-                        case SpecialType.SkeletPrime:
-                            string count4 = "(Arms left: " + _specialData[3] + ")";
-                            Vector2 countSize4 = Main.fontItemStack.MeasureString(count4) * textScale;
-                            float countX4 = Math.Max(x, x + mainBarWidth - countSize4.X);
-                            DrawBorderStringEightWay(sb, Main.fontItemStack, count4, new Vector2(countX4, y + MainBarYOffset + 17), Color.White * flickerValue, Color.Black * 0.24f * flickerValue, textScale);
-                            _openAnimCounter--;
-                            return;
-                        case SpecialType.MartSaucer:
-                            string count5 = "(Guns left: " + _specialData[4] + ")";
-                            Vector2 countSize5 = Main.fontItemStack.MeasureString(count5) * textScale;
-                            float countX5 = Math.Max(x, x + mainBarWidth - countSize5.X);
-                            DrawBorderStringEightWay(sb, Main.fontItemStack, count5, new Vector2(countX5, y + MainBarYOffset + 17), Color.White * flickerValue, Color.Black * 0.24f * flickerValue, textScale);
-                            _openAnimCounter--;
-                            return;
-                        case SpecialType.PirShip:
-                            string count6 = "(Cannons left: " + _specialData[5] + ")";
-                            Vector2 countSize6 = Main.fontItemStack.MeasureString(count6) * textScale;
-                            float countX6 = Math.Max(x, x + mainBarWidth - countSize6.X);
-                            DrawBorderStringEightWay(sb, Main.fontItemStack, count6, new Vector2(countX6, y + MainBarYOffset + 17), Color.White * flickerValue, Color.Black * 0.24f * flickerValue, textScale);
-                            _openAnimCounter--;
-                            return;
-                    }
-
-                    switch (_special2)
-                    {
-                        default:
-                            break;
-                        case SpecialType2.Ceaseless:
-                            string count2 = "(Dark Energy left: " + _specialData2[0] + ")";
-                            Vector2 countSize2 = Main.fontItemStack.MeasureString(count2) * textScale;
-                            float countX2 = Math.Max(x, x + mainBarWidth - countSize2.X);
-                            DrawBorderStringEightWay(sb, Main.fontItemStack, count2, new Vector2(countX2, y + MainBarYOffset + 17), Color.White * flickerValue, Color.Black * 0.24f * flickerValue, textScale);
-                            _openAnimCounter--;
-                            return;
-                        case SpecialType2.Ravage:
-                            string count4 = "(Body Parts left: " + _specialData2[1] + ")";
-                            Vector2 countSize4 = Main.fontItemStack.MeasureString(count4) * textScale;
-                            float countX4 = Math.Max(x, x + mainBarWidth - countSize4.X);
-                            DrawBorderStringEightWay(sb, Main.fontItemStack, count4, new Vector2(countX4, y + MainBarYOffset + 17), Color.White * flickerValue, Color.Black * 0.24f * flickerValue, textScale);
-                            _openAnimCounter--;
-                            return;
-                        case SpecialType2.SlimeCore:
-                            string count5 = "(Large Slimes left: " + _specialData2[2] + ")";
-                            Vector2 countSize5 = Main.fontItemStack.MeasureString(count5) * textScale;
-                            float countX5 = Math.Max(x, x + mainBarWidth - countSize5.X);
-                            DrawBorderStringEightWay(sb, Main.fontItemStack, count5, new Vector2(countX5, y + MainBarYOffset + 17), Color.White * flickerValue, Color.Black * 0.24f * flickerValue, textScale);
-                            _openAnimCounter--;
-                            return;
-                    }
-
-                    string actualLife = "(" + _npc.life + " / " + _npc.lifeMax + ")";
-                    Vector2 lifeSize = Main.fontItemStack.MeasureString(actualLife) * textScale;
-                    float lifeX = Math.Max(x, x + mainBarWidth - lifeSize.X);
-                    DrawBorderStringEightWay(sb, Main.fontItemStack, actualLife, new Vector2(lifeX, y + MainBarYOffset + 17), Color.White * flickerValue, Color.Black * 0.24f * flickerValue, textScale);
-                }
-
-                _openAnimCounter--;
-            }
-            public void DrawCloseAnim(SpriteBatch sb, int x, int y)
-            {
-                float percentThroughAnim = _closeAnimCounter / (float)CloseAnimTime;
-                float reversePercent = 1f - percentThroughAnim;
-
-                float percentHealth = _prevLife / _maxHealth;
-                if (percentHealth < 0)
-                    percentHealth = 0;
-
-                int mainBarWidth = (int)(BarMaxWidth * MathHelper.SmoothStep(0f, 1f, reversePercent) * percentHealth);
-
-                //DRAW MAIN HEALTH BAR
-                sb.Draw(BossMainHPBar, new Rectangle(x, y + MainBarYOffset, mainBarWidth, 15), Color.White * reversePercent);
-
-                //DRAW WHITE(ISH) LINE
-                sb.Draw(BossSeperatorBar, new Rectangle(x, y + SepBarYOffset, BarMaxWidth, 6), new Color(240, 240, 255) * reversePercent);
-
-                //DRAW TEXT
-                string percentHealthText = (percentHealth * 100).ToString("N1") + "%";
-                if (_prevLife <= 0)
+                // Draw the text.
+                string percentHealthText = (NPCLifeRatio * 100).ToString("N1") + "%";
+                if (NPCLifeRatio == 0f)
                     percentHealthText = "0%";
-                if (_prevLife == _maxHealth)
-                    percentHealthText = "100%";
-
                 Vector2 textSize = HPBarFont.MeasureString(percentHealthText);
-                DrawBorderStringEightWay(sb, HPBarFont, percentHealthText, new Vector2(x, y + 22 - textSize.Y), OrangeColour * reversePercent, OrangeBorderColour * 0.25f * reversePercent);
 
-                string name = _lastName;
-                Vector2 nameSize = Main.fontMouseText.MeasureString(name);
-                DrawBorderStringEightWay(sb, Main.fontMouseText, name, new Vector2(x + BarMaxWidth - nameSize.X, y + 23 - nameSize.Y), Color.White * reversePercent, Color.Black * 0.2f * reversePercent);
+                CalamityUtils.DrawBorderStringEightWay(sb, HPBarFont, percentHealthText, new Vector2(x, y + 22 - textSize.Y), MainColor, MainBorderColour * 0.25f);
 
-                _closeAnimCounter++;
-            }
+                // Draw a red back-glow of the text if the NPC is enraged or a gray back-glow if the NPC is increasing defense or DR.
+                string name = OverridingName ?? AssociatedNPC.FullName;
 
-            //UTILS
-            private void DrawBorderStringEightWay(SpriteBatch sb, DynamicSpriteFont font, string text, Vector2 position, Color main, Color border, float scale = 1f)
-            {
-                for (int x = -1; x <= 1; x++)
+                Vector2 nameSize = FontAssets.MouseText.Value.MeasureString(name);
+                if (NPCIsEnraged)
                 {
-                    for (int y = -1; y <= 1; y++)
+                    if (EnrageTimer > 0)
                     {
-                        Vector2 pos = position + new Vector2(x, y);
-                        if (x == 0 && y == 0)
+                        float pulse = (float)Math.Sin(Main.GlobalTimeWrappedHourly * 4.5f) * 0.5f + 0.5f;
+                        float outwardness = EnrageTimer / (float)EnrageAnimationTime * 1.5f + pulse * 2f;
+                        for (int i = 0; i < 4; i++)
                         {
-                            continue;
+                            Vector2 drawOffset = (MathHelper.TwoPi * i / 4f).ToRotationVector2() * outwardness;
+                            CalamityUtils.DrawBorderStringEightWay(sb, FontAssets.MouseText.Value, name, new Vector2(x + BarMaxWidth - nameSize.X, y + 23 - nameSize.Y) + drawOffset, Color.Red * 0.6f, Color.Black * 0.2f);
                         }
-
-                        DynamicSpriteFontExtensionMethods.DrawString(sb, font, text, pos, border, 0f, default, scale, SpriteEffects.None, 0f);
                     }
                 }
-                DynamicSpriteFontExtensionMethods.DrawString(sb, font, text, position, main, 0f, default, scale, SpriteEffects.None, 0f);
-            }
-            private bool IsEoW(int id)
-            {
-                NPC n = Main.npc[id];
+                else if (NPCIsIncreasingDefenseOrDR)
+                {
+                    if (IncreasingDefenseOrDRTimer > 0)
+                    {
+                        float pulse = (float)Math.Sin(Main.GlobalTimeWrappedHourly * 4.5f) * 0.5f + 0.5f;
+                        float outwardness = IncreasingDefenseOrDRTimer / (float)IncreasedDefenseOrDRAnimationTime * 1.5f + pulse * 2f;
+                        for (int i = 0; i < 4; i++)
+                        {
+                            Vector2 drawOffset = (MathHelper.TwoPi * i / 4f).ToRotationVector2() * outwardness;
+                            CalamityUtils.DrawBorderStringEightWay(sb, FontAssets.MouseText.Value, name, new Vector2(x + BarMaxWidth - nameSize.X, y + 23 - nameSize.Y) + drawOffset, Color.LightGray * 0.6f, Color.Black * 0.2f);
+                        }
+                    }
+                }
 
-                if (!n.active || n.life <= 0)
-                    return false;
+                // And draw the text to indicate the name of the boss.
+                CalamityUtils.DrawBorderStringEightWay(sb, FontAssets.MouseText.Value, name, new Vector2(x + BarMaxWidth - nameSize.X, y + 23 - nameSize.Y), Color.White, Color.Black * 0.2f);
 
-                return n.type == NPCID.EaterofWorldsHead ||
-                       n.type == NPCID.EaterofWorldsBody ||
-                       n.type == NPCID.EaterofWorldsTail;
+                if (CanDrawExtraSmallText)
+                {
+                    // Draw a smaller bar below for indications of secondary entities, such as servants or appendages.
+                    if (EntityExtensionHandler.TryGetValue(NPCType, out BossEntityExtension extraEntityData))
+                    {
+                        int totalExtraEntities = CalamityUtils.CountNPCsBetter(extraEntityData.TypesToSearchFor);
+
+                        string text = $"({extraEntityData.NameOfExtensions} left: {totalExtraEntities})";
+                        Vector2 textAreaSize = FontAssets.ItemStack.Value.MeasureString(text) * SmallTextScale;
+                        float horizontalDrawPosition = Math.Max(x, x + mainBarWidth - textAreaSize.X);
+                        float verticalDrawPosition = y + MainBarYOffset + 17;
+                        Vector2 smallBarDrawPosition = new Vector2(horizontalDrawPosition, verticalDrawPosition);
+                        CalamityUtils.DrawBorderStringEightWay(sb, FontAssets.ItemStack.Value, text, smallBarDrawPosition, Color.White * openAnimationFlicker, Color.Black * openAnimationFlicker * 0.24f, SmallTextScale);
+                    }
+
+                    // If that isn't necessary, simply display the precise amount of remaining life for the boss.
+                    else
+                    {
+                        // Draw the precise life.
+                        string actualLifeText = $"({CombinedNPCLife} / {InitialMaxLife})";
+                        Vector2 textAreaSize = FontAssets.ItemStack.Value.MeasureString(actualLifeText) * SmallTextScale;
+                        float horizontalDrawPosition = Math.Max(x, x + mainBarWidth - textAreaSize.X);
+                        float verticalDrawPosition = y + MainBarYOffset + 17;
+                        Vector2 smallBarDrawPosition = new Vector2(horizontalDrawPosition, verticalDrawPosition);
+                        CalamityUtils.DrawBorderStringEightWay(sb, FontAssets.ItemStack.Value, actualLifeText, smallBarDrawPosition, Color.White * openAnimationFlicker, Color.Black * openAnimationFlicker * 0.24f, SmallTextScale);
+                    }
+                }
             }
         }
     }

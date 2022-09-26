@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.Enums;
@@ -9,12 +9,13 @@ namespace CalamityMod.Tiles.Furniture.CraftingStations
 {
     public class PlagueInfuser : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileLighted[Type] = true;
             Main.tileFrameImportant[Type] = true;
-            Main.tileLavaDeath[Type] = true;
+            Main.tileLavaDeath[Type] = false;
 
+            TileObjectData.newTile.LavaDeath = false;
             TileObjectData.newTile.Width = 2;
             TileObjectData.newTile.Height = 4;
             TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16, 16, 16 };
@@ -28,7 +29,7 @@ namespace CalamityMod.Tiles.Furniture.CraftingStations
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Plague Infuser");
             AddMapEntry(new Color(191, 142, 111), name);
-            animationFrameHeight = 72;
+            AnimationFrameHeight = 72;
         }
 
         public override bool CreateDust(int i, int j, ref int type)
@@ -54,7 +55,7 @@ namespace CalamityMod.Tiles.Furniture.CraftingStations
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 16, 32, ModContent.ItemType<Items.Placeables.Furniture.CraftingStations.PlagueInfuser>());
+            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 32, ModContent.ItemType<Items.Placeables.Furniture.CraftingStations.PlagueInfuser>());
         }
     }
 }

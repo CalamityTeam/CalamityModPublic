@@ -1,63 +1,65 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Rogue;
+using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-	public class EclipsesFall : RogueWeapon
-	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Eclipse's Fall");
-			Tooltip.SetDefault("When the sun goes dark, you will know judgment\n" +
-			"Summons spears from the sky on hit\n" +
-			"Stealth strikes impale enemies and summon a constant barrage of spears over time");
-		}
+    public class EclipsesFall : RogueWeapon
+    {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Eclipse's Fall");
+            Tooltip.SetDefault("When the sun goes dark, you will know judgment\n" +
+            "Summons spears from the sky on hit\n" +
+            "Stealth strikes impale enemies and summon a constant barrage of spears over time");
+            SacrificeTotal = 1;
+        }
 
-		public override void SafeSetDefaults()
-		{
-			item.damage = 1060;
-			item.knockBack = 3.5f;
-			item.useAnimation = item.useTime = 21;
-			item.autoReuse = true;
-			item.Calamity().rogue = true;
-			item.shootSpeed = 15f;
-			item.shoot = ModContent.ProjectileType<EclipsesFallMain>();
+        public override void SetDefaults()
+        {
+            Item.damage = 564;
+            Item.knockBack = 3.5f;
+            Item.useAnimation = Item.useTime = 21;
+            Item.autoReuse = true;
+            Item.DamageType = RogueDamageClass.Instance;
+            Item.shootSpeed = 15f;
+            Item.shoot = ModContent.ProjectileType<EclipsesFallMain>();
 
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.width = item.height = 72;
-			item.noMelee = true;
-			item.noUseGraphic = true;
-			item.UseSound = SoundID.Item1;
-			item.value = Item.buyPrice(2, 50, 0, 0);
-			item.rare = 10;
-			item.Calamity().customRarity = CalamityRarity.Violet;
-		}
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.width = Item.height = 72;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.UseSound = SoundID.Item1;
+            Item.value = CalamityGlobalItem.Rarity14BuyPrice;
+            Item.rare = ModContent.RarityType<DarkBlue>();
+        }
 
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-		{
-			if (player.Calamity().StealthStrikeAvailable())
-			{
-				type = ModContent.ProjectileType<EclipsesStealth>();
-			}
-			int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
-			Main.projectile[proj].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
-			return false;
-		}
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        {
+            if (player.Calamity().StealthStrikeAvailable())
+                type = ModContent.ProjectileType<EclipsesStealth>();
 
-		public override void AddRecipes()
-		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ModContent.ItemType<NightsGaze>());
-			recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 15);
-			recipe.AddIngredient(ModContent.ItemType<CoreofCinder>(), 6);
-			recipe.AddTile(ModContent.TileType<DraedonsForge>());
-			recipe.SetResult(this);
-			recipe.AddRecipe();
-		}
-	}
+            int proj = Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
+            if (proj.WithinBounds(Main.maxProjectiles))
+                Main.projectile[proj].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
+            return false;
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient<NightsGaze>().
+                AddIngredient<CoreofSunlight>(12).
+                AddIngredient<CosmiliteBar>(8).
+                AddIngredient<DarksunFragment>(8).
+                AddTile<CosmicAnvil>().
+                Register();
+        }
+    }
 }

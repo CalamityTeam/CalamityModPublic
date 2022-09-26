@@ -1,5 +1,7 @@
-using CalamityMod.Buffs.Pets;
+﻿using CalamityMod.Buffs.Pets;
 using CalamityMod.Projectiles.Pets;
+using CalamityMod.Rarities;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -10,24 +12,27 @@ namespace CalamityMod.Items.Pets
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Forgotten Dragon Egg");
             Tooltip.SetDefault("Calls Akato, son of Yharon, to your side");
         }
 
         public override void SetDefaults()
         {
-            item.CloneDefaults(ItemID.ZephyrFish);
-            item.shoot = ModContent.ProjectileType<Akato>();
-            item.buffType = ModContent.BuffType<AkatoYharonBuff>();
-            item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.Dedicated;
+            Item.CloneDefaults(ItemID.ZephyrFish);
+            Item.shoot = ModContent.ProjectileType<Akato>();
+            Item.buffType = ModContent.BuffType<AkatoBuff>();
+
+            Item.value = Item.sellPrice(gold: 30);
+            Item.rare = ModContent.RarityType<Violet>();
+            Item.Calamity().donorItem = true;
         }
 
-        public override void UseStyle(Player player)
+        public override void UseStyle(Player player, Rectangle heldItemFrame)
         {
             if (player.whoAmI == Main.myPlayer && player.itemTime == 0)
             {
-                player.AddBuff(item.buffType, 3600, true);
+                player.AddBuff(Item.buffType, 3600, true);
             }
         }
     }

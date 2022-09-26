@@ -1,11 +1,14 @@
-using CalamityMod.Buffs.StatDebuffs;
-using CalamityMod.Items.Placeables.Banners;
-using CalamityMod.World;
+﻿using CalamityMod.Items.Placeables.Banners;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.GameContent;
+using Terraria.GameContent.Bestiary;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Utilities;
+
 namespace CalamityMod.NPCs.NormalNPCs
 {
     public class CosmicElemental : ModNPC
@@ -13,67 +16,77 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Cosmic Elemental");
-            Main.npcFrameCount[npc.type] = 11;
+            Main.npcFrameCount[NPC.type] = 11;
         }
 
         public override void SetDefaults()
         {
-            npc.npcSlots = 0.5f;
-            npc.aiStyle = 91;
-            npc.damage = 20;
-            npc.width = npc.height = 30;
-            npc.defense = 10;
-            npc.lifeMax = 25;
-            npc.knockBackResist = 0.5f;
-            npc.value = Item.buyPrice(0, 0, 3, 0);
-            npc.HitSound = SoundID.NPCHit7;
-            npc.DeathSound = SoundID.NPCDeath6;
-            banner = npc.type;
-            bannerItem = ModContent.ItemType<CosmicElementalBanner>();
-            npc.buffImmune[BuffID.Confused] = false;
+            NPC.npcSlots = 0.5f;
+            NPC.aiStyle = 91;
+            NPC.damage = 20;
+            NPC.width = NPC.height = 30;
+            NPC.defense = 10;
+            NPC.lifeMax = 25;
+            NPC.knockBackResist = 0.5f;
+            NPC.value = Item.buyPrice(0, 0, 3, 0);
+            NPC.HitSound = SoundID.NPCHit7;
+            NPC.DeathSound = SoundID.NPCDeath6;
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<CosmicElementalBanner>();
+            NPC.Calamity().VulnerableToSickness = false;
         }
 
-		public override void FindFrame(int frameHeight)
-		{
-			npc.frameCounter++;
-			if (npc.frameCounter > 6)
-			{
-				npc.frame.Y += frameHeight;
-				npc.frameCounter = 0;
-			}
-			if (npc.ai[0] == -1f)
-			{
-				if (npc.frame.Y >= frameHeight * 11)
-					npc.frame.Y = frameHeight * 10;
-				else if (npc.frame.Y <= frameHeight * 5)
-					npc.frame.Y = frameHeight * 6;
-				npc.rotation += npc.velocity.X * 0.2f;
-			}
-			else
-			{
-				if (npc.frame.Y >= frameHeight * 6)
-					npc.frame.Y = 0;
-				npc.rotation = npc.velocity.X * 0.1f;
-			}
-		}
-
-        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
-            Texture2D texture = Main.npcTexture[npc.type];
-            int height = texture.Height / Main.npcFrameCount[npc.type];
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Caverns,
+
+                // Will move to localization whenever that is cleaned up.
+                new FlavorTextBestiaryInfoElement("A curious construct, and though its origins are unknown, it has been decidedly proven that the core of its body leads to somewhere not of our world.")
+            });
+        }
+
+        public override void FindFrame(int frameHeight)
+        {
+            NPC.frameCounter++;
+            if (NPC.frameCounter > 6)
+            {
+                NPC.frame.Y += frameHeight;
+                NPC.frameCounter = 0;
+            }
+            if (NPC.ai[0] == -1f)
+            {
+                if (NPC.frame.Y >= frameHeight * 11)
+                    NPC.frame.Y = frameHeight * 10;
+                else if (NPC.frame.Y <= frameHeight * 5)
+                    NPC.frame.Y = frameHeight * 6;
+                NPC.rotation += NPC.velocity.X * 0.2f;
+            }
+            else
+            {
+                if (NPC.frame.Y >= frameHeight * 6)
+                    NPC.frame.Y = 0;
+                NPC.rotation = NPC.velocity.X * 0.1f;
+            }
+        }
+
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
+        {
+            Texture2D texture = TextureAssets.Npc[NPC.type].Value;
+            int height = texture.Height / Main.npcFrameCount[NPC.type];
             int width = texture.Width;
-			SpriteEffects spriteEffects = SpriteEffects.None;
-			if (npc.spriteDirection == -1)
-			{
-				spriteEffects = SpriteEffects.FlipHorizontally;
-			}
-            Main.spriteBatch.Draw(texture, npc.Center - Main.screenPosition + new Vector2(0f, npc.gfxOffY), npc.frame, npc.GetAlpha(drawColor), npc.rotation, new Vector2(width / 2f, height / 2f), npc.scale, spriteEffects, 0f);
+            SpriteEffects spriteEffects = SpriteEffects.None;
+            if (NPC.spriteDirection == -1)
+            {
+                spriteEffects = SpriteEffects.FlipHorizontally;
+            }
+            Main.spriteBatch.Draw(texture, NPC.Center - screenPos + new Vector2(0f, NPC.gfxOffY), NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, new Vector2(width / 2f, height / 2f), NPC.scale, spriteEffects, 0f);
             return false;
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.playerSafe || spawnInfo.player.Calamity().ZoneAbyss || spawnInfo.player.Calamity().ZoneSunkenSea)
+            if (spawnInfo.PlayerSafe || spawnInfo.Player.Calamity().ZoneAbyss || spawnInfo.Player.Calamity().ZoneSunkenSea)
             {
                 return 0f;
             }
@@ -82,34 +95,31 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            if (CalamityWorld.revenge)
-            {
-                player.AddBuff(ModContent.BuffType<Horror>(), 180, true);
-            }
-            player.AddBuff(BuffID.Confused, 180, true);
+            if (damage > 0)
+                player.AddBuff(BuffID.Confused, 180, true);
         }
 
         public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, 70, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(NPC.position, NPC.width, NPC.height, 70, hitDirection, -1f, 0, default, 1f);
             }
-            if (npc.life <= 0)
+            if (NPC.life <= 0)
             {
                 for (int k = 0; k < 20; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 70, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(NPC.position, NPC.width, NPC.height, 70, hitDirection, -1f, 0, default, 1f);
                 }
             }
         }
 
-        public override void NPCLoot()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-			DropHelper.DropItemChance(npc, ItemID.BoneSword, 10);
-			DropHelper.DropItemChance(npc, ItemID.Starfury, CalamityWorld.defiled ? DropHelper.DefiledDropRateInt : 50);
-			DropHelper.DropItemChance(npc, ItemID.EnchantedSword, CalamityWorld.defiled ? DropHelper.DefiledDropRateInt : 100);
-			DropHelper.DropItemChance(npc, ItemID.Arkhalis, CalamityWorld.defiled ? DropHelper.DefiledDropRateInt : 1000);
+            npcLoot.Add(ItemID.BoneSword, 20);
+            npcLoot.Add(ItemID.Starfury, 50);
+            npcLoot.Add(ItemID.EnchantedSword, 50);
+            npcLoot.Add(ItemID.Terragrim, 100);
         }
     }
 }

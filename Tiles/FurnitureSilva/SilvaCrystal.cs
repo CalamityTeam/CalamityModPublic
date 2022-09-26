@@ -9,15 +9,14 @@ namespace CalamityMod.Tiles.FurnitureSilva
 {
     public class SilvaCrystal : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileSolid[Type] = true;
             Main.tileMergeDirt[Type] = false;
             Main.tileBlockLight[Type] = true;
-            soundType = SoundID.Tink;
-            mineResist = 2f;
-            minPick = 275;
-            drop = ModContent.ItemType<Items.Placeables.FurnitureSilva.SilvaCrystal>();
+            HitSound = SoundID.Tink;
+            MineResist = 2f;
+            ItemDrop = ModContent.ItemType<Items.Placeables.FurnitureSilva.SilvaCrystal>();
             AddMapEntry(new Color(49, 100, 99));
         }
 

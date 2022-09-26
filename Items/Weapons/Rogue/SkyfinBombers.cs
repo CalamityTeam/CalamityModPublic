@@ -1,3 +1,4 @@
+﻿using Terraria.DataStructures;
 using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -6,46 +7,44 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-	public class SkyfinBombers : RogueWeapon
+    public class SkyfinBombers : RogueWeapon
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Skyfin Bombers");
             Tooltip.SetDefault("Fishy bombers inbound!\n" +
-			"Launches a skyfin nuke that homes in on enemies below it\n" +
-			"Stealth strikes throw three skyfin nukes that home in regardless of enemy position");
+            "Launches a skyfin nuke that homes in on enemies below it\n" +
+            "Stealth strikes rapidly home in regardless of enemy position");
+            SacrificeTotal = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
-            item.width = 28;
-            item.damage = 46;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.useAnimation = 35;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 35;
-            item.knockBack = 6.5f;
-            item.UseSound = SoundID.Item11;
-            item.autoReuse = true;
-            item.height = 30;
-            item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = 5;
-            item.shoot = ModContent.ProjectileType<SkyfinNuke>();
-            item.shootSpeed = 12f;
-            item.Calamity().rogue = true;
+            Item.width = 28;
+            Item.damage = 46;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.useAnimation = 35;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 35;
+            Item.knockBack = 6.5f;
+            Item.UseSound = SoundID.Item11;
+            Item.autoReuse = true;
+            Item.height = 30;
+            Item.value = CalamityGlobalItem.Rarity6BuyPrice;
+            Item.rare = ItemRarityID.Pink;
+            Item.shoot = ModContent.ProjectileType<SkyfinNuke>();
+            Item.shootSpeed = 12f;
+            Item.DamageType = RogueDamageClass.Instance;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.Calamity().StealthStrikeAvailable()) //setting the stealth strike
             {
-				for (int i = -8; i <= 8; i += 8)
-				{
-					Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedBy(MathHelper.ToRadians(i));
-					int stealth = Projectile.NewProjectile(position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, type, damage, 0f, player.whoAmI, 0f, 0f);
-					Main.projectile[stealth].Calamity().stealthStrike = true;
-				}
+                int stealth = Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
+                if (stealth.WithinBounds(Main.maxProjectiles))
+                    Main.projectile[stealth].Calamity().stealthStrike = true;
                 return false;
             }
             return true;

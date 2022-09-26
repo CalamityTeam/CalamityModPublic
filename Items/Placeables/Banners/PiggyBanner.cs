@@ -6,22 +6,30 @@ namespace CalamityMod.Items.Placeables.Banners
 {
     public class PiggyBanner : ModItem
     {
+        public override void SetStaticDefaults()
+        {
+            SacrificeTotal = 1;
+            Tooltip.SetDefault("{$CommonItemTooltip.BannerBonus}Piggy");
+        }
+
         public override void SetDefaults()
         {
-            item.width = 10;
-            item.height = 24;
-            item.maxStack = 99;
-            item.useTurn = true;
-            item.autoReuse = true;
-            item.useAnimation = 15;
-            item.useTime = 10;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.consumable = true;
-            item.rare = 1;
-            item.Calamity().customRarity = CalamityRarity.Dedicated;
-            item.value = Item.buyPrice(0, 0, 10, 0);
-            item.createTile = ModContent.TileType<MonsterBanner>();
-            item.placeStyle = 108;
+            Item.width = 10;
+            Item.height = 24;
+            Item.maxStack = 99;
+            Item.useTurn = true;
+            Item.autoReuse = true;
+            Item.useAnimation = 15;
+            Item.useTime = 10;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.consumable = true;
+
+            Item.value = Item.buyPrice(silver: 10);
+            Item.rare = ItemRarityID.Blue;
+            Item.Calamity().donorItem = true;
+
+            Item.createTile = ModContent.TileType<MonsterBanner>();
+            Item.placeStyle = 108;
         }
     }
 }

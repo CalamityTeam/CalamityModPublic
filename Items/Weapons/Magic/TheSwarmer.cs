@@ -1,5 +1,6 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -11,62 +12,65 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             DisplayName.SetDefault("The Swarmer");
             Tooltip.SetDefault("Fires a swarm of bees and wasps");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 30;
-            item.magic = true;
-            item.mana = 7;
-            item.width = 60;
-            item.height = 52;
-            item.useTime = 8;
-            item.useAnimation = 8;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.value = Item.buyPrice(0, 95, 0, 0);
-            item.rare = 9;
-            item.UseSound = SoundID.Item11;
-            item.autoReuse = true;
-            item.shoot = ProjectileID.Wasp;
-            item.shootSpeed = 12f;
+            Item.damage = 40;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 7;
+            Item.width = 60;
+            Item.height = 52;
+            Item.useTime = 8;
+            Item.useAnimation = 8;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.value = CalamityGlobalItem.Rarity10BuyPrice;
+            Item.rare = ItemRarityID.Red;
+            Item.UseSound = SoundID.Item11;
+            Item.autoReuse = true;
+            Item.shoot = ProjectileID.Wasp;
+            Item.shootSpeed = 12f;
         }
 
-        public override Vector2? HoldoutOffset()
+        public override Vector2? HoldoutOffset() => new Vector2(-15, -5);
+
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            return new Vector2(-15, -5);
+            for (int i = 0; i <= 3; i++)
+            {
+                float SpeedX = velocity.X + (float)Main.rand.Next(-35, 36) * 0.05f;
+                float SpeedY = velocity.Y + (float)Main.rand.Next(-35, 36) * 0.05f;
+                int wasps = Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, type, damage, 0f, player.whoAmI);
+                if (wasps.WithinBounds(Main.maxProjectiles))
+                {
+                    Main.projectile[wasps].penetrate = 1;
+                    Main.projectile[wasps].DamageType = DamageClass.Magic;
+                }
+            }
+            for (int i = 0; i <= 3; i++)
+            {
+                float SpeedX2 = velocity.X + (float)Main.rand.Next(-35, 36) * 0.05f;
+                float SpeedY2 = velocity.Y + (float)Main.rand.Next(-35, 36) * 0.05f;
+                int bees = Projectile.NewProjectile(source, position.X, position.Y, SpeedX2, SpeedY2, player.beeType(), player.beeDamage(Item.damage), player.beeKB(0f), player.whoAmI);
+                if (bees.WithinBounds(Main.maxProjectiles))
+                {
+                    Main.projectile[bees].penetrate = 1;
+                    Main.projectile[bees].DamageType = DamageClass.Magic;
+                }
+            }
+            return false;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.FragmentVortex, 20);
-            recipe.AddIngredient(ItemID.BeeGun);
-            recipe.AddIngredient(ItemID.WaspGun);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-        }
-
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-        {
-            for (int i = 0; i <= 3; i++)
-            {
-                float SpeedX = speedX + (float)Main.rand.Next(-35, 36) * 0.05f;
-                float SpeedY = speedY + (float)Main.rand.Next(-35, 36) * 0.05f;
-                int wasps = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, 0f, player.whoAmI, 0f, 0f);
-                Main.projectile[wasps].penetrate = 1;
-                Main.projectile[wasps].Calamity().forceMagic = true;
-            }
-            for (int i = 0; i <= 3; i++)
-            {
-                float SpeedX2 = speedX + (float)Main.rand.Next(-35, 36) * 0.05f;
-                float SpeedY2 = speedY + (float)Main.rand.Next(-35, 36) * 0.05f;
-                int bees = Projectile.NewProjectile(position.X, position.Y, SpeedX2, SpeedY2, player.beeType(), player.beeDamage(item.damage), player.beeKB(0f), player.whoAmI, 0f, 0f);
-                Main.projectile[bees].penetrate = 1;
-                Main.projectile[bees].Calamity().forceMagic = true;
-            }
-            return false;
+            CreateRecipe().
+                AddIngredient(ItemID.BeeGun).
+                AddIngredient(ItemID.WaspGun).
+                AddIngredient(ItemID.FragmentVortex, 20).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

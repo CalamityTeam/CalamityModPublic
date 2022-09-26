@@ -1,7 +1,9 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Rogue;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -12,54 +14,54 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Alpha Virus");
-            Tooltip.SetDefault("Throws a giant plague cell with a lethal aura that splits into 6 plague seekers in death\n" +
+            Tooltip.SetDefault("Throws a giant plague cell with a lethal aura that splits into 6 plague seekers on death\n" +
                                "Stealth strikes cause the plague cell to move slower, accumulating an aura of swirling plague seekers as it flies");
+            SacrificeTotal = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
-            item.width = 44;
-            item.damage = 400;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.useAnimation = 31;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 31;
-            item.knockBack = 1f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 44;
-            item.maxStack = 1;
-            item.value = Item.buyPrice(0, 16, 0, 0);
-            item.shoot = ModContent.ProjectileType<AlphaVirusProjectile>();
-            item.shootSpeed = 4f;
-            item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
-            item.Calamity().rogue = true;
+            Item.damage = 333;
+            Item.width = 44;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.useAnimation = 31;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 31;
+            Item.knockBack = 1f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.height = 44;
+            Item.maxStack = 1;
+            Item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            Item.shoot = ModContent.ProjectileType<AlphaVirusProjectile>();
+            Item.shootSpeed = 4f;
+            Item.rare = ModContent.RarityType<Turquoise>();
+            Item.DamageType = RogueDamageClass.Instance;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.Calamity().StealthStrikeAvailable())
             {
-                int p = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, item.shootSpeed, 0f);
-                Main.projectile[p].Calamity().stealthStrike = true;
+                int p = Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, type, damage, knockback, player.whoAmI, Item.shootSpeed, 0f);
+                if (p.WithinBounds(Main.maxProjectiles))
+                    Main.projectile[p].Calamity().stealthStrike = true;
                 return false;
             }
             return true;
         }
 
-        
+
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<EpidemicShredder>());
-            recipe.AddIngredient(ModContent.ItemType<UeliaceBar>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<BloodstoneCore>(), 5);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this, 1);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient<EpidemicShredder>().
+                AddIngredient<UelibloomBar>(5).
+                AddIngredient<BloodstoneCore>(5).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
-        
+
     }
 }

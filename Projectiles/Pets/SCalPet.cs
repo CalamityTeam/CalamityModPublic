@@ -1,34 +1,35 @@
 using CalamityMod.CalPlayer;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Pets
 {
-	public class SCalPet : ModProjectile
+    public class SCalPet : ModProjectile
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Supreme Calamitas");
-            Main.projFrames[projectile.type] = 4;
-            Main.projPet[projectile.type] = true;
+            Main.projFrames[Projectile.type] = 6;
+            Main.projPet[Projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            projectile.netImportant = true;
-            projectile.width = 30;
-            projectile.height = 30;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.timeLeft *= 5;
+            Projectile.netImportant = true;
+            Projectile.width = 30;
+            Projectile.height = 30;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft *= 5;
         }
 
         public override void AI()
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
             if (!player.active)
             {
-                projectile.active = false;
+                Projectile.active = false;
                 return;
             }
             if (player.dead)
@@ -37,18 +38,15 @@ namespace CalamityMod.Projectiles.Pets
             }
             if (modPlayer.scalPet)
             {
-                projectile.timeLeft = 2;
+                Projectile.timeLeft = 2;
             }
-			projectile.FloatingPetAI(false, 0.05f);
-            projectile.frameCounter++;
-            if (projectile.frameCounter > 6)
+            Projectile.FloatingPetAI(false, 0.05f);
+            Projectile.rotation -= Projectile.spriteDirection * MathHelper.PiOver2;
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter > 6)
             {
-                projectile.frame++;
-                projectile.frameCounter = 0;
-            }
-            if (projectile.frame >= 4)
-            {
-                projectile.frame = 0;
+                Projectile.frame = (Projectile.frame + 1) % Main.projFrames[Projectile.type];
+                Projectile.frameCounter = 0;
             }
         }
     }

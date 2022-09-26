@@ -1,4 +1,4 @@
-
+﻿
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles.FurnitureStratus
 {
     public class StratusBricks : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileSolid[Type] = true;
             Main.tileBlockLight[Type] = true;
@@ -17,10 +17,9 @@ namespace CalamityMod.Tiles.FurnitureStratus
 
             CalamityUtils.MergeWithGeneral(Type);
 
-            soundType = SoundID.Tink;
-            mineResist = 5f;
-            minPick = 225;
-            drop = ModContent.ItemType<Items.Placeables.FurnitureStratus.StratusBricks>();
+            HitSound = SoundID.Tink;
+            MineResist = 3f;
+            ItemDrop = ModContent.ItemType<Items.Placeables.FurnitureStratus.StratusBricks>();
             AddMapEntry(new Color(53, 57, 74));
         }
 
@@ -38,19 +37,19 @@ namespace CalamityMod.Tiles.FurnitureStratus
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            int xPos = Main.tile[i, j].frameX;
-            int yPos = Main.tile[i, j].frameY;
-            Texture2D glowmask = ModContent.GetTexture("CalamityMod/Tiles/FurnitureStratus/StratusBricksGlow");
+            int xPos = Main.tile[i, j].TileFrameX;
+            int yPos = Main.tile[i, j].TileFrameY;
+            Texture2D glowmask = ModContent.Request<Texture2D>("CalamityMod/Tiles/FurnitureStratus/StratusBricksGlow").Value;
             Color drawColour = GetDrawColour(i, j, new Color(100, 100, 100, 100));
             Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
             Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + zero;
             Tile trackTile = Main.tile[i, j];
             double num6 = Main.time * 0.08;
-            if (!(trackTile.halfBrick() && trackTile.slope() == 0))
+            if (!(trackTile.IsHalfBlock && trackTile.Slope == 0))
             {
                 Main.spriteBatch.Draw(glowmask, drawOffset, new Rectangle?(new Rectangle(xPos, yPos, 18, 18)), drawColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
             }
-            else if (trackTile.halfBrick())
+            else if (trackTile.IsHalfBlock)
             {
                 Main.spriteBatch.Draw(glowmask, drawOffset + new Vector2(0f, 8f), new Rectangle?(new Rectangle(xPos, yPos, 18, 8)), drawColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
             }
@@ -58,7 +57,7 @@ namespace CalamityMod.Tiles.FurnitureStratus
 
         private Color GetDrawColour(int i, int j, Color colour)
         {
-            int colType = Main.tile[i, j].color();
+            int colType = Main.tile[i, j].TileColor;
             Color paintCol = WorldGen.paintColor(colType);
             if (colType >= 13 && colType <= 24)
             {

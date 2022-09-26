@@ -1,4 +1,7 @@
+﻿using CalamityMod.Events;
+using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Graphics.Effects;
 using Terraria.Graphics.Shaders;
 using Terraria.ModLoader;
 
@@ -15,7 +18,7 @@ namespace CalamityMod.NPCs.Calamitas
 
         private void UpdateCalIndex()
         {
-            int CalType = ModContent.NPCType<CalamitasRun3>();
+            int CalType = ModContent.NPCType<CalamitasClone>();
             if (CalIndex >= 0 && Main.npc[CalIndex].active && Main.npc[CalIndex].type == CalType)
             {
                 return;
@@ -28,6 +31,16 @@ namespace CalamityMod.NPCs.Calamitas
                     CalIndex = i;
                     break;
                 }
+            }
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            if (CalIndex == -1 || BossRushEvent.BossRushActive)
+            {
+                UpdateCalIndex();
+                if (CalIndex == -1 || BossRushEvent.BossRushActive)
+                    Filters.Scene["CalamityMod:CalamitasRun3"].Deactivate();
             }
         }
 

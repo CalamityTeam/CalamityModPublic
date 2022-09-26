@@ -1,5 +1,6 @@
-using CalamityMod.Buffs.Pets;
+﻿using CalamityMod.Buffs.Pets;
 using CalamityMod.Projectiles.Pets;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -10,6 +11,7 @@ namespace CalamityMod.Items.Pets
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Radiating Crystal");
             Tooltip.SetDefault("The crystal contains traces of holothurin\n" +
                 "Summons a radiator light pet\n" +
@@ -18,18 +20,18 @@ namespace CalamityMod.Items.Pets
 
         public override void SetDefaults()
         {
-            item.CloneDefaults(ItemID.WispinaBottle);
-            item.shoot = ModContent.ProjectileType<RadiatorPet>();
-            item.buffType = ModContent.BuffType<RadiatorBuff>();
-            item.value = Item.sellPrice(silver: 20);
-            item.rare = 3;
+            Item.CloneDefaults(ItemID.WispinaBottle);
+            Item.shoot = ModContent.ProjectileType<RadiatorPet>();
+            Item.buffType = ModContent.BuffType<RadiatorBuff>();
+            Item.value = Item.sellPrice(silver: 20);
+            Item.rare = ItemRarityID.Orange;
         }
 
-        public override void UseStyle(Player player)
+        public override void UseStyle(Player player, Rectangle heldItemFrame)
         {
             if (player.whoAmI == Main.myPlayer && player.itemTime == 0)
             {
-                player.AddBuff(item.buffType, 3600, true);
+                player.AddBuff(Item.buffType, 3600, true);
             }
         }
     }

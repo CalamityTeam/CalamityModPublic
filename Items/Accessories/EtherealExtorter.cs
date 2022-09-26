@@ -1,6 +1,7 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -8,29 +9,27 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Ethereal Extorter");
-            Tooltip.SetDefault(@"Infuses souls into your weapons and body generating different boosts that vary with the environment
-Rogue projectiles rarely explode into homing souls
-10% increased rogue damage but reduced life regen");
+            Tooltip.SetDefault(@"Rogue projectiles explode into homing souls on death
+10% increased rogue damage and +10 maximum stealth");
         }
 
         public override void SetDefaults()
         {
-            item.width = 28;
-            item.height = 32;
-            item.accessory = true;
-            item.value = CalamityGlobalItem.Rarity8BuyPrice;
-            item.rare = 8;
+            Item.width = 28;
+            Item.height = 32;
+            Item.accessory = true;
+            Item.value = CalamityGlobalItem.Rarity8BuyPrice;
+            Item.rare = ItemRarityID.Yellow;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.etherealExtorter = true;
-            modPlayer.throwingDamage += 0.1f;
-			player.lifeRegen -= 1;
-			if (Main.moonPhase == 4) // 4 = New Moon
-				modPlayer.rogueStealthMax += 0.1f;
+            player.GetDamage<ThrowingDamageClass>() += 0.1f;
+            modPlayer.rogueStealthMax += 0.1f;
         }
     }
 }

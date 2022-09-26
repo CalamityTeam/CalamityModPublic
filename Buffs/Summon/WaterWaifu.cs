@@ -7,12 +7,13 @@ namespace CalamityMod.Buffs.Summon
 {
     public class WaterWaifu : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Siren");
-            Description.SetDefault("The siren will protect you");
+            DisplayName.SetDefault("Anahita");
+            Description.SetDefault("Anahita will protect you");
             Main.buffNoTimeDisplay[Type] = true;
             Main.buffNoSave[Type] = true;
+            //Main.persistentBuff[Type] = true;
         }
 
         public override void Update(Player player, ref int buffIndex)

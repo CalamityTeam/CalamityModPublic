@@ -1,5 +1,6 @@
-using CalamityMod.Buffs.Pets;
+﻿using CalamityMod.Buffs.Pets;
 using CalamityMod.Projectiles.Pets;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -10,24 +11,29 @@ namespace CalamityMod.Items.Pets
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Charred Relic");
             Tooltip.SetDefault("Contains a small amount of brimstone");
         }
 
         public override void SetDefaults()
         {
-            item.CloneDefaults(ItemID.ZephyrFish);
-            item.shoot = ModContent.ProjectileType<BrimlingPet>();
-            item.buffType = ModContent.BuffType<BrimlingBuff>();
-            item.rare = 4;
-            item.UseSound = SoundID.NPCHit51;
+            Item.CloneDefaults(ItemID.ZephyrFish);
+            Item.shoot = ModContent.ProjectileType<BrimlingPet>();
+            Item.buffType = ModContent.BuffType<BrimlingBuff>();
+
+            Item.value = Item.sellPrice(gold: 4);
+            Item.rare = ItemRarityID.Red;
+            Item.Calamity().devItem = true;
+
+            Item.UseSound = SoundID.NPCHit51;
         }
 
-        public override void UseStyle(Player player)
+        public override void UseStyle(Player player, Rectangle heldItemFrame)
         {
             if (player.whoAmI == Main.myPlayer && player.itemTime == 0)
             {
-                player.AddBuff(item.buffType, 3600, true);
+                player.AddBuff(Item.buffType, 3600, true);
             }
         }
     }

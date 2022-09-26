@@ -1,115 +1,115 @@
+using CalamityMod.Items.Weapons.Melee;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
+
 namespace CalamityMod.Projectiles.Rogue
 {
-	public class PhantasmalSoul : ModProjectile
+    public class PhantasmalSoul : ModProjectile
     {
-        private int originDamage;
-        private int divider = 10;
+        private const int Lifetime = 300;
+        private const int NoHomingFrames = 40;
+        private const int NoHitFrames = 10;
+        private const int NoDrawFrames = 5;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Phantasmal Soul");
-            Main.projFrames[projectile.type] = 4;
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            Main.projFrames[Projectile.type] = 4;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 3;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 30;
-            projectile.height = 30;
-            projectile.alpha = 100;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.tileCollide = false;
-            projectile.Calamity().rogue = true;
-            projectile.extraUpdates = 1;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 600;
+            Projectile.width = Projectile.height = 36;
+            Projectile.alpha = 100;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.tileCollide = false;
+            Projectile.DamageType = RogueDamageClass.Instance;
+            Projectile.extraUpdates = 1;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = Lifetime;
         }
+
+        public override bool? CanHitNPC(NPC target) => Projectile.timeLeft < Lifetime - NoHomingFrames && target.CanBeChasedBy(Projectile);
 
         public override void AI()
         {
-            if (projectile.timeLeft == 600)
+            // Handle animation
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter > 6)
             {
-                originDamage = projectile.damage;
-                projectile.damage = 0;
+                Projectile.frame++;
+                Projectile.frameCounter = 0;
             }
-            else if (projectile.timeLeft % 5 == 0 && divider > 0)
+            if (Projectile.frame > 3)
+                Projectile.frame = 0;
+
+            // Activate homing on enemies after a brief delay
+            if (Projectile.timeLeft < Lifetime - NoHomingFrames)
+                Projectile.ai[0] = 1f;
+
+            // Occasional dust
+            if (Main.rand.NextBool(4))
             {
-                projectile.damage = originDamage / divider;
-                divider--;
+                int dustID = 173;
+                Dust d = Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, dustID);
+                d.velocity *= 0.1f;
+                d.scale = 1.3f;
+                d.noGravity = true;
+                d.noLight = true;
             }
-            else if (divider == 0)
-                projectile.damage = originDamage;
-            projectile.frameCounter++;
-            if (projectile.frameCounter > 6)
+
+            // Purple light
+            Lighting.AddLight(Projectile.Center, 0.5f, 0.2f, 0.9f);
+
+            // Make sure the soul is always facing forwards
+            Projectile.rotation = Projectile.velocity.ToRotation() - MathHelper.PiOver2;
+
+            float inertia = 40f * Projectile.ai[1]; // ranges from 20 to 60
+            float homingSpeed = 8f * Projectile.ai[1]; // ranges from 4 to 12
+            float playerHomingRange = 900f;
+
+            Player owner = Main.player[Projectile.owner];
+            if (owner.active && !owner.dead)
             {
-                projectile.frame++;
-                projectile.frameCounter = 0;
-            }
-            if (projectile.frame > 3)
-            {
-                projectile.frame = 0;
-            }
-			if (projectile.timeLeft <= 560)
-			{
-				projectile.ai[0] = 0f;
-			}
-            int num822 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 173, 0f, 0f, 0, default, 1f);
-            Dust dust = Main.dust[num822];
-            dust.velocity *= 0.1f;
-            Main.dust[num822].scale = 1.3f;
-            Main.dust[num822].noGravity = true;
-            float num953 = 40f * projectile.ai[1]; //100
-            float scaleFactor12 = 8f * projectile.ai[1]; //5
-            float num954 = 900f;
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) - 1.57f;
-            Lighting.AddLight(projectile.Center, 0.5f, 0.2f, 0.9f);
-            if (Main.player[projectile.owner].active && !Main.player[projectile.owner].dead)
-            {
-                if (projectile.Distance(Main.player[projectile.owner].Center) > num954)
+                // If you are too far away from the projectiles, they home in on you.
+                if (Projectile.Distance(Main.player[Projectile.owner].Center) > playerHomingRange)
                 {
-                    Vector2 vector102 = projectile.DirectionTo(Main.player[projectile.owner].Center);
-                    if (vector102.HasNaNs())
-                    {
-                        vector102 = Vector2.UnitY;
-                    }
-                    projectile.velocity = (projectile.velocity * (num953 - 1f) + vector102 * scaleFactor12) / num953;
+                    Vector2 moveDirection = Projectile.SafeDirectionTo(Main.player[Projectile.owner].Center, Vector2.UnitY);
+                    Projectile.velocity = (Projectile.velocity * (inertia - 1f) + moveDirection * homingSpeed) / inertia;
                     return;
                 }
-				if (projectile.ai[0] == 0f)
-				{
-					CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 600f, 10f, 20f);
-				}
+
+                // Otherwise, if homing on enemies is enabled, they home in on enemies.
+                if (Projectile.ai[0] == 1f)
+                    CalamityUtils.HomeInOnNPC(Projectile, true, 600f, 10f, 20f);
             }
-            else
-            {
-                if (projectile.timeLeft > 30)
-                {
-                    projectile.timeLeft = 30;
-                }
-            }
+
+            // If the owner is dead these projectiles disappear rapidly.
+            else if (Projectile.timeLeft > 30)
+                Projectile.timeLeft = 30;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-			if (projectile.timeLeft > 595)
-				return false;
+            if (Projectile.timeLeft > Lifetime - NoDrawFrames)
+                return false;
 
-			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;
         }
 
+        // Get darker when about to disappear
         public override Color? GetAlpha(Color lightColor)
         {
-            if (projectile.timeLeft < 85)
+            if (Projectile.timeLeft < 85)
             {
-                byte b2 = (byte)(projectile.timeLeft * 3);
+                byte b2 = (byte)(Projectile.timeLeft * 3);
                 byte a2 = (byte)(100f * ((float)b2 / 255f));
                 return new Color((int)b2, (int)b2, (int)b2, (int)a2);
             }
@@ -118,46 +118,23 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void Kill(int timeLeft)
         {
-            projectile.position = projectile.Center;
-            projectile.width = projectile.height = 64;
-            projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-            projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
-            projectile.maxPenetrate = -1;
-            projectile.penetrate = -1;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
-			projectile.damage /= 4;
-            projectile.Damage();
-			int num226 = 36;
-			for (int num227 = 0; num227 < num226; num227++)
-			{
-				Vector2 vector6 = Vector2.Normalize(projectile.velocity) * new Vector2((float)projectile.width / 2f, (float)projectile.height) * 0.75f;
-				vector6 = vector6.RotatedBy((double)((float)(num227 - (num226 / 2 - 1)) * 6.28318548f / (float)num226), default) + projectile.Center;
-				Vector2 vector7 = vector6 - projectile.Center;
-				int num228 = Dust.NewDust(vector6 + vector7, 0, 0, 173, vector7.X * 1.5f, vector7.Y * 1.5f, 100, default, 2f);
-				Main.dust[num228].noGravity = true;
-				Main.dust[num228].noLight = true;
-				Main.dust[num228].velocity = vector7;
-			}
-			if (Main.rand.NextBool(6))
-			{
-                Main.PlaySound(SoundID.NPCDeath39, projectile.position);
+            int dustCount = 36;
+            int dustID = 173;
+            for (int i = 0; i < dustCount; i++)
+            {
+                Vector2 velocity = Main.rand.NextVector2Circular(1f, 1f);
+                velocity = 12f * velocity + Projectile.velocity * 0.1f;
+                Dust d = Dust.NewDustDirect(Projectile.Center, 0, 0, dustID);
+                d.velocity = velocity;
+                d.noGravity = true;
+                d.noLight = true;
             }
+
+            // Special quieter version of this noise used by Soul Edge and similar
+            SoundEngine.PlaySound(SoulEdge.ProjectileDeathSound, Projectile.Center);
         }
 
         // Cannot deal damage for the first several frames of existence.
-        public override bool? CanHitNPC(NPC target)
-		{
-			if (projectile.timeLeft >= 590)
-			{
-				return false;
-			}
-			return null;
-		}
-
-        public override bool CanHitPvp(Player target)
-		{
-			return projectile.timeLeft < 590;
-		}
+        public override bool CanHitPvp(Player target) => Projectile.timeLeft < Lifetime - NoHitFrames;
     }
 }

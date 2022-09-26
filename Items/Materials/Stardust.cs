@@ -1,5 +1,6 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Items.Materials
 {
@@ -7,16 +8,17 @@ namespace CalamityMod.Items.Materials
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 100;
             DisplayName.SetDefault("Stardust");
         }
 
         public override void SetDefaults()
         {
-            item.width = 26;
-            item.height = 18;
-            item.maxStack = 999;
-            item.value = Item.sellPrice(silver: 3);
-            item.rare = 5;
+            Item.width = 30;
+            Item.height = 26;
+            Item.maxStack = 999;
+            Item.value = Item.sellPrice(silver: 3);
+            Item.rare = ItemRarityID.LightRed;
         }
     }
 }

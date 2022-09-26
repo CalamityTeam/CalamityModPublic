@@ -1,4 +1,4 @@
-
+﻿
 using Microsoft.Xna.Framework;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -12,20 +12,17 @@ namespace CalamityMod.Walls
             return base.Autoload(ref name, ref texture);
         }*/
 
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             // TODO -- Change this dust to be one more befitting Astral Grass.
-            dustType = DustID.Shadowflame;
-            drop = ModContent.ItemType<Items.Placeables.Walls.AstralGrassWall>();
+            DustType = DustID.Shadowflame;
+            ItemDrop = ModContent.ItemType<Items.Placeables.Walls.AstralGrassWall>();
 
             WallID.Sets.Conversion.Grass[Type] = true;
 
             AddMapEntry(new Color(60, 48, 64));
         }
 
-        public override void NumDust(int i, int j, bool fail, ref int num)
-        {
-            num = fail ? 1 : 3;
-        }
+        public override void NumDust(int i, int j, bool fail, ref int num) => num = fail ? 1 : 3;
     }
 }

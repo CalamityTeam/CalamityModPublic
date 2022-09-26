@@ -7,12 +7,13 @@ namespace CalamityMod.Buffs.Summon
 {
     public class Crimslime : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Crimslime");
             Description.SetDefault("The crimslime will protect you");
             Main.buffNoTimeDisplay[Type] = true;
             Main.buffNoSave[Type] = true;
+            //Main.persistentBuff[Type] = true;
         }
 
         public override void Update(Player player, ref int buffIndex)

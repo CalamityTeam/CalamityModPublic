@@ -1,79 +1,112 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Events;
+using CalamityMod.NPCs.Calamitas;
+using CalamityMod.NPCs.SupremeCalamitas;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
+using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Boss
 {
-	public class BrimstoneBarrage : ModProjectile
+    public class BrimstoneBarrage : ModProjectile
     {
-		public override void SetStaticDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Brimstone Dart");
-            Main.projFrames[projectile.type] = 4;
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 2;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            Main.projFrames[Projectile.type] = 4;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 2;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 18;
-            projectile.height = 18;
-            projectile.hostile = true;
-            projectile.ignoreWater = true;
-            projectile.tileCollide = false;
-            projectile.penetrate = -1;
-            projectile.timeLeft = 690;
-			cooldownSlot = 1;
+            Projectile.width = 18;
+            Projectile.height = 18;
+            Projectile.hostile = true;
+            Projectile.ignoreWater = true;
+            Projectile.tileCollide = false;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft = 690;
+            CooldownSlot = ImmunityCooldownID.Bosses;
         }
 
-		public override void AI()
+        public override void SendExtraAI(BinaryWriter writer)
         {
-			if (projectile.velocity.Length() < (projectile.ai[1] == 0f ? 14f : 10f))
-				projectile.velocity *= 1.01f;
+            writer.Write(Projectile.localAI[0]);
+        }
 
-			projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            Projectile.localAI[0] = reader.ReadSingle();
+        }
 
-			projectile.frameCounter++;
-            if (projectile.frameCounter > 4)
+        public override void AI()
+        {
+            bool bossRush = BossRushEvent.BossRushActive;
+
+            if (Projectile.velocity.Length() < (Projectile.ai[1] == 0f ? (bossRush ? 17.5f : 14f) : (bossRush ? 12.5f : 10f)))
+                Projectile.velocity *= bossRush ? 1.0125f : 1.01f;
+
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
+
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter > 4)
             {
-                projectile.frame++;
-                projectile.frameCounter = 0;
+                Projectile.frame++;
+                Projectile.frameCounter = 0;
             }
-            if (projectile.frame > 3)
-                projectile.frame = 0;
+            if (Projectile.frame > 3)
+                Projectile.frame = 0;
 
-			if (projectile.timeLeft < 60)
-				projectile.Opacity = MathHelper.Clamp(projectile.timeLeft / 60f, 0f, 1f);
+            if (Projectile.timeLeft < 60)
+                Projectile.Opacity = MathHelper.Clamp(Projectile.timeLeft / 60f, 0f, 1f);
 
-			Lighting.AddLight(projectile.Center, 0.75f, 0f, 0f);
+            if (Projectile.ai[0] == 2f)
+            {
+                if (Projectile.timeLeft > 570)
+                {
+                    int player = Player.FindClosest(Projectile.Center, 1, 1);
+                    Vector2 vector = Main.player[player].Center - Projectile.Center;
+                    float scaleFactor = Projectile.velocity.Length();
+                    vector.Normalize();
+                    vector *= scaleFactor;
+                    Projectile.velocity = (Projectile.velocity * 15f + vector) / 16f;
+                    Projectile.velocity.Normalize();
+                    Projectile.velocity *= scaleFactor;
+                }
+            }
+
+            if (Projectile.localAI[0] == 0f)
+            {
+                Projectile.localAI[0] = 1f;
+
+                if (Projectile.ai[0] == 0f)
+                    Projectile.damage = NPC.AnyNPCs(ModContent.NPCType<SupremeCalamitas>()) ? Projectile.GetProjectileDamage(ModContent.NPCType<SupremeCalamitas>()) : Projectile.GetProjectileDamage(ModContent.NPCType<CalamitasClone>());
+            }
+
+            Lighting.AddLight(Projectile.Center, 0.75f * Projectile.Opacity, 0f, 0f);
         }
 
-		public override bool CanHitPlayer(Player target) => projectile.Opacity == 1f;
+        public override bool CanHitPlayer(Player target) => Projectile.Opacity == 1f;
 
-		public override void OnHitPlayer(Player target, int damage, bool crit)
+        public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-			if (projectile.Opacity != 1f)
-				return;
+            if (damage <= 0 || Projectile.Opacity != 1f)
+                return;
 
-			target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 180);
-
-            if (projectile.ai[0] == 0f)
-                target.AddBuff(ModContent.BuffType<VulnerabilityHex>(), 120, true);
+            if (Projectile.ai[0] == 0f || Main.getGoodWorld)
+                target.AddBuff(ModContent.BuffType<VulnerabilityHex>(), 120);
+            else
+                target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 180);
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-			lightColor.R = (byte)(255 * projectile.Opacity);
-			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            lightColor.R = (byte)(255 * Projectile.Opacity);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;
         }
-
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)	
-        {
-			target.Calamity().lastProjectileHit = projectile;
-		}
     }
 }

@@ -1,3 +1,4 @@
+﻿using Terraria.DataStructures;
 using CalamityMod.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -11,27 +12,28 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Needler");
-            Tooltip.SetDefault("Fires needles that stick to enemies and explode");
+            Tooltip.SetDefault("Converts musket balls into needles that stick to enemies and explode");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 45;
-            item.ranged = true;
-            item.width = 44;
-            item.height = 26;
-            item.useTime = 18;
-            item.useAnimation = 18;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 5.5f;
-            item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = 5;
-            item.UseSound = SoundID.Item108;
-            item.autoReuse = true;
-            item.shootSpeed = 9f;
-            item.shoot = ModContent.ProjectileType<NeedlerProj>();
-            item.useAmmo = AmmoID.Bullet;
+            Item.damage = 52;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 44;
+            Item.height = 26;
+            Item.useTime = 18;
+            Item.useAnimation = 18;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 5.5f;
+            Item.value = CalamityGlobalItem.Rarity4BuyPrice;
+            Item.rare = ItemRarityID.LightRed;
+            Item.UseSound = SoundID.Item108;
+            Item.autoReuse = true;
+            Item.shootSpeed = 9f;
+            Item.shoot = ModContent.ProjectileType<NeedlerProj>();
+            Item.useAmmo = AmmoID.Bullet;
         }
 
         public override Vector2? HoldoutOffset()
@@ -39,9 +41,13 @@ namespace CalamityMod.Items.Weapons.Ranged
             return new Vector2(-5, 0);
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<NeedlerProj>(), damage, knockBack, player.whoAmI, 0f, 0f);
+            if (type == ProjectileID.Bullet)
+                Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<NeedlerProj>(), damage, knockback, player.whoAmI);
+            else
+                Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
+
             return false;
         }
     }

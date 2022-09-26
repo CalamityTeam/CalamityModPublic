@@ -1,9 +1,13 @@
+﻿using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -19,47 +23,38 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             DisplayName.SetDefault("Roxcalibur");
             Tooltip.SetDefault("You couldn’t get it out of the rock, so you just brought the rock instead\n" +
-                               "A hellish entity of flesh holds the key to this weapon’s power\n" +
-                               "Left click to shoot several rock shards\n" +
-                               "Right click to dive downwards and bounce off enemies\n" +
-                               "Diving into blocks creates a shockwave");
+                "A hellish entity of flesh holds the key to this weapon’s power\n" +
+                "Left click to shoot several rock shards\n" +
+                "Right click to dive downwards and bounce off enemies\n" +
+                "Diving into blocks creates a shockwave");
+            SacrificeTotal = 1;
+
+            ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 80;
-            item.knockBack = 13;
-            item.crit += 8;
-            item.melee = true;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.UseSound = SoundID.NPCHit42;
-            item.width = 80;
-            item.height = 80;
-            item.autoReuse = true;
-            item.useAnimation = 45;
-            item.useTime = 45;
+            Item.damage = 200;
+            Item.knockBack = 13;
+            Item.DamageType = DamageClass.Melee;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.UseSound = SoundID.NPCHit42;
+            Item.width = 100;
+            Item.height = 100;
+            Item.autoReuse = true;
+            Item.useAnimation = 45;
+            Item.useTime = 45;
 
-            item.shoot = ModContent.ProjectileType<Rox1>();
-            item.shootSpeed = 10f;
+            Item.shoot = ModContent.ProjectileType<Rox1>();
+            Item.shootSpeed = 10f;
 
-            item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = 5;
-            item.Calamity().customRarity = CalamityRarity.Dedicated;
+            Item.value = CalamityGlobalItem.Rarity4BuyPrice;
+            Item.rare = ItemRarityID.LightRed;
+            Item.Calamity().donorItem = true;
         }
 
-        public override void AddRecipes()
-        {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.HellstoneBar, 25);
-            recipe.AddIngredient(ItemID.SoulofNight, 10);
-            recipe.AddIngredient(ModContent.ItemType<EssenceofChaos>(), 5);
-            recipe.AddIngredient(ItemID.Obsidian, 10);
-            recipe.AddIngredient(ItemID.StoneBlock, 100);
-            recipe.AddIngredient(ItemID.Amethyst, 2);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-        }
+        // Terraria seems to really dislike high crit values in SetDefaults
+        public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 8;
 
         public override void UpdateInventory(Player player)
         {
@@ -75,7 +70,7 @@ namespace CalamityMod.Items.Weapons.Melee
                     Main.dust[d].noGravity = true;
                     Main.dust[d].position = player.Center;
                 }
-                Main.PlaySound(SoundID.Item70, player.position);
+                SoundEngine.PlaySound(SoundID.Item70, player.position);
             }
             // Resets the weapon usage if the alt fire collides with the ground
             if (RoxAlt && player.ownedProjectileCounts[ModContent.ProjectileType<RoxSlam>()] <= 0)
@@ -108,30 +103,31 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override bool AltFunctionUse(Player player)
         {
-            return RoxCanAlt >= item.useAnimation + 5 && player.position.Y != player.oldPosition.Y && !player.mount.Active && player.gravDir != -1;
+            return RoxCanAlt >= Item.useAnimation + 5 && player.position.Y != player.oldPosition.Y && !player.mount.Active && player.gravDir != -1;
         }
 
-        public override void UseStyle(Player player)
+        public override void UseStyle(Player player, Rectangle heldItemFrame)
         {
             //Modifies the altfire use style and the location of the sprite of the weapon
             if (player.altFunctionUse == 2)
             {
                 player.itemLocation.X -= 32f * player.direction;
                 player.itemLocation.Y -= 60f;
-                item.useStyle = ItemUseStyleID.HoldingUp;
+                Item.useStyle = ItemUseStyleID.HoldUp;
                 RoxAlt = true;
             }
             //Modifies to use style and hold out of the main fire mode
             else
             {
                 player.itemLocation += new Vector2(-7.5f * player.direction, 8.5f * player.gravDir).RotatedBy(player.itemRotation);
-                item.useStyle = ItemUseStyleID.SwingThrow;
+                Item.useStyle = ItemUseStyleID.Swing;
                 RoxAlt = false;
             }
         }
 
         //Makes the alt fire only spawn the projectile once
-        public override bool OnlyShootOnSwing => RoxAlt;
+        // TODO -- Fix this, because tmod removed this function
+        //public override bool OnlyShootOnSwing => RoxAlt;
 
         public override void UseItemHitbox(Player player, ref Rectangle hitbox, ref bool noHitbox)
         {
@@ -160,7 +156,7 @@ namespace CalamityMod.Items.Weapons.Melee
             }
         }
 
-        public override float MeleeSpeedMultiplier(Player player)
+        public override float UseSpeedMultiplier(Player player)
         {
             //If you use alt fire it can hold the sword for way longer
             if (player.altFunctionUse == 2)
@@ -192,8 +188,8 @@ namespace CalamityMod.Items.Weapons.Melee
                     }
                 }
                 // Makes the player forcefully dive down
-				if (CalamityUtils.CountHookProj() <= 0)
-					player.velocity.Y = player.maxFallSpeed;
+                if (CalamityUtils.CountHookProj() <= 0)
+                    player.velocity.Y = player.maxFallSpeed;
                 //Rotates the sprite of the item on alt fire to have it point downwards
                 player.itemRotation = player.direction * MathHelper.ToRadians(135f);
                 //Dust trail
@@ -206,13 +202,13 @@ namespace CalamityMod.Items.Weapons.Melee
             }
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            if (item.useStyle == ItemUseStyleID.HoldingUp)
+            if (Item.useStyle == ItemUseStyleID.HoldUp)
             {
                 //Spawns a projectile on the tip of the sword in the alt fire
                 float positionx;
-                float positiony = position.Y + (item.height / 2) + 23;
+                float positiony = position.Y + (Item.height / 2) + 23;
 
                 int cooldown = 0;
                 //Check if the entire cooldown has passed
@@ -229,7 +225,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 {
                     positionx = position.X - 8;
                 }
-                Projectile.NewProjectile(positionx, positiony - (player.height / 10f), player.velocity.X, player.velocity.Y, ModContent.ProjectileType<RoxSlam>(), 0, 0, player.whoAmI, cooldown);
+                Projectile.NewProjectile(source, positionx, positiony - (player.height / 10f), player.velocity.X, player.velocity.Y, ModContent.ProjectileType<RoxSlam>(), 0, 0, player.whoAmI, cooldown);
                 //Resets the cooldown after shooting
                 if (Roxcooldown >= 600)
                 {
@@ -245,8 +241,8 @@ namespace CalamityMod.Items.Weapons.Melee
                 {
                     //Else shoot the spread of rock shards
                     int rotation = Main.rand.Next(-10, 11);
-                    Vector2 pertubedspeed = new Vector2(speedX / 2, -10f * player.gravDir).RotatedBy(MathHelper.ToRadians(rotation));
-                    Projectile.NewProjectile(position.X, position.Y, pertubedspeed.X, pertubedspeed.Y, ModContent.ProjectileType<Rox1>(), (int)(damage * 0.5), 1f, player.whoAmI, Main.rand.Next(3));
+                    Vector2 pertubedspeed = new Vector2(velocity.X / 2, -10f * player.gravDir).RotatedBy(MathHelper.ToRadians(rotation));
+                    Projectile.NewProjectile(source, position.X, position.Y, pertubedspeed.X, pertubedspeed.Y, ModContent.ProjectileType<Rox1>(), (int)(damage * 0.5), 1f, player.whoAmI, Main.rand.Next(3));
                 }
                 RoxCanAlt = 0;
 
@@ -254,50 +250,71 @@ namespace CalamityMod.Items.Weapons.Melee
             }
         }
 
-        public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
+        public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            if (item.useStyle == ItemUseStyleID.HoldingUp)
+            if (Item.useStyle == ItemUseStyleID.HoldUp)
             {
-				if (player.whoAmI == Main.myPlayer)
-				{
-					//"Well you did refresh the cooldown but like i dont want it to be wasted on an enemy hit so imma ask you for a refund"
-					if (Didrefresh)
-					{
-						Roxcooldown = 600;
-						Didrefresh = false;
-					}
-					//End the alt attack
-					player.itemAnimation = 0;
-					player.itemTime = 0;
-					RoxAlt = false;
-					RoxCanUse = 0;
-					player.velocity.Y = -16f;
-					player.fallStart = (int)(player.position.Y / 16f);
-				}
+                if (player.whoAmI == Main.myPlayer)
+                {
+                    //"Well you did refresh the cooldown but like i dont want it to be wasted on an enemy hit so imma ask you for a refund"
+                    if (Didrefresh)
+                    {
+                        Roxcooldown = 600;
+                        Didrefresh = false;
+                    }
+                    //End the alt attack
+                    player.itemAnimation = 0;
+                    player.itemTime = 0;
+                    RoxAlt = false;
+                    RoxCanUse = 0;
+                    player.velocity.Y = -16f;
+                    player.fallStart = (int)(player.position.Y / 16f);
+                }
             }
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-            if (item.useStyle == ItemUseStyleID.HoldingUp)
+            if (Item.useStyle == ItemUseStyleID.HoldUp)
             {
-				if (player.whoAmI == Main.myPlayer)
-				{
-					//"Well you did refresh the cooldown but like i dont want it to be wasted on a player hit so imma ask you for a refund"
-					if (Didrefresh)
-					{
-						Roxcooldown = 600;
-						Didrefresh = false;
-					}
-					//End the alt attack
-					player.itemAnimation = 0;
-					player.itemTime = 0;
-					RoxAlt = false;
-					RoxCanUse = 0;
-					player.velocity.Y = -16f;
-					player.fallStart = (int)(player.position.Y / 16f);
-				}
+                if (player.whoAmI == Main.myPlayer)
+                {
+                    //"Well you did refresh the cooldown but like i dont want it to be wasted on a player hit so imma ask you for a refund"
+                    if (Didrefresh)
+                    {
+                        Roxcooldown = 600;
+                        Didrefresh = false;
+                    }
+                    //End the alt attack
+                    player.itemAnimation = 0;
+                    player.itemTime = 0;
+                    RoxAlt = false;
+                    RoxCanUse = 0;
+                    player.velocity.Y = -16f;
+                    player.fallStart = (int)(player.position.Y / 16f);
+                }
             }
+        }
+
+        public override void ModifyTooltips(List<TooltipLine> list)
+        {
+            TooltipLine line = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip1");
+
+            if (line != null && Main.hardMode)
+                line.Text = "";
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient(ItemID.HellstoneBar, 25).
+                AddIngredient(ItemID.SoulofNight, 10).
+                AddIngredient<EssenceofChaos>(5).
+                AddIngredient(ItemID.Obsidian, 10).
+                AddIngredient(ItemID.StoneBlock, 100).
+                AddIngredient(ItemID.Amethyst, 2).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

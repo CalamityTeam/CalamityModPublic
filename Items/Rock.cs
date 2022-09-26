@@ -1,4 +1,6 @@
+﻿using CalamityMod.Tiles;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items
@@ -13,9 +15,16 @@ namespace CalamityMod.Items
 
         public override void SetDefaults()
         {
-            item.width = 20;
-            item.height = 20;
-            item.value = Item.buyPrice(0, 0, 0, 1);
+            Item.width = 20;
+            Item.height = 20;
+            Item.value = Item.buyPrice(0, 0, 0, 1);
+            Item.createTile = ModContent.TileType<PlacedRock>();
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTurn = true;
+            Item.useAnimation = 15;
+            Item.useTime = 10;
+            Item.autoReuse = true;
+            Item.consumable = true; // This item cannot be researched/duped.
         }
     }
 }

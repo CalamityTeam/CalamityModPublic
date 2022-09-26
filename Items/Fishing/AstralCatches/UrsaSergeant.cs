@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.ID;
@@ -11,25 +11,26 @@ namespace CalamityMod.Items.Fishing.AstralCatches
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ursa Sergeant");
-            Tooltip.SetDefault("+20 defense but 35% reduced movement speed\n" +
+            Tooltip.SetDefault("15% decreased movement speed\n" +
                 "Immune to Astral Infection and Feral Bite\n" +
                 "Increased regeneration at lower health");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.width = 36;
-            item.height = 26;
-            item.value = Item.buyPrice(0, 24, 0, 0);
-            item.rare = 8;
-            item.accessory = true;
+            Item.defense = 20;
+            Item.width = 36;
+            Item.height = 26;
+            Item.value = CalamityGlobalItem.Rarity4BuyPrice;
+            Item.rare = ItemRarityID.LightRed;
+            Item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.ursaSergeant = true;
-            player.statDefense += 20;
             player.buffImmune[ModContent.BuffType<AstralInfectionDebuff>()] = true;
             player.buffImmune[BuffID.Rabies] = true; //Feral Bite
         }

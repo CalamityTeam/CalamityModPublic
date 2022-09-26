@@ -1,6 +1,9 @@
+﻿using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.Graphics.Shaders;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories.Wings
@@ -10,26 +13,28 @@ namespace CalamityMod.Items.Accessories.Wings
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Drew's Wings");
             Tooltip.SetDefault("Absolutely Fabulous\n" +
-                "Horizontal speed: 12\n" +
-                "Acceleration multiplier: 3\n" +
+                "Horizontal speed: 12.00\n" +
+                "Acceleration multiplier: 3.0\n" +
                 "Excellent vertical speed\n" +
                 "Flight time: 361");
+            ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new WingStats(361, 12f, 3f);
         }
 
         public override void SetDefaults()
         {
-            item.width = 22;
-            item.height = 20;
-            item.value = CalamityGlobalItem.Rarity15BuyPrice;
-            item.Calamity().customRarity = CalamityRarity.Violet;
-            item.accessory = true;
+            Item.width = 22;
+            Item.height = 20;
+            Item.value = CalamityGlobalItem.Rarity15BuyPrice;
+            Item.rare = ModContent.RarityType<Violet>();
+            Item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            if (player.controlJump && player.wingTime > 0f && !player.jumpAgainCloud && player.jump == 0 && player.velocity.Y != 0f && !hideVisual)
+            if (player.controlJump && player.wingTime > 0f && !player.canJumpAgain_Cloud && player.jump == 0 && player.velocity.Y != 0f && !hideVisual)
             {
                 int num59 = 4;
                 if (player.direction == 1)
@@ -45,7 +50,6 @@ namespace CalamityMod.Items.Accessories.Wings
                 }
                 Main.dust[num60].shader = GameShaders.Armor.GetSecondaryShader(player.cWings, player);
             }
-            player.wingTimeMax = 361;
             player.noFallDmg = true;
         }
 
@@ -56,12 +60,6 @@ namespace CalamityMod.Items.Accessories.Wings
             maxCanAscendMultiplier = 1.2f; //1
             maxAscentMultiplier = 3.25f; //3
             constantAscend = 0.15f; //0.135
-        }
-
-        public override void HorizontalWingSpeeds(Player player, ref float speed, ref float acceleration)
-        {
-            speed = 12f;
-            acceleration *= 3f;
         }
     }
 }

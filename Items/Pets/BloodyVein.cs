@@ -1,5 +1,6 @@
-using CalamityMod.Buffs.Pets;
+﻿using CalamityMod.Buffs.Pets;
 using CalamityMod.Projectiles.Pets;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -10,32 +11,34 @@ namespace CalamityMod.Items.Pets
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Bloody Vein");
             Tooltip.SetDefault("Summons an amalgamated pile of flesh");
         }
 
         public override void SetDefaults()
         {
-            item.damage = 0;
-            item.useTime = 20;
-            item.useAnimation = 20;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.noMelee = true;
-            item.width = 24;
-            item.height = 48;
-            item.value = Item.buyPrice(0, 4, 0, 0);
-            item.UseSound = SoundID.NPCHit9;
-            item.shoot = ModContent.ProjectileType<PerforaMini>();
-            item.buffType = ModContent.BuffType<BloodBound>();
-            item.rare = 3;
-            item.Calamity().customRarity = CalamityRarity.Dedicated;
+            Item.damage = 0;
+            Item.useTime = 20;
+            Item.useAnimation = 20;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.noMelee = true;
+            Item.width = 24;
+            Item.height = 48;
+            Item.UseSound = SoundID.NPCHit9;
+            Item.shoot = ModContent.ProjectileType<PerforaMini>();
+            Item.buffType = ModContent.BuffType<BloodBound>();
+
+            Item.value = Item.buyPrice(gold: 4);
+            Item.rare = ItemRarityID.Orange;
+            Item.Calamity().donorItem = true;
         }
 
-        public override void UseStyle(Player player)
+        public override void UseStyle(Player player, Rectangle heldItemFrame)
         {
             if (player.whoAmI == Main.myPlayer && player.itemTime == 0)
             {
-                player.AddBuff(item.buffType, 3600, true);
+                player.AddBuff(Item.buffType, 3600, true);
             }
         }
     }

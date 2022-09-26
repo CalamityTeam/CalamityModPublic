@@ -1,33 +1,55 @@
+﻿using CalamityMod.Rarities;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.GameContent;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Materials
 {
     public class DarksunFragment : ModItem
     {
+        public int frameCounter = 0;
+        public int frame = 0;
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 100;
             DisplayName.SetDefault("Darksun Fragment");
-            Tooltip.SetDefault("A shard of lunar and solar energy");
-            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(6, 8));
+            Tooltip.SetDefault("An impacted crystal suffused with opposing celestial energies");
+            Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 8));
+            ItemID.Sets.AnimatesAsSoul[Type] = true;
+            ItemID.Sets.ItemNoGravity[Item.type] = true;
+			ItemID.Sets.SortingPriorityMaterials[Type] = 117;
         }
 
         public override void SetDefaults()
         {
-            item.width = 20;
-            item.height = 19;
-            item.maxStack = 999;
-            item.rare = 10;
-            item.value = Item.sellPrice(gold: 12);
-            item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.width = 28;
+            Item.height = 32;
+            Item.maxStack = 999;
+            Item.value = Item.sellPrice(gold: 12);
+            Item.rare = ModContent.RarityType<DarkBlue>();
+        }
+
+        public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
+        {
+            Texture2D texture = TextureAssets.Item[Item.type].Value;
+            spriteBatch.Draw(texture, Item.position - Main.screenPosition, Item.GetCurrentFrame(ref frame, ref frameCounter, 6, 8), lightColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);
+            return false;
+        }
+
+        public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
+        {
+            Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Items/Materials/DarksunFragmentGlow").Value;
+            spriteBatch.Draw(texture, Item.position - Main.screenPosition, Item.GetCurrentFrame(ref frame, ref frameCounter, 6, 8, false), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);
         }
 
         public override void Update(ref float gravity, ref float maxFallSpeed)
         {
-            float num = (float)Main.rand.Next(90, 111) * 0.01f;
-            num *= Main.essScale;
-            Lighting.AddLight((int)((item.position.X + (float)(item.width / 2)) / 16f), (int)((item.position.Y + (float)(item.height / 2)) / 16f), 0.5f * num, 0.5f * num, 0.5f * num);
+            float brightness = Main.essScale * Main.rand.NextFloat(0.9f, 1.1f);
+            Lighting.AddLight(Item.Center, 0.5f * brightness, 0.5f * brightness, 0.5f * brightness);
         }
     }
 }

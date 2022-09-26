@@ -1,57 +1,57 @@
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
 using CalamityMod.Buffs.DamageOverTime;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Melee
 {
-	public class CrescentMoonProj : ModProjectile
+    public class CrescentMoonProj : ModProjectile
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Crescent Moon");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 6;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 6;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 50;
-            projectile.height = 50;
-            projectile.alpha = 100;
-            projectile.friendly = true;
-            projectile.melee = true;
-            projectile.tileCollide = false;
-            projectile.penetrate = 5;
-            projectile.timeLeft = 180;
-            projectile.ignoreWater = true;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
-			projectile.extraUpdates = 1;
-			projectile.aiStyle = 18;
-			aiType = ProjectileID.DeathSickle;
+            Projectile.width = 50;
+            Projectile.height = 50;
+            Projectile.alpha = 100;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.MeleeNoSpeed;
+            Projectile.tileCollide = false;
+            Projectile.penetrate = 5;
+            Projectile.timeLeft = 180;
+            Projectile.ignoreWater = true;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
+            Projectile.extraUpdates = 1;
+            Projectile.aiStyle = ProjAIStyleID.Sickle;
+            AIType = ProjectileID.DeathSickle;
         }
 
         public override void AI()
         {
-            Lighting.AddLight(projectile.Center, 0f, 0f, 0.6f);
-            if (projectile.soundDelay == 0)
+            Lighting.AddLight(Projectile.Center, 0f, 0f, 0.6f);
+            if (Projectile.soundDelay == 0)
             {
-                projectile.soundDelay = 30 + Main.rand.Next(50);
+                Projectile.soundDelay = 30 + Main.rand.Next(50);
                 if (Main.rand.NextBool(10))
                 {
-                    Main.PlaySound(SoundID.Item9, (int)projectile.position.X, (int)projectile.position.Y);
+                    SoundEngine.PlaySound(SoundID.Item9, Projectile.position);
                 }
             }
 
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 460f, 15f, 20f);
+            CalamityUtils.HomeInOnNPC(Projectile, true, 250f, 12f, 20f);
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;
         }
 

@@ -1,3 +1,4 @@
+﻿using Terraria.DataStructures;
 using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -6,47 +7,51 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-	public class GelDart : RogueWeapon
+    public class GelDart : RogueWeapon
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Gel Dart");
             Tooltip.SetDefault("Throws bouncing darts\n" +
-			"Stealth strikes ignore gravity and bounce more vigorously\n" +
-			"They additionally leak slime and cover enemies in dark sludge");
+            "Stealth strikes ignore gravity and bounce more vigorously\n" +
+            "They additionally leak slime and cover enemies in dark sludge");
+            SacrificeTotal = 99;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
-            item.width = 14;
-            item.damage = 28;
-            item.noMelee = true;
-            item.consumable = true;
-            item.noUseGraphic = true;
-            item.useAnimation = 11;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 11;
-            item.knockBack = 2.5f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 28;
-            item.maxStack = 999;
-            item.value = Item.buyPrice(0, 0, 2, 50);
-            item.rare = 4;
-            item.shoot = ModContent.ProjectileType<GelDartProjectile>();
-            item.shootSpeed = 14f;
-            item.Calamity().rogue = true;
+            Item.width = 14;
+            Item.damage = 28;
+            Item.noMelee = true;
+            Item.consumable = true;
+            Item.noUseGraphic = true;
+            Item.useAnimation = 11;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 11;
+            Item.knockBack = 2.5f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.height = 28;
+            Item.maxStack = 999;
+            Item.value = Item.buyPrice(0, 0, 2, 50);
+            Item.rare = ItemRarityID.LightRed;
+            Item.shoot = ModContent.ProjectileType<GelDartProjectile>();
+            Item.shootSpeed = 14f;
+            Item.DamageType = RogueDamageClass.Instance;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.Calamity().StealthStrikeAvailable()) //setting the stealth strike
             {
-                int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, 0f, 0f);
-                Main.projectile[stealth].Calamity().stealthStrike = true;
-                Main.projectile[stealth].usesLocalNPCImmunity = true;
-                Main.projectile[stealth].penetrate = 6;
-                Main.projectile[stealth].aiStyle = -1;
+                int stealth = Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
+                if (stealth.WithinBounds(Main.maxProjectiles))
+                {
+                    Main.projectile[stealth].Calamity().stealthStrike = true;
+                    Main.projectile[stealth].usesLocalNPCImmunity = true;
+                    Main.projectile[stealth].penetrate = 6;
+                    Main.projectile[stealth].aiStyle = -1;
+                }
                 return false;
             }
             return true;

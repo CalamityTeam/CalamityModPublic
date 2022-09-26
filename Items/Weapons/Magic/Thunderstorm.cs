@@ -1,8 +1,10 @@
-using CalamityMod.Projectiles.Magic;
+﻿using CalamityMod.Projectiles.Magic;
+using CalamityMod.Rarities;
+using CalamityMod.Sounds;
 using Microsoft.Xna.Framework;
-using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Items.Weapons.Magic
 {
     public class Thunderstorm : ModItem
@@ -11,32 +13,29 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             DisplayName.SetDefault("Thunderstorm");
             Tooltip.SetDefault("Make it rain");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 360;
-            item.mana = 50;
-            item.magic = true;
-            item.width = 48;
-            item.height = 22;
-            item.useTime = 24;
-            item.useAnimation = 24;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 2f;
-            item.value = Item.buyPrice(1, 20, 0, 0);
-            item.rare = 10;
-            item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/PlasmaBlast");
-            item.autoReuse = true;
-            item.shootSpeed = 6f;
-            item.shoot = ModContent.ProjectileType<ThunderstormShot>();
-            item.Calamity().customRarity = CalamityRarity.RareVariant;
+            Item.damage = 132;
+            Item.mana = 50;
+            Item.DamageType = DamageClass.Magic;
+            Item.width = 48;
+            Item.height = 22;
+            Item.useTime = 24;
+            Item.useAnimation = 24;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 2f;
+            Item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            Item.rare = ModContent.RarityType<Turquoise>();
+            Item.UseSound = CommonCalamitySounds.PlasmaBlastSound;
+            Item.autoReuse = true;
+            Item.shootSpeed = 6f;
+            Item.shoot = ModContent.ProjectileType<ThunderstormShot>();
         }
 
-        public override Vector2? HoldoutOffset()
-        {
-            return new Vector2(-10, 0);
-        }
+        public override Vector2? HoldoutOffset() => new Vector2(-10, 0);
     }
 }

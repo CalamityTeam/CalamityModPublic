@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles.Astral
 {
     public class AstralClay : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileSolid[Type] = true;
             Main.tileBlockLight[Type] = true;
@@ -18,13 +18,14 @@ namespace CalamityMod.Tiles.Astral
             CalamityUtils.MergeAstralTiles(Type);
             CalamityUtils.MergeWithOres(Type);
 
-            dustType = ModContent.DustType<AstralBasic>();
-            drop = ModContent.ItemType<Items.Placeables.AstralClay>();
+            DustType = ModContent.DustType<AstralBasic>();
+            ItemDrop = ModContent.ItemType<Items.Placeables.AstralClay>();
 
             AddMapEntry(new Color(133, 69, 115));
 
             TileID.Sets.ChecksForMerge[Type] = true;
             TileID.Sets.CanBeClearedDuringOreRunner[Type] = true;
+            TileID.Sets.CanBeDugByShovel[Type] = true;
         }
 
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)

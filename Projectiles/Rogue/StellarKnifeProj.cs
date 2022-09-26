@@ -1,8 +1,7 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
+using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -11,91 +10,94 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class StellarKnifeProj : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/StellarKnife";
 
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Stellar Knife");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 8;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 1;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 8;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 1;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 32;
-            projectile.height = 34;
-            projectile.friendly = true;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 600;
-            projectile.tileCollide = true;
-            projectile.Calamity().rogue = true;
+            Projectile.width = 32;
+            Projectile.height = 34;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = 600;
+            Projectile.tileCollide = true;
+            Projectile.DamageType = RogueDamageClass.Instance;
+        }
+
+        public override void SendExtraAI(BinaryWriter writer)
+        {
+            writer.Write(Projectile.localAI[1]);
+        }
+
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            Projectile.localAI[1] = reader.ReadSingle();
         }
 
         public override void AI()
         {
-			//synthesized timeLeft
-			projectile.localAI[1]++;
-			if (projectile.localAI[1] > 600f)
-				projectile.Kill();
+            //synthesized timeLeft
+            Projectile.localAI[1]++;
+            if (Projectile.localAI[1] > 600f)
+                Projectile.Kill();
 
-            if (projectile.ai[0] == 1f)
+            if (Projectile.ai[0] == 1f)
             {
-                projectile.ai[0] = 0f;
-                projectile.damage = (int)(projectile.damage * (projectile.ai[1] == 1f ? 0.9f : 0.75f));
-                projectile.ai[1] = 0f;
+                Projectile.ai[0] = 0f;
+                Projectile.damage = (int)(Projectile.damage * (Projectile.ai[1] == 1f ? 0.9f : 0.75f));
+                Projectile.ai[1] = 0f;
             }
-            projectile.ai[1] += 0.75f;
-            if (projectile.ai[1] <= 60f)
+            Projectile.ai[1] += 0.75f;
+            if (Projectile.ai[1] <= 60f)
             {
-                projectile.rotation += 1f;
-                projectile.velocity.X *= 0.985f;
-                projectile.velocity.Y *= 0.985f;
+                Projectile.rotation -= 1f;
+                Projectile.velocity.X *= 0.985f;
+                Projectile.velocity.Y *= 0.985f;
             }
             else
             {
-                projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 2.355f;
-                if (projectile.spriteDirection == -1)
+                Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.ToRadians(45f);
+
+                Vector2 center = Projectile.Center;
+                float maxDistance = 600f;
+                bool homeIn = false;
+
+                for (int i = 0; i < Main.maxNPCs; i++)
                 {
-                    projectile.rotation -= 1.57f;
+                    if (Main.npc[i].CanBeChasedBy(Projectile, false) && Collision.CanHit(Projectile.Center, 1, 1, Main.npc[i].Center, 1, 1))
+                    {
+                        float extraDistance = (float)(Main.npc[i].width / 2) + (float)(Main.npc[i].height / 2);
+
+                        if (Vector2.Distance(Main.npc[i].Center, Projectile.Center) < (maxDistance + extraDistance))
+                        {
+                            center = Main.npc[i].Center;
+                            homeIn = true;
+                            break;
+                        }
+                    }
                 }
-				projectile.localAI[0]++;
 
-				Vector2 center = projectile.Center;
-				float maxDistance = 600f;
-				bool homeIn = false;
+                if (homeIn)
+                {
+                    Projectile.timeLeft = 600; //when homing in, the projectile cannot run out of timeLeft, but synthesized timeLeft still runs
 
-				if (projectile.localAI[0] >= 20f && !homeIn) //shorten knife lifespan if it hasn't found a target
-					if (projectile.timeLeft >= 60)
-						projectile.timeLeft = 60;
-
-				for (int i = 0; i < Main.maxNPCs; i++)
-				{
-					if (Main.npc[i].CanBeChasedBy(projectile, false) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[i].Center, 1, 1))
-					{
-						float extraDistance = (float)(Main.npc[i].width / 2) + (float)(Main.npc[i].height / 2);
-
-						if (Vector2.Distance(Main.npc[i].Center, projectile.Center) < (maxDistance + extraDistance))
-						{
-							center = Main.npc[i].Center;
-							homeIn = true;
-							break;
-						}
-					}
-				}
-
-				if (homeIn)
-				{
-					projectile.timeLeft = 600; //when homing in, the projectile cannot run out of timeLeft, but synthesized timeLeft still runs
-
-					Vector2 homeInVector = projectile.DirectionTo(center);
-					if (homeInVector.HasNaNs())
-						homeInVector = Vector2.UnitY;
-
-					projectile.velocity = (projectile.velocity * 10f + homeInVector * 30f) / (10f + 1f);
-				}
+                    Vector2 moveDirection = Projectile.SafeDirectionTo(center, Vector2.UnitY);
+                    Projectile.velocity = (Projectile.velocity * 10f + moveDirection * 30f) / (10f + 1f);
+                }
                 else
                 {
-                    projectile.velocity.X *= 0.92f;
-                    projectile.velocity.Y *= 0.92f;
+                    //shorten knife lifespan if it hasn't found a target
+                    if (Projectile.timeLeft > 60)
+                        Projectile.timeLeft = 60;
+                    Projectile.velocity.X *= 0.92f;
+                    Projectile.velocity.Y *= 0.92f;
                 }
             }
         }
@@ -105,9 +107,9 @@ namespace CalamityMod.Projectiles.Rogue
             target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 120);
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 2);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 2);
             return false;
         }
 
@@ -115,7 +117,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, ModContent.DustType<AstralBlue>(), projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
+                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, ModContent.DustType<AstralBlue>(), Projectile.oldVelocity.X * 0.5f, Projectile.oldVelocity.Y * 0.5f);
             }
         }
     }

@@ -1,58 +1,64 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Ammo.FiniteUse;
 using CalamityMod.Projectiles.Typeless.FiniteUse;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Items.Weapons.Typeless.FiniteUse
 {
     public class Hydra : ModItem
     {
+        public static readonly SoundStyle FireSound = new("CalamityMod/Sounds/Item/Hydra");
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Hydra");
             Tooltip.SetDefault("Uses Explosive Shotgun Shells\n" +
-                "Does more damage to everything\n" +
                 "Can be used once per boss battle");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 120;
-            item.width = 66;
-            item.height = 30;
-            item.useTime = 33;
-            item.useAnimation = 33;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 10f;
-            item.value = Item.buyPrice(0, 80, 0, 0);
-            item.rare = 8;
-            item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/Hydra");
-            item.autoReuse = true;
-            item.shootSpeed = 12f;
-            item.shoot = ModContent.ProjectileType<ExplosiveShotgunShell>();
-            item.useAmmo = ModContent.ItemType<ExplosiveShells>();
+            Item.damage = 120;
+            Item.width = 66;
+            Item.height = 30;
+            Item.useTime = 33;
+            Item.useAnimation = 33;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 10f;
+            Item.value = CalamityGlobalItem.Rarity9BuyPrice;
+            Item.rare = ItemRarityID.Yellow;
+            Item.UseSound = FireSound;
+            Item.autoReuse = true;
+            Item.shootSpeed = 12f;
+            Item.shoot = ModContent.ProjectileType<ExplosiveShotgunShell>();
+            Item.useAmmo = ModContent.ItemType<ExplosiveShells>();
             if (CalamityPlayer.areThereAnyDamnBosses)
-            {
-                item.Calamity().timesUsed = 1;
-            }
+                Item.Calamity().timesUsed = 1;
         }
+
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = (ContentSamples.CreativeHelper.ItemGroup)CalamityResearchSorting.ClasslessWeapon;
+		}
 
         public override bool OnPickup(Player player)
         {
             if (CalamityPlayer.areThereAnyDamnBosses)
-            {
-                item.Calamity().timesUsed = 1;
-            }
+                Item.Calamity().timesUsed = 1;
+
             return true;
         }
 
         public override bool CanUseItem(Player player)
         {
-            return item.Calamity().timesUsed < 1;
+            return Item.Calamity().timesUsed < 1;
         }
 
         public override Vector2? HoldoutOffset()
@@ -63,43 +69,40 @@ namespace CalamityMod.Items.Weapons.Typeless.FiniteUse
         public override void UpdateInventory(Player player)
         {
             if (!CalamityPlayer.areThereAnyDamnBosses)
-            {
-                item.Calamity().timesUsed = 0;
-            }
+                Item.Calamity().timesUsed = 0;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            for (int index = 0; index < 15; ++index)
+            for (int index = 0; index < 8; ++index)
             {
-                float SpeedX = speedX + (float)Main.rand.Next(-65, 66) * 0.05f;
-                float SpeedY = speedY + (float)Main.rand.Next(-65, 66) * 0.05f;
-                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+                float SpeedX = velocity.X + Main.rand.Next(-40, 41) * 0.05f;
+                float SpeedY = velocity.Y + Main.rand.Next(-40, 41) * 0.05f;
+                Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
             }
+
             if (CalamityPlayer.areThereAnyDamnBosses)
             {
-                for (int i = 0; i < 58; i++)
+                player.HeldItem.Calamity().timesUsed++;
+                for (int i = 0; i < Main.InventorySlotsTotal; i++)
                 {
-                    if (player.inventory[i].type == item.type)
-                    {
+                    if (player.inventory[i].type == Item.type && player.inventory[i] != player.HeldItem)
                         player.inventory[i].Calamity().timesUsed++;
-                    }
                 }
             }
+
             return false;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Shotgun);
-            recipe.AddIngredient(ItemID.IronBar, 20);
-            recipe.anyIronBar = true;
-            recipe.AddIngredient(ItemID.IllegalGunParts);
-            recipe.AddIngredient(ItemID.Ectoplasm, 20);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient(ItemID.Shotgun).
+                AddIngredient(ItemID.IllegalGunParts).
+                AddRecipeGroup("IronBar", 20).
+                AddIngredient(ItemID.Ectoplasm, 20).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

@@ -1,9 +1,9 @@
 using System;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
 
 namespace CalamityMod.Projectiles.Melee
 {
@@ -20,63 +20,62 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetDefaults()
         {
-            projectile.width = 42;
-            projectile.height = 42;
-            projectile.friendly = true;
-            projectile.penetrate = penetrateMax;
-            projectile.tileCollide = false;
-            projectile.timeLeft = 290;
+            Projectile.width = 42;
+            Projectile.height = 42;
+            Projectile.friendly = true;
+            Projectile.penetrate = penetrateMax;
+            Projectile.tileCollide = false;
+            Projectile.timeLeft = 290;
         }
         public override void AI()
         {
             if (!initialized)
             {
-                startYVelSign = (float)Math.Sign(projectile.velocity.Y) * 0.35f;
+                startYVelSign = (float)Math.Sign(Projectile.velocity.Y) * 0.35f;
                 initialized = true;
             }
-            if (projectile.penetrate == penetrateMax && projectile.timeLeft < 245)
+            if (Projectile.penetrate == penetrateMax && Projectile.timeLeft < 245)
             {
-                projectile.velocity.Y -= startYVelSign; //arc on the X axis (the amount of pressure on this tiny detail made me want to tear my head off)
-                if (Math.Abs(projectile.velocity.X) < 30f)
+                Projectile.velocity.Y -= startYVelSign; //arc on the X axis (the amount of pressure on this tiny detail made me want to tear my head off)
+                if (Math.Abs(Projectile.velocity.X) < 30f)
                 {
-                    projectile.velocity.X *= 1.04f;
+                    Projectile.velocity.X *= 1.04f;
                 }
             }
-            if (projectile.velocity.Length() != 0)
+            if (Projectile.velocity.Length() != 0)
             {
-                projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + MathHelper.Pi / 4;
+                Projectile.rotation = (float)Math.Atan2(Projectile.velocity.Y, Projectile.velocity.X) + MathHelper.Pi / 4;
             }
             else
             {
-                projectile.rotation += MathHelper.Pi / 6f / (projectile.scale * 2.5f);
+                Projectile.rotation += MathHelper.Pi / 6f / (Projectile.scale * 2.5f);
             }
-            projectile.ai[0]++;
-            if (projectile.ai[1] >= 0)
+            Projectile.ai[0]++;
+            if (Projectile.ai[1] >= 0)
             {
-                projectile.ai[1]--;
-                if (projectile.ai[1] == 0)
+                Projectile.ai[1]--;
+                if (Projectile.ai[1] == 0)
                 {
-                    projectile.velocity *= -0.9f;
+                    Projectile.velocity *= -0.9f;
                 }
             }
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            if (projectile.penetrate == penetrateMax)
+            if (Projectile.penetrate == penetrateMax)
             {
-                projectile.damage /= 15;
+                Projectile.damage /= 15;
             }
             else
             {
-                projectile.scale += (maxScale - 1) / (float)penetrateMax;
+                Projectile.scale += (maxScale - 1) / (float)penetrateMax;
             }
-            projectile.ai[1] = 5 + Main.rand.Next(-2, 3);
-            target.immune[projectile.owner] = 0; //so that all blades can hit the enemy
-            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 180);
-            target.AddBuff(ModContent.BuffType<GlacialState>(), 180);
-            target.AddBuff(ModContent.BuffType<HolyFlames>(), 180);
-            target.AddBuff(ModContent.BuffType<Plague>(), 180);
-            target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 180);
+            Projectile.ai[1] = 5 + Main.rand.Next(-2, 3);
+            target.immune[Projectile.owner] = 0; //so that all blades can hit the enemy
+            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 60);
+            target.AddBuff(BuffID.Frostburn, 60);
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 60);
+            target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 60);
         }
 
         public override void Kill(int timeLeft)
@@ -93,7 +92,7 @@ namespace CalamityMod.Projectiles.Melee
                     {
                         Vector2 randomCirclePointLerped = Vector2.Lerp(randomCirclePointVector, randomCirclePointRotated, k / 20f);
                         float lerpMultiplier = MathHelper.Lerp(lerpStart, lerpEnd, k / 20f) * 4f;
-                        int dustIndex = Dust.NewDust(projectile.Center, 0, 0,
+                        int dustIndex = Dust.NewDust(Projectile.Center, 0, 0,
                             173,
                             0f, 0f, 100, default, 1.1f);
                         Main.dust[dustIndex].velocity *= 0.1f;
@@ -107,7 +106,7 @@ namespace CalamityMod.Projectiles.Melee
         }
         public override Color? GetAlpha(Color lightColor)
         {
-            return new Color(124, Main.DiscoG, 255, projectile.alpha);
+            return new Color(124, Main.DiscoG, 255, Projectile.alpha);
         }
     }
 }

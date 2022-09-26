@@ -1,8 +1,10 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Summon;
+using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -17,73 +19,55 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             DisplayName.SetDefault("Endogenesis");
             Tooltip.SetDefault("Summons an ascended ice construct to protect you \n" +
-                               "Changes attack modes by resummoning or reusing the staff \n" +
-                               "The first mode makes it shoot sweeping lasers aimed at the enemy \n" +
-                               "The second mode sacrifices its limbs to shoot out homing projectiles \n" +
-                               "The third mode allows it to agressively tackle its enemies \n" +
-                               "The fourth mode makes the limbs function as endothermic flamethrowers \n" +
-                               "Requires 10 minion slots to be summoned \n" +
-                               "There can only be one \n" +
-                               "[c/B0FBFF:Ice puns not included]"); //Icy no problems with that
+                "Changes attack modes by resummoning or reusing the staff \n" +
+                "The first mode makes it shoot sweeping lasers aimed at the enemy \n" +
+                "The second mode sacrifices its limbs to shoot out homing projectiles \n" +
+                "The third mode allows it to agressively tackle its enemies \n" +
+                "The fourth mode makes the limbs function as endothermic flamethrowers \n" +
+                "Requires 10 minion slots to be summoned \n" +
+                "There can only be one \n" +
+                "[c/B0FBFF:Ice puns not included]"); //Icy no problems with that
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.width = 80;
-            item.height = 80;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.noMelee = true;
-            item.UseSound = SoundID.Item78;
+            Item.width = 80;
+            Item.height = 80;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.noMelee = true;
+            Item.UseSound = SoundID.Item78;
 
-            item.summon = true;
-            item.mana = 80;
-            item.damage = 6500;
-            item.knockBack = 4f;
-            item.crit += 18;
-            item.autoReuse = true;
-            item.useTime = item.useAnimation = 10;
-            item.shoot = ModContent.ProjectileType<EndoCooperBody>();
-            item.shootSpeed = 10f;
+            Item.DamageType = DamageClass.Summon;
+            Item.mana = 80;
+            Item.damage = 1300;
+            Item.knockBack = 4f;
+            Item.autoReuse = true;
+            Item.useTime = Item.useAnimation = 10;
+            Item.shoot = ModContent.ProjectileType<EndoCooperBody>();
+            Item.shootSpeed = 10f;
 
-            item.value = Item.buyPrice(5, 0, 0, 0);
-            item.Calamity().customRarity = CalamityRarity.ItemSpecific;
+            Item.value = CalamityGlobalItem.Rarity16BuyPrice;
+            Item.rare = ModContent.RarityType<HotPink>();
+            Item.Calamity().devItem = true;
         }
 
-        public override bool CanUseItem(Player player)
-        {
-            if (player.maxMinions < 10f)
-                return false;
-            return true;
-        }
+        public override bool CanUseItem(Player player) => player.maxMinions >= 10f;
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.altFunctionUse != 2)
             {
-                player.itemTime = item.useTime;
-                Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
-                vector2.X = Main.mouseX + Main.screenPosition.X;
-                vector2.Y = Main.mouseY + Main.screenPosition.Y;
-                for (int x = 0; x < Main.projectile.Length; x++)
+                player.itemTime = Item.useTime;
+                CalamityUtils.KillShootProjectileMany(player, new int[]
                 {
-                    Projectile projectile = Main.projectile[x];
-                    if (projectile.active && projectile.owner == player.whoAmI && (projectile.type == ModContent.ProjectileType<EndoCooperBody>() || projectile.type == ModContent.ProjectileType<EndoCooperLimbs>() || projectile.type == ModContent.ProjectileType<EndoBeam>()))
-                    {
-                        projectile.Kill();
-                    }
-                }
-                float dmgMult = 1f;
-				if (AttackMode == 0) //lasers
-					dmgMult = 0.65f;
-				if (AttackMode == 1) //icicles
-					dmgMult = 1f;
-				if (AttackMode == 2) //melee
-					dmgMult = 0.95f;
-				if (AttackMode == 3) //flamethrower
-					dmgMult = 0.9f;
-                int body = Projectile.NewProjectile(vector2.X, vector2.Y, 0f, 0f, type, (int)(damage * dmgMult), knockBack, player.whoAmI, AttackMode, 0f);
-                int limbs = Projectile.NewProjectile(vector2.X, vector2.Y, 0f, 0f, ModContent.ProjectileType<EndoCooperLimbs>(), (int)(damage * dmgMult), knockBack, player.whoAmI, AttackMode, body);
-                Main.projectile[body].ai[1] = limbs;
+                    type,
+                    ModContent.ProjectileType<EndoCooperLimbs>(),
+                    ModContent.ProjectileType<EndoBeam>()
+                });
+
+                SummonEndoCooper(source, AttackMode, Main.MouseWorld, damage, Item.damage, knockback, player, out _, out _);
+
                 AttackMode++;
                 if (AttackMode > 3)
                     AttackMode = 0;
@@ -91,17 +75,38 @@ namespace CalamityMod.Items.Weapons.Summon
             return false;
         }
 
+        public static void SummonEndoCooper(IEntitySource source, int attackMode, Vector2 spawnPosition, int damage, int baseDamage, float knockback, Player owner, out int bodyIndex, out int limbsIndex)
+        {
+            bodyIndex = limbsIndex = -1;
+            if (Main.myPlayer != owner.whoAmI)
+                return;
+
+            float dmgMult = 1f;
+            if (attackMode == 0) //lasers
+                dmgMult = 0.65f;
+            if (attackMode == 1) //icicles
+                dmgMult = 1f;
+            if (attackMode == 2) //melee
+                dmgMult = 0.95f;
+            if (attackMode == 3) //flamethrower
+                dmgMult = 0.9f;
+            bodyIndex = Projectile.NewProjectile(source, spawnPosition, Vector2.Zero, ModContent.ProjectileType<EndoCooperBody>(), (int)(damage * dmgMult), knockback, owner.whoAmI, attackMode, 0f);
+            limbsIndex = Projectile.NewProjectile(source, spawnPosition, Vector2.Zero, ModContent.ProjectileType<EndoCooperLimbs>(), (int)(damage * dmgMult), knockback, owner.whoAmI, attackMode, bodyIndex);
+            Main.projectile[bodyIndex].ai[1] = limbsIndex;
+            Main.projectile[bodyIndex].originalDamage = (int)(baseDamage * dmgMult);
+            Main.projectile[limbsIndex].originalDamage = (int)(baseDamage * dmgMult);
+        }
+
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<CryogenicStaff>());
-            recipe.AddIngredient(ItemID.BlizzardStaff);
-            recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 99);
-            recipe.AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<CoreofEleum>(), 5);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient<CryogenicStaff>().
+                AddIngredient(ItemID.BlizzardStaff).
+                AddIngredient<EndothermicEnergy>(100).
+                AddIngredient<CoreofEleum>(15).
+                AddIngredient<ShadowspecBar>(5).
+                AddTile<DraedonsForge>().
+                Register();
         }
     }
 }

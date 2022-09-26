@@ -1,3 +1,4 @@
+﻿using Terraria.DataStructures;
 using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -15,35 +16,37 @@ namespace CalamityMod.Items.Weapons.Rogue
             Tooltip.SetDefault("Throws a rolling barrel that explodes on wall collision\n" +
                                "Stealth strikes makes the barrel bounce twice before disappearing with varied effects after each bounce\n" +
                                "'Some people used to jump over these'");
+            SacrificeTotal = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
-            item.width = 48;
-            item.height = 48;
-            item.damage = BaseDamage;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useAnimation = 22;
-            item.useTime = 22;
-            item.knockBack = 8f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.value = Item.buyPrice(0, 12, 0, 0); //2 gold 40 silver sellprice
-            item.rare = 4;
-            item.shoot = ModContent.ProjectileType<BlastBarrelProjectile>();
-            item.shootSpeed = 12f;
-            item.Calamity().rogue = true;
+            Item.width = 48;
+            Item.height = 48;
+            Item.damage = BaseDamage;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useAnimation = 22;
+            Item.useTime = 22;
+            Item.knockBack = 8f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.value = CalamityGlobalItem.Rarity4BuyPrice; //2 gold 40 silver sellprice
+            Item.rare = ItemRarityID.LightRed;
+            Item.shoot = ModContent.ProjectileType<BlastBarrelProjectile>();
+            Item.shootSpeed = 12f;
+            Item.DamageType = RogueDamageClass.Instance;
         }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-        {
-            speedY *= 0.7f; //since the barrel is heavy
-            Vector2 initialVelocity = new Vector2(speedX, speedY);
 
-            //unitY additive is do it doesn't exploe initially
-            int p = Projectile.NewProjectile(position - Vector2.UnitY * 12f, initialVelocity, type, damage, knockBack, player.whoAmI);
-            if (player.Calamity().StealthStrikeAvailable())
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        {
+            velocity.Y *= 0.85f;
+            Vector2 initialVelocity = velocity;
+
+            // A vertical offset is added to ensure that the barrel does not immediately collide with tiles and explode.
+            int p = Projectile.NewProjectile(source, position - Vector2.UnitY * 12f, initialVelocity, type, damage, knockback, player.whoAmI);
+            if (player.Calamity().StealthStrikeAvailable() && p.WithinBounds(Main.maxProjectiles))
                 Main.projectile[p].Calamity().stealthStrike = true;
             return false;
         }

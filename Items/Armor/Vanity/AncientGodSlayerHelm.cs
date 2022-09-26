@@ -1,5 +1,7 @@
+﻿using CalamityMod.Rarities;
 using Terraria;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Items.Armor.Vanity
 {
     [AutoloadEquip(EquipType.Head)]
@@ -7,16 +9,17 @@ namespace CalamityMod.Items.Armor.Vanity
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Ancient God Slayer Helm");
         }
 
         public override void SetDefaults()
         {
-            item.width = 28;
-            item.height = 20;
-            item.Calamity().customRarity = (CalamityRarity)14;
-            item.value = Item.buyPrice(0, 75, 0, 0);
-            item.vanity = true;
+            Item.width = 28;
+            Item.height = 20;
+            Item.rare = ModContent.RarityType<DarkBlue>();
+            Item.value = Item.buyPrice(0, 75, 0, 0);
+            Item.vanity = true;
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)

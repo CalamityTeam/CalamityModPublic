@@ -1,53 +1,79 @@
+﻿using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System.IO;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.AquaticScourge
 {
-	public class AquaticScourgeBodyAlt : ModNPC
+    public class AquaticScourgeBodyAlt : ModNPC
     {
         public override void SetStaticDefaults()
         {
+            this.HideFromBestiary();
             DisplayName.SetDefault("Aquatic Scourge");
         }
 
         public override void SetDefaults()
         {
-            npc.damage = 55;
-            npc.width = 32;
-            npc.height = 32;
-            npc.defense = 15;
-			npc.DR_NERD(0.05f);
-            npc.aiStyle = -1;
-            aiType = -1;
-            npc.knockBackResist = 0f;
-            npc.alpha = 255;
-            npc.LifeMaxNERB(73000, 85000, 10000000);
+            NPC.GetNPCDamage();
+            NPC.width = 32;
+            NPC.height = 32;
+            NPC.defense = 15;
+            NPC.DR_NERD(0.1f);
+            NPC.aiStyle = -1;
+            AIType = -1;
+            NPC.knockBackResist = 0f;
+            NPC.alpha = 255;
+            NPC.LifeMaxNERB(77000, 92000, 1000000);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
-            npc.lifeMax += (int)(npc.lifeMax * HPBoost);
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
-            npc.behindTiles = true;
-            npc.noGravity = true;
-            npc.noTileCollide = true;
-            npc.HitSound = SoundID.NPCHit1;
-            npc.DeathSound = SoundID.NPCDeath1;
-            npc.netAlways = true;
-            npc.dontCountMe = true;
-            npc.chaseable = false;
-            npc.canGhostHeal = false;
+            NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
+            NPC.behindTiles = true;
+            NPC.noGravity = true;
+            NPC.noTileCollide = true;
+            NPC.HitSound = SoundID.NPCHit1;
+            NPC.DeathSound = SoundID.NPCDeath1;
+            NPC.netAlways = true;
+            NPC.dontCountMe = true;
+            NPC.chaseable = false;
+            NPC.canGhostHeal = false;
 
-			if (CalamityWorld.death || CalamityWorld.bossRushActive)
-				npc.scale = 1.2f;
-			else if (CalamityWorld.revenge)
-				npc.scale = 1.15f;
-			else if (Main.expertMode)
-				npc.scale = 1.1f;
-		}
+            if (BossRushEvent.BossRushActive)
+                NPC.scale *= 1.25f;
+            else if (CalamityWorld.death)
+                NPC.scale *= 1.2f;
+            else if (CalamityWorld.revenge)
+                NPC.scale *= 1.15f;
+            else if (Main.expertMode)
+                NPC.scale *= 1.1f;
+
+            if (Main.getGoodWorld)
+                NPC.scale *= 1.25f;
+
+            NPC.Calamity().VulnerableToHeat = false;
+            NPC.Calamity().VulnerableToSickness = false;
+            NPC.Calamity().VulnerableToElectricity = true;
+            NPC.Calamity().VulnerableToWater = false;
+        }
+
+        public override void SendExtraAI(BinaryWriter writer)
+        {
+            writer.Write(NPC.chaseable);
+            for (int i = 0; i < 4; i++)
+                writer.Write(NPC.Calamity().newAI[i]);
+        }
+
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            NPC.chaseable = reader.ReadBoolean();
+            for (int i = 0; i < 4; i++)
+                NPC.Calamity().newAI[i] = reader.ReadSingle();
+        }
 
         public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
         {
@@ -56,14 +82,41 @@ namespace CalamityMod.NPCs.AquaticScourge
 
         public override void AI()
         {
-			CalamityAI.AquaticScourgeAI(npc, mod, false);
-		}
+            CalamityAI.AquaticScourgeAI(NPC, Mod, false);
+        }
+
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
+        {
+            SpriteEffects spriteEffects = SpriteEffects.None;
+            if (NPC.spriteDirection == 1)
+                spriteEffects = SpriteEffects.FlipHorizontally;
+
+            Texture2D texture2D15 = TextureAssets.Npc[NPC.type].Value;
+            Vector2 vector11 = new Vector2(TextureAssets.Npc[NPC.type].Value.Width / 2, TextureAssets.Npc[NPC.type].Value.Height / 2);
+
+            Vector2 vector43 = NPC.Center - screenPos;
+            vector43 -= new Vector2(texture2D15.Width, texture2D15.Height) * NPC.scale / 2f;
+            vector43 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY);
+            Color color = NPC.GetAlpha(drawColor);
+
+            if (CalamityWorld.revenge || BossRushEvent.BossRushActive)
+            {
+                if (Main.npc[(int)NPC.ai[2]].Calamity().newAI[3] > 300f)
+                    color = Color.Lerp(color, Color.SandyBrown, MathHelper.Clamp((Main.npc[(int)NPC.ai[2]].Calamity().newAI[3] - 300f) / 180f, 0f, 1f));
+                else if (Main.npc[(int)NPC.ai[2]].localAI[3] > 0f)
+                    color = Color.Lerp(color, Color.SandyBrown, MathHelper.Clamp(Main.npc[(int)NPC.ai[2]].localAI[3] / 90f, 0f, 1f));
+            }
+
+            spriteBatch.Draw(texture2D15, vector43, NPC.frame, color, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
+
+            return false;
+        }
 
         public override bool? CanBeHitByProjectile(Projectile projectile)
         {
             if (projectile.minion)
             {
-                return npc.Calamity().newAI[0] == 1f;
+                return NPC.Calamity().newAI[0] == 1f;
             }
             return null;
         }
@@ -73,39 +126,37 @@ namespace CalamityMod.NPCs.AquaticScourge
             return false;
         }
 
-        public override bool PreNPCLoot()
-        {
-            return false;
-        }
-
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
-            npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
-            npc.damage = (int)(npc.damage * 0.85f);
+            NPC.lifeMax = (int)(NPC.lifeMax * 0.8f * bossLifeScale);
+            NPC.damage = (int)(NPC.damage * NPC.GetExpertDamageMultiplier());
         }
 
         public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < 3; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
             }
-            if (npc.life <= 0)
+            if (NPC.life <= 0)
             {
                 for (int k = 0; k < 10; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
                 }
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AquaticScourgeGores/ASBodyAlt"), 1f);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AquaticScourgeGores/ASBodyAlt2"), 1f);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AquaticScourgeGores/ASBodyAlt3"), 1f);
+                if (Main.netMode != NetmodeID.Server)
+                {
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("ASBodyAlt").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("ASBodyAlt2").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("ASBodyAlt3").Type, NPC.scale);
+                }
             }
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(BuffID.Bleeding, 180, true);
-            player.AddBuff(BuffID.Venom, 180, true);
+            if (damage > 0)
+                player.AddBuff(ModContent.BuffType<Irradiated>(), 300, true);
         }
     }
 }

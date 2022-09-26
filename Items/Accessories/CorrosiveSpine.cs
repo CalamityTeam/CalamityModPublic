@@ -1,7 +1,8 @@
-using CalamityMod.Projectiles.Rogue;
+﻿using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -9,52 +10,45 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Corrosive Spine");
-            Tooltip.SetDefault("10% increased movement speed\n" +
+            Tooltip.SetDefault("5% increased movement speed\n" +
                                "All rogue weapons inflict venom and spawn clouds on enemy hits\n" +
                                "You release a ton of clouds everywhere on hit");
         }
 
         public override void SetDefaults()
         {
-            item.width = 18;
-            item.height = 46;
-            item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = 5;
-            item.defense = 4;
-            item.accessory = true;
+            Item.width = 18;
+            Item.height = 46;
+            Item.value = CalamityGlobalItem.Rarity5BuyPrice;
+            Item.rare = ItemRarityID.Pink;
+            Item.defense = 4;
+            Item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-			player.moveSpeed += 0.1f;
+            player.moveSpeed += 0.05f;
             player.Calamity().corrosiveSpine = true;
             if (player.immune)
             {
                 if (Main.rand.NextBool(15))
                 {
-                    for (int i = 0; i < Main.rand.Next(3,7); i++)
+                    var source = player.GetSource_Accessory(Item);
+                    int cloudCount = Main.rand.Next(2,5);
+                    for (int i = 0; i < cloudCount; i++)
                     {
-                        int type = -1;
-                        switch (Main.rand.Next(3))
+                        int type = Utils.SelectRandom(Main.rand, new int[]
                         {
-                            case 0:
-                                type = ModContent.ProjectileType<Corrocloud1>();
-                                break;
-                            case 1:
-                                type = ModContent.ProjectileType<Corrocloud2>();
-                                break;
-                            case 2:
-                                type = ModContent.ProjectileType<Corrocloud3>();
-                                break;
-                        }
-                        // Should never happen, but just in case-
-                        if (type != -1)
-                        {
-                            float speed = Main.rand.NextFloat(3f, 11f);
-                            Projectile.NewProjectile(player.Center, Vector2.One.RotatedByRandom(MathHelper.TwoPi) * speed,
-                                type, (int)(100 * player.RogueDamage()), 0f, player.whoAmI);
-                        }
+                            ModContent.ProjectileType<Corrocloud1>(),
+                            ModContent.ProjectileType<Corrocloud2>(),
+                            ModContent.ProjectileType<Corrocloud3>()
+                        });
+                        float speed = Main.rand.NextFloat(3f, 11f);
+                        int damage = (int)player.GetTotalDamage<RogueDamageClass>().ApplyTo(100);
+                        Projectile.NewProjectile(source, player.Center, Vector2.One.RotatedByRandom(MathHelper.TwoPi) * speed,
+                            type, damage, 0f, player.whoAmI);
                     }
                 }
             }

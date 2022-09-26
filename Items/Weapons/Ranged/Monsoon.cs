@@ -1,8 +1,10 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Projectiles.Ranged;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -14,66 +16,73 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             DisplayName.SetDefault("Monsoon");
             Tooltip.SetDefault("Fires a spread of 5 arrows\n" +
-                "Wooden arrows have a chance to be converted to typhoon arrows or sharks");
+                "Wooden arrows are converted into typhoon arrows and sharks");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 142;
-            item.ranged = true;
-            item.width = 46;
-            item.height = 78;
-            item.useTime = 12;
-            item.useAnimation = 12;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 2.5f;
-            item.value = Item.buyPrice(1, 40, 0, 0);
-            item.Calamity().customRarity = (CalamityRarity)13;
-            item.UseSound = SoundID.Item5;
-            item.autoReuse = true;
-            item.shoot = ProjectileID.WoodenArrowFriendly;
-            item.shootSpeed = 15f;
-            item.useAmmo = 40;
+            Item.damage = 121;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 46;
+            Item.height = 78;
+            Item.useTime = 20;
+            Item.useAnimation = 20;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 2.5f;
+            Item.value = CalamityGlobalItem.Rarity13BuyPrice;
+            Item.rare = ModContent.RarityType<PureGreen>();
+            Item.UseSound = SoundID.Item5;
+            Item.autoReuse = true;
+            Item.shoot = ProjectileID.WoodenArrowFriendly;
+            Item.shootSpeed = 12f;
+            Item.useAmmo = AmmoID.Arrow;
+            Item.Calamity().canFirePointBlankShots = true;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo spawnSource, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
-            float num117 = 0.314159274f;
-            int num118 = 5;
-            Vector2 vector7 = new Vector2(speedX, speedY);
-            vector7.Normalize();
-            vector7 *= 40f;
-            bool flag11 = Collision.CanHit(vector2, 0, 0, vector2 + vector7, 0, 0);
-            for (int num119 = 0; num119 < num118; num119++)
+            Vector2 source = player.RotatedRelativePoint(player.MountedCenter);
+            float piOver10 = MathHelper.Pi * 0.1f;
+            int totalProjectiles = 5;
+
+            velocity.Normalize();
+            velocity *= 40f;
+            bool canHit = Collision.CanHit(source, 0, 0, source + velocity, 0, 0);
+            for (int p = 0; p < totalProjectiles; p++)
             {
-                float num120 = (float)num119 - ((float)num118 - 1f) / 2f;
-                Vector2 value9 = vector7.RotatedBy((double)(num117 * num120), default);
-                if (!flag11)
+                float offsetAmt = p - (totalProjectiles - 1f) / 2f;
+                Vector2 offset = velocity.RotatedBy(piOver10 * offsetAmt);
+                if (!canHit)
+                    offset -= velocity;
+
+                if (CalamityUtils.CheckWoodenAmmo(type, player))
                 {
-                    value9 -= vector7;
-                }
-                if (type == ProjectileID.WoodenArrowFriendly)
-                {
-                    if (Main.rand.NextBool(5))
+                    int newType = type;
+                    switch (p)
                     {
-                        type = ProjectileID.MiniSharkron;
+                        case 0:
+                        case 1:
+                        case 3:
+                        case 4:
+                            newType = ModContent.ProjectileType<MiniSharkron>();
+                            break;
+                        case 2:
+                            newType = ModContent.ProjectileType<TyphoonArrow>();
+                            break;
                     }
-                    if (Main.rand.NextBool(15))
+                    int proj = Projectile.NewProjectile(spawnSource, source.X + offset.X, source.Y + offset.Y, velocity.X, velocity.Y, newType, (int)(damage * 1.1), knockback, player.whoAmI);
+                    if (proj.WithinBounds(Main.maxProjectiles))
                     {
-                        type = ModContent.ProjectileType<TyphoonArrow>();
+                        Main.projectile[proj].arrow = true;
+                        Main.projectile[proj].extraUpdates += 1;
                     }
-                    int num121 = Projectile.NewProjectile(vector2.X + value9.X, vector2.Y + value9.Y, speedX, speedY, type, (int)(damage * 1.1f), knockBack, player.whoAmI, 0f, 0f);
-                    Main.projectile[num121].Calamity().forceRanged = true;
-                    Main.projectile[num121].noDropItem = true;
-                    Main.projectile[num121].arrow = true;
-                    Main.projectile[num121].extraUpdates += 1;
                 }
                 else
                 {
-                    int num121 = Projectile.NewProjectile(vector2.X + value9.X, vector2.Y + value9.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
-                    Main.projectile[num121].noDropItem = true;
+                    int proj = Projectile.NewProjectile(spawnSource, source.X + offset.X, source.Y + offset.Y, velocity.X, velocity.Y, type, damage, knockback, player.whoAmI);
+                    Main.projectile[proj].noDropItem = true;
                 }
             }
             return false;
@@ -81,17 +90,16 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<ReaperTooth>(), 6);
-            recipe.AddIngredient(ItemID.Tsunami);
-            recipe.AddIngredient(ModContent.ItemType<FlarewingBow>());
-            recipe.AddIngredient(ItemID.SharkFin, 2);
-            recipe.AddIngredient(ModContent.ItemType<DepthCells>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<Lumenite>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<Tenebris>(), 5);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient(ItemID.Tsunami).
+                AddIngredient<FlarewingBow>().
+                AddIngredient<ReaperTooth>(6).
+                AddIngredient(ItemID.SharkFin, 2).
+                AddIngredient<DepthCells>(10).
+                AddIngredient<Lumenyl>(10).
+                AddIngredient<Tenebris>(5).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

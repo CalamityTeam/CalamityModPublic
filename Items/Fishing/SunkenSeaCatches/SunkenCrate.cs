@@ -1,93 +1,81 @@
+﻿using CalamityMod.Items.Critters;
 using CalamityMod.Items.Materials;
-using CalamityMod.Items.Critters;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Summon;
-using CalamityMod.Tiles.SunkenSea;
-using CalamityMod.World;
 using Terraria;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Fishing.SunkenSeaCatches
 {
-	public class SunkenCrate : ModItem
+    public class SunkenCrate : ModItem
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 5;
+            ItemID.Sets.IsFishingCrate[Type] = true;
             DisplayName.SetDefault("Sunken Crate");
             Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
         }
 
         public override void SetDefaults()
         {
-            item.maxStack = 999;
-            item.consumable = true;
-            item.width = 32;
-            item.height = 32;
-            item.rare = 2;
-            item.value = Item.sellPrice(gold: 1);
-            item.createTile = ModContent.TileType<SunkenCrateTile>();
-            item.useTurn = true;
-            item.autoReuse = true;
-            item.useAnimation = 15;
-            item.useTime = 10;
-            item.useStyle = ItemUseStyleID.SwingThrow;
+            Item.maxStack = 999;
+            Item.consumable = true;
+            Item.width = 32;
+            Item.height = 32;
+            Item.rare = ItemRarityID.Green;
+            Item.value = Item.sellPrice(gold: 1);
+            Item.createTile = ModContent.TileType<Tiles.SunkenSea.SunkenCrateTile>();
+            Item.useTurn = true;
+            Item.autoReuse = true;
+            Item.useAnimation = 15;
+            Item.useTime = 10;
+            Item.useStyle = ItemUseStyleID.Swing;
         }
 
-        public override bool CanRightClick() => true;
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = ContentSamples.CreativeHelper.ItemGroup.Crates;
+		}
 
-        public override void RightClick(Player player)
+        public override bool CanRightClick() => true;
+        public override void ModifyItemLoot(ItemLoot itemLoot)
         {
-            //Modded materials
-			DropHelper.DropItem(player, ModContent.ItemType<Items.Placeables.Navystone>(), 10, 30);
-			DropHelper.DropItem(player, ModContent.ItemType<Items.Placeables.EutrophicSand>(), 10, 30);
-            if (CalamityWorld.downedDesertScourge)
-            {
-				DropHelper.DropItem(player, ModContent.ItemType<PrismShard>(), 10, 20);
-				DropHelper.DropItem(player, ModContent.ItemType<Items.Placeables.SeaPrism>(), 5, 10);
-            }
-            if (Main.hardMode)
-            {
-                DropHelper.DropItemChance(player, ModContent.ItemType<MolluskHusk>(), 0.5f, 5, 15);
-            }
+            var postDesertScourge = itemLoot.DefineConditionalDropSet(() => DownedBossSystem.downedDesertScourge);
+            var postHardmodeClam = itemLoot.DefineConditionalDropSet(() => DownedBossSystem.downedCLAMHardMode);
+
+            // Materials
+            itemLoot.Add(ModContent.ItemType<Navystone>(), 1, 10, 30);
+            itemLoot.Add(ModContent.ItemType<EutrophicSand>(), 1, 10, 30);
+            postDesertScourge.Add(ModContent.ItemType<PrismShard>(), 1, 5, 10);
+            postDesertScourge.Add(ModContent.ItemType<SeaPrism>(), 5, 2, 5);
+            postHardmodeClam.Add(ModContent.ItemType<MolluskHusk>(), new Fraction(12, 100), 2, 5);
 
             // Weapons
-            DropHelper.DropItemFromSetCondition(player, CalamityWorld.downedCLAMHardMode, 0.2f,
-                ModContent.ItemType<ShellfishStaff>(),
+            postHardmodeClam.Add(new OneFromOptionsNotScaledWithLuckDropRule(7, 100,
                 ModContent.ItemType<ClamCrusher>(),
+                ModContent.ItemType<ClamorRifle>(),
                 ModContent.ItemType<Poseidon>(),
-                ModContent.ItemType<ClamorRifle>());
+                ModContent.ItemType<ShellfishStaff>()
+            ));
 
-            //Bait
-            DropHelper.DropItemChance(player, ItemID.MasterBait, 10, 1, 2);
-            DropHelper.DropItemChance(player, ItemID.JourneymanBait, 5, 1, 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<SeaMinnowItem>(), 5, 1, 3);
-            DropHelper.DropItemChance(player, ItemID.ApprenticeBait, 3, 2, 3);
+            // Bait
+            itemLoot.Add(ItemID.MasterBait, 10, 1, 2);
+            itemLoot.Add(ItemID.JourneymanBait, 5, 1, 3);
+            itemLoot.Add(ModContent.ItemType<SeaMinnowItem>(), 5, 1, 3);
+            itemLoot.Add(ItemID.ApprenticeBait, 3, 2, 3);
 
-            //Potions
-            DropHelper.DropItemChance(player, ItemID.ObsidianSkinPotion, 10, 1, 3);
-            DropHelper.DropItemChance(player, ItemID.SwiftnessPotion, 10, 1, 3);
-            DropHelper.DropItemChance(player, ItemID.IronskinPotion, 10, 1, 3);
-            DropHelper.DropItemChance(player, ItemID.NightOwlPotion, 10, 1, 3);
-            DropHelper.DropItemChance(player, ItemID.ShinePotion, 10, 1, 3);
-            DropHelper.DropItemChance(player, ItemID.MiningPotion, 10, 1, 3);
-            DropHelper.DropItemChance(player, ItemID.HeartreachPotion, 10, 1, 3);
-            DropHelper.DropItemChance(player, ItemID.TrapsightPotion, 10, 1, 3); //Dangersense Potion
-            if (Main.hardMode)
-            {
-                DropHelper.DropItem(player, Main.rand.Next(100) >= 49 ? ItemID.GreaterHealingPotion: ItemID.GreaterManaPotion, 5, 10);
-            }
-            else
-            {
-                DropHelper.DropItem(player, Main.rand.Next(100) >= 49 ? ItemID.HealingPotion : ItemID.ManaPotion, 5, 10);
-            }
+            // Potions
+            itemLoot.AddCratePotionRules();
 
-            //Money
-            DropHelper.DropItem(player, ItemID.SilverCoin, 10, 90);
-            DropHelper.DropItemChance(player, ItemID.GoldCoin, 0.5f, 1, 5);
+            // Money
+            itemLoot.Add(ItemID.SilverCoin, 1, 10, 90);
+            itemLoot.Add(ItemID.GoldCoin, 2, 1, 5);
         }
     }
 }

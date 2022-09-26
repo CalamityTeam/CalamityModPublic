@@ -1,12 +1,14 @@
-using CalamityMod.Projectiles.Rogue;
+﻿using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
+using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-	public class DefectiveSphere : RogueWeapon
+    public class DefectiveSphere : RogueWeapon
     {
         public static int BaseDamage = 130;
         public static float Speed = 15f;
@@ -17,85 +19,85 @@ namespace CalamityMod.Items.Weapons.Rogue
             Tooltip.SetDefault(@"Fires a variety of deadly spheres with different effects
 Stacks up to 5
 Stealth strikes launch all 4 sphere types at once");
+            SacrificeTotal = 5;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
-            item.width = 42;
-            item.height = 44;
-            item.damage = BaseDamage;
-            item.knockBack = 5f;
-            item.useAnimation = 13;
-            item.useTime = 13;
-            item.autoReuse = true;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-			item.maxStack = 5;
+            Item.width = 42;
+            Item.height = 44;
+            Item.damage = BaseDamage;
+            Item.knockBack = 5f;
+            Item.useAnimation = 13;
+            Item.useTime = 13;
+            Item.autoReuse = true;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.maxStack = 5;
 
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.UseSound = SoundID.Item15; //phaseblade sound effect
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.UseSound = SoundID.Item15; //phaseblade sound effect
 
-            item.value = Item.buyPrice(0, 16, 0, 0);
-            item.rare = 8;
+            Item.value = CalamityGlobalItem.RarityYellowBuyPrice / 5; // Stacks up to 5
+            Item.rare = ItemRarityID.Yellow;
 
-            item.Calamity().rogue = true;
-            item.shoot = ProjectileType<SphereSpiked>();
-            item.shootSpeed = Speed;
+            Item.DamageType = RogueDamageClass.Instance;
+            Item.shoot = ProjectileType<SphereSpiked>();
+            Item.shootSpeed = Speed;
         }
 
         public override bool CanUseItem(Player player)
         {
-			int UseMax = item.stack;
-
-			if (player.Calamity().StealthStrikeAvailable())
-			{
-				return true;
-			}
-			else if ((player.ownedProjectileCounts[item.shoot] + player.ownedProjectileCounts[ProjectileType<SphereBladed>()] + player.ownedProjectileCounts[ProjectileType<SphereYellow>()] + player.ownedProjectileCounts[ProjectileType<SphereBlue>()]) >= UseMax)
-			{
-				return false;
-			}
-			else
-			{
-				return true;
-			}
-        }
-
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-        {
-			int sphereType = Utils.SelectRandom(Main.rand, new int[]
-			{
-				type,
-				ProjectileType<SphereBladed>(),
-				ProjectileType<SphereYellow>(),
-				ProjectileType<SphereBlue>()
-			});
-
-			//Kinda ugly but idk how to make it cleaner
-			float SpeedX = speedX + Main.rand.NextFloat(-30, 30) * 0.05f;
-			float SpeedY = speedY + Main.rand.NextFloat(-30, 30) * 0.05f;
-			float SpeedX2 = speedX + Main.rand.NextFloat(-30, 30) * 0.05f;
-			float SpeedY2 = speedY + Main.rand.NextFloat(-30, 30) * 0.05f;
-			float SpeedX3 = speedX + Main.rand.NextFloat(-30, 30) * 0.05f;
-			float SpeedY3 = speedY + Main.rand.NextFloat(-30, 30) * 0.05f;
-			float SpeedX4 = speedX + Main.rand.NextFloat(-30, 30) * 0.05f;
-			float SpeedY4 = speedY + Main.rand.NextFloat(-30, 30) * 0.05f;
+            int UseMax = Item.stack;
 
             if (player.Calamity().StealthStrikeAvailable())
-			{
-				int stealth = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage / 2, knockBack, player.whoAmI, 0f, 0f);
-				int stealth2 = Projectile.NewProjectile(position.X, position.Y, SpeedX2, SpeedY2, ProjectileType<SphereBladed>(), damage / 2, knockBack, player.whoAmI, 0f, 0f);
-				int stealth3 = Projectile.NewProjectile(position.X, position.Y, SpeedX3, SpeedY3, ProjectileType<SphereYellow>(), damage / 2, knockBack, player.whoAmI, 0f, 0f);
-				int stealth4 = Projectile.NewProjectile(position.X, position.Y, SpeedX4, SpeedY4, ProjectileType<SphereBlue>(), damage / 2, knockBack, player.whoAmI, 0f, 0f);
-				Main.projectile[stealth].Calamity().stealthStrike = true;
-				Main.projectile[stealth2].Calamity().stealthStrike = true;
-				Main.projectile[stealth3].Calamity().stealthStrike = true;
-				Main.projectile[stealth4].Calamity().stealthStrike = true;
-			}
-			else
-			{
-				Projectile.NewProjectile(position, new Vector2(speedX, speedY), sphereType, damage, knockBack, player.whoAmI, 0f, 0f);
-			}
+            {
+                return true;
+            }
+            else if ((player.ownedProjectileCounts[Item.shoot] + player.ownedProjectileCounts[ProjectileType<SphereBladed>()] + player.ownedProjectileCounts[ProjectileType<SphereYellow>()] + player.ownedProjectileCounts[ProjectileType<SphereBlue>()]) >= UseMax)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        {
+            int sphereType = Utils.SelectRandom(Main.rand, new int[]
+            {
+                type,
+                ProjectileType<SphereBladed>(),
+                ProjectileType<SphereYellow>(),
+                ProjectileType<SphereBlue>()
+            });
+
+            if (player.Calamity().StealthStrikeAvailable())
+            {
+                // This is done to allow looping when creating projectiles, instead of having to create many projectile/velocity variables all at once,
+                // which this shoot code used to do.
+                int[] projectilesToShoot = new int[]
+                {
+                    type,
+                    ProjectileType<SphereBladed>(),
+                    ProjectileType<SphereYellow>(),
+                    ProjectileType<SphereBlue>()
+                };
+
+                foreach (int projectileType in projectilesToShoot)
+                {
+                    Vector2 shootVelocity = velocity + Main.rand.NextVector2Square(-1.5f, 1.5f);
+                    int stealth = Projectile.NewProjectile(source, position, shootVelocity, projectileType, (int)(damage * 0.625f), knockback, player.whoAmI);
+                    if (stealth.WithinBounds(Main.maxProjectiles))
+                        Main.projectile[stealth].Calamity().stealthStrike = true;
+                }
+            }
+            else
+            {
+                Projectile.NewProjectile(source, position, velocity, sphereType, damage, knockback, player.whoAmI, 0f, 0f);
+            }
             return false;
         }
     }

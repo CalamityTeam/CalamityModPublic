@@ -1,21 +1,13 @@
-using CalamityMod.CalPlayer;
-using Microsoft.Xna.Framework;
-using Terraria;
+﻿using Microsoft.Xna.Framework;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Waters
 {
     public class AstralWater : ModWaterStyle
     {
-        public override bool ChooseWaterStyle()
-        {
-			CalamityPlayer modPlayer = Main.LocalPlayer.Calamity();
-            return modPlayer.ZoneAstral;
-        }
-
         public override int ChooseWaterfallStyle()
         {
-            return mod.GetWaterfallStyleSlot("AstralWaterflow");
+            return ModContent.Find<ModWaterfallStyle>("CalamityMod/AstralWaterflow").Slot;
         }
 
         public override int GetSplashDust()
@@ -25,7 +17,7 @@ namespace CalamityMod.Waters
 
         public override int GetDropletGore()
         {
-            return mod.GetGoreSlot("Gores/AstralWaterDroplet");
+            return ModContent.Find<ModGore>("CalamityMod/AstralWaterDroplet").Type;
         }
 
         public override Color BiomeHairColor()

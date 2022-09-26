@@ -1,8 +1,10 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Summon;
+using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -15,30 +17,30 @@ namespace CalamityMod.Items.Weapons.Summon
             DisplayName.SetDefault("Endo Hydra Staff");
             Tooltip.SetDefault("Summons a frigid entity with a head\n" +
                                "If the entity already exists, using this item again will cause it to gain more heads");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.width = 58;
-            item.height = 60;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.noMelee = true;
-            item.UseSound = SoundID.Item60;
-            item.summon = true;
-            item.mana = 25;
-            item.damage = 450;
-            item.knockBack = 3f;
-            item.autoReuse = true;
-            item.useTime = item.useAnimation = 10;
-            item.shoot = ModContent.ProjectileType<EndoHydraBody>();
-            item.shootSpeed = 10f;
+            Item.width = 58;
+            Item.height = 60;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.noMelee = true;
+            Item.UseSound = SoundID.Item60;
+            Item.DamageType = DamageClass.Summon;
+            Item.mana = 10;
+            Item.damage = 225;
+            Item.knockBack = 3f;
+            Item.autoReuse = true;
+            Item.useTime = Item.useAnimation = 10;
+            Item.shoot = ModContent.ProjectileType<EndoHydraBody>();
+            Item.shootSpeed = 10f;
 
-            item.value = Item.buyPrice(2, 50, 0, 0);
-            item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.value = CalamityGlobalItem.RarityDarkBlueBuyPrice;
+            Item.rare = ModContent.RarityType<DarkBlue>();
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.altFunctionUse != 2)
             {
@@ -55,12 +57,18 @@ namespace CalamityMod.Items.Weapons.Summon
                 }
                 if (bodyExists)
                 {
-                    Projectile head = Projectile.NewProjectileDirect(player.Center, Vector2.One.RotatedByRandom(MathHelper.TwoPi), ModContent.ProjectileType<EndoHydraHead>(), damage, knockBack, player.whoAmI, bodyIndex);
+                    int p = Projectile.NewProjectile(source, player.Center, Main.rand.NextVector2Unit(), ModContent.ProjectileType<EndoHydraHead>(), damage, knockback, player.whoAmI, bodyIndex);
+                    if (Main.projectile.IndexInRange(p))
+                        Main.projectile[p].originalDamage = Item.damage;
                 }
                 else
                 {
-                    bodyIndex = Projectile.NewProjectile(player.Center, Vector2.Zero, type, damage, knockBack, player.whoAmI);
-                    Projectile.NewProjectile(player.Center, Vector2.One.RotatedByRandom(MathHelper.TwoPi), ModContent.ProjectileType<EndoHydraHead>(), damage, knockBack, player.whoAmI, bodyIndex);
+                    bodyIndex = Projectile.NewProjectile(source, player.Center, Vector2.Zero, type, damage, knockback, player.whoAmI);
+                    int head = Projectile.NewProjectile(source, player.Center, Main.rand.NextVector2Unit(), ModContent.ProjectileType<EndoHydraHead>(), damage, knockback, player.whoAmI, bodyIndex);
+                    if (Main.projectile.IndexInRange(bodyIndex))
+                        Main.projectile[bodyIndex].originalDamage = Item.damage;
+                    if (Main.projectile.IndexInRange(head))
+                        Main.projectile[head].originalDamage = Item.damage;
                     for (int i = 0; i < 72; i++)
                     {
                         Dust dust = Dust.NewDustPerfect(Main.projectile[bodyIndex].Center, 113);
@@ -76,13 +84,12 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.StaffoftheFrostHydra);
-            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 15);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient(ItemID.StaffoftheFrostHydra).
+                AddIngredient<CosmiliteBar>(8).
+                AddIngredient<EndothermicEnergy>(20).
+                AddTile<CosmicAnvil>().
+                Register();
         }
     }
 }

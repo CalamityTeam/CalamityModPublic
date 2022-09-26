@@ -7,6 +7,8 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class NullShot : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Null");
@@ -14,25 +16,26 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetDefaults()
         {
-            projectile.width = 6;
-            projectile.height = 6;
-            projectile.friendly = true;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 120;
-            projectile.ranged = true;
+            Projectile.width = 6;
+            Projectile.height = 6;
+            Projectile.friendly = true;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = 120;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.DefaultPointBlankDuration;
         }
 
         public override void AI()
         {
-            projectile.localAI[0] += 1f;
-            if (projectile.localAI[0] > 3f)
+            Projectile.localAI[0] += 1f;
+            if (Projectile.localAI[0] > 3f)
             {
                 for (int num134 = 0; num134 < 10; num134++)
                 {
-                    float x = projectile.position.X - projectile.velocity.X / 10f * (float)num134;
-                    float y = projectile.position.Y - projectile.velocity.Y / 10f * (float)num134;
+                    float x = Projectile.position.X - Projectile.velocity.X / 10f * (float)num134;
+                    float y = Projectile.position.Y - Projectile.velocity.Y / 10f * (float)num134;
                     int num135 = Dust.NewDust(new Vector2(x, y), 1, 1, 160, 0f, 0f, 0, default, 2f);
-                    Main.dust[num135].alpha = projectile.alpha;
+                    Main.dust[num135].alpha = Projectile.alpha;
                     Main.dust[num135].position.X = x;
                     Main.dust[num135].position.Y = y;
                     Main.dust[num135].velocity *= 0f;
@@ -60,11 +63,11 @@ namespace CalamityMod.Projectiles.Ranged
                 }
                 else if (nullBuff == 2)
                 {
-                    target.damage += 100;
+                    target.damage += 10;
                 }
                 else if (nullBuff == 3)
                 {
-                    target.damage -= 100;
+                    target.damage -= 10;
                 }
                 else if (nullBuff == 4)
                 {
@@ -76,11 +79,11 @@ namespace CalamityMod.Projectiles.Ranged
                 }
                 else if (nullBuff == 6)
                 {
-                    target.defense += 10;
+                    target.defense += 5;
                 }
                 else
                 {
-                    target.defense -= 10;
+                    target.defense -= 5;
                 }
             }
         }

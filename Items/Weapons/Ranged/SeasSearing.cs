@@ -1,3 +1,4 @@
+﻿using Terraria.DataStructures;
 using CalamityMod.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -8,36 +9,36 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class SeasSearing : ModItem
     {
-        public static int BaseDamage = 60;
+        public static int BaseDamage = 40;
 
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Sea's Searing");
-            Tooltip.SetDefault("Legendary Drop\n" +
-                "Fires a string of bubbles summoning a shower of bubbles on hit\n" +
-                "Right click to fire a slower, larger water blast that summons a water spout\n" +
-                "Revengeance drop");
+            Tooltip.SetDefault("Fires a string of bubbles summoning a shower of bubbles on hit\n" +
+                "Right click to fire a slower, larger water blast that summons a water spout");
+            SacrificeTotal = 1;
+            ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.damage = BaseDamage;
-            item.ranged = true;
-            item.width = 88;
-            item.height = 44;
-            item.useTime = 5;
-            item.useAnimation = 15;
-            item.reuseDelay = 20;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 5f;
-            item.rare = 5;
-            item.value = Item.buyPrice(0, 36, 0, 0);
-            item.Calamity().customRarity = CalamityRarity.ItemSpecific;
-            item.UseSound = SoundID.Item11;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<SeasSearingBubble>();
-            item.shootSpeed = 11f;
+            Item.damage = BaseDamage;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 88;
+            Item.height = 44;
+            Item.useTime = 5;
+            Item.useAnimation = 15;
+            Item.reuseDelay = 20;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 5f;
+            Item.UseSound = SoundID.Item11;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<SeasSearingBubble>();
+            Item.shootSpeed = 11f;
+
+            Item.value = CalamityGlobalItem.Rarity5BuyPrice;
+            Item.rare = ItemRarityID.Pink;
         }
 
         public override Vector2? HoldoutOffset()
@@ -54,30 +55,30 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             if (player.altFunctionUse == 2)
             {
-                item.useTime = 30;
-                item.useAnimation = 30;
-				item.reuseDelay = 0;
+                Item.useTime = 30;
+                Item.useAnimation = 30;
+                Item.reuseDelay = 0;
             }
             else
             {
-                item.useTime = 5;
-                item.useAnimation = 15;
-				item.reuseDelay = 20;
+                Item.useTime = 5;
+                Item.useAnimation = 15;
+                Item.reuseDelay = 20;
             }
             return base.CanUseItem(player);
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.altFunctionUse == 2)
             {
-				Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<SeasSearingSecondary>(), (int)(damage * 1.22f), knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<SeasSearingSecondary>(), (int)(damage * 1.22f), knockback, player.whoAmI, 0f, 0f);
             }
             else
             {
-				Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<SeasSearingBubble>(), damage, knockBack, player.whoAmI, 1f, 0f);
+                Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<SeasSearingBubble>(), damage, knockback, player.whoAmI, 1f, 0f);
             }
-			return false;
+            return false;
         }
     }
 }

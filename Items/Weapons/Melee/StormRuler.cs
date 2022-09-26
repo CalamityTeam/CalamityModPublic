@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -15,37 +15,26 @@ namespace CalamityMod.Items.Weapons.Melee
             Tooltip.SetDefault("Only a storm can fell a greatwood\n" +
                 "Fires beams that generate tornadoes on death\n" +
                 "Tornadoes suck enemies in");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.width = 74;
-            item.damage = 80;
-            item.melee = true;
-            item.useAnimation = 25;
-            item.useTime = 25;
-            item.useTurn = true;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 6.25f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 82;
-            item.value = Item.buyPrice(0, 95, 0, 0);
-            item.rare = 9;
-            item.shoot = ModContent.ProjectileType<StormRulerProj>();
-            item.shootSpeed = 20f;
-        }
-
-        public override void AddRecipes()
-        {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<CoreofCinder>(), 3);
-            recipe.AddIngredient(ModContent.ItemType<WindBlade>());
-            recipe.AddIngredient(ModContent.ItemType<StormSaber>());
-            recipe.AddIngredient(ItemID.FragmentSolar, 10);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            Item.width = 80;
+            Item.damage = 80;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = 25;
+            Item.useTime = 25;
+            Item.useTurn = true;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = 6.25f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.height = 84;
+            Item.value = CalamityGlobalItem.Rarity10BuyPrice;
+            Item.rare = ItemRarityID.Red;
+            Item.shoot = ModContent.ProjectileType<StormRulerProj>();
+            Item.shootSpeed = 20f;
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)
@@ -55,6 +44,17 @@ namespace CalamityMod.Items.Weapons.Melee
                 int num250 = Dust.NewDust(new Vector2((float)hitbox.X, (float)hitbox.Y), hitbox.Width, hitbox.Height, 187, (float)(player.direction * 2), 0f, 150, default, 1.3f);
                 Main.dust[num250].velocity *= 0.2f;
             }
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient<StormSaber>().
+                AddIngredient<WindBlade>().
+                AddIngredient<CoreofSunlight>(3).
+                AddIngredient(ItemID.FragmentSolar, 10).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

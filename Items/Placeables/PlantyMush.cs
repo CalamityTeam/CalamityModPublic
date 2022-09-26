@@ -1,4 +1,4 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -8,28 +8,29 @@ namespace CalamityMod.Items.Placeables
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 100;
             DisplayName.SetDefault("Planty Mush");
         }
 
         public override void SetDefaults()
         {
-            item.createTile = ModContent.TileType<Tiles.Abyss.PlantyMush>();
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTurn = true;
-            item.useAnimation = 15;
-            item.useTime = 10;
-            item.autoReuse = true;
-            item.consumable = true;
-            item.width = 13;
-            item.height = 10;
-            item.maxStack = 999;
-            item.value = Item.sellPrice(silver: 6);
-            item.rare = 3;
+            Item.createTile = ModContent.TileType<Tiles.Abyss.PlantyMush>();
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTurn = true;
+            Item.useAnimation = 15;
+            Item.useTime = 10;
+            Item.autoReuse = true;
+            Item.consumable = true;
+            Item.width = 13;
+            Item.height = 10;
+            Item.maxStack = 999;
+            Item.value = Item.sellPrice(silver: 6);
+            Item.rare = ItemRarityID.Orange;
         }
 
-		public override void CaughtFishStack(ref int stack)
-		{
-			stack = Main.rand.Next(5,16);
-		}
+        public override void CaughtFishStack(ref int stack)
+        {
+            stack = Main.rand.Next(5,16);
+        }
     }
 }

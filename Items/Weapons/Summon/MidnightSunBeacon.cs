@@ -1,8 +1,10 @@
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Summon;
-using CalamityMod.Items.Materials;
+using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -10,47 +12,49 @@ namespace CalamityMod.Items.Weapons.Summon
 {
     public class MidnightSunBeacon : ModItem
     {
+        public const float MachineGunRate = 18f;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Midnight Sun Beacon");
             Tooltip.SetDefault("Summons a UFO to vaporize enemies");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 240;
-            item.mana = 12;
-            item.width = item.height = 32;
-            item.useTime = item.useAnimation = 10;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.knockBack = 1f;
-            item.UseSound = SoundID.Item90;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<MidnightSunBeaconProj>();
-            item.shootSpeed = 10f;
-            item.summon = true;
+            Item.damage = 150;
+            Item.mana = 10;
+            Item.width = Item.height = 32;
+            Item.useTime = Item.useAnimation = 10;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.knockBack = 1f;
+            Item.UseSound = SoundID.Item90;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<MidnightSunBeaconProj>();
+            Item.shootSpeed = 10f;
+            Item.DamageType = DamageClass.Summon;
 
-            item.value = Item.buyPrice(2, 50, 0, 0);
-            item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.value = CalamityGlobalItem.Rarity15BuyPrice;
+            Item.rare = ModContent.RarityType<Violet>();
         }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, 0f, 0f);
+            int p = Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
+            if (Main.projectile.IndexInRange(p))
+                Main.projectile[p].originalDamage = Item.damage;
             return false;
         }
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.XenoStaff);
-            recipe.AddIngredient(ItemID.MoonlordTurretStaff);
-            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 25);
-            recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 25);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient(ItemID.XenoStaff).
+                AddIngredient(ItemID.MoonlordTurretStaff).
+                AddIngredient<AuricBar>(5).
+                AddTile<CosmicAnvil>().
+                Register();
         }
     }
 }

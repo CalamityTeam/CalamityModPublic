@@ -1,11 +1,11 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.Projectiles.Magic;
+using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -18,52 +18,49 @@ namespace CalamityMod.Items.Weapons.Magic
             DisplayName.SetDefault("Apotheosis");
             Tooltip.SetDefault("Eat worms\n" +
                 "Unleashes interdimensional projection magic");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 420;
-            item.magic = true;
-            item.mana = (int)42.0;
-            item.width = 30;
-            item.height = 34;
-            item.useTime = 15;
-            item.useAnimation = 15;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.useTurn = false;
-            item.noMelee = true;
-            item.knockBack = 6.9f;
-            item.value = Item.buyPrice(5, 0, 0, 0);
-            item.rare = 10;
-            item.UseSound = SoundID.Item92;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<ApothMark>();
-            item.shootSpeed = 15.69f;
-            item.Calamity().customRarity = CalamityRarity.Developer;
+            Item.damage = 230;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 42;
+            Item.width = 30;
+            Item.height = 34;
+            Item.useTime = Item.useAnimation = 177;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.useTurn = false;
+            Item.noMelee = true;
+            Item.knockBack = 6.9f;
+
+            Item.value = CalamityGlobalItem.Rarity16BuyPrice;
+            Item.rare = ModContent.RarityType<HotPink>();
+            Item.Calamity().devItem = true;
+
+            Item.UseSound = SoundID.Item92;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<ApotheosisWorm>();
+            Item.shootSpeed = 42.0f;
         }
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
-            Vector2 origin = new Vector2(15f, 15f);
-            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Items/Weapons/Magic/ApotheosisGlow"), item.Center - Main.screenPosition, null, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
+            Item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Magic/ApotheosisGlow").Value);
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<SubsumingVortex>());
-            recipe.AddIngredient(ModContent.ItemType<CosmicDischarge>());
-            recipe.AddIngredient(ModContent.ItemType<StaffoftheMechworm>(), 2);
-            recipe.AddIngredient(ModContent.ItemType<Excelsus>(), 2);
-            recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 33);
-            recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 33);
-            recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 33);
-            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 33);
-            recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 33);
-            recipe.AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient(ItemID.SpellTome).
+                AddIngredient<CosmicDischarge>().
+                AddIngredient<StaffoftheMechworm>(2).
+                AddIngredient<Excelsus>(2).
+                AddIngredient<AscendantSpiritEssence>(11).
+                AddIngredient<CosmiliteBar>(33).
+                AddIngredient<ShadowspecBar>(5).
+                AddTile<DraedonsForge>().
+                Register();
         }
     }
 }

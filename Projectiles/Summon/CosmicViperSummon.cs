@@ -1,81 +1,102 @@
-using CalamityMod.Buffs.Summon;
+﻿using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
+using CalamityMod.Items.Weapons.Ranged;
+using CalamityMod.Items.Weapons.Summon;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 namespace CalamityMod.Projectiles.Summon
 {
     public class CosmicViperSummon : ModProjectile
     {
+        public static Item FalseGun = null;
+        public static Item CosmicViper = null;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Cosmic Viper");
-            ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
-            ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
-            Main.projFrames[projectile.type] = 3;
+            ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
+            ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
+            Main.projFrames[Projectile.type] = 3;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 48;
-            projectile.height = 48;
-            projectile.netImportant = true;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.aiStyle = 66;
-            projectile.minionSlots = 1f;
-            projectile.timeLeft = 18000;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.timeLeft *= 5;
-            projectile.minion = true;
+            Projectile.width = 48;
+            Projectile.height = 48;
+            Projectile.netImportant = true;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.aiStyle = ProjAIStyleID.MiniTwins;
+            Projectile.minionSlots = 1f;
+            Projectile.timeLeft = 18000;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.timeLeft *= 5;
+            Projectile.minion = true;
+            Projectile.DamageType = DamageClass.Summon;
+        }
+
+        // Defines an Item which is a hacked clone of a P90, edited to be summon class instead of ranged.
+        // The false gun's damage is changed to the appropriate value every time a Cosmic Viper wants to fire a bullet.
+        private static void DefineFalseGun(int baseDamage)
+        {
+            int p90ID = ModContent.ItemType<P90>();
+            int CVEID = ModContent.ItemType<CosmicViperEngine>();
+            FalseGun = new Item();
+            CosmicViper = new Item();
+            FalseGun.SetDefaults(p90ID, true);
+            CosmicViper.SetDefaults(CVEID, true);
+            FalseGun.damage = baseDamage;
+            FalseGun.knockBack = CosmicViper.knockBack;
+            FalseGun.shootSpeed = CosmicViper.shootSpeed;
+            FalseGun.consumeAmmoOnFirstShotOnly = false;
+            FalseGun.consumeAmmoOnLastShotOnly = false;
+
+            FalseGun.DamageType = DamageClass.Summon;
         }
 
         public override void AI()
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
 
-            if (projectile.localAI[0] == 0f)
+            if (Projectile.localAI[0] == 0f)
             {
-                projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
-                projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
                 int dustAmt = 36;
                 for (int dustIndex = 0; dustIndex < dustAmt; dustIndex++)
                 {
-					int dustType = Main.rand.NextBool(3) ? 56 : 242;
-                    Vector2 vector6 = Vector2.Normalize(projectile.velocity) * new Vector2((float)projectile.width / 2f, (float)projectile.height) * 0.75f;
-                    vector6 = vector6.RotatedBy((double)((float)(dustIndex - (dustAmt / 2 - 1)) * MathHelper.TwoPi / (float)dustAmt), default) + projectile.Center;
-                    Vector2 vector7 = vector6 - projectile.Center;
+                    int dustType = Main.rand.NextBool(3) ? 56 : 242;
+                    Vector2 vector6 = Vector2.Normalize(Projectile.velocity) * new Vector2((float)Projectile.width / 2f, (float)Projectile.height) * 0.75f;
+                    vector6 = vector6.RotatedBy((double)((float)(dustIndex - (dustAmt / 2 - 1)) * MathHelper.TwoPi / (float)dustAmt), default) + Projectile.Center;
+                    Vector2 vector7 = vector6 - Projectile.Center;
                     int dusty = Dust.NewDust(vector6 + vector7, 0, 0, dustType, vector7.X * 1.75f, vector7.Y * 1.75f, 100, default, 1.1f);
                     Main.dust[dusty].noGravity = true;
                     Main.dust[dusty].velocity = vector7;
                 }
-                projectile.localAI[0] += 1f;
-            }
-            if (player.MinionDamage() != projectile.Calamity().spawnedPlayerMinionDamageValue)
-            {
-                int damage2 = (int)((float)projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    projectile.Calamity().spawnedPlayerMinionDamageValue *
-                    player.MinionDamage());
-                projectile.damage = damage2;
+
+                // Construct a fake item to use with vanilla code for the sake of firing bullets.
+                if (FalseGun is null)
+                    DefineFalseGun(Projectile.originalDamage);
+
+                Projectile.localAI[0] += 1f;
             }
 
-            projectile.frameCounter++;
-            if (projectile.frameCounter >= 4)
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter >= 4)
             {
-                projectile.frame++;
-                projectile.frameCounter = 0;
+                Projectile.frame++;
+                Projectile.frameCounter = 0;
             }
-            if (projectile.frame >= 3)
+            if (Projectile.frame >= 3)
             {
-                projectile.frame = 0;
+                Projectile.frame = 0;
             }
 
-            bool correctMinion = projectile.type == ModContent.ProjectileType<CosmicViperSummon>();
+            bool correctMinion = Projectile.type == ModContent.ProjectileType<CosmicViperSummon>();
             player.AddBuff(ModContent.BuffType<CosmicViperEngineBuff>(), 3600);
             if (correctMinion)
             {
@@ -85,48 +106,52 @@ namespace CalamityMod.Projectiles.Summon
                 }
                 if (modPlayer.cosmicViper)
                 {
-                    projectile.timeLeft = 2;
+                    Projectile.timeLeft = 2;
                 }
             }
 
-            float colorScale = (float)projectile.alpha / 255f;
-            Lighting.AddLight((int)projectile.Center.X / 16, (int)projectile.Center.Y / 16, 1f * colorScale, 0.1f * colorScale, 1f * colorScale);
+            float colorScale = (float)Projectile.alpha / 255f;
+            Lighting.AddLight((int)Projectile.Center.X / 16, (int)Projectile.Center.Y / 16, 1f * colorScale, 0.1f * colorScale, 1f * colorScale);
 
-			projectile.MinionAntiClump();
+            Projectile.MinionAntiClump();
 
-            float detectRange = 700f;
-            Vector2 targetVec = projectile.position;
+            float detectRange = 1100f;
+            Vector2 targetVec = Projectile.position;
             bool foundTarget = false;
-			int targetIndex = -1;
-            if (player.HasMinionAttackTargetNPC)
+            int targetIndex = -1;
+            if (player.HasMinionAttackTargetNPC && player.HasAmmo(FalseGun))
             {
                 NPC npc = Main.npc[player.MinionAttackTargetNPC];
-                if (npc.CanBeChasedBy(projectile, false))
+                if (npc.CanBeChasedBy(Projectile, false))
                 {
-                    float targetDist = Vector2.Distance(npc.Center, projectile.Center);
-                    if (!foundTarget && targetDist < detectRange)
+                    float extraDist = (npc.width / 2) + (npc.height / 2);
+                    //Calculate distance between target and the projectile to know if it's too far or not
+                    float targetDist = Vector2.Distance(npc.Center, Projectile.Center);
+                    if (!foundTarget && targetDist < (detectRange + extraDist))
                     {
                         detectRange = targetDist;
                         targetVec = npc.Center;
                         foundTarget = true;
-						targetIndex = npc.whoAmI;
+                        targetIndex = npc.whoAmI;
                     }
                 }
             }
-            if (!foundTarget)
+            if (!foundTarget && player.HasAmmo(FalseGun))
             {
                 for (int npcIndex = 0; npcIndex < Main.maxNPCs; npcIndex++)
                 {
                     NPC npc = Main.npc[npcIndex];
-                    if (npc.CanBeChasedBy(projectile, false))
+                    if (npc.CanBeChasedBy(Projectile, false))
                     {
-                        float targetDist = Vector2.Distance(npc.Center, projectile.Center);
-                        if (!foundTarget && targetDist < detectRange)
+                        float extraDist = (npc.width / 2) + (npc.height / 2);
+                        //Calculate distance between target and the projectile to know if it's too far or not
+                        float targetDist = Vector2.Distance(npc.Center, Projectile.Center);
+                        if (!foundTarget && targetDist < (detectRange + extraDist))
                         {
                             detectRange = targetDist;
                             targetVec = npc.Center;
                             foundTarget = true;
-							targetIndex = npcIndex;
+                            targetIndex = npcIndex;
                         }
                     }
                 }
@@ -136,42 +161,42 @@ namespace CalamityMod.Projectiles.Summon
             {
                 returnDist = 2600f;
             }
-            if (Vector2.Distance(player.Center, projectile.Center) > returnDist)
+            if (Vector2.Distance(player.Center, Projectile.Center) > returnDist)
             {
-                projectile.ai[0] = 1f;
-                projectile.netUpdate = true;
+                Projectile.ai[0] = 1f;
+                Projectile.netUpdate = true;
             }
-            if (foundTarget && projectile.ai[0] == 0f)
+            if (foundTarget && Projectile.ai[0] == 0f)
             {
-                Vector2 targetVector = targetVec - projectile.Center;
+                Vector2 targetVector = targetVec - Projectile.Center;
                 float targetDist = targetVector.Length();
                 targetVector.Normalize();
                 float speedMult = 18f; //12
                 if (targetDist > 200f)
                 {
                     targetVector *= speedMult;
-                    projectile.velocity = (projectile.velocity * 40f + targetVector) / 41f;
+                    Projectile.velocity = (Projectile.velocity * 40f + targetVector) / 41f;
                 }
                 else
                 {
                     targetVector *= -(speedMult / 2);
-                    projectile.velocity = (projectile.velocity * 40f + targetVector) / 41f;
+                    Projectile.velocity = (Projectile.velocity * 40f + targetVector) / 41f;
                 }
             }
             else
             {
-				float safeDist = 600f;
+                float safeDist = 600f;
                 bool returnToPlayer = false;
                 if (!returnToPlayer)
                 {
-                    returnToPlayer = projectile.ai[0] == 1f;
+                    returnToPlayer = Projectile.ai[0] == 1f;
                 }
                 float velocityMult = 12f;
                 if (returnToPlayer)
                 {
                     velocityMult = 30f;
                 }
-                Vector2 playerVec = player.Center - projectile.Center + new Vector2(0f, -120f);
+                Vector2 playerVec = player.Center - Projectile.Center + new Vector2(0f, -120f);
                 float playerDist = playerVec.Length();
                 if (playerDist > 200f && velocityMult < 16f)
                 {
@@ -179,123 +204,137 @@ namespace CalamityMod.Projectiles.Summon
                 }
                 if (playerDist < safeDist && returnToPlayer)
                 {
-                    projectile.ai[0] = 0f;
-                    projectile.netUpdate = true;
+                    Projectile.ai[0] = 0f;
+                    Projectile.netUpdate = true;
                 }
                 if (playerDist > 2000f)
                 {
-					projectile.Center = player.Center;
-                    projectile.netUpdate = true;
+                    Projectile.Center = player.Center;
+                    Projectile.netUpdate = true;
                 }
                 if (playerDist > 70f)
                 {
                     playerVec.Normalize();
                     playerVec *= velocityMult;
-                    projectile.velocity = (projectile.velocity * 40f + playerVec) / 41f;
+                    Projectile.velocity = (Projectile.velocity * 40f + playerVec) / 41f;
                 }
-                else if (projectile.velocity.X == 0f && projectile.velocity.Y == 0f)
+                else if (Projectile.velocity.X == 0f && Projectile.velocity.Y == 0f)
                 {
-                    projectile.velocity.X = -0.15f;
-                    projectile.velocity.Y = -0.05f;
+                    Projectile.velocity.X = -0.15f;
+                    Projectile.velocity.Y = -0.05f;
                 }
             }
             if (foundTarget)
             {
-				projectile.rotation = projectile.rotation.AngleTowards(projectile.AngleTo(targetVec) + MathHelper.Pi, 0.1f);
+                Projectile.rotation = Projectile.rotation.AngleTowards(Projectile.AngleTo(targetVec) + MathHelper.Pi, 0.1f);
             }
             else
             {
-                projectile.rotation = projectile.velocity.ToRotation() + MathHelper.Pi;
-				for (int index = 0; index < 1; index++)
-				{
-					int dustType = Main.rand.NextBool(3) ? 56 : 242;
-					float num370 = projectile.velocity.X / 3f * (float)index;
-					float num371 = projectile.velocity.Y / 3f * (float)index;
-					int num372 = Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType, 0f, 0f, 0, default, 1f);
-					Dust dust = Main.dust[num372];
-					dust.position.X = projectile.Center.X - num370;
-					dust.position.Y = projectile.Center.Y - num371;
-					dust.velocity *= 0f;
-					dust.scale = 0.5f;
-				}
+                Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.Pi;
+                int dustType = Main.rand.NextBool(3) ? 56 : 242;
+                float xVelOffset = Projectile.velocity.X / 3f;
+                float yVelOffset = Projectile.velocity.Y / 3f;
+                int trail = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, dustType, 0f, 0f, 0, default, 1f);
+                Dust dust = Main.dust[trail];
+                dust.position.X = Projectile.Center.X - xVelOffset;
+                dust.position.Y = Projectile.Center.Y - yVelOffset;
+                dust.velocity *= 0f;
+                dust.scale = 0.5f;
             }
-            if (projectile.ai[1] > 0f)
+            if (Projectile.ai[1] > 0f)
             {
-                projectile.ai[1] += (float)Main.rand.Next(1, 5);
+                Projectile.ai[1]++;
             }
-            if (projectile.ai[1] > 90f)
+            if (Projectile.ai[1] > 60f)
             {
-                projectile.ai[1] = 0f;
-                projectile.netUpdate = true;
+                Projectile.ai[1] = 0f;
+                Projectile.netUpdate = true;
             }
-            if (projectile.ai[0] == 0f)
+            if (Projectile.ai[0] == 0f)
             {
-                float speedMult = 6f;
-                if (foundTarget && projectile.ai[1] == 0f)
+                if (foundTarget && Projectile.ai[1] == 0f)
                 {
                     //play cool sound
-                    Main.PlaySound(SoundID.Item20, (int)projectile.position.X, (int)projectile.position.Y);
-                    projectile.ai[1] += 2f;
-                    if (Main.myPlayer == projectile.owner)
+                    SoundEngine.PlaySound(SoundID.Item20, Projectile.Center);
+                    Projectile.ai[1] += 2f;
+                    if (Main.myPlayer == Projectile.owner)
                     {
-						int projType;
-						float dmgMult;
-						if (Main.rand.NextBool(5))
-						{
-							projType = ModContent.ProjectileType<CosmicViperSplittingRocket>();
-							dmgMult = 0.75f;
-						}
-						else if (Main.rand.NextBool(3))
-						{
-							projType = ModContent.ProjectileType<CosmicViperHomingRocket>();
-							dmgMult = 1f;
-						}
-						else
-						{
-							projType = ModContent.ProjectileType<CosmicViperConcussionMissile>();
-							dmgMult = 1.5f;
-						}
+                        // Fire a rocket every other time
+                        bool shootRocket = ++Projectile.localAI[1] % 2f == 0f;
+                        int projType = ModContent.ProjectileType<CosmicViperSplittingRocket>();
+                        switch (Projectile.localAI[1] % 3f)
+                        {
+                            case 0f:
+                                projType = ModContent.ProjectileType<CosmicViperSplittingRocket>();
+                                break;
+                            case 1f:
+                                projType = ModContent.ProjectileType<CosmicViperHomingRocket>();
+                                break;
+                            case 2f:
+                                projType = ModContent.ProjectileType<CosmicViperConcussionMissile>();
+                                break;
+                        }
 
-                        Vector2 velocity = targetVec - projectile.Center;
-                        velocity.Normalize();
-                        velocity *= speedMult;
+                        // Rockets never consume ammo + 50% chance to not consume ammo.
+                        bool dontConsumeAmmo = Main.rand.NextBool() || shootRocket;
+                        int projIndex;
 
-						//add some inaccuracy
-						velocity.Y += Main.rand.NextFloat(-30f, 30f) * 0.05f;
-						velocity.X += Main.rand.NextFloat(-30f, 30f) * 0.05f;
+                        // Vanilla function tricked into using a fake gun item with the appropriate base damage as the "firing item".
+                        player.PickAmmo(FalseGun, out int projID, out float shootSpeed, out int damage, out float kb, out _, dontConsumeAmmo);
 
-                        Projectile.NewProjectile(projectile.Center, velocity, projType, (int)(projectile.damage * dmgMult), projectile.knockBack, projectile.owner, targetIndex, 0f);
-                        projectile.netUpdate = true;
+                        Vector2 velocity = Projectile.SafeDirectionTo(targetVec) * shootSpeed;
+
+                        // One in every 20 shots is a rocket which deals 1.5x total damage and extreme knockback.
+                        if (shootRocket)
+                        {
+                            //add some inaccuracy
+                            velocity.Y += Main.rand.NextFloat(-15f, 15f) * 0.05f;
+                            velocity.X += Main.rand.NextFloat(-15f, 15f) * 0.05f;
+                            projIndex = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, projType, damage, kb, Projectile.owner);
+                        }
+
+                        // Fire the selected bullet, nothing special.
+                        else
+                            projIndex = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, projID, damage, kb, Projectile.owner);
+
+                        // Regardless of what was fired, force it to be a summon projectile so that summon accessories work.
+                        if (projIndex.WithinBounds(Main.maxProjectiles))
+                        {
+                            Main.projectile[projIndex].DamageType = DamageClass.Summon;
+                            Main.projectile[projIndex].minion = false;
+                        }
+                        Projectile.netUpdate = true;
                     }
                 }
             }
         }
 
-		public override bool CanDamage() => false;
+        public override bool? CanDamage() => false;
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-		{
-			Texture2D texture = Main.projectileTexture[projectile.type];
-			int frameHeight = texture.Height / Main.projFrames[projectile.type];
-			int y6 = frameHeight * projectile.frame;
-			SpriteEffects spriteEffects = SpriteEffects.None;
-			if (projectile.spriteDirection == -1)
-				spriteEffects = SpriteEffects.FlipHorizontally;
+        public override bool PreDraw(ref Color lightColor)
+        {
+            Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
+            int frameHeight = texture.Height / Main.projFrames[Projectile.type];
+            int y6 = frameHeight * Projectile.frame;
+            SpriteEffects spriteEffects = SpriteEffects.None;
+            if (Projectile.spriteDirection == -1)
+                spriteEffects = SpriteEffects.FlipHorizontally;
 
-			spriteBatch.Draw(texture, projectile.Center - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y6, texture.Width, frameHeight)), projectile.GetAlpha(lightColor), projectile.rotation, new Vector2(texture.Width / 2f, frameHeight / 2f), projectile.scale, spriteEffects, 0f);
-			return false;
-		}
+            Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y6, texture.Width, frameHeight)), Projectile.GetAlpha(lightColor), Projectile.rotation, new Vector2(texture.Width / 2f, frameHeight / 2f), Projectile.scale, spriteEffects, 0);
+            return false;
+        }
 
-		public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
-		{
-			Texture2D texture = ModContent.GetTexture("CalamityMod/Projectiles/Summon/CosmicViperGlow");
-			int frameHeight = texture.Height / Main.projFrames[projectile.type];
-			int y6 = frameHeight * projectile.frame;
-			SpriteEffects spriteEffects = SpriteEffects.None;
-			if (projectile.spriteDirection == -1)
-				spriteEffects = SpriteEffects.FlipHorizontally;
 
-			spriteBatch.Draw(texture, projectile.Center - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y6, texture.Width, frameHeight)), Color.White, projectile.rotation, new Vector2(texture.Width / 2f, frameHeight / 2f), projectile.scale, spriteEffects, 0f);
-		}
+        public override void PostDraw(Color lightColor)
+        {
+            Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/CosmicViperGlow").Value;
+            int frameHeight = texture.Height / Main.projFrames[Projectile.type];
+            int y6 = frameHeight * Projectile.frame;
+            SpriteEffects spriteEffects = SpriteEffects.None;
+            if (Projectile.spriteDirection == -1)
+                spriteEffects = SpriteEffects.FlipHorizontally;
+
+            Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y6, texture.Width, frameHeight)), Color.White, Projectile.rotation, new Vector2(texture.Width / 2f, frameHeight / 2f), Projectile.scale, spriteEffects, 0);
+        }
     }
 }

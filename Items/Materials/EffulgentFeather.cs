@@ -1,4 +1,5 @@
-using Terraria;
+﻿using Terraria;
+using Terraria.ID;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
 
@@ -8,19 +9,21 @@ namespace CalamityMod.Items.Materials
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 25;
             DisplayName.SetDefault("Effulgent Feather");
             Tooltip.SetDefault("It vibrates with fluffy golden energy");
-            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(3, 11));
+            Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(3, 11));
+            ItemID.Sets.AnimatesAsSoul[Type] = true;
+			ItemID.Sets.SortingPriorityMaterials[Type] = 102;
         }
 
         public override void SetDefaults()
         {
-            item.width = 24;
-            item.height = 24;
-            item.maxStack = 999;
-            item.value = Item.buyPrice(0, 6, 50, 0);
-            item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.width = 24;
+            Item.height = 24;
+            Item.maxStack = 999;
+            Item.value = Item.buyPrice(0, 6, 50, 0);
+            Item.rare = ItemRarityID.Purple;
         }
     }
 }

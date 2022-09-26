@@ -1,171 +1,183 @@
-using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.World;
 using System;
 using Terraria;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Utilities;
+using Terraria.Audio;
 namespace CalamityMod.NPCs.NormalNPCs
 {
     public class ScornEater : ModNPC
     {
+
+        public static readonly SoundStyle JumpSound = new("CalamityMod/Sounds/Custom/ScornJump");
+        public static readonly SoundStyle HitSound = new("CalamityMod/Sounds/NPCHit/ScornHurt"); 
+        public static readonly SoundStyle DeathSound = new("CalamityMod/Sounds/NPCKilled/ScornDeath");
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Scorn Eater");
-            Main.npcFrameCount[npc.type] = 7;
+            Main.npcFrameCount[NPC.type] = 7;
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            {
+                Scale = 0.4f,
+                PortraitScale = 0.67f,
+                PortraitPositionYOverride = 4f
+            };
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 
         public override void SetDefaults()
         {
-            npc.npcSlots = 3f;
-            npc.aiStyle = -1;
-            npc.damage = 90;
-            npc.width = 160;
-            npc.height = 160;
-            npc.defense = 38;
-			npc.DR_NERD(0.05f);
-            npc.lifeMax = 16000;
-            npc.knockBackResist = 0f;
-            aiType = -1;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
-            npc.buffImmune[BuffID.Ichor] = false;
-            npc.buffImmune[BuffID.CursedInferno] = false;
-            npc.buffImmune[BuffID.StardustMinionBleed] = false;
-            npc.buffImmune[BuffID.BetsysCurse] = false;
-            npc.buffImmune[ModContent.BuffType<AstralInfectionDebuff>()] = false;
-            npc.buffImmune[ModContent.BuffType<AbyssalFlames>()] = false;
-            npc.buffImmune[ModContent.BuffType<ArmorCrunch>()] = false;
-            npc.buffImmune[ModContent.BuffType<DemonFlames>()] = false;
-            npc.buffImmune[ModContent.BuffType<GodSlayerInferno>()] = false;
-            npc.buffImmune[ModContent.BuffType<Nightwither>()] = false;
-            npc.buffImmune[ModContent.BuffType<Shred>()] = false;
-            npc.buffImmune[ModContent.BuffType<WarCleave>()] = false;
-            npc.buffImmune[ModContent.BuffType<WhisperingDeath>()] = false;
-            npc.buffImmune[ModContent.BuffType<SilvaStun>()] = false;
-            npc.lavaImmune = true;
-            npc.value = Item.buyPrice(0, 0, 50, 0);
-            npc.DeathSound = mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/ScornDeath");
-            banner = npc.type;
-            bannerItem = ModContent.ItemType<ScornEaterBanner>();
+            NPC.Calamity().canBreakPlayerDefense = true;
+            NPC.npcSlots = 3f;
+            NPC.aiStyle = -1;
+            NPC.damage = 90;
+            NPC.width = 160;
+            NPC.height = 160;
+            NPC.defense = 38;
+            NPC.DR_NERD(0.05f);
+            NPC.lifeMax = 9000;
+            NPC.knockBackResist = 0f;
+            AIType = -1;
+            NPC.lavaImmune = true;
+            NPC.value = Item.buyPrice(0, 0, 50, 0);
+            NPC.DeathSound = DeathSound;
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<ScornEaterBanner>();
+            NPC.Calamity().VulnerableToHeat = false;
+            NPC.Calamity().VulnerableToCold = true;
+            NPC.Calamity().VulnerableToSickness = false;
+            NPC.Calamity().VulnerableToWater = true;
+        }
+
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheHallow,
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheUnderworld,
+
+                // Will move to localization whenever that is cleaned up.
+                new FlavorTextBestiaryInfoElement("The brute force of the Profaned Goddess’ creations and devotees. Their jaws are filled to the brim with razor-sharp crystals and scorching holy flames.")
+            });
         }
 
         public override void AI()
         {
-			npc.TargetClosest(true);
-			if ((Main.player[npc.target].position.Y > npc.position.Y + (float)npc.height && npc.velocity.Y > 0f) || (Main.player[npc.target].position.Y < npc.position.Y + (float)npc.height && npc.velocity.Y < 0f))
-				npc.noTileCollide = true;
-			else
-				npc.noTileCollide = false;
+            NPC.TargetClosest(true);
+            if ((Main.player[NPC.target].position.Y > NPC.position.Y + (float)NPC.height && NPC.velocity.Y > 0f) || (Main.player[NPC.target].position.Y < NPC.position.Y + (float)NPC.height && NPC.velocity.Y < 0f))
+                NPC.noTileCollide = true;
+            else
+                NPC.noTileCollide = false;
 
-			if (npc.velocity.Y == 0f)
+            if (NPC.velocity.Y == 0f)
             {
-                npc.ai[2] += 1f;
+                NPC.ai[2] += 1f;
                 int num321 = 20;
-                if (npc.ai[1] == 0f)
+                if (NPC.ai[1] == 0f)
                 {
                     num321 = 12;
                 }
-				if (CalamityWorld.death)
-				{
-					num321 /= 4;
-				}
-                if (npc.ai[2] < (float)num321)
+                if (CalamityWorld.death)
                 {
-                    npc.velocity.X = npc.velocity.X * 0.9f;
+                    num321 /= 4;
+                }
+                if (NPC.ai[2] < (float)num321)
+                {
+                    NPC.velocity.X = NPC.velocity.X * 0.9f;
                     return;
                 }
-                npc.ai[2] = 0f;
-                if (npc.direction == 0)
+                NPC.ai[2] = 0f;
+                if (NPC.direction == 0)
                 {
-                    npc.direction = -1;
+                    NPC.direction = -1;
                 }
-                npc.spriteDirection = npc.direction;
-                npc.ai[1] += 1f;
-                npc.ai[3] += 1f;
-                if (npc.ai[3] >= 4f)
+                NPC.spriteDirection = NPC.direction;
+                NPC.ai[1] += 1f;
+                NPC.ai[3] += 1f;
+                if (NPC.ai[3] >= 4f)
                 {
-                    npc.ai[3] = 0f;
-					npc.noTileCollide = true;
-					if (npc.ai[1] == 2f)
+                    NPC.ai[3] = 0f;
+                    NPC.noTileCollide = true;
+                    if (NPC.ai[1] == 2f)
                     {
-                        npc.velocity.X = (float)npc.direction * 15f;
+                        NPC.velocity.X = (float)NPC.direction * 15f;
 
-						if (Main.player[npc.target].position.Y < npc.position.Y + (float)npc.height)
-							npc.velocity.Y = -12f;
-						else
-							npc.velocity.Y = 12f;
+                        if (Main.player[NPC.target].position.Y < NPC.position.Y + (float)NPC.height)
+                            NPC.velocity.Y = -12f;
+                        else
+                            NPC.velocity.Y = 12f;
 
-                        npc.ai[1] = 0f;
+                        NPC.ai[1] = 0f;
                     }
                     else
                     {
-                        npc.velocity.X = (float)npc.direction * 21f;
+                        NPC.velocity.X = (float)NPC.direction * 21f;
 
-						if (Main.player[npc.target].position.Y < npc.position.Y + (float)npc.height)
-							npc.velocity.Y = -6f;
-						else
-							npc.velocity.Y = 12f;
+                        if (Main.player[NPC.target].position.Y < NPC.position.Y + (float)NPC.height)
+                            NPC.velocity.Y = -6f;
+                        else
+                            NPC.velocity.Y = 12f;
                     }
-					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/ScornJump"), (int)npc.Center.X, (int)npc.Center.Y);
-				}
-                npc.netUpdate = true;
+                    SoundEngine.PlaySound(JumpSound, NPC.Center);
+                }
+                NPC.netUpdate = true;
             }
             else
             {
-                if (npc.direction == 1 && npc.velocity.X < 1f)
+                if (NPC.direction == 1 && NPC.velocity.X < 1f)
                 {
-                    npc.velocity.X = npc.velocity.X + 0.1f;
+                    NPC.velocity.X = NPC.velocity.X + 0.1f;
                     return;
                 }
-                if (npc.direction == -1 && npc.velocity.X > -1f)
+                if (NPC.direction == -1 && NPC.velocity.X > -1f)
                 {
-                    npc.velocity.X = npc.velocity.X - 0.1f;
+                    NPC.velocity.X = NPC.velocity.X - 0.1f;
                 }
             }
         }
 
         public override void FindFrame(int frameHeight)
         {
-            npc.frameCounter += 1.0;
-            if (Math.Abs(npc.velocity.X) <= 1f)
+            NPC.frameCounter += 1.0;
+            if (Math.Abs(NPC.velocity.X) <= 1f)
             {
-                if (npc.frameCounter > 9.0)
+                if (NPC.frameCounter > 9.0)
                 {
-                    npc.frame.Y = npc.frame.Y + frameHeight;
-                    npc.frameCounter = 0.0;
+                    NPC.frame.Y = NPC.frame.Y + frameHeight;
+                    NPC.frameCounter = 0.0;
                 }
-                if (npc.frame.Y >= frameHeight * 5)
+                if (NPC.frame.Y >= frameHeight * 5)
                 {
-                    npc.frame.Y = 0;
+                    NPC.frame.Y = 0;
                 }
             }
             else
             {
-                if (npc.frameCounter > 9.0)
+                if (NPC.frameCounter > 9.0)
                 {
-                    npc.frame.Y = npc.frame.Y + frameHeight;
-                    npc.frameCounter = 0.0;
+                    NPC.frame.Y = NPC.frame.Y + frameHeight;
+                    NPC.frameCounter = 0.0;
                 }
-                if (npc.frame.Y < frameHeight * 5)
+                if (NPC.frame.Y < frameHeight * 5)
                 {
-                    npc.frame.Y = frameHeight * 5;
+                    NPC.frame.Y = frameHeight * 5;
                 }
-                if (npc.frame.Y >= frameHeight * 7)
+                if (NPC.frame.Y >= frameHeight * 7)
                 {
-                    npc.frame.Y = frameHeight * 5;
+                    NPC.frame.Y = frameHeight * 5;
                 }
             }
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.playerSafe || !NPC.downedMoonlord)
+            if (spawnInfo.PlayerSafe || !NPC.downedMoonlord)
             {
                 return 0f;
             }
@@ -176,35 +188,44 @@ namespace CalamityMod.NPCs.NormalNPCs
             return SpawnCondition.OverworldHallow.Chance / 4f;
         }
 
+        public override void OnHitPlayer(Player player, int damage, bool crit)
+        {
+            if (damage > 0)
+                player.AddBuff(ModContent.BuffType<HolyFlames>(), 180, true);
+        }
+
         public override void HitEffect(int hitDirection, double damage)
         {
-            if (npc.soundDelay == 0)
+            if (NPC.soundDelay == 0)
             {
-                npc.soundDelay = 7;
-                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/ScornHurt"), npc.Center);
+                NPC.soundDelay = 7;
+                SoundEngine.PlaySound(HitSound, NPC.Center);
             }
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.ProfanedFire, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.ProfanedFire, hitDirection, -1f, 0, default, 1f);
             }
-            if (npc.life <= 0)
+            if (NPC.life <= 0)
             {
                 for (int k = 0; k < 50; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.ProfanedFire, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.ProfanedFire, hitDirection, -1f, 0, default, 1f);
                 }
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ScornEater"), 1f);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ScornEater2"), 1f);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ScornEater3"), 1f);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ScornEater4"), 1f);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ScornEater5"), 1f);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ScornEater6"), 1f);
+                if (Main.netMode != NetmodeID.Server)
+                {
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("ScornEater").Type, 1f);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("ScornEater2").Type, 1f);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("ScornEater3").Type, 1f);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("ScornEater4").Type, 1f);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("ScornEater5").Type, 1f);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("ScornEater6").Type, 1f);
+                }
             }
         }
 
-        public override void NPCLoot()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<UnholyEssence>(), Main.rand.Next(2, 5));
+            npcLoot.Add(ModContent.ItemType<UnholyEssence>(), 1, 2, 4);
         }
     }
 }

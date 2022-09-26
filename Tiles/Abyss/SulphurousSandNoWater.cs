@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
@@ -7,7 +7,7 @@ namespace CalamityMod.Tiles.Abyss
 {
     public class SulphurousSandNoWater : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileSolid[Type] = true;
             Main.tileBlockLight[Type] = true;
@@ -15,13 +15,13 @@ namespace CalamityMod.Tiles.Abyss
             CalamityUtils.MergeWithGeneral(Type);
             CalamityUtils.MergeWithAbyss(Type);
 
-            dustType = 32;
-            drop = ModContent.ItemType<Items.Placeables.SulphurousSand>();
+            TileID.Sets.CanBeDugByShovel[Type] = true;
+
+            DustType = 32;
+            ItemDrop = ModContent.ItemType<Items.Placeables.SulphurousSand>();
             AddMapEntry(new Color(150, 100, 50));
-            mineResist = 1f;
-            minPick = 55;
-            soundType = SoundID.Dig;
-            SetModPalmTree(new AcidWoodTree());
+            MineResist = 1f;
+            HitSound = SoundID.Dig;
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)
@@ -33,11 +33,6 @@ namespace CalamityMod.Tiles.Abyss
         {
             TileFraming.CustomMergeFrame(i, j, Type, ModContent.TileType<SulphurousSandstone>(), false, false, false, false, resetFrame);
             return false;
-        }
-        public override int SaplingGrowthType(ref int style)
-        {
-            style = 0;
-            return ModContent.TileType<AcidWoodTreeSapling>();
         }
     }
 }

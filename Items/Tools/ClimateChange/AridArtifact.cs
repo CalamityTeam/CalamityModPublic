@@ -1,5 +1,4 @@
-using CalamityMod.World;
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Tools.ClimateChange
@@ -10,29 +9,34 @@ namespace CalamityMod.Items.Tools.ClimateChange
         {
             DisplayName.SetDefault("Arid Artifact");
             Tooltip.SetDefault("Summons a sandstorm\n" +
-                               "The sandstorm will happen shortly after the item is used");
+                               "The sandstorm will happen shortly after the item is used\n" +
+                               "If used during a sandstorm, the sandstorm will stop some time afterward.");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.width = 20;
-            item.height = 20;
-            item.maxStack = 20;
-            item.rare = 5;
-            item.useAnimation = 20;
-            item.useTime = 20;
-            item.useStyle = ItemUseStyleID.HoldingUp;
-            item.UseSound = SoundID.Item66;
-            item.consumable = true;
+            Item.width = 20;
+            Item.height = 20;
+            Item.rare = ItemRarityID.Pink;
+            Item.useAnimation = 20;
+            Item.useTime = 20;
+            Item.useStyle = ItemUseStyleID.HoldUp;
+            Item.UseSound = SoundID.Item66;
         }
+
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = ContentSamples.CreativeHelper.ItemGroup.EventItem;
+		}
 
         public override bool CanUseItem(Player player)
         {
-            return CalamityWorld.downedDesertScourge;
+            return DownedBossSystem.downedDesertScourge;
         }
 
         // this is extremely ugly and has to be fully qualified because we add an item called Sandstorm
-        public override bool UseItem(Player player)
+        public override bool? UseItem(Player player)
         {
             if (Terraria.GameContent.Events.Sandstorm.Happening)
                 CalamityUtils.StopSandstorm();
@@ -43,12 +47,12 @@ namespace CalamityMod.Items.Tools.ClimateChange
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.AncientBattleArmorMaterial);
-            recipe.AddRecipeGroup("AnyAdamantiteBar", 5);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient(ItemID.SandBlock, 50).
+                AddRecipeGroup("AnyAdamantiteBar", 10).
+                AddIngredient(ItemID.AncientCloth, 5).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

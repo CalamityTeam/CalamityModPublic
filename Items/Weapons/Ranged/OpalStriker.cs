@@ -1,58 +1,66 @@
+﻿using Terraria.DataStructures;
 using CalamityMod.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
-	public class OpalStriker : ModItem
-	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Opal Striker");
-			Tooltip.SetDefault("Fires a string of opal strikes");
-		}
+    public class OpalStriker : ModItem
+    {
+        public static readonly SoundStyle FireSound = new("CalamityMod/Sounds/Item/OpalStrike");
 
-		public override void SetDefaults()
-		{
-			item.damage = 9;
-			item.ranged = true;
-			item.width = 64;
-			item.height = 16;
-			item.useTime = 5;
-			item.reuseDelay = 25;
-			item.useAnimation = 20;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.noMelee = true;
-			item.knockBack = 0f;
-			item.value = Item.buyPrice(0, 2, 0, 0);
-			item.rare = 2;
-			item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/OpalStrike");
-			item.autoReuse = true;
-			item.shoot = ModContent.ProjectileType<OpalStrike>();
-			item.shootSpeed = 6f;
-			item.useAmmo = 97;
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Opal Striker");
+            Tooltip.SetDefault("50% chance to not consume ammo\n" + 
+                "Fires a string of opal strikes");
+            SacrificeTotal = 1;
+        }
 
-		public override Vector2? HoldoutOffset() => new Vector2(-10, 0);
+        public override void SetDefaults()
+        {
+            Item.damage = 9;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 46;
+            Item.height = 30;
+            Item.useTime = 5;
+            Item.reuseDelay = 25;
+            Item.useAnimation = 20;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 0f;
+            Item.value = CalamityGlobalItem.Rarity2BuyPrice;
+            Item.rare = ItemRarityID.Green;
+            Item.UseSound = FireSound;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<OpalStrike>();
+            Item.shootSpeed = 6f;
+            Item.useAmmo = AmmoID.Bullet;
+            Item.Calamity().canFirePointBlankShots = true;
+        }
 
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-		{
-			Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<OpalStrike>(), damage, knockBack, player.whoAmI);
-			return false;
-		}
+        public override Vector2? HoldoutOffset() => new Vector2(-10, 0);
 
-		public override void AddRecipes()
-		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ItemID.Marble, 20);
-			recipe.AddIngredient(ItemID.Amber, 5);
-			recipe.AddIngredient(ItemID.Diamond, 3);
-			recipe.AddIngredient(ItemID.FlintlockPistol);
-			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
-		}
-	}
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        {
+            Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<OpalStrike>(), damage, knockback, player.whoAmI);
+            return false;
+        }
+
+        public override bool CanConsumeAmmo(Item ammo, Player player) => Main.rand.NextBool();
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient(ItemID.Marble, 20).
+                AddIngredient(ItemID.Amber, 5).
+                AddIngredient(ItemID.Diamond, 3).
+                AddIngredient(ItemID.FlintlockPistol).
+                AddTile(TileID.Anvils).
+                Register();
+        }
+    }
 }

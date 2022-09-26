@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -6,106 +6,111 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Magic
 {
-	public class AuroraAustralis : ModProjectile
-	{
-		private static float CosFrequency = 0.05f;
-		private static float CosAmplitude = 0.008f;
-		public int[] dustTypes = new int[]
-		{
-			ModContent.DustType<AstralBlue>(),
-			ModContent.DustType<AstralOrange>()
-		};
+    public class AuroraAustralis : ModProjectile
+    {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Aurora Australis");
-		}
+        private static float CosFrequency = 0.05f;
+        private static float CosAmplitude = 0.008f;
+        public int[] dustTypes = new int[]
+        {
+            ModContent.DustType<AstralBlue>(),
+            ModContent.DustType<AstralOrange>()
+        };
 
-		public override void SetDefaults()
-		{
-			projectile.width = 10;
-			projectile.height = 10;
-			projectile.friendly = true;
-			projectile.penetrate = 1;
-			projectile.tileCollide = false;
-			projectile.timeLeft = 300;
-			projectile.magic = true;
-			projectile.alpha = 255;
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Aurora Australis");
+        }
 
-			CosFrequency = 0.15f;
-			CosAmplitude = 0.06f;
-		}
+        public override void SetDefaults()
+        {
+            Projectile.width = 10;
+            Projectile.height = 10;
+            Projectile.friendly = true;
+            Projectile.penetrate = 1;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
+            Projectile.timeLeft = 300;
+            Projectile.DamageType = DamageClass.Magic;
+            Projectile.alpha = 255;
 
-		public override void AI()
-		{
-			// On-spawn effects
-			if (projectile.ai[0] == 0)
-			{
-				// Store the X and Y of the spawn velocity so it can be used for trig calculations
-				projectile.localAI[0] = projectile.velocity.X;
-				projectile.localAI[1] = projectile.velocity.Y;
-			}
+            CosFrequency = 0.15f;
+            CosAmplitude = 0.06f;
+        }
 
-			// Doesn't collide with tiles for the first 2 frames
-			projectile.tileCollide = projectile.ai[0] > 2f;
+        public override void AI()
+        {
+            // On-spawn effects
+            if (Projectile.ai[0] == 0)
+            {
+                // Store the X and Y of the spawn velocity so it can be used for trig calculations
+                Projectile.localAI[0] = Projectile.velocity.X;
+                Projectile.localAI[1] = Projectile.velocity.Y;
+            }
 
-			// Apply fancy cosine movement, then slight gravity, then cap velocity.
-			// Original velocity is reconstructed so that it can be used in the calculation
-			Vector2 originalVelocity = new Vector2(projectile.localAI[0], projectile.localAI[1]);
-			ApplyCosVelocity(originalVelocity);
-			float currentSpeed = projectile.velocity.Length();
-			float maxSpeed = 1.4f * originalVelocity.Length();
-			if (currentSpeed > maxSpeed)
-				projectile.velocity *= maxSpeed / currentSpeed;
+            // Doesn't collide with tiles for the first 2 frames
+            Projectile.tileCollide = Projectile.ai[0] > 2f;
 
-			// spawn dust
-			if (Main.rand.NextBool(5))
-			{
-				Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, Main.rand.Next(dustTypes), projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
-			}
-			int rainbow = Dust.NewDust(projectile.Center, projectile.width, projectile.height, 66, 0f, 0f, 100, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 1f);
-			Dust dust = Main.dust[rainbow];
-			dust.velocity *= 0.1f;
-			dust.velocity += projectile.velocity * 0.2f;
-			dust.position.X = projectile.Center.X + 4f + Main.rand.Next(-2, 3);
-			dust.position.Y = projectile.Center.Y + Main.rand.Next(-2, 3);
-			dust.noGravity = true;
+            // Apply fancy cosine movement, then slight gravity, then cap velocity.
+            // Original velocity is reconstructed so that it can be used in the calculation
+            Vector2 originalVelocity = new Vector2(Projectile.localAI[0], Projectile.localAI[1]);
+            ApplyCosVelocity(originalVelocity);
+            float currentSpeed = Projectile.velocity.Length();
+            float maxSpeed = 1.4f * originalVelocity.Length();
+            if (currentSpeed > maxSpeed)
+                Projectile.velocity *= maxSpeed / currentSpeed;
 
-			if (projectile.timeLeft % 10 == 0 && Main.myPlayer == projectile.owner) //spawn stars every 10 ticks
-			{
-				if (Main.player[projectile.owner].ownedProjectileCounts[ModContent.ProjectileType<AstralStarMagic>()] < 30)
-				{
-					float dmgKBMult = Main.rand.NextFloat(0.25f, 0.75f);
-					Projectile star = CalamityUtils.ProjectileRain(projectile.Center, projectile.velocity.X, 100f, 500f, 800f, Main.rand.NextFloat(10f, 20f), ModContent.ProjectileType<AstralStarMagic>(), (int)(projectile.damage * dmgKBMult), projectile.knockBack * dmgKBMult, projectile.owner);
-					star.timeLeft = 120;
-				}
-			}
+            // spawn dust
+            if (Main.rand.NextBool(5))
+            {
+                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, Main.rand.Next(dustTypes), Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
+            }
+            int rainbow = Dust.NewDust(Projectile.Center, Projectile.width, Projectile.height, 66, 0f, 0f, 100, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 1f);
+            Dust dust = Main.dust[rainbow];
+            dust.velocity *= 0.1f;
+            dust.velocity += Projectile.velocity * 0.2f;
+            dust.position.X = Projectile.Center.X + 4f + Main.rand.Next(-2, 3);
+            dust.position.Y = Projectile.Center.Y + Main.rand.Next(-2, 3);
+            dust.noGravity = true;
 
-			projectile.ai[0]++;
-		}
+            if (Projectile.timeLeft % 10 == 0 && Main.myPlayer == Projectile.owner) //spawn stars every 10 ticks
+            {
+                var source = Projectile.GetSource_FromThis();
+                if (Main.player[Projectile.owner].ownedProjectileCounts[ModContent.ProjectileType<AstralStarMagic>()] < 30)
+                {
+                    float dmgKBMult = Main.rand.NextFloat(0.25f, 0.75f);
+                    Projectile star = CalamityUtils.ProjectileRain(source, Projectile.Center, Projectile.velocity.X, 100f, 500f, 800f, Main.rand.NextFloat(10f, 20f), ModContent.ProjectileType<AstralStarMagic>(), (int)(Projectile.damage * dmgKBMult), Projectile.knockBack * dmgKBMult, Projectile.owner);
+                    star.timeLeft = 120;
+                    star.ai[0] = 1f;
+                }
+            }
 
-		private void ApplyCosVelocity(Vector2 baseVelocity)
-		{
-			float radians = -(-MathHelper.PiOver2 + CosFrequency * projectile.ai[0]);
-			projectile.velocity += CosAmplitude * baseVelocity.RotatedBy(radians);
-		}
+            Projectile.ai[0]++;
+        }
 
-		public override void Kill(int timeLeft)
-		{
-			for (int i = 0; i <= 5; i++)
-			{
-				Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, Main.rand.Next(dustTypes), projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
-			}
-		}
+        private void ApplyCosVelocity(Vector2 baseVelocity)
+        {
+            float radians = -(-MathHelper.PiOver2 + CosFrequency * Projectile.ai[0]);
+            Projectile.velocity += CosAmplitude * baseVelocity.RotatedBy(radians);
+        }
 
-		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-		{
-			target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 180);
-		}
+        public override void Kill(int timeLeft)
+        {
+            for (int i = 0; i <= 5; i++)
+            {
+                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, Main.rand.Next(dustTypes), Projectile.oldVelocity.X * 0.5f, Projectile.oldVelocity.Y * 0.5f);
+            }
+        }
 
-		public override void OnHitPvp(Player target, int damage, bool crit)
-		{
-			target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 180);
-		}
-	}
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 180);
+        }
+
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 180);
+        }
+    }
 }

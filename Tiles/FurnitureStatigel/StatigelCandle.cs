@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
@@ -8,15 +8,15 @@ namespace CalamityMod.Tiles.FurnitureStatigel
 {
     public class StatigelCandle : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpCandle();
             ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Statigel Candle");
-            AddMapEntry(new Color(191, 142, 111), name);
-            disableSmartCursor = true;
-            adjTiles = new int[] { TileID.Torches };
-            drop = ModContent.ItemType<Items.Placeables.FurnitureStatigel.StatigelCandle>();
+            name.SetDefault("Candle");
+            AddMapEntry(new Color(253, 221, 3), name);
+            TileID.Sets.DisableSmartCursor[Type] = true;
+            AdjTiles = new int[] { TileID.Candles };
+            ItemDrop = ModContent.ItemType<Items.Placeables.FurnitureStatigel.StatigelCandle>();
         }
 
         public override bool CreateDust(int i, int j, ref int type)
@@ -32,7 +32,7 @@ namespace CalamityMod.Tiles.FurnitureStatigel
 
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
-            if (Main.tile[i, j].frameX < 18)
+            if (Main.tile[i, j].TileFrameX < 18)
             {
                 r = 0.8f;
                 g = 0.9f;
@@ -55,11 +55,11 @@ namespace CalamityMod.Tiles.FurnitureStatigel
         {
             Player player = Main.LocalPlayer;
             player.noThrow = 2;
-            player.showItemIcon = true;
-            player.showItemIcon2 = ModContent.ItemType<Items.Placeables.FurnitureStatigel.StatigelCandle>();
+            player.cursorItemIconEnabled = true;
+            player.cursorItemIconID = ModContent.ItemType<Items.Placeables.FurnitureStatigel.StatigelCandle>();
         }
 
-        public override bool NewRightClick(int i, int j)
+        public override bool RightClick(int i, int j)
         {
             CalamityUtils.RightClickBreak(i, j);
             return true;
@@ -67,7 +67,7 @@ namespace CalamityMod.Tiles.FurnitureStatigel
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            CalamityUtils.DrawFlameEffect(ModContent.GetTexture("CalamityMod/Tiles/FurnitureStatigel/StatigelCandleFlame"), i, j);
+            CalamityUtils.DrawFlameEffect(ModContent.Request<Texture2D>("CalamityMod/Tiles/FurnitureStatigel/StatigelCandleFlame").Value, i, j);
         }
     }
 }

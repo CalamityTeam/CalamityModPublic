@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -7,7 +7,7 @@ using CalamityMod.Projectiles.BaseProjectiles;
 
 namespace CalamityMod.Projectiles.Melee
 {
-	public class NebulashFlail : BaseWhipProjectile
+    public class NebulashFlail : BaseWhipProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -16,18 +16,18 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetDefaults()
         {
-            projectile.width = 16;
-            projectile.height = 16;
-            projectile.friendly = true;
-            projectile.alpha = 255;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.melee = true;
-            projectile.ignoreWater = true;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 3;
+            Projectile.width = 16;
+            Projectile.height = 16;
+            Projectile.friendly = true;
+            Projectile.alpha = 255;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.DamageType = DamageClass.MeleeNoSpeed;
+            Projectile.ignoreWater = true;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 3;
         }
-        public override Color SpecialDrawColor => new Color(255, 200, 0);
+        public override Color SpecialDrawColor => new(255, 200, 0);
         public override int ExudeDustType => ModContent.DustType<AstralOrange>();
         public override int WhipDustType => ModContent.DustType<AstralOrange>();
         public override int HandleHeight => 60;
@@ -45,7 +45,7 @@ namespace CalamityMod.Projectiles.Melee
                 return true;
             }
             float num8 = 0f;
-            if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), projectile.Center, projectile.Center + projectile.velocity, 16f * projectile.scale, ref num8))
+            if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center, Projectile.Center + Projectile.velocity, 16f * Projectile.scale, ref num8))
             {
                 return true;
             }
@@ -54,12 +54,12 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 120);
-            if (projectile.localAI[1] <= 0f && projectile.owner == Main.myPlayer)
+            target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 240);
+            if (Projectile.localAI[1] <= 0f && Projectile.owner == Main.myPlayer)
             {
-                Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<Nebudust>(), projectile.damage / 2, knockback, projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<Nebudust>(), Projectile.damage / 2, knockback, Projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
             }
-            projectile.localAI[1] = 4f;
+            Projectile.localAI[1] = 4f;
         }
     }
 }

@@ -1,11 +1,14 @@
-using Microsoft.Xna.Framework;
-using Terraria;
-using Terraria.Graphics.Shaders;
-using Terraria.ModLoader;
-using CalamityMod.Items.Armor;
+﻿using CalamityMod.Items.Armor.Silva;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
+using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
+using Microsoft.Xna.Framework;
+using Terraria;
+using Terraria.DataStructures;
+using Terraria.Graphics.Shaders;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories.Wings
 {
@@ -14,35 +17,35 @@ namespace CalamityMod.Items.Accessories.Wings
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Silva Wings");
             Tooltip.SetDefault("The purest of nature\n" +
-                "Horizontal speed: 11\n" +
+                "Horizontal speed: 11.00\n" +
                 "Acceleration multiplier: 2.8\n" +
                 "Excellent vertical speed\n" +
-                "Flight time: 220\n" +
-				"The Silva revive heals you to half health while wearing the Silva armor");
+                "Flight time: 270\n" +
+                "The Silva revive heals you to half health while wearing the Silva armor");
+            ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new WingStats(270, 11f, 2.8f);
         }
 
         public override void SetDefaults()
         {
-            item.width = 22;
-            item.height = 20;
-            item.value = CalamityGlobalItem.Rarity15BuyPrice;
-            item.Calamity().postMoonLordRarity = 15;
-            item.accessory = true;
+            Item.width = 22;
+            Item.height = 20;
+            Item.value = CalamityGlobalItem.Rarity14BuyPrice;
+            Item.rare = ModContent.RarityType<DarkBlue>();
+            Item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            if ((player.armor[0].type == ModContent.ItemType<SilvaHelm>() || player.armor[0].type == ModContent.ItemType<SilvaHelmet>() ||
-                player.armor[0].type == ModContent.ItemType<SilvaHornedHelm>() || player.armor[0].type == ModContent.ItemType<SilvaMask>() ||
-                player.armor[0].type == ModContent.ItemType<SilvaMaskedCap>()) &&
+            if ((player.armor[0].type == ModContent.ItemType<SilvaHeadSummon>() || player.armor[0].type == ModContent.ItemType<SilvaHeadMagic>()) &&
                 player.armor[1].type == ModContent.ItemType<SilvaArmor>() && player.armor[2].type == ModContent.ItemType<SilvaLeggings>())
             {
                 player.Calamity().silvaWings = true;
             }
 
-            if (player.controlJump && player.wingTime > 0f && !player.jumpAgainCloud && player.jump == 0 && player.velocity.Y != 0f && !hideVisual)
+            if (player.controlJump && player.wingTime > 0f && !player.canJumpAgain_Cloud && player.jump == 0 && player.velocity.Y != 0f && !hideVisual)
             {
                 int num59 = 4;
                 if (player.direction == 1)
@@ -58,7 +61,6 @@ namespace CalamityMod.Items.Accessories.Wings
                 }
                 Main.dust[num60].shader = GameShaders.Armor.GetSecondaryShader(player.cWings, player);
             }
-            player.wingTimeMax = 220;
             player.noFallDmg = true;
         }
 
@@ -71,24 +73,15 @@ namespace CalamityMod.Items.Accessories.Wings
             constantAscend = 0.14f; //0.135
         }
 
-        public override void HorizontalWingSpeeds(Player player, ref float speed, ref float acceleration)
-        {
-            speed = 11f;
-            acceleration *= 2.8f;
-        }
-
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<EffulgentFeather>(), 15);
-            recipe.AddRecipeGroup("AnyGoldBar", 3);
-            recipe.AddIngredient(ModContent.ItemType<Tenebris>(), 3);
-            recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 7);
-            recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 7);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient<EffulgentFeather>(15).
+                AddRecipeGroup("AnyGoldBar", 3).
+                AddIngredient<Tenebris>(3).
+                AddIngredient<DarksunFragment>(5).
+                AddTile<CosmicAnvil>().
+                Register();
         }
     }
 }

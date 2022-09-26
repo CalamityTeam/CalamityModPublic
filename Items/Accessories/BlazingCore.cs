@@ -1,8 +1,8 @@
-using CalamityMod.CalPlayer;
-using CalamityMod.World;
-using System.Collections.Generic;
+﻿using CalamityMod.CalPlayer;
+using CalamityMod.Rarities;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
@@ -11,39 +11,24 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Blazing Core");
             Tooltip.SetDefault("The searing core of the profaned goddess\n" +
-                               "10% damage reduction \n" +
                                "Being hit creates a miniature sun that lingers, dealing damage to nearby enemies\n" +
                                "The sun will slowly drag enemies into it\n" +
                                "Only one sun can be active at once\n" +
-							   "Provides a moderate amount of light in the Abyss");
-            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(5, 6));
+                               "Provides a moderate amount of light in the Abyss");
+            Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(5, 6));
+            ItemID.Sets.AnimatesAsSoul[Type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.width = 42;
-            item.height = 46;
-            item.accessory = true;
-            item.expert = true;
-            item.rare = 9;
-            item.value = CalamityGlobalItem.Rarity12BuyPrice;
-        }
-
-        public override void ModifyTooltips(List<TooltipLine> list)
-        {
-			if (CalamityWorld.death)
-			{
-				foreach (TooltipLine line2 in list)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Tooltip5")
-					{
-						line2.text = "Provides a moderate amount of light in the Abyss\n" +
-						"Provides heat and cold protection in Death Mode";
-					}
-				}
-			}
+            Item.width = 42;
+            Item.height = 46;
+            Item.accessory = true;
+            Item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            Item.rare = ModContent.RarityType<Turquoise>();
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

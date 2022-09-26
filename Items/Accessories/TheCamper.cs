@@ -1,9 +1,6 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Projectiles.Typeless;
-using CalamityMod.World;
 using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -18,54 +15,40 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("The Camper");
             Tooltip.SetDefault("In rest may we find victory.\n" +
-				"You deal no damage unless stationary\n" +
+                "You deal 90% less damage unless stationary\n" +
                 "Standing still grants buff(s) dependent on what weapon you're holding\n" +
                 "Standing still provides a damaging aura around you\n" +
                 "While moving, you regenerate health as if standing still\n" +
-				"Provides a small amount of light in the Abyss");
+                "Provides a small amount of light in the Abyss");
         }
 
         public override void SetDefaults()
         {
-            item.width = 26;
-            item.height = 26;
-            item.value = CalamityGlobalItem.Rarity7BuyPrice; 
-            item.rare = 7;
-            item.accessory = true;
-            item.defense = 10;
-        }
-
-        public override void ModifyTooltips(List<TooltipLine> list)
-        {
-			if (CalamityWorld.death)
-			{
-				foreach (TooltipLine line2 in list)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Tooltip5")
-					{
-						line2.text = "Provides a small amount of light in the Abyss\n" +
-						"Provides cold protection in Death Mode";
-					}
-				}
-			}
+            Item.width = 26;
+            Item.height = 26;
+            Item.value = CalamityGlobalItem.Rarity7BuyPrice;
+            Item.rare = ItemRarityID.Lime;
+            Item.accessory = true;
+            Item.defense = 10;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
+            var source = player.GetSource_Accessory(Item);
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.camper = true;
             player.AddBuff(BuffID.HeartLamp, 60, true);
             player.AddBuff(BuffID.Campfire, 60, true);
             player.AddBuff(BuffID.WellFed, 60, true);
-            player.lifeRegen += 2;
             Lighting.AddLight(player.Center, 0.825f, 0.66f, 0f);
             if (Main.myPlayer == player.whoAmI)
             {
-                if (Math.Abs(player.velocity.X) < 0.05f && Math.Abs(player.velocity.Y) < 0.05f)
+                if (player.StandingStill())
                 {
-                    player.allDamage += 0.15f;
+                    player.GetDamage<GenericDamageClass>() += 0.15f;
                     auraCounter++;
                     float range = 200f;
                     if (auraCounter == 9)
@@ -76,7 +59,8 @@ namespace CalamityMod.Items.Accessories
                             NPC npc = Main.npc[i];
                             if (npc.active && !npc.friendly && npc.damage > -1 && !npc.dontTakeDamage && Vector2.Distance(player.Center, npc.Center) <= range)
                             {
-                                Projectile p = Projectile.NewProjectileDirect(npc.Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), (int)(Main.rand.Next(20, 41) * player.AverageDamage()), 0f, player.whoAmI, i);
+                                int campingFireDamage = (int)player.GetBestClassDamage().ApplyTo(Main.rand.Next(20, 41));
+                                Projectile p = Projectile.NewProjectileDirect(source, npc.Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), campingFireDamage, 0f, player.whoAmI, i);
                                 if (!npc.buffImmune[BuffID.OnFire])
                                 {
                                     npc.AddBuff(BuffID.OnFire, 120);
@@ -86,23 +70,23 @@ namespace CalamityMod.Items.Accessories
                     }
                     if (player.ActiveItem() != null && !player.ActiveItem().IsAir && player.ActiveItem().stack > 0)
                     {
-                        bool summon = player.ActiveItem().summon;
-                        bool rogue = player.ActiveItem().Calamity().rogue;
-                        bool melee = player.ActiveItem().melee;
-                        bool ranged = player.ActiveItem().ranged;
-                        bool magic = player.ActiveItem().magic;
+                        bool summon = player.ActiveItem().CountsAsClass<SummonDamageClass>();
+                        bool rogue = player.ActiveItem().CountsAsClass<ThrowingDamageClass>();
+                        bool melee = player.ActiveItem().CountsAsClass<MeleeDamageClass>();
+                        bool ranged = player.ActiveItem().CountsAsClass<RangedDamageClass>();
+                        bool magic = player.ActiveItem().CountsAsClass<MagicDamageClass>();
                         if (summon)
                         {
-                            player.minionKB += 0.10f;
+                            player.GetKnockback<SummonDamageClass>() += 0.1f;
                             player.AddBuff(BuffID.Bewitched, 60, true);
                         }
                         else if (rogue)
                         {
-                            modPlayer.throwingVelocity += 0.10f;
+                            modPlayer.rogueVelocity += 0.1f;
                         }
                         else if (melee)
                         {
-                            player.meleeSpeed += 0.10f;
+                            player.GetAttackSpeed<MeleeDamageClass>() += 0.1f;
                             player.AddBuff(BuffID.Sharpened, 60, true);
                         }
                         else if (ranged)
@@ -124,19 +108,17 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Campfire, 10);
-            recipe.AddIngredient(ItemID.HeartLantern, 5);
-            recipe.AddRecipeGroup("AnyFood", 50);
-            recipe.AddIngredient(ItemID.ShinyStone);
-            recipe.AddIngredient(ItemID.SharpeningStation);
-            recipe.AddIngredient(ItemID.CrystalBall);
-            recipe.AddIngredient(ItemID.AmmoBox);
-            recipe.AddIngredient(ItemID.BewitchingTable);
-
-            recipe.AddTile(TileID.TinkerersWorkbench);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient(ItemID.ShinyStone).
+                AddIngredient(ItemID.Campfire, 10).
+                AddIngredient(ItemID.HeartLantern, 5).
+                AddIngredient(ItemID.SharpeningStation).
+                AddIngredient(ItemID.CrystalBall).
+                AddIngredient(ItemID.AmmoBox).
+                AddIngredient(ItemID.BewitchingTable).
+                AddRecipeGroup("AnyFood", 50).
+                AddTile(TileID.TinkerersWorkbench).
+                Register();
 
         }
     }

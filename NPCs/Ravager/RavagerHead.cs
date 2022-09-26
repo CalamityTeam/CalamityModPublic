@@ -1,168 +1,125 @@
-using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
+﻿using CalamityMod.Events;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
+
 namespace CalamityMod.NPCs.Ravager
 {
-	public class RavagerHead : ModNPC
+    public class RavagerHead : ModNPC
     {
+        public static readonly SoundStyle MissileSound = new("CalamityMod/Sounds/Custom/Ravager/RavagerMissileLaunch");
         public override void SetStaticDefaults()
         {
+            this.HideFromBestiary();
             DisplayName.SetDefault("Ravager");
         }
 
         public override void SetDefaults()
         {
-            npc.aiStyle = -1;
-            npc.damage = 0;
-            npc.width = 80;
-            npc.height = 80;
-            npc.defense = 50;
-			npc.DR_NERD(0.1f);
-            npc.lifeMax = 32705;
-            npc.knockBackResist = 0f;
-            aiType = -1;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
+            NPC.aiStyle = -1;
+            NPC.damage = 50;
+            NPC.width = 80;
+            NPC.height = 80;
+            NPC.defense = 40;
+            NPC.DR_NERD(0.15f);
+            NPC.lifeMax = 19182;
+            NPC.knockBackResist = 0f;
+            AIType = -1;
+            NPC.netAlways = true;
+            NPC.noGravity = true;
+            NPC.canGhostHeal = false;
+            NPC.noTileCollide = true;
+            NPC.alpha = 255;
+            NPC.HitSound = RavagerBody.HitSound;
+            NPC.DeathSound = null;
+            if (DownedBossSystem.downedProvidence && !BossRushEvent.BossRushActive)
             {
-                npc.buffImmune[k] = true;
+                NPC.defense *= 2;
+                NPC.lifeMax *= 4;
             }
-            npc.buffImmune[BuffID.Ichor] = false;
-            npc.buffImmune[BuffID.CursedInferno] = false;
-			npc.buffImmune[BuffID.Frostburn] = false;
-			npc.buffImmune[BuffID.Daybreak] = false;
-			npc.buffImmune[BuffID.BetsysCurse] = false;
-			npc.buffImmune[BuffID.StardustMinionBleed] = false;
-			npc.buffImmune[BuffID.DryadsWardDebuff] = false;
-			npc.buffImmune[BuffID.Oiled] = false;
-            npc.buffImmune[ModContent.BuffType<AstralInfectionDebuff>()] = false;
-            npc.buffImmune[ModContent.BuffType<AbyssalFlames>()] = false;
-            npc.buffImmune[ModContent.BuffType<ArmorCrunch>()] = false;
-            npc.buffImmune[ModContent.BuffType<DemonFlames>()] = false;
-            npc.buffImmune[ModContent.BuffType<GodSlayerInferno>()] = false;
-            npc.buffImmune[ModContent.BuffType<HolyFlames>()] = false;
-            npc.buffImmune[ModContent.BuffType<Nightwither>()] = false;
-            npc.buffImmune[ModContent.BuffType<Shred>()] = false;
-            npc.buffImmune[ModContent.BuffType<WarCleave>()] = false;
-            npc.buffImmune[ModContent.BuffType<WhisperingDeath>()] = false;
-            npc.buffImmune[ModContent.BuffType<SilvaStun>()] = false;
-            npc.noGravity = true;
-            npc.canGhostHeal = false;
-            npc.noTileCollide = true;
-            npc.alpha = 255;
-            npc.value = Item.buyPrice(0, 0, 0, 0);
-            npc.HitSound = SoundID.NPCHit41;
-            npc.DeathSound = null;
-            if (CalamityWorld.downedProvidence)
+            if (BossRushEvent.BossRushActive)
             {
-                npc.defense = 150;
-                npc.lifeMax = 260000;
+                NPC.lifeMax = 45000;
             }
-            if (CalamityWorld.bossRushActive)
-            {
-                npc.lifeMax = 450000;
-            }
-            double HPBoost = (double)CalamityConfig.Instance.BossHealthBoost * 0.01;
-            npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
+            double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
+            NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
+            NPC.Calamity().VulnerableToSickness = false;
+            NPC.Calamity().VulnerableToWater = true;
         }
 
         public override void AI()
         {
-            bool provy = CalamityWorld.downedProvidence && !CalamityWorld.bossRushActive;
-            bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
-			Player player = Main.player[npc.target];
             if (CalamityGlobalNPC.scavenger < 0 || !Main.npc[CalamityGlobalNPC.scavenger].active)
             {
-                npc.active = false;
-                npc.netUpdate = true;
+                NPC.active = false;
+                NPC.netUpdate = true;
                 return;
             }
-            if (npc.timeLeft < 1800)
+
+            bool provy = DownedBossSystem.downedProvidence && !BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+
+            // Setting this in SetDefaults will disable expert mode scaling, so put it here instead
+            NPC.damage = 0;
+
+            if (NPC.timeLeft < 1800)
+                NPC.timeLeft = 1800;
+
+            NPC.Center = Main.npc[CalamityGlobalNPC.scavenger].Center + new Vector2(1f, -20f);
+
+            if (NPC.alpha > 0)
             {
-                npc.timeLeft = 1800;
+                NPC.alpha -= 10;
+                if (NPC.alpha < 0)
+                    NPC.alpha = 0;
             }
-            float speed = 21f;
-            Vector2 center = new Vector2(npc.Center.X, npc.Center.Y);
-            float centerX = Main.npc[CalamityGlobalNPC.scavenger].Center.X - center.X;
-            float centerY = Main.npc[CalamityGlobalNPC.scavenger].Center.Y - center.Y;
-            centerY -= 20f;
-            centerX += 1f;
-            float totalSpeed = (float)Math.Sqrt((double)(centerX * centerX + centerY * centerY));
-            if (totalSpeed < 20f)
+
+            NPC.ai[1] += 1f;
+            if (NPC.ai[1] >= (death ? 420f : 480f))
             {
-                npc.rotation = 0f;
-                npc.velocity.X = centerX;
-                npc.velocity.Y = centerY;
-            }
-            else
-            {
-                totalSpeed = speed / totalSpeed;
-                npc.velocity.X = centerX * totalSpeed;
-                npc.velocity.Y = centerY * totalSpeed;
-                npc.rotation = npc.velocity.X * 0.1f;
-            }
-            if (npc.alpha > 0)
-            {
-                npc.alpha -= 10;
-                if (npc.alpha < 0)
-                {
-                    npc.alpha = 0;
-                }
-                npc.ai[1] = 30f;
-            }
-            npc.ai[1] += 1f;
-            int nukeTimer = 450;
-            if (npc.ai[1] >= (float)nukeTimer)
-            {
-                Main.PlaySound(SoundID.Item62, npc.position);
-                npc.TargetClosest(true);
-                npc.ai[1] = 0f;
-                Vector2 shootFromVector = new Vector2(npc.Center.X, npc.Center.Y - 20f);
-                float nukeSpeed = 1f;
-                float playerDistanceX = player.position.X + (float)player.width * 0.5f - shootFromVector.X;
-                float playerDistanceY = player.position.Y + (float)player.height * 0.5f - shootFromVector.Y;
-                float totalPlayerDistance = (float)Math.Sqrt((double)(playerDistanceX * playerDistanceX + playerDistanceY * playerDistanceY));
-                totalPlayerDistance = nukeSpeed / totalPlayerDistance;
-                playerDistanceX *= totalPlayerDistance;
-                playerDistanceY *= totalPlayerDistance;
-                int nukeDamage = expertMode ? 45 : 60;
-                int projectileType = ModContent.ProjectileType<ScavengerNuke>();
+                SoundEngine.PlaySound(MissileSound, NPC.position);
+
+                // Get a target
+                if (NPC.target < 0 || NPC.target == Main.maxPlayers || Main.player[NPC.target].dead || !Main.player[NPC.target].active)
+                    NPC.TargetClosest();
+
+                // Despawn safety, make sure to target another player if the current player target is too far away
+                if (Vector2.Distance(Main.player[NPC.target].Center, NPC.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
+                    NPC.TargetClosest();
+
+                NPC.ai[1] = 0f;
+                int type = ModContent.ProjectileType<ScavengerNuke>();
+                int damage = NPC.GetProjectileDamage(type);
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    int nuke = Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, playerDistanceX, playerDistanceY, projectileType, nukeDamage + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
+                    Vector2 shootFromVector = new Vector2(NPC.Center.X, NPC.Center.Y - 20f);
+                    Vector2 velocity = new Vector2(0f, -15f);
+                    int nuke = Projectile.NewProjectile(NPC.GetSource_FromAI(), shootFromVector, velocity, type, damage + (provy ? 30 : 0), 0f, Main.myPlayer, NPC.target, 0f);
                     Main.projectile[nuke].velocity.Y = -15f;
                 }
             }
         }
 
-		public override bool CheckActive()
-		{
-			return false;
-		}
-
-		public override bool PreNPCLoot()
-        {
-            return false;
-        }
+        public override bool CheckActive() => false;
 
         public override void HitEffect(int hitDirection, double damage)
         {
-            if (npc.life > 0)
+            if (NPC.life > 0)
             {
                 int num285 = 0;
-                while ((double)num285 < damage / (double)npc.lifeMax * 100.0)
+                while ((double)num285 < damage / (double)NPC.lifeMax * 100.0)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, (float)hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, (float)hitDirection, -1f, 0, default, 1f);
                     num285++;
                 }
             }
             else if (Main.netMode != NetmodeID.MultiplayerClient)
             {
-                NPC.NewNPC((int)npc.Center.X, (int)npc.position.Y + npc.height, ModContent.NPCType<RavagerHead2>(), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
+                NPC.NewNPC(NPC.GetSource_Death(), (int)NPC.Center.X, (int)NPC.position.Y + NPC.height, ModContent.NPCType<RavagerHead2>(), NPC.whoAmI);
             }
         }
     }

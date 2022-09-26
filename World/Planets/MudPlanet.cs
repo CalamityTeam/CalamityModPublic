@@ -1,9 +1,11 @@
-
+﻿
+using CalamityMod.Items.Potions;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.GameContent.Generation;
 using Terraria.ID;
-using Terraria.World.Generation;
+using Terraria.ModLoader;
+using Terraria.WorldBuilding;
 
 namespace CalamityMod.World.Planets
 {
@@ -47,7 +49,7 @@ namespace CalamityMod.World.Planets
             {
                 int x = _random.Next(origin.X - radius + 3, origin.X + radius - 2);
                 int y = _random.Next(origin.Y - radius + 3, origin.Y + radius - 2);
-                WorldGen.TileRunner(x, y, (double)_random.NextFloat(5f, 9f), _random.Next(5, 15), TileID.Stone);
+                WorldGen.TileRunner(x, y, _random.NextFloat(5f, 9f), _random.Next(5, 15), Main.getGoodWorld ? TileID.WoodenSpikes : TileID.Stone);
             }
 
             //Place grass, remove wall and occasionally smooth
@@ -102,22 +104,23 @@ namespace CalamityMod.World.Planets
                     new Modifiers.Conditions(new CustomConditions.RandomChance(7)),
                     new Actions.SetLiquid(2, 255)
                 }));
-                bool placedSpawner = false;
-                while (!placedSpawner)
+                bool placedChest = false;
+                while (!placedChest)
                 {
-                    int testX = origin.X + _random.Next(-(int)radius, (int)radius);
-                    int testY = origin.Y + _random.Next(-(int)radius, (int)radius);
-                    if (WorldGen.EmptyTileCheck(testX - 1, testX + 1, testY - 1, testY + 1) && _tiles[testX, testY].wall == WallID.HiveUnsafe)
+                    int testX = origin.X + _random.Next(-radius, radius);
+                    int testY = origin.Y + _random.Next(-radius, radius);
+                    if (WorldGen.EmptyTileCheck(testX - 1, testX + 1, testY - 1, testY + 1) && _tiles[testX, testY].WallType  == WallID.HiveUnsafe)
                     {
                         for (int floorX = testX - 1; floorX <= testX + 1; floorX++)
                         {
-                            _tiles[floorX, testY + 2].active(true);
-                            _tiles[floorX, testY + 2].type = TileID.Hive;
+                            _tiles[floorX, testY + 2].Get<TileWallWireStateData>().HasTile = true;
+                            _tiles[floorX, testY + 2].TileType = TileID.Hive;
                             WorldGen.SquareTileFrame(floorX, testY + 2);
                         }
-                        bool placed = WorldGen.PlaceTile(testX, testY + 1, TileID.Larva, true, false);
-                        if (placed)
-                            placedSpawner = true;
+                        //Place chest
+                        int chestID = WorldGen.PlaceChest(testX, testY + 1, 21, false, 29);
+                        FillHoneyChest(chestID);
+                        placedChest = true;
                     }
                 }
             }
@@ -135,7 +138,7 @@ namespace CalamityMod.World.Planets
                 }));
                 shape.Subtract(cavernData, origin, origin);
                 int chestY = origin.Y;
-                while (!_tiles[origin.X, chestY].active())
+                while (!_tiles[origin.X, chestY].HasTile)
                 {
                     chestY++;
                 }
@@ -147,10 +150,10 @@ namespace CalamityMod.World.Planets
                     }
                 }
                 //PLACE TILES BENEATH CHEST, IN CASE
-                _tiles[origin.X, chestY].active(true);
-                _tiles[origin.X, chestY].type = TileID.Mud;
-                _tiles[origin.X + 1, chestY].active(true);
-                _tiles[origin.X + 1, chestY].type = TileID.Mud;
+                _tiles[origin.X, chestY].Get<TileWallWireStateData>().HasTile = true;
+                _tiles[origin.X, chestY].TileType = TileID.Mud;
+                _tiles[origin.X + 1, chestY].Get<TileWallWireStateData>().HasTile = true;
+                _tiles[origin.X + 1, chestY].TileType = TileID.Mud;
                 //Place chest
                 int chestID = WorldGen.PlaceChest(origin.X, chestY - 1, 21, false, 17);
                 FillChest(chestID);
@@ -209,8 +212,8 @@ namespace CalamityMod.World.Planets
 
         private int[] BarLoot = new int[]
         {
-            WorldGen.SilverTierOre == TileID.Silver ? ItemID.SilverBar : ItemID.TungstenBar,
-            WorldGen.GoldTierOre == TileID.Gold ? ItemID.GoldBar : ItemID.PlatinumBar
+            WorldGen.silverBar == TileID.Silver ? ItemID.SilverBar : ItemID.TungstenBar,
+            WorldGen.goldBar == TileID.Gold ? ItemID.GoldBar : ItemID.PlatinumBar
         };
 
         private void FillChest(int id)
@@ -266,6 +269,91 @@ namespace CalamityMod.World.Planets
             else //glowsticks
             {
                 chest.item[index].SetDefaults(ItemID.Glowstick);
+                chest.item[index++].stack = _random.Next(18, 36);
+            }
+
+        }
+
+        //---------------------
+        //HONEY CHEST STUFF
+        //---------------------
+
+        private int[] FocusLootHoney = new int[]
+        {
+            ItemID.NaturesGift,
+            ItemID.Bezoar,
+            ItemID.SharpeningStation
+        };
+
+        private int[] PotionLootHoney = new int[]
+        {
+            ItemID.LifeforcePotion,
+            ItemID.RegenerationPotion,
+            ItemID.ManaRegenerationPotion,
+            ItemID.HeartreachPotion,
+            ModContent.ItemType<PhotosynthesisPotion>(),
+            ModContent.ItemType<CadancePotion>()
+        };
+
+        private int[] BarLootHoney = new int[]
+        {
+            WorldGen.silverBar == TileID.Silver ? ItemID.SilverBar : ItemID.TungstenBar,
+            WorldGen.goldBar == TileID.Gold ? ItemID.GoldBar : ItemID.PlatinumBar
+        };
+
+        private void FillHoneyChest(int id)
+        {
+            Chest chest = Main.chest[id];
+            int index = 0;
+
+            //Focus loot
+            chest.item[index++].SetDefaults(_random.Next(FocusLootHoney));
+
+            //Bars
+            if (_random.Next(3) <= 1)
+            {
+                chest.item[index].SetDefaults(_random.Next(BarLootHoney));
+                chest.item[index].SetDefaults(_random.Next(7, 15));
+            }
+            else
+            {
+                chest.item[index].SetDefaults(ItemID.GoldCoin);
+                chest.item[index++].stack = _random.Next(3, 5); // 3 or 4 gold coins
+            }
+
+            //Potion loot
+            if (_random.Next(2) == 0)
+            {
+                chest.item[index].SetDefaults(_random.Next(PotionLootHoney));
+                chest.item[index++].stack = _random.Next(1, 4);
+            }
+            else //Healing potion
+            {
+                chest.item[index].SetDefaults(ItemID.BottledHoney);
+                chest.item[index++].stack = _random.Next(3, 7);
+            }
+
+            //Weaponry
+            if (_random.Next(2) == 0)
+            {
+                chest.item[index].SetDefaults(ItemID.Stinger);
+                chest.item[index++].stack = _random.Next(4, 6);
+            }
+            else
+            {
+                chest.item[index].SetDefaults(ItemID.JungleSpores);
+                chest.item[index++].stack = _random.Next(3, 5);
+            }
+
+            //Recall potion
+            if (_random.Next(2) == 0)
+            {
+                chest.item[index].SetDefaults(ItemID.RecallPotion);
+                chest.item[index++].stack = _random.Next(1, 4);
+            }
+            else //glowsticks
+            {
+                chest.item[index].SetDefaults(ItemID.YellowTorch);
                 chest.item[index++].stack = _random.Next(18, 36);
             }
 

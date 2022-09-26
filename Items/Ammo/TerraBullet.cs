@@ -1,41 +1,43 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Ranged;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Items.Ammo
 {
     public class TerraBullet : ModItem
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 99;
             DisplayName.SetDefault("Terra Bullet");
             Tooltip.SetDefault("Explodes and splits into homing terra shards on death");
         }
 
         public override void SetDefaults()
         {
-            item.damage = 9;
-            item.ranged = true;
-            item.width = 8;
-            item.height = 8;
-            item.maxStack = 999;
-            item.consumable = true;
-            item.knockBack = 1.25f;
-            item.value = 2000;
-            item.rare = 7;
-            item.shoot = ModContent.ProjectileType<TerraBulletMain>();
-            item.shootSpeed = 10f;
-            item.ammo = 97;
+            Item.damage = 9;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 8;
+            Item.height = 8;
+            Item.maxStack = 999;
+            Item.consumable = true;
+            Item.knockBack = 1.25f;
+            Item.value = Item.sellPrice(copper: 16);
+            Item.rare = ItemRarityID.Lime;
+            Item.shoot = ModContent.ProjectileType<TerraBulletMain>();
+            Item.shootSpeed = 10f;
+            Item.ammo = AmmoID.Bullet;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.CrystalBullet, 100);
-            recipe.AddIngredient(ModContent.ItemType<LivingShard>());
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this, 100);
-            recipe.AddRecipe();
+            CreateRecipe(100).
+                AddIngredient(ItemID.CrystalBullet, 100).
+                AddIngredient<LivingShard>().
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

@@ -1,21 +1,22 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureStratus
 {
-	public class StratusCandle : ModTile
+    public class StratusCandle : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
-            this.SetUpCandle();
+            this.SetUpCandle(true);
             ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Stratus Candle");
-            AddMapEntry(new Color(191, 142, 111), name);
-            disableSmartCursor = true;
-            adjTiles = new int[] { TileID.Torches };
-            drop = ModContent.ItemType<Items.Placeables.FurnitureStratus.StratusCandle>();
+            name.SetDefault("Candle");
+            AddMapEntry(new Color(253, 221, 3), name);
+            TileID.Sets.DisableSmartCursor[Type] = true;
+            AdjTiles = new int[] { TileID.Candles };
+            ItemDrop = ModContent.ItemType<Items.Placeables.FurnitureStratus.StratusCandle>();
         }
 
         public override bool CreateDust(int i, int j, ref int type)
@@ -32,7 +33,7 @@ namespace CalamityMod.Tiles.FurnitureStratus
 
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
-            if (Main.tile[i, j].frameX < 18)
+            if (Main.tile[i, j].TileFrameX < 18)
             {
                 r = 0.6f;
                 g = 0.8f;
@@ -55,14 +56,19 @@ namespace CalamityMod.Tiles.FurnitureStratus
         {
             Player player = Main.LocalPlayer;
             player.noThrow = 2;
-            player.showItemIcon = true;
-            player.showItemIcon2 = ModContent.ItemType<Items.Placeables.FurnitureStratus.StratusCandle>();
+            player.cursorItemIconEnabled = true;
+            player.cursorItemIconID = ModContent.ItemType<Items.Placeables.FurnitureStratus.StratusCandle>();
         }
 
-        public override bool NewRightClick(int i, int j)
+        public override bool RightClick(int i, int j)
         {
             CalamityUtils.RightClickBreak(i, j);
             return true;
+        }
+
+        public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
+        {
+            CalamityUtils.DrawFlameEffect(ModContent.Request<Texture2D>("CalamityMod/Tiles/FurnitureStratus/StratusCandleFlame").Value, i, j, 0, -7);
         }
     }
 }

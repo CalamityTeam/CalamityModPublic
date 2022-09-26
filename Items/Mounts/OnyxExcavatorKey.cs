@@ -1,4 +1,4 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -11,21 +11,23 @@ namespace CalamityMod.Items.Mounts
             DisplayName.SetDefault("Onyx Excavator Key");
             Tooltip.SetDefault("Summons a drill to drill through the world so you can destroy all the neat world generation\n" +
                 "with complete disregard for all the creatures that inhabit these lands. I am sure the EPA and PETA would like\n" +
-                "to have a word with you afterwards.");
+                "to have a word with you afterwards.\n" +
+                "The power of the destruction scales with the highest powered pickaxe in your inventory");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.width = 16;
-            item.height = 16;
-            item.useTime = 20;
-            item.useAnimation = 20;
-            item.useStyle = ItemUseStyleID.HoldingUp;
-            item.rare = 3;
-            item.value = Item.buyPrice(0, 9, 0, 0);
-            item.UseSound = SoundID.Item23;
-            item.noMelee = true;
-            item.mountType = ModContent.MountType<OnyxExcavator>();
+            Item.width = 16;
+            Item.height = 16;
+            Item.useTime = 20;
+            Item.useAnimation = 20;
+            Item.useStyle = ItemUseStyleID.HoldUp;
+            Item.rare = ItemRarityID.Orange;
+            Item.value = Item.buyPrice(0, 9, 0, 0);
+            Item.UseSound = SoundID.Item23;
+            Item.noMelee = true;
+            Item.mountType = ModContent.MountType<OnyxExcavator>();
         }
     }
 }

@@ -1,4 +1,5 @@
-using CalamityMod.Projectiles.Ranged;
+﻿using CalamityMod.Projectiles.Ranged;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -11,34 +12,47 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Telluric Glare");
-            Tooltip.SetDefault("Shoots an extremely fast energy arrow");
+            Tooltip.SetDefault("Fires volleys of four colossal radiant arrows which can pass through walls");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 70;
-            item.ranged = true;
-            item.width = 54;
-            item.height = 92;
-            item.useTime = 15;
-            item.useAnimation = 15;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 4f;
-            item.value = Item.buyPrice(1, 20, 0, 0);
-            item.rare = 10;
-            item.UseSound = SoundID.Item5;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<TelluricGlareProj>();
-            item.shootSpeed = 12f;
-            item.useAmmo = 40;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.damage = 176;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 54;
+            Item.height = 92;
+            Item.useTime = 5;
+            Item.useAnimation = 20;
+            Item.reuseDelay = 23;
+            Item.knockBack = 7.5f;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+
+            Item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            Item.rare = ModContent.RarityType<Turquoise>();
+
+            Item.UseSound = SoundID.Item102;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<TelluricGlareArrow>();
+            Item.shootSpeed = 18f;
+            Item.useAmmo = AmmoID.Arrow;
+            Item.Calamity().canFirePointBlankShots = true;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override Vector2? HoldoutOffset() => new Vector2(-14f, 0f);
+
+        public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
         {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<TelluricGlareProj>(), damage, knockBack, player.whoAmI, 0f, 0f);
-            return false;
+            // Always fires Radiant Arrows regardless of ammo used
+            type = Item.shoot;
+
+            // The arrow appears from a random location "on the bow".
+            // They are also moved backwards so that they have some time to build up past positions. This helps make them not appear out of thin air.
+
+            Vector2 offset = Vector2.Normalize(velocity.RotatedBy(MathHelper.PiOver2));
+            position += offset * Main.rand.NextFloat(-19f, 19f);
+            position -= 3f * velocity;
         }
     }
 }

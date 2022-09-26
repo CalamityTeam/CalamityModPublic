@@ -1,5 +1,4 @@
-using CalamityMod.CalPlayer;
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -12,17 +11,17 @@ namespace CalamityMod.Items.LoreItems
         {
             DisplayName.SetDefault("Skeletron Prime");
             Tooltip.SetDefault("What a silly and pointless contraption for something created with the essence of pure terror.\n" +
-                "Draedon obviously took several liberties with its design...I am not impressed.\n" +
-                "Favorite this item to gain a boost to your armor penetration.\n" +
-				"However, your max acceleration is decreased due to you feeling heavier.");
+                "Draedon obviously took several liberties with its design... I am not impressed.");
+            SacrificeTotal = 1;
+            ItemID.Sets.ItemNoGravity[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.width = 20;
-            item.height = 20;
-            item.rare = 5;
-            item.consumable = false;
+            Item.width = 20;
+            Item.height = 20;
+            Item.rare = ItemRarityID.Pink;
+            Item.consumable = false;
         }
 
         public override bool CanUseItem(Player player)
@@ -30,21 +29,9 @@ namespace CalamityMod.Items.LoreItems
             return false;
         }
 
-        public override void UpdateInventory(Player player)
-        {
-            CalamityPlayer modPlayer = player.Calamity();
-			if (item.favorited)
-				modPlayer.skeletronPrimeLore = true;
-        }
-
         public override void AddRecipes()
         {
-            ModRecipe r = new ModRecipe(mod);
-            r.SetResult(this);
-            r.AddTile(TileID.Bookcases);
-            r.AddIngredient(ItemID.SkeletronPrimeTrophy);
-            r.AddIngredient(ModContent.ItemType<VictoryShard>(), 10);
-            r.AddRecipe();
+            CreateRecipe(1).AddTile(TileID.Bookcases).AddIngredient(ItemID.SkeletronPrimeTrophy).AddIngredient(ModContent.ItemType<PearlShard>(), 10).Register();
         }
     }
 }

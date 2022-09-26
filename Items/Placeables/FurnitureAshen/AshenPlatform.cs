@@ -1,4 +1,4 @@
-using CalamityMod.Tiles.Furniture.CraftingStations;
+﻿using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria.ModLoader;
 using Terraria.ID;
 
@@ -8,30 +8,27 @@ namespace CalamityMod.Items.Placeables.FurnitureAshen
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 200;
         }
 
         public override void SetDefaults()
         {
-            item.width = 8;
-            item.height = 10;
-            item.maxStack = 999;
-            item.useTurn = true;
-            item.autoReuse = true;
-            item.useAnimation = 15;
-            item.useTime = 10;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.rare = 3;
-            item.consumable = true;
-            item.createTile = ModContent.TileType<Tiles.FurnitureAshen.AshenPlatform>();
+            Item.width = 8;
+            Item.height = 10;
+            Item.maxStack = 999;
+            Item.useTurn = true;
+            Item.autoReuse = true;
+            Item.useAnimation = 15;
+            Item.useTime = 10;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.rare = ItemRarityID.Orange;
+            Item.consumable = true;
+            Item.createTile = ModContent.TileType<Tiles.FurnitureAshen.AshenPlatform>();
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<SmoothBrimstoneSlag>());
-            recipe.SetResult(this, 2);
-            recipe.AddTile(ModContent.TileType<AshenAltar>());
-            recipe.AddRecipe();
+            CreateRecipe(2).AddIngredient(ModContent.ItemType<SmoothBrimstoneSlag>()).AddTile(ModContent.TileType<AshenAltar>()).Register();
         }
     }
 }

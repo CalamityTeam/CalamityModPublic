@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -6,11 +6,11 @@ namespace CalamityMod.Walls
 {
     public class SmoothNavystoneWall : ModWall
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.wallHouse[Type] = true;
 
-            drop = ModContent.ItemType<Items.Placeables.Walls.SmoothNavystoneWall>();
+            ItemDrop = ModContent.ItemType<Items.Placeables.Walls.SmoothNavystoneWall>();
             AddMapEntry(new Color(27, 35, 36));
         }
 
@@ -20,9 +20,6 @@ namespace CalamityMod.Walls
             return false;
         }
 
-        public override void NumDust(int i, int j, bool fail, ref int num)
-        {
-            num = fail ? 1 : 3;
-        }
+        public override void NumDust(int i, int j, bool fail, ref int num) => num = fail ? 1 : 3;
     }
 }

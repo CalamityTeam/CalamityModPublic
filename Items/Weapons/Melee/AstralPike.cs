@@ -1,4 +1,4 @@
-using CalamityMod.Items.Placeables;
+﻿using CalamityMod.Items.Placeables;
 using CalamityMod.Projectiles.Melee.Spears;
 using Terraria;
 using Terraria.ID;
@@ -12,39 +12,42 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             DisplayName.SetDefault("Astral Pike");
             Tooltip.SetDefault("Summons astral star swarms on critical hits");
+            SacrificeTotal = 1;
+            ItemID.Sets.Spears[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.width = 44;
-            item.damage = 128;
-            item.crit += 25;
-            item.melee = true;
-            item.noMelee = true;
-            item.useTurn = true;
-            item.noUseGraphic = true;
-            item.useAnimation = 13;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.useTime = 13;
-            item.knockBack = 8.5f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 50;
-            item.value = Item.buyPrice(0, 95, 0, 0);
-            item.rare = 9;
-            item.shoot = ModContent.ProjectileType<AstralPikeProj>();
-            item.shootSpeed = 13f;
+            Item.width = 44;
+            Item.damage = 90;
+            Item.DamageType = TrueMeleeDamageClass.Instance;
+            Item.noMelee = true;
+            Item.useTurn = true;
+            Item.noUseGraphic = true;
+            Item.useAnimation = 13;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.useTime = 13;
+            Item.knockBack = 8.5f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.height = 50;
+            Item.value = CalamityGlobalItem.Rarity9BuyPrice;
+            Item.rare = ItemRarityID.Cyan;
+            Item.shoot = ModContent.ProjectileType<AstralPikeProj>();
+            Item.shootSpeed = 13f;
         }
+
+        // Terraria seems to really dislike high crit values in SetDefaults
+        public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 25;
+
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<AstralBar>(), 8);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient<AstralBar>(8).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
-
-        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
     }
 }

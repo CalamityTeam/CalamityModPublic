@@ -2,15 +2,19 @@
 using System;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.Audio;
+using CalamityMod.Items.Weapons.DraedonsArsenal;
 
 namespace CalamityMod.Projectiles.DraedonsArsenal
 {
     public class GaussRifleBlast : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public float Time
         {
-            get => projectile.ai[0];
-            set => projectile.ai[0] = value;
+            get => Projectile.ai[0];
+            set => Projectile.ai[0] = value;
         }
 
         public override void SetStaticDefaults()
@@ -20,18 +24,16 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
         public override void SetDefaults()
         {
-            projectile.width = projectile.height = 60;
-            projectile.friendly = true;
-            projectile.ranged = true;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 300;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 8;
+            Projectile.width = Projectile.height = 40;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.timeLeft = 300;
         }
 
         public override void AI()
         {
             Time++;
+            Projectile.tileCollide = Time > 3f;
             if (!Main.dedServ)
             {
                 // Idle dust.
@@ -40,30 +42,31 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                     float angle = i / 10f * MathHelper.TwoPi;
                     for (int j = 0; j < 4; j++)
                     {
-                        Dust dust = Dust.NewDustPerfect(projectile.Center, 263);
+                        Dust dust = Dust.NewDustPerfect(Projectile.Center, 263);
                         dust.velocity = angle.ToRotationVector2().RotatedByRandom(0.25f) * Main.rand.NextFloat(6f, 8f);
                         dust.noGravity = true;
-                        dust.scale = 2.1f;
+                        dust.scale = 1.6f;
                     }
                 }
                 // Ring dust.
                 for (int i = 0; i < 4; i++)
                 {
-                    float angle = projectile.velocity.ToRotation() + (i / 4f * MathHelper.TwoPi) + Time / 24f;
+                    float angle = Projectile.velocity.ToRotation() + (i / 4f * MathHelper.TwoPi) + Time / 24f;
                     float radius = (float)Math.Sin(Time / 7.5f) * 40f + 10f;
-                    Dust dust = Dust.NewDustPerfect(projectile.Center + angle.ToRotationVector2() * radius, 226);
+                    Dust dust = Dust.NewDustPerfect(Projectile.Center + angle.ToRotationVector2() * radius, 226);
                     dust.velocity = Vector2.Zero;
                     dust.noGravity = true;
-                    dust.scale = 2f;
+                    dust.scale = 1.5f;
                 }
             }
         }
+
         public override void Kill(int timeLeft)
         {
-            if (Main.myPlayer == projectile.owner)
+            if (Main.myPlayer == Projectile.owner)
             {
-                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LargeMechGaussRifle"), projectile.Center);
-                Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<GaussRifleExplosion>(), projectile.damage, projectile.knockBack, projectile.owner);
+                SoundEngine.PlaySound(GaussRifle.FireSound, Projectile.Center);
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<GaussRifleExplosion>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
             }
         }
     }

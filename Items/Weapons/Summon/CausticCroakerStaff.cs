@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using Terraria.DataStructures;
 using CalamityMod.Projectiles.Summon;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -13,48 +13,39 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             DisplayName.SetDefault("Caustic Croaker Staff");
             Tooltip.SetDefault("Summons a toad that explodes if enemies are nearby");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 8;
-            item.mana = 10;
-            item.width = 10;
-            item.height = 32;
-            item.useTime = item.useAnimation = 35;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.noMelee = true;
-            item.knockBack = 0f;
-            item.value = Item.buyPrice(0, 1, 0, 0);
-            item.rare = 1;
-            item.UseSound = SoundID.Item44;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<EXPLODINGFROG>();
-            item.shootSpeed = 10f;
-            item.summon = true;
+            Item.damage = 8;
+            Item.mana = 10;
+            Item.width = 36;
+            Item.height = 42;
+            Item.useTime = Item.useAnimation = 35;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.noMelee = true;
+            Item.knockBack = 0f;
+            Item.value = CalamityGlobalItem.Rarity2BuyPrice;
+            Item.rare = ItemRarityID.Green;
+            Item.UseSound = SoundID.Item44;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<EXPLODINGFROG>();
+            Item.shootSpeed = 10f;
+            Item.sentry = true;
+            Item.DamageType = DamageClass.Summon;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.altFunctionUse != 2)
             {
-                position = Main.MouseWorld;
-                Point mouseTileCoords = position.ToTileCoordinates();
-                if (WorldGen.SolidTile(mouseTileCoords.X, mouseTileCoords.Y + 1))
-                    return false;
-                Projectile.NewProjectile(position, Vector2.Zero, type, damage, knockBack, player.whoAmI);
+                int p = Projectile.NewProjectile(source, Main.MouseWorld, Vector2.Zero, type, damage, knockback, player.whoAmI);
+                if (Main.projectile.IndexInRange(p))
+                    Main.projectile[p].originalDamage = Item.damage;
                 player.UpdateMaxTurrets();
             }
             return false;
-        }
-        public override void AddRecipes()
-        {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<SulfuricScale>(), 20);
-            recipe.AddIngredient(ModContent.ItemType<Acidwood>(), 15);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
         }
     }
 }

@@ -1,4 +1,4 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -8,45 +8,45 @@ namespace CalamityMod.Items.Tools
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Feller of Evergreens");
         }
 
         public override void SetDefaults()
         {
-            item.damage = 15;
-            item.melee = true;
-            item.width = 36;
-            item.height = 36;
-            item.useTime = 18;
-            item.useAnimation = 25;
-            item.useTurn = true;
-            item.axe = 15;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 5;
-            item.value = Item.buyPrice(0, 2, 0, 0);
-            item.rare = 2;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
+            Item.damage = 40;
+            Item.knockBack = 5f;
+            Item.useTime = 17;
+            Item.useAnimation = 25;
+            Item.axe = 100 / 5;
+
+            Item.DamageType = DamageClass.Melee;
+            Item.width = 36;
+            Item.height = 36;
+            Item.scale = 1.5f;
+            Item.useTurn = true;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.value = Item.buyPrice(0, 2, 0, 0);
+            Item.rare = ItemRarityID.Green;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Wood, 15);
-            recipe.anyWood = true;
-            recipe.AddIngredient(ItemID.TungstenBar, 10);
-            recipe.AddIngredient(ItemID.TungstenAxe);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Wood, 15);
-            recipe.anyWood = true;
-            recipe.AddIngredient(ItemID.SilverBar, 10);
-            recipe.AddIngredient(ItemID.SilverAxe);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient(ItemID.TungstenAxe).
+                AddIngredient(ItemID.TungstenBar, 10).
+                AddIngredient(ItemID.Wood, 15).
+                AddTile(TileID.Anvils).
+                Register();
+
+            CreateRecipe().
+                AddIngredient(ItemID.SilverAxe).
+                AddIngredient(ItemID.SilverBar, 10).
+                AddIngredient(ItemID.Wood, 15).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

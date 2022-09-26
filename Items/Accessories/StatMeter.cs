@@ -1,151 +1,305 @@
+﻿using CalamityMod.Balancing;
 using CalamityMod.CalPlayer;
 using CalamityMod.World;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
-	public class StatMeter : ModItem
-	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Stat Meter");
-			Tooltip.SetDefault("Displays almost all player stats");
-		}
+    public class StatMeter : ModItem
+    {
+        public override void SetStaticDefaults()
+        {
+            SacrificeTotal = 1;
+            DisplayName.SetDefault("Stat Meter");
+            // TODO -- On April 1st, rename this item to "Pasta Strainer"
+            Tooltip.SetDefault("Displays almost all player stats");
+        }
 
-		public override void SetDefaults()
-		{
-			item.width = 26;
-			item.height = 26;
-			item.value = Item.buyPrice(0, 6, 0, 0);
-			item.rare = 1;
-		}
+        public override void SetDefaults()
+        {
+            Item.width = 26;
+            Item.height = 26;
+            Item.value = CalamityGlobalItem.Rarity3BuyPrice;
+            Item.rare = ItemRarityID.Orange;
+            Item.accessory = true;
+        }
 
-		public override void ModifyTooltips(List<TooltipLine> list)
-		{
-			Player player = Main.player[Main.myPlayer];
-			if (player is null)
-				return;
-			CalamityPlayer modPlayer = player.Calamity();
+        public override void ModifyTooltips(List<TooltipLine> list)
+        {
+            Player player = Main.player[Main.myPlayer];
+            if (player is null)
+                return;
+            CalamityPlayer modPlayer = player.Calamity();
 
-			Item heldItem = null;
-			if (player.selectedItem >= 0 && player.selectedItem < Main.maxInventory)
-				heldItem = player.ActiveItem();
+            Item heldItem = null;
+            if (player.selectedItem >= 0 && player.selectedItem < Main.InventorySlotsTotal)
+                heldItem = player.ActiveItem();
 
-			// Replace the vanilla tooltip with a full stat readout
-			foreach (TooltipLine l in list)
-			{
-				if (l.mod == "Terraria" && l.Name == "Tooltip0")
-					l.text = CreateStatMeterTooltip(player, modPlayer, heldItem);
-			}
+            // Replace the vanilla tooltip with a full stat readout
+            TooltipLine line = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip0");
 
-			// To save screen space, favorited tooltips do not exist for the Stat Meter
-			list.RemoveAll(l => l.mod == "Terraria" && (l.Name == "Favorite" || l.Name == "FavoriteDesc"));
-		}
+            if (line != null)
+                line.Text = CreateStatMeterTooltip(player, modPlayer, heldItem);
 
-		private string CreateStatMeterTooltip(Player player, CalamityPlayer modPlayer, Item heldItem)
-		{
-			int defense = modPlayer.defenseStat;
-			int DR = modPlayer.DRStat;
-			int meleeSpeed = modPlayer.meleeSpeedStat;
-			int manaCost = modPlayer.manaCostStat;
-			int rogueVelocity = modPlayer.rogueVelocityStat;
-			int minionSlots = modPlayer.minionSlotStat;
-			int ammoConsumption = modPlayer.ammoReductionRanged;
-			int rogueConsumption = modPlayer.ammoReductionRogue;
-			int rogueStealth = modPlayer.stealthStat;
-			// Format the stealth regen statistics to be accurate to 2 decimal places.
-			string standingRegen = modPlayer.standingRegenStat.ToString("n2");
-			string movingRegen = modPlayer.movingRegenStat.ToString("n2");
-			int lifeRegen = modPlayer.lifeRegenStat;
-			int manaRegen = modPlayer.manaRegenStat;
-			int armorPenetration = modPlayer.armorPenetrationStat;
-			string wingFlightTime = modPlayer.wingFlightTimeStat.ToString("n2");
-			string jumpSpeed = modPlayer.jumpSpeedStat.ToString("n2");
-			int moveSpeed = modPlayer.moveSpeedStat;
-			int lightLevel = modPlayer.abyssLightLevelStat;
-			int breathLoss = modPlayer.abyssBreathLossStat;
-			int breathLossRate = modPlayer.abyssBreathLossRateStat;
-			int lifeLostAtZeroBreath = modPlayer.abyssLifeLostAtZeroBreathStat;
-			int defenseLoss = modPlayer.abyssDefenseLossStat;
+            // To save screen space, favorited tooltips do not exist for the Stat Meter
+            list.RemoveAll(l => l.Mod == "Terraria" && (l.Name == "Favorite" || l.Name == "FavoriteDesc"));
+        }
 
-			// The notice about held item mattering is always displayed first.
-			StringBuilder sb = new StringBuilder("Displays almost all player stats\nOffensive stats displayed vary with held item\n\n", 1024);
+        private static string CreateStatMeterTooltip(Player player, CalamityPlayer modPlayer, Item heldItem)
+        {
+            static string OnePlace(float f) => f.ToString("n1");
+            static string TwoPlaces(float f) => f.ToString("n2");
+            
+            //
+            // RAW STATS (as obtained from the game engine, not yet modified for display)
+            //
+            
+            // Defense
+            int defense = player.GetCurrentDefense(false);
+            float DR = player.endurance;
+            int lifeRegen = player.lifeRegen; // Normally we'd divide this by 2 in Expert without Well Fed, but we disable that shit
 
-			// Only append rippers stats in Rev+, if rippers are enabled.
-			if (CalamityWorld.revenge && CalamityConfig.Instance.Rippers)
-			{
-				sb.Append("Adrenaline Charge Time: ").Append(modPlayer.adrenalineChargeStat)
-					.Append(" seconds | Rage Damage Boost: ").Append(modPlayer.rageDamageStat)
-					.Append("%\n\n");
-			}
+            // Mobility
+            float moveSpeedBoost = player.moveSpeed - 1f;
+            float jumpBoost = player.GetJumpBoost();
+            float wingFlightTime = player.wingTimeMax;
 
-			// Append item stats only if the held item isn't null, and base it off of the item's damage type.
-			if (heldItem != null && !heldItem.IsAir)
-			{
-				if (heldItem.melee)
-				{
-					sb.Append("Melee Damage: ").Append(modPlayer.damageStats[0])
-						.Append("% | True Melee Damage: ").Append(modPlayer.damageStats[5])
-						.Append("% | Melee Crit Chance: ").Append(modPlayer.critStats[0])
-						.Append("%\nMelee Speed Boost: ").Append(meleeSpeed).Append("%\n\n");
-				}
-				else if (heldItem.ranged)
-				{
-					sb.Append("Ranged Damage: ").Append(modPlayer.damageStats[1])
-						.Append("% | Ranged Crit Chance: ").Append(modPlayer.critStats[1])
-						.Append("%\nAmmo Consumption Chance: ").Append(ammoConsumption).Append("%\n\n");
-				}
-				else if (heldItem.magic)
-				{
-					sb.Append("Magic Damage: ").Append(modPlayer.damageStats[2])
-						.Append("% | Magic Crit Chance: ").Append(modPlayer.critStats[2])
-						.Append("%\nMana Usage: ").Append(manaCost)
-						.Append("% | Mana Regen: ").Append(manaRegen).Append("\n\n");
-				}
-				else if (heldItem.summon)
-				{
-					sb.Append("Minion Damage: ").Append(modPlayer.damageStats[3])
-						.Append("% | Minion Slots: ").Append(minionSlots).Append("\n\n");
-				}
-				else if (heldItem.Calamity()?.rogue ?? false)
-				{
-					sb.Append("Rogue Damage: ").Append(modPlayer.damageStats[4])
-						.Append("% | Rogue Crit Chance: ").Append(modPlayer.critStats[3])
-						.Append("%\nRogue Velocity Boost: ").Append(rogueVelocity)
-						.Append("% | Rogue Weapon Consumption Chance: ").Append(rogueConsumption)
-						.Append("%\nMax Stealth: ").Append(rogueStealth)
-						.Append(" | Standing Regen: ").Append(standingRegen).Append(" / sec")
-						.Append(" | Moving Regen: ").Append(movingRegen).Append(" / sec")
-						.Append("\n\n");
-				}
-			}
+            // Luck
+            // Does not use NormalizedLuck. Presents the player's luck exactly as it is used by the game engine.
+            // NormalizedLuck is only used in one place: the Wizard's luck report. Which is entirely obsoleted by this Meter.
+            float luck = player.luck;
 
-			// Generic stats always render.
-			sb.Append("Defense: ").Append(defense);
-			sb.Append(" | DR: ").Append(DR).Append("%");
-			sb.Append(" | Life Regen: ").Append(lifeRegen).Append("\n");
-			sb.Append("Armor Penetration: ").Append(armorPenetration);
-			sb.Append(" | Wing Flight Time: ").Append(wingFlightTime).Append(" seconds\n");
-			sb.Append("Jump Speed Boost: ").Append(jumpSpeed).Append("%");
-			sb.Append(" | Movement Speed Boost: ").Append(moveSpeed).Append("%\n\n");
-			sb.Append(CalamityWorld.death ? "Abyss/Cave Light Strength: " : "Abyss Light Strength: ").Append(lightLevel).Append("\n\n");
+            // No melee-specific stats anymore, because True Melee is its own class
 
-			// Abyss stats only render if the player is in the Abyss.
-			if (modPlayer.ZoneAbyss)
-			{
-				sb.Append("Other Abyss Stats:").Append("\n");
-				sb.Append("Breath Lost Per Tick: ").Append(breathLoss);
-				sb.Append(" | Breath Loss Rate: ").Append(breathLossRate).Append("\n");
-				sb.Append("Life Lost Per Tick at Zero Breath: ").Append(lifeLostAtZeroBreath).Append("\n");
-				sb.Append("Defense Lost: ").Append(defenseLoss);
-			}
-			else
-				sb.Append("Abyss stats only displayed while in the Abyss");
+            // Ranged
+            float rangedAmmoConsumption = player.GetRangedAmmoCostReduction();
 
-			return sb.ToString();
-		}
-	}
+            // Magic
+            float manaCost = player.manaCost;
+            int manaRegen = player.manaRegen;
+
+            // Summon
+            int minionSlots = player.maxMinions;
+
+            // Rogue
+            float rogueStealth = modPlayer.rogueStealthMax;
+            float standingRegen = player.GetStandingStealthRegen();
+            float movingRegen = player.GetMovingStealthRegen();
+            float rogueVelocity = modPlayer.rogueVelocity - 1f;
+            float rogueAmmoConsumption = modPlayer.rogueAmmoCost;
+
+            // Rippers
+            float rageDamage = modPlayer.RageDamageBoost;
+            float adrenalineDamage = modPlayer.GetAdrenalineDamage();
+            int numAdrenBoosters = (modPlayer.adrenalineBoostOne ? 1 : 0) + (modPlayer.adrenalineBoostTwo ? 1 : 0) + (modPlayer.adrenalineBoostThree ? 1 : 0);
+            float adrenalineDR = BalancingConstants.FullAdrenalineDR + numAdrenBoosters * BalancingConstants.AdrenalineDRPerBooster;
+
+            // Abyss
+            int lightLevel = player.GetCurrentAbyssLightLevel();
+            float breathLoss = modPlayer.abyssBreathLossStat;
+            float breathLossRate = modPlayer.abyssBreathLossRateStat;
+            int lifeLostAtZeroBreath = modPlayer.abyssLifeLostAtZeroBreathStat;
+            int abyssDefenseLoss = modPlayer.abyssDefenseLossStat;
+
+            // The notice about held item mattering is always displayed first.
+            StringBuilder sb = new StringBuilder("Displays almost all player stats\nOffensive stats displayed vary with held item\n\n", 1024);
+
+            // Only append rippers stats in Rev+
+            if (CalamityWorld.revenge)
+            {
+                string rageDamageDisplay = TwoPlaces(100f * rageDamage);
+                string adrenalineDamageDisplay = TwoPlaces(100f * adrenalineDamage);
+                string adrenalineDRDisplay = TwoPlaces(100f * adrenalineDR);
+                sb.Append("Rage Damage Boost: ").Append(rageDamageDisplay).Append("%\n");
+                sb.Append("Adrenaline Damage Boost: ").Append(adrenalineDamageDisplay)
+                    .Append("% | Adrenaline DR Boost: ").Append(adrenalineDRDisplay)
+                    .Append("%\n\n");
+            }
+
+            // Append item stats only if the held item isn't null, and base it off of the item's damage type.
+            if (heldItem != null && !heldItem.IsAir)
+            {
+                DamageClass dc = heldItem.DamageType;
+                bool displayCrit = true;
+                bool displayAttackSpeed = true;
+
+                string damageClassName = "Unsupported";
+                if (dc == DamageClass.Default)
+                    damageClassName = "True (No Scaling)";
+                else if (dc == DamageClass.Generic)
+                    damageClassName = "Classless";
+                else if (dc == AverageDamageClass.Instance)
+                    damageClassName = "Averaged";
+                else if (dc == TrueMeleeDamageClass.Instance || dc == TrueMeleeNoSpeedDamageClass.Instance)
+                    damageClassName = "True Melee";
+                else if (dc == DamageClass.Melee || dc == DamageClass.MeleeNoSpeed)
+                    damageClassName = "Melee";
+                else if (dc == DamageClass.Ranged)
+                    damageClassName = "Ranged";
+                else if (dc == DamageClass.Magic)
+                    damageClassName = "Magic";
+                else if (dc == DamageClass.MagicSummonHybrid)
+                    damageClassName = "Magic+Summon";
+                else if (dc == DamageClass.Summon)
+                {
+                    damageClassName = "Minion";
+                    displayCrit = false;
+                    displayAttackSpeed = false; // Minions specifically don't display attack speed. Whips do.
+                }
+                else if (dc == DamageClass.SummonMeleeSpeed)
+                {
+                    damageClassName = "Whip";
+                    displayCrit = false;
+                }
+                else if (dc == RogueDamageClass.Instance)
+                    damageClassName = "Rogue";
+                else if (dc == DamageClass.Throwing)
+                    damageClassName = "Throwing";
+
+                // Uses GetTotalDamage instead of GetDamage. GetTotalDamage adds all inherited stats as well.
+                // This also applies to GetTotalCritChance, GetTotalAttackSpeed, and GetTotalArmorPenetration.
+                var currentStats = player.GetTotalDamage(dc);
+
+                float baseFlatDamage = currentStats.Base; // flat increases to the base damage of the weapon. boosted by % damage and multiplicative damage
+                float normalDamage = currentStats.Additive - 1f; // 1f = +0%, 2f = +100%
+                float multDamage = currentStats.Multiplicative; // direct multiplier. 1f = 1x, 2f = 2x, applies after standard boosts
+                float flatDamage = currentStats.Flat; // direct flat addition, applies after multiplication
+                float totalCrit = player.GetTotalCritChance(dc); // exact crit, stored as a float. meaning with no gear it's 4f = 4% UNLESS summoner
+                float attackSpeed = player.GetTotalAttackSpeed(dc); // starts at 1f, 2f = +100% = DOUBLE attack speed, HALF animation time
+                float armorPen = player.GetTotalArmorPenetration(dc); // starts at 0f = +0 armor pen
+
+                // Attack damage tooltip. The boosts are displayed in exactly the order they are applied
+                sb.Append(damageClassName).Append(" Damage: ");
+
+                // Flat base damage additions are extremely rare and only appear when relevant
+                if (baseFlatDamage != 0f)
+                {
+                    char sign = baseFlatDamage < 0f ? '-' : '+';
+                    sb.Append('[').Append(sign).Append(OnePlace(baseFlatDamage)).Append(" base] ");
+                    sb.Append('+'); // Place this because otherwise the regular additive damage will look weird
+                }
+
+                // Additive damage is the vast majority of damage boosts
+                sb.Append(TwoPlaces(100f * normalDamage)).Append('%');
+
+                // Multiplicative damage is rare and only appears when relevant
+                if (multDamage != 1f)
+                    sb.Append(" x").Append(TwoPlaces(multDamage));
+
+                // Flat damage is rare and only appears when relevant
+                if (flatDamage != 0f)
+                {
+                    char sign = flatDamage < 0f ? '-' : '+';
+                    sb.Append(' ').Append(sign).Append(OnePlace(flatDamage)).Append(" flat");
+                }
+
+                // Newline between damage and crit
+                if (displayCrit)
+                {
+                    sb.Append('\n').Append(damageClassName).Append(" Crit Chance: ");
+                    sb.Append(TwoPlaces(totalCrit)).Append('%');
+                }
+
+                if (displayAttackSpeed)
+                {
+                    // Newline between crit and attack speed
+                    sb.Append('\n').Append(damageClassName).Append(" Attack Speed: ");
+
+                    // Positive boosts need a + prefix, negative will have its own - sign automatically.
+                    // There's a "clever" way to do this with formatting but it's harder.
+                    if (attackSpeed >= 1f)
+                        sb.Append('+');
+                    sb.Append(TwoPlaces(100f * (attackSpeed - 1f))).Append('%');
+
+                    // For whips specifically, also display melee attack speed on the same line.
+                    // Only display MELEE-SPECIFIC attack speed, not the total inheritance of attack speed for melee,
+                    // because classless attack speed will already affect the whip.
+                    if (dc == DamageClass.SummonMeleeSpeed)
+                    {
+                        float meleeSpeed = player.GetAttackSpeed<MeleeDamageClass>();
+                        sb.Append('[');
+
+                        // Positive boosts need a + prefix, negative will have its own - sign automatically.
+                        // There's a "clever" way to do this with formatting but it's harder.
+                        if (attackSpeed >= 1f)
+                            sb.Append('+');
+                        sb.Append(TwoPlaces(100f * (meleeSpeed - 1f))).Append("% from melee]");
+                    }
+                }
+
+                // Newline between attack speed and armor penetration
+                sb.Append('\n').Append(damageClassName).Append(" Armor Penetration: ");
+                sb.Append(OnePlace(armorPen));
+
+                // If ranged, or any direct subclass thereof, display ranged ammo consumption
+                if (dc == DamageClass.Ranged || dc.GetModifierInheritance(DamageClass.Ranged).Equals(StatInheritanceData.Full))
+                    sb.Append("\nAmmo Consumption Chance: ").Append(TwoPlaces(100f * rangedAmmoConsumption));
+
+                // If magic, or any direct subclass thereof, display mana stats
+                if (dc == DamageClass.Magic || dc == DamageClass.MagicSummonHybrid || dc.GetModifierInheritance(DamageClass.Magic).Equals(StatInheritanceData.Full))
+                {
+                    sb.Append("\nMana Usage: ").Append(TwoPlaces(100f * manaCost));
+                    sb.Append("\nMana Regen: ").Append(manaRegen);
+                }
+
+                // If summon, or any direct subclass thereof, AND NOT A WHIP, display minion slots
+                if (dc != DamageClass.SummonMeleeSpeed && (dc == DamageClass.Summon || dc.GetModifierInheritance(DamageClass.Summon).Equals(StatInheritanceData.Full)))
+                    sb.Append("\nMinion Slots: ").Append(minionSlots);
+
+                // If throwing or rogue, display rogue stats.
+                if (dc == DamageClass.Throwing || dc.GetModifierInheritance(DamageClass.Throwing).Equals(StatInheritanceData.Full))
+                {
+                    sb.Append("\nRogue Velocity Boost: +").Append(TwoPlaces(100f * rogueVelocity));
+                    sb.Append("% | Rogue Weapon Consumption Chance: ").Append(TwoPlaces(100f * rogueAmmoConsumption));
+                    sb.Append("%\nMax Stealth: ").Append((int)(100f * rogueStealth));
+                    sb.Append(" | Standing Regen: ").Append(TwoPlaces(60f * standingRegen)).Append(" / sec");
+                    sb.Append(" | Moving Regen: ").Append(TwoPlaces(60f * movingRegen)).Append(" / sec");
+                }
+            }
+
+            // Newline break between offensive and defensive stats
+            sb.Append("\n\n");
+
+            // Generic stats always render.
+            sb.Append("Defense: ").Append(defense);
+            sb.Append(" | DR: ").Append(TwoPlaces(100f * DR)).Append('%');
+            sb.Append(" | Life Regen: ").Append(lifeRegen);
+
+            sb.Append("\nMove Speed: ");
+            // Positive boosts need a + prefix, negative will have its own - sign automatically.
+            // There's a "clever" way to do this with formatting but it's harder.
+            if (moveSpeedBoost >= 0f)
+                sb.Append('+');
+            sb.Append(TwoPlaces(100f * moveSpeedBoost)).Append('%');
+            sb.Append(" | Jump Boost: ").Append(TwoPlaces(20f * jumpBoost)).Append('%');
+            sb.Append(" | Wing Flight Time: ").Append(TwoPlaces(wingFlightTime / 60f)).Append(" seconds\n");
+
+            sb.Append("Luck: ");
+            // Positive boosts need a + prefix, negative will have its own - sign automatically.
+            // There's a "clever" way to do this with formatting but it's harder.
+            if (luck >= 0f)
+                sb.Append('+');
+            sb.Append(TwoPlaces(100f * luck)).Append("%\n\n");
+
+            // Detailed Abyss stats only render if the player is in the Abyss.
+            sb.Append("Abyss Light Strength: ").Append(lightLevel).Append('\n');
+            if (modPlayer.ZoneAbyss)
+            {
+                sb.Append("Other Abyss Stats:");
+                sb.Append("\nBreath Lost Per Tick: ").Append(TwoPlaces(breathLoss));
+                sb.Append(" | Breath Loss Rate: ").Append(TwoPlaces(breathLossRate));
+                sb.Append("\nLife Lost Per Tick at Zero Breath: ").Append(lifeLostAtZeroBreath);
+                sb.Append("\nDefense Lost From Pressure: ").Append(abyssDefenseLoss);
+            }
+            else
+                sb.Append("Other Abyss stats are only displayed while in the Abyss");
+
+            return sb.ToString();
+        }
+    }
 }

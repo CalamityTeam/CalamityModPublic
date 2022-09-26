@@ -1,4 +1,7 @@
+﻿using CalamityMod.Events;
+using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Graphics.Effects;
 using Terraria.Graphics.Shaders;
 using Terraria.ModLoader;
 
@@ -28,6 +31,16 @@ namespace CalamityMod.NPCs.Leviathan
                     LevIndex = i;
                     break;
                 }
+            }
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            if (LevIndex == -1 || BossRushEvent.BossRushActive)
+            {
+                UpdateLIndex();
+                if (LevIndex == -1 || BossRushEvent.BossRushActive)
+                    Filters.Scene["CalamityMod:Leviathan"].Deactivate();
             }
         }
 

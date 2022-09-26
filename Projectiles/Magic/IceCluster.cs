@@ -1,9 +1,9 @@
-using CalamityMod.Buffs.StatDebuffs;
+﻿using CalamityMod.Buffs.StatDebuffs;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 namespace CalamityMod.Projectiles.Magic
 {
     public class IceCluster : ModProjectile
@@ -11,115 +11,77 @@ namespace CalamityMod.Projectiles.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ice");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 4;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 90;
-            projectile.height = 90;
-            projectile.friendly = true;
-            projectile.alpha = 255;
-            projectile.penetrate = -1;
-            projectile.timeLeft = 100;
-            projectile.tileCollide = false;
-            projectile.magic = true;
-			projectile.coldDamage = true;
+            Projectile.width = 90;
+            Projectile.height = 90;
+            Projectile.friendly = true;
+            Projectile.alpha = 255;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft = 100;
+            Projectile.tileCollide = false;
+            Projectile.DamageType = DamageClass.Magic;
+            Projectile.coldDamage = true;
         }
 
         public override void AI()
         {
-            projectile.rotation += 0.5f;
-            if (projectile.localAI[1] == 0f)
+            Projectile.rotation += 0.5f;
+
+            if (Projectile.localAI[1] == 0f)
             {
-                projectile.localAI[1] = 1f;
-                Main.PlaySound(SoundID.Item120, projectile.position);
+                Projectile.localAI[1] = 1f;
+                SoundEngine.PlaySound(SoundID.Item120, Projectile.position);
             }
-            projectile.ai[0] += 1f;
-            if (projectile.ai[1] == 1f)
+
+            Projectile.ai[0] += 1f;
+            if (Projectile.ai[1] == 1f)
             {
-                if (projectile.ai[0] >= 130f)
+                if (Projectile.ai[0] % 30f == 0f && Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    projectile.alpha += 10;
+                    Vector2 vector80 = Projectile.rotation.ToRotationVector2();
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, vector80, ModContent.ProjectileType<IceCluster>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                 }
-                else
-                {
-                    projectile.alpha -= 10;
-                }
-                if (projectile.alpha < 0)
-                {
-                    projectile.alpha = 0;
-                }
-                if (projectile.alpha > 255)
-                {
-                    projectile.alpha = 255;
-                }
-                if (projectile.ai[0] >= 150f)
-                {
-                    return;
-                }
-                if (projectile.ai[0] % 30f == 0f && Main.netMode != NetmodeID.MultiplayerClient)
-                {
-                    Vector2 vector80 = projectile.rotation.ToRotationVector2();
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, vector80.X, vector80.Y, ModContent.ProjectileType<IceCluster>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
-                }
-                Lighting.AddLight(projectile.Center, 0.3f, 0.75f, 0.9f);
+
+                Lighting.AddLight(Projectile.Center, 0.3f, 0.75f, 0.9f);
             }
+
+            if (Projectile.ai[0] >= 90f)
+                Projectile.alpha += 25;
             else
-            {
-                if (projectile.ai[0] >= 40f)
-                {
-                    projectile.alpha += 3;
-                }
-                else
-                {
-                    projectile.alpha -= 40;
-                }
-                if (projectile.alpha < 0)
-                {
-                    projectile.alpha = 0;
-                }
-                if (projectile.alpha > 255)
-                {
-                    projectile.alpha = 255;
-                }
-                if (projectile.ai[0] >= 45f)
-                {
-                    return;
-                }
-                Vector2 value47 = new Vector2(0f, -720f).RotatedBy((double)projectile.velocity.ToRotation(), default);
-                float scaleFactor8 = projectile.ai[0] % 45f / 45f;
-                Vector2 spinningpoint = value47 * scaleFactor8;
-                for (int num844 = 0; num844 < 6; num844++)
-                {
-                    Vector2 vector81 = projectile.Center + spinningpoint.RotatedBy((double)((float)num844 * 6.28318548f / 6f), default);
-                    Lighting.AddLight(vector81, 0.3f, 0.75f, 0.9f);
-                    for (int num845 = 0; num845 < 2; num845++)
-                    {
-                        int num846 = Dust.NewDust(vector81 + Utils.RandomVector2(Main.rand, -8f, 8f) / 2f, 8, 8, 197, 0f, 0f, 100, Color.Transparent, 1f);
-                        Main.dust[num846].noGravity = true;
-                    }
-                }
-            }
+                Projectile.alpha -= 15;
+
+            if (Projectile.alpha < 0)
+                Projectile.alpha = 0;
+            if (Projectile.alpha > 255)
+                Projectile.alpha = 255;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.immune[projectile.owner] = 5;
-            target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
-			if (target.type == NPCID.TargetDummy)
-				return;
-            Vector2 vector80 = projectile.rotation.ToRotationVector2();
-            if (projectile.owner == Main.myPlayer)
+            target.AddBuff(ModContent.BuffType<GlacialState>(), 30);
+
+            if (Projectile.damage > 10)
             {
-                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, vector80.X, vector80.Y, ModContent.ProjectileType<IceCluster>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                Vector2 vector80 = Projectile.rotation.ToRotationVector2();
+                if (Projectile.owner == Main.myPlayer)
+                {
+                    int newDamage = Projectile.damage / 2;
+                    if (newDamage < 1)
+                        newDamage = 1;
+
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, vector80, ModContent.ProjectileType<IceCluster>(), newDamage, Projectile.knockBack, Projectile.owner);
+                }
             }
         }
     }

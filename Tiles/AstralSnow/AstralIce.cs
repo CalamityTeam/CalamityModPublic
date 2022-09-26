@@ -1,27 +1,28 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.GameContent.Metadata;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.AstralSnow
 {
-	public class AstralIce : ModTile
+    public class AstralIce : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileSolid[Type] = true;
             Main.tileBlockLight[Type] = true;
             Main.tileBrick[Type] = true;
+			TileMaterials.SetForTileId(Type, TileMaterials._materialsByName["Ice"]);
 
             CalamityUtils.MergeWithGeneral(Type);
             CalamityUtils.MergeWithSnow(Type);
             CalamityUtils.MergeAstralTiles(Type);
 
-            dustType = 173;
-            drop = ModContent.ItemType<Items.Placeables.AstralIce>();
+            DustType = 173;
+            ItemDrop = ModContent.ItemType<Items.Placeables.AstralIce>();
 
-            soundType = SoundID.Item;
-            soundStyle = 50;
+            HitSound = SoundID.Item50;
 
             AddMapEntry(new Color(153, 143, 168));
 

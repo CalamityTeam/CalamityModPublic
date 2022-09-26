@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class EternityHoming : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Eternity");
@@ -15,48 +17,38 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetDefaults()
         {
-            projectile.width = 2;
-            projectile.height = 2;
-            projectile.friendly = true;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
-            projectile.timeLeft = 120;
-            projectile.alpha = 255;
-            projectile.magic = true;
+            Projectile.width = 2;
+            Projectile.height = 2;
+            Projectile.friendly = true;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
+            Projectile.timeLeft = 120;
+            Projectile.alpha = 255;
+            Projectile.DamageType = DamageClass.Magic;
         }
 
         public override void AI()
         {
-            NPC target = null;
-            float distance = 4400f;
-            for (int index = 0; index < Main.npc.Length; index++)
-            {
-                if (Main.npc[index].CanBeChasedBy(null, false))
-                {
-                    if (Main.npc[index].boss && Vector2.Distance(projectile.Center, Main.npc[index].Center) <= 4400f)
-                    {
-                        target = Main.npc[index];
-                        break;
-                    }
-                    if (Vector2.Distance(projectile.Center, Main.npc[index].Center) < distance)
-                    {
-                        distance = Vector2.Distance(projectile.Center, Main.npc[index].Center);
-                        target = Main.npc[index];
-                    }
-                }
-            }
+            NPC target = Projectile.Center.ClosestNPCAt(3000f);
             if (target != null)
-            {
-                projectile.velocity = (projectile.velocity * 7f + projectile.DirectionTo(target.Center) * 10f) / 8f;
-            }
-            projectile.ai[0] += 0.18f;
-            float angle = projectile.velocity.ToRotation() + MathHelper.PiOver2;
-            float pulse = (float)Math.Sin(projectile.ai[0]);
-            float radius = 10f;
+                Projectile.velocity = (Projectile.velocity * 7f + Projectile.SafeDirectionTo(target.Center) * 10f) / 8f;
+
+            Projectile.ai[0] += 0.18f;
+            float angle = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
+            float pulse = (float)Math.Sin(Projectile.ai[0]);
+            float radius = 4f;
             Vector2 offset = angle.ToRotationVector2() * pulse * radius;
-            Dust dust = Dust.NewDustPerfect(projectile.Center + offset, Eternity.dustID, Vector2.Zero, 0, Eternity.pinkColor);
+
+            Dust dust = Dust.NewDustPerfect(Projectile.Center + offset, 264, Vector2.Zero);
+            dust.color = Eternity.BlueColor;
+            dust.scale = 1.4f;
+            dust.noLight = true;
             dust.noGravity = true;
-            dust = Dust.NewDustPerfect(projectile.Center - offset, Eternity.dustID, Vector2.Zero, 0, Eternity.blueColor);
+
+            dust = Dust.NewDustPerfect(Projectile.Center - offset, 264, Vector2.Zero);
+            dust.color = Eternity.PinkColor;
+            dust.scale = 1.4f;
+            dust.noLight = true;
             dust.noGravity = true;
         }
     }

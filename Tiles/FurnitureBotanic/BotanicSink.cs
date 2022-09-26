@@ -1,18 +1,19 @@
-using CalamityMod.Dusts.Furniture;
+﻿using CalamityMod.Dusts.Furniture;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
+using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureBotanic
 {
-	public class BotanicSink : ModTile
+    public class BotanicSink : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
-            this.SetUpSink();
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Botanic Sink");
-            AddMapEntry(new Color(191, 142, 111), name);
+            this.SetUpSink(true, false, false, true);
+            AddMapEntry(new Color(191, 142, 111), Language.GetText("MapObject.Sink"));
         }
 
         public override bool CreateDust(int i, int j, ref int type)
@@ -29,7 +30,7 @@ namespace CalamityMod.Tiles.FurnitureBotanic
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 16, 32, ModContent.ItemType<Items.Placeables.FurnitureBotanic.BotanicSink>());
+            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 32, ModContent.ItemType<Items.Placeables.FurnitureBotanic.BotanicSink>());
         }
     }
 }

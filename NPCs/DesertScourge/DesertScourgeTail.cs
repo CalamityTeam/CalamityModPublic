@@ -1,66 +1,63 @@
+﻿using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
-using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.DesertScourge
 {
-	public class DesertScourgeTail : ModNPC
+    public class DesertScourgeTail : ModNPC
     {
         public override void SetStaticDefaults()
         {
+            this.HideFromBestiary();
             DisplayName.SetDefault("Desert Scourge");
         }
 
         public override void SetDefaults()
         {
-            npc.damage = 12;
-            npc.npcSlots = 5f;
-            npc.width = 32;
-            npc.height = 48;
-            npc.defense = 9;
-			npc.DR_NERD(0.1f);
-            npc.LifeMaxNERB(2300, 2650, 16500000);
+            NPC.GetNPCDamage();
+            NPC.width = 32;
+            NPC.height = 48;
+            NPC.defense = 9;
+            NPC.DR_NERD(0.1f);
+
+            NPC.LifeMaxNERB(2500, 3000, 1650000);
+            if (Main.getGoodWorld)
+                NPC.lifeMax *= 4;
+
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
-            npc.lifeMax += (int)(npc.lifeMax * HPBoost);
-            npc.aiStyle = 6;
-            aiType = -1;
-            npc.knockBackResist = 0f;
-            npc.alpha = 255;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
-            npc.boss = true;
-            Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
-            if (calamityModMusic != null)
-                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/DesertScourge");
-            else
-                music = MusicID.Boss1;
-            npc.behindTiles = true;
-            npc.noGravity = true;
-            npc.noTileCollide = true;
-            npc.canGhostHeal = false;
-            npc.HitSound = SoundID.NPCHit1;
-            npc.DeathSound = SoundID.NPCDeath1;
-            npc.netAlways = true;
-            npc.dontCountMe = true;
-            if (Main.expertMode)
-            {
-                npc.scale = 1.15f;
-            }
-        }
+            NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
+            NPC.aiStyle = -1;
+            AIType = -1;
+            NPC.knockBackResist = 0f;
+            NPC.alpha = 255;
+            NPC.boss = true;
+            NPC.behindTiles = true;
+            NPC.noGravity = true;
+            NPC.noTileCollide = true;
+            NPC.canGhostHeal = false;
+            NPC.HitSound = SoundID.NPCHit1;
+            NPC.DeathSound = SoundID.NPCDeath1;
+            NPC.netAlways = true;
+            NPC.dontCountMe = true;
 
-        public override void SendExtraAI(BinaryWriter writer)
-        {
-            writer.Write(npc.dontTakeDamage);
-        }
+            if (BossRushEvent.BossRushActive)
+                NPC.scale *= 1.25f;
+            else if (CalamityWorld.death)
+                NPC.scale *= 1.2f;
+            else if (CalamityWorld.revenge)
+                NPC.scale *= 1.15f;
+            else if (Main.expertMode)
+                NPC.scale *= 1.1f;
 
-        public override void ReceiveExtraAI(BinaryReader reader)
-        {
-            npc.dontTakeDamage = reader.ReadBoolean();
+            if (Main.getGoodWorld)
+                NPC.scale *= 0.4f;
+
+            NPC.Calamity().VulnerableToCold = true;
+            NPC.Calamity().VulnerableToSickness = true;
+            NPC.Calamity().VulnerableToWater = true;
         }
 
         public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
@@ -70,26 +67,81 @@ namespace CalamityMod.NPCs.DesertScourge
 
         public override void AI()
         {
-			if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
-			{
-				npc.TargetClosest(true);
-			}
+            if (NPC.ai[2] > 0f)
+                NPC.realLife = (int)NPC.ai[2];
 
-			Player player = Main.player[npc.target];
-            npc.dontTakeDamage = !player.ZoneDesert && !CalamityWorld.bossRushActive;
-            if (!Main.npc[(int)npc.ai[1]].active)
+            if (NPC.target < 0 || NPC.target == Main.maxPlayers || Main.player[NPC.target].dead || !Main.player[NPC.target].active)
+                NPC.TargetClosest();
+
+            bool shouldDespawn = true;
+            for (int i = 0; i < Main.maxNPCs; i++)
             {
-                npc.life = 0;
-                npc.HitEffect(0, 10.0);
-                npc.active = false;
-            }
-            if (Main.npc[(int)npc.ai[1]].alpha < 128)
-            {
-                npc.alpha -= 42;
-                if (npc.alpha < 0)
+                if (Main.npc[i].active && Main.npc[i].type == ModContent.NPCType<DesertScourgeHead>())
                 {
-                    npc.alpha = 0;
+                    shouldDespawn = false;
+                    break;
                 }
+            }
+            if (!shouldDespawn)
+            {
+                if (NPC.ai[1] <= 0f)
+                    shouldDespawn = true;
+                else if (Main.npc[(int)NPC.ai[1]].life <= 0)
+                    shouldDespawn = true;
+            }
+            if (shouldDespawn)
+            {
+                NPC.life = 0;
+                NPC.HitEffect(0, 10.0);
+                NPC.checkDead();
+                NPC.active = false;
+            }
+
+            if (Main.npc[(int)NPC.ai[1]].alpha < 128)
+            {
+                NPC.alpha -= 42;
+                if (NPC.alpha < 0)
+                    NPC.alpha = 0;
+            }
+
+            if (Main.player[NPC.target].dead)
+                NPC.TargetClosest(false);
+
+            Vector2 vector18 = new Vector2(NPC.position.X + (float)NPC.width * 0.5f, NPC.position.Y + (float)NPC.height * 0.5f);
+            float num191 = Main.player[NPC.target].position.X + (float)(Main.player[NPC.target].width / 2);
+            float num192 = Main.player[NPC.target].position.Y + (float)(Main.player[NPC.target].height / 2);
+            num191 = (float)((int)(num191 / 16f) * 16);
+            num192 = (float)((int)(num192 / 16f) * 16);
+            vector18.X = (float)((int)(vector18.X / 16f) * 16);
+            vector18.Y = (float)((int)(vector18.Y / 16f) * 16);
+            num191 -= vector18.X;
+            num192 -= vector18.Y;
+            float num193 = (float)System.Math.Sqrt((double)(num191 * num191 + num192 * num192));
+            if (NPC.ai[1] > 0f && NPC.ai[1] < (float)Main.npc.Length)
+            {
+                try
+                {
+                    vector18 = new Vector2(NPC.position.X + (float)NPC.width * 0.5f, NPC.position.Y + (float)NPC.height * 0.5f);
+                    num191 = Main.npc[(int)NPC.ai[1]].position.X + (float)(Main.npc[(int)NPC.ai[1]].width / 2) - vector18.X;
+                    num192 = Main.npc[(int)NPC.ai[1]].position.Y + (float)(Main.npc[(int)NPC.ai[1]].height / 2) - vector18.Y;
+                }
+                catch
+                {
+                }
+                NPC.rotation = (float)System.Math.Atan2((double)num192, (double)num191) + 1.57f;
+                num193 = (float)System.Math.Sqrt((double)(num191 * num191 + num192 * num192));
+                int num194 = NPC.width;
+                num193 = (num193 - (float)num194) / num193;
+                num191 *= num193;
+                num192 *= num193;
+                NPC.velocity = Vector2.Zero;
+                NPC.position.X = NPC.position.X + num191;
+                NPC.position.Y = NPC.position.Y + num192;
+
+                if (num191 < 0f)
+                    NPC.spriteDirection = 1;
+                else if (num191 > 0f)
+                    NPC.spriteDirection = -1;
             }
         }
 
@@ -97,14 +149,17 @@ namespace CalamityMod.NPCs.DesertScourge
         {
             for (int k = 0; k < 3; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
             }
-            if (npc.life <= 0)
+            if (NPC.life <= 0)
             {
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ScourgeTail"), 1f);
+                if (Main.netMode != NetmodeID.Server)
+                {
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("ScourgeTail").Type, NPC.scale);
+                }
                 for (int k = 0; k < 10; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
                 }
             }
         }
@@ -114,20 +169,15 @@ namespace CalamityMod.NPCs.DesertScourge
             return false;
         }
 
-        public override bool PreNPCLoot()
-        {
-            return false;
-        }
-
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
-            npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
-            npc.damage = (int)(npc.damage * 0.85f);
+            NPC.lifeMax = (int)(NPC.lifeMax * 0.8f * bossLifeScale);
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(BuffID.Bleeding, 90, true);
+            if (damage > 0)
+                player.AddBuff(BuffID.Bleeding, 180, true);
         }
     }
 }

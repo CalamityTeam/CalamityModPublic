@@ -1,65 +1,75 @@
+﻿using CalamityMod.CustomRecipes;
 using CalamityMod.Items.Materials;
+using CalamityMod.Items.Placeables;
 using CalamityMod.Projectiles.DraedonsArsenal;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
+using System;
+using System.Collections.Generic;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.DraedonsArsenal
 {
     public class PulsePistol : ModItem
-	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Pulse Pistol");
-			Tooltip.SetDefault("Fires a pulse that arcs to a new target on enemy hits\n" +
-							   "Inflicts more damage to inorganic targets");
-		}
+    {
+        public override void SetStaticDefaults()
+        {
+            SacrificeTotal = 1;
+            DisplayName.SetDefault("Pulse Pistol");
+            Tooltip.SetDefault("Fires a pulse that arcs to a new target on enemy hits");
+        }
 
-		public override void SetDefaults()
-		{
-			item.width = 62;
-			item.height = 22;
-			item.magic = true;
-			item.damage = 22;
-			item.knockBack = 0f;
-			item.useTime = item.useAnimation = 20;
-			item.autoReuse = true;
+        public override void SetDefaults()
+        {
+            CalamityGlobalItem modItem = Item.Calamity();
 
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/PulseRifleFire");
-			item.noMelee = true;
+            Item.width = 62;
+            Item.height = 22;
+            Item.DamageType = DamageClass.Magic;
+            Item.damage = 26;
+            Item.knockBack = 0f;
+            Item.useTime = Item.useAnimation = 20;
+            Item.autoReuse = true;
+            Item.mana = 6;
 
-			item.value = CalamityGlobalItem.Rarity3BuyPrice;
-			item.rare = ItemRarityID.Red;
-			item.Calamity().customRarity = CalamityRarity.DraedonRust;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.UseSound = PulseRifle.FireSound;
+            Item.noMelee = true;
 
-			item.shoot = ModContent.ProjectileType<PulseRifleShot>();
-			item.shootSpeed = 5.2f; // This may seem low but the shot has 10 extra updates.
+            Item.value = CalamityGlobalItem.Rarity3BuyPrice;
+            Item.rare = ModContent.RarityType<DarkOrange>();
 
-			item.Calamity().Chargeable = true;
-			item.Calamity().ChargeMax = 50;
-		}
+            Item.shoot = ModContent.ProjectileType<PulseRifleShot>();
+            Item.shootSpeed = 5.2f; // This may seem low but the shot has 10 extra updates.
 
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-		{
-			Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<PulsePistolShot>(), damage, knockBack, player.whoAmI, 0f, 0f);
-			return false;
-		}
+            modItem.UsesCharge = true;
+            modItem.MaxCharge = 50f;
+            modItem.ChargePerUse = 0.05f;
+        }
 
-		public override Vector2? HoldoutOffset() => new Vector2(10f, 0f);
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        {
+            Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<PulsePistolShot>(), damage, knockback, player.whoAmI, 0f, 0f);
+            return false;
+        }
 
-		public override void AddRecipes()
-		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 5);
-			recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 7);
-			recipe.AddIngredient(ModContent.ItemType<AerialiteBar>(), 4);
-			recipe.AddIngredient(ItemID.MeteoriteBar, 4);
-			recipe.AddIngredient(ItemID.FlintlockPistol);
-			recipe.AddTile(TileID.Anvils);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
-		}
-	}
+        public override Vector2? HoldoutOffset() => new Vector2(10f, 0f);
+
+        public override void ModifyTooltips(List<TooltipLine> tooltips) => CalamityGlobalItem.InsertKnowledgeTooltip(tooltips, 1);
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient<MysteriousCircuitry>(5).
+                AddIngredient<DubiousPlating>(7).
+                AddIngredient<AerialiteBar>(4).
+                AddIngredient<SeaPrism>(7).
+                AddCondition(ArsenalTierGatedRecipe.ConstructRecipeCondition(1, out Predicate<Recipe> condition), condition).
+                AddTile(TileID.Anvils).
+                Register();
+        }
+    }
 }

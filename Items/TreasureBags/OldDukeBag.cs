@@ -1,61 +1,84 @@
-using CalamityMod.Items.Accessories;
+﻿using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
+using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
-using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.NPCs.OldDuke;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.GameContent.ItemDropRules;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.TreasureBags
 {
     public class OldDukeBag : ModItem
     {
-        public override int BossBagNPC => ModContent.NPCType<OldDuke>();
-
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Treasure Bag");
+            SacrificeTotal = 3;
+            DisplayName.SetDefault("Treasure Bag (The Old Duke)");
             Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
+			ItemID.Sets.BossBag[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.maxStack = 999;
-            item.consumable = true;
-            item.width = 24;
-            item.height = 24;
-            item.expert = true;
-            item.rare = 10;
+            Item.maxStack = 999;
+            Item.consumable = true;
+            Item.width = 24;
+            Item.height = 24;
+            Item.expert = true;
+            Item.rare = ItemRarityID.Red;
         }
 
-        public override bool CanRightClick()
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = ContentSamples.CreativeHelper.ItemGroup.BossBags;
+		}
+
+        public override bool CanRightClick() => true;
+
+		public override Color? GetAlpha(Color lightColor) => Color.Lerp(lightColor, Color.White, 0.4f);
+
+        public override void PostUpdate()
+		{
+			CalamityUtils.ForceItemIntoWorld(Item);
+			Item.TreasureBagLightAndDust();
+		}
+
+        public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
         {
-            return true;
+            return CalamityUtils.DrawTreasureBagInWorld(Item, spriteBatch, ref rotation, ref scale, whoAmI);
         }
 
-        public override void PostUpdate() => CalamityUtils.ForceItemIntoWorld(item);
-
-        public override void OpenBossBag(Player player)
+        public override void ModifyItemLoot(ItemLoot itemLoot)
         {
-            player.TryGettingDevArmor();
+			// Money
+			itemLoot.Add(ItemDropRule.CoinsBasedOnNPCValue(ModContent.NPCType<OldDuke>()));
 
             // Weapons
-            DropHelper.DropItemChance(player, ModContent.ItemType<InsidiousImpaler>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<SepticSkewer>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<FetidEmesis>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<VitriolicViper>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<ToxicantTwister>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<CadaverousCarrion>(), 3);
+            itemLoot.Add(DropHelper.CalamityStyle(DropHelper.BagWeaponDropRateFraction, new int[]
+            {
+                ModContent.ItemType<InsidiousImpaler>(),
+                ModContent.ItemType<FetidEmesis>(),
+                ModContent.ItemType<SepticSkewer>(),
+                ModContent.ItemType<VitriolicViper>(),
+                ModContent.ItemType<CadaverousCarrion>(),
+                ModContent.ItemType<ToxicantTwister>()
+            }));
+            itemLoot.Add(ModContent.ItemType<TheReaper>(), 10);
 
             // Equipment
-            DropHelper.DropItemChance(player, ModContent.ItemType<DukeScales>(), 10);
-            DropHelper.DropItem(player, ModContent.ItemType<MutatedTruffle>());
+            itemLoot.Add(ModContent.ItemType<OldDukeScales>(), DropHelper.BagWeaponDropRateFraction);
+            itemLoot.Add(ModContent.ItemType<MutatedTruffle>());
+            itemLoot.AddRevBagAccessories();
 
             // Vanity
-            DropHelper.DropItemChance(player, ModContent.ItemType<OldDukeMask>(), 7);
+            itemLoot.Add(ModContent.ItemType<OldDukeMask>(), 7);
         }
     }
 }

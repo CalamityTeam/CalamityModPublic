@@ -1,4 +1,4 @@
-using CalamityMod.Projectiles.Melee;
+﻿using CalamityMod.Projectiles.Melee;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -12,27 +12,28 @@ namespace CalamityMod.Items.Weapons.Melee
             DisplayName.SetDefault("Clam Crusher");
             Tooltip.SetDefault("Launches a huge clam that stuns enemies for a short amount of time\n" +
                                "Starts being affected by gravity and does much more damage after being airborne for a while");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 100;
-            item.melee = true;
-            item.width = 40;
-            item.height = 60;
-            item.useTime = 50;
-            item.useAnimation = 50;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.knockBack = 10f;
-            item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = 5;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.channel = true;
-            item.shoot = ModContent.ProjectileType<ClamCrusherFlail>();
-            item.shootSpeed = 18f;
+            Item.damage = 150;
+            Item.DamageType = DamageClass.MeleeNoSpeed;
+            Item.width = 40;
+            Item.height = 60;
+            Item.useTime = 50;
+            Item.useAnimation = 50;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.knockBack = 10f;
+            Item.value = CalamityGlobalItem.Rarity6BuyPrice;
+            Item.rare = ItemRarityID.Pink;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.channel = true;
+            Item.shoot = ModContent.ProjectileType<ClamCrusherFlail>();
+            Item.shootSpeed = 18f;
         }
     }
 }

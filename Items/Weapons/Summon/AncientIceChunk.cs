@@ -1,3 +1,4 @@
+﻿using Terraria.DataStructures;
 using CalamityMod.Projectiles.Summon;
 using Microsoft.Xna.Framework;
 using System;
@@ -13,31 +14,32 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             DisplayName.SetDefault("Ancient Ice Chunk");
             Tooltip.SetDefault("Summons an ice clasper to fight for you");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 35;
-            item.mana = 10;
-            item.width = 30;
-            item.height = 30;
-            item.useTime = item.useAnimation = 25;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.noMelee = true;
-            item.knockBack = 2f;
-            item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = 5;
-            item.UseSound = SoundID.Item30;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<IceClasperMinion>();
-            item.shootSpeed = 10f;
-            item.summon = true;
+            Item.damage = 35;
+            Item.mana = 10;
+            Item.width = 30;
+            Item.height = 30;
+            Item.useTime = Item.useAnimation = 25;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.noMelee = true;
+            Item.knockBack = 2f;
+            Item.value = CalamityGlobalItem.Rarity4BuyPrice;
+            Item.rare = ItemRarityID.LightRed;
+            Item.UseSound = SoundID.Item30;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<IceClasperMinion>();
+            Item.shootSpeed = 10f;
+            Item.DamageType = DamageClass.Summon;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            float num72 = item.shootSpeed;
-            player.itemTime = item.useTime;
+            float num72 = Item.shootSpeed;
+            player.itemTime = Item.useTime;
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
             float num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
             float num79 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;
@@ -58,7 +60,10 @@ namespace CalamityMod.Items.Weapons.Summon
             num79 = 0f;
             vector2.X = (float)Main.mouseX + Main.screenPosition.X;
             vector2.Y = (float)Main.mouseY + Main.screenPosition.Y;
-            Projectile.NewProjectile(vector2.X, vector2.Y, num78, num79, type, damage, knockBack, player.whoAmI, 0f, 0f);
+            int clasper = Projectile.NewProjectile(source, vector2.X, vector2.Y, num78, num79, type, damage, knockback, player.whoAmI, 0f, 0f);
+            if (Main.projectile.IndexInRange(clasper))
+                Main.projectile[clasper].originalDamage = Item.damage;
+
             return false;
         }
     }

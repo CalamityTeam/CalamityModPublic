@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -11,36 +11,38 @@ namespace CalamityMod.Items.Tools
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Gelpick");
         }
 
         public override void SetDefaults()
         {
-            item.damage = 12;
-            item.melee = true;
-            item.width = 46;
-            item.height = 46;
-            item.useTime = 16;
-            item.useAnimation = 20;
-            item.pick = 100;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 2.5f;
-            item.value = Item.buyPrice(0, 12, 0, 0);
-            item.rare = 4;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.useTurn = true;
+            Item.damage = 12;
+            Item.knockBack = 2.5f;
+            Item.useTime = 10;
+            Item.useAnimation = 20;
+            Item.pick = 100;
+            Item.tileBoost += 1;
+
+            Item.DamageType = DamageClass.Melee;
+            Item.width = 46;
+            Item.height = 46;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.value = Item.buyPrice(0, 12, 0, 0);
+            Item.rare = ItemRarityID.LightRed;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.useTurn = true;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<PurifiedGel>(), 15);
-            recipe.AddIngredient(ItemID.Gel, 30);
-            recipe.AddIngredient(ItemID.HellstoneBar, 5);
-            recipe.AddTile(ModContent.TileType<StaticRefiner>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient<PurifiedGel>(15).
+                AddIngredient(ItemID.Gel, 30).
+                AddIngredient(ItemID.HellstoneBar, 5).
+                AddTile<StaticRefiner>().
+                Register();
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)

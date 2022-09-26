@@ -1,6 +1,5 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -8,6 +7,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class Crystalline2 : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/Crystalline";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Crystalline");
@@ -15,46 +16,42 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetDefaults()
         {
-            projectile.width = 10;
-            projectile.height = 10;
-            projectile.friendly = true;
-            projectile.penetrate = 1;
-            //projectile.aiStyle = 113;
-            projectile.timeLeft = 30;
-            //aiType = ProjectileID.BoneJavelin;
-            projectile.Calamity().rogue = true;
+            Projectile.width = 10;
+            Projectile.height = 10;
+            Projectile.friendly = true;
+            Projectile.penetrate = 1;
+            //Projectile.aiStyle = ProjAIStyleID.StickProjectile;
+            Projectile.timeLeft = 30;
+            //AIType = ProjectileID.BoneJavelin;
+            Projectile.DamageType = RogueDamageClass.Instance;
         }
 
         public override void AI()
         {
-            projectile.localAI[0]++;
-            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.ToRadians(135f);
-            if (projectile.spriteDirection == -1)
-            {
-                projectile.rotation -= MathHelper.PiOver2;
-            }
-            if (projectile.localAI[0] == 10f && projectile.ai[1] == 1f)
+            Projectile.localAI[0]++;
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.ToRadians(45f);
+            if (Projectile.localAI[0] == 10f && Projectile.ai[1] == 1f)
             {
                 int numProj = 2;
                 float rotation = MathHelper.ToRadians(50);
-                if (projectile.owner == Main.myPlayer)
+                if (Projectile.owner == Main.myPlayer)
                 {
                     for (int i = 0; i < numProj + 1; i++)
                     {
-                        Vector2 perturbedSpeed = new Vector2(projectile.velocity.X * 0.8f, projectile.velocity.Y * 0.8f).RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numProj - 1)));
-                        int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, ModContent.ProjectileType<Crystalline2>(), (int)(projectile.damage * 0.5f), projectile.knockBack, projectile.owner, 0f, 2f);
+                        Vector2 perturbedSpeed = new Vector2(Projectile.velocity.X * 0.8f, Projectile.velocity.Y * 0.8f).RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numProj - 1)));
+                        int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, perturbedSpeed, ModContent.ProjectileType<Crystalline2>(), (int)(Projectile.damage * 0.5f), Projectile.knockBack, Projectile.owner, 0f, 2f);
                         Main.projectile[proj].timeLeft = 20;
                     }
                 }
             }
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-			if (projectile.timeLeft == (projectile.ai[1] == 2f ? 20 : 30))
-				return false;
-            Texture2D tex = Main.projectileTexture[projectile.type];
-            spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(lightColor), projectile.rotation, tex.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
+            if (Projectile.timeLeft == (Projectile.ai[1] == 2f ? 20 : 30))
+                return false;
+            Texture2D tex = ModContent.Request<Texture2D>(Texture).Value;
+            Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation, tex.Size() / 2f, Projectile.scale, SpriteEffects.None, 0);
             return false;
         }
 
@@ -62,14 +59,16 @@ namespace CalamityMod.Projectiles.Rogue
         {
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 154, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
+                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 154, Projectile.oldVelocity.X * 0.5f, Projectile.oldVelocity.Y * 0.5f);
             }
-            if (projectile.ai[1] >= 1f)
+            if (Projectile.ai[1] >= 1f)
             {
                 for (int i = 0; i < 3; i++)
                 {
                     Vector2 projspeed = new Vector2(Main.rand.NextFloat(-8f, 8f), Main.rand.NextFloat(-8f, 8f));
-                    Projectile.NewProjectile(projectile.Center, projspeed, ProjectileID.CrystalShard, (int)(projectile.damage * 0.4f), 2f, projectile.owner, 0f, 0f);
+                    int shard = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, projspeed, ProjectileID.CrystalShard, (int)(Projectile.damage * 0.4f), 2f, Projectile.owner);
+                    if (shard.WithinBounds(Main.maxProjectiles))
+                        Main.projectile[shard].DamageType = RogueDamageClass.Instance;
                 }
             }
         }

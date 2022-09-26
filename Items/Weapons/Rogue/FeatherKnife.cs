@@ -1,3 +1,4 @@
+﻿using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
@@ -14,54 +15,59 @@ namespace CalamityMod.Items.Weapons.Rogue
             DisplayName.SetDefault("Feather Knife");
             Tooltip.SetDefault(@"Throws a knife which summons homing feathers
 Stealth strike throws a volley of knives");
+            SacrificeTotal = 99;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
-            item.width = 18;
-            item.damage = 32;
-            item.noMelee = true;
-            item.consumable = true;
-            item.noUseGraphic = true;
-            item.useAnimation = 11;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 18;
-            item.knockBack = 2f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 32;
-            item.maxStack = 999;
-            item.value = 300;
-            item.rare = 3;
-            item.shoot = ModContent.ProjectileType<FeatherKnifeProjectile>();
-            item.shootSpeed = 25f;
-            item.Calamity().rogue = true;
+            Item.width = 18;
+            Item.height = 32;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+
+            Item.damage = 16;
+            Item.useAnimation = Item.useTime = 20;
+            Item.knockBack = 2f;
+            Item.autoReuse = true;
+            Item.consumable = true;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.UseSound = SoundID.Item1;
+            Item.maxStack = 999;
+            Item.shoot = ModContent.ProjectileType<FeatherKnifeProjectile>();
+            Item.shootSpeed = 25f;
+            Item.DamageType = RogueDamageClass.Instance;
+
+            Item.value = Item.sellPrice(copper: 60);
+            Item.rare = ItemRarityID.Orange;
         }
 
-        public override void AddRecipes()
-        {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<AerialiteBar>());
-            recipe.AddTile(TileID.SkyMill);
-            recipe.SetResult(this, 30);
-            recipe.AddRecipe();
-        }
-
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.Calamity().StealthStrikeAvailable()) //setting the stealth strike
             {
                 int spread = 6;
                 for (int i = 0; i < 5; i++)
                 {
-                    Vector2 perturbedspeed = new Vector2(speedX + Main.rand.Next(-3, 4), speedY + Main.rand.Next(-3, 4)).RotatedBy(MathHelper.ToRadians(spread));
-                    int proj = Projectile.NewProjectile(position.X, position.Y, perturbedspeed.X, perturbedspeed.Y, type, damage, knockBack, player.whoAmI, 0f, 0f);
-                    Main.projectile[proj].Calamity().stealthStrike = true;
+                    Vector2 perturbedspeed = new Vector2(velocity.X + Main.rand.Next(-3, 4), velocity.Y + Main.rand.Next(-3, 4)).RotatedBy(MathHelper.ToRadians(spread));
+                    int proj = Projectile.NewProjectile(source, position, perturbedspeed, type, damage, knockback, player.whoAmI);
+                    if (proj.WithinBounds(Main.maxProjectiles))
+                    {
+                        Main.projectile[proj].Calamity().stealthStrike = true;
+                        Main.projectile[proj].noDropItem = true;
+                    }
                     spread -= Main.rand.Next(2, 6);
                 }
                 return false;
             }
             return true;
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe(100).
+                AddIngredient<AerialiteBar>().
+                AddTile(TileID.SkyMill).
+                Register();
         }
     }
 }

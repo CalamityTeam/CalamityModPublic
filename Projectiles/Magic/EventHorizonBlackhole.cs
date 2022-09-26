@@ -1,60 +1,76 @@
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Magic
 {
-	public class EventHorizonBlackhole : ModProjectile
+    public class EventHorizonBlackhole : ModProjectile
     {
-		public int killCounter = 21;
+        public int killCounter = 21;
 
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Blackhole");
-            Main.projFrames[projectile.type] = 8;
+            Main.projFrames[Projectile.type] = 8;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 40;
-            projectile.height = 40;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.timeLeft = 60;
-            projectile.magic = true;
-            projectile.tileCollide = false;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 8;
+            Projectile.width = 40;
+            Projectile.height = 40;
+            Projectile.friendly = true;
+            Projectile.penetrate = 3;
+            Projectile.timeLeft = 90;
+            Projectile.DamageType = DamageClass.Magic;
+            Projectile.tileCollide = false;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 12;
+        }
+
+        public override bool? CanHitNPC(NPC target)
+        {
+            if (Projectile.timeLeft < 60)
+                return false;
+            return null;
         }
 
         public override void AI()
         {
-			if (projectile.frame == 8)
-				return;
+            if (Projectile.frame == 8)
+                return;
+
             // Update animation
-            projectile.frameCounter++;
-            if (projectile.frameCounter > 5)
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter > 5)
             {
-                projectile.frame++;
-                projectile.frameCounter = 0;
+                Projectile.frame++;
+                Projectile.frameCounter = 0;
             }
-			if (projectile.timeLeft > 15)
-			{
-				if (projectile.frame >= 4)
-					projectile.frame = 0;
-			}
-			else
-			{
-				if (projectile.frame < 4)
-					projectile.frame = 4;
-				if (projectile.frame >= 8)
-					projectile.frame = 4;
-			}
+
+            if (Projectile.timeLeft > 15)
+            {
+                if (Projectile.frame >= 4)
+                    Projectile.frame = 0;
+            }
+            else
+            {
+                if (Projectile.frame < 4)
+                    Projectile.frame = 4;
+                if (Projectile.frame >= 8)
+                    Projectile.frame = 4;
+            }
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(BuffID.Daybreak, 300);
+            target.AddBuff(BuffID.Daybreak, 180);
+        }
+
+        public override bool PreDraw(ref Color lightColor)
+        {
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
+            return false;
         }
     }
 }

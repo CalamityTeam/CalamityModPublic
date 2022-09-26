@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee.Yoyos;
 using Terraria;
 using Terraria.ID;
@@ -12,43 +12,43 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             DisplayName.SetDefault("Air Spinner");
             Tooltip.SetDefault("Fires feathers when enemies are near\n" +
-			"A very agile yoyo");
-            ItemID.Sets.Yoyo[item.type] = true;
-            ItemID.Sets.GamepadExtraRange[item.type] = 15;
-            ItemID.Sets.GamepadSmartQuickReach[item.type] = true;
+            "A very agile yoyo");
+            ItemID.Sets.Yoyo[Item.type] = true;
+            ItemID.Sets.GamepadExtraRange[Item.type] = 15;
+            ItemID.Sets.GamepadSmartQuickReach[Item.type] = true;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.width = 28;
-            item.height = 28;
-            item.melee = true;
-            item.damage = 20;
-            item.knockBack = 4f;
-            item.useTime = 22;
-            item.useAnimation = 22;
-            item.autoReuse = true;
+            Item.width = 28;
+            Item.height = 28;
+            Item.DamageType = DamageClass.MeleeNoSpeed;
+            Item.damage = 26;
+            Item.knockBack = 4f;
+            Item.useTime = 22;
+            Item.useAnimation = 22;
+            Item.autoReuse = true;
 
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.UseSound = SoundID.Item1;
-            item.channel = true;
-            item.noUseGraphic = true;
-            item.noMelee = true;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.UseSound = SoundID.Item1;
+            Item.channel = true;
+            Item.noUseGraphic = true;
+            Item.noMelee = true;
 
-            item.shoot = ModContent.ProjectileType<AirSpinnerYoyo>();
-            item.shootSpeed = 14f;
+            Item.shoot = ModContent.ProjectileType<AirSpinnerYoyo>();
+            Item.shootSpeed = 14f;
 
-            item.rare = 3;
-            item.value = Item.buyPrice(gold: 4);
+            Item.rare = ItemRarityID.Orange;
+            Item.value = CalamityGlobalItem.Rarity3BuyPrice;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<AerialiteBar>(), 6);
-            recipe.AddTile(TileID.SkyMill);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient<AerialiteBar>(6).
+                AddTile(TileID.SkyMill).
+                Register();
         }
     }
 }

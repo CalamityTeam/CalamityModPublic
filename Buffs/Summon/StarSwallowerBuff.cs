@@ -7,12 +7,13 @@ namespace CalamityMod.Buffs.Summon
 {
     public class StarSwallowerBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Star Swallower");
             Description.SetDefault("Mmmm myes");
             Main.buffNoTimeDisplay[Type] = true;
             Main.buffNoSave[Type] = true;
+            //Main.persistentBuff[Type] = true;
         }
 
         public override void Update(Player player, ref int buffIndex)

@@ -1,52 +1,56 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
+using CalamityMod.Rarities;
+using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Tiles.Furniture.CraftingStations;
 
 namespace CalamityMod.Items.Accessories
 {
-	public class DarkSunRing : ModItem
+    public class DarkSunRing : ModItem
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Dark Sun Ring");
             Tooltip.SetDefault("Contains the power of the dark sun\n" +
-				"12% increase to damage and melee speed\n" +
-                "+1 life regen, 15% increased pick speed, and +2 max minions\n" +
+                "12% increase to damage and melee speed\n" +
+                "+1 life regen, 15% increased pick speed and +2 max minions\n" +
                 "Increased minion knockback\n" +
                 "During the day the player has +3 life regen\n" +
-                "During the night the player has +30 defense\n" +
-				"Both of these bonuses are granted during an eclipse");
-            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(6, 6));
+                "During the night the player has +15 defense\n" +
+                "Both of these bonuses are granted during an eclipse");
+            Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 7));
+            ItemID.Sets.AnimatesAsSoul[Type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.width = 26;
-            item.height = 26;
-            item.value = CalamityGlobalItem.Rarity15BuyPrice;
-            item.defense = 10;
-            item.lifeRegen = 1;
-            item.accessory = true;
-            item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.width = 42;
+            Item.height = 60;
+            Item.value = CalamityGlobalItem.Rarity14BuyPrice;
+            Item.defense = 10;
+            Item.lifeRegen = 1;
+            Item.accessory = true;
+            Item.rare = ModContent.RarityType<DarkBlue>();
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.darkSunRing = true;
+            player.GetAttackSpeed<MeleeDamageClass>() += 0.12f;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<UeliaceBar>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 100);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient<UelibloomBar>(10).
+                AddIngredient<DarksunFragment>(20).
+                AddTile<CosmicAnvil>().
+                Register();
         }
     }
 }

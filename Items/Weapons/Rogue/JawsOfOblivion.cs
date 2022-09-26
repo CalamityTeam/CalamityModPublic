@@ -1,7 +1,9 @@
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Rogue;
-using CalamityMod.Items.Materials;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -13,36 +15,36 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             DisplayName.SetDefault("Jaws of Oblivion");
             Tooltip.SetDefault("Throws a tight spread of six venomous reaper fangs that stick in enemies\n" +
-				"Stealth strikes cause the teeth to emit a crushing shockwave on impact\n" +
-				"You're gonna need a bigger boat");
+                "Stealth strikes cause the teeth to emit a crushing shockwave on impact\n" +
+                "You're gonna need a bigger boat");
+            SacrificeTotal = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
-            item.width = 42;
-            item.damage = 195;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.useAnimation = 15;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 15;
-            item.knockBack = 1f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 40;
-            item.maxStack = 1;
-            item.value = Item.buyPrice(1, 40, 0, 0);
-            item.rare = 10;
-            item.shoot = ModContent.ProjectileType<JawsProjectile>();
-            item.shootSpeed = 25f;
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
-            item.Calamity().rogue = true;
+            Item.width = 42;
+            Item.height = 40;
+            Item.damage = 159;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.useAnimation = 15;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 15;
+            Item.knockBack = 1f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<JawsProjectile>();
+            Item.shootSpeed = 25f;
+            Item.DamageType = RogueDamageClass.Instance;
+
+            Item.value = CalamityGlobalItem.Rarity13BuyPrice;
+            Item.rare = ModContent.RarityType<PureGreen>();
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             float spreadAngle = MathHelper.ToRadians(2.5f);
-            Vector2 direction = new Vector2(speedX, speedY);
+            Vector2 direction = velocity;
             Vector2 baseDirection = direction.RotatedBy(-spreadAngle * 2.5f);
 
             for (int i = 0; i < 6; i++)
@@ -52,12 +54,13 @@ namespace CalamityMod.Items.Weapons.Rogue
 
                 if (player.Calamity().StealthStrikeAvailable())
                 {
-                    int p = Projectile.NewProjectile(position.X, position.Y, currentDirection.X, currentDirection.Y, type, damage, knockBack, player.whoAmI, 0f, 0f);
-                    Main.projectile[p].Calamity().stealthStrike = true;
+                    int p = Projectile.NewProjectile(source, position, currentDirection, type, (int)(damage * 1.8), knockback + 6f, player.whoAmI);
+                    if (p.WithinBounds(Main.maxProjectiles))
+                        Main.projectile[p].Calamity().stealthStrike = true;
                 }
                 else
                 {
-                    int p = Projectile.NewProjectile(position.X, position.Y, currentDirection.X, currentDirection.Y, type, (int)(damage * 1.5f), 10, player.whoAmI, 0f, 0f);
+                    Projectile.NewProjectile(source, position, currentDirection, type, damage, knockback, player.whoAmI);
                 }
             }
             return false;
@@ -65,14 +68,13 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<LeviathanTeeth>());
-            recipe.AddIngredient(ModContent.ItemType<ReaperTooth>(), 6);
-            recipe.AddIngredient(ModContent.ItemType<Lumenite>(), 15);
-            recipe.AddIngredient(ModContent.ItemType<RuinousSoul>(), 2);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this, 1);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient<LeviathanTeeth>().
+                AddIngredient<ReaperTooth>(6).
+                AddIngredient<Lumenyl>(15).
+                AddIngredient<RuinousSoul>(2).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

@@ -5,12 +5,13 @@ namespace CalamityMod.Buffs.Summon
 {
     public class HotE : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Heart of the Elements");
             Description.SetDefault("All elementals will protect you");
             Main.buffNoTimeDisplay[Type] = true;
             Main.buffNoSave[Type] = true;
+            //Main.persistentBuff[Type] = true;
         }
 
         public override void Update(Player player, ref int buffIndex)

@@ -1,9 +1,10 @@
-using CalamityMod.Dusts;
-using CalamityMod.Items.Armor;
+﻿using CalamityMod.Dusts;
+using CalamityMod.Items.Armor.Tarragon;
 using CalamityMod.Items.Materials;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
-using System.Collections.Generic;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -15,36 +16,38 @@ namespace CalamityMod.Items.Accessories.Wings
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Tarragon Wings");
             Tooltip.SetDefault("Born of the jungle\n" +
-                "Horizontal speed: 9.5\n" +
+                "Horizontal speed: 9.50\n" +
                 "Acceleration multiplier: 2.5\n" +
                 "Great vertical speed\n" +
-                "Flight time: 210\n" +
+                "Flight time: 250\n" +
                 "+15 defense and +2 life regen while wearing the Tarragon Armor");
+            ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new WingStats(250, 9.5f, 2.5f);
         }
 
         public override void SetDefaults()
         {
-            item.width = 22;
-            item.height = 20;
-            item.value = CalamityGlobalItem.Rarity12BuyPrice;
-			item.Calamity().postMoonLordRarity = 12;
-            item.accessory = true;
+            Item.width = 22;
+            Item.height = 20;
+            Item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            Item.rare = ModContent.RarityType<Turquoise>();
+            Item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            if ((player.armor[0].type == ModContent.ItemType<TarragonHelm>() || player.armor[0].type == ModContent.ItemType<TarragonHelmet>() ||
-                player.armor[0].type == ModContent.ItemType<TarragonHornedHelm>() || player.armor[0].type == ModContent.ItemType<TarragonMask>() ||
-                player.armor[0].type == ModContent.ItemType<TarragonVisage>()) &&
+            if ((player.armor[0].type == ModContent.ItemType<TarragonHeadMelee>() || player.armor[0].type == ModContent.ItemType<TarragonHeadRogue>() ||
+                player.armor[0].type == ModContent.ItemType<TarragonHeadSummon>() || player.armor[0].type == ModContent.ItemType<TarragonHeadMagic>() ||
+                player.armor[0].type == ModContent.ItemType<TarragonHeadRanged>()) &&
                 player.armor[1].type == ModContent.ItemType<TarragonBreastplate>() && player.armor[2].type == ModContent.ItemType<TarragonLeggings>())
             {
                 player.statDefense += 15;
                 player.lifeRegen += 2;
             }
 
-            if (player.controlJump && player.wingTime > 0f && !player.jumpAgainCloud && player.jump == 0 && player.velocity.Y != 0f && !hideVisual)
+            if (player.controlJump && player.wingTime > 0f && !player.canJumpAgain_Cloud && player.jump == 0 && player.velocity.Y != 0f && !hideVisual)
             {
                 int num59 = 4;
                 if (player.direction == 1)
@@ -60,7 +63,6 @@ namespace CalamityMod.Items.Accessories.Wings
                 }
                 Main.dust[num60].shader = GameShaders.Armor.GetSecondaryShader(player.cWings, player);
             }
-            player.wingTimeMax = 210;
             player.noFallDmg = true;
         }
 
@@ -73,20 +75,13 @@ namespace CalamityMod.Items.Accessories.Wings
             constantAscend = 0.135f;
         }
 
-        public override void HorizontalWingSpeeds(Player player, ref float speed, ref float acceleration)
-        {
-            speed = 9.5f;
-            acceleration *= 2.5f;
-        }
-
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<UeliaceBar>(), 5);
-            recipe.AddIngredient(ItemID.SoulofFlight, 30);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient<UelibloomBar>(5).
+                AddIngredient(ItemID.SoulofFlight, 30).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

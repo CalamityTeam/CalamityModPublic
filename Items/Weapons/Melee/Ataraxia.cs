@@ -1,11 +1,14 @@
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Items.Materials;
-using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Projectiles.Melee;
+using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -15,56 +18,56 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             DisplayName.SetDefault("Ataraxia");
             Tooltip.SetDefault("Equanimity");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.width = 94;
-            item.height = 92;
-            item.melee = true;
-            item.damage = 3651;
-            item.knockBack = 2.5f;
-            item.useAnimation = 19;
-            item.useTime = 19;
-            item.autoReuse = true;
-            item.useTurn = true;
+            Item.width = 94;
+            Item.height = 92;
+            Item.DamageType = DamageClass.Melee;
+            Item.damage = 455;
+            Item.knockBack = 2.5f;
+            Item.useAnimation = 19;
+            Item.useTime = 19;
+            Item.autoReuse = true;
+            Item.useTurn = true;
 
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.UseSound = SoundID.Item1;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.UseSound = SoundID.Item1;
 
-            item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.Dedicated;
-            item.value = Item.buyPrice(platinum: 2, gold: 50);
+            Item.value = CalamityGlobalItem.Rarity15BuyPrice;
+            Item.rare = ModContent.RarityType<Violet>();
+            Item.Calamity().donorItem = true;
 
-            item.shoot = ModContent.ProjectileType<AtaraxiaMain>();
-            item.shootSpeed = 9f;
+            Item.shoot = ModContent.ProjectileType<AtaraxiaMain>();
+            Item.shootSpeed = 9f;
         }
 
         // Fires one large and two small projectiles which stay together in formation.
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             // Play the Terra Blade sound upon firing
-            Main.PlaySound(SoundID.Item60, position);
+            SoundEngine.PlaySound(SoundID.Item60, position);
 
             // Center projectile
             int centerID = ModContent.ProjectileType<AtaraxiaMain>();
             int centerDamage = damage;
-            Vector2 centerVel = new Vector2(speedX, speedY);
-            Projectile.NewProjectile(position, centerVel, centerID, centerDamage, knockBack, player.whoAmI, 0f, 0f);
+            Projectile.NewProjectile(source, position, velocity, centerID, centerDamage, knockback, player.whoAmI, 0f, 0f);
 
             // Side projectiles (these deal 75% damage)
             int sideID = ModContent.ProjectileType<AtaraxiaSide>();
             int sideDamage = (int)(0.75f * centerDamage);
-            Vector2 speed = new Vector2(speedX, speedY);
-            speed.Normalize();
-            speed *= 22f;
+            Vector2 originalVelocity = velocity;
+            velocity.Normalize();
+            velocity *= 22f;
             Vector2 rrp = player.RotatedRelativePoint(player.MountedCenter, true);
-            Vector2 leftOffset = speed.RotatedBy(MathHelper.PiOver4, default);
-            Vector2 rightOffset = speed.RotatedBy(-MathHelper.PiOver4, default);
-            leftOffset -= 1.4f * speed;
-            rightOffset -= 1.4f * speed;
-            Projectile.NewProjectile(rrp.X + leftOffset.X, rrp.Y + leftOffset.Y, speedX, speedY, sideID, sideDamage, knockBack, player.whoAmI, 0f, 0f);
-            Projectile.NewProjectile(rrp.X + rightOffset.X, rrp.Y + rightOffset.Y, speedX, speedY, sideID, sideDamage, knockBack, player.whoAmI, 0f, 0f);
+            Vector2 leftOffset = velocity.RotatedBy(MathHelper.PiOver4, default);
+            Vector2 rightOffset = velocity.RotatedBy(-MathHelper.PiOver4, default);
+            leftOffset -= 1.4f * velocity;
+            rightOffset -= 1.4f * velocity;
+            Projectile.NewProjectile(source, new Vector2(rrp.X + leftOffset.X, rrp.Y + leftOffset.Y), originalVelocity, sideID, sideDamage, knockback, player.whoAmI, 0f, 0f);
+            Projectile.NewProjectile(source, new Vector2(rrp.X + rightOffset.X, rrp.Y + rightOffset.Y), originalVelocity, sideID, sideDamage, knockback, player.whoAmI, 0f, 0f);
             return false;
         }
 
@@ -72,42 +75,25 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(BuffID.ShadowFlame, 480);
-            target.AddBuff(BuffID.Ichor, 480);
-
-            // Does not summon extra projectiles versus dummies.
-            if (target.type == NPCID.TargetDummy)
-                return;
-
-            // Individual true melee homing missiles deal 10% of the weapon's base damage.
-            int numSplits = 5;
-            int trueMeleeID = ModContent.ProjectileType<AtaraxiaHoming>();
-            int trueMeleeDamage = (int)(0.1f * player.MeleeDamage());
-            float angleVariance = MathHelper.TwoPi / numSplits;
-            float spinOffsetAngle = MathHelper.Pi / (2f * numSplits);
-            Vector2 posVec = new Vector2(8f, 0f).RotatedByRandom(MathHelper.TwoPi);
-
-            for (int i = 0; i < numSplits; ++i)
-            {
-                posVec = posVec.RotatedBy(angleVariance);
-                Vector2 velocity = new Vector2(posVec.X, posVec.Y).RotatedBy(spinOffsetAngle);
-                velocity.Normalize();
-                velocity *= 8f;
-                Projectile.NewProjectile(target.Center + posVec, velocity, trueMeleeID, trueMeleeDamage, knockback, player.whoAmI, 0.0f, 0.0f);
-            }
+            OnHitEffects(player, target.Center);
         }
 
         // On-hit, tosses out five homing projectiles. This is not like Holy Collider.
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
             target.AddBuff(ModContent.BuffType<Shadowflame>(), 480);
-            target.AddBuff(BuffID.Ichor, 480);
+            OnHitEffects(player, target.Center);
+        }
 
+        private void OnHitEffects(Player player, Vector2 targetPos)
+        {
             // Individual true melee homing missiles deal 10% of the weapon's base damage.
             int numSplits = 5;
             int trueMeleeID = ModContent.ProjectileType<AtaraxiaHoming>();
-            int trueMeleeDamage = (int)(0.1f * (int)(item.damage * (player.allDamage + player.meleeDamage - 1f)));
+            int trueMeleeDamage = (int)player.GetTotalDamage<MeleeDamageClass>().ApplyTo(0.1f * Item.damage);
             float angleVariance = MathHelper.TwoPi / (float)numSplits;
             float spinOffsetAngle = MathHelper.Pi / (2f * numSplits);
+            var source = player.GetSource_ItemUse(Item);
             Vector2 posVec = new Vector2(8f, 0f).RotatedByRandom(MathHelper.TwoPi);
 
             for (int i = 0; i < numSplits; ++i)
@@ -116,7 +102,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 Vector2 velocity = new Vector2(posVec.X, posVec.Y).RotatedBy(spinOffsetAngle);
                 velocity.Normalize();
                 velocity *= 8f;
-                Projectile.NewProjectile(target.Center + posVec, velocity, trueMeleeID, trueMeleeDamage, item.knockBack, player.whoAmI, 0.0f, 0.0f);
+                Projectile.NewProjectile(source, targetPos + posVec, velocity, trueMeleeID, trueMeleeDamage, Item.knockBack, player.whoAmI, 0.0f, 0.0f);
             }
         }
 
@@ -149,16 +135,14 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void AddRecipes()
         {
-            ModRecipe r = new ModRecipe(mod);
-            r.AddIngredient(ItemID.BrokenHeroSword);
-			r.AddIngredient(ModContent.ItemType<AuricBar>(), 4);
-            r.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 12);
-            r.AddIngredient(ModContent.ItemType<NightmareFuel>(), 20);
-            r.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 20);
-            r.AddIngredient(ModContent.ItemType<DarksunFragment>(), 15);
-            r.AddTile(ModContent.TileType<DraedonsForge>());
-            r.SetResult(this);
-            r.AddRecipe();
+            CreateRecipe().
+                AddIngredient(ItemID.BrokenHeroSword).
+                AddIngredient<AuricBar>(5).
+                AddIngredient<CosmiliteBar>(8).
+                AddIngredient<AscendantSpiritEssence>(2).
+                AddIngredient<NightmareFuel>(20).
+                AddTile<CosmicAnvil>().
+                Register();
         }
     }
 }

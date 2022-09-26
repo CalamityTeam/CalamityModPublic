@@ -6,11 +6,11 @@ namespace CalamityMod.Walls
 {
     public class CosmiliteBrickWall : ModWall
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.wallHouse[Type] = true;
 
-            drop = ModContent.ItemType<Items.Placeables.Walls.CosmiliteBrickWall>();
+            ItemDrop = ModContent.ItemType<Items.Placeables.Walls.CosmiliteBrickWall>();
             AddMapEntry(new Color(34, 33, 59));
         }
 
@@ -21,9 +21,6 @@ namespace CalamityMod.Walls
             return false;
         }
 
-        public override void NumDust(int i, int j, bool fail, ref int num)
-        {
-            num = fail ? 1 : 3;
-        }
+        public override void NumDust(int i, int j, bool fail, ref int num) => num = fail ? 1 : 3;
     }
 }

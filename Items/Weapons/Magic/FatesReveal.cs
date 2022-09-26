@@ -1,8 +1,10 @@
-using CalamityMod.Projectiles.Magic;
+﻿using CalamityMod.Projectiles.Magic;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -14,42 +16,37 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             DisplayName.SetDefault("Fate's Reveal");
             Tooltip.SetDefault("Spawns ghostly fireballs that follow the player");
-            Item.staff[item.type] = true;
+            Item.staff[Item.type] = true;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 60;
-            item.magic = true;
-            item.mana = 20;
-            item.width = 80;
-            item.height = 86;
-            item.useTime = 16;
-            item.useAnimation = 16;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 5.5f;
-            item.value = Item.buyPrice(1, 40, 0, 0);
-            item.rare = 10;
-            item.UseSound = SoundID.Item20;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<FatesRevealFlame>();
-            item.shootSpeed = 1f;
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
+            Item.damage = 120;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 20;
+            Item.width = 80;
+            Item.height = 86;
+            Item.useTime = 16;
+            Item.useAnimation = 16;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 5.5f;
+            Item.UseSound = SoundID.Item20;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<FatesRevealFlame>();
+            Item.shootSpeed = 1f;
+
+            Item.value = CalamityGlobalItem.Rarity13BuyPrice;
+            Item.rare = ModContent.RarityType<PureGreen>();
         }
 
-        /*public override Vector2? HoldoutOrigin()
+        public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
-            return new Vector2(15, 15);
-        }*/
+            Item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Magic/FatesRevealGlow").Value);
+        }
 
-		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
-		{
-			Vector2 origin = new Vector2(40f, 41f);
-			spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Items/Weapons/Magic/FatesRevealGlow"), item.Center - Main.screenPosition, null, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
-		}
-
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             Vector2 vector = player.RotatedRelativePoint(player.MountedCenter, true);
             float num78 = (float)Main.mouseX + Main.screenPosition.X - vector.X;
@@ -63,21 +60,22 @@ namespace CalamityMod.Items.Weapons.Magic
             {
                 num78 = (float)player.direction;
                 num79 = 0f;
-                num80 = item.shootSpeed;
+                num80 = Item.shootSpeed;
             }
             else
             {
-                num80 = item.shootSpeed / num80;
+                num80 = Item.shootSpeed / num80;
             }
             vector += new Vector2(num78, num79);
-            int num107 = 5;
-            for (int num108 = 0; num108 < num107; num108++)
+
+            int numProjectiles = 5;
+            for (int i = 0; i < numProjectiles; i++)
             {
                 vector.X += (float)Main.rand.Next(-100, 101);
-                vector.Y += (float)(Main.rand.Next(-25, 26) * num108);
+                vector.Y += (float)(Main.rand.Next(-25, 26) * i);
                 float spawnX = vector.X;
                 float spawnY = vector.Y;
-                Projectile.NewProjectile(spawnX, spawnY, 0f, 0f, type, damage, knockBack, player.whoAmI, 0f, (float)Main.rand.Next(3));
+                Projectile.NewProjectile(source, spawnX, spawnY, 0f, 0f, type, damage, knockback, player.whoAmI, 0f, (float)Main.rand.Next(3));
             }
             return false;
         }

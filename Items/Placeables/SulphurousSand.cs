@@ -1,4 +1,4 @@
-using Terraria.ID;
+﻿using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables
 {
@@ -6,31 +6,30 @@ namespace CalamityMod.Items.Placeables
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 100;
             DisplayName.SetDefault("Sulphurous Sand");
         }
 
         public override void SetDefaults()
         {
-            item.createTile = ModContent.TileType<Tiles.Abyss.SulphurousSandNoWater>();
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTurn = true;
-            item.useAnimation = 15;
-            item.useTime = 10;
-            item.autoReuse = true;
-            item.consumable = true;
-            item.width = 13;
-            item.height = 10;
-            item.maxStack = 999;
+            Item.createTile = ModContent.TileType<Tiles.Abyss.SulphurousSandNoWater>();
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTurn = true;
+            Item.useAnimation = 15;
+            Item.useTime = 10;
+            Item.autoReuse = true;
+            Item.consumable = true;
+            Item.width = 13;
+            Item.height = 10;
+            Item.maxStack = 999;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddTile(TileID.WorkBenches);
-            recipe.AddIngredient(ModContent.ItemType<Walls.SulphurousSandWall>(), 4);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-            base.AddRecipes();
+            CreateRecipe().
+                AddIngredient<Walls.SulphurousSandWall>(4).
+                AddTile(TileID.WorkBenches).
+                Register();
         }
     }
 }

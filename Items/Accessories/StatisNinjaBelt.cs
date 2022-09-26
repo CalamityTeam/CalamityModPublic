@@ -1,5 +1,4 @@
-using CalamityMod.CalPlayer;
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -10,44 +9,46 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Statis' Ninja Belt");
-            Tooltip.SetDefault("8% increased jump speed and allows constant jumping\n" +
-				"Increased fall damage resistance by 35 blocks\n" +
+            Tooltip.SetDefault("6% increased jump speed and allows constant jumping\n" +
+                "Grants the ability to swim\n" +
+                "Increased fall damage resistance by 35 blocks\n" +
                 "Can climb walls, dash, and dodge attacks\n" +
-                "Toggle visibility of this accessory to enable/disable the dash");
+                "The dodge has a 90 second cooldown\n" +
+                "This cooldown is shared with all other dodges and reflects");
         }
 
         public override void SetDefaults()
         {
-            item.width = 28;
-            item.height = 32;
-            item.value = CalamityGlobalItem.Rarity7BuyPrice;
-            item.rare = 7;
-            item.accessory = true;
+            Item.width = 28;
+            Item.height = 32;
+            Item.value = CalamityGlobalItem.Rarity11BuyPrice;
+            Item.rare = ItemRarityID.Purple;
+            Item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            CalamityPlayer modPlayer = player.Calamity();
             player.autoJump = true;
-            player.jumpSpeedBoost += 0.4f;
+            player.jumpSpeedBoost += 0.3f;
             player.extraFall += 35;
             player.blackBelt = true;
-            if (!hideVisual)
-				player.dash = 1;
+            player.dashType = 1;
+            player.Calamity().DashID = string.Empty;
             player.spikedBoots = 2;
+            player.accFlipper = true;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.FrogLeg);
-            recipe.AddIngredient(ModContent.ItemType<PurifiedGel>(), 50);
-            recipe.AddIngredient(ModContent.ItemType<CoreofEleum>());
-            recipe.AddIngredient(ItemID.MasterNinjaGear);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient(ItemID.MasterNinjaGear).
+                AddIngredient(ItemID.FrogGear).
+                AddIngredient<PurifiedGel>(50).
+                AddIngredient<Phantoplasm>(5).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

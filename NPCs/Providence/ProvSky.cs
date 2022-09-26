@@ -1,6 +1,7 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.Graphics.Effects;
 using Terraria.ModLoader;
 
@@ -14,6 +15,13 @@ namespace CalamityMod.NPCs.Providence
 
         public override void Update(GameTime gameTime)
         {
+            if (ProvIndex == -1)
+            {
+                UpdatePIndex();
+                if (ProvIndex == -1)
+                    isActive = false;
+            }
+
             if (isActive && intensity < 1f)
             {
                 intensity += 0.01f;
@@ -30,18 +38,16 @@ namespace CalamityMod.NPCs.Providence
             {
                 float x = 0f;
                 if (ProvIndex != -1)
-                {
                     x = Vector2.Distance(Main.player[Main.myPlayer].Center, Main.npc[ProvIndex].Center);
-                }
 
-				float spawnAnimationTimer = 180f;
-				float intensityScalar = 0.25f;
-				if (Main.npc[CalamityGlobalNPC.holyBoss].Calamity().newAI[3] < spawnAnimationTimer)
-					intensityScalar = MathHelper.Lerp(0f, intensityScalar, Main.npc[CalamityGlobalNPC.holyBoss].Calamity().newAI[3] / spawnAnimationTimer);
+                float spawnAnimationTimer = 180f;
+                float intensityScalar = 0.25f;
+                if (Main.npc[ProvIndex].Calamity().newAI[3] < spawnAnimationTimer)
+                    intensityScalar = MathHelper.Lerp(0f, intensityScalar, Main.npc[ProvIndex].Calamity().newAI[3] / spawnAnimationTimer);
 
                 return (1f - Utils.SmoothStep(3000f, 6000f, x)) * intensityScalar;
             }
-            return 0f; //0.5
+            return 0f;
         }
 
         public override Color OnTileColor(Color inColor)
@@ -74,8 +80,8 @@ namespace CalamityMod.NPCs.Providence
             if (maxDepth >= 0 && minDepth < 0)
             {
                 float intensity = GetIntensity();
-				Color color = Main.dayTime ? new Color(255, 200, 100) : new Color(100, 150, 255);
-                spriteBatch.Draw(Main.blackTileTexture, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), color * intensity);
+                Color color = Main.dayTime ? new Color(255, 200, 100) : new Color(100, 150, 255);
+                spriteBatch.Draw(TextureAssets.BlackTile.Value, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), color * intensity);
             }
         }
 

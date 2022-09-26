@@ -1,3 +1,4 @@
+﻿using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Summon;
 using Microsoft.Xna.Framework;
@@ -14,31 +15,32 @@ namespace CalamityMod.Items.Weapons.Summon
             DisplayName.SetDefault("Igneous Exaltation");
             Tooltip.SetDefault("Summons an orbiting blade\n" +
                                "Right click to launch all blades towards the cursor");
-            Item.staff[item.type] = true;
+            Item.staff[Item.type] = true;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 34;
-            item.mana = 19;
-            item.width = 52;
-            item.height = 50;
-            item.useTime = item.useAnimation = 25;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 4.5f;
-            item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = 5;
-            item.UseSound = SoundID.Item71;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<IgneousBlade>();
-            item.shootSpeed = 10f;
-            item.summon = true;
+            Item.damage = 34;
+            Item.mana = 10;
+            Item.width = 52;
+            Item.height = 50;
+            Item.useTime = Item.useAnimation = 24;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 4.5f;
+            Item.value = CalamityGlobalItem.Rarity6BuyPrice;
+            Item.rare = ItemRarityID.Pink;
+            Item.UseSound = SoundID.Item71;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<IgneousBlade>();
+            Item.shootSpeed = 10f;
+            Item.DamageType = DamageClass.Summon;
         }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             float totalMinionSlots = 0f;
-            for (int i = 0; i < Main.projectile.Length; i++)
+            for (int i = 0; i < Main.maxProjectiles; i++)
             {
                 if (Main.projectile[i].active && Main.projectile[i].minion && Main.projectile[i].owner == player.whoAmI)
                 {
@@ -48,13 +50,15 @@ namespace CalamityMod.Items.Weapons.Summon
             if (player.altFunctionUse != 2 && totalMinionSlots < player.maxMinions)
             {
                 position = Main.MouseWorld;
-                Projectile.NewProjectile(position, Vector2.Zero, type, damage, knockBack, player.whoAmI);
+                int p = Projectile.NewProjectile(source, position, Vector2.Zero, type, damage, knockback, player.whoAmI);
+                if (Main.projectile.IndexInRange(p))
+                    Main.projectile[p].originalDamage = Item.damage;
                 int swordCount = 0;
-                for (int i = 0; i < Main.projectile.Length; i++)
+                for (int i = 0; i < Main.maxProjectiles; i++)
                 {
                     if (Main.projectile[i].active && Main.projectile[i].type == type && Main.projectile[i].owner == player.whoAmI)
                     {
-                        if ((Main.projectile[i].modProjectile as IgneousBlade).Firing)
+                        if ((Main.projectile[i].ModProjectile as IgneousBlade).Firing)
                             continue;
                         swordCount++;
                         for (int j = 0; j < 22; j++)
@@ -67,11 +71,11 @@ namespace CalamityMod.Items.Weapons.Summon
                 }
                 float angleVariance = MathHelper.TwoPi / swordCount;
                 float angle = 0f;
-                for (int i = 0; i < Main.projectile.Length; i++)
+                for (int i = 0; i < Main.maxProjectiles; i++)
                 {
                     if (Main.projectile[i].active && Main.projectile[i].type == type && Main.projectile[i].owner == player.whoAmI && Main.projectile[i].localAI[1] == 0f)
                     {
-                        if ((Main.projectile[i].modProjectile as IgneousBlade).Firing)
+                        if ((Main.projectile[i].ModProjectile as IgneousBlade).Firing)
                             continue;
                         Main.projectile[i].ai[0] = angle;
                         angle += angleVariance;
@@ -89,12 +93,11 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void AddRecipes()
         {
-            ModRecipe r = new ModRecipe(mod);
-            r.AddIngredient(ModContent.ItemType<UnholyCore>(), 10);
-            r.AddIngredient(ModContent.ItemType<EssenceofChaos>(), 5);
-            r.AddTile(TileID.MythrilAnvil);
-            r.SetResult(this);
-            r.AddRecipe();
+            CreateRecipe().
+                AddIngredient<UnholyCore>(10).
+                AddIngredient<EssenceofChaos>(5).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

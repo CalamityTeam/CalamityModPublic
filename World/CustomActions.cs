@@ -1,9 +1,9 @@
-
+﻿
 using Microsoft.Xna.Framework;
 
 using Terraria;
 using Terraria.ID;
-using Terraria.World.Generation;
+using Terraria.WorldBuilding;
 
 namespace CalamityMod.World
 {
@@ -23,7 +23,7 @@ namespace CalamityMod.World
             public override bool Apply(Point origin, int x, int y, params object[] args)
             {
                 Tile tile = GenBase._tiles[x, y];
-                if (tile.active() && Main.tileSolid[tile.type])
+                if (tile.HasTile && Main.tileSolid[tile.TileType])
                 {
                     _count++;
                 }
@@ -40,6 +40,20 @@ namespace CalamityMod.World
             }
         }
 
+        public class SetPaint : GenAction
+        {
+            private readonly byte _paintID;
+            public SetPaint(byte paintID) => _paintID = paintID;
+            public override bool Apply(Point origin, int x, int y, params object[] args)
+            {
+                if (!WorldGen.InWorld(x, y))
+                    return false;
+
+                WorldGen.paintTile(x, y, _paintID);
+                return UnitApply(origin, x, y, args);
+            }
+        }
+
         public class JungleGrass : GenAction
         {
             private bool _tryMushrooms;
@@ -49,15 +63,15 @@ namespace CalamityMod.World
             }
             public override bool Apply(Point origin, int x, int y, params object[] args)
             {
-                if (GenBase._tiles[x, y].active() || GenBase._tiles[x, y - 1].active())
+                if (_tiles[x, y].HasTile || _tiles[x, y - 1].HasTile)
                 {
                     return false;
                 }
-                if (_tiles[x, y + 1].type == TileID.JungleGrass)
+                if (_tiles[x, y + 1].TileType == TileID.JungleGrass)
                 {
                     WorldGen.PlaceTile(x, y, _random.Next(new ushort[] { TileID.JunglePlants, TileID.JunglePlants2 }), true, false, -1, 0);
                 }
-                else if (_tryMushrooms && _tiles[x, y + 1].type == TileID.MushroomGrass)
+                else if (_tryMushrooms && _tiles[x, y + 1].TileType == TileID.MushroomGrass)
                 {
                     WorldGen.PlaceTile(x, y, TileID.MushroomPlants);
                 }
@@ -95,6 +109,7 @@ namespace CalamityMod.World
                 return _actions[index].Apply(origin, x, y, args);
             }
         }
+
         public class DistanceFromOrigin : GenAction
         {
             private float _distance;

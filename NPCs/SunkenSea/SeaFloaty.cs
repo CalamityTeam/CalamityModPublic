@@ -1,8 +1,11 @@
+﻿using CalamityMod.BiomeManagers;
 using CalamityMod.Items.Placeables.Banners;
 using System.IO;
 using Terraria;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Utilities;
 namespace CalamityMod.NPCs.SunkenSea
 {
     public class SeaFloaty : ModNPC
@@ -12,103 +15,118 @@ namespace CalamityMod.NPCs.SunkenSea
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Sea Floaty");
-            Main.npcFrameCount[npc.type] = 6;
+            Main.npcFrameCount[NPC.type] = 6;
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            {
+                SpriteDirection = 1
+            };
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 
         public override void SetDefaults()
         {
-            npc.npcSlots = 0.5f;
-            npc.aiStyle = -1;
-            aiType = -1;
-            npc.damage = 5;
-            npc.width = 72;
-            npc.height = 22;
-            npc.defense = 0;
-            npc.lifeMax = 50;
-            npc.knockBackResist = 0.5f;
-            npc.value = Item.buyPrice(0, 0, 0, 50);
-            npc.HitSound = SoundID.NPCHit1;
-            npc.DeathSound = SoundID.NPCDeath1;
-            banner = npc.type;
-            bannerItem = ModContent.ItemType<SeaFloatyBanner>();
+            NPC.npcSlots = 0.5f;
+            NPC.aiStyle = -1;
+            AIType = -1;
+            NPC.damage = 5;
+            NPC.width = 72;
+            NPC.height = 22;
+            NPC.defense = 0;
+            NPC.lifeMax = 50;
+            NPC.knockBackResist = 0.5f;
+            NPC.value = Item.buyPrice(0, 0, 0, 50);
+            NPC.HitSound = SoundID.NPCHit1;
+            NPC.DeathSound = SoundID.NPCDeath1;
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<SeaFloatyBanner>();
+            SpawnModBiomes = new int[1] { ModContent.GetInstance<SunkenSeaBiome>().Type };
+        }
+
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+
+                // Will move to localization whenever that is cleaned up.
+                new FlavorTextBestiaryInfoElement("Strange but mesmerizing creatures, they hide immediately at the sight of any predator. They do not seem to be fully developed.")
+            });
         }
 
         public override void SendExtraAI(BinaryWriter writer)
         {
-            writer.Write(npc.chaseable);
+            writer.Write(NPC.chaseable);
             writer.Write(hasBeenHit);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
-            npc.chaseable = reader.ReadBoolean();
+            NPC.chaseable = reader.ReadBoolean();
             hasBeenHit = reader.ReadBoolean();
         }
 
         public override void AI()
         {
-            if (npc.velocity.X > 0.25f)
+            if (NPC.velocity.X > 0.25f)
             {
-                npc.spriteDirection = -1;
+                NPC.spriteDirection = -1;
             }
-            else if (npc.velocity.X < 0.25f)
+            else if (NPC.velocity.X < 0.25f)
             {
-                npc.spriteDirection = 1;
+                NPC.spriteDirection = 1;
             }
-            if (npc.ai[0] == 0f)
+            if (NPC.ai[0] == 0f)
             {
-                npc.direction = 1;
-                npc.ai[0] = 1f;
+                NPC.direction = 1;
+                NPC.ai[0] = 1f;
             }
-            npc.velocity.X = npc.velocity.X + (float)npc.direction * 0.1f;
-            if (npc.velocity.X < -2.5f || npc.velocity.X > 2.5f)
+            NPC.velocity.X = NPC.velocity.X + (float)NPC.direction * 0.1f;
+            if (NPC.velocity.X < -2.5f || NPC.velocity.X > 2.5f)
             {
-                npc.velocity.X = npc.velocity.X * 0.95f;
+                NPC.velocity.X = NPC.velocity.X * 0.95f;
             }
-            if (npc.collideX)
+            if (NPC.collideX)
             {
-                npc.velocity.X = npc.velocity.X * -1f;
-                npc.direction *= -1;
-                npc.netUpdate = true;
+                NPC.velocity.X = NPC.velocity.X * -1f;
+                NPC.direction *= -1;
+                NPC.netUpdate = true;
             }
 
-            if (npc.justHit && !hasBeenHit)
+            if (NPC.justHit && !hasBeenHit)
             {
                 hasBeenHit = true;
-                npc.noTileCollide = true;
-                npc.noGravity = true;
+                NPC.noTileCollide = true;
+                NPC.noGravity = true;
             }
-            npc.chaseable = hasBeenHit;
+            NPC.chaseable = hasBeenHit;
             if (hasBeenHit)
             {
-                npc.TargetClosest(true);
-                npc.velocity.X = npc.velocity.X - (float)npc.direction * 0.5f;
-                npc.velocity.Y = npc.velocity.Y - (float)npc.directionY * 0.3f;
-                if (npc.velocity.X > 10f)
+                NPC.TargetClosest(true);
+                NPC.velocity.X = NPC.velocity.X - (float)NPC.direction * 0.5f;
+                NPC.velocity.Y = NPC.velocity.Y - (float)NPC.directionY * 0.3f;
+                if (NPC.velocity.X > 10f)
                 {
-                    npc.velocity.X = 10f;
+                    NPC.velocity.X = 10f;
                 }
-                if (npc.velocity.X < -10f)
+                if (NPC.velocity.X < -10f)
                 {
-                    npc.velocity.X = -10f;
+                    NPC.velocity.X = -10f;
                 }
-                if (npc.velocity.Y > 10f)
+                if (NPC.velocity.Y > 10f)
                 {
-                    npc.velocity.Y = 10f;
+                    NPC.velocity.Y = 10f;
                 }
-                if (npc.velocity.Y < -10f)
+                if (NPC.velocity.Y < -10f)
                 {
-                    npc.velocity.Y = -10f;
+                    NPC.velocity.Y = -10f;
                 }
-                npc.direction *= -1;
-                npc.rotation = npc.velocity.X * 0.1f;
-                if ((double)npc.rotation < -0.3)
+                NPC.direction *= -1;
+                NPC.rotation = NPC.velocity.X * 0.1f;
+                if ((double)NPC.rotation < -0.3)
                 {
-                    npc.rotation = -0.3f;
+                    NPC.rotation = -0.3f;
                 }
-                if ((double)npc.rotation > 0.3)
+                if ((double)NPC.rotation > 0.3)
                 {
-                    npc.rotation = 0.3f;
+                    NPC.rotation = 0.3f;
                     return;
                 }
             }
@@ -116,15 +134,15 @@ namespace CalamityMod.NPCs.SunkenSea
 
         public override void FindFrame(int frameHeight)
         {
-            npc.frameCounter += hasBeenHit ? 0.3f : 0.15f;
-            npc.frameCounter %= Main.npcFrameCount[npc.type];
-            int frame = (int)npc.frameCounter;
-            npc.frame.Y = frame * frameHeight;
+            NPC.frameCounter += hasBeenHit ? 0.3f : 0.15f;
+            NPC.frameCounter %= Main.npcFrameCount[NPC.type];
+            int frame = (int)NPC.frameCounter;
+            NPC.frame.Y = frame * frameHeight;
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.player.Calamity().ZoneSunkenSea && spawnInfo.water && !spawnInfo.player.Calamity().clamity)
+            if (spawnInfo.Player.Calamity().ZoneSunkenSea && spawnInfo.Water && !spawnInfo.Player.Calamity().clamity)
             {
                 return SpawnCondition.CaveJellyfish.Chance * 0.45f;
             }
@@ -135,17 +153,20 @@ namespace CalamityMod.NPCs.SunkenSea
         {
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, 68, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(NPC.position, NPC.width, NPC.height, 68, hitDirection, -1f, 0, default, 1f);
             }
-            if (npc.life <= 0)
+            if (NPC.life <= 0)
             {
                 for (int k = 0; k < 25; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 68, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(NPC.position, NPC.width, NPC.height, 68, hitDirection, -1f, 0, default, 1f);
                 }
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SeaFloaty/SeaFloatyGore1"), 1f);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SeaFloaty/SeaFloatyGore2"), 1f);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SeaFloaty/SeaFloatyGore3"), 1f);
+                if (Main.netMode != NetmodeID.Server)
+                {
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SeaFloatyGore1").Type, 1f);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SeaFloatyGore2").Type, 1f);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SeaFloatyGore3").Type, 1f);
+                }
             }
         }
     }

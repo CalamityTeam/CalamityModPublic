@@ -7,42 +7,44 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 {
     public class GaussFlux : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public float Time
         {
-            get => projectile.ai[0];
-            set => projectile.ai[0] = value;
+            get => Projectile.ai[0];
+            set => Projectile.ai[0] = value;
         }
         public NPC Target
         {
-            get => Main.npc[(int)projectile.ai[1]];
-            set => projectile.ai[1] = value.whoAmI;
+            get => Main.npc[(int)Projectile.ai[1]];
+            set => Projectile.ai[1] = value.whoAmI;
         }
         public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Gauss Flux");
-		}
+        {
+            DisplayName.SetDefault("Gauss Flux");
+        }
 
         public override void SetDefaults()
         {
-            projectile.width = 16;
-            projectile.height = 16;
-            projectile.friendly = true;
-            projectile.melee = true;
-            projectile.penetrate = -1;
-            projectile.timeLeft = 180;
-			projectile.usesLocalNPCImmunity = true;
-			projectile.localNPCHitCooldown = 14;
+            Projectile.width = 16;
+            Projectile.height = 16;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft = 180;
+            Projectile.usesIDStaticNPCImmunity = true;
+            Projectile.idStaticNPCHitCooldown = 10;
         }
 
         public override void AI()
         {
-			Lighting.AddLight(projectile.Center, Color.Lime.ToVector3());
+            Lighting.AddLight(Projectile.Center, Color.Lime.ToVector3());
             if (!Target.active)
             {
-                projectile.Kill();
+                Projectile.Kill();
                 return;
             }
-            projectile.Center = Target.Center;
+            Projectile.Center = Target.Center;
             if (!Main.dedServ)
             {
                 if (Time == 0)
@@ -77,5 +79,5 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             }
             Time++;
         }
-	}
+    }
 }

@@ -1,7 +1,10 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
+using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
+using Terraria.DataStructures;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
@@ -10,23 +13,22 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Core of the Blood God");
-            Tooltip.SetDefault("5% increased damage reduction\n" +
-                "7% increased damage\n" +
-                "When below 100 defense you gain 15% increased damage\n" +
+            Tooltip.SetDefault("Boosts your max HP by 15%\n" +
+                "Healing Potions are 25% more effective\n" +
                 "Halves enemy contact damage\n" +
-                "When you take contact damage this effect has a 20 second cooldown\n" +
-                "Boosts your max HP by 10%");
+                "When you take contact damage this effect has a 20 second cooldown");
+            Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 4));
+            ItemID.Sets.AnimatesAsSoul[Type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.width = 26;
-            item.height = 26;
-            item.value = CalamityGlobalItem.Rarity14BuyPrice;
-            item.expert = true;
-            item.rare = 10;
-            item.accessory = true;
+            Item.width = Item.height = 48;
+            Item.accessory = true;
+            Item.value = CalamityGlobalItem.Rarity14BuyPrice;
+            Item.rare = ModContent.RarityType<DarkBlue>();
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -34,20 +36,18 @@ namespace CalamityMod.Items.Accessories
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.coreOfTheBloodGod = true;
             modPlayer.fleshTotem = true;
+			modPlayer.healingPotBonus += 0.25f;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<BloodyWormScarf>());
-            recipe.AddIngredient(ModContent.ItemType<BloodPact>());
-            recipe.AddIngredient(ModContent.ItemType<FleshTotem>());
-            recipe.AddIngredient(ModContent.ItemType<BloodflareCore>());
-            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 5);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient<BloodPact>().
+                AddIngredient<FleshTotem>().
+                AddIngredient<CosmiliteBar>(5).
+                AddIngredient<AscendantSpiritEssence>(4).
+                AddTile<CosmicAnvil>().
+                Register();
         }
     }
 }

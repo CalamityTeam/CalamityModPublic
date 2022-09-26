@@ -1,5 +1,7 @@
+﻿using Terraria.DataStructures;
 using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -11,33 +13,36 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Monkey Darts");
-            Tooltip.SetDefault("Stealth strikes throw 3 bouncing dart at high speed\n" + "'Perfect for popping'");
+            Tooltip.SetDefault("Stealth strikes throw 3 bouncing darts at high speed\n" + "'Perfect for popping'");
+            SacrificeTotal = 99;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
-            item.damage = 150;
-            item.knockBack = 4;
-            item.crit = 18;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.consumable = true;
-            item.maxStack = 999;
-            item.width = 27;
-            item.height = 27;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.UseSound = SoundID.Item1;
-            item.useTime = 20;
-            item.useAnimation = 20;
-            item.value = Item.buyPrice(0, 0, 4, 0);
-            item.rare = 7;
-            item.shootSpeed = 8f;
-            item.shoot = ModContent.ProjectileType<MonkeyDart>();
-            item.autoReuse = true;
-            item.Calamity().rogue = true;
+            Item.damage = 150;
+            Item.knockBack = 4;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.consumable = true;
+            Item.maxStack = 999;
+            Item.width = 27;
+            Item.height = 27;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.UseSound = SoundID.Item1;
+            Item.useTime = 20;
+            Item.useAnimation = 20;
+            Item.value = Item.buyPrice(0, 0, 4, 0);
+            Item.rare = ItemRarityID.Lime;
+            Item.shootSpeed = 8f;
+            Item.shoot = ModContent.ProjectileType<MonkeyDart>();
+            Item.autoReuse = true;
+            Item.DamageType = RogueDamageClass.Instance;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        // Terraria seems to really dislike high crit values in SetDefaults
+        public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 18;
+
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             //Checks if stealth is avalaible to shoot a spread of 3 darts
             if (player.Calamity().StealthStrikeAvailable())
@@ -45,9 +50,10 @@ namespace CalamityMod.Items.Weapons.Rogue
                 float spread = 7;
                 for (int i = 0; i < 3; i++)
                 {
-                    Vector2 perturbedspeed = new Vector2(speedX * 1.25f, speedY * 1.25f).RotatedBy(MathHelper.ToRadians(spread));
-                    int p = Projectile.NewProjectile(position.X, position.Y, perturbedspeed.X, perturbedspeed.Y, ModContent.ProjectileType<MonkeyDart>(), damage, knockBack, player.whoAmI, 1);
-                    Main.projectile[p].Calamity().stealthStrike = true;
+                    Vector2 perturbedspeed = new Vector2(velocity.X * 1.25f, velocity.Y * 1.25f).RotatedBy(MathHelper.ToRadians(spread));
+                    int p = Projectile.NewProjectile(source, position, perturbedspeed, ModContent.ProjectileType<MonkeyDart>(), Math.Max(damage / 3, 1), knockback, player.whoAmI, 1);
+                    if (p.WithinBounds(Main.maxProjectiles))
+                        Main.projectile[p].Calamity().stealthStrike = true;
                     spread -= 7;
                 }
                 return false;

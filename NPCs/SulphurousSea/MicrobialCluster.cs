@@ -1,4 +1,4 @@
-using CalamityMod.Dusts;
+﻿using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -6,74 +6,67 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.SulphurousSea
 {
-	public class MicrobialCluster : ModNPC
+    public class MicrobialCluster : ModNPC
     {
         public const int ChargeRate = 120;
         public const int SlowdownTime = 45;
         public override void SetStaticDefaults()
         {
+            this.HideFromBestiary();
             DisplayName.SetDefault("Microbial Cluster");
         }
 
         public override void SetDefaults()
         {
-            npc.noGravity = true;
-            npc.damage = 0;
-            npc.width = 24;
-            npc.height = 24;
-            npc.lifeMax = 5;
-            npc.aiStyle = aiType = -1;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
-            npc.noTileCollide = false;
-            npc.noGravity = true;
-            npc.HitSound = SoundID.NPCHit1;
-            npc.DeathSound = SoundID.NPCDeath1;
-            npc.dontTakeDamageFromHostiles = true;
-            npc.knockBackResist = 0f;
+            NPC.noGravity = true;
+            NPC.damage = 0;
+            NPC.width = 24;
+            NPC.height = 24;
+            NPC.lifeMax = 5;
+            NPC.aiStyle = AIType = -1;
+            NPC.noTileCollide = false;
+            NPC.noGravity = true;
+            NPC.HitSound = SoundID.NPCHit1;
+            NPC.DeathSound = SoundID.NPCDeath1;
+            NPC.dontTakeDamageFromHostiles = true;
+            NPC.knockBackResist = 0f;
         }
         public override void AI()
         {
-            if (npc.collideX || npc.collideY)
+            if (NPC.collideX || NPC.collideY)
             {
-                npc.velocity *= -1f;
-                npc.netUpdate = true;
+                NPC.velocity *= -1f;
+                NPC.netUpdate = true;
             }
             DelegateMethods.v3_1 = Color.GreenYellow.ToVector3() * 2f;
-            Utils.PlotTileLine(npc.Center, npc.Center + npc.velocity * 10f, 8f, new Utils.PerLinePoint(DelegateMethods.CastLightOpen));
-            npc.ai[0]++;
-            if (npc.ai[0] % SlowdownTime > SlowdownTime - SlowdownTime)
+            Utils.PlotTileLine(NPC.Center, NPC.Center + NPC.velocity * 10f, 8f, DelegateMethods.CastLightOpen);
+            NPC.ai[0]++;
+            if (NPC.ai[0] % SlowdownTime > SlowdownTime - SlowdownTime)
             {
-                npc.velocity *= 0.98f;
+                NPC.velocity *= 0.98f;
             }
-            if (npc.ai[0] % SlowdownTime == SlowdownTime - 1)
+            if (NPC.ai[0] % SlowdownTime == SlowdownTime - 1)
             {
-                npc.velocity = npc.velocity.SafeNormalize(-Vector2.UnitY).RotatedByRandom(MathHelper.PiOver4) * 4f;
+                NPC.velocity = NPC.velocity.SafeNormalize(-Vector2.UnitY).RotatedByRandom(MathHelper.PiOver4) * 4f;
             }
-            if (npc.ai[0] % 32f == 31f)
+            if (NPC.ai[0] % 32f == 31f)
             {
-                Dust dust = Dust.NewDustPerfect(npc.Center, (int)CalamityDusts.SulfurousSeaAcid);
+                Dust dust = Dust.NewDustPerfect(NPC.Center, (int)CalamityDusts.SulfurousSeaAcid);
                 dust.velocity = Vector2.One.RotatedByRandom(MathHelper.TwoPi) * Main.rand.NextFloat(1f, 2f);
                 dust.noGravity = true;
                 dust.scale = 1.6f;
             }
         }
 
-        public override float SpawnChance(NPCSpawnInfo spawnInfo) => spawnInfo.player.InSulphur() && spawnInfo.water ? 0.4f : 0f;
-
-        public override void NPCLoot()
-        {
-        }
+        public override float SpawnChance(NPCSpawnInfo spawnInfo) => spawnInfo.Player.InSulphur() && spawnInfo.Water ? 0.4f : 0f;
 
         public override void HitEffect(int hitDirection, double damage)
         {
-            if (npc.life <= 0)
+            if (NPC.life <= 0)
             {
                 for (int k = 0; k < 6; k++)
                 {
-                    Dust dust = Dust.NewDustPerfect(npc.Center, (int)CalamityDusts.SulfurousSeaAcid);
+                    Dust dust = Dust.NewDustPerfect(NPC.Center, (int)CalamityDusts.SulfurousSeaAcid);
                     dust.velocity = Vector2.One.RotatedByRandom(MathHelper.TwoPi) * Main.rand.NextFloat(1f, 2f);
                     dust.scale = 1.2f;
                 }

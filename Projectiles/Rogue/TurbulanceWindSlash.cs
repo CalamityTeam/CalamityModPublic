@@ -1,72 +1,72 @@
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Rogue
 {
-	public class TurbulanceWindSlash : ModProjectile
+    public class TurbulanceWindSlash : ModProjectile
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Wind Slash");
-            Main.projFrames[projectile.type] = 4;
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 3;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            Main.projFrames[Projectile.type] = 4;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 3;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 10;
-            projectile.height = 10;
-            projectile.friendly = true;
-            projectile.penetrate = 1;
-            projectile.extraUpdates = 0;
-            projectile.alpha = 255;
-            projectile.ignoreWater = true;
-            projectile.Calamity().rogue = true;
-			projectile.timeLeft = 180;
+            Projectile.width = 10;
+            Projectile.height = 10;
+            Projectile.friendly = true;
+            Projectile.penetrate = 1;
+            Projectile.extraUpdates = 0;
+            Projectile.alpha = 255;
+            Projectile.ignoreWater = true;
+            Projectile.DamageType = RogueDamageClass.Instance;
+            Projectile.timeLeft = 180;
         }
+
+        public override bool? CanHitNPC(NPC target) => Projectile.timeLeft < 150 && target.CanBeChasedBy(Projectile);
 
         public override void AI()
         {
-            projectile.velocity.X *= 0.99f;
-            projectile.velocity.Y *= 0.99f;
-            if (projectile.localAI[0] == 0f)
+            Projectile.velocity *= 0.99f;
+            if (Projectile.localAI[0] == 0f)
             {
-                projectile.scale += 0.005f;
+                Projectile.scale += 0.005f;
             }
-            if (projectile.alpha > 0)
+            if (Projectile.alpha > 0)
             {
-                projectile.alpha -= 30;
+                Projectile.alpha -= 30;
             }
-            if (projectile.alpha < 0)
+            if (Projectile.alpha < 0)
             {
-                projectile.alpha = 0;
+                Projectile.alpha = 0;
             }
-            projectile.frameCounter++;
-            if (projectile.frameCounter > 1)
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter > 1)
             {
-                projectile.frameCounter = 0;
-                projectile.frame++;
-                if (projectile.frame >= 4)
+                Projectile.frameCounter = 0;
+                Projectile.frame++;
+                if (Projectile.frame >= 4)
                 {
-                    projectile.frame = 0;
+                    Projectile.frame = 0;
                 }
             }
-			if (projectile.ai[0] == 1f) //stealth strike
-			{
-				projectile.rotation = projectile.velocity.ToRotation() - MathHelper.PiOver2;
-			}
-			if (projectile.ai[1] == 1f)
-			{
-				CalamityGlobalProjectile.HomeInOnNPC(projectile, false, (projectile.ai[0] == 1f ? 500f : 150f), 8f, 20f);
-			}
+            if (Projectile.ai[0] == 1f) //stealth strike
+            {
+                Projectile.rotation = Projectile.velocity.ToRotation() - MathHelper.PiOver2;
+            }
+            if (Projectile.ai[1] == 1f)
+            {
+                CalamityUtils.HomeInOnNPC(Projectile, !Projectile.tileCollide, Projectile.ai[0] == 1f ? 900f : 450f, 8f, 20f);
+            }
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;
         }
 
@@ -74,7 +74,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             for (int k = 0; k < 10; k++)
             {
-                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 187, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f, 100, new Color(53, Main.DiscoG, 255));
+                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 187, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f, 100, new Color(53, Main.DiscoG, 255));
             }
         }
     }

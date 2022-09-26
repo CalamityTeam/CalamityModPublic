@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
@@ -7,9 +7,9 @@ namespace CalamityMod.Walls
 {
     public class BrimstoneSlagWallUnsafe : ModWall
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
-            drop = ModContent.ItemType<Items.Placeables.Walls.BrimstoneSlagWall>();
+            ItemDrop = ModContent.ItemType<Items.Placeables.Walls.BrimstoneSlagWall>();
             AddMapEntry(new Color(24, 16, 29));
         }
 
@@ -20,14 +20,11 @@ namespace CalamityMod.Walls
             return false;
         }
 
-        public override void NumDust(int i, int j, bool fail, ref int num)
-        {
-            num = fail ? 1 : 3;
-        }
+        public override void NumDust(int i, int j, bool fail, ref int num) => num = fail ? 1 : 3;
 
         public override bool PreDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            Texture2D sprite = ModContent.GetTexture("CalamityMod/Walls/BrimstoneSlagWall");
+            Texture2D sprite = ModContent.Request<Texture2D>("CalamityMod/Walls/BrimstoneSlagWall").Value;
             Color lightColor = GetWallColour(i, j);
             Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
             zero -= new Vector2(8, 8);
@@ -37,7 +34,7 @@ namespace CalamityMod.Walls
                 (
                     sprite,
                     drawOffset,
-                    new Rectangle(sheetOffset[0] + Main.tile[i, j].wallFrameX(), sheetOffset[1] + Main.tile[i, j].wallFrameY(), 32, 32),
+                    new Rectangle(sheetOffset[0] + Main.tile[i, j].WallFrameX, sheetOffset[1] + Main.tile[i, j].WallFrameY, 32, 32),
                     lightColor,
                     0,
                     new Vector2(0f, 0f),
@@ -58,7 +55,7 @@ namespace CalamityMod.Walls
 
         private Color GetWallColour(int i, int j)
         {
-            int colType = Main.tile[i, j].wallColor();
+            int colType = Main.tile[i, j].WallColor;
             Color paintCol = WorldGen.paintColor(colType);
             if (colType < 13)
             {

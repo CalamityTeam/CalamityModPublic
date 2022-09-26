@@ -1,5 +1,10 @@
+﻿using CalamityMod.CustomRecipes;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.DraedonsArsenal;
+using CalamityMod.Rarities;
+using System;
+using System.Collections.Generic;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -7,49 +12,61 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 {
     public class HydraulicVoltCrasher : ModItem
     {
+        // This is the amount of charge consumed every frame the holdout projectile is summoned, i.e. the weapon is in use.
+        public const float HoldoutChargeUse = 0.002f;
+
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Hydraulic Volt Crasher");
-            Tooltip.SetDefault("An electrically charged jackhammer which shocks all nearby foes on hit");
+            Tooltip.SetDefault("Good for both stamping metal plates and instantly fusing them, as well as crushing enemies\n" +
+            "An electrically charged jackhammer which shocks all nearby foes on hit");
         }
 
         public override void SetDefaults()
         {
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.useAnimation = 16;
-            item.useTime = 4;
-            item.shootSpeed = 46f;
-            item.knockBack = 12f;
-            item.width = 56;
-            item.height = 24;
-            item.damage = 99;
-            item.hammer = 230;
-            item.UseSound = SoundID.Item23;
+            CalamityGlobalItem modItem = Item.Calamity();
 
-            item.shoot = ModContent.ProjectileType<HydraulicVoltCrasherProjectile>();
-            item.value = CalamityGlobalItem.Rarity5BuyPrice;
-            item.rare = ItemRarityID.Red;
-            item.Calamity().customRarity = CalamityRarity.DraedonRust;
+            Item.damage = 65;
+            Item.knockBack = 12f;
+            Item.useTime = 4;
+            Item.useAnimation = 16;
+            Item.hammer = 100;
 
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.melee = true;
-            item.channel = true;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.shootSpeed = 46f;
+            Item.width = 56;
+            Item.height = 24;
+            Item.UseSound = SoundID.Item23;
 
-            item.Calamity().Chargeable = true;
-            item.Calamity().ChargeMax = 85;
+            Item.shoot = ModContent.ProjectileType<HydraulicVoltCrasherProjectile>();
+            Item.value = CalamityGlobalItem.Rarity5BuyPrice;
+            Item.rare = ModContent.RarityType<DarkOrange>();
+
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.DamageType = TrueMeleeNoSpeedDamageClass.Instance;
+            Item.channel = true;
+
+            modItem.UsesCharge = true;
+            modItem.MaxCharge = 85f;
+            modItem.ChargePerUse = 0f; // This weapon is a holdout. Charge is consumed by the holdout projectile.
         }
+
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0 && Item.Calamity().Charge > 0;
+
+        public override void ModifyTooltips(List<TooltipLine> tooltips) => CalamityGlobalItem.InsertKnowledgeTooltip(tooltips, 2);
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 8);
-            recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 12);
-            recipe.AddIngredient(ItemID.HallowedBar, 10);
-            recipe.AddIngredient(ItemID.SoulofMight, 20);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient<MysteriousCircuitry>(8).
+                AddIngredient<DubiousPlating>(12).
+                AddRecipeGroup("AnyMythrilBar", 10).
+                AddIngredient(ItemID.SoulofSight, 20).
+                AddCondition(ArsenalTierGatedRecipe.ConstructRecipeCondition(2, out Predicate<Recipe> condition), condition).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

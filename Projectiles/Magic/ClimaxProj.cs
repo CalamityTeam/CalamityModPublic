@@ -1,77 +1,80 @@
+﻿using CalamityMod.Items.Weapons.Magic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Projectiles.Magic
 {
     public class ClimaxProj : ModProjectile
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Climax");
-            Main.projFrames[projectile.type] = 5;
+            DisplayName.SetDefault("Voltaic Orb");
+            Main.projFrames[Projectile.type] = 5;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 38;
-            projectile.height = 38;
-            projectile.friendly = true;
-            projectile.light = 0.5f;
-            projectile.tileCollide = false;
-            projectile.penetrate = -1;
-            projectile.timeLeft = 150;
-            projectile.magic = true;
+            Projectile.width = 38;
+            Projectile.height = 38;
+            Projectile.friendly = true;
+            Projectile.tileCollide = false;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft = 48;
+            Projectile.DamageType = DamageClass.Magic;
+            Projectile.ignoreWater = true;
         }
 
         public override void AI()
         {
-            projectile.velocity *= 0.96f;
+            // Rapidly screech to a halt once spawned.
+            Projectile.velocity *= 0.86f;
 
-            if (projectile.velocity.X > 0f)
-            {
-                projectile.rotation += (Math.Abs(projectile.velocity.Y) + Math.Abs(projectile.velocity.X)) * 0.001f;
-            }
-            else
-            {
-                projectile.rotation -= (Math.Abs(projectile.velocity.Y) + Math.Abs(projectile.velocity.X)) * 0.001f;
-            }
+            // Spin chaotically given a pre-defined spin direction. Choose one initially at random.
+            float spinTheta = 0.11f;
+            if (Projectile.localAI[1] == 0f)
+                Projectile.localAI[1] = Main.rand.NextBool() ? -spinTheta : spinTheta;
+            Projectile.rotation += Projectile.localAI[1];
 
-            projectile.frameCounter++;
-            if (projectile.frameCounter > 6)
+            // Animate the lightning orb.
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter > 6)
             {
-                projectile.frameCounter = 0;
-                projectile.frame++;
-                if (projectile.frame > 4)
+                Projectile.frameCounter = 0;
+                Projectile.frame++;
+                if (Projectile.frame > 4)
                 {
-                    projectile.frame = 0;
+                    Projectile.frame = 0;
                 }
             }
 
-			if (projectile.timeLeft % 2 == projectile.ai[0])
-				CalamityGlobalProjectile.MagnetSphereHitscan(projectile, 400f, 8f, 4f, 2, ModContent.ProjectileType<ClimaxBeam>(), 1D, true);
+            // Initial stagger in frames needs to be skipped over before it starts shooting,
+            // but once it's past that then it can fire constantly
+            --Projectile.ai[0];
+            if (Projectile.ai[0] < 0f)
+                CalamityUtils.MagnetSphereHitscan(Projectile, 400f, 8f, VoltaicClimax.OrbFireRate, 2, ModContent.ProjectileType<ClimaxBeam>(), 1D, true);
         }
 
         public override Color? GetAlpha(Color lightColor)
         {
-            if (projectile.timeLeft < 30)
+            if (Projectile.timeLeft < 30)
             {
-                float num7 = projectile.timeLeft / 30f;
-                projectile.alpha = (int)(255f - 255f * num7);
+                float num7 = Projectile.timeLeft / 30f;
+                Projectile.alpha = (int)(255f - 255f * num7);
             }
-            return new Color(255 - projectile.alpha, 255 - projectile.alpha, 255 - projectile.alpha, 0);
+            return new Color(255 - Projectile.alpha, 255 - Projectile.alpha, 255 - Projectile.alpha, 0);
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D texture2D13 = Main.projectileTexture[projectile.type];
-            int num214 = Main.projectileTexture[projectile.type].Height / Main.projFrames[projectile.type];
-            int y6 = num214 * projectile.frame;
-            Main.spriteBatch.Draw(texture2D13, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y6, texture2D13.Width, num214)), projectile.GetAlpha(lightColor), projectile.rotation, new Vector2(texture2D13.Width / 2f, num214 / 2f), projectile.scale, SpriteEffects.None, 0f);
+            Texture2D texture2D13 = ModContent.Request<Texture2D>(Texture).Value;
+            int num214 = ModContent.Request<Texture2D>(Texture).Value.Height / Main.projFrames[Projectile.type];
+            int y6 = num214 * Projectile.frame;
+            Main.spriteBatch.Draw(texture2D13, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y6, texture2D13.Width, num214)), Projectile.GetAlpha(lightColor), Projectile.rotation, new Vector2(texture2D13.Width / 2f, num214 / 2f), Projectile.scale, SpriteEffects.None, 0);
             return false;
         }
 
-        public override bool CanDamage() => false;
+        public override bool? CanDamage() => false;
     }
 }

@@ -1,43 +1,42 @@
-using CalamityMod.Projectiles.Ranged;
+﻿using CalamityMod.Projectiles.Ranged;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
-using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
-	public class SepticSkewer : ModItem
+    public class SepticSkewer : ModItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Septic Skewer");
             Tooltip.SetDefault("Launches a spiky harpoon infested with toxins\n" +
-				"Releases bacteria when returning to the player");
+                "Releases bacteria when returning to the player");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 501;
-            item.ranged = true;
-            item.width = 46;
-            item.height = 24;
-            item.useTime = 12;
-            item.useAnimation = 12;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 7.5f;
-            item.value = Item.buyPrice(1, 40, 0, 0);
-            item.Calamity().postMoonLordRarity = 13;
-			item.rare = 10;
-            item.UseSound = SoundID.Item10;
-            item.autoReuse = true;
-            item.shootSpeed = 20f;
-            item.shoot = ModContent.ProjectileType<SepticSkewerHarpoon>();
+            Item.damage = 272;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 46;
+            Item.height = 24;
+            Item.useTime = 12;
+            Item.useAnimation = 12;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 7.5f;
+            Item.UseSound = SoundID.Item10;
+            Item.autoReuse = true;
+            Item.shootSpeed = 20f;
+            Item.shoot = ModContent.ProjectileType<SepticSkewerHarpoon>();
+
+            Item.value = CalamityGlobalItem.Rarity13BuyPrice;
+            Item.rare = ModContent.RarityType<PureGreen>();
+            Item.Calamity().canFirePointBlankShots = true;
         }
 
-        public override Vector2? HoldoutOffset()
-        {
-            return new Vector2(-10, 0);
-        }
+        public override Vector2? HoldoutOffset() => new Vector2(-10, 0);
     }
 }

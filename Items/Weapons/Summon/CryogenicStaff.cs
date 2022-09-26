@@ -1,3 +1,4 @@
+﻿using Terraria.DataStructures;
 using CalamityMod.Projectiles.Summon;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -13,36 +14,37 @@ namespace CalamityMod.Items.Weapons.Summon
             DisplayName.SetDefault("Cryogenic Staff");
             Tooltip.SetDefault(@"Summons an animated ice construct to protect you
 Fire rate and range increase the longer it targets an enemy");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 50;
-            item.mana = 10;
-            item.summon = true;
-            item.sentry = true;
-            item.width = 40;
-            item.height = 40;
-            item.useTime = item.useAnimation = 25;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.noMelee = true;
-            item.knockBack = 4f;
-            item.value = Item.buyPrice(0, 48, 0, 0);
-            item.rare = 6;
-            item.UseSound = SoundID.Item78;
-            item.shoot = ModContent.ProjectileType<IceSentry>();
+            Item.damage = 50;
+            Item.mana = 10;
+            Item.DamageType = DamageClass.Summon;
+            Item.sentry = true;
+            Item.width = 82;
+            Item.height = 84;
+            Item.useTime = Item.useAnimation = 25;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.noMelee = true;
+            Item.autoReuse = true;
+            Item.knockBack = 4f;
+
+            Item.value = CalamityGlobalItem.Rarity6BuyPrice;
+            Item.rare = ItemRarityID.LightPurple;
+            Item.Calamity().devItem = true;
+
+            Item.UseSound = SoundID.Item78;
+            Item.shoot = ModContent.ProjectileType<IceSentry>();
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            if (player.altFunctionUse != 2)
-            {
-                position = Main.MouseWorld;
-                speedX = 0;
-                speedY = 0;
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
-                player.UpdateMaxTurrets();
-            }
+            int p = Projectile.NewProjectile(source, Main.MouseWorld, Vector2.Zero, type, damage, knockback, player.whoAmI);
+            if (Main.projectile.IndexInRange(p))
+                Main.projectile[p].originalDamage = Item.damage;
+            player.UpdateMaxTurrets();
             return false;
         }
     }

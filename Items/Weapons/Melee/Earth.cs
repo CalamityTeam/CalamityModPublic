@@ -1,5 +1,6 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
+using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using System;
@@ -14,34 +15,38 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Earth");
-            Tooltip.SetDefault("Has a chance to lower enemy defense by 50 when striking them\n" +
-                       "Your attacks will heal you a lot\n" +
-                       "Rains RGB meteors that explode into more meteors after a short time on enemy hits\n" +
-                       "Ice meteors freeze enemies\n" +
-                       "Flame meteors explode\n" +
-                       "Green meteors spawn healing orbs");
+            Tooltip.SetDefault("Lowers enemy defense by 1 with every strike\n" +
+                "Your attacks will heal you a lot\n" +
+                "Rains RGB meteors that explode into more meteors after a short time on enemy hits\n" +
+                "Ice meteors freeze enemies\n" +
+                "Flame meteors explode\n" +
+                "Green meteors spawn healing orbs");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.width = 92;
-            item.damage = 840;
-            item.melee = true;
-            item.useAnimation = 16;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 16;
-            item.useTurn = true;
-            item.knockBack = 9.5f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 104;
-            item.value = Item.buyPrice(5, 0, 0, 0);
-            item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.Developer;
+            Item.width = 92;
+            Item.height = 104;
+            Item.scale = 1.5f;
+            Item.damage = 170;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = 16;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 16;
+            Item.useTurn = true;
+            Item.knockBack = 9.5f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+
+            Item.value = CalamityGlobalItem.Rarity16BuyPrice;
+            Item.rare = ModContent.RarityType<HotPink>();
+            Item.Calamity().devItem = true;
         }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
+            var source = player.GetSource_ItemUse(Item);
             float num72 = 25f;
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
             float num78 = (float)Main.mouseX - Main.screenPosition.X - vector2.X;
@@ -84,16 +89,17 @@ namespace CalamityMod.Items.Weapons.Melee
                 num79 *= num80;
                 float speedX4 = num78;
                 float speedY5 = num79 + (float)Main.rand.Next(-180, 181) * 0.02f;
-                Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<EarthProj>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f)), knockback, player.whoAmI, 0f, (float)Main.rand.Next(10));
+
+                int projDamage = player.CalcIntDamage<MeleeDamageClass>(Item.damage);
+                Projectile.NewProjectile(source, vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<EarthProj>(), projDamage, knockback, player.whoAmI, 0f, (float)Main.rand.Next(10));
             }
-            if (Main.rand.NextBool(2))
-            {
-                target.defense -= 50;
-            }
-            if (target.type == NPCID.TargetDummy || !target.canGhostHeal || player.moonLeech)
-            {
+
+            if (target.Calamity().miscDefenseLoss < target.defense)
+                target.Calamity().miscDefenseLoss += 1;
+
+            if (!target.canGhostHeal || player.moonLeech)
                 return;
-            }
+
             int heal = Main.rand.Next(1, 69);
             player.statLife += heal;
             player.HealEffect(heal);
@@ -101,6 +107,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
+            var source = player.GetSource_ItemUse(Item);
             float num72 = 25f;
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
             float num78 = (float)Main.mouseX - Main.screenPosition.X - vector2.X;
@@ -143,10 +150,13 @@ namespace CalamityMod.Items.Weapons.Melee
                 num79 *= num80;
                 float speedX4 = num78;
                 float speedY5 = num79 + (float)Main.rand.Next(-180, 181) * 0.02f;
-                Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<EarthProj>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f)), item.knockBack, player.whoAmI, 0f, (float)Main.rand.Next(10));
+                int earthDamage = player.CalcIntDamage<MeleeDamageClass>(Item.damage);
+                Projectile.NewProjectile(source, vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<EarthProj>(), earthDamage, Item.knockBack, player.whoAmI, 0f, (float)Main.rand.Next(10));
             }
-			if (player.moonLeech)
-				return;
+
+            if (player.moonLeech)
+                return;
+
             int heal = Main.rand.Next(1, 69);
             player.statLife += heal;
             player.HealEffect(heal);
@@ -154,13 +164,12 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<GrandGuardian>());
-            recipe.AddIngredient(ModContent.ItemType<GalacticaBlade>());
-            recipe.AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient<GrandGuardian>().
+                AddIngredient<GalactusBlade>().
+                AddIngredient<ShadowspecBar>(5).
+                AddTile<DraedonsForge>().
+                Register();
         }
     }
 }

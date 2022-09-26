@@ -1,113 +1,138 @@
 ﻿using CalamityMod.Buffs.StatBuffs;
 using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Events;
+using CalamityMod.NPCs.AstrumDeus;
+using CalamityMod.NPCs.CeaselessVoid;
+using CalamityMod.NPCs.DevourerofGods;
+using CalamityMod.NPCs.ExoMechs.Thanatos;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
+using CalamityMod.Items.Weapons.Typeless;
 
 namespace CalamityMod.Projectiles.Typeless
 {
-	public class YanmeisKnifeSlash : ModProjectile
-	{
-		// This is a rather weird thing, but it's what the patron asked for.
-		public static readonly Func<NPC, bool> CanRecieveCoolEffectsFrom = (npc) => npc.boss || CalamityMod.bossMinionList.Contains(npc.type);
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Yanmei's Knife");
-			Main.projFrames[projectile.type] = 5;
-		}
+    public class YanmeisKnifeSlash : ModProjectile
+    {
+        // This is a rather weird thing, but it's what the patron asked for.
+        public static readonly Func<NPC, bool> CanRecieveCoolEffectsFrom = (npc) =>
+        {
+            bool validBoss = npc.boss && npc.type != ModContent.NPCType<DevourerofGodsBody>()
+                && npc.type != ModContent.NPCType<AstrumDeusBody>()
+                && npc.type != ModContent.NPCType<ThanatosHead>()
+                && npc.type != ModContent.NPCType<ThanatosBody1>()
+                && npc.type != ModContent.NPCType<ThanatosBody2>()
+                && npc.type != ModContent.NPCType<ThanatosTail>();
+            if (validBoss)
+                return true;
+            bool bossMinion = CalamityLists.bossMinionList.Contains(npc.type);
+            if (bossMinion)
+                return true;
+            bool miniboss = CalamityLists.minibossList.Contains(npc.type) || AcidRainEvent.AllMinibosses.Contains(npc.type);
+            return miniboss;
+        };
 
-		public override void SetDefaults()
-		{
-			projectile.width = 180;
-			projectile.height = 96;
-			projectile.friendly = true;
-			projectile.penetrate = -1;
-			projectile.tileCollide = false;
-			projectile.ownerHitCheck = true;
-			projectile.usesLocalNPCImmunity = true;
-			projectile.localNPCHitCooldown = 20;
-			projectile.Calamity().trueMelee = true;
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Yanmei's Knife");
+            Main.projFrames[Projectile.type] = 5;
+        }
 
-		public override void AI()
-		{
-			Player player = Main.player[projectile.owner];
+        public override void SetDefaults()
+        {
+            Projectile.width = 180;
+            Projectile.height = 96;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.ownerHitCheck = true;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 20;
+        }
 
-			// Frames and crap
-			projectile.frameCounter++;
-			if (projectile.frameCounter % 7 == 0)
-			{
-				projectile.frame++;
-				if (projectile.frame >= Main.projFrames[projectile.type])
-					projectile.Kill();
-			}
+        public override void AI()
+        {
+            Player player = Main.player[Projectile.owner];
 
-			// Create idle light and dust.
-			Vector2 origin = projectile.Center + projectile.velocity * 3f;
-			Lighting.AddLight(origin, 0f, 1.5f, 0.1f);
+            // Frames and crap
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter % 7 == 0)
+            {
+                Projectile.frame++;
+                if (Projectile.frame >= Main.projFrames[Projectile.type])
+                    Projectile.Kill();
+            }
 
-			Vector2 playerRotatedPoint = player.RotatedRelativePoint(player.MountedCenter, true);
+            // Create idle light and dust.
+            Vector2 origin = Projectile.Center + Projectile.velocity * 3f;
+            Lighting.AddLight(origin, 0f, 1.5f, 0.1f);
 
-			// Rotation and directioning.
-			float velocityAngle = projectile.velocity.ToRotation();
-			projectile.rotation = velocityAngle + (projectile.spriteDirection == -1).ToInt() * MathHelper.Pi;
-			projectile.direction = (Math.Cos(velocityAngle) > 0).ToDirectionInt();
+            Vector2 playerRotatedPoint = player.RotatedRelativePoint(player.MountedCenter, true);
 
-			// Positioning close to the end of the player's arm.
-			projectile.position = playerRotatedPoint - projectile.Size * 0.5f + velocityAngle.ToRotationVector2() * 80f;
+            // Rotation and directioning.
+            float velocityAngle = Projectile.velocity.ToRotation();
+            Projectile.rotation = velocityAngle + (Projectile.spriteDirection == -1).ToInt() * MathHelper.Pi;
+            Projectile.direction = (Math.Cos(velocityAngle) > 0).ToDirectionInt();
 
-			// Sprite and player directioning.
-			projectile.spriteDirection = projectile.direction;
-			player.ChangeDir(projectile.direction);
+            // Positioning close to the end of the player's arm.
+            Projectile.position = playerRotatedPoint - Projectile.Size * 0.5f + velocityAngle.ToRotationVector2() * 80f;
 
-			// Prevents the projectile from dying
-			projectile.timeLeft = 2;
+            // Sprite and player directioning.
+            Projectile.spriteDirection = Projectile.direction;
+            player.ChangeDir(Projectile.direction);
 
-			// Player item-based field manipulation.
-			player.itemRotation = (projectile.velocity * projectile.direction).ToRotation();
-			player.heldProj = projectile.whoAmI;
-			player.itemTime = 2;
-			player.itemAnimation = 2;
-		}
+            // Prevents the projectile from dying
+            Projectile.timeLeft = 2;
 
-		public void HandleAttachmentMovement(Player player, Vector2 playerRotatedPoint)
-		{
-			float speed = 1f;
-			if (player.ActiveItem().shoot == projectile.type)
-			{
-				speed = player.ActiveItem().shootSpeed * projectile.scale;
-			}
-			Vector2 newVelocity = (Main.MouseWorld - playerRotatedPoint).SafeNormalize(Vector2.UnitX * player.direction) * speed;	
+            // Player item-based field manipulation.
+            player.itemRotation = (Projectile.velocity * Projectile.direction).ToRotation();
+            player.heldProj = Projectile.whoAmI;
+            player.itemTime = 2;
+            player.itemAnimation = 2;
+        }
 
-			// Sync if a velocity component changes.
-			if (projectile.velocity.X != newVelocity.X || projectile.velocity.Y != newVelocity.Y)
-			{
-				projectile.netUpdate = true;
-			}
-			projectile.velocity = newVelocity;
-		}
-		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-		{
-			if (!CanRecieveCoolEffectsFrom(target))
-				return;
-			target.AddBuff(ModContent.BuffType<KamiDebuff>(), 600);
-			if (!Main.dedServ)
-			{
-				for (int i = 0; i < 60; i++)
-				{
-					Dust dust = Dust.NewDustDirect(Main.player[projectile.owner].position, Main.player[projectile.owner].width, Main.player[projectile.owner].height, 267);
-					dust.position.X += Main.rand.NextFloat(-16f, 16f);
-					dust.color = Main.hslToRgb(Main.rand.NextFloat(0.26f, 0.37f), 1f, 0.75f);
-					dust.velocity = Main.rand.NextVector2Circular(24f, 24f);
-					dust.scale = Main.rand.NextFloat(1.4f, 1.8f);
-					dust.noGravity = true;
-				}
-			}
-			Main.PlaySound(SoundID.Zombie, Main.player[projectile.owner].Center, 104);
-			Main.player[projectile.owner].AddBuff(ModContent.BuffType<KamiBuff>(), 600);
-		}
-		public override Color? GetAlpha(Color lightColor) => new Color(0, 215, 0, 0);
-	}
+        public void HandleAttachmentMovement(Player player, Vector2 playerRotatedPoint)
+        {
+            float speed = 1f;
+            if (player.ActiveItem().shoot == Projectile.type)
+            {
+                speed = player.ActiveItem().shootSpeed * Projectile.scale;
+            }
+            Vector2 newVelocity = (Main.MouseWorld - playerRotatedPoint).SafeNormalize(Vector2.UnitX * player.direction) * speed;
+
+            // Sync if a velocity component changes.
+            if (Projectile.velocity.X != newVelocity.X || Projectile.velocity.Y != newVelocity.Y)
+            {
+                Projectile.netUpdate = true;
+            }
+            Projectile.velocity = newVelocity;
+        }
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            if (!CanRecieveCoolEffectsFrom(target))
+                return;
+            target.AddBuff(ModContent.BuffType<KamiFlu>(), 600);
+            if (!Main.dedServ)
+            {
+                for (int i = 0; i < 60; i++)
+                {
+                    Dust dust = Dust.NewDustDirect(Main.player[Projectile.owner].position, Main.player[Projectile.owner].width, Main.player[Projectile.owner].height, 267);
+                    dust.position.X += Main.rand.NextFloat(-16f, 16f);
+                    dust.color = Main.hslToRgb(Main.rand.NextFloat(0.26f, 0.37f), 1f, 0.75f);
+                    dust.velocity = Main.rand.NextVector2Circular(24f, 24f);
+                    dust.scale = Main.rand.NextFloat(1.4f, 1.8f);
+                    dust.noGravity = true;
+                }
+            }
+            if (Projectile.ai[0] == 0f)
+            {
+                SoundEngine.PlaySound(YanmeisKnife.HitSound, Projectile.position);
+                Projectile.ai[0] = 1f;
+            }
+            Main.player[Projectile.owner].AddBuff(ModContent.BuffType<KamiBuff>(), 600);
+        }
+        public override Color? GetAlpha(Color lightColor) => new Color(0, 215, 0, 0);
+    }
 }

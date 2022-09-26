@@ -1,7 +1,9 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Projectiles.Typeless;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
@@ -10,36 +12,36 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Nebulous Core");
-            Tooltip.SetDefault("12% increased damage\n" +
+            Tooltip.SetDefault("10% increased damage\n" +
                                "Summons floating nebula stars to protect you\n" +
-                               "You have a 10% chance to survive an attack that would have killed you\n" +
-                               "If this effect activates you will be healed by 100 HP");
+                               "You will survive an attack that would have killed you and be healed 100 HP\n" +
+                               "This effect has a 90 second cooldown");
         }
 
         public override void SetDefaults()
         {
-            item.width = 16;
-            item.height = 14;
-            item.value = CalamityGlobalItem.Rarity13BuyPrice;
-            item.accessory = true;
-            item.expert = true;
-            item.rare = 10;
+            Item.width = 16;
+            Item.height = 14;
+            Item.accessory = true;
+            Item.value = CalamityGlobalItem.Rarity14BuyPrice;
+            Item.rare = ModContent.RarityType<DarkBlue>();
         }
 
         public override void Update(ref float gravity, ref float maxFallSpeed)
         {
-            float num = (float)Main.rand.Next(90, 111) * 0.01f;
+            float num = Main.rand.Next(90, 111) * 0.01f;
             num *= Main.essScale;
-            Lighting.AddLight((int)((item.position.X + (float)(item.width / 2)) / 16f), (int)((item.position.Y + (float)(item.height / 2)) / 16f), 0.35f * num, 0.05f * num, 0.35f * num);
+            Lighting.AddLight((int)((Item.position.X + (float)(Item.width / 2)) / 16f), (int)((Item.position.Y + (float)(Item.height / 2)) / 16f), 0.35f * num, 0.05f * num, 0.35f * num);
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.nCore = true;
-            player.allDamage += 0.12f;
-            int damage = (int)(1500 * player.AverageDamage());
+            player.GetDamage<GenericDamageClass>() += 0.1f;
+            int damage = (int)player.GetBestClassDamage().ApplyTo(250);
             float knockBack = 3f;
             if (Main.rand.NextBool(15))
             {
@@ -51,6 +53,7 @@ namespace CalamityMod.Items.Accessories
                         num++;
                     }
                 }
+                var source = player.GetSource_Accessory(Item);
                 if (Main.rand.Next(15) >= num && num < 10)
                 {
                     int num2 = 50;
@@ -71,7 +74,7 @@ namespace CalamityMod.Items.Accessories
                                 int num6 = (int)center.X / 16;
                                 int num7 = (int)center.Y / 16;
                                 bool flag = false;
-                                if (Main.rand.NextBool(3) && Main.tile[num6, num7] != null && Main.tile[num6, num7].wall > 0)
+                                if (Main.rand.NextBool(3) && Main.tile[num6, num7] != null && Main.tile[num6, num7].WallType > 0)
                                 {
                                     flag = true;
                                 }
@@ -98,7 +101,7 @@ namespace CalamityMod.Items.Accessories
                                     }
                                     if (flag && Main.myPlayer == player.whoAmI)
                                     {
-                                        Projectile.NewProjectile(center.X, center.Y, 0f, 0f, ModContent.ProjectileType<NebulaStar>(), damage, knockBack, player.whoAmI, 0f, 0f);
+                                        Projectile.NewProjectile(source, center.X, center.Y, 0f, 0f, ModContent.ProjectileType<NebulaStar>(), damage, knockBack, player.whoAmI);
                                         return;
                                     }
                                 }

@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -10,35 +10,35 @@ namespace CalamityMod.Items.Tools
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Beastial Pickaxe");
         }
 
         public override void SetDefaults()
         {
-            item.damage = 35;
-            item.melee = true;
-            item.width = 48;
-            item.height = 46;
-            item.useTime = 7;
-            item.useAnimation = 15;
-            item.useTurn = true;
-            item.pick = 200;
-            item.tileBoost += 1;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 4.5f;
-            item.value = Item.buyPrice(0, 60, 0, 0);
-            item.rare = 7;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
+            Item.damage = 35;
+            Item.knockBack = 4.5f;
+            Item.useTime = 5;
+            Item.useAnimation = 15;
+            Item.pick = 200;
+
+            Item.DamageType = DamageClass.Melee;
+            Item.width = 48;
+            Item.height = 46;
+            Item.useTurn = true;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.value = Item.buyPrice(0, 60, 0, 0);
+            Item.rare = ItemRarityID.Lime;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<DraedonBar>(), 7);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient<PerennialBar>(7).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)

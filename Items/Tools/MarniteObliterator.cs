@@ -1,49 +1,62 @@
-using CalamityMod.Projectiles.Melee;
-using Terraria;
+﻿using CalamityMod.Projectiles.Melee;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria;
+using Terraria.Audio;
+
 namespace CalamityMod.Items.Tools
 {
     public class MarniteObliterator : ModItem
     {
+        public static readonly SoundStyle UseSound = new("CalamityMod/Sounds/Item/MarniteObliteratorUse") { PitchVariance = 0.3f };
+
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Marnite Obliterator");
+            Tooltip.SetDefault("Uses a diamond focus to project a long-range digging beam of light\n" + "Ignores 5 points of enemy Defense");
         }
 
         public override void SetDefaults()
         {
-            item.damage = 13;
-            item.melee = true;
-            item.width = 36;
-            item.height = 18;
-            item.useTime = 7;
-            item.useAnimation = 25;
-            item.channel = true;
-            item.noUseGraphic = true;
-            item.noMelee = true;
-            item.pick = 57;
-            item.axe = 10;
-            item.tileBoost++;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.knockBack = 3;
-            item.value = Item.buyPrice(0, 2, 0, 0);
-            item.rare = 2;
-            item.UseSound = SoundID.Item23;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<MarniteObliteratorProj>();
-            item.shootSpeed = 40f;
+            Item.damage = 7;
+            Item.ArmorPenetration = 5;
+            Item.knockBack = 0f;
+            Item.useTime = 6;
+            Item.useAnimation = 25;
+            Item.pick = 50;
+
+            Item.DamageType = TrueMeleeNoSpeedDamageClass.Instance;
+            Item.width = 36;
+            Item.height = 18;
+            Item.channel = true;
+            Item.noUseGraphic = true;
+            Item.noMelee = true;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.value = CalamityGlobalItem.Rarity1BuyPrice;
+            Item.rare = ItemRarityID.Blue;
+            Item.UseSound = SoundID.Item23;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<MarniteObliteratorProj>();
+            Item.shootSpeed = 40f;
+            Item.tileBoost = 7;
         }
+
+        public override void HoldItem(Player player)
+        {
+            player.Calamity().mouseWorldListener = true;
+        }
+
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddRecipeGroup("AnyGoldBar", 3);
-            recipe.AddIngredient(ItemID.Granite, 5);
-            recipe.AddIngredient(ItemID.Marble, 5);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient(ItemID.Diamond).
+                AddRecipeGroup("AnyGoldBar", 3).
+                AddIngredient(ItemID.Granite, 5).
+                AddIngredient(ItemID.Marble, 5).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

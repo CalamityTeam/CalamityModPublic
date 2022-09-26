@@ -1,4 +1,5 @@
-using CalamityMod.Dusts;
+﻿using CalamityMod.Dusts;
+using CalamityMod.Events;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Furniture;
 using CalamityMod.Items.SummonItems;
@@ -6,10 +7,11 @@ using CalamityMod.NPCs.AstrumDeus;
 using CalamityMod.Projectiles.Boss;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
-using Terraria.Localization;
+using Terraria.DataStructures;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
+using Terraria.Audio;
+using Terraria.ID;
 
 namespace CalamityMod.Tiles.Astral
 {
@@ -18,7 +20,10 @@ namespace CalamityMod.Tiles.Astral
         public const int Width = 5;
         public const int Height = 4;
         public static readonly Color FailColor = new Color(237, 93, 83);
-        public override void SetDefaults()
+
+        public static readonly SoundStyle UseSound = new("CalamityMod/Sounds/Custom/AstralBeaconUse");
+
+        public override void SetStaticDefaults()
         {
             Main.tileFrameImportant[Type] = true;
             Main.tileNoAttach[Type] = true;
@@ -28,8 +33,8 @@ namespace CalamityMod.Tiles.Astral
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Astral Beacon");
             AddMapEntry(new Color(128, 128, 158), name);
-            disableSmartCursor = true;
-            minPick = 200;
+            TileID.Sets.DisableSmartCursor[Type] = true;
+            MinPick = 200;
         }
 
         public override bool CanExplode(int i, int j) => false;
@@ -42,21 +47,21 @@ namespace CalamityMod.Tiles.Astral
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, Width * 16, Height * 16, ModContent.ItemType<AstralBeaconItem>());
+            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, Width * 16, Height * 16, ModContent.ItemType<AstralBeaconItem>());
         }
 
-        public override bool NewRightClick(int i, int j)
+        public override bool RightClick(int i, int j)
         {
             Tile tile = Main.tile[i, j];
 
-            int left = i - tile.frameX / 18;
-            int top = j - tile.frameY / 18;
+            int left = i - tile.TileFrameX / 18;
+            int top = j - tile.TileFrameY / 18;
 
             if (!Main.LocalPlayer.HasItem(ModContent.ItemType<TitanHeart>()) &&
                 !Main.LocalPlayer.HasItem(ModContent.ItemType<Starcore>()))
                 return true;
 
-            if (NPC.AnyNPCs(ModContent.NPCType<AstrumDeusHeadSpectral>()))
+            if (NPC.AnyNPCs(ModContent.NPCType<AstrumDeusHead>()) || BossRushEvent.BossRushActive)
                 return true;
 
             if (CalamityUtils.CountProjectiles(ModContent.ProjectileType<DeusRitualDrama>()) > 0)
@@ -66,19 +71,15 @@ namespace CalamityMod.Tiles.Astral
 
             if (Main.dayTime)
             {
-                string localizationKey = "Mods.CalamityMod.DeusAltarRejectNightText";
-                if (Main.netMode == NetmodeID.SinglePlayer)
-                    Main.NewText(Language.GetTextValue(localizationKey), FailColor);
-                else if (Main.netMode == NetmodeID.Server)
-                    NetMessage.BroadcastChatMessage(NetworkText.FromKey(localizationKey), FailColor);
+                CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DeusAltarRejectNightText", FailColor);
                 return false;
             }
 
             Vector2 ritualSpawnPosition = new Vector2(left + Width / 2, top).ToWorldCoordinates();
             ritualSpawnPosition += new Vector2(0f, -24f);
 
-            Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/ProvidenceHolyRay"), ritualSpawnPosition);
-            Projectile.NewProjectile(ritualSpawnPosition, Vector2.Zero, ModContent.ProjectileType<DeusRitualDrama>(), 0, 0f, Main.myPlayer);
+            SoundEngine.PlaySound(UseSound, ritualSpawnPosition);
+            Projectile.NewProjectile(new EntitySource_WorldEvent(), ritualSpawnPosition, Vector2.Zero, ModContent.ProjectileType<DeusRitualDrama>(), 0, 0f, Main.myPlayer, 0f, usingStarcore.ToInt());
 
             if (!usingStarcore)
                 Main.LocalPlayer.ConsumeItem(ModContent.ItemType<TitanHeart>(), true);
@@ -88,20 +89,20 @@ namespace CalamityMod.Tiles.Astral
 
         public override void MouseOver(int i, int j)
         {
-            Main.LocalPlayer.showItemIcon2 = ModContent.ItemType<TitanHeart>();
+            Main.LocalPlayer.cursorItemIconID = ModContent.ItemType<TitanHeart>();
             if (Main.LocalPlayer.HasItem(ModContent.ItemType<Starcore>()))
-                Main.LocalPlayer.showItemIcon2 = ModContent.ItemType<Starcore>();
+                Main.LocalPlayer.cursorItemIconID = ModContent.ItemType<Starcore>();
             Main.LocalPlayer.noThrow = 2;
-            Main.LocalPlayer.showItemIcon = true;
+            Main.LocalPlayer.cursorItemIconEnabled = true;
         }
 
         public override void MouseOverFar(int i, int j)
         {
-            Main.LocalPlayer.showItemIcon2 = ModContent.ItemType<TitanHeart>();
+            Main.LocalPlayer.cursorItemIconID = ModContent.ItemType<TitanHeart>();
             if (Main.LocalPlayer.HasItem(ModContent.ItemType<Starcore>()))
-                Main.LocalPlayer.showItemIcon2 = ModContent.ItemType<Starcore>();
+                Main.LocalPlayer.cursorItemIconID = ModContent.ItemType<Starcore>();
             Main.LocalPlayer.noThrow = 2;
-            Main.LocalPlayer.showItemIcon = true;
+            Main.LocalPlayer.cursorItemIconEnabled = true;
         }
     }
 }

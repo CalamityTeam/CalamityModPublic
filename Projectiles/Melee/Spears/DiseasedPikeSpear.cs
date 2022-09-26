@@ -1,10 +1,11 @@
-using CalamityMod.Buffs.DamageOverTime;
-using Terraria;
-using Terraria.ModLoader;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Projectiles.BaseProjectiles;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Melee.Spears
 {
-	public class DiseasedPikeSpear : BaseSpearProjectile
+    public class DiseasedPikeSpear : BaseSpearProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -13,18 +14,17 @@ namespace CalamityMod.Projectiles.Melee.Spears
 
         public override void SetDefaults()
         {
-            projectile.width = 40;  //The width of the .png file in pixels divided by 2.
-            projectile.aiStyle = 19;
-            projectile.melee = true;  //Dictates whether projectile is a melee-class weapon.
-            projectile.timeLeft = 90;
-            projectile.height = 40;  //The height of the .png file in pixels divided by 2.
-            projectile.friendly = true;
-            projectile.hostile = false;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
-            projectile.penetrate = -1;
-            projectile.ownerHitCheck = true;
-            //projectile.Calamity().trueMelee = true;
+            Projectile.width = 40;  //The width of the .png file in pixels divided by 2.
+            Projectile.aiStyle = ProjAIStyleID.Spear;
+            Projectile.DamageType = TrueMeleeDamageClass.Instance;
+            Projectile.timeLeft = 90;
+            Projectile.height = 40;  //The height of the .png file in pixels divided by 2.
+            Projectile.friendly = true;
+            Projectile.hostile = false;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
+            Projectile.penetrate = -1;
+            Projectile.ownerHitCheck = true;
         }
 
         public override float InitialSpeed => 3f;
@@ -33,18 +33,19 @@ namespace CalamityMod.Projectiles.Melee.Spears
         public override void ExtraBehavior()
         {
             if (Main.rand.NextBool(4))
-                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 107, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 107, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.immune[projectile.owner] = 7;
-            target.AddBuff(ModContent.BuffType<Plague>(), 360);
-            if (projectile.owner == Main.myPlayer)
+            target.immune[Projectile.owner] = 7;
+            target.AddBuff(ModContent.BuffType<Plague>(), 300);
+            if (Projectile.owner == Main.myPlayer)
             {
                 for (int i = 0; i < 4; i++)
                 {
-                    Projectile.NewProjectile(projectile.Center, projectile.velocity * 1.5f, ModContent.ProjectileType<PlagueSeeker>(), (int)(projectile.damage * 0.75), projectile.knockBack, projectile.owner, 0f, 0f);
+                    int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity * 0.5f, ModContent.ProjectileType<PlagueSeeker>(), (int)(Projectile.damage * 0.75), Projectile.knockBack, Projectile.owner);
+                    Main.projectile[proj].extraUpdates += i;
                 }
             }
         }

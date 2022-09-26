@@ -1,5 +1,9 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
+using CalamityMod.Rarities;
+using Microsoft.Xna.Framework;
+using System.Linq;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -12,19 +16,21 @@ namespace CalamityMod.Items.PermanentBoosters
         {
             DisplayName.SetDefault("Phantom Heart");
             Tooltip.SetDefault("Permanently increases maximum mana by 50");
+            SacrificeTotal = 1;
+			// For some reason Life/Mana boosting items are in this set (along with Magic Mirror+)
+			ItemID.Sets.SortingPriorityBossSpawns[Type] = 19; // Mana Crystal
         }
 
         public override void SetDefaults()
         {
-            item.width = 20;
-            item.height = 20;
-            item.useAnimation = 30;
-            item.useTime = 30;
-            item.useStyle = ItemUseStyleID.HoldingUp;
-            item.UseSound = SoundID.Item29;
-            item.consumable = true;
-            item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
+            Item.width = 20;
+            Item.height = 20;
+            Item.useAnimation = 30;
+            Item.useTime = 30;
+            Item.useStyle = ItemUseStyleID.HoldUp;
+            Item.UseSound = SoundID.Item29;
+            Item.consumable = true;
+            Item.rare = ModContent.RarityType<PureGreen>();
         }
 
         public override bool CanUseItem(Player player)
@@ -32,16 +38,20 @@ namespace CalamityMod.Items.PermanentBoosters
             CalamityPlayer modPlayer = player.Calamity();
             if (modPlayer.pHeart)
             {
+                string key = "Mods.CalamityMod.PhantomHeartText";
+                Color messageColor = Color.Magenta;
+                CalamityUtils.DisplayLocalizedText(key, messageColor);
+
                 return false;
             }
             return true;
         }
 
-        public override bool UseItem(Player player)
+        public override bool? UseItem(Player player)
         {
             if (player.itemAnimation > 0 && player.itemTime == 0)
             {
-                player.itemTime = item.useTime;
+                player.itemTime = Item.useTime;
                 if (Main.myPlayer == player.whoAmI)
                 {
                     player.ManaEffect(50);
@@ -52,14 +62,21 @@ namespace CalamityMod.Items.PermanentBoosters
             return true;
         }
 
+        public override void ModifyTooltips(List<TooltipLine> list)
+        {
+            TooltipLine line = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip2");
+
+            if (line != null && Main.LocalPlayer.Calamity().pHeart)
+                line.Text = "[c/8a8a8a:You have already consumed this item]";
+        }
+
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<RuinousSoul>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 100);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient<RuinousSoul>(10).
+                AddIngredient<Phantoplasm>(100).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

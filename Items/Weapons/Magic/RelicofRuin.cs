@@ -1,7 +1,7 @@
-using CalamityMod.Projectiles.Magic;
+﻿using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -13,48 +13,49 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             DisplayName.SetDefault("Relic of Ruin");
             Tooltip.SetDefault("Casts a spread of sand blades");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 20;
-            item.magic = true;
-            item.mana = 16;
-            item.width = 28;
-            item.height = 30;
-            item.useTime = 35;
-            item.useAnimation = 35;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 4.25f;
-            item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = 5;
-            item.UseSound = SoundID.Item84;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<ForbiddenAxeBlade>();
-            item.shootSpeed = 5f;
+            Item.damage = 21;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 16;
+            Item.width = 34;
+            Item.height = 40;
+            Item.useTime = 35;
+            Item.useAnimation = 35;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 4.25f;
+            Item.value = CalamityGlobalItem.Rarity6BuyPrice;
+            Item.rare = ItemRarityID.Pink;
+            Item.UseSound = SoundID.Item84;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<ForbiddenAxeBlade>();
+            Item.shootSpeed = 5f;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-			int totalProjectiles = 12;
-			float radians = MathHelper.TwoPi / totalProjectiles;
+            int totalProjectiles = 12;
+            float radians = MathHelper.TwoPi / totalProjectiles;
             for (int i = 0; i < totalProjectiles; i++)
             {
-				Vector2 vector = new Vector2(0f, -item.shootSpeed).RotatedBy(radians * i);
-				Projectile.NewProjectile(position, vector, type, damage, knockBack, Main.myPlayer);
+                Vector2 vector = new Vector2(0f, -Item.shootSpeed).RotatedBy(radians * i);
+                Projectile.NewProjectile(source, position, vector, type, damage, knockback, Main.myPlayer);
             }
             return false;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.AncientBattleArmorMaterial, 2);
-            recipe.AddIngredient(ItemID.SpellTome);
-            recipe.AddTile(TileID.Bookcases);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient(ItemID.SpellTome).
+                AddRecipeGroup("AnyAdamantiteBar", 5).
+                AddIngredient(ItemID.AncientBattleArmorMaterial, 2).
+                AddTile(TileID.Bookcases).
+                Register();
         }
     }
 }

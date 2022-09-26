@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
 using Terraria;
 using Terraria.ID;
@@ -12,37 +12,37 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             DisplayName.SetDefault("Tradewinds");
             Tooltip.SetDefault("Casts fast moving sunlight feathers");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 25;
-            item.magic = true;
-            item.mana = 7;
-            item.width = 28;
-            item.height = 30;
-            item.useTime = 12;
-            item.useAnimation = 12;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 5;
-            item.value = Item.buyPrice(0, 4, 0, 0);
-            item.rare = 3;
-            item.UseSound = SoundID.Item7;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<TradewindsProjectile>();
-            item.shootSpeed = 25f;
+            Item.damage = 31;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 5;
+            Item.width = 28;
+            Item.height = 30;
+            Item.useTime = 12;
+            Item.useAnimation = 12;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 5;
+            Item.value = CalamityGlobalItem.Rarity3BuyPrice;
+            Item.rare = ItemRarityID.Orange;
+            Item.UseSound = SoundID.Item7;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<TradewindsProjectile>();
+            Item.shootSpeed = 25f;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<AerialiteBar>(), 6);
-            recipe.AddIngredient(ItemID.SunplateBlock, 5);
-            recipe.AddIngredient(ItemID.Feather, 3);
-            recipe.AddTile(TileID.Bookcases);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient<AerialiteBar>(6).
+                AddIngredient(ItemID.SunplateBlock, 5).
+                AddIngredient(ItemID.Feather, 3).
+                AddTile(TileID.Bookcases).
+                Register();
         }
     }
 }

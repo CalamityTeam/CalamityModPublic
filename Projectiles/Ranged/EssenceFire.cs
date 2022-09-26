@@ -7,6 +7,8 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class EssenceFire : ModProjectile
     {
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Fire");
@@ -14,49 +16,48 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetDefaults()
         {
-            projectile.width = 6;
-            projectile.height = 6;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.ranged = true;
-            projectile.penetrate = -1;
-            projectile.extraUpdates = 3;
-            projectile.timeLeft = 50;
+            Projectile.width = 6;
+            Projectile.height = 6;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.penetrate = -1;
+            Projectile.extraUpdates = 3;
+            Projectile.timeLeft = 65;
         }
 
         public override void AI()
         {
-            if (projectile.scale <= 1.5f)
+            if (Projectile.scale <= 1.5f)
             {
-                projectile.scale *= 1.01f;
+                Projectile.scale *= 1.01f;
             }
-            Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.35f / 255f, (255 - projectile.alpha) * 0f / 255f, (255 - projectile.alpha) * 0.45f / 255f);
-            if (projectile.timeLeft > 50)
-            {
-                projectile.timeLeft = 50;
-            }
-            if (projectile.ai[0] > 5f)
+            Lighting.AddLight(Projectile.Center, (255 - Projectile.alpha) * 0.35f / 255f, (255 - Projectile.alpha) * 0f / 255f, (255 - Projectile.alpha) * 0.45f / 255f);
+            if (Projectile.timeLeft > 65)
+                Projectile.timeLeft = 65;
+
+            if (Projectile.ai[0] > 5f)
             {
                 float num296 = 1f;
-                if (projectile.ai[0] == 6f)
+                if (Projectile.ai[0] == 6f)
                 {
                     num296 = 0.25f;
                 }
-                else if (projectile.ai[0] == 7f)
+                else if (Projectile.ai[0] == 7f)
                 {
                     num296 = 0.5f;
                 }
-                else if (projectile.ai[0] == 8f)
+                else if (Projectile.ai[0] == 8f)
                 {
                     num296 = 0.75f;
                 }
-                projectile.ai[0] += 1f;
-                int dustType = (int)CalamityDusts.PurpleCosmolite;
+                Projectile.ai[0] += 1f;
+                int dustType = (int)CalamityDusts.PurpleCosmilite;
                 if (Main.rand.NextBool(2))
                 {
                     for (int num298 = 0; num298 < 1; num298++)
                     {
-                        int num299 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, dustType, projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 100, default, 1f);
+                        int num299 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, dustType, Projectile.velocity.X * 0.2f, Projectile.velocity.Y * 0.2f, 100, default, 1f);
                         Dust dust = Main.dust[num299];
                         if (Main.rand.NextBool(3))
                         {
@@ -72,7 +73,7 @@ namespace CalamityMod.Projectiles.Ranged
                         dust.velocity.X *= 1.2f;
                         dust.velocity.Y *= 1.2f;
                         dust.scale *= num296;
-                        dust.velocity += projectile.velocity;
+                        dust.velocity += Projectile.velocity;
                         if (!dust.noGravity)
                         {
                             dust.velocity *= 0.5f;
@@ -82,15 +83,15 @@ namespace CalamityMod.Projectiles.Ranged
             }
             else
             {
-                projectile.ai[0] += 1f;
+                Projectile.ai[0] += 1f;
             }
-            projectile.rotation += 0.3f * (float)projectile.direction;
+            Projectile.rotation += 0.3f * Projectile.direction;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 300);
-            target.immune[projectile.owner] = 1;
+            target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 240);
+            target.immune[Projectile.owner] = 1;
         }
     }
 }

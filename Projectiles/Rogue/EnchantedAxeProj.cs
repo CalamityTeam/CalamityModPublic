@@ -1,68 +1,71 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Rogue
 {
     public class EnchantedAxeProj : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/EnchantedAxe";
+
         private bool recall = false;
         private bool summonAxe = true;
 
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Enchanted Axe");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 8;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 1;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 8;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 1;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 10;
-            projectile.height = 10;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.timeLeft = 600;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 15;
-            projectile.Calamity().rogue = true;
+            Projectile.width = 10;
+            Projectile.height = 10;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft = 600;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 15;
+            Projectile.DamageType = RogueDamageClass.Instance;
         }
 
         public override void AI()
         {
-            if (projectile.Calamity().stealthStrike)
+            if (Projectile.Calamity().stealthStrike)
             {
-                if (projectile.timeLeft < 585)
+                if (Projectile.timeLeft < 585)
                 {
                     recall = true;
-                    projectile.tileCollide = false;
+                    Projectile.tileCollide = false;
                 }
             }
             else
             {
-                if (projectile.timeLeft < 590)
+                if (Projectile.timeLeft < 590)
                 {
                     recall = true;
-                    projectile.tileCollide = false;
+                    Projectile.tileCollide = false;
                 }
             }
 
-            projectile.rotation += 0.4f * projectile.direction;
+            Projectile.rotation += 0.4f * Projectile.direction;
 
             if (recall)
             {
-                Vector2 posDiff = Main.player[projectile.owner].position - projectile.position;
+                Vector2 posDiff = Main.player[Projectile.owner].position - Projectile.position;
                 if (posDiff.Length() > 30f)
                 {
                     posDiff.Normalize();
-                    projectile.velocity = posDiff * 30f;
+                    Projectile.velocity = posDiff * 30f;
                 }
                 else
                 {
-                    projectile.timeLeft = 0;
-                    Kill(projectile.timeLeft);
+                    Projectile.timeLeft = 0;
+                    Kill(Projectile.timeLeft);
                 }
 
                 if (summonAxe)
@@ -73,9 +76,9 @@ namespace CalamityMod.Projectiles.Rogue
                     for (int i = 0; i < Main.npc.Length; i++)
                     {
                         NPC npc = Main.npc[i];
-                        if (!npc.friendly && !npc.townNPC && npc.active && !npc.dontTakeDamage && npc.chaseable)
+                        if (npc.CanBeChasedBy(Projectile, false))
                         {
-                            float dist = (projectile.Center - npc.Center).Length();
+                            float dist = (Projectile.Center - npc.Center).Length();
                             if (dist < minDist)
                             {
                                 minDist = dist;
@@ -86,48 +89,48 @@ namespace CalamityMod.Projectiles.Rogue
                     Vector2 newAxeVelocity;
                     if (minDist < 999f)
                     {
-                        newAxeVelocity = Main.npc[index].Center - projectile.Center;
+                        newAxeVelocity = Main.npc[index].Center - Projectile.Center;
                     }
                     else
                     {
-                        newAxeVelocity = -projectile.velocity;
+                        newAxeVelocity = -Projectile.velocity;
                     }
                     newAxeVelocity.Normalize();
                     newAxeVelocity *= 20f;
-                    int p = Projectile.NewProjectile(projectile.position, newAxeVelocity, ModContent.ProjectileType<EnchantedAxe2>(), (int)(projectile.damage * 1.2f), 2, projectile.owner, 0, 0);
-                    Main.projectile[p].Calamity().stealthStrike = projectile.Calamity().stealthStrike;
+                    int p = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.position, newAxeVelocity, ModContent.ProjectileType<EnchantedAxe2>(), (int)(Projectile.damage * 1.2f), 2, Projectile.owner, 0, 0);
+                    Main.projectile[p].Calamity().stealthStrike = Projectile.Calamity().stealthStrike;
                     summonAxe = false;
                 }
             }
             else
             {
-                if (projectile.timeLeft % 7 == 1 && projectile.Calamity().stealthStrike)
+                if (Projectile.timeLeft % 7 == 1 && Projectile.Calamity().stealthStrike)
                 {
                     float axeSpeed = 15f;
-                    int axeDamage = projectile.damage / 2;
-                    Projectile.NewProjectile(projectile.position, new Vector2(1f, 0f) * axeSpeed, ModContent.ProjectileType<EnchantedAxe2>(), axeDamage, 2, projectile.owner, 0, 0);
-                    Projectile.NewProjectile(projectile.position, new Vector2(0f, 1f) * axeSpeed, ModContent.ProjectileType<EnchantedAxe2>(), axeDamage, 2, projectile.owner, 0, 0);
-                    Projectile.NewProjectile(projectile.position, new Vector2(-1f, 0f) * axeSpeed, ModContent.ProjectileType<EnchantedAxe2>(), axeDamage, 2, projectile.owner, 0, 0);
-                    Projectile.NewProjectile(projectile.position, new Vector2(0f, -1f) * axeSpeed, ModContent.ProjectileType<EnchantedAxe2>(), axeDamage, 2, projectile.owner, 0, 0);
-                    Projectile.NewProjectile(projectile.position, Vector2.Normalize(new Vector2(1f, 1f)) * axeSpeed, ModContent.ProjectileType<EnchantedAxe2>(), axeDamage, 2, projectile.owner, 0, 0);
-                    Projectile.NewProjectile(projectile.position, Vector2.Normalize(new Vector2(1f, -1f)) * axeSpeed, ModContent.ProjectileType<EnchantedAxe2>(), axeDamage, 2, projectile.owner, 0, 0);
-                    Projectile.NewProjectile(projectile.position, Vector2.Normalize(new Vector2(-1f, -1f)) * axeSpeed, ModContent.ProjectileType<EnchantedAxe2>(), axeDamage, 2, projectile.owner, 0, 0);
-                    Projectile.NewProjectile(projectile.position, Vector2.Normalize(new Vector2(-1f, 1f)) * axeSpeed, ModContent.ProjectileType<EnchantedAxe2>(), axeDamage, 2, projectile.owner, 0, 0);
+                    int axeDamage = Projectile.damage / 2;
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.position, new Vector2(1f, 0f) * axeSpeed, ModContent.ProjectileType<EnchantedAxe2>(), axeDamage, 2, Projectile.owner, 0, 0);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.position, new Vector2(0f, 1f) * axeSpeed, ModContent.ProjectileType<EnchantedAxe2>(), axeDamage, 2, Projectile.owner, 0, 0);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.position, new Vector2(-1f, 0f) * axeSpeed, ModContent.ProjectileType<EnchantedAxe2>(), axeDamage, 2, Projectile.owner, 0, 0);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.position, new Vector2(0f, -1f) * axeSpeed, ModContent.ProjectileType<EnchantedAxe2>(), axeDamage, 2, Projectile.owner, 0, 0);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.position, Vector2.Normalize(new Vector2(1f, 1f)) * axeSpeed, ModContent.ProjectileType<EnchantedAxe2>(), axeDamage, 2, Projectile.owner, 0, 0);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.position, Vector2.Normalize(new Vector2(1f, -1f)) * axeSpeed, ModContent.ProjectileType<EnchantedAxe2>(), axeDamage, 2, Projectile.owner, 0, 0);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.position, Vector2.Normalize(new Vector2(-1f, -1f)) * axeSpeed, ModContent.ProjectileType<EnchantedAxe2>(), axeDamage, 2, Projectile.owner, 0, 0);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.position, Vector2.Normalize(new Vector2(-1f, 1f)) * axeSpeed, ModContent.ProjectileType<EnchantedAxe2>(), axeDamage, 2, Projectile.owner, 0, 0);
                 }
             }
 
-            if (projectile.position == Main.player[projectile.owner].position)
+            if (Projectile.position == Main.player[Projectile.owner].position)
             {
-                Kill(projectile.timeLeft);
+                Kill(Projectile.timeLeft);
             }
             return;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D tex = Main.projectileTexture[projectile.type];
-            spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(lightColor), projectile.rotation, tex.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            Texture2D tex = ModContent.Request<Texture2D>(Texture).Value;
+            Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation, tex.Size() / 2f, Projectile.scale, SpriteEffects.None, 0);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;
         }
 
@@ -137,10 +140,10 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 return false;
             }
-            Collision.HitTiles(projectile.position + projectile.velocity, projectile.velocity, projectile.width, projectile.height);
-            Main.PlaySound(SoundID.Dig, projectile.position);
+            Collision.HitTiles(Projectile.position + Projectile.velocity, Projectile.velocity, Projectile.width, Projectile.height);
+            SoundEngine.PlaySound(SoundID.Dig, Projectile.position);
             recall = true;
-            projectile.tileCollide = false;
+            Projectile.tileCollide = false;
             return false;
         }
     }

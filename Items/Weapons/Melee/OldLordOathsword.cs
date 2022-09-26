@@ -1,5 +1,4 @@
-using Microsoft.Xna.Framework;
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -7,80 +6,42 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class OldLordOathsword : ModItem
     {
+        public bool RMBchannel = false;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Old Lord Oathsword");
             Tooltip.SetDefault("A relic of the ancient underworld\n" +
-                "Critical hits cause lava explosions");
+                "Holding right click rapidly absorbs energy into the blade until it is sufficiently charged\n" +
+                "Left clicking will either swing the blade as usual or cause you to fly in the direction of the cursor, depending on if the blade was fully charged\n" +
+                "After flying the amount of charge the blade has is reduced to zero again");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 34;
-            item.width = 70;
-            item.height = 70;
-            item.melee = true;
-            item.useAnimation = 24;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 24;
-            item.useTurn = true;
-            item.knockBack = 7f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.value = Item.buyPrice(0, 4, 0, 0);
-            item.rare = 3;
+            Item.damage = 60;
+            Item.width = 70;
+            Item.height = 70;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = 34;
+            Item.useTime = 34;
+            Item.channel = true;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTurn = true;
+            Item.knockBack = 7f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.noUseGraphic = true;
+            Item.channel = true;
+            Item.value = CalamityGlobalItem.Rarity3BuyPrice;
+            Item.rare = ItemRarityID.Orange;
         }
 
-        public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
-        {
-            if (crit)
-            {
-                target.AddBuff(BuffID.OnFire, 600, false);
-                player.ApplyDamageToNPC(target, (int)(item.damage * (player.allDamage + player.meleeDamage - 1f)), 0f, 0, false);
-                float num50 = 1.7f;
-                float num51 = 0.8f;
-                float num52 = 2f;
-                Vector2 value3 = (target.rotation - 1.57079637f).ToRotationVector2();
-                Vector2 value4 = value3 * target.velocity.Length();
-                Main.PlaySound(SoundID.Item14, target.position);
-                int num3;
-                for (int num53 = 0; num53 < 40; num53 = num3 + 1)
-                {
-                    int num54 = Dust.NewDust(new Vector2(target.position.X, target.position.Y), target.width, target.height, 127, 0f, 0f, 200, default, num50);
-                    Dust dust = Main.dust[num54];
-                    dust.position = target.Center + Vector2.UnitY.RotatedByRandom(3.1415927410125732) * (float)Main.rand.NextDouble() * (float)target.width / 2f;
-                    dust.noGravity = true;
-                    dust.velocity *= 3f;
-                    dust.velocity += value4 * Main.rand.NextFloat();
-                    num54 = Dust.NewDust(new Vector2(target.position.X, target.position.Y), target.width, target.height, 127, 0f, 0f, 100, default, num51);
-                    dust.position = target.Center + Vector2.UnitY.RotatedByRandom(3.1415927410125732) * (float)Main.rand.NextDouble() * (float)target.width / 2f;
-                    dust.velocity *= 2f;
-                    dust.noGravity = true;
-                    dust.fadeIn = 1f;
-                    dust.color = Color.Crimson * 0.5f;
-                    dust.velocity += value4 * Main.rand.NextFloat();
-                    num3 = num53;
-                }
-                for (int num55 = 0; num55 < 20; num55 = num3 + 1)
-                {
-                    int num56 = Dust.NewDust(new Vector2(target.position.X, target.position.Y), target.width, target.height, 127, 0f, 0f, 0, default, num52);
-                    Dust dust = Main.dust[num56];
-                    dust.position = target.Center + Vector2.UnitX.RotatedByRandom(3.1415927410125732).RotatedBy((double)target.velocity.ToRotation(), default) * (float)target.width / 3f;
-                    dust.noGravity = true;
-                    dust.velocity *= 0.5f;
-                    dust.velocity += value4 * (0.6f + 0.6f * Main.rand.NextFloat());
-                    num3 = num55;
-                }
-            }
-        }
+        public override bool AltFunctionUse(Player player) => true;
 
-        public override void OnHitPvp(Player player, Player target, int damage, bool crit)
-        {
-            if (crit)
-            {
-                target.AddBuff(BuffID.OnFire, 600, false);
-                Main.PlaySound(SoundID.Item14, target.position);
-            }
-        }
+        public override bool? CanHitNPC(Player player, NPC target) => false;
+
+        public override bool CanHitPvp(Player player, Player target) => false;
     }
 }

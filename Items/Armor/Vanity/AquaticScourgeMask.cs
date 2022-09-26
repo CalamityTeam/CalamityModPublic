@@ -1,4 +1,7 @@
+﻿using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
+
 namespace CalamityMod.Items.Armor.Vanity
 {
     [AutoloadEquip(EquipType.Head)]
@@ -6,20 +9,19 @@ namespace CalamityMod.Items.Armor.Vanity
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Aquatic Scourge Mask");
+
+            if (Main.netMode != NetmodeID.Server)
+                ArmorIDs.Head.Sets.DrawHead[Item.headSlot] = false;
         }
 
         public override void SetDefaults()
         {
-            item.width = 28;
-            item.height = 20;
-            item.rare = 1;
-            item.vanity = true;
-        }
-
-        public override bool DrawHead()
-        {
-            return false;
+            Item.width = 28;
+            Item.height = 20;
+            Item.rare = ItemRarityID.Blue;
+            Item.vanity = true;
         }
     }
 }

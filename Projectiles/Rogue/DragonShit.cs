@@ -1,9 +1,10 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Rogue
 {
@@ -11,102 +12,153 @@ namespace CalamityMod.Projectiles.Rogue
     {
         public NPC target;
         public Vector2 rotationVector = Vector2.UnitY * -13f;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Fire");
-            Main.projFrames[projectile.type] = 4;
+            Main.projFrames[Projectile.type] = 5;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 30;
-            projectile.height = 30;
-            projectile.scale = 1f;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.tileCollide = false;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 420;
-            projectile.Calamity().rogue = true;
+            Projectile.width = 64;
+            Projectile.height = 64;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.tileCollide = false;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = 420;
+            Projectile.DamageType = RogueDamageClass.Instance;
         }
+
+        public override bool? CanHitNPC(NPC target) => Projectile.timeLeft < 380 && target.CanBeChasedBy(Projectile);
 
         public override void AI()
         {
-            target = projectile.Center.ClosestNPCAt(1200f);
-            if (projectile.localAI[0] == 0f)
+            target = Projectile.Center.ClosestNPCAt(1200f);
+            if (Projectile.localAI[0] == 0f)
             {
-                projectile.ai[0] = Utils.SelectRandom(Main.rand, -1f, 1f);
-                projectile.localAI[0] = 1f;
+                Projectile.ai[0] = Utils.SelectRandom(Main.rand, -1f, 1f);
+                Projectile.localAI[0] = 1f;
             }
-            projectile.frameCounter++;
-            if (projectile.frameCounter > 4)
+
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter > 4)
             {
-                projectile.frame++;
-                projectile.frameCounter = 0;
+                Projectile.frame++;
+                Projectile.frameCounter = 0;
             }
-            if (projectile.frame > 3)
+            if (Projectile.frame >= Main.projFrames[Projectile.type])
+                Projectile.frame = 0;
+
+            if (Projectile.timeLeft >= 380)
             {
-                projectile.frame = 0;
-            }
-            if (projectile.timeLeft >= 380)
-            {
-                projectile.velocity *= 1.07f;
+                Projectile.velocity *= 1.07f;
             }
             else if (target != null)
             {
-                projectile.velocity = (projectile.velocity * 23f + projectile.DirectionTo(target.Center) * 14.975f) / 24f;
+                Projectile.velocity = (Projectile.velocity * 23f + Projectile.SafeDirectionTo(target.Center) * 14.975f) / 24f;
             }
             else
             {
-                projectile.timeLeft = Math.Min(projectile.timeLeft, 15);
-                projectile.alpha += 17;
-                projectile.velocity = rotationVector;
-                rotationVector = rotationVector.RotatedBy(MathHelper.ToRadians(14.975f * projectile.ai[0]));
+                Projectile.timeLeft = Math.Min(Projectile.timeLeft, 15);
+                Projectile.alpha += 17;
+                Projectile.velocity = rotationVector;
+                rotationVector = rotationVector.RotatedBy(MathHelper.ToRadians(14.975f * Projectile.ai[0]));
             }
         }
 
-        public override Color? GetAlpha(Color lightColor)
+        // Reduce damage of projectiles if more than the cap are active
+        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            return new Color(255, Main.DiscoG, 53, projectile.alpha);
+            int projectileCount = Main.player[Projectile.owner].ownedProjectileCounts[Projectile.type];
+            int cap = 5;
+            int oldDamage = damage;
+            if (projectileCount > cap)
+            {
+                damage -= (int)(oldDamage * ((projectileCount - cap) * 0.05));
+                if (damage < 1)
+                    damage = 1;
+            }
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override Color? GetAlpha(Color lightColor) => new Color(200, 200, 200, Projectile.alpha);
+
+        public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D projectileTexture = Main.projectileTexture[projectile.type];
-            int frameHeight = Main.projectileTexture[projectile.type].Height / Main.projFrames[projectile.type];
-            int frameY = frameHeight * projectile.frame;
-            Main.spriteBatch.Draw(projectileTexture, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, frameY, projectileTexture.Width, frameHeight)), projectile.GetAlpha(lightColor), projectile.rotation, new Vector2((float)projectileTexture.Width / 2f, (float)frameHeight / 2f), projectile.scale, SpriteEffects.None, 0f);
+            Texture2D projectileTexture = ModContent.Request<Texture2D>(Texture).Value;
+            int frameHeight = ModContent.Request<Texture2D>(Texture).Value.Height / Main.projFrames[Projectile.type];
+            int frameY = frameHeight * Projectile.frame;
+            Main.spriteBatch.Draw(projectileTexture, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, frameY, projectileTexture.Width, frameHeight)), Projectile.GetAlpha(lightColor), Projectile.rotation, new Vector2((float)projectileTexture.Width / 2f, (float)frameHeight / 2f), Projectile.scale, SpriteEffects.None, 0);
             return false;
         }
+
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.Item14, (int)projectile.position.X, (int)projectile.position.Y);
-            projectile.position = projectile.Center;
-            projectile.width = projectile.height = 80;
-            projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-            projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
-            for (int num621 = 0; num621 < 5; num621++)
+            SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);
+            Projectile.ExpandHitboxBy(80);
+            for (int d = 0; d < 5; d++)
             {
-                int num622 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 244, 0f, 0f, 100, default, 1f);
-                Main.dust[num622].velocity *= 3f;
+                int idx = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 244, 0f, 0f, 100, default, 1f);
+                Main.dust[idx].velocity *= 3f;
                 if (Main.rand.NextBool(2))
                 {
-                    Main.dust[num622].scale = 0.5f;
-                    Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+                    Main.dust[idx].scale = 0.5f;
+                    Main.dust[idx].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
                 }
             }
-            for (int num623 = 0; num623 < 8; num623++)
+            for (int d = 0; d < 8; d++)
             {
-                int num624 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 244, 0f, 0f, 100, default, 2f);
-                Main.dust[num624].noGravity = true;
-                Main.dust[num624].velocity *= 5f;
-                num624 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 244, 0f, 0f, 100, default, 1f);
-                Main.dust[num624].velocity *= 2f;
+                int idx = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 244, 0f, 0f, 100, default, 2f);
+                Main.dust[idx].noGravity = true;
+                Main.dust[idx].velocity *= 5f;
+                idx = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 244, 0f, 0f, 100, default, 1f);
+                Main.dust[idx].velocity *= 2f;
             }
-			CalamityUtils.ExplosionGores(projectile.Center, 3);
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
-            projectile.Damage();
+
+            if (Main.netMode != NetmodeID.Server)
+            {
+                Vector2 goreSource = Projectile.Center;
+                int goreAmt = 3;
+                Vector2 source = new Vector2(goreSource.X - 24f, goreSource.Y - 24f);
+                for (int goreIndex = 0; goreIndex < goreAmt; goreIndex++)
+                {
+                    float velocityMult = 0.33f;
+                    if (goreIndex < (goreAmt / 3))
+                    {
+                        velocityMult = 0.66f;
+                    }
+                    if (goreIndex >= (2 * goreAmt / 3))
+                    {
+                        velocityMult = 1f;
+                    }
+                    Mod mod = ModContent.GetInstance<CalamityMod>();
+                    int type = Main.rand.Next(61, 64);
+                    int smoke = Gore.NewGore(Projectile.GetSource_Death(), source, default, type, 1f);
+                    Gore gore = Main.gore[smoke];
+                    gore.velocity *= velocityMult;
+                    gore.velocity.X += 1f;
+                    gore.velocity.Y += 1f;
+                    type = Main.rand.Next(61, 64);
+                    smoke = Gore.NewGore(Projectile.GetSource_Death(), source, default, type, 1f);
+                    gore = Main.gore[smoke];
+                    gore.velocity *= velocityMult;
+                    gore.velocity.X -= 1f;
+                    gore.velocity.Y += 1f;
+                    type = Main.rand.Next(61, 64);
+                    smoke = Gore.NewGore(Projectile.GetSource_Death(), source, default, type, 1f);
+                    gore = Main.gore[smoke];
+                    gore.velocity *= velocityMult;
+                    gore.velocity.X += 1f;
+                    gore.velocity.Y -= 1f;
+                    type = Main.rand.Next(61, 64);
+                    smoke = Gore.NewGore(Projectile.GetSource_Death(), source, default, type, 1f);
+                    gore = Main.gore[smoke];
+                    gore.velocity *= velocityMult;
+                    gore.velocity.X -= 1f;
+                    gore.velocity.Y -= 1f;
+                }
+            }
         }
     }
 }

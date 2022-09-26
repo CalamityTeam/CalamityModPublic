@@ -1,9 +1,10 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
+using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
-using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.NPCs.Yharon;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -22,48 +23,48 @@ namespace CalamityMod.Items.Weapons.Melee
             DisplayName.SetDefault("Dragon Pow");
             Tooltip.SetDefault(@"Fires a dragon head that releases draconic sparks
 Summons a barrage of petals and waterfalls on enemy hits");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.width = 76;
-            item.height = 82;
-            item.melee = true;
-            item.damage = 4500;
-            item.knockBack = 9f;
-            item.useAnimation = 20;
-            item.useTime = 20;
-            item.autoReuse = true;
-            item.noMelee = true;
-            item.noUseGraphic = true;
+            Item.width = 76;
+            Item.height = 82;
+            Item.DamageType = DamageClass.MeleeNoSpeed;
+            Item.damage = 660;
+            Item.knockBack = 9f;
+            Item.useAnimation = 20;
+            Item.useTime = 20;
+            Item.autoReuse = true;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
 
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.UseSound = mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YharonRoarShort");
-            item.channel = true;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.UseSound = Yharon.ShortRoarSound;
+            Item.channel = true;
 
-            item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.Dedicated;
-            item.value = Item.buyPrice(2, 50, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity15BuyPrice;
+            Item.rare = ModContent.RarityType<Violet>();
+            Item.Calamity().donorItem = true;
 
-            item.shoot = ModContent.ProjectileType<DragonPowFlail>();
-            item.shootSpeed = Speed;
+            Item.shoot = ModContent.ProjectileType<DragonPowFlail>();
+            Item.shootSpeed = Speed;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe r = new ModRecipe(mod);
-            r.SetResult(this);
-            r.AddTile(ModContent.TileType<DraedonsForge>());
-            r.AddIngredient(ModContent.ItemType<Mourningstar>());
-            r.AddIngredient(ItemID.DaoofPow);
-            r.AddIngredient(ItemID.FlowerPow);
-            r.AddIngredient(ItemID.Flairon);
-            r.AddIngredient(ModContent.ItemType<BallOFugu>());
-            r.AddIngredient(ModContent.ItemType<Tumbleweed>());
-            r.AddIngredient(ModContent.ItemType<UrchinFlail>());
-			r.AddIngredient(ModContent.ItemType<AuricBar>(), 4);
-			r.AddIngredient(ModContent.ItemType<HellcasterFragment>(), 4);
-			r.AddRecipe();
+            CreateRecipe().
+                AddIngredient<Mourningstar>().
+                AddIngredient(ItemID.DaoofPow).
+                AddIngredient(ItemID.FlowerPow).
+                AddIngredient(ItemID.Flairon).
+                AddIngredient<BallOFugu>().
+                AddIngredient<Tumbleweed>().
+                AddIngredient<UrchinFlail>().
+                AddIngredient<YharonSoulFragment>(4).
+                AddIngredient<AuricBar>(5).
+                AddTile<CosmicAnvil>().
+                Register();
         }
     }
 }

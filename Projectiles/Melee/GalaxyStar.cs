@@ -1,9 +1,9 @@
-using System;
+﻿using System;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Melee
 {
@@ -13,44 +13,44 @@ namespace CalamityMod.Projectiles.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Star");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 4;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 42;
-            projectile.height = 42;
-            projectile.friendly = true;
-            projectile.penetrate = 1;
-            projectile.tileCollide = false;
-            projectile.timeLeft = 160;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 4;
+            Projectile.width = 42;
+            Projectile.height = 42;
+            Projectile.friendly = true;
+            Projectile.penetrate = 1;
+            Projectile.tileCollide = false;
+            Projectile.timeLeft = 160;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 8;
         }
         public override void AI()
         {
-            Lighting.AddLight(projectile.Center, 1f, 1f, 1f);
+            Lighting.AddLight(Projectile.Center, 1f, 1f, 1f);
             if (!madeCoolMagicSound)
             {
-                Main.PlaySound(SoundID.Item9, projectile.position); // Starfury sound
+                SoundEngine.PlaySound(SoundID.Item9, Projectile.position); // Starfury sound
                 madeCoolMagicSound = true;
             }
-            projectile.ai[0]++;
-            if (projectile.ai[0] % 5 == 0)
+            Projectile.ai[0]++;
+            if (Projectile.ai[0] % 5 == 0)
             {
                 for (int i = 0; i < Main.rand.Next(2, 4); i++) //2-3 stars
                 {
                     Vector2 randVector = Vector2.One.RotatedByRandom(Math.PI * 2.0) * 0.7f;
-                    Dust.NewDust(projectile.Center, 4, 4, 58, randVector.X, randVector.Y, 0, default, 1f);
+                    Dust.NewDust(Projectile.Center, 4, 4, 58, randVector.X, randVector.Y, 0, default, 1f);
                 }
             }
-            projectile.rotation += projectile.velocity.Length() / 19f;
+            Projectile.rotation += Projectile.velocity.Length() / 19f;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 2);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 2);
             return false;
         }
     }

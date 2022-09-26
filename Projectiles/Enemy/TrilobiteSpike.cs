@@ -1,8 +1,10 @@
-using CalamityMod.Buffs.StatDebuffs;
+﻿using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Projectiles.Enemy
 {
     public class TrilobiteSpike : ModProjectile
@@ -14,31 +16,46 @@ namespace CalamityMod.Projectiles.Enemy
 
         public override void SetDefaults()
         {
-            projectile.width = 10;
-            projectile.height = 10;
-            projectile.hostile = true;
-            projectile.timeLeft = 600;
-            projectile.tileCollide = true;
-            projectile.ignoreWater = false;
+            Projectile.width = 10;
+            Projectile.height = 10;
+            Projectile.hostile = true;
+            Projectile.timeLeft = 600;
+            Projectile.ignoreWater = false;
         }
+
         public override void AI()
         {
-            if (projectile.velocity.Y < 10f)
-                projectile.velocity.Y += 0.25f;
-            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
+            if (Projectile.velocity.Y < 10f)
+                Projectile.velocity.Y += 0.1f;
+
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
         }
+
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
+            if (damage <= 0)
+                return;
+
             target.AddBuff(ModContent.BuffType<Irradiated>(), 120);
         }
+
+        public override bool PreDraw(ref Color lightColor)
+        {
+            lightColor.R = (byte)(200 * Projectile.Opacity);
+            lightColor.G = (byte)(150 * Projectile.Opacity);
+            lightColor.B = (byte)(100 * Projectile.Opacity);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
+            return false;
+        }
+
         public override void Kill(int timeLeft)
         {
             for (int i = 0; i <= 2; i++)
             {
-                int idx = Dust.NewDust(projectile.position, 8, 8, (int)CalamityDusts.SulfurousSeaAcid, 0, 0, 0, default, 0.75f);
+                int idx = Dust.NewDust(Projectile.position, 8, 8, (int)CalamityDusts.SulfurousSeaAcid, 0, 0, 0, default, 0.75f);
                 Main.dust[idx].noGravity = true;
                 Main.dust[idx].velocity *= 3f;
-                idx = Dust.NewDust(projectile.position, 8, 8, (int)CalamityDusts.SulfurousSeaAcid, 0, 0, 0, default, 0.75f);
+                idx = Dust.NewDust(Projectile.position, 8, 8, (int)CalamityDusts.SulfurousSeaAcid, 0, 0, 0, default, 0.75f);
                 Main.dust[idx].noGravity = true;
                 Main.dust[idx].velocity *= 3f;
             }

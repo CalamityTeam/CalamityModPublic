@@ -1,30 +1,34 @@
+﻿using CalamityMod.Buffs.StatDebuffs;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Items.Accessories
 {
-	public class NuclearRod : ModItem
+    public class NuclearRod : ModItem
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Nuclear Rod");
             Tooltip.SetDefault("Minions release an irradiated aura on enemy hits\n" +
-                               "+1 max minion");
+                               "+1 max minion\n" +
+                               "Grants immunity to Irradiated");
         }
 
         public override void SetDefaults()
         {
-            item.width = 28;
-            item.height = 32;
-            item.value = CalamityGlobalItem.Rarity5BuyPrice;
-            item.rare = 5;
-            item.accessory = true;
+            Item.width = 28;
+            Item.height = 32;
+            Item.value = CalamityGlobalItem.Rarity5BuyPrice;
+            Item.rare = ItemRarityID.Pink;
+            Item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.maxMinions++;
             player.Calamity().nuclearRod = true;
+            player.buffImmune[ModContent.BuffType<Irradiated>()] = true;
         }
     }
 }

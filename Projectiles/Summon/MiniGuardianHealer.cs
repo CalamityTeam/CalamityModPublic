@@ -12,28 +12,28 @@ namespace CalamityMod.Projectiles.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Healer Guardian");
-            Main.projFrames[projectile.type] = 4;
-            ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
-            ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
+            Main.projFrames[Projectile.type] = 4;
+            ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
+            ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            projectile.netImportant = true;
-            projectile.tileCollide = false;
-            projectile.width = 68;
-            projectile.height = 82;
-            projectile.friendly = true;
-            projectile.minionSlots = 0f;
-            projectile.minion = true;
-            projectile.penetrate = -1;
-            projectile.timeLeft = 18000;
-            projectile.timeLeft *= 5;
+            Projectile.netImportant = true;
+            Projectile.tileCollide = false;
+            Projectile.width = 68;
+            Projectile.height = 82;
+            Projectile.friendly = true;
+            Projectile.minionSlots = 0f;
+            Projectile.minion = true;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft = 18000;
+            Projectile.timeLeft *= 5;
         }
 
         public override bool? CanCutTiles()
         {
-            CalamityPlayer modPlayer = Main.player[projectile.owner].Calamity();
+            CalamityPlayer modPlayer = Main.player[Projectile.owner].Calamity();
             bool psa = modPlayer.pArtifact && !modPlayer.profanedCrystal;
             if (!psa && !modPlayer.profanedCrystalBuffs)
                 return false;
@@ -42,7 +42,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void AI()
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
             if (player.dead)
             {
@@ -50,20 +50,21 @@ namespace CalamityMod.Projectiles.Summon
             }
             if (modPlayer.gHealer)
             {
-                projectile.timeLeft = 2;
+                Projectile.timeLeft = 2;
             }
             if (!modPlayer.pArtifact || player.dead)
             {
-                projectile.active = false;
+                Projectile.active = false;
                 return;
             }
-            Player projOwner = Main.player[projectile.owner];
+            Projectile.MinionAntiClump();
+            Player projOwner = Main.player[Projectile.owner];
             float num16 = 0.5f;
-            projectile.tileCollide = false;
+            Projectile.tileCollide = false;
             int num17 = 100;
-            Vector2 vector3 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
-            float num18 = projOwner.position.X + (float)(projOwner.width / 2) - vector3.X;
-            float num19 = projOwner.position.Y + (float)(projOwner.height / 2) - vector3.Y;
+            Vector2 vector3 = Projectile.Center;
+            float num18 = projOwner.Center.X - vector3.X;
+            float num19 = projOwner.Center.Y - vector3.Y;
             num19 += (float)Main.rand.Next(-10, 21);
             num18 += (float)Main.rand.Next(-10, 21);
             num18 += (float)(60 * -(float)projOwner.direction);
@@ -72,26 +73,25 @@ namespace CalamityMod.Projectiles.Summon
             float num21 = 18f;
 
             if (num20 < (float)num17 && projOwner.velocity.Y == 0f &&
-                projectile.position.Y + (float)projectile.height <= projOwner.position.Y + (float)projOwner.height &&
-                !Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
+                Projectile.position.Y + (float)Projectile.height <= projOwner.position.Y + (float)projOwner.height &&
+                !Collision.SolidCollision(Projectile.position, Projectile.width, Projectile.height))
             {
-                projectile.ai[0] = 0f;
-                if (projectile.velocity.Y < -6f)
+                Projectile.ai[0] = 0f;
+                if (Projectile.velocity.Y < -6f)
                 {
-                    projectile.velocity.Y = -6f;
+                    Projectile.velocity.Y = -6f;
                 }
             }
             if (num20 > 2000f)
             {
-                projectile.position.X = Main.player[projectile.owner].Center.X - (float)(projectile.width / 2);
-                projectile.position.Y = Main.player[projectile.owner].Center.Y - (float)(projectile.height / 2);
-                projectile.netUpdate = true;
+                Projectile.position = projOwner.position;
+                Projectile.netUpdate = true;
             }
             if (num20 < 50f)
             {
-                if (Math.Abs(projectile.velocity.X) > 2f || Math.Abs(projectile.velocity.Y) > 2f)
+                if (Math.Abs(Projectile.velocity.X) > 2f || Math.Abs(Projectile.velocity.Y) > 2f)
                 {
-                    projectile.velocity *= 0.90f;
+                    Projectile.velocity *= 0.90f;
                 }
                 num16 = 0.01f;
             }
@@ -110,61 +110,61 @@ namespace CalamityMod.Projectiles.Summon
                 num19 *= num20;
             }
 
-            if (projectile.velocity.X < num18)
+            if (Projectile.velocity.X < num18)
             {
-                projectile.velocity.X = projectile.velocity.X + num16;
-                if (num16 > 0.05f && projectile.velocity.X < 0f)
+                Projectile.velocity.X += num16;
+                if (num16 > 0.05f && Projectile.velocity.X < 0f)
                 {
-                    projectile.velocity.X = projectile.velocity.X + num16;
+                    Projectile.velocity.X += num16;
                 }
             }
-            if (projectile.velocity.X > num18)
+            if (Projectile.velocity.X > num18)
             {
-                projectile.velocity.X = projectile.velocity.X - num16;
-                if (num16 > 0.05f && projectile.velocity.X > 0f)
+                Projectile.velocity.X -= num16;
+                if (num16 > 0.05f && Projectile.velocity.X > 0f)
                 {
-                    projectile.velocity.X = projectile.velocity.X - num16;
+                    Projectile.velocity.X -= num16;
                 }
             }
-            if (projectile.velocity.Y < num19)
+            if (Projectile.velocity.Y < num19)
             {
-                projectile.velocity.Y = projectile.velocity.Y + num16;
-                if (num16 > 0.05f && projectile.velocity.Y < 0f)
+                Projectile.velocity.Y += num16;
+                if (num16 > 0.05f && Projectile.velocity.Y < 0f)
                 {
-                    projectile.velocity.Y = projectile.velocity.Y + num16 * 2f;
+                    Projectile.velocity.Y += num16 * 2f;
                 }
             }
-            if (projectile.velocity.Y > num19)
+            if (Projectile.velocity.Y > num19)
             {
-                projectile.velocity.Y = projectile.velocity.Y - num16;
-                if (num16 > 0.05f && projectile.velocity.Y > 0f)
+                Projectile.velocity.Y -= num16;
+                if (num16 > 0.05f && Projectile.velocity.Y > 0f)
                 {
-                    projectile.velocity.Y = projectile.velocity.Y - num16 * 2f;
+                    Projectile.velocity.Y -= num16 * 2f;
                 }
             }
-            if ((double)projectile.velocity.X > 0.25)
+            if (Projectile.velocity.X > 0.25f)
             {
-                projectile.direction = -1;
+                Projectile.direction = -1;
             }
-            else if ((double)projectile.velocity.X < -0.25)
+            else if (Projectile.velocity.X < -0.25f)
             {
-                projectile.direction = 1;
+                Projectile.direction = 1;
             }
 
-            if ((double)Math.Abs(projectile.velocity.X) > 0.2)
+            if (Math.Abs(Projectile.velocity.X) > 0.2f)
             {
-                projectile.spriteDirection = -projectile.direction;
+                Projectile.spriteDirection = -Projectile.direction;
             }
 
-            projectile.frameCounter++;
-            if (projectile.frameCounter > 5)
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter > 5)
             {
-                projectile.frame++;
-                projectile.frameCounter = 0;
+                Projectile.frame++;
+                Projectile.frameCounter = 0;
             }
-            if (projectile.frame > 3)
+            if (Projectile.frame > 3)
             {
-                projectile.frame = 0;
+                Projectile.frame = 0;
             }
         }
     }

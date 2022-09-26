@@ -1,4 +1,4 @@
-using CalamityMod.Dusts;
+﻿using CalamityMod.Dusts;
 using CalamityMod.Items.Weapons.Rogue;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -10,43 +10,42 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class TarragonThrowingDartProjectile : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/TarragonThrowingDart";
+
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Dart");
+            DisplayName.SetDefault("Tarragon Throwing Dart");
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 12;
-            projectile.height = 12;
-            projectile.friendly = true;
-            projectile.penetrate = 3;
-            projectile.aiStyle = 113;
-            projectile.timeLeft = 600;
-            aiType = ProjectileID.BoneJavelin;
-            projectile.Calamity().rogue = true;
-            projectile.usesIDStaticNPCImmunity = true;
-            projectile.idStaticNPCHitCooldown = 3;
-            projectile.localNPCHitCooldown = 10;
+            Projectile.width = 12;
+            Projectile.height = 12;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.penetrate = 6;
+            Projectile.aiStyle = ProjAIStyleID.StickProjectile;
+            Projectile.timeLeft = 600;
+            AIType = ProjectileID.BoneJavelin;
+            Projectile.DamageType = RogueDamageClass.Instance;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 8;
+            Projectile.extraUpdates = 1;
         }
 
         public override void AI()
         {
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 2.355f;
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.ToRadians(45f);
             if (Main.rand.NextBool(3))
             {
-                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, (int)CalamityDusts.SulfurousSeaAcid, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
-            }
-            if (projectile.spriteDirection == -1)
-            {
-                projectile.rotation -= 1.57f;
+                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, (int)CalamityDusts.SulfurousSeaAcid, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
             }
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D tex = Main.projectileTexture[projectile.type];
-            spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(lightColor), projectile.rotation, tex.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
+            Texture2D tex = ModContent.Request<Texture2D>(Texture).Value;
+            Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation, tex.Size() / 2f, Projectile.scale, SpriteEffects.None, 0);
             return false;
         }
 
@@ -54,28 +53,32 @@ namespace CalamityMod.Projectiles.Rogue
         {
             if (Main.rand.NextBool(2))
             {
-                Item.NewItem((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height, ModContent.ItemType<TarragonThrowingDart>());
+                Item.NewItem(Projectile.GetSource_DropAsItem(), (int)Projectile.position.X, (int)Projectile.position.Y, Projectile.width, Projectile.height, ModContent.ItemType<TarragonThrowingDart>());
             }
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-			if (Main.myPlayer == projectile.owner)
-			{
-				if (projectile.Calamity().stealthStrike)
-				{
-					float random = Main.rand.Next(30, 90);
-					float spread = random * 0.0174f;
-					double startAngle = Math.Atan2(projectile.velocity.X, projectile.velocity.Y) - spread / 2;
-					double deltaAngle = spread / 8f;
-					for (int i = 0; i < 4; i++)
-					{
-						double offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-						int proj1 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f) * 2f, (float)(Math.Cos(offsetAngle) * 5f) * 2f, ModContent.ProjectileType<TarraThornRight>(), projectile.damage / 4, projectile.knockBack / 4, projectile.owner, 0f, 0f);
-						int proj2 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f) * 2f, (float)(-Math.Cos(offsetAngle) * 5f) * 2f, ModContent.ProjectileType<TarraThornRight>(), projectile.damage / 4, projectile.knockBack / 4, projectile.owner, 0f, 0f);
-					}
-				}
-			}
+            if (Main.myPlayer == Projectile.owner)
+            {
+                if (Projectile.Calamity().stealthStrike)
+                {
+                    float random = Main.rand.Next(30, 90);
+                    float spread = random * 0.0174f;
+                    double startAngle = Math.Atan2(Projectile.velocity.X, Projectile.velocity.Y) - spread / 2;
+                    double deltaAngle = spread / 8f;
+
+                    int projID = ModContent.ProjectileType<TarraThornRight>();
+                    int splitDamage = (int)(Projectile.damage * 0.25f);
+                    float splitKB = 1f;
+                    for (int i = 0; i < 4; i++)
+                    {
+                        double offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f) * 2f, (float)(Math.Cos(offsetAngle) * 5f) * 2f, projID, splitDamage, splitKB, Projectile.owner);
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f) * 2f, (float)(-Math.Cos(offsetAngle) * 5f) * 2f, projID, splitDamage, splitKB, Projectile.owner);
+                    }
+                }
+            }
         }
     }
 }

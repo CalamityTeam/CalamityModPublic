@@ -1,5 +1,6 @@
-using CalamityMod.Buffs.Pets;
+﻿using CalamityMod.Buffs.Pets;
 using CalamityMod.Projectiles.Pets;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -13,22 +14,23 @@ namespace CalamityMod.Items.Fishing.SunkenSeaCatches
             DisplayName.SetDefault("Rusted Jingle Bell");
             Tooltip.SetDefault("Summons a baby ghost bell light pet\n" +
                 "Provides a moderate amount of light while underwater");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.CloneDefaults(ItemID.WispinaBottle);
-            item.shoot = ModContent.ProjectileType<BabyGhostBell>();
-            item.buffType = ModContent.BuffType<BabyGhostBellBuff>();
-            item.value = Item.sellPrice(gold: 5);
-            item.rare = 3;
+            Item.CloneDefaults(ItemID.WispinaBottle);
+            Item.shoot = ModContent.ProjectileType<BabyGhostBell>();
+            Item.buffType = ModContent.BuffType<BabyGhostBellBuff>();
+            Item.value = Item.sellPrice(gold: 5);
+            Item.rare = ItemRarityID.Orange;
         }
 
-        public override void UseStyle(Player player)
+        public override void UseStyle(Player player, Rectangle heldItemFrame)
         {
             if (player.whoAmI == Main.myPlayer && player.itemTime == 0)
             {
-                player.AddBuff(item.buffType, 3600, true);
+                player.AddBuff(Item.buffType, 3600, true);
             }
         }
     }

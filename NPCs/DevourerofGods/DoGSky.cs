@@ -1,7 +1,9 @@
+﻿using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.Graphics.Effects;
 using Terraria.ModLoader;
 
@@ -15,6 +17,13 @@ namespace CalamityMod.NPCs.DevourerofGods
 
         public override void Update(GameTime gameTime)
         {
+            if (DoGIndex == -1)
+            {
+                UpdateDoGIndex();
+                if (DoGIndex == -1)
+                    isActive = false;
+            }
+
             if (isActive && intensity < 1f)
             {
                 intensity += 0.01f;
@@ -31,12 +40,12 @@ namespace CalamityMod.NPCs.DevourerofGods
             {
                 float x = 0f;
                 if (DoGIndex != -1)
-                {
                     x = Vector2.Distance(Main.player[Main.myPlayer].Center, Main.npc[DoGIndex].Center);
-                }
-                return (1f - Utils.SmoothStep(3000f, 6000f, x)) * 0.5f;
+
+                float intensityScalar = 0.5f;
+                return (1f - Utils.SmoothStep(3000f, 6000f, x)) * intensityScalar;
             }
-            return 0.5f;
+            return 0f;
         }
 
         public override Color OnTileColor(Color inColor)
@@ -66,20 +75,22 @@ namespace CalamityMod.NPCs.DevourerofGods
 
         public override void Draw(SpriteBatch spriteBatch, float minDepth, float maxDepth)
         {
-            if (maxDepth >= 0 && minDepth < 0 && CalamityGlobalNPC.DoGHead != -1)
+            if (maxDepth >= 0 && minDepth < 0 && DoGIndex != -1)
             {
-                if (Main.npc[CalamityGlobalNPC.DoGHead].active)
+                if (Main.npc[DoGIndex].active)
                 {
                     float intensity = GetIntensity();
-                    if (Main.npc[CalamityGlobalNPC.DoGHead].life < Main.npc[CalamityGlobalNPC.DoGHead].lifeMax * 0.15 || CalamityWorld.death)
+                    float lifeRatio = Main.npc[DoGIndex].life / (float)Main.npc[DoGIndex].lifeMax;
+                    double blackScreenLife_GateValue = (lifeRatio < 0.6f && Main.npc[DoGIndex].localAI[2] <= 2f) ? 0.15 : 0.75;
+                    if (Main.npc[DoGIndex].life < Main.npc[DoGIndex].lifeMax * blackScreenLife_GateValue || CalamityWorld.death || BossRushEvent.BossRushActive)
                     {
-                        spriteBatch.Draw(Main.blackTileTexture, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight),
+                        spriteBatch.Draw(TextureAssets.BlackTile.Value, new Rectangle(0, 0, Main.screenWidth * 2, Main.screenHeight * 2),
                             Color.Black * (intensity + 0.5f));
                     }
                     else
                     {
-                        spriteBatch.Draw(Main.blackTileTexture, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight),
-                            (Main.npc[CalamityGlobalNPC.DoGHead].ai[2] == 0f ? Color.Cyan : Color.Fuchsia) * intensity);
+                        spriteBatch.Draw(TextureAssets.BlackTile.Value, new Rectangle(0, 0, Main.screenWidth * 2, Main.screenHeight * 2),
+                            (Main.npc[DoGIndex].ai[3] == 0f ? Color.Cyan : Color.Fuchsia) * intensity);
                     }
                 }
             }

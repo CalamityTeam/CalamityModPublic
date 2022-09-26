@@ -1,50 +1,53 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
+    [AutoloadEquip(new EquipType[] { EquipType.HandsOn, EquipType.HandsOff } )]
     public class ElectriciansGlove : ModItem
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Electrician's Glove");
             Tooltip.SetDefault(@"Stealth strikes summon sparks on enemy hits
-Stealth strikes also have +30 armor penetration, deal 10% more damage, and heal for 1 HP");
+Stealth strikes also have +10 armor penetration, deal 10% more damage, and heal for 1 HP");
         }
 
         public override void SetDefaults()
         {
-            item.width = 24;
-            item.height = 40;
-            item.value = CalamityGlobalItem.Rarity5BuyPrice;
-            item.accessory = true;
-            item.rare = 5;
+            Item.width = 24;
+            Item.height = 40;
+            Item.value = CalamityGlobalItem.Rarity5BuyPrice;
+            Item.accessory = true;
+            Item.rare = ItemRarityID.Pink;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.electricianGlove = true;
+            modPlayer.bloodyGlove = true;
+            modPlayer.filthyGlove = true;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<FilthyGlove>());
-            recipe.AddIngredient(ItemID.Wire, 100);
-            recipe.AddIngredient(ItemID.HallowedBar, 5);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<BloodstainedGlove>());
-            recipe.AddIngredient(ItemID.Wire, 100);
-            recipe.AddIngredient(ItemID.HallowedBar, 5);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient<FilthyGlove>().
+                AddIngredient(ItemID.Wire, 100).
+                AddRecipeGroup("AnyMythrilBar", 5).
+                AddTile(TileID.MythrilAnvil).
+                Register();
+
+            CreateRecipe().
+                AddIngredient<BloodstainedGlove>().
+                AddIngredient(ItemID.Wire, 100).
+                AddRecipeGroup("AnyMythrilBar", 5).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

@@ -1,46 +1,64 @@
+﻿using CalamityMod.BiomeManagers;
+using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
 using CalamityMod.Projectiles.Enemy;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
-using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
 using System.IO;
 using Terraria;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.SulphurousSea
 {
-	public class AnthozoanCrab : ModNPC
+    public class AnthozoanCrab : ModNPC
     {
         public int boulderIndex;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Anthozoan Crab");
-            Main.npcFrameCount[npc.type] = 16;
+            Main.npcFrameCount[NPC.type] = 16;
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            {
+                SpriteDirection = 1
+            };
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 
         public override void SetDefaults()
         {
-            npc.noGravity = true;
-            npc.damage = 45;
-            npc.width = 56;
-            npc.height = 42;
-            npc.defense = 22;
-            npc.lifeMax = 920;
-            npc.aiStyle = aiType = -1;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
-            npc.value = Item.buyPrice(0, 0, 1, 0);
-            npc.HitSound = SoundID.NPCHit38;
-            npc.DeathSound = SoundID.NPCDeath46;
-            npc.knockBackResist = 0.04f;
-            banner = npc.type;
-            bannerItem = ModContent.ItemType<AnthozoanCrabBanner>();
+            NPC.noGravity = true;
+            NPC.damage = 45;
+            NPC.width = 56;
+            NPC.height = 42;
+            NPC.defense = 22;
+            NPC.lifeMax = 920;
+            NPC.aiStyle = AIType = -1;
+            NPC.value = Item.buyPrice(0, 0, 1, 0);
+            NPC.HitSound = SoundID.NPCHit38;
+            NPC.DeathSound = SoundID.NPCDeath46;
+            NPC.knockBackResist = 0.04f;
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<AnthozoanCrabBanner>();
+            NPC.Calamity().VulnerableToHeat = false;
+            NPC.Calamity().VulnerableToSickness = false;
+            NPC.Calamity().VulnerableToElectricity = true;
+            NPC.Calamity().VulnerableToWater = false;
+            SpawnModBiomes = new int[1] { ModContent.GetInstance<SulphurousSeaBiome>().Type };
         }
+
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+
+                // Will move to localization whenever that is cleaned up.
+                new FlavorTextBestiaryInfoElement("A crab that has placed upon its back, a sturdy structure of stone. It is quite strong and displays this extraordinary strength by hurling boulders at those who encroach on its territory.")
+            });
+        }
+
         public override void SendExtraAI(BinaryWriter writer)
         {
             writer.Write(boulderIndex);
@@ -51,163 +69,171 @@ namespace CalamityMod.NPCs.SulphurousSea
         }
         public override void AI()
         {
-            if (npc.ai[1]++ % 360f < 280f)
+            if (NPC.ai[1]++ % 360f < 280f)
             {
-                if (npc.ai[2] > 1f)
+                if (NPC.ai[2] > 1f)
                 {
-                    npc.ai[2]--;
+                    NPC.ai[2]--;
                 }
-                npc.aiAction = 0;
-                if (npc.ai[2] == 0f)
+                NPC.aiAction = 0;
+                if (NPC.ai[2] == 0f)
                 {
-                    npc.ai[0] = -90f;
-                    npc.ai[2] = 1f;
-                    npc.TargetClosest(true);
+                    NPC.ai[0] = -90f;
+                    NPC.ai[2] = 1f;
+                    NPC.TargetClosest(true);
                 }
-                npc.TargetClosest(false);
-                Player player = Main.player[npc.target];
-                if (npc.velocity.Y == 0f && !Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
+                NPC.TargetClosest(false);
+                Player player = Main.player[NPC.target];
+                if (NPC.velocity.Y == 0f && !Collision.CanHit(NPC.position, NPC.width, NPC.height, player.position, player.width, player.height))
                 {
-                    if (npc.collideY && npc.oldVelocity.Y != 0f && Collision.SolidCollision(npc.position, npc.width, npc.height))
+                    if (NPC.collideY && NPC.oldVelocity.Y != 0f && Collision.SolidCollision(NPC.position, NPC.width, NPC.height))
                     {
-                        npc.position.X -= npc.velocity.X + npc.direction;
+                        NPC.position.X -= NPC.velocity.X + NPC.direction;
                     }
-                    if (npc.ai[3] == npc.position.X)
+                    if (NPC.ai[3] == NPC.position.X)
                     {
-                        npc.direction *= -1;
-                        npc.ai[2] = 200f;
+                        NPC.direction *= -1;
+                        NPC.ai[2] = 200f;
                     }
-                    npc.spriteDirection = npc.direction;
-                    npc.ai[3] = 0f;
-                    npc.velocity.X *= 0.8f;
-                    if (Math.Abs(npc.velocity.X) < 0.1f)
+                    NPC.spriteDirection = NPC.direction;
+                    NPC.ai[3] = 0f;
+                    NPC.velocity.X *= 0.8f;
+                    if (Math.Abs(NPC.velocity.X) < 0.1f)
                     {
-                        npc.velocity.X = 0f;
+                        NPC.velocity.X = 0f;
                     }
 
-                    npc.ai[0] += 5f;
+                    NPC.ai[0] += 5f;
 
                     int state = 0;
-                    if (npc.ai[0] >= 0f)
+                    if (NPC.ai[0] >= 0f)
                     {
                         state = 1;
                     }
-                    if (npc.ai[0] >= -1000f && npc.ai[0] <= -500f)
+                    if (NPC.ai[0] >= -1000f && NPC.ai[0] <= -500f)
                     {
                         state = 2;
                     }
-                    if (npc.ai[0] >= -2000f && npc.ai[0] <= -1500f)
+                    if (NPC.ai[0] >= -2000f && NPC.ai[0] <= -1500f)
                     {
                         state = 3;
                     }
                     if (state > 0)
                     {
-                        npc.netUpdate = true;
+                        NPC.netUpdate = true;
                         if (state == 3)
                         {
-                            npc.velocity.Y -= 9f;
-                            npc.velocity.X += 8f * npc.direction;
-                            npc.ai[0] = -120f;
-                            npc.ai[3] = npc.position.X;
+                            NPC.velocity.Y -= 9f;
+                            NPC.velocity.X += 8f * NPC.direction;
+                            NPC.ai[0] = -120f;
+                            NPC.ai[3] = NPC.position.X;
                         }
                         else
                         {
-                            npc.velocity.Y -= 8f;
-                            npc.velocity.X += 11f * npc.direction;
-                            npc.ai[0] = -80f;
+                            NPC.velocity.Y -= 8f;
+                            NPC.velocity.X += 11f * NPC.direction;
+                            NPC.ai[0] = -80f;
                             if (state == 1)
                             {
-                                npc.ai[0] -= 1000f;
+                                NPC.ai[0] -= 1000f;
                             }
                             else
                             {
-                                npc.ai[0] -= 2000f;
+                                NPC.ai[0] -= 2000f;
                             }
                         }
                     }
-                    else if (npc.ai[0] >= -30f)
+                    else if (NPC.ai[0] >= -30f)
                     {
-                        npc.aiAction = 1;
+                        NPC.aiAction = 1;
                         return;
                     }
                 }
-                else if (Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
+                else if (Collision.CanHit(NPC.position, NPC.width, NPC.height, player.position, player.width, player.height))
                 {
-                    npc.direction = npc.spriteDirection = (npc.DirectionTo(player.Center).X < 0).ToDirectionInt();
-                    if (Math.Abs(npc.velocity.X) < 14f && Math.Abs(player.Center.X - npc.Center.X) > 65f)
-                    {
-                        npc.velocity.X += npc.spriteDirection * -0.08f;
-                    }
+                    NPC.direction = NPC.spriteDirection = (NPC.SafeDirectionTo(player.Center).X < 0).ToDirectionInt();
+                    if (Math.Abs(NPC.velocity.X) < 14f && Math.Abs(player.Center.X - NPC.Center.X) > 65f)
+                        NPC.velocity.X += NPC.spriteDirection * -0.08f;
                 }
             }
             else
             {
-                npc.velocity.X *= 0.9f;
-                if (npc.ai[1] % 360f == 300f)
+                NPC.velocity.X *= 0.9f;
+                if (NPC.ai[1] % 360f == 300f)
                 {
-                    npc.velocity.X = 0f;
-                    Vector2 rockSpawnPosition = new Vector2(16f * -npc.spriteDirection + npc.Center.X, npc.Bottom.Y - 6f);
+                    NPC.velocity.X = 0f;
+                    Vector2 rockSpawnPosition = new Vector2(16f * -NPC.spriteDirection + NPC.Center.X, NPC.Bottom.Y - 6f);
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        boulderIndex = Projectile.NewProjectile(rockSpawnPosition, Vector2.Zero, ModContent.ProjectileType<CrabBoulder>(), 29, 6f);
-                        npc.netUpdate = true;
+                        boulderIndex = Projectile.NewProjectile(NPC.GetSource_FromAI(), rockSpawnPosition, Vector2.Zero, ModContent.ProjectileType<CrabBoulder>(), 29, 6f);
+                        NPC.netUpdate = true;
                     }
                 }
-                if (npc.ai[1] % 360f == 330f)
+                if (NPC.ai[1] % 360f == 330f)
                 {
-                    Main.projectile[boulderIndex].velocity = new Vector2(0f, -11f).RotatedBy(-npc.spriteDirection * 0.8f);
+                    Main.projectile[boulderIndex].velocity = new Vector2(0f, -11f).RotatedBy(-NPC.spriteDirection * 0.8f);
                     boulderIndex = -1;
-                    npc.netUpdate = true;
+                    NPC.netUpdate = true;
                 }
             }
-            npc.velocity.Y += 0.25f;
+            NPC.velocity.Y += 0.25f;
         }
 
         public override void FindFrame(int frameHeight)
         {
-            npc.frameCounter++;
-            if (npc.ai[1] % 360f < 280f)
+            NPC.frameCounter++;
+            if (NPC.ai[1] % 360f < 280f)
             {
-                if (npc.frameCounter % 6 == 5)
+                if (NPC.frameCounter % 6 == 5)
                 {
-                    npc.frame.Y += frameHeight;
-                    if (npc.frame.Y >= 4 * frameHeight)
+                    NPC.frame.Y += frameHeight;
+                    if (NPC.frame.Y >= 4 * frameHeight)
                     {
-                        npc.frame.Y = frameHeight;
+                        NPC.frame.Y = frameHeight;
                     }
                 }
             }
             else
             {
-                npc.frame.Y = 3 * frameHeight + frameHeight * (int)MathHelper.Clamp(npc.ai[1] % 280f / 60f * 9, 0, 9);
+                NPC.frame.Y = 3 * frameHeight + frameHeight * (int)MathHelper.Clamp(NPC.ai[1] % 280f / 60f * 9, 0, 9);
             }
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.playerSafe || !spawnInfo.player.Calamity().ZoneSulphur || !CalamityWorld.downedAquaticScourge)
+            if (spawnInfo.PlayerSafe || !spawnInfo.Player.Calamity().ZoneSulphur || !DownedBossSystem.downedAquaticScourge)
             {
                 return 0f;
             }
             return 0.135f;
         }
 
-        public override void NPCLoot()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropItemChance(npc, ModContent.ItemType<CorrodedFossil>(), 15); // Rarer to encourage fighting Acid Rain
+            // Rarer to encourage fighting Acid Rain to obtain the fossils
+            npcLoot.Add(ModContent.ItemType<CorrodedFossil>(), 15);
+        }
+
+        public override void OnHitPlayer(Player player, int damage, bool crit)
+        {
+            if (damage > 0)
+                player.AddBuff(ModContent.BuffType<Irradiated>(), 180);
         }
 
         public override void HitEffect(int hitDirection, double damage)
         {
-            if (npc.life <= 0)
+            if (NPC.life <= 0)
             {
                 for (int k = 0; k < 15; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.SulfurousSeaAcid, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.SulfurousSeaAcid, hitDirection, -1f, 0, default, 1f);
                 }
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AcidRain/AnthozoanCrabGore"), npc.scale);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AcidRain/AnthozoanCrabGore2"), npc.scale);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AcidRain/AnthozoanCrabGore3"), npc.scale);
+                if (Main.netMode != NetmodeID.Server)
+                {
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("AnthozoanCrabGore").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("AnthozoanCrabGore2").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("AnthozoanCrabGore3").Type, NPC.scale);
+                }
             }
         }
     }

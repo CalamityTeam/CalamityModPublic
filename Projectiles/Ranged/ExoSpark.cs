@@ -1,12 +1,10 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Ranged
 {
+    // Photoviscerator left click splitting homing projectile
     public class ExoSpark : ModProjectile
     {
         public static readonly int[] FrameToDustIDTable = new int[]
@@ -20,36 +18,33 @@ namespace CalamityMod.Projectiles.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Exo Spark");
-            Main.projFrames[projectile.type] = 3;
+            Main.projFrames[Projectile.type] = 3;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 28;
-            projectile.height = 14;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.ranged = true;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 600;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 4;
+            Projectile.width = 28;
+            Projectile.height = 14;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = 600;
         }
 
         public override void AI()
         {
-            if (projectile.localAI[0] == 0f)
+            if (Projectile.localAI[0] == 0f)
             {
-                projectile.frame = Main.rand.Next(3);
-                projectile.localAI[0] = 1f;
-                projectile.netUpdate = true;
+                Projectile.frame = Main.rand.Next(3);
+                Projectile.localAI[0] = 1f;
+                Projectile.netUpdate = true;
             }
-            NPC potentialTarget = projectile.Center.ClosestNPCAt(MaxTargetDistance);
+            NPC potentialTarget = Projectile.Center.ClosestNPCAt(MaxTargetDistance);
             if (potentialTarget != null)
-            {
-                projectile.velocity = (projectile.velocity * (HomingInertia - 1) + projectile.DirectionTo(potentialTarget.Center) * 16f) / HomingInertia;
-            }
-            projectile.rotation = projectile.velocity.ToRotation();
+                Projectile.velocity = (Projectile.velocity * (HomingInertia - 1) + Projectile.SafeDirectionTo(potentialTarget.Center) * 16f) / HomingInertia;
+
+            Projectile.rotation = Projectile.velocity.ToRotation();
             if (!Main.dedServ)
             {
                 GenerateCircularDust();
@@ -61,24 +56,16 @@ namespace CalamityMod.Projectiles.Ranged
             for (int i = 0; i < 12; i++)
             {
                 float angle = i / 12f * MathHelper.TwoPi;
-                Vector2 spawnPosition = projectile.Center + angle.ToRotationVector2().RotatedBy(projectile.rotation) * new Vector2(10f, 6f);
-                Dust dust = Dust.NewDustPerfect(spawnPosition, FrameToDustIDTable[projectile.frame]);
+                Vector2 spawnPosition = Projectile.Center + angle.ToRotationVector2().RotatedBy(Projectile.rotation) * new Vector2(10f, 6f);
+                Dust dust = Dust.NewDustPerfect(spawnPosition, FrameToDustIDTable[Projectile.frame]);
                 dust.velocity = Vector2.Zero;
                 dust.scale = 0.5f;
                 dust.noGravity = true;
             }
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-        {
-            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 60);
-            target.AddBuff(ModContent.BuffType<GlacialState>(), 60);
-            target.AddBuff(ModContent.BuffType<Plague>(), 60);
-            target.AddBuff(ModContent.BuffType<HolyFlames>(), 60);
-            target.AddBuff(BuffID.CursedInferno, 120);
-            target.AddBuff(BuffID.Frostburn, 120);
-            target.AddBuff(BuffID.OnFire, 120);
-            target.AddBuff(BuffID.Ichor, 120);
-        }
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => target.ExoDebuffs();
+
+        public override void OnHitPvp(Player target, int damage, bool crit) => target.ExoDebuffs();
     }
 }

@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee.Spears;
 using Terraria;
 using Terraria.ID;
@@ -12,37 +12,40 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             DisplayName.SetDefault("Goldplume Spear");
             Tooltip.SetDefault("Shoots falling feathers");
+            SacrificeTotal = 1;
+            ItemID.Sets.Spears[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.width = 54;
-            item.damage = 23;
-            item.melee = true;
-            item.noMelee = true;
-            item.useTurn = true;
-            item.noUseGraphic = true;
-            item.useAnimation = 23;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.useTime = 23;
-            item.knockBack = 5.75f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = false;
-            item.height = 54;
-            item.value = Item.buyPrice(0, 4, 0, 0);
-            item.rare = 3;
-            item.shoot = ModContent.ProjectileType<GoldplumeSpearProjectile>();
-            item.shootSpeed = 5f;
+            Item.width = 54;
+            Item.damage = 48;
+            Item.DamageType = DamageClass.Melee;
+            Item.noMelee = true;
+            Item.useTurn = true;
+            Item.noUseGraphic = true;
+            Item.useAnimation = 23;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.useTime = 23;
+            Item.knockBack = 5.75f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.height = 54;
+            Item.value = CalamityGlobalItem.Rarity3BuyPrice;
+            Item.rare = ItemRarityID.Orange;
+            Item.shoot = ModContent.ProjectileType<GoldplumeSpearProjectile>();
+            Item.shootSpeed = 8f;
         }
+
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<AerialiteBar>(), 10);
-            recipe.AddIngredient(ItemID.SunplateBlock, 4);
-            recipe.AddTile(TileID.SkyMill);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient<AerialiteBar>(10).
+                AddIngredient(ItemID.SunplateBlock, 4).
+                AddTile(TileID.SkyMill).
+                Register();
         }
     }
 }

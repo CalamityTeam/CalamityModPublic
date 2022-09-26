@@ -1,3 +1,4 @@
+﻿using Terraria.DataStructures;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -7,66 +8,70 @@ using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-	public class PoisonPack : RogueWeapon
+    public class PoisonPack : RogueWeapon
     {
-        private static int damage = 20;
-        private static float knockBack = 1.8f;
+        private static int baseDamage = 20;
+        private static float baseKnockback = 1.8f;
 
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Poison Pack");
             Tooltip.SetDefault("Throws a poisonous spiky ball. Stacks up to 3.\n" +
                 "Stealth strikes cause the balls to release spore clouds\n" +
-				"Right click to delete all existing spiky balls");
+                "Right click to delete all existing spiky balls");
+            SacrificeTotal = 3;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
-            item.damage = damage;
-            item.crit = 4;
-            item.Calamity().rogue = true;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.width = 14;
-            item.height = 14;
-            item.useTime = 19;
-            item.useAnimation = 19;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = knockBack;
-            item.value = Item.buyPrice(0, 0, 33, 0);
-            item.rare = 1;
-            item.UseSound = SoundID.Item1;
-            item.maxStack = 3;
+            Item.damage = baseDamage;
+            Item.DamageType = RogueDamageClass.Instance;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.width = 14;
+            Item.height = 14;
+            Item.useTime = 19;
+            Item.useAnimation = 19;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.knockBack = baseKnockback;
+            Item.value = CalamityGlobalItem.Rarity1BuyPrice / 3; // Stacks up to 3
+            Item.rare = ItemRarityID.Blue;
+            Item.UseSound = SoundID.Item1;
+            Item.maxStack = 3;
 
-            item.shootSpeed = 7f;
-            item.shoot = ModContent.ProjectileType<PoisonBol>();
+            Item.shootSpeed = 7f;
+            Item.shoot = ModContent.ProjectileType<PoisonBol>();
         }
 
-		public override bool CanUseItem(Player player)
-		{
-			if (player.altFunctionUse == 2)
-			{
-				item.shoot = 0;
-				item.shootSpeed = 0f;
-				return player.ownedProjectileCounts[ModContent.ProjectileType<PoisonBol>()] > 0;
-			}
-			else
-			{
-				item.shoot = ModContent.ProjectileType<PoisonBol>();
-				item.shootSpeed = 7f;
-				int UseMax = item.stack;
-				return player.ownedProjectileCounts[ModContent.ProjectileType<PoisonBol>()] < UseMax;
-			}
-		}
+        // Terraria seems to really dislike high crit values in SetDefaults
+        public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 4;
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool CanUseItem(Player player)
+        {
+            if (player.altFunctionUse == 2)
+            {
+                Item.shoot = ProjectileID.None;
+                Item.shootSpeed = 0f;
+                return player.ownedProjectileCounts[ModContent.ProjectileType<PoisonBol>()] > 0;
+            }
+            else
+            {
+                Item.shoot = ModContent.ProjectileType<PoisonBol>();
+                Item.shootSpeed = 7f;
+                int UseMax = Item.stack;
+                return player.ownedProjectileCounts[ModContent.ProjectileType<PoisonBol>()] < UseMax;
+            }
+        }
+
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             CalamityPlayer modPlayer = player.Calamity();
-			modPlayer.killSpikyBalls = false;
+            modPlayer.killSpikyBalls = false;
             if (modPlayer.StealthStrikeAvailable()) //setting the stealth strike
             {
-                int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, 0f, 0f);
-                Main.projectile[stealth].Calamity().stealthStrike = true;
+                int stealth = Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
+                if (stealth.WithinBounds(Main.maxProjectiles))
+                    Main.projectile[stealth].Calamity().stealthStrike = true;
                 return false;
             }
             return true;
@@ -75,19 +80,17 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override bool AltFunctionUse(Player player)
         {
             CalamityPlayer modPlayer = player.Calamity();
-			modPlayer.killSpikyBalls = true;
+            modPlayer.killSpikyBalls = true;
             return true;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-
-            recipe.AddIngredient(ItemID.SpikyBall, 50);
-            recipe.AddIngredient(ItemID.JungleSpores, 10);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient(ItemID.SpikyBall, 50).
+                AddIngredient(ItemID.JungleSpores, 10).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

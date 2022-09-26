@@ -7,18 +7,19 @@ namespace CalamityMod.Buffs.Summon
 {
     public class TacticalPlagueEngineBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Tactical Plague Engine");
             Description.SetDefault("A giant plague jet is following you");
             Main.buffNoTimeDisplay[Type] = true;
             Main.buffNoSave[Type] = true;
+            //Main.persistentBuff[Type] = true;
         }
 
         public override void Update(Player player, ref int buffIndex)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            if (player.ownedProjectileCounts[ModContent.ProjectileType<TacticalPlagueEngineSummon>()] > 0)
+            if (player.ownedProjectileCounts[ModContent.ProjectileType<TacticalPlagueJet>()] > 0)
             {
                 modPlayer.plagueEngine = true;
             }

@@ -1,4 +1,4 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Buffs.Potions;
@@ -10,43 +10,45 @@ namespace CalamityMod.Items.Potions
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Baguette");
-            Tooltip.SetDefault("Minor improvements to all stats\n" +
-			"Boosts the effects of Red Wine\n" +
-			"[c/FCE391:je suis Monte]");
+            Tooltip.SetDefault("{$CommonItemTooltip.MinorStats}\n" +
+            "Boosts the effects of Red Wine\n" +
+            "[c/FCE391:je suis Monte]");
+            SacrificeTotal = 5;
         }
 
         public override void SetDefaults()
         {
-            item.width = 26;
-            item.height = 26;
-            item.useTurn = true;
-            item.maxStack = 30;
-            item.useAnimation = 17;
-            item.useTime = 17;
-            item.rare = 1;
-            item.useStyle = ItemUseStyleID.EatingUsing;
-            item.UseSound = SoundID.Item2;
-            item.consumable = true;
-            item.value = Item.buyPrice(0, 0, 50, 0);
-            item.buffType = ModContent.BuffType<BaguetteBuff>();
-            item.buffTime = CalamityUtils.SecondsToFrames(300f);
-            item.Calamity().customRarity = CalamityRarity.Dedicated;
+            Item.width = 52;
+            Item.height = 38;
+            Item.useTurn = true;
+            Item.maxStack = 30;
+            Item.useAnimation = 17;
+            Item.useTime = 17;
+            Item.useStyle = ItemUseStyleID.EatFood;
+            Item.UseSound = SoundID.Item2;
+            Item.consumable = true;
+
+            Item.value = Item.sellPrice(silver: 1);
+            Item.rare = ItemRarityID.Blue;
+            Item.Calamity().donorItem = true;
+
+            Item.buffType = ModContent.BuffType<BaguetteBuff>();
+            Item.buffTime = CalamityUtils.SecondsToFrames(300f);
         }
 
         public override void OnConsumeItem(Player player)
         {
-			//5 minutes for both
+            //5 minutes for both
             player.AddBuff(ModContent.BuffType<BaguetteBuff>(), CalamityUtils.SecondsToFrames(300f));
             player.AddBuff(BuffID.WellFed, CalamityUtils.SecondsToFrames(300f));
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Hay, 10);
-            recipe.AddTile(TileID.Furnaces);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient(ItemID.Hay, 10).
+                AddTile(TileID.Furnaces).
+                Register();
         }
     }
 }

@@ -1,5 +1,5 @@
 using CalamityMod.CalPlayer;
-using CalamityMod.Projectiles.Summon;
+using CalamityMod.Projectiles.Typeless;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -7,12 +7,13 @@ namespace CalamityMod.Buffs.Summon
 {
     public class FungalClumpBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Fungal Clump");
             Description.SetDefault("The fungal clump will protect you");
             Main.buffNoTimeDisplay[Type] = true;
             Main.buffNoSave[Type] = true;
+            //Main.persistentBuff[Type] = true;
         }
 
         public override void Update(Player player, ref int buffIndex)

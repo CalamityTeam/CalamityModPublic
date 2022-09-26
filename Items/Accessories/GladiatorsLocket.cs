@@ -1,36 +1,37 @@
-using CalamityMod.Buffs.Summon;
+﻿using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using CalamityMod.Projectiles.Typeless;
-using CalamityMod.World;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
+
 namespace CalamityMod.Items.Accessories
 {
     public class GladiatorsLocket : ModItem
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Gladiator's Locket");
             Tooltip.SetDefault("Summons two spirit swords to protect you");
         }
 
         public override void SetDefaults()
         {
-            item.width = 42;
-            item.height = 36;
-            item.value = CalamityGlobalItem.Rarity3BuyPrice;
-            item.rare = 3;
-            item.defense = 5;
-            item.accessory = true;
+            Item.width = 42;
+            Item.height = 36;
+            Item.value = CalamityGlobalItem.Rarity3BuyPrice;
+            Item.rare = ItemRarityID.Orange;
+            Item.defense = 5;
+            Item.accessory = true;
         }
 
-        public override bool CanEquipAccessory(Player player, int slot)
+        public override bool CanEquipAccessory(Player player, int slot, bool modded)
         {
-            CalamityPlayer modPlayer = player.Calamity(); //there might be an upgrade sometime later?
-            if (modPlayer.gladiatorSword)
-            {
+            if (player.Calamity().gladiatorSword)
                 return false;
-            }
+
             return true;
         }
 
@@ -41,16 +42,18 @@ namespace CalamityMod.Items.Accessories
             if (player.whoAmI == Main.myPlayer)
             {
                 if (player.FindBuffIndex(ModContent.BuffType<GladiatorSwords>()) == -1)
-                {
                     player.AddBuff(ModContent.BuffType<GladiatorSwords>(), 3600, true);
-                }
-				int damage = NPC.downedPlantBoss ? 100 : Main.hardMode ? 50 : 20;
-                float damageMult = CalamityWorld.downedDoG ? 3f : NPC.downedMoonlord ? 2f : 1f;
-				int swordDmg = (int)(damage * damageMult * player.AverageDamage());
+
+                int baseDamage = 30;
+                int swordDmg = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(baseDamage);
+                var source = player.GetSource_Accessory(Item);
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<GladiatorSword>()] < 1)
                 {
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<GladiatorSword>(), swordDmg, 6f, Main.myPlayer, 0f, 0f);
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<GladiatorSword2>(), swordDmg, 6f, Main.myPlayer, 0f, 0f);
+                    var sword = Projectile.NewProjectileDirect(source, player.Center, Vector2.Zero, ModContent.ProjectileType<GladiatorSword>(), swordDmg, 2f, Main.myPlayer);
+                    sword.originalDamage = baseDamage;
+
+                    sword = Projectile.NewProjectileDirect(source, player.Center, Vector2.Zero, ModContent.ProjectileType<GladiatorSword2>(), swordDmg, 2f, Main.myPlayer);
+                    sword.originalDamage = baseDamage;
                 }
             }
         }

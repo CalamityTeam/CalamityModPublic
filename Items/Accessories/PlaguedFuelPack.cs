@@ -1,49 +1,52 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
+using System.Linq;
 
 namespace CalamityMod.Items.Accessories
 {
-	public class PlaguedFuelPack : ModItem
+    public class PlaguedFuelPack : ModItem
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Plagued Fuel Pack");
-            Tooltip.SetDefault("5% increased rogue damage\n" +
-                "15% increased rogue projectile velocity\n" +
-                "TOOLTIP LINE HERE" + 
-                "This effect has a 3 second cooldown before it can be used again");
+            Tooltip.SetDefault("5% increased rogue damage and 15% increased rogue projectile velocity\n" +
+                "Stealth generates 10% faster\n" +
+                "TOOLTIP LINE HERE" +
+                "This effect has a 1 second cooldown before it can be used again");
         }
 
         public override void SetDefaults()
         {
-            item.width = 20;
-            item.height = 36;
-            item.value = CalamityGlobalItem.Rarity8BuyPrice;
-            item.rare = 8;
-            item.accessory = true;
+            Item.width = 20;
+            Item.height = 36;
+            Item.value = CalamityGlobalItem.Rarity8BuyPrice;
+            Item.rare = ItemRarityID.Yellow;
+            Item.accessory = true;
         }
 
-        public override bool CanEquipAccessory(Player player, int slot) => !player.Calamity().hasJetpack;
+        // TODO -- Check if the slot contains the other rogue jetpack, in which case, let the player swap accs
+        public override bool CanEquipAccessory(Player player, int slot, bool modded) => !player.Calamity().hasJetpack;
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-			player.Calamity().hasJetpack = true;
-            player.Calamity().throwingDamage += 0.05f;
-            player.Calamity().throwingVelocity += 0.15f;
+            player.Calamity().hasJetpack = true;
+            player.GetDamage<ThrowingDamageClass>() += 0.05f;
+            player.Calamity().rogueVelocity += 0.15f;
             player.Calamity().plaguedFuelPack = true;
+            player.Calamity().stealthGenStandstill += 0.1f;
+            player.Calamity().stealthGenMoving += 0.1f;
         }
 
         public override void ModifyTooltips(List<TooltipLine> list)
         {
-            string hotkey = CalamityMod.PlaguePackHotKey.TooltipHotkeyString();
-            foreach (TooltipLine line in list)
-            {
-                if (line.mod == "Terraria" && line.Name == "Tooltip2")
-                {
-                    line.text = "Press " + hotkey + " to consume 25% of your maximum stealth to perform a swift upwards/diagonal dash which leaves a trail of plagued clouds";
-                }
-            }
+            string hotkey = CalamityKeybinds.PlaguePackHotKey.TooltipHotkeyString();
+            TooltipLine line = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip2");
+
+            if (line != null)
+                line.Text = "Press " + hotkey + " to consume 25% of your maximum stealth to perform a swift upwards/diagonal dash which leaves a trail of plagued clouds";
         }
     }
 }

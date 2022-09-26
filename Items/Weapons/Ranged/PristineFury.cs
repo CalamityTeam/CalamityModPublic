@@ -1,7 +1,9 @@
-using CalamityMod.Projectiles.Ranged;
+﻿using CalamityMod.Projectiles.Ranged;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -9,38 +11,38 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class PristineFury : ModItem
     {
-		private int frameCounter = 0;
-		private int frame = 0;
-        public static int BaseDamage = 140;
+        public int frameCounter = 0;
+        public int frame = 0;
+        public static int BaseDamage = 77;
 
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Pristine Fury");
-            Tooltip.SetDefault("Legendary Drop\n" +
-                "Fires an intense helix of flames that explode into a column of fire\n" +
-                "Right click to fire a short ranged cloud of lingering flames\n" +
-                "Revengeance drop");
+            Tooltip.SetDefault("Fires an intense helix of flames that explode into a column of fire\n" +
+                "Right click to fire a short ranged cloud of lingering flames");
+            SacrificeTotal = 1;
+            ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.damage = BaseDamage;
-            item.ranged = true;
-            item.width = 100;
-            item.height = 46;
-            item.useTime = 3;
-            item.useAnimation = 15;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 5f;
-            item.rare = 10;
-            item.value = Item.buyPrice(1, 20, 0, 0);
-            item.Calamity().customRarity = CalamityRarity.ItemSpecific;
-            item.UseSound = SoundID.Item34;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<PristineFire>();
-            item.shootSpeed = 11f;
-            item.useAmmo = 23;
+            Item.damage = BaseDamage;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 100;
+            Item.height = 46;
+            Item.useTime = 3;
+            Item.useAnimation = 15;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 5f;
+            Item.UseSound = SoundID.Item34;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<PristineFire>();
+            Item.shootSpeed = 11f;
+            Item.useAmmo = AmmoID.Gel;
+
+            Item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            Item.rare = ModContent.RarityType<Turquoise>();
         }
 
         public override Vector2? HoldoutOffset() => new Vector2(-25, -10);
@@ -51,67 +53,56 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             if (player.altFunctionUse == 2)
             {
-                item.useTime = 5;
-                item.useAnimation = 20;
+                Item.useTime = 5;
+                Item.useAnimation = 20;
             }
             else
             {
-                item.useTime = 3;
-                item.useAnimation = 15;
+                Item.useTime = 3;
+                Item.useAnimation = 15;
             }
             return base.CanUseItem(player);
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.altFunctionUse == 2)
             {
-				int flameAmt = 3;
-				for (int index = 0; index < flameAmt; ++index)
-				{
-					float SpeedX = speedX + (float)Main.rand.Next(-25, 26) * 0.05f;
-					float SpeedY = speedY + (float)Main.rand.Next(-25, 26) * 0.05f;
-					Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<PristineSecondary>(), (int)(damage * 0.8f), knockBack, player.whoAmI, 0f, 0f);
-				}
+                int flameAmt = 3;
+                damage = (int)(damage * 1.2);
+                for (int index = 0; index < flameAmt; ++index)
+                {
+                    float SpeedX = velocity.X + Main.rand.NextFloat(-1.25f, 1.25f);
+                    float SpeedY = velocity.Y + Main.rand.NextFloat(-1.25f, 1.25f);
+                    Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<PristineSecondary>(), (int)(damage * 0.8f), knockback, player.whoAmI);
+                }
             }
             else
             {
-				Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<PristineFire>(), damage, knockBack, player.whoAmI, 0f, 0f);
+                damage = (int)(damage * 0.94);
+                Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<PristineFire>(), damage, knockback, player.whoAmI);
             }
-			return false;
+            return false;
         }
 
-		internal Rectangle GetCurrentFrame(bool frameCounterUp = true)
-		{
-			int frameAmt = 4;
-			if (frameCounter >= 5)
-			{
-				frameCounter = -1;
-				frame = frame == frameAmt - 1 ? 0 : frame + 1;
-			}
-			if (frameCounterUp)
-				frameCounter++;
-			return new Rectangle(0, item.height * frame, item.width, item.height);
-		}
+        public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frameI, Color drawColor, Color itemColor, Vector2 origin, float scale)
+        {
+            Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Ranged/PristineFury_Animated").Value;
+            spriteBatch.Draw(texture, position, Item.GetCurrentFrame(ref frame, ref frameCounter, 5, 4), Color.White, 0f, origin, scale, SpriteEffects.None, 0);
+            return false;
+        }
 
-		public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
-		{
-			Texture2D texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Ranged/PristineFury_Animated");
-			spriteBatch.Draw(texture, position, GetCurrentFrame(), Color.White, 0f, origin, scale, SpriteEffects.None, 0);
-			return false;
-		}
+        public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
+        {
+            Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Ranged/PristineFury_Animated").Value;
+            spriteBatch.Draw(texture, Item.position - Main.screenPosition, Item.GetCurrentFrame(ref frame, ref frameCounter, 5, 4), lightColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);
+            return false;
+        }
 
-		public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
-		{
-			Texture2D texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Ranged/PristineFury_Animated");
-			spriteBatch.Draw(texture, item.position - Main.screenPosition, GetCurrentFrame(), lightColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);
-			return false;
-		}
-
-		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
-		{
-			Texture2D texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Ranged/PristineFuryGlow");
-			spriteBatch.Draw(texture, item.position - Main.screenPosition, GetCurrentFrame(false), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);
-		}
+        public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
+        {
+            Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Ranged/PristineFuryGlow").Value;
+            spriteBatch.Draw(texture, Item.position - Main.screenPosition, Item.GetCurrentFrame(ref frame, ref frameCounter, 5, 4, false), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);
+        }
     }
 }

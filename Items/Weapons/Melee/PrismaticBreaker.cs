@@ -1,13 +1,14 @@
-using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Items.Materials;
+using CalamityMod.Items.Tools;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Projectiles.Melee;
+using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System.Collections.Generic;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -15,158 +16,140 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class PrismaticBreaker : ModItem
     {
-        private int alpha = 50;
-		public Color[] colors = new Color[]
-		{
-			new Color(255, 0, 0, 50), //Red
-			new Color(255, 128, 0, 50), //Orange
-			new Color(255, 255, 0, 50), //Yellow
-			new Color(128, 255, 0, 50), //Lime
-			new Color(0, 255, 0, 50), //Green
-			new Color(0, 255, 128, 50), //Turquoise
-			new Color(0, 255, 255, 50), //Cyan
-			new Color(0, 128, 255, 50), //Light Blue
-			new Color(0, 0, 255, 50), //Blue
-			new Color(128, 0, 255, 50), //Purple
-			new Color(255, 0, 255, 50), //Fuschia
-			new Color(255, 0, 128, 50) //Hot Pink
-		};
-		List<Color> colorSet = new List<Color>()
-		{
-			new Color(255, 0, 0, 50), //Red
-			new Color(255, 255, 0, 50), //Yellow
-			new Color(0, 255, 0, 50), //Green
-			new Color(0, 255, 255, 50), //Cyan
-			new Color(0, 0, 255, 50), //Blue
-			new Color(255, 0, 255, 50), //Fuschia
-		};
+        internal static readonly Color[] colors = new Color[]
+        {
+            new Color(255, 0, 0, 50), //Red
+            new Color(255, 128, 0, 50), //Orange
+            new Color(255, 255, 0, 50), //Yellow
+            new Color(128, 255, 0, 50), //Lime
+            new Color(0, 255, 0, 50), //Green
+            new Color(0, 255, 128, 50), //Turquoise
+            new Color(0, 255, 255, 50), //Cyan
+            new Color(0, 128, 255, 50), //Light Blue
+            new Color(0, 0, 255, 50), //Blue
+            new Color(128, 0, 255, 50), //Purple
+            new Color(255, 0, 255, 50), //Fuschia
+            new Color(255, 0, 128, 50) //Hot Pink
+        };
 
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Prismatic Breaker");
             Tooltip.SetDefault("Seems to belong to a certain magical girl. Radiates with intense cosmic energy.\n" +
                 "Fire to charge for a powerful rainbow laser\n" +
-				"Right click to instead swing the sword and fire rainbow colored waves\n" +
-				"The sword is boosted by both melee and ranged damage");
-			Item.staff[item.type] = true;
+                "Right click to instead swing the sword and fire rainbow colored waves\n" +
+                "The sword is boosted by both melee and ranged damage");
+            Item.staff[Item.type] = true;
+            SacrificeTotal = 1;
+
+            ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 1200;
-            item.crit += 8;
-            item.useStyle = 1;
-            item.useTime = item.useAnimation = 15;
-            item.useTurn = true;
-            item.melee = true;
-            item.knockBack = 7f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.width = 50;
-            item.height = 50;
-            item.shoot = ModContent.ProjectileType<PrismaticBeam>();
-            item.shootSpeed = 14f;
-            item.value = CalamityGlobalItem.Rarity14BuyPrice;
-            item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.Dedicated;
+            Item.damage = 662;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = Item.useAnimation = 13;
+            Item.useTurn = true;
+            // TODO -- Prismatic Breaker should have its own damage type which is half Ranged, half Melee.
+            // Right now, it uses a hacky damage formula, see below.
+            // Its custom damage class should CountAs both melee AND ranged for the sake of effects.
+            Item.DamageType = DamageClass.Melee;
+            Item.knockBack = 7f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.width = 50;
+            Item.height = 50;
+            Item.shoot = ModContent.ProjectileType<PrismaticBeam>();
+            Item.shootSpeed = 14f;
+            Item.value = CalamityGlobalItem.Rarity14BuyPrice;
+            Item.rare = ModContent.RarityType<DarkBlue>();
+            Item.Calamity().donorItem = true;
         }
 
-		//Cancel out normal melee damage boosts and replace it with the average of melee and ranged damage boosts
-		//all damage boosts should still apply
-        public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
+        // Terraria seems to really dislike high crit values in SetDefaults
+        public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 8;
+
+        public override void ModifyWeaponDamage(Player player, ref StatModifier damage)
         {
-			float damageMult = (player.meleeDamage + player.rangedDamage - 2f) / 2f;
-            add += damageMult - player.meleeDamage + 1f;
-		}
+            StatModifier halfMelee = damage.Scale(0.5f);
+            damage = halfMelee.CombineWith(player.GetTotalDamage<RangedDamageClass>().Scale(0.5f));
+        }
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
-			//item.width and then item.height - 2f
-            Vector2 origin = new Vector2(25f, 23f);
-            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Items/Weapons/Melee/PrismaticBreakerGlow"), item.Center - Main.screenPosition, null, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
+            Item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Melee/PrismaticBreakerGlow").Value);
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.altFunctionUse == 2)
             {
-				Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<PrismaticWave>(), (int)(damage * 1), knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<PrismaticWave>(), damage, knockback, player.whoAmI);
             }
-			else
-			{
-                Projectile.NewProjectile(position.X, position.Y, speedX * 0.5f, speedY * 0.5f, type, damage, knockBack, player.whoAmI, 0f, 0f);
-			}
+            else
+            {
+                Projectile.NewProjectile(source, position.X, position.Y, velocity.X * 0.5f, velocity.Y * 0.5f, type, damage, knockback, player.whoAmI);
+            }
             return false;
         }
 
-		public override bool AltFunctionUse(Player player) => true;
+        public override bool AltFunctionUse(Player player) => true;
 
-		public override bool CanUseItem(Player player)
-		{
-			if (player.altFunctionUse == 2)
-			{
-				item.UseSound = SoundID.Item1;
-				item.useStyle = 1;
-				item.useTurn = true;
-				item.autoReuse = true;
-				item.noMelee = false;
-				item.channel = false;
-			}
-			else
-			{
-				item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/CrystylCharge");
-				item.useStyle = 5;
-				item.useTurn = false;
-				item.autoReuse = false;
-				item.noMelee = true;
-				item.channel = true;
-			}
-			return base.CanUseItem(player);
-		}
+        public override bool CanUseItem(Player player)
+        {
+            if (player.altFunctionUse == 2)
+            {
+                Item.UseSound = SoundID.Item1;
+                Item.useStyle = ItemUseStyleID.Swing;
+                Item.useTurn = true;
+                Item.autoReuse = true;
+                Item.noMelee = false;
+                Item.channel = false;
+            }
+            else
+            {
+                Item.UseSound = CrystylCrusher.ChargeSound;
+                Item.useStyle = ItemUseStyleID.Shoot;
+                Item.useTurn = false;
+                Item.autoReuse = false;
+                Item.noMelee = true;
+                Item.channel = true;
+            }
+            return base.CanUseItem(player);
+        }
 
-		public override void MeleeEffects(Player player, Rectangle hitbox)
+        public override void MeleeEffects(Player player, Rectangle hitbox)
         {
             if (Main.rand.NextBool(4))
             {
-                Dust rainbow = Main.dust[Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 267, 0f, 0f, alpha, Main.rand.Next(colors), 0.8f)];
+                Dust rainbow = Main.dust[Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 267, 0f, 0f, 50, Main.rand.Next(colors), 0.8f)];
                 rainbow.noGravity = true;
             }
         }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
-            target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
-            target.AddBuff(ModContent.BuffType<Plague>(), 120);
-            target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
-            target.AddBuff(BuffID.CursedInferno, 120);
-            target.AddBuff(BuffID.Frostburn, 120);
-            target.AddBuff(BuffID.OnFire, 120);
-            target.AddBuff(BuffID.Ichor, 120);
+            target.AddBuff(ModContent.BuffType<Nightwither>(), 300);
+            target.AddBuff(BuffID.Daybreak, 300);
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
-            target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
-            target.AddBuff(ModContent.BuffType<Plague>(), 120);
-            target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
-            target.AddBuff(BuffID.CursedInferno, 120);
-            target.AddBuff(BuffID.Frostburn, 120);
-            target.AddBuff(BuffID.OnFire, 120);
-            target.AddBuff(BuffID.Ichor, 120);
+            target.AddBuff(ModContent.BuffType<Nightwither>(), 300);
+            target.AddBuff(BuffID.Daybreak, 300);
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<CosmicRainbow>());
-            recipe.AddIngredient(ModContent.ItemType<SolsticeClaymore>());
-            recipe.AddIngredient(ModContent.ItemType<BarofLife>(), 3);
-            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 10);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient<CosmicRainbow>().
+                AddIngredient<SolsticeClaymore>().
+                AddIngredient<LifeAlloy>(3).
+                AddIngredient<CosmiliteBar>(8).
+                AddIngredient<EndothermicEnergy>(20).
+                AddTile(ModContent.TileType<CosmicAnvil>()).
+                Register();
         }
     }
 }

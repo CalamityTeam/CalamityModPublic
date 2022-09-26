@@ -1,6 +1,7 @@
+using CalamityMod.Rarities;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Placeables.Ores
 {
@@ -8,23 +9,26 @@ namespace CalamityMod.Items.Placeables.Ores
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 100;
             DisplayName.SetDefault("Auric Ore");
+            Tooltip.SetDefault("Laced with the dormant power of a deity");
+			ItemID.Sets.SortingPriorityMaterials[Type] = 119;
         }
 
         public override void SetDefaults()
         {
-            item.createTile = ModContent.TileType<Tiles.Ores.AuricOre>();
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTurn = true;
-            item.useAnimation = 15;
-            item.useTime = 10;
-            item.autoReuse = true;
-            item.consumable = true;
-            item.width = 10;
-            item.height = 10;
-            item.maxStack = 999;
-            item.value = Item.sellPrice(gold: 2);
-            item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.createTile = ModContent.TileType<Tiles.Ores.AuricOre>();
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTurn = true;
+            Item.useAnimation = 15;
+            Item.useTime = 10;
+            Item.autoReuse = true;
+            Item.consumable = true;
+            Item.width = 10;
+            Item.height = 10;
+            Item.maxStack = 999;
+            Item.value = Item.sellPrice(gold: 4);
+            Item.rare = ModContent.RarityType<Violet>();
         }
     }
 }

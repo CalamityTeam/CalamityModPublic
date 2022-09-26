@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Rogue
 {
@@ -14,30 +15,31 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetDefaults()
         {
-            projectile.width = 12;
-            projectile.height = 14;
-            projectile.friendly = true;
-            projectile.alpha = 0;
-            projectile.penetrate = 3;
-            projectile.tileCollide = true;
-            projectile.timeLeft = 120;
-            projectile.Calamity().rogue = true;
+            Projectile.width = 12;
+            Projectile.height = 14;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.alpha = 0;
+            Projectile.penetrate = 3;
+            Projectile.tileCollide = true;
+            Projectile.timeLeft = 120;
+            Projectile.DamageType = RogueDamageClass.Instance;
         }
 
         public override void AI()
         {
-            projectile.velocity.Y += 0.1f;
-            projectile.rotation += 0.4f * projectile.direction;
+            Projectile.velocity.Y += 0.1f;
+            Projectile.rotation += 0.4f * Projectile.direction;
 
-            if (projectile.timeLeft < 51)
+            if (Projectile.timeLeft < 51)
             {
-                projectile.alpha += 5;
+                Projectile.alpha += 5;
             }
         }
 
         public override bool? CanHitNPC(NPC target)
         {
-            if (projectile.timeLeft < 130)
+            if (Projectile.timeLeft < 130)
             {
                 return null;
             }
@@ -49,9 +51,9 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            Collision.HitTiles(projectile.position + projectile.velocity, projectile.velocity, projectile.width, projectile.height);
-            Main.PlaySound(SoundID.Dig, projectile.position);
-            projectile.Kill();
+            Collision.HitTiles(Projectile.position + Projectile.velocity, Projectile.velocity, Projectile.width, Projectile.height);
+            SoundEngine.PlaySound(SoundID.Dig, Projectile.position);
+            Projectile.Kill();
             return true;
         }
     }

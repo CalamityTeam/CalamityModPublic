@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
@@ -8,17 +8,17 @@ namespace CalamityMod.Tiles.FurnitureAshen
 {
     public class AshenSlab : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileSolid[Type] = true;
             Main.tileMergeDirt[Type] = false;
             Main.tileBlockLight[Type] = true;
-            drop = ModContent.ItemType<Items.Placeables.FurnitureAshen.AshenSlab>();
-            soundType = SoundID.Tink;
-            mineResist = 5f;
-            minPick = 180;
+            ItemDrop = ModContent.ItemType<Items.Placeables.FurnitureAshen.AshenSlab>();
+            HitSound = SoundID.Tink;
+            MineResist = 5f;
+            MinPick = 180;
             AddMapEntry(new Color(40, 24, 48));
-            animationFrameHeight = 90;
+            AnimationFrameHeight = 90;
         }
         int animationFrameWidth = 234;
 
@@ -31,7 +31,6 @@ namespace CalamityMod.Tiles.FurnitureAshen
 
         public override void AnimateIndividualTile(int type, int i, int j, ref int frameXOffset, ref int frameYOffset)
         {
-            //Main.NewText(GetTileVariant(i, j));
             int uniqueAnimationFrameX = Main.tileFrame[Type] + i;
             int uniqueAnimationFrameY = Main.tileFrame[Type] + j;
             int xPos = i % 2;
@@ -221,7 +220,7 @@ namespace CalamityMod.Tiles.FurnitureAshen
                 {
                     if (j % 3 < 2)
                     {
-                        uniqueAnimationFrameX = Main.tile[i - (i % 2), j - (j % 3)].frameNumber();
+                        uniqueAnimationFrameX = Main.tile[i - (i % 2), j - (j % 3)].TileFrameNumber;
                     }
                     if (uniqueAnimationFrameX != 0)
                     {
@@ -266,7 +265,7 @@ namespace CalamityMod.Tiles.FurnitureAshen
                     break;
             }
             frameXOffset = uniqueAnimationFrameX * animationFrameWidth;
-            frameYOffset = uniqueAnimationFrameY * animationFrameHeight;
+            frameYOffset = uniqueAnimationFrameY * AnimationFrameHeight;
         }
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
@@ -460,7 +459,7 @@ namespace CalamityMod.Tiles.FurnitureAshen
                 {
                     if (j % 3 < 2)
                     {
-                        uniqueAnimationFrameX = Main.tile[i - (i % 2), j - (j % 3)].frameNumber();
+                        uniqueAnimationFrameX = Main.tile[i - (i % 2), j - (j % 3)].TileFrameNumber;
                     }
                     if (uniqueAnimationFrameX != 0)
                     {
@@ -504,21 +503,21 @@ namespace CalamityMod.Tiles.FurnitureAshen
                     uniqueAnimationFrameY = 0;
                     break;
             }
-            int animationFrameHeight = 90;
+            int AnimationFrameHeight = 90;
             int animationFrameWidth = 234;
-            int xDrawPos = Main.tile[i, j].frameX + (uniqueAnimationFrameX * animationFrameWidth);
-            int yDrawPos = Main.tile[i, j].frameY + (uniqueAnimationFrameY * animationFrameHeight);
+            int xDrawPos = Main.tile[i, j].TileFrameX + (uniqueAnimationFrameX * animationFrameWidth);
+            int yDrawPos = Main.tile[i, j].TileFrameY + (uniqueAnimationFrameY * AnimationFrameHeight);
             Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
             Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + zero;
-            Texture2D glowmask = ModContent.GetTexture("CalamityMod/Tiles/FurnitureAshen/AshenSlabGlow");
+            Texture2D glowmask = ModContent.Request<Texture2D>("CalamityMod/Tiles/FurnitureAshen/AshenSlabGlow").Value;
             Color drawColour = GetDrawColour(i, j, new Color(64, 64, 64, 64));
             Tile trackTile = Main.tile[i, j];
             double num6 = Main.time * 0.08;
-            if (!trackTile.halfBrick() && trackTile.slope() == 0)
+            if (!trackTile.IsHalfBlock && trackTile.Slope == 0)
             {
                 Main.spriteBatch.Draw(glowmask, drawOffset, new Rectangle?(new Rectangle(xDrawPos, yDrawPos, 18, 18)), drawColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
             }
-            else if (trackTile.halfBrick())
+            else if (trackTile.IsHalfBlock)
             {
                 Main.spriteBatch.Draw(glowmask, drawOffset + new Vector2(0f, 8f), new Rectangle?(new Rectangle(xDrawPos, yDrawPos, 18, 8)), drawColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
             }
@@ -526,7 +525,7 @@ namespace CalamityMod.Tiles.FurnitureAshen
 
         private Color GetDrawColour(int i, int j, Color colour)
         {
-            int colType = Main.tile[i, j].color();
+            int colType = Main.tile[i, j].TileColor;
             Color paintCol = WorldGen.paintColor(colType);
             if (colType >= 13 && colType <= 24)
             {

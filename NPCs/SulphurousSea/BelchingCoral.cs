@@ -1,18 +1,20 @@
+﻿using CalamityMod.BiomeManagers;
+using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
 using CalamityMod.Projectiles.Enemy;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Weapons.Magic;
-using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.SulphurousSea
 {
-	public class BelchingCoral : ModNPC
+    public class BelchingCoral : ModNPC
     {
         public const float CheckDistance = 480f;
         public override void SetStaticDefaults()
@@ -22,64 +24,85 @@ namespace CalamityMod.NPCs.SulphurousSea
 
         public override void SetDefaults()
         {
-            npc.noGravity = true;
-            npc.damage = 45;
-            npc.width = 54;
-            npc.height = 42;
-            npc.defense = 25;
-            npc.lifeMax = 1000;
-            npc.aiStyle = aiType = -1;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
-            npc.value = Item.buyPrice(0, 0, 3, 50);
-            npc.HitSound = SoundID.NPCHit42;
-            npc.DeathSound = SoundID.NPCDeath5;
-            npc.knockBackResist = 0f;
-            banner = npc.type;
-            bannerItem = ModContent.ItemType<BelchingCoralBanner>();
+            NPC.noGravity = true;
+            NPC.damage = 45;
+            NPC.width = 54;
+            NPC.height = 42;
+            NPC.defense = 25;
+            NPC.lifeMax = 1000;
+            NPC.aiStyle = AIType = -1;
+            NPC.value = Item.buyPrice(0, 0, 3, 50);
+            NPC.HitSound = SoundID.NPCHit42;
+            NPC.DeathSound = SoundID.NPCDeath5;
+            NPC.knockBackResist = 0f;
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<BelchingCoralBanner>();
+            NPC.Calamity().VulnerableToHeat = false;
+            NPC.Calamity().VulnerableToSickness = false;
+            NPC.Calamity().VulnerableToElectricity = true;
+            NPC.Calamity().VulnerableToWater = false;
+            SpawnModBiomes = new int[1] { ModContent.GetInstance<SulphurousSeaBiome>().Type };
         }
+
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+
+				// Will move to localization whenever that is cleaned up.
+				new FlavorTextBestiaryInfoElement("A rare species of coral, one which is able to process and draw nutrients from the waters of the sulphurous sea. During this process, a large amount of volatile gas is formed.")
+            });
+        }
+
         public override void AI()
         {
-            npc.velocity.Y += 0.25f;
-            npc.TargetClosest(false);
-            Player player = Main.player[npc.target];
-            if (Math.Abs(player.Center.X - npc.Center.X) < CheckDistance && player.Bottom.Y < npc.Top.Y)
+            NPC.velocity.Y += 0.25f;
+            NPC.TargetClosest(false);
+            Player player = Main.player[NPC.target];
+            if (Math.Abs(player.Center.X - NPC.Center.X) < CheckDistance && player.Bottom.Y < NPC.Top.Y)
             {
-                if (npc.ai[0]++ % 35f == 34f && Main.netMode != NetmodeID.MultiplayerClient)
+                if (NPC.ai[0]++ % 35f == 34f && Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     Vector2 velocity = new Vector2(Main.rand.NextFloat(-6f, 6f), Main.rand.NextFloat(-11f, -6f));
-                    Projectile.NewProjectile(npc.Top + new Vector2(0f, 6f), velocity, ModContent.ProjectileType<BelchingCoralSpike>(), 27, 3f);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Top + new Vector2(0f, 6f), velocity, ModContent.ProjectileType<BelchingCoralSpike>(), 27, 3f);
                 }
             }
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.playerSafe || !spawnInfo.player.Calamity().ZoneSulphur || !CalamityWorld.downedAquaticScourge)
+            if (spawnInfo.PlayerSafe || !spawnInfo.Player.Calamity().ZoneSulphur || !DownedBossSystem.downedAquaticScourge)
             {
                 return 0f;
             }
             return 0.085f;
         }
 
-        public override void NPCLoot()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropItemChance(npc, ModContent.ItemType<CorrodedFossil>(), 15); // Rarer to encourage fighting Acid Rain
-            DropHelper.DropItemChance(npc, ModContent.ItemType<BelchingSaxophone>(), 10);
+            // Rarer to encourage fighting Acid Rain to obtain the fossils
+            npcLoot.Add(ModContent.ItemType<CorrodedFossil>(), 15);
+            npcLoot.Add(ModContent.ItemType<BelchingSaxophone>(), 10);
+        }
+
+        public override void OnHitPlayer(Player player, int damage, bool crit)
+        {
+            if (damage > 0)
+                player.AddBuff(ModContent.BuffType<Irradiated>(), 180);
         }
 
         public override void HitEffect(int hitDirection, double damage)
         {
-            if (npc.life <= 0)
+            if (NPC.life <= 0)
             {
                 for (int k = 0; k < 10; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.SulfurousSeaAcid, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.SulfurousSeaAcid, hitDirection, -1f, 0, default, 1f);
                 }
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AcidRain/BelchingCoralGore"), npc.scale);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AcidRain/BelchingCoralGore2"), npc.scale);
+                if (Main.netMode != NetmodeID.Server)
+                {
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("BelchingCoralGore").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("BelchingCoralGore2").Type, NPC.scale);
+                }
             }
         }
     }

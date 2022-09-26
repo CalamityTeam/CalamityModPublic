@@ -1,3 +1,4 @@
+﻿using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Rogue;
 using Terraria;
@@ -16,39 +17,41 @@ namespace CalamityMod.Items.Weapons.Rogue
 Fades away and slows down over time
 Lost souls released later deal less damage
 Stealth strikes don't slow down and souls always deal full damage");
+            SacrificeTotal = 99;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
-            item.damage = 70;
-            item.knockBack = 5f;
+            Item.damage = 70;
+            Item.knockBack = 5f;
 
-            item.width = 62;
-            item.height = 68;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.noMelee = true;
-            item.noUseGraphic = true;
+            Item.width = 62;
+            Item.height = 68;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
 
-            item.value = Item.buyPrice(0, 0, 50, 0);
-            item.rare = 8;
-            item.useTime = 23;
-            item.useAnimation = 23;
-            item.maxStack = 999;
-            item.UseSound = SoundID.Item1;
-            item.consumable = true;
-            item.Calamity().rogue = true;
+            Item.value = Item.buyPrice(0, 0, 50, 0);
+            Item.rare = ItemRarityID.Yellow;
+            Item.useTime = 23;
+            Item.useAnimation = 23;
+            Item.maxStack = 999;
+            Item.UseSound = SoundID.Item1;
+            Item.consumable = true;
+            Item.DamageType = RogueDamageClass.Instance;
 
-            item.autoReuse = true;
-            item.shootSpeed = 10f;
-            item.shoot = ModContent.ProjectileType<PhantomLanceProj>();
+            Item.autoReuse = true;
+            Item.shootSpeed = 10f;
+            Item.shoot = ModContent.ProjectileType<PhantomLanceProj>();
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.Calamity().StealthStrikeAvailable()) //setting the stealth strike
             {
-                int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, 0f, 0f);
-                Main.projectile[stealth].Calamity().stealthStrike = true;
+                int stealth = Projectile.NewProjectile(source, position, velocity, type, (int)(damage * 1.75f), knockback, player.whoAmI);
+                if (stealth.WithinBounds(Main.maxProjectiles))
+                    Main.projectile[stealth].Calamity().stealthStrike = true;
                 return false;
             }
             return true;
@@ -56,13 +59,12 @@ Stealth strikes don't slow down and souls always deal full damage");
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.SpectreBar, 2);
-            recipe.AddIngredient(ModContent.ItemType<CruptixBar>());
-            recipe.AddIngredient(ModContent.ItemType<CalamityDust>(), 2);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this, 100);
-            recipe.AddRecipe();
+            CreateRecipe(100).
+                AddIngredient(ItemID.SpectreBar).
+                AddIngredient<ScoriaBar>().
+                AddIngredient<AshesofCalamity>().
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

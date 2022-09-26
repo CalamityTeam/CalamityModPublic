@@ -1,4 +1,4 @@
-using CalamityMod.Items.Accessories;
+﻿using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.PermanentBoosters;
@@ -7,58 +7,81 @@ using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.NPCs.SlimeGod;
 using CalamityMod.World;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.TreasureBags
 {
-	public class SlimeGodBag : ModItem
+    public class SlimeGodBag : ModItem
     {
-        public override int BossBagNPC => ModContent.NPCType<SlimeGodRun>();
-
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Treasure Bag");
+            SacrificeTotal = 3;
+            DisplayName.SetDefault("Treasure Bag (The Slime God)");
             Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
+			ItemID.Sets.BossBag[Item.type] = true;
+            ItemID.Sets.PreHardmodeLikeBossBag[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.maxStack = 999;
-            item.consumable = true;
-            item.width = 24;
-            item.height = 24;
-            item.rare = 9;
-            item.expert = true;
+            Item.maxStack = 999;
+            Item.consumable = true;
+            Item.width = 24;
+            Item.height = 24;
+            Item.rare = ItemRarityID.Cyan;
+            Item.expert = true;
         }
 
-        public override bool CanRightClick()
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = ContentSamples.CreativeHelper.ItemGroup.BossBags;
+		}
+
+        public override bool CanRightClick() => true;
+
+		public override Color? GetAlpha(Color lightColor) => Color.Lerp(lightColor, Color.White, 0.4f);
+
+        public override void PostUpdate() => Item.TreasureBagLightAndDust();
+
+        public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
         {
-            return true;
+            return CalamityUtils.DrawTreasureBagInWorld(Item, spriteBatch, ref rotation, ref scale, whoAmI);
         }
 
-        public override void OpenBossBag(Player player)
+        public override void ModifyItemLoot(ItemLoot itemLoot)
         {
+			// Money
+			itemLoot.Add(ItemDropRule.CoinsBasedOnNPCValue(ModContent.NPCType<SlimeGodCore>()));
+
             // Materials
-            DropHelper.DropItem(player, ItemID.Gel, 30, 60);
-            DropHelper.DropItem(player, ModContent.ItemType<PurifiedGel>(), 35, 55);
+            // No Gel is dropped here because the boss drops Gel directly
+            itemLoot.Add(ModContent.ItemType<PurifiedGel>(), 1, 40, 52);
 
             // Weapons
-            DropHelper.DropItemChance(player, ModContent.ItemType<OverloadedBlaster>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<AbyssalTome>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<EldritchTome>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<CorroslimeStaff>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<CrimslimeStaff>(), 3);
+            itemLoot.Add(DropHelper.CalamityStyle(DropHelper.BagWeaponDropRateFraction, new int[]
+            {
+                ModContent.ItemType<OverloadedBlaster>(),
+                ModContent.ItemType<AbyssalTome>(),
+                ModContent.ItemType<EldritchTome>(),
+                ModContent.ItemType<CorroslimeStaff>(),
+                ModContent.ItemType<CrimslimeStaff>(),
+                ModContent.ItemType<SlimePuppetStaff>()
+            }));
 
             // Equipment
-            DropHelper.DropItem(player, ModContent.ItemType<ManaOverloader>());
-            DropHelper.DropItemCondition(player, ModContent.ItemType<ElectrolyteGelPack>(), CalamityWorld.revenge && !player.Calamity().adrenalineBoostOne);
+            itemLoot.Add(ModContent.ItemType<ManaPolarizer>());
+            itemLoot.AddRevBagAccessories();
 
             // Vanity
-            DropHelper.DropItemFromSetChance(player, 0.142857f, ModContent.ItemType<SlimeGodMask>(), ModContent.ItemType<SlimeGodMask2>());
+            itemLoot.Add(ItemDropRule.OneFromOptions(7, ModContent.ItemType<SlimeGodMask>(), ModContent.ItemType<SlimeGodMask2>()));
 
             // Other
+            itemLoot.AddIf((info) => CalamityWorld.revenge && !info.player.Calamity().adrenalineBoostOne, ModContent.ItemType<ElectrolyteGelPack>());
         }
     }
 }

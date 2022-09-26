@@ -1,4 +1,4 @@
-
+﻿
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
@@ -8,7 +8,7 @@ namespace CalamityMod.Tiles
 {
     public class PerennialBrick : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileSolid[Type] = true;
             Main.tileMergeDirt[Type] = false;
@@ -17,11 +17,10 @@ namespace CalamityMod.Tiles
             CalamityUtils.MergeWithGeneral(Type);
             CalamityUtils.MergeDecorativeTiles(Type);
 
-            drop = ModContent.ItemType<Items.Placeables.PerennialBrick>();
-            soundType = SoundID.Tink;
-            minPick = 150;
+            ItemDrop = ModContent.ItemType<Items.Placeables.PerennialBrick>();
+            HitSound = SoundID.Tink;
             AddMapEntry(new Color(17, 133, 46));
-            animationFrameHeight = 90;
+            AnimationFrameHeight = 90;
         }
 
         public override bool CreateDust(int i, int j, ref int type)
@@ -36,7 +35,7 @@ namespace CalamityMod.Tiles
             int xPos = i % 4;
             int yPos = j % 4;
             frameXOffset = xPos * 234;
-            frameYOffset = yPos * animationFrameHeight;
+            frameYOffset = yPos * AnimationFrameHeight;
         }
     }
 }

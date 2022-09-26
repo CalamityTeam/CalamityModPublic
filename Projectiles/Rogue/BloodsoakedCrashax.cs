@@ -1,128 +1,131 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Rogue
 {
-	public class BloodsoakedCrashax : ModProjectile
-	{
-		private int bounce = 3; //number of times it bounces
-		private int grind = 0; //used to know when to slow down
+    public class BloodsoakedCrashax : ModProjectile
+    {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/BloodsoakedCrasher";
 
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Bloodsoaked Crasher");
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 6;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
-		}
+        private int bounce = 3; //number of times it bounces
+        private int grind = 0; //used to know when to slow down
+        private const float MaxSpeed = 14f;
 
-		public override void SetDefaults()
-		{
-			projectile.width = projectile.height = 30;
-			projectile.friendly = true;
-			projectile.penetrate = 10;
-			projectile.timeLeft = 600; //10 seconds and counting
-			projectile.aiStyle = 2;
-			aiType = ProjectileID.ThrowingKnife; //Throwing Knife AI
-			projectile.Calamity().rogue = true;
-			projectile.usesIDStaticNPCImmunity = true;
-			projectile.idStaticNPCHitCooldown = 5;
-			projectile.extraUpdates = 1;
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Bloodsoaked Crasher");
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 6;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
+        }
 
-		public override void AI()
-		{
-			if (grind > 0)
-			{
-				grind--;
-			}
-			if (grind >= 1)
-			{
-				projectile.extraUpdates = 0; //stop, you're touching an enemy
-				projectile.velocity.X *= 0.75f;
-				projectile.velocity.Y *= 0.75f;
-			}
-			else
-			{
-				projectile.velocity.X *= 1.005f; //you broke up, time to yeet yourself out
-				projectile.velocity.Y *= 1.005f;
-				if (projectile.velocity.X > 16f)
-				{
-					projectile.velocity.X = 16f;
-				}
-				if (projectile.velocity.Y > 16f)
-				{
-					projectile.velocity.Y = 16f;
-				}
-				projectile.extraUpdates = 1;
-			}
-		}
+        public override void SetDefaults()
+        {
+            Projectile.width = Projectile.height = 30;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.penetrate = 6;
+            Projectile.timeLeft = 600; //10 seconds and counting (but not actually because extra updates)
+            Projectile.DamageType = RogueDamageClass.Instance;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 8;
+            Projectile.extraUpdates = 1;
+        }
 
-		public override bool OnTileCollide(Vector2 oldVelocity)
-		{
-			bounce--;
-			if (bounce <= 0)
-			{
-				projectile.Kill(); //you can only bounce so much 'til death
-			}
-			else
-			{
-				if (projectile.velocity.X != oldVelocity.X)
-				{
-					projectile.velocity.X = -oldVelocity.X;
-				}
-				if (projectile.velocity.Y != oldVelocity.Y)
-				{
-					projectile.velocity.Y = -oldVelocity.Y;
-				}
-			}
-			return false;
-		}
+        public override void AI()
+        {
+            float speed = Projectile.velocity.Length();
+            if (grind > 0)
+            {
+                grind--;
+                // Suddenly stop when on top of enemies.
+                Projectile.velocity.X *= 0.75f;
+                Projectile.velocity.Y *= 0.75f;
+            }
+            else
+            {
+                // Gravity
+                Projectile.velocity.Y += 0.11f;
 
-		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-		{
-			target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 300);
-			OnHitEffects(!target.canGhostHeal || Main.player[projectile.owner].moonLeech);
-		}
+                // Cap velocity.
+                speed = Projectile.velocity.Length();
+                if (speed > MaxSpeed)
+                    Projectile.velocity *= MaxSpeed / speed;
+            }
 
-		public override void OnHitPvp(Player target, int damage, bool crit)
-		{
-			target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 300);
-			OnHitEffects(Main.player[projectile.owner].moonLeech);
-		}
+            // Spin constantly, but even faster when grinding or going fast
+            float spinRate = grind > 0 ? 0.28f : 0.09f;
+            if (grind <= 0)
+                spinRate += speed * 0.005f;
+            Projectile.rotation += spinRate * Projectile.direction;
+        }
 
-		private void OnHitEffects(bool cannotLifesteal)
-		{
-			if (grind < 10)
-			{
-				grind += 5; //THE GRIND NEVER STOPS
-			}
+        public override bool OnTileCollide(Vector2 oldVelocity)
+        {
+            bounce--;
+            if (bounce <= 0)
+            {
+                Projectile.Kill(); //you can only bounce so much 'til death
+            }
+            else
+            {
+                if (Projectile.velocity.X != oldVelocity.X)
+                {
+                    Projectile.velocity.X = -oldVelocity.X;
+                }
+                if (Projectile.velocity.Y != oldVelocity.Y)
+                {
+                    Projectile.velocity.Y = -oldVelocity.Y;
+                }
+            }
+            return false;
+        }
 
-			if (projectile.Calamity().stealthStrike && projectile.owner == Main.myPlayer) //stealth strike attack
-			{
-				int stealth = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<Blood>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
-				Main.projectile[stealth].Calamity().forceRogue = true;
-			}
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 180);
+            OnHitEffects(!target.canGhostHeal || Main.player[Projectile.owner].moonLeech);
+        }
 
-			Player player = Main.player[projectile.owner];
-			if (cannotLifesteal) //canGhostHeal be like lol
-			{
-				return;
-			}
-			if (Main.rand.NextBool(2))
-			{
-				player.statLife += 1; //Trello said 2 hp per hit. Sounds like a fat balancing problem.
-				player.HealEffect(1);
-			}
-		}
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 180);
+            OnHitEffects(Main.player[Projectile.owner].moonLeech);
+        }
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor) //afterimages
-		{
-			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
-			return false;
-		}
-	}
+        private void OnHitEffects(bool cannotLifesteal)
+        {
+            grind += 5; //THE GRIND NEVER STOPS
+            if (grind > 15)
+                grind = 15; // except when it's too much
+
+            if (Projectile.Calamity().stealthStrike && Projectile.owner == Main.myPlayer) //stealth strike attack
+            {
+                int projID = ModContent.ProjectileType<Blood>();
+                int bloodDamage = Projectile.damage;
+                float bloodKB = 1f;
+                int stealth = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, projID, bloodDamage, bloodKB, Projectile.owner, 1f, 0.85f + Main.rand.NextFloat() * 1.15f);
+                if (stealth.WithinBounds(Main.maxProjectiles))
+                {
+                    Main.projectile[stealth].DamageType = RogueDamageClass.Instance;
+                    Main.projectile[stealth].extraUpdates = 1;
+                }
+            }
+
+            if (cannotLifesteal || Main.rand.NextBool(2)) //canGhostHeal be like lol
+                return;
+
+            Player player = Main.player[Projectile.owner];
+            player.statLife += 1;
+            player.HealEffect(1);
+        }
+
+        public override bool PreDraw(ref Color lightColor) //afterimages
+        {
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
+            return false;
+        }
+    }
 }

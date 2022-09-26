@@ -1,4 +1,4 @@
-using Terraria.ID;
+﻿using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Placeables
@@ -8,20 +8,21 @@ namespace CalamityMod.Items.Placeables
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Astral Clay");
+            SacrificeTotal = 100;
         }
 
         public override void SetDefaults()
         {
-            item.createTile = ModContent.TileType<Tiles.Astral.AstralClay>();
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTurn = true;
-            item.useAnimation = 15;
-            item.useTime = 10;
-            item.autoReuse = true;
-            item.consumable = true;
-            item.width = 16;
-            item.height = 16;
-            item.maxStack = 999;
+            Item.createTile = ModContent.TileType<Tiles.Astral.AstralClay>();
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTurn = true;
+            Item.useAnimation = 15;
+            Item.useTime = 10;
+            Item.autoReuse = true;
+            Item.consumable = true;
+            Item.width = 16;
+            Item.height = 16;
+            Item.maxStack = 999;
         }
     }
 }

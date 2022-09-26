@@ -1,4 +1,5 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
+using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -10,17 +11,19 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Shroomite Visage");
             Tooltip.SetDefault("25% increased ranged damage for flamethrowers");
         }
 
         public override void SetDefaults()
         {
-            item.width = 24;
-            item.height = 20;
-            item.value = Item.buyPrice(0, 30, 0, 0);
-            item.rare = 8;
-            item.defense = 11; //62
+            Item.width = 24;
+            Item.height = 20;
+			// Same price as the other Shroomite helms
+            Item.value = Item.buyPrice(0, 37, 50, 0);
+            Item.rare = ItemRarityID.Yellow;
+            Item.defense = 11; //62
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
@@ -43,11 +46,17 @@ namespace CalamityMod.Items.Armor
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.ShroomiteBar, 12);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient(ItemID.ShroomiteBar, 12).
+                AddTile(TileID.MythrilAnvil).
+                Register();
+
+            CreateRecipe().
+                AddIngredient(ItemID.ChlorophyteHelmet).
+                AddIngredient(ItemID.GlowingMushroom, 60).
+                AddTile(TileID.Autohammer).
+                Register();
+
         }
     }
 }

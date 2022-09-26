@@ -1,6 +1,7 @@
-using CalamityMod.Projectiles.Typeless;
+﻿using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
@@ -9,19 +10,19 @@ namespace CalamityMod.Tiles.SunkenSea
 {
     public class SmallBrainCoral : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileFrameImportant[Type] = true;
             Main.tileNoAttach[Type] = true;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
             TileObjectData.addTile(Type);
-            dustType = 253;
+            DustType = 253;
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Small Brain Coral");
             AddMapEntry(new Color(0, 0, 80));
-            mineResist = 3f;
+            MineResist = 3f;
 
-            base.SetDefaults();
+            base.SetStaticDefaults();
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)
@@ -31,6 +32,10 @@ namespace CalamityMod.Tiles.SunkenSea
 
         public override void NearbyEffects(int i, int j, bool closer)
         {
+            if (Main.gamePaused)
+            {
+                return;
+            }
             if (closer)
             {
                 if (Main.rand.NextBool(300))
@@ -38,12 +43,12 @@ namespace CalamityMod.Tiles.SunkenSea
                     int tileLocationY = j - 1;
                     if (Main.tile[i, tileLocationY] != null)
                     {
-                        if (!Main.tile[i, tileLocationY].active())
+                        if (!Main.tile[i, tileLocationY].HasTile)
                         {
-                            if (Main.tile[i, tileLocationY].liquid == 255 && Main.tile[i, tileLocationY - 1].liquid == 255 && Main.tile[i, tileLocationY - 2].liquid == 255)
+                            if (Main.tile[i, tileLocationY].LiquidAmount == 255 && Main.tile[i, tileLocationY - 1].LiquidAmount == 255 && Main.tile[i, tileLocationY - 2].LiquidAmount == 255)
                             {
                                 if (Main.netMode != NetmodeID.MultiplayerClient)
-                                    Projectile.NewProjectile((float)(i * 16 + 16), (float)(tileLocationY * 16 + 16), 0f, -0.1f, ModContent.ProjectileType<CoralBubbleSmall>(), 0, 1f, Main.myPlayer, 0f, 0f);
+                                    Projectile.NewProjectile(new EntitySource_WorldEvent(), (float)(i * 16 + 16), (float)(tileLocationY * 16 + 16), 0f, -0.1f, ModContent.ProjectileType<CoralBubbleSmall>(), 0, 1f, Main.myPlayer, 0f, 0f);
                             }
                         }
                     }

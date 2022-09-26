@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles.Astral
 {
     public class AstralStone : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileSolid[Type] = true;
             Main.tileBlockLight[Type] = true;
@@ -19,10 +19,10 @@ namespace CalamityMod.Tiles.Astral
             CalamityUtils.MergeAstralTiles(Type);
             CalamityUtils.MergeWithOres(Type);
 
-            dustType = ModContent.DustType<AstralBasic>();
-            drop = ModContent.ItemType<Items.Placeables.AstralStone>();
+            DustType = ModContent.DustType<AstralBasic>();
+            ItemDrop = ModContent.ItemType<Items.Placeables.AstralStone>();
 
-            soundType = SoundID.Tink;
+            HitSound = SoundID.Tink;
 
             AddMapEntry(new Color(45, 36, 63));
 

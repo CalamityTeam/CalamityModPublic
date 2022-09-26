@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -9,6 +9,7 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Mirage Mirror");
             Tooltip.SetDefault("Bend light around you\n" +
                 "Reduces enemy aggression outside of the abyss\n" +
@@ -17,11 +18,11 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetDefaults()
         {
-            item.width = 30;
-            item.height = 30;
-            item.value = CalamityGlobalItem.Rarity3BuyPrice;
-            item.rare = 3;
-            item.accessory = true;
+            Item.width = 30;
+            Item.height = 30;
+            Item.value = CalamityGlobalItem.Rarity3BuyPrice;
+            Item.rare = ItemRarityID.Orange;
+            Item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -34,21 +35,19 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.MagicMirror);
-            recipe.AddIngredient(ItemID.BlackLens);
-            recipe.AddIngredient(ItemID.Bone, 50);
-            recipe.AddTile(TileID.TinkerersWorkbench);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient(ItemID.MagicMirror).
+                AddIngredient(ItemID.BlackLens).
+                AddIngredient(ItemID.Bone, 50).
+                AddTile(TileID.TinkerersWorkbench).
+                Register();
 
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.IceMirror);
-            recipe.AddIngredient(ItemID.BlackLens);
-            recipe.AddIngredient(ItemID.Bone, 50);
-            recipe.AddTile(TileID.TinkerersWorkbench);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient(ItemID.IceMirror).
+                AddIngredient(ItemID.BlackLens).
+                AddIngredient(ItemID.Bone, 50).
+                AddTile(TileID.TinkerersWorkbench).
+                Register();
         }
     }
 }

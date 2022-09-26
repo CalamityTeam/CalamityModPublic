@@ -7,12 +7,13 @@ namespace CalamityMod.Buffs.Summon
 {
     public class MidnightSunBuff : ModBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Midnight Sun UFO");
             Description.SetDefault("A strange UFO is observing you, and it's making you very uncomfortable");
             Main.buffNoTimeDisplay[Type] = true;
             Main.buffNoSave[Type] = true;
+            //Main.persistentBuff[Type] = true;
         }
 
         public override void Update(Player player, ref int buffIndex)

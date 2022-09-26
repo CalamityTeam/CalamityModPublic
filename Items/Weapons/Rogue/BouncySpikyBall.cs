@@ -1,3 +1,4 @@
+﻿using Terraria.DataStructures;
 using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -11,39 +12,49 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Bouncy Spiky Ball");
-            Tooltip.SetDefault(@"Throws a very bouncy ball that richochets off walls and enemies
+            Tooltip.SetDefault(@"Throws a very bouncy ball that ricochets off walls and enemies
 Receives a small boost in damage and velocity after bouncing off an enemy
-Stealth strikes provide a bigger boost after richocheting");
+Stealth strikes throw four at once");
+            SacrificeTotal = 99;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
-            item.width = 14;
-            item.damage = 10;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.useAnimation = 18;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 18;
-            item.knockBack = 1f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-			item.consumable = true;
-			item.maxStack = 999;
-            item.height = 14;
-            item.value = Item.buyPrice(0, 0, 1, 0);
-            item.rare = 1;
-            item.shoot = ModContent.ProjectileType<BouncyBol>();
-            item.shootSpeed = 8f;
-            item.Calamity().rogue = true;
+            Item.width = 14;
+            Item.damage = 10;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.useAnimation = 18;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 18;
+            Item.knockBack = 1f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.consumable = true;
+            Item.maxStack = 999;
+            Item.height = 14;
+            Item.value = Item.buyPrice(0, 0, 1, 0);
+            Item.rare = ItemRarityID.Blue;
+            Item.shoot = ModContent.ProjectileType<BouncyBol>();
+            Item.shootSpeed = 8f;
+            Item.DamageType = RogueDamageClass.Instance;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.Calamity().StealthStrikeAvailable()) //setting the stealth strike
             {
-                int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, 0f, 0f);
-                Main.projectile[stealth].Calamity().stealthStrike = true;
+                int spread = 3;
+                for (int i = 0; i < 4; i++)
+                {
+                    Vector2 perturbedspeed = new Vector2(velocity.X + Main.rand.Next(-3,4), velocity.Y + Main.rand.Next(-3,4)).RotatedBy(MathHelper.ToRadians(spread));
+                    int proj = Projectile.NewProjectile(source, position, perturbedspeed, type, damage, knockback, player.whoAmI);
+                    if (proj.WithinBounds(Main.maxProjectiles))
+                    {
+                        Main.projectile[proj].Calamity().stealthStrike = true;
+                    }
+                    spread -= Main.rand.Next(1,4);
+                }
                 return false;
             }
             return true;
@@ -51,12 +62,11 @@ Stealth strikes provide a bigger boost after richocheting");
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.SpikyBall, 3);
-            recipe.AddIngredient(ItemID.PinkGel);
-            recipe.AddTile(TileID.WorkBenches);
-            recipe.SetResult(this, 3);
-            recipe.AddRecipe();
+            CreateRecipe(20).
+                AddIngredient(ItemID.SpikyBall, 20).
+                AddIngredient(ItemID.PinkGel).
+                AddTile(TileID.WorkBenches).
+                Register();
         }
     }
 }

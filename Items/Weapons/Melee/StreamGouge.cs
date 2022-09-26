@@ -1,5 +1,7 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee.Spears;
+using CalamityMod.Rarities;
+using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -10,61 +12,56 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class StreamGouge : ModItem
     {
+        public const int SpinTime = 45;
+
+        public const int SpearFireTime = 24;
+
+        public const int PortalLifetime = 30;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Stream Gouge");
-            Tooltip.SetDefault("Fires an essence spear clone\n" +
-                "Ignores immunity frames");
+            Tooltip.SetDefault("Summons a portal that the spear crosses through\n" +
+                "Shortly after going through the portal, portals appear near the mouse that release copies of the spear's cutting edge\n" +
+                "Enemies hit by the copies create lacerations in space, revealing a cosmic background");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.width = 100;
-            item.damage = 350;
-            item.melee = true;
-            item.noMelee = true;
-            item.useTurn = true;
-            item.noUseGraphic = true;
-            item.useAnimation = 19;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.useTime = 19;
-            item.knockBack = 9.75f;
-            item.UseSound = SoundID.Item20;
-            item.autoReuse = true;
-            item.height = 100;
-            item.value = Item.buyPrice(1, 80, 0, 0);
-            item.rare = 10;
-            item.shoot = ModContent.ProjectileType<StreamGougeProj>();
-            item.shootSpeed = 15f;
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.width = 100;
+            Item.height = 100;
+            Item.damage = 300;
+            Item.DamageType = DamageClass.Melee;
+            Item.noMelee = true;
+            Item.useTurn = true;
+            Item.noUseGraphic = true;
+            Item.channel = true;
+            Item.useAnimation = 19;
+            Item.useTime = 19;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.knockBack = 9.75f;
+            Item.UseSound = SoundID.Item20;
+            Item.autoReuse = true;
+            Item.value = CalamityGlobalItem.RarityDarkBlueBuyPrice;
+            Item.shoot = ModContent.ProjectileType<StreamGougeProj>();
+            Item.shootSpeed = 15f;
+            Item.rare = ModContent.RarityType<DarkBlue>();
         }
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
-            Vector2 origin = new Vector2(50f, 48f);
-            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Items/Weapons/Melee/StreamGougeGlow"), item.Center - Main.screenPosition, null, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
+            Item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Melee/StreamGougeGlow").Value);
         }
 
-        public override bool CanUseItem(Player player)
-        {
-            for (int i = 0; i < 1000; ++i)
-            {
-                if (Main.projectile[i].active && Main.projectile[i].owner == Main.myPlayer && Main.projectile[i].type == item.shoot)
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 14);
-            recipe.AddRecipeGroup("NForEE", 7);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient<CosmiliteBar>(12).
+                AddTile<CosmicAnvil>().
+                Register();
         }
     }
 }

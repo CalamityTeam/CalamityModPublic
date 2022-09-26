@@ -1,6 +1,7 @@
-using CalamityMod.Walls;
+﻿using CalamityMod.Walls;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -8,7 +9,8 @@ namespace CalamityMod.Tiles.Abyss
 {
     public class PlantyMush : ModTile
     {
-        public override void SetDefaults()
+        public static readonly SoundStyle MineSound = new("CalamityMod/Sounds/Custom/PlantyMushMine", 3);
+        public override void SetStaticDefaults()
         {
             Main.tileSolid[Type] = true;
             Main.tileMergeDirt[Type] = true;
@@ -17,13 +19,13 @@ namespace CalamityMod.Tiles.Abyss
             CalamityUtils.MergeWithGeneral(Type);
             CalamityUtils.MergeWithAbyss(Type);
 
-            dustType = 2;
-            drop = ModContent.ItemType<Items.Placeables.PlantyMush>();
+            DustType = 2;
+            ItemDrop = ModContent.ItemType<Items.Placeables.PlantyMush>();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Planty Mush");
             AddMapEntry(new Color(0, 120, 0), name);
-            mineResist = 1f;
-            soundType = SoundID.Dig;
+            MineResist = 1f;
+            HitSound = MineSound;
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)
@@ -35,10 +37,10 @@ namespace CalamityMod.Tiles.Abyss
         {
             if (!closer && j < Main.maxTilesY - 205)
             {
-                if (Main.tile[i, j].liquid <= 0)
+                if (Main.tile[i, j].LiquidAmount <= 0)
                 {
-                    Main.tile[i, j].liquid = 255;
-                    Main.tile[i, j].lava(false);
+                    Main.tile[i, j].LiquidAmount = 255;
+                    Main.tile[i, j].Get<LiquidData>().LiquidType = LiquidID.Water;
                 }
             }
         }
@@ -48,22 +50,21 @@ namespace CalamityMod.Tiles.Abyss
             int num8 = WorldGen.genRand.Next((int)Main.rockLayer, (int)(Main.rockLayer + (double)Main.maxTilesY * 0.143));
             if (Main.tile[i, j + 1] != null)
             {
-                if (!Main.tile[i, j + 1].active() && Main.tile[i, j + 1].type != (ushort)ModContent.TileType<ViperVines>())
+                if (!Main.tile[i, j + 1].HasTile && Main.tile[i, j + 1].TileType != (ushort)ModContent.TileType<ViperVines>())
                 {
-                    if (Main.tile[i, j + 1].liquid == 255 &&
-                        (Main.tile[i, j + 1].wall == (ushort)ModContent.WallType<MossyGravelWall>() ||
-                        Main.tile[i, j + 1].wall == (ushort)ModContent.WallType<AbyssGravelWall>()) &&
-                        !Main.tile[i, j + 1].lava())
+                    if (Main.tile[i, j + 1].LiquidAmount == 255 &&
+                        Main.tile[i, j + 1].WallType == (ushort)ModContent.WallType<AbyssGravelWall>() &&
+                        Main.tile[i, j + 1].LiquidType != LiquidID.Lava)
                     {
                         bool flag13 = false;
                         for (int num52 = num8; num52 > num8 - 10; num52--)
                         {
-                            if (Main.tile[i, num52].bottomSlope())
+                            if (Main.tile[i, num52].BottomSlope)
                             {
                                 flag13 = false;
                                 break;
                             }
-                            if (Main.tile[i, num52].active() && !Main.tile[i, num52].bottomSlope())
+                            if (Main.tile[i, num52].HasTile && !Main.tile[i, num52].BottomSlope)
                             {
                                 flag13 = true;
                                 break;
@@ -73,8 +74,8 @@ namespace CalamityMod.Tiles.Abyss
                         {
                             int num53 = i;
                             int num54 = j + 1;
-                            Main.tile[num53, num54].type = (ushort)ModContent.TileType<ViperVines>();
-                            Main.tile[num53, num54].active(true);
+                            Main.tile[num53, num54].TileType = (ushort)ModContent.TileType<ViperVines>();
+                            Main.tile[num53, num54].Get<TileWallWireStateData>().HasTile = true;
                             WorldGen.SquareTileFrame(num53, num54, true);
                             if (Main.netMode == NetmodeID.Server)
                             {

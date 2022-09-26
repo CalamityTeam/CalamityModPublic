@@ -1,7 +1,9 @@
-using CalamityMod.Projectiles.Ranged;
+﻿using CalamityMod.Projectiles.Ranged;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -13,37 +15,35 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             DisplayName.SetDefault("The Storm");
             Tooltip.SetDefault("Fires a spread of arrows from the sky\n" +
-                "Wooden arrows are converted to lightning bolts");
+                "Converts wooden arrows into lightning bolts");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 44;
-            item.ranged = true;
-            item.width = 34;
-            item.height = 50;
-            item.useTime = 7;
-            item.useAnimation = 14;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 3.5f;
-            item.value = Item.buyPrice(1, 40, 0, 0);
-            item.rare = 10;
-            item.UseSound = SoundID.Item122;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<Bolt>();
-            item.shootSpeed = 28f;
-            item.useAmmo = 40;
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
+            Item.damage = 24;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 34;
+            Item.height = 50;
+            Item.useTime = 7;
+            Item.useAnimation = 14;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 3.5f;
+            Item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            Item.rare = ModContent.RarityType<Turquoise>();
+            Item.UseSound = SoundID.Item122;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<Bolt>();
+            Item.shootSpeed = 28f;
+            Item.useAmmo = AmmoID.Arrow;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             int i = Main.myPlayer;
             float num72 = Main.rand.Next(25, 30);
-            float num74 = knockBack;
-            num74 = player.GetWeaponKnockback(item, num74);
-            player.itemTime = item.useTime;
+            player.itemTime = Item.useTime;
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
             float num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
             float num79 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;
@@ -83,21 +83,21 @@ namespace CalamityMod.Items.Weapons.Ranged
                 num80 = num72 / num80;
                 num78 *= num80;
                 num79 *= num80;
-                float speedX4 = num78 + (float)Main.rand.Next(-120, 121) * 0.02f;
-                float speedY5 = num79 + (float)Main.rand.Next(-120, 121) * 0.02f;
-                if (type == ProjectileID.WoodenArrowFriendly)
+                float speedX4 = num78 + (float)Main.rand.Next(-120, 121) * 0.01f;
+                float speedY5 = num79 + (float)Main.rand.Next(-120, 121) * 0.01f;
+                if (CalamityUtils.CheckWoodenAmmo(type, player))
                 {
-                    Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5 * 0.9f, ModContent.ProjectileType<Bolt>(), damage, num74, i, 0f, 0f);
-                    Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5 * 0.8f, ModContent.ProjectileType<Bolt>(), damage, num74, i, 0f, 0f);
-                    Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5 * 0.7f, ModContent.ProjectileType<Bolt>(), damage, num74, i, 0f, 0f);
+                    Projectile.NewProjectile(source, vector2.X, vector2.Y, speedX4, speedY5 * 0.9f, ModContent.ProjectileType<Bolt>(), damage, knockback, i);
+                    Projectile.NewProjectile(source, vector2.X, vector2.Y, speedX4, speedY5 * 0.8f, ModContent.ProjectileType<Bolt>(), damage, knockback, i);
+                    Projectile.NewProjectile(source, vector2.X, vector2.Y, speedX4, speedY5 * 0.7f, ModContent.ProjectileType<Bolt>(), damage, knockback, i);
                 }
                 else
                 {
-                    int num121 = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5 * 0.9f, type, damage, num74, i, 0f, 0f);
+                    int num121 = Projectile.NewProjectile(source, vector2.X, vector2.Y, speedX4, speedY5 * 0.9f, type, damage, knockback, i);
                     Main.projectile[num121].noDropItem = true;
-                    int num122 = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5 * 0.8f, type, damage, num74, i, 0f, 0f);
+                    int num122 = Projectile.NewProjectile(source, vector2.X, vector2.Y, speedX4, speedY5 * 0.8f, type, damage, knockback, i);
                     Main.projectile[num122].noDropItem = true;
-                    int num123 = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5 * 0.7f, type, damage, num74, i, 0f, 0f);
+                    int num123 = Projectile.NewProjectile(source, vector2.X, vector2.Y, speedX4, speedY5 * 0.7f, type, damage, knockback, i);
                     Main.projectile[num123].noDropItem = true;
                 }
             }

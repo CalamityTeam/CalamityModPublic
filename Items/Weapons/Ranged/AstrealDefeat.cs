@@ -1,3 +1,4 @@
+﻿using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
@@ -7,64 +8,67 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
-	public class AstrealDefeat : ModItem
+    public class AstrealDefeat : ModItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Astreal Defeat");
             Tooltip.SetDefault("Ethereal bow of the tyrant king's mother\n" +
-                       "The mother strongly discouraged acts of violence throughout her life\n" +
-                       "Though she kept this bow close to protect her family in times of great disaster\n" +
-					   "Fires Astreal Arrows that emit flames as they travel");
+                "The mother strongly discouraged acts of violence throughout her life\n" +
+                "Though she kept this bow close, to protect her family in times of great disaster\n" +
+                "All arrows are converted to Astreal Arrows that emit flames as they travel");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 140;
-            item.ranged = true;
-            item.width = 40;
-            item.height = 78;
-            item.useTime = 4;
-            item.useAnimation = 20;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 5.5f;
-            item.value = Item.buyPrice(1, 20, 0, 0);
-            item.rare = 10;
-            item.UseSound = SoundID.Item102;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<AstrealArrow>();
-            item.shootSpeed = 4f;
-            item.useAmmo = 40;
+            Item.damage = 153;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 40;
+            Item.height = 78;
+            Item.useTime = 4;
+            Item.useAnimation = 20;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 5.5f;
+            Item.value = CalamityGlobalItem.Rarity11BuyPrice;
+            Item.rare = ItemRarityID.Purple;
+            Item.UseSound = SoundID.Item102;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<AstrealArrow>();
+            Item.shootSpeed = 4f;
+            Item.useAmmo = AmmoID.Arrow;
+            Item.Calamity().canFirePointBlankShots = true;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-			Vector2 velocity = new Vector2(speedX, speedY);
-			if (velocity.Length() > 8f)
-			{
-				velocity.Normalize();
-				velocity *= 8f;
-			}
 
-			float ai0 = (float)Main.rand.Next(4);
-            Projectile.NewProjectile(position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<AstrealArrow>(), damage, knockBack, player.whoAmI, ai0, 0f);
+            float speed = velocity.Length();
+            if (speed > 8f)
+                velocity *= 8f / speed;
+
+            // Always fires Astreal Arrows, regardless of ammo chosen.
+            // Normally we like to allow bows to fire normal arrows but this weapon is incredibly overpowered when that is allowed.
+            type = Item.shoot;
+            float aiVar = Main.rand.Next(4);
+
+            Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI, aiVar);
             return false;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.SpiritFlame);
-            recipe.AddIngredient(ItemID.ShadowFlameBow);
-            recipe.AddIngredient(ModContent.ItemType<GreatbowofTurmoil>());
-            recipe.AddIngredient(ModContent.ItemType<BladedgeGreatbow>());
-            recipe.AddIngredient(ModContent.ItemType<DarkechoGreatbow>());
-            recipe.AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 5);
-            recipe.AddIngredient(ItemID.LunarBar, 5);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient(ItemID.SpiritFlame).
+                AddIngredient(ItemID.ShadowFlameBow).
+                AddIngredient<ContinentalGreatbow>().
+                AddIngredient<BladedgeGreatbow>().
+                AddIngredient<DarkechoGreatbow>().
+                AddIngredient<GalacticaSingularity>(5).
+                AddIngredient(ItemID.LunarBar, 5).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

@@ -1,6 +1,7 @@
-
+﻿
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -8,7 +9,8 @@ namespace CalamityMod.Tiles.Abyss
 {
     public class AbyssGravel : ModTile
     {
-        public override void SetDefaults()
+        public static readonly SoundStyle MineSound = new("CalamityMod/Sounds/Custom/AbyssGravelMine", 3);
+        public override void SetStaticDefaults()
         {
             Main.tileSolid[Type] = true;
             Main.tileBlockLight[Type] = true;
@@ -17,12 +19,12 @@ namespace CalamityMod.Tiles.Abyss
             CalamityUtils.MergeWithGeneral(Type);
             CalamityUtils.MergeWithAbyss(Type);
 
-            drop = ModContent.ItemType<Items.Placeables.AbyssGravel>();
-            AddMapEntry(new Color(0, 0, 0));
-            mineResist = 10f;
-            minPick = 65;
-            soundType = SoundID.Tink;
-            dustType = 33;
+            ItemDrop = ModContent.ItemType<Items.Placeables.AbyssGravel>();
+            AddMapEntry(new Color(25, 28, 54));
+            MineResist = 5f;
+            MinPick = 65;
+            HitSound = MineSound;
+            DustType = 33;
         }
 
         public override bool CanExplode(int i, int j)

@@ -1,14 +1,20 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
+using System;
 using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
+
 namespace CalamityMod.Projectiles.Boss
 {
     public class DeusMine : ModProjectile
     {
+        private const int MaxTimeLeft = 600;
+        private const int FadeTime = 85;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Astral Mine");
@@ -16,124 +22,132 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-            projectile.width = 26;
-            projectile.height = 26;
-            projectile.hostile = true;
-            projectile.alpha = 100;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.timeLeft = 1020;
+            Projectile.Calamity().DealsDefenseDamage = true;
+            Projectile.width = 30;
+            Projectile.height = 30;
+            Projectile.hostile = true;
+            Projectile.alpha = 100;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.timeLeft = MaxTimeLeft;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
         {
-            writer.Write(projectile.localAI[0]);
-            writer.Write(projectile.localAI[1]);
+            writer.Write(Projectile.localAI[0]);
+            writer.Write(Projectile.localAI[1]);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
-            projectile.localAI[0] = reader.ReadSingle();
-            projectile.localAI[1] = reader.ReadSingle();
+            Projectile.localAI[0] = reader.ReadSingle();
+            Projectile.localAI[1] = reader.ReadSingle();
         }
 
         public override void AI()
         {
-            if (projectile.ai[1] == 0f)
+            // Sound on spawn
+            if (Projectile.ai[1] == 0f)
             {
-                projectile.ai[1] = 1f;
-                Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 33);
+                Projectile.ai[1] = 1f;
+                SoundEngine.PlaySound(SoundID.Item33, Projectile.position);
             }
 
-			if (projectile.timeLeft < 85)
-				projectile.damage = 0;
-
-			if (projectile.timeLeft < 930)
-				return;
-
-			float velocity = 0.1f;
-			for (int i = 0; i < Main.maxProjectiles; i++)
-			{
-				if (Main.projectile[i].active)
-				{
-					if (i != projectile.whoAmI && Main.projectile[i].type == projectile.type)
-					{
-						if (Vector2.Distance(projectile.Center, Main.projectile[i].Center) < 48f)
-						{
-							if (projectile.position.X < Main.projectile[i].position.X)
-								projectile.velocity.X -= velocity;
-							else
-								projectile.velocity.X += velocity;
-
-							if (projectile.position.Y < Main.projectile[i].position.Y)
-								projectile.velocity.Y -= velocity;
-							else
-								projectile.velocity.Y += velocity;
-						}
-						else
-							projectile.velocity = Vector2.Zero;
-					}
-				}
-			}
-		}
-
-        public override bool CanHitPlayer(Player target)
-		{
-            if (projectile.timeLeft > 935 || projectile.timeLeft < 85)
+            // Deal no damage if fading out and not set to explode
+            if (Projectile.timeLeft < FadeTime)
             {
-                return false;
+                if (Projectile.ai[0] == 0f)
+                    Projectile.damage = 0;
             }
-            return true;
         }
+
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => CalamityUtils.CircularHitboxCollision(Projectile.Center, 12f, targetHitbox);
+
+        public override bool CanHitPlayer(Player target) => Projectile.timeLeft <= MaxTimeLeft - FadeTime && (Projectile.timeLeft >= FadeTime || Projectile.ai[0] == 1f);
 
         public override Color? GetAlpha(Color lightColor)
         {
-            if (projectile.timeLeft > 935)
+            // Fade in
+            if (Projectile.timeLeft > MaxTimeLeft - FadeTime)
             {
-                projectile.localAI[1] += 1f;
-                byte b2 = (byte)(((int)projectile.localAI[1]) * 3);
-                byte a2 = (byte)(projectile.alpha * (b2 / 255f));
+                Projectile.localAI[1] += 1f;
+                byte b2 = (byte)(((int)Projectile.localAI[1]) * 3);
+                byte a2 = (byte)(Projectile.alpha * (b2 / 255f));
                 return new Color(b2, b2, b2, a2);
             }
-            if (projectile.timeLeft < 85)
+
+            // Fade out if not set to explode
+            // Glow more red over time if set to explode
+            if (Projectile.timeLeft < FadeTime)
             {
-                byte b2 = (byte)(projectile.timeLeft * 3);
-                byte a2 = (byte)(projectile.alpha * (b2 / 255f));
-                return new Color(b2, b2, b2, a2);
+                byte b2 = (byte)(Projectile.timeLeft * 3);
+                if (Projectile.ai[0] == 0f)
+                {
+                    byte a2 = (byte)(Projectile.alpha * (b2 / 255f));
+                    return new Color(b2, b2, b2, a2);
+                }
+                else
+                    return new Color(255, b2, b2, Projectile.alpha);
             }
-            return new Color(255, 255, 255, projectile.alpha);
+
+            // Normal
+            return new Color(255, 255, 255, Projectile.alpha);
         }
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.Item14, (int)projectile.position.X, (int)projectile.position.Y);
-            projectile.position = projectile.Center;
-            projectile.width = projectile.height = 96;
-            projectile.position.X = projectile.position.X - (projectile.width / 2);
-            projectile.position.Y = projectile.position.Y - (projectile.height / 2);
-            for (int num621 = 0; num621 < 30; num621++)
+            // Explode and split into accelerating lasers
+            if (Projectile.ai[0] == 1f)
             {
-                int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 173, 0f, 0f, 100, default, 1.2f);
-                Main.dust[num622].velocity *= 3f;
-                if (Main.rand.NextBool(2))
+                SoundEngine.PlaySound(SoundID.Item14, Projectile.position);
+                Projectile.position = Projectile.Center;
+                Projectile.width = Projectile.height = 96;
+                Projectile.position.X = Projectile.position.X - (Projectile.width / 2);
+                Projectile.position.Y = Projectile.position.Y - (Projectile.height / 2);
+                for (int num621 = 0; num621 < 5; num621++)
                 {
-                    Main.dust[num622].scale = 0.5f;
-                    Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
+                    int num622 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 173, 0f, 0f, 100, default, 1.2f);
+                    Main.dust[num622].velocity *= 3f;
+                    if (Main.rand.NextBool(2))
+                    {
+                        Main.dust[num622].scale = 0.5f;
+                        Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
+                    }
+                }
+                for (int num623 = 0; num623 < 10; num623++)
+                {
+                    int num624 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, ModContent.DustType<AstralOrange>(), 0f, 0f, 100, default, 1.7f);
+                    Main.dust[num624].noGravity = true;
+                    Main.dust[num624].velocity *= 1.5f;
+                    Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, ModContent.DustType<AstralOrange>(), 0f, 0f, 100, default, 1f);
+                }
+
+                // Spawn diagonal lasers
+                if (Main.myPlayer == Projectile.owner)
+                {
+                    int totalProjectiles = 4;
+                    float radians = MathHelper.TwoPi / totalProjectiles;
+                    int type = ModContent.ProjectileType<AstralShot2>();
+                    float velocity = 1f;
+                    double angleA = radians * 0.5;
+                    double angleB = MathHelper.ToRadians(90f) - angleA;
+                    float velocityX2 = (float)(velocity * Math.Sin(angleA) / Math.Sin(angleB));
+                    Vector2 spinningPoint = new Vector2(-velocityX2, -velocity);
+                    for (int k = 0; k < totalProjectiles; k++)
+                    {
+                        Vector2 velocity2 = spinningPoint.RotatedBy(radians * k);
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity2, type, (int)Math.Round(Projectile.damage * 0.75), 0f, Main.myPlayer, 1f, 0f);
+                    }
                 }
             }
-            for (int num623 = 0; num623 < 60; num623++)
-            {
-                int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, ModContent.DustType<AstralOrange>(), 0f, 0f, 100, default, 1.7f);
-                Main.dust[num624].noGravity = true;
-                Main.dust[num624].velocity *= 1.5f;
-                Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, ModContent.DustType<AstralOrange>(), 0f, 0f, 100, default, 1f);
-            }
-            projectile.Damage();
         }
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 300);
+            if (damage <= 0 || Projectile.timeLeft > MaxTimeLeft - FadeTime || (Projectile.timeLeft < FadeTime && Projectile.ai[0] == 0f))
+                return;
+
+            target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 180);
         }
     }
 }

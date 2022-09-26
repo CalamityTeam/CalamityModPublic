@@ -1,4 +1,4 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Buffs.StatDebuffs
@@ -7,27 +7,21 @@ namespace CalamityMod.Buffs.StatDebuffs
     {
         public static int DefenseReduction = 5;
 
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Marked");
+            DisplayName.SetDefault("Marked for Death");
             Description.SetDefault("Damage reduction reduced");
             Main.debuff[Type] = true;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = true;
-            longerExpertDebuff = false;
         }
 
         public override void Update(NPC npc, ref int buffIndex)
         {
-			if (npc.Calamity().marked < npc.buffTime[buffIndex])
-				npc.Calamity().marked = npc.buffTime[buffIndex];
-			npc.DelBuff(buffIndex);
-			buffIndex--;
-        }
-
-        public override void Update(Player player, ref int buffIndex)
-        {
-            player.Calamity().marked = true;
+            if (npc.Calamity().marked < npc.buffTime[buffIndex])
+                npc.Calamity().marked = npc.buffTime[buffIndex];
+            npc.DelBuff(buffIndex);
+            buffIndex--;
         }
     }
 }

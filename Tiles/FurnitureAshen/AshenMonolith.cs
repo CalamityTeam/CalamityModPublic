@@ -1,7 +1,9 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.DataStructures;
+using Terraria.GameContent.ObjectInteractions;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -9,20 +11,17 @@ namespace CalamityMod.Tiles.FurnitureAshen
 {
     public class AshenMonolith : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             this.SetUpClock(true);
             ModTranslation name = CreateMapEntryName();
             AddMapEntry(new Color(191, 142, 111), name);
             name.SetDefault("Ashen Monolith");
-            adjTiles = new int[] { TileID.GrandfatherClocks };
+            AdjTiles = new int[] { TileID.GrandfatherClocks };
         }
         int animationFrameWidth = 36;
 
-        public override bool HasSmartInteract()
-        {
-            return true;
-        }
+        public override bool HasSmartInteract(int i, int j, SmartInteractScanSettings settings) => true;
 
         public override bool CreateDust(int i, int j, ref int type)
         {
@@ -38,7 +37,7 @@ namespace CalamityMod.Tiles.FurnitureAshen
             b = 0.5f;
         }
 
-        public override bool NewRightClick(int x, int y)
+        public override bool RightClick(int x, int y)
         {
             return CalamityUtils.ClockRightClick();
         }
@@ -47,7 +46,7 @@ namespace CalamityMod.Tiles.FurnitureAshen
         {
             if (closer)
             {
-                Main.clock = true;
+                Main.SceneMetrics.HasClock = true;
             }
         }
 
@@ -58,17 +57,19 @@ namespace CalamityMod.Tiles.FurnitureAshen
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 48, 32, ModContent.ItemType<Items.Placeables.FurnitureAshen.AshenMonolith>());
+            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 48, 32, ModContent.ItemType<Items.Placeables.FurnitureAshen.AshenMonolith>());
         }
+
+        public override void MouseOver(int i, int j) => CalamityUtils.MouseOver(i, j, ModContent.ItemType<Items.Placeables.FurnitureAshen.AshenMonolith>());
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
             //This is used to draw the eye, where the frame is changed depending on the player's position relative to the eye's centre.
             Tile currentTile = Main.tile[i, j];
             Vector2 eyeCentre = new Vector2(i * 16, j * 16);
-            if (currentTile.frameX == 0)
+            if (currentTile.TileFrameX == 0)
             { eyeCentre += new Vector2(16f, 0f); }
-            if (currentTile.frameY == 0)
+            if (currentTile.TileFrameY == 0)
             { eyeCentre += new Vector2(0f, 16f); }
             //The eye should track the closest player
             Vector2 playerPos = eyeCentre;
@@ -131,12 +132,12 @@ namespace CalamityMod.Tiles.FurnitureAshen
             frameY *= 90;
             Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
             Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + zero;
-            Texture2D eyeSheet = ModContent.GetTexture("CalamityMod/Tiles/FurnitureAshen/AshenMonolith_Eye");
+            Texture2D eyeSheet = ModContent.Request<Texture2D>("CalamityMod/Tiles/FurnitureAshen/AshenMonolith_Eye").Value;
             spriteBatch.Draw
             (
                 eyeSheet,
                 drawOffset,
-                new Rectangle(frameX + currentTile.frameX, frameY + currentTile.frameY, 16, 16),
+                new Rectangle(frameX + currentTile.TileFrameX, frameY + currentTile.TileFrameY, 16, 16),
                 new Color(255, 255, 255, 255),
                 0,
                 new Vector2(0f, 0f),

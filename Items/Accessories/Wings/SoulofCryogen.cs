@@ -1,61 +1,48 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Projectiles.Rogue;
-using CalamityMod.World;
-using System.Collections.Generic;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Items.Accessories.Wings
 {
-	[AutoloadEquip(EquipType.Wings)]
+    [AutoloadEquip(EquipType.Wings)]
     public class SoulofCryogen : ModItem
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Soul of Cryogen");
             Tooltip.SetDefault("The magic of the ancient ice castle is yours\n" +
                 "Counts as wings\n" +
                 "Horizontal speed: 6.25\n" +
-                "Acceleration multiplier: 1\n" +
+                "Acceleration multiplier: 1.0\n" +
                 "Average vertical speed\n" +
                 "Flight time: 120\n" +
                 "7% increase to all damage\n" +
                 "All melee attacks and projectiles inflict frostburn\n" +
                 "Icicles rain down as you fly");
-            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(6, 3));
+            Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 3));
+            ItemID.Sets.AnimatesAsSoul[Type] = true;
+            ItemID.Sets.ItemNoGravity[Item.type] = true;
+            ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new WingStats(120, 6.25f, 1f);
         }
 
         public override void SetDefaults()
         {
-            item.width = 26;
-            item.height = 26;
-            item.value = CalamityGlobalItem.Rarity5BuyPrice;
-            item.expert = true;
-            item.rare = 5;
-            item.accessory = true;
-        }
-
-        public override void ModifyTooltips(List<TooltipLine> list)
-        {
-			if (CalamityWorld.death)
-			{
-				foreach (TooltipLine line2 in list)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "Tooltip8")
-					{
-						line2.text = "Icicles rain down as you fly\n" +
-						"Provides heat and cold protection in Death Mode";
-					}
-				}
-			}
+            Item.width = 26;
+            Item.height = 26;
+            Item.value = CalamityGlobalItem.Rarity5BuyPrice;
+            Item.rare = ItemRarityID.Pink;
+            Item.accessory = true;
         }
 
         public override void Update(ref float gravity, ref float maxFallSpeed)
         {
             float num = (float)Main.rand.Next(90, 111) * 0.01f;
             num *= Main.essScale;
-            Lighting.AddLight((int)((item.position.X + (float)(item.width / 2)) / 16f), (int)((item.position.Y + (float)(item.height / 2)) / 16f), 0f * num, 0.3f * num, 0.3f * num);
+            Lighting.AddLight((int)((Item.position.X + (float)(Item.width / 2)) / 16f), (int)((Item.position.Y + (float)(Item.height / 2)) / 16f), 0f * num, 0.3f * num, 0.3f * num);
         }
 
         public override void VerticalWingSpeeds(Player player, ref float ascentWhenFalling, ref float ascentWhenRising, ref float maxCanAscendMultiplier, ref float maxAscentMultiplier, ref float constantAscend)
@@ -67,28 +54,27 @@ namespace CalamityMod.Items.Accessories.Wings
             constantAscend = 0.1f;
         }
 
-        public override void HorizontalWingSpeeds(Player player, ref float speed, ref float acceleration)
-        {
-            speed = 6.25f;
-        }
-
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.cryogenSoul = true;
-            player.allDamage += 0.07f;
-            player.wingTimeMax = 120;
+            player.GetDamage<GenericDamageClass>() += 0.07f;
             player.noFallDmg = true;
-			if (modPlayer.icicleCooldown <= 0)
-			{
-				if (player.controlJump && !player.jumpAgainCloud && player.jump == 0 && player.velocity.Y != 0f && !player.mount.Active && !player.mount.Cart)
-				{
-					int p = Projectile.NewProjectile(player.Center.X, player.Center.Y, player.velocity.X * 0f, 2f, ModContent.ProjectileType<FrostShardFriendly>(), (int)(25 * player.AverageDamage()), 3f, player.whoAmI, 1f);
-					Main.projectile[p].Calamity().forceTypeless = true;
-					Main.projectile[p].frame = Main.rand.Next(5);
-					modPlayer.icicleCooldown = 10;
-				}
-			}
+            if (modPlayer.icicleCooldown <= 0)
+            {
+                if (player.controlJump && !player.canJumpAgain_Cloud && player.jump == 0 && player.velocity.Y != 0f && !player.mount.Active && !player.mount.Cart)
+                {
+                    var source = player.GetSource_Accessory(Item);
+                    int damage = (int)player.GetBestClassDamage().ApplyTo(25);
+                    int p = Projectile.NewProjectile(source, player.Center.X, player.Center.Y, player.velocity.X * 0f, 2f, ModContent.ProjectileType<FrostShardFriendly>(), damage, 3f, player.whoAmI, 1f);
+                    if (p.WithinBounds(Main.maxProjectiles))
+                    {
+                        Main.projectile[p].DamageType = DamageClass.Generic;
+                        Main.projectile[p].frame = Main.rand.Next(5);
+                    }
+                    modPlayer.icicleCooldown = 10;
+                }
+            }
         }
     }
 }

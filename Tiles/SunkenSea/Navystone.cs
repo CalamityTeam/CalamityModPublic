@@ -1,6 +1,4 @@
-
-using CalamityMod.World;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -9,7 +7,7 @@ namespace CalamityMod.Tiles.SunkenSea
 {
     public class Navystone : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileSolid[Type] = true;
             Main.tileBlockLight[Type] = true;
@@ -18,24 +16,23 @@ namespace CalamityMod.Tiles.SunkenSea
             CalamityUtils.MergeWithDesert(Type);
 
             TileID.Sets.ChecksForMerge[Type] = true;
-            dustType = 96;
-            drop = ModContent.ItemType<Items.Placeables.Navystone>();
+            DustType = 96;
+            ItemDrop = ModContent.ItemType<Items.Placeables.Navystone>();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Navystone");
-            AddMapEntry(new Color(0, 50, 50), name);
-            mineResist = 2f;
-            minPick = 55;
-            soundType = SoundID.Tink;
+            AddMapEntry(new Color(0, 90, 90), name);
+            MineResist = 2f;
+            HitSound = SoundID.Tink;
         }
 
         public override bool CanKillTile(int i, int j, ref bool blockDamaged)
         {
-            return CalamityWorld.downedDesertScourge;
+            return DownedBossSystem.downedDesertScourge;
         }
 
         public override bool CanExplode(int i, int j)
         {
-            return CalamityWorld.downedDesertScourge;
+            return DownedBossSystem.downedDesertScourge;
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)

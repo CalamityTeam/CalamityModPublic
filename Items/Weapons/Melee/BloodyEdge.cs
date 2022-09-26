@@ -1,7 +1,9 @@
+﻿using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.Items.Materials;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -10,76 +12,77 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Bloody Edge");
-            Tooltip.SetDefault("Chance to heal the player on enemy hits");
+            Tooltip.SetDefault("Chance to heal the player on enemy hits\n" +
+                "Inflicts Burning Blood");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.width = 46;
-            item.damage = 52;
-            item.melee = true;
-            item.useAnimation = 23;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 23;
-            item.knockBack = 5.25f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.useTurn = true;
-            item.height = 60;
-            item.value = Item.buyPrice(0, 4, 0, 0);
-            item.rare = 3;
-        }
-
-        public override void AddRecipes()
-        {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.LightsBane);
-            recipe.AddIngredient(ItemID.BladeofGrass);
-            recipe.AddIngredient(ItemID.Muramasa);
-            recipe.AddIngredient(ItemID.FieryGreatsword);
-            recipe.AddTile(TileID.DemonAltar);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.BloodButcherer);
-            recipe.AddIngredient(ItemID.BladeofGrass);
-            recipe.AddIngredient(ItemID.Muramasa);
-            recipe.AddIngredient(ItemID.FieryGreatsword);
-            recipe.AddTile(TileID.DemonAltar);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            Item.width = 46;
+            Item.damage = 70;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = 23;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 23;
+            Item.knockBack = 5.25f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.useTurn = true;
+            Item.height = 60;
+            Item.scale = 1.25f;
+            Item.value = CalamityGlobalItem.Rarity3BuyPrice;
+            Item.rare = ItemRarityID.Orange;
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
             if (Main.rand.NextBool(5))
-            {
-                int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 5);
-            }
+                Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 5);
         }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            if (target.type == NPCID.TargetDummy || !target.canGhostHeal || player.moonLeech)
-            {
+            target.AddBuff(ModContent.BuffType<BurningBlood>(), 60);
+
+            if (!target.canGhostHeal || player.moonLeech)
                 return;
-            }
-            int healAmount = Main.rand.Next(3) + 1;
-            if (Main.rand.NextBool(2))
+
+            int healAmount = Main.rand.Next(2) + 2;
+            player.statLife += healAmount;
+            player.HealEffect(healAmount);
+        }
+
+        public override void OnHitPvp(Player player, Player target, int damage, bool crit)
+        {
+            target.AddBuff(ModContent.BuffType<BurningBlood>(), 60);
+
+            int healAmount = Main.rand.Next(2) + 2;
+            if (!player.moonLeech)
             {
                 player.statLife += healAmount;
                 player.HealEffect(healAmount);
             }
         }
 
-        public override void OnHitPvp(Player player, Player target, int damage, bool crit)
+        public override void AddRecipes()
         {
-            int healAmount = Main.rand.Next(3) + 1;
-            if (Main.rand.NextBool(2) && !player.moonLeech)
-            {
-                player.statLife += healAmount;
-                player.HealEffect(healAmount);
-            }
+            CreateRecipe().
+                AddIngredient(ItemID.LightsBane).
+                AddIngredient(ItemID.Muramasa).
+                AddIngredient(ItemID.BladeofGrass).
+                AddIngredient(ItemID.FieryGreatsword).
+                AddIngredient<PurifiedGel>(5).
+                AddTile(TileID.DemonAltar).
+                Register();
+            CreateRecipe().
+                AddIngredient(ItemID.BloodButcherer).
+                AddIngredient(ItemID.Muramasa).
+                AddIngredient(ItemID.BladeofGrass).
+                AddIngredient(ItemID.FieryGreatsword).
+                AddIngredient<PurifiedGel>(5).
+                AddTile(TileID.DemonAltar).
+                Register();
         }
     }
 }

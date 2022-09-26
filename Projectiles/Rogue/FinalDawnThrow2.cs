@@ -1,34 +1,37 @@
+﻿using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-	public class FinalDawnThrow2 : ModProjectile
+    public class FinalDawnThrow2 : ModProjectile
     {
         bool HasHitEnemy = false;
         public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("The Final Dawn");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 8;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+        {
+            DisplayName.SetDefault("The Final Dawn");
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 8;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
         public override void SetDefaults()
         {
-            projectile.width = 200;
-            projectile.height = 200;
-            projectile.friendly = true;
-            projectile.Calamity().rogue = true;
-            projectile.penetrate = -1;
-            projectile.light = 0.0f;
-            projectile.extraUpdates = 1;
-			projectile.tileCollide = true; // We don't want people getting stuck in walls right
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 5;
+            Projectile.width = 200;
+            Projectile.height = 200;
+            Projectile.friendly = true;
+            Projectile.DamageType = RogueDamageClass.Instance;
+            Projectile.ignoreWater = true;
+            Projectile.penetrate = -1;
+            Projectile.light = 0.0f;
+            Projectile.extraUpdates = 1;
+            Projectile.tileCollide = true; // We don't want people getting stuck in walls right
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = Projectile.MaxUpdates * 13;
         }
-        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
+        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
         {
             //should be self explanatory
             width = 32;
@@ -36,94 +39,108 @@ namespace CalamityMod.Projectiles.Rogue
             return true;
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-		{
+        {
             // Spawn homing flames that chase the HIT enemy only. This is also limited to one burst
-            if (Main.myPlayer == projectile.owner && !HasHitEnemy)
+            if (Main.myPlayer == Projectile.owner && !HasHitEnemy)
             {
                 for (int i = 0; i < 6; i++)
                 {
                     Vector2 velocity = Utils.NextVector2Circular(Main.rand, 7.2f, 7.2f);
-                    Projectile.NewProjectile(projectile.Center, velocity,
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity,
                                              ModContent.ProjectileType<FinalDawnFireball>(),
-                                             (int)(projectile.damage * 0.3), projectile.knockBack, projectile.owner, 0f,
+                                             (int)(Projectile.damage * 0.3), Projectile.knockBack, Projectile.owner, 0f,
                                              target.whoAmI);
                 }
                 HasHitEnemy = true;
             }
         }
-		public override void AI()
-		{
-			Player player = Main.player[projectile.owner];
+        public override void AI()
+        {
+            Player player = Main.player[Projectile.owner];
 
-			if (player.dead || player is null)
-				projectile.Kill();
+            if (player is null || player.dead)
+                Projectile.Kill();
 
-            if (projectile.localAI[0] == 0)
+            if (Projectile.localAI[0] == 0)
             {
-                Main.PlaySound(SoundID.Item71, projectile.position);
-                projectile.localAI[0] = 1;
+                SoundEngine.PlaySound(SoundID.Item71, Projectile.position);
+                Projectile.localAI[0] = 1;
             }
 
-            projectile.spriteDirection = projectile.velocity.X > 0 ? 1 : -1;
-            projectile.rotation += 0.25f * projectile.direction;
-            player.Center = projectile.Center;
+            // Kill any hooks from the projectile owner.
+            for (int i = 0; i < Main.projectile.Length; i++)
+            {
+                Projectile proj = Main.projectile[i];
+
+                if (!proj.active || proj.owner != player.whoAmI || proj.aiStyle != ProjAIStyleID.Hook)
+                    continue;
+
+                if (proj.aiStyle == ProjAIStyleID.Hook)
+                    proj.Kill();
+            }
+
+            Projectile.spriteDirection = Projectile.velocity.X > 0 ? 1 : -1;
+            Projectile.rotation += 0.25f * Projectile.direction;
+            player.Center = Projectile.Center;
             player.fullRotationOrigin = player.Center - player.position;
-            player.fullRotation = projectile.rotation;
-            player.direction = projectile.direction;
-            player.heldProj = projectile.whoAmI;
-            player.bodyFrame.Y = 1 * player.bodyFrame.Height;
+            player.fullRotation = Projectile.rotation;
+            player.direction = Projectile.direction;
+            player.heldProj = Projectile.whoAmI;
+            player.bodyFrame.Y = player.bodyFrame.Height;
             player.immuneNoBlink = true;
-            player.immuneTime = 10;
+            player.immuneTime = 4;
+            for (int k = 0; k < player.hurtCooldowns.Length; k++)
+                player.hurtCooldowns[k] = player.immuneTime;
 
             // This is to make sure the player doesn't get yeeted out of the world, which crashes the game pretty much all of the time
-            bool worldEdge = projectile.Center.X < 1000 || projectile.Center.Y < 1000 || projectile.Center.X > Main.maxTilesX * 16 - 1000 || projectile.Center.Y > Main.maxTilesY * 16 - 1000;
+            bool worldEdge = Projectile.Center.X < 1000 || Projectile.Center.Y < 1000 || Projectile.Center.X > Main.maxTilesX * 16 - 1000 || Projectile.Center.Y > Main.maxTilesY * 16 - 1000;
 
-            projectile.ai[0]++;
-			if(projectile.ai[0] >= 60 || worldEdge)
-			{
-			    projectile.Kill();
-			}
+            Projectile.ai[0]++;
+            if(Projectile.ai[0] >= 60 || worldEdge)
+            {
+                Projectile.Kill();
+            }
 
-			int idx = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width , projectile.height, mod.DustType("FinalFlame"), 0f, 0f, 0, default, 2.5f);
-            Main.dust[idx].velocity = projectile.velocity * -0.5f;
+            int idx = Dust.NewDust(Projectile.position, Projectile.width , Projectile.height, ModContent.DustType<FinalFlame>(), 0f, 0f, 0, default, 2.5f);
+            Main.dust[idx].velocity = Projectile.velocity * -0.5f;
             Main.dust[idx].noGravity = true;
             Main.dust[idx].noLight = false;
-		}
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        }
+        public override bool PreDraw(ref Color lightColor)
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             float scytheRotation = player.fullRotation;
 
-            Texture2D scytheTexture = Main.projectileTexture[projectile.type];
-            Texture2D glowScytheTexture = ModContent.GetTexture("CalamityMod/Projectiles/Rogue/FinalDawnThrow2_Glow");
-            int num214 = Main.projectileTexture[projectile.type].Height / Main.projFrames[projectile.type];
-            int y6 = num214 * projectile.frame;
+            Texture2D scytheTexture = ModContent.Request<Texture2D>(Texture).Value;
+            Texture2D glowScytheTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Rogue/FinalDawnThrow2_Glow").Value;
+            int num214 = ModContent.Request<Texture2D>(Texture).Value.Height / Main.projFrames[Projectile.type];
+            int y6 = num214 * Projectile.frame;
 
             Vector2 origin = new Vector2(scytheTexture.Width / 2f + 40f * player.direction, num214 * 1.1f);
 
             Main.spriteBatch.Draw(scytheTexture,
-                                  player.Center - Main.screenPosition + Vector2.UnitY * projectile.gfxOffY,
+                                  player.Center - Main.screenPosition + Vector2.UnitY * Projectile.gfxOffY,
                                   new Rectangle?(new Rectangle(0, y6, scytheTexture.Width, num214)),
-                                  projectile.GetAlpha(lightColor),
+                                  Projectile.GetAlpha(lightColor),
                                   scytheRotation,
                                   origin,
-                                  projectile.scale,
-                                  projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally,
+                                  Projectile.scale,
+                                  Projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally,
                                   0f);
             Main.spriteBatch.Draw(glowScytheTexture,
-                                  player.Center - Main.screenPosition + Vector2.UnitY * projectile.gfxOffY,
+                                  player.Center - Main.screenPosition + Vector2.UnitY * Projectile.gfxOffY,
                                   new Rectangle?(new Rectangle(0, y6, scytheTexture.Width, num214)),
-                                  projectile.GetAlpha(Color.White),
+                                  Projectile.GetAlpha(Color.White),
                                   scytheRotation,
                                   origin,
-                                  projectile.scale,
-                                  projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally,
+                                  Projectile.scale,
+                                  Projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally,
                                   0f);
             return false;
         }
         public override void Kill(int timeLeft)
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             player.fullRotation = 0;
         }
     }

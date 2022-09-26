@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles.AstralDesert
 {
     public class AstralSandstone : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileSolid[Type] = true;
             Main.tileBlockLight[Type] = true;
@@ -18,8 +18,8 @@ namespace CalamityMod.Tiles.AstralDesert
             CalamityUtils.MergeWithDesert(Type);
             CalamityUtils.MergeAstralTiles(Type);
 
-            dustType = ModContent.DustType<AstralBasic>();
-            drop = ModContent.ItemType<Items.Placeables.AstralSandstone>();
+            DustType = ModContent.DustType<AstralBasic>();
+            ItemDrop = ModContent.ItemType<Items.Placeables.AstralSandstone>();
 
             AddMapEntry(new Color(93, 78, 107));
 

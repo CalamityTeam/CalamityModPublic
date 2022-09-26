@@ -6,12 +6,12 @@ using Terraria.ID;
 
 namespace CalamityMod.Tiles.Crags
 {
-	public class BrimstoneSlag : ModTile
+    public class BrimstoneSlag : ModTile
     {
         private const short subsheetWidth = 450;
         private const short subsheetHeight = 198;
 
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileSolid[Type] = true;
             Main.tileBlockLight[Type] = true;
@@ -20,10 +20,10 @@ namespace CalamityMod.Tiles.Crags
             CalamityUtils.MergeWithHell(Type);
             CalamityUtils.SetMerge(Type, ModContent.TileType<CharredOre>());
 
-            soundType = SoundID.Tink;
-            mineResist = 3f;
-            minPick = 180;
-            drop = ModContent.ItemType<Items.Placeables.BrimstoneSlag>();
+            HitSound = SoundID.Tink;
+            MineResist = 3f;
+            MinPick = 100;
+            ItemDrop = ModContent.ItemType<Items.Placeables.BrimstoneSlag>();
             AddMapEntry(new Color(53, 33, 56));
         }
 
@@ -62,15 +62,15 @@ namespace CalamityMod.Tiles.Crags
             {
                 zero = Vector2.Zero;
             }
-            if (tile.slope() == (byte)0 && !tile.halfBrick())
+            if (tile.Slope == (byte)0 && !tile.IsHalfBlock)
                 Main.spriteBatch.Draw(sprite, new Vector2((float)(i * 16 - (int)Main.screenPosition.X), (float)(j * 16 - (int)Main.screenPosition.Y)) + zero, new Rectangle(tile.frameX + frameXOffset, tile.frameY + frameYOffset, 16, 16), drawColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
-            else if (tile.halfBrick())
+            else if (tile.IsHalfBlock)
             {
                 Main.spriteBatch.Draw(sprite, new Vector2((float)(i * 16 - (int)Main.screenPosition.X), (float)(j * 16 - (int)Main.screenPosition.Y + 10) + 8) + zero, new Rectangle(tile.frameX + frameXOffset, tile.frameY + frameYOffset, 16, 8), drawColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
             }
             else
             {
-                byte num9 = tile.slope();
+                byte num9 = tile.Slope;
                 for (int index4 = 0; index4 < 8; ++index4)
                 {
                     int width2 = index4 << 1;
@@ -98,7 +98,7 @@ namespace CalamityMod.Tiles.Crags
 
         private Color GetDrawColour(int i, int j, Color colour)
         {
-            int colType = Main.tile[i, j].color();
+            int colType = Main.tile[i, j].TileColor;
             Color paintCol = WorldGen.paintColor(colType);
             if (colType >= 13 && colType <= 24)
             {

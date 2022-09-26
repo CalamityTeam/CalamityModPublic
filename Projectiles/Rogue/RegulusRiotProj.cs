@@ -1,126 +1,128 @@
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Dusts;
 using CalamityMod.Buffs.DamageOverTime;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Rogue
 {
     public class RegulusRiotProj : ModProjectile
     {
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/RegulusRiot";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Regulus Riot");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 2;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 28;
-            projectile.height = 28;
-            projectile.friendly = true;
-            projectile.penetrate = 3;
-            projectile.extraUpdates = 1;
-            projectile.alpha = 255;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
-            projectile.Calamity().rogue = true;
-            projectile.usesIDStaticNPCImmunity = true;
-            projectile.idStaticNPCHitCooldown = 15;
+            Projectile.width = 28;
+            Projectile.height = 28;
+            Projectile.friendly = true;
+            Projectile.penetrate = 3;
+            Projectile.extraUpdates = 1;
+            Projectile.alpha = 255;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
+            Projectile.DamageType = RogueDamageClass.Instance;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = Projectile.MaxUpdates * 15;
         }
 
         public override void AI()
         {
-            if (projectile.alpha > 0)
+            if (Projectile.alpha > 0)
             {
-                projectile.alpha -= 20;
+                Projectile.alpha -= 20;
             }
-            if (projectile.alpha < 0)
+            if (Projectile.alpha < 0)
             {
-                projectile.alpha = 0;
+                Projectile.alpha = 0;
             }
 
-            int blueDust = Dust.NewDust(projectile.position, projectile.width, projectile.height, ModContent.DustType<AstralBlue>(), 0f, 0f, 100);
-			Main.dust[blueDust].noGravity = true;
+            int blueDust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, ModContent.DustType<AstralBlue>(), 0f, 0f, 100);
+            Main.dust[blueDust].noGravity = true;
             Main.dust[blueDust].velocity = Vector2.Zero;
-            int orangeDust = Dust.NewDust(projectile.position, projectile.width, projectile.height, ModContent.DustType<AstralOrange>(), 0f, 0f, 100);
-			Main.dust[orangeDust].noGravity = true;
+            int orangeDust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, ModContent.DustType<AstralOrange>(), 0f, 0f, 100);
+            Main.dust[orangeDust].noGravity = true;
             Main.dust[orangeDust].velocity = Vector2.Zero;
 
-            projectile.ai[0] += 1f;
+            Projectile.ai[0] += 1f;
             int behaviorInt = 0;
-            if (projectile.velocity.Length() <= 8f) //4
+            if (Projectile.velocity.Length() <= 8f) //4
             {
                 behaviorInt = 1;
             }
             if (behaviorInt == 0)
             {
-                projectile.rotation -= 0.104719758f;
+                Projectile.rotation -= 0.104719758f;
 
-                if (projectile.ai[0] >= 30f)
+                if (Projectile.ai[0] >= 30f)
                 {
-					projectile.extraUpdates = 2;
-                    projectile.velocity *= 0.98f;
-                    projectile.rotation -= 0.0174532924f;
+                    Projectile.extraUpdates = 2;
+                    Projectile.velocity *= 0.98f;
+                    Projectile.rotation -= 0.0174532924f;
                 }
-                if (projectile.velocity.Length() < 8.2f) //4.1
+                if (Projectile.velocity.Length() < 8.2f) //4.1
                 {
-                    projectile.velocity.Normalize();
-                    projectile.velocity *= 4f;
-                    projectile.ai[0] = 0f;
-					projectile.extraUpdates = 1;
+                    Projectile.velocity.Normalize();
+                    Projectile.velocity *= 4f;
+                    Projectile.ai[0] = 0f;
+                    Projectile.extraUpdates = 1;
                 }
             }
             else if (behaviorInt == 1)
             {
-                projectile.rotation -= 0.104719758f;
-                Vector2 targetCenter = projectile.Center;
+                Projectile.rotation -= 0.104719758f;
+                Vector2 targetCenter = Projectile.Center;
                 float homingRange = 300f;
                 bool homeIn = false;
                 int targetIndex = 0;
-                if (projectile.ai[1] == 0f)
+                if (Projectile.ai[1] == 0f)
                 {
                     for (int npcIndex = 0; npcIndex < Main.maxNPCs; npcIndex++)
                     {
-						NPC npc = Main.npc[npcIndex];
-                        if (npc.CanBeChasedBy(projectile, false))
+                        NPC npc = Main.npc[npcIndex];
+                        if (npc.CanBeChasedBy(Projectile, false))
                         {
                             Vector2 npcCenter = npc.Center;
-                            if (projectile.Distance(npcCenter) < homingRange)
+                            if (Projectile.Distance(npcCenter) < homingRange)
                             {
-                                homingRange = projectile.Distance(npcCenter);
+                                homingRange = Projectile.Distance(npcCenter);
                                 targetCenter = npcCenter;
                                 homeIn = true;
                                 targetIndex = npcIndex;
-								break;
+                                break;
                             }
                         }
                     }
                     if (homeIn)
                     {
-                        if (projectile.ai[1] != (float)(targetIndex + 1))
+                        if (Projectile.ai[1] != (float)(targetIndex + 1))
                         {
-                            projectile.netUpdate = true;
+                            Projectile.netUpdate = true;
                         }
-                        projectile.ai[1] = (float)(targetIndex + 1);
+                        Projectile.ai[1] = (float)(targetIndex + 1);
                     }
                     homeIn = false;
                 }
-                if (projectile.ai[1] != 0f)
+                if (Projectile.ai[1] != 0f)
                 {
-                    int npcIndex2 = (int)(projectile.ai[1] - 1f);
-					NPC npc2 = Main.npc[npcIndex2];
-                    if (npc2.active && npc2.CanBeChasedBy(projectile, true) && projectile.Distance(npc2.Center) < 1000f)
+                    int npcIndex2 = (int)(Projectile.ai[1] - 1f);
+                    NPC npc2 = Main.npc[npcIndex2];
+                    if (npc2.active && npc2.CanBeChasedBy(Projectile, true) && Projectile.Distance(npc2.Center) < 1000f)
                     {
                         homeIn = true;
                         targetCenter = Main.npc[npcIndex2].Center;
                     }
                 }
-                if (!projectile.friendly)
+                if (!Projectile.friendly)
                 {
                     homeIn = false;
                 }
@@ -128,20 +130,20 @@ namespace CalamityMod.Projectiles.Rogue
                 {
                     float homeSpeed = 24f;
                     float turnMult = 10f;
-                    Vector2 projCenter = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
+                    Vector2 projCenter = new Vector2(Projectile.position.X + (float)Projectile.width * 0.5f, Projectile.position.Y + (float)Projectile.height * 0.5f);
                     float xDist = targetCenter.X - projCenter.X;
                     float yDist = targetCenter.Y - projCenter.Y;
                     float totalDist = (float)Math.Sqrt((double)(xDist * xDist + yDist * yDist));
                     totalDist = homeSpeed / totalDist;
                     xDist *= totalDist;
                     yDist *= totalDist;
-                    projectile.velocity.X = (projectile.velocity.X * (turnMult - 1f) + xDist) / turnMult;
-                    projectile.velocity.Y = (projectile.velocity.Y * (turnMult - 1f) + yDist) / turnMult;
+                    Projectile.velocity.X = (Projectile.velocity.X * (turnMult - 1f) + xDist) / turnMult;
+                    Projectile.velocity.Y = (Projectile.velocity.Y * (turnMult - 1f) + yDist) / turnMult;
                 }
             }
-            if (projectile.ai[0] >= 180f)
+            if (Projectile.ai[0] >= 180f)
             {
-                projectile.Kill();
+                Projectile.Kill();
             }
         }
 
@@ -155,43 +157,43 @@ namespace CalamityMod.Projectiles.Rogue
             target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 180);
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 2);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 2);
             return false;
         }
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.Item10, projectile.position);
+            SoundEngine.PlaySound(SoundID.Item10, Projectile.position);
             for (int i = 0; i < 10; i++)
             {
-                int blueDust = Dust.NewDust(projectile.position, projectile.width, projectile.height, ModContent.DustType<AstralBlue>(), 0f, 0f, 100, default, 1.5f);
+                int blueDust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, ModContent.DustType<AstralBlue>(), 0f, 0f, 100, default, 1.5f);
                 Main.dust[blueDust].noGravity = true;
                 Main.dust[blueDust].velocity = Vector2.Zero;
             }
             for (int i = 0; i < 10; i++)
             {
-                int orangeDust = Dust.NewDust(projectile.position, projectile.width, projectile.height, ModContent.DustType<AstralOrange>(), 0f, 0f, 100, default, 1.5f);
+                int orangeDust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, ModContent.DustType<AstralOrange>(), 0f, 0f, 100, default, 1.5f);
                 Main.dust[orangeDust].noGravity = true;
                 Main.dust[orangeDust].velocity = Vector2.Zero;
             }
-			if (projectile.Calamity().stealthStrike)
-			{
-                if (projectile.owner == Main.myPlayer)
+            if (Projectile.Calamity().stealthStrike)
+            {
+                if (Projectile.owner == Main.myPlayer)
                 {
                     float spread = 60f * 0.0174f;
-                    double startAngle = Math.Atan2(projectile.velocity.X, projectile.velocity.Y) - spread / 2;
+                    double startAngle = Math.Atan2(Projectile.velocity.X, Projectile.velocity.Y) - spread / 2;
                     double deltaAngle = spread / 6f;
                     double offsetAngle;
                     for (int i = 0; i < 3; i++)
                     {
                         offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 2f), (float)(Math.Cos(offsetAngle) * 2f), ModContent.ProjectileType<RegulusEnergy>(), (int)(projectile.damage * 0.4), projectile.knockBack, projectile.owner, 0f, 0f);
-                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 2f), (float)(-Math.Cos(offsetAngle) * 2f), ModContent.ProjectileType<RegulusEnergy>(), (int)(projectile.damage * 0.4), projectile.knockBack, projectile.owner, 0f, 0f);
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 2f), (float)(Math.Cos(offsetAngle) * 2f), ModContent.ProjectileType<RegulusEnergy>(), (int)(Projectile.damage * 0.4), Projectile.knockBack, Projectile.owner, 0f, 0f);
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 2f), (float)(-Math.Cos(offsetAngle) * 2f), ModContent.ProjectileType<RegulusEnergy>(), (int)(Projectile.damage * 0.4), Projectile.knockBack, Projectile.owner, 0f, 0f);
                     }
                 }
-			}
+            }
         }
     }
 }

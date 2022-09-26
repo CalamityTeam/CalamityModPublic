@@ -1,5 +1,8 @@
+﻿using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -10,52 +13,46 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Halibut Cannon");
-            Tooltip.SetDefault("This weapon is overpowered, use at the risk of ruining your playthrough\n" +
-                "Revengeance drop");
+            Tooltip.SetDefault("Yes, it's still overpowered");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 6;
-            item.ranged = true;
-            item.width = 108;
-            item.height = 54;
-            item.useTime = 10;
-            item.useAnimation = 20;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.rare = 10;
-            item.noMelee = true;
-            item.knockBack = 1f;
-            item.value = Item.buyPrice(1, 0, 0, 0);
-            item.UseSound = SoundID.Item38;
-            item.autoReuse = true;
-            item.shoot = ProjectileID.Bullet;
-            item.shootSpeed = 12f;
-            item.useAmmo = AmmoID.Bullet;
+            Item.damage = 50;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 118;
+            Item.height = 56;
+            Item.useTime = 10;
+            Item.useAnimation = 20;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.rare = ModContent.RarityType<HotPink>();
+            Item.noMelee = true;
+            Item.knockBack = 1f;
+            Item.value = CalamityGlobalItem.Rarity16BuyPrice;
+            Item.UseSound = null;
+            Item.autoReuse = true;
+            Item.shoot = ProjectileID.Bullet;
+            Item.shootSpeed = 12f;
+            Item.useAmmo = AmmoID.Bullet;
+            Item.Calamity().canFirePointBlankShots = true;
         }
 
         public override Vector2? HoldoutOffset() => new Vector2(-15, 0);
 
-        public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
-		{
-			float damageMult = 0f;
-            if (Main.hardMode)
-				damageMult = 1f;
-            if (NPC.downedMoonlord)
-				damageMult = 3f;
-			mult += damageMult;
-		}
-
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
+            SoundEngine.PlaySound(SoundID.Item38, player.position);
+
             int bulletAmt = Main.rand.Next(25, 36);
             for (int index = 0; index < bulletAmt; ++index)
             {
-                float SpeedX = speedX + (float)Main.rand.Next(-10, 11) * 0.05f;
-                float SpeedY = speedY + (float)Main.rand.Next(-10, 11) * 0.05f;
-                int shot = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
-                Main.projectile[shot].timeLeft = 180;
+                float SpeedX = velocity.X + Main.rand.Next(-10, 11) * 0.05f;
+                float SpeedY = velocity.Y + Main.rand.Next(-10, 11) * 0.05f;
+                int shot = Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, type, damage, knockback, player.whoAmI);
+                Main.projectile[shot].timeLeft = 120;
             }
+
             return false;
         }
     }

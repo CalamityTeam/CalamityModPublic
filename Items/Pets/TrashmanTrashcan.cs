@@ -1,5 +1,6 @@
-using CalamityMod.Buffs.Pets;
+﻿using CalamityMod.Buffs.Pets;
 using CalamityMod.Projectiles.Pets;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -10,30 +11,32 @@ namespace CalamityMod.Items.Pets
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Trash Can");
             Tooltip.SetDefault("Summons the trash man");
         }
         public override void SetDefaults()
         {
-            item.damage = 0;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useAnimation = 20;
-            item.useTime = 20;
-            item.noMelee = true;
-            item.width = 30;
-            item.height = 30;
-            item.value = Item.sellPrice(0, 1, 0, 0);
-            item.shoot = ModContent.ProjectileType<DannyDevitoPet>();
-            item.buffType = ModContent.BuffType<DannyDevito>();
-            item.rare = 5;
-            item.UseSound = SoundID.NPCDeath13;
+            Item.damage = 0;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useAnimation = 20;
+            Item.useTime = 20;
+            Item.noMelee = true;
+            Item.width = 30;
+            Item.height = 30;
+            Item.shoot = ModContent.ProjectileType<DannyDevitoPet>();
+            Item.buffType = ModContent.BuffType<DannyDevito>();
+            Item.UseSound = SoundID.NPCDeath13;
+            Item.value = Item.sellPrice(gold: 1);
+            Item.rare = ItemRarityID.Pink;
+            Item.Calamity().devItem = true;
         }
 
-        public override void UseStyle(Player player)
+        public override void UseStyle(Player player, Rectangle heldItemFrame)
         {
             if (player.whoAmI == Main.myPlayer && player.itemTime == 0)
             {
-                player.AddBuff(item.buffType, 15, true);
+                player.AddBuff(Item.buffType, 15, true);
             }
         }
     }

@@ -1,8 +1,10 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Rogue;
+using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -10,73 +12,55 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class Celestus : RogueWeapon
     {
-		private int counter = 0;
-		private bool stealthScythes = false;
-
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Celestus");
             Tooltip.SetDefault("Throws a scythe that splits into multiple scythes on enemy hits\n" +
-			"Stealth strikes throw a chain of three scythes");
+            "Stealth strikes reverse direction and home in on enemies after returning to the player");
+            SacrificeTotal = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
-            item.width = 20;
-            item.damage = 1130;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.autoReuse = true;
-            item.useAnimation = 21;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 7;
-            item.knockBack = 6f;
-            item.UseSound = SoundID.Item1;
-            item.height = 20;
-            item.value = Item.buyPrice(platinum: 2, gold: 50);
-            item.rare = 10;
-            item.shoot = ModContent.ProjectileType<CelestusBoomerang>();
-            item.shootSpeed = 25f;
-            item.Calamity().rogue = true;
-            item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.damage = 280;
+            Item.knockBack = 6f;
+            Item.useAnimation = Item.useTime = 22;
+            Item.DamageType = RogueDamageClass.Instance;
+            Item.autoReuse = true;
+            Item.shootSpeed = 25f;
+            Item.shoot = ModContent.ProjectileType<CelestusBoomerang>();
+
+            Item.width = Item.height = 20;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.UseSound = SoundID.Item1;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.value = CalamityGlobalItem.Rarity15BuyPrice;
+            Item.rare = ModContent.RarityType<Violet>();
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.Calamity().StealthStrikeAvailable()) //setting the stealth strike
             {
-				stealthScythes = true;
-			}
-			if (stealthScythes)
-			{
-                int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage / 2, knockBack, player.whoAmI, 0f, 0f);
-                Main.projectile[stealth].Calamity().stealthStrike = true;
+                int stealth = Projectile.NewProjectile(source, position, velocity, type, (int)(damage * 0.4), knockback, player.whoAmI);
+                if (stealth.WithinBounds(Main.maxProjectiles))
+                    Main.projectile[stealth].Calamity().stealthStrike = true;
             }
-			else if (counter == 0)
-			{
-				Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, 0f, 0f);
-			}
-			counter++;
-			if (counter >= 3)
-			{
-				stealthScythes = false;
-				counter = 0;
-			}
-            return false;
+            return true;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<AccretionDisk>());
-            recipe.AddIngredient(ModContent.ItemType<AlphaVirus>());
-            recipe.AddIngredient(ModContent.ItemType<MoltenAmputator>());
-            recipe.AddIngredient(ModContent.ItemType<FrostcrushValari>());
-            recipe.AddIngredient(ModContent.ItemType<EnchantedAxe>());
-			recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 4);
-			recipe.AddTile(ModContent.TileType<DraedonsForge>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient<ElementalDisk>().
+                AddIngredient<AlphaVirus>().
+                AddIngredient<MoltenAmputator>().
+                AddIngredient<FrostcrushValari>().
+                AddIngredient<EnchantedAxe>().
+                AddIngredient<MiracleMatter>().
+                AddTile<DraedonsForge>().
+                Register();
         }
     }
 }

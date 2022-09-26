@@ -1,54 +1,23 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-using Terraria.ObjectData;
 using CalamityMod.Items.Materials;
 
 namespace CalamityMod.Tiles
 {
     public class ChaoticBarPlaced : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
-            Main.tileShine[Type] = 1000;
-            Main.tileSolid[Type] = true;
-            Main.tileSolidTop[Type] = true;
-            Main.tileFrameImportant[Type] = true;
-
-            TileObjectData.newTile.CopyFrom(TileObjectData.Style1x1);
-            TileObjectData.newTile.StyleHorizontal = true;
-            TileObjectData.newTile.LavaDeath = false;
-            TileObjectData.addTile(Type);
-
-            dustType = 87;
-            drop = ModContent.ItemType<CruptixBar>();
-
-            AddMapEntry(new Color(255, 165, 0)); //Orange
+            this.SetUpBar(new Color(255, 165, 0));
+            DustType = 87;
+            ItemDrop = ModContent.ItemType<ScoriaBar>();
         }
 
         public override bool CreateDust(int i, int j, ref int type)
         {
-            if (Main.rand.NextBool(2))
-            {
-                type = 87;
-            }
-            else
-            {
-                type = 6;
-            }
+            type = Main.rand.NextBool() ? 87 : 6;
             return true;
-        }
-
-        public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
-        {
-            WorldGen.Check1x1(i, j, Type);
-            return true;
-        }
-
-        public override void PlaceInWorld(int i, int j, Item item)
-        {
-            Main.tile[i, j].frameX = 0;
-            Main.tile[i, j].frameY = 0;
         }
     }
 }

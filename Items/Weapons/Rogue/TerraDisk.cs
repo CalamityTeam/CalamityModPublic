@@ -1,5 +1,6 @@
+﻿using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
-using CalamityMod.Projectiles.Hybrid;
+using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -16,62 +17,78 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             DisplayName.SetDefault("Terra Disk");
             Tooltip.SetDefault(@"Throws a disk that has a chance to generate several disks if enemies are near it
-A max of three disks can be active at a time");
+A max of three disks can be active at a time
+Stealth strikes travel slower and are rapidly orbited by the smaller disks");
+            SacrificeTotal = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
-            item.width = 46;
-            item.height = 46;
-            item.damage = BaseDamage;
-            item.knockBack = 4f;
-            item.useAnimation = 16;
-            item.useTime = 16;
-            item.autoReuse = true;
-            item.noMelee = true;
-            item.noUseGraphic = true;
+            Item.width = 46;
+            Item.height = 46;
+            Item.damage = BaseDamage;
+            Item.knockBack = 4f;
+            Item.useAnimation = 16;
+            Item.useTime = 16;
+            Item.autoReuse = true;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
 
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.UseSound = SoundID.Item1;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.UseSound = SoundID.Item1;
 
-            item.value = Item.buyPrice(0, 80, 0, 0);
-            item.rare = 8;
+            Item.value = CalamityGlobalItem.RarityYellowBuyPrice;
+            Item.rare = ItemRarityID.Yellow;
 
-            item.Calamity().rogue = true;
-            item.shoot = ModContent.ProjectileType<TerraDiskProjectile>();
-            item.shootSpeed = Speed;
+            Item.DamageType = RogueDamageClass.Instance;
+            Item.shoot = ModContent.ProjectileType<TerraDiskProjectile>();
+            Item.shootSpeed = Speed;
         }
 
         public override bool CanUseItem(Player player)
         {
-			if (player.ownedProjectileCounts[item.shoot] >= 3)
-			{
-				return false;
-			}
-			else
-			{
-				return true;
-			}
+            //Stealth strikes ignore the proj cap
+            int terraDiskCount = 0;
+            for (int p = 0; p < Main.maxProjectiles; p++)
+            {
+                Projectile proj = Main.projectile[p];
+                if (!proj.active || proj.owner != player.whoAmI)
+                    continue;
+                if (proj.type == Item.shoot && !proj.Calamity().stealthStrike)
+                {
+                    terraDiskCount++;
+                }
+                if (terraDiskCount >= 3)
+                    break;
+            }
+            return terraDiskCount < 3;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
-            Main.projectile[proj].Calamity().forceRogue = true;
-			Main.projectile[proj].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
+            if (player.Calamity().StealthStrikeAvailable())
+            {
+                velocity.X *= 0.75f;
+                velocity.Y *= 0.75f;
+                damage = (int)(damage * 0.9f);
+            }
+            int proj = Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
+            if (player.Calamity().StealthStrikeAvailable() && proj.WithinBounds(Main.maxProjectiles))
+            {
+                Main.projectile[proj].Calamity().stealthStrike = true;
+            }
             return false;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.SetResult(this);
-            recipe.AddIngredient(ModContent.ItemType<SeashellBoomerang>());
-            recipe.AddIngredient(ModContent.ItemType<Equanimity>());
-            recipe.AddIngredient(ItemID.ThornChakram);
-            recipe.AddIngredient(ModContent.ItemType<LivingShard>(), 8);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient<FishboneBoomerang>().
+                AddIngredient<Equanimity>().
+                AddIngredient(ItemID.ThornChakram).
+                AddIngredient<LivingShard>(12).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

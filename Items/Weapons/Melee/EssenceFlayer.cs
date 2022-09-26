@@ -1,6 +1,8 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
+using CalamityMod.Rarities;
+using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -15,42 +17,31 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             DisplayName.SetDefault("Essence Flayer");
             Tooltip.SetDefault("Shoots an essence scythe that generates healing spirits on enemy kills");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.width = 100;
-            item.damage = 450;
-            item.melee = true;
-            item.useAnimation = 19;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 19;
-            item.useTurn = true;
-            item.knockBack = 8f;
-            item.UseSound = SoundID.Item71;
-            item.autoReuse = true;
-            item.height = 78;
-            item.value = Item.buyPrice(1, 80, 0, 0);
-            item.rare = 10;
-            item.shoot = ModContent.ProjectileType<EssenceScythe>();
-            item.shootSpeed = 21f;
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.width = 100;
+            Item.damage = 180;
+            Item.DamageType = DamageClass.Melee;
+            Item.useAnimation = 19;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 19;
+            Item.useTurn = true;
+            Item.knockBack = 8f;
+            Item.UseSound = SoundID.Item71;
+            Item.autoReuse = true;
+            Item.height = 78;
+            Item.value = CalamityGlobalItem.RarityDarkBlueBuyPrice;
+            Item.shoot = ModContent.ProjectileType<EssenceScythe>();
+            Item.shootSpeed = 21f;
+            Item.rare = ModContent.RarityType<DarkBlue>();
         }
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
-            Vector2 origin = new Vector2(50f, 37f);
-            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Items/Weapons/Melee/EssenceFlayerGlow"), item.Center - Main.screenPosition, null, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
-        }
-
-        public override void AddRecipes()
-        {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 11);
-            recipe.AddRecipeGroup("NForEE", 5);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            Item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Melee/EssenceFlayerGlow").Value);
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)
@@ -69,6 +60,14 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
             target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 300);
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient<CosmiliteBar>(12).
+                AddTile<CosmicAnvil>().
+                Register();
         }
     }
 }

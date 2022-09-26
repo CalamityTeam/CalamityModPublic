@@ -1,5 +1,7 @@
+﻿using Terraria.DataStructures;
 using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -15,28 +17,29 @@ namespace CalamityMod.Items.Weapons.Rogue
                 "Once the spiky ball disappears the orbs will home in on the nearest target\n" +
                 "Stacks up to 10\n" +
                 "Stealth strikes cause all spiky balls and orbs to be thrown at once\n" +
-				"Right click to recall all existing spiky balls");
+                "Right click to recall all existing spiky balls");
+            SacrificeTotal = 10;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
-            item.width = 18;
-            item.damage = 60;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.useAnimation = 20;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 20;
-            item.knockBack = 1f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 18;
-            item.maxStack = 10;
-            item.value = Item.buyPrice(0, 3, 60, 0);
-            item.rare = 6;
-            item.shoot = ModContent.ProjectileType<NychthemeronProjectile>();
-            item.shootSpeed = 6f;
-            item.Calamity().rogue = true;
+            Item.width = 18;
+            Item.damage = 60;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.useAnimation = 20;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 20;
+            Item.knockBack = 1f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.height = 18;
+            Item.maxStack = 10;
+            Item.value = CalamityGlobalItem.Rarity6BuyPrice / 10; // Stacks up to 10
+            Item.rare = ItemRarityID.LightPurple;
+            Item.shoot = ModContent.ProjectileType<NychthemeronProjectile>();
+            Item.shootSpeed = 6f;
+            Item.DamageType = RogueDamageClass.Instance;
         }
 
         public override bool AltFunctionUse(Player player)
@@ -52,63 +55,52 @@ namespace CalamityMod.Items.Weapons.Rogue
             return true;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             int orbDamage = (int)(damage * 0.75f);
 
             if (player.Calamity().StealthStrikeAvailable())
             {
-                for (int j = 0; j < item.stack - player.ownedProjectileCounts[ModContent.ProjectileType<NychthemeronProjectile>()]; j++)
+                for (int j = 0; j < Item.stack - player.ownedProjectileCounts[ModContent.ProjectileType<NychthemeronProjectile>()]; j++)
                 {
                     float spread = 2;
-                    int pIndex = Projectile.NewProjectile(position.X, position.Y, speedX + Main.rand.NextFloat(-spread, spread), speedY + Main.rand.NextFloat(-spread, spread), type, damage, knockBack, player.whoAmI, 0f, 1f);
+                    int pIndex = Projectile.NewProjectile(source, position.X, position.Y, velocity.X + Main.rand.NextFloat(-spread, spread), velocity.Y + Main.rand.NextFloat(-spread, spread), type, Math.Max(damage / 3, 1), knockback, player.whoAmI, 0f, 1f);
                     Projectile p = Main.projectile[pIndex];
-                    p.Calamity().stealthStrike = true;
+                    if (pIndex.WithinBounds(Main.maxProjectiles))
+                        p.Calamity().stealthStrike = true;
                     int pID = p.identity;
 
-                    CreateOrbs(position, orbDamage, knockBack, pID, player);
+                    CreateOrbs(source, position, (int)(orbDamage * 0.675f), knockback, pID, player, true);
                 }
             }
             else
             {
-                int pIndex = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 1f);
+                int pIndex = Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, type, damage, knockback, player.whoAmI, 0f, 1f);
                 int pID = Main.projectile[pIndex].identity;
-                
-                CreateOrbs(position, orbDamage, knockBack, pID, player);
+
+                CreateOrbs(source, position, orbDamage, knockback, pID, player, false);
             }
             return false;
         }
 
-		public override bool CanUseItem(Player player)
-		{
-			if (player.altFunctionUse == 2)
-			{
-				item.shoot = 0;
-				item.shootSpeed = 0f;
-				return player.ownedProjectileCounts[ModContent.ProjectileType<NychthemeronProjectile>()] > 0;
-			}
-			else
-			{
-				item.shoot = ModContent.ProjectileType<NychthemeronProjectile>();
-				item.shootSpeed = 6f;
-				int UseMax = item.stack;
-				return player.ownedProjectileCounts[ModContent.ProjectileType<NychthemeronProjectile>()] < UseMax;
-			}
-		}
-
-        public override void AddRecipes()
+        public override bool CanUseItem(Player player)
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.SpikyBall, 30);
-            recipe.AddIngredient(ItemID.LightShard);
-            recipe.AddIngredient(ItemID.DarkShard);
-            recipe.AddIngredient(ItemID.HallowedBar, 2);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            if (player.altFunctionUse == 2)
+            {
+                Item.shoot = ProjectileID.None;
+                Item.shootSpeed = 0f;
+                return player.ownedProjectileCounts[ModContent.ProjectileType<NychthemeronProjectile>()] > 0;
+            }
+            else
+            {
+                Item.shoot = ModContent.ProjectileType<NychthemeronProjectile>();
+                Item.shootSpeed = 6f;
+                int UseMax = Item.stack;
+                return player.ownedProjectileCounts[ModContent.ProjectileType<NychthemeronProjectile>()] < UseMax;
+            }
         }
 
-        private static void CreateOrbs(Vector2 position, int damage, float knockBack, int projectileID, Player player)
+        private static void CreateOrbs(IEntitySource source, Vector2 position, int damage, float knockback, int projectileID, Player player, bool stealth)
         {
             float rotationOffset = 0f;
 
@@ -154,12 +146,32 @@ namespace CalamityMod.Items.Weapons.Rogue
                 rotationOffset += MathHelper.ToRadians(72f);
             }
 
-            int orb1 = Projectile.NewProjectile(position.X, position.Y, 0f, 0f, ModContent.ProjectileType<NychthemeronOrb>(), damage, knockBack, player.whoAmI, orb1Col, projectileID);
-            int orb2 = Projectile.NewProjectile(position.X, position.Y, 0f, 0f, ModContent.ProjectileType<NychthemeronOrb>(), damage, knockBack, player.whoAmI, orb2Col, projectileID);
-            Main.projectile[orb1].localAI[1] = pos;
-            Main.projectile[orb2].localAI[1] = pos;
-            Main.projectile[orb1].rotation = rotationOffset;
-            Main.projectile[orb2].rotation = rotationOffset + MathHelper.ToRadians(180f);
+
+            int orb1 = Projectile.NewProjectile(source, position, Vector2.Zero, ModContent.ProjectileType<NychthemeronOrb>(), damage, knockback, player.whoAmI, orb1Col, projectileID);
+            int orb2 = Projectile.NewProjectile(source, position, Vector2.Zero, ModContent.ProjectileType<NychthemeronOrb>(), damage, knockback, player.whoAmI, orb2Col, projectileID);
+            if (orb1.WithinBounds(Main.maxProjectiles))
+            {
+                Main.projectile[orb1].localAI[1] = pos;
+                Main.projectile[orb1].rotation = rotationOffset;
+                Main.projectile[orb1].Calamity().lineColor = stealth ? 1 : 0;
+            }
+            if (orb2.WithinBounds(Main.maxProjectiles))
+            {
+                Main.projectile[orb2].localAI[1] = pos;
+                Main.projectile[orb2].rotation = rotationOffset + MathHelper.ToRadians(180f);
+                Main.projectile[orb2].Calamity().lineColor = stealth ? 1 : 0;
+            }
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient(ItemID.SpikyBall, 30).
+                AddIngredient(ItemID.LightShard).
+                AddIngredient(ItemID.DarkShard).
+                AddRecipeGroup("AnyMythrilBar", 2).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

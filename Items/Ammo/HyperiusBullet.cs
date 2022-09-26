@@ -1,13 +1,16 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Ranged;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Items.Ammo
 {
     public class HyperiusBullet : ModItem
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 99;
             DisplayName.SetDefault("Hyperius Bullet");
             Tooltip.SetDefault("Your enemies might have a bad time\n" +
                 "Spawns additional bullets on enemy hits");
@@ -15,28 +18,27 @@ namespace CalamityMod.Items.Ammo
 
         public override void SetDefaults()
         {
-            item.damage = 18;
-            item.ranged = true;
-            item.width = 8;
-            item.height = 8;
-            item.maxStack = 999;
-            item.consumable = true;
-            item.knockBack = 1.5f;
-            item.value = 2000;
-            item.rare = 9;
-            item.shoot = ModContent.ProjectileType<HyperiusBulletProj>();
-            item.shootSpeed = 16f;
-            item.ammo = 97;
+            Item.damage = 18;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 8;
+            Item.height = 8;
+            Item.maxStack = 999;
+            Item.consumable = true;
+            Item.knockBack = 1.5f;
+            Item.value = Item.sellPrice(copper: 16);
+            Item.rare = ItemRarityID.Cyan;
+            Item.shoot = ModContent.ProjectileType<HyperiusBulletProj>();
+            Item.shootSpeed = 16f;
+            Item.ammo = AmmoID.Bullet;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.MusketBall, 150);
-            recipe.AddIngredient(ModContent.ItemType<BarofLife>());
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this, 150);
-            recipe.AddRecipe();
+            CreateRecipe(150).
+                AddIngredient(ItemID.MusketBall, 150).
+                AddIngredient<LifeAlloy>().
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

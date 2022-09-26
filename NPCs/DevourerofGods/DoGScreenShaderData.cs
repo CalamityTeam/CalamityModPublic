@@ -1,4 +1,6 @@
+﻿using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Graphics.Effects;
 using Terraria.Graphics.Shaders;
 using Terraria.ModLoader;
 
@@ -28,6 +30,16 @@ namespace CalamityMod.NPCs.DevourerofGods
                     DoGIndex = i;
                     break;
                 }
+            }
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            if (DoGIndex == -1)
+            {
+                UpdateDoGIndex();
+                if (DoGIndex == -1)
+                    Filters.Scene["CalamityMod:DevourerofGodsHead"].Deactivate();
             }
         }
 

@@ -1,10 +1,11 @@
-using CalamityMod.Dusts;
+﻿using CalamityMod.Dusts;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Placeables.Ores;
-using CalamityMod.World;
 using Terraria;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Utilities;
 namespace CalamityMod.NPCs.NormalNPCs
 {
     public class BloomSlime : ModNPC
@@ -12,36 +13,47 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Bloom Slime");
-            Main.npcFrameCount[npc.type] = 2;
+            Main.npcFrameCount[NPC.type] = 2;
         }
 
         public override void SetDefaults()
         {
-            npc.aiStyle = 1;
-			aiType = NPCID.ToxicSludge;
-			npc.damage = 80;
-            npc.width = 40;
-            npc.height = 30;
-            npc.defense = 25;
-            npc.lifeMax = 1000;
-            npc.knockBackResist = 0f;
-            animationType = NPCID.CorruptSlime;
-            npc.value = Item.buyPrice(0, 0, 25, 0);
-            npc.alpha = 50;
-            npc.lavaImmune = false;
-            npc.noGravity = false;
-            npc.noTileCollide = false;
-            npc.HitSound = SoundID.NPCHit1;
-            npc.DeathSound = SoundID.NPCDeath1;
-            banner = npc.type;
-            bannerItem = ModContent.ItemType<BloomSlimeBanner>();
-            npc.buffImmune[BuffID.Confused] = false;
+            NPC.aiStyle = 1;
+            AIType = NPCID.ToxicSludge;
+            NPC.damage = 80;
+            NPC.width = 40;
+            NPC.height = 30;
+            NPC.defense = 25;
+            NPC.lifeMax = 1000;
+            NPC.knockBackResist = 0f;
+            AnimationType = NPCID.CorruptSlime;
+            NPC.value = Item.buyPrice(0, 0, 25, 0);
+            NPC.alpha = 50;
+            NPC.lavaImmune = false;
+            NPC.noGravity = false;
+            NPC.noTileCollide = false;
+            NPC.HitSound = SoundID.NPCHit1;
+            NPC.DeathSound = SoundID.NPCDeath1;
+            Banner = NPC.type;
+            BannerItem = ModContent.ItemType<BloomSlimeBanner>();
+            NPC.Calamity().VulnerableToHeat = true;
+            NPC.Calamity().VulnerableToSickness = false;
+        }
+
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Caverns,
+
+				// Will move to localization whenever that is cleaned up.
+				new FlavorTextBestiaryInfoElement("With the solar energy released from the profaned goddess’ destruction, uelibloom has sprouted in the jungle’s mud, and in the slimes which inhabit the biome.")
+            });
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.playerSafe || !CalamityWorld.downedProvidence || spawnInfo.player.Calamity().ZoneAbyss ||
-                spawnInfo.player.Calamity().ZoneSunkenSea)
+            if (spawnInfo.PlayerSafe || !DownedBossSystem.downedProvidence || spawnInfo.Player.Calamity().ZoneAbyss ||
+                spawnInfo.Player.Calamity().ZoneSunkenSea)
             {
                 return 0f;
             }
@@ -52,20 +64,17 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.SulfurousSeaAcid, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.SulfurousSeaAcid, hitDirection, -1f, 0, default, 1f);
             }
-            if (npc.life <= 0)
+            if (NPC.life <= 0)
             {
                 for (int k = 0; k < 20; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.SulfurousSeaAcid, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.SulfurousSeaAcid, hitDirection, -1f, 0, default, 1f);
                 }
             }
         }
 
-        public override void NPCLoot()
-        {
-            DropHelper.DropItem(npc, ModContent.ItemType<UelibloomOre>(), 10, 26);
-        }
+        public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.Add(ModContent.ItemType<UelibloomOre>(), 1, 10, 26);
     }
 }

@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.Summon;
+﻿using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -6,34 +6,40 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Summon
 {
-	public class CinderBlossom : ModProjectile
+    public class CinderBlossom : ModProjectile
     {
+        public float Time
+        {
+            get => Projectile.ai[0];
+            set => Projectile.ai[0] = value;
+        }
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Cinder Blossom");
-            ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
-            ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
+            ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
+            ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 36;
-            projectile.height = 40;
-            projectile.netImportant = true;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.minionSlots = 1f;
-            projectile.timeLeft = 18000;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.timeLeft *= 5;
-            projectile.minion = true;
+            Projectile.width = 36;
+            Projectile.height = 40;
+            Projectile.netImportant = true;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.minionSlots = 1f;
+            Projectile.timeLeft = 18000;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.timeLeft *= 5;
+            Projectile.minion = true;
+            Projectile.DamageType = DamageClass.Summon;
         }
 
         public override void AI()
         {
-            bool isCorrectMinion = projectile.type == ModContent.ProjectileType<CinderBlossom>();
-            Player player = Main.player[projectile.owner];
+            bool isCorrectMinion = Projectile.type == ModContent.ProjectileType<CinderBlossom>();
+            Player player = Main.player[Projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
             player.AddBuff(ModContent.BuffType<CinderBlossomBuff>(), 3600);
             if (isCorrectMinion)
@@ -44,52 +50,48 @@ namespace CalamityMod.Projectiles.Summon
                 }
                 if (modPlayer.cinderBlossom)
                 {
-                    projectile.timeLeft = 2;
+                    Projectile.timeLeft = 2;
                 }
             }
-            projectile.Center = player.Center + Vector2.UnitY * (player.gfxOffY - 60f);
+            Projectile.Center = player.Center + Vector2.UnitY * (player.gfxOffY - 60f);
             if (player.gravDir == -1f)
+                Projectile.position.Y += 120f;
+            Projectile.position.X = (int)Projectile.position.X;
+            Projectile.position.Y = (int)Projectile.position.Y;
+            Projectile.position = Projectile.position.Floor();
+            Projectile.rotation += MathHelper.ToRadians(1.5f) * player.direction;
+
+            if (Projectile.localAI[0] == 0f)
             {
-                projectile.position.Y += 120f;
+                Initialize(player);
+                Projectile.localAI[0] = 1f;
             }
-            projectile.position.X = (int)projectile.position.X;
-            projectile.position.Y = (int)projectile.position.Y;
-            projectile.rotation += MathHelper.ToRadians(1.5f) * player.direction;
-            if (projectile.localAI[0] == 0f)
+            if (Projectile.owner == Main.myPlayer)
             {
-                projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
-                projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
-                for (int i = 0; i < 36; i++)
-                {
-                    Dust dust = Dust.NewDustPerfect(projectile.Center, DustID.Fire);
-                    dust.noGravity = true;
-                    dust.velocity = Vector2.One.RotatedByRandom(MathHelper.TwoPi) * Main.rand.NextFloat(2f, 6f);
-                }
-                projectile.localAI[0] += 1f;
-            }
-            if (player.MinionDamage() != projectile.Calamity().spawnedPlayerMinionDamageValue)
-            {
-                int trueDamage = (int)((float)projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    projectile.Calamity().spawnedPlayerMinionDamageValue *
-                    player.MinionDamage());
-                projectile.damage = trueDamage;
-            }
-            if (projectile.owner == Main.myPlayer)
-            {
-                NPC potentialTarget = projectile.Center.MinionHoming(700f, player);
+                NPC potentialTarget = Projectile.Center.MinionHoming(700f, player);
                 if (potentialTarget != null)
                 {
-                    if (projectile.ai[1]++ % 35f == 34f &&
-                        Collision.CanHit(projectile.position, projectile.width, projectile.height, potentialTarget.position, potentialTarget.width, potentialTarget.height))
+                    if (Time++ % 35f == 34f && Collision.CanHit(Projectile.position, Projectile.width, Projectile.height, potentialTarget.position, potentialTarget.width, potentialTarget.height))
                     {
-                        Projectile.NewProjectile(projectile.Center, projectile.DirectionTo(potentialTarget.Center) * Main.rand.NextFloat(10f, 18f), ModContent.ProjectileType<Cinder>(),
-                            projectile.damage, projectile.knockBack, projectile.owner);
+                        Vector2 velocity = Projectile.SafeDirectionTo(potentialTarget.Center) * Main.rand.NextFloat(10f, 18f);
+                        int p = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<Cinder>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                        if (Main.projectile.IndexInRange(p))
+                            Main.projectile[p].originalDamage = Projectile.originalDamage;
                     }
                 }
             }
-            Lighting.AddLight(projectile.Center, Color.Orange.ToVector3());
+            Lighting.AddLight(Projectile.Center, Color.Orange.ToVector3());
+        }
+        public void Initialize(Player player)
+        {
+            for (int i = 0; i < 36; i++)
+            {
+                Dust dust = Dust.NewDustPerfect(Projectile.Center, 6);
+                dust.noGravity = true;
+                dust.velocity = Vector2.UnitY.RotatedByRandom(MathHelper.TwoPi) * Main.rand.NextFloat(2f, 6f);
+            }
         }
 
-        public override bool CanDamage() => false;
+        public override bool? CanDamage() => false;
     }
 }

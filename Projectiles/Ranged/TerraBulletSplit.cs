@@ -1,5 +1,4 @@
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -9,59 +8,57 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class TerraBulletSplit : ModProjectile
     {
-		private float speed = 0f;
+        private float speed = 0f;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Bullet");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 3;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 3;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 8;
-            projectile.height = 8;
-            projectile.aiStyle = 1;
-            projectile.friendly = true;
-            projectile.ranged = true;
-            projectile.penetrate = 1;
-            projectile.alpha = 255;
-            projectile.timeLeft = 120;
-            projectile.extraUpdates = 1;
-            aiType = ProjectileID.Bullet;
+            Projectile.width = 4;
+            Projectile.height = 4;
+            Projectile.aiStyle = ProjAIStyleID.Arrow;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.penetrate = 1;
+            Projectile.alpha = 255;
+            Projectile.timeLeft = 120;
+            Projectile.extraUpdates = 1;
+            AIType = ProjectileID.Bullet;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool? CanHitNPC(NPC target) => Projectile.timeLeft < 90 && target.CanBeChasedBy(Projectile);
+
+        public override bool PreDraw(ref Color lightColor)
         {
-            Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
-            for (int k = 0; k < projectile.oldPos.Length; k++)
-            {
-                Vector2 drawPos = projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY);
-                Color color = projectile.GetAlpha(lightColor) * ((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length);
-                spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, null, color, projectile.rotation, drawOrigin, projectile.scale, SpriteEffects.None, 0f);
-            }
-            return true;
+            CalamityUtils.DrawAfterimagesFromEdge(Projectile, 0, lightColor);
+            return false;
         }
 
         public override void AI()
         {
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
-            if (projectile.alpha > 0)
+            Projectile.rotation = (float)Math.Atan2((double)Projectile.velocity.Y, (double)Projectile.velocity.X) + 1.57f;
+            if (Projectile.alpha > 0)
             {
-                projectile.alpha -= 85;
+                Projectile.alpha -= 85;
             }
-            float x2 = projectile.position.X - projectile.velocity.X / 10f;
-            float y2 = projectile.position.Y - projectile.velocity.Y / 10f;
+            float x2 = Projectile.position.X - Projectile.velocity.X / 10f;
+            float y2 = Projectile.position.Y - Projectile.velocity.Y / 10f;
             int num137 = Dust.NewDust(new Vector2(x2, y2), 1, 1, 74, 0f, 0f, 0, default, 0.8f);
-            Main.dust[num137].alpha = projectile.alpha;
+            Main.dust[num137].alpha = Projectile.alpha;
             Main.dust[num137].position.X = x2;
             Main.dust[num137].position.Y = y2;
             Main.dust[num137].velocity *= 0f;
             Main.dust[num137].noGravity = true;
 
-			if (speed == 0f)
-				speed = projectile.velocity.Length();
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 400f, speed, 12f);
-		}
+            if (speed == 0f)
+                speed = Projectile.velocity.Length();
+
+            if (Projectile.timeLeft < 90)
+                CalamityUtils.HomeInOnNPC(Projectile, !Projectile.tileCollide, 450f, speed, 12f);
+        }
     }
 }

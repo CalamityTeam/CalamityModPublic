@@ -1,7 +1,8 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -13,47 +14,35 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             DisplayName.SetDefault("Cosmic Rainbow");
             Tooltip.SetDefault("Launches a barrage of rainbows");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 105;
-            item.magic = true;
-            item.mana = 30;
-            item.width = 26;
-            item.height = 64;
-            item.useTime = 35;
-            item.useAnimation = 35;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 0f;
-            item.value = Item.buyPrice(0, 95, 0, 0);
-            item.rare = 9;
-            item.UseSound = SoundID.Item67;
-            item.autoReuse = true;
-            item.shoot = ProjectileID.RainbowFront;
-            item.shootSpeed = 18f;
+            Item.damage = 105;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 30;
+            Item.width = 26;
+            Item.height = 64;
+            Item.useTime = 35;
+            Item.useAnimation = 35;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 0f;
+            Item.value = CalamityGlobalItem.Rarity9BuyPrice;
+            Item.rare = ItemRarityID.Cyan;
+            Item.UseSound = SoundID.Item67;
+            Item.autoReuse = true;
+            Item.shoot = ProjectileID.RainbowFront;
+            Item.shootSpeed = 18f;
         }
 
-        public override void AddRecipes()
-        {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.RainbowGun);
-            recipe.AddIngredient(ItemID.PearlwoodBow);
-            recipe.AddIngredient(ModContent.ItemType<MeldiateBar>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<CoreofCalamity>());
-            recipe.AddIngredient(ModContent.ItemType<BarofLife>(), 5);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-        }
-
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             Vector2 vector = player.RotatedRelativePoint(player.MountedCenter, true);
             float num117 = 0.314159274f;
             int num118 = 3;
-            Vector2 vector7 = new Vector2(speedX, speedY);
+            Vector2 vector7 = velocity;
             vector7.Normalize();
             vector7 *= 60f;
             bool flag11 = Collision.CanHit(vector, 0, 0, vector + vector7, 0, 0);
@@ -65,11 +54,11 @@ namespace CalamityMod.Items.Weapons.Magic
                 {
                     value9 -= vector7;
                 }
-                int rainbow = Projectile.NewProjectile(vector.X + value9.X, vector.Y + value9.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
-				Main.projectile[rainbow].usesLocalNPCImmunity = true;
-				Main.projectile[rainbow].localNPCHitCooldown = 10;
+                int rainbow = Projectile.NewProjectile(source, vector.X + value9.X, vector.Y + value9.Y, velocity.X, velocity.Y, type, damage, knockback, player.whoAmI);
+                Main.projectile[rainbow].usesLocalNPCImmunity = true;
+                Main.projectile[rainbow].localNPCHitCooldown = 10;
             }
-            float num72 = item.shootSpeed;
+            float num72 = Item.shootSpeed;
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
             float num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
             float num79 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;
@@ -110,11 +99,23 @@ namespace CalamityMod.Items.Weapons.Magic
                 num79 *= num80;
                 float speedX4 = num78 + (float)Main.rand.Next(-15, 16) * 0.01f;
                 float speedY5 = num79 + (float)Main.rand.Next(-15, 16) * 0.01f;
-                int rainbow2 = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, type, damage, knockBack, player.whoAmI, 0f, 0f);
-				Main.projectile[rainbow2].usesLocalNPCImmunity = true;
-				Main.projectile[rainbow2].localNPCHitCooldown = 10;
+                int rainbow2 = Projectile.NewProjectile(source, vector2.X, vector2.Y, speedX4, speedY5, type, damage, knockback, player.whoAmI);
+                Main.projectile[rainbow2].usesLocalNPCImmunity = true;
+                Main.projectile[rainbow2].localNPCHitCooldown = 10;
             }
             return false;
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient(ItemID.RainbowGun).
+                AddIngredient(ItemID.PearlwoodBow).
+                AddIngredient<MeldConstruct>(5).
+                AddIngredient<CoreofCalamity>().
+                AddIngredient<LifeAlloy>(5).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

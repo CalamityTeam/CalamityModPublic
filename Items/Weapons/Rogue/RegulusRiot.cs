@@ -1,3 +1,4 @@
+﻿using Terraria.DataStructures;
 using CalamityMod.Projectiles.Rogue;
 using Terraria;
 using Terraria.ID;
@@ -6,44 +7,46 @@ using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-	public class RegulusRiot : RogueWeapon
+    public class RegulusRiot : RogueWeapon
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Regulus Riot");
             Tooltip.SetDefault(@"Fires a swift homing disk
 Stealth strikes explode into energy stars");
+            SacrificeTotal = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
-            item.damage = 116;
-            item.knockBack = 4.5f;
+            Item.damage = 116;
+            Item.knockBack = 4.5f;
 
-            item.width = 28;
-            item.height = 34;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.noMelee = true;
-            item.noUseGraphic = true;
+            Item.width = 28;
+            Item.height = 34;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
 
-            item.value = Item.buyPrice(0, 95, 0, 0);
-            item.useTime = 26;
-            item.useAnimation = 26;
-            item.UseSound = SoundID.Item1;
-            item.rare = 9;
-            item.Calamity().rogue = true;
+            Item.value = CalamityGlobalItem.Rarity9BuyPrice;
+            Item.useTime = 26;
+            Item.useAnimation = 26;
+            Item.UseSound = SoundID.Item1;
+            Item.rare = ItemRarityID.Cyan;
+            Item.DamageType = RogueDamageClass.Instance;
 
-            item.autoReuse = true;
-            item.shootSpeed = 8f;
-            item.shoot = ModContent.ProjectileType<RegulusRiotProj>();
+            Item.autoReuse = true;
+            Item.shootSpeed = 8f;
+            Item.shoot = ModContent.ProjectileType<RegulusRiotProj>();
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.Calamity().StealthStrikeAvailable()) //setting the stealth strike
             {
-                int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, 0f, 0f);
-                Main.projectile[stealth].Calamity().stealthStrike = true;
+                int stealth = Projectile.NewProjectile(source, position, velocity, type, (int)(damage * 1.2f), knockback, player.whoAmI);
+                if (stealth.WithinBounds(Main.maxProjectiles))
+                    Main.projectile[stealth].Calamity().stealthStrike = true;
                 return false;
             }
             return true;

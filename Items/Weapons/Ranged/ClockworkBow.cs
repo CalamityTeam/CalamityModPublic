@@ -1,118 +1,61 @@
+﻿using Terraria.DataStructures;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.Projectiles.Ranged;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
     public class ClockworkBow : ModItem
     {
+        public const int MaxBolts = 6;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Clockwork Bow");
-            Tooltip.SetDefault("Fires a storm of arrows in random directions\n" +
-                "All arrows fired will go through blocks");
+            Tooltip.SetDefault("Hold left click to load up to six precision bolts\n" +
+                "The more precision bolts are loaded, the harder they hit");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 50;
-            item.ranged = true;
-            item.width = 34;
-            item.height = 100;
-            item.useTime = 30;
-            item.useAnimation = 30;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 4.25f;
-            item.value = Item.buyPrice(1, 20, 0, 0);
-            item.rare = 10;
-            item.UseSound = SoundID.Item5;
-            item.autoReuse = true;
-            item.shoot = ProjectileID.PurificationPowder;
-            item.shootSpeed = 30f;
-            item.useAmmo = 40;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.damage = 808;
+            Item.DamageType = DamageClass.Ranged;
+            Item.width = 48;
+            Item.height = 96;
+            Item.useTime = 60;
+            Item.useAnimation = 30;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.channel = true;
+            Item.knockBack = 4.25f;
+            Item.value = CalamityGlobalItem.Rarity10BuyPrice;
+            Item.rare = ItemRarityID.Red;
+            Item.noUseGraphic = true;
+            Item.UseSound = SoundID.Item20;
+            Item.autoReuse = true;
+            Item.shoot = ProjectileID.PurificationPowder;
+            Item.shootSpeed = 15f;
+            Item.useAmmo = AmmoID.Arrow;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Cog, 50);
-            recipe.AddIngredient(ItemID.LunarBar, 5);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient(ItemID.LunarBar, 5).
+                AddIngredient(ItemID.Cog, 50).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[ModContent.ProjectileType<ClockworkBowHoldout>()] <= 0;
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            int i = Main.myPlayer;
-            float num72 = item.shootSpeed;
-            int num73 = damage;
-            float num74 = knockBack;
-            num74 = player.GetWeaponKnockback(item, num74);
-            player.itemTime = item.useTime;
-            Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
-            Vector2 vector3 = Main.MouseWorld + vector2;
-            float num78 = (float)Main.mouseX + Main.screenPosition.X + vector2.X;
-            float num79 = (float)Main.mouseY + Main.screenPosition.Y + vector2.Y;
-            if (player.gravDir == -1f)
-            {
-                num79 = Main.screenPosition.Y + (float)Main.screenHeight + (float)Main.mouseY + vector2.Y;
-            }
-            float num80 = (float)Math.Sqrt((double)(num78 * num78 + num79 * num79));
-            if ((float.IsNaN(num78) && float.IsNaN(num79)) || (num78 == 0f && num79 == 0f))
-            {
-                num78 = (float)player.direction;
-                num79 = 0f;
-                num80 = num72;
-            }
-            else
-            {
-                num80 = num72 / num80;
-            }
-
-            int num130 = 15;
-            if (Main.rand.NextBool(3))
-            {
-                num130++;
-            }
-            if (Main.rand.NextBool(4))
-            {
-                num130++;
-            }
-            if (Main.rand.NextBool(5))
-            {
-                num130++;
-            }
-            for (int num131 = 0; num131 < num130; num131++)
-            {
-                vector2 = new Vector2(player.position.X + (float)player.width * 0.5f + (float)(Main.rand.Next(201) * -(float)player.direction) + ((float)Main.mouseX + Main.screenPosition.X - player.position.X), player.MountedCenter.Y);
-                vector2.X = (vector2.X + player.Center.X) / 2f + (float)Main.rand.Next(-200, 201);
-                vector2.Y -= (float)(100 * num131);
-                num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
-                num79 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;
-                if (num79 < 0f)
-                {
-                    num79 *= -1f;
-                }
-                if (num79 < 20f)
-                {
-                    num79 = 20f;
-                }
-                num80 = (float)Math.Sqrt((double)(num78 * num78 + num79 * num79));
-                num80 = num72 / num80;
-                num78 *= num80;
-                num79 *= num80;
-                float speedX4 = num78 + (float)Main.rand.Next(-600, 601) * 0.02f;
-                float speedY5 = num79 + (float)Main.rand.Next(-600, 601) * 0.02f;
-                int projectile = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, type, num73, num74, i, 0f, 0f);
-                Main.projectile[projectile].tileCollide = false;
-                Main.projectile[projectile].timeLeft = 240;
-                Main.projectile[projectile].noDropItem = true;
-            }
+            Vector2 shootVelocity = velocity;
+            Vector2 shootDirection = shootVelocity.SafeNormalize(Vector2.UnitX * player.direction);
+            // Charge-up. Done via a holdout projectile.
+            Projectile.NewProjectile(source, position, shootDirection, ModContent.ProjectileType<ClockworkBowHoldout>(), damage, knockback, player.whoAmI);
             return false;
         }
     }

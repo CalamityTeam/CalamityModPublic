@@ -1,5 +1,7 @@
+﻿using CalamityMod.Events;
 using CalamityMod.Items.Materials;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -9,57 +11,63 @@ namespace CalamityMod.Items.SummonItems
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Old Power Cell");
-            Tooltip.SetDefault("Summons the ancient golem when used in the Temple");
+            Tooltip.SetDefault("Summons the Golem when used in the Jungle Temple\n" +
+                "Enrages outside the Jungle Temple\n" +
+                "Not consumable");
+			NPCID.Sets.MPAllowedEnemies[NPCID.Golem] = true;
+			ItemID.Sets.SortingPriorityBossSpawns[Type] = 15; // Lihzahrd Power Cell
         }
 
         public override void SetDefaults()
         {
-            item.width = 28;
-            item.height = 18;
-            item.maxStack = 20;
-            item.rare = 7;
-            item.useAnimation = 45;
-            item.useTime = 45;
-            item.useStyle = ItemUseStyleID.HoldingUp;
-            item.consumable = true;
+            Item.width = 28;
+            Item.height = 18;
+            Item.rare = ItemRarityID.Lime;
+            Item.useAnimation = 10;
+            Item.useTime = 10;
+            Item.useStyle = ItemUseStyleID.HoldUp;
+            Item.consumable = false;
         }
+
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = ContentSamples.CreativeHelper.ItemGroup.BossItem;
+		}
 
         public override bool CanUseItem(Player player)
         {
             bool canSummon = false;
-            if ((double)player.Center.Y > Main.worldSurface * 16.0)
+            if (player.Center.Y > Main.worldSurface * 16.0)
             {
                 int num = (int)player.Center.X / 16;
                 int num2 = (int)player.Center.Y / 16;
                 Tile tile = Framing.GetTileSafely(num, num2);
-                if (tile.wall == 87)
-                {
+                if (tile.WallType == 87)
                     canSummon = true;
-                }
             }
-            return canSummon && !NPC.AnyNPCs(NPCID.Golem);
+            return canSummon && !NPC.AnyNPCs(NPCID.Golem) && !BossRushEvent.BossRushActive;
         }
 
-        public override bool UseItem(Player player)
+        public override bool? UseItem(Player player)
         {
-            Main.PlaySound(SoundID.Roar, player.position, 0);
-			if (Main.netMode != NetmodeID.MultiplayerClient)
-				NPC.SpawnOnPlayer(player.whoAmI, NPCID.Golem);
-			else
-				NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, NPCID.Golem);
+            SoundEngine.PlaySound(SoundID.Roar, player.position);
+            if (Main.netMode != NetmodeID.MultiplayerClient)
+                NPC.SpawnOnPlayer(player.whoAmI, NPCID.Golem);
+            else
+                NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, NPCID.Golem);
 
-			return true;
+            return true;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.LunarTabletFragment, 10);
-            recipe.AddIngredient(ModContent.ItemType<EssenceofCinder>(), 5);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient(ItemID.LunarTabletFragment, 20).
+                AddIngredient<EssenceofSunlight>(10).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

@@ -1,9 +1,12 @@
+﻿using CalamityMod.Events;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
 using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Boss
 {
@@ -16,76 +19,81 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-            projectile.width = 12;
-            projectile.height = 12;
-            projectile.hostile = true;
-            projectile.penetrate = -1;
+            Projectile.width = 10;
+            Projectile.height = 10;
+            Projectile.scale = 1.2f;
+            Projectile.hostile = true;
+            Projectile.coldDamage = true;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft = 600;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
         {
-            writer.Write(projectile.localAI[0]);
+            writer.Write(Projectile.localAI[0]);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
-            projectile.localAI[0] = reader.ReadSingle();
+            Projectile.localAI[0] = reader.ReadSingle();
         }
 
         public override void AI()
         {
-            Lighting.AddLight((int)((projectile.position.X + (float)(projectile.width / 2)) / 16f), (int)((projectile.position.Y + (float)(projectile.height / 2)) / 16f), 0f, 0.25f, 0.25f);
+            Lighting.AddLight((int)((Projectile.position.X + (Projectile.width / 2)) / 16f), (int)((Projectile.position.Y + (Projectile.height / 2)) / 16f), 0f, 0.25f, 0.25f);
 
-			if (projectile.ai[0] != 2f)
-				projectile.aiStyle = 1;
-
-			if (projectile.ai[0] == 0f)
-			{
-				projectile.velocity.Y += 0.2f;
-			}
-			else if (projectile.ai[0] == 2f)
-			{
-				projectile.velocity.Y += 0.1f;
-
-				projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
-
-				if (projectile.velocity.Y > 6f)
-					projectile.velocity.Y = 6f;
-			}
-
-			if (projectile.localAI[0] == 0f)
+            if (Projectile.ai[0] == 0f)
             {
-                projectile.scale += 0.01f;
-                projectile.alpha -= 50;
-                if (projectile.alpha <= 0)
+                if (Projectile.velocity.Length() < Projectile.ai[1])
+                    Projectile.velocity *= 1.015f;
+
+                Projectile.rotation = (float)Math.Atan2(Projectile.velocity.Y, Projectile.velocity.X) + MathHelper.PiOver2;
+
+                for (int num322 = 0; num322 < 2; num322++)
                 {
-                    projectile.localAI[0] = 1f;
-                    projectile.alpha = 0;
+                    int num323 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 92, Projectile.velocity.X, Projectile.velocity.Y, 50, default, 0.6f);
+                    Main.dust[num323].noGravity = true;
+                    Dust dust = Main.dust[num323];
+                    dust.velocity *= 0.3f;
                 }
             }
-            else
+            else if (Projectile.ai[0] == 1f)
             {
-                projectile.scale -= 0.01f;
-                projectile.alpha += 50;
-                if (projectile.alpha >= 255)
+                if (Projectile.velocity.Length() < 10f)
+                    Projectile.velocity *= (CalamityWorld.revenge || BossRushEvent.BossRushActive) ? 1.03f : 1.025f;
+
+                Projectile.rotation = (float)Math.Atan2(Projectile.velocity.Y, Projectile.velocity.X) + MathHelper.PiOver2;
+
+                for (int num322 = 0; num322 < 2; num322++)
                 {
-                    projectile.localAI[0] = 0f;
-                    projectile.alpha = 255;
+                    int num323 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 92, Projectile.velocity.X, Projectile.velocity.Y, 50, default, 0.6f);
+                    Main.dust[num323].noGravity = true;
+                    Dust dust = Main.dust[num323];
+                    dust.velocity *= 0.3f;
                 }
+            }
+            else if (Projectile.ai[0] == 2f)
+            {
+                Projectile.velocity.Y += 0.1f;
+
+                Projectile.rotation = (float)Math.Atan2(Projectile.velocity.Y, Projectile.velocity.X) + MathHelper.PiOver2;
+
+                if (Projectile.velocity.Y > 6f)
+                    Projectile.velocity.Y = 6f;
             }
         }
 
         public override Color? GetAlpha(Color lightColor)
         {
-            return new Color(200, 200, 200, projectile.alpha);
+            return new Color(255, 255, 255, Projectile.alpha);
         }
 
         public override void Kill(int timeLeft)
         {
-			Main.PlaySound(SoundID.Item, (int)projectile.Center.X, (int)projectile.Center.Y, 27, 0.25f);
+            SoundEngine.PlaySound(SoundID.Item27 with { Volume = SoundID.Item27.Volume * 0.25f }, Projectile.Center);
             for (int num373 = 0; num373 < 3; num373++)
             {
-                int num374 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 76, 0f, 0f, 0, default, 1f);
+                int num374 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 76, 0f, 0f, 0, default, 1f);
                 Main.dust[num374].noGravity = true;
                 Main.dust[num374].noLight = true;
                 Main.dust[num374].scale = 0.7f;
@@ -94,8 +102,11 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            target.AddBuff(BuffID.Frostburn, 60, true);
-            target.AddBuff(BuffID.Chilled, 30, true);
+            if (damage <= 0)
+                return;
+
+            target.AddBuff(BuffID.Frostburn, 120, true);
+            target.AddBuff(BuffID.Chilled, 60, true);
         }
     }
 }

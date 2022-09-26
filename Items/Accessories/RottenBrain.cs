@@ -1,9 +1,9 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Projectiles.Magic;
-using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
+using Terraria.Localization;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -11,35 +11,51 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Rotten Brain");
             Tooltip.SetDefault("10% increased damage when below 75% life\n5% decreased movement speed when below 50% life\nShade rains down when you are hit");
         }
 
         public override void SetDefaults()
         {
-            item.width = 34;
-            item.height = 34;
-            item.value = CalamityGlobalItem.Rarity3BuyPrice;
-            item.expert = true;
-            item.rare = 3;
-            item.accessory = true;
+            Item.width = 34;
+            Item.height = 34;
+            Item.value = CalamityGlobalItem.Rarity3BuyPrice;
+            Item.rare = ItemRarityID.Orange;
+            Item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             if (player.immune)
             {
-                if (Main.rand.NextBool(8))
+                var source = player.GetSource_Accessory(Item);
+                if (player.miscCounter % 6 == 0)
                 {
                     if (player.whoAmI == Main.myPlayer)
                     {
-						Projectile rain = CalamityUtils.ProjectileRain(player.Center, 400f, 100f, 500f, 800f, 22f, ModContent.ProjectileType<AuraRain>(), (int)(18 * player.AverageDamage()), 2f, player.whoAmI, 6, 1);
-						rain.tileCollide = false;
+                        int damage = (int)player.GetBestClassDamage().ApplyTo(18);
+                        Projectile rain = CalamityUtils.ProjectileRain(source, player.Center, 400f, 100f, 500f, 800f, 22f, ModContent.ProjectileType<AuraRain>(), damage, 2f, player.whoAmI);
+                        if (rain.whoAmI.WithinBounds(Main.maxProjectiles))
+                        {
+                            rain.DamageType = DamageClass.Generic;
+                            rain.tileCollide = false;
+                            rain.penetrate = 1;
+                        }
                     }
                 }
             }
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.rBrain = true;
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient<BloodyWormTooth>().
+                AddTile(TileID.TinkerersWorkbench).
+                AddCondition(Recipe.Condition.InGraveyardBiome).
+                Register();
         }
     }
 }

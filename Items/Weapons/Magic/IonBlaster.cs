@@ -1,64 +1,77 @@
-using CalamityMod.Projectiles.Magic;
+﻿using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
-	public class IonBlaster : ModItem
-	{
-		public override void SetStaticDefaults()
+    public class IonBlaster : ModItem
+    {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Ion Blaster");
+            Tooltip.SetDefault("Fires ion blasts that speed up and then explode\n" +
+                "Damage scales with how full your mana is\n" +
+                "Using Astral Injection reduces the effectiveness of the mana boost");
+            SacrificeTotal = 1;
+        }
+
+        public override void SetDefaults()
+        {
+            Item.damage = 29;
+            Item.width = 44;
+            Item.height = 28;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 10;
+            Item.useAnimation = 10;
+            Item.useTime = 10;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.knockBack = 5.5f;
+            Item.UseSound = SoundID.Item91;
+            Item.autoReuse = true;
+            Item.noMelee = true;
+            Item.shoot = ModContent.ProjectileType<IonBlast>();
+            Item.shootSpeed = 3f;
+
+            Item.value = CalamityGlobalItem.Rarity5BuyPrice;
+            Item.rare = ItemRarityID.Pink;
+        }
+
+        public override Vector2? HoldoutOffset() => new Vector2(-5, 0);
+
+		public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
 		{
-			DisplayName.SetDefault("Ion Blaster");
-			Tooltip.SetDefault("Fires ion blasts that speed up and then explode\n" +
-				"The higher your mana the more damage they will do\n" +
-				"Astral steroids can inhibit the potential of this weapon");
+            float manaRatio = (float)player.statMana / player.statManaMax2;
+            bool injectionNerf = player.Calamity().astralInjection;
+            if (injectionNerf)
+                manaRatio = MathHelper.Min(manaRatio, 0.65f);
+
+            // 20% to 160% damage. Astral Injection caps it at 111% damage.
+            float damageRatio = 0.2f + 1.4f * manaRatio;
+            damage = (int)(damage * damageRatio);
 		}
 
-		public override void SetDefaults()
-		{
-			item.width = 44;
-			item.damage = 30;
-			item.magic = true;
-			item.mana = 6;
-			item.useAnimation = 10;
-			item.useTime = 10;
-			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.knockBack = 5.5f;
-			item.UseSound = SoundID.Item91;
-			item.autoReuse = true;
-			item.noMelee = true;
-			item.height = 28;
-			item.value = Item.buyPrice(0, 36, 0, 0);
-			item.rare = 5;
-			item.shoot = ModContent.ProjectileType<IonBlast>();
-			item.shootSpeed = 3f;
-		}
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        {
+            float manaRatio = (float)player.statMana / player.statManaMax2;
+            bool injectionNerf = player.Calamity().astralInjection;
+            if (injectionNerf)
+                manaRatio = MathHelper.Min(manaRatio, 0.65f);
 
-		public override Vector2? HoldoutOffset()
-		{
-			return new Vector2(-5, 0);
-		}
+            Projectile proj = Projectile.NewProjectileDirect(source, position, velocity, type, damage, knockback, player.whoAmI);
+            proj.scale = 0.75f + 0.75f * manaRatio;
+            return false;
+        }
 
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-		{
-			float manaAmount = (float)player.statMana * 0.01f;
-			float damageMult = manaAmount * 0.75f;
-			float injectionNerf = player.Calamity().astralInjection ? 0.6f : 1f;
-			int projectile = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, (int)(damage * damageMult * injectionNerf), knockBack, player.whoAmI);
-			Main.projectile[projectile].scale = manaAmount;
-			return false;
-		}
-
-		public override void AddRecipes()
-		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ItemID.SoulofFright, 10);
-			recipe.AddRecipeGroup("AnyAdamantiteBar", 7);
-			recipe.AddTile(TileID.MythrilAnvil);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
-		}
-	}
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient(ItemID.SoulofFright, 10).
+                AddRecipeGroup("AnyAdamantiteBar", 7).
+                AddTile(TileID.MythrilAnvil).
+                Register();
+        }
+    }
 }

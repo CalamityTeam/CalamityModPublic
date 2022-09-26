@@ -11,37 +11,29 @@ namespace CalamityMod.Items.Placeables.Plates
         {
             DisplayName.SetDefault("Navyplate");
             Tooltip.SetDefault("It resonates with otherworldly energy.");
+            SacrificeTotal = 100;
         }
 
         public override void SetDefaults()
         {
-            item.createTile = ModContent.TileType<Tiles.Plates.Navyplate>();
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTurn = true;
-            item.useAnimation = 15;
-            item.useTime = 10;
-            item.autoReuse = true;
-            item.consumable = true;
-            item.width = 13;
-            item.height = 10;
-            item.maxStack = 999;
-            item.value = Item.sellPrice(silver: 3);
-            item.rare = 3;
+            Item.createTile = ModContent.TileType<Tiles.Plates.Navyplate>();
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTurn = true;
+            Item.useAnimation = 15;
+            Item.useTime = 10;
+            Item.autoReuse = true;
+            Item.consumable = true;
+            Item.width = 13;
+            Item.height = 10;
+            Item.maxStack = 999;
+            Item.value = Item.sellPrice(silver: 3);
+            Item.rare = ItemRarityID.Orange;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<SeaPrism>(), 1);
-            recipe.AddIngredient(ItemID.Obsidian, 3);
-            recipe.SetResult(this, 3);
-            recipe.AddTile(TileID.Hellforge);
-            recipe.AddRecipe();
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<NavyplateWall>(), 4);
-            recipe.SetResult(this);
-            recipe.AddTile(TileID.WorkBenches);
-            recipe.AddRecipe();
+            CreateRecipe(3).AddIngredient(ModContent.ItemType<SeaPrism>(), 1).AddIngredient(ItemID.Obsidian, 3).AddTile(TileID.Hellforge).Register();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<NavyplateWall>(), 4).AddTile(TileID.WorkBenches).Register();
         }
     }
 }

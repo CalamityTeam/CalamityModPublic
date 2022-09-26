@@ -1,5 +1,6 @@
-using CalamityMod.Buffs.Pets;
+﻿using CalamityMod.Buffs.Pets;
 using CalamityMod.Projectiles.Pets;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -10,30 +11,31 @@ namespace CalamityMod.Items.Pets
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Geyser Shell");
             Tooltip.SetDefault("Summons a little flak hermit");
         }
         public override void SetDefaults()
         {
-            item.damage = 0;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useAnimation = 20;
-            item.useTime = 20;
-            item.noMelee = true;
-            item.width = 30;
-            item.height = 30;
-            item.value = Item.sellPrice(0, 1, 50, 0);
-            item.shoot = ModContent.ProjectileType<FlakPet>();
-            item.buffType = ModContent.BuffType<FlakPetBuff>();
-            item.rare = 6;
-            item.UseSound = SoundID.Item2;
+            Item.damage = 0;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useAnimation = 20;
+            Item.useTime = 20;
+            Item.noMelee = true;
+            Item.width = 30;
+            Item.height = 30;
+            Item.value = Item.sellPrice(0, 1, 50, 0);
+            Item.shoot = ModContent.ProjectileType<FlakPet>();
+            Item.buffType = ModContent.BuffType<FlakHermitBuff>();
+            Item.rare = ItemRarityID.LightPurple;
+            Item.UseSound = SoundID.Item2;
         }
 
-        public override void UseStyle(Player player)
+        public override void UseStyle(Player player, Rectangle heldItemFrame)
         {
             if (player.whoAmI == Main.myPlayer && player.itemTime == 0)
             {
-                player.AddBuff(item.buffType, 15, true);
+                player.AddBuff(Item.buffType, 15, true);
             }
         }
     }

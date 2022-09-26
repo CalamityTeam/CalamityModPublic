@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -9,39 +9,39 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Archaic Powder");
-            Tooltip.SetDefault("20% increased mining speed, 7% damage reduction, and +3 defense while underground or in the underworld");
+            Tooltip.SetDefault("20% increased mining speed, 5% damage reduction and +10 defense while underground or in the underworld");
         }
 
         public override void SetDefaults()
         {
-            item.width = 20;
-            item.height = 20;
-            item.value = CalamityGlobalItem.Rarity3BuyPrice;
-            item.rare = 3;
-            item.accessory = true;
+            Item.width = 20;
+            Item.height = 20;
+            Item.value = CalamityGlobalItem.Rarity3BuyPrice;
+            Item.rare = ItemRarityID.Orange;
+            Item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             if (player.ZoneDirtLayerHeight || player.ZoneRockLayerHeight || player.ZoneUnderworldHeight)
             {
-                player.statDefense += 3;
-                player.endurance += 0.07f;
+                player.statDefense += 10;
+                player.endurance += 0.05f;
                 player.pickSpeed -= 0.2f;
             }
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<AncientFossil>());
-            recipe.AddIngredient(ModContent.ItemType<DemonicBoneAsh>());
-            recipe.AddIngredient(ModContent.ItemType<AncientBoneDust>(), 3);
-            recipe.AddIngredient(ItemID.Bone, 15);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient<AncientFossil>().
+                AddIngredient<DemonicBoneAsh>().
+                AddIngredient<AncientBoneDust>(3).
+                AddIngredient(ItemID.Bone, 15).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

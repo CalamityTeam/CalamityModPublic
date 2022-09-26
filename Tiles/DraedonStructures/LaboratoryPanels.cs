@@ -7,19 +7,22 @@ namespace CalamityMod.Tiles.DraedonStructures
 {
     public class LaboratoryPanels : ModTile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileSolid[Type] = true;
             Main.tileBlockLight[Type] = true;
             Main.tileMergeDirt[Type] = true;
 
             CalamityUtils.MergeWithGeneral(Type);
+            CalamityUtils.SetMerge(Type, ModContent.TileType<HazardChevronPanels>());
 
-            soundType = SoundID.Tink;
-            dustType = 109;
-            minPick = 30;
-            drop = ModContent.ItemType<Items.Placeables.DraedonStructures.LaboratoryPanels>();
+            HitSound = SoundID.Tink;
+            DustType = 109;
+            MinPick = 30;
+            ItemDrop = ModContent.ItemType<Items.Placeables.DraedonStructures.LaboratoryPanels>();
             AddMapEntry(new Color(36, 35, 37));
         }
+
+        public override bool CanExplode(int i, int j) => false;
     }
 }

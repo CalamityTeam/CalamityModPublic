@@ -1,3 +1,4 @@
+﻿using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Rogue;
 using Terraria;
@@ -15,34 +16,36 @@ namespace CalamityMod.Items.Weapons.Rogue
             Tooltip.SetDefault(@"Explodes into highly flammable black tar
 Tar oils enemies and sets them alight
 Stealth strikes leak tar as they fly");
+            SacrificeTotal = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
-            item.width = 30;
-            item.damage = 55;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.useAnimation = 28;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 28;
-            item.knockBack = 5f;
-            item.UseSound = SoundID.Item106;
-            item.autoReuse = true;
-            item.height = 40;
-            item.value = Item.buyPrice(0, 60, 0, 0);
-            item.rare = 7;
-            item.shoot = ModContent.ProjectileType<TotalityFlask>();
-            item.shootSpeed = 12f;
-            item.Calamity().rogue = true;
+            Item.width = 32;
+            Item.damage = 55;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.useAnimation = 28;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 28;
+            Item.knockBack = 5f;
+            Item.UseSound = SoundID.Item106;
+            Item.autoReuse = true;
+            Item.height = 42;
+            Item.value = CalamityGlobalItem.Rarity8BuyPrice;
+            Item.rare = ItemRarityID.Lime;
+            Item.shoot = ModContent.ProjectileType<TotalityFlask>();
+            Item.shootSpeed = 12f;
+            Item.DamageType = RogueDamageClass.Instance;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.Calamity().StealthStrikeAvailable()) //setting the stealth strike
             {
-                int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, 0f, 0f);
-                Main.projectile[stealth].Calamity().stealthStrike = true;
+                int stealth = Projectile.NewProjectile(source, position, velocity, type, (int)(damage * 1.15f), knockback, player.whoAmI);
+                if (stealth.WithinBounds(Main.maxProjectiles))
+                    Main.projectile[stealth].Calamity().stealthStrike = true;
                 return false;
             }
             return true;
@@ -50,15 +53,14 @@ Stealth strikes leak tar as they fly");
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.MolotovCocktail, 50);
-            recipe.AddIngredient(ModContent.ItemType<SolarVeil>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<ConsecratedWater>());
-            recipe.AddIngredient(ModContent.ItemType<DesecratedWater>());
-            recipe.AddIngredient(ModContent.ItemType<SpentFuelContainer>());
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient(ItemID.MolotovCocktail, 50).
+                AddIngredient<ConsecratedWater>().
+                AddIngredient<DesecratedWater>().
+                AddIngredient<SpentFuelContainer>().
+                AddIngredient<SolarVeil>(10).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

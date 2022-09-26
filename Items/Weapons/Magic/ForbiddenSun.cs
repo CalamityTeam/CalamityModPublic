@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
 using Terraria;
 using Terraria.ID;
@@ -12,35 +12,35 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             DisplayName.SetDefault("Forbidden Sun");
             Tooltip.SetDefault("Casts a fire orb that emits a gigantic explosion on death");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 80;
-            item.magic = true;
-            item.mana = 33;
-            item.width = 28;
-            item.height = 30;
-            item.useTime = 30;
-            item.useAnimation = 30;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 7f;
-            item.value = Item.buyPrice(0, 80, 0, 0);
-            item.rare = 8;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<ForbiddenSunProjectile>();
-            item.shootSpeed = 9f;
+            Item.damage = 80;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 33;
+            Item.width = 28;
+            Item.height = 30;
+            Item.useTime = 30;
+            Item.useAnimation = 30;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 7f;
+            Item.value = CalamityGlobalItem.Rarity9BuyPrice;
+            Item.rare = ItemRarityID.Yellow;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<ForbiddenSunProjectile>();
+            Item.shootSpeed = 9f;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<CruptixBar>(), 6);
-            recipe.AddIngredient(ItemID.LivingFireBlock, 50);
-            recipe.AddTile(TileID.Bookcases);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient(ItemID.SpellTome).
+                AddIngredient<ScoriaBar>(6).
+                AddTile(TileID.Bookcases).
+                Register();
         }
     }
 }

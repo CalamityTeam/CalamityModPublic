@@ -1,3 +1,4 @@
+﻿using Terraria.DataStructures;
 using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -9,46 +10,48 @@ namespace CalamityMod.Items.Weapons.Rogue
     public class TerrorTalons : RogueWeapon
     {
         private float sign = 1f;
-        
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Terror Talons");
             Tooltip.SetDefault("Fires small wavering claws\n" +
             "Stealth strikes launch a large, high speed claw which pierces");
+            SacrificeTotal = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
-            item.width = 40;
-            item.damage = 47;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 7;
-            item.useAnimation = 7;
-            item.knockBack = 3f;
-            item.UseSound = SoundID.Item39;
-            item.autoReuse = true;
-            item.height = 24;
-            item.value = Item.buyPrice(0, 48, 0, 0);
-            item.rare = 6;
-            item.shoot = ModContent.ProjectileType<TalonSmallProj>();
-            item.shootSpeed = 10.5f;
-            item.Calamity().rogue = true;
+            Item.width = 40;
+            Item.damage = 47;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 7;
+            Item.useAnimation = 7;
+            Item.knockBack = 3f;
+            Item.UseSound = SoundID.Item39;
+            Item.autoReuse = true;
+            Item.height = 24;
+            Item.value = CalamityGlobalItem.Rarity7BuyPrice;
+            Item.rare = ItemRarityID.LightPurple;
+            Item.shoot = ModContent.ProjectileType<TalonSmallProj>();
+            Item.shootSpeed = 10.5f;
+            Item.DamageType = RogueDamageClass.Instance;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.Calamity().StealthStrikeAvailable()) //setting the stealth strike
             {
-                float stealthDamageMult = 3.25f;
-                int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<TalonLargeProj>(), (int)(damage * stealthDamageMult), knockBack, player.whoAmI, 0f, 0f);
-                Main.projectile[stealth].Calamity().stealthStrike = true;
+                float stealthDamageMult = 4.875f;
+                int stealth = Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<TalonLargeProj>(), (int)(damage * stealthDamageMult), knockback, player.whoAmI);
+                if (stealth.WithinBounds(Main.maxProjectiles))
+                    Main.projectile[stealth].Calamity().stealthStrike = true;
             }
             else
             {
                 // flip flop every standard projectile
-                Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<TalonSmallProj>(), damage, knockBack, player.whoAmI, 0f, sign);
+                Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<TalonSmallProj>(), damage, knockback, player.whoAmI, 0f, sign);
                 sign = -sign;
             }
             return false;
@@ -56,13 +59,12 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.FeralClaws);
-            recipe.AddIngredient(ItemID.ChlorophyteBar, 5);
-            recipe.AddIngredient(ItemID.SoulofFright, 10);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient(ItemID.FeralClaws).
+                AddIngredient(ItemID.ChlorophyteBar, 5).
+                AddIngredient(ItemID.SoulofFright, 10).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

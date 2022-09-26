@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -9,35 +9,36 @@ namespace CalamityMod.Items.Tools
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Greatbay Pickaxe");
-            Tooltip.SetDefault("Can mine Meteorite");
+            Tooltip.SetDefault("Can mine Demonite, Crimtane and Meteorite");
         }
 
         public override void SetDefaults()
         {
-            item.damage = 9;
-            item.melee = true;
-            item.width = 44;
-            item.height = 44;
-            item.useTime = 16;
-            item.useAnimation = 16;
-            item.useTurn = true;
-            item.pick = 60;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 2f;
-            item.value = Item.buyPrice(0, 2, 0, 0);
-            item.rare = 2;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
+            Item.damage = 9;
+            Item.knockBack = 2f;
+            Item.useTime = 8;
+            Item.useAnimation = 16;
+            Item.pick = 55;
+
+            Item.DamageType = DamageClass.Melee;
+            Item.width = 44;
+            Item.height = 44;
+            Item.useTurn = true;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.value = Item.buyPrice(0, 2, 0, 0);
+            Item.rare = ItemRarityID.Green;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<VictideBar>(), 3);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient<SeaRemains>(3).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

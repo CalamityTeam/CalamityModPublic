@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ModLoader;
@@ -9,63 +9,63 @@ namespace CalamityMod.Projectiles.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Melter Amp");
-            Main.projFrames[projectile.type] = 3;
+            Main.projFrames[Projectile.type] = 3;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 34;
-            projectile.height = 38;
-            projectile.friendly = true;
-            projectile.magic = true;
-            projectile.netImportant = true;
-            projectile.penetrate = -1;
-            projectile.timeLeft = 6000;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 20;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
+            Projectile.width = 34;
+            Projectile.height = 38;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Magic;
+            Projectile.netImportant = true;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft = 6000;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 20;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
         }
 
         public override void AI()
         {
-            bool flag64 = projectile.type == ModContent.ProjectileType<MelterAmp>();
-            Player player = Main.player[projectile.owner];
+            bool flag64 = Projectile.type == ModContent.ProjectileType<MelterAmp>();
+            Player player = Main.player[Projectile.owner];
             if (flag64)
             {
                 if (player.dead)
                 {
-                    projectile.active = false;
+                    Projectile.active = false;
                     return;
                 }
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<MelterAmp>()] > 1)
                 {
-                    projectile.active = false;
+                    Projectile.active = false;
                     return;
                 }
-                if (!player.ActiveItem().magic || player.ActiveItem().shoot != ModContent.ProjectileType<MelterNote1>())
+                if (!player.ActiveItem().CountsAsClass<MagicDamageClass>() || player.ActiveItem().shoot != ModContent.ProjectileType<MelterNote1>())
                 {
-                    projectile.active = false;
+                    Projectile.active = false;
                     return;
                 }
             }
-            Lighting.AddLight(projectile.Center, 0.75f, 0.75f, 0.75f);
-            if (projectile.ai[0] > 0f)
+            Lighting.AddLight(Projectile.Center, 0.75f, 0.75f, 0.75f);
+            if (Projectile.ai[0] > 0f)
             {
-                projectile.ai[0] += 1f;
-                if (projectile.ai[0] > 6f)
+                Projectile.ai[0] += 1f;
+                if (Projectile.ai[0] > 6f)
                 {
-                    projectile.ai[0] = 0f;
+                    Projectile.ai[0] = 0f;
                 }
             }
-            if (Main.myPlayer == projectile.owner && projectile.ai[0] == 0f)
+            if (Main.myPlayer == Projectile.owner && Projectile.ai[0] == 0f)
             {
-                projectile.ai[0] = 1f;
-                int Damage = projectile.damage;
+                Projectile.ai[0] = 1f;
+                int Damage = Projectile.damage;
                 int type;
-                projectile.netUpdate = true;
+                Projectile.netUpdate = true;
                 float num127 = 20f;
-                Vector2 vector11 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
+                Vector2 vector11 = new Vector2(Projectile.position.X + (float)Projectile.width * 0.5f, Projectile.position.Y + (float)Projectile.height * 0.5f);
                 float num128 = (float)Main.mouseX + Main.screenPosition.X - vector11.X;
                 float num129 = (float)Main.mouseY + Main.screenPosition.Y - vector11.Y;
                 if (player.gravDir == -1f)
@@ -76,8 +76,8 @@ namespace CalamityMod.Projectiles.Magic
                 if (num130 == 0f)
                 {
                     vector11 = new Vector2(player.position.X + (float)(player.width / 2), player.position.Y + (float)(player.height / 2));
-                    num128 = projectile.position.X + (float)projectile.width * 0.5f - vector11.X;
-                    num129 = projectile.position.Y + (float)projectile.height * 0.5f - vector11.Y;
+                    num128 = Projectile.position.X + (float)Projectile.width * 0.5f - vector11.X;
+                    num129 = Projectile.position.Y + (float)Projectile.height * 0.5f - vector11.Y;
                     num130 = (float)Math.Sqrt((double)(num128 * num128 + num129 * num129));
                 }
                 num130 = num127 / num130;
@@ -88,7 +88,7 @@ namespace CalamityMod.Projectiles.Magic
                 int note = Main.rand.Next(0, 2);
                 if (note == 0)
                 {
-                    Damage = (int)(projectile.damage * 1.5f);
+                    Damage = (int)(Projectile.damage * 1.5f);
                     type = ModContent.ProjectileType<MelterNote1>();
                 }
                 else
@@ -97,17 +97,17 @@ namespace CalamityMod.Projectiles.Magic
                     VelocityY *= 1.5f;
                     type = ModContent.ProjectileType<MelterNote2>();
                 }
-                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, VelocityX, VelocityY, type, Damage, projectile.knockBack, projectile.owner, 0.0f, 0.0f);
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, VelocityX, VelocityY, type, Damage, Projectile.knockBack, Projectile.owner, 0.0f, 0.0f);
             }
-            projectile.frameCounter++;
-            if (projectile.frameCounter > 5)
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter > 5)
             {
-                projectile.frame++;
-                projectile.frameCounter = 0;
+                Projectile.frame++;
+                Projectile.frameCounter = 0;
             }
-            if (projectile.frame > 2)
+            if (Projectile.frame > 2)
             {
-                projectile.frame = 0;
+                Projectile.frame = 0;
             }
         }
     }

@@ -1,3 +1,4 @@
+﻿using Terraria.DataStructures;
 using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -6,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-	public class IceStar : RogueWeapon
+    public class IceStar : RogueWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -14,37 +15,40 @@ namespace CalamityMod.Items.Weapons.Rogue
             Tooltip.SetDefault("Throws homing ice stars\n" +
                 "Stealth strikes pierce infinitely and spawn ice shards on hit\n" +
                 "Ice Stars are too brittle to be recovered after being thrown");
+            SacrificeTotal = 99;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
-            item.width = 62;
-            item.damage = 45;
-            item.noMelee = true;
-            item.consumable = true;
-            item.noUseGraphic = true;
-            item.useAnimation = 12;
-            item.crit = 7;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 12;
-            item.knockBack = 2.5f;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.height = 62;
-            item.maxStack = 999;
-            item.value = Item.buyPrice(0, 0, 5, 0);
-            item.rare = 5;
-            item.shoot = ModContent.ProjectileType<IceStarProjectile>();
-            item.shootSpeed = 14f;
-            item.Calamity().rogue = true;
+            Item.damage = 45;
+            Item.noMelee = true;
+            Item.consumable = true;
+            Item.noUseGraphic = true;
+            Item.useAnimation = 12;
+            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useTime = 12;
+            Item.knockBack = 2.5f;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.width = Item.height = 66;
+            Item.maxStack = 999;
+            Item.value = Item.buyPrice(0, 0, 5, 0);
+            Item.rare = ItemRarityID.Pink;
+            Item.shoot = ModContent.ProjectileType<IceStarProjectile>();
+            Item.shootSpeed = 14f;
+            Item.DamageType = RogueDamageClass.Instance;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        // Terraria seems to really dislike high crit values in SetDefaults
+        public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 7;
+
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.Calamity().StealthStrikeAvailable())
             {
-                int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, 0f, 0f);
-                Main.projectile[proj].Calamity().stealthStrike = true;
+                int proj = Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
+                if (proj.WithinBounds(Main.maxProjectiles))
+                    Main.projectile[proj].Calamity().stealthStrike = true;
                 return false;
             }
             return true;

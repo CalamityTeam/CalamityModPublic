@@ -1,9 +1,10 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Magic
 {
@@ -11,68 +12,68 @@ namespace CalamityMod.Projectiles.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Visage");
-            Main.projFrames[projectile.type] = 4;
+            DisplayName.SetDefault("Ghastly Visage");
+            Main.projFrames[Projectile.type] = 4;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 26;
-            projectile.height = 32;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.magic = true;
-            projectile.ignoreWater = true;
+            Projectile.width = 26;
+            Projectile.height = 32;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.DamageType = DamageClass.Magic;
+            Projectile.ignoreWater = true;
         }
 
         public override void AI()
         {
-            Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.65f / 255f, (255 - projectile.alpha) * 0f / 255f, (255 - projectile.alpha) * 0.1f / 255f);
-            Player player = Main.player[projectile.owner];
+            Lighting.AddLight(Projectile.Center, 0.65f, 0f, 0.1f);
+            Player player = Main.player[Projectile.owner];
             float num = 0f;
             Vector2 vector = player.RotatedRelativePoint(player.MountedCenter, true);
-            if (projectile.spriteDirection == -1)
+            if (Projectile.spriteDirection == -1)
             {
-                num = 3.14159274f;
+                num = MathHelper.Pi;
             }
-            projectile.frameCounter++;
-            if (projectile.frameCounter > 4)
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter > 4)
             {
-                projectile.frame++;
-                projectile.frameCounter = 0;
+                Projectile.frame++;
+                Projectile.frameCounter = 0;
             }
-            if (projectile.frame > 3)
+            if (Projectile.frame > 3)
             {
-                projectile.frame = 0;
+                Projectile.frame = 0;
             }
-            projectile.ai[0] += 1f;
+            Projectile.ai[0] += 1f;
             int num39 = 0;
-            if (projectile.ai[0] >= 240f)
+            if (Projectile.ai[0] >= 240f)
             {
                 num39++;
             }
-            if (projectile.ai[0] >= 480f)
+            if (Projectile.ai[0] >= 480f)
             {
                 num39++;
             }
             int num40 = 40;
             int num41 = 2;
-            projectile.ai[1] -= 1f;
+            Projectile.ai[1] -= 1f;
             bool flag15 = false;
-            if (projectile.ai[1] <= 0f)
+            if (Projectile.ai[1] <= 0f)
             {
-                projectile.ai[1] = (float)(num40 - num41 * num39);
+                Projectile.ai[1] = (float)(num40 - num41 * num39);
                 flag15 = true;
-                int arg_1EF4_0 = (int)projectile.ai[0] / (num40 - num41 * num39);
+                int arg_1EF4_0 = (int)Projectile.ai[0] / (num40 - num41 * num39);
             }
             bool flag16 = player.channel && !player.noItems && !player.CCed;
-            if (projectile.localAI[0] > 0f)
+            if (Projectile.localAI[0] > 0f)
             {
-                projectile.localAI[0] -= 1f;
+                Projectile.localAI[0] -= 1f;
             }
             int manaCost = (int)(20f * player.manaCost);
-            if (projectile.localAI[1] == 0f)
+            if (Projectile.localAI[1] == 0f)
             {
                 if (player.statMana < manaCost)
                 {
@@ -86,12 +87,12 @@ namespace CalamityMod.Projectiles.Magic
                         }
                         else
                         {
-                            projectile.Kill();
+                            Projectile.Kill();
                         }
                     }
                     else
                     {
-                        projectile.Kill();
+                        Projectile.Kill();
                     }
                 }
                 else
@@ -102,10 +103,10 @@ namespace CalamityMod.Projectiles.Magic
                         player.manaRegenDelay = (int)player.maxRegenDelay;
                     }
                 }
-                projectile.localAI[1] += 1f;
-                Main.PlaySound(SoundID.Item117, projectile.position);
+                Projectile.localAI[1] += 1f;
+                SoundEngine.PlaySound(SoundID.Item117, Projectile.position);
             }
-            if (projectile.soundDelay <= 0 && flag16)
+            if (Projectile.soundDelay <= 0 && flag16)
             {
                 if (player.statMana < manaCost)
                 {
@@ -119,12 +120,12 @@ namespace CalamityMod.Projectiles.Magic
                         }
                         else
                         {
-                            projectile.Kill();
+                            Projectile.Kill();
                         }
                     }
                     else
                     {
-                        projectile.Kill();
+                        Projectile.Kill();
                     }
                 }
                 else
@@ -135,23 +136,23 @@ namespace CalamityMod.Projectiles.Magic
                         player.manaRegenDelay = (int)player.maxRegenDelay;
                     }
                 }
-                projectile.soundDelay = num40 - num41 * num39;
-                if (projectile.ai[0] != 1f)
+                Projectile.soundDelay = num40 - num41 * num39;
+                if (Projectile.ai[0] != 1f)
                 {
-                    Main.PlaySound(SoundID.Item117, projectile.position);
+                    SoundEngine.PlaySound(SoundID.Item117, Projectile.position);
                 }
-                projectile.localAI[0] = 12f;
+                Projectile.localAI[0] = 12f;
             }
-            if (flag15 && Main.myPlayer == projectile.owner)
+            if (flag15 && Main.myPlayer == Projectile.owner)
             {
                 int num42 = ModContent.ProjectileType<GhastlyBlast>();
-                float scaleFactor11 = 6f;
+                float coreVelocity = 11.5f;
                 int weaponDamage2 = player.GetWeaponDamage(player.ActiveItem());
                 float weaponKnockback2 = player.ActiveItem().knockBack;
                 if (flag16)
                 {
                     weaponKnockback2 = player.GetWeaponKnockback(player.ActiveItem(), weaponKnockback2);
-                    float scaleFactor12 = player.ActiveItem().shootSpeed * projectile.scale;
+                    float scaleFactor12 = player.ActiveItem().shootSpeed * Projectile.scale;
                     Vector2 vector19 = vector;
                     Vector2 value18 = Main.screenPosition + new Vector2((float)Main.mouseX, (float)Main.mouseY) - vector19;
                     if (player.gravDir == -1f)
@@ -164,46 +165,48 @@ namespace CalamityMod.Projectiles.Magic
                         value19 = -Vector2.UnitY;
                     }
                     value19 *= scaleFactor12;
-                    if (value19.X != projectile.velocity.X || value19.Y != projectile.velocity.Y)
+                    if (value19.X != Projectile.velocity.X || value19.Y != Projectile.velocity.Y)
                     {
-                        projectile.netUpdate = true;
+                        Projectile.netUpdate = true;
                     }
-                    projectile.velocity = value19 * 0.55f;
-                    Vector2 vector20 = Vector2.Normalize(projectile.velocity) * scaleFactor11 * (0.6f + Main.rand.NextFloat() * 0.8f);
+                    Projectile.velocity = value19 * 0.55f;
+                    Vector2 vector20 = Vector2.Normalize(Projectile.velocity) * coreVelocity;
                     if (float.IsNaN(vector20.X) || float.IsNaN(vector20.Y))
                     {
                         vector20 = -Vector2.UnitY;
                     }
                     Vector2 vector21 = vector19 + Utils.RandomVector2(Main.rand, -10f, 10f);
-                    int num44 = Projectile.NewProjectile(vector21.X, vector21.Y, vector20.X, vector20.Y, num42, weaponDamage2, weaponKnockback2, projectile.owner, 0f, 0f);
+                    int num44 = Projectile.NewProjectile(Projectile.GetSource_FromThis(), vector21.X, vector21.Y, vector20.X, vector20.Y, num42, weaponDamage2, weaponKnockback2, Projectile.owner, 0f, 0f);
                 }
                 else
                 {
-                    projectile.Kill();
+                    Projectile.Kill();
                 }
             }
-            projectile.position = player.RotatedRelativePoint(player.MountedCenter, true) - projectile.Size / 2f;
-            projectile.rotation = projectile.velocity.ToRotation() + num;
-            projectile.spriteDirection = projectile.direction;
-            projectile.timeLeft = 2;
-            player.ChangeDir(projectile.direction);
-            player.heldProj = projectile.whoAmI;
+            Projectile.position = player.RotatedRelativePoint(player.MountedCenter, true) - Projectile.Size / 2f;
+            Projectile.rotation = Projectile.velocity.ToRotation() + num;
+            Projectile.spriteDirection = Projectile.direction;
+            Projectile.timeLeft = 2;
+            player.ChangeDir(Projectile.direction);
+            player.heldProj = Projectile.whoAmI;
             player.itemTime = 2;
             player.itemAnimation = 2;
-            player.itemRotation = (float)Math.Atan2((double)(projectile.velocity.Y * (float)projectile.direction), (double)(projectile.velocity.X * (float)projectile.direction));
+            player.itemRotation = (float)Math.Atan2((double)(Projectile.velocity.Y * (float)Projectile.direction), (double)(Projectile.velocity.X * (float)Projectile.direction));
         }
 
-		public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
-		{
-			Texture2D texture2D13 = Main.projectileTexture[projectile.type];
-			int num214 = Main.projectileTexture[projectile.type].Height / Main.projFrames[projectile.type];
-			int y6 = num214 * projectile.frame;
-			Vector2 origin = new Vector2(13f, 16f);
-			SpriteEffects spriteEffects = SpriteEffects.None;
-			if (projectile.spriteDirection == -1)
-				spriteEffects = SpriteEffects.FlipHorizontally;
+        public override void PostDraw(Color lightColor)
+        {
+            Texture2D texture2D13 = ModContent.Request<Texture2D>(Texture).Value;
+            int num214 = ModContent.Request<Texture2D>(Texture).Value.Height / Main.projFrames[Projectile.type];
+            int y6 = num214 * Projectile.frame;
+            Vector2 origin = new Vector2(13f, 16f);
+            SpriteEffects spriteEffects = SpriteEffects.None;
+            if (Projectile.spriteDirection == -1)
+                spriteEffects = SpriteEffects.FlipHorizontally;
 
-			spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Projectiles/Magic/GhastlyVisageProjGlow"), projectile.Center - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y6, texture2D13.Width, num214)), Color.White, projectile.rotation, origin, projectile.scale, spriteEffects, 0f);
-		}
-	}
+            Main.EntitySpriteDraw(ModContent.Request<Texture2D>("CalamityMod/Projectiles/Magic/GhastlyVisageProjGlow").Value, Projectile.Center - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y6, texture2D13.Width, num214)), Color.White, Projectile.rotation, origin, Projectile.scale, spriteEffects, 0);
+        }
+
+        public override bool? CanDamage() => false;
+    }
 }

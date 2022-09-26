@@ -1,7 +1,6 @@
-
-using CalamityMod.World;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ModLoader;
 using Terraria.ID;
 
@@ -9,30 +8,34 @@ namespace CalamityMod.Tiles.Ores
 {
     public class AuricOre : ModTile
     {
-        public override void SetDefaults()
+        public static readonly SoundStyle MineSound = new("CalamityMod/Sounds/Custom/AuricMine", 3);
+        public override void SetStaticDefaults()
         {
             Main.tileLighted[Type] = true;
             Main.tileSolid[Type] = true;
             Main.tileMergeDirt[Type] = true;
             Main.tileBlockLight[Type] = true;
             Main.tileSpelunker[Type] = true;
-            Main.tileValue[Type] = 1000;
+            Main.tileOreFinderPriority[Type] = 1000;
 
             CalamityUtils.MergeWithGeneral(Type);
 
-            dustType = 55;
-            drop = ModContent.ItemType<Items.Placeables.Ores.AuricOre>();
+            TileID.Sets.Ore[Type] = true;
+            TileID.Sets.OreMergesWithMud[Type] = true;
+
+            DustType = 55;
+            ItemDrop = ModContent.ItemType<Items.Placeables.Ores.AuricOre>();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Auric Ore");
             AddMapEntry(new Color(255, 200, 0), name);
-            mineResist = 10f;
-            minPick = 275;
-            soundType = SoundID.Tink;
+            MineResist = 10f;
+            MinPick = 250;
+            HitSound = MineSound;
         }
 
         public override bool CanExplode(int i, int j)
         {
-            return CalamityWorld.downedYharon;
+            return false;
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)

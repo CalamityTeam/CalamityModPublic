@@ -1,5 +1,7 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
+using CalamityMod.Rarities;
+using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -8,55 +10,46 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
-	public class SoulPiercer : ModItem
+    public class SoulPiercer : ModItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Soul Piercer");
             Tooltip.SetDefault("Casts a powerful ray that summons extra rays on enemy hits");
-            Item.staff[item.type] = true;
+            Item.staff[Item.type] = true;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 155;
-            item.magic = true;
-            item.mana = 19;
-            item.width = 64;
-            item.height = 64;
-            item.useTime = 20;
-            item.useAnimation = 20;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.noMelee = true;
-            item.knockBack = 8f;
-            item.value = Item.buyPrice(1, 80, 0, 0);
-            item.rare = 10;
-            item.UseSound = SoundID.Item73;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<SoulPiercerBeam>();
-            item.shootSpeed = 6f;
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.damage = 115;
+            Item.DamageType = DamageClass.Magic;
+            Item.mana = 19;
+            Item.width = 64;
+            Item.height = 64;
+            Item.useTime = Item.useAnimation = 25;
+            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noMelee = true;
+            Item.knockBack = 8f;
+            Item.value = CalamityGlobalItem.RarityDarkBlueBuyPrice;
+            Item.UseSound = SoundID.Item73;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<SoulPiercerBeam>();
+            Item.shootSpeed = 6f;
+            Item.rare = ModContent.RarityType<DarkBlue>();
         }
-
-        /*public override Vector2? HoldoutOrigin()
-        {
-            return new Vector2(15, 15);
-        }*/
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
-            Vector2 origin = new Vector2(32f, 30f);
-            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Items/Weapons/Magic/SoulPiercerGlow"), item.Center - Main.screenPosition, null, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
+            Item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Magic/SoulPiercerGlow").Value);
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 12);
-            recipe.AddRecipeGroup("NForEE", 6);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe().
+                AddIngredient<CosmiliteBar>(12).
+                AddTile<CosmicAnvil>().
+                Register();
         }
     }
 }
