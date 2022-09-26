@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Placeables.Furniture.DevPaintings
 			DisplayName.SetDefault("Thank You");
 			Tooltip.SetDefault("Thanks to the entire team, everyone who supported, and those who all play the mod and keep it alive!\n" +
 			"The confines of this painting is not enough to fit the entire team\n" +
-			"Hold SHIFT to see a list of past and current devs");
+			"Hold SHIFT to see a list of past and current devs and CTRL to see past and current testers");
             SacrificeTotal = 1;
 		}
 
@@ -30,38 +30,64 @@ namespace CalamityMod.Items.Placeables.Furniture.DevPaintings
 			Item.useTime = 10;
 			Item.useStyle = ItemUseStyleID.Swing;
 			Item.consumable = true;
-			Item.value = Item.buyPrice(0, 5, 0, 0);;
-			Item.rare = ItemRarityID.Blue;
+			Item.value = Item.buyPrice(0, 2, 0, 0);;
+			Item.rare = ItemRarityID.White;
 			Item.createTile = ModContent.TileType<ThankYouPaintingTile>();
+			Item.Calamity().donorItem = true;
 		}
 
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
-			if (!Main.keyState.IsKeyDown(LeftShift))
+			if (!Main.keyState.IsKeyDown(LeftShift) && !Main.keyState.IsKeyDown(LeftControl))
 				return;
 
-			string devString = "";
-			for (int i = 0; i < devList.Count; i++)
+			bool tester = false;
+			if (Main.keyState.IsKeyDown(LeftControl))
+				tester = true;
+
+			string tooltip = "";
+
+			if (!tester)
 			{
-				devString += devList[i];
+				int namesPerLine = 5;
+				for (int i = 0; i < devList.Count; i++)
+				{
+					tooltip += devList[i];
 
-				if (i == devList.Count - 1)
-					break;
+					if (i == devList.Count - 1)
+						break;
 
-				if (i % 5 == 0)
-					devString += "\n";
-				else
-					devString += ", ";
+					if (i % namesPerLine == 0)
+						tooltip += "\n";
+					else
+						tooltip += ", ";
+				}
+			}
+			else
+			{
+				int namesPerLine = 5;
+				for (int i = 0; i < testerList.Count; i++)
+				{
+					tooltip += testerList[i];
+
+					if (i == testerList.Count - 1)
+						break;
+
+					if (i % namesPerLine == namesPerLine - 1)
+						tooltip += "\n";
+					else
+						tooltip += ", ";
+				}
 			}
 
 			TooltipLine line = tooltips.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip2");
 			if (line != null)
-				line.Text = devString;
+				line.Text = tooltip;
 		}
 
         public IList<string> devList = new List<string>()
 		{
-			"Fabsol",
+			"Fabsol, the mod's founder and owner", // Fabsol gets a line to himself
 			"Alterra",
 			"Ben-TK",
 			"Bravioli",
@@ -94,19 +120,21 @@ namespace CalamityMod.Items.Placeables.Furniture.DevPaintings
 			"Tomat",
 			"Uncle Danny",
 			"YuH",
+
 			"ApidemDragon",
 			"Amadis",
 			"Aleksh",
+			"AstroKnight",
 			"Blockaroz",
 			"Boffin",
 			"DarkTiny",
 			"DM Dokuro",
 			"Earth",
 			"EchoDuck",
+			"ENNWAY",
 			"Frous",
 			"Gahtao",
 			"Gamagamer64",
-			"President Waluigi",
 			"Graydee",
 			"Grox the Great",
 			"Huggles",
@@ -129,23 +157,61 @@ namespace CalamityMod.Items.Placeables.Furniture.DevPaintings
 			"Pinkie Poss",
 			"pixlgray",
 			"Poly",
+			"President Waluigi",
 			"Puff",
 			"Purple Necromancer",
 			"sentri",
-			"Shadow",
 			"Shucks",
 			"SixteenInMono",
 			"Spoopyro",
 			"Svante",
 			"Terry N. Muse",
-			"Triactis",
 			"Trivaxy",
 			"Turquoise",
 			"Vaikyia",
 			"Vladimier",
 			"Yuyutsu",
 			"Zach",
-			"Ziggums"
+			"Ziggums",
+		};
+
+        public IList<string> testerList = new List<string>()
+		{
+			"Afzofa",
+			"Altix",
+			"AquaSG",
+			"Atalya",
+			"Blast",
+			"CrabBar",
+			"Demik",
+			"Ein",
+			"Epsilon",
+			"Fargowilta",
+			"Ian-1KV",
+			"Leon",
+			"Lompl Allimath",
+			"Memes",
+			"Shayy",
+			"StipulateVenus",
+			"Storm2103",
+			"That Blasterd Basterd",
+			"TikiWiki",
+			"Uberransy",
+			"Spider Prov",
+			"Xyk",
+
+			"Akeeli",
+			"Alphi",
+			"Chetto",
+			"Chill Dude",
+			"Doog",
+			"drh",
+			"Hectique",
+			"Lauren",
+			"Sargassum",
+			"ThousandFields",
+			"Teragat",
+			"Yatagarasu",
 		};
 
 	}
