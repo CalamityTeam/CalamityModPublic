@@ -10,6 +10,8 @@ namespace CalamityMod.Items.Placeables.Furniture.DevPaintings
 {
 	public class ThankYouPainting : ModItem
 	{
+		public const int DropInt = 100;
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Thank You");

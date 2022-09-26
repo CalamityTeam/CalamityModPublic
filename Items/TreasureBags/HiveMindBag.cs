@@ -2,6 +2,7 @@
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Pets;
+using CalamityMod.Items.Placeables.Furniture.DevPaintings;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
@@ -84,6 +85,7 @@ namespace CalamityMod.Items.TreasureBags
             // Vanity
             itemLoot.Add(ModContent.ItemType<HiveMindMask>(), 7);
             itemLoot.Add(ModContent.ItemType<RottingEyeball>(), 10);
+            itemLoot.Add(ModContent.ItemType<ThankYouPainting>(), ThankYouPainting.DropInt);
         }
     }
 }

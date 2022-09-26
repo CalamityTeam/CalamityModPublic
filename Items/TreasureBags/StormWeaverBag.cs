@@ -1,6 +1,7 @@
 ﻿using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Pets;
+using CalamityMod.Items.Placeables.Furniture.DevPaintings;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.NPCs.StormWeaver;
@@ -76,6 +77,7 @@ namespace CalamityMod.Items.TreasureBags
             ancientGodSlayer.OnSuccess(ItemDropRule.Common(ModContent.ItemType<AncientGodSlayerLeggings>()));
             itemLoot.Add(ancientGodSlayer);
             itemLoot.Add(ModContent.ItemType<LittleLight>(), 8);
+            itemLoot.Add(ModContent.ItemType<ThankYouPainting>(), ThankYouPainting.DropInt);
         }
     }
 }

@@ -17,6 +17,7 @@ using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items.Placeables.Furniture.BossRelics;
+using CalamityMod.Items.Placeables.Furniture.DevPaintings;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Events;
 using Terraria.Audio;
@@ -510,6 +511,9 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             npcLoot.Add(ModContent.ItemType<WarbanneroftheSun>(), 10);
             npcLoot.Add(ModContent.ItemType<ProfanedGuardianTrophy>(), 10);
             npcLoot.Add(ModContent.ItemType<ProfanedCore>());
+
+			// Furniture
+            npcLoot.Add(ModContent.ItemType<ThankYouPainting>(), ThankYouPainting.DropInt);
 
             // Relic
             npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).Add(ModContent.ItemType<ProfanedGuardiansRelic>());

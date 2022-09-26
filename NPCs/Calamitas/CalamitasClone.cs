@@ -6,6 +6,7 @@ using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Furniture.BossRelics;
+using CalamityMod.Items.Placeables.Furniture.DevPaintings;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Items.TreasureBags;
 using CalamityMod.Items.Weapons.Magic;
@@ -209,6 +210,7 @@ namespace CalamityMod.NPCs.Calamitas
                 var calVanity = ItemDropRule.Common(ModContent.ItemType<HoodOfCalamity>(), 10);
                 calVanity.OnSuccess(ItemDropRule.Common(ModContent.ItemType<RobesOfCalamity>()));
                 normalOnly.Add(calVanity);
+                normalOnly.Add(ModContent.ItemType<ThankYouPainting>(), ThankYouPainting.DropInt);
             }
 
             npcLoot.Add(ModContent.ItemType<CalamitasTrophy>(), 10);
