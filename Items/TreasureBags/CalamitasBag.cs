@@ -1,7 +1,6 @@
 ﻿using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.Materials;
-using CalamityMod.Items.Placeables.Furniture.DevPaintings;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
@@ -78,7 +77,6 @@ namespace CalamityMod.Items.TreasureBags
 
             // Vanity
             itemLoot.Add(ModContent.ItemType<CalamitasMask>(), 7);
-            itemLoot.Add(ModContent.ItemType<NincityPainting>(), 20);
             var calamityRobes = ItemDropRule.Common(ModContent.ItemType<RobesOfCalamity>(), 10);
             calamityRobes.OnSuccess(ItemDropRule.Common(ModContent.ItemType<HoodOfCalamity>()));
             itemLoot.Add(calamityRobes);
