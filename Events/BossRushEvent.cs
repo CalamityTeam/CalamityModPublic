@@ -323,18 +323,22 @@ namespace CalamityMod.Events
                 [NPCID.TheDestroyer] = npc =>
                 {
                     CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.BossRushTierOneEndText", XerocTextColor);
+                    CreateTierAnimation(2);
                 },
                 [NPCID.CultistBoss] = npc =>
                 {
                     CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.BossRushTierTwoEndText", XerocTextColor);
+                    CreateTierAnimation(3);
                 },
                 [NPCID.DukeFishron] = npc =>
                 {
                     CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.BossRushTierThreeEndText", XerocTextColor);
+                    CreateTierAnimation(4);
                 },
                 [ModContent.NPCType<Providence>()] = npc =>
                 {
                     CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.BossRushTierFourEndText", XerocTextColor);
+                    CreateTierAnimation(5);
                 },
                 [ModContent.NPCType<DevourerofGodsHead>()] = npc =>
                 {
@@ -608,6 +612,22 @@ namespace CalamityMod.Events
             }
 
             BossRushSky.CurrentInterest = 0.85f;
+        }
+
+        public static void CreateTierAnimation(int tier)
+        {
+            if (Main.netMode != NetmodeID.MultiplayerClient)
+            {
+                for (int i = 0; i < Main.maxPlayers; i++)
+                {
+                    if (!Main.player[i].active || Main.player[i].dead)
+                        continue;
+
+                    int animation = Projectile.NewProjectile(new EntitySource_WorldEvent(), Main.player[i].Center, Vector2.Zero, ModContent.ProjectileType<BossRushTierAnimation>(), 0, 0f, i);
+                    if (Main.projectile.IndexInRange(animation))
+                        Main.projectile[animation].ai[0] = tier;
+                }
+            }
         }
         #endregion
 
