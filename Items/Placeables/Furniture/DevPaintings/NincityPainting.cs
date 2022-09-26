@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Placeables.Furniture.DevPaintings
 		public override void SetDefaults()
 		{
 			item.width = item.height = 96;
-			item.maxStack = 99;
+			item.maxStack = 9999;
 			item.useTurn = true;
 			item.autoReuse = true;
 			item.useAnimation = 15;
