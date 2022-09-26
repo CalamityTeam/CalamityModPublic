@@ -170,7 +170,6 @@ namespace CalamityMod.Items.Placeables.Furniture.DevPaintings
 			"Svante",
 			"Terry N. Muse",
 			"Trivaxy",
-			"Turquoise",
 			"Vaikyia",
 			"Vladimier",
 			"Yuyutsu",
