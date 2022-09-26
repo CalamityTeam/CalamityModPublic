@@ -90,7 +90,6 @@ namespace CalamityMod.Items.Placeables.Furniture.DevPaintings
         public IList<string> devList = new List<string>()
 		{
 			"Fabsol, the mod's founder and owner", // Fabsol gets a line to himself
-			"Alterra",
 			"Ben-TK",
 			"Bravioli",
 			"CDMusic",
@@ -123,6 +122,7 @@ namespace CalamityMod.Items.Placeables.Furniture.DevPaintings
 			"Uncle Danny",
 			"YuH",
 
+			"Altalyra",
 			"ApidemDragon",
 			"Amadis",
 			"Aleksh",
@@ -144,6 +144,7 @@ namespace CalamityMod.Items.Placeables.Furniture.DevPaintings
 			"Jenosis",
 			"jontchua",
 			"Khaelis",
+			"KnightyKnight",
 			"L0st",
 			"Leviathan",
 			"MishiroUsui",
@@ -155,7 +156,6 @@ namespace CalamityMod.Items.Placeables.Furniture.DevPaintings
 			"PaleoStar",
 			"Pbtopacio",
 			"Phantasmal Deathray",
-			"PhoenixBlade",
 			"Pinkie Poss",
 			"pixlgray",
 			"Poly",
@@ -164,6 +164,7 @@ namespace CalamityMod.Items.Placeables.Furniture.DevPaintings
 			"Purple Necromancer",
 			"sentri",
 			"Shucks",
+			"Silver-Lord of Ash",
 			"SixteenInMono",
 			"Spoopyro",
 			"Svante",
