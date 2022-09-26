@@ -17,6 +17,7 @@ namespace CalamityMod.Items.SummonItems
             Tooltip.SetDefault("Summons Cryogen when used in the tundra\n" +
                 "Enrages outside the tundra\n" +
                 "Not consumable");
+			ItemID.Sets.SortingPriorityBossSpawns[Type] = 7; // Mechanical Eye
         }
 
         public override void SetDefaults()
@@ -28,6 +29,11 @@ namespace CalamityMod.Items.SummonItems
             Item.useTime = 10;
             Item.useStyle = ItemUseStyleID.HoldUp;
         }
+
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = ContentSamples.CreativeHelper.ItemGroup.BossItem;
+		}
 
         public override bool CanUseItem(Player player)
         {

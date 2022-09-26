@@ -169,15 +169,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     Main.wofDrawAreaTop = num336 * 16;
             }
 
-            // Set Y velocity and position
+            // Set Y position
             float num339 = (Main.wofDrawAreaBottom + Main.wofDrawAreaTop) / 2 - npc.height / 2;
-
-            if (npc.position.Y > num339 + 1f)
-                npc.velocity.Y = -1f;
-            else if (npc.position.Y < num339 - 1f)
-                npc.velocity.Y = 1f;
-            npc.velocity.Y = 0f;
-
             int num340 = (Main.maxTilesY - 180) * 16;
             if (num339 < num340)
                 num339 = num340;
@@ -480,27 +473,32 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             npc.direction = Main.npc[Main.wofNPCIndex].direction;
             npc.spriteDirection = npc.direction;
 
-            float num356 = (Main.wofDrawAreaBottom + Main.wofDrawAreaTop) / 2;
+            float expectedPosition = (Main.wofDrawAreaBottom + Main.wofDrawAreaTop) / 2;
             if (npc.ai[0] > 0f)
-                num356 = (num356 + Main.wofDrawAreaTop) / 2f;
+                expectedPosition = (expectedPosition + Main.wofDrawAreaTop) / 2f;
             else
-                num356 = (num356 + Main.wofDrawAreaBottom) / 2f;
-            num356 -= npc.height / 2;
+                expectedPosition = (expectedPosition + Main.wofDrawAreaBottom) / 2f;
+            expectedPosition -= npc.height / 2;
 
-            if (npc.position.Y > num356 + 1f)
-                npc.velocity.Y = -1f;
-            else if (npc.position.Y < num356 - 1f)
-                npc.velocity.Y = 1f;
+            bool belowExpectedPosition = npc.position.Y > expectedPosition + 1f;
+            bool aboveExpectedPosition = npc.position.Y < expectedPosition - 1f;
+            if (belowExpectedPosition)
+            {
+                float distanceBelowExpectedPosition = npc.position.Y - expectedPosition + 1f;
+                float movementVelocity = MathHelper.Clamp(distanceBelowExpectedPosition * 0.03125f, 1f, 5f);
+                npc.velocity.Y = -movementVelocity;
+            }
+            else if (aboveExpectedPosition)
+            {
+                float distanceAboveExpectedPosition = expectedPosition - 1f - npc.position.Y;
+                float movementVelocity = MathHelper.Clamp(distanceAboveExpectedPosition * 0.03125f, 1f, 5f);
+                npc.velocity.Y = movementVelocity;
+            }
             else
             {
                 npc.velocity.Y = 0f;
-                npc.position.Y = num356;
+                npc.position.Y = expectedPosition;
             }
-
-            if (npc.velocity.Y > 5f)
-                npc.velocity.Y = 5f;
-            if (npc.velocity.Y < -5f)
-                npc.velocity.Y = -5f;
 
             Vector2 vector38 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
             float num357 = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) - vector38.X;
@@ -514,7 +512,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             if (npc.direction > 0)
             {
                 if (Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) > npc.position.X + (npc.width / 2))
+                {
                     npc.rotation = (float)Math.Atan2(-num358, -num357) + MathHelper.Pi;
+                }
                 else
                 {
                     npc.rotation = 0f;
@@ -522,7 +522,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 }
             }
             else if (Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) < npc.position.X + (npc.width / 2))
+            {
                 npc.rotation = (float)Math.Atan2(num358, num357) + MathHelper.Pi;
+            }
             else
             {
                 npc.rotation = 0f;
@@ -542,7 +544,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 if (charging)
                     npc.localAI[3] = enragedLaserTimer;
 
-                bool fireAcceleratingLasers = npc.localAI[3] > 0f && npc.localAI[3] < enragedLaserTimer;
+                bool fireEnragedLasers = npc.localAI[3] > 0f && npc.localAI[3] < enragedLaserTimer;
 
                 // Decrement the enraged laser timer
                 if (npc.localAI[3] > 0f)
@@ -554,21 +556,21 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         npc.localAI[1] = 0f;
                 }
 
-                float shootBoost = fireAcceleratingLasers ? (death ? 1.5f : 1.5f * (1f - lifeRatio)) : (death ? 3f : 4f * (1f - lifeRatio));
+                float shootBoost = fireEnragedLasers ? (death ? 1.5f : 1.5f * (1f - lifeRatio)) : (death ? 3f : 3f * (1f - lifeRatio));
                 npc.localAI[1] += 1f + shootBoost;
 
                 bool canHit = Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height);
 
                 if (npc.localAI[2] == 0f)
                 {
-                    if (npc.localAI[1] > 400f || fireAcceleratingLasers)
+                    if (npc.localAI[1] > 400f || fireEnragedLasers)
                     {
                         npc.localAI[2] = 1f;
                         npc.localAI[1] = 0f;
                         npc.TargetClosest();
                     }
                 }
-                else if (npc.localAI[1] > 45f && (canHit || fireAcceleratingLasers) && !charging)
+                else if (npc.localAI[1] > 45f && (canHit || fireEnragedLasers) && !charging)
                 {
                     npc.localAI[1] = 0f;
                     npc.localAI[2] += 1f;
@@ -578,16 +580,16 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     if (flag30)
                     {
                         bool phase2 = lifeRatio < 0.5 || bossRush;
-                        float velocity = (fireAcceleratingLasers ? 3f : 9f) + shootBoost;
+                        float velocity = (fireEnragedLasers ? 3f : 4f) + shootBoost;
 
                         int projectileType = phase2 ? ProjectileID.DeathLaser : ProjectileID.EyeLaser;
                         int damage = npc.GetProjectileDamage(projectileType);
 
-                        float laserSpawnDistance = fireAcceleratingLasers ? 30f : 10f;
-                        Vector2 projectileVelocity = Vector2.Normalize(Main.player[npc.target].Center + (fireAcceleratingLasers ? Main.player[npc.target].velocity * 40f : Vector2.Zero) - npc.Center) * velocity;
+                        float laserSpawnDistance = fireEnragedLasers ? 30f : 22.5f;
+                        Vector2 projectileVelocity = Vector2.Normalize(Main.player[npc.target].Center - npc.Center) * velocity;
                         Vector2 projectileSpawn = npc.Center + projectileVelocity * laserSpawnDistance;
 
-                        int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), projectileSpawn, projectileVelocity, projectileType, damage, 0f, Main.myPlayer, fireAcceleratingLasers ? 1f : 0f, 0f);
+                        int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), projectileSpawn, projectileVelocity, projectileType, damage, 0f, Main.myPlayer, 1f, 0f);
                         Main.projectile[proj].timeLeft = 900;
 
                         if (!canHit)

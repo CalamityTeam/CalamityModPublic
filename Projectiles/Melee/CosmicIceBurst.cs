@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -26,6 +26,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.timeLeft = 60;
             Projectile.tileCollide = false;
             Projectile.penetrate = -1;
+            Projectile.DamageType = DamageClass.MeleeNoSpeed;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 6;
             Projectile.coldDamage = true;

@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Boss
     {
         private const int timeLeft = 360;
 
-        private const float maxVelocity = 12f;
+        private const float maxVelocity = 10f;
 
         public override void SetStaticDefaults()
         {
@@ -29,7 +29,7 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.ignoreWater = true;
             Projectile.tileCollide = false;
             Projectile.Opacity = 0f;
-            CooldownSlot = 1;
+            CooldownSlot = ImmunityCooldownID.Bosses;
             Projectile.penetrate = -1;
             Projectile.extraUpdates = 1;
             Projectile.timeLeft = timeLeft;
@@ -37,11 +37,9 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void AI()
         {
-            // 22 frames starting at 0.5
-            // 17 frames starting at 1
             if (Projectile.velocity.Length() < maxVelocity)
             {
-                Projectile.velocity *= 1.075f;
+                Projectile.velocity *= 1.025f;
                 if (Projectile.velocity.Length() > maxVelocity)
                 {
                     Projectile.velocity.Normalize();
@@ -74,7 +72,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            if (Projectile.Opacity != 1f)
+            if (damage <= 0 || Projectile.Opacity != 1f)
                 return;
 
             target.AddBuff(BuffID.OnFire, 180);
@@ -88,11 +86,6 @@ namespace CalamityMod.Projectiles.Boss
             lightColor.B = (byte)(255 * Projectile.Opacity);
             CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;
-        }
-
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
-        {
-            target.Calamity().lastProjectileHit = Projectile;
         }
     }
 }

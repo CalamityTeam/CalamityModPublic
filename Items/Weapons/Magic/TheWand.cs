@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
+using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -10,6 +11,7 @@ namespace CalamityMod.Items.Weapons.Magic
 {
     public class TheWand : ModItem
     {
+        // The actual base damage of The Wand. The damage reported on the item is just the spark, which is irrelevant.
         public static int BaseDamage = 599;
 
         public override void SetStaticDefaults()
@@ -23,7 +25,7 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void SetDefaults()
         {
             Item.width = 40;
-            Item.damage = 1;
+            Item.damage = 14; // same as 1.4 Wand of Sparking
             Item.mana = 150;
             Item.DamageType = DamageClass.Magic;
             Item.noMelee = true;
@@ -35,11 +37,10 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.UseSound = SoundID.Item102;
             Item.autoReuse = true;
             Item.height = 36;
-            Item.value = Item.buyPrice(2, 50, 0, 0);
-            Item.rare = ItemRarityID.Red;
+            Item.value = CalamityGlobalItem.Rarity15BuyPrice;
             Item.shoot = ModContent.ProjectileType<SparkInfernal>();
             Item.shootSpeed = 24f;
-            Item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.rare = ModContent.RarityType<Violet>();
         }
 
         public override bool CanUseItem(Player player)
@@ -49,8 +50,6 @@ namespace CalamityMod.Items.Weapons.Magic
             int numTornadoPieces = player.ownedProjectileCounts[ModContent.ProjectileType<InfernadoFriendly>()];
             return numWandBolts + numTornadoStarters + numTornadoPieces < 1;
         }
-
-        public override Vector2? HoldoutOrigin() => new Vector2(10, 10);
 
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
@@ -62,7 +61,7 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             CreateRecipe().
                 AddIngredient(ItemID.WandofSparking).
-                AddIngredient<YharonSoulFragment>(5).
+                AddIngredient<YharonSoulFragment>(8).
                 AddTile<CosmicAnvil>().
                 Register();
         }

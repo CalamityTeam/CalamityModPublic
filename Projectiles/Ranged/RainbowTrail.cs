@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Ranged
 {
@@ -15,7 +16,7 @@ namespace CalamityMod.Projectiles.Ranged
         {
             Projectile.width = 14;
             Projectile.height = 14;
-            Projectile.aiStyle = 46;
+            Projectile.aiStyle = ProjAIStyleID.Rainbow;
             Projectile.friendly = true;
             Projectile.penetrate = -1;
             Projectile.DamageType = DamageClass.Ranged;

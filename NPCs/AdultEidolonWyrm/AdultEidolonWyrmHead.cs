@@ -121,7 +121,6 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
             NPC.DeathSound = SoundID.NPCDeath6;
             NPC.netAlways = true;
             NPC.boss = true;
-            Music = CalamityMod.Instance.GetMusicFromMusicMod("AdultEidolonWyrm") ?? MusicID.Boss3;
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToSickness = true;
             NPC.Calamity().VulnerableToElectricity = true;
@@ -1344,7 +1343,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
 
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)
         {
-            cooldownSlot = 1;
+            cooldownSlot = ImmunityCooldownID.Bosses;
 
             Rectangle targetHitbox = target.Hitbox;
 
@@ -1436,7 +1435,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            if (NPC.Opacity == 1f)
+            if (NPC.Opacity == 1f && damage > 0)
                 player.AddBuff(ModContent.BuffType<CrushDepth>(), 600, true);
         }
     }

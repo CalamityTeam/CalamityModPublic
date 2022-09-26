@@ -14,7 +14,7 @@ namespace CalamityMod.Tiles.FurnitureExo
 {
     public class ExoToiletTile : ModTile
     {
-        public const int NextStyleHeight = 40;
+		public const int NextStyleHeight = 40;
         public override void SetStaticDefaults()
         {
             Main.tileFrameImportant[Type] = true;
@@ -44,7 +44,7 @@ namespace CalamityMod.Tiles.FurnitureExo
             AddMapEntry(new Color(71, 95, 114), name);
             TileID.Sets.CanBeSatOnForNPCs[Type] = true;
             TileID.Sets.CanBeSatOnForPlayers[Type] = true;
-            TileID.Sets.DisableSmartCursor[Type] = true;
+            TileID.Sets.HasOutlines[Type] = true;
             AdjTiles = new int[] { TileID.Chairs };
         }
 
@@ -81,54 +81,11 @@ namespace CalamityMod.Tiles.FurnitureExo
                 spriteBatch.Draw(glowmask, drawPosition + new Vector2(0f, 8f), new Rectangle(xFrameOffset, yFrameOffset, 18, 8), drawColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
         }
 
-        public override void ModifySittingTargetInfo(int i, int j, ref TileRestingInfo info)
-        {
-            Tile tile = Framing.GetTileSafely(i, j);
+        public override void ModifySittingTargetInfo(int i, int j, ref TileRestingInfo info) => CalamityUtils.ChairSitInfo(i, j, ref info, NextStyleHeight, true);
 
-            info.TargetDirection = -1;
-            if (tile.TileFrameX != 0)
-            {
-                info.TargetDirection = 1;
-            }
+        public override bool RightClick(int i, int j) => CalamityUtils.ChairRightClick(i, j);
 
-            info.AnchorTilePosition.X = i;
-            info.AnchorTilePosition.Y = j;
-
-            if (tile.TileFrameY % NextStyleHeight == 0)
-            {
-                info.AnchorTilePosition.Y++;
-            }
-        }
-
-        public override bool RightClick(int i, int j)
-        {
-            Player player = Main.LocalPlayer;
-
-            if (player.IsWithinSnappngRangeToTile(i, j, PlayerSittingHelper.ChairSittingMaxDistance))
-            {
-                player.GamepadEnableGrappleCooldown();
-                player.sitting.SitDown(player, i, j);
-            }
-            return true;
-        }
-        public override void MouseOver(int i, int j)
-        {
-            Player player = Main.LocalPlayer;
-
-            if (!player.IsWithinSnappngRangeToTile(i, j, PlayerSittingHelper.ChairSittingMaxDistance))
-            {
-                return;
-            }
-
-            player.noThrow = 2;
-            player.cursorItemIconEnabled = true;
-            player.cursorItemIconID = ModContent.ItemType<Items.Placeables.FurnitureExo.ExoToilet>();
-
-            if (Main.tile[i, j].TileFrameX / 18 < 1)
-            {
-                player.cursorItemIconReversed = true;
-            }
-        }
+        public override void MouseOver(int i, int j) => CalamityUtils.ChairMouseOver(i, j, ModContent.ItemType<ExoToilet>(), true);
 
         public override bool HasSmartInteract(int i, int j, SmartInteractScanSettings settings)
         {

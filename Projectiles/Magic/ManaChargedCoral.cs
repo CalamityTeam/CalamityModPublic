@@ -6,6 +6,8 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.Buffs.StatBuffs;
+using CalamityMod.Items.Weapons.Magic;
 
 namespace CalamityMod.Projectiles.Magic
 {
@@ -171,13 +173,15 @@ namespace CalamityMod.Projectiles.Magic
                 SoundEngine.PlaySound(SoundID.Item28 with { Volume = SoundID.Item28.Volume * 0.8f }, Projectile.Center);
 
                 //To reach full mana, it needs to have stayed at least half the time needed. If you just one shot an enemy with it, you'll only get 10 mana
-                int manaGained = Math.Max(10, (int)Math.Floor(100 * Math.Clamp(ManaCharge * 2f / FullMana, 0f, 1f)));
+                int manaGained = Math.Max(10, (int)Math.Floor(150 * Math.Clamp(ManaCharge * 2f / FullMana, 0f, 1f)));
                 Owner.statMana += manaGained;
                 if (Main.myPlayer == Owner.whoAmI)
                     Owner.ManaEffect(manaGained);
 
                 if (Owner.statMana > Owner.statManaMax2)
                     Owner.statMana = Owner.statManaMax2;
+
+                Owner.AddBuff(ModContent.BuffType<CoralSymbiosis>(), CoralSpout.SymbiosisTime);
 
                 return;
             }

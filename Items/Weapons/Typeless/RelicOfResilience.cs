@@ -25,6 +25,7 @@ namespace CalamityMod.Items.Weapons.Typeless
                                "You gain a small cooldown when summoning a new bulwark.\n" +
                                "If a bulwark already exists, using this item will relocate it");
             SacrificeTotal = 1;
+            ItemID.Sets.CanBePlacedOnWeaponRacks[Item.type] = true;
         }
 
         public override void SetDefaults()
@@ -41,6 +42,12 @@ namespace CalamityMod.Items.Weapons.Typeless
             Item.shoot = ModContent.ProjectileType<ArtifactOfResilienceBulwark>();
             Item.shootSpeed = 0f;
         }
+
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = (ContentSamples.CreativeHelper.ItemGroup)CalamityResearchSorting.ToolsOther;
+		}
+
         public override bool CanUseItem(Player player) => !player.HasCooldown(Cooldowns.RelicOfResilience.ID);
         public override bool? UseItem(Player player) => true;
 

@@ -160,6 +160,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             value.Position.X += 82f;
             value.Position.Y += 38f;
             NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
+			NPCID.Sets.MPAllowedEnemies[Type] = true;
         }
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
@@ -195,7 +196,6 @@ namespace CalamityMod.NPCs.DevourerofGods
             NPC.noTileCollide = true;
             NPC.DeathSound = SoundID.NPCDeath14;
             NPC.netAlways = true;
-            Music = CalamityMod.Instance.GetMusicFromMusicMod("DevourerOfGodsP1") ?? MusicID.Boss3;
 
             if (Main.getGoodWorld)
                 NPC.scale *= 1.5f;
@@ -321,6 +321,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 
             // whoAmI variable
             CalamityGlobalNPC.DoGHead = NPC.whoAmI;
+            CalamityGlobalNPC.DoGP2 = -1;
 
             // Stop rain
             CalamityMod.StopRain();
@@ -498,8 +499,8 @@ namespace CalamityMod.NPCs.DevourerofGods
                 }
 
                 // Play music after the transiton BS
-                if (NPC.localAI[2] == 530f)
-                    Music = CalamityMod.Instance.GetMusicFromMusicMod("DevourerOfGodsP2") ?? MusicID.LunarBoss;
+                if (NPC.localAI[2] <= 530f)
+					CalamityGlobalNPC.DoGP2 = NPC.whoAmI;
 
                 // Once before DoG spawns, set new size and become visible again.
                 if (NPC.localAI[2] == 60f)
@@ -2364,7 +2365,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<DevourerofGodsBag>()));
 
             // Extraneous potions
-            npcLoot.Add(DropHelper.PerPlayer(ModContent.ItemType<OmegaHealingPotion>(), 1, 5, 15));
+			npcLoot.DefineConditionalDropSet(() => true).Add(DropHelper.PerPlayer(ModContent.ItemType<OmegaHealingPotion>(), 1, 5, 15), hideLootReport: true); // Healing Potions don't show up in the Bestiary
 
             // Fabsol Mount
             npcLoot.AddIf((info) => info.player.Calamity().fabsolVodka, ModContent.ItemType<Fabsol>());
@@ -2398,19 +2399,19 @@ namespace CalamityMod.NPCs.DevourerofGods
             }
 
             // Relic
-            npcLoot.AddIf(() => Main.masterMode || CalamityWorld.revenge, ModContent.ItemType<DevourerOfGodsRelic>());
+            npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).Add(ModContent.ItemType<DevourerOfGodsRelic>());
 
             // Trophy (always directly from boss, never in bag)
             npcLoot.Add(ModContent.ItemType<DevourerofGodsTrophy>(), 10);
 
             // Lore
-            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedDoG, ModContent.ItemType<KnowledgeDevourerofGods>());
+            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedDoG, ModContent.ItemType<KnowledgeDevourerofGods>(), desc: DropHelper.FirstKillText);
         }
 
         // Can only hit the target if within certain distance
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)
         {
-            cooldownSlot = 1;
+            cooldownSlot = ImmunityCooldownID.Bosses;
 
             Rectangle targetHitbox = target.Hitbox;
 
@@ -2515,6 +2516,9 @@ namespace CalamityMod.NPCs.DevourerofGods
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
+            if (damage <= 0)
+				return;
+
             player.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 300, true);
             player.AddBuff(ModContent.BuffType<WhisperingDeath>(), 600, true);
 

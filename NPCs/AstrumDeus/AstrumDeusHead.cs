@@ -86,7 +86,6 @@ namespace CalamityMod.NPCs.AstrumDeus
             NPC.HitSound = SoundID.NPCHit4;
             NPC.DeathSound = DeathSound;
             NPC.netAlways = true;
-            Music = CalamityMod.Instance.GetMusicFromMusicMod("AstrumDeus") ?? MusicID.Boss3;
             NPC.Calamity().VulnerableToHeat = true;
             NPC.Calamity().VulnerableToSickness = false;
             SpawnModBiomes = new int[1] { ModContent.GetInstance<AbovegroundAstralBiome>().Type };
@@ -319,12 +318,11 @@ namespace CalamityMod.NPCs.AstrumDeus
                 normalOnly.Add(ModContent.ItemType<Stardust>(), 1, 50, 80);
             }
 
-            npcLoot.Add(DropHelper.PerPlayer(ItemID.GreaterHealingPotion, 1, 8, 14));
+			npcLoot.DefineConditionalDropSet(() => true).Add(DropHelper.PerPlayer(ItemID.GreaterHealingPotion, 1, 5, 15), hideLootReport: true); // Healing Potions don't show up in the Bestiary
             lastWorm.Add(ModContent.ItemType<AstrumDeusTrophy>(), 10);
 
             // Relic
-            bool shouldDropRelic(DropAttemptInfo info) => (CalamityWorld.revenge || Main.masterMode) && !ShouldNotDropThings(info.npc);
-            npcLoot.AddIf(shouldDropRelic, ModContent.ItemType<AstrumDeusRelic>());
+            npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).AddIf((info) => !ShouldNotDropThings(info.npc), ModContent.ItemType<AstrumDeusRelic>());
 
             // Fragments
             lastWorm.Add(DropHelper.NormalVsExpertQuantity(ItemID.FragmentSolar, 1, 16, 24, 20, 32));
@@ -334,13 +332,14 @@ namespace CalamityMod.NPCs.AstrumDeus
 
             // Lore
             bool firstDeusKill(DropAttemptInfo info) => !DownedBossSystem.downedAstrumDeus && !ShouldNotDropThings(info.npc);
-            npcLoot.AddConditionalPerPlayer(firstDeusKill, ModContent.ItemType<KnowledgeAstrumDeus>());
-            npcLoot.AddConditionalPerPlayer(firstDeusKill, ModContent.ItemType<KnowledgeAstralInfection>());
+            npcLoot.AddConditionalPerPlayer(firstDeusKill, ModContent.ItemType<KnowledgeAstrumDeus>(), desc: DropHelper.FirstKillText);
+            npcLoot.AddConditionalPerPlayer(firstDeusKill, ModContent.ItemType<KnowledgeAstralInfection>(), desc: DropHelper.FirstKillText);
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 480, true);
+            if (damage > 0)
+                player.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 480, true);
         }
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)

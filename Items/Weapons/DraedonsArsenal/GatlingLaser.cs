@@ -1,6 +1,7 @@
 ﻿using CalamityMod.CustomRecipes;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.DraedonsArsenal;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -24,6 +25,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Gatling Laser");
             Tooltip.SetDefault("Large laser cannon used primarily by Yharim's fleet and base defense force");
         }
@@ -49,8 +51,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             Item.noMelee = true;
 
             Item.value = CalamityGlobalItem.Rarity8BuyPrice;
-            Item.rare = ItemRarityID.Red;
-            modItem.customRarity = CalamityRarity.DraedonRust;
+            Item.rare = ModContent.RarityType<DarkOrange>();
 
             Item.shoot = ModContent.ProjectileType<GatlingLaserProj>();
             Item.shootSpeed = 24f;
@@ -77,8 +78,8 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             CreateRecipe().
                 AddIngredient<MysteriousCircuitry>(15).
                 AddIngredient<DubiousPlating>(15).
+                AddIngredient<InfectedArmorPlating>(10).
                 AddIngredient<LifeAlloy>(5).
-                AddIngredient<InfectedArmorPlating>(5).
                 AddCondition(ArsenalTierGatedRecipe.ConstructRecipeCondition(3, out Predicate<Recipe> condition), condition).
                 AddTile(TileID.MythrilAnvil).
                 Register();

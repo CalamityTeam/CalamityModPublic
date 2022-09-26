@@ -11,6 +11,7 @@ namespace CalamityMod.Items.Fishing.SunkenSeaCatches
             DisplayName.SetDefault("Prismatic Guppy"); //Bass substitute
             Tooltip.SetDefault("Throwing these in an aquarium would be insanity");
             SacrificeTotal = 3;
+            ItemID.Sets.CanBePlacedOnWeaponRacks[Item.type] = true;
         }
 
         public override void SetDefaults()
@@ -21,5 +22,10 @@ namespace CalamityMod.Items.Fishing.SunkenSeaCatches
             Item.value = Item.sellPrice(silver: 5);
             Item.rare = ItemRarityID.Green;
         }
+
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = ContentSamples.CreativeHelper.ItemGroup.Fish;
+		}
     }
 }

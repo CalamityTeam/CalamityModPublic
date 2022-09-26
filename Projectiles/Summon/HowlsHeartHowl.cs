@@ -266,7 +266,7 @@ namespace CalamityMod.Projectiles.Summon
             targetVec *= speedMult;
             SoundEngine.PlaySound(SoundID.Item20, Projectile.position);
             int fireball = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, targetVec, ModContent.ProjectileType<HowlsHeartFireball>(), Projectile.damage, Projectile.knockBack, Projectile.owner, targetIndex, 0f);
-            Main.projectile[fireball].originalDamage = Projectile.damage;
+            Main.projectile[fireball].originalDamage = Projectile.originalDamage;
             Main.projectile[fireball].netUpdate = true;
             Main.projectile[fireball].frame = Main.rand.Next(4);
             Projectile.netUpdate = true;

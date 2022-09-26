@@ -642,7 +642,8 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(ModContent.BuffType<CrushDepth>(), 300, true);
+            if (damage > 0)
+                player.AddBuff(ModContent.BuffType<CrushDepth>(), 300, true);
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
@@ -664,12 +665,12 @@ namespace CalamityMod.NPCs.Abyss
             npcLoot.Add(ModContent.ItemType<Voidstone>(), 1, 40, 50);
             npcLoot.Add(ModContent.ItemType<AnechoicCoating>(), 1, 2, 3);
 
-            var postPolter = npcLoot.DefineConditionalDropSet(() => DownedBossSystem.downedPolterghast);
+            var postPolter = npcLoot.DefineConditionalDropSet(DropHelper.PostPolter());
             postPolter.Add(ModContent.ItemType<ReaperTooth>(), 1, 3, 4);
             postPolter.Add(ModContent.ItemType<DeepSeaDumbbell>(), 3);
             postPolter.Add(ModContent.ItemType<Valediction>(), 3);
 
-            var postClone = npcLoot.DefineConditionalDropSet(() => DownedBossSystem.downedCalamitas);
+            var postClone = npcLoot.DefineConditionalDropSet(DropHelper.PostCal());
             postClone.Add(DropHelper.NormalVsExpertQuantity(ModContent.ItemType<DepthCells>(), 2, 10, 17, 14, 22));
         }
 

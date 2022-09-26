@@ -1,4 +1,5 @@
-﻿using Terraria;
+﻿using CalamityMod.Rarities;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -10,6 +11,7 @@ namespace CalamityMod.Items.Materials
         {
             SacrificeTotal = 25;
             DisplayName.SetDefault("Bloodstone Core");
+			ItemID.Sets.SortingPriorityMaterials[Type] = 113;
         }
 
         public override void SetDefaults()
@@ -18,9 +20,9 @@ namespace CalamityMod.Items.Materials
             Item.height = 12;
             Item.maxStack = 999;
             Item.value = Item.sellPrice(gold: 4);
-            Item.rare = ItemRarityID.Purple;
-            Item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.rare = ModContent.RarityType<Turquoise>();
         }
+
         public override void AddRecipes()
         {
             CreateRecipe(2).

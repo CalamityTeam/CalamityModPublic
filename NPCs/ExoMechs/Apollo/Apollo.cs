@@ -161,7 +161,6 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
             NPC.DeathSound = SoundID.NPCDeath14;
             NPC.netAlways = true;
             NPC.boss = true;
-            Music = CalamityMod.Instance.GetMusicFromMusicMod("ExoMechs") ?? MusicID.Boss3;
             NPC.Calamity().VulnerableToSickness = false;
             NPC.Calamity().VulnerableToElectricity = true;
         }
@@ -400,13 +399,6 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
             // Berserk, final phase of Artemis and Apollo
             // Phase 7 - 0, 1, 2
 
-            // Predictiveness
-            float predictionAmt = bossRush ? 14f : death ? 12f : revenge ? 11f : expertMode ? 10f : 8f;
-            if (nerfedAttacks)
-                predictionAmt *= 0.5f;
-            if (SecondaryAIState == (int)SecondaryPhase.Passive)
-                predictionAmt *= 0.5f;
-
             // Gate values
             float reducedTimeForGateValue = bossRush ? 48f : death ? 32f : revenge ? 24f : expertMode ? 16f : 0f;
             float reducedTimeForGateValue_Berserk = reducedTimeForGateValue * 0.5f;
@@ -522,8 +514,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
             bool canFire = Vector2.Distance(NPC.Center, player.Center) > 320f;
 
             // Rotation
-            Vector2 predictionVector = player.velocity * predictionAmt;
-            Vector2 aimedVector = player.Center + predictionVector - NPC.Center;
+            Vector2 aimedVector = player.Center - NPC.Center;
             float rateOfRotation = 0.1f;
             Vector2 rotateTowards = player.Center - NPC.Center;
             bool readyToCharge = AIState == (float)Phase.LineUpChargeCombo && (Vector2.Distance(NPC.Center, destination) <= chargeLocationDistanceGateValue || calamityGlobalNPC.newAI[2] > 0f);
@@ -540,8 +531,8 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
             }
             else
             {
-                float x = player.Center.X + predictionVector.X - NPC.Center.X;
-                float y = player.Center.Y + predictionVector.Y - NPC.Center.Y;
+                float x = player.Center.X - NPC.Center.X;
+                float y = player.Center.Y - NPC.Center.Y;
                 rotateTowards = Vector2.Normalize(new Vector2(x, y)) * baseVelocity;
             }
 
@@ -1195,7 +1186,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
                             float radians = MathHelper.TwoPi / totalProjectiles;
                             int type = ModContent.ProjectileType<AresPlasmaBolt>();
                             int damage = (int)(NPC.GetProjectileDamage(ModContent.ProjectileType<ApolloFireball>()) * 0.8);
-                            float velocity = 1f;
+                            float velocity = 0.5f;
                             double angleA = radians * 0.5;
                             double angleB = MathHelper.ToRadians(90f) - angleA;
                             float velocityX2 = (float)(velocity * Math.Sin(angleA) / Math.Sin(angleB));
@@ -1311,7 +1302,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
                     // Shoot lens gore at the target at the proper time
                     if (calamityGlobalNPC.newAI[2] == lensPopTime)
                     {
-                        SoundEngine.PlaySound(CommonCalamitySounds.LargeWeaponFireSound, NPC.Center);
+                        SoundEngine.PlaySound(Artemis.Artemis.LensSound, NPC.Center);
                         Vector2 lensDirection = Vector2.Normalize(aimedVector);
                         Vector2 offset = lensDirection * 70f;
 
@@ -1338,7 +1329,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
 
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)
         {
-            cooldownSlot = 1;
+            cooldownSlot = ImmunityCooldownID.Bosses;
 
             Rectangle targetHitbox = target.Hitbox;
 

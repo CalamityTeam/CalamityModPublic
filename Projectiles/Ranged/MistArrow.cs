@@ -21,7 +21,7 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.DamageType = DamageClass.Ranged;
             Projectile.alpha = 255;
             Projectile.penetrate = 1;
-            Projectile.aiStyle = 1;
+            Projectile.aiStyle = ProjAIStyleID.Arrow;
             Projectile.timeLeft = 300;
             AIType = ProjectileID.WoodenArrowFriendly;
             Projectile.arrow = true;

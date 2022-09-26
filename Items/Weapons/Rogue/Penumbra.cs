@@ -1,15 +1,16 @@
-﻿using Terraria.DataStructures;
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Rogue;
+using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class Penumbra : ModItem
+    public class Penumbra : RogueWeapon
     {
         public static float ShootSpeed = 8f;
         public override void SetStaticDefaults()
@@ -29,8 +30,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.noMelee = true;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.UseSound = SoundID.Item103;
-            Item.value = Item.buyPrice(1, 80, 0, 0);
-            Item.rare = ItemRarityID.Red;
+            Item.value = CalamityGlobalItem.RarityDarkBlueBuyPrice;
 
             Item.damage = 1008;
             Item.useAnimation = 40;
@@ -39,7 +39,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.shoot = ModContent.ProjectileType<PenumbraBomb>();
             Item.shootSpeed = ShootSpeed;
 
-            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.rare = ModContent.RarityType<DarkBlue>();
             Item.DamageType = RogueDamageClass.Instance;
         }
 

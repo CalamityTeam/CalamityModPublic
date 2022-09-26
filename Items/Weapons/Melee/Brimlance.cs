@@ -12,6 +12,7 @@ namespace CalamityMod.Items.Weapons.Melee
             DisplayName.SetDefault("Brimlance");
             Tooltip.SetDefault("Creates brimstone explosions on enemy hits");
             SacrificeTotal = 1;
+            ItemID.Sets.Spears[Item.type] = true;
         }
 
         public override void SetDefaults()
@@ -29,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
             Item.height = 56;
-            Item.value = Item.buyPrice(0, 36, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity6BuyPrice;
             Item.rare = ItemRarityID.Pink;
             Item.shoot = ModContent.ProjectileType<BrimlanceProj>();
             Item.shootSpeed = 12f;

@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class RegulusRiot : ModItem
+    public class RegulusRiot : RogueWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -28,7 +28,7 @@ Stealth strikes explode into energy stars");
             Item.noMelee = true;
             Item.noUseGraphic = true;
 
-            Item.value = Item.buyPrice(0, 95, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity9BuyPrice;
             Item.useTime = 26;
             Item.useAnimation = 26;
             Item.UseSound = SoundID.Item1;

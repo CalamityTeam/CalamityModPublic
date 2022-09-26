@@ -252,7 +252,14 @@ namespace CalamityMod.Events
                     NPC.SpawnOnPlayer(ClosestPlayerToWorldCenter, type);
                 }, usesSpecialSound: true, permittedNPCs: new int[] { ModContent.NPCType<AstrumDeusBody>(), ModContent.NPCType<AstrumDeusTail>() }),
 
-                new Boss(ModContent.NPCType<Polterghast>(), TimeChangeContext.Day, permittedNPCs: new int[] { ModContent.NPCType<PhantomFuckYou>(), ModContent.NPCType<PolterghastHook>(), ModContent.NPCType<PolterPhantom>() }),
+                new Boss(ModContent.NPCType<Polterghast>(), TimeChangeContext.Day, type =>
+                {
+                    Player player = Main.player[ClosestPlayerToWorldCenter];
+
+                    SoundEngine.PlaySound(Polterghast.SpawnSound, player.Center);
+                    NPC.SpawnOnPlayer(ClosestPlayerToWorldCenter, type);
+
+                }, usesSpecialSound: true, permittedNPCs: new int[] { ModContent.NPCType<PhantomFuckYou>(), ModContent.NPCType<PolterghastHook>(), ModContent.NPCType<PolterPhantom>() }),
 
                 new Boss(ModContent.NPCType<PlaguebringerGoliath>(), permittedNPCs: new int[] { ModContent.NPCType<PlagueHomingMissile>(), ModContent.NPCType<PlagueMine>() }),
 
@@ -569,29 +576,11 @@ namespace CalamityMod.Events
             }
 
             // All Slime God entities must be killed to progress to the next stage.
-            else if (npc.type == ModContent.NPCType<SlimeGodCore>() || npc.type == ModContent.NPCType<SplitEbonianSlimeGod>() || npc.type == ModContent.NPCType<SplitCrimulanSlimeGod>())
+            else if (npc.type == ModContent.NPCType<SlimeGodCore>())
             {
-                if (npc.type == ModContent.NPCType<SlimeGodCore>() && !NPC.AnyNPCs(ModContent.NPCType<SplitEbonianSlimeGod>()) && !NPC.AnyNPCs(ModContent.NPCType<SplitCrimulanSlimeGod>()) &&
-                    !NPC.AnyNPCs(ModContent.NPCType<EbonianSlimeGod>()) && !NPC.AnyNPCs(ModContent.NPCType<CrimulanSlimeGod>()))
-                {
-                    BossRushStage++;
-                    CalamityUtils.KillAllHostileProjectiles();
-                    HostileProjectileKillCounter = 3;
-                }
-                else if (npc.type == ModContent.NPCType<SplitEbonianSlimeGod>() && !NPC.AnyNPCs(ModContent.NPCType<SlimeGodCore>()) && !NPC.AnyNPCs(ModContent.NPCType<SplitCrimulanSlimeGod>()) &&
-                    NPC.CountNPCS(ModContent.NPCType<SplitEbonianSlimeGod>()) < 2 && !NPC.AnyNPCs(ModContent.NPCType<CrimulanSlimeGod>()))
-                {
-                    BossRushStage++;
-                    CalamityUtils.KillAllHostileProjectiles();
-                    HostileProjectileKillCounter = 3;
-                }
-                else if (npc.type == ModContent.NPCType<SplitCrimulanSlimeGod>() && !NPC.AnyNPCs(ModContent.NPCType<SlimeGodCore>()) && !NPC.AnyNPCs(ModContent.NPCType<SplitEbonianSlimeGod>()) &&
-                    NPC.CountNPCS(ModContent.NPCType<SplitCrimulanSlimeGod>()) < 2 && !NPC.AnyNPCs(ModContent.NPCType<EbonianSlimeGod>()))
-                {
-                    BossRushStage++;
-                    CalamityUtils.KillAllHostileProjectiles();
-                    HostileProjectileKillCounter = 3;
-                }
+                BossRushStage++;
+                CalamityUtils.KillAllHostileProjectiles();
+                HostileProjectileKillCounter = 3;
             }
 
             // This is the generic form of "Are there any remaining NPCs on the boss list for this boss rush stage?" check.

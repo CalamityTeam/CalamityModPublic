@@ -206,6 +206,10 @@ namespace CalamityMod.NPCs.AcidRain
             CalamityGlobalNPC.DrawGlowmask(NPC, spriteBatch, ModContent.Request<Texture2D>(Texture + "Glow").Value);
         }
 
-        public override void OnHitPlayer(Player target, int damage, bool crit) => target.AddBuff(ModContent.BuffType<Irradiated>(), 180);
+        public override void OnHitPlayer(Player target, int damage, bool crit)
+        {
+            if (damage > 0)
+                target.AddBuff(ModContent.BuffType<Irradiated>(), 180);
+        }
     }
 }

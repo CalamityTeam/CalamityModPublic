@@ -13,7 +13,7 @@ namespace CalamityMod.Tiles.FurnitureExo
     {
         public override void SetStaticDefaults()
         {
-            this.SetUpSink(true);
+            this.SetUpSink(true, true, true, true);
             AddMapEntry(new Color(71, 95, 114), Language.GetText("MapObject.Sink"));
             AdjTiles = new int[] { TileID.Sinks };
         }

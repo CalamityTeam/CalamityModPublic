@@ -6,7 +6,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class TitaniumShuriken : ModItem
+    public class TitaniumShuriken : RogueWeapon
     {
         public override void SetStaticDefaults()
         {

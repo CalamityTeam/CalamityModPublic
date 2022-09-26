@@ -9,7 +9,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class StormfrontRazor : ModItem
+    public class StormfrontRazor : RogueWeapon
     {
         public override void SetStaticDefaults()
         {

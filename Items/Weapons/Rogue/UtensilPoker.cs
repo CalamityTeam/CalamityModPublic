@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class UtensilPoker : ModItem
+    public class UtensilPoker : RogueWeapon
     {
         private int counter = 0;
         public override void SetStaticDefaults()

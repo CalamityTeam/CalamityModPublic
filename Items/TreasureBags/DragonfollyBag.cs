@@ -1,31 +1,31 @@
-﻿using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Accessories;
+using CalamityMod.Items.Armor.Vanity;
+using CalamityMod.Items.Materials;
 using CalamityMod.Items.Mounts;
 using CalamityMod.Items.PermanentBoosters;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
-using CalamityMod.Items.Accessories;
 using CalamityMod.NPCs.Bumblebirb;
 using CalamityMod.World;
-using Terraria;
-using Terraria.ModLoader;
-using CalamityMod.Items.Armor.Vanity;
-using Terraria.ID;
-using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Terraria;
+using Terraria.GameContent.ItemDropRules;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Items.TreasureBags
 {
     [LegacyName("BumblebirbBag")]
     public class DragonfollyBag : ModItem
     {
-        public override int BossBagNPC => ModContent.NPCType<Bumblefuck>();
-
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 3;
             DisplayName.SetDefault("Treasure Bag (The Dragonfolly)");
             Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
+			ItemID.Sets.BossBag[Item.type] = true;
         }
 
         public override void SetDefaults()
@@ -38,39 +38,49 @@ namespace CalamityMod.Items.TreasureBags
             Item.rare = ItemRarityID.Cyan;
         }
 
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = ContentSamples.CreativeHelper.ItemGroup.BossBags;
+		}
+
         public override bool CanRightClick() => true;
+
+		public override Color? GetAlpha(Color lightColor) => Color.Lerp(lightColor, Color.White, 0.4f);
+
+        public override void PostUpdate() => Item.TreasureBagLightAndDust();
 
         public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
         {
             return CalamityUtils.DrawTreasureBagInWorld(Item, spriteBatch, ref rotation, ref scale, whoAmI);
         }
 
-        public override void OpenBossBag(Player player)
+        public override void ModifyItemLoot(ItemLoot itemLoot)
         {
-            // IEntitySource my beloathed
-            var s = player.GetSource_OpenItem(Item.type);
-
-            player.TryGettingDevArmor(s);
+			// Money
+			itemLoot.Add(ItemDropRule.CoinsBasedOnNPCValue(ModContent.NPCType<Bumblefuck>()));
 
             // Materials
-            DropHelper.DropItem(s, player, ModContent.ItemType<EffulgentFeather>(), 15, 21);
+            itemLoot.Add(ModContent.ItemType<EffulgentFeather>(), 1, 30, 35);
 
             // Weapons
-            float w = DropHelper.BagWeaponDropRateFloat;
-            DropHelper.DropEntireWeightedSet(s, player,
-                DropHelper.WeightStack<GildedProboscis>(w),
-                DropHelper.WeightStack<GoldenEagle>(w),
-                DropHelper.WeightStack<RougeSlash>(w),
-                DropHelper.WeightStack<FollyFeed>(w)
-            );
+            itemLoot.Add(DropHelper.CalamityStyle(DropHelper.BagWeaponDropRateFraction, new int[]
+            {
+                ModContent.ItemType<GildedProboscis>(),
+                ModContent.ItemType<GoldenEagle>(),
+                ModContent.ItemType<RougeSlash>()
+            }));
+            itemLoot.Add(ModContent.ItemType<Swordsplosion>(), 10);
 
             // Equipment
-            DropHelper.DropItemChance(s, player, ModContent.ItemType<Swordsplosion>(), 0.1f);
-            DropHelper.DropItem(s, player, ModContent.ItemType<DynamoStemCells>());
-            DropHelper.DropItemCondition(s, player, ModContent.ItemType<RedLightningContainer>(), CalamityWorld.revenge && !player.Calamity().rageBoostThree);
+            itemLoot.Add(ModContent.ItemType<FollyFeed>(), DropHelper.BagWeaponDropRateFraction);
+            itemLoot.Add(ModContent.ItemType<DynamoStemCells>());
+            itemLoot.AddRevBagAccessories();
 
             // Vanity
-            DropHelper.DropItemChance(s, player, ModContent.ItemType<BumblefuckMask>(), 7);
+            itemLoot.Add(ModContent.ItemType<BumblefuckMask>(), 7);
+
+            // Other
+            itemLoot.AddIf((info) => CalamityWorld.revenge && !info.player.Calamity().rageBoostThree, ModContent.ItemType<RedLightningContainer>());
         }
     }
 }

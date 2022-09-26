@@ -58,9 +58,12 @@ namespace CalamityMod.NPCs.Yharon
         public static float normalDR = 0.22f;
         public static float EnragedDR = 0.9f;
 
-        public static readonly SoundStyle RoarSound = new("CalamityMod/Sounds/Custom/YharonRoar");
-        public static readonly SoundStyle ShortRoarSound = new("CalamityMod/Sounds/Custom/YharonRoarShort");
-        public static readonly SoundStyle FireSound = new("CalamityMod/Sounds/Custom/YharonFire");
+        public static readonly SoundStyle RoarSound = new("CalamityMod/Sounds/Custom/Yharon/YharonRoar");
+        public static readonly SoundStyle ShortRoarSound = new("CalamityMod/Sounds/Custom/Yharon/YharonRoarShort");
+        public static readonly SoundStyle FireSound = new("CalamityMod/Sounds/Custom/Yharon/YharonFire");
+        public static readonly SoundStyle OrbSound = new("CalamityMod/Sounds/Custom/Yharon/YharonFireOrb");
+        public static readonly SoundStyle HitSound = new("CalamityMod/Sounds/NPCHit/YharonHurt");
+        public static readonly SoundStyle DeathSound = new("CalamityMod/Sounds/NPCKilled/YharonDeath");
 
         public SlotId RoarSoundSlot;
 
@@ -80,6 +83,7 @@ namespace CalamityMod.NPCs.Yharon
             value.Position.X += 26f;
             value.Position.Y -= 14f;
             NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
+			NPCID.Sets.MPAllowedEnemies[Type] = true;
         }
 
         public override void SetDefaults()
@@ -104,10 +108,7 @@ namespace CalamityMod.NPCs.Yharon
             NPC.noTileCollide = true;
             NPC.netAlways = true;
 
-            Music = CalamityMod.Instance.GetMusicFromMusicMod("YharonP1") ?? MusicID.Boss3;
-
-            NPC.HitSound = SoundID.NPCHit56;
-            NPC.DeathSound = SoundID.NPCDeath60;
+            NPC.DeathSound = DeathSound;
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToCold = true;
             NPC.Calamity().VulnerableToSickness = true;
@@ -187,6 +188,9 @@ namespace CalamityMod.NPCs.Yharon
             bool death = CalamityWorld.death || bossRush;
 
             float pie = (float)Math.PI;
+
+			CalamityGlobalNPC.yharon = NPC.whoAmI;
+			CalamityGlobalNPC.yharonP2 = -1;
 
             // Start phase 2 or not
             if (startSecondAI)
@@ -986,7 +990,10 @@ namespace CalamityMod.NPCs.Yharon
             else if (NPC.ai[0] == 8f)
             {
                 if (NPC.ai[2] == 0f)
+                {
                     RoarSoundSlot = SoundEngine.PlaySound(RoarSound, NPC.position);
+                    SoundEngine.PlaySound(OrbSound, NPC.position);
+                } 
 
                 NPC.ai[2] += 1f;
 
@@ -1336,7 +1343,10 @@ namespace CalamityMod.NPCs.Yharon
             else if (NPC.ai[0] == 15f)
             {
                 if (NPC.ai[2] == 0f)
+                {
                     RoarSoundSlot = SoundEngine.PlaySound(RoarSound, NPC.position);
+                    SoundEngine.PlaySound(OrbSound, NPC.position);
+                }
 
                 NPC.ai[2] += 1f;
                 if (NPC.ai[2] % flareDustSpawnDivisor3 == 0f)
@@ -1515,6 +1525,8 @@ namespace CalamityMod.NPCs.Yharon
         #region AI2
         public void Yharon_AI2(bool expertMode, bool revenge, bool death, bool bossRush, float pie, float lifeRatio, CalamityGlobalNPC calamityGlobalNPC)
         {
+			CalamityGlobalNPC.yharonP2 = NPC.whoAmI;
+
             float phase2GateValue = revenge ? 0.44f : expertMode ? 0.385f : 0.275f;
             bool phase2 = death || lifeRatio <= phase2GateValue;
             float phase3GateValue = death ? 0.358f : revenge ? 0.275f : expertMode ? 0.22f : 0.138f;
@@ -1531,9 +1543,6 @@ namespace CalamityMod.NPCs.Yharon
 
             if (!moveCloser)
             {
-                // When Yharon begins Phase 2, switch music to Roar of the Jungle Dragon.
-                Music = CalamityMod.Instance.GetMusicFromMusicMod("YharonP2") ?? MusicID.LunarBoss;
-
                 moveCloser = true;
 
                 string key = "Mods.CalamityMod.FlameText";
@@ -1677,16 +1686,6 @@ namespace CalamityMod.NPCs.Yharon
                 velocity *= velocityMult;
                 chargeTime -= chargeTimeDecrease;
                 chargeSpeed *= velocityMult;
-            }
-
-            // Increase aggressiveness while invincible.
-            if (invincible)
-            {
-                phaseSwitchTimer *= 0.5f;
-                acceleration *= 1.1f;
-                velocity *= 1.1f;
-                chargeTime -= 4f;
-                chargeSpeed *= 1.1f;
             }
 
             if (Main.getGoodWorld)
@@ -2190,7 +2189,10 @@ namespace CalamityMod.NPCs.Yharon
             else if (NPC.ai[0] == 5f)
             {
                 if (NPC.ai[1] == 1f)
+                {
                     RoarSoundSlot = SoundEngine.PlaySound(RoarSound, NPC.position);
+                    SoundEngine.PlaySound(OrbSound, NPC.position);
+                }
 
                 NPC.ai[1] += 1f;
                 if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -2828,7 +2830,7 @@ namespace CalamityMod.NPCs.Yharon
                 normalOnly.Add(ModContent.ItemType<McNuggets>(), 10);
 
                 // Materials
-                normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<YharonSoulFragment>(), 1, 15, 22));
+                normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<YharonSoulFragment>(), 1, 25, 30));
 
                 // Equipment
                 normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<YharimsGift>()));
@@ -2839,10 +2841,10 @@ namespace CalamityMod.NPCs.Yharon
             npcLoot.Add(ModContent.ItemType<YharonTrophy>(), 10);
 
             // Relic
-            npcLoot.AddIf(() => Main.masterMode || CalamityWorld.revenge, ModContent.ItemType<YharonRelic>());
+            npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).Add(ModContent.ItemType<YharonRelic>());
 
             // Lore
-            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedYharon, ModContent.ItemType<KnowledgeYharon>());
+            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedYharon, ModContent.ItemType<KnowledgeYharon>(), desc: DropHelper.FirstKillText);
         }
 
         public override void BossLoot(ref string name, ref int potionType)
@@ -2878,7 +2880,8 @@ namespace CalamityMod.NPCs.Yharon
         #region On Hit Player
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(ModContent.BuffType<Dragonfire>(), 480, true);
+            if (damage > 0)
+                player.AddBuff(ModContent.BuffType<Dragonfire>(), 480, true);
         }
         #endregion
 
@@ -2903,7 +2906,7 @@ namespace CalamityMod.NPCs.Yharon
 
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)
         {
-            cooldownSlot = 1;
+            cooldownSlot = ImmunityCooldownID.Bosses;
             return true;
         }
 
@@ -3042,6 +3045,13 @@ namespace CalamityMod.NPCs.Yharon
         #region Hit Effect
         public override void HitEffect(int hitDirection, double damage)
         {
+            // hit sound
+            if (NPC.soundDelay == 0)
+            {
+                NPC.soundDelay = Main.rand.Next(16, 20);
+                SoundEngine.PlaySound(HitSound, NPC.Center);
+            }
+
             for (int k = 0; k < 5; k++)
             {
                 Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);

@@ -737,11 +737,11 @@ namespace CalamityMod.World
                     if (YStartWhitelist.Contains(type) ||
                         OtherTilesForSulphSeaToDestroy.Contains(type))
                     {
-                        Main.tile[trueX, y].Get<TileWallWireStateData>().HasTile = false;
+                        CalamityUtils.ParanoidTileRetrieval(trueX, y).Get<TileWallWireStateData>().HasTile = false;
                     }
-                    if (WallsForSulphSeaToDestroy.Contains(Main.tile[trueX, y].WallType))
+                    if (WallsForSulphSeaToDestroy.Contains(CalamityUtils.ParanoidTileRetrieval(trueX, y).WallType))
                     {
-                        Main.tile[trueX, y].WallType = 0;
+                        CalamityUtils.ParanoidTileRetrieval(trueX, y).WallType = 0;
                     }
                 }
             }

@@ -14,6 +14,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
 using CalamityMod.Sounds;
+using ReLogic.Utilities;
 
 namespace CalamityMod.NPCs.ExoMechs.Ares
 {
@@ -60,6 +61,12 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
         // Total duration of the gauss nuke firing phase
         private const float gaussNukeReloadDuration = 360f;
 
+        //This stores the sound slot of the telegraph sound it makes, so it may be properly updated in terms of position.
+        private SlotId TelegraphSoundSlot;
+
+        //Telegraph sound
+        public static readonly SoundStyle TelSound = new("CalamityMod/Sounds/Custom/AresGaussNukeArmCharge");
+
         public override void SetStaticDefaults()
         {
             this.HideFromBestiary();
@@ -91,7 +98,6 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
             NPC.netAlways = true;
             NPC.boss = true;
             NPC.hide = true;
-            Music = CalamityMod.Instance.GetMusicFromMusicMod("ExoMechs") ?? MusicID.Boss3;
             NPC.Calamity().VulnerableToSickness = false;
             NPC.Calamity().VulnerableToElectricity = true;
         }
@@ -383,6 +389,12 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
                     float telegraphDuration = enraged ? (gaussNukeTelegraphDuration * 0.5f) : gaussNukeTelegraphDuration;
                     if (calamityGlobalNPC.newAI[2] < telegraphDuration)
                     {
+                        // Play a charge up sound so that the player knows when it's about to fire the nuke
+                        if (calamityGlobalNPC.newAI[2] == 1f)
+                        {
+                            TelegraphSoundSlot = SoundEngine.PlaySound(TelSound, NPC.Center);
+                        }
+
                         // Set frames to gauss nuke charge up frames, which begin on frame 12
                         if (calamityGlobalNPC.newAI[2] == 1f)
                         {
@@ -461,6 +473,12 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
             // Smooth movement towards the location Ares Gauss Nuke is meant to be at
             CalamityUtils.SmoothMovement(NPC, movementDistanceGateValue, distanceFromDestination, baseVelocity, 0f, false);
+
+            //Update the telegraph sound if it's being done.
+            if (TelegraphSoundSlot != null && SoundEngine.TryGetActiveSound(TelegraphSoundSlot, out var telSound) && telSound.IsPlaying)
+            {
+                telSound.Position = NPC.Center;
+            }
         }
 
         public override bool CanHitPlayer(Player target, ref int cooldownSlot) => false;

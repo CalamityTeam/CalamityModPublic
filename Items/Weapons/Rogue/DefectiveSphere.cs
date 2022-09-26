@@ -8,7 +8,7 @@ using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class DefectiveSphere : ModItem
+    public class DefectiveSphere : RogueWeapon
     {
         public static int BaseDamage = 130;
         public static float Speed = 15f;
@@ -38,7 +38,7 @@ Stealth strikes launch all 4 sphere types at once");
             Item.useStyle = ItemUseStyleID.Swing;
             Item.UseSound = SoundID.Item15; //phaseblade sound effect
 
-            Item.value = Item.buyPrice(0, 16, 0, 0);
+            Item.value = CalamityGlobalItem.RarityYellowBuyPrice / 5; // Stacks up to 5
             Item.rare = ItemRarityID.Yellow;
 
             Item.DamageType = RogueDamageClass.Instance;

@@ -9,23 +9,23 @@ using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.NPCs.BrimstoneElemental;
 using CalamityMod.World;
-using Terraria;
-using Terraria.ModLoader;
-using Terraria.ID;
-using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Terraria;
+using Terraria.GameContent.ItemDropRules;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Items.TreasureBags
 {
     public class BrimstoneWaifuBag : ModItem
     {
-        public override int BossBagNPC => ModContent.NPCType<BrimstoneElemental>();
-
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 3;
             DisplayName.SetDefault("Treasure Bag (Brimstone Elemental)");
             Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
+			ItemID.Sets.BossBag[Item.type] = true;
         }
 
         public override void SetDefaults()
@@ -38,43 +38,52 @@ namespace CalamityMod.Items.TreasureBags
             Item.rare = ItemRarityID.Cyan;
         }
 
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = ContentSamples.CreativeHelper.ItemGroup.BossBags;
+		}
+
         public override bool CanRightClick() => true;
+
+		public override Color? GetAlpha(Color lightColor) => Color.Lerp(lightColor, Color.White, 0.4f);
+
+        public override void PostUpdate() => Item.TreasureBagLightAndDust();
 
         public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
         {
             return CalamityUtils.DrawTreasureBagInWorld(Item, spriteBatch, ref rotation, ref scale, whoAmI);
         }
 
-        public override void OpenBossBag(Player player)
+        public override void ModifyItemLoot(ItemLoot itemLoot)
         {
-            // IEntitySource my beloathed
-            var s = player.GetSource_OpenItem(Item.type);
-
-            player.TryGettingDevArmor(s);
+			// Money
+			itemLoot.Add(ItemDropRule.CoinsBasedOnNPCValue(ModContent.NPCType<BrimstoneElemental>()));
 
             // Materials
-            DropHelper.DropItem(s, player, ModContent.ItemType<EssenceofChaos>(), 5, 9);
-            DropHelper.DropItemCondition(s, player, ModContent.ItemType<Bloodstone>(), DownedBossSystem.downedProvidence, 25, 35);
+            itemLoot.Add(ModContent.ItemType<EssenceofChaos>(), 1, 5, 9);
 
             // Weapons
-            float w = DropHelper.BagWeaponDropRateFloat;
-            DropHelper.DropEntireWeightedSet(s, player,
-                DropHelper.WeightStack<Brimlance>(w),
-                DropHelper.WeightStack<SeethingDischarge>(w),
-                DropHelper.WeightStack<DormantBrimseeker>(w),
-                DropHelper.WeightStack<RoseStone>(w)
-            );
+            itemLoot.Add(DropHelper.CalamityStyle(DropHelper.BagWeaponDropRateFraction, new int[]
+            {
+                ModContent.ItemType<Brimlance>(),
+                ModContent.ItemType<SeethingDischarge>(),
+                ModContent.ItemType<DormantBrimseeker>()
+            }));
+            itemLoot.Add(ModContent.ItemType<Hellborn>(), 10);
 
             // Equipment
-            DropHelper.DropItem(s, player, ModContent.ItemType<Abaddon>());
-            DropHelper.DropItem(s, player, ModContent.ItemType<Gehenna>());
-            DropHelper.DropItemChance(s, player, ModContent.ItemType<Hellborn>(), 0.1f);
-            DropHelper.DropItemChance(s, player, ModContent.ItemType<FlameLickedShell>(), 0.1f);
-            DropHelper.DropItemCondition(s, player, ModContent.ItemType<Brimrose>(), DownedBossSystem.downedProvidence);
+            itemLoot.Add(DropHelper.CalamityStyle(DropHelper.BagWeaponDropRateFraction, new int[]
+            {
+                ModContent.ItemType<RoseStone>(),
+                ModContent.ItemType<Abaddon>(),
+                ModContent.ItemType<Gehenna>()
+            }));
+            itemLoot.Add(ModContent.ItemType<FlameLickedShell>(), 10);
+            itemLoot.AddRevBagAccessories();
 
             // Vanity
-            DropHelper.DropItemCondition(s, player, ModContent.ItemType<CharredRelic>(), CalamityWorld.revenge);
-            DropHelper.DropItemChance(s, player, ModContent.ItemType<BrimstoneWaifuMask>(), 7);
+            itemLoot.Add(ModContent.ItemType<BrimstoneWaifuMask>(), 7);
+            itemLoot.AddIf(() => CalamityWorld.revenge, ModContent.ItemType<CharredRelic>());
         }
     }
 }

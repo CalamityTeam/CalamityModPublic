@@ -33,7 +33,7 @@ namespace CalamityMod.NPCs.AstrumAureus
     [AutoloadBossHead]
     public class AstrumAureus : ModNPC
     {
-        public static readonly SoundStyle HitSound = new("CalamityMod/Sounds/NPCHit/AstrumAureusHit");
+        public static readonly SoundStyle HitSound = new("CalamityMod/Sounds/NPCHit/AureusHit", 4);
         public static readonly SoundStyle StompSound = new("CalamityMod/Sounds/Custom/LegStomp");
 
         private bool stomping = false;
@@ -52,6 +52,7 @@ namespace CalamityMod.NPCs.AstrumAureus
             };
             value.Position.Y -= 20f;
             NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
+			NPCID.Sets.MPAllowedEnemies[Type] = true;
         }
 
         public override void SetDefaults()
@@ -65,14 +66,13 @@ namespace CalamityMod.NPCs.AstrumAureus
             NPC.height = 374;
             NPC.defense = 40;
             NPC.DR_NERD(0.5f);
-            NPC.LifeMaxNERB(NPC.downedMoonlord ? 196000 : 98000, NPC.downedMoonlord ? 235200 : 117600, 740000); // 30 seconds in boss rush
+            NPC.LifeMaxNERB(98000, 117600, 740000); // 30 seconds in boss rush
             NPC.aiStyle = -1;
             AIType = -1;
             NPC.knockBackResist = 0f;
             NPC.value = Item.buyPrice(0, 60, 0, 0);
             NPC.boss = true;
             NPC.DeathSound = SoundID.NPCDeath14;
-            Music = CalamityMod.Instance.GetMusicFromMusicMod("AstrumAureus") ?? MusicID.Boss3;
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
             NPC.Calamity().VulnerableToHeat = true;
@@ -355,17 +355,16 @@ namespace CalamityMod.NPCs.AstrumAureus
                 // Other
                 normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<AureusCell>(), 1, 9, 12));
                 normalOnly.Add(ModContent.ItemType<LeonidProgenitor>(), 10);
-
-                normalOnly.Add(ItemDropRule.ByCondition(DropHelper.If(() => NPC.downedMoonlord), ModContent.ItemType<SuspiciousLookingJellyBean>()));
+                normalOnly.Add(ModContent.ItemType<SuspiciousLookingJellyBean>());
             }
 
             npcLoot.Add(ModContent.ItemType<AstrumAureusTrophy>(), 10);
 
             // Relic
-            npcLoot.AddIf(() => Main.masterMode || CalamityWorld.revenge, ModContent.ItemType<AstrumAureusRelic>());
+            npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).Add(ModContent.ItemType<AstrumAureusRelic>());
 
             // Lore
-            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedAstrumAureus, ModContent.ItemType<KnowledgeAstrumAureus>());
+            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedAstrumAureus, ModContent.ItemType<KnowledgeAstrumAureus>(), desc: DropHelper.FirstKillText);
         }
 
         public override void OnKill()
@@ -506,7 +505,8 @@ namespace CalamityMod.NPCs.AstrumAureus
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 480, true);
+            if (damage > 0)
+                player.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 480, true);
         }
     }
 }

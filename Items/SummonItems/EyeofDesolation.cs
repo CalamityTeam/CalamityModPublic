@@ -19,6 +19,7 @@ namespace CalamityMod.Items.SummonItems
                 "Summons Calamitas when used during nighttime\n" +
                 "Enrages during the day\n" +
                 "Not consumable");
+			ItemID.Sets.SortingPriorityBossSpawns[Type] = 10; // Pirate Map
         }
 
         public override void SetDefaults()
@@ -31,6 +32,11 @@ namespace CalamityMod.Items.SummonItems
             Item.useStyle = ItemUseStyleID.HoldUp;
             Item.consumable = false;
         }
+
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = ContentSamples.CreativeHelper.ItemGroup.BossItem;
+		}
 
         public override bool CanUseItem(Player player)
         {

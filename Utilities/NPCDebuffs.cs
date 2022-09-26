@@ -289,7 +289,7 @@ namespace CalamityMod
                 { ModContent.NPCType<BigSightseer>(), new Tuple<bool, int[]>(false, CalamityMod.astralEnemyImmunities) },
                 { ModContent.NPCType<FusionFeeder>(), new Tuple<bool, int[]>(false, CalamityMod.astralEnemyImmunities) },
                 { ModContent.NPCType<Hadarian>(), new Tuple<bool, int[]>(false, CalamityMod.astralEnemyImmunities) },
-                { ModContent.NPCType<Hive>(), new Tuple<bool, int[]>(false, CalamityMod.astralEnemyImmunities) },
+                { ModContent.NPCType<HiveEnemy>(), new Tuple<bool, int[]>(false, CalamityMod.astralEnemyImmunities) },
                 { ModContent.NPCType<Hiveling>(), new Tuple<bool, int[]>(false, CalamityMod.astralEnemyImmunities) },
                 { ModContent.NPCType<Mantis>(), new Tuple<bool, int[]>(false, CalamityMod.astralEnemyImmunities) },
                 { ModContent.NPCType<Nova>(), new Tuple<bool, int[]>(false, CalamityMod.astralEnemyImmunities) },

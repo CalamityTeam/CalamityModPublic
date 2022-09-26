@@ -48,6 +48,9 @@ namespace CalamityMod.Items
                 tooltips.Add(line);
             }
 
+            // If the item has a stealth strike damage prefix, show that on the tooltip.
+            StealthWeaponTooltip(item, tooltips);
+
             // If an item has an enchantment, show its prefix in the first tooltip line and append its description to the
             // tooltip list.
             EnchantmentTooltips(item, tooltips);
@@ -74,7 +77,7 @@ namespace CalamityMod.Items
             }
             if (devItem)
             {
-                TooltipLine line = new TooltipLine(Mod, "CalamityDev", CalamityUtils.ColorMessage("- Developer Item -", CalamityUtils.HotPinkRarityColor));
+                TooltipLine line = new TooltipLine(Mod, "CalamityDev", CalamityUtils.ColorMessage("- Developer Item -", CalamityUtils.DevItemColor));
                 tooltips.Add(line);
             }
         }
@@ -83,11 +86,6 @@ namespace CalamityMod.Items
         #region Rarity Coloration
         private void ApplyRarityColor(Item item, TooltipLine nameLine)
         {
-            // Apply standard post-ML rarities to the item's color first.
-            Color? standardRarityColor = CalamityUtils.GetRarityColor(customRarity);
-            if (!item.expert && standardRarityColor.HasValue)
-                nameLine.OverrideColor = standardRarityColor.Value;
-
             #region Uniquely Colored Developer Items
             if (item.type == ModContent.ItemType<Fabstaff>())
                 nameLine.OverrideColor = new Color(Main.DiscoR, 100, 255);
@@ -237,6 +235,10 @@ namespace CalamityMod.Items
             // For items such as a Copper Helmet which literally have no tooltips at all, add a custom "Tooltip0" which mimics the vanilla Tooltip0.
             void AddTooltip(string text)
             {
+				// Don't add the tooltip if the item is in a social slot
+				if (item.social)
+					return;
+
                 int defenseIndex = -1;
                 for (int i = 0; i < tooltips.Count; ++i)
                     if (tooltips[i].Name == "Defense")
@@ -255,19 +257,9 @@ namespace CalamityMod.Items
             if (item.type == ItemID.GelBalloon)
                 EditTooltipByNum(0, (line) => line.Text = "");
 
-            // Teleporters not working while a boss is alive.
-            if (item.type == ItemID.Teleporter)
-                EditTooltipByName("Placeable", (line) => line.Text += "\nCannot be used while a boss is alive");
-
             // Flesh Knuckles giving extra max life.
             if (item.type == ItemID.FleshKnuckles || item.type == ItemID.HeroShield || item.type == ItemID.BerserkerGlove)
                 EditTooltipByNum(0, (line) => line.Text += "\nMax life increased by 45");
-
-            // Mirrors and Recall Potions cannot be used while a boss is alive.
-            if (item.type == ItemID.MagicMirror || item.type == ItemID.IceMirror || item.type == ItemID.CellPhone || item.type == ItemID.RecallPotion)
-                ApplyTooltipEdits(tooltips,
-                    (i, l) => l.Mod == "Terraria" && l.Name == (i.type == ItemID.CellPhone ? "Tooltip1" : "Tooltip0"),
-                    (line) => line.Text += "\nCannot be used while you have the Boss Effects buff");
 
             // Rod of Discord cannot be used multiple times to hurt yourself
             if (item.type == ItemID.RodofDiscord)
@@ -286,7 +278,7 @@ namespace CalamityMod.Items
 
             // If Early Hardmode Rework is enabled: Remind users that ores will NOT spawn when an altar is smashed.
             if (CalamityConfig.Instance.EarlyHardmodeProgressionRework && (item.type == ItemID.Pwnhammer || item.type == ItemID.Hammush))
-                EditTooltipByNum(0, (line) => line.Text += "\nDemon Altars now provide Souls of Night instead of generating ores when destroyed" +
+                EditTooltipByNum(0, (line) => line.Text += "\nDemon Altars now drop Souls of Night instead of generating ores when destroyed" +
                 "\nHardmode ores now generate after defeating Mechanical Bosses for the first time");
 
             // Bottled Honey gives the Honey buff
@@ -319,10 +311,6 @@ namespace CalamityMod.Items
                 EditTooltipByNum(0, (line) => line.Text += extraLine);
             }
 
-            // Invisibility Potion provides various rogue boosts
-            if (item.type == ItemID.InvisibilityPotion)
-                EditTooltipByNum(0, (line) => line.Text += "\nBoosts various rogue stats depending on held weapon");
-
             // Golden Fishing Rod inherently contains High Test Fishing Line
             if (item.type == ItemID.GoldenFishingRod)
                 EditTooltipByName("NeedsBait", (line) => line.Text += "\nIts fishing line will never break");
@@ -339,6 +327,17 @@ namespace CalamityMod.Items
             // Due to the higher complexity of the action, the actual logic is delegated to its own method.
             // I think this fits the miscellaneous category? Not seeing anything like this elsewhere. - Tomat
             EditTooltipByName("Speed", (line) => RedistributeSpeedTooltips(item, line));
+
+            if (item.type == ItemID.SpaceGun)
+            {
+				int cost = (int)(item.mana * Main.LocalPlayer.manaCost * 0.5f);
+                EditTooltipByName("UseMana", (line) => line.Text = $"Uses {cost} mana");
+            }
+            if (item.healLife > 0 && Main.LocalPlayer.Calamity().healingPotBonus != 1f)
+            {
+                int healAmt = (int)(item.healLife * Main.LocalPlayer.Calamity().healingPotBonus);
+                EditTooltipByName("HealLife", (line) => line.Text = $"Restores {healAmt} life");
+            }
             #endregion
 
             // For boss summon item clarity
@@ -465,6 +464,15 @@ namespace CalamityMod.Items
 
             if (item.type == ItemID.DeathSickle)
                 EditTooltipByNum(0, (line) => line.Text += "\nInflicts Whispering Death on hit");
+
+            if (item.type == ItemID.StarWrath || item.type == ItemID.NorthPole || item.type == ItemID.PsychoKnife)
+                EditTooltipByNum(0, (line) => line.Text += "\nReceives 33% benefit from melee speed bonuses");
+
+            if (item.type == ItemID.FetidBaghnakhs)
+                EditTooltipByName("Knockback", (line) => line.Text += "\nReceives 25% benefit from melee speed bonuses");
+
+            if (item.type == ItemID.BladedGlove)
+                EditTooltipByName("Knockback", (line) => line.Text += "\nReceives 50% benefit from melee speed bonuses");
             #endregion
 
             // Light pets, accessories, and other items which boost the player's Abyss light stat
@@ -473,9 +481,10 @@ namespace CalamityMod.Items
             // +1 to Abyss light level
             string abyssSmallLightLine = "\nProvides a small amount of light in the abyss";
 
-            if (item.type == ItemID.CrimsonHeart || item.type == ItemID.ShadowOrb || item.type == ItemID.MagicLantern || item.type == ItemID.JellyfishNecklace || item.type == ItemID.MiningHelmet)
+            if (item.type == ItemID.CrimsonHeart || item.type == ItemID.ShadowOrb || item.type == ItemID.MagicLantern || item.type == ItemID.JellyfishNecklace ||
+                item.type == ItemID.MiningHelmet || item.type == ItemID.UltrabrightHelmet)
                 EditTooltipByNum(0, (line) => line.Text += abyssSmallLightLine);
-            if (item.type == ItemID.JellyfishDivingGear)
+            if (item.type == ItemID.JellyfishDivingGear || item.type == ItemID.Magiluminescence)
                 EditTooltipByNum(1, (line) => line.Text += abyssSmallLightLine);
 
             // +2 to Abyss light level
@@ -490,7 +499,7 @@ namespace CalamityMod.Items
             // +3 to Abyss light level
             string abyssLargeLightLine = "\nProvides a large amount of light in the abyss";
 
-            if (item.type == ItemID.WispinaBottle)
+            if (item.type == ItemID.WispinaBottle || item.type == ItemID.PumpkingPetItem || item.type == ItemID.GolemPetItem || item.type == ItemID.FairyQueenPetItem)
                 EditTooltipByNum(0, (line) => line.Text += abyssLargeLightLine);
             if (item.type == ItemID.SuspiciousLookingTentacle)
                 EditTooltipByNum(1, (line) => line.Text += abyssLargeLightLine);
@@ -581,11 +590,12 @@ namespace CalamityMod.Items
 
             // Arcane and Magnet Flower buffs.
             if (item.type == ItemID.ArcaneFlower || item.type == ItemID.MagnetFlower)
-                EditTooltipByNum(0, (line) => line.Text = "20% reduced mana usage");
+                EditTooltipByNum(0, (line) => line.Text = "12% reduced mana usage");
 
             // Magiluminescence nerf and clear explanation of what it actually does.
             if (item.type == ItemID.Magiluminescence)
-                EditTooltipByNum(0, (line) => line.Text = "Increases movement acceleration and deceleration by 1.25x");
+                EditTooltipByNum(0, (line) => line.Text = "Increases movement acceleration and deceleration by 1.25x\n" +
+                "Increases movement speed by 1.05x. This bonus applies to running boot accessories");
 
             // Soaring Insignia nerf and clear explanation of what it actually does.
             if (item.type == ItemID.EmpressFlightBooster)
@@ -638,6 +648,9 @@ namespace CalamityMod.Items
 
             if (item.type == ItemID.ObsidianHorseshoe || item.type == ItemID.ObsidianShield || item.type == ItemID.ObsidianWaterWalkingBoots || item.type == ItemID.LavaWaders || item.type == ItemID.LavaSkull || item.type == ItemID.MoltenSkullRose)
                 EditTooltipByNum(1, (line) => line.Text = line.Text.Replace("fire blocks", "the Burning and On Fire! debuffs"));
+
+            if (item.type == ItemID.TerrasparkBoots)
+                EditTooltipByNum(3, (line) => line.Text += "\nImmunity to the On Fire! debuff");
 
             // IT'S HELLFIRE!!!
             if (item.type == ItemID.MagmaStone || item.type == ItemID.LavaSkull || item.type == ItemID.MoltenSkullRose)
@@ -797,11 +810,9 @@ namespace CalamityMod.Items
                 EditTooltipByNum(0, (line) => line.Text = "Increases your max number of sentries by 2\n" +
                 "10% increased melee and minion damage");
             if (item.type == ItemID.MonkAltShirt)
-                EditTooltipByNum(0, (line) => line.Text = "10% increased minion damage and melee speed\n" +
-                "5% increased melee critical strike chance");
+                EditTooltipByNum(0, (line) => line.Text = "10% increased minion damage and melee speed");
             if (item.type == ItemID.MonkAltPants)
-                EditTooltipByNum(0, (line) => line.Text = "10% increased minion damage and melee critical strike chance\n" +
-                "30% increased movement speed");
+                EditTooltipByNum(0, (line) => line.Text = "10% increased minion damage and melee critical strike chance");
 
             // Red Riding armor
             if (item.type == ItemID.HuntressAltShirt)
@@ -809,8 +820,7 @@ namespace CalamityMod.Items
 
             // Dark Artist armor
             if (item.type == ItemID.ApprenticeAltPants)
-                EditTooltipByNum(0, (line) => line.Text = "10% increased minion damage and magic critical strike chance\n" +
-                "20% increased movement speed");
+                EditTooltipByNum(0, (line) => line.Text = "10% increased minion damage and magic critical strike chance");
             #endregion
 
             // Non-consumable boss summon items
@@ -828,7 +838,8 @@ namespace CalamityMod.Items
             if (item.type == ItemID.Picksaw)
                 EditTooltipByNum(0, (line) => line.Text += "\nCan mine Scoria Ore located in the Abyss");
 
-            if (item.type == ItemID.SolarFlarePickaxe || item.type == ItemID.VortexPickaxe || item.type == ItemID.NebulaPickaxe || item.type == ItemID.StardustPickaxe)
+            if (item.type == ItemID.SolarFlarePickaxe || item.type == ItemID.VortexPickaxe || item.type == ItemID.NebulaPickaxe || item.type == ItemID.StardustPickaxe
+                || item.type == ItemID.SolarFlareDrill || item.type == ItemID.VortexDrill || item.type == ItemID.NebulaDrill || item.type == ItemID.StardustDrill)
                 EditTooltipByName("Knockback", (line) => line.Text += "\nCan mine Uelibloom Ore");
             #endregion
 
@@ -1107,11 +1118,54 @@ namespace CalamityMod.Items
             float stealthGenBoost = item.Calamity().StealthGenBonus - 1f;
             if (stealthGenBoost > 0)
             {
+                TooltipLine line = tooltips.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Expert");
+				if (line == null)
+					line = tooltips.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Price");
+
                 TooltipLine StealthGen = new TooltipLine(Mod, "PrefixStealthGenBoost", "+" + Math.Round(stealthGenBoost * 100f) + "% stealth generation")
                 {
                     IsModifier = true
                 };
-                tooltips.Add(StealthGen);
+
+				if (line == null)
+					tooltips.Add(StealthGen);
+				else
+					tooltips.Insert(tooltips.IndexOf(line), StealthGen);
+            }
+        }
+        #endregion
+
+        #region Stealth Strike Damage Prefix Weapon Tooltip
+        private void StealthWeaponTooltip(Item item, IList<TooltipLine> tooltips)
+        {
+            if (!item.CountsAsClass<RogueDamageClass>() || item.accessory || item.prefix <= 0)
+                return;
+
+            float stealthDmgBonus = item.Calamity().StealthStrikePrefixBonus - 1f;
+            if (stealthDmgBonus > 0)
+            {
+                TooltipLine line = tooltips.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "PrefixShootSpeed");
+				if (line == null)
+					line = tooltips.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "PrefixCritChance");
+				else if (line == null)
+					line = tooltips.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "PrefixSpeed");
+				else if (line == null)
+					line = tooltips.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "PrefixDamage");
+                TooltipLine line2 = tooltips.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Expert");
+				if (line2 == null)
+					line2 = tooltips.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Price");
+
+                TooltipLine StealthDmg = new TooltipLine(Mod, "PrefixStealthDamageBoost", "+" + Math.Round(stealthDmgBonus * 100f) + "% stealth strike damage")
+                {
+                    IsModifier = true
+                };
+
+				// If price/expert line doesn't exist, just add it to the end
+				if (line2 == null)
+					tooltips.Add(StealthDmg);
+				// Otherwise, insert it right before the sell price (or expert line)
+				else
+					tooltips.Insert(tooltips.IndexOf(line2), StealthDmg);
             }
         }
         #endregion

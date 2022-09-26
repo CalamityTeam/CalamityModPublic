@@ -19,7 +19,7 @@ namespace CalamityMod.Projectiles.Magic
         {
             Projectile.width = 20;
             Projectile.height = 20;
-            Projectile.aiStyle = 9;
+            Projectile.aiStyle = ProjAIStyleID.MagicMissile;
             Projectile.friendly = true;
             Projectile.tileCollide = false;
             Projectile.alpha = 70;

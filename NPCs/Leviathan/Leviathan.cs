@@ -40,6 +40,7 @@ namespace CalamityMod.NPCs.Leviathan
 
         public static readonly SoundStyle RoarMeteorSound = new("CalamityMod/Sounds/Custom/LeviathanRoarMeteor");
         public static readonly SoundStyle RoarChargeSound = new("CalamityMod/Sounds/Custom/LeviathanRoarCharge");
+        public static readonly SoundStyle EmergeSound = new("CalamityMod/Sounds/Custom/LeviathanEmerge");
 
         public override void SetStaticDefaults()
         {
@@ -74,7 +75,6 @@ namespace CalamityMod.NPCs.Leviathan
             NPC.noGravity = true;
             NPC.boss = true;
             NPC.netAlways = true;
-            Music = CalamityMod.Instance.GetMusicFromMusicMod("LeviathanAndAnahita") ?? MusicID.Boss3;
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToSickness = true;
             NPC.Calamity().VulnerableToElectricity = true;
@@ -261,7 +261,10 @@ namespace CalamityMod.NPCs.Leviathan
                     NPC.velocity = new Vector2(0f, -velocityY);
 
                     if (calamityGlobalNPC.newAI[3] == 10f)
+                    {
+                        SoundEngine.PlaySound(EmergeSound, vector);
                         SoundEngine.PlaySound(soundChoiceRage, vector);
+                    }
 
                     NPC.Opacity = MathHelper.Clamp(calamityGlobalNPC.newAI[3] / spawnAnimationTime, 0f, 1f);
 
@@ -332,7 +335,7 @@ namespace CalamityMod.NPCs.Leviathan
                     NPC.spriteDirection = NPC.direction;
 
                     NPC.ai[1] += 1f;
-                    float phaseTimer = 240f;
+                    float phaseTimer = 360f;
                     if (!sirenAlive || phase4)
                         phaseTimer -= 120f * (1f - lifeRatio);
 
@@ -408,7 +411,7 @@ namespace CalamityMod.NPCs.Leviathan
                     NPC.ai[1] += num638 / 2;
 
                     bool flag103 = false;
-                    float num640 = (!sirenAlive || phase4) ? 30f : 60f;
+                    float num640 = (!sirenAlive || phase4) ? 60f : 40f;
                     if (NPC.ai[1] > num640)
                     {
                         NPC.ai[1] = 0f;
@@ -416,7 +419,7 @@ namespace CalamityMod.NPCs.Leviathan
                         flag103 = true;
                     }
 
-                    int spawnLimit = (sirenAlive && !phase4) ? 2 : (death ? 3 : 4);
+                    int spawnLimit = (sirenAlive && !phase4) ? 1 : (death ? 2 : 3);
                     if (flag103 && NPC.CountNPCS(ModContent.NPCType<AquaticAberration>()) < spawnLimit)
                     {
                         SoundEngine.PlaySound(soundChoice, vector);
@@ -468,7 +471,7 @@ namespace CalamityMod.NPCs.Leviathan
                     NPC.direction = playerLocation < 0 ? 1 : -1;
                     NPC.spriteDirection = NPC.direction;
 
-                    if (NPC.ai[2] > ((sirenAlive && !phase4) ? 2f : 4f))
+                    if (NPC.ai[2] > spawnLimit)
                     {
                         NPC.ai[0] = canCharge ? (Main.rand.NextBool() ? 2f : 0f) : 0f;
                         NPC.ai[1] = 0f;
@@ -726,7 +729,7 @@ namespace CalamityMod.NPCs.Leviathan
                 }
                 if (Main.netMode != NetmodeID.Server)
                 {
-                    float randomSpread = Main.rand.Next(-200, 200) / 100;
+                    float randomSpread = Main.rand.Next(-200, 201) / 100f;
                     Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * randomSpread, Mod.Find<ModGore>("LeviGore").Type, NPC.scale);
                     Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * randomSpread, Mod.Find<ModGore>("LeviGore2").Type, NPC.scale);
                     Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * randomSpread, Mod.Find<ModGore>("LeviGore3").Type, NPC.scale);
@@ -778,8 +781,7 @@ namespace CalamityMod.NPCs.Leviathan
                     ModContent.ItemType<Atlantis>(),
                     ModContent.ItemType<GastricBelcherStaff>(),
                     ModContent.ItemType<BrackishFlask>(),
-                    ModContent.ItemType<LeviathanTeeth>(),
-                    ModContent.ItemType<PearlofEnthrallment>()
+                    ModContent.ItemType<LeviathanTeeth>()
                 };
                 normalOnly.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, items));
 
@@ -789,6 +791,7 @@ namespace CalamityMod.NPCs.Leviathan
 
                 // Equipment
                 normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<LeviathanAmbergris>()));
+                normalOnly.Add(ModContent.ItemType<PearlofEnthrallment>(), DropHelper.NormalWeaponDropRateFraction);
                 normalOnly.Add(ModContent.ItemType<TheCommunity>(), 10);
 
                 // Fishing
@@ -801,12 +804,12 @@ namespace CalamityMod.NPCs.Leviathan
             }
 
             // Relic
-            npcLoot.AddIf(() => (Main.masterMode || CalamityWorld.revenge) && LastAnLStanding(), ModContent.ItemType<LeviathanAnahitaRelic>());
+            npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).AddIf((info) => LastAnLStanding(), ModContent.ItemType<LeviathanAnahitaRelic>());
 
             // Lore
             bool shouldDropLore(DropAttemptInfo info) => !DownedBossSystem.downedLeviathan && LastAnLStanding();
-            npcLoot.AddConditionalPerPlayer(shouldDropLore, ModContent.ItemType<KnowledgeOcean>());
-            npcLoot.AddConditionalPerPlayer(shouldDropLore, ModContent.ItemType<KnowledgeLeviathanAnahita>());
+            npcLoot.AddConditionalPerPlayer(shouldDropLore, ModContent.ItemType<KnowledgeOcean>(), desc: DropHelper.FirstKillText);
+            npcLoot.AddConditionalPerPlayer(shouldDropLore, ModContent.ItemType<KnowledgeLeviathanAnahita>(), desc: DropHelper.FirstKillText);
         }
 
         public override void ModifyNPCLoot(NPCLoot npcLoot)
@@ -819,7 +822,8 @@ namespace CalamityMod.NPCs.Leviathan
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            target.AddBuff(BuffID.Bleeding, 600, true);
+            if (damage > 0)
+                target.AddBuff(BuffID.Bleeding, 600, true);
         }
 
         public override bool CheckActive()

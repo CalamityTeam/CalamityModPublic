@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
+using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -34,7 +35,7 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.knockBack = 5f;
 
             Item.value = CalamityGlobalItem.Rarity14BuyPrice;
-            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.rare = ModContent.RarityType<DarkBlue>();
             Item.Calamity().donorItem = true;
 
             Item.shoot = ModContent.ProjectileType<MelterNote1>();
@@ -92,8 +93,7 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             CreateRecipe().
                 AddIngredient(ItemID.TheAxe).
-                AddIngredient(ItemID.MagicalHarp).
-                AddIngredient<AnahitasArpeggio>().
+                AddIngredient(ItemID.SparkleGuitar). // Stellar Tune from Empress of Light
                 AddIngredient<CosmiliteBar>(8).
                 AddIngredient<NightmareFuel>(20).
                 AddTile<CosmicAnvil>().

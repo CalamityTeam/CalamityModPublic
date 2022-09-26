@@ -9,6 +9,7 @@ using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
+using CalamityMod.Sounds;
 
 namespace CalamityMod.NPCs.NormalNPCs
 {
@@ -77,7 +78,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             NPC.lifeMax = 20;
             NPC.value = Item.buyPrice(0, 0, 1, 50);
             NPC.HitSound = SoundID.NPCHit4;
-            NPC.DeathSound = SoundID.NPCDeath14;
+            NPC.DeathSound = CommonCalamitySounds.WulfrumNPCDeathSound;
             NPC.noGravity = true;
             NPC.noTileCollide = true;
             Banner = NPC.type;
@@ -264,7 +265,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            float pylonMult = NPC.AnyNPCs(ModContent.NPCType<WulfrumPylon>()) ? 5.5f : 1f;
+            float pylonMult = NPC.AnyNPCs(ModContent.NPCType<WulfrumAmplifier>()) ? 5.5f : 1f;
             if (spawnInfo.PlayerSafe || spawnInfo.Player.Calamity().ZoneSulphur)
                 return 0f;
 
@@ -285,6 +286,18 @@ namespace CalamityMod.NPCs.NormalNPCs
                     {
                         Dust.NewDust(NPC.position, NPC.width, NPC.height, 3, hitDirection, -1f, 0, default, 1f);
                     }
+
+                    if (!Main.dedServ)
+                    {
+                        Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("WulfrumHovercraftGore1").Type, 1f);
+                        Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("WulfrumHovercraftGore2").Type, 1f);
+
+                        int randomGoreCount = Main.rand.Next(1, 4);
+                        for (int i = 0; i < randomGoreCount; i++)
+                        {
+                            Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("WulfrumEnemyGore" + Main.rand.Next(1, 11).ToString()).Type, 1f);
+                        }
+                    }
                 }
             }
         }
@@ -297,7 +310,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            npcLoot.Add(ModContent.ItemType<WulfrumShard>(), 1, 2, 3);
+            npcLoot.Add(ModContent.ItemType<WulfrumMetalScrap>(), 1, 2, 3);
             npcLoot.Add(ModContent.ItemType<WulfrumBattery>(), new Fraction(7, 100));
             npcLoot.AddIf(info => info.npc.ModNPC<WulfrumHovercraft>().Supercharged, ModContent.ItemType<EnergyCore>());
         }

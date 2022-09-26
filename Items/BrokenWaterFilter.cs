@@ -20,11 +20,18 @@ namespace CalamityMod.Items
             Item.value = CalamityGlobalItem.Rarity1BuyPrice;
             Item.rare = ItemRarityID.Blue;
         }
+
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = (ContentSamples.CreativeHelper.ItemGroup)CalamityResearchSorting.SpawnPrevention;
+		}
+
         public override void UpdateInventory(Player player)
         {
             if (Item.favorited)
                 player.Calamity().noStupidNaturalARSpawns = true;
         }
+
         public override void AddRecipes()
         {
             CreateRecipe().

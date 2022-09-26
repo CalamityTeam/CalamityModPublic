@@ -40,6 +40,7 @@ namespace CalamityMod.Items.Potions
                 AddIngredient<AureusCell>().
                 AddIngredient<AldebaranAlewife>().
                 AddTile(TileID.AlchemyTable).
+				AddConsumeItemCallback(Recipe.ConsumptionRules.Alchemy).
                 Register();
 
             CreateRecipe().

@@ -9,7 +9,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class RadiantStar : ModItem
+    public class RadiantStar : RogueWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
             Item.height = 48;
-            Item.value = Item.buyPrice(0, 95, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity9BuyPrice;
             Item.rare = ItemRarityID.Cyan;
             Item.shoot = ModContent.ProjectileType<RadiantStarKnife>();
             Item.shootSpeed = 20f;

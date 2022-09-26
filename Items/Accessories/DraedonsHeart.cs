@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using CalamityMod.Balancing;
+﻿using CalamityMod.Balancing;
 using CalamityMod.CalPlayer;
+using CalamityMod.Rarities;
 using CalamityMod.World;
+using System.Collections.Generic;
+using System.Linq;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -37,7 +38,7 @@ namespace CalamityMod.Items.Accessories
                 "Reduces defense damage taken by 50%\n" + "Replaces Adrenaline with the Nanomachines meter\n" +
                 $"Unlike Adrenaline, you lose no Nanomachines when you take damage, but they stop accumulating for {pauseDurationTooltip}\n" +
                 $"With full Nanomachines, press & to heal {totalHealTooltip} health over {healDurationTooltip} seconds\n" +
-                "While healing, you take &% less damage\n" +
+                "While healing, you take @% less damage\n" +
                 "'Nanomachines, son.'");
         }
 
@@ -47,9 +48,8 @@ namespace CalamityMod.Items.Accessories
             Item.height = 68;
             Item.accessory = true;
             Item.defense = 48;
-            Item.rare = ItemRarityID.Red;
             Item.value = CalamityGlobalItem.RarityVioletBuyPrice;
-            Item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.rare = ModContent.RarityType<Violet>();
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -89,13 +89,14 @@ namespace CalamityMod.Items.Accessories
                 hotkeyLine.Text = tooltipWithHotkey;
             }
 
-            // The 6th tooltip line "While healing..." has the & replaced with full adrenaline DR.
-            string fullAdrenDRString = (100f * BalancingConstants.FullAdrenalineDR).ToString("n0");
+            // The 6th tooltip line "While healing..." has the @ replaced with full adrenaline DR.
+            // For whatever reason this method overrides the entire line instead of replacing the character as intended, so we duplicate the line.
+            string fullAdrenDRString = (100f * BalancingConstants.FullAdrenalineDR).ToString("N0");
             TooltipLine healingDRLine = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip5");
             if (healingDRLine != null)
             {
-                string tooltipWithDR = fullAdrenDRString.Replace("&", fullAdrenDRString);
-                healingDRLine.Text = tooltipWithDR;
+                string tooltipWithDR = fullAdrenDRString.Replace("@", fullAdrenDRString);
+                healingDRLine.Text = "While healing, you take " + tooltipWithDR + "% less damage";
             }
         }
     }

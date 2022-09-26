@@ -62,6 +62,7 @@ namespace CalamityMod.Projectiles.Summon
                 softcappedDamageMultiplier = ((damageMultiplier - 3f) * 0.1f) + 3f;
 
             int radiantOrbDamage = (int)(Projectile.damage * softcappedDamageMultiplier);
+            int radiantOrbOriginalDamage = (int)(Projectile.originalDamage * softcappedDamageMultiplier);
             int radiantOrbAppearRate = (int)(130 * Math.Pow(0.9, AllocatedSlots));
 
             // Hard-cap the orb appear rate and damage.
@@ -76,7 +77,7 @@ namespace CalamityMod.Projectiles.Summon
             GeneralTimer++;
             NPC potentialTarget = Projectile.Center.MinionHoming(TargetCheckDistance, Owner);
             if (potentialTarget != null && Main.myPlayer == Projectile.owner)
-                AttackTarget(potentialTarget, radiantOrbAppearRate, radiantOrbDamage);
+                AttackTarget(potentialTarget, radiantOrbAppearRate, radiantOrbDamage, radiantOrbOriginalDamage);
         }
 
         public void VerifyIdentityOfCaller()
@@ -93,7 +94,7 @@ namespace CalamityMod.Projectiles.Summon
             }
         }
 
-        public void AttackTarget(NPC target, int radiantOrbAppearRate, int radiantOrbDamage)
+        public void AttackTarget(NPC target, int radiantOrbAppearRate, int radiantOrbDamage, int radiantOrbOriginalDamage)
         {
             if (GeneralTimer % 35f == 34f)
             {
@@ -103,7 +104,7 @@ namespace CalamityMod.Projectiles.Summon
                     Vector2 fireVelocity = Projectile.SafeDirectionTo(target.Center).RotatedBy(angle) * 15f;
                     int p = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, fireVelocity, ModContent.ProjectileType<SarosSunfire>(), radiantOrbDamage / 2, Projectile.knockBack, Projectile.owner);
                     if (Main.projectile.IndexInRange(p))
-                        Main.projectile[p].originalDamage = radiantOrbDamage / 2;
+                        Main.projectile[p].originalDamage = radiantOrbOriginalDamage / 2;
                 }
             }
 
@@ -113,14 +114,14 @@ namespace CalamityMod.Projectiles.Summon
                 Vector2 bootlegRadianceOrbVelocity = Projectile.SafeDirectionTo(target.Center) * 2f;
                 int p2 = Projectile.NewProjectile(Projectile.GetSource_FromThis(), spawnPosition, bootlegRadianceOrbVelocity, ModContent.ProjectileType<SarosMicrosun>(), radiantOrbDamage, Projectile.knockBack * 4f, Projectile.owner);
                 if (Main.projectile.IndexInRange(p2))
-                    Main.projectile[p2].originalDamage = radiantOrbDamage;
+                    Main.projectile[p2].originalDamage = radiantOrbOriginalDamage;
                 for (int i = 0; i < 3; i++)
                 {
                     float angle = MathHelper.Lerp(-MathHelper.ToRadians(30f), MathHelper.ToRadians(30f), i / 3f);
                     Vector2 fireVelocity = Projectile.SafeDirectionTo(target.Center).RotatedBy(angle) * 19f;
                     int p = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, fireVelocity, ModContent.ProjectileType<SarosSunfire>(), radiantOrbDamage / 2, Projectile.knockBack, Projectile.owner);
                     if (Main.projectile.IndexInRange(p))
-                        Main.projectile[p].originalDamage = radiantOrbDamage / 2;
+                        Main.projectile[p].originalDamage = radiantOrbOriginalDamage / 2;
                 }
             }
         }

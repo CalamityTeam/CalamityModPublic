@@ -11,6 +11,9 @@ namespace CalamityMod.BiomeManagers
         public override int Music => CalamityMod.Instance.GetMusicFromMusicMod("SunkenSea") ?? MusicID.Temple;
         public override SceneEffectPriority Priority => SceneEffectPriority.BiomeHigh;
         public override string BestiaryIcon => "CalamityMod/BiomeManagers/SunkenSeaIcon";
+		// Placeholder until we get a dedicated Sunken Sea background
+        public override string BackgroundPath => "CalamityMod/Backgrounds/MapBackgrounds/AbyssBGLayer1";
+        public override string MapBackground => "CalamityMod/Backgrounds/MapBackgrounds/AbyssBGLayer1";
 
         public override void SetStaticDefaults()
         {

@@ -138,7 +138,7 @@ namespace CalamityMod.Projectiles.Rogue
                 if (laser.whoAmI.WithinBounds(Main.maxProjectiles))
                 {
                     laser.DamageType = RogueDamageClass.Instance;
-                    laser.aiStyle = Main.rand.NextBool() ? 1 : -1;
+                    laser.aiStyle = Main.rand.NextBool() ? ProjAIStyleID.Arrow : -1;
                     laser.penetrate = -1;
                     laser.usesLocalNPCImmunity = true;
 

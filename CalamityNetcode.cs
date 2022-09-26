@@ -25,41 +25,6 @@ namespace CalamityMod
                 switch (msgType)
                 {
                     //
-                    // Proficiency levels
-                    //
-
-                    case CalamityModMessageType.MeleeLevelSync:
-                        Main.player[reader.ReadInt32()].Calamity().HandleLevels(reader, 0);
-                        break;
-                    case CalamityModMessageType.RangedLevelSync:
-                        Main.player[reader.ReadInt32()].Calamity().HandleLevels(reader, 1);
-                        break;
-                    case CalamityModMessageType.MagicLevelSync:
-                        Main.player[reader.ReadInt32()].Calamity().HandleLevels(reader, 2);
-                        break;
-                    case CalamityModMessageType.SummonLevelSync:
-                        Main.player[reader.ReadInt32()].Calamity().HandleLevels(reader, 3);
-                        break;
-                    case CalamityModMessageType.RogueLevelSync:
-                        Main.player[reader.ReadInt32()].Calamity().HandleLevels(reader, 4);
-                        break;
-                    case CalamityModMessageType.ExactMeleeLevelSync:
-                        Main.player[reader.ReadInt32()].Calamity().HandleExactLevels(reader, 0);
-                        break;
-                    case CalamityModMessageType.ExactRangedLevelSync:
-                        Main.player[reader.ReadInt32()].Calamity().HandleExactLevels(reader, 1);
-                        break;
-                    case CalamityModMessageType.ExactMagicLevelSync:
-                        Main.player[reader.ReadInt32()].Calamity().HandleExactLevels(reader, 2);
-                        break;
-                    case CalamityModMessageType.ExactSummonLevelSync:
-                        Main.player[reader.ReadInt32()].Calamity().HandleExactLevels(reader, 3);
-                        break;
-                    case CalamityModMessageType.ExactRogueLevelSync:
-                        Main.player[reader.ReadInt32()].Calamity().HandleExactLevels(reader, 4);
-                        break;
-
-                    //
                     // Player mechanic syncs
                     //
 
@@ -247,17 +212,6 @@ namespace CalamityMod
                         break;
 
                     //
-                    // Reforge syncs
-                    //
-
-                    case CalamityModMessageType.ItemTypeLastReforgedSync:
-                        Main.player[reader.ReadInt32()].Calamity().HandleItemTypeLastReforged(reader);
-                        break;
-                    case CalamityModMessageType.ReforgeTierSafetySync:
-                        Main.player[reader.ReadInt32()].Calamity().HandleReforgeTierSafety(reader);
-                        break;
-
-                    //
                     // Mouse control syncs
                     //
 
@@ -269,6 +223,19 @@ namespace CalamityMod
                         break;
 
 
+                    //
+                    // Difficulty syncs
+                    //
+
+                    case CalamityModMessageType.SyncDifficulties:
+                        int sender = reader.ReadInt32();
+                        CalamityWorld.revenge = reader.ReadBoolean();
+                        CalamityWorld.death = reader.ReadBoolean();
+                        //TODO - Something so that other mods that hijack the difficulty ui can also use the remainder of the reader to have their own shit
+
+                        if (Main.netMode == NetmodeID.Server)
+                            SyncCalamityWorldDifficulties(sender);
+                        break;
 
                     //
                     // Default case: with no idea how long the packet is, we can't safely read data.
@@ -288,7 +255,7 @@ namespace CalamityMod
                 else if (e is IOException ioe)
                     CalamityMod.Instance.Logger.Error("Failed to parse Calamity packet: An unknown I/O error occurred.", ioe);
                 else
-                    throw e; // this either will crash the game or be caught by TML's packet policing
+                    throw; // this either will crash the game or be caught by TML's packet policing
             }
         }
 
@@ -296,6 +263,21 @@ namespace CalamityMod
         {
             if (Main.netMode == NetmodeID.Server)
                 NetMessage.SendData(MessageID.WorldData);
+        }
+
+        public static void SyncCalamityWorldDifficulties(int sender)
+        {
+            if (Main.netMode == NetmodeID.SinglePlayer)
+                return;
+
+            var netMessage = CalamityMod.Instance.GetPacket();
+            netMessage.Write((byte)CalamityModMessageType.SyncDifficulties);
+            netMessage.Write(sender);
+            netMessage.Write(CalamityWorld.revenge);
+            netMessage.Write(CalamityWorld.death);
+
+            //TODO - Let other mods also add their own bits in that sync. Ideally would be done through the difficultystem itself
+            netMessage.Send(-1, sender);
         }
 
         public static void NewNPC_ClientSide(Vector2 spawnPosition, int npcType, Player player)
@@ -318,19 +300,6 @@ namespace CalamityMod
 
     public enum CalamityModMessageType : byte
     {
-        // Proficiency levels
-        // TODO -- simplify proficiency netcode, there do not need to be this many separate packet types
-        MeleeLevelSync,
-        RangedLevelSync,
-        MagicLevelSync,
-        SummonLevelSync,
-        RogueLevelSync,
-        ExactMeleeLevelSync,
-        ExactRangedLevelSync,
-        ExactMagicLevelSync,
-        ExactSummonLevelSync,
-        ExactRogueLevelSync,
-
         // Player mechanic syncs
         DefenseDamageSync, // TODO -- this can't be synced every 60 frames, it needs to be synced when the player gets hit, or every time it heals up
         RageSync, // TODO -- this can't be synced every 60 frames, it needs to be synced every time the player is
@@ -380,12 +349,11 @@ namespace CalamityMod
         AcidRainOldDukeSummonSync,
         EncounteredOldDukeSync,
 
-        // Reforge syncs
-        ItemTypeLastReforgedSync, // TODO -- reforge netcode is no longer needed thanks to 1.4 clone fixes
-        ReforgeTierSafetySync,
-
         // Mouse Controls syncs
         RightClickSync,
-        MousePositionSync
+        MousePositionSync,
+
+        // World state sync
+        SyncDifficulties
     }
 }

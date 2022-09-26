@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Particles;
+using CalamityMod.Particles.Metaballs;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;

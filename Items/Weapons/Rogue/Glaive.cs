@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class Glaive : ModItem
+    public class Glaive : RogueWeapon
     {
         public static int BaseDamage = 45;
         public static float Knockback = 3f;
@@ -34,7 +34,7 @@ Stealth strikes are super fast and pierce infinitely");
             Item.useAnimation = 15;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.knockBack = Knockback;
-            Item.value = Item.buyPrice(0, 1, 40, 0);
+            Item.value = CalamityGlobalItem.Rarity3BuyPrice / 3; // Stacks up to 3
             Item.rare = ItemRarityID.Orange;
             Item.UseSound = SoundID.Item1;
             Item.maxStack = 3;

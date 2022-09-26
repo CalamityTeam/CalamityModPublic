@@ -1,6 +1,6 @@
 ﻿using CalamityMod.Items.Materials;
-using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Placeables.Furniture.BossRelics;
+using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -35,6 +35,7 @@ namespace CalamityMod.NPCs.GreatSandShark
             };
             value.Position.X += 60f;
             NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
+			NPCID.Sets.MPAllowedEnemies[Type] = true;
         }
 
         public override void SetDefaults()
@@ -61,8 +62,6 @@ namespace CalamityMod.NPCs.GreatSandShark
             NPC.DeathSound = SoundID.NPCDeath1;
             NPC.timeLeft = NPC.activeTime * 30;
             NPC.rarity = 2;
-            Banner = NPC.type;
-            BannerItem = ModContent.ItemType<GreatSandSharkBanner>();
             NPC.Calamity().VulnerableToCold = true;
             NPC.Calamity().VulnerableToSickness = true;
             NPC.Calamity().VulnerableToWater = true;
@@ -636,8 +635,11 @@ namespace CalamityMod.NPCs.GreatSandShark
             npcLoot.Add(ItemID.LightShard, 2);
             npcLoot.Add(ItemID.DarkShard, 2);
 
+            // Trophy
+            npcLoot.Add(ModContent.ItemType<GreatSandSharkTrophy>(), 10);
+
             // Relic
-            npcLoot.AddIf(() => Main.masterMode || CalamityWorld.revenge, ModContent.ItemType<GreatSandSharkRelic>(), 4);
+            npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).Add(ModContent.ItemType<GreatSandSharkRelic>(), 4);
         }
 
         public override void OnKill()
@@ -655,7 +657,8 @@ namespace CalamityMod.NPCs.GreatSandShark
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(BuffID.Bleeding, 600, true);
+            if (damage > 0)
+                player.AddBuff(BuffID.Bleeding, 600, true);
         }
     }
 }

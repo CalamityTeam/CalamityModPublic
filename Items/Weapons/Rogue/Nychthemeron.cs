@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class Nychthemeron : ModItem
+    public class Nychthemeron : RogueWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.autoReuse = true;
             Item.height = 18;
             Item.maxStack = 10;
-            Item.value = Item.buyPrice(0, 3, 60, 0);
+            Item.value = CalamityGlobalItem.Rarity6BuyPrice / 10; // Stacks up to 10
             Item.rare = ItemRarityID.LightPurple;
             Item.shoot = ModContent.ProjectileType<NychthemeronProjectile>();
             Item.shootSpeed = 6f;

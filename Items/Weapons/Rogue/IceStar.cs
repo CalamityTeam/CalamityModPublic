@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class IceStar : ModItem
+    public class IceStar : RogueWeapon
     {
         public override void SetStaticDefaults()
         {

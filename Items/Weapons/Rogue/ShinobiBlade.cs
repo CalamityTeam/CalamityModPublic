@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class ShinobiBlade : ModItem
+    public class ShinobiBlade : RogueWeapon
     {
         public override void SetStaticDefaults()
         {

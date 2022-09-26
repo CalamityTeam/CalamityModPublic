@@ -43,6 +43,11 @@ namespace CalamityMod.Items
                 line.Text = "Press " + hotkey + " to teleport to the position of the mouse";
         }
 
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = (ContentSamples.CreativeHelper.ItemGroup)CalamityResearchSorting.ToolsOther;
+		}
+
         public override void UpdateInventory(Player player)
         {
             CalamityPlayer modPlayer = player.Calamity();

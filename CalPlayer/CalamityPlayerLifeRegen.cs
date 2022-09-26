@@ -147,6 +147,15 @@ namespace CalamityMod.CalPlayer
                 lifeRegenLost += 20;
             }
 
+            if (irradiated)
+            {
+                if (Player.lifeRegen > 0)
+                    Player.lifeRegen = 0;
+
+                Player.lifeRegenTime = 0;
+                lifeRegenLost += 4;
+            }
+
             if (ZoneSulphur && Player.IsUnderwater() && !decayEffigy && !abyssalDivingSuit && !Player.lavaWet && !Player.honeyWet)
             {
                 Player.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 2, true);
@@ -262,7 +271,7 @@ namespace CalamityMod.CalPlayer
                     Player.lifeRegen = 0;
 
                 Player.lifeRegenTime = 0;
-                lifeRegenLost += 18;
+                lifeRegenLost += 36;
             }
 
             if (cDepth)
@@ -934,13 +943,13 @@ namespace CalamityMod.CalPlayer
 
                     // Calculate the ratio of the player's current max life relative to the starting HP of 100.
                     // This makes the soft cap far less harsh at lower amounts of max life.
-                    // Ranges from 10 (at 100 max life) to 2 (at 500 max life) to 1 (at 1000 max life) to 0 (at greater than 2000 max life).
-                    int lifeRegenSoftCapMin = (int)Math.Round(100f / actualMaxLife * 10f);
-                    int lifeRegenSoftCapMax = 10;
+                    // Ranges from 20 (at 100 max life) to 4 (at 500 max life) to 2 (at 1000 max life) to 1 (at greater than 2000 max life).
+                    int lifeRegenSoftCapMax = 20;
+                    int lifeRegenSoftCapMin = (int)Math.Round(100f / actualMaxLife * lifeRegenSoftCapMax);
 
-                    // The soft cap for life regen which ranges from 10 (at less than 5% HP) to 0 (at greater than or equal to 95% HP).
+                    // The soft cap for life regen which ranges from 20 (at less than 5% HP) to 1 (at greater than or equal to 95% HP).
                     // This value is capped at a min and max amount.
-                    int lifeRegenSoftCap = (int)MathHelper.Clamp((int)Math.Round((1f - maxLifeRatio) * 10f), lifeRegenSoftCapMin, lifeRegenSoftCapMax);
+                    int lifeRegenSoftCap = (int)MathHelper.Clamp((int)Math.Round((1f - maxLifeRatio) * lifeRegenSoftCapMax), lifeRegenSoftCapMin, lifeRegenSoftCapMax);
 
                     // If life regen is greater than the calculated soft cap, reduce it.
                     if (Player.lifeRegen > lifeRegenSoftCap)

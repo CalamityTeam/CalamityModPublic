@@ -3,6 +3,10 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.GameContent;
+using Terraria.GameContent.ObjectInteractions;
+using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 namespace CalamityMod.Tiles.FurnitureExo
 {
@@ -11,9 +15,7 @@ namespace CalamityMod.Tiles.FurnitureExo
         public override void SetStaticDefaults()
         {
             this.SetUpSofa(true);
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Bench");
-            AddMapEntry(new Color(71, 95, 114), name);
+            AddMapEntry(new Color(71, 95, 114), Language.GetText("Bench"));
         }
 
         public override bool CanExplode(int i, int j) => false;
@@ -32,6 +34,17 @@ namespace CalamityMod.Tiles.FurnitureExo
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
             Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 32, ModContent.ItemType<ExoSofa>());
+        }
+
+        public override void ModifySittingTargetInfo(int i, int j, ref TileRestingInfo info) => CalamityUtils.BenchSitInfo(i, j, ref info);
+
+        public override bool RightClick(int i, int j) => CalamityUtils.ChairRightClick(i, j);
+
+        public override void MouseOver(int i, int j) => CalamityUtils.BenchMouseOver(i, j, ModContent.ItemType<ExoSofa>());
+
+        public override bool HasSmartInteract(int i, int j, SmartInteractScanSettings settings)
+        {
+            return settings.player.IsWithinSnappngRangeToTile(i, j, PlayerSittingHelper.ChairSittingMaxDistance);
         }
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)

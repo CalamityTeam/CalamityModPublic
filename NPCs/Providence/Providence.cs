@@ -101,6 +101,7 @@ namespace CalamityMod.NPCs.Providence
             };
             value.Position.Y += 6f;
             NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
+			NPCID.Sets.MPAllowedEnemies[Type] = true;
         }
 
         public override void SetDefaults()
@@ -123,7 +124,6 @@ namespace CalamityMod.NPCs.Providence
             NPC.noGravity = true;
             NPC.noTileCollide = true;
             NPC.netAlways = true;
-            Music = CalamityMod.Instance.GetMusicFromMusicMod("Providence") ?? MusicID.LunarBoss;
             NPC.DeathSound = DeathSound;
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToCold = true;
@@ -315,7 +315,7 @@ namespace CalamityMod.NPCs.Providence
             float maxDistance = (AIState == (int)Phase.FlameCocoon || AIState == (int)Phase.SpearCocoon) ? shorterDistance : baseDistance;
             if (Vector2.Distance(player.Center, vector) > maxDistance)
             {
-                if (!player.dead && player.active)
+                if (!player.dead && player.active && !player.creativeGodMode)
                     player.AddBuff(ModContent.BuffType<HolyInferno>(), 2);
             }
 
@@ -897,7 +897,7 @@ namespace CalamityMod.NPCs.Providence
                         {
                             NPC.ai[3] = 0f;
 
-                            Vector2 vector113 = new Vector2(vector.X, NPC.position.Y + NPC.height - 14f * NPC.scale);
+                            Vector2 vector113 = new Vector2(vector.X, NPC.position.Y + NPC.height - 64f * NPC.scale);
 
                             float num865 = NPC.velocity.Y;
                             if (num865 < 0f)
@@ -1514,8 +1514,6 @@ namespace CalamityMod.NPCs.Providence
         {
             CalamityGlobalNPC.SetNewBossJustDowned(NPC);
 
-            CalamityGlobalNPC.SetNewShopVariable(new int[] { ModContent.NPCType<THIEF>() }, DownedBossSystem.downedProvidence);
-
             if (Main.netMode != NetmodeID.MultiplayerClient && NPC.Top.Y >= (Main.maxTilesY - 240f) * 16f)
                 SpawnLootBox();
 
@@ -1551,28 +1549,28 @@ namespace CalamityMod.NPCs.Providence
             npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<ProvidenceBag>()));
 
             // Drops Rune of Cos on first kill
-            npcLoot.AddIf(() => !DownedBossSystem.downedProvidence, ModContent.ItemType<RuneofKos>());
+            npcLoot.AddIf(() => !DownedBossSystem.downedProvidence, ModContent.ItemType<RuneofKos>(), desc: DropHelper.FirstKillText);
 
             npcLoot.AddIf(info =>
             {
                 Providence prov = info.npc.ModNPC<Providence>();
                 return prov.biomeType != 2 || !prov.hasTakenDaytimeDamage;
-            }, ModContent.ItemType<ElysianWings>());
+            }, ModContent.ItemType<ElysianWings>(), desc: DropHelper.ProvidenceHallowText);
             npcLoot.AddIf(info =>
             {
                 Providence prov = info.npc.ModNPC<Providence>();
                 return prov.biomeType == 2 || !prov.hasTakenDaytimeDamage;
-            }, ModContent.ItemType<ElysianAegis>());
-            npcLoot.AddIf(info =>
+            }, ModContent.ItemType<ElysianAegis>(), desc: DropHelper.ProvidenceUnderworldText);
+            npcLoot.DefineConditionalDropSet(DropHelper.If((info) =>
             {
                 Providence prov = info.npc.ModNPC<Providence>();
                 return prov.challenge;
-            }, ModContent.ItemType<ProfanedSoulCrystal>());
+            }, () => Main.expertMode, DropHelper.ProvidenceChallengeText)).Add(ModContent.ItemType<ProfanedSoulCrystal>());
             npcLoot.AddIf(info =>
             {
                 Providence prov = info.npc.ModNPC<Providence>();
                 return !prov.hasTakenDaytimeDamage;
-            }, ModContent.ItemType<ProfanedMoonlightDye>(), 1, 3, 4);
+            }, ModContent.ItemType<ProfanedMoonlightDye>(), 1, 4, 4, desc: DropHelper.ProvidenceNightText);
 
             // Normal drops: Everything that would otherwise be in the bag
             var normalOnly = npcLoot.DefineNormalOnlyDropSet();
@@ -1595,7 +1593,8 @@ namespace CalamityMod.NPCs.Providence
                 normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<BlazingCore>()));
 
                 // Materials
-                normalOnly.Add(ModContent.ItemType<DivineGeode>(), 1, 15, 20);
+                normalOnly.Add(ModContent.ItemType<DivineGeode>(), 1, 25, 30);
+                normalOnly.Add(ModContent.ItemType<UnholyEssence>(), 1, 20, 30);
 
                 // Vanity
                 normalOnly.Add(ModContent.ItemType<ProvidenceMask>(), 7);
@@ -1604,10 +1603,10 @@ namespace CalamityMod.NPCs.Providence
             npcLoot.Add(ModContent.ItemType<ProvidenceTrophy>(), 10);
 
             // Relic
-            npcLoot.AddIf(() => Main.masterMode || CalamityWorld.revenge, ModContent.ItemType<ProvidenceRelic>());
+            npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).Add(ModContent.ItemType<ProvidenceRelic>());
 
             // Lore
-            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedProvidence, ModContent.ItemType<KnowledgeProvidence>());
+            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedProvidence, ModContent.ItemType<KnowledgeProvidence>(), desc: DropHelper.FirstKillText);
         }
 
         private void SpawnLootBox()
@@ -1898,8 +1897,8 @@ namespace CalamityMod.NPCs.Providence
                     ModContent.ProjectileType<ApparatusExplosion>()
                 };
 
-                bool allowedClass = projectile.IsSummon() || (!projectile.CountsAsClass<MeleeDamageClass>() && !projectile.CountsAsClass<RangedDamageClass>() && 
-                    !projectile.CountsAsClass<MagicDamageClass>() && !projectile.CountsAsClass<ThrowingDamageClass>());
+                bool allowedClass = projectile.CountsAsClass<SummonDamageClass>() || (!projectile.CountsAsClass<MeleeDamageClass>() && !projectile.CountsAsClass<RangedDamageClass>() && 
+                    !projectile.CountsAsClass<MagicDamageClass>() && !projectile.CountsAsClass<ThrowingDamageClass>() && !projectile.CountsAsClass<SummonMeleeSpeedDamageClass>());
                 bool allowedDamage = allowedClass && damage <= 75; //Flat 75 regardless of difficulty.
                 //Absorber on-hit effects likely won't proc this but Deific Amulet and Astral Bulwark stars will proc this.
                 bool allowedBabs = Main.player[projectile.owner].Calamity().pArtifact && !Main.player[projectile.owner].Calamity().profanedCrystalBuffs;
@@ -1999,7 +1998,7 @@ namespace CalamityMod.NPCs.Providence
             {
                 if (Main.netMode != NetmodeID.Server)
                 {
-                    float randomSpread = Main.rand.Next(-50, 50) / 100;
+                    float randomSpread = Main.rand.Next(-200, 201) / 100f;
                     Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * randomSpread * Main.rand.NextFloat(), Mod.Find<ModGore>("Providence").Type, NPC.scale);
                     Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * randomSpread * Main.rand.NextFloat(), Mod.Find<ModGore>("Providence2").Type, NPC.scale);
                     Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * randomSpread * Main.rand.NextFloat(), Mod.Find<ModGore>("Providence3").Type, NPC.scale);

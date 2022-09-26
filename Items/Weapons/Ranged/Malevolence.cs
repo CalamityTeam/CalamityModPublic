@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.knockBack = 3f;
-            Item.value = Item.buyPrice(0, 80, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity9BuyPrice;
             Item.rare = ItemRarityID.Yellow;
             Item.UseSound = SoundID.Item97;
             Item.autoReuse = true;
@@ -45,7 +45,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 float SpeedX = velocity.X + Main.rand.Next(-20, 21) * 0.05f;
                 float SpeedY = velocity.Y + Main.rand.Next(-20, 21) * 0.05f;
 
-                if (type == ProjectileID.WoodenArrowFriendly)
+                if (CalamityUtils.CheckWoodenAmmo(type, player))
                     Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<PlagueArrow>(), damage, knockback, player.whoAmI);
                 else
                 {

@@ -21,7 +21,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.alpha = 150;
             Projectile.penetrate = 1;
             Projectile.timeLeft = 14;
-            Projectile.DamageType = DamageClass.Melee;
+            Projectile.DamageType = DamageClass.MeleeNoSpeed;
         }
 
         public override void AI()

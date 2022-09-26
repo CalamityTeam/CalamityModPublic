@@ -55,6 +55,7 @@ namespace CalamityMod.Items.Potions
                 AddIngredient<Stardust>(4).
                 AddIngredient<AureusCell>().
                 AddTile(TileID.AlchemyTable).
+				AddConsumeItemCallback(Recipe.ConsumptionRules.Alchemy).
                 Register();
 
             CreateRecipe(8).

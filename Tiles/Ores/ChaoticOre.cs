@@ -20,6 +20,8 @@ namespace CalamityMod.Tiles.Ores
             CalamityUtils.MergeWithGeneral(Type);
             CalamityUtils.MergeWithAbyss(Type);
 
+            TileID.Sets.Ore[Type] = true;
+
             DustType = 105;
             ItemDrop = ModContent.ItemType<Items.Placeables.Ores.ScoriaOre>();
             ModTranslation name = CreateMapEntryName();

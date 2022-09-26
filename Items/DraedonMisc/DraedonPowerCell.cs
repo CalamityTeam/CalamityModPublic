@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Items.Materials;
+using CalamityMod.Rarities;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -13,6 +14,7 @@ namespace CalamityMod.Items.DraedonMisc
 
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 100;
             DisplayName.SetDefault("Draedon Power Cell");
             Tooltip.SetDefault("Used to charge Draedon's weaponry at a Charging Station\n" +
                                "Also can be processed by the Extractinator for spare parts");
@@ -23,8 +25,7 @@ namespace CalamityMod.Items.DraedonMisc
         {
             Item.width = 26;
             Item.height = 14;
-            Item.rare = ItemRarityID.Red;
-            Item.Calamity().customRarity = CalamityRarity.DraedonRust;
+            Item.rare = ModContent.RarityType<DarkOrange>();
             Item.maxStack = 999;
 
             Item.consumable = true;

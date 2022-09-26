@@ -1,5 +1,7 @@
 ﻿using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
+using CalamityMod.Items.Weapons.Ranged;
+using CalamityMod.Items.Weapons.Summon;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -10,6 +12,9 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class BlackHawkSummon : ModProjectile
     {
+        public static Item FalseGun = null;
+        public static Item BlackHawk = null;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Black Hawk");
@@ -25,7 +30,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.netImportant = true;
             Projectile.friendly = true;
             Projectile.ignoreWater = true;
-            Projectile.aiStyle = 66;
+            Projectile.aiStyle = ProjAIStyleID.MiniTwins;
             Projectile.minionSlots = 1f;
             Projectile.timeLeft = 18000;
             Projectile.penetrate = -1;
@@ -33,6 +38,25 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.timeLeft *= 5;
             Projectile.minion = true;
             Projectile.DamageType = DamageClass.Summon;
+        }
+
+        // Defines an Item which is a hacked clone of a P90, edited to be summon class instead of ranged.
+        // The false gun's damage is changed to the appropriate value every time a Black Hawk wants to fire a bullet.
+        private static void DefineFalseGun(int baseDamage)
+        {
+            int p90ID = ModContent.ItemType<P90>();
+            int BHRID = ModContent.ItemType<BlackHawkRemote>();
+            FalseGun = new Item();
+            BlackHawk = new Item();
+            FalseGun.SetDefaults(p90ID, true);
+            BlackHawk.SetDefaults(BHRID, true);
+            FalseGun.damage = baseDamage;
+            FalseGun.knockBack = BlackHawk.knockBack;
+            FalseGun.shootSpeed = BlackHawk.shootSpeed;
+            FalseGun.consumeAmmoOnFirstShotOnly = false;
+            FalseGun.consumeAmmoOnLastShotOnly = false;
+
+            FalseGun.DamageType = DamageClass.Summon;
         }
 
         public override void AI()
@@ -56,6 +80,11 @@ namespace CalamityMod.Projectiles.Summon
                     Main.dust[fire].noGravity = true;
                     Main.dust[fire].velocity = dustVel;
                 }
+
+                // Construct a fake item to use with vanilla code for the sake of firing bullets.
+                if (FalseGun is null)
+                    DefineFalseGun(Projectile.originalDamage);
+
                 Projectile.localAI[0] += 1f;
             }
 
@@ -93,7 +122,7 @@ namespace CalamityMod.Projectiles.Summon
             Vector2 targetVec = Projectile.position;
             bool foundTarget = false;
             //If targeting something, prioritize that enemy
-            if (player.HasMinionAttackTargetNPC)
+            if (player.HasMinionAttackTargetNPC && player.HasAmmo(FalseGun))
             {
                 NPC npc = Main.npc[player.MinionAttackTargetNPC];
                 if (npc.CanBeChasedBy(Projectile, false))
@@ -109,7 +138,7 @@ namespace CalamityMod.Projectiles.Summon
                     }
                 }
             }
-            if (!foundTarget)
+            if (!foundTarget && player.HasAmmo(FalseGun))
             {
                 for (int npcIndex = 0; npcIndex < Main.maxNPCs; npcIndex++)
                 {
@@ -226,10 +255,10 @@ namespace CalamityMod.Projectiles.Summon
             //Increment attack cooldown
             if (Projectile.ai[1] > 0f)
             {
-                Projectile.ai[1] += Main.rand.Next(1, 4);
+                Projectile.ai[1]++;
             }
             //Set the minion to be ready for attack
-            if (Projectile.ai[1] > 130f)
+            if (Projectile.ai[1] > 85f)
             {
                 Projectile.ai[1] = 0f;
                 Projectile.netUpdate = true;
@@ -242,16 +271,31 @@ namespace CalamityMod.Projectiles.Summon
             //Shoot a bullet
             if (Main.myPlayer == Projectile.owner)
             {
-                float projSpeed = 6f;
                 int projType = ModContent.ProjectileType<BlackHawkBullet>();
                 SoundEngine.PlaySound(SoundID.Item20, Projectile.Center);
                 Projectile.ai[1] += 2f;
-                Vector2 velocity = targetVec - Projectile.Center;
-                velocity.Normalize();
-                velocity *= projSpeed;
-                int p = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, projType, Projectile.damage, Projectile.knockBack, Projectile.owner);
-                if (Main.projectile.IndexInRange(p))
-                    Main.projectile[p].originalDamage = Projectile.originalDamage;
+
+                // 50% chance to not consume ammo.
+                bool dontConsumeAmmo = Main.rand.NextBool();
+                int projIndex;
+
+                // Vanilla function tricked into using a fake gun item with the appropriate base damage as the "firing item".
+                player.PickAmmo(FalseGun, out int projID, out float shootSpeed, out int damage, out float kb, out _, dontConsumeAmmo);
+
+                Vector2 velocity = Projectile.SafeDirectionTo(targetVec) * shootSpeed;
+
+                // Musket Balls get converted to Black Hawk's special bullets
+                if (projID == ProjectileID.Bullet)
+                    projID = projType;
+
+                projIndex = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, projID, damage, kb, Projectile.owner);
+
+                // Regardless of what was fired, force it to be a summon projectile so that summon accessories work.
+                if (projIndex.WithinBounds(Main.maxProjectiles))
+                {
+                    Main.projectile[projIndex].DamageType = DamageClass.Summon;
+                    Main.projectile[projIndex].minion = false;
+                }
                 Projectile.netUpdate = true;
             }
         }

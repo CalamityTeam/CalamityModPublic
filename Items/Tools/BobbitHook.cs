@@ -1,7 +1,8 @@
-﻿using Terraria;
+﻿using CalamityMod.Projectiles.Typeless;
+using CalamityMod.Rarities;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Projectiles.Typeless;
 
 using static Terraria.ModLoader.ModContent;
 
@@ -27,8 +28,7 @@ Pull Velocity: {BobbitHead.PullSpeed}");
             Item.shootSpeed = BobbitHead.LaunchSpeed; // How quickly the hook is shot.
             Item.shoot = ProjectileType<BobbitHead>();
             Item.value = Item.buyPrice(1, 40, 0, 0);
-            Item.rare = ItemRarityID.Red;
-            Item.Calamity().customRarity = (CalamityRarity)13;
+            Item.rare = ModContent.RarityType<PureGreen>();
             Item.width = 30;
             Item.height = 32;
         }

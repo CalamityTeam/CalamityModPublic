@@ -30,5 +30,11 @@ namespace CalamityMod.Items.SummonItems
             Item.useStyle = ItemUseStyleID.HoldUp;
             Item.consumable = false;
         }
+
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			// The wiki classifies Boss Rush as an event
+			itemGroup = ContentSamples.CreativeHelper.ItemGroup.EventItem;
+		}
     }
 }

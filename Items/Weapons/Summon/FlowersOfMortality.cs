@@ -14,13 +14,13 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             DisplayName.SetDefault("Flowers of Mortality");
             Tooltip.SetDefault("Summons five rainbow flowers over your head\n" +
-                               "The combined flowers consume two and a half minion slots");
+                               "The combined flowers consume three minion slots");
             SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            Item.damage = 140;
+            Item.damage = 72;
             Item.DamageType = DamageClass.Summon;
             Item.mana = 10;
             Item.width = 36;

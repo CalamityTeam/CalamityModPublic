@@ -1,22 +1,18 @@
 ﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
+using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Armor.Demonshade
 {
     [AutoloadEquip(EquipType.Body)]
-    public class DemonshadeBreastplate : ModItem
+    public class DemonshadeBreastplate : ModItem, IDrawArmOverShoulderpad
     {
-        public override void Load()
-        {
-            if (Main.netMode != NetmodeID.Server)
-            {
-                EquipLoader.AddEquipTexture(Mod, "CalamityMod/Items/Armor/Demonshade/DemonshadeBreastplate_Arms", EquipType.Front, this);
-            }
-        }
+        public string FrontArmTexture => "CalamityMod/Items/Armor/Demonshade/DemonshadeBreastplate_Arms";
+
 
         public override void SetStaticDefaults()
         {
@@ -34,7 +30,7 @@ namespace CalamityMod.Items.Armor.Demonshade
             Item.height = 18;
             Item.defense = 50;
             Item.value = CalamityGlobalItem.Rarity16BuyPrice;
-            Item.Calamity().customRarity = CalamityRarity.HotPink;
+            Item.rare = ModContent.RarityType<HotPink>();
             Item.Calamity().devItem = true;
         }
 

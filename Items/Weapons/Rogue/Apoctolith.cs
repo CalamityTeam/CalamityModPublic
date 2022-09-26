@@ -10,7 +10,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class Apoctolith : ModItem
+    public class Apoctolith : RogueWeapon
     {
         public override void SetStaticDefaults()
         {

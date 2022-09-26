@@ -1,5 +1,6 @@
 ﻿using Terraria.DataStructures;
 using CalamityMod.Items.Placeables;
+using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -8,7 +9,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class SeafoamBomb : ModItem
+    public class SeafoamBomb : RogueWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -31,7 +32,7 @@ Stealth strikes are faster and explode into 5 bubbles");
             Item.knockBack = 8f;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
-            Item.value = Item.buyPrice(0, 2, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity2BuyPrice;
             Item.rare = ItemRarityID.Green;
             Item.shoot = ModContent.ProjectileType<SeafoamBombProj>();
             Item.shootSpeed = 8f;
@@ -55,6 +56,7 @@ Stealth strikes are faster and explode into 5 bubbles");
             CreateRecipe().
                 AddIngredient(ItemID.Bomb, 25).
                 AddIngredient<SeaPrism>(10).
+                AddIngredient<PearlShard>().
                 AddTile(TileID.Anvils).
                 Register();
         }

@@ -22,7 +22,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.height = 30;
             Projectile.friendly = true;
             Projectile.penetrate = -1;
-            Projectile.aiStyle = 3;
+            Projectile.aiStyle = ProjAIStyleID.Boomerang;
             Projectile.timeLeft = 300;
             AIType = ProjectileID.WoodenBoomerang;
             Projectile.DamageType = RogueDamageClass.Instance;

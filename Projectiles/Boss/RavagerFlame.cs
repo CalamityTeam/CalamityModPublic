@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.alpha = 255;
             Projectile.penetrate = 1;
             Projectile.timeLeft = 300;
-            Projectile.aiStyle = 1;
+            Projectile.aiStyle = ProjAIStyleID.Arrow;
             Projectile.extraUpdates = BossRushEvent.BossRushActive ? 2 : 1;
         }
 
@@ -48,6 +48,9 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
+            if (damage <= 0)
+                return;
+
             target.AddBuff(BuffID.Frostburn, 180);
         }
     }

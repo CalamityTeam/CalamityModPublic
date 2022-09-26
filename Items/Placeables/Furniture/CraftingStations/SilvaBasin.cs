@@ -27,6 +27,11 @@ namespace CalamityMod.Items.Placeables.Furniture.CraftingStations
             Item.createTile = ModContent.TileType<Tiles.Furniture.CraftingStations.SilvaBasin>();
         }
 
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = ContentSamples.CreativeHelper.ItemGroup.CraftingObjects;
+		}
+
         public override void AddRecipes()
         {
             CreateRecipe(1).AddIngredient(ModContent.ItemType<SilvaCrystal>(), 10).AddRecipeGroup("AnyGoldBar", 5).AddTile(TileID.LunarCraftingStation).Register();

@@ -44,7 +44,7 @@ namespace CalamityMod.Projectiles.Typeless
         {
             BossRushEvent.End();
             Player p = Main.LocalPlayer;
-            DropHelper.DropItem(p.GetSource_Misc(ModContent.ItemType<Rock>().ToString()), p, ModContent.ItemType<Rock>());
+            p.QuickSpawnItemDirect(p.GetSource_Misc("CalamityMod_BossRushRock"), ModContent.ItemType<Rock>());
             CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.BossRushTierFiveEndText", BossRushEvent.XerocTextColor);
         }
     }

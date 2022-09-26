@@ -71,7 +71,7 @@ namespace CalamityMod.Projectiles.Summon
                 }
             }
             Projectile.frameCounter++;
-            if (Projectile.frameCounter > 16)
+            if (Projectile.frameCounter > 9)
             {
                 Projectile.frame++;
                 Projectile.frameCounter = 0;
@@ -192,14 +192,14 @@ namespace CalamityMod.Projectiles.Summon
             if (Projectile.ai[0] == 0f)
             {
                 float fireballShootSpeed = 14f;
-                int num658 = ModContent.ProjectileType<BrimstoneFireballMinion>();
+                int projID = ModContent.ProjectileType<BrimstoneFireballMinion>();
                 if (flag25 && Projectile.ai[1] == 0f && Projectile.localAI[0] >= 120f)
                 {
                     Projectile.ai[1] += 1f;
                     if (Main.myPlayer == Projectile.owner && Collision.CanHitLine(Projectile.position, Projectile.width, Projectile.height, targetCenter, 0, 0))
                     {
                         Vector2 fireballshootVelocity = Projectile.SafeDirectionTo(targetCenter) * fireballShootSpeed;
-                        int p = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, fireballshootVelocity, num658, Projectile.damage, 0f, Projectile.owner, 0f, 0f);
+                        int p = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, fireballshootVelocity, projID, Projectile.damage, 0f, Projectile.owner, 0f, 0f);
                         if (Main.projectile.IndexInRange(p))
                             Main.projectile[p].originalDamage = Projectile.originalDamage;
                         Projectile.netUpdate = true;

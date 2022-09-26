@@ -1,9 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using CalamityMod.CustomRecipes;
+﻿using CalamityMod.CustomRecipes;
 using CalamityMod.Items.Materials;
+using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Projectiles.DraedonsArsenal;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
+using System;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -11,10 +13,11 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.DraedonsArsenal
 {
-    public class WavePounder : ModItem
+    public class WavePounder : RogueWeapon
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Wave Pounder");
             Tooltip.SetDefault("It utilizes its power to send heavy shockwaves throughout the area, causing agonizing internal damage\n" +
                                "Throws a bomb which explodes into a forceful shockwave\n" +
@@ -38,9 +41,8 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             Item.knockBack = 0f;
 
             Item.value = CalamityGlobalItem.RarityTurquoiseBuyPrice;
-            Item.rare = ItemRarityID.Red;
 
-            modItem.customRarity = CalamityRarity.DraedonRust;
+            Item.rare = ModContent.RarityType<DarkOrange>();
             Item.UseSound = SoundID.Item1;
 
             Item.shootSpeed = 16f;

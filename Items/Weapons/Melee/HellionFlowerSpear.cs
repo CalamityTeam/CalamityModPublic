@@ -14,6 +14,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Tooltip.SetDefault("Shoots a flower spear tip\n" +
                 "Summons petals from the sky on critical hits");
             SacrificeTotal = 1;
+            ItemID.Sets.Spears[Item.type] = true;
         }
 
         public override void SetDefaults()
@@ -31,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
             Item.height = 64;
-            Item.value = Item.buyPrice(0, 60, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity8BuyPrice;
             Item.rare = ItemRarityID.Lime;
             Item.shoot = ModContent.ProjectileType<HellionFlowerSpearProjectile>();
             Item.shootSpeed = 8f;

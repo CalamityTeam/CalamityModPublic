@@ -1,5 +1,6 @@
 ﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
+using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
 using Terraria.DataStructures;
@@ -27,8 +28,7 @@ namespace CalamityMod.Items.Accessories
             Item.width = Item.height = 48;
             Item.accessory = true;
             Item.value = CalamityGlobalItem.Rarity14BuyPrice;
-            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
-            Item.rare = ItemRarityID.Purple;
+            Item.rare = ModContent.RarityType<DarkBlue>();
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -36,6 +36,7 @@ namespace CalamityMod.Items.Accessories
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.coreOfTheBloodGod = true;
             modPlayer.fleshTotem = true;
+			modPlayer.healingPotBonus += 0.25f;
         }
 
         public override void AddRecipes()

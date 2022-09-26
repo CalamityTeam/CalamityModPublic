@@ -1,11 +1,12 @@
-﻿using Terraria.DataStructures;
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Projectiles.Melee;
+using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
@@ -17,9 +18,12 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Devil's Devastation");
-            Tooltip.SetDefault("Fires a spread of demonic scythes\n" + "Pitchforks rise from the underworld to skewer your foes\n" +
-                "Critical hits cause shadowflame explosions");
+            Tooltip.SetDefault("Fires a spread of demonic scythes\n" +
+                "Pitchforks rise from the underworld to skewer your foes\n" +
+                "Critical hits cause shadowflame explosions\n" +
+                "Receives 33% benefit from melee speed bonuses");
             SacrificeTotal = 1;
+            ItemID.Sets.BonusAttackSpeedMultiplier[Item.type] = 0.33f;
         }
 
         public override void SetDefaults()
@@ -35,11 +39,10 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.knockBack = 6.75f;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
-            Item.value = Item.buyPrice(1, 80, 0, 0);
-            Item.rare = ItemRarityID.Red;
+            Item.value = CalamityGlobalItem.RarityDarkBlueBuyPrice;
             Item.shoot = ModContent.ProjectileType<Oathblade>();
             Item.shootSpeed = 28f;
-            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.rare = ModContent.RarityType<DarkBlue>();
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source2, Vector2 position, Vector2 velocity, int type, int damage, float knockback)

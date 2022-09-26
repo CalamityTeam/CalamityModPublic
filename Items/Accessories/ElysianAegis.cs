@@ -1,11 +1,12 @@
-﻿using CalamityMod.CalPlayer;
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.CalPlayer;
+using CalamityMod.CalPlayer.Dashes;
+using CalamityMod.Rarities;
 using System.Collections.Generic;
+using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using System.Linq;
-using CalamityMod.CalPlayer.Dashes;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -32,8 +33,7 @@ namespace CalamityMod.Items.Accessories
             Item.width = 48;
             Item.height = 42;
             Item.value = CalamityGlobalItem.Rarity12BuyPrice;
-            Item.rare = ItemRarityID.Purple;
-            Item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.rare = ModContent.RarityType<Turquoise>();
             Item.defense = 18;
             Item.accessory = true;
         }
@@ -51,7 +51,7 @@ namespace CalamityMod.Items.Accessories
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.DashID = ElysianAegisDash.ID;
-            player.dash = 0;
+            player.dashType = 0;
             modPlayer.elysianAegis = true;
             player.buffImmune[BuffID.OnFire] = true;
             player.buffImmune[ModContent.BuffType<HolyFlames>()] = true;

@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.alpha = 255;
             Projectile.penetrate = 1;
             Projectile.timeLeft = 180;
-            Projectile.aiStyle = 1;
+            Projectile.aiStyle = ProjAIStyleID.Arrow;
             AIType = ProjectileID.DD2BetsyFireball;
             Projectile.DamageType = RogueDamageClass.Instance;
         }

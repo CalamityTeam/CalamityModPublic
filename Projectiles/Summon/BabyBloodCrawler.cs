@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.netImportant = true;
             Projectile.friendly = true;
             Projectile.minionSlots = 1f;
-            Projectile.aiStyle = 26;
+            Projectile.aiStyle = ProjAIStyleID.Pet;
             Projectile.timeLeft = 18000;
             Projectile.penetrate = -1;
             Projectile.timeLeft *= 5;
@@ -52,14 +52,16 @@ namespace CalamityMod.Projectiles.Summon
             {
                 Projectile proj = Main.projectile[j];
                 // Short circuits to make the loop as fast as possible
-                if (!proj.active || proj.owner != Projectile.owner || !proj.minion || proj.Calamity().lineColor != 0)
+                if (!proj.active || proj.owner != Projectile.owner || !proj.minion || proj.Calamity().lineColor != 1)
                     continue;
                 if (proj.type == Projectile.type)
                 {
                     spiderCount += (int)proj.minionSlots;
-                    proj.Calamity().lineColor = 1;
+					proj.Calamity().lineColor = 2;
                 }
             }
+			if (Projectile.Calamity().lineColor == 0)
+				Projectile.Calamity().lineColor = 1;
 
             if (dust == 0f)
             {

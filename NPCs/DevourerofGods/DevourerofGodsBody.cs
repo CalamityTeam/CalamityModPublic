@@ -67,7 +67,6 @@ namespace CalamityMod.NPCs.DevourerofGods
             NPC.DeathSound = SoundID.NPCDeath14;
             NPC.netAlways = true;
             NPC.boss = true;
-            Music = CalamityMod.Instance.GetMusicFromMusicMod("DevourerOfGodsP1") ?? MusicID.Boss3;
             NPC.dontCountMe = true;
 
             if (Main.getGoodWorld)
@@ -146,10 +145,6 @@ namespace CalamityMod.NPCs.DevourerofGods
             {
                 phase2Started = true;
 
-                // Play music after the transiton BS
-                if (Main.npc[(int)NPC.ai[2]].localAI[2] == 530f)
-                    Music = CalamityMod.Instance.GetMusicFromMusicMod("DevourerOfGodsP2") ?? MusicID.LunarBoss;
-
                 // Once before DoG spawns, set new size
                 if (Main.npc[(int)NPC.ai[2]].localAI[2] == 60f)
                 {
@@ -227,8 +222,8 @@ namespace CalamityMod.NPCs.DevourerofGods
                                 NPC.localAI[0] = 0f;
                                 if (!AnyTeleportRifts())
                                 {
-                                    SoundEngine.PlaySound(SoundID.Item12, player.position);
                                     NPC.TargetClosest();
+                                    SoundEngine.PlaySound(SoundID.Item12, player.position);
                                     float maxProjectileVelocity = bossRush ? 8f : death ? 7.5f : revenge ? 7.25f : expertMode ? 7f : 6.5f;
                                     float minProjectileVelocity = maxProjectileVelocity * 0.25f;
                                     float projectileVelocity = MathHelper.Clamp(Vector2.Distance(player.Center, NPC.Center) * 0.01f, minProjectileVelocity, maxProjectileVelocity);
@@ -252,9 +247,9 @@ namespace CalamityMod.NPCs.DevourerofGods
                             NPC.localAI[0] += 1f;
                             if (NPC.localAI[0] >= laserBarrageGateValue * (Main.getGoodWorld ? 0.1f : 0.2f) && NPC.ai[0] % (expertMode ? 10f : 20f) == 0f)
                             {
+                                NPC.TargetClosest();
                                 SoundEngine.PlaySound(SoundID.Item12, player.position);
                                 NPC.localAI[0] = 0f;
-                                NPC.TargetClosest();
                                 float maxProjectileVelocity = bossRush ? 7.5f : death ? 7f : revenge ? 6.75f : expertMode ? 6.5f : 6f;
                                 float minProjectileVelocity = maxProjectileVelocity * 0.25f;
                                 float projectileVelocity = MathHelper.Clamp(Vector2.Distance(player.Center, NPC.Center) * 0.01f, minProjectileVelocity, maxProjectileVelocity);
@@ -410,7 +405,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)
         {
-            cooldownSlot = 1;
+            cooldownSlot = ImmunityCooldownID.Bosses;
 
             Rectangle targetHitbox = target.Hitbox;
 
@@ -473,7 +468,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             {
                 if (Main.netMode != NetmodeID.Server)
                 {
-                    float randomSpread = Main.rand.Next(-100, 100) / 100;
+                    float randomSpread = Main.rand.Next(-200, 201) / 100f;
                     Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * randomSpread * Main.rand.NextFloat(), Mod.Find<ModGore>("DoGS6").Type, NPC.scale);
                 }
                 NPC.position.X = NPC.position.X + (NPC.width / 2);
@@ -511,8 +506,11 @@ namespace CalamityMod.NPCs.DevourerofGods
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 240, true);
-            player.AddBuff(ModContent.BuffType<WhisperingDeath>(), 480, true);
+            if (damage > 0)
+            {
+                player.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 240, true);
+                player.AddBuff(ModContent.BuffType<WhisperingDeath>(), 480, true);
+            }
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Buffs.Potions;
 using CalamityMod.Items.Materials;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -27,8 +28,7 @@ namespace CalamityMod.Items.Potions
             Item.height = 44;
             Item.useTurn = true;
             Item.maxStack = 30;
-            Item.Calamity().customRarity = CalamityRarity.Violet;
-            Item.rare = ItemRarityID.Purple;
+            Item.rare = ModContent.RarityType<Violet>();
             Item.useAnimation = 17;
             Item.useTime = 17;
             Item.useStyle = ItemUseStyleID.DrinkLiquid;
@@ -64,6 +64,7 @@ namespace CalamityMod.Items.Potions
                 AddIngredient(ItemID.Moonglow).
                 AddIngredient(ItemID.Fireblossom).
                 AddTile(TileID.AlchemyTable).
+				AddConsumeItemCallback(Recipe.ConsumptionRules.Alchemy).
                 Register();
 
             CreateRecipe().

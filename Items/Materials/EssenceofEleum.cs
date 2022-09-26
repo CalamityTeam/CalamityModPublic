@@ -16,6 +16,7 @@ namespace CalamityMod.Items.Materials
 
             DisplayName.SetDefault("Essence of Eleum");
             Tooltip.SetDefault("The essence of cold creatures");
+			ItemID.Sets.SortingPriorityMaterials[Type] = 71; // Soul of Light
         }
 
         public override void SetDefaults()

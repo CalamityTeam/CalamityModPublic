@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class LuminousStriker : ModItem
+    public class LuminousStriker : RogueWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.knockBack = 6f;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
-            Item.value = Item.buyPrice(1, 0, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity10BuyPrice;
             Item.rare = ItemRarityID.Red;
             Item.shoot = ModContent.ProjectileType<LuminousStrikerProj>();
             Item.shootSpeed = 20f;

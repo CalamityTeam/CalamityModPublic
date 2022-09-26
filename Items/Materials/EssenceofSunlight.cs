@@ -17,6 +17,7 @@ namespace CalamityMod.Items.Materials
 
             DisplayName.SetDefault("Essence of Sunlight");
             Tooltip.SetDefault("The essence of sky, light, and storm creatures");
+			ItemID.Sets.SortingPriorityMaterials[Type] = 71; // Soul of Light
         }
 
         public override void SetDefaults()

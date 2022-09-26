@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class BlastBarrel : ModItem
+    public class BlastBarrel : RogueWeapon
     {
         public const int BaseDamage = 32;
         public override void SetStaticDefaults()
@@ -32,12 +32,13 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.knockBack = 8f;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
-            Item.value = Item.buyPrice(0, 12, 0, 0); //2 gold 40 silver sellprice
+            Item.value = CalamityGlobalItem.Rarity4BuyPrice; //2 gold 40 silver sellprice
             Item.rare = ItemRarityID.LightRed;
             Item.shoot = ModContent.ProjectileType<BlastBarrelProjectile>();
             Item.shootSpeed = 12f;
             Item.DamageType = RogueDamageClass.Instance;
         }
+
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             velocity.Y *= 0.85f;

@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class CrystalPiercer : ModItem
+    public class CrystalPiercer : RogueWeapon
     {
         public override void SetStaticDefaults()
         {

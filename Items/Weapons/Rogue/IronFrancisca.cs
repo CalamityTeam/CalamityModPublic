@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class IronFrancisca : ModItem
+    public class IronFrancisca : RogueWeapon
     {
         public override void SetStaticDefaults()
         {

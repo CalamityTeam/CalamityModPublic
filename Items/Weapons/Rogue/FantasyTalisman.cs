@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class FantasyTalisman : ModItem
+    public class FantasyTalisman : RogueWeapon
     {
         public override void SetStaticDefaults()
         {

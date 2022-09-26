@@ -47,6 +47,7 @@ namespace CalamityMod.BiomeManagers
         public override SceneEffectPriority Priority => SceneEffectPriority.BiomeHigh;
         public override string BestiaryIcon => "CalamityMod/BiomeManagers/AbyssIcon";
         public override string BackgroundPath => "CalamityMod/Backgrounds/MapBackgrounds/AbyssBGLayer1";
+        public override string MapBackground => "CalamityMod/Backgrounds/MapBackgrounds/AbyssBGLayer1";
 
         public override int Music
         {
@@ -60,13 +61,13 @@ namespace CalamityMod.BiomeManagers
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("First Layer of the Abyss");
+            DisplayName.SetDefault("Abyss: First Layer");
         }
 
         public override bool IsBiomeActive(Player player)
         {
             return MeetsBaseAbyssRequirement(player, out int playerYTileCoords) && 
-                playerYTileCoords < (Main.rockLayer + Main.maxTilesY * 0.03);
+                playerYTileCoords <= (Main.rockLayer + Main.maxTilesY * 0.03);
         }
     }
 }

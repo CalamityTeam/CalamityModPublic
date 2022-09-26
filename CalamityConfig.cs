@@ -14,6 +14,7 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Config;
+using CalamityMod.Items.PermanentBoosters;
 
 namespace CalamityMod
 {
@@ -70,6 +71,12 @@ namespace CalamityMod
         [DefaultValue(true)]
         [Tooltip("$Mods.CalamityMod.Config.EntryTooltip.ShopNewAlert")]
         public bool ShopNewAlert { get; set; }
+
+        [Label("$Mods.CalamityMod.Config.EntryTitle.WikiStatusMessage")]
+        [BackgroundColor(192, 54, 64, 192)]
+        [DefaultValue(true)]
+        [Tooltip("$Mods.CalamityMod.Config.EntryTooltip.WikiStatusMessage")]
+        public bool WikiStatusMessage { get; set; }
         #endregion
 
         #region UI Changes
@@ -179,17 +186,17 @@ namespace CalamityMod
         #region General Gameplay Changes
         [Header("$Mods.CalamityMod.Config.SectionTitle.Gameplay")]
 
+        [Label("$Mods.CalamityMod.Config.EntryTitle.RemoveReforgeRNG")]
+        [BackgroundColor(192, 54, 64, 192)]
+        [DefaultValue(true)]
+        [Tooltip("$Mods.CalamityMod.Config.EntryTooltip.RemoveReforgeRNG")]
+        public bool RemoveReforgeRNG { get; set; }
+
         [Label("$Mods.CalamityMod.Config.EntryTitle.EarlyHardmodeProgressionRework")]
         [BackgroundColor(192, 54, 64, 192)]
         [DefaultValue(true)]
         [Tooltip("$Mods.CalamityMod.Config.EntryTooltip.EarlyHardmodeProgressionRework")]
         public bool EarlyHardmodeProgressionRework { get; set; }
-
-        [Label("$Mods.CalamityMod.Config.EntryTitle.Proficiency")]
-        [BackgroundColor(192, 54, 64, 192)]
-        [DefaultValue(true)]
-        [Tooltip("$Mods.CalamityMod.Config.EntryTooltip.Proficiency")]
-        public bool Proficiency { get; set; }
 
         [Label("$Mods.CalamityMod.Config.EntryTitle.BossZen")]
         [BackgroundColor(192, 54, 64, 192)]
@@ -227,6 +234,41 @@ namespace CalamityMod
         [DefaultValue(MinBossHealthBoost)]
         [Tooltip("$Mods.CalamityMod.Config.EntryTooltip.BossHealthBoost")]
         public float BossHealthBoost { get; set; }
+        #endregion
+
+        #region Default Player Stat Boosts
+        [Header("$Mods.CalamityMod.Config.SectionTitle.BaseBoosts")]
+
+        [Label("$Mods.CalamityMod.Config.EntryTitle.FasterBaseSpeed")]
+        [BackgroundColor(192, 54, 64, 192)]
+        [DefaultValue(true)]
+        [Tooltip("$Mods.CalamityMod.Config.EntryTooltip.FasterBaseSpeed")]
+        public bool FasterBaseSpeed { get; set; }
+
+        [Label("$Mods.CalamityMod.Config.EntryTitle.HigherJumpHeight")]
+        [BackgroundColor(192, 54, 64, 192)]
+        [DefaultValue(true)]
+        [Tooltip("$Mods.CalamityMod.Config.EntryTooltip.HigherJumpHeight")]
+        public bool HigherJumpHeight { get; set; }
+
+        [Label("$Mods.CalamityMod.Config.EntryTitle.FasterJumpSpeed")]
+        [BackgroundColor(192, 54, 64, 192)]
+        [DefaultValue(true)]
+        [Tooltip("$Mods.CalamityMod.Config.EntryTooltip.FasterJumpSpeed")]
+        public bool FasterJumpSpeed { get; set; }
+
+
+        [Label("$Mods.CalamityMod.Config.EntryTitle.FasterFallHotkey")]
+        [BackgroundColor(192, 54, 64, 192)]
+        [DefaultValue(true)]
+        [Tooltip("$Mods.CalamityMod.Config.EntryTooltip.FasterFallHotkey")]
+        public bool FasterFallHotkey { get; set; }
+
+        [Label("$Mods.CalamityMod.Config.EntryTitle.FasterTilePlacement")]
+        [BackgroundColor(192, 54, 64, 192)]
+        [DefaultValue(true)]
+        [Tooltip("$Mods.CalamityMod.Config.EntryTooltip.FasterTilePlacement")]
+        public bool FasterTilePlacement { get; set; }
         #endregion
 
         #region Expert and Master Mode Changes
@@ -338,6 +380,7 @@ namespace CalamityMod
                 new("ParticleLimit", ItemID.FragmentStardust),
                 new("StealthInvisibility", ModContent.ItemType<StealthHairDye>()),
                 new("ShopNewAlert", ItemID.GoldChest),
+                new("WikiStatusMessage", ItemID.Book),
 
                 new("BossHealthBarExtraInfo", ModContent.ItemType<EncryptedSchematicPlanetoid>()),
                 new("DebuffDisplay", ItemID.FlaskofIchor),
@@ -357,18 +400,24 @@ namespace CalamityMod
                 new("SpeedrunTimerPosX", ItemID.LaserRuler),
                 new("SpeedrunTimerPosY", ItemID.LaserRuler),
 
+                new("RemoveReforgeRNG", ItemID.TinHammer),
                 new("EarlyHardmodeProgressionRework", ItemID.Pwnhammer),
-                new("Proficiency", ModContent.ItemType<MagicLevelMeter>()),
                 new("BossZen", ModContent.ItemType<ZenPotion>()),
                 new("TownNPCsSpawnAtNight", ItemID.ClothierVoodooDoll),
                 new("TownNPCSpawnRateMultiplier", ItemID.GuideVoodooDoll),
                 new("BossHealthBoost", ItemID.LifeCrystal),
 
+                new("FasterBaseSpeed", ItemID.HermesBoots),
+                new("HigherJumpHeight", ItemID.ShinyRedBalloon),
+                new("FasterJumpSpeed", ItemID.FrogLeg),
+                new("FasterFallHotkey", ModContent.ItemType<BallAndChain>()),
+                new("FasterTilePlacement", ItemID.ArchitectGizmoPack),
+
                 new("NerfExpertDebuffs", ItemID.AnkhCharm),
                 new("ChilledWaterRework", ItemID.ArcticDivingGear),
                 new("ForceTownSafety", ItemID.Sunflower),
 
-                new("RipperMeterShake", ModContent.ItemType<RevengeanceModeItem>()),
+                new("RipperMeterShake", ModContent.ItemType<RedLightningContainer>()),
                 new("RageMeterPosX", ItemID.LaserRuler),
                 new("RageMeterPosY", ItemID.LaserRuler),
                 new("AdrenalineMeterPosX", ItemID.LaserRuler),

@@ -1,16 +1,17 @@
-﻿using CalamityMod.CalPlayer;
+﻿using CalamityMod.Buffs.StatBuffs;
+using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Summon;
+using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
+using System.Linq;
 using Terraria;
+using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Audio;
-using System.Linq;
-using CalamityMod.Buffs.StatBuffs;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -65,7 +66,7 @@ namespace CalamityMod.Items.Accessories
             Item.height = 50;
             Item.accessory = true;
             Item.value = CalamityGlobalItem.RarityHotPinkBuyPrice;
-            Item.Calamity().customRarity = CalamityRarity.HotPink;
+            Item.rare = ModContent.RarityType<HotPink>();
             Item.Calamity().devItem = true;
         }
 
@@ -80,11 +81,20 @@ namespace CalamityMod.Items.Accessories
             bool draedon = DownedBossSystem.downedExoMechs;
             if (!scal || !draedon)
             {
-                string rejectionReason = (!draedon) ? "[c/f05a5a:The soul within this crystal has been defiled by overwhelming energy waves from dangerous mechanations]" : "[c/f05a5a:The soul within this crystal has been defiled by the powerful magic of a supreme witch]"; //there might be a better way to word the draedon line, not sure
+                string rejectionReason = (!draedon) ? "The soul within this crystal has been defiled by overwhelming energy waves from dangerous mechanations" : "The soul within this crystal has been defiled by the powerful magic of a supreme witch"; //there might be a better way to word the draedon line, not sure
 
                 TooltipLine lineLock = tooltips.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip1");
                 if (lineLock != null)
-                    lineLock.Text = rejectionReason + "\nMerchants will reject a defiled soul such as this.";
+                {
+                    lineLock.Text = rejectionReason;
+                    lineLock.OverrideColor = new Color(240, 90, 90);
+                }
+                int insertIndex = tooltips.FindIndex(x => x.Name == "Tooltip1" && x.Mod == "Terraria");
+                if (insertIndex != -1)
+                {
+                    TooltipLine rejectLine = new TooltipLine(this.Mod, "CalamityMod:RejectLine", "Merchants will reject a defiled soul such as this.");
+                    tooltips.Insert(insertIndex + 1, rejectLine);
+                }
 
                 TooltipLine linePrice = tooltips.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Sell price");
                 if (linePrice != null)
@@ -100,16 +110,37 @@ namespace CalamityMod.Items.Accessories
                 if (line != null)
                     line.Text = "Requires 10 minion slots to use in order to grant the following effects\n" +
                 "All non-summon weapons are converted into powerful summon variations\n" +
-                "Falling below 50% life will empower these attacks\n" +
-                "[c/f05a5a:Transforms Melee attacks into a barrage of spears]\n" +
-                "[c/3a83e4:Transforms Magic attacks into a powerful splitting fireball for " + manaCost + " mana per cast]\n" +
-                "[c/85e092:Transforms Ranged attacks into a flurry of fireballs and meteors]\n" +
-                "[c/e97451:Transforms Rogue attacks into a deadly crystalline spiral]\n" +
-                "Summons and empowers the profaned babs to fight alongside you\n" +
-                "You are no longer affected by burn out when hit\n" +
-                "Provides buffs depending on the time of day\n" +
-                "Thinking back, it was a boring life\n" +
-                "[c/FFBF49:And so we burn it all in the name of purity]";
+                "Falling below 50% life will empower these attacks";
+
+                int insertIndex = tooltips.FindIndex(x => x.Name == "Tooltip1" && x.Mod == "Terraria");
+                if (insertIndex != -1)
+                {
+                    TooltipLine meleeAttack = new TooltipLine(this.Mod, "CalamityMod:MeleeAttack", "Transforms Melee attacks into a barrage of spears");
+                    meleeAttack.OverrideColor = new Color(240, 90, 90);
+                    tooltips.Insert(insertIndex + 1, meleeAttack);
+
+                    TooltipLine mageAttack = new TooltipLine(this.Mod, "CalamityMod:MageAttack", $"Transforms Magic attacks into a powerful splitting fireball for {manaCost} mana per cast");
+                    mageAttack.OverrideColor = new Color(58, 131, 228);
+                    tooltips.Insert(insertIndex + 2, mageAttack);
+
+                    TooltipLine rangedAttack = new TooltipLine(this.Mod, "CalamityMod:RangedAttack", "Transforms Ranged attacks into a flurry of fireballs and meteors");
+                    rangedAttack.OverrideColor = new Color(133, 224, 146);
+                    tooltips.Insert(insertIndex + 3, rangedAttack);
+
+                    TooltipLine rogueAttack = new TooltipLine(this.Mod, "CalamityMod:RogueAttack", "Transforms Rogue attacks into a deadly crystalline spiral");
+                    rogueAttack.OverrideColor = new Color(233, 116, 81);
+                    tooltips.Insert(insertIndex + 4, rogueAttack);
+
+                    TooltipLine remainingTip = new TooltipLine(this.Mod, "CalamityMod:RemainingTip", "Summons and empowers the profaned babs to fight alongside you\n" +
+                    "You are no longer affected by burn out when hit\n" +
+                    "Provides buffs depending on the time of day\n" +
+                    "Thinking back, it was a boring life");
+                    tooltips.Insert(insertIndex + 5, remainingTip);
+
+                    TooltipLine purityTip = new TooltipLine(this.Mod, "CalamityMod:PurityTip", "And so we burn it all in the name of purity");
+                    purityTip.OverrideColor = new Color(255, 191, 73);
+                    tooltips.Insert(insertIndex + 6, purityTip);
+                }
             }
         }
 
@@ -176,7 +207,12 @@ namespace CalamityMod.Items.Accessories
 
                                 int spearBaseDamage = shouldNerf ? 175 : 350;
                                 int spearDamage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(spearBaseDamage);
-                                Projectile.NewProjectile(source, player.Center.X, player.Center.Y - 10, perturbedspeed.X, perturbedspeed.Y, ModContent.ProjectileType<ProfanedCrystalMeleeSpear>(), spearDamage, 1f, player.whoAmI, Main.rand.NextBool(player.Calamity().profanedSoulWeaponUsage == 4 ? 5 : 7) ? 1f : 0f);
+                                int proj = Projectile.NewProjectile(source, player.Center.X, player.Center.Y - 10, perturbedspeed.X, perturbedspeed.Y, ModContent.ProjectileType<ProfanedCrystalMeleeSpear>(), spearDamage, 1f, player.whoAmI, Main.rand.NextBool(player.Calamity().profanedSoulWeaponUsage == 4 ? 5 : 7) ? 1f : 0f);
+                                if (proj.WithinBounds(Main.maxProjectiles))
+                                {
+                                    Main.projectile[proj].DamageType = DamageClass.Summon;
+                                    Main.projectile[proj].originalDamage = spearBaseDamage;
+                                }
                                 spread -= Main.rand.Next(2, 4);
                                 SoundEngine.PlaySound(SoundID.Item20, player.Center);
                             }
@@ -186,7 +222,12 @@ namespace CalamityMod.Items.Accessories
                         {
                             int spearBaseDamage = shouldNerf ? 125 : 250;
                             int spearDamage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(spearBaseDamage);
-                            Projectile.NewProjectile(source, player.Center, correctedVelocity * 6.9f, ModContent.ProjectileType<ProfanedCrystalMeleeSpear>(), spearDamage, 1f, player.whoAmI, Main.rand.NextBool(player.Calamity().profanedSoulWeaponUsage == 4 ? 5 : 7) ? 1f : 0f, 1f);
+                            int proj = Projectile.NewProjectile(source, player.Center, correctedVelocity * 6.9f, ModContent.ProjectileType<ProfanedCrystalMeleeSpear>(), spearDamage, 1f, player.whoAmI, Main.rand.NextBool(player.Calamity().profanedSoulWeaponUsage == 4 ? 5 : 7) ? 1f : 0f, 1f);
+                            if (proj.WithinBounds(Main.maxProjectiles))
+                            {
+                                Main.projectile[proj].DamageType = DamageClass.Summon;
+                                Main.projectile[proj].originalDamage = spearBaseDamage;
+                            }
                             SoundEngine.PlaySound(SoundID.Item20, player.Center);
                         }
 

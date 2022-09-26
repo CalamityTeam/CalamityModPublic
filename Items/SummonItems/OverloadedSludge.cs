@@ -17,6 +17,7 @@ namespace CalamityMod.Items.SummonItems
             Tooltip.SetDefault("It looks corrupted\n" +
                 "Summons the Slime God\n" +
                 "Not consumable");
+			ItemID.Sets.SortingPriorityBossSpawns[Type] = 5; // Abeemination / Deer Thing
         }
 
         public override void SetDefaults()
@@ -30,10 +31,14 @@ namespace CalamityMod.Items.SummonItems
             Item.consumable = false;
         }
 
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = ContentSamples.CreativeHelper.ItemGroup.BossItem;
+		}
+
         public override bool CanUseItem(Player player)
         {
-            return !NPC.AnyNPCs(ModContent.NPCType<SlimeGodCore>()) && !NPC.AnyNPCs(ModContent.NPCType<EbonianSlimeGod>()) &&
-                !NPC.AnyNPCs(ModContent.NPCType<SplitEbonianSlimeGod>()) && !NPC.AnyNPCs(ModContent.NPCType<CrimulanSlimeGod>()) && !NPC.AnyNPCs(ModContent.NPCType<SplitCrimulanSlimeGod>()) && !BossRushEvent.BossRushActive;
+            return !NPC.AnyNPCs(ModContent.NPCType<SlimeGodCore>()) && !BossRushEvent.BossRushActive;
         }
 
         public override bool? UseItem(Player player)

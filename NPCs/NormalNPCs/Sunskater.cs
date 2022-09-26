@@ -224,7 +224,8 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(ModContent.BuffType<HolyFlames>(), 120, true);
+            if (damage > 0)
+                player.AddBuff(ModContent.BuffType<HolyFlames>(), 120, true);
         }
 
         public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.AddIf(() => Main.hardMode, ModContent.ItemType<EssenceofSunlight>(), 3);

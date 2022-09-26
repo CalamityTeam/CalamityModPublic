@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Items.Placeables;
+using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -22,7 +23,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.useTime = 30;
             Item.damage = 26;
             Item.DamageType = DamageClass.Melee;
-            Item.value = Item.buyPrice(0, 2, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity2BuyPrice;
             Item.width = 38;
             Item.height = 38;
             Item.knockBack = 2;
@@ -39,6 +40,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             CreateRecipe().
+                AddIngredient<PearlShard>(3).
                 AddIngredient<SeaPrism>(7).
                 AddIngredient<Navystone>(10).
                 AddTile(TileID.Anvils).

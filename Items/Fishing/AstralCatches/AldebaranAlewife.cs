@@ -8,9 +8,10 @@ namespace CalamityMod.Items.Fishing.AstralCatches
     {
         public override void SetStaticDefaults()
         {
-                        SacrificeTotal = 3;
+            SacrificeTotal = 3;
             DisplayName.SetDefault("Aldebaran Alewife");
             Tooltip.SetDefault("A star-struck entity in the form of a fish");
+            ItemID.Sets.CanBePlacedOnWeaponRacks[Item.type] = true;
         }
 
         public override void SetDefaults()
@@ -21,5 +22,10 @@ namespace CalamityMod.Items.Fishing.AstralCatches
             Item.value = Item.sellPrice(silver: 8);
             Item.rare = ItemRarityID.Blue;
         }
+
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = ContentSamples.CreativeHelper.ItemGroup.Fish;
+		}
     }
 }

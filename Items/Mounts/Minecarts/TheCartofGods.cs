@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Items.Materials;
+using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
 using Terraria.ID;
@@ -20,8 +21,7 @@ namespace CalamityMod.Items.Mounts.Minecarts
             Item.useStyle = ItemUseStyleID.Swing;
 
             Item.value = Item.sellPrice(gold: 30);
-            Item.rare = ItemRarityID.Purple;
-            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.rare = ModContent.RarityType<DarkBlue>();
             Item.Calamity().donorItem = true;
 
             Item.UseSound = SoundID.Item68;

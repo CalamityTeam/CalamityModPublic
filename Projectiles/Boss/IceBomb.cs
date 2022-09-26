@@ -20,7 +20,7 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.Calamity().DealsDefenseDamage = true;
             Projectile.width = 30;
             Projectile.height = 30;
-            Projectile.scale = 0.5f;
+            Projectile.scale = 0.6f;
             Projectile.hostile = true;
             Projectile.coldDamage = true;
             Projectile.penetrate = 1;
@@ -32,27 +32,6 @@ namespace CalamityMod.Projectiles.Boss
         public override void AI()
         {
             Projectile.velocity *= 0.98f;
-
-            if (Projectile.localAI[0] == 0f)
-            {
-                Projectile.scale += 0.01f;
-                Projectile.alpha -= 50;
-                if (Projectile.alpha <= 0)
-                {
-                    Projectile.localAI[0] = 1f;
-                    Projectile.alpha = 0;
-                }
-            }
-            else
-            {
-                Projectile.scale -= 0.01f;
-                Projectile.alpha += 50;
-                if (Projectile.alpha >= 255)
-                {
-                    Projectile.localAI[0] = 0f;
-                    Projectile.alpha = 255;
-                }
-            }
 
             if (Projectile.ai[0] < 120f)
             {
@@ -78,7 +57,7 @@ namespace CalamityMod.Projectiles.Boss
                         Main.dust[num624].velocity *= 2f;
                     }
 
-                    Projectile.scale = 1f;
+                    Projectile.scale = 1.2f;
                     Projectile.ExpandHitboxBy((int)(30f * Projectile.scale));
                     SoundEngine.PlaySound(SoundID.Item30, Projectile.Center);
                 }
@@ -87,7 +66,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override Color? GetAlpha(Color lightColor)
         {
-            return Main.dayTime ? new Color(50, 50, 255, Projectile.alpha) : new Color(255, 255, 255, Projectile.alpha);
+            return new Color(255, 255, 255, Projectile.alpha);
         }
 
         public override void Kill(int timeLeft)
@@ -115,6 +94,9 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
+            if (damage <= 0)
+                return;
+
             if (Projectile.ai[0] >= 120f)
             {
                 target.AddBuff(BuffID.Frostburn, 180, true);

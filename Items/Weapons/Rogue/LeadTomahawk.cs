@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class LeadTomahawk : ModItem
+    public class LeadTomahawk : RogueWeapon
     {
         public override void SetStaticDefaults()
         {

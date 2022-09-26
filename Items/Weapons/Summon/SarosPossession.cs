@@ -1,9 +1,10 @@
-﻿using Terraria.DataStructures;
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Summon;
+using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -33,15 +34,14 @@ namespace CalamityMod.Items.Weapons.Summon
 
             Item.DamageType = DamageClass.Summon;
             Item.mana = 10;
-            Item.damage = 171;
+            Item.damage = 210;
             Item.knockBack = 4f;
             Item.useTime = Item.useAnimation = 10;
             Item.shoot = ModContent.ProjectileType<SarosAura>();
             Item.shootSpeed = 10f;
 
             Item.value = CalamityGlobalItem.Rarity14BuyPrice;
-            Item.rare = ItemRarityID.Purple;
-            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.rare = ModContent.RarityType<DarkBlue>();
         }
 
         public override void HoldItem(Player player)

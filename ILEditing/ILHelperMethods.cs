@@ -87,13 +87,16 @@ namespace CalamityMod.ILEditing
             return initialTexture;
         }
 
-        private static Color SelectLavaColor(Texture2D initialTexture, Color initialLightColor)
+        private static Color SelectLavaColor(Texture2D initialTexture, Color initialLightColor, bool forceTrue = false)
         {
             // Use the initial color if it isn't lava.
-            if (initialTexture != CustomLavaManagement.LavaTexture && 
-                initialTexture != CustomLavaManagement.LavaBlockTexture &&
-                initialTexture != CustomLavaManagement.LavaSlopeTexture)
-                return initialLightColor;
+            if (!forceTrue)
+            {
+                if (initialTexture != CustomLavaManagement.LavaTexture &&
+                    initialTexture != CustomLavaManagement.LavaBlockTexture &&
+                    initialTexture != CustomLavaManagement.LavaSlopeTexture)
+                    return initialLightColor;
+            }
 
             foreach (CustomLavaStyle lavaStyle in CustomLavaManagement.CustomLavaStyles)
             {

@@ -177,7 +177,8 @@ namespace CalamityMod.NPCs.PlagueEnemies
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(ModContent.BuffType<Plague>(), 180, true);
+            if (damage > 0)
+                player.AddBuff(ModContent.BuffType<Plague>(), 180, true);
         }
 
         public override void HitEffect(int hitDirection, double damage)

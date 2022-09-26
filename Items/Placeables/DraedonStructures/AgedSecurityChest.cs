@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Items.Materials;
+using CalamityMod.Rarities;
 using CalamityMod.Tiles.DraedonStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -22,8 +23,7 @@ namespace CalamityMod.Items.Placeables.DraedonStructures
             Item.autoReuse = true;
             Item.useAnimation = 15;
             Item.useTime = 14;
-            Item.rare = ItemRarityID.Green;
-            Item.Calamity().customRarity = CalamityRarity.DraedonRust;
+            Item.rare = ModContent.RarityType<DarkOrange>();
             Item.useStyle = ItemUseStyleID.Swing;
             Item.consumable = true;
             Item.value = 500;

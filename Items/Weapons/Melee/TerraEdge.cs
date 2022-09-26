@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.knockBack = 6.25f;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
-            Item.value = Item.buyPrice(0, 80, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity9BuyPrice;
             Item.rare = ItemRarityID.Yellow;
             Item.shoot = ModContent.ProjectileType<TerraEdgeBeam>();
             Item.shootSpeed = 12f;
@@ -80,14 +80,14 @@ namespace CalamityMod.Items.Weapons.Melee
                 AddIngredient<TrueBloodyEdge>().
                 AddIngredient(ItemID.TrueExcalibur).
                 AddIngredient(ItemID.BrokenHeroSword).
-                AddIngredient<LivingShard>(7).
+                AddIngredient<LivingShard>(12).
                 AddTile(TileID.MythrilAnvil).
                 Register();
             CreateRecipe().
                 AddIngredient(ItemID.TrueNightsEdge).
                 AddIngredient(ItemID.TrueExcalibur).
                 AddIngredient(ItemID.BrokenHeroSword).
-                AddIngredient<LivingShard>(7).
+                AddIngredient<LivingShard>(12).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

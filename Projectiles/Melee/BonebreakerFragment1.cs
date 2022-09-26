@@ -18,12 +18,12 @@ namespace CalamityMod.Projectiles.Melee
         {
             Projectile.width = 6;
             Projectile.height = 6;
-            Projectile.aiStyle = 24;
+            Projectile.aiStyle = ProjAIStyleID.CrystalShard;
             Projectile.friendly = true;
             Projectile.penetrate = 1;
             Projectile.alpha = 50;
             Projectile.timeLeft = 600;
-            Projectile.DamageType = DamageClass.Melee;
+            Projectile.DamageType = DamageClass.MeleeNoSpeed;
         }
 
         public override bool PreDraw(ref Color lightColor)

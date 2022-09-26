@@ -1,6 +1,7 @@
 ﻿using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.Materials;
+using CalamityMod.Items.TreasureBags.MiscGrabBags;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
@@ -10,6 +11,7 @@ using CalamityMod.NPCs.DesertScourge;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -17,13 +19,13 @@ namespace CalamityMod.Items.TreasureBags
 {
     public class DesertScourgeBag : ModItem
     {
-        public override int BossBagNPC => ModContent.NPCType<DesertScourgeHead>();
-
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 3;
             DisplayName.SetDefault("Treasure Bag (Desert Scourge)");
             Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
+			ItemID.Sets.BossBag[Item.type] = true;
+            ItemID.Sets.PreHardmodeLikeBossBag[Item.type] = true;
         }
 
         public override void SetDefaults()
@@ -36,45 +38,54 @@ namespace CalamityMod.Items.TreasureBags
             Item.expert = true;
         }
 
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = ContentSamples.CreativeHelper.ItemGroup.BossBags;
+		}
+
         public override bool CanRightClick() => true;
+
+		public override Color? GetAlpha(Color lightColor) => Color.Lerp(lightColor, Color.White, 0.4f);
+
+        public override void PostUpdate() => Item.TreasureBagLightAndDust();
 
         public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
         {
             return CalamityUtils.DrawTreasureBagInWorld(Item, spriteBatch, ref rotation, ref scale, whoAmI);
         }
 
-        public override void OpenBossBag(Player player)
+        public override void ModifyItemLoot(ItemLoot itemLoot)
         {
-            // IEntitySource my beloathed
-            var s = player.GetSource_OpenItem(Item.type);
+			// Money
+			itemLoot.Add(ItemDropRule.CoinsBasedOnNPCValue(ModContent.NPCType<DesertScourgeHead>()));
 
             // Materials
-            DropHelper.DropItem(s, player, ModContent.ItemType<VictoryShard>(), 10, 16);
-            DropHelper.DropItem(s, player, ItemID.Coral, 7, 11);
-            DropHelper.DropItem(s, player, ItemID.Seashell, 7, 11);
-            DropHelper.DropItem(s, player, ItemID.Starfish, 7, 11);
+            itemLoot.Add(ModContent.ItemType<PearlShard>(), 1, 30, 40);
+            itemLoot.Add(ItemID.Coral, 1, 30, 40);
+            itemLoot.Add(ItemID.Seashell, 1, 30, 40);
+            itemLoot.Add(ItemID.Starfish, 1, 30, 40);
 
             // Weapons
-            // Set up the base drop set, which includes Scourge of the Desert at its normal drop chance.
-            float w = DropHelper.BagWeaponDropRateFloat;
-            DropHelper.DropEntireWeightedSet(s, player,
-                DropHelper.WeightStack<AquaticDischarge>(w),
-                DropHelper.WeightStack<Barinade>(w),
-                DropHelper.WeightStack<StormSpray>(w),
-                DropHelper.WeightStack<SeaboundStaff>(w),
-                DropHelper.WeightStack<ScourgeoftheDesert>(w),
-                DropHelper.WeightStack<AeroStone>(w),
-                DropHelper.WeightStack<SandCloak>(w)
-            );
+            itemLoot.Add(DropHelper.CalamityStyle(DropHelper.BagWeaponDropRateFraction, new int[]
+            {
+                ModContent.ItemType<AquaticDischarge>(),
+                ModContent.ItemType<Barinade>(),
+                ModContent.ItemType<StormSpray>(),
+                ModContent.ItemType<SeaboundStaff>(),
+                ModContent.ItemType<ScourgeoftheDesert>()
+            }));
 
             // Equipment
-            DropHelper.DropItem(s, player, ModContent.ItemType<OceanCrest>());
+            itemLoot.Add(ModContent.ItemType<OceanCrest>());
+            itemLoot.Add(ModContent.ItemType<AeroStone>(), DropHelper.BagWeaponDropRateFraction);
+            itemLoot.Add(ModContent.ItemType<SandCloak>(), DropHelper.BagWeaponDropRateFraction);
+            itemLoot.AddRevBagAccessories();
 
             // Vanity
-            DropHelper.DropItemChance(s, player, ModContent.ItemType<DesertScourgeMask>(), 7);
+            itemLoot.Add(ModContent.ItemType<DesertScourgeMask>(), 7);
 
             // Fishing
-            DropHelper.DropItem(s, player, ModContent.ItemType<SandyAnglingKit>());
+            itemLoot.Add(ModContent.ItemType<SandyAnglingKit>());
         }
     }
 }

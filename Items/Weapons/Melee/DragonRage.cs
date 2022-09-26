@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Projectiles.Melee;
+using CalamityMod.Rarities;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -16,7 +17,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            Item.damage = 1275;
+            Item.damage = 1075;
             Item.knockBack = 7.5f;
             Item.useAnimation = Item.useTime = 25;
             Item.DamageType = TrueMeleeNoSpeedDamageClass.Instance;
@@ -32,8 +33,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.UseSound = SoundID.DD2_SkyDragonsFurySwing;
             Item.value = CalamityGlobalItem.Rarity15BuyPrice;
-            Item.rare = ItemRarityID.Purple;
-            Item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.rare = ModContent.RarityType<Violet>();
         }
     }
 }

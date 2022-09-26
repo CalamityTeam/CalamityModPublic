@@ -6,17 +6,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
-    //[AutoloadEquip(EquipType.Face)]
+    [AutoloadEquip(EquipType.Face)]
     public class AbyssalDivingGear : ModItem
     {
-        public override void Load()
-        {
-            if (Main.netMode != NetmodeID.Server)
-            {
-                EquipLoader.AddEquipTexture(Mod, "CalamityMod/Items/Accessories/AbyssalDivingGear_Face", EquipType.Head, this);
-            }
-        }
-
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 1;
@@ -30,9 +22,9 @@ namespace CalamityMod.Items.Accessories
 
             if (Main.netMode != NetmodeID.Server)
             {
-                int equipSlot = EquipLoader.GetEquipSlot(Mod, Name, EquipType.Head);
-                ArmorIDs.Head.Sets.DrawFullHair[equipSlot] = false;
-                ArmorIDs.Head.Sets.DrawHatHair[equipSlot] = false;
+                int equipSlot = EquipLoader.GetEquipSlot(Mod, Name, EquipType.Face);
+				ArmorIDs.Face.Sets.PreventHairDraw[equipSlot] = true;
+				ArmorIDs.Face.Sets.OverrideHelmet[equipSlot] = true;
             }
         }
 
@@ -50,8 +42,6 @@ namespace CalamityMod.Items.Accessories
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.depthCharm = true;
             modPlayer.jellyfishNecklace = true;
-            if (!hideVisual)
-                modPlayer.abyssDivingGear = true; //this bool is just used for drawing
             player.arcticDivingGear = true;
             player.accFlipper = true;
             player.accDivingHelm = true;
@@ -60,18 +50,6 @@ namespace CalamityMod.Items.Accessories
             {
                 Lighting.AddLight((int)player.Center.X / 16, (int)player.Center.Y / 16, 0.2f, 0.8f, 0.9f);
             }
-        }
-
-        public override bool IsVanitySet(int head, int body, int legs) => true;
-
-        public override void PreUpdateVanitySet(Player player)
-        {
-            player.Calamity().abyssDivingGear = true;
-        }
-
-        public override void UpdateVanity(Player player)
-        {
-            player.Calamity().abyssDivingGear = true;
         }
 
         public override void AddRecipes()

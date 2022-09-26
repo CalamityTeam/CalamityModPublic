@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Potions
         {
             CreateRecipe().
                 AddIngredient(ItemID.BottledWater).
-                AddIngredient<VictoryShard>(3).
+                AddIngredient<PearlShard>(3).
                 AddTile(TileID.Bottles).
                 Register();
 

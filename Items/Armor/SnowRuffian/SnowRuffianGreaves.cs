@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Armor.SnowRuffian
         {
             Item.width = 18;
             Item.height = 18;
-            Item.value = Item.buyPrice(0, 0, 75, 0);
+            Item.value = CalamityGlobalItem.Rarity1BuyPrice;
             Item.rare = ItemRarityID.Blue;
             Item.defense = 1; //4
         }
@@ -34,6 +34,7 @@ namespace CalamityMod.Items.Armor.SnowRuffian
                 AddRecipeGroup("AnySnowBlock", 20).
                 AddRecipeGroup("AnyIceBlock", 10).
                 AddIngredient(ItemID.BorealWood, 30).
+                AddIngredient(ItemID.FlinxFur).
                 AddTile(TileID.Anvils).
                 Register();
         }

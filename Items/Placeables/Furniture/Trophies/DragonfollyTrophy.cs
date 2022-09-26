@@ -1,4 +1,4 @@
-﻿using CalamityMod.Tiles.Furniture;
+﻿using CalamityMod.Tiles.Furniture.BossTrophies;
 using Terraria.ModLoader;
 using Terraria.ID;
 
@@ -26,8 +26,7 @@ namespace CalamityMod.Items.Placeables.Furniture.Trophies
             Item.consumable = true;
             Item.value = 50000;
             Item.rare = ItemRarityID.Blue;
-            Item.createTile = ModContent.TileType<BossTrophy>();
-            Item.placeStyle = 18;
+            Item.createTile = ModContent.TileType<DragonfollyTrophyTile>();
         }
     }
 }

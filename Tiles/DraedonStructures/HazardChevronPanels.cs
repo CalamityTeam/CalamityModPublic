@@ -17,6 +17,7 @@ namespace CalamityMod.Tiles.DraedonStructures
             CalamityUtils.SetMerge(Type, ModContent.TileType<LaboratoryDoorClosed>());
             CalamityUtils.SetMerge(Type, ModContent.TileType<AgedLaboratoryDoorOpen>());
             CalamityUtils.SetMerge(Type, ModContent.TileType<AgedLaboratoryDoorClosed>());
+            CalamityUtils.SetMerge(Type, ModContent.TileType<LaboratoryPanels>());
 
             HitSound = SoundID.Tink;
             DustType = 19;

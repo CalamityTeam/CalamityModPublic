@@ -12,6 +12,7 @@ namespace CalamityMod.Items.Fishing
             DisplayName.SetDefault("Enchanted Starfish");
             Tooltip.SetDefault("Permanently increases maximum mana by 20");
             SacrificeTotal = 10;
+            ItemID.Sets.CanBePlacedOnWeaponRacks[Item.type] = true;
         }
 
         public override void SetDefaults()
@@ -23,10 +24,10 @@ namespace CalamityMod.Items.Fishing
             Item.useTime = 30;
             Item.useStyle = ItemUseStyleID.HoldUp;
             Item.UseSound = SoundID.Item29;
-            Item.consumable = true;
             Item.maxStack = 999;
             Item.value = Item.sellPrice(silver: 50);
             Item.autoReuse = true;
+            Item.consumable = true;
         }
 
         public override bool? UseItem(Player player)
@@ -40,6 +41,7 @@ namespace CalamityMod.Items.Fishing
                 if (Main.myPlayer == player.whoAmI)
                     player.ManaEffect(20);
                 AchievementsHelper.HandleSpecialEvent(player, 1);
+                player.ConsumeItem(ModContent.ItemType<EnchantedStarfish>(), true);
             }
             return false;
         }

@@ -1,9 +1,11 @@
 ﻿using CalamityMod.CustomRecipes;
 using CalamityMod.Items.Materials;
+using CalamityMod.Rarities;
 using CalamityMod.TileEntities;
 using CalamityMod.Tiles.DraedonSummoner;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
@@ -15,8 +17,10 @@ namespace CalamityMod.Items.DraedonMisc
 {
     public class AuricQuantumCoolingCell : ModItem
     {
+        public static readonly SoundStyle InstallSound = new("CalamityMod/Sounds/Custom/Codebreaker/AuricQuantumCoolingCellInstallNew");
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Auric Quantum Cooling Cell");
             Tooltip.SetDefault("Can be placed in the Codebreaker, completing it\n" +
                 "The completion of the Codebreaker allows you to make contact with its original creator\n" +
@@ -30,9 +34,8 @@ namespace CalamityMod.Items.DraedonMisc
             Item.maxStack = 999;
             Item.consumable = true;
             Item.useStyle = ItemUseStyleID.Swing;
-            Item.rare = ItemRarityID.Red;
             Item.useTime = Item.useAnimation = 15;
-            Item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.rare = ModContent.RarityType<Violet>();
         }
 
         public override void ModifyTooltips(List<TooltipLine> tooltips)
@@ -57,6 +60,8 @@ namespace CalamityMod.Items.DraedonMisc
 
             if (Main.myPlayer == player.whoAmI && player.WithinRange(Main.MouseWorld, checkDistance) && tile.HasTile && tile.TileType == ModContent.TileType<CodebreakerTile>())
             {
+                SoundEngine.PlaySound(InstallSound, Main.player[Main.myPlayer].Center);
+
                 TECodebreaker codebreakerTileEntity = CalamityUtils.FindTileEntity<TECodebreaker>(placeTileCoords.X, placeTileCoords.Y, CodebreakerTile.Width, CodebreakerTile.Height, CodebreakerTile.SheetSquare);
                 if (codebreakerTileEntity is null || codebreakerTileEntity.ContainsCoolingCell || codebreakerTileEntity.DecryptionCountdown > 0)
                     return false;

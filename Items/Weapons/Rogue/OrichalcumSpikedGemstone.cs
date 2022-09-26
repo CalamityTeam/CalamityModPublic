@@ -6,7 +6,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class OrichalcumSpikedGemstone : ModItem
+    public class OrichalcumSpikedGemstone : RogueWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -48,7 +48,7 @@ namespace CalamityMod.Items.Weapons.Rogue
                     Main.projectile[gemstone].Calamity().stealthStrike = true;
                     Main.projectile[gemstone].usesLocalNPCImmunity = true;
                     Main.projectile[gemstone].timeLeft = 900;
-                    Main.projectile[gemstone].penetrate = -1;
+                    Main.projectile[gemstone].penetrate = 4;
                 }
                 return false;
             }

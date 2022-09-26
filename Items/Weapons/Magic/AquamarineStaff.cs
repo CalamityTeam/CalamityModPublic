@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Items.Placeables;
+using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -30,15 +31,13 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.knockBack = 2.5f;
-            Item.value = Item.buyPrice(0, 2, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity2BuyPrice;
             Item.rare = ItemRarityID.Green;
             Item.UseSound = SoundID.Item43;
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<AquamarineBolt>();
             Item.shootSpeed = 14f;
         }
-
-        public override Vector2? HoldoutOrigin() => new Vector2(10, 10);
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
@@ -55,13 +54,15 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.RubyStaff).
+                AddIngredient(ItemID.AmethystStaff).
+                AddIngredient<PearlShard>(3).
                 AddIngredient<SeaPrism>(5).
                 AddIngredient<Navystone>(25).
                 AddTile(TileID.Anvils).
                 Register();
             CreateRecipe().
-                AddIngredient(ItemID.DiamondStaff).
+                AddIngredient(ItemID.TopazStaff).
+                AddIngredient<PearlShard>(3).
                 AddIngredient<SeaPrism>(5).
                 AddIngredient<Navystone>(25).
                 AddTile(TileID.Anvils).

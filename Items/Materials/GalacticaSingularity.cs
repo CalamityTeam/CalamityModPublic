@@ -15,6 +15,7 @@ namespace CalamityMod.Items.Materials
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(4, 24));
             ItemID.Sets.AnimatesAsSoul[Type] = true;
             ItemID.Sets.ItemNoGravity[Item.type] = true;
+			ItemID.Sets.SortingPriorityMaterials[Type] = 99; // Luminite
         }
 
         public override void SetDefaults()

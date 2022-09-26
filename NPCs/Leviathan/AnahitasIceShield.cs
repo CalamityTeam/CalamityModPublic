@@ -114,7 +114,7 @@ namespace CalamityMod.NPCs.Leviathan
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            if (NPC.ai[1] == 1f)
+            if (NPC.ai[1] == 1f || damage <= 0)
                 return;
 
             player.AddBuff(BuffID.Frostburn, 240, true);

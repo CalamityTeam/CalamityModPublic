@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Typeless.FiniteUse
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.knockBack = 8f;
-            Item.value = Item.buyPrice(0, 2, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity2BuyPrice;
             Item.rare = ItemRarityID.Green;
             Item.UseSound = FireSound;
             Item.autoReuse = true;
@@ -42,6 +42,11 @@ namespace CalamityMod.Items.Weapons.Typeless.FiniteUse
             if (CalamityPlayer.areThereAnyDamnBosses)
                 Item.Calamity().timesUsed = 3;
         }
+
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = (ContentSamples.CreativeHelper.ItemGroup)CalamityResearchSorting.ClasslessWeapon;
+		}
 
         // Terraria seems to really dislike high crit values in SetDefaults
         public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 46;

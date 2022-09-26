@@ -84,6 +84,9 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
+            if (damage <= 0)
+                return;
+
             if (Projectile.Opacity == 1f)
                 target.AddBuff(BuffID.VortexDebuff, 60);
         }
@@ -110,11 +113,6 @@ namespace CalamityMod.Projectiles.Boss
                 Main.dust[num624].noGravity = true;
                 Main.dust[num624].velocity *= 2f;
             }
-        }
-
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
-        {
-            target.Calamity().lastProjectileHit = Projectile;
         }
     }
 }

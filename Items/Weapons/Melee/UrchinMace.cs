@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             Item.width = 42;
-            Item.damage = 20;
+            Item.damage = 23;
             Item.channel = true;
             Item.noUseGraphic = true;
             Item.noMelee = true;
@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.knockBack = 4;
             Item.UseSound = SoundID.Item1;
             Item.height = 48;
-            Item.value = Item.buyPrice(0, 2, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity2BuyPrice;
             Item.rare = ItemRarityID.Green;
             Item.shoot = ModContent.ProjectileType<UrchinMaceProjectile>();
             Item.shootSpeed = 9f;

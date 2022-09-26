@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.Mounts;
+﻿using CalamityMod.Buffs.Mounts;
 using CalamityMod.Tiles.Abyss;
 using Microsoft.Xna.Framework;
 using System;
@@ -97,16 +97,7 @@ namespace CalamityMod.Items.Mounts
             {
                 if (Main.myPlayer == player.whoAmI)
                 {
-                    int highestPickPower = 35; //35% if you have no pickaxes.
-                    for (int item = 0; item < Main.InventorySlotsTotal; item++)
-                    {
-                        if (player.inventory[item].pick <= 0)
-                            continue;
-                        if (player.inventory[item].pick > highestPickPower)
-                        {
-                            highestPickPower = player.inventory[item].pick;
-                        }
-                    }
+                    int highestPickPower = player.GetBestPickPower();
 
                     float direction = Math.Sign(player.velocity.X);
                     if (Math.Abs(direction) < 0.1f)
@@ -145,60 +136,7 @@ namespace CalamityMod.Items.Mounts
                             float tileDist = tileVec.Length();
                             Tile tile = CalamityUtils.ParanoidTileRetrieval(x, y);
 
-                            int pickReq = 0;
-                            ModTile moddedTile = TileLoader.GetTile(tile.TileType);
-                            if (moddedTile != null)
-                            {
-                                pickReq = moddedTile.MinPick;
-                            }
-                            else
-                            {
-                                switch (tile.TileType)
-                                {
-                                    case TileID.Chlorophyte:
-                                        pickReq = 200;
-                                        break;
-                                    case TileID.Ebonstone:
-                                    case TileID.Crimstone:
-                                    case TileID.Pearlstone:
-                                    case TileID.DesertFossil:
-                                    case TileID.Obsidian:
-                                    case TileID.Hellstone:
-                                        pickReq = 65;
-                                        break;
-                                    case TileID.Meteorite:
-                                        pickReq = 50;
-                                        break;
-                                    case TileID.Demonite:
-                                    case TileID.Crimtane:
-                                        if (y > Main.worldSurface)
-                                            pickReq = 55;
-                                        break;
-                                    case TileID.LihzahrdBrick:
-                                    case TileID.LihzahrdAltar:
-                                        pickReq = 210;
-                                        break;
-                                    case TileID.Cobalt:
-                                    case TileID.Palladium:
-                                        pickReq = 100;
-                                        break;
-                                    case TileID.Mythril:
-                                    case TileID.Orichalcum:
-                                        pickReq = 110;
-                                        break;
-                                    case TileID.Adamantite:
-                                    case TileID.Titanium:
-                                        pickReq = 150;
-                                        break;
-                                    default:
-                                        break;
-                                }
-                            }
-                            if (Main.tileDungeon[tile.TileType])
-                            {
-                                if (x < Main.maxTilesX * 0.35 || x > Main.maxTilesX * 0.65)
-                                pickReq = 65;
-                            }
+                            int pickReq = tile.GetRequiredPickPower(x, y);
 
                             if (tileDist < mineHeight)
                             {

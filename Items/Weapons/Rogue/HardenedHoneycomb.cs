@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class HardenedHoneycomb : ModItem
+    public class HardenedHoneycomb : RogueWeapon
     {
         public override void SetStaticDefaults()
         {

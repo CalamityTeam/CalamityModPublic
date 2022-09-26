@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class BouncingEyeball : ModItem
+    public class BouncingEyeball : RogueWeapon
     {
         public const int BaseDamage = 15;
         public override void SetStaticDefaults()
@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.useStyle = ItemUseStyleID.Swing;
             Item.knockBack = 3.5f;
             Item.rare = ItemRarityID.Green;
-            Item.value = Item.buyPrice(0, 2, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity2BuyPrice;
             Item.DamageType = RogueDamageClass.Instance;
             Item.noUseGraphic = true;
             Item.UseSound = SoundID.Item1;
@@ -36,6 +36,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.shootSpeed = 10f;
             Item.autoReuse = true;
         }
+
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             bool bloodMoon = Main.bloodMoon;

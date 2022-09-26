@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using CalamityMod.Rarities;
+using System.Collections.Generic;
 using System.Linq;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -28,7 +29,7 @@ namespace CalamityMod.Items.Mounts
             Item.mountType = ModContent.MountType<DraedonGamerChairMount>();
 
             Item.value = CalamityGlobalItem.RarityVioletBuyPrice;
-            Item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.rare = ModContent.RarityType<Violet>();
         }
 
         public override void ModifyTooltips(List<TooltipLine> list)

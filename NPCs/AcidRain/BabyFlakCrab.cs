@@ -30,7 +30,6 @@ namespace CalamityMod.NPCs.AcidRain
             NPC.lifeMax = 5;
             NPC.defense = 5;
 
-            NPC.value = Item.buyPrice(0, 0, 5, 55);
             NPC.lavaImmune = true;
             NPC.noGravity = false;
             NPC.noTileCollide = false;
@@ -137,17 +136,6 @@ namespace CalamityMod.NPCs.AcidRain
                 return 0f;
             }
             return 0.15f;
-        }
-
-        public override void OnCaughtBy(Player player, Item item, bool failed)
-        {
-            try
-            {
-            }
-            catch
-            {
-                return;
-            }
         }
 
         public override void HitEffect(int hitDirection, double damage)

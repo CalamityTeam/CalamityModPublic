@@ -6,23 +6,23 @@ using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.NPCs.Calamitas;
-using Terraria;
-using Terraria.ModLoader;
-using Terraria.ID;
-using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Terraria;
+using Terraria.GameContent.ItemDropRules;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Items.TreasureBags
 {
     public class CalamitasBag : ModItem
     {
-        public override int BossBagNPC => ModContent.NPCType<CalamitasClone>();
-
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 3;
             DisplayName.SetDefault("Treasure Bag (Calamitas)");
             Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
+			ItemID.Sets.BossBag[Item.type] = true;
         }
 
         public override void SetDefaults()
@@ -35,46 +35,51 @@ namespace CalamityMod.Items.TreasureBags
             Item.expert = true;
         }
 
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = ContentSamples.CreativeHelper.ItemGroup.BossBags;
+		}
+
         public override bool CanRightClick() => true;
+
+		public override Color? GetAlpha(Color lightColor) => Color.Lerp(lightColor, Color.White, 0.4f);
+
+        public override void PostUpdate() => Item.TreasureBagLightAndDust();
 
         public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
         {
             return CalamityUtils.DrawTreasureBagInWorld(Item, spriteBatch, ref rotation, ref scale, whoAmI);
         }
 
-        public override void OpenBossBag(Player player)
+        public override void ModifyItemLoot(ItemLoot itemLoot)
         {
-            // IEntitySource my beloathed
-            var s = player.GetSource_OpenItem(Item.type);
-
-            player.TryGettingDevArmor(s);
+			// Money
+			itemLoot.Add(ItemDropRule.CoinsBasedOnNPCValue(ModContent.NPCType<CalamitasClone>()));
 
             // Materials
-            DropHelper.DropItem(s, player, ModContent.ItemType<AshesofCalamity>(), 14, 18);
-            DropHelper.DropItem(s, player, ModContent.ItemType<EssenceofChaos>(), 5, 9);
-            DropHelper.DropItemCondition(s, player, ModContent.ItemType<Bloodstone>(), DownedBossSystem.downedProvidence, 35, 45);
+            itemLoot.Add(ModContent.ItemType<AshesofCalamity>(), 1, 30, 35);
+            itemLoot.Add(ModContent.ItemType<EssenceofChaos>(), 1, 10, 15);
 
             // Weapons
-            float w = DropHelper.BagWeaponDropRateFloat;
-            DropHelper.DropEntireWeightedSet(s, player,
-                DropHelper.WeightStack<Oblivion>(w),
-                DropHelper.WeightStack<Animosity>(w),
-                DropHelper.WeightStack<LashesofChaos>(w),
-                DropHelper.WeightStack<EntropysVigil>(w),
-                DropHelper.WeightStack<ChaosStone>(w)
-            );
+            itemLoot.Add(DropHelper.CalamityStyle(DropHelper.BagWeaponDropRateFraction, new int[]
+            {
+                ModContent.ItemType<Oblivion>(),
+                ModContent.ItemType<Animosity>(),
+                ModContent.ItemType<LashesofChaos>(),
+                ModContent.ItemType<EntropysVigil>()
+            }));
 
             // Equipment
-            DropHelper.DropItem(s, player, ModContent.ItemType<VoidofCalamity>());
-            DropHelper.DropItemChance(s, player, ModContent.ItemType<Regenator>(), 0.1f);
+            itemLoot.Add(ModContent.ItemType<ChaosStone>(), DropHelper.BagWeaponDropRateFraction);
+            itemLoot.Add(ModContent.ItemType<VoidofCalamity>());
+            itemLoot.Add(ModContent.ItemType<Regenator>(), 10);
+            itemLoot.AddRevBagAccessories();
 
             // Vanity
-            DropHelper.DropItemChance(s, player, ModContent.ItemType<CalamitasMask>(), 7);
-            if (Main.rand.NextBool(10))
-            {
-                DropHelper.DropItem(s, player, ModContent.ItemType<HoodOfCalamity>());
-                DropHelper.DropItem(s, player, ModContent.ItemType<RobesOfCalamity>());
-            }
+            itemLoot.Add(ModContent.ItemType<CalamitasMask>(), 7);
+            var calamityRobes = ItemDropRule.Common(ModContent.ItemType<RobesOfCalamity>(), 10);
+            calamityRobes.OnSuccess(ItemDropRule.Common(ModContent.ItemType<HoodOfCalamity>()));
+            itemLoot.Add(calamityRobes);
         }
     }
 }

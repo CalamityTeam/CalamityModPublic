@@ -1,4 +1,10 @@
-﻿using CalamityMod.Balancing;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Reflection;
+using System.Runtime.CompilerServices;
+using CalamityMod.Balancing;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
@@ -11,10 +17,15 @@ using CalamityMod.FluidSimulation;
 using CalamityMod.ILEditing;
 using CalamityMod.Items;
 using CalamityMod.Items.Dyes.HairDye;
+using CalamityMod.Items.PermanentBoosters;
+using CalamityMod.Items.Pets;
 using CalamityMod.Items.VanillaArmorChanges;
+using CalamityMod.Items.Weapons.Magic;
+using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Localization;
 using CalamityMod.NPCs.AdultEidolonWyrm;
 using CalamityMod.NPCs.AquaticScourge;
+using CalamityMod.NPCs.Astral;
 using CalamityMod.NPCs.AstrumAureus;
 using CalamityMod.NPCs.AstrumDeus;
 using CalamityMod.NPCs.BrimstoneElemental;
@@ -41,9 +52,11 @@ using CalamityMod.NPCs.Ravager;
 using CalamityMod.NPCs.Signus;
 using CalamityMod.NPCs.SlimeGod;
 using CalamityMod.NPCs.StormWeaver;
+using CalamityMod.NPCs.SulphurousSea;
 using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.NPCs.Yharon;
 using CalamityMod.Particles;
+using CalamityMod.Particles.Metaballs;
 using CalamityMod.Projectiles;
 using CalamityMod.Projectiles.BaseProjectiles;
 using CalamityMod.Schematics;
@@ -55,12 +68,6 @@ using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Reflection;
-using System.Runtime.CompilerServices;
 using Terraria;
 using Terraria.GameContent;
 using Terraria.GameContent.Dyes;
@@ -71,6 +78,7 @@ using Terraria.ModLoader;
 using Terraria.ModLoader.Config;
 
 [assembly: InternalsVisibleTo("CalTestHelpers")]
+[assembly: InternalsVisibleTo("InfernumMode")]
 namespace CalamityMod
 {
     public class CalamityMod : Mod
@@ -84,8 +92,8 @@ namespace CalamityMod
         public static int sharkKillCount = 0;
 
         // Textures
-        public static Asset<Texture2D> heartOriginal2;
         public static Asset<Texture2D> heartOriginal;
+        public static Asset<Texture2D> heartOriginal2;
         public static Asset<Texture2D> rainOriginal;
         public static Asset<Texture2D> manaOriginal;
         public static Asset<Texture2D> carpetOriginal;
@@ -110,7 +118,7 @@ namespace CalamityMod
 
         // Debuff immunities, these are used in the NPCDebuffs file
         public static int[] slimeEnemyImmunities = new int[1] { BuffID.Poisoned };
-        public static int[] iceEnemyImmunities = new int[3] { BuffID.Frostburn, ModContent.BuffType<GlacialState>(), ModContent.BuffType<ExoFreeze>() };
+        public static int[] iceEnemyImmunities = new int[4] { BuffID.Frostburn, BuffID.Frostburn2, ModContent.BuffType<GlacialState>(), ModContent.BuffType<ExoFreeze>() };
         public static int[] sulphurEnemyImmunities = new int[4] { BuffID.Poisoned, BuffID.Venom, ModContent.BuffType<SulphuricPoisoning>(), ModContent.BuffType<Irradiated>() };
         public static int[] sunkenSeaEnemyImmunities = new int[2] { ModContent.BuffType<Eutrophication>(), ModContent.BuffType<PearlAura>() };
         public static int[] abyssEnemyImmunities = new int[1] { ModContent.BuffType<CrushDepth>() };
@@ -133,10 +141,11 @@ namespace CalamityMod
         internal Mod overhaul = null;
         internal Mod redemption = null;
         internal Mod soa = null;
+        internal Mod subworldLibrary = null;
         internal Mod summonersAssociation = null;
         internal Mod thorium = null;
         internal Mod varia = null;
-        internal Mod subworldLibrary = null;
+        internal Mod wikithis = null;
 
         #region Load
         public override void Load()
@@ -144,8 +153,8 @@ namespace CalamityMod
             Instance = this;
 
             // Save vanilla textures.
-            heartOriginal2 = TextureAssets.Heart;
-            heartOriginal = TextureAssets.Heart2;
+            heartOriginal = TextureAssets.Heart;
+            heartOriginal2 = TextureAssets.Heart2;
             rainOriginal = TextureAssets.Rain;
             manaOriginal = TextureAssets.Mana;
             carpetOriginal = TextureAssets.FlyingCarpet;
@@ -172,14 +181,16 @@ namespace CalamityMod
             ModLoader.TryGetMod("Redemption", out redemption);
             soa = null;
             ModLoader.TryGetMod("SacredTools", out soa);
+            subworldLibrary = null;
+            ModLoader.TryGetMod("SubworldLibrary", out subworldLibrary);
             summonersAssociation = null;
             ModLoader.TryGetMod("SummonersAssociation", out summonersAssociation);
             thorium = null;
             ModLoader.TryGetMod("ThoriumMod", out thorium);
             varia = null;
             ModLoader.TryGetMod("Varia", out varia);
-            subworldLibrary = null;
-            ModLoader.TryGetMod("SubworldLibrary", out subworldLibrary);
+            wikithis = null;
+            ModLoader.TryGetMod("Wikithis", out wikithis);
 
             // Initialize the EnemyStats struct as early as it is safe to do so
             NPCStats.Load();
@@ -206,6 +217,10 @@ namespace CalamityMod
             {
                 LoadClient();
                 GeneralParticleHandler.Load();
+                ForegroundDrawing.ForegroundManager.Load();
+
+                // Wikithis support
+				WeakReferenceSupport.WikiThisSupport();
             }
 
             CooldownRegistry.Load();
@@ -265,6 +280,9 @@ namespace CalamityMod
 
             Filters.Scene["CalamityMod:ExoMechs"] = new Filter(new ExoMechsScreenShaderData("FilterMiniTower").UseColor(ExoMechsSky.DrawColor).UseOpacity(0.25f), EffectPriority.VeryHigh);
             SkyManager.Instance["CalamityMod:ExoMechs"] = new ExoMechsSky();
+
+            Filters.Scene["CalamityMod:MonolithAccursed"] = new Filter(new MonolithScreenShaderData("FilterMiniTower").UseColor(1.1f, 0.3f, 0.3f).UseOpacity(0.65f), EffectPriority.VeryHigh);
+            SkyManager.Instance["CalamityMod:MonolithAccursed"] = new MonolithSky();
 
             SkyManager.Instance["CalamityMod:Astral"] = new AstralSky();
             SkyManager.Instance["CalamityMod:Cryogen"] = new CryogenSky();
@@ -331,6 +349,7 @@ namespace CalamityMod
         public override void Unload()
         {
             musicMod = null;
+
             ancientsAwakened = null;
             bossChecklist = null;
             census = null;
@@ -339,9 +358,11 @@ namespace CalamityMod
             overhaul = null;
             redemption = null;
             soa = null;
+            subworldLibrary = null;
             summonersAssociation = null;
             thorium = null;
             varia = null;
+            wikithis = null;
 
             AstralSky = null;
 
@@ -385,8 +406,8 @@ namespace CalamityMod
 
             if (!Main.dedServ)
             {
-                TextureAssets.Heart = heartOriginal2;
-                TextureAssets.Heart2 = heartOriginal;
+                TextureAssets.Heart = heartOriginal;
+                TextureAssets.Heart2 = heartOriginal2;
                 TextureAssets.Rain = rainOriginal;
                 TextureAssets.Mana = manaOriginal;
                 TextureAssets.FlyingCarpet = carpetOriginal;
@@ -402,8 +423,8 @@ namespace CalamityMod
             SceneMetrics.GraveyardTileMin = 16;
             SceneMetrics.GraveyardTileThreshold = 28;
 
-            heartOriginal2 = null;
             heartOriginal = null;
+            heartOriginal2 = null;
             rainOriginal = null;
             manaOriginal = null;
             carpetOriginal = null;
@@ -411,14 +432,6 @@ namespace CalamityMod
             ILChanges.Unload();
             Instance = null;
             base.Unload();
-        }
-        #endregion
-
-        #region Late Loading
-        public override void PostAddRecipes()
-        {
-            // This is placed here so that all tiles from all mods are guaranteed to be loaded at this point.
-            TileFraming.Load();
         }
         #endregion
 
@@ -578,11 +591,11 @@ namespace CalamityMod
                 { NPCID.EaterofWorldsHead, 7200 }, // 2:00 (120 seconds)
                 { NPCID.EaterofWorldsBody, 7200 },
                 { NPCID.EaterofWorldsTail, 7200 },
-                { NPCID.BrainofCthulhu, 5400 }, // 1:30 (90 seconds)
-                { NPCID.Creeper, 1800 }, // 0:30 (30 seconds)
+                { NPCID.BrainofCthulhu, 5400 }, // 1:30 (90 seconds, total length of fight including Creepers phase)
+                { NPCID.Creeper, 1800 }, // 0:30 (30 seconds, length of Creepers phase)
                 { NPCID.Deerclops, 5400 }, // 1:30 (90 seconds)
                 { NPCID.QueenBee, 7200 }, // 2:00 (120 seconds)
-                { NPCID.SkeletronHead, 9000 }, // 2:30 (150 seconds)
+                { NPCID.SkeletronHead, 7200 }, // 2:00 (120 seconds)
                 { NPCID.WallofFlesh, 7200 }, // 2:00 (120 seconds)
                 { NPCID.WallofFleshEye, 7200 },
                 { NPCID.QueenSlimeBoss, 7200 }, // 2:00 (120 seconds)
@@ -611,11 +624,11 @@ namespace CalamityMod
                 { ModContent.NPCType<Crabulon>(), 5400 }, // 1:30 (90 seconds)
                 { ModContent.NPCType<HiveMind>(), 7200 }, // 2:00 (120 seconds)
                 { ModContent.NPCType<PerforatorHive>(), 7200 }, // 2:00 (120 seconds)
-                { ModContent.NPCType<SlimeGodCore>(), 10800 }, // 3:00 (180 seconds) -- total length of Slime God fight
-                { ModContent.NPCType<EbonianSlimeGod>(), 3600 }, // 1:00 (60 seconds)
-                { ModContent.NPCType<CrimulanSlimeGod>(), 3600 }, // 1:00 (60 seconds)
-                { ModContent.NPCType<SplitEbonianSlimeGod>(), 3600 }, // 1:00 (60 seconds) -- split slimes should spawn at 1:00 and die at around 2:00
-                { ModContent.NPCType<SplitCrimulanSlimeGod>(), 3600 }, // 1:00 (60 seconds)
+                { ModContent.NPCType<SlimeGodCore>(), 9000 }, // 2:30 (150 seconds) -- total length of Slime God fight
+                { ModContent.NPCType<EbonianSlimeGod>(), 4500 }, // 1:15 (75 seconds)
+                { ModContent.NPCType<CrimulanSlimeGod>(), 4500 }, // 1:15 (75 seconds)
+                { ModContent.NPCType<SplitEbonianSlimeGod>(), 4500 }, // 1:15 (75 seconds) -- split slimes should spawn at 1:15 and die at around 2:30
+                { ModContent.NPCType<SplitCrimulanSlimeGod>(), 4500 }, // 1:15 (75 seconds)
                 { ModContent.NPCType<Cryogen>(), 10800 }, // 3:00 (180 seconds)
                 { ModContent.NPCType<AquaticScourgeHead>(), 7200 }, // 2:00 (120 seconds)
                 { ModContent.NPCType<AquaticScourgeBody>(), 7200 },
@@ -643,8 +656,8 @@ namespace CalamityMod
                 { ModContent.NPCType<Polterghast>(), 10800 }, // 3:00 (180 seconds)
                 { ModContent.NPCType<OldDuke>(), 10800 }, // 3:00 (180 seconds)
                 { ModContent.NPCType<DevourerofGodsHead>(), 14400 }, // 4:00 (240 seconds)
-                { ModContent.NPCType<DevourerofGodsBody>(), 14400 }, // NOTE: Sentinels Phase takes 1:00, so with that included it's 5:00
-                { ModContent.NPCType<DevourerofGodsTail>(), 14400 }, // DoG Phase 1 is 1:30, DoG Phase 2 is 2:30
+                { ModContent.NPCType<DevourerofGodsBody>(), 14400 }, // DoG Phase 1 is 1:30, DoG Phase 2 is 2:30
+                { ModContent.NPCType<DevourerofGodsTail>(), 14400 },
                 { ModContent.NPCType<Yharon>(), 14700 }, // 4:05 (245 seconds) -- he spends 5 seconds invincible where you can't do anything
                 { ModContent.NPCType<Apollo>(), 21600 }, // 6:00 (360 seconds)
                 { ModContent.NPCType<Artemis>(), 21600 },
@@ -792,12 +805,6 @@ namespace CalamityMod
         public override void PostSetupContent() => WeakReferenceSupport.Setup();
 
         public override object Call(params object[] args) => ModCalls.Call(args);
-        #endregion
-
-        #region Recipes
-        public override void AddRecipeGroups() => CalamityRecipes.AddRecipeGroups();
-
-        public override void AddRecipes() => CalamityRecipes.AddRecipes();
         #endregion
 
         #region Seasons

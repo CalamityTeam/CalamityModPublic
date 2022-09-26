@@ -67,6 +67,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             };
             value.Position.X -= 48f;
             NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
+			NPCID.Sets.MPAllowedEnemies[Type] = true;
         }
 
         public override void SetDefaults()
@@ -90,7 +91,6 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             NPC.noTileCollide = true;
             NPC.HitSound = SoundID.NPCHit4;
             NPC.DeathSound = SoundID.NPCDeath14;
-            Music = CalamityMod.Instance.GetMusicFromMusicMod("PlaguebringerGoliath") ?? MusicID.Boss3;
             NPC.Calamity().VulnerableToSickness = false;
             NPC.Calamity().VulnerableToElectricity = true;
         }
@@ -1248,13 +1248,13 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                 // Weapons
                 int[] weapons = new int[]
                 {
-                    ModContent.ItemType<Virulence>(), // Virulence
+                    ModContent.ItemType<Virulence>(),
                     ModContent.ItemType<DiseasedPike>(),
-                    ModContent.ItemType<Pandemic>(), // Pandemic
+                    ModContent.ItemType<Pandemic>(),
                     ModContent.ItemType<Malevolence>(),
                     ModContent.ItemType<PestilentDefiler>(),
                     ModContent.ItemType<TheHive>(),
-                    ModContent.ItemType<BlightSpewer>(), // Blight Spewer
+                    ModContent.ItemType<BlightSpewer>(),
                     ModContent.ItemType<PlagueStaff>(),
                     ModContent.ItemType<FuelCellBundle>(),
                     ModContent.ItemType<InfectedRemote>(),
@@ -1265,8 +1265,8 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
                 // Materials
                 normalOnly.Add(ItemID.Stinger, 1, 3, 5);
-                normalOnly.Add(ModContent.ItemType<PlagueCellCanister>(), 1, 10, 14);
-                normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<InfectedArmorPlating>(), 1, 13, 17));
+                normalOnly.Add(ModContent.ItemType<PlagueCellCanister>(), 1, 15, 20);
+                normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<InfectedArmorPlating>(), 1, 25, 30));
 
                 // Equipment
                 normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<ToxicHeart>()));
@@ -1279,10 +1279,10 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             npcLoot.Add(ModContent.ItemType<PlaguebringerGoliathTrophy>(), 10);
 
             // Relic
-            npcLoot.AddIf(() => Main.masterMode || CalamityWorld.revenge, ModContent.ItemType<PlaguebringerGoliathRelic>());
+            npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).Add(ModContent.ItemType<PlaguebringerGoliathRelic>());
 
             // Lore
-            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedPlaguebringer, ModContent.ItemType<KnowledgePlaguebringerGoliath>());
+            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedPlaguebringer, ModContent.ItemType<KnowledgePlaguebringerGoliath>(), desc: DropHelper.FirstKillText);
         }
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
@@ -1293,7 +1293,8 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(ModContent.BuffType<Plague>(), 480, true);
+            if (damage > 0)
+                player.AddBuff(ModContent.BuffType<Plague>(), 480, true);
         }
     }
 }

@@ -34,10 +34,12 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetStaticDefaults()
         {
-            // Ares' eight-pointed-star laser beams
-            DisplayName.SetDefault("Exo Overload Beam");
+            // Ares' eight-pointed-star (more on higher difficulties) laser beams
+            DisplayName.SetDefault("Blenderbeam");
             Main.projFrames[Projectile.type] = 5;
             ProjectileID.Sets.DrawScreenCheckFluff[Projectile.type] = 10000;
+            // This is its serious name
+            // DisplayName.SetDefault("Exo Overload Beam");
         }
 
         public override void SetDefaults()
@@ -50,7 +52,7 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.penetrate = -1;
             Projectile.tileCollide = false;
             Projectile.timeLeft = 600;
-            CooldownSlot = 1;
+            CooldownSlot = ImmunityCooldownID.Bosses;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -233,15 +235,13 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
+            if (damage <= 0)
+                return;
+
             target.AddBuff(BuffID.OnFire, 360);
             target.AddBuff(BuffID.Frostburn, 360);
         }
 
         public override bool CanHitPlayer(Player target) => Projectile.scale >= 0.5f;
-
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
-        {
-            target.Calamity().lastProjectileHit = Projectile;
-        }
     }
 }

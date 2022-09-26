@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Armor.Daedalus
         {
             Item.width = 18;
             Item.height = 18;
-            Item.value = Item.buyPrice(0, 20, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity5BuyPrice;
             Item.rare = ItemRarityID.Pink;
             Item.defense = 19; //41
         }

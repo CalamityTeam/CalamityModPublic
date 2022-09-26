@@ -27,6 +27,7 @@ namespace CalamityMod.Tiles.Astral
 
             TileID.Sets.ChecksForMerge[Type] = true;
             TileID.Sets.CanBeClearedDuringOreRunner[Type] = true;
+            TileID.Sets.CanBeDugByShovel[Type] = true;
         }
 
         public override bool CreateDust(int i, int j, ref int type)

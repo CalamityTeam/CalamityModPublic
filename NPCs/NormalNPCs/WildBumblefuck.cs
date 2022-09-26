@@ -72,7 +72,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             CalamityAI.Bumblebirb2AI(NPC, Mod, false);
         }
 
-        public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.Add(ModContent.ItemType<EffulgentFeather>(), 1, 2, 4);
+        public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.Add(ModContent.ItemType<EffulgentFeather>(), 1, 5, 7);
 
         public override void FindFrame(int frameHeight)
         {

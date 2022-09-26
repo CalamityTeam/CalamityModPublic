@@ -27,6 +27,8 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
         public static int phase1IconIndex;
         public static int phase2IconIndex;
 
+        public static readonly SoundStyle LensSound = new("CalamityMod/Sounds/Custom/ExoTwinsEject");
+
         internal static void LoadHeadIcons()
         {
             string phase1IconPath = "CalamityMod/NPCs/ExoMechs/Artemis/ArtemisHead";
@@ -177,7 +179,6 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
             NPC.DeathSound = SoundID.NPCDeath14;
             NPC.netAlways = true;
             NPC.boss = true;
-            Music = CalamityMod.Instance.GetMusicFromMusicMod("ExoMechs") ?? MusicID.Boss3;
             NPC.Calamity().VulnerableToSickness = false;
             NPC.Calamity().VulnerableToElectricity = true;
         }
@@ -426,7 +427,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
             // Phase 7 - 0, 1, 2
 
             // Predictiveness
-            float predictionAmt = bossRush ? 21f : death ? 18f : revenge ? 16.5f : expertMode ? 15f : 12f;
+            float predictionAmt = bossRush ? 50f : death ? 40f : revenge ? 35f : expertMode ? 30f : 20f;
             if (AIState == (float)Phase.LaserShotgun)
                 predictionAmt *= 1.5f;
             if (nerfedAttacks)
@@ -743,7 +744,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
                                     Vector2 laserVelocity = Vector2.Normalize(aimedVector);
                                     Vector2 projectileDestination = player.Center + predictionVector;
                                     Vector2 offset = laserVelocity * 70f;
-                                    float setVelocityInAI = 6.5f;
+                                    float setVelocityInAI = 7.5f;
                                     Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + offset, projectileDestination, type, damage, 0f, Main.myPlayer, setVelocityInAI, NPC.whoAmI);
                                 }
                             }
@@ -795,7 +796,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
                                         int spread = bossRush ? 30 : death ? 26 : expertMode ? 21 : 15;
                                         float rotation = MathHelper.ToRadians(spread);
                                         float distanceFromTarget = Vector2.Distance(NPC.Center, NPC.Center + chargeVelocityNormalized * chargeDistance);
-                                        float setVelocityInAI = 6.5f;
+                                        float setVelocityInAI = 7.5f;
 
                                         for (int i = 0; i < numLasersPerSpread + 1; i++)
                                         {
@@ -888,7 +889,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
                             int spread = baseSpread + (int)(calamityGlobalNPC.newAI[2] / divisor2) * (baseSpread / 4);
                             float rotation = MathHelper.ToRadians(spread);
                             float distanceFromTarget = Vector2.Distance(NPC.Center, player.Center + predictionVector);
-                            float setVelocityInAI = 6.5f;
+                            float setVelocityInAI = 7.5f;
 
                             for (int i = 0; i < numLasersPerSpread + 1; i++)
                             {
@@ -1115,7 +1116,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
                     // Shoot lens gore at the target at the proper time
                     if (calamityGlobalNPC.newAI[2] == lensPopTime)
                     {
-                        SoundEngine.PlaySound(CommonCalamitySounds.LargeWeaponFireSound, NPC.Center);
+                        SoundEngine.PlaySound(LensSound, NPC.Center);
                         Vector2 lensDirection = Vector2.Normalize(aimedVector);
                         Vector2 offset = lensDirection * 70f;
 
@@ -1151,7 +1152,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)
         {
-            cooldownSlot = 1;
+            cooldownSlot = ImmunityCooldownID.Bosses;
 
             Rectangle targetHitbox = target.Hitbox;
 

@@ -18,6 +18,7 @@ namespace CalamityMod.Items.SummonItems
             Tooltip.SetDefault("Summons the Aquatic Scourge when used in the Sulphurous Sea\n" +
                 "Enrages outside the Sulphurous Sea\n" +
                 "Not consumable");
+			ItemID.Sets.SortingPriorityBossSpawns[Type] = 8; // Mechanical Worm
         }
 
         public override void SetDefaults()
@@ -30,6 +31,11 @@ namespace CalamityMod.Items.SummonItems
             Item.useStyle = ItemUseStyleID.HoldUp;
             Item.consumable = false;
         }
+
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = ContentSamples.CreativeHelper.ItemGroup.BossItem;
+		}
 
         public override bool CanUseItem(Player player)
         {

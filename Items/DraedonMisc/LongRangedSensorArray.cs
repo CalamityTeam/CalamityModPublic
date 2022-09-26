@@ -1,6 +1,7 @@
 ﻿using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.DraedonSummoner;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
@@ -13,8 +14,10 @@ namespace CalamityMod.Items.DraedonMisc
 {
     public class LongRangedSensorArray : ModItem
     {
+        public static readonly SoundStyle InstallSound = new("CalamityMod/Sounds/Custom/Codebreaker/LongRangeSensorArrayInstall");
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Long Ranged Sensor Array");
             Tooltip.SetDefault("Can be placed on the Codebreaker\n" +
                 "Allows you to decrypt the Jungle schematic");
@@ -43,6 +46,8 @@ namespace CalamityMod.Items.DraedonMisc
 
             if (Main.myPlayer == player.whoAmI && player.WithinRange(Main.MouseWorld, checkDistance) && tile.HasTile && tile.TileType == ModContent.TileType<CodebreakerTile>())
             {
+                SoundEngine.PlaySound(InstallSound, Main.player[Main.myPlayer].Center);
+
                 TECodebreaker codebreakerTileEntity = CalamityUtils.FindTileEntity<TECodebreaker>(placeTileCoords.X, placeTileCoords.Y, CodebreakerTile.Width, CodebreakerTile.Height, CodebreakerTile.SheetSquare);
                 if (codebreakerTileEntity is null || codebreakerTileEntity.ContainsSensorArray)
                     return false;

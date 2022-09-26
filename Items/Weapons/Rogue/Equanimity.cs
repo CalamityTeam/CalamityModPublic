@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class Equanimity : ModItem
+    public class Equanimity : RogueWeapon
     {
         public override void SetStaticDefaults()
         {

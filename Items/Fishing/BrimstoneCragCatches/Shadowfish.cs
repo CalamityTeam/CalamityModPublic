@@ -11,6 +11,7 @@ namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
             DisplayName.SetDefault("Shadowfish");
             Tooltip.SetDefault("Darkness spreads");
             SacrificeTotal = 3;
+            ItemID.Sets.CanBePlacedOnWeaponRacks[Item.type] = true;
         }
 
         public override void SetDefaults()
@@ -21,5 +22,10 @@ namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
             Item.value = Item.sellPrice(silver: 8);
             Item.rare = ItemRarityID.Blue;
         }
+
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = ContentSamples.CreativeHelper.ItemGroup.Fish;
+		}
     }
 }

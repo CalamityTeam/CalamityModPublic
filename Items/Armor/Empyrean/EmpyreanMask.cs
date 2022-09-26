@@ -45,7 +45,7 @@ namespace CalamityMod.Items.Armor.Empyrean
         {
             Item.width = 18;
             Item.height = 18;
-            Item.value = Item.buyPrice(0, 40, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity10BuyPrice;
             Item.rare = ItemRarityID.Red;
             Item.defense = 20; //71
         }
@@ -69,12 +69,9 @@ namespace CalamityMod.Items.Armor.Empyrean
             modPlayer.xerocSet = true;
             modPlayer.rogueStealthMax += 1.15f;
             player.setBonus = "9% increased rogue damage and velocity\n" +
+				"+115 maximum stealth\n" +
                 "Rogue projectiles have special effects on enemy hits\n" +
-                "Imbued with cosmic wrath and rage when you are damaged\n" +
-                "Rogue stealth builds while not attacking and slower while moving, up to a max of 115\n" +
-                "Once you have built max stealth, you will be able to perform a Stealth Strike\n" +
-                "Rogue stealth only reduces when you attack, it does not reduce while moving\n" +
-                "The higher your rogue stealth the higher your rogue damage, crit, and movement speed";
+                "Imbued with cosmic wrath and rage when you are damaged";
             if (player.statLife <= (int)(player.statLifeMax2 * 0.5))
             {
                 player.AddBuff(BuffID.Wrath, 2);

@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.knockBack = 1.5f;
-            Item.value = Item.buyPrice(0, 2, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity2BuyPrice;
             Item.rare = ItemRarityID.Green;
             Item.UseSound = SoundID.Item11;
             Item.autoReuse = true;
@@ -97,7 +97,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 AddIngredient(ItemID.FlareGun).
                 AddIngredient(ItemID.Boomstick).
                 AddRecipeGroup("AnyGoldBar", 10).
-                AddIngredient<VictoryShard>(10).
+                AddIngredient<PearlShard>(10).
                 AddTile(TileID.Anvils).
                 Register();
         }

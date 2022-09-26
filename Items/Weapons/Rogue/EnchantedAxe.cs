@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class EnchantedAxe : ModItem
+    public class EnchantedAxe : RogueWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.maxStack = 1;
             Item.value = 1000;
             Item.rare = ItemRarityID.Orange;
-            Item.value = Item.buyPrice(0, 4, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity3BuyPrice;
             Item.shoot = ModContent.ProjectileType<EnchantedAxeProj>();
             Item.shootSpeed = 30f;
             Item.DamageType = RogueDamageClass.Instance;
@@ -58,7 +58,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             CreateRecipe().
                 AddIngredient<IronFrancisca>(100).
                 AddIngredient(ItemID.FallenStar, 5).
-                AddIngredient<VictoryShard>(10).
+                AddIngredient<PearlShard>(10).
                 AddIngredient(ItemID.Bone, 30).
                 AddTile(TileID.Anvils).
                 Register();
@@ -66,7 +66,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             CreateRecipe().
                 AddIngredient<LeadTomahawk>(100).
                 AddIngredient(ItemID.FallenStar, 5).
-                AddIngredient<VictoryShard>(10).
+                AddIngredient<PearlShard>(10).
                 AddIngredient(ItemID.Bone, 30).
                 AddTile(TileID.Anvils).
                 Register();

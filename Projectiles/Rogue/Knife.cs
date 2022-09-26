@@ -21,7 +21,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.friendly = true;
             Projectile.ignoreWater = true;
             Projectile.penetrate = 1;
-            Projectile.aiStyle = 113;
+            Projectile.aiStyle = ProjAIStyleID.StickProjectile;
             Projectile.timeLeft = 600;
             AIType = ProjectileID.BoneJavelin;
             Projectile.DamageType = RogueDamageClass.Instance;
@@ -41,13 +41,15 @@ namespace CalamityMod.Projectiles.Rogue
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             Player player = Main.player[Projectile.owner];
-            player.AddBuff(BuffID.WellFed, 180);
+			if (player.FindBuffIndex(BuffID.WellFed2) > -1 && player.FindBuffIndex(BuffID.WellFed3) > -1)
+				player.AddBuff(BuffID.WellFed, 180);
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
             Player player = Main.player[Projectile.owner];
-            player.AddBuff(BuffID.WellFed, 180);
+			if (player.FindBuffIndex(BuffID.WellFed2) > -1 && player.FindBuffIndex(BuffID.WellFed3) > -1)
+				player.AddBuff(BuffID.WellFed, 180);
         }
 
         public override bool PreDraw(ref Color lightColor)

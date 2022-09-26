@@ -31,7 +31,7 @@ namespace CalamityMod.NPCs.Leviathan
             NPC.width = 50;
             NPC.height = 50;
             NPC.defense = 14;
-            NPC.lifeMax = 800;
+            NPC.lifeMax = 600;
             if (BossRushEvent.BossRushActive)
             {
                 NPC.lifeMax = 10000;
@@ -43,8 +43,6 @@ namespace CalamityMod.NPCs.Leviathan
             AIType = -1;
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath1;
-            Banner = NPC.type;
-            BannerItem = ModContent.ItemType<AquaticAberrationBanner>();
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToSickness = true;
             NPC.Calamity().VulnerableToElectricity = true;
@@ -251,17 +249,15 @@ namespace CalamityMod.NPCs.Leviathan
 
         public override void OnKill()
         {
-            if (!CalamityWorld.revenge)
-            {
-                int closestPlayer = Player.FindClosest(NPC.Center, 1, 1);
-                if (Main.rand.NextBool(4) && Main.player[closestPlayer].statLife < Main.player[closestPlayer].statLifeMax2)
-                    Item.NewItem(NPC.GetSource_Loot(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
-            }
+            int closestPlayer = Player.FindClosest(NPC.Center, 1, 1);
+            if (Main.rand.NextBool(4) && Main.player[closestPlayer].statLife < Main.player[closestPlayer].statLifeMax2)
+                Item.NewItem(NPC.GetSource_Loot(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(BuffID.Bleeding, 240, true);
+            if (damage > 0)
+                player.AddBuff(BuffID.Bleeding, 240, true);
         }
 
         public override void HitEffect(int hitDirection, double damage)

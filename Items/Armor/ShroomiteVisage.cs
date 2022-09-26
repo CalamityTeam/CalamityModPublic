@@ -20,7 +20,8 @@ namespace CalamityMod.Items.Armor
         {
             Item.width = 24;
             Item.height = 20;
-            Item.value = Item.buyPrice(0, 30, 0, 0);
+			// Same price as the other Shroomite helms
+            Item.value = Item.buyPrice(0, 37, 50, 0);
             Item.rare = ItemRarityID.Yellow;
             Item.defense = 11; //62
         }
@@ -53,8 +54,7 @@ namespace CalamityMod.Items.Armor
             CreateRecipe().
                 AddIngredient(ItemID.ChlorophyteHelmet).
                 AddIngredient(ItemID.GlowingMushroom, 60).
-                AddIngredient<LivingShard>().
-                AddTile(TileID.MythrilAnvil).
+                AddTile(TileID.Autohammer).
                 Register();
 
         }

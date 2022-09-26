@@ -37,6 +37,11 @@ namespace CalamityMod.Items.Placeables
                 AddIngredient<PerennialBrickWall>(4).
                 AddTile(TileID.WorkBenches).
                 Register();
+
+            CreateRecipe().
+                AddIngredient<FloralWall>(4).
+                AddTile(TileID.WorkBenches).
+                Register();
         }
     }
 }

@@ -44,7 +44,7 @@ namespace CalamityMod.Projectiles
                 { ProjectileID.BoneArrow, pointBlank },
                 { ProjectileID.BlueMoon, Do(ExtraUpdatesExact(1)) },
                 { ProjectileID.Bullet, standardBulletTweaks },
-                { ProjectileID.BulletHighVelocity, pointBlank },
+                { ProjectileID.BulletHighVelocity, Do(PointBlank, LocalIFrames(-1)) },
                 { ProjectileID.ButchersChainsaw, Do(TrueMeleeNoSpeed, ScaleExact(1.5f)) },
                 { ProjectileID.CandyCorn, pointBlank },
                 { ProjectileID.CannonballHostile, defenseDamage },
@@ -60,6 +60,7 @@ namespace CalamityMod.Projectiles
                 { ProjectileID.CobaltNaginata, trueMelee },
                 { ProjectileID.Code1, Do(YoyoRange(240f), ExtraUpdatesExact(1), LocalIFrames(20)) },
                 { ProjectileID.Code2, Do(LocalIFrames(10)) },
+                { ProjectileID.CopperShortswordStab, trueMelee },
                 { ProjectileID.CorruptYoyo, Do(YoyoRange(190f), LocalIFrames(10)) }, // Malaise
                 { ProjectileID.CrimsandBallGun, pointBlank },
                 { ProjectileID.CrimsonYoyo, Do(LocalIFrames(10)) }, // Artery
@@ -84,6 +85,7 @@ namespace CalamityMod.Projectiles
                 { ProjectileID.DemonSickle, defenseDamage },
                 { ProjectileID.EbonsandBallGun, pointBlank },
                 { ProjectileID.EmeraldBolt, Do(NoPiercing) },
+                { ProjectileID.EmpressBlade, Do(LocalIFrames(30)) }, // Terraprisma
                 { ProjectileID.EnchantedBoomerang, Do(ExtraUpdatesExact(1)) },
                 { ProjectileID.ExplosiveBullet, standardBulletTweaks },
                 { ProjectileID.FairyQueenLance, defenseDamage }, // Empress of Light's lance walls
@@ -102,7 +104,9 @@ namespace CalamityMod.Projectiles
                 { ProjectileID.FrostWave, defenseDamage }, // Ice Queen frost waves
                 { ProjectileID.FruitcakeChakram, Do(ExtraUpdatesExact(1)) },
                 { ProjectileID.GiantBee, Do(PiercingExact(2)) },
+                { ProjectileID.GladiusStab, trueMelee },
                 { ProjectileID.GoldenBullet, standardBulletTweaks },
+                { ProjectileID.GoldShortswordStab, trueMelee },
                 { ProjectileID.Gradient, Do(LocalIFrames(10)) },
                 { ProjectileID.GreenCounterweight, counterweightTweaks },
                 { ProjectileID.Gungnir, trueMelee },
@@ -118,11 +122,13 @@ namespace CalamityMod.Projectiles
                 { ProjectileID.IchorArrow, pointBlank },
                 { ProjectileID.IchorBullet, standardBulletTweaks },
                 { ProjectileID.InfernoHostileBlast, defenseDamage }, // Diabolist inferno fork explosions
+                { ProjectileID.IronShortswordStab, trueMelee },
                 { ProjectileID.JavelinHostile, defenseDamage },
                 { ProjectileID.JestersArrow, pointBlank },
                 { ProjectileID.JoustingLance, trueMelee },
                 { ProjectileID.JungleYoyo, Do(YoyoTopSpeed(14f), LocalIFrames(10)) }, // Amazon
                 { ProjectileID.Kraken, Do(LocalIFrames(10)) },
+                { ProjectileID.LeadShortswordStab, trueMelee },
                 { ProjectileID.LightBeam, Do(PiercingExact(2)) },
                 { ProjectileID.LightDisc, Do(MaxUpdatesExact(6)) },
                 { ProjectileID.LostSoulFriendly, pointBlank }, // TODO -- why does LostSoulFriendly have point blank enabled
@@ -156,6 +162,8 @@ namespace CalamityMod.Projectiles
                 { ProjectileID.PhantasmalDeathray, defenseDamage },
                 { ProjectileID.PhantasmalSphere, defenseDamage },
                 { ProjectileID.PhantasmArrow, pointBlank },
+                { ProjectileID.PiercingStarlight, trueMelee },
+                { ProjectileID.PlatinumShortswordStab, trueMelee },
                 { ProjectileID.PoisonDartBlowgun, pointBlank },
                 { ProjectileID.PoisonFang, Do(LocalIFrames(10)) },
                 { ProjectileID.Present, defenseDamage }, // Falling present bombs in Frost Moon
@@ -169,6 +177,7 @@ namespace CalamityMod.Projectiles
                 { ProjectileID.Retanimini, Do(LocalIFrames(10)) }, // Optic Staff (Mini Retinazer)
                 { ProjectileID.RocketSkeleton, defenseDamage }, // Skeleton Commando rockets
                 { ProjectileID.RockGolemRock, defenseDamage },
+                { ProjectileID.RulerStab, trueMelee },
                 { ProjectileID.RuneBlast, defenseDamage }, // Rune Wizard shots
                 { ProjectileID.SandBallGun, pointBlank },
                 { ProjectileID.SaucerDeathray, defenseDamage },
@@ -179,6 +188,7 @@ namespace CalamityMod.Projectiles
                 { ProjectileID.ShadowFlameArrow, pointBlank },
                 { ProjectileID.ShadowJoustingLance, trueMelee },
                 { ProjectileID.Sharknado, defenseDamage },
+                { ProjectileID.SilverShortswordStab, trueMelee },
                 { ProjectileID.Skull, defenseDamage }, // Skeletron Expert+ skulls
                 { ProjectileID.SniperBullet, defenseDamage }, // Skeleton Sniper bullets
                 { ProjectileID.SnowBallFriendly, pointBlank },
@@ -199,10 +209,12 @@ namespace CalamityMod.Projectiles
                 { ProjectileID.TheEyeOfCthulhu, Do(LocalIFrames(10)) }, // this is the yoyo
                 { ProjectileID.TheRottedFork, trueMelee },
                 { ProjectileID.ThornBall, defenseDamage }, // Plantera bouncing thorn balls
+                { ProjectileID.TinShortswordStab, trueMelee },
                 { ProjectileID.TitaniumChainsaw, trueMeleeNoSpeed },
                 { ProjectileID.TitaniumDrill, trueMeleeNoSpeed },
                 { ProjectileID.TitaniumTrident, trueMelee },
                 { ProjectileID.Trident, trueMelee },
+                { ProjectileID.TungstenShortswordStab, trueMelee },
                 { ProjectileID.UnholyArrow, pointBlank },
                 { ProjectileID.UnholyTridentHostile, defenseDamage },
                 { ProjectileID.ValkyrieYoyo, Do(LocalIFrames(10)) },

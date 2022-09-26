@@ -16,7 +16,7 @@ namespace CalamityMod.Items
         {
             SacrificeTotal = 1;
             DisplayName.SetDefault("Momentum Capacitor");
-            Tooltip.SetDefault("Hold down the button to charge the Momentum Capacitor,\n" + "continuously and uncontrollably increasing your top speed");
+            Tooltip.SetDefault("While using the Momentum Capacitor,\n" + "your top speed will continuously and uncontrollably increase");
         }
 
         public override void SetDefaults()
@@ -33,6 +33,11 @@ namespace CalamityMod.Items
             Item.autoReuse = true;
             Item.useTurn = true;
         }
+
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = (ContentSamples.CreativeHelper.ItemGroup)CalamityResearchSorting.ToolsOther;
+		}
 
         public override bool? UseItem(Player player)
         {

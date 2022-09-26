@@ -10,6 +10,8 @@ namespace CalamityMod.Projectiles.Magic
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
+        public static readonly SoundStyle FlareSound = new("CalamityMod/Sounds/Custom/Yharon/YharonInfernado");
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Mark");
@@ -95,7 +97,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void Kill(int timeLeft)
         {
-            SoundEngine.PlaySound(SoundID.Item20, Projectile.position);
+            SoundEngine.PlaySound(FlareSound, Projectile.position);
             int num226 = 36;
             for (int num227 = 0; num227 < num226; num227++)
             {

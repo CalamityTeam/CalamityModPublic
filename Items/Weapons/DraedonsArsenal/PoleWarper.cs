@@ -1,6 +1,7 @@
 ﻿using CalamityMod.CustomRecipes;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.DraedonsArsenal;
+using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using System;
@@ -16,6 +17,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Pole Warper");
             Tooltip.SetDefault("Magnetic devices which tear at foes by propelling themselves off their opposite counterparts\n" +
                 "Incredibly dangerous\n" +
@@ -37,8 +39,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             Item.knockBack = 8f;
 
             Item.value = CalamityGlobalItem.Rarity14BuyPrice;
-            Item.rare = ItemRarityID.Purple;
-            modItem.customRarity = CalamityRarity.DraedonRust;
+            Item.rare = ModContent.RarityType<DarkOrange>();
 
             Item.UseSound = SoundID.Item15;
             Item.autoReuse = true;

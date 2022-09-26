@@ -7,13 +7,13 @@ using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class DukesDecapitator : ModItem
+    public class DukesDecapitator : RogueWeapon
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Duke's Decapitator");
             Tooltip.SetDefault("Throws a hydro axe which shreds enemies when it comes into contact with them\n"
-                              +"The faster it�s spinning, the more times it hits before disappearing\n"
+                              +"The faster it's spinning, the more times it hits before disappearing\n"
                               +"Stealth Strikes make it emit short-ranged bubbles.");
             SacrificeTotal = 1;
         }
@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.useTime = 30;
             Item.knockBack = 2f;
             Item.UseSound = SoundID.Item1;
-            Item.value = Item.buyPrice(0, 80, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity9BuyPrice;
             Item.rare = ItemRarityID.Yellow;
             Item.shoot = ModContent.ProjectileType<DukesDecapitatorProj>();
             Item.shootSpeed = 15f;

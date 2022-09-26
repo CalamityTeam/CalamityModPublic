@@ -19,6 +19,8 @@ namespace CalamityMod.Items.Tools
             Tooltip.SetDefault(@"Capable of mining Lihzahrd Bricks
 Left click to use as a pickaxe
 Right click to use as a hammer");
+
+            ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }
 
         public override void SetDefaults()

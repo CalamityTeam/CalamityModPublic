@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.noMelee = true;
             Item.knockBack = 5f;
             Item.UseSound = SoundID.Item122;
-            Item.value = Item.buyPrice(0, 2, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity2BuyPrice;
             Item.rare = ItemRarityID.Green;
             Item.autoReuse = true; //GRRRRRRRRRRRRRRRR false begone
             Item.shoot = ModContent.ProjectileType<StormSurgeTornado>();
@@ -46,6 +46,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             CreateRecipe().
                 AddIngredient<StormlionMandible>().
+                AddIngredient<PearlShard>(3).
                 AddIngredient<SeaPrism>(7).
                 AddIngredient<Navystone>(10).
                 AddTile(TileID.Anvils).

@@ -30,7 +30,7 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.ignoreWater = true;
             Projectile.tileCollide = false;
             Projectile.penetrate = -1;
-            CooldownSlot = 1;
+            CooldownSlot = ImmunityCooldownID.Bosses;
             Projectile.timeLeft = 600;
         }
 
@@ -181,6 +181,9 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
+            if (damage <= 0)
+                return;
+
             target.AddBuff(BuffID.OnFire, 360);
             target.AddBuff(BuffID.CursedInferno, 180);
         }
@@ -275,11 +278,6 @@ namespace CalamityMod.Projectiles.Boss
                     gore.velocity.Y -= 1f;
                 }
             }
-        }
-
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
-        {
-            target.Calamity().lastProjectileHit = Projectile;
         }
     }
 }

@@ -3,10 +3,11 @@ using CalamityMod.Items.Materials;
 using CalamityMod.World;
 using System.IO;
 using Terraria;
+using Terraria.Audio;
 using Terraria.GameContent.Bestiary;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Audio;
 namespace CalamityMod.NPCs.NormalNPCs
 {
     public class Rimehound : ModNPC
@@ -150,7 +151,8 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(BuffID.Frostburn, 120, true);
+            if (damage > 0)
+                player.AddBuff(BuffID.Frostburn, 120, true);
         }
 
         public override void HitEffect(int hitDirection, double damage)
@@ -171,7 +173,8 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
             npcLoot.Add(ItemID.Leather, 1, 1, 2); // 100% chance of 1-2 leather
-            npcLoot.AddIf(() => DownedBossSystem.downedCryogen, ModContent.ItemType<EssenceofEleum>(), 3);
+            LeadingConditionRule postCryo = npcLoot.DefineConditionalDropSet(DropHelper.PostCryo());
+            postCryo.Add(ModContent.ItemType<EssenceofEleum>(), 3);
         }
     }
 }

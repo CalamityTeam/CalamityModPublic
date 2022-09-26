@@ -29,7 +29,6 @@ namespace CalamityMod.NPCs.StormWeaver
             NPC.height = 40;
             NPC.lifeMax = 825500;
             NPC.LifeMaxNERB(NPC.lifeMax, NPC.lifeMax, 475000);
-            Music = CalamityMod.Instance.GetMusicFromMusicMod("Weaver") ?? MusicID.Boss3;
 
             // Phase one settings
             CalamityGlobalNPC global = NPC.Calamity();
@@ -253,15 +252,12 @@ namespace CalamityMod.NPCs.StormWeaver
             float lifeRatio = NPC.life / (float)NPC.lifeMax;
 
             bool phase2 = lifeRatio < 0.8f;
-            bool phase3 = lifeRatio < 0.65f;
-            bool phase4 = lifeRatio < 0.5f;
+            bool phase3 = lifeRatio < 0.55f;
 
             // Gate value that decides when Storm Weaver will charge
             float chargePhaseGateValue = bossRush ? 280f : death ? 320f : revenge ? 340f : expertMode ? 360f : 400f;
             if (!phase3)
                 chargePhaseGateValue *= 0.5f;
-            if (phase4 && expertMode)
-                chargePhaseGateValue *= 0.9f;
 
             Texture2D texture2D15 = phase2 ? ModContent.Request<Texture2D>("CalamityMod/NPCs/StormWeaver/StormWeaverBodyNaked").Value : TextureAssets.Npc[NPC.type].Value;
             Vector2 vector11 = new Vector2(texture2D15.Width / 2, texture2D15.Height / 2);
@@ -316,18 +312,16 @@ namespace CalamityMod.NPCs.StormWeaver
 
             float lifeRatio = NPC.life / (float)NPC.lifeMax;
 
-            bool phase3 = lifeRatio < 0.65f;
-            bool phase4 = lifeRatio < 0.5f;
+            bool phase3 = lifeRatio < 0.55f;
 
             // Gate value that decides when Storm Weaver will charge
             float chargePhaseGateValue = bossRush ? 280f : death ? 320f : revenge ? 340f : expertMode ? 360f : 400f;
             if (!phase3)
                 chargePhaseGateValue *= 0.5f;
-            if (phase4 && expertMode)
-                chargePhaseGateValue *= 0.9f;
 
             int buffDuration = Main.npc[(int)NPC.ai[2]].Calamity().newAI[0] >= chargePhaseGateValue ? 240 : 120;
-            player.AddBuff(BuffID.Electrified, buffDuration, true);
+            if (damage > 0)
+                player.AddBuff(BuffID.Electrified, buffDuration, true);
         }
 
         public override bool CheckActive()

@@ -1,15 +1,16 @@
-﻿using Terraria.DataStructures;
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Rogue;
+using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
+using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class Supernova : ModItem
+    public class Supernova : RogueWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -34,11 +35,10 @@ Stealth strikes release energy as they fly");
             Item.autoReuse = true;
             Item.height = 36;
             Item.value = CalamityGlobalItem.Rarity15BuyPrice;
-            Item.rare = ItemRarityID.Red;
             Item.shoot = ModContent.ProjectileType<SupernovaBomb>();
             Item.shootSpeed = 16f;
             Item.DamageType = RogueDamageClass.Instance;
-            Item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.rare = ModContent.RarityType<Violet>();
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)

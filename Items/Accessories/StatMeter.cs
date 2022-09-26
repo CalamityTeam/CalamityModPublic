@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using CalamityMod.Balancing;
+﻿using CalamityMod.Balancing;
 using CalamityMod.CalPlayer;
 using CalamityMod.World;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -24,8 +24,9 @@ namespace CalamityMod.Items.Accessories
         {
             Item.width = 26;
             Item.height = 26;
-            Item.value = Item.buyPrice(0, 6, 0, 0);
-            Item.rare = ItemRarityID.Blue;
+            Item.value = CalamityGlobalItem.Rarity3BuyPrice;
+            Item.rare = ItemRarityID.Orange;
+            Item.accessory = true;
         }
 
         public override void ModifyTooltips(List<TooltipLine> list)
@@ -124,6 +125,7 @@ namespace CalamityMod.Items.Accessories
             if (heldItem != null && !heldItem.IsAir)
             {
                 DamageClass dc = heldItem.DamageType;
+                bool displayCrit = true;
                 bool displayAttackSpeed = true;
 
                 string damageClassName = "Unsupported";
@@ -146,10 +148,14 @@ namespace CalamityMod.Items.Accessories
                 else if (dc == DamageClass.Summon)
                 {
                     damageClassName = "Minion";
+                    displayCrit = false;
                     displayAttackSpeed = false; // Minions specifically don't display attack speed. Whips do.
                 }
                 else if (dc == DamageClass.SummonMeleeSpeed)
+                {
                     damageClassName = "Whip";
+                    displayCrit = false;
+                }
                 else if (dc == RogueDamageClass.Instance)
                     damageClassName = "Rogue";
                 else if (dc == DamageClass.Throwing)
@@ -193,8 +199,11 @@ namespace CalamityMod.Items.Accessories
                 }
 
                 // Newline between damage and crit
-                sb.Append('\n').Append(damageClassName).Append(" Crit Chance: ");
-                sb.Append(TwoPlaces(totalCrit)).Append('%');
+                if (displayCrit)
+                {
+                    sb.Append('\n').Append(damageClassName).Append(" Crit Chance: ");
+                    sb.Append(TwoPlaces(totalCrit)).Append('%');
+                }
 
                 if (displayAttackSpeed)
                 {

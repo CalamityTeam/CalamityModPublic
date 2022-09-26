@@ -19,7 +19,7 @@ namespace CalamityMod.Projectiles.Pets
             Projectile.width = 24;
             Projectile.height = 32;
             Projectile.friendly = true;
-            Projectile.aiStyle = 26;
+            Projectile.aiStyle = ProjAIStyleID.Pet;
             AIType = ProjectileID.Puppy;
             Projectile.penetrate = -1;
             Projectile.timeLeft *= 5;

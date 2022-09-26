@@ -1,5 +1,6 @@
 using CalamityMod.Items.Weapons.Magic;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Magic
 {
@@ -23,6 +24,7 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.localNPCHitCooldown = 35;
             Projectile.tileCollide = false;
             Projectile.hostile = true;
+            CooldownSlot = ImmunityCooldownID.TileContactDamage;
         }
 
         public override void AI()
@@ -34,8 +36,6 @@ namespace CalamityMod.Projectiles.Magic
         public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
         {
             damage = Main.rand.Next(GloriousEnd.PlayerExplosionDmgMin, GloriousEnd.PlayerExplosionDmgMax + 1);
-            if (Main.expertMode)
-                damage /= 2;
             if (Projectile.ai[0] == 1f)
                 damage /= 2;
         }
@@ -45,16 +45,9 @@ namespace CalamityMod.Projectiles.Magic
             if (target.townNPC)
             {
                 damage = Main.rand.Next(GloriousEnd.PlayerExplosionDmgMin, GloriousEnd.PlayerExplosionDmgMax + 1);
-                if (Main.expertMode)
-                    damage /= 2;
                 if (Projectile.ai[0] == 1f)
                     damage /= 2;
             }
-        }
-
-        public override void OnHitPlayer(Player target, int damage, bool crit)
-        {
-            target.GiveIFrames(target.longInvince ? 100 : 60, true);
         }
     }
 }

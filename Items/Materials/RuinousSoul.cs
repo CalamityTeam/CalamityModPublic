@@ -1,4 +1,5 @@
-﻿using Terraria;
+﻿using CalamityMod.Rarities;
+using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -14,6 +15,7 @@ namespace CalamityMod.Items.Materials
             Tooltip.SetDefault("A shard of the distant past");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 6));
             ItemID.Sets.AnimatesAsSoul[Type] = true;
+			ItemID.Sets.SortingPriorityMaterials[Type] = 111;
         }
 
         public override void SetDefaults()
@@ -22,7 +24,7 @@ namespace CalamityMod.Items.Materials
             Item.height = 42;
             Item.maxStack = 999;
             Item.value = Item.buyPrice(0, 7, 0, 0);
-            Item.Calamity().customRarity = CalamityRarity.PureGreen;
+            Item.rare = ModContent.RarityType<PureGreen>();
         }
     }
 }

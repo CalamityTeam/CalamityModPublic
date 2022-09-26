@@ -1,13 +1,14 @@
-﻿using Terraria.DataStructures;
-using CalamityMod.Projectiles.Rogue;
+﻿using CalamityMod.Projectiles.Rogue;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class DeepSeaDumbbell : ModItem
+    public class DeepSeaDumbbell : RogueWeapon
     {
         private const float FlexMultMax = 5f;
         private float flexMult = 1f;
@@ -40,7 +41,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.DamageType = RogueDamageClass.Instance;
 
             Item.value = CalamityGlobalItem.Rarity13BuyPrice;
-            Item.Calamity().customRarity = CalamityRarity.PureGreen;
+            Item.rare = ModContent.RarityType<PureGreen>();
             Item.Calamity().donorItem = true;
         }
 
@@ -89,7 +90,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             }
 
             if (player.Calamity().StealthStrikeAvailable())
-                damage = (int)(damage * 1.3);
+                damage = (int)(damage * 0.4);
 
             int proj = Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
             if (player.Calamity().StealthStrikeAvailable() && proj.WithinBounds(Main.maxProjectiles))

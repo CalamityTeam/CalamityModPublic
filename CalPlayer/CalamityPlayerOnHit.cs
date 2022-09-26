@@ -188,7 +188,7 @@ namespace CalamityMod.CalPlayer
             if (target.type == NPCID.TargetDummy || target.type == NPCType<SuperDummyNPC>())
                 return;
             if (rageModeActive && shatteredCommunity)
-                ShatteredCommunity.AccumulateRageDamage(Player, this, damage);
+                Player.GetModPlayer<ShatteredCommunityPlayer>().AccumulateRageDamage(damage);
         }
         #endregion
 
@@ -393,14 +393,14 @@ namespace CalamityMod.CalPlayer
 
                 ProjLifesteal(target, proj, damage, crit);
                 ProjOnHit(proj, target.Center, crit, (target.damage > 5 || target.boss) && !target.SpawnedFromStatue);
-                NPCDebuffs(target, proj.CountsAsClass<MeleeDamageClass>(), proj.CountsAsClass<RangedDamageClass>(), proj.CountsAsClass<MagicDamageClass>(), proj.IsSummon(), proj.CountsAsClass<ThrowingDamageClass>(), true);
+                NPCDebuffs(target, proj.CountsAsClass<MeleeDamageClass>(), proj.CountsAsClass<RangedDamageClass>(), proj.CountsAsClass<MagicDamageClass>(), proj.CountsAsClass<SummonDamageClass>(), proj.CountsAsClass<ThrowingDamageClass>(), true);
 
                 // Shattered Community tracks all damage dealt with Rage Mode (ignoring dummies).
                 if (target.type == NPCID.TargetDummy || target.type == NPCType<SuperDummyNPC>())
                     return;
 
                 if (rageModeActive && shatteredCommunity)
-                    ShatteredCommunity.AccumulateRageDamage(Player, this, damage);
+                    Player.GetModPlayer<ShatteredCommunityPlayer>().AccumulateRageDamage(damage);
             }
         }
         #endregion
@@ -615,7 +615,7 @@ namespace CalamityMod.CalPlayer
                     target.AddBuff(BuffType<Plague>(), 300);
                 }
                 ProjOnHit(proj, target.Center, crit, true);
-                PvpDebuffs(target, proj.CountsAsClass<MeleeDamageClass>(), proj.CountsAsClass<RangedDamageClass>(), proj.CountsAsClass<MagicDamageClass>(), proj.IsSummon(), proj.CountsAsClass<ThrowingDamageClass>(), true);
+                PvpDebuffs(target, proj.CountsAsClass<MeleeDamageClass>(), proj.CountsAsClass<RangedDamageClass>(), proj.CountsAsClass<MagicDamageClass>(), proj.CountsAsClass<SummonDamageClass>(), proj.CountsAsClass<ThrowingDamageClass>(), true);
             }
         }
         #endregion
@@ -629,15 +629,6 @@ namespace CalamityMod.CalPlayer
 
             if (reaverDefense)
                 Player.lifeRegenTime += 1;
-
-            if (Player.whoAmI == Main.myPlayer && desertProwler && crit && item.CountsAsClass<RangedDamageClass>())
-            {
-                bool noTornado = Player.ownedProjectileCounts[ProjectileType<DesertMark>()] < 1 && Player.ownedProjectileCounts[ProjectileType<DesertTornado>()] < 1;
-                if (noTornado && Main.rand.NextBool(15))
-                {
-                    Projectile.NewProjectile(source, position, Vector2.Zero, ProjectileType<DesertMark>(), damage, item.knockBack, Player.whoAmI);
-                }
-            }
 
             if (npcCheck)
             {
@@ -771,7 +762,7 @@ namespace CalamityMod.CalPlayer
                 RangedOnHit(proj, modProj, position, crit, npcCheck);
             if (proj.CountsAsClass<MagicDamageClass>())
                 MagicOnHit(proj, modProj, position, crit, npcCheck);
-            if (proj.IsSummon())
+            if (proj.CountsAsClass<SummonDamageClass>() && !proj.CountsAsClass<SummonMeleeSpeedDamageClass>())
                 SummonOnHit(proj, modProj, position, crit, npcCheck);
             if (proj.CountsAsClass<ThrowingDamageClass>())
                 RogueOnHit(proj, modProj, position, crit, npcCheck);
@@ -827,14 +818,6 @@ namespace CalamityMod.CalPlayer
         private void RangedOnHit(Projectile proj, CalamityGlobalProjectile modProj, Vector2 position, bool crit, bool npcCheck)
         {
             var source = proj.GetSource_FromThis();
-            if (Player.whoAmI == Main.myPlayer && desertProwler && crit)
-            {
-                bool noTornado = Player.ownedProjectileCounts[ProjectileType<DesertMark>()] < 1 && Player.ownedProjectileCounts[ProjectileType<DesertTornado>()] < 1;
-                if (noTornado && Main.rand.NextBool(15))
-                {
-                    Projectile.NewProjectile(source, position, Vector2.Zero, ProjectileType<DesertMark>(), proj.damage, proj.knockBack, Player.whoAmI);
-                }
-            }
 
             if (npcCheck)
             {
@@ -919,6 +902,7 @@ namespace CalamityMod.CalPlayer
         private void SummonOnHit(Projectile proj, CalamityGlobalProjectile modProj, Vector2 position, bool crit, bool npcCheck)
         {
             var source = proj.GetSource_FromThis();
+
             if (npcCheck)
             {
                 if (phantomicArtifact)
@@ -950,7 +934,7 @@ namespace CalamityMod.CalPlayer
                             int damage = (int)Player.GetTotalDamage<SummonDamageClass>().ApplyTo(75);
                             int dagger = Projectile.NewProjectile(source, proj.position, proj.velocity, ProjectileType<PhantomicDagger>(), damage, 1f, Player.whoAmI, 0f);
                             if (dagger.WithinBounds(Main.maxProjectiles))
-                                Main.projectile[dagger].DamageType = DamageClass.Generic;
+                                Main.projectile[dagger].DamageType = DamageClass.Summon;
                         }
                     }
                     else
@@ -1008,7 +992,7 @@ namespace CalamityMod.CalPlayer
                         int apparatusDamage = (int)Player.GetTotalDamage<SummonDamageClass>().ApplyTo(60);
                         int projectile = Projectile.NewProjectile(source, proj.Center, Vector2.Zero, ProjectileType<ApparatusExplosion>(), apparatusDamage, 4f, proj.owner);
                         if (projectile.WithinBounds(Main.maxProjectiles))
-                            Main.projectile[projectile].DamageType = DamageClass.Generic;
+                            Main.projectile[projectile].DamageType = DamageClass.Summon;
                         jellyDmg = 100f;
                     }
                     else if (starbusterCore)
@@ -1016,7 +1000,7 @@ namespace CalamityMod.CalPlayer
                         int starburstDamage = (int)Player.GetTotalDamage<SummonDamageClass>().ApplyTo(40);
                         int projectile = Projectile.NewProjectile(source, proj.Center, Vector2.Zero, ProjectileType<SummonAstralExplosion>(), starburstDamage, 3.5f, proj.owner);
                         if (projectile.WithinBounds(Main.maxProjectiles))
-                            Main.projectile[projectile].DamageType = DamageClass.Generic;
+                            Main.projectile[projectile].DamageType = DamageClass.Summon;
                         jellyDmg = 60f;
                     }
                     else if (nuclearRod)
@@ -1024,7 +1008,7 @@ namespace CalamityMod.CalPlayer
                         int nuclearDamage = (int)Player.GetTotalDamage<SummonDamageClass>().ApplyTo(20);
                         int projectile = Projectile.NewProjectile(source, proj.Center, Vector2.Zero, ProjectileType<IrradiatedAura>(), nuclearDamage, 0f, proj.owner);
                         if (projectile.WithinBounds(Main.maxProjectiles))
-                            Main.projectile[projectile].DamageType = DamageClass.Generic;
+                            Main.projectile[projectile].DamageType = DamageClass.Summon;
                         jellyDmg = 60f;
                     }
                     else if (jellyChargedBattery)
@@ -1045,7 +1029,7 @@ namespace CalamityMod.CalPlayer
                         int hallowedDamage = (int)Player.GetTotalDamage<SummonDamageClass>().ApplyTo(30);
                         int projectile = Projectile.NewProjectile(source, spawnPosition, Vector2.Normalize(position - spawnPosition) * speed, ProjectileType<HallowedStarSummon>(), hallowedDamage, 3f, proj.owner);
                         if (projectile.WithinBounds(Main.maxProjectiles))
-                            Main.projectile[projectile].DamageType = DamageClass.Generic;
+                            Main.projectile[projectile].DamageType = DamageClass.Summon;
                     }
                 }
             }
@@ -1178,7 +1162,10 @@ namespace CalamityMod.CalPlayer
                         int featherDamage = (int)Player.GetTotalDamage<RogueDamageClass>().ApplyTo(15);
                         int feather = Projectile.NewProjectile(spawnSource, source, velocity, ProjectileType<StickyFeather>(), featherDamage, 3f, proj.owner);
                         if (feather.WithinBounds(Main.maxProjectiles))
+						{
                             Main.projectile[feather].DamageType = DamageClass.Generic;
+                            Main.projectile[feather].extraUpdates += 3;
+						}
                     }
                     spawnedFeathers = true;
                 }
@@ -1251,55 +1238,17 @@ namespace CalamityMod.CalPlayer
 
             if (shadow && shadowPotCooldown <= 0 && modProj.stealthStrikeHitCount < 5)
             {
-                if (CalamityLists.javelinProjList.Contains(proj.type))
-                {
-                    int randrot = Main.rand.Next(-30, 391);
-                    Vector2 SoulSpeed = new Vector2(13f, 13f).RotatedBy(MathHelper.ToRadians(randrot));
-                    int soul = Projectile.NewProjectile(spawnSource, proj.Center, SoulSpeed, ProjectileType<PenumbraSoul>(), (int)(proj.damage * 0.1), 3f, proj.owner, 0f, 0f);
-                    if (soul.WithinBounds(Main.maxProjectiles))
-                        Main.projectile[soul].DamageType = DamageClass.Generic;
-                    shadowPotCooldown = 30;
-                }
-                if (CalamityLists.spikyBallProjList.Contains(proj.type))
-                {
-                    int scythe = Projectile.NewProjectile(spawnSource, proj.Center, Vector2.Zero, ProjectileType<CosmicScythe>(), (int)(proj.damage * 0.05), 3f, proj.owner, 1f, 0f);
-                    if (scythe.WithinBounds(Main.maxProjectiles))
-                        Main.projectile[scythe].DamageType = DamageClass.Generic;
-                    Main.projectile[scythe].usesLocalNPCImmunity = true;
-                    Main.projectile[scythe].localNPCHitCooldown = 10;
-                    Main.projectile[scythe].penetrate = 2;
-                    shadowPotCooldown = 30;
-                }
-                if (CalamityLists.daggerProjList.Contains(proj.type))
-                {
-                    Vector2 shardVelocity = new Vector2(Main.rand.NextFloat(-1f, 1f), Main.rand.NextFloat(-1f, 1f));
-                    shardVelocity.Normalize();
-                    shardVelocity *= 5f;
-                    int shard = Projectile.NewProjectile(spawnSource, proj.Center, shardVelocity, ProjectileType<EquanimityDarkShard>(), (int)(proj.damage * 0.15), 0f, proj.owner);
-                    if (shard.WithinBounds(Main.maxProjectiles))
-                        Main.projectile[shard].DamageType = DamageClass.Generic;
-                    Main.projectile[shard].timeLeft = 150;
-                    shadowPotCooldown = 30;
-                }
-                if (CalamityLists.boomerangProjList.Contains(proj.type))
-                {
-                    int spiritDamage = (int)(proj.damage * 0.2);
-                    Projectile ghost = CalamityUtils.SpawnOrb(proj, spiritDamage, ProjectileID.SpectreWrath, 800f, 4f);
-                    if (ghost.whoAmI.WithinBounds(Main.maxProjectiles))
-                    {
-                        ghost.DamageType = DamageClass.Generic;
-                        ghost.penetrate = 1;
-                    }
-                    shadowPotCooldown = 30;
-                }
-                if (CalamityLists.flaskBombProjList.Contains(proj.type))
-                {
-                    int blackhole = Projectile.NewProjectile(spawnSource, proj.Center, Vector2.Zero, ProjectileType<ShadowBlackhole>(), (int)(proj.damage * 0.05), 3f, proj.owner, 0f, 0f);
-                    if (blackhole.WithinBounds(Main.maxProjectiles))
-                        Main.projectile[blackhole].DamageType = DamageClass.Generic;
-                    Main.projectile[blackhole].Center = proj.Center;
-                    shadowPotCooldown = 30;
-                }
+				int randrot = Main.rand.Next(-30, 391);
+				Vector2 SoulSpeed = new Vector2(13f, 13f).RotatedBy(MathHelper.ToRadians(randrot));
+				int soul = Projectile.NewProjectile(spawnSource, proj.Center, SoulSpeed, ProjectileType<PenumbraSoul>(), (int)(proj.damage * 0.1), 3f, proj.owner, 0f, 0f);
+				if (soul.WithinBounds(Main.maxProjectiles))
+					Main.projectile[soul].DamageType = DamageClass.Generic;
+				shadowPotCooldown = 30;
+            }
+
+            if (raiderTalisman && modProj.stealthStrike)
+            {
+                raiderCritBonus = RaidersTalisman.RaiderBonus;
             }
 
             if (npcCheck)
@@ -1311,18 +1260,12 @@ namespace CalamityMod.CalPlayer
                     int umbraBlastDamage = CalamityUtils.DamageSoftCap(proj.damage * 0.25, 50);
                     Projectile.NewProjectile(spawnSource, proj.Center, Vector2.Zero, ProjectileType<UmbraphileBoom>(), umbraBlastDamage, 0f, Player.whoAmI);
                 }
-
-                if (raiderTalisman && raiderStack < 150 && crit && raiderCooldown <= 0)
-                {
-                    raiderStack++;
-                    raiderCooldown = 30;
-                }
                 if (electricianGlove && modProj.stealthStrike && modProj.stealthStrikeHitCount < 5)
                 {
                     for (int s = 0; s < 3; s++)
                     {
                         Vector2 velocity = CalamityUtils.RandomVelocity(50f, 30f, 60f);
-                        int damage = (int)Player.GetTotalDamage<RogueDamageClass>().ApplyTo(20);
+                        int damage = (int)Player.GetTotalDamage<RogueDamageClass>().ApplyTo(15);
                         int spark = Projectile.NewProjectile(spawnSource, position, velocity, ProjectileType<Spark>(), damage, 0f, Player.whoAmI);
                         if (spark.WithinBounds(Main.maxProjectiles))
                         {
@@ -1405,7 +1348,7 @@ namespace CalamityMod.CalPlayer
                 }
                 if (corrosiveSpine)
                 {
-                    target.AddBuff(BuffID.Venom, 240);
+                    target.AddBuff(BuffID.Poisoned, 240);
                 }
                 if (aWeapon)
                 {

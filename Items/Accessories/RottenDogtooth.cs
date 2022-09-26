@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Accessories
         {
             SacrificeTotal = 1;
             DisplayName.SetDefault("Rotten Dogtooth");
-            Tooltip.SetDefault($"Makes Stealth strikes inflict Armor Crunch, deal {(int)(StealthStrikeDamageMultiplier * 100)}% more damage and cost 1 less unit of stealth.");
+            Tooltip.SetDefault($"Makes Stealth strikes inflict Armor Crunch and deal {(int)(StealthStrikeDamageMultiplier * 100)}% more damage");
         }
 
         public override void SetDefaults()
@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.Calamity().rottenDogTooth = true;
-            player.Calamity().flatStealthLossReduction++;
+            player.Calamity().bonusStealthDamage += StealthStrikeDamageMultiplier;
         }
     }
 }

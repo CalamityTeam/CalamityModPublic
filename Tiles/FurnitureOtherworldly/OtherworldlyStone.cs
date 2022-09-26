@@ -2,8 +2,9 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.DataStructures;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureOtherworldly
 {
@@ -36,17 +37,16 @@ namespace CalamityMod.Tiles.FurnitureOtherworldly
             return false;
         }
 
-        /*
-         * TODO -- Find some way to make this work again with the new parameters.
-        public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
+        public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref TileDrawInfo drawData)
         {
-            if ((Main.tile[i - 1, j - 1].TileType != Type || Main.tile[i, j - 1].TileType != Type || Main.tile[i + 1, j - 1].TileType != Type ||
-                Main.tile[i - 1, j - 2].TileType != Type || Main.tile[i, j - 2].TileType != Type || Main.tile[i + 1, j - 2].TileType != Type) &&
-                nextSpecialDrawIndex < Main.specX.Length)
+            if (Main.tile[i - 1, j - 1].TileType != Type || Main.tile[i, j - 1].TileType != Type || Main.tile[i + 1, j - 1].TileType != Type ||
+                Main.tile[i - 1, j - 2].TileType != Type || Main.tile[i, j - 2].TileType != Type || Main.tile[i + 1, j - 2].TileType != Type)
             {
-                Main.specX[nextSpecialDrawIndex] = i;
-                Main.specY[nextSpecialDrawIndex] = j;
-                nextSpecialDrawIndex++;
+                try
+                {
+                    Main.instance.TilesRenderer.AddSpecialLegacyPoint(i, j);
+                }
+                catch {}
             }
         }
 
@@ -55,13 +55,12 @@ namespace CalamityMod.Tiles.FurnitureOtherworldly
             Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
             Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + zero;
             Color drawColour = GetDrawColour(i, j);
-            Texture2D cloth = ModContent.Request<Texture2D>("CalamityMod/Tiles/FurnitureOtherworldly/OtherworldlyStone_Cloth");
+            Texture2D cloth = ModContent.Request<Texture2D>("CalamityMod/Tiles/FurnitureOtherworldly/OtherworldlyStone_Cloth").Value;
 
             DrawExtraTop(i, j, cloth, drawOffset, drawColour);
             DrawExtraWallEnds(i, j, cloth, drawOffset, drawColour);
             DrawExtraDrapes(i, j, cloth, drawOffset, drawColour);
         }
-        */
 
         #region 'Extra Drapes' Drawing
         private void DrawExtraTop(int i, int j, Texture2D extras, Vector2 drawOffset, Color drawColour)

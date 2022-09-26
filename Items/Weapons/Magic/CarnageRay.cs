@@ -30,15 +30,13 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.knockBack = 3.25f;
-            Item.value = Item.buyPrice(0, 12, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity4BuyPrice;
             Item.rare = ItemRarityID.LightRed;
             Item.UseSound = SoundID.Item72;
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<BloodRay>();
             Item.shootSpeed = 6f;
         }
-
-        public override Vector2? HoldoutOrigin() => new Vector2(12, 12);
 
         public override void AddRecipes()
         {

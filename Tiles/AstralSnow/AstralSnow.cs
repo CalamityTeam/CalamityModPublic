@@ -1,7 +1,7 @@
-﻿
-using CalamityMod.Tiles.Astral;
+﻿using CalamityMod.Tiles.Astral;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.GameContent.Metadata;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -14,6 +14,7 @@ namespace CalamityMod.Tiles.AstralSnow
             Main.tileSolid[Type] = true;
             Main.tileBlockLight[Type] = true;
             Main.tileBrick[Type] = true;
+			TileMaterials.SetForTileId(Type, TileMaterials._materialsByName["Snow"]);
 
             CalamityUtils.MergeWithGeneral(Type);
             CalamityUtils.MergeWithSnow(Type);

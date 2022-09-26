@@ -3,18 +3,22 @@ using CalamityMod.Items.Materials;
 using CalamityMod.NPCs.CeaselessVoid;
 using CalamityMod.NPCs.Signus;
 using CalamityMod.NPCs.StormWeaver;
-using Terraria;
-using Terraria.ID;
-using Terraria.ModLoader;
-using Terraria.Audio;
+using CalamityMod.Rarities;
 using System.Linq;
 using System.Collections.Generic;
+using Terraria;
+using Terraria.Audio;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Items.SummonItems
 {
     [LegacyName("RuneofCos")]
     public class RuneofKos : ModItem
     {
+        public static readonly SoundStyle CVSound = new("CalamityMod/Sounds/Item/CeaselessVoidSpawn");
+        public static readonly SoundStyle SignutSound = new("CalamityMod/Sounds/Item/SignusSpawn");
+        public static readonly SoundStyle StormSound = new("CalamityMod/Sounds/Item/StormWeaverSpawn");
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 1;
@@ -23,6 +27,7 @@ namespace CalamityMod.Items.SummonItems
                 "Contains the power hunted relentlessly by the sentinels of the cosmic devourer\n" +
                 "When used in certain areas of the world, it will unleash them\n" +
                 "Not consumable");
+			ItemID.Sets.SortingPriorityBossSpawns[Type] = 17; // Celestial Sigil
         }
 
         public override void SetDefaults()
@@ -32,11 +37,15 @@ namespace CalamityMod.Items.SummonItems
             Item.useAnimation = 10;
             Item.useTime = 10;
             Item.useStyle = ItemUseStyleID.HoldUp;
-            Item.UseSound = SoundID.Item44;
+            Item.UseSound = null;
             Item.consumable = false;
-            Item.rare = ItemRarityID.Purple;
-            Item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.rare = ModContent.RarityType<Turquoise>();
         }
+
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = ContentSamples.CreativeHelper.ItemGroup.BossItem;
+		}
 
         public override bool CanUseItem(Player player)
         {
@@ -46,9 +55,9 @@ namespace CalamityMod.Items.SummonItems
 
         public override bool? UseItem(Player player)
         {
-            SoundEngine.PlaySound(SoundID.Roar, player.position);
             if (player.ZoneDungeon)
             {
+                SoundEngine.PlaySound(CVSound, player.position);
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                     NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<CeaselessVoid>());
                 else
@@ -56,6 +65,7 @@ namespace CalamityMod.Items.SummonItems
             }
             else if (player.ZoneUnderworldHeight)
             {
+                SoundEngine.PlaySound(SignutSound, player.position);
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                     NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<Signus>());
                 else
@@ -63,6 +73,7 @@ namespace CalamityMod.Items.SummonItems
             }
             else if (player.ZoneSkyHeight)
             {
+                SoundEngine.PlaySound(StormSound, player.position);
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                     NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<StormWeaverHead>());
                 else

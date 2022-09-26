@@ -18,6 +18,8 @@ namespace CalamityMod.CalPlayer.Dashes
     {
         public static new string ID => "Godslayer Armor";
 
+        public static int GodslayerCooldown = 45;
+
         public override DashCollisionType CollisionType => DashCollisionType.ShieldSlam;
 
         public override bool IsOmnidirectional => true;
@@ -63,7 +65,7 @@ namespace CalamityMod.CalPlayer.Dashes
             runSpeedDecelerationFactor = 0.8f;
 
             // Cooldown for God Slayer Armor dash.
-            player.AddCooldown(Cooldowns.GodSlayerDash.ID, CalamityUtils.SecondsToFrames(35));
+            player.AddCooldown(Cooldowns.GodSlayerDash.ID, CalamityUtils.SecondsToFrames(GodslayerCooldown));
             player.Calamity().godSlayerDashHotKeyPressed = false;
         }
 

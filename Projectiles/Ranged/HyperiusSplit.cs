@@ -22,7 +22,7 @@ namespace CalamityMod.Projectiles.Ranged
             // Intentionally large bullet hitbox to make Hyperius swarm more forgiving with hits
             Projectile.width = 8;
             Projectile.height = 8;
-            Projectile.aiStyle = 1;
+            Projectile.aiStyle = ProjAIStyleID.Arrow;
             Projectile.friendly = true;
             Projectile.DamageType = DamageClass.Ranged;
             Projectile.tileCollide = false;

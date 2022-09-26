@@ -1,7 +1,8 @@
-﻿using System;
+﻿using CalamityMod.Items.Weapons.Melee;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Utilities;
+using System;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
@@ -203,6 +204,8 @@ namespace CalamityMod.Projectiles.Melee.Spears
 
             if (CurrentAttackState == AttackState.RunAttack)
             {
+                Owner.GetModPlayer<SpearChargePlayer>().ChargingKnockbackResist = true;
+
                 //Keep the projectile alive during the run attack. 
                 //The fullyRunning check is important, because the animation timer relies on the projectiles time left for the startup animation.
                 if (FullyRunning)

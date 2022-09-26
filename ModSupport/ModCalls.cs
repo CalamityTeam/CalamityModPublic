@@ -6,6 +6,7 @@ using CalamityMod.Cooldowns;
 using CalamityMod.Events;
 using CalamityMod.Items;
 using CalamityMod.Particles;
+using CalamityMod.Particles.Metaballs;
 using CalamityMod.UI;
 using CalamityMod.UI.CalamitasEnchants;
 using CalamityMod.World;
@@ -1378,21 +1379,33 @@ namespace CalamityMod
         public static bool DisableAllDodges(bool disable) => Main.LocalPlayer.Calamity().disableAllDodges = disable;
         #endregion
 
-        #region Item Rarity
-        public static int GetCalamityRarity(Item item)
+        #region Can Fire Point Blank Shots
+        /// <summary>
+        /// Gets whether the given item can fire point blank shots.
+        /// </summary>
+        /// <param name="it">The item which is being checked.</param>
+        /// <returns>Whether the item can fire point blank shots.</returns>
+        public static bool CanFirePointBlank(Item it)
         {
-            CalamityGlobalItem cgi = item.Calamity();
-            CalamityRarity calrare = cgi.customRarity;
-            if (calrare == CalamityRarity.NoEffect)
-                return item.rare;
-            return (int)calrare;
+            if (it is null || it.Calamity() is null)
+                return false;
+            CalamityGlobalItem cgi = it.Calamity();
+            return cgi.canFirePointBlankShots;
         }
 
-        public static bool SetCalamityRarity(Item item, int rarityNum)
+        /// <summary>
+        /// Sets whether the given item can fire point blank shots.
+        /// </summary>
+        /// <param name="it">The item whose point blank capabilities is being toggled.</param>
+        /// <param name="enabled">The value to apply.</param>
+        /// <returns>Whether the item can fire point blank shots.</returns>
+        public static bool SetFirePointBlank(Item it, bool enabled)
         {
-            CalamityGlobalItem cgi = item.Calamity();
-            cgi.customRarity = (CalamityRarity)rarityNum;
-            return cgi.customRarity != CalamityRarity.NoEffect;
+            if (it is null || it.Calamity() is null)
+                return false;
+            CalamityGlobalItem cgi = it.Calamity();
+            cgi.canFirePointBlankShots = enabled;
+            return cgi.canFirePointBlankShots;
         }
         #endregion
 
@@ -1642,6 +1655,26 @@ namespace CalamityMod
                         return new ArgumentNullException("ERROR: Must specify a bool.");
                     return SetBossHealthBarVisible(bossBarEnabled);
 
+                case "CanFirePointBlank":
+                case "CanFirePointBlankShots":
+                    if (args.Length < 2)
+                        return new ArgumentNullException("ERROR: Must specify an Item object (or int index of an Item in the Main.item array).");;
+                    if (!isValidItemArg(args[1]))
+                        return new ArgumentException("ERROR: The first argument to \"CanFirePointBlank\" must be an Item or an int.");
+                    return CanFirePointBlank(castItem(args[1]));
+
+                case "SetFirePointBlank":
+                case "SetFirePointBlankShots":
+                    if (args.Length < 2)
+                        return new ArgumentNullException("ERROR: Must specify both an Item object (or int index of an Item in the Main.item array) and a bool.");
+                    if (args.Length < 3)
+                        return new ArgumentNullException("ERROR: Must specify whether the item can fire point blank as a bool.");
+                    if (!(args[2] is bool firePointBlank))
+                        return new ArgumentException("ERROR: The second argument to \"SetFirePointBlank\" must be a bool.");
+                    if (!isValidItemArg(args[1]))
+                        return new ArgumentException("ERROR: The first argument to \"SetFirePointBlank\" must be an Item or an int.");
+                    return SetFirePointBlank(castItem(args[1]), firePointBlank);
+
                 case "NoDodges":
                 case "DodgesDisabled":
                 case "GetDodgesDisabled":
@@ -1653,35 +1686,6 @@ namespace CalamityMod
                     if (args.Length < 2 || !(args[1] is bool disableDodges))
                         return new ArgumentNullException("ERROR: Must specify a bool.");
                     return DisableAllDodges(disableDodges);
-
-                case "GetRarity":
-                case "GetItemRarity":
-                case "GetCalamityRarity":
-                case "GetPostMLRarity":
-                case "GetPostMoonLordRarity":
-                    if (args.Length < 2)
-                        return new ArgumentNullException("ERROR: Must specify an Item.");
-                    if (!(args[1] is Item))
-                        return new ArgumentException("ERROR: The first argument to \"GetCalamityRarity\" must be an Item.");
-                    Item itemToGet = (Item)args[1];
-                    return GetCalamityRarity(itemToGet);
-
-                case "SetRarity":
-                case "SetItemRarity":
-                case "SetCalamityRarity":
-                case "SetPostMLRarity":
-                case "SetPostMoonLordRarity":
-                    if (args.Length < 2)
-                        return new ArgumentNullException("ERROR: Must specify both an Item and desired rarity as an int or short ID.");
-                    if (args.Length < 3)
-                        return new ArgumentNullException("ERROR: Must specify desired rarity as an int or short ID.");
-                    if (!castID(args[2], out int rarity))
-                        return new ArgumentException("ERROR: The second argument to \"SetCalamityRarity\" must be an int or short ID.");
-                    if (!(args[1] is Item))
-                        return new ArgumentException("ERROR: The first argument to \"SetCalamityRarity\" must be an Item.");
-
-                    Item itemToSet = (Item)args[1];
-                    return SetCalamityRarity(itemToSet, rarity);
 
                 case "AcidRainActive":
                 case "IsAcidRainActive":
@@ -1847,6 +1851,8 @@ namespace CalamityMod
                         return new ArgumentNullException("ERROR: Must specify a Mod instance to load particles from.");
 
                     GeneralParticleHandler.LoadModParticleInstances(args[1] as Mod);
+                    FusableParticleManager.ExtraModsToLoadSetsFrom.Add(args[1] as Mod);
+                    FusableParticleManager.LoadParticleRenderSets(true);
                     return null;
 
                 case "RegisterModCooldowns":

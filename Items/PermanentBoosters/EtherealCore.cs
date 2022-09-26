@@ -1,8 +1,11 @@
 ﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Placeables;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace CalamityMod.Items.PermanentBoosters
 {
@@ -13,6 +16,8 @@ namespace CalamityMod.Items.PermanentBoosters
             DisplayName.SetDefault("Ethereal Core");
             Tooltip.SetDefault("Permanently increases maximum mana by 50");
             SacrificeTotal = 1;
+			// For some reason Life/Mana boosting items are in this set (along with Magic Mirror+)
+			ItemID.Sets.SortingPriorityBossSpawns[Type] = 19; // Mana Crystal
         }
 
         public override void SetDefaults()
@@ -32,6 +37,11 @@ namespace CalamityMod.Items.PermanentBoosters
             CalamityPlayer modPlayer = player.Calamity();
             if (modPlayer.eCore)
             {
+                string key = "Mods.CalamityMod.EtherealCoreText";
+                Color messageColor = Color.Purple;
+                CalamityUtils.DisplayLocalizedText(key, messageColor);
+
+
                 return false;
             }
             return true;
@@ -50,6 +60,14 @@ namespace CalamityMod.Items.PermanentBoosters
                 modPlayer.eCore = true;
             }
             return true;
+        }
+
+        public override void ModifyTooltips(List<TooltipLine> list)
+        {
+            TooltipLine line = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip2");
+
+            if (line != null && Main.LocalPlayer.Calamity().eCore)
+                line.Text = "[c/8a8a8a:You have already consumed this item]";
         }
 
         public override void AddRecipes()

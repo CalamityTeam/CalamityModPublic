@@ -44,9 +44,11 @@ namespace CalamityMod.Projectiles.VanillaProjectileOverrides
             projectile.scale = MathHelper.Lerp(0.9f, 1.15f, (float)Math.Sin(timer / 27f) * 0.5f + 0.5f);
 
             // Emit life pulses periodically.
-            if (timer % ChlorophyteArmorSetChange.PulseReleaseRate == ChlorophyteArmorSetChange.PulseReleaseRate - 1f)
+            NPC potentialTarget = projectile.Center.ClosestNPCAt(560f, true, true);
+            bool ownerNotFullHealth = owner.statLife < owner.statLifeMax2;
+            bool willFirePulses = (potentialTarget is not null) || ownerNotFullHealth;
+            if (timer % ChlorophyteArmorSetChange.PulseReleaseRate == ChlorophyteArmorSetChange.PulseReleaseRate - 1f && willFirePulses)
             {
-                SoundEngine.PlaySound(SoundID.Item45, projectile.Center);
                 if (Main.myPlayer == projectile.owner)
                 {
                     int pulseDamage = (int)Main.player[projectile.owner].GetBestClassDamage().ApplyTo(ChlorophyteArmorSetChange.BaseDamageToEnemies);

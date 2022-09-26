@@ -1,8 +1,11 @@
 ﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace CalamityMod.Items.PermanentBoosters
 {
@@ -13,6 +16,8 @@ namespace CalamityMod.Items.PermanentBoosters
             DisplayName.SetDefault("Comet Shard");
             Tooltip.SetDefault("Permanently increases maximum mana by 50");
             SacrificeTotal = 1;
+			// For some reason Life/Mana boosting items are in this set (along with Magic Mirror+)
+			ItemID.Sets.SortingPriorityBossSpawns[Type] = 19; // Mana Crystal
         }
 
         public override void SetDefaults()
@@ -32,6 +37,11 @@ namespace CalamityMod.Items.PermanentBoosters
             CalamityPlayer modPlayer = player.Calamity();
             if (modPlayer.cShard)
             {
+                string key = "Mods.CalamityMod.CometShardText";
+                Color messageColor = Color.DarkOrchid;
+                CalamityUtils.DisplayLocalizedText(key, messageColor);
+
+
                 return false;
             }
             return true;
@@ -50,6 +60,14 @@ namespace CalamityMod.Items.PermanentBoosters
                 modPlayer.cShard = true;
             }
             return true;
+        }
+
+        public override void ModifyTooltips(List<TooltipLine> list)
+        {
+            TooltipLine line = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip2");
+
+            if (line != null && Main.LocalPlayer.Calamity().cShard)
+                line.Text = "[c/8a8a8a:You have already consumed this item]";
         }
 
         public override void AddRecipes()

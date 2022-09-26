@@ -29,7 +29,7 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.extraUpdates = 1;
             Projectile.penetrate = -1;
             Projectile.timeLeft = 480;
-            CooldownSlot = 1;
+            CooldownSlot = ImmunityCooldownID.Bosses;
         }
 
         public override void AI()
@@ -74,6 +74,9 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
+            if (damage <= 0)
+                return;
+
             target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 240);
         }
 
@@ -103,11 +106,6 @@ namespace CalamityMod.Projectiles.Boss
                 Main.dust[num624].velocity *= 2f;
             }
             Projectile.Damage();
-        }
-
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
-        {
-            target.Calamity().lastProjectileHit = Projectile;
         }
     }
 }

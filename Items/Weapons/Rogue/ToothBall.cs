@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class ToothBall : ModItem
+    public class ToothBall : RogueWeapon
     {
         public override void SetStaticDefaults()
         {

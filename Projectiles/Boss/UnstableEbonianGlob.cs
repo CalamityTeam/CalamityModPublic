@@ -43,7 +43,9 @@ namespace CalamityMod.Projectiles.Boss
 
             if (Main.rand.NextBool())
             {
-                int dust = Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 4, 0f, 0f, Projectile.alpha, Color.Lavender);
+                Color dustColor = Color.Lavender;
+                dustColor.A = 150;
+                int dust = Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 4, 0f, 0f, Projectile.alpha, dustColor);
                 Main.dust[dust].noGravity = true;
             }
 
@@ -56,10 +58,19 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            if (Projectile.timeLeft < 60)
+            if (damage <= 0 || Projectile.timeLeft < 60)
                 return;
 
             target.AddBuff(BuffID.Weak, 180);
+        }
+
+        public override bool PreDraw(ref Color lightColor)
+        {
+            lightColor.R = (byte)(255 * Projectile.Opacity);
+            lightColor.G = (byte)(255 * Projectile.Opacity);
+            lightColor.B = (byte)(255 * Projectile.Opacity);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
+            return false;
         }
     }
 }

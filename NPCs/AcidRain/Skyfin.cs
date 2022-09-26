@@ -7,6 +7,7 @@ using CalamityMod.Buffs.StatDebuffs;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.GameContent.Bestiary;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
@@ -178,7 +179,8 @@ namespace CalamityMod.NPCs.AcidRain
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
             npcLoot.Add(ModContent.ItemType<SulphuricScale>(), 2, 1, 3);
-            npcLoot.AddIf(() => DownedBossSystem.downedAquaticScourge, ModContent.ItemType<SkyfinBombers>(), 20);
+            LeadingConditionRule postAS = npcLoot.DefineConditionalDropSet(DropHelper.PostAS());
+            postAS.Add(ModContent.ItemType<SkyfinBombers>(), 20);
         }
 
         public override void HitEffect(int hitDirection, double damage)
@@ -198,6 +200,10 @@ namespace CalamityMod.NPCs.AcidRain
             }
         }
 
-        public override void OnHitPlayer(Player target, int damage, bool crit) => target.AddBuff(ModContent.BuffType<Irradiated>(), 120);
+        public override void OnHitPlayer(Player target, int damage, bool crit)
+        {
+            if (damage > 0)
+                target.AddBuff(ModContent.BuffType<Irradiated>(), 120);
+        }
     }
 }

@@ -1,7 +1,8 @@
-﻿using Terraria.DataStructures;
-using CalamityMod.Projectiles.Melee;
+﻿using CalamityMod.Projectiles.Melee;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -22,14 +23,13 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             Item.width = Item.height = 28;
             Item.damage = 260;
-            Item.rare = ItemRarityID.Red;
             Item.value = CalamityGlobalItem.RarityVioletBuyPrice;
-            Item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.rare = ModContent.RarityType<Violet>();
             Item.noMelee = true;
             Item.noUseGraphic = true;
             Item.channel = true;
             Item.autoReuse = true;
-            Item.DamageType = DamageClass.Melee;
+            Item.DamageType = DamageClass.MeleeNoSpeed;
             Item.useAnimation = Item.useTime = 24;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.knockBack = 8f;

@@ -44,13 +44,7 @@ namespace CalamityMod.Systems
 
             // Player variable, always finds the closest player relative to the center of the map
             int closestPlayer = Player.FindClosest(new Vector2(Main.maxTilesX / 2, (float)Main.worldSurface / 2f) * 16f, 0, 0);
-            Player player = null;
-            CalamityPlayer modPlayer = null;
-            if (closestPlayer > -1)
-            {
-                player = Main.player[closestPlayer];
-                modPlayer = player.Calamity();
-            }
+            Player player = Main.player[closestPlayer];
 
             // Force boss rush to off if necessary.
             if (!BossRushEvent.DeactivateStupidFuckingBullshit)
@@ -80,8 +74,9 @@ namespace CalamityMod.Systems
             BossRushEvent.Update();
 
             // Handle conditional summons.
-            if (player is not null)
+            if (player is not null && player.active)
             {
+                CalamityPlayer modPlayer = player.Calamity();
                 TrySpawnArmoredDigger(player, modPlayer);
                 TrySpawnDungeonGuardian(player);
                 TrySpawnAEoW(player, modPlayer);
@@ -410,10 +405,14 @@ namespace CalamityMod.Systems
         #region Handle Dungeon Guardian Spawns
         public static void TrySpawnDungeonGuardian(Player player)
         {
-            if (Main.netMode == NetmodeID.MultiplayerClient || !player.ZoneDungeon || NPC.downedBoss3 || player.dead)
+            if (Main.netMode == NetmodeID.MultiplayerClient || !player.ZoneDungeon || player.dead)
                 return;
 
-            if (!NPC.AnyNPCs(NPCID.DungeonGuardian))
+            bool spawn = !NPC.downedBoss3;
+            if (Main.drunkWorld && player.position.Y / 16f < (float)(Main.dungeonY + 40))
+                spawn = false;
+
+            if (!NPC.AnyNPCs(NPCID.DungeonGuardian) && spawn)
                 NPC.SpawnOnPlayer(player.whoAmI, NPCID.DungeonGuardian); //your hell is as vast as my bonergrin, pray your life ends quickly
         }
         #endregion

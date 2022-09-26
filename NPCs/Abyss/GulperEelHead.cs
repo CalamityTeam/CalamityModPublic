@@ -32,9 +32,11 @@ namespace CalamityMod.NPCs.Abyss
             {
                 Scale = 0.75f,
                 CustomTexturePath = "CalamityMod/ExtraTextures/Bestiary/GulperEel_Bestiary",
-                PortraitPositionXOverride = 40
+                PortraitPositionXOverride = 40,
+                PortraitPositionYOverride = 20
             };
-            value.Position.X += 20;
+            value.Position.X += 50;
+            value.Position.Y += 20;
             NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 
@@ -42,8 +44,8 @@ namespace CalamityMod.NPCs.Abyss
         {
             NPC.Calamity().canBreakPlayerDefense = true;
             NPC.damage = 135;
-            NPC.width = 66; //36
-            NPC.height = 86; //20
+            NPC.width = 40; //36
+            NPC.height = 84; //20
             NPC.defense = 10;
             NPC.lifeMax = 48000;
             NPC.aiStyle = -1;
@@ -139,11 +141,11 @@ namespace CalamityMod.NPCs.Abyss
             }
             if (NPC.velocity.X < 0f)
             {
-                NPC.spriteDirection = -1;
+                NPC.spriteDirection = 1;
             }
             else if (NPC.velocity.X > 0f)
             {
-                NPC.spriteDirection = 1;
+                NPC.spriteDirection = -1;
             }
             if (Main.player[NPC.target].dead)
             {
@@ -355,7 +357,7 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            var postClone = npcLoot.DefineConditionalDropSet(() => DownedBossSystem.downedCalamitas);
+            var postClone = npcLoot.DefineConditionalDropSet(DropHelper.PostCal());
             postClone.Add(DropHelper.NormalVsExpertQuantity(ModContent.ItemType<Lumenyl>(), 2, 2, 3, 3, 4));
             postClone.Add(DropHelper.NormalVsExpertQuantity(ModContent.ItemType<DepthCells>(), 2, 6, 8, 8, 11));
         }
@@ -381,7 +383,8 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(ModContent.BuffType<CrushDepth>(), 300, true);
+            if (damage > 0)
+                player.AddBuff(ModContent.BuffType<CrushDepth>(), 300, true);
         }
     }
 }

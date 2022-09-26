@@ -29,7 +29,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.width = 44;
             Projectile.height = 44;
             Projectile.friendly = true;
-            Projectile.DamageType = DamageClass.Melee;
+            Projectile.DamageType = DamageClass.MeleeNoSpeed;
             Projectile.ignoreWater = true;
             Projectile.tileCollide = false;
             Projectile.penetrate = -1;
@@ -210,7 +210,7 @@ namespace CalamityMod.Projectiles.Melee
                 {
                     int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), startPoint, velocity, ProjectileID.LunarFlare, flareDamage, flareKB, Main.myPlayer, 0f, AI1);
                     if (proj.WithinBounds(Main.maxProjectiles))
-                        Main.projectile[proj].DamageType = DamageClass.Melee;
+                        Main.projectile[proj].DamageType = DamageClass.MeleeNoSpeed;
                 }
             }
         }

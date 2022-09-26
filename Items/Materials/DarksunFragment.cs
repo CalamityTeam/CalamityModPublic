@@ -1,10 +1,11 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.Rarities;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ID;
 using Terraria.DataStructures;
-using Terraria.ModLoader;
 using Terraria.GameContent;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Materials
 {
@@ -20,6 +21,7 @@ namespace CalamityMod.Items.Materials
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 8));
             ItemID.Sets.AnimatesAsSoul[Type] = true;
             ItemID.Sets.ItemNoGravity[Item.type] = true;
+			ItemID.Sets.SortingPriorityMaterials[Type] = 117;
         }
 
         public override void SetDefaults()
@@ -27,9 +29,8 @@ namespace CalamityMod.Items.Materials
             Item.width = 28;
             Item.height = 32;
             Item.maxStack = 999;
-            Item.rare = ItemRarityID.Purple;
             Item.value = Item.sellPrice(gold: 12);
-            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.rare = ModContent.RarityType<DarkBlue>();
         }
 
         public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)

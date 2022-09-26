@@ -44,6 +44,10 @@ namespace CalamityMod.NPCs.TownNPCs
                 .SetNPCAffection(NPCID.GoblinTinkerer, AffectionLevel.Hate)
                 .SetNPCAffection(NPCID.Angler, AffectionLevel.Hate)
             ;
+			NPCID.Sets.NPCBestiaryDrawModifiers drawModifiers = new NPCID.Sets.NPCBestiaryDrawModifiers(0) {
+				Velocity = 1f // Draws the NPC in the bestiary as if its walking +1 tiles in the x direction
+			};
+			NPCID.Sets.NPCBestiaryDrawOffset.Add(NPC.type, drawModifiers);
         }
 
         public override void SetDefaults()
@@ -299,8 +303,6 @@ namespace CalamityMod.NPCs.TownNPCs
 
         public override void SetupShop(Chest shop, ref int nextSlot) //charges 50% extra than the original alcohol value
         {
-            // All prices are manually set. This means the Discount Card does not work.
-            // Cirrus doesn't accept your card.
             shop.item[nextSlot].SetDefaults(ItemID.HeartreachPotion);
             shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 2, 0, 0);
             nextSlot++;

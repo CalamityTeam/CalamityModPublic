@@ -4,7 +4,9 @@ namespace CalamityMod.BiomeManagers
 {
     public class ArsenalLabBiome : ModBiome
     {
-        public override string BestiaryIcon => "BiomeManagers/LaboratoryIcon";
+        public override string BestiaryIcon => "CalamityMod/BiomeManagers/LaboratoryIcon";
+		// Could use its own unique background if someone even bothers
+        public override string BackgroundPath => "Terraria/Images/MapBG32";
 
         public override void SetStaticDefaults()
         {

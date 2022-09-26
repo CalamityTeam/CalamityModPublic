@@ -21,7 +21,7 @@ namespace CalamityMod.Projectiles.Boss
 
             //It only fades out near the end
             else
-                opacity = (float)Math.Cos(((completion - 0.8f) / 0.2f * MathHelper.Pi) / 2f); ;
+                opacity = (float)Math.Cos((completion - 0.8f) / 0.2f * MathHelper.Pi / 2f);
 
             return opacity * 0.85f;
         }
@@ -42,15 +42,18 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.tileCollide = false;
             Projectile.penetrate = -1;
             Projectile.timeLeft = Lifetime;
-            CooldownSlot = 1;
+            CooldownSlot = ImmunityCooldownID.Bosses;
         }
 
         public override void PostAI() => Lighting.AddLight(Projectile.Center, 0.2f, 0.1f, 0f);
 
         public override bool CanHitPlayer(Player target) => CalamityUtils.CircularHitboxCollision(Projectile.Center, CurrentRadius * Projectile.scale * 0.4f, target.Hitbox) && Projectile.timeLeft > 6;
 
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit) => target.Calamity().lastProjectileHit = Projectile;
-
-        public override void OnHitPlayer(Player target, int damage, bool crit) => target.AddBuff(BuffID.OnFire, 480);
+        public override void OnHitPlayer(Player target, int damage, bool crit)
+		{
+			if (damage <= 0)
+				return;
+			target.AddBuff(BuffID.OnFire, 480);
+		}
     }
 }

@@ -86,64 +86,65 @@ namespace CalamityMod.UI
                 return;
             }
 
+			DrawChargeBar(spriteBatch, modItem, screenPos);
+
+            Rectangle mouseHitbox = new Rectangle((int)Main.MouseScreen.X, (int)Main.MouseScreen.Y, 8, 8);
+            Rectangle chargeBar = Utils.CenteredRectangle(screenPos, edgeTexture.Size() * uiScale);
+
+			MouseState ms = Mouse.GetState();
+			Vector2 mousePos = Main.MouseScreen;
+
+            if (chargeBar.Intersects(mouseHitbox))
+            {
+				if (!CalamityConfig.Instance.MeterPosLock)
+					Main.LocalPlayer.mouseInterface = true;
+
+				// If the mouse is on top of the meter, show the exact numeric charge.
+                string percentString = (100f * modItem.ChargeRatio).ToString("n2");
+                // Tooltip only goes to one decimal place, but the meter displays two. This doesn't help the player much at all but hey, it's a thing.
+                Main.instance.MouseText($"Current Charge: {percentString}%", 0, 0, -1, -1, -1, -1);
+
+				Vector2 newScreenRatioPosition = screenRatioPosition;
+				// Handle mouse dragging
+				if (!CalamityConfig.Instance.MeterPosLock && ms.LeftButton == ButtonState.Pressed)
+				{
+					// If the drag offset doesn't exist yet, create it.
+					if (!dragOffset.HasValue)
+						dragOffset = mousePos - screenPos;
+
+					// Given the mouse's absolute current position, compute where the corner of the stealth bar should be based on the original drag offset.
+					Vector2 newCorner = mousePos - dragOffset.GetValueOrDefault(Vector2.Zero);
+
+					// Convert the new corner position into a screen ratio position.
+					newScreenRatioPosition.X = (100f * newCorner.X) / Main.screenWidth;
+					newScreenRatioPosition.Y = (100f * newCorner.Y) / Main.screenHeight;
+				}
+
+				// Compute the change in position. If it is large enough, actually move the meter
+				Vector2 delta = newScreenRatioPosition - screenRatioPosition;
+				if (Math.Abs(delta.X) >= MouseDragEpsilon || Math.Abs(delta.Y) >= MouseDragEpsilon)
+				{
+					CalamityConfig.Instance.ChargeMeterPosX = newScreenRatioPosition.X;
+					CalamityConfig.Instance.ChargeMeterPosY = newScreenRatioPosition.Y;
+				}
+
+				// When the mouse is released, save the config and destroy the drag offset.
+				if (ms.LeftButton == ButtonState.Released)
+				{
+					dragOffset = null;
+					CalamityMod.SaveConfig(CalamityConfig.Instance);
+				}
+			}
+        }
+
+        private static void DrawChargeBar(SpriteBatch spriteBatch, CalamityGlobalItem modItem, Vector2 screenPos)
+		{
+            float uiScale = Main.UIScale;
             float offset = (edgeTexture.Width - barTexture.Width) * 0.5f;
             spriteBatch.Draw(edgeTexture, screenPos, null, Color.White, 0f, edgeTexture.Size() * 0.5f, uiScale, SpriteEffects.None, 0);
 
             Rectangle barRectangle = new Rectangle(0, 0, (int)(barTexture.Width * modItem.ChargeRatio), barTexture.Width);
             spriteBatch.Draw(barTexture, screenPos + new Vector2(offset * uiScale, 0), barRectangle, Color.White, 0f, edgeTexture.Size() * 0.5f, uiScale, SpriteEffects.None, 0);
-
-            Rectangle mouseHitbox = new Rectangle((int)Main.MouseScreen.X, (int)Main.MouseScreen.Y, 8, 8);
-            Rectangle chargeBar = Utils.CenteredRectangle(screenPos, edgeTexture.Size() * uiScale);
-
-            // If the mouse is on top of the meter, show the exact numeric charge.
-            if (chargeBar.Intersects(mouseHitbox))
-            {
-                Main.LocalPlayer.mouseInterface = true;
-                string percentString = (100f * modItem.ChargeRatio).ToString("n2");
-                // Tooltip only goes to one decimal place, but the meter displays two. This doesn't help the player much at all but hey, it's a thing.
-                Main.instance.MouseText($"Current Charge: {percentString}%", 0, 0, -1, -1, -1, -1);
-            }
-
-            // Handle mouse dragging
-            if (!CalamityConfig.Instance.MeterPosLock)
-            {
-                Vector2 newScreenRatioPosition = screenRatioPosition;
-                if (chargeBar.Intersects(mouseHitbox))
-                {
-                    MouseState ms = Mouse.GetState();
-                    Vector2 mousePos = new Vector2(ms.X, ms.Y);
-
-                    // As long as the mouse button is held down, drag the meter along with an offset.
-                    if (ms.LeftButton == ButtonState.Pressed)
-                    {
-                        // If the drag offset doesn't exist yet, create it.
-                        if (!dragOffset.HasValue)
-                            dragOffset = mousePos - screenPos;
-
-                        // Given the mouse's absolute current position, compute where the corner of the stealth bar should be based on the original drag offset.
-                        Vector2 newCorner = mousePos - dragOffset.GetValueOrDefault(Vector2.Zero);
-
-                        // Convert the new corner position into a screen ratio position.
-                        newScreenRatioPosition.X = (100f * newCorner.X) / Main.screenWidth;
-                        newScreenRatioPosition.Y = (100f * newCorner.Y) / Main.screenHeight;
-                    }
-
-                    // Compute the change in position. If it is large enough, actually move the meter
-                    Vector2 delta = newScreenRatioPosition - screenRatioPosition;
-                    if (Math.Abs(delta.X) >= MouseDragEpsilon || Math.Abs(delta.Y) >= MouseDragEpsilon)
-                    {
-                        CalamityConfig.Instance.ChargeMeterPosX = newScreenRatioPosition.X;
-                        CalamityConfig.Instance.ChargeMeterPosY = newScreenRatioPosition.Y;
-                    }
-
-                    // When the mouse is released, save the config and destroy the drag offset.
-                    if (ms.LeftButton == ButtonState.Released)
-                    {
-                        dragOffset = null;
-                        CalamityMod.SaveConfig(CalamityConfig.Instance);
-                    }
-                }
-            }
-        }
+		}
     }
 }

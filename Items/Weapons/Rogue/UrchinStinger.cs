@@ -6,7 +6,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class UrchinStinger : ModItem
+    public class UrchinStinger : RogueWeapon
     {
         public override void SetStaticDefaults()
         {

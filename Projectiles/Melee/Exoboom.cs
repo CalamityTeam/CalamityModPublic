@@ -1,9 +1,8 @@
-using Microsoft.Xna.Framework;
-using System;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Audio;
+using CalamityMod.Particles;
+
 namespace CalamityMod.Projectiles.Melee
 {
     public class Exoboom : ModProjectile
@@ -12,7 +11,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Explosion");
+            DisplayName.SetDefault("Exoplasma Explosion");
         }
 
         public override void SetDefaults()
@@ -24,6 +23,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.tileCollide = false;
             Projectile.penetrate = -1;
             Projectile.timeLeft = 30;
+            Projectile.MaxUpdates = 2;
             Projectile.DamageType = DamageClass.Melee;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 10;
@@ -31,66 +31,26 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void AI()
         {
-            Lighting.AddLight(Projectile.Center, (255 - Projectile.alpha) * 0f / 255f, (255 - Projectile.alpha) * 0.75f / 255f, (255 - Projectile.alpha) * 0.75f / 255f);
             if (Projectile.localAI[0] == 0f)
             {
-                SoundEngine.PlaySound(SoundID.Item74, Projectile.position);
-                Projectile.localAI[0] += 1f;
+                for (int i = 0; i < 16; i++)
+                {
+                    Vector2 cinderSpawnPosition = -Vector2.UnitY.RotatedByRandom(MathHelper.PiOver2) * Main.rand.NextFloat(50f);
+                    Vector2 cinderVelocity = -Vector2.UnitY.RotatedByRandom(MathHelper.PiOver4) * Main.rand.NextFloat(5f, 18f);
+                    Color cinderColor = CalamityUtils.MulticolorLerp(Main.rand.NextFloat(), CalamityUtils.ExoPalette);
+                    SquishyLightParticle cinder = new(cinderSpawnPosition, cinderVelocity, 1.1f, cinderColor, 32, 1f, 4f);
+                    GeneralParticleHandler.SpawnParticle(cinder);
+                }
+                Projectile.localAI[0] = 1f;
             }
-            bool flag15 = false;
-            bool flag16 = false;
-            if (Projectile.velocity.X < 0f && Projectile.position.X < Projectile.ai[0])
+
+            // Create smoke.
+            for (int i = 0; i < 2; i++)
             {
-                flag15 = true;
-            }
-            if (Projectile.velocity.X > 0f && Projectile.position.X > Projectile.ai[0])
-            {
-                flag15 = true;
-            }
-            if (Projectile.velocity.Y < 0f && Projectile.position.Y < Projectile.ai[1])
-            {
-                flag16 = true;
-            }
-            if (Projectile.velocity.Y > 0f && Projectile.position.Y > Projectile.ai[1])
-            {
-                flag16 = true;
-            }
-            if (flag15 && flag16)
-            {
-                Projectile.Kill();
-            }
-            float num461 = 25f;
-            if (Projectile.ai[0] > 180f)
-            {
-                num461 -= (Projectile.ai[0] - 180f) / 2f;
-            }
-            if (num461 <= 0f)
-            {
-                num461 = 0f;
-                Projectile.Kill();
-            }
-            num461 *= 0.7f;
-            Projectile.ai[0] += 4f;
-            int num462 = 0;
-            while ((float)num462 < num461)
-            {
-                float num463 = (float)Main.rand.Next(-30, 31);
-                float num464 = (float)Main.rand.Next(-30, 31);
-                float num465 = (float)Main.rand.Next(9, 27);
-                float num466 = (float)Math.Sqrt((double)(num463 * num463 + num464 * num464));
-                num466 = num465 / num466;
-                num463 *= num466;
-                num464 *= num466;
-                int num467 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 107, 0f, 0f, 100, new Color(0, 255, 255), 1.5f);
-                Dust dust = Main.dust[num467];
-                dust.noGravity = true;
-                dust.position.X = Projectile.Center.X;
-                dust.position.Y = Projectile.Center.Y;
-                dust.position.X += (float)Main.rand.Next(-10, 11);
-                dust.position.Y += (float)Main.rand.Next(-10, 11);
-                dust.velocity.X = num463;
-                dust.velocity.Y = num464;
-                num462++;
+                Color smokeColor = CalamityUtils.MulticolorLerp(Main.rand.NextFloat(), CalamityUtils.ExoPalette);
+                smokeColor = Color.Lerp(smokeColor, Color.Gray, 0.55f);
+                HeavySmokeParticle smoke = new(Projectile.Center, Main.rand.NextVector2Circular(27f, 27f), smokeColor, 40, 1.8f, 1f, 0.03f, true, 0.075f);
+                GeneralParticleHandler.SpawnParticle(smoke);
             }
         }
 

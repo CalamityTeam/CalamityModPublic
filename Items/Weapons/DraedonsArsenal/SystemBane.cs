@@ -1,9 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using CalamityMod.CustomRecipes;
+﻿using CalamityMod.CustomRecipes;
 using CalamityMod.Items.Materials;
+using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Projectiles.DraedonsArsenal;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
+using System;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -11,12 +13,13 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.DraedonsArsenal
 {
-    public class SystemBane : ModItem
+    public class SystemBane : RogueWeapon
     {
         public const int MaxDeployedProjectiles = 5;
 
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("System Bane");
             Tooltip.SetDefault("Can be used to quickly send out an electromagnetic blast\n" +
                                "Hurls an unstable device which sticks to the ground and shocks nearby enemies with lightning\n" +
@@ -39,8 +42,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             Item.useStyle = ItemUseStyleID.Swing;
             Item.knockBack = 4f;
             Item.value = CalamityGlobalItem.Rarity8BuyPrice;
-            Item.rare = ItemRarityID.Red;
-            modItem.customRarity = CalamityRarity.DraedonRust;
+            Item.rare = ModContent.RarityType<DarkOrange>();
             Item.UseSound = SoundID.Item1;
 
             Item.shootSpeed = 16f;
@@ -68,8 +70,8 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             CreateRecipe().
                 AddIngredient<MysteriousCircuitry>(20).
                 AddIngredient<DubiousPlating>(10).
+                AddIngredient<InfectedArmorPlating>(10).
                 AddIngredient<LifeAlloy>(5).
-                AddIngredient<InfectedArmorPlating>(5).
                 AddCondition(ArsenalTierGatedRecipe.ConstructRecipeCondition(3, out Predicate<Recipe> condition), condition).
                 AddTile(TileID.MythrilAnvil).
                 Register();

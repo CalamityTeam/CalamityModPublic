@@ -12,6 +12,8 @@ namespace CalamityMod.Projectiles.Boss
     {
         public override string Texture => "CalamityMod/Projectiles/Boss/YharonFireball";
 
+        public static readonly SoundStyle FireballSound = new("CalamityMod/Sounds/Custom/Yharon/YharonFireball", 3);
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Dragon Fireball");
@@ -29,7 +31,7 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.alpha = 255;
             Projectile.penetrate = -1;
             Projectile.timeLeft = 3600;
-            CooldownSlot = 1;
+            CooldownSlot = ImmunityCooldownID.Bosses;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -73,7 +75,7 @@ namespace CalamityMod.Projectiles.Boss
             if (Projectile.localAI[0] == 0f)
             {
                 Projectile.localAI[0] = 1f;
-                SoundEngine.PlaySound(SoundID.DD2_BetsyFireballShot, Projectile.Center);
+                SoundEngine.PlaySound(FireballSound, Projectile.Center);
             }
 
             if (Projectile.ai[0] >= 2f)
@@ -123,13 +125,11 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
+            if (damage <= 0)
+                return;
+
             if (Projectile.velocity.Y >= -16f)
                 target.AddBuff(ModContent.BuffType<Dragonfire>(), 240);
-        }
-
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
-        {
-            target.Calamity().lastProjectileHit = Projectile;
         }
     }
 }

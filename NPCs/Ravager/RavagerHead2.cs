@@ -33,8 +33,8 @@ namespace CalamityMod.NPCs.Ravager
             NPC.noGravity = true;
             NPC.canGhostHeal = false;
             NPC.noTileCollide = true;
-            NPC.HitSound = SoundID.NPCHit41;
-            NPC.DeathSound = SoundID.NPCDeath14;
+            NPC.HitSound = RavagerBody.HitSound;
+            NPC.DeathSound = RavagerBody.LimbLossSound;
             if (DownedBossSystem.downedProvidence && !BossRushEvent.BossRushActive)
             {
                 NPC.defense *= 2;
@@ -121,7 +121,7 @@ namespace CalamityMod.NPCs.Ravager
 
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        SoundEngine.PlaySound(SoundID.Item62, NPC.position);
+                        SoundEngine.PlaySound(RavagerHead.MissileSound, NPC.position);
                         type = ModContent.ProjectileType<ScavengerNuke>();
                         damage = NPC.GetProjectileDamage(type);
                         Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Normalize(player.Center - NPC.Center) * projectileVelocity * 0.25f, type, damage + (provy ? 30 : 0), 0f, Main.myPlayer, Main.npc[CalamityGlobalNPC.scavenger].target, 0f);

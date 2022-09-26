@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class DeepWounder : ModItem
+    public class DeepWounder : RogueWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.height = 48;
             Item.maxStack = 1;
             Item.rare = ItemRarityID.Lime;
-            Item.value = Item.buyPrice(0, 60, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity8BuyPrice;
             Item.shoot = ModContent.ProjectileType<DeepWounderProjectile>();
             Item.shootSpeed = 14f;
             Item.DamageType = RogueDamageClass.Instance;

@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Boss
@@ -29,7 +30,7 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.penetrate = -1;
             Projectile.timeLeft = 1500;
             Projectile.Opacity = 0f;
-            CooldownSlot = 1;
+            CooldownSlot = ImmunityCooldownID.Bosses;
         }
 
         public override void AI()
@@ -37,8 +38,8 @@ namespace CalamityMod.Projectiles.Boss
             // Cal Clone bullet hell projectiles accelerate after a certain time has passed
             if (Projectile.ai[0] == 2f && Main.expertMode && Projectile.timeLeft < 1260)
             {
-                if (Projectile.velocity.Length() < (BossRushEvent.BossRushActive ? 10f : 8f))
-                    Projectile.velocity *= 1.01f;
+                if (Projectile.velocity.Length() < (BossRushEvent.BossRushActive ? 15f : 10f))
+                    Projectile.velocity *= 1.005f;
             }
 
             Projectile.frameCounter++;
@@ -84,18 +85,13 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            if (Projectile.Opacity != 1f)
+            if (damage <= 0 || Projectile.Opacity != 1f)
                 return;
 
             if (Projectile.ai[0] == 0f || Main.getGoodWorld)
                 target.AddBuff(ModContent.BuffType<VulnerabilityHex>(), 120);
             else
                 target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 180);
-        }
-
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
-        {
-            target.Calamity().lastProjectileHit = Projectile;
         }
     }
 }

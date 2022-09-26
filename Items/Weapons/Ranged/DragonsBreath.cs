@@ -1,10 +1,11 @@
-﻿using Terraria.DataStructures;
-using CalamityMod.Projectiles.Ranged;
+﻿using CalamityMod.Projectiles.Ranged;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Audio;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
@@ -12,7 +13,7 @@ namespace CalamityMod.Items.Weapons.Ranged
     {
         public const int BetweenShotsPause = 15;
         public const int PelletsPerShot = 6;
-        public const float FullAutoFireRateMult = 1.25f;
+        public const float FullAutoFireRateMult = 0.8f;
         public const float FullAutoDamageMult = 0.8f;
         // note this is extremely low because it's per pellet
         public const float Spread = 0.018f;
@@ -51,7 +52,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.useAmmo = AmmoID.Bullet;
             Item.Calamity().canFirePointBlankShots = true;
 
-            Item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.rare = ModContent.RarityType<Violet>();
             Item.value = CalamityGlobalItem.Rarity15BuyPrice;
         }
         public override bool CanConsumeAmmo(Item ammo, Player player) => Main.rand.NextFloat() > 0.66f;

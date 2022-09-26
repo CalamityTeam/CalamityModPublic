@@ -1,10 +1,11 @@
 ﻿using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ModLoader;
-using Terraria.ID;
 using Terraria.Audio;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee
 {
@@ -104,13 +105,13 @@ namespace CalamityMod.Projectiles.Melee
                 for (i = 0; i < 2; i++)
                 {
                     offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                    int projectile1 = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ProjectileID.FrostShard, (int)(Projectile.damage * 0.5), 0f, Projectile.owner, 0f, 0f);
+                    int projectile1 = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<FrostShardFriendly>(), (int)(Projectile.damage * 0.5), 0f, Projectile.owner, 0f, 0f);
                     if (projectile1.WithinBounds(Main.maxProjectiles))
                     {
                         Main.projectile[projectile1].DamageType = DamageClass.Melee;
                         Main.projectile[projectile1].penetrate = 2;
                     }
-                    int projectile2 = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ProjectileID.FrostShard, (int)(Projectile.damage * 0.5), 0f, Projectile.owner, 0f, 0f);
+                    int projectile2 = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<FrostShardFriendly>(), (int)(Projectile.damage * 0.5), 0f, Projectile.owner, 0f, 0f);
                     if (projectile2.WithinBounds(Main.maxProjectiles))
                     {
                         Main.projectile[projectile2].DamageType = DamageClass.Melee;

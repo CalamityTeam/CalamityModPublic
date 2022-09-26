@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Meowthrower");
-            Tooltip.SetDefault("50% chance to not consume gel\n" +
+            Tooltip.SetDefault("85% chance to not consume gel\n" +
                 "Fires blue and pink flames that emit meows on enemy hits");
             SacrificeTotal = 1;
         }
@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.noMelee = true;
             Item.knockBack = 1.25f;
             Item.UseSound = SoundID.Item34;
-            Item.value = Item.buyPrice(0, 12, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity4BuyPrice;
             Item.rare = ItemRarityID.LightRed;
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<MeowFire>();

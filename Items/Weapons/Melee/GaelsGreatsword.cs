@@ -1,8 +1,9 @@
-﻿using Terraria.DataStructures;
-using CalamityMod.Projectiles.Melee;
+﻿using CalamityMod.Projectiles.Melee;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.WorldBuilding;
@@ -41,8 +42,8 @@ namespace CalamityMod.Items.Weapons.Melee
         //NOTE: GetWeaponDamage is in the CalamityPlayer file
         public override void SetDefaults()
         {
-            Item.width = 86;
-            Item.height = 94;
+            Item.width = 112;
+            Item.height = 102;
             Item.damage = BaseDamage;
             Item.DamageType = DamageClass.Melee;
             Item.useAnimation = Item.useTime = 12;
@@ -52,7 +53,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.autoReuse = true;
 
             Item.value = CalamityGlobalItem.Rarity15BuyPrice;
-            Item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.rare = ModContent.RarityType<Violet>();
             Item.Calamity().devItem = true;
 
             Item.shoot = ModContent.ProjectileType<GaelSkull>();

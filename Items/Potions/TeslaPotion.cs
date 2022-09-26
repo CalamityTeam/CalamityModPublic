@@ -42,6 +42,7 @@ namespace CalamityMod.Items.Potions
                 AddIngredient(ItemID.BottledWater).
                 AddIngredient<AerialiteOre>(2).
                 AddIngredient<SeaPrism>(5).
+                AddIngredient<PearlShard>().
                 AddIngredient<StormlionMandible>().
                 AddTile(TileID.Bottles).
                 Register();
@@ -49,6 +50,7 @@ namespace CalamityMod.Items.Potions
             CreateRecipe().
                 AddIngredient(ItemID.BottledWater).
                 AddIngredient<BloodOrb>(10).
+                AddIngredient<PearlShard>().
                 AddTile(TileID.AlchemyTable).
                 Register();
         }

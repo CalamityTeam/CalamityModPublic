@@ -24,10 +24,6 @@ namespace CalamityMod
 
         public static bool FinalExtraUpdate(this Projectile proj) => proj.numUpdates == -1;
 
-        // TODO -- Why does this not simply check if the projectile is summon damage class?
-        // Is it because of whips? We can make it "IsSummonNotWhip" if needed
-        public static bool IsSummon(this Projectile proj) => proj.minion || proj.sentry || CalamityLists.projectileMinionList.Contains(proj.type) || ProjectileID.Sets.MinionShot[proj.type] || ProjectileID.Sets.SentryShot[proj.type];
-
         public static bool IsTrueMelee(this Projectile proj)
         {
             if (proj is null || !proj.active)
@@ -65,6 +61,7 @@ namespace CalamityMod
             projectile.position -= projectile.Size * 0.5f;
         }
         public static void ExpandHitboxBy(this Projectile projectile, int newSize) => projectile.ExpandHitboxBy(newSize, newSize);
+        public static void ExpandHitboxBy(this Projectile projectile, Vector2 newSize) => projectile.ExpandHitboxBy((int)newSize.X, (int)newSize.Y);
         public static void ExpandHitboxBy(this Projectile projectile, float expandRatio) => projectile.ExpandHitboxBy((int)(projectile.width * expandRatio), (int)(projectile.height * expandRatio));
 
         public static void HomeInOnNPC(Projectile projectile, bool ignoreTiles, float distanceRequired, float homingVelocity, float N)
@@ -317,7 +314,7 @@ namespace CalamityMod
                         if (projectile.type == ProjectileType<GodsGambitYoyo>() ||
                             projectile.type == ProjectileType<ShimmersparkYoyo>() || projectile.type == ProjectileType<VerdantYoyo>())
                             if (projectile2.WithinBounds(Main.maxProjectiles))
-                                Main.projectile[projectile2].DamageType = DamageClass.Melee;
+                                Main.projectile[projectile2].DamageType = DamageClass.MeleeNoSpeed;
 
                         if (projectile.type == ProjectileType<FishboneBoomerangProjectile>())
                             if (projectile2.WithinBounds(Main.maxProjectiles))
@@ -685,7 +682,6 @@ namespace CalamityMod
                     {
                         velocityMult = 1f;
                     }
-                    Mod mod = ModContent.GetInstance<CalamityMod>();
                     int type = Main.rand.Next(61, 64);
                     int smoke = Gore.NewGore(projectile.GetSource_Death(), source, default, type, 1f);
                     Gore gore = Main.gore[smoke];

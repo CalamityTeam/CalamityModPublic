@@ -101,9 +101,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 float lifeRatio = npc.life / (float)npc.lifeMax;
 
                 // Phases based on HP
-                bool phase2 = lifeRatio < 0.8f;
-                bool phase3 = lifeRatio < 0.65f;
-                bool phase4 = lifeRatio < 0.5f;
+                bool phase3 = lifeRatio < 0.6f;
                 bool spinning = npc.ai[0] == -4f;
 
                 // KnockBack
@@ -183,27 +181,14 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         npc.ai[2] += 1f;
                         if (npc.ai[2] >= 180f)
                         {
-                            bool spin = phase3 ? Main.rand.Next(4) > 0 : Main.rand.NextBool();
-                            if (phase4)
-                                spin = true;
-
                             // Velocity and knockback
-                            if (spin)
-                            {
-                                npc.knockBackResist = 0f;
-                                npc.velocity = Vector2.Normalize(Main.player[npc.target].Center - npc.Center) * 24f;
-                            }
-                            else
-                            {
-                                if (npc.knockBackResist == 0f)
-                                    npc.knockBackResist = GetCrimsonBossKnockBack(npc, CalamityGlobalNPC.GetActivePlayerCount(), lifeRatio, baseKnockBackResist);
-                            }
-
-                            npc.ai[0] = !spin ? -7f : -4f;
-                            npc.ai[1] = !spin ? 0f : (playerLocation < 0 ? 1f : -1f);
+                            npc.knockBackResist = 0f;
+                            npc.velocity = Vector2.Normalize(Main.player[npc.target].Center - npc.Center) * 24f;
+                            npc.ai[0] = -4f;
+                            npc.ai[1] = playerLocation < 0 ? 1f : -1f;
                             npc.ai[2] = 0f;
-                            npc.ai[3] = !spin ? 0f : Main.rand.Next(61);
-                            npc.localAI[1] = !spin ? 120f : 0f;
+                            npc.ai[3] = Main.rand.Next(61);
+                            npc.localAI[1] = 0f;
                             npc.netUpdate = true;
                         }
                     }
@@ -242,20 +227,10 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         // Complete stop
                         npc.velocity *= 0f;
 
-                        bool charge = phase3 ? Main.rand.Next(4) > 0 : Main.rand.NextBool();
-                        if (phase4)
-                            charge = true;
-
                         // Adjust knockback
-                        if (charge)
-                            npc.knockBackResist = 0f;
-                        else
-                        {
-                            if (npc.knockBackResist == 0f)
-                                npc.knockBackResist = GetCrimsonBossKnockBack(npc, CalamityGlobalNPC.GetActivePlayerCount(), lifeRatio, baseKnockBackResist);
-                        }
+                        npc.knockBackResist = 0f;
 
-                        npc.ai[0] = charge ? -6f : -5f;
+                        npc.ai[0] = -6f;
                         npc.ai[1] = 0f;
                         npc.ai[2] = 0f;
                         npc.ai[3] = 0f;
@@ -277,7 +252,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         // Go to phase 3
-                        if (phase2 && npc.ai[0] == -1f)
+                        if (phase3 && npc.ai[0] == -1f)
                         {
                             npc.ai[0] = -5f;
                             npc.ai[1] = 0f;
@@ -295,7 +270,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         if (npc.justHit)
                             npc.localAI[1] -= Main.rand.Next(random);
 
-                        float num799 = phase2 ? 60f : 90f;
+                        float num799 = 60f;
                         if (npc.localAI[1] >= num799)
                         {
                             npc.localAI[1] = 0f;
@@ -383,11 +358,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                     if (npc.ai[3] <= 0f)
                     {
-                        bool spin = phase3 ? (Main.rand.NextBool() && npc.ai[0] == -9f) : false;
-                        if (phase4 && npc.ai[0] == -9f)
-                            spin = true;
-
-                        if (spin)
+                        if (npc.ai[0] == -9f)
                         {
                             // Adjust knockback
                             npc.knockBackResist = 0f;
@@ -404,7 +375,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             npc.ai[3] = 0f;
                             npc.ai[2] = 0f;
                             npc.ai[1] = 0f;
-                            npc.ai[0] = npc.ai[0] == -9f ? -5f : -1f;
+                            npc.ai[0] = -1f;
                         }
                         npc.netUpdate = true;
                         npc.netSpam = 0;
@@ -586,11 +557,6 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
             // Creeper count, 0 to 20
             int creeperCount = NPC.CountNPCS(NPCID.Creeper);
-            bool phase2 = creeperCount <= (death ? 12 : 6);
-
-            // Adjust knockback
-            if (phase2)
-                npc.knockBackResist = 0f;
 
             // Stay near Brain
             if (npc.ai[0] == 0f)
@@ -623,7 +589,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 int creeperScale = GetBrainOfCthuluCreepersCountRevDeath() + 1 - creeperCount;
                 creeperScale *= (int)enrageScale;
                 npc.ai[1] += (death ? 1f : 0.5f) + (creeperScale * 0.25f);
-                if (Main.netMode != NetmodeID.MultiplayerClient && npc.ai[1] >= 240f)
+                if (Main.netMode != NetmodeID.MultiplayerClient && npc.ai[1] >= 150f)
                 {
                     npc.ai[1] = 0f;
                     npc.TargetClosest();
@@ -663,7 +629,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 float num817 = (float)Math.Sqrt(num815 * num815 + num816 * num816);
 
                 // Return to Brain
-                if (num817 > 700f || (npc.justHit && !phase2))
+                if (num817 > 700f || npc.justHit)
                     npc.ai[0] = 0f;
             }
 

@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class DesecratedWater : ModItem
+    public class DesecratedWater : RogueWeapon
     {
         public const int BaseDamage = 55;
         public override void SetStaticDefaults()

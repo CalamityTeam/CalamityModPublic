@@ -30,8 +30,8 @@ namespace CalamityMod.NPCs.Ravager
             NPC.canGhostHeal = false;
             NPC.noTileCollide = true;
             NPC.alpha = 255;
-            NPC.HitSound = SoundID.NPCHit41;
-            NPC.DeathSound = SoundID.NPCDeath14;
+            NPC.HitSound = RavagerBody.HitSound;
+            NPC.DeathSound = RavagerBody.LimbLossSound;
             if (DownedBossSystem.downedProvidence && !BossRushEvent.BossRushActive)
             {
                 NPC.defense *= 2;

@@ -1,5 +1,6 @@
 ﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
+using CalamityMod.Rarities;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -24,9 +25,9 @@ namespace CalamityMod.Items.Armor.Tarragon
         {
             Item.width = 18;
             Item.height = 18;
-            Item.value = Item.buyPrice(0, 50, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity12BuyPrice;
             Item.defense = 15; //98
-            Item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.rare = ModContent.RarityType<Turquoise>();
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
@@ -50,13 +51,10 @@ namespace CalamityMod.Items.Armor.Tarragon
             player.setBonus = "Reduces enemy spawn rates\n" +
                 "Increased heart pickup range\n" +
                 "Enemies have a chance to drop extra hearts on death\n" +
+				"+115 maximum stealth\n" +
                 "After every 25 rogue critical hits you will gain 3 seconds of damage immunity\n" +
                 "This effect can only occur once every 30 seconds\n" +
-                "While under the effects of a debuff you gain 10% increased rogue damage\n" +
-                "Rogue stealth builds while not attacking and slower while moving, up to a max of 115\n" +
-                "Once you have built max stealth, you will be able to perform a Stealth Strike\n" +
-                "Rogue stealth only reduces when you attack, it does not reduce while moving\n" +
-                "The higher your rogue stealth the higher your rogue damage, crit, and movement speed";
+                "While under the effects of a debuff you gain 10% increased rogue damage";
         }
 
         public override void UpdateEquip(Player player)

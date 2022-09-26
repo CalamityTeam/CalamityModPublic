@@ -70,7 +70,6 @@ namespace CalamityMod.NPCs.DevourerofGods
             NPC.netAlways = true;
             NPC.boss = true;
             NPC.takenDamageMultiplier = 1.25f;
-            Music = CalamityMod.Instance.GetMusicFromMusicMod("DevourerOfGodsP1") ?? MusicID.Boss3;
             NPC.dontCountMe = true;
 
             if (Main.getGoodWorld)
@@ -147,10 +146,6 @@ namespace CalamityMod.NPCs.DevourerofGods
             if (NPC.life / (float)NPC.lifeMax < 0.6f)
             {
                 phase2Started = true;
-
-                // Play music after the transiton BS
-                if (Main.npc[(int)NPC.ai[2]].localAI[2] == 530f)
-                    Music = CalamityMod.Instance.GetMusicFromMusicMod("DevourerOfGodsP2") ?? MusicID.LunarBoss;
 
                 // Once before DoG spawns, set new size
                 if (Main.npc[(int)NPC.ai[2]].localAI[2] == 60f)
@@ -345,7 +340,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)
         {
-            cooldownSlot = 1;
+            cooldownSlot = ImmunityCooldownID.Bosses;
 
             Rectangle targetHitbox = target.Hitbox;
 
@@ -451,8 +446,11 @@ namespace CalamityMod.NPCs.DevourerofGods
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 180, true);
-            player.AddBuff(ModContent.BuffType<WhisperingDeath>(), 360, true);
+            if (damage > 0)
+            {
+                player.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 180, true);
+                player.AddBuff(ModContent.BuffType<WhisperingDeath>(), 360, true);
+            }
         }
     }
 }

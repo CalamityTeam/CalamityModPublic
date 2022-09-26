@@ -1,6 +1,7 @@
 ﻿using CalamityMod.CustomRecipes;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.DraedonsArsenal;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Snake Eyes");
             Tooltip.SetDefault("Surveillance drones equipped with a strong electric field which can be directed at enemies\n" +
             "Summons a mechanical watcher that zaps and flies around enemies");
@@ -35,8 +37,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             Item.knockBack = 3f;
 
             Item.value = CalamityGlobalItem.RarityTurquoiseBuyPrice;
-            Item.rare = ItemRarityID.Red;
-            modItem.customRarity = CalamityRarity.DraedonRust;
+            Item.rare = ModContent.RarityType<DarkOrange>();
 
             Item.UseSound = SoundID.Item15;
             Item.autoReuse = true;

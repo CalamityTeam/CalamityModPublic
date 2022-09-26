@@ -11,6 +11,8 @@ using Terraria.DataStructures;
 using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.Items.Weapons.Magic;
+using CalamityMod.Items.Armor.Wulfrum;
 
 namespace CalamityMod.CalPlayer
 {
@@ -36,6 +38,11 @@ namespace CalamityMod.CalPlayer
                     if (layer != PlayerDrawLayers.BackAcc)
                         layer.Hide();
                 }
+            }
+
+            if (Player.HeldItem.ModItem is IHideFrontArm amputator && amputator.ShouldHideArm(Player))
+            {
+                PlayerDrawLayers.ArmOverItem.Hide();
             }
         }
 
@@ -109,12 +116,13 @@ namespace CalamityMod.CalPlayer
                 Player.armorEffectDrawShadowSubtle = false;
             }
 
-            Asset<Texture2D> heart3 = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Heart3");
-            Asset<Texture2D> heart4 = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Heart4");
-            Asset<Texture2D> heart5 = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Heart5");
-            Asset<Texture2D> heart6 = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Heart6");
-            Asset<Texture2D> heartOriginal = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/HeartOriginal"); // Life fruit
-            Asset<Texture2D> heartOriginal2 = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/HeartOriginal2"); // Life crystal
+			// Hearts
+            Asset<Texture2D> bOrange = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/HealthMana/HeartBloodOrange");
+            Asset<Texture2D> mFruit = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/HealthMana/HeartMiracleFruit");
+            Asset<Texture2D> eBerry = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/HealthMana/HeartElderberry");
+            Asset<Texture2D> dFruit = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/HealthMana/HeartDragonfruit");
+            Asset<Texture2D> heartOriginal = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/HealthMana/HeartOriginal"); // Life crystal
+            Asset<Texture2D> heartOriginal2 = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/HealthMana/HeartOriginal2"); // Life fruit
 
             int totalFruit =
                 (calamityPlayer.mFruit ? 1 : 0) +
@@ -124,13 +132,14 @@ namespace CalamityMod.CalPlayer
 
             TextureAssets.Heart2 = totalFruit switch
             {
-                4 => heart6,
-                3 => heart5,
-                2 => heart4,
-                1 => heart3,
-                _ => heartOriginal,
+                4 => dFruit,
+                3 => eBerry,
+                2 => mFruit,
+                1 => bOrange,
+                _ => heartOriginal2,
             };
-            TextureAssets.Heart = heartOriginal2;
+            TextureAssets.Heart = heartOriginal;
+
             if (calamityPlayer.tRegen)
             {
                 if (Main.rand.NextBool(10) && drawInfo.shadow == 0f)
@@ -535,6 +544,12 @@ namespace CalamityMod.CalPlayer
                     drawInfo.GoreCache.Add(heart);
                 }
             }
+			if (calamityPlayer.shadow && CalamityConfig.Instance.StealthInvisibility)
+			{
+				r *= 0f;
+				g *= 0f;
+				b *= 0f;
+			}
         }
         #endregion
 

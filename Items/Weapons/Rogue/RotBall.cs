@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class RotBall : ModItem
+    public class RotBall : RogueWeapon
     {
         public override void SetStaticDefaults()
         {

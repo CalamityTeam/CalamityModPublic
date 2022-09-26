@@ -1,6 +1,7 @@
 ﻿using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Projectiles.DraedonsArsenal;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using Terraria;
@@ -14,6 +15,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
         public const int HitsRequiredForFlux = 2;
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Gauss Dagger");
             Tooltip.SetDefault("Slicing foes, it causes a flux of energy to form on the area tearing at them with turbulent forces\n" +
             "Repeat strikes envelop foes in magnetic flux");
@@ -34,8 +36,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             Item.knockBack = 7f;
 
             Item.value = CalamityGlobalItem.Rarity3BuyPrice;
-            Item.rare = ItemRarityID.Red;
-            modItem.customRarity = CalamityRarity.DraedonRust;
+            Item.rare = ModContent.RarityType<DarkOrange>();
 
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;

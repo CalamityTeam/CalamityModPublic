@@ -18,6 +18,8 @@ namespace CalamityMod.Items.Weapons.Typeless
             Tooltip.SetDefault("You don't need an aerodynamics major to use this\n" +
             "Throws a floaty explosive that defies gravity");
             SacrificeTotal = 99;
+            ItemID.Sets.ItemsThatCountAsBombsForDemolitionistToSpawn[Item.type] = true;
+            ItemID.Sets.CanBePlacedOnWeaponRacks[Item.type] = true;
         }
 
         public override void SetDefaults()
@@ -34,16 +36,14 @@ namespace CalamityMod.Items.Weapons.Typeless
             Item.noMelee = true;
             Item.noUseGraphic = true;
             Item.UseSound = SoundID.Item1;
-            Item.value = Item.buyPrice(0, 0, 40, 0); // Crafted 10 at a time
+            Item.value = CalamityGlobalItem.Rarity3BuyPrice / 10; // Crafted 10 at a time
             Item.rare = ItemRarityID.Orange;
         }
 
-        public override void UpdateInventory(Player player)
-        {
-            //Get the Demolitionist to spawn. Also check for Merchant because he does that.
-            if (NPC.FindFirstNPC(NPCID.Merchant) != -1 && NPC.FindFirstNPC(NPCID.Demolitionist) == -1)
-                Main.townNPCCanSpawn[NPCID.Demolitionist] = true;
-        }
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = ContentSamples.CreativeHelper.ItemGroup.Bombs;
+		}
 
         public override void AddRecipes()
         {

@@ -22,6 +22,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             };
             NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
             NPCID.Sets.CantTakeLunchMoney[Type] = true;
+            NPCID.Sets.NormalGoldCritterBestiaryPriority.Add(Type);
         }
 
         public override void SetDefaults()
@@ -120,16 +121,6 @@ namespace CalamityMod.NPCs.NormalNPCs
                 {
                     Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
                 }
-            }
-        }
-
-        public override void OnCaughtBy(Player player, Item item, bool failed)
-        {
-            try
-            {
-            } catch
-            {
-                return;
             }
         }
     }

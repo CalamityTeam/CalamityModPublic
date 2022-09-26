@@ -16,7 +16,7 @@ namespace CalamityMod.Projectiles.Typeless
         {
             Projectile.width = 28;
             Projectile.height = 28;
-            Projectile.aiStyle = 1;
+            Projectile.aiStyle = ProjAIStyleID.Arrow;
             AIType = ProjectileID.Bullet;
             Projectile.friendly = true;
             Projectile.penetrate = -1;

@@ -1,26 +1,28 @@
 ﻿using CalamityMod.CustomRecipes;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.DraedonsArsenal;
+using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Audio;
 
 namespace CalamityMod.Items.Weapons.DraedonsArsenal
 {
     public class TeslaCannon : ModItem
     {
-        private int BaseDamage = 1050;
+        private int BaseDamage = 1360;
 
         public static readonly SoundStyle FireSound = new("CalamityMod/Sounds/Item/TeslaCannonFire");
         
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Tesla Cannon");
             Tooltip.SetDefault("Lightweight energy cannon that blasts an intense electrical beam that explodes\n" +
                 "Beams can arc to nearby targets");
@@ -45,8 +47,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             Item.noMelee = true;
 
             Item.value = CalamityGlobalItem.Rarity14BuyPrice;
-            Item.rare = ItemRarityID.Purple;
-            modItem.customRarity = CalamityRarity.DraedonRust;
+            Item.rare = ModContent.RarityType<DarkOrange>();
 
             Item.shoot = ModContent.ProjectileType<TeslaCannonShot>();
             Item.shootSpeed = 5f;

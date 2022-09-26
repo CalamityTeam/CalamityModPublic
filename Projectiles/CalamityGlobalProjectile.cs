@@ -9,6 +9,7 @@ using CalamityMod.Items.Accessories;
 using CalamityMod.NPCs;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.Projectiles.Melee;
+using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Projectiles.Typeless;
@@ -45,15 +46,17 @@ namespace CalamityMod.Projectiles
         // Damage Adjusters
         public const float PierceResistHarshness = 0.12f;
         public const float PierceResistCap = 0.8f;
-        // TODO -- Remove this. Vanilla originalDamage now applies to all projectiles.
-        public int defDamage = 0;
+
+        // defDamage was being used for frame1 hacks. this stands in as the replacement for that logic.
+        private bool frameOneHacksExecuted = false;
 
         // Enables "supercrits". When crit is over 100%, projectiles with this bool enabled can "supercrit".
         // For every 100% critical strike chance over 100%, "supercrit" projectiles do a guaranteed +100% damage.
         // They then take the remainder (e.g. the remaining 16%) and roll against that for a final +100% (like normal crits).
         // For example if you have 716% critical strike chance, you are guaranteed +700% damage and then have a 16% chance for +800% damage instead.
         // These are currently only enabled for Soma Prime, but any bullet fired from that gun can supercrit.
-        public bool canSupercrit = false;
+        //Set this to -1 if you want the projectile to supercrit forever, and to any positive value to make it supercrit only x times
+        public int supercritHits  = 0;
 
         // If true, this projectile can apply the infinitely-stacking Shred debuff iconic to Soma Prime.
         public bool appliesSomaShred = false;
@@ -79,6 +82,9 @@ namespace CalamityMod.Projectiles
         /// Allows hostile Projectiles to deal damage to the player's defense stat, used mostly for hard-hitting bosses.
         /// </summary>
         public bool DealsDefenseDamage = false;
+
+        // Nihility Quiver
+        public bool nihilicArrow = false;
 
         // Rogue Stuff
         public bool stealthStrike = false;
@@ -128,6 +134,13 @@ namespace CalamityMod.Projectiles
         public override void OnSpawn(Projectile projectile, IEntitySource source)
         {
             CreatedByPlayerDash = source is ProjectileSource_PlayerDashHit;
+
+			IEntitySource sourceItem = source as EntitySource_ItemUse_WithAmmo;
+			if (sourceItem != null)
+				extorterBoost = true;
+
+            // TODO -- it would be nice to move frame one hacks here, but this runs in the middle of NewProjectile
+            // which is way too early, the projectile's own initialization isn't even done yet
         }
         #endregion On Spawn
 
@@ -158,9 +171,7 @@ namespace CalamityMod.Projectiles
             if (projectile.minion && ExplosiveEnchantCountdown > 0)
             {
                 ExplosiveEnchantCountdown--;
-                if (defDamage == 0)
-                    defDamage = projectile.damage;
-                projectile.damage = (int)(defDamage * MathHelper.SmoothStep(1f, 1.6f, 1f - ExplosiveEnchantCountdown / (float)ExplosiveEnchantTime));
+                projectile.damage = (int)(projectile.originalDamage * MathHelper.SmoothStep(1f, 1.6f, 1f - ExplosiveEnchantCountdown / (float)ExplosiveEnchantTime));
 
                 // Make fizzle sounds and fire dust to indicate the impending explosion.
                 if (ExplosiveEnchantCountdown <= 300)
@@ -934,13 +945,25 @@ namespace CalamityMod.Projectiles
                     projectile.ai[0] += 1f;
                     if (projectile.velocity.Length() < projectile.ai[1])
                     {
-                        if (!(projectile.ai[0] < 30f))
-                        {
-                            if (projectile.ai[0] < 100f)
-                                projectile.velocity *= 1.06f;
-                            else
-                                projectile.ai[0] = 200f;
-                        }
+                        if (projectile.ai[0] >= 30f)
+                            projectile.velocity *= 1.06f;
+                    }
+
+                    Vector2 vector11 = Main.player[Main.npc[Main.wofNPCIndex].target].Center - projectile.Center;
+                    if (vector11.Length() < 10f)
+                    {
+                        projectile.Kill();
+                        return false;
+                    }
+
+                    if (projectile.ai[0] < 210f)
+                    {
+                        float scaleFactor2 = projectile.velocity.Length();
+                        vector11.Normalize();
+                        vector11 *= scaleFactor2;
+                        projectile.velocity = (projectile.velocity * 30f + vector11) / 31f;
+                        projectile.velocity.Normalize();
+                        projectile.velocity *= scaleFactor2;
                     }
 
                     for (int i = 0; i < 2; i++)
@@ -969,7 +992,7 @@ namespace CalamityMod.Projectiles
                         projectile.localAI[1] = 1f;
                     }
 
-                    if (projectile.velocity.Length() < 18f)
+                    if (projectile.velocity.Length() < 12f)
                         projectile.velocity *= 1.0025f;
 
                     return false;
@@ -977,7 +1000,7 @@ namespace CalamityMod.Projectiles
 
                 else if (projectile.type == ProjectileID.QueenSlimeGelAttack)
                 {
-                    // Phase 1 and 2 projectiles do not bounce and phase 2 projectiles do not have gravity.
+                    // Phase 1 and 2 projectiles do not bounce and do not have gravity.
                     if (projectile.ai[1] == -2f)
                     {
                         if (projectile.alpha == 0 && Main.rand.Next(3) == 0)
@@ -1045,7 +1068,9 @@ namespace CalamityMod.Projectiles
 
                 else if (projectile.type == ProjectileID.DeathLaser && projectile.ai[0] == 1f)
                 {
-                    if (defDamage == 0)
+                    // Unlikely that vanilla sets originalDamage for hostile projectiles.
+                    // TODO -- this might not work and mech boss projectiles might deal too much damage again.
+                    if (projectile.originalDamage == 0)
                     {
                         // Reduce mech boss projectile damage depending on the new ore progression changes
                         if (CalamityConfig.Instance.EarlyHardmodeProgressionRework && !BossRushEvent.BossRushActive)
@@ -1056,7 +1081,7 @@ namespace CalamityMod.Projectiles
                                 projectile.damage = (int)(projectile.damage * 0.9);
                         }
 
-                        defDamage = projectile.damage;
+                        projectile.originalDamage = projectile.damage;
                     }
 
                     projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + MathHelper.PiOver2;
@@ -1076,6 +1101,78 @@ namespace CalamityMod.Projectiles
 
                     if (projectile.velocity.Length() < 12f)
                         projectile.velocity *= 1.0025f;
+
+                    return false;
+                }
+
+                else if (projectile.type == ProjectileID.RocketSkeleton && projectile.ai[1] == 1f)
+                {
+                    bool homeIn = false;
+                    float spreadOutCutoffTime = 510f;
+                    float homeInCutoffTime = 420f;
+                    float minAcceleration = 0.05f;
+                    float maxAcceleration = 0.1f;
+                    float homingVelocity = 25f;
+
+                    if (projectile.timeLeft > homeInCutoffTime && projectile.timeLeft <= spreadOutCutoffTime)
+                        homeIn = true;
+                    else if (projectile.velocity.Length() < 15f)
+                        projectile.velocity *= 1.1f;
+
+                    if (homeIn)
+                    {
+                        int playerIndex = (int)projectile.ai[0];
+                        Vector2 velocity = projectile.velocity;
+                        if (Main.player.IndexInRange(playerIndex))
+                        {
+                            Player player = Main.player[playerIndex];
+                            velocity = projectile.DirectionTo(player.Center) * homingVelocity;
+                        }
+
+                        float amount = MathHelper.Lerp(minAcceleration, maxAcceleration, Utils.GetLerpValue(spreadOutCutoffTime, 30f, projectile.timeLeft, clamped: true));
+                        projectile.velocity = Vector2.SmoothStep(projectile.velocity, velocity, amount);
+                    }
+
+                    if (projectile.timeLeft <= 3)
+                    {
+                        projectile.position.X += projectile.width / 2;
+                        projectile.position.Y += projectile.height / 2;
+                        projectile.width = 128;
+                        projectile.height = 128;
+                        projectile.position.X -= projectile.width / 2;
+                        projectile.position.Y -= projectile.height / 2;
+                    }
+
+                    if (projectile.owner == Main.myPlayer && projectile.timeLeft <= 3)
+                    {
+                        projectile.tileCollide = false;
+                        projectile.alpha = 255;
+                    }
+                    else
+                    {
+                        for (int n = 0; n < 2; n++)
+                        {
+                            float num22 = 0f;
+                            float num23 = 0f;
+                            if (n == 1)
+                            {
+                                num22 = projectile.velocity.X * 0.5f;
+                                num23 = projectile.velocity.Y * 0.5f;
+                            }
+
+                            int num24 = Dust.NewDust(new Vector2(projectile.position.X + 3f + num22, projectile.position.Y + 3f + num23) - projectile.velocity * 0.5f, projectile.width - 8, projectile.height - 8, 6, 0f, 0f, 100);
+                            Main.dust[num24].scale *= 2f + Main.rand.Next(10) * 0.1f;
+                            Main.dust[num24].velocity *= 0.2f;
+                            Main.dust[num24].noGravity = true;
+
+                            num24 = Dust.NewDust(new Vector2(projectile.position.X + 3f + num22, projectile.position.Y + 3f + num23) - projectile.velocity * 0.5f, projectile.width - 8, projectile.height - 8, 31, 0f, 0f, 100, default(Color), 0.5f);
+                            Main.dust[num24].fadeIn = 1f + Main.rand.Next(5) * 0.1f;
+                            Main.dust[num24].velocity *= 0.05f;
+                        }
+                    }
+
+                    if (projectile.velocity != Vector2.Zero)
+                        projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + MathHelper.PiOver2;
 
                     return false;
                 }
@@ -1854,7 +1951,7 @@ namespace CalamityMod.Projectiles
             Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
 
-            if (defDamage == 0)
+            if (!frameOneHacksExecuted)
             {
                 if (projectile.hostile)
                 {
@@ -1893,61 +1990,69 @@ namespace CalamityMod.Projectiles
                 else
                 {
                     if (modPlayer.deadshotBrooch && projectile.CountsAsClass<RangedDamageClass>() && player.heldProj != projectile.whoAmI)
-                        projectile.extraUpdates += 1;
+                    {
+                        if (projectile.type != ProjectileType<MidasCoin>())
+                            projectile.extraUpdates += 1;
+                    }
 
                     if (modPlayer.camper && !player.StandingStill())
                         projectile.damage = (int)(projectile.damage * 0.1);
-                }
 
-                defDamage = projectile.damage;
-            }
-
-            // Setting this in SetDefaults didn't work
-            switch (projectile.type)
-            {
-                case ProjectileID.Bee:
-                case ProjectileID.Wasp:
-                case ProjectileID.TinyEater:
-                case ProjectileID.GiantBee:
-                case ProjectileID.Bat:
-                    projectile.extraUpdates = 1;
-                    break;
-            }
-
-            if (NPC.downedMoonlord)
-            {
-                if (CalamityLists.dungeonProjectileBuffList.Contains(projectile.type))
-                {
-                    //Prevents them being buffed in Skeletron, Skeletron Prime, or Golem fights
-                    if (((projectile.type == ProjectileID.RocketSkeleton || projectile.type == ProjectileID.Shadowflames) && projectile.ai[1] == 1f) ||
-                        (NPC.golemBoss > 0 && (projectile.type == ProjectileID.InfernoHostileBolt || projectile.type == ProjectileID.InfernoHostileBlast)))
+                    if (projectile.CountsAsClass<RogueDamageClass>() && stealthStrike)
                     {
-                        projectile.damage = defDamage;
-                    }
-                    else
-                        projectile.damage = defDamage + 30;
-                }
-            }
-
-            if (DownedBossSystem.downedDoG && (Main.pumpkinMoon || Main.snowMoon || Main.eclipse))
-            {
-                if (CalamityLists.eventProjectileBuffList.Contains(projectile.type))
-                    projectile.damage = defDamage + 15;
-            }
-
-            if (projectile.type == ProjectileID.GiantBee || projectile.type == ProjectileID.Bee)
-            {
-                if (projectile.timeLeft > 570) //all of these have a time left of 600 or 660
-                {
-                    if (player.ActiveItem().type == ItemID.BeesKnees)
-                    {
-                        // projectile.magic = false /* tModPorter - this is redundant, for more info see https://github.com/tModLoader/tModLoader/wiki/Update-Migration-Guide#damage-classes */ ;
-                        projectile.DamageType = DamageClass.Ranged;
+                        if (modPlayer.filthyGlove || modPlayer.bloodyGlove)
+                            projectile.ArmorPenetration += 10;
+                        if (modPlayer.nanotech)
+                            projectile.ArmorPenetration += 10; // 20 total
                     }
                 }
+
+                if (NPC.downedMoonlord)
+                {
+                    if (CalamityLists.dungeonProjectileBuffList.Contains(projectile.type))
+                    {
+                        // ai[1] being set to 1 is done only by the Calamity usages of these projectiles in Skeletron and Skeletron Prime boss fights
+                        bool isSkeletronBossProjectile = (projectile.type == ProjectileID.RocketSkeleton || projectile.type == ProjectileID.Shadowflames) && projectile.ai[1] == 1f;
+
+                        // These projectiles will not be buffed if Golem is alive
+                        bool isGolemBossProjectile = NPC.golemBoss > 0 && (projectile.type == ProjectileID.InfernoHostileBolt || projectile.type == ProjectileID.InfernoHostileBlast);
+
+                        if (!isSkeletronBossProjectile && !isGolemBossProjectile)
+                            projectile.damage += 30;
+                    }
+                }
+
+                if (DownedBossSystem.downedDoG && (Main.pumpkinMoon || Main.snowMoon || Main.eclipse))
+                {
+                    if (CalamityLists.eventProjectileBuffList.Contains(projectile.type))
+                        projectile.damage += 15;
+                }
+
+                // Setting this in SetDefaults didn't work
+                switch (projectile.type)
+                {
+                    case ProjectileID.Bee:
+                    case ProjectileID.Wasp:
+                    case ProjectileID.TinyEater:
+                    case ProjectileID.GiantBee:
+                    case ProjectileID.Bat:
+                        projectile.extraUpdates = 1;
+                        break;
+                }
+
+                if (projectile.type == ProjectileID.GiantBee || projectile.type == ProjectileID.Bee)
+                {
+                    if (projectile.timeLeft > 570) //all of these have a time left of 600 or 660
+                    {
+                        if (player.ActiveItem().type == ItemID.BeesKnees)
+                            projectile.DamageType = DamageClass.Ranged;
+                    }
+                }
+                else if (projectile.type == ProjectileID.SoulDrain)
+                    projectile.DamageType = DamageClass.Magic;
+
+                frameOneHacksExecuted = true;
             }
-            else if (projectile.type == ProjectileID.SoulDrain)
-                projectile.DamageType = DamageClass.Magic;
 
             // Accelerate for 1.5 seconds to full velocity
             if (projectile.type == ProjectileID.HallowBossLastingRainbow && (CalamityWorld.revenge || BossRushEvent.BossRushActive))
@@ -2213,6 +2318,8 @@ namespace CalamityMod.Projectiles
 
             // optimization to remove conversion X/Y loop for irrelevant projectiles
             bool isConversionProjectile = projectile.type == ProjectileID.PurificationPowder
+                || projectile.type == ProjectileID.VilePowder
+                || projectile.type == ProjectileID.ViciousPowder
                 || projectile.type == ProjectileID.PureSpray
                 || projectile.type == ProjectileID.CorruptSpray
                 || projectile.type == ProjectileID.CrimsonSpray
@@ -2225,8 +2332,7 @@ namespace CalamityMod.Projectiles
                 int x = (int)(projectile.Center.X / 16f);
                 int y = (int)(projectile.Center.Y / 16f);
 
-                bool isPowder = projectile.type == ProjectileID.PurificationPowder;
-                /* || projectile.type == ProjectileID.VilePowder || projectile.type == ProjectileID.ViciousPowder */
+                bool isPowder = projectile.type == ProjectileID.PurificationPowder || projectile.type == ProjectileID.VilePowder || projectile.type == ProjectileID.ViciousPowder;
 
                 for (int i = x - 1; i <= x + 1; i++)
                 {
@@ -2236,12 +2342,11 @@ namespace CalamityMod.Projectiles
                         {
                             AstralBiome.ConvertFromAstral(i, j, ConvertType.Pure, !isPowder);
                         }
-                        //commented out for Terraria 1.4 when vile/vicious powder spread corruption/crimson
-                        if (projectile.type == ProjectileID.CorruptSpray)// || projectile.type == ProjectileID.VilePowder)
+                        if (projectile.type == ProjectileID.CorruptSpray || projectile.type == ProjectileID.VilePowder)
                         {
                             AstralBiome.ConvertFromAstral(i, j, ConvertType.Corrupt, !isPowder);
                         }
-                        if (projectile.type == ProjectileID.CrimsonSpray)// || projectile.type == ProjectileID.ViciousPowder)
+                        if (projectile.type == ProjectileID.CrimsonSpray || projectile.type == ProjectileID.ViciousPowder)
                         {
                             AstralBiome.ConvertFromAstral(i, j, ConvertType.Crimson, !isPowder);
                         }
@@ -2295,9 +2400,6 @@ namespace CalamityMod.Projectiles
                 float proximityDamageFactor = MathHelper.SmoothStep(0.75f, 1.75f, proximityDamageInterpolant);
                 damage = (int)Math.Ceiling(damage * proximityDamageFactor);
             }
-
-            if (!projectile.npcProj && !projectile.trap && projectile.CountsAsClass<RogueDamageClass>() && stealthStrike && modPlayer.stealthStrikeAlwaysCrits)
-                crit = true;
 
             // Aerial Bane does 50% damage to "airborne" enemies. This is just simple math to revert that as it is a very unbalanced mechanic.
             if (projectile.type == ProjectileID.DD2BetsyArrow)
@@ -2362,6 +2464,15 @@ namespace CalamityMod.Projectiles
                     return Color.Coral;
                 }
             }
+
+            if (projectile.type == ProjectileID.Stinger)
+                return new Color(200, 200, 0, projectile.alpha);
+
+            if (projectile.type == ProjectileID.QueenBeeStinger)
+                return new Color(250, 250, 0, projectile.alpha);
+
+            if (projectile.type == ProjectileID.QueenSlimeGelAttack || projectile.type == ProjectileID.QueenSlimeMinionBlueSpike || projectile.type == ProjectileID.QueenSlimeMinionPinkBall)
+                return new Color(255, 255, 255, projectile.alpha);
 
             if (projectile.type == ProjectileID.PinkLaser)
             {
@@ -2459,7 +2570,7 @@ namespace CalamityMod.Projectiles
             {
                 if (projectile.CountsAsClass<RogueDamageClass>())
                 {
-                    if (modPlayer.etherealExtorter && Main.player[projectile.owner].ownedProjectileCounts[ProjectileType<LostSoulFriendly>()] < 5)
+                    if (modPlayer.etherealExtorter && extorterBoost && Main.player[projectile.owner].ownedProjectileCounts[ProjectileType<LostSoulFriendly>()] < 5)
                     {
                         for (int i = 0; i < 2; i++)
                         {
@@ -2472,13 +2583,14 @@ namespace CalamityMod.Projectiles
                         }
                     }
 
-                    if (modPlayer.scuttlersJewel && stealthStrike)
+                    if (modPlayer.scuttlersJewel && stealthStrike && modPlayer.scuttlerCooldown <= 0)
                     {
-                        int damage = (int)player.GetTotalDamage<RogueDamageClass>().ApplyTo(15);
+                        int damage = (int)player.GetTotalDamage<RogueDamageClass>().ApplyTo(20);
                         int spike = Projectile.NewProjectile(projectile.GetSource_FromThis(), projectile.Center, Vector2.Zero, ProjectileType<JewelSpike>(), damage, projectile.knockBack, projectile.owner);
                         Main.projectile[spike].frame = 4;
                         if (spike.WithinBounds(Main.maxProjectiles))
                             Main.projectile[spike].DamageType = DamageClass.Generic;
+						modPlayer.scuttlerCooldown = 30;
                     }
                 }
 

@@ -1,5 +1,9 @@
 ﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
+using CalamityMod.Rarities;
+using Microsoft.Xna.Framework;
+using System.Linq;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -13,6 +17,8 @@ namespace CalamityMod.Items.PermanentBoosters
             DisplayName.SetDefault("Phantom Heart");
             Tooltip.SetDefault("Permanently increases maximum mana by 50");
             SacrificeTotal = 1;
+			// For some reason Life/Mana boosting items are in this set (along with Magic Mirror+)
+			ItemID.Sets.SortingPriorityBossSpawns[Type] = 19; // Mana Crystal
         }
 
         public override void SetDefaults()
@@ -24,8 +30,7 @@ namespace CalamityMod.Items.PermanentBoosters
             Item.useStyle = ItemUseStyleID.HoldUp;
             Item.UseSound = SoundID.Item29;
             Item.consumable = true;
-            Item.rare = ItemRarityID.Red;
-            Item.Calamity().customRarity = CalamityRarity.PureGreen;
+            Item.rare = ModContent.RarityType<PureGreen>();
         }
 
         public override bool CanUseItem(Player player)
@@ -33,6 +38,10 @@ namespace CalamityMod.Items.PermanentBoosters
             CalamityPlayer modPlayer = player.Calamity();
             if (modPlayer.pHeart)
             {
+                string key = "Mods.CalamityMod.PhantomHeartText";
+                Color messageColor = Color.Magenta;
+                CalamityUtils.DisplayLocalizedText(key, messageColor);
+
                 return false;
             }
             return true;
@@ -51,6 +60,14 @@ namespace CalamityMod.Items.PermanentBoosters
                 modPlayer.pHeart = true;
             }
             return true;
+        }
+
+        public override void ModifyTooltips(List<TooltipLine> list)
+        {
+            TooltipLine line = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip2");
+
+            if (line != null && Main.LocalPlayer.Calamity().pHeart)
+                line.Text = "[c/8a8a8a:You have already consumed this item]";
         }
 
         public override void AddRecipes()

@@ -28,6 +28,11 @@ namespace CalamityMod.Items.Placeables.Furniture.CraftingStations
             Item.createTile = ModContent.TileType<Tiles.Furniture.CraftingStations.ProfanedCrucible>();
         }
 
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = ContentSamples.CreativeHelper.ItemGroup.CraftingObjects;
+		}
+
         public override void AddRecipes()
         {
             CreateRecipe(1).AddIngredient(ModContent.ItemType<ProfanedRock>(), 10).AddIngredient(ModContent.ItemType<UnholyEssence>(), 5).AddTile(TileID.LunarCraftingStation).Register();

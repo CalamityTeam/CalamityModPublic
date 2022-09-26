@@ -27,6 +27,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             Projectile.penetrate = 1;
             Projectile.timeLeft = 600;
             Projectile.extraUpdates = 1;
+            Projectile.DamageType = DamageClass.Summon;
         }
 
         public override void AI()

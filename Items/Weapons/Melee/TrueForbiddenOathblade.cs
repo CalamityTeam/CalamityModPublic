@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.knockBack = 7.5f;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
-            Item.value = Item.buyPrice(0, 80, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity9BuyPrice;
             Item.rare = ItemRarityID.Yellow;
             Item.shoot = ModContent.ProjectileType<ForbiddenOathbladeProjectile>();
             Item.shootSpeed = 3f;
@@ -119,8 +119,8 @@ namespace CalamityMod.Items.Weapons.Melee
             CreateRecipe().
                 AddIngredient<ForbiddenOathblade>().
                 AddIngredient(ItemID.BrokenHeroSword).
-                AddIngredient<AshesofCalamity>(3).
-                AddIngredient<InfectedArmorPlating>(3).
+                AddIngredient<AshesofCalamity>(8).
+                AddIngredient<InfectedArmorPlating>(8).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

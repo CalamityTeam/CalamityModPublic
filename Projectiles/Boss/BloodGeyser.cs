@@ -1,9 +1,10 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Projectiles.Boss
 {
     public class BloodGeyser : ModProjectile
@@ -11,6 +12,8 @@ namespace CalamityMod.Projectiles.Boss
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Blood Geyser");
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 2;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
         public override void SetDefaults()
@@ -19,7 +22,7 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.height = 12;
             Projectile.hostile = true;
             Projectile.tileCollide = false;
-            Projectile.timeLeft = 420;
+            Projectile.timeLeft = 600;
             Projectile.penetrate = 1;
         }
 
@@ -34,18 +37,27 @@ namespace CalamityMod.Projectiles.Boss
             Main.dust[num469].noGravity = true;
             Main.dust[num469].velocity *= 0f;
 
-            Projectile.velocity.Y += 0.06f;
+            if (Projectile.velocity.Y < 12f)
+                Projectile.velocity.Y += 0.06f;
+
             Projectile.velocity.X *= 0.995f;
         }
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
+            if (damage <= 0)
+                return;
+
             target.AddBuff(ModContent.BuffType<BurningBlood>(), 120);
         }
 
-        public override Color? GetAlpha(Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            return new Color(250, 50, 50, Projectile.alpha);
+            lightColor.R = (byte)(255 * Projectile.Opacity);
+            lightColor.G = (byte)(255 * Projectile.Opacity);
+            lightColor.B = (byte)(255 * Projectile.Opacity);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
+            return false;
         }
     }
 }

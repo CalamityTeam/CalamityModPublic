@@ -1,4 +1,4 @@
-using CalamityMod.Items.Weapons.Melee;
+﻿using CalamityMod.Projectiles.Melee.Shortswords;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -19,7 +19,7 @@ namespace CalamityMod.Projectiles.Melee
         {
             Projectile.width = 14;
             Projectile.height = 14;
-            Projectile.aiStyle = 4;
+            Projectile.aiStyle = ProjAIStyleID.Vilethorn;
             Projectile.friendly = true;
             Projectile.alpha = 255;
             Projectile.penetrate = -1;
@@ -50,7 +50,7 @@ namespace CalamityMod.Projectiles.Melee
             {
                 if (Projectile.alpha < 170 && Projectile.alpha + 5 >= 170)
                 {
-                    for (int num55 = 0; num55 < 8; num55++)
+                    for (int num55 = 0; num55 < 3; num55++)
                     {
                         int num56 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 234, Projectile.velocity.X * 0.005f, Projectile.velocity.Y * 0.005f, 200, default, 1f);
                         Main.dust[num56].noGravity = true;
@@ -63,7 +63,7 @@ namespace CalamityMod.Projectiles.Melee
                     Projectile.Kill();
                 }
             }
-            if (Main.rand.NextBool(4))
+            if (Main.rand.NextBool(10))
             {
                 Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 234, Projectile.velocity.X * 0.005f, Projectile.velocity.Y * 0.005f);
             }
@@ -71,7 +71,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void Kill(int timeLeft)
         {
-            for (int k = 0; k < 3; k++)
+            for (int k = 0; k < 1; k++)
             {
                 Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 234, Projectile.oldVelocity.X * 0.005f, Projectile.oldVelocity.Y * 0.005f);
             }
@@ -79,7 +79,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            Main.player[Projectile.owner].GiveIFrames(Lucrecia.OnHitIFrames);
+            Main.player[Projectile.owner].GiveIFrames(LucreciaProj.OnHitIFrames);
             target.immune[Projectile.owner] = 5;
         }
     }

@@ -11,6 +11,7 @@ namespace CalamityMod.Items.Materials
         {
             SacrificeTotal = 25;
             DisplayName.SetDefault("Rotten Matter");
+			ItemID.Sets.SortingPriorityMaterials[Type] = 65; // Crimtane Ore
         }
 
         public override void SetDefaults()

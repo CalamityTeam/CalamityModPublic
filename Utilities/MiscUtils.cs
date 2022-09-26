@@ -8,7 +8,6 @@ using CalamityMod.NPCs.AcidRain;
 using CalamityMod.NPCs.AquaticScourge;
 using CalamityMod.NPCs.Astral;
 using CalamityMod.NPCs.Crags;
-using CalamityMod.NPCs.GreatSandShark;
 using CalamityMod.NPCs.Leviathan;
 using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.NPCs.PlagueEnemies;
@@ -38,7 +37,7 @@ namespace CalamityMod
 
             if (Main.netMode == NetmodeID.SinglePlayer)
                 Main.NewText(Language.GetTextValue(key), textColor.Value);
-            else if (Main.netMode == NetmodeID.Server)
+            else if (Main.netMode == NetmodeID.Server || Main.netMode == NetmodeID.MultiplayerClient)
                 ChatHelper.BroadcastChatMessage(NetworkText.FromKey(key), textColor.Value);
         }
 
@@ -263,6 +262,24 @@ namespace CalamityMod
 
         public static void StartSandstorm()
         {
+			// If it's not windy enough, make it windy enough for a sandstorm
+			// 0.6f is the minimum for vanilla but Calamity changes it to 0.2f
+			// Windy days occur when wind speed is at least 0.5f (0.4f in vanilla) so this should never cause a windy day
+			float windSpeed = 0f;
+			if (Main.windSpeedCurrent < 0.2f && Main.windSpeedCurrent > 0f)
+			{
+				windSpeed = Main.rand.NextFloat(0.2f, 0.4f);
+			}
+			else if (Main.windSpeedCurrent > -0.2f && Main.windSpeedCurrent < 0f)
+			{
+				windSpeed = Main.rand.NextFloat(-0.4f, -0.2f);
+			}
+			if (windSpeed != 0f)
+			{
+				Main.windSpeedCurrent = windSpeed < 0f ? -0.2f : 0.2f;
+				Main.windSpeedTarget = windSpeed;
+			}
+
             Sandstorm.StartSandstorm();
         }
 
@@ -302,6 +319,61 @@ namespace CalamityMod
             CalamityNetcode.SyncWorld();
         }
 
+        public static bool IntoMorseCode(string originalText, float completion)
+        {
+            int spaceLenght = 13;
+            int betweenLetterLenght = 7;
+            int betweenBlipLenght = 4;
+            int shortLenght = 3;
+            int longLenght = 8;
+
+            char[] TextKeys = { ' ', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r',
+                's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0' };
+            string[] MorseKeys = { " ", ".-|", "-...|", "-.-. |", "-..|", ".|", "..-.|"
+                    , "--.|", "....|", "..|", ".---|","-.-|",".-..|","--|",
+                      "-.|","---|",".--.|","--.-|",".-.|","...|","-|","..-|",
+                      "...-|",".--|","-..-|","-.--|","--..|",".----|",
+                      "..---|","...--|","....-|",".....|","-....|","--...|",
+                      "---..|","----.|","-----|" };
+
+            string morseText = "";
+            originalText = originalText.ToLower();
+
+            //Construct a string of text that replaces all the stuff with morse.
+            for (int i = 0; i < originalText.Length; i++)
+            {
+                for (int j = 0; j < 37; j++)
+                {
+                    if (TextKeys[j] == originalText[i])
+                    {
+                        morseText += MorseKeys[j];
+                        break;
+                    }
+                }
+            }
+
+            List<bool> morseState = new List<bool>();
+
+            for (int i = 0; i < morseText.Length; i++)
+            {
+                if (morseText[i] == " ".ToCharArray()[0])
+                    morseState.AddRange(Enumerable.Repeat(false, spaceLenght));
+
+                if (morseText[i] == "|".ToCharArray()[0])
+                    morseState.AddRange(Enumerable.Repeat(false, betweenLetterLenght));
+
+                if (morseText[i] == ".".ToCharArray()[0])
+                    morseState.AddRange(Enumerable.Repeat(true, shortLenght));
+
+                if (morseText[i] == "-".ToCharArray()[0])
+                    morseState.AddRange(Enumerable.Repeat(true, longLenght));
+
+                morseState.AddRange(Enumerable.Repeat(false, betweenBlipLenght));
+            }
+
+            return morseState[(int)((morseState.Count - 1) * completion)];
+        }
+
         public static int GetBannerItem(int style)
         {
             int item = -1;
@@ -318,9 +390,6 @@ namespace CalamityMod
                     break;
                 case 4:
                     item = ModContent.ItemType<CatfishBanner>();
-                    break;
-                case 5:
-                    item = ModContent.ItemType<MaulerBanner>();
                     break;
                 case 7:
                     item = ModContent.ItemType<AquaticUrchinBanner>();
@@ -484,9 +553,6 @@ namespace CalamityMod
                 case 63:
                     item = ModContent.ItemType<CnidrionBanner>();
                     break;
-                case 65:
-                    item = ModContent.ItemType<GreatSandSharkBanner>();
-                    break;
                 case 66:
                     item = ModContent.ItemType<AmethystCrawlerBanner>();
                     break;
@@ -604,9 +670,6 @@ namespace CalamityMod
                 case 106:
                     item = ModContent.ItemType<SeaSerpentBanner>();
                     break;
-                case 107:
-                    item = ModContent.ItemType<GiantClamBanner>();
-                    break;
                 case 108:
                     item = ModContent.ItemType<PiggyBanner>();
                     break;
@@ -662,7 +725,7 @@ namespace CalamityMod
                     item = ModContent.ItemType<WulfrumRoverBanner>();
                     break;
                 case 126:
-                    item = ModContent.ItemType<WulfrumPylonBanner>();
+                    item = ModContent.ItemType<WulfrumAmplifierBanner>();
                     break;
                 default:
                     break;
@@ -686,9 +749,6 @@ namespace CalamityMod
                     break;
                 case 4:
                     npc = ModContent.NPCType<Catfish>();
-                    break;
-                case 5:
-                    npc = ModContent.NPCType<Mauler>();
                     break;
                 case 7:
                     npc = ModContent.NPCType<AquaticUrchin>();
@@ -787,7 +847,7 @@ namespace CalamityMod
                     npc = ModContent.NPCType<AstralachneaGround>();
                     break;
                 case 40:
-                    npc = ModContent.NPCType<Hive>();
+                    npc = ModContent.NPCType<HiveEnemy>();
                     break;
                 case 41:
                     npc = ModContent.NPCType<StellarCulex>();
@@ -851,9 +911,6 @@ namespace CalamityMod
                     break;
                 case 63:
                     npc = ModContent.NPCType<Cnidrion>();
-                    break;
-                case 65:
-                    npc = ModContent.NPCType<GreatSandShark>();
                     break;
                 case 66:
                     npc = ModContent.NPCType<CrawlerAmethyst>();
@@ -972,9 +1029,6 @@ namespace CalamityMod
                 case 106:
                     npc = ModContent.NPCType<SeaSerpent1>();
                     break;
-                case 107:
-                    npc = ModContent.NPCType<GiantClam>();
-                    break;
                 case 108:
                     npc = ModContent.NPCType<Piggy>();
                     break;
@@ -1030,7 +1084,7 @@ namespace CalamityMod
                     npc = ModContent.NPCType<WulfrumRover>();
                     break;
                 case 126:
-                    npc = ModContent.NPCType<WulfrumPylon>();
+                    npc = ModContent.NPCType<WulfrumAmplifier>();
                     break;
                 default:
                     break;

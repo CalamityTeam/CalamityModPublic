@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class ThrowingBrick : ModItem
+    public class ThrowingBrick : RogueWeapon
     {
         public override void SetStaticDefaults()
         {

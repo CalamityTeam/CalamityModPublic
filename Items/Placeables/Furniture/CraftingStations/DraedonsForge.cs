@@ -1,4 +1,5 @@
 using CalamityMod.Items.Materials;
+using CalamityMod.Rarities;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -28,10 +29,14 @@ namespace CalamityMod.Items.Placeables.Furniture.CraftingStations
             Item.consumable = true;
             Item.createTile = ModContent.TileType<Tiles.Furniture.CraftingStations.DraedonsForge>();
 
-            Item.rare = ItemRarityID.Red;
-            Item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.rare = ModContent.RarityType<Violet>();
             Item.value = Item.sellPrice(platinum: 27, gold: 50);
         }
+
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = ContentSamples.CreativeHelper.ItemGroup.CraftingObjects;
+		}
 
         public override void AddRecipes()
         {

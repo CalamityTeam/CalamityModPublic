@@ -2,9 +2,11 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.CalPlayer;
 using CalamityMod.Cooldowns;
+using CalamityMod.ForegroundDrawing;
 using CalamityMod.Events;
 using CalamityMod.FluidSimulation;
 using CalamityMod.Items.Dyes;
+using CalamityMod.NPCs;
 using CalamityMod.NPCs.Astral;
 using CalamityMod.NPCs.AstrumAureus;
 using CalamityMod.NPCs.Crabulon;
@@ -14,6 +16,8 @@ using CalamityMod.Projectiles;
 using CalamityMod.Systems;
 using CalamityMod.Waters;
 using CalamityMod.World;
+using CalamityMod.Projectiles.Typeless;
+using CalamityMod.Items.Accessories;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Mono.Cecil.Cil;
@@ -33,6 +37,11 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.UI.Gamepad;
 using Terraria.Utilities;
+using Terraria.Graphics.Light;
+using Terraria.GameContent.Events;
+using CalamityMod.DataStructures;
+using CalamityMod.Particles.Metaballs;
+using Terraria.GameContent.Drawing;
 
 namespace CalamityMod.ILEditing
 {
@@ -236,7 +245,7 @@ namespace CalamityMod.ILEditing
         {
             if (Main.dayTime || BossRushEvent.BossRushActive)
                 return true;
-            
+
             return orig();
         }
         #endregion Allow Empress to Enrage in Boss Rush
@@ -443,16 +452,6 @@ namespace CalamityMod.ILEditing
         }
         #endregion Platform Collision Checks for Grounded Bosses
 
-        #region Teleporter Disabling During Boss Fights
-        private static void DisableTeleporters(On.Terraria.Wiring.orig_Teleport orig)
-        {
-            if (CalamityPlayer.areThereAnyDamnBosses)
-                return;
-
-            orig();
-        }
-        #endregion Teleporter Disabling During Boss Fights
-
         #region Incorporate Enchantments in Item Names
         private static string IncorporateEnchantmentInAffix(On.Terraria.Item.orig_AffixName orig, Item self)
         {
@@ -515,14 +514,16 @@ namespace CalamityMod.ILEditing
         #region Fire Cursor Effect for the Calamity Accessory
         private static void UseCoolFireCursorEffect(On.Terraria.Main.orig_DrawCursor orig, Vector2 bonus, bool smart)
         {
+            Player player = Main.LocalPlayer;
+
             // Do nothing special if the player has a regular mouse or is on the menu/map.
-            if (Main.gameMenu || Main.mapFullscreen || !Main.LocalPlayer.Calamity().blazingCursorVisuals)
+            if (Main.gameMenu || Main.mapFullscreen || !player.Calamity().blazingCursorVisuals)
             {
                 orig(bonus, smart);
                 return;
             }
 
-            if (Main.LocalPlayer.dead)
+            if (player.dead)
             {
                 Main.ClearSmartInteract();
                 Main.TileInteractionLX = (Main.TileInteractionHX = (Main.TileInteractionLY = (Main.TileInteractionHY = -1)));
@@ -547,14 +548,14 @@ namespace CalamityMod.ILEditing
                 Vector2 desaturatedDrawPosition = drawPosition + Vector2.One;
 
                 // If the blazing mouse is actually going to do damage, draw an indicator aura.
-                if (Main.LocalPlayer.Calamity().blazingCursorDamage && !Main.mapFullscreen)
+                if (!Main.mapFullscreen)
                 {
                     int size = 450;
                     FluidFieldManager.AdjustSizeRelativeToGraphicsQuality(ref size);
 
                     float scale = MathHelper.Max(Main.screenWidth, Main.screenHeight) / size;
-                    ref FluidField calamityFireDrawer = ref Main.LocalPlayer.Calamity().CalamityFireDrawer;
-                    ref Vector2 firePosition = ref Main.LocalPlayer.Calamity().FireDrawerPosition;
+                    ref FluidField calamityFireDrawer = ref player.Calamity().CalamityFireDrawer;
+                    ref Vector2 firePosition = ref player.Calamity().FireDrawerPosition;
                     if (calamityFireDrawer is null || calamityFireDrawer.Size != size)
                         calamityFireDrawer = FluidFieldManager.CreateField(size, scale, 0.1f, 50f, 0.992f);
 
@@ -566,13 +567,13 @@ namespace CalamityMod.ILEditing
                     int horizontalArea = (int)Math.Ceiling(5f / calamityFireDrawer.Scale);
                     int verticalArea = (int)Math.Ceiling(5f / calamityFireDrawer.Scale);
 
-                    calamityFireDrawer.ShouldUpdate = true;
+                    calamityFireDrawer.ShouldUpdate = player.miscCounter % 4 == 0;
                     calamityFireDrawer.UpdateAction = () =>
                     {
                         Color color = Color.Lerp(Color.Red, Color.Orange, (float)Math.Sin(Main.GlobalTimeWrappedHourly * 6f) * 0.5f + 0.5f);
 
                         // Use a rainbow color if the player has the rainbow cursor equipped as well as Calamity.
-                        if (Main.LocalPlayer.hasRainbowCursor)
+                        if (player.hasRainbowCursor)
                             color = Color.Lerp(color, Main.hslToRgb(Main.GlobalTimeWrappedHourly * 0.97f % 1f, 1f, 0.6f), 0.75f);
 
                         for (int i = -horizontalArea; i <= horizontalArea; i++)
@@ -595,7 +596,7 @@ namespace CalamityMod.ILEditing
                             velocity *= Main.rand.NextFloat(0.9f, 1.1f);
 
                             for (int j = -verticalArea; j <= verticalArea; j++)
-                                Main.LocalPlayer.Calamity().CalamityFireDrawer.CreateSource(x + size / 2 + i, y + size / 2 + j, 1f, color, velocity);
+                                player.Calamity().CalamityFireDrawer.CreateSource(x + size / 2 + i, y + size / 2 + j, 1f, color, velocity);
                         }
                     };
 
@@ -641,10 +642,45 @@ namespace CalamityMod.ILEditing
         }
         #endregion Fire Cursor Effect for the Calamity Accessory
 
+        #region Custom Draw Layers
+        private static void AdditiveDrawing(ILContext il)
+        {
+            ILCursor cursor = new(il);
+            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchCall<MoonlordDeathDrama>("DrawWhite")))
+                return;
+
+            cursor.EmitDelegate<Action>(() =>
+            {
+                Main.spriteBatch.SetBlendState(BlendState.Additive);
+
+                // Draw Projectiles.
+                for (int i = 0; i < Main.maxProjectiles; i++)
+                {
+                    if (!Main.projectile[i].active)
+                        continue;
+
+                    if (Main.projectile[i].ModProjectile is IAdditiveDrawer d)
+                        d.AdditiveDraw(Main.spriteBatch);
+                }
+
+                // Draw NPCs.
+                for (int i = 0; i < Main.maxNPCs; i++)
+                {
+                    if (!Main.npc[i].active)
+                        continue;
+
+                    if (Main.npc[i].ModNPC is IAdditiveDrawer d)
+                        d.AdditiveDraw(Main.spriteBatch);
+                }
+
+                Main.spriteBatch.SetBlendState(BlendState.AlphaBlend);
+            });
+        }
+        #endregion Custom Draw Layers
+
         #region General Particle Rendering
         private static void DrawFusableParticles(On.Terraria.Main.orig_SortDrawCacheWorms orig, Main self)
         {
-            GeneralParticleHandler.DrawAllParticles(Main.spriteBatch);
             DeathAshParticle.DrawAll();
             FusableParticleManager.RenderAllFusableParticles();
 
@@ -654,77 +690,59 @@ namespace CalamityMod.ILEditing
             orig(self);
         }
 
-        #endregion General Particle Rendering
+        private static void DrawForegroundParticles(On.Terraria.Main.orig_DrawInfernoRings orig, Main self)
+        {
+            GeneralParticleHandler.DrawAllParticles(Main.spriteBatch);
+            orig(self);
+        }
 
-        #region Custom Lava Visuals
         private static void ResetRenderTargetSizes(On.Terraria.Main.orig_SetDisplayMode orig, int width, int height, bool fullscreen)
         {
             if (FusableParticleManager.HasBeenFormallyDefined)
                 FusableParticleManager.LoadParticleRenderSets(true, width, height);
             orig(width, height, fullscreen);
         }
+        #endregion General Particle Rendering
 
-        private static void DrawCustomLava(ILContext il)
+        #region Custom Lava Visuals
+        private static void DrawCustomLava(On.Terraria.GameContent.Drawing.TileDrawing.orig_DrawPartialLiquid orig, TileDrawing self, Tile tileCache, Vector2 position, Rectangle liquidSize, int liquidType, Color aColor)
         {
-            ILCursor cursor = new ILCursor(il);
-
-            FieldInfo liquidTexturesField = typeof(TextureAssets).GetField("Liquid");
-            FieldInfo liquidSlopeTexturesField = typeof(TextureAssets).GetField("LiquidSlope");
-
-            void replaceLiquidTexture(LiquidTileType type)
+            if (liquidType != 1)
             {
-                // Move to the end of the get_Value() call and then use the resulting texture to check if a new one should replace it.
-                // Adding to the index directly would seem like a simple, direct way of achieving this since the operation is incredibly light, but
-                // it also unsafe due to the potential for NOP operations to appear.
-                if (!cursor.TryGotoNext(MoveType.After, c => c.MatchCallvirt(textureGetValueMethod)))
-                {
-                    LogFailure("Custom Lava Drawing", "Could not locate the liquid texture Value call.");
-                    return;
-                }
-                cursor.EmitDelegate<Func<Texture2D, Texture2D>>(initialTexture => SelectLavaTexture(initialTexture, type));
-            }
-
-            void replaceLiquidColor(bool sloped)
-            {
-                // Pass the texture in so that the method can ensure it is not messing around with non-lava textures.
-                cursor.Emit(OpCodes.Ldsfld, sloped ? liquidSlopeTexturesField : liquidTexturesField);
-                cursor.Emit(OpCodes.Ldarg, 4);
-                cursor.Emit(OpCodes.Ldelem_Ref);
-                cursor.Emit(OpCodes.Callvirt, textureGetValueMethod);
-                cursor.EmitDelegate<Func<Color, Texture2D, Color>>((initialColor, initialTexture) => SelectLavaColor(initialTexture, initialColor));
-            }
-
-            // Replace initial textures and colors.
-            if (!cursor.TryGotoNext(c => c.MatchLdsfld(liquidTexturesField)))
-            {
-                LogFailure("Custom Lava Drawing", "Could not locate the liquid texture array load.");
+                orig(self, tileCache, position, liquidSize, liquidType, aColor);
                 return;
             }
-            replaceLiquidTexture(LiquidTileType.Waterflow);
+            
+            Texture2D initialTexture = TextureAssets.LiquidSlope[liquidType].Value;
+            Texture2D slopeTexture = SelectLavaTexture(liquidType == 1 ? CustomLavaManagement.LavaSlopeTexture : initialTexture, LiquidTileType.Slope);
+            aColor = SelectLavaColor(initialTexture, aColor, liquidType == 1);
 
-            if (!cursor.TryGotoNext(MoveType.After, c => c.MatchLdarg(5)))
+            int slope = (int)tileCache.Slope;
+            if (!TileID.Sets.BlocksWaterDrawingBehindSelf[tileCache.TileType] || slope == 0)
             {
-                LogFailure("Custom Lava Drawing", "Could not locate the liquid light color.");
+                Texture2D liquidTexture = SelectLavaTexture(liquidType == 1 ? CustomLavaManagement.LavaBlockTexture : TextureAssets.Liquid[liquidType].Value, LiquidTileType.Block);
+                Main.spriteBatch.Draw(liquidTexture, position, liquidSize, aColor, 0f, default, 1f, 0, 0f);
                 return;
             }
-            replaceLiquidColor(false);
-
-            // Replace sloped textures and colors.
-            for (int i = 0; i < 4; i++)
+            liquidSize.X += 18 * (slope - 1);
+            if (tileCache.Slope == SlopeType.SlopeDownLeft)
             {
-                if (!cursor.TryGotoNext(c => c.MatchLdsfld(liquidSlopeTexturesField)))
-                {
-                    LogFailure("Custom Lava Drawing", "Could not locate the sloped liquid texture array load.");
-                    return;
-                }
-                replaceLiquidTexture(LiquidTileType.Slope);
-
-                if (!cursor.TryGotoNext(MoveType.After, c => c.MatchLdarg(5)))
-                {
-                    LogFailure("Custom Lava Drawing", "Could not locate the liquid light color.");
-                    return;
-                }
-                replaceLiquidColor(true);
+                Main.spriteBatch.Draw(slopeTexture, position, liquidSize, aColor, 0f, Vector2.Zero, 1f, 0, 0f);
+                return;
+            }
+            if (tileCache.Slope == SlopeType.SlopeDownRight)
+            {
+                Main.spriteBatch.Draw(slopeTexture, position, liquidSize, aColor, 0f, Vector2.Zero, 1f, 0, 0f);
+                return;
+            }
+            if (tileCache.Slope == SlopeType.SlopeUpLeft)
+            {
+                Main.spriteBatch.Draw(slopeTexture, position, liquidSize, aColor, 0f, Vector2.Zero, 1f, 0, 0f);
+                return;
+            }
+            if (tileCache.Slope == SlopeType.SlopeUpRight)
+            {
+                Main.spriteBatch.Draw(slopeTexture, position, liquidSize, aColor, 0f, Vector2.Zero, 1f, 0, 0f);
             }
         }
 
@@ -759,12 +777,13 @@ namespace CalamityMod.ILEditing
             cursor.Emit(OpCodes.Ldfld, typeof(LiquidRenderer).GetField("_liquidTextures"));
             cursor.Emit(OpCodes.Ldloc, 8);
             cursor.Emit(OpCodes.Ldelem_Ref);
-            cursor.EmitDelegate<Func<VertexColors, Texture2D, VertexColors>>((initialColor, initialTexture) =>
+            cursor.Emit(OpCodes.Ldloc, 8);
+            cursor.EmitDelegate<Func<VertexColors, Texture2D, int, VertexColors>>((initialColor, initialTexture, liquidType) =>
             {
-                initialColor.TopLeftColor = SelectLavaColor(initialTexture, initialColor.TopLeftColor);
-                initialColor.TopRightColor = SelectLavaColor(initialTexture, initialColor.TopRightColor);
-                initialColor.BottomLeftColor = SelectLavaColor(initialTexture, initialColor.BottomLeftColor);
-                initialColor.BottomRightColor = SelectLavaColor(initialTexture, initialColor.BottomRightColor);
+                initialColor.TopLeftColor = SelectLavaColor(initialTexture, initialColor.TopLeftColor, liquidType == 1);
+                initialColor.TopRightColor = SelectLavaColor(initialTexture, initialColor.TopRightColor, liquidType == 1);
+                initialColor.BottomLeftColor = SelectLavaColor(initialTexture, initialColor.BottomLeftColor, liquidType == 1);
+                initialColor.BottomRightColor = SelectLavaColor(initialTexture, initialColor.BottomRightColor, liquidType == 1);
                 return initialColor;
             });
         }
@@ -772,6 +791,33 @@ namespace CalamityMod.ILEditing
         private static void DrawCustomLava3(ILContext il)
         {
             ILCursor cursor = new ILCursor(il);
+
+            // Locate the local index for the liquid color.
+            int liquidColorLocalIndex = 0;
+            MethodInfo lightingGetColorMethod = typeof(Lighting).GetMethod("GetColor", new Type[] { typeof(int), typeof(int) });
+            if (!cursor.TryGotoNext(MoveType.Before, c => c.MatchCallOrCallvirt(lightingGetColorMethod)))
+            {
+                LogFailure("Custom Lava Drawing", "Could not lighting GetColor call.");
+                return;
+            }
+            if (!cursor.TryGotoNext(c => c.MatchStloc(out liquidColorLocalIndex)))
+            {
+                LogFailure("Custom Lava Drawing", "Could not lighting GetColor local variable index.");
+                return;
+            }
+
+            // Shortly after the liquid color local is the liquid type integer. Locate it.
+            int liquidTypeLocalIndex = 0;
+            if (!cursor.TryGotoNext(MoveType.Before, c => c.MatchLdcI4(0)))
+            {
+                LogFailure("Custom Lava Drawing", "Could not default value for the liquid type.");
+                return;
+            }
+            if (!cursor.TryGotoNext(c => c.MatchStloc(out liquidTypeLocalIndex)))
+            {
+                LogFailure("Custom Lava Drawing", "Could not liquid type local variable index.");
+                return;
+            }
 
             // Select the lava color.
             if (!cursor.TryGotoNext(MoveType.After, c => c.MatchCallOrCallvirt<Lighting>("get_NotRetro")))
@@ -781,13 +827,13 @@ namespace CalamityMod.ILEditing
             }
 
             // Pass the texture in so that the method can ensure it is not messing around with non-lava textures.
-            cursor.Emit(OpCodes.Ldloc, 13);
+            cursor.Emit(OpCodes.Ldloc, liquidColorLocalIndex);
             cursor.Emit(OpCodes.Ldsfld, typeof(TextureAssets).GetField("Liquid"));
-            cursor.Emit(OpCodes.Ldloc, 15);
+            cursor.Emit(OpCodes.Ldloc, liquidTypeLocalIndex);
             cursor.Emit(OpCodes.Ldelem_Ref);
             cursor.Emit(OpCodes.Call, textureGetValueMethod);
             cursor.EmitDelegate<Func<Color, Texture2D, Color>>((initialColor, initialTexture) => SelectLavaColor(initialTexture, initialColor));
-            cursor.Emit(OpCodes.Stloc, 13);
+            cursor.Emit(OpCodes.Stloc, liquidColorLocalIndex);
 
             // Go back to the start and change textures as necessary.
             cursor.Index = 0;
@@ -820,14 +866,14 @@ namespace CalamityMod.ILEditing
 
             // Determine the waterfall type. This happens after all the "If Lava do blahblahblah" color checks, meaning it will have the same
             // color properties as lava.
-            cursor.Emit(OpCodes.Ldloc, 13);
+            cursor.Emit(OpCodes.Ldloc, 12);
             cursor.EmitDelegate<Func<int, int>>(initialWaterfallStyle => CustomLavaManagement.SelectLavafallStyle(initialWaterfallStyle));
-            cursor.Emit(OpCodes.Stloc, 13);
+            cursor.Emit(OpCodes.Stloc, 12);
 
-            cursor.Emit(OpCodes.Ldloc, 13);
-            cursor.Emit(OpCodes.Ldloc, 56);
+            cursor.Emit(OpCodes.Ldloc, 12);
+            cursor.Emit(OpCodes.Ldloc, 54);
             cursor.EmitDelegate<Func<int, Color, Color>>((initialWaterfallStyle, initialLavafallColor) => CustomLavaManagement.SelectLavafallColor(initialWaterfallStyle, initialLavafallColor));
-            cursor.Emit(OpCodes.Stloc, 56);
+            cursor.Emit(OpCodes.Stloc, 54);
         }
         #endregion Custom Lava Visuals
 
@@ -903,8 +949,8 @@ namespace CalamityMod.ILEditing
                 c.EmitDelegate<Func<short[], short[]>>(arr =>
                 {
                     // resize the array and add our custom firefly
-                    Array.Resize(ref arr, arr.Length+1);
-                    arr[arr.Length-1] = (short)ModContent.NPCType<Twinkler>();
+                    Array.Resize(ref arr, arr.Length + 1);
+                    arr[arr.Length - 1] = (short)ModContent.NPCType<Twinkler>();
                     return arr;
                 });
 
@@ -916,5 +962,145 @@ namespace CalamityMod.ILEditing
             throw new Exception("Hook location not found, switch(*) { case 54: ...");
         }
         #endregion Statue Additions
+
+        #region Make Tax Collector Worth it
+        private static void MakeTaxCollectorUseful(ILContext il)
+        {
+            ILCursor cursor = new(il);
+            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchCall<Item>("buyPrice")))
+            {
+                LogFailure("Tax Collector Money Boosts", "Could not locate the amount of money to collect per town NPC.");
+                return;
+            }
+            cursor.Emit(OpCodes.Pop);
+            cursor.Emit<CalamityGlobalNPC>(OpCodes.Call, "get_TotalTaxesPerNPC");
+
+            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchCall<Item>("buyPrice")))
+            {
+                LogFailure("Tax Collector Money Boosts", "Could not locate the maximum amount of money to collect.");
+                return;
+            }
+            cursor.Emit(OpCodes.Pop);
+            cursor.Emit<CalamityGlobalNPC>(OpCodes.Call, "get_TaxesToCollectLimit");
+        }
+        #endregion Make Tax Collector Worth it
+        #region Foreground tiles drawing
+        private static void DrawForegroundStuff(On.Terraria.Main.orig_DrawGore orig, Main self)
+        {
+            orig(self);
+            if (Main.PlayerLoaded && !Main.gameMenu)
+                ForegroundManager.DrawTiles();
+        }
+
+        private static void ClearForegroundStuff(On.Terraria.GameContent.Drawing.TileDrawing.orig_PreDrawTiles orig, Terraria.GameContent.Drawing.TileDrawing self, bool solidLayer, bool forRenderTargets, bool intoRenderTargets)
+        {
+            orig(self, solidLayer, forRenderTargets, intoRenderTargets);
+
+            if (!solidLayer && (intoRenderTargets || Lighting.UpdateEveryFrame))
+                ForegroundManager.ClearTiles();
+        }
+        #endregion
+
+        #region Tile ping overlay
+        private static void ClearTilePings(On.Terraria.GameContent.Drawing.TileDrawing.orig_Draw orig, Terraria.GameContent.Drawing.TileDrawing self, bool solidLayer, bool forRenderTargets, bool intoRenderTargets, int waterStyleOverride)
+        {
+            //Retro & Trippy light modes are fine. Just reset the cache before every time stuff gets drawn.
+            if (Lighting.UpdateEveryFrame)
+            {
+                //But only if its not on the non solid layer, assumedly because it draws first or something
+                if (!solidLayer)
+                    TilePingerSystem.ClearTiles();
+            }
+
+            else
+            {
+                //For the white color mode, we also can simply clear all the cache at once, but this time its only on the solid layers. Don't ask me why i don't know it just works
+                if (Lighting.Mode == LightMode.White)
+                {
+                    if (solidLayer)
+                        TilePingerSystem.ClearTiles();
+                }
+
+                //In color mode, the tiles get cleared alternating between solid and non solid tiles
+                else
+                    TilePingerSystem.ClearTiles(solidLayer);
+
+            }
+            orig(self, solidLayer, forRenderTargets, intoRenderTargets, waterStyleOverride);
+        }
+        #endregion
+
+        #region Custom Grappling hooks
+
+        /// <summary>
+        /// Determines if the custom grapple movement should take place or not. Useful for hooks that only do movement tricks in some cases
+        /// </summary>
+        private static void CustomGrappleMovementCheck(On.Terraria.Player.orig_GrappleMovement orig, Player self)
+        {
+            WulfrumPackPlayer mp = self.GetModPlayer<WulfrumPackPlayer>();
+
+            if (mp.GrappleMovementDisabled)
+                return;
+
+            orig(self);
+        }
+
+        /// <summary>
+        /// This is called right before the game decides wether or not to update the players velocity based on "real" physics (aka not tongued or hooked or with a pulley)
+        /// </summary>
+        private static void CustomGrapplePreDefaultMovement(On.Terraria.Player.orig_UpdatePettingAnimal orig, Player self)
+        {
+            orig(self);
+
+            WulfrumPackPlayer mp = self.GetModPlayer<WulfrumPackPlayer>();
+            mp.hookCache = -1;
+
+            //if tongued, dnc.
+            if (self.tongued)
+                return;
+
+            //Cache the player's grapple and remove it temporarily (Gets re added in the modplayer's PostUpdateRunSpeeds)
+            if (self.grappling[0] >= 0 && mp.GrappleMovementDisabled && Main.projectile[self.grappling[0]].type == ModContent.ProjectileType<WulfrumHook>())
+            {
+                mp.hookCache = self.grappling[0];
+                self.grappling[0] = -1;
+                self.grapCount = 0;
+            }
+        }
+
+        /// <summary>
+        /// Used before the player steps up a half tile. If we don't do that, players that are grappled but don't use hook movement won't be able to go over tiles.
+        /// The hook cache is reset in PreUpdateMovement
+        /// </summary>
+        private static void CustomGrapplePreStepUp(On.Terraria.Player.orig_SlopeDownMovement orig, Player self)
+        {
+            orig(self);
+
+            WulfrumPackPlayer mp = self.GetModPlayer<WulfrumPackPlayer>();
+            if (self.grappling[0] >= 0 && mp.GrappleMovementDisabled && Main.projectile[self.grappling[0]].type == ModContent.ProjectileType<WulfrumHook>())
+            {
+                mp.hookCache = self.grappling[0];
+                self.grappling[0] = -1;
+                self.grapCount = 0;
+            }
+        }
+
+        /// <summary>
+        /// This is done to put the hook if it was cacehd during the frame instruction.
+        /// </summary>
+        private static void CustomGrapplePostFrame(On.Terraria.Player.orig_PlayerFrame orig, Player self)
+        {
+            orig(self);
+            WulfrumPackPlayer mp = self.GetModPlayer<WulfrumPackPlayer>();
+
+            if (mp.hookCache > -1)
+            {
+                self.grappling[0] = mp.hookCache;
+                self.grapCount = 1;
+            }
+
+            mp.hookCache = -1;
+        }
+        #endregion
     }
 }

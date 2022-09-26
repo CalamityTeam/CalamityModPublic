@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 
@@ -11,7 +12,7 @@ namespace CalamityMod.Tiles.FurnitureBotanic
     {
         public override void SetStaticDefaults()
         {
-            this.SetUpSink(true);
+            this.SetUpSink(true, false, false, true);
             AddMapEntry(new Color(191, 142, 111), Language.GetText("MapObject.Sink"));
         }
 

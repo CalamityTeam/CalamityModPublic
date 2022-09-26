@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class ConsecratedWater : ModItem
+    public class ConsecratedWater : RogueWeapon
     {
         public const int BaseDamage = 48;
 

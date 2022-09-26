@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class PhantomLance : ModItem
+    public class PhantomLance : RogueWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -60,9 +60,9 @@ Stealth strikes don't slow down and souls always deal full damage");
         public override void AddRecipes()
         {
             CreateRecipe(100).
-                AddIngredient(ItemID.SpectreBar, 2).
+                AddIngredient(ItemID.SpectreBar).
                 AddIngredient<ScoriaBar>().
-                AddIngredient<AshesofCalamity>(2).
+                AddIngredient<AshesofCalamity>().
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

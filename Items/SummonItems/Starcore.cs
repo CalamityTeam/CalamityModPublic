@@ -15,6 +15,7 @@ namespace CalamityMod.Items.SummonItems
             Tooltip.SetDefault("May the stars guide your way\n" +
                 "Summons Astrum Deus at the Astral Beacon, but is not consumed\n" +
                 "Enrages during the day");
+			ItemID.Sets.SortingPriorityBossSpawns[Type] = 16; // Solar Tablet / Bloody Tear
         }
 
         public override void SetDefaults()
@@ -23,6 +24,11 @@ namespace CalamityMod.Items.SummonItems
             Item.height = 40;
             Item.rare = ItemRarityID.Cyan;
         }
+
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = ContentSamples.CreativeHelper.ItemGroup.BossItem;
+		}
 
         public override void AddRecipes()
         {

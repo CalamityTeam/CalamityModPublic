@@ -26,7 +26,7 @@ namespace CalamityMod.NPCs.Crabulon
             NPC.width = 14;
             NPC.height = 14;
 
-            NPC.lifeMax = 25;
+            NPC.lifeMax = 15;
             if (BossRushEvent.BossRushActive)
                 NPC.lifeMax = 15000;
             if (Main.getGoodWorld)
@@ -71,13 +71,13 @@ namespace CalamityMod.NPCs.Crabulon
             bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
             float xVelocityLimit = BossRushEvent.BossRushActive ? 7.5f : 5f;
             float yVelocityLimit = revenge ? 1.25f : 1f;
+            NPC.TargetClosest();
             Player player = Main.player[NPC.target];
             NPC.velocity.Y += 0.02f;
             if (NPC.velocity.Y > yVelocityLimit)
             {
                 NPC.velocity.Y = yVelocityLimit;
             }
-            NPC.TargetClosest();
             if (NPC.position.X + NPC.width < player.position.X)
             {
                 if (NPC.velocity.X < 0f)
@@ -125,17 +125,14 @@ namespace CalamityMod.NPCs.Crabulon
 
         public override void OnKill()
         {
-            if (!CalamityWorld.revenge)
-            {
-                int closestPlayer = Player.FindClosest(NPC.Center, 1, 1);
-                if (Main.rand.NextBool(8) && Main.player[closestPlayer].statLife < Main.player[closestPlayer].statLifeMax2)
-                    Item.NewItem(NPC.GetSource_Loot(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
-            }
+            int closestPlayer = Player.FindClosest(NPC.Center, 1, 1);
+            if (Main.rand.NextBool(8) && Main.player[closestPlayer].statLife < Main.player[closestPlayer].statLifeMax2)
+                Item.NewItem(NPC.GetSource_Loot(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
         }
 
         public override void HitEffect(int hitDirection, double damage)
         {
-            for (int k = 0; k < 5; k++)
+            for (int k = 0; k < 3; k++)
             {
                 Dust.NewDust(NPC.position, NPC.width, NPC.height, 56, hitDirection, -1f, 0, default, 1f);
             }

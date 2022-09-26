@@ -1,6 +1,7 @@
+using CalamityMod.Rarities;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Placeables.Ores
 {
@@ -11,6 +12,7 @@ namespace CalamityMod.Items.Placeables.Ores
             SacrificeTotal = 100;
             DisplayName.SetDefault("Auric Ore");
             Tooltip.SetDefault("Laced with the dormant power of a deity");
+			ItemID.Sets.SortingPriorityMaterials[Type] = 119;
         }
 
         public override void SetDefaults()
@@ -26,7 +28,7 @@ namespace CalamityMod.Items.Placeables.Ores
             Item.height = 10;
             Item.maxStack = 999;
             Item.value = Item.sellPrice(gold: 4);
-            Item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.rare = ModContent.RarityType<Violet>();
         }
     }
 }

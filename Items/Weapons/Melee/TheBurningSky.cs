@@ -1,7 +1,9 @@
-﻿using Terraria.DataStructures;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Projectiles.Melee;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
@@ -42,8 +44,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.shootSpeed = 14f;
 
             Item.value = CalamityGlobalItem.Rarity15BuyPrice;
-            Item.rare = ItemRarityID.Purple;
-            Item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.rare = ModContent.RarityType<Violet>();
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
@@ -60,7 +61,7 @@ namespace CalamityMod.Items.Weapons.Melee
             return false;
         }
 
-        public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit) => target.AddBuff(BuffID.Daybreak, 300);
-        public override void OnHitPvp(Player player, Player target, int damage, bool crit) => target.AddBuff(BuffID.Daybreak, 300);
+        public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit) => target.AddBuff(ModContent.BuffType<Dragonfire>(), 300);
+        public override void OnHitPvp(Player player, Player target, int damage, bool crit) => target.AddBuff(ModContent.BuffType<Dragonfire>(), 300);
     }
 }

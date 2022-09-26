@@ -1,3 +1,4 @@
+using CalamityMod.Rarities;
 using CalamityMod.UI;
 using Terraria;
 using Terraria.ID;
@@ -9,6 +10,7 @@ namespace CalamityMod.Items.DraedonMisc
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Draedon's Log - Space");
             Tooltip.SetDefault("Click to view its contents");
         }
@@ -17,8 +19,7 @@ namespace CalamityMod.Items.DraedonMisc
         {
             Item.width = 28;
             Item.height = 28;
-            Item.rare = ItemRarityID.Red;
-            Item.Calamity().customRarity = CalamityRarity.DraedonRust;
+            Item.rare = ModContent.RarityType<DarkOrange>();
             Item.useAnimation = Item.useTime = 20;
             Item.useStyle = ItemUseStyleID.HoldUp;
         }

@@ -46,6 +46,7 @@ namespace CalamityMod.NPCs.Perforator
             NPCID.Sets.BossBestiaryPriority.Add(Type);
             NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0);
             NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
+			NPCID.Sets.MPAllowedEnemies[Type] = true;
         }
 
         public override void SetDefaults()
@@ -68,7 +69,6 @@ namespace CalamityMod.NPCs.Perforator
             NPC.noTileCollide = true;
             NPC.HitSound = SoundID.NPCHit13;
             NPC.DeathSound = SoundID.NPCDeath19;
-            Music = CalamityMod.Instance.GetMusicFromMusicMod("Perforators") ?? MusicID.Boss2;
             NPC.Calamity().VulnerableToHeat = true;
             NPC.Calamity().VulnerableToCold = true;
             NPC.Calamity().VulnerableToSickness = true;
@@ -511,27 +511,26 @@ namespace CalamityMod.NPCs.Perforator
             var normalOnly = npcLoot.DefineNormalOnlyDropSet();
             {
                 // Weapons and such
-                int[] items = new int[]
-                {
+				normalOnly.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, new WeightedItemStack[]
+				{
                     ModContent.ItemType<VeinBurster>(),
                     ModContent.ItemType<SausageMaker>(),
                     ModContent.ItemType<Aorta>(),
                     ModContent.ItemType<Eviscerator>(),
                     ModContent.ItemType<BloodBath>(),
                     ModContent.ItemType<BloodClotStaff>(),
-                    ModContent.ItemType<BloodstainedGlove>(),
-                };
-                normalOnly.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, items));
-                normalOnly.Add(ModContent.ItemType<ToothBall>(), 1, 30, 50);
+					new WeightedItemStack(ModContent.ItemType<ToothBall>(), 1f, 30, 50),
+				}));
 
                 // Materials
-                normalOnly.Add(ItemID.CrimtaneBar, 1, 12, 15);
-                normalOnly.Add(ItemID.Vertebrae, 1, 12, 15);
-                normalOnly.Add(ItemID.CrimsonSeeds, 1, 12, 15);
-                normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<BloodSample>(), 1, 35, 45));
-                normalOnly.Add(ItemDropRule.ByCondition(new Conditions.IsHardmode(), ItemID.Ichor, 1, 10, 20));
+                normalOnly.Add(ItemID.CrimtaneBar, 1, 10, 15);
+                normalOnly.Add(ItemID.Vertebrae, 1, 10, 15);
+                normalOnly.Add(ItemID.CrimsonSeeds, 1, 10, 15);
+                normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<BloodSample>(), 1, 25, 30));
+                normalOnly.Add(ItemDropRule.ByCondition(DropHelper.Hardmode(), ItemID.Ichor, 1, 10, 20));
 
                 // Equipment
+				normalOnly.Add(ModContent.ItemType<BloodstainedGlove>(), DropHelper.NormalWeaponDropRateFraction);
                 normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<BloodyWormTooth>()));
 
                 // Vanity
@@ -542,15 +541,16 @@ namespace CalamityMod.NPCs.Perforator
             npcLoot.Add(ModContent.ItemType<PerforatorTrophy>(), 10);
 
             // Relic
-            npcLoot.AddIf(() => Main.masterMode || CalamityWorld.revenge, ModContent.ItemType<PerforatorsRelic>());
+            npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).Add(ModContent.ItemType<PerforatorsRelic>());
 
             // Lore
-            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedPerforator, ModContent.ItemType<KnowledgePerforators>());
+            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedPerforator, ModContent.ItemType<KnowledgePerforators>(), desc: DropHelper.FirstKillText);
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(ModContent.BuffType<BurningBlood>(), 180, true);
+            if (damage > 0)
+                player.AddBuff(ModContent.BuffType<BurningBlood>(), 180, true);
         }
 
         public override void HitEffect(int hitDirection, double damage)

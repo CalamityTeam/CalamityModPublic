@@ -31,7 +31,7 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.penetrate = 1;
             Projectile.Opacity = 0f;
             Projectile.timeLeft = 150;
-            CooldownSlot = 1;
+            CooldownSlot = ImmunityCooldownID.Bosses;
         }
 
         public override void AI()
@@ -98,7 +98,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            if (Projectile.Opacity != 1f)
+            if (damage <= 0 || Projectile.Opacity != 1f)
                 return;
 
             target.AddBuff(ModContent.BuffType<VulnerabilityHex>(), 180, true);
@@ -108,19 +108,25 @@ namespace CalamityMod.Projectiles.Boss
         {
             SoundEngine.PlaySound(ImpactSound, Projectile.Center);
 
+            // Difficulty modes
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || bossRush;
+            bool revenge = CalamityWorld.revenge || bossRush;
+            bool expertMode = Main.expertMode || bossRush;
+
             if (Projectile.ai[1] == 0f)
             {
-                float spread = 45f * MathHelper.PiOver2 * 0.01f;
-                double startAngle = Math.Atan2(Projectile.velocity.X, Projectile.velocity.Y) - spread / 2;
-                double deltaAngle = spread / 8f;
-                double offsetAngle;
                 if (Projectile.owner == Main.myPlayer)
                 {
-                    for (int i = 0; i < 8; i++)
+                    int totalProjectiles = bossRush ? 20 : death ? 16 : revenge ? 14 : expertMode ? 12 : 8;
+                    float radians = MathHelper.TwoPi / totalProjectiles;
+                    int type = ModContent.ProjectileType<BrimstoneBarrage>();
+                    float velocity = 7f;
+                    Vector2 spinningPoint = new Vector2(0f, -velocity);
+                    for (int k = 0; k < totalProjectiles; k++)
                     {
-                        offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 7f), (float)(Math.Cos(offsetAngle) * 7f), ModContent.ProjectileType<BrimstoneBarrage>(), (int)Math.Round(Projectile.damage * 0.75), Projectile.knockBack, Projectile.owner, 0f, 1f);
-                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 7f), (float)(-Math.Cos(offsetAngle) * 7f), ModContent.ProjectileType<BrimstoneBarrage>(), (int)Math.Round(Projectile.damage * 0.75), Projectile.knockBack, Projectile.owner, 0f, 1f);
+                        Vector2 velocity2 = spinningPoint.RotatedBy(radians * k);
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity2, type, (int)Math.Round(Projectile.damage * 0.75), 0f, Projectile.owner, 0f, 1f);
                     }
                 }
             }
@@ -135,11 +141,6 @@ namespace CalamityMod.Projectiles.Boss
                 Main.dust[redFire].velocity *= 2f;
                 Main.dust[redFire].noGravity = true;
             }
-        }
-
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
-        {
-            target.Calamity().lastProjectileHit = Projectile;
         }
     }
 }

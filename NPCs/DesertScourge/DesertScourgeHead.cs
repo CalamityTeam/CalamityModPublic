@@ -6,6 +6,7 @@ using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Furniture.BossRelics;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Items.TreasureBags;
+using CalamityMod.Items.TreasureBags.MiscGrabBags;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
@@ -50,6 +51,7 @@ namespace CalamityMod.NPCs.DesertScourge
             value.Position.X += 95;
             value.Position.Y += 45;
             NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
+			NPCID.Sets.MPAllowedEnemies[Type] = true;
         }
 
         public override void SetDefaults()
@@ -79,7 +81,6 @@ namespace CalamityMod.NPCs.DesertScourge
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath1;
             NPC.netAlways = true;
-            Music = CalamityMod.Instance.GetMusicFromMusicMod("DesertScourge") ?? MusicID.Boss1;
 
             if (BossRushEvent.BossRushActive)
                 NPC.scale *= 1.25f;
@@ -195,6 +196,9 @@ namespace CalamityMod.NPCs.DesertScourge
             {
                 speed *= 1.25f;
                 turnSpeed *= 1.5f;
+
+                if (NPC.Calamity().newAI[3] == 0f)
+                    NPC.Calamity().newAI[3] = player.Center.Y - 600f;
             }
 
             if (NPC.ai[2] > 0f)
@@ -374,7 +378,7 @@ namespace CalamityMod.NPCs.DesertScourge
             float num19 = turnSpeed;
             float burrowDistance = bossRush ? 500f : 800f;
             float burrowTarget = player.Center.Y + burrowDistance;
-            float lungeTarget = player.Center.Y - 600f;
+            float lungeTarget = NPC.Calamity().newAI[3];
             Vector2 vector3 = NPC.Center;
             float num20 = player.Center.X;
             float num21 = lungeUpward ? lungeTarget : burrow ? burrowTarget : player.Center.Y;
@@ -399,7 +403,7 @@ namespace CalamityMod.NPCs.DesertScourge
             }
 
             // Quickly fall back down once above target
-            if (lungeUpward && NPC.Center.Y <= player.Center.Y - 420f)
+            if (lungeUpward && NPC.Center.Y <= NPC.Calamity().newAI[3] + 600f - 420f)
             {
                 // Spit a huge spread of sand upwards that falls down
                 SoundEngine.PlaySound(SoundID.NPCDeath13, NPC.Center);
@@ -431,10 +435,11 @@ namespace CalamityMod.NPCs.DesertScourge
             if (quickFall)
             {
                 NPC.velocity.Y += Main.getGoodWorld ? 1f : 0.5f;
-                if (NPC.Center.Y >= player.Center.Y)
+                if (NPC.Center.Y >= NPC.Calamity().newAI[3] + 600f)
                 {
                     NPC.Calamity().newAI[0] = 0f;
                     NPC.Calamity().newAI[1] = 0f;
+                    NPC.Calamity().newAI[3] = 0f;
                     playRoarSound = false;
                 }
             }
@@ -448,7 +453,7 @@ namespace CalamityMod.NPCs.DesertScourge
 
             if (!flag2)
             {
-                NPC.TargetClosest(true);
+                NPC.TargetClosest();
                 NPC.velocity.Y = NPC.velocity.Y + 0.15f;
                 if (NPC.velocity.Y > num17)
                 {
@@ -684,7 +689,7 @@ namespace CalamityMod.NPCs.DesertScourge
             npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<DesertScourgeBag>()));
 
             // Extraneous potions
-            npcLoot.Add(DropHelper.PerPlayer(ItemID.LesserHealingPotion, 1, 8, 14));
+			npcLoot.DefineConditionalDropSet(() => true).Add(DropHelper.PerPlayer(ItemID.LesserHealingPotion, 1, 5, 15), hideLootReport: true); // Healing Potions don't show up in the Bestiary
 
             // Normal drops: Everything that would otherwise be in the bag
             var normalOnly = npcLoot.DefineNormalOnlyDropSet();
@@ -696,9 +701,7 @@ namespace CalamityMod.NPCs.DesertScourge
                     ModContent.ItemType<Barinade>(),
                     ModContent.ItemType<StormSpray>(),
                     ModContent.ItemType<SeaboundStaff>(),
-                    ModContent.ItemType<ScourgeoftheDesert>(),
-                    ModContent.ItemType<AeroStone>(),
-                    ModContent.ItemType<SandCloak>()
+                    ModContent.ItemType<ScourgeoftheDesert>()
                 };
                 normalOnly.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, items));
 
@@ -706,13 +709,15 @@ namespace CalamityMod.NPCs.DesertScourge
                 normalOnly.Add(ModContent.ItemType<DesertScourgeMask>(), 7);
 
                 // Materials
-                normalOnly.Add(ItemID.Coral, 1, 5, 9);
-                normalOnly.Add(ItemID.Seashell, 1, 5, 9);
-                normalOnly.Add(ItemID.Starfish, 1, 5, 9);
-                normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<VictoryShard>(), 1, 7, 14));
+                normalOnly.Add(ItemID.Coral, 1, 25, 30);
+                normalOnly.Add(ItemID.Seashell, 1, 25, 30);
+                normalOnly.Add(ItemID.Starfish, 1, 25, 30);
+                normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<PearlShard>(), 1, 25, 30));
 
                 // Equipment
                 normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<OceanCrest>()));
+                normalOnly.Add(ModContent.ItemType<AeroStone>(), DropHelper.NormalWeaponDropRateFraction);
+                normalOnly.Add(ModContent.ItemType<SandCloak>(), DropHelper.NormalWeaponDropRateFraction);
 
                 // Fishing
                 normalOnly.Add(ModContent.ItemType<SandyAnglingKit>());
@@ -722,10 +727,10 @@ namespace CalamityMod.NPCs.DesertScourge
             npcLoot.Add(ModContent.ItemType<DesertScourgeTrophy>(), 10);
 
             // Relic
-            npcLoot.AddIf(() => Main.masterMode || CalamityWorld.revenge, ModContent.ItemType<DesertScourgeRelic>());
+            npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).Add(ModContent.ItemType<DesertScourgeRelic>());
 
             // Lore
-            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedDesertScourge, ModContent.ItemType<KnowledgeDesertScourge>());
+            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedDesertScourge, ModContent.ItemType<KnowledgeDesertScourge>(), desc: DropHelper.FirstKillText);
         }
         #endregion
 
@@ -764,7 +769,8 @@ namespace CalamityMod.NPCs.DesertScourge
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(BuffID.Bleeding, 600, true);
+            if (damage > 0)
+                player.AddBuff(BuffID.Bleeding, 600, true);
         }
     }
 }

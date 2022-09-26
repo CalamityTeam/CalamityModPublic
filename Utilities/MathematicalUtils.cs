@@ -154,6 +154,67 @@ namespace CalamityMod
             return fireVelocity;
         }
 
+        /// <summary>
+        /// Calculates the shortest distance between a point and a line that passes through 2 specified points
+        /// </summary>
+        /// <param name="point"></param>
+        /// <param name="lineStart"></param>
+        /// <param name="lineEnd"></param>
+        /// <returns></returns>
+        public static float ShortestDistanceToLine(this Vector2 point, Vector2 lineStart, Vector2 lineEnd)
+        {
+            Vector2 lineVector = lineEnd - lineStart;
+            Vector2 perpendicular = lineVector.RotatedBy(MathHelper.PiOver2);
+            Vector2 pointToOrigin = point - lineStart;
+
+            return (float)Math.Abs((pointToOrigin.X * perpendicular.X + pointToOrigin.Y * perpendicular.Y)) / perpendicular.Length();
+        }
+
+        /// <summary>
+        /// Gets the closest point on a line from a point
+        /// </summary>
+        /// <param name="point"></param>
+        /// <param name="lineStart"></param>
+        /// <param name="lineEnd"></param>
+        /// <returns></returns>
+        public static Vector2 ClosestPointOnLine(this Vector2 point, Vector2 lineStart, Vector2 lineEnd)
+        {
+
+            Vector2 perpendicular = (lineEnd - lineStart).RotatedBy(MathHelper.PiOver2).SafeNormalize(Vector2.Zero);
+            float distanceToLine = point.ShortestDistanceToLine(lineStart, lineEnd);
+            float lineSide = Math.Sign((point.X - lineStart.X) * ( -lineEnd.Y + lineStart.Y) + (point.Y - lineStart.Y) * (lineEnd.X - lineStart.X));
+
+            return point + distanceToLine * lineSide * perpendicular;
+        }
+
+        /// <summary>
+        /// Gives the *real* modulo of a divided by a divisor.
+        /// This method is necessary because the % operator in c# keeps the sign of the dividend, making it Fake as Fuck.
+        /// </summary>
+        /// <param name="dividend"></param>
+        /// <param name="divisor"></param>
+        /// <returns></returns>
+        public static float Modulo(this float dividend, float divisor)
+        {
+            return dividend - (float)Math.Floor(dividend / divisor) * divisor;
+        }
+
+        /// <summary>
+        /// Clamps the magnitude of a vector via safe normalization.
+        /// </summary>
+        /// <param name="v">The vector.</param>
+        /// <param name="min">The minimum magnitude.</param>
+        /// <param name="max">The maximum magnitude.</param>
+        public static Vector2 ClampMagnitude(this Vector2 v, float min, float max) => v.SafeNormalize(Vector2.UnitY) * MathHelper.Clamp(v.Length(), min, max);
+
+        /// <summary>
+        /// Gives the angle in radians between two other angles
+        /// This function exists for vectors but somehow is missing for floats
+        /// </summary>
+        /// <param name="angle">Your source angle</param>
+        /// <param name="otherAngle">The target angle</param>
+        /// <returns></returns>
+        public static float AngleBetween(this float angle, float otherAngle) => ((otherAngle - angle) + MathHelper.Pi).Modulo(MathHelper.TwoPi) - MathHelper.Pi;
 
         #region Easings
         /// <summary>
@@ -206,16 +267,16 @@ namespace CalamityMod
             /// <summary>
             /// This indicates when the segment starts on the animation
             /// </summary>
-            public float originX;
+            public float startingX;
             /// <summary>
             /// This indicates what the starting height of the segment is
             /// </summary>
-            public float originY;
+            public float startingHeight;
             /// <summary>
             /// This represents the elevation shift that will happen during the segment. Set this to 0 to turn the segment into a flat line.
             /// Usually this elevation shift is fully applied at the end of a segment, but the sinebump easing type makes it be reached at the apex of its curve.
             /// </summary>
-            public float displacement;
+            public float elevationShift;
             /// <summary>
             /// This is the degree of the polynomial, if the easing mode chosen is a polynomial one
             /// </summary>
@@ -224,22 +285,17 @@ namespace CalamityMod
             /// <summary>
             /// Legacy constructor
             /// </summary>
-            public CurveSegment(EasingType MODE, float ORGX, float ORGY, float DISP, int DEG = 1)
-            {
-                easing = EasingTypeToFunction[(int)MODE];
-                originX = ORGX;
-                originY = ORGY;
-                displacement = DISP;
-                degree = DEG;
-            }
+            public CurveSegment(EasingType MODE, float startX, float startHeight, float elevationShift, int degree = 1) :
+                this(EasingTypeToFunction[(int)MODE], startX, startHeight, elevationShift, degree)
+            { }
 
-            public CurveSegment(EasingFunction MODE, float ORGX, float ORGY, float DISP, int DEG = 1)
+            public CurveSegment(EasingFunction MODE, float startX, float startHeight, float elevationShift, int degree = 1)
             {
                 easing = MODE;
-                originX = ORGX;
-                originY = ORGY;
-                displacement = DISP;
-                degree = DEG;
+                startingX = startX;
+                startingHeight = startHeight;
+                this.elevationShift = elevationShift;
+                this.degree = degree;
             }
         }
 
@@ -250,13 +306,13 @@ namespace CalamityMod
         /// <param name="progress">How far along the curve you are. Automatically clamped between 0 and 1</param>
         /// <param name="segments">An array of curve segments making up the full animation curve</param>
         /// <returns></returns>
-        public static float PiecewiseAnimation(float progress, CurveSegment[] segments)
+        public static float PiecewiseAnimation(float progress, params CurveSegment[] segments)
         {
             if (segments.Length == 0)
                 return 0f;
 
-            if (segments[0].originX != 0) //If for whatever reason you try to not play by the rules, get fucked
-                segments[0].originX = 0;
+            if (segments[0].startingX != 0) //If for whatever reason you try to not play by the rules, get fucked
+                segments[0].startingX = 0;
 
             progress = MathHelper.Clamp(progress, 0f, 1f); //Clamp the progress
             float ratio = 0f;
@@ -264,29 +320,29 @@ namespace CalamityMod
             for (int i = 0; i <= segments.Length - 1; i++)
             {
                 CurveSegment segment = segments[i];
-                float startPoint = segment.originX;
+                float startPoint = segment.startingX;
                 float endPoint = 1f;
 
-                if (progress < segment.originX) //Too early. This should never get reached, since by the time you'd have gotten there you'd have found the appropriate segment and broken out of the for loop
+                if (progress < segment.startingX) //Too early. This should never get reached, since by the time you'd have gotten there you'd have found the appropriate segment and broken out of the for loop
                     continue;
 
                 if (i < segments.Length - 1)
                 {
-                    if (segments[i + 1].originX <= progress) //Too late
+                    if (segments[i + 1].startingX <= progress) //Too late
                         continue;
-                    endPoint = segments[i + 1].originX;
+                    endPoint = segments[i + 1].startingX;
                 }
 
                 float segmentLenght = endPoint - startPoint;
-                float segmentProgress = (progress - segment.originX) / segmentLenght; //How far along the specific segment
-                ratio = segment.originY;
+                float segmentProgress = (progress - segment.startingX) / segmentLenght; //How far along the specific segment
+                ratio = segment.startingHeight;
 
                 //Failsafe because somehow it can fail? what
                 if (segment.easing != null)
-                    ratio += segment.easing(segmentProgress, segment.degree) * segment.displacement;
+                    ratio += segment.easing(segmentProgress, segment.degree) * segment.elevationShift;
 
                 else
-                    ratio += LinearEasing(segmentProgress, segment.degree) * segment.displacement;
+                    ratio += LinearEasing(segmentProgress, segment.degree) * segment.elevationShift;
 
                 break;
             }
@@ -294,6 +350,7 @@ namespace CalamityMod
         }
 
         #endregion
+
 
         // REMOVE THIS IN CALAMITY 1.4, it's a 1.4 World.cs function.
         // Due to its temporary state, this method will not receive an XML documentation comment.

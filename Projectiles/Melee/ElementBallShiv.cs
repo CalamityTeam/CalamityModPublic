@@ -21,8 +21,8 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.DamageType = DamageClass.Melee;
             Projectile.penetrate = 1;
             Projectile.tileCollide = false;
-            Projectile.timeLeft = 120;
-            Projectile.aiStyle = 27;
+            Projectile.timeLeft = 60;
+            Projectile.aiStyle = ProjAIStyleID.Beam;
         }
 
         public override void AI()
@@ -36,7 +36,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override bool PreDraw(ref Color lightColor)
         {
-            if (Projectile.timeLeft > 115)
+            if (Projectile.timeLeft > 50)
                 return false;
 
             return true;
@@ -44,7 +44,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void Kill(int timeLeft)
         {
-            for (int k = 0; k < 4; k++)
+            for (int k = 0; k < 2; k++)
             {
                 int rainbow = Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 66, (float)(Projectile.direction * 2), 0f, 150, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 1f);
                 Main.dust[rainbow].noGravity = true;

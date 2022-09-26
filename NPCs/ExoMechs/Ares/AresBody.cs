@@ -30,6 +30,7 @@ using Terraria.ModLoader;
 using Terraria.Audio;
 using Terraria.GameContent.ItemDropRules;
 using CalamityMod.Sounds;
+using CalamityMod.Items.Weapons.Summon;
 
 namespace CalamityMod.NPCs.ExoMechs.Ares
 {
@@ -174,7 +175,6 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
             NPC.DeathSound = SoundID.NPCDeath14;
             NPC.netAlways = true;
             NPC.boss = true;
-            Music = CalamityMod.Instance.GetMusicFromMusicMod("ExoMechs") ?? MusicID.Boss3;
             NPC.Calamity().VulnerableToSickness = false;
             NPC.Calamity().VulnerableToElectricity = true;
         }
@@ -185,8 +185,8 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
                 //We'll probably want a custom background for Exos like ML has.
                 //BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Exo,
 
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("While it is the most flamboyant of Draedon’s machines, it appears to be lacking some finish, though this trait does not compromise its killing potential whatsoever.")
+                // Will move to localization whenever that is cleaned up.
+                new FlavorTextBestiaryInfoElement("While it is the most flamboyant of Draedon’s machines, it appears to be lacking some finish, though this trait does not compromise its killing potential whatsoever.")
             });
         }
 
@@ -1346,10 +1346,10 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
             mainDrops.Add(ItemDropRule.ByCondition(DropHelper.If(info => info.npc.type == ModContent.NPCType<Apollo.Apollo>()), ModContent.ItemType<ApolloTrophy>()));
 
             // Relic
-            mainDrops.Add(ItemDropRule.ByCondition(DropHelper.If(() => Main.masterMode || CalamityWorld.revenge), ModContent.ItemType<DraedonRelic>()));
+            npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).AddIf(CanDropLoot, ModContent.ItemType<DraedonRelic>());
 
             // Lore item
-            mainDrops.Add(ItemDropRule.ByCondition(DropHelper.If(() => !DownedBossSystem.downedExoMechs), ModContent.ItemType<KnowledgeExoMechs>()));
+            mainDrops.Add(ItemDropRule.ByCondition(DropHelper.If(() => !DownedBossSystem.downedExoMechs, desc: DropHelper.FirstKillText), ModContent.ItemType<KnowledgeExoMechs>()));
 
             // Treasure bag
             npcLoot.Add(ItemDropRule.BossBagByCondition(DropHelper.If(CanDropLoot), ModContent.ItemType<DraedonBag>()));
@@ -1358,7 +1358,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
             if (!Main.expertMode)
             {
                 // Materials
-                normalOnly.Add(ModContent.ItemType<ExoPrism>(), 1, 24, 32);
+                normalOnly.Add(ModContent.ItemType<ExoPrism>(), 1, 25, 30);
 
                 // Weapons
                 // Higher chance due to how the drops work
@@ -1370,6 +1370,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
                 // Ares weapons
                 normalOnly.Add(ItemDropRule.ByCondition(DropHelper.If(AresLoot), ModContent.ItemType<PhotonRipper>()));
                 normalOnly.Add(ItemDropRule.ByCondition(DropHelper.If(AresLoot), ModContent.ItemType<TheJailor>()));
+                normalOnly.Add(ItemDropRule.ByCondition(DropHelper.If(AresLoot), ModContent.ItemType<AresExoskeleton>()));
 
                 // Twins weapons
                 normalOnly.Add(ItemDropRule.ByCondition(DropHelper.If(ApolloLoot), ModContent.ItemType<TheAtomSplitter>()));

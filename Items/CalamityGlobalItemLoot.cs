@@ -1,14 +1,16 @@
-﻿using CalamityMod.Items.Accessories;
+﻿using System.Collections.Generic;
+using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.PermanentBoosters;
+using CalamityMod.Items.Placeables.Ores;
 using CalamityMod.Items.Potions;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.World;
-using CalamityMod.Items.Placeables.Ores;
 using Terraria;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -18,72 +20,83 @@ namespace CalamityMod.Items
     {
         public override bool InstancePerEntity => false;
 
-        // NOTE: this function applies to all right-click-to-open items, even modded ones (despite the name).
-        // This means it applies to boss bags, crates, lockboxes, herb bags, goodie bags, and presents.
-        // The internal names of these cases are as follows (TML 0.11 API):
-        // bossBag, crate, lockBox, herbBag, goodieBag, present
-        public override void OpenVanillaBag(string context, Player player, int itemID)
+        #region Modify Item Loot Main Hook
+        public override void ModifyItemLoot(Item item, ItemLoot loot)
         {
-            if (context == "crate")
-                CrateLoot(player, itemID);
-
-            else if (context == "bossBag")
-                BossBagLoot(player, itemID);
-
-            // Bat Hook is now acquired from Vampires.
-            else if (context == "goodieBag")
-                DropHelper.BlockDrops(ItemID.BatHook);
-        }
-
-        #region Boss Bags
-        private static void BossBagLoot(Player player, int itemID)
-        {
-            // IEntitySource my beloathed
-            var s = player.GetSource_OpenItem(itemID);
-
-            // Give a chance for Laudanum, Stress Pills and Heart of Darkness from every boss bag
-            DropHelper.DropRevBagAccessories(s, player);
-
-            switch (itemID)
+            Fraction fifteenPercent = new Fraction(15, 100);
+            static bool CryonicAvailable()
             {
+                if (!DownedBossSystem.downedCryogen)
+                    return false;
+                return (NPC.downedMechBoss1.ToInt() + NPC.downedMechBoss2.ToInt() + NPC.downedMechBoss3.ToInt()) >= 2;
+            }
+            
+            switch (item.type)
+            {
+                #region Boss Treasure Bags
                 case ItemID.KingSlimeBossBag:
-                    DropHelper.DropItemChance(s, player, ModContent.ItemType<CrownJewel>(), 0.1f);
+                    loot.Add(new CommonDrop(ModContent.ItemType<CrownJewel>(), 10)); // 10% Crown Jewel
+                    loot.AddRevBagAccessories();
                     break;
 
                 case ItemID.EyeOfCthulhuBossBag:
-                    DropHelper.DropItemChance(s, player, ModContent.ItemType<DeathstareRod>(), DropHelper.BagWeaponDropRateInt);
-                    DropHelper.DropItemChance(s, player, ModContent.ItemType<TeardropCleaver>(), 0.1f);
+                    loot.Add(ModContent.ItemType<DeathstareRod>(), DropHelper.BagWeaponDropRateInt); // 33% Deathstare Rod
+                    loot.Add(ModContent.ItemType<TeardropCleaver>(), 10); // 10% Teardrop Cleaver
+                    loot.AddRevBagAccessories();
                     break;
 
+                // On Rev+, Eater of Worlds segments don't drop partial loot. As such, the bag needs to drop all materials.
+                // This can theoretically be exploited by killing the boss on Expert, then turning on Rev to open the bags.
+                // We don't care.
                 case ItemID.EaterOfWorldsBossBag:
-                    DropHelper.DropItemCondition(s, player, ItemID.ShadowScale, CalamityWorld.revenge, 60, 120);
-                    DropHelper.DropItemCondition(s, player, ItemID.DemoniteOre, CalamityWorld.revenge, 120, 240);
+                    var eowRevLCR = loot.DefineConditionalDropSet(DropHelper.If(() => CalamityWorld.revenge));
+                    eowRevLCR.Add(ItemID.DemoniteOre, 1, 120, 240); // 100% 120-240 Demonite Ore
+                    eowRevLCR.Add(ItemID.ShadowScale, 1, 60, 120); // 100% 60-120 Shadow Scale
+                    loot.AddRevBagAccessories();
                     break;
 
+
+                // On Rev+, Brain of Cthulhu's Creepers don't drop partial loot. As such, the bag needs to drop all materials.
+                // This can theoretically be exploited by killing the boss on Expert, then turning on Rev to open the bags.
+                // We don't care.
                 case ItemID.BrainOfCthulhuBossBag:
-                    DropHelper.DropItemCondition(s, player, ItemID.TissueSample, CalamityWorld.revenge, 60, 120);
-                    DropHelper.DropItemCondition(s, player, ItemID.CrimtaneOre, CalamityWorld.revenge, 100, 180);
+                    var bocRevLCR = loot.DefineConditionalDropSet(DropHelper.If(() => CalamityWorld.revenge));
+                    bocRevLCR.Add(ItemID.CrimtaneOre, 1, 100, 180); // 100% 100-180 Crimtane Ore
+                    bocRevLCR.Add(ItemID.TissueSample, 1, 60, 120); // 100% 60-120 Tissue Sample
+                    loot.AddRevBagAccessories();
+                    break;
+
+                case ItemID.DeerclopsBossBag:
+                    loot.Remove(FindDeerclopsWeapons(loot));
+                    int[] deerclopsWeapons = new int[]
+                    {
+                        ItemID.LucyTheAxe,
+                        ItemID.PewMaticHorn,
+                        ItemID.WeatherPain,
+                        ItemID.HoundiusShootius
+                    };
+                    loot.Add(DropHelper.CalamityStyle(DropHelper.BagWeaponDropRateFraction, deerclopsWeapons));
+                    loot.AddRevBagAccessories();
                     break;
 
                 case ItemID.QueenBeeBossBag:
-                    // Drop weapons Calamity style instead of mutually exclusive.
+                    loot.Remove(FindQueenBeeWeapons(loot));
                     int[] queenBeeWeapons = new int[]
                     {
                         ItemID.BeeKeeper,
                         ItemID.BeesKnees,
                         ItemID.BeeGun
                     };
-                    DropHelper.DropEntireSet(s, player, DropHelper.BagWeaponDropRateInt, queenBeeWeapons);
-                    DropHelper.BlockDrops(queenBeeWeapons);
-
-                    DropHelper.DropItemChance(s, player, ModContent.ItemType<TheBee>(), 0.1f);
-
-                    DropHelper.DropItem(s, player, ItemID.Stinger, 8, 12); // Extra stingers
-                    DropHelper.DropItem(s, player, ModContent.ItemType<HardenedHoneycomb>(), 50, 75);
+                    loot.Add(DropHelper.CalamityStyle(DropHelper.BagWeaponDropRateFraction, queenBeeWeapons));
+                    loot.Add(ModContent.ItemType<TheBee>(), 10); // 10% The Bee
+                    loot.Add(ItemID.Stinger, 1, 8, 12); // 100% 8-12 Stinger
+                    loot.Add(ModContent.ItemType<HardenedHoneycomb>(), 1, 50, 75); // 100% 50-75 Hardened Honeycomb
+                    loot.AddRevBagAccessories();
                     break;
 
                 case ItemID.WallOfFleshBossBag:
-                    // Drop weapons Calamity style instead of mutually exclusive -- this includes Calamity weapons.
+                    loot.Remove(FindWallOfFleshWeapons(loot));
+                    loot.Remove(FindWallOfFleshEmblems(loot));
                     int[] wofWeapons = new int[]
                     {
                         ItemID.BreakerBlade,
@@ -91,14 +104,12 @@ namespace CalamityMod.Items
                         ModContent.ItemType<Meowthrower>(),
                         ItemID.LaserRifle,
                         ModContent.ItemType<BlackHawkRemote>(),
+                        ItemID.FireWhip, // Firecracker
                         ModContent.ItemType<BlastBarrel>()
                     };
-                    DropHelper.DropEntireSet(s, player, DropHelper.BagWeaponDropRateInt, wofWeapons);
-                    DropHelper.BlockDrops(wofWeapons);
+                    loot.Add(DropHelper.CalamityStyle(DropHelper.BagWeaponDropRateFraction, wofWeapons));
+                    loot.Add(ModContent.ItemType<Carnage>(), 10); // 10% Carnage
 
-                    DropHelper.DropItemChance(s, player, ModContent.ItemType<Carnage>(), 0.1f);
-
-                    // Drop emblems Calamity style instead of mutually exclusive -- this includes the Rogue Emblem.
                     int[] emblems = new int[]
                     {
                         ItemID.WarriorEmblem,
@@ -107,34 +118,36 @@ namespace CalamityMod.Items
                         ItemID.SummonerEmblem,
                         ModContent.ItemType<RogueEmblem>(),
                     };
-                    DropHelper.DropEntireSet(s, player, 0.25f, emblems);
-                    DropHelper.BlockDrops(emblems);
+                    loot.Add(DropHelper.CalamityStyle(new Fraction(1, 4), emblems)); // Emblems remain 25%
+                    loot.AddRevBagAccessories();
+                    break;
+
+                case ItemID.QueenSlimeBossBag:
+                    loot.Add(ItemID.SoulofLight, 1, 15, 20); // 100% 15-20 Soul of Light
+                    loot.AddRevBagAccessories();
                     break;
 
                 case ItemID.DestroyerBossBag:
-                    // Only drop hallowed bars after all mechs are down.
-                    if ((!NPC.downedMechBoss1 || !NPC.downedMechBoss2 || !NPC.downedMechBoss3) && CalamityConfig.Instance.EarlyHardmodeProgressionRework)
-                        DropHelper.BlockDrops(ItemID.HallowedBar);
-
+                    loot.Remove(FindHallowedBars(loot));
+                    loot.AddIf(DropHelper.HallowedBarsCondition, ItemID.HallowedBar, 1, 20, 35);
+                    loot.AddRevBagAccessories();
                     break;
 
                 case ItemID.TwinsBossBag:
-                    // Only drop hallowed bars after all mechs are down.
-                    if ((!NPC.downedMechBoss1 || !NPC.downedMechBoss2 || !NPC.downedMechBoss3) && CalamityConfig.Instance.EarlyHardmodeProgressionRework)
-                        DropHelper.BlockDrops(ItemID.HallowedBar);
-
-                    DropHelper.DropItemChance(s, player, ModContent.ItemType<Arbalest>(), 0.1f);
+                    loot.Remove(FindHallowedBars(loot));
+                    loot.AddIf(DropHelper.HallowedBarsCondition, ItemID.HallowedBar, 1, 20, 35);
+                    loot.Add(ModContent.ItemType<Arbalest>(), 10); // 10% Arbalest
+                    loot.AddRevBagAccessories();
                     break;
 
                 case ItemID.SkeletronPrimeBossBag:
-                    // Only drop hallowed bars after all mechs are down.
-                    if ((!NPC.downedMechBoss1 || !NPC.downedMechBoss2 || !NPC.downedMechBoss3) && CalamityConfig.Instance.EarlyHardmodeProgressionRework)
-                        DropHelper.BlockDrops(ItemID.HallowedBar);
-
+                    loot.Remove(FindHallowedBars(loot));
+                    loot.AddIf(DropHelper.HallowedBarsCondition, ItemID.HallowedBar, 1, 20, 35);
+                    loot.AddRevBagAccessories();
                     break;
 
                 case ItemID.PlanteraBossBag:
-                    // Drop weapons Calamity style instead of mutually exclusive.
+                    loot.Remove(FindPlanteraWeapons(loot));
                     int[] planteraWeapons = new int[]
                     {
                         ItemID.FlowerPow,
@@ -143,34 +156,17 @@ namespace CalamityMod.Items
                         ItemID.VenusMagnum,
                         ItemID.LeafBlower,
                         ItemID.NettleBurst,
-                        ItemID.WaspGun,
-                        ModContent.ItemType<BloomStone>()
+                        ItemID.WaspGun
                     };
-                    DropHelper.DropEntireSet(s, player, DropHelper.BagWeaponDropRateInt, planteraWeapons);
-                    DropHelper.BlockDrops(planteraWeapons);
-
-                    DropHelper.DropItemChance(s, player, ModContent.ItemType<BlossomFlux>(), 0.1f);
-
-                    DropHelper.DropItem(s, player, ModContent.ItemType<LivingShard>(), 16, 22);
-                    break;
-
-                case ItemID.FairyQueenBossBag:
-                    // Drop weapons Calamity style instead of mutually exclusive -- this includes Calamity weapons.
-                    int[] empressWeapons = new int[]
-                    {
-                        ItemID.FairyQueenMagicItem,
-                        ItemID.FairyQueenRangedItem,
-                        ItemID.EmpressBlade,
-                        ItemID.RainbowWhip,
-                        ItemID.PiercingStarlight,
-                        ItemID.RainbowWings
-                    };
-                    DropHelper.DropEntireSet(s, player, DropHelper.BagWeaponDropRateInt, empressWeapons);
-                    DropHelper.BlockDrops(empressWeapons);
+                    loot.Add(DropHelper.CalamityStyle(DropHelper.BagWeaponDropRateFraction, planteraWeapons));
+                    loot.Add(ModContent.ItemType<BlossomFlux>(), 10); // 10% Blossom Flux
+                    loot.Add(ModContent.ItemType<BloomStone>(), DropHelper.BagWeaponDropRateFraction);
+                    loot.Add(ModContent.ItemType<LivingShard>(), 1, 30, 35);
+                    loot.AddRevBagAccessories();
                     break;
 
                 case ItemID.GolemBossBag:
-                    // Drop loot Calamity style instead of mutually exclusive.
+                    loot.Remove(FindGolemItems(loot));
                     int[] golemItems = new int[]
                     {
                         ItemID.GolemFist,
@@ -181,15 +177,14 @@ namespace CalamityMod.Items
                         ItemID.EyeoftheGolem,
                         ItemID.SunStone
                     };
-                    DropHelper.DropEntireSet(s, player, DropHelper.BagWeaponDropRateInt, golemItems);
-                    DropHelper.BlockDrops(golemItems);
-
-                    DropHelper.DropItemChance(s, player, ModContent.ItemType<AegisBlade>(), 0.1f);
-                    DropHelper.DropItem(s, player, ModContent.ItemType<EssenceofSunlight>(), 8, 13);
+                    loot.Add(DropHelper.CalamityStyle(DropHelper.BagWeaponDropRateFraction, golemItems));
+                    loot.Add(ModContent.ItemType<AegisBlade>(), 10); // 10% Aegis Blade
+                    loot.Add(ModContent.ItemType<EssenceofSunlight>(), 1, 8, 13); // 100% 8-13 Essence of Sunlight
+                    loot.AddRevBagAccessories();
                     break;
 
                 case ItemID.BossBagBetsy:
-                    // Drop weapons Calamity style instead of mutually exclusive.
+                    loot.Remove(FindBetsyWeapons(loot));
                     int[] betsyWeapons = new int[]
                     {
                         ItemID.DD2SquireBetsySword, // Flying Dragon
@@ -197,37 +192,50 @@ namespace CalamityMod.Items
                         ItemID.DD2BetsyBow, // Aerial Bane
                         ItemID.ApprenticeStaffT3, // Betsy's Wrath
                     };
-                    DropHelper.DropEntireSet(s, player, DropHelper.BagWeaponDropRateInt, betsyWeapons);
-                    DropHelper.BlockDrops(betsyWeapons);
+                    loot.Add(DropHelper.CalamityStyle(DropHelper.BagWeaponDropRateFraction, betsyWeapons));
                     break;
 
                 case ItemID.FishronBossBag:
-                    // Drop weapons Calamity style instead of mutually exclusive -- this includes Calamity weapons.
-                    int[] dukeWeapons = new int[]
+                    RemoveDukeRules(loot); // Separately remove Duke's weapons and wings, because they're both included below
+                    int[] dukeItems = new int[]
                     {
                         ItemID.Flairon,
                         ItemID.Tsunami,
                         ItemID.BubbleGun,
                         ItemID.RazorbladeTyphoon,
                         ItemID.TempestStaff,
-                        ItemID.FishronWings,
-                        ModContent.ItemType<DukesDecapitator>()
+                        ModContent.ItemType<DukesDecapitator>(),
+                        ItemID.FishronWings, // Duke's wings have a pathetically low drop rate.
                     };
-                    DropHelper.DropEntireSet(s, player, DropHelper.BagWeaponDropRateInt, dukeWeapons);
-                    DropHelper.BlockDrops(dukeWeapons);
+                    loot.Add(DropHelper.CalamityStyle(DropHelper.BagWeaponDropRateFraction, dukeItems));
+                    loot.Add(ModContent.ItemType<BrinyBaron>(), 10); // 10% Briny Baron
+                    loot.AddRevBagAccessories();
+                    break;
 
-                    DropHelper.DropItemChance(s, player, ModContent.ItemType<BrinyBaron>(), 0.1f);
+                case ItemID.FairyQueenBossBag:
+                    RemoveEmpressRules(loot); // Separately remove EoL's weapons and wings, because they're both included below
+                    int[] empressItems = new int[]
+                    {
+                        ItemID.PiercingStarlight, // Starlight
+                        ItemID.FairyQueenRangedItem, // Eventide
+                        ItemID.FairyQueenMagicItem, // Nightglow
+                        ItemID.SparkleGuitar, // Stellar Tune
+                        ItemID.EmpressBlade, // Terraprisma
+                        ItemID.RainbowWhip, // Kaleidoscope
+                        ItemID.RainbowWings, // Empress Wings have a pathetically low drop rate.
+                    };
+                    loot.Add(DropHelper.CalamityStyle(DropHelper.BagWeaponDropRateFraction, empressItems));
+                    loot.AddRevBagAccessories();
                     break;
 
                 case ItemID.MoonLordBossBag:
-                    // Drop weapons Calamity style instead of mutually exclusive -- this includes Calamity weapons.
+                    loot.Remove(FindMoonLordWeapons(loot));
                     int[] moonLordWeapons = new int[]
                     {
                         ItemID.Meowmere,
                         ItemID.StarWrath,
                         ItemID.Terrarian,
-                        ItemID.FireworksLauncher, // Celebration
-                        ItemID.Celeb2,
+                        ItemID.Celeb2, // Celebration Mk II
                         ItemID.SDMG,
                         ItemID.LastPrism,
                         ItemID.LunarFlareBook,
@@ -235,156 +243,287 @@ namespace CalamityMod.Items
                         ItemID.RainbowCrystalStaff,
                         ModContent.ItemType<UtensilPoker>(),
                     };
-                    DropHelper.DropEntireSet(s, player, DropHelper.BagWeaponDropRateInt, moonLordWeapons);
-                    DropHelper.BlockDrops(moonLordWeapons);
+                    loot.Add(DropHelper.CalamityStyle(DropHelper.BagWeaponDropRateFraction, moonLordWeapons));
+                    loot.AddRevBagAccessories();
 
-                    // The Celestial Onion only drops if the player hasn't used one and doesn't have one in their inventory.
-                    int celestialOnion = ModContent.ItemType<CelestialOnion>();
-                    DropHelper.DropItemCondition(s, player, celestialOnion, !player.Calamity().extraAccessoryML && !player.InventoryHas(celestialOnion));
+                    // The Celestial Onion only drops if the player hasn't used one.
+                    loot.AddIf((info) => !info.player.Calamity().extraAccessoryML, ModContent.ItemType<CelestialOnion>());
                     break;
-            }
-        }
-        #endregion
+                #endregion
 
-        #region Fishing Crates
-        private static void CrateLoot(Player player, int itemID)
-        {
-            // IEntitySource my beloathed
-            var s = player.GetSource_OpenItem(itemID);
-
-            switch (itemID)
-            {
+                #region Fishing Crates
+                // TODO -- What is all this shit?
                 case ItemID.WoodenCrate:
                 case ItemID.WoodenCrateHard:
-                    BlockCrateDrops();
-                    DropHelper.DropItemChance(s, player, ModContent.ItemType<WulfrumShard>(), 0.25f, 3, 5);
+                    loot.Add(ModContent.ItemType<WulfrumMetalScrap>(), 4, 3, 5); // 25% 3-5 Wulfrum Scrap
                     break;
 
                 case ItemID.IronCrate:
                 case ItemID.IronCrateHard:
-                    BlockCrateDrops();
-                    DropHelper.DropItemChance(s, player, ModContent.ItemType<WulfrumShard>(), 0.25f, 5, 8);
-                    DropHelper.DropItemChance(s, player, ModContent.ItemType<AncientBoneDust>(), 0.25f, 5, 8);
+                    loot.Add(ModContent.ItemType<WulfrumMetalScrap>(), 4, 5, 8); // 25% 5-8 Wulfrum Scrap
+                    loot.Add(ModContent.ItemType<AncientBoneDust>(), 4, 5, 8); // 25% 5-8 Ancient Bone Dust
                     break;
 
+                // these drops are not available in hardmode because this crate will stop dropping
                 case ItemID.GoldenCrate:
-                    BlockCrateDrops();
-                    DropHelper.DropItemChance(s, player, ItemID.FlareGun, 0.1f, 1, 1);
-                    DropHelper.DropItemChance(s, player, ItemID.ShoeSpikes, 0.1f, 1, 1);
-                    DropHelper.DropItemChance(s, player, ItemID.BandofRegeneration, 0.1f, 1, 1);
+                    loot.Add(ItemID.FlareGun, 10); // 10% Flare Gun
+                    loot.Add(ItemID.ShoeSpikes, 10); // 10% Shoe Spikes (BUT NOT CLIMBING CLAWS?)
+                    loot.Add(ItemID.BandofRegeneration, 10); // 10% Band of Regeneration
                     break;
 
-                //This is Titanium Crate, apparently.
                 case ItemID.GoldenCrateHard:
-                    BlockCrateDrops();
-                    DropHelper.DropItemCondition(s, player, ModContent.ItemType<AuricOre>(), DownedBossSystem.downedYharon, 0.15f, 30, 40);
+                    // Post-Yharon: 15% 30-40 Auric Ore
+                    loot.AddIf(() => DownedBossSystem.downedYharon, ModContent.ItemType<AuricOre>(), fifteenPercent, 30, 40);
                     break;
 
                 case ItemID.CorruptFishingCrate:
                 case ItemID.CrimsonFishingCrate:
                 case ItemID.CorruptFishingCrateHard:
                 case ItemID.CrimsonFishingCrateHard:
-                    BlockCrateDrops();
-                    DropHelper.DropItemChance(s, player, ModContent.ItemType<BlightedGel>(), 0.15f, 5, 8);
+                    loot.Add(ModContent.ItemType<BlightedGel>(), fifteenPercent, 5, 8); // 15% 5-8 Blighted Gel
                     break;
 
-                case ItemID.HallowedFishingCrate:
+                case ItemID.HallowedFishingCrate: // WHY
                 case ItemID.HallowedFishingCrateHard:
-                    BlockCrateDrops();
-                    int potion = WorldGen.crimson ? ModContent.ItemType<ProfanedRagePotion>() : ModContent.ItemType<HolyWrathPotion>();
-                    DropHelper.DropItemCondition(s, player, ModContent.ItemType<UnholyEssence>(), DownedBossSystem.downedProvidence, 0.15f, 5, 10);
-                    DropHelper.DropItemCondition(s, player, potion, DownedBossSystem.downedProvidence, 0.1f, 1, 2);
+                    var postProv = loot.DefineConditionalDropSet(() => DownedBossSystem.downedProvidence);
+                    postProv.Add(ModContent.ItemType<UnholyEssence>(), fifteenPercent, 5, 10); // 15% 5-10 Unholy Essence
+                    postProv.Add(ModContent.ItemType<HolyWrathPotion>(), fifteenPercent, 1, 2); // 15% 1-2 Holy Wrath Potion
+                    postProv.Add(ModContent.ItemType<ProfanedRagePotion>(), fifteenPercent, 1, 2); // 15% 1-2 Profaned Rage Potion
                     break;
 
                 case ItemID.DungeonFishingCrate:
                 case ItemID.DungeonFishingCrateHard:
-                    BlockCrateDrops();
-                    DropHelper.DropItemCondition(s, player, ItemID.Ectoplasm, NPC.downedPlantBoss, 0.1f, 1, 5);
-                    DropHelper.DropItemCondition(s, player, ModContent.ItemType<Phantoplasm>(), DownedBossSystem.downedPolterghast, 0.1f, 1, 5);
+                    loot.AddIf(() => NPC.downedPlantBoss, ItemID.Ectoplasm, 10, 1, 5); // 10% 1-5 Ectoplasm
+                    loot.AddIf(() => DownedBossSystem.downedPolterghast, ModContent.ItemType<Phantoplasm>(), 10, 1, 5); // 10% 1-5 Phantoplasm
                     break;
 
                 case ItemID.JungleFishingCrate:
                 case ItemID.JungleFishingCrateHard:
-                    BlockCrateDrops();
-                    DropHelper.DropItemChance(s, player, ModContent.ItemType<MurkyPaste>(), 0.2f, 1, 3);
-                    DropHelper.DropItemCondition(s, player, ModContent.ItemType<BeetleJuice>(), Main.hardMode, 0.2f, 1, 3);
-                    DropHelper.DropItemCondition(s, player, ModContent.ItemType<TrapperBulb>(), Main.hardMode, 0.2f, 1, 3);
-                    DropHelper.DropItemCondition(s, player, ItemID.ChlorophyteOre, DownedBossSystem.downedCalamitas || NPC.downedPlantBoss, 0.2f, 16, 28);
-                    DropHelper.DropItemCondition(s, player, ItemID.ChlorophyteBar, DownedBossSystem.downedCalamitas || NPC.downedPlantBoss, 0.15f, 4, 7);
-                    DropHelper.DropItemCondition(s, player, ModContent.ItemType<PerennialOre>(), NPC.downedPlantBoss, 0.2f, 16, 28);
-                    DropHelper.DropItemCondition(s, player, ModContent.ItemType<PerennialBar>(), NPC.downedPlantBoss, 0.15f, 4, 7);
-                    DropHelper.DropItemCondition(s, player, ModContent.ItemType<PlagueCellCanister>(), NPC.downedGolemBoss, 0.2f, 3, 6);
-                    DropHelper.DropItemCondition(s, player, ModContent.ItemType<UelibloomOre>(), DownedBossSystem.downedProvidence, 0.2f, 16, 28);
-                    DropHelper.DropItemCondition(s, player, ModContent.ItemType<UelibloomBar>(), DownedBossSystem.downedProvidence, 0.15f, 4, 7);
+                    loot.Add(ModContent.ItemType<MurkyPaste>(), new Fraction(1, 5), 1, 3); // 20% 1-3 Murky Paste
+                    var postPlant = loot.DefineConditionalDropSet(() => NPC.downedPlantBoss);
+                    postPlant.Add(ModContent.ItemType<PerennialOre>(), 5, 16, 28); // 20% 16-28 Perennial Ore
+                    postPlant.Add(ModContent.ItemType<PerennialBar>(), fifteenPercent, 4, 7); // 15% 4-7 Perennial Bar
+                    loot.AddIf(() => NPC.downedGolemBoss, ModContent.ItemType<PlagueCellCanister>(), 5, 3, 6); // 20% 3-6 Plague Cell Canister
+                    var uelibloom = loot.DefineConditionalDropSet(() => DownedBossSystem.downedProvidence);
+                    uelibloom.Add(ModContent.ItemType<UelibloomOre>(), 5, 16, 28); // 20% 16-28 Uelibloom Ore
+                    uelibloom.Add(ModContent.ItemType<UelibloomBar>(), fifteenPercent, 4, 7); // 15% 4-7 Uelibloom Bar
                     break;
 
                 case ItemID.FloatingIslandFishingCrate:
                 case ItemID.FloatingIslandFishingCrateHard:
-                    BlockCrateDrops();
-                    DropHelper.DropItemCondition(s, player, ModContent.ItemType<AerialiteOre>(), DownedBossSystem.downedHiveMind || DownedBossSystem.downedPerforator, 0.2f, 16, 28);
-                    DropHelper.DropItemCondition(s, player, ModContent.ItemType<AerialiteBar>(), DownedBossSystem.downedHiveMind || DownedBossSystem.downedPerforator, 0.15f, 4, 7);
-                    DropHelper.DropItemCondition(s, player, ModContent.ItemType<EssenceofSunlight>(), Main.hardMode, 0.2f, 2, 4);
-                    DropHelper.DropItemCondition(s, player, ModContent.ItemType<GalacticaSingularity>(), NPC.downedMoonlord, 0.1f, 1, 3);
+                    var evilBossTwo = loot.DefineConditionalDropSet(() => DownedBossSystem.downedHiveMind || DownedBossSystem.downedPerforator);
+                    evilBossTwo.Add(ModContent.ItemType<AerialiteOre>(), 5, 16, 28); // 20% 16-28 Aerialite Ore
+                    evilBossTwo.Add(ModContent.ItemType<AerialiteBar>(), fifteenPercent, 4, 7); // 15% 4-7 Aerialite Bar
+                    loot.AddIf(() => Main.hardMode, ModContent.ItemType<EssenceofSunlight>(), 5, 2, 4); // 20% 2-4 Essence of Sunlight
                     break;
 
                 case ItemID.FrozenCrate:
                 case ItemID.FrozenCrateHard:
-                    BlockCrateDrops();
-                    int numMechsDown = NPC.downedMechBoss1.ToInt() + NPC.downedMechBoss2.ToInt() + NPC.downedMechBoss3.ToInt();
-                    DropHelper.DropItemCondition(s, player, ModContent.ItemType<CryonicOre>(), DownedBossSystem.downedCryogen && numMechsDown >= 2, 0.2f, 16, 28);
-                    DropHelper.DropItemCondition(s, player, ModContent.ItemType<CryonicBar>(), DownedBossSystem.downedCryogen && numMechsDown >= 2, 0.15f, 4, 7);
-                    DropHelper.DropItemCondition(s, player, ModContent.ItemType<EssenceofEleum>(), Main.hardMode, 0.2f, 2, 4);
+                    var cryonic = loot.DefineConditionalDropSet(CryonicAvailable);
+                    cryonic.Add(ModContent.ItemType<CryonicOre>(), 5, 16, 28); // 20% 16-28 Cryonic Ore
+                    cryonic.Add(ModContent.ItemType<CryonicBar>(), fifteenPercent, 4, 7); // 15% 4-7 Cryonic Bar
+                    loot.AddIf(() => Main.hardMode, ModContent.ItemType<EssenceofEleum>(), 5, 2, 4); // 20% 2-4 Essence of Eleum
                     break;
 
                 case ItemID.LavaCrate:
                 case ItemID.LavaCrateHard:
-                    BlockCrateDrops();
-                    DropHelper.DropItemCondition(s, player, ModContent.ItemType<EssenceofChaos>(), Main.hardMode, 0.2f, 2, 4);
+                    loot.AddIf(() => Main.hardMode, ModContent.ItemType<EssenceofChaos>(), 5, 2, 4); // 20% 2-4 Essence of Chaos
                     break;
 
+                // Calamity does not touch Oasis Crates yet
                 case ItemID.OasisCrate:
                 case ItemID.OasisCrateHard:
-                    BlockCrateDrops();
                     break;
 
+                // Calamity does not touch Ocean Crates yet
                 case ItemID.OceanCrate:
                 case ItemID.OceanCrateHard:
-                    BlockCrateDrops();
                     break;
+                #endregion
+
+                #region Miscellaneous
+                // Bat Hook is now acquired from Vampires.
+                case ItemID.GoodieBag:
+                    RemoveBatHookFromGoodieBag(loot);
+                    break;
+                #endregion
             }
         }
+        #endregion
 
-        private static void BlockCrateDrops()
+        #region Calamity Style Items From Bosses
+        private static IItemDropRule FindDeerclopsWeapons(ItemLoot loot)
         {
-            bool twoMechsDowned =
-                (NPC.downedMechBoss1 && NPC.downedMechBoss2) ||
-                (NPC.downedMechBoss2 && NPC.downedMechBoss3) ||
-                (NPC.downedMechBoss3 && NPC.downedMechBoss1);
-            int[] preMechBlockedDrops_Crate = new int[]
-            {
-                ItemID.MythrilOre,
-                ItemID.OrichalcumOre,
-                ItemID.AdamantiteOre,
-                ItemID.TitaniumOre,
-                ItemID.MythrilBar,
-                ItemID.OrichalcumBar,
-                ItemID.AdamantiteBar,
-                ItemID.TitaniumBar,
-            };
-            int[] postOneMechBlockedDrops_Crate = new int[]
-            {
-                ItemID.AdamantiteOre,
-                ItemID.TitaniumOre,
-                ItemID.AdamantiteBar,
-                ItemID.TitaniumBar,
-            };
-            if (CalamityConfig.Instance.EarlyHardmodeProgressionRework)
-            {
-                if (!NPC.downedMechBossAny)
-                    DropHelper.BlockDrops(preMechBlockedDrops_Crate);
-                else if (!twoMechsDowned)
-                    DropHelper.BlockDrops(postOneMechBlockedDrops_Crate);
-            }
+            List<IItemDropRule> rules = loot.Get(false);
+            foreach (IItemDropRule rule in rules)
+                if (rule is OneFromOptionsNotScaledWithLuckDropRule o)
+                    foreach (int itemID in o.dropIds)
+                        if (itemID == ItemID.LucyTheAxe)
+                            return o;
+            return null;
+        }
+
+        private static IItemDropRule FindQueenBeeWeapons(ItemLoot loot)
+        {
+            List<IItemDropRule> rules = loot.Get(false);
+            foreach (IItemDropRule rule in rules)
+                if (rule is OneFromOptionsNotScaledWithLuckDropRule o)
+                    foreach (int itemID in o.dropIds)
+                        if (itemID == ItemID.BeeKeeper)
+                            return o;
+            return null;
+        }
+
+        private static IItemDropRule FindWallOfFleshWeapons(ItemLoot loot)
+        {
+            List<IItemDropRule> rules = loot.Get(false);
+            foreach (IItemDropRule rule in rules)
+                if (rule is OneFromOptionsNotScaledWithLuckDropRule o)
+                    foreach (int itemID in o.dropIds)
+                        if (itemID == ItemID.BreakerBlade)
+                            return o;
+            return null;
+        }
+
+        private static IItemDropRule FindWallOfFleshEmblems(ItemLoot loot)
+        {
+            List<IItemDropRule> rules = loot.Get(false);
+            foreach (IItemDropRule rule in rules)
+                if (rule is OneFromOptionsNotScaledWithLuckDropRule o)
+                    foreach (int itemID in o.dropIds)
+                        if (itemID == ItemID.WarriorEmblem)
+                            return o;
+            return null;
+        }
+
+        private static IItemDropRule FindHallowedBars(ItemLoot loot)
+        {
+            List<IItemDropRule> rules = loot.Get(false);
+            foreach (IItemDropRule rule in rules)
+                if (rule is CommonDrop c && c.itemId == ItemID.HallowedBar)
+                    return c;
+            return null;
+        }
+
+        private static IItemDropRule FindPlanteraWeapons(ItemLoot loot)
+        {
+            List<IItemDropRule> rules = loot.Get(false);
+            foreach (IItemDropRule rule in rules)
+                if (rule is OneFromRulesRule o)
+                    foreach (IItemDropRule r2 in o.options)
+                        // Specifically look up the Grenade Launcher because it has unique rules for its ammo.
+                        if (r2 is CommonDrop c && c.itemId == ItemID.GrenadeLauncher)
+                            return o;
+            return null;
+        }
+
+        private static IItemDropRule FindGolemItems(ItemLoot loot)
+        {
+            List<IItemDropRule> rules = loot.Get(false);
+            foreach (IItemDropRule rule in rules)
+                if (rule is OneFromRulesRule o)
+                    foreach (IItemDropRule r2 in o.options)
+                        // Specifically look up the Stynger because it has unique rules for its ammo.
+                        if (r2 is CommonDrop c && c.itemId == ItemID.Stynger)
+                            return o;
+            return null;
+        }
+
+        private static IItemDropRule FindBetsyWeapons(ItemLoot loot)
+        {
+            List<IItemDropRule> rules = loot.Get(false);
+            foreach (IItemDropRule rule in rules)
+                if (rule is OneFromOptionsNotScaledWithLuckDropRule o)
+                    foreach (int itemID in o.dropIds)
+                        if (itemID == ItemID.DD2SquireBetsySword) // Flying Dragon
+                            return o;
+            return null;
+        }
+
+        private static void RemoveDukeRules(ItemLoot loot)
+        {
+            List<IItemDropRule> rules = loot.Get(false);
+            IItemDropRule toRemove = null;
+
+            // Step 1: Remove Fishron Wings loot rule
+            foreach (IItemDropRule rule in rules)
+                if (rule is CommonDropNotScalingWithLuck c && c.itemId == ItemID.FishronWings)
+                    toRemove = c;
+
+            if (toRemove is not null)
+                loot.Remove(toRemove);
+
+            // Step 2: Remove Fishron's weapons
+            foreach (IItemDropRule rule in rules)
+                if (rule is OneFromOptionsNotScaledWithLuckDropRule o)
+                    foreach (int itemID in o.dropIds)
+                        if (itemID == ItemID.Flairon)
+                            toRemove = o;
+
+            if (toRemove is not null)
+                loot.Remove(toRemove);
+        }
+
+        private static void RemoveEmpressRules(ItemLoot loot)
+        {
+            List<IItemDropRule> rules = loot.Get(false);
+            IItemDropRule toRemove = null;
+
+            // Step 1: Remove Empress Wings loot rule
+            foreach (IItemDropRule rule in rules)
+                if (rule is CommonDropNotScalingWithLuck c && c.itemId == ItemID.RainbowWings)
+                    toRemove = c;
+
+            if (toRemove is not null)
+                loot.Remove(toRemove);
+
+            // Step 2: Remove Empress of Light's weapons
+            foreach (IItemDropRule rule in rules)
+                if (rule is OneFromOptionsNotScaledWithLuckDropRule o)
+                    foreach (int itemID in o.dropIds)
+                        if (itemID == ItemID.PiercingStarlight)
+                            toRemove = o;
+
+            if (toRemove is not null)
+                loot.Remove(toRemove);
+
+            // Step 3: Remove Stellar Tune
+            foreach (IItemDropRule rule in rules)
+                if (rule is CommonDropNotScalingWithLuck c && c.itemId == ItemID.SparkleGuitar)
+                    toRemove = c;
+
+            if (toRemove is not null)
+                loot.Remove(toRemove);
+        }
+
+        private static IItemDropRule FindMoonLordWeapons(ItemLoot loot)
+        {
+            List<IItemDropRule> rules = loot.Get(false);
+            foreach (IItemDropRule rule in rules)
+                if (rule is OneFromOptionsNotScaledWithLuckDropRule o)
+                    foreach (int itemID in o.dropIds)
+                        if (itemID == ItemID.Terrarian)
+                            return o;
+            return null;
+        }
+        #endregion
+
+        #region Goodie Bag Bat Hook
+        private static void RemoveBatHookFromGoodieBag(ItemLoot loot)
+        {
+            List<IItemDropRule> rules = loot.Get(false);
+            SequentialRulesNotScalingWithLuckRule rule1 = null;
+            foreach (IItemDropRule rule in rules)
+                if (rule is SequentialRulesNotScalingWithLuckRule s)
+                    rule1 = s;
+            if (rule1 is null)
+                return;
+            foreach (IItemDropRule rule in rule1.rules)
+                if (rule is CommonDropNotScalingWithLuck rule2 && rule2.itemId == ItemID.BatHook)
+                {
+                    rule2.chanceNumerator = 0;
+                    rule2.chanceDenominator = 1;
+                }
         }
         #endregion
     }

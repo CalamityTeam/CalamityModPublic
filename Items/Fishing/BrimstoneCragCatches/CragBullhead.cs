@@ -11,6 +11,7 @@ namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
             DisplayName.SetDefault("Crag Bullhead"); //Bass substitute
             Tooltip.SetDefault("Its scales are scorching hot");
             SacrificeTotal = 3;
+            ItemID.Sets.CanBePlacedOnWeaponRacks[Item.type] = true;
         }
 
         public override void SetDefaults()
@@ -21,5 +22,10 @@ namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
             Item.value = Item.sellPrice(silver: 5);
             Item.rare = ItemRarityID.Blue;
         }
+
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = ContentSamples.CreativeHelper.ItemGroup.Fish;
+		}
     }
 }

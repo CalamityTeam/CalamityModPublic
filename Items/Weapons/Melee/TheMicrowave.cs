@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             Item.width = 34;
             Item.height = 34;
-            Item.DamageType = DamageClass.Melee;
+            Item.DamageType = DamageClass.MeleeNoSpeed;
             Item.damage = 65;
             Item.knockBack = 3f;
             Item.useTime = 22;
@@ -44,7 +44,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.shootSpeed = 14f;
 
             Item.rare = ItemRarityID.Cyan;
-            Item.value = Item.buyPrice(gold: 95);
+            Item.value = CalamityGlobalItem.Rarity9BuyPrice;
         }
     }
 }

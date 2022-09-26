@@ -11,8 +11,7 @@ namespace CalamityMod.Items.Accessories
         {
             SacrificeTotal = 1;
             DisplayName.SetDefault("Silencing Sheath");
-            Tooltip.SetDefault("+20 maximum stealth\n" +
-                "Stealth generates 15% faster");
+            Tooltip.SetDefault("+10 maximum stealth");
         }
 
         public override void SetDefaults()
@@ -27,9 +26,7 @@ namespace CalamityMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            modPlayer.rogueStealthMax += 0.2f;
-            modPlayer.stealthGenStandstill += 0.15f;
-            modPlayer.stealthGenMoving += 0.15f;
+            modPlayer.rogueStealthMax += 0.1f;
         }
 
         public override void AddRecipes()

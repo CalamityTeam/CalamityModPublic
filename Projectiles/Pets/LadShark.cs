@@ -24,7 +24,7 @@ namespace CalamityMod.Projectiles.Pets
             Projectile.friendly = true;
             Projectile.penetrate = -1;
             Projectile.timeLeft *= 5;
-            Projectile.aiStyle = 26;
+            Projectile.aiStyle = ProjAIStyleID.Pet;
             AIType = ProjectileID.BabySkeletronHead;
         }
 

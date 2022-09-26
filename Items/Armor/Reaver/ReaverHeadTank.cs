@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Armor.Reaver
         {
             Item.width = 28;
             Item.height = 30;
-            Item.value = Item.buyPrice(0, 30, 0, 0);
+            Item.value = CalamityGlobalItem.RarityLimeBuyPrice;
             Item.rare = ItemRarityID.Lime;
             Item.defense = 30; //63 => 73 w/ set bonus (+5 w/ Reaver Rage)
         }
