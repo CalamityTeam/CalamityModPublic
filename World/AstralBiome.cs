@@ -892,6 +892,17 @@ namespace CalamityMod.World
             }
         }
 
+        public static void ConvertFromAstral(int startX, int endX, int startY, int endY, ConvertType convert)
+        {
+            for (int x = startX; x <= endX; x++)
+            {
+                for (int y = startY; y <= endY; y++)
+                {
+                    ConvertFromAstral(x, y, convert);
+                }
+            }
+        }
+
         public static void ConvertFromAstral(int x, int y, ConvertType convert, bool tileframe = true)
         {
             Tile tile = Main.tile[x, y];

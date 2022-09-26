@@ -127,16 +127,7 @@ namespace CalamityMod.NPCs.TownNPCs
                         type = ConvertType.Crimson;
                         break;
                 }
-                for (int i = 0; i < 3; i++)
-                {
-                    for (int j = 0; j < 3; j++)
-                    {
-                        AstralBiome.ConvertFromAstral(x + i, y + j, type);
-                        AstralBiome.ConvertFromAstral(x - i, y - j, type);
-                        AstralBiome.ConvertFromAstral(x + i, y - j, type);
-                        AstralBiome.ConvertFromAstral(x - i, y + j, type);
-                    }
-                }
+                AstralBiome.ConvertFromAstral(x - 2, x + 2, y - 2, y + 2, type);
                 WorldGen.Convert(x, y, conversionType, 2);
             }
             else
