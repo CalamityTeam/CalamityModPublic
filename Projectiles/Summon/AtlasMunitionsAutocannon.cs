@@ -7,6 +7,8 @@ using System;
 using CalamityMod.Items.Weapons.Summon;
 using Terraria.Audio;
 using CalamityMod.Sounds;
+using System.IO;
+using CalamityMod.Particles;
 
 namespace CalamityMod.Projectiles.Summon
 {
@@ -14,7 +16,11 @@ namespace CalamityMod.Projectiles.Summon
     {
         public int GeneralTimer;
 
+        public bool CannonIsMounted = true;
+
         public bool TransitioningFromOverdriveMode;
+
+        public ThanatosSmokeParticleSet SmokeDrawer = new(-1, 3, 0f, 16f, 1.5f);
 
         public Vector2 CannonCenter => Projectile.Center - Vector2.UnitY * Projectile.scale * 12f;
 
@@ -25,6 +31,8 @@ namespace CalamityMod.Projectiles.Summon
         }
 
         public ref float CannonFrame => ref Projectile.localAI[0];
+
+        public ref float HeatInterpolant => ref Projectile.localAI[1];
 
         public ref float CannonDirection => ref Projectile.ai[0];
 
@@ -52,6 +60,18 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.Opacity = 0f;
         }
 
+        public override void SendExtraAI(BinaryWriter writer)
+        {
+            writer.Write(HeatInterpolant);
+            writer.Write(CannonIsMounted);
+        }
+
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            HeatInterpolant = reader.ReadSingle();
+            CannonIsMounted = reader.ReadBoolean();
+        }
+
         public override void AI()
         {
             // Fade in.
@@ -66,6 +86,14 @@ namespace CalamityMod.Projectiles.Summon
             // Handle turret frames.
             bool canShoot = false;
             NPC potentialTarget = Projectile.Center.MinionHoming(AtlasMunitionsBeacon.TargetRange, Owner);
+            if (!CannonIsMounted)
+                potentialTarget = null;
+
+            // Update the smoke drawer.
+            SmokeDrawer.ParticleSpawnRate = HeatInterpolant > 0.7f ? 3 : 9999999;
+            SmokeDrawer.BaseMoveRotation = MathHelper.PiOver2 + Projectile.spriteDirection * (Projectile.position.X - Projectile.oldPosition.X) * 0.04f;
+            SmokeDrawer.Update();
+
             if (frameChangeInterval && CannonFrame < 5)
                 CannonFrame++;
             else
@@ -136,18 +164,58 @@ namespace CalamityMod.Projectiles.Summon
                 if (GeneralTimer % AtlasMunitionsBeacon.TurretShootRate == AtlasMunitionsBeacon.TurretShootRate - 1)
                 {
                     SoundEngine.PlaySound(CommonCalamitySounds.LaserCannonSound with { Volume = 0.25f }, CannonCenter);
-                    if (Main.netMode != NetmodeID.MultiplayerClient)
+                    if (Main.myPlayer == Projectile.owner)
                         FireLaserAtTarget(potentialTarget);
                 }
             }
             else
                 CannonDirection = CannonDirection.AngleLerp(0f, 0.06f);
 
+            // Have heat dissipate over time.
+            if (!InOverdriveMode)
+                HeatInterpolant = MathHelper.Clamp(HeatInterpolant - 1f / AtlasMunitionsBeacon.HeatDissipationTime, 0f, 1f);
+
             // Fall.
             Projectile.velocity.Y = MathHelper.Clamp(Projectile.velocity.Y + 0.3f, 0f, 20f);
 
             // Increment the general timer.
             GeneralTimer++;
+
+            // Be picked up by nearby players if they right click and are holding the appropriate item.
+            bool rightClick = Main.mouseRight && Main.mouseRightRelease;
+            if (Main.LocalPlayer.WithinRange(Projectile.Center, AtlasMunitionsBeacon.PickupRange) && rightClick && Main.LocalPlayer.ActiveItem().type == ModContent.ItemType<AtlasMunitionsBeacon>() && CannonIsMounted)
+            {
+                int heldCannon = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Main.LocalPlayer.Center, Vector2.UnitX, ModContent.ProjectileType<AtlasMunitionsAutocannonHeld>(), Projectile.damage, Projectile.knockBack, Main.myPlayer);
+                if (Main.projectile.IndexInRange(heldCannon))
+                    Main.projectile[heldCannon].ModProjectile<AtlasMunitionsAutocannonHeld>().HeatInterpolant = HeatInterpolant * 0.65f;
+                
+                CannonIsMounted = false;
+                Projectile.netUpdate = true;
+                return;
+            }
+
+            // Attach any nearby cannons.
+            if (!CannonIsMounted)
+            {
+                int detachedCannonID = ModContent.ProjectileType<AtlasMunitionsAutocannonHeld>();
+                for (int i = 0; i < Main.maxProjectiles; i++)
+                {
+                    if (Main.projectile[i].type != detachedCannonID || !Main.projectile[i].active || Main.projectile[i].owner != Projectile.owner)
+                        continue;
+
+                    if (!Main.projectile[i].Hitbox.Intersects(Projectile.Hitbox))
+                        continue;
+
+                    if (Main.projectile[i].ModProjectile<AtlasMunitionsAutocannonHeld>().BeingHeld)
+                        continue;
+
+                    Main.projectile[i].Kill();
+                    CannonIsMounted = true;
+                    HeatInterpolant = Main.projectile[i].ModProjectile<AtlasMunitionsAutocannonHeld>().HeatInterpolant;
+                    Projectile.netUpdate = true;
+                    break;
+                }
+            }
         }
 
         public void FireLaserAtTarget(NPC target)
@@ -162,6 +230,10 @@ namespace CalamityMod.Projectiles.Summon
                 offsetAngleMax = AtlasMunitionsBeacon.OverdriveProjectileAngularRandomness;
                 laserDamage = (int)(laserDamage * AtlasMunitionsBeacon.OverdriveProjectileDamageFactor);
                 laserID = ModContent.ProjectileType<AtlasMunitionsLaserOverdrive>();
+
+                // Add heat to the cannon if firing in overdrive mode.
+                HeatInterpolant = MathHelper.Clamp(HeatInterpolant + 1f / AtlasMunitionsBeacon.ShotsNeededToReachMaxHeat, 0f, 1f);
+                Projectile.netUpdate = true;
             }
 
             Vector2 laserVelocity = (target.Center - CannonCenter).SafeNormalize(Vector2.UnitY) * 9.25f;
@@ -184,6 +256,9 @@ namespace CalamityMod.Projectiles.Summon
             Main.EntitySpriteDraw(texture, drawPosition, frame, Projectile.GetAlpha(lightColor), Projectile.rotation, frame.Size() * 0.5f, Projectile.scale, 0, 0);
             Main.EntitySpriteDraw(glowmask, drawPosition, frame, Projectile.GetAlpha(Color.White), Projectile.rotation, frame.Size() * 0.5f, Projectile.scale, 0, 0);
 
+            if (!CannonIsMounted)
+                return false;
+
             // Draw the cannon.
             texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/AtlasMunitionsTurret").Value;
             glowmask = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/AtlasMunitionsTurretGlow").Value;
@@ -199,7 +274,15 @@ namespace CalamityMod.Projectiles.Summon
                 cannonOrigin.X = frame.Width - cannonOrigin.X;
             }
 
-            Main.EntitySpriteDraw(texture, drawPosition, frame, Projectile.GetAlpha(lightColor), cannonRotation, cannonOrigin, Projectile.scale, cannonDirection, 0);
+            // Draw the smoke.
+            SmokeDrawer.DrawSet(drawPosition + Main.screenPosition);
+
+            for (int i = 0; i < 12; i++)
+            {
+                Vector2 drawOffset = (MathHelper.TwoPi * i / 12f + Main.GlobalTimeWrappedHourly * 2.3f).ToRotationVector2() * (float)Math.Pow(HeatInterpolant, 2.3) * 6f;
+                Main.EntitySpriteDraw(texture, drawPosition + drawOffset, frame, AtlasMunitionsBeacon.HeatGlowColor * Projectile.Opacity * 0.5f, cannonRotation, cannonOrigin, Projectile.scale, cannonDirection, 0);
+            }
+            Main.EntitySpriteDraw(texture, drawPosition, frame, Color.Lerp(lightColor, AtlasMunitionsBeacon.HeatGlowColor, HeatInterpolant * 0.45f) * Projectile.Opacity, cannonRotation, cannonOrigin, Projectile.scale, cannonDirection, 0);
             Main.EntitySpriteDraw(glowmask, drawPosition, frame, Projectile.GetAlpha(Color.White), cannonRotation, cannonOrigin, Projectile.scale, cannonDirection, 0);
 
             return false;
