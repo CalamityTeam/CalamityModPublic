@@ -7,26 +7,25 @@ using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
+using CalamityMod.NPCs.SupremeCalamitas;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
-
-using SCalBoss = CalamityMod.NPCs.SupremeCalamitas.SupremeCalamitas;
 
 namespace CalamityMod.Items.TreasureBags
 {
     [LegacyName("SCalBag")]
     public class SupremeCalamitasCoffer : ModItem
     {
-        public override int BossBagNPC => ModContent.NPCType<SCalBoss>();
-
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 3;
             DisplayName.SetDefault("Treasure Coffer (Supreme Calamitas)");
             Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
+			ItemID.Sets.BossBag[Item.type] = true;
         }
 
         public override void SetDefaults()
@@ -39,51 +38,53 @@ namespace CalamityMod.Items.TreasureBags
             Item.expert = true;
         }
 
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = ContentSamples.CreativeHelper.ItemGroup.BossBags;
+		}
+
         public override bool CanRightClick() => true;
+
+		public override Color? GetAlpha(Color lightColor) => Color.Lerp(lightColor, Color.White, 0.4f);
+
+        public override void PostUpdate() => Item.TreasureBagLightAndDust();
 
         public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
         {
             return CalamityUtils.DrawTreasureBagInWorld(Item, spriteBatch, ref rotation, ref scale, whoAmI);
         }
 
-        public override void OpenBossBag(Player player)
+        public override void ModifyItemLoot(ItemLoot itemLoot)
         {
-            // IEntitySource my beloathed
-            var s = player.GetSource_OpenItem(Item.type);
-
-            player.TryGettingDevArmor(s);
+			// Money
+			itemLoot.Add(ItemDropRule.CoinsBasedOnNPCValue(ModContent.NPCType<SupremeCalamitas>()));
 
             // Materials
-            DropHelper.DropItem(s, player, ModContent.ItemType<AshesofAnnihilation>(), 25, 35);
+            itemLoot.Add(ModContent.ItemType<AshesofAnnihilation>(), 1, 30, 40);
 
             // Weapons
-            float w = DropHelper.BagWeaponDropRateFloat;
-            DropHelper.DropEntireWeightedSet(s, player,
-                DropHelper.WeightStack<Violence>(w),
-                DropHelper.WeightStack<Condemnation>(w),
-                DropHelper.WeightStack<Heresy>(w),
-                DropHelper.WeightStack<Vehemence>(w),
-                DropHelper.WeightStack<Perdition>(w),
-                DropHelper.WeightStack<Vigilance>(w),
-                DropHelper.WeightStack<Sacrifice>(w)
-                );
+            itemLoot.Add(DropHelper.CalamityStyle(DropHelper.BagWeaponDropRateFraction, new int[]
+            {
+                ModContent.ItemType<Violence>(),
+                ModContent.ItemType<Condemnation>(),
+                ModContent.ItemType<Heresy>(),
+                ModContent.ItemType<Vehemence>(),
+                ModContent.ItemType<Perdition>(),
+                ModContent.ItemType<Vigilance>(),
+                ModContent.ItemType<Sacrifice>()
+            }));
 
             // Equipment
-            DropHelper.DropItem(s, player, ModContent.ItemType<Calamity>());
+            itemLoot.Add(ModContent.ItemType<Calamity>());
+            itemLoot.AddRevBagAccessories();
 
             // Vanity
-
-            // SCal vanity set (This drops all at once, or not at all)
-            if (Main.rand.NextBool(7))
-            {
-                DropHelper.DropItem(s, player, ModContent.ItemType<AshenHorns>());
-                DropHelper.DropItem(s, player, ModContent.ItemType<SCalMask>());
-                DropHelper.DropItem(s, player, ModContent.ItemType<SCalRobes>());
-                DropHelper.DropItem(s, player, ModContent.ItemType<SCalBoots>());
-            }
-
-            // The Brimstone Jewel is an expert-only vanity
-            DropHelper.DropItem(s, player, ModContent.ItemType<BrimstoneJewel>());
+            var scalVanitySet = ItemDropRule.Common(ModContent.ItemType<SCalMask>(), 7);
+            scalVanitySet.OnSuccess(ItemDropRule.Common(ModContent.ItemType<AshenHorns>()));
+            scalVanitySet.OnSuccess(ItemDropRule.Common(ModContent.ItemType<SCalRobes>()));
+            scalVanitySet.OnSuccess(ItemDropRule.Common(ModContent.ItemType<SCalBoots>()));
+            itemLoot.Add(scalVanitySet);
+            itemLoot.Add(ModContent.ItemType<BrimstoneJewel>());
         }
     }
 }

@@ -42,7 +42,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             Projectile.friendly = true;
             Projectile.ignoreWater = true;
             Projectile.penetrate = -1;
-            Projectile.DamageType = DamageClass.Melee;
+            Projectile.DamageType = DamageClass.MeleeNoSpeed;
             Projectile.timeLeft = Lifetime;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 4;
@@ -128,7 +128,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             Projectile field = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ProjectileID.Electrosphere, Projectile.damage, Projectile.knockBack, Projectile.owner);
             if (field.whoAmI.WithinBounds(Main.maxProjectiles))
             {
-                field.Calamity().forceMelee = true;
+                field.DamageType = DamageClass.MeleeNoSpeed;
                 field.usesLocalNPCImmunity = true;
                 field.localNPCHitCooldown = 3;
                 field.timeLeft = 12;

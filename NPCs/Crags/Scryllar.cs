@@ -6,6 +6,7 @@ using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Weapons.Summon;
 using Terraria;
 using Terraria.GameContent.Bestiary;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -266,17 +267,19 @@ namespace CalamityMod.NPCs.Crags
 
         public static void DefineScryllarLoot(NPCLoot npcLoot)
         {
-            npcLoot.AddIf(() => Main.hardMode, ModContent.ItemType<EssenceofChaos>(), 3);
-            var postProvidence = npcLoot.DefineConditionalDropSet(() => DownedBossSystem.downedProvidence);
-            postProvidence.Add(ModContent.ItemType<Bloodstone>(), 2);
-            postProvidence.Add(ModContent.ItemType<GuidelightofOblivion>(), 20);
+            LeadingConditionRule hardmode = npcLoot.DefineConditionalDropSet(DropHelper.Hardmode());
+            LeadingConditionRule postProv = npcLoot.DefineConditionalDropSet(DropHelper.PostProv());
+            hardmode.Add(ModContent.ItemType<EssenceofChaos>(), 3);
+            postProv.Add(ModContent.ItemType<Bloodstone>(), 4);
+            postProv.Add(ModContent.ItemType<GuidelightofOblivion>(), 20);
         }
 
         public override void ModifyNPCLoot(NPCLoot npcLoot) => DefineScryllarLoot(npcLoot);
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120, true);
+            if (damage > 0)
+                player.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120, true);
         }
 
         public override void HitEffect(int hitDirection, double damage)

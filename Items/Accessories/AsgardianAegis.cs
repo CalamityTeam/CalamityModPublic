@@ -1,13 +1,14 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.CalPlayer;
+using CalamityMod.CalPlayer.Dashes;
 using CalamityMod.Items.Materials;
+using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using System.Collections.Generic;
+using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using System.Linq;
-using CalamityMod.CalPlayer.Dashes;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -37,7 +38,7 @@ namespace CalamityMod.Items.Accessories
             Item.value = CalamityGlobalItem.Rarity14BuyPrice;
             Item.defense = 28;
             Item.accessory = true;
-            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.rare = ModContent.RarityType<DarkBlue>();
         }
 
         public override void ModifyTooltips(List<TooltipLine> list)
@@ -53,7 +54,7 @@ namespace CalamityMod.Items.Accessories
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.DashID = AsgardianAegisDash.ID;
-            player.dash = 0;
+            player.dashType = 0;
             modPlayer.elysianAegis = true;
             player.noKnockback = true;
             player.fireWalk = true;

@@ -23,7 +23,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.penetrate = 5;
             Projectile.timeLeft = 1200;
             Projectile.DamageType = RogueDamageClass.Instance;
-            Projectile.aiStyle = 14;
+            Projectile.aiStyle = ProjAIStyleID.GroundProjectile;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 45;
         }
@@ -50,7 +50,7 @@ namespace CalamityMod.Projectiles.Rogue
                     int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center - velocity, velocity, Main.rand.Next(569,572), (int)(Projectile.damage * 0.75), Projectile.knockBack, Projectile.owner);
                     if (proj.WithinBounds(Main.maxProjectiles))
                     {
-                        Main.projectile[proj].Calamity().forceRogue = true;
+                        Main.projectile[proj].DamageType = RogueDamageClass.Instance;
                         Main.projectile[proj].usesLocalNPCImmunity = true;
                         Main.projectile[proj].localNPCHitCooldown = 45;
                     }

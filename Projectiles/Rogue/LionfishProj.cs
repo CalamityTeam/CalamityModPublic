@@ -61,7 +61,7 @@ namespace CalamityMod.Projectiles.Rogue
                         velocity = velocity.RotatedBy((Main.rand.NextDouble() - 0.5) * Math.PI * 0.5, default);
                         int spike = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<UrchinSpikeFugu>(), (int)(Projectile.damage * 0.5), Projectile.knockBack * 0.5f, Projectile.owner, -10f, 0f);
                         if (spike.WithinBounds(Main.maxProjectiles))
-                            Main.projectile[spike].Calamity().forceRogue = true;
+                            Main.projectile[spike].DamageType = RogueDamageClass.Instance;
                     }
                 }
             }
@@ -96,7 +96,7 @@ namespace CalamityMod.Projectiles.Rogue
         public override void Kill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.Dig, Projectile.position);
-            CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 72);
+            Projectile.ExpandHitboxBy(72);
             for (int d = 0; d < 3; d++)
             {
                 Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 14, 0f, 0f, 100, new Color(0, 255, 255), 1.5f);

@@ -11,7 +11,7 @@ namespace CalamityMod.Tiles.FurnitureProfaned
     {
         public override void SetStaticDefaults()
         {
-            this.SetUpSink(true);
+            this.SetUpSink(true, false, true);
             AddMapEntry(new Color(191, 142, 111), Language.GetText("MapObject.Sink"));
         }
 

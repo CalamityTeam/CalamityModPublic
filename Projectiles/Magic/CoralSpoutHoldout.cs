@@ -80,6 +80,8 @@ namespace CalamityMod.Projectiles.Magic
             }
 
             Charge++;
+            if (Charge % 4 == 0 && Owner.GetModPlayer<CoralSpoutPlayer>().Symbiosis)
+                Charge++;
         }
 
         public override bool PreDraw(ref Color lightColor)
@@ -126,11 +128,16 @@ namespace CalamityMod.Projectiles.Magic
                 {
                     float angleOffset = MathHelper.Lerp(Spread * -0.5f, Spread * 0.5f, i / ((float)ShotProjectiles - 1));
                     Vector2 direction = (mainAngle + angleOffset).ToRotationVector2();
-                    
+
+                    int realDamage = Projectile.damage + (int)(CoralSpout.FullChargeExtraDamage * Math.Pow(ChargeProgress, CoralSpout.ChargeDamageBoostSteepness));
+
+                    if (Owner.GetModPlayer<CoralSpoutPlayer>().Symbiosis)
+                        realDamage += CoralSpout.SymbiosisDamageBuff;
+
                     if (Owner.whoAmI == Main.myPlayer)
                     {
                         float speed = 10 + 15 * ChargeProgress;
-                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Owner.MountedCenter + direction * 30f, direction * speed, ModContent.ProjectileType<CoralSpike>(), Projectile.damage, Projectile.knockBack, Owner.whoAmI, ChargeProgress);
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Owner.MountedCenter + direction * 30f, direction * speed, ModContent.ProjectileType<CoralSpike>(), realDamage, Projectile.knockBack, Owner.whoAmI, ChargeProgress);
                     }
 
                     Color pulseColor = Main.rand.NextBool() ? Color.Coral : Color.DeepSkyBlue;

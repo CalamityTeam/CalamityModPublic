@@ -15,6 +15,7 @@ namespace CalamityMod.Items.LoreItems
             Tooltip.SetDefault("An odd pair of creatures; one seeking companionship and the other seeking sustenance.\n" +
                 "Perhaps two genetic misfits outcast from their homes that found comfort in assisting one another.");
             SacrificeTotal = 1;
+            ItemID.Sets.ItemNoGravity[Item.type] = true;
         }
 
         public override void SetDefaults()
@@ -32,7 +33,7 @@ namespace CalamityMod.Items.LoreItems
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddTile(TileID.Bookcases).AddIngredient(ModContent.ItemType<LeviathanTrophy>()).AddIngredient(ModContent.ItemType<VictoryShard>(), 10).Register();
+            CreateRecipe(1).AddTile(TileID.Bookcases).AddIngredient(ModContent.ItemType<LeviathanTrophy>()).AddIngredient(ModContent.ItemType<PearlShard>(), 10).Register();
         }
     }
 }

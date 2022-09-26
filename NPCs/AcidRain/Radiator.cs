@@ -72,18 +72,21 @@ namespace CalamityMod.NPCs.AcidRain
         {
             Lighting.AddLight(NPC.Center, 0.3f, 1.5f, 0.3f);
 
-            int auraSize = 200; //roughly 12 blocks (half the size of Wither Beast aura)
-            Player player = Main.player[Main.myPlayer];
-            if (!player.dead && player.active && (double) (player.Center - NPC.Center).Length() < auraSize)
-            {
-                player.AddBuff(ModContent.BuffType<Irradiated>(), 3, false);
-                player.AddBuff(BuffID.Poisoned, 2, false);
-                if (DownedBossSystem.downedPolterghast)
-                {
-                    player.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 3, false);
-                    player.AddBuff(BuffID.Venom, 2, false);
-                }
-            }
+			if (Main.netMode != NetmodeID.Server)
+			{
+				int auraSize = 200; //roughly 12 blocks (half the size of Wither Beast aura)
+				Player player = Main.player[Main.myPlayer];
+				if (!player.dead && player.active && (player.Center - NPC.Center).Length() < auraSize && !player.creativeGodMode)
+				{
+					player.AddBuff(ModContent.BuffType<Irradiated>(), 3, false);
+					player.AddBuff(BuffID.Poisoned, 2, false);
+					if (DownedBossSystem.downedPolterghast)
+					{
+						player.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 3, false);
+						player.AddBuff(BuffID.Venom, 2, false);
+					}
+				}
+			}
         }
 
         public override void FindFrame(int frameHeight)
@@ -105,17 +108,6 @@ namespace CalamityMod.NPCs.AcidRain
             for (int k = 0; k < 5; k++)
             {
                 Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.SulfurousSeaAcid, hitDirection, -1f, 0, default, 1f);
-            }
-        }
-
-        public override void OnCaughtBy(Player player, Item item, bool failed)
-        {
-            try
-            {
-            }
-            catch
-            {
-                return;
             }
         }
 

@@ -61,12 +61,12 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
 
         public override void SetDefaults()
         {
-            Projectile.aiStyle = 99;
+            Projectile.aiStyle = ProjAIStyleID.Yoyo;
             Projectile.width = 20;
             Projectile.height = 20;
             Projectile.scale = 1.2f;
             Projectile.friendly = true;
-            Projectile.DamageType = DamageClass.Melee;
+            Projectile.DamageType = DamageClass.MeleeNoSpeed;
             Projectile.penetrate = -1;
             Projectile.MaxUpdates = UpdatesPerFrame;
             Projectile.usesLocalNPCImmunity = true;
@@ -244,10 +244,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
                     {
                         Projectile p = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), target.Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), finalDamage, 0f, Projectile.owner, i);
                         if (p.whoAmI.WithinBounds(Main.maxProjectiles))
-                        {
-                            p.DamageType = DamageClass.Melee;
-                            p.Calamity().forceMelee = true;
-                        }
+                            p.DamageType = DamageClass.MeleeNoSpeed;
                     }
                 }
             }

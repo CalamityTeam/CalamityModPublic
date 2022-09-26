@@ -6,7 +6,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class AdamantiteThrowingAxe : ModItem
+    public class AdamantiteThrowingAxe : RogueWeapon
     {
         public override void SetStaticDefaults()
         {

@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.rotation = (float)Math.Atan2(Projectile.velocity.Y, Projectile.velocity.X) + MathHelper.PiOver2;
 
             if (Projectile.timeLeft < 90)
-                CalamityGlobalProjectile.HomeInOnNPC(Projectile, true, 600f, 8f, 20f);
+                CalamityUtils.HomeInOnNPC(Projectile, true, 600f, 8f, 20f);
             else
                 Projectile.velocity *= 0.985f;
 

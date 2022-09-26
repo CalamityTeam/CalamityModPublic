@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.knockBack = 7f;
-            Item.value = Item.buyPrice(0, 80, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity9BuyPrice;
             Item.rare = ItemRarityID.Yellow;
             Item.UseSound = SoundID.Item40;
             Item.autoReuse = false;
@@ -47,7 +47,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             if (type == ProjectileID.Bullet)
             {
                 int proj = Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, ProjectileID.LostSoulFriendly, damage, knockback, player.whoAmI, 2f, 0f);
-                Main.projectile[proj].Calamity().forceRanged = true;
+                Main.projectile[proj].DamageType = DamageClass.Ranged;
                 Main.projectile[proj].extraUpdates += 2;
             }
             else

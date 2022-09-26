@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Armor.Victide
         {
             Item.width = 18;
             Item.height = 18;
-            Item.value = Item.buyPrice(0, 1, 50, 0);
+            Item.value = CalamityGlobalItem.Rarity2BuyPrice;
             Item.rare = ItemRarityID.Green;
             Item.defense = 3; //10
         }
@@ -37,10 +37,7 @@ namespace CalamityMod.Items.Armor.Victide
                 "When using any weapon you have a 10% chance to throw a returning seashell projectile\n" +
                 "This seashell does true damage and does not benefit from any damage class\n" +
                 "Provides increased underwater mobility and slightly reduces breath loss in the abyss\n" +
-                "Rogue stealth builds while not attacking and slower while moving, up to a max of 90\n" +
-                "Once you have built max stealth, you will be able to perform a Stealth Strike\n" +
-                "Rogue stealth only reduces when you attack, it does not reduce while moving\n" +
-                "The higher your rogue stealth the higher your rogue damage, crit, and movement speed";
+                "+90 maximum stealth";
             var modPlayer = player.Calamity();
             modPlayer.victideSet = true;
             modPlayer.rogueStealthMax += 0.9f;

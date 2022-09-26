@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class UtensilPoker : ModItem
+    public class UtensilPoker : RogueWeapon
     {
         private int counter = 0;
         public override void SetStaticDefaults()
@@ -36,8 +36,8 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.useAnimation = 45;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
-            Item.value = CalamityGlobalItem.Rarity11BuyPrice;
-            Item.rare = ItemRarityID.Purple;
+            Item.value = CalamityGlobalItem.Rarity10BuyPrice;
+            Item.rare = ItemRarityID.Red;
             Item.shoot = ModContent.ProjectileType<Fork>();
             Item.shootSpeed = 12f;
         }

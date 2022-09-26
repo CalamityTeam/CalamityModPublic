@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-            Projectile.Calamity().canBreakPlayerDefense = true;
+            Projectile.Calamity().DealsDefenseDamage = true;
             Projectile.width = 48;
             Projectile.height = 48;
             Projectile.hostile = true;
@@ -33,8 +33,8 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.tileCollide = false;
             Projectile.penetrate = -1;
             Projectile.Opacity = 0f;
-            CooldownSlot = 1;
-            Projectile.timeLeft = (CalamityWorld.malice || BossRushEvent.BossRushActive) ? 48 : timeLeft;
+            CooldownSlot = ImmunityCooldownID.Bosses;
+            Projectile.timeLeft = BossRushEvent.BossRushActive ? 48 : timeLeft;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -54,7 +54,7 @@ namespace CalamityMod.Projectiles.Boss
                 Projectile.tileCollide = true;
 
             int fadeInTime = 3;
-            Projectile.Opacity = MathHelper.Clamp(1f - ((Projectile.timeLeft - (((CalamityWorld.malice || BossRushEvent.BossRushActive) ? 48 : timeLeft) - fadeInTime)) / (float)fadeInTime), 0f, 1f);
+            Projectile.Opacity = MathHelper.Clamp(1f - ((Projectile.timeLeft - ((BossRushEvent.BossRushActive ? 48 : timeLeft) - fadeInTime)) / (float)fadeInTime), 0f, 1f);
 
             Lighting.AddLight(Projectile.Center, 0f, 0.6f * Projectile.Opacity, 0f);
 
@@ -128,7 +128,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            if (Projectile.Opacity != 1f)
+            if (damage <= 0 || Projectile.Opacity != 1f)
                 return;
 
             target.AddBuff(BuffID.OnFire, 360);
@@ -164,7 +164,7 @@ namespace CalamityMod.Projectiles.Boss
                 }
 
                 // Plasma bolts
-                int totalProjectiles = (CalamityWorld.malice || BossRushEvent.BossRushActive) ? 6 : 4;
+                int totalProjectiles = BossRushEvent.BossRushActive ? 6 : 4;
                 float radians = MathHelper.TwoPi / totalProjectiles;
                 int type = ModContent.ProjectileType<AresPlasmaBolt>();
                 float velocity = 0.5f;
@@ -227,11 +227,6 @@ namespace CalamityMod.Projectiles.Boss
                 dust.scale = scale;
                 dust.noGravity = true;
             }
-        }
-
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
-        {
-            target.Calamity().lastProjectileHit = Projectile;
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
@@ -37,8 +38,7 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.channel = true;
             Item.knockBack = 0f;
             Item.value = CalamityGlobalItem.Rarity13BuyPrice;
-            Item.rare = ItemRarityID.Red;
-            Item.Calamity().customRarity = CalamityRarity.PureGreen;
+            Item.rare = ModContent.RarityType<PureGreen>();
             Item.Calamity().donorItem = true;
             Item.shoot = ModContent.ProjectileType<DarkSparkPrism>();
             Item.shootSpeed = 30f;

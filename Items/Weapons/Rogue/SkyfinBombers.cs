@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class SkyfinBombers : ModItem
+    public class SkyfinBombers : RogueWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.UseSound = SoundID.Item11;
             Item.autoReuse = true;
             Item.height = 30;
-            Item.value = Item.buyPrice(0, 36, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity6BuyPrice;
             Item.rare = ItemRarityID.Pink;
             Item.shoot = ModContent.ProjectileType<SkyfinNuke>();
             Item.shootSpeed = 12f;

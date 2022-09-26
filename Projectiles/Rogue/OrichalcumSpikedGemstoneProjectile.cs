@@ -21,8 +21,8 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.width = 12;
             Projectile.height = 12;
             Projectile.friendly = true;
-            Projectile.aiStyle = 2;
-            Projectile.penetrate = 6;
+            Projectile.aiStyle = ProjAIStyleID.ThrownProjectile;
+            Projectile.penetrate = 5;
             Projectile.timeLeft = 600;
             AIType = ProjectileID.ThrowingKnife;
             Projectile.DamageType = RogueDamageClass.Instance;
@@ -86,7 +86,7 @@ namespace CalamityMod.Projectiles.Rogue
                 pathToTravel.Y *= speedMult;
                 int petal = Projectile.NewProjectile(Projectile.GetSource_FromThis(), startPos, pathToTravel, ProjectileID.FlowerPetal, Projectile.damage, 0f, Projectile.owner);
                 if (petal.WithinBounds(Main.maxProjectiles))
-                    Main.projectile[petal].Calamity().forceRogue = true;
+                    Main.projectile[petal].DamageType = RogueDamageClass.Instance;
             }
         }
 

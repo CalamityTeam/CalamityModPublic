@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Accessories
         {
             SacrificeTotal = 1;
             DisplayName.SetDefault("Counter Scarf");
-            Tooltip.SetDefault("True melee strikes deal 10% more damage\n" +
+            Tooltip.SetDefault("10% increased true melee damage\n" +
                 "Grants the ability to dash; dashing into an attack will cause you to dodge it\n" +
                 "After a successful dodge you must wait 30 seconds before you can dodge again");
         }
@@ -31,10 +31,11 @@ namespace CalamityMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
+            player.GetDamage<TrueMeleeDamageClass>() += 0.1f;
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.dodgeScarf = true;
             modPlayer.DashID = CounterScarfDash.ID;
-            player.dash = 0;
+            player.dashType = 0;
         }
     }
 }

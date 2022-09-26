@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.friendly = true;
             Projectile.DamageType = RogueDamageClass.Instance;
             Projectile.ignoreWater = true;
-            Projectile.aiStyle = 1;
+            Projectile.aiStyle = ProjAIStyleID.Arrow;
             AIType = ProjectileID.BulletHighVelocity;
             Projectile.penetrate = 1;
             Projectile.timeLeft = 600;
@@ -38,7 +38,8 @@ namespace CalamityMod.Projectiles.Rogue
             if (Main.rand.NextBool(8))
                 Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, Main.rand.Next(2) == 1 ? 107 : 89, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
 
-            Projectile.damage += Projectile.Calamity().defDamage / 200;
+            // TODO -- This will almost never work due to the base damage being too low, and will round down.
+            Projectile.damage += Projectile.originalDamage / 200;
         }
 
         public override bool PreDraw(ref Color lightColor)
@@ -59,7 +60,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void Kill(int timeLeft)
         {
-            CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 100);
+            Projectile.ExpandHitboxBy(100);
             Projectile.maxPenetrate = -1;
             Projectile.penetrate = -1;
             Projectile.usesLocalNPCImmunity = true;

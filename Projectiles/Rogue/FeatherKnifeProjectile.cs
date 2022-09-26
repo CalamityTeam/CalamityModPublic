@@ -21,7 +21,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.width = 12;
             Projectile.height = 12;
             Projectile.friendly = true;
-            Projectile.aiStyle = 2;
+            Projectile.aiStyle = ProjAIStyleID.ThrownProjectile;
             Projectile.timeLeft = 600;
             AIType = ProjectileID.ThrowingKnife;
             Projectile.DamageType = RogueDamageClass.Instance;
@@ -42,7 +42,7 @@ namespace CalamityMod.Projectiles.Rogue
                 {
                     int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.position, new Vector2(Projectile.velocity.X / 20, 2), ModContent.ProjectileType<StickyFeatherAero>(), (int)(Projectile.damage * 0.4), Projectile.knockBack, Projectile.owner);
                     if (proj.WithinBounds(Main.maxProjectiles))
-                        Main.projectile[proj].Calamity().forceRogue = true;
+                        Main.projectile[proj].DamageType = RogueDamageClass.Instance;
                 }
             }
         }
@@ -51,7 +51,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.position, new Vector2(Projectile.velocity.X / 20, 2), ModContent.ProjectileType<StickyFeatherAero>(), (int)(Projectile.damage * 0.69), Projectile.knockBack, Projectile.owner);
             if (proj.WithinBounds(Main.maxProjectiles))
-                Main.projectile[proj].Calamity().forceRogue = true;
+                Main.projectile[proj].DamageType = RogueDamageClass.Instance;
         }
 
         public override void Kill(int timeLeft)

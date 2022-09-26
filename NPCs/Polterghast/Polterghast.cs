@@ -4,6 +4,7 @@ using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
+using CalamityMod.Items.Placeables.Furniture.BossRelics;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Items.Potions;
 using CalamityMod.Items.TreasureBags;
@@ -49,6 +50,11 @@ namespace CalamityMod.NPCs.Polterghast
 
         private int despawnTimer = 600;
         private bool reachedChargingPoint = false;
+        public static readonly SoundStyle HitSound = new("CalamityMod/Sounds/NPCHit/PolterghastHit");
+        public static readonly SoundStyle P2Sound = new("CalamityMod/Sounds/Custom/PolterghastP2Transition");
+        public static readonly SoundStyle P3Sound = new("CalamityMod/Sounds/Custom/PolterghastP3Transition");
+        public static readonly SoundStyle SpawnSound = new("CalamityMod/Sounds/Custom/PolterghastSpawn");
+        public static readonly SoundStyle PhantomSound = new("CalamityMod/Sounds/Custom/PolterghastPhantomSpawn");
 
         public override void SetStaticDefaults()
         {
@@ -56,6 +62,7 @@ namespace CalamityMod.NPCs.Polterghast
             Main.npcFrameCount[NPC.type] = 12;
             NPCID.Sets.TrailingMode[NPC.type] = 1;
             NPCID.Sets.BossBestiaryPriority.Add(Type);
+			NPCID.Sets.MPAllowedEnemies[Type] = true;
         }
 
         public override void SetDefaults()
@@ -78,8 +85,7 @@ namespace CalamityMod.NPCs.Polterghast
             NPC.noGravity = true;
             NPC.noTileCollide = true;
             NPC.netAlways = true;
-            Music = CalamityMod.Instance.GetMusicFromMusicMod("Polterghast") ?? MusicID.Plantera;
-            NPC.HitSound = SoundID.NPCHit7;
+            NPC.HitSound = HitSound;
             NPC.DeathSound = SoundID.NPCDeath39;
             NPC.Calamity().VulnerableToSickness = false;
         }
@@ -157,12 +163,12 @@ namespace CalamityMod.NPCs.Polterghast
 
             // Variables
             Vector2 vector = NPC.Center;
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+            bool bossRush = BossRushEvent.BossRushActive;
             bool speedBoost = false;
             bool despawnBoost = false;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
-            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || bossRush;
+            bool revenge = CalamityWorld.revenge || bossRush;
+            bool expertMode = Main.expertMode || bossRush;
 
             // Phases
             bool phase2 = lifeRatio < (death ? 0.9f : revenge ? 0.8f : expertMode ? 0.65f : 0.5f);
@@ -175,13 +181,17 @@ namespace CalamityMod.NPCs.Polterghast
 
             // Velocity and acceleration
             calamityGlobalNPC.newAI[0] += 1f;
-            bool chargePhase = calamityGlobalNPC.newAI[0] >= 480f;
+            float chargePhaseGateValue = 480f;
+            if (Main.getGoodWorld)
+                chargePhaseGateValue *= 0.5f;
+
+            bool chargePhase = calamityGlobalNPC.newAI[0] >= chargePhaseGateValue;
             int chargeAmt = getPissed ? 4 : phase3 ? 3 : phase2 ? 2 : 1;
             float chargeVelocity = getPissed ? 28f : phase3 ? 24f : phase2 ? 22f : 20f;
             float chargeAcceleration = getPissed ? 0.7f : phase3 ? 0.6f : phase2 ? 0.55f : 0.5f;
             float chargeDistance = 480f;
-            bool charging = NPC.ai[2] >= 300f;
-            bool reset = NPC.ai[2] >= 600f;
+            bool charging = NPC.ai[2] >= chargePhaseGateValue - 180f;
+            bool reset = NPC.ai[2] >= chargePhaseGateValue + 120f;
             float speedUpDistance = 480f - 360f * (1f - lifeRatio);
 
             // Only get a new target while not charging
@@ -245,7 +255,7 @@ namespace CalamityMod.NPCs.Polterghast
                 NPC.NewNPC(NPC.GetSource_FromAI(), (int)vector.X, (int)vector.Y, ModContent.NPCType<PolterghastHook>(), NPC.whoAmI, 0f, 0f, 0f, 0f, 255);
             }
 
-            if (!player.ZoneDungeon && !BossRushEvent.BossRushActive && player.position.Y < Main.worldSurface * 16.0)
+            if (!player.ZoneDungeon && !bossRush && player.position.Y < Main.worldSurface * 16.0)
             {
                 despawnTimer--;
                 if (despawnTimer <= 0)
@@ -352,10 +362,10 @@ namespace CalamityMod.NPCs.Polterghast
             if (nearbyActiveTiles < 1000)
                 tileEnrageMult += (1000 - nearbyActiveTiles) * 0.00075f; // Ranges from 1f to 1.75f
 
-            if (malice)
+            if (bossRush)
                 tileEnrageMult = 1.75f;
 
-            NPC.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive && tileEnrageMult >= 1.6f;
+            NPC.Calamity().CurrentlyEnraged = !bossRush && tileEnrageMult >= 1.6f;
 
             // Used to inform clone and hooks about number of active tiles nearby
             NPC.ai[3] = tileEnrageMult;
@@ -375,7 +385,7 @@ namespace CalamityMod.NPCs.Polterghast
                 baseProjectileVelocity *= 1.25f;
 
             // Predictiveness
-            Vector2 predictionVector = chargePhase && malice ? player.velocity * 20f : Vector2.Zero;
+            Vector2 predictionVector = chargePhase && bossRush ? player.velocity * 20f : Vector2.Zero;
             Vector2 lookAt = player.Center + predictionVector;
             Vector2 rotationVector = lookAt - vector;
 
@@ -425,7 +435,7 @@ namespace CalamityMod.NPCs.Polterghast
 
                 float num738 = (float)Math.Sqrt(num736 * num736 + num737 * num737);
                 float maxDistanceFromHooks = expertMode ? 650f : 500f;
-                if (speedBoost || malice)
+                if (speedBoost || bossRush)
                     maxDistanceFromHooks += 250f;
                 if (death)
                     maxDistanceFromHooks += maxDistanceFromHooks * 0.1f * (1f - lifeRatio);
@@ -720,7 +730,7 @@ namespace CalamityMod.NPCs.Polterghast
                     calamityGlobalNPC.newAI[2] = 0f;
                     calamityGlobalNPC.newAI[3] = 0f;
 
-                    SoundEngine.PlaySound(SoundID.Item122, NPC.Center);
+                    SoundEngine.PlaySound(P2Sound, NPC.Center);
 
                     if (Main.netMode != NetmodeID.Server)
                     {
@@ -871,7 +881,7 @@ namespace CalamityMod.NPCs.Polterghast
                         }
                     }
 
-                    SoundEngine.PlaySound(SoundID.Item122, NPC.Center);
+                    SoundEngine.PlaySound(P3Sound, NPC.Center);
 
                     if (Main.netMode != NetmodeID.Server)
                     {
@@ -963,6 +973,7 @@ namespace CalamityMod.NPCs.Polterghast
 
                         if (NPC.CountNPCS(ModContent.NPCType<PhantomSpiritL>()) < 2 && Main.netMode != NetmodeID.MultiplayerClient && !charging && !chargePhase)
                         {
+                            SoundEngine.PlaySound(PhantomSound, NPC.Center);
                             int num762 = NPC.NewNPC(NPC.GetSource_FromAI(), (int)vector.X, (int)vector.Y, ModContent.NPCType<PhantomSpiritL>());
                             Main.npc[num762].velocity.X = num758;
                             Main.npc[num762].velocity.Y = num760;
@@ -1042,8 +1053,11 @@ namespace CalamityMod.NPCs.Polterghast
 
             npcLoot.Add(ModContent.ItemType<PolterghastTrophy>(), 10);
 
+            // Relic
+            npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).Add(ModContent.ItemType<PolterghastRelic>());
+
             // Lore
-            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedPolterghast, ModContent.ItemType<KnowledgePolterghast>());
+            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedPolterghast, ModContent.ItemType<KnowledgePolterghast>(), desc: DropHelper.FirstKillText);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
@@ -1084,10 +1098,18 @@ namespace CalamityMod.NPCs.Polterghast
 
             Color color37 = Color.Lerp(Color.White, Color.Cyan, 0.5f);
             Color lightRed = new Color(255, 100, 100, 255);
-            if (NPC.Calamity().newAI[0] > 300f)
-                color37 = Color.Lerp(color37, lightRed, MathHelper.Clamp((NPC.Calamity().newAI[0] - 300f) / 120f, 0f, 1f));
 
-            Color color42 = Color.Lerp(Color.White, (NPC.ai[2] >= 300f || NPC.Calamity().newAI[0] > 300f) ? Color.Red : Color.Black, 0.5f);
+            float chargePhaseGateValue = 480f;
+            if (Main.getGoodWorld)
+                chargePhaseGateValue *= 0.5f;
+
+            float timeToReachFullColor = 120f;
+            float colorChangeTime = 180f;
+            float changeColorGateValue = chargePhaseGateValue - colorChangeTime;
+            if (NPC.Calamity().newAI[0] > changeColorGateValue)
+                color37 = Color.Lerp(color37, lightRed, MathHelper.Clamp((NPC.Calamity().newAI[0] - changeColorGateValue) / timeToReachFullColor, 0f, 1f));
+
+            Color color42 = Color.Lerp(Color.White, (NPC.ai[2] >= changeColorGateValue || NPC.Calamity().newAI[0] > changeColorGateValue) ? Color.Red : Color.Black, 0.5f);
 
             if (CalamityConfig.Instance.Afterimages)
             {
@@ -1171,12 +1193,13 @@ namespace CalamityMod.NPCs.Polterghast
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(BuffID.MoonLeech, 900, true);
+            if (damage > 0)
+                player.AddBuff(BuffID.MoonLeech, 900, true);
         }
 
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)
         {
-            cooldownSlot = 1;
+            cooldownSlot = ImmunityCooldownID.Bosses;
             return true;
         }
 

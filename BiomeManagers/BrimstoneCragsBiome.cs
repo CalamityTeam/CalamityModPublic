@@ -10,7 +10,8 @@ namespace CalamityMod.BiomeManagers
         public override int Music => CalamityMod.Instance.GetMusicFromMusicMod("Crag") ?? MusicID.Eerie;
 
         public override SceneEffectPriority Priority => SceneEffectPriority.Environment;
-        public override string BestiaryIcon => "BiomeManagers/BrimstoneCragsIcon";
+        public override string BestiaryIcon => "CalamityMod/BiomeManagers/BrimstoneCragsIcon";
+        public override string BackgroundPath => "Terraria/Images/MapBG3";
 
         public override void SetStaticDefaults()
         {

@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class Plaguenade : ModItem
+    public class Plaguenade : RogueWeapon
     {
         public override void SetStaticDefaults()
         {

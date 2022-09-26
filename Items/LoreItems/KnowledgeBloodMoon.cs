@@ -13,6 +13,7 @@ namespace CalamityMod.Items.LoreItems
             Tooltip.SetDefault("We long ago feared the light of the red moon.\n" +
                 "Many went mad, others died, but a scant few became blessed with a wealth of cosmic understanding.");
             SacrificeTotal = 1;
+            ItemID.Sets.ItemNoGravity[Item.type] = true;
         }
 
         public override void SetDefaults()
@@ -30,7 +31,7 @@ namespace CalamityMod.Items.LoreItems
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddTile(TileID.Bookcases).AddIngredient(ItemID.AncientCultistTrophy).AddIngredient(ModContent.ItemType<VictoryShard>(), 10).Register();
+            CreateRecipe(1).AddTile(TileID.Bookcases).AddIngredient(ItemID.AncientCultistTrophy).AddIngredient(ModContent.ItemType<PearlShard>(), 10).Register();
         }
     }
 }

@@ -53,7 +53,7 @@ namespace CalamityMod.NPCs.DesertScourge
                 NPC.realLife = (int)NPC.ai[2];
 
             if (NPC.target < 0 || NPC.target == Main.maxPlayers || Main.player[NPC.target].dead || !Main.player[NPC.target].active)
-                NPC.TargetClosest(true);
+                NPC.TargetClosest();
 
             bool shouldDespawn = true;
             for (int i = 0; i < Main.maxNPCs; i++)
@@ -142,7 +142,7 @@ namespace CalamityMod.NPCs.DesertScourge
             {
                 if (Main.netMode != NetmodeID.Server)
                 {
-                    float randomSpread = (float)(Main.rand.Next(-100, 100) / 100);
+                    float randomSpread = Main.rand.Next(-200, 201) / 100f;
                     Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * randomSpread * Main.rand.NextFloat(), Mod.Find<ModGore>("ScourgeBody").Type, 0.65f);
                     Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * randomSpread * Main.rand.NextFloat(), Mod.Find<ModGore>("ScourgeBody2").Type, 0.65f);
                     Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * randomSpread * Main.rand.NextFloat(), Mod.Find<ModGore>("ScourgeBody3").Type, 0.65f);
@@ -161,7 +161,8 @@ namespace CalamityMod.NPCs.DesertScourge
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(BuffID.Bleeding, 60, true);
+            if (damage > 0)
+                player.AddBuff(BuffID.Bleeding, 60, true);
         }
     }
 }

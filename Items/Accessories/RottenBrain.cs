@@ -3,6 +3,7 @@ using CalamityMod.Projectiles.Magic;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using Terraria.Localization;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -37,7 +38,7 @@ namespace CalamityMod.Items.Accessories
                         Projectile rain = CalamityUtils.ProjectileRain(source, player.Center, 400f, 100f, 500f, 800f, 22f, ModContent.ProjectileType<AuraRain>(), damage, 2f, player.whoAmI);
                         if (rain.whoAmI.WithinBounds(Main.maxProjectiles))
                         {
-                            rain.Calamity().forceClassless = true;
+                            rain.DamageType = DamageClass.Generic;
                             rain.tileCollide = false;
                             rain.penetrate = 1;
                         }
@@ -46,6 +47,15 @@ namespace CalamityMod.Items.Accessories
             }
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.rBrain = true;
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient<BloodyWormTooth>().
+                AddTile(TileID.TinkerersWorkbench).
+                AddCondition(Recipe.Condition.InGraveyardBiome).
+                Register();
         }
     }
 }

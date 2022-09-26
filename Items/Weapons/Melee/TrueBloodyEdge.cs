@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.autoReuse = true;
             Item.height = 64;
             Item.scale = 1.5f;
-            Item.value = Item.buyPrice(0, 80, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity9BuyPrice;
             Item.rare = ItemRarityID.Yellow;
             Item.shoot = ModContent.ProjectileType<BloodyBlade>();
             Item.shootSpeed = 11f;
@@ -74,7 +74,9 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             CreateRecipe().
                 AddIngredient<BloodyEdge>().
-                AddIngredient(ItemID.BrokenHeroSword).
+                AddIngredient(ItemID.SoulofFright, 3).
+                AddIngredient(ItemID.SoulofMight, 3).
+                AddIngredient(ItemID.SoulofSight, 3).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

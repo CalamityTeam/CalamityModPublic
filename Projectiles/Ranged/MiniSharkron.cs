@@ -16,13 +16,13 @@ namespace CalamityMod.Projectiles.Ranged
         {
             Projectile.width = 10;
             Projectile.height = 10;
-            Projectile.aiStyle = 1;
+            Projectile.aiStyle = ProjAIStyleID.Arrow;
             AIType = ProjectileID.MiniSharkron;
             Projectile.friendly = true;
             Projectile.alpha = 255;
             Projectile.ignoreWater = true;
             Projectile.DamageType = DamageClass.Ranged;
-            Projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
+            Projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.DefaultPointBlankDuration;
         }
 
         public override void Kill(int timeLeft)

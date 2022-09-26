@@ -48,7 +48,7 @@ namespace CalamityMod.Projectiles.Boss
             else
             {
                 Projectile.ai[0] += 1f;
-                if (Projectile.ai[0] >= (Main.getGoodWorld ? 10f : 45f))
+                if (Projectile.ai[0] >= (Main.getGoodWorld ? 10f : 36f))
                 {
                     Projectile.ai[0] = 0f;
                     int num414 = (int)(Projectile.position.X + 14f + (float)Main.rand.Next(Projectile.width - 28));
@@ -60,6 +60,9 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
+            if (damage <= 0)
+                return;
+
             target.AddBuff(ModContent.BuffType<Shadowflame>(), 120);
         }
     }

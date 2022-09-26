@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Ores;
+using CalamityMod.Rarities;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -7,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
-    class PhantomicArtifact : ModItem
+    public class PhantomicArtifact : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -27,15 +28,11 @@ namespace CalamityMod.Items.Accessories
             Item.width = 50;
             Item.height = 40;
             Item.value = CalamityGlobalItem.RarityPureGreenBuyPrice;
-            Item.rare = ItemRarityID.Red;
-            Item.Calamity().customRarity = CalamityRarity.PureGreen;
+            Item.rare = ModContent.RarityType<PureGreen>();
             Item.accessory = true;
         }
 
-        public override void UpdateAccessory(Player player, bool hideVisual)
-        {
-            player.Calamity().phantomicArtifact = true;
-        }
+        public override void UpdateAccessory(Player player, bool hideVisual) => player.Calamity().phantomicArtifact = true;
 
         public override void AddRecipes()
         {

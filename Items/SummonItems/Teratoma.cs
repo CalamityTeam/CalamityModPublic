@@ -14,8 +14,10 @@ namespace CalamityMod.Items.SummonItems
         {
             SacrificeTotal = 1;
             DisplayName.SetDefault("Teratoma");
-            Tooltip.SetDefault("Summons the Hive Mind when used in the corruption\n" +
+            Tooltip.SetDefault("Summons the Hive Mind when used in the Corruption\n" +
+                "Enrages outside the Underground Corruption\n" +
                 "Not consumable");
+			ItemID.Sets.SortingPriorityBossSpawns[Type] = 5; // Abeemination / Deer Thing
         }
 
         public override void SetDefaults()
@@ -28,6 +30,11 @@ namespace CalamityMod.Items.SummonItems
             Item.useStyle = ItemUseStyleID.HoldUp;
             Item.consumable = false;
         }
+
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = ContentSamples.CreativeHelper.ItemGroup.BossItem;
+		}
 
         public override bool CanUseItem(Player player)
         {

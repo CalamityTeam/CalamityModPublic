@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class IchorSpear : ModItem
+    public class IchorSpear : RogueWeapon
     {
         public override void SetStaticDefaults()
         {

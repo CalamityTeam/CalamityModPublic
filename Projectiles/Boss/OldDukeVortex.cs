@@ -22,7 +22,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-            Projectile.Calamity().canBreakPlayerDefense = true;
+            Projectile.Calamity().DealsDefenseDamage = true;
             Projectile.width = 408;
             Projectile.height = 408;
             Projectile.scale = 0.004f;
@@ -32,7 +32,7 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.tileCollide = false;
             Projectile.ignoreWater = true;
             Projectile.timeLeft = 1800;
-            CooldownSlot = 1;
+            CooldownSlot = ImmunityCooldownID.Bosses;
         }
 
         public override void AI()
@@ -97,7 +97,7 @@ namespace CalamityMod.Projectiles.Boss
                 }
 
                 float distanceRequired = 800f * Projectile.scale;
-                float succPower = 0.4f;
+                float succPower = 0.5f;
                 for (int i = 0; i < Main.maxPlayers; i++)
                 {
                     Player player = Main.player[i];
@@ -118,11 +118,6 @@ namespace CalamityMod.Projectiles.Boss
                                 player.velocity.X += succPower * multiplier;
                             else
                                 player.velocity.X -= succPower * multiplier;
-
-                            if (player.Center.Y < Projectile.Center.Y)
-                                player.velocity.Y += succPower * multiplier;
-                            else
-                                player.velocity.Y -= succPower * multiplier;
                         }
                     }
                 }
@@ -141,13 +136,11 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
+            if (damage <= 0)
+                return;
+
             if (Projectile.timeLeft <= 1680 && Projectile.timeLeft > 85)
                 target.AddBuff(ModContent.BuffType<Irradiated>(), 600);
-        }
-
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
-        {
-            target.Calamity().lastProjectileHit = Projectile;
         }
     }
 }

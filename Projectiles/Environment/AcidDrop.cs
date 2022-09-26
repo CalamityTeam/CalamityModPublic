@@ -48,6 +48,9 @@ namespace CalamityMod.Projectiles.Environment
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
+            if (damage <= 0)
+                return;
+
             if (Main.rand.NextBool(2))
             {
                 // 1 to 3 seconds of poisoned

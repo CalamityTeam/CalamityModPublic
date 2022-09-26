@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Typeless
             int num469 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 62, 0f, 0f, 100, default, 2f);
             Main.dust[num469].noGravity = true;
             Main.dust[num469].velocity *= 0f;
-            CalamityGlobalProjectile.HomeInOnNPC(Projectile, true, 200f, 7f, 20f);
+            CalamityUtils.HomeInOnNPC(Projectile, true, 200f, 7f, 20f);
         }
     }
 }

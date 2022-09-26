@@ -22,7 +22,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.height = 12;
             Projectile.friendly = true;
             Projectile.penetrate = 3;
-            Projectile.aiStyle = 2;
+            Projectile.aiStyle = ProjAIStyleID.ThrownProjectile;
             Projectile.timeLeft = 600;
             AIType = ProjectileID.ThrowingKnife;
             Projectile.DamageType = RogueDamageClass.Instance;
@@ -46,7 +46,7 @@ namespace CalamityMod.Projectiles.Rogue
                         int flame = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, Main.rand.NextBool(2) ? ProjectileID.CursedFlameFriendly : ProjectileID.CursedDartFlame, (int)(Projectile.damage * 0.5), Projectile.knockBack * 0.5f, Projectile.owner);
                         if (flame.WithinBounds(Main.maxProjectiles))
                         {
-                            Main.projectile[flame].Calamity().forceRogue = true;
+                            Main.projectile[flame].DamageType = RogueDamageClass.Instance;
                             Main.projectile[flame].usesLocalNPCImmunity = true;
                             Main.projectile[flame].localNPCHitCooldown = 10;
                         }

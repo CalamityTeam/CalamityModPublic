@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -26,11 +26,10 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.friendly = true;
             Projectile.penetrate = -1;
             Projectile.tileCollide = false;
-            Projectile.DamageType = DamageClass.Melee;
+            Projectile.DamageType = TrueMeleeNoSpeedDamageClass.Instance;
             Projectile.ownerHitCheck = true;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 5;
-            Projectile.Calamity().trueMelee = true;
         }
 
         public override void AI()
@@ -39,7 +38,7 @@ namespace CalamityMod.Projectiles.Melee
                 Projectile.ai[1] += 1f;
 
             if (Projectile.ai[1] == 255f)
-                Projectile.damage = (int)((double)Projectile.Calamity().defDamage * 2.0);
+                Projectile.damage = 2 * Projectile.originalDamage;
 
             red = 64 + (int)(Projectile.ai[1] * 0.75f);
             if (red > 255)

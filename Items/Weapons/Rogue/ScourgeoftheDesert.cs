@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class ScourgeoftheDesert : ModItem
+    public class ScourgeoftheDesert : RogueWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -30,7 +30,7 @@ Stealth strikes gain damage as they damage enemies");
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
             Item.height = 44;
-            Item.value = Item.buyPrice(0, 2, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity2BuyPrice;
             Item.rare = ItemRarityID.Green;
             Item.shoot = ModContent.ProjectileType<ScourgeoftheDesertProj>();
             Item.shootSpeed = 12f;

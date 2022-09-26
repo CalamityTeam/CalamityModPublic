@@ -1,8 +1,10 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using Microsoft.Xna.Framework.Graphics;
+
 namespace CalamityMod.Projectiles.Magic
 {
     public class PoseidonTyphoon : ModProjectile
@@ -21,13 +23,17 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.penetrate = 10; //randomized in the item file now, penetrates 4 to 10 times
             Projectile.timeLeft = 300;
             Projectile.ignoreWater = true;
+            Projectile.scale = 1.6f;
         }
 
         public override void AI()
         {
-            Projectile.rotation += Projectile.velocity.X * 0.05f;
+            Projectile.rotation += Projectile.velocity.X * 0.01f;
+            Projectile.rotation = MathHelper.WrapAngle(Projectile.rotation);
 
-            CalamityGlobalProjectile.HomeInOnNPC(Projectile, !Projectile.tileCollide, 600f, 6f, 30f);
+            Lighting.AddLight(Projectile.Center, 0, (255 - Projectile.alpha) * 0.7f / 255f, (255 - Projectile.alpha) / 255f);
+
+            CalamityUtils.HomeInOnNPC(Projectile, !Projectile.tileCollide, 600f, 6f, 30f);
         }
 
         public override void Kill(int timeLeft)
@@ -58,6 +64,13 @@ namespace CalamityMod.Projectiles.Magic
                     Projectile.velocity.Y = -oldVelocity.Y;
                 }
             }
+            return false;
+        }
+
+        public override bool PreDraw(ref Color lightColor)
+        {
+            Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
+            Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition, null, lightColor, Projectile.rotation, texture.Size() / 2f, Projectile.scale, SpriteEffects.None, 0);
             return false;
         }
     }

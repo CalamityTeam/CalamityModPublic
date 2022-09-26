@@ -38,7 +38,7 @@ namespace CalamityMod.Projectiles.Magic
                 Projectile.ai[1] = 0f;
             }
 
-            Projectile.damage += Projectile.Calamity().defDamage / 200;
+            Projectile.damage += Projectile.originalDamage / 200;
             Projectile.alpha = Utils.Clamp(Projectile.alpha - 25, 0, 255);
 
             Lighting.AddLight((int)Projectile.Center.X / 16, (int)Projectile.Center.Y / 16, 1f, 0f, 0.7f);

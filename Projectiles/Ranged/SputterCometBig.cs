@@ -21,7 +21,7 @@ namespace CalamityMod.Projectiles.Ranged
         {
             Projectile.width = 8;
             Projectile.height = 8;
-            Projectile.aiStyle = 1;
+            Projectile.aiStyle = ProjAIStyleID.Arrow;
             Projectile.friendly = true;
             Projectile.DamageType = DamageClass.Ranged;
             Projectile.penetrate = 1;
@@ -48,7 +48,7 @@ namespace CalamityMod.Projectiles.Ranged
                     SoundEngine.PlaySound(SoundID.Item9, Projectile.position);
                 }
             }
-            CalamityGlobalProjectile.HomeInOnNPC(Projectile, !Projectile.tileCollide, 150f, 12f, 20f);
+            CalamityUtils.HomeInOnNPC(Projectile, !Projectile.tileCollide, 150f, 12f, 20f);
         }
 
         public override bool PreDraw(ref Color lightColor)

@@ -25,8 +25,16 @@ namespace CalamityMod.NPCs.Perforator
         {
             DisplayName.SetDefault("The Perforator");
             NPCID.Sets.BossBestiaryPriority.Add(Type);
-            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0);
-            value.Position.X += 1f;
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            {
+                Scale = 0.8f,
+                PortraitScale = 0.8f,
+                CustomTexturePath = "CalamityMod/ExtraTextures/Bestiary/PerforatorSmall_Bestiary",
+                PortraitPositionXOverride = 40,
+                PortraitPositionYOverride = 60
+            };
+            value.Position.X += 60;
+            value.Position.Y += 50;
             NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 
@@ -51,14 +59,14 @@ namespace CalamityMod.NPCs.Perforator
             NPC.DeathSound = SoundID.NPCDeath1;
             NPC.netAlways = true;
 
-            if (CalamityWorld.malice || BossRushEvent.BossRushActive)
-                NPC.scale = 1.25f;
+            if (BossRushEvent.BossRushActive)
+                NPC.scale *= 1.25f;
             else if (CalamityWorld.death)
-                NPC.scale = 1.2f;
+                NPC.scale *= 1.2f;
             else if (CalamityWorld.revenge)
-                NPC.scale = 1.15f;
+                NPC.scale *= 1.15f;
             else if (Main.expertMode)
-                NPC.scale = 1.1f;
+                NPC.scale *= 1.1f;
 
             NPC.Calamity().VulnerableToHeat = true;
             NPC.Calamity().VulnerableToCold = true;
@@ -91,13 +99,13 @@ namespace CalamityMod.NPCs.Perforator
 
         public override void AI()
         {
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
-            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool expertMode = Main.expertMode || bossRush;
+            bool revenge = CalamityWorld.revenge || bossRush;
+            bool death = CalamityWorld.death || bossRush;
 
             // Enrage
-            if ((!Main.player[NPC.target].ZoneCrimson || (NPC.position.Y / 16f) < Main.worldSurface) && !BossRushEvent.BossRushActive)
+            if ((!Main.player[NPC.target].ZoneCrimson || (NPC.position.Y / 16f) < Main.worldSurface) && !bossRush)
             {
                 if (biomeEnrageTimer > 0)
                     biomeEnrageTimer--;
@@ -105,12 +113,12 @@ namespace CalamityMod.NPCs.Perforator
             else
                 biomeEnrageTimer = CalamityGlobalNPC.biomeEnrageTimerMax;
 
-            bool biomeEnraged = biomeEnrageTimer <= 0 || malice;
+            bool biomeEnraged = biomeEnrageTimer <= 0 || bossRush;
 
-            float enrageScale = BossRushEvent.BossRushActive ? 1f : 0f;
-            if (biomeEnraged && (!Main.player[NPC.target].ZoneCrimson || malice))
+            float enrageScale = bossRush ? 1f : 0f;
+            if (biomeEnraged && (!Main.player[NPC.target].ZoneCrimson || bossRush))
                 enrageScale += 1f;
-            if (biomeEnraged && ((NPC.position.Y / 16f) < Main.worldSurface || malice))
+            if (biomeEnraged && ((NPC.position.Y / 16f) < Main.worldSurface || bossRush))
                 enrageScale += 1f;
 
             // Percent life remaining
@@ -536,17 +544,15 @@ namespace CalamityMod.NPCs.Perforator
 
         public override void OnKill()
         {
-            if (!CalamityWorld.revenge)
-            {
-                int heartAmt = Main.rand.Next(3) + 3;
-                for (int i = 0; i < heartAmt; i++)
-                    Item.NewItem(NPC.GetSource_Loot(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
-            }
+            int heartAmt = Main.rand.Next(3) + 3;
+            for (int i = 0; i < heartAmt; i++)
+                Item.NewItem(NPC.GetSource_Loot(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(ModContent.BuffType<BurningBlood>(), 180, true);
+            if (damage > 0)
+                player.AddBuff(ModContent.BuffType<BurningBlood>(), 180, true);
         }
     }
 }

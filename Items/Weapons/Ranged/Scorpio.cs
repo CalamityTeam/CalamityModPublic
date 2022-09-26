@@ -83,7 +83,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 AddIngredient(ItemID.GrenadeLauncher).
                 AddIngredient(ItemID.RocketLauncher).
                 AddIngredient(ItemID.FragmentVortex, 20).
-                AddTile(TileID.MythrilAnvil).
+                AddTile(TileID.LunarCraftingStation).
                 Register();
         }
     }

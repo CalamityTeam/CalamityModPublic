@@ -24,7 +24,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-            Projectile.Calamity().canBreakPlayerDefense = true;
+            Projectile.Calamity().DealsDefenseDamage = true;
             Projectile.width = 48;
             Projectile.height = 48;
             Projectile.hostile = true;
@@ -32,7 +32,7 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.penetrate = -1;
             Projectile.tileCollide = false;
             Projectile.timeLeft = 600;
-            CooldownSlot = 1;
+            CooldownSlot = ImmunityCooldownID.Bosses;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -113,7 +113,7 @@ namespace CalamityMod.Projectiles.Boss
                 num807 = 2400f;
             }
 
-            int dustType = (Main.dayTime && !CalamityWorld.malice) ? (int)CalamityDusts.ProfanedFire : (int)CalamityDusts.Nightwither;
+            int dustType = (Main.dayTime && !BossRushEvent.BossRushActive) ? (int)CalamityDusts.ProfanedFire : (int)CalamityDusts.Nightwither;
             float amount = 0.5f; //0.5f
             Projectile.localAI[1] = MathHelper.Lerp(Projectile.localAI[1], num807, amount); //length of laser, linear interpolation
             Vector2 vector79 = Projectile.Center + Projectile.velocity * (Projectile.localAI[1] - 14f);
@@ -146,7 +146,7 @@ namespace CalamityMod.Projectiles.Boss
             {
                 return false;
             }
-            bool dayTime = Main.dayTime && !CalamityWorld.malice;
+            bool dayTime = Main.dayTime && !BossRushEvent.BossRushActive;
             Texture2D texture2D19 = dayTime ? ModContent.Request<Texture2D>(Texture, AssetRequestMode.ImmediateLoad).Value : 
                 ModContent.Request<Texture2D>("CalamityMod/Projectiles/Boss/ProvidenceHolyRayNight", AssetRequestMode.ImmediateLoad).Value;
             Texture2D texture2D20 = dayTime ? ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/ProvidenceHolyRayMid", AssetRequestMode.ImmediateLoad).Value : 
@@ -210,15 +210,13 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            int buffType = (Main.dayTime && !CalamityWorld.malice) ? ModContent.BuffType<HolyFlames>() : ModContent.BuffType<Nightwither>();
+            if (damage <= 0)
+                return;
+
+            int buffType = (Main.dayTime && !BossRushEvent.BossRushActive) ? ModContent.BuffType<HolyFlames>() : ModContent.BuffType<Nightwither>();
             target.AddBuff(buffType, 600);
         }
 
         public override bool CanHitPlayer(Player target) => Projectile.scale >= 0.5f;
-
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
-        {
-            target.Calamity().lastProjectileHit = Projectile;
-        }
     }
 }

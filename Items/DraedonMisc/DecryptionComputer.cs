@@ -1,6 +1,7 @@
 ﻿using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.DraedonSummoner;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
@@ -13,11 +14,14 @@ namespace CalamityMod.Items.DraedonMisc
 {
     public class DecryptionComputer : ModItem
     {
+        public static readonly SoundStyle InstallSound = new("CalamityMod/Sounds/Custom/Codebreaker/DecryptionComputerInstall");
+
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Decryption Computer");
             Tooltip.SetDefault("Can be placed on the Codebreaker\n" +
-                "Allows you to decrypt advanced schematics\n" +
+                "Allows you to decrypt the Planetoid schematic\n" +
                 "Doing so allows you to learn how to craft new things");
         }
 
@@ -44,6 +48,8 @@ namespace CalamityMod.Items.DraedonMisc
 
             if (Main.myPlayer == player.whoAmI && player.WithinRange(Main.MouseWorld, checkDistance) && tile.HasTile && tile.TileType == ModContent.TileType<CodebreakerTile>())
             {
+                SoundEngine.PlaySound(InstallSound, Main.player[Main.myPlayer].Center);
+
                 TECodebreaker codebreakerTileEntity = CalamityUtils.FindTileEntity<TECodebreaker>(placeTileCoords.X, placeTileCoords.Y, CodebreakerTile.Width, CodebreakerTile.Height, CodebreakerTile.SheetSquare);
                 if (codebreakerTileEntity is null || codebreakerTileEntity.ContainsDecryptionComputer)
                     return false;

@@ -16,7 +16,7 @@ namespace CalamityMod.Projectiles.Enemy
 
         public override void SetDefaults()
         {
-            Projectile.Calamity().canBreakPlayerDefense = true;
+            Projectile.Calamity().DealsDefenseDamage = true;
             Projectile.width = 32;
             Projectile.height = 32;
             Projectile.hostile = true;
@@ -127,6 +127,9 @@ namespace CalamityMod.Projectiles.Enemy
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
+            if (damage <= 0)
+                return;
+
             target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 120);
         }
     }

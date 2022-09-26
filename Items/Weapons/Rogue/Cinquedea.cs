@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class Cinquedea : ModItem
+    public class Cinquedea : RogueWeapon
     {
         public static int BaseDamage = 36;
         public static float Knockback = 5f;
@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.noUseGraphic = true;
             Item.shoot = ModContent.ProjectileType<CinquedeaProj>();
             Item.shootSpeed = Speed;
-            Item.value = Item.buyPrice(0, 4, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity3BuyPrice;
             Item.DamageType = RogueDamageClass.Instance;
         }
 

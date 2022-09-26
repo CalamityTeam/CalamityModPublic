@@ -14,6 +14,7 @@ namespace CalamityMod.Items.LoreItems
             Tooltip.SetDefault("Ah... this place.\n" +
                 "The scent of broken promises, pain, and eventual death is heavy in the air...");
             SacrificeTotal = 1;
+            ItemID.Sets.ItemNoGravity[Item.type] = true;
         }
 
         public override void SetDefaults()
@@ -31,7 +32,7 @@ namespace CalamityMod.Items.LoreItems
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddTile(TileID.Bookcases).AddIngredient(ModContent.ItemType<BrimstoneElementalTrophy>()).AddIngredient(ModContent.ItemType<VictoryShard>(), 10).Register();
+            CreateRecipe(1).AddTile(TileID.Bookcases).AddIngredient(ModContent.ItemType<BrimstoneElementalTrophy>()).AddIngredient(ModContent.ItemType<PearlShard>(), 10).Register();
         }
     }
 }

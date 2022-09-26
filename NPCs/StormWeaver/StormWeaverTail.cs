@@ -30,7 +30,6 @@ namespace CalamityMod.NPCs.StormWeaver
             NPC.height = 80;
             NPC.lifeMax = 825500;
             NPC.LifeMaxNERB(NPC.lifeMax, NPC.lifeMax, 475000);
-            Music = CalamityMod.Instance.GetMusicFromMusicMod("Weaver") ?? MusicID.Boss3;
 
             // Phase one settings
             NPC.takenDamageMultiplier = 2f;
@@ -51,14 +50,17 @@ namespace CalamityMod.NPCs.StormWeaver
             NPC.netAlways = true;
             NPC.dontCountMe = true;
 
-            if (CalamityWorld.malice || BossRushEvent.BossRushActive)
-                NPC.scale = 1.25f;
+            if (BossRushEvent.BossRushActive)
+                NPC.scale *= 1.25f;
             else if (CalamityWorld.death)
-                NPC.scale = 1.2f;
+                NPC.scale *= 1.2f;
             else if (CalamityWorld.revenge)
-                NPC.scale = 1.15f;
+                NPC.scale *= 1.15f;
             else if (Main.expertMode)
-                NPC.scale = 1.1f;
+                NPC.scale *= 1.1f;
+
+            if (Main.getGoodWorld)
+                NPC.scale *= 0.7f;
 
             NPC.Calamity().VulnerableToElectricity = false;
         }
@@ -100,7 +102,7 @@ namespace CalamityMod.NPCs.StormWeaver
             if (NPC.life > Main.npc[(int)NPC.ai[1]].life)
                 NPC.life = Main.npc[(int)NPC.ai[1]].life;
 
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+            bool bossRush = BossRushEvent.BossRushActive;
 
             // Shed armor
             bool phase2 = NPC.life / (float)NPC.lifeMax < 0.8f;
@@ -135,7 +137,7 @@ namespace CalamityMod.NPCs.StormWeaver
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     // Fire a lightning orb every 5 seconds
-                    float spawnOrbGateValue = malice ? 200f : 300f;
+                    float spawnOrbGateValue = bossRush ? 200f : 300f;
                     if (Main.npc[(int)NPC.ai[2]].localAI[0] % spawnOrbGateValue == 0f)
                     {
                         int type = ProjectileID.CultistBossLightningOrb;
@@ -234,23 +236,20 @@ namespace CalamityMod.NPCs.StormWeaver
             if (NPC.spriteDirection == 1)
                 spriteEffects = SpriteEffects.FlipHorizontally;
 
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
-            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || bossRush;
+            bool revenge = CalamityWorld.revenge || bossRush;
+            bool expertMode = Main.expertMode || bossRush;
 
             float lifeRatio = NPC.life / (float)NPC.lifeMax;
 
             bool phase2 = lifeRatio < 0.8f;
-            bool phase3 = lifeRatio < 0.65f;
-            bool phase4 = lifeRatio < 0.5f;
+            bool phase3 = lifeRatio < 0.55f;
 
             // Gate value that decides when Storm Weaver will charge
-            float chargePhaseGateValue = malice ? 280f : death ? 320f : revenge ? 340f : expertMode ? 360f : 400f;
+            float chargePhaseGateValue = bossRush ? 280f : death ? 320f : revenge ? 340f : expertMode ? 360f : 400f;
             if (!phase3)
                 chargePhaseGateValue *= 0.5f;
-            if (phase4 && expertMode)
-                chargePhaseGateValue *= 0.9f;
 
             Texture2D texture2D15 = phase2 ? ModContent.Request<Texture2D>("CalamityMod/NPCs/StormWeaver/StormWeaverTailNaked").Value : TextureAssets.Npc[NPC.type].Value;
             Vector2 vector11 = new Vector2(texture2D15.Width / 2, texture2D15.Height / 2);
@@ -306,25 +305,23 @@ namespace CalamityMod.NPCs.StormWeaver
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
-            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || bossRush;
+            bool revenge = CalamityWorld.revenge || bossRush;
+            bool expertMode = Main.expertMode || bossRush;
 
             float lifeRatio = NPC.life / (float)NPC.lifeMax;
 
-            bool phase3 = lifeRatio < 0.65f;
-            bool phase4 = lifeRatio < 0.5f;
+            bool phase3 = lifeRatio < 0.55f;
 
             // Gate value that decides when Storm Weaver will charge
-            float chargePhaseGateValue = malice ? 280f : death ? 320f : revenge ? 340f : expertMode ? 360f : 400f;
+            float chargePhaseGateValue = bossRush ? 280f : death ? 320f : revenge ? 340f : expertMode ? 360f : 400f;
             if (!phase3)
                 chargePhaseGateValue *= 0.5f;
-            if (phase4 && expertMode)
-                chargePhaseGateValue *= 0.9f;
 
             int buffDuration = Main.npc[(int)NPC.ai[2]].Calamity().newAI[0] >= chargePhaseGateValue ? 120 : 60;
-            player.AddBuff(BuffID.Electrified, buffDuration, true);
+            if (damage > 0)
+                player.AddBuff(BuffID.Electrified, buffDuration, true);
         }
 
         public override void HitEffect(int hitDirection, double damage)
@@ -342,8 +339,8 @@ namespace CalamityMod.NPCs.StormWeaver
 
                 NPC.position.X = NPC.position.X + (NPC.width / 2);
                 NPC.position.Y = NPC.position.Y + (NPC.height / 2);
-                NPC.width = 30;
-                NPC.height = 30;
+                NPC.width = (int)(50 * NPC.scale);
+                NPC.height = (int)(50 * NPC.scale);
                 NPC.position.X = NPC.position.X - (NPC.width / 2);
                 NPC.position.Y = NPC.position.Y - (NPC.height / 2);
 

@@ -13,6 +13,7 @@ namespace CalamityMod.Items.LoreItems
             Tooltip.SetDefault("A crab and its mushrooms, a love story.\n" +
                 "It's interesting how creatures can adapt given certain circumstances.");
             SacrificeTotal = 1;
+            ItemID.Sets.ItemNoGravity[Item.type] = true;
         }
 
         public override void SetDefaults()
@@ -30,7 +31,7 @@ namespace CalamityMod.Items.LoreItems
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddTile(TileID.Bookcases).AddIngredient(ModContent.ItemType<CrabulonTrophy>()).AddIngredient(ModContent.ItemType<VictoryShard>(), 10).Register();
+            CreateRecipe(1).AddTile(TileID.Bookcases).AddIngredient(ModContent.ItemType<CrabulonTrophy>()).AddIngredient(ModContent.ItemType<PearlShard>(), 10).Register();
         }
     }
 }

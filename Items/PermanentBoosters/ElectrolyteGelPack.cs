@@ -24,7 +24,7 @@ namespace CalamityMod.Items.PermanentBoosters
             Item.useTime = 30;
             Item.useStyle = ItemUseStyleID.HoldUp;
             Item.UseSound = SoundID.Item122;
-            Item.consumable = true;  // Not researchable, only drops one time.
+            Item.consumable = true;
         }
 
         public override bool CanUseItem(Player player)

@@ -52,7 +52,7 @@ namespace CalamityMod.Projectiles.Summon
             player.AddBuff(ModContent.BuffType<SiriusBuff>(), 3600);
 
             Projectile.minionSlots = Projectile.ai[0];
-            Lighting.AddLight(Projectile.Center, 1f, 0.5f, 5f);
+            Lighting.AddLight(Projectile.Center, 0.5f, 0.5f, 1f);
 
             Projectile.Center = player.Center + Vector2.UnitY * (player.gfxOffY - 60f);
             if (player.gravDir == -1f)
@@ -136,7 +136,7 @@ namespace CalamityMod.Projectiles.Summon
                     float damageMult = ((float)Math.Log(Projectile.ai[0], MathHelper.E)) + 1f;
                     int beam = Projectile.NewProjectile(Projectile.GetSource_FromThis(), source, velocity, ModContent.ProjectileType<SiriusBeam>(), (int)(Projectile.damage * damageMult), Projectile.knockBack, Projectile.owner);
                     if (Main.projectile.IndexInRange(beam))
-                        Main.projectile[beam].originalDamage = Projectile.originalDamage;
+                        Main.projectile[beam].originalDamage = (int)(Projectile.originalDamage * damageMult);
                     Main.projectile[beam].penetrate = (int)Projectile.ai[0];
                     Projectile.ai[1] = 30f;
                 }

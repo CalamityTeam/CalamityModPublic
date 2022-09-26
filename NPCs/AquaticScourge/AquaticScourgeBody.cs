@@ -44,16 +44,17 @@ namespace CalamityMod.NPCs.AquaticScourge
             NPC.chaseable = false;
             NPC.canGhostHeal = false;
 
-            if (Main.getGoodWorld)
-                NPC.scale = 1.5f;
-            else if (CalamityWorld.malice || BossRushEvent.BossRushActive)
-                NPC.scale = 1.25f;
+            if (BossRushEvent.BossRushActive)
+                NPC.scale *= 1.25f;
             else if (CalamityWorld.death)
-                NPC.scale = 1.2f;
+                NPC.scale *= 1.2f;
             else if (CalamityWorld.revenge)
-                NPC.scale = 1.15f;
+                NPC.scale *= 1.15f;
             else if (Main.expertMode)
-                NPC.scale = 1.1f;
+                NPC.scale *= 1.1f;
+
+            if (Main.getGoodWorld)
+                NPC.scale *= 1.25f;
 
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToSickness = false;
@@ -156,7 +157,8 @@ namespace CalamityMod.NPCs.AquaticScourge
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(ModContent.BuffType<Irradiated>(), 300, true);
+            if (damage > 0)
+                player.AddBuff(ModContent.BuffType<Irradiated>(), 300, true);
         }
     }
 }

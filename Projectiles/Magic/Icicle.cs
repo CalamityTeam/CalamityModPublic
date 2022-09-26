@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Magic
         {
             Projectile.width = 10;
             Projectile.height = 10;
-            Projectile.aiStyle = 1;
+            Projectile.aiStyle = ProjAIStyleID.Arrow;
             AIType = ProjectileID.Bullet;
             Projectile.friendly = true;
             Projectile.DamageType = DamageClass.Magic;

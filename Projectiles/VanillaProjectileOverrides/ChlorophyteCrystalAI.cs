@@ -7,19 +7,14 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
 using Terraria.GameContent;
+using CalamityMod.Items.VanillaArmorChanges;
 
 namespace CalamityMod.Projectiles.VanillaProjectileOverrides
 {
-    // TODO -- Finish this armor rework eventually.
     public static class ChlorophyteCrystalAI
     {
-        public const int AmountToHealPerPulse = 10;
-        public const int PulseReleaseRate = 180;
-        public const int DelayBetweenHeals = 150;
         public static bool DoChlorophyteCrystalAI(Projectile projectile)
         {
-            return true;
-
             Player owner = Main.player[projectile.owner];
             ref float timer = ref projectile.ai[1];
 
@@ -42,16 +37,21 @@ namespace CalamityMod.Projectiles.VanillaProjectileOverrides
                 projectile.rotation = 0f;
             projectile.Center = projectile.Center.Floor();
 
+            // Disable hardcoded spaghetti that fires crystal shots in vanilla code.
+            owner.petalTimer = 2;
+
             // Have a periodically pulsing scale.
             projectile.scale = MathHelper.Lerp(0.9f, 1.15f, (float)Math.Sin(timer / 27f) * 0.5f + 0.5f);
 
             // Emit life pulses periodically.
-            if (timer % PulseReleaseRate == PulseReleaseRate - 1f)
+            NPC potentialTarget = projectile.Center.ClosestNPCAt(560f, true, true);
+            bool ownerNotFullHealth = owner.statLife < owner.statLifeMax2;
+            bool willFirePulses = (potentialTarget is not null) || ownerNotFullHealth;
+            if (timer % ChlorophyteArmorSetChange.PulseReleaseRate == ChlorophyteArmorSetChange.PulseReleaseRate - 1f && willFirePulses)
             {
-                SoundEngine.PlaySound(SoundID.Item45, projectile.Center);
                 if (Main.myPlayer == projectile.owner)
                 {
-                    int pulseDamage = (int)Main.player[projectile.owner].GetBestClassDamage().ApplyTo(300f);
+                    int pulseDamage = (int)Main.player[projectile.owner].GetBestClassDamage().ApplyTo(ChlorophyteArmorSetChange.BaseDamageToEnemies);
                     Projectile.NewProjectile(projectile.GetSource_FromThis(), projectile.Center, Vector2.Zero, ModContent.ProjectileType<ChlorophyteLifePulse>(), pulseDamage, 0f, projectile.owner);
                 }
             }
@@ -59,10 +59,8 @@ namespace CalamityMod.Projectiles.VanillaProjectileOverrides
             return false;
         }
 
-        public static bool DoChlorophyteCrystalDrawing(SpriteBatch spriteBatch, Projectile projectile)
+        public static bool DoChlorophyteCrystalDrawing(Projectile projectile)
         {
-            return true;
-
             // Why doesn't this work? How does one access the texture path of a vanilla projectile? Left bugged for someone else to figure out :)
             // It's me. I was that someone - Dominic
             // TextureAssets is the answer, along with Main.instance.LoadProjectile(projID), to ensure that the texture is loaded into memory.

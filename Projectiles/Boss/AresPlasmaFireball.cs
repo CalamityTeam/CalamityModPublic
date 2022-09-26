@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-            Projectile.Calamity().canBreakPlayerDefense = true;
+            Projectile.Calamity().DealsDefenseDamage = true;
             Projectile.width = 36;
             Projectile.height = 36;
             Projectile.hostile = true;
@@ -33,8 +33,8 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.tileCollide = false;
             Projectile.penetrate = -1;
             Projectile.Opacity = 0f;
-            CooldownSlot = 1;
-            Projectile.timeLeft = (CalamityWorld.malice || BossRushEvent.BossRushActive) ? 96 : timeLeft;
+            CooldownSlot = ImmunityCooldownID.Bosses;
+            Projectile.timeLeft = BossRushEvent.BossRushActive ? 96 : timeLeft;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -57,7 +57,7 @@ namespace CalamityMod.Projectiles.Boss
             }
 
             int fadeInTime = 3;
-            Projectile.Opacity = MathHelper.Clamp(1f - ((Projectile.timeLeft - (((CalamityWorld.malice || BossRushEvent.BossRushActive) ? 96 : timeLeft) - fadeInTime)) / (float)fadeInTime), 0f, 1f);
+            Projectile.Opacity = MathHelper.Clamp(1f - ((Projectile.timeLeft - ((BossRushEvent.BossRushActive ? 96 : timeLeft) - fadeInTime)) / (float)fadeInTime), 0f, 1f);
 
             Lighting.AddLight(Projectile.Center, 0f, 0.6f * Projectile.Opacity, 0f);
 
@@ -94,7 +94,6 @@ namespace CalamityMod.Projectiles.Boss
 
                     Dust dust = Main.dust[num54];
                     dust.velocity *= 3f;
-                    dust = Main.dust[num54];
 
                     num54 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, randomDustType, dustVel.X, dustVel.Y, 100, default, 0.8f);
                     Main.dust[num54].position = Projectile.Center + Vector2.UnitY.RotatedByRandom(MathHelper.Pi) * (float)Main.rand.NextDouble() * Projectile.width / 2f;
@@ -105,8 +104,6 @@ namespace CalamityMod.Projectiles.Boss
                     Main.dust[num54].noGravity = true;
                     Main.dust[num54].fadeIn = 1f;
                     Main.dust[num54].color = Color.Green * 0.5f;
-
-                    dust = Main.dust[num54];
                 }
                 for (int num55 = 0; num55 < 20; num55++)
                 {
@@ -122,7 +119,6 @@ namespace CalamityMod.Projectiles.Boss
 
                     Dust dust = Main.dust[num56];
                     dust.velocity *= 0.5f;
-                    dust = Main.dust[num56];
                 }
             }
         }
@@ -131,7 +127,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            if (Projectile.Opacity != 1f)
+            if (damage <= 0 || Projectile.Opacity != 1f)
                 return;
 
             target.AddBuff(BuffID.OnFire, 360);
@@ -167,7 +163,7 @@ namespace CalamityMod.Projectiles.Boss
                 }
 
                 // Plasma bolts
-                int totalProjectiles = (CalamityWorld.malice || BossRushEvent.BossRushActive) ? 12 : 8;
+                int totalProjectiles = BossRushEvent.BossRushActive ? 12 : 8;
 
                 // Reduce the total amount of projectiles by half if Ares Plasma Arm is shooting them and in deathray phase and not the last mech
                 if (Projectile.ai[0] == -1f)
@@ -235,11 +231,6 @@ namespace CalamityMod.Projectiles.Boss
                 dust.scale = scale;
                 dust.noGravity = true;
             }
-        }
-
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
-        {
-            target.Calamity().lastProjectileHit = Projectile;
         }
     }
 }

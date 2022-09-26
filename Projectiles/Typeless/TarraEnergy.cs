@@ -56,7 +56,7 @@ namespace CalamityMod.Projectiles.Typeless
             }
 
             if (Projectile.timeLeft < 170)
-                CalamityGlobalProjectile.HomeInOnNPC(Projectile, true, 600f, 9f, 20f);
+                CalamityUtils.HomeInOnNPC(Projectile, true, 600f, 9f, 20f);
         }
     }
 }

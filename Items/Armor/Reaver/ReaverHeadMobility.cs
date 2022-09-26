@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Armor.Reaver
         {
             Item.width = 24;
             Item.height = 28;
-            Item.value = Item.buyPrice(0, 30, 0, 0);
+            Item.value = CalamityGlobalItem.RarityLimeBuyPrice;
             Item.rare = ItemRarityID.Lime;
             Item.defense = 13; //46
         }

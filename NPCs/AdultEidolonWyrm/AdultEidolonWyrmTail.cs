@@ -48,7 +48,6 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
             NPC.damage = 0;
 
             // Difficulty modes
-            bool malice = CalamityWorld.malice;
             bool death = CalamityWorld.death;
             bool revenge = CalamityWorld.revenge;
             bool expertMode = Main.expertMode;
@@ -83,8 +82,8 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
 
             CalamityGlobalNPC calamityGlobalNPC_Head = Main.npc[(int)NPC.ai[2]].Calamity();
 
-            float chargePhaseGateValue = malice ? 120f : death ? 180f : revenge ? 210f : expertMode ? 240f : 300f;
-            float lightningChargePhaseGateValue = malice ? 90f : death ? 120f : revenge ? 135f : expertMode ? 150f : 180f;
+            float chargePhaseGateValue = death ? 180f : revenge ? 210f : expertMode ? 240f : 300f;
+            float lightningChargePhaseGateValue = death ? 120f : revenge ? 135f : expertMode ? 150f : 180f;
 
             bool invisiblePartOfChargePhase = calamityGlobalNPC_Head.newAI[2] >= chargePhaseGateValue && calamityGlobalNPC_Head.newAI[2] <= chargePhaseGateValue + 1f && (calamityGlobalNPC_Head.newAI[0] == (float)AdultEidolonWyrmHead.Phase.ChargeOne || calamityGlobalNPC_Head.newAI[0] == (float)AdultEidolonWyrmHead.Phase.ChargeTwo || calamityGlobalNPC_Head.newAI[0] == (float)AdultEidolonWyrmHead.Phase.FastCharge);
             bool invisiblePartOfLightningChargePhase = calamityGlobalNPC_Head.newAI[2] >= lightningChargePhaseGateValue && calamityGlobalNPC_Head.newAI[2] <= lightningChargePhaseGateValue + 1f && calamityGlobalNPC_Head.newAI[0] == (float)AdultEidolonWyrmHead.Phase.LightningCharge;

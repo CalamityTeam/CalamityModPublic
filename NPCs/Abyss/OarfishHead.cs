@@ -26,6 +26,14 @@ namespace CalamityMod.NPCs.Abyss
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Oarfish");
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            {
+                CustomTexturePath = "CalamityMod/ExtraTextures/Bestiary/Oarfish_Bestiary",
+                PortraitPositionYOverride = 20
+            };
+            value.Position.X += 20;
+            value.Position.Y += 20;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 
         public override void SetDefaults()
@@ -311,7 +319,7 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            var postClone = npcLoot.DefineConditionalDropSet(() => DownedBossSystem.downedCalamitas);
+            var postClone = npcLoot.DefineConditionalDropSet(DropHelper.PostCal());
             postClone.Add(DropHelper.NormalVsExpertQuantity(ModContent.ItemType<DepthCells>(), 2, 3, 5, 4, 7));
         }
 
@@ -332,7 +340,8 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(ModContent.BuffType<CrushDepth>(), 90);
+            if (damage > 0)
+                player.AddBuff(ModContent.BuffType<CrushDepth>(), 90);
         }
     }
 }

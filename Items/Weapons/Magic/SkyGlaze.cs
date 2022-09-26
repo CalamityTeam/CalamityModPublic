@@ -30,15 +30,13 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.knockBack = 3.5f;
-            Item.value = Item.buyPrice(0, 1, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity1BuyPrice;
             Item.rare = ItemRarityID.Blue;
             Item.UseSound = SoundID.Item102;
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<StickyFeather>();
             Item.shootSpeed = 15f;
         }
-
-        public override Vector2? HoldoutOrigin() => new Vector2(15, 15);
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {

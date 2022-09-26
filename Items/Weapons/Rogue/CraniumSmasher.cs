@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class CraniumSmasher : ModItem
+    public class CraniumSmasher : RogueWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.useTime = 15;
             Item.knockBack = 4f;
             Item.UseSound = SoundID.Item1;
-            Item.value = Item.buyPrice(0, 80, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity9BuyPrice;
             Item.rare = ItemRarityID.Yellow;
             Item.shoot = ModContent.ProjectileType<CraniumSmasherProj>();
             Item.shootSpeed = 20f;

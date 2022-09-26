@@ -20,7 +20,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.height = 10;
             Projectile.friendly = true;
             Projectile.penetrate = 1;
-            //projectile.aiStyle = 113;
+            //Projectile.aiStyle = ProjAIStyleID.StickProjectile;
             Projectile.timeLeft = 30;
             //AIType = ProjectileID.BoneJavelin;
             Projectile.DamageType = RogueDamageClass.Instance;
@@ -68,7 +68,7 @@ namespace CalamityMod.Projectiles.Rogue
                     Vector2 projspeed = new Vector2(Main.rand.NextFloat(-8f, 8f), Main.rand.NextFloat(-8f, 8f));
                     int shard = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, projspeed, ProjectileID.CrystalShard, (int)(Projectile.damage * 0.4f), 2f, Projectile.owner);
                     if (shard.WithinBounds(Main.maxProjectiles))
-                        Main.projectile[shard].Calamity().forceRogue = true;
+                        Main.projectile[shard].DamageType = RogueDamageClass.Instance;
                 }
             }
         }

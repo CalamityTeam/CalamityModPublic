@@ -76,7 +76,7 @@ namespace CalamityMod.Projectiles.Ranged
             {
                 int width = (int)MathHelper.Min(target.Hitbox.Width, 60);
                 int height = (int)MathHelper.Min(target.Hitbox.Height, 60);
-                CalamityGlobalProjectile.ExpandHitboxBy(Projectile, width, height);
+                Projectile.ExpandHitboxBy(width, height);
             }
             target.ExoDebuffs(2f);
         }

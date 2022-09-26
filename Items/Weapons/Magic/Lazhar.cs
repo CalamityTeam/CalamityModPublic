@@ -46,7 +46,7 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void AddRecipes()
         {
             CreateRecipe(1).
-                AddRecipeGroup("AnyZapinator").
+                AddIngredient(ItemID.SpaceGun).
                 AddIngredient(ItemID.HeatRay).
                 AddIngredient(ItemID.FragmentSolar, 10).
                 AddIngredient(ItemID.ChlorophyteBar, 6).

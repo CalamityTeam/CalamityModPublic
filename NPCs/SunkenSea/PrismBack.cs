@@ -8,6 +8,7 @@ using System.IO;
 using Terraria;
 using Terraria.GameContent;
 using Terraria.GameContent.Bestiary;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
@@ -19,6 +20,12 @@ namespace CalamityMod.NPCs.SunkenSea
         {
             DisplayName.SetDefault("Prism-Back");
             Main.npcFrameCount[NPC.type] = 5;
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            {
+                PortraitPositionXOverride = 0
+            };
+            value.Position.X += 15;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 
         public override void SetDefaults()
@@ -152,7 +159,11 @@ namespace CalamityMod.NPCs.SunkenSea
             return 0f;
         }
 
-        public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.AddIf(() => DownedBossSystem.downedDesertScourge, ModContent.ItemType<PrismShard>(), 1, 1, 3);
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            LeadingConditionRule postDS = npcLoot.DefineConditionalDropSet(DropHelper.PostDS());
+            postDS.Add(ModContent.ItemType<PrismShard>(), 1, 1, 3);
+        }
 
         public override void HitEffect(int hitDirection, double damage)
         {

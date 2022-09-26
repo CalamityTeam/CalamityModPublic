@@ -18,7 +18,7 @@ namespace CalamityMod.Projectiles.Melee
         {
             Projectile.width = 10;
             Projectile.height = 10;
-            Projectile.aiStyle = 27;
+            Projectile.aiStyle = ProjAIStyleID.Beam;
             Projectile.friendly = true;
             Projectile.DamageType = DamageClass.Melee;
             Projectile.penetrate = 3;
@@ -76,7 +76,7 @@ namespace CalamityMod.Projectiles.Melee
                     Projectile petal = CalamityUtils.ProjectileBarrage(source, Projectile.Center, targetPos, Main.rand.NextBool(), 800f, 800f, 0f, 800f, 10f, ProjectileID.FlowerPetal, (int)(Projectile.damage * 0.5), Projectile.knockBack * 0.5f, Projectile.owner, true);
                     if (petal.whoAmI.WithinBounds(Main.maxProjectiles))
                     {
-                        petal.Calamity().forceMelee = true;
+                        petal.DamageType = DamageClass.Melee;
                         petal.localNPCHitCooldown = -1;
                     }
                 }

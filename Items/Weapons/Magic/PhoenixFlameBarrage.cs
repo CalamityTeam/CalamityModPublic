@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Projectiles.Magic;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -13,7 +14,7 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Phoenix Flame Barrage");
-            Tooltip.SetDefault("Baptism by holy fire\n" +
+            Tooltip.SetDefault("Baptism by draconic fire\n" +
                 "Casts a barrage of fire from the sky");
             Item.staff[Item.type] = true;
             SacrificeTotal = 1;
@@ -32,16 +33,14 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.noMelee = true;
             Item.knockBack = 3.5f;
             Item.value = CalamityGlobalItem.Rarity15BuyPrice;
-            Item.rare = ItemRarityID.Purple;
-            Item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.rare = ModContent.RarityType<Violet>();
             Item.UseSound = SoundID.Item20;
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<HolyFlame>();
             Item.shootSpeed = 30f;
         }
 
-        public override Vector2? HoldoutOrigin() => new Vector2(15, 15);
-
+        
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             float num72 = Item.shootSpeed;

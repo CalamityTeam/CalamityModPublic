@@ -49,7 +49,7 @@ namespace CalamityMod.Projectiles.Enemy
         public override void Kill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.NPCDeath14, Projectile.position);
-            CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 60);
+            Projectile.ExpandHitboxBy(60);
 
             for (int i = 0; i < 15; i++)
             {
@@ -105,6 +105,11 @@ namespace CalamityMod.Projectiles.Enemy
             }
         }
 
-        public override void OnHitPlayer(Player target, int damage, bool crit) => target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 120);
+        public override void OnHitPlayer(Player target, int damage, bool crit)
+        {
+            if (damage <= 0)
+                return;
+            target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 120);
+		}
     }
 }

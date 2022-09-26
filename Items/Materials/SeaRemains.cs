@@ -11,6 +11,7 @@ namespace CalamityMod.Items.Materials
         {
             SacrificeTotal = 25;
             DisplayName.SetDefault("Sea Remains");
+			ItemID.Sets.SortingPriorityMaterials[Type] = 60; // Meteorite
         }
 
         public override void SetDefaults()
@@ -24,10 +25,10 @@ namespace CalamityMod.Items.Materials
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<VictoryShard>().
-                AddIngredient(ItemID.Coral).
-                AddIngredient(ItemID.Starfish).
-                AddIngredient(ItemID.Seashell).
+                AddIngredient<PearlShard>(2).
+                AddIngredient(ItemID.Coral, 2).
+                AddIngredient(ItemID.Starfish, 2).
+                AddIngredient(ItemID.Seashell, 2).
                 AddTile(TileID.Furnaces).
                 Register();
         }

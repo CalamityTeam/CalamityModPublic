@@ -15,7 +15,8 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Opal Striker");
-            Tooltip.SetDefault("Fires a string of opal strikes");
+            Tooltip.SetDefault("50% chance to not consume ammo\n" + 
+                "Fires a string of opal strikes");
             SacrificeTotal = 1;
         }
 
@@ -31,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.knockBack = 0f;
-            Item.value = Item.buyPrice(0, 2, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity2BuyPrice;
             Item.rare = ItemRarityID.Green;
             Item.UseSound = FireSound;
             Item.autoReuse = true;
@@ -48,6 +49,8 @@ namespace CalamityMod.Items.Weapons.Ranged
             Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<OpalStrike>(), damage, knockback, player.whoAmI);
             return false;
         }
+
+        public override bool CanConsumeAmmo(Item ammo, Player player) => Main.rand.NextBool();
 
         public override void AddRecipes()
         {

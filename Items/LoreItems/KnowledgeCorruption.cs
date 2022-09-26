@@ -13,6 +13,7 @@ namespace CalamityMod.Items.LoreItems
             Tooltip.SetDefault("The rotten and forever-deteriorating landscape of infected life, brought upon by a deadly microbe long ago.\n" +
                 "It is rumored that the microbe was created through experimentation by a long-dead race, predating the Terrarians.");
             SacrificeTotal = 1;
+            ItemID.Sets.ItemNoGravity[Item.type] = true;
         }
 
         public override void SetDefaults()
@@ -30,7 +31,7 @@ namespace CalamityMod.Items.LoreItems
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddTile(TileID.Bookcases).AddIngredient(ItemID.EaterofWorldsTrophy).AddIngredient(ModContent.ItemType<VictoryShard>(), 10).Register();
+            CreateRecipe(1).AddTile(TileID.Bookcases).AddIngredient(ItemID.EaterofWorldsTrophy).AddIngredient(ModContent.ItemType<PearlShard>(), 10).Register();
         }
     }
 }

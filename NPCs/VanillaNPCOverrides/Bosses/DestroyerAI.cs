@@ -18,8 +18,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
         {
             CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || bossRush;
 
             // 10 seconds of resistance to prevent spawn killing
             if (calamityGlobalNPC.newAI[1] < 600f)
@@ -63,10 +63,10 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             if (increaseSpeedMore && npc.type == NPCID.TheDestroyer)
                 npc.TargetClosest();
 
-            float enrageScale = BossRushEvent.BossRushActive ? 1f : 0f;
-            if (Main.dayTime || malice)
+            float enrageScale = bossRush ? 1f : 0f;
+            if (Main.dayTime || bossRush)
             {
-                npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
+                npc.Calamity().CurrentlyEnraged = !bossRush;
                 enrageScale += 2f;
             }
 
@@ -121,7 +121,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             if (npc.type == NPCID.TheDestroyerBody)
             {
                 // Enrage, fire more cyan lasers
-                if (enrageScale > 0f && !malice)
+                if (enrageScale > 0f && !bossRush)
                 {
                     if (calamityGlobalNPC.newAI[2] < 480f)
                         calamityGlobalNPC.newAI[2] += 1f;
@@ -176,7 +176,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         {
                             if (calamityGlobalNPC.newAI[0] % 30f == 0f)
                             {
-                                float velocity = malice ? 6f : death ? 5.333f : 5f;
+                                float velocity = bossRush ? 6f : death ? 5.333f : 5f;
                                 int type = ProjectileID.DeathLaser;
                                 int damage = npc.GetProjectileDamage(type);
                                 Vector2 projectileVelocity = Vector2.Normalize(player.Center - npc.Center) * velocity;
@@ -237,7 +237,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                                     break;
                             }
 
-                            if (calamityGlobalNPC.newAI[2] > 0f || malice)
+                            if (calamityGlobalNPC.newAI[2] > 0f || bossRush)
                             {
                                 projectileType = ModContent.ProjectileType<DestroyerElectricLaser>();
                                 laserSpawnDistance = 20f;
@@ -610,7 +610,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
         public static bool BuffedProbeAI(NPC npc, Mod mod)
         {
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+            bool bossRush = BossRushEvent.BossRushActive;
 
             // Get a target
             if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
@@ -621,8 +621,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             if (targetData.Type == NPCTargetType.Player)
                 targetDead = Main.player[npc.target].dead;
 
-            float velocity = malice ? 8f : 6f;
-            float acceleration = malice ? 0.1f : 0.05f;
+            float velocity = bossRush ? 8f : 6f;
+            float acceleration = bossRush ? 0.1f : 0.05f;
 
             Vector2 vector = npc.Center;
             float num4 = targetData.Center.X;
@@ -704,7 +704,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             if (npc.justHit)
                 npc.localAI[0] = 0f;
 
-            float laserGateValue = malice ? 150f : 240f;
+            float laserGateValue = bossRush ? 150f : 240f;
             if (Main.netMode != NetmodeID.MultiplayerClient && npc.localAI[0] >= laserGateValue)
             {
                 npc.localAI[0] = 0f;
@@ -712,7 +712,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 {
                     int type = ProjectileID.PinkLaser;
                     int damage = npc.GetProjectileDamage(type);
-                    int totalProjectiles = (CalamityWorld.death || BossRushEvent.BossRushActive) ? 3 : 1;
+                    int totalProjectiles = (CalamityWorld.death || bossRush) ? 3 : 1;
                     for (int i = 0; i < totalProjectiles; i++)
                     {
                         float velocityMultiplier = 1f;

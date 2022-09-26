@@ -18,7 +18,7 @@ namespace CalamityMod.Projectiles.Ranged
         {
             Projectile.width = 4;
             Projectile.height = 4;
-            Projectile.aiStyle = 1;
+            Projectile.aiStyle = ProjAIStyleID.Arrow;
             Projectile.friendly = true;
             Projectile.DamageType = DamageClass.Ranged;
             Projectile.penetrate = 1;
@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.light = 0.25f;
             Projectile.extraUpdates = 4;
             AIType = ProjectileID.Bullet;
-            Projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
+            Projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.DefaultPointBlankDuration;
         }
 
         public override bool PreDraw(ref Color lightColor)

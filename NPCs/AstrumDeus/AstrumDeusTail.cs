@@ -36,14 +36,14 @@ namespace CalamityMod.NPCs.AstrumDeus
             AIType = -1;
             NPC.knockBackResist = 0f;
 
-            if (CalamityWorld.malice || BossRushEvent.BossRushActive)
-                NPC.scale = 1.5f;
+            if (BossRushEvent.BossRushActive)
+                NPC.scale *= 1.5f;
             else if (CalamityWorld.death)
-                NPC.scale = 1.4f;
+                NPC.scale *= 1.4f;
             else if (CalamityWorld.revenge)
-                NPC.scale = 1.35f;
+                NPC.scale *= 1.35f;
             else if (Main.expertMode)
-                NPC.scale = 1.2f;
+                NPC.scale *= 1.2f;
 
             NPC.alpha = 255;
             NPC.behindTiles = true;
@@ -54,7 +54,6 @@ namespace CalamityMod.NPCs.AstrumDeus
             NPC.DeathSound = AstrumDeusHead.DeathSound;
             NPC.netAlways = true;
             NPC.boss = true;
-            Music = CalamityMod.Instance.GetMusicFromMusicMod("AstrumDeus") ?? MusicID.Boss3;
             NPC.dontCountMe = true;
             NPC.Calamity().VulnerableToHeat = true;
             NPC.Calamity().VulnerableToSickness = false;
@@ -90,7 +89,7 @@ namespace CalamityMod.NPCs.AstrumDeus
             if (NPC.spriteDirection == 1)
                 spriteEffects = SpriteEffects.FlipHorizontally;
 
-            bool drawCyan = NPC.Calamity().newAI[3] >= 600f;
+            bool drawCyan = NPC.Calamity().newAI[3] >= (Main.getGoodWorld ? 300f : 600f);
             bool deathModeEnragePhase = Main.npc[(int)NPC.ai[2]].Calamity().newAI[0] == 3f;
             bool doubleWormPhase = NPC.Calamity().newAI[0] != 0f && !deathModeEnragePhase;
 
@@ -192,7 +191,8 @@ namespace CalamityMod.NPCs.AstrumDeus
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 180, true);
+            if (damage > 0)
+                player.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 180, true);
         }
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)

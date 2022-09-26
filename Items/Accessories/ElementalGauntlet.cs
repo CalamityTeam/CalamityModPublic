@@ -1,5 +1,6 @@
 ﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
+using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
 using Terraria.ID;
@@ -29,16 +30,18 @@ namespace CalamityMod.Items.Accessories
             Item.height = 38;
             Item.value = CalamityGlobalItem.Rarity14BuyPrice;
             Item.accessory = true;
-            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.rare = ModContent.RarityType<DarkBlue>();
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.eGauntlet = true;
+            player.kbGlove = true;
             player.autoReuseGlove = true;
             player.meleeScaleGlove = true;
             player.GetAttackSpeed<MeleeDamageClass>() += 0.15f;
+            player.GetDamage<TrueMeleeDamageClass>() += 0.1f;
         }
 
         public override void AddRecipes()

@@ -49,6 +49,9 @@ namespace CalamityMod.NPCs.CeaselessVoid
             NPC.HitSound = SoundID.NPCHit53;
             NPC.DeathSound = SoundID.NPCDeath44;
             NPC.Calamity().VulnerableToSickness = false;
+
+            if (Main.getGoodWorld)
+                NPC.scale *= 0.5f;
         }
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
@@ -126,16 +129,16 @@ namespace CalamityMod.NPCs.CeaselessVoid
                 NPC.timeLeft = 1800;
 
             // Difficulty modes
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
-            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool expertMode = Main.expertMode || bossRush;
+            bool revenge = CalamityWorld.revenge || bossRush;
+            bool death = CalamityWorld.death || bossRush;
 
             // Gets how enraged Ceaseless Void is
             float tileEnrageMult = Main.npc[CalamityGlobalNPC.voidBoss].ai[1];
 
             // Distance from Ceaseless Void
-            double maxDistance = malice ? 1200D : death ? 1040D : revenge ? 960D : expertMode ? 880D : minMaxDistance;
+            double maxDistance = bossRush ? 1200D : death ? 1040D : revenge ? 960D : expertMode ? 880D : minMaxDistance;
             double rateOfChangeIncrease = (maxDistance / minMaxDistance) - 1D;
             double rateOfChange = (NPC.ai[1] * 0.5f) + 2D + (tileEnrageMult - 1f) + rateOfChangeIncrease;
             if (NPC.Calamity().newAI[0] == 0f)
@@ -268,7 +271,8 @@ namespace CalamityMod.NPCs.CeaselessVoid
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(BuffID.VortexDebuff, 60, true);
+            if (damage > 0)
+                player.AddBuff(BuffID.VortexDebuff, 60, true);
         }
 
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)

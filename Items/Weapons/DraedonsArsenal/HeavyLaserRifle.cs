@@ -1,14 +1,15 @@
 ﻿using CalamityMod.CustomRecipes;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.DraedonsArsenal;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using Terraria;
-using Terraria.ID;
-using Terraria.DataStructures;
-using Terraria.ModLoader;
-using System;
 using Terraria.Audio;
+using Terraria.DataStructures;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.DraedonsArsenal
 {
@@ -19,6 +20,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Heavy Laser Rifle");
             Tooltip.SetDefault("Laser weapon used by heavy infantry units in Yharim's army");
         }
@@ -41,8 +43,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             Item.noMelee = true;
 
             Item.value = CalamityGlobalItem.RarityTurquoiseBuyPrice;
-            Item.rare = ItemRarityID.Red;
-            modItem.customRarity = CalamityRarity.DraedonRust;
+            Item.rare = ModContent.RarityType<DarkOrange>();
 
             Item.shoot = ModContent.ProjectileType<LaserRifleShot>();
             Item.shootSpeed = 5f;

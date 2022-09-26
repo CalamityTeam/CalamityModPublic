@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Projectiles.Rogue;
+using CalamityMod.Rarities;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -6,7 +7,7 @@ using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class FinalDawn : ModItem
+    public class FinalDawn : RogueWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -31,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.knockBack = 4;
 
             Item.value = CalamityGlobalItem.Rarity15BuyPrice;
-            Item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.rare = ModContent.RarityType<Violet>();
             Item.Calamity().donorItem = true;
 
             Item.autoReuse = false;

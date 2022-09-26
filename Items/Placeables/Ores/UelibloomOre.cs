@@ -1,4 +1,5 @@
-﻿using Terraria;
+﻿using CalamityMod.Rarities;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -10,6 +11,7 @@ namespace CalamityMod.Items.Placeables.Ores
         {
             SacrificeTotal = 100;
             DisplayName.SetDefault("Uelibloom Ore");
+			ItemID.Sets.SortingPriorityMaterials[Type] = 105;
         }
 
         public override void SetDefaults()
@@ -24,8 +26,8 @@ namespace CalamityMod.Items.Placeables.Ores
             Item.width = 10;
             Item.height = 10;
             Item.maxStack = 999;
-            Item.Calamity().customRarity = CalamityRarity.Turquoise;
-            Item.value = CalamityGlobalItem.RarityTurquoiseBuyPrice;
+            Item.rare = ModContent.RarityType<Turquoise>();
+            Item.value = Item.sellPrice(gold: 1);
         }
     }
 }

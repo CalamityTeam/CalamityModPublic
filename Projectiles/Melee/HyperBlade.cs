@@ -18,7 +18,7 @@ namespace CalamityMod.Projectiles.Melee
         {
             Projectile.width = 50;
             Projectile.height = 50;
-            Projectile.aiStyle = 18;
+            Projectile.aiStyle = ProjAIStyleID.Sickle;
             Projectile.alpha = 100;
             Projectile.friendly = true;
             Projectile.tileCollide = false;
@@ -36,7 +36,7 @@ namespace CalamityMod.Projectiles.Melee
         {
             Lighting.AddLight(Projectile.Center, 0f, 0.5f, 0f);
 
-            CalamityGlobalProjectile.HomeInOnNPC(Projectile, true, 300f, 10f, 10f);
+            CalamityUtils.HomeInOnNPC(Projectile, true, 300f, 10f, 10f);
         }
 
         public override Color? GetAlpha(Color lightColor)

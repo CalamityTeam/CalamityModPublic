@@ -34,15 +34,17 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetStaticDefaults()
         {
-            // Ares' eight-pointed-star laser beams
-            DisplayName.SetDefault("Exo Overload Beam");
+            // Ares' eight-pointed-star (more on higher difficulties) laser beams
+            DisplayName.SetDefault("Blenderbeam");
             Main.projFrames[Projectile.type] = 5;
             ProjectileID.Sets.DrawScreenCheckFluff[Projectile.type] = 10000;
+            // This is its serious name
+            // DisplayName.SetDefault("Exo Overload Beam");
         }
 
         public override void SetDefaults()
         {
-            Projectile.Calamity().canBreakPlayerDefense = true;
+            Projectile.Calamity().DealsDefenseDamage = true;
             Projectile.width = 30;
             Projectile.height = 30;
             Projectile.hostile = true;
@@ -50,7 +52,7 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.penetrate = -1;
             Projectile.tileCollide = false;
             Projectile.timeLeft = 600;
-            CooldownSlot = 1;
+            CooldownSlot = ImmunityCooldownID.Bosses;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -89,13 +91,13 @@ namespace CalamityMod.Projectiles.Boss
             }
 
             // Difficulty modes
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
-            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || bossRush;
+            bool revenge = CalamityWorld.revenge || bossRush;
+            bool expertMode = Main.expertMode || bossRush;
 
             // Telegraph duration for deathray spiral
-            float deathrayTelegraphDuration = malice ? AresBody.deathrayTelegraphDuration_Malice : death ? AresBody.deathrayTelegraphDuration_Death :
+            float deathrayTelegraphDuration = bossRush ? AresBody.deathrayTelegraphDuration_BossRush : death ? AresBody.deathrayTelegraphDuration_Death :
                 revenge ? AresBody.deathrayTelegraphDuration_Rev : expertMode ? AresBody.deathrayTelegraphDuration_Expert : AresBody.deathrayTelegraphDuration_Normal;
 
             Time = Main.npc[OwnerIndex].Calamity().newAI[2] - deathrayTelegraphDuration;
@@ -104,12 +106,12 @@ namespace CalamityMod.Projectiles.Boss
         public override void UpdateLaserMotion()
         {
             // Declare difficulty modes.
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
-            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || bossRush;
+            bool revenge = CalamityWorld.revenge || bossRush;
+            bool expertMode = Main.expertMode || bossRush;
 
-            float angularSlowdownDivisor = malice ? 300f : death ? 320f : revenge ? 330f : expertMode ? 340f : 360f;
+            float angularSlowdownDivisor = bossRush ? 300f : death ? 320f : revenge ? 330f : expertMode ? 340f : 360f;
             float angularVelocity = MathHelper.TwoPi * Time / Lifetime / angularSlowdownDivisor;
             if (Main.npc[OwnerIndex].ai[3] % 2f == 0f)
                 angularVelocity *= -1f;
@@ -233,15 +235,13 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
+            if (damage <= 0)
+                return;
+
             target.AddBuff(BuffID.OnFire, 360);
             target.AddBuff(BuffID.Frostburn, 360);
         }
 
         public override bool CanHitPlayer(Player target) => Projectile.scale >= 0.5f;
-
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
-        {
-            target.Calamity().lastProjectileHit = Projectile;
-        }
     }
 }

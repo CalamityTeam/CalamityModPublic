@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class MetalMonstrosity : ModItem
+    public class MetalMonstrosity : RogueWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.noMelee = true;
             Item.UseSound = SoundID.Item1;
             Item.rare = ItemRarityID.Orange;
-            Item.value = Item.buyPrice(0, 4, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity3BuyPrice;
 
             Item.damage = 30;
             Item.useAnimation = 40;

@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            Item.damage = 30;
+            Item.damage = 38;
             Item.DamageType = DamageClass.Magic;
             Item.mana = 15;
             Item.width = 64;
@@ -32,15 +32,13 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.knockBack = 3.5f;
-            Item.value = Item.buyPrice(0, 60, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity8BuyPrice;
             Item.rare = ItemRarityID.Lime;
             Item.UseSound = SoundID.Item66;
             Item.autoReuse = true;
             Item.shootSpeed = 12f;
             Item.shoot = ModContent.ProjectileType<UndinesRetributionSpear>();
         }
-
-        public override Vector2? HoldoutOrigin() => new Vector2(15, 15);
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {

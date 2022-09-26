@@ -1,18 +1,18 @@
-﻿using CalamityMod.Items.DraedonMisc;
+﻿using System;
+using System.Linq;
+using System.Text;
+using CalamityMod.Items.DraedonMisc;
 using CalamityMod.TileEntities;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Linq;
-using System.Text;
 using Terraria;
+using Terraria.Audio;
 using Terraria.DataStructures;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.UI.Chat;
-using Terraria.Audio;
-using Terraria.GameContent;
 
 namespace CalamityMod.UI
 {
@@ -150,7 +150,7 @@ namespace CalamityMod.UI
 
             if (Main.mouseLeft && Main.mouseLeftRelease && codebreakerTileEntity.DecryptionCountdown <= 0)
             {
-                int powerCellID = ModContent.ItemType<DraedonPowerCell>();
+                int powercellID = ModContent.ItemType<DraedonPowerCell>();
                 short cellStackDiff = 0;
                 bool shouldPlaySound = true;
 
@@ -160,7 +160,7 @@ namespace CalamityMod.UI
                     cellStackDiff = (short)-Math.Min(temporaryItem.stack, temporaryItem.maxStack);
                     Player p = Main.LocalPlayer;
                     var source = p.GetSource_TileInteraction(codebreakerTileEntity.Position.X, codebreakerTileEntity.Position.Y);
-                    DropHelper.DropItem(source, p, powerCellID, -cellStackDiff);
+                    p.QuickSpawnItem(source, powercellID, -cellStackDiff);
 
                     // Do not play a sound in this situation. The player is going to pick up the dropped cells in a few frames, which will make sound.
                     shouldPlaySound = false;
@@ -169,7 +169,7 @@ namespace CalamityMod.UI
                 // If the slot is normally clicked, behavior depends on whether the player is holding power cells.
                 else
                 {
-                    bool holdingPowercell = playerHandItem.type == powerCellID;
+                    bool holdingPowercell = playerHandItem.type == powercellID;
 
                     // If the player's held power cells can be stacked on top of what's already in the codeberaker, then stack them.
                     if (holdingPowercell && temporaryItem.stack < TECodebreaker.MaxCellCapacity)

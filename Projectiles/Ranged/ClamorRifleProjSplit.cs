@@ -42,7 +42,7 @@ namespace CalamityMod.Projectiles.Ranged
             }
 
             if (Projectile.timeLeft < 150)
-                CalamityGlobalProjectile.HomeInOnNPC(Projectile, !Projectile.tileCollide, 450f, 12f, 25f);
+                CalamityUtils.HomeInOnNPC(Projectile, !Projectile.tileCollide, 450f, 12f, 25f);
         }
     }
 }

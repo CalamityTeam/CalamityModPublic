@@ -11,6 +11,7 @@ namespace CalamityMod.Items.Fishing
             DisplayName.SetDefault("Glimmering Gemfish");
             Tooltip.SetDefault("Right click to extract gems");
             SacrificeTotal = 10;
+            ItemID.Sets.CanBePlacedOnWeaponRacks[Item.type] = true;
         }
 
         public override void SetDefaults()
@@ -23,31 +24,37 @@ namespace CalamityMod.Items.Fishing
             Item.value = Item.sellPrice(silver: 50);
         }
 
-        public override bool CanRightClick()
-        {
-            return true;
-        }
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = ContentSamples.CreativeHelper.ItemGroup.GoodieBags;
+		}
 
-        public override void RightClick(Player player)
+        public override bool CanRightClick() => true;
+        public override void ModifyItemLoot(ItemLoot itemLoot)
         {
-            // IEntitySource my beloathed
-            var s = player.GetSource_OpenItem(Item.type);
-
             int gemMin = 1;
             int gemMax = 3;
-            DropHelper.DropItemChance(s, player, ItemID.Amethyst, 0.5f, gemMin, gemMax);
-            DropHelper.DropItemChance(s, player, ItemID.Topaz, 0.4f, gemMin, gemMax);
-            DropHelper.DropItemChance(s, player, ItemID.Sapphire, 0.3f, gemMin, gemMax);
-            DropHelper.DropItemChance(s, player, ItemID.Emerald, 0.2f, gemMin, gemMax);
-            DropHelper.DropItemChance(s, player, ItemID.Ruby, 0.15f, gemMin, gemMax);
-            DropHelper.DropItemChance(s, player, ItemID.Diamond, 0.1f, gemMin, gemMax);
-            DropHelper.DropItemChance(s, player, ItemID.Amber, 0.25f, gemMin, gemMax);
+            itemLoot.Add(ItemID.Amethyst, 2, gemMin, gemMax);
+            itemLoot.Add(ItemID.Topaz, 2, gemMin, gemMax);
+            itemLoot.Add(ItemID.Sapphire, 4, gemMin, gemMax);
+            itemLoot.Add(ItemID.Emerald, 4, gemMin, gemMax);
+            itemLoot.Add(ItemID.Ruby, 8, gemMin, gemMax);
+            itemLoot.Add(ItemID.Diamond, 10, gemMin, gemMax);
+            itemLoot.Add(ItemID.Amber, 8, gemMin, gemMax);
+
             Mod thorium = CalamityMod.Instance.thorium;
-            if (thorium != null)
+            if (thorium is not null)
             {
-                DropHelper.DropItemChance(s, player, thorium.Find<ModItem>("Pearl").Type, 0.25f, gemMin, gemMax);
-                DropHelper.DropItemChance(s, player, thorium.Find<ModItem>("Opal").Type, 0.25f, gemMin, gemMax);
-                DropHelper.DropItemChance(s, player, thorium.Find<ModItem>("Onyx").Type, 0.25f, gemMin, gemMax);
+				try
+				{
+					itemLoot.Add(thorium.Find<ModItem>("Pearl").Type, 4, gemMin, gemMax);
+					itemLoot.Add(thorium.Find<ModItem>("Opal").Type, 4, gemMin, gemMax);
+					itemLoot.Add(thorium.Find<ModItem>("Onyx").Type, 4, gemMin, gemMax);
+				}
+				catch
+				{
+					CalamityMod.Instance.Logger.Debug("One of the items in this file got renamed internally. Please report this in the #bugs-read-pins channel of the official Calamity discord server.");
+				}
             }
         }
     }

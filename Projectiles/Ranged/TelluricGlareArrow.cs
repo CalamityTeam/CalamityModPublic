@@ -42,7 +42,7 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.penetrate = 2; // Can hit up to two enemies. Will explode extremely soon after hitting the first, though.
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = -1;
-            Projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
+            Projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.DefaultPointBlankDuration;
         }
 
         public override bool? CanDamage() => Projectile.timeLeft < Lifetime - 4 ? null : false;
@@ -55,8 +55,11 @@ namespace CalamityMod.Projectiles.Ranged
                 Projectile.timeLeft = 8;
         }
 
-        public override void OnHitPlayer(Player target, int damage, bool crit)
+        public override void OnHitPvp(Player target, int damage, bool crit)
         {
+            if (damage <= 0)
+                return;
+
             RestrictLifetime();
             target.AddBuff(ModContent.BuffType<HolyFlames>(), 180);
         }

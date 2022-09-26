@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class FantasyTalisman : ModItem
+    public class FantasyTalisman : RogueWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -21,7 +21,7 @@ Stealth strikes release more souls and leave behind souls as they travel");
 
         public override void SetDefaults()
         {
-            Item.width = 34;
+            Item.width = 30;
             Item.damage = 93;
             Item.noMelee = true;
             Item.consumable = true;
@@ -32,7 +32,7 @@ Stealth strikes release more souls and leave behind souls as they travel");
             Item.knockBack = 6f;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
-            Item.height = 62;
+            Item.height = 30;
             Item.maxStack = 999;
             Item.value = Item.buyPrice(0, 0, 60, 0);
             Item.rare = ItemRarityID.Lime;

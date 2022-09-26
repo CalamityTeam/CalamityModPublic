@@ -26,6 +26,16 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         {
             DisplayName.SetDefault("Sepulcher");
             NPCID.Sets.BossBestiaryPriority.Add(Type);
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            {
+                PortraitPositionXOverride = 30,
+                PortraitPositionYOverride = 0,
+                PortraitScale = 0.54f,
+                CustomTexturePath = "CalamityMod/ExtraTextures/Bestiary/Sepulcher_Bestiary"
+            };
+            value.Position.X += 80;
+            value.Position.Y -= 13;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 
         public override void SetDefaults()
@@ -42,7 +52,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             NPC.aiStyle = -1;
             AIType = -1;
             NPC.knockBackResist = 0f;
-            NPC.scale = Main.expertMode ? 1.35f : 1.2f;
+            NPC.scale *= Main.expertMode ? 1.35f : 1.2f;
             NPC.scale *= 1.25f;
 
             NPC.alpha = 255;
@@ -111,7 +121,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         int lol;
                         if (i >= 0 && i < minLength && i % 2 == 1)
                         {
-                            lol = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.position.X + (NPC.width / 2), (int)NPC.position.Y + (NPC.height / 2), ModContent.NPCType<SCalWormBodyWeak>(), NPC.whoAmI);
+                            lol = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.position.X + (NPC.width / 2), (int)NPC.position.Y + (NPC.height / 2), ModContent.NPCType<SepulcherBodyEnergyBall>(), NPC.whoAmI);
                             Main.npc[lol].localAI[0] += passedVar;
                             passedVar += 36f;
                         }
@@ -178,8 +188,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             Vector2 vector18 = new Vector2(NPC.position.X + NPC.width * 0.5f, NPC.position.Y + NPC.height * 0.5f);
             float num191 = Main.player[NPC.target].position.X + (Main.player[NPC.target].width / 2);
             float num192 = Main.player[NPC.target].position.Y + (Main.player[NPC.target].height / 2);
-            float num188 = (CalamityWorld.malice || BossRushEvent.BossRushActive) ? 12.5f : 10f;
-            float num189 = (CalamityWorld.malice || BossRushEvent.BossRushActive) ? 0.125f : 0.1f;
+            float num188 = BossRushEvent.BossRushActive ? 12.5f : 10f;
+            float num189 = BossRushEvent.BossRushActive ? 0.125f : 0.1f;
 
             float num48 = num188 * 1.3f;
             float num49 = num188 * 0.7f;

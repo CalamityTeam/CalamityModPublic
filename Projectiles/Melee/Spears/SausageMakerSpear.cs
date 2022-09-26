@@ -1,6 +1,7 @@
-﻿using Terraria;
+﻿using CalamityMod.Projectiles.BaseProjectiles;
+using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Projectiles.BaseProjectiles;
 namespace CalamityMod.Projectiles.Melee.Spears
 {
     public class SausageMakerSpear : BaseSpearProjectile
@@ -13,8 +14,8 @@ namespace CalamityMod.Projectiles.Melee.Spears
         public override void SetDefaults()
         {
             Projectile.width = 44;  //The width of the .png file in pixels divided by 2.
-            Projectile.aiStyle = 19;
-            Projectile.DamageType = DamageClass.Melee;  //Dictates whether this is a melee-class weapon.
+            Projectile.aiStyle = ProjAIStyleID.Spear;
+            Projectile.DamageType = TrueMeleeDamageClass.Instance;
             Projectile.timeLeft = 90;
             Projectile.height = 42;  //The height of the .png file in pixels divided by 2.
             Projectile.friendly = true;
@@ -23,7 +24,6 @@ namespace CalamityMod.Projectiles.Melee.Spears
             Projectile.ignoreWater = true;
             Projectile.penetrate = -1;
             Projectile.ownerHitCheck = true;
-            Projectile.Calamity().trueMelee = true;
         }
 
         public override float InitialSpeed => 3f;

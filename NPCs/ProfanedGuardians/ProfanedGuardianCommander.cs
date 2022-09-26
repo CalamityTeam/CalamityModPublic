@@ -16,6 +16,7 @@ using Terraria.GameContent;
 using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.Items.Placeables.Furniture.BossRelics;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Events;
 using Terraria.Audio;
@@ -35,6 +36,16 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             Main.npcFrameCount[NPC.type] = 6;
             NPCID.Sets.TrailingMode[NPC.type] = 1;
             NPCID.Sets.BossBestiaryPriority.Add(Type);
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            {
+                PortraitPositionXOverride = 0,
+                PortraitScale = 0.75f,
+                Scale = 0.75f
+            };
+            value.Position.X += 25;
+            value.Position.Y += 15;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
+			NPCID.Sets.MPAllowedEnemies[Type] = true;
         }
 
         public override void SetDefaults()
@@ -55,7 +66,6 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             NPC.noTileCollide = true;
             AIType = -1;
             NPC.boss = true;
-            Music = CalamityMod.Instance.GetMusicFromMusicMod("Guardians") ?? MusicID.Boss1;
             NPC.value = Item.buyPrice(1, 0, 0, 0);
             NPC.HitSound = SoundID.NPCHit52;
             NPC.DeathSound = SoundID.NPCDeath55;
@@ -102,10 +112,10 @@ namespace CalamityMod.NPCs.ProfanedGuardians
         {
             CalamityGlobalNPC.doughnutBoss = NPC.whoAmI;
 
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
-            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool expertMode = Main.expertMode || bossRush;
+            bool revenge = CalamityWorld.revenge || bossRush;
+            bool death = CalamityWorld.death || bossRush;
 
             // Percent life remaining
             float lifeRatio = NPC.life / (float)NPC.lifeMax;
@@ -211,7 +221,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             // Become immune over time if target isn't in hell or hallow
             bool isHoly = player.ZoneHallow;
             bool isHell = player.ZoneUnderworldHeight;
-            if (!isHoly && !isHell && !BossRushEvent.BossRushActive)
+            if (!isHoly && !isHell && !bossRush)
             {
                 if (biomeEnrageTimer > 0)
                     biomeEnrageTimer--;
@@ -230,10 +240,12 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                     phase1 = true;
             }
 
-            float inertia = (malice || biomeEnraged) ? 45f : death ? 50f : revenge ? 52f : expertMode ? 55f : 60f;
+            float inertia = (bossRush || biomeEnraged) ? 45f : death ? 50f : revenge ? 52f : expertMode ? 55f : 60f;
             if (lifeRatio < 0.5f)
                 inertia *= 0.8f;
             if (!phase1)
+                inertia *= 0.8f;
+            if (Main.getGoodWorld)
                 inertia *= 0.8f;
 
             float num1006 = 0.111111117f * inertia;
@@ -247,10 +259,13 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                     NPC.spriteDirection = NPC.direction;
                 }
 
-                float velocity = (malice || biomeEnraged) ? 18f : death ? 16f : revenge ? 15f : expertMode ? 14f : 12f;
+                float velocity = (bossRush || biomeEnraged) ? 18f : death ? 16f : revenge ? 15f : expertMode ? 14f : 12f;
+                if (Main.getGoodWorld)
+                    velocity *= 1.25f;
+
                 Vector2 targetVector = player.Center - vectorCenter;
                 targetVector = Vector2.Normalize(targetVector) * velocity;
-                float phaseGateValue = (malice || biomeEnraged) ? 50f : death ? 66f : revenge ? 75f : expertMode ? 83f : 100f;
+                float phaseGateValue = (bossRush || biomeEnraged) ? 50f : death ? 66f : revenge ? 75f : expertMode ? 83f : 100f;
                 if (defenderAlive)
                     phaseGateValue *= 1.5f;
 
@@ -261,7 +276,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        float divisor = (malice || biomeEnraged) ? 30f : death ? 40f : revenge ? 44f : expertMode ? 50f : 60f;
+                        float divisor = (bossRush || biomeEnraged) ? 30f : death ? 40f : revenge ? 44f : expertMode ? 50f : 60f;
                         if (!phase1)
                             divisor = (float)Math.Round(divisor * 0.8f);
 
@@ -273,6 +288,13 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                             Vector2 projectileVelocity = Vector2.Normalize(player.Center - vectorCenter);
                             int numProj = death ? 3 : 2;
                             int spread = !phase1 ? 15 : death ? 30 : 20;
+
+                            if (Main.getGoodWorld)
+                            {
+                                numProj *= 2;
+                                spread *= 3;
+                            }
+
                             float rotation = MathHelper.ToRadians(spread);
                             for (int i = 0; i < numProj; i++)
                             {
@@ -301,17 +323,26 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 }
 
                 NPC.velocity *= 0.8f;
+                if (Main.getGoodWorld)
+                    NPC.velocity *= 0.5f;
+
+                float chargeGateValue = 12f;
+                if (Main.getGoodWorld)
+                    chargeGateValue *= 0.25f;
+
                 NPC.ai[1] += 1f;
-                if (NPC.ai[1] >= 12f)
+                if (NPC.ai[1] >= chargeGateValue)
                 {
                     NPC.ai[0] = 2f;
                     NPC.ai[1] = 0f;
                     NPC.netUpdate = true;
                     Vector2 velocity = new Vector2(NPC.ai[2], NPC.ai[3]);
                     velocity.Normalize();
-                    velocity *= (malice || biomeEnraged) ? 32f : death ? 28f : revenge ? 26f : expertMode ? 24f : 20f;
+                    velocity *= (bossRush || biomeEnraged) ? 32f : death ? 28f : revenge ? 26f : expertMode ? 24f : 20f;
                     if (defenderAlive)
                         velocity *= 0.8f;
+                    if (Main.getGoodWorld)
+                        velocity *= 1.15f;
 
                     NPC.velocity = velocity;
                 }
@@ -325,7 +356,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     NPC.localAI[0] += 1f;
-                    float projectileGateValue = (malice || biomeEnraged) ? 30f : death ? 35f : revenge ? 37f : expertMode ? 40f : 45f;
+                    float projectileGateValue = (bossRush || biomeEnraged) ? 30f : death ? 35f : revenge ? 37f : expertMode ? 40f : 45f;
                     if (NPC.localAI[0] >= projectileGateValue && Vector2.Distance(vectorCenter, player.Center) > 160f)
                     {
                         NPC.localAI[0] = 0f;
@@ -353,7 +384,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                                 break;
                         }
 
-                        if (malice || biomeEnraged)
+                        if (bossRush || biomeEnraged)
                             totalProjectiles *= 2;
 
                         float radians = MathHelper.TwoPi / totalProjectiles;
@@ -370,7 +401,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 }
 
                 NPC.ai[1] += 1f;
-                float phaseGateValue = (malice || biomeEnraged) ? 60f : death ? 70f : revenge ? 75f : expertMode ? 80f : 90f;
+                float phaseGateValue = (bossRush || biomeEnraged) ? 60f : death ? 70f : revenge ? 75f : expertMode ? 80f : 90f;
                 if (NPC.ai[1] >= phaseGateValue)
                 {
                     NPC.ai[0] = 3f;
@@ -480,8 +511,11 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             npcLoot.Add(ModContent.ItemType<ProfanedGuardianTrophy>(), 10);
             npcLoot.Add(ModContent.ItemType<ProfanedCore>());
 
+            // Relic
+            npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).Add(ModContent.ItemType<ProfanedGuardiansRelic>());
+
             // Lore
-            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedGuardians, ModContent.ItemType<KnowledgeProfanedGuardians>());
+            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedGuardians, ModContent.ItemType<KnowledgeProfanedGuardians>(), desc: DropHelper.FirstKillText);
         }
 
         public override void OnKill()
@@ -495,7 +529,8 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(ModContent.BuffType<HolyFlames>(), 300, true);
+            if (damage > 0)
+                player.AddBuff(ModContent.BuffType<HolyFlames>(), 300, true);
         }
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)

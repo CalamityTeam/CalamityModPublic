@@ -18,7 +18,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-            Projectile.Calamity().canBreakPlayerDefense = true;
+            Projectile.Calamity().DealsDefenseDamage = true;
             Projectile.width = 52;
             Projectile.height = 48;
             Projectile.hostile = true;
@@ -80,6 +80,9 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
+            if (damage <= 0)
+                return;
+
             if (Projectile.Opacity >= 0.9f)
                 target.AddBuff(ModContent.BuffType<Irradiated>(), 240, true);
         }

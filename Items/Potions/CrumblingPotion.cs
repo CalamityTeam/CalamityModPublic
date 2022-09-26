@@ -40,6 +40,7 @@ namespace CalamityMod.Items.Potions
                 AddIngredient<AncientBoneDust>().
                 AddIngredient<EssenceofSunlight>().
                 AddTile(TileID.AlchemyTable).
+				AddConsumeItemCallback(Recipe.ConsumptionRules.Alchemy).
                 Register();
 
             CreateRecipe().

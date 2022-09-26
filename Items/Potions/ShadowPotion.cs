@@ -13,10 +13,10 @@ namespace CalamityMod.Items.Potions
         {
             SacrificeTotal = 20;
             DisplayName.SetDefault("Shadow Potion");
-            Tooltip.SetDefault("Causes the player to disappear while not attacking\n" +
-            "Holding different types of rogue weapons give the player boosts\n" +
-            "Different types of rogue weapons spawn different projectiles on hit\n" +
-            "Stealth generation is increased by 10%");
+            Tooltip.SetDefault("Turns the player into a shadow with glowing eyes\n" +
+			"Rogue weapons spawn projectiles on hit\n" +
+            "Stealth generation is increased by 8%\n" +
+			"Visual effects can be disabled with the Stealth Invisibility config");
         }
 
         public override void SetDefaults()
@@ -41,7 +41,7 @@ namespace CalamityMod.Items.Potions
             CreateRecipe(2).
                 AddIngredient(ItemID.InvisibilityPotion).
                 AddIngredient<Shadowfish>().
-                AddTile(TileID.AlchemyTable).
+                AddTile(TileID.Bottles).
                 Register();
 
             CreateRecipe().

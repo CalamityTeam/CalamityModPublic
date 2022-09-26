@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class MangroveChakram : ModItem
+    public class MangroveChakram : RogueWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.knockBack = 7.5f;
             Item.UseSound = SoundID.Item1;
             Item.height = 38;
-            Item.value = Item.buyPrice(gold: 60);
+            Item.value = CalamityGlobalItem.Rarity8BuyPrice;
             Item.rare = ItemRarityID.Lime;
             Item.shoot = ModContent.ProjectileType<MangroveChakramProjectile>();
             Item.shootSpeed = 16f;

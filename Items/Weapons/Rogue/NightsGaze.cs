@@ -1,16 +1,17 @@
-﻿using Terraria.DataStructures;
-using CalamityMod.Projectiles.Rogue;
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Ores;
+using CalamityMod.Projectiles.Rogue;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class NightsGaze : ModItem
+    public class NightsGaze : RogueWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -38,7 +39,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.shoot = ModContent.ProjectileType<NightsGazeProjectile>();
             Item.shootSpeed = 30f;
             Item.value = CalamityGlobalItem.Rarity13BuyPrice;
-            Item.Calamity().customRarity = CalamityRarity.PureGreen;
+            Item.rare = ModContent.RarityType<PureGreen>();
             Item.DamageType = RogueDamageClass.Instance;
         }
 

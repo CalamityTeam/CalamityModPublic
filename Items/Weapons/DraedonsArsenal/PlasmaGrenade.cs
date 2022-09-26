@@ -1,24 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using CalamityMod.CustomRecipes;
+﻿using CalamityMod.CustomRecipes;
 using CalamityMod.Items.Materials;
+using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Projectiles.DraedonsArsenal;
+using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
+using System;
+using System.Collections.Generic;
 using Terraria;
+using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Audio;
 
 namespace CalamityMod.Items.Weapons.DraedonsArsenal
 {
-    public class PlasmaGrenade : ModItem
+    public class PlasmaGrenade : RogueWeapon
     {
         public static readonly SoundStyle ExplosionSound = new("CalamityMod/Sounds/Item/PlasmaGrenadeExplosion");
 
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Plasma Grenade");
             Tooltip.SetDefault("Each grenade contains a heavily condensed and heated unit of plasma. Use with care\n" +
                                "Throws a grenade that explodes into plasma on collision\n" +
@@ -41,9 +44,8 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
 
-            Item.value = Item.sellPrice(silver: 10);
-            Item.rare = ItemRarityID.Purple;
-            modItem.customRarity = CalamityRarity.DraedonRust;
+            Item.value = CalamityGlobalItem.Rarity14BuyPrice;
+            Item.rare = ModContent.RarityType<DarkOrange>();
 
             Item.shoot = ModContent.ProjectileType<PlasmaGrenadeProjectile>();
             Item.shootSpeed = 14f;
@@ -70,10 +72,10 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<MysteriousCircuitry>(5).
-                AddIngredient<DubiousPlating>(5).
-                AddIngredient<CosmiliteBar>().
-                AddIngredient<AscendantSpiritEssence>().
+                AddIngredient<MysteriousCircuitry>(15).
+                AddIngredient<DubiousPlating>(25).
+                AddIngredient<CosmiliteBar>(8).
+                AddIngredient<AscendantSpiritEssence>(2).
                 AddCondition(ArsenalTierGatedRecipe.ConstructRecipeCondition(5, out Predicate<Recipe> condition), condition).
                 AddTile<CosmicAnvil>().
                 Register();

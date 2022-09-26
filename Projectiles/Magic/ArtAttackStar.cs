@@ -1,15 +1,14 @@
 ﻿using CalamityMod.Items.Weapons.Magic;
-using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
+using Terraria.Audio;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Magic
 {
@@ -204,9 +203,7 @@ namespace CalamityMod.Projectiles.Magic
 
                     if (Main.myPlayer == Projectile.owner)
                     {
-                        int strike = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Main.npc[i].Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), damage, 0f, Projectile.owner, i);
-                        if (Main.projectile.IndexInRange(strike))
-                            Main.projectile[strike].Calamity().forceMelee = true;
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Main.npc[i].Center, Vector2.Zero, ModContent.ProjectileType<ArtAttackStrike>(), damage, 0f, Projectile.owner, i);
                     }
                 }
             }

@@ -16,8 +16,10 @@ namespace CalamityMod.Items.SummonItems
             SacrificeTotal = 1;
             DisplayName.SetDefault("Charred Idol");
             Tooltip.SetDefault("Use at your own risk\n" +
-               "Summons the Brimstone Elemental when used in the brimstone crags\n" +
+               "Summons the Brimstone Elemental when used in the Brimstone Crags\n" +
+               "Enrages outside the Brimstone Crags\n" +
                "Not consumable");
+			ItemID.Sets.SortingPriorityBossSpawns[Type] = 9; // Mechanical Skull
         }
 
         public override void SetDefaults()
@@ -30,6 +32,11 @@ namespace CalamityMod.Items.SummonItems
             Item.useStyle = ItemUseStyleID.HoldUp;
             Item.consumable = false;
         }
+
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = ContentSamples.CreativeHelper.ItemGroup.BossItem;
+		}
 
         public override bool CanUseItem(Player player)
         {

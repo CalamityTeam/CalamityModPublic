@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee.Yoyos;
+using CalamityMod.Rarities;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -23,7 +24,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             Item.width = 30;
             Item.height = 26;
-            Item.DamageType = DamageClass.Melee;
+            Item.DamageType = DamageClass.MeleeNoSpeed;
             Item.damage = 107;
             Item.knockBack = 7f;
             Item.useTime = 20;
@@ -40,8 +41,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.shootSpeed = 16f;
 
             Item.value = CalamityGlobalItem.Rarity12BuyPrice;
-            Item.rare = ItemRarityID.Purple;
-            Item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.rare = ModContent.RarityType<Turquoise>();
         }
 
         public override void AddRecipes()

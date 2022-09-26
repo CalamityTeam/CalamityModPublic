@@ -9,6 +9,8 @@ using CalamityMod.Items.Fishing.SunkenSeaCatches;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Items.SummonItems;
 using CalamityMod.Items.Weapons.Melee;
+using CalamityMod.Items.Weapons.Ranged;
+using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.NPCs;
 using CalamityMod.NPCs.OldDuke;
 using CalamityMod.World;
@@ -16,9 +18,10 @@ using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
-using Terraria.ID;
-using Terraria.ModLoader;
 using Terraria.DataStructures;
+using Terraria.ID;
+using Terraria.Localization;
+using Terraria.ModLoader;
 
 namespace CalamityMod.CalPlayer
 {
@@ -35,6 +38,11 @@ namespace CalamityMod.CalPlayer
             bool lava = attempt.inLava;
             bool honey = attempt.inHoney;
 
+			// If vanilla catches an enemy, just cancel
+			if (npcSpawn > 0)
+				return;
+
+			// Set up for allowing fishing in the Sulphurous Sea
             Point point = Player.Center.ToTileCoordinates();
             bool canSulphurFish = false;
             if (Abyss.AtLeftSideOfWorld)
@@ -47,7 +55,6 @@ namespace CalamityMod.CalPlayer
                 if (point.X > Main.maxTilesX - 380)
                     canSulphurFish = true;
             }
-
             if (ZoneAbyss || ZoneSulphur)
                 canSulphurFish = true;
 
@@ -57,33 +64,42 @@ namespace CalamityMod.CalPlayer
                 CalamityGlobalNPC.OldDukeSpawn(Player.whoAmI, ModContent.NPCType<OldDuke>(), bait);
             }
 
-            // Quest Fish
-            if (ZoneSunkenSea && questFish == ModContent.ItemType<EutrophicSandfish>() && Main.rand.NextBool(10))
+			// Don't do anything if you can't fish in lava
+			if (!attempt.CanFishInLava && lava)
+				return;
+
+			// If you caught junk, then ignore all Calamity catches
+			if (itemDrop == ItemID.OldShoe || itemDrop == ItemID.FishingSeaweed || itemDrop == ItemID.TinCan)
+				return;
+
+            // Handle our modded Quest Fish, You can catch these in any liquid... because I don't care if you can
+            if (ZoneSunkenSea && questFish == ModContent.ItemType<EutrophicSandfish>() && attempt.uncommon)
             {
                 itemDrop = ModContent.ItemType<EutrophicSandfish>();
                 return;
             }
-            if (ZoneSunkenSea && questFish == ModContent.ItemType<SurfClam>() && Main.rand.NextBool(10))
+            if (ZoneSunkenSea && questFish == ModContent.ItemType<SurfClam>() && attempt.uncommon)
             {
                 itemDrop = ModContent.ItemType<SurfClam>();
                 return;
             }
-            if (ZoneSunkenSea && questFish == ModContent.ItemType<Serpentuna>() && Main.rand.NextBool(10))
+            if (ZoneSunkenSea && questFish == ModContent.ItemType<Serpentuna>() && attempt.uncommon)
             {
                 itemDrop = ModContent.ItemType<Serpentuna>();
                 return;
             }
-            if (ZoneCalamity && questFish == ModContent.ItemType<Brimlish>() && Main.rand.NextBool(10))
+            if (ZoneCalamity && questFish == ModContent.ItemType<Brimlish>() && attempt.uncommon)
             {
                 itemDrop = ModContent.ItemType<Brimlish>();
                 return;
             }
-            if (ZoneCalamity && questFish == ModContent.ItemType<Slurpfish>() && Main.rand.NextBool(10))
+            if (ZoneCalamity && questFish == ModContent.ItemType<Slurpfish>() && attempt.uncommon)
             {
                 itemDrop = ModContent.ItemType<Slurpfish>();
                 return;
             }
 
+			// Handle Alluring Bait's increased chance for Potion Material fish
             if (alluringBait)
             {
                 int chanceForPotionFish = 1000 / power;
@@ -127,7 +143,7 @@ namespace CalamityMod.CalPlayer
                         fishList.AddWithCondition<int>(ModContent.ItemType<AldebaranAlewife>(), ZoneAstral);
                         fishList.AddWithCondition<int>(ModContent.ItemType<CoralskinFoolfish>(), ZoneSunkenSea);
                         fishList.AddWithCondition<int>(ModContent.ItemType<SunkenSailfish>(), ZoneSunkenSea);
-                        fishList.AddWithCondition<int>(ModContent.ItemType<ScarredAngelfish>(), ZoneSunkenSea);
+                        fishList.AddWithCondition<int>(ModContent.ItemType<Shadowfish>(), !Main.dayTime && !Player.ZoneSkyHeight);
                     }
 
                     if (fishList.Any())
@@ -140,6 +156,7 @@ namespace CalamityMod.CalPlayer
                 }
             }
 
+			// Handle the increased chance of crates from Enchanted Pearl and the Supreme Fishing Station
             if (enchantedPearl || fishingStation)
             {
                 int chanceForCrates = (enchantedPearl ? 10 : 0) +
@@ -176,6 +193,8 @@ namespace CalamityMod.CalPlayer
                         {
                             if (ZoneCalamity)
                                 itemDrop = ModContent.ItemType<BrimstoneCrate>();
+							else
+								itemDrop = Main.hardMode ? ItemID.LavaCrateHard : ItemID.LavaCrate;
                         }
                     }
                 }
@@ -244,7 +263,7 @@ namespace CalamityMod.CalPlayer
                         }
                         else if (Main.rand.NextBool(chanceForGoldCrate))
                         {
-                            itemDrop = ItemID.GoldenCrate;
+                            itemDrop = Main.hardMode ? ItemID.GoldenCrateHard : ItemID.GoldenCrate;
                         }
                         else if (Main.rand.NextBool(chanceForBiomeCrate))
                         {
@@ -253,12 +272,15 @@ namespace CalamityMod.CalPlayer
                             biomeCrateList.AddWithCondition<int>(ModContent.ItemType<AstralCrate>(), ZoneAstral);
                             biomeCrateList.AddWithCondition<int>(ModContent.ItemType<SunkenCrate>(), ZoneSunkenSea);
                             biomeCrateList.AddWithCondition<int>(ModContent.ItemType<AbyssalCrate>(), canSulphurFish);
-                            biomeCrateList.AddWithCondition<int>(ItemID.CorruptFishingCrate, Player.ZoneCorrupt);
-                            biomeCrateList.AddWithCondition<int>(ItemID.CrimsonFishingCrate, Player.ZoneCrimson);
-                            biomeCrateList.AddWithCondition<int>(ItemID.HallowedFishingCrate, Player.ZoneHallow);
-                            biomeCrateList.AddWithCondition<int>(ItemID.DungeonFishingCrate, Player.ZoneDungeon);
-                            biomeCrateList.AddWithCondition<int>(ItemID.JungleFishingCrate, Player.ZoneJungle);
-                            biomeCrateList.AddWithCondition<int>(ItemID.FloatingIslandFishingCrate, Player.ZoneSkyHeight);
+                            biomeCrateList.AddWithCondition<int>(Main.hardMode ? ItemID.CorruptFishingCrateHard : ItemID.CorruptFishingCrate, Player.ZoneCorrupt);
+                            biomeCrateList.AddWithCondition<int>(Main.hardMode ? ItemID.CrimsonFishingCrateHard : ItemID.CrimsonFishingCrate, Player.ZoneCrimson);
+                            biomeCrateList.AddWithCondition<int>(Main.hardMode ? ItemID.HallowedFishingCrateHard : ItemID.HallowedFishingCrate, Player.ZoneHallow);
+                            biomeCrateList.AddWithCondition<int>(Main.hardMode ? ItemID.DungeonFishingCrateHard : ItemID.DungeonFishingCrate, Player.ZoneDungeon);
+                            biomeCrateList.AddWithCondition<int>(Main.hardMode ? ItemID.JungleFishingCrateHard : ItemID.JungleFishingCrate, Player.ZoneJungle);
+                            biomeCrateList.AddWithCondition<int>(Main.hardMode ? ItemID.FloatingIslandFishingCrateHard : ItemID.FloatingIslandFishingCrate, Player.ZoneSkyHeight);
+                            biomeCrateList.AddWithCondition<int>(Main.hardMode ? ItemID.FrozenCrateHard : ItemID.FrozenCrate, Player.ZoneSnow);
+                            biomeCrateList.AddWithCondition<int>(Main.hardMode ? ItemID.OasisCrateHard : ItemID.OasisCrate, Player.ZoneDesert && !Player.ZoneBeach);
+                            biomeCrateList.AddWithCondition<int>(Main.hardMode ? ItemID.OceanCrateHard : ItemID.OceanCrate, Player.ZoneBeach);
 
                             if (biomeCrateList.Any())
                             {
@@ -269,11 +291,11 @@ namespace CalamityMod.CalPlayer
                         }
                         else if (Main.rand.NextBool(chanceForIronCrate))
                         {
-                            itemDrop = ItemID.IronCrate;
+                            itemDrop = Main.hardMode ? ItemID.IronCrateHard : ItemID.IronCrate;
                         }
                         else
                         {
-                            itemDrop = ItemID.WoodenCrate;
+                            itemDrop = Main.hardMode ? ItemID.WoodenCrateHard : ItemID.WoodenCrate;
                         }
                         return;
                     }
@@ -282,13 +304,67 @@ namespace CalamityMod.CalPlayer
 
             if (water)
             {
-                if (itemDrop == ItemID.WoodenCrate || itemDrop == ItemID.IronCrate || itemDrop == ItemID.GoldenCrate || itemDrop == ItemID.FrogLeg || itemDrop == ItemID.BalloonPufferfish || itemDrop == ItemID.ZephyrFish)
+				// Handle Calamity's crates, veryrare and legendary means it's a Golden Crate
+				if (attempt.crate)
+				{
+					if (attempt.rare && !attempt.veryrare && !attempt.legendary)
+					{
+						if (ZoneAstral)
+						{
+							itemDrop = ModContent.ItemType<AstralCrate>();
+						}
+						if (ZoneSunkenSea)
+						{
+							itemDrop = ModContent.ItemType<SunkenCrate>();
+						}
+						if (canSulphurFish)
+						{
+							itemDrop = ModContent.ItemType<AbyssalCrate>();
+						}
+					}
+					return;
+				}
+
+				// Don't override the vanilla crates or any special vanilla fishing loot
+				List<int> keepCatchList = new List<int>()
+				{
+					ItemID.WoodenCrate,
+					ItemID.WoodenCrateHard,
+					ItemID.IronCrate,
+					ItemID.IronCrateHard,
+					ItemID.GoldenCrate,
+					ItemID.GoldenCrateHard,
+					ItemID.FrogLeg,
+					ItemID.BalloonPufferfish,
+					ItemID.ZephyrFish,
+					ItemID.CombatBook,
+					ItemID.CorruptFishingCrate,
+					ItemID.CorruptFishingCrateHard,
+					ItemID.CrimsonFishingCrate,
+					ItemID.CrimsonFishingCrateHard,
+					ItemID.HallowedFishingCrate,
+					ItemID.HallowedFishingCrateHard,
+					ItemID.DungeonFishingCrate,
+					ItemID.DungeonFishingCrateHard,
+					ItemID.JungleFishingCrate,
+					ItemID.JungleFishingCrateHard,
+					ItemID.FloatingIslandFishingCrate,
+					ItemID.FloatingIslandFishingCrateHard,
+					ItemID.FrozenCrate,
+					ItemID.FrozenCrateHard,
+					ItemID.OasisCrate,
+					ItemID.OasisCrateHard,
+					ItemID.OceanCrate,
+					ItemID.OceanCrateHard
+				};
+                if (keepCatchList.Contains(itemDrop))
                 {
                     return;
                 }
+
                 if ((Player.ZoneCrimson || Player.ZoneCorrupt) && Player.ZoneRockLayerHeight && Main.hardMode)
                 {
-                    if (Main.rand.NextBool(25))
+                    if (attempt.uncommon && Main.rand.NextBool(7))
                     {
                         itemDrop = ModContent.ItemType<FishofNight>();
                     }
@@ -296,7 +372,7 @@ namespace CalamityMod.CalPlayer
 
                 if (Player.ZoneHallow && Player.ZoneRockLayerHeight && Main.hardMode)
                 {
-                    if (Main.rand.NextBool(25))
+                    if (attempt.uncommon && Main.rand.NextBool(7))
                     {
                         itemDrop = ModContent.ItemType<FishofLight>();
                     }
@@ -304,23 +380,33 @@ namespace CalamityMod.CalPlayer
 
                 if (Player.ZoneSkyHeight && Main.hardMode)
                 {
-                    if (Main.rand.NextBool(25))
+                    if (attempt.uncommon && Main.rand.NextBool(7))
                     {
                         itemDrop = Main.rand.NextBool() ? ModContent.ItemType<SunbeamFish>() : ModContent.ItemType<FishofFlight>();
                     }
                 }
 
+				// Increased chance of Enchanted Starfish if you don't have maximum mana
                 if (Player.ZoneOverworldHeight && !Main.dayTime)
                 {
-                    if (Main.rand.NextBool(10))
+					int chance = Player.statManaMax < 200 ? 5 : 20;
+                    if (attempt.uncommon && Main.rand.NextBool(chance))
                     {
                         itemDrop = ModContent.ItemType<EnchantedStarfish>();
                     }
                 }
 
+                if (!Player.ZoneSkyHeight && !Main.dayTime)
+                {
+                    if (attempt.uncommon && Main.rand.NextBool(10))
+                    {
+                        itemDrop = ModContent.ItemType<Shadowfish>();
+                    }
+                }
+
                 if (Player.ZoneOverworldHeight && Main.dayTime)
                 {
-                    if (Main.rand.NextBool(25))
+                    if (attempt.uncommon && Main.rand.NextBool(7))
                     {
                         itemDrop = ModContent.ItemType<StuffedFish>();
                     }
@@ -328,64 +414,66 @@ namespace CalamityMod.CalPlayer
 
                 if (Player.ZoneRockLayerHeight)
                 {
-                    if (Main.rand.NextBool(25))
+                    if (attempt.uncommon && Main.rand.NextBool(7))
                     {
                         itemDrop = ModContent.ItemType<GlimmeringGemfish>();
                     }
                 }
 
-                if (Player.ZoneSnow)
+                if (Player.ZoneSnow && Main.hardMode)
                 {
-                    if (Main.rand.NextBool(25) && Main.hardMode)
+                    if (attempt.uncommon && Main.rand.NextBool(7))
                     {
                         itemDrop = ModContent.ItemType<FishofEleum>();
                     }
                 }
 
+				// Lower chance of Spadefish in Hardmode
                 if (Player.ZoneDirtLayerHeight)
                 {
-                    if (Main.rand.NextBool(Main.hardMode ? 100 : 40))
+					int chance = Main.hardMode ? 10 : 2;
+                    if (attempt.veryrare && Main.rand.NextBool(chance))
                     {
                         itemDrop = ModContent.ItemType<Spadefish>();
                     }
                 }
 
+                if (Player.FindBuffIndex(BuffID.Gills) > -1 && DownedBossSystem.downedCalamitas && (attempt.legendary || (attempt.veryrare && Main.rand.NextBool())))
+                {
+                    itemDrop = ModContent.ItemType<Floodtide>();
+                }
+
+                if (Player.ZoneOverworldHeight && Main.bloodMoon)
+                {
+                    if (attempt.uncommon && Main.rand.NextBool(7))
+                    {
+                        itemDrop = ModContent.ItemType<Xerocodile>();
+                    }
+                }
+
                 if (ZoneAstral) // Astral Infection, fishing in water
                 {
-                    int astralFish = Main.rand.Next(100);
-                    if (astralFish >= 85) // 15%
+					if (attempt.legendary)
                     {
-                        itemDrop = ModContent.ItemType<ProcyonidPrawn>();
+						int legendaryCatch = Utils.SelectRandom(Main.rand, new int[]
+						{
+							ModContent.ItemType<PolarisParrotfish>(),
+							ModContent.ItemType<GacruxianMollusk>(),
+							ModContent.ItemType<UrsaSergeant>()
+						});
+                        itemDrop = legendaryCatch;
                     }
-                    else if (astralFish <= 84 && astralFish >= 70) // 15%
+					else if (attempt.uncommon || attempt.rare || attempt.veryrare)
                     {
-                        itemDrop = ModContent.ItemType<ArcturusAstroidean>();
+						int uncommonCatch = Utils.SelectRandom(Main.rand, new int[]
+						{
+							ModContent.ItemType<ProcyonidPrawn>(),
+							ModContent.ItemType<ArcturusAstroidean>(),
+							ModContent.ItemType<AldebaranAlewife>()
+						});
+                        itemDrop = uncommonCatch;
                     }
-                    else if (astralFish <= 69 && astralFish >= 55) // 15%
-                    {
-                        itemDrop = ModContent.ItemType<AldebaranAlewife>();
-                    }
-                    else if (Player.cratePotion && astralFish <= 18 && astralFish >= 9) // 10%
-                    {
-                        itemDrop = ModContent.ItemType<AstralCrate>();
-                    }
-                    else if (!Player.cratePotion && astralFish <= 13 && astralFish >= 9) // 5%
-                    {
-                        itemDrop = ModContent.ItemType<AstralCrate>();
-                    }
-                    else if (astralFish <= 8 && astralFish >= 6) // 3%
-                    {
-                        itemDrop = ModContent.ItemType<UrsaSergeant>();
-                    }
-                    else if (astralFish <= 5 && astralFish >= 3) // 3%
-                    {
-                        itemDrop = ModContent.ItemType<GacruxianMollusk>();
-                    }
-                    else if (astralFish <= 2 && astralFish >= 0) // 3%
-                    {
-                        itemDrop = ModContent.ItemType<PolarisParrotfish>();
-                    }
-                    else // 36% w/o crate pot, 31% w/ crate pot
+					else
                     {
                         itemDrop = ModContent.ItemType<TwinklingPollox>();
                         return;
@@ -394,62 +482,48 @@ namespace CalamityMod.CalPlayer
 
                 if (ZoneSunkenSea) // Sunken Sea, fishing in water
                 {
-                    int sunkenFish = Main.rand.Next(100);
-                    if (sunkenFish >= 85 && Main.hardMode) // 15%
+					if (attempt.legendary)
                     {
-                        itemDrop = ModContent.ItemType<ScarredAngelfish>();
+						List<int> legendaryCatches = new List<int>()
+						{
+							ModContent.ItemType<RustedJingleBell>(),
+							ModContent.ItemType<GreenwaveLoach>()
+						};
+                        legendaryCatches.AddWithCondition<int>(ModContent.ItemType<SparklingEmpress>(), DownedBossSystem.downedDesertScourge);
+                        legendaryCatches.AddWithCondition<int>(ModContent.ItemType<SerpentsBite>(), Main.hardMode);
+						itemDrop = legendaryCatches[Main.rand.Next(legendaryCatches.Count)];
                     }
-                    else if (sunkenFish <= 84 && sunkenFish >= 70) // 15%
+					else if (attempt.uncommon || attempt.rare || attempt.veryrare)
                     {
-                        itemDrop = ModContent.ItemType<SunkenSailfish>();
+						int uncommonCatch = Utils.SelectRandom(Main.rand, new int[]
+						{
+							ModContent.ItemType<SunkenSailfish>(),
+							ModContent.ItemType<CoralskinFoolfish>()
+						});
+                        itemDrop = uncommonCatch;
                     }
-                    else if (sunkenFish <= 69 && sunkenFish >= 55) // 15%
-                    {
-                        itemDrop = ModContent.ItemType<CoralskinFoolfish>();
-                    }
-                    else if (Player.cratePotion && sunkenFish <= 18 && sunkenFish >= 9) // 10%
-                    {
-                        itemDrop = ModContent.ItemType<SunkenCrate>();
-                    }
-                    else if (!Player.cratePotion && sunkenFish <= 13 && sunkenFish >= 9) // 5%
-                    {
-                        itemDrop = ModContent.ItemType<SunkenCrate>();
-                    }
-                    else if (sunkenFish <= 31 && sunkenFish >= 29) // 3%
-                    {
-                        itemDrop = ModContent.ItemType<GreenwaveLoach>();
-                    }
-                    else if (sunkenFish <= 8 && sunkenFish >= 6 && Main.hardMode) // 3%
-                    {
-                        itemDrop = ModContent.ItemType<SerpentsBite>();
-                    }
-                    else if (sunkenFish <= 5 && sunkenFish >= 3) // 3%
-                    {
-                        itemDrop = ModContent.ItemType<RustedJingleBell>();
-                    }
-                    else if (sunkenFish <= 2 && sunkenFish >= 0 && DownedBossSystem.downedDesertScourge) // 3%
-                    {
-                        itemDrop = ModContent.ItemType<SparklingEmpress>();
-                    }
-                    else // 38% w/o crate pot, 33% w/ crate pot + 18% if prehardmode
+					else
                     {
                         itemDrop = ModContent.ItemType<PrismaticGuppy>();
                         return;
                     }
                 }
 
-                if (Player.FindBuffIndex(BuffID.Gills) > -1 && DownedBossSystem.downedCalamitas && Main.rand.NextBool(25))
+				// There is no complete fishing pool here, so most of it is vanilla default
+                if (canSulphurFish) // Sulphurous Sea, fishing in water
                 {
-                    itemDrop = ModContent.ItemType<Floodtide>();
-                }
-
-                if (attempt.common)
-                {
-                    if (canSulphurFish)
+                    if (attempt.legendary || (attempt.veryrare && Main.rand.NextBool()))
+                    {
+                        itemDrop = Utils.SelectRandom(Main.rand, new int[]
+                        {
+                            ModContent.ItemType<AlluringBait>(),
+                            ModContent.ItemType<AbyssalAmulet>()
+                        });
+                    }
+                    else if (attempt.common)
                     {
                         itemDrop = ModContent.ItemType<PlantyMush>();
                     }
-                    return;
                 }
 
                 /*if (canSulphurFish && (bait.type == ItemID.GoldWorm || bait.type == ItemID.GoldGrasshopper || bait.type == ItemID.GoldButterfly) && power > 150)
@@ -471,82 +545,44 @@ namespace CalamityMod.CalPlayer
                     }
                     return;
                 }*/
-
-                if (canSulphurFish)
-                {
-                    if (Main.rand.NextBool(15))
-                    {
-                        itemDrop = ModContent.ItemType<PlantyMush>();
-                    }
-                    if (Main.rand.NextFloat() < 0.08f)
-                    {
-                        itemDrop = Utils.SelectRandom(Main.rand, new int[]
-                        {
-                            ModContent.ItemType<AlluringBait>(),
-                            ModContent.ItemType<AbyssalAmulet>()
-                        });
-                    }
-                    if (Player.cratePotion && Main.rand.NextBool(5)) // 20%
-                    {
-                        itemDrop = ModContent.ItemType<AbyssalCrate>();
-                    }
-                    else if (!Player.cratePotion && Main.rand.NextBool(10)) // 10%
-                    {
-                        itemDrop = ModContent.ItemType<AbyssalCrate>();
-                    }
-                }
-
-                if (Player.ZoneOverworldHeight && Main.bloodMoon)
-                {
-                    if (Main.rand.NextBool(25))
-                    {
-                        itemDrop = ModContent.ItemType<Xerocodile>();
-                    }
-                }
             }
 
             if (lava)
             {
                 if (ZoneCalamity) // Brimstone Crags, fishing in lava
                 {
-                    int cragFish = Main.rand.Next(100);
-                    if (cragFish >= 85) // 15%
+					if (attempt.legendary)
                     {
-                        itemDrop = ModContent.ItemType<CoastalDemonfish>();
+						List<int> legendaryCatches = new List<int>()
+						{
+							ModContent.ItemType<CharredLasher>(),
+							ModContent.ItemType<DragoonDrizzlefish>()
+						};
+                        legendaryCatches.AddWithCondition<int>(ModContent.ItemType<SparklingEmpress>(), DownedBossSystem.downedDesertScourge);
+                        legendaryCatches.AddWithCondition<int>(ModContent.ItemType<SerpentsBite>(), Main.hardMode);
+						itemDrop = legendaryCatches[Main.rand.Next(legendaryCatches.Count)];
                     }
-                    else if (cragFish <= 84 && cragFish >= 70) // 15%
-                    {
-                        itemDrop = ModContent.ItemType<BrimstoneFish>();
-                    }
-                    else if (cragFish <= 69 && cragFish >= 55) // 15%
-                    {
-                        itemDrop = ModContent.ItemType<Shadowfish>();
-                    }
-                    else if (cragFish <= 54 && cragFish >= 41 && Main.hardMode) // 14%
-                    {
-                        itemDrop = ModContent.ItemType<ChaoticFish>();
-                    }
-                    else if (Player.cratePotion && cragFish <= 30 && cragFish >= 21) // 10%
-                    {
-                        itemDrop = ModContent.ItemType<BrimstoneCrate>();
-                    }
-                    else if (!Player.cratePotion && cragFish <= 25 && cragFish >= 21) // 5%
-                    {
-                        itemDrop = ModContent.ItemType<BrimstoneCrate>();
-                    }
-                    else if (cragFish <= 20 && cragFish >= 11 && DownedBossSystem.downedProvidence) // 10%
-                    {
-                        itemDrop = ModContent.ItemType<Bloodfin>();
-                    }
-                    else if (cragFish <= 10 && cragFish >= (Main.hardMode ? 8 : 6)) // 5% (3% hardmode)
-                    {
+					// Increased chance of Dragoon Drizzlefish in Prehardmode
+					else if (attempt.veryrare && !Main.hardMode)
+					{
                         itemDrop = ModContent.ItemType<DragoonDrizzlefish>();
-                    }
-                    else if (cragFish <= 2 && cragFish >= 0) // 3%
+					}
+					else if ((attempt.rare || attempt.veryrare) && DownedBossSystem.downedProvidence && Main.rand.Next(3) >= 2)
+					{
+                        itemDrop = ModContent.ItemType<Bloodfin>();
+					}
+					else if (attempt.uncommon || attempt.rare || attempt.veryrare)
                     {
-                        itemDrop = ModContent.ItemType<CharredLasher>();
+						List<int> uncommonCatches = new List<int>()
+						{
+							ModContent.ItemType<CoastalDemonfish>(),
+							ModContent.ItemType<BrimstoneFish>(),
+							ModContent.ItemType<Shadowfish>()
+						};
+                        uncommonCatches.AddWithCondition<int>(ModContent.ItemType<ChaoticFish>(), Main.hardMode);
+						itemDrop = uncommonCatches[Main.rand.Next(uncommonCatches.Count)];
                     }
-                    else // 32% w/o crate pot, 27% w/ crate pot, add 10% pre-Prov, add another 12% prehardmode
+					else
                     {
                         itemDrop = ModContent.ItemType<CragBullhead>();
                     }
@@ -565,6 +601,7 @@ namespace CalamityMod.CalPlayer
             if (Player.ZoneSkyHeight && fishingRod.type == ModContent.ItemType<HeronRod>())
                 fishingLevel = (int)(fishingLevel * 1.1f);
 
+			// Prevent the player from fishing if they have the Bloodworm
             if (bait.type == ModContent.ItemType<BloodwormItem>())
             {
                 Point point = Player.Center.ToTileCoordinates();
@@ -586,6 +623,10 @@ namespace CalamityMod.CalPlayer
                 Item item = Player.ActiveItem();
                 if (!canSulphurFish || item.fishingPole <= 0 || item.holdStyle != 1)
                     fishingLevel = -1;
+
+				// If your bait is the Bloodworm, set the Fisherman's Pocket Guide to display Warning!
+				// This only happens when a fishing bobber projectile exists
+				Player.displayedFishingInfo = Language.GetTextValue("GameUI.FishingWarning");
             }
         }
         #endregion

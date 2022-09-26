@@ -14,6 +14,7 @@ namespace CalamityMod.Items.LoreItems
                 "Had it been fully restored it would have been a force to behold, but what you fought was an empty shell.\n" +
                 "However, that doesn't diminish the immense potential locked within it, released upon its death.");
             SacrificeTotal = 1;
+            ItemID.Sets.ItemNoGravity[Item.type] = true;
         }
 
         public override void SetDefaults()
@@ -31,7 +32,7 @@ namespace CalamityMod.Items.LoreItems
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddTile(TileID.Bookcases).AddIngredient(ItemID.MoonLordTrophy).AddIngredient(ModContent.ItemType<VictoryShard>(), 10).Register();
+            CreateRecipe(1).AddTile(TileID.Bookcases).AddIngredient(ItemID.MoonLordTrophy).AddIngredient(ModContent.ItemType<PearlShard>(), 10).Register();
         }
     }
 }

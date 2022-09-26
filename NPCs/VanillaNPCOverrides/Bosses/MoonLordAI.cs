@@ -16,8 +16,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
         {
             CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || bossRush;
 
             int aggressionLevel = 4;
             if (npc.type == NPCID.MoonLordCore || npc.type == NPCID.MoonLordHand || npc.type == NPCID.MoonLordHead)
@@ -40,13 +40,11 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 }
             }
 
-            if (malice)
+            if (bossRush)
                 aggressionLevel = 5;
 
             if (Main.getGoodWorld)
                 aggressionLevel = 6;
-
-            npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive && malice;
 
             if (npc.type == NPCID.MoonLordCore)
             {
@@ -871,7 +869,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         npc.netUpdate = true;
                     }
 
-                    Vector2 v4 = Main.player[npc.target].Center + Main.player[npc.target].velocity * 20f - npc.Center;
+                    Vector2 v4 = Main.player[npc.target].Center - npc.Center;
                     bool shootFirstBolt = num1207 == num1208 - 14f;
                     bool shootSecondBolt = num1207 == num1208 - 7f;
                     bool shootThirdBolt = num1207 == num1208;
@@ -881,19 +879,15 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             v4 = Main.player[npc.target].Center + Main.player[npc.target].velocity * 30f - npc.Center;
                             break;
                         case 5:
-                            v4 = Main.player[npc.target].Center + Main.player[npc.target].velocity * 25f - npc.Center;
+                            v4 = Main.player[npc.target].Center + Main.player[npc.target].velocity * 20f - npc.Center;
                             break;
                         case 4:
                             break;
                         case 3:
-                            shootSecondBolt = false;
-                            break;
                         case 2:
-                            v4 = Main.player[npc.target].Center - npc.Center;
                             shootSecondBolt = false;
                             break;
                         case 1:
-                            v4 = Main.player[npc.target].Center - npc.Center;
                             shootSecondBolt = false;
                             shootThirdBolt = false;
                             break;
@@ -1174,7 +1168,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             int damage = npc.GetProjectileDamage(type);
                             int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), vector169, vector170, type, damage, 0f, Main.myPlayer, 0f, ai);
                             Main.projectile[proj].timeLeft = 1200;
-                            Main.projectile[proj].Calamity().lineColor = malice ? 1 : aggressionLevel;
+                            Main.projectile[proj].Calamity().lineColor = bossRush ? 1 : aggressionLevel;
                         }
                     }
                     else
@@ -1478,7 +1472,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         npc.netUpdate = true;
                     }
 
-                    Vector2 v = Main.player[npc.target].Center + Main.player[npc.target].velocity * 20f - npc.Center;
+                    Vector2 v = Main.player[npc.target].Center - npc.Center;
                     bool shootFirstBolt = num1178 == num1179 - 14f;
                     bool shootSecondBolt = num1178 == num1179 - 7f;
                     bool shootThirdBolt = num1178 == num1179;
@@ -1488,19 +1482,15 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             v = Main.player[npc.target].Center + Main.player[npc.target].velocity * 30f - npc.Center;
                             break;
                         case 5:
-                            v = Main.player[npc.target].Center + Main.player[npc.target].velocity * 25f - npc.Center;
+                            v = Main.player[npc.target].Center + Main.player[npc.target].velocity * 20f - npc.Center;
                             break;
                         case 4:
                             break;
                         case 3:
-                            shootSecondBolt = false;
-                            break;
                         case 2:
-                            v = Main.player[npc.target].Center - npc.Center;
                             shootSecondBolt = false;
                             break;
                         case 1:
-                            v = Main.player[npc.target].Center - npc.Center;
                             shootSecondBolt = false;
                             shootThirdBolt = false;
                             break;

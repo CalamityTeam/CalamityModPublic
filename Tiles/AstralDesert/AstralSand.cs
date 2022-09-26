@@ -1,9 +1,9 @@
-﻿
-using CalamityMod.Projectiles.Typeless;
+﻿using CalamityMod.Projectiles.Typeless;
 using CalamityMod.Tiles.Astral;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.GameContent.Metadata;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -17,6 +17,7 @@ namespace CalamityMod.Tiles.AstralDesert
             Main.tileBlockLight[Type] = true;
             Main.tileSand[Type] = true;
             Main.tileBrick[Type] = true;
+			TileMaterials.SetForTileId(Type, TileMaterials._materialsByName["Sand"]);
 
             CalamityUtils.MergeWithGeneral(Type);
             CalamityUtils.MergeWithDesert(Type);

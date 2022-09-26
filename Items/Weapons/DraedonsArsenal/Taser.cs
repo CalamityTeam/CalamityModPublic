@@ -2,12 +2,13 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Projectiles.DraedonsArsenal;
+using CalamityMod.Rarities;
+using CalamityMod.Sounds;
 using System;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Sounds;
 
 namespace CalamityMod.Items.Weapons.DraedonsArsenal
 {
@@ -15,6 +16,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Taser");
             Tooltip.SetDefault("A slow, simple electric weapon, meant only for low ranking guards\n" +
             "Shoots a hook that attaches to enemies and electrocutes them before returning");
@@ -27,7 +29,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             Item.width = 50;
             Item.height = 26;
             Item.DamageType = DamageClass.Ranged;
-            Item.damage = 22;
+            Item.damage = 15;
             Item.knockBack = 0f;
             Item.useTime = Item.useAnimation = 28;
             Item.autoReuse = true;
@@ -37,8 +39,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             Item.noMelee = true;
 
             Item.value = CalamityGlobalItem.Rarity3BuyPrice;
-            Item.rare = ItemRarityID.Red;
-            modItem.customRarity = CalamityRarity.DraedonRust;
+            Item.rare = ModContent.RarityType<DarkOrange>();
 
             Item.shoot = ModContent.ProjectileType<TaserHook>();
             Item.shootSpeed = 15f;

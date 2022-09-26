@@ -21,7 +21,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-            Projectile.Calamity().canBreakPlayerDefense = true;
+            Projectile.Calamity().DealsDefenseDamage = true;
             Projectile.width = 50;
             Projectile.height = 50;
             Projectile.hostile = true;
@@ -30,6 +30,9 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.alpha = 100;
             Projectile.penetrate = 1;
             Projectile.timeLeft = 600;
+
+            if (Main.getGoodWorld)
+                Projectile.extraUpdates = 1;
         }
 
         public override void AI()
@@ -103,6 +106,9 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
+            if (damage <= 0)
+                return;
+
             target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 180);
         }
 

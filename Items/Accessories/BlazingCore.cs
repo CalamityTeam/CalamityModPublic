@@ -1,7 +1,8 @@
 ﻿using CalamityMod.CalPlayer;
+using CalamityMod.Rarities;
 using Terraria;
-using Terraria.ID;
 using Terraria.DataStructures;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
@@ -27,8 +28,7 @@ namespace CalamityMod.Items.Accessories
             Item.height = 46;
             Item.accessory = true;
             Item.value = CalamityGlobalItem.Rarity12BuyPrice;
-            Item.rare = ItemRarityID.Purple;
-            Item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.rare = ModContent.RarityType<Turquoise>();
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

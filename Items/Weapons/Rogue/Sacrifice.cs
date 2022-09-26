@@ -1,14 +1,15 @@
-﻿using Terraria.DataStructures;
-using CalamityMod.NPCs.NormalNPCs;
+﻿using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.Projectiles.Rogue;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class Sacrifice : ModItem
+    public class Sacrifice : RogueWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -35,8 +36,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.shootSpeed = 12f;
             Item.DamageType = RogueDamageClass.Instance;
 
-            Item.rare = ItemRarityID.Purple;
-            Item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.rare = ModContent.RarityType<Violet>();
             Item.value = CalamityGlobalItem.RarityVioletBuyPrice;
         }
 

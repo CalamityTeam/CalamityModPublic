@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Magic
         {
             Projectile.width = 28;
             Projectile.height = 28;
-            Projectile.aiStyle = 4;
+            Projectile.aiStyle = ProjAIStyleID.Vilethorn;
             Projectile.friendly = true;
             Projectile.penetrate = 1;
             Projectile.tileCollide = false;

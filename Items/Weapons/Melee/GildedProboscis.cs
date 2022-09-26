@@ -12,13 +12,14 @@ namespace CalamityMod.Items.Weapons.Melee
             DisplayName.SetDefault("Gilded Proboscis");
             Tooltip.SetDefault("Heals the player on hit");
             SacrificeTotal = 1;
+            ItemID.Sets.Spears[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
             Item.width = 66;
             Item.damage = 315;
-            Item.DamageType = DamageClass.Melee;
+            Item.DamageType = TrueMeleeDamageClass.Instance;
             Item.noMelee = true;
             Item.useTurn = true;
             Item.noUseGraphic = true;
@@ -33,7 +34,6 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.rare = ItemRarityID.Purple;
             Item.shoot = ModContent.ProjectileType<GildedProboscisProj>();
             Item.shootSpeed = 13f;
-            Item.Calamity().trueMelee = true;
         }
 
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;

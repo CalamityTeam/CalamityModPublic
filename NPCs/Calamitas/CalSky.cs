@@ -22,15 +22,6 @@ namespace CalamityMod.NPCs.Calamitas
                 if (CalIndex == -1 || BossRushEvent.BossRushActive)
                     isActive = false;
             }
-
-            if (isActive && intensity < 1f)
-            {
-                intensity += 0.01f;
-            }
-            else if (!isActive && intensity > 0f)
-            {
-                intensity -= 0.01f;
-            }
         }
 
         private float GetIntensity()
@@ -42,7 +33,7 @@ namespace CalamityMod.NPCs.Calamitas
                 {
                     x = Vector2.Distance(Main.player[Main.myPlayer].Center, Main.npc[this.CalIndex].Center);
                 }
-                return (1f - Utils.SmoothStep(3000f, 6000f, x)) * intensity;
+                return (1f - Utils.SmoothStep(3000f, 6000f, x));
             }
             return 0f;
         }
@@ -78,7 +69,7 @@ namespace CalamityMod.NPCs.Calamitas
             if (maxDepth >= 0 && minDepth < 0)
             {
                 float intensity = this.GetIntensity();
-                spriteBatch.Draw(TextureAssets.BlackTile.Value, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color.Black * intensity);
+                spriteBatch.Draw(TextureAssets.BlackTile.Value, new Rectangle(0, 0, Main.screenWidth * 2, Main.screenHeight * 2), Color.Black * intensity);
             }
         }
 

@@ -1,4 +1,5 @@
-﻿using Terraria;
+﻿using CalamityMod.Rarities;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -8,8 +9,11 @@ namespace CalamityMod.Items.Materials
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 25;
+            SacrificeTotal = 5;
+            ItemID.Sets.ItemNoGravity[Item.type] = true;
+
             DisplayName.SetDefault("Twisting Nether");
+			ItemID.Sets.SortingPriorityMaterials[Type] = 109;
         }
 
         public override void SetDefaults()
@@ -18,8 +22,7 @@ namespace CalamityMod.Items.Materials
             Item.height = 12;
             Item.maxStack = 999;
             Item.value = Item.buyPrice(0, 7, 0, 0);
-            Item.rare = ItemRarityID.Purple;
-            Item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.rare = ModContent.RarityType<Turquoise>();
         }
         public override void Update(ref float gravity, ref float maxFallSpeed)
         {

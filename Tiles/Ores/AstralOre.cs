@@ -21,6 +21,9 @@ namespace CalamityMod.Tiles.Ores
             CalamityUtils.MergeWithGeneral(Type);
             CalamityUtils.MergeAstralTiles(Type);
 
+            TileID.Sets.Ore[Type] = true;
+            TileID.Sets.OreMergesWithMud[Type] = true;
+
             MinPick = 210;
             DustType = 173;
             ItemDrop = ModContent.ItemType<Items.Placeables.Ores.AstralOre>();
@@ -32,6 +35,7 @@ namespace CalamityMod.Tiles.Ores
 
             TileID.Sets.Ore[Type] = true;
             TileID.Sets.ChecksForMerge[Type] = true;
+            TileID.Sets.DoesntGetReplacedWithTileReplacement[Type] = true;
         }
 
         public override bool CanKillTile(int i, int j, ref bool blockDamaged)

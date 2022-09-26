@@ -19,7 +19,7 @@ namespace CalamityMod.Projectiles.Enemy
 
         public override void SetDefaults()
         {
-            Projectile.Calamity().canBreakPlayerDefense = true;
+            Projectile.Calamity().DealsDefenseDamage = true;
             Projectile.knockBack = 3f;
             Projectile.width = 72;
             Projectile.height = 30;
@@ -73,6 +73,9 @@ namespace CalamityMod.Projectiles.Enemy
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
+            if (damage <= 0)
+                return;
+
             target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 120);
         }
 

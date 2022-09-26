@@ -20,7 +20,7 @@ namespace CalamityMod.Projectiles.Melee
         {
             Projectile.width = 20;
             Projectile.height = 20;
-            Projectile.aiStyle = 27;
+            Projectile.aiStyle = ProjAIStyleID.Beam;
             AIType = ProjectileID.LightBeam;
             Projectile.friendly = true;
             Projectile.ignoreWater = true;
@@ -36,7 +36,7 @@ namespace CalamityMod.Projectiles.Melee
             Lighting.AddLight(Projectile.Center, (255 - Projectile.alpha) * 0.5f / 255f, (255 - Projectile.alpha) * 0.05f / 255f, (255 - Projectile.alpha) * 0.05f / 255f);
 
             if (Projectile.timeLeft < 90)
-                CalamityGlobalProjectile.HomeInOnNPC(Projectile, !Projectile.tileCollide, 600f, 12f, 15f);
+                CalamityUtils.HomeInOnNPC(Projectile, !Projectile.tileCollide, 600f, 12f, 15f);
 
             int num458 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 235, 0f, 0f, 100, default, 1f);
             Main.dust[num458].noGravity = true;

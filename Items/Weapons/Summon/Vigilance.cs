@@ -1,7 +1,8 @@
-﻿using Terraria.DataStructures;
-using CalamityMod.Projectiles.Summon;
+﻿using CalamityMod.Projectiles.Summon;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -18,7 +19,7 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void SetDefaults()
         {
-            Item.damage = 150;
+            Item.damage = 115;
             Item.mana = 10;
             Item.width = Item.height = 32;
             Item.useTime = Item.useAnimation = 10;
@@ -32,36 +33,21 @@ namespace CalamityMod.Items.Weapons.Summon
             Item.DamageType = DamageClass.Summon;
 
             Item.value = CalamityGlobalItem.RarityVioletBuyPrice;
-            Item.rare = ItemRarityID.Purple;
-            Item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.rare = ModContent.RarityType<Violet>();
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.altFunctionUse != 2)
             {
-                int seekerIndex = 0;
-                int totalSeekers = 1;
-                for (int i = 0; i < Main.maxProjectiles; i++)
+                if (player.maxMinions - player.slotsMinions >= 1f)
                 {
-                    if (Main.projectile[i].type != type || !Main.projectile[i].active || Main.projectile[i].owner != player.whoAmI)
-                        continue;
-
-                    totalSeekers++;
-                }
-
-                int p = Projectile.NewProjectile(source, Main.MouseWorld, Vector2.Zero, type, damage, knockback, player.whoAmI);
-                if (Main.projectile.IndexInRange(p))
-                    Main.projectile[p].originalDamage = Item.damage;
-
-                for (int i = 0; i < Main.maxProjectiles; i++)
-                {
-                    if (Main.projectile[i].type != type || !Main.projectile[i].active || Main.projectile[i].owner != player.whoAmI)
-                        continue;
-                    Main.projectile[i].ai[0] = seekerIndex / (float)totalSeekers;
-                    Main.projectile[i].netUpdate = true;
-
-                    seekerIndex++;
+                    int p = Projectile.NewProjectile(source, Main.MouseWorld, Vector2.Zero, type, damage, knockback, player.whoAmI);
+                    if (Main.projectile.IndexInRange(p))
+                    {
+                        Main.projectile[p].ai[0] = player.ownedProjectileCounts[type];
+                        Main.projectile[p].originalDamage = Item.damage;
+                    }
                 }
             }
             return false;

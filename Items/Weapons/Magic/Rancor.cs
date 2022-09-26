@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Projectiles.Magic;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
@@ -23,15 +24,15 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            Item.damage = 444;
+            Item.damage = 250;
             Item.DamageType = DamageClass.Magic;
             Item.noUseGraphic = true;
             Item.channel = true;
             Item.mana = 10;
             Item.width = 66;
             Item.height = 82;
-            Item.useTime = 27;
-            Item.useAnimation = 27;
+            Item.useTime = 25;
+            Item.useAnimation = 25;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.knockBack = 5f;
@@ -39,7 +40,7 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.shoot = ModContent.ProjectileType<RancorHoldout>();
 
             Item.value = CalamityGlobalItem.Rarity15BuyPrice;
-            Item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.rare = ModContent.RarityType<Violet>();
         }
 
         // This weapon uses a holdout projectile.

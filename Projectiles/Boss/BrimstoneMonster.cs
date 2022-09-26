@@ -8,9 +8,9 @@ using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using System.IO;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.Audio;
-
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Boss
 {
@@ -29,7 +29,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-            Projectile.Calamity().canBreakPlayerDefense = true;
+            Projectile.Calamity().DealsDefenseDamage = true;
             Projectile.width = 320;
             Projectile.height = 320;
             Projectile.hostile = true;
@@ -39,7 +39,7 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.penetrate = -1;
             Projectile.timeLeft = 36000;
             Projectile.Opacity = 0f;
-            CooldownSlot = 1;
+            CooldownSlot = ImmunityCooldownID.Bosses;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -178,7 +178,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            if (Projectile.Opacity != 1f)
+            if (damage <= 0 || Projectile.Opacity != 1f)
                 return;
 
             target.AddBuff(ModContent.BuffType<VulnerabilityHex>(), 300, true);
@@ -188,11 +188,6 @@ namespace CalamityMod.Projectiles.Boss
         {
             behindProjectiles.Add(index);
             behindNPCs.Add(index);
-        }
-
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
-        {
-            target.Calamity().lastProjectileHit = Projectile;
         }
     }
 }

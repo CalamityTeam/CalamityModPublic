@@ -39,7 +39,7 @@ namespace CalamityMod.Projectiles.Rogue
                 Projectile.velocity.Y *= 1.05f;
 
             if (Projectile.timeLeft < 90)
-                CalamityGlobalProjectile.HomeInOnNPC(Projectile, true, 600f, 10f, 20f);
+                CalamityUtils.HomeInOnNPC(Projectile, true, 600f, 10f, 20f);
         }
 
         public override void Kill(int timeLeft)

@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
@@ -37,12 +38,9 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.UseSound = SoundID.DD2_FlameburstTowerShot;
             Item.shoot = ModContent.ProjectileType<PrinceFlameLarge>();
             Item.value = CalamityGlobalItem.RarityTurquoiseBuyPrice;
-            Item.rare = ItemRarityID.Purple;
             Item.Calamity().donorItem = true;
-            Item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.rare = ModContent.RarityType<Turquoise>();
         }
-
-        public override Vector2? HoldoutOrigin() => new Vector2(20f, 20f);
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {

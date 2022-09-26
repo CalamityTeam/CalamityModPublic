@@ -21,7 +21,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             Projectile.width = 50;
             Projectile.height = 42;
-            Projectile.aiStyle = 1;
+            Projectile.aiStyle = ProjAIStyleID.Arrow;
             Projectile.friendly = true;
             Projectile.ignoreWater = true;
             Projectile.DamageType = RogueDamageClass.Instance;

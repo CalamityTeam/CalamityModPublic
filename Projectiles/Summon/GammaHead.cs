@@ -79,7 +79,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.direction = Projectile.spriteDirection = Owner.direction;
 
             float idealRotation = 0f;
-            NPC potentialTarget = Projectile.Center.MinionHoming(950f, Owner);
+            NPC potentialTarget = Projectile.Center.MinionHoming(3000f, Owner);
             if (potentialTarget != null)
                 NoticeTarget(potentialTarget, ref returnPosition, ref idealRotation);
             else

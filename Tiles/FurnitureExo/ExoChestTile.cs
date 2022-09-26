@@ -14,7 +14,7 @@ namespace CalamityMod.Tiles.FurnitureExo
     {
         public override void SetStaticDefaults()
         {
-            this.SetUpChest(true);
+            this.SetUpChest(true, 2);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Exo Chest");
             AddMapEntry(new Color(71, 95, 114), name, MapChestName);
@@ -59,7 +59,7 @@ namespace CalamityMod.Tiles.FurnitureExo
             int yOffset = TileObjectData.GetTileData(tile).DrawYOffset;
             Texture2D glowmask = ModContent.Request<Texture2D>("CalamityMod/Tiles/FurnitureExo/ExoChestGlow").Value;
             Vector2 drawOffset = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange, Main.offScreenRange);
-            Vector2 drawPosition = new Vector2(i * 16 - (int)Main.screenPosition.X / 2f, j * 16 - (int)Main.screenPosition.Y + yOffset) + drawOffset;
+            Vector2 drawPosition = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y + yOffset) + drawOffset;
             Color drawColour = Color.White;
             Main.spriteBatch.Draw(glowmask, drawPosition, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, 16), drawColour, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
         }

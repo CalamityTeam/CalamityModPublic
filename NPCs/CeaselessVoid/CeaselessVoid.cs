@@ -3,6 +3,7 @@ using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
+using CalamityMod.Items.Placeables.Furniture.BossRelics;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Items.Potions;
 using CalamityMod.Items.TreasureBags;
@@ -19,12 +20,18 @@ using System.IO;
 using Terraria.Audio;
 using Terraria.GameContent.ItemDropRules;
 using CalamityMod.Sounds;
+using CalamityMod.World;
 
 namespace CalamityMod.NPCs.CeaselessVoid
 {
     [AutoloadBossHead]
     public class CeaselessVoid : ModNPC
     {
+        public static readonly SoundStyle DeathSound = new("CalamityMod/Sounds/NPCKilled/CeaselessVoidDeath");
+        public static readonly SoundStyle BuildupSound = new("CalamityMod/Sounds/Custom/CeaselessVoidDeathBuild");
+
+        public bool playedbuildsound = false;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ceaseless Void");
@@ -36,6 +43,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
                 Scale = 0.55f,
             };
             NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
+			NPCID.Sets.MPAllowedEnemies[Type] = true;
         }
 
         public override void SetDefaults()
@@ -50,7 +58,6 @@ namespace CalamityMod.NPCs.CeaselessVoid
             global.DR = 0.5f;
             NPC.LifeMaxNERB(64400, 77280, 72000);
             NPC.value = Item.buyPrice(2, 0, 0, 0);
-            Music = CalamityMod.Instance.GetMusicFromMusicMod("Void") ?? MusicID.Boss3;
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
             NPC.aiStyle = -1;
@@ -59,7 +66,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
             NPC.noGravity = true;
             NPC.noTileCollide = true;
             NPC.boss = true;
-            NPC.DeathSound = SoundID.NPCDeath14;
+            NPC.DeathSound = DeathSound;
             NPC.Calamity().VulnerableToSickness = false;
         }
 
@@ -80,6 +87,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
             writer.Write(NPC.localAI[1]);
             writer.Write(NPC.localAI[2]);
             writer.Write(NPC.localAI[3]);
+            writer.Write(playedbuildsound);
             for (int i = 0; i < 4; i++)
                 writer.Write(NPC.Calamity().newAI[i]);
         }
@@ -87,6 +95,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             NPC.dontTakeDamage = reader.ReadBoolean();
+            playedbuildsound = reader.ReadBoolean();
             NPC.localAI[0] = reader.ReadSingle();
             NPC.localAI[1] = reader.ReadSingle();
             NPC.localAI[2] = reader.ReadSingle();
@@ -208,22 +217,26 @@ namespace CalamityMod.NPCs.CeaselessVoid
                 normalOnly.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, weapons));
 
                 // Materials
-                normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<DarkPlasma>(), 1, 2, 3));
+                normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<DarkPlasma>(), 1, 5, 7));
 
                 // Equipment
                 normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<TheEvolution>()));
 
                 // Vanity
                 normalOnly.Add(ModContent.ItemType<CeaselessVoidMask>(), 7);
-                normalOnly.Add(ItemDropRule.Common(ModContent.ItemType<AncientGodSlayerHelm>(), 20).
-                    OnSuccess(ItemDropRule.Common(ModContent.ItemType<AncientGodSlayerChestplate>())).
-                    OnSuccess(ItemDropRule.Common(ModContent.ItemType<AncientGodSlayerLeggings>())));
+				var godSlayerVanity = ItemDropRule.Common(ModContent.ItemType<AncientGodSlayerHelm>(), 20);
+				godSlayerVanity.OnSuccess(ItemDropRule.Common(ModContent.ItemType<AncientGodSlayerChestplate>()));
+				godSlayerVanity.OnSuccess(ItemDropRule.Common(ModContent.ItemType<AncientGodSlayerLeggings>()));
+				normalOnly.Add(godSlayerVanity);
             }
 
             npcLoot.Add(ModContent.ItemType<CeaselessVoidTrophy>(), 10);
 
+            // Relic
+            npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).Add(ModContent.ItemType<CeaselessVoidRelic>());
+
             // Lore
-            npcLoot.AddConditionalPerPlayer(LastSentinelKilled, ModContent.ItemType<KnowledgeSentinels>());
+            npcLoot.AddConditionalPerPlayer(LastSentinelKilled, ModContent.ItemType<KnowledgeSentinels>(), desc: DropHelper.SentinelText);
         }
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
@@ -238,7 +251,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
 
         public override void HitEffect(int hitDirection, double damage)
         {
-            if (NPC.soundDelay == 0)
+            if (NPC.soundDelay == 0 && NPC.life >= NPC.lifeMax * 0.05f)
             {
                 NPC.soundDelay = 8;
                 SoundEngine.PlaySound(CommonCalamitySounds.OtherwordlyHitSound, NPC.Center);
@@ -281,7 +294,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
 
                 if (Main.netMode != NetmodeID.Server)
                 {
-                    float randomSpread = (float)(Main.rand.Next(-200, 200) / 100);
+                    float randomSpread = Main.rand.Next(-200, 201) / 100f;
                     Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * randomSpread, Mod.Find<ModGore>("CeaselessVoid").Type, 1f);
                     Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * randomSpread, Mod.Find<ModGore>("CeaselessVoid2").Type, 1f);
                     Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * randomSpread, Mod.Find<ModGore>("CeaselessVoid2").Type, 1f);

@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
+using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -29,7 +30,7 @@ Summons a barrage of petals and waterfalls on enemy hits");
         {
             Item.width = 76;
             Item.height = 82;
-            Item.DamageType = DamageClass.Melee;
+            Item.DamageType = DamageClass.MeleeNoSpeed;
             Item.damage = 660;
             Item.knockBack = 9f;
             Item.useAnimation = 20;
@@ -43,7 +44,7 @@ Summons a barrage of petals and waterfalls on enemy hits");
             Item.channel = true;
 
             Item.value = CalamityGlobalItem.Rarity15BuyPrice;
-            Item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.rare = ModContent.RarityType<Violet>();
             Item.Calamity().donorItem = true;
 
             Item.shoot = ModContent.ProjectileType<DragonPowFlail>();
@@ -60,7 +61,7 @@ Summons a barrage of petals and waterfalls on enemy hits");
                 AddIngredient<BallOFugu>().
                 AddIngredient<Tumbleweed>().
                 AddIngredient<UrchinFlail>().
-                AddIngredient<HellcasterFragment>(4).
+                AddIngredient<YharonSoulFragment>(4).
                 AddIngredient<AuricBar>(5).
                 AddTile<CosmicAnvil>().
                 Register();

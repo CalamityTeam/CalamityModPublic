@@ -12,6 +12,7 @@ namespace CalamityMod.Items.LoreItems
             DisplayName.SetDefault("Queen Bee");
             Tooltip.SetDefault("As crude as the giant insects are they can prove useful in certain situations... given the ability to control them.");
             SacrificeTotal = 1;
+            ItemID.Sets.ItemNoGravity[Item.type] = true;
         }
 
         public override void SetDefaults()
@@ -29,7 +30,7 @@ namespace CalamityMod.Items.LoreItems
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddTile(TileID.Bookcases).AddIngredient(ItemID.QueenBeeTrophy).AddIngredient(ModContent.ItemType<VictoryShard>(), 10).Register();
+            CreateRecipe(1).AddTile(TileID.Bookcases).AddIngredient(ItemID.QueenBeeTrophy).AddIngredient(ModContent.ItemType<PearlShard>(), 10).Register();
         }
     }
 }

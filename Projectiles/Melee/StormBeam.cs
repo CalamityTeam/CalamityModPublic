@@ -18,7 +18,7 @@ namespace CalamityMod.Projectiles.Melee
         {
             Projectile.width = 20;
             Projectile.height = 20;
-            Projectile.aiStyle = 27;
+            Projectile.aiStyle = ProjAIStyleID.Beam;
             Projectile.friendly = true;
             Projectile.DamageType = DamageClass.Melee;
             Projectile.penetrate = 1;
@@ -29,7 +29,7 @@ namespace CalamityMod.Projectiles.Melee
         {
             Lighting.AddLight(Projectile.Center, 0f, 0.25f, 0.25f);
 
-            CalamityGlobalProjectile.HomeInOnNPC(Projectile, false, 200f, 12f, 20f);
+            CalamityUtils.HomeInOnNPC(Projectile, false, 200f, 12f, 20f);
         }
 
         public override void Kill(int timeLeft)

@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
+using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -20,8 +21,8 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            Item.width = 94;
-            Item.damage = 80;
+            Item.width = 90;
+            Item.damage = 250;
             Item.DamageType = DamageClass.Melee;
             Item.useAnimation = 24;
             Item.useStyle = ItemUseStyleID.Swing;
@@ -30,12 +31,12 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.knockBack = 7.25f;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
-            Item.height = 94;
+            Item.height = 90;
             Item.shoot = ModContent.ProjectileType<DracoBeam>();
             Item.shootSpeed = 14f;
 
             Item.value = CalamityGlobalItem.Rarity16BuyPrice;
-            Item.Calamity().customRarity = CalamityRarity.HotPink;
+            Item.rare = ModContent.RarityType<HotPink>();
             Item.Calamity().devItem = true;
         }
 

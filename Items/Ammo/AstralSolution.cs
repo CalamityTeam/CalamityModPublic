@@ -13,6 +13,7 @@ namespace CalamityMod.Items.Ammo
             DisplayName.SetDefault("Astral Solution");
             Tooltip.SetDefault("Used by the Clentaminator\n" +
             "Spreads the Astral Infection");
+			ItemID.Sets.SortingPriorityTerraforming[Type] = 95; // Red Solution
         }
 
         public override void SetDefaults()
@@ -28,6 +29,11 @@ namespace CalamityMod.Items.Ammo
             Item.consumable = true;
             return;
         }
+
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = ContentSamples.CreativeHelper.ItemGroup.Solutions;
+		}
 
         public override bool CanConsumeAmmo(Item ammo, Player player)
         {

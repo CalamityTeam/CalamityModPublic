@@ -1,6 +1,8 @@
 ﻿using CalamityMod.CustomRecipes;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.DraedonsArsenal;
+using CalamityMod.Rarities;
+using CalamityMod.Sounds;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -8,7 +10,6 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Sounds;
 
 namespace CalamityMod.Items.Weapons.DraedonsArsenal
 {
@@ -16,6 +17,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Matter Modulator");
             Tooltip.SetDefault("Using extra mass gained from collision with solid materials, it causes extra damage\n" +
             "Fires a burst of unstable matter that does significant damage after striking a tile\n" +
@@ -39,8 +41,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             Item.noMelee = true;
 
             Item.value = CalamityGlobalItem.Rarity5BuyPrice;
-            Item.rare = ItemRarityID.Red;
-            modItem.customRarity = CalamityRarity.DraedonRust;
+            Item.rare = ModContent.RarityType<DarkOrange>();
 
             Item.shoot = ModContent.ProjectileType<UnstableMatter>();
             Item.shootSpeed = 7f;

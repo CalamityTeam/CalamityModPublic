@@ -1,4 +1,5 @@
-﻿using Terraria;
+﻿using System;
+using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
 
@@ -20,7 +21,13 @@ namespace CalamityMod.CalPlayer.DrawLayers
             if (drawInfo.drawPlayer.dead || !drawInfo.drawPlayer.active)
                 return;
 
-            drawInfo.drawPlayer.mount.Draw(drawInfo.DrawDataCache, 3, drawInfo.drawPlayer, drawInfo.Center - drawInfo.drawPlayer.Size * 0.5f, drawInfo.colorMount, drawInfo.playerEffect, drawInfo.shadow);
+            try
+            {
+                drawInfo.drawPlayer.mount.Draw(drawInfo.DrawDataCache, 3, drawInfo.drawPlayer, drawInfo.Center - drawInfo.drawPlayer.Size * 0.5f, drawInfo.colorMount, drawInfo.playerEffect, drawInfo.shadow);
+            }
+
+            // Problem with hooks. No idea why it happens. No, adding a drawInfo.drawPlayer.grappling[0] check does not work. I tried.
+            catch (IndexOutOfRangeException) { }
         }
     }
 }

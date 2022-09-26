@@ -1,6 +1,6 @@
 ﻿using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Placeables.Ores
 {
@@ -10,6 +10,7 @@ namespace CalamityMod.Items.Placeables.Ores
         {
             SacrificeTotal = 100;
             DisplayName.SetDefault("Hallowed Ore");
+			ItemID.Sets.SortingPriorityMaterials[Type] = 89; // Hallowed Bar
         }
 
         public override void SetDefaults()
@@ -30,7 +31,7 @@ namespace CalamityMod.Items.Placeables.Ores
 
         public override void AddRecipes()
         {
-            Recipe r = Mod.CreateRecipe(ItemID.HallowedBar);
+            Recipe r = Recipe.Create(ItemID.HallowedBar);
             r.AddIngredient<HallowedOre>(4).AddTile(TileID.AdamantiteForge).Register();
         }
     }

@@ -37,7 +37,7 @@ namespace CalamityMod.Projectiles.Summon
             }
 
             Projectile.Opacity = Utils.GetLerpValue(1f, 0f, 1f - Projectile.timeLeft / 10f, true);
-            Projectile.Center = Main.projectile[(int)OwnerUUID].Center - Projectile.velocity;
+            Projectile.Center = CalamityUtils.FindProjectileByIdentity((int)OwnerUUID, Projectile.owner).Center - Projectile.velocity;
             Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
         }
         public override bool PreDraw(ref Color lightColor)

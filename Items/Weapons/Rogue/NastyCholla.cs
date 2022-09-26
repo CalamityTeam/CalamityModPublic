@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class NastyCholla : ModItem
+    public class NastyCholla : RogueWeapon
     {
         public static int BaseDamage = 9;
 

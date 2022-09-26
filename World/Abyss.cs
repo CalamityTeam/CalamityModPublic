@@ -375,87 +375,72 @@ namespace CalamityMod.World
         #region Houses
         public static void AbyssIsland(int i, int j, int sizeMin, int sizeMax, int sizeMin2, int sizeMax2, bool hasChest, bool hasTenebris, bool isVoid)
         {
-            int sizeMinSmall = sizeMin / 5;
-            int sizeMaxSmall = sizeMax / 5;
-            double num = (double)WorldGen.genRand.Next(sizeMin, sizeMax); //100 150
-            float num2 = (float)WorldGen.genRand.Next(sizeMinSmall, sizeMaxSmall); //20 30
-            int num3 = i;
-            int num4 = i;
-            int num5 = i;
-            int num6 = j;
-            Vector2 vector;
-            vector.X = (float)i;
-            vector.Y = (float)j;
+            float islandWidth = WorldGen.genRand.Next(sizeMin, sizeMax); //100 150
+            float smallIslandWidth = (float)WorldGen.genRand.Next(sizeMin, sizeMax) / (float)5; //20 30
+            int islandPositionX = i;
+            int islandPositionXAgain = i;
+            int islandPositionY = j;
+            int islandPositionYAgain = j;
+            Vector2 islandOrigin;
+            islandOrigin.X = i;
+            islandOrigin.Y = j;
             Vector2 vector2;
-            vector2.X = (float)WorldGen.genRand.Next(-20, 21) * 0.2f;
+            vector2.X = WorldGen.genRand.Next(-20, 21) * 0.2f;
             while (vector2.X > -2f && vector2.X < 2f)
             {
-                vector2.X = (float)WorldGen.genRand.Next(-20, 21) * 0.2f;
+                vector2.X = (float)WorldGen.genRand.Next(-20, 21) * 0.2f; //What the fuck is this loop for? Why not just use a nextFloat??? What
             }
             vector2.Y = (float)WorldGen.genRand.Next(-20, -10) * 0.02f;
-            while (num > 0.0 && num2 > 0f)
+
+            while (islandWidth > 0f && smallIslandWidth > 0f)
             {
-                num -= (double)WorldGen.genRand.Next(4);
-                num2 -= 1f;
-                int num7 = (int)((double)vector.X - num * 0.5);
-                int num8 = (int)((double)vector.X + num * 0.5);
-                int num9 = (int)((double)vector.Y - num * 0.5);
-                int num10 = (int)((double)vector.Y + num * 0.5);
-                if (num7 < 0)
-                {
-                    num7 = 0;
-                }
-                if (num8 > Main.maxTilesX)
-                {
-                    num8 = Main.maxTilesX;
-                }
-                if (num9 < 0)
-                {
-                    num9 = 0;
-                }
-                if (num10 > Main.maxTilesY)
-                {
-                    num10 = Main.maxTilesY;
-                }
-                double num11 = num * (double)WorldGen.genRand.Next(sizeMin, sizeMax) * 0.01; //80 120
-                float num12 = vector.Y + 1f;
-                for (int k = num7; k < num8; k++)
+                islandWidth -= WorldGen.genRand.Next(4);
+                smallIslandWidth -= 1f;
+
+                int islandLeftX = Math.Clamp((int)(islandOrigin.X - islandWidth * 0.5), 0, Main.maxTilesX);
+                int islandRightX = Math.Clamp((int)(islandOrigin.X + islandWidth * 0.5), 0, Main.maxTilesX);
+                int islandTopY = Math.Clamp((int)(islandOrigin.Y - islandWidth * 0.5), 0, Main.maxTilesY);
+                int islandBottomY = Math.Clamp((int)(islandOrigin.Y + islandWidth * 0.5), 0, Main.maxTilesY);
+
+                double num11 = islandWidth * (double)WorldGen.genRand.Next(sizeMin, sizeMax) * 0.01; //80 120
+                float num12 = islandOrigin.Y + 1f;
+                for (int k = islandLeftX; k < islandRightX; k++)
                 {
                     if (WorldGen.genRand.NextBool(2))
                     {
                         num12 += (float)WorldGen.genRand.Next(-1, 2);
                     }
-                    if (num12 < vector.Y)
+                    if (num12 < islandOrigin.Y)
                     {
-                        num12 = vector.Y;
+                        num12 = islandOrigin.Y;
                     }
-                    if (num12 > vector.Y + 2f)
+                    if (num12 > islandOrigin.Y + 2f)
                     {
-                        num12 = vector.Y + 2f;
+                        num12 = islandOrigin.Y + 2f;
                     }
-                    for (int l = num9; l < num10; l++)
+                    for (int l = islandTopY; l < islandBottomY; l++)
                     {
                         if ((float)l > num12)
                         {
-                            float arg_218_0 = Math.Abs((float)k - vector.X);
-                            float num13 = Math.Abs((float)l - vector.Y) * 3f;
+                            float arg_218_0 = Math.Abs((float)k - islandOrigin.X);
+                            float num13 = Math.Abs((float)l - islandOrigin.Y) * 3f;
                             if (Math.Sqrt((double)(arg_218_0 * arg_218_0 + num13 * num13)) < num11 * 0.4)
                             {
-                                if (k < num3)
+                                if (k < islandPositionX)
                                 {
-                                    num3 = k;
+                                    islandPositionX = k;
                                 }
-                                if (k > num4)
+                                if (k > islandPositionXAgain)
                                 {
-                                    num4 = k;
+                                    islandPositionXAgain = k;
                                 }
-                                if (l < num5)
+                                if (l < islandPositionYAgain)
                                 {
-                                    num5 = l;
+                                    islandPositionYAgain = l;
                                 }
-                                if (l > num6)
+                                if (l > islandPositionY)
                                 {
-                                    num6 = l;
+                                    islandPositionY = l;
                                 }
                                 Main.tile[k, l].Get<TileWallWireStateData>().HasTile = true;
                                 Main.tile[k, l].TileType = (ushort)(isVoid ? ModContent.TileType<Voidstone>() : ModContent.TileType<AbyssGravel>());
@@ -464,7 +449,7 @@ namespace CalamityMod.World
                         }
                     }
                 }
-                vector += vector2;
+                islandOrigin += vector2;
                 vector2.X += (float)WorldGen.genRand.Next(-20, 21) * 0.05f;
                 if (vector2.X > 1f)
                 {
@@ -483,11 +468,11 @@ namespace CalamityMod.World
                     vector2.Y = -0.2f;
                 }
             }
-            int m = num3;
+            int m = islandPositionX;
             int num15;
-            for (m += WorldGen.genRand.Next(5); m < num4; m += WorldGen.genRand.Next(num15, (int)((double)num15 * 1.5)))
+            for (m += WorldGen.genRand.Next(5); m < islandPositionXAgain; m += WorldGen.genRand.Next(num15, (int)(num15 * 1.5)))
             {
-                int num14 = num6;
+                int num14 = islandPositionY;
                 while (!Main.tile[m, num14].HasTile)
                 {
                     num14--;
@@ -503,7 +488,7 @@ namespace CalamityMod.World
                 {
                     for (int num17 = num14 - num15; num17 <= num14 + num15; num17++)
                     {
-                        if (num17 > num5)
+                        if (num17 > islandPositionYAgain)
                         {
                             float arg_409_0 = (float)Math.Abs(n - m);
                             float num18 = (float)(Math.Abs(num17 - num14) * 2);
@@ -519,11 +504,11 @@ namespace CalamityMod.World
             }
             if (hasTenebris)
             {
-                int p = num3;
+                int p = islandPositionX;
                 int num150;
-                for (p += WorldGen.genRand.Next(5); p < num4; p += WorldGen.genRand.Next(num150, (int)((double)num150 * 1.5)))
+                for (p += WorldGen.genRand.Next(5); p < islandPositionXAgain; p += WorldGen.genRand.Next(num150, (int)(num150 * 1.5)))
                 {
-                    int num14 = num6;
+                    int num14 = islandPositionY;
                     while (!Main.tile[p, num14].HasTile)
                     {
                         num14--;
@@ -535,11 +520,11 @@ namespace CalamityMod.World
                     {
                         for (int num17 = num14 - num150; num17 <= num14 + num150; num17++)
                         {
-                            if (num17 > num5)
+                            if (num17 > islandPositionYAgain)
                             {
-                                float arg_409_0 = (float)Math.Abs(n - p);
-                                float num18 = (float)(Math.Abs(num17 - num14) * 2);
-                                if (Math.Sqrt((double)(arg_409_0 * arg_409_0 + num18 * num18)) < (double)(num150 + WorldGen.genRand.Next(2)))
+                                float arg_409_0 = Math.Abs(n - p);
+                                float num18 = (Math.Abs(num17 - num14) * 2);
+                                if (Math.Sqrt((double)(arg_409_0 * arg_409_0 + num18 * num18)) < (num150 + WorldGen.genRand.Next(2)))
                                 {
                                     Main.tile[n, num17].Get<TileWallWireStateData>().HasTile = true;
                                     Main.tile[n, num17].TileType = (ushort)num16;
@@ -552,22 +537,22 @@ namespace CalamityMod.World
             }
             int sizeMinSmall2 = sizeMin2 / 8;
             int sizeMaxSmall2 = sizeMax2 / 8;
-            num = (double)WorldGen.genRand.Next(sizeMin2, sizeMax2);
-            num2 = (float)WorldGen.genRand.Next(sizeMinSmall2, sizeMaxSmall2);
-            vector.X = (float)i;
-            vector.Y = (float)num5;
-            vector2.X = (float)WorldGen.genRand.Next(-20, 21) * 0.2f;
+            islandWidth = WorldGen.genRand.Next(sizeMin2, sizeMax2);
+            smallIslandWidth = WorldGen.genRand.Next(sizeMinSmall2, sizeMaxSmall2);
+            islandOrigin.X = i;
+            islandOrigin.Y = islandPositionYAgain;
+            vector2.X = WorldGen.genRand.Next(-20, 21) * 0.2f;
             while (vector2.X > -2f && vector2.X < 2f)
             {
-                vector2.X = (float)WorldGen.genRand.Next(-20, 21) * 0.2f;
+                vector2.X = WorldGen.genRand.Next(-20, 21) * 0.2f;
             }
-            vector2.Y = (float)WorldGen.genRand.Next(-20, -10) * 0.02f;
-            while (num > 0.0 && num2 > 0f)
+            vector2.Y = WorldGen.genRand.Next(-20, -10) * 0.02f;
+            while (islandWidth > 0.0 && smallIslandWidth > 0f)
             {
-                num -= (double)WorldGen.genRand.Next(4);
-                num2 -= 1f;
-                vector += vector2;
-                vector2.X += (float)WorldGen.genRand.Next(-20, 21) * 0.05f;
+                islandWidth -= WorldGen.genRand.Next(4);
+                smallIslandWidth -= 1f;
+                islandOrigin += vector2;
+                vector2.X += WorldGen.genRand.Next(-20, 21) * 0.05f;
                 if (vector2.X > 1f)
                 {
                     vector2.X = 1f;
@@ -576,30 +561,30 @@ namespace CalamityMod.World
                 {
                     vector2.X = -1f;
                 }
-                if ((double)vector2.Y > 0.2)
+                if (vector2.Y > 0.2)
                 {
                     vector2.Y = -0.2f;
                 }
-                if ((double)vector2.Y < -0.2)
+                if (vector2.Y < -0.2)
                 {
                     vector2.Y = -0.2f;
                 }
             }
-            int num23 = num3;
+            int num23 = islandPositionX;
             num23 += WorldGen.genRand.Next(5);
-            while (num23 < num4)
+            while (num23 < islandPositionXAgain)
             {
-                int num24 = num6;
-                while ((!Main.tile[num23, num24].HasTile || Main.tile[num23, num24].TileType != 0) && num23 < num4)
+                int num24 = islandPositionY;
+                while ((!Main.tile[num23, num24].HasTile || Main.tile[num23, num24].TileType != 0) && num23 < islandPositionXAgain)
                 {
                     num24--;
-                    if (num24 < num5)
+                    if (num24 < islandPositionYAgain)
                     {
-                        num24 = num6;
+                        num24 = islandPositionY;
                         num23 += WorldGen.genRand.Next(1, 4);
                     }
                 }
-                if (num23 < num4)
+                if (num23 < islandPositionXAgain)
                 {
                     num24 += WorldGen.genRand.Next(0, 4);
                     int num25 = WorldGen.genRand.Next(2, 5);
@@ -608,11 +593,11 @@ namespace CalamityMod.World
                     {
                         for (int num28 = num24 - num25; num28 <= num24 + num25; num28++)
                         {
-                            if (num28 > num5)
+                            if (num28 > islandPositionYAgain)
                             {
-                                float arg_890_0 = (float)Math.Abs(num27 - num23);
-                                float num29 = (float)(Math.Abs(num28 - num24) * 2);
-                                if (Math.Sqrt((double)(arg_890_0 * arg_890_0 + num29 * num29)) < (double)num25)
+                                float arg_890_0 = Math.Abs(num27 - num23);
+                                float num29 = (Math.Abs(num28 - num24) * 2);
+                                if (Math.Sqrt((double)(arg_890_0 * arg_890_0 + num29 * num29)) < num25)
                                 {
                                     Main.tile[num27, num28].TileType = (ushort)num26;
                                     CalamityUtils.SafeSquareTileFrame(num27, num28, true);
@@ -620,39 +605,42 @@ namespace CalamityMod.World
                             }
                         }
                     }
-                    num23 += WorldGen.genRand.Next(num25, (int)((double)num25 * 1.5));
+                    num23 += WorldGen.genRand.Next(num25, (int)(num25 * 1.5));
                 }
             }
-            for (int num30 = num3 - 20; num30 <= num4 + 20; num30++)
+
+            //Place backwall
+            for (int backwallX = islandPositionX - 20; backwallX <= islandPositionXAgain + 20; backwallX++)
             {
-                for (int num31 = num5 - 20; num31 <= num6 + 20; num31++)
+                for (int backwallJ = islandPositionYAgain - 20; backwallJ <= islandPositionY + 20; backwallJ++)
                 {
-                    bool flag = true;
-                    for (int num32 = num30 - 1; num32 <= num30 + 1; num32++)
+                    //Check to see if the tile is surrounded by other tiles to place a wall
+                    bool AmISurroundedByTiles = true;
+                    for (int i2 = backwallX - 1; i2 <= backwallX + 1; i2++)
                     {
-                        for (int num33 = num31 - 1; num33 <= num31 + 1; num33++)
+                        for (int j2 = backwallJ - 1; j2 <= backwallJ + 1; j2++)
                         {
-                            if (!Main.tile[num32, num33].HasTile)
+                            if (!Main.tile[i2, j2].HasTile)
                             {
-                                flag = false;
+                                AmISurroundedByTiles = false;
                             }
                         }
                     }
-                    if (flag)
+                    if (AmISurroundedByTiles)
                     {
-                        Main.tile[num30, num31].WallType = (ushort)(isVoid ? ModContent.WallType<VoidstoneWallUnsafe>() : ModContent.WallType<AbyssGravelWall>());
-                        WorldGen.SquareWallFrame(num30, num31, true);
+                        Main.tile[backwallX, backwallJ].WallType = (ushort)(isVoid ? ModContent.WallType<VoidstoneWallUnsafe>() : ModContent.WallType<AbyssGravelWall>());
+                        WorldGen.SquareWallFrame(backwallX, backwallJ, true);
                     }
                 }
             }
-            for (int num34 = num3; num34 <= num4; num34++)
+            for (int num34 = islandPositionX; num34 <= islandPositionXAgain; num34++)
             {
-                int num35 = num5 - 10;
+                int num35 = islandPositionYAgain - 10;
                 while (!Main.tile[num34, num35 + 1].HasTile)
                 {
                     num35++;
                 }
-                if (num35 < num6 && Main.tile[num34, num35 + 1].TileType == (ushort)(isVoid ? ModContent.TileType<Voidstone>() : ModContent.TileType<AbyssGravel>()))
+                if (num35 < islandPositionY && Main.tile[num34, num35 + 1].TileType == (ushort)(isVoid ? ModContent.TileType<Voidstone>() : ModContent.TileType<AbyssGravel>()))
                 {
                     if (WorldGen.genRand.NextBool(10))
                     {

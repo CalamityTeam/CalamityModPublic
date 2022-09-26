@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Utilities;
@@ -19,6 +20,7 @@ namespace CalamityMod.World
 {
     public class AstralBiome
     {
+        public static readonly SoundStyle MeteorSound = new("CalamityMod/Sounds/Custom/AstralStarFall");
         public static bool CanAstralMeteorSpawn()
         {
             int astralOreCount = 0;
@@ -215,7 +217,7 @@ namespace CalamityMod.World
             }
             int num = 35;
             Rectangle rectangle = new Rectangle((i - num) * 16, (j - num) * 16, num * 2 * 16, num * 2 * 16);
-            for (int k = 0; k < 255; k++)
+            for (int k = 0; k < Main.maxPlayers; k++)
             {
                 if (Main.player[k].active)
                 {
@@ -226,7 +228,7 @@ namespace CalamityMod.World
                     }
                 }
             }
-            for (int l = 0; l < 200; l++)
+            for (int l = 0; l < Main.maxNPCs; l++)
             {
                 if (Main.npc[l].active)
                 {
@@ -382,6 +384,9 @@ namespace CalamityMod.World
                 NetMessage.SendTileSquare(-1, i, j, 40, TileChangeType.None);
                 if (CanAstralBiomeSpawn())
                 {
+                    if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active)
+                        SoundEngine.PlaySound(MeteorSound, Main.player[Main.myPlayer].position);
+
                     DoAstralConversion(new Point(i, j));
 
                     // Upward checks go up 180 tiles. If for whatever reason the placement Y position
@@ -491,30 +496,30 @@ namespace CalamityMod.World
                             float outerEdgePercent = (percent - blurPercent) / (1f - blurPercent);
                             if (rand.NextFloat(1f) > outerEdgePercent)
                             {
-                                ConvertToAstral(x, y);
+                                ConvertToAstral(x, y, true);
                             }
                         }
                         else
                         {
-                            ConvertToAstral(x, y);
+                            ConvertToAstral(x, y, true);
                         }
                     }
                 }
             }
         }
 
-        public static void ConvertToAstral(int startX, int endX, int startY, int endY)
+        public static void ConvertToAstral(int startX, int endX, int startY, int endY, bool convertOre = false)
         {
             for (int x = startX; x <= endX; x++)
             {
                 for (int y = startY; y <= endY; y++)
                 {
-                    ConvertToAstral(x, y);
+                    ConvertToAstral(x, y, convertOre);
                 }
             }
         }
 
-        public static void ConvertToAstral(int x, int y)
+        public static void ConvertToAstral(int x, int y, bool convertOre = false)
         {
             if (WorldGen.InWorld(x, y, 1))
             {
@@ -660,6 +665,21 @@ namespace CalamityMod.World
                                 Main.tile[x, y].TileType = (ushort)ModContent.TileType<AstralMonolith>();
                                 WorldGen.SquareTileFrame(x, y, true);
                                 NetMessage.SendTileSquare(-1, x, y, 1);
+                                break;
+                            case TileID.Copper:
+                            case TileID.Iron:
+                            case TileID.Silver:
+                            case TileID.Gold:
+                            case TileID.Tin:
+                            case TileID.Lead:
+                            case TileID.Tungsten:
+                            case TileID.Platinum:
+								if (convertOre)
+								{
+									Main.tile[x, y].TileType = (ushort)ModContent.TileType<AstralOre>();
+									WorldGen.SquareTileFrame(x, y, true);
+									NetMessage.SendTileSquare(-1, x, y, 1);
+								}
                                 break;
                             case TileID.LeafBlock:
                             case TileID.Sunflower:
@@ -838,6 +858,10 @@ namespace CalamityMod.World
                                     ConvertToAstral(x, topMost + 1);
                                     break;
                                 }
+                            case TileID.OasisPlants:
+                                Main.tile[x, y].Get<TileWallWireStateData>().HasTile = false;
+                                NetMessage.SendTileSquare(-1, x, y, 1);
+                                break;
                         }
                     }
                 }

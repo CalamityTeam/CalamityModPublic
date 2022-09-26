@@ -4,8 +4,10 @@ using CalamityMod.Events;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Placeables;
+using CalamityMod.Items.Placeables.Furniture.BossRelics;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Items.TreasureBags;
+using CalamityMod.Items.TreasureBags.MiscGrabBags;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
@@ -35,6 +37,16 @@ namespace CalamityMod.NPCs.AquaticScourge
         {
             DisplayName.SetDefault("Aquatic Scourge");
             NPCID.Sets.BossBestiaryPriority.Add(Type);
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            {
+                Scale = 0.6f,
+                PortraitScale = 0.6f,
+                CustomTexturePath = "CalamityMod/ExtraTextures/Bestiary/AquaticScourge_Bestiary"
+            };
+            value.Position.X += 40f;
+            value.Position.Y += 20f;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
+			NPCID.Sets.MPAllowedEnemies[Type] = true;
         }
 
         public override void SetDefaults()
@@ -61,16 +73,17 @@ namespace CalamityMod.NPCs.AquaticScourge
             NPC.DeathSound = SoundID.NPCDeath1;
             NPC.netAlways = true;
 
-            if (Main.getGoodWorld)
-                NPC.scale = 1.5f;
-            else if (CalamityWorld.malice || BossRushEvent.BossRushActive)
-                NPC.scale = 1.25f;
+            if (BossRushEvent.BossRushActive)
+                NPC.scale *= 1.25f;
             else if (CalamityWorld.death)
-                NPC.scale = 1.2f;
+                NPC.scale *= 1.2f;
             else if (CalamityWorld.revenge)
-                NPC.scale = 1.15f;
+                NPC.scale *= 1.15f;
             else if (Main.expertMode)
-                NPC.scale = 1.1f;
+                NPC.scale *= 1.1f;
+
+            if (Main.getGoodWorld)
+                NPC.scale *= 1.25f;
 
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToSickness = false;
@@ -110,9 +123,6 @@ namespace CalamityMod.NPCs.AquaticScourge
 
         public override void AI()
         {
-            if (NPC.justHit || NPC.life <= NPC.lifeMax * 0.999 || BossRushEvent.BossRushActive || Main.getGoodWorld)
-                Music = CalamityMod.Instance.GetMusicFromMusicMod("AquaticScourge") ?? MusicID.Boss2;
-
             CalamityAI.AquaticScourgeAI(NPC, Mod, true);
         }
 
@@ -219,8 +229,7 @@ namespace CalamityMod.NPCs.AquaticScourge
                     ModContent.ItemType<Barinautical>(),
                     ModContent.ItemType<Downpour>(),
                     ModContent.ItemType<DeepseaStaff>(),
-                    ModContent.ItemType<ScourgeoftheSeas>(),
-                    ModContent.ItemType<CorrosiveSpine>()
+                    ModContent.ItemType<ScourgeoftheSeas>()
                 };
                 normalOnly.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, weapons));
 
@@ -229,6 +238,7 @@ namespace CalamityMod.NPCs.AquaticScourge
 
                 // Equipment
                 normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<AquaticEmblem>()));
+                normalOnly.Add(ModContent.ItemType<CorrosiveSpine>(), DropHelper.NormalWeaponDropRateFraction);
                 normalOnly.Add(ModContent.ItemType<DeepDiver>(), 10);
                 normalOnly.Add(ModContent.ItemType<SeasSearing>(), 10);
 
@@ -236,13 +246,14 @@ namespace CalamityMod.NPCs.AquaticScourge
                 normalOnly.Add(ModContent.ItemType<BleachedAnglingKit>());
             }
 
-            npcLoot.Add(DropHelper.PerPlayer(ItemID.GreaterHealingPotion, 1, 8, 14));
+			npcLoot.DefineConditionalDropSet(() => true).Add(DropHelper.PerPlayer(ItemID.GreaterHealingPotion, 1, 5, 15), hideLootReport: true); // Healing Potions don't show up in the Bestiary
             npcLoot.Add(ModContent.ItemType<AquaticScourgeTrophy>(), 10);
+            npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).Add(ModContent.ItemType<AquaticScourgeRelic>());
 
             // Lore
             bool firstASKill() => !DownedBossSystem.downedAquaticScourge;
-            npcLoot.AddConditionalPerPlayer(firstASKill, ModContent.ItemType<KnowledgeAquaticScourge>());
-            npcLoot.AddConditionalPerPlayer(firstASKill, ModContent.ItemType<KnowledgeSulphurSea>());            
+            npcLoot.AddConditionalPerPlayer(firstASKill, ModContent.ItemType<KnowledgeAquaticScourge>(), desc: DropHelper.FirstKillText);
+            npcLoot.AddConditionalPerPlayer(firstASKill, ModContent.ItemType<KnowledgeSulphurSea>(), desc: DropHelper.FirstKillText);            
         }
 
         public override void OnKill()
@@ -304,7 +315,8 @@ namespace CalamityMod.NPCs.AquaticScourge
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(ModContent.BuffType<Irradiated>(), 480, true);
+            if (damage > 0)
+                player.AddBuff(ModContent.BuffType<Irradiated>(), 480, true);
         }
     }
 }

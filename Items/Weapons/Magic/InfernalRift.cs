@@ -25,14 +25,14 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.mana = 15;
             Item.width = 16;
             Item.height = 16;
-            Item.useAnimation = 16;
-            Item.useTime = 4;
+            Item.useAnimation = 30;
+            Item.useTime = 2;
             Item.reuseDelay = Item.useAnimation + 6;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.knockBack = 7f;
-            Item.value = Item.buyPrice(0, 36, 0, 0);
-            Item.rare = ItemRarityID.Pink;
+            Item.value = CalamityGlobalItem.Rarity6BuyPrice;
+            Item.rare = ItemRarityID.Yellow;
             Item.UseSound = SoundID.Item9;
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<InfernalBlade>();
@@ -42,8 +42,7 @@ namespace CalamityMod.Items.Weapons.Magic
         // Terraria seems to really dislike high crit values in SetDefaults
         public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 25;
 
-        public override Vector2? HoldoutOrigin() => new Vector2(15, 15);
-
+        
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
@@ -77,7 +76,7 @@ namespace CalamityMod.Items.Weapons.Magic
             CreateRecipe().
                 AddIngredient(ItemID.SkyFracture).
                 AddIngredient<EssenceofChaos>(3).
-                AddIngredient(ItemID.SoulofFright, 10).
+                AddIngredient<ScoriaBar>(10).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

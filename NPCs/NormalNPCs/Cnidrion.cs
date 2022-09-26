@@ -312,6 +312,10 @@ namespace CalamityMod.NPCs.NormalNPCs
             }
         }
 
-        public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.Add(ModContent.ItemType<AmidiasSpark>(), 4);
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ModContent.ItemType<AmidiasSpark>(), 4);
+            npcLoot.Add(ItemID.FossilOre, 1, 4, 5);
+        }
     }
 }

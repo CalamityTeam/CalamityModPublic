@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Armor.FathomSwarmer
         {
             Item.width = 18;
             Item.height = 18;
-            Item.value = Item.buyPrice(0, 30, 0, 0);
+            Item.value = CalamityGlobalItem.RarityLimeBuyPrice;
             Item.rare = ItemRarityID.Lime;
             Item.defense = 10; //47 +10 underwater
         }

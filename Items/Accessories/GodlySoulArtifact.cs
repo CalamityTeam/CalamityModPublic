@@ -2,6 +2,7 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Plates;
 using CalamityMod.Items.Placeables.Ores;
+using CalamityMod.Rarities;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -23,8 +24,7 @@ namespace CalamityMod.Items.Accessories
             Item.width = 28;
             Item.height = 28;
             Item.accessory = true;
-            Item.rare = ItemRarityID.Red;
-            Item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.rare = ModContent.RarityType<Violet>();
             Item.value = CalamityGlobalItem.Rarity15BuyPrice;
         }
 
@@ -39,7 +39,7 @@ namespace CalamityMod.Items.Accessories
             CreateRecipe().
                 AddIngredient<ExodiumCluster>(25).
                 AddIngredient<Plagueplate>(25).
-                AddIngredient<HellcasterFragment>(5).
+                AddIngredient<YharonSoulFragment>(5).
                 AddTile(TileID.DemonAltar).
                 Register();
         }

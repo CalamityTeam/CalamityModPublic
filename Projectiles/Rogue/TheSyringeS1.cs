@@ -1,8 +1,9 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Buffs.DamageOverTime;
 
 namespace CalamityMod.Projectiles.Rogue
 {
@@ -18,7 +19,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             Projectile.width = 6;
             Projectile.height = 6;
-            Projectile.aiStyle = 24;
+            Projectile.aiStyle = ProjAIStyleID.CrystalShard;
             Projectile.friendly = true;
             Projectile.penetrate = 1;
             Projectile.light = 0.5f;
@@ -34,7 +35,7 @@ namespace CalamityMod.Projectiles.Rogue
         public override void PostAI()
         {
             if (Projectile.timeLeft < 150)
-                CalamityGlobalProjectile.HomeInOnNPC(Projectile, true, 600f, 10f, 20f);
+                CalamityUtils.HomeInOnNPC(Projectile, true, 600f, 10f, 20f);
         }
 
         public override bool PreDraw(ref Color lightColor)

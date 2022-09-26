@@ -1,15 +1,16 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.Enums;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Default;
 using Terraria.ObjectData;
 using static Terraria.ModLoader.ModContent;
-using Terraria.Audio;
-using Terraria.GameContent;
 
 namespace CalamityMod
 {
@@ -64,6 +65,127 @@ namespace CalamityMod
 
             return true;
         }
+
+		#region Sitting in Chairs
+		// fat is for 2 tile chairs like Exo Chair and Exo Toilet
+        public static void ChairSitInfo(int i, int j, ref TileRestingInfo info, int nextStyleHeight = 40, bool fat = false, bool hasOffset = false)
+        {
+			if (hasOffset)
+			{
+				info.DirectionOffset = 0;
+				info.VisualOffset = new Vector2(-8f, 0f);
+			}
+
+            Tile tile = Framing.GetTileSafely(i, j);
+			bool frameCheck = fat ? tile.TileFrameX >= 35 : tile.TileFrameX != 0;
+
+            info.TargetDirection = -1;
+            if (frameCheck)
+            {
+                info.TargetDirection = 1;
+            }
+
+			if (fat)
+			{
+				int xPos = tile.TileFrameX / 18;
+				if (xPos == 1)
+					i--;
+				if (xPos == 2)
+					i++;
+			}
+
+            info.AnchorTilePosition.X = i;
+            info.AnchorTilePosition.Y = j;
+
+            if (tile.TileFrameY % nextStyleHeight == 0)
+            {
+                info.AnchorTilePosition.Y++;
+            }
+        }
+
+        public static bool ChairRightClick(int i, int j)
+        {
+            Player player = Main.LocalPlayer;
+
+            if (player.IsWithinSnappngRangeToTile(i, j, PlayerSittingHelper.ChairSittingMaxDistance))
+            {
+                player.GamepadEnableGrappleCooldown();
+                player.sitting.SitDown(player, i, j);
+            }
+            return true;
+        }
+
+        public static void ChairMouseOver(int i, int j, int itemID, bool fat = false)
+        {
+            Player player = Main.LocalPlayer;
+
+            if (!player.IsWithinSnappngRangeToTile(i, j, PlayerSittingHelper.ChairSittingMaxDistance))
+            {
+                return;
+            }
+
+            player.noThrow = 2;
+            player.cursorItemIconEnabled = true;
+            player.cursorItemIconID = itemID;
+
+			bool frameCheck = fat ? Main.tile[i, j].TileFrameX <= 35 : Main.tile[i, j].TileFrameX / 18 < 0;
+            if (frameCheck)
+            {
+                player.cursorItemIconReversed = true;
+            }
+        }
+
+        public static void MouseOver(int i, int j, int itemID)
+        {
+            Player player = Main.LocalPlayer;
+            player.noThrow = 2;
+            player.cursorItemIconEnabled = true;
+            player.cursorItemIconID = itemID;
+        }
+		#endregion
+
+		#region Sitting in Sofas/Benches
+        public static void BenchSitInfo(int i, int j, ref TileRestingInfo info, int nextStyleHeight = 40)
+        {
+            Tile tile = Framing.GetTileSafely(i, j);
+            Player player = Main.LocalPlayer;
+
+			info.DirectionOffset = 0;
+			float offset = 0f;
+			if (tile.TileFrameX < 17 && player.direction == 1)
+				offset = 8f;
+			if (tile.TileFrameX < 17 && player.direction == -1)
+				offset = -8f;
+			if (tile.TileFrameX > 34 && player.direction == 1)
+				offset = -8f;
+			if (tile.TileFrameX > 34 && player.direction == -1)
+				offset = 8f;
+			info.VisualOffset = new Vector2(offset, 0f);
+			info.TargetDirection = player.direction;
+
+            info.AnchorTilePosition.X = i;
+            info.AnchorTilePosition.Y = j;
+
+            if (tile.TileFrameY % nextStyleHeight == 0)
+            {
+                info.AnchorTilePosition.Y++;
+            }
+        }
+
+        public static void BenchMouseOver(int i, int j, int itemID)
+        {
+            Player player = Main.LocalPlayer;
+
+            if (!player.IsWithinSnappngRangeToTile(i, j, PlayerSittingHelper.ChairSittingMaxDistance))
+            {
+                return;
+            }
+
+            player.noThrow = 2;
+            player.cursorItemIconEnabled = true;
+            player.cursorItemIconID = itemID;
+        }
+		#endregion
 
         public static bool ChestRightClick(int i, int j)
         {
@@ -694,6 +816,9 @@ namespace CalamityMod
             Main.tileNoAttach[mt.Type] = true;
             Main.tileLavaDeath[mt.Type] = !lavaImmune;
             Main.tileWaterDeath[mt.Type] = false;
+            TileID.Sets.CanBeSatOnForNPCs[mt.Type] = true;
+            TileID.Sets.CanBeSatOnForPlayers[mt.Type] = true;
+            TileID.Sets.HasOutlines[mt.Type] = true;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style1x2);
             TileObjectData.newTile.CoordinateHeights = new int[] { 16, 18 };
             TileObjectData.newTile.Direction = TileObjectDirection.PlaceLeft;
@@ -741,7 +866,7 @@ namespace CalamityMod
         /// Extension which initializes a ModTile to be a chest.
         /// </summary>
         /// <param name="mt">The ModTile which is being initialized.</param>
-        internal static void SetUpChest(this ModTile mt, bool offset = false)
+        internal static void SetUpChest(this ModTile mt, bool offset = false, int offsetAmt = 4)
         {
             Main.tileSpelunker[mt.Type] = true;
             Main.tileContainer[mt.Type] = true;
@@ -755,7 +880,7 @@ namespace CalamityMod
             TileID.Sets.DisableSmartCursor[mt.Type] = true;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
             if (offset)
-                TileObjectData.newTile.DrawYOffset = 4;
+                TileObjectData.newTile.DrawYOffset = offsetAmt;
             TileObjectData.newTile.Origin = new Point16(0, 1);
             TileObjectData.newTile.CoordinateHeights = new int[] { 16, 18 };
             TileObjectData.newTile.HookCheckIfCanPlace = new PlacementHook(new Func<int, int, int, int, int, int, int>(Chest.FindEmptyChest), -1, 0, true);
@@ -1012,16 +1137,53 @@ namespace CalamityMod
         }
 
         /// <summary>
+        /// Extension which initializes a ModPylon to be a simple pylon.<br />
+        /// ModPylon appears to make it easier to create a modded pylon extending ModTile.<br />
+        /// <br />
+        /// Note: This is used for pylons that follow general vanilla functionality.<br />
+        /// Pylons that have vastly different custom behavior require a different setup (refer to ExamplePylonTileAdvanced in ExampleMod).<br />
+        /// </summary>
+        /// <param name="mt">The ModPylon which is being initialized.</param>
+        /// <param name="lavaImmune">Whether this tile is supposed to be immune to lava. Defaults to false.</param>
+        internal static void SetUpPylon(this ModPylon mp, TEModdedPylon pylonHook, bool lavaImmune = false, int offset = 2)
+        {
+
+            Main.tileLighted[mp.Type] = true;
+            Main.tileFrameImportant[mp.Type] = true;
+            Main.tileLavaDeath[mp.Type] = !lavaImmune;
+            TileObjectData.newTile.CopyFrom(TileObjectData.Style3x4);
+
+            // These definitions allow for vanilla's pylon TileEntities to be placed.
+            // tModLoader has a built in Tile Entity specifically for modded pylons, which is extended through TECalamityPylon.
+            TileObjectData.newTile.HookCheckIfCanPlace = new PlacementHook(pylonHook.PlacementPreviewHook_CheckIfCanPlace, 1, 0, true);
+            TileObjectData.newTile.HookPostPlaceMyPlayer = new PlacementHook(pylonHook.Hook_AfterPlacement, -1, 0, false);
+
+            TileObjectData.newTile.StyleHorizontal = true;
+            TileObjectData.newTile.LavaDeath = !lavaImmune;
+            TileObjectData.newTile.DrawYOffset = offset;
+            TileObjectData.addTile(mp.Type);
+
+            // Adds functionality for proximity of pylons; if this is true, then being near this tile will count as being near a pylon for the teleportation process.
+            mp.AddToArray(ref TileID.Sets.CountsAsPylon);
+        }
+
+        /// <summary>
         /// Extension which initializes a ModTile to be a sink.
         /// </summary>
         /// <param name="mt">The ModTile which is being initialized.</param>
         /// <param name="lavaImmune">Whether this tile is supposed to be immune to lava. Defaults to false.</param>
-        internal static void SetUpSink(this ModTile mt, bool lavaImmune = false)
+        /// <param name="water">Whether this tile counts as a water source. Defaults to true.</param>
+        /// <param name="lava">Whether this tile counts as a lava source. Defaults to false.</param>
+        /// <param name="honey">Whether this tile counts as a honey source. Defaults to false.</param>
+        internal static void SetUpSink(this ModTile mt, bool lavaImmune = false, bool water = true, bool lava = false, bool honey = false)
         {
             Main.tileLighted[mt.Type] = true;
             Main.tileFrameImportant[mt.Type] = true;
             Main.tileLavaDeath[mt.Type] = !lavaImmune;
             Main.tileWaterDeath[mt.Type] = false;
+            TileID.Sets.CountsAsWaterSource[mt.Type] = water;
+            TileID.Sets.CountsAsHoneySource[mt.Type] = lava;
+            TileID.Sets.CountsAsLavaSource[mt.Type] = honey;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
             TileObjectData.newTile.LavaDeath = !lavaImmune;
             TileObjectData.addTile(mt.Type);
@@ -1038,6 +1200,8 @@ namespace CalamityMod
             Main.tileFrameImportant[mt.Type] = true;
             Main.tileLavaDeath[mt.Type] = !lavaImmune;
             Main.tileWaterDeath[mt.Type] = false;
+            TileID.Sets.CanBeSatOnForPlayers[mt.Type] = true;
+            TileID.Sets.HasOutlines[mt.Type] = true;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style3x2);
             TileObjectData.newTile.LavaDeath = !lavaImmune;
             TileObjectData.addTile(mt.Type);
@@ -1156,7 +1320,7 @@ namespace CalamityMod
         }
 
         /// <summary>
-        /// Extension which initializes a ModTile to be a bed.
+        /// Extension which initializes a ModTile to be a bar.
         /// </summary>
         /// <param name="mt">The ModTile which is being initialized.</param>
         /// <param name="mapColor">The color of the bar on the minimap.</param>
@@ -1175,6 +1339,20 @@ namespace CalamityMod
 
             // Vanilla bars are labeled as "Metal Bar" on the minimap
             mt.AddMapEntry(mapColor, Language.GetText("MapObject.MetalBar"));
+        }
+
+        /// <summary>
+        /// Extension which initializes a ModTile to be a trophy.
+        /// </summary>
+        /// <param name="mt">The ModTile which is being initialized.</param>
+        internal static void SetUpTrophy(this ModTile mt)
+        {
+            Main.tileFrameImportant[mt.Type] = true;
+            Main.tileLavaDeath[mt.Type] = true;
+            TileObjectData.newTile.CopyFrom(TileObjectData.Style3x3Wall);
+            TileObjectData.addTile(mt.Type);
+            TileID.Sets.DisableSmartCursor[mt.Type] = true;
+            TileID.Sets.FramesOnKillWall[mt.Type] = true;
         }
     }
 }

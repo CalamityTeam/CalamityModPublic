@@ -30,8 +30,11 @@ namespace CalamityMod.NPCs.Astral
             NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
             {
                 Scale = 0.7f,
-                Velocity = 2f
+                Velocity = 2f,
+                PortraitPositionYOverride = 0
             };
+            value.Position.X += 15;
+            value.Position.Y -= 10;
             NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 
@@ -175,7 +178,8 @@ namespace CalamityMod.NPCs.Astral
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 120, true);
+            if (damage > 0)
+                player.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 120, true);
         }
 
         public override void ModifyNPCLoot(NPCLoot npcLoot)
@@ -243,6 +247,13 @@ namespace CalamityMod.NPCs.Astral
         {
             if (damage > 0)
             {
+				if (target.HasNPCBannerBuff(ModContent.NPCType<BigSightseer>()))
+				{
+					if (Main.expertMode)
+						damage = (int)(damage * 0.5f);
+					else
+						damage = (int)(damage * 0.75f);
+				}
                 NPC.StrikeNPCNoInteraction(9999, 0, 0);
             }
         }
@@ -259,7 +270,8 @@ namespace CalamityMod.NPCs.Astral
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 120, true);
+            if (damage > 0)
+                player.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 120, true);
         }
 
         private void DoKillDust()

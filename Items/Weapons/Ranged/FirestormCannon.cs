@@ -20,16 +20,16 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            Item.damage = 9;
+            Item.damage = 10;
             Item.DamageType = DamageClass.Ranged;
             Item.width = 56;
             Item.height = 28;
-            Item.useTime = 9;
-            Item.useAnimation = 9;
+            Item.useTime = 20;
+            Item.useAnimation = 20;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.knockBack = 1.5f;
-            Item.value = Item.buyPrice(0, 2, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity2BuyPrice;
             Item.rare = ItemRarityID.Green;
             Item.UseSound = SoundID.Item11;
             Item.autoReuse = true;
@@ -56,6 +56,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             if (player.altFunctionUse == 2)
             {
+                velocity *= 2f;
                 int num6 = Main.rand.Next(4, 6);
                 for (int index = 0; index < num6; ++index)
                 {
@@ -66,7 +67,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                     {
                         Main.projectile[flare].penetrate = 1;
                         Main.projectile[flare].timeLeft = 600;
-                        Main.projectile[flare].Calamity().forceRanged = true;
+                        Main.projectile[flare].DamageType = DamageClass.Ranged;
                     }
                 }
                 return false;
@@ -81,7 +82,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                     int flare = Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, type, damage, knockback, player.whoAmI);
                     if (flare.WithinBounds(Main.maxProjectiles))
                     {
-                        Main.projectile[flare].Calamity().forceRanged = true;
+                        Main.projectile[flare].DamageType = DamageClass.Ranged;
                         Main.projectile[flare].timeLeft = 200;
                         Main.projectile[flare].penetrate = 3;
                     }
@@ -96,7 +97,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 AddIngredient(ItemID.FlareGun).
                 AddIngredient(ItemID.Boomstick).
                 AddRecipeGroup("AnyGoldBar", 10).
-                AddIngredient<VictoryShard>(10).
+                AddIngredient<PearlShard>(10).
                 AddTile(TileID.Anvils).
                 Register();
         }

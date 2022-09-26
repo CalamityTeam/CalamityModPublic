@@ -87,12 +87,13 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
             NPCID.Sets.BossBestiaryPriority.Add(Type);
             NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
             {
-                Scale = 0.5f,
-                PortraitScale = 0.8f,
-                PortraitPositionXOverride = 2f,
-                PortraitPositionYOverride = 2f
+                Scale = 0.50f,
+                PortraitScale = 0.6f,
+                PortraitPositionXOverride = 40,
+                CustomTexturePath = "CalamityMod/ExtraTextures/Bestiary/AdultEidolonWyrm_Bestiary"
             };
-            value.Position.Y -= 32f;
+            value.Position.X += 55;
+            value.Position.Y += 5;
             NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 
@@ -120,7 +121,6 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
             NPC.DeathSound = SoundID.NPCDeath6;
             NPC.netAlways = true;
             NPC.boss = true;
-            Music = CalamityMod.Instance.GetMusicFromMusicMod("AdultEidolonWyrm") ?? MusicID.Boss3;
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToSickness = true;
             NPC.Calamity().VulnerableToElectricity = true;
@@ -171,7 +171,6 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
             CalamityGlobalNPC.adultEidolonWyrmHead = NPC.whoAmI;
 
             // Difficulty modes
-            bool malice = CalamityWorld.malice;
             bool death = CalamityWorld.death;
             bool revenge = CalamityWorld.revenge;
             bool expertMode = Main.expertMode;
@@ -201,7 +200,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
             bool targetOnMount = player.mount.Active;
 
             // Check whether enraged for the sake of the HP bar UI
-            NPC.Calamity().CurrentlyEnraged = !targetDownDeep || malice;
+            NPC.Calamity().CurrentlyEnraged = !targetDownDeep;
 
             if (NPC.ai[2] > 0f)
                 NPC.realLife = (int)NPC.ai[2];
@@ -305,14 +304,21 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
             // Phase 6 - 10
 
             // Phase gate values
-            float chargePhaseGateValue = malice ? 120f : death ? 180f : revenge ? 210f : expertMode ? 240f : 300f;
-            float lightningRainDuration = malice ? 150f : 180f;
-            float eidolonWyrmPhaseDuration = malice ? 90f : death ? 120f : revenge ? 135f : expertMode ? 150f : 180f;
-            float iceMistDuration = malice ? 150f : 180f;
-            float spinPhaseDuration = malice ? 210f : death ? 240f : revenge ? 255f : expertMode ? 270f : 300f;
+            float chargePhaseGateValue = death ? 180f : revenge ? 210f : expertMode ? 240f : 300f;
+            float lightningRainDuration = 180f;
+            float eidolonWyrmPhaseDuration = death ? 120f : revenge ? 135f : expertMode ? 150f : 180f;
+            float iceMistDuration = 180f;
+            float spinPhaseDuration = death ? 240f : revenge ? 255f : expertMode ? 270f : 300f;
             float ancientDoomPhaseGateValue = 30f;
-            float ancientDoomGateValue = malice ? 80f : death ? 95f : revenge ? 100f : expertMode ? 105f : 120f;
-            float lightningChargePhaseGateValue = malice ? 90f : death ? 120f : revenge ? 135f : expertMode ? 150f : 180f;
+            float ancientDoomGateValue = death ? 95f : revenge ? 100f : expertMode ? 105f : 120f;
+            float lightningChargePhaseGateValue = death ? 120f : revenge ? 135f : expertMode ? 150f : 180f;
+
+            if (Main.getGoodWorld)
+            {
+                lightningRainDuration *= 0.5f;
+                eidolonWyrmPhaseDuration *= 0.25f;
+                iceMistDuration *= 0.5f;
+            }
 
             // Adjust slowing debuff immunity
             bool immuneToSlowingDebuffs = AIState == (float)Phase.FinalPhase || AIState == (float)Phase.ShadowFireballSpin;
@@ -392,7 +398,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
             }
             Vector2 chargeLocation = destination + chargeVector;
             Vector2 chargeVectorFlipped = chargeVector * -1f;
-            float chargePredictionAmt = malice ? 60f : death ? 50f : revenge ? 40f : expertMode ? 30f : 20f;
+            float chargePredictionAmt = death ? 50f : revenge ? 40f : expertMode ? 30f : 20f;
 
             // Lightning Rain variables
             Vector2 lightningRainLocation = new Vector2(0f, -baseDistance);
@@ -401,7 +407,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
             // Wyrm and Eidolist variables
             Vector2 eidolonWyrmPhaseLocation = new Vector2(0f, baseDistance);
             float eidolonWyrmPhaseLocationDistance = baseAttackTriggerDistance;
-            int eidolistScale = malice ? 4 : death ? 3 : revenge ? 2 : expertMode ? 1 : 0;
+            int eidolistScale = death ? 3 : revenge ? 2 : expertMode ? 1 : 0;
             int maxEidolists = (targetDownDeep ? 3 : 6) + eidolistScale;
 
             // Ice Mist variables
@@ -416,9 +422,9 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
             // Ancient Doom variables
             Vector2 ancientDoomLocation = new Vector2(0f, -baseDistance);
             float ancientDoomLocationDistance = baseAttackTriggerDistance;
-            int ancientDoomScale = malice ? 4 : death ? 3 : revenge ? 2 : expertMode ? 1 : 0;
+            int ancientDoomScale = death ? 3 : revenge ? 2 : expertMode ? 1 : 0;
             int ancientDoomLimit = (targetDownDeep ? 4 : 8) + ancientDoomScale;
-            int ancientDoomDistance = malice ? 480 : death ? 520 : revenge ? 535 : expertMode ? 550 : 600;
+            int ancientDoomDistance = death ? 520 : revenge ? 535 : expertMode ? 550 : 600;
             float maxAncientDoomRings = 3f;
 
             // Lightning charge variables
@@ -428,13 +434,17 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
             Vector2 lightningChargeVectorFlipped = lightningChargeVector * -1f;
             float lightningSpawnY = 540f;
             Vector2 lightningSpawnLocation = new Vector2(NPC.Center.X, NPC.Center.Y - lightningSpawnY);
-            int numLightningBolts = malice ? 12 : death ? 10 : revenge ? 8 : expertMode ? 6 : 4;
+            int numLightningBolts = death ? 10 : revenge ? 8 : expertMode ? 6 : 4;
             float distanceBetweenBolts = lightningSpawnY * 2f / numLightningBolts;
 
             // Velocity and turn speed values
-            float velocityScale = malice ? 3f : death ? 1.8f : revenge ? 1.5f : expertMode ? 1.2f : 0f;
+            float velocityScale = death ? 1.8f : revenge ? 1.5f : expertMode ? 1.2f : 0f;
             float baseVelocity = (targetDownDeep ? 12f : 24f) + (targetDownDeep ? velocityScale : velocityScale * 2f);
+            if (Main.getGoodWorld)
+                baseVelocity *= 1.15f;
+
             float turnSpeed = baseVelocity * 0.125f;
+
             float normalChargeVelocityMult = MathHelper.Lerp(1f, 2f, chargeVelocityScalar);
             float normalChargeTurnSpeedMult = MathHelper.Lerp(1f, 8f, chargeVelocityScalar);
             float invisiblePhaseVelocityMult = MathHelper.Lerp(1f, 1.5f, chargeVelocityScalar);
@@ -601,7 +611,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
                                 }
 
                                 float predictionAmt = targetDownDeep ? 45f : 60f;
-                                float lightningVelocityScale = malice ? 1.5f : death ? 0.9f : revenge ? 0.75f : expertMode ? 0.6f : 0f;
+                                float lightningVelocityScale = death ? 0.9f : revenge ? 0.75f : expertMode ? 0.6f : 0f;
                                 float lightningVelocity = ((targetDownDeep && !targetOnMount) ? 6f : 9f) + ((targetDownDeep && !targetOnMount) ? lightningVelocityScale : lightningVelocityScale * 1.5f);
                                 for (int i = 0; i < numProjectiles; i++)
                                 {
@@ -883,7 +893,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
                             }
 
                             float predictionAmt = targetDownDeep ? 90f : 120f;
-                            float iceMistVelocityScale = malice ? 3f : death ? 1.8f : revenge ? 1.5f : expertMode ? 1.2f : 0f;
+                            float iceMistVelocityScale = death ? 1.8f : revenge ? 1.5f : expertMode ? 1.2f : 0f;
                             float iceMistVelocity = (targetDownDeep ? 12f : 18f) + (targetDownDeep ? iceMistVelocityScale : iceMistVelocityScale * 1.5f);
                             for (int i = 0; i < numProjectiles; i++)
                             {
@@ -1333,7 +1343,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
 
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)
         {
-            cooldownSlot = 1;
+            cooldownSlot = ImmunityCooldownID.Bosses;
 
             Rectangle targetHitbox = target.Hitbox;
 
@@ -1425,7 +1435,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            if (NPC.Opacity == 1f)
+            if (NPC.Opacity == 1f && damage > 0)
                 player.AddBuff(ModContent.BuffType<CrushDepth>(), 600, true);
         }
     }

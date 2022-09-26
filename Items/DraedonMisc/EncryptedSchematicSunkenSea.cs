@@ -1,6 +1,13 @@
-﻿using System;
-using CalamityMod.CustomRecipes;
+﻿using CalamityMod.CustomRecipes;
 using CalamityMod.Items.Materials;
+using CalamityMod.Items.Weapons.DraedonsArsenal;
+using CalamityMod.Items.DraedonMisc;
+using CalamityMod.UI;
+using CalamityMod.Rarities;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -11,22 +18,21 @@ namespace CalamityMod.Items.DraedonMisc
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Schematic");
+            SacrificeTotal = 1;
+            DisplayName.SetDefault("Schematic (Sunken Sea)");
             Tooltip.SetDefault("Finely detailed diagrams of numerous devices and weaponry dance across the holographic screen.\n" +
-            "The weaponry I supply to the workers of the laboratories is weak. Hardly suited for battle.\n" +
-            "However, they suffice for self defense against any lab mechanisms or creations which may have gone rogue.\n" +
-            "Addendum: For those who think themselves powerful, search the upper bounds of this planet’s atmosphere for a structure similar to that of the Sunken Seas.\n" +
-            "I will know by the end if you are worthy of battling my creations.\n" +
-            "Picking up this item or holding it in your inventory permanently unlocks new recipes");
+                "Picking up this item or holding it in your inventory permanently unlocks new recipes.\n" +
+                "Click to view its contents.");
         }
 
         public override void SetDefaults()
         {
             Item.width = 42;
             Item.height = 42;
-            Item.rare = ItemRarityID.Red;
-            Item.Calamity().customRarity = CalamityRarity.DraedonRust;
+            Item.rare = ModContent.RarityType<DarkOrange>();
             Item.maxStack = 1;
+            Item.useAnimation = Item.useTime = 20;
+            Item.useStyle = ItemUseStyleID.HoldUp;
         }
 
         public override void UpdateInventory(Player player)
@@ -51,6 +57,52 @@ namespace CalamityMod.Items.DraedonMisc
                 AddCondition(SchematicRecipe.ConstructRecipeCondition("Sunken Sea", out Predicate<Recipe> condition), condition).
                 AddTile(TileID.Anvils).
                 Register();
+        }
+
+        public override void ModifyTooltips(List<TooltipLine> list)
+        {
+            TooltipLine line = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip0");
+            if (RecipeUnlockHandler.HasUnlockedT1ArsenalRecipes)
+            {
+                int insertIndex = list.FindIndex(x => x.Name == "Tooltip2" && x.Mod == "Terraria");
+                if (insertIndex != -1)
+                {
+                    TooltipLine meleeDisplay = new TooltipLine(this.Mod, "CalamityMod:MeleeDisplay", $"[i:{ModContent.ItemType<GaussDagger>()}] Gauss Dagger");
+                    meleeDisplay.OverrideColor = new Color(236, 255, 31);
+                    list.Insert(insertIndex + 1, meleeDisplay);
+
+                    TooltipLine rangedDisplay = new TooltipLine(this.Mod, "CalamityMod:RangedDisplay", $"[i:{ModContent.ItemType<Taser>()}] Taser");
+                    rangedDisplay.OverrideColor = new Color(31, 242, 245);
+                    list.Insert(insertIndex + 2, rangedDisplay);
+
+                    TooltipLine mageDisplay = new TooltipLine(this.Mod, "CalamityMod:MageDisplay", $"[i:{ModContent.ItemType<PulsePistol>()}] Pulse Pistol");
+                    mageDisplay.OverrideColor = new Color(201, 41, 255);
+                    list.Insert(insertIndex + 3, mageDisplay);
+
+                    TooltipLine summonDisplay = new TooltipLine(this.Mod, "CalamityMod:SummonDisplay", $"[i:{ModContent.ItemType<StarSwallowerContainmentUnit>()}] Star Swallower Containment Unit");
+                    summonDisplay.OverrideColor = new Color(149, 243, 43);
+                    list.Insert(insertIndex + 4, summonDisplay);
+
+                    TooltipLine rogueDisplay = new TooltipLine(this.Mod, "CalamityMod:RogueDisplay", $"[i:{ModContent.ItemType<TrackingDisk>()}] Tracking Disk");
+                    rogueDisplay.OverrideColor = new Color(255, 64, 31);
+                    list.Insert(insertIndex + 5, rogueDisplay);
+
+                    TooltipLine machineDisplay = new TooltipLine(this.Mod, "CalamityMod:CodeDisplay", $"[i:{ModContent.ItemType<DecryptionComputer>()}] Decryption Computer");
+                    machineDisplay.OverrideColor = new Color(165, 118, 104);
+                    list.Insert(insertIndex + 6, machineDisplay);
+
+                }
+            }
+
+        }
+
+        public override bool? UseItem(Player player)
+        {
+            if (Main.myPlayer == player.whoAmI && RecipeUnlockHandler.HasUnlockedT1ArsenalRecipes)
+            {
+                PopupGUIManager.FlipActivityOfGUIWithType(typeof(DraedonSchematicSunkenSeaGUI));
+            }
+            return true;
         }
     }
 }

@@ -2,6 +2,7 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Projectiles.DraedonsArsenal;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Star Swallower Containment Unit");
             Tooltip.SetDefault("Small novelties created to easily transport and fire plasma, strangely popular with humans\n" +
             "Summons a biomechanical frog that vomits plasma onto enemies");
@@ -35,8 +37,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             Item.noMelee = true;
             Item.knockBack = 2.25f;
             Item.value = CalamityGlobalItem.Rarity3BuyPrice;
-            Item.rare = ItemRarityID.Red;
-            modItem.customRarity = CalamityRarity.DraedonRust;
+            Item.rare = ModContent.RarityType<DarkOrange>();
             Item.UseSound = SoundID.Item15;
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<StarSwallowerSummon>();

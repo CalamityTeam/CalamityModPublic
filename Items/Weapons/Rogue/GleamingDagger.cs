@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class GleamingDagger : ModItem
+    public class GleamingDagger : RogueWeapon
     {
         public override void SetStaticDefaults()
         {

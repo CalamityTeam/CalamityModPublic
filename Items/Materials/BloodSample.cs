@@ -10,6 +10,7 @@ namespace CalamityMod.Items.Materials
         {
             SacrificeTotal = 25;
             DisplayName.SetDefault("Blood Sample");
+			ItemID.Sets.SortingPriorityMaterials[Type] = 68; // Sturdy Fossil
         }
 
         public override void SetDefaults()

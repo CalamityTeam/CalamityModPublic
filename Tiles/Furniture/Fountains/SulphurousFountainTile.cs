@@ -13,7 +13,7 @@ namespace CalamityMod.Tiles.Furniture.Fountains
         public override void SetStaticDefaults()
         {
             this.SetUpFountain();
-            AddMapEntry(new Color(104, 195, 255), Language.GetText("MapObject.WaterFountain"));
+            AddMapEntry(new Color(141, 121, 77), Language.GetText("MapObject.WaterFountain"));
             AnimationFrameHeight = 72;
         }
 

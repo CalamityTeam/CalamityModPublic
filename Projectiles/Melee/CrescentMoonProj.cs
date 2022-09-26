@@ -22,7 +22,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.height = 50;
             Projectile.alpha = 100;
             Projectile.friendly = true;
-            Projectile.DamageType = DamageClass.Melee;
+            Projectile.DamageType = DamageClass.MeleeNoSpeed;
             Projectile.tileCollide = false;
             Projectile.penetrate = 5;
             Projectile.timeLeft = 180;
@@ -30,7 +30,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 10;
             Projectile.extraUpdates = 1;
-            Projectile.aiStyle = 18;
+            Projectile.aiStyle = ProjAIStyleID.Sickle;
             AIType = ProjectileID.DeathSickle;
         }
 
@@ -46,7 +46,7 @@ namespace CalamityMod.Projectiles.Melee
                 }
             }
 
-            CalamityGlobalProjectile.HomeInOnNPC(Projectile, true, 250f, 12f, 20f);
+            CalamityUtils.HomeInOnNPC(Projectile, true, 250f, 12f, 20f);
         }
 
         public override bool PreDraw(ref Color lightColor)

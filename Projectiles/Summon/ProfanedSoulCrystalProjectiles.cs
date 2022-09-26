@@ -35,6 +35,7 @@ namespace CalamityMod.Projectiles.Summon
             if (!hit)
                 mult = enrage ? 0.2f : 0.1f; //punishing to miss
             int damage = (int)((Projectile.damage * 0.2f) * mult);
+			int origDmg = (int)((Projectile.originalDamage * 0.2f) * mult);
 
             float outerAngleVariance = MathHelper.TwoPi / (float)outerSplits;
             float outerOffsetAngle = MathHelper.Pi / (2f * outerSplits);
@@ -52,7 +53,7 @@ namespace CalamityMod.Projectiles.Summon
                 int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center + outerPosVec, velocity, ModContent.ProjectileType<ProfanedCrystalMageFireballSplit>(), damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
                 if (proj.WithinBounds(Main.maxProjectiles))
                 {
-                    Main.projectile[proj].originalDamage = damage;
+                    Main.projectile[proj].originalDamage = origDmg;
                     Main.projectile[proj].DamageType = DamageClass.Summon;
                 }
                 if (innerSplits > 0) //only runs if there's still inner splits to create
@@ -64,7 +65,7 @@ namespace CalamityMod.Projectiles.Summon
                     proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center + innerPosVec, velocity, ModContent.ProjectileType<ProfanedCrystalMageFireballSplit>(), damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
                     if (proj.WithinBounds(Main.maxProjectiles))
                     {
-                        Main.projectile[proj].originalDamage = damage;
+                        Main.projectile[proj].originalDamage = origDmg;
                         Main.projectile[proj].DamageType = DamageClass.Summon;
                     }
                 }
@@ -147,8 +148,11 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.active = false;
         }
 
-        public override void OnHitPlayer(Player target, int damage, bool crit)
+        public override void OnHitPvp(Player target, int damage, bool crit)
         {
+            if (damage <= 0)
+                return;
+
             if (Main.myPlayer == Projectile.owner)
             {
                 Split(true, true);
@@ -324,7 +328,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override bool? CanHitNPC(NPC target)
         {
-            bool instakill = target.type == ModContent.NPCType<SepulcherHead>() || target.type == ModContent.NPCType<SepulcherBody>() || target.type == ModContent.NPCType<SCalWormBodyWeak>() || target.type == ModContent.NPCType<SepulcherTail>();
+            bool instakill = target.type == ModContent.NPCType<SepulcherHead>() || target.type == ModContent.NPCType<SepulcherBody>() || target.type == ModContent.NPCType<SepulcherBodyEnergyBall>() || target.type == ModContent.NPCType<SepulcherTail>();
             if (!instakill && this.target != null && target != this.target)
             {
                 if (Projectile.getRect().Intersects(target.getRect()))
@@ -723,7 +727,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override bool? CanHitNPC(NPC target)
         {
-            bool instakill = target.type == ModContent.NPCType<SepulcherHead>() || target.type == ModContent.NPCType<SepulcherBody>() || target.type == ModContent.NPCType<SCalWormBodyWeak>() || target.type == ModContent.NPCType<SepulcherTail>();
+            bool instakill = target.type == ModContent.NPCType<SepulcherHead>() || target.type == ModContent.NPCType<SepulcherBody>() || target.type == ModContent.NPCType<SepulcherBodyEnergyBall>() || target.type == ModContent.NPCType<SepulcherTail>();
             if (!instakill && this.target != null && target != this.target)
                 return false;
             return null;

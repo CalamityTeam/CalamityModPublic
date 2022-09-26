@@ -1,15 +1,16 @@
 ﻿using CalamityMod.CalPlayer;
+using CalamityMod.CalPlayer.Dashes;
 using CalamityMod.Items.Materials;
+using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
 using Terraria.DataStructures;
-using Terraria.ModLoader;
-using CalamityMod.CalPlayer.Dashes;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
-    [LegacyName("StatisBeltofCurses")]
+    [LegacyName("StatisBeltOfCurses")]
     public class StatisVoidSash : ModItem
     {
         public override void SetStaticDefaults()
@@ -32,7 +33,7 @@ namespace CalamityMod.Items.Accessories
             Item.height = 32;
             Item.accessory = true;
             Item.value = CalamityGlobalItem.Rarity14BuyPrice;
-            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.rare = ModContent.RarityType<DarkBlue>();
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -43,7 +44,7 @@ namespace CalamityMod.Items.Accessories
             player.noFallDmg = true;
             player.blackBelt = true;
             modPlayer.DashID = StatisVoidSashDash.ID;
-            player.dash = 0;
+            player.dashType = 0;
             player.spikedBoots = 2;
         }
 

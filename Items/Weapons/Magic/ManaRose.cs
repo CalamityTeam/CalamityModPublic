@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.knockBack = 3.25f;
-            Item.value = Item.buyPrice(0, 2, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity2BuyPrice;
             Item.rare = ItemRarityID.Green;
             Item.UseSound = SoundID.Item109;
             Item.autoReuse = true;
@@ -36,8 +36,7 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.shootSpeed = 10f;
         }
 
-        public override Vector2? HoldoutOrigin() => new Vector2(10, 10);
-
+        
         public override void AddRecipes()
         {
             CreateRecipe().

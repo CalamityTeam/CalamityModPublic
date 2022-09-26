@@ -6,12 +6,13 @@ using CalamityMod.Items.Materials;
 using CalamityMod.Items.Weapons.Magic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
+using Terraria.Audio;
 using Terraria.GameContent.Bestiary;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
-using System;
-using Terraria.Audio;
 
 namespace CalamityMod.NPCs.AcidRain
 {
@@ -24,6 +25,12 @@ namespace CalamityMod.NPCs.AcidRain
             Main.npcFrameCount[NPC.type] = 6;
             NPCID.Sets.TrailingMode[NPC.type] = 1;
             NPCID.Sets.TrailCacheLength[NPC.type] = 7;
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            {
+                PortraitPositionXOverride = 0
+            };
+            value.Position.X += 15;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 
         public override void SetDefaults()
@@ -147,7 +154,8 @@ namespace CalamityMod.NPCs.AcidRain
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
             npcLoot.Add(ModContent.ItemType<SulphuricScale>(), 2, 1, 3);
-            npcLoot.AddIf(() => DownedBossSystem.downedAquaticScourge, ModContent.ItemType<SlitheringEels>(), 20);
+            LeadingConditionRule postAS = npcLoot.DefineConditionalDropSet(DropHelper.PostAS());
+            postAS.Add(ModContent.ItemType<SlitheringEels>(), 20);
         }
 
         public override void FindFrame(int frameHeight)
@@ -186,6 +194,10 @@ namespace CalamityMod.NPCs.AcidRain
             }
         }
 
-        public override void OnHitPlayer(Player target, int damage, bool crit) => target.AddBuff(ModContent.BuffType<Irradiated>(), 120);
+        public override void OnHitPlayer(Player target, int damage, bool crit)
+        {
+            if (damage > 0)
+                target.AddBuff(ModContent.BuffType<Irradiated>(), 120);
+        }
     }
 }

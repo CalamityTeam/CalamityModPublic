@@ -301,7 +301,7 @@ namespace CalamityMod.NPCs.Abyss
                         NPC.Center = ((player7.gravDir == 1f) ? player7.Top : player7.Bottom) + new Vector2((float)(player7.direction * 4), 0f);
                         NPC.gfxOffY = player7.gfxOffY;
                         NPC.velocity = Vector2.Zero;
-                        player7.AddBuff(163, 59, true);
+                        player7.AddBuff(BuffID.Obstructed, 59, true);
                     }
                 }
                 NPC.rotation = NPC.velocity.X * 0.05f;
@@ -548,18 +548,19 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(ModContent.BuffType<CrushDepth>(), 300, true);
+            if (damage > 0)
+                player.AddBuff(ModContent.BuffType<CrushDepth>(), 300, true);
         }
 
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
             npcLoot.Add(ItemID.BlackInk, 1, 3, 5);
-            npcLoot.Add(ModContent.ItemType<InkBomb>(), 10);
+            npcLoot.Add(ModContent.ItemType<InkBomb>(), 5);
 
-            var postClone = npcLoot.DefineConditionalDropSet(() => DownedBossSystem.downedCalamitas);
+            var postClone = npcLoot.DefineConditionalDropSet(DropHelper.PostCal());
             postClone.Add(DropHelper.NormalVsExpertQuantity(ModContent.ItemType<DepthCells>(), 2, 26, 38, 31, 45));
 
-            npcLoot.AddIf(() => DownedBossSystem.downedPolterghast, ModContent.ItemType<CalamarisLament>(), 3);
+            npcLoot.AddIf(DropHelper.PostPolter(), ModContent.ItemType<CalamarisLament>(), 3);
         }
 
         public override void HitEffect(int hitDirection, double damage)

@@ -21,6 +21,7 @@ namespace CalamityMod.Projectiles.Boss
         {
             Projectile.width = 10;
             Projectile.height = 10;
+            Projectile.scale = 1.2f;
             Projectile.hostile = true;
             Projectile.coldDamage = true;
             Projectile.penetrate = -1;
@@ -80,32 +81,11 @@ namespace CalamityMod.Projectiles.Boss
                 if (Projectile.velocity.Y > 6f)
                     Projectile.velocity.Y = 6f;
             }
-
-            if (Projectile.localAI[0] == 0f)
-            {
-                Projectile.scale += 0.01f;
-                Projectile.alpha -= 50;
-                if (Projectile.alpha <= 0)
-                {
-                    Projectile.localAI[0] = 1f;
-                    Projectile.alpha = 0;
-                }
-            }
-            else
-            {
-                Projectile.scale -= 0.01f;
-                Projectile.alpha += 50;
-                if (Projectile.alpha >= 255)
-                {
-                    Projectile.localAI[0] = 0f;
-                    Projectile.alpha = 255;
-                }
-            }
         }
 
         public override Color? GetAlpha(Color lightColor)
         {
-            return Main.dayTime ? new Color(50, 50, 255, Projectile.alpha) : new Color(255, 255, 255, Projectile.alpha);
+            return new Color(255, 255, 255, Projectile.alpha);
         }
 
         public override void Kill(int timeLeft)
@@ -122,6 +102,9 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
+            if (damage <= 0)
+                return;
+
             target.AddBuff(BuffID.Frostburn, 120, true);
             target.AddBuff(BuffID.Chilled, 60, true);
         }

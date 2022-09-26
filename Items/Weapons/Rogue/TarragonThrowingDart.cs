@@ -1,14 +1,15 @@
-﻿using Terraria.DataStructures;
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Rogue;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class TarragonThrowingDart : ModItem
+    public class TarragonThrowingDart : RogueWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -34,11 +35,10 @@ Stealth strikes erupt into thorns on enemy hits");
             Item.height = 34;
             Item.maxStack = 999;
             Item.value = Item.sellPrice(copper: 30);
-            Item.rare = ItemRarityID.Purple;
             Item.shoot = ModContent.ProjectileType<TarragonThrowingDartProjectile>();
             Item.shootSpeed = 12f;
             Item.DamageType = RogueDamageClass.Instance;
-            Item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.rare = ModContent.RarityType<Turquoise>();
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)

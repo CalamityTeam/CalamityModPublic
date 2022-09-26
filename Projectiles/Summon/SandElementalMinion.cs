@@ -129,7 +129,7 @@ namespace CalamityMod.Projectiles.Summon
                     Projectile.frame = 6;
                 }
                 Projectile.frameCounter++;
-                if (Projectile.frameCounter > 12)
+                if (Projectile.frameCounter > 7)
                 {
                     Projectile.frame++;
                     Projectile.frameCounter = 0;
@@ -143,7 +143,7 @@ namespace CalamityMod.Projectiles.Summon
             else
             {
                 Projectile.frameCounter++;
-                if (Projectile.frameCounter > 12)
+                if (Projectile.frameCounter > 7)
                 {
                     Projectile.frame++;
                     Projectile.frameCounter = 0;

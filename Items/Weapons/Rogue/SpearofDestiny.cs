@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class SpearofDestiny : ModItem
+    public class SpearofDestiny : RogueWeapon
     {
         public override void SetStaticDefaults()
         {

@@ -1,4 +1,5 @@
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Magic
 {
@@ -13,7 +14,7 @@ namespace CalamityMod.Projectiles.Magic
         {
             Projectile.width = 14;
             Projectile.height = 14;
-            Projectile.aiStyle = 14;
+            Projectile.aiStyle = ProjAIStyleID.GroundProjectile;
             Projectile.penetrate = 2;
             Projectile.timeLeft = 200;
             Projectile.DamageType = DamageClass.Magic;

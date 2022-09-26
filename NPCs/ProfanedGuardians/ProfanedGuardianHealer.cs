@@ -25,6 +25,15 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             Main.npcFrameCount[NPC.type] = 6;
             NPCID.Sets.TrailingMode[NPC.type] = 1;
             NPCID.Sets.BossBestiaryPriority.Add(Type);
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            {
+                PortraitPositionXOverride = 0,
+                PortraitScale = 0.75f,
+                Scale = 0.75f
+            };
+            value.Position.X += 25;
+            value.Position.Y += 15;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 
         public override void SetDefaults()
@@ -137,8 +146,14 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 num786 = (Main.npc[CalamityGlobalNPC.doughnutBoss].velocity.Length() + 3f) / num786;
                 num784 *= num786;
                 num785 *= num786;
-                NPC.velocity.X = (NPC.velocity.X * 25f + num784) / 26f;
-                NPC.velocity.Y = (NPC.velocity.Y * 25f + num785) / 26f;
+
+                float inertia = 25f;
+                if (Main.getGoodWorld)
+                    inertia *= 0.8f;
+
+                NPC.velocity.X = (NPC.velocity.X * inertia + num784) / (inertia + 1f);
+                NPC.velocity.Y = (NPC.velocity.Y * inertia + num785) / (inertia + 1f);
+
                 return;
             }
 
@@ -223,7 +238,8 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(ModContent.BuffType<HolyFlames>(), 180, true);
+            if (damage > 0)
+                player.AddBuff(ModContent.BuffType<HolyFlames>(), 180, true);
         }
 
         public override void HitEffect(int hitDirection, double damage)

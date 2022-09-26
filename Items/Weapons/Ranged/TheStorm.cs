@@ -1,8 +1,9 @@
-﻿using Terraria.DataStructures;
-using CalamityMod.Projectiles.Ranged;
+﻿using CalamityMod.Projectiles.Ranged;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -30,8 +31,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.noMelee = true;
             Item.knockBack = 3.5f;
             Item.value = CalamityGlobalItem.Rarity12BuyPrice;
-            Item.rare = ItemRarityID.Purple;
-            Item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.rare = ModContent.RarityType<Turquoise>();
             Item.UseSound = SoundID.Item122;
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<Bolt>();
@@ -85,7 +85,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 num79 *= num80;
                 float speedX4 = num78 + (float)Main.rand.Next(-120, 121) * 0.01f;
                 float speedY5 = num79 + (float)Main.rand.Next(-120, 121) * 0.01f;
-                if (type == ProjectileID.WoodenArrowFriendly)
+                if (CalamityUtils.CheckWoodenAmmo(type, player))
                 {
                     Projectile.NewProjectile(source, vector2.X, vector2.Y, speedX4, speedY5 * 0.9f, ModContent.ProjectileType<Bolt>(), damage, knockback, i);
                     Projectile.NewProjectile(source, vector2.X, vector2.Y, speedX4, speedY5 * 0.8f, ModContent.ProjectileType<Bolt>(), damage, knockback, i);

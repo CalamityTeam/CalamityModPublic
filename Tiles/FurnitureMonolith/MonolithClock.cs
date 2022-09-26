@@ -74,5 +74,7 @@ namespace CalamityMod.Tiles.FurnitureMonolith
         {
             Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 48, 32, ModContent.ItemType<Items.Placeables.FurnitureMonolith.MonolithClock>());
         }
+
+        public override void MouseOver(int i, int j) => CalamityUtils.MouseOver(i, j, ModContent.ItemType<Items.Placeables.FurnitureMonolith.MonolithClock>());
     }
 }

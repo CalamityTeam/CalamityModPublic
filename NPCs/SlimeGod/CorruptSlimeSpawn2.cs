@@ -30,7 +30,7 @@ namespace CalamityMod.NPCs.SlimeGod
             }
             NPC.knockBackResist = 0f;
             AnimationType = NPCID.CorruptSlime;
-            NPC.alpha = 55;
+            NPC.Opacity = 0.8f;
             NPC.lavaImmune = false;
             NPC.noGravity = false;
             NPC.noTileCollide = false;
@@ -43,34 +43,39 @@ namespace CalamityMod.NPCs.SlimeGod
 
         public override void HitEffect(int hitDirection, double damage)
         {
+            Color dustColor = Color.Lavender;
+            dustColor.A = 150;
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(NPC.position, NPC.width, NPC.height, 4, hitDirection, -1f, NPC.alpha, Color.Lavender, 1f);
+                Dust.NewDust(NPC.position, NPC.width, NPC.height, 4, hitDirection, -1f, NPC.alpha, dustColor, 1f);
             }
             if (NPC.life <= 0)
             {
                 for (int k = 0; k < 20; k++)
                 {
-                    Dust.NewDust(NPC.position, NPC.width, NPC.height, 4, hitDirection, -1f, NPC.alpha, Color.Lavender, 1f);
+                    Dust.NewDust(NPC.position, NPC.width, NPC.height, 4, hitDirection, -1f, NPC.alpha, dustColor, 1f);
                 }
             }
         }
 
         public override void OnKill()
         {
-            if (!CalamityWorld.revenge)
-            {
-                int closestPlayer = Player.FindClosest(NPC.Center, 1, 1);
-                if (Main.rand.NextBool(8) && Main.player[closestPlayer].statLife < Main.player[closestPlayer].statLifeMax2)
-                    Item.NewItem(NPC.GetSource_Loot(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
-            }
+            int closestPlayer = Player.FindClosest(NPC.Center, 1, 1);
+            if (Main.rand.NextBool(8) && Main.player[closestPlayer].statLife < Main.player[closestPlayer].statLifeMax2)
+                Item.NewItem(NPC.GetSource_Loot(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
         }
 
         public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.Add(ItemID.Vitamins, 50);
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(BuffID.Weak, 90, true);
+            if (damage > 0)
+                player.AddBuff(BuffID.Weak, 90, true);
+        }
+
+        public override Color? GetAlpha(Color drawColor)
+        {
+            return new Color(255, 255, 255, drawColor.A) * NPC.Opacity;
         }
     }
 }

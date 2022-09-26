@@ -34,8 +34,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             float lifeRatio = npc.life / (float)npc.lifeMax;
 
             // Phases
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || bossRush;
             bool phase2 = lifeRatio < 0.85f;
             bool phase3 = lifeRatio < 0.7f;
             bool phase4 = lifeRatio < 0.55f;
@@ -62,7 +62,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             int idleTime = phase3 ? 35 : 40;
             float timeToFinishRitual = phase5 ? 300f : 360f;
 
-            if (malice)
+            if (bossRush)
             {
                 iceMistFireRate = 40;
                 iceMistSpeed = 14f;
@@ -86,8 +86,6 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 ancientLightAmt = 5;
                 idleTime = 20;
             }
-
-            npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive && malice;
 
             // Get a target
             if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
@@ -453,7 +451,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             if (num19 != 0)
                                 nPC3.direction = nPC3.spriteDirection = num19;
 
-                            vec = Vector2.Normalize(player.Center - center3 + player.velocity * 20f);
+                            vec = Vector2.Normalize(player.Center - center3);
                             if (vec.HasNaNs())
                                 vec = new Vector2(npc.direction, 0f);
 
@@ -466,7 +464,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        vec = Vector2.Normalize(player.Center - npc.Center + player.velocity * 20f);
+                        vec = Vector2.Normalize(player.Center - npc.Center);
                         if (vec.HasNaNs())
                             vec = new Vector2(npc.direction, 0f);
 
@@ -518,7 +516,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                                 if (num21 != 0)
                                     nPC4.direction = nPC4.spriteDirection = num21;
 
-                                vec2 = Vector2.Normalize(player.Center - center4 + player.velocity * 20f);
+                                vec2 = Vector2.Normalize(player.Center - center4);
                                 if (vec2.HasNaNs())
                                     vec2 = new Vector2(npc.direction, 0f);
 
@@ -536,7 +534,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        vec2 = Vector2.Normalize(player.Center - npc.Center + player.velocity * 20f);
+                        vec2 = Vector2.Normalize(player.Center - npc.Center);
                         if (vec2.HasNaNs())
                             vec2 = new Vector2(npc.direction, 0f);
 
@@ -584,7 +582,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         if (num26 != 0)
                             nPC5.direction = nPC5.spriteDirection = num26;
 
-                        Vector2 vec3 = Vector2.Normalize(player.Center - center5 + player.velocity * 20f);
+                        Vector2 vec3 = Vector2.Normalize(player.Center - center5);
                         if (vec3.HasNaNs())
                             vec3 = new Vector2(npc.direction, 0f);
 
@@ -846,7 +844,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        vec4 = Vector2.Normalize(player.Center - npc.Center + player.velocity * 20f);
+                        vec4 = Vector2.Normalize(player.Center - npc.Center);
                         if (vec4.HasNaNs())
                             vec4 = new Vector2(npc.direction, 0f);
 
@@ -1078,8 +1076,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
         public static bool BuffedAncientDoomAI(NPC npc, Mod mod)
         {
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || bossRush;
             npc.damage = npc.defDamage = 0;
             float duration = 420f;
             float spawnAnimTime = 120f;

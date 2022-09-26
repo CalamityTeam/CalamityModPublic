@@ -23,7 +23,7 @@ namespace CalamityMod.Projectiles.Typeless
             Projectile.timeLeft = 360;
             Projectile.penetrate = 3;
             Projectile.alpha = 255;
-            Projectile.aiStyle = 93;
+            Projectile.aiStyle = ProjAIStyleID.Nail;
             AIType = ProjectileID.NailFriendly;
         }
 
@@ -33,7 +33,7 @@ namespace CalamityMod.Projectiles.Typeless
             {
                 Projectile.tileCollide = true;
             }
-            CalamityGlobalProjectile.HomeInOnNPC(Projectile, true, 150f, 12f, 20f);
+            CalamityUtils.HomeInOnNPC(Projectile, true, 150f, 12f, 20f);
         }
 
         public override void Kill(int timeLeft)

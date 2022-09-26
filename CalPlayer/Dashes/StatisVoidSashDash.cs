@@ -56,7 +56,7 @@ namespace CalamityMod.CalPlayer.Dashes
                 int scythe = Projectile.NewProjectile(player.GetSource_FromAI(), player.Center, Vector2.Zero, ModContent.ProjectileType<CosmicScythe>(), scytheDamage, 5f, player.whoAmI);
                 if (scythe.WithinBounds(Main.maxProjectiles))
                 {
-                    Main.projectile[scythe].Calamity().forceClassless = true;
+                    Main.projectile[scythe].DamageType = DamageClass.Generic;
                     Main.projectile[scythe].usesIDStaticNPCImmunity = true;
                     Main.projectile[scythe].idStaticNPCHitCooldown = 10;
                 }

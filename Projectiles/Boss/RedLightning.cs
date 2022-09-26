@@ -21,7 +21,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-            Projectile.Calamity().canBreakPlayerDefense = true;
+            Projectile.Calamity().DealsDefenseDamage = true;
             Projectile.width = 14;
             Projectile.height = 14;
             Projectile.hostile = true;
@@ -171,12 +171,10 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            target.AddBuff(BuffID.Electrified, 120);
-        }
+            if (damage <= 0)
+                return;
 
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
-        {
-            target.Calamity().lastProjectileHit = Projectile;
+            target.AddBuff(BuffID.Electrified, 120);
         }
 
         public override bool PreDraw(ref Color lightColor)

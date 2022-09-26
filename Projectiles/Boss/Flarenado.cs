@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Boss
 {
@@ -18,7 +19,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-            Projectile.Calamity().canBreakPlayerDefense = true;
+            Projectile.Calamity().DealsDefenseDamage = true;
             Projectile.width = 320;
             Projectile.height = 88;
             Projectile.hostile = true;
@@ -27,7 +28,7 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.penetrate = -1;
             Projectile.alpha = 255;
             Projectile.timeLeft = 600;
-            CooldownSlot = 1;
+            CooldownSlot = ImmunityCooldownID.Bosses;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -65,7 +66,7 @@ namespace CalamityMod.Projectiles.Boss
             {
                 Projectile.localAI[0] = 1f;
                 Projectile.scale = (scaleBase - Projectile.ai[1]) * scaleMult / scaleBase;
-                CalamityGlobalProjectile.ExpandHitboxBy(Projectile, (int)(baseWidth * Projectile.scale), (int)(baseHeight * Projectile.scale));
+                Projectile.ExpandHitboxBy((int)(baseWidth * Projectile.scale), (int)(baseHeight * Projectile.scale));
                 Projectile.netUpdate = true;
             }
             if (Projectile.ai[1] != -1f)
@@ -140,13 +141,11 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
+            if (damage <= 0)
+                return;
+
             if (Projectile.timeLeft <= 480)
                 target.AddBuff(ModContent.BuffType<Dragonfire>(), 360);
-        }
-
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
-        {
-            target.Calamity().lastProjectileHit = Projectile;
         }
     }
 }

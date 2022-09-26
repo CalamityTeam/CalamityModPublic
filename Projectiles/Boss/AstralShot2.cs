@@ -36,11 +36,11 @@ namespace CalamityMod.Projectiles.Boss
             if (Projectile.ai[0] == 1f)
             {
                 Projectile.extraUpdates = 2;
-                bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-                float maxVelocity = malice ? 3.75f : 3f;
+                bool bossRush = BossRushEvent.BossRushActive;
+                float maxVelocity = bossRush ? 3.75f : 3f;
                 if (Projectile.velocity.Length() < maxVelocity)
                 {
-                    Projectile.velocity *= malice ? 1.02f : 1.015f;
+                    Projectile.velocity *= bossRush ? 1.02f : 1.015f;
                     if (Projectile.velocity.Length() > maxVelocity)
                     {
                         Projectile.velocity.Normalize();
@@ -74,6 +74,9 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
+            if (damage <= 0)
+                return;
+
             target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 120);
         }
 

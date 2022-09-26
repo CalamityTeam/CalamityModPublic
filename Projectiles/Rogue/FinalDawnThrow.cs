@@ -95,7 +95,7 @@ namespace CalamityMod.Projectiles.Rogue
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<HolyFlames>(), 240);
+            target.AddBuff(ModContent.BuffType<Dragonfire>(), 240);
         }
     }
 }

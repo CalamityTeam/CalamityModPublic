@@ -20,7 +20,7 @@ namespace CalamityMod.Projectiles.Melee
         {
             Projectile.width = 100;
             Projectile.height = 78;
-            Projectile.aiStyle = 18;
+            Projectile.aiStyle = ProjAIStyleID.Sickle;
             Projectile.friendly = true;
             Projectile.DamageType = DamageClass.Melee;
             Projectile.tileCollide = false;
@@ -40,7 +40,7 @@ namespace CalamityMod.Projectiles.Melee
                 Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 173, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
             }
 
-            CalamityGlobalProjectile.HomeInOnNPC(Projectile, true, 300f, 12f, 20f);
+            CalamityUtils.HomeInOnNPC(Projectile, true, 300f, 12f, 20f);
         }
 
         public override bool PreDraw(ref Color lightColor)

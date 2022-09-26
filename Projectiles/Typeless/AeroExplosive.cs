@@ -83,7 +83,7 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void Kill(int timeLeft)
         {
-            CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 200);
+            Projectile.ExpandHitboxBy(200);
             Projectile.maxPenetrate = Projectile.penetrate = -1;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 10;
@@ -153,7 +153,7 @@ namespace CalamityMod.Projectiles.Typeless
                 }
             }
 
-            CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 15);
+            Projectile.ExpandHitboxBy(15);
 
             if (Projectile.owner == Main.myPlayer)
             {

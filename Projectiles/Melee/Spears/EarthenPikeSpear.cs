@@ -1,8 +1,9 @@
 ﻿using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Projectiles.BaseProjectiles;
 using CalamityMod.Projectiles.Ranged;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Projectiles.BaseProjectiles;
 namespace CalamityMod.Projectiles.Melee.Spears
 {
     public class EarthenPikeSpear : BaseSpearProjectile
@@ -15,7 +16,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
         public override void SetDefaults()
         {
             Projectile.width = 40;  //The width of the .png file in pixels divided by 2.
-            Projectile.aiStyle = 19;
+            Projectile.aiStyle = ProjAIStyleID.Spear;
             Projectile.DamageType = DamageClass.Melee;  //Dictates whether projectile is a melee-class weapon.
             Projectile.timeLeft = 90;
             Projectile.height = 40;  //The height of the .png file in pixels divided by 2.
@@ -48,7 +49,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
                     int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X + Projectile.velocity.X, Projectile.Center.Y + Projectile.velocity.Y,
                         Projectile.velocity.X * 1.25f, velocityY, ModContent.ProjectileType<FossilShard>(), (int)(Projectile.damage * 0.5), 0f, Projectile.owner, 0f, 0f);
                     if (proj.WithinBounds(Main.maxProjectiles))
-                        Main.projectile[proj].Calamity().forceMelee = true;
+                        Main.projectile[proj].DamageType = DamageClass.Melee;
                 }
             }
         }

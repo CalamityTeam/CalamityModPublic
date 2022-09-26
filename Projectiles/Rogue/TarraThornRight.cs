@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Rogue
 {
@@ -18,14 +19,14 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.width = 28;
             Projectile.height = 28;
             Projectile.friendly = true;
-            Projectile.penetrate = -1;
+            Projectile.penetrate = 5;
             Projectile.tileCollide = false;
             Projectile.alpha = 255;
             Projectile.ignoreWater = true;
             Projectile.DamageType = RogueDamageClass.Instance;
             Projectile.usesIDStaticNPCImmunity = true;
             Projectile.idStaticNPCHitCooldown = 10;
-            Projectile.aiStyle = 4;
+            Projectile.aiStyle = ProjAIStyleID.Vilethorn;
         }
 
         public override void AI()

@@ -1,7 +1,9 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Items.Materials;
+using CalamityMod.Items.Tools;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Projectiles.Melee;
+using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -9,7 +11,6 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Items.Tools;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -40,6 +41,8 @@ namespace CalamityMod.Items.Weapons.Melee
                 "The sword is boosted by both melee and ranged damage");
             Item.staff[Item.type] = true;
             SacrificeTotal = 1;
+
+            ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }
 
         public override void SetDefaults()
@@ -60,7 +63,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.shoot = ModContent.ProjectileType<PrismaticBeam>();
             Item.shootSpeed = 14f;
             Item.value = CalamityGlobalItem.Rarity14BuyPrice;
-            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.rare = ModContent.RarityType<DarkBlue>();
             Item.Calamity().donorItem = true;
         }
 

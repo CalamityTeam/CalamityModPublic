@@ -29,7 +29,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.extraUpdates = 3;
             Projectile.timeLeft = Projectile.MaxUpdates * 90;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 32; // can't hit too fast, but can hit many many times
+            Projectile.localNPCHitCooldown = 26; // can't hit too fast, but can hit many many times
             Projectile.DamageType = RogueDamageClass.Instance;
         }
 
@@ -54,7 +54,7 @@ namespace CalamityMod.Projectiles.Rogue
 
                 // Initial homing before landing a hit.
                 else
-                    CalamityGlobalProjectile.HomeInOnNPC(Projectile, true, 250f, 12f, 14f);
+                    CalamityUtils.HomeInOnNPC(Projectile, true, 250f, 12f, 14f);
             }
 
             // Homing after landing a hit. This homing repeatedly turns on and off.

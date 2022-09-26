@@ -1,4 +1,4 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Fire");
+            DisplayName.SetDefault("Sparked Flames");
         }
 
         public override void SetDefaults()
@@ -32,6 +32,7 @@ namespace CalamityMod.Projectiles.Ranged
             if (Projectile.wet && !Projectile.lavaWet)
             {
                 Projectile.Kill();
+                return;
             }
 
             if (Main.rand.NextBool(3))
@@ -61,7 +62,7 @@ namespace CalamityMod.Projectiles.Ranged
                 {
                     int fire = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, dustType, Projectile.velocity.X * 0.2f, Projectile.velocity.Y * 0.2f, 10, default, 0.75f);
                     Dust dust = Main.dust[fire];
-                    if (Main.rand.Next(3) == 0)
+                    if (Main.rand.NextBool(3))
                     {
                         dust.noGravity = true;
                         dust.scale *= 1.75f;
@@ -80,17 +81,10 @@ namespace CalamityMod.Projectiles.Ranged
                 }
             }
 
-            Projectile.rotation += 0.3f * (float)Projectile.direction;
+            Projectile.rotation += 0.3f * Projectile.direction;
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-        {
-            target.AddBuff(BuffID.OnFire, 60 * Main.rand.Next(1, 4));
-        }
-
-        public override void OnHitPvp(Player target, int damage, bool crit)
-        {
-            target.AddBuff(BuffID.OnFire, 60 * Main.rand.Next(1, 4));
-        }
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => target.AddBuff(BuffID.OnFire, 60 * Main.rand.Next(1, 4));
+        public override void OnHitPvp(Player target, int damage, bool crit) => target.AddBuff(BuffID.OnFire, 60 * Main.rand.Next(1, 4));
     }
 }

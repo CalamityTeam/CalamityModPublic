@@ -1,6 +1,7 @@
 ﻿using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using CalamityMod.Projectiles.Summon;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
@@ -28,9 +29,8 @@ namespace CalamityMod.Items.Accessories
             Item.width = 20;
             Item.height = 20;
             Item.value = CalamityGlobalItem.Rarity9BuyPrice;
-            Item.rare = ItemRarityID.Cyan;
             Item.accessory = true;
-            Item.Calamity().customRarity = CalamityRarity.Rainbow;
+            Item.rare = ModContent.RarityType<Rainbow>();
         }
 
         public override bool CanEquipAccessory(Player player, int slot, bool modded)
@@ -113,7 +113,7 @@ namespace CalamityMod.Items.Accessories
             CreateRecipe().
                 AddIngredient<WifeinaBottle>().
                 AddIngredient<WifeinaBottlewithBoobs>().
-                AddIngredient<LureofEnthrallment>().
+                AddIngredient<PearlofEnthrallment>().
                 AddIngredient<EyeoftheStorm>().
                 AddIngredient<RoseStone>().
                 AddTile(TileID.LunarCraftingStation).

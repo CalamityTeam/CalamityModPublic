@@ -11,7 +11,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class KelvinCatalyst : ModItem
+    public class KelvinCatalyst : RogueWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.knockBack = 4f;
             Item.UseSound = SoundID.Item1;
             Item.height = 20;
-            Item.value = Item.buyPrice(gold: 36);
+            Item.value = CalamityGlobalItem.Rarity5BuyPrice;
             Item.rare = ItemRarityID.Pink;
             Item.Calamity().donorItem = true;
             Item.shoot = ModContent.ProjectileType<KelvinCatalystBoomerang>();

@@ -83,7 +83,11 @@ namespace CalamityMod.NPCs.Polterghast
                 despawnBoost = true;
             }
 
-            bool chargePhase = Main.npc[CalamityGlobalNPC.ghostBoss].Calamity().newAI[0] >= 420f;
+            float chargePhaseGateValue = 480f;
+            if (Main.getGoodWorld)
+                chargePhaseGateValue *= 0.5f;
+
+            bool chargePhase = Main.npc[CalamityGlobalNPC.ghostBoss].Calamity().newAI[0] >= chargePhaseGateValue - 60f;
 
             // Percent life remaining, Polter
             float lifeRatio = Main.npc[CalamityGlobalNPC.ghostBoss].life / (float)Main.npc[CalamityGlobalNPC.ghostBoss].lifeMax;
@@ -156,7 +160,7 @@ namespace CalamityMod.NPCs.Polterghast
                         num149 = num151 / num149;
                         num147 *= num149;
                         num148 *= num149;
-                        int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), vector17.X, vector17.Y, num147, num148, type, damage, 0f, Main.myPlayer, 0f, 0f);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), vector17.X, vector17.Y, num147, num148, type, damage, 0f, Main.myPlayer, 0f, 0f);
                     }
                 }
                 return;
@@ -168,7 +172,14 @@ namespace CalamityMod.NPCs.Polterghast
 
         private void Movement(bool phase2, bool expertMode, bool revenge, bool death, bool speedBoost, bool despawnBoost, float lifeRatio, float tileEnrageMult, Player player)
         {
-            bool chargePhase = Main.npc[CalamityGlobalNPC.ghostBoss].Calamity().newAI[0] >= 420f;
+            float chargePhaseGateValue = 480f;
+            if (Main.getGoodWorld)
+                chargePhaseGateValue *= 0.5f;
+
+            float colorChangeTime = 180f;
+            float changeColorGateValue = chargePhaseGateValue - colorChangeTime;
+
+            bool chargePhase = Main.npc[CalamityGlobalNPC.ghostBoss].Calamity().newAI[0] >= chargePhaseGateValue - 60f;
 
             if (phase2)
             {
@@ -200,7 +211,7 @@ namespace CalamityMod.NPCs.Polterghast
                     NPC.localAI[0] -= 1f + shootBoost * tileEnrageMult;
                     if (expertMode)
                         NPC.localAI[0] -= Vector2.Distance(NPC.Center, player.Center) * 0.002f;
-                    if (Main.npc[CalamityGlobalNPC.ghostBoss].ai[2] >= 300f)
+                    if (Main.npc[CalamityGlobalNPC.ghostBoss].ai[2] >= changeColorGateValue)
                         NPC.localAI[0] -= 3f;
                     if (speedBoost)
                         NPC.localAI[0] -= 6f;
@@ -298,6 +309,15 @@ namespace CalamityMod.NPCs.Polterghast
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             Color lightRed = new Color(255, 100, 100, 255);
+
+            float chargePhaseGateValue = 480f;
+            if (Main.getGoodWorld)
+                chargePhaseGateValue *= 0.5f;
+
+            float timeToReachFullColor = 120f;
+            float colorChangeTime = 180f;
+            float changeColorGateValue = chargePhaseGateValue - colorChangeTime;
+
             if (Main.npc[CalamityGlobalNPC.ghostBoss].active && !phase2)
             {
                 Vector2 center = NPC.Center;
@@ -307,8 +327,8 @@ namespace CalamityMod.NPCs.Polterghast
                 bool draw = true;
                 while (draw)
                 {
-                    int chainWidth = 20; //16 24
-                    int chainHeight = 52; //32 16
+                    int chainWidth = 20;
+                    int chainHeight = 52;
                     float num10 = (float)Math.Sqrt(bossCenterX * bossCenterX + bossCenterY * bossCenterY);
                     if (num10 < chainHeight)
                     {
@@ -324,8 +344,8 @@ namespace CalamityMod.NPCs.Polterghast
                     bossCenterY = Main.npc[CalamityGlobalNPC.ghostBoss].Center.Y - center.Y;
 
                     Color color2 = Color.Lerp(Color.White, Color.Cyan, 0.5f);
-                    if (Main.npc[CalamityGlobalNPC.ghostBoss].Calamity().newAI[0] > 300f)
-                        color2 = Color.Lerp(color2, lightRed, MathHelper.Clamp((Main.npc[CalamityGlobalNPC.ghostBoss].Calamity().newAI[0] - 300f) / 120f, 0f, 1f));
+                    if (Main.npc[CalamityGlobalNPC.ghostBoss].Calamity().newAI[0] > changeColorGateValue)
+                        color2 = Color.Lerp(color2, lightRed, MathHelper.Clamp((Main.npc[CalamityGlobalNPC.ghostBoss].Calamity().newAI[0] - changeColorGateValue) / timeToReachFullColor, 0f, 1f));
 
                     Main.spriteBatch.Draw(ModContent.Request<Texture2D>("CalamityMod/NPCs/Polterghast/PolterghastChain").Value, new Vector2(center.X - screenPos.X, center.Y - screenPos.Y),
                         new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, 0, ModContent.Request<Texture2D>("CalamityMod/NPCs/Polterghast/PolterghastChain").Value.Width, chainWidth)), color2, rotation2,
@@ -366,8 +386,8 @@ namespace CalamityMod.NPCs.Polterghast
             texture2D15 = ModContent.Request<Texture2D>("CalamityMod/NPCs/Polterghast/PolterghastHookGlow").Value;
             Color color37 = Color.Lerp(Color.White, Color.Cyan, 0.5f);
 
-            if (Main.npc[CalamityGlobalNPC.ghostBoss].Calamity().newAI[0] > 300f)
-                color37 = Color.Lerp(color37, lightRed, MathHelper.Clamp((Main.npc[CalamityGlobalNPC.ghostBoss].Calamity().newAI[0] - 300f) / 120f, 0f, 1f));
+            if (Main.npc[CalamityGlobalNPC.ghostBoss].Calamity().newAI[0] > changeColorGateValue)
+                color37 = Color.Lerp(color37, lightRed, MathHelper.Clamp((Main.npc[CalamityGlobalNPC.ghostBoss].Calamity().newAI[0] - changeColorGateValue) / timeToReachFullColor, 0f, 1f));
 
             if (CalamityConfig.Instance.Afterimages)
             {
@@ -446,7 +466,7 @@ namespace CalamityMod.NPCs.Polterghast
 
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)
         {
-            cooldownSlot = 1;
+            cooldownSlot = ImmunityCooldownID.Bosses;
             return true;
         }
 

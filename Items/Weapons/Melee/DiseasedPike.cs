@@ -12,13 +12,14 @@ namespace CalamityMod.Items.Weapons.Melee
             DisplayName.SetDefault("Diseased Pike");
             Tooltip.SetDefault("Fires plague seekers on hit");
             SacrificeTotal = 1;
+            ItemID.Sets.Spears[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
             Item.width = 62;
             Item.damage = 65;
-            Item.DamageType = DamageClass.Melee;
+            Item.DamageType = TrueMeleeDamageClass.Instance;
             Item.noMelee = true;
             Item.useTurn = true;
             Item.noUseGraphic = true;
@@ -29,11 +30,10 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
             Item.height = 58;
-            Item.value = Item.buyPrice(0, 80, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity9BuyPrice;
             Item.rare = ItemRarityID.Yellow;
             Item.shoot = ModContent.ProjectileType<DiseasedPikeSpear>();
             Item.shootSpeed = 10f;
-            Item.Calamity().trueMelee = true;
         }
 
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;

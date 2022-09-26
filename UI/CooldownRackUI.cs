@@ -1,4 +1,4 @@
-using CalamityMod.Cooldowns;
+﻿using CalamityMod.Cooldowns;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -34,6 +34,9 @@ namespace CalamityMod.UI
 
         public static Vector2 BaseDrawPosition => new Vector2(32, 100) + Spacing / 2f + (Main.LocalPlayer.CountBuffs() > 0 ? Vector2.UnitY * 50 : Vector2.Zero) + (Main.LocalPlayer.CountBuffs() > 11 ? Vector2.UnitY * 50  : Vector2.Zero);
 
+        public static bool DebugFullDisplay = false;
+        public static float DebugForceCompletion = 0f;
+
         public static void Draw(SpriteBatch spriteBatch)
         {
             // Don't draw cooldowns under the following conditions:
@@ -68,6 +71,9 @@ namespace CalamityMod.UI
                     mouseHover = handler.DisplayName;
                     iconOpacity = MathHelper.Clamp((float)Math.Sin(Main.GlobalTimeWrappedHourly % MathHelper.Pi) * 2f, 0, 1) * 0.1f + 0.9f;
                 }
+
+                if (DebugFullDisplay)
+                    iconOpacity = 1f;
 
                 if (CompactIcons)
                     handler.DrawCompact(spriteBatch, displayPosition, iconOpacity, uiScale);

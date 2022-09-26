@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.knockBack = 3.5f;
-            Item.value = Item.buyPrice(0, 60, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity8BuyPrice;
             Item.rare = ItemRarityID.Lime;
             Item.UseSound = SoundID.Item5;
             Item.autoReuse = true;
@@ -69,7 +69,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 }
                 int projectile = Projectile.NewProjectile(source, vector2.X + value9.X, vector2.Y + value9.Y, velocity.X, velocity.Y, ProjectileID.Leaf, damage / 2, 0f, player.whoAmI);
                 if (projectile.WithinBounds(Main.maxProjectiles))
-                    Main.projectile[projectile].Calamity().forceRanged = true;
+                    Main.projectile[projectile].DamageType = DamageClass.Ranged;
             }
             return false;
         }

@@ -17,7 +17,7 @@ namespace CalamityMod.Projectiles.Melee
         {
             Projectile.width = 30;
             Projectile.height = 30;
-            Projectile.aiStyle = 27;
+            Projectile.aiStyle = ProjAIStyleID.Beam;
             Projectile.friendly = true;
             Projectile.DamageType = DamageClass.Melee;
             Projectile.penetrate = 1;
@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void AI()
         {
-            CalamityGlobalProjectile.HomeInOnNPC(Projectile, true, 200f, 12f, 20f);
+            CalamityUtils.HomeInOnNPC(Projectile, true, 200f, 12f, 20f);
 
             Lighting.AddLight(Projectile.Center, 0f, (255 - Projectile.alpha) * 0.75f / 255f, 0f);
         }

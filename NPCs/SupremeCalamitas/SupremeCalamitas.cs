@@ -6,6 +6,7 @@ using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Pets;
+using CalamityMod.Items.Placeables.Furniture.BossRelics;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Items.Potions;
 using CalamityMod.Items.TreasureBags;
@@ -161,6 +162,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         public static readonly SoundStyle BrimstoneBigShotSound = new("CalamityMod/Sounds/Custom/SCalSounds/BrimstoneBigShoot"); // DON'T YOU WANNA BE A [BIG SHOT]
         public static readonly SoundStyle DashSound = new("CalamityMod/Sounds/Custom/SCalSounds/SCalDash");
         public static readonly SoundStyle HellblastSound = new("CalamityMod/Sounds/Custom/SCalSounds/BrimstoneHellblastSound");
+        public static readonly SoundStyle HurtSound = new("CalamityMod/Sounds/NPCHit/ShieldHit", 3);
 
         // TODO -- This is cumbersome. Change it to be better in 1.4.
         internal static void LoadHeadIcons()
@@ -217,8 +219,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             NPC.canGhostHeal = false;
             NPC.noGravity = true;
             NPC.noTileCollide = true;
-            NPC.HitSound = SoundID.NPCHit1;
-            Music = CalamityMod.Instance.GetMusicFromMusicMod("SupremeCalamitas1") ?? MusicID.Boss2;
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToCold = true;
             NPC.Calamity().VulnerableToSickness = true;
@@ -354,6 +354,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             #region StartUp
 
             CalamityGlobalNPC.SCal = NPC.whoAmI;
+			HandleMusicVariables();
 
             bool wormAlive = false;
             if (CalamityGlobalNPC.SCalWorm != -1)
@@ -381,10 +382,10 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
             CalamityMod.StopRain();
 
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
-            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool expertMode = Main.expertMode || bossRush;
+            bool revenge = CalamityWorld.revenge || bossRush;
+            bool death = CalamityWorld.death || bossRush;
 
             // Percent life remaining
             float lifeRatio = NPC.life / (float)NPC.lifeMax;
@@ -401,6 +402,9 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             int bodyHeight = 42;
             int baseBulletHellProjectileGateValue = revenge ? 8 : expertMode ? 9 : 10;
 
+            if (Main.getGoodWorld)
+                baseBulletHellProjectileGateValue -= 2;
+
             Vector2 vectorCenter = NPC.Center;
 
             // Get a target
@@ -415,7 +419,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
             if (!startText)
             {
-                if (!BossRushEvent.BossRushActive)
+                if (!bossRush)
                 {
                     string key = "Mods.CalamityMod.SCalSummonText";
                     if (DownedBossSystem.downedSCal)
@@ -562,11 +566,11 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             }
             #endregion
             #region Enrage and DR
-            if ((spawnArena && !player.Hitbox.Intersects(safeBox)) || malice)
+            if ((spawnArena && !player.Hitbox.Intersects(safeBox)) || bossRush)
             {
                 float projectileVelocityMultCap = (!player.Hitbox.Intersects(safeBox) && spawnArena) ? 2f : 1.5f;
                 uDieLul = MathHelper.Clamp(uDieLul * 1.01f, 1f, projectileVelocityMultCap);
-                protectionBoost = !malice;
+                protectionBoost = !bossRush;
                 if (!player.Hitbox.Intersects(safeBox))
                     protectionBoost = true;
             }
@@ -608,7 +612,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     forcefieldOpacity = Utils.GetLerpValue(0.1f, 0.6f, NPC.Opacity, true);
                     if (NPC.alpha >= 230)
                     {
-                        if (DownedBossSystem.downedSCal && !BossRushEvent.BossRushActive)
+                        if (DownedBossSystem.downedSCal && !bossRush)
                         {
                             // Create a teleport line effect
                             Dust.QuickDustLine(NPC.Center, initialRitualPosition, 500f, Color.Red);
@@ -806,7 +810,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             }
             if (!startSecondAttack && lifeRatio <= 0.75f)
             {
-                if (!BossRushEvent.BossRushActive)
+                if (!bossRush)
                 {
                     string key = "Mods.CalamityMod.SCalBH2Text";
                     if (DownedBossSystem.downedSCal)
@@ -867,10 +871,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             }
             if (!startThirdAttack && lifeRatio <= 0.5f)
             {
-                // Switch from the Grief section of Stained, Brutal Calamity to the Lament section.
-                Music = CalamityMod.Instance.GetMusicFromMusicMod("SupremeCalamitas2") ?? MusicID.Boss3;
-
-                if (!BossRushEvent.BossRushActive)
+                if (!bossRush)
                 {
                     string key = "Mods.CalamityMod.SCalBH3Text";
                     if (DownedBossSystem.downedSCal)
@@ -940,10 +941,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             }
             if (!startFourthAttack && lifeRatio <= 0.3f)
             {
-                // Switch from the Lament section of Stained, Brutal Calamity to the Epiphany section.
-                Music = CalamityMod.Instance.GetMusicFromMusicMod("SupremeCalamitas3") ?? MusicID.LunarBoss;
-
-                if (!BossRushEvent.BossRushActive)
+                if (!bossRush)
                 {
                     string key = "Mods.CalamityMod.SCalBH4Text";
                     if (DownedBossSystem.downedSCal)
@@ -1015,7 +1013,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             {
                 string key = "Mods.CalamityMod.SCalBH5Text";
 
-                if (!BossRushEvent.BossRushActive)
+                if (!bossRush)
                 {
                     if (DownedBossSystem.downedSCal)
                         key += "Rematch";
@@ -1030,19 +1028,23 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             {
                 if (gettingTired5)
                 {
-                    // Switch from the Epiphany section of Stained, Brutal Calamity to the Acceptance section.
-                    Music = CalamityMod.Instance.GetMusicFromMusicMod("SupremeCalamitas4") ?? MusicID.Eerie;
-
                     if (NPC.velocity.Y < 9f)
                         NPC.velocity.Y += 0.185f;
                     NPC.noTileCollide = false;
                     NPC.noGravity = false;
                     NPC.damage = 0;
 
+                    // Teleport back to the arena on defeat
+                    if (giveUpCounter == 1200)
+                    {
+                        Dust.QuickDustLine(NPC.Center, initialRitualPosition, 500f, Color.Red);
+                        NPC.Center = initialRitualPosition;
+                    }
+
                     if (!canDespawn)
                         NPC.velocity.X *= 0.96f;
 
-                    if (DownedBossSystem.downedSCal && !BossRushEvent.BossRushActive)
+                    if (DownedBossSystem.downedSCal && !bossRush)
                     {
                         if (giveUpCounter == 720)
                         {
@@ -1061,15 +1063,15 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                             NPC.NPCLoot();
                         }
                     }
-                    else if (giveUpCounter == 900 && !BossRushEvent.BossRushActive)
+                    else if (giveUpCounter == 900 && !bossRush)
                         CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.SCalAcceptanceText1", textColor);
-                    else if(giveUpCounter == 600 && !BossRushEvent.BossRushActive)
+                    else if(giveUpCounter == 600 && !bossRush)
                         CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.SCalAcceptanceText2", textColor);
-                    else if(giveUpCounter == 300 && !BossRushEvent.BossRushActive)
+                    else if(giveUpCounter == 300 && !bossRush)
                         CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.SCalAcceptanceText3", textColor);
                     if (giveUpCounter <= 0)
                     {
-                        if (BossRushEvent.BossRushActive)
+                        if (bossRush)
                         {
                             NPC.chaseable = true;
                             NPC.dontTakeDamage = false;
@@ -1108,7 +1110,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         }
                     }
 
-                    if (!BossRushEvent.BossRushActive)
+                    if (!bossRush)
                     {
                         string key = "Mods.CalamityMod.SCalDesparationText4";
                         if (DownedBossSystem.downedSCal)
@@ -1120,7 +1122,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 }
                 else if (!gettingTired4 && lifeRatio <= 0.02f)
                 {
-                    if (!BossRushEvent.BossRushActive)
+                    if (!bossRush)
                     {
                         string key = "Mods.CalamityMod.SCalDesparationText3";
                         if (DownedBossSystem.downedSCal)
@@ -1132,7 +1134,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 }
                 else if (!gettingTired3 && lifeRatio <= 0.04f)
                 {
-                    if (!BossRushEvent.BossRushActive)
+                    if (!bossRush)
                     {
                         string key = "Mods.CalamityMod.SCalDesparationText2";
                         if (DownedBossSystem.downedSCal)
@@ -1144,7 +1146,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 }
                 else if (!gettingTired2 && lifeRatio <= 0.06f)
                 {
-                    if (!BossRushEvent.BossRushActive)
+                    if (!bossRush)
                     {
                         string key = "Mods.CalamityMod.SCalDesparationText1";
                         if (DownedBossSystem.downedSCal)
@@ -1213,7 +1215,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             #region TransformSeekerandBrotherTriggers
             if (!halfLife && lifeRatio <= 0.4f)
             {
-                if (!BossRushEvent.BossRushActive)
+                if (!bossRush)
                 {
                     string key = "Mods.CalamityMod.SCalPhase2Text";
                     if (DownedBossSystem.downedSCal)
@@ -1227,7 +1229,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             {
                 if (!secondStage)
                 {
-                    if (!BossRushEvent.BossRushActive)
+                    if (!bossRush)
                     {
                         string key = "Mods.CalamityMod.SCalSeekerRingText";
                         if (DownedBossSystem.downedSCal)
@@ -1284,6 +1286,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
                         if (!canDespawn)
                             NPC.velocity *= 0.95f;
+
                         return;
                     }
                     else
@@ -1395,6 +1398,12 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         // How fast SCal moves to the destination
                         float velocity = 12f;
                         float acceleration = 0.12f;
+
+                        if (Main.getGoodWorld)
+                        {
+                            velocity *= 1.15f;
+                            acceleration *= 1.15f;
+                        }
 
                         // Reduce acceleration if target is holding a true melee weapon
                         if (player.HoldingTrueMeleeWeapon())
@@ -1517,6 +1526,9 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     {
                         float chargeVelocity = (wormAlive ? 26f : 30f) + (1f - lifeRatio) * 8f;
 
+                        if (Main.getGoodWorld)
+                            chargeVelocity *= 1.15f;
+
                         if (!canDespawn)
                         {
                             Vector2 vector = Vector2.Normalize(player.Center - NPC.Center);
@@ -1578,6 +1590,12 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         // How fast SCal moves to the destination
                         float velocity = 32f;
                         float acceleration = 1.2f;
+
+                        if (Main.getGoodWorld)
+                        {
+                            velocity *= 1.15f;
+                            acceleration *= 1.15f;
+                        }
 
                         // Reduce acceleration if target is holding a true melee weapon
                         if (player.HoldingTrueMeleeWeapon())
@@ -1659,6 +1677,12 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         // How fast SCal moves to the destination
                         float velocity = 32f;
                         float acceleration = 1.2f;
+
+                        if (Main.getGoodWorld)
+                        {
+                            velocity *= 1.15f;
+                            acceleration *= 1.15f;
+                        }
 
                         // Reduce acceleration if target is holding a true melee weapon
                         if (player.HoldingTrueMeleeWeapon())
@@ -1917,6 +1941,12 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         float velocity = 12f;
                         float acceleration = 0.12f;
 
+                        if (Main.getGoodWorld)
+                        {
+                            velocity *= 1.15f;
+                            acceleration *= 1.15f;
+                        }
+
                         // Reduce acceleration if target is holding a true melee weapon
                         if (player.HoldingTrueMeleeWeapon())
                             acceleration *= 0.5f;
@@ -2036,6 +2066,9 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     {
                         float chargeVelocity = (wormAlive ? 26f : 30f) + (1f - lifeRatio) * 8f;
 
+                        if (Main.getGoodWorld)
+                            chargeVelocity *= 1.15f;
+
                         if (!canDespawn)
                         {
                             Vector2 vector = Vector2.Normalize(player.Center - NPC.Center);
@@ -2094,6 +2127,12 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         // How fast SCal moves to the destination
                         float velocity = 32f;
                         float acceleration = 1.2f;
+
+                        if (Main.getGoodWorld)
+                        {
+                            velocity *= 1.15f;
+                            acceleration *= 1.15f;
+                        }
 
                         // Reduce acceleration if target is holding a true melee weapon
                         if (player.HoldingTrueMeleeWeapon())
@@ -2176,6 +2215,12 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         // How fast SCal moves to the destination
                         float velocity = 32f;
                         float acceleration = 1.2f;
+
+                        if (Main.getGoodWorld)
+                        {
+                            velocity *= 1.15f;
+                            acceleration *= 1.15f;
+                        }
 
                         // Reduce acceleration if target is holding a true melee weapon
                         if (player.HoldingTrueMeleeWeapon())
@@ -2474,6 +2519,25 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             }
         }
 
+        public void HandleMusicVariables()
+        {
+            float lifeRatio = NPC.life / (float)NPC.lifeMax;
+
+            CalamityGlobalNPC.SCalGrief = -1;
+            CalamityGlobalNPC.SCalLament = -1;
+            CalamityGlobalNPC.SCalEpiphany = -1;
+            CalamityGlobalNPC.SCalAcceptance = -1;
+
+            if (startFifthAttack && gettingTired5)
+                CalamityGlobalNPC.SCalAcceptance = NPC.whoAmI;
+            else if (lifeRatio <= 0.3f)
+                CalamityGlobalNPC.SCalEpiphany = NPC.whoAmI;
+            else if (lifeRatio <= 0.5f)
+                CalamityGlobalNPC.SCalLament = NPC.whoAmI;
+            else
+                CalamityGlobalNPC.SCalGrief = NPC.whoAmI;
+        }
+
         #region Loot
         public override void BossLoot(ref string name, ref int potionType)
         {
@@ -2482,10 +2546,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
         public override void OnKill()
         {
-            // Create a teleport line effect
-            Dust.QuickDustLine(NPC.Center, initialRitualPosition, 500f, Color.Red);
-            NPC.Center = initialRitualPosition;
-
             CalamityGlobalNPC.SetNewBossJustDowned(NPC);
 
             // Increase the player's SCal kill count
@@ -2521,28 +2581,30 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 normalOnly.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, weapons));
 
                 // Materials
-                normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<AshesofAnnihilation>(), 1, 18, 27));
+                normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<AshesofAnnihilation>(), 1, 25, 30));
 
                 // Equipment
                 normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<Calamity>()));
 
                 // SCal vanity set (This drops all at once, or not at all)
-                normalOnly.Add(ItemDropRule.Common(ModContent.ItemType<AshenHorns>(), 7).
-                    OnSuccess(ItemDropRule.Common(ModContent.ItemType<SCalMask>())).
-                    OnSuccess(ItemDropRule.Common(ModContent.ItemType<SCalRobes>())).
-                    OnSuccess(ItemDropRule.Common(ModContent.ItemType<SCalBoots>())));
+				var scalVanitySet = ItemDropRule.Common(ModContent.ItemType<AshenHorns>(), 7);
+				scalVanitySet.OnSuccess(ItemDropRule.Common(ModContent.ItemType<SCalMask>()));
+				scalVanitySet.OnSuccess(ItemDropRule.Common(ModContent.ItemType<SCalRobes>()));
+				scalVanitySet.OnSuccess(ItemDropRule.Common(ModContent.ItemType<SCalBoots>()));
+				normalOnly.Add(scalVanitySet);
             }
 
-            // One of the only Death-exclusive drops in the mod, as requested by Leviathan: Levi pet
+            // One of the only Death-exclusive drops in the mod, as requested by Leviathan: Levi pet and Gael's Greatsword
             npcLoot.AddIf(() => CalamityWorld.death, ModContent.ItemType<Levi>());
-
-            // The only Malice-exclusive drop in the mod, as requested by Leviathan: Gael's Greatsword
-            npcLoot.AddIf(() => CalamityWorld.malice, ModContent.ItemType<GaelsGreatsword>());
+            npcLoot.AddIf(() => CalamityWorld.death, ModContent.ItemType<GaelsGreatsword>());
 
             npcLoot.Add(ModContent.ItemType<SupremeCalamitasTrophy>(), 10);
 
+            // Relic
+            npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).Add(ModContent.ItemType<CalamitasRelic>());
+
             // Lore
-            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedSCal, ModContent.ItemType<KnowledgeCalamitas>());
+            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedSCal, ModContent.ItemType<KnowledgeCalamitas>(), desc: DropHelper.FirstKillText);
         }
         #endregion
 
@@ -2572,7 +2634,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)
         {
-            cooldownSlot = 1;
+            cooldownSlot = ImmunityCooldownID.Bosses;
 
             Vector2 shieldCenter = NPC.Center + shieldRotation.ToRotationVector2() * 24f;
             Vector2 shieldTop = shieldCenter - (shieldRotation + MathHelper.PiOver2).ToRotationVector2() * 61f;
@@ -2780,6 +2842,13 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 NPC.netUpdate = true;
             }
 
+            // hit sound
+            if (NPC.soundDelay == 0)
+            {
+                NPC.soundDelay = Main.rand.Next(5, 8);
+                SoundEngine.PlaySound(HurtSound, NPC.Center);
+            }
+
             for (int k = 0; k < 5; k++)
             {
                 Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.Brimstone, hitDirection, -1f, 0, default, 1f);
@@ -2794,7 +2863,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 NPC.position.Y = NPC.position.Y - (NPC.height / 2);
                 for (int num621 = 0; num621 < 40; num621++)
                 {
-                    int num622 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 2f);
+                    int num622 = Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 2f);
                     Main.dust[num622].velocity *= 3f;
                     if (Main.rand.NextBool(2))
                     {
@@ -2804,10 +2873,10 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 }
                 for (int num623 = 0; num623 < 70; num623++)
                 {
-                    int num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 3f);
+                    int num624 = Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 3f);
                     Main.dust[num624].noGravity = true;
                     Main.dust[num624].velocity *= 5f;
-                    num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 2f);
+                    num624 = Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 2f);
                     Main.dust[num624].velocity *= 2f;
                 }
             }
@@ -2821,7 +2890,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(ModContent.BuffType<VulnerabilityHex>(), 600, true);
+            if (damage > 0)
+                player.AddBuff(ModContent.BuffType<VulnerabilityHex>(), 600, true);
         }
     }
 }

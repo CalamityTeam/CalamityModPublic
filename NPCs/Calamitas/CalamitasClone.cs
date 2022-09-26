@@ -5,6 +5,7 @@ using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
+using CalamityMod.Items.Placeables.Furniture.BossRelics;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Items.TreasureBags;
 using CalamityMod.Items.Weapons.Magic;
@@ -43,6 +44,7 @@ namespace CalamityMod.NPCs.Calamitas
             };
             value.Position.Y -= 10f;
             NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
+			NPCID.Sets.MPAllowedEnemies[Type] = true;
         }
 
         public override void SetDefaults()
@@ -54,19 +56,12 @@ namespace CalamityMod.NPCs.Calamitas
             NPC.height = 120;
 
             if (CalamityWorld.death || BossRushEvent.BossRushActive)
-                NPC.scale = 0.8f;
+                NPC.scale *= 0.8f;
 
             NPC.defense = (CalamityWorld.death || BossRushEvent.BossRushActive) ? 12 : 25;
             NPC.value = Item.buyPrice(0, 50, 0, 0);
             NPC.DR_NERD((CalamityWorld.death || BossRushEvent.BossRushActive) ? 0.075f : 0.15f);
             NPC.LifeMaxNERB(37500, 45000, 520000);
-            if (DownedBossSystem.downedProvidence && !BossRushEvent.BossRushActive)
-            {
-                NPC.damage *= 3;
-                NPC.defense *= 3;
-                NPC.lifeMax *= 2;
-                NPC.value *= 2.5f;
-            }
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
             NPC.aiStyle = -1;
@@ -77,7 +72,6 @@ namespace CalamityMod.NPCs.Calamitas
             NPC.noTileCollide = true;
             NPC.HitSound = SoundID.NPCHit4;
             NPC.DeathSound = SoundID.NPCDeath14;
-            Music = CalamityMod.Instance.GetMusicFromMusicMod("Calamitas") ?? MusicID.Boss2;
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToCold = true;
             NPC.Calamity().VulnerableToWater = true;
@@ -191,38 +185,39 @@ namespace CalamityMod.NPCs.Calamitas
             // Normal drops: Everything that would otherwise be in the bag
             var normalOnly = npcLoot.DefineNormalOnlyDropSet();
             {
-                LeadingConditionRule postProvidence = new LeadingConditionRule(DropHelper.If(() => DownedBossSystem.downedProvidence));
-                normalOnly.Add(postProvidence);
-
                 // Items
                 int[] items = new int[]
                 {
                     ModContent.ItemType<Oblivion>(),
                     ModContent.ItemType<Animosity>(),
                     ModContent.ItemType<LashesofChaos>(),
-                    ModContent.ItemType<EntropysVigil>(),
-                    ModContent.ItemType<ChaosStone>(),
+                    ModContent.ItemType<EntropysVigil>()
                 };
                 normalOnly.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, items));
 
                 // Equipment
                 normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<VoidofCalamity>()));
+                normalOnly.Add(ModContent.ItemType<ChaosStone>(), DropHelper.NormalWeaponDropRateFraction);
                 normalOnly.Add(ModContent.ItemType<Regenator>(), 10);
 
                 // Materials
-                normalOnly.Add(ModContent.ItemType<EssenceofChaos>(), 1, 4, 8);
-                normalOnly.Add(ModContent.ItemType<AshesofCalamity>(), 1, 9, 14);
-                postProvidence.Add(ModContent.ItemType<Bloodstone>(), 1, 30, 40);
+                normalOnly.Add(ModContent.ItemType<EssenceofChaos>(), 1, 5, 10);
+                normalOnly.Add(ModContent.ItemType<AshesofCalamity>(), 1, 25, 30);
 
                 // Vanity
                 normalOnly.Add(ModContent.ItemType<CalamitasMask>(), 7);
-                normalOnly.Add(ItemDropRule.Common(ModContent.ItemType<HoodOfCalamity>(), 10).OnSuccess(ItemDropRule.Common(ModContent.ItemType<RobesOfCalamity>())));
+                var calVanity = ItemDropRule.Common(ModContent.ItemType<HoodOfCalamity>(), 10);
+                calVanity.OnSuccess(ItemDropRule.Common(ModContent.ItemType<RobesOfCalamity>()));
+                normalOnly.Add(calVanity);
             }
 
             npcLoot.Add(ModContent.ItemType<CalamitasTrophy>(), 10);
 
+            // Relic
+            npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).Add(ModContent.ItemType<CalamitasCloneRelic>());
+
             // Lore
-            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedCalamitas, ModContent.ItemType<KnowledgeCalamitasClone>());
+            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedCalamitas, ModContent.ItemType<KnowledgeCalamitasClone>(), desc: DropHelper.FirstKillText);
         }
 
         public override void OnKill()
@@ -306,13 +301,14 @@ namespace CalamityMod.NPCs.Calamitas
 
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)
         {
-            cooldownSlot = 1;
+            cooldownSlot = ImmunityCooldownID.Bosses;
             return true;
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 300, true);
+            if (damage > 0)
+                player.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 300, true);
         }
     }
 }

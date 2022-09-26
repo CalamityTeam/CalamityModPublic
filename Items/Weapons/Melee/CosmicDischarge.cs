@@ -1,7 +1,8 @@
-﻿using Terraria.DataStructures;
-using CalamityMod.Projectiles.Melee;
+﻿using CalamityMod.Projectiles.Melee;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -26,7 +27,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.noUseGraphic = true;
             Item.channel = true;
             Item.autoReuse = true;
-            Item.DamageType = DamageClass.Melee;
+            Item.DamageType = DamageClass.MeleeNoSpeed;
             Item.useAnimation = 15;
             Item.useTime = 15;
             Item.useStyle = ItemUseStyleID.Shoot;
@@ -35,9 +36,8 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.shootSpeed = 24f;
             Item.shoot = ModContent.ProjectileType<CosmicDischargeFlail>();
 
-            Item.rare = ItemRarityID.Purple;
             Item.value = CalamityGlobalItem.Rarity14BuyPrice;
-            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.rare = ModContent.RarityType<DarkBlue>();
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)

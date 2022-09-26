@@ -1,6 +1,7 @@
 ﻿using CalamityMod.CustomRecipes;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.DraedonsArsenal;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Pulse Dragon");
             Tooltip.SetDefault("Heavy duty flails, each containing a powerful generator which is activated upon launch\n" +
             "Throws two dragon heads that emit electrical fields");
@@ -25,7 +27,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             CalamityGlobalItem modItem = Item.Calamity();
 
             Item.damage = 300;
-            Item.DamageType = DamageClass.Melee;
+            Item.DamageType = DamageClass.MeleeNoSpeed;
             Item.width = 30;
             Item.height = 10;
             Item.useTime = 20;
@@ -35,8 +37,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             Item.noUseGraphic = true;
             Item.knockBack = 8f;
             Item.value = CalamityGlobalItem.RarityTurquoiseBuyPrice;
-            Item.rare = ItemRarityID.Red;
-            modItem.customRarity = CalamityRarity.DraedonRust;
+            Item.rare = ModContent.RarityType<DarkOrange>();
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
             Item.channel = true;

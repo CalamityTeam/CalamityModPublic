@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Eviscerator");
-            Tooltip.SetDefault("Converts musket balls into slow-moving blood clots");
+            Tooltip.SetDefault("Converts musket balls into fast-moving blood clots");
             SacrificeTotal = 1;
         }
 
@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.knockBack = 7.5f;
-            Item.value = Item.buyPrice(0, 4, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity3BuyPrice;
             Item.rare = ItemRarityID.Orange;
             Item.UseSound = SoundID.Item40;
             Item.autoReuse = true;

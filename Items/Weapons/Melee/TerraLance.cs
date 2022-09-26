@@ -13,6 +13,7 @@ namespace CalamityMod.Items.Weapons.Melee
             DisplayName.SetDefault("Terra Lance");
             Tooltip.SetDefault("Fires a lance beam");
             SacrificeTotal = 1;
+            ItemID.Sets.Spears[Item.type] = true;
         }
 
         public override void SetDefaults()
@@ -30,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
             Item.height = 44;
-            Item.value = Item.buyPrice(0, 80, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity9BuyPrice;
             Item.rare = ItemRarityID.Yellow;
             Item.shoot = ModContent.ProjectileType<TerraLanceProjectile>();
             Item.shootSpeed = 11f;
@@ -44,7 +45,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 AddIngredient(ItemID.ChlorophytePartisan).
                 AddIngredient(ItemID.DarkLance).
                 AddIngredient(ItemID.Gungnir).
-                AddIngredient<LivingShard>(7).
+                AddIngredient<LivingShard>(12).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

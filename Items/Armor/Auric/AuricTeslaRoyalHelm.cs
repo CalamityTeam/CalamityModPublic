@@ -1,6 +1,7 @@
 ﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Materials;
+using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
 using Terraria.ModLoader;
@@ -26,9 +27,9 @@ namespace CalamityMod.Items.Armor.Auric
         {
             Item.width = 18;
             Item.height = 18;
-            Item.value = Item.buyPrice(1, 80, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity15BuyPrice;
             Item.defense = 54; //132
-            Item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.rare = ModContent.RarityType<Violet>();
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
@@ -60,8 +61,8 @@ namespace CalamityMod.Items.Armor.Auric
             player.crimsonRegen = true;
             player.aggro += 1200;
 
-            if (modPlayer.godSlayerDashHotKeyPressed)
-                modPlayer.DashID = GodslayerArmorDash.ID;
+            if (modPlayer.godSlayerDashHotKeyPressed || (player.dashDelay != 0 && modPlayer.LastUsedDashID == GodslayerArmorDash.ID))
+                modPlayer.DeferredDashID = GodslayerArmorDash.ID;
         }
 
         public override void UpdateEquip(Player player)

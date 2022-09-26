@@ -7,23 +7,23 @@ using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.NPCs.Providence;
-using Terraria;
-using Terraria.ModLoader;
-using Terraria.ID;
-using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Terraria;
+using Terraria.GameContent.ItemDropRules;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Items.TreasureBags
 {
     public class ProvidenceBag : ModItem
     {
-        public override int BossBagNPC => ModContent.NPCType<Providence>();
-
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 3;
             DisplayName.SetDefault("Treasure Bag (Providence, the Profaned Goddess)");
             Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
+			ItemID.Sets.BossBag[Item.type] = true;
         }
 
         public override void SetDefaults()
@@ -36,42 +36,50 @@ namespace CalamityMod.Items.TreasureBags
             Item.expert = true;
         }
 
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = ContentSamples.CreativeHelper.ItemGroup.BossBags;
+		}
+
         public override bool CanRightClick() => true;
+
+		public override Color? GetAlpha(Color lightColor) => Color.Lerp(lightColor, Color.White, 0.4f);
+
+        public override void PostUpdate() => Item.TreasureBagLightAndDust();
 
         public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
         {
             return CalamityUtils.DrawTreasureBagInWorld(Item, spriteBatch, ref rotation, ref scale, whoAmI);
         }
 
-        public override void OpenBossBag(Player player)
+        public override void ModifyItemLoot(ItemLoot itemLoot)
         {
-            // IEntitySource my beloathed
-            var s = player.GetSource_OpenItem(Item.type);
-
-            player.TryGettingDevArmor(s);
+			// Money
+			itemLoot.Add(ItemDropRule.CoinsBasedOnNPCValue(ModContent.NPCType<Providence>()));
 
             // Materials
-            DropHelper.DropItem(s, player, ModContent.ItemType<UnholyEssence>(), 25, 35);
-            DropHelper.DropItem(s, player, ModContent.ItemType<DivineGeode>(), 20, 30);
+            itemLoot.Add(ModContent.ItemType<UnholyEssence>(), 1, 25, 35);
+            itemLoot.Add(ModContent.ItemType<DivineGeode>(), 1, 30, 40);
 
             // Weapons
-            float w = DropHelper.BagWeaponDropRateFloat;
-            DropHelper.DropEntireWeightedSet(s, player,
-                DropHelper.WeightStack<HolyCollider>(w),
-                DropHelper.WeightStack<SolarFlare>(w),
-                DropHelper.WeightStack<TelluricGlare>(w),
-                DropHelper.WeightStack<BlissfulBombardier>(w),
-                DropHelper.WeightStack<PurgeGuzzler>(w),
-                DropHelper.WeightStack<DazzlingStabberStaff>(w),
-                DropHelper.WeightStack<MoltenAmputator>(w)
-            );
+            itemLoot.Add(DropHelper.CalamityStyle(DropHelper.BagWeaponDropRateFraction, new int[]
+            {
+                ModContent.ItemType<HolyCollider>(),
+                ModContent.ItemType<SolarFlare>(),
+                ModContent.ItemType<BlissfulBombardier>(),
+                ModContent.ItemType<TelluricGlare>(),
+                ModContent.ItemType<PurgeGuzzler>(),
+                ModContent.ItemType<DazzlingStabberStaff>(),
+                ModContent.ItemType<MoltenAmputator>(),
+            }));
+            itemLoot.Add(ModContent.ItemType<PristineFury>(), 10);
 
             // Equipment
-            DropHelper.DropItem(s, player, ModContent.ItemType<BlazingCore>());
-            DropHelper.DropItemChance(s, player, ModContent.ItemType<PristineFury>(), 0.1f);
+            itemLoot.Add(ModContent.ItemType<BlazingCore>());
+            itemLoot.AddRevBagAccessories();
 
             // Vanity
-            DropHelper.DropItemChance(s, player, ModContent.ItemType<ProvidenceMask>(), 7);
+            itemLoot.Add(ModContent.ItemType<ProvidenceMask>(), 7);
         }
     }
 }

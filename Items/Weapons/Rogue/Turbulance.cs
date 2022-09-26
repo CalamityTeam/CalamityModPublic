@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class Turbulance : ModItem
+    public class Turbulance : RogueWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -32,7 +32,7 @@ Stealth strikes are trailed by homing wind slashes");
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
             Item.height = 14;
-            Item.value = Item.buyPrice(0, 4, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity3BuyPrice;
             Item.rare = ItemRarityID.Orange;
             Item.shoot = ModContent.ProjectileType<TurbulanceProjectile>();
             Item.shootSpeed = 12f;

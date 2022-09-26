@@ -62,7 +62,7 @@ namespace CalamityMod.NPCs.Abyss
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
 
 				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("A sturdy fish, which has spent a long time seething in the Abyss. Males are easily identified by their forward-facing horns, and females by their curled horns.")
+				new FlavorTextBestiaryInfoElement("A sturdy fish, which has spent a long time seething in the Abyss. Females are easily identified by their curled horns.")
             });
         }
 
@@ -294,7 +294,8 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(ModContent.BuffType<CrushDepth>(), 180, true);
+            if (damage > 0)
+                player.AddBuff(ModContent.BuffType<CrushDepth>(), 180, true);
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)

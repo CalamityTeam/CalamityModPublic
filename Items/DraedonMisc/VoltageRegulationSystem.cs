@@ -1,22 +1,27 @@
-﻿using CalamityMod.Items.Materials;
+﻿using CalamityMod.CustomRecipes;
+using CalamityMod.Items.Materials;
+using CalamityMod.Rarities;
+using CalamityMod.TileEntities;
 using CalamityMod.Tiles.DraedonSummoner;
+using Microsoft.Xna.Framework;
+using System;
+using System.Collections.Generic;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-using CalamityMod.TileEntities;
-using CalamityMod.CustomRecipes;
-using System.Collections.Generic;
-using System;
 
 namespace CalamityMod.Items.DraedonMisc
 {
     public class VoltageRegulationSystem : ModItem
     {
+        public static readonly SoundStyle InstallSound = new("CalamityMod/Sounds/Custom/Codebreaker/VoltageRegulationSystemInstall");
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Voltage Regulation System");
-            Tooltip.SetDefault("Can be placed on the Codebreaker");
+            Tooltip.SetDefault("Can be placed on the Codebreaker\n" +
+                "Allows you to decrypt the Ice biome schematic");
         }
 
         public override void SetDefaults()
@@ -26,8 +31,7 @@ namespace CalamityMod.Items.DraedonMisc
             Item.maxStack = 999;
             Item.consumable = true;
             Item.useStyle = ItemUseStyleID.Swing;
-            Item.rare = ItemRarityID.Purple;
-            Item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.rare = ModContent.RarityType<Turquoise>();
             Item.useTime = Item.useAnimation = 15;
         }
 
@@ -43,6 +47,8 @@ namespace CalamityMod.Items.DraedonMisc
 
             if (Main.myPlayer == player.whoAmI && player.WithinRange(Main.MouseWorld, checkDistance) && tile.HasTile && tile.TileType == ModContent.TileType<CodebreakerTile>())
             {
+                SoundEngine.PlaySound(InstallSound, Main.player[Main.myPlayer].Center);
+
                 TECodebreaker codebreakerTileEntity = CalamityUtils.FindTileEntity<TECodebreaker>(placeTileCoords.X, placeTileCoords.Y, CodebreakerTile.Width, CodebreakerTile.Height, CodebreakerTile.SheetSquare);
                 if (codebreakerTileEntity is null || codebreakerTileEntity.ContainsVoltageRegulationSystem)
                     return false;

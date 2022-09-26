@@ -5,6 +5,7 @@ using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
+using CalamityMod.Items.Placeables.Furniture.BossRelics;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Items.Potions;
 using CalamityMod.Items.TreasureBags;
@@ -48,6 +49,7 @@ namespace CalamityMod.NPCs.Signus
             value.Position.X += 6f;
             value.Position.Y += 10f;
             NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
+			NPCID.Sets.MPAllowedEnemies[Type] = true;
         }
 
         public override void SetDefaults()
@@ -60,7 +62,6 @@ namespace CalamityMod.NPCs.Signus
             NPC.defense = 60;
             NPC.LifeMaxNERB(297000, 356400, 240000);
             NPC.value = Item.buyPrice(2, 0, 0, 0);
-            Music = CalamityMod.Instance.GetMusicFromMusicMod("Signus") ?? MusicID.Boss4;
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
             NPC.knockBackResist = 0f;
@@ -109,25 +110,29 @@ namespace CalamityMod.NPCs.Signus
 
             CalamityGlobalNPC.signus = NPC.whoAmI;
 
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
-            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || bossRush;
+            bool revenge = CalamityWorld.revenge || bossRush;
+            bool expertMode = Main.expertMode || bossRush;
 
             Vector2 vectorCenter = NPC.Center;
 
             double lifeRatio = NPC.life / (double)NPC.lifeMax;
 
-            lifeToAlpha = (int)(100.0 * (1.0 - lifeRatio));
+            lifeToAlpha = (int)((Main.getGoodWorld ? 200D : 100D) * (1D - lifeRatio));
             int maxCharges = death ? 1 : revenge ? 2 : expertMode ? 3 : 4;
             int maxTeleports = (death && lifeRatio < 0.9) ? 1 : revenge ? 2 : expertMode ? 3 : 4;
-            float inertia = malice ? 9f : death ? 10f : revenge ? 11f : expertMode ? 12f : 14f;
-            float chargeVelocity = malice ? 16f : death ? 14f : revenge ? 13f : expertMode ? 12f : 10f;
+            float inertia = bossRush ? 9f : death ? 10f : revenge ? 11f : expertMode ? 12f : 14f;
+            float chargeVelocity = bossRush ? 16f : death ? 14f : revenge ? 13f : expertMode ? 12f : 10f;
+            if (Main.getGoodWorld)
+            {
+                inertia *= 0.5f;
+                chargeVelocity *= 1.15f;
+            }
+
             bool phase2 = lifeRatio < 0.75f && expertMode;
             bool phase3 = lifeRatio < 0.5f;
             bool phase4 = lifeRatio < 0.33f;
-
-            NPC.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive && malice;
 
             NPC.damage = NPC.defDamage;
 
@@ -175,7 +180,7 @@ namespace CalamityMod.NPCs.Signus
             else if (NPC.timeLeft < 1800)
                 NPC.timeLeft = 1800;
 
-            if (lifeToAlpha < 50 && NPC.ai[0] != 1f)
+            if (lifeToAlpha < (Main.getGoodWorld ? 100 : 50) && NPC.ai[0] != 1f)
             {
                 for (int num1011 = 0; num1011 < 2; num1011++)
                 {
@@ -202,7 +207,7 @@ namespace CalamityMod.NPCs.Signus
                 if (phase3 || revenge)
                     NPC.knockBackResist = 0f;
 
-                float speed = malice ? 20f : revenge ? 15f : expertMode ? 14f : 12f;
+                float speed = bossRush ? 20f : revenge ? 15f : expertMode ? 14f : 12f;
                 if (expertMode)
                     speed += death ? 6f * (float)(1D - lifeRatio) : 4f * (float)(1D - lifeRatio);
 
@@ -212,8 +217,13 @@ namespace CalamityMod.NPCs.Signus
                 num797 = speed / num797;
                 num795 *= num797;
                 num796 *= num797;
-                NPC.velocity.X = (NPC.velocity.X * 50f + num795) / 51f;
-                NPC.velocity.Y = (NPC.velocity.Y * 50f + num796) / 51f;
+
+                float inertia2 = 50f;
+                if (Main.getGoodWorld)
+                    inertia2 *= 0.5f;
+
+                NPC.velocity.X = (NPC.velocity.X * inertia2 + num795) / (inertia2 + 1f);
+                NPC.velocity.Y = (NPC.velocity.Y * inertia2 + num796) / (inertia2 + 1f);
             }
             else
                 NPC.knockBackResist = 0f;
@@ -236,12 +246,12 @@ namespace CalamityMod.NPCs.Signus
             {
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    NPC.localAI[1] += malice ? 1.5f : 1f;
+                    NPC.localAI[1] += bossRush ? 1.5f : 1f;
 
                     if (expertMode)
                         NPC.localAI[1] += death ? 3f * (float)(1D - lifeRatio) : 2f * (float)(1D - lifeRatio);
 
-                    if (NPC.localAI[1] >= 120f)
+                    if (NPC.localAI[1] >= (Main.getGoodWorld ? 0f : 120f))
                     {
                         NPC.localAI[1] = 0f;
 
@@ -299,7 +309,7 @@ namespace CalamityMod.NPCs.Signus
                     Main.dust[dust].fadeIn = 1f;
                 }
 
-                NPC.alpha += malice ? 3 : 2;
+                NPC.alpha += bossRush ? 3 : 2;
                 if (expertMode)
                     NPC.alpha += death ? (int)Math.Round(4.5D * (1D - lifeRatio)) : (int)Math.Round(3D * (1D - lifeRatio));
 
@@ -399,7 +409,7 @@ namespace CalamityMod.NPCs.Signus
                 NPC.direction = playerLocation < 0f ? 1 : -1;
                 NPC.spriteDirection = NPC.direction;
 
-                float divisor = expertMode ? (malice ? 10f : death ? 12f : revenge ? 15f : 20f) - (float)Math.Ceiling(5D * (1D - lifeRatio)) : 20f;
+                float divisor = expertMode ? (bossRush ? 10f : death ? 12f : revenge ? 15f : 20f) - (float)Math.Ceiling(5D * (1D - lifeRatio)) : 20f;
                 float scytheBarrageTime = divisor * 3f;
                 float scytheBarrageCooldown = divisor * 3f;
 
@@ -429,8 +439,8 @@ namespace CalamityMod.NPCs.Signus
                     }
                 }
 
-                float maxVelocityY = malice ? 1.5f : death ? 2.5f : 3f;
-                float maxVelocityX = malice ? 5f : death ? 7f : 8f;
+                float maxVelocityY = bossRush ? 1.5f : death ? 2.5f : 3f;
+                float maxVelocityX = bossRush ? 5f : death ? 7f : 8f;
 
                 if (NPC.position.Y > player.position.Y - 250f)
                 {
@@ -489,9 +499,10 @@ namespace CalamityMod.NPCs.Signus
             {
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    if (NPC.CountNPCS(ModContent.NPCType<CosmicLantern>()) < 5)
+                    int totalLamps = Main.getGoodWorld ? 10 : 5;
+                    if (NPC.CountNPCS(ModContent.NPCType<CosmicLantern>()) < totalLamps)
                     {
-                        for (int x = 0; x < 5; x++)
+                        for (int x = 0; x < totalLamps; x++)
                         {
                             int num660 = NPC.NewNPC(NPC.GetSource_FromAI(), (int)(player.position.X + spawnX), (int)(player.position.Y + spawnY), ModContent.NPCType<CosmicLantern>());
                             if (Main.netMode == NetmodeID.Server)
@@ -521,7 +532,7 @@ namespace CalamityMod.NPCs.Signus
 
                 if (calamityGlobalNPC.newAI[0] == 0f) // Line up the charge
                 {
-                    float velocity = malice ? 18f : revenge ? 16f : expertMode ? 15f : 14f;
+                    float velocity = bossRush ? 18f : revenge ? 16f : expertMode ? 15f : 14f;
                     if (expertMode)
                         velocity += death ? 6f * (float)(1D - lifeRatio) : 4f * (float)(1D - lifeRatio);
 
@@ -779,22 +790,26 @@ namespace CalamityMod.NPCs.Signus
                 normalOnly.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, weapons));
 
                 // Materials
-                normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<TwistingNether>(), 1, 2, 3));
+                normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<TwistingNether>(), 1, 5, 7));
 
                 // Equipment
                 normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<SpectralVeil>()));
 
                 // Vanity
                 normalOnly.Add(ModContent.ItemType<SignusMask>(), 7);
-                normalOnly.Add(ItemDropRule.Common(ModContent.ItemType<AncientGodSlayerHelm>(), 20).
-                    OnSuccess(ItemDropRule.Common(ModContent.ItemType<AncientGodSlayerChestplate>())).
-                    OnSuccess(ItemDropRule.Common(ModContent.ItemType<AncientGodSlayerLeggings>())));
+				var godSlayerVanity = ItemDropRule.Common(ModContent.ItemType<AncientGodSlayerHelm>(), 20);
+				godSlayerVanity.OnSuccess(ItemDropRule.Common(ModContent.ItemType<AncientGodSlayerChestplate>()));
+				godSlayerVanity.OnSuccess(ItemDropRule.Common(ModContent.ItemType<AncientGodSlayerLeggings>()));
+				normalOnly.Add(godSlayerVanity);
             }
 
             npcLoot.Add(ModContent.ItemType<SignusTrophy>(), 10);
 
+            // Relic
+            npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).Add(ModContent.ItemType<SignusRelic>());
+
             // Lore
-            npcLoot.AddConditionalPerPlayer(LastSentinelKilled, ModContent.ItemType<KnowledgeSentinels>());
+            npcLoot.AddConditionalPerPlayer(LastSentinelKilled, ModContent.ItemType<KnowledgeSentinels>(), desc: DropHelper.SentinelText);
         }
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
@@ -837,7 +852,7 @@ namespace CalamityMod.NPCs.Signus
                 }
                 if (Main.netMode != NetmodeID.Server)
                 {
-                    float randomSpread = Main.rand.Next(-200, 200) / 100;
+                    float randomSpread = Main.rand.Next(-200, 201) / 100f;
                     Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * randomSpread, Mod.Find<ModGore>("Signus").Type, 1f);
                     Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * randomSpread, Mod.Find<ModGore>("Signus2").Type, 1f);
                     Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * randomSpread, Mod.Find<ModGore>("Signus3").Type, 1f);
@@ -870,7 +885,8 @@ namespace CalamityMod.NPCs.Signus
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(ModContent.BuffType<WhisperingDeath>(), 420, true);
+            if (damage > 0)
+                player.AddBuff(ModContent.BuffType<WhisperingDeath>(), 420, true);
         }
     }
 }

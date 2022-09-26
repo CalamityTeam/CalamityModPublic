@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            Item.damage = 20;
+            Item.damage = 22;
             Item.DamageType = DamageClass.Magic;
             Item.mana = 7;
             Item.width = 34;
@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.knockBack = 2f;
-            Item.value = Item.buyPrice(0, 2, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity2BuyPrice;
             Item.rare = ItemRarityID.Green;
             Item.UseSound = SoundID.Item8;
             Item.autoReuse = true;
@@ -36,8 +36,7 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.shootSpeed = 1f;
         }
 
-        public override Vector2? HoldoutOrigin() => new Vector2(15, 15);
-
+        
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo projSource, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             float speed = Item.shootSpeed;
@@ -86,7 +85,7 @@ namespace CalamityMod.Items.Weapons.Magic
                 int proj = Projectile.NewProjectile(projSource, source, spawnVec, type, damage, knockback, player.whoAmI, 0f, Main.rand.Next(3));
                 if (proj.WithinBounds(Main.maxProjectiles))
                 {
-                    Main.projectile[proj].Calamity().forceMagic = true;
+                    Main.projectile[proj].DamageType = DamageClass.Magic;
                     Main.projectile[proj].timeLeft = CalamityUtils.SecondsToFrames(3f);
                 }
             }

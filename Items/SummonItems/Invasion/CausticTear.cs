@@ -14,6 +14,7 @@ namespace CalamityMod.Items.SummonItems.Invasion
             DisplayName.SetDefault("Caustic Tear");
             Tooltip.SetDefault("Causes an acidic downpour in the Sulphurous Sea\n" +
                 "Not consumable");
+			ItemID.Sets.SortingPriorityBossSpawns[Type] = 1; // Suspicious Looking Eye
 
         }
 
@@ -28,6 +29,11 @@ namespace CalamityMod.Items.SummonItems.Invasion
             Item.useStyle = ItemUseStyleID.HoldUp;
             Item.consumable = false;
         }
+
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = ContentSamples.CreativeHelper.ItemGroup.EventItem;
+		}
 
         public override bool CanUseItem(Player player)
         {
@@ -45,6 +51,7 @@ namespace CalamityMod.Items.SummonItems.Invasion
         {
             CreateRecipe().
                 AddIngredient<SulphuricScale>(5).
+                AddCondition(Recipe.Condition.NearWater).
                 Register();
         }
     }

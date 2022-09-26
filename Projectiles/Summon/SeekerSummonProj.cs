@@ -90,8 +90,9 @@ namespace CalamityMod.Projectiles.Summon
 
         internal void DetermineFrames()
         {
-            Projectile.frameCounter++;
-            if (Projectile.frameCounter % 5 == 4)
+            if (Projectile.FinalExtraUpdate())
+                Projectile.frameCounter++;
+            if (Projectile.frameCounter % 6 == 5)
                 Projectile.frame = (Projectile.frame + 1) % Main.projFrames[Projectile.type];
         }
 
@@ -101,7 +102,7 @@ namespace CalamityMod.Projectiles.Summon
             if (Main.rand.NextBool(1600))
                 SoundEngine.PlaySound(SoundID.DD2_KoboldFlyerHurt);
 
-            Vector2 destination = Owner.Center + (MathHelper.TwoPi * CircleAngleRatio - MathHelper.PiOver2).ToRotationVector2() * 310f;
+            Vector2 destination = Owner.Center + (MathHelper.TwoPi * CircleAngleRatio / Owner.ownedProjectileCounts[Type] - MathHelper.PiOver2).ToRotationVector2() * 310f;
             Projectile.Center = Vector2.Lerp(Projectile.Center, destination, 0.03f);
 
             if (!Projectile.WithinRange(destination, 20f))

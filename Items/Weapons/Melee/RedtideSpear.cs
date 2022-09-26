@@ -19,12 +19,13 @@ namespace CalamityMod.Items.Weapons.Melee
                                "[c/5C95A1:The people of the sea were adept hunters, but they abhorred unnecessary violence.]\n" +
                                "[c/5C95A1:Unfortunately, neighboring nations were brutish, so they fashioned their tools for war.]");
             SacrificeTotal = 1;
+            ItemID.Sets.Spears[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
             Item.width = 56;
-            Item.damage = 33;
+            Item.damage = 25;
             Item.DamageType = DamageClass.Melee;
             Item.noMelee = true;
             Item.useTurn = true;
@@ -37,7 +38,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.UseSound = null;
             Item.autoReuse = true;
             Item.height = 56;
-            Item.value = Item.buyPrice(0, 2, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity2BuyPrice;
             Item.rare = ItemRarityID.Green;
             Item.shoot = ModContent.ProjectileType<RedtideSpearProjectile>();
             Item.shootSpeed = 4f;
@@ -56,6 +57,20 @@ namespace CalamityMod.Items.Weapons.Melee
                 AddIngredient<SeaRemains>(4).
                 AddTile(TileID.Anvils).
                 Register();
+        }
+    }
+
+    public class SpearChargePlayer : ModPlayer
+    {
+        public bool ChargingKnockbackResist = false;
+
+        public override void PostUpdateMiscEffects()
+        {
+            if (ChargingKnockbackResist)
+            {
+                Player.noKnockback = true;
+                ChargingKnockbackResist = false;
+            }
         }
     }
 }

@@ -53,7 +53,29 @@ namespace CalamityMod.MainMenu
         public override bool PreDrawLogo(SpriteBatch spriteBatch, ref Vector2 logoDrawCenter, ref float logoRotation, ref float logoScale, ref Color drawColor)
         {
             Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/MainMenu/MenuBackground").Value;
-            spriteBatch.Draw(texture, new Vector2(0f, 0f), null, Color.White, 0f, Vector2.Zero, (float)Main.screenWidth / texture.Width, SpriteEffects.None, 0f);
+
+            // Calculate the draw position offset and scale in the event that someone is using a non-16:9 monitor
+            Vector2 drawOffset = Vector2.Zero;
+            float xScale = (float)Main.screenWidth / texture.Width;
+            float yScale = (float)Main.screenHeight / texture.Height;
+            float scale = xScale;
+
+            // if someone's monitor isn't in wacky dimensions, no calculations need to be performed at all
+            if (xScale != yScale)
+            {
+                // If someone's monitor is tall, it needs to be shifted to the left so that it's still centered on screen
+                // Additionally the Y scale is used so that it still covers the entire screen
+                if (yScale > xScale)
+                {
+                    scale = yScale;
+                    drawOffset.X -= (texture.Width * scale - Main.screenWidth) * 0.5f;
+                }
+                else
+                    // The opposite is true if someone's monitor is widescreen
+                    drawOffset.Y -= (texture.Height * scale - Main.screenHeight) * 0.5f;
+            }
+
+            spriteBatch.Draw(texture, drawOffset, null, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
 
             static Color selectCinderColor()
             {
@@ -101,15 +123,26 @@ namespace CalamityMod.MainMenu
 
             // Draw cinders.
             Texture2D cinderTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/CalamitasCinder").Value;
-            Texture2D cinderTexture2 = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/CalamitasCinder").Value;
             for (int i = 0; i < Cinders.Count; i++)
             {
                 Vector2 drawPosition = Cinders[i].Center;
                 spriteBatch.Draw(cinderTexture, drawPosition, null, Cinders[i].DrawColor, 0f, cinderTexture.Size() * 0.5f, Cinders[i].Scale, 0, 0f);
             }
 
+            // Set the logo draw color to be white and the time to be noon
+            // This is because there is not a day/night cycle in this menu, and changing colors would look bad
             drawColor = Color.White;
-            return true;
+            Main.time = 27000;
+            Main.dayTime = true;
+
+            // Draw the logo using a different spritebatch blending setting so it doesn't have a horrible yellow glow
+            Vector2 drawPos = new Vector2(Main.screenWidth / 2f, 100f);
+            spriteBatch.End();
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.LinearClamp, DepthStencilState.None, Main.Rasterizer, null, Main.UIScaleMatrix);
+            spriteBatch.Draw(Logo.Value, drawPos, null, drawColor, logoRotation, Logo.Value.Size() * 0.5f, logoScale, SpriteEffects.None, 0f);
+            spriteBatch.End();
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.None, Main.Rasterizer, null, Main.UIScaleMatrix);
+            return false;
         }
     }
 }

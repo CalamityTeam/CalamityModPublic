@@ -15,6 +15,7 @@ namespace CalamityMod.Items.LoreItems
                 "What used to be a majestic beast swimming through the water has now become a dried-up and\n" +
                 "gluttonous husk, constantly on a voracious search for its next meal.");
             SacrificeTotal = 1;
+            ItemID.Sets.ItemNoGravity[Item.type] = true;
         }
 
         public override void SetDefaults()
@@ -32,7 +33,7 @@ namespace CalamityMod.Items.LoreItems
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddTile(TileID.Bookcases).AddIngredient(ModContent.ItemType<DesertScourgeTrophy>()).AddIngredient(ModContent.ItemType<VictoryShard>(), 10).Register();
+            CreateRecipe(1).AddTile(TileID.Bookcases).AddIngredient(ModContent.ItemType<DesertScourgeTrophy>()).AddIngredient(ModContent.ItemType<PearlShard>(), 10).Register();
         }
     }
 }

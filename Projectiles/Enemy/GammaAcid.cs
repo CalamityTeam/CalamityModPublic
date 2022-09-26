@@ -34,13 +34,17 @@ namespace CalamityMod.Projectiles.Enemy
             }
             Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
         }
+
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
+            if (damage <= 0)
+                return;
+
             target.AddBuff(ModContent.BuffType<Irradiated>(), 180);
         }
         public override void Kill(int timeLeft)
         {
-            CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 80);
+            Projectile.ExpandHitboxBy(80);
             Projectile.Damage();
             for (int i = 0; i <= 40; i++)
             {

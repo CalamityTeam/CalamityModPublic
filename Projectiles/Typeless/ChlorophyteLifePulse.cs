@@ -1,4 +1,5 @@
-﻿using CalamityMod.Projectiles.VanillaProjectileOverrides;
+﻿using CalamityMod.Items.VanillaArmorChanges;
+using CalamityMod.Projectiles.VanillaProjectileOverrides;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -31,6 +32,8 @@ namespace CalamityMod.Projectiles.Typeless
             Projectile.timeLeft = Lifetime;
         }
 
+        public override bool? CanHitNPC(NPC target) => !target.CountsAsACritter && !target.friendly && target.chaseable;
+
         public override void AI()
         {
             Projectile.Opacity = 1f - (float)Math.Pow(LifetimeCompletion, 1.56);
@@ -52,10 +55,10 @@ namespace CalamityMod.Projectiles.Typeless
                     if (player.Calamity().ChlorophyteHealDelay > 0)
                         continue;
 
-                    int healQuantity = (int)owner.GetBestClassDamage().ApplyTo(ChlorophyteCrystalAI.AmountToHealPerPulse);
+                    int healQuantity = (int)owner.GetBestClassDamage().ApplyTo(ChlorophyteArmorSetChange.AmountToHealPerPulse);
                     player.statLife += healQuantity;
                     player.HealEffect(healQuantity);
-                    player.Calamity().ChlorophyteHealDelay = ChlorophyteCrystalAI.DelayBetweenHeals;
+                    player.Calamity().ChlorophyteHealDelay = ChlorophyteArmorSetChange.DelayBetweenHeals;
                 }
             }
         }

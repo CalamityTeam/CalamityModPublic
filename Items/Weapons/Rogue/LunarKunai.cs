@@ -8,7 +8,7 @@ using CalamityMod.Projectiles.Rogue;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class LunarKunai : ModItem
+    public class LunarKunai : RogueWeapon
     {
         public override void SetStaticDefaults()
         {

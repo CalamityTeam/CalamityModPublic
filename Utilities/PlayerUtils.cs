@@ -1,16 +1,16 @@
-﻿using CalamityMod.Balancing;
+﻿using System.Collections.Generic;
+using System.Linq;
+using CalamityMod.Balancing;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
 using CalamityMod.Cooldowns;
-using System.Collections.Generic;
-using System.Linq;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
 using static Terraria.ModLoader.ModContent;
+using static Terraria.Player;
 
 namespace CalamityMod
 {
@@ -98,7 +98,7 @@ namespace CalamityMod
             CalamityPlayer mp = player.Calamity();
             int light = mp.externalAbyssLight;
             bool underwater = player.IsUnderwater();
-            bool miningHelmet = player.head == ArmorIDs.Head.MiningHelmet;
+            bool miningHelmet = player.head == ArmorIDs.Head.MiningHelmet || player.head == ArmorIDs.Head.UltraBrightHelmet;
 
             // The campfire bonus does not apply while in the Abyss.
             if (!mp.ZoneAbyss && (player.HasBuff(BuffID.Campfire) || Main.SceneMetrics.HasCampfire))
@@ -106,6 +106,8 @@ namespace CalamityMod
             if (mp.camper) // inherits Campfire so it is +2 in practice
                 light += 1;
             if (miningHelmet)
+                light += 1;
+            if (player.hasMagiluminescence)
                 light += 1;
             if (player.lightOrb)
                 light += 1;
@@ -149,6 +151,12 @@ namespace CalamityMod
                 light += 2;
             if (mp.sirenPet)
                 light += underwater ? 3 : 1;
+            if (player.petFlagPumpkingPet)
+                light += 3;
+            if (player.petFlagGolemPet)
+                light += 3;
+            if (player.petFlagFairyQueenPet)
+                light += 3;
             if (player.wisp)
                 light += 3;
             if (player.suspiciouslookingTentacle)
@@ -158,6 +166,27 @@ namespace CalamityMod
             if (mp.profanedCrystalBuffs && !mp.ZoneAbyss)
                 light += Main.dayTime || player.lavaWet ? 2 : 1; // not sure how you'd be in lava in the abyss but go ham I guess
             return light;
+        }
+
+        /// <summary>
+        /// Directly retrieves the best pickaxe power of the player.
+        /// </summary>
+        /// <param name="player"></param>
+        /// <returns></returns>
+        public static int GetBestPickPower(this Player player)
+        {
+            int highestPickPower = 35; //35% if you have no pickaxes.
+            for (int item = 0; item < Main.InventorySlotsTotal; item++)
+            {
+                if (player.inventory[item].pick <= 0)
+                    continue;
+                if (player.inventory[item].pick > highestPickPower)
+                {
+                    highestPickPower = player.inventory[item].pick;
+                }
+            }
+
+            return highestPickPower;
         }
         #endregion
 
@@ -281,6 +310,8 @@ namespace CalamityMod
             if (player.bank2.item.Any(item => items.Contains(item.type)))
                 hasItem = true;
             if (player.bank3.item.Any(item => items.Contains(item.type)))
+                hasItem = true;
+            if (player.bank4.item.Any(item => items.Contains(item.type)))
                 hasItem = true;
             return hasItem;
         }
@@ -488,6 +519,54 @@ namespace CalamityMod
         #endregion
 
         #region Arms Control
+
+        /// <summary>
+        /// Gets an arm stretch amount from a number ranging from 0 to 1
+        /// </summary>
+        public static CompositeArmStretchAmount ToStretchAmount(this float percent)
+        {
+            if (percent < 0.25f)
+                return CompositeArmStretchAmount.None;
+            if (percent < 0.5f)
+                return CompositeArmStretchAmount.Quarter;
+            if (percent < 0.75f)
+                return CompositeArmStretchAmount.ThreeQuarters;
+
+            return CompositeArmStretchAmount.Full;
+        }
+
+        /// <summary>
+        /// The exact same thing as Player.GetFrontHandPosition() except it properly accounts for gravity swaps instead of requiring the coders to do it manually afterwards.
+        /// Additionally, it simply takes in the arm data instead of asking for the rotation and stretch separately.
+        /// </summary>
+        public static Vector2 GetFrontHandPositionImproved(this Player player, CompositeArmData arm)
+        {
+            Vector2 position = player.GetFrontHandPosition(arm.stretch, arm.rotation * player.gravDir).Floor();
+
+            if (player.gravDir == -1f)
+            {
+                position.Y = player.position.Y + (float)player.height + (player.position.Y - position.Y);
+            }
+
+            return position;
+        }
+
+        /// <summary>
+        /// The exact same thing as Player.GetBackHandPosition() except it properly accounts for gravity swaps instead of requiring the coders to do it manually afterwards.
+        /// Additionally, it simply takes in the arm data instead of asking for the rotation and stretch separately.
+        /// </summary>
+        public static Vector2 GetBackHandPositionImproved(this Player player, CompositeArmData arm)
+        {
+            Vector2 position = player.GetBackHandPosition(arm.stretch, arm.rotation * player.gravDir).Floor();
+
+            if (player.gravDir == -1f)
+            {
+                position.Y = player.position.Y + (float)player.height + (player.position.Y - position.Y);
+            }
+
+            return position;
+        }
+
         /// <summary>
         /// Properly sets the player's held item rotation and position by doing the annoying math for you, since vanilla decided to be wholly inconsistent about it!
         /// This all assumes the player is facing right. All the flip stuff is automatically handled in here
@@ -497,10 +576,14 @@ namespace CalamityMod
         /// <param name="desiredPosition">The desired position of the item</param>
         /// <param name="spriteSize">The size of the item sprite (used in calculations)</param>
         /// <param name="rotationOriginFromCenter">The offset from the center of the sprite of the rotation origin</param>
+        /// <param name="noSandstorm">Should the swirly effect from the sandstorm jump be disabled</param>
         /// <param name="flipAngle">Should the angle get flipped with the player, or should it be rotated by 180 degrees</param>
         /// <param name="stepDisplace">Should the item get displaced with the player's height during the walk anim? </param>
-        public static void CleanHoldStyle(Player player, float desiredRotation, Vector2 desiredPosition, Vector2 spriteSize, Vector2? rotationOriginFromCenter = null, bool flipAngle = false, bool stepDisplace = true)
+        public static void CleanHoldStyle(Player player, float desiredRotation, Vector2 desiredPosition, Vector2 spriteSize, Vector2? rotationOriginFromCenter = null, bool noSandstorm = false, bool flipAngle = false, bool stepDisplace = true)
         {
+            if (noSandstorm)
+                player.sandStorm = false;
+
             //Since Vector2.Zero isn't a compile-time constant, we can't use it directly as the default parameter
             if (rotationOriginFromCenter == null)
                 rotationOriginFromCenter = Vector2.Zero;
@@ -508,6 +591,8 @@ namespace CalamityMod
             Vector2 origin = rotationOriginFromCenter.Value;
             //Flip the origin's X position, since the sprite will be flipped if the player faces left.
             origin.X *= player.direction;
+            //Additionally, flip the origin's Y position in case the player is in reverse gravity.
+            origin.Y *= player.gravDir;
 
             player.itemRotation = desiredRotation;
 
@@ -541,6 +626,33 @@ namespace CalamityMod
             }
 
             player.itemLocation = finalPosition;
+        }
+        #endregion
+
+        #region visual layers
+        public static void HideAccessories(this Player player, bool hideHeadAccs = true, bool hideBodyAccs = true, bool hideLegAccs = true,  bool hideShield = true)
+        {
+            if (hideHeadAccs)
+                player.face = -1;
+
+            if (hideBodyAccs)
+            {
+                player.handon = -1;
+                player.handoff = -1;
+                
+                player.back = -1;
+                player.front = -1;
+                player.neck = -1;
+            }
+
+            if (hideLegAccs)
+            {
+                player.shoe = -1;
+                player.waist = -1;
+            }
+
+            if (hideShield)
+                player.shield = -1;
         }
         #endregion
 

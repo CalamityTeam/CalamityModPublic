@@ -344,6 +344,10 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
+            if (NPC.IsABestiaryIconDummy)
+            {
+                NPC.alpha = 0;
+            }
             SpriteEffects spriteEffects = SpriteEffects.None;
             if (NPC.spriteDirection == 1)
             {
@@ -361,7 +365,8 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(BuffID.Darkness, 120, true);
+            if (damage > 0)
+                player.AddBuff(BuffID.Darkness, 120, true);
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
@@ -380,7 +385,7 @@ namespace CalamityMod.NPCs.Abyss
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
             npcLoot.Add(ModContent.ItemType<AnechoicCoating>(), 2);
-            npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<InkBomb>(), 40, 20));
+            npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<InkBomb>(), 20, 10));
         }
 
         public override void HitEffect(int hitDirection, double damage)

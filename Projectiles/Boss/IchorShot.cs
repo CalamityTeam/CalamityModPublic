@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -12,6 +12,8 @@ namespace CalamityMod.Projectiles.Boss
         {
             DisplayName.SetDefault("Ichor Shot");
             Main.projFrames[Projectile.type] = 6;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 2;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
         public override void SetDefaults()
@@ -20,7 +22,7 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.height = 12;
             Projectile.hostile = true;
             Projectile.tileCollide = false;
-            Projectile.timeLeft = 420;
+            Projectile.timeLeft = 600;
             Projectile.penetrate = 1;
         }
 
@@ -44,18 +46,27 @@ namespace CalamityMod.Projectiles.Boss
             Main.dust[num469].noGravity = true;
             Main.dust[num469].velocity *= 0f;
 
-            Projectile.velocity.Y += 0.06f;
+            if (Projectile.velocity.Y < 12f)
+                Projectile.velocity.Y += 0.06f;
+
             Projectile.velocity.X *= 0.995f;
         }
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
+            if (damage <= 0)
+                return;
+
             target.AddBuff(BuffID.Ichor, 180);
         }
 
-        public override Color? GetAlpha(Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
-            return new Color(200, 200, 50, Projectile.alpha);
+            lightColor.R = (byte)(255 * Projectile.Opacity);
+            lightColor.G = (byte)(255 * Projectile.Opacity);
+            lightColor.B = (byte)(255 * Projectile.Opacity);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
+            return false;
         }
     }
 }

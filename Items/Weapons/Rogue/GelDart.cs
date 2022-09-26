@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class GelDart : ModItem
+    public class GelDart : RogueWeapon
     {
         public override void SetStaticDefaults()
         {

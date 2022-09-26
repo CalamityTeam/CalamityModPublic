@@ -71,6 +71,7 @@ namespace CalamityMod.NPCs.ExoMechs
 
         public static readonly SoundStyle LaughSound = new("CalamityMod/Sounds/Custom/DraedonLaugh");
         public static readonly SoundStyle TeleportSound = new("CalamityMod/Sounds/Custom/DraedonTeleport");
+        public static readonly SoundStyle SelectionSound = new("CalamityMod/Sounds/Custom/Codebreaker/ExoMechsIconSelect");
 
         public override void SetStaticDefaults()
         {
@@ -109,8 +110,8 @@ namespace CalamityMod.NPCs.ExoMechs
                 //We'll probably want a custom background for Exos like ML has.
                 //BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Exo,
 
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("The esteemed scientist himself. His AI is uploaded into a database, far from harm, and thus destroying his recon bodies achieves nothing.")
+                // Will move to localization whenever that is cleaned up.
+                new FlavorTextBestiaryInfoElement("The esteemed scientist himself. His AI is uploaded into a database, far from harm, and thus destroying his recon bodies achieves nothing.")
             });
         }
 
@@ -138,9 +139,16 @@ namespace CalamityMod.NPCs.ExoMechs
         {
             // Set the whoAmI variable.
             CalamityGlobalNPC.draedon = NPC.whoAmI;
+            CalamityGlobalNPC.draedonAmbience = -1;
 
             // Prevent stupid natural despawns.
             NPC.timeLeft = 3600;
+
+            // Emit music. If the battle is ongoing, Draedon emits the battle theme.
+            // Otherwise, he emits his trademark ambience.
+            // This takes priority over anything except Moon Lord's music fadeout.
+            if (!ExoMechIsPresent)
+				CalamityGlobalNPC.draedonAmbience = NPC.whoAmI;
 
             // Decide an initial target and play a teleport sound on the first frame.
             if (TalkTimer == 0f)
@@ -269,6 +277,7 @@ namespace CalamityMod.NPCs.ExoMechs
                 if (Main.netMode != NetmodeID.Server)
                 {
                     SoundEngine.PlaySound(CommonCalamitySounds.FlareSound with { Volume = CommonCalamitySounds.FlareSound.Volume * 1.55f}, PlayerToFollow.Center);
+                    SoundEngine.PlaySound(SelectionSound, PlayerToFollow.Center);
                 }
             }
 
@@ -395,11 +404,6 @@ namespace CalamityMod.NPCs.ExoMechs
                 HandleDefeatStuff();
                 DefeatTimer++;
             }
-
-            if (!ExoMechIsPresent && DefeatTimer <= 0f)
-                Music = MusicLoader.GetMusicSlot(Mod, "Sounds/Music/DraedonAmbience");
-            if (ExoMechIsPresent)
-                Music = CalamityMod.Instance.GetMusicFromMusicMod("ExoMechs") ?? MusicID.Boss3;
 
             TalkTimer++;
         }

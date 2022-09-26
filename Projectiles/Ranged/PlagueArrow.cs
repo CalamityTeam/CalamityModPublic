@@ -23,10 +23,10 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.DamageType = DamageClass.Ranged;
             Projectile.arrow = true;
             Projectile.penetrate = 1;
-            Projectile.aiStyle = 1;
+            Projectile.aiStyle = ProjAIStyleID.Arrow;
             Projectile.timeLeft = 600;
             AIType = ProjectileID.WoodenArrowFriendly;
-            Projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
+            Projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.DefaultPointBlankDuration;
         }
 
         public override void Kill(int timeLeft)
@@ -53,7 +53,7 @@ namespace CalamityMod.Projectiles.Ranged
                         if (bee.WithinBounds(Main.maxProjectiles))
                         {
                             Main.projectile[bee].penetrate = 2;
-                            Main.projectile[bee].Calamity().forceRanged = true;
+                            Main.projectile[bee].DamageType = DamageClass.Ranged;
                         }
                     }
                 }

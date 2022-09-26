@@ -19,7 +19,7 @@ namespace CalamityMod.Projectiles.Melee
         {
             Projectile.width = 24;
             Projectile.height = 24;
-            Projectile.aiStyle = 1;
+            Projectile.aiStyle = ProjAIStyleID.Arrow;
             Projectile.friendly = true;
             Projectile.DamageType = DamageClass.Melee;
             Projectile.tileCollide = false;
@@ -42,7 +42,7 @@ namespace CalamityMod.Projectiles.Melee
         public override void Kill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.Item89, Projectile.position);
-            CalamityGlobalProjectile.ExpandHitboxBy(Projectile, (int)(128f * Projectile.scale));
+            Projectile.ExpandHitboxBy((int)(128f * Projectile.scale));
             for (int index = 0; index < 8; ++index)
                 Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 31, 0.0f, 0.0f, 100, new Color(), 1.5f);
             for (int index1 = 0; index1 < 32; ++index1)

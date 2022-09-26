@@ -16,6 +16,7 @@ namespace CalamityMod.Buffs.StatDebuffs
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = true;
             BuffID.Sets.NurseCannotRemoveDebuff[Type] = true;
+            BuffID.Sets.LongerExpertDebuff[Type] = true;
         }
 
         public override void Update(NPC npc, ref int buffIndex)

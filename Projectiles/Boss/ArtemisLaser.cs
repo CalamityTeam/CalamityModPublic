@@ -38,7 +38,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-            Projectile.Calamity().canBreakPlayerDefense = true;
+            Projectile.Calamity().DealsDefenseDamage = true;
             Projectile.width = 22;
             Projectile.height = 22;
             Projectile.hostile = true;
@@ -47,12 +47,13 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.alpha = 255;
             Projectile.penetrate = -1;
             Projectile.extraUpdates = 1;
-            Projectile.timeLeft = 600;
-            CooldownSlot = 1;
+            Projectile.timeLeft = 1200;
+            CooldownSlot = ImmunityCooldownID.Bosses;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
         {
+            writer.Write(Projectile.extraUpdates);
             writer.Write(TelegraphDelay);
             writer.WriteVector2(Destination);
             writer.WriteVector2(Velocity);
@@ -60,6 +61,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
+            Projectile.extraUpdates = reader.ReadInt32();
             TelegraphDelay = reader.ReadSingle();
             Destination = reader.ReadVector2();
             Velocity = reader.ReadVector2();
@@ -104,10 +106,21 @@ namespace CalamityMod.Projectiles.Boss
                 // If a velocity is in reserve, set the true velocity to it and make it as "taken" by setting it to <0,0>
                 if (Velocity != Vector2.Zero)
                 {
-                    Projectile.extraUpdates = 3;
-                    Projectile.velocity = Velocity * ((CalamityWorld.malice || BossRushEvent.BossRushActive) ? 1.25f : 1f);
+                    Projectile.extraUpdates = Main.getGoodWorld ? 4 : 3;
+                    Projectile.velocity = Velocity * (BossRushEvent.BossRushActive ? 1.25f : 1f);
                     Velocity = Vector2.Zero;
                     Projectile.netUpdate = true;
+                }
+
+                // Accelerate to max velocity.
+                if (Projectile.velocity.Length() < LaserVelocity)
+                {
+                    Projectile.velocity *= 1.0125f;
+                    if (Projectile.velocity.Length() > LaserVelocity)
+                    {
+                        Projectile.velocity.Normalize();
+                        Projectile.velocity *= LaserVelocity;
+                    }
                 }
 
                 // Direction and rotation.
@@ -134,7 +147,7 @@ namespace CalamityMod.Projectiles.Boss
 
                 // Calculate and store the velocity that will be used for laser telegraph rotation and beam firing.
                 Vector2 projectileDestination = Destination - ThingToAttachTo.Center;
-                Velocity = Vector2.Normalize(projectileDestination) * LaserVelocity;
+                Velocity = Vector2.Normalize(projectileDestination);
 
                 // Set velocity to zero.
                 Projectile.velocity = Vector2.Zero;
@@ -161,7 +174,7 @@ namespace CalamityMod.Projectiles.Boss
 
                 // Calculate and store the velocity that will be used for laser telegraph rotation and beam firing.
                 Vector2 projectileDestination = Destination - ThingToAttachTo.Center;
-                Velocity = Vector2.Normalize(projectileDestination) * LaserVelocity;
+                Velocity = Vector2.Normalize(projectileDestination);
 
                 // Direction and rotation.
                 if (Projectile.velocity.X < 0f)
@@ -183,13 +196,10 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            if (TelegraphDelay > TelegraphTotalTime)
-                target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 180);
-        }
+            if (damage <= 0 || TelegraphDelay <= TelegraphTotalTime)
+                return;
 
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
-        {
-            target.Calamity().lastProjectileHit = Projectile;
+            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 180);
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)

@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.useTurn = false;
             Item.noMelee = true;
             Item.knockBack = 5f;
-            Item.value = Item.buyPrice(0, 80, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity9BuyPrice;
             Item.rare = ItemRarityID.Yellow;
             Item.UseSound = SoundID.Item9;
             Item.scale = 0.9f;
@@ -49,7 +49,7 @@ namespace CalamityMod.Items.Weapons.Magic
                 speed.Y -= Math.Abs(speed.X) * 0.2f;
                 int p = Projectile.NewProjectile(source, position, speed, ModContent.ProjectileType<FrostShardFriendly>(), damage, knockback, player.whoAmI);
                 if (p.WithinBounds(Main.maxProjectiles))
-                    Main.projectile[p].Calamity().forceMagic = true;
+                    Main.projectile[p].DamageType = DamageClass.Magic;
             }
             if (Main.rand.NextBool(4))
             {

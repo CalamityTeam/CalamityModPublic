@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Accessories
             DisplayName.SetDefault("Ink Bomb");
             Tooltip.SetDefault("Throws several ink bombs when hit that explode in a confusing cloud of ink\n" +
                 "Gain a lot of stealth when struck\n" +
-                "This effect has a 20s cooldown before it can occur again");
+                "This effect has a 25 second cooldown before it can occur again");
         }
 
         public override void SetDefaults()

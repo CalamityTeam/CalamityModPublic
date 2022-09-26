@@ -1,9 +1,10 @@
-﻿using Terraria.DataStructures;
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
+using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -12,7 +13,7 @@ namespace CalamityMod.Items.Weapons.Melee
     [LegacyName("GalaxySmasherMelee", "GalaxySmasherRogue")]
     public class GalaxySmasher : ModItem
     {
-        public static int BaseDamage = 264;
+        public static int BaseDamage = 300;
         public static float Speed = 18f;
 
         public override void SetStaticDefaults()
@@ -26,7 +27,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             Item.width = 86;
             Item.height = 72;
-            Item.DamageType = DamageClass.Melee;
+            Item.DamageType = DamageClass.MeleeNoSpeed;
             Item.damage = BaseDamage;
             Item.knockBack = 9f;
             Item.useAnimation = 13;
@@ -38,9 +39,8 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.useStyle = ItemUseStyleID.Swing;
             Item.UseSound = SoundID.Item1;
 
-            Item.rare = ItemRarityID.Red;
-            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
-            Item.value = Item.buyPrice(platinum: 1, gold: 80);
+            Item.rare = ModContent.RarityType<DarkBlue>();
+            Item.value = CalamityGlobalItem.RarityDarkBlueBuyPrice;
 
             Item.shoot = ModContent.ProjectileType<GalaxySmasherHammer>();
             Item.shootSpeed = Speed;

@@ -33,8 +33,8 @@ namespace CalamityMod.NPCs.Ravager
             NPC.noGravity = true;
             NPC.canGhostHeal = false;
             NPC.noTileCollide = true;
-            NPC.HitSound = SoundID.NPCHit41;
-            NPC.DeathSound = SoundID.NPCDeath14;
+            NPC.HitSound = RavagerBody.HitSound;
+            NPC.DeathSound = RavagerBody.LimbLossSound;
             if (DownedBossSystem.downedProvidence && !BossRushEvent.BossRushActive)
             {
                 NPC.defense *= 2;
@@ -65,9 +65,9 @@ namespace CalamityMod.NPCs.Ravager
 
             Player player = Main.player[Main.npc[CalamityGlobalNPC.scavenger].target];
 
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
-            bool provy = DownedBossSystem.downedProvidence && !BossRushEvent.BossRushActive;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || bossRush;
+            bool provy = DownedBossSystem.downedProvidence && !bossRush;
 
             if (NPC.timeLeft < 1800)
                 NPC.timeLeft = 1800;
@@ -107,7 +107,7 @@ namespace CalamityMod.NPCs.Ravager
                 NPC.rotation = num803;
 
             NPC.ai[1] += 1f;
-            bool fireProjectiles = NPC.ai[1] >= (malice ? 240f : 480f);
+            bool fireProjectiles = NPC.ai[1] >= (bossRush ? 240f : 480f);
             if (fireProjectiles && Vector2.Distance(NPC.Center, player.Center) > 80f)
             {
                 int type = ModContent.ProjectileType<ScavengerLaser>();
@@ -121,7 +121,7 @@ namespace CalamityMod.NPCs.Ravager
 
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        SoundEngine.PlaySound(SoundID.Item62, NPC.position);
+                        SoundEngine.PlaySound(RavagerHead.MissileSound, NPC.position);
                         type = ModContent.ProjectileType<ScavengerNuke>();
                         damage = NPC.GetProjectileDamage(type);
                         Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Normalize(player.Center - NPC.Center) * projectileVelocity * 0.25f, type, damage + (provy ? 30 : 0), 0f, Main.myPlayer, Main.npc[CalamityGlobalNPC.scavenger].target, 0f);

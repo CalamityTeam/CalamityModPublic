@@ -43,7 +43,7 @@ namespace CalamityMod.Items.Accessories
         {
             CreateRecipe().
                 AddIngredient<SeaRemains>(5).
-                AddIngredient(ItemID.Coral, 5).
+                AddIngredient(ItemID.Starfish, 5).
                 AddTile(TileID.Anvils).
                 Register();
         }

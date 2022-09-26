@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Armor.PlagueReaper
         {
             Item.width = 18;
             Item.height = 18;
-            Item.value = Item.buyPrice(0, 30, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity8BuyPrice;
             Item.rare = ItemRarityID.Yellow;
             Item.defense = 9; //35
         }
@@ -73,7 +73,7 @@ namespace CalamityMod.Items.Armor.PlagueReaper
                         var damage = (int)player.GetTotalDamage<RangedDamageClass>().ApplyTo(40);
                         var cinder = CalamityUtils.ProjectileRain(source, player.Center, 400f, 100f, 500f, 800f, 22f, ModContent.ProjectileType<TheSyringeCinder>(), damage, 4f, player.whoAmI);
                         if (cinder.whoAmI.WithinBounds(Main.maxProjectiles))
-                            cinder.Calamity().forceClassless = true;
+                            cinder.DamageType = DamageClass.Generic;
                     }
                 }
             }

@@ -1,6 +1,7 @@
 ﻿using CalamityMod.CustomRecipes;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.DraedonsArsenal;
+using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using System;
@@ -26,6 +27,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Phaseslayer");
             Tooltip.SetDefault("A rough prototype of the Murasama blade, it is formed entirely from laser energy\n" +
                                "Wield a colossal laser blade which is controlled by the cursor\n" +
@@ -37,7 +39,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             CalamityGlobalItem modItem = Item.Calamity();
 
             Item.damage = Damage;
-            Item.DamageType = DamageClass.Melee;
+            Item.DamageType = DamageClass.MeleeNoSpeed;
             Item.width = 26;
             Item.height = 26;
             Item.useTime = 24;
@@ -49,8 +51,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             Item.noUseGraphic = true;
 
             Item.value = CalamityGlobalItem.Rarity14BuyPrice;
-            Item.rare = ItemRarityID.Purple;
-            modItem.customRarity = CalamityRarity.DraedonRust;
+            Item.rare = ModContent.RarityType<DarkOrange>();
 
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;

@@ -1,4 +1,4 @@
-﻿using CalamityMod.Projectiles.Magic;
+﻿using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
@@ -36,6 +36,11 @@ namespace CalamityMod.Items.Weapons.Typeless
             Item.shoot = ModContent.ProjectileType<MagnusBeam>();
             Item.shootSpeed = 12f;
         }
+
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = (ContentSamples.CreativeHelper.ItemGroup)CalamityResearchSorting.ClasslessWeapon;
+		}
 
         public override Vector2? HoldoutOffset()
         {

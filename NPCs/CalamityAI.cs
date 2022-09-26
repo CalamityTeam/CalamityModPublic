@@ -34,13 +34,16 @@ namespace CalamityMod.NPCs
         public static void AquaticScourgeAI(NPC npc, Mod mod, bool head)
         {
             CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
-            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool expertMode = Main.expertMode || bossRush;
+            bool revenge = CalamityWorld.revenge || bossRush;
+            bool death = CalamityWorld.death || bossRush;
+
+			if (head)
+				CalamityGlobalNPC.aquaticScourge = npc.whoAmI;
 
             // Adjust hostility and stats
-            if (npc.justHit || npc.life <= npc.lifeMax * 0.999 || BossRushEvent.BossRushActive || Main.getGoodWorld)
+            if (npc.justHit || npc.life <= npc.lifeMax * 0.999 || bossRush || Main.getGoodWorld)
             {
                 if (calamityGlobalNPC.newAI[0] == 0f)
                 {
@@ -93,7 +96,7 @@ namespace CalamityMod.NPCs
             // Enrage
             if (head)
             {
-                if (notOcean && !player.Calamity().ZoneSulphur && !BossRushEvent.BossRushActive)
+                if (notOcean && !player.Calamity().ZoneSulphur && !bossRush)
                 {
                     if (npc.localAI[2] > 0f)
                         npc.localAI[2] -= 1f;
@@ -102,12 +105,12 @@ namespace CalamityMod.NPCs
                     npc.localAI[2] = CalamityGlobalNPC.biomeEnrageTimerMax;
             }
 
-            bool biomeEnraged = npc.localAI[2] <= 0f || malice;
+            bool biomeEnraged = npc.localAI[2] <= 0f || bossRush;
 
-            float enrageScale = BossRushEvent.BossRushActive ? 1f : 0f;
+            float enrageScale = bossRush ? 1f : 0f;
             if (biomeEnraged)
             {
-                npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
+                npc.Calamity().CurrentlyEnraged = !bossRush;
                 enrageScale += 2f;
             }
 
@@ -126,7 +129,7 @@ namespace CalamityMod.NPCs
                     npc.localAI[3] = colorFadeTimeAfterSpiral;
 
                     // Vomit acid mist
-                    float acidMistBarfDivisor = (float)Math.Floor(malice ? 4f : death ? 5f : 6f) * (phase3 ? 1.5f : 1f);
+                    float acidMistBarfDivisor = (float)Math.Floor(bossRush ? 4f : death ? 5f : 6f) * (phase3 ? 1.5f : 1f);
                     if (calamityGlobalNPC.newAI[3] % acidMistBarfDivisor == 0f)
                     {
                         if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -142,7 +145,7 @@ namespace CalamityMod.NPCs
                     }
 
                     // Vomit circular spreads of acid clouds while in phase 3
-                    float toxicCloudBarfDivisor = malice ? 20f : death ? 30f : 40f;
+                    float toxicCloudBarfDivisor = bossRush ? 20f : death ? 30f : 40f;
                     if (calamityGlobalNPC.newAI[3] % toxicCloudBarfDivisor == 0f && phase3)
                     {
                         if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -251,7 +254,7 @@ namespace CalamityMod.NPCs
 
                                 if (Main.netMode != NetmodeID.MultiplayerClient)
                                 {
-                                    int totalProjectiles = malice ? 10 : expertMode ? 8 : 6;
+                                    int totalProjectiles = bossRush ? 10 : expertMode ? 8 : 6;
                                     if (phase3)
                                         totalProjectiles *= 2;
 
@@ -403,12 +406,12 @@ namespace CalamityMod.NPCs
 
                 if (calamityGlobalNPC.newAI[0] == 1f)
                 {
-                    num188 = revenge ? 9f : 7f;
-                    num189 = revenge ? 0.12f : 0.1f;
+                    num188 = revenge ? 14.4f : 12f;
+                    num189 = revenge ? 0.18f : 0.15f;
                     if (expertMode)
                     {
-                        num188 += 8f * (1f - lifeRatio);
-                        num189 += 0.06f * (1f - lifeRatio);
+                        num188 += 2.4f * (1f - lifeRatio);
+                        num189 += 0.03f * (1f - lifeRatio);
                     }
                     num188 += 3f * enrageScale;
                     num189 += 0.06f * enrageScale;
@@ -416,8 +419,8 @@ namespace CalamityMod.NPCs
                     {
                         num188 += 5f;
                         num189 -= 0.03f;
-                        num188 += Vector2.Distance(player.Center, npc.Center) * 0.0015f;
-                        num189 += Vector2.Distance(player.Center, npc.Center) * 0.00003f;
+                        num188 += Vector2.Distance(player.Center, npc.Center) * 0.001f;
+                        num189 += Vector2.Distance(player.Center, npc.Center) * 0.000045f;
                     }
 
                     // Increase acceleration after spiral attack
@@ -645,17 +648,16 @@ namespace CalamityMod.NPCs
             float lifeRatio = npc.life / (float)npc.lifeMax;
 
             // Variables for buffing the AI
-            bool provy = DownedBossSystem.downedProvidence && !BossRushEvent.BossRushActive;
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
-            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool expertMode = Main.expertMode || bossRush;
+            bool revenge = CalamityWorld.revenge || bossRush;
+            bool death = CalamityWorld.death || bossRush;
 
             bool phase2 = lifeRatio < 0.5f && revenge;
             bool phase3 = lifeRatio < 0.33f;
 
             // Enrage
-            if ((!player.ZoneUnderworldHeight || !modPlayer.ZoneCalamity) && !BossRushEvent.BossRushActive)
+            if ((!player.ZoneUnderworldHeight || !modPlayer.ZoneCalamity) && !bossRush)
             {
                 if (calamityGlobalNPC.newAI[3] > 0f)
                     calamityGlobalNPC.newAI[3] -= 1f;
@@ -663,17 +665,17 @@ namespace CalamityMod.NPCs
             else
                 calamityGlobalNPC.newAI[3] = CalamityGlobalNPC.biomeEnrageTimerMax;
 
-            bool biomeEnraged = calamityGlobalNPC.newAI[3] <= 0f || malice;
+            bool biomeEnraged = calamityGlobalNPC.newAI[3] <= 0f || bossRush;
 
-            float enrageScale = BossRushEvent.BossRushActive ? 1f : 0f;
-            if (biomeEnraged && (!player.ZoneUnderworldHeight || malice))
+            float enrageScale = bossRush ? 1f : 0f;
+            if (biomeEnraged && (!player.ZoneUnderworldHeight || bossRush))
             {
-                npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
+                npc.Calamity().CurrentlyEnraged = !bossRush;
                 enrageScale += 1f;
             }
-            if (biomeEnraged && (!modPlayer.ZoneCalamity || malice))
+            if (biomeEnraged && (!modPlayer.ZoneCalamity || bossRush))
             {
-                npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
+                npc.Calamity().CurrentlyEnraged = !bossRush;
                 enrageScale += 1f;
             }
 
@@ -701,21 +703,14 @@ namespace CalamityMod.NPCs
 
             // How fast Brimmy moves to the destination
             float baseVelocity = (death ? 6f : revenge ? 5.5f : expertMode ? 5f : 4.5f) * (npc.ai[0] == 5f ? 0.05f : npc.ai[0] == 3f ? 1.5f : 1f);
+            baseVelocity += 3f * enrageScale;
             if (expertMode)
                 baseVelocity += death ? 3f * (1f - lifeRatio) : 2f * (1f - lifeRatio);
-            baseVelocity += 5f * enrageScale;
 
             float baseAcceleration = (death ? 0.12f : 0.1f) * (npc.ai[0] == 5f ? 0.5f : npc.ai[0] == 3f ? 1.5f : 1f);
-            baseAcceleration += 0.1f * enrageScale;
+            baseAcceleration += 0.06f * enrageScale;
             if (expertMode)
-            {
                 baseAcceleration += 0.03f * (1f - lifeRatio);
-            }
-            if (provy)
-            {
-                baseVelocity *= 1.25f;
-                baseAcceleration *= 1.25f;
-            }
 
             // This is where Brimmy should be
             Vector2 destination = npc.ai[0] != 3f ? player.Center : new Vector2(player.Center.X, player.Center.Y - 300f);
@@ -773,7 +768,7 @@ namespace CalamityMod.NPCs
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     npc.localAI[1] += 1f;
-                    if (npc.localAI[1] >= (malice ? 5f : death ? 30f : 180f))
+                    if (npc.localAI[1] >= (bossRush ? 5f : death ? 30f : 180f))
                     {
                         npc.TargetClosest();
                         npc.localAI[1] = 0f;
@@ -827,7 +822,7 @@ namespace CalamityMod.NPCs
                     Main.dust[dust].noGravity = true;
                     Main.dust[dust].fadeIn = 1f;
                 }
-                npc.alpha += malice ? 4 : death ? 3 : 2;
+                npc.alpha += bossRush ? 4 : death ? 3 : 2;
                 if (npc.alpha >= 255)
                 {
                     if (Main.netMode != NetmodeID.MultiplayerClient && NPC.CountNPCS(ModContent.NPCType<Brimling>()) < (death ? 1 : 2) && revenge)
@@ -886,7 +881,7 @@ namespace CalamityMod.NPCs
 
                 npc.ai[1] += 1f;
                 float divisor = expertMode ? (death ? 80f : revenge ? 45f : 50f) - (float)Math.Ceiling(10f * (1f - lifeRatio)) : 50f;
-                divisor -= 5f * enrageScale;
+                divisor -= 3f * enrageScale;
                 float divisor2 = divisor * 2f;
 
                 if (npc.ai[1] % divisor == divisor - 1f)
@@ -895,16 +890,16 @@ namespace CalamityMod.NPCs
                     {
                         float velocity = (death ? 7f : revenge ? 6f : 5f) + (2f * enrageScale) + (expertMode ? 3f * (1f - lifeRatio) : 0f);
                         int type = ModContent.ProjectileType<BrimstoneHellfireball>();
-                        int damage = npc.GetProjectileDamage(type) + (provy ? 30 : 0);
+                        int damage = npc.GetProjectileDamage(type);
                         Vector2 projectileVelocity = Vector2.Normalize(player.Center - npc.Center) * velocity;
-                        int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + Vector2.Normalize(projectileVelocity) * 5f, projectileVelocity, type, damage, 0f, Main.myPlayer);
+                        int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + Vector2.Normalize(projectileVelocity) * 5f, projectileVelocity, type, damage, 0f, Main.myPlayer, player.position.X, player.position.Y);
                         Main.projectile[proj].timeLeft = 240;
 
                         if (npc.ai[1] % divisor2 == divisor2 - 1f)
                         {
                             velocity = (death ? 5f : 4f) + 2f * enrageScale;
                             type = ModContent.ProjectileType<BrimstoneBarrage>();
-                            damage = npc.GetProjectileDamage(type) + (provy ? 30 : 0);
+                            damage = npc.GetProjectileDamage(type);
                             projectileVelocity = Vector2.Normalize(player.Center - npc.Center) * velocity;
                             int numProj = death ? 8 : 4;
                             int spread = death ? 90 : 45;
@@ -947,14 +942,14 @@ namespace CalamityMod.NPCs
                         npc.localAI[0] += 2f;
                     if (expertMode)
                         npc.localAI[0] += 1f - lifeRatio;
-                    npc.localAI[0] += 1f * enrageScale;
+                    npc.localAI[0] += enrageScale;
 
                     if (npc.localAI[0] >= 120f)
                     {
                         npc.localAI[0] = 0f;
 
                         float projectileSpeed = death ? 9f : revenge ? 8f : 6f;
-                        projectileSpeed += 3f * enrageScale;
+                        projectileSpeed += 2f * enrageScale;
 
                         vectorCenter = player.Center - vectorCenter;
 
@@ -975,7 +970,7 @@ namespace CalamityMod.NPCs
                         {
                             float radians = j - (totalProjectiles - 1f) / 2f;
                             Vector2 offset = velocity.RotatedBy(offsetAngle * radians);
-                            int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + offset, vectorCenter, type, damage + (provy ? 30 : 0), 0f, Main.myPlayer, 1f, 0f);
+                            int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + offset, vectorCenter, type, damage, 0f, Main.myPlayer, 1f, 0f);
                             Main.projectile[proj].timeLeft = 300;
                             Main.projectile[proj].tileCollide = false;
                         }
@@ -991,7 +986,7 @@ namespace CalamityMod.NPCs
                         for (int k = 0; k < totalProjectiles; k++)
                         {
                             Vector2 vector255 = spinningPoint.RotatedBy(radians2 * k);
-                            Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + Vector2.Normalize(vector255) * 5f, vector255, type, damage + (provy ? 30 : 0), 0f, Main.myPlayer, 1f, 0f);
+                            Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + Vector2.Normalize(vector255) * 5f, vector255, type, damage, 0f, Main.myPlayer, 1f, 0f);
                         }
 
                         if (death)
@@ -1000,7 +995,7 @@ namespace CalamityMod.NPCs
                             for (int k = 0; k < totalProjectiles; k++)
                             {
                                 Vector2 vector255 = spinningPoint.RotatedBy(radians2 * k);
-                                Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + Vector2.Normalize(vector255) * 5f, vector255 * 0.75f, type, damage + (provy ? 30 : 0), 0f, Main.myPlayer, 1f, 0f);
+                                Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + Vector2.Normalize(vector255) * 5f, vector255 * 0.75f, type, damage, 0f, Main.myPlayer, 1f, 0f);
                             }
                         }
 
@@ -1036,7 +1031,7 @@ namespace CalamityMod.NPCs
 
                 Vector2 source = new Vector2(vectorCenter.X + (npc.spriteDirection > 0 ? 34f : -34f), vectorCenter.Y - 74f);
                 Vector2 aimAt = player.Center + player.velocity * 20f;
-                float aimResponsiveness = malice ? 0.05f : (npc.ai[2] == 1f || death) ? 0.1f : 0.25f;
+                float aimResponsiveness = bossRush ? 0.05f : (npc.ai[2] == 1f || death) ? 0.1f : 0.25f;
 
                 Vector2 aimVector = Vector2.Normalize(aimAt - source);
                 if (aimVector.HasNaNs())
@@ -1086,9 +1081,9 @@ namespace CalamityMod.NPCs
                             laserVelocity2.Normalize();
                             int type = ModContent.ProjectileType<BrimstoneRay>();
                             int damage = npc.GetProjectileDamage(type);
-                            Projectile.NewProjectile(npc.GetSource_FromAI(), source, laserVelocity2, type, damage + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, npc.whoAmI);
+                            Projectile.NewProjectile(npc.GetSource_FromAI(), source, laserVelocity2, type, damage, 0f, Main.myPlayer, 0f, npc.whoAmI);
                             if (Main.getGoodWorld)
-                                Projectile.NewProjectile(npc.GetSource_FromAI(), source, -laserVelocity2, type, damage + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, npc.whoAmI);
+                                Projectile.NewProjectile(npc.GetSource_FromAI(), source, -laserVelocity2, type, damage, 0f, Main.myPlayer, 0f, npc.whoAmI);
                         }
                     }
                 }
@@ -1153,19 +1148,18 @@ namespace CalamityMod.NPCs
             Lighting.AddLight((int)((npc.position.X + (npc.width / 2)) / 16f), (int)((npc.position.Y + (npc.height / 2)) / 16f), 1f, 0f, 0f);
 
             // Variables for increasing difficulty
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
-            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
-            bool provy = DownedBossSystem.downedProvidence && !BossRushEvent.BossRushActive;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || bossRush;
+            bool revenge = CalamityWorld.revenge || bossRush;
+            bool expertMode = Main.expertMode || bossRush;
 
             // Percent life remaining
             float lifeRatio = npc.life / (float)npc.lifeMax;
 
             // Phases
-            bool phase3 = lifeRatio < 0.7f || death;
-            bool phase4 = lifeRatio < 0.35f;
-            bool phase5 = lifeRatio <= 0.1f && revenge;
+            bool phase2 = lifeRatio < 0.7f || death;
+            bool phase3 = lifeRatio < 0.35f;
+            bool phase4 = lifeRatio <= 0.1f && death;
 
             // Don't take damage during bullet hells
             npc.dontTakeDamage = calamityGlobalNPC.newAI[2] > 0f;
@@ -1177,7 +1171,7 @@ namespace CalamityMod.NPCs
             CalamityGlobalNPC.calamitas = npc.whoAmI;
 
             // Seeker ring
-            if (calamityGlobalNPC.newAI[1] == 0f && phase4 && expertMode)
+            if (calamityGlobalNPC.newAI[1] == 0f && phase3 && expertMode)
             {
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
@@ -1299,10 +1293,10 @@ namespace CalamityMod.NPCs
             // Target variable
             Player player = Main.player[npc.target];
 
-            float enrageScale = BossRushEvent.BossRushActive ? 1f : 0f;
-            if (Main.dayTime || malice)
+            float enrageScale = bossRush ? 1f : 0f;
+            if (Main.dayTime || bossRush)
             {
-                npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
+                npc.Calamity().CurrentlyEnraged = !bossRush;
                 enrageScale += 2f;
             }
 
@@ -1311,15 +1305,12 @@ namespace CalamityMod.NPCs
             Vector2 lookAt = new Vector2(player.position.X - (player.width / 2), player.position.Y - (player.height / 2));
             Vector2 rotationVector = npcCenter - lookAt;
 
-            // Malice Mode predictive charge rotation
-            if (npc.ai[1] == 4f && phase5 && malice)
+            // Boss Rush predictive charge rotation
+            if (npc.ai[1] == 4f && phase4 && bossRush)
             {
                 // Velocity
                 float chargeVelocity = 30f;
                 chargeVelocity += 5f * enrageScale;
-                if (provy)
-                    chargeVelocity *= 1.25f;
-
                 lookAt += Main.player[npc.target].velocity * 20f;
                 rotationVector = Vector2.Normalize(npcCenter - lookAt) * chargeVelocity;
             }
@@ -1398,15 +1389,15 @@ namespace CalamityMod.NPCs
             float baseAcceleration = (expertMode ? 0.18f : 0.155f) * (npc.ai[1] == 4f ? 1.4f : 1f);
             baseVelocity += 4f * enrageScale;
             baseAcceleration += 0.1f * enrageScale;
+            if (revenge)
+            {
+                baseVelocity += 1.5f * (1f - lifeRatio);
+                baseAcceleration += 0.03f * (1f - lifeRatio);
+            }
             if (death)
             {
-                baseVelocity += 2f * (1f - lifeRatio);
-                baseAcceleration += 0.04f * (1f - lifeRatio);
-            }
-            if (provy)
-            {
-                baseVelocity *= 1.25f;
-                baseAcceleration *= 1.25f;
+                baseVelocity += 1.5f * (1f - lifeRatio);
+                baseAcceleration += 0.03f * (1f - lifeRatio);
             }
             if (Main.getGoodWorld)
             {
@@ -1425,7 +1416,7 @@ namespace CalamityMod.NPCs
 
             // How far Cal Clone should be from the target
             float averageDistance = 500f;
-            float chargeDistance = phase5 ? 300f : 400f;
+            float chargeDistance = phase4 ? 300f : 400f;
 
             // This is where Cal Clone should be
             Vector2 destination = (calamityGlobalNPC.newAI[2] > 0f || npc.ai[1] == 0f) ? new Vector2(player.Center.X, player.Center.Y - averageDistance) :
@@ -1474,9 +1465,9 @@ namespace CalamityMod.NPCs
                         if (calamityGlobalNPC.newAI[2] == 2f)
                         {
                             int type = ModContent.ProjectileType<SCalBrimstoneFireblast>();
-                            int damage = npc.GetProjectileDamage(type) + (provy ? 30 : 0);
+                            int damage = npc.GetProjectileDamage(type);
                             float gigaBlastFrequency = (Main.getGoodWorld ? 120f : expertMode ? 180f : 240f) - enrageScale * 15f;
-                            float projSpeed = malice ? 6.25f : 5f;
+                            float projSpeed = bossRush ? 6.25f : 5f;
                             if (calamityGlobalNPC.newAI[3] <= 300f)
                             {
                                 if (calamityGlobalNPC.newAI[3] % gigaBlastFrequency == 0f) // Blasts from top
@@ -1500,8 +1491,8 @@ namespace CalamityMod.NPCs
                         {
                             npc.ai[0] = 0f;
                             int type = ModContent.ProjectileType<BrimstoneHellblast2>();
-                            int damage = npc.GetProjectileDamage(type) + (provy ? 30 : 0);
-                            float projSpeed = malice ? 5f : 4f;
+                            int damage = npc.GetProjectileDamage(type);
+                            float projSpeed = bossRush ? 5f : 4f;
                             if (calamityGlobalNPC.newAI[3] % (hellblastGateValue * 6f) == 0f)
                             {
                                 float distance = Main.rand.NextBool() ? -1000f : 1000f;
@@ -1535,7 +1526,7 @@ namespace CalamityMod.NPCs
                     calamityGlobalNPC.newAI[3] = 0f;
 
                     // Prevent bullshit charge hits when second bullet hell ends.
-                    if (phase5)
+                    if (phase4)
                     {
                         npc.ai[1] = 4f;
                         npc.ai[2] = -105f;
@@ -1607,9 +1598,9 @@ namespace CalamityMod.NPCs
             {
                 npc.ai[2] += 1f;
                 float phaseTimer = 400f - (death ? 120f * (1f - lifeRatio) : 0f);
-                if (npc.ai[2] >= phaseTimer || phase5)
+                if (npc.ai[2] >= phaseTimer || phase4)
                 {
-                    if (death && !phase5 && Main.rand.NextBool() && !brotherAlive)
+                    if (death && !phase4 && Main.rand.NextBool() && !brotherAlive)
                         npc.ai[1] = 4f;
                     else
                         npc.ai[1] = 1f;
@@ -1643,7 +1634,7 @@ namespace CalamityMod.NPCs
                         int damage = npc.GetProjectileDamage(type);
                         Vector2 fireballVelocity = Vector2.Normalize(player.Center - npc.Center) * projectileVelocity;
                         Vector2 offset = Vector2.Normalize(fireballVelocity) * 40f;
-                        Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + offset, fireballVelocity, type, damage + (provy ? 30 : 0), 0f, Main.myPlayer);
+                        Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + offset, fireballVelocity, type, damage, 0f, Main.myPlayer, player.position.X, player.position.Y);
                     }
                 }
             }
@@ -1677,26 +1668,25 @@ namespace CalamityMod.NPCs
                         {
                             type = ModContent.ProjectileType<BrimstoneHellfireball>();
                             damage = npc.GetProjectileDamage(type);
-                            Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + offset, fireballVelocity, type, damage + (provy ? 30 : 0), 0f, Main.myPlayer);
+                            Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + offset, fireballVelocity, type, damage, 0f, Main.myPlayer, player.position.X, player.position.Y);
                         }
                         else
                         {
-                            float ai0 = type == ModContent.ProjectileType<BrimstoneHellblast>() ? 1f : 0f;
-                            int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + offset, fireballVelocity, type, damage + (provy ? 30 : 0), 0f, Main.myPlayer, ai0, 0f);
-                            if (type == ModContent.ProjectileType<BrimstoneHellfireball>())
-                                Main.projectile[proj].tileCollide = true;
+                            float ai0 = type == ModContent.ProjectileType<BrimstoneHellblast>() ? 1f : player.position.X;
+                            float ai1 = type == ModContent.ProjectileType<BrimstoneHellblast>() ? 0f : player.position.Y;
+                            Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + offset, fireballVelocity, type, damage, 0f, Main.myPlayer, ai0, ai1);
                         }
                     }
                 }
 
                 npc.ai[2] += 1f;
                 float phaseTimer = 240f - (death ? 60f * (1f - lifeRatio) : 0f);
-                if (npc.ai[2] >= phaseTimer || phase5)
+                if (npc.ai[2] >= phaseTimer || phase4)
                 {
-                    if (death && !phase5 && Main.rand.NextBool() && !brotherAlive)
+                    if (death && !phase4 && Main.rand.NextBool() && !brotherAlive)
                         npc.ai[1] = 0f;
                     else
-                        npc.ai[1] = !brotherAlive && phase3 && revenge ? 4f : 0f;
+                        npc.ai[1] = !brotherAlive && phase2 && revenge ? 4f : 0f;
 
                     npc.ai[2] = 0f;
                     if (death)
@@ -1710,13 +1700,10 @@ namespace CalamityMod.NPCs
             {
                 npc.rotation = rotation;
 
-                float chargeVelocity = phase5 ? 30f : death ? 28f : 25f;
+                float chargeVelocity = phase4 ? 30f : death ? 28f : 25f;
                 chargeVelocity += 5f * enrageScale;
 
-                if (provy)
-                    chargeVelocity *= 1.25f;
-
-                Vector2 vector = Vector2.Normalize(player.Center + (phase5 && malice ? player.velocity * 20f : Vector2.Zero) - npc.Center);
+                Vector2 vector = Vector2.Normalize(player.Center + (phase4 && bossRush ? player.velocity * 20f : Vector2.Zero) - npc.Center);
                 npc.velocity = vector * chargeVelocity;
 
                 npc.ai[1] = 3f;
@@ -1726,7 +1713,7 @@ namespace CalamityMod.NPCs
             {
                 npc.ai[2] += 1f;
 
-                float chargeTime = phase5 ? 35f : death ? 40f : 45f;
+                float chargeTime = phase4 ? 35f : death ? 40f : 45f;
                 if (npc.ai[2] >= chargeTime)
                 {
                     npc.velocity *= 0.9f;
@@ -1740,18 +1727,18 @@ namespace CalamityMod.NPCs
                     npc.rotation = (float)Math.Atan2(npc.velocity.Y, npc.velocity.X) - MathHelper.PiOver2;
 
                     // Leave behind slow hellblasts in Death Mode
-                    if (Main.netMode != NetmodeID.MultiplayerClient && death && phase4 && npc.ai[2] % (phase5 ? 6f : 10f) == 0f)
+                    if (Main.netMode != NetmodeID.MultiplayerClient && death && phase3 && npc.ai[2] % (phase4 ? 6f : 10f) == 0f)
                     {
                         int type = ModContent.ProjectileType<BrimstoneHellblast>();
                         int damage = npc.GetProjectileDamage(type);
                         Vector2 fireballVelocity = npc.velocity * 0.01f;
-                        Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center, fireballVelocity, type, damage + (provy ? 30 : 0), 0f, Main.myPlayer, 1f, 0f);
+                        Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center, fireballVelocity, type, damage, 0f, Main.myPlayer, 1f, 0f);
                     }
                 }
 
                 if (npc.ai[2] >= chargeTime + 10f)
                 {
-                    if (!phase5)
+                    if (!phase4)
                         npc.ai[3] += 1f;
 
                     npc.ai[2] = 0f;
@@ -1773,7 +1760,7 @@ namespace CalamityMod.NPCs
             else
             {
                 npc.ai[2] += 1f;
-                if (npc.ai[2] >= (phase5 ? 15f : 30f))
+                if (npc.ai[2] >= (phase4 ? 15f : 30f))
                 {
                     npc.TargetClosest();
 
@@ -1799,11 +1786,10 @@ namespace CalamityMod.NPCs
 
             CalamityGlobalNPC.cataclysm = npc.whoAmI;
 
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
-            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
-            bool provy = DownedBossSystem.downedProvidence && !BossRushEvent.BossRushActive;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || bossRush;
+            bool revenge = CalamityWorld.revenge || bossRush;
+            bool expertMode = Main.expertMode || bossRush;
 
             // Get a target
             if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
@@ -1815,10 +1801,10 @@ namespace CalamityMod.NPCs
 
             Player player = Main.player[npc.target];
 
-            float enrageScale = BossRushEvent.BossRushActive ? 1f : 0f;
-            if (Main.dayTime || malice)
+            float enrageScale = bossRush ? 1f : 0f;
+            if (Main.dayTime || bossRush)
             {
-                npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
+                npc.Calamity().CurrentlyEnraged = !bossRush;
                 enrageScale += 2f;
             }
 
@@ -1892,12 +1878,6 @@ namespace CalamityMod.NPCs
                 num861 += 2f * enrageScale;
                 num862 += 0.06f * enrageScale;
 
-                if (provy)
-                {
-                    num861 *= 1.25f;
-                    num862 *= 1.25f;
-                }
-
                 if (Main.getGoodWorld)
                 {
                     num861 *= 1.15f;
@@ -1913,7 +1893,7 @@ namespace CalamityMod.NPCs
                 float num865 = player.position.Y + (player.height / 2) - vector86.Y;
                 float num866 = (float)Math.Sqrt(num864 * num864 + num865 * num865);
 
-                if (expertMode || provy)
+                if (expertMode)
                 {
                     if (num866 > 300f)
                         num861 += 0.5f;
@@ -2002,7 +1982,7 @@ namespace CalamityMod.NPCs
                             num864 += npc.velocity.X * 0.5f;
                             vector86.X -= num864;
                             vector86.Y -= num865;
-                            Projectile.NewProjectile(npc.GetSource_FromAI(), vector86.X, vector86.Y, num864, num865, type, damage + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
+                            Projectile.NewProjectile(npc.GetSource_FromAI(), vector86.X, vector86.Y, num864, num865, type, damage, 0f, Main.myPlayer, 0f, 0f);
                         }
                     }
                 }
@@ -2020,8 +2000,6 @@ namespace CalamityMod.NPCs
                         num870 += 2f;
                     if (revenge)
                         num870 += 2f;
-                    if (provy)
-                        num870 *= 1.15f;
                     if (Main.getGoodWorld)
                         num870 *= 1.25f;
 
@@ -2088,11 +2066,10 @@ namespace CalamityMod.NPCs
 
             CalamityGlobalNPC.catastrophe = npc.whoAmI;
 
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
-            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
-            bool provy = DownedBossSystem.downedProvidence && !BossRushEvent.BossRushActive;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || bossRush;
+            bool revenge = CalamityWorld.revenge || bossRush;
+            bool expertMode = Main.expertMode || bossRush;
 
             // Get a target
             if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
@@ -2104,10 +2081,10 @@ namespace CalamityMod.NPCs
 
             Player player = Main.player[npc.target];
 
-            float enrageScale = BossRushEvent.BossRushActive ? 1f : 0f;
-            if (Main.dayTime || malice)
+            float enrageScale = bossRush ? 1f : 0f;
+            if (Main.dayTime || bossRush)
             {
-                npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
+                npc.Calamity().CurrentlyEnraged = !bossRush;
                 enrageScale += 2f;
             }
 
@@ -2181,12 +2158,6 @@ namespace CalamityMod.NPCs
                 num861 += 2f * enrageScale;
                 num862 += 0.1f * enrageScale;
 
-                if (provy)
-                {
-                    num861 *= 1.25f;
-                    num862 *= 1.25f;
-                }
-
                 if (Main.getGoodWorld)
                 {
                     num861 *= 1.15f;
@@ -2202,7 +2173,7 @@ namespace CalamityMod.NPCs
                 float num865 = player.Center.Y - vector86.Y;
                 float num866 = (float)Math.Sqrt(num864 * num864 + num865 * num865);
 
-                if (expertMode || provy)
+                if (expertMode)
                 {
                     if (num866 > 300f)
                         num861 += 0.5f;
@@ -2291,7 +2262,7 @@ namespace CalamityMod.NPCs
                             num864 += npc.velocity.X * 0.5f;
                             vector86.X -= num864;
                             vector86.Y -= num865;
-                            Projectile.NewProjectile(npc.GetSource_FromAI(), vector86.X, vector86.Y, num864, num865, type, damage + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
+                            Projectile.NewProjectile(npc.GetSource_FromAI(), vector86.X, vector86.Y, num864, num865, type, damage, 0f, Main.myPlayer, 0f, 0f);
                         }
                     }
                 }
@@ -2309,8 +2280,6 @@ namespace CalamityMod.NPCs
                         num870 += 2f;
                     if (revenge)
                         num870 += 2f;
-                    if (provy)
-                        num870 *= 1.15f;
                     if (Main.getGoodWorld)
                         num870 *= 1.25f;
 
@@ -2370,8 +2339,13 @@ namespace CalamityMod.NPCs
         {
             CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
-            bool postMoonLordBuff = NPC.downedMoonlord && !BossRushEvent.BossRushActive;
-            npc.damage = postMoonLordBuff ? npc.defDamage * 2 : npc.defDamage;
+            // Variables
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool expertMode = Main.expertMode || bossRush;
+            bool revenge = CalamityWorld.revenge || bossRush;
+            bool death = CalamityWorld.death || bossRush;
+
+            npc.damage = npc.defDamage;
 
             // Don't fire projectiles and don't increment phase timers for 4 seconds after the teleport phase to avoid cheap bullshit
             float noProjectileOrPhaseIncrementTime = 240f;
@@ -2402,16 +2376,10 @@ namespace CalamityMod.NPCs
             // Percent life remaining
             float lifeRatio = npc.life / (float)npc.lifeMax;
 
-            // Variables
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
-            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
-
-            float enrageScale = BossRushEvent.BossRushActive ? 1f : 0f;
-            if (Main.dayTime || malice)
+            float enrageScale = bossRush ? 1f : 0f;
+            if (Main.dayTime || bossRush)
             {
-                npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
+                npc.Calamity().CurrentlyEnraged = !bossRush;
                 enrageScale += 1f;
             }
 
@@ -2433,6 +2401,8 @@ namespace CalamityMod.NPCs
                 walkingVelocity += 1.5f * (1f - lifeRatio);
             if (revenge)
                 walkingVelocity += Math.Abs(npc.Center.X - player.Center.X) * 0.0025f;
+            if (Main.getGoodWorld)
+                walkingVelocity *= 1.15f;
 
             float walkingProjectileVelocity = walkingVelocity - (1.5f * enrageScale);
 
@@ -2503,13 +2473,10 @@ namespace CalamityMod.NPCs
                             float velocity = death ? (8f + npc.localAI[2] * 0.025f) : 7f;
                             int type = ModContent.ProjectileType<AstralFlame>();
                             int damage = npc.GetProjectileDamage(type);
-                            if (postMoonLordBuff)
-                                damage *= 2;
-
                             float spreadLimit = (phase4 ? 100f : 50f) + enrageScale * 50f;
                             float randomSpread = (Main.rand.NextFloat() - 0.5f) * spreadLimit;
-                            Vector2 spawnVector = new Vector2(npc.Center.X, npc.Center.Y - 80f);
-                            Vector2 destination = new Vector2(spawnVector.X + randomSpread, spawnVector.Y - 100f);
+                            Vector2 spawnVector = new Vector2(npc.Center.X, npc.Center.Y - 80f * npc.scale);
+                            Vector2 destination = new Vector2(spawnVector.X + randomSpread, spawnVector.Y - 100f * npc.scale);
                             Projectile.NewProjectile(npc.GetSource_FromAI(), spawnVector, Vector2.Normalize(destination - spawnVector) * velocity, type, damage, 0f, Main.myPlayer);
                         }
                     }
@@ -2531,14 +2498,11 @@ namespace CalamityMod.NPCs
                             {
                                 calamityGlobalNPC.newAI[2] = 1f;
 
-                                int maxProjectiles = !phase2 ? (malice ? 5 : 3) : (malice ? 7 : 5);
-                                int spread = !phase2 ? (malice ? 11 : 8) : (malice ? 12 : 10);
+                                int maxProjectiles = !phase2 ? (bossRush ? 5 : 3) : (bossRush ? 7 : 5);
+                                int spread = !phase2 ? (bossRush ? 11 : 8) : (bossRush ? 12 : 10);
 
                                 int type = ModContent.ProjectileType<AstralLaser>();
                                 int damage = npc.GetProjectileDamage(type);
-                                if (postMoonLordBuff)
-                                    damage *= 2;
-
                                 Vector2 projectileVelocity = Vector2.Normalize(player.Center - npc.Center) * walkingProjectileVelocity;
                                 float rotation = MathHelper.ToRadians(spread);
                                 for (int i = 0; i < maxProjectiles; i++)
@@ -2555,9 +2519,6 @@ namespace CalamityMod.NPCs
 
                                     type = ModContent.ProjectileType<AstralFlame>();
                                     damage = npc.GetProjectileDamage(type);
-                                    if (postMoonLordBuff)
-                                        damage *= 2;
-
                                     projectileVelocity = Vector2.Normalize(player.Center - npc.Center) * flameVelocity;
                                     rotation = MathHelper.ToRadians(spread);
                                     for (int i = 0; i < maxProjectiles; i++)
@@ -2571,14 +2532,11 @@ namespace CalamityMod.NPCs
                             {
                                 calamityGlobalNPC.newAI[2] = 0f;
 
-                                int maxProjectiles = !phase3 ? (malice ? 13 : death ? 11 : 9) : (malice ? 19 : death ? 17 : 15);
-                                int spread = !phase3 ? (malice ? 20 : death ? 18 : 16) : (malice ? 24 : death ? 22 : 20);
+                                int maxProjectiles = !phase3 ? (bossRush ? 13 : death ? 11 : 9) : (bossRush ? 19 : death ? 17 : 15);
+                                int spread = !phase3 ? (bossRush ? 20 : death ? 18 : 16) : (bossRush ? 24 : death ? 22 : 20);
 
                                 int type = ModContent.ProjectileType<AstralLaser>();
                                 int damage = npc.GetProjectileDamage(type);
-                                if (postMoonLordBuff)
-                                    damage *= 2;
-
                                 int centralLaser = maxProjectiles / 2;
                                 int[] lasersToNotFire = new int[6] { centralLaser - 3, centralLaser - 2, centralLaser - 1, centralLaser + 1, centralLaser + 2, centralLaser + 3 };
                                 Vector2 projectileVelocity = Vector2.Normalize(player.Center - npc.Center) * walkingProjectileVelocity;
@@ -2615,7 +2573,7 @@ namespace CalamityMod.NPCs
 
                 // Stay vulnerable for a maximum of 2 seconds
                 npc.ai[1] += 1f;
-                if (npc.ai[1] >= (phase2 ? 30f : 120f) || malice)
+                if (npc.ai[1] >= (phase2 ? 30f : 120f) || bossRush)
                 {
                     // Set AI to next phase (Walk) and reset other AI
                     npc.TargetClosest();
@@ -2635,7 +2593,7 @@ namespace CalamityMod.NPCs
             else if (npc.ai[0] == 2f)
             {
                 // Set walking direction
-                if (Math.Abs(npc.Center.X - player.Center.X) < 200f)
+                if (Math.Abs(npc.Center.X - player.Center.X) < 200f * npc.scale)
                 {
                     npc.velocity.X *= 0.8f;
                     if (npc.velocity.X > -0.1 && npc.velocity.X < 0.1)
@@ -2703,7 +2661,7 @@ namespace CalamityMod.NPCs
                 if (!dontAttack)
                     npc.ai[1] += 1f;
 
-                if (npc.ai[1] >= ((malice ? 270f : 360f) - (death ? 90f * (1f - lifeRatio) : 0f)))
+                if (npc.ai[1] >= ((bossRush ? 270f : 360f) - (death ? 90f * (1f - lifeRatio) : 0f)))
                 {
                     // Collide with tiles again
                     npc.noTileCollide = false;
@@ -2743,6 +2701,7 @@ namespace CalamityMod.NPCs
                         // Set jump velocity, reset and set AI to next phase (Stomp)
                         float distanceFromPlayerOnXAxis = npc.Center.X - player.Center.X;
                         npc.direction = distanceFromPlayerOnXAxis < 0 ? 1 : -1;
+                        calamityGlobalNPC.newAI[3] = npc.direction;
 
                         // The limit for how much Aureus can multiply its jump velocity
                         float speedMultLimit = 1f;
@@ -2776,6 +2735,8 @@ namespace CalamityMod.NPCs
                         velocity += 6f * enrageScale;
                         if (expertMode)
                             velocity += death ? 9f * (1f - lifeRatio) : 6f * (1f - lifeRatio);
+                        if (Main.getGoodWorld)
+                            velocity *= 1.15f;
 
                         npc.velocity = (new Vector2(player.Center.X, player.Center.Y - 500f) - npc.Center).SafeNormalize(Vector2.Zero) * velocity;
                         npc.velocity *= new Vector2(calamityGlobalNPC.newAI[0] + 1f, calamityGlobalNPC.newAI[1] + 1f);
@@ -2849,16 +2810,13 @@ namespace CalamityMod.NPCs
                             calamityGlobalNPC.newAI[2] = 1f;
 
                             float flameVelocity = 12f;
-                            int maxProjectiles = !phase2 ? (malice ? 3 : death ? 2 : 1) : (malice ? 4 : death ? 3 : 2);
-                            int spread = !phase2 ? (malice ? 28 : death ? 22 : 16) : (malice ? 36 : death ? 28 : 20);
+                            int maxProjectiles = !phase2 ? (bossRush ? 3 : death ? 2 : 1) : (bossRush ? 4 : death ? 3 : 2);
+                            int spread = !phase2 ? (bossRush ? 28 : death ? 22 : 16) : (bossRush ? 36 : death ? 28 : 20);
 
                             int type = ModContent.ProjectileType<AstralFlame>();
                             int damage = npc.GetProjectileDamage(type);
-                            if (postMoonLordBuff)
-                                damage *= 2;
-
-                            Vector2 spawnVector = new Vector2(npc.Center.X, npc.Center.Y - 80f);
-                            Vector2 destination = new Vector2(spawnVector.X, spawnVector.Y + 100f);
+                            Vector2 spawnVector = new Vector2(npc.Center.X, npc.Center.Y - 80f * npc.scale);
+                            Vector2 destination = new Vector2(spawnVector.X, spawnVector.Y + 100f * npc.scale);
                             Vector2 projectileVelocity = Vector2.Normalize(destination - spawnVector) * flameVelocity;
                             float rotation = MathHelper.ToRadians(spread);
                             for (int i = 0; i < maxProjectiles; i++)
@@ -2872,14 +2830,11 @@ namespace CalamityMod.NPCs
                             calamityGlobalNPC.newAI[2] = 0f;
 
                             float laserVelocity = death ? 7f : 6f;
-                            int maxProjectiles = !phase3 ? (malice ? 13 : death ? 11 : 9) : (malice ? 17 : death ? 15 : 13);
-                            int spread = !phase3 ? (malice ? 20 : death ? 18 : 16) : (malice ? 24 : death ? 22 : 20);
+                            int maxProjectiles = !phase3 ? (bossRush ? 13 : death ? 11 : 9) : (bossRush ? 17 : death ? 15 : 13);
+                            int spread = !phase3 ? (bossRush ? 20 : death ? 18 : 16) : (bossRush ? 24 : death ? 22 : 20);
 
                             int type = ModContent.ProjectileType<AstralLaser>();
                             int damage = npc.GetProjectileDamage(type);
-                            if (postMoonLordBuff)
-                                damage *= 2;
-
                             int[] lasersToNotFire = new int[4] { 1, 3, maxProjectiles - 2, maxProjectiles - 4 };
                             Vector2 projectileVelocity = Vector2.Normalize(player.Center - npc.Center) * laserVelocity;
                             float rotation = MathHelper.ToRadians(spread);
@@ -2913,8 +2868,6 @@ namespace CalamityMod.NPCs
                             npc.ai[3] = 30f;
 
                         npc.velocity.X *= 0.8f;
-
-                        calamityGlobalNPC.newAI[3] = 1f;
 
                         if (npc.Bottom.Y < player.position.Y)
                         {
@@ -2955,7 +2908,11 @@ namespace CalamityMod.NPCs
                         if (calamityGlobalNPC.newAI[1] > 0f)
                             velocityXCap *= calamityGlobalNPC.newAI[1] + 1f;
 
-                        if (calamityGlobalNPC.newAI[3] == 1f)
+                        float playerLocation = npc.Center.X - player.Center.X;
+                        int directionRelativeToTarget = playerLocation < 0 ? 1 : -1;
+                        bool slowDown = directionRelativeToTarget != calamityGlobalNPC.newAI[3];
+
+                        if (slowDown)
                             velocityXCap *= 0.333f;
 
                         if (npc.velocity.X < -velocityXCap)
@@ -2991,7 +2948,7 @@ namespace CalamityMod.NPCs
                             npc.localAI[2] += 1.25f;
                     }
 
-                    if (npc.localAI[1] >= (malice ? 60f : death ? 180f : 240f))
+                    if (npc.localAI[1] >= (bossRush ? 60f : death ? 180f : 240f))
                     {
                         // Spawn slimes
                         bool spawnFlag = revenge;
@@ -3000,7 +2957,7 @@ namespace CalamityMod.NPCs
 
                         if (spawnFlag && Main.netMode != NetmodeID.MultiplayerClient)
                         {
-                            NPC.NewNPC(npc.GetSource_FromAI(), (int)npc.Center.X, (int)npc.Center.Y - 25, ModContent.NPCType<AureusSpawn>());
+                            NPC.NewNPC(npc.GetSource_FromAI(), (int)npc.Center.X, (int)(npc.Center.Y - 25f * npc.scale), ModContent.NPCType<AureusSpawn>());
 
                             if (death)
                             {
@@ -3113,7 +3070,7 @@ namespace CalamityMod.NPCs
 
                     if (spawnFlag && Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        NPC.NewNPC(npc.GetSource_FromAI(), (int)npc.Center.X, (int)npc.Center.Y - 25, ModContent.NPCType<AureusSpawn>());
+                        NPC.NewNPC(npc.GetSource_FromAI(), (int)npc.Center.X, (int)(npc.Center.Y - 25f * npc.scale), ModContent.NPCType<AureusSpawn>());
 
                         if (death)
                         {
@@ -3164,6 +3121,12 @@ namespace CalamityMod.NPCs
                 if (calamityGlobalNPC.newAI[0] > 0f && !reduceFallSpeed)
                     maxFallSpeed *= calamityGlobalNPC.newAI[0] + 1f;
 
+                if (Main.getGoodWorld && !reduceFallSpeed)
+                {
+                    gravity *= 1.15f;
+                    maxFallSpeed *= 1.15f;
+                }
+
                 npc.velocity.Y += gravity;
                 if (npc.velocity.Y > maxFallSpeed)
                     npc.velocity.Y = maxFallSpeed;
@@ -3177,15 +3140,15 @@ namespace CalamityMod.NPCs
             CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
             // Difficulty variables
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
-            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool expertMode = Main.expertMode || bossRush;
+            bool revenge = CalamityWorld.revenge || bossRush;
+            bool death = CalamityWorld.death || bossRush;
 
-            float enrageScale = BossRushEvent.BossRushActive ? 0.5f : 0f;
-            if (Main.dayTime || malice)
+            float enrageScale = bossRush ? 0.5f : 0f;
+            if (Main.dayTime || bossRush)
             {
-                npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
+                npc.Calamity().CurrentlyEnraged = !bossRush;
                 enrageScale += 1.5f;
             }
 
@@ -3241,6 +3204,9 @@ namespace CalamityMod.NPCs
 
             // Flight timer
             float aiSwitchTimer = doubleWormPhase ? 1200f : 1800f;
+            if (Main.getGoodWorld)
+                aiSwitchTimer *= 0.5f;
+
             calamityGlobalNPC.newAI[3] += 1f;
             if (calamityGlobalNPC.newAI[3] >= aiSwitchTimer)
                 calamityGlobalNPC.newAI[3] = 0f;
@@ -3362,7 +3328,7 @@ namespace CalamityMod.NPCs
                             int startIndexHeadTwo = startIndexHeadOne + phase2Length + 1;
                             int headTwoID = NPC.NewNPC(npc.GetSource_FromAI(), (int)npc.Center.X, (int)npc.Center.Y, npc.type, startIndexHeadTwo);
                             Main.npc[headTwoID].Calamity().newAI[0] = 2f;
-                            Main.npc[headTwoID].Calamity().newAI[3] = 600f;
+                            Main.npc[headTwoID].Calamity().newAI[3] = Main.getGoodWorld ? 300f : 600f;
                             Main.npc[headTwoID].velocity = Vector2.Normalize(player.Center - Main.npc[headTwoID].Center) * 16f;
                             Main.npc[headTwoID].timeLeft *= 20;
                             Main.npc[headTwoID].netUpdate = true;
@@ -3626,6 +3592,12 @@ namespace CalamityMod.NPCs
 
                 speed *= increaseSpeedMore ? 2f : increaseSpeed ? 1.5f : 1f;
                 turnSpeed *= increaseSpeedMore ? 2f : increaseSpeed ? 1.5f : 1f;
+
+                if (Main.getGoodWorld)
+                {
+                    speed *= 1.15f;
+                    turnSpeed *= 1.15f;
+                }
 
                 Vector2 vector3 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
                 float num20 = player.position.X + (player.width / 2);
@@ -3943,10 +3915,10 @@ namespace CalamityMod.NPCs
             double lifeRatio = npc.life / (double)npc.lifeMax;
 
             // Difficulty modes
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
-            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool expertMode = Main.expertMode || bossRush;
+            bool revenge = CalamityWorld.revenge || bossRush;
+            bool death = CalamityWorld.death || bossRush;
 
             // Phases
             bool phase2 = lifeRatio <= 0.7;
@@ -3963,6 +3935,9 @@ namespace CalamityMod.NPCs
                 darkEnergyAmt += 1;
             if (phase4)
                 darkEnergyAmt += 1;
+
+            if (Main.getGoodWorld)
+                darkEnergyAmt *= 2;
 
             // Spawn a few Dark Energies as soon as the fight starts
             int spacing = 360 / darkEnergyAmt;
@@ -3996,7 +3971,7 @@ namespace CalamityMod.NPCs
             Player player = Main.player[npc.target];
 
             // Speed enrage
-            bool moveVeryFast = Vector2.Distance(npc.Center, player.Center) > 960f || (!player.ZoneDungeon && !BossRushEvent.BossRushActive && player.position.Y < Main.worldSurface * 16.0);
+            bool moveVeryFast = Vector2.Distance(npc.Center, player.Center) > 960f || (!player.ZoneDungeon && !bossRush && player.position.Y < Main.worldSurface * 16.0);
 
             // Despawn
             if (!player.active || player.dead || Vector2.Distance(player.Center, vector) > 5600f)
@@ -4021,8 +3996,8 @@ namespace CalamityMod.NPCs
                 npc.timeLeft = 1800;
 
             // Scale multiplier based on nearby active tiles
-            float tileEnrageMult = BossRushEvent.BossRushActive ? 1.375f : malice  ? 1.25f : 1f;
-            npc.Calamity().CurrentlyEnraged = tileEnrageMult > 1f && !BossRushEvent.BossRushActive;
+            float tileEnrageMult = bossRush ? 1.375f : bossRush ? 1.25f : 1f;
+            npc.Calamity().CurrentlyEnraged = tileEnrageMult > 1f && !bossRush;
 
             // Set AI variable to be used by Dark Energies
             npc.ai[1] = tileEnrageMult;
@@ -4034,7 +4009,7 @@ namespace CalamityMod.NPCs
             if (!anyDarkEnergies)
             {
                 // This is here because it's used in multiple places
-                float suckDistance = malice ? 1920f : death ? 1600f : revenge ? 1440f : expertMode ? 1280f : 1040f;
+                float suckDistance = bossRush ? 1920f : death ? 1600f : revenge ? 1440f : expertMode ? 1280f : 1040f;
 
                 // Move closer to the target before trying to succ
                 if (movingDuringSuccPhase)
@@ -4097,7 +4072,7 @@ namespace CalamityMod.NPCs
                         }
                     }
 
-                    float succPower = 0.1f + finalPhaseDustRatio * 0.1f;
+                    float succPower = 0.125f + finalPhaseDustRatio * 0.125f;
                     for (int i = 0; i < Main.maxPlayers; i++)
                     {
                         float distance = Vector2.Distance(Main.player[i].Center, vector);
@@ -4112,11 +4087,6 @@ namespace CalamityMod.NPCs
                                     Main.player[i].velocity.X += succPower * multiplier;
                                 else
                                     Main.player[i].velocity.X -= succPower * multiplier;
-
-                                if (Main.player[i].Center.Y < vector.Y)
-                                    Main.player[i].velocity.Y += succPower * multiplier;
-                                else
-                                    Main.player[i].velocity.Y -= succPower * multiplier;
                             }
                         }
                     }
@@ -4132,6 +4102,12 @@ namespace CalamityMod.NPCs
                             npc.life -= damageAmt;
                             npc.HealEffect(-damageAmt, true);
 
+                            if (npc.life <= ((npc.lifeMax / 200) * 5) && !npc.ModNPC<CeaselessVoid.CeaselessVoid>().playedbuildsound)
+                            {
+                                SoundEngine.PlaySound(CeaselessVoid.CeaselessVoid.BuildupSound, npc.Center);
+                                npc.ModNPC<CeaselessVoid.CeaselessVoid>().playedbuildsound = true;
+                            }
+
                             if (npc.life <= 0)
                             {
                                 npc.life = 0;
@@ -4145,9 +4121,9 @@ namespace CalamityMod.NPCs
                         // Beam Portals
                         if (calamityGlobalNPC.newAI[1] == 0f)
                         {
-                            int numBeamPortals = malice ? 3 : revenge ? 2 : 1;
+                            int numBeamPortals = bossRush ? 3 : revenge ? 2 : 1;
                             float degrees = 360 / numBeamPortals;
-                            float beamPortalDistance = malice ? 800f : death ? 960f : revenge ? 1000f : expertMode ? 1040f : 1080f;
+                            float beamPortalDistance = bossRush ? 800f : death ? 960f : revenge ? 1000f : expertMode ? 1040f : 1080f;
                             int type = ModContent.ProjectileType<DoGBeamPortal>();
                             int damage = npc.GetProjectileDamage(type);
                             for (int i = 0; i < numBeamPortals; i++)
@@ -4264,7 +4240,7 @@ namespace CalamityMod.NPCs
                 }
 
                 // Destroy all Dark Energies if their total HP is below 20%
-                int darkEnergyMaxHP = BossRushEvent.BossRushActive ? 44000 : 12000;
+                int darkEnergyMaxHP = bossRush ? 44000 : 12000;
                 int totalDarkEnergiesSpawned = darkEnergyAmt * 3 + 2;
                 int totalDarkEnergyMaxHP = darkEnergyMaxHP * totalDarkEnergiesSpawned;
                 int succPhaseGateValue = (int)(totalDarkEnergyMaxHP * 0.2);
@@ -4320,14 +4296,20 @@ namespace CalamityMod.NPCs
             // Basic movement towards a location
             void Movement(bool succ)
             {
-                float velocity = moveVeryFast ? 25f : BossRushEvent.BossRushActive ? 15f : ((expertMode ? 7.5f : 6f) + (float)(death ? 2f * (1D - lifeRatio) : 0f)) * tileEnrageMult;
-                float acceleration = moveVeryFast ? 0.75f : malice ? 0.3f : death ? 0.2f : expertMode ? 0.16f : 0.12f;
+                float velocity = moveVeryFast ? 25f : bossRush ? 15f : ((expertMode ? 7.5f : 6f) + (float)(death ? 2f * (1D - lifeRatio) : 0f)) * tileEnrageMult;
+                float acceleration = moveVeryFast ? 0.75f : bossRush ? 0.3f : death ? 0.2f : expertMode ? 0.16f : 0.12f;
 
                 // Increase speed dramatically in succ phase
                 if (succ)
                 {
                     velocity *= 2f;
                     acceleration *= 2f;
+                }
+
+                if (Main.getGoodWorld)
+                {
+                    velocity *= 1.15f;
+                    acceleration *= 1.15f;
                 }
 
                 Vector2 destination = player.Center;
@@ -4339,7 +4321,7 @@ namespace CalamityMod.NPCs
                 {
                     // Move to a new location every few seconds
                     calamityGlobalNPC.newAI[2] += 1f;
-                    float newPositionGateValue = malice ? 180f : death ? 270f : revenge ? 300f : expertMode ? 360f : 480f;
+                    float newPositionGateValue = bossRush ? 180f : death ? 270f : revenge ? 300f : expertMode ? 360f : 480f;
                     if (calamityGlobalNPC.newAI[2] > newPositionGateValue)
                     {
                         calamityGlobalNPC.newAI[2] = 0f;
@@ -4484,10 +4466,10 @@ namespace CalamityMod.NPCs
             // Variables
             float rotationMult = 3f;
             float rotationAmt = 0.03f;
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
-            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool expertMode = Main.expertMode || bossRush;
+            bool revenge = CalamityWorld.revenge || bossRush;
+            bool death = CalamityWorld.death || bossRush;
             Vector2 vector = npc.Center;
 
             // Adjust slowing debuff immunity
@@ -4518,13 +4500,17 @@ namespace CalamityMod.NPCs
 
             // Enrage scale
             float enrageScale = death ? 1.5f : 1f;
-            if (npc.localAI[1] >= CalamityGlobalNPC.biomeEnrageTimerMax || malice)
+            if (npc.localAI[1] >= CalamityGlobalNPC.biomeEnrageTimerMax || bossRush)
             {
-                npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
+                npc.Calamity().CurrentlyEnraged = !bossRush;
                 enrageScale += 1f;
             }
-            if (npc.localAI[2] > 0f || malice)
+
+            if (npc.localAI[2] > 0f || bossRush)
                 enrageScale += 1f;
+
+            if (Main.getGoodWorld)
+                enrageScale += 0.5f;
 
             if (enrageScale > 3f)
                 enrageScale = 3f;
@@ -4574,8 +4560,8 @@ namespace CalamityMod.NPCs
             bool phaseSwitchPhase = (phase2 && calamityGlobalNPC.newAI[0] < newPhaseTimer && calamityGlobalNPC.newAI[2] != 1f) ||
                 (phase3 && calamityGlobalNPC.newAI[1] < newPhaseTimer && calamityGlobalNPC.newAI[3] != 1f);
 
-            calamityGlobalNPC.DR = (phaseSwitchPhase || npc.ai[0] == 5f || (enrageScale == 3f && !malice)) ? 0.55f : 0.1f;
-            calamityGlobalNPC.CurrentlyIncreasingDefenseOrDR = phaseSwitchPhase || npc.ai[0] == 5f || (enrageScale == 3f && !malice);
+            calamityGlobalNPC.DR = (phaseSwitchPhase || npc.ai[0] == 5f || (enrageScale == 3f && !bossRush)) ? 0.55f : 0.1f;
+            calamityGlobalNPC.CurrentlyIncreasingDefenseOrDR = phaseSwitchPhase || npc.ai[0] == 5f || (enrageScale == 3f && !bossRush);
 
             if (phaseSwitchPhase)
             {
@@ -4767,9 +4753,15 @@ namespace CalamityMod.NPCs
                                     bool spawnRight = player.velocity.X > 0f;
                                     for (int i = 0; i < totalProjectiles; i++)
                                     {
-                                        if (spawnRight)
+                                        if (Main.getGoodWorld)
                                         {
                                             if (i >= (int)(totalProjectiles * 0.125) && i <= (int)(totalProjectiles * 0.375))
+                                            {
+                                                Vector2 spawnVector = player.Center + Vector2.Normalize(new Vector2(0f, -featherVelocity).RotatedBy(radians * i)) * distance;
+                                                Vector2 velocity = Vector2.Normalize(player.Center - spawnVector) * featherVelocity;
+                                                Projectile.NewProjectile(npc.GetSource_FromAI(), spawnVector, velocity, type, damage, 0f, Main.myPlayer);
+                                            }
+                                            if (i >= (int)(totalProjectiles * 0.625) && i <= (int)(totalProjectiles * 0.875))
                                             {
                                                 Vector2 spawnVector = player.Center + Vector2.Normalize(new Vector2(0f, -featherVelocity).RotatedBy(radians * i)) * distance;
                                                 Vector2 velocity = Vector2.Normalize(player.Center - spawnVector) * featherVelocity;
@@ -4778,11 +4770,23 @@ namespace CalamityMod.NPCs
                                         }
                                         else
                                         {
-                                            if (i >= (int)(totalProjectiles * 0.625) && i <= (int)(totalProjectiles * 0.875))
+                                            if (spawnRight)
                                             {
-                                                Vector2 spawnVector = player.Center + Vector2.Normalize(new Vector2(0f, -featherVelocity).RotatedBy(radians * i)) * distance;
-                                                Vector2 velocity = Vector2.Normalize(player.Center - spawnVector) * featherVelocity;
-                                                Projectile.NewProjectile(npc.GetSource_FromAI(), spawnVector, velocity, type, damage, 0f, Main.myPlayer);
+                                                if (i >= (int)(totalProjectiles * 0.125) && i <= (int)(totalProjectiles * 0.375))
+                                                {
+                                                    Vector2 spawnVector = player.Center + Vector2.Normalize(new Vector2(0f, -featherVelocity).RotatedBy(radians * i)) * distance;
+                                                    Vector2 velocity = Vector2.Normalize(player.Center - spawnVector) * featherVelocity;
+                                                    Projectile.NewProjectile(npc.GetSource_FromAI(), spawnVector, velocity, type, damage, 0f, Main.myPlayer);
+                                                }
+                                            }
+                                            else
+                                            {
+                                                if (i >= (int)(totalProjectiles * 0.625) && i <= (int)(totalProjectiles * 0.875))
+                                                {
+                                                    Vector2 spawnVector = player.Center + Vector2.Normalize(new Vector2(0f, -featherVelocity).RotatedBy(radians * i)) * distance;
+                                                    Vector2 velocity = Vector2.Normalize(player.Center - spawnVector) * featherVelocity;
+                                                    Projectile.NewProjectile(npc.GetSource_FromAI(), spawnVector, velocity, type, damage, 0f, Main.myPlayer);
+                                                }
                                             }
                                         }
                                     }
@@ -4811,8 +4815,16 @@ namespace CalamityMod.NPCs
                                     npc.ai[3] = 3f;
                                     SoundEngine.PlaySound(SoundID.Item102, player.Center);
                                     int totalProjectiles = phase2 ? 40 : 48;
+
+                                    if (Main.getGoodWorld)
+                                        totalProjectiles *= 2;
+
                                     float radians = MathHelper.TwoPi / totalProjectiles;
                                     int distance = phase2 ? 1200 : 1320;
+
+                                    if (Main.getGoodWorld)
+                                        distance *= 2;
+
                                     bool spawnRight = player.velocity.X > 0f;
                                     for (int i = 0; i < totalProjectiles; i++)
                                     {
@@ -5214,6 +5226,8 @@ namespace CalamityMod.NPCs
                     value44.Normalize();
                     value44 *= scaleFactor20;
                     npc.velocity = (npc.velocity * (num1377 - 1f) + value44) / num1377;
+                    if (Main.getGoodWorld)
+                        npc.velocity *= 1.15f;
                 }
                 else if (npc.velocity.Length() > 2f)
                 {
@@ -5262,6 +5276,9 @@ namespace CalamityMod.NPCs
                     value45.Normalize();
                     value45 *= scaleFactor21;
                     npc.velocity = (npc.velocity * (num1378 - 1f) + value45) / num1378;
+                    if (Main.getGoodWorld)
+                        npc.velocity *= 1.15f;
+
                     npc.netSpam = 5;
                     if (Main.netMode == NetmodeID.Server)
                     {
@@ -5288,6 +5305,9 @@ namespace CalamityMod.NPCs
                     vector242.Normalize();
                     vector242 *= scaleFactor22;
                     npc.velocity = (npc.velocity * (num1379 - 1f) + vector242) / num1379;
+                    if (Main.getGoodWorld)
+                        npc.velocity *= 1.15f;
+
                     if (npc.velocity.X < 0f)
                     {
                         npc.direction = -1;
@@ -5301,6 +5321,9 @@ namespace CalamityMod.NPCs
                     if (npc.ai[1] > 10f)
                     {
                         npc.velocity = vector242;
+                        if (Main.getGoodWorld)
+                            npc.velocity *= 1.15f;
+
                         if (npc.velocity.X < 0f)
                         {
                             npc.direction = -1;
@@ -5360,12 +5383,17 @@ namespace CalamityMod.NPCs
             float lifeRatio = npc.life / (float)npc.lifeMax;
 
             // Variables
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
-            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool expertMode = Main.expertMode || bossRush;
+            bool revenge = CalamityWorld.revenge || bossRush;
+            bool death = CalamityWorld.death || bossRush;
 
-            bool tired = calamityGlobalNPC.newAI[1] == 1f;
+            float exhaustionGateValue = 300f;
+            if (Main.getGoodWorld)
+                exhaustionGateValue *= 0.5f;
+
+            float exhaustionIncreasePerAttack = exhaustionGateValue * 0.1f;
+            bool exhausted = calamityGlobalNPC.newAI[1] == 1f;
             bool phase2 = lifeRatio <= (death ? 0.8f : revenge ? 0.7f : 0.5f);
             bool phase3 = lifeRatio <= (death ? 0.5f : (revenge ? 0.35f : 0.2f)) && expertMode;
             bool phase2AI = npc.ai[0] > 4f;
@@ -5373,21 +5401,21 @@ namespace CalamityMod.NPCs
             bool charging = npc.ai[3] < 10f;
             float pie = (float)Math.PI;
 
-            if (calamityGlobalNPC.newAI[0] >= 300f)
+            if (calamityGlobalNPC.newAI[0] >= exhaustionGateValue)
                 calamityGlobalNPC.newAI[1] = 1f;
 
             // Adjust stats
-            calamityGlobalNPC.DR = tired ? 0f : 0.5f;
-            npc.defense = tired ? 0 : npc.defDefense;
+            calamityGlobalNPC.DR = exhausted ? 0f : 0.5f;
+            npc.defense = exhausted ? 0 : npc.defDefense;
             if (phase3AI)
             {
                 npc.damage = (int)(npc.defDamage * 1.2f);
-                npc.defense = tired ? 0 : npc.defDefense - 40;
+                npc.defense = exhausted ? 0 : npc.defDefense - 40;
             }
             else if (phase2AI)
             {
                 npc.damage = (int)(npc.defDamage * 1.1f);
-                npc.defense = tired ? 0 : npc.defDefense - 20;
+                npc.defense = exhausted ? 0 : npc.defDefense - 20;
             }
             else
             {
@@ -5421,7 +5449,7 @@ namespace CalamityMod.NPCs
                 chargeVelocity = expertMode ? 24f : 23f;
             }
 
-            if (malice)
+            if (bossRush)
             {
                 idlePhaseTimer = 35;
                 idlePhaseAcceleration *= 1.25f;
@@ -5446,24 +5474,24 @@ namespace CalamityMod.NPCs
                 chargeVelocity *= 1.05f;
             }
 
-            if (tired)
+            if (exhausted)
                 idlePhaseVelocity *= 0.25f;
 
             // Variables
-            int toothBallBelchPhaseTimer = malice ? 35 : death ? 90 : 120;
-            int toothBallBelchPhaseDivisor = malice ? 7 : death ? 18 : 24;
-            float toothBallBelchPhaseAcceleration = malice ? 0.95f : death ? 0.6f : 0.55f;
-            float toothBallBelchPhaseVelocity = malice ? 14f : death ? 10f : 9f;
+            int toothBallBelchPhaseTimer = bossRush ? 35 : death ? 90 : 120;
+            int toothBallBelchPhaseDivisor = bossRush ? 7 : death ? 18 : 24;
+            float toothBallBelchPhaseAcceleration = bossRush ? 0.95f : death ? 0.6f : 0.55f;
+            float toothBallBelchPhaseVelocity = bossRush ? 14f : death ? 10f : 9f;
             float goreVelocityX = death ? 8f : revenge ? 7.5f : expertMode ? 7f : 6f;
             float goreVelocityY = death ? 10.5f : revenge ? 10f : expertMode ? 9.5f : 8f;
-            float sharkronVelocity = malice ? 18f : death ? 16f : revenge ? 15f : expertMode ? 14f : 12f;
+            float sharkronVelocity = bossRush ? 18f : death ? 16f : revenge ? 15f : expertMode ? 14f : 12f;
             int num9 = 120;
             int num10 = 180;
             int num12 = 30;
-            int num13 = malice ? 35 : death ? 90 : 120;
-            int toothBallSpinPhaseDivisor = malice ? 7 : death ? 18 : 24;
+            int num13 = bossRush ? 35 : death ? 90 : 120;
+            int toothBallSpinPhaseDivisor = bossRush ? 7 : death ? 18 : 24;
             float spinTime = num13 / 2;
-            float toothBallSpinToothBallVelocity = malice ? 14f : death ? 9.5f : 9f;
+            float toothBallSpinToothBallVelocity = bossRush ? 14f : death ? 9.5f : 9f;
             float scaleFactor4 = 22f;
             float num15 = MathHelper.TwoPi / spinTime;
             int num16 = 75;
@@ -5509,23 +5537,26 @@ namespace CalamityMod.NPCs
                 npc.ai[2] = 0f;
             }
 
-            if (tired)
+            if (exhausted)
             {
                 npc.Calamity().canBreakPlayerDefense = false;
 
                 npc.damage /= 4;
 
-                // Play tired sound
+                // Play exhausted sound
                 if (calamityGlobalNPC.newAI[0] % 60f == 0f)
                     SoundEngine.PlaySound(OldDuke.OldDuke.HuffSound, player.Center);
 
-                calamityGlobalNPC.newAI[0] -= malice ? 1.5f : 1f;
+                calamityGlobalNPC.newAI[0] -= bossRush ? 1.5f : 1f;
                 if (calamityGlobalNPC.newAI[0] <= 0f)
+                {
+                    calamityGlobalNPC.newAI[0] = 0f;
                     calamityGlobalNPC.newAI[1] = 0f;
+                }
             }
 
             // Enrage variable
-            bool enrage = !BossRushEvent.BossRushActive &&
+            bool enrage = !bossRush &&
                 (player.position.Y < 300f || player.position.Y > Main.worldSurface * 16.0 ||
                 (player.position.X > 8000f && player.position.X < (Main.maxTilesX * 16 - 8000)));
 
@@ -5540,10 +5571,10 @@ namespace CalamityMod.NPCs
 
             bool biomeEnraged = npc.localAI[1] <= 0f;
 
-            npc.Calamity().CurrentlyEnraged = biomeEnraged || malice;
+            npc.Calamity().CurrentlyEnraged = biomeEnraged || bossRush;
 
-            // Increased DR while transitioning phases and not tired
-            if (!tired)
+            // Increased DR while transitioning phases and not exhausted
+            if (!exhausted)
                 calamityGlobalNPC.DR = (npc.ai[0] == -1f || npc.ai[0] == 4f || npc.ai[0] == 9f) ? 0.75f : 0.5f;
 
             calamityGlobalNPC.CurrentlyIncreasingDefenseOrDR = npc.ai[0] == -1f || npc.ai[0] == 4f || npc.ai[0] == 9f;
@@ -5861,7 +5892,7 @@ namespace CalamityMod.NPCs
                 npc.ai[2] += 1f;
                 if (npc.ai[2] >= chargeTime)
                 {
-                    calamityGlobalNPC.newAI[0] += 30f;
+                    calamityGlobalNPC.newAI[0] += exhaustionIncreasePerAttack;
                     npc.ai[0] = 0f;
                     npc.ai[1] = 0f;
                     npc.ai[2] = 0f;
@@ -5910,7 +5941,7 @@ namespace CalamityMod.NPCs
                 npc.ai[2] += 1f;
                 if (npc.ai[2] >= toothBallBelchPhaseTimer)
                 {
-                    calamityGlobalNPC.newAI[0] += 30f;
+                    calamityGlobalNPC.newAI[0] += exhaustionIncreasePerAttack;
                     npc.ai[0] = 0f;
                     npc.ai[1] = 0f;
                     npc.ai[2] = 0f;
@@ -5937,13 +5968,19 @@ namespace CalamityMod.NPCs
                         calamityGlobalNPC.newAI[2] += 100f;
                         NPC.NewNPC(npc.GetSource_FromAI(), (int)(vector.X + 900f), (int)(vector.Y - calamityGlobalNPC.newAI[2]), ModContent.NPCType<SulphurousSharkron>(), 0, 0f, 0f, npc.whoAmI, 0f, 255);
                         NPC.NewNPC(npc.GetSource_FromAI(), (int)(vector.X - 900f), (int)(vector.Y - calamityGlobalNPC.newAI[2]), ModContent.NPCType<SulphurousSharkron>(), 0, 0f, 0f, npc.whoAmI, 0f, 255);
+
+                        if (Main.getGoodWorld)
+                        {
+                            NPC.NewNPC(npc.GetSource_FromAI(), (int)(vector.X + 1800f), (int)(vector.Y - calamityGlobalNPC.newAI[2]), ModContent.NPCType<SulphurousSharkron>(), 0, 0f, 0f, npc.whoAmI, 0f, 255);
+                            NPC.NewNPC(npc.GetSource_FromAI(), (int)(vector.X - 1800f), (int)(vector.Y - calamityGlobalNPC.newAI[2]), ModContent.NPCType<SulphurousSharkron>(), 0, 0f, 0f, npc.whoAmI, 0f, 255);
+                        }
                     }
                 }
 
                 npc.ai[2] += 1f;
                 if (npc.ai[2] >= num9)
                 {
-                    calamityGlobalNPC.newAI[0] += 30f;
+                    calamityGlobalNPC.newAI[0] += exhaustionIncreasePerAttack;
                     calamityGlobalNPC.newAI[2] = 0f;
                     npc.ai[0] = 0f;
                     npc.ai[1] = 0f;
@@ -5971,6 +6008,12 @@ namespace CalamityMod.NPCs
                         calamityGlobalNPC.newAI[2] += 150f;
                         NPC.NewNPC(npc.GetSource_FromAI(), (int)(vector.X + 50f + calamityGlobalNPC.newAI[2]), (int)(vector.Y + 540f), ModContent.NPCType<SulphurousSharkron>(), 0, 0f, 0f, 1f, -sharkronVelocity, 255);
                         NPC.NewNPC(npc.GetSource_FromAI(), (int)(vector.X - 50f - calamityGlobalNPC.newAI[2]), (int)(vector.Y + 540f), ModContent.NPCType<SulphurousSharkron>(), 0, 0f, 0f, -1f, -sharkronVelocity, 255);
+
+                        if (Main.getGoodWorld)
+                        {
+                            NPC.NewNPC(npc.GetSource_FromAI(), (int)(vector.X + 50f + calamityGlobalNPC.newAI[2] * 0.5f), (int)(vector.Y + 270f), ModContent.NPCType<SulphurousSharkron>(), 0, 0f, 0f, 1f, -sharkronVelocity, 255);
+                            NPC.NewNPC(npc.GetSource_FromAI(), (int)(vector.X - 50f - calamityGlobalNPC.newAI[2] * 0.5f), (int)(vector.Y + 270f), ModContent.NPCType<SulphurousSharkron>(), 0, 0f, 0f, -1f, -sharkronVelocity, 255);
+                        }
                     }
                 }
 
@@ -6131,7 +6174,7 @@ namespace CalamityMod.NPCs
                 npc.ai[2] += 1f;
                 if (npc.ai[2] >= chargeTime)
                 {
-                    calamityGlobalNPC.newAI[0] += 30f;
+                    calamityGlobalNPC.newAI[0] += exhaustionIncreasePerAttack;
                     npc.ai[0] = 5f;
                     npc.ai[1] = 0f;
                     npc.ai[2] = 0f;
@@ -6181,7 +6224,7 @@ namespace CalamityMod.NPCs
                 npc.ai[2] += 1f;
                 if (npc.ai[2] >= num13)
                 {
-                    calamityGlobalNPC.newAI[0] += 30f;
+                    calamityGlobalNPC.newAI[0] += exhaustionIncreasePerAttack;
                     npc.ai[0] = 5f;
                     npc.ai[1] = 0f;
                     npc.ai[2] = 0f;
@@ -6207,10 +6250,18 @@ namespace CalamityMod.NPCs
                         Vector2 vector7 = npc.rotation.ToRotationVector2() * (Vector2.UnitX * npc.direction) * (npc.width + 20) / 2f + vector;
                         int type = ModContent.ProjectileType<OldDukeGore>();
                         int damage = npc.GetProjectileDamage(type);
-                        for (int i = 0; i < 20; i++)
+                        int totalGore = Main.getGoodWorld ? 40 : 20;
+                        for (int i = 0; i < totalGore; i++)
                         {
                             float velocityX = npc.direction * goreVelocityX * (Main.rand.NextFloat() + 0.5f);
                             float velocityY = goreVelocityY * (Main.rand.NextFloat() + 0.5f);
+
+                            if (Main.getGoodWorld)
+                            {
+                                velocityX *= Main.rand.NextFloat() + 0.5f;
+                                velocityY *= Main.rand.NextFloat() + 0.5f;
+                            }
+
                             Projectile.NewProjectile(npc.GetSource_FromAI(), vector7.X, vector7.Y, velocityX, -velocityY, type, damage, 0f, Main.myPlayer, 0f, 0f);
                         }
                     }
@@ -6230,7 +6281,7 @@ namespace CalamityMod.NPCs
                 npc.ai[2] += 1f;
                 if (npc.ai[2] >= num9)
                 {
-                    calamityGlobalNPC.newAI[0] += 30f;
+                    calamityGlobalNPC.newAI[0] += exhaustionIncreasePerAttack;
                     calamityGlobalNPC.newAI[2] = 0f;
                     npc.ai[0] = 5f;
                     npc.ai[1] = 0f;
@@ -6258,6 +6309,12 @@ namespace CalamityMod.NPCs
                         calamityGlobalNPC.newAI[2] += 200f;
                         NPC.NewNPC(npc.GetSource_FromAI(), (int)(vector.X + 50f + calamityGlobalNPC.newAI[2]), (int)(vector.Y - 540f), ModContent.NPCType<SulphurousSharkron>(), 0, 0f, 0f, 1f, sharkronVelocity, 255);
                         NPC.NewNPC(npc.GetSource_FromAI(), (int)(vector.X - 50f - calamityGlobalNPC.newAI[2]), (int)(vector.Y - 540f), ModContent.NPCType<SulphurousSharkron>(), 0, 0f, 0f, -1f, sharkronVelocity, 255);
+
+                        if (Main.getGoodWorld)
+                        {
+                            NPC.NewNPC(npc.GetSource_FromAI(), (int)(vector.X + 50f + calamityGlobalNPC.newAI[2] * 0.5f), (int)(vector.Y + 270f), ModContent.NPCType<SulphurousSharkron>(), 0, 0f, 0f, 1f, -sharkronVelocity, 255);
+                            NPC.NewNPC(npc.GetSource_FromAI(), (int)(vector.X - 50f - calamityGlobalNPC.newAI[2] * 0.5f), (int)(vector.Y + 270f), ModContent.NPCType<SulphurousSharkron>(), 0, 0f, 0f, -1f, -sharkronVelocity, 255);
+                        }
                     }
                 }
 
@@ -6430,7 +6487,7 @@ namespace CalamityMod.NPCs
                 npc.ai[2] += 1f;
                 if (npc.ai[2] >= chargeTime)
                 {
-                    calamityGlobalNPC.newAI[0] += 30f;
+                    calamityGlobalNPC.newAI[0] += exhaustionIncreasePerAttack;
                     npc.ai[0] = 10f;
                     npc.ai[1] = 0f;
                     npc.ai[2] = 0f;
@@ -6522,10 +6579,18 @@ namespace CalamityMod.NPCs
                         Vector2 vector7 = npc.rotation.ToRotationVector2() * (Vector2.UnitX * npc.direction) * (npc.width + 20) / 2f + vector;
                         int type = ModContent.ProjectileType<OldDukeGore>();
                         int damage = npc.GetProjectileDamage(type);
-                        for (int i = 0; i < 20; i++)
+                        int totalGore = Main.getGoodWorld ? 40 : 20;
+                        for (int i = 0; i < totalGore; i++)
                         {
                             float velocityX = npc.direction * goreVelocityX * (Main.rand.NextFloat() + 0.5f);
                             float velocityY = goreVelocityY * (Main.rand.NextFloat() + 0.5f);
+
+                            if (Main.getGoodWorld)
+                            {
+                                velocityX *= Main.rand.NextFloat() + 0.5f;
+                                velocityY *= Main.rand.NextFloat() + 0.5f;
+                            }
+
                             Projectile.NewProjectile(npc.GetSource_FromAI(), vector7.X, vector7.Y, velocityX, -velocityY, type, damage, 0f, Main.myPlayer, 0f, 0f);
                         }
                     }
@@ -6539,13 +6604,19 @@ namespace CalamityMod.NPCs
                         float x = 900f - calamityGlobalNPC.newAI[2];
                         NPC.NewNPC(npc.GetSource_FromAI(), (int)(vector.X + x), (int)(vector.Y - calamityGlobalNPC.newAI[2]), ModContent.NPCType<SulphurousSharkron>(), 0, 0f, 0f, npc.whoAmI, 0f, 255);
                         NPC.NewNPC(npc.GetSource_FromAI(), (int)(vector.X - x), (int)(vector.Y - calamityGlobalNPC.newAI[2]), ModContent.NPCType<SulphurousSharkron>(), 0, 0f, 0f, npc.whoAmI, 0f, 255);
+
+                        if (Main.getGoodWorld)
+                        {
+                            NPC.NewNPC(npc.GetSource_FromAI(), (int)(vector.X + x), (int)(vector.Y - calamityGlobalNPC.newAI[2] * 0.5f), ModContent.NPCType<SulphurousSharkron>(), 0, 0f, 0f, npc.whoAmI, 0f, 255);
+                            NPC.NewNPC(npc.GetSource_FromAI(), (int)(vector.X - x), (int)(vector.Y - calamityGlobalNPC.newAI[2] * 0.5f), ModContent.NPCType<SulphurousSharkron>(), 0, 0f, 0f, npc.whoAmI, 0f, 255);
+                        }
                     }
                 }
 
                 npc.ai[2] += 1f;
                 if (npc.ai[2] >= num9)
                 {
-                    calamityGlobalNPC.newAI[0] += 30f;
+                    calamityGlobalNPC.newAI[0] += exhaustionIncreasePerAttack;
                     calamityGlobalNPC.newAI[2] = 0f;
                     npc.ai[0] = 10f;
                     npc.ai[1] = 0f;
@@ -6595,7 +6666,7 @@ namespace CalamityMod.NPCs
                 npc.ai[2] += 1f;
                 if (npc.ai[2] >= num13)
                 {
-                    calamityGlobalNPC.newAI[0] += 30f;
+                    calamityGlobalNPC.newAI[0] += exhaustionIncreasePerAttack;
                     npc.ai[0] = 10f;
                     npc.ai[1] = 0f;
                     npc.ai[2] = 0f;
@@ -6607,522 +6678,6 @@ namespace CalamityMod.NPCs
             if (SoundEngine.TryGetActiveSound(modNPC.RoarSoundSlot, out var roarSound) && roarSound.IsPlaying)
             {
                 roarSound.Position = npc.Center;
-            }
-        }
-        #endregion
-
-        // This AI is for testing purposes, don't remove it
-        #region Brimstone Elemental2
-        public static void BrimstoneElementalAI2(NPC npc, Mod mod)
-        {
-            CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
-
-            // Used for Brimling AI states
-            CalamityGlobalNPC.brimstoneElemental = npc.whoAmI;
-
-            // Center
-            Vector2 vectorCenter = npc.Center;
-
-            // Get a target
-            if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
-                npc.TargetClosest(true);
-
-            Player player = Main.player[npc.target];
-            if (!player.active || player.dead || Vector2.Distance(player.Center, vectorCenter) > 5600f)
-            {
-                npc.TargetClosest(false);
-                player = Main.player[npc.target];
-                if (!player.active || player.dead || Vector2.Distance(player.Center, vectorCenter) > 5600f)
-                {
-                    npc.rotation = npc.velocity.X * 0.04f;
-
-                    if (npc.velocity.Y > 3f)
-                        npc.velocity.Y = 3f;
-                    npc.velocity.Y -= 0.1f;
-                    if (npc.velocity.Y < -12f)
-                        npc.velocity.Y = -12f;
-
-                    if (npc.timeLeft > 60)
-                        npc.timeLeft = 60;
-
-                    if (npc.ai[0] != 0f)
-                    {
-                        npc.ai[0] = 0f;
-                        npc.ai[1] = 0f;
-                        npc.ai[2] = 0f;
-                        npc.ai[3] = 0f;
-                        npc.localAI[0] = 0f;
-                        npc.localAI[1] = 0f;
-                        npc.netUpdate = true;
-                    }
-                    return;
-                }
-            }
-            else if (npc.timeLeft < 1800)
-                npc.timeLeft = 1800;
-
-            CalamityPlayer modPlayer = player.Calamity();
-
-            // Reset defense
-            npc.defense = npc.defDefense;
-
-            // Hide the sprite
-            npc.alpha = 255;
-
-            // Percent life remaining
-            float lifeRatio = npc.life / (float)npc.lifeMax;
-
-            // Variables for buffing the AI
-            bool provy = DownedBossSystem.downedProvidence && !BossRushEvent.BossRushActive;
-            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
-            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
-            bool calamity = modPlayer.ZoneCalamity;
-            bool phase2 = (lifeRatio < 0.5f && revenge) || death;
-
-            // Speed while moving in phase 1
-            float speed = expertMode ? 5f : 4.5f;
-            if (BossRushEvent.BossRushActive)
-                speed = 12f;
-            else if (!calamity)
-                speed = 7f;
-            else if (death)
-                speed = 6f;
-            else if (revenge)
-                speed = 5.5f;
-            float speedBoost = death ? 2f : 2f * (1f - lifeRatio);
-            speed += speedBoost;
-
-            int damage = expertMode ? 125 : 200;
-            float radialOffset = 32f;
-            float xDistance = player.Center.X - vectorCenter.X;
-            float yDistance = player.Center.Y - vectorCenter.Y;
-            float totalDistance = (float)Math.Sqrt(xDistance * xDistance + yDistance * yDistance);
-
-            // Static movement towards target
-            if (npc.ai[0] == 5f)
-            {
-                npc.rotation = npc.velocity.X * 0.04f;
-                if (npc.ai[1] < 180f)
-                {
-                    float playerLocation = vectorCenter.X - player.Center.X;
-                    npc.direction = playerLocation < 0f ? 1 : -1;
-                    npc.spriteDirection = npc.direction;
-                    totalDistance = speed * 0.15f / totalDistance;
-                    xDistance *= totalDistance;
-                    yDistance *= totalDistance;
-                    npc.velocity.X = (npc.velocity.X * 50f + xDistance) / 51f;
-                    npc.velocity.Y = (npc.velocity.Y * 50f + yDistance) / 51f;
-                }
-            }
-
-            if (npc.ai[0] == 0f)
-            {
-                npc.chaseable = true;
-                npc.rotation = npc.velocity.X * 0.04f;
-                float playerLocation = vectorCenter.X - player.Center.X;
-                npc.direction = playerLocation < 0f ? 1 : -1;
-                npc.spriteDirection = npc.direction;
-                npc.ai[1] += 1f;
-
-                bool shootProjectile = false;
-                float fireRate = 60f;
-                if (npc.ai[1] % fireRate == fireRate - 1f)
-                    shootProjectile = true;
-
-                if (shootProjectile)
-                {
-                    if (Main.netMode != NetmodeID.MultiplayerClient)
-                    {
-                        float num742 = 16f;
-                        float num743 = player.position.X + player.width * 0.5f - vectorCenter.X;
-                        float num744 = player.position.Y + player.height * 0.5f - vectorCenter.Y;
-                        float num745 = (float)Math.Sqrt(num743 * num743 + num744 * num744);
-
-                        num745 = num742 / num745;
-                        num743 *= num745;
-                        num744 *= num745;
-
-                        vectorCenter.X += num743 * 3f;
-                        vectorCenter.Y += num744 * 3f;
-
-                        float radians = MathHelper.TwoPi / 3f;
-
-                        for (int i = 0; i < 3; i++)
-                        {
-                            Vector2 vector = new Vector2(0f, -3f).RotatedBy(radians * i);
-                            int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), vectorCenter, vector, ModContent.ProjectileType<DarkOrb>(), damage, 0f, Main.myPlayer, 8f, 0f);
-                            Main.projectile[proj].scale = 4f;
-                        }
-
-                        //Projectile.NewProjectile(npc.GetSource_FromAI(), vectorCenter.X, vectorCenter.Y, num743, num744, ModContent.ProjectileType<DarkOrb>(), damage, 0f, Main.myPlayer, 4f, 0f);
-
-                        int numProj = 4;
-                        int spread = 45;
-                        float rotation = MathHelper.ToRadians(spread);
-                        float baseSpeed = (float)Math.Sqrt(num743 * num743 + num744 * num744);
-                        double startAngle = Math.Atan2(num743, num744) - rotation / 2;
-                        double deltaAngle = rotation / numProj;
-                        double offsetAngle;
-
-                        for (int i = 0; i < numProj; i++)
-                        {
-                            offsetAngle = startAngle + deltaAngle * i;
-                            Projectile.NewProjectile(npc.GetSource_FromAI(), vectorCenter.X, vectorCenter.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), ModContent.ProjectileType<DarkOrb>(), damage, 0f, Main.myPlayer, 10f, 0f);
-                        }
-                    }
-                }
-
-                if (npc.position.Y > player.position.Y - 150f) //200
-                {
-                    if (npc.velocity.Y > 0f)
-                        npc.velocity.Y *= 0.98f;
-
-                    npc.velocity.Y -= BossRushEvent.BossRushActive ? 0.15f : 0.1f;
-
-                    if (npc.velocity.Y > 3f)
-                        npc.velocity.Y = 3f;
-                }
-                else if (npc.position.Y < player.position.Y - 350f) //500
-                {
-                    if (npc.velocity.Y < 0f)
-                        npc.velocity.Y *= 0.98f;
-
-                    npc.velocity.Y += BossRushEvent.BossRushActive ? 0.15f : 0.1f;
-
-                    if (npc.velocity.Y < -3f)
-                        npc.velocity.Y = -3f;
-                }
-                if (npc.position.X + (npc.width / 2) > player.position.X + (player.width / 2) + 150f) //100
-                {
-                    if (npc.velocity.X > 0f)
-                        npc.velocity.X *= 0.985f;
-
-                    npc.velocity.X -= BossRushEvent.BossRushActive ? 0.15f : 0.1f;
-
-                    if (npc.velocity.X > 8f)
-                        npc.velocity.X = 8f;
-                }
-                if (npc.position.X + (npc.width / 2) < player.position.X + (player.width / 2) - 150f) //100
-                {
-                    if (npc.velocity.X < 0f)
-                        npc.velocity.X *= 0.985f;
-
-                    npc.velocity.X += (BossRushEvent.BossRushActive ? 0.15f : 0.1f);
-
-                    if (npc.velocity.X < -8f)
-                        npc.velocity.X = -8f;
-                }
-
-                if (npc.ai[1] >= 300f)
-                {
-                    npc.TargetClosest(true);
-                    npc.ai[0] = 1f;
-                    npc.ai[1] = 0f;
-                    npc.ai[2] = 0f;
-                    npc.ai[3] = 0f;
-                    npc.netUpdate = true;
-                }
-            }
-
-            // Cocoon bullet hell
-            else if (npc.ai[0] == 1f)
-            {
-                npc.defense = 99999;
-                npc.chaseable = false;
-                if (Main.netMode != NetmodeID.MultiplayerClient)
-                {
-                    npc.localAI[0] += 1f;
-
-                    float projectileSpeed = revenge ? 8f : 6f;
-                    if (BossRushEvent.BossRushActive)
-                        projectileSpeed = 12f;
-
-                    Vector2 targetVector = player.Center - vectorCenter;
-                    float offsetAngle = 0f;
-                    int totalProjectiles = 0;
-                    //int chains = 0;
-
-                    // Parabolic Arcs
-                    if (npc.localAI[0] % 60f == 0f)
-                    {
-                        radialOffset = 0.1f;
-                        float diameter = 90f;
-
-                        // Offset the arc so the central projectile(s) point towards the target
-                        targetVector.Y -= Math.Abs(targetVector.X) * radialOffset;
-
-                        // Velocity of the arc moving towards the target
-                        targetVector = Vector2.Normalize(targetVector) * projectileSpeed;
-
-                        // Offset the arc
-                        Vector2 velocity = targetVector;
-                        velocity.Normalize();
-                        velocity *= diameter;
-
-                        totalProjectiles = 16;
-                        int half = totalProjectiles / 2;
-                        float scalar = 0.2f;
-                        float velocityMult = (totalProjectiles - 1f) / 2f;
-                        offsetAngle = (float)Math.PI * radialOffset;
-
-                        for (int j = 0; j < totalProjectiles; j++)
-                        {
-                            float radians = j - velocityMult;
-                            Vector2 offset = velocity.RotatedBy(offsetAngle * radians, default);
-                            int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), vectorCenter + offset, targetVector * (1f - (Math.Abs(radians) / half * scalar)), ModContent.ProjectileType<DarkOrb>(), damage, 0f, Main.myPlayer, -1f, 0f);
-                        }
-                    }
-
-                    // Arcs
-                    /*if (npc.localAI[0] % 60f == 0f)
-                    {
-                        radialOffset = 0.1f;
-                        float diameter = 120f;
-
-                        targetVector.Y -= Math.Abs(targetVector.X) * radialOffset;
-                        targetVector = Vector2.Normalize(targetVector) * projectileSpeed;
-
-                        Vector2 velocity = targetVector;
-                        velocity.Normalize();
-                        velocity *= diameter;
-
-                        totalProjectiles = 8;
-                        offsetAngle = (float)Math.PI * radialOffset;
-
-                        for (int j = 0; j < totalProjectiles; j++)
-                        {
-                            float radians = j - (totalProjectiles - 1f) / 2f;
-                            Vector2 offset = velocity.RotatedBy(offsetAngle * radians, default);
-                            int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), vectorCenter + offset, targetVector, ModContent.ProjectileType<DarkOrb>(), damage, 0f, Main.myPlayer, -1f, 0f);
-                        }
-                    }
-
-                    if (npc.localAI[0] % 120f == 0f)
-                    {
-                        totalProjectiles = 24;
-                        offsetAngle = 360 / totalProjectiles;
-                        for (int i = 0; i < totalProjectiles; i++)
-                        {
-                            Projectile.NewProjectile(npc.GetSource_FromAI(), vectorCenter, Vector2.Zero, ModContent.ProjectileType<DarkOrb>(), damage, 0f, Main.myPlayer, 15f, i * offsetAngle);
-                        }
-
-                        totalProjectiles = 16;
-                        chains = 4;
-                        float velocityTimer = 90f / (totalProjectiles / chains);
-                        double radians = MathHelper.TwoPi / totalProjectiles;
-                        int j = 0;
-
-                        for (int i = 0; i < totalProjectiles; i++)
-                        {
-                            Vector2 vector = new Vector2(0f, -3f).RotatedBy(radians * i, default);
-                            Projectile.NewProjectile(npc.GetSource_FromAI(), vectorCenter, vector, ModContent.ProjectileType<DarkOrb>(), damage, 0f, Main.myPlayer, 16f, j * velocityTimer);
-
-                            j++;
-                            if (j % 4 == 0)
-                                j = 0;
-                        }
-                    }
-
-                    totalProjectiles = 36;
-                    float divisor = 6f;
-                    chains = 3;
-                    float interval = totalProjectiles / chains * divisor;
-                    double patternInterval = Math.Floor(npc.localAI[0] / interval);
-
-                    if (patternInterval % 2 == 0)
-                    {
-                        if (npc.localAI[0] % divisor == 0f)
-                        {
-                            double radians = (patternInterval % 4 == 0 ? MathHelper.TwoPi + MathHelper.Pi / 3 : MathHelper.TwoPi) / chains;
-                            radialOffset = MathHelper.ToRadians(npc.ai[2]);
-
-                            for (int i = 0; i < chains; i++)
-                            {
-                                Vector2 vector = new Vector2(0f, -3f).RotatedBy(radians * i + radialOffset, default);
-                                Projectile.NewProjectile(npc.GetSource_FromAI(), vectorCenter, vector, ModContent.ProjectileType<DarkOrb>(), damage, 0f, Main.myPlayer, 3f, 0f);
-                            }
-
-                            // Radial offset
-                            npc.ai[2] += 5f;
-                        }
-                    }
-                    else
-                        npc.ai[2] = 0f;*/
-
-                    /*if (npc.localAI[0] % 180f == 0f)
-                    {
-                        totalProjectiles = 12;
-                        offsetAngle = 360 / totalProjectiles;
-
-                        for (int i = 0; i < totalProjectiles; i++)
-                        {
-                            Projectile.NewProjectile(npc.GetSource_FromAI(), vectorCenter, Vector2.Zero, ModContent.ProjectileType<DarkOrb>(), damage, 0f, Main.myPlayer, 0f, i * offsetAngle);
-                            Projectile.NewProjectile(npc.GetSource_FromAI(), vectorCenter, Vector2.Zero, ModContent.ProjectileType<DarkOrb>(), damage, 0f, Main.myPlayer, 12f, i * offsetAngle);
-                        }
-                    }*/
-                }
-
-                if (npc.velocity.Length() > 0f)
-                    npc.velocity = Vector2.Zero;
-
-                npc.rotation = npc.velocity.X * 0.04f;
-
-                float playerLocation = vectorCenter.X - player.Center.X;
-                npc.direction = playerLocation < 0f ? 1 : -1;
-                npc.spriteDirection = npc.direction;
-
-                npc.ai[1] += 1f;
-                if (npc.ai[1] >= 600f)
-                {
-                    npc.TargetClosest(true);
-                    npc.ai[0] = 0f;
-                    npc.ai[1] = 0f;
-                    npc.ai[2] = 0f;
-                    npc.ai[3] = 0f;
-                    npc.localAI[0] = 0f;
-                    npc.netUpdate = true;
-                }
-            }
-
-            // Laser beam attack
-            else if (npc.ai[0] == 2f)
-            {
-                npc.defense = npc.defDefense * 3;
-
-                Vector2 source = new Vector2(vectorCenter.X + (npc.spriteDirection > 0 ? 34f : -34f), vectorCenter.Y - 74f);
-                Vector2 aimAt = player.Center + player.velocity * 20f;
-                float aimResponsiveness = 0.4f;
-
-                switch ((int)npc.ai[2])
-                {
-                    case 0:
-                        break;
-                    case 1:
-                        aimResponsiveness = 0.25f;
-                        break;
-                    case 2:
-                        aimResponsiveness = 0.1f;
-                        break;
-                }
-
-                Vector2 aimVector = Vector2.Normalize(aimAt - source);
-                if (aimVector.HasNaNs())
-                    aimVector = -Vector2.UnitY;
-                aimVector = Vector2.Normalize(Vector2.Lerp(aimVector, Vector2.Normalize(npc.velocity), aimResponsiveness));
-                aimVector *= 6f;
-
-                Vector2 laserVelocity = Vector2.Normalize(aimVector);
-                if (laserVelocity.HasNaNs())
-                    laserVelocity = -Vector2.UnitY;
-
-                calamityGlobalNPC.newAI[1] = laserVelocity.X;
-                calamityGlobalNPC.newAI[2] = laserVelocity.Y;
-
-                npc.ai[1] += 1f;
-                if (npc.ai[1] >= 300f)
-                {
-                    npc.TargetClosest(true);
-                    npc.ai[2] += 1f;
-                    npc.localAI[0] = 0f;
-                    npc.localAI[1] = 0f;
-                    if (npc.ai[2] >= 3f)
-                    {
-                        npc.ai[0] = 0f;
-                        npc.ai[1] = 0f;
-                        npc.ai[2] = 0f;
-                        calamityGlobalNPC.newAI[0] = 0f;
-                    }
-                    else
-                    {
-                        npc.ai[1] = 0f;
-                        calamityGlobalNPC.newAI[0] = 0f;
-                    }
-                }
-                else if (npc.ai[1] >= 180f)
-                {
-                    npc.velocity *= 0.95f;
-                    if (Main.netMode != NetmodeID.MultiplayerClient)
-                    {
-                        if (npc.ai[1] == 180f)
-                        {
-                            SoundEngine.PlaySound(SoundID.Zombie104, npc.position);
-                            Vector2 laserVelocity2 = new Vector2(npc.localAI[0], npc.localAI[1]);
-                            laserVelocity2.Normalize();
-
-                            int totalProjectiles = 4;
-                            float spread = MathHelper.ToRadians(90); // 30 degrees in radians = 0.523599
-                            double startAngle = Math.Atan2(laserVelocity2.X, laserVelocity2.Y) - spread / 2; // Where the projectiles start spawning at, don't change this
-                            double deltaAngle = spread / totalProjectiles; // Angle between each projectile, 0.04363325
-                            double offsetAngle;
-
-                            int i;
-                            for (i = 0; i < 2; i++)
-                            {
-                                offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + radialOffset * i;
-                                Projectile.NewProjectile(npc.GetSource_FromAI(), source.X, source.Y, (float)Math.Sin(offsetAngle), (float)Math.Cos(offsetAngle), ModContent.ProjectileType<BrimstoneRay>(), 40, 0f, Main.myPlayer, 1f, npc.whoAmI);
-                                Projectile.NewProjectile(npc.GetSource_FromAI(), source.X, source.Y, (float)-Math.Sin(offsetAngle), (float)-Math.Cos(offsetAngle), ModContent.ProjectileType<BrimstoneRay>(), 40, 0f, Main.myPlayer, 1f, npc.whoAmI);
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    float playSoundTimer = 20f;
-                    if (npc.ai[1] < 150f)
-                    {
-                        switch ((int)npc.ai[2])
-                        {
-                            case 0:
-                                break;
-                            case 1:
-                                npc.ai[1] += 0.5f;
-                                playSoundTimer = 30f;
-                                break;
-                            case 2:
-                                npc.ai[1] += 1f;
-                                playSoundTimer = 40f;
-                                break;
-                        }
-                    }
-
-                    if (npc.ai[1] % playSoundTimer == 0f)
-                        SoundEngine.PlaySound(SoundID.Item20, npc.position);
-
-                    if (Main.netMode != NetmodeID.MultiplayerClient)
-                    {
-                        if (npc.ai[1] < 150f && calamityGlobalNPC.newAI[0] == 0f)
-                        {
-                            Projectile.NewProjectile(npc.GetSource_FromAI(), source, laserVelocity, ModContent.ProjectileType<BrimstoneTargetRay>(), 0, 0f, Main.myPlayer, 0f, npc.whoAmI);
-                            calamityGlobalNPC.newAI[0] = 1f;
-                        }
-                        else
-                        {
-                            if (npc.ai[1] == 150f)
-                            {
-                                npc.localAI[0] = laserVelocity.X;
-                                npc.localAI[1] = laserVelocity.Y;
-
-                                Vector2 laserVelocity2 = new Vector2(npc.localAI[0], npc.localAI[1]);
-                                laserVelocity2.Normalize();
-
-                                int totalProjectiles = 4;
-                                float spread = MathHelper.ToRadians(90); // 30 degrees in radians = 0.523599
-                                double startAngle = Math.Atan2(laserVelocity2.X, laserVelocity2.Y) - spread / 2; // Where the projectiles start spawning at, don't change this
-                                double deltaAngle = spread / totalProjectiles; // Angle between each projectile, 0.04363325
-                                double offsetAngle;
-
-                                int i;
-                                for (i = 0; i < 2; i++)
-                                {
-                                    offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + radialOffset * i;
-                                    Projectile.NewProjectile(npc.GetSource_FromAI(), source.X, source.Y, (float)Math.Sin(offsetAngle), (float)Math.Cos(offsetAngle), ModContent.ProjectileType<BrimstoneTargetRay>(), 0, 0f, Main.myPlayer, 1f, npc.whoAmI);
-                                    Projectile.NewProjectile(npc.GetSource_FromAI(), source.X, source.Y, (float)-Math.Sin(offsetAngle), (float)-Math.Cos(offsetAngle), ModContent.ProjectileType<BrimstoneTargetRay>(), 0, 0f, Main.myPlayer, 1f, npc.whoAmI);
-                                }
-                            }
-                        }
-                    }
-                }
             }
         }
         #endregion

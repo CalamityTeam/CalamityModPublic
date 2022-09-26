@@ -1,4 +1,5 @@
-﻿using CalamityMod.Tiles;
+﻿using CalamityMod.Rarities;
+using CalamityMod.Tiles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -17,6 +18,7 @@ namespace CalamityMod.Items.Materials
             SacrificeTotal = 25;
             DisplayName.SetDefault("Cosmilite Bar");
             Tooltip.SetDefault("A chunk of durable and highly resilient cosmic steel");
+			ItemID.Sets.SortingPriorityMaterials[Type] = 114;
         }
 
         public override void SetDefaults()
@@ -26,8 +28,7 @@ namespace CalamityMod.Items.Materials
             Item.height = 24;
             Item.maxStack = 999;
             Item.value = Item.sellPrice(gold: 20);
-            Item.rare = ItemRarityID.Purple;
-            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.rare = ModContent.RarityType<DarkBlue>();
             Item.useStyle = ItemUseStyleID.Swing;
             Item.useTurn = true;
             Item.useAnimation = 15;

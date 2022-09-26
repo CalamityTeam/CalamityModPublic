@@ -22,16 +22,6 @@ namespace CalamityMod.CalPlayer
         private void EnterWorldSync()
         {
             StandardSync();
-            SyncExactLevel(false, 0);
-            SyncExactLevel(false, 1);
-            SyncExactLevel(false, 2);
-            SyncExactLevel(false, 3);
-            SyncExactLevel(false, 4);
-            SyncLevel(false, 0);
-            SyncLevel(false, 1);
-            SyncLevel(false, 2);
-            SyncLevel(false, 3);
-            SyncLevel(false, 4);
         }
 
         internal void MouseControlsSync()
@@ -42,74 +32,6 @@ namespace CalamityMod.CalPlayer
         #endregion
 
         #region Creating and Sending Packets
-        private void SyncExactLevel(bool server, int levelType)
-        {
-            ModPacket packet = Mod.GetPacket();
-            switch (levelType)
-            {
-                case 0:
-                    packet.Write((byte)CalamityModMessageType.ExactMeleeLevelSync);
-                    packet.Write(Player.whoAmI);
-                    packet.Write(exactMeleeLevel);
-                    break;
-                case 1:
-                    packet.Write((byte)CalamityModMessageType.ExactRangedLevelSync);
-                    packet.Write(Player.whoAmI);
-                    packet.Write(exactRangedLevel);
-                    break;
-                case 2:
-                    packet.Write((byte)CalamityModMessageType.ExactMagicLevelSync);
-                    packet.Write(Player.whoAmI);
-                    packet.Write(exactMagicLevel);
-                    break;
-                case 3:
-                    packet.Write((byte)CalamityModMessageType.ExactSummonLevelSync);
-                    packet.Write(Player.whoAmI);
-                    packet.Write(exactSummonLevel);
-                    break;
-                case 4:
-                    packet.Write((byte)CalamityModMessageType.ExactRogueLevelSync);
-                    packet.Write(Player.whoAmI);
-                    packet.Write(exactRogueLevel);
-                    break;
-            }
-            Player.SendPacket(packet, server);
-        }
-
-        private void SyncLevel(bool server, int levelType)
-        {
-            ModPacket packet = Mod.GetPacket(256);
-            switch (levelType)
-            {
-                case 0:
-                    packet.Write((byte)CalamityModMessageType.MeleeLevelSync);
-                    packet.Write(Player.whoAmI);
-                    packet.Write(meleeLevel);
-                    break;
-                case 1:
-                    packet.Write((byte)CalamityModMessageType.RangedLevelSync);
-                    packet.Write(Player.whoAmI);
-                    packet.Write(rangedLevel);
-                    break;
-                case 2:
-                    packet.Write((byte)CalamityModMessageType.MagicLevelSync);
-                    packet.Write(Player.whoAmI);
-                    packet.Write(magicLevel);
-                    break;
-                case 3:
-                    packet.Write((byte)CalamityModMessageType.SummonLevelSync);
-                    packet.Write(Player.whoAmI);
-                    packet.Write(summonLevel);
-                    break;
-                case 4:
-                    packet.Write((byte)CalamityModMessageType.RogueLevelSync);
-                    packet.Write(Player.whoAmI);
-                    packet.Write(rogueLevel);
-                    break;
-            }
-            Player.SendPacket(packet, server);
-        }
-
         public void SyncDefenseDamage(bool server)
         {
             ModPacket packet = Mod.GetPacket(256);
@@ -187,24 +109,6 @@ namespace CalamityMod.CalPlayer
             Player.SendPacket(packet, server);
         }
 
-        public void SyncItemTypeLastReforged(bool server)
-        {
-            ModPacket packet = Mod.GetPacket(256);
-            packet.Write((byte)CalamityModMessageType.ItemTypeLastReforgedSync);
-            packet.Write(Player.whoAmI);
-            packet.Write(itemTypeLastReforged);
-            Player.SendPacket(packet, server);
-        }
-
-        public void SyncReforgeTierSafety(bool server)
-        {
-            ModPacket packet = Mod.GetPacket(256);
-            packet.Write((byte)CalamityModMessageType.ReforgeTierSafetySync);
-            packet.Write(Player.whoAmI);
-            packet.Write(reforgeTierSafety);
-            Player.SendPacket(packet, server);
-        }
-
         public void SyncRightClick(bool server)
         {
             ModPacket packet = Mod.GetPacket(256);
@@ -225,56 +129,6 @@ namespace CalamityMod.CalPlayer
         #endregion
 
         #region Reading and Handling Packets
-        internal void HandleExactLevels(BinaryReader reader, int levelType)
-        {
-            switch (levelType)
-            {
-                case 0:
-                    exactMeleeLevel = reader.ReadInt32();
-                    break;
-                case 1:
-                    exactRangedLevel = reader.ReadInt32();
-                    break;
-                case 2:
-                    exactMagicLevel = reader.ReadInt32();
-                    break;
-                case 3:
-                    exactSummonLevel = reader.ReadInt32();
-                    break;
-                case 4:
-                    exactRogueLevel = reader.ReadInt32();
-                    break;
-            }
-
-            if (Main.netMode == NetmodeID.Server)
-                SyncExactLevel(true, levelType);
-        }
-
-        internal void HandleLevels(BinaryReader reader, int levelType)
-        {
-            switch (levelType)
-            {
-                case 0:
-                    meleeLevel = reader.ReadInt32();
-                    break;
-                case 1:
-                    rangedLevel = reader.ReadInt32();
-                    break;
-                case 2:
-                    magicLevel = reader.ReadInt32();
-                    break;
-                case 3:
-                    summonLevel = reader.ReadInt32();
-                    break;
-                case 4:
-                    rogueLevel = reader.ReadInt32();
-                    break;
-            }
-
-            if (Main.netMode == NetmodeID.Server)
-                SyncLevel(true, levelType);
-        }
-
         internal void HandleRage(BinaryReader reader)
         {
             rage = reader.ReadSingle();
@@ -363,20 +217,6 @@ namespace CalamityMod.CalPlayer
             deathCount = reader.ReadInt32();
             if (Main.netMode == NetmodeID.Server)
                 SyncDeathCount(true);
-        }
-
-        internal void HandleItemTypeLastReforged(BinaryReader reader)
-        {
-            itemTypeLastReforged = reader.ReadInt32();
-            if (Main.netMode == NetmodeID.Server)
-                SyncItemTypeLastReforged(true);
-        }
-
-        internal void HandleReforgeTierSafety(BinaryReader reader)
-        {
-            reforgeTierSafety = reader.ReadInt32();
-            if (Main.netMode == NetmodeID.Server)
-                SyncReforgeTierSafety(true);
         }
 
         internal void HandleDefenseDamage(BinaryReader reader)

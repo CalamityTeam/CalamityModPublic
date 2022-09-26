@@ -28,12 +28,13 @@ namespace CalamityMod.Projectiles.Typeless
             Projectile.alpha = 50;
             Projectile.penetrate = 1;
             Projectile.tileCollide = false;
+            Projectile.timeLeft = 300;
         }
 
         public override void AI()
         {
             if (Projectile.ai[0] == 3f)
-                CalamityGlobalProjectile.HomeInOnNPC(Projectile, true, 300f, 12f, 20);
+                CalamityUtils.HomeInOnNPC(Projectile, true, 300f, 12f, 20);
 
             if (Projectile.ai[0] == 2f)
             {

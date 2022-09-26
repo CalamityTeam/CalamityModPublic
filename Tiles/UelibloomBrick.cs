@@ -1,10 +1,10 @@
-﻿
-using CalamityMod.Dusts.Furniture;
+﻿using CalamityMod.Dusts.Furniture;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.DataStructures;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles
 {
@@ -35,18 +35,16 @@ namespace CalamityMod.Tiles
             return false;
         }
 
-        // TODO -- Fix the drapes from these. This uses specialized drawing hooks which appear to currently be private in 1.4.
-        // This may require either gross reflection or contacting TML developers to make the necessary information for this public again.
-        /*
-        public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
+        public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref TileDrawInfo drawData)
         {
-            if ((Main.tile[i - 1, j - 1].TileType != Type || Main.tile[i, j - 1].TileType != Type || Main.tile[i + 1, j - 1].TileType != Type ||
-                Main.tile[i - 1, j - 2].TileType != Type || Main.tile[i, j - 2].TileType != Type || Main.tile[i + 1, j - 2].TileType != Type) &&
-                nextSpecialDrawIndex < Main.specX.Length)
+            if (Main.tile[i - 1, j - 1].TileType != Type || Main.tile[i, j - 1].TileType != Type || Main.tile[i + 1, j - 1].TileType != Type ||
+                Main.tile[i - 1, j - 2].TileType != Type || Main.tile[i, j - 2].TileType != Type || Main.tile[i + 1, j - 2].TileType != Type)
             {
-                Main.specX[nextSpecialDrawIndex] = i;
-                Main.specY[nextSpecialDrawIndex] = j;
-                nextSpecialDrawIndex++;
+                try
+                {
+                    Main.instance.TilesRenderer.AddSpecialLegacyPoint(i, j);
+                }
+                catch {}
             }
         }
 
@@ -61,7 +59,6 @@ namespace CalamityMod.Tiles
             DrawExtraWallEnds(i, j, leaves, drawOffset, drawColour);
             DrawExtraDrapes(i, j, leaves, drawOffset, drawColour);
         }
-        */
 
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
         {

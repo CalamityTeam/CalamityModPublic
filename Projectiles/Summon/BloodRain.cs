@@ -18,7 +18,7 @@ namespace CalamityMod.Projectiles.Summon
         {
             Projectile.width = 2;
             Projectile.height = 2;
-            Projectile.aiStyle = 45;
+            Projectile.aiStyle = ProjAIStyleID.RainCloud;
             Projectile.friendly = true;
             Projectile.penetrate = 1;
             Projectile.tileCollide = false;

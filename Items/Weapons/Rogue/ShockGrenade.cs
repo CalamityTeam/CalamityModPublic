@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class ShockGrenade : ModItem
+    public class ShockGrenade : RogueWeapon
     {
         public override void SetStaticDefaults()
         {

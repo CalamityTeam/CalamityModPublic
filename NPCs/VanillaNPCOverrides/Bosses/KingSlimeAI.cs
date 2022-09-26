@@ -32,9 +32,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             // Reset damage
             npc.damage = npc.defDamage;
 
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
-            npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive && malice;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || bossRush;
 
             // Get a target
             if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
@@ -102,10 +101,11 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
             // Faster fall
             if (npc.velocity.Y > 0f)
-                npc.velocity.Y += malice ? 0.1f : death ? 0.05f : 0f;
+                npc.velocity.Y += bossRush ? 0.1f : death ? 0.05f : 0f;
 
             // Activate teleport
-            if (!Main.player[npc.target].dead && npc.ai[2] >= 300f && npc.ai[1] < 5f && npc.velocity.Y == 0f)
+            float teleportGateValue = 480f;
+            if (!Main.player[npc.target].dead && npc.ai[2] >= teleportGateValue && npc.ai[1] < 5f && npc.velocity.Y == 0f)
             {
                 // Avoid cheap bullshit
                 npc.damage = 0;
@@ -120,8 +120,6 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
             if (!Collision.CanHitLine(npc.Center, 0, 0, Main.player[npc.target].Center, 0, 0) || Math.Abs(npc.Top.Y - Main.player[npc.target].Bottom.Y) > 160f)
             {
-                npc.ai[2] += 1f;
-
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                     npc.localAI[0] += 1f;
             }
@@ -142,10 +140,13 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             }
 
             // Get closer to activating teleport
-            if (!Collision.CanHitLine(npc.Center, 0, 0, Main.player[npc.target].Center, 0, 0))
-                npc.ai[2] += death ? 2f : 1f;
-            if (Math.Abs(npc.Top.Y - Main.player[npc.target].Bottom.Y) > 320f)
-                npc.ai[2] += death ? 2f : 1f;
+            if (npc.ai[2] < teleportGateValue)
+            {
+                if (!Collision.CanHitLine(npc.Center, 0, 0, Main.player[npc.target].Center, 0, 0) || Math.Abs(npc.Top.Y - Main.player[npc.target].Bottom.Y) > 320f)
+                    npc.ai[2] += death ? 3f : 2f;
+                else
+                    npc.ai[2] += 1f;
+            }
 
             // Dust variable
             Dust dust;
@@ -237,6 +238,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             // Don't take damage while teleporting
             npc.dontTakeDamage = npc.hide = flag9;
 
+            npc.noTileCollide = false;
+
             // Jump
             if (npc.velocity.Y == 0f)
             {
@@ -247,7 +250,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 if (!teleporting)
                 {
                     npc.ai[0] += 2f;
-                    if (malice)
+                    if (bossRush)
                     {
                         npc.ai[0] += 9f;
                     }
@@ -284,7 +287,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         {
                             npc.velocity.Y = -13f * speedMult;
                             npc.velocity.X += (phase2 ? (death ? 5.5f : 4.5f) : 3.5f) * npc.direction;
-                            if (malice)
+                            if (bossRush)
                                 npc.velocity.X *= jumpSpeedMult;
 
                             npc.ai[0] = -200f;
@@ -294,7 +297,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         {
                             npc.velocity.Y = -6f * speedMult;
                             npc.velocity.X += (phase2 ? (death ? 6.5f : 5.5f) : 4.5f) * npc.direction;
-                            if (malice)
+                            if (bossRush)
                                 npc.velocity.X *= jumpSpeedMult;
 
                             npc.ai[0] = -120f;
@@ -304,12 +307,14 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         {
                             npc.velocity.Y = -8f * speedMult;
                             npc.velocity.X += (phase2 ? (death ? 6f : 5f) : 4f) * npc.direction;
-                            if (malice)
+                            if (bossRush)
                                 npc.velocity.X *= jumpSpeedMult;
 
                             npc.ai[0] = -120f;
                             npc.ai[1] += 1f;
                         }
+
+                        npc.noTileCollide = true;
                     }
                     else if (npc.ai[0] >= -30f)
                         npc.aiAction = 1;
@@ -326,9 +331,19 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 if ((npc.direction == 1 && npc.velocity.X < num252) || (npc.direction == -1 && npc.velocity.X > 0f - num252))
                 {
                     if ((npc.direction == -1 && npc.velocity.X < 0.1) || (npc.direction == 1 && npc.velocity.X > -0.1))
-                        npc.velocity.X += (malice ? 0.4f : death ? 0.25f : 0.2f) * npc.direction;
+                        npc.velocity.X += (bossRush ? 0.4f : death ? 0.25f : 0.2f) * npc.direction;
                     else
-                        npc.velocity.X *= malice ? 0.9f : death ? 0.92f : 0.93f;
+                        npc.velocity.X *= bossRush ? 0.9f : death ? 0.92f : 0.93f;
+                }
+
+                if (!Main.player[npc.target].dead)
+                {
+                    if (npc.velocity.Y > 0f && npc.Bottom.Y > Main.player[npc.target].Top.Y)
+                        npc.noTileCollide = false;
+                    else if (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].Center, 1, 1) && !Collision.SolidCollision(npc.position, npc.width, npc.height))
+                        npc.noTileCollide = false;
+                    else
+                        npc.noTileCollide = true;
                 }
             }
 
@@ -402,7 +417,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                                 break;
                         }
 
-                        if ((Main.raining || malice) && Main.rand.NextBool(10))
+                        if ((Main.raining || bossRush) && Main.rand.NextBool(10))
                         {
                             npcType = NPCID.UmbrellaSlime;
 
@@ -410,7 +425,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                                 npcType = NPCID.RainbowSlime;
                         }
 
-                        if (Main.rand.NextBool(250))
+                        if (Main.rand.NextBool(100))
                             npcType = NPCID.Pinky;
 
                         int num255 = NPC.NewNPC(npc.GetSource_FromAI(), x, y, npcType);
@@ -431,60 +446,22 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
         public static void GetPlaceToTeleportTo(NPC npc)
         {
             npc.TargetClosest(false);
-            Point point3 = npc.Center.ToTileCoordinates();
-            Point point4 = Main.player[npc.target].Center.ToTileCoordinates();
-            Vector2 vector30 = Main.player[npc.target].Center - npc.Center;
-
-            int num235 = 10;
-            int num236 = 0;
-            int num237 = 7;
+            Vector2 vectorAimedAheadOfTarget = Main.player[npc.target].Center + new Vector2((float)Math.Round(Main.player[npc.target].velocity.X), 0f).SafeNormalize(Vector2.Zero) * 800f;
+            Point point4 = vectorAimedAheadOfTarget.ToTileCoordinates();
+            int num235 = 5;
             int num238 = 0;
-
-            bool flag10 = false;
-            if (npc.localAI[0] >= 360f || vector30.Length() > 2000f)
-            {
-                if (npc.localAI[0] >= 360f)
-                    npc.localAI[0] = 360f;
-
-                flag10 = true;
-                num238 = 100;
-            }
-
-            while (!flag10 && num238 < 100)
+            while (num238 < 100)
             {
                 num238++;
                 int num239 = Main.rand.Next(point4.X - num235, point4.X + num235 + 1);
-                int num240 = Main.rand.Next(point4.Y - num235, point4.Y + 1);
+                int num240 = Main.rand.Next(point4.Y - num235, point4.Y);
 
-                if ((num240 < point4.Y - num237 || num240 > point4.Y + num237 || num239 < point4.X - num237 || num239 > point4.X + num237) &&
-                    (num240 < point3.Y - num236 || num240 > point3.Y + num236 || num239 < point3.X - num236 || num239 > point3.X + num236) &&
-                    !Main.tile[num239, num240].HasUnactuatedTile)
+                if (!Main.tile[num239, num240].HasUnactuatedTile)
                 {
-                    int num241 = num240;
-                    int num242 = 0;
-
-                    if (Main.tile[num239, num241].HasUnactuatedTile && Main.tileSolid[Main.tile[num239, num241].TileType] && !Main.tileSolidTop[Main.tile[num239, num241].TileType])
-                    {
-                        num242 = 1;
-                    }
-                    else
-                    {
-                        for (; num242 < 150 && num241 + num242 < Main.maxTilesY; num242++)
-                        {
-                            int y = num241 + num242;
-                            if (Main.tile[num239, y].HasUnactuatedTile && Main.tileSolid[Main.tile[num239, y].TileType] && !Main.tileSolidTop[Main.tile[num239, y].TileType])
-                            {
-                                num242--;
-                                break;
-                            }
-                        }
-                    }
-                    num240 += num242;
-
                     bool flag13 = true;
                     if (flag13 && Main.tile[num239, num240].LiquidType == LiquidID.Lava)
                         flag13 = false;
-                    if (flag13 && !Collision.CanHitLine(npc.Center, 0, 0, Main.player[npc.target].Center, 0, 0))
+                    if (flag13 && !Collision.CanHitLine(npc.Center, 0, 0, vectorAimedAheadOfTarget, 0, 0))
                         flag13 = false;
 
                     if (flag13)
@@ -496,6 +473,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 }
             }
 
+            // Default teleport if the above conditions aren't met in 100 iterations
             if (num238 >= 100)
             {
                 Vector2 bottom = Main.player[Player.FindClosest(npc.position, npc.width, npc.height)].Bottom;

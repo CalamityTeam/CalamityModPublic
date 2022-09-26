@@ -24,8 +24,8 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.arrow = true;
             Projectile.penetrate = 1;
             Projectile.timeLeft = 600;
-            Projectile.aiStyle = 1;
-            Projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
+            Projectile.aiStyle = ProjAIStyleID.Arrow;
+            Projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.DefaultPointBlankDuration;
         }
 
         public override void AI()
@@ -39,7 +39,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void Kill(int timeLeft)
         {
-            CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 32);
+            Projectile.ExpandHitboxBy(32);
             SoundEngine.PlaySound(SoundID.Item14, Projectile.position);
             for (int j = 0; j < 5; j++)
             {
@@ -112,7 +112,7 @@ namespace CalamityMod.Projectiles.Ranged
                     int flames = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<TotalityFire>(), (int)(Projectile.damage * 0.3), 0f, Projectile.owner);
                     if (flames.WithinBounds(Main.maxProjectiles))
                     {
-                        Main.projectile[flames].Calamity().forceRanged = true;
+                        Main.projectile[flames].DamageType = DamageClass.Ranged;
                         Main.projectile[flames].penetrate = 3;
                         Main.projectile[flames].usesLocalNPCImmunity = false;
                         Main.projectile[flames].usesIDStaticNPCImmunity = true;

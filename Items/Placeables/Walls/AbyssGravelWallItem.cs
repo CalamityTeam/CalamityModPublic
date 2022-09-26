@@ -14,8 +14,8 @@ namespace CalamityMod.Items.Placeables.Walls
 
         public override void SetDefaults()
         {
-            Item.width = 32;
-            Item.height = 32;
+            Item.width = 24;
+            Item.height = 24;
             Item.maxStack = 999;
             Item.useTurn = true;
             Item.autoReuse = true;

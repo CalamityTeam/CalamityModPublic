@@ -40,6 +40,13 @@ namespace CalamityMod.Skies
         private float intensity = 0f;
         private int SCalIndex = -1;
         public List<Cinder> Cinders = new List<Cinder>();
+
+        public static bool RitualDramaProjectileIsPresent
+        {
+            get;
+            internal set;
+        }
+
         public static int CinderReleaseChance
         {
             get
@@ -110,15 +117,6 @@ namespace CalamityMod.Skies
                     isActive = false;
             }
 
-            if (isActive && intensity < 1f)
-            {
-                intensity += 0.01f;
-            }
-            else if (!isActive && intensity > 0f)
-            {
-                intensity -= 0.01f;
-            }
-
             if (!Main.npc.IndexInRange(CalamityGlobalNPC.SCal) || Main.npc[CalamityGlobalNPC.SCal].type != ModContent.NPCType<SupremeCalamitas>())
                 isActive = false;
 
@@ -140,7 +138,7 @@ namespace CalamityMod.Skies
             }
 
             // Randomly add cinders.
-            if (intensity >= 1f && Main.rand.NextBool(CinderReleaseChance))
+            if (Main.rand.NextBool(CinderReleaseChance))
             {
                 int lifetime = Main.rand.Next(285, 445);
                 float depth = Main.rand.NextFloat(1.8f, 5f);
@@ -170,7 +168,7 @@ namespace CalamityMod.Skies
 
         private float GetIntensity()
         {
-            if (CalamityUtils.CountProjectiles(ModContent.ProjectileType<SCalRitualDrama>()) > 0)
+            if (RitualDramaProjectileIsPresent)
                 return OverridingIntensity;
 
             OverridingIntensity = 0f;
@@ -179,7 +177,7 @@ namespace CalamityMod.Skies
                 float x = 0f;
                 if (SCalIndex != -1)
                     x = Vector2.Distance(Main.player[Main.myPlayer].Center, Main.npc[this.SCalIndex].Center);
-                float intensityFactor = BossRushEvent.BossRushActive ? -0.2f : intensity;
+                float intensityFactor = BossRushEvent.BossRushActive ? -0.2f : 1f;
 
                 return (1f - Utils.SmoothStep(3000f, 6000f, x)) * intensityFactor;
             }

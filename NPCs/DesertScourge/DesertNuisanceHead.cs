@@ -9,6 +9,7 @@ using Terraria.Audio;
 
 namespace CalamityMod.NPCs.DesertScourge
 {
+    [AutoloadBossHead]
     public class DesertNuisanceHead : ModNPC
     {
         public bool flies = false;
@@ -21,6 +22,17 @@ namespace CalamityMod.NPCs.DesertScourge
         {
             DisplayName.SetDefault("A Desert Nuisance");
             NPCID.Sets.BossBestiaryPriority.Add(Type);
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            {
+                Scale = 0.8f,
+                PortraitScale = 0.8f,
+                CustomTexturePath = "CalamityMod/ExtraTextures/Bestiary/DesertNuisance_Bestiary",
+                PortraitPositionXOverride = 40,
+                PortraitPositionYOverride = 40
+            };
+            value.Position.X += 50;
+            value.Position.Y += 35;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 
         public override void SetDefaults()
@@ -69,7 +81,7 @@ namespace CalamityMod.NPCs.DesertScourge
                 NPC.realLife = (int)NPC.ai[2];
 
             if (NPC.target < 0 || NPC.target == Main.maxPlayers || Main.player[NPC.target].dead || !Main.player[NPC.target].active)
-                NPC.TargetClosest(true);
+                NPC.TargetClosest();
 
             NPC.alpha -= 42;
             if (NPC.alpha < 0)
@@ -208,7 +220,7 @@ namespace CalamityMod.NPCs.DesertScourge
             float num22 = (float)Math.Sqrt((double)(num20 * num20 + num21 * num21));
             if (!flag2)
             {
-                NPC.TargetClosest(true);
+                NPC.TargetClosest();
                 NPC.velocity.Y = NPC.velocity.Y + 0.15f;
                 if (NPC.velocity.Y > num17)
                 {
@@ -431,7 +443,8 @@ namespace CalamityMod.NPCs.DesertScourge
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(BuffID.Bleeding, 180, true);
+            if (damage > 0)
+                player.AddBuff(BuffID.Bleeding, 180, true);
         }
     }
 }

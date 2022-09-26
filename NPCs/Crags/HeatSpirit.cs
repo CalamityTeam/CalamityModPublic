@@ -6,6 +6,7 @@ using CalamityMod.Items.Placeables.Banners;
 using System;
 using Terraria;
 using Terraria.GameContent.Bestiary;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.NPCs.Crags
@@ -94,7 +95,8 @@ namespace CalamityMod.NPCs.Crags
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120, true);
+            if (damage > 0)
+                player.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120, true);
         }
 
         public override void HitEffect(int hitDirection, double damage)
@@ -114,7 +116,8 @@ namespace CalamityMod.NPCs.Crags
 
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            npcLoot.AddIf(() => Main.hardMode, ModContent.ItemType<EssenceofChaos>(), 4);
+            LeadingConditionRule hardmode = npcLoot.DefineConditionalDropSet(DropHelper.Hardmode());
+            hardmode.Add(ModContent.ItemType<EssenceofChaos>(), 3);
         }
     }
 }

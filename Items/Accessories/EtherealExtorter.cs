@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Accessories
             SacrificeTotal = 1;
             DisplayName.SetDefault("Ethereal Extorter");
             Tooltip.SetDefault(@"Rogue projectiles explode into homing souls on death
-10% increased rogue damage and +10 maximum stealth, however, life regen is reduced by 1");
+10% increased rogue damage and +10 maximum stealth");
         }
 
         public override void SetDefaults()
@@ -29,7 +29,6 @@ namespace CalamityMod.Items.Accessories
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.etherealExtorter = true;
             player.GetDamage<ThrowingDamageClass>() += 0.1f;
-            player.lifeRegen -= 1;
             modPlayer.rogueStealthMax += 0.1f;
         }
     }

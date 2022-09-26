@@ -39,7 +39,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.tileCollide = false;
             Projectile.ignoreWater = true;
             Projectile.penetrate = 1;
-            Projectile.aiStyle = 2;
+            Projectile.aiStyle = ProjAIStyleID.ThrownProjectile;
             Projectile.timeLeft = 240;
             AIType = ProjectileID.ThrowingKnife;
             Projectile.DamageType = RogueDamageClass.Instance;
@@ -52,7 +52,7 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 173, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
             }
-            CalamityGlobalProjectile.HomeInOnNPC(Projectile, true, 250f, 12f, 20f);
+            CalamityUtils.HomeInOnNPC(Projectile, true, 250f, 12f, 20f);
         }
 
         public override void PostDraw(Color lightColor)
@@ -81,7 +81,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void Kill(int timeLeft)
         {
-            CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 128);
+            Projectile.ExpandHitboxBy(128);
             SoundEngine.PlaySound(SoundID.Item74, Projectile.position);
             for (int num621 = 0; num621 < 3; num621++)
             {

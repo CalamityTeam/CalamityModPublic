@@ -2,12 +2,13 @@
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Typeless;
+using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ModLoader;
 using Terraria.DataStructures;
-using Terraria.Audio;
 
 namespace CalamityMod.Items.Armor.Demonshade
 {
@@ -29,7 +30,7 @@ namespace CalamityMod.Items.Armor.Demonshade
             Item.height = 18;
             Item.defense = 50;
             Item.value = CalamityGlobalItem.Rarity16BuyPrice;
-            Item.Calamity().customRarity = CalamityRarity.HotPink;
+            Item.rare = ModContent.RarityType<HotPink>();
             Item.Calamity().devItem = true;
         }
 

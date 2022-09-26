@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            Item.damage = 39;
+            Item.damage = 20;
             Item.DamageType = DamageClass.Ranged;
             Item.width = 30;
             Item.height = 58;
@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.knockBack = 3.75f;
-            Item.value = Item.buyPrice(0, 36, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity6BuyPrice;
             Item.rare = ItemRarityID.Pink;
             Item.UseSound = SoundID.Item5;
             Item.autoReuse = true;
@@ -46,7 +46,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             {
                 Vector2 perturbedSpeed = velocity.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (float)(numProj - 1)));
 
-                if (type == ProjectileID.WoodenArrowFriendly)
+                if (CalamityUtils.CheckWoodenAmmo(type, player))
                     Projectile.NewProjectile(source, position, perturbedSpeed, ModContent.ProjectileType<BrimstoneBolt>(), damage, knockback, player.whoAmI);
                 else
                 {

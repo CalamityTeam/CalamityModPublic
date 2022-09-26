@@ -125,8 +125,7 @@ namespace CalamityMod.DataStructures
                 MeleeCrystalCountdown--;
 
                 // Make the crystal fire countdown go down faster if holding a true melee item.
-                bool isHoldingMeleeItem = Owner.ActiveItem().CountsAsClass<MeleeDamageClass>() && !Owner.ActiveItem().accessory;
-                if (isHoldingMeleeItem && (Owner.ActiveItem().shoot == ProjectileID.None || Owner.ActiveItem().Calamity().trueMelee))
+                if (Owner.ActiveItem().IsTrueMelee())
                     MeleeCrystalCountdown--;
 
                 // Ensure the crystal cooldown does not go below 0 due to the second decrement.

@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
+using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
 using Terraria.ID;
@@ -37,8 +38,7 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.UseSound = SoundID.Item73;
 
             Item.value = CalamityGlobalItem.Rarity15BuyPrice;
-            Item.rare = ItemRarityID.Purple;
-            Item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.rare = ModContent.RarityType<Violet>();
 
             Item.shoot = ModContent.ProjectileType<VolatileStarcore>();
             Item.shootSpeed = 15f;
@@ -103,7 +103,7 @@ namespace CalamityMod.Items.Weapons.Magic
                 AddIngredient<ForbiddenSun>().
                 AddIngredient(ItemID.FragmentSolar, 20).
                 AddIngredient(ItemID.FragmentNebula, 5).
-                AddIngredient<AuricBar>().
+                AddIngredient<AuricBar>(5).
                 AddTile<CosmicAnvil>().
                 Register();
         }

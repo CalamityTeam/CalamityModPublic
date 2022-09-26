@@ -54,8 +54,8 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.penetrate = -1;
             Projectile.tileCollide = false;
             Projectile.timeLeft = 600;
-            Projectile.Calamity().canBreakPlayerDefense = true;
-            CooldownSlot = 1;
+            Projectile.Calamity().DealsDefenseDamage = true;
+            CooldownSlot = ImmunityCooldownID.Bosses;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -108,10 +108,10 @@ namespace CalamityMod.Projectiles.Boss
                 return;
 
             // Difficulty modes. Used during the firing of the perpendicular lasers.
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
-            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || bossRush;
+            bool revenge = CalamityWorld.revenge || bossRush;
+            bool expertMode = Main.expertMode || bossRush;
 
             // Spawn dust at the end of the beam.
             int dustType = (int)CalamityDusts.Brimstone;
@@ -147,7 +147,7 @@ namespace CalamityMod.Projectiles.Boss
                 if (Projectile.owner == Main.myPlayer)
                 {
                     Vector2 beamDirection = Projectile.velocity.SafeNormalize(Vector2.UnitY);
-                    float distanceBetweenProjectiles = malice ? 160f : death ? 256f : revenge ? 288f : 320f;
+                    float distanceBetweenProjectiles = bossRush ? 160f : death ? 256f : revenge ? 288f : 320f;
                     Vector2 laserFirePosition = Main.npc[OwnerIndex].Center + beamDirection * distanceBetweenProjectiles;
                     int laserCount = (int)(LaserLength / distanceBetweenProjectiles);
                     int type = ModContent.ProjectileType<ThanatosLaser>();
@@ -240,14 +240,12 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
+            if (damage <= 0)
+                return;
+
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 360);
         }
 
         public override bool CanHitPlayer(Player target) => OwnerIsValid && Projectile.scale >= 0.5f;
-
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
-        {
-            target.Calamity().lastProjectileHit = Projectile;
-        }
     }
 }

@@ -3,8 +3,10 @@ using CalamityMod.Events;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
+using CalamityMod.Items.Placeables.Furniture.BossRelics;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Items.TreasureBags;
+using CalamityMod.Items.TreasureBags.MiscGrabBags;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
@@ -29,6 +31,14 @@ namespace CalamityMod.NPCs.Ravager
     public class RavagerBody : ModNPC
     {
         private float velocityY = -16f;
+        public static readonly SoundStyle JumpSound = new("CalamityMod/Sounds/Custom/Ravager/RavagerJump", 2);
+        public static readonly SoundStyle StompSound = new("CalamityMod/Sounds/Custom/Ravager/RavagerStomp", 2);
+        public static readonly SoundStyle FistSound = new("CalamityMod/Sounds/Custom/Ravager/RavagerPunch", 2);
+        public static readonly SoundStyle LimbLossSound = new("CalamityMod/Sounds/NPCKilled/RavagerLimbLoss", 4);
+        public static readonly SoundStyle HitSound = new("CalamityMod/Sounds/NPCHit/RavagerHurt", 4);
+        public static readonly SoundStyle DeathSound = new("CalamityMod/Sounds/NPCKilled/RavagerDeath", 2);
+        public static readonly SoundStyle PillarSound = new("CalamityMod/Sounds/Custom/Ravager/RavagerPillarSummon");
+        public static readonly SoundStyle MissileSound = new("CalamityMod/Sounds/Custom/Ravager/RavagerMissileLaunch");
 
         public override void SetStaticDefaults()
         {
@@ -43,6 +53,7 @@ namespace CalamityMod.NPCs.Ravager
             };
             value.Position.Y -= 50f;
             NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
+			NPCID.Sets.MPAllowedEnemies[Type] = true;
         }
 
         public override void SetDefaults()
@@ -73,9 +84,8 @@ namespace CalamityMod.NPCs.Ravager
             NPC.boss = true;
             NPC.netAlways = true;
             NPC.alpha = 255;
-            NPC.HitSound = SoundID.NPCHit41;
-            NPC.DeathSound = SoundID.NPCDeath14;
-            Music = CalamityMod.Instance.GetMusicFromMusicMod("Ravager") ?? MusicID.Boss4;
+            NPC.HitSound = HitSound;
+            NPC.DeathSound = DeathSound;
             NPC.Calamity().VulnerableToSickness = false;
             NPC.Calamity().VulnerableToWater = true;
         }
@@ -121,12 +131,10 @@ namespace CalamityMod.NPCs.Ravager
         {
             CalamityGlobalNPC calamityGlobalNPC = NPC.Calamity();
 
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
-            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
-
-            NPC.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive && malice;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool expertMode = Main.expertMode || bossRush;
+            bool revenge = CalamityWorld.revenge || bossRush;
+            bool death = CalamityWorld.death || bossRush;
 
             // Percent life remaining
             float lifeRatio = NPC.life / (float)NPC.lifeMax;
@@ -201,7 +209,7 @@ namespace CalamityMod.NPCs.Ravager
             if (immunePhase)
             {
                 NPC.dontTakeDamage = true;
-                if (malice)
+                if (bossRush)
                 {
                     if (Main.netMode != NetmodeID.Server)
                     {
@@ -346,7 +354,6 @@ namespace CalamityMod.NPCs.Ravager
                 if (NPC.velocity.Y == 0f)
                 {
                     NPC.velocity.X *= 0.8f;
-
                     NPC.ai[1] += 1f;
                     if (NPC.ai[1] > 0f)
                     {
@@ -366,7 +373,7 @@ namespace CalamityMod.NPCs.Ravager
                             NPC.ai[1] += 1f;
                     }
 
-                    float jumpGateValue = 180f;
+                    float jumpGateValue = Main.getGoodWorld ? 0f : 180f;
                     if (NPC.ai[1] >= jumpGateValue)
                     {
                         NPC.ai[1] = -20f;
@@ -381,17 +388,22 @@ namespace CalamityMod.NPCs.Ravager
                         bool shouldFall = player.position.Y >= NPC.Bottom.Y;
                         float velocityXBoost = !anyHeadActive ? 6f : death ? 6f * (1f - lifeRatio) : 4f * (1f - lifeRatio);
                         float velocityX = 4f + velocityXBoost;
+
+                        if (velocityY != 16)
+                        {
+                            SoundEngine.PlaySound(JumpSound, NPC.position);
+                        }
                         velocityY = -16f;
 
                         float distanceBelowTarget = NPC.position.Y - (player.position.Y + 80f);
 
                         if (revenge)
                         {
-                            float multiplier = malice ? 0.003f : 0.0015f;
+                            float multiplier = bossRush ? 0.003f : 0.0015f;
                             if (distanceBelowTarget > 0f)
                                 calamityGlobalNPC.newAI[1] += 1f + distanceBelowTarget * multiplier;
 
-                            float speedMultLimit = malice ? 3f : 2f;
+                            float speedMultLimit = bossRush ? 3f : 2f;
                             if (calamityGlobalNPC.newAI[1] > speedMultLimit)
                                 calamityGlobalNPC.newAI[1] = speedMultLimit;
 
@@ -423,6 +435,7 @@ namespace CalamityMod.NPCs.Ravager
 
                         float playerLocation = NPC.Center.X - player.Center.X;
                         NPC.direction = playerLocation < 0 ? 1 : -1;
+                        NPC.ai[2] = NPC.direction;
 
                         NPC.velocity.X = velocityX * NPC.direction;
                         NPC.velocity.Y = velocityY;
@@ -434,13 +447,15 @@ namespace CalamityMod.NPCs.Ravager
 
                 // Don't run custom gravity when starting a jump
                 if (NPC.ai[0] != 1f)
+                {
                     CustomGravity();
+                }
             }
             else if (NPC.ai[0] >= 1f)
             {
                 if (NPC.velocity.Y == 0f && (NPC.ai[1] == 31f || NPC.ai[0] == 1f))
                 {
-                    SoundEngine.PlaySound(SoundID.Item14 with { Volume = SoundID.Item14.Volume * 1.25f, Pitch = SoundID.Item14.Pitch - 0.25f }, NPC.position);
+                    SoundEngine.PlaySound(StompSound, NPC.position);
 
                     NPC.ai[0] = 0f;
                     NPC.ai[1] = 0f;
@@ -461,13 +476,19 @@ namespace CalamityMod.NPCs.Ravager
                             }
 
                             int spawnDistance = 360;
+                            bool anyrockpillars = NPC.AnyNPCs(ModContent.NPCType<RockPillar>());
+                            bool anyflamepillars = NPC.AnyNPCs(ModContent.NPCType<FlamePillar>());
 
-                            if (!NPC.AnyNPCs(ModContent.NPCType<RockPillar>()))
+                            if (!anyrockpillars || !anyflamepillars)
+                            {
+                                SoundEngine.PlaySound(PillarSound, NPC.position);
+                            }
+                            if (!anyrockpillars || Main.getGoodWorld)
                             {
                                 NPC.NewNPC(NPC.GetSource_FromAI(), (int)(player.Center.X - spawnDistance * 1.25f), (int)player.Center.Y - 100, ModContent.NPCType<RockPillar>());
                                 NPC.NewNPC(NPC.GetSource_FromAI(), (int)(player.Center.X + spawnDistance * 1.25f), (int)player.Center.Y - 100, ModContent.NPCType<RockPillar>());
                             }
-                            else if (!NPC.AnyNPCs(ModContent.NPCType<FlamePillar>()))
+                            else if (!anyflamepillars || Main.getGoodWorld)
                             {
                                 float distanceMultiplier = finalPhase ? 2.5f : 2f;
                                 NPC.NewNPC(NPC.GetSource_FromAI(), (int)player.Center.X - (int)(spawnDistance * distanceMultiplier), (int)player.Center.Y - 100, ModContent.NPCType<FlamePillar>());
@@ -508,6 +529,10 @@ namespace CalamityMod.NPCs.Ravager
 
                     if (phase2 && NPC.ai[1] == 0f)
                     {
+                        if (calamityGlobalNPC.newAI[3] == 0)
+                        {
+                            SoundEngine.PlaySound(JumpSound, NPC.position);
+                        }
                         NPC.noTileCollide = true;
 
                         calamityGlobalNPC.newAI[3] += 1f;
@@ -536,13 +561,13 @@ namespace CalamityMod.NPCs.Ravager
                     float offset = phase2 ? maxOffset * calamityGlobalNPC.newAI[2] : 0f;
                     int quarterWidth = (int)(NPC.width * 0.25f);
 
-                    if ((NPC.position.X + quarterWidth < targetVector.X + offset && NPC.position.X + NPC.width - quarterWidth > targetVector.X + player.width + offset && (inRange || NPC.ai[0] != 2f)) || NPC.ai[1] > 0f || calamityGlobalNPC.newAI[3] >= 120f)
+                    if ((NPC.position.X + quarterWidth < targetVector.X + offset && NPC.position.X + NPC.width - quarterWidth > targetVector.X + player.width + offset && (inRange || NPC.ai[0] != 2f)) || NPC.ai[1] > 0f || calamityGlobalNPC.newAI[3] >= 90f)
                     {
                         NPC.damage = NPC.defDamage;
 
                         if (phase2)
                         {
-                            float stopBeforeFallTime = malice ? 25f : 30f;
+                            float stopBeforeFallTime = bossRush ? 25f : 30f;
                             if (!anyHeadActive)
                                 stopBeforeFallTime -= 15f;
                             else if (expertMode)
@@ -556,7 +581,7 @@ namespace CalamityMod.NPCs.Ravager
                             else
                             {
                                 float fallSpeedBoost = !anyHeadActive ? 1.8f : death ? 1.8f * (1f - lifeRatio) : 1.2f * (1f - lifeRatio);
-                                float fallSpeed = (malice ? 1.8f : 1.2f) + fallSpeedBoost;
+                                float fallSpeed = (bossRush ? 1.8f : 1.2f) + fallSpeedBoost;
 
                                 if (calamityGlobalNPC.newAI[1] > 1f)
                                     fallSpeed *= calamityGlobalNPC.newAI[1];
@@ -570,12 +595,10 @@ namespace CalamityMod.NPCs.Ravager
                         {
                             NPC.velocity.X *= 0.8f;
 
-                            NPC.ai[2] = 1f;
-
                             if (NPC.Bottom.Y < player.position.Y)
                             {
                                 float fallSpeedBoost = !anyHeadActive ? 0.9f : death ? 0.9f * (1f - lifeRatio) : 0.6f * (1f - lifeRatio);
-                                float fallSpeed = (malice ? 0.9f : 0.6f) + fallSpeedBoost;
+                                float fallSpeed = (bossRush ? 0.9f : 0.6f) + fallSpeedBoost;
 
                                 if (calamityGlobalNPC.newAI[1] > 1f)
                                     fallSpeed *= calamityGlobalNPC.newAI[1];
@@ -586,7 +609,7 @@ namespace CalamityMod.NPCs.Ravager
                     }
                     else
                     {
-                        float velocityMult = malice ? 2f : 1.8f;
+                        float velocityMult = bossRush ? 2f : 1.8f;
                         float velocityXChange = 0.2f + Math.Abs(NPC.Center.X - player.Center.X) * 0.001f;
 
                         float velocityXBoost = !anyHeadActive ? 6f : death ? 6f * (1f - lifeRatio) : 4f * (1f - lifeRatio);
@@ -615,7 +638,11 @@ namespace CalamityMod.NPCs.Ravager
                         else if (NPC.direction > 0)
                             NPC.velocity.X += velocityXChange;
 
-                        if (NPC.ai[2] == 1f)
+                        float playerLocation = NPC.Center.X - player.Center.X;
+                        int directionRelativeToTarget = playerLocation < 0 ? 1 : -1;
+                        bool slowDown = directionRelativeToTarget != NPC.ai[2];
+
+                        if (slowDown)
                             velocityXCap *= 0.333f;
 
                         if (NPC.velocity.X < -velocityXCap)
@@ -632,7 +659,7 @@ namespace CalamityMod.NPCs.Ravager
             {
                 float gravity = phase2 ? 0f : 0.45f;
                 float maxFallSpeed = reduceFallSpeed ? 12f : phase2 ? 24f : 15f;
-                if (malice && !reduceFallSpeed)
+                if (bossRush && !reduceFallSpeed)
                 {
                     gravity *= 1.25f;
                     maxFallSpeed *= 1.25f;
@@ -653,7 +680,7 @@ namespace CalamityMod.NPCs.Ravager
                 player = Main.player[NPC.target];
             }
 
-            int distanceFromTarget = player.dead ? 1600 : malice ? 8400 : 5600;
+            int distanceFromTarget = player.dead ? 1600 : bossRush ? 8400 : 5600;
             if (Vector2.Distance(NPC.Center, player.Center) > distanceFromTarget)
             {
                 NPC.TargetClosest();
@@ -665,6 +692,21 @@ namespace CalamityMod.NPCs.Ravager
                     NPC.netUpdate = true;
                 }
             }
+        }
+
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
+        {
+            Vector2 center = new Vector2(NPC.Center.X, NPC.Center.Y);
+            if (NPC.IsABestiaryIconDummy)
+            {
+                spriteBatch.Draw(ModContent.Request<Texture2D>("CalamityMod/NPCs/Ravager/RavagerClawLeft").Value, new Vector2(center.X - screenPos.X - NPC.scale * 180, center.Y - screenPos.Y + 50),
+                    new Rectangle?(new Rectangle(0, 0, ModContent.Request<Texture2D>("CalamityMod/NPCs/Ravager/RavagerClawLeft").Value.Width, ModContent.Request<Texture2D>("CalamityMod/NPCs/Ravager/RavagerClawLeft").Value.Height)),
+                    Color.White, 0f, default, NPC.scale, SpriteEffects.None, 0f);
+                spriteBatch.Draw(ModContent.Request<Texture2D>("CalamityMod/NPCs/Ravager/RavagerClawRight").Value, new Vector2(center.X - screenPos.X + NPC.scale * 110, center.Y - screenPos.Y + 50),
+                    new Rectangle?(new Rectangle(0, 0, ModContent.Request<Texture2D>("CalamityMod/NPCs/Ravager/RavagerClawRight").Value.Width, ModContent.Request<Texture2D>("CalamityMod/NPCs/Ravager/RavagerClawRight").Value.Height)),
+                    Color.White, 0f, default, NPC.scale, SpriteEffects.None, 0f);
+            }
+            return true;
         }
 
         public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
@@ -684,11 +726,13 @@ namespace CalamityMod.NPCs.Ravager
                 NPC.frame, color, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
 
             float legOffset = 20f;
+            float headOffset = 75f;
             Color color2 = Lighting.GetColor((int)center.X / 16, (int)(center.Y / 16f));
             if (NPC.IsABestiaryIconDummy)
             {
                 color2 = Color.White;
-                legOffset = 66f;
+                legOffset = 60f;
+                headOffset = 0f;
             }
 
             spriteBatch.Draw(ModContent.Request<Texture2D>("CalamityMod/NPCs/Ravager/RavagerLegRight").Value, new Vector2(center.X - screenPos.X + NPC.scale * 28f, center.Y - screenPos.Y + legOffset), //72
@@ -697,9 +741,9 @@ namespace CalamityMod.NPCs.Ravager
             spriteBatch.Draw(ModContent.Request<Texture2D>("CalamityMod/NPCs/Ravager/RavagerLegLeft").Value, new Vector2(center.X - screenPos.X - NPC.scale * 112f, center.Y - screenPos.Y + legOffset), //72
                 new Rectangle?(new Rectangle(0, 0, ModContent.Request<Texture2D>("CalamityMod/NPCs/Ravager/RavagerLegLeft").Value.Width, ModContent.Request<Texture2D>("CalamityMod/NPCs/Ravager/RavagerLegLeft").Value.Height)),
                 color2, 0f, default, NPC.scale, SpriteEffects.None, 0f);
-            if (NPC.AnyNPCs(ModContent.NPCType<RavagerHead>()))
+            if (NPC.AnyNPCs(ModContent.NPCType<RavagerHead>()) || NPC.IsABestiaryIconDummy)
             {
-                spriteBatch.Draw(ModContent.Request<Texture2D>("CalamityMod/NPCs/Ravager/RavagerHead").Value, new Vector2(center.X - screenPos.X - NPC.scale * 70f, center.Y - screenPos.Y - NPC.scale * 75f),
+                spriteBatch.Draw(ModContent.Request<Texture2D>("CalamityMod/NPCs/Ravager/RavagerHead").Value, new Vector2(center.X - screenPos.X - NPC.scale * 70f, center.Y - screenPos.Y - NPC.scale * headOffset),
                     new Rectangle?(new Rectangle(0, 0, ModContent.Request<Texture2D>("CalamityMod/NPCs/Ravager/RavagerHead").Value.Width, ModContent.Request<Texture2D>("CalamityMod/NPCs/Ravager/RavagerHead").Value.Height)),
                     color2, 0f, default, NPC.scale, SpriteEffects.None, 0f);
             }
@@ -805,7 +849,8 @@ namespace CalamityMod.NPCs.Ravager
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(ModContent.BuffType<ArmorCrunch>(), 480, true);
+            if (damage > 0)
+                player.AddBuff(ModContent.BuffType<ArmorCrunch>(), 480, true);
         }
 
         public override void BossLoot(ref string name, ref int potionType)
@@ -845,13 +890,13 @@ namespace CalamityMod.NPCs.Ravager
                 normalOnly.Add(ModContent.ItemType<CorpusAvertor>(), 20);
 
                 // Materials
-                normalOnly.Add(ItemDropRule.ByCondition(DropHelper.If(() => !DownedBossSystem.downedProvidence), ModContent.ItemType<FleshyGeode>()));
-                normalOnly.Add(ItemDropRule.ByCondition(DropHelper.If(() => DownedBossSystem.downedProvidence), ModContent.ItemType<NecromanticGeode>()));
+                normalOnly.Add(ItemDropRule.ByCondition(DropHelper.If(() => !DownedBossSystem.downedProvidence), ModContent.ItemType<FleshyGeode>()), hideLootReport: DownedBossSystem.downedProvidence);
+                normalOnly.Add(ItemDropRule.ByCondition(DropHelper.If(() => DownedBossSystem.downedProvidence), ModContent.ItemType<NecromanticGeode>()), hideLootReport: !DownedBossSystem.downedProvidence);
 
                 // Equipment
                 normalOnly.Add(ModContent.ItemType<BloodPact>(), 3);
                 normalOnly.Add(ModContent.ItemType<FleshTotem>(), 3);
-                normalOnly.Add(ItemDropRule.ByCondition(DropHelper.If(() => DownedBossSystem.downedProvidence), ModContent.ItemType<BloodflareCore>()));
+                normalOnly.Add(ItemDropRule.ByCondition(DropHelper.PostProv(), ModContent.ItemType<BloodflareCore>()));
 
                 // Vanity
                 normalOnly.Add(ModContent.ItemType<RavagerMask>(), 7);
@@ -859,8 +904,11 @@ namespace CalamityMod.NPCs.Ravager
 
             npcLoot.Add(ModContent.ItemType<RavagerTrophy>(), 10);
 
+            // Relic
+            npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).Add(ModContent.ItemType<RavagerRelic>());
+
             // Lore
-            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedRavager, ModContent.ItemType<KnowledgeRavager>());
+            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedRavager, ModContent.ItemType<KnowledgeRavager>(), desc: DropHelper.FirstKillText);
         }
     }
 }

@@ -1,9 +1,10 @@
-﻿using Terraria.DataStructures;
-using CalamityMod.Cooldowns;
+﻿using CalamityMod.Cooldowns;
 using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Projectiles.Typeless;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -39,8 +40,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.UseSound = SoundID.Item1;
 
             Item.value = CalamityGlobalItem.Rarity13BuyPrice;
-            Item.rare = ItemRarityID.Red;
-            Item.Calamity().customRarity = CalamityRarity.PureGreen;
+            Item.rare = ModContent.RarityType<PureGreen>();
             Item.Calamity().donorItem = true;
         }
 
@@ -78,7 +78,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
             int explosion = Projectile.NewProjectile(source, target.Center, Vector2.Zero, ModContent.ProjectileType<PlanarRipperExplosion>(), damage, knockback, player.whoAmI);
             if (explosion.WithinBounds(Main.maxProjectiles))
-                Main.projectile[explosion].Calamity().forceMelee = true;
+                Main.projectile[explosion].DamageType = DamageClass.Melee;
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
@@ -89,7 +89,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
             int explosion = Projectile.NewProjectile(source, target.Center, Vector2.Zero, ModContent.ProjectileType<PlanarRipperExplosion>(), damage, Item.knockBack, player.whoAmI);
             if (explosion.WithinBounds(Main.maxProjectiles))
-                Main.projectile[explosion].Calamity().forceMelee = true;
+                Main.projectile[explosion].DamageType = DamageClass.Melee;
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)

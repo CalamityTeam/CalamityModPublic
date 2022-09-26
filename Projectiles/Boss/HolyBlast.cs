@@ -24,13 +24,13 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-            Projectile.Calamity().canBreakPlayerDefense = true;
+            Projectile.Calamity().DealsDefenseDamage = true;
             Projectile.width = 180;
             Projectile.height = 180;
             Projectile.hostile = true;
             Projectile.penetrate = 1;
             Projectile.timeLeft = 120;
-            CooldownSlot = 1;
+            CooldownSlot = ImmunityCooldownID.Bosses;
         }
 
         public override void AI()
@@ -51,7 +51,7 @@ namespace CalamityMod.Projectiles.Boss
             }
             if (Projectile.ai[1] == 0f)
             {
-                int dustType = (Main.dayTime && !CalamityWorld.malice) ? (int)CalamityDusts.ProfanedFire : (int)CalamityDusts.Nightwither;
+                int dustType = (Main.dayTime && !BossRushEvent.BossRushActive) ? (int)CalamityDusts.ProfanedFire : (int)CalamityDusts.Nightwither;
                 for (int num621 = 0; num621 < 10; num621++)
                 {
                     int num622 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, dustType, 0f, 0f, 100, default, 2f);
@@ -81,12 +81,12 @@ namespace CalamityMod.Projectiles.Boss
 
         public override Color? GetAlpha(Color lightColor)
         {
-            return (Main.dayTime && !CalamityWorld.malice) ? new Color(250, 150, 0, Projectile.alpha) : new Color(100, 200, 250, Projectile.alpha);
+            return (Main.dayTime && !BossRushEvent.BossRushActive) ? new Color(250, 150, 0, Projectile.alpha) : new Color(100, 200, 250, Projectile.alpha);
         }
 
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D texture = (Main.dayTime && !CalamityWorld.malice) ? ModContent.Request<Texture2D>(Texture).Value : ModContent.Request<Texture2D>("CalamityMod/Projectiles/Boss/HolyBlastNight").Value;
+            Texture2D texture = (Main.dayTime && !BossRushEvent.BossRushActive) ? ModContent.Request<Texture2D>(Texture).Value : ModContent.Request<Texture2D>("CalamityMod/Projectiles/Boss/HolyBlastNight").Value;
             int num214 = texture.Height / Main.projFrames[Projectile.type];
             int y6 = num214 * Projectile.frame;
             Main.spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y6, texture.Width, num214)), Projectile.GetAlpha(lightColor), Projectile.rotation, new Vector2(texture.Width / 2f, num214 / 2f), Projectile.scale, SpriteEffects.None, 0);
@@ -97,24 +97,21 @@ namespace CalamityMod.Projectiles.Boss
         {
             if (Projectile.owner == Main.myPlayer)
             {
-                Vector2 shootFromVector = new Vector2(Projectile.Center.X, Projectile.Center.Y);
-                float spread = 45f * 0.0174f;
-                double startAngle = Math.Atan2(Projectile.velocity.X, Projectile.velocity.Y) - spread / 2;
-                double deltaAngle = spread / 8f;
-                double offsetAngle;
-                float velocity = 5f;
-                int totalProjectiles = (!Main.dayTime || CalamityWorld.malice || BossRushEvent.BossRushActive) ? 5 : 4;
+                int totalProjectiles = (!Main.dayTime || BossRushEvent.BossRushActive) ? 8 : 6;
+                float radians = MathHelper.TwoPi / totalProjectiles;
                 int type = ModContent.ProjectileType<HolyFire2>();
-                int damage = (int)Math.Round(Projectile.damage * 0.75);
-                for (int i = 0; i < totalProjectiles; i++)
+                float velocity = 5f;
+                Vector2 spinningPoint = new Vector2(0f, -velocity);
+                for (int k = 0; k < totalProjectiles; k++)
                 {
-                    offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), shootFromVector.X, shootFromVector.Y, (float)(Math.Sin(offsetAngle) * velocity), (float)(Math.Cos(offsetAngle) * velocity), type, damage, 0f, Main.myPlayer, 0f, 0f);
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), shootFromVector.X, shootFromVector.Y, (float)(-Math.Sin(offsetAngle) * velocity), (float)(-Math.Cos(offsetAngle) * velocity), type, damage, 0f, Main.myPlayer, 0f, 0f);
+                    Vector2 velocity2 = spinningPoint.RotatedBy(radians * k);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity2 + Projectile.velocity * 0.25f, type, (int)Math.Round(Projectile.damage * 0.75), 0f, Projectile.owner);
                 }
             }
+
             SoundEngine.PlaySound(ImpactSound, Projectile.Center);
-            int dustType = (Main.dayTime && !CalamityWorld.malice) ? (int)CalamityDusts.ProfanedFire : (int)CalamityDusts.Nightwither;
+
+            int dustType = (Main.dayTime && !BossRushEvent.BossRushActive) ? (int)CalamityDusts.ProfanedFire : (int)CalamityDusts.Nightwither;
             for (int num193 = 0; num193 < 4; num193++)
             {
                 Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, dustType, 0f, 0f, 50, default, 1.5f);
@@ -132,13 +129,11 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            int buffType = (Main.dayTime && !CalamityWorld.malice) ? ModContent.BuffType<HolyFlames>() : ModContent.BuffType<Nightwither>();
-            target.AddBuff(buffType, 480);
-        }
+            if (damage <= 0)
+                return;
 
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
-        {
-            target.Calamity().lastProjectileHit = Projectile;
+            int buffType = (Main.dayTime && !BossRushEvent.BossRushActive) ? ModContent.BuffType<HolyFlames>() : ModContent.BuffType<Nightwither>();
+            target.AddBuff(buffType, 480);
         }
     }
 }

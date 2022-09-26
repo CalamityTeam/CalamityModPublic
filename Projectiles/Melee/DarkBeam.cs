@@ -16,9 +16,9 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetDefaults()
         {
-            Projectile.width = 56;
-            Projectile.height = 56;
-            Projectile.aiStyle = 18;
+            Projectile.width = 74;
+            Projectile.height = 74;
+            Projectile.aiStyle = ProjAIStyleID.Sickle;
             AIType = ProjectileID.DeathSickle;
             Projectile.friendly = true;
             Projectile.DamageType = DamageClass.Melee;

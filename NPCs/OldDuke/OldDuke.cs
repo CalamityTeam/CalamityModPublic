@@ -3,6 +3,7 @@ using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
+using CalamityMod.Items.Placeables.Furniture.BossRelics;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Items.Potions;
 using CalamityMod.Items.TreasureBags;
@@ -12,6 +13,7 @@ using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.NPCs.TownNPCs;
+using CalamityMod.World;
 using System;
 using System.IO;
 using Microsoft.Xna.Framework;
@@ -75,7 +77,6 @@ namespace CalamityMod.NPCs.OldDuke
             NPC.boss = true;
             NPC.netAlways = true;
             NPC.timeLeft = NPC.activeTime * 30;
-            Music = CalamityMod.Instance.GetMusicFromMusicMod("BoomerDuke") ?? MusicID.DukeFishron;
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToSickness = false;
             NPC.Calamity().VulnerableToElectricity = true;
@@ -430,14 +431,14 @@ namespace CalamityMod.NPCs.OldDuke
                     ModContent.ItemType<SepticSkewer>(),
                     ModContent.ItemType<VitriolicViper>(),
                     ModContent.ItemType<CadaverousCarrion>(),
-                    ModContent.ItemType<ToxicantTwister>(),
-                    ModContent.ItemType<OldDukeScales>(),
+                    ModContent.ItemType<ToxicantTwister>()
                 };
                 normalOnly.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, items));
                 normalOnly.Add(ModContent.ItemType<TheReaper>(), 10);
 
                 // Equipment
                 normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<MutatedTruffle>()));
+                normalOnly.Add(ModContent.ItemType<OldDukeScales>(), DropHelper.NormalWeaponDropRateFraction);
 
                 // Vanity
                 normalOnly.Add(ModContent.ItemType<OldDukeMask>(), 7);
@@ -445,19 +446,23 @@ namespace CalamityMod.NPCs.OldDuke
 
             npcLoot.Add(ModContent.ItemType<OldDukeTrophy>(), 10);
 
+            // Relic
+            npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).Add(ModContent.ItemType<OldDukeRelic>());
+
             // Lore
-            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedBoomerDuke, ModContent.ItemType<KnowledgeOldDuke>());
+            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedBoomerDuke, ModContent.ItemType<KnowledgeOldDuke>(), desc: DropHelper.FirstKillText);
         }
 
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)
         {
-            cooldownSlot = 1;
+            cooldownSlot = ImmunityCooldownID.Bosses;
             return true;
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(ModContent.BuffType<Irradiated>(), 480);
+            if (damage > 0)
+                player.AddBuff(ModContent.BuffType<Irradiated>(), 480);
         }
 
         public override void HitEffect(int hitDirection, double damage)

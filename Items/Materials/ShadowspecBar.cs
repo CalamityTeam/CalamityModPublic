@@ -1,4 +1,5 @@
-﻿using CalamityMod.Tiles;
+﻿using CalamityMod.Rarities;
+using CalamityMod.Tiles;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -18,6 +19,7 @@ namespace CalamityMod.Items.Materials
             SacrificeTotal = 25;
             DisplayName.SetDefault("Shadowspec Bar");
             Tooltip.SetDefault("A vile, black metal, so horrendous and powerful as to defy explanation");
+			ItemID.Sets.SortingPriorityMaterials[Type] = 124;
         }
 
         public override void SetDefaults()
@@ -34,7 +36,7 @@ namespace CalamityMod.Items.Materials
             Item.consumable = true;
 
             Item.value = Item.sellPrice(platinum: 1, gold: 92);
-            Item.Calamity().customRarity = CalamityRarity.HotPink;
+            Item.rare = ModContent.RarityType<HotPink>();
             Item.Calamity().devItem = true;
         }
         public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frameI, Color drawColor, Color itemColor, Vector2 origin, float scale)

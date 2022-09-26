@@ -20,7 +20,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.DamageType = RogueDamageClass.Instance;
             Projectile.penetrate = 1;
             Projectile.timeLeft = 180;
-            Projectile.aiStyle = 1;
+            Projectile.aiStyle = ProjAIStyleID.Arrow;
             Projectile.coldDamage = true;
         }
 
@@ -32,7 +32,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.velocity.Y += 0.01f;
 
             if (Projectile.timeLeft < 150)
-                CalamityGlobalProjectile.HomeInOnNPC(Projectile, true, 600f, 8f, 20f);
+                CalamityUtils.HomeInOnNPC(Projectile, true, 600f, 8f, 20f);
         }
 
         public override void Kill(int timeLeft)

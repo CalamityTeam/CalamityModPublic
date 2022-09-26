@@ -67,8 +67,10 @@ namespace CalamityMod.NPCs.DevourerofGods
             NPC.DeathSound = SoundID.NPCDeath14;
             NPC.netAlways = true;
             NPC.boss = true;
-            Music = CalamityMod.Instance.GetMusicFromMusicMod("DevourerOfGodsP1") ?? MusicID.Boss3;
             NPC.dontCountMe = true;
+
+            if (Main.getGoodWorld)
+                NPC.scale *= 1.5f;
         }
 
         public override void BossHeadSlot(ref int index)
@@ -134,25 +136,21 @@ namespace CalamityMod.NPCs.DevourerofGods
                 NPC.life = Main.npc[(int)NPC.ai[1]].life;
 
             bool phase2 = NPC.life / (float)NPC.lifeMax < 0.6f;
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
-            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool expertMode = Main.expertMode || bossRush;
+            bool revenge = CalamityWorld.revenge || bossRush;
+            bool death = CalamityWorld.death || bossRush;
 
             if (phase2)
             {
                 phase2Started = true;
 
-                // Play music after the transiton BS
-                if (Main.npc[(int)NPC.ai[2]].localAI[2] == 530f)
-                    Music = CalamityMod.Instance.GetMusicFromMusicMod("DevourerOfGodsP2") ?? MusicID.LunarBoss;
-
                 // Once before DoG spawns, set new size
                 if (Main.npc[(int)NPC.ai[2]].localAI[2] == 60f)
                 {
                     NPC.position = NPC.Center;
-                    NPC.width = 70;
-                    NPC.height = 70;
+                    NPC.width = (int)(70 * NPC.scale);
+                    NPC.height = (int)(70 * NPC.scale);
                     NPC.frame = new Rectangle(0, 0, 114, 88);
                     NPC.position -= NPC.Size * 0.5f;
                     NPC.netUpdate = true;
@@ -215,15 +213,18 @@ namespace CalamityMod.NPCs.DevourerofGods
                         if (Main.npc[(int)NPC.ai[2]].Calamity().newAI[3] < laserWallPhaseGateValue - 180f)
                         {
                             NPC.localAI[0] += 1f;
-                            float laserGateValue = malice ? 156f : death ? 180f : 192f;
+                            float laserGateValue = bossRush ? 156f : death ? 180f : 192f;
+                            if (Main.getGoodWorld)
+                                laserGateValue *= 0.5f;
+
                             if (NPC.localAI[0] >= laserGateValue && NPC.ai[0] % (expertMode ? 10f : 20f) == 0f)
                             {
                                 NPC.localAI[0] = 0f;
                                 if (!AnyTeleportRifts())
                                 {
-                                    SoundEngine.PlaySound(SoundID.Item12, player.position);
                                     NPC.TargetClosest();
-                                    float maxProjectileVelocity = malice ? 8f : death ? 7.5f : revenge ? 7.25f : expertMode ? 7f : 6.5f;
+                                    SoundEngine.PlaySound(SoundID.Item12, player.position);
+                                    float maxProjectileVelocity = bossRush ? 8f : death ? 7.5f : revenge ? 7.25f : expertMode ? 7f : 6.5f;
                                     float minProjectileVelocity = maxProjectileVelocity * 0.25f;
                                     float projectileVelocity = MathHelper.Clamp(Vector2.Distance(player.Center, NPC.Center) * 0.01f, minProjectileVelocity, maxProjectileVelocity);
                                     Vector2 velocityVector = Vector2.Normalize(player.Center - NPC.Center) * projectileVelocity;
@@ -238,18 +239,18 @@ namespace CalamityMod.NPCs.DevourerofGods
                     else
                     {
                         // Fire lasers from every 10th (20th in normal mode) body segment if not in laser barrage phase
-                        float laserBarrageGateValue = malice ? 780f : death ? 900f : 960f;
-                        float laserBarrageShootGateValue = malice ? 160f : 240f;
+                        float laserBarrageGateValue = bossRush ? 780f : death ? 900f : 960f;
+                        float laserBarrageShootGateValue = bossRush ? 160f : 240f;
                         float laserBarragePhaseGateValue = laserBarrageGateValue - laserBarrageShootGateValue * 1.5f;
                         if (Main.npc[(int)NPC.ai[2]].Calamity().newAI[1] < laserBarragePhaseGateValue)
                         {
                             NPC.localAI[0] += 1f;
-                            if (NPC.localAI[0] >= laserBarrageGateValue * 0.2f && NPC.ai[0] % (expertMode ? 10f : 20f) == 0f)
+                            if (NPC.localAI[0] >= laserBarrageGateValue * (Main.getGoodWorld ? 0.1f : 0.2f) && NPC.ai[0] % (expertMode ? 10f : 20f) == 0f)
                             {
+                                NPC.TargetClosest();
                                 SoundEngine.PlaySound(SoundID.Item12, player.position);
                                 NPC.localAI[0] = 0f;
-                                NPC.TargetClosest();
-                                float maxProjectileVelocity = malice ? 7.5f : death ? 7f : revenge ? 6.75f : expertMode ? 6.5f : 6f;
+                                float maxProjectileVelocity = bossRush ? 7.5f : death ? 7f : revenge ? 6.75f : expertMode ? 6.5f : 6f;
                                 float minProjectileVelocity = maxProjectileVelocity * 0.25f;
                                 float projectileVelocity = MathHelper.Clamp(Vector2.Distance(player.Center, NPC.Center) * 0.01f, minProjectileVelocity, maxProjectileVelocity);
                                 Vector2 velocityVector = Vector2.Normalize(player.Center - NPC.Center) * projectileVelocity;
@@ -404,7 +405,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)
         {
-            cooldownSlot = 1;
+            cooldownSlot = ImmunityCooldownID.Bosses;
 
             Rectangle targetHitbox = target.Hitbox;
 
@@ -421,7 +422,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             if (dist4 < minDist)
                 minDist = dist4;
 
-            return minDist <= (phase2Started ? 55f : 40f) && NPC.Opacity >= 1f && invinceTime <= 0;
+            return minDist <= (phase2Started ? 55f : 40f) * NPC.scale && NPC.Opacity >= 1f && invinceTime <= 0;
         }
 
         public override bool StrikeNPC(ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
@@ -452,6 +453,7 @@ namespace CalamityMod.NPCs.DevourerofGods
         {
             if (NPC.realLife >= 0)
                 Main.npc[NPC.realLife].checkDead();
+
             return base.CheckDead();
         }
 
@@ -466,13 +468,13 @@ namespace CalamityMod.NPCs.DevourerofGods
             {
                 if (Main.netMode != NetmodeID.Server)
                 {
-                    float randomSpread = Main.rand.Next(-100, 100) / 100;
-                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * randomSpread * Main.rand.NextFloat(), Mod.Find<ModGore>("DoGS6").Type, 1f);
+                    float randomSpread = Main.rand.Next(-200, 201) / 100f;
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * randomSpread * Main.rand.NextFloat(), Mod.Find<ModGore>("DoGS6").Type, NPC.scale);
                 }
                 NPC.position.X = NPC.position.X + (NPC.width / 2);
                 NPC.position.Y = NPC.position.Y + (NPC.height / 2);
-                NPC.width = 50;
-                NPC.height = 50;
+                NPC.width = (int)(100 * NPC.scale);
+                NPC.height = (int)(100 * NPC.scale);
                 NPC.position.X = NPC.position.X - (NPC.width / 2);
                 NPC.position.Y = NPC.position.Y - (NPC.height / 2);
                 for (int num621 = 0; num621 < 10; num621++)
@@ -504,8 +506,11 @@ namespace CalamityMod.NPCs.DevourerofGods
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 240, true);
-            player.AddBuff(ModContent.BuffType<WhisperingDeath>(), 480, true);
+            if (damage > 0)
+            {
+                player.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 240, true);
+                player.AddBuff(ModContent.BuffType<WhisperingDeath>(), 480, true);
+            }
         }
     }
 }

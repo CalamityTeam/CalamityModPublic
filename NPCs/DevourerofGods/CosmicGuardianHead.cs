@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
+using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -24,6 +25,17 @@ namespace CalamityMod.NPCs.DevourerofGods
         {
             DisplayName.SetDefault("Cosmic Guardian");
             NPCID.Sets.BossBestiaryPriority.Add(Type);
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            {
+                Scale = 0.75f,
+                PortraitScale = 0.75f,
+                CustomTexturePath = "CalamityMod/ExtraTextures/Bestiary/CosmicGuardian_Bestiary",
+                PortraitPositionXOverride = 40,
+                PortraitPositionYOverride = 40
+            };
+            value.Position.X += 62f;
+            value.Position.Y += 35f;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 
         public override void SetDefaults()
@@ -74,12 +86,6 @@ namespace CalamityMod.NPCs.DevourerofGods
 
         public override void AI()
         {
-            // Target
-            if (NPC.target < 0 || NPC.target == Main.maxPlayers || Main.player[NPC.target].dead || !Main.player[NPC.target].active)
-                NPC.TargetClosest(true);
-
-            Player player = Main.player[NPC.target];
-
             if (invinceTime > 0)
             {
                 invinceTime--;
@@ -93,9 +99,6 @@ namespace CalamityMod.NPCs.DevourerofGods
             }
 
             Vector2 vector = NPC.Center;
-
-            bool increaseSpeed = Vector2.Distance(player.Center, vector) > CalamityGlobalNPC.CatchUpDistance200Tiles;
-            bool increaseSpeedMore = Vector2.Distance(player.Center, vector) > CalamityGlobalNPC.CatchUpDistance350Tiles;
 
             Lighting.AddLight((int)((NPC.position.X + (NPC.width / 2)) / 16f), (int)((NPC.position.Y + (NPC.height / 2)) / 16f), 0.2f, 0.05f, 0.2f);
 
@@ -133,10 +136,8 @@ namespace CalamityMod.NPCs.DevourerofGods
                 }
             }
 
-            if (player.dead || CalamityGlobalNPC.DoGHead < 0 || !Main.npc[CalamityGlobalNPC.DoGHead].active)
+            if (CalamityGlobalNPC.DoGHead < 0 || !Main.npc[CalamityGlobalNPC.DoGHead].active)
             {
-                NPC.TargetClosest(false);
-
                 NPC.velocity.Y -= 3f;
                 if ((double)NPC.position.Y < Main.topWorld + 16f)
                     NPC.velocity.Y -= 3f;
@@ -152,6 +153,11 @@ namespace CalamityMod.NPCs.DevourerofGods
                 return;
             }
 
+            Player player = Main.player[Main.npc[CalamityGlobalNPC.DoGHead].target];
+
+            bool increaseSpeed = Vector2.Distance(player.Center, vector) > CalamityGlobalNPC.CatchUpDistance200Tiles;
+            bool increaseSpeedMore = Vector2.Distance(player.Center, vector) > CalamityGlobalNPC.CatchUpDistance350Tiles;
+
             NPC.Opacity = Main.npc[CalamityGlobalNPC.DoGHead].Opacity;
 
             // Fly up and despawn if DoG enters phase 2 and isn't in the final Cosmic Guardian spawn phase.
@@ -160,8 +166,6 @@ namespace CalamityMod.NPCs.DevourerofGods
             {
                 // Prevents them from doing damage while despawning.
                 NPC.Opacity = 0.99f;
-
-                NPC.TargetClosest(false);
 
                 NPC.velocity.Y -= 1f;
                 if ((double)NPC.position.Y < Main.topWorld + 16f)
@@ -181,8 +185,8 @@ namespace CalamityMod.NPCs.DevourerofGods
             Vector2 vector18 = new Vector2(NPC.position.X + NPC.width * 0.5f, NPC.position.Y + NPC.height * 0.5f);
             float num191 = Main.npc[CalamityGlobalNPC.DoGHead].position.X + (Main.npc[CalamityGlobalNPC.DoGHead].width / 2);
             float num192 = Main.npc[CalamityGlobalNPC.DoGHead].position.Y + (Main.npc[CalamityGlobalNPC.DoGHead].height / 2);
-            float num188 = CalamityWorld.malice ? 30f : CalamityWorld.revenge ? 25f : 23f;
-            float num189 = CalamityWorld.malice ? 0.9f : CalamityWorld.revenge ? 0.75f : 0.23f;
+            float num188 = BossRushEvent.BossRushActive ? 30f : CalamityWorld.revenge ? 25f : 23f;
+            float num189 = BossRushEvent.BossRushActive ? 0.9f : CalamityWorld.revenge ? 0.75f : 0.23f;
 
             if (increaseSpeedMore)
                 num189 *= 4f;
@@ -362,17 +366,14 @@ namespace CalamityMod.NPCs.DevourerofGods
 
         public override void OnKill()
         {
-            if (!CalamityWorld.revenge)
-            {
-                int heartAmt = Main.rand.Next(3) + 3;
-                for (int i = 0; i < heartAmt; i++)
-                    Item.NewItem(NPC.GetSource_Loot(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
-            }
+            int heartAmt = Main.rand.Next(3) + 3;
+            for (int i = 0; i < heartAmt; i++)
+                Item.NewItem(NPC.GetSource_Loot(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
         }
 
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)
         {
-            cooldownSlot = 1;
+            cooldownSlot = ImmunityCooldownID.Bosses;
             return NPC.Opacity >= 1f && invinceTime <= 0;
         }
 
@@ -424,7 +425,8 @@ namespace CalamityMod.NPCs.DevourerofGods
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 180, true);
+            if (damage > 0)
+                player.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 180, true);
         }
     }
 }

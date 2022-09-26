@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class Malachite : ModItem
+    public class Malachite : RogueWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -22,10 +22,10 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SetDefaults()
         {
             Item.width = 28;
-            Item.damage = 120;
+            Item.damage = 55;
             Item.noMelee = true;
             Item.noUseGraphic = true;
-            Item.useTime = Item.useAnimation = 10;
+            Item.useTime = Item.useAnimation = 14;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.knockBack = 1.25f;
             Item.UseSound = SoundID.Item1;
@@ -76,7 +76,7 @@ namespace CalamityMod.Items.Weapons.Rogue
                 for (float i = -6.5f; i <= 6.5f; i += 6.5f)
                 {
                     Vector2 perturbedSpeed = velocity.RotatedBy(MathHelper.ToRadians(i));
-                    int stealth = Projectile.NewProjectile(source, position, perturbedSpeed, type, damage * 2, knockback, player.whoAmI);
+                    int stealth = Projectile.NewProjectile(source, position, perturbedSpeed, type, (int)(damage * 1.3), knockback, player.whoAmI);
                     if (stealth.WithinBounds(Main.maxProjectiles))
                         Main.projectile[stealth].Calamity().stealthStrike = true;
                 }

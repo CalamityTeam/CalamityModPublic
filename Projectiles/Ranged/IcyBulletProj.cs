@@ -20,7 +20,7 @@ namespace CalamityMod.Projectiles.Ranged
         {
             Projectile.width = 4;
             Projectile.height = 4;
-            Projectile.aiStyle = 1;
+            Projectile.aiStyle = ProjAIStyleID.Arrow;
             AIType = ProjectileID.Bullet;
             Projectile.timeLeft = 600;
             Projectile.friendly = true;
@@ -29,9 +29,9 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.penetrate = 3;
             Projectile.extraUpdates = 3;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 20;
+            Projectile.localNPCHitCooldown = -1; // changed from 20 to prevent multi-hit madness on fat targets
             Projectile.coldDamage = true;
-            Projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
+            Projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.DefaultPointBlankDuration;
         }
 
         public override void AI()

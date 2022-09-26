@@ -20,11 +20,11 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            Item.damage = 9;
+            Item.damage = 5;
             Item.DamageType = DamageClass.Ranged;
             Item.width = 20;
             Item.height = 54;
-            Item.useTime = Item.useAnimation = 35;
+            Item.useTime = Item.useAnimation = 28;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.knockBack = 3f;
@@ -40,7 +40,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            if (type == ProjectileID.WoodenArrowFriendly)
+            if (CalamityUtils.CheckWoodenAmmo(type, player))
                 Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<ToxicArrow>(), damage, 0f, player.whoAmI);
             else
                 Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);

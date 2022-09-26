@@ -1,8 +1,9 @@
-﻿using Terraria.DataStructures;
-using CalamityMod.Projectiles.Melee;
+﻿using CalamityMod.Projectiles.Melee;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -30,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.height = 128;
             Item.width = 56;
             Item.damage = 3001;
-            Item.DamageType = DamageClass.Melee;
+            Item.DamageType = TrueMeleeNoSpeedDamageClass.Instance;
             Item.noMelee = true;
             Item.noUseGraphic = true;
             Item.channel = true;
@@ -39,13 +40,11 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.useTime = 5;
             Item.knockBack = 6.5f;
             Item.autoReuse = false;
-            Item.value = Item.buyPrice(2, 50, 0, 0);
-            Item.rare = ItemRarityID.Red;
+            Item.value = CalamityGlobalItem.Rarity15BuyPrice;
             Item.shoot = ModContent.ProjectileType<MurasamaSlash>();
             Item.shootSpeed = 24f;
-            Item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.rare = ModContent.RarityType<Violet>();
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(5, 14));
-            Item.Calamity().trueMelee = true;
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults

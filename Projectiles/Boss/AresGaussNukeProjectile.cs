@@ -28,15 +28,18 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-            Projectile.Calamity().canBreakPlayerDefense = true;
+            Projectile.Calamity().DealsDefenseDamage = true;
             Projectile.width = 100;
             Projectile.height = 100;
             Projectile.hostile = true;
             Projectile.ignoreWater = true;
             Projectile.tileCollide = false;
             Projectile.penetrate = -1;
-            CooldownSlot = 1;
+            CooldownSlot = ImmunityCooldownID.Bosses;
             Projectile.timeLeft = timeLeft;
+
+            if (Main.getGoodWorld)
+                Projectile.extraUpdates = 1;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -68,10 +71,10 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.rotation = (float)Math.Atan2(Projectile.velocity.Y, Projectile.velocity.X) - MathHelper.PiOver2;
 
             // Difficulty modes
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
-            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || bossRush;
+            bool revenge = CalamityWorld.revenge || bossRush;
+            bool expertMode = Main.expertMode || bossRush;
 
             // Spawn effects
             if (Projectile.localAI[0] == 0f)
@@ -97,7 +100,7 @@ namespace CalamityMod.Projectiles.Boss
                 // Gauss sparks
                 if (Main.myPlayer == Projectile.owner)
                 {
-                    int totalProjectiles = malice ? 18 : 12;
+                    int totalProjectiles = bossRush ? 18 : 12;
                     float radians = MathHelper.TwoPi / totalProjectiles;
                     int type = ModContent.ProjectileType<AresGaussNukeProjectileSpark>();
                     float velocity = Projectile.velocity.Length();
@@ -121,7 +124,7 @@ namespace CalamityMod.Projectiles.Boss
             Vector2 distanceFromTarget = Main.player[target].Center - Projectile.Center;
 
             // Set AI to stop homing, start accelerating
-            float stopHomingDistance = malice ? 260f : death ? 280f : revenge ? 290f : expertMode ? 300f : 320f;
+            float stopHomingDistance = bossRush ? 260f : death ? 280f : revenge ? 290f : expertMode ? 300f : 320f;
             if ((distanceFromTarget.Length() < stopHomingDistance && Projectile.ai[0] != -1f) || Projectile.ai[0] == 1f)
             {
                 Projectile.ai[0] = 1f;
@@ -134,7 +137,7 @@ namespace CalamityMod.Projectiles.Boss
 
             // Home in on target
             float scaleFactor = Projectile.velocity.Length();
-            float inertia = malice ? 6f : death ? 8f : revenge ? 9f : expertMode ? 10f : 12f;
+            float inertia = bossRush ? 6f : death ? 8f : revenge ? 9f : expertMode ? 10f : 12f;
             distanceFromTarget.Normalize();
             distanceFromTarget *= scaleFactor;
             Projectile.velocity = (Projectile.velocity * inertia + distanceFromTarget) / (inertia + 1f);
@@ -147,7 +150,7 @@ namespace CalamityMod.Projectiles.Boss
             Main.spriteBatch.EnterShaderRegion();
             Texture2D telegraphBase = ModContent.Request<Texture2D>("CalamityMod/Projectiles/InvisibleProj").Value;
 
-            GameShaders.Misc["CalamityMod:CircularAoETelegraph"].UseOpacity(0.4f * MathHelper.Clamp((1 - Projectile.timeLeft / (float)timeLeft) * 8f, 0, 1));
+            GameShaders.Misc["CalamityMod:CircularAoETelegraph"].UseOpacity(0.2f * MathHelper.Clamp((1 - Projectile.timeLeft / (float)timeLeft) * 8f, 0, 1));
             GameShaders.Misc["CalamityMod:CircularAoETelegraph"].UseColor(Color.Lerp(Color.Goldenrod, Color.Gold, 0.7f * (float)Math.Pow(0.5 + 0.5 * Math.Sin(Main.GlobalTimeWrappedHourly), 3)));
             GameShaders.Misc["CalamityMod:CircularAoETelegraph"].UseSecondaryColor(Color.Lerp(Color.Yellow, Color.White, 0.5f));
             GameShaders.Misc["CalamityMod:CircularAoETelegraph"].UseSaturation(1 - Projectile.timeLeft / (float)timeLeft);
@@ -155,11 +158,11 @@ namespace CalamityMod.Projectiles.Boss
             GameShaders.Misc["CalamityMod:CircularAoETelegraph"].Apply();
 
             Vector2 drawPosition = Projectile.Center - Main.screenPosition;
-            Main.EntitySpriteDraw(telegraphBase, drawPosition, null, lightColor, 0, telegraphBase.Size() / 2f, 1070f, 0, 0);
+            Main.EntitySpriteDraw(telegraphBase, drawPosition, null, lightColor, 0, telegraphBase.Size() / 2f, 1480f, 0, 0);
             Main.spriteBatch.ExitShaderRegion();
 
-
             CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
+
             return false;
         }
 
@@ -205,11 +208,6 @@ namespace CalamityMod.Projectiles.Boss
                     }
                 }
             }
-        }
-
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
-        {
-            target.Calamity().lastProjectileHit = Projectile;
         }
     }
 }

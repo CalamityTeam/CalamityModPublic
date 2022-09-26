@@ -34,7 +34,7 @@ namespace CalamityMod.Localization
                 new [] { "PlagueBossText", "PLAGUE NUKE BARRAGE ARMED, PREPARING FOR LAUNCH!!!" },
                 new [] { "PlagueBossText2", "MISSILES LAUNCHED, TARGETING ROUTINE INITIATED!!!" },
 
-                new [] { "ProfanedBossText", "The air is burning..." },
+                new [] { "ProfanedBossText", "Holy flames burn away at your wings..." },
                 new [] { "ProfanedBossText2", "Shrieks are echoing from the dungeon." },
                 new [] { "ProfanedBossText3", "The calamitous beings have been inundated with bloodstone." },
                 new [] { "ProfanedBossText4", "The Profaned Goddess has recognised your devotion to purity!" },
@@ -79,17 +79,13 @@ namespace CalamityMod.Localization
                 new [] { "SCalDesparationText3Rematch", "I trust you will not make the same mistakes he did." },
                 new [] { "SCalDesparationText4Rematch", "I can’t imagine what your future holds now." },
 
-                new [] { "EdgyBossText", "Don't get cocky, kid!" },
-                new [] { "EdgyBossText3", "A fatal mistake!" },
-                new [] { "EdgyBossText4", "Good luck recovering from that!" },
-                new [] { "EdgyBossText5", "Delicious..." },
-                new [] { "EdgyBossText6", "Did that hurt?" },
-                new [] { "EdgyBossText7", "Nothing personal, kid." },
-                new [] { "EdgyBossText8", "Are you honestly that bad at dodging?" },
-                new [] { "EdgyBossText9", "Of all my segments to get hit by..." },
-                new [] { "EdgyBossText10", "It's not over yet, kid!" },
-                new [] { "EdgyBossText11", "A GOD DOES NOT FEAR DEATH!" },
-                new [] { "EdgyBossText12", "You are no god... but I shall feast upon your essence regardless!" },
+                new [] { "EdgyBossText", "Don't get cocky!" },
+                new [] { "EdgyBossText2", "A fatal mistake!" },
+                new [] { "EdgyBossText3", "Delicious..." },
+                new [] { "EdgyBossText4", "Did that hurt?" },
+                new [] { "EdgyBossText5", "It's not over yet!" },
+                new [] { "EdgyBossText6", "A GOD DOES NOT FEAR DEATH!" },
+                new [] { "EdgyBossText7", "You are no god... but I shall feast upon your essence regardless!" },
                 new [] { "DoGBossText", "The frigid moon shimmers brightly." },
                 new [] { "DoGBossText2", "The harvest moon glows eerily." },
 
@@ -157,15 +153,12 @@ namespace CalamityMod.Localization
                 new [] { "DeathText", "Death is active; enjoy the fun." },
                 new [] { "DeathText2", "Death is not active; not fun enough for you?" },
 
-                new [] { "MaliceText", "Malice is active; witness the horror!" },
-                new [] { "MaliceText2", "Malice is not active." },
-
                 new [] { "ArmageddonText", "Bosses will now kill you instantly." },
                 new [] { "ArmageddonText2", "Bosses will no longer kill you instantly." },
                 new [] { "ArmageddonDodgeDisable", "All of your dodges are now disabled." },
                 new [] { "ArmageddonDodgeEnable", "All of your dodges are now re-enabled." },
 
-                new [] { "ChangingTheRules", "You cannot change the rules now." },
+                new [] { "ChangingTheRules", "You cannot change the rules now!" },
 
                 new [] { "FlameText", "The air is getting warmer around you." },
 
@@ -177,17 +170,6 @@ namespace CalamityMod.Localization
                 new [] { "BossRushTierFourEndText", "Hmm? So you've made it to the final tier, a remarkable feat enviable by even the mightiest of the gods." },
                 new [] { "BossRushTierFourEndText2", "Go forth and conquer 'til the ritual's end!" },
                 new [] { "BossRushTierFiveEndText", "Hmm? You expected a reward beyond this mere pebble? Patience, the true reward will become apparent in time..." },
-
-                new [] { "MeleeLevelUp", "Melee weapon proficiency level up!" },
-                new [] { "MeleeLevelUpFinal", "Melee weapon proficiency maxed out!" },
-                new [] { "RangedLevelUp", "Ranged weapon proficiency level up!" },
-                new [] { "RangedLevelUpFinal", "Ranged weapon proficiency maxed out!" },
-                new [] { "MagicLevelUp", "Magic weapon proficiency level up!" },
-                new [] { "MagicLevelUpFinal", "Magic weapon proficiency maxed out!" },
-                new [] { "SummonLevelUp", "Summoner weapon proficiency level up!" },
-                new [] { "SummonLevelUpFinal", "Summoner weapon proficiency maxed out!" },
-                new [] { "RogueLevelUp", "Rogue weapon proficiency level up!" },
-                new [] { "RogueLevelUpFinal", "Rogue weapon proficiency maxed out!" },
 
                 new [] { "OpenSunkenSea", "The depths of the underground desert are rumbling..." },
                 new [] { "SandstormTrigger", "The desert wind is blowing furiously!" },
@@ -214,6 +196,17 @@ namespace CalamityMod.Localization
                 new [] { "JungleSchematicRecipeCondition", "Place a schematic from the lab deep within the jungle in your inventory at least once" },
                 new [] { "UnderworldSchematicRecipeCondition", "Place a schematic from the lab near the edges of the underworld in your inventory at least once" },
                 new [] { "IceSchematicRecipeCondition", "Place a schematic from the lab within the frozen caverns in your inventory at least once" },
+
+                new [] { "BloodOrangeText", "You have already consumed a Blood Orange. Eating any more would not be good for you." },
+                new [] { "MiracleFruitText", "You have already consumed a Miracle Fruit. Having another would make you sick." },
+                new [] { "ElderberryText", "You have already consumed an Elderberry. It is probably not wise to eat more than one." },
+                new [] { "DragonfruitText", "You have already consumed a Dragonfruit. Your stomach cannot take any more." },
+
+                new [] { "CometShardText", "You have already used a Comet Shard. Using more would make you nauseous." },
+                new [] { "EtherealCoreText", "You have already used an Ethereal Core. It's best to not use more than you are able to." },
+                new [] { "PhantomHeartText", "You have already used a Phantom Heart. It's probably good that you can't use another." },
+
+                new [] { "SlimeGodRun", "The Slime God flees to fight another day..." },
             };
         }
 

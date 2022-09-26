@@ -1,12 +1,13 @@
-﻿using Terraria.DataStructures;
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Ranged;
+using CalamityMod.Rarities;
+using CalamityMod.Sounds;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Sounds;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
@@ -23,7 +24,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            Item.damage = 3240;
+            Item.damage = 2800;
             Item.DamageType = DamageClass.Ranged;
             Item.width = 154;
             Item.height = 40;
@@ -32,14 +33,13 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.knockBack = 9.5f;
-            Item.value = Item.buyPrice(1, 80, 0, 0);
-            Item.rare = ItemRarityID.Red;
+            Item.value = CalamityGlobalItem.RarityDarkBlueBuyPrice;
             Item.UseSound = CommonCalamitySounds.LargeWeaponFireSound;
             Item.autoReuse = true;
             Item.shoot = ProjectileID.Bullet;
             Item.shootSpeed = 12f;
             Item.useAmmo = AmmoID.Bullet;
-            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.rare = ModContent.RarityType<DarkBlue>();
             Item.Calamity().canFirePointBlankShots = true;
         }
 
@@ -62,7 +62,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             if (type == ProjectileID.Bullet)
                 Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<AMRShot>(), damage, knockback, player.whoAmI);
             else
-                Projectile.NewProjectile(source, position, velocity, type, (int)(damage * 1.3), knockback, player.whoAmI);
+                Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
 
             return false;
         }

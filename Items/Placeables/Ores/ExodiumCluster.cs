@@ -13,6 +13,7 @@ namespace CalamityMod.Items.Placeables.Ores
             SacrificeTotal = 100;
             DisplayName.SetDefault("Exodium Cluster");
             Tooltip.SetDefault("A cold cluster from the great unknown.");
+			ItemID.Sets.SortingPriorityMaterials[Type] = 101;
         }
 
         public override void SetDefaults()

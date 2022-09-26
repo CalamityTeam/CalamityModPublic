@@ -1,6 +1,7 @@
 ﻿using CalamityMod.Items.Ammo;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;
@@ -35,7 +36,7 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.UseSound = CastSound;
 
             Item.value = CalamityGlobalItem.Rarity14BuyPrice;
-            Item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            Item.rare = ModContent.RarityType<DarkBlue>();
             Item.Calamity().donorItem = true;
 
             Item.damage = 2250;

@@ -10,6 +10,8 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class IceBlast : ModProjectile
     {
+        private const int TimeLeft = 600;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ice Blast");
@@ -19,14 +21,38 @@ namespace CalamityMod.Projectiles.Boss
         {
             Projectile.width = 10;
             Projectile.height = 10;
+            Projectile.scale = 1.2f;
             Projectile.penetrate = -1;
             Projectile.hostile = true;
             Projectile.coldDamage = true;
-            Projectile.timeLeft = 300;
+            Projectile.timeLeft = TimeLeft;
         }
 
         public override void AI()
         {
+            if (Projectile.ai[1] == 1f)
+            {
+                float spreadOutCutoffTime = TimeLeft - 90;
+                float homeInCutoffTime = TimeLeft - 165;
+                float minAcceleration = 0.05f;
+                float maxAcceleration = 0.1f;
+                float homingVelocity = 20f;
+
+                if (Projectile.timeLeft > homeInCutoffTime && Projectile.timeLeft <= spreadOutCutoffTime)
+                {
+                    int playerIndex = (int)Projectile.ai[0];
+                    Vector2 velocity = Projectile.velocity;
+                    if (Main.player.IndexInRange(playerIndex))
+                    {
+                        Player player = Main.player[playerIndex];
+                        velocity = Projectile.DirectionTo(player.Center) * homingVelocity;
+                    }
+
+                    float amount = MathHelper.Lerp(minAcceleration, maxAcceleration, Utils.GetLerpValue(spreadOutCutoffTime, 30f, Projectile.timeLeft, clamped: true));
+                    Projectile.velocity = Vector2.SmoothStep(Projectile.velocity, velocity, amount);
+                }
+            }
+
             Lighting.AddLight((int)((Projectile.position.X + (Projectile.width / 2)) / 16f), (int)((Projectile.position.Y + (Projectile.height / 2)) / 16f), 0f, 0.25f, 0.25f);
 
             Projectile.rotation = (float)Math.Atan2(Projectile.velocity.Y, Projectile.velocity.X) + MathHelper.PiOver2;
@@ -38,40 +64,18 @@ namespace CalamityMod.Projectiles.Boss
                 Dust dust = Main.dust[num323];
                 dust.velocity *= 0.3f;
             }
-
-            if (Projectile.localAI[0] == 0f)
-            {
-                Projectile.scale += 0.01f;
-                Projectile.alpha -= 50;
-                if (Projectile.alpha <= 0)
-                {
-                    Projectile.localAI[0] = 1f;
-                    Projectile.alpha = 0;
-                }
-            }
-            else
-            {
-                Projectile.scale -= 0.01f;
-                Projectile.alpha += 50;
-                if (Projectile.alpha >= 255)
-                {
-                    Projectile.localAI[0] = 0f;
-                    Projectile.alpha = 255;
-                }
-            }
         }
 
         public override Color? GetAlpha(Color lightColor)
         {
-            return Main.dayTime ? new Color(50, 50, 255, Projectile.alpha) : new Color(255, 255, 255, Projectile.alpha);
+            return new Color(255, 255, 255, Projectile.alpha);
         }
 
         public override void Kill(int timeLeft)
         {
             int num497 = 5;
             SoundEngine.PlaySound(SoundID.Item27, Projectile.position);
-            int num3;
-            for (int num498 = 0; num498 < num497; num498 = num3 + 1)
+            for (int num498 = 0; num498 < num497; num498++)
             {
                 int num499 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 92, 0f, 0f, 0, default, 1f);
                 if (Main.rand.Next(3) != 0)
@@ -87,12 +91,14 @@ namespace CalamityMod.Projectiles.Boss
                     Dust dust = Main.dust[num499];
                     dust.scale *= 0.5f;
                 }
-                num3 = num498;
             }
         }
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
+            if (damage <= 0)
+                return;
+
             target.AddBuff(BuffID.Frostburn, 120, true);
             target.AddBuff(BuffID.Chilled, 60, true);
         }

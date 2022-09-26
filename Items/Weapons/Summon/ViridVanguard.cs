@@ -1,8 +1,9 @@
-﻿using Terraria.DataStructures;
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Summon;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Weapons.Summon
@@ -23,7 +24,6 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             Item.damage = 280;
             Item.DamageType = DamageClass.Summon;
-            Item.sentry = true;
             Item.mana = 10;
             Item.width = 26;
             Item.height = 36;
@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Weapons.Summon
             Item.UseSound = SoundID.Item71;
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<ViridVanguardBlade>();
-            Item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.rare = ModContent.RarityType<Turquoise>();
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)

@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Projectiles.Melee.Spears;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -16,6 +17,7 @@ namespace CalamityMod.Items.Weapons.Melee
             DisplayName.SetDefault("Banshee Hook");
             Tooltip.SetDefault("Swings a banshee hook that fires blades and explodes on hit");
             SacrificeTotal = 1;
+            ItemID.Sets.Spears[Item.type] = true;
         }
 
         public override void SetDefaults()
@@ -37,7 +39,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.shootSpeed = 42f;
 
             Item.value = CalamityGlobalItem.Rarity13BuyPrice;
-            Item.Calamity().customRarity = CalamityRarity.PureGreen;
+            Item.rare = ModContent.RarityType<PureGreen>();
         }
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)

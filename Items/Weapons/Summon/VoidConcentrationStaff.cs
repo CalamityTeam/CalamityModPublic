@@ -1,19 +1,20 @@
-﻿using Terraria.DataStructures;
-using CalamityMod.Buffs.Summon;
+﻿using CalamityMod.Buffs.Summon;
 using CalamityMod.Projectiles.Summon;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
-    class VoidConcentrationStaff : ModItem
+    public class VoidConcentrationStaff : ModItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Void Concentration Staff");
-            Tooltip.SetDefault("Summons a foreboding aura that attacks by firing void orbs\n" + //If you have flavour text ideas, feel free to implement, my brain is still like nonexistant as per usual yeah.
+            Tooltip.SetDefault("Summons a foreboding aura that attacks by firing void orbs\n" +
                                "Minion damage is increased by 5% while the aura is active\n" +
                                "Requires three minion slots to use\n" +
                                "Only one may exist\n" +
@@ -30,14 +31,13 @@ namespace CalamityMod.Items.Weapons.Summon
             Item.UseSound = SoundID.DD2_EtherianPortalOpen;
             Item.DamageType = DamageClass.Summon;
             Item.mana = 10;
-            Item.damage = 150;
+            Item.damage = 105;
             Item.knockBack = 4f;
             Item.useTime = Item.useAnimation = 15; // 14 because of useStyle 1
             Item.shoot = ModContent.ProjectileType<VoidConcentrationAura>();
             Item.shootSpeed = 10f;
             Item.value = CalamityGlobalItem.Rarity12BuyPrice;
-            Item.rare = ItemRarityID.Purple;
-            Item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.rare = ModContent.RarityType<Turquoise>();
         }
 
         public override bool CanUseItem(Player player)
@@ -59,9 +59,7 @@ namespace CalamityMod.Items.Weapons.Summon
             return false;
         }
 
-        public override bool AltFunctionUse(Player player)
-        {
-            return base.AltFunctionUse(player);
-        }
+        // TODO -- should be strictly unnecessary as per API design
+        public override bool AltFunctionUse(Player player) => base.AltFunctionUse(player);
     }
 }

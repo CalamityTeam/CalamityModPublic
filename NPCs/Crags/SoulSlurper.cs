@@ -11,6 +11,7 @@ using System;
 using Terraria;
 using Terraria.GameContent;
 using Terraria.GameContent.Bestiary;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.NPCs.Crags
@@ -290,15 +291,20 @@ namespace CalamityMod.NPCs.Crags
 
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            npcLoot.AddIf(() => !Main.hardMode, ModContent.ItemType<SlurperPole>(), 10);
-            npcLoot.AddIf(() => Main.hardMode, ModContent.ItemType<SlurperPole>(), 30);
-            npcLoot.AddIf(() => Main.hardMode, ModContent.ItemType<EssenceofChaos>(), 3);
-            npcLoot.AddIf(() => DownedBossSystem.downedProvidence, ModContent.ItemType<Bloodstone>(), 2);
+            LeadingConditionRule fishing = npcLoot.DefineConditionalDropSet(() => Main.hardMode);
+            fishing.Add(ModContent.ItemType<SlurperPole>(), 30, hideLootReport: !Main.hardMode);
+            fishing.AddFail(ModContent.ItemType<SlurperPole>(), 10, hideLootReport: Main.hardMode);
+
+            LeadingConditionRule hardmode = npcLoot.DefineConditionalDropSet(DropHelper.Hardmode());
+            LeadingConditionRule postProv = npcLoot.DefineConditionalDropSet(DropHelper.PostProv());
+            hardmode.Add(ModContent.ItemType<EssenceofChaos>(), 3);
+            postProv.Add(ModContent.ItemType<Bloodstone>(), 4);
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120, true);
+            if (damage > 0)
+                player.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120, true);
         }
 
         public override void HitEffect(int hitDirection, double damage)

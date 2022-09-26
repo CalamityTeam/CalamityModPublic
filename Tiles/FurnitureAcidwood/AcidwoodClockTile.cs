@@ -46,5 +46,7 @@ namespace CalamityMod.Tiles.FurnitureAcidwood
         {
             Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 48, 32, ModContent.ItemType<AcidwoodClock>());
         }
+
+        public override void MouseOver(int i, int j) => CalamityUtils.MouseOver(i, j, ModContent.ItemType<AcidwoodClock>());
     }
 }

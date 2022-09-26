@@ -9,6 +9,8 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class Hellborn : ModItem
     {
+        public const float ExplosionDamageMultiplier = 5f;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Hellborn");
@@ -26,8 +28,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.DamageType = DamageClass.Ranged;
             Item.width = 66;
             Item.height = 34;
-            Item.useTime = 15;
-            Item.useAnimation = 15;
+            Item.useAnimation = Item.useTime = 20;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.knockBack = 2f;
             Item.value = CalamityGlobalItem.Rarity5BuyPrice;
@@ -40,7 +41,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.Calamity().canFirePointBlankShots = true;
         }
 
-        public override float UseSpeedMultiplier(Player player) => 1f - 0.5f * (player.Calamity().hellbornBoost * (1f / 600f));
+        public override float UseTimeMultiplier(Player player) => 1f - 0.5f * (player.Calamity().hellbornBoost * (1f / 600f));
 
         public override void ModifyWeaponDamage(Player player, ref StatModifier damage) => damage *= 1f + player.Calamity().hellbornBoost * (1f / 600f);
 
@@ -82,7 +83,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void ModifyHitNPC(Player player, NPC target, ref int damage, ref float knockback, ref bool crit)
         {
             player.Calamity().hellbornBoost = 600;
-            damage *= 10;
+            damage  = (int)(damage * ExplosionDamageMultiplier);
             int touchDamage = player.CalcIntDamage<RangedDamageClass>(Item.damage);
             player.ApplyDamageToNPC(target, touchDamage, 0f, 0, false);
             float num50 = 3.4f;

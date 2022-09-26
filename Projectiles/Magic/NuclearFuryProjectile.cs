@@ -53,6 +53,7 @@ namespace CalamityMod.Projectiles.Magic
                 Lighting.AddLight((int)Projectile.Center.X / 16, (int)Projectile.Center.Y / 16, 0.1f, 0.4f, 0.6f);
             }
             Projectile.rotation += Projectile.velocity.X * 0.1f;
+            Projectile.rotation += Projectile.velocity.Y * 0.1f;
             int num1 = -1;
             Vector2 targetVec = Projectile.Center;
             float maxDistance = 500f;

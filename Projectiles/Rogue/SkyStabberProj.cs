@@ -88,7 +88,7 @@ namespace CalamityMod.Projectiles.Rogue
                 {
                     Projectile feather = CalamityUtils.ProjectileRain(source, targetPos, 400f, 100f, 500f, 800f, 20f, ModContent.ProjectileType<StickyFeatherAero>(), (int)(Projectile.damage * 0.25), Projectile.knockBack * 0.25f, Projectile.owner);
                     if (feather.whoAmI.WithinBounds(Main.maxProjectiles))
-                        feather.Calamity().forceRogue = true;
+                        feather.DamageType = RogueDamageClass.Instance;
                 }
             }
         }

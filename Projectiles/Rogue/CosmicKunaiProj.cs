@@ -32,7 +32,7 @@ namespace CalamityMod.Projectiles.Rogue
                 Projectile.Kill();
             }
             Lighting.AddLight(Projectile.Center, (255 - Projectile.alpha) * 0.5f / 255f, (255 - Projectile.alpha) * 0f / 255f, (255 - Projectile.alpha) * 0.5f / 255f);
-            CalamityGlobalProjectile.HomeInOnNPC(Projectile, true, 300f, 12f, 20f);
+            CalamityUtils.HomeInOnNPC(Projectile, true, 300f, 12f, 20f);
         }
     }
 }

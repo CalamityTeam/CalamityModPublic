@@ -45,7 +45,7 @@ namespace CalamityMod.Projectiles.Rogue
 
             if (!hasHitEnemy && Projectile.timeLeft < 575)
             {
-                CalamityGlobalProjectile.HomeInOnNPC(Projectile, !Projectile.tileCollide, 200f, 12f, 20f);
+                CalamityUtils.HomeInOnNPC(Projectile, !Projectile.tileCollide, 200f, 12f, 20f);
             }
             else if (hasHitEnemy)
             {

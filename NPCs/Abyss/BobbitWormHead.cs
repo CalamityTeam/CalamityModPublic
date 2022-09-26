@@ -19,6 +19,13 @@ namespace CalamityMod.NPCs.Abyss
         {
             DisplayName.SetDefault("Bobbit Worm");
             Main.npcFrameCount[NPC.type] = 4;
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            {
+                //Preferably would have its head animated, but this will do for now
+                CustomTexturePath = "CalamityMod/ExtraTextures/Bestiary/BobbitWorm_Bestiary"
+            };
+            value.Position.Y += 40;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 
         public override void SetDefaults()
@@ -243,14 +250,15 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(ModContent.BuffType<CrushDepth>(), 300, true);
+            if (damage > 0)
+                player.AddBuff(ModContent.BuffType<CrushDepth>(), 300, true);
         }
 
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            var postClone = npcLoot.DefineConditionalDropSet(() => DownedBossSystem.downedCalamitas);
+            var postClone = npcLoot.DefineConditionalDropSet(DropHelper.PostCal());
             postClone.Add(DropHelper.NormalVsExpertQuantity(ModContent.ItemType<DepthCells>(), 2, 5, 7, 7, 10));
-            npcLoot.AddIf(() => DownedBossSystem.downedPolterghast, ModContent.ItemType<BobbitHook>(), 3);
+            npcLoot.AddIf(DropHelper.PostPolter(), ModContent.ItemType<BobbitHook>(), 3);
         }
 
         public override void HitEffect(int hitDirection, double damage)

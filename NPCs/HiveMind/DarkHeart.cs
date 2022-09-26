@@ -73,7 +73,7 @@ namespace CalamityMod.NPCs.HiveMind
             NPC.TargetClosest();
             float num1164 = revenge ? 4.5f : 4f;
             float num1165 = revenge ? 0.8f : 0.75f;
-            if (BossRushEvent.BossRushActive || CalamityWorld.malice)
+            if (BossRushEvent.BossRushActive)
             {
                 num1164 *= 2f;
                 num1165 *= 2f;
@@ -129,7 +129,7 @@ namespace CalamityMod.NPCs.HiveMind
             if (NPC.position.X + NPC.width > Main.player[NPC.target].position.X && NPC.position.X < Main.player[NPC.target].position.X + Main.player[NPC.target].width && NPC.position.Y + NPC.height < Main.player[NPC.target].position.Y && Collision.CanHit(NPC.position, NPC.width, NPC.height, Main.player[NPC.target].position, Main.player[NPC.target].width, Main.player[NPC.target].height) && Main.netMode != NetmodeID.MultiplayerClient)
             {
                 NPC.ai[0] += 1f;
-                if (NPC.ai[0] >= (Main.getGoodWorld ? 15f : 30f))
+                if (NPC.ai[0] >= (Main.getGoodWorld ? 12f : 24f))
                 {
                     NPC.ai[0] = 0f;
                     int num1169 = (int)(NPC.position.X + 10f + Main.rand.Next(NPC.width - 20));
@@ -143,12 +143,9 @@ namespace CalamityMod.NPCs.HiveMind
 
         public override void OnKill()
         {
-            if (!CalamityWorld.revenge)
-            {
-                int closestPlayer = Player.FindClosest(NPC.Center, 1, 1);
-                if (Main.rand.NextBool(4) && Main.player[closestPlayer].statLife < Main.player[closestPlayer].statLifeMax2)
-                    Item.NewItem(NPC.GetSource_Loot(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
-            }
+            int closestPlayer = Player.FindClosest(NPC.Center, 1, 1);
+            if (Main.rand.NextBool(4) && Main.player[closestPlayer].statLife < Main.player[closestPlayer].statLifeMax2)
+                Item.NewItem(NPC.GetSource_Loot(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
         }
 
         public override void HitEffect(int hitDirection, double damage)

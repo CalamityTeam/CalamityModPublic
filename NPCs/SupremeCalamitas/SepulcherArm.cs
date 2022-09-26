@@ -78,7 +78,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             NPC.lifeMax = CalamityWorld.revenge ? 345000 : 300000;
             NPC.aiStyle = AIType = -1;
             NPC.knockBackResist = 0f;
-            NPC.scale = Main.expertMode ? 1.35f : 1.2f;
+            NPC.scale *= Main.expertMode ? 1.35f : 1.2f;
             NPC.dontTakeDamage = true;
             NPC.alpha = 255;
             NPC.chaseable = false;

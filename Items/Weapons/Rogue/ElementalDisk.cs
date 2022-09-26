@@ -9,7 +9,7 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Weapons.Rogue
 {
     [LegacyName("AccretionDisk")]
-    public class ElementalDisk : ModItem
+    public class ElementalDisk : RogueWeapon
     {
         public override void SetStaticDefaults()
         {

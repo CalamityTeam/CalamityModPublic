@@ -43,6 +43,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             Projectile.minion = true;
             Projectile.timeLeft *= 5;
             Projectile.penetrate = -1;
+            Projectile.DamageType = DamageClass.Summon;
         }
 
         public override void SendExtraAI(BinaryWriter writer)

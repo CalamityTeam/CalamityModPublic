@@ -10,6 +10,7 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class ScavengerNuke : ModProjectile
     {
+        public static readonly SoundStyle ExplosionSound = new("CalamityMod/Sounds/Custom/Ravager/RavagerMissileExplosion");
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Homing Nuke");
@@ -18,7 +19,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-            Projectile.Calamity().canBreakPlayerDefense = true;
+            Projectile.Calamity().DealsDefenseDamage = true;
             Projectile.width = 44;
             Projectile.height = 44;
             Projectile.hostile = true;
@@ -31,8 +32,8 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void AI()
         {
-            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool revenge = CalamityWorld.revenge || bossRush;
 
             if (Projectile.timeLeft < 180)
                 Projectile.tileCollide = true;
@@ -48,8 +49,8 @@ namespace CalamityMod.Projectiles.Boss
 
             Projectile.rotation = (float)Math.Atan2(Projectile.velocity.Y, Projectile.velocity.X) + MathHelper.PiOver2;
 
-            float inertia = malice ? 70f : revenge ? 90f : 110f;
-            float scaleFactor12 = malice ? 20f : revenge ? 16f : 12f;
+            float inertia = bossRush ? 70f : revenge ? 90f : 110f;
+            float scaleFactor12 = bossRush ? 20f : revenge ? 16f : 12f;
 
             if (Projectile.alpha > 0)
                 Projectile.alpha -= 10;
@@ -82,7 +83,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void Kill(int timeLeft)
         {
-            SoundEngine.PlaySound(SoundID.Item14, Projectile.position);
+            SoundEngine.PlaySound(ExplosionSound, Projectile.position);
             Projectile.position = Projectile.Center;
             Projectile.width = Projectile.height = 160;
             Projectile.position.X = Projectile.position.X - (Projectile.width / 2);

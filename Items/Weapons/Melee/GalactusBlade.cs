@@ -1,10 +1,11 @@
-﻿using Terraria.DataStructures;
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -17,8 +18,10 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             DisplayName.SetDefault("Galactus Blade");
             Tooltip.SetDefault("Forged with the fury of nuclear chaos\n" +
-                "Launches a barrage of comets from the sky");
+                "Launches a barrage of comets from the sky\n" +
+                "Receives 33% benefit from melee speed bonuses");
             SacrificeTotal = 1;
+            ItemID.Sets.BonusAttackSpeedMultiplier[Item.type] = 0.33f;
         }
 
         public override void SetDefaults()
@@ -35,8 +38,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.autoReuse = true;
             Item.height = 58;
             Item.value = CalamityGlobalItem.Rarity12BuyPrice;
-            Item.rare = ItemRarityID.Purple;
-            Item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.rare = ModContent.RarityType<Turquoise>();
             Item.shoot = ModContent.ProjectileType<GalacticaComet>();
             Item.shootSpeed = 23f;
         }

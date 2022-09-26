@@ -83,7 +83,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             num80 = num72 / num80;
             num78 *= num80;
             num79 *= num80;
-            if (type == ProjectileID.WoodenArrowFriendly)
+            if (CalamityUtils.CheckWoodenAmmo(type, player))
             {
                 for (int i = 0; i < 7; i++)
                 {

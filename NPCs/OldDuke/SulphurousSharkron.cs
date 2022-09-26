@@ -88,10 +88,10 @@ namespace CalamityMod.NPCs.OldDuke
 
         public override void AI()
         {
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
-            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool expertMode = Main.expertMode || bossRush;
+            bool revenge = CalamityWorld.revenge || bossRush;
+            bool death = CalamityWorld.death || bossRush;
 
             if (NPC.target < 0 || NPC.target == Main.maxPlayers || Main.player[NPC.target].dead)
             {
@@ -123,14 +123,14 @@ namespace CalamityMod.NPCs.OldDuke
             // Fly down
             bool downwardAI = NPC.ai[3] > 0f;
 
-            float flyTowardTargetGateValue = malice ? 60f : death ? 70f : revenge ? 75f : expertMode ? 80f : 90f;
-            float extraTime = malice ? 90f : death ? 100f : revenge ? 105f : expertMode ? 110f : 120f;
+            float flyTowardTargetGateValue = bossRush ? 60f : death ? 70f : revenge ? 75f : expertMode ? 80f : 90f;
+            float extraTime = bossRush ? 90f : death ? 100f : revenge ? 105f : expertMode ? 110f : 120f;
             float aiGateValue = flyTowardTargetGateValue + extraTime;
             if (!normalAI)
                 aiGateValue -= extraTime * 0.3f;
             float explodeIntoGoreGateValue = aiGateValue + extraTime;
             float fallDownGateValue = aiGateValue + extraTime * 0.5f;
-            float maxVelocity = malice ? 24f : death ? 22f : revenge ? 21f : expertMode ? 20f : 18f;
+            float maxVelocity = bossRush ? 24f : death ? 22f : revenge ? 21f : expertMode ? 20f : 18f;
 
             if (NPC.ai[0] == 0f)
             {
@@ -165,7 +165,7 @@ namespace CalamityMod.NPCs.OldDuke
                     Vector2 vector17 = Main.player[NPC.target].Center - NPC.Center;
                     vector17.Normalize();
                     vector17 *= scaleFactor2;
-                    float inertia = malice ? 16f : death ? 18f : revenge ? 20f : expertMode ? 22f : 25f;
+                    float inertia = bossRush ? 16f : death ? 18f : revenge ? 20f : expertMode ? 22f : 25f;
                     NPC.velocity = (NPC.velocity * (inertia - 1f) + vector17) / inertia;
                     NPC.velocity.Normalize();
                     NPC.velocity *= scaleFactor2;
@@ -208,12 +208,9 @@ namespace CalamityMod.NPCs.OldDuke
 
         public override void OnKill()
         {
-            if (!CalamityWorld.revenge)
-            {
-                int closestPlayer = Player.FindClosest(NPC.Center, 1, 1);
-                if (Main.rand.NextBool(8) && Main.player[closestPlayer].statLife < Main.player[closestPlayer].statLifeMax2)
-                    Item.NewItem(NPC.GetSource_Loot(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
-            }
+            int closestPlayer = Player.FindClosest(NPC.Center, 1, 1);
+            if (Main.rand.NextBool(8) && Main.player[closestPlayer].statLife < Main.player[closestPlayer].statLifeMax2)
+                Item.NewItem(NPC.GetSource_Loot(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
         }
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
@@ -261,13 +258,14 @@ namespace CalamityMod.NPCs.OldDuke
 
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)
         {
-            cooldownSlot = 1;
+            cooldownSlot = ImmunityCooldownID.Bosses;
             return NPC.alpha == 0;
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(ModContent.BuffType<Irradiated>(), 240);
+            if (damage > 0)
+                player.AddBuff(ModContent.BuffType<Irradiated>(), 240);
         }
 
         public override bool CheckDead()

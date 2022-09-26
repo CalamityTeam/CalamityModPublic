@@ -18,21 +18,21 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            Item.damage = 16;
+            Item.damage = 24;
             Item.DamageType = DamageClass.Ranged;
             Item.width = 76;
             Item.height = 30;
             Item.useTime = 10;
-            Item.useAnimation = 30;
+            Item.useAnimation = 10;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.knockBack = 1.5f;
             Item.UseSound = SoundID.Item34;
-            Item.value = Item.buyPrice(0, 4, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity3BuyPrice;
             Item.rare = ItemRarityID.Orange;
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<ShadeFire>();
-            Item.shootSpeed = 5.5f;
+            Item.shootSpeed = 8f;
             Item.useAmmo = AmmoID.Gel;
         }
 

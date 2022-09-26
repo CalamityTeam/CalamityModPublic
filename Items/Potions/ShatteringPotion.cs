@@ -40,6 +40,7 @@ namespace CalamityMod.Items.Potions
                 AddIngredient<CrumblingPotion>(2).
                 AddIngredient(ItemID.BeetleHusk).
                 AddTile(TileID.AlchemyTable).
+				AddConsumeItemCallback(Recipe.ConsumptionRules.Alchemy).
                 Register();
 
             CreateRecipe().

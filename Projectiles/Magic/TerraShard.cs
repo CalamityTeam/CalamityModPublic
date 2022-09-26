@@ -29,7 +29,7 @@ namespace CalamityMod.Projectiles.Magic
                 terraMagic.velocity *= 0.1f;
             }
 
-            CalamityGlobalProjectile.HomeInOnNPC(Projectile, false, 500f, 15f, 20f);
+            CalamityUtils.HomeInOnNPC(Projectile, false, 500f, 15f, 20f);
         }
     }
 }

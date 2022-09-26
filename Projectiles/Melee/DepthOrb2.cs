@@ -21,7 +21,7 @@ namespace CalamityMod.Projectiles.Melee
         {
             Projectile.width = 20;
             Projectile.height = 20;
-            Projectile.aiStyle = 27;
+            Projectile.aiStyle = ProjAIStyleID.Beam;
             Projectile.friendly = true;
             Projectile.DamageType = DamageClass.Melee;
             Projectile.penetrate = 1;
@@ -39,7 +39,7 @@ namespace CalamityMod.Projectiles.Melee
             Main.dust[num458].velocity *= 0.5f;
             Main.dust[num458].velocity += Projectile.velocity * 0.1f;
 
-            CalamityGlobalProjectile.HomeInOnNPC(Projectile, !Projectile.tileCollide, 200f, 12f, 20f);
+            CalamityUtils.HomeInOnNPC(Projectile, !Projectile.tileCollide, 200f, 12f, 20f);
         }
 
         public override bool PreDraw(ref Color lightColor)

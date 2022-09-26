@@ -44,12 +44,14 @@ namespace CalamityMod.NPCs.Leviathan
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = null;
             NPC.rarity = 2;
-            Music = CalamityMod.Instance.GetMusicFromMusicMod("AnahitaPreboss") ?? -1;
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToSickness = true;
             NPC.Calamity().VulnerableToElectricity = true;
             NPC.Calamity().VulnerableToWater = false;
             NPC.Calamity().ProvidesProximityRage = false;
+
+            if (Main.getGoodWorld)
+                NPC.scale *= 0.8f;
         }
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)

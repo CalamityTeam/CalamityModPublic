@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class WebBall : ModItem
+    public class WebBall : RogueWeapon
     {
         public override void SetStaticDefaults()
         {

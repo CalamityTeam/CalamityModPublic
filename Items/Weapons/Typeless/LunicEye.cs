@@ -38,6 +38,11 @@ namespace CalamityMod.Items.Weapons.Typeless
             Item.shootSpeed = 12f;
         }
 
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = (ContentSamples.CreativeHelper.ItemGroup)CalamityResearchSorting.ClasslessWeapon;
+		}
+
         public override Vector2? HoldoutOffset()
         {
             return new Vector2(-5, 0);
@@ -50,6 +55,7 @@ namespace CalamityMod.Items.Weapons.Typeless
                 AddIngredient<SeaPrism>(15).
                 AddIngredient<AerialiteBar>(15).
                 AddIngredient(ItemID.SunplateBlock, 15).
+                AddIngredient<PearlShard>(2).
                 AddTile(TileID.Anvils).
                 Register();
         }

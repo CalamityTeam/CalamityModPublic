@@ -8,10 +8,11 @@ using CalamityMod.Items.Weapons.Summon;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.Audio;
 using Terraria.GameContent.Bestiary;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Audio;
 
 namespace CalamityMod.NPCs.AcidRain
 {
@@ -165,11 +166,16 @@ namespace CalamityMod.NPCs.AcidRain
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
             npcLoot.Add(ModContent.ItemType<SulphuricScale>(), 2, 1, 3);
-            npcLoot.AddIf(() => !DownedBossSystem.downedAquaticScourge, ModContent.ItemType<CausticCroakerStaff>(), 20);
-            npcLoot.AddIf(() => DownedBossSystem.downedAquaticScourge, ModContent.ItemType<CausticCroakerStaff>(), 100);
+            LeadingConditionRule postAS = npcLoot.DefineConditionalDropSet(() => DownedBossSystem.downedAquaticScourge);
+            postAS.Add(ModContent.ItemType<CausticCroakerStaff>(), 100, hideLootReport: !DownedBossSystem.downedAquaticScourge);
+            postAS.AddFail(ModContent.ItemType<CausticCroakerStaff>(), 20, hideLootReport: DownedBossSystem.downedAquaticScourge);
         }
 
-        public override void OnHitPlayer(Player target, int damage, bool crit) => target.AddBuff(ModContent.BuffType<Irradiated>(), 120);
+        public override void OnHitPlayer(Player target, int damage, bool crit)
+        {
+            if (damage > 0)
+                target.AddBuff(ModContent.BuffType<Irradiated>(), 120);
+        }
 
         public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor) => CalamityGlobalNPC.DrawGlowmask(NPC, spriteBatch, ModContent.Request<Texture2D>(Texture + "Glow").Value, true);
     }

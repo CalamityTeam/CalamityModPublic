@@ -11,6 +11,8 @@ namespace CalamityMod.Items.Placeables
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Novae Slag");
+            SacrificeTotal = 200;
+			ItemID.Sets.SortingPriorityExtractibles[Type] = 1; // Silt Block
         }
 
         public override void SetDefaults()

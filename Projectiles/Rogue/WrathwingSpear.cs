@@ -2,6 +2,7 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.Buffs.DamageOverTime;
 
 namespace CalamityMod.Projectiles.Rogue
 {
@@ -48,7 +49,7 @@ namespace CalamityMod.Projectiles.Rogue
 
             // Homing
             // The item's default velocity is 28. Homing speed is intentionally a bit lower.
-            CalamityGlobalProjectile.HomeInOnNPC(Projectile, true, 450f, 23f, 30f);
+            CalamityUtils.HomeInOnNPC(Projectile, true, 450f, 23f, 30f);
 
             // Animation
             Projectile.frameCounter++;
@@ -101,8 +102,8 @@ namespace CalamityMod.Projectiles.Rogue
             }
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => target.AddBuff(BuffID.Daybreak, 300);
-        public override void OnHitPvp(Player target, int damage, bool crit) => target.AddBuff(BuffID.Daybreak, 300);
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => target.AddBuff(ModContent.BuffType<Dragonfire>(), 300);
+        public override void OnHitPvp(Player target, int damage, bool crit) => target.AddBuff(ModContent.BuffType<Dragonfire>(), 300);
 
         public override bool PreDraw(ref Color lightColor)
         {

@@ -21,6 +21,7 @@ namespace CalamityMod.Projectiles.Healing
             Projectile.alpha = 255;
             Projectile.penetrate = 1;
             Projectile.timeLeft = 180;
+			Projectile.tileCollide = false;
         }
 
         public override void AI()
@@ -35,7 +36,7 @@ namespace CalamityMod.Projectiles.Healing
 
             float num498 = Projectile.velocity.X * 0.2f;
             float num499 = -(Projectile.velocity.Y * 0.2f);
-            int num500 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 66, 0f, 0f, 100, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 1f);
+            int num500 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 66, 0f, 0f, 100, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 1f);
             Dust dust = Main.dust[num500];
             dust.noGravity = true;
             dust.position.X -= num498;

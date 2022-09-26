@@ -131,7 +131,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             NPC.spriteDirection = (Target.Center.X < NPC.Center.X).ToDirectionInt();
 
             timer++;
-            int shootRate = (CalamityWorld.malice || BossRushEvent.BossRushActive) ? 120 : 180;
+            int shootRate = BossRushEvent.BossRushActive ? 120 : 180;
             if (timer > shootRate)
             {
                 for (int i = 0; i < Main.maxNPCs; i++)
@@ -162,17 +162,14 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
         public override void OnKill()
         {
-            if (!CalamityWorld.revenge)
-            {
-                int closestPlayer = Player.FindClosest(NPC.Center, 1, 1);
-                if (Main.rand.NextBool(4) && Main.player[closestPlayer].statLife < Main.player[closestPlayer].statLifeMax2)
-                    Item.NewItem(NPC.GetSource_Loot(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
-            }
+            int closestPlayer = Player.FindClosest(NPC.Center, 1, 1);
+            if (Main.rand.NextBool(4) && Main.player[closestPlayer].statLife < Main.player[closestPlayer].statLifeMax2)
+                Item.NewItem(NPC.GetSource_Loot(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
         }
 
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)
         {
-            cooldownSlot = 1;
+            cooldownSlot = ImmunityCooldownID.Bosses;
             return true;
         }
 

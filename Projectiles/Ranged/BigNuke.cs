@@ -75,7 +75,22 @@ namespace CalamityMod.Projectiles.Ranged
                     Main.dust[num249].velocity *= 0.05f;
                 }
             }
-            CalamityGlobalProjectile.HomeInOnNPC(Projectile, !Projectile.tileCollide, 200f, 12f, 20f);
+            CalamityUtils.HomeInOnNPC(Projectile, !Projectile.tileCollide, 200f, 12f, 20f);
+
+            // Construct a fake item to use with vanilla code for the sake of picking ammo.
+            if (FalseLauncher is null)
+                DefineFalseLauncher();
+            Player player = Main.player[Projectile.owner];
+            int projID = ProjectileID.RocketI;
+            float shootSpeed = 0f;
+            int damage = 0;
+            float kb = 0f;
+            player.PickAmmo(FalseLauncher, out projID, out shootSpeed, out damage, out kb, out _, true);
+			if (projID == ProjectileID.DryRocket || projID == ProjectileID.WetRocket || projID == ProjectileID.LavaRocket || projID == ProjectileID.HoneyRocket)
+			{
+				if (Projectile.wet)
+					Projectile.timeLeft = 1;
+			}
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
@@ -87,7 +102,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void Kill(int timeLeft)
         {
-            CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 720);
+            Projectile.ExpandHitboxBy(720);
             Projectile.maxPenetrate = -1;
             Projectile.penetrate = -1;
             Projectile.usesLocalNPCImmunity = true;
@@ -163,17 +178,39 @@ namespace CalamityMod.Projectiles.Ranged
             Player player = Main.player[Projectile.owner];
             int projID = ProjectileID.RocketI;
             float shootSpeed = 0f;
-            bool canShoot = true;
             int damage = 0;
             float kb = 0f;
             player.PickAmmo(FalseLauncher, out projID, out shootSpeed, out damage, out kb, out _, true);
 
-            CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 16);
+            Projectile.ExpandHitboxBy(16);
 
-            if (Projectile.owner == Main.myPlayer && (projID == ProjectileID.RocketII || projID == ProjectileID.RocketIV))
+            if (Projectile.owner == Main.myPlayer && (projID == ProjectileID.RocketII || projID == ProjectileID.RocketIV || projID == ProjectileID.MiniNukeRocketII || projID == ProjectileID.ClusterRocketII))
             {
                 CalamityUtils.ExplodeandDestroyTiles(Projectile, 23, true, new List<int>() { }, new List<int>() { });
             }
+			if (Projectile.owner == Main.myPlayer)
+			{
+				Point center = Projectile.Center.ToTileCoordinates();
+				DelegateMethods.v2_1 = center.ToVector2();
+				DelegateMethods.f_1 = 5f;
+				if (projID == ProjectileID.DryRocket)
+				{
+					DelegateMethods.f_1 = 5.5f;
+					Utils.PlotTileArea(center.X, center.Y, DelegateMethods.SpreadDry);
+				}
+				else if (projID == ProjectileID.WetRocket)
+				{
+					Utils.PlotTileArea(center.X, center.Y, DelegateMethods.SpreadWater);
+				}
+				else if (projID == ProjectileID.LavaRocket)
+				{
+					Utils.PlotTileArea(center.X, center.Y, DelegateMethods.SpreadHoney);
+				}
+				else if (projID == ProjectileID.HoneyRocket)
+				{
+					Utils.PlotTileArea(center.X, center.Y, DelegateMethods.SpreadLava);
+				}
+			}
         }
     }
 }

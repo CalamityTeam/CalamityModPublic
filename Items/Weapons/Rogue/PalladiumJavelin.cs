@@ -6,7 +6,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class PalladiumJavelin : ModItem
+    public class PalladiumJavelin : RogueWeapon
     {
         public override void SetStaticDefaults()
         {

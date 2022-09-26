@@ -17,18 +17,18 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
         {
             CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || bossRush;
 
             float enrageScale = death ? 0.25f : 0f;
-            if ((npc.position.Y / 16f) < Main.worldSurface || malice)
+            if ((npc.position.Y / 16f) < Main.worldSurface || bossRush)
             {
-                npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
+                npc.Calamity().CurrentlyEnraged = !bossRush;
                 enrageScale += 0.5f;
             }
-            if (!Main.player[npc.target].ZoneJungle || malice)
+            if (!Main.player[npc.target].ZoneJungle || bossRush)
             {
-                npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
+                npc.Calamity().CurrentlyEnraged = !bossRush;
                 enrageScale += 0.5f;
             }
 
@@ -38,7 +38,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             if (Main.getGoodWorld)
                 enrageScale += 0.5f;
 
-            if (BossRushEvent.BossRushActive)
+            if (bossRush)
                 enrageScale = 2f;
 
             // Percent life remaining
@@ -550,10 +550,10 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     SoundEngine.PlaySound(SoundID.Item17, npc.position);
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        float num624 = 12f;
+                        float num624 = 5f;
                         if (phase3)
-                            num624 += 3f;
-                        num624 += 3f * enrageScale;
+                            num624 += 1f;
+                        num624 += 2f * enrageScale;
 
                         float num625 = Main.player[npc.target].position.X + Main.player[npc.target].width * 0.5f - vector78.X;
                         float num626 = Main.player[npc.target].position.Y + Main.player[npc.target].height * 0.5f - vector78.Y;
@@ -561,9 +561,10 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         num627 = num624 / num627;
                         num625 *= num627;
                         num626 *= num627;
-                        int type = ProjectileID.Stinger;
-                        int projectile = Projectile.NewProjectile(npc.GetSource_FromAI(), vector78.X, vector78.Y, num625, num626, type, npc.GetProjectileDamage(type), 0f, Main.myPlayer, 0f, 0f);
-                        Main.projectile[projectile].timeLeft = 300;
+                        int type = ProjectileID.QueenBeeStinger;
+                        int projectile = Projectile.NewProjectile(npc.GetSource_FromAI(), vector78.X, vector78.Y, num625, num626, type, npc.GetProjectileDamage(type), 0f, Main.myPlayer);
+                        Main.projectile[projectile].timeLeft = 600;
+                        Main.projectile[projectile].extraUpdates = 1;
                     }
                 }
 

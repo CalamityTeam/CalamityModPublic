@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             Item.width = 54;
             Item.height = 52;
-            Item.damage = 73;
+            Item.damage = 53;
             Item.knockBack = 8.5f;
             Item.DamageType = DamageClass.Magic;
             Item.mana = 26;
@@ -40,10 +40,11 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.useTurn = false;
             Item.noMelee = true;
             Item.noUseGraphic = true;
-            Item.value = Item.buyPrice(gold: 36);
+            Item.value = CalamityGlobalItem.RarityPinkBuyPrice;
             Item.rare = ItemRarityID.Pink;
             Item.shoot = ModContent.ProjectileType<ValkyrieRayStaff>();
             Item.shootSpeed = 25f;
+            Item.autoReuse = true;
         }
 
         public override void AddRecipes()

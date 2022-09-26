@@ -1,8 +1,9 @@
-﻿using Terraria.DataStructures;
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -23,7 +24,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             Item.width = 66;
             Item.height = 66;
-            Item.DamageType = DamageClass.Melee;
+            Item.DamageType = TrueMeleeNoSpeedDamageClass.Instance;
             Item.noMelee = true;
             Item.noUseGraphic = true;
             Item.channel = true;
@@ -35,10 +36,9 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.useStyle = ItemUseStyleID.Shoot;
 
             Item.value = CalamityGlobalItem.Rarity12BuyPrice;
-            Item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.rare = ModContent.RarityType<Turquoise>();
             Item.Calamity().donorItem = true;
 
-            Item.Calamity().trueMelee = true;
             Item.shoot = ModContent.ProjectileType<DevilsSunriseProj>();
             Item.shootSpeed = 24f;
         }

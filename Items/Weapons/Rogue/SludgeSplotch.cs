@@ -9,7 +9,7 @@ using Terraria.Audio;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class SludgeSplotch : ModItem
+    public class SludgeSplotch : RogueWeapon
     {
         public override void SetStaticDefaults()
         {

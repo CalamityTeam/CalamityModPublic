@@ -8,15 +8,15 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class BlazingStar : ModItem
+    public class BlazingStar : RogueWeapon
     {
         public const float Speed = 13f;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Blazing Star");
-            Tooltip.SetDefault("Stacks up to 4\n" +
+            Tooltip.SetDefault("Stacks up to 3\n" +
                                "Stealth strikes release all stars at once with infinite piercing");
-            SacrificeTotal = 4;
+            SacrificeTotal = 3;
         }
 
         public override void SetDefaults()
@@ -31,10 +31,10 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.useAnimation = 15;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.knockBack = 4f;
-            Item.value = Item.buyPrice(0, 4, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity3BuyPrice;
             Item.rare = ItemRarityID.LightRed;
             Item.UseSound = SoundID.Item1;
-            Item.maxStack = 4;
+            Item.maxStack = 3;
 
             Item.shootSpeed = Speed;
             Item.shoot = ModContent.ProjectileType<BlazingStarProj>();

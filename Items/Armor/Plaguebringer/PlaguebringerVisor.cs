@@ -55,7 +55,7 @@ namespace CalamityMod.Items.Armor.Plaguebringer
 
             player.Calamity().plaguebringerPatronSet = true;
             player.Calamity().DashID = PlaguebringerArmorDash.ID;
-            player.dash = 0;
+            player.dashType = 0;
             player.maxMinions += 3;
             if (player.whoAmI == Main.myPlayer)
             {

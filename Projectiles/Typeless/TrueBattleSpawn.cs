@@ -17,7 +17,7 @@ namespace CalamityMod.Projectiles.Typeless
         {
             Projectile.width = 6;
             Projectile.height = 6;
-            Projectile.aiStyle = 1;
+            Projectile.aiStyle = ProjAIStyleID.Arrow;
             Projectile.scale = 1f;
             Projectile.penetrate = 1;
             Projectile.timeLeft = 20;

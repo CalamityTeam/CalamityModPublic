@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class CorpusAvertor : ModItem
+    public class CorpusAvertor : RogueWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -23,8 +23,8 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SetDefaults()
         {
-            Item.width = 18;
-            Item.height = 32;
+            Item.width = 32;
+            Item.height = 44;
             Item.damage = 98;
             Item.noMelee = true;
             Item.noUseGraphic = true;
@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.knockBack = 3f;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
-            Item.value = Item.buyPrice(gold: 80);
+            Item.value = CalamityGlobalItem.RarityYellowBuyPrice;
             Item.rare = ItemRarityID.Yellow;
             Item.Calamity().donorItem = true;
             Item.shoot = ModContent.ProjectileType<CorpusAvertorProj>();

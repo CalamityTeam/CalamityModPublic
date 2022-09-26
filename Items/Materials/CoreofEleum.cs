@@ -11,7 +11,10 @@ namespace CalamityMod.Items.Materials
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 25;
+            ItemID.Sets.ItemNoGravity[Item.type] = true;
+
             DisplayName.SetDefault("Core of Eleum");
+			ItemID.Sets.SortingPriorityMaterials[Type] = 94; // Spectre Bar
         }
 
         public override void SetDefaults()

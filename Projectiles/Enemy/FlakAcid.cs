@@ -47,13 +47,17 @@ namespace CalamityMod.Projectiles.Enemy
                 Projectile.Kill();
             }
         }
+
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
+            if (damage <= 0)
+                return;
+
             target.AddBuff(ModContent.BuffType<Irradiated>(), 180);
         }
         public override void Kill(int timeLeft)
         {
-            CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 150);
+            Projectile.ExpandHitboxBy(150);
             Projectile.Damage();
             for (int i = 0; i <= 40; i++)
             {

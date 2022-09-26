@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class MonkeyDarts : ModItem
+    public class MonkeyDarts : RogueWeapon
     {
         public override void SetStaticDefaults()
         {

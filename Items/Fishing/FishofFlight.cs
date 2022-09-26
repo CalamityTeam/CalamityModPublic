@@ -11,6 +11,7 @@ namespace CalamityMod.Items.Fishing
             DisplayName.SetDefault("Fish of Flight");
             Tooltip.SetDefault("Right click to extract souls");
             SacrificeTotal = 10;
+            ItemID.Sets.CanBePlacedOnWeaponRacks[Item.type] = true;
         }
 
         public override void SetDefaults()
@@ -23,16 +24,12 @@ namespace CalamityMod.Items.Fishing
             Item.value = Item.sellPrice(gold: 1);
         }
 
-        public override bool CanRightClick()
-        {
-            return true;
-        }
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = ContentSamples.CreativeHelper.ItemGroup.GoodieBags;
+		}
 
-        public override void RightClick(Player player)
-        {
-            // IEntitySource my beloathed
-            var s = player.GetSource_OpenItem(Item.type);
-            DropHelper.DropItem(s, player, ItemID.SoulofFlight, 2, 5);
-        }
+        public override bool CanRightClick() => true;
+        public override void ModifyItemLoot(ItemLoot itemLoot) => itemLoot.Add(ItemID.SoulofFlight, 1, 5, 8);
     }
 }

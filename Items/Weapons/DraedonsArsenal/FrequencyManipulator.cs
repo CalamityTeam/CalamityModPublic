@@ -1,9 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using CalamityMod.CustomRecipes;
+﻿using CalamityMod.CustomRecipes;
 using CalamityMod.Items.Materials;
+using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Projectiles.DraedonsArsenal;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
+using System;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -11,10 +13,11 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.DraedonsArsenal
 {
-    public class FrequencyManipulator : ModItem
+    public class FrequencyManipulator : RogueWeapon
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Frequency Manipulator");
             Tooltip.SetDefault("A long device, used in the tuning of some rather... original machines\n" +
                                "Swings a spear around and then throws it\n" +
@@ -39,8 +42,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             Item.knockBack = 5f;
 
             Item.value = CalamityGlobalItem.Rarity5BuyPrice;
-            Item.rare = ItemRarityID.Red;
-            modItem.customRarity = CalamityRarity.DraedonRust;
+            Item.rare = ModContent.RarityType<DarkOrange>();
             Item.UseSound = SoundID.Item1;
 
             Item.shootSpeed = 16f;

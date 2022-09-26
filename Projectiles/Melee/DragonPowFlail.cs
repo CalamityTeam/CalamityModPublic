@@ -21,7 +21,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.width = 50;
             Projectile.height = 50;
             Projectile.friendly = true;
-            Projectile.DamageType = DamageClass.Melee;
+            Projectile.DamageType = DamageClass.MeleeNoSpeed;
             Projectile.ignoreWater = true;
             Projectile.tileCollide = false;
             Projectile.extraUpdates = 2;
@@ -188,7 +188,7 @@ namespace CalamityMod.Projectiles.Melee
                     Projectile petal = CalamityUtils.ProjectileBarrage(source, Projectile.Center, targetPos, Main.rand.NextBool(), 1000f, 1400f, 80f, 900f, Main.rand.NextFloat(DragonPow.MinPetalSpeed, DragonPow.MaxPetalSpeed), type, petalDamage, petalKB, Projectile.owner);
                     if (petal.whoAmI.WithinBounds(Main.maxProjectiles))
                     {
-                        petal.Calamity().forceMelee = true;
+                        petal.DamageType = DamageClass.Melee;
                         petal.rotation = angle;
                         petal.usesLocalNPCImmunity = true;
                         petal.localNPCHitCooldown = -1;

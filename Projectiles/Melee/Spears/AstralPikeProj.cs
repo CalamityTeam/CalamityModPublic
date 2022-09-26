@@ -1,9 +1,10 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
+using CalamityMod.Projectiles.BaseProjectiles;
 using CalamityMod.Projectiles.Typeless;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Projectiles.BaseProjectiles;
 
 namespace CalamityMod.Projectiles.Melee.Spears
 {
@@ -17,8 +18,8 @@ namespace CalamityMod.Projectiles.Melee.Spears
         public override void SetDefaults()
         {
             Projectile.width = 40;  //The width of the .png file in pixels divided by 2.
-            Projectile.aiStyle = 19;
-            Projectile.DamageType = DamageClass.Melee;  //Dictates whether projectile is a melee-class weapon.
+            Projectile.aiStyle = ProjAIStyleID.Spear;
+            Projectile.DamageType = TrueMeleeDamageClass.Instance;
             Projectile.timeLeft = 90;
             Projectile.height = 40;  //The height of the .png file in pixels divided by 2.
             Projectile.friendly = true;
@@ -27,7 +28,6 @@ namespace CalamityMod.Projectiles.Melee.Spears
             Projectile.ignoreWater = true;
             Projectile.penetrate = -1;
             Projectile.ownerHitCheck = true;
-            Projectile.Calamity().trueMelee = true;
         }
 
         public override float InitialSpeed => 3f;
@@ -53,7 +53,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
                         Projectile star = CalamityUtils.ProjectileBarrage(source, Projectile.Center, target.Center, Main.rand.NextBool(), 800f, 800f, 800f, 800f, 10f, ModContent.ProjectileType<AstralStar>(), (int)(Projectile.damage * 0.4), 1f, Projectile.owner, true);
                         if (star.whoAmI.WithinBounds(Main.maxProjectiles))
                         {
-                            star.Calamity().forceMelee = true;
+                            star.DamageType = DamageClass.Melee;
                             star.ai[0] = 3f;
                         }
                     }

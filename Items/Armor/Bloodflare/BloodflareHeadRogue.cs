@@ -1,5 +1,6 @@
 ﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
+using CalamityMod.Rarities;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -22,9 +23,9 @@ namespace CalamityMod.Items.Armor.Bloodflare
         {
             Item.width = 18;
             Item.height = 18;
-            Item.value = Item.buyPrice(0, 60, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity13BuyPrice;
             Item.defense = 28; //85
-            Item.Calamity().customRarity = CalamityRarity.PureGreen;
+            Item.rare = ModContent.RarityType<PureGreen>();
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
@@ -48,13 +49,10 @@ namespace CalamityMod.Items.Armor.Bloodflare
                 "Enemies below 50% life drop a heart when struck\n" +
                 "This effect has a 5 second cooldown\n" +
                 "Enemies killed during a Blood Moon have a much higher chance to drop Blood Orbs\n" +
+				"+120 maximum stealth\n" +
                 "Being over 80% life boosts your defense by 30 and rogue crit by 5%\n" +
                 "Being below 80% life boosts your rogue damage by 10%\n" +
-                "Rogue critical strikes have a 50% chance to heal you\n" +
-                "Rogue stealth builds while not attacking and slower while moving, up to a max of 120\n" +
-                "Once you have built max stealth, you will be able to perform a Stealth Strike\n" +
-                "Rogue stealth only reduces when you attack, it does not reduce while moving\n" +
-                "The higher your rogue stealth the higher your rogue damage, crit, and movement speed";
+                "Rogue critical strikes have a 50% chance to heal you";
             player.crimsonRegen = true;
         }
 

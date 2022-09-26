@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class TerraDisk : ModItem
+    public class TerraDisk : RogueWeapon
     {
         public static int BaseDamage = 100;
         public static float Speed = 12f;
@@ -37,7 +37,7 @@ Stealth strikes travel slower and are rapidly orbited by the smaller disks");
             Item.useStyle = ItemUseStyleID.Swing;
             Item.UseSound = SoundID.Item1;
 
-            Item.value = Item.buyPrice(gold: 80);
+            Item.value = CalamityGlobalItem.RarityYellowBuyPrice;
             Item.rare = ItemRarityID.Yellow;
 
             Item.DamageType = RogueDamageClass.Instance;
@@ -86,7 +86,7 @@ Stealth strikes travel slower and are rapidly orbited by the smaller disks");
                 AddIngredient<FishboneBoomerang>().
                 AddIngredient<Equanimity>().
                 AddIngredient(ItemID.ThornChakram).
-                AddIngredient<LivingShard>(8).
+                AddIngredient<LivingShard>(12).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

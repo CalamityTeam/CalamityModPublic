@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class GacruxianProj : ModProjectile
     {
-        public override string Texture => "CalamityMod/Items/Fishing/AstralCatches/GacruxianMollusk";
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/GacruxianMollusk";
 
         public override void SetStaticDefaults()
         {
@@ -23,7 +23,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.friendly = true;
             Projectile.ignoreWater = true;
             Projectile.penetrate = 1;
-            Projectile.aiStyle = 113;
+            Projectile.aiStyle = ProjAIStyleID.StickProjectile;
             Projectile.timeLeft = 600;
             AIType = ProjectileID.BoneJavelin;
             Projectile.DamageType = RogueDamageClass.Instance;
@@ -45,7 +45,7 @@ namespace CalamityMod.Projectiles.Rogue
                 {
                     int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<UltimusCleaverDust>(), (int)(Projectile.damage * 0.75), Projectile.knockBack, Projectile.owner);
                     if (proj.WithinBounds(Main.maxProjectiles))
-                        Main.projectile[proj].Calamity().forceRogue = true;
+                        Main.projectile[proj].DamageType = RogueDamageClass.Instance;
                 }
             }
         }

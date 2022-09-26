@@ -41,6 +41,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             Projectile.alpha = 255;
             Projectile.localNPCHitCooldown = 15;
             Projectile.usesLocalNPCImmunity = true;
+            Projectile.DamageType = DamageClass.Summon;
         }
         public override float DetermineLaserLength()
         {

@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             Item.width = 30;
             Item.height = 26;
-            Item.DamageType = DamageClass.Melee;
+            Item.DamageType = DamageClass.MeleeNoSpeed;
             Item.damage = 29;
             Item.knockBack = 4.25f;
             Item.useTime = 22;
@@ -40,7 +40,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.shootSpeed = 8f;
 
             Item.rare = ItemRarityID.Orange;
-            Item.value = Item.buyPrice(gold: 4);
+            Item.value = CalamityGlobalItem.Rarity3BuyPrice;
         }
 
         public override void AddRecipes()

@@ -17,9 +17,11 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             DisplayName.SetDefault("Brimstone Sword");
             Tooltip.SetDefault("Summons brimstone geysers on hit\n" +
-                "Right click to throw like a javelin that explodes on hit");
+                "Right click to throw like a javelin that explodes on hit\n" +
+                "Receives 33% benefit from melee speed bonuses");
             SacrificeTotal = 1;
             ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
+            ItemID.Sets.BonusAttackSpeedMultiplier[Item.type] = 0.33f;
         }
 
         public override void SetDefaults()
@@ -33,7 +35,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.useTurn = true;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.knockBack = 7.5f;
-            Item.value = Item.buyPrice(0, 36, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity6BuyPrice;
             Item.rare = ItemRarityID.Pink;
             Item.shoot = ModContent.ProjectileType<ProfanedSwordProj>();
             Item.UseSound = SoundID.Item1;

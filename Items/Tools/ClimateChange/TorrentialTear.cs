@@ -9,9 +9,10 @@ namespace CalamityMod.Items.Tools.ClimateChange
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Torrential Tear");
-            Tooltip.SetDefault("Summons the rain.\n" +
-                "Rain will start some time after this item is used.\n" +
-                "If used while it's raining, the rain will stop some time afterward.");
+            Tooltip.SetDefault("Summons the rain\n" +
+                "Rain will start some time after this item is used\n" +
+                "If used while it's raining, the rain will stop some time afterward");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
@@ -25,6 +26,11 @@ namespace CalamityMod.Items.Tools.ClimateChange
             Item.UseSound = SoundID.Item66;
             Item.consumable = false;
         }
+
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = ContentSamples.CreativeHelper.ItemGroup.EventItem;
+		}
 
         public override bool CanUseItem(Player player)
         {

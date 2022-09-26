@@ -1,0 +1,41 @@
+﻿[h1]Calamity Mod[/h1]
+[url=https://discord.gg/calamity]Discord[/url] [url=https://calamitymod.wiki.gg]Official Wiki[/url]
+
+The Calamity Mod is a vast content mod that creates a new and refreshing experience for Terraria!
+
+With this mod comes a slew of new bosses, unique and challenging difficulty modes, over a thousand new items, new NPCs, and entire new biomes to explore! Calamity also massively expands the endgame of Terraria, creating an entirely original, intense experience for players to enjoy.
+
+The mod additionally tweaks tons of vanilla features whilst adding new ones to aid the player's experience and heavily expand on the base game, including but not limited to:
+[olist]
+[*] Reworked reforging with the Goblin Tinkerer
+[*] Reworked gameplay progression in early Hardmode
+[*] Dozens of extra crafting recipes for existing vanilla items
+[*] Dozens more quality of life and balance changes!
+[/olist]
+
+[i]Please note that this mod does [b]NOT[/b] include Calamity's soundtrack! You will need to download the music mod for the full intended experience![/i]
+https://steamcommunity.com/sharedfiles/filedetails/?id=2824688266
+
+[b]Be sure to join our Discord server linked above to keep up with the latest news about upcoming updates and features.[/b]
+
+[hr]
+
+A more detailed breakdown of the content available in Calamity:
+[olist]
+[*] 27 bosses and 12 minibosses
+[*] 100+ enemies
+[*] 5 town NPCs
+[*] 5 biomes and many new structures
+[*] 1 event
+[*] 1 new playable class (based on Throwing from Terraria 1.3)
+[*] 1800+ items
+[*] 700+ weapons
+[*] 100+ blocks
+[*] 200+ pieces of furniture
+[*] 11 ores
+[*] 2 full difficulty settings above Expert, separate from Master
+[*] 50+ changes to vanilla mechanics
+[*] 30+ new recipes for vanilla items
+[*] 450+ tweaks and improvements to vanilla items
+[*] Cross-mod support for the Thorium Mod
+[/olist]

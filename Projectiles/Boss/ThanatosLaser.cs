@@ -24,10 +24,10 @@ namespace CalamityMod.Projectiles.Boss
 
         public Vector2 Destination;
         public Vector2 Velocity;
-        public const float TelegraphTotalTime = 30f;
-        public const float TelegraphFadeTime = 15f;
+        public const float TelegraphTotalTime = 60f;
+        public const float TelegraphFadeTime = 30f;
         public const float TelegraphWidth = 4200f;
-        public const float LaserVelocity = 10f;
+        public const float LaserVelocity = 7.5f;
 
         public override void SetStaticDefaults()
         {
@@ -38,7 +38,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-            Projectile.Calamity().canBreakPlayerDefense = true;
+            Projectile.Calamity().DealsDefenseDamage = true;
             Projectile.width = 22;
             Projectile.height = 22;
             Projectile.hostile = true;
@@ -47,18 +47,20 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.alpha = 255;
             Projectile.penetrate = -1;
             Projectile.extraUpdates = 1;
-            Projectile.timeLeft = 600;
-            CooldownSlot = 1;
+            Projectile.timeLeft = 1200;
+            CooldownSlot = ImmunityCooldownID.Bosses;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
         {
+            writer.Write(Projectile.extraUpdates);
             writer.WriteVector2(Destination);
             writer.WriteVector2(Velocity);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
+            Projectile.extraUpdates = reader.ReadInt32();
             Destination = reader.ReadVector2();
             Velocity = reader.ReadVector2();
         }
@@ -98,8 +100,8 @@ namespace CalamityMod.Projectiles.Boss
                     // If a velocity is in reserve, set the true velocity to it and make it as "taken" by setting it to <0,0>
                     if (Velocity != Vector2.Zero)
                     {
-                        Projectile.extraUpdates = 3;
-                        Projectile.velocity = Velocity * ((CalamityWorld.malice || BossRushEvent.BossRushActive) ? 1.25f : 1f);
+                        Projectile.extraUpdates = Main.getGoodWorld ? 4 : 3;
+                        Projectile.velocity = Velocity * (BossRushEvent.BossRushActive ? 1.25f : 1f);
                         Velocity = Vector2.Zero;
                         Projectile.netUpdate = true;
                     }
@@ -161,8 +163,8 @@ namespace CalamityMod.Projectiles.Boss
                 // If a velocity is in reserve, set the true velocity to it and make it as "taken" by setting it to <0,0>
                 if (Velocity != Vector2.Zero)
                 {
-                    Projectile.extraUpdates = 3;
-                    Projectile.velocity = Velocity * ((CalamityWorld.malice || BossRushEvent.BossRushActive) ? 1.25f : 1f);
+                    Projectile.extraUpdates = Main.getGoodWorld ? 4 : 3;
+                    Projectile.velocity = Velocity * (BossRushEvent.BossRushActive ? 1.25f : 1f);
                     Velocity = Vector2.Zero;
                     Projectile.netUpdate = true;
                 }
@@ -242,13 +244,10 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            if (TelegraphDelay > TelegraphTotalTime)
-                target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 180);
-        }
+            if (damage <= 0 || TelegraphDelay <= TelegraphTotalTime)
+                return;
 
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
-        {
-            target.Calamity().lastProjectileHit = Projectile;
+            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 180);
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)

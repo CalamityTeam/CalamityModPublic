@@ -3,9 +3,9 @@ using CalamityMod.Items.Materials;
 using CalamityMod.NPCs.DesertScourge;
 using CalamityMod.World;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Audio;
 
 namespace CalamityMod.Items.SummonItems
 {
@@ -16,8 +16,10 @@ namespace CalamityMod.Items.SummonItems
         {
             SacrificeTotal = 1;
             DisplayName.SetDefault("Desert Medallion");
-            Tooltip.SetDefault("Summons the Desert Scourge when used in the desert\n" +
+            Tooltip.SetDefault("Summons the Desert Scourge when used in the Desert\n" +
+                "Enrages outside the Desert\n" +
                 "Not consumable");
+			ItemID.Sets.SortingPriorityBossSpawns[Type] = 1; // Suspicious Looking Eye
         }
 
         public override void SetDefaults()
@@ -30,6 +32,11 @@ namespace CalamityMod.Items.SummonItems
             Item.useStyle = ItemUseStyleID.HoldUp;
             Item.consumable = false;
         }
+
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = ContentSamples.CreativeHelper.ItemGroup.BossItem;
+		}
 
         public override bool CanUseItem(Player player)
         {

@@ -30,7 +30,7 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.tileCollide = false;
             Projectile.extraUpdates = 1;
             Projectile.timeLeft = 840;
-            CooldownSlot = 1;
+            CooldownSlot = ImmunityCooldownID.Bosses;
         }
 
         public override void AI()
@@ -51,7 +51,7 @@ namespace CalamityMod.Projectiles.Boss
             if (Projectile.velocity.Y > velocityYCap)
                 Projectile.velocity.Y = velocityYCap;
 
-            float velocityX = (!Main.dayTime || CalamityWorld.malice || BossRushEvent.BossRushActive) ? 0.025f : 0.02f;
+            float velocityX = (!Main.dayTime || BossRushEvent.BossRushActive) ? 0.025f : 0.02f;
             if (Projectile.position.X + Projectile.width < player.position.X)
             {
                 if (Projectile.velocity.X < 0f)
@@ -65,7 +65,7 @@ namespace CalamityMod.Projectiles.Boss
                 Projectile.velocity.X -= velocityX;
             }
 
-            float velocityXCap = (!Main.dayTime || CalamityWorld.malice || BossRushEvent.BossRushActive) ? 10f : 8f;
+            float velocityXCap = (!Main.dayTime || BossRushEvent.BossRushActive) ? 10f : 8f;
             if (Projectile.velocity.X > velocityXCap || Projectile.velocity.X < -velocityXCap)
                 Projectile.velocity.X *= 0.97f;
 
@@ -74,12 +74,12 @@ namespace CalamityMod.Projectiles.Boss
 
         public override Color? GetAlpha(Color lightColor)
         {
-            return ((Main.dayTime && !CalamityWorld.malice) || !NPC.AnyNPCs(ModContent.NPCType<Providence>())) ? new Color(250, 150, 0, Projectile.alpha) : new Color(100, 200, 250, Projectile.alpha);
+            return ((Main.dayTime && !BossRushEvent.BossRushActive) || !NPC.AnyNPCs(ModContent.NPCType<Providence>())) ? new Color(250, 150, 0, Projectile.alpha) : new Color(100, 200, 250, Projectile.alpha);
         }
 
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D texture = ((Main.dayTime && !CalamityWorld.malice) || !NPC.AnyNPCs(ModContent.NPCType<Providence>())) ? ModContent.Request<Texture2D>(Texture).Value : ModContent.Request<Texture2D>("CalamityMod/Projectiles/Boss/HolyFlareNight").Value;
+            Texture2D texture = ((Main.dayTime && !BossRushEvent.BossRushActive) || !NPC.AnyNPCs(ModContent.NPCType<Providence>())) ? ModContent.Request<Texture2D>(Texture).Value : ModContent.Request<Texture2D>("CalamityMod/Projectiles/Boss/HolyFlareNight").Value;
             int num214 = texture.Height / Main.projFrames[Projectile.type];
             int y6 = num214 * Projectile.frame;
             Main.spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y6, texture.Width, num214)), Projectile.GetAlpha(lightColor), Projectile.rotation, new Vector2(texture.Width / 2f, num214 / 2f), Projectile.scale, SpriteEffects.None, 0);
@@ -95,7 +95,7 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.height = 50;
             Projectile.position.X = Projectile.position.X - (Projectile.width / 2);
             Projectile.position.Y = Projectile.position.Y - (Projectile.height / 2);
-            int dustType = ((Main.dayTime && !CalamityWorld.malice) || !NPC.AnyNPCs(ModContent.NPCType<Providence>())) ? (int)CalamityDusts.ProfanedFire : (int)CalamityDusts.Nightwither;
+            int dustType = ((Main.dayTime && !BossRushEvent.BossRushActive) || !NPC.AnyNPCs(ModContent.NPCType<Providence>())) ? (int)CalamityDusts.ProfanedFire : (int)CalamityDusts.Nightwither;
             for (int num621 = 0; num621 < 5; num621++)
             {
                 int num622 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, dustType, 0f, 0f, 100, default, 2f);
@@ -115,13 +115,11 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            int buffType = ((Main.dayTime && !CalamityWorld.malice) || !NPC.AnyNPCs(ModContent.NPCType<Providence>())) ? ModContent.BuffType<HolyFlames>() : ModContent.BuffType<Nightwither>();
-            target.AddBuff(buffType, 180);
-        }
+            if (damage <= 0)
+                return;
 
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
-        {
-            target.Calamity().lastProjectileHit = Projectile;
+            int buffType = ((Main.dayTime && !BossRushEvent.BossRushActive) || !NPC.AnyNPCs(ModContent.NPCType<Providence>())) ? ModContent.BuffType<HolyFlames>() : ModContent.BuffType<Nightwither>();
+            target.AddBuff(buffType, 180);
         }
     }
 }

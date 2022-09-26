@@ -11,6 +11,7 @@ namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
             DisplayName.SetDefault("Charred Lasher");
             Tooltip.SetDefault("This elusive fish is a prized commodity");
             SacrificeTotal = 3;
+            ItemID.Sets.CanBePlacedOnWeaponRacks[Item.type] = true;
         }
 
         public override void SetDefaults()
@@ -21,5 +22,10 @@ namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
             Item.value = Item.sellPrice(gold: 10);
             Item.rare = ItemRarityID.Orange;
         }
+
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = ContentSamples.CreativeHelper.ItemGroup.Fish;
+		}
     }
 }

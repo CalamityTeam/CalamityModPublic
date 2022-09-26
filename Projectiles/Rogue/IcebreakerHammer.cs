@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.friendly = true;
             Projectile.DamageType = RogueDamageClass.Instance;
             Projectile.penetrate = -1;
-            Projectile.aiStyle = 3;
+            Projectile.aiStyle = ProjAIStyleID.Boomerang;
             Projectile.extraUpdates = 1;
             Projectile.timeLeft = 600;
             AIType = ProjectileID.WoodenBoomerang;
@@ -61,7 +61,7 @@ namespace CalamityMod.Projectiles.Rogue
                     {
                         int ice = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<CosmicIceBurst>(), (int)(Projectile.damage * 1.5), Projectile.knockBack, Projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
                         if (ice.WithinBounds(Main.maxProjectiles))
-                            Main.projectile[ice].Calamity().forceRogue = true;
+                            Main.projectile[ice].DamageType = RogueDamageClass.Instance;
                         explosionCount++;
                     }
 
@@ -92,7 +92,7 @@ namespace CalamityMod.Projectiles.Rogue
                     //no explosion count cap in pvp
                     int ice = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<CosmicIceBurst>(), (int)(Projectile.damage * 1.5), Projectile.knockBack, Projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
                     if (ice.WithinBounds(Main.maxProjectiles))
-                        Main.projectile[ice].Calamity().forceRogue = true;
+                        Main.projectile[ice].DamageType = RogueDamageClass.Instance;
 
                     int buffType = ModContent.BuffType<GlacialState>();
                     float radius = 112f; // 7 blocks

@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Buffs;
 using CalamityMod.Particles;
+using CalamityMod.Particles.Metaballs;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;

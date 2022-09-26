@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class FrostyFlare : ModItem
+    public class FrostyFlare : RogueWeapon
     {
         public override void SetStaticDefaults()
         {

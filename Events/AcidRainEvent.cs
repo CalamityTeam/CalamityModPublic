@@ -1,6 +1,7 @@
 ﻿using CalamityMod.NPCs.AcidRain;
 using CalamityMod.NPCs.OldDuke;
 using CalamityMod.Projectiles.Boss;
+using CalamityMod.UI;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
@@ -33,7 +34,7 @@ namespace CalamityMod.Events
         }
     }
 
-    public class AcidRainEvent
+    public class AcidRainEvent : ModSystem
     {
         public static int MaxNuclearToadCount = 5; // To prevent the things from spamming. This happens frequently in pre-HM.
 
@@ -46,57 +47,19 @@ namespace CalamityMod.Events
 
         public const float BloodwormSpawnRate = 0.1f;
 
-        // Not a readonly collection so that if anyone else wants to add stuff in here with their own mod, they can.
-        public static Dictionary<int, AcidRainSpawnData> PossibleEnemiesPreHM = new()
-        {
-            { ModContent.NPCType<NuclearToad>(), new AcidRainSpawnData(1, 0.75f, AcidRainSpawnRequirement.Anywhere) },
-            { ModContent.NPCType<AcidEel>(), new AcidRainSpawnData(1, 1f, AcidRainSpawnRequirement.Water) },
-            { ModContent.NPCType<Radiator>(), new AcidRainSpawnData(1, 1f, AcidRainSpawnRequirement.Water) },
-            { ModContent.NPCType<Skyfin>(), new AcidRainSpawnData(1, 1f, AcidRainSpawnRequirement.Water) },
-            { ModContent.NPCType<WaterLeech>(), new AcidRainSpawnData(1, 1f, AcidRainSpawnRequirement.Water) }
-        };
+        // Collections are not readonly so that if anyone else wants to add stuff to them with their own mod, they can.
+        public static Dictionary<int, AcidRainSpawnData> PossibleEnemiesPreHM = new();
 
         // Note: Irradiated Slimes spawn naturally
-        public static Dictionary<int, AcidRainSpawnData> PossibleEnemiesAS = new()
-        {
-            { ModContent.NPCType<Radiator>(), new AcidRainSpawnData(0, 1f, AcidRainSpawnRequirement.Water) },
-            { ModContent.NPCType<AcidEel>(), new AcidRainSpawnData(0, 1f, AcidRainSpawnRequirement.Water) },
-            { ModContent.NPCType<NuclearToad>(), new AcidRainSpawnData(0, 0.75f, AcidRainSpawnRequirement.Anywhere) },
-            { ModContent.NPCType<FlakCrab>(), new AcidRainSpawnData(1, 1f, AcidRainSpawnRequirement.Water) },
-            { ModContent.NPCType<Orthocera>(), new AcidRainSpawnData(1, 1f, AcidRainSpawnRequirement.Water) },
-            { ModContent.NPCType<Skyfin>(), new AcidRainSpawnData(1, 1f, AcidRainSpawnRequirement.Water) },
-            { ModContent.NPCType<Trilobite>(), new AcidRainSpawnData(1, 1f, AcidRainSpawnRequirement.Water) },
-            { ModContent.NPCType<WaterLeech>(), new AcidRainSpawnData(1, 1f, AcidRainSpawnRequirement.Water) },
-            { ModContent.NPCType<SulphurousSkater>(), new AcidRainSpawnData(1, 0.4f, AcidRainSpawnRequirement.Anywhere) }
-        };
+        public static Dictionary<int, AcidRainSpawnData> PossibleEnemiesAS = new();
 
-        public static Dictionary<int, AcidRainSpawnData> PossibleEnemiesPolter = new()
-        {
-            { ModContent.NPCType<Radiator>(), new AcidRainSpawnData(0, 1f, AcidRainSpawnRequirement.Water) },
-            { ModContent.NPCType<AcidEel>(), new AcidRainSpawnData(0, 1f, AcidRainSpawnRequirement.Water) },
-            { ModContent.NPCType<NuclearToad>(), new AcidRainSpawnData(0, 0.75f, AcidRainSpawnRequirement.Anywhere) },
-            { ModContent.NPCType<FlakCrab>(), new AcidRainSpawnData(1, 1f, AcidRainSpawnRequirement.Water) },
-            { ModContent.NPCType<Orthocera>(), new AcidRainSpawnData(1, 1f, AcidRainSpawnRequirement.Water) },
-            { ModContent.NPCType<Skyfin>(), new AcidRainSpawnData(1, 1f, AcidRainSpawnRequirement.Water) },
-            { ModContent.NPCType<Trilobite>(), new AcidRainSpawnData(1, 1f, AcidRainSpawnRequirement.Water) },
-            { ModContent.NPCType<WaterLeech>(), new AcidRainSpawnData(1, 1f, AcidRainSpawnRequirement.Water) },
-            { ModContent.NPCType<SulphurousSkater>(), new AcidRainSpawnData(1, 0.4f, AcidRainSpawnRequirement.Anywhere) },
-            { ModContent.NPCType<GammaSlime>(), new AcidRainSpawnData(1, 1f, AcidRainSpawnRequirement.Anywhere) }
-        };
+        public static Dictionary<int, AcidRainSpawnData> PossibleEnemiesPolter = new();
 
-        public static Dictionary<int, AcidRainSpawnData> PossibleMinibossesAS = new()
-        {
-            { ModContent.NPCType<CragmawMire>(), new AcidRainSpawnData(5, 0.08f, AcidRainSpawnRequirement.Water) }
-        };
+        public static Dictionary<int, AcidRainSpawnData> PossibleMinibossesAS = new();
 
-        public static Dictionary<int, AcidRainSpawnData> PossibleMinibossesPolter = new()
-        {
-            { ModContent.NPCType<CragmawMire>(), new AcidRainSpawnData(4, 0.08f, AcidRainSpawnRequirement.Water) },
-            { ModContent.NPCType<Mauler>(), new AcidRainSpawnData(4, 0.07f, AcidRainSpawnRequirement.Water) },
-            { ModContent.NPCType<NuclearTerror>(), new AcidRainSpawnData(8, 0.045f, AcidRainSpawnRequirement.Anywhere) }
-        };
+        public static Dictionary<int, AcidRainSpawnData> PossibleMinibossesPolter = new();
 
-        public static readonly List<int> AllMinibosses = PossibleMinibossesAS.Select(miniboss => miniboss.Key).ToList().Concat(PossibleMinibossesPolter.Select(miniboss => miniboss.Key)).Distinct().ToList();
+        public static List<int> AllMinibosses => PossibleMinibossesAS.Select(miniboss => miniboss.Key).ToList().Concat(PossibleMinibossesPolter.Select(miniboss => miniboss.Key)).Distinct().ToList();
 
         public static bool AnyRainMinibosses
         {
@@ -160,6 +123,67 @@ namespace CalamityMod.Events
                     return (int)(Math.Log(playerCount + Math.E - 1) * 110f);
             }
         }
+
+        // Populate the enemy caches safely, after the mod's core content has been fully loaded.
+        public override void OnModLoad()
+        {
+            PossibleEnemiesPreHM = new()
+            {
+                { ModContent.NPCType<NuclearToad>(), new AcidRainSpawnData(1, 0.75f, AcidRainSpawnRequirement.Anywhere) },
+                { ModContent.NPCType<AcidEel>(), new AcidRainSpawnData(1, 1f, AcidRainSpawnRequirement.Water) },
+                { ModContent.NPCType<Radiator>(), new AcidRainSpawnData(1, 1f, AcidRainSpawnRequirement.Water) },
+                { ModContent.NPCType<Skyfin>(), new AcidRainSpawnData(1, 1f, AcidRainSpawnRequirement.Water) },
+                { ModContent.NPCType<WaterLeech>(), new AcidRainSpawnData(1, 1f, AcidRainSpawnRequirement.Water) }
+            };
+            PossibleEnemiesAS = new()
+            {
+                { ModContent.NPCType<Radiator>(), new AcidRainSpawnData(0, 1f, AcidRainSpawnRequirement.Water) },
+                { ModContent.NPCType<AcidEel>(), new AcidRainSpawnData(0, 1f, AcidRainSpawnRequirement.Water) },
+                { ModContent.NPCType<NuclearToad>(), new AcidRainSpawnData(0, 0.75f, AcidRainSpawnRequirement.Anywhere) },
+                { ModContent.NPCType<FlakCrab>(), new AcidRainSpawnData(1, 1f, AcidRainSpawnRequirement.Water) },
+                { ModContent.NPCType<Orthocera>(), new AcidRainSpawnData(1, 1f, AcidRainSpawnRequirement.Water) },
+                { ModContent.NPCType<Skyfin>(), new AcidRainSpawnData(1, 1f, AcidRainSpawnRequirement.Water) },
+                { ModContent.NPCType<Trilobite>(), new AcidRainSpawnData(1, 1f, AcidRainSpawnRequirement.Water) },
+                { ModContent.NPCType<WaterLeech>(), new AcidRainSpawnData(1, 1f, AcidRainSpawnRequirement.Water) },
+                { ModContent.NPCType<SulphurousSkater>(), new AcidRainSpawnData(1, 0.4f, AcidRainSpawnRequirement.Anywhere) }
+            };
+            PossibleEnemiesPolter = new()
+            {
+                { ModContent.NPCType<Radiator>(), new AcidRainSpawnData(0, 1f, AcidRainSpawnRequirement.Water) },
+                { ModContent.NPCType<AcidEel>(), new AcidRainSpawnData(0, 1f, AcidRainSpawnRequirement.Water) },
+                { ModContent.NPCType<NuclearToad>(), new AcidRainSpawnData(0, 0.75f, AcidRainSpawnRequirement.Anywhere) },
+                { ModContent.NPCType<FlakCrab>(), new AcidRainSpawnData(1, 1f, AcidRainSpawnRequirement.Water) },
+                { ModContent.NPCType<Orthocera>(), new AcidRainSpawnData(1, 1f, AcidRainSpawnRequirement.Water) },
+                { ModContent.NPCType<Skyfin>(), new AcidRainSpawnData(1, 1f, AcidRainSpawnRequirement.Water) },
+                { ModContent.NPCType<Trilobite>(), new AcidRainSpawnData(1, 1f, AcidRainSpawnRequirement.Water) },
+                { ModContent.NPCType<WaterLeech>(), new AcidRainSpawnData(1, 1f, AcidRainSpawnRequirement.Water) },
+                { ModContent.NPCType<SulphurousSkater>(), new AcidRainSpawnData(1, 0.4f, AcidRainSpawnRequirement.Anywhere) },
+                { ModContent.NPCType<GammaSlime>(), new AcidRainSpawnData(1, 1f, AcidRainSpawnRequirement.Anywhere) }
+            };
+
+            PossibleMinibossesAS = new()
+            {
+                { ModContent.NPCType<CragmawMire>(), new AcidRainSpawnData(5, 0.08f, AcidRainSpawnRequirement.Water) }
+            };
+            PossibleMinibossesPolter = new()
+            {
+                { ModContent.NPCType<CragmawMire>(), new AcidRainSpawnData(4, 0.08f, AcidRainSpawnRequirement.Water) },
+                { ModContent.NPCType<Mauler>(), new AcidRainSpawnData(4, 0.07f, AcidRainSpawnRequirement.Water) },
+                { ModContent.NPCType<NuclearTerror>(), new AcidRainSpawnData(8, 0.045f, AcidRainSpawnRequirement.Anywhere) }
+            };
+            BossHealthBarManager.MinibossHPBarList.AddRange(AllMinibosses);
+        }
+
+        // Clear enemy cache lists.
+        public override void Unload()
+        {
+            PossibleEnemiesPreHM = new();
+            PossibleEnemiesAS = new();
+            PossibleEnemiesPolter = new();
+            PossibleMinibossesAS = new();
+            PossibleMinibossesPolter = new();
+        }
+
         /// <summary>
         /// Attempts to start the Acid Rain event. Will fail if there is another invasion or boss rush going on. It will also fail if the EoC, WoF, or AS has not been killed yet.
         /// </summary>

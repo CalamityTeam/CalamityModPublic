@@ -27,6 +27,12 @@ namespace CalamityMod.NPCs.Astral
         {
             DisplayName.SetDefault("Mantis");
             Main.npcFrameCount[NPC.type] = 14;
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            {
+                PortraitPositionYOverride = 0
+            };
+            value.Position.Y += 15;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
             if (!Main.dedServ)
                 glowmask = ModContent.Request<Texture2D>("CalamityMod/NPCs/Astral/MantisGlow", AssetRequestMode.ImmediateLoad).Value;
         }
@@ -236,7 +242,8 @@ namespace CalamityMod.NPCs.Astral
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 120, true);
+            if (damage > 0)
+                player.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 120, true);
         }
 
         public override void ModifyNPCLoot(NPCLoot npcLoot)

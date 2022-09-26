@@ -72,10 +72,10 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 Projectile proj = Main.projectile[i];
 
-                if (!proj.active || proj.owner != player.whoAmI || proj.aiStyle != 7)
+                if (!proj.active || proj.owner != player.whoAmI || proj.aiStyle != ProjAIStyleID.Hook)
                     continue;
 
-                if (proj.aiStyle == 7)
+                if (proj.aiStyle == ProjAIStyleID.Hook)
                     proj.Kill();
             }
 

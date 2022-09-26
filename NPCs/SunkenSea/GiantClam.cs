@@ -3,13 +3,15 @@ using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
-using CalamityMod.Items.Placeables.Banners;
+using CalamityMod.Items.Placeables.Furniture.BossRelics;
+using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.NPCs.TownNPCs;
 using CalamityMod.Projectiles.Enemy;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -66,8 +68,6 @@ namespace CalamityMod.NPCs.SunkenSea
             NPC.HitSound = SoundID.NPCHit4;
             NPC.knockBackResist = 0f;
             NPC.rarity = 2;
-            Banner = NPC.type;
-            BannerItem = ModContent.ItemType<GiantClamBanner>();
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToSickness = true;
             NPC.Calamity().VulnerableToElectricity = true;
@@ -450,12 +450,11 @@ namespace CalamityMod.NPCs.SunkenSea
 
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            var hardmode = npcLoot.DefineConditionalDropSet(new Conditions.IsHardmode());
-            var postDesertScourge = npcLoot.DefineConditionalDropSet(() => DownedBossSystem.downedDesertScourge);
+            var hardmode = npcLoot.DefineConditionalDropSet(DropHelper.Hardmode());
 
             // Materials
-            npcLoot.Add(ModContent.ItemType<Navystone>(), 1, 25, 35);
-            hardmode.Add(ModContent.ItemType<MolluskHusk>(), 1, 6, 11);
+            npcLoot.Add(ModContent.ItemType<Navystone>(), 1, 30, 40);
+            hardmode.Add(ModContent.ItemType<MolluskHusk>(), 1, 25, 30);
 
             // Weapons
             int[] weapons = new int[]
@@ -468,11 +467,14 @@ namespace CalamityMod.NPCs.SunkenSea
             hardmode.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, weapons));
 
             // Equipment
-            postDesertScourge.Add(ModContent.ItemType<GiantPearl>(), 3);
-            postDesertScourge.Add(ModContent.ItemType<AmidiasPendant>(), 3);
+            npcLoot.Add(ModContent.ItemType<GiantPearl>(), 3);
+            npcLoot.Add(ModContent.ItemType<AmidiasPendant>(), 3);
 
-            npcLoot.Add(postDesertScourge);
-            npcLoot.Add(hardmode);
+            // Trophy
+            npcLoot.Add(ModContent.ItemType<GiantClamTrophy>(), 10);
+
+            // Relic
+            npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).Add(ModContent.ItemType<GiantClamRelic>(), 4);
         }
     }
 }

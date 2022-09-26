@@ -17,8 +17,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
             // Difficulty bools.
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || bossRush;
 
             // Rotation
             npc.rotation = npc.velocity.X * 0.005f;
@@ -43,7 +43,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             if (npc.life == npc.lifeMax && dayTimeEnrage && !npc.AI_120_HallowBoss_IsGenuinelyEnraged())
                 npc.ai[3] += 2f;
 
-            npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive && dayTimeEnrage;
+            npc.Calamity().CurrentlyEnraged = !bossRush && dayTimeEnrage;
 
             int projectileDamageMultiplier = dayTimeEnrage ? 2 : 1;
 
@@ -316,7 +316,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     npc.TargetClosest();
                     NPCAimedTarget targetData5 = npc.GetTargetData();
                     bool flag12 = false;
-                    if (npc.AI_120_HallowBoss_IsGenuinelyEnraged() && !malice)
+                    if (npc.AI_120_HallowBoss_IsGenuinelyEnraged() && !bossRush)
                     {
                         if (!Main.dayTime)
                             flag12 = true;
@@ -370,7 +370,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         float ai3 = npc.ai[1] / 60f;
                         Vector2 rainbowStreakVelocity = new Vector2(0f, death ? -10f : -8f).RotatedBy((float)Math.PI / 2f * Main.rand.NextFloatDirection());
                         if (phase2)
-                            rainbowStreakVelocity = new Vector2(0f, death ? -15f : -12.5f).RotatedBy((float)Math.PI * 2f * Main.rand.NextFloat());
+                            rainbowStreakVelocity = new Vector2(0f, death ? -12f : -10f).RotatedBy((float)Math.PI * 2f * Main.rand.NextFloat());
 
                         if (dayTimeEnrage)
                             rainbowStreakVelocity *= MathHelper.Lerp(0.8f, 1.6f, ai3);
@@ -556,6 +556,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         float num64 = (float)Math.PI * 2f * Main.rand.NextFloat();
                         float totalProjectiles = death ? (dayTimeEnrage ? 22f : 15f) : (dayTimeEnrage ? 18f : 13f);
                         int projIndex = 0;
+                        bool inversePhase2SpreadPattern = Main.rand.NextBool();
                         for (float i = 0f; i < 1f; i += 1f / totalProjectiles)
                         {
                             int projectileType = ProjectileID.HallowBossLastingRainbow;
@@ -573,8 +574,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             // After inverse: index 0 = 0, index 0.25 = 2, index 0.5 = 0, index 0.75 = 2, index 1 = 0
                             if (phase2)
                             {
-                                float maxAddedVelocity = initialVelocity * 0.5f;
-                                float addedVelocity = Math.Abs(maxAddedVelocity - Math.Abs(MathHelper.Lerp(-maxAddedVelocity, maxAddedVelocity, Math.Abs(i - 0.5f) * 2f)));
+                                float maxAddedVelocity = initialVelocity;
+                                float addedVelocity = inversePhase2SpreadPattern ? Math.Abs(maxAddedVelocity - Math.Abs(MathHelper.Lerp(-maxAddedVelocity, maxAddedVelocity, Math.Abs(i - 0.5f) * 2f))) : Math.Abs(MathHelper.Lerp(-maxAddedVelocity, maxAddedVelocity, Math.Abs(i - 0.5f) * 2f));
                                 initialVelocity += addedVelocity;
                             }
 
@@ -586,8 +587,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     }
 
                     npc.ai[1] += 1f;
-                    extraPhaseTime = (dayTimeEnrage ? 34f : 42f) + 28f * lessTimeSpentPerPhaseMultiplier;
-                    if (npc.ai[1] >= 42f + extraPhaseTime)
+                    extraPhaseTime = (dayTimeEnrage ? 36f : 45f) + 30f * lessTimeSpentPerPhaseMultiplier;
+                    if (npc.ai[1] >= 72f + extraPhaseTime)
                     {
                         npc.ai[0] = 1f;
                         npc.ai[1] = 0f;
@@ -605,8 +606,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     // Increase durability.
                     calamityGlobalNPC.DR = shouldBeInPhase2ButIsStillInPhase1 ? 0.99f : 0.575f;
 
-                    int totalSunDances = 3;
-                    float sunDanceGateValue = death ? 40f : 50f;
+                    int totalSunDances = phase2 ? 2 : 3;
+                    float sunDanceGateValue = dayTimeEnrage ? 35f : death ? 40f : 50f;
                     float totalSunDancePhaseTime = totalSunDances * sunDanceGateValue;
 
                     Vector2 value7 = new Vector2(0f, -100f);
@@ -636,7 +637,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     }
 
                     npc.ai[1] += 1f;
-                    extraPhaseTime = (dayTimeEnrage ? 72f : 90f) + 60f * lessTimeSpentPerPhaseMultiplier;
+                    extraPhaseTime = 110f + 30f * lessTimeSpentPerPhaseMultiplier; // 112.5 is too little
                     if (npc.ai[1] >= totalSunDancePhaseTime + extraPhaseTime)
                     {
                         npc.ai[0] = 1f;
@@ -671,8 +672,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     {
                         SoundEngine.PlaySound(SoundID.Item162, npc.Center);
 
-                        float totalProjectiles = 13f;
-                        float lanceSpacing = 150f;
+                        float totalProjectiles = 15f;
+                        float lanceSpacing = 175f;
                         float lanceWallSize = totalProjectiles * lanceSpacing;
 
                         Vector2 center3 = targetData9.Center;
@@ -743,7 +744,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                             for (float i = 0f; i <= 1f; i += 1f / totalProjectiles)
                             {
-                                Vector2 spawnLocation = center3 + lanceWallStartingPosition * (i - 0.5f) * (expertAttack ? 1f : 1.7f);
+                                Vector2 spawnLocation = center3 + lanceWallStartingPosition * (i - 0.5f) * (expertAttack ? 1f : 2f);
                                 Vector2 v2 = vector6;
                                 if (expertAttack)
                                 {
@@ -822,7 +823,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             float ai3 = (npc.ai[1] - chargeGateValue - 1f) / chargeDuration;
                             Vector2 rainbowStreakVelocity = new Vector2(0f, death ? -5f : -4f).RotatedBy((float)Math.PI / 2f * Main.rand.NextFloatDirection());
                             if (phase2)
-                                rainbowStreakVelocity = new Vector2(0f, death ? -7f : -6f).RotatedBy((float)Math.PI * 2f * Main.rand.NextFloat());
+                                rainbowStreakVelocity = new Vector2(0f, death ? -6f : -5f).RotatedBy((float)Math.PI * 2f * Main.rand.NextFloat());
 
                             rainbowStreakVelocity.X *= 2f;
                             if (!phase2)
@@ -1036,7 +1037,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         int projectileType = ProjectileID.HallowBossRainbowStreak;
                         int projectileDamage = npc.GetProjectileDamage(projectileType) * projectileDamageMultiplier;
 
-                        Vector2 vector = new Vector2(0f, death ? -28f : -24f).RotatedBy((float)Math.PI * 2f * num22);
+                        Vector2 vector = new Vector2(0f, death ? -24f : -22f).RotatedBy((float)Math.PI * 2f * num22);
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                             Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + value6, vector, projectileType, projectileDamage, 0f, Main.myPlayer, npc.target, num22);
 
@@ -1054,7 +1055,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                     npc.ai[1] += 1f;
                     extraPhaseTime = (dayTimeEnrage ? 36f : 45f) + 30f * lessTimeSpentPerPhaseMultiplier;
-                    if (npc.ai[1] >= 60f + extraPhaseTime)
+                    if (npc.ai[1] >= 120f + extraPhaseTime)
                     {
                         npc.ai[0] = 1f;
                         npc.ai[1] = 0f;
@@ -1086,7 +1087,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     bool flag8 = false;
                     if (!flag7)
                     {
-                        if (npc.AI_120_HallowBoss_IsGenuinelyEnraged() && !malice)
+                        if (npc.AI_120_HallowBoss_IsGenuinelyEnraged() && !bossRush)
                         {
                             if (!Main.dayTime)
                                 flag8 = true;

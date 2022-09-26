@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Armor.Mollusk
         {
             Item.width = 30;
             Item.height = 22;
-            Item.value = Item.buyPrice(0, 20, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity5BuyPrice;
             Item.rare = ItemRarityID.Pink;
             Item.defense = 22;
         }

@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Materials;
+using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
 using Terraria.ModLoader;
@@ -24,9 +25,9 @@ namespace CalamityMod.Items.Armor.Auric
         {
             Item.width = 18;
             Item.height = 18;
-            Item.value = Item.buyPrice(1, 80, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity15BuyPrice;
             Item.defense = 34; //132
-            Item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.rare = ModContent.RarityType<Violet>();
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
@@ -43,10 +44,7 @@ namespace CalamityMod.Items.Armor.Auric
         {
             player.setBonus = "Rogue Tarragon, Bloodflare and God Slayer armor effects\n" +
                 "All projectiles spawn healing auric orbs on enemy hits\n" +
-                "Rogue stealth builds while not attacking and slower while moving, up to a max of 130\n" +
-                "Once you have built max stealth, you will be able to perform a Stealth Strike\n" +
-                "Rogue stealth only reduces when you attack, it does not reduce while moving\n" +
-                "The higher your rogue stealth the higher your rogue damage, crit, and movement speed";
+				"+130 maximum stealth";
             var modPlayer = player.Calamity();
             modPlayer.tarraSet = true;
             modPlayer.tarraThrowing = true;
@@ -62,8 +60,8 @@ namespace CalamityMod.Items.Armor.Auric
             player.ignoreWater = true;
             player.crimsonRegen = true;
 
-            if (modPlayer.godSlayerDashHotKeyPressed)
-                modPlayer.DashID = GodslayerArmorDash.ID;
+            if (modPlayer.godSlayerDashHotKeyPressed || (player.dashDelay != 0 && modPlayer.LastUsedDashID == GodslayerArmorDash.ID))
+                modPlayer.DeferredDashID = GodslayerArmorDash.ID;
         }
 
         public override void UpdateEquip(Player player)

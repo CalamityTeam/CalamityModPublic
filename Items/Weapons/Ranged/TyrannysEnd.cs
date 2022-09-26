@@ -1,12 +1,13 @@
-﻿using Terraria.DataStructures;
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Ranged;
+using CalamityMod.Rarities;
+using CalamityMod.Sounds;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Sounds;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
@@ -23,11 +24,11 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            Item.damage = 2250;
+            Item.damage = 1800;
             Item.knockBack = 9.5f;
             Item.DamageType = DamageClass.Ranged;
-            Item.useTime = 55;
-            Item.useAnimation = 55;
+            Item.useTime = 60;
+            Item.useAnimation = 60;
             Item.shoot = ProjectileID.BulletHighVelocity;
             Item.shootSpeed = 12f;
             Item.useAmmo = AmmoID.Bullet;
@@ -40,7 +41,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.UseSound = CommonCalamitySounds.LargeWeaponFireSound;
 
             Item.value = CalamityGlobalItem.Rarity15BuyPrice;
-            Item.Calamity().customRarity = CalamityRarity.Violet;
+            Item.rare = ModContent.RarityType<Violet>();
             Item.Calamity().donorItem = true;
             Item.Calamity().canFirePointBlankShots = true;
         }

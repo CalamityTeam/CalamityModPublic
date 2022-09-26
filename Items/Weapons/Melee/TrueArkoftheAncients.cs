@@ -61,7 +61,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             Item.width = Item.height = 72;
             Item.damage = 188;
-            Item.DamageType = DamageClass.Melee;
+            Item.DamageType = DamageClass.MeleeNoSpeed;
             Item.noUseGraphic = true;
             Item.noMelee = true;
             Item.useAnimation = 25;
@@ -71,7 +71,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.knockBack = 6.5f;
             Item.UseSound = null;
             Item.autoReuse = true;
-            Item.value = Item.buyPrice(0, 80, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity9BuyPrice;
             Item.rare = ItemRarityID.Yellow;
             Item.shoot = ProjectileID.PurificationPowder;
             Item.shootSpeed = 12f;
@@ -184,7 +184,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 AddIngredient<FracturedArk>().
                 AddIngredient(ItemID.TrueExcalibur).
                 AddIngredient<CoreofCalamity>().
-                AddIngredient<LivingShard>(3).
+                AddIngredient<LivingShard>(15).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

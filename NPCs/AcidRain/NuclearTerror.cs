@@ -1,7 +1,10 @@
 ﻿using CalamityMod.BiomeManagers;
 using CalamityMod.Dusts;
+using CalamityMod.Items.Placeables.Furniture.BossRelics;
+using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.Projectiles.Enemy;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -515,12 +518,18 @@ namespace CalamityMod.NPCs.AcidRain
                 Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.SulfurousSeaAcid, hitDirection, -1f, 0, default, 1f);
         }
 
-        public override void OnHitPlayer(Player target, int damage, bool crit) => target.AddBuff(ModContent.BuffType<Irradiated>(), 300);
+        public override void OnHitPlayer(Player target, int damage, bool crit)
+        {
+            if (damage > 0)
+                target.AddBuff(ModContent.BuffType<Irradiated>(), 300);
+        }
 
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
             npcLoot.Add(ModContent.ItemType<GammaHeart>(), 3);
             npcLoot.Add(ModContent.ItemType<PhosphorescentGauntlet>(), 3);
+            npcLoot.Add(ModContent.ItemType<NuclearTerrorTrophy>(), 10);
+            npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).Add(ModContent.ItemType<NuclearTerrorRelic>(), 4);
         }
     }
 }

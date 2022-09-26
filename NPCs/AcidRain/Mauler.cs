@@ -1,6 +1,7 @@
 ﻿using CalamityMod.BiomeManagers;
 using CalamityMod.Buffs.StatDebuffs;
-using CalamityMod.Items.Placeables.Banners;
+using CalamityMod.Items.Placeables.Furniture.BossRelics;
+using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Projectiles.Enemy;
 using CalamityMod.World;
@@ -74,8 +75,6 @@ namespace CalamityMod.NPCs.AcidRain
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath60;
             NPC.knockBackResist = 0f;
-            Banner = NPC.type;
-            BannerItem = ModContent.ItemType<MaulerBanner>();
             NPC.RemoveWaterSlowness();
             NPC.Calamity().canBreakPlayerDefense = true;
             NPC.Calamity().VulnerableToHeat = false;
@@ -445,13 +444,16 @@ namespace CalamityMod.NPCs.AcidRain
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(ModContent.BuffType<Irradiated>(), 420);
+            if (damage > 0)
+                player.AddBuff(ModContent.BuffType<Irradiated>(), 420);
         }
 
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
             npcLoot.Add(ItemID.SharkFin, 1, 2, 4);
             npcLoot.Add(ModContent.ItemType<SulphuricAcidCannon>(), 3);
+            npcLoot.Add(ModContent.ItemType<MaulerTrophy>(), 10);
+            npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).Add(ModContent.ItemType<MaulerRelic>(), 4);
         }
 
         public override void HitEffect(int hitDirection, double damage)

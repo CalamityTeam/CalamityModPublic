@@ -41,7 +41,7 @@ namespace CalamityMod.Items.Accessories
                 player.statLifeMax2 += 20;
             }
             player.Calamity().DashID = OrnateShieldDash.ID;
-            player.dash = 0;
+            player.dashType = 0;
         }
 
         public override void AddRecipes()

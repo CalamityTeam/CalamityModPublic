@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            Item.damage = 54;
+            Item.damage = 45;
             Item.DamageType = DamageClass.Ranged;
             Item.width = 152;
             Item.height = 58;
@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.noUseGraphic = true;
             Item.channel = true;
             Item.knockBack = 0f;
-            Item.value = Item.buyPrice(0, 60, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity8BuyPrice;
             Item.rare = ItemRarityID.Lime;
             Item.UseSound = CommonCalamitySounds.LaserCannonSound;
             Item.shoot = ModContent.ProjectileType<FlakKrakenGun>();

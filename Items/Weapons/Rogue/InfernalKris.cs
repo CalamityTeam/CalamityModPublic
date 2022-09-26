@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class InfernalKris : ModItem
+    public class InfernalKris : RogueWeapon
     {
         public override void SetStaticDefaults()
         {

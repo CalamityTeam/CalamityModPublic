@@ -13,6 +13,7 @@ namespace CalamityMod.Items.LoreItems
             Tooltip.SetDefault("I see you have awakened Draedon's old toys.\n" +
                 "Once useful tools turned into savage beasts when their AIs went rogue, a mistake that Draedon failed to rectify in time.");
             SacrificeTotal = 1;
+            ItemID.Sets.ItemNoGravity[Item.type] = true;
         }
 
         public override void SetDefaults()
@@ -30,10 +31,10 @@ namespace CalamityMod.Items.LoreItems
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddTile(TileID.Bookcases).AddIngredient(ItemID.RetinazerTrophy).AddIngredient(ModContent.ItemType<VictoryShard>(), 10).Register();
-            CreateRecipe(1).AddTile(TileID.Bookcases).AddIngredient(ItemID.SpazmatismTrophy).AddIngredient(ModContent.ItemType<VictoryShard>(), 10).Register();
-            CreateRecipe(1).AddTile(TileID.Bookcases).AddIngredient(ItemID.DestroyerTrophy).AddIngredient(ModContent.ItemType<VictoryShard>(), 10).Register();
-            CreateRecipe(1).AddTile(TileID.Bookcases).AddIngredient(ItemID.SkeletronPrimeTrophy).AddIngredient(ModContent.ItemType<VictoryShard>(), 10).Register();
+            CreateRecipe(1).AddTile(TileID.Bookcases).AddIngredient(ItemID.RetinazerTrophy).AddIngredient(ModContent.ItemType<PearlShard>(), 10).Register();
+            CreateRecipe(1).AddTile(TileID.Bookcases).AddIngredient(ItemID.SpazmatismTrophy).AddIngredient(ModContent.ItemType<PearlShard>(), 10).Register();
+            CreateRecipe(1).AddTile(TileID.Bookcases).AddIngredient(ItemID.DestroyerTrophy).AddIngredient(ModContent.ItemType<PearlShard>(), 10).Register();
+            CreateRecipe(1).AddTile(TileID.Bookcases).AddIngredient(ItemID.SkeletronPrimeTrophy).AddIngredient(ModContent.ItemType<PearlShard>(), 10).Register();
         }
     }
 }

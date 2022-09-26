@@ -21,7 +21,7 @@ namespace CalamityMod.Projectiles.Typeless.FiniteUse
             Projectile.extraUpdates = 10;
             Projectile.friendly = true;
             Projectile.ignoreWater = true;
-            Projectile.aiStyle = 1;
+            Projectile.aiStyle = ProjAIStyleID.Arrow;
             AIType = ProjectileID.BulletHighVelocity;
             Projectile.penetrate = 1;
             Projectile.timeLeft = 600;

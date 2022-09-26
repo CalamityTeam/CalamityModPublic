@@ -14,6 +14,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
 using CalamityMod.Sounds;
+using ReLogic.Utilities;
 
 namespace CalamityMod.NPCs.ExoMechs.Ares
 {
@@ -60,6 +61,12 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
         // Total duration of the gauss nuke firing phase
         private const float gaussNukeReloadDuration = 360f;
 
+        //This stores the sound slot of the telegraph sound it makes, so it may be properly updated in terms of position.
+        private SlotId TelegraphSoundSlot;
+
+        //Telegraph sound
+        public static readonly SoundStyle TelSound = new("CalamityMod/Sounds/Custom/AresGaussNukeArmCharge");
+
         public override void SetStaticDefaults()
         {
             this.HideFromBestiary();
@@ -91,7 +98,6 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
             NPC.netAlways = true;
             NPC.boss = true;
             NPC.hide = true;
-            Music = CalamityMod.Instance.GetMusicFromMusicMod("ExoMechs") ?? MusicID.Boss3;
             NPC.Calamity().VulnerableToSickness = false;
             NPC.Calamity().VulnerableToElectricity = true;
         }
@@ -130,10 +136,10 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
             }
 
             // Difficulty modes
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
-            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || bossRush;
+            bool revenge = CalamityWorld.revenge || bossRush;
+            bool expertMode = Main.expertMode || bossRush;
 
             // Percent life remaining
             float lifeRatio = Main.npc[CalamityGlobalNPC.draedonExoMechPrime].life / (float)Main.npc[CalamityGlobalNPC.draedonExoMechPrime].lifeMax;
@@ -216,7 +222,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
             }
 
             // Predictiveness
-            float predictionAmt = malice ? 20f : death ? 15f : revenge ? 13.75f : expertMode ? 12.5f : 10f;
+            float predictionAmt = bossRush ? 20f : death ? 15f : revenge ? 13.75f : expertMode ? 12.5f : 10f;
             if (nerfedAttacks)
                 predictionAmt *= 0.5f;
             if (passivePhase)
@@ -317,7 +323,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
             Vector2 destination = calamityGlobalNPC_Body.newAI[0] == (float)AresBody.Phase.Deathrays ? new Vector2(Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Center.X + offsetX2, Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Center.Y + offsetY2) : new Vector2(Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Center.X + offsetX, Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Center.Y + offsetY);
 
             // Velocity and acceleration values
-            float baseVelocityMult = (shouldGetBuffedByBerserkPhase ? 0.25f : 0f) + (malice ? 1.15f : death ? 1.1f : revenge ? 1.075f : expertMode ? 1.05f : 1f);
+            float baseVelocityMult = (shouldGetBuffedByBerserkPhase ? 0.25f : 0f) + (bossRush ? 1.15f : death ? 1.1f : revenge ? 1.075f : expertMode ? 1.05f : 1f);
             float baseVelocity = (enraged ? 38f : 30f) * baseVelocityMult;
             baseVelocity *= 1f + Main.npc[(int)NPC.ai[2]].localAI[2];
 
@@ -383,6 +389,12 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
                     float telegraphDuration = enraged ? (gaussNukeTelegraphDuration * 0.5f) : gaussNukeTelegraphDuration;
                     if (calamityGlobalNPC.newAI[2] < telegraphDuration)
                     {
+                        // Play a charge up sound so that the player knows when it's about to fire the nuke
+                        if (calamityGlobalNPC.newAI[2] == 1f)
+                        {
+                            TelegraphSoundSlot = SoundEngine.PlaySound(TelSound, NPC.Center);
+                        }
+
                         // Set frames to gauss nuke charge up frames, which begin on frame 12
                         if (calamityGlobalNPC.newAI[2] == 1f)
                         {
@@ -461,6 +473,12 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
             // Smooth movement towards the location Ares Gauss Nuke is meant to be at
             CalamityUtils.SmoothMovement(NPC, movementDistanceGateValue, distanceFromDestination, baseVelocity, 0f, false);
+
+            //Update the telegraph sound if it's being done.
+            if (TelegraphSoundSlot != null && SoundEngine.TryGetActiveSound(TelegraphSoundSlot, out var telSound) && telSound.IsPlaying)
+            {
+                telSound.Position = NPC.Center;
+            }
         }
 
         public override bool CanHitPlayer(Player target, ref int cooldownSlot) => false;

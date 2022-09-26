@@ -96,7 +96,7 @@ namespace CalamityMod.UI
                     {
                         cellsGrabbed = powercell.stack;
                         shiftClicked = true;
-                        DropHelper.DropItem(p.GetSource_TileInteraction(te.Position.X, te.Position.Y), p, powercellID, cellsGrabbed);
+                        p.QuickSpawnItem(p.GetSource_TileInteraction(te.Position.X, te.Position.Y), powercellID, cellsGrabbed);
                     }
                     else
                     {

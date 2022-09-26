@@ -11,6 +11,7 @@ using CalamityMod.NPCs.Cryogen;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -18,13 +19,12 @@ namespace CalamityMod.Items.TreasureBags
 {
     public class CryogenBag : ModItem
     {
-        public override int BossBagNPC => ModContent.NPCType<Cryogen>();
-
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 3;
             DisplayName.SetDefault("Treasure Bag (Cryogen)");
             Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
+			ItemID.Sets.BossBag[Item.type] = true;
         }
 
         public override void SetDefaults()
@@ -37,40 +37,48 @@ namespace CalamityMod.Items.TreasureBags
             Item.expert = true;
         }
 
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = ContentSamples.CreativeHelper.ItemGroup.BossBags;
+		}
+
         public override bool CanRightClick() => true;
+
+		public override Color? GetAlpha(Color lightColor) => Color.Lerp(lightColor, Color.White, 0.4f);
+
+        public override void PostUpdate() => Item.TreasureBagLightAndDust();
 
         public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
         {
             return CalamityUtils.DrawTreasureBagInWorld(Item, spriteBatch, ref rotation, ref scale, whoAmI);
         }
 
-        public override void OpenBossBag(Player player)
+        public override void ModifyItemLoot(ItemLoot itemLoot)
         {
-            // IEntitySource my beloathed
-            var s = player.GetSource_OpenItem(Item.type);
-
-            player.TryGettingDevArmor(s);
+			// Money
+			itemLoot.Add(ItemDropRule.CoinsBasedOnNPCValue(ModContent.NPCType<Cryogen>()));
 
             // Materials
-            DropHelper.DropItem(s, player, ModContent.ItemType<EssenceofEleum>(), 5, 9);
+            itemLoot.Add(ModContent.ItemType<EssenceofEleum>(), 1, 5, 9);
 
             // Weapons
-            float w = DropHelper.BagWeaponDropRateFloat;
-            DropHelper.DropEntireWeightedSet(s, player,
-                DropHelper.WeightStack<Avalanche>(w),
-                DropHelper.WeightStack<EffluviumBow>(w),
-                DropHelper.WeightStack<SnowstormStaff>(w),
-                DropHelper.WeightStack<Icebreaker>(w),
-                DropHelper.WeightStack<CryoStone>(w),
-                DropHelper.WeightStack<FrostFlare>(w)
-            );
+            itemLoot.Add(DropHelper.CalamityStyle(DropHelper.BagWeaponDropRateFraction, new int[]
+            {
+                ModContent.ItemType<Avalanche>(),
+                ModContent.ItemType<Icebreaker>(),
+                ModContent.ItemType<EffluviumBow>(),
+                ModContent.ItemType<SnowstormStaff>(),
+            }));
+            itemLoot.Add(ModContent.ItemType<ColdDivinity>(), 10);
 
             // Equipment
-            DropHelper.DropItem(s, player, ModContent.ItemType<SoulofCryogen>());
-            DropHelper.DropItemChance(s, player, ModContent.ItemType<ColdDivinity>(), 0.1f);
+            itemLoot.Add(ModContent.ItemType<SoulofCryogen>());
+            itemLoot.Add(ModContent.ItemType<CryoStone>(), DropHelper.BagWeaponDropRateFraction);
+            itemLoot.Add(ModContent.ItemType<FrostFlare>(), DropHelper.BagWeaponDropRateFraction);
+            itemLoot.AddRevBagAccessories();
 
             // Vanity
-            DropHelper.DropItemChance(s, player, ModContent.ItemType<CryogenMask>(), 7);
+            itemLoot.Add(ModContent.ItemType<CryogenMask>(), 7);
         }
     }
 }

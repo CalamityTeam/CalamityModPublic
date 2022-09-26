@@ -10,6 +10,7 @@ namespace CalamityMod.Items.Fishing.AstralCatches
         {
             DisplayName.SetDefault("Procyonid Prawn");
             SacrificeTotal = 3;
+            ItemID.Sets.CanBePlacedOnWeaponRacks[Item.type] = true;
         }
 
         public override void SetDefaults()
@@ -20,5 +21,10 @@ namespace CalamityMod.Items.Fishing.AstralCatches
             Item.value = Item.sellPrice(silver: 5);
             Item.rare = ItemRarityID.Blue;
         }
+
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = ContentSamples.CreativeHelper.ItemGroup.Fish;
+		}
     }
 }

@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class AcidicRainBarrel : ModItem
+    public class AcidicRainBarrel : RogueWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -31,12 +31,13 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.knockBack = 8f;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
-            Item.value = Item.buyPrice(0, 36, 0, 0);
+            Item.value = CalamityGlobalItem.Rarity6BuyPrice;
             Item.rare = ItemRarityID.Pink;
             Item.shoot = ModContent.ProjectileType<GreenDonkeyKongReference>();
             Item.shootSpeed = 14f;
             Item.DamageType = RogueDamageClass.Instance;
         }
+
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             velocity.Y *= 0.667f;
@@ -47,6 +48,7 @@ namespace CalamityMod.Items.Weapons.Rogue
                 Main.projectile[p].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
             return false;
         }
+
         public override void AddRecipes()
         {
             CreateRecipe().

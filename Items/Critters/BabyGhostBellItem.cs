@@ -24,9 +24,9 @@ namespace CalamityMod.Items.Critters
             Item.consumable = true;
             Item.noUseGraphic = true;
             Item.value = Item.buyPrice(0, 0, 30, 0);
-            //item.CloneDefaults(2004); //Lightning Bug item
             Item.width = 26;
             Item.height = 24;
+            Item.bait = 20;
             Item.makeNPC = (short)ModContent.NPCType<BabyGhostBell>();
             Item.rare = ItemRarityID.Green;
         }

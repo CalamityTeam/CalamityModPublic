@@ -23,7 +23,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.friendly = true;
             Projectile.DamageType = RogueDamageClass.Instance;
             Projectile.ignoreWater = true;
-            Projectile.aiStyle = 1;
+            Projectile.aiStyle = ProjAIStyleID.Arrow;
             AIType = ProjectileID.BulletHighVelocity;
             Projectile.penetrate = -1;
             Projectile.timeLeft = 600;
@@ -60,10 +60,10 @@ namespace CalamityMod.Projectiles.Rogue
                     if (Main.rand.NextBool(2))
                     {
                         int spiritDamage = Projectile.damage / 2;
-                        Projectile ghost = CalamityGlobalProjectile.SpawnOrb(Projectile, spiritDamage, ProjectileID.SpectreWrath, 800f, 4f);
+                        Projectile ghost = CalamityUtils.SpawnOrb(Projectile, spiritDamage, ProjectileID.SpectreWrath, 800f, 4f);
                         if (ghost.whoAmI.WithinBounds(Main.maxProjectiles))
                         {
-                            ghost.Calamity().forceRogue = true;
+                            ghost.DamageType = RogueDamageClass.Instance;
                             ghost.penetrate = 1;
                         }
                     }

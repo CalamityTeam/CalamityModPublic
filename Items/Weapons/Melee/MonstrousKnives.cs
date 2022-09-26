@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             Item.width = 18;
             Item.damage = 4;
-            Item.DamageType = DamageClass.Melee;
+            Item.DamageType = DamageClass.MeleeNoSpeed;
             Item.noMelee = true;
             Item.noUseGraphic = true;
             Item.useAnimation = 21;
@@ -105,7 +105,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 AddIngredient(ItemID.ThrowingKnife, 200).
                 AddIngredient(ItemID.LifeCrystal).
                 AddIngredient(ItemID.LesserHealingPotion, 5).
-                AddIngredient<VictoryShard>(10).
+                AddIngredient<PearlShard>(10).
                 AddTile(TileID.Anvils).
                 Register();
         }

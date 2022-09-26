@@ -1,6 +1,7 @@
 ﻿using CalamityMod.CustomRecipes;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.DraedonsArsenal;
+using CalamityMod.Rarities;
 using System;
 using System.Collections.Generic;
 using Terraria;
@@ -16,6 +17,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Hydraulic Volt Crasher");
             Tooltip.SetDefault("Good for both stamping metal plates and instantly fusing them, as well as crushing enemies\n" +
             "An electrically charged jackhammer which shocks all nearby foes on hit");
@@ -39,15 +41,13 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
             Item.shoot = ModContent.ProjectileType<HydraulicVoltCrasherProjectile>();
             Item.value = CalamityGlobalItem.Rarity5BuyPrice;
-            Item.rare = ItemRarityID.Red;
-            modItem.customRarity = CalamityRarity.DraedonRust;
+            Item.rare = ModContent.RarityType<DarkOrange>();
 
             Item.noMelee = true;
             Item.noUseGraphic = true;
-            Item.DamageType = DamageClass.Melee;
+            Item.DamageType = TrueMeleeNoSpeedDamageClass.Instance;
             Item.channel = true;
 
-            modItem.trueMelee = true;
             modItem.UsesCharge = true;
             modItem.MaxCharge = 85f;
             modItem.ChargePerUse = 0f; // This weapon is a holdout. Charge is consumed by the holdout projectile.

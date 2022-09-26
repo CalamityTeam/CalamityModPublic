@@ -28,15 +28,15 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.ignoreWater = true;
             Projectile.tileCollide = false;
             Projectile.alpha = 255;
-            CooldownSlot = 1;
+            CooldownSlot = ImmunityCooldownID.Bosses;
             Projectile.penetrate = 1;
             Projectile.timeLeft = 200;
-            Projectile.Calamity().canBreakPlayerDefense = true;
+            Projectile.Calamity().DealsDefenseDamage = true;
         }
 
         public override void AI()
         {
-            if (Projectile.ai[0] == 0f && (CalamityWorld.malice || BossRushEvent.BossRushActive))
+            if (Projectile.ai[0] == 0f && BossRushEvent.BossRushActive)
                 Projectile.velocity *= 1.25f;
 
             if (Projectile.ai[0] < 240f)
@@ -57,7 +57,7 @@ namespace CalamityMod.Projectiles.Boss
 
             Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
             Vector2 drawPos = Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY);
-            Color baseColor = (Main.dayTime && !CalamityWorld.malice) ? new Color(255, 200, 100, 255) : new Color(100, 200, 255, 255);
+            Color baseColor = (Main.dayTime && !BossRushEvent.BossRushActive) ? new Color(255, 200, 100, 255) : new Color(100, 200, 255, 255);
             baseColor *= 0.5f;
             baseColor.A = 0;
             Color colorA = baseColor;
@@ -90,8 +90,8 @@ namespace CalamityMod.Projectiles.Boss
         public override void Kill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);
-            CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 50);
-            int dustType = (Main.dayTime && !CalamityWorld.malice) ? (int)CalamityDusts.ProfanedFire : (int)CalamityDusts.Nightwither;
+            Projectile.ExpandHitboxBy(50);
+            int dustType = (Main.dayTime && !BossRushEvent.BossRushActive) ? (int)CalamityDusts.ProfanedFire : (int)CalamityDusts.Nightwither;
             for (int d = 0; d < 5; d++)
             {
                 int holy = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, dustType, 0f, 0f, 100, default, 2f);
@@ -114,14 +114,12 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            int buffType = (Main.dayTime && !CalamityWorld.malice) ? ModContent.BuffType<HolyFlames>() : ModContent.BuffType<Nightwither>();
+            if (damage <= 0)
+                return;
+
+            int buffType = (Main.dayTime && !BossRushEvent.BossRushActive) ? ModContent.BuffType<HolyFlames>() : ModContent.BuffType<Nightwither>();
             target.AddBuff(buffType, 180);
             Projectile.Kill();
-        }
-
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
-        {
-            target.Calamity().lastProjectileHit = Projectile;
         }
     }
 }

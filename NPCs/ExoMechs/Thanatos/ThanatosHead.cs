@@ -22,8 +22,6 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 {
     public class ThanatosHead : ModNPC
     {
-
-
         public static int normalIconIndex;
         public static int vulnerableIconIndex;
 
@@ -91,7 +89,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
         private const float defaultLifeRatio = 5f;
 
         // Base distance from the target for most attacks
-        private const float baseDistance = 400f;
+        private const float baseDistance = 800f;
 
         // Base distance from target location in order to continue turning
         private const float baseTurnDistance = 160f;
@@ -123,6 +121,16 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
             // Ensure that the reticle is not culled due to the player being very far from Thanatos.
             NPCID.Sets.MustAlwaysDraw[NPC.type] = true;
             NPCID.Sets.BossBestiaryPriority.Add(Type);
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            {
+                Scale = 0.65f,
+                PortraitScale = 0.6f,
+                CustomTexturePath = "CalamityMod/ExtraTextures/Bestiary/Thanatos_Bestiary",
+                PortraitPositionXOverride = 40
+            };
+            value.Position.X += 52f;
+            value.Position.Y += 16f;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 
         public override void SetDefaults()
@@ -150,7 +158,6 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
             NPC.netAlways = true;
             NPC.boss = true;
             NPC.chaseable = false;
-            Music = CalamityMod.Instance.GetMusicFromMusicMod("ExoMechs") ?? MusicID.Boss3;
             NPC.Calamity().VulnerableToSickness = false;
             NPC.Calamity().VulnerableToElectricity = true;
         }
@@ -212,7 +219,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
         }
 
         public float GetSlowdownAreaEdgeRadius(bool lastMechAlive) =>
-            ((CalamityWorld.malice || BossRushEvent.BossRushActive) ? 400f : CalamityWorld.death ? 600f : CalamityWorld.revenge ? 700f : Main.expertMode ? 800f : 1000f) * (lastMechAlive ? 0.6f : 1f);
+            (BossRushEvent.BossRushActive ? 400f : CalamityWorld.death ? 600f : CalamityWorld.revenge ? 700f : Main.expertMode ? 800f : 1000f) * (lastMechAlive ? 0.6f : 1f) * (Main.getGoodWorld ? 0.5f : 1f);
 
         public int CheckForOtherMechs(ref Player target, out bool exoPrimeAlive, out bool exoTwinsAlive)
         {
@@ -250,10 +257,10 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
             CalamityGlobalNPC.draedonExoMechWorm = NPC.whoAmI;
 
             // Difficulty modes
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
-            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || bossRush;
+            bool revenge = CalamityWorld.revenge || bossRush;
+            bool expertMode = Main.expertMode || bossRush;
 
             // Percent life remaining
             float lifeRatio = NPC.life / (float)NPC.lifeMax;
@@ -459,7 +466,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 
             // Increase speed if too far from target
             float increaseSpeedMult = 1f;
-            float increaseSpeedGateValue = 500f;
+            float increaseSpeedGateValue = 600f;
             if (distanceFromTarget > increaseSpeedGateValue)
             {
                 float distanceAmount = MathHelper.Clamp((distanceFromTarget - increaseSpeedGateValue) / (CalamityGlobalNPC.CatchUpDistance350Tiles - increaseSpeedGateValue), 0f, 1f);
@@ -476,8 +483,8 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
             float laserBarrageLocationDistance = turnDistance * 3f;
 
             // Velocity and turn speed values
-            float baseVelocityMult = (shouldGetBuffedByBerserkPhase ? 0.25f : 0f) + (malice ? 1.15f : death ? 1.1f : revenge ? 1.075f : expertMode ? 1.05f : 1f);
-            float baseVelocity = 11.1f * baseVelocityMult;
+            float baseVelocityMult = (shouldGetBuffedByBerserkPhase ? 0.25f : 0f) + (bossRush ? 1.15f : death ? 1.1f : revenge ? 1.075f : expertMode ? 1.05f : 1f);
+            float baseVelocity = 10f * baseVelocityMult;
 
             // Increase top velocity if target is dead or if Thanatos is uncoiling
             if (targetDead || speedUp)
@@ -485,7 +492,10 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
             else
                 baseVelocity *= increaseSpeedMult;
 
-            float turnDegrees = baseVelocity * 0.11f * (shouldGetBuffedByBerserkPhase ? 1.25f : 1f);
+            if (Main.getGoodWorld)
+                baseVelocity *= 1.15f;
+
+            float turnDegrees = baseVelocity * 0.1f * (shouldGetBuffedByBerserkPhase ? 1.25f : 1f);
 
             float turnSpeed = MathHelper.ToRadians(turnDegrees);
             float chargeVelocityMult = MathHelper.Lerp(1f, 1.5f, chargeVelocityScalar);
@@ -982,7 +992,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)
         {
-            cooldownSlot = 1;
+            cooldownSlot = ImmunityCooldownID.Bosses;
 
             Rectangle targetHitbox = target.Hitbox;
 

@@ -20,8 +20,8 @@ namespace CalamityMod.Items.Placeables
             Item.useTime = 10;
             Item.autoReuse = true;
             Item.consumable = true;
-            Item.width = 13;
-            Item.height = 10;
+            Item.width = 16;
+            Item.height = 16;
             Item.maxStack = 999;
         }
     }

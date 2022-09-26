@@ -70,8 +70,8 @@ namespace CalamityMod.Projectiles.Rogue
 
                 Owner.heldProj = Projectile.whoAmI;
 
-                Projectile.Center = Owner.MountedCenter + Vector2.UnitY.RotatedBy(armRotation) * -40f;
-                Projectile.rotation = -MathHelper.PiOver2 + armRotation;
+                Projectile.Center = Owner.MountedCenter + Vector2.UnitY.RotatedBy(armRotation * Owner.gravDir) * -40f * Owner.gravDir;
+                Projectile.rotation = (-MathHelper.PiOver2 + armRotation) * Owner.gravDir;
 
                 Owner.SetCompositeArmFront(true, Player.CompositeArmStretchAmount.Full, MathHelper.Pi + armRotation);
 
@@ -100,6 +100,7 @@ namespace CalamityMod.Projectiles.Rogue
             if (Projectile.velocity.Length() < 2f && Bouncing == 0f)
             {
                 Returning = 1f;
+                Projectile.numHits = 0;
             }
 
             if (Returning == 0f && Bouncing == 0f && Projectile.velocity.Length() > 2f)
@@ -128,6 +129,12 @@ namespace CalamityMod.Projectiles.Rogue
 
                 if ((Projectile.Center - Owner.MountedCenter).Length() < 24f)
                 {
+                    Projectile.Kill();
+                }
+
+                if (Projectile.numHits >= 5)
+                {
+                    ImpactEffects();
                     Projectile.Kill();
                 }
             }

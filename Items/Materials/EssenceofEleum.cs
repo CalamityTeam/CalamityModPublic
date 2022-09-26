@@ -12,8 +12,11 @@ namespace CalamityMod.Items.Materials
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 25;
+            ItemID.Sets.ItemNoGravity[Item.type] = true;
+
             DisplayName.SetDefault("Essence of Eleum");
             Tooltip.SetDefault("The essence of cold creatures");
+			ItemID.Sets.SortingPriorityMaterials[Type] = 71; // Soul of Light
         }
 
         public override void SetDefaults()

@@ -11,13 +11,16 @@ namespace CalamityMod.Items.SummonItems
     [LegacyName("Abomination")]
     public class Abombination : ModItem
     {
+        public static readonly SoundStyle UseSound = new("CalamityMod/Sounds/Item/PBGSummon");
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 1;
             DisplayName.SetDefault("Abombination");
             Tooltip.SetDefault("Calls in the airborne abomination\n" +
-                "Summons the Plaguebringer Goliath when used in the jungle\n" +
+                "Summons the Plaguebringer Goliath when used in the Jungle\n" +
+                "Enrages outside the Jungle\n" +
                 "Not consumable");
+			ItemID.Sets.SortingPriorityBossSpawns[Type] = 16; // Solar Tablet / Bloody Tear
         }
 
         public override void SetDefaults()
@@ -31,6 +34,11 @@ namespace CalamityMod.Items.SummonItems
             Item.consumable = false;
         }
 
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = ContentSamples.CreativeHelper.ItemGroup.BossItem;
+		}
+
         public override bool CanUseItem(Player player)
         {
             return player.ZoneJungle && !NPC.AnyNPCs(ModContent.NPCType<PlaguebringerGoliath>()) && !BossRushEvent.BossRushActive;
@@ -38,7 +46,7 @@ namespace CalamityMod.Items.SummonItems
 
         public override bool? UseItem(Player player)
         {
-            SoundEngine.PlaySound(SoundID.Roar, player.position);
+            SoundEngine.PlaySound(UseSound, player.position);
             if (Main.netMode != NetmodeID.MultiplayerClient)
                 NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<PlaguebringerGoliath>());
             else

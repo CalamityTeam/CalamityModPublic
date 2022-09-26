@@ -15,8 +15,10 @@ namespace CalamityMod.Items.SummonItems
         {
             SacrificeTotal = 1;
             DisplayName.SetDefault("Astral Chunk");
-            Tooltip.SetDefault("Summons Astrum Aureus when used in the astral infection during nighttime\n" +
+            Tooltip.SetDefault("Summons Astrum Aureus when used in the Astral Infection during nighttime\n" +
+                "Enrages during the day\n" +
                 "Not consumable");
+			ItemID.Sets.SortingPriorityBossSpawns[Type] = 14; // Frost Moon
         }
 
         public override void SetDefaults()
@@ -29,6 +31,11 @@ namespace CalamityMod.Items.SummonItems
             Item.useStyle = ItemUseStyleID.HoldUp;
             Item.consumable = false;
         }
+
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = ContentSamples.CreativeHelper.ItemGroup.BossItem;
+		}
 
         public override bool CanUseItem(Player player)
         {

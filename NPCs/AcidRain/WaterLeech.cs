@@ -1,14 +1,15 @@
 ﻿using CalamityMod.BiomeManagers;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Weapons.Magic;
 using Microsoft.Xna.Framework;
+using System.IO;
 using Terraria;
 using Terraria.GameContent.Bestiary;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
-using System.IO;
-using CalamityMod.Buffs.DamageOverTime;
 
 namespace CalamityMod.NPCs.AcidRain
 {
@@ -219,8 +220,9 @@ namespace CalamityMod.NPCs.AcidRain
 
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            npcLoot.AddIf(() => !DownedBossSystem.downedAquaticScourge, ModContent.ItemType<ParasiticSceptor>(), 20, 1, 3);
-            npcLoot.AddIf(() => DownedBossSystem.downedAquaticScourge, ModContent.ItemType<ParasiticSceptor>(), 100, 1, 3);
+            LeadingConditionRule postAS = npcLoot.DefineConditionalDropSet(() => DownedBossSystem.downedAquaticScourge);
+            postAS.Add(ModContent.ItemType<ParasiticSceptor>(), 100, hideLootReport: !DownedBossSystem.downedAquaticScourge);
+            postAS.AddFail(ModContent.ItemType<ParasiticSceptor>(), 20, hideLootReport: DownedBossSystem.downedAquaticScourge);
         }
     }
 }

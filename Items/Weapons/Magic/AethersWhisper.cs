@@ -1,10 +1,11 @@
 ﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
+using CalamityMod.Rarities;
+using CalamityMod.Sounds;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Sounds;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
@@ -36,7 +37,7 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.UseSound = CommonCalamitySounds.LaserCannonSound;
 
             Item.value = CalamityGlobalItem.Rarity12BuyPrice;
-            Item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.rare = ModContent.RarityType<Turquoise>();
         }
 
         public override Vector2? HoldoutOffset() => new Vector2(-10, 0);
