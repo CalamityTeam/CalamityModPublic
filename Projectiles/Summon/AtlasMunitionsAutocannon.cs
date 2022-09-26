@@ -55,7 +55,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.netImportant = true;
             Projectile.sentry = true;
             Projectile.penetrate = -1;
-            Projectile.timeLeft = Projectile.SentryLifeTime;
+            Projectile.timeLeft = 90000;
             Projectile.DamageType = DamageClass.Summon;
             Projectile.Opacity = 0f;
         }

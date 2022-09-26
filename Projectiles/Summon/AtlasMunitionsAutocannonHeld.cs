@@ -274,11 +274,13 @@ namespace CalamityMod.Projectiles.Summon
 
         public void UpdateProjectileHeldVariables(Vector2 armPosition)
         {
+            // Update the cannon direction.
             if (Main.myPlayer == Projectile.owner)
             {
-                float interpolant = Utils.GetLerpValue(16f, 56f, Projectile.Distance(Main.MouseWorld), true);
+                float interpolant = Utils.GetLerpValue(16f, 56f, Projectile.Distance(Main.MouseWorld), true) * Utils.GetLerpValue(3f, 10f, MathHelper.Distance(Main.MouseWorld.X, Owner.Center.X), true);
                 Vector2 oldVelocity = Projectile.velocity;
                 Projectile.velocity = Vector2.Lerp(Projectile.velocity, Projectile.SafeDirectionTo(Main.MouseWorld), interpolant).SafeNormalize(Vector2.UnitX * Owner.direction);
+
                 Projectile.direction = (Projectile.velocity.X > 0f).ToDirectionInt();
                 Projectile.spriteDirection = Projectile.direction;
                 if (Projectile.velocity != oldVelocity)

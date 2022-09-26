@@ -93,7 +93,7 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             if (player.altFunctionUse != 2)
             {
-                position = Main.MouseWorld - Vector2.UnitY.RotatedByRandom(0.47f) * 1020f;
+                position = Main.MouseWorld - Vector2.UnitY * 1020f;
                 velocity = (Main.MouseWorld - position).SafeNormalize(Vector2.UnitY) * Main.rand.NextFloat(9f, 10f);
                 int p = Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI, Main.MouseWorld.Y - 40f);
                 if (Main.projectile.IndexInRange(p))
