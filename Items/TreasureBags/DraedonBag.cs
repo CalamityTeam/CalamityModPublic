@@ -79,6 +79,7 @@ namespace CalamityMod.Items.TreasureBags
             var thanatos = itemLoot.DefineConditionalDropSet(() => DownedBossSystem.downedThanatos);
             thanatos.Add(ModContent.ItemType<SpineOfThanatos>());
             thanatos.Add(ModContent.ItemType<RefractionRotor>());
+            thanatos.Add(ModContent.ItemType<AtlasMunitionsBeacon>());
             thanatos.Add(ModContent.ItemType<ThanatosMask>(), maskFraction);
 
             var artemisAndApollo = itemLoot.DefineConditionalDropSet(() => DownedBossSystem.downedArtemisAndApollo);

@@ -1367,6 +1367,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
                 // Thanatos weapons
                 normalOnly.Add(ItemDropRule.ByCondition(DropHelper.If(ThanatosLoot), ModContent.ItemType<SpineOfThanatos>()));
                 normalOnly.Add(ItemDropRule.ByCondition(DropHelper.If(ThanatosLoot), ModContent.ItemType<RefractionRotor>()));
+                normalOnly.Add(ItemDropRule.ByCondition(DropHelper.If(ThanatosLoot), ModContent.ItemType<AtlasMunitionsBeacon>()));
 
                 // Ares weapons
                 normalOnly.Add(ItemDropRule.ByCondition(DropHelper.If(AresLoot), ModContent.ItemType<PhotonRipper>()));
