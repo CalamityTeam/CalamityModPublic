@@ -24,8 +24,8 @@ namespace CalamityMod.Items.Placeables.Furniture.DevPaintings
 			item.useTime = 10;
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.consumable = true;
-			item.value = Item.buyPrice(0, 5, 0, 0);;
-			item.Calamity().customRarity = CalamityRarity.Dedicated;
+			item.value = Item.buyPrice(0, 5, 0, 0);
+			item.rare = ItemRarityID.Blue;
 			item.createTile = ModContent.TileType<NincityPaintingTile>();
 		}
 	}
