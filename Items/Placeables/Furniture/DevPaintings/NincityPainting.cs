@@ -12,6 +12,7 @@ namespace CalamityMod.Items.Placeables.Furniture.DevPaintings
 			DisplayName.SetDefault("Developer Painting");
 			Tooltip.SetDefault("~ Nincity ~\n" +
 			"Thanks to the entire team, everyone who supported, and those who all play the mod and keep it alive!");
+            SacrificeTotal = 1;
 		}
 
 		public override void SetDefaults()
@@ -22,7 +23,7 @@ namespace CalamityMod.Items.Placeables.Furniture.DevPaintings
 			item.autoReuse = true;
 			item.useAnimation = 15;
 			item.useTime = 10;
-			item.useStyle = ItemUseStyleID.SwingThrow;
+			item.useStyle = ItemUseStyleID.Swing;
 			item.consumable = true;
 			item.value = Item.buyPrice(0, 5, 0, 0);
 			item.rare = ItemRarityID.Blue;
