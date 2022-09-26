@@ -17,17 +17,17 @@ namespace CalamityMod.Items.Placeables.Furniture.DevPaintings
 
 		public override void SetDefaults()
 		{
-			item.width = item.height = 96;
-			item.maxStack = 9999;
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.useAnimation = 15;
-			item.useTime = 10;
-			item.useStyle = ItemUseStyleID.Swing;
-			item.consumable = true;
-			item.value = Item.buyPrice(0, 5, 0, 0);
-			item.rare = ItemRarityID.Blue;
-			item.createTile = ModContent.TileType<NincityPaintingTile>();
+			Item.width = Item.height = 96;
+			Item.maxStack = 9999;
+			Item.useTurn = true;
+			Item.autoReuse = true;
+			Item.useAnimation = 15;
+			Item.useTime = 10;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.consumable = true;
+			Item.value = Item.buyPrice(0, 5, 0, 0);
+			Item.rare = ItemRarityID.Blue;
+			Item.createTile = ModContent.TileType<NincityPaintingTile>();
 		}
 	}
 }
