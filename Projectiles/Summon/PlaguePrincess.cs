@@ -6,22 +6,45 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.Items.Weapons.Summon;
+using Microsoft.Xna.Framework.Graphics;
+using Terraria.Audio;
+using CalamityMod.Sounds;
+using CalamityMod.Particles;
+using CalamityMod.NPCs.PlaguebringerGoliath;
 
 namespace CalamityMod.Projectiles.Summon
 {
     public class PlaguePrincess : ModProjectile
     {
-        private bool dust = true;
-        private int mode = 0; //0 missiles, 1 mini bees, 2 charging
-        private int modeCounter = 0;
-        private int AIint = 0;
+        public enum ViriliAIState
+        {
+            HoverNearOwner,
+            ChargeAtEnemies,
+            BombardEnemiesWithRockets,
+            SummonPlagueBeesOnEnemies
+        }
+
+        public bool UseAfterimages;
+
+        public ViriliAIState CurrentState
+        {
+            get => (ViriliAIState)Projectile.ai[0];
+            set => Projectile.ai[0] = (int)value;
+        }
+
+        public Player Owner => Main.player[Projectile.owner];
+
+        public ref float AITimer => ref Projectile.ai[1];
 
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Virili");
             Main.projFrames[Projectile.type] = 6;
-            ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
-            ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
+            ProjectileID.Sets.TrailingMode[Type] = 2;
+            ProjectileID.Sets.TrailCacheLength[Type] = 8;
+            ProjectileID.Sets.MinionSacrificable[Type] = true;
+            ProjectileID.Sets.MinionTargettingFeature[Type] = true;
         }
 
         public override void SetDefaults()
@@ -31,336 +54,347 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.netImportant = true;
             Projectile.friendly = true;
             Projectile.ignoreWater = true;
-            Projectile.minionSlots = 1f;
-            Projectile.timeLeft = 18000;
+            Projectile.minionSlots = InfectedRemote.MinionSlotRequirement;
+            Projectile.timeLeft = 90000;
             Projectile.penetrate = -1;
             Projectile.tileCollide = false;
-            Projectile.timeLeft *= 5;
             Projectile.minion = true;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 10;
+            Projectile.localNPCHitCooldown = InfectedRemote.DefaultIframes;
             Projectile.tileCollide = false;
             Projectile.DamageType = DamageClass.Summon;
         }
 
         public override void AI()
         {
-            Player player = Main.player[Projectile.owner];
-            CalamityPlayer modPlayer = player.Calamity();
+            // Decide whether the minion should still exist.
+            HandleMinionBools();
 
-            Projectile.minionSlots = Projectile.ai[0];
+            // Decide frames.
+            DecideFrames();
 
-            //bools and crap
-            bool correctMinion = Projectile.type == ModContent.ProjectileType<PlaguePrincess>();
-            player.AddBuff(ModContent.BuffType<ViriliBuff>(), 3600);
-            if (correctMinion)
+            // Reset afterimages, extra updates, and i-frames.
+            UseAfterimages = false;
+            Projectile.MaxUpdates = 1;
+            Projectile.localNPCHitCooldown = InfectedRemote.DefaultIframes;
+
+            NPC potentialTarget = Projectile.Center.MinionHoming(InfectedRemote.EnemyTargetingRange, Owner);
+            switch (CurrentState)
             {
-                if (player.dead)
-                {
-                    modPlayer.virili = false;
-                }
-                if (modPlayer.virili)
-                {
+                case ViriliAIState.HoverNearOwner:
+                    DoBehavior_HoverNearOwner(potentialTarget);
+                    break;
+                case ViriliAIState.ChargeAtEnemies:
+                    DoBehavior_ChargeAtEnemies(potentialTarget);
+                    break;
+                case ViriliAIState.BombardEnemiesWithRockets:
+                    DoBehavior_BombardEnemiesWithRockets(potentialTarget);
+                    break;
+                case ViriliAIState.SummonPlagueBeesOnEnemies:
+                    DoBehavior_SummonPlagueBeesOnEnemies(potentialTarget);
+                    break;
+            }
+            AITimer++;
+        }
+
+        public void HandleMinionBools()
+        {
+            Owner.AddBuff(ModContent.BuffType<ViriliBuff>(), 3600);
+            if (Projectile.type == ModContent.ProjectileType<PlaguePrincess>())
+            {
+                if (Owner.dead)
+                    Owner.Calamity().virili = false;
+
+                if (Owner.Calamity().virili)
                     Projectile.timeLeft = 2;
-                }
             }
+        }
 
-            //dust and flexible damage
-            if (dust)
-            {
-                int num501 = 50;
-                for (int num502 = 0; num502 < num501; num502++)
-                {
-                    int num503 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y + 16f), Projectile.width, Projectile.height - 16, 89, 0f, 0f, 0, default, 1f);
-                    Main.dust[num503].velocity *= 2f;
-                    Main.dust[num503].scale *= 1.15f;
-                }
-                dust = false;
-            }
-
-            //framing
+        public void DecideFrames()
+        {
             Projectile.frameCounter++;
-            if (Projectile.frameCounter > 6)
-            {
-                Projectile.frame++;
-                Projectile.frameCounter = 0;
-            }
-            if (Projectile.frame >= Main.projFrames[Projectile.type])
-            {
-                Projectile.frame = 0;
-            }
+            Projectile.frame = Projectile.frameCounter / 6 % Main.projFrames[Projectile.type];
+        }
 
-            //direction
-            if ((double)Math.Abs(Projectile.velocity.X) > 0.2)
-            {
-                Projectile.spriteDirection = -Projectile.direction;
-            }
+        public void DoBehavior_HoverNearOwner(NPC potentialTarget)
+        {
+            if (Projectile.WithinRange(Owner.Center, 160f))
+                return;
 
-            //Lighting
-            float num = (float)Main.rand.Next(90, 111) * 0.01f;
-            num *= Main.essScale;
-            Lighting.AddLight(Projectile.Center, 0f * num, 1.25f * num, 0f * num);
+            // Hover near the owner.
+            Projectile.velocity = (Projectile.velocity * 34f + Projectile.SafeDirectionTo(Owner.Center) * 17f) / 35f;
 
-            //change modes every 10 seconds
-            modeCounter++;
-            if (modeCounter >= 600)
+            // Teleport to the owner if sufficiently far away.
+            if (!Projectile.WithinRange(Owner.Center, 2500f))
             {
-                modeCounter = 0;
-                mode++;
-                if (mode > 2)
-                    mode = 0;
-            }
-
-            //anti sticking movement
-            Projectile.MinionAntiClump();
-            //anti-sticking also applies to the player
-            float antiStickFloat = 0.05f;
-            if (Projectile.position.X < player.position.X)
-            {
-                Projectile.velocity.X -= antiStickFloat;
-            }
-            else
-            {
-                Projectile.velocity.X += antiStickFloat;
-            }
-            if (Projectile.position.Y < player.position.Y)
-            {
-                Projectile.velocity.Y -= antiStickFloat;
-            }
-            else
-            {
-                Projectile.velocity.Y += antiStickFloat;
-            }
-
-            bool cancelAttack = false;
-            if (mode == 2)
-            {
-                if (AIint == 2)
-                {
-                    Projectile.ai[1] += 1f;
-                    Projectile.extraUpdates = 2;
-                    if (Projectile.ai[1] > 30f)
-                    {
-                        Projectile.ai[1] = 1f;
-                        AIint = 0;
-                        Projectile.extraUpdates = 1;
-                        Projectile.numUpdates = 0;
-                        Projectile.netUpdate = true;
-                    }
-                    else
-                    {
-                        cancelAttack = true;
-                    }
-                }
-                else
-                {
-                    Projectile.extraUpdates = 1;
-                }
-                if (cancelAttack)
-                {
-                    return;
-                }
-            }
-            if (mode == 0 || mode == 1)
-            {
-                Projectile.extraUpdates = 1;
-                if (AIint == 2)
-                    AIint = 0;
-            }
-
-            float num633 = 1040f;
-            float num636 = 400f; //150
-            Vector2 targetLocation = Projectile.position;
-            bool targetFound = false;
-            if (player.HasMinionAttackTargetNPC)
-            {
-                NPC npc = Main.npc[player.MinionAttackTargetNPC];
-                if (npc.CanBeChasedBy(Projectile, false))
-                {
-                    float num646 = Vector2.Distance(npc.Center, Projectile.Center);
-                    if ((!targetFound && num646 < num633) && Collision.CanHitLine(Projectile.position, Projectile.width, Projectile.height, npc.position, npc.width, npc.height))
-                    {
-                        num633 = num646;
-                        targetLocation = npc.Center;
-                        targetFound = true;
-                    }
-                }
-            }
-            if (!targetFound)
-            {
-                for (int num645 = 0; num645 < Main.maxNPCs; num645++)
-                {
-                    NPC nPC2 = Main.npc[num645];
-                    if (nPC2.CanBeChasedBy(Projectile, false))
-                    {
-                        float num646 = Vector2.Distance(nPC2.Center, Projectile.Center);
-                        if ((!targetFound && num646 < num633) && Collision.CanHitLine(Projectile.position, Projectile.width, Projectile.height, nPC2.position, nPC2.width, nPC2.height))
-                        {
-                            num633 = num646;
-                            targetLocation = nPC2.Center;
-                            targetFound = true;
-                        }
-                    }
-                }
-            }
-
-            //head back to player if too far
-            if (Vector2.Distance(player.Center, Projectile.Center) > 1200f)
-            {
-                AIint = 1;
+                Projectile.Center = Owner.Center;
+                Projectile.velocity *= 0.3f;
                 Projectile.netUpdate = true;
             }
 
-            if (targetFound && AIint == 0)
-            {
-                Vector2 targetVector = targetLocation - Projectile.Center;
-                float targetDist = targetVector.Length();
-                targetVector.Normalize();
-                if (targetDist > 200f)
-                {
-                    float scaleFactor2 = 8f;
-                    targetVector *= scaleFactor2;
-                    Projectile.velocity = (Projectile.velocity * 40f + targetVector) / 41f;
-                }
-                else if (mode == 2) //charging
-                {
-                    float scaleFactor3 = 4f;
-                    targetVector *= -scaleFactor3;
-                    Projectile.velocity = (Projectile.velocity * 40f + targetVector) / 41f;
-                }
-                else if (Projectile.velocity.Y > -1f)
-                    Projectile.velocity.Y -= 0.1f;
-            }
-            else //idle movement
-            {
-                bool returningToPlayer = false;
-                if (!returningToPlayer)
-                {
-                    returningToPlayer = AIint == 1;
-                }
+            if (Math.Abs(Projectile.velocity.X) > 0.2f)
+                Projectile.spriteDirection = Math.Sign(Projectile.velocity.X);
 
-                //set minion speed
-                float speedFloat = 5f; //6
-                if (returningToPlayer)
-                {
-                    speedFloat = 12f; //15
-                }
-                Vector2 projVector = Projectile.Center;
-                Vector2 playerVector = player.Center - projVector + new Vector2(0, -60f); //-60
-                float playerDist = playerVector.Length();
-                if (playerDist > 200f && speedFloat < 6.5f) //200 and 8
-                {
-                    speedFloat = 6.5f; //8
-                }
-                if (playerDist < num636 && returningToPlayer && !Collision.SolidCollision(Projectile.position, Projectile.width, Projectile.height))
-                {
-                    AIint = 0;
-                    Projectile.netUpdate = true;
-                }
-                if (playerDist > 2000f) //if too far, teleport to player
-                {
-                    Projectile.position.X = Main.player[Projectile.owner].Center.X - (float)(Projectile.width / 2);
-                    Projectile.position.Y = Main.player[Projectile.owner].Center.Y - (float)(Projectile.height / 2);
-                    Projectile.netUpdate = true;
-                }
-                if (playerDist > 70f)
-                {
-                    playerVector.Normalize();
-                    playerVector *= speedFloat;
-                    Projectile.velocity = (Projectile.velocity * 40f + playerVector) / 41f;
-                }
-                else if (Projectile.velocity.X == 0f && Projectile.velocity.Y == 0f)
-                {
-                    Projectile.velocity.X = -0.18f;
-                    Projectile.velocity.Y = -0.08f;
-                }
-            }
-
-            //increment attack cooldown
-            float cooldown = 100f;
-            if (mode == 0)
-                cooldown = 200f;
-            else if (mode == 1)
-                cooldown = 110f;
-            else if (mode == 2)
-                cooldown = 80f;
-
-            if (Projectile.ai[1] > 0f)
+            if (potentialTarget is not null)
             {
-                Projectile.ai[1] += (float)Main.rand.Next(1, 4);
-            }
-            if (Projectile.ai[1] > cooldown)
-            {
-                Projectile.ai[1] = 0f;
+                CurrentState = ViriliAIState.ChargeAtEnemies;
+                AITimer = 0f;
                 Projectile.netUpdate = true;
             }
-            if (AIint == 0)
+
+            // Stop rotating.
+            Projectile.rotation = Projectile.rotation.AngleTowards(0f, 0.1f);
+        }
+
+        public void DoBehavior_ChargeAtEnemies(NPC target)
+        {
+            int hoverTime = 18;
+            int chargeTime = 16;
+            int slowdownTime = 15;
+            int chargeCount = 6;
+            float hoverSpeed = 17f;
+
+            // Exit the attack state if Virili no longer has a valid target.
+            if (target is null)
             {
-                if (mode == 0)
+                ReturnToIdleState();
+                return;
+            }
+
+            // Use more extra updates and less i-frames.
+            Projectile.MaxUpdates = InfectedRemote.MaxUpdatesWhenCharging;
+            Projectile.localNPCHitCooldown = InfectedRemote.ChargeIframes;
+
+            float wrappedAttackTimer = AITimer % (hoverTime + chargeTime + slowdownTime);
+
+            // Hover into position, to the top left/right of the target.
+            if (wrappedAttackTimer < hoverTime)
+            {
+                // Look at the target.
+                Projectile.spriteDirection = (target.Center.X > Projectile.Center.X).ToDirectionInt();
+                HoverToPosition(target.Center + new Vector2(Projectile.spriteDirection * -270f, -150f), hoverSpeed);
+            }
+            else
+            {
+                UseAfterimages = true;
+                if (wrappedAttackTimer < hoverTime + chargeTime)
                 {
-                    if (targetFound && Projectile.ai[1] == 0f)
+                    // Create anime-esque streaks during the dash.
+                    if (wrappedAttackTimer % 2f == 1f && wrappedAttackTimer >= hoverTime + 3f)
                     {
-                        Projectile.ai[1] += 1f;
-                        float scaleFactor4 = 14f;
-                        int projType = ModContent.ProjectileType<PrincessMissile>();
-                        if (Main.myPlayer == Projectile.owner && Collision.CanHitLine(Projectile.position, Projectile.width, Projectile.height, targetLocation, 0, 0))
-                        {
-                            Vector2 projVect = targetLocation - Projectile.Center;
-                            projVect.Normalize();
-                            projVect *= scaleFactor4;
-                            int p = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, projVect, projType, (int)(Projectile.damage * 0.6f), 0f, Main.myPlayer, 0f, 0f);
-                            if (Main.projectile.IndexInRange(p))
-                                Main.projectile[p].originalDamage = (int)(Projectile.originalDamage * 0.6);
-                            Projectile.netUpdate = true;
-                        }
+                        Vector2 particleVelocity = -Projectile.velocity.SafeNormalize(Vector2.UnitY) * Main.rand.NextFloat(6f, 10f);
+                        var energyLeak = new SquishyLightParticle(Projectile.Center + Main.rand.NextVector2Circular(50f, 50f) + Projectile.velocity * 5f, particleVelocity, Main.rand.NextFloat(0.45f, 0.87f), Color.ForestGreen, 30, 3.4f, 4.5f);
+                        GeneralParticleHandler.SpawnParticle(energyLeak);
                     }
+
+                    if (Projectile.velocity.Length() < InfectedRemote.RegularChargeSpeed)
+                        Projectile.velocity *= 1.1f;
                 }
-                else if (mode == 1)
+            }
+
+            // Dash extremely quickly at the target.
+            if (wrappedAttackTimer == hoverTime)
+            {
+                SoundEngine.PlaySound(CommonCalamitySounds.ELRFireSound, Projectile.Center);
+                Projectile.velocity = CalamityUtils.CalculatePredictiveAimToTarget(Projectile.Center, target, InfectedRemote.RegularChargeSpeed * 0.55f, 8);
+                Projectile.netUpdate = true;
+            }
+
+            // Slow down rapidly to a crawl after the charge.
+            if (wrappedAttackTimer >= hoverTime + chargeTime)
+                Projectile.velocity *= 0.825f;
+
+            // Determine rotation.
+            Projectile.rotation = Projectile.velocity.X * 0.014f;
+
+            // Transition to the next attack state once enough charges have happened.
+            if (AITimer >= (hoverTime + chargeTime + slowdownTime) * chargeCount)
+            {
+                AITimer = 0f;
+                Projectile.velocity *= 0.3f;
+                CurrentState = ViriliAIState.BombardEnemiesWithRockets;
+                Projectile.netUpdate = true;
+            }
+        }
+
+        public void DoBehavior_BombardEnemiesWithRockets(NPC target)
+        {
+            int hoverTime = 50;
+            int chargeTime = 50;
+            int chargeCount = 6;
+            float hoverSpeed = 17f;
+            float rocketShootSpeed = 7f;
+
+            // Exit the attack state if Virili no longer has a valid target.
+            if (target is null)
+            {
+                ReturnToIdleState();
+                return;
+            }
+
+            // Use more extra updates.
+            Projectile.MaxUpdates = InfectedRemote.MaxUpdatesWhenCharging;
+
+            float wrappedAttackTimer = AITimer % (hoverTime + chargeTime);
+            
+            // Hover into position, to the top left/right of the target.
+            if (wrappedAttackTimer < hoverTime)
+            {
+                // Look at the target.
+                Projectile.spriteDirection = (target.Center.X > Projectile.Center.X).ToDirectionInt();
+
+                Vector2 hoverDestination = target.Center + new Vector2(Projectile.spriteDirection * -480f, -280f);
+                HoverToPosition(hoverDestination, hoverSpeed);
+                if (Projectile.WithinRange(hoverDestination, 150f))
                 {
-                    if (targetFound && Projectile.ai[1] == 0f)
+                    Projectile.velocity *= 0.85f;
+                    Projectile.Center = Vector2.Lerp(Projectile.Center, hoverDestination, 0.03f);
+                }
+            }
+            else
+            {
+                UseAfterimages = true;
+                if (wrappedAttackTimer < hoverTime + chargeTime)
+                {
+                    // Create anime-esque streaks during the dash.
+                    if (wrappedAttackTimer % 2f == 1f && wrappedAttackTimer >= hoverTime + 3f)
                     {
-                        Projectile.ai[1] += 1f;
-                        int smallBee = ModContent.ProjectileType<PlagueBeeSmall>();
-                        int bigBee = ModContent.ProjectileType<BabyPlaguebringer>();
-                        int projType = smallBee;
-                        if (player.ownedProjectileCounts[bigBee] < 1 && Main.rand.NextBool(3))
-                            projType = bigBee;
-                        if (Main.myPlayer == Projectile.owner && Collision.CanHitLine(Projectile.position, Projectile.width, Projectile.height, targetLocation, 0, 0))
+                        Vector2 particleVelocity = -Projectile.velocity.SafeNormalize(Vector2.UnitY) * Main.rand.NextFloat(6f, 10f);
+                        var energyLeak = new SquishyLightParticle(Projectile.Center + Main.rand.NextVector2Circular(50f, 50f) + Projectile.velocity * 5f, particleVelocity, Main.rand.NextFloat(0.45f, 0.87f), Color.ForestGreen, 30, 3.4f, 4.5f);
+                        GeneralParticleHandler.SpawnParticle(energyLeak);
+                    }
+
+                    // Release rockets.
+                    if (Main.myPlayer == Projectile.owner && wrappedAttackTimer % InfectedRemote.RocketShootRate == InfectedRemote.RocketShootRate - 1f)
+                    {
+                        Vector2 rocketSpawnPosition = Projectile.Center + Vector2.UnitY * Projectile.scale * 48f;
+                        Vector2 rocketVelocity = (target.Center - rocketSpawnPosition).SafeNormalize(Vector2.UnitY) * rocketShootSpeed;
+                        int rocket = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, rocketVelocity, ModContent.ProjectileType<MK2RocketHoming>(), (int)(Projectile.damage * InfectedRemote.RocketDamageFactor), 3f, Projectile.owner);
+                        if (Main.projectile.IndexInRange(rocket))
+                            Main.projectile[rocket].originalDamage = (int)(Projectile.originalDamage * InfectedRemote.RocketDamageFactor);
+                    }
+
+                    if (Projectile.velocity.Length() < InfectedRemote.HorizontalRocketChargeSpeed)
+                        Projectile.velocity *= 1.1f;
+                }
+            }
+
+            // Dash extremely quickly above the target.
+            if (wrappedAttackTimer == hoverTime)
+            {
+                SoundEngine.PlaySound(PlaguebringerGoliath.BarrageLaunchSound, Projectile.Center);
+                Projectile.velocity = Vector2.UnitX * InfectedRemote.HorizontalRocketChargeSpeed * Projectile.spriteDirection * 0.55f;
+                Projectile.netUpdate = true;
+            }
+
+            // Transition to the next attack state once enough charges have happened.
+            if (AITimer >= (hoverTime + chargeTime) * chargeCount)
+            {
+                AITimer = 0f;
+                Projectile.velocity *= 0.3f;
+                CurrentState = ViriliAIState.SummonPlagueBeesOnEnemies;
+                Projectile.netUpdate = true;
+            }
+        }
+
+        public void DoBehavior_SummonPlagueBeesOnEnemies(NPC target)
+        {
+            int shootTime = 300;
+            float hoverSpeed = 23f;
+
+            // Exit the attack state if Virili no longer has a valid target.
+            if (target is null)
+            {
+                ReturnToIdleState();
+                return;
+            }
+
+            // Hover above the target.
+            Vector2 hoverDestination = target.Center - Vector2.UnitY * 350f;
+            HoverToPosition(hoverDestination, hoverSpeed);
+            if (Projectile.WithinRange(hoverDestination, 240f))
+            {
+                Projectile.velocity *= 0.7f;
+                Projectile.Center = Vector2.Lerp(Projectile.Center, hoverDestination, 0.04f);
+
+                // Release bees.
+                if (Main.myPlayer == Projectile.owner && AITimer % InfectedRemote.BeeShootRate == InfectedRemote.BeeShootRate - 1f)
+                {
+                    int smallBee = ModContent.ProjectileType<PlagueBeeSmall>();
+                    int bigBee = ModContent.ProjectileType<BabyPlaguebringer>();
+                    int projType = smallBee;
+                    if (Owner.ownedProjectileCounts[bigBee] <= 0 && Main.rand.NextBool(2))
+                        projType = bigBee;
+
+                    if (Main.myPlayer == Projectile.owner && Collision.CanHitLine(Projectile.position, Projectile.width, Projectile.height, target.Center, 0, 0))
+                    {
+                        int beeCount = projType == bigBee ? 1 : 4;
+                        for (int i = 0; i < beeCount; i++)
                         {
-                            for (int beeIndex = 0; beeIndex < (projType == bigBee ? 1 : Main.rand.Next(1,5)); beeIndex++)
+                            Vector2 beeVelocity = Projectile.SafeDirectionTo(target.Center) * 6f;
+                            int bee = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, beeVelocity, projType, (int)(Projectile.damage * InfectedRemote.BeeDamageFactor), 0f, Projectile.owner);
+                            if (Main.projectile.IndexInRange(bee))
                             {
-                                Vector2 projVect2 = targetLocation - Projectile.Center;
-                                projVect2.Normalize();
-                                float SpeedX = projVect2.X + (float)Main.rand.Next(-30, 31) * 0.05f;
-                                float SpeedY = projVect2.Y + (float)Main.rand.Next(-30, 31) * 0.05f;
-                                int bee = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, SpeedX, SpeedY, projType, (int)(Projectile.damage * 0.8f), 0f, Main.myPlayer, 0f, 0f);
                                 if (projType == bigBee)
-                                {
                                     Main.projectile[bee].frame = 2;
-                                }
-                                if (Main.projectile.IndexInRange(bee))
-                                    Main.projectile[bee].originalDamage = (int)(Projectile.originalDamage * 0.8f);
-                                Projectile.netUpdate = true;
+                                Main.projectile[bee].originalDamage = (int)(Projectile.originalDamage * InfectedRemote.BeeDamageFactor);
                             }
-                        }
-                    }
-                }
-                else if (mode == 2)
-                {
-                    if (Projectile.ai[1] == 0f && targetFound && num633 < 500f)
-                    {
-                        Projectile.ai[1] += 1f;
-                        if (Main.myPlayer == Projectile.owner)
-                        {
-                            AIint = 2;
-                            Vector2 targetVect = targetLocation - Projectile.Center;
-                            targetVect.Normalize();
-                            Projectile.velocity = targetVect * 8f;
                             Projectile.netUpdate = true;
                         }
                     }
                 }
             }
+
+            if (AITimer >= shootTime)
+            {
+                AITimer = 0f;
+                Projectile.velocity *= 0.3f;
+                CurrentState = ViriliAIState.ChargeAtEnemies;
+                Projectile.netUpdate = true;
+            }
+        }
+
+        public void HoverToPosition(Vector2 hoverDestination, float hoverSpeed)
+        {
+            Vector2 baseHoverVelocity = Projectile.SafeDirectionTo(hoverDestination) * hoverSpeed;
+
+            // If not close to the hover destination, rapidly zoom towards it. Otherwise, hover in place.
+            if (!Projectile.WithinRange(hoverDestination, 150f))
+            {
+                float hyperspeedInterpolant = Utils.GetLerpValue(Projectile.Distance(hoverDestination), 500f, 960f, true);
+                Projectile.velocity = Vector2.Lerp(Projectile.velocity, Vector2.Lerp(baseHoverVelocity * 1.4f, (hoverDestination - Projectile.Center) * 0.1f, hyperspeedInterpolant), 0.2f);
+            }
+            else
+            {
+                Projectile.velocity = (Projectile.velocity * 29f + baseHoverVelocity) / 30f;
+                Projectile.velocity = Projectile.velocity.MoveTowards(baseHoverVelocity, hoverSpeed / 11f);
+            }
+        }
+
+        public void ReturnToIdleState()
+        {
+            CurrentState = ViriliAIState.HoverNearOwner;
+            Projectile.netUpdate = true;
+        }
+
+        public override bool PreDraw(ref Color lightColor)
+        {
+            Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
+            Rectangle frame = texture.Frame(1, Main.projFrames[Type], 0, Projectile.frame);
+            Vector2 origin = frame.Size() * 0.5f;
+            Vector2 drawPosition = Projectile.Center - Main.screenPosition;
+            SpriteEffects direction = Projectile.spriteDirection == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+            if (UseAfterimages)
+            {
+                for (int i = 0; i < Projectile.oldPos.Length; i++)
+                {
+                    Color afterimageDrawColor = Color.ForestGreen with { A = 25 } * Projectile.Opacity * (1f - i / (float)Projectile.oldPos.Length);
+                    Vector2 afterimageDrawPosition = Projectile.oldPos[i] + Projectile.Size * 0.5f - Main.screenPosition;
+                    Main.EntitySpriteDraw(texture, afterimageDrawPosition, frame, afterimageDrawColor, Projectile.rotation, origin, Projectile.scale, direction, 0);
+                }
+            }
+            Main.EntitySpriteDraw(texture, drawPosition, frame, Projectile.GetAlpha(lightColor), Projectile.rotation, origin, Projectile.scale, direction, 0);
+            return false;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -373,6 +407,6 @@ namespace CalamityMod.Projectiles.Summon
             target.AddBuff(ModContent.BuffType<Plague>(), 180);
         }
 
-        public override bool? CanDamage() => mode == 2;
+        public override bool? CanDamage() => CurrentState == ViriliAIState.ChargeAtEnemies;
     }
 }
