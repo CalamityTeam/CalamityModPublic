@@ -5,6 +5,7 @@ using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Placeables.Furniture.BossRelics;
+using CalamityMod.Items.Placeables.Furniture.DevPaintings;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Items.TreasureBags;
 using CalamityMod.Items.Weapons.Magic;
@@ -788,6 +789,7 @@ namespace CalamityMod.NPCs.Leviathan
                 // Vanity
                 normalOnly.Add(ModContent.ItemType<LeviathanMask>(), 7);
                 normalOnly.Add(ModContent.ItemType<AnahitaMask>(), 7);
+                normalOnly.Add(ModContent.ItemType<ThankYouPainting>(), ThankYouPainting.DropInt);
 
                 // Equipment
                 normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<LeviathanAmbergris>()));

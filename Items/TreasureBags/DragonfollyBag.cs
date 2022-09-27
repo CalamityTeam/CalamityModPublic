@@ -3,6 +3,7 @@ using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Mounts;
 using CalamityMod.Items.PermanentBoosters;
+using CalamityMod.Items.Placeables.Furniture.DevPaintings;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
@@ -78,6 +79,7 @@ namespace CalamityMod.Items.TreasureBags
 
             // Vanity
             itemLoot.Add(ModContent.ItemType<BumblefuckMask>(), 7);
+            itemLoot.Add(ModContent.ItemType<ThankYouPainting>(), ThankYouPainting.DropInt);
 
             // Other
             itemLoot.AddIf((info) => CalamityWorld.revenge && !info.player.Calamity().rageBoostThree, ModContent.ItemType<RedLightningContainer>());

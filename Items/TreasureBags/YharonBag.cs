@@ -3,6 +3,7 @@ using CalamityMod.Items.Accessories.Wings;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Pets;
+using CalamityMod.Items.Placeables.Furniture.DevPaintings;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
@@ -87,6 +88,7 @@ namespace CalamityMod.Items.TreasureBags
             itemLoot.Add(ModContent.ItemType<ForgottenDragonEgg>(), 10);
             itemLoot.Add(ModContent.ItemType<McNuggets>(), 10);
             itemLoot.AddIf(() => CalamityWorld.revenge, ModContent.ItemType<FoxDrive>());
+            itemLoot.Add(ModContent.ItemType<ThankYouPainting>(), ThankYouPainting.DropInt);
         }
     }
 }
