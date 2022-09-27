@@ -965,6 +965,7 @@ namespace CalamityMod.CalPlayer
         public bool eyeOfNight = false;
         public bool soulSeeker = false;
         public bool perditionBeacon = false;
+        public bool MoonFist = false;
         public bool AresCannons = false;
 
         public List<DeadMinionProperties> PendingProjectilesToRespawn = new List<DeadMinionProperties>();
@@ -2000,6 +2001,7 @@ namespace CalamityMod.CalPlayer
             eyeOfNight = false;
             soulSeeker = false;
             perditionBeacon = false;
+            MoonFist = false;
             AresCannons = false;
 
             disableVoodooSpawns = false;
