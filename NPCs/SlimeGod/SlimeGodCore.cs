@@ -5,6 +5,7 @@ using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Furniture.BossRelics;
+using CalamityMod.Items.Placeables.Furniture.DevPaintings;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Items.Potions;
 using CalamityMod.Items.TreasureBags;
@@ -612,6 +613,7 @@ namespace CalamityMod.NPCs.SlimeGod
                 // Vanity
                 normalOnly.Add(ModContent.ItemType<SlimeGodMask>(), 7);
                 normalOnly.Add(ModContent.ItemType<SlimeGodMask2>(), 7);
+                normalOnly.Add(ModContent.ItemType<ThankYouPainting>(), ThankYouPainting.DropInt);
 
                 // Equipment
                 normalOnly.Add(ModContent.ItemType<ManaPolarizer>());

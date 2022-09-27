@@ -2,6 +2,7 @@
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
+using CalamityMod.Items.Placeables.Furniture.DevPaintings;
 using CalamityMod.Items.Potions;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
@@ -1394,6 +1395,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
             npcLoot.Add(ModContent.ItemType<SoulEdge>());
             npcLoot.Add(ModContent.ItemType<HalibutCannon>());
             npcLoot.Add(ModContent.ItemType<Voidstone>(), 1, 80, 100);
+            npcLoot.Add(ModContent.ItemType<ThankYouPainting>(), ThankYouPainting.DropInt);
 
             var postClone = npcLoot.DefineConditionalDropSet(() => DownedBossSystem.downedCalamitas);
             postClone.Add(DropHelper.NormalVsExpertQuantity(ModContent.ItemType<Lumenyl>(), 1, 50, 108, 65, 135));
