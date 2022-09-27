@@ -216,6 +216,21 @@ namespace CalamityMod.Projectiles.Summon
                     break;
                 }
             }
+
+            // If a cannon is not mounted, die if the owner goes very, very far away.
+            else if (!Projectile.WithinRange(Owner.Center, 7200f))
+            {
+                int podID = ModContent.ProjectileType<AtlasMunitionsDropPod>();
+                int podUpperID = ModContent.ProjectileType<AtlasMunitionsDropPodUpper>();
+                for (int i = 0; i < Main.maxProjectiles; i++)
+                {
+                    bool validID = Main.projectile[i].type == podID || Main.projectile[i].type == podUpperID;
+                    if (Main.projectile[i].active && validID && Main.projectile[i].owner == Projectile.owner)
+                        Main.projectile[i].Kill();
+                }
+
+                Projectile.Kill();
+            }
         }
 
         public void FireLaserAtTarget(NPC target)
