@@ -41,7 +41,7 @@ namespace CalamityMod.Projectiles.Summon
             }
 
             Projectile.Opacity = 1f - (float)Math.Pow(LifetimeCompletion, 1.56);
-            Projectile.scale = MathHelper.Lerp(0.5f, 9f, LifetimeCompletion);
+            Projectile.scale = MathHelper.Lerp(0.5f, 7f, LifetimeCompletion);
             Projectile.rotation += Projectile.localAI[0] * 0.012f;
         }
 
