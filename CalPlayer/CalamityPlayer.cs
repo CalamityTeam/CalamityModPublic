@@ -948,7 +948,6 @@ namespace CalamityMod.CalPlayer
         public bool brimseeker = false;
         public bool necrosteocytesDudes = false;
         public bool gammaHead = false;
-        public bool rustyDrone = false;
         public bool tundraFlameBlossom = false;
         public bool starSwallowerPetFroge = false;
         public bool snakeEyes = false;
@@ -1985,7 +1984,6 @@ namespace CalamityMod.CalPlayer
             brimseeker = false;
             necrosteocytesDudes = false;
             gammaHead = false;
-            rustyDrone = false;
             tundraFlameBlossom = false;
             starSwallowerPetFroge = false;
             snakeEyes = false;
