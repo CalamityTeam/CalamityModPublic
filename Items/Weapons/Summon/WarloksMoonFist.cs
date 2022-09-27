@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.Rarities;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
@@ -15,7 +16,7 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Warloks's Moon Fist");
+            DisplayName.SetDefault("Warloks' Moon Fist");
             Tooltip.SetDefault("Summons a celestial fist to punch enemies for you\n" +
                                $"Takes up {SlotCount} minion slots");
             SacrificeTotal = 1;
@@ -33,7 +34,7 @@ namespace CalamityMod.Items.Weapons.Summon
             Item.knockBack = 2f;
             Item.value = CalamityGlobalItem.RarityPureGreenBuyPrice;
             Item.rare = ItemRarityID.Purple;
-            Item.Calamity().customRarity = CalamityRarity.PureGreen;
+            Item.rare = ModContent.RarityType<PureGreen>();
             Item.UseSound = SoundID.Item104;
             Item.autoReuse = true;
             Item.noUseGraphic = true;
