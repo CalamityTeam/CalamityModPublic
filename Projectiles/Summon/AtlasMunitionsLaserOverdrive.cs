@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.timeLeft = 240;
             Projectile.penetrate = 1;
             Projectile.DamageType = DamageClass.Summon;
-            Projectile.MaxUpdates = 2;
+            Projectile.MaxUpdates = 3;
             Projectile.Opacity = 0f;
         }
 
