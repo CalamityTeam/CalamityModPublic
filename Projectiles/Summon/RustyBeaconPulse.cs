@@ -55,7 +55,7 @@ namespace CalamityMod.Projectiles.Summon
         public override bool PreDraw(ref Color lightColor)
         {
             Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
-            Color drawColor = Projectile.GetAlpha(lightColor) * 0.4f;
+            Color drawColor = Projectile.GetAlpha(lightColor) * 0.28f;
             for (int i = 0; i < 8; i++)
             {
                 Vector2 drawOffset = (MathHelper.TwoPi * i / 8f).ToRotationVector2() * Projectile.scale;
