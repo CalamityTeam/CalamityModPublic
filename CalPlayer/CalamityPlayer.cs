@@ -938,6 +938,7 @@ namespace CalamityMod.CalPlayer
         public bool frostBlossom = false;
         public bool cinderBlossom = false;
         public bool belladonaSpirit = false;
+        public bool puffWarrior = false;
         public bool vileFeeder = false;
         public bool scabRipper = false;
         public bool midnightUFO = false;
@@ -1974,6 +1975,7 @@ namespace CalamityMod.CalPlayer
             frostBlossom = false;
             cinderBlossom = false;
             belladonaSpirit = false;
+            puffWarrior = false;
             vileFeeder = false;
             scabRipper = false;
             midnightUFO = false;
