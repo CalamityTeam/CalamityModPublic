@@ -1,8 +1,10 @@
 ﻿using CalamityMod.Buffs.Summon;
-using CalamityMod.CalPlayer;
+using CalamityMod.Items.Weapons.Summon;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -10,14 +12,37 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class CosmilampMinion : ModProjectile
     {
+        public Player Owner => Main.player[Projectile.owner];
+
+        public int HoverOffsetIndex => (int)Projectile.ai[0];
+
+        public float HoverOffsetInterpolant
+        {
+            get
+            {
+                float projectileCounts = Owner.ownedProjectileCounts[Type];
+
+                // Use a midway interpolant if the projectile count is one. This makes the fist use middle positions instead of
+                // sitting awkwardly to the left.
+                if (projectileCounts <= 1f)
+                    return 0.5f;
+
+                return HoverOffsetIndex / (projectileCounts - 1f);
+            }
+        }
+
+        public ref float Timer => ref Projectile.ai[1];
+
         public override string Texture => "CalamityMod/NPCs/Signus/CosmicLantern";
 
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Cosmilamp");
+            Main.projFrames[Projectile.type] = 4;
+            ProjectileID.Sets.TrailingMode[Type] = 2;
+            ProjectileID.Sets.TrailCacheLength[Type] = 8;
             ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
             ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
-            Main.projFrames[Projectile.type] = 4;
         }
 
         public override void SetDefaults()
@@ -26,216 +51,107 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.height = 20;
             Projectile.netImportant = true;
             Projectile.friendly = true;
-            Projectile.minionSlots = 2f;
-            Projectile.timeLeft = 18000;
-            Projectile.penetrate = -1;
-            Projectile.timeLeft *= 5;
-            Projectile.minion = true;
+            Projectile.ignoreWater = false;
             Projectile.tileCollide = false;
-            Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 24;
-            Projectile.extraUpdates = 1;
+            Projectile.minionSlots = Cosmilamp.LanternSummonCost;
+            Projectile.timeLeft = 90000;
+            Projectile.penetrate = -1;
+            Projectile.minion = true;
+            Projectile.MaxUpdates = 2;
             Projectile.DamageType = DamageClass.Summon;
         }
 
         public override void AI()
         {
-            Player player = Main.player[Projectile.owner];
-            CalamityPlayer modPlayer = player.Calamity();
-            if (Projectile.localAI[0] == 0f)
-            {
-                int num226 = 36;
-                for (int num227 = 0; num227 < num226; num227++)
-                {
-                    Vector2 vector6 = Vector2.Normalize(Projectile.velocity) * new Vector2((float)Projectile.width / 2f, (float)Projectile.height) * 0.75f;
-                    vector6 = vector6.RotatedBy((double)((float)(num227 - (num226 / 2 - 1)) * 6.28318548f / (float)num226), default) + Projectile.Center;
-                    Vector2 vector7 = vector6 - Projectile.Center;
-                    int num228 = Dust.NewDust(vector6 + vector7, 0, 0, 204, vector7.X * 1.5f, vector7.Y * 1.5f, 100, default, 1.4f);
-                    Main.dust[num228].noGravity = true;
-                    Main.dust[num228].noLight = true;
-                    Main.dust[num228].velocity = vector7;
-                }
-                Projectile.localAI[0] += 1f;
-            }
+            // Decide whether the minion should still exist.
+            HandleMinionBools();
 
-            Projectile.frameCounter++;
-            if (Projectile.frameCounter >= 4)
-            {
-                Projectile.frame++;
-                Projectile.frameCounter = 0;
-            }
-            if (Projectile.frame >= Main.projFrames[Projectile.type])
-            {
-                Projectile.frame = 0;
-            }
+            // Decide frames.
+            DecideFrames();
 
-            Lighting.AddLight(Projectile.Center, (255 - Projectile.alpha) * 0.75f / 255f, (255 - Projectile.alpha) * 0f / 255f, (255 - Projectile.alpha) * 0.75f / 255f);
-            float num395 = (float)Main.mouseTextColor / 200f - 0.35f;
-            num395 *= 0.2f;
-            Projectile.scale = num395 + 0.95f;
-            int num1262 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 204, 0f, 0f, 0, default, 1f);
-            Main.dust[num1262].velocity *= 0.1f;
-            Main.dust[num1262].scale = 0.7f;
-            Main.dust[num1262].noGravity = true;
-            bool flag64 = Projectile.type == ModContent.ProjectileType<CosmilampMinion>();
-            player.AddBuff(ModContent.BuffType<CosmilampBuff>(), 3600);
-            if (flag64)
+            // Hover above the owner.
+            HoverInPlace();
+
+            // Increment the universal timer.
+            Timer++;
+
+            // Shoot at nearby enemies.
+            NPC potentialTarget = Projectile.Center.MinionHoming(Cosmilamp.MaxTargetingDistance, Owner);
+            if (potentialTarget is not null)
             {
-                if (player.dead)
+                int wrappedAttackTimer = (int)(Timer % Cosmilamp.BeamShootRate);
+                if (wrappedAttackTimer == (int)(HoverOffsetInterpolant * (Cosmilamp.BeamShootRate - 18f)))
                 {
-                    modPlayer.cLamp = false;
-                }
-                if (modPlayer.cLamp)
-                {
-                    Projectile.timeLeft = 2;
-                }
-            }
-            Projectile.MinionAntiClump();
-            float num535 = Projectile.position.X;
-            float num536 = Projectile.position.Y;
-            float num537 = 3000f;
-            bool flag19 = false;
-            int num538 = 2500;
-            if (Projectile.ai[1] != 0f)
-            {
-                num538 = 4000;
-            }
-            if (Math.Abs(Projectile.Center.X - Main.player[Projectile.owner].Center.X) + Math.Abs(Projectile.Center.Y - Main.player[Projectile.owner].Center.Y) > (float)num538)
-            {
-                Projectile.ai[0] = 1f;
-            }
-            if (Projectile.ai[0] == 0f)
-            {
-                if (player.HasMinionAttackTargetNPC)
-                {
-                    NPC npc = Main.npc[player.MinionAttackTargetNPC];
-                    if (npc.CanBeChasedBy(Projectile, false))
+                    SoundEngine.PlaySound(SoundID.Item158, Projectile.Center);
+                    if (Main.myPlayer == Projectile.owner)
                     {
-                        float num539 = npc.position.X + (float)(npc.width / 2);
-                        float num540 = npc.position.Y + (float)(npc.height / 2);
-                        float num541 = Math.Abs(Projectile.position.X + (float)(Projectile.width / 2) - num539) + Math.Abs(Projectile.position.Y + (float)(Projectile.height / 2) - num540);
-                        if (num541 < num537 && Collision.CanHit(Projectile.position, Projectile.width, Projectile.height, npc.position, npc.width, npc.height))
-                        {
-                            num535 = num539;
-                            num536 = num540;
-                            flag19 = true;
-                        }
+                        Vector2 beamVelocity = Projectile.SafeDirectionTo(potentialTarget.Center).RotatedByRandom(0.32f) * Main.rand.NextFloat(9.4f, 11f);
+                        int beam = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, beamVelocity, ModContent.ProjectileType<CosmilampBeam>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                        if (Main.projectile.IndexInRange(beam))
+                            Main.projectile[beam].originalDamage = Projectile.originalDamage;
                     }
-                }
-                if (!flag19)
-                {
-                    for (int num542 = 0; num542 < Main.maxNPCs; num542++)
-                    {
-                        if (Main.npc[num542].CanBeChasedBy(Projectile, false))
-                        {
-                            float num543 = Main.npc[num542].position.X + (float)(Main.npc[num542].width / 2);
-                            float num544 = Main.npc[num542].position.Y + (float)(Main.npc[num542].height / 2);
-                            float num545 = Math.Abs(Projectile.position.X + (float)(Projectile.width / 2) - num543) + Math.Abs(Projectile.position.Y + (float)(Projectile.height / 2) - num544);
-                            if (num545 < num537)
-                            {
-                                num537 = num545;
-                                num535 = num543;
-                                num536 = num544;
-                                flag19 = true;
-                            }
-                        }
-                    }
-                }
-            }
-            if (!flag19)
-            {
-                float num546 = 12f;
-                if (Projectile.ai[0] == 1f)
-                {
-                    num546 = 18f;
-                }
-                Vector2 vector42 = Projectile.Center;
-                float num547 = player.Center.X - vector42.X;
-                float num548 = player.Center.Y - vector42.Y - 60f;
-                float num549 = (float)Math.Sqrt((double)(num547 * num547 + num548 * num548));
-                if (num549 < 400f && Projectile.ai[0] == 1f && !Collision.SolidCollision(Projectile.position, Projectile.width, Projectile.height))
-                {
-                    Projectile.ai[0] = 0f;
-                }
-                if (num549 > 2000f)
-                {
-                    Projectile.position.X = Main.player[Projectile.owner].Center.X - (float)(Projectile.width / 2);
-                    Projectile.position.Y = Main.player[Projectile.owner].Center.Y - (float)(Projectile.width / 2);
-                }
-                if (num549 > 70f)
-                {
-                    num549 = num546 / num549;
-                    num547 *= num549;
-                    num548 *= num549;
-                    Projectile.velocity.X = (Projectile.velocity.X * 20f + num547) / 21f;
-                    Projectile.velocity.Y = (Projectile.velocity.Y * 20f + num548) / 21f;
-                }
-                else
-                {
-                    if (Projectile.velocity.X == 0f && Projectile.velocity.Y == 0f)
-                    {
-                        Projectile.velocity.X = -0.15f;
-                        Projectile.velocity.Y = -0.05f;
-                    }
-                    Projectile.velocity *= 1.01f;
-                }
-                Projectile.rotation = Projectile.velocity.X * 0.05f;
-                if ((double)Math.Abs(Projectile.velocity.X) > 0.2)
-                {
-                    Projectile.spriteDirection = -Projectile.direction;
-                    return;
-                }
-            }
-            else
-            {
-                if (Projectile.ai[1] == -1f)
-                {
-                    Projectile.ai[1] = 17f;
-                }
-                if (Projectile.ai[1] > 0f)
-                {
-                    Projectile.ai[1] -= 1f;
-                }
-                if (Projectile.ai[1] == 0f)
-                {
-                    float num550 = 24f; //12
-                    Vector2 vector43 = new Vector2(Projectile.position.X + (float)Projectile.width * 0.5f, Projectile.position.Y + (float)Projectile.height * 0.5f);
-                    float num551 = num535 - vector43.X;
-                    float num552 = num536 - vector43.Y;
-                    float num553 = (float)Math.Sqrt((double)(num551 * num551 + num552 * num552));
-                    if (num553 < 100f)
-                    {
-                        num550 = 28f; //14
-                    }
-                    num553 = num550 / num553;
-                    num551 *= num553;
-                    num552 *= num553;
-                    Projectile.velocity.X = (Projectile.velocity.X * 14f + num551) / 15f;
-                    Projectile.velocity.Y = (Projectile.velocity.Y * 14f + num552) / 15f;
-                }
-                else
-                {
-                    if (Math.Abs(Projectile.velocity.X) + Math.Abs(Projectile.velocity.Y) < 10f)
-                    {
-                        Projectile.velocity *= 1.05f;
-                    }
-                }
-                Projectile.rotation = Projectile.velocity.X * 0.05f;
-                if (Math.Abs(Projectile.velocity.X) > 0.2f)
-                {
-                    Projectile.spriteDirection = -Projectile.direction;
-                    return;
                 }
             }
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public void HandleMinionBools()
         {
-            if (Main.myPlayer == Projectile.owner)
+            Owner.AddBuff(ModContent.BuffType<CosmilampBuff>(), 3600);
+            if (Projectile.type == ModContent.ProjectileType<CosmilampMinion>())
             {
-                Projectile.ai[1] = -1f;
-                Projectile.netUpdate = true;
+                if (Owner.dead)
+                    Owner.Calamity().cLamp = false;
+
+                if (Owner.Calamity().cLamp)
+                    Projectile.timeLeft = 2;
             }
         }
+
+        public void DecideFrames()
+        {
+            Projectile.frameCounter++;
+            Projectile.frame = Projectile.frameCounter / 8 % Main.projFrames[Projectile.type];
+        }
+
+        public void HoverInPlace()
+        {
+            Vector2 hoverDestination = Owner.Top + new Vector2(MathHelper.Lerp(-100f, 100f, HoverOffsetInterpolant), -80f);
+            hoverDestination.Y += ((float)Math.Sin(MathHelper.TwoPi * HoverOffsetInterpolant + Timer / 50f) * 0.5f + 0.5f) * 40f;
+
+            // Zoom towards the hover destination.
+            Projectile.Center = Vector2.Lerp(Projectile.Center, hoverDestination, 0.02f).MoveTowards(hoverDestination, 8f);
+        }
+
+        public override bool PreDraw(ref Color lightColor)
+        {
+            Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
+            Rectangle frame = texture.Frame(1, Main.projFrames[Type], 0, Projectile.frame);
+            Vector2 origin = frame.Size() * 0.5f;
+            Vector2 drawPosition = Projectile.Center - Main.screenPosition;
+            SpriteEffects direction = Projectile.spriteDirection == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+
+            // Draw afterimages.
+            for (int i = 0; i < Projectile.oldPos.Length; i++)
+            {
+                float afterimageFade = (1f - i / (float)Projectile.oldPos.Length);
+                Color afterimageDrawColor = Color.Lerp(Color.Fuchsia, Color.Cyan, afterimageFade) with { A = 25 } * Projectile.Opacity * afterimageFade * 0.6f;
+                Vector2 afterimageDrawPosition = Projectile.oldPos[i] + Projectile.Size * 0.5f - Main.screenPosition;
+                Main.EntitySpriteDraw(texture, afterimageDrawPosition, frame, afterimageDrawColor, Projectile.rotation, origin, Projectile.scale, direction, 0);
+            }
+
+            // Draw a cyan backglow.
+            for (int i = 0; i < 8; i++)
+            {
+                Color afterimageDrawColor = Color.Cyan with { A = 25 } * Projectile.Opacity * 0.4f;
+                Vector2 afterimageDrawPosition = Projectile.Center - Main.screenPosition + (MathHelper.TwoPi * i / 8f).ToRotationVector2() * 3f;
+                Main.EntitySpriteDraw(texture, afterimageDrawPosition, frame, afterimageDrawColor, Projectile.rotation, origin, Projectile.scale, direction, 0);
+            }
+
+            Main.EntitySpriteDraw(texture, drawPosition, frame, Projectile.GetAlpha(lightColor), Projectile.rotation, origin, Projectile.scale, direction, 0);
+            return false;
+        }
+
+        // The lamps themselves do not do damage, but they do store damage for the sake of shooting projectiles.
+        public override bool? CanDamage() => false;
     }
 }
