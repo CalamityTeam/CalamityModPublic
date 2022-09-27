@@ -4800,6 +4800,7 @@ namespace CalamityMod.NPCs
                 nearLab |= CalamityUtils.ManhattanDistance(checkPosition, CalamityWorld.JungleLabCenter / 16f) < 180f;
                 nearLab |= CalamityUtils.ManhattanDistance(checkPosition, CalamityWorld.HellLabCenter / 16f) < 180f;
                 nearLab |= CalamityUtils.ManhattanDistance(checkPosition, CalamityWorld.IceLabCenter / 16f) < 180f;
+                bool nearPlagueLab = CalamityUtils.ManhattanDistance(checkPosition, CalamityWorld.JungleLabCenter / 16f) < 180f;
 
                 bool isLabWall = aboveSpawnTile.WallType == WallType<HazardChevronWall>() || aboveSpawnTile.WallType == WallType<LaboratoryPanelWall>() || aboveSpawnTile.WallType == WallType<LaboratoryPlateBeam>();
                 isLabWall |= aboveSpawnTile.WallType == WallType<LaboratoryPlatePillar>() || aboveSpawnTile.WallType == WallType<LaboratoryPlatingWall>() || aboveSpawnTile.WallType == WallType<RustedPlateBeam>();
@@ -4808,7 +4809,21 @@ namespace CalamityMod.NPCs
 
                 WeightedRandom<int> pool = new WeightedRandom<int>();
                 pool.Add(NPCID.None, 0f);
-                pool.Add(NPCType<RepairUnitCritter>(), 0.2f);
+                pool.Add(NPCType<RepairUnitCritter>(), 0.025f);
+                pool.Add(NPCType<Androomba>(), 0.001f);
+                // Normal droids are replaced with plague droids in the Jungle Lab.
+                if (nearPlagueLab)
+                {
+                    pool.Add(NPCType<NanodroidPlagueGreen>(), 0.025f);
+                    pool.Add(NPCType<NanodroidPlagueRed>(), 0.025f);
+                    pool.Add(NPCType<NanodroidDysfunctional>(), 0.02f);
+                }
+                else
+                {
+                    pool.Add(NPCType<Nanodroid>(), 0.05f);
+                    pool.Add(NPCType<NanodroidDysfunctional>(), 0.05f);
+                }
+
 
                 int typeToSpawn = pool.Get();
                 if (typeToSpawn != NPCID.None)

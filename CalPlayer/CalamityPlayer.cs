@@ -938,6 +938,7 @@ namespace CalamityMod.CalPlayer
         public bool frostBlossom = false;
         public bool cinderBlossom = false;
         public bool belladonaSpirit = false;
+        public bool puffWarrior = false;
         public bool vileFeeder = false;
         public bool scabRipper = false;
         public bool midnightUFO = false;
@@ -965,6 +966,7 @@ namespace CalamityMod.CalPlayer
         public bool eyeOfNight = false;
         public bool soulSeeker = false;
         public bool perditionBeacon = false;
+        public bool MoonFist = false;
         public bool AresCannons = false;
 
         public List<DeadMinionProperties> PendingProjectilesToRespawn = new List<DeadMinionProperties>();
@@ -1973,6 +1975,7 @@ namespace CalamityMod.CalPlayer
             frostBlossom = false;
             cinderBlossom = false;
             belladonaSpirit = false;
+            puffWarrior = false;
             vileFeeder = false;
             scabRipper = false;
             midnightUFO = false;
@@ -2000,6 +2003,7 @@ namespace CalamityMod.CalPlayer
             eyeOfNight = false;
             soulSeeker = false;
             perditionBeacon = false;
+            MoonFist = false;
             AresCannons = false;
 
             disableVoodooSpawns = false;
