@@ -29,6 +29,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.usesIDStaticNPCImmunity = true;
             Projectile.idStaticNPCHitCooldown = 30;
             Projectile.timeLeft = RustyBeaconPrototype.PulseLifetime;
+            Projectile.scale = 0.001f;
         }
 
         public override void AI()
@@ -55,12 +56,16 @@ namespace CalamityMod.Projectiles.Summon
         public override bool PreDraw(ref Color lightColor)
         {
             Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
-            Color drawColor = Projectile.GetAlpha(lightColor) * 0.28f;
+            Color drawColor = Projectile.GetAlpha(lightColor) * 0.33f;
             for (int i = 0; i < 8; i++)
             {
+                float rotation = Projectile.rotation;
                 Vector2 drawOffset = (MathHelper.TwoPi * i / 8f).ToRotationVector2() * Projectile.scale;
                 Vector2 drawPosition = Projectile.Center - Main.screenPosition + drawOffset;
-                Main.EntitySpriteDraw(texture, drawPosition, null, drawColor, Projectile.rotation, texture.Size() * 0.5f, Projectile.scale, 0, 0);
+                if (i % 2 == 1)
+                    rotation *= -1f;
+
+                Main.EntitySpriteDraw(texture, drawPosition, null, drawColor, rotation, texture.Size() * 0.5f, Projectile.scale, 0, 0);
             }
             return false;
         }

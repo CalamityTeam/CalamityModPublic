@@ -40,7 +40,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.frame = Projectile.frameCounter / 5 % Main.projFrames[Projectile.type];
 
             // Hover in place.
-            Projectile.velocity = -Vector2.UnitY * (float)Math.Sin(MathHelper.TwoPi * Projectile.timeLeft / 54f) * 3f;
+            Projectile.velocity = -Vector2.UnitY * (float)Math.Sin(MathHelper.TwoPi * Projectile.timeLeft / 96f) * 3f;
             
             // Look at nearby enemies.
             NPC potentialTarget = Projectile.Center.MinionHoming(1000f, Owner);
