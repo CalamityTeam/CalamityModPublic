@@ -8,6 +8,7 @@ using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Mounts;
 using CalamityMod.Items.Placeables.Furniture.BossRelics;
+using CalamityMod.Items.Placeables.Furniture.DevPaintings;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Items.Placeables.Pylons;
 using CalamityMod.Items.TreasureBags;
@@ -113,7 +114,8 @@ namespace CalamityMod.NPCs.BrimstoneElemental
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 240, true);
+            if (damage > 0)
+                player.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 240, true);
         }
 
         public override void FindFrame(int frameHeight) // 9 total frames
@@ -202,6 +204,7 @@ namespace CalamityMod.NPCs.BrimstoneElemental
 
                 // Vanity
                 normalOnly.Add(ModContent.ItemType<BrimstoneWaifuMask>(), 7);
+                normalOnly.Add(ModContent.ItemType<ThankYouPainting>(), ThankYouPainting.DropInt);
 
             }
 

@@ -8,6 +8,7 @@ using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.Dyes;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Placeables.Furniture.BossRelics;
+using CalamityMod.Items.Placeables.Furniture.DevPaintings;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Items.Potions;
 using CalamityMod.Items.SummonItems;
@@ -315,7 +316,7 @@ namespace CalamityMod.NPCs.Providence
             float maxDistance = (AIState == (int)Phase.FlameCocoon || AIState == (int)Phase.SpearCocoon) ? shorterDistance : baseDistance;
             if (Vector2.Distance(player.Center, vector) > maxDistance)
             {
-                if (!player.dead && player.active)
+                if (!player.dead && player.active && !player.creativeGodMode)
                     player.AddBuff(ModContent.BuffType<HolyInferno>(), 2);
             }
 
@@ -1598,6 +1599,7 @@ namespace CalamityMod.NPCs.Providence
 
                 // Vanity
                 normalOnly.Add(ModContent.ItemType<ProvidenceMask>(), 7);
+                normalOnly.Add(ModContent.ItemType<ThankYouPainting>(), ThankYouPainting.DropInt);
             }
 
             npcLoot.Add(ModContent.ItemType<ProvidenceTrophy>(), 10);

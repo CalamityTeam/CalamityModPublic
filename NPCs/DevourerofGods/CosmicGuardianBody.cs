@@ -213,7 +213,8 @@ namespace CalamityMod.NPCs.DevourerofGods
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 120, true);
+            if (damage > 0)
+                player.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 120, true);
         }
     }
 }

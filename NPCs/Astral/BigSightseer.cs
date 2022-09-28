@@ -178,7 +178,8 @@ namespace CalamityMod.NPCs.Astral
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 120, true);
+            if (damage > 0)
+                player.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 120, true);
         }
 
         public override void ModifyNPCLoot(NPCLoot npcLoot)
@@ -269,7 +270,8 @@ namespace CalamityMod.NPCs.Astral
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 120, true);
+            if (damage > 0)
+                player.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 120, true);
         }
 
         private void DoKillDust()

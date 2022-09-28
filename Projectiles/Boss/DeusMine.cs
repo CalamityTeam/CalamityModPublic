@@ -144,7 +144,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            if (Projectile.timeLeft > MaxTimeLeft - FadeTime || (Projectile.timeLeft < FadeTime && Projectile.ai[0] == 0f))
+            if (damage <= 0 || Projectile.timeLeft > MaxTimeLeft - FadeTime || (Projectile.timeLeft < FadeTime && Projectile.ai[0] == 0f))
                 return;
 
             target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 180);

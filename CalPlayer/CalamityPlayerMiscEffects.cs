@@ -16,6 +16,7 @@ using CalamityMod.EntitySources;
 using CalamityMod.Events;
 using CalamityMod.Items;
 using CalamityMod.Items.Accessories;
+using CalamityMod.Items.Ammo;
 using CalamityMod.Items.Armor.Brimflame;
 using CalamityMod.Items.Armor.DesertProwler;
 using CalamityMod.Items.Armor.Silva;
@@ -39,6 +40,7 @@ using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.NPCs.Other;
 using CalamityMod.NPCs.PlagueEnemies;
 using CalamityMod.NPCs.SupremeCalamitas;
+using CalamityMod.NPCs.TownNPCs;
 using CalamityMod.Projectiles.Magic;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Projectiles.Rogue;
@@ -96,6 +98,19 @@ namespace CalamityMod.CalPlayer
                 // be refreshed and copied from RegisteredGameModes. Without this, the above behavior is not reflected ingame, as GameModeData is a value type, not a reference type.
                 Main.GameMode = Main.GameMode;
             }
+            // If people want to suffer, let them suffer
+			else
+            {
+                var copy = Main.RegisteredGameModes[GameModeID.Expert];
+                copy.DebuffTimeMultiplier = 2f;
+                Main.RegisteredGameModes[GameModeID.Expert] = copy;
+
+                copy = Main.RegisteredGameModes[GameModeID.Master];
+                copy.DebuffTimeMultiplier = 2.5f;
+                Main.RegisteredGameModes[GameModeID.Master] = copy;
+
+                Main.GameMode = Main.GameMode;
+            }
 
             // Go through the old positions for the player.
             for (int i = Player.Calamity().OldPositions.Length - 1; i > 0; i--)
@@ -151,6 +166,9 @@ namespace CalamityMod.CalPlayer
 
             // Check if schematics are present on the mouse, for the sake of registering their recipes.
             CheckIfMouseItemIsSchematic();
+
+            // Handle Androomba's Right Click function
+            AndroombaRightClick();
 
             // Update all particle sets for items.
             // This must be done here instead of in the item logic because these sets are not properly instanced
@@ -507,7 +525,7 @@ namespace CalamityMod.CalPlayer
 
             // Allows the blazing aura to display if the accessory is vanity, but it deals no damage
             if (!blazingCursorDamage)
-				return;
+                return;
 
             // miscCounter is used to limit Calamity's hit rate.
             int framesPerHit = 60 / Calamity.HitsPerSecond;
@@ -1079,6 +1097,8 @@ namespace CalamityMod.CalPlayer
                 KameiBladeUseDelay--;
             if (galileoCooldown > 0)
                 galileoCooldown--;
+            if (dragonRageCooldown > 0)
+                dragonRageCooldown--;
             if (soundCooldown > 0)
                 soundCooldown--;
             if (shadowPotCooldown > 0)
@@ -2435,7 +2455,7 @@ namespace CalamityMod.CalPlayer
                 Player.statDefense += 20;
                 Player.longInvince = true;
                 Player.crimsonRegen = true;
-				healingPotBonus += 0.5f;
+                healingPotBonus += 0.5f;
             }
 
             // 50% movement speed bonus so that you don't feel like a snail in the early game.
@@ -2840,10 +2860,10 @@ namespace CalamityMod.CalPlayer
             }
 
             if (bloodyWormTooth)
-			{
+            {
                 Player.GetDamage<MeleeDamageClass>() += 0.07f;
-				Player.GetAttackSpeed<MeleeDamageClass>() += 0.07f;
-			}
+                Player.GetAttackSpeed<MeleeDamageClass>() += 0.07f;
+            }
 
             if (filthyGlove)
             {
@@ -3929,6 +3949,99 @@ namespace CalamityMod.CalPlayer
 
             if (shouldSync)
                 CalamityNetcode.SyncWorld();
+        }
+        #endregion
+
+        #region Androomba Right Click
+        public void AndroombaRightClick()
+        {
+            if (Main.myPlayer != Player.whoAmI)
+                return;
+
+            for (int i = 0; i < Main.maxNPCs; i++)
+            {
+                NPC npc = Main.npc[i];
+                if (npc is null || !npc.active)
+                    return;
+
+                bool holdingsol = ((Player.HeldItem.type >= ItemID.GreenSolution && Player.HeldItem.type <= ItemID.RedSolution) || Player.HeldItem.type == ModContent.ItemType<AstralSolution>());
+                if (npc.Hitbox.Contains(Main.MouseWorld.ToPoint()) && holdingsol && Player.Distance(npc.Center) < 450)
+                {
+                    Player.cursorItemIconEnabled = true;
+                    Player.cursorItemIconID = Player.HeldItem.type;
+                    Player.cursorItemIconText = "";
+                    npc.ShowNameOnHover = false;
+
+                    if (Main.mouseRight && Main.mouseRightRelease && Player.Distance(npc.Center) < 300)
+                    {
+                        npc.netUpdate = true;
+
+                        int soltype = 0;
+                        if (Player.HeldItem.type == ModContent.ItemType<AstralSolution>())
+                        {
+                            soltype = 5;
+                        }
+                        else
+                        {
+                            switch (Player.HeldItem.type)
+                            {
+                                case ItemID.GreenSolution:
+                                    soltype = 0;
+                                    break;
+                                case ItemID.PurpleSolution:
+                                    soltype = 1;
+                                    break;
+                                case ItemID.BlueSolution:
+                                    soltype = 2;
+                                    break;
+                                case ItemID.DarkBlueSolution:
+                                    soltype = 3;
+                                    break;
+                                case ItemID.RedSolution:
+                                    soltype = 4;
+                                    break;
+                            }
+                        }
+                        if (npc.ai[3] != soltype || npc.ai[0] == 0)
+                        {
+                            Player.ConsumeItem(Player.HeldItem.type);
+                            SoundEngine.PlaySound(SoundID.Item87);
+                            if (Main.netMode == NetmodeID.SinglePlayer)
+                            {
+                                AndroombaFriendly.SwapSolution(npc.whoAmI, soltype);
+                            }
+                            else
+                            {
+                                var netMessage = Mod.GetPacket();
+                                netMessage.Write((byte)CalamityModMessageType.SyncAndroombaSolution);
+                                netMessage.Write(npc.whoAmI);
+                                netMessage.Write(soltype);
+                                netMessage.Send();
+                            }
+                            if (npc.ai[0] == 0f)
+                            {
+                                if (Main.netMode == NetmodeID.SinglePlayer)
+                                {
+                                    AndroombaFriendly.ChangeAI(npc.whoAmI, 1);
+                                }
+                                else
+                                {
+                                    var netMessage = Mod.GetPacket();
+                                    netMessage.Write((byte)CalamityModMessageType.SyncAndroombaAI);
+                                    netMessage.Write(npc.whoAmI);
+                                    netMessage.Write(1);
+                                    netMessage.Send();
+                                }
+                            }
+                            if (Main.netMode == NetmodeID.Server)
+                                NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, i);
+                        }
+                    }
+                }
+
+                else
+                    npc.ShowNameOnHover = true;
+            }
         }
         #endregion
 

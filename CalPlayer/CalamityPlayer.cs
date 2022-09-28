@@ -203,6 +203,7 @@ namespace CalamityMod.CalPlayer
         public int bloodflareHeartTimer = 300;
         public int polarisBoostCounter = 0;
         public int dragonRageHits = 0;
+        public int dragonRageCooldown = 0;
         public float modStealth = 1f;
         public float aquaticBoostMax = 10000f;
         public float aquaticBoost = 0f;
@@ -244,14 +245,17 @@ namespace CalamityMod.CalPlayer
         public static readonly SoundStyle RageFilledSound = new("CalamityMod/Sounds/Custom/AbilitySounds/FullRage");
         public static readonly SoundStyle RageActivationSound = new("CalamityMod/Sounds/Custom/AbilitySounds/RageActivate");
         public static readonly SoundStyle RageEndSound = new("CalamityMod/Sounds/Custom/AbilitySounds/RageEnd");
-        
+
         public static readonly SoundStyle AdrenalineFilledSound = new("CalamityMod/Sounds/Custom/AbilitySounds/FullAdrenaline");
         public static readonly SoundStyle AdrenalineActivationSound = new("CalamityMod/Sounds/Custom/AbilitySounds/AdrenalineActivate");
+        public static readonly SoundStyle AdrenalineHurtSound = new("CalamityMod/Sounds/Custom/AdrenalineMajorLoss");
 
         public static readonly SoundStyle RogueStealthSound = new("CalamityMod/Sounds/Custom/RogueStealth");
         public static readonly SoundStyle DefenseDamageSound = new("CalamityMod/Sounds/Custom/DefenseDamage");
+        public static readonly SoundStyle BloodCritSound = new("CalamityMod/Sounds/Custom/BloodPactCrit");
 
         public static readonly SoundStyle IjiDeathSound = new("CalamityMod/Sounds/Custom/IjiDies");
+        public static readonly SoundStyle DrownSound = new("CalamityMod/Sounds/Custom/AbyssDrown");
         #endregion
 
         #region Rogue
@@ -934,6 +938,7 @@ namespace CalamityMod.CalPlayer
         public bool frostBlossom = false;
         public bool cinderBlossom = false;
         public bool belladonaSpirit = false;
+        public bool puffWarrior = false;
         public bool vileFeeder = false;
         public bool scabRipper = false;
         public bool midnightUFO = false;
@@ -961,6 +966,7 @@ namespace CalamityMod.CalPlayer
         public bool eyeOfNight = false;
         public bool soulSeeker = false;
         public bool perditionBeacon = false;
+        public bool MoonFist = false;
         public bool AresCannons = false;
 
         public List<DeadMinionProperties> PendingProjectilesToRespawn = new List<DeadMinionProperties>();
@@ -1969,6 +1975,7 @@ namespace CalamityMod.CalPlayer
             frostBlossom = false;
             cinderBlossom = false;
             belladonaSpirit = false;
+            puffWarrior = false;
             vileFeeder = false;
             scabRipper = false;
             midnightUFO = false;
@@ -1996,6 +2003,7 @@ namespace CalamityMod.CalPlayer
             eyeOfNight = false;
             soulSeeker = false;
             perditionBeacon = false;
+            MoonFist = false;
             AresCannons = false;
 
             disableVoodooSpawns = false;
@@ -2129,6 +2137,7 @@ namespace CalamityMod.CalPlayer
             externalColdImmunity = externalHeatImmunity = false;
             polarisBoostCounter = 0;
             dragonRageHits = 0;
+			dragonRageCooldown = 0;
             spectralVeilImmunity = 0;
             jetPackDash = 0;
             jetPackDirection = 0;
@@ -4973,60 +4982,9 @@ namespace CalamityMod.CalPlayer
         #endregion
 
         #region On Hit
-        public override void OnHitByNPC(NPC npc, int damage, bool crit)
-        {
-            if (sulfurSet)
-                npc.AddBuff(BuffID.Poisoned, 120);
-
-            if (npc.type == NPCID.ShadowFlameApparition || (npc.type == NPCID.ChaosBall && (Main.hardMode || areThereAnyDamnBosses)))
-            {
-                Player.AddBuff(ModContent.BuffType<Shadowflame>(), 180);
-            }
-            else if (npc.type == NPCID.Spazmatism && npc.ai[0] != 1f && npc.ai[0] != 2f && npc.ai[0] != 0f)
-            {
-                Player.AddBuff(BuffID.Bleeding, 600);
-            }
-            else if (npc.type == NPCID.Plantera && npc.life < npc.lifeMax / 2)
-            {
-                Player.AddBuff(BuffID.Poisoned, 600);
-            }
-            else if (npc.type == NPCID.PlanterasTentacle)
-            {
-                Player.AddBuff(BuffID.Poisoned, 300);
-            }
-            else if (npc.type == NPCID.AncientDoom)
-            {
-                Player.AddBuff(ModContent.BuffType<Shadowflame>(), 180);
-            }
-            else if (npc.type == NPCID.AncientLight)
-            {
-                Player.AddBuff(ModContent.BuffType<HolyFlames>(), 180);
-            }
-            else if (npc.type == NPCID.HallowBoss)
-            {
-                Player.AddBuff(ModContent.BuffType<HolyFlames>(), 480);
-            }
-            else if (npc.type == NPCID.BloodNautilus)
-            {
-                Player.AddBuff(ModContent.BuffType<BurningBlood>(), 480);
-            }
-            else if (npc.type == NPCID.GoblinShark || npc.type == NPCID.BloodEelHead)
-            {
-                Player.AddBuff(ModContent.BuffType<BurningBlood>(), 300);
-            }
-            else if (npc.type == NPCID.BloodEelBody)
-            {
-                Player.AddBuff(ModContent.BuffType<BurningBlood>(), 180);
-            }
-            else if (npc.type == NPCID.BloodEelTail)
-            {
-                Player.AddBuff(ModContent.BuffType<BurningBlood>(), 120);
-            }
-        }
-
         public override void OnHitByProjectile(Projectile proj, int damage, bool crit)
         {
-            if (sulfurSet && !proj.friendly)
+            if (sulfurSet && !proj.friendly && damage > 0)
             {
                 if (Main.player[proj.owner] is null)
                 {
@@ -5041,7 +4999,7 @@ namespace CalamityMod.CalPlayer
                 }
             }
 
-            if (proj.hostile)
+            if (proj.hostile && damage > 0)
             {
                 if (proj.type == ProjectileID.TorchGod)
                 {
@@ -5647,6 +5605,7 @@ namespace CalamityMod.CalPlayer
             if (bloodPact && Main.rand.NextBool(4))
             {
                 Player.AddBuff(ModContent.BuffType<BloodyBoost>(), 600);
+                SoundEngine.PlaySound(BloodCritSound, Player.Center);
                 damageMult += 1.25;
             }
 
@@ -5747,7 +5706,13 @@ namespace CalamityMod.CalPlayer
                     // Being hit for zero from Paladin's Shield damage share does not cancel Adrenaline.
                     // Adrenaline is not lost when hit if using Draedon's Heart.
                     if (!draedonsHeart && !adrenalineModeActive && damage > 0)
+                    {
+                        if (adrenaline >= adrenalineMax)
+                        {
+                            SoundEngine.PlaySound(AdrenalineHurtSound, Player.Center);
+                        }
                         adrenaline = 0f;
+                    }
 
                     // If using Draedon's Heart and not actively healing with Nanomachines, pause generation briefly.
                     if (draedonsHeart && !adrenalineModeActive)
@@ -6361,6 +6326,8 @@ namespace CalamityMod.CalPlayer
             PlayerDeathReason damageSource = PlayerDeathReason.ByOther(Player.Male ? 14 : 15);
             if (abyssDeath)
             {
+                SoundEngine.PlaySound(DrownSound, Player.position);
+
                 if (Main.rand.NextBool(2))
                 {
                     damageSource = PlayerDeathReason.ByCustomReason(Player.name + " is food for the Wyrms.");
@@ -6884,6 +6851,9 @@ namespace CalamityMod.CalPlayer
         #region Defense Damage Function
         private void DealDefenseDamage(int damage)
         {
+            if (damage <= 0)
+                return;
+
             double ratioToUse = DefenseDamageRatio;
             if (draedonsHeart)
                 ratioToUse *= 0.5;

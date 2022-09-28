@@ -87,6 +87,9 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
+            if (damage <= 0)
+                return;
+
             if (Projectile.Opacity >= 0.9f)
             {
                 target.AddBuff(BuffID.Poisoned, 240);

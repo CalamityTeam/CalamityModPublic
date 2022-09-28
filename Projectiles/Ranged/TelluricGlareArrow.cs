@@ -55,8 +55,11 @@ namespace CalamityMod.Projectiles.Ranged
                 Projectile.timeLeft = 8;
         }
 
-        public override void OnHitPlayer(Player target, int damage, bool crit)
+        public override void OnHitPvp(Player target, int damage, bool crit)
         {
+            if (damage <= 0)
+                return;
+
             RestrictLifetime();
             target.AddBuff(ModContent.BuffType<HolyFlames>(), 180);
         }

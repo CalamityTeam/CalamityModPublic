@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using System.Linq;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -12,6 +13,7 @@ namespace CalamityMod.Items.PermanentBoosters
 {
     public class Elderberry : ModItem
     {
+        public static readonly SoundStyle UseSound = new("CalamityMod/Sounds/Item/ElderberryConsume");
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Elderberry");
@@ -31,7 +33,7 @@ namespace CalamityMod.Items.PermanentBoosters
             Item.rare = ModContent.RarityType<Turquoise>();
             Item.useTime = 30;
             Item.useStyle = ItemUseStyleID.HoldUp;
-            Item.UseSound = SoundID.Item4;
+            Item.UseSound = UseSound;
             Item.consumable = true;
         }
 

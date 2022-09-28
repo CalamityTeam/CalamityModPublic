@@ -5,6 +5,7 @@ using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Pets;
 using CalamityMod.Items.Placeables.Furniture.BossRelics;
+using CalamityMod.Items.Placeables.Furniture.DevPaintings;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Items.Potions;
 using CalamityMod.Items.TreasureBags;
@@ -855,7 +856,8 @@ namespace CalamityMod.NPCs.StormWeaver
                 chargePhaseGateValue *= 0.5f;
 
             int buffDuration = NPC.Calamity().newAI[0] >= chargePhaseGateValue ? 480 : 240;
-            player.AddBuff(BuffID.Electrified, buffDuration, true);
+            if (damage > 0)
+                player.AddBuff(BuffID.Electrified, buffDuration, true);
         }
 
         public override bool CheckActive()
@@ -967,6 +969,7 @@ namespace CalamityMod.NPCs.StormWeaver
 				godSlayerVanity.OnSuccess(ItemDropRule.Common(ModContent.ItemType<AncientGodSlayerChestplate>()));
 				godSlayerVanity.OnSuccess(ItemDropRule.Common(ModContent.ItemType<AncientGodSlayerLeggings>()));
 				normalOnly.Add(godSlayerVanity);
+                normalOnly.Add(ModContent.ItemType<ThankYouPainting>(), ThankYouPainting.DropInt);
             }
 
             npcLoot.Add(ModContent.ItemType<WeaverTrophy>(), 10);

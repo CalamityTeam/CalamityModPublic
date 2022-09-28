@@ -2,6 +2,7 @@
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Pets;
+using CalamityMod.Items.Placeables.Furniture.DevPaintings;
 using CalamityMod.Items.Placeables.FurnitureCosmilite;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
@@ -93,6 +94,7 @@ namespace CalamityMod.Items.TreasureBags
             // Vanity
             itemLoot.Add(ModContent.ItemType<DevourerofGodsMask>(), 7);
             itemLoot.AddIf((info) => CalamityWorld.death && info.player.difficulty == 2, ModContent.ItemType<CosmicPlushie>());
+            itemLoot.Add(ModContent.ItemType<ThankYouPainting>(), ThankYouPainting.DropInt);
         }
     }
 }

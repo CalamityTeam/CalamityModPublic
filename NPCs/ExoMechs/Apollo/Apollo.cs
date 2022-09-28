@@ -1302,7 +1302,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
                     // Shoot lens gore at the target at the proper time
                     if (calamityGlobalNPC.newAI[2] == lensPopTime)
                     {
-                        SoundEngine.PlaySound(CommonCalamitySounds.LargeWeaponFireSound, NPC.Center);
+                        SoundEngine.PlaySound(Artemis.Artemis.LensSound, NPC.Center);
                         Vector2 lensDirection = Vector2.Normalize(aimedVector);
                         Vector2 offset = lensDirection * 70f;
 

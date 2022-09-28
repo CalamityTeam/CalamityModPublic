@@ -2,6 +2,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.Audio;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Rogue
 {
@@ -36,6 +38,18 @@ namespace CalamityMod.Projectiles.Rogue
                 Projectile.Kill();
             }
             Lighting.AddLight(Projectile.Center, (255 - Projectile.alpha) * 0f / 255f, (255 - Projectile.alpha) * 0.35f / 255f, (255 - Projectile.alpha) * 0.5f / 255f);
+        }
+
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            if (Projectile.Calamity().stealthStrike)
+				SoundEngine.PlaySound(SoundID.NPCHit45, Projectile.position);
+        }
+
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            if (Projectile.Calamity().stealthStrike)
+				SoundEngine.PlaySound(SoundID.NPCHit45, Projectile.position);
         }
 
         public override bool PreDraw(ref Color lightColor)

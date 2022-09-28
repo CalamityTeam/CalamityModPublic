@@ -2,13 +2,13 @@
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.Audio;
 using Terraria.GameContent.Shaders;
 using Terraria.Graphics.Effects;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.WorldBuilding;
 using LeviathanNPC = CalamityMod.NPCs.Leviathan.Leviathan;
-using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Boss
 {
@@ -16,6 +16,8 @@ namespace CalamityMod.Projectiles.Boss
     {
         internal ref float Time => ref Projectile.ai[0];
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+
+        public static readonly SoundStyle RumbleSound = new("CalamityMod/Sounds/Custom/LeviathanRumble");
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Spawner");
@@ -41,9 +43,13 @@ namespace CalamityMod.Projectiles.Boss
             Main.LocalPlayer.Calamity().GeneralScreenShakePower = (float)Math.Pow(Utils.GetLerpValue(180f, 290f, Time, true), 0.3D) * 6f;
             Main.LocalPlayer.Calamity().GeneralScreenShakePower += CalamityUtils.Convert01To010((float)Math.Pow(Utils.GetLerpValue(300f, 440f, Time, true), 0.5D)) * 10f;
 
+            if (Projectile.timeLeft % 180 == 0)
+            {
+                SoundEngine.PlaySound(RumbleSound, Projectile.Center);
+            }
+
             if (Projectile.timeLeft == 45)
             {
-                SoundEngine.PlaySound(LeviathanNPC.RoarChargeSound, Projectile.Center);
                 if (Main.netMode != NetmodeID.Server)
                 {
                     WaterShaderData ripple = (WaterShaderData)Filters.Scene["WaterDistortion"].GetShader();

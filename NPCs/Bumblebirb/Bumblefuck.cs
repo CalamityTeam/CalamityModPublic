@@ -5,6 +5,7 @@ using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Mounts;
 using CalamityMod.Items.Placeables.Furniture.BossRelics;
+using CalamityMod.Items.Placeables.Furniture.DevPaintings;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Items.Potions;
 using CalamityMod.Items.TreasureBags;
@@ -433,6 +434,7 @@ namespace CalamityMod.NPCs.Bumblebirb
 
                 // Vanity
                 normalOnly.Add(ModContent.ItemType<BumblefuckMask>(), 7);
+                normalOnly.Add(ModContent.ItemType<ThankYouPainting>(), ThankYouPainting.DropInt);
             }
 
             npcLoot.Add(ModContent.ItemType<DragonfollyTrophy>(), 10);

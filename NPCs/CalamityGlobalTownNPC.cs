@@ -74,6 +74,7 @@ namespace CalamityMod.NPCs
             "Barney Calhoun", // <@!634462901431697410> (Potato Power#6578)
             "XiaoEn0426", // <@!440448864772816896> (XiaoEn0426#9157)
 			"Jeffred", // <@!295362230038560768> (Knight Solaire#0873)
+			"The Cooler Arthur", // <@!568263512523014154> (better artilery#0001)
         };
         private static readonly string[] ClothierNames =
         {

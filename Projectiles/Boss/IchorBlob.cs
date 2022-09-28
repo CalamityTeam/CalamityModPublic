@@ -194,6 +194,9 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
+            if (damage <= 0)
+                return;
+
             if (Projectile.localAI[1] <= 900f && Projectile.localAI[1] > 120f)
                 target.AddBuff(BuffID.Ichor, 240);
         }

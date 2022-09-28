@@ -160,7 +160,7 @@ namespace CalamityMod.Projectiles.Melee
             {
                 CalamityPlayer modPlayer = Main.player[Projectile.owner].Calamity();
                 modPlayer.dragonRageHits++;
-                if (modPlayer.dragonRageHits > 10)
+                if (modPlayer.dragonRageHits > 10 && modPlayer.dragonRageCooldown <= 0)
                 {
                     SpawnFireballs();
                     modPlayer.dragonRageHits = 0;
@@ -184,6 +184,7 @@ namespace CalamityMod.Projectiles.Melee
 
                 Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<DragonRageFireball>(), Projectile.damage / 8, Projectile.knockBack / 3f, Projectile.owner);
             }
+			Main.player[Projectile.owner].Calamity().dragonRageCooldown = 60;
         }
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)

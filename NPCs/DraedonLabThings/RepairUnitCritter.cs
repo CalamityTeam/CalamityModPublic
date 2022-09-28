@@ -124,6 +124,19 @@ namespace CalamityMod.NPCs.DraedonLabThings
                     break;
             }
             Time++;
+
+            for (int i = 0; i < Main.maxPlayers; i++)
+            {
+                Player player = Main.player[i];
+                if (player is null || !player.active)
+                    continue;
+
+                if (NPC.Hitbox.Intersects(player.HitboxForBestiaryNearbyCheck))
+                {
+                    Main.BestiaryTracker.Kills.RegisterKill(NPC);
+                    break;
+                }
+            }
         }
 
         public void WalkAroundOnGround()

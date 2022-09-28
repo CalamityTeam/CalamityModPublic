@@ -421,7 +421,8 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(BuffID.Electrified, 180, true);
+            if (damage > 0)
+                player.AddBuff(BuffID.Electrified, 180, true);
         }
 
         public override void HitEffect(int hitDirection, double damage)

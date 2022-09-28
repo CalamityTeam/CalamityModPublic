@@ -3683,9 +3683,9 @@ namespace CalamityMod.NPCs
             if (CalamityLists.enemyImmunityList.Contains(npc.type) || npc.boss)
                 npc.buffImmune[BuffType<PearlAura>()] = true;
 
-			// Make all Cal NPCs immune to confused unless otherwise specified
+            // Make all Cal NPCs immune to confused unless otherwise specified
             // Extra note: Clams are not in this list as they initially immune to Confused, but are no longer immune once aggro'd. This is set in their AI().
-			bool cal = npc.ModNPC != null && npc.ModNPC.Mod.Name.Equals(ModContent.GetInstance<CalamityMod>().Name);
+            bool cal = npc.ModNPC != null && npc.ModNPC.Mod.Name.Equals(ModContent.GetInstance<CalamityMod>().Name);
             if (!CalamityLists.confusionEnemyList.Contains(npc.type) && cal)
                 npc.buffImmune[BuffID.Confused] = true;
 
@@ -4148,6 +4148,12 @@ namespace CalamityMod.NPCs
         #region On Hit Player
         public override void OnHitPlayer(NPC npc, Player target, int damage, bool crit)
         {
+            if (damage <= 0)
+                return;
+
+            if (target.Calamity().sulfurSet)
+                npc.AddBuff(BuffID.Poisoned, 120);
+
             if (target.Calamity().snowman)
             {
                 if (npc.type == NPCID.Demon || npc.type == NPCID.VoodooDemon || npc.type == NPCID.RedDevil)
@@ -4158,6 +4164,27 @@ namespace CalamityMod.NPCs
 
             switch (npc.type)
             {
+                case NPCID.ShadowFlameApparition:
+                    target.AddBuff(BuffType<Shadowflame>(), 180);
+                    break;
+                case NPCID.ChaosBall:
+                    if (Main.hardMode || CalamityPlayer.areThereAnyDamnBosses)
+                        target.AddBuff(BuffType<Shadowflame>(), 180);
+                    break;
+
+                case NPCID.Spazmatism:
+                    if (npc.ai[0] != 1f && npc.ai[0] != 2f && npc.ai[0] != 0f)
+                        target.AddBuff(BuffID.Bleeding, 600);
+                    break;
+
+                case NPCID.Plantera:
+                    if (npc.life < npc.lifeMax / 2)
+                        target.AddBuff(BuffID.Poisoned, 600);
+                    break;
+                case NPCID.PlanterasTentacle:
+                    target.AddBuff(BuffID.Poisoned, 300);
+                    break;
+
                 case NPCID.Golem:
                     target.AddBuff(BuffType<ArmorCrunch>(), 480);
                     break;
@@ -4167,6 +4194,32 @@ namespace CalamityMod.NPCs
                 case NPCID.GolemFistRight:
                 case NPCID.GolemFistLeft:
                     target.AddBuff(BuffType<ArmorCrunch>(), 240);
+                    break;
+
+                case NPCID.AncientDoom:
+                    target.AddBuff(BuffType<Shadowflame>(), 180);
+                    break;
+                case NPCID.AncientLight:
+                    target.AddBuff(BuffType<HolyFlames>(), 180);
+                    break;
+
+                case NPCID.HallowBoss:
+                    target.AddBuff(BuffType<HolyFlames>(), 480);
+                    break;
+
+                case NPCID.BloodNautilus:
+                    target.AddBuff(BuffType<BurningBlood>(), 480);
+                    break;
+
+                case NPCID.GoblinShark:
+                case NPCID.BloodEelHead:
+                    target.AddBuff(BuffType<BurningBlood>(), 300);
+                    break;
+                case NPCID.BloodEelBody:
+                    target.AddBuff(BuffType<BurningBlood>(), 180);
+                    break;
+                case NPCID.BloodEelTail:
+                    target.AddBuff(BuffType<BurningBlood>(), 120);
                     break;
 
                 case NPCID.Lavabat:
@@ -4264,9 +4317,9 @@ namespace CalamityMod.NPCs
 
             // Supercrits
             var cgp = projectile.Calamity();
-            if (cgp.supercritHits  != 0)
+            if (cgp.supercritHits != 0)
             {
-                cgp.supercritHits --;
+                cgp.supercritHits--;
                 float critOver100 = (projectile.ContinuouslyUpdateDamage ? player.GetCritChance(projectile.DamageType) : projectile.CritChance) - 100f;
 
                 // Supercrits can "supercrit" over and over for each extra 100% critical strike chance.
@@ -4746,6 +4799,7 @@ namespace CalamityMod.NPCs
                 nearLab |= CalamityUtils.ManhattanDistance(checkPosition, CalamityWorld.JungleLabCenter / 16f) < 180f;
                 nearLab |= CalamityUtils.ManhattanDistance(checkPosition, CalamityWorld.HellLabCenter / 16f) < 180f;
                 nearLab |= CalamityUtils.ManhattanDistance(checkPosition, CalamityWorld.IceLabCenter / 16f) < 180f;
+                bool nearPlagueLab = CalamityUtils.ManhattanDistance(checkPosition, CalamityWorld.JungleLabCenter / 16f) < 180f;
 
                 bool isLabWall = aboveSpawnTile.WallType == WallType<HazardChevronWall>() || aboveSpawnTile.WallType == WallType<LaboratoryPanelWall>() || aboveSpawnTile.WallType == WallType<LaboratoryPlateBeam>();
                 isLabWall |= aboveSpawnTile.WallType == WallType<LaboratoryPlatePillar>() || aboveSpawnTile.WallType == WallType<LaboratoryPlatingWall>() || aboveSpawnTile.WallType == WallType<RustedPlateBeam>();
@@ -4754,7 +4808,21 @@ namespace CalamityMod.NPCs
 
                 WeightedRandom<int> pool = new WeightedRandom<int>();
                 pool.Add(NPCID.None, 0f);
-                pool.Add(NPCType<RepairUnitCritter>(), 0.2f);
+                pool.Add(NPCType<RepairUnitCritter>(), 0.025f);
+                pool.Add(NPCType<Androomba>(), 0.001f);
+                // Normal droids are replaced with plague droids in the Jungle Lab.
+                if (nearPlagueLab)
+                {
+                    pool.Add(NPCType<NanodroidPlagueGreen>(), 0.025f);
+                    pool.Add(NPCType<NanodroidPlagueRed>(), 0.025f);
+                    pool.Add(NPCType<NanodroidDysfunctional>(), 0.02f);
+                }
+                else
+                {
+                    pool.Add(NPCType<Nanodroid>(), 0.05f);
+                    pool.Add(NPCType<NanodroidDysfunctional>(), 0.05f);
+                }
+
 
                 int typeToSpawn = pool.Get();
                 if (typeToSpawn != NPCID.None)
@@ -4817,10 +4885,10 @@ namespace CalamityMod.NPCs
                 pool[0] = 0f;
             }
 
-			// Add Enchanted Nightcrawlers as a critter to the Astral Infection
+            // Add Enchanted Nightcrawlers as a critter to the Astral Infection
             if (!CalamityGlobalNPC.AnyEvents(spawnInfo.Player) && spawnInfo.Player.InAstral())
             {
-				pool[NPCID.EnchantedNightcrawler] = SpawnCondition.TownCritter.Chance;
+                pool[NPCID.EnchantedNightcrawler] = SpawnCondition.TownCritter.Chance;
             }
 
             if (spawnInfo.Player.Calamity().ZoneSulphur && !spawnInfo.Player.Calamity().ZoneAbyss && AcidRainEvent.AcidRainEventIsOngoing)

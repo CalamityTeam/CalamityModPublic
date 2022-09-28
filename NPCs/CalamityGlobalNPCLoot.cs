@@ -1,34 +1,37 @@
-﻿using System;
-using System.Threading;
-using CalamityMod.Events;
+﻿using CalamityMod.Events;
 using CalamityMod.Items;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.PermanentBoosters;
 using CalamityMod.Items.Pets;
+using CalamityMod.Items.Placeables.Furniture.DevPaintings;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
+using CalamityMod.NPCs.AcidRain;
 using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.NPCs.TownNPCs;
 using CalamityMod.Tiles.Ores;
 using CalamityMod.World;
 using CalamityMod.World.Planets;
 using Microsoft.Xna.Framework;
+using System;
+using System.Threading;
 using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.NPCs.AcidRain;
 
 namespace CalamityMod.NPCs
 {
     public partial class CalamityGlobalNPC : GlobalNPC
     {
+        public static readonly SoundStyle PlagueSound = new("CalamityMod/Sounds/Custom/PlagueUnleash");
+
         #region Modify NPC Loot Main Hook
         public override void ModifyNPCLoot(NPC npc, NPCLoot npcLoot)
         {
@@ -799,6 +802,7 @@ namespace CalamityMod.NPCs
 
                     // Would be in the bag otherwise
                     npcLoot.AddNormalOnly(ModContent.ItemType<CrownJewel>(), 10);
+                    npcLoot.AddNormalOnly(ModContent.ItemType<ThankYouPainting>(), ThankYouPainting.DropInt);
 
                     // Master items drop in Revengeance
                     rev.Add(ItemID.KingSlimeMasterTrophy);
@@ -815,6 +819,7 @@ namespace CalamityMod.NPCs
                     // Would be in the bag otherwise
                     npcLoot.AddNormalOnly(ModContent.ItemType<TeardropCleaver>(), 10);
                     npcLoot.AddNormalOnly(ModContent.ItemType<DeathstareRod>(), 4);
+                    npcLoot.AddNormalOnly(ModContent.ItemType<ThankYouPainting>(), ThankYouPainting.DropInt);
 
                     // Master items drop in Revengeance
                     rev.Add(ItemID.EyeofCthulhuMasterTrophy);
@@ -829,6 +834,9 @@ namespace CalamityMod.NPCs
                     LeadingConditionRule EoWKill = new(DropHelper.If((info) => info.npc.boss));
                     EoWKill.Add(DropHelper.PerPlayer(ItemID.WormScarf));
                     npcLoot.AddNormalOnly(EoWKill);
+
+					// Would be in the bag otherwise
+                    npcLoot.AddIf((info) => info.npc.boss, ModContent.ItemType<ThankYouPainting>(), ThankYouPainting.DropInt);
 
                     // Master items drop in Revengeance
                     rev.AddIf((info) => info.npc.boss, ItemID.EaterofWorldsMasterTrophy);
@@ -850,6 +858,9 @@ namespace CalamityMod.NPCs
                 case NPCID.BrainofCthulhu:
                     // Expert+ drops are also available on Normal
                     npcLoot.AddNormalOnly(DropHelper.PerPlayer(ItemID.BrainOfConfusion));
+
+					// Would be in the bag otherwise
+                    npcLoot.AddNormalOnly(ModContent.ItemType<ThankYouPainting>(), ThankYouPainting.DropInt);
 
                     // Master items drop in Revengeance
                     rev.Add(ItemID.BrainofCthulhuMasterTrophy);
@@ -895,6 +906,9 @@ namespace CalamityMod.NPCs
                     // Expert+ drops are also available on Normal
                     npcLoot.AddNormalOnly(DropHelper.PerPlayer(ItemID.BoneHelm));
 
+					// Would be in the bag otherwise
+                    npcLoot.AddNormalOnly(ModContent.ItemType<ThankYouPainting>(), ThankYouPainting.DropInt);
+
                     // Master items drop in Revengeance
                     rev.Add(ItemID.DeerclopsMasterTrophy);
                     rev.Add(ItemID.DeerclopsPetItem, 4);
@@ -918,6 +932,7 @@ namespace CalamityMod.NPCs
 
                     // Would be in the bag otherwise
                     npcLoot.AddNormalOnly(ModContent.ItemType<HardenedHoneycomb>(), 1, 30, 50);
+                    npcLoot.AddNormalOnly(ModContent.ItemType<ThankYouPainting>(), ThankYouPainting.DropInt);
 
                     // Queen Bee drops Stingers in Calamity
                     npcLoot.Add(ItemID.Stinger, 1, 8, 12);
@@ -945,6 +960,9 @@ namespace CalamityMod.NPCs
 
                     // Expert+ drops are also available on Normal
                     npcLoot.AddNormalOnly(DropHelper.PerPlayer(ItemID.BoneGlove));
+
+					// Would be in the bag otherwise
+                    npcLoot.AddNormalOnly(ModContent.ItemType<ThankYouPainting>(), ThankYouPainting.DropInt);
 
                     // Master items drop in Revengeance
                     rev.Add(ItemID.SkeletronMasterTrophy);
@@ -1022,6 +1040,9 @@ namespace CalamityMod.NPCs
                     // However, Demon Heart does not work in Normal mode, so it's best to not drop it
                     // npcLoot.AddNormalOnly(DropHelper.PerPlayer(ItemID.DemonHeart));
 
+					// Would be in the bag otherwise
+                    npcLoot.AddNormalOnly(ModContent.ItemType<ThankYouPainting>(), ThankYouPainting.DropInt);
+
                     // WoF drops Evil Keys
                     npcLoot.Add(ItemID.CorruptionKey, 3);
                     npcLoot.Add(ItemID.CrimsonKey, 3);
@@ -1039,6 +1060,9 @@ namespace CalamityMod.NPCs
                     // Expert+ drops are also available on Normal
                     npcLoot.AddNormalOnly(DropHelper.PerPlayer(ItemID.VolatileGelatin));
                     npcLoot.AddNormalOnly(ItemID.SoulofLight, 1, 15, 20);
+
+					// Would be in the bag otherwise
+                    npcLoot.AddNormalOnly(ModContent.ItemType<ThankYouPainting>(), ThankYouPainting.DropInt);
 
                     // Queen Slime drops the Hallowed Key
                     npcLoot.Add(ItemID.HallowedKey, 3);
@@ -1058,6 +1082,9 @@ namespace CalamityMod.NPCs
 
                     // Expert+ drops are also available on Normal
                     npcLoot.AddNormalOnly(DropHelper.PerPlayer(ItemID.MechanicalWagonPiece));
+
+					// Would be in the bag otherwise
+                    npcLoot.AddNormalOnly(ModContent.ItemType<ThankYouPainting>(), ThankYouPainting.DropInt);
 
                     // Master items drop in Revengeance
                     rev.Add(ItemID.DestroyerMasterTrophy);
@@ -1095,6 +1122,9 @@ namespace CalamityMod.NPCs
                     npcLoot.AddIf((info) => !Main.expertMode && IsLastTwinStanding(info), ItemID.MechanicalWheelPiece);
                     npcLoot.AddIf((info) => !Main.expertMode && IsLastTwinStanding(info), ModContent.ItemType<Arbalest>(), 10);
 
+					// Would be in the bag otherwise
+                    npcLoot.AddIf((info) => !Main.expertMode && IsLastTwinStanding(info), ModContent.ItemType<ThankYouPainting>(), ThankYouPainting.DropInt);
+
                     // Master items drop in Revengeance
                     rev.AddIf((info) => IsLastTwinStanding(info), ItemID.TwinsMasterTrophy);
                     rev.AddIf((info) => IsLastTwinStanding(info), ItemID.TwinsPetItem, 4);
@@ -1113,6 +1143,9 @@ namespace CalamityMod.NPCs
 
                     // Expert+ drops are also available on Normal
                     npcLoot.AddNormalOnly(DropHelper.PerPlayer(ItemID.MechanicalBatteryPiece));
+
+					// Would be in the bag otherwise
+                    npcLoot.AddNormalOnly(ModContent.ItemType<ThankYouPainting>(), ThankYouPainting.DropInt);
 
                     // Master items drop in Revengeance
                     rev.Add(ItemID.SkeletronPrimeMasterTrophy);
@@ -1170,6 +1203,7 @@ namespace CalamityMod.NPCs
                     npcLoot.AddNormalOnly(ModContent.ItemType<BloomStone>(), 10);
                     npcLoot.AddNormalOnly(ModContent.ItemType<BlossomFlux>(), 10);
                     npcLoot.AddNormalOnly(DropHelper.PerPlayer(ModContent.ItemType<LivingShard>(), 1, 25, 30));
+                    npcLoot.AddNormalOnly(ModContent.ItemType<ThankYouPainting>(), ThankYouPainting.DropInt);
 
                     // Plantera drops Jungle Key
                     npcLoot.Add(ItemID.JungleKey, 3);
@@ -1222,6 +1256,7 @@ namespace CalamityMod.NPCs
                     // Would be in the bag otherwise
                     normalOnly.Add(ModContent.ItemType<EssenceofSunlight>(), 1, 5, 10);
                     normalOnly.Add(ModContent.ItemType<AegisBlade>(), 10);
+                    npcLoot.AddNormalOnly(ModContent.ItemType<ThankYouPainting>(), ThankYouPainting.DropInt);
 
                     // If Golem has never been killed, provide a Picksaw to all players.
                     LeadingConditionRule firstGolemKill = new(DropHelper.If(() => !NPC.downedGolemBoss));
@@ -1303,6 +1338,7 @@ namespace CalamityMod.NPCs
 
                     // Would be in the bag otherwise
                     npcLoot.AddNormalOnly(ModContent.ItemType<BrinyBaron>(), 10);
+                    npcLoot.AddNormalOnly(ModContent.ItemType<ThankYouPainting>(), ThankYouPainting.DropInt);
 
                     // Master items drop in Revengeance
                     rev.Add(ItemID.DukeFishronMasterTrophy);
@@ -1350,6 +1386,9 @@ namespace CalamityMod.NPCs
                     // Expert+ drops are also available on Normal
                     npcLoot.AddNormalOnly(DropHelper.PerPlayer(ItemID.EmpressFlightBooster));
 
+					// Would be in the bag otherwise
+                    npcLoot.AddNormalOnly(ModContent.ItemType<ThankYouPainting>(), ThankYouPainting.DropInt);
+
                     // Master items drop in Revengeance
                     rev.Add(ItemID.FairyQueenMasterTrophy);
                     rev.Add(ItemID.FairyQueenPetItem, 4);
@@ -1360,6 +1399,8 @@ namespace CalamityMod.NPCs
                     // Master items drop in Revengeance
                     rev.Add(ItemID.LunaticCultistMasterTrophy);
                     rev.Add(ItemID.LunaticCultistPetItem, 4);
+
+                    npcLoot.Add(ModContent.ItemType<ThankYouPainting>(), ThankYouPainting.DropInt);
 
                     // Lore
                     npcLoot.AddConditionalPerPlayer(() => !NPC.downedAncientCultist, ModContent.ItemType<KnowledgeLunaticCultist>(), desc: DropHelper.FirstKillText);
@@ -1405,6 +1446,7 @@ namespace CalamityMod.NPCs
 
                     // Would be in the bag otherwise
                     npcLoot.AddNormalOnly(DropHelper.PerPlayer(ModContent.ItemType<CelestialOnion>()));
+                    npcLoot.AddNormalOnly(ModContent.ItemType<ThankYouPainting>(), ThankYouPainting.DropInt);
 
                     // Master items drop in Revengeance
                     rev.Add(ItemID.MoonLordMasterTrophy);
@@ -1651,6 +1693,9 @@ namespace CalamityMod.NPCs
                     // If Golem has never been killed, send a message about the Plague.
                     if (!NPC.downedGolemBoss)
                     {
+                        if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active)
+                            SoundEngine.PlaySound(PlagueSound, Main.player[Main.myPlayer].position);
+
                         string key3 = "Mods.CalamityMod.BabyBossText";
                         Color messageColor3 = Color.Lime;
 
@@ -1834,6 +1879,7 @@ namespace CalamityMod.NPCs
 
                     if (lastPlayer >= 0)
                     {
+                        SoundEngine.PlaySound(Polterghast.Polterghast.SpawnSound, Main.player[lastPlayer].Center);
                         NPC.SpawnOnPlayer(lastPlayer, ModContent.NPCType<Polterghast.Polterghast>());
                         CalamityMod.ghostKillCount = 0;
                     }

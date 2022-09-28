@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -35,8 +36,8 @@ namespace CalamityMod.NPCs.Ravager
             NPC.noGravity = true;
             NPC.canGhostHeal = false;
             NPC.alpha = 255;
-            NPC.HitSound = SoundID.NPCHit41;
-            NPC.DeathSound = SoundID.NPCDeath14;
+            NPC.HitSound = RavagerBody.HitSound;
+            NPC.DeathSound = RavagerBody.LimbLossSound;
             if (DownedBossSystem.downedProvidence && !BossRushEvent.BossRushActive)
             {
                 NPC.damage = (int)(NPC.damage * 1.5);
@@ -55,6 +56,7 @@ namespace CalamityMod.NPCs.Ravager
 
         public override void AI()
         {
+            //Main.NewText(NPC.ai[0]);
             if (CalamityGlobalNPC.scavenger < 0 || !Main.npc[CalamityGlobalNPC.scavenger].active)
             {
                 NPC.active = false;
@@ -132,6 +134,7 @@ namespace CalamityMod.NPCs.Ravager
             }
             else if (NPC.ai[0] == 1f)
             {
+                SoundEngine.PlaySound(RavagerBody.FistSound, NPC.position);
                 NPC.noTileCollide = true;
                 NPC.collideX = false;
                 NPC.collideY = false;
@@ -290,7 +293,8 @@ namespace CalamityMod.NPCs.Ravager
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(ModContent.BuffType<ArmorCrunch>(), 240, true);
+            if (damage > 0)
+                player.AddBuff(ModContent.BuffType<ArmorCrunch>(), 240, true);
         }
 
         public override void HitEffect(int hitDirection, double damage)

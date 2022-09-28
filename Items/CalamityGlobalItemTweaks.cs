@@ -189,6 +189,7 @@ namespace CalamityMod.Items
                 { ItemID.EoCShield, Do(DefenseDelta(+1)) },
                 { ItemID.FairyQueenRangedItem, pointBlank },
                 { ItemID.Excalibur, Do(UseTurn, ScaleRatio(1.5f), UseRatio(0.8f), DamageExact(125), UseAnimationExact(45)) },
+                { ItemID.FairyQueenMagicItem, Do(DamageExact(54)) },
                 { ItemID.FalconBlade, Do(UseTurn, ScaleRatio(1.5f), DamageExact(35), UseExact(15)) },
                 { ItemID.FieryGreatsword, Do(AutoReuse, UseTurn, ScaleRatio(1.5f), DamageExact(90), UseExact(45)) },
                 { ItemID.FireWhip, autoReuse },

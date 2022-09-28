@@ -136,6 +136,9 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
+            if (damage <= 0)
+                return;
+
             if (Projectile.timeLeft <= 1680 && Projectile.timeLeft > 85)
                 target.AddBuff(ModContent.BuffType<Irradiated>(), 600);
         }

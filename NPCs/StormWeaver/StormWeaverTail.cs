@@ -320,7 +320,8 @@ namespace CalamityMod.NPCs.StormWeaver
                 chargePhaseGateValue *= 0.5f;
 
             int buffDuration = Main.npc[(int)NPC.ai[2]].Calamity().newAI[0] >= chargePhaseGateValue ? 120 : 60;
-            player.AddBuff(BuffID.Electrified, buffDuration, true);
+            if (damage > 0)
+                player.AddBuff(BuffID.Electrified, buffDuration, true);
         }
 
         public override void HitEffect(int hitDirection, double damage)

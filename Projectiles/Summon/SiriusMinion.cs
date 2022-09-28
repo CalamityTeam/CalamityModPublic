@@ -52,7 +52,7 @@ namespace CalamityMod.Projectiles.Summon
             player.AddBuff(ModContent.BuffType<SiriusBuff>(), 3600);
 
             Projectile.minionSlots = Projectile.ai[0];
-            Lighting.AddLight(Projectile.Center, 1f, 0.5f, 0.5f);
+            Lighting.AddLight(Projectile.Center, 0.5f, 0.5f, 1f);
 
             Projectile.Center = player.Center + Vector2.UnitY * (player.gfxOffY - 60f);
             if (player.gravDir == -1f)

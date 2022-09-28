@@ -6,6 +6,7 @@ using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Mounts;
 using CalamityMod.Items.Placeables.Furniture.BossRelics;
+using CalamityMod.Items.Placeables.Furniture.DevPaintings;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Items.Potions;
 using CalamityMod.Items.TreasureBags;
@@ -33,7 +34,7 @@ namespace CalamityMod.NPCs.AstrumAureus
     [AutoloadBossHead]
     public class AstrumAureus : ModNPC
     {
-        public static readonly SoundStyle HitSound = new("CalamityMod/Sounds/NPCHit/AstrumAureusHit");
+        public static readonly SoundStyle HitSound = new("CalamityMod/Sounds/NPCHit/AureusHit", 4);
         public static readonly SoundStyle StompSound = new("CalamityMod/Sounds/Custom/LegStomp");
 
         private bool stomping = false;
@@ -348,6 +349,7 @@ namespace CalamityMod.NPCs.AstrumAureus
 
                 // Vanity
                 normalOnly.Add(ModContent.ItemType<AstrumAureusMask>(), 7);
+                normalOnly.Add(ModContent.ItemType<ThankYouPainting>(), ThankYouPainting.DropInt);
 
                 // Equipment
                 normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<GravistarSabaton>()));
@@ -505,7 +507,8 @@ namespace CalamityMod.NPCs.AstrumAureus
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 480, true);
+            if (damage > 0)
+                player.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 480, true);
         }
     }
 }
