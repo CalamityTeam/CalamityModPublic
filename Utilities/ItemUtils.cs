@@ -670,8 +670,6 @@ namespace CalamityMod
         }
 
         #region Rogue Prefixes
-        public static bool CanGetRoguePrefix(this Item item) => item.CountsAsClass<RogueDamageClass>() && item.maxStack == 1;
-
         public static int RandomRoguePrefix()
         {
             Mod mod = ModContent.GetInstance<CalamityMod>();
