@@ -19,6 +19,8 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public const int TurretShootRate = 9;
 
+        public const int TurretShootRateOverdrive = 23;
+
         public const int HeldCannonShootRate = 9;
 
         public const int HeldCannonFadeoutTime = 156;
@@ -26,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Summon
         // How long the held cannon can exist on the ground before it starts to disappear.
         public const int HeldCannonMaxDropTime = 720;
 
-        public const float OverdriveProjectileDamageFactor = 0.6f;
+        public const float OverdriveProjectileDamageFactor = 1.18f;
 
         // This shouldn't be too high, or it'll make using it as a held item a pain.
         public const int ShotsNeededToReachMaxHeat = 100;
@@ -35,7 +37,7 @@ namespace CalamityMod.Items.Weapons.Summon
         public const int HeatDissipationTime = 180;
         
         // This shouldn't be too high. If it is, the overdrive mode will be frustratingly inconsistent to use.
-        public const float OverdriveProjectileAngularRandomness = 0.13f;
+        public const float OverdriveProjectileAngularRandomness = 0.15f;
 
         public static readonly Color HeatGlowColor = Color.OrangeRed with { A = 64 };
 

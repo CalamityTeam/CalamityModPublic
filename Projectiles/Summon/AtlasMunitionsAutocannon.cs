@@ -161,11 +161,16 @@ namespace CalamityMod.Projectiles.Summon
                 CannonDirection = CannonCenter.AngleTo(potentialTarget.Center);
 
                 // Release lasers rapid-fire at the target.
-                if (GeneralTimer % AtlasMunitionsBeacon.TurretShootRate == AtlasMunitionsBeacon.TurretShootRate - 1)
-                {
+                float wrappedAttackTimer = GeneralTimer % (InOverdriveMode ? AtlasMunitionsBeacon.TurretShootRateOverdrive : AtlasMunitionsBeacon.TurretShootRate);
+                int laserCount = InOverdriveMode ? 3 : 1;
+                int laserShootRate = 3;
+                if (wrappedAttackTimer == 1f)
                     SoundEngine.PlaySound(CommonCalamitySounds.LaserCannonSound with { Volume = 0.25f }, CannonCenter);
+                
+                if (wrappedAttackTimer < laserCount * laserShootRate && wrappedAttackTimer % laserShootRate == 1f)
+                {
                     if (Main.myPlayer == Projectile.owner)
-                        FireLaserAtTarget(potentialTarget);
+                        FireLaserAtTarget(potentialTarget, wrappedAttackTimer / (laserCount * laserShootRate - 1f));
                 }
             }
             else
@@ -233,7 +238,7 @@ namespace CalamityMod.Projectiles.Summon
             }
         }
 
-        public void FireLaserAtTarget(NPC target)
+        public void FireLaserAtTarget(NPC target, float laserOffsetInterpolant)
         {
             int laserCount = 1;
             int laserDamage = Projectile.damage;
@@ -251,15 +256,12 @@ namespace CalamityMod.Projectiles.Summon
                 Projectile.netUpdate = true;
             }
 
-            Vector2 laserVelocity = (target.Center - CannonCenter).SafeNormalize(Vector2.UnitY) * 9.25f;
-            for (int i = 0; i < laserCount; i++)
-            {
-                Vector2 laserSpawnOffset = CannonDirection.ToRotationVector2() * 92f;
-                if (laserCount >= 2)
-                    laserSpawnOffset += (MathHelper.TwoPi * i / laserCount + MathHelper.PiOver2 / laserCount).ToRotationVector2() * 10f;
+            Vector2 laserVelocity = (target.Center - CannonCenter).SafeNormalize(Vector2.UnitY).RotatedByRandom(offsetAngleMax) * 7f;
+            Vector2 laserSpawnOffset = CannonDirection.ToRotationVector2() * 66f - (CannonDirection + MathHelper.PiOver2).ToRotationVector2() * Math.Sign(Math.Cos(CannonDirection)) * 10f;
+            if (laserCount >= 2)
+                laserSpawnOffset += (MathHelper.TwoPi * laserOffsetInterpolant + MathHelper.PiOver2 / laserCount).ToRotationVector2() * 14f;
 
-                Projectile.NewProjectile(Projectile.GetSource_FromAI(), CannonCenter + laserSpawnOffset.RotatedByRandom(offsetAngleMax), laserVelocity, laserID, laserDamage, 0f, Projectile.owner);
-            }
+            Projectile.NewProjectile(Projectile.GetSource_FromAI(), CannonCenter + laserSpawnOffset, laserVelocity, laserID, laserDamage, 0f, Projectile.owner);
         }
 
         public override bool PreDraw(ref Color lightColor)

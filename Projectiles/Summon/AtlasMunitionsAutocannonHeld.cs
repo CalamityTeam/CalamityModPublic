@@ -257,7 +257,7 @@ namespace CalamityMod.Projectiles.Summon
                     int laserCount = 3;
                     int laserDamage = Projectile.damage;
                     int laserID = ModContent.ProjectileType<AtlasMunitionsLaserOverdrive>();
-                    Vector2 laserVelocity = Projectile.velocity * 9.25f;
+                    Vector2 laserVelocity = Projectile.velocity.RotatedBy(AtlasMunitionsBeacon.OverdriveProjectileAngularRandomness) * 9.25f;
                     for (int i = 0; i < laserCount; i++)
                     {
                         Vector2 laserSpawnOffset = Projectile.velocity * 66f + (MathHelper.TwoPi * i / laserCount + MathHelper.PiOver2 / laserCount).ToRotationVector2() * 10f;
