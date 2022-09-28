@@ -615,7 +615,8 @@ namespace CalamityMod
         }
 
         // Cached for efficiency purposes.
-        internal static readonly FieldInfo UImageFieldMisc = typeof(MiscShaderData).GetField("_uImage1", BindingFlags.NonPublic | BindingFlags.Instance);
+        internal static readonly FieldInfo UImageFieldMisc0 = typeof(MiscShaderData).GetField("_uImage0", BindingFlags.NonPublic | BindingFlags.Instance);
+        internal static readonly FieldInfo UImageFieldMisc1 = typeof(MiscShaderData).GetField("_uImage1", BindingFlags.NonPublic | BindingFlags.Instance);
         internal static readonly FieldInfo UImageFieldArmor = typeof(ArmorShaderData).GetField("_uImage", BindingFlags.NonPublic | BindingFlags.Instance);
 
         /// <summary>
@@ -623,9 +624,17 @@ namespace CalamityMod
         /// </summary>
         /// <param name="shader">The shader to bind the texture to.</param>
         /// <param name="texture">The texture to bind.</param>
-        public static MiscShaderData SetShaderTexture(this MiscShaderData shader, Asset<Texture2D> texture)
+        public static MiscShaderData SetShaderTexture(this MiscShaderData shader, Asset<Texture2D> texture, int index = 1)
         {
-            UImageFieldMisc.SetValue(shader, texture);
+            switch (index)
+            {
+                case 0:
+                    UImageFieldMisc0.SetValue(shader, texture);
+                    break;
+                case 1:
+                    UImageFieldMisc1.SetValue(shader, texture);
+                    break;
+            }
             return shader;
         }
 

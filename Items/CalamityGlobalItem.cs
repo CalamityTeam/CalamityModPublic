@@ -637,40 +637,6 @@ namespace CalamityMod.Items
                 }
                 return false;
             }
-            if (player.ActiveItem().type == ModContent.ItemType<ViridVanguard>())
-            {
-                int bladeCount = 0;
-                for (int i = 0; i < Main.maxProjectiles; i++)
-                {
-                    if (Main.projectile[i].active &&
-                        Main.projectile[i].type == ModContent.ProjectileType<ViridVanguardBlade>() &&
-                        Main.projectile[i].owner == player.whoAmI &&
-                        Main.projectile[i].ModProjectile<ViridVanguardBlade>().FiringTime <= 0f)
-                    {
-                        bladeCount++;
-                    }
-                }
-                if (bladeCount > 0)
-                {
-                    int bladeIndex = 0;
-                    for (int i = 0; i < Main.maxProjectiles; i++)
-                    {
-                        if (Main.projectile[i].ModProjectile is ViridVanguardBlade)
-                        {
-                            if (Main.projectile[i].ModProjectile<ViridVanguardBlade>().FiringTime > 0f)
-                                continue;
-                        }
-                        if (Main.projectile[i].active && Main.projectile[i].type == ModContent.ProjectileType<ViridVanguardBlade>() && Main.projectile[i].owner == player.whoAmI)
-                        {
-                            Main.projectile[i].ModProjectile<ViridVanguardBlade>().FiringTime = 240f;
-                            Main.projectile[i].ModProjectile<ViridVanguardBlade>().RedirectAngle = MathHelper.Lerp(0f, MathHelper.TwoPi, bladeIndex / (float)bladeCount);
-                            Main.projectile[i].netUpdate = true;
-                            bladeIndex++;
-                        }
-                    }
-                }
-                return false;
-            }
             if (player.ActiveItem().type == ModContent.ItemType<IgneousExaltation>())
             {
                 bool hasBlades = false;

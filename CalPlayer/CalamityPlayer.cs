@@ -961,7 +961,7 @@ namespace CalamityMod.CalPlayer
         public bool deathstareEyeball = false;
         public bool witherBlossom = false;
         public bool flowersOfMortality = false;
-        public bool viridVanguard = false;
+        public bool ViridVanguard = false;
         public bool sageSpirit = false;
         public bool fleshBall = false;
         public bool eyeOfNight = false;
@@ -1997,7 +1997,7 @@ namespace CalamityMod.CalPlayer
             deathstareEyeball = false;
             witherBlossom = false;
             flowersOfMortality = false;
-            viridVanguard = false;
+            ViridVanguard = false;
             sageSpirit = false;
             fleshBall = false;
             eyeOfNight = false;
