@@ -153,7 +153,7 @@ namespace CalamityMod.Balancing
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.DestroyerIDs, Do(new ProjectileResistBalancingRule(0.5f, ProjectileType<DormantBrimseekerBab>()))));
 
             // 40% resist to Cryophobia
-            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.AquaticScourgeIDs, Do(new ProjectileResistBalancingRule(0.6f, ProjectileType<CryoBlast>()))));
+            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.DestroyerIDs, Do(new ProjectileResistBalancingRule(0.6f, ProjectileType<CryoBlast>()))));
 
             // 15% resist to Snowstorm Staff
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.DestroyerIDs, Do(new ProjectileResistBalancingRule(0.85f, ProjectileType<Snowflake>()))));
@@ -275,7 +275,7 @@ namespace CalamityMod.Balancing
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.AresIDs, Do(new ProjectileResistBalancingRule(0.85f, ProjectileType<EssenceFlame2>()))));
 
             // 10% resist to Seraphim lasers
-            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new ProjectileResistBalancingRule(0.9f, ProjectileType<SeraphimBeamLarge>()))));
+            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.AresIDs, Do(new ProjectileResistBalancingRule(0.9f, ProjectileType<SeraphimBeamLarge>()))));
 
             #endregion Ares
 
@@ -287,7 +287,7 @@ namespace CalamityMod.Balancing
             NPCSpecificBalancingChanges.AddRange(Bundle(exoTwins, Do(new ProjectileResistBalancingRule(0.9f, ProjectileType<EclipsesSmol>()))));
 
             // 10% resist to Seared Pan.
-            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new ProjectileResistBalancingRule(0.9f, ProjectileType<SearedPanProjectile>(), ProjectileType<PanSpark>(), ProjectileType<NiceCock>()))));
+            NPCSpecificBalancingChanges.AddRange(Bundle(exoTwins, Do(new ProjectileResistBalancingRule(0.9f, ProjectileType<SearedPanProjectile>(), ProjectileType<PanSpark>(), ProjectileType<NiceCock>()))));
 
             #endregion Artemis and Apollo
 
