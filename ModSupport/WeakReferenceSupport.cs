@@ -1057,6 +1057,7 @@ namespace CalamityMod
             RegisterSummon(ItemType<SeaboundStaff>(), BuffType<BrittleStar>(), ProjectileType<BrittleStarMinion>());
             RegisterSummon(ItemType<MagicalConch>(), BuffType<HermitCrab>(), ProjectileType<HermitCrabMinion>());
             RegisterSummon(ItemType<DeathstareRod>(), BuffType<MiniatureEyeofCthulhu>(), ProjectileType<DeathstareEyeball>());
+            RegisterSummon(ItemType<PuffShroom>(), BuffType<PuffWarriorBuff>(), ProjectileType<PuffWarrior>());
             RegisterSummon(ItemType<VileFeeder>(), BuffType<VileFeederBuff>(), ProjectileType<VileFeederSummon>());
             RegisterSummon(ItemType<ScabRipper>(), BuffType<BabyBloodCrawlerBuff>(), ProjectileType<BabyBloodCrawler>());
             RegisterSummon(ItemType<CinderBlossomStaff>(), BuffType<CinderBlossomBuff>(), ProjectileType<CinderBlossom>());
@@ -1101,6 +1102,7 @@ namespace CalamityMod
             RegisterSummon(ItemType<EtherealSubjugator>(), BuffType<Phantom>(), ProjectileType<PhantomGuy>());
             RegisterSummon(ItemType<CalamarisLament>(), BuffType<Calamari>(), ProjectileType<CalamariMinion>());
             RegisterSummon(ItemType<GammaHeart>(), BuffType<GammaHydraBuff>(), ProjectileType<GammaHead>());
+            RegisterSummon(ItemType<WarloksMoonFist>(), BuffType<MoonFistBuff>(), ProjectileType<MoonFist>());
             RegisterSummon(ItemType<StaffoftheMechworm>(), BuffType<Mechworm>(), ProjectileType<MechwormBody>());
             RegisterSummon(ItemType<CorvidHarbringerStaff>(), BuffType<CorvidHarbringerBuff>(), ProjectileType<PowerfulRaven>());
             RegisterSummon(ItemType<EndoHydraStaff>(), BuffType<EndoHydraBuff>(), ProjectileType<EndoHydraHead>());
