@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Summon
     {
 		public Player Owner => Main.player[Projectile.owner];
 
-		public Tile GroundTile => CalamityUtils.ParanoidTileRetrieval((int)(Projectile.Bottom.X / 16), (int)(Projectile.Bottom.Y / 16) + 1);
+		public Tile GroundTile => CalamityUtils.ParanoidTileRetrieval((int)Projectile.Bottom.X / 16, (int)Projectile.Bottom.Y / 16);
 
 		public bool Jumping => !GroundTile.IsTileSolidGround() || Math.Abs(Projectile.velocity.Y) > 5f;
 
@@ -41,6 +41,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 18;
 			Projectile.tileCollide = true;
+            Projectile.DamageType = DamageClass.Summon;
         }
 
         public override void AI()
@@ -57,7 +58,9 @@ namespace CalamityMod.Projectiles.Summon
 			else
 				HopToTarget(potentialTarget);
 
-			Projectile.spriteDirection = (Projectile.velocity.X > 0).ToDirectionInt();
+            if (Math.Abs(Projectile.velocity.X) > 0.02f)
+                Projectile.spriteDirection = -Projectile.direction;
+
 			Projectile.rotation = Jumping ? Projectile.rotation + MathHelper.Pi / 10f * Projectile.spriteDirection : 0f;
 
 			while (Collision.SolidCollision(Projectile.position, Projectile.width, Projectile.height))
