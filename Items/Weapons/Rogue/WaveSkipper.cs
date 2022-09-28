@@ -41,6 +41,8 @@ Stealth strikes throw three high speed spears");
             Item.DamageType = RogueDamageClass.Instance;
         }
 
+		public override float StealthDamageMultiplier => 0.3333f;
+
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.Calamity().StealthStrikeAvailable())
@@ -50,7 +52,7 @@ Stealth strikes throw three high speed spears");
                 for (int i = 0; i < numProj; i++)
                 {
                     Vector2 perturbedSpeed = new Vector2(velocity.X - 3f, velocity.Y - 3f).RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (float)(numProj - 1)));
-                    int stealth = Projectile.NewProjectile(source, position, perturbedSpeed, ModContent.ProjectileType<DuneHopperProjectile>(), Math.Max(damage / 3, 1), knockback, player.whoAmI);
+                    int stealth = Projectile.NewProjectile(source, position, perturbedSpeed, ModContent.ProjectileType<DuneHopperProjectile>(), damage, knockback, player.whoAmI);
                     if (stealth.WithinBounds(Main.maxProjectiles))
                         Main.projectile[stealth].Calamity().stealthStrike = true;
                 }

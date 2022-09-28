@@ -39,13 +39,16 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.DamageType = RogueDamageClass.Instance;
         }
 
+        public override void ModifyStatsExtra(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
+		{
+            // A vertical offset is added to ensure that the barrel does not immediately collide with tiles and explode.
+			position = position - Vector2.UnitY * 12f;
+			velocity.Y *= 0.85f;
+		}
+
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            velocity.Y *= 0.85f;
-            Vector2 initialVelocity = velocity;
-
-            // A vertical offset is added to ensure that the barrel does not immediately collide with tiles and explode.
-            int p = Projectile.NewProjectile(source, position - Vector2.UnitY * 12f, initialVelocity, type, damage, knockback, player.whoAmI);
+            int p = Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
             if (player.Calamity().StealthStrikeAvailable() && p.WithinBounds(Main.maxProjectiles))
                 Main.projectile[p].Calamity().stealthStrike = true;
             return false;

@@ -37,27 +37,30 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.autoReuse = true;
         }
 
-        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
-        {
-            bool bloodMoon = Main.bloodMoon;
-            Vector2 initialVelocity = velocity;
-            if (bloodMoon)
+        public override float StealthVelocityMultiplier => 2f;
+
+        public override void ModifyStatsExtra(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
+		{
+            if (Main.bloodMoon)
             {
                 knockback *= 3f;
             }
-            if (player.Calamity().StealthStrikeAvailable())
+            if (!player.Calamity().StealthStrikeAvailable())
             {
-                initialVelocity *= 2f;
-                int p = Projectile.NewProjectile(source, position, initialVelocity, ModContent.ProjectileType<BouncingEyeballProjectileStealthStrike>(), damage, knockback, player.whoAmI);
-                if (p.WithinBounds(Main.maxProjectiles))
-                    Main.projectile[p].Calamity().stealthStrike = true;
-            }
-            else
-            {
-                initialVelocity *= Main.rand.NextFloat(0.85f, 1.3f);
-                initialVelocity = initialVelocity.RotatedByRandom(MathHelper.ToRadians(10f)); //random spread
-                Projectile.NewProjectile(source, position, initialVelocity, ModContent.ProjectileType<BouncingEyeballProjectile>(), damage, knockback, player.whoAmI);
-            }
+                velocity *= Main.rand.NextFloat(0.85f, 1.3f);
+                velocity = velocity.RotatedByRandom(MathHelper.ToRadians(10f)); //random spread
+			}
+			else
+			{
+				type = ModContent.ProjectileType<BouncingEyeballProjectileStealthStrike>();
+			}
+		}
+
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        {
+			int p = Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
+			if (p.WithinBounds(Main.maxProjectiles) && player.Calamity().StealthStrikeAvailable())
+				Main.projectile[p].Calamity().stealthStrike = true;
             return false;
         }
     }

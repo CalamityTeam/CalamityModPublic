@@ -38,15 +38,21 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.DamageType = RogueDamageClass.Instance;
         }
 
+        public override void ModifyStatsExtra(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
+		{
+            if (player.Calamity().StealthStrikeAvailable())
+				type = ModContent.ProjectileType<AshenStalagmiteProj>();
+		}
+
+		public override float StealthDamageMultiplier => 1.15f;
+        public override float StealthVelocityMultiplier => 0.6f;
+        public override float StealthKnockbackMultiplier => 2.5f;
+
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.Calamity().StealthStrikeAvailable())
             {
-                int stealthType = ModContent.ProjectileType<AshenStalagmiteProj>();
-                float stealthSpeedMult = 0.6f;
-                float stealthDamageMult = 1.15f;
-                float stealthKnockbackMult = 2.5f;
-                int p = Projectile.NewProjectile(source, position.X, position.Y, velocity.X * stealthSpeedMult, velocity.Y * stealthSpeedMult, stealthType, (int)(damage * stealthDamageMult), (int)(knockback * stealthKnockbackMult), player.whoAmI, 0f, 1f);
+                int p = Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI, 0f, 1f);
                 if (p.WithinBounds(Main.maxProjectiles))
                     Main.projectile[p].Calamity().stealthStrike = true;
                 return false;

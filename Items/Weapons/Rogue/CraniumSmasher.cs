@@ -37,11 +37,12 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.DamageType = RogueDamageClass.Instance;
         }
 
-        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
-        {
+		public override float StealthDamageMultiplier => 1.75f;
+
+        public override void ModifyStatsExtra(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
+		{
             if (player.Calamity().StealthStrikeAvailable())
             {
-                damage = (int)(damage * 1.75f);
                 type = ModContent.ProjectileType<CraniumSmasherStealth>();
             }
             else if (Main.rand.NextBool(5))
@@ -53,7 +54,11 @@ namespace CalamityMod.Items.Weapons.Rogue
             {
                 type = ModContent.ProjectileType<CraniumSmasherProj>();
             }
-            int proj = Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, type, damage, knockback, player.whoAmI);
+		}
+
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        {
+            int proj = Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
             if (proj.WithinBounds(Main.maxProjectiles))
                 Main.projectile[proj].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
             return false;

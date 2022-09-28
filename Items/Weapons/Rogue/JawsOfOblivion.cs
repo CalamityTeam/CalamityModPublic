@@ -41,6 +41,9 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.rare = ModContent.RarityType<PureGreen>();
         }
 
+		public override float StealthDamageMultiplier => 1.8f;
+        public override float StealthKnockbackMultiplier => 7f;
+
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             float spreadAngle = MathHelper.ToRadians(2.5f);
@@ -54,7 +57,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 
                 if (player.Calamity().StealthStrikeAvailable())
                 {
-                    int p = Projectile.NewProjectile(source, position, currentDirection, type, (int)(damage * 1.8), knockback + 6f, player.whoAmI);
+                    int p = Projectile.NewProjectile(source, position, currentDirection, type, damage, knockback, player.whoAmI);
                     if (p.WithinBounds(Main.maxProjectiles))
                         Main.projectile[p].Calamity().stealthStrike = true;
                 }

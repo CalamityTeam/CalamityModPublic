@@ -38,11 +38,10 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.rare = ModContent.RarityType<Violet>();
         }
 
+		public override float StealthDamageMultiplier => 0.75f;
+
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            if (player.Calamity().StealthStrikeAvailable())
-                damage = (int)(damage * 0.75D);
-
             int shuriken = Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
             if (player.Calamity().StealthStrikeAvailable() && Main.projectile.IndexInRange(shuriken))
                 Main.projectile[shuriken].Calamity().stealthStrike = true;

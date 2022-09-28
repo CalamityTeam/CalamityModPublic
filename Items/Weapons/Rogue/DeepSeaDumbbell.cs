@@ -79,6 +79,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit) => flexMult = 1f;
         public override void OnHitPvp(Player player, Player target, int damage, bool crit) => flexMult = 1f;
 
+		public override float StealthDamageMultiplier => 0.4f;
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
@@ -88,9 +89,6 @@ namespace CalamityMod.Items.Weapons.Rogue
                 flexMult = MathHelper.Clamp(flexMult + 1f, 1f, FlexMultMax);
                 return false;
             }
-
-            if (player.Calamity().StealthStrikeAvailable())
-                damage = (int)(damage * 0.4);
 
             int proj = Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
             if (player.Calamity().StealthStrikeAvailable() && proj.WithinBounds(Main.maxProjectiles))

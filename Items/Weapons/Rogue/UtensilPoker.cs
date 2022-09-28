@@ -42,28 +42,25 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.shootSpeed = 12f;
         }
 
-        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
-        {
-            CalamityPlayer mp = player.Calamity();
+		public override float StealthDamageMultiplier => 2f;
+        public override float StealthVelocityMultiplier => 1.4f;
 
+        public override void ModifyStatsExtra(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
+		{
+            CalamityPlayer mp = player.Calamity();
             if (mp.StealthStrikeAvailable())
             {
-                int stealthDamage = damage * 2;
-                float stealthSpeedMult = 1.4f;
-                Vector2 stealthVelocity = velocity * stealthSpeedMult;
-                int stealth = Projectile.NewProjectile(source, position, stealthVelocity, ModContent.ProjectileType<ButcherKnife>(), stealthDamage, knockback, player.whoAmI);
-                if (stealth.WithinBounds(Main.maxProjectiles))
-                    Main.projectile[stealth].Calamity().stealthStrike = true;
-            }
-            else
-            {
-                int utensil = Item.shoot;
+				type = ModContent.ProjectileType<ButcherKnife>();
+			}
+			else
+			{
+                int utensil = ModContent.ProjectileType<Fork>();
                 double dmgMult = 1D;
                 float kbMult = 1f;
                 switch (Main.rand.Next(3))
                 {
                     case 0:
-                        utensil = Item.shoot;
+                        utensil = ModContent.ProjectileType<Fork>();
                         dmgMult = 1.1;
                         kbMult = 2f;
                         break;
@@ -80,8 +77,18 @@ namespace CalamityMod.Items.Weapons.Rogue
                     default:
                         break;
                 }
-                Projectile.NewProjectile(source, position, velocity, utensil, (int)(damage * dmgMult), knockback * kbMult, player.whoAmI);
-            }
+				damage = (int)(damage * dmgMult);
+				knockback = knockback * kbMult;
+			}
+		}
+
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        {
+            CalamityPlayer mp = player.Calamity();
+
+			int idx = Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
+			if (idx.WithinBounds(Main.maxProjectiles))
+				Main.projectile[idx].Calamity().stealthStrike = mp.StealthStrikeAvailable();
 
             counter++;
             if (counter == 3)

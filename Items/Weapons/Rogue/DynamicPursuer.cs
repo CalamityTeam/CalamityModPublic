@@ -56,16 +56,12 @@ namespace CalamityMod.Items.Weapons.Rogue
             modItem.ChargePerUse = 0.5f; // Tesla Cannon = 0.9f
         }
 
+		public override float StealthDamageMultiplier => 0.15f;
+        public override float StealthVelocityMultiplier => 1.2f;
+
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            Vector2 initialVelocity = velocity;
-            int totalDamage = damage;
-            if (player.Calamity().StealthStrikeAvailable())
-            {
-                initialVelocity *= 1.2f;
-                totalDamage = (int)(damage * 0.15f);
-            }
-            int proj = Projectile.NewProjectile(source, position, initialVelocity, type, totalDamage, knockback, player.whoAmI);
+            int proj = Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
             if (proj.WithinBounds(Main.maxProjectiles))
                 Main.projectile[proj].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
             return false;

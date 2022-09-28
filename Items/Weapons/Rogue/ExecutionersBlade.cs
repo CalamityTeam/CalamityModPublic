@@ -49,11 +49,12 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Rogue/ExecutionersBladeGlow").Value);
         }
 
+        public override float StealthDamageMultiplier => 3.61f;
+		public override bool AdditionalStealthCheck() => counter == 0;
+
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             bool usingStealth = player.Calamity().StealthStrikeAvailable() && counter == 0;
-            if (usingStealth)
-                damage = (int)(damage * 3.61);
 
             int stealth = Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
             if (usingStealth && stealth.WithinBounds(Main.maxProjectiles))

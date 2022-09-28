@@ -38,12 +38,15 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.DamageType = RogueDamageClass.Instance;
         }
 
+        public override void ModifyStatsExtra(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
+		{
+			position = position - Vector2.UnitY * 12f;
+			velocity.Y *= 0.667f;
+		}
+
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            velocity.Y *= 0.667f;
-            Vector2 initialVelocity = velocity;
-
-            int p = Projectile.NewProjectile(source, position - Vector2.UnitY * 12f, initialVelocity, type, damage, knockback, player.whoAmI);
+            int p = Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
             if (p.WithinBounds(Main.maxProjectiles))
                 Main.projectile[p].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
             return false;

@@ -68,30 +68,28 @@ namespace CalamityMod.Items.Weapons.Rogue
             return 2f;
         }
 
+		public override float StealthDamageMultiplier => 1.3f;
+
+        public override void ModifyStatsExtra(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
+		{
+			if (player.altFunctionUse == 2 && !player.Calamity().StealthStrikeAvailable())
+				damage = (int)(damage * 1.75f);
+		}
+
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            float dmgMult = 1f;
             if (player.Calamity().StealthStrikeAvailable())
             {
                 for (float i = -6.5f; i <= 6.5f; i += 6.5f)
                 {
                     Vector2 perturbedSpeed = velocity.RotatedBy(MathHelper.ToRadians(i));
-                    int stealth = Projectile.NewProjectile(source, position, perturbedSpeed, type, (int)(damage * 1.3), knockback, player.whoAmI);
+                    int stealth = Projectile.NewProjectile(source, position, perturbedSpeed, type, damage, knockback, player.whoAmI);
                     if (stealth.WithinBounds(Main.maxProjectiles))
                         Main.projectile[stealth].Calamity().stealthStrike = true;
                 }
                 return false;
             }
-            else if (player.altFunctionUse == 2)
-            {
-                dmgMult = 1.75f;
-            }
-            else
-            {
-                dmgMult = 1f;
-            }
-            Projectile.NewProjectile(source, position, velocity, type, (int)(damage * dmgMult), knockback, player.whoAmI);
-            return false;
+            return true;
         }
     }
 }

@@ -52,11 +52,12 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.shootSpeed = Speed;
         }
 
+		public override float StealthDamageMultiplier => 1.2f;
+
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.Calamity().StealthStrikeAvailable())
             {
-                damage = (int)(damage * 1.2);
                 int stealth = Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
                 if (stealth.WithinBounds(Main.maxProjectiles))
                     Main.projectile[stealth].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
