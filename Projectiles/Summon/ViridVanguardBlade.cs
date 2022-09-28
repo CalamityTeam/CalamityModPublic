@@ -356,7 +356,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public Color TrailColorFunction(float completionRatio)
         {
-            float opacity = (float)Math.Pow(Utils.GetLerpValue(1f, 0.45f, completionRatio, true), 4D) * Projectile.Opacity;
+            float opacity = (float)Math.Pow(Utils.GetLerpValue(1f, 0.45f, completionRatio, true), 4D) * Projectile.Opacity * 0.6f;
             return Color.Lerp(new(115, 196, 127), Color.Yellow, MathHelper.Clamp(completionRatio * 1.4f, 0f, 1f)) * opacity;
         }
 
