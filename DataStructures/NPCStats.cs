@@ -707,11 +707,11 @@ namespace CalamityMod
                 { new Tuple<int, int>(NPCID.MoonLordHead, ProjectileID.PhantasmalDeathray), new int[] { 150, 300, 380, 420, 570 } }, // 450 in non-rev master mode
                 { new Tuple<int, int>(NPCID.MoonLordHead, ProjectileID.PhantasmalBolt), new int[] { 60, 120, 160, 176, 240 } }, // 180 in non-rev master mode
                 { new Tuple<int, int>(NPCID.MoonLordHand, ProjectileID.PhantasmalEye), new int[] { 60, 120, 160, 176, 240 } }, // 180 in non-rev master mode
-                { new Tuple<int, int>(NPCID.MoonLordHand, ProjectileID.PhantasmalSphere), new int[] { 100, 200, 260, 284, 390 } }, // 300 in non-rev master mode
+                { new Tuple<int, int>(NPCID.MoonLordHand, ProjectileID.PhantasmalSphere), new int[] { 80, 160, 260, 284, 390 } }, // 240 in non-rev master mode
                 { new Tuple<int, int>(NPCID.MoonLordHand, ProjectileID.PhantasmalBolt), new int[] { 60, 120, 160, 176, 240 } }, // 180 in non-rev master mode
                 { new Tuple<int, int>(NPCID.MoonLordFreeEye, ProjectileID.PhantasmalBolt), new int[] { 70, 140, 180, 200, 270 } }, // 210 in non-rev master mode
                 { new Tuple<int, int>(NPCID.MoonLordFreeEye, ProjectileID.PhantasmalEye), new int[] { 70, 140, 180, 200, 270 } }, // 210 in non-rev master mode
-                { new Tuple<int, int>(NPCID.MoonLordFreeEye, ProjectileID.PhantasmalSphere), new int[] { 110, 220, 260, 284, 390 } }, // 330 in non-rev master mode
+                { new Tuple<int, int>(NPCID.MoonLordFreeEye, ProjectileID.PhantasmalSphere), new int[] { 88, 176, 260, 284, 390 } }, // 264 in non-rev master mode
                 { new Tuple<int, int>(NPCID.MoonLordFreeEye, ProjectileID.PhantasmalDeathray), new int[] { 100, 200, 260, 284, 390 } }, // 300 in non-rev master mode
 
                 { new Tuple<int, int>(ModContent.NPCType<ProfanedGuardianCommander>(), ModContent.ProjectileType<ProfanedSpear>()), new int[] { 140, 220, 244, 256, 366 } },

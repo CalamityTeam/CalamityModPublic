@@ -1108,7 +1108,7 @@ namespace CalamityMod.NPCs
                     break;
 
                 case NPCID.CultistBoss:
-                    npc.lifeMax = 53500;
+                    npc.lifeMax = 44500;
                     break;
 
                 case NPCID.CultistDragonBody1:
@@ -1121,7 +1121,7 @@ namespace CalamityMod.NPCs
                     break;
 
                 case NPCID.DukeFishron:
-                    npc.lifeMax = 105625;
+                    npc.lifeMax = 100000;
                     break;
 
                 case NPCID.Golem:
@@ -1130,6 +1130,11 @@ namespace CalamityMod.NPCs
 
                 case NPCID.GolemHead:
                     npc.lifeMax = 20000;
+                    break;
+
+                case NPCID.GolemFistRight:
+                case NPCID.GolemFistLeft:
+                    npc.lifeMax = 7000;
                     break;
 
                 case NPCID.HallowBoss:
@@ -2732,12 +2737,6 @@ namespace CalamityMod.NPCs
         {
             if (CalamityWorld.revenge || BossRushEvent.BossRushActive)
             {
-                if (npc.type == NPCID.BrainofCthulhu)
-                {
-                    if (npc.life / (float)npc.lifeMax < ((CalamityWorld.death || BossRushEvent.BossRushActive) ? 1f : 0.2f))
-                        index = -1;
-                }
-
                 if (npc.type == NPCID.DukeFishron && (CalamityWorld.death || BossRushEvent.BossRushActive))
                 {
                     if (npc.life / (float)npc.lifeMax < 0.4f)
