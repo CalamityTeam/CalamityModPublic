@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SetDefaults()
         {
             Item.width = 22;
-            Item.damage = 11;
+            Item.damage = 9;
             Item.noMelee = true;
             Item.consumable = true;
             Item.noUseGraphic = true;
@@ -124,7 +124,7 @@ namespace CalamityMod.Items.Weapons.Rogue
                 Item.UseSound = Throw1Sound;
         }
 
-		public override float StealthDamageMultiplier => 3.2f;
+		public override float StealthDamageMultiplier => 0.64f;
         public override bool AdditionalStealthCheck() => stealthStrikeStarted;
 
         public override void ModifyStatsExtra(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
@@ -157,7 +157,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void AddRecipes()
         {
-            CreateRecipe(100).
+            CreateRecipe(50).
                 AddIngredient<WulfrumMetalScrap>().
                 Register();
         }

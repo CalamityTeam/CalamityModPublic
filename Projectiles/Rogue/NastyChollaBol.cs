@@ -24,6 +24,8 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.timeLeft = 200;
             Projectile.tileCollide = false;
             Projectile.DamageType = RogueDamageClass.Instance;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = -2;
         }
 
         public override void AI()
@@ -58,7 +60,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            Projectile.ModifyHitNPCSticky(20, false);
+            Projectile.ModifyHitNPCSticky(3, false);
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)

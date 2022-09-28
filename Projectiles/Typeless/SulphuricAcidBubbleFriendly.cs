@@ -1,9 +1,10 @@
+using CalamityMod.Buffs.StatDebuffs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Typeless
 {
@@ -113,7 +114,8 @@ namespace CalamityMod.Projectiles.Typeless
             {
                 return;
             }
-            target.AddBuff(BuffID.Venom, fromArmour ? 150 : 120);
+			int buffType = Projectile.ai[0] == 2f ModContent.BuffType<Irradiated>() : BuffID.Venom;
+            target.AddBuff(buffType, fromArmour ? 150 : 120);
             Projectile.Kill();
         }
 
@@ -123,7 +125,8 @@ namespace CalamityMod.Projectiles.Typeless
             {
                 return;
             }
-            target.AddBuff(BuffID.Venom, fromArmour ? 150 : 120);
+			int buffType = Projectile.ai[0] == 2f ModContent.BuffType<Irradiated>() : BuffID.Venom;
+            target.AddBuff(buffType, fromArmour ? 150 : 120);
             Projectile.Kill();
         }
 
