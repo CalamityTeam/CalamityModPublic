@@ -407,6 +407,6 @@ namespace CalamityMod.Projectiles.Summon
             target.AddBuff(ModContent.BuffType<Plague>(), 180);
         }
 
-        public override bool? CanDamage() => CurrentState == ViriliAIState.ChargeAtEnemies;
+        public override bool? CanDamage() => CurrentState == ViriliAIState.ChargeAtEnemies ? null : false;
     }
 }
