@@ -105,7 +105,7 @@ namespace CalamityMod.Projectiles.Summon
             DetermineFrames();
 
             // Update the smoke drawer.
-            SmokeDrawer.ParticleSpawnRate = HeatInterpolant > 0.7f ? 3 : 9999999;
+            SmokeDrawer.ParticleSpawnRate = HeatInterpolant > 0.7f ? 3 : int.MaxValue;
             SmokeDrawer.BaseMoveRotation = MathHelper.PiOver2 + Projectile.spriteDirection * (Projectile.position.X - Projectile.oldPosition.X) * 0.04f;
             SmokeDrawer.Update();
 
