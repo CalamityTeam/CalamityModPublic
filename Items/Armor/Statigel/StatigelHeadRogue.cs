@@ -38,11 +38,11 @@ namespace CalamityMod.Items.Armor.Statigel
             player.setBonus = "When you take over 100 damage in one hit you become immune to damage for an extended period of time\n" +
                     "Grants an extra jump and increased jump height\n" +
                     "12% increased jump speed\n" +
-                    "+100 maximum stealth";
+                    "+90 maximum stealth";
             var modPlayer = player.Calamity();
             modPlayer.statigelSet = true;
             modPlayer.statigelJump = true;
-            modPlayer.rogueStealthMax += 1f;
+            modPlayer.rogueStealthMax += 0.9f;
             modPlayer.wearingRogueArmor = true;
             Player.jumpHeight += 5;
             player.jumpSpeedBoost += 0.6f;
