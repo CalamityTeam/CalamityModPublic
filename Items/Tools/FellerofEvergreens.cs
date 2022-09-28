@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Tools
 
         public override void SetDefaults()
         {
-            Item.damage = 40;
+            Item.damage = 18;
             Item.knockBack = 5f;
             Item.useTime = 17;
             Item.useAnimation = 25;
