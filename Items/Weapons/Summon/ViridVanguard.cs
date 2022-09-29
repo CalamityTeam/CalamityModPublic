@@ -10,12 +10,26 @@ namespace CalamityMod.Items.Weapons.Summon
 {
     public class ViridVanguard : ModItem
     {
+        public const int HorizontalSlashChargeTime = 14;
+
+        public const float HorizontalSlashSpeed = 44f;
+
+        public const int VerticalSlashChargeTime = 32;
+
+        public const float VerticalSlashSpeed = 45f;
+
+        public const float VerticalTeleportOffset = 850f;
+
+        public const int PierceChargeAttackCycleTime = 44;
+
         public const float MaxTargetingDistance = 1550f;
+
+        public const int ChargesPerAttackCycle = 7;
 
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Virid Vanguard");
-            Tooltip.SetDefault("Update this");
+            Tooltip.SetDefault("Summons a circular formation of blades that slice nearby enemies to pieces");
             Item.staff[Item.type] = true;
             SacrificeTotal = 1;
         }

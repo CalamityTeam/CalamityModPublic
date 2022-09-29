@@ -151,9 +151,7 @@ namespace CalamityMod.Projectiles.Summon
         public void DoBehavior_HorizontalSlashes(NPC target)
         {
             int hoverTime = 22;
-            int chargeTime = 14;
-            int chargeCount = 7;
-            float chargeSpeed = 44f;
+            int chargeTime = ViridVanguard.HorizontalSlashChargeTime;
 
             // Exit the attack state if the blade no longer has a valid target.
             if (target is null)
@@ -193,12 +191,12 @@ namespace CalamityMod.Projectiles.Summon
             {
                 SoundEngine.PlaySound(CommonCalamitySounds.MeatySlashSound with { Pitch = 1.6f, Volume = 0.27f }, Projectile.Center);
                 Projectile.oldPos = new Vector2[Projectile.oldPos.Length];
-                Projectile.velocity = Vector2.UnitX * (target.Center.X > Projectile.Center.X).ToDirectionInt() * chargeSpeed;
+                Projectile.velocity = Vector2.UnitX * (target.Center.X > Projectile.Center.X).ToDirectionInt() * ViridVanguard.HorizontalSlashSpeed;
                 Projectile.netUpdate = true;
             }
 
             // Switch to the next attack state once enough charges have happened.
-            if (AITimer >= (hoverTime + chargeTime) * chargeCount)
+            if (AITimer >= (hoverTime + chargeTime) * ViridVanguard.ChargesPerAttackCycle)
             {
                 AITimer = 0f;
                 CurrentState = ViridVanguardAIState.VerticalPierceTeleport;
@@ -209,9 +207,7 @@ namespace CalamityMod.Projectiles.Summon
         public void DoBehavior_VerticalPierceTeleport(NPC target)
         {
             int hoverTime = 26;
-            int chargeTime = 32;
-            int chargeCount = 7;
-            float chargeSpeed = 45f;
+            int chargeTime = ViridVanguard.VerticalSlashChargeTime;
 
             // Exit the attack state if the blade no longer has a valid target.
             if (target is null)
@@ -248,20 +244,20 @@ namespace CalamityMod.Projectiles.Summon
             {
                 SoundEngine.PlaySound(CommonCalamitySounds.MeatySlashSound with { Pitch = 1.6f, Volume = 0.27f }, Projectile.Center);
                 Projectile.oldPos = new Vector2[Projectile.oldPos.Length];
-                Projectile.velocity = Vector2.UnitY * chargeSpeed;
+                Projectile.velocity = Vector2.UnitY * ViridVanguard.VerticalSlashSpeed;
                 Projectile.netUpdate = true;
             }
 
             // Teleport above the target once sufficiently far below them.
-            if (wrappedAttackTimer >= hoverTime + 5f && Projectile.Center.Y > target.Center.Y + 850f)
+            if (wrappedAttackTimer >= hoverTime + 5f && Projectile.Center.Y > target.Center.Y + ViridVanguard.VerticalTeleportOffset)
             {
                 Projectile.oldPos = new Vector2[Projectile.oldPos.Length];
-                Projectile.Center = target.Center - Vector2.UnitY * 600f;
+                Projectile.Center = target.Center - Vector2.UnitY * ViridVanguard.VerticalTeleportOffset * 0.7f;
                 Projectile.netUpdate = true;
             }
 
             // Switch to the next attack state once enough charges have happened.
-            if (AITimer >= (hoverTime + chargeTime) * chargeCount)
+            if (AITimer >= (hoverTime + chargeTime) * ViridVanguard.ChargesPerAttackCycle)
             {
                 AITimer = 0f;
                 CurrentState = ViridVanguardAIState.RegularPierceSlashes;
@@ -271,8 +267,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public void DoBehavior_RegularPierceSlashes(NPC target)
         {
-            int attackCycleTime = 44;
-            int chargeCount = 8;
+            int attackCycleTime = ViridVanguard.PierceChargeAttackCycleTime;
             float upwardRiseTimeRatio = 0.4f;
             float pierceTimeRatio = 0.14f;
 
@@ -326,7 +321,7 @@ namespace CalamityMod.Projectiles.Summon
                 SoundEngine.PlaySound(CommonCalamitySounds.MeatySlashSound with { Pitch = 1.6f, Volume = 0.27f }, Projectile.Center);
 
             // Switch to the next attack state once enough charges have happened.
-            if (localAITimer >= attackCycleTime * chargeCount)
+            if (localAITimer >= attackCycleTime * ViridVanguard.ChargesPerAttackCycle)
             {
                 AITimer = 0f;
                 CurrentState = ViridVanguardAIState.HorizontalSlashes;
@@ -356,7 +351,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public Color TrailColorFunction(float completionRatio)
         {
-            float opacity = (float)Math.Pow(Utils.GetLerpValue(1f, 0.45f, completionRatio, true), 4D) * Projectile.Opacity * 0.6f;
+            float opacity = (float)Math.Pow(Utils.GetLerpValue(1f, 0.45f, completionRatio, true), 4D) * Projectile.Opacity * 0.48f;
             return Color.Lerp(new(115, 196, 127), Color.Yellow, MathHelper.Clamp(completionRatio * 1.4f, 0f, 1f)) * opacity;
         }
 
@@ -370,6 +365,7 @@ namespace CalamityMod.Projectiles.Summon
             Vector2 drawPosition = Projectile.Center - Main.screenPosition;
             SpriteEffects direction = Projectile.spriteDirection == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
 
+            // Draw the afterimage trail.
             TrailDrawer ??= new();
             GameShaders.Misc["EmpressBlade"].UseImage0("Images/Extra_201");
             GameShaders.Misc["EmpressBlade"].UseImage1("Images/Extra_193");
@@ -382,7 +378,7 @@ namespace CalamityMod.Projectiles.Summon
             // Draw the blade.
             Main.EntitySpriteDraw(texture, drawPosition, frame, Projectile.GetAlpha(lightColor), Projectile.rotation + 0.2f, origin, Projectile.scale, direction, 0);
 
-            // Draw the gleam.
+            // Draw the gleam at the tip of the blade.
             Texture2D shineTex = ModContent.Request<Texture2D>("CalamityMod/Particles/HalfStar").Value;
             Vector2 shineScale = new Vector2(1.67f, 3f) * Projectile.scale;
             shineScale *= MathHelper.Lerp(0.9f, 1.1f, (float)Math.Cos(Main.GlobalTimeWrappedHourly * 7.4f + Projectile.identity) * 0.5f + 0.5f);
@@ -392,7 +388,7 @@ namespace CalamityMod.Projectiles.Summon
             Main.EntitySpriteDraw(shineTex, lensFlareWorldPosition - Main.screenPosition, null, lensFlareColor, 0f, shineTex.Size() * 0.5f, shineScale * 0.6f, 0, 0);
             Main.EntitySpriteDraw(shineTex, lensFlareWorldPosition - Main.screenPosition, null, lensFlareColor, MathHelper.PiOver2, shineTex.Size() * 0.5f, shineScale, 0, 0);
 
-            // Reset textures for shaders.
+            // Reset textures for shaders, since they're only defined once at load-time in vanilla.
             GameShaders.Misc["EmpressBlade"].UseImage0("Images/Extra_209");
             GameShaders.Misc["EmpressBlade"].UseImage1("Images/Extra_210");
             return false;
