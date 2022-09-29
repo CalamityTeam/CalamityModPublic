@@ -114,7 +114,7 @@ namespace CalamityMod.Projectiles.Typeless
             {
                 return;
             }
-			int buffType = Projectile.ai[0] == 2f ModContent.BuffType<Irradiated>() : BuffID.Venom;
+			int buffType = Projectile.ai[0] == 2f ? ModContent.BuffType<Irradiated>() : BuffID.Venom;
             target.AddBuff(buffType, fromArmour ? 150 : 120);
             Projectile.Kill();
         }
@@ -125,7 +125,7 @@ namespace CalamityMod.Projectiles.Typeless
             {
                 return;
             }
-			int buffType = Projectile.ai[0] == 2f ModContent.BuffType<Irradiated>() : BuffID.Venom;
+			int buffType = Projectile.ai[0] == 2f ? ModContent.BuffType<Irradiated>() : BuffID.Venom;
             target.AddBuff(buffType, fromArmour ? 150 : 120);
             Projectile.Kill();
         }

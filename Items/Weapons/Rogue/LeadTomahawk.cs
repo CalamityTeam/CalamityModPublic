@@ -47,7 +47,7 @@ namespace CalamityMod.Items.Weapons.Rogue
                 if (p.WithinBounds(Main.maxProjectiles))
 				{
                     Main.projectile[p].Calamity().stealthStrike = true;
-                    Main.projectile[p].Calamity().penetrate = 5;
+                    Main.projectile[p].penetrate = 5;
 				}
                 return false;
             }
