@@ -2,6 +2,8 @@
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Terraria.Audio;
+using static CalamityMod.Events.BossRushEvent;
 
 namespace CalamityMod.Projectiles.Typeless
 {
@@ -35,6 +37,28 @@ namespace CalamityMod.Projectiles.Typeless
             Projectile.frame = Projectile.frameCounter / FrameChangeRate;
             if (Projectile.frame >= TotalFrames)
                 Projectile.frame = TotalFrames;
+
+            // Play tier transition sounds on the first frame.
+            if (Projectile.localAI[0] == 0f)
+            {
+                float volume = 1.8f;
+                switch (Tier)
+                {
+                    case 2:
+                        SoundEngine.PlaySound(Tier2TransitionSound with { Volume = volume }, Main.LocalPlayer.Center);
+                        break;
+                    case 3:
+                        SoundEngine.PlaySound(Tier3TransitionSound with { Volume = volume }, Main.LocalPlayer.Center);
+                        break;
+                    case 4:
+                        SoundEngine.PlaySound(Tier4TransitionSound with { Volume = volume }, Main.LocalPlayer.Center);
+                        break;
+                    case 5:
+                        SoundEngine.PlaySound(Tier5TransitionSound with { Volume = volume }, Main.LocalPlayer.Center);
+                        break;
+                }
+                Projectile.localAI[0] = 1f;
+            }
         }
 
         public override Color? GetAlpha(Color lightColor) => Color.White * Projectile.Opacity;
