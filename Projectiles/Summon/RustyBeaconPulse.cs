@@ -74,7 +74,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), RustyBeaconPrototype.IrradiatedDebuffTime);
+            target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), RustyBeaconPrototype.SulphuricPoisonDebuffTime);
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)

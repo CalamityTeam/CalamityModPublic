@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public const int PulseLifetime = 95;
 
-        public const int IrradiatedDebuffTime = 90;
+        public const int SulphuricPoisonDebuffTime = 90;
 
         public override void SetStaticDefaults()
         {
