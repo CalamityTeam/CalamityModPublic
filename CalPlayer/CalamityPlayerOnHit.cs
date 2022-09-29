@@ -182,7 +182,7 @@ namespace CalamityMod.CalPlayer
 
             ItemLifesteal(target, item, damage);
             ItemOnHit(item, damage, target.Center, crit, (target.damage > 5 || target.boss) && !target.SpawnedFromStatue);
-            NPCDebuffs(target, item.CountsAsClass<MeleeDamageClass>(), item.CountsAsClass<RangedDamageClass>(), item.CountsAsClass<MagicDamageClass>(), item.CountsAsClass<SummonDamageClass>(), item.CountsAsClass<ThrowingDamageClass>(), false);
+            NPCDebuffs(target, item.CountsAsClass<MeleeDamageClass>(), item.CountsAsClass<RangedDamageClass>(), item.CountsAsClass<MagicDamageClass>(), item.CountsAsClass<SummonDamageClass>(), item.CountsAsClass<ThrowingDamageClass>(), item.CountsAsClass<SummonMeleeSpeedDamageClass>(), false);
 
             // Shattered Community tracks all damage dealt with Rage Mode (ignoring dummies).
             if (target.type == NPCID.TargetDummy || target.type == NPCType<SuperDummyNPC>())
@@ -393,7 +393,7 @@ namespace CalamityMod.CalPlayer
 
                 ProjLifesteal(target, proj, damage, crit);
                 ProjOnHit(proj, target.Center, crit, (target.damage > 5 || target.boss) && !target.SpawnedFromStatue);
-                NPCDebuffs(target, proj.CountsAsClass<MeleeDamageClass>(), proj.CountsAsClass<RangedDamageClass>(), proj.CountsAsClass<MagicDamageClass>(), proj.CountsAsClass<SummonDamageClass>(), proj.CountsAsClass<ThrowingDamageClass>(), true);
+                NPCDebuffs(target, proj.CountsAsClass<MeleeDamageClass>(), proj.CountsAsClass<RangedDamageClass>(), proj.CountsAsClass<MagicDamageClass>(), proj.CountsAsClass<SummonDamageClass>(), proj.CountsAsClass<ThrowingDamageClass>(), proj.CountsAsClass<SummonMeleeSpeedDamageClass>(), true);
 
                 // Shattered Community tracks all damage dealt with Rage Mode (ignoring dummies).
                 if (target.type == NPCID.TargetDummy || target.type == NPCType<SuperDummyNPC>())
@@ -480,7 +480,7 @@ namespace CalamityMod.CalPlayer
                     break;
             }
             ItemOnHit(item, damage, target.Center, crit, true);
-            PvpDebuffs(target, item.CountsAsClass<MeleeDamageClass>(), item.CountsAsClass<RangedDamageClass>(), item.CountsAsClass<MagicDamageClass>(), item.CountsAsClass<SummonDamageClass>(), item.CountsAsClass<ThrowingDamageClass>(), false);
+            PvpDebuffs(target, item.CountsAsClass<MeleeDamageClass>(), item.CountsAsClass<RangedDamageClass>(), item.CountsAsClass<MagicDamageClass>(), item.CountsAsClass<SummonDamageClass>(), item.CountsAsClass<ThrowingDamageClass>(), item.CountsAsClass<SummonMeleeSpeedDamageClass>(), false);
         }
 
         public override void OnHitPvpWithProj(Projectile proj, Player target, int damage, bool crit)
@@ -615,7 +615,7 @@ namespace CalamityMod.CalPlayer
                     target.AddBuff(BuffType<Plague>(), 300);
                 }
                 ProjOnHit(proj, target.Center, crit, true);
-                PvpDebuffs(target, proj.CountsAsClass<MeleeDamageClass>(), proj.CountsAsClass<RangedDamageClass>(), proj.CountsAsClass<MagicDamageClass>(), proj.CountsAsClass<SummonDamageClass>(), proj.CountsAsClass<ThrowingDamageClass>(), true);
+                PvpDebuffs(target, proj.CountsAsClass<MeleeDamageClass>(), proj.CountsAsClass<RangedDamageClass>(), proj.CountsAsClass<MagicDamageClass>(), proj.CountsAsClass<SummonDamageClass>(), proj.CountsAsClass<ThrowingDamageClass>(), proj.CountsAsClass<SummonMeleeSpeedDamageClass>(), true);
             }
         }
         #endregion
@@ -707,7 +707,7 @@ namespace CalamityMod.CalPlayer
             bool hasClass = proj.CountsAsClass<MeleeDamageClass>() || proj.CountsAsClass<RangedDamageClass>() || proj.CountsAsClass<MagicDamageClass>() || proj.CountsAsClass<SummonDamageClass>() || proj.CountsAsClass<ThrowingDamageClass>();
 
             //flask of party affects all types of weapons, !proj.CountsAsClass<MeleeDamageClass>() is to prevent double flask effects
-            if (!proj.CountsAsClass<MeleeDamageClass>() && Player.meleeEnchant == 7)
+            if (!proj.CountsAsClass<MeleeDamageClass>() && !proj.CountsAsClass<SummonMeleeSpeedDamageClass>() && Player.meleeEnchant == 7)
                 Projectile.NewProjectile(source, position, proj.velocity, ProjectileID.ConfettiMelee, 0, 0f, proj.owner);
 
             if (alchFlask && Player.ownedProjectileCounts[ProjectileType<PlagueSeeker>()] < 3 && hasClass)
@@ -1281,7 +1281,7 @@ namespace CalamityMod.CalPlayer
         #endregion
 
         #region Debuffs
-        public void NPCDebuffs(NPC target, bool melee, bool ranged, bool magic, bool summon, bool rogue, bool proj)
+        public void NPCDebuffs(NPC target, bool melee, bool ranged, bool magic, bool summon, bool rogue, bool whip, bool proj)
         {
             if (melee) //prevents Deep Sea Dumbell from snagging true melee debuff memes
             {
@@ -1304,18 +1304,18 @@ namespace CalamityMod.CalPlayer
                 {
                     CalamityUtils.Inflict246DebuffsNPC(target, BuffID.OnFire, 4f);
                 }
-                if (aWeapon)
-                {
-                    CalamityUtils.Inflict246DebuffsNPC(target, BuffType<BrimstoneFlames>());
-                }
             }
-            if (armorCrumbling || armorShattering)
-            {
-                if (melee || rogue)
-                {
+			if (melee || rogue || whip)
+			{
+				if (armorCrumbling)
+				{
                     CalamityUtils.Inflict246DebuffsNPC(target, BuffType<ArmorCrunch>());
                 }
-            }
+				if (aWeapon)
+				{
+					CalamityUtils.Inflict246DebuffsNPC(target, BuffType<BrimstoneFlames>());
+				}
+			}
             if (rogue)
             {
                 switch (Player.meleeEnchant)
@@ -1349,10 +1349,6 @@ namespace CalamityMod.CalPlayer
                 if (corrosiveSpine)
                 {
                     target.AddBuff(BuffID.Poisoned, 240);
-                }
-                if (aWeapon)
-                {
-                    CalamityUtils.Inflict246DebuffsNPC(target, BuffType<BrimstoneFlames>());
                 }
             }
             if (summon)
@@ -1428,7 +1424,7 @@ namespace CalamityMod.CalPlayer
             }
         }
 
-        public void PvpDebuffs(Player target, bool melee, bool ranged, bool magic, bool summon, bool rogue, bool proj)
+        public void PvpDebuffs(Player target, bool melee, bool ranged, bool magic, bool summon, bool rogue, bool whip, bool proj)
         {
             if (melee)
             {
@@ -1438,10 +1434,6 @@ namespace CalamityMod.CalPlayer
                     target.AddBuff(BuffID.OnFire, duration, false);
                     target.AddBuff(BuffID.Frostburn, duration, false);
                     target.AddBuff(BuffType<HolyFlames>(), duration, false);
-                }
-                if (aWeapon)
-                {
-                    CalamityUtils.Inflict246DebuffsPvp(target, BuffType<BrimstoneFlames>());
                 }
                 if (cryogenSoul || frostFlare)
                 {
@@ -1456,13 +1448,17 @@ namespace CalamityMod.CalPlayer
                     CalamityUtils.Inflict246DebuffsPvp(target, BuffID.OnFire, 4f);
                 }
             }
-            if (armorCrumbling || armorShattering)
-            {
-                if (melee || rogue)
-                {
+			if (melee || rogue || whip)
+			{
+				if (armorCrumbling)
+				{
                     CalamityUtils.Inflict246DebuffsPvp(target, BuffType<ArmorCrunch>());
                 }
-            }
+				if (aWeapon)
+				{
+					CalamityUtils.Inflict246DebuffsPvp(target, BuffType<BrimstoneFlames>());
+				}
+			}
             if (rogue)
             {
                 switch (Player.meleeEnchant)
@@ -1493,10 +1489,6 @@ namespace CalamityMod.CalPlayer
                 if (corrosiveSpine)
                 {
                     target.AddBuff(BuffID.Venom, 240);
-                }
-                if (aWeapon)
-                {
-                    CalamityUtils.Inflict246DebuffsPvp(target, BuffType<BrimstoneFlames>());
                 }
             }
             if (summon)

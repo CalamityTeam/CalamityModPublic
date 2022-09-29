@@ -590,8 +590,8 @@ namespace CalamityMod.CalPlayer
         public bool silverMedkit = false;
         public int silverMedkitTimer = 0;
         public bool goldArmorGoldDrops = false;
-		public bool miningSet = false;
-		public int miningSetCooldown = 0;
+        public bool miningSet = false;
+        public int miningSetCooldown = 0;
         public bool desertProwler = false;
         public bool snowRuffianSet = false;
         public bool forbiddenCirclet = false;
@@ -809,7 +809,6 @@ namespace CalamityMod.CalPlayer
         public bool enraged = false;
         public bool permafrostsConcoction = false;
         public bool armorCrumbling = false;
-        public bool armorShattering = false;
         public bool ceaselessHunger = false;
         public bool calcium = false;
         public bool soaring = false;
@@ -1088,7 +1087,7 @@ namespace CalamityMod.CalPlayer
 
         public Vector2 FireDrawerPosition;
 
-		public int monolithAccursedShader = 0;
+        public int monolithAccursedShader = 0;
         #endregion Draw Effects
 
         #region Draedon Summoning
@@ -1695,8 +1694,8 @@ namespace CalamityMod.CalPlayer
             silverMedkit = false;
             goldArmorGoldDrops = false;
 
-			miningSet = false;
-			miningSetCooldown = 0;
+            miningSet = false;
+            miningSetCooldown = 0;
 
             eskimoSet = false; //vanilla armor
             meteorSet = false; //vanilla armor, for Space Gun nerf
@@ -1825,7 +1824,6 @@ namespace CalamityMod.CalPlayer
             isNearbyBoss = false;
             permafrostsConcoction = false;
             armorCrumbling = false;
-            armorShattering = false;
             ceaselessHunger = false;
             calcium = false;
             soaring = false;
@@ -2139,14 +2137,14 @@ namespace CalamityMod.CalPlayer
             externalColdImmunity = externalHeatImmunity = false;
             polarisBoostCounter = 0;
             dragonRageHits = 0;
-			dragonRageCooldown = 0;
+            dragonRageCooldown = 0;
             spectralVeilImmunity = 0;
             jetPackDash = 0;
             jetPackDirection = 0;
             andromedaCripple = 0;
             theBeeCooldown = 0;
             killSpikyBalls = false;
-			scuttlerCooldown = 0;
+            scuttlerCooldown = 0;
             rogueCrownCooldown = 0;
             icicleCooldown = 0;
             statisTimer = 0;
@@ -2245,7 +2243,6 @@ namespace CalamityMod.CalPlayer
             isNearbyBoss = false;
             permafrostsConcoction = false;
             armorCrumbling = false;
-            armorShattering = false;
             ceaselessHunger = false;
             calcium = false;
             soaring = false;
@@ -2325,8 +2322,8 @@ namespace CalamityMod.CalPlayer
             silverMedkit = false;
             silverMedkitTimer = 0;
             goldArmorGoldDrops = false;
-			miningSet = false;
-			miningSetCooldown = 0;
+            miningSet = false;
+            miningSetCooldown = 0;
             flamethrowerBoost = false;
             hoverboardBoost = false; //hoverboard + shroomite visage
             shadowSpeed = false;
@@ -2571,7 +2568,7 @@ namespace CalamityMod.CalPlayer
                 var source = Player.GetSource_Accessory(FindAccessory(ModContent.ItemType<Items.Accessories.SandCloak>()));
                 rogueStealth -= rogueStealthMax * 0.1f;
                 int veil = Projectile.NewProjectile(source, Player.Center, Vector2.Zero, ModContent.ProjectileType<SandCloakVeil>(), 7, 8, Player.whoAmI);
-				Main.projectile[veil].Center = Player.Center;
+                Main.projectile[veil].Center = Player.Center;
                 SoundEngine.PlaySound(SoundID.Item45, Player.position);
             }
             if (CalamityKeybinds.SpectralVeilHotKey.JustPressed && spectralVeil && Main.myPlayer == Player.whoAmI && rogueStealth >= rogueStealthMax * 0.25f &&
@@ -4113,12 +4110,12 @@ namespace CalamityMod.CalPlayer
             else
                 acidRoundMultiplier = 1D;
 
-			if (item.CountsAsClass<RogueDamageClass>())
-			{
-				// Apply weapon modifier stealth strike damage bonus
-				if (item.Calamity().StealthStrikePrefixBonus != 0f && StealthStrikeAvailable())
-					damage += 1f - item.Calamity().StealthStrikePrefixBonus;
-			}
+            if (item.CountsAsClass<RogueDamageClass>())
+            {
+                // Apply weapon modifier stealth strike damage bonus
+                if (item.Calamity().StealthStrikePrefixBonus != 0f && StealthStrikeAvailable())
+                    damage += 1f - item.Calamity().StealthStrikePrefixBonus;
+            }
         }
 
         public override void ModifyWeaponKnockback(Item item, ref StatModifier knockback)
@@ -4274,6 +4271,13 @@ namespace CalamityMod.CalPlayer
                     if (Main.rand.NextBool(3))
                     {
                         Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, ModContent.DustType<BrimstoneFlame>(), Player.velocity.X * 0.2f + Player.direction * 3f, Player.velocity.Y * 0.2f, 100, default, 0.75f);
+                    }
+                }
+                if (armorCrumbling)
+                {
+                    if (Main.rand.NextBool(3))
+                    {
+                        Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, DustID.Stone, Player.velocity.X * 0.2f + Player.direction * 3f, Player.velocity.Y * 0.2f, 100, default, 0.75f);
                     }
                 }
                 if (eGauntlet)
@@ -5464,7 +5468,7 @@ namespace CalamityMod.CalPlayer
                 ProfanedMoonlightAuroraDrawer.UpdateAction = () =>
                 {
                     // Aurora Count does not scale to save on resources if you have a lot of dyes
-                    int auroraCount = 5;						
+                    int auroraCount = 5;
                     for (int i = 0; i < auroraCount; i++)
                     {
                         float auroraPower = MathHelper.Clamp(totalMoonlightDyes / 3f, 0f, 1f);
@@ -6616,8 +6620,8 @@ namespace CalamityMod.CalPlayer
 
             if (penumbra)
             {
-				stealthGenStandstill += 0.15f;
-				stealthGenMoving += 0.1f;
+                stealthGenStandstill += 0.15f;
+                stealthGenMoving += 0.1f;
             }
 
             if (shadow)
@@ -6628,8 +6632,8 @@ namespace CalamityMod.CalPlayer
 
             if (eArtifact)
             {
-				stealthGenStandstill += 0.1f;
-				stealthGenMoving += 0.1f;
+                stealthGenStandstill += 0.1f;
+                stealthGenMoving += 0.1f;
             }
 
             //Accessory modifiers can boost these stats

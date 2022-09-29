@@ -2317,22 +2317,6 @@ namespace CalamityMod.CalPlayer
                     Player.statMana = Player.statManaMax2;
             }
 
-            if (armorCrumbling)
-            {
-                Player.GetCritChance<RogueDamageClass>() += 5;
-                Player.GetCritChance<MeleeDamageClass>() += 5;
-            }
-
-            if (armorShattering)
-            {
-                if (Player.FindBuffIndex(ModContent.BuffType<ArmorCrumbling>()) > -1)
-                    Player.ClearBuff(ModContent.BuffType<ArmorCrumbling>());
-                Player.GetDamage<ThrowingDamageClass>() += 0.08f;
-                Player.GetDamage<MeleeDamageClass>() += 0.08f;
-                Player.GetCritChance<RogueDamageClass>() += 8;
-                Player.GetCritChance<MeleeDamageClass>() += 8;
-            }
-
             if (holyWrath)
             {
                 if (Player.FindBuffIndex(BuffID.Wrath) > -1)
@@ -2685,9 +2669,6 @@ namespace CalamityMod.CalPlayer
                 Player.dangerSense = true;
                 Player.findTreasure = true;
             }
-
-            if (aWeapon)
-                Player.moveSpeed += 0.05f;
 
             if (molten)
                 Player.resistCold = true;
@@ -3472,7 +3453,7 @@ namespace CalamityMod.CalPlayer
                         hasBuff == BuffID.Honey || hasBuff == BuffID.WeaponImbueVenom || (hasBuff >= BuffID.WeaponImbueCursedFlames && hasBuff <= BuffID.WeaponImbuePoison) || hasBuff == BuffID.Lucky ||
                         (hasBuff >= BuffID.Mining && hasBuff <= BuffID.Wrath) || (hasBuff >= BuffID.Lovestruck && hasBuff <= BuffID.Warmth) || hasBuff == BuffID.SugarRush ||
                         hasBuff == ModContent.BuffType<AbyssalWeapon>() || hasBuff == ModContent.BuffType<AnechoicCoatingBuff>() || hasBuff == ModContent.BuffType<ArmorCrumbling>() ||
-                        hasBuff == ModContent.BuffType<ArmorShattering>() || hasBuff == ModContent.BuffType<AstralInjectionBuff>() || hasBuff == ModContent.BuffType<BaguetteBuff>() ||
+                        hasBuff == ModContent.BuffType<AstralInjectionBuff>() || hasBuff == ModContent.BuffType<BaguetteBuff>() ||
                         hasBuff == ModContent.BuffType<BloodfinBoost>() || hasBuff == ModContent.BuffType<BoundingBuff>() || hasBuff == ModContent.BuffType<CadancesGrace>() ||
                         hasBuff == ModContent.BuffType<CalciumBuff>() || hasBuff == ModContent.BuffType<CeaselessHunger>() || hasBuff == ModContent.BuffType<DraconicSurgeBuff>() ||
                         hasBuff == ModContent.BuffType<GravityNormalizerBuff>() || hasBuff == ModContent.BuffType<HolyWrathBuff>() || hasBuff == ModContent.BuffType<Omniscience>() ||

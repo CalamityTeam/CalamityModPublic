@@ -823,10 +823,6 @@ namespace CalamityMod.Items
             {
                 return false;
             }
-            if (item.type == ModContent.ItemType<CrumblingPotion>() && player.FindBuffIndex(ModContent.BuffType<ArmorShattering>()) > -1)
-            {
-                return false;
-            }
             if (item.type == ItemID.WrathPotion && player.FindBuffIndex(ModContent.BuffType<HolyWrathBuff>()) > -1)
             {
                 return false;

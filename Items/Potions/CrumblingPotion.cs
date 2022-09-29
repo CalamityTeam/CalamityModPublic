@@ -11,9 +11,9 @@ namespace CalamityMod.Items.Potions
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 20;
-            DisplayName.SetDefault("Crumbling Potion");
-            Tooltip.SetDefault("Increases melee and rogue critical strike chance by 5%\n" +
-                "Melee and rogue attacks break enemy armor");
+            DisplayName.SetDefault("Flask of Armor Crunch");
+            Tooltip.SetDefault("Melee and Whip attacks inflict Armor Crunch on enemies\n" +
+                "Rogue attacks inflict Armor Crunch on enemies");
         }
 
         public override void SetDefaults()
@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Potions
             Item.rare = ItemRarityID.LightRed;
             Item.consumable = true;
             Item.buffType = ModContent.BuffType<ArmorCrumbling>();
-            Item.buffTime = CalamityUtils.SecondsToFrames(480f);
+            Item.buffTime = CalamityUtils.SecondsToFrames(1200f);
         }
 
         public override void AddRecipes()
@@ -39,15 +39,14 @@ namespace CalamityMod.Items.Potions
                 AddIngredient(ItemID.BottledWater, 5).
                 AddIngredient<AncientBoneDust>().
                 AddIngredient<EssenceofSunlight>().
-                AddTile(TileID.AlchemyTable).
-				AddConsumeItemCallback(Recipe.ConsumptionRules.Alchemy).
+                AddTile(TileID.ImbuingStation).
                 Register();
 
             CreateRecipe().
                 AddIngredient(ItemID.BottledWater).
                 AddIngredient<BloodOrb>(20).
                 AddIngredient<EssenceofSunlight>().
-                AddTile(TileID.AlchemyTable).
+                AddTile(TileID.ImbuingStation).
                 Register();
         }
     }
