@@ -109,8 +109,8 @@ namespace CalamityMod.Projectiles.Summon
             SmokeDrawer.BaseMoveRotation = MathHelper.PiOver2 + Projectile.spriteDirection * (Projectile.position.X - Projectile.oldPosition.X) * 0.04f;
             SmokeDrawer.Update();
 
-            // Cool down if not being fired.
-            if (!IsFiring)
+            // Cool down if not being held.
+            if (!BeingHeld)
                 HeatInterpolant = MathHelper.Clamp(HeatInterpolant - 1f / AtlasMunitionsBeacon.HeatDissipationTime, 0f, 1f);
 
             if (BeingHeld)
@@ -186,7 +186,8 @@ namespace CalamityMod.Projectiles.Summon
 
             // Be picked up by nearby players if they right click and are holding the appropriate item.
             bool rightClick = Main.mouseRight && Main.mouseRightRelease;
-            if (Main.LocalPlayer.WithinRange(Projectile.Center, AtlasMunitionsBeacon.PickupRange) && rightClick && Main.LocalPlayer.ActiveItem().type == ModContent.ItemType<AtlasMunitionsBeacon>())
+            bool correctItem = Main.LocalPlayer.ActiveItem().type == ModContent.ItemType<AtlasMunitionsBeacon>();
+            if (Main.LocalPlayer.WithinRange(Projectile.Center, AtlasMunitionsBeacon.PickupRange) && rightClick && correctItem && HeatInterpolant < 0.5f)
             {
                 BeingHeld = true;
                 Projectile.owner = Main.myPlayer;
@@ -257,9 +258,9 @@ namespace CalamityMod.Projectiles.Summon
                     int laserCount = 3;
                     int laserDamage = Projectile.damage;
                     int laserID = ModContent.ProjectileType<AtlasMunitionsLaserOverdrive>();
-                    Vector2 laserVelocity = Projectile.velocity.RotatedBy(AtlasMunitionsBeacon.OverdriveProjectileAngularRandomness) * 9.25f;
                     for (int i = 0; i < laserCount; i++)
                     {
+                        Vector2 laserVelocity = Projectile.velocity.RotatedByRandom(AtlasMunitionsBeacon.OverdriveProjectileAngularRandomness) * 9.25f;
                         Vector2 laserSpawnOffset = Projectile.velocity * 66f + (MathHelper.TwoPi * i / laserCount + MathHelper.PiOver2 / laserCount).ToRotationVector2() * 10f;
                         Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center + laserSpawnOffset, laserVelocity, laserID, laserDamage, 0f, Projectile.owner);
                     }
