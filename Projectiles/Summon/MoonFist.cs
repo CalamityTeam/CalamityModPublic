@@ -76,7 +76,7 @@ namespace CalamityMod.Projectiles.Summon
         {
             ApplyMinionBuffs();
 
-            NPC potentialTarget = Owner.Center.ClosestNPCAt(1650f);
+            NPC potentialTarget = Projectile.Center.MinionHoming(1650f, Owner);
             if (potentialTarget is null)
                 HoverNearOwner();
             else
@@ -244,6 +244,8 @@ namespace CalamityMod.Projectiles.Summon
             Vector2 origin = frame.Size() * 0.5f;
             Vector2 drawPosition = Projectile.Center - Main.screenPosition;
             SpriteEffects direction = Projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+            if (AttackTimer != 0)
+                direction |= SpriteEffects.FlipVertically;
             Main.EntitySpriteDraw(texture, drawPosition, frame, Projectile.GetAlpha(lightColor), Projectile.rotation, origin, Projectile.scale, direction, 0);
             return false;
         }
