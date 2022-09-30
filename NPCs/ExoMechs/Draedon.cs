@@ -22,6 +22,9 @@ namespace CalamityMod.NPCs.ExoMechs
     public class Draedon : ModNPC
     {
         public float DefeatTimer;
+        public float ProjectorOffset = 600;
+        public float ProjFrameCounter;
+        public float ProjFrameChangeCounter;
         public bool ShouldStartStandingUp;
         public Vector2 HoverDestinationOffset
         {
@@ -119,6 +122,9 @@ namespace CalamityMod.NPCs.ExoMechs
         {
             writer.Write(DialogueType);
             writer.Write(DefeatTimer);
+            writer.Write(ProjectorOffset);
+            writer.Write(ProjFrameCounter);
+            writer.Write(ProjFrameChangeCounter);
             writer.Write(HologramEffectTimer);
             writer.Write(KillReappearDelay);
             writer.Write(ShouldStartStandingUp);
@@ -129,6 +135,9 @@ namespace CalamityMod.NPCs.ExoMechs
         {
             DialogueType = reader.ReadSingle();
             DefeatTimer = reader.ReadSingle();
+            ProjectorOffset = reader.ReadSingle();
+            ProjFrameCounter = reader.ReadSingle();
+            ProjFrameChangeCounter = reader.ReadSingle();
             HologramEffectTimer = reader.ReadSingle();
             KillReappearDelay = reader.ReadSingle();
             ShouldStartStandingUp = reader.ReadBoolean();
@@ -179,6 +188,7 @@ namespace CalamityMod.NPCs.ExoMechs
             // Handle delays when re-appearing after being killed.
             if (KillReappearDelay > 0f)
             {
+                ProjectorOffset -= 5;
                 NPC.Opacity = 0f;
                 KillReappearDelay--;
                 if (KillReappearDelay <= 0f)
@@ -497,7 +507,8 @@ namespace CalamityMod.NPCs.ExoMechs
             NPC.Calamity().CanHaveBossHealthBar = !NPC.dontTakeDamage;
             NPC.Calamity().ShouldCloseHPBar = HasBeenKilled;
 
-            bool leaving = DefeatTimer > DelayBeforeDefeatStandup + TalkDelay * 8f + 200f;
+            //bool leaving = DefeatTimer > DelayBeforeDefeatStandup + TalkDelay * 8f + 200f;
+            bool leaving = false; //DEBUGGING, REMOVE THIS AND UNCOMMENT THE ABOVE IF I FORGET TO
 
             // Fade away and disappear when leaving.
             if (leaving)
@@ -604,6 +615,18 @@ namespace CalamityMod.NPCs.ExoMechs
 
             NPC.frame.X = frame / Main.npcFrameCount[NPC.type] * NPC.frame.Width;
             NPC.frame.Y = frame % Main.npcFrameCount[NPC.type] * frameHeight;
+
+            // Handle framing for the projector
+            ProjFrameChangeCounter++;
+            if (ProjFrameChangeCounter >= 6)
+            {
+                ProjFrameCounter++;
+                ProjFrameChangeCounter = 0;
+            }
+            if (ProjFrameCounter > 3)
+            {
+                ProjFrameCounter = 0;
+            }
         }
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
@@ -661,14 +684,19 @@ namespace CalamityMod.NPCs.ExoMechs
             if (!NPC.IsABestiaryIconDummy)
                 spriteBatch.EnterShaderRegion();
 
-            Texture2D texture = TextureAssets.Npc[NPC.type].Value;
+            Texture2D texture = HasBeenKilled ? ModContent.Request<Texture2D>("CalamityMod/NPCs/ExoMechs/HologramDraedon").Value : TextureAssets.Npc[NPC.type].Value;
             Texture2D glowmask = ModContent.Request<Texture2D>("CalamityMod/NPCs/ExoMechs/DraedonGlowmask").Value;
+            Texture2D projector = ModContent.Request<Texture2D>("CalamityMod/NPCs/ExoMechs/DraedonProjector").Value;
+            Texture2D projectorglow = ModContent.Request<Texture2D>("CalamityMod/NPCs/ExoMechs/DraedonProjectorGlowmask").Value;
             Rectangle frame = NPC.frame;
 
             Vector2 drawPosition = NPC.Center - screenPos - Vector2.UnitY * 38f;
             Vector2 origin = frame.Size() * 0.5f;
             Color color = NPC.GetAlpha(drawColor);
-            SpriteEffects direction = NPC.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+            SpriteEffects direction = NPC.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;		
+            float hoveroffset = 0;
+            if (HasBeenKilled)
+                hoveroffset = (float)Math.Sin(Main.GlobalTimeWrappedHourly * 10f);
 
             if (!NPC.IsABestiaryIconDummy)
             {
@@ -679,13 +707,27 @@ namespace CalamityMod.NPCs.ExoMechs
                 GameShaders.Misc["CalamityMod:TeleportDisplacement"].Apply();
             }
 
-            spriteBatch.Draw(texture, drawPosition, frame, drawColor * NPC.Opacity, NPC.rotation, origin, NPC.scale, direction, 0f);
+            spriteBatch.Draw(texture, new Vector2(drawPosition.X, drawPosition.Y + hoveroffset), HasBeenKilled ? null : frame, (HasBeenKilled ? Color.White : drawColor) * NPC.Opacity, NPC.rotation, origin, NPC.scale, direction, 0f);
 
             if (!NPC.IsABestiaryIconDummy)
                 spriteBatch.ExitShaderRegion();
 
             if (HologramEffectTimer >= HologramFadeinTime || NPC.IsABestiaryIconDummy)
+            {
                 spriteBatch.Draw(glowmask, drawPosition, frame, Color.White * NPC.Opacity, NPC.rotation, origin, NPC.scale, direction, 0f);
+            }
+
+            // Projector
+            if (HasBeenKilled)
+            {
+                int projHeight = (int)ProjFrameCounter * (projector.Height / 4);
+
+                Rectangle projRectangle = new Rectangle(0, projHeight, projector.Width, projector.Height / 4);
+
+                drawPosition.Y += ProjectorOffset;
+                spriteBatch.Draw(projector, drawPosition, projRectangle, Lighting.GetColor((int)NPC.position.X / 16, (int)(NPC.position.Y / 16 + ProjectorOffset)) * NPC.Opacity, NPC.rotation, origin, NPC.scale, direction, 0f);
+                spriteBatch.Draw(projectorglow, drawPosition, projRectangle, Color.White * NPC.Opacity, NPC.rotation, origin, NPC.scale, direction, 0f);
+            }
 
             return false;
         }
