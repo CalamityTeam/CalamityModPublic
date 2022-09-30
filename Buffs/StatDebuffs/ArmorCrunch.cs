@@ -7,6 +7,8 @@ namespace CalamityMod.Buffs.StatDebuffs
     public class ArmorCrunch : ModBuff
     {
         public static int DefenseReduction = 15;
+        public static float MultiplicativeDamageReductionPlayer = 0.33f;
+        public static float MultiplicativeDamageReductionEnemy = 0.8f;
 
         public override void SetStaticDefaults()
         {

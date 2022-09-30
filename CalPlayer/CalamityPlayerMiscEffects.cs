@@ -2739,7 +2739,7 @@ namespace CalamityMod.CalPlayer
             if (aCrunch && !laudanum)
             {
                 Player.statDefense -= ArmorCrunch.DefenseReduction;
-                Player.endurance *= 0.33f;
+                Player.endurance *= ArmorCrunch.MultiplicativeDamageReductionPlayer;
             }
 
             if (wither)

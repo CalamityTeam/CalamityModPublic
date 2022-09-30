@@ -4700,7 +4700,7 @@ namespace CalamityMod.CalPlayer
             if (contactDamageReduction > 0D)
             {
                 if (aCrunch)
-                    contactDamageReduction *= 0.33;
+                    contactDamageReduction *= (double)ArmorCrunch.MultiplicativeDamageReductionPlayer;
 
                 // Contact damage reduction is reduced by DR Damage, which itself is proportional to defense damage
                 int currentDefense = Player.GetCurrentDefense(false);
@@ -4974,7 +4974,7 @@ namespace CalamityMod.CalPlayer
             if (projectileDamageReduction > 0D)
             {
                 if (aCrunch)
-                    projectileDamageReduction *= 0.33;
+                    projectileDamageReduction *= (double)ArmorCrunch.MultiplicativeDamageReductionPlayer;
 
                 // Projectile damage reduction is reduced by DR Damage, which itself is proportional to defense damage
                 int currentDefense = Player.GetCurrentDefense(false);
@@ -5613,11 +5613,6 @@ namespace CalamityMod.CalPlayer
             // Add 5% damage multiplier for each Beetle Shell beetle that is active, thus reducing the DR from 10% to 5% per stack.
             if (Player.beetleDefense && Player.beetleOrbs > 0)
                 damageMult += 0.05 * Player.beetleOrbs;
-
-            // If inflicted with Cursed Inferno, take 20% more damage.
-            // This is the equivalent to reducing DR by 20%, except it works on you even when you have less than 20% DR.
-            if (Player.onFire2)
-                damageMult += 0.2;
 
             // Blood Pact gives you a 1/4 chance to be crit, increasing the incoming damage by 25%.
             if (bloodPact && Main.rand.NextBool(4))
