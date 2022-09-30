@@ -365,6 +365,8 @@ namespace CalamityMod.CalPlayer
         internal const int DefenseDamageRecoveryDelay = 10;
         // The current timer for how long the player must wait before defense damage begins recovering.
         internal int defenseDamageDelayFrames = 0;
+        public bool justHitByDefenseDamage = false;
+        public int defenseDamageToTake = 0;
         #endregion
 
         #region Abyss
@@ -2104,6 +2106,8 @@ namespace CalamityMod.CalPlayer
             defenseDamageRecoveryFrames = 0;
             totalDefenseDamageRecoveryFrames = DefenseDamageBaseRecoveryTime;
             defenseDamageDelayFrames = 0;
+            justHitByDefenseDamage = false;
+            defenseDamageToTake = 0;
             heldGaelsLastFrame = false;
             gaelRageAttackCooldown = 0;
             gaelSwipes = 0;
@@ -4565,10 +4569,18 @@ namespace CalamityMod.CalPlayer
                 if (Player.hurtCooldowns[i] > 0)
                     hasIFrames = true;
 
-            // If this NPC deals defense damage with contact damage, then apply defense damage.
+            // If this NPC deals defense damage with contact damage, then mark the player to take defense damage.
             // Defense damage is not applied if the player has iframes.
-            if (npc.Calamity().canBreakPlayerDefense && !hasIFrames)
-                DealDefenseDamage(damage);
+            if (!hasIFrames && !Player.creativeGodMode)
+            {
+                justHitByDefenseDamage = npc.Calamity().canBreakPlayerDefense;
+                defenseDamageToTake = npc.Calamity().canBreakPlayerDefense ? damage : 0;
+            }
+
+            //
+            // At this point, the player is guaranteed to be hit if there is no dodge.
+            // The amount of damage that will be dealt is yet to be determined.
+            //
 
             if (areThereAnyDamnBosses && CalamityMod.bossVelocityDamageScaleValues.ContainsKey(npc.type))
             {
@@ -4875,8 +4887,16 @@ namespace CalamityMod.CalPlayer
 
             // If this projectile is capable of dealing defense damage, then apply defense damage.
             // Defense damage is not applied if the player has iframes.
-            if (proj.Calamity().DealsDefenseDamage && !hasIFrames)
-                DealDefenseDamage(damage);
+            if (!hasIFrames && !Player.creativeGodMode)
+            {
+                justHitByDefenseDamage = proj.Calamity().DealsDefenseDamage;
+                defenseDamageToTake = proj.Calamity().DealsDefenseDamage ? damage : 0;
+            }
+
+            //
+            // At this point, the player is guaranteed to be hit if there is no dodge.
+            // The amount of damage that will be dealt is yet to be determined.
+            //
 
             if (projRefRare)
             {
@@ -5521,7 +5541,11 @@ namespace CalamityMod.CalPlayer
             #region Ignore Incoming Hits
             // If any dodges are active which could dodge this hit, the hurting event is canceled (and the dodge is used).
             if (HandleDodges())
+            {
+                justHitByDefenseDamage = false;
+                defenseDamageToTake = 0;
                 return false;
+            }
 
             // If Armageddon is active or the Boss Rush Immunity Curse is triggered, instantly kill the player.
             if (CalamityWorld.armageddon || (BossRushEvent.BossRushActive && bossRushImmunityFrameCurseTimer > 0))
@@ -5530,11 +5554,6 @@ namespace CalamityMod.CalPlayer
                     KillPlayer();
             }
             #endregion
-
-            //
-            // At this point, the player is guaranteed to be hit.
-            // The amount of damage that will be dealt is yet to be determined.
-            //
 
             //Todo - At some point it'd be nice to have a "TransformationPlayer" that has all the transformation sfx and visuals so their priorities can be more easily managed.
             #region Custom Hurt Sounds
@@ -5652,6 +5671,23 @@ namespace CalamityMod.CalPlayer
 
         public override void Hurt(bool pvp, bool quiet, double damage, int hitDirection, bool crit, int cooldownCounter)
         {
+            #region Defense Damage
+            // Check if the player has iframes for the sake of avoiding defense damage.
+            bool hasIFrames = false;
+            for (int i = 0; i < Player.hurtCooldowns.Length; i++)
+                if (Player.hurtCooldowns[i] > 0)
+                    hasIFrames = true;
+
+            // If the player was just hit by something capable of dealing defense damage, then apply defense damage.
+            // Defense damage is not applied if the player has iframes.
+            if (justHitByDefenseDamage && !hasIFrames && !Player.creativeGodMode)
+            {
+                DealDefenseDamage(defenseDamageToTake, damage);
+            }
+            justHitByDefenseDamage = false;
+            defenseDamageToTake = 0;
+            #endregion
+
             modStealth = 1f;
 
             // Give Rage combat frames because being hurt counts as combat.
@@ -6850,9 +6886,9 @@ namespace CalamityMod.CalPlayer
         #endregion
 
         #region Defense Damage Function
-        private void DealDefenseDamage(int damage)
+        private void DealDefenseDamage(int damage, double realDamage)
         {
-            if (damage <= 0)
+            if (realDamage <= 0)
                 return;
 
             double ratioToUse = DefenseDamageRatio;
