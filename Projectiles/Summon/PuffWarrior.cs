@@ -18,6 +18,10 @@ namespace CalamityMod.Projectiles.Summon
 
 		public ref float JumpCountdown => ref Projectile.localAI[1];
 
+		public ref float EnemyFailureCounter => ref Projectile.ai[0];
+
+		public ref float EnemyFailureCooldown => ref Projectile.ai[1];
+
 		public const float Gravity = 0.425f;
 
         public override void SetStaticDefaults()
@@ -57,6 +61,9 @@ namespace CalamityMod.Projectiles.Summon
 			}
 			else
 				HopToTarget(potentialTarget);
+
+			if (EnemyFailureCooldown > 0f)
+				EnemyFailureCooldown--;
 
             if (Math.Abs(Projectile.velocity.X) > 0.02f)
                 Projectile.spriteDirection = -Projectile.direction;
@@ -124,6 +131,7 @@ namespace CalamityMod.Projectiles.Summon
 
 		internal void HopToOwner(out Vector2 guardSpot)
 		{
+			EnemyFailureCounter = 0f;
 			guardSpot = Owner.Center;
 			guardSpot.X += Owner.direction * 40f * (Projectile.identity % 14f + Projectile.identity / 14 * 0.2f);
 
@@ -161,7 +169,8 @@ namespace CalamityMod.Projectiles.Summon
 			if (!Jumping)
 			{
 				Projectile.position += new Vector2(Projectile.spriteDirection * 4f, -4f);
-				Projectile.velocity = CalamityUtils.GetProjectilePhysicsFiringVelocity(Projectile.Center, attackPosition, Gravity, 17f);
+				Projectile.velocity = CalamityUtils.GetProjectilePhysicsFiringVelocity(Projectile.Center, attackPosition, Gravity, 17f + EnemyFailureCounter);
+				EnemyFailureCounter += 1f;
 				if (Main.myPlayer == Projectile.owner && Projectile.WithinRange(attackPosition, 360f))
 				{
 					for (int i = 0; i < 3; i++)
@@ -174,6 +183,17 @@ namespace CalamityMod.Projectiles.Summon
 				Projectile.netUpdate = true;
 			}
 		}
+
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+			if (EnemyFailureCooldown > 0)
+				return;
+
+			EnemyFailureCounter -= 1f;
+			if (EnemyFailureCounter < 0f)
+				EnemyFailureCounter = 0f;
+			EnemyFailureCooldown = 60f;
+        }
 
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
