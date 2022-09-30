@@ -147,7 +147,7 @@ namespace CalamityMod.Projectiles.Boss
                 return;
 
             if (Projectile.timeLeft <= 720)
-                target.AddBuff(ModContent.BuffType<Dragonfire>(), 600);
+                target.AddBuff(ModContent.BuffType<Dragonfire>(), 300);
         }
     }
 }

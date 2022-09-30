@@ -2883,7 +2883,7 @@ namespace CalamityMod.NPCs.Yharon
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
             if (damage > 0)
-                player.AddBuff(ModContent.BuffType<Dragonfire>(), 480, true);
+                player.AddBuff(ModContent.BuffType<Dragonfire>(), 240, true);
         }
         #endregion
 
