@@ -41,12 +41,12 @@ namespace CalamityMod.Items.Armor.Aerospec
         public override void UpdateArmorSet(Player player)
         {
             player.setBonus = "5% increased movement speed and rogue critical strike chance\n" +
-					"+100 maximum stealth\n" +
+					"+80 maximum stealth\n" +
                     "Taking over 25 damage in one hit will cause a spread of homing feathers to fall\n" +
                     "Allows you to fall more quickly and disables fall damage";
             var modPlayer = player.Calamity();
             modPlayer.aeroSet = true;
-            modPlayer.rogueStealthMax += 1f;
+            modPlayer.rogueStealthMax += 0.8f;
             player.noFallDmg = true;
             player.moveSpeed += 0.05f;
             player.GetCritChance<ThrowingDamageClass>() += 5;

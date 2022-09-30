@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Weapons.Summon
         public const int HeatDissipationTime = 180;
         
         // This shouldn't be too high. If it is, the overdrive mode will be frustratingly inconsistent to use.
-        public const float OverdriveProjectileAngularRandomness = 0.15f;
+        public const float OverdriveProjectileAngularRandomness = 0.1f;
 
         public static readonly Color HeatGlowColor = Color.OrangeRed with { A = 64 };
 
@@ -57,7 +57,7 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void SetDefaults()
         {
-            Item.damage = 640;
+            Item.damage = 150;
             Item.mana = 10;
             Item.width = 40;
             Item.height = 38;

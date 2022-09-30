@@ -28,8 +28,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.minionSlots = 0f;
             Projectile.penetrate = 1;
             Projectile.timeLeft = 120;
-            Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 8;
+            Projectile.Opacity = 0.5f;
             Projectile.DamageType = DamageClass.Summon;
         }
 

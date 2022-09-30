@@ -11,8 +11,6 @@ namespace CalamityMod.Tiles
     [LegacyName("ChaoticBrick")]
     public class ScoriaBrick : ModTile
     {
-        int subsheetHeight = 72;
-        int subsheetWidth = 216;
         internal static Texture2D GlowTexture;
         public override void SetStaticDefaults()
         {

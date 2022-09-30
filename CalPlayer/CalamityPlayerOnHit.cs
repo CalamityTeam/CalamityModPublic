@@ -1070,7 +1070,7 @@ namespace CalamityMod.CalPlayer
                         break;
                     }
                 }
-                int damage = (int)Player.GetTotalDamage<RogueDamageClass>().ApplyTo(550);
+                int damage = (int)Player.GetTotalDamage<RogueDamageClass>().ApplyTo(300);
                 int projectileIndex = Projectile.NewProjectile(spawnSource, projTileX * 16 + 8, projTileY * 16 - 24, 0f, 0f, ProjectileType<InfernadoFriendly>(), damage, 15f, Main.myPlayer, 16f, 16f);
                 if (projectileIndex.WithinBounds(Main.maxProjectiles))
                 {

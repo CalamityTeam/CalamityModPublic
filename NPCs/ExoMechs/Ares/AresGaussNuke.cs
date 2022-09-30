@@ -35,36 +35,37 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
         public ThanatosSmokeParticleSet SmokeDrawer = new ThanatosSmokeParticleSet(-1, 3, 0f, 16f, 1.5f);
         public AresCannonChargeParticleSet EnergyDrawer = new AresCannonChargeParticleSet(-1, 15, 40f, Color.Yellow);
+        
         public Vector2 CoreSpritePosition => NPC.Center + NPC.spriteDirection * NPC.rotation.ToRotationVector2() * 35f + (NPC.rotation + MathHelper.PiOver2).ToRotationVector2() * 5f;
 
+        // This stores the sound slot of the telegraph sound it makes, so it may be properly updated in terms of position.
+        public SlotId TelegraphSoundSlot;
+
         // Number of frames on the X and Y axis
-        private const int maxFramesX = 9;
-        private const int maxFramesY = 12;
+        public const int maxFramesX = 9;
+        public const int maxFramesY = 12;
 
         // Counters for frames on the X and Y axis
-        private int frameX = 0;
-        private int frameY = 0;
+        public int frameX = 0;
+        public int frameY = 0;
 
         // Frame limit per animation, these are the specific frames where each animation ends
-        private const int normalFrameLimit = 11;
-        private const int firstStageGaussNukeChargeFrameLimit = 23;
-        private const int secondStageGaussNukeChargeFrameLimit = 35;
-        private const int finalStageGaussNukeChargeFrameLimit = 47;
-        private const int reloadFrameLimit = 107;
+        public const int normalFrameLimit = 11;
+        public const int firstStageGaussNukeChargeFrameLimit = 23;
+        public const int secondStageGaussNukeChargeFrameLimit = 35;
+        public const int finalStageGaussNukeChargeFrameLimit = 47;
+        public const int reloadFrameLimit = 107;
 
         // Default life ratio for the other mechs
-        private const float defaultLifeRatio = 5f;
+        public const float defaultLifeRatio = 5f;
 
         // Total duration of the gauss nuke telegraph
-        private const float gaussNukeTelegraphDuration = 216f;
+        public const float gaussNukeTelegraphDuration = 216f;
 
         // Total duration of the gauss nuke firing phase
-        private const float gaussNukeReloadDuration = 360f;
+        public const float gaussNukeReloadDuration = 360f;
 
-        //This stores the sound slot of the telegraph sound it makes, so it may be properly updated in terms of position.
-        private SlotId TelegraphSoundSlot;
-
-        //Telegraph sound
+        // Telegraph sound.
         public static readonly SoundStyle TelSound = new("CalamityMod/Sounds/Custom/AresGaussNukeArmCharge");
 
         public override void SetStaticDefaults()

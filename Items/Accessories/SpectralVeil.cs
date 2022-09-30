@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Accessories
                 "TOOLTIP LINE HERE\n" +
                 "If you dodge something while invulnerable, you instantly gain full stealth\n" +
                 "Teleportation is disabled while Chaos State is active\n" +
-                "Stealth generates 20% faster while moving");
+                "Stealth generates 15% faster");
         }
 
         public override void SetDefaults()
@@ -42,7 +42,8 @@ namespace CalamityMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.Calamity().spectralVeil = true;
-            player.Calamity().stealthGenMoving += 0.2f;
+            player.Calamity().stealthGenMoving += 0.15f;
+            player.Calamity().stealthGenStandstill += 0.15f;
         }
     }
 }

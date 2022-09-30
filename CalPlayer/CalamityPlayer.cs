@@ -2564,7 +2564,7 @@ namespace CalamityMod.CalPlayer
             if (CalamityKeybinds.SandCloakHotkey.JustPressed && sandCloak && Main.myPlayer == Player.whoAmI && rogueStealth >= rogueStealthMax * 0.1f &&
                 wearingRogueArmor && rogueStealthMax > 0 && !Player.HasCooldown(Cooldowns.SandCloak.ID))
             {
-                Player.AddCooldown(Cooldowns.SandCloak.ID, CalamityUtils.SecondsToFrames(25));
+                Player.AddCooldown(Cooldowns.SandCloak.ID, CalamityUtils.SecondsToFrames(30));
 
                 var source = Player.GetSource_Accessory(FindAccessory(ModContent.ItemType<Items.Accessories.SandCloak>()));
                 rogueStealth -= rogueStealthMax * 0.1f;
@@ -6102,7 +6102,7 @@ namespace CalamityMod.CalPlayer
                     var source = Player.GetSource_Accessory(FindAccessory(ModContent.ItemType<Items.Accessories.InkBomb>()));
                     if (Player.whoAmI == Main.myPlayer && !Player.HasCooldown(Cooldowns.InkBomb.ID))
                     {
-                        Player.AddCooldown(Cooldowns.InkBomb.ID, CalamityUtils.SecondsToFrames(25));
+                        Player.AddCooldown(Cooldowns.InkBomb.ID, CalamityUtils.SecondsToFrames(20));
                         rogueStealth += 0.5f;
                         for (int i = 0; i < 3; i++)
                         {
@@ -6614,26 +6614,27 @@ namespace CalamityMod.CalPlayer
             // Update Dark God's Sheath and Eclipse Mirror's stealth acceleration
             /*
              * T = frame counter
-             * DGS  = (100% + 1% * T)
-             * EM   = (100% + 1% * T) * 1.0084^T
-             * BOTH = (100% + 1.5% * T) * 1.0084^T
+             * DGS  = (100% + 0.7% * T)
+             * EM   = (100% + 0.7% * T) * 1.006^T
+             * BOTH = (100% + 1% * T) * 1.006^T
              *
-             * DGS alone caps in 100 frames
-             * EM alone caps in 41 frames
-             * Both together caps in 32 frames
+             * DGS alone caps in 143 frames
+             * EM alone caps in 59 frames
+             * Both together caps in 50 frames
              */
             if (darkGodSheath && eclipseMirror)
             {
-                stealthAcceleration += 0.015f;
-                stealthAcceleration *= 1.0084f;
+                stealthAcceleration += 0.01f;
+                stealthAcceleration *= 1.006f;
             }
             else if (eclipseMirror)
             {
-                stealthAcceleration += 0.01f;
-                stealthAcceleration *= 1.0084f;
+                stealthAcceleration += 0.007f;
+                stealthAcceleration *= 1.006f;
             }
             else if (darkGodSheath)
-                stealthAcceleration += 0.01f;
+                stealthAcceleration += 0.007f;
+
             stealthAcceleration = MathHelper.Clamp(stealthAcceleration, 1f, StealthAccelerationCap);
 
             // You get 100% stealth regen while standing still and not on a mount. Otherwise, you get your stealth regeneration while moving.

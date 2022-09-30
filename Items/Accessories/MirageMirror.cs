@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Accessories
             DisplayName.SetDefault("Mirage Mirror");
             Tooltip.SetDefault("Bend light around you\n" +
                 "Reduces enemy aggression outside of the abyss\n" +
-                "Stealth generates 30% faster when standing still and 20% faster while moving");
+                "Stealth generates 25% faster when standing still and 12% faster while moving");
         }
 
         public override void SetDefaults()
@@ -28,8 +28,8 @@ namespace CalamityMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            modPlayer.stealthGenStandstill += 0.3f;
-            modPlayer.stealthGenMoving += 0.2f;
+            modPlayer.stealthGenStandstill += 0.25f;
+            modPlayer.stealthGenMoving += 0.12f;
             player.aggro -= 200;
         }
 

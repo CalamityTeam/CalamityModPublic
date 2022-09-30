@@ -47,6 +47,11 @@ namespace CalamityMod.Items.Materials
             Item.ammo = Item.type;
         }
 
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = ContentSamples.CreativeHelper.ItemGroup.Material;
+		}
+
         public override void OnSpawn(IEntitySource source)
         {
             if (source is EntitySource_Loot)

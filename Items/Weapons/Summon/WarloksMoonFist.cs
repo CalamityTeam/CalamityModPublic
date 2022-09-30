@@ -1,10 +1,12 @@
-﻿using Terraria.DataStructures;
+﻿using CalamityMod.Items.Materials;
+using CalamityMod.Items.Placeables.Ores;
 using CalamityMod.Projectiles.Summon;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Rarities;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
@@ -56,6 +58,17 @@ namespace CalamityMod.Items.Weapons.Summon
                 }
             }
             return false;
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient(ItemID.GolemFist).
+                AddIngredient<Lumenyl>(10).
+                AddIngredient<ExodiumCluster>(5).
+                AddIngredient<RuinousSoul>(5).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

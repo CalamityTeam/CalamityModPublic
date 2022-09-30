@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Accessories
                 "+10 maximum stealth\n" +
                 "6% increased rogue damage, and 6% increased rogue crit chance\n" +
                 "Vastly reduces enemy aggression, even in the abyss\n" +
-                "Stealth generates 20% faster when standing still\n" +
+                "Stealth generates 25% faster when standing still\n" +
                 "Mobile stealth generation exponentially accelerates while not attacking\n" +
                 "Stealth strikes only expend 50% of your max stealth\n" +
                 "Grants the ability to evade attacks in a blast of darksun light, which inflicts extreme damage in a wide area\n" +
@@ -38,7 +38,7 @@ namespace CalamityMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            modPlayer.stealthGenStandstill += 0.2f;
+            modPlayer.stealthGenStandstill += 0.25f;
             modPlayer.rogueStealthMax += 0.1f;
             modPlayer.eclipseMirror = true;
             modPlayer.stealthStrikeHalfCost = true;

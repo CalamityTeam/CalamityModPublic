@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Accessories
             DisplayName.SetDefault("Sand Cloak");
             Tooltip.SetDefault("+2 defense and 5% increased movement speed\n" +
                 "TOOLTIP LINE HERE\n" +
-                "This effect has a 25 second cooldown before it can be used again");
+                "This effect has a 30 second cooldown before it can be used again");
         }
 
         public override void SetDefaults()
