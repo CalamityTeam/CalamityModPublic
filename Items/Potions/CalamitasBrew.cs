@@ -39,14 +39,14 @@ namespace CalamityMod.Items.Potions
             CreateRecipe(3).
                 AddIngredient(ItemID.BottledWater, 3).
                 AddIngredient<BrimstoneFish>().
-                AddIngredient<EssenceofChaos>(3).
+                AddIngredient<AshesofCalamity>(3).
                 AddTile(TileID.ImbuingStation).
                 Register();
 
             CreateRecipe().
                 AddIngredient(ItemID.BottledWater).
                 AddIngredient<BloodOrb>(20).
-                AddIngredient<EssenceofChaos>().
+                AddIngredient<AshesofCalamity>().
                 AddTile(TileID.ImbuingStation).
                 Register();
         }
