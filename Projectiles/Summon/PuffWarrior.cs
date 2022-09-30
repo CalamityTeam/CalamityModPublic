@@ -18,9 +18,11 @@ namespace CalamityMod.Projectiles.Summon
 
 		public ref float JumpCountdown => ref Projectile.localAI[1];
 
+		public ref float JumpCounter => ref Projectile.ai[1];
+
 		public ref float EnemyFailureCounter => ref Projectile.ai[0];
 
-		public ref float EnemyFailureCooldown => ref Projectile.ai[1];
+		public ref float EnemyFailureCooldown => ref Projectile.localAI[0];
 
 		public const float Gravity = 0.425f;
 
@@ -64,6 +66,17 @@ namespace CalamityMod.Projectiles.Summon
 
 			if (EnemyFailureCooldown > 0f)
 				EnemyFailureCooldown--;
+
+			if (JumpCounter > 120 && Jumping)
+			{
+				HopToOwner(out Vector2 guardSpot, true);
+				TeleportToFarOffDestination(guardSpot);
+			}
+
+			if (Jumping)
+				JumpCounter++;
+			else
+				JumpCounter = 0;
 
             if (Math.Abs(Projectile.velocity.X) > 0.02f)
                 Projectile.spriteDirection = -Projectile.direction;
@@ -129,7 +142,7 @@ namespace CalamityMod.Projectiles.Summon
 			}
 		}
 
-		internal void HopToOwner(out Vector2 guardSpot)
+		internal void HopToOwner(out Vector2 guardSpot, bool ignoreJumping = false)
 		{
 			EnemyFailureCounter = 0f;
 			guardSpot = Owner.Center;
@@ -144,9 +157,10 @@ namespace CalamityMod.Projectiles.Summon
 			WorldUtils.Find(searchPoint.ToTileCoordinates(), Searches.Chain(new Searches.Down(Main.maxTilesY + 2), new Conditions.IsSolid()), out Point guardPoint);
 			guardSpot = guardPoint.ToWorldCoordinates(8f, 16f);
 
-			if (!Jumping && MathHelper.Distance(guardSpot.X, Projectile.Center.X) > 10f)
+			if ((!Jumping || ignoreJumping) && MathHelper.Distance(guardSpot.X, Projectile.Center.X) > 10f)
 			{
                 Projectile.velocity = CalamityUtils.GetProjectilePhysicsFiringVelocity(Projectile.Center, guardSpot, Gravity, 12f);
+				JumpCounter = 0;
                 Projectile.netUpdate = true;
 			}
 		}
@@ -180,6 +194,7 @@ namespace CalamityMod.Projectiles.Summon
 						Projectile.NewProjectile(Projectile.GetSource_FromThis(), shootPosition, shootVelocity, ModContent.ProjectileType<PuffCloud>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
 					}
 				}
+				JumpCounter = 0;
 				Projectile.netUpdate = true;
 			}
 		}
