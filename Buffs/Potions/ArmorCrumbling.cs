@@ -8,8 +8,8 @@ namespace CalamityMod.Buffs.Potions
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Weapon Imbue: Armor Crunch");
-            Description.SetDefault("Rogue and Melee attacks break enemy armor");
+            DisplayName.SetDefault("Weapon Imbue: Crumbling");
+            Description.SetDefault("Rogue and Melee attacks break enemy damage reduction");
             Main.debuff[Type] = false;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = false;

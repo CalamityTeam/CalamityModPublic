@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Potions
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 20;
-            DisplayName.SetDefault("Flask of Armor Crunch");
+            DisplayName.SetDefault("Flask of Crumbling");
             Tooltip.SetDefault("Melee and Whip attacks inflict Armor Crunch on enemies\n" +
                 "Rogue attacks inflict Armor Crunch on enemies");
         }

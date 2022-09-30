@@ -8,7 +8,7 @@ namespace CalamityMod.Buffs.Potions
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Weapon Imbue: Brimstone Flames");
+            DisplayName.SetDefault("Weapon Imbue: Brimstone");
             Description.SetDefault("Rogue and Melee attacks inflict enemies with brimstone flames");
             Main.debuff[Type] = false;
             Main.pvpBuff[Type] = true;
