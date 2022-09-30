@@ -8,6 +8,7 @@ using System.IO;
 using Terraria;
 using Terraria.GameContent;
 using Terraria.GameContent.Bestiary;
+using Terraria.Graphics.Effects;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -188,7 +189,7 @@ namespace CalamityMod.NPCs.ExoMechs
             // Handle delays when re-appearing after being killed.
             if (KillReappearDelay > 0f)
             {
-                ProjectorOffset -= 5;
+                ProjectorOffset -= 5.2f;
                 NPC.Opacity = 0f;
                 KillReappearDelay--;
                 if (KillReappearDelay <= 0f)
@@ -523,7 +524,10 @@ namespace CalamityMod.NPCs.ExoMechs
 
             // Fade back in as a hologram if the player tried to kill Draedon.
             else if (HasBeenKilled)
+            {
+                Lighting.AddLight(NPC.Center, 0.5f, 1.25f, 1.25f);
                 HologramEffectTimer = MathHelper.Clamp(HologramEffectTimer + 1f, 0f, HologramFadeinTime - 5f);
+            }
 
             // Adjust opacity.
             NPC.Opacity = HologramEffectTimer / HologramFadeinTime;
@@ -692,11 +696,13 @@ namespace CalamityMod.NPCs.ExoMechs
 
             Vector2 drawPosition = NPC.Center - screenPos - Vector2.UnitY * 38f;
             Vector2 origin = frame.Size() * 0.5f;
+            Vector2 projorigin = new Vector2(projector.Size().X, projector.Size().Y / 4) * 0.5f;
             Color color = NPC.GetAlpha(drawColor);
+            Color holoColor = new Color(color.R, color.B, color.G, 0);
             SpriteEffects direction = NPC.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;		
             float hoveroffset = 0;
             if (HasBeenKilled)
-                hoveroffset = (float)Math.Sin(Main.GlobalTimeWrappedHourly * 10f);
+                hoveroffset = (float)Math.Sin(Main.GlobalTimeWrappedHourly * 2.5f) * 5f;
 
             if (!NPC.IsABestiaryIconDummy)
             {
@@ -707,7 +713,7 @@ namespace CalamityMod.NPCs.ExoMechs
                 GameShaders.Misc["CalamityMod:TeleportDisplacement"].Apply();
             }
 
-            spriteBatch.Draw(texture, new Vector2(drawPosition.X, drawPosition.Y + hoveroffset), HasBeenKilled ? null : frame, (HasBeenKilled ? Color.White : drawColor) * NPC.Opacity, NPC.rotation, origin, NPC.scale, direction, 0f);
+            spriteBatch.Draw(texture, new Vector2(drawPosition.X, drawPosition.Y + hoveroffset), HasBeenKilled ? null : frame, HasBeenKilled ? holoColor : (drawColor * NPC.Opacity), NPC.rotation, origin, NPC.scale, direction, 0f);
 
             if (!NPC.IsABestiaryIconDummy)
                 spriteBatch.ExitShaderRegion();
@@ -717,16 +723,42 @@ namespace CalamityMod.NPCs.ExoMechs
                 spriteBatch.Draw(glowmask, drawPosition, frame, Color.White * NPC.Opacity, NPC.rotation, origin, NPC.scale, direction, 0f);
             }
 
-            // Projector
+            // Projector and beam
             if (HasBeenKilled)
             {
+                int beamoffset = 6;
                 int projHeight = (int)ProjFrameCounter * (projector.Height / 4);
 
                 Rectangle projRectangle = new Rectangle(0, projHeight, projector.Width, projector.Height / 4);
 
-                drawPosition.Y += ProjectorOffset;
-                spriteBatch.Draw(projector, drawPosition, projRectangle, Lighting.GetColor((int)NPC.position.X / 16, (int)(NPC.position.Y / 16 + ProjectorOffset)) * NPC.Opacity, NPC.rotation, origin, NPC.scale, direction, 0f);
-                spriteBatch.Draw(projectorglow, drawPosition, projRectangle, Color.White * NPC.Opacity, NPC.rotation, origin, NPC.scale, direction, 0f);
+                drawPosition.Y += ProjectorOffset - beamoffset;
+
+                // Beam
+                Effect effect = Terraria.Graphics.Effects.Filters.Scene["SpreadTelegraph"].GetShader().Shader;
+                effect.Parameters["centerOpacity"].SetValue(0.7f + (float)Math.Sin(Main.GlobalTimeWrappedHourly * 2f) * 0.05f);
+                effect.Parameters["mainOpacity"].SetValue(1f + (float)Math.Sin(Main.GlobalTimeWrappedHourly * 2f) * 0.05f);
+                effect.Parameters["halfSpreadAngle"].SetValue(MathHelper.PiOver4);
+                effect.Parameters["edgeColor"].SetValue(Color.DarkCyan.ToVector3());
+                effect.Parameters["centerColor"].SetValue(Color.Cyan.ToVector3());
+                effect.Parameters["edgeBlendLenght"].SetValue(0.07f);
+                effect.Parameters["edgeBlendStrength"].SetValue(8f);
+
+                Main.spriteBatch.End();
+                Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, effect, Main.GameViewMatrix.TransformationMatrix);
+
+                Texture2D invis = ModContent.Request<Texture2D>("CalamityMod/Projectiles/InvisibleProj").Value;
+
+                Main.EntitySpriteDraw(invis, drawPosition, null, Color.White, -MathHelper.PiOver2, new Vector2(invis.Width / 2f, invis.Height / 2f), 500f, 0, 0);
+
+                Main.spriteBatch.End();
+                Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+
+                drawPosition.Y += beamoffset;
+
+                // Draw the projector
+                spriteBatch.Draw(projector, drawPosition, projRectangle, Lighting.GetColor((int)NPC.position.X / 16, (int)(NPC.position.Y / 16 + ProjectorOffset)) * NPC.Opacity, NPC.rotation, projorigin, NPC.scale, direction, 0f);
+                spriteBatch.Draw(projectorglow, drawPosition, projRectangle, Color.White * NPC.Opacity, NPC.rotation, projorigin, NPC.scale, direction, 0f);
+
             }
 
             return false;
