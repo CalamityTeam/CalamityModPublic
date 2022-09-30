@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
 using Terraria.ModLoader;
 
-namespace CalamityMod.UI
+namespace CalamityMod.UI.DraedonLogs
 {
     public class DraedonSchematicJungleGUI : DraedonsLogGUI
     {
@@ -15,7 +15,7 @@ namespace CalamityMod.UI
         }
         public override Texture2D GetTextureByPage()
         {
-            return ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/DraedonsLogJungleBiome").Value;
+            return ModContent.Request<Texture2D>("CalamityMod/UI/DraedonLogs/DraedonsLogJungleBiome").Value;
         }
     }
 }

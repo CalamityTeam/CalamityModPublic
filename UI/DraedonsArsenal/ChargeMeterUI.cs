@@ -7,7 +7,7 @@ using ReLogic.Content;
 using Terraria;
 using Terraria.ModLoader;
 
-namespace CalamityMod.UI
+namespace CalamityMod.UI.DraedonsArsenal
 {
     // TODO -- This can be made into a ModSystem with simple OnModLoad and Unload hooks.
     public class ChargeMeterUI
@@ -22,8 +22,8 @@ namespace CalamityMod.UI
 
         internal static void Load()
         {
-            edgeTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/ChargeMeterBorder", AssetRequestMode.ImmediateLoad).Value;
-            barTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/ChargeMeter", AssetRequestMode.ImmediateLoad).Value;
+            edgeTexture = ModContent.Request<Texture2D>("CalamityMod/UI/DraedonsArsenal/ChargeMeterBorder", AssetRequestMode.ImmediateLoad).Value;
+            barTexture = ModContent.Request<Texture2D>("CalamityMod/UI/DraedonsArsenal/ChargeMeter", AssetRequestMode.ImmediateLoad).Value;
             Reset();
         }
 

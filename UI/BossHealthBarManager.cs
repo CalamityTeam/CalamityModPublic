@@ -99,9 +99,9 @@ namespace CalamityMod.UI
 
             if (!Main.dedServ)
             {
-                BossMainHPBar = Request<Texture2D>("CalamityMod/ExtraTextures/UI/BossHPMainBar", AssetRequestMode.ImmediateLoad).Value;
-                BossComboHPBar = Request<Texture2D>("CalamityMod/ExtraTextures/UI/BossHPComboBar", AssetRequestMode.ImmediateLoad).Value;
-                BossSeperatorBar = Request<Texture2D>("CalamityMod/ExtraTextures/UI/BossHPSeperatorBar", AssetRequestMode.ImmediateLoad).Value;
+                BossMainHPBar = Request<Texture2D>("CalamityMod/UI/MiscTextures/BossHPMainBar", AssetRequestMode.ImmediateLoad).Value;
+                BossComboHPBar = Request<Texture2D>("CalamityMod/UI/MiscTextures/BossHPComboBar", AssetRequestMode.ImmediateLoad).Value;
+                BossSeperatorBar = Request<Texture2D>("CalamityMod/UI/MiscTextures/BossHPSeperatorBar", AssetRequestMode.ImmediateLoad).Value;
 
                 PlatformID id = Environment.OSVersion.Platform;
                 if (id == PlatformID.Win32NT)

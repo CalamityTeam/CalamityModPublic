@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public ref float Time => ref Projectile.ai[0];
 
-        public override string Texture => "CalamityMod/ExtraTextures/GemTechArmor/YellowGem";
+        public override string Texture => "CalamityMod/Projectiles/Typeless/GemTechYellowGem";
 
         public override void SetStaticDefaults() => DisplayName.SetDefault("Trireme's Yellow Gem");
 

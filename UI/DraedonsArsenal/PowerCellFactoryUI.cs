@@ -10,7 +10,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
 
-namespace CalamityMod.UI
+namespace CalamityMod.UI.DraedonsArsenal
 {
     public class PowerCellFactoryUI
     {

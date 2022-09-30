@@ -23,10 +23,10 @@ namespace CalamityMod.UI
 
         internal static void Load()
         {
-            edgeTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/StealthMeter", AssetRequestMode.ImmediateLoad).Value;
-            indicatorTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/StealthMeterStrikeIndicator", AssetRequestMode.ImmediateLoad).Value;
-            barTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/StealthMeterBar", AssetRequestMode.ImmediateLoad).Value;
-            fullBarTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/StealthMeterBarFull", AssetRequestMode.ImmediateLoad).Value;
+            edgeTexture = ModContent.Request<Texture2D>("CalamityMod/UI/MiscTextures/StealthMeter", AssetRequestMode.ImmediateLoad).Value;
+            indicatorTexture = ModContent.Request<Texture2D>("CalamityMod/UI/MiscTextures/StealthMeterStrikeIndicator", AssetRequestMode.ImmediateLoad).Value;
+            barTexture = ModContent.Request<Texture2D>("CalamityMod/UI/MiscTextures/StealthMeterBar", AssetRequestMode.ImmediateLoad).Value;
+            fullBarTexture = ModContent.Request<Texture2D>("CalamityMod/UI/MiscTextures/StealthMeterBarFull", AssetRequestMode.ImmediateLoad).Value;
             Reset();
         }
 

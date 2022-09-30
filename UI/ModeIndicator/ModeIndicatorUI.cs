@@ -19,7 +19,7 @@ using Terraria.UI.Chat;
 using System.Text.RegularExpressions;
 using static Terraria.GameContent.FontAssets;
 
-namespace CalamityMod.UI
+namespace CalamityMod.UI.ModeIndicator
 {
     public class ModeIndicatorUI
     {
@@ -140,7 +140,7 @@ namespace CalamityMod.UI
                 spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.UIScaleMatrix);
 
 
-                Texture2D outlineTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/ModeIndicatorOutline").Value;
+                Texture2D outlineTexture = ModContent.Request<Texture2D>("CalamityMod/UI/MiscTextures/ModeIndicatorOutline").Value;
                 spriteBatch.Draw(outlineTexture, DrawCenter, null, Color.White * opacity, 0f, outlineTexture.Size() * 0.5f, MainIconScale, SpriteEffects.None, 0f);
             }
 
@@ -309,7 +309,7 @@ namespace CalamityMod.UI
             float progress = menuOpen ? 1 - menuOpenTransitionTime / (float)MenuAnimLenght : menuOpenTransitionTime / (float)MenuAnimLenght;
             Vector2 basePosition = DrawCenter + (barLenght / (float)(tiers + 1f)) * Vector2.UnitY;
 
-            Texture2D outlineTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/ModeIndicatorOutline").Value;
+            Texture2D outlineTexture = ModContent.Request<Texture2D>("CalamityMod/UI/ModeIndicator/ModeIndicatorOutline").Value;
 
             text = "";
             bool modeHovered = false;
@@ -364,7 +364,7 @@ namespace CalamityMod.UI
 
         public static void DrawLock(SpriteBatch spriteBatch)
         {
-            Texture2D lockTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/ModeIndicatorLock").Value;
+            Texture2D lockTexture = ModContent.Request<Texture2D>("CalamityMod/UI/ModeIndicator/ModeIndicatorLock").Value;
             float rotationShift = lockClickTime == 0 ? 0f : (float)Math.Sin((1 - lockClickTime / (float)LockAnimLenght) * MathHelper.TwoPi * 2f) * 0.5f * (lockClickTime / (float)LockAnimLenght);
             spriteBatch.Draw(lockTexture, DrawCenter + Vector2.UnitY * 12 * MainIconScale, null, Color.White, 0f + rotationShift, lockTexture.Size() * 0.5f, LockShakeScale * MainIconScale, SpriteEffects.None, 0f);
         }

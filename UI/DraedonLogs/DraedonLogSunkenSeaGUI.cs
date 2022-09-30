@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
 using Terraria.ModLoader;
 
-namespace CalamityMod.UI
+namespace CalamityMod.UI.DraedonLogs
 {
     public class DraedonLogSunkenSeaGUI : DraedonsLogGUI
     {
@@ -31,11 +31,11 @@ namespace CalamityMod.UI
             switch (Page)
             {
                 case 0:
-                    return ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/DraedonsLogSunkenSeaBiome").Value;
+                    return ModContent.Request<Texture2D>("CalamityMod/UI/DraedonLogs/DraedonsLogSunkenSeaBiome").Value;
                 case 1:
-                    return ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/DraedonsLogEutrophicRayGhostBell").Value;
+                    return ModContent.Request<Texture2D>("CalamityMod/UI/DraedonLogs/DraedonsLogEutrophicRayGhostBell").Value;
                 default:
-                    return ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/DraedonsLogGiantClam").Value;
+                    return ModContent.Request<Texture2D>("CalamityMod/UI/DraedonLogs/DraedonsLogGiantClam").Value;
             }
         }
     }

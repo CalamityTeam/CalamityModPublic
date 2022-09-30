@@ -9,7 +9,7 @@ using ReLogic.Content;
 using Terraria;
 using Terraria.ModLoader;
 
-namespace CalamityMod.UI
+namespace CalamityMod.UI.Rippers
 {
     // TODO -- This can be made into a ModSystem with simple OnModLoad and Unload hooks.
     public static class RipperUI
@@ -46,22 +46,22 @@ namespace CalamityMod.UI
 
         internal static void Load()
         {
-            rageBarTex = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/RageBar", AssetRequestMode.ImmediateLoad).Value;
-            rageBorderTex = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/RageBarBorder", AssetRequestMode.ImmediateLoad).Value;
-            rageAnimTex = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/RageFullAnimation", AssetRequestMode.ImmediateLoad).Value;
+            rageBarTex = ModContent.Request<Texture2D>("CalamityMod/UI/Rippers/RageBar", AssetRequestMode.ImmediateLoad).Value;
+            rageBorderTex = ModContent.Request<Texture2D>("CalamityMod/UI/Rippers/RageBarBorder", AssetRequestMode.ImmediateLoad).Value;
+            rageAnimTex = ModContent.Request<Texture2D>("CalamityMod/UI/Rippers/RageFullAnimation", AssetRequestMode.ImmediateLoad).Value;
 
-            adrenBarTex = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/AdrenalineBar", AssetRequestMode.ImmediateLoad).Value;
-            adrenBorderTex = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/AdrenalineBarBorder", AssetRequestMode.ImmediateLoad).Value;
-            adrenBorderTexFull = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/AdrenalineBarBorderFull", AssetRequestMode.ImmediateLoad).Value;
-            adrenAnimTex = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/AdrenalineFullAnimation", AssetRequestMode.ImmediateLoad).Value;
+            adrenBarTex = ModContent.Request<Texture2D>("CalamityMod/UI/Rippers/AdrenalineBar", AssetRequestMode.ImmediateLoad).Value;
+            adrenBorderTex = ModContent.Request<Texture2D>("CalamityMod/UI/Rippers/AdrenalineBarBorder", AssetRequestMode.ImmediateLoad).Value;
+            adrenBorderTexFull = ModContent.Request<Texture2D>("CalamityMod/UI/Rippers/AdrenalineBarBorderFull", AssetRequestMode.ImmediateLoad).Value;
+            adrenAnimTex = ModContent.Request<Texture2D>("CalamityMod/UI/Rippers/AdrenalineFullAnimation", AssetRequestMode.ImmediateLoad).Value;
 
-            mushroomPlasmaTex = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/RageDisplay_MushroomPlasmaRoot", AssetRequestMode.ImmediateLoad).Value;
-            infernalBloodTex = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/RageDisplay_InfernalBlood", AssetRequestMode.ImmediateLoad).Value;
-            redLightningTex = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/RageDisplay_RedLightningContainer", AssetRequestMode.ImmediateLoad).Value;
+            mushroomPlasmaTex = ModContent.Request<Texture2D>("CalamityMod/UI/Rippers/RageDisplay_MushroomPlasmaRoot", AssetRequestMode.ImmediateLoad).Value;
+            infernalBloodTex = ModContent.Request<Texture2D>("CalamityMod/UI/Rippers/RageDisplay_InfernalBlood", AssetRequestMode.ImmediateLoad).Value;
+            redLightningTex = ModContent.Request<Texture2D>("CalamityMod/UI/Rippers/RageDisplay_RedLightningContainer", AssetRequestMode.ImmediateLoad).Value;
 
-            electrolyteGelTex = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/AdrenalineDisplay_ElectrolyteGelPack", AssetRequestMode.ImmediateLoad).Value;
-            starlightFuelTex = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/AdrenalineDisplay_StarlightFuelCell", AssetRequestMode.ImmediateLoad).Value;
-            ectoheartTex = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/AdrenalineDisplay_Ectoheart", AssetRequestMode.ImmediateLoad).Value;
+            electrolyteGelTex = ModContent.Request<Texture2D>("CalamityMod/UI/Rippers/AdrenalineDisplay_ElectrolyteGelPack", AssetRequestMode.ImmediateLoad).Value;
+            starlightFuelTex = ModContent.Request<Texture2D>("CalamityMod/UI/Rippers/AdrenalineDisplay_StarlightFuelCell", AssetRequestMode.ImmediateLoad).Value;
+            ectoheartTex = ModContent.Request<Texture2D>("CalamityMod/UI/Rippers/AdrenalineDisplay_Ectoheart", AssetRequestMode.ImmediateLoad).Value;
 
             pearlOffsetLeft = new Vector2(rageBorderTex.Width * 0.3333f - 6f, rageBorderTex.Height - 9f);
             pearlOffsetCenter = new Vector2(rageBorderTex.Width * 0.5f - 6f, rageBorderTex.Height - 9f);

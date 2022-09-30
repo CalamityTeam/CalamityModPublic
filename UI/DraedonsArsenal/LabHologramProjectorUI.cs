@@ -9,7 +9,7 @@ using Terraria.DataStructures;
 using Terraria.Audio;
 using Terraria.GameContent;
 
-namespace CalamityMod.UI
+namespace CalamityMod.UI.DraedonsArsenal
 {
     public class LabHologramProjectorUI
     {

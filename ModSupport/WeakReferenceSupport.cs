@@ -797,7 +797,7 @@ namespace CalamityMod
                 int summon = ItemType<CausticTear>();
                 List<int> collection = new List<int>() { ItemType<RadiatingCrystal>() };
                 string instructions = $"Use a [i:{summon}] or wait for the invasion to occur naturally after the Eye of Cthulhu is defeated.";
-                string iconTexture = "CalamityMod/ExtraTextures/UI/AcidRainIcon";
+                string iconTexture = "CalamityMod/UI/MiscTextures/AcidRainIcon";
                 Action<SpriteBatch, Rectangle, Color> portrait = (SpriteBatch sb, Rectangle rect, Color color) => {
                     Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Events/AcidRainT1_BossChecklist").Value;
                     float scale = 1.3f;
@@ -815,7 +815,7 @@ namespace CalamityMod
                 List<int> summons = new List<int>() { ItemType<CausticTear>() };
                 List<int> collection = new List<int>() { ItemType<RadiatingCrystal>() };
                 string instructions = $"Use a [i:{ItemType<CausticTear>()}] or wait for the invasion to occur naturally after the Aquatic Scourge is defeated";
-                string iconTexture = "CalamityMod/ExtraTextures/UI/AcidRainIcon";
+                string iconTexture = "CalamityMod/UI/MiscTextures/AcidRainIcon";
                 Action<SpriteBatch, Rectangle, Color> portrait = (SpriteBatch sb, Rectangle rect, Color color) => {
                     Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Events/AcidRainT2_BossChecklist").Value;
                     float scale = 0.9f;
@@ -832,7 +832,7 @@ namespace CalamityMod
                 List<int> summons = new List<int>() { ItemType<CausticTear>() };
                 List<int> collection = new List<int>() { ItemType<RadiatingCrystal>() };
                 string instructions = $"Use a [i:{ItemType<CausticTear>()}] or wait for the invasion to occur naturally after the Polterghast is defeated";
-                string iconTexture = "CalamityMod/ExtraTextures/UI/AcidRainIcon";
+                string iconTexture = "CalamityMod/UI/MiscTextures/AcidRainIcon";
                 Action<SpriteBatch, Rectangle, Color> portrait = (SpriteBatch sb, Rectangle rect, Color color) => {
                     Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Events/AcidRainT3_BossChecklist").Value;
                     float scale = 0.9f;

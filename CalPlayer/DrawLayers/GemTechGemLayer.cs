@@ -31,27 +31,27 @@ namespace CalamityMod.CalPlayer.DrawLayers
                 {
                     case 0:
                     default:
-                        gemTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/GemTechArmor/RedGem").Value;
+                        gemTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Typeless/GemTechRedGem").Value;
                         gemType = GemTechArmorGemType.Rogue;
                         break;
                     case 1:
-                        gemTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/GemTechArmor/YellowGem").Value;
+                        gemTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Typeless/GemTechYellowGem").Value;
                         gemType = GemTechArmorGemType.Melee;
                         break;
                     case 2:
-                        gemTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/GemTechArmor/GreenGem").Value;
+                        gemTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Typeless/GemTechGreenGem").Value;
                         gemType = GemTechArmorGemType.Ranged;
                         break;
                     case 3:
-                        gemTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/GemTechArmor/BlueGem").Value;
+                        gemTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Typeless/GemTechBlueGem").Value;
                         gemType = GemTechArmorGemType.Summoner;
                         break;
                     case 4:
-                        gemTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/GemTechArmor/PurpleGem").Value;
+                        gemTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Typeless/GemTechPurpleGem").Value;
                         gemType = GemTechArmorGemType.Magic;
                         break;
                     case 5:
-                        gemTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/GemTechArmor/PinkGem").Value;
+                        gemTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Typeless/GemTechPinkGem").Value;
                         gemType = GemTechArmorGemType.Base;
                         pulseFactor = 2.5f;
                         break;

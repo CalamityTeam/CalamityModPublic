@@ -19,7 +19,7 @@ namespace CalamityMod.CalPlayer.DrawLayers
 
         protected override void Draw(ref PlayerDrawSet drawInfo)
         {
-            Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/ColdDivinityBody").Value;
+            Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/CalPlayer/DrawLayers/ColdDivinityBody").Value;
             int drawX = (int)(drawInfo.Center.X - Main.screenPosition.X);
             int drawY = (int)(drawInfo.Center.Y - Main.screenPosition.Y);
             Player drawPlayer = drawInfo.drawPlayer;

@@ -158,7 +158,7 @@ namespace CalamityMod.Systems
             get
             {
                 if (_texture == null)
-                    _texture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/ModeIndicator_None");
+                    _texture = ModContent.Request<Texture2D>("CalamityMod/UI/ModeIndicator/ModeIndicator_None");
 
                 return _texture;
             }
@@ -193,7 +193,7 @@ namespace CalamityMod.Systems
             get
             {
                 if (_texture == null)
-                    _texture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/ModeIndicator_Rev");
+                    _texture = ModContent.Request<Texture2D>("CalamityMod/UI/ModeIndicator/ModeIndicator_Rev");
 
                 return _texture;
             }
@@ -249,7 +249,7 @@ namespace CalamityMod.Systems
             get
             {
                 if (_texture == null)
-                    _texture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/ModeIndicator_Death");
+                    _texture = ModContent.Request<Texture2D>("CalamityMod/UI/ModeIndicator/ModeIndicator_Death");
 
                 return _texture;
             }
@@ -302,7 +302,7 @@ namespace CalamityMod.Systems
             get
             {
                 if (_texture == null)
-                    _texture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/ModeIndicator_WhereMalice");
+                    _texture = ModContent.Request<Texture2D>("CalamityMod/UI/ModeIndicator/ModeIndicator_WhereMalice");
 
                 return _texture;
             }

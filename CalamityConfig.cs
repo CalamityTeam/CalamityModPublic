@@ -15,6 +15,8 @@ using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Config;
 using CalamityMod.Items.PermanentBoosters;
+using CalamityMod.UI.Rippers;
+using CalamityMod.UI.DraedonsArsenal;
 
 namespace CalamityMod
 {

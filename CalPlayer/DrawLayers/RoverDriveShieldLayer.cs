@@ -21,7 +21,7 @@ namespace CalamityMod.CalPlayer.DrawLayers
         protected override void Draw(ref PlayerDrawSet drawInfo)
         {
             Player drawPlayer = drawInfo.drawPlayer;
-            Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/RoverAccShield").Value;
+            Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/CalPlayer/DrawLayers/RoverDriveShield").Value;
             Vector2 drawPos = drawPlayer.Center - Main.screenPosition + new Vector2(0f, drawPlayer.gfxOffY);
             Rectangle frame = texture.Frame(1, 11, 0, drawPlayer.Calamity().roverFrame);
             Color color = Color.White * 0.625f;

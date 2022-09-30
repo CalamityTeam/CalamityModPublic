@@ -1,5 +1,6 @@
-using CalamityMod.Rarities;
+﻿using CalamityMod.Rarities;
 using CalamityMod.UI;
+using CalamityMod.UI.DraedonLogs;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;

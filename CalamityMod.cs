@@ -63,6 +63,8 @@ using CalamityMod.Schematics;
 using CalamityMod.Skies;
 using CalamityMod.UI;
 using CalamityMod.UI.CalamitasEnchants;
+using CalamityMod.UI.DraedonsArsenal;
+using CalamityMod.UI.Rippers;
 using CalamityMod.Waters;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -220,7 +222,7 @@ namespace CalamityMod
                 ForegroundDrawing.ForegroundManager.Load();
 
                 // Wikithis support
-				WeakReferenceSupport.WikiThisSupport();
+                WeakReferenceSupport.WikiThisSupport();
             }
 
             CooldownRegistry.Load();

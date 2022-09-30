@@ -107,7 +107,7 @@ namespace CalamityMod.Projectiles.Magic
 
             Vector2 center = Projectile.Center - Main.screenPosition;
             Vector2 aura = center + new Vector2(-xRange, yRange);
-            Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/BlushieStaffAura").Value;
+            Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Projecties/Magic/BlushieStaffAura").Value;
             Rectangle frame = new(50, 0, 50, 32);
             int count = 2 * xRange / 50;
             SpriteEffects effects = Projectile.ai[0] % 30f < 15f ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
@@ -156,7 +156,7 @@ namespace CalamityMod.Projectiles.Magic
             {
                 scale = 4f - 3f * Projectile.ai[0] / 60f;
             }
-            texture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/BlushieStaffGear").Value;
+            texture = ModContent.Request<Texture2D>("CalamityMod/Projecties/Magic/BlushieStaffGear").Value;
             Vector2 origin = new(48f, 48f);
             Main.EntitySpriteDraw(texture, center, null, Color.White, Projectile.ai[0] / 20f, origin, 1.5f * scale, SpriteEffects.None, 0);
             Main.EntitySpriteDraw(texture, topLeftGear, null, Color.White, Projectile.ai[0] / 10f, origin, scale, SpriteEffects.None, 0);
@@ -165,7 +165,7 @@ namespace CalamityMod.Projectiles.Magic
             Main.EntitySpriteDraw(texture, bottomRightGear, null, Color.White, Projectile.ai[0] / 10f, origin, scale, SpriteEffects.None, 0);
 
             float seed = Projectile.localAI[0];
-            texture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/BlushieStaffFire").Value;
+            texture = ModContent.Request<Texture2D>("CalamityMod/Projecties/Magic/BlushieStaffFire").Value;
             Vector2 topLeft = center + new Vector2(-xRange, -yRange);
             for (int k = (int)Projectile.ai[0] - 60; k < (int)Projectile.ai[0]; k++)
             {
@@ -183,7 +183,7 @@ namespace CalamityMod.Projectiles.Magic
 
         private void DrawChains(Vector2 start, Vector2 end, float alpha)
         {
-            Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/BlushieStaffChain").Value;
+            Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Projecties/Magic/BlushieStaffChain").Value;
             Vector2 unit = end - start;
             float distance = unit.Length() - 36f;
             unit.Normalize();

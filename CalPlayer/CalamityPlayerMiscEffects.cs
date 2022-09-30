@@ -2003,10 +2003,10 @@ namespace CalamityMod.CalPlayer
             {
                 Asset<Texture2D> rain3 = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Rain3");
                 Asset<Texture2D> rainOriginal = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/RainOriginal");
-                Asset<Texture2D> cometShard = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/HealthMana/ManaCometShard");
-                Asset<Texture2D> etherealCore = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/HealthMana/ManaEtherealCore");
-                Asset<Texture2D> phantomHeart = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/HealthMana/ManaPhantomHeart");
-                Asset<Texture2D> manaOriginal = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/HealthMana/ManaOriginal");
+                Asset<Texture2D> cometShard = ModContent.Request<Texture2D>("CalamityMod/UI/HealthManaTextures/ManaCometShard");
+                Asset<Texture2D> etherealCore = ModContent.Request<Texture2D>("CalamityMod/UI/HealthManaTextures/ManaEtherealCore");
+                Asset<Texture2D> phantomHeart = ModContent.Request<Texture2D>("CalamityMod/UI/HealthManaTextures/ManaPhantomHeart");
+                Asset<Texture2D> manaOriginal = ModContent.Request<Texture2D>("CalamityMod/UI/HealthManaTextures/ManaOriginal");
                 Asset<Texture2D> carpetAuric = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/AuricCarpet");
                 Asset<Texture2D> carpetOriginal = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Carpet");
 

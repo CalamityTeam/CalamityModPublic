@@ -12,7 +12,7 @@ using Terraria.UI;
 using Terraria.Audio;
 using Terraria.GameContent;
 
-namespace CalamityMod.UI
+namespace CalamityMod.UI.DraedonsArsenal
 {
     public class ChargingStationUI
     {
@@ -208,7 +208,7 @@ namespace CalamityMod.UI
 
         public static void DrawWeaponSlot(SpriteBatch spriteBatch, Item item, Vector2 drawPosition)
         {
-            Texture2D slotBackgroundTex = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/ChargerWeaponSlot").Value;
+            Texture2D slotBackgroundTex = ModContent.Request<Texture2D>("CalamityMod/UI/DraedonsArsenal/ChargerWeaponSlot").Value;
             spriteBatch.Draw(slotBackgroundTex, drawPosition, null, Color.White, 0f, slotBackgroundTex.Size() * 0.5f, IconScale, SpriteEffects.None, 0f);
 
             if (!item.IsAir)

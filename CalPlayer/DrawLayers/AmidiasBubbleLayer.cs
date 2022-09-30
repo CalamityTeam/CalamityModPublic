@@ -14,7 +14,7 @@ namespace CalamityMod.CalPlayer.DrawLayers
 
         protected override void Draw(ref PlayerDrawSet drawInfo)
         {
-            Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/AmidiasBubble").Value;
+            Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/CalPlayer/DrawLayers/AmidiasBubble").Value;
             int drawX = (int)(drawInfo.Center.X - Main.screenPosition.X);
             int drawY = (int)(drawInfo.Center.Y - Main.screenPosition.Y);
             drawInfo.DrawDataCache.Add(new DrawData(texture, new Vector2(drawX, drawY), null, Color.White, 0f, texture.Size() * 0.5f, 1f, SpriteEffects.None, 0));
