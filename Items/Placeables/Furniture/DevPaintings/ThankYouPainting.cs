@@ -87,7 +87,7 @@ namespace CalamityMod.Items.Placeables.Furniture.DevPaintings
 				line.Text = tooltip;
 		}
 
-        public IList<string> devList = new List<string>()
+        public static IList<string> devList = new List<string>()
 		{
 			"Fabsol, the mod's founder and owner", // Fabsol gets a line to himself
 			"Ben-TK",
@@ -177,7 +177,7 @@ namespace CalamityMod.Items.Placeables.Furniture.DevPaintings
 			"Ziggums",
 		};
 
-        public IList<string> testerList = new List<string>()
+        public static IList<string> testerList = new List<string>()
 		{
 			"Afzofa",
 			"Altix",
