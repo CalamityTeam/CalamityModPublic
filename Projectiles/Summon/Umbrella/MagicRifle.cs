@@ -8,7 +8,6 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 {
     public class MagicRifle : ModProjectile
     {
-        private int counter = 0;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Rifle");
@@ -35,19 +34,15 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
             //Set player namespace
             Player player = Main.player[Projectile.owner];
 
-            //Anti sticky movement to prevent overlapping minions
-            Projectile.MinionAntiClump();
+			if (player.Calamity().magicHat)
+			{
+				Projectile.timeLeft = 2;
+			}
 
-            //Try not to do anything at first
-            counter++;
-            if (counter == 30)
-            {
-                Projectile.netUpdate = true;
-            }
-            else if (counter < 30)
-            {
-                return;
-            }
+			const float outwardPosition = 180f;
+			Projectile.Center = player.Center + Projectile.ai[0].ToRotationVector2() * outwardPosition;
+			Projectile.rotation = Projectile.ai[0] + MathHelper.PiOver4;
+			Projectile.ai[0] -= MathHelper.ToRadians(4f);
 
             float homingRange = MagicHat.Range;
             Vector2 targetVec = Projectile.position;
@@ -89,116 +84,27 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
                 }
             }
 
-            //If too far, make the minion start returning to the player.
-            float separationAnxietyDist = 1600f;
-            if (foundTarget)
-            {
-                //Max travel distance increases if targeting something
-                separationAnxietyDist = 2600f;
-            }
-            if (Vector2.Distance(player.Center, Projectile.Center) > separationAnxietyDist)
-            {
-                Projectile.ai[0] = 1f;
-                Projectile.netUpdate = true;
-            }
-
-            //If a target is found, move toward it
-            if (foundTarget && Projectile.ai[0] == 0f)
-            {
-                Vector2 vecToTarget = targetVec - Projectile.Center;
-                float targetDist = vecToTarget.Length();
-                vecToTarget.Normalize();
-                //If farther than 200 pixels, move toward it
-                if (targetDist > 200f)
-                {
-                    float speedMult = 18f; //12
-                    vecToTarget *= speedMult;
-                    Projectile.velocity = (Projectile.velocity * 40f + vecToTarget) / 41f;
-                }
-                //Otherwise, back it up slowly
-                else
-                {
-                    float speedMult = -9f;
-                    vecToTarget *= speedMult;
-                    Projectile.velocity = (Projectile.velocity * 40f + vecToTarget) / 41f;
-                }
-            }
-
-            //If not targeting something, act passively
-            else
-            {
-                bool returningToPlayer = false;
-                if (!returningToPlayer)
-                {
-                    returningToPlayer = Projectile.ai[0] == 1f;
-                }
-                //Move faster if actively returning to the player
-                float speedMult = 12f;
-                if (returningToPlayer)
-                {
-                    speedMult = 30f;
-                }
-                Vector2 vecToPlayer = player.Center - Projectile.Center + new Vector2(0f, -120f);
-                float playerDist = vecToPlayer.Length();
-                //Speed up if near the player
-                if (playerDist < 200f && speedMult < 16f)
-                {
-                    speedMult = 16f;
-                }
-                //If close enough to the player, return to normal
-                if (playerDist < 600f && returningToPlayer)
-                {
-                    Projectile.ai[0] = 0f;
-                    Projectile.netUpdate = true;
-                }
-                //If abnormally far, teleport to the player
-                if (playerDist > 2000f)
-                {
-                    Projectile.position.X = player.Center.X - (float)(Projectile.width / 2);
-                    Projectile.position.Y = player.Center.Y - (float)(Projectile.height / 2);
-                    Projectile.netUpdate = true;
-                }
-                //Move toward player if more than 70 pixels away
-                if (playerDist > 70f)
-                {
-                    vecToPlayer.Normalize();
-                    vecToPlayer *= speedMult;
-                    Projectile.velocity = (Projectile.velocity * 40f + vecToPlayer) / 41f;
-                }
-                //Move if still
-                else if (Projectile.velocity.X == 0f && Projectile.velocity.Y == 0f)
-                {
-                    Projectile.velocity.X = -0.15f;
-                    Projectile.velocity.Y = -0.05f;
-                }
-            }
-
             //Update rotation
             if (foundTarget)
             {
                 Projectile.spriteDirection = Projectile.direction = ((targetVec.X - Projectile.Center.X) > 0).ToDirectionInt();
                 Projectile.rotation = Projectile.rotation.AngleTowards(Projectile.AngleTo(targetVec) + (Projectile.spriteDirection == 1 ? MathHelper.ToRadians(45) : MathHelper.ToRadians(135)), 0.1f);
             }
-            else
-            {
-                Projectile.spriteDirection = Projectile.direction = (Projectile.velocity.X > 0).ToDirectionInt();
-                Projectile.rotation = Projectile.velocity.ToRotation() + (Projectile.spriteDirection == 1 ? MathHelper.ToRadians(45) : MathHelper.ToRadians(135));
-            }
 
             //Increment attack cooldown
             if (Projectile.ai[1] > 0f)
             {
-                Projectile.ai[1] += Main.rand.Next(1, 4);
+                Projectile.ai[1] += 1f;
             }
             //Set the minion to be ready for attack
-            if (Projectile.ai[1] > 90f)
+            if (Projectile.ai[1] > 45f)
             {
                 Projectile.ai[1] = 0f;
                 Projectile.netUpdate = true;
             }
 
-            //Return if on attack cooldown, has no target, or returning to the player
-            if (Projectile.ai[0] != 0f || !foundTarget || Projectile.ai[1] != 0f)
+            //Return if on attack cooldown, has no target
+            if (Projectile.ai[1] != 0f || !foundTarget)
                 return;
 
             //Shoot a bullet

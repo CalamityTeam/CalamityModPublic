@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -9,7 +10,7 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 {
     public class MagicUmbrella : ModProjectile
    {
-        private int counter = 0;
+        public float Behavior = 0f;
         public override void SetStaticDefaults()
 		{
             DisplayName.SetDefault("Umbrella");
@@ -27,7 +28,7 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
             Projectile.ignoreWater = true;
             Projectile.minionSlots = 0f;
             Projectile.timeLeft = 180;
-            Projectile.penetrate = 10;
+            Projectile.penetrate = -1;
             Projectile.tileCollide = false;
             Projectile.minion = true;
             Projectile.usesLocalNPCImmunity = true;
@@ -36,25 +37,26 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
             Projectile.DamageType = DamageClass.Summon;
         }
 
+        public override void SendExtraAI(BinaryWriter writer)
+        {
+            writer.Write(Behavior);
+        }
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            Behavior = reader.ReadSingle();
+        }
+
         public override void AI()
 		{
             Projectile.rotation += 0.075f;
             Projectile.alpha -= 50;
-            counter++;
-            if (counter == 30)
-			{
-                Projectile.netUpdate = true;
-            }
-            else if (counter < 30)
-			{
-                return;
-            }
 
-            AI_156_BatOfLight();
-        }
+			if (Main.player[Projectile.owner].Calamity().magicHat)
+			{
+				Projectile.timeLeft = 2;
+			}
+			Projectile.ai[0] -= MathHelper.ToRadians(4f);
 
-		private void AI_156_BatOfLight()
-		{
 			List<int> blackListedTargets = new List<int> {};
 
 			DelegateMethods.v3_1 = Color.Transparent.ToVector3();
@@ -63,7 +65,7 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 
 			blackListedTargets.Clear();
 			AI_156_Think(blackListedTargets);
-		}
+        }
 
 		private void AI_156_Think(List<int> blacklist)
 		{
@@ -76,29 +78,27 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 			Player player = Main.player[Projectile.owner];
 			if (player.active && Vector2.Distance(player.Center, Projectile.Center) > 2000f)
 			{
-				Projectile.ai[0] = 0f;
+				Behavior = 0f;
 				Projectile.ai[1] = 0f;
 				Projectile.netUpdate = true;
 			}
 
-			if (Projectile.ai[0] == -1f)
+			if (Behavior == -1f)
 			{
-				AI_GetMyGroupIndexAndFillBlackList(blacklist, out int index, out int totalIndexesInGroup);
 				IdleAI();
 				return;
 			}
 
-			if (Projectile.ai[0] == 0f)
+			if (Behavior == 0f)
 			{
-				AI_GetMyGroupIndexAndFillBlackList(blacklist, out int index3, out int totalIndexesInGroup3);
 				IdleAI();
 				if (Main.rand.Next(20) == 0)
 				{
 					int num7 = AI_156_TryAttackingNPCs(blacklist);
 					if (num7 != -1)
 					{
-						Projectile.ai[0] = Main.rand.NextFromList<int>(num, num3);
-						Projectile.ai[0] = num3;
+						Behavior = Main.rand.NextFromList<int>(num, num3);
+						Behavior = num3;
 						Projectile.ai[1] = num7;
 						Projectile.netUpdate = true;
 					}
@@ -110,7 +110,7 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 			int num13 = 0;
 			int num14 = num2;
 			int num15 = 0;
-			if (Projectile.ai[0] >= (float)num5)
+			if (Behavior >= (float)num5)
 			{
 				num13 = 1;
 				num14 = num4;
@@ -123,13 +123,13 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 				int num17 = AI_156_TryAttackingNPCs(blacklist, skipBodyCheck);
 				if (num17 != -1)
 			{
-					Projectile.ai[0] = Main.rand.NextFromList<int>(num, num3);
+					Behavior = Main.rand.NextFromList<int>(num, num3);
 					Projectile.ai[1] = num17;
 					Projectile.netUpdate = true;
 				}
 				else
 				{
-					Projectile.ai[0] = -1f;
+					Behavior = -1f;
 					Projectile.ai[1] = 0f;
 					Projectile.netUpdate = true;
 				}
@@ -143,13 +143,13 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 				int num18 = AI_156_TryAttackingNPCs(blacklist, skipBodyCheck);
 				if (num18 != -1)
 				{
-					Projectile.ai[0] = Main.rand.NextFromList<int>(num, num3);
+					Behavior = Main.rand.NextFromList<int>(num, num3);
 					Projectile.ai[1] = num18;
 					Projectile.netUpdate = true;
 				}
 				else
 				{
-					Projectile.ai[0] = -1f;
+					Behavior = -1f;
 					Projectile.ai[1] = 0f;
 					Projectile.netUpdate = true;
 				}
@@ -157,18 +157,18 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 				return;
 			}
 
-			Projectile.ai[0] -= 1f;
-			if (Projectile.ai[0] >= (float)num14)
+			Behavior -= 1f;
+			if (Behavior >= (float)num14)
 			{
 				Projectile.direction = ((Projectile.Center.X < nPC2.Center.X) ? 1 : (-1));
-				if (Projectile.ai[0] == (float)num14)
+				if (Behavior == (float)num14)
 				{
 					Projectile.localAI[0] = Projectile.Center.X;
 					Projectile.localAI[1] = Projectile.Center.Y;
 				}
 			}
 
-			float lerpValue2 = Utils.GetLerpValue(num14, num15, Projectile.ai[0], clamped: true);
+			float lerpValue2 = Utils.GetLerpValue(num14, num15, Behavior, clamped: true);
 			if (num13 == 0)
 			{
 				Vector2 vector6 = new Vector2(Projectile.localAI[0], Projectile.localAI[1]);
@@ -207,18 +207,18 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 					Projectile.Center = Vector2.Lerp(nPC2.Center, value2, lerpValue4);
 			}
 
-			if (Projectile.ai[0] == (float)num15)
+			if (Behavior == (float)num15)
 			{
 				int num23 = AI_156_TryAttackingNPCs(blacklist, skipBodyCheck);
 				if (num23 != -1)
 				{
-					Projectile.ai[0] = Main.rand.NextFromList<int>(num, num3);
+					Behavior = Main.rand.NextFromList<int>(num, num3);
 					Projectile.ai[1] = num23;
 					Projectile.netUpdate = true;
 				}
 				else
 				{
-					Projectile.ai[0] = -1f;
+					Behavior = -1f;
 					Projectile.ai[1] = 0f;
 					Projectile.netUpdate = true;
 				}
@@ -264,75 +264,52 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 			return target;
 		}
 
-		private void AI_GetMyGroupIndexAndFillBlackList(List<int> blackListedTargets, out int index, out int totalIndexesInGroup)
-		{
-			index = 0;
-			totalIndexesInGroup = 0;
-			for (int i = 0; i < Main.maxProjectiles; i++)
-			{
-				Projectile proj = Main.projectile[i];
-				if (proj.active && proj.owner == Projectile.owner && proj.type == Projectile.type)
-				{
-					if (Projectile.whoAmI > i)
-						index++;
-
-					totalIndexesInGroup++;
-				}
-			}
-		}
-
 		private void IdleAI()
 		{
 			Player player = Main.player[Projectile.owner];
 			Vector2 returnOffset = new Vector2(0f, -60f);
-			float safeDist = 150f;
+
+			const float outwardPosition = 180f;
+			Vector2 returnPos = player.Center + Projectile.ai[0].ToRotationVector2() * outwardPosition;
 
 			bool returningToPlayer = false;
 			if (!returningToPlayer)
 			{
-				returningToPlayer = Projectile.ai[0] == 1f;
+				returningToPlayer = Behavior == 1f;
 			}
 
-			//Player distance calculations
-			Vector2 playerVec = player.Center - Projectile.Center + returnOffset;
+			// Player distance calculations
+			Vector2 playerVec = returnPos - Projectile.Center + returnOffset;
 			float playerDist = playerVec.Length();
 
-			//If the minion is actively returning, move faster
+			// If the minion is actively returning, move faster
 			float playerHomeSpeed = 6f;
 			if (returningToPlayer)
 			{
 				playerHomeSpeed = 15f;
 			}
-			//Move somewhat faster if the player is kinda far~ish
+			// Move somewhat faster if the player is kinda far~ish
 			if (playerDist > 200f && playerHomeSpeed < 8f)
 			{
 				playerHomeSpeed = 8f;
 			}
-			//Return to normal if close enough to the player
-			if (playerDist < safeDist && returningToPlayer && !Collision.SolidCollision(Projectile.position, Projectile.width, Projectile.height))
-			{
-				Projectile.ai[0] = 0f;
-				Projectile.netUpdate = true;
-			}
-			//Teleport to the player if abnormally far
+			// Teleport to the player if abnormally far
 			if (playerDist > 2000f)
 			{
-				Projectile.position.X = player.Center.X - (float)(Projectile.width / 2);
-				Projectile.position.Y = player.Center.Y - (float)(Projectile.height / 2);
+				Projectile.Center = returnPos;
 				Projectile.netUpdate = true;
 			}
-			//If more than 70 pixels away, move toward the player
-			if (playerDist > 70f)
+			// If more than 20 pixels away, move toward the player
+			if (playerDist > 20f)
 			{
 				playerVec.Normalize();
 				playerVec *= playerHomeSpeed;
 				Projectile.velocity = (Projectile.velocity * 40f + playerVec) / 41f;
 			}
-			//Minions never stay still
-			else if (Projectile.velocity.X == 0f && Projectile.velocity.Y == 0f)
+			else
 			{
-				Projectile.velocity.X = -0.15f;
-				Projectile.velocity.Y = -0.05f;
+				Projectile.Center = returnPos;
+				Projectile.rotation = Projectile.ai[0] + MathHelper.PiOver2 + MathHelper.PiOver4;
 			}
 		}
 

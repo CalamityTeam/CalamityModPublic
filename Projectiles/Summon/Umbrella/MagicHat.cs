@@ -56,6 +56,21 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
                 }
             }
 
+			if (Projectile.ai[0] == 1f)
+			{
+				float projectileCount = 2f;
+                float angleVariance = MathHelper.TwoPi / projectileCount;
+                float angle = MathHelper.PiOver2;
+				int p = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<MagicRifle>(), Projectile.damage, Projectile.knockBack, Projectile.owner, angle);
+				if (Main.projectile.IndexInRange(p))
+					Main.projectile[p].originalDamage = Projectile.originalDamage;
+				angle += angleVariance;
+				p = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<MagicUmbrella>(), Projectile.damage, Projectile.knockBack, Projectile.owner, angle);
+				if (Main.projectile.IndexInRange(p))
+					Main.projectile[p].originalDamage = Projectile.originalDamage;
+			}
+			Projectile.ai[0]++;
+
             //projectile movement
             Projectile.Center = player.Center + Vector2.UnitY * (player.gfxOffY - 60f);
             if (player.gravDir == -1f)
@@ -113,23 +128,17 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
                     Projectile.ai[1] += 1f;
                     if (Projectile.ai[1] % 5f == 0f)
                     {
-                        int amount = Main.rand.Next(1, 2);
-                        for (int i = 0; i < amount; i++)
-                        {
-                            int projType = Utils.SelectRandom(Main.rand, new int[]
-                            {
-                                ModContent.ProjectileType<MagicUmbrella>(),
-                                ModContent.ProjectileType<MagicRifle>(),
-                                ModContent.ProjectileType<MagicHammer>(),
-                                ModContent.ProjectileType<MagicAxe>(),
-                                ModContent.ProjectileType<MagicBird>()
-                            });
-                            float velocityX = Main.rand.NextFloat(-10f, 10f);
-                            float velocityY = Main.rand.NextFloat(-15f, -8f);
-                            int p = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.oldPosition.X + (float)(Projectile.width / 2), Projectile.oldPosition.Y + (float)(Projectile.height / 2), velocityX, velocityY, projType, Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
-                            if (Main.projectile.IndexInRange(p))
-                                Main.projectile[p].originalDamage = Projectile.originalDamage;
-                        }
+						int projType = Utils.SelectRandom(Main.rand, new int[]
+						{
+							ModContent.ProjectileType<MagicHammer>(),
+							ModContent.ProjectileType<MagicAxe>(),
+							ModContent.ProjectileType<MagicBird>()
+						});
+						float velocityX = Main.rand.NextFloat(-10f, 10f);
+						float velocityY = Main.rand.NextFloat(-15f, -8f);
+						int p = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.oldPosition.X + (float)(Projectile.width / 2), Projectile.oldPosition.Y + (float)(Projectile.height / 2), velocityX, velocityY, projType, Projectile.damage, Projectile.knockBack, Projectile.owner);
+						if (Main.projectile.IndexInRange(p))
+							Main.projectile[p].originalDamage = Projectile.originalDamage;
                     }
                 }
             }
