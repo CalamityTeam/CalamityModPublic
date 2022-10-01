@@ -1315,7 +1315,6 @@ namespace CalamityMod
                 ItemType<Auralis>(),
                 ItemType<HalleysInferno>(),
                 ItemType<Shroomer>(),
-                ItemType<SpectreRifle>(),
                 ItemType<Svantechnical>(),
                 ItemType<TyrannysEnd>()
             };
