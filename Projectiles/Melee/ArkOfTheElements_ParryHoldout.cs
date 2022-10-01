@@ -184,8 +184,8 @@ namespace CalamityMod.Projectiles.Melee
             {
                 if (Main.myPlayer == Owner.whoAmI)
                 {
-                    var barBG = Request<Texture2D>("CalamityMod/ExtraTextures/GenericBarBack").Value;
-                    var barFG = Request<Texture2D>("CalamityMod/ExtraTextures/GenericBarFront").Value;
+                    var barBG = Request<Texture2D>("CalamityMod/UI/MiscTextures/GenericBarBack").Value;
+                    var barFG = Request<Texture2D>("CalamityMod/UI/MiscTextures/GenericBarFront").Value;
 
                     Vector2 drawPos = Owner.Center - Main.screenPosition + new Vector2(0, -36) - barBG.Size() / 2;
                     Rectangle frame = new Rectangle(0, 0, (int)((Timer - ParryTime) / (MaxTime - ParryTime) * barFG.Width), barFG.Height);

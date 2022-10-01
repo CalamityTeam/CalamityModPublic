@@ -3,7 +3,9 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.Graphics.Effects;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Skies
@@ -24,8 +26,6 @@ namespace CalamityMod.Skies
         public CryogenAurora[] Auroras;
 
         public static bool ShouldDrawRegularly;
-
-        internal static Texture2D AuroraTexture => ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/AuroraTexture").Value;
 
         public static void UpdateDrawEligibility()
         {
@@ -111,6 +111,7 @@ namespace CalamityMod.Skies
         {
             if (maxDepth >= float.MaxValue && minDepth < float.MaxValue)
             {
+                var auroraTexture = CalamityUtils.AuroraTexture;
                 float auroraStrength = CalculateAuroraStrength();
                 for (int i = 0; i < Auroras.Length; i++)
                 {
@@ -136,12 +137,12 @@ namespace CalamityMod.Skies
                         yBrightness = 1.3f;
                     auroraColor *= yBrightness;
 
-                    spriteBatch.Draw(AuroraTexture,
+                    spriteBatch.Draw(auroraTexture,
                                      Auroras[i].Center,
                                      null,
                                      auroraColor * 1.1f,
                                      MathHelper.PiOver2,
-                                     AuroraTexture.Size() * 0.5f,
+                                     auroraTexture.Size() * 0.5f,
                                      scale,
                                      Auroras[i].DirectionEffect,
                                      0f);

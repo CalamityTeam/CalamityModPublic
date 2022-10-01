@@ -165,8 +165,8 @@ namespace CalamityMod.Items.Weapons.Melee
             if (Charge <= 0)
                 return;
 
-            var barBG = Request<Texture2D>("CalamityMod/ExtraTextures/GenericBarBack").Value;
-            var barFG = Request<Texture2D>("CalamityMod/ExtraTextures/GenericBarFront").Value;
+            var barBG = Request<Texture2D>("CalamityMod/UI/MiscTextures/GenericBarBack").Value;
+            var barFG = Request<Texture2D>("CalamityMod/UI/MiscTextures/GenericBarFront").Value;
 
             float barScale = 1.5f;
 

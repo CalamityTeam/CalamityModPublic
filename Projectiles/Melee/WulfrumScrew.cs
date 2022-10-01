@@ -165,7 +165,7 @@ namespace CalamityMod.Projectiles.Melee
 
                 //Setup the laser sights effect.
                 Effect laserScopeEffect = Filters.Scene["PixelatedSightLine"].GetShader().Shader;
-                laserScopeEffect.Parameters["sampleTexture2"].SetValue(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/CertifiedCrustyNoise").Value);
+                laserScopeEffect.Parameters["sampleTexture2"].SetValue(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/GreyscaleGradients/CertifiedCrustyNoise").Value);
                 laserScopeEffect.Parameters["noiseOffset"].SetValue(Main.GameUpdateCount * -0.003f);
 
                 laserScopeEffect.Parameters["mainOpacity"].SetValue((float)Math.Pow(opacity , 0.5f)); //Opacity increases as the screw gets close to the cursor
@@ -204,7 +204,7 @@ namespace CalamityMod.Projectiles.Melee
                 if (TrailDrawer is null)
                     TrailDrawer = new PrimitiveTrail(WidthFunction, ColorFunction, specialShader: GameShaders.Misc["CalamityMod:TrailStreak"]);
 
-                GameShaders.Misc["CalamityMod:TrailStreak"].SetShaderTexture(Request<Texture2D>("CalamityMod/ExtraTextures/BasicTrail"));
+                GameShaders.Misc["CalamityMod:TrailStreak"].SetShaderTexture(Request<Texture2D>("CalamityMod/ExtraTextures/Trails/BasicTrail"));
 
                 CalamityUtils.DrawChromaticAberration(Vector2.UnitX, 1f, delegate (Vector2 offset, Color colorMod)
                 {

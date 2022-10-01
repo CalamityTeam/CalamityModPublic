@@ -21,7 +21,7 @@ namespace CalamityMod.Particles.Metaballs
         };
         public override List<Texture2D> BackgroundTextures => new List<Texture2D>()
         {
-            ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/ParticleBackgrounds/StreamGougeLayer").Value,
+            ModContent.Request<Texture2D>("CalamityMod/Particles/Metaballs/StreamGougeLayer").Value,
         };
         public override FusableParticle SpawnParticle(Vector2 center, float sizeStrength)
         {

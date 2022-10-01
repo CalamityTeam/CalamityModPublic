@@ -209,7 +209,7 @@ namespace CalamityMod.Projectiles.Melee
             
 
             //Draw laser beams going around the selection
-            Texture2D beamTex = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/SimpleGradient").Value;
+            Texture2D beamTex = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/GreyscaleGradients/SimpleGradient").Value;
 
             for (int i = 0; i < 2; i++)
             {

@@ -78,23 +78,23 @@ namespace CalamityMod.Skies
             }
 
             // Update all cinders.
-			if (skyActive)
-			{
-				float cinderSpeed = 5.6f;
-				for (int i = 0; i < Cinders.Count; i++)
-				{
-					Cinders[i].Scale = Utils.GetLerpValue(Cinders[i].Lifetime, Cinders[i].Lifetime / 3, Cinders[i].Time, true);
-					Cinders[i].Scale *= MathHelper.Lerp(0.6f, 0.9f, Cinders[i].IdentityIndex % 6f / 6f);
+            if (skyActive)
+            {
+                float cinderSpeed = 5.6f;
+                for (int i = 0; i < Cinders.Count; i++)
+                {
+                    Cinders[i].Scale = Utils.GetLerpValue(Cinders[i].Lifetime, Cinders[i].Lifetime / 3, Cinders[i].Time, true);
+                    Cinders[i].Scale *= MathHelper.Lerp(0.6f, 0.9f, Cinders[i].IdentityIndex % 6f / 6f);
 
-					Vector2 idealVelocity = -Vector2.UnitY.RotatedBy(MathHelper.Lerp(-0.94f, 0.94f, (float)Math.Sin(Cinders[i].Time / 36f + Cinders[i].IdentityIndex) * 0.5f + 0.5f)) * cinderSpeed;
-					float movementInterpolant = MathHelper.Lerp(0.01f, 0.08f, Utils.GetLerpValue(45f, 145f, Cinders[i].Time, true));
-					Cinders[i].Velocity = Vector2.Lerp(Cinders[i].Velocity, idealVelocity, movementInterpolant);
-					Cinders[i].Velocity = Cinders[i].Velocity.SafeNormalize(-Vector2.UnitY) * cinderSpeed;
-					Cinders[i].Time++;
+                    Vector2 idealVelocity = -Vector2.UnitY.RotatedBy(MathHelper.Lerp(-0.94f, 0.94f, (float)Math.Sin(Cinders[i].Time / 36f + Cinders[i].IdentityIndex) * 0.5f + 0.5f)) * cinderSpeed;
+                    float movementInterpolant = MathHelper.Lerp(0.01f, 0.08f, Utils.GetLerpValue(45f, 145f, Cinders[i].Time, true));
+                    Cinders[i].Velocity = Vector2.Lerp(Cinders[i].Velocity, idealVelocity, movementInterpolant);
+                    Cinders[i].Velocity = Cinders[i].Velocity.SafeNormalize(-Vector2.UnitY) * cinderSpeed;
+                    Cinders[i].Time++;
 
-					Cinders[i].Center += Cinders[i].Velocity;
-				}
-			}
+                    Cinders[i].Center += Cinders[i].Velocity;
+                }
+            }
 
             // Clear away all dead cinders.
             Cinders.RemoveAll(c => c.Time >= c.Lifetime);
@@ -102,18 +102,18 @@ namespace CalamityMod.Skies
 
         public override void Draw(SpriteBatch spriteBatch, float minDepth, float maxDepth)
         {
-			if (Main.LocalPlayer.Calamity().monolithAccursedShader < 1)
-				return;
+            if (Main.LocalPlayer.Calamity().monolithAccursedShader < 1)
+                return;
 
             if (maxDepth >= float.MaxValue && minDepth < float.MaxValue && Main.LocalPlayer.Calamity().monolithAccursedShader > 21)
             {
-				Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/MainMenu/MenuBackground").Value;
-				int offset = Main.BackgroundEnabled ? 200 : 0;
-				spriteBatch.Draw(texture, new Rectangle(0, Math.Max(0, (int)((Main.worldSurface * 16 - Main.screenPosition.Y - texture.Height * 2) * 0.1f)) - offset, Main.screenWidth, Main.screenHeight), Color.White * Math.Min(1f, (Main.screenPosition.Y - 800f) / 1000f * opacity));
+                Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/MainMenu/MenuBackground").Value;
+                int offset = Main.BackgroundEnabled ? 200 : 0;
+                spriteBatch.Draw(texture, new Rectangle(0, Math.Max(0, (int)((Main.worldSurface * 16 - Main.screenPosition.Y - texture.Height * 2) * 0.1f)) - offset, Main.screenWidth, Main.screenHeight), Color.White * Math.Min(1f, (Main.screenPosition.Y - 800f) / 1000f * opacity));
             }
 
             // Draw cinders.
-            Texture2D cinderTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/CalamitasCinder").Value;
+            Texture2D cinderTexture = ModContent.Request<Texture2D>("CalamityMod/Skies/CalamitasCinder").Value;
             for (int i = 0; i < Cinders.Count; i++)
             {
                 Vector2 drawPosition = Cinders[i].Center - Main.screenPosition;
@@ -130,6 +130,6 @@ namespace CalamityMod.Skies
 
         public override Color OnTileColor(Color color) => Color.Lerp(color, new Color(205, 100, 100), opacity);
 
-		public override float GetCloudAlpha() => (1f - opacity) * 0.3f + 0.7f;
+        public override float GetCloudAlpha() => (1f - opacity) * 0.3f + 0.7f;
     }
 }

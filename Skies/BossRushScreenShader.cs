@@ -1,8 +1,9 @@
+﻿using CalamityMod.Events;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Graphics.Shaders;
 
-namespace CalamityMod.Events
+namespace CalamityMod.Skies
 {
     public class BossRushScreenShader : ScreenShaderData
     {

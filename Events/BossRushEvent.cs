@@ -37,6 +37,7 @@ using Terraria.ModLoader;
 using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.GameContent.Events;
+using CalamityMod.Skies;
 
 namespace CalamityMod.Events
 {

@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             if (Main.netMode != NetmodeID.Server)
             {
-                EquipLoader.AddEquipTexture(Mod, "CalamityMod/ExtraTextures/AndromedaWithout_Head", EquipType.Head, name: "HeadlessEquipTexture");
+                EquipLoader.AddEquipTexture(Mod, "CalamityMod/CalPlayer/DrawLayers/AndromedaWithout_Head", EquipType.Head, name: "HeadlessEquipTexture");
             }
         }
 

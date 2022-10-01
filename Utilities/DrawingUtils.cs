@@ -17,6 +17,15 @@ namespace CalamityMod
 {
     public static partial class CalamityUtils
     {
+        internal static Texture2D AuroraTexture
+        {
+            get
+            {
+                Main.instance.LoadProjectile(ProjectileID.HallowBossDeathAurora);
+                return TextureAssets.Projectile[ProjectileID.HallowBossDeathAurora].Value;
+            }
+        }
+
         public static readonly Color[] ExoPalette = new Color[]
         {
             new Color(250, 255, 112),
@@ -664,7 +673,7 @@ namespace CalamityMod
         public static IEnumerable<DrawData> DrawAuroras(Player player, float auroraCount, float opacity, Color color)
         {
             float time = Main.GlobalTimeWrappedHourly % 3f / 3f;
-            Texture2D auroraTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/AuroraTexture").Value;
+            Texture2D auroraTexture = AuroraTexture;
             for (int i = 0; i < auroraCount; i++)
             {
                 float incrementOffsetAngle = MathHelper.TwoPi * i / auroraCount;

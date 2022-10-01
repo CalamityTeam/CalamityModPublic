@@ -218,7 +218,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                 Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, shieldEffect, Main.GameViewMatrix.TransformationMatrix);
 
                 if (RoverDrive.NoiseTex == null)
-                    RoverDrive.NoiseTex = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/TechyNoise");
+                    RoverDrive.NoiseTex = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/GreyscaleGradients/TechyNoise");
 
                 Texture2D tex = RoverDrive.NoiseTex.Value;
                 Vector2 pos = NPC.Center + NPC.gfxOffY * Vector2.UnitY - Main.screenPosition;

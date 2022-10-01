@@ -62,7 +62,7 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override bool PreDraw(ref Color lightColor)
         {
-            CalamityUtils.DrawHook(Projectile, Request<Texture2D>("CalamityMod/ExtraTextures/Chains/BobbitHookChain").Value);
+            CalamityUtils.DrawHook(Projectile, Request<Texture2D>("CalamityMod/Projectiles/Typeless/BobbitHookChain").Value);
             return true;
         }
 

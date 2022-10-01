@@ -203,7 +203,7 @@ namespace CalamityMod.Projectiles.Magic
         public override bool PreDraw(ref Color lightColor)
         {
             Main.spriteBatch.EnterShaderRegion(BlendState.Additive);
-            Texture2D worleyNoise = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/BlobbyNoise").Value;
+            Texture2D worleyNoise = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/GreyscaleGradients/BlobbyNoise").Value;
             Vector2 drawPosition = Projectile.Center - Main.screenPosition;
             Vector2 scale = Projectile.Size / worleyNoise.Size() * 2f;
             float spinRotation = Main.GlobalTimeWrappedHourly * 2.4f;

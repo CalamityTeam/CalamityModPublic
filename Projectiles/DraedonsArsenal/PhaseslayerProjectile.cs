@@ -310,7 +310,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             if (TrailDrawer is null)
                 TrailDrawer = new PrimitiveTrail(WidthFunction, ColorFunction, specialShader: GameShaders.Misc["CalamityMod:PhaseslayerRipEffect"]);
 
-            GameShaders.Misc["CalamityMod:PhaseslayerRipEffect"].SetShaderTexture(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/SwordSlashTexture"));
+            GameShaders.Misc["CalamityMod:PhaseslayerRipEffect"].SetShaderTexture(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Trails/SwordSlashTexture"));
 
             Player player = Main.player[Projectile.owner];
             float swingAngularDirection = Math.Sign(MathHelper.WrapAngle(Projectile.rotation - Projectile.oldRot[1]));

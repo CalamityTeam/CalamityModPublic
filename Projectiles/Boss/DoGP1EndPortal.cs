@@ -63,7 +63,7 @@ namespace CalamityMod.Projectiles.Boss
         {
             Main.spriteBatch.EnterShaderRegion();
 
-            Texture2D noiseTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/VoronoiShapes").Value;
+            Texture2D noiseTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/GreyscaleGradients/VoronoiShapes").Value;
             Vector2 drawPosition = Projectile.Center - Main.screenPosition;
             Vector2 origin = noiseTexture.Size() * 0.5f;
             GameShaders.Misc["CalamityMod:DoGPortal"].UseOpacity(Projectile.scale);
