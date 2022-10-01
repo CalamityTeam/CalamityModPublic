@@ -12,6 +12,7 @@ namespace CalamityMod.Items.Fishing
             DisplayName.SetDefault("Fish of Eleum");
             Tooltip.SetDefault("Right click to extract essence");
             SacrificeTotal = 10;
+            ItemID.Sets.CanBePlacedOnWeaponRacks[Item.type] = true;
         }
 
         public override void SetDefaults()

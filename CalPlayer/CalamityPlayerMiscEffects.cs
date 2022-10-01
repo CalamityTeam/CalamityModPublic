@@ -16,6 +16,7 @@ using CalamityMod.EntitySources;
 using CalamityMod.Events;
 using CalamityMod.Items;
 using CalamityMod.Items.Accessories;
+using CalamityMod.Items.Ammo;
 using CalamityMod.Items.Armor.Brimflame;
 using CalamityMod.Items.Armor.DesertProwler;
 using CalamityMod.Items.Armor.Silva;
@@ -39,6 +40,7 @@ using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.NPCs.Other;
 using CalamityMod.NPCs.PlagueEnemies;
 using CalamityMod.NPCs.SupremeCalamitas;
+using CalamityMod.NPCs.TownNPCs;
 using CalamityMod.Projectiles.Magic;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Projectiles.Rogue;
@@ -80,23 +82,6 @@ namespace CalamityMod.CalPlayer
             if (fearmongerRegenFrames > 0)
                 fearmongerRegenFrames--;
 
-            // Reduce the expert+ debuff time multiplier to the normal mode multiplier
-            // TODO -- This should be a ModSystem, why is this in CalamityPlayer
-            if (CalamityConfig.Instance.NerfExpertDebuffs)
-            {
-                var copy = Main.RegisteredGameModes[GameModeID.Expert];
-                copy.DebuffTimeMultiplier = 1f;
-                Main.RegisteredGameModes[GameModeID.Expert] = copy;
-
-                copy = Main.RegisteredGameModes[GameModeID.Master];
-                copy.DebuffTimeMultiplier = 1f;
-                Main.RegisteredGameModes[GameModeID.Master] = copy;
-
-                // NOTE -- While this may seem at a glance to be redundant and nonsensical, the underlying setter for this property is what causes the game mode properties to
-                // be refreshed and copied from RegisteredGameModes. Without this, the above behavior is not reflected ingame, as GameModeData is a value type, not a reference type.
-                Main.GameMode = Main.GameMode;
-            }
-
             // Go through the old positions for the player.
             for (int i = Player.Calamity().OldPositions.Length - 1; i > 0; i--)
             {
@@ -107,7 +92,7 @@ namespace CalamityMod.CalPlayer
             OldPositions[0] = Player.position;
 
             // Hurt the nearest NPC to the mouse if using the burning mouse.
-            if (blazingCursorDamage)
+            if (blazingCursorDamage || blazingCursorVisuals)
                 HandleBlazingMouseEffects();
 
             // Revengeance effects
@@ -151,6 +136,9 @@ namespace CalamityMod.CalPlayer
 
             // Check if schematics are present on the mouse, for the sake of registering their recipes.
             CheckIfMouseItemIsSchematic();
+
+            // Handle Androomba's Right Click function
+            AndroombaRightClick();
 
             // Update all particle sets for items.
             // This must be done here instead of in the item logic because these sets are not properly instanced
@@ -505,6 +493,10 @@ namespace CalamityMod.CalPlayer
             // The sigil's brightness slowly fades away every frame if not incinerating anything.
             blazingMouseAuraFade = MathHelper.Clamp(blazingMouseAuraFade - 0.025f, 0.25f, 1f);
 
+            // Allows the blazing aura to display if the accessory is vanity, but it deals no damage
+            if (!blazingCursorDamage)
+                return;
+
             // miscCounter is used to limit Calamity's hit rate.
             int framesPerHit = 60 / Calamity.HitsPerSecond;
             if (Player.miscCounter % framesPerHit != 1)
@@ -516,7 +508,7 @@ namespace CalamityMod.CalPlayer
             for (int i = 0; i < Main.maxNPCs; i++)
             {
                 NPC target = Main.npc[i];
-                if (!target.active || !target.Hitbox.Intersects(sigilHitbox) || target.immortal || target.dontTakeDamage || target.townNPC)
+                if (!target.active || !target.Hitbox.Intersects(sigilHitbox) || target.immortal || target.dontTakeDamage || target.townNPC || NPCID.Sets.ActsLikeTownNPC[target.type] || NPCID.Sets.CountsAsCritter[target.type])
                     continue;
 
                 // Brighten the sigil because it is dealing damage. This can only happen once per hit event.
@@ -655,7 +647,9 @@ namespace CalamityMod.CalPlayer
 
                 for (int i = 0; i < Main.maxNPCs; i++)
                 {
-                    if (!Main.npc[i].active || Main.npc[i].friendly || Main.npc[i].lifeMax < 5 || alreadyTargetedNPCs.Contains(i) || Main.npc[i].realLife >= 0 || Main.npc[i].dontTakeDamage || Main.npc[i].immortal)
+                    NPC target = Main.npc[i];
+                    if (!target.active || target.friendly || target.lifeMax < 5 || alreadyTargetedNPCs.Contains(i) || target.realLife >= 0 ||
+                        target.dontTakeDamage || target.immortal || target.townNPC || NPCID.Sets.ActsLikeTownNPC[target.type] || NPCID.Sets.CountsAsCritter[target.type])
                         continue;
 
                     var source = Player.GetSource_Accessory(FindAccessory(ModContent.ItemType<DaawnlightSpiritOrigin>()));
@@ -665,10 +659,6 @@ namespace CalamityMod.CalPlayer
                         spiritOriginBullseyeShootCountdown = 45;
                 }
             }
-
-            // Proficiency level ups
-            if (CalamityConfig.Instance.Proficiency)
-                GetExactLevelUp();
 
             // Max mana bonuses
             Player.statManaMax2 +=
@@ -1077,12 +1067,14 @@ namespace CalamityMod.CalPlayer
                 KameiBladeUseDelay--;
             if (galileoCooldown > 0)
                 galileoCooldown--;
+            if (dragonRageCooldown > 0)
+                dragonRageCooldown--;
             if (soundCooldown > 0)
                 soundCooldown--;
             if (shadowPotCooldown > 0)
                 shadowPotCooldown--;
-            if (raiderCooldown > 0)
-                raiderCooldown--;
+            if (raiderCritBonus > 0f)
+                raiderCritBonus -= RaidersTalisman.RaiderBonus / (float)CalamityUtils.SecondsToFrames(RaidersTalisman.RaiderCooldown);
             if (gSabatonCooldown > 0)
                 gSabatonCooldown--;
             if (gSabatonFall > 0)
@@ -1097,6 +1089,8 @@ namespace CalamityMod.CalPlayer
                 silvaMageCooldown--;
             if (tarraMageHealCooldown > 0)
                 tarraMageHealCooldown--;
+            if (scuttlerCooldown > 0)
+                scuttlerCooldown--;
             if (rogueCrownCooldown > 0)
                 rogueCrownCooldown--;
             if (spectralVeilImmunity > 0)
@@ -1229,6 +1223,8 @@ namespace CalamityMod.CalPlayer
                 ChlorophyteHealDelay--;
             if (monolithAccursedShader > 0)
                 monolithAccursedShader--;
+            if (miningSetCooldown > 0)
+                miningSetCooldown--;
 
             // God Slayer Armor dash debuff immunity
             if (DashID == GodSlayerDash.ID && Player.dashDelay < 0)
@@ -1382,12 +1378,9 @@ namespace CalamityMod.CalPlayer
             }
 
             // Raider Talisman bonus
-            if (raiderTalisman)
+            if (raiderTalisman && !StealthStrikeAvailable())
             {
-                // Nanotech use to have an exclusive nerf here, but since they are currently equal, there
-                // is no check to indicate such.
-                float damageMult = 0.15f;
-                Player.GetDamage<ThrowingDamageClass>() += raiderStack / 150f * damageMult;
+                Player.GetCritChance<ThrowingDamageClass>() += raiderCritBonus;
             }
 
             if (kamiBoost)
@@ -2354,12 +2347,6 @@ namespace CalamityMod.CalPlayer
                 Player.GetCritChance<GenericDamageClass>() += ProfanedRagePotion.CritBoost;
             }
 
-            if (shadow)
-            {
-                if (Player.FindBuffIndex(BuffID.Invisibility) > -1)
-                    Player.ClearBuff(BuffID.Invisibility);
-            }
-
             if (irradiated)
                 Player.statDefense -= 10;
 
@@ -2438,7 +2425,7 @@ namespace CalamityMod.CalPlayer
                 Player.statDefense += 20;
                 Player.longInvince = true;
                 Player.crimsonRegen = true;
-				healingPotBonus += 0.5f;
+                healingPotBonus += 0.5f;
             }
 
             // 50% movement speed bonus so that you don't feel like a snail in the early game.
@@ -2563,18 +2550,6 @@ namespace CalamityMod.CalPlayer
 
             if (CalamityLists.highTestFishList.Contains(Player.ActiveItem().type))
                 Player.accFishingLine = true;
-
-            if (CalamityLists.boomerangList.Contains(Player.ActiveItem().type) && Player.invis)
-                Player.GetDamage<ThrowingDamageClass>() += 0.1f;
-
-            if (CalamityLists.javelinList.Contains(Player.ActiveItem().type) && Player.invis)
-                Player.GetArmorPenetration<GenericDamageClass>() += 5;
-
-            if (CalamityLists.flaskBombList.Contains(Player.ActiveItem().type) && Player.invis)
-                rogueVelocity += 0.1f;
-
-            if (CalamityLists.spikyBallList.Contains(Player.ActiveItem().type) && Player.invis)
-                Player.GetCritChance<RogueDamageClass>() += 10;
 
             if (planarSpeedBoost != 0)
             {
@@ -2855,10 +2830,15 @@ namespace CalamityMod.CalPlayer
             }
 
             if (bloodyWormTooth)
-			{
+            {
                 Player.GetDamage<MeleeDamageClass>() += 0.07f;
-				Player.GetAttackSpeed<MeleeDamageClass>() += 0.07f;
-			}
+                Player.GetAttackSpeed<MeleeDamageClass>() += 0.07f;
+            }
+
+            if (filthyGlove)
+            {
+                bonusStealthDamage += nanotech ? 0.05f : 0.1f;
+            }
 
             if (dAmulet)
                 Player.pStone = true;
@@ -3120,7 +3100,6 @@ namespace CalamityMod.CalPlayer
             if (eArtifact)
             {
                 Player.manaCost *= 0.85f;
-                Player.GetDamage<ThrowingDamageClass>() += 0.15f;
                 Player.maxMinions += 2;
             }
 
@@ -3481,9 +3460,6 @@ namespace CalamityMod.CalPlayer
                 Player.GetDamage<MeleeDamageClass>() += 0.05f;
                 Player.GetCritChance<MeleeDamageClass>() += 5;
             }
-
-            if (CalamityConfig.Instance.Proficiency)
-                GetStatBonuses();
 
             // Amalgam boosts
             if (Main.myPlayer == Player.whoAmI)
@@ -3946,6 +3922,99 @@ namespace CalamityMod.CalPlayer
         }
         #endregion
 
+        #region Androomba Right Click
+        public void AndroombaRightClick()
+        {
+            if (Main.myPlayer != Player.whoAmI)
+                return;
+
+            for (int i = 0; i < Main.maxNPCs; i++)
+            {
+                NPC npc = Main.npc[i];
+                if (npc is null || !npc.active)
+                    return;
+
+                bool holdingsol = ((Player.HeldItem.type >= ItemID.GreenSolution && Player.HeldItem.type <= ItemID.RedSolution) || Player.HeldItem.type == ModContent.ItemType<AstralSolution>());
+                if (npc.Hitbox.Contains(Main.MouseWorld.ToPoint()) && holdingsol && Player.Distance(npc.Center) < 450)
+                {
+                    Player.cursorItemIconEnabled = true;
+                    Player.cursorItemIconID = Player.HeldItem.type;
+                    Player.cursorItemIconText = "";
+                    npc.ShowNameOnHover = false;
+
+                    if (Main.mouseRight && Main.mouseRightRelease && Player.Distance(npc.Center) < 300)
+                    {
+                        npc.netUpdate = true;
+
+                        int soltype = 0;
+                        if (Player.HeldItem.type == ModContent.ItemType<AstralSolution>())
+                        {
+                            soltype = 5;
+                        }
+                        else
+                        {
+                            switch (Player.HeldItem.type)
+                            {
+                                case ItemID.GreenSolution:
+                                    soltype = 0;
+                                    break;
+                                case ItemID.PurpleSolution:
+                                    soltype = 1;
+                                    break;
+                                case ItemID.BlueSolution:
+                                    soltype = 2;
+                                    break;
+                                case ItemID.DarkBlueSolution:
+                                    soltype = 3;
+                                    break;
+                                case ItemID.RedSolution:
+                                    soltype = 4;
+                                    break;
+                            }
+                        }
+                        if (npc.ai[3] != soltype || npc.ai[0] == 0)
+                        {
+                            Player.ConsumeItem(Player.HeldItem.type);
+                            SoundEngine.PlaySound(SoundID.Item87);
+                            if (Main.netMode == NetmodeID.SinglePlayer)
+                            {
+                                AndroombaFriendly.SwapSolution(npc.whoAmI, soltype);
+                            }
+                            else
+                            {
+                                var netMessage = Mod.GetPacket();
+                                netMessage.Write((byte)CalamityModMessageType.SyncAndroombaSolution);
+                                netMessage.Write(npc.whoAmI);
+                                netMessage.Write(soltype);
+                                netMessage.Send();
+                            }
+                            if (npc.ai[0] == 0f)
+                            {
+                                if (Main.netMode == NetmodeID.SinglePlayer)
+                                {
+                                    AndroombaFriendly.ChangeAI(npc.whoAmI, 1);
+                                }
+                                else
+                                {
+                                    var netMessage = Mod.GetPacket();
+                                    netMessage.Write((byte)CalamityModMessageType.SyncAndroombaAI);
+                                    netMessage.Write(npc.whoAmI);
+                                    netMessage.Write(1);
+                                    netMessage.Send();
+                                }
+                            }
+                            if (Main.netMode == NetmodeID.Server)
+                                NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, i);
+                        }
+                    }
+                }
+
+                else
+                    npc.ShowNameOnHover = true;
+            }
+        }
+        #endregion
+
         #region Potion Handling
         private void HandlePotions()
         {
@@ -3978,8 +4047,6 @@ namespace CalamityMod.CalPlayer
                         CalamityUtils.ConsumeItemViaQuickBuff(Player, item, HadalStew.BuffType, HadalStew.BuffDuration, true);
                     if (item.type == ModContent.ItemType<Margarita>())
                         CalamityUtils.ConsumeItemViaQuickBuff(Player, item, Margarita.BuffType, Margarita.BuffDuration, false);
-                    if (item.type == ModContent.ItemType<Bloodfin>())
-                        CalamityUtils.ConsumeItemViaQuickBuff(Player, item, Bloodfin.BuffType, Bloodfin.BuffDuration, false);
                 }
             }
         }

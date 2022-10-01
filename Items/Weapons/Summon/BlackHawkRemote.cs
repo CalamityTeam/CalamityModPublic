@@ -12,13 +12,15 @@ namespace CalamityMod.Items.Weapons.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Black Hawk Remote");
-            Tooltip.SetDefault("Summons a Black Hawk jet to fight for you");
+            Tooltip.SetDefault("Summons a Black Hawk jet to fight for you\n" +
+                               "Jets will fire bullets from your inventory\n" +
+                               "50% chance to not consume ammo");
             SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            Item.damage = 32;
+            Item.damage = 25;
             Item.mana = 10;
             Item.width = 46;
             Item.height = 28;
@@ -30,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Summon
             Item.UseSound = SoundID.Item15; //phaseblade sound effect
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<BlackHawkSummon>();
-            Item.shootSpeed = 10f;
+            Item.shootSpeed = 6f; // Affects bullet speed
             Item.DamageType = DamageClass.Summon;
             Item.rare = ItemRarityID.LightRed;
         }
@@ -41,10 +43,7 @@ namespace CalamityMod.Items.Weapons.Summon
             {
                 if (player.whoAmI == Main.myPlayer)
                 {
-                    position = Main.MouseWorld;
-                    velocity.X = 0;
-                    velocity.Y = 0;
-                    int p = Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, type, damage, knockback, player.whoAmI, 0f, 1f);
+                    int p = Projectile.NewProjectile(source, Main.MouseWorld, Vector2.Zero, type, damage, knockback, player.whoAmI, 0f, 1f);
                     if (Main.projectile.IndexInRange(p))
                         Main.projectile[p].originalDamage = Item.damage;
                 }

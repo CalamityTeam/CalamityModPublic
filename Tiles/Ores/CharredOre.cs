@@ -21,6 +21,8 @@ namespace CalamityMod.Tiles.Ores
             CalamityUtils.MergeWithGeneral(Type);
             CalamityUtils.MergeWithHell(Type);
 
+            TileID.Sets.Ore[Type] = true;
+
             ItemDrop = ModContent.ItemType<Items.Placeables.Ores.CharredOre>();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Charred Ore");

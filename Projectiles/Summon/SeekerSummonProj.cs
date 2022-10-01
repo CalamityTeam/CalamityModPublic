@@ -98,9 +98,20 @@ namespace CalamityMod.Projectiles.Summon
 
         internal void FlyNearOwner()
         {
-            // Make an imp laugh sound every so often.
+            // Make an imp laugh sound every so often if you're the first seeker in the projectile array.
             if (Main.rand.NextBool(1600))
-                SoundEngine.PlaySound(SoundID.DD2_KoboldFlyerHurt);
+			{
+                for (int i = 0; i < Main.maxProjectiles; i++)
+                {
+                    Projectile seeker = Main.projectile[i];
+                    if (seeker.type == Projectile.type)
+                    {
+                        if (seeker == Projectile)
+                            SoundEngine.PlaySound(SoundID.DD2_KoboldFlyerHurt);
+                        break;
+                    }
+                }
+			}
 
             Vector2 destination = Owner.Center + (MathHelper.TwoPi * CircleAngleRatio / Owner.ownedProjectileCounts[Type] - MathHelper.PiOver2).ToRotationVector2() * 310f;
             Projectile.Center = Vector2.Lerp(Projectile.Center, destination, 0.03f);

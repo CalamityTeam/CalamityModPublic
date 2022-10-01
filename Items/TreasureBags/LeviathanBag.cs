@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
+using CalamityMod.Items.Placeables.Furniture.DevPaintings;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
@@ -81,6 +82,7 @@ namespace CalamityMod.Items.TreasureBags
             // Vanity
             itemLoot.Add(ModContent.ItemType<AnahitaMask>(), 7);
             itemLoot.Add(ModContent.ItemType<LeviathanMask>(), 7);
+            itemLoot.Add(ModContent.ItemType<ThankYouPainting>(), ThankYouPainting.DropInt);
 
             // Fishing
             itemLoot.Add(ItemID.HotlineFishingHook, 10);

@@ -4,12 +4,14 @@ using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Placeables.Furniture.BossRelics;
+using CalamityMod.Items.Placeables.Furniture.DevPaintings;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Items.TreasureBags;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
+using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -822,6 +824,7 @@ namespace CalamityMod.NPCs.Crabulon
                     ModContent.ItemType<HyphaeRod>(),
                     ModContent.ItemType<Mycoroot>(),
                     ModContent.ItemType<InfestedClawmerang>(),
+                    ModContent.ItemType<PuffShroom>(),
                 };
                 normalOnly.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, weapons));
 
@@ -830,6 +833,7 @@ namespace CalamityMod.NPCs.Crabulon
 
                 // Vanity
                 normalOnly.Add(ModContent.ItemType<CrabulonMask>(), 7);
+                normalOnly.Add(ModContent.ItemType<ThankYouPainting>(), ThankYouPainting.DropInt);
             }
 
             npcLoot.Add(ModContent.ItemType<CrabulonTrophy>(), 10);

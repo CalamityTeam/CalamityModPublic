@@ -393,7 +393,7 @@ namespace CalamityMod.NPCs.SlimeGod
                     NPC.ai[1] += 1f;
                     if (NPC.ai[1] > 10f)
                     {
-                        SoundEngine.PlaySound(SoundID.Item33, NPC.Center);
+                        SoundEngine.PlaySound(SlimeGodCore.BigShotSound, NPC.Center);
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
                             // Eruption of slime balls that fall down
@@ -725,7 +725,8 @@ namespace CalamityMod.NPCs.SlimeGod
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(BuffID.Darkness, 240, true);
+            if (damage > 0)
+                player.AddBuff(BuffID.Darkness, 240, true);
         }
     }
 }

@@ -87,7 +87,7 @@ namespace CalamityMod.Projectiles.Summon
                     }
                     else
                     {
-                        Projectile.velocity = (Projectile.velocity * 44f + Projectile.SafeDirectionTo(player.Center) * 24f) / 45f;
+                        Projectile.velocity = (Projectile.velocity * 44f + Projectile.SafeDirectionTo(target.Center) * 24f) / 45f;
                         Projectile.ai[0] += 30 - Projectile.ai[0] % 30f;
                     }
                     Projectile.ai[1] = 1f;

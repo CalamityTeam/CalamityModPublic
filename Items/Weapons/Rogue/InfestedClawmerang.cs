@@ -30,6 +30,7 @@ Stealth strikes grant the Mushy buff to the user on enemy hits and summon homing
             Item.useStyle = ItemUseStyleID.Swing;
             Item.knockBack = 1.5f;
             Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
             Item.height = 50;
             Item.rare = ItemRarityID.Green;
             Item.value = CalamityGlobalItem.Rarity2BuyPrice;

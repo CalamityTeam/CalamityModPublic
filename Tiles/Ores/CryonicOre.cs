@@ -17,6 +17,8 @@ namespace CalamityMod.Tiles.Ores
             CalamityUtils.MergeWithGeneral(Type);
             CalamityUtils.MergeWithSnow(Type);
 
+            TileID.Sets.Ore[Type] = true;
+
             ItemDrop = ModContent.ItemType<Items.Placeables.Ores.CryonicOre>();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Cryonic");

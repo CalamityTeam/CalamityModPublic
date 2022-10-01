@@ -138,17 +138,6 @@ namespace CalamityMod.NPCs.AcidRain
             return 0.15f;
         }
 
-        public override void OnCaughtBy(Player player, Item item, bool failed)
-        {
-            try
-            {
-            }
-            catch
-            {
-                return;
-            }
-        }
-
         public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < 5; k++)

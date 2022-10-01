@@ -11,6 +11,7 @@ namespace CalamityMod.Items.Fishing.SunkenSeaCatches
             DisplayName.SetDefault("Greenwave Loach");
             Tooltip.SetDefault("An endangered fish that is highly prized in the market");
             SacrificeTotal = 3;
+            ItemID.Sets.CanBePlacedOnWeaponRacks[Item.type] = true;
         }
 
         public override void SetDefaults()

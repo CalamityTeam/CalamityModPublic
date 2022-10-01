@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Accessories
         {
             SacrificeTotal = 1;
             DisplayName.SetDefault("Corrosive Spine");
-            Tooltip.SetDefault("10% increased movement speed\n" +
+            Tooltip.SetDefault("5% increased movement speed\n" +
                                "All rogue weapons inflict venom and spawn clouds on enemy hits\n" +
                                "You release a ton of clouds everywhere on hit");
         }
@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.moveSpeed += 0.1f;
+            player.moveSpeed += 0.05f;
             player.Calamity().corrosiveSpine = true;
             if (player.immune)
             {

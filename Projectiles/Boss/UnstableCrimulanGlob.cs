@@ -76,7 +76,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            if (Projectile.timeLeft < 60)
+            if (damage <= 0 || Projectile.timeLeft < 60)
                 return;
 
             target.AddBuff(BuffID.Darkness, 180);

@@ -7,6 +7,7 @@ using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Pets;
 using CalamityMod.Items.Placeables.Furniture.BossRelics;
+using CalamityMod.Items.Placeables.Furniture.DevPaintings;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Items.Potions;
 using CalamityMod.Items.TreasureBags;
@@ -1033,6 +1034,13 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     NPC.noTileCollide = false;
                     NPC.noGravity = false;
                     NPC.damage = 0;
+
+                    // Teleport back to the arena on defeat
+                    if (giveUpCounter == 1200)
+                    {
+                        Dust.QuickDustLine(NPC.Center, initialRitualPosition, 500f, Color.Red);
+                        NPC.Center = initialRitualPosition;
+                    }
 
                     if (!canDespawn)
                         NPC.velocity.X *= 0.96f;
@@ -2539,10 +2547,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
         public override void OnKill()
         {
-            // Create a teleport line effect
-            Dust.QuickDustLine(NPC.Center, initialRitualPosition, 500f, Color.Red);
-            NPC.Center = initialRitualPosition;
-
             CalamityGlobalNPC.SetNewBossJustDowned(NPC);
 
             // Increase the player's SCal kill count
@@ -2584,10 +2588,14 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<Calamity>()));
 
                 // SCal vanity set (This drops all at once, or not at all)
-                normalOnly.Add(ItemDropRule.Common(ModContent.ItemType<AshenHorns>(), 7).
-                    OnSuccess(ItemDropRule.Common(ModContent.ItemType<SCalMask>())).
-                    OnSuccess(ItemDropRule.Common(ModContent.ItemType<SCalRobes>())).
-                    OnSuccess(ItemDropRule.Common(ModContent.ItemType<SCalBoots>())));
+				var scalVanitySet = ItemDropRule.Common(ModContent.ItemType<AshenHorns>(), 7);
+				scalVanitySet.OnSuccess(ItemDropRule.Common(ModContent.ItemType<SCalMask>()));
+				scalVanitySet.OnSuccess(ItemDropRule.Common(ModContent.ItemType<SCalRobes>()));
+				scalVanitySet.OnSuccess(ItemDropRule.Common(ModContent.ItemType<SCalBoots>()));
+				normalOnly.Add(scalVanitySet);
+
+				// Furniture
+                normalOnly.Add(ModContent.ItemType<ThankYouPainting>(), ThankYouPainting.DropInt);
             }
 
             // One of the only Death-exclusive drops in the mod, as requested by Leviathan: Levi pet and Gael's Greatsword
@@ -2859,7 +2867,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 NPC.position.Y = NPC.position.Y - (NPC.height / 2);
                 for (int num621 = 0; num621 < 40; num621++)
                 {
-                    int num622 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 2f);
+                    int num622 = Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 2f);
                     Main.dust[num622].velocity *= 3f;
                     if (Main.rand.NextBool(2))
                     {
@@ -2869,10 +2877,10 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 }
                 for (int num623 = 0; num623 < 70; num623++)
                 {
-                    int num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 3f);
+                    int num624 = Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 3f);
                     Main.dust[num624].noGravity = true;
                     Main.dust[num624].velocity *= 5f;
-                    num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 2f);
+                    num624 = Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 2f);
                     Main.dust[num624].velocity *= 2f;
                 }
             }
@@ -2886,7 +2894,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(ModContent.BuffType<VulnerabilityHex>(), 600, true);
+            if (damage > 0)
+                player.AddBuff(ModContent.BuffType<VulnerabilityHex>(), 600, true);
         }
     }
 }

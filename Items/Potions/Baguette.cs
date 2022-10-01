@@ -1,7 +1,7 @@
-﻿using Terraria;
+﻿using CalamityMod.Buffs.Potions;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Buffs.Potions;
 
 namespace CalamityMod.Items.Potions
 {
@@ -35,6 +35,11 @@ namespace CalamityMod.Items.Potions
             Item.buffType = ModContent.BuffType<BaguetteBuff>();
             Item.buffTime = CalamityUtils.SecondsToFrames(300f);
         }
+
+		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+		{
+			itemGroup = ContentSamples.CreativeHelper.ItemGroup.Food;
+		}
 
         public override void OnConsumeItem(Player player)
         {

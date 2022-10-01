@@ -5,6 +5,7 @@ using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Furniture.BossRelics;
+using CalamityMod.Items.Placeables.Furniture.DevPaintings;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Items.Potions;
 using CalamityMod.Items.TreasureBags;
@@ -38,6 +39,8 @@ namespace CalamityMod.NPCs.SlimeGod
 
         public static readonly SoundStyle PossessionSound = new("CalamityMod/Sounds/Custom/SlimeGodPossession");
         public static readonly SoundStyle ExitSound = new("CalamityMod/Sounds/Custom/SlimeGodExit");
+        public static readonly SoundStyle ShotSound = new("CalamityMod/Sounds/Custom/SlimeGodShot", 2);
+        public static readonly SoundStyle BigShotSound = new("CalamityMod/Sounds/Custom/SlimeGodBigShot", 2);
 
         public override void SetStaticDefaults()
         {
@@ -235,6 +238,20 @@ namespace CalamityMod.NPCs.SlimeGod
                         Main.dust[num624].velocity *= 2f;
                     }
 
+                    // Let the player know that the Slime God isn't dead fr
+                    if (!DownedBossSystem.downedSlimeGod)
+                    {
+                        string key = "Mods.CalamityMod.SlimeGodRun";
+                        Color messageColor = Color.Magenta;
+
+                        CalamityUtils.DisplayLocalizedText(key, messageColor);
+                    }
+
+                    // Set Slime God to have interacted with all players
+                    for (int i = 0; i < Main.maxPlayers; i++)
+                    {
+                        NPC.ApplyInteraction(i);
+                    }
                     NPC.active = false;
                     NPC.HitEffect();
                     NPC.NPCLoot();
@@ -372,7 +389,7 @@ namespace CalamityMod.NPCs.SlimeGod
 
                 if (calamityGlobalNPC.newAI[2] % divisor == 0f)
                 {
-                    SoundEngine.PlaySound(SoundID.Item33, NPC.Center);
+                    SoundEngine.PlaySound(ShotSound, NPC.Center);
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         if (Main.rand.NextBool())
@@ -596,6 +613,7 @@ namespace CalamityMod.NPCs.SlimeGod
                 // Vanity
                 normalOnly.Add(ModContent.ItemType<SlimeGodMask>(), 7);
                 normalOnly.Add(ModContent.ItemType<SlimeGodMask2>(), 7);
+                normalOnly.Add(ModContent.ItemType<ThankYouPainting>(), ThankYouPainting.DropInt);
 
                 // Equipment
                 normalOnly.Add(ModContent.ItemType<ManaPolarizer>());
@@ -622,9 +640,12 @@ namespace CalamityMod.NPCs.SlimeGod
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(BuffID.Slow, 180, true);
-            player.AddBuff(BuffID.Weak, 180, true);
-            player.AddBuff(BuffID.Darkness, 180, true);
+            if (damage > 0)
+            {
+                player.AddBuff(BuffID.Slow, 180, true);
+                player.AddBuff(BuffID.Weak, 180, true);
+                player.AddBuff(BuffID.Darkness, 180, true);
+			}
         }
     }
 }

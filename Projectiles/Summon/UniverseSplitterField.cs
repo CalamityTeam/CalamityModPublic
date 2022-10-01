@@ -143,7 +143,7 @@ namespace CalamityMod.Projectiles.Summon
                                              Projectile.knockBack,
                                              Projectile.owner,
                                              (-Vector2.Normalize(offset)).ToRotation());
-                    Main.projectile[beam].originalDamage = Projectile.damage;
+                    Main.projectile[beam].originalDamage = Projectile.originalDamage;
                 }
             }
             // Summon a giant beam
@@ -158,7 +158,7 @@ namespace CalamityMod.Projectiles.Summon
                                          Projectile.knockBack,
                                          Projectile.owner,
                                          0f);
-                Main.projectile[beam].originalDamage = Projectile.damage;
+                Main.projectile[beam].originalDamage = Projectile.originalDamage;
             }
         }
 

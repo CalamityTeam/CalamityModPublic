@@ -1,10 +1,12 @@
 ﻿using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.PermanentBoosters;
+using CalamityMod.Items.Placeables.Furniture.DevPaintings;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
+using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.NPCs.Crabulon;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -70,6 +72,7 @@ namespace CalamityMod.Items.TreasureBags
                 ModContent.ItemType<HyphaeRod>(),
                 ModContent.ItemType<InfestedClawmerang>(),
                 ModContent.ItemType<Mycoroot>(),
+                ModContent.ItemType<PuffShroom>(),
             }));
 
             // Equipment
@@ -78,6 +81,7 @@ namespace CalamityMod.Items.TreasureBags
 
             // Vanity
             itemLoot.Add(ModContent.ItemType<CrabulonMask>(), 7);
+            itemLoot.Add(ModContent.ItemType<ThankYouPainting>(), ThankYouPainting.DropInt);
 
             // Other
             itemLoot.AddIf((info) => CalamityWorld.revenge && !info.player.Calamity().rageBoostOne, ModContent.ItemType<MushroomPlasmaRoot>());

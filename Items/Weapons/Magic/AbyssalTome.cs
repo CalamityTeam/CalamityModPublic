@@ -1,4 +1,5 @@
-﻿using CalamityMod.Projectiles.Magic;
+﻿using CalamityMod.NPCs.SlimeGod;
+using CalamityMod.Projectiles.Magic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -28,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.knockBack = 6;
             Item.value = CalamityGlobalItem.Rarity4BuyPrice;
             Item.rare = ItemRarityID.LightRed;
-            Item.UseSound = SoundID.Item8;
+            Item.UseSound = SlimeGodCore.ShotSound;
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<AbyssBall>();
             Item.shootSpeed = 9f;

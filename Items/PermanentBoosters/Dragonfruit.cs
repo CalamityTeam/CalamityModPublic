@@ -4,6 +4,7 @@ using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System.Linq;
@@ -13,6 +14,7 @@ namespace CalamityMod.Items.PermanentBoosters
 {
     public class Dragonfruit : ModItem
     {
+        public static readonly SoundStyle UseSound = new("CalamityMod/Sounds/Item/DragonfruitConsume");
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Dragonfruit");
@@ -31,7 +33,7 @@ namespace CalamityMod.Items.PermanentBoosters
             Item.useAnimation = 30;
             Item.useTime = 30;
             Item.useStyle = ItemUseStyleID.HoldUp;
-            Item.UseSound = SoundID.Item4;
+            Item.UseSound = UseSound;
             Item.consumable = true;
             Item.rare = ModContent.RarityType<Violet>();
         }

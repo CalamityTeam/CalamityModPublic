@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Summon
             Item.UseSound = SoundID.DD2_EtherianPortalOpen;
             Item.DamageType = DamageClass.Summon;
             Item.mana = 10;
-            Item.damage = 150;
+            Item.damage = 105;
             Item.knockBack = 4f;
             Item.useTime = Item.useAnimation = 15; // 14 because of useStyle 1
             Item.shoot = ModContent.ProjectileType<VoidConcentrationAura>();

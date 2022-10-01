@@ -11,6 +11,7 @@ namespace CalamityMod.NPCs.Ravager
 {
     public class RavagerHead : ModNPC
     {
+        public static readonly SoundStyle MissileSound = new("CalamityMod/Sounds/Custom/Ravager/RavagerMissileLaunch");
         public override void SetStaticDefaults()
         {
             this.HideFromBestiary();
@@ -33,7 +34,7 @@ namespace CalamityMod.NPCs.Ravager
             NPC.canGhostHeal = false;
             NPC.noTileCollide = true;
             NPC.alpha = 255;
-            NPC.HitSound = SoundID.NPCHit41;
+            NPC.HitSound = RavagerBody.HitSound;
             NPC.DeathSound = null;
             if (DownedBossSystem.downedProvidence && !BossRushEvent.BossRushActive)
             {
@@ -80,7 +81,7 @@ namespace CalamityMod.NPCs.Ravager
             NPC.ai[1] += 1f;
             if (NPC.ai[1] >= (death ? 420f : 480f))
             {
-                SoundEngine.PlaySound(SoundID.Item62, NPC.position);
+                SoundEngine.PlaySound(MissileSound, NPC.position);
 
                 // Get a target
                 if (NPC.target < 0 || NPC.target == Main.maxPlayers || Main.player[NPC.target].dead || !Main.player[NPC.target].active)

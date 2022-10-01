@@ -14,6 +14,7 @@ namespace CalamityMod.Items
                                "Holding out the crystal slows the player down\n" +
                                "At the end of its life, the crystal heals the player for 70 HP");
             SacrificeTotal = 1;
+            ItemID.Sets.CanBePlacedOnWeaponRacks[Item.type] = true;
         }
 
         public override void SetDefaults()

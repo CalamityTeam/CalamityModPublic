@@ -38,9 +38,11 @@ namespace CalamityMod.Items
                 { ItemID.AdamantiteSword, Do(UseTurn, ScaleRatio(1.5f), UseRatio(0.8f), DamageExact(77)) },
                 { ItemID.AdamantiteWaraxe, Do(AxePower(160), UseTimeExact(10), TileBoostExact(+1)) },
                 { ItemID.Amarok, autoReuse },
-                { ItemID.AmberStaff, Do(DamageExact(19), UseTimeExact(15), UseAnimationExact(40)) },
+                { ItemID.AmberStaff, Do(UseTimeExact(15), UseAnimationExact(45), ReuseDelayExact(10)) },
                 { ItemID.AmethystStaff, Do(ManaExact(2)) },
                 { ItemID.Anchor, Do(DamageExact(107), UseExact(30)) },
+                { ItemID.AncientHallowedGreaves, Do(DefenseDelta(+2)) },
+                { ItemID.AncientHallowedPlateMail, Do(DefenseDelta(+3)) },
                 { ItemID.AnkhShield, Do(DefenseDelta(+8)) },
                 { ItemID.AntlionClaw, Do(ScaleRatio(1.5f), DamageRatio(1.5f), UseExact(14)) },
                 { ItemID.AquaScepter, Do(DamageExact(21), ShootSpeedExact(25f)) },
@@ -187,6 +189,7 @@ namespace CalamityMod.Items
                 { ItemID.EoCShield, Do(DefenseDelta(+1)) },
                 { ItemID.FairyQueenRangedItem, pointBlank },
                 { ItemID.Excalibur, Do(UseTurn, ScaleRatio(1.5f), UseRatio(0.8f), DamageExact(125), UseAnimationExact(45)) },
+                { ItemID.FairyQueenMagicItem, Do(DamageExact(54)) },
                 { ItemID.FalconBlade, Do(UseTurn, ScaleRatio(1.5f), DamageExact(35), UseExact(15)) },
                 { ItemID.FieryGreatsword, Do(AutoReuse, UseTurn, ScaleRatio(1.5f), DamageExact(90), UseExact(45)) },
                 { ItemID.FireWhip, autoReuse },
@@ -288,7 +291,7 @@ namespace CalamityMod.Items
                 { ItemID.MaceWhip, autoReuse },
                 { ItemID.MagicalHarp, Do(DamageExact(50), ShootSpeedExact(12f)) },
                 { ItemID.MagicDagger, Do(AutoReuse, DamageExact(77), UseExact(16), ShootSpeedExact(30)) },
-                { ItemID.MagicMissile, Do(DamageRatio(1.2f)) },
+                { ItemID.MagicMissile, Do(DamageExact(23), ManaExact(10), UseAnimationExact(20), UseTimeExact(10)) },
                 { ItemID.MagnetSphere, Do(DamageRatio(1.1f)) },
                 { ItemID.ManaCrystal, autoReuse },
                 { ItemID.Marrow, Do(PointBlank, AutoReuse, DamageExact(69)) },
@@ -400,7 +403,7 @@ namespace CalamityMod.Items
                 { ItemID.QueenSlimeCrystal, nonConsumableBossSummon },
                 { ItemID.QueenSpiderStaff, Do(UseExact(25)) },
                 { ItemID.RainbowCrystalStaff, Do(UseExact(15)) },
-                { ItemID.RainbowRod, Do(DamageExact(50), UseExact(35)) },
+                { ItemID.RainbowRod, Do(DamageExact(35), ManaExact(15), UseExact(25)) },
                 { ItemID.RainbowWhip, autoReuse },
                 { ItemID.Rally, Do(AutoReuse, DamageExact(20)) },
                 { ItemID.RavenStaff, Do(AutoReuse, UseExact(20)) },
@@ -1259,6 +1262,51 @@ namespace CalamityMod.Items
             }
         }
         internal static IItemTweak UseTimeRatio(float f) => new UseTimeRatioRule(f);
+
+        internal class ReuseDelayDeltaRule : IItemTweak
+        {
+            internal readonly int delta = 0;
+
+            public ReuseDelayDeltaRule(int d) => delta = d;
+            public bool AppliesTo(Item it) => IsUsable(it);
+            public void ApplyTweak(Item it)
+            {
+                it.reuseDelay += delta;
+                if (it.reuseDelay < 0)
+                    it.reuseDelay = 0;
+            }
+        }
+        internal static IItemTweak ReuseDelayDelta(int d) => new ReuseDelayDeltaRule(d);
+
+        internal class ReuseDelayExactRule : IItemTweak
+        {
+            internal readonly int newReuseDelay = 0;
+
+            public ReuseDelayExactRule(int rd) => newReuseDelay = rd;
+            public bool AppliesTo(Item it) => IsUsable(it);
+            public void ApplyTweak(Item it)
+            {
+                it.reuseDelay = newReuseDelay;
+                if (it.reuseDelay < 0)
+                    it.reuseDelay = 0;
+            }
+        }
+        internal static IItemTweak ReuseDelayExact(int rd) => new ReuseDelayExactRule(rd);
+
+        internal class ReuseDelayRatioRule : IItemTweak
+        {
+            internal readonly float ratio = 1f;
+
+            public ReuseDelayRatioRule(float f) => ratio = f;
+            public bool AppliesTo(Item it) => IsUsable(it);
+            public void ApplyTweak(Item it)
+            {
+                it.reuseDelay = (int)(it.reuseDelay * ratio);
+                if (it.reuseDelay < 0)
+                    it.reuseDelay = 0;
+            }
+        }
+        internal static IItemTweak ReuseDelayRatio(float f) => new ReuseDelayRatioRule(f);
         #endregion
 
         #region Use Turn

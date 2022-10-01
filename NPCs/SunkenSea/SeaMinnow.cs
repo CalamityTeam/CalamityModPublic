@@ -218,15 +218,5 @@ namespace CalamityMod.NPCs.SunkenSea
                 Dust.NewDust(NPC.position, NPC.width, NPC.height, 68, hitDirection, -1f, 0, default, 1f);
             }
         }
-
-        public override void OnCaughtBy(Player player, Item item, bool failed)
-        {
-            try
-            {
-            } catch
-            {
-                return;
-            }
-        }
     }
 }

@@ -14,6 +14,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
 using CalamityMod.Sounds;
+using ReLogic.Utilities;
 
 namespace CalamityMod.NPCs.ExoMechs.Ares
 {
@@ -33,30 +34,37 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
         public ThanatosSmokeParticleSet SmokeDrawer = new ThanatosSmokeParticleSet(-1, 3, 0f, 16f, 1.5f);
         public AresCannonChargeParticleSet EnergyDrawer = new AresCannonChargeParticleSet(-1, 15, 40f, Color.Aqua);
+
         public Vector2 CoreSpritePosition => NPC.Center + NPC.spriteDirection * NPC.rotation.ToRotationVector2() * 35f + (NPC.rotation + MathHelper.PiOver2).ToRotationVector2() * 5f;
 
         // Number of frames on the X and Y axis
-        private const int maxFramesX = 6;
-        private const int maxFramesY = 8;
+        public const int maxFramesX = 6;
+        public const int maxFramesY = 8;
 
         // Counters for frames on the X and Y axis
-        private int frameX = 0;
-        private int frameY = 0;
+        public int frameX = 0;
+        public int frameY = 0;
 
         // Frame limit per animation, these are the specific frames where each animation ends
-        private const int normalFrameLimit = 11;
-        private const int firstStageTeslaOrbChargeFrameLimit = 23;
-        private const int secondStageTeslaOrbChargeFrameLimit = 35;
-        private const int finalStageTeslaOrbChargeFrameLimit = 47;
+        public const int normalFrameLimit = 11;
+        public const int firstStageTeslaOrbChargeFrameLimit = 23;
+        public const int secondStageTeslaOrbChargeFrameLimit = 35;
+        public const int finalStageTeslaOrbChargeFrameLimit = 47;
 
         // Default life ratio for the other mechs
-        private const float defaultLifeRatio = 5f;
+        public const float defaultLifeRatio = 5f;
 
         // Total duration of the tesla orb telegraph
-        private const float teslaOrbTelegraphDuration = 144f;
+        public const float teslaOrbTelegraphDuration = 144f;
 
         // Total duration of the tesla orb firing phase
-        private const float teslaOrbDuration = 120f;
+        public const float teslaOrbDuration = 120f;
+
+        // This stores the sound slot of the telegraph sound it makes, so it may be properly updated in terms of position.
+        public SlotId TelegraphSoundSlot;
+
+        // Telegraph sound.
+        public static readonly SoundStyle TelSound = new("CalamityMod/Sounds/Custom/AresTeslaArmCharge");
 
         public override void SetStaticDefaults()
         {
@@ -395,6 +403,10 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
                     calamityGlobalNPC.newAI[2] += 1f;
                     if (calamityGlobalNPC.newAI[2] < teslaOrbTelegraphDuration)
                     {
+                        // Play a charge up sound so that the player knows when it's about to fire tesla orbs
+                        if (calamityGlobalNPC.newAI[2] == 1)
+                            TelegraphSoundSlot = SoundEngine.PlaySound(TelSound, NPC.Center);
+
                         // Set frames to tesla orb charge up frames, which begin on frame 12
                         if (calamityGlobalNPC.newAI[2] == 1f)
                         {
@@ -454,6 +466,12 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
             // Smooth movement towards the location Ares Tesla Cannon is meant to be at
             CalamityUtils.SmoothMovement(NPC, movementDistanceGateValue, distanceFromDestination, baseVelocity, 0f, false);
+
+            //Update the telegraph sound if it's being done.
+            if (TelegraphSoundSlot != null && SoundEngine.TryGetActiveSound(TelegraphSoundSlot, out var telSound) && telSound.IsPlaying)
+            {
+                telSound.Position = NPC.Center;
+            }
         }
 
         public override bool CanHitPlayer(Player target, ref int cooldownSlot) => false;

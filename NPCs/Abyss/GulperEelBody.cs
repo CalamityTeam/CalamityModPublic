@@ -20,8 +20,8 @@ namespace CalamityMod.NPCs.Abyss
         public override void SetDefaults()
         {
             NPC.damage = 90; //70
-            NPC.width = 56; //36
-            NPC.height = 36;
+            NPC.width = 40; //36
+            NPC.height = 48;
             NPC.defense = 30;
             NPC.lifeMax = 60000;
             NPC.aiStyle = -1; //new
@@ -117,9 +117,9 @@ namespace CalamityMod.NPCs.Abyss
                 NPC.position.Y = NPC.position.Y + num192;
 
                 if (num191 < 0f)
-                    NPC.spriteDirection = -1;
-                else if (num191 > 0f)
                     NPC.spriteDirection = 1;
+                else if (num191 > 0f)
+                    NPC.spriteDirection = -1;
             }
         }
 
@@ -167,7 +167,8 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(ModContent.BuffType<CrushDepth>(), 120, true);
+            if (damage > 0)
+                player.AddBuff(ModContent.BuffType<CrushDepth>(), 120, true);
         }
     }
 }

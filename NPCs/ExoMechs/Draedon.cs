@@ -71,6 +71,7 @@ namespace CalamityMod.NPCs.ExoMechs
 
         public static readonly SoundStyle LaughSound = new("CalamityMod/Sounds/Custom/DraedonLaugh");
         public static readonly SoundStyle TeleportSound = new("CalamityMod/Sounds/Custom/DraedonTeleport");
+        public static readonly SoundStyle SelectionSound = new("CalamityMod/Sounds/Custom/Codebreaker/ExoMechsIconSelect");
 
         public override void SetStaticDefaults()
         {
@@ -276,6 +277,7 @@ namespace CalamityMod.NPCs.ExoMechs
                 if (Main.netMode != NetmodeID.Server)
                 {
                     SoundEngine.PlaySound(CommonCalamitySounds.FlareSound with { Volume = CommonCalamitySounds.FlareSound.Volume * 1.55f}, PlayerToFollow.Center);
+                    SoundEngine.PlaySound(SelectionSound, PlayerToFollow.Center);
                 }
             }
 

@@ -98,7 +98,7 @@ namespace CalamityMod
             CalamityPlayer mp = player.Calamity();
             int light = mp.externalAbyssLight;
             bool underwater = player.IsUnderwater();
-            bool miningHelmet = player.head == ArmorIDs.Head.MiningHelmet;
+            bool miningHelmet = player.head == ArmorIDs.Head.MiningHelmet || player.head == ArmorIDs.Head.UltraBrightHelmet;
 
             // The campfire bonus does not apply while in the Abyss.
             if (!mp.ZoneAbyss && (player.HasBuff(BuffID.Campfire) || Main.SceneMetrics.HasCampfire))
@@ -106,6 +106,8 @@ namespace CalamityMod
             if (mp.camper) // inherits Campfire so it is +2 in practice
                 light += 1;
             if (miningHelmet)
+                light += 1;
+            if (player.hasMagiluminescence)
                 light += 1;
             if (player.lightOrb)
                 light += 1;
@@ -149,6 +151,12 @@ namespace CalamityMod
                 light += 2;
             if (mp.sirenPet)
                 light += underwater ? 3 : 1;
+            if (player.petFlagPumpkingPet)
+                light += 3;
+            if (player.petFlagGolemPet)
+                light += 3;
+            if (player.petFlagFairyQueenPet)
+                light += 3;
             if (player.wisp)
                 light += 3;
             if (player.suspiciouslookingTentacle)

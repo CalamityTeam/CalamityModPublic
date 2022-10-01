@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Weapons.Summon
 
             Item.DamageType = DamageClass.Summon;
             Item.mana = 10;
-            Item.damage = 171;
+            Item.damage = 210;
             Item.knockBack = 4f;
             Item.useTime = Item.useAnimation = 10;
             Item.shoot = ModContent.ProjectileType<SarosAura>();

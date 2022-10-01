@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            Item.damage = 1800;
+            Item.damage = 2800;
             Item.DamageType = DamageClass.Ranged;
             Item.width = 154;
             Item.height = 40;
@@ -62,7 +62,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             if (type == ProjectileID.Bullet)
                 Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<AMRShot>(), damage, knockback, player.whoAmI);
             else
-                Projectile.NewProjectile(source, position, velocity, type, (int)(damage * 1.3), knockback, player.whoAmI);
+                Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
 
             return false;
         }

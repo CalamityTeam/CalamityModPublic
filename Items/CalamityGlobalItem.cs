@@ -172,6 +172,7 @@ namespace CalamityMod.Items
                 case ItemID.WormScarf:
                 case ItemID.BrainOfConfusion:
                 case ItemID.HiveBackpack:
+                case ItemID.BoneHelm:
                 case ItemID.BoneGlove:
                 // case ItemID.DemonHeart:
                 case ItemID.VolatileGelatin:
@@ -214,7 +215,7 @@ namespace CalamityMod.Items
             {
                 velocity *= modPlayer.rogueVelocity;
                 if (modPlayer.gloveOfRecklessness)
-                    velocity = velocity.RotatedByRandom(MathHelper.ToRadians(6f));
+                    velocity = velocity.RotatedByRandom(MathHelper.ToRadians(12f));
             }
             if (modPlayer.eArtifact && item.CountsAsClass<RangedDamageClass>())
                 velocity *= 1.25f;
@@ -239,7 +240,7 @@ namespace CalamityMod.Items
                 Projectile.NewProjectile(source, player.Center + shootVelocity, shootVelocity, ModContent.ProjectileType<ManaMonster>(), monsterDamage, 0f, player.whoAmI);
             }
 
-            if (modPlayer.luxorsGift)
+            if (modPlayer.luxorsGift && !item.channel)
             {
                 // useTime 9 = 0.9 useTime 2 = 0.2
                 double damageMult = 1.0;

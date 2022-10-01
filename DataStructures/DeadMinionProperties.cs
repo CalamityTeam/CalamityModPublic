@@ -98,9 +98,7 @@ namespace CalamityMod.DataStructures
                 return;
 
             Player owner = Main.player[ownerIndex];
-            Endogenesis.SummonEndoCooper(new EntitySource_Misc("1"), AttackMode, Main.MouseWorld, Damage, OriginalKnockback, owner, out int bodyIndex, out int limbsIndex);
-            Main.projectile[bodyIndex].originalDamage = OriginalDamage;
-            Main.projectile[limbsIndex].originalDamage = OriginalDamage;
+            Endogenesis.SummonEndoCooper(new EntitySource_Misc("1"), AttackMode, Main.MouseWorld, Damage, OriginalDamage, OriginalKnockback, owner, out int bodyIndex, out int limbsIndex);
             Main.projectile[bodyIndex].Calamity().RequiresManualResurrection = true;
             Main.projectile[limbsIndex].Calamity().RequiresManualResurrection = true;
         }

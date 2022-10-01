@@ -1,5 +1,6 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ModLoader;
 using Terraria.ID;
 
@@ -7,6 +8,7 @@ namespace CalamityMod.Tiles.Ores
 {
     public class AuricOre : ModTile
     {
+        public static readonly SoundStyle MineSound = new("CalamityMod/Sounds/Custom/AuricMine", 3);
         public override void SetStaticDefaults()
         {
             Main.tileLighted[Type] = true;
@@ -18,6 +20,9 @@ namespace CalamityMod.Tiles.Ores
 
             CalamityUtils.MergeWithGeneral(Type);
 
+            TileID.Sets.Ore[Type] = true;
+            TileID.Sets.OreMergesWithMud[Type] = true;
+
             DustType = 55;
             ItemDrop = ModContent.ItemType<Items.Placeables.Ores.AuricOre>();
             ModTranslation name = CreateMapEntryName();
@@ -25,7 +30,7 @@ namespace CalamityMod.Tiles.Ores
             AddMapEntry(new Color(255, 200, 0), name);
             MineResist = 10f;
             MinPick = 250;
-            HitSound = SoundID.Tink;
+            HitSound = MineSound;
         }
 
         public override bool CanExplode(int i, int j)

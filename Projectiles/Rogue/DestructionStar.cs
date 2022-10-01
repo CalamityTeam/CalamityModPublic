@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.friendly = true;
             Projectile.penetrate = 16;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 10;
+            Projectile.localNPCHitCooldown = 5;
             Projectile.ignoreWater = true;
             Projectile.tileCollide = false;
             Projectile.timeLeft = 300;
@@ -76,6 +76,8 @@ namespace CalamityMod.Projectiles.Rogue
             }
             if (Projectile.owner == Main.myPlayer)
             {
+				if (hitCount < 4)
+					hitCount = 4;
                 for (int i = 0; i < hitCount; i++)
                 {
                     Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);

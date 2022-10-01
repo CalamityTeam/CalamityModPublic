@@ -1,6 +1,8 @@
 ﻿using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using CalamityMod.Dusts;
+using CalamityMod.Items.Weapons.Ranged;
+using CalamityMod.Items.Weapons.Summon;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -12,6 +14,7 @@ namespace CalamityMod.Projectiles.Summon
     public class TacticalPlagueJet : ModProjectile
     {
         public static Item FalseGun = null;
+        public static Item PlagueEngine = null;
 
         public override void SetStaticDefaults()
         {
@@ -39,15 +42,20 @@ namespace CalamityMod.Projectiles.Summon
 
         // Defines an Item which is a hacked clone of a P90, edited to be summon class instead of ranged.
         // The false gun's damage is changed to the appropriate value every time a Tactical Plague Jet wants to fire a bullet.
-        private static void DefineFalseGun()
+        private static void DefineFalseGun(int baseDamage)
         {
-            int p90ID = ModContent.ItemType<Items.Weapons.Ranged.P90>();
+            int p90ID = ModContent.ItemType<P90>();
+            int TPEID = ModContent.ItemType<TacticalPlagueEngine>();
             FalseGun = new Item();
+            PlagueEngine = new Item();
             FalseGun.SetDefaults(p90ID, true);
+            PlagueEngine.SetDefaults(TPEID, true);
+            FalseGun.damage = baseDamage;
+            FalseGun.knockBack = PlagueEngine.knockBack;
+            FalseGun.shootSpeed = PlagueEngine.shootSpeed;
             FalseGun.consumeAmmoOnFirstShotOnly = false;
             FalseGun.consumeAmmoOnLastShotOnly = false;
 
-            // FalseGun.ranged = false /* tModPorter - this is redundant, for more info see https://github.com/tModLoader/tModLoader/wiki/Update-Migration-Guide#damage-classes */ ;
             FalseGun.DamageType = DamageClass.Summon;
         }
 
@@ -72,7 +80,7 @@ namespace CalamityMod.Projectiles.Summon
 
                 // Construct a fake item to use with vanilla code for the sake of firing bullets.
                 if (FalseGun is null)
-                    DefineFalseGun();
+                    DefineFalseGun(Projectile.originalDamage);
                 Projectile.localAI[0] = 1f;
             }
 
@@ -174,14 +182,14 @@ namespace CalamityMod.Projectiles.Summon
                     }
 
                     // Fire the selected bullet, nothing special.
-                    else { 
-                        projIndex = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.SafeDirectionTo(potentialTarget.Center) * shootSpeed, projID, damage, kb, Projectile.owner);}
+                    else
+                        projIndex = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.SafeDirectionTo(potentialTarget.Center) * shootSpeed, projID, damage, kb, Projectile.owner);
 
                     // Regardless of what was fired, force it to be a summon projectile so that summon accessories work.
                     if (projIndex.WithinBounds(Main.maxProjectiles))
                     {
                         Main.projectile[projIndex].DamageType = DamageClass.Summon;
-                        Main.projectile[projIndex].originalDamage = Projectile.originalDamage;
+                        Main.projectile[projIndex].minion = false;
                     }
                 }
 

@@ -27,6 +27,9 @@ namespace CalamityMod.UI.CalamitasEnchants
         public static readonly Vector2 ReforgeUITopLeft = new Vector2(68f, 320f);
         public static readonly float ResolutionRatio = Main.screenHeight / 1440f;
 
+        public static readonly SoundStyle EnchSound = new("CalamityMod/Sounds/Custom/WeaponEnchant");
+        public static readonly SoundStyle EXSound = new("CalamityMod/Sounds/Custom/WeaponExhume");
+
         public static Rectangle MouseScreenArea => Utils.CenteredRectangle(Main.MouseScreen, Vector2.One * 2f);
 
         public static bool InRangeOfNPC()
@@ -402,10 +405,10 @@ namespace CalamityMod.UI.CalamitasEnchants
             // Reset the enchantment index to prevent index problems on a different item.
             EnchantIndex = 0;
 
-            SoundEngine.PlaySound(SoundID.DD2_BetsyFlameBreath, Main.LocalPlayer.Center);
-
             if (SelectedEnchantment.Value.Name == EnchantmentManager.UpgradeEnchantName)
-                SoundEngine.PlaySound(SoundID.DD2_DarkMageHealImpact, Main.LocalPlayer.Center);
+                SoundEngine.PlaySound(EXSound, Main.LocalPlayer.Center);
+            else
+                SoundEngine.PlaySound(EnchSound, Main.LocalPlayer.Center);
         }
     }
 }

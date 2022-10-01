@@ -124,7 +124,9 @@ namespace CalamityMod.Systems
                 layers.Insert(mouseIndex, new LegacyGameInterfaceLayer("Exo Mech Selection", () =>
                 {
                     if (Main.LocalPlayer.Calamity().AbleToSelectExoMech)
-                        ExoMechSelectionUI.Draw(Main.spriteBatch);
+                        ExoMechSelectionUI.Draw();
+                    else
+                        ExoMechSelectionUI.HoverSoundMechType = null;
                     return true;
                 }, InterfaceScaleType.None));
 

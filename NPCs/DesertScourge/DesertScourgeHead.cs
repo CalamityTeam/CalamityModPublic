@@ -4,6 +4,7 @@ using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Furniture.BossRelics;
+using CalamityMod.Items.Placeables.Furniture.DevPaintings;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Items.TreasureBags;
 using CalamityMod.Items.TreasureBags.MiscGrabBags;
@@ -707,6 +708,7 @@ namespace CalamityMod.NPCs.DesertScourge
 
                 // Vanity
                 normalOnly.Add(ModContent.ItemType<DesertScourgeMask>(), 7);
+                normalOnly.Add(ModContent.ItemType<ThankYouPainting>(), ThankYouPainting.DropInt);
 
                 // Materials
                 normalOnly.Add(ItemID.Coral, 1, 25, 30);
@@ -769,7 +771,8 @@ namespace CalamityMod.NPCs.DesertScourge
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(BuffID.Bleeding, 600, true);
+            if (damage > 0)
+                player.AddBuff(BuffID.Bleeding, 600, true);
         }
     }
 }

@@ -49,7 +49,7 @@ namespace CalamityMod.Items.Weapons.Rogue
                     Main.projectile[boomer].Calamity().stealthStrike = true;
                 return false;
             }
-            return false;
+            return true;
         }
     }
 }

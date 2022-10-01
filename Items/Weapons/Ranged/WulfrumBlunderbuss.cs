@@ -195,9 +195,10 @@ namespace CalamityMod.Items.Weapons.Ranged
                 Register();
         }
 
-        public override void OnCraft(Recipe recipe)
+        public override void OnCreate (ItemCreationContext context)
         {
-            storedScrap = ShotsPerScrap;
+            if (context is RecipeCreationContext)
+                storedScrap = ShotsPerScrap;
         }
 
         #region saving the durability

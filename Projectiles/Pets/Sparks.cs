@@ -129,7 +129,7 @@ namespace CalamityMod.Projectiles.Pets
             for (int npcIndex = 0; npcIndex < Main.maxNPCs; npcIndex++)
             {
                 NPC npc = Main.npc[npcIndex];
-                if (npc.active && (npc.type == NPCID.Butterfly || npc.type == NPCID.GoldButterfly))
+                if (npc.active && (npc.type == NPCID.Butterfly || npc.type == NPCID.GoldButterfly || npc.type == NPCID.HellButterfly))
                 {
                     if (new Rectangle((int)Projectile.position.X, (int)Projectile.position.Y, Projectile.width, Projectile.height).Intersects(new Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height)))
                     {

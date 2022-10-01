@@ -5,6 +5,7 @@ using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Pets;
 using CalamityMod.Items.Placeables.Furniture.BossRelics;
+using CalamityMod.Items.Placeables.Furniture.DevPaintings;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Items.TreasureBags;
 using CalamityMod.Items.Weapons.Magic;
@@ -82,6 +83,9 @@ namespace CalamityMod.NPCs.HiveMind
         private const int maxFramesX_Phase2 = 2;
         private const int maxFramesY_Phase2 = 8;
         private const int height_Phase2 = 142;
+
+        public static readonly SoundStyle RoarSound = new("CalamityMod/Sounds/Custom/HiveMindRoar");
+        public static readonly SoundStyle FastRoarSound = new("CalamityMod/Sounds/Custom/HiveMindRoarFast");
 
         public override void SetStaticDefaults()
         {
@@ -358,7 +362,7 @@ namespace CalamityMod.NPCs.HiveMind
             if (CalamityWorld.revenge || BossRushEvent.BossRushActive)
             {
                 state = 2;
-                SoundEngine.PlaySound(SoundID.ForceRoar, NPC.Center);
+                SoundEngine.PlaySound(FastRoarSound, NPC.Center);
             }
             else
             {
@@ -369,9 +373,9 @@ namespace CalamityMod.NPCs.HiveMind
                 nextState = 0;
 
                 if (state == 2)
-                    SoundEngine.PlaySound(SoundID.Roar, NPC.Center);
+                    SoundEngine.PlaySound(RoarSound, NPC.Center);
                 else
-                    SoundEngine.PlaySound(SoundID.ForceRoar, NPC.Center);
+                    SoundEngine.PlaySound(FastRoarSound, NPC.Center);
             }
         }
 
@@ -848,7 +852,7 @@ namespace CalamityMod.NPCs.HiveMind
                                 NPC.velocity.Normalize();
                                 NPC.velocity *= teleportRadius / (lungeTime - (int)enrageScale);
                                 dashStarted = true;
-                                SoundEngine.PlaySound(SoundID.Roar, NPC.Center);
+                                SoundEngine.PlaySound(RoarSound, NPC.Center);
                             }
                             else
                             {
@@ -888,7 +892,7 @@ namespace CalamityMod.NPCs.HiveMind
                         if (!dashStarted)
                         {
                             dashStarted = true;
-                            SoundEngine.PlaySound(SoundID.Roar, NPC.Center);
+                            SoundEngine.PlaySound(RoarSound, NPC.Center);
                             NPC.velocity.X = MathHelper.Pi * teleportRadius / arcTime;
                             NPC.velocity *= rotationDirection;
                             NPC.netUpdate = true;
@@ -945,7 +949,7 @@ namespace CalamityMod.NPCs.HiveMind
                         if (!dashStarted)
                         {
                             dashStarted = true;
-                            SoundEngine.PlaySound(SoundID.Roar, NPC.Center);
+                            SoundEngine.PlaySound(RoarSound, NPC.Center);
                             NPC.velocity.X = teleportRadius / arcTime * 3;
                             NPC.velocity *= -rotationDirection;
                             NPC.netUpdate = true;
@@ -1158,6 +1162,7 @@ namespace CalamityMod.NPCs.HiveMind
                 // Vanity
                 normalOnly.Add(ModContent.ItemType<HiveMindMask>(), 7);
                 normalOnly.Add(ModContent.ItemType<RottingEyeball>(), 10);
+                normalOnly.Add(ModContent.ItemType<ThankYouPainting>(), ThankYouPainting.DropInt);
             }
 
             npcLoot.Add(ModContent.ItemType<HiveMindTrophy>(), 10);

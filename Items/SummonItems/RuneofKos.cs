@@ -16,6 +16,9 @@ namespace CalamityMod.Items.SummonItems
     [LegacyName("RuneofCos")]
     public class RuneofKos : ModItem
     {
+        public static readonly SoundStyle CVSound = new("CalamityMod/Sounds/Item/CeaselessVoidSpawn");
+        public static readonly SoundStyle SignutSound = new("CalamityMod/Sounds/Item/SignusSpawn");
+        public static readonly SoundStyle StormSound = new("CalamityMod/Sounds/Item/StormWeaverSpawn");
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 1;
@@ -34,7 +37,7 @@ namespace CalamityMod.Items.SummonItems
             Item.useAnimation = 10;
             Item.useTime = 10;
             Item.useStyle = ItemUseStyleID.HoldUp;
-            Item.UseSound = SoundID.Item44;
+            Item.UseSound = null;
             Item.consumable = false;
             Item.rare = ModContent.RarityType<Turquoise>();
         }
@@ -52,9 +55,9 @@ namespace CalamityMod.Items.SummonItems
 
         public override bool? UseItem(Player player)
         {
-            SoundEngine.PlaySound(SoundID.Roar, player.position);
             if (player.ZoneDungeon)
             {
+                SoundEngine.PlaySound(CVSound, player.position);
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                     NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<CeaselessVoid>());
                 else
@@ -62,6 +65,7 @@ namespace CalamityMod.Items.SummonItems
             }
             else if (player.ZoneUnderworldHeight)
             {
+                SoundEngine.PlaySound(SignutSound, player.position);
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                     NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<Signus>());
                 else
@@ -69,6 +73,7 @@ namespace CalamityMod.Items.SummonItems
             }
             else if (player.ZoneSkyHeight)
             {
+                SoundEngine.PlaySound(StormSound, player.position);
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                     NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<StormWeaverHead>());
                 else

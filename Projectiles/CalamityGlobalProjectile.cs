@@ -135,6 +135,10 @@ namespace CalamityMod.Projectiles
         {
             CreatedByPlayerDash = source is ProjectileSource_PlayerDashHit;
 
+			IEntitySource sourceItem = source as EntitySource_ItemUse_WithAmmo;
+			if (sourceItem != null)
+				extorterBoost = true;
+
             // TODO -- it would be nice to move frame one hacks here, but this runs in the middle of NewProjectile
             // which is way too early, the projectile's own initialization isn't even done yet
         }
@@ -2314,6 +2318,8 @@ namespace CalamityMod.Projectiles
 
             // optimization to remove conversion X/Y loop for irrelevant projectiles
             bool isConversionProjectile = projectile.type == ProjectileID.PurificationPowder
+                || projectile.type == ProjectileID.VilePowder
+                || projectile.type == ProjectileID.ViciousPowder
                 || projectile.type == ProjectileID.PureSpray
                 || projectile.type == ProjectileID.CorruptSpray
                 || projectile.type == ProjectileID.CrimsonSpray
@@ -2326,8 +2332,7 @@ namespace CalamityMod.Projectiles
                 int x = (int)(projectile.Center.X / 16f);
                 int y = (int)(projectile.Center.Y / 16f);
 
-                bool isPowder = projectile.type == ProjectileID.PurificationPowder;
-                /* || projectile.type == ProjectileID.VilePowder || projectile.type == ProjectileID.ViciousPowder */
+                bool isPowder = projectile.type == ProjectileID.PurificationPowder || projectile.type == ProjectileID.VilePowder || projectile.type == ProjectileID.ViciousPowder;
 
                 for (int i = x - 1; i <= x + 1; i++)
                 {
@@ -2337,12 +2342,11 @@ namespace CalamityMod.Projectiles
                         {
                             AstralBiome.ConvertFromAstral(i, j, ConvertType.Pure, !isPowder);
                         }
-                        //commented out for Terraria 1.4 when vile/vicious powder spread corruption/crimson
-                        if (projectile.type == ProjectileID.CorruptSpray)// || projectile.type == ProjectileID.VilePowder)
+                        if (projectile.type == ProjectileID.CorruptSpray || projectile.type == ProjectileID.VilePowder)
                         {
                             AstralBiome.ConvertFromAstral(i, j, ConvertType.Corrupt, !isPowder);
                         }
-                        if (projectile.type == ProjectileID.CrimsonSpray)// || projectile.type == ProjectileID.ViciousPowder)
+                        if (projectile.type == ProjectileID.CrimsonSpray || projectile.type == ProjectileID.ViciousPowder)
                         {
                             AstralBiome.ConvertFromAstral(i, j, ConvertType.Crimson, !isPowder);
                         }
@@ -2396,9 +2400,6 @@ namespace CalamityMod.Projectiles
                 float proximityDamageFactor = MathHelper.SmoothStep(0.75f, 1.75f, proximityDamageInterpolant);
                 damage = (int)Math.Ceiling(damage * proximityDamageFactor);
             }
-
-            if (!projectile.npcProj && !projectile.trap && projectile.CountsAsClass<RogueDamageClass>() && stealthStrike && modPlayer.stealthStrikeAlwaysCrits)
-                crit = true;
 
             // Aerial Bane does 50% damage to "airborne" enemies. This is just simple math to revert that as it is a very unbalanced mechanic.
             if (projectile.type == ProjectileID.DD2BetsyArrow)
@@ -2569,7 +2570,7 @@ namespace CalamityMod.Projectiles
             {
                 if (projectile.CountsAsClass<RogueDamageClass>())
                 {
-                    if (modPlayer.etherealExtorter && Main.player[projectile.owner].ownedProjectileCounts[ProjectileType<LostSoulFriendly>()] < 5)
+                    if (modPlayer.etherealExtorter && extorterBoost && Main.player[projectile.owner].ownedProjectileCounts[ProjectileType<LostSoulFriendly>()] < 5)
                     {
                         for (int i = 0; i < 2; i++)
                         {
@@ -2582,13 +2583,14 @@ namespace CalamityMod.Projectiles
                         }
                     }
 
-                    if (modPlayer.scuttlersJewel && stealthStrike)
+                    if (modPlayer.scuttlersJewel && stealthStrike && modPlayer.scuttlerCooldown <= 0)
                     {
                         int damage = (int)player.GetTotalDamage<RogueDamageClass>().ApplyTo(15);
                         int spike = Projectile.NewProjectile(projectile.GetSource_FromThis(), projectile.Center, Vector2.Zero, ProjectileType<JewelSpike>(), damage, projectile.knockBack, projectile.owner);
                         Main.projectile[spike].frame = 4;
                         if (spike.WithinBounds(Main.maxProjectiles))
                             Main.projectile[spike].DamageType = DamageClass.Generic;
+						modPlayer.scuttlerCooldown = 30;
                     }
                 }
 

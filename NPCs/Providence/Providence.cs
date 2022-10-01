@@ -8,6 +8,7 @@ using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.Dyes;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Placeables.Furniture.BossRelics;
+using CalamityMod.Items.Placeables.Furniture.DevPaintings;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Items.Potions;
 using CalamityMod.Items.SummonItems;
@@ -315,7 +316,7 @@ namespace CalamityMod.NPCs.Providence
             float maxDistance = (AIState == (int)Phase.FlameCocoon || AIState == (int)Phase.SpearCocoon) ? shorterDistance : baseDistance;
             if (Vector2.Distance(player.Center, vector) > maxDistance)
             {
-                if (!player.dead && player.active)
+                if (!player.dead && player.active && !player.creativeGodMode)
                     player.AddBuff(ModContent.BuffType<HolyInferno>(), 2);
             }
 
@@ -1561,11 +1562,11 @@ namespace CalamityMod.NPCs.Providence
                 Providence prov = info.npc.ModNPC<Providence>();
                 return prov.biomeType == 2 || !prov.hasTakenDaytimeDamage;
             }, ModContent.ItemType<ElysianAegis>(), desc: DropHelper.ProvidenceUnderworldText);
-            npcLoot.AddIf(info =>
+            npcLoot.DefineConditionalDropSet(DropHelper.If((info) =>
             {
                 Providence prov = info.npc.ModNPC<Providence>();
                 return prov.challenge;
-            }, ModContent.ItemType<ProfanedSoulCrystal>(), desc: DropHelper.ProvidenceChallengeText);
+            }, () => Main.expertMode, DropHelper.ProvidenceChallengeText)).Add(ModContent.ItemType<ProfanedSoulCrystal>());
             npcLoot.AddIf(info =>
             {
                 Providence prov = info.npc.ModNPC<Providence>();
@@ -1598,6 +1599,7 @@ namespace CalamityMod.NPCs.Providence
 
                 // Vanity
                 normalOnly.Add(ModContent.ItemType<ProvidenceMask>(), 7);
+                normalOnly.Add(ModContent.ItemType<ThankYouPainting>(), ThankYouPainting.DropInt);
             }
 
             npcLoot.Add(ModContent.ItemType<ProvidenceTrophy>(), 10);
@@ -1897,8 +1899,8 @@ namespace CalamityMod.NPCs.Providence
                     ModContent.ProjectileType<ApparatusExplosion>()
                 };
 
-                bool allowedClass = projectile.IsSummon() || (!projectile.CountsAsClass<MeleeDamageClass>() && !projectile.CountsAsClass<RangedDamageClass>() && 
-                    !projectile.CountsAsClass<MagicDamageClass>() && !projectile.CountsAsClass<ThrowingDamageClass>());
+                bool allowedClass = projectile.CountsAsClass<SummonDamageClass>() || (!projectile.CountsAsClass<MeleeDamageClass>() && !projectile.CountsAsClass<RangedDamageClass>() && 
+                    !projectile.CountsAsClass<MagicDamageClass>() && !projectile.CountsAsClass<ThrowingDamageClass>() && !projectile.CountsAsClass<SummonMeleeSpeedDamageClass>());
                 bool allowedDamage = allowedClass && damage <= 75; //Flat 75 regardless of difficulty.
                 //Absorber on-hit effects likely won't proc this but Deific Amulet and Astral Bulwark stars will proc this.
                 bool allowedBabs = Main.player[projectile.owner].Calamity().pArtifact && !Main.player[projectile.owner].Calamity().profanedCrystalBuffs;

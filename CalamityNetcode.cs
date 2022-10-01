@@ -3,6 +3,7 @@ using CalamityMod.Items;
 using CalamityMod.NPCs;
 using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.NPCs.Providence;
+using CalamityMod.NPCs.TownNPCs;
 using CalamityMod.TileEntities;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -24,41 +25,6 @@ namespace CalamityMod
                 CalamityModMessageType msgType = (CalamityModMessageType)reader.ReadByte();
                 switch (msgType)
                 {
-                    //
-                    // Proficiency levels
-                    //
-
-                    case CalamityModMessageType.MeleeLevelSync:
-                        Main.player[reader.ReadInt32()].Calamity().HandleLevels(reader, 0);
-                        break;
-                    case CalamityModMessageType.RangedLevelSync:
-                        Main.player[reader.ReadInt32()].Calamity().HandleLevels(reader, 1);
-                        break;
-                    case CalamityModMessageType.MagicLevelSync:
-                        Main.player[reader.ReadInt32()].Calamity().HandleLevels(reader, 2);
-                        break;
-                    case CalamityModMessageType.SummonLevelSync:
-                        Main.player[reader.ReadInt32()].Calamity().HandleLevels(reader, 3);
-                        break;
-                    case CalamityModMessageType.RogueLevelSync:
-                        Main.player[reader.ReadInt32()].Calamity().HandleLevels(reader, 4);
-                        break;
-                    case CalamityModMessageType.ExactMeleeLevelSync:
-                        Main.player[reader.ReadInt32()].Calamity().HandleExactLevels(reader, 0);
-                        break;
-                    case CalamityModMessageType.ExactRangedLevelSync:
-                        Main.player[reader.ReadInt32()].Calamity().HandleExactLevels(reader, 1);
-                        break;
-                    case CalamityModMessageType.ExactMagicLevelSync:
-                        Main.player[reader.ReadInt32()].Calamity().HandleExactLevels(reader, 2);
-                        break;
-                    case CalamityModMessageType.ExactSummonLevelSync:
-                        Main.player[reader.ReadInt32()].Calamity().HandleExactLevels(reader, 3);
-                        break;
-                    case CalamityModMessageType.ExactRogueLevelSync:
-                        Main.player[reader.ReadInt32()].Calamity().HandleExactLevels(reader, 4);
-                        break;
-
                     //
                     // Player mechanic syncs
                     //
@@ -119,6 +85,18 @@ namespace CalamityMod
                     case CalamityModMessageType.DeleteAllSuperDummies:
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                             SuperDummy.DeleteDummies();
+                        break;
+                    case CalamityModMessageType.SyncAndroombaSolution:
+                        int index = reader.ReadInt32();
+                        int solType = reader.ReadInt32();
+                        if (Main.netMode != NetmodeID.MultiplayerClient)
+                            AndroombaFriendly.SwapSolution(index, solType);
+                        break;
+                    case CalamityModMessageType.SyncAndroombaAI:
+                        int idx = reader.ReadInt32();
+                        int phase = reader.ReadInt32();
+                        if (Main.netMode != NetmodeID.MultiplayerClient)
+                            AndroombaFriendly.ChangeAI(idx, phase);
                         break;
                     case CalamityModMessageType.ServersideSpawnOldDuke:
                         byte playerIndex2 = reader.ReadByte();
@@ -335,19 +313,6 @@ namespace CalamityMod
 
     public enum CalamityModMessageType : byte
     {
-        // Proficiency levels
-        // TODO -- simplify proficiency netcode, there do not need to be this many separate packet types
-        MeleeLevelSync,
-        RangedLevelSync,
-        MagicLevelSync,
-        SummonLevelSync,
-        RogueLevelSync,
-        ExactMeleeLevelSync,
-        ExactRangedLevelSync,
-        ExactMagicLevelSync,
-        ExactSummonLevelSync,
-        ExactRogueLevelSync,
-
         // Player mechanic syncs
         DefenseDamageSync, // TODO -- this can't be synced every 60 frames, it needs to be synced when the player gets hit, or every time it heals up
         RageSync, // TODO -- this can't be synced every 60 frames, it needs to be synced every time the player is
@@ -361,6 +326,8 @@ namespace CalamityMod
         SyncCalamityNPCAIArray,
         SpawnSuperDummy,
         DeleteAllSuperDummies,
+        SyncAndroombaSolution,
+        SyncAndroombaAI,
         ServersideSpawnOldDuke,
         ArmoredDiggerCountdownSync, // TODO -- remove this mechanic entirely
         ProvidenceDyeConditionSync, // TODO -- this packetstorms if you hit Provi with spam weapons. It should ONLY send a packet if the status changes.

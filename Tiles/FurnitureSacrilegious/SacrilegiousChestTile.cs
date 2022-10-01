@@ -129,7 +129,7 @@ namespace CalamityMod.Tiles.FurnitureSacrilegious
 			int amt = 0;
             for (int i = 0; i < Chest.maxItems; i++)
             {
-				if (chest.item[i].IsAir)
+				if (chest.item[i] is null || chest.item[i].IsAir)
 					continue;
 				if (chest.item[i].stack > 0)
 					amt++;

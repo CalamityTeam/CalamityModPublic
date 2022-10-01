@@ -46,7 +46,7 @@ namespace CalamityMod.Items.TreasureBags.MiscGrabBags
 
 		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
 		{
-			itemGroup = ContentSamples.CreativeHelper.ItemGroup.GoodieBags;
+            itemGroup = ContentSamples.CreativeHelper.ItemGroup.GoodieBags;
 		}
 
         public override bool CanRightClick() => true;
@@ -55,6 +55,10 @@ namespace CalamityMod.Items.TreasureBags.MiscGrabBags
         {
             // 1/15 chance for potions
             var oneInFifteenPotions = itemLoot.Add(new OneFromOptionsNotScaledWithLuckDropRule(15, 1, SulphuricTreasurePotions));
+
+            // 1/30 chance for a Wormhole Potion in multiplayer only
+            IItemDropRule wormholePotion = ItemDropRule.ByCondition(DropHelper.If(() => Main.netMode == NetmodeID.MultiplayerClient), ItemID.WormholePotion, 30);
+            LeadingConditionRule singlePlayer = new LeadingConditionRule(DropHelper.If(() => Main.netMode != NetmodeID.MultiplayerClient));
 
             // IF YOU DONT GET POTIONS
             // 10% chance for 4-8 Sticky Glowsticks
@@ -76,7 +80,9 @@ namespace CalamityMod.Items.TreasureBags.MiscGrabBags
             CommonDrop silver = new CommonDrop(ItemID.SilverCoin, 1, 40, 60);
 
             OneFromRulesRule otherDrops = new OneFromRulesRule(1, new IItemDropRule[] { stickyGlowsticks, jesterArrows, hadalStew, stickyBombs, silver, silver, silver, silver, silver, silver });
-            oneInFifteenPotions.OnFailedRoll(otherDrops);
+
+            oneInFifteenPotions.OnFailedRoll(wormholePotion).OnFailedRoll(otherDrops);
+            oneInFifteenPotions.OnFailedRoll(singlePlayer).OnSuccess(otherDrops);
         }
     }
 }

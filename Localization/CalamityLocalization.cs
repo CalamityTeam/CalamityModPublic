@@ -34,7 +34,7 @@ namespace CalamityMod.Localization
                 new [] { "PlagueBossText", "PLAGUE NUKE BARRAGE ARMED, PREPARING FOR LAUNCH!!!" },
                 new [] { "PlagueBossText2", "MISSILES LAUNCHED, TARGETING ROUTINE INITIATED!!!" },
 
-                new [] { "ProfanedBossText", "The air is burning..." },
+                new [] { "ProfanedBossText", "Holy flames burn away at your wings..." },
                 new [] { "ProfanedBossText2", "Shrieks are echoing from the dungeon." },
                 new [] { "ProfanedBossText3", "The calamitous beings have been inundated with bloodstone." },
                 new [] { "ProfanedBossText4", "The Profaned Goddess has recognised your devotion to purity!" },
@@ -171,17 +171,6 @@ namespace CalamityMod.Localization
                 new [] { "BossRushTierFourEndText2", "Go forth and conquer 'til the ritual's end!" },
                 new [] { "BossRushTierFiveEndText", "Hmm? You expected a reward beyond this mere pebble? Patience, the true reward will become apparent in time..." },
 
-                new [] { "MeleeLevelUp", "Melee weapon proficiency level up!" },
-                new [] { "MeleeLevelUpFinal", "Melee weapon proficiency maxed out!" },
-                new [] { "RangedLevelUp", "Ranged weapon proficiency level up!" },
-                new [] { "RangedLevelUpFinal", "Ranged weapon proficiency maxed out!" },
-                new [] { "MagicLevelUp", "Magic weapon proficiency level up!" },
-                new [] { "MagicLevelUpFinal", "Magic weapon proficiency maxed out!" },
-                new [] { "SummonLevelUp", "Summoner weapon proficiency level up!" },
-                new [] { "SummonLevelUpFinal", "Summoner weapon proficiency maxed out!" },
-                new [] { "RogueLevelUp", "Rogue weapon proficiency level up!" },
-                new [] { "RogueLevelUpFinal", "Rogue weapon proficiency maxed out!" },
-
                 new [] { "OpenSunkenSea", "The depths of the underground desert are rumbling..." },
                 new [] { "SandstormTrigger", "The desert wind is blowing furiously!" },
 
@@ -216,6 +205,8 @@ namespace CalamityMod.Localization
                 new [] { "CometShardText", "You have already used a Comet Shard. Using more would make you nauseous." },
                 new [] { "EtherealCoreText", "You have already used an Ethereal Core. It's best to not use more than you are able to." },
                 new [] { "PhantomHeartText", "You have already used a Phantom Heart. It's probably good that you can't use another." },
+
+                new [] { "SlimeGodRun", "The Slime God flees to fight another day..." },
             };
         }
 

@@ -400,7 +400,7 @@ namespace CalamityMod.NPCs.TownNPCs
 
         public override void TownNPCAttackProjSpeed(ref float multiplier, ref float gravityCorrection, ref float randomOffset)
         {
-            multiplier = 2f;
+            multiplier = 6f;
         }
     }
 }

@@ -80,7 +80,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            if (Projectile.timeLeft < 51)
+            if (damage <= 0 || Projectile.timeLeft < 51)
                 return;
 
             if (Projectile.ai[0] == 0f || Main.getGoodWorld)

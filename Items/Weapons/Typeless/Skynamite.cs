@@ -19,6 +19,7 @@ namespace CalamityMod.Items.Weapons.Typeless
             "Throws a floaty explosive that defies gravity");
             SacrificeTotal = 99;
             ItemID.Sets.ItemsThatCountAsBombsForDemolitionistToSpawn[Item.type] = true;
+            ItemID.Sets.CanBePlacedOnWeaponRacks[Item.type] = true;
         }
 
         public override void SetDefaults()

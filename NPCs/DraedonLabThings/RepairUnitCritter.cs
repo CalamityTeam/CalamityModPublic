@@ -1,4 +1,5 @@
 ﻿using CalamityMod.BiomeManagers;
+using CalamityMod.Items.Critters;
 using CalamityMod.Items.DraedonMisc;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -52,6 +53,7 @@ namespace CalamityMod.NPCs.DraedonLabThings
         {
             DisplayName.SetDefault("Repair Unit");
             Main.npcFrameCount[NPC.type] = 17;
+            Main.npcCatchable[NPC.type] = true;
             NPCID.Sets.CountsAsCritter[NPC.type] = true;
             NPCID.Sets.NormalGoldCritterBestiaryPriority.Add(Type);
         }
@@ -70,6 +72,7 @@ namespace CalamityMod.NPCs.DraedonLabThings
             NPC.chaseable = false;
             NPC.HitSound = SoundID.NPCHit4;
             NPC.DeathSound = SoundID.NPCDeath44;
+            NPC.catchItem = (short)ModContent.ItemType<RepairUnitItem>();
             SpawnModBiomes = new int[1] { ModContent.GetInstance<ArsenalLabBiome>().Type };
         }
 
@@ -121,6 +124,19 @@ namespace CalamityMod.NPCs.DraedonLabThings
                     break;
             }
             Time++;
+
+            for (int i = 0; i < Main.maxPlayers; i++)
+            {
+                Player player = Main.player[i];
+                if (player is null || !player.active)
+                    continue;
+
+                if (NPC.Hitbox.Intersects(player.HitboxForBestiaryNearbyCheck))
+                {
+                    Main.BestiaryTracker.Kills.RegisterKill(NPC);
+                    break;
+                }
+            }
         }
 
         public void WalkAroundOnGround()

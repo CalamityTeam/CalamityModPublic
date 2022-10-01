@@ -1,4 +1,5 @@
-﻿using CalamityMod.Items.Potions;
+﻿using CalamityMod.Items.Placeables.FurnitureAbyss;
+using CalamityMod.Items.Potions;
 using Terraria;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
@@ -46,7 +47,7 @@ namespace CalamityMod.Items.TreasureBags.MiscGrabBags
 
 		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
 		{
-			itemGroup = ContentSamples.CreativeHelper.ItemGroup.GoodieBags;
+            itemGroup = ContentSamples.CreativeHelper.ItemGroup.GoodieBags;
 		}
 
         public override bool CanRightClick() => true;
@@ -57,15 +58,19 @@ namespace CalamityMod.Items.TreasureBags.MiscGrabBags
             // 10% chance for potions
             var tenPercentPotions = itemLoot.Add(new OneFromOptionsNotScaledWithLuckDropRule(10, 1, AbyssalTreasurePotions));
 
+            // 1/30 chance for a Wormhole Potion in multiplayer only
+            IItemDropRule wormholePotion = ItemDropRule.ByCondition(DropHelper.If(() => Main.netMode == NetmodeID.MultiplayerClient), ItemID.WormholePotion, 30);
+            LeadingConditionRule singlePlayer = new LeadingConditionRule(DropHelper.If(() => Main.netMode != NetmodeID.MultiplayerClient));
+
             // IF YOU DONT GET POTIONS
-            // 10% chance for 4-8 Spelunker Glowsticks
+            // 10% chance for 4-8 Abyss Torches
             // 10% chance 10-20 Hellfire Arrows
             // 10% chance for 1 Hadal Stew
             // 10% chance for 1 Sticky Dynamite
             // 60% chance for 40-60 Silver Coins
 
-            // 4-8 Spelunker Glowsticks
-            CommonDrop spelunkerGlowsticks = new CommonDrop(ItemID.SpelunkerGlowstick, 1, 4, 8);
+            // 4-8 Abyss Torches
+            CommonDrop torches = new CommonDrop(ModContent.ItemType<AbyssTorch>(), 1, 4, 8);
             // 10-20 Hellfire Arrows
             CommonDrop hellfireArrows = new CommonDrop(ItemID.HellfireArrow, 1, 10, 20);
             // 1 Hadal Stew
@@ -75,8 +80,10 @@ namespace CalamityMod.Items.TreasureBags.MiscGrabBags
             // 40-60 Silver Coin
             CommonDrop silver = new CommonDrop(ItemID.SilverCoin, 1, 40, 60);
 
-            OneFromRulesRule otherDrops = new OneFromRulesRule(1, new IItemDropRule[] { spelunkerGlowsticks, hellfireArrows, hadalStew, stickyDynamite, silver, silver, silver, silver, silver, silver });
-            tenPercentPotions.OnFailedRoll(otherDrops);
+            OneFromRulesRule otherDrops = new OneFromRulesRule(1, new IItemDropRule[] { torches, hellfireArrows, hadalStew, stickyDynamite, silver, silver, silver, silver, silver, silver });
+
+            tenPercentPotions.OnFailedRoll(wormholePotion).OnFailedRoll(otherDrops);
+            tenPercentPotions.OnFailedRoll(singlePlayer).OnSuccess(otherDrops);
         }
     }
 }

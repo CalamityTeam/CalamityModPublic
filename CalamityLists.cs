@@ -109,16 +109,6 @@ namespace CalamityMod
         public static List<int> needsDebuffIconDisplayList;
         public static List<int> trapProjectileList;
         public static List<int> scopedWeaponList;
-        public static List<int> boomerangList;
-        public static List<int> javelinList;
-        public static List<int> daggerList;
-        public static List<int> flaskBombList;
-        public static List<int> spikyBallList;
-        public static List<int> boomerangProjList;
-        public static List<int> javelinProjList;
-        public static List<int> daggerProjList;
-        public static List<int> flaskBombProjList;
-        public static List<int> spikyBallProjList;
         public static List<int> lavaFishList;
         public static List<int> highTestFishList;
         public static List<int> flamethrowerList;
@@ -150,6 +140,8 @@ namespace CalamityMod
         public static List<int> AresIDs;
         public static List<int> SkeletronPrimeIDs;
         public static List<int> StormWeaverIDs;
+        public static List<int> RavagerIDs;
+        public static List<int> GolemIDs;
         public static List<int> BoundNPCIDs;
 
         public static List<int> GrenadeResistIDs;
@@ -1323,306 +1315,8 @@ namespace CalamityMod
                 ItemType<Auralis>(),
                 ItemType<HalleysInferno>(),
                 ItemType<Shroomer>(),
-                ItemType<SpectreRifle>(),
                 ItemType<Svantechnical>(),
                 ItemType<TyrannysEnd>()
-            };
-
-            boomerangList = new List<int>()
-            {
-                ItemType<Brimblade>(),
-                ItemType<BlazingStar>(),
-                ItemType<Celestus>(),
-                ItemType<DynamicPursuer>(),
-                ItemType<ElementalDisk>(),
-                ItemType<EnchantedAxe>(),
-                ItemType<EpidemicShredder>(),
-                ItemType<Equanimity>(),
-                ItemType<Eradicator>(),
-                ItemType<SubductionSlicer>(),
-                ItemType<Glaive>(),
-                ItemType<GhoulishGouger>(),
-                ItemType<Icebreaker>(),
-                ItemType<KelvinCatalyst>(),
-                ItemType<Kylie>(),
-                ItemType<MangroveChakram>(),
-                ItemType<MoltenAmputator>(),
-                ItemType<NanoblackReaper>(),
-                ItemType<SandDollar>(),
-                ItemType<FishboneBoomerang>(),
-                ItemType<InfestedClawmerang>(),
-                ItemType<Valediction>(),
-                ItemType<FrostcrushValari>(),
-                ItemType<DefectiveSphere>(),
-                ItemType<TerraDisk>(),
-                ItemType<ToxicantTwister>(),
-                ItemType<TrackingDisk>()
-            };
-
-            boomerangProjList = new List<int>()
-            {
-                ProjectileType<DynamicPursuerProjectile>(),
-                ProjectileType<ElementalDiskProj>(),
-                ProjectileType<ElementalDiskSplit>(),
-                ProjectileType<BlazingStarProj>(),
-                ProjectileType<CelestusBoomerang>(),
-                ProjectileType<BrimbladeProj>(),
-                ProjectileType<Brimblade2>(),
-                ProjectileType<EnchantedAxeProj>(),
-                ProjectileType<EpidemicShredderProjectile>(),
-                ProjectileType<EquanimityProj>(),
-                ProjectileType<EradicatorProjectile>(),
-                ProjectileType<SubductionSlicerProj>(),
-                ProjectileType<GhoulishGougerBoomerang>(),
-                ProjectileType<GlaiveProj>(),
-                ProjectileType<KylieBoomerang>(),
-                ProjectileType<MangroveChakramProjectile>(),
-                ProjectileType<MoltenAmputatorProj>(),
-                ProjectileType<FallenPaladinsHammerProj>(),
-                ProjectileType<SandDollarProj>(),
-                ProjectileType<SandDollarStealth>(),
-                ProjectileType<FishboneBoomerangProjectile>(),
-                ProjectileType<InfestedClawmerangProj>(),
-                ProjectileType<TriactisHammerProj>(),
-                ProjectileType<ValedictionBoomerang>(),
-                ProjectileType<GalaxySmasherHammer>(),
-                ProjectileType<KelvinCatalystBoomerang>(),
-                ProjectileType<NanoblackMain>(),
-                ProjectileType<StellarContemptHammer>(),
-                ProjectileType<IcebreakerHammer>(),
-                ProjectileType<PwnagehammerProj>(),
-                ProjectileType<ValariBoomerang>(),
-                ProjectileType<SphereSpiked>(),
-                ProjectileType<SphereBladed>(),
-                ProjectileType<SphereYellow>(),
-                ProjectileType<ButcherKnife>(),
-                ProjectileType<TerraDiskProjectile>(),
-                ProjectileType<TerraDiskProjectile2>(),
-                ProjectileType<ToxicantTwisterTwoPointZero>(),
-                ProjectileType<TrackingDiskProjectile>()
-            };
-
-            javelinList = new List<int>()
-            {
-                ItemType<CrystalPiercer>(),
-                ItemType<PalladiumJavelin>(),
-                ItemType<WaveSkipper>(),
-                ItemType<EclipsesFall>(),
-                ItemType<IchorSpear>(),
-                ItemType<Wrathwing>(),
-                ItemType<LuminousStriker>(),
-                ItemType<ScarletDevil>(),
-                ItemType<ScourgeoftheDesert>(),
-                ItemType<ScourgeoftheSeas>(),
-                ItemType<SpearofDestiny>(),
-                ItemType<SpearofPaleolith>(),
-                ItemType<ShardofAntumbra>(),
-                ItemType<PhantasmalRuin>(),
-                ItemType<PhantomLance>(),
-                ItemType<ProfanedPartisan>(),
-                ItemType<Turbulance>(),
-                ItemType<NightsGaze>(),
-                ItemType<FrequencyManipulator>(),
-                ItemType<TheAtomSplitter>()
-            };
-
-            javelinProjList = new List<int>()
-            {
-                ProjectileType<CrystalPiercerProjectile>(),
-                ProjectileType<DuneHopperProjectile>(),
-                ProjectileType<EclipsesFallMain>(),
-                ProjectileType<EclipsesStealth>(),
-                ProjectileType<IchorSpearProj>(),
-                ProjectileType<WrathwingSpear>(),
-                ProjectileType<LuminousStrikerProj>(),
-                ProjectileType<PalladiumJavelinProjectile>(),
-                ProjectileType<PhantasmalRuinProj>(),
-                ProjectileType<PhantomLanceProj>(),
-                ProjectileType<ProfanedPartisanProj>(),
-                ProjectileType<ScarletDevilProjectile>(),
-                ProjectileType<ScourgeoftheDesertProj>(),
-                ProjectileType<ScourgeoftheSeasProjectile>(),
-                ProjectileType<ScourgeoftheCosmosProj>(),
-                ProjectileType<SpearofDestinyProjectile>(),
-                ProjectileType<SpearofPaleolithProj>(),
-                ProjectileType<AntumbraShardProjectile>(),
-                ProjectileType<TurbulanceProjectile>(),
-                ProjectileType<NightsGazeProjectile>(),
-                ProjectileType<FrequencyManipulatorProjectile>(),
-                ProjectileType<TheAtomSplitterProjectile>()
-            };
-
-            daggerList = new List<int>()
-            {
-                ItemType<AshenStalactite>(),
-                ItemType<CobaltKunai>(),
-                ItemType<FeatherKnife>(),
-                ItemType<GelDart>(),
-                ItemType<MonkeyDarts>(),
-                ItemType<MythrilKnife>(),
-                ItemType<OrichalcumSpikedGemstone>(),
-                ItemType<TarragonThrowingDart>(),
-                ItemType<WulfrumKnife>(),
-                ItemType<Cinquedea>(),
-                ItemType<CosmicKunai>(),
-                ItemType<CorpusAvertor>(),
-                ItemType<Crystalline>(),
-                ItemType<CursedDagger>(),
-                ItemType<Malachite>(),
-                ItemType<Mycoroot>(),
-                ItemType<Prismalline>(),
-                ItemType<RadiantStar>(),
-                ItemType<ShatteredSun>(),
-                ItemType<StellarKnife>(),
-                ItemType<StormfrontRazor>(),
-                ItemType<TimeBolt>(),
-                ItemType<LunarKunai>(),
-                ItemType<GildedDagger>(),
-                ItemType<GleamingDagger>(),
-                ItemType<InfernalKris>(),
-                ItemType<UtensilPoker>(),
-                ItemType<ShinobiBlade>(),
-                ItemType<JawsOfOblivion>(),
-                ItemType<LeviathanTeeth>(),
-                ItemType<DeificThunderbolt>(),
-                ItemType<Sacrifice>(),
-                ItemType<Seraphim>()
-            };
-
-            daggerProjList = new List<int>()
-            {
-                ProjectileType<AshenStalactiteProj>(),
-                ProjectileType<AshenStalagmiteProj>(),
-                ProjectileType<CinquedeaProj>(),
-                ProjectileType<CobaltKunaiProjectile>(),
-                ProjectileType<CosmicKunaiProj>(),
-                ProjectileType<CrystallineProj>(),
-                ProjectileType<Crystalline2>(),
-                ProjectileType<CursedDaggerProj>(),
-                ProjectileType<EmpyreanKnife>(),
-                ProjectileType<FeatherKnifeProjectile>(),
-                ProjectileType<GelDartProjectile>(),
-                ProjectileType<GildedDaggerProj>(),
-                ProjectileType<GleamingDaggerProj>(),
-                ProjectileType<IllustriousKnife>(),
-                ProjectileType<LunarKunaiProj>(),
-                ProjectileType<MalachiteProj>(),
-                ProjectileType<MalachiteBolt>(),
-                ProjectileType<MalachiteStealth>(),
-                ProjectileType<MonkeyDart>(),
-                ProjectileType<MycorootProj>(),
-                ProjectileType<MythrilKnifeProjectile>(),
-                ProjectileType<OrichalcumSpikedGemstoneProjectile>(),
-                ProjectileType<PrismallineProj>(),
-                ProjectileType<Prismalline2>(),
-                ProjectileType<Prismalline3>(),
-                ProjectileType<RadiantStarKnife>(),
-                ProjectileType<RadiantStar2>(),
-                ProjectileType<ShatteredSunKnife>(),
-                ProjectileType<StellarKnifeProj>(),
-                ProjectileType<StormfrontRazorProjectile>(),
-                ProjectileType<TarragonThrowingDartProjectile>(),
-                ProjectileType<TimeBoltKnife>(),
-                ProjectileType<WulfrumKnifeProj>(),
-                ProjectileType<Fork>(),
-                ProjectileType<Knife>(),
-                ProjectileType<CarvingFork>(),
-                ProjectileType<InfernalKrisProjectile>(),
-                ProjectileType<ShinobiBladeProjectile>(),
-                ProjectileType<JawsProjectile>(),
-                ProjectileType<LeviathanTooth>(),
-                ProjectileType<DeificThunderboltProj>(),
-                ProjectileType<SacrificeProjectile>(),
-                ProjectileType<SeraphimProjectile>()
-            };
-
-            flaskBombList = new List<int>()
-            {
-                ItemType<Plaguenade>(),
-                ItemType<BallisticPoisonBomb>(),
-                ItemType<BrackishFlask>(),
-                ItemType<DuststormInABottle>(),
-                ItemType<SeafoamBomb>(),
-                ItemType<ConsecratedWater>(),
-                ItemType<DesecratedWater>(),
-                ItemType<TotalityBreakers>(),
-                ItemType<BlastBarrel>(),
-                ItemType<Penumbra>(),
-                ItemType<Supernova>(),
-                ItemType<ShockGrenade>(),
-                ItemType<Exorcism>(),
-                ItemType<MeteorFist>(),
-                ItemType<StarofDestruction>(),
-                ItemType<CraniumSmasher>(),
-                ItemType<ContaminatedBile>(),
-                ItemType<AcidicRainBarrel>(),
-                ItemType<SkyfinBombers>(),
-                ItemType<SpentFuelContainer>(),
-                ItemType<SealedSingularity>(),
-                ItemType<PlasmaGrenade>(),
-                ItemType<WavePounder>()
-            };
-
-            flaskBombProjList = new List<int>()
-            {
-                ProjectileType<BallisticPoisonBombProj>(),
-                ProjectileType<BlastBarrelProjectile>(),
-                ProjectileType<BrackishFlaskProj>(),
-                ProjectileType<DuststormInABottleProj>(),
-                ProjectileType<PlaguenadeProj>(),
-                ProjectileType<SeafoamBombProj>(),
-                ProjectileType<TotalityFlask>(),
-                ProjectileType<ConsecratedWaterProjectile>(),
-                ProjectileType<DesecratedWaterProj>(),
-                ProjectileType<PenumbraBomb>(),
-                ProjectileType<SupernovaBomb>(),
-                ProjectileType<ShockGrenadeProjectile>(),
-                ProjectileType<ExorcismProj>(),
-                ProjectileType<MeteorFistProj>(),
-                ProjectileType<CraniumSmasherProj>(),
-                ProjectileType<CraniumSmasherExplosive>(),
-                ProjectileType<CraniumSmasherStealth>(),
-                ProjectileType<DestructionStar>(),
-                ProjectileType<DestructionBolt>(),
-                ProjectileType<ContaminatedBileFlask>(),
-                ProjectileType<GreenDonkeyKongReference>(),
-                ProjectileType<SkyfinNuke>(),
-                ProjectileType<SpentFuelContainerProjectile>(),
-                ProjectileType<SealedSingularityProj>(),
-                ProjectileType<PlasmaGrenadeProjectile>(),
-                ProjectileType<WavePounderProjectile>()
-            };
-
-            spikyBallList = new List<int>()
-            {
-                ItemType<BouncySpikyBall>(),
-                ItemType<GodsParanoia>(),
-                ItemType<NastyCholla>(),
-                ItemType<HellsSun>(),
-                ItemType<SkyStabber>(),
-                ItemType<StickySpikyBall>(),
-                ItemType<WebBall>(),
-                ItemType<PoisonPack>(),
-                ItemType<Nychthemeron>(),
-                ItemType<MetalMonstrosity>(),
-                ItemType<BurningStrife>(),
-                ItemType<SystemBane>()
-            };
-
-            spikyBallProjList = new List<int>()
-            {
-                ProjectileType<BouncyBol>(),
-                ProjectileType<GodsParanoiaProj>(),
-                ProjectileType<HellsSunProj>(),
-                ProjectileType<NastyChollaBol>(),
-                ProjectileType<StickyBol>(),
-                ProjectileType<SkyStabberProj>(),
-                ProjectileType<WebBallBol>(),
-                ProjectileType<PoisonBol>(),
-                ProjectileType<NychthemeronProjectile>(),
-                ProjectileType<MetalChunk>(),
-                ProjectileType<BurningStrifeProj>(),
-                ProjectileType<SystemBaneProjectile>()
             };
 
             highTestFishList = new List<int>()
@@ -2109,6 +1803,26 @@ namespace CalamityMod
                 NPCType<StormWeaverHead>(),
                 NPCType<StormWeaverBody>(),
                 NPCType<StormWeaverTail>()
+            };
+
+            // Purposefully does not include the freed head
+            RavagerIDs = new List<int>
+            {
+                NPCType<RavagerBody>(),
+                NPCType<RavagerClawLeft>(),
+                NPCType<RavagerClawRight>(),
+                NPCType<RavagerLegLeft>(),
+                NPCType<RavagerLegRight>(),
+                NPCType<RavagerHead>()
+            };
+
+            GolemIDs = new List<int>
+            {
+                NPCID.Golem,
+                NPCID.GolemHead,
+                NPCID.GolemHeadFree,
+                NPCID.GolemFistLeft,
+                NPCID.GolemFistRight
             };
 
             GrenadeResistIDs = new List<int>
@@ -2703,16 +2417,6 @@ namespace CalamityMod
             needsDebuffIconDisplayList = null;
             trapProjectileList = null;
             scopedWeaponList = null;
-            boomerangList = null;
-            javelinList = null;
-            daggerList = null;
-            flaskBombList = null;
-            spikyBallList = null;
-            boomerangProjList = null;
-            javelinProjList = null;
-            daggerProjList = null;
-            flaskBombProjList = null;
-            spikyBallProjList = null;
             lavaFishList = null;
             highTestFishList = null;
             flamethrowerList = null;
@@ -2744,6 +2448,8 @@ namespace CalamityMod
             AresIDs = null;
             SkeletronPrimeIDs = null;
             StormWeaverIDs = null;
+            RavagerIDs = null;
+			GolemIDs = null;
             BoundNPCIDs = null;
             GrenadeResistIDs = null;
             ZeroContactDamageNPCList = null;

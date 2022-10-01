@@ -104,7 +104,25 @@ namespace CalamityMod.Events
         public static int CurrentlyFoughtBoss => Bosses[BossRushStage].EntityID;
         public static int NextBossToFight => Bosses[BossRushStage + 1].EntityID;
 
-        public static readonly SoundStyle EndSound = new("CalamityMod/Sounds/Custom/BossRushEnd");
+        public static readonly SoundStyle BossSummonSound = new("CalamityMod/Sounds/Custom/BossRush/BossRushSummon", 2);
+
+        public static readonly SoundStyle TeleportSound = new("CalamityMod/Sounds/Custom/BossRush/BossRushTeleport");
+
+        public static readonly SoundStyle TerminusActivationSound = new("CalamityMod/Sounds/Custom/BossRush/BossRushTerminusActivate");
+
+        public static readonly SoundStyle StartBuildupSound = new("CalamityMod/Sounds/Custom/BossRush/BossRushTerminusCharge");
+
+        public static readonly SoundStyle TerminusDeactivationSound = new("CalamityMod/Sounds/Custom/BossRush/BossRushTerminusDeactivate");
+
+        public static readonly SoundStyle Tier2TransitionSound = new("CalamityMod/Sounds/Custom/BossRush/BossRushTier2Transition");
+
+        public static readonly SoundStyle Tier3TransitionSound = new("CalamityMod/Sounds/Custom/BossRush/BossRushTier3Transition");
+
+        public static readonly SoundStyle Tier4TransitionSound = new("CalamityMod/Sounds/Custom/BossRush/BossRushTier4Transition");
+
+        public static readonly SoundStyle Tier5TransitionSound = new("CalamityMod/Sounds/Custom/BossRush/BossRushTier5Transition");
+
+        public static readonly SoundStyle VictorySound = new("CalamityMod/Sounds/Custom/BossRush/BossRushVictory");
 
         #region Loading and Unloading
         public static void Load()
@@ -217,7 +235,7 @@ namespace CalamityMod.Events
 
                 new Boss(ModContent.NPCType<BrimstoneElemental>(), permittedNPCs: ModContent.NPCType<Brimling>()),
 
-                new Boss(ModContent.NPCType<Signus>(), specialSpawnCountdown: 360, permittedNPCs: new int[] { ModContent.NPCType<CosmicLantern>(), ModContent.NPCType<CosmicMine>() }),
+                new Boss(ModContent.NPCType<Signus>(), permittedNPCs: new int[] { ModContent.NPCType<CosmicLantern>(), ModContent.NPCType<CosmicMine>() }),
 
                 new Boss(ModContent.NPCType<RavagerBody>(), spawnContext: type =>
                 {
@@ -252,7 +270,14 @@ namespace CalamityMod.Events
                     NPC.SpawnOnPlayer(ClosestPlayerToWorldCenter, type);
                 }, usesSpecialSound: true, permittedNPCs: new int[] { ModContent.NPCType<AstrumDeusBody>(), ModContent.NPCType<AstrumDeusTail>() }),
 
-                new Boss(ModContent.NPCType<Polterghast>(), TimeChangeContext.Day, permittedNPCs: new int[] { ModContent.NPCType<PhantomFuckYou>(), ModContent.NPCType<PolterghastHook>(), ModContent.NPCType<PolterPhantom>() }),
+                new Boss(ModContent.NPCType<Polterghast>(), TimeChangeContext.Day, type =>
+                {
+                    Player player = Main.player[ClosestPlayerToWorldCenter];
+
+                    SoundEngine.PlaySound(Polterghast.SpawnSound, player.Center);
+                    NPC.SpawnOnPlayer(ClosestPlayerToWorldCenter, type);
+
+                }, usesSpecialSound: true, permittedNPCs: new int[] { ModContent.NPCType<PhantomFuckYou>(), ModContent.NPCType<PolterghastHook>(), ModContent.NPCType<PolterPhantom>() }),
 
                 new Boss(ModContent.NPCType<PlaguebringerGoliath>(), permittedNPCs: new int[] { ModContent.NPCType<PlagueHomingMissile>(), ModContent.NPCType<PlagueMine>() }),
 
@@ -316,18 +341,22 @@ namespace CalamityMod.Events
                 [NPCID.TheDestroyer] = npc =>
                 {
                     CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.BossRushTierOneEndText", XerocTextColor);
+                    CreateTierAnimation(2);
                 },
                 [NPCID.CultistBoss] = npc =>
                 {
                     CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.BossRushTierTwoEndText", XerocTextColor);
+                    CreateTierAnimation(3);
                 },
                 [NPCID.DukeFishron] = npc =>
                 {
                     CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.BossRushTierThreeEndText", XerocTextColor);
+                    CreateTierAnimation(4);
                 },
                 [ModContent.NPCType<Providence>()] = npc =>
                 {
                     CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.BossRushTierFourEndText", XerocTextColor);
+                    CreateTierAnimation(5);
                 },
                 [ModContent.NPCType<DevourerofGodsHead>()] = npc =>
                 {
@@ -465,9 +494,9 @@ namespace CalamityMod.Events
                     if (Bosses[BossRushStage].ToChangeTimeTo != TimeChangeContext.None)
                         CalamityUtils.ChangeTime(Bosses[BossRushStage].ToChangeTimeTo == TimeChangeContext.Day);
 
-                    // Play the typical boss roar sound.
+                    // Play a special boss roar sound by default.
                     if (!Bosses[BossRushStage].UsesSpecialSound)
-                        SoundEngine.PlaySound(SoundID.Roar, Main.player[ClosestPlayerToWorldCenter].position);
+                        SoundEngine.PlaySound(BossSummonSound, Main.player[ClosestPlayerToWorldCenter].position);
 
                     // And spawn the boss.
                     Bosses[BossRushStage].SpawnContext.Invoke(CurrentlyFoughtBoss);
@@ -601,6 +630,22 @@ namespace CalamityMod.Events
             }
 
             BossRushSky.CurrentInterest = 0.85f;
+        }
+
+        public static void CreateTierAnimation(int tier)
+        {
+            if (Main.netMode != NetmodeID.MultiplayerClient)
+            {
+                for (int i = 0; i < Main.maxPlayers; i++)
+                {
+                    if (!Main.player[i].active || Main.player[i].dead)
+                        continue;
+
+                    int animation = Projectile.NewProjectile(new EntitySource_WorldEvent(), Main.player[i].Center, Vector2.Zero, ModContent.ProjectileType<BossRushTierAnimation>(), 0, 0f, i);
+                    if (Main.projectile.IndexInRange(animation))
+                        Main.projectile[animation].ai[0] = tier;
+                }
+            }
         }
         #endregion
 

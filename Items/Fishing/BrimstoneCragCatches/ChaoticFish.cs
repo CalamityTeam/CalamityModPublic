@@ -13,6 +13,7 @@ namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
             Tooltip.SetDefault("The horns lay a curse on those who touch it\n" +
             "Right click to extract essence");
             SacrificeTotal = 10;
+            ItemID.Sets.CanBePlacedOnWeaponRacks[Item.type] = true;
         }
 
         public override void SetDefaults()

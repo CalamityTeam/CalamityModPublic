@@ -21,7 +21,7 @@ namespace CalamityMod.Items.VanillaArmorChanges
         public override void UpdateSetBonusText(ref string setBonusText)
         {
             setBonusText += "\n+3 defense\n" +
-                        "+70 maximum stealth\n" +
+                        "+60 maximum stealth\n" +
                         "5% increased rogue damage and 10% increased velocity";
         }
 
@@ -42,7 +42,7 @@ namespace CalamityMod.Items.VanillaArmorChanges
 
         public override void ApplyArmorSetBonus(Player player)
         {
-            player.Calamity().rogueStealthMax += 0.7f;
+            player.Calamity().rogueStealthMax += 0.6f;
             player.Calamity().wearingRogueArmor = true;
             player.GetDamage<ThrowingDamageClass>() += 0.05f;
             player.Calamity().rogueVelocity += 0.1f;

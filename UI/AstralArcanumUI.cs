@@ -123,7 +123,7 @@ namespace CalamityMod.UI
                             Main.mouseLeftRelease = false;
                             Main.mouseLeft = false;
 
-                            DoTeleportation(current);
+                            DoTeleportation(current, forceOpenAndTeleport);
                         }
                     }
 
@@ -151,18 +151,22 @@ namespace CalamityMod.UI
             Utils.DrawBorderStringFourWay(sb, FontAssets.MouseText.Value, text, CenterPoint.X - size.X / 2f, CenterPoint.Y + CircleOffset + CircleTextureSize / 2 + 4, Color.White, Color.Black, default);
         }
 
-        public static void DoTeleportation(int circle)
+        public static void DoTeleportation(int circle, bool forcedByBossRush)
         {
             Open = false;
 
             Player p = Main.LocalPlayer;
+
+            if (forcedByBossRush)
+                SoundEngine.PlaySound(BossRushEvent.TeleportSound with { Volume = 1.6f }, p.position);
 
             if (circle == 3)
             {
                 if (Main.netMode == NetmodeID.SinglePlayer)
                 {
                     p.TeleportationPotion();
-                    SoundEngine.PlaySound(SoundID.Item6, p.position);
+                    if (!forcedByBossRush)
+                        SoundEngine.PlaySound(SoundID.Item6, p.position);
                 }
                 else if (Main.netMode == NetmodeID.MultiplayerClient)
                 {

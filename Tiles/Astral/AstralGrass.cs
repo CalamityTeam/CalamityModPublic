@@ -33,6 +33,7 @@ namespace CalamityMod.Tiles.Astral
             //Grass framing (<3 terraria devs)
             TileID.Sets.NeedsGrassFraming[Type] = true;
             TileID.Sets.NeedsGrassFramingDirt[Type] = ModContent.TileType<AstralDirt>();
+            TileID.Sets.CanBeDugByShovel[Type] = true;
         }
 
         public override void NumDust(int i, int j, bool fail, ref int Type)

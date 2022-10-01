@@ -2,6 +2,7 @@
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Mounts;
+using CalamityMod.Items.Placeables.Furniture.DevPaintings;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
@@ -78,6 +79,7 @@ namespace CalamityMod.Items.TreasureBags
             var thanatos = itemLoot.DefineConditionalDropSet(() => DownedBossSystem.downedThanatos);
             thanatos.Add(ModContent.ItemType<SpineOfThanatos>());
             thanatos.Add(ModContent.ItemType<RefractionRotor>());
+            thanatos.Add(ModContent.ItemType<AtlasMunitionsBeacon>());
             thanatos.Add(ModContent.ItemType<ThanatosMask>(), maskFraction);
 
             var artemisAndApollo = itemLoot.DefineConditionalDropSet(() => DownedBossSystem.downedArtemisAndApollo);
@@ -93,6 +95,7 @@ namespace CalamityMod.Items.TreasureBags
 
             // Vanity (Draedon Mask)
             itemLoot.Add(ModContent.ItemType<DraedonMask>(), maskFraction);
+            itemLoot.Add(ModContent.ItemType<ThankYouPainting>(), ThankYouPainting.DropInt);
         }
     }
 }

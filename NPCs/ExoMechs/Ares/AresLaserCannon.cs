@@ -35,33 +35,37 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
         public ThanatosSmokeParticleSet SmokeDrawer = new ThanatosSmokeParticleSet(-1, 3, 0f, 16f, 1.5f);
         public AresCannonChargeParticleSet EnergyDrawer = new AresCannonChargeParticleSet(-1, 15, 40f, Color.OrangeRed);
+
         public Vector2 CoreSpritePosition => NPC.Center + NPC.spriteDirection * NPC.rotation.ToRotationVector2() * 30f + (NPC.rotation + MathHelper.PiOver2).ToRotationVector2() * 15f;
 
         // Number of frames on the X and Y axis
-        private const int maxFramesX = 6;
-        private const int maxFramesY = 8;
+        public const int maxFramesX = 6;
+        public const int maxFramesY = 8;
 
         // Counters for frames on the X and Y axis
-        private int frameX = 0;
-        private int frameY = 0;
+        public int frameX = 0;
+        public int frameY = 0;
 
         // Frame limit per animation, these are the specific frames where each animation ends
-        private const int normalFrameLimit = 11;
-        private const int firstStageDeathrayChargeFrameLimit = 23;
-        private const int secondStageDeathrayChargeFrameLimit = 35;
-        private const int finalStageDeathrayChargeFrameLimit = 47;
+        public const int normalFrameLimit = 11;
+        public const int firstStageDeathrayChargeFrameLimit = 23;
+        public const int secondStageDeathrayChargeFrameLimit = 35;
+        public const int finalStageDeathrayChargeFrameLimit = 47;
 
         // Default life ratio for the other mechs
-        private const float defaultLifeRatio = 5f;
+        public const float defaultLifeRatio = 5f;
 
         // Total duration of the deathray telegraph
-        private const float deathrayTelegraphDuration = 144f;
+        public const float deathrayTelegraphDuration = 144f;
 
         // Total duration of the deathray
-        private const float deathrayDuration = 60f;
+        public const float deathrayDuration = 60f;
 
-        //This stores the sound slot of the crystyl crusher sound it makes, so it may be properly updated in terms of position.
-        private SlotId DeathraySoundSlot;
+        // This stores the sound slot of the telegraph sound it makes, so it may be properly updated in terms of position.
+        public SlotId DeathraySoundSlot;
+
+        // Telegraph sound.
+        public static readonly SoundStyle TelSound = new("CalamityMod/Sounds/Custom/AresLaserArmCharge");
 
         public override void SetStaticDefaults()
         {
@@ -401,8 +405,8 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
                     if (calamityGlobalNPC.newAI[2] < deathrayTelegraphDuration)
                     {
                         // Play a charge up sound so that the player knows when it's about to fire the deathray
-                        if (calamityGlobalNPC.newAI[2] == deathrayTelegraphDuration - 100f && !fireNormalLasers)
-                            DeathraySoundSlot = SoundEngine.PlaySound(CrystylCrusher.ChargeSound, NPC.Center);
+                        if (calamityGlobalNPC.newAI[2] == 1 && !fireNormalLasers)
+                            DeathraySoundSlot = SoundEngine.PlaySound(TelSound, NPC.Center);
 
                         // Smooth movement towards the location Ares Laser Cannon is meant to be at
                         CalamityUtils.SmoothMovement(NPC, movementDistanceGateValue, distanceFromDestination, baseVelocity, 0f, false);

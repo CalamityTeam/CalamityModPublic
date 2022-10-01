@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Typeless
 {
     public class SandCloakVeil : ModProjectile
     {
-        private const float radius = 225f;
+        private const float radius = 272f;
         private const int duration = 900;
 
         public override void SetStaticDefaults()
@@ -27,6 +27,7 @@ namespace CalamityMod.Projectiles.Typeless
             Projectile.timeLeft = duration;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 10;
+			Projectile.scale = 1.2f;
         }
 
         public override void AI()

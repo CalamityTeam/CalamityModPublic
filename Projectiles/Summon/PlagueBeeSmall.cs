@@ -25,6 +25,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.timeLeft = 420;
             Projectile.ignoreWater = true;
             Projectile.minion = true;
+            Projectile.MaxUpdates = 2;
             Projectile.DamageType = DamageClass.Summon;
         }
 
@@ -101,7 +102,7 @@ namespace CalamityMod.Projectiles.Summon
                 center.X = Projectile.Center.X + Projectile.velocity.X * 100f;
                 center.Y = Projectile.Center.Y + Projectile.velocity.Y * 100f;
             }
-            float speed = 10f;
+            float speed = 15f;
             float velocityTweak = 0.14f;
             Vector2 projPos = Projectile.Center;
             Vector2 velocity = center - projPos;

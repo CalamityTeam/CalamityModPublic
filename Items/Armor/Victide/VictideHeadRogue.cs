@@ -37,10 +37,10 @@ namespace CalamityMod.Items.Armor.Victide
                 "When using any weapon you have a 10% chance to throw a returning seashell projectile\n" +
                 "This seashell does true damage and does not benefit from any damage class\n" +
                 "Provides increased underwater mobility and slightly reduces breath loss in the abyss\n" +
-                "+90 maximum stealth";
+                "+60 maximum stealth";
             var modPlayer = player.Calamity();
             modPlayer.victideSet = true;
-            modPlayer.rogueStealthMax += 0.9f;
+            modPlayer.rogueStealthMax += 0.6f;
             modPlayer.wearingRogueArmor = true;
             player.ignoreWater = true;
             if (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))

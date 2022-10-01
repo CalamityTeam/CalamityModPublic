@@ -7,15 +7,22 @@ using Terraria.GameContent.Events;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using ReLogic.Utilities;
 
 namespace CalamityMod.Projectiles.Typeless
 {
     public class TerminusHoldout : ModProjectile
     {
+        public SlotId ActivationSoundSlot;
+
         public Player Owner => Main.player[Projectile.owner];
+
         public ref float Time => ref Projectile.ai[0];
+
         public const int Lifetime = 300;
+
         public override string Texture => "CalamityMod/Items/SummonItems/Terminus";
+
         public override void SetDefaults()
         {
             Projectile.width = 50;
@@ -35,6 +42,8 @@ namespace CalamityMod.Projectiles.Typeless
                 // Reset the boss rush timer to what it would normally be if disabling is done prematurely.
                 if (BossRushEvent.BossRushActive || BossRushEvent.StartTimer > 0)
                     BossRushEvent.SyncStartTimer(BossRushEvent.StartEffectTotalTime);
+                if (SoundEngine.TryGetActiveSound(ActivationSoundSlot, out var t) && t.IsPlaying)
+                    t.Stop();
 
                 CreateMysticDeathDust();
                 Projectile.Kill();
@@ -42,8 +51,13 @@ namespace CalamityMod.Projectiles.Typeless
             }
 
             UpdatePlayerFields();
+
+            // Turn off boss rush mode.
             if (BossRushEvent.BossRushActive || BossRushEvent.StartTimer > 0)
             {
+                if (Time == 2f)
+                    SoundEngine.PlaySound(BossRushEvent.TerminusDeactivationSound, Main.LocalPlayer.Center);
+
                 float lifetime = Utils.GetLerpValue(0f, 30f, Time, true);
                 if (Time % 5f == 4f)
                     BossRushEvent.SyncStartTimer((int)MathHelper.Lerp(0f, BossRushEvent.StartEffectTotalTime, 1f - lifetime));
@@ -51,8 +65,6 @@ namespace CalamityMod.Projectiles.Typeless
                 MoonlordDeathDrama.RequestLight(Utils.GetLerpValue(0f, 15f, Time, true), Main.LocalPlayer.Center);
                 if (Time >= 45f)
                 {
-                    SoundEngine.PlaySound(SoundID.DD2_EtherianPortalOpen, Main.LocalPlayer.Center);
-
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                        BossRushEvent.End();
 
@@ -62,6 +74,14 @@ namespace CalamityMod.Projectiles.Typeless
                 return;
             }
 
+            // Play the activation sound.
+            if (Time == 2f)
+                ActivationSoundSlot = SoundEngine.PlaySound(BossRushEvent.TerminusActivationSound, Main.LocalPlayer.Center);
+
+            // Update the activation sound.
+            if (SoundEngine.TryGetActiveSound(ActivationSoundSlot, out var t2) && t2.IsPlaying)
+                t2.Position = Projectile.Center;
+
             if (Projectile.timeLeft == 1)
             {
                 Projectile.Kill();
@@ -69,7 +89,9 @@ namespace CalamityMod.Projectiles.Typeless
                 return;
             }
 
-            CreateIdleMagicDust();
+            if (Projectile.timeLeft >= 32)
+                CreateIdleMagicDust();
+
             float currentShakePower = MathHelper.Lerp(0.2f, 8f, Utils.GetLerpValue(Lifetime * 0.725f, Lifetime, Time, true));
             currentShakePower *= 1f - Utils.GetLerpValue(1000f, 3100f, Main.LocalPlayer.Distance(Projectile.Center), true);
             Main.LocalPlayer.Calamity().GeneralScreenShakePower = currentShakePower;
@@ -77,7 +99,7 @@ namespace CalamityMod.Projectiles.Typeless
 
         public void CreateEffectsHandler()
         {
-            SoundEngine.PlaySound(SoundID.DD2_EtherianPortalDryadTouch, Main.LocalPlayer.Center);
+            SoundEngine.PlaySound(BossRushEvent.StartBuildupSound, Main.LocalPlayer.Center);
             Main.LocalPlayer.Calamity().GeneralScreenShakePower = 16f;
             if (Main.myPlayer == Projectile.owner)
                 Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<BossRushEffectThing>(), 0, 0f, Projectile.owner);

@@ -34,6 +34,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
         public const float MPFBRecoil = MathHelper.Pi - MathHelper.PiOver4;
         public const float MPFBScreenShakePower = 5f;
         public const float MPFBPushback = 15f;
+        public const float MaxMPFBPropellableSpeed = 14f;
 
         public const int PlasmaChargeupTimer = 40;
         public const int PlasmaCooldownTimer = 20;
@@ -108,7 +109,15 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
                 // Make it POWERFUL
                 Owner.Calamity().GeneralScreenShakePower = MPFBScreenShakePower;
-                Owner.velocity += Projectile.velocity.SafeNormalize(Vector2.UnitX) * -MPFBPushback;
+                float playerSpeed = Owner.velocity.Length();
+                Vector2 pushback = Projectile.velocity.SafeNormalize(Vector2.UnitX) * -MPFBPushback;
+                Vector2 newPlayerVelocity = Owner.velocity + pushback;
+                float newPlayerSpeed = newPlayerVelocity.Length();
+
+                if (playerSpeed < MaxMPFBPropellableSpeed || newPlayerSpeed < playerSpeed)
+                    Owner.velocity = newPlayerVelocity;
+                else
+                    Owner.velocity = newPlayerVelocity.SafeNormalize(Vector2.UnitX) * playerSpeed;
 
                 // Assign target recoil
                 Vector2 direction = MouseDistance.SafeNormalize(Vector2.UnitX);
