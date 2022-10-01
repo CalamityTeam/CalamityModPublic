@@ -23,7 +23,7 @@ namespace CalamityMod.NPCs.ExoMechs
     public class Draedon : ModNPC
     {
         public float DefeatTimer;
-        public float ProjectorOffset = 600;
+        public float ProjectorOffset = 1000;
         public float ProjFrameCounter;
         public float ProjFrameChangeCounter;
         public bool ShouldStartStandingUp;
@@ -91,6 +91,7 @@ namespace CalamityMod.NPCs.ExoMechs
             value.Position.Y += 45f;
             NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
             NPCID.Sets.ShouldBeCountedAsBoss[NPC.type] = true;
+            NPCID.Sets.MustAlwaysDraw[NPC.type] = true;
         }
 
         public override void SetDefaults()
@@ -189,7 +190,7 @@ namespace CalamityMod.NPCs.ExoMechs
             // Handle delays when re-appearing after being killed.
             if (KillReappearDelay > 0f)
             {
-                ProjectorOffset -= 5.2f;
+                ProjectorOffset -= 9.8f;
                 NPC.Opacity = 0f;
                 KillReappearDelay--;
                 if (KillReappearDelay <= 0f)
@@ -513,7 +514,10 @@ namespace CalamityMod.NPCs.ExoMechs
             // Fade away and disappear when leaving.
             if (leaving)
             {
-                HologramEffectTimer = MathHelper.Clamp(HologramEffectTimer - 1f, 0f, HologramFadeinTime);
+                ProjectorOffset -= 6.8f;
+                // Disappears slower if killed to give the projector enough time to fly offscreen
+                float disFactor = HasBeenKilled ? 0.4f : 1f;
+                HologramEffectTimer = MathHelper.Clamp(HologramEffectTimer - disFactor, 0f, HologramFadeinTime);
                 if (HologramEffectTimer <= 0f)
                 {
                     Main.BestiaryTracker.Kills.RegisterKill(NPC);
@@ -529,7 +533,7 @@ namespace CalamityMod.NPCs.ExoMechs
                     Lighting.AddLight(NPC.Center, 0.5f, 1.25f, 1.25f);
                     if (ProjFrameChangeCounter == 0)
                     {
-                        Dust d = Main.dust[Dust.NewDust(new Vector2(NPC.Center.X - 45, NPC.Center.Y - 20), NPC.width, NPC.height, 229, 0, Main.rand.Next(-2, -1), 60)];
+                        Dust d = Main.dust[Dust.NewDust(new Vector2(NPC.Center.X - 45, NPC.Center.Y - 30), NPC.width, NPC.height, 229, 0, Main.rand.Next(-2, -1), 60)];
                         d.noGravity = true;
                     }
                 }
@@ -695,6 +699,7 @@ namespace CalamityMod.NPCs.ExoMechs
             if (!NPC.IsABestiaryIconDummy)
                 spriteBatch.EnterShaderRegion();
             bool holo = HasBeenKilled && KillReappearDelay <= 0;
+            bool leaving = HasBeenKilled && DefeatTimer > DelayBeforeDefeatStandup + TalkDelay * 8f + 200f;
             Texture2D texture = HasBeenKilled && KillReappearDelay <= 0f ? ModContent.Request<Texture2D>("CalamityMod/NPCs/ExoMechs/HologramDraedon").Value : TextureAssets.Npc[NPC.type].Value;
             Texture2D glowmask = ModContent.Request<Texture2D>("CalamityMod/NPCs/ExoMechs/DraedonGlowmask").Value;
             Texture2D projector = ModContent.Request<Texture2D>("CalamityMod/NPCs/ExoMechs/DraedonProjector").Value;
@@ -720,6 +725,7 @@ namespace CalamityMod.NPCs.ExoMechs
                 GameShaders.Misc["CalamityMod:TeleportDisplacement"].Apply();
             }
 
+            if (!leaving)
             spriteBatch.Draw(texture, new Vector2(drawPosition.X, drawPosition.Y + hoveroffset), holo ? null : frame, holo ? holoColor : (drawColor * NPC.Opacity), NPC.rotation, origin, NPC.scale, direction, 0f);
 
             if (!NPC.IsABestiaryIconDummy)
@@ -735,19 +741,17 @@ namespace CalamityMod.NPCs.ExoMechs
             {
                 int beamoffset = 6;
                 int projHeight = (int)ProjFrameCounter * (projector.Height / 4);
-                bool leaving = DefeatTimer > DelayBeforeDefeatStandup + TalkDelay * 8f + 200f;
 
                 Rectangle projRectangle = new Rectangle(0, projHeight, projector.Width, projector.Height / 4);
 
                 drawPosition.Y += ProjectorOffset - beamoffset;
 
                 // Beam
-                if (KillReappearDelay <= 0f)
+                if (KillReappearDelay <= 0f && !leaving)
                 {
-                    float beamop = leaving ? NPC.Opacity : 1;
                     Effect effect = Terraria.Graphics.Effects.Filters.Scene["SpreadTelegraph"].GetShader().Shader;
-                    effect.Parameters["centerOpacity"].SetValue((0.7f + (float)Math.Sin(Main.GlobalTimeWrappedHourly * 2f) * 0.05f) * beamop);
-                    effect.Parameters["mainOpacity"].SetValue((1f + (float)Math.Sin(Main.GlobalTimeWrappedHourly * 2f) * 0.05f) * beamop);
+                    effect.Parameters["centerOpacity"].SetValue(0.7f + (float)Math.Sin(Main.GlobalTimeWrappedHourly * 2f) * 0.05f);
+                    effect.Parameters["mainOpacity"].SetValue(1f + (float)Math.Sin(Main.GlobalTimeWrappedHourly * 2f) * 0.05f);
                     effect.Parameters["halfSpreadAngle"].SetValue(MathHelper.PiOver4);
                     effect.Parameters["edgeColor"].SetValue(Color.DarkCyan.ToVector3());
                     effect.Parameters["centerColor"].SetValue(Color.Cyan.ToVector3());
@@ -768,9 +772,8 @@ namespace CalamityMod.NPCs.ExoMechs
                 drawPosition.Y += beamoffset;
 
                 // Draw the projector
-                float projop = leaving ? NPC.Opacity : 1;
-                spriteBatch.Draw(projector, drawPosition, projRectangle, Lighting.GetColor((int)NPC.position.X / 16, (int)(NPC.position.Y / 16 + ProjectorOffset)) * projop, NPC.rotation, projorigin, NPC.scale, direction, 0f);
-                spriteBatch.Draw(projectorglow, drawPosition, projRectangle, Color.White * projop, NPC.rotation, projorigin, NPC.scale, direction, 0f);
+                spriteBatch.Draw(projector, drawPosition, projRectangle, Lighting.GetColor((int)NPC.position.X / 16, (int)(NPC.position.Y / 16 + ProjectorOffset)), NPC.rotation, projorigin, NPC.scale, direction, 0f);
+                spriteBatch.Draw(projectorglow, drawPosition, projRectangle, Color.White, NPC.rotation, projorigin, NPC.scale, direction, 0f);
 
             }
 
