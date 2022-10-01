@@ -195,7 +195,8 @@ namespace CalamityMod.NPCs.ExoMechs
             // Handle delays when re-appearing after being killed.
             if (KillReappearDelay > 0f)
             {
-                ProjectorOffset -= 9.8f;
+                if (KillReappearDelay <= 60f)
+                ProjectorOffset -= 14.5f;
                 NPC.Opacity = 0f;
                 KillReappearDelay--;
                 if (KillReappearDelay <= 0f)
@@ -519,7 +520,7 @@ namespace CalamityMod.NPCs.ExoMechs
             // Fade away and disappear when leaving.
             if (leaving)
             {
-                ProjectorOffset -= 6.8f;
+                ProjectorOffset -= 9f;
                 // Disappears slower if killed to give the projector enough time to fly offscreen
                 float disFactor = HasBeenKilled ? 0.4f : 1f;
                 HologramEffectTimer = MathHelper.Clamp(HologramEffectTimer - disFactor, 0f, HologramFadeinTime);
@@ -538,7 +539,7 @@ namespace CalamityMod.NPCs.ExoMechs
                     Lighting.AddLight(NPC.Center, 0.5f, 1.25f, 1.25f);
                     if (ProjFrameChangeCounter == 0)
                     {
-                        Dust d = Main.dust[Dust.NewDust(new Vector2(NPC.Center.X - 45, NPC.Center.Y - 30), NPC.width, NPC.height, 229, 0, Main.rand.Next(-2, -1), 60)];
+                        Dust d = Main.dust[Dust.NewDust(new Vector2(NPC.Center.X - 45, NPC.Center.Y - 70), NPC.width, (int)(NPC.height * 1.5f), 229, 0, Main.rand.Next(-2, -1), 60)];
                         d.noGravity = true;
                     }
                 }
@@ -679,7 +680,7 @@ namespace CalamityMod.NPCs.ExoMechs
             if (!HasBeenKilled)
             {
                 HologramEffectTimer = 0f;
-                KillReappearDelay = 90f;
+                KillReappearDelay = 160f;
                 NPC.dontTakeDamage = true;
                 HasBeenKilled = true;
                 NPC.life = NPC.lifeMax;
@@ -777,8 +778,11 @@ namespace CalamityMod.NPCs.ExoMechs
                 drawPosition.Y += beamoffset;
 
                 // Draw the projector
-                spriteBatch.Draw(projector, drawPosition, projRectangle, Lighting.GetColor((int)NPC.position.X / 16, (int)(NPC.position.Y / 16 + ProjectorOffset)), NPC.rotation, projorigin, NPC.scale, direction, 0f);
-                spriteBatch.Draw(projectorglow, drawPosition, projRectangle, Color.White, NPC.rotation, projorigin, NPC.scale, direction, 0f);
+                if (KillReappearDelay <= 60f)
+                {
+                    spriteBatch.Draw(projector, drawPosition, projRectangle, Color.White * Lighting.GetColor((int)NPC.position.X / 16, (int)(NPC.position.Y / 16 + ProjectorOffset)).A, NPC.rotation, projorigin, NPC.scale, direction, 0f);
+                    spriteBatch.Draw(projectorglow, drawPosition, projRectangle, Color.White, NPC.rotation, projorigin, NPC.scale, direction, 0f);
+                }
 
             }
 
