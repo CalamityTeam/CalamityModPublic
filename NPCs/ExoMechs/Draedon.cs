@@ -108,9 +108,9 @@ namespace CalamityMod.NPCs.ExoMechs
             NPC.DeathSound = SoundID.NPCDeath14;
             NPC.chaseable = false;
             NPC.Calamity().ProvidesProximityRage = false;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
+            for (int k = 0; k < NPC.buffImmune.Length; k++)
             {
-                npc.buffImmune[k] = true;
+                NPC.buffImmune[k] = true;
             }
         }
 
