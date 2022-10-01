@@ -1,10 +1,13 @@
 ﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-namespace CalamityMod.Projectiles.Rogue
+namespace CalamityMod.Projectiles.Typeless
 {
     public class JewelSpike : ModProjectile
     {
+		public ref float RealPenetrate => ref Projectile.ai[0];
+		public const int MaxPenetrate = 3;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Spike");
@@ -16,10 +19,10 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.width = 36;
             Projectile.height = 44;
             Projectile.friendly = true;
-            Projectile.penetrate = -1;
+            Projectile.penetrate = -1; // For the animation, only hits up to 3 times though
             Projectile.tileCollide = false;
             Projectile.timeLeft = 40;
-            Projectile.DamageType = RogueDamageClass.Instance;
+            Projectile.DamageType = DamageClass.Generic;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 10;
         }
@@ -44,15 +47,19 @@ namespace CalamityMod.Projectiles.Rogue
                 Projectile.frame = 0;
         }
 
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => RealPenetrate++;
+
+        public override bool? CanHitNPC(NPC target) => RealPenetrate > MaxPenetrate - 1f ? false : (bool?)null;
+
         public override void Kill(int timeLeft)
         {
             if (Projectile.owner == Main.myPlayer)
             {
                 for (int index = 0; index < 3; ++index)
                 {
-                    float SpeedX = -Projectile.velocity.X * Main.rand.Next(40, 70) * 0.01f + Main.rand.Next(-20, 21) * 0.4f;
-                    float SpeedY = -Projectile.velocity.Y * Main.rand.Next(40, 70) * 0.01f + Main.rand.Next(-20, 21) * 0.4f;
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X + SpeedX, Projectile.Center.Y + SpeedY, SpeedX, SpeedY, ProjectileID.CrystalShard, Projectile.damage / 4, 0f, Projectile.owner);
+                    float SpeedX = -Projectile.velocity.X * Main.rand.NextFloat(0.4f, 0.7f) + Main.rand.NextFloat(-8f, 8f);
+                    float SpeedY = -Projectile.velocity.Y * Main.rand.NextFloat(0.4f, 0.7f) + Main.rand.NextFloat(-8f, 8f);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X + SpeedX, Projectile.Center.Y + SpeedY, SpeedX, SpeedY, ProjectileID.CrystalShard, Projectile.damage / 3, 0f, Projectile.owner);
                 }
             }
         }
