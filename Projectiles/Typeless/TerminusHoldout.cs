@@ -89,7 +89,9 @@ namespace CalamityMod.Projectiles.Typeless
                 return;
             }
 
-            CreateIdleMagicDust();
+            if (Projectile.timeLeft >= 32)
+                CreateIdleMagicDust();
+
             float currentShakePower = MathHelper.Lerp(0.2f, 8f, Utils.GetLerpValue(Lifetime * 0.725f, Lifetime, Time, true));
             currentShakePower *= 1f - Utils.GetLerpValue(1000f, 3100f, Main.LocalPlayer.Distance(Projectile.Center), true);
             Main.LocalPlayer.Calamity().GeneralScreenShakePower = currentShakePower;
