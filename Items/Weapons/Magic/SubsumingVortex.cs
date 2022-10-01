@@ -39,10 +39,10 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Subsuming Vortex");
-            Tooltip.SetDefault("Left clicking casts a gigantic vortex in front of you with a bias towards the mouse\n" +
+            Tooltip.SetDefault("Left clicking releases a barrage of vortices that race towards enemies\n" +
+                               "Right clicking casts a gigantic vortex in front of you with a bias towards the mouse\n" +
                                "When enemies are near the vortex, it sends multiple fast-moving smaller vortices towards them\n" +
-                               "After enough time has passed the vortex stops shooting, and releasing the left mouse button fires the vortex towards the mouse\n" +
-                               "Right clicking releases a barrage of vortices that race towards enemies");
+                               "After enough time has passed the vortex stops shooting, and releasing the right mouse button fires the vortex towards the mouse");
             SacrificeTotal = 1;
             ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }
@@ -67,7 +67,11 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.shootSpeed = 7f;
         }
 
-        public override void HoldItem(Player player) => Item.channel = player.altFunctionUse != 2;
+        public override void HoldItem(Player player)
+        {
+            Item.channel = player.altFunctionUse == 2;
+            player.Calamity().rightClickListener = true;
+        }
 
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;
 
@@ -82,7 +86,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            if (player.altFunctionUse == 2)
+            if (player.altFunctionUse != 2)
             {
                 int vortexID = ModContent.ProjectileType<ExoVortex2>();
                 for (int i = 0; i < RightClickVortexCount; i++)

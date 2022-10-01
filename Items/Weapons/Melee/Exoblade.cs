@@ -145,7 +145,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 AddIngredient<FlarefrostBlade>().
                 AddIngredient<StellarStriker>().
                 AddIngredient<MiracleMatter>().
-                AddTile(ModContent.TileType<DraedonsForge>()).
+                AddTile(TileType<DraedonsForge>()).
                 Register();
         }
     }

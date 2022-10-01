@@ -64,7 +64,7 @@ namespace CalamityMod.Projectiles.Magic
         public override void AI()
         {
             // If the player is no longer able to channel the vortex and it hasn't been released yet, release it.
-            if ((!Owner.channel || Owner.noItems || Owner.CCed) && !HasBeenReleased)
+            if ((!Owner.Calamity().mouseRight || Owner.noItems || Owner.CCed) && !HasBeenReleased)
             {
                 if (Time >= SubsumingVortex.LargeVortexChargeupTime)
                 {
@@ -106,7 +106,7 @@ namespace CalamityMod.Projectiles.Magic
                 {
                     // CheckMana returns true if the mana cost can be paid..
                     bool allowContinuedUse = Owner.CheckMana(Owner.ActiveItem(), -1, true, false);
-                    bool vortexStillInUse = Owner.channel && allowContinuedUse && !Owner.noItems && !Owner.CCed;
+                    bool vortexStillInUse = Owner.Calamity().mouseRight && allowContinuedUse && !Owner.noItems && !Owner.CCed;
                     if (vortexStillInUse)
                     {
                         SoundEngine.PlaySound(SoundID.Item84, Projectile.Center);
