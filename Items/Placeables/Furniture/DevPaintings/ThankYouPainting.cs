@@ -1,4 +1,4 @@
-using CalamityMod.Tiles.Furniture.DevPaintings;
+﻿using CalamityMod.Tiles.Furniture.DevPaintings;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
