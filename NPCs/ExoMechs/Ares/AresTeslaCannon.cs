@@ -64,7 +64,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
         public SlotId TelegraphSoundSlot;
 
         // Telegraph sound.
-        public static readonly SoundStyle TelSound = new("CalamityMod/Sounds/Custom/AresTeslaArmCharge");
+        public static readonly SoundStyle TelSound = new("CalamityMod/Sounds/Custom/AresTeslaArmCharge") { Volume = 1.1f};
 
         public override void SetStaticDefaults()
         {
