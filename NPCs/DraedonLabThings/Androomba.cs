@@ -37,6 +37,7 @@ namespace CalamityMod.NPCs.DraedonLabThings
             NPC.chaseable = false;
             NPC.HitSound = SoundID.NPCHit4;
             NPC.DeathSound = SoundID.NPCDeath44;
+            NPC.rarity = 2;
             NPC.catchItem = (short)ModContent.ItemType<AndroombaItem>();
             SpawnModBiomes = new int[1] { ModContent.GetInstance<ArsenalLabBiome>().Type };
             DrawOffsetY = -17;
