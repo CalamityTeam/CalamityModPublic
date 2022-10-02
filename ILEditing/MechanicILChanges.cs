@@ -402,7 +402,7 @@ namespace CalamityMod.ILEditing
             cursor.Emit(OpCodes.Ldarg_0);
 
             // Emit a delegate which sets the player's Calamity dodge cooldown and sends a sync packet appropriately.
-            cursor.EmitDelegate<Action<Player>>((Player p) => p.AddCooldown(GlobalDodge.ID, BalancingConstants.BrainDodgeCooldown));
+            cursor.EmitDelegate<Action<Player>>((Player p) => p.AddCooldown(GlobalDodge.ID, p.Calamity().amalgam ? BalancingConstants.AmalgamDodgeCooldown : BalancingConstants.BrainDodgeCooldown));
         }
         #endregion Removal of Dodge RNG
 

@@ -5869,6 +5869,9 @@ namespace CalamityMod.CalPlayer
                     }
                 }
 
+                // By setting brainOfConfusionItem, these accessories have this code already,
+                // but doing it again allows for increased duration + The Amalgam's other buffs,
+                // and also doesn't have random chance (why does Brain of Confusion not guarantee confusion on hit)
                 if (aBrain || amalgam)
                 {
                     for (int m = 0; m < Main.maxNPCs; m++)
