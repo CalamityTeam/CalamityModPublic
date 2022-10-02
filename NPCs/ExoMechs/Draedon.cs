@@ -22,6 +22,7 @@ namespace CalamityMod.NPCs.ExoMechs
 {
     public class Draedon : ModNPC
     {
+        public int KillReappearTextCountdown;
         public float DefeatTimer;
         public float ProjectorOffset = 1000;
         public float ProjFrameCounter;
@@ -108,10 +109,6 @@ namespace CalamityMod.NPCs.ExoMechs
             NPC.DeathSound = SoundID.NPCDeath14;
             NPC.chaseable = false;
             NPC.Calamity().ProvidesProximityRage = false;
-            for (int k = 0; k < NPC.buffImmune.Length; k++)
-            {
-                NPC.buffImmune[k] = true;
-            }
         }
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
@@ -153,6 +150,10 @@ namespace CalamityMod.NPCs.ExoMechs
 
         public override void AI()
         {
+            // Be immune to every debuff.
+            for (int k = 0; k < NPC.buffImmune.Length; k++)
+                NPC.buffImmune[k] = true;
+
             // Set the whoAmI variable.
             CalamityGlobalNPC.draedon = NPC.whoAmI;
             CalamityGlobalNPC.draedonAmbience = -1;
@@ -196,20 +197,33 @@ namespace CalamityMod.NPCs.ExoMechs
             if (KillReappearDelay > 0f)
             {
                 if (KillReappearDelay <= 60f)
-                ProjectorOffset -= 14.5f;
+                    ProjectorOffset -= 14.5f;
                 NPC.Opacity = 0f;
                 KillReappearDelay--;
                 if (KillReappearDelay <= 0f)
+                {
+                    KillReappearTextCountdown = 96;
+                    DefeatTimer = MathHelper.Max(DefeatTimer, DelayBeforeDefeatStandup + TalkDelay * 2f + 120f);
+                    NPC.netUpdate = true;
+                }
+                return;
+            }
+            if (KillReappearTextCountdown > 0)
+            {
+                NPC.Opacity = MathHelper.Clamp(NPC.Opacity + 0.05f, 0f, 1f);
+                KillReappearTextCountdown--;
+                if (KillReappearTextCountdown == 20)
                     CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonEndKillAttemptText", TextColor);
                 return;
             }
 
             // Synchronize the hologram effect and talk timer at the beginning.
-            // Also calculate opacity.
             if (TalkTimer <= HologramFadeinTime)
             {
                 HologramEffectTimer = TalkTimer;
-                NPC.Opacity = Utils.GetLerpValue(0f, 8f, TalkTimer, true);
+
+                if (!HasBeenKilled)
+                    NPC.Opacity = Utils.GetLerpValue(0f, 8f, TalkTimer, true);
             }
 
             // Play the stand up animation after teleportation.
@@ -547,9 +561,8 @@ namespace CalamityMod.NPCs.ExoMechs
             }
 
             // Adjust opacity.
-            NPC.Opacity = HologramEffectTimer / HologramFadeinTime;
-            if (HasBeenKilled)
-                NPC.Opacity *= 0.67f;
+            if (!HasBeenKilled)
+                NPC.Opacity = HologramEffectTimer / HologramFadeinTime;
 
             // Stand up in awe after a small amount of time has passed.
             if (DefeatTimer > DelayBeforeDefeatStandup && DefeatTimer < TalkDelay * 2f + 50f)
