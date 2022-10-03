@@ -4470,9 +4470,6 @@ namespace CalamityMod.CalPlayer
                         damage = (int)(damage * 0.7);
                         break;
                 }
-
-                if (proj.type == ModContent.ProjectileType<AcidRoundProj>() && heldItem.type == ModContent.ItemType<P90>())
-                    damage = (int)(damage * 0.75);
             }
             #endregion
 
