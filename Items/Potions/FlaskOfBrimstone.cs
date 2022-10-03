@@ -7,7 +7,8 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Potions
 {
-    public class CalamitasBrew : ModItem
+    [LegacyName("CalamitasBrew")]
+    public class FlaskOfBrimstone : ModItem
     {
         public override void SetStaticDefaults()
         {
