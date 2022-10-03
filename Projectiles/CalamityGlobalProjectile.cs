@@ -1,4 +1,5 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
 using CalamityMod.Dusts;
@@ -2260,7 +2261,7 @@ namespace CalamityMod.Projectiles
                                     Main.dust[index].velocity *= 0.25f;
                                 }
                                 break;
-                            case 99:
+                            case CalamityGlobalBuff.ModdedFlaskEnchant:
                                 int dustType = player.Calamity().aWeapon ? ModContent.DustType<BrimstoneFlame>() : DustID.Stone;
                                 if (Main.rand.NextBool(4))
                                 {

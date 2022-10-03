@@ -14,8 +14,7 @@ namespace CalamityMod.Items.Potions
         {
             SacrificeTotal = 20;
             DisplayName.SetDefault("Flask of Brimstone");
-            Tooltip.SetDefault("Melee and Whip attacks inflict Brimstone Flames on enemies\n" +
-                               "Rogue attacks inflict Brimstone Flames on enemies");
+            Tooltip.SetDefault("Melee, Whip, and Rogue attacks inflict Brimstone Flames on enemies");
         }
 
         public override void SetDefaults()

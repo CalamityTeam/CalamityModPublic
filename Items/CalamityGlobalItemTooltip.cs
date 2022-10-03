@@ -531,22 +531,22 @@ namespace CalamityMod.Items
             // Flasks apply to Rogue weapons
             #region Rogue Flask Tooltips
             if (item.type == ItemID.FlaskofCursedFlames)
-                EditTooltipByNum(0, (line) => line.Text += "\nRogue attacks inflict enemies with cursed flames");
+                EditTooltipByNum(0, (line) => line.Text = line.Text.Replace(" and Whip", ", Whip, and Rogue"));
             if (item.type == ItemID.FlaskofFire)
-                EditTooltipByNum(0, (line) => line.Text += "\nRogue attacks set enemies on fire");
+                EditTooltipByNum(0, (line) => line.Text = line.Text.Replace(" and Whip", ", Whip, and Rogue"));
             if (item.type == ItemID.FlaskofGold)
-                EditTooltipByNum(0, (line) => line.Text += "\nRogue attacks make enemies drop more gold");
+                EditTooltipByNum(0, (line) => line.Text = line.Text.Replace(" and Whip", ", Whip, and Rogue"));
             if (item.type == ItemID.FlaskofIchor)
-                EditTooltipByNum(0, (line) => line.Text += "\nRogue attacks decrease enemy defense");
+                EditTooltipByNum(0, (line) => line.Text = line.Text.Replace(" and Whip", ", Whip, and Rogue"));
             if (item.type == ItemID.FlaskofNanites)
-                EditTooltipByNum(0, (line) => line.Text += "\nRogue attacks confuse enemies");
+                EditTooltipByNum(0, (line) => line.Text = line.Text.Replace(" and Whip", ", Whip, and Rogue"));
             // party flask is unique because it affects ALL projectiles in Calamity, not just "also rogue ones"
             if (item.type == ItemID.FlaskofParty)
-                EditTooltipByNum(0, (line) => line.Text = "All attacks cause confetti to appear");
+                EditTooltipByNum(0, (line) => line.Text = line.Text.Replace("Melee and Whip", "All"));
             if (item.type == ItemID.FlaskofPoison)
-                EditTooltipByNum(0, (line) => line.Text += "\nRogue attacks poison enemies");
+                EditTooltipByNum(0, (line) => line.Text = line.Text.Replace(" and Whip", ", Whip, and Rogue"));
             if (item.type == ItemID.FlaskofVenom)
-                EditTooltipByNum(0, (line) => line.Text += "\nRogue attacks inflict Venom on enemies");
+                EditTooltipByNum(0, (line) => line.Text = line.Text.Replace(" and Whip", ", Whip, and Rogue"));
             #endregion
 
             // Rebalances to vanilla item stats
