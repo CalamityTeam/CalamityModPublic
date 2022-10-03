@@ -247,7 +247,7 @@ namespace CalamityMod.Projectiles.Summon
             if (InOverdriveMode)
             {
                 laserCount = 3;
-                offsetAngleMax = AtlasMunitionsBeacon.OverdriveProjectileAngularRandomness;
+                offsetAngleMax = AtlasMunitionsBeacon.OverdriveProjectileAngularRandomness * 0.5f;
                 laserDamage = (int)(laserDamage * AtlasMunitionsBeacon.OverdriveProjectileDamageFactor);
                 laserID = ModContent.ProjectileType<AtlasMunitionsLaserOverdrive>();
 
@@ -270,8 +270,17 @@ namespace CalamityMod.Projectiles.Summon
             Texture2D glowmask = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/AtlasMunitionsAutocannonGlow").Value;
             Rectangle frame = texture.Frame(1, Main.projFrames[Type], 0, Projectile.frame);
             Vector2 drawPosition = Projectile.Center - Main.screenPosition;
-            Main.EntitySpriteDraw(texture, drawPosition, frame, Projectile.GetAlpha(lightColor), Projectile.rotation, frame.Size() * 0.5f, Projectile.scale, 0, 0);
-            Main.EntitySpriteDraw(glowmask, drawPosition, frame, Projectile.GetAlpha(Color.White), Projectile.rotation, frame.Size() * 0.5f, Projectile.scale, 0, 0);
+
+            float cannonRotation = CannonDirection;
+            SpriteEffects cannonDirection = SpriteEffects.None;
+            if (Math.Cos(cannonRotation) < 0f)
+            {
+                cannonRotation += MathHelper.Pi;
+                cannonDirection = SpriteEffects.FlipHorizontally;
+            }
+
+            Main.EntitySpriteDraw(texture, drawPosition, frame, Projectile.GetAlpha(lightColor), Projectile.rotation, frame.Size() * 0.5f, Projectile.scale, cannonDirection, 0);
+            Main.EntitySpriteDraw(glowmask, drawPosition, frame, Projectile.GetAlpha(Color.White), Projectile.rotation, frame.Size() * 0.5f, Projectile.scale, cannonDirection, 0);
 
             if (!CannonIsMounted)
                 return false;
@@ -281,15 +290,9 @@ namespace CalamityMod.Projectiles.Summon
             glowmask = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/AtlasMunitionsTurretGlow").Value;
             frame = texture.Frame(1, 20, 0, (int)CannonFrame);
             drawPosition = CannonCenter - Main.screenPosition;
-            float cannonRotation = CannonDirection;
             Vector2 cannonOrigin = new Vector2(0.39f, 0.5f) * frame.Size();
-            SpriteEffects cannonDirection = SpriteEffects.None;
-            if (Math.Cos(cannonRotation) < 0f)
-            {
-                cannonRotation += MathHelper.Pi;
-                cannonDirection = SpriteEffects.FlipHorizontally;
+            if (cannonDirection == SpriteEffects.FlipHorizontally)
                 cannonOrigin.X = frame.Width - cannonOrigin.X;
-            }
 
             // Draw the smoke.
             SmokeDrawer.DrawSet(drawPosition + Main.screenPosition);

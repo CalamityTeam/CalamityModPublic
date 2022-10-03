@@ -13,14 +13,14 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             DisplayName.SetDefault("Lead Tomahawk");
             Tooltip.SetDefault("The tomahawks have more damage for a short time when initially thrown\n" +
-                               "Stealth strikes pierce infinitely");
+                               "Stealth strikes pierce up to 7 times");
             SacrificeTotal = 99;
         }
 
         public override void SetDefaults()
         {
             Item.width = 40;
-            Item.damage = 7;
+            Item.damage = 14;
             Item.noMelee = true;
             Item.consumable = true;
             Item.noUseGraphic = true;
@@ -45,7 +45,10 @@ namespace CalamityMod.Items.Weapons.Rogue
             {
                 int p = Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, type, damage, knockback, player.whoAmI, 0f, 1f);
                 if (p.WithinBounds(Main.maxProjectiles))
+				{
                     Main.projectile[p].Calamity().stealthStrike = true;
+                    Main.projectile[p].penetrate = 7;
+				}
                 return false;
             }
             return true;

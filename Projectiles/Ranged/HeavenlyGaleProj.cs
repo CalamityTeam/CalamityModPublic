@@ -30,7 +30,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public float ChargeupInterpolant => Utils.GetLerpValue(HeavenlyGale.ShootDelay, HeavenlyGale.MaxChargeTime, ChargeTimer, true);
 
-        public float StringHalfHeight => Projectile.height * 0.4f;
+        public float StringHalfHeight => Projectile.height * 0.36f;
 
         public float StringReelbackDistance => Projectile.width * StringReelbackInterpolant * 0.25f;
 

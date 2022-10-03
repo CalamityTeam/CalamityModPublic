@@ -38,6 +38,8 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.DamageType = RogueDamageClass.Instance;
         }
 
+		public override float StealthDamageMultiplier => 1.3f;
+
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             bool stealthStrike = false;
@@ -46,7 +48,6 @@ namespace CalamityMod.Items.Weapons.Rogue
             {
                 teethCount = 3;
                 stealthStrike = true;
-                damage = (int)(damage * 1.3f);
             }
             else
             {

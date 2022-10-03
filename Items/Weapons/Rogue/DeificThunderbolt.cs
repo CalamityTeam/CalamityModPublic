@@ -45,17 +45,17 @@ Stealth strikes summon more lightning and travel faster");
 
         // Terraria seems to really dislike high crit values in SetDefaults
         public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 12;
+        public override float StealthVelocityMultiplier => 1.5f;
+
+        public override void ModifyStatsExtra(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
+		{
+			if (Main.raining)
+				velocity = velocity * 1.5f;
+		}
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            float stealthSpeedMult = 1f;
-            if (player.Calamity().StealthStrikeAvailable())
-                stealthSpeedMult = 1.5f;
-            float rainSpeedMult = 1f;
-            if (Main.raining)
-                rainSpeedMult = 1.5f;
-
-            int thunder = Projectile.NewProjectile(source, position.X, position.Y, velocity.X * rainSpeedMult * stealthSpeedMult, velocity.Y * rainSpeedMult * stealthSpeedMult, type, damage, knockback, player.whoAmI, 0f, 0f);
+            int thunder = Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
             if (player.Calamity().StealthStrikeAvailable() && thunder.WithinBounds(Main.maxProjectiles)) //setting the stealth strike
             {
                 Main.projectile[thunder].Calamity().stealthStrike = true;

@@ -55,10 +55,10 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void AddRecipes()
         {
             CreateRecipe().
+                AddIngredient(ItemID.FlintlockPistol).
                 AddIngredient(ItemID.Marble, 20).
                 AddIngredient(ItemID.Amber, 5).
                 AddIngredient(ItemID.Diamond, 3).
-                AddIngredient(ItemID.FlintlockPistol).
                 AddTile(TileID.Anvils).
                 Register();
         }

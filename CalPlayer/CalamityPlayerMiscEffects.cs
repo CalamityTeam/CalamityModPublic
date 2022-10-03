@@ -2317,22 +2317,6 @@ namespace CalamityMod.CalPlayer
                     Player.statMana = Player.statManaMax2;
             }
 
-            if (armorCrumbling)
-            {
-                Player.GetCritChance<RogueDamageClass>() += 5;
-                Player.GetCritChance<MeleeDamageClass>() += 5;
-            }
-
-            if (armorShattering)
-            {
-                if (Player.FindBuffIndex(ModContent.BuffType<ArmorCrumbling>()) > -1)
-                    Player.ClearBuff(ModContent.BuffType<ArmorCrumbling>());
-                Player.GetDamage<ThrowingDamageClass>() += 0.08f;
-                Player.GetDamage<MeleeDamageClass>() += 0.08f;
-                Player.GetCritChance<RogueDamageClass>() += 8;
-                Player.GetCritChance<MeleeDamageClass>() += 8;
-            }
-
             if (holyWrath)
             {
                 if (Player.FindBuffIndex(BuffID.Wrath) > -1)
@@ -2686,9 +2670,6 @@ namespace CalamityMod.CalPlayer
                 Player.findTreasure = true;
             }
 
-            if (aWeapon)
-                Player.moveSpeed += 0.05f;
-
             if (molten)
                 Player.resistCold = true;
 
@@ -2758,7 +2739,7 @@ namespace CalamityMod.CalPlayer
             if (aCrunch && !laudanum)
             {
                 Player.statDefense -= ArmorCrunch.DefenseReduction;
-                Player.endurance *= 0.33f;
+                Player.endurance *= ArmorCrunch.MultiplicativeDamageReductionPlayer;
             }
 
             if (wither)
@@ -3466,28 +3447,8 @@ namespace CalamityMod.CalPlayer
             {
                 for (int l = 0; l < Player.MaxBuffs; l++)
                 {
-                    // TODO -- What the FUCK is this conditional chain?
                     int hasBuff = Player.buffType[l];
-                    if ((hasBuff >= BuffID.ObsidianSkin && hasBuff <= BuffID.Gravitation) || hasBuff == BuffID.Tipsy || hasBuff == BuffID.WellFed || hasBuff == BuffID.WellFed2 || hasBuff == BuffID.WellFed3 ||
-                        hasBuff == BuffID.Honey || hasBuff == BuffID.WeaponImbueVenom || (hasBuff >= BuffID.WeaponImbueCursedFlames && hasBuff <= BuffID.WeaponImbuePoison) || hasBuff == BuffID.Lucky ||
-                        (hasBuff >= BuffID.Mining && hasBuff <= BuffID.Wrath) || (hasBuff >= BuffID.Lovestruck && hasBuff <= BuffID.Warmth) || hasBuff == BuffID.SugarRush ||
-                        hasBuff == ModContent.BuffType<AbyssalWeapon>() || hasBuff == ModContent.BuffType<AnechoicCoatingBuff>() || hasBuff == ModContent.BuffType<ArmorCrumbling>() ||
-                        hasBuff == ModContent.BuffType<ArmorShattering>() || hasBuff == ModContent.BuffType<AstralInjectionBuff>() || hasBuff == ModContent.BuffType<BaguetteBuff>() ||
-                        hasBuff == ModContent.BuffType<BloodfinBoost>() || hasBuff == ModContent.BuffType<BoundingBuff>() || hasBuff == ModContent.BuffType<CadancesGrace>() ||
-                        hasBuff == ModContent.BuffType<CalciumBuff>() || hasBuff == ModContent.BuffType<CeaselessHunger>() || hasBuff == ModContent.BuffType<DraconicSurgeBuff>() ||
-                        hasBuff == ModContent.BuffType<GravityNormalizerBuff>() || hasBuff == ModContent.BuffType<HolyWrathBuff>() || hasBuff == ModContent.BuffType<Omniscience>() ||
-                        hasBuff == ModContent.BuffType<PenumbraBuff>() || hasBuff == ModContent.BuffType<PhotosynthesisBuff>() || hasBuff == ModContent.BuffType<ProfanedRageBuff>() ||
-                        hasBuff == ModContent.BuffType<ShadowBuff>() || hasBuff == ModContent.BuffType<Soaring>() ||
-                        hasBuff == ModContent.BuffType<SulphurskinBuff>() || hasBuff == ModContent.BuffType<TeslaBuff>() || hasBuff == ModContent.BuffType<TitanScale>() ||
-                        hasBuff == ModContent.BuffType<TriumphBuff>() || hasBuff == ModContent.BuffType<YharimPower>() || hasBuff == ModContent.BuffType<Zen>() ||
-                        hasBuff == ModContent.BuffType<Zerg>() || hasBuff == ModContent.BuffType<BloodyMaryBuff>() || hasBuff == ModContent.BuffType<CaribbeanRumBuff>() ||
-                        hasBuff == ModContent.BuffType<CinnamonRollBuff>() || hasBuff == ModContent.BuffType<EverclearBuff>() || hasBuff == ModContent.BuffType<EvergreenGinBuff>() ||
-                        hasBuff == ModContent.BuffType<FabsolVodkaBuff>() || hasBuff == ModContent.BuffType<FireballBuff>() || hasBuff == ModContent.BuffType<GrapeBeerBuff>() ||
-                        hasBuff == ModContent.BuffType<MargaritaBuff>() || hasBuff == ModContent.BuffType<MoonshineBuff>() || hasBuff == ModContent.BuffType<MoscowMuleBuff>() ||
-                        hasBuff == ModContent.BuffType<RedWineBuff>() || hasBuff == ModContent.BuffType<RumBuff>() || hasBuff == ModContent.BuffType<ScrewdriverBuff>() ||
-                        hasBuff == ModContent.BuffType<StarBeamRyeBuff>() || hasBuff == ModContent.BuffType<TequilaBuff>() || hasBuff == ModContent.BuffType<TequilaSunriseBuff>() ||
-                        hasBuff == ModContent.BuffType<Trippy>() || hasBuff == ModContent.BuffType<VodkaBuff>() || hasBuff == ModContent.BuffType<WhiskeyBuff>() ||
-                        hasBuff == ModContent.BuffType<WhiteWineBuff>())
+                    if (CalamityLists.amalgamBuffList.Contains(hasBuff))
                     {
                         if (amalgam)
                         {
@@ -3502,7 +3463,7 @@ namespace CalamityMod.CalPlayer
                         else
                         {
                             // Reset buff persistence if Amalgam is removed.
-                            if (Main.persistentBuff[hasBuff])
+                            if (Main.persistentBuff[hasBuff] && !CalamityLists.persistentBuffList.Contains(hasBuff))
                                 Main.persistentBuff[hasBuff] = false;
                         }
                     }

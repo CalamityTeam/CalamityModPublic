@@ -49,11 +49,20 @@ namespace CalamityMod.Items.Weapons.Rogue
             damage.Base += lifeAmount * 0.1f;
         }
 
+        public override void ModifyStatsExtra(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
+        {
+			if (player.Calamity().StealthStrikeAvailable())
+				type = ModContent.ProjectileType<CorpusAvertorStealth>();
+        }
+
+		public override float StealthDamageMultiplier => 3.5f;
+        public override float StealthKnockbackMultiplier => 2f;
+
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.Calamity().StealthStrikeAvailable())
             {
-                int dagger = Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<CorpusAvertorStealth>(), (int)(damage * 3.5f), knockback * 2f, player.whoAmI);
+                int dagger = Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
                 if (dagger.WithinBounds(Main.maxProjectiles))
                     Main.projectile[dagger].Calamity().stealthStrike = true;
                 return false;

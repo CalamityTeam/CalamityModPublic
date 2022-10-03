@@ -8,7 +8,7 @@ namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Brimstone Fish"); //Future potion ingredient
+            DisplayName.SetDefault("Brimstone Fish"); //Flask of Brimstone Flames ingredient
             Tooltip.SetDefault("Fire is a living being");
             SacrificeTotal = 3;
             ItemID.Sets.CanBePlacedOnWeaponRacks[Item.type] = true;

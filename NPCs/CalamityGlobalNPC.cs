@@ -2564,7 +2564,6 @@ namespace CalamityMod.NPCs
             // Apply modifications to enemy's current defense based on Calamity debuffs.
             // As with defense and DR, flat reductions apply first, then multiplicative reductions.
             int effectiveDefense = defense -
-                    (aCrunch > 0 ? ArmorCrunch.DefenseReduction : 0) -
                     (marked > 0 && DR <= 0f ? MarkedforDeath.DefenseReduction : 0) -
                     (wither > 0 ? WitherDebuff.DefenseReduction : 0) -
                     (int)Main.LocalPlayer.GetArmorPenetration<GenericDamageClass>() -
@@ -2670,8 +2669,8 @@ namespace CalamityMod.NPCs
                 calcDR *= 0.66f;
             if (npc.Calamity().kamiFlu > 0)
                 calcDR *= KamiFlu.MultiplicativeDamageReduction;
-            if (npc.onFire2)
-                calcDR *= 0.8f;
+            if (npc.Calamity().aCrunch > 0)
+                calcDR *= ArmorCrunch.MultiplicativeDamageReductionEnemy;
 
             return calcDR;
         }

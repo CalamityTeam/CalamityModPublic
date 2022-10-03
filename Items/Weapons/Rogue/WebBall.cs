@@ -20,7 +20,7 @@ Stealth strikes slow enemies down longer");
         public override void SetDefaults()
         {
             Item.width = 20;
-            Item.damage = 8;
+            Item.damage = 12;
             Item.noMelee = true;
             Item.noUseGraphic = true;
             Item.maxStack = 999;

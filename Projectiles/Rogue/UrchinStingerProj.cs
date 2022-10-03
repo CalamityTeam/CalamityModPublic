@@ -52,7 +52,7 @@ namespace CalamityMod.Projectiles.Rogue
                 if (Projectile.localAI[0] % 40 == 0 && Projectile.ai[0] == 1f)
                 {
                     Vector2 projspeed = new Vector2(Main.rand.NextFloat(-4f, 4f), Main.rand.NextFloat(-4f, 4f));
-                    int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, projspeed, ModContent.ProjectileType<SulphuricAcidBubbleFriendly>(), (int)(projdmg * 0.5f), 1f, Projectile.owner);
+                    int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, projspeed, ModContent.ProjectileType<SulphuricAcidBubbleFriendly>(), (int)(projdmg * 0.5f), 1f, Projectile.owner, 2f);
                     if (proj.WithinBounds(Main.maxProjectiles))
                         Main.projectile[proj].DamageType = RogueDamageClass.Instance;
                 }
@@ -85,12 +85,12 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(BuffID.Venom, 180);
+            target.AddBuff(BuffID.Poisoned, 180);
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-            target.AddBuff(BuffID.Venom, 180);
+            target.AddBuff(BuffID.Poisoned, 180);
         }
 
         public override bool PreDraw(ref Color lightColor)

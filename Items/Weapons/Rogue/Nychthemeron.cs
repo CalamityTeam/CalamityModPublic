@@ -55,6 +55,8 @@ namespace CalamityMod.Items.Weapons.Rogue
             return true;
         }
 
+		public override float StealthDamageMultiplier => 0.3333f;
+
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             int orbDamage = (int)(damage * 0.75f);
@@ -64,7 +66,7 @@ namespace CalamityMod.Items.Weapons.Rogue
                 for (int j = 0; j < Item.stack - player.ownedProjectileCounts[ModContent.ProjectileType<NychthemeronProjectile>()]; j++)
                 {
                     float spread = 2;
-                    int pIndex = Projectile.NewProjectile(source, position.X, position.Y, velocity.X + Main.rand.NextFloat(-spread, spread), velocity.Y + Main.rand.NextFloat(-spread, spread), type, Math.Max(damage / 3, 1), knockback, player.whoAmI, 0f, 1f);
+                    int pIndex = Projectile.NewProjectile(source, position.X, position.Y, velocity.X + Main.rand.NextFloat(-spread, spread), velocity.Y + Main.rand.NextFloat(-spread, spread), type, damage, knockback, player.whoAmI, 0f, 1f);
                     Projectile p = Main.projectile[pIndex];
                     if (pIndex.WithinBounds(Main.maxProjectiles))
                         p.Calamity().stealthStrike = true;

@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
+using CalamityMod.Dusts;
 using CalamityMod.EntitySources;
 using CalamityMod.Events;
 using CalamityMod.Items.Accessories;
@@ -17,6 +16,8 @@ using CalamityMod.Projectiles.VanillaProjectileOverrides;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
@@ -135,9 +136,9 @@ namespace CalamityMod.Projectiles
         {
             CreatedByPlayerDash = source is ProjectileSource_PlayerDashHit;
 
-			IEntitySource sourceItem = source as EntitySource_ItemUse_WithAmmo;
-			if (sourceItem != null)
-				extorterBoost = true;
+            IEntitySource sourceItem = source as EntitySource_ItemUse_WithAmmo;
+            if (sourceItem != null)
+                extorterBoost = true;
 
             // TODO -- it would be nice to move frame one hacks here, but this runs in the middle of NewProjectile
             // which is way too early, the projectile's own initialization isn't even done yet
@@ -2259,8 +2260,33 @@ namespace CalamityMod.Projectiles
                                     Main.dust[index].velocity *= 0.25f;
                                 }
                                 break;
+                            case 99:
+                                int dustType = player.Calamity().aWeapon ? ModContent.DustType<BrimstoneFlame>() : DustID.Stone;
+                                if (Main.rand.NextBool(4))
+                                {
+                                    int index = Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType, 0f, 0f, 100, new Color(), 1f);
+                                    Main.dust[index].noGravity = true;
+                                    Main.dust[index].fadeIn = 1.5f;
+                                    Main.dust[index].velocity *= 0.25f;
+                                }
+                                break;
                             default:
                                 break;
+                        }
+                    }
+                }
+
+                if (projectile.CountsAsClass<MeleeDamageClass>() || projectile.CountsAsClass<SummonMeleeSpeedDamageClass>())
+                {
+                    if (player.Calamity().aWeapon || player.Calamity().armorCrumbling)
+                    {
+                        int dustType = player.Calamity().aWeapon ? ModContent.DustType<BrimstoneFlame>() : DustID.Stone;
+                        if (Main.rand.NextBool(4))
+                        {
+                            int index = Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType, 0f, 0f, 100, new Color(), 1f);
+                            Main.dust[index].noGravity = true;
+                            Main.dust[index].fadeIn = 1.5f;
+                            Main.dust[index].velocity *= 0.25f;
                         }
                     }
                 }
@@ -2590,7 +2616,7 @@ namespace CalamityMod.Projectiles
                         Main.projectile[spike].frame = 4;
                         if (spike.WithinBounds(Main.maxProjectiles))
                             Main.projectile[spike].DamageType = DamageClass.Generic;
-						modPlayer.scuttlerCooldown = 30;
+                        modPlayer.scuttlerCooldown = 30;
                     }
                 }
 

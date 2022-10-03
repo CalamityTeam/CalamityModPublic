@@ -20,9 +20,9 @@ namespace CalamityMod.Buffs.Summon
             CalamityPlayer modPlayer = player.Calamity();
             if (player.ownedProjectileCounts[ModContent.ProjectileType<ViridVanguardBlade>()] > 0)
             {
-                modPlayer.viridVanguard = true;
+                modPlayer.ViridVanguard = true;
             }
-            if (!modPlayer.viridVanguard)
+            if (!modPlayer.ViridVanguard)
             {
                 player.DelBuff(buffIndex);
                 buffIndex--;

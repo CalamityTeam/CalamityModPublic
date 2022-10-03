@@ -43,12 +43,16 @@ namespace CalamityMod.ILEditing
                 return;
             }
 
-            // Search for the second instance of Math.Round, which is used to round use time.
-            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchCall("System.Math", "Round")))
+            // Search for the branch-if-not-equal which checks whether the damage change rounds to nothing.
+            ILLabel passesDamageCheck = null;
+            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchBneUn(out passesDamageCheck)))
             {
-                LogFailure("Prefix Requirements", "Could not locate the use time Math.Round call.");
+                LogFailure("Prefix Requirements", "Could not locate damage prefix failure branch.");
                 return;
             }
+
+            // Emit an unconditional branch which skips the damage check failure.
+            cursor.Emit(OpCodes.Br_S, passesDamageCheck);
 
             // Search for the branch-if-not-equal which checks whether the use time change rounds to nothing.
             // If the change rounds to nothing, then it's equal, so the branch is NOT taken.

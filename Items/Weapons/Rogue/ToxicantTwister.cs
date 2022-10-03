@@ -39,11 +39,12 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.rare = ModContent.RarityType<PureGreen>();
         }
 
+		public override float StealthDamageMultiplier => 1.35f;
+
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.Calamity().StealthStrikeAvailable())
             {
-                damage = (int)(damage * 1.35f);
                 int boomer = Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
                 if (boomer.WithinBounds(Main.maxProjectiles))
                     Main.projectile[boomer].Calamity().stealthStrike = true;

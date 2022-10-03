@@ -1,7 +1,8 @@
-﻿using CalamityMod.Buffs.Summon;
-using CalamityMod.CalPlayer;
+﻿using System;
+using CalamityMod.Items.Weapons.Summon;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -9,19 +10,7 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class RustyDrone : ModProjectile
     {
-        public const float PlayerHomingInertia = 32f;
-        public const float PlayerHomingSpeed = 11f;
-
-        public const float NPCHomingInertia = 20f;
-        public const float NPCHomingSpeed = 14f;
-
-        public const float AttackRate = 140f;
-
-        public const float DistanceToCheck = 585f;
-
-        public const int ExplosionShrapnelBaseDamage = 16; // Uses player.MinionDamage
-
-        public const int ResummonCooldownTime = 60 * 3;
+        public Player Owner => Main.player[Projectile.owner];
 
         public override void SetStaticDefaults()
         {
@@ -35,111 +24,44 @@ namespace CalamityMod.Projectiles.Summon
         {
             Projectile.width = 36;
             Projectile.height = 30;
-            Projectile.netImportant = true;
-            Projectile.friendly = true;
             Projectile.ignoreWater = true;
-            Projectile.minionSlots = 1f;
-            Projectile.timeLeft = 18000;
-            Projectile.penetrate = -1;
             Projectile.tileCollide = false;
-            Projectile.timeLeft *= 5;
-            Projectile.minion = true;
-            Projectile.alpha = 255;
-            Projectile.Calamity().overridesMinionDamagePrevention = true; // Will only do damage once, and the location of said damage must be deliberate.
+            Projectile.netImportant = true;
+            Projectile.sentry = true;
+            Projectile.timeLeft = Projectile.SentryLifeTime;
+            Projectile.penetrate = -1;
             Projectile.DamageType = DamageClass.Summon;
         }
 
         public override void AI()
         {
-            Player player = Main.player[Projectile.owner];
-            CalamityPlayer modPlayer = player.Calamity();
-            if (Projectile.localAI[0] == 0f)
-            {
-                int oldDamage = Projectile.damage;
-                Projectile.damage = 1; // For the initial tiny prick effect
-                Projectile.Damage();
-                Projectile.damage = oldDamage;
-                Projectile.Center -= Vector2.UnitY * 1400f;
-                Projectile.localAI[0] += 1f;
-            }
-            if (Projectile.alpha > 0)
-            {
-                Projectile.alpha = (int)MathHelper.Lerp(Projectile.alpha, 0f, 0.02f);
-                Projectile.velocity = Vector2.UnitY * 10f;
-            }
+            // Determine frames.
             Projectile.frameCounter++;
-            if (Projectile.frameCounter > 8)
+            Projectile.frame = Projectile.frameCounter / 5 % Main.projFrames[Projectile.type];
+
+            // Hover in place.
+            Projectile.velocity = -Vector2.UnitY * (float)Math.Sin(MathHelper.TwoPi * Projectile.timeLeft / 96f) * 3f;
+            
+            // Look at nearby enemies.
+            NPC potentialTarget = Projectile.Center.MinionHoming(1000f, Owner);
+            if (potentialTarget is not null)
+                Projectile.spriteDirection = (Projectile.Center.X < potentialTarget.Center.X).ToDirectionInt();
+
+            // Release pulses of irradiated energy.
+            if (Projectile.timeLeft % RustyBeaconPrototype.PulseReleaseRate == RustyBeaconPrototype.PulseReleaseRate / 2)
             {
-                Projectile.frame++;
-                Projectile.frameCounter = 0;
-            }
-            bool isCorrectProjectile = Projectile.type == ModContent.ProjectileType<RustyDrone>();
-            player.AddBuff(ModContent.BuffType<RustyDroneBuff>(), 3600);
-            if (isCorrectProjectile)
-            {
-                if (player.dead)
+                SoundEngine.PlaySound(SoundID.DD2_WitherBeastAuraPulse with { Volume = 1.6f }, Projectile.Center);
+
+                if (Main.myPlayer == Projectile.owner)
                 {
-                    modPlayer.rustyDrone = false;
+                    int pulse = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<RustyBeaconPulse>(), Projectile.damage, 0f, Projectile.owner);
+                    if (Main.projectile.IndexInRange(pulse))
+                        Main.projectile[pulse].originalDamage = Projectile.originalDamage;
                 }
-                if (modPlayer.rustyDrone)
-                {
-                    Projectile.timeLeft = 2;
-                }
-            }
-            NPC potentialTarget = Projectile.Center.MinionHoming(DistanceToCheck, player);
-            if (potentialTarget == null)
-            {
-                if (Projectile.Distance(player.Center) > 120f)
-                {
-                    Projectile.velocity = (Projectile.velocity * PlayerHomingInertia + Projectile.SafeDirectionTo(player.Top) * PlayerHomingSpeed) / (PlayerHomingInertia + 1);
-                }
-                if (Projectile.frame >= 8)
-                {
-                    Projectile.frame = 0;
-                }
-            }
-            else
-            {
-                // A bit above the target, and always on the opposite side of the target's sprite direction.
-                Vector2 destination = potentialTarget.Top + Vector2.UnitX * -potentialTarget.spriteDirection * Main.rand.NextFloat(50f, 75f) - Vector2.UnitY * 42f;
-                Projectile.velocity = (Projectile.velocity * NPCHomingInertia + Projectile.SafeDirectionTo(destination) * NPCHomingSpeed) / (NPCHomingInertia + 1);
-                if (Projectile.frame < 8)
-                {
-                    Projectile.frame = 8;
-                }
-                if (Projectile.frame >= Main.projFrames[Projectile.type])
-                {
-                    Projectile.frame = 8;
-                }
-                if (Projectile.Distance(destination) < 55f)
-                {
-                    if (Projectile.ai[0]++ % AttackRate == AttackRate - 1)
-                    {
-                        if (Projectile.owner == Main.myPlayer)
-                        {
-                            Projectile.NewProjectile(Projectile.GetSource_FromThis(), potentialTarget.Center, Vector2.Zero, ModContent.ProjectileType<RustyDroneTargetIndicator>(), 0, 0f, Projectile.owner, Projectile.whoAmI, potentialTarget.whoAmI);
-                        }
-                    }
-                }
-            }
-            Projectile.spriteDirection = (Projectile.velocity.X > 0).ToDirectionInt();
-            Projectile.rotation = Projectile.velocity.X * 0.05f;
-            Projectile.ai[1]++;
-            if (Projectile.ai[1] >= 360f)
-            {
-                Utils.PoofOfSmoke(Projectile.Center);
-                for (int i = 0; i < 4; i++)
-                {
-                    int shrapnelDamage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(ExplosionShrapnelBaseDamage);
-                    int p = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.UnitY.RotatedByRandom(MathHelper.TwoPi) * 8f, ModContent.ProjectileType<RustShrapnel>(),
-                        shrapnelDamage, 2f, Projectile.owner);
-                    if (Main.projectile.IndexInRange(p))
-                        Main.projectile[p].originalDamage = Projectile.originalDamage;
-                }
-                Projectile.Kill();
             }
         }
 
-        public override bool? CanDamage() => Projectile.localAI[0] == 0f; // Only do damage from the initial 1 damage prick, and never again. This is a support summon.
+        // The drone itself does not do damage.
+        public override bool? CanDamage() => false;
     }
 }

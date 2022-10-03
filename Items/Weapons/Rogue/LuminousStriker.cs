@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             Item.width = 86;
             Item.height = 102;
-            Item.damage = 149;
+            Item.damage = 186;
             Item.noMelee = true;
             Item.noUseGraphic = true;
             Item.useAnimation = 30;
@@ -42,7 +42,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            int proj = Projectile.NewProjectile(source, position, velocity, type, (int)(damage * 1.25f), knockback, player.whoAmI);
+            int proj = Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
             if (Main.projectile.IndexInRange(proj))
                 Main.projectile[proj].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
             return false;

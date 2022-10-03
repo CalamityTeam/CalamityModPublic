@@ -1409,6 +1409,40 @@ namespace CalamityMod
         }
         #endregion
 
+        #region Amalgam Potion Buff List
+        public static bool SetAmalgamBuffList(int type, bool shouldBeListed)
+        {
+            if (shouldBeListed && !CalamityLists.amalgamBuffList.Contains(type))
+            {
+                CalamityLists.amalgamBuffList.Add(type);
+                return true;
+            }
+            else if (!shouldBeListed)
+            {
+                return CalamityLists.amalgamBuffList.Remove(type);
+            }
+
+            return false;
+        }
+        public static bool SetPersistentBuffList(int type, bool isPersistent)
+        {
+            if (isPersistent && !CalamityLists.persistentBuffList.Contains(type))
+            {
+                CalamityLists.persistentBuffList.Add(type);
+                return true;
+            }
+            else if (!isPersistent)
+            {
+                return CalamityLists.persistentBuffList.Remove(type);
+            }
+
+            return false;
+        }
+
+        public static bool IsOnAmalgamBuffList(int type) => CalamityLists.amalgamBuffList.Contains(type);
+        public static bool IsOnPersistentBuffList(int type) => CalamityLists.persistentBuffList.Contains(type);
+        #endregion
+
         #region Summoner Cross Class Nerf Disabling
         public static bool SetSummonerNerfDisabledByMinion(int type, bool disableNerf)
         {
@@ -1885,6 +1919,31 @@ namespace CalamityMod
                     if (args.Length != 3 || args[2] is not bool disableNerf2)
                         return new ArgumentException("ERROR: Must specify a bool that determines whether the summoner nerf is disabled.");
                     return SetSummonerNerfDisabledByItem(castItem(args[1]).type, disableNerf2);
+
+                case "IsOnAmalgamBuffList":
+                    if (args.Length != 2 || !castID(args[1], out int buffType))
+                        return new ArgumentException("ERROR: Must specify a valid buff ID to check status of.");
+                    return IsOnAmalgamBuffList(buffType);
+
+                case "IsOnPersistentBuffList":
+                case "IsPersistentBuff":
+                    if (args.Length != 2 || !castID(args[1], out int buffType2))
+                        return new ArgumentException("ERROR: Must specify a valid buff ID to check status of.");
+                    return IsOnPersistentBuffList(buffType2);
+
+                case "SetAmalgamBuffList":
+                    if (args.Length < 2 || !castID(args[1], out int buffType3))
+                        return new ArgumentException("ERROR: Must specify a valid buff ID to set the status of.");
+                    if (args.Length != 3 || args[2] is not bool shouldBeListed)
+                        return new ArgumentException("ERROR: Must specify a bool that determines whether the amalgam should enable extend the duration of this buff.");
+                    return SetAmalgamBuffList(buffType3, shouldBeListed);
+
+                case "SetPersistentBuffList":
+                    if (args.Length < 2 || !castID(args[1], out int buffType4))
+                        return new ArgumentException("ERROR: Must specify a valid buff ID to set the status of.");
+                    if (args.Length != 3 || args[2] is not bool isPersistent)
+                        return new ArgumentException("ERROR: Must specify a bool that determines whether the buff is persistent after death for the Amalgam to properly reset.");
+                    return SetPersistentBuffList(buffType4, isPersistent);
 
                 default:
                     return new ArgumentException("ERROR: Invalid method name.");

@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Buffs.Alcohol;
 using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.Potions;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Accessories.Wings;
@@ -114,6 +115,8 @@ namespace CalamityMod
         public static List<int> flamethrowerList;
         public static List<int> forceItemList;
         public static List<int> livingFireBlockList;
+        public static List<int> amalgamBuffList;
+        public static List<int> persistentBuffList;
 
         public static List<int> zombieList;
         public static List<int> demonEyeList;
@@ -1421,6 +1424,124 @@ namespace CalamityMod
                 TileID.LivingUltrabrightFire
             };
 
+            amalgamBuffList = new List<int>()
+            {
+                BuffType<AbyssalWeapon>(),
+                BuffType<AnechoicCoatingBuff>(),
+                BuffType<ArmorCrumbling>(),
+                BuffType<AstralInjectionBuff>(),
+                BuffType<BaguetteBuff>(),
+                BuffType<BloodfinBoost>(),
+                BuffType<BoundingBuff>(),
+                BuffType<CadancesGrace>(),
+                BuffType<CalciumBuff>(),
+                BuffType<CeaselessHunger>(),
+                BuffType<DraconicSurgeBuff>(),
+                BuffType<GravityNormalizerBuff>(),
+                BuffType<HolyWrathBuff>(),
+                BuffType<Omniscience>(),
+                BuffType<PenumbraBuff>(),
+                BuffType<PhotosynthesisBuff>(),
+                BuffType<ProfanedRageBuff>(),
+                BuffType<ShadowBuff>(),
+                BuffType<Soaring>(),
+                BuffType<SulphurskinBuff>(),
+                BuffType<TeslaBuff>(),
+                BuffType<TitanScale>(),
+                BuffType<TriumphBuff>(),
+                BuffType<YharimPower>(),
+                BuffType<Zen>(),
+                BuffType<Zerg>(),
+                BuffType<BloodyMaryBuff>(),
+                BuffType<CaribbeanRumBuff>(),
+                BuffType<CinnamonRollBuff>(),
+                BuffType<EverclearBuff>(),
+                BuffType<EvergreenGinBuff>(),
+                BuffType<FabsolVodkaBuff>(),
+                BuffType<FireballBuff>(),
+                BuffType<GrapeBeerBuff>(),
+                BuffType<MargaritaBuff>(),
+                BuffType<MoonshineBuff>(),
+                BuffType<MoscowMuleBuff>(),
+                BuffType<RedWineBuff>(),
+                BuffType<RumBuff>(),
+                BuffType<ScrewdriverBuff>(),
+                BuffType<StarBeamRyeBuff>(),
+                BuffType<TequilaBuff>(),
+                BuffType<TequilaSunriseBuff>(),
+                BuffType<Trippy>(),
+                BuffType<VodkaBuff>(),
+                BuffType<WhiskeyBuff>(),
+                BuffType<WhiteWineBuff>(),
+                BuffID.ObsidianSkin,
+                BuffID.Regeneration,
+                BuffID.Swiftness,
+                BuffID.Gills,
+                BuffID.Ironskin,
+                BuffID.ManaRegeneration,
+                BuffID.MagicPower,
+                BuffID.Featherfall,
+                BuffID.Spelunker,
+                BuffID.Invisibility,
+                BuffID.Shine,
+                BuffID.NightOwl,
+                BuffID.Battle,
+                BuffID.Thorns,
+                BuffID.WaterWalking,
+                BuffID.Archery,
+                BuffID.Hunter,
+                BuffID.Gravitation,
+                BuffID.Tipsy,
+                BuffID.WellFed,
+                BuffID.WellFed2,
+                BuffID.WellFed3,
+                BuffID.Honey,
+                BuffID.WeaponImbueVenom,
+                BuffID.WeaponImbueCursedFlames,
+                BuffID.WeaponImbueFire,
+                BuffID.WeaponImbueGold,
+                BuffID.WeaponImbueIchor,
+                BuffID.WeaponImbueNanites,
+                BuffID.WeaponImbueConfetti,
+                BuffID.WeaponImbuePoison,
+                BuffID.Lucky,
+                BuffID.Mining,
+                BuffID.Heartreach,
+                BuffID.Calm,
+                BuffID.Builder,
+                BuffID.Titan,
+                BuffID.Flipper,
+                BuffID.Summoning,
+                BuffID.Dangersense,
+                BuffID.AmmoReservation,
+                BuffID.Lifeforce,
+                BuffID.Endurance,
+                BuffID.Rage,
+                BuffID.Inferno,
+                BuffID.Wrath,
+                BuffID.Lovestruck,
+                BuffID.Stinky,
+                BuffID.Fishing,
+                BuffID.Sonar,
+                BuffID.Crate,
+                BuffID.Warmth,
+                BuffID.SugarRush
+            };
+
+            persistentBuffList = new List<int>()
+            {
+                BuffType<AbyssalWeapon>(),
+                BuffType<ArmorCrumbling>(),
+                BuffID.WeaponImbueVenom,
+                BuffID.WeaponImbueCursedFlames,
+                BuffID.WeaponImbueFire,
+                BuffID.WeaponImbueGold,
+                BuffID.WeaponImbueIchor,
+                BuffID.WeaponImbueNanites,
+                BuffID.WeaponImbueConfetti,
+                BuffID.WeaponImbuePoison
+            };
+
             zombieList = new List<int>()
             {
                 NPCID.Zombie,
@@ -2422,6 +2543,8 @@ namespace CalamityMod
             flamethrowerList = null;
             forceItemList = null;
             livingFireBlockList = null;
+			amalgamBuffList = null;
+			persistentBuffList = null;
 
             zombieList = null;
             demonEyeList = null;

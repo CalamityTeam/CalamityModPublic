@@ -50,7 +50,7 @@ namespace CalamityMod.Items.Weapons.Summon
                 "Players may right click to pick up the cannon and use it for themselves, if they are selecting an Atlas Munitions Beacon.\n" +
                 "When players fire the cannon, it automatically enters overdrive mode\n" +
                 "If the held cannon becomes hot due to overdrive mode, you are forced to drop it. Otherwise, right clicking allows you to drop it manually\n" +
-                "If the held cannon is dropped back onto the mount, it is attached again" +
+                "If the held cannon is dropped back onto the mount, it is attached again\n" +
                 "It's surprisingly easy to pick up");
             SacrificeTotal = 1;
         }

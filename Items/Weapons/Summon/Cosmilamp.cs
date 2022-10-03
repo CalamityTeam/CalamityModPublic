@@ -1,7 +1,6 @@
 ﻿using CalamityMod.Projectiles.Summon;
 using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -11,17 +10,25 @@ namespace CalamityMod.Items.Weapons.Summon
 {
     public class Cosmilamp : ModItem
     {
+        public const int BeamShootRate = 105;
+
+        public const float MaxTargetingDistance = 1360f;
+
+        public const float BeamHomeSpeed = 17f;
+
+        public const float LanternSummonCost = 2f;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Cosmilamp");
-            Tooltip.SetDefault("Summons a cosmic lantern to fight for you\n" +
-                "Takes up 2 minion slots");
+            Tooltip.SetDefault("Summons a cosmic lantern above your head to fight for you\n" +
+                $"Each lantern takes up {LanternSummonCost} minion slots");
             SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            Item.damage = 155;
+            Item.damage = 127;
             Item.mana = 10;
             Item.width = 42;
             Item.height = 60;
@@ -42,30 +49,26 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            float num72 = Item.shootSpeed;
-            Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
-            float num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
-            float num79 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;
-            if (player.gravDir == -1f)
+            if (player.altFunctionUse != 2)
             {
-                num79 = Main.screenPosition.Y + (float)Main.screenHeight - (float)Main.mouseY - vector2.Y;
+                // Reset the timer for all lamps, to re-align the formation.
+                for (int i = 0; i < Main.maxProjectiles; i++)
+                {
+                    if (Main.projectile[i].type == type && Main.projectile[i].owner == player.whoAmI && Main.projectile[i].active)
+                    {
+                        Main.projectile[i].ModProjectile<CosmilampMinion>().Timer = 0f;
+                        Main.projectile[i].netUpdate = true;
+                    }
+                }
+
+                int existingLamps = player.ownedProjectileCounts[type];
+                int p = Projectile.NewProjectile(source, Main.MouseWorld, Vector2.Zero, type, damage, knockback, player.whoAmI);
+                if (Main.projectile.IndexInRange(p))
+                {
+                    Main.projectile[p].originalDamage = Item.damage;
+                    Main.projectile[p].ai[0] = existingLamps;
+                }
             }
-            float num80 = (float)Math.Sqrt((double)(num78 * num78 + num79 * num79));
-            if ((float.IsNaN(num78) && float.IsNaN(num79)) || (num78 == 0f && num79 == 0f))
-            {
-                num78 = (float)player.direction;
-            }
-            else
-            {
-                num80 = num72 / num80;
-            }
-            num78 = 0f;
-            num79 = 0f;
-            vector2.X = (float)Main.mouseX + Main.screenPosition.X;
-            vector2.Y = (float)Main.mouseY + Main.screenPosition.Y;
-            int p = Projectile.NewProjectile(source, vector2.X, vector2.Y, num78, num79, ModContent.ProjectileType<CosmilampMinion>(), damage, knockback, player.whoAmI, 0f, 0f);
-            if (Main.projectile.IndexInRange(p))
-                Main.projectile[p].originalDamage = Item.damage;
             return false;
         }
     }

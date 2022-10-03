@@ -43,14 +43,14 @@ namespace CalamityMod.Items.Weapons.Rogue
         // Terraria seems to really dislike high crit values in SetDefaults
         public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 4;
 
+		public override float StealthDamageMultiplier => 1.55f;
+
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.Calamity().StealthStrikeAvailable())
             {
                 if (Item.stack != 1)
                 {
-                    damage = (int)(damage * 1.55f);
-
                     for (int i = 0; i < Item.stack; i++)
                     {
                         Vector2 perturbedSpeed = velocity.RotatedBy(MathHelper.Lerp(-MathHelper.ToRadians(8f), MathHelper.ToRadians(8f), i / (float)(Item.stack - 1)));

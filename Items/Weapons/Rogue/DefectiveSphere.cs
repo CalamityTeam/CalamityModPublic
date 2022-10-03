@@ -64,23 +64,30 @@ Stealth strikes launch all 4 sphere types at once");
             }
         }
 
-        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
-        {
-            int sphereType = Utils.SelectRandom(Main.rand, new int[]
+		public override float StealthDamageMultiplier => 0.625f;
+
+        public override void ModifyStatsExtra(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
+		{
+			type = Utils.SelectRandom(Main.rand, new int[]
             {
                 type,
                 ProjectileType<SphereBladed>(),
                 ProjectileType<SphereYellow>(),
                 ProjectileType<SphereBlue>()
             });
+            if (player.Calamity().StealthStrikeAvailable())
+				velocity = velocity + Main.rand.NextVector2Square(-1.5f, 1.5f);
+		}
 
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        {
             if (player.Calamity().StealthStrikeAvailable())
             {
                 // This is done to allow looping when creating projectiles, instead of having to create many projectile/velocity variables all at once,
                 // which this shoot code used to do.
                 int[] projectilesToShoot = new int[]
                 {
-                    type,
+                    ProjectileType<SphereSpiked>(),
                     ProjectileType<SphereBladed>(),
                     ProjectileType<SphereYellow>(),
                     ProjectileType<SphereBlue>()
@@ -88,15 +95,14 @@ Stealth strikes launch all 4 sphere types at once");
 
                 foreach (int projectileType in projectilesToShoot)
                 {
-                    Vector2 shootVelocity = velocity + Main.rand.NextVector2Square(-1.5f, 1.5f);
-                    int stealth = Projectile.NewProjectile(source, position, shootVelocity, projectileType, (int)(damage * 0.625f), knockback, player.whoAmI);
+                    int stealth = Projectile.NewProjectile(source, position, velocity, projectileType, damage, knockback, player.whoAmI);
                     if (stealth.WithinBounds(Main.maxProjectiles))
                         Main.projectile[stealth].Calamity().stealthStrike = true;
                 }
             }
             else
             {
-                Projectile.NewProjectile(source, position, velocity, sphereType, damage, knockback, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
             }
             return false;
         }

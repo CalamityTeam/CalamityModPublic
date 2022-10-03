@@ -10,12 +10,17 @@ namespace CalamityMod.Items.Weapons.Summon
 {
     public class RustyBeaconPrototype : ModItem
     {
+        public const int PulseReleaseRate = 120;
+
+        public const int PulseLifetime = 95;
+
+        public const int SulphuricPoisonDebuffTime = 90;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Rusty Beacon Prototype");
             Tooltip.SetDefault("Summons a long-abandoned drone to support you\n" +
-                               "Clicking on an enemy gives them a tiny prick, causing them to become aggravated\n" +
-                               "The drone hovers above nearby enemies and inflicts irradiated");
+                               "The drone hovers in place and releases toxic waves that inflict sulphuric poisoning");
             SacrificeTotal = 1;
         }
 
@@ -24,6 +29,7 @@ namespace CalamityMod.Items.Weapons.Summon
             Item.mana = 10;
             Item.width = 28;
             Item.height = 20;
+            Item.damage = 2;
             Item.useTime = Item.useAnimation = 34;
             Item.useStyle = ItemUseStyleID.HoldUp;
             Item.noMelee = true;
@@ -36,16 +42,16 @@ namespace CalamityMod.Items.Weapons.Summon
             Item.shootSpeed = 10f;
             Item.DamageType = DamageClass.Summon;
         }
+
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            if (player.altFunctionUse != 2)
-            {
-                int p = Projectile.NewProjectile(source, Main.MouseWorld, Vector2.Zero, type, damage, knockback, player.whoAmI, 0f, 1f);
-                if (Main.projectile.IndexInRange(p))
-                    Main.projectile[p].originalDamage = Item.damage;
-            }
+            int p = Projectile.NewProjectile(source, Main.MouseWorld, Vector2.Zero, type, damage, knockback, player.whoAmI, 16f);
+            if (Main.projectile.IndexInRange(p))
+                Main.projectile[p].originalDamage = Item.damage;
+            player.UpdateMaxTurrets();
             return false;
         }
+
         public override void AddRecipes()
         {
             CreateRecipe().

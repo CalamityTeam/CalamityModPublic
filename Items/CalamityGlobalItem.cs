@@ -637,40 +637,6 @@ namespace CalamityMod.Items
                 }
                 return false;
             }
-            if (player.ActiveItem().type == ModContent.ItemType<ViridVanguard>())
-            {
-                int bladeCount = 0;
-                for (int i = 0; i < Main.maxProjectiles; i++)
-                {
-                    if (Main.projectile[i].active &&
-                        Main.projectile[i].type == ModContent.ProjectileType<ViridVanguardBlade>() &&
-                        Main.projectile[i].owner == player.whoAmI &&
-                        Main.projectile[i].ModProjectile<ViridVanguardBlade>().FiringTime <= 0f)
-                    {
-                        bladeCount++;
-                    }
-                }
-                if (bladeCount > 0)
-                {
-                    int bladeIndex = 0;
-                    for (int i = 0; i < Main.maxProjectiles; i++)
-                    {
-                        if (Main.projectile[i].ModProjectile is ViridVanguardBlade)
-                        {
-                            if (Main.projectile[i].ModProjectile<ViridVanguardBlade>().FiringTime > 0f)
-                                continue;
-                        }
-                        if (Main.projectile[i].active && Main.projectile[i].type == ModContent.ProjectileType<ViridVanguardBlade>() && Main.projectile[i].owner == player.whoAmI)
-                        {
-                            Main.projectile[i].ModProjectile<ViridVanguardBlade>().FiringTime = 240f;
-                            Main.projectile[i].ModProjectile<ViridVanguardBlade>().RedirectAngle = MathHelper.Lerp(0f, MathHelper.TwoPi, bladeIndex / (float)bladeCount);
-                            Main.projectile[i].netUpdate = true;
-                            bladeIndex++;
-                        }
-                    }
-                }
-                return false;
-            }
             if (player.ActiveItem().type == ModContent.ItemType<IgneousExaltation>())
             {
                 bool hasBlades = false;
@@ -854,10 +820,6 @@ namespace CalamityMod.Items
                 return false;
             }
             if ((item.type == ItemID.RegenerationPotion || item.type == ItemID.LifeforcePotion) && player.FindBuffIndex(ModContent.BuffType<CadancesGrace>()) > -1)
-            {
-                return false;
-            }
-            if (item.type == ModContent.ItemType<CrumblingPotion>() && player.FindBuffIndex(ModContent.BuffType<ArmorShattering>()) > -1)
             {
                 return false;
             }
@@ -1759,7 +1721,7 @@ namespace CalamityMod.Items
         // removed data saved on items; reforging is now a coalescing flowchart that has no RNG
         public override int ChoosePrefix(Item item, UnifiedRandom rand)
         {
-			if (storedPrefix == -1 && item.CanGetRoguePrefix())
+			if (storedPrefix == -1 && item.CountsAsClass<RogueDamageClass>() && item.IsCandidateForReforge)
 			{
 				// Crafting (or first reforge of) a rogue weapon has a 75% chance for a random modifier, this check is done by vanilla
 				// Negative modifiers have a 66.66% chance of being voided, Annoying modifier is intentionally ignored by vanilla

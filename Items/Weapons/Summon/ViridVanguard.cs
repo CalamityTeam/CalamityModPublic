@@ -10,19 +10,33 @@ namespace CalamityMod.Items.Weapons.Summon
 {
     public class ViridVanguard : ModItem
     {
+        public const int HorizontalSlashChargeTime = 14;
+
+        public const float HorizontalSlashSpeed = 44f;
+
+        public const int VerticalSlashChargeTime = 32;
+
+        public const float VerticalSlashSpeed = 45f;
+
+        public const float VerticalTeleportOffset = 850f;
+
+        public const int PierceChargeAttackCycleTime = 44;
+
+        public const float MaxTargetingDistance = 1550f;
+
+        public const int ChargesPerAttackCycle = 7;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Virid Vanguard");
-            Tooltip.SetDefault("Summons 2 blades that rotate around you\n" +
-                               "Each pair of blades takes up three minion slots\n" +
-                               "Right clicking prompts all blades to fly upward and redirect towards the mouse");
+            Tooltip.SetDefault("Summons a circular formation of blades that slice nearby enemies to pieces");
             Item.staff[Item.type] = true;
             SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            Item.damage = 280;
+            Item.damage = 73;
             Item.DamageType = DamageClass.Summon;
             Item.mana = 10;
             Item.width = 26;
@@ -32,7 +46,7 @@ namespace CalamityMod.Items.Weapons.Summon
             Item.noMelee = true;
             Item.knockBack = 5f;
             Item.value = CalamityGlobalItem.RarityTurquoiseBuyPrice;
-            Item.rare = 10;
+            Item.rare = ItemRarityID.Red;
             Item.UseSound = SoundID.Item71;
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<ViridVanguardBlade>();
@@ -41,71 +55,33 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            float totalMinionSlots = 0f;
-            for (int i = 0; i < Main.maxProjectiles; i++)
+            if (player.altFunctionUse != 2)
             {
-                if (Main.projectile[i].active && Main.projectile[i].minion && Main.projectile[i].owner == player.whoAmI)
+                int p = Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI, 0f, 1f);
+                if (Main.projectile.IndexInRange(p))
                 {
-                    totalMinionSlots += Main.projectile[i].minionSlots;
-                }
-            }
-            if (player.altFunctionUse != 2 && totalMinionSlots + 1.5f < player.maxMinions)
-            {
-                position = Main.MouseWorld;
-                int swordCount = 0;
-                for (int i = 0; i < Main.projectile.Length; i++)
-                {
-                    if (Main.projectile[i].active && Main.projectile[i].type == type && Main.projectile[i].owner == player.whoAmI)
-                    {
-                        if ((Main.projectile[i].ModProjectile as ViridVanguardBlade).FiringTime > 0f)
-                            continue;
-                        swordCount++;
-                        for (int j = 0; j < 22; j++)
-                        {
-                            Dust dust = Dust.NewDustDirect(Main.projectile[i].position, Main.projectile[i].width, Main.projectile[i].height, 2);
-                            dust.velocity = Vector2.UnitY * Main.rand.NextFloat(3f, 5.5f) * Main.rand.NextBool(2).ToDirectionInt();
-                            dust.noGravity = true;
-                        }
-                    }
+                    Main.projectile[p].originalDamage = Item.damage;
+                    Main.projectile[p].ModProjectile<ViridVanguardBlade>().BladeIndex = player.ownedProjectileCounts[type];
                 }
 
-                Projectile newBlade = Projectile.NewProjectileDirect(source, position, Vector2.Zero, type, damage, knockback, player.whoAmI);
-                (newBlade.ModProjectile as ViridVanguardBlade).AltTexture = swordCount % 2 == 1;
-                newBlade.originalDamage = Item.damage;
-                newBlade.netUpdate = true;
-                swordCount++;
-
-                newBlade = Projectile.NewProjectileDirect(source, position, Vector2.Zero, type, damage, knockback, player.whoAmI);
-                (newBlade.ModProjectile as ViridVanguardBlade).AltTexture = swordCount % 2 == 1;
-                newBlade.originalDamage = Item.damage;
-                newBlade.netUpdate = true;
-                swordCount++;
-
-                float angleVariance = MathHelper.TwoPi / swordCount;
-                float angle = 0f;
+                int bladeIndex = 0;
                 for (int i = 0; i < Main.maxProjectiles; i++)
                 {
-                    if (Main.projectile[i].active && Main.projectile[i].type == type && Main.projectile[i].owner == player.whoAmI)
+                    if (Main.projectile[i].type == type && Main.projectile[i].active && Main.projectile[i].owner == player.whoAmI)
                     {
-                        if ((Main.projectile[i].ModProjectile as ViridVanguardBlade).FiringTime > 0f)
-                            continue;
-                        Main.projectile[i].ai[0] = angle;
-                        Main.projectile[i].localAI[1] = 80f;
-                        angle += angleVariance;
-                        for (int j = 0; j < 22; j++)
-                        {
-                            Dust dust = Dust.NewDustDirect(Main.projectile[i].position, Main.projectile[i].width, Main.projectile[i].height, 6);
-                            dust.velocity = Vector2.UnitY * Main.rand.NextFloat(3f, 5.5f) * Main.rand.NextBool(2).ToDirectionInt();
-                            dust.noGravity = true;
-                        }
+                        Main.projectile[i].ModProjectile<ViridVanguardBlade>().BladeIndex = bladeIndex++;
+                        Main.projectile[i].ModProjectile<ViridVanguardBlade>().AITimer = 0f;
+                        Main.projectile[i].netUpdate = true;
                     }
                 }
             }
+
             return false;
         }
         public override void AddRecipes()
         {
             CreateRecipe().
+                AddIngredient(ItemID.EmpressBlade).
                 AddIngredient<IgneousExaltation>().
                 AddIngredient<UelibloomBar>(8).
                 AddTile(TileID.LunarCraftingStation).

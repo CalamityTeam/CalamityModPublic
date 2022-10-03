@@ -41,11 +41,13 @@ Stealth strikes release more souls and leave behind souls as they travel");
             Item.DamageType = RogueDamageClass.Instance;
         }
 
+		public override float StealthDamageMultiplier => 0.8f;
+
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.Calamity().StealthStrikeAvailable()) //setting the stealth strike
             {
-                int stealth = Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<FantasyTalismanStealth>(), (int)(damage * 0.8f), knockback, player.whoAmI);
+                int stealth = Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<FantasyTalismanStealth>(), damage, knockback, player.whoAmI);
                 if (stealth.WithinBounds(Main.maxProjectiles))
                     Main.projectile[stealth].Calamity().stealthStrike = true;
                 return false;

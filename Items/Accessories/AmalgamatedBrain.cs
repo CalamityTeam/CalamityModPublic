@@ -1,4 +1,5 @@
-﻿using CalamityMod.CalPlayer;
+﻿using CalamityMod.Balancing;
+using CalamityMod.CalPlayer;
 using CalamityMod.Projectiles.Magic;
 using Terraria;
 using Terraria.ID;
@@ -15,6 +16,9 @@ namespace CalamityMod.Items.Accessories
             DisplayName.SetDefault("Amalgamated Brain");
             Tooltip.SetDefault("10% increased damage\n" +
                                "Shade rains down when you are hit\n" +
+                               "Grants the ability to dodge attacks\n" +
+                               $"The dodge has a {BalancingConstants.BrainDodgeCooldown / 60} second cooldown which is shared with all other dodges and reflects\n" +
+                               "Temporarily increases critical strike chance and summon damage after a dodge\n" +
                                "You will confuse nearby enemies when you are struck");
         }
 
@@ -31,6 +35,7 @@ namespace CalamityMod.Items.Accessories
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.aBrain = true;
+            player.brainOfConfusionItem = Item;
             if (player.immune)
             {
                 var source = player.GetSource_Accessory(Item);

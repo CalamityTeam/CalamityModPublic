@@ -32,11 +32,6 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void AI()
         {
-            if (Projectile.ai[1] == 1f)
-            {
-                Projectile.penetrate = -1;
-            }
-
             float rotateratio = 0.019f;
             float rotation = (Math.Abs(Projectile.velocity.X) + Math.Abs(Projectile.velocity.Y)) * rotateratio;
             Projectile.rotation += rotation * Projectile.direction;

@@ -64,44 +64,24 @@ namespace CalamityMod.Items.Weapons.Rogue
             }
             num78 *= num80;
             num79 *= num80;
-            if (player.Calamity().StealthStrikeAvailable())
-            {
-                for (int i = 0; i < 8; i++)
-                {
-                    float num148 = num78;
-                    float num149 = num79;
-                    float num150 = 0.05f * (float)i;
-                    num148 += (float)Main.rand.Next(-35, 36) * num150;
-                    num149 += (float)Main.rand.Next(-35, 36) * num150;
-                    num80 = (float)Math.Sqrt((double)(num148 * num148 + num149 * num149));
-                    num80 = num72 / num80;
-                    num148 *= num80;
-                    num149 *= num80;
-                    float x4 = vector2.X;
-                    float y4 = vector2.Y;
-                    int stealth = Projectile.NewProjectile(source, x4, y4, num148, num149, ModContent.ProjectileType<LunarKunaiProj>(), damage, knockback, player.whoAmI, 0f, 0f);
-                    if (stealth.WithinBounds(Main.maxProjectiles))
-                        Main.projectile[stealth].Calamity().stealthStrike = true;
-                }
-            }
-            else
-            {
-                for (int i = 0; i < 3; i++)
-                {
-                    float num148 = num78;
-                    float num149 = num79;
-                    float num150 = 0.05f * (float)i;
-                    num148 += (float)Main.rand.Next(-35, 36) * num150;
-                    num149 += (float)Main.rand.Next(-35, 36) * num150;
-                    num80 = (float)Math.Sqrt((double)(num148 * num148 + num149 * num149));
-                    num80 = num72 / num80;
-                    num148 *= num80;
-                    num149 *= num80;
-                    float x4 = vector2.X;
-                    float y4 = vector2.Y;
-                    Projectile.NewProjectile(source, x4, y4, num148, num149, ModContent.ProjectileType<LunarKunaiProj>(), damage, knockback, player.whoAmI, 0f, 0f);
-                }
-            }
+			int projAmt = player.Calamity().StealthStrikeAvailable() ? 8 : 3;
+			for (int i = 0; i < projAmt; i++)
+			{
+				float num148 = num78;
+				float num149 = num79;
+				float num150 = 0.05f * (float)i;
+				num148 += (float)Main.rand.Next(-35, 36) * num150;
+				num149 += (float)Main.rand.Next(-35, 36) * num150;
+				num80 = (float)Math.Sqrt((double)(num148 * num148 + num149 * num149));
+				num80 = num72 / num80;
+				num148 *= num80;
+				num149 *= num80;
+				float x4 = vector2.X;
+				float y4 = vector2.Y;
+				int stealth = Projectile.NewProjectile(source, x4, y4, num148, num149, ModContent.ProjectileType<LunarKunaiProj>(), damage, knockback, player.whoAmI, 0f, 0f);
+				if (stealth.WithinBounds(Main.maxProjectiles) && player.Calamity().StealthStrikeAvailable())
+					Main.projectile[stealth].Calamity().stealthStrike = true;
+			}
             return false;
         }
 

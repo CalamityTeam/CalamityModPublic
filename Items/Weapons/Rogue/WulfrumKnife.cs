@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SetDefaults()
         {
             Item.width = 22;
-            Item.damage = 11;
+            Item.damage = 9;
             Item.noMelee = true;
             Item.consumable = true;
             Item.noUseGraphic = true;
@@ -124,16 +124,16 @@ namespace CalamityMod.Items.Weapons.Rogue
                 Item.UseSound = Throw1Sound;
         }
 
-        // TODO -- All rogue weapons with special stat changes for stealth strikes should do so in ModifyShootStats instaed of Shoot
-        public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
+		public override float StealthDamageMultiplier => 0.8f;
+        public override bool AdditionalStealthCheck() => stealthStrikeStarted;
+
+        public override void ModifyStatsExtra(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
         {
             bool stealthStrike = player.Calamity().StealthStrikeAvailable() || stealthStrikeStarted;
             float spread = stealthStrike ? MathHelper.PiOver4 * 0.04f : MathHelper.PiOver4 * 0.1f;
             float speedBoost = stealthStrike ? 1.25f : 1f;
 
             velocity = velocity.RotatedByRandom(shootCount / 2f * spread) * speedBoost;
-            if (stealthStrike)
-                damage = (int)(damage * 3.2f);
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
@@ -157,7 +157,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void AddRecipes()
         {
-            CreateRecipe(100).
+            CreateRecipe(50).
                 AddIngredient<WulfrumMetalScrap>().
                 Register();
         }

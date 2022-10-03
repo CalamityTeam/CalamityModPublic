@@ -23,6 +23,7 @@ namespace CalamityMod.Particles.Metaballs
     {
         internal static List<FusableParticleRenderCollection> ParticleSets = new();
         internal static List<Mod> ExtraModsToLoadSetsFrom = new();
+        internal static List<Type> ParticleSetTypes = new();
         internal static bool HasBeenFormallyDefined = false;
 
         /// <summary>
@@ -51,16 +52,23 @@ namespace CalamityMod.Particles.Metaballs
             if (!reload)
             {
                 ParticleSets = new();
+                ParticleSetTypes = new();
                 ExtraModsToLoadSetsFrom = new();
                 HasBeenFormallyDefined = true;
-            }
 
-            RegisterParticleSetsInMod(CalamityMod.Instance, width, height);
-            foreach (Mod m in ExtraModsToLoadSetsFrom)
-                RegisterParticleSetsInMod(m, width, height);
+                FindParticleSetTypesInMod(CalamityMod.Instance, width, height);
+                foreach (Mod m in ExtraModsToLoadSetsFrom)
+                    FindParticleSetTypesInMod(m, width, height);
+            }
+            else
+            {
+                DisposeOfOldRenderTargets();
+                foreach (Type t in ParticleSetTypes)
+                    CreateParticleSetOfType(t, width, height);
+            }
         }
 
-        internal static void RegisterParticleSetsInMod(Mod mod, int width, int height)
+        internal static void FindParticleSetTypesInMod(Mod mod, int width, int height)
         {
             // Look through every type in the mod, and check if it's derived from BaseFusableParticleSet.
             // If it is, create a default instance of said particle, save it, and create a RenderTarget2D for each individual texture/shader.
@@ -71,11 +79,11 @@ namespace CalamityMod.Particles.Metaballs
                     continue;
 
                 if (type.IsSubclassOf(typeof(BaseFusableParticleSet)))
-                    RegisterParticleSet(type, width, height);
+                    ParticleSetTypes.Add(type);
             }
         }
 
-        internal static void RegisterParticleSet(Type t, int width, int height)
+        internal static void CreateParticleSetOfType(Type t, int width, int height)
         {
             BaseFusableParticleSet instance = Activator.CreateInstance(t) as BaseFusableParticleSet;
             List<RenderTarget2D> backgroundTargets = new List<RenderTarget2D>();
@@ -91,24 +99,34 @@ namespace CalamityMod.Particles.Metaballs
             ParticleSets.Add(particleRenderCollection);
         }
 
-        internal static void RegisterParticleSet<T>(int width, int height) where T : BaseFusableParticleSet =>
-            RegisterParticleSet(typeof(T), width, height);
+        internal static void CreateParticleSetOfType<T>(int width, int height) where T : BaseFusableParticleSet =>
+            CreateParticleSetOfType(typeof(T), width, height);
+
+        internal static void DisposeOfOldRenderTargets()
+        {
+            // Go through each render collection and manually clear away any render targets.
+            foreach (FusableParticleRenderCollection particleRenderSet in ParticleSets)
+            {
+                foreach (RenderTarget2D target in particleRenderSet.BackgroundTargets)
+                    target?.Dispose();
+            }
+            ParticleSets.RemoveAll(p => p.BackgroundTargets.Any(b => b.IsDisposed));
+        }
 
         /// <summary>
         /// Unloads all render sets, disposing any created <see cref="RenderTarget2D"/>s in the process.
         /// </summary>
         internal static void UnloadParticleRenderSets()
         {
-            // Go through each render collection and manually clear away any render targets.
+            DisposeOfOldRenderTargets();
+            
             foreach (FusableParticleRenderCollection particleRenderSet in ParticleSets)
-            {
                 particleRenderSet.ParticleSet = null;
-                foreach (RenderTarget2D target in particleRenderSet.BackgroundTargets)
-                    target?.Dispose();
-            }
+
             HasBeenFormallyDefined = false;
             ParticleSets = null;
             ExtraModsToLoadSetsFrom = null;
+            ParticleSetTypes = null;
         }
 
         /// <summary>

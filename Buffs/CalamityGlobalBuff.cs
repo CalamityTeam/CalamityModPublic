@@ -179,10 +179,6 @@ namespace CalamityMod.Buffs
                     tip = "Rod of Discord teleports are disabled";
                     break;
 
-                case BuffID.CursedInferno:
-                    tip += ". All damage taken increased by 20%";
-                    break;
-
                 case BuffID.Warmth:
                     tip += ". Grants immunity to Chilled, Frozen and Glacial State";
                     break;

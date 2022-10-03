@@ -7,14 +7,15 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Potions
 {
-    public class CalamitasBrew : ModItem
+    [LegacyName("CalamitasBrew")]
+    public class FlaskOfBrimstone : ModItem
     {
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 20;
-            DisplayName.SetDefault("Calamitas' Brew");
-            Tooltip.SetDefault("Adds brimstone flames to your melee and rogue projectiles and melee attacks\n" +
-                               "Increases your movement speed by 5%");
+            DisplayName.SetDefault("Flask of Brimstone");
+            Tooltip.SetDefault("Melee and Whip attacks inflict Brimstone Flames on enemies\n" +
+                               "Rogue attacks inflict Brimstone Flames on enemies");
         }
 
         public override void SetDefaults()
@@ -23,14 +24,14 @@ namespace CalamityMod.Items.Potions
             Item.height = 34;
             Item.useTurn = true;
             Item.maxStack = 30;
-            Item.rare = ItemRarityID.Lime;
+            Item.rare = ItemRarityID.LightRed;
             Item.useAnimation = 17;
             Item.useTime = 17;
             Item.useStyle = ItemUseStyleID.DrinkLiquid;
             Item.UseSound = SoundID.Item3;
             Item.consumable = true;
             Item.buffType = ModContent.BuffType<AbyssalWeapon>();
-            Item.buffTime = CalamityUtils.SecondsToFrames(900f);
+            Item.buffTime = CalamityUtils.SecondsToFrames(1200f);
             Item.value = Item.buyPrice(0, 2, 0, 0);
         }
 

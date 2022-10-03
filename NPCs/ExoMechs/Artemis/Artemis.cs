@@ -27,7 +27,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
         public static int phase1IconIndex;
         public static int phase2IconIndex;
 
-        public static readonly SoundStyle LensSound = new("CalamityMod/Sounds/Custom/ExoTwinsEject");
+        public static readonly SoundStyle LensSound = new("CalamityMod/Sounds/Custom/ExoTwinsEject") { Volume = 1.2f};
 
         internal static void LoadHeadIcons()
         {
