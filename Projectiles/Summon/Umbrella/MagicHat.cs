@@ -125,8 +125,7 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
                 }
                 if (enemyDetected)
                 {
-                    Projectile.ai[1] += 1f;
-                    if (Projectile.ai[1] % 5f == 0f)
+                    if (Projectile.ai[1]++ % 50f == 25f)
                     {
 						int projType = Utils.SelectRandom(Main.rand, new int[]
 						{
@@ -134,6 +133,7 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 							ModContent.ProjectileType<MagicAxe>(),
 							ModContent.ProjectileType<MagicBird>()
 						});
+						projType = ModContent.ProjectileType<MagicBird>(); // Consider rabbits, we're the magician
 						float velocityX = Main.rand.NextFloat(-10f, 10f);
 						float velocityY = Main.rand.NextFloat(-15f, -8f);
 						int p = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.oldPosition.X + (float)(Projectile.width / 2), Projectile.oldPosition.Y + (float)(Projectile.height / 2), velocityX, velocityY, projType, Projectile.damage, Projectile.knockBack, Projectile.owner);
