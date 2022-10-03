@@ -57,7 +57,7 @@ namespace CalamityMod.Items.Weapons.Summon
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<SpikecragStaff>().
+                AddIngredient<ViridVanguard>().
                 AddIngredient<SarosPossession>().
                 AddIngredient(ItemID.Umbrella).
                 AddIngredient(ItemID.TopHat).
