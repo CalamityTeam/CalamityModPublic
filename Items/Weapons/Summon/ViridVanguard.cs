@@ -64,10 +64,12 @@ namespace CalamityMod.Items.Weapons.Summon
                     Main.projectile[p].ModProjectile<ViridVanguardBlade>().BladeIndex = player.ownedProjectileCounts[type];
                 }
 
+                int bladeIndex = 0;
                 for (int i = 0; i < Main.maxProjectiles; i++)
                 {
                     if (Main.projectile[i].type == type && Main.projectile[i].active && Main.projectile[i].owner == player.whoAmI)
                     {
+                        Main.projectile[i].ModProjectile<ViridVanguardBlade>().BladeIndex = bladeIndex++;
                         Main.projectile[i].ModProjectile<ViridVanguardBlade>().AITimer = 0f;
                         Main.projectile[i].netUpdate = true;
                     }
