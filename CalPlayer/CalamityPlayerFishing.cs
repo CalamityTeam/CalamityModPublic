@@ -630,5 +630,44 @@ namespace CalamityMod.CalPlayer
             }
         }
         #endregion
+
+        #region Get Fishing Level
+        public override void ModifyCaughtFish(Item fish)
+        {
+            if (alluringBait)
+            {
+				List<int> fishList = new List<int>()
+				{
+					ItemID.FlarefinKoi,
+					ItemID.Obsidifish,
+					ItemID.ArmoredCavefish,
+					ItemID.Stinkfish,
+					ItemID.SpecularFish,
+					ItemID.ChaosFish,
+					ItemID.VariegatedLardfish,
+					ItemID.DoubleCod,
+					ItemID.FrostMinnow,
+					ItemID.Ebonkoi,
+					ItemID.CrimsonTigerfish,
+					ItemID.Hemopiranha,
+					ItemID.PrincessFish,
+					ItemID.Prismite,
+					ItemID.Damselfish,
+					ModContent.ItemType<CoastalDemonfish>(),
+					ModContent.ItemType<Shadowfish>(),
+					ModContent.ItemType<BrimstoneFish>(),
+					ModContent.ItemType<AldebaranAlewife>(),
+					ModContent.ItemType<CoralskinFoolfish>(),
+					ModContent.ItemType<SunkenSailfish>(),
+				};
+
+				if (fishList.Contains(fish.type))
+				{
+					// Increase the yield by 1 or 2
+					fish.stack += Main.rand.NextBool() ? 1 : 2;
+				}
+            }
+        }
+        #endregion
     }
 }

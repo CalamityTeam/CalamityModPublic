@@ -10,10 +10,9 @@ namespace CalamityMod.Items.Accessories
         {
             SacrificeTotal = 1;
             DisplayName.SetDefault("Alluring Bait");
-            Tooltip.SetDefault("30 increased fishing power during the day\n" +
-                "45 increased fishing power during the night\n" +
-                "60 increased fishing power during a solar eclipse\n" +
-                "Greatly increases chance of catching potion ingredient fish");
+            Tooltip.SetDefault("30 increased fishing power\n" +
+                "Greatly increases chance of catching potion ingredient fish\n" +
+				"Potion ingredient fish yield is increased");
         }
 
         public override void SetDefaults()
@@ -28,13 +27,7 @@ namespace CalamityMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.Calamity().alluringBait = true;
-
-            if (Main.eclipse)
-                player.fishingSkill += 60;
-            else if (!Main.dayTime)
-                player.fishingSkill += 45;
-            else
-                player.fishingSkill += 30;
+            player.fishingSkill += 30;
         }
     }
 }
