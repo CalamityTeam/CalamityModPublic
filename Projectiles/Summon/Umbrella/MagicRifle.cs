@@ -41,7 +41,6 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 
 			const float outwardPosition = 180f;
 			Projectile.Center = player.Center + Projectile.ai[0].ToRotationVector2() * outwardPosition;
-			Projectile.rotation = Projectile.ai[0] + MathHelper.PiOver4;
 			Projectile.ai[0] -= MathHelper.ToRadians(4f);
 
             float homingRange = MagicHat.Range;
@@ -90,6 +89,10 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
                 Projectile.spriteDirection = Projectile.direction = ((targetVec.X - Projectile.Center.X) > 0).ToDirectionInt();
                 Projectile.rotation = Projectile.rotation.AngleTowards(Projectile.AngleTo(targetVec) + (Projectile.spriteDirection == 1 ? MathHelper.ToRadians(45) : MathHelper.ToRadians(135)), 0.1f);
             }
+			else
+			{
+				Projectile.rotation = Projectile.ai[0] + MathHelper.PiOver4;
+			}
 
             //Increment attack cooldown
             if (Projectile.ai[1] > 0f)

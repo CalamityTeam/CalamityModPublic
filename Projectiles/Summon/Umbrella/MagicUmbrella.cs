@@ -76,6 +76,8 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 			int num5 = num + 1;
 
 			Player player = Main.player[Projectile.owner];
+
+			// Idle AI when too far away from the player
 			if (player.active && Vector2.Distance(player.Center, Projectile.Center) > 2000f)
 			{
 				Behavior = 0f;
@@ -83,30 +85,29 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 				Projectile.netUpdate = true;
 			}
 
+			// Idle AI when Behavior is -1
 			if (Behavior == -1f)
 			{
 				IdleAI();
 				return;
 			}
 
+			// Idle AI when Behavior is 0
 			if (Behavior == 0f)
 			{
 				IdleAI();
-				if (Main.rand.Next(20) == 0)
+				// Look for a target
+				int targetIdx = FindATarget(blacklist);
+				if (targetIdx != -1)
 				{
-					int num7 = AI_156_TryAttackingNPCs(blacklist);
-					if (num7 != -1)
-					{
-						Behavior = Main.rand.NextFromList<int>(num, num3);
-						Behavior = num3;
-						Projectile.ai[1] = num7;
-						Projectile.netUpdate = true;
-					}
+					Behavior = Main.rand.NextFromList<int>(num, num3);
+					Behavior = num3;
+					Projectile.ai[1] = targetIdx;
+					Projectile.netUpdate = true;
 				}
 				return;
 			}
 
-			bool skipBodyCheck = true;
 			int num13 = 0;
 			int num14 = num2;
 			int num15 = 0;
@@ -117,14 +118,14 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 				num15 = num5;
 			}
 
-			int num16 = (int)Projectile.ai[1];
-			if (!Main.npc.IndexInRange(num16))
+			int currentTarget = (int)Projectile.ai[1];
+			if (!Main.npc.IndexInRange(currentTarget))
 			{
-				int num17 = AI_156_TryAttackingNPCs(blacklist, skipBodyCheck);
-				if (num17 != -1)
+				int targetIdx = FindATarget(blacklist);
+				if (targetIdx != -1)
 			{
 					Behavior = Main.rand.NextFromList<int>(num, num3);
-					Projectile.ai[1] = num17;
+					Projectile.ai[1] = targetIdx;
 					Projectile.netUpdate = true;
 				}
 				else
@@ -137,14 +138,14 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 				return;
 			}
 
-			NPC nPC2 = Main.npc[num16];
-			if (!nPC2.CanBeChasedBy(this))
+			NPC npc = Main.npc[currentTarget];
+			if (!npc.CanBeChasedBy(this))
 			{
-				int num18 = AI_156_TryAttackingNPCs(blacklist, skipBodyCheck);
-				if (num18 != -1)
+				int targetIdx = FindATarget(blacklist);
+				if (targetIdx != -1)
 				{
 					Behavior = Main.rand.NextFromList<int>(num, num3);
-					Projectile.ai[1] = num18;
+					Projectile.ai[1] = targetIdx;
 					Projectile.netUpdate = true;
 				}
 				else
@@ -160,7 +161,7 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 			Behavior -= 1f;
 			if (Behavior >= (float)num14)
 			{
-				Projectile.direction = ((Projectile.Center.X < nPC2.Center.X) ? 1 : (-1));
+				Projectile.direction = ((Projectile.Center.X < npc.Center.X) ? 1 : (-1));
 				if (Behavior == (float)num14)
 				{
 					Projectile.localAI[0] = Projectile.Center.X;
@@ -173,9 +174,9 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 			{
 				Vector2 vector6 = new Vector2(Projectile.localAI[0], Projectile.localAI[1]);
 				if (lerpValue2 >= 0.5f)
-					vector6 = Vector2.Lerp(nPC2.Center, Main.player[Projectile.owner].Center, 0.5f);
+					vector6 = Vector2.Lerp(npc.Center, Main.player[Projectile.owner].Center, 0.5f);
 
-				Vector2 center2 = nPC2.Center;
+				Vector2 center2 = npc.Center;
 				float num19 = (center2 - vector6).ToRotation();
 				float num20 = (Projectile.direction == 1) ? (-(float)Math.PI) : ((float)Math.PI);
 				float num21 = num20 + (0f - num20) * lerpValue2 * 2f;
@@ -195,25 +196,25 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 			{
 				Vector2 vector11 = new Vector2(Projectile.localAI[0], Projectile.localAI[1]);
 				vector11 += new Vector2(0f, Utils.GetLerpValue(0f, 0.4f, lerpValue2, clamped: true) * -100f);
-				Vector2 v = nPC2.Center - vector11;
+				Vector2 v = npc.Center - vector11;
 				Vector2 value = v.SafeNormalize(Vector2.Zero) * MathHelper.Clamp(v.Length(), 60f, 150f);
-				Vector2 value2 = nPC2.Center + value;
+				Vector2 value2 = npc.Center + value;
 				float lerpValue3 = Utils.GetLerpValue(0.4f, 0.6f, lerpValue2, clamped: true);
 				float lerpValue4 = Utils.GetLerpValue(0.6f, 1f, lerpValue2, clamped: true);
 				float targetAngle = v.SafeNormalize(Vector2.Zero).ToRotation() + (float)Math.PI / 2f;
 				Projectile.rotation = Projectile.rotation.AngleTowards(targetAngle, (float)Math.PI / 5f) + MathHelper.PiOver4;
-				Projectile.Center = Vector2.Lerp(vector11, nPC2.Center, lerpValue3);
+				Projectile.Center = Vector2.Lerp(vector11, npc.Center, lerpValue3);
 				if (lerpValue4 > 0f)
-					Projectile.Center = Vector2.Lerp(nPC2.Center, value2, lerpValue4);
+					Projectile.Center = Vector2.Lerp(npc.Center, value2, lerpValue4);
 			}
 
 			if (Behavior == (float)num15)
 			{
-				int num23 = AI_156_TryAttackingNPCs(blacklist, skipBodyCheck);
-				if (num23 != -1)
+				int targetIdx = FindATarget(blacklist);
+				if (targetIdx != -1)
 				{
 					Behavior = Main.rand.NextFromList<int>(num, num3);
-					Projectile.ai[1] = num23;
+					Projectile.ai[1] = targetIdx;
 					Projectile.netUpdate = true;
 				}
 				else
@@ -225,7 +226,7 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 			}
 		}
 
-		private int AI_156_TryAttackingNPCs(List<int> blackListedTargets, bool skipBodyCheck = false)
+		private int FindATarget(List<int> blackListedTargets)
 		{
 			Vector2 center = Main.player[Projectile.owner].Center;
 			int target = -1;
@@ -240,9 +241,6 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 				if (selectedTarget.Distance(center) > MagicHat.Range)
 					flag = false;
 
-				if (!skipBodyCheck && !Projectile.CanHitWithOwnBody(selectedTarget))
-					flag = false;
-
 				if (flag)
 					return selectedTarget.whoAmI;
 			}
@@ -253,7 +251,7 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 				if (npc.CanBeChasedBy(this) && (npc.boss || !blackListedTargets.Contains(i)))
 				{
 					float npcDist = npc.Distance(center);
-					if (!(npcDist > MagicHat.Range) && (!(npcDist > closestDist) || closestDist == -1f) && (skipBodyCheck || Projectile.CanHitWithOwnBody(npc)))
+					if (npcDist <= MagicHat.Range && (npcDist <= closestDist || closestDist == -1f))
 					{
 						closestDist = npcDist;
 						target = i;
@@ -267,31 +265,23 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 		private void IdleAI()
 		{
 			Player player = Main.player[Projectile.owner];
-			Vector2 returnOffset = new Vector2(0f, -60f);
 
 			const float outwardPosition = 180f;
 			Vector2 returnPos = player.Center + Projectile.ai[0].ToRotationVector2() * outwardPosition;
 
-			bool returningToPlayer = false;
-			if (!returningToPlayer)
-			{
-				returningToPlayer = Behavior == 1f;
-			}
+			bool returningToPlayer = Behavior == -1f;
 
 			// Player distance calculations
-			Vector2 playerVec = returnPos - Projectile.Center + returnOffset;
+			Vector2 playerVec = returnPos - Projectile.Center;
 			float playerDist = playerVec.Length();
 
 			// If the minion is actively returning, move faster
-			float playerHomeSpeed = 6f;
-			if (returningToPlayer)
+			float playerHomeSpeed = 40f;
+			//Return to normal if close enough to the player
+			if (playerDist < 150f && returningToPlayer && !Collision.SolidCollision(Projectile.position, Projectile.width, Projectile.height))
 			{
-				playerHomeSpeed = 15f;
-			}
-			// Move somewhat faster if the player is kinda far~ish
-			if (playerDist > 200f && playerHomeSpeed < 8f)
-			{
-				playerHomeSpeed = 8f;
+				Behavior = 0f;
+				Projectile.netUpdate = true;
 			}
 			// Teleport to the player if abnormally far
 			if (playerDist > 2000f)
@@ -299,8 +289,8 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 				Projectile.Center = returnPos;
 				Projectile.netUpdate = true;
 			}
-			// If more than 20 pixels away, move toward the player
-			if (playerDist > 20f)
+			// If more than 60 pixels away, move toward the player
+			if (playerDist > 60f)
 			{
 				playerVec.Normalize();
 				playerVec *= playerHomeSpeed;
@@ -309,7 +299,7 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 			else
 			{
 				Projectile.Center = returnPos;
-				Projectile.rotation = Projectile.ai[0] + MathHelper.PiOver2 + MathHelper.PiOver4;
+				Projectile.rotation = Projectile.ai[0] + MathHelper.PiOver4;
 			}
 		}
 

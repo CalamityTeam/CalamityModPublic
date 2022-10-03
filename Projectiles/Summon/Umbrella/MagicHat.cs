@@ -60,7 +60,7 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 			{
 				float projectileCount = 2f;
                 float angleVariance = MathHelper.TwoPi / projectileCount;
-                float angle = MathHelper.PiOver2;
+                float angle = 0f;
 				int p = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<MagicRifle>(), Projectile.damage, Projectile.knockBack, Projectile.owner, angle);
 				if (Main.projectile.IndexInRange(p))
 					Main.projectile[p].originalDamage = Projectile.originalDamage;
