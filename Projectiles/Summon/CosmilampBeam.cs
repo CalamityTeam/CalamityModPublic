@@ -111,7 +111,7 @@ namespace CalamityMod.Projectiles.Summon
             TrailDrawer ??= new(WidthFunction, ColorFunction, specialShader: GameShaders.Misc["CalamityMod:ImpFlameTrail"]);
 
             Projectile.localAI[0] = 0f;
-            GameShaders.Misc["CalamityMod:ImpFlameTrail"].SetShaderTexture(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/ScarletDevilStreak"));
+            GameShaders.Misc["CalamityMod:ImpFlameTrail"].SetShaderTexture(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Trails/ScarletDevilStreak"));
             TrailDrawer.Draw(Projectile.oldPos, Projectile.Size * 0.5f - Main.screenPosition, 42);
 
             Projectile.localAI[0] = 1f;
