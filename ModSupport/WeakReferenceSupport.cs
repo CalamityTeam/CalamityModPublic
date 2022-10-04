@@ -186,7 +186,9 @@ namespace CalamityMod
                 return;
 
 			wiki.Call("AddModURL", calamity, CalamityWikiURL);
-			wiki.Call("0", calamity, CalamityWikiURL);
+			wiki.Call(0, calamity, CalamityWikiURL);
+			wiki.Call("AddWikiTexture", calamity, ModContent.Request<Texture2D>("CalamityMod/ModSupport/WikiThisIcon"));
+			wiki.Call(3, calamity, ModContent.Request<Texture2D>("CalamityMod/ModSupport/WikiThisIcon"));
 
 			// Clear up name conflicts
             void ItemRedirect(int item, string pageName)
