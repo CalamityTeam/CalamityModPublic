@@ -9,7 +9,7 @@ namespace CalamityMod.Buffs.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("The Profaned Soul");
-            Description.SetDefault("The healer will heal your wounds!");
+            Description.SetDefault("The Profaned Babs will fight for and defend you!");
             Main.buffNoTimeDisplay[Type] = true;
             Main.buffNoSave[Type] = true;
             //Main.persistentBuff[Type] = true;
@@ -34,17 +34,9 @@ namespace CalamityMod.Buffs.Summon
             Player player = Main.player[Main.myPlayer];
             bool offense = player.Calamity().gOffense;
             bool defense = player.Calamity().gDefense;
-            if (player.Calamity().profanedCrystal && (!player.Calamity().profanedCrystalBuffs && !DownedBossSystem.downedSCal))
+            if (player.Calamity().profanedCrystal && (!player.Calamity().profanedCrystalBuffs && (!DownedBossSystem.downedSCal || !DownedBossSystem.downedExoMechs)))
             {
                 tip = "The Profaned Babs will accompany you!";
-            }
-            else if (offense && defense)
-            {
-                tip = "The Profaned Babs will fight for and defend you!";
-            }
-            else if (offense || defense)
-            {
-                tip = "The " + (offense ? "Offensive" : "Defensive") + " Duo will " + (offense ? "fight for and heal you!" : "protect and heal you!");
             }
         }
     }
