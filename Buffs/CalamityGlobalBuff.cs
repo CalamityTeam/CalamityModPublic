@@ -8,6 +8,8 @@ namespace CalamityMod.Buffs
 {
     public class CalamityGlobalBuff : GlobalBuff
     {
+        public const byte ModdedFlaskEnchant = 99;
+
         public override void Update(int type, Player player, ref int buffIndex)
         {
             if (type == BuffID.Archery)
@@ -164,7 +166,7 @@ namespace CalamityMod.Buffs
                 case BuffID.WeaponImbueIchor:
                 case BuffID.WeaponImbueNanites:
                 case BuffID.WeaponImbuePoison:
-                    tip = "Rogue and " + tip;
+                    tip = tip.Insert(tip.IndexOf("Melee") + 5, ", Whip, and Rogue");
                     break;
 
                 case BuffID.WeaponImbueConfetti:

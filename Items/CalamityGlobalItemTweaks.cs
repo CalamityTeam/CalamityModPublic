@@ -21,7 +21,7 @@ namespace CalamityMod.Items
             IItemTweak[] trueMeleeNoSpeed = Do(TrueMeleeNoSpeed); 
             IItemTweak[] pointBlank = Do(PointBlank);
             IItemTweak[] autoReuse = Do(AutoReuse);
-            IItemTweak[] maxStack999 = Do(MaxStack(999));
+            IItemTweak[] maxStack9999 = Do(MaxStack(9999));
             IItemTweak[] nonConsumableBossSummon = Do(MaxStack(1), NotConsumable, UseTimeExact(10));
 
             // Please keep this strictly alphabetical. It's the only way to keep it sane. Thanks in advance.
@@ -79,8 +79,6 @@ namespace CalamityMod.Items
                 { ItemID.BorealWoodBow, Do(PointBlank, DamageRatio(1.1f)) },
                 { ItemID.BorealWoodHammer, Do(HammerPower(25), UseTimeExact(11), TileBoostExact(+0)) },
                 { ItemID.BorealWoodSword, Do(AutoReuse, UseTurn) },
-                { ItemID.BouncyBomb, maxStack999 },
-                { ItemID.BouncyDynamite, maxStack999 },
                 { ItemID.BreakerBlade, Do(AutoReuse, UseTurn, ScaleRatio(1.5f), DamageExact(97)) },
                 { ItemID.ButchersChainsaw, Do(TrueMeleeNoSpeed, AxePower(150), UseTimeExact(3), TileBoostExact(+0)) },
                 { ItemID.CactusPickaxe, Do(PickPower(34), UseTimeExact(9)) },
@@ -175,7 +173,6 @@ namespace CalamityMod.Items
                 { ItemID.DiamondStaff, Do(DamageExact(26)) },
                 { ItemID.Drax, Do(TrueMeleeNoSpeed, PickPower(200), AxePower(110), UseTimeExact(4), TileBoostExact(+1)) },
                 { ItemID.DyeTradersScimitar, Do(AutoReuse, UseTurn, ScaleRatio(1.5f), DamageRatio(1.33f)) },
-                { ItemID.Dynamite, maxStack999 },
                 { ItemID.EbonwoodBow, Do(PointBlank, DamageRatio(1.1f)) },
                 { ItemID.EbonwoodHammer, Do(HammerPower(25), UseTimeExact(9), TileBoostExact(+0)) },
                 { ItemID.EbonwoodSword, Do(AutoReuse, UseTurn) },
@@ -229,7 +226,7 @@ namespace CalamityMod.Items
                 { ItemID.GreenPhasesaber, Do(ScaleRatio(1.5f), DamageExact(72), UseExact(20)) },
                 { ItemID.GreenSolution, Do(Value(Item.buyPrice(silver: 5))) },
                 { ItemID.GrenadeLauncher, Do(DamageRatio(1.5f)) },
-                { ItemID.GuideVoodooDoll, maxStack999 },
+                { ItemID.GuideVoodooDoll, maxStack9999 },
                 { ItemID.Gungnir, Do(AutoReuse, TrueMelee, UseRatio(0.8f), DamageExact(92), ShootSpeedRatio(1.25f)) },
                 { ItemID.HallowedGreaves, Do(DefenseDelta(+2)) },
                 { ItemID.HallowedPlateMail, Do(DefenseDelta(+3)) },
@@ -483,8 +480,6 @@ namespace CalamityMod.Items
                 { ItemID.Starfury, autoReuse },
                 { ItemID.PortableStool, Do(Value(Item.sellPrice(copper: 20))) }, // Step Stool
                 { ItemID.StarWrath, Do(DamageRatio(0.9f), AttackSpeedExact(0.33f)) },
-                { ItemID.StickyBomb, maxStack999 },
-                { ItemID.StickyDynamite, maxStack999 },
                 { ItemID.StormTigerStaff, Do(AutoReuse, DamageExact(49), UseExact(20)) }, // Desert Tiger Staff
                 { ItemID.StylistKilLaKillScissorsIWish, Do(AutoReuse, UseTurn, ScaleRatio(1.5f), DamageExact(33)) },
                 { ItemID.SuspiciousLookingEye, nonConsumableBossSummon },
@@ -926,7 +921,7 @@ namespace CalamityMod.Items
         #region Max Stack
         internal class MaxStackRule : IItemTweak // max stack plus - calamity style
         {
-            internal readonly int newMaxStack = 999;
+            internal readonly int newMaxStack = 9999;
 
             public MaxStackRule(int stk) => newMaxStack = stk;
             public bool AppliesTo(Item it) => true;

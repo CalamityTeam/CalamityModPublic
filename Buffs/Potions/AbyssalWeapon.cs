@@ -9,7 +9,7 @@ namespace CalamityMod.Buffs.Potions
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Weapon Imbue: Brimstone");
-            Description.SetDefault("Melee and Rogue attacks ignite enemies with brimstone flames");
+            Description.SetDefault("Melee, Whip, and Rogue attacks ignite enemies with brimstone flames");
             Main.debuff[Type] = false;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = false;
@@ -22,7 +22,7 @@ namespace CalamityMod.Buffs.Potions
         {
             player.Calamity().aWeapon = true;
             // A very large number to indicate it's a modded Flask
-            player.meleeEnchant = 99;
+            player.meleeEnchant = CalamityGlobalBuff.ModdedFlaskEnchant;
         }
     }
 }

@@ -135,6 +135,10 @@ namespace CalamityMod.Items
             if (item.maxStack == 30 || item.maxStack == 50 || item.maxStack == 75 || item.maxStack == 99 || item.maxStack == 999)
                 item.maxStack = 9999;
 
+            // Having more than this causes integer overflow
+            if (item.type == ItemID.PlatinumCoin)
+                item.maxStack = 2147;
+
             // Shield of Cthulhu cannot be enchanted (it is an accessory with a damage value).
             // TODO -- there are better ways to do this. Just stop letting accessories be enchanted, even if they do have a damage value.
             if (item.type == ItemID.EoCShield)

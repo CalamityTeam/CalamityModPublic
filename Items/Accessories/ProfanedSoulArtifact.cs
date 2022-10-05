@@ -17,9 +17,9 @@ namespace CalamityMod.Items.Accessories
             SacrificeTotal = 1;
             DisplayName.SetDefault("Profaned Soul Artifact");
             Tooltip.SetDefault("Purity\n" +
-                "Summons a healer guardian which heals for a certain amount of health every few seconds\n" +
-                "Summons a defensive guardian if you have at least 10 minion slots, which boosts your movement speed and your damage resistance\n" +
-                "Summons an offensive guardian if you are wearing the tarragon summon set (or stronger), which boosts your summon damage and your minion slots\n" +
+                "Summons a healer guardian, which heals for a certain amount of health every few seconds\n" +
+                "Summons a defensive guardian, which boosts your movement speed and damage resistance\n" +
+                "Summons an offensive guardian, which boosts your minion slots\n" +
                 "If you get hit, most of their effects will disappear for 5 seconds");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 6));
             ItemID.Sets.AnimatesAsSoul[Type] = true;

@@ -9,7 +9,7 @@ namespace CalamityMod.Buffs.Potions
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Weapon Imbue: Crumbling");
-            Description.SetDefault("Melee and Rogue attacks reduce enemy damage reduction");
+            Description.SetDefault("Melee, Whip, and Rogue attacks reduce enemy damage reduction");
             Main.debuff[Type] = false;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = false;
@@ -22,7 +22,7 @@ namespace CalamityMod.Buffs.Potions
         {
             player.Calamity().armorCrumbling = true;
             // A very large number to indicate it's a modded Flask
-            player.meleeEnchant = 99;
+            player.meleeEnchant = CalamityGlobalBuff.ModdedFlaskEnchant;
         }
     }
 }

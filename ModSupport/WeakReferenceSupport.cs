@@ -122,7 +122,8 @@ namespace CalamityMod
 
     internal class WeakReferenceSupport
     {
-        public const string CalamityWikiURL = "calamitymod.wiki.gg";
+        public const string CalamityWikiURLOld = "calamitymod.wiki.gg";
+        public const string CalamityWikiURL = "https://calamitymod.wiki.gg/wiki/{}";
 
         private static readonly Dictionary<string, float> BossDifficulty = new Dictionary<string, float>
         {
@@ -186,8 +187,12 @@ namespace CalamityMod
             if (wiki is null)
                 return;
 
-			wiki.Call("AddModURL", calamity, CalamityWikiURL);
-			wiki.Call("0", calamity, CalamityWikiURL);
+			bool oldVersion = wiki.Version < new Version(2, 4, 7, 5);
+
+			wiki.Call("AddModURL", calamity, oldVersion ? CalamityWikiURLOld : CalamityWikiURL);
+			wiki.Call(0, calamity, oldVersion ? CalamityWikiURLOld : CalamityWikiURL);
+			wiki.Call("AddWikiTexture", calamity, ModContent.Request<Texture2D>("CalamityMod/ModSupport/WikiThisIcon"));
+			wiki.Call(3, calamity, ModContent.Request<Texture2D>("CalamityMod/ModSupport/WikiThisIcon"));
 
 			// Clear up name conflicts
             void ItemRedirect(int item, string pageName)

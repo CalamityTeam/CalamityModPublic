@@ -976,12 +976,6 @@ namespace CalamityMod.CalPlayer
                     Player.endurance += 0.025f +
                         (attack ? 0.025f : 0f);
                 }
-
-                if (attack)
-                {
-                    Player.GetDamage<SummonDamageClass>() += 0.1f +
-                        (defend ? 0.05f : 0f);
-                }
             }
 
             // You always get the max minions, even during the effect of the burnout debuff
@@ -3095,36 +3089,28 @@ namespace CalamityMod.CalPlayer
                     if (Player.FindBuffIndex(ModContent.BuffType<ProfanedBabs>()) == -1 && !profanedCrystalBuffs)
                         Player.AddBuff(ModContent.BuffType<ProfanedBabs>(), 3600, true);
 
-                    bool crystal = profanedCrystal && !profanedCrystalForce;
-                    bool summonSet = tarraSummon || bloodflareSummon || silvaSummon || dsSetBonus || omegaBlueSet || fearmongerSet;
                     int guardianAmt = 1;
 
                     if (Player.ownedProjectileCounts[ModContent.ProjectileType<MiniGuardianHealer>()] < guardianAmt)
                         Projectile.NewProjectile(source, Player.Center.X, Player.Center.Y, 0f, -6f, ModContent.ProjectileType<MiniGuardianHealer>(), 0, 0f, Main.myPlayer, 0f, 0f);
 
-                    if (crystal || Player.maxMinions >= 10)
-                    {
-                        gDefense = true;
+					gDefense = true;
 
-                        if (Player.ownedProjectileCounts[ModContent.ProjectileType<MiniGuardianDefense>()] < guardianAmt)
-                        {
-                            int guardian = Projectile.NewProjectile(source, Player.Center.X, Player.Center.Y, 0f, -3f, ModContent.ProjectileType<MiniGuardianDefense>(), 1, 1f, Main.myPlayer, 0f, 0f);
-                            if (Main.projectile.IndexInRange(guardian))
-                                Main.projectile[guardian].originalDamage = 1;
-                        }
-                    }
+					if (Player.ownedProjectileCounts[ModContent.ProjectileType<MiniGuardianDefense>()] < guardianAmt)
+					{
+						int guardian = Projectile.NewProjectile(source, Player.Center.X, Player.Center.Y, 0f, -3f, ModContent.ProjectileType<MiniGuardianDefense>(), 1, 1f, Main.myPlayer, 0f, 0f);
+						if (Main.projectile.IndexInRange(guardian))
+							Main.projectile[guardian].originalDamage = 1;
+					}
 
-                    if (crystal || summonSet)
-                    {
-                        gOffense = true;
+					gOffense = true;
 
-                        if (Player.ownedProjectileCounts[ModContent.ProjectileType<MiniGuardianAttack>()] < guardianAmt)
-                        {
-                            int guardian = Projectile.NewProjectile(source, Player.Center.X, Player.Center.Y, 0f, -1f, ModContent.ProjectileType<MiniGuardianAttack>(), 1, 1f, Main.myPlayer, 0f, 0f);
-                            if (Main.projectile.IndexInRange(guardian))
-                                Main.projectile[guardian].originalDamage = 1;
-                        }
-                    }
+					if (Player.ownedProjectileCounts[ModContent.ProjectileType<MiniGuardianAttack>()] < guardianAmt)
+					{
+						int guardian = Projectile.NewProjectile(source, Player.Center.X, Player.Center.Y, 0f, -1f, ModContent.ProjectileType<MiniGuardianAttack>(), 1, 1f, Main.myPlayer, 0f, 0f);
+						if (Main.projectile.IndexInRange(guardian))
+							Main.projectile[guardian].originalDamage = 1;
+					}
                 }
             }
 
