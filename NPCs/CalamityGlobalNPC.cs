@@ -958,8 +958,10 @@ namespace CalamityMod.NPCs
             // Sage Poison
             if (sagePoisonTime > 0)
             {
-                int baseSagePoisonDoTValue = (int)(90 * sicknessDamageMult);
-                ApplyDPSDebuff(baseSagePoisonDoTValue, npc.Calamity().sagePoisonDamage, ref npc.lifeRegen, ref damage);
+                // npc.Calamity().sagePoisonDamage = 20 * (float)(Math.Pow(totalSageSpirits, 0.73D) + Math.Pow(totalSageSpirits, 1.1D)) * 0.5f
+                // See SageNeedle.cs for details
+                int baseSagePoisonDoTValue = (int)(npc.Calamity().sagePoisonDamage * sicknessDamageMult);
+                ApplyDPSDebuff(baseSagePoisonDoTValue, baseSagePoisonDoTValue / 5, ref npc.lifeRegen, ref damage);
             }
 
             // Kami Debuff from Yanmei's Knife
