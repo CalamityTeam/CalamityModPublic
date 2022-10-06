@@ -36,6 +36,8 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.minion = true;
             Projectile.coldDamage = true;
             Projectile.DamageType = DamageClass.Summon;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 16;
         }
 
         public override void AI()
@@ -81,7 +83,7 @@ namespace CalamityMod.Projectiles.Summon
                 }
             }
 
-            Projectile.ChargingMinionAI(1200f, 1500f, 2200f, 150f, 0, 40f, 9f, 4f, new Vector2(0f, -60f), 40f, 9f, true, true);
+            Projectile.ChargingMinionAI(1200f, 1500f, 2200f, 150f, 0, 12f, 9f, 4f, new Vector2(0f, -60f), 12f, 18f, true, true, 2);
 
             Projectile.rotation = Projectile.velocity.ToRotation() - MathHelper.PiOver2;
         }
