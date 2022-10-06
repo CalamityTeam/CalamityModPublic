@@ -232,6 +232,19 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 			}
 		}
 
+		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => OnHitEffect(target.Center);
+
+		public override void OnHitPvp(Player target, int damage, bool crit) => OnHitEffect(target.Center);
+
+		private void OnHitEffect(Vector2 position)
+		{
+            if (Main.rand.NextBool(5))
+			{
+                CombatText.NewText(position, new Color(239, 113, 152), "Stylish!", true);
+                Projectile.soundDelay = 60;
+            }
+        }
+
         public override bool PreDraw(ref Color lightColor)
         {
             CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
