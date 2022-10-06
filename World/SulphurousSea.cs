@@ -74,7 +74,15 @@ namespace CalamityMod.World
         };
 
         // Percentage of how far down a tile has to be for open caverns to appear.
-        public const float OpenCavernStartDepthPercentage = 0.5f;
+        public const float OpenCavernStartDepthPercentage = 0.42f;
+
+        public const float HardenedSandstoneLineMagnification = 0.004f;
+
+        public const int MaxIslandHeight = 16;
+
+        public const int MaxIslandDepth = 9;
+
+        public const float IslandLineMagnification = 0.0079f;
 
         public static int BiomeWidth
         {
@@ -113,13 +121,13 @@ namespace CalamityMod.World
             }
         }
 
-        public static int TotalCavesInShallowWater => (int)Math.Ceiling(Main.maxTilesX / 1300f);
+        public static int TotalCavesInShallowWater => (int)Math.Ceiling(Main.maxTilesX / 2000f);
 
         public static int MaxTopWaterDepth => (int)(BlockDepth * TopWaterDepthPercentage);
 
         public static int MinCaveWidth => (int)(Main.maxTilesX / 2500f);
 
-        public static int MaxCaveWidth => (int)Math.Ceiling(Main.maxTilesX / 376f);
+        public static int MaxCaveWidth => (int)Math.Ceiling(Main.maxTilesX / 566f);
 
         public static int MinCaveMovementSteps => (int)Math.Ceiling(Main.maxTilesX / 70f);
 
@@ -130,6 +138,9 @@ namespace CalamityMod.World
             get;
             set;
         }
+
+        // Vines cannot grow any higher than this. This is done to prevent vines from growing very close to the sea surface.
+        public static int VineGrowTopLimit => YStart + 100;
         #endregion
 
         #region Placement Methods
@@ -148,7 +159,9 @@ namespace CalamityMod.World
             ClearOutStrayTiles();
 
             // Lay down decorations after the caves are generated.
+            ClearAloneTiles();
             DecideHardSandstoneLine();
+            MakeSurfaceLessRigid();
         }
 
         public static void FinishGeneratingSulphurSea()
@@ -305,7 +318,7 @@ namespace CalamityMod.World
 
             for (int c = 0; c < SpaghettiCaveCarveOutThresholds.Length; c++)
             {
-                int caveSeed = WorldGen.genRand.Next(10000000);
+                int caveSeed = WorldGen.genRand.Next();
                 for (int i = 1; i < width; i++)
                 {
                     // Initialize variables for the cave.
@@ -316,7 +329,7 @@ namespace CalamityMod.World
 
                         // Bias noise away from 0, effectively making caves less likely to appear, based on how close it is to the bottom/horizontal edge.
                         // This causes caves to naturally stop as the reach ends instead of abruptly stopping like in the old Sulphurous Sea worldgen.
-                        float biasAwayFrom0Interpolant = Utils.GetLerpValue(0.92f, 0.96f, i / (float)width, true) + Utils.GetLerpValue(0.86f, 0.9f, (y - YStart) / (float)depth, true);
+                        float biasAwayFrom0Interpolant = Utils.GetLerpValue(0.82f, 0.94f, i / (float)width, true) + Utils.GetLerpValue(0.77f, 0.88f, (y - YStart) / (float)depth, true);
 
                         // If the noise is less than 0, bias to -1, if it's greater than 0, bias away to 1.
                         // This is done instead of biasing to -1 or 1 without exception to ensure that in doing so the noise does not cross into the
@@ -339,13 +352,13 @@ namespace CalamityMod.World
 
         public static void GenerateCheeseWaterCaves()
         {
-            int width = (int)(BiomeWidth * 0.9f);
+            int width = (int)(BiomeWidth * 0.96f);
             int depth = (int)(BlockDepth * 0.9f);
             ushort wallID = (ushort)ModContent.WallType<SulphurousSandWall>();
 
             for (int c = 0; c < CheeseCaveCarveOutThresholds.Length; c++)
             {
-                int caveSeed = WorldGen.genRand.Next(10000000);
+                int caveSeed = WorldGen.genRand.Next();
                 for (int i = 1; i < width; i++)
                 {
                     // Initialize variables for the cave.
@@ -353,9 +366,9 @@ namespace CalamityMod.World
                     for (int y = YStart; y < YStart + depth; y++)
                     {
                         float noise = FractalBrownianMotion(i * CheeseCaveMagnification, y * CheeseCaveMagnification, caveSeed, 6);
-                        float biasToNegativeOneInterpolant = Utils.GetLerpValue(0.86f, 0.9f, i / (float)width, true) + Utils.GetLerpValue(0.86f, 0.9f, (y - YStart) / (float)depth, true);
+                        float biasToNegativeOneInterpolant = Utils.GetLerpValue(0.82f, 0.94f, i / (float)width, true) + Utils.GetLerpValue(0.77f, 0.88f, (y - YStart) / (float)depth, true);
                         biasToNegativeOneInterpolant += Utils.GetLerpValue(YStart + OpenCavernStartDepthPercentage * depth, YStart + OpenCavernStartDepthPercentage * depth - 25f, y, true);
-                        if (noise - biasToNegativeOneInterpolant * 6f > CheeseCaveCarveOutThresholds[c])
+                        if (noise - biasToNegativeOneInterpolant > CheeseCaveCarveOutThresholds[c])
                         {
                             WorldUtils.Gen(new(x, y), new Shapes.Rectangle(1, 1), Actions.Chain(new GenAction[]
                             {
@@ -418,6 +431,38 @@ namespace CalamityMod.World
             }
         }
 
+        public static void ClearAloneTiles()
+        {
+            int width = BiomeWidth;
+            int depth = BlockDepth;
+            ushort blockTileType = (ushort)ModContent.TileType<SulphurousSand>();
+
+            for (int i = 0; i < width; i++)
+            {
+                int x = GetActualX(i);
+                for (int y = YStart; y < YStart + depth; y++)
+                {
+                    Tile t = CalamityUtils.ParanoidTileRetrieval(x, y);
+                    if (!t.HasTile || t.TileType != blockTileType)
+                        continue;
+
+                    // Check to see if the tile has any cardinal neighbors. If it doesn't, destroy it.
+                    if (!CalamityUtils.ParanoidTileRetrieval(x - 1, y).HasTile &&
+                        !CalamityUtils.ParanoidTileRetrieval(x + 1, y).HasTile &&
+                        !CalamityUtils.ParanoidTileRetrieval(x, y - 1).HasTile &&
+                        !CalamityUtils.ParanoidTileRetrieval(x, y + 1).HasTile)
+                    {
+                        WorldUtils.Gen(new(x, y), new Shapes.Rectangle(1, 1), Actions.Chain(new GenAction[]
+                        {
+                            new Actions.ClearTile(true),
+                            new Actions.ClearWall(true),
+                            new Actions.SetLiquid()
+                        }));
+                    }
+                }
+            }
+        }
+
         public static void DecideHardSandstoneLine()
         {
             int width = BiomeWidth;
@@ -427,11 +472,12 @@ namespace CalamityMod.World
             ushort blockTypeToReplace = (ushort)ModContent.TileType<SulphurousSand>();
             ushort blockTypeToPlace = (ushort)ModContent.TileType<HardenedSulphurousSandstone>();
             ushort wallID = (ushort)ModContent.WallType<HardenedSulphurousSandstoneWall>();
+
             for (int i = 0; i < width; i++)
             {
                 for (int y = YStart; y < YStart + depth; y++)
                 {
-                    int sandstoneLineOffset = (int)(FractalBrownianMotion(i * 0.004f, y * 0.004f, sandstoneSeed, 7) * 30) + depth / 2;
+                    int sandstoneLineOffset = (int)(FractalBrownianMotion(i * HardenedSandstoneLineMagnification, y * HardenedSandstoneLineMagnification, sandstoneSeed, 7) * 30) + (int)(depth * OpenCavernStartDepthPercentage);
 
                     // Make the sandstone line descent a little bit the closer it is to the world edge, to make it look like it "warps" towards the abyss.
                     sandstoneLineOffset -= (int)(Math.Pow(Utils.GetLerpValue(width * 0.1f, width * 0.8f, i, true), 1.72f) * 45f);
@@ -444,6 +490,38 @@ namespace CalamityMod.World
                         {
                             new Actions.SetTile(blockTypeToPlace, true),
                             new Actions.PlaceWall(wallID, true),
+                            new Actions.SetLiquid()
+                        }));
+                    }
+                }
+            }
+        }
+
+        public static void MakeSurfaceLessRigid()
+        {
+            int y = YStart;
+            int width = BiomeWidth;
+            int heightSeed = WorldGen.genRand.Next();
+            ushort blockTileType = (ushort)ModContent.TileType<SulphurousSand>();
+            ushort wallID = (ushort)ModContent.WallType<HardenedSulphurousSandstoneWall>();
+
+            for (int i = 0; i < width; i++)
+            {
+                int x = GetActualX(i);
+                Tile t = CalamityUtils.ParanoidTileRetrieval(x, y);
+
+                // If the tile below is solid, then determine how high it should rise upward.
+                // This is done to make the surface less unnaturally flat.
+                if (t.HasTile)
+                {
+                    float noise = FractalBrownianMotion(i * IslandLineMagnification, y * IslandLineMagnification, heightSeed, 5) * 0.5f + 0.5f;
+                    int heightOffset = -(int)Math.Round(MathHelper.Lerp(-MaxIslandDepth, MaxIslandHeight, noise));
+                    for (int dy = 0; dy != heightOffset; dy += Math.Sign(heightOffset))
+                    {
+                        WorldUtils.Gen(new(x, y + dy), new Shapes.Rectangle(1, 1), Actions.Chain(new GenAction[]
+                        {
+                            heightOffset > 0 ? new Actions.ClearTile() : new Actions.SetTile(blockTileType, true),
+                            new Actions.PlaceWall(y != heightOffset ? wallID : WallID.None, true),
                             new Actions.SetLiquid()
                         }));
                     }

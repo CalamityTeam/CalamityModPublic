@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Placeables
 
         public override void SetDefaults()
         {
-            Item.createTile = ModContent.TileType<Tiles.Abyss.SulphurousSandNoWater>();
+            Item.createTile = ModContent.TileType<Tiles.Abyss.SulphurousSand>();
             Item.useStyle = ItemUseStyleID.Swing;
             Item.useTurn = true;
             Item.useAnimation = 15;

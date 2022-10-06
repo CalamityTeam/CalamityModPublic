@@ -140,6 +140,7 @@ namespace CalamityMod.Systems
             RecipeUnlockHandler.SendData(writer);
 
             writer.Write(Abyss.AbyssChasmBottom);
+            writer.Write(SulphurousSea.YStart);
             writer.Write(AcidRainEvent.AccumulatedKillPoints);
             writer.Write(Reforges);
             writer.Write(MoneyStolenByBandit);
@@ -271,6 +272,7 @@ namespace CalamityMod.Systems
             RecipeUnlockHandler.ReceiveData(reader);
 
             Abyss.AbyssChasmBottom = reader.ReadInt32();
+            SulphurousSea.YStart = reader.ReadInt32();
             AcidRainEvent.AccumulatedKillPoints = reader.ReadInt32();
             Reforges = reader.ReadInt32();
             MoneyStolenByBandit = reader.ReadInt32();
