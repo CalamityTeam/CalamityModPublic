@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using System.IO;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -13,6 +14,8 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 		public float PivotPointY = 0f;
 		private int counter = 0;
 		private const int projSize = 60;
+        public static readonly SoundStyle StylishSound = new("CalamityMod/Sounds/Custom/Stylish");
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Hammer");
@@ -234,11 +237,33 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-            if ((Behavior == 2f || Behavior == 3f) && Main.rand.NextBool(5))
+            if ((Behavior == 2f || Behavior == 3f) && Main.rand.NextBool(10))
 			{
                 Rectangle location = new Rectangle((int)target.position.X, (int)target.position.Y, target.width, target.height);
                 CombatText.NewText(location, new Color(239, 113, 152), "Stylish!", true);
+				// Sound TBD
+                // SoundEngine.PlaySound(StylishSound, target.Center);
                 Projectile.soundDelay = 60;
+				for (int i = 0; i < 3; i++)
+				{
+					int confettiDust = Main.rand.Next(139, 143);
+					int confetti = Dust.NewDust(target.Center, target.width, target.height, confettiDust, target.velocity.X, target.velocity.Y, 0, new Color(), 1.2f);
+					Main.dust[confetti].velocity.X *= Main.rand.NextFloat(0.5f, 1.5f);
+					Main.dust[confetti].velocity.Y *= Main.rand.NextFloat(0.5f, 1.5f);
+					Main.dust[confetti].velocity.X += Main.rand.NextFloat(-2.5f, 2.5f);
+					Main.dust[confetti].velocity.Y += Main.rand.NextFloat(-2.5f, 2.5f);
+					Main.dust[confetti].scale *= Main.rand.NextFloat(0.7f, 1.3f);
+					if (Main.netMode != NetmodeID.Server && Main.rand.NextBool())
+					{
+						int confettiGore = Main.rand.Next(276, 283);
+						int idx = Gore.NewGore(Projectile.GetSource_FromThis(), target.Center, target.velocity, confettiGore, 1f);
+						Main.gore[idx].velocity.X *= Main.rand.NextFloat(0.5f, 1.5f);
+						Main.gore[idx].velocity.Y *= Main.rand.NextFloat(0.5f, 1.5f);
+						Main.gore[idx].velocity.X += Main.rand.NextFloat(-2.5f, 2.5f);
+						Main.gore[idx].velocity.Y += Main.rand.NextFloat(-2.5f, 2.5f);
+						Main.gore[idx].scale *= Main.rand.NextFloat(0.8f, 1.2f);
+					}
+				}
             }
         }
 
