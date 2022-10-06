@@ -319,40 +319,5 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
                 Main.dust[dust].noGravity = true;
             }
         }
-
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-		{
-            if (Main.rand.NextBool(4))
-			{
-                SpawnProjectileballBats(target.Center);
-            }
-        }
-
-        public override void OnHitPvp(Player target, int damage, bool crit)
-		{
-            if (Main.rand.NextBool(4))
-			{
-                SpawnProjectileballBats(target.Center);
-            }
-        }
-
-        private void SpawnProjectileballBats(Vector2 targetPos)
-		{
-			int batAmt = Main.rand.Next(1, 3);
-            for (int n = 0; n < batAmt; n++) //1 to 2 baseball bats
-			{
-                float x = targetPos.X + Main.rand.Next(-400, 401);
-                float y = targetPos.Y - Main.rand.Next(500, 801);
-                Vector2 source = new Vector2(x, y);
-                Vector2 velocity = targetPos - source;
-                velocity.X += Main.rand.Next(-100, 101);
-                float speed = 29f;
-                float targetDist = velocity.Length();
-                targetDist = speed / targetDist;
-                velocity.X *= targetDist;
-                velocity.Y *= targetDist;
-                Projectile.NewProjectile(Projectile.GetSource_FromThis(), source, velocity, ModContent.ProjectileType<MagicBat>(), (int)(Projectile.damage * Main.rand.NextFloat(0.3f, 0.6f)), Projectile.knockBack * Main.rand.NextFloat(0.7f, 1f), Projectile.owner, 0f, 0f);
-            }
-        }
     }
 }

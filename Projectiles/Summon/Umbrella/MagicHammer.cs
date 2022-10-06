@@ -238,7 +238,7 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 
 		private void OnHitEffect(Vector2 position)
 		{
-            if (Main.rand.NextBool(5))
+            if ((Behavior == 2f || Behavior == 3f) && Main.rand.NextBool(5))
 			{
                 CombatText.NewText(position, new Color(239, 113, 152), "Stylish!", true);
                 Projectile.soundDelay = 60;
