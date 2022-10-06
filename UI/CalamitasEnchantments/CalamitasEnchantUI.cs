@@ -86,7 +86,7 @@ namespace CalamityMod.UI.CalamitasEnchants
             Main.playerInventory = true;
             Main.npcChatText = string.Empty;
 
-            Texture2D backgroundTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/CalamitasCurseBackground").Value;
+            Texture2D backgroundTexture = ModContent.Request<Texture2D>("CalamityMod/UI/CalamitasEnchantments/CalamitasCurseBackground").Value;
             Vector2 backgroundScale = Vector2.One * Main.UIScale;
 
             // Draw the background.
@@ -221,20 +221,20 @@ namespace CalamityMod.UI.CalamitasEnchants
         public static void DrawItemIcon(SpriteBatch spriteBatch, Vector2 itemSlotDrawPosition, Vector2 reforgeIconDrawPosition, Vector2 scale, out bool isHoveringOverItemIcon, out bool isHoveringOverReforgeIcon)
         {
             isHoveringOverReforgeIcon = false;
-            Texture2D itemSlotTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/CalamitasCurseItemSlot").Value;
+            Texture2D itemSlotTexture = ModContent.Request<Texture2D>("CalamityMod/UI/CalamitasEnchantments/CalamitasCurseItemSlot").Value;
 
-            Texture2D reforgeIconTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/CalamitasCurseUI_Button").Value;
+            Texture2D reforgeIconTexture = ModContent.Request<Texture2D>("CalamityMod/UI/CalamitasEnchantments/CalamitasCurseUI_Button").Value;
             Rectangle reforgeIconArea = new Rectangle((int)reforgeIconDrawPosition.X, (int)reforgeIconDrawPosition.Y, (int)(reforgeIconTexture.Width * scale.X), (int)(reforgeIconTexture.Height * scale.Y));
 
             // Have the reforge icon light up if the mouse is hovering over it.
             if (MouseScreenArea.Intersects(reforgeIconArea))
             {
-                reforgeIconTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/CalamitasCurseUI_ButtonHovered").Value;
+                reforgeIconTexture = ModContent.Request<Texture2D>("CalamityMod/UI/CalamitasEnchantments/CalamitasCurseUI_ButtonHovered").Value;
                 isHoveringOverReforgeIcon = true;
             }
 
             if (ReforgeButtonClickCountdown > 0f)
-                reforgeIconTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/CalamitasCurseUI_ButtonClicked").Value;
+                reforgeIconTexture = ModContent.Request<Texture2D>("CalamityMod/UI/CalamitasEnchantments/CalamitasCurseUI_ButtonClicked").Value;
 
             // This will be used for item deposit/withdrawal logic.
             isHoveringOverItemIcon = MouseScreenArea.Intersects(new Rectangle((int)itemSlotDrawPosition.X, (int)itemSlotDrawPosition.Y, (int)(itemSlotTexture.Width * scale.X), (int)(itemSlotTexture.Height * scale.Y)));
@@ -303,22 +303,22 @@ namespace CalamityMod.UI.CalamitasEnchants
                 return;
 
             // Decide textures.
-            Texture2D topArrowTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/CalamitasCurseUI_ArrowUp").Value;
-            Texture2D bottomArrowTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/CalamitasCurseUI_ArrowDown").Value;
+            Texture2D topArrowTexture = ModContent.Request<Texture2D>("CalamityMod/UI/CalamitasEnchantments/CalamitasCurseUI_ArrowUp").Value;
+            Texture2D bottomArrowTexture = ModContent.Request<Texture2D>("CalamityMod/UI/CalamitasEnchantments/CalamitasCurseUI_ArrowDown").Value;
             if (TopButtonClickCountdown > 0f)
-                topArrowTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/CalamitasCurseUI_ArrowUpClicked").Value;
+                topArrowTexture = ModContent.Request<Texture2D>("CalamityMod/UI/CalamitasEnchantments/CalamitasCurseUI_ArrowUpClicked").Value;
             if (BottomButtonClickCountdown > 0f)
-                bottomArrowTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/CalamitasCurseUI_ArrowDownClicked").Value;
+                bottomArrowTexture = ModContent.Request<Texture2D>("CalamityMod/UI/CalamitasEnchantments/CalamitasCurseUI_ArrowDownClicked").Value;
 
             Rectangle topButtonArea = new Rectangle((int)topButtonTopLeft.X, (int)topButtonTopLeft.Y, (int)(topArrowTexture.Width * scale.X), (int)(topArrowTexture.Height * scale.Y));
             Rectangle bottomButtonArea = new Rectangle((int)bottomButtonTopLeft.X, (int)bottomButtonTopLeft.Y, (int)(bottomArrowTexture.Width * scale.X), (int)(bottomArrowTexture.Height * scale.Y));
             bool hoveringOverTopArrow = MouseScreenArea.Intersects(topButtonArea);
             bool hoveringOverBottomArrow = MouseScreenArea.Intersects(bottomButtonArea);
             if (hoveringOverTopArrow)
-                topArrowTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/CalamitasCurseUI_ArrowUpHovered").Value;
+                topArrowTexture = ModContent.Request<Texture2D>("CalamityMod/UI/CalamitasEnchantments/CalamitasCurseUI_ArrowUpHovered").Value;
 
             if (hoveringOverBottomArrow)
-                bottomArrowTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/CalamitasCurseUI_ArrowDownHovered").Value;
+                bottomArrowTexture = ModContent.Request<Texture2D>("CalamityMod/UI/CalamitasEnchantments/CalamitasCurseUI_ArrowDownHovered").Value;
 
             // Draw the arrows.
             if (EnchantIndex > 0)

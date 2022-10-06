@@ -131,7 +131,7 @@ namespace CalamityMod.Items.Accessories
                 playerFound = true;
                 Player myPlayer = Main.player[i];
                 if (NoiseTex == null)
-                    NoiseTex = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/TechyNoise");
+                    NoiseTex = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/GreyscaleGradients/TechyNoise");
 
                 Texture2D tex = NoiseTex.Value;
                 Vector2 pos = myPlayer.MountedCenter + myPlayer.gfxOffY * Vector2.UnitY - Main.screenPosition;

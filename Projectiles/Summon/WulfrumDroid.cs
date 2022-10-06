@@ -468,7 +468,7 @@ namespace CalamityMod.Projectiles.Summon
 
                 if (TrailDrawer is null)
                     TrailDrawer = new PrimitiveTrail(WidthFunction, ColorFunction, specialShader: GameShaders.Misc["CalamityMod:TrailStreak"]);
-                GameShaders.Misc["CalamityMod:TrailStreak"].SetShaderTexture(Request<Texture2D>("CalamityMod/ExtraTextures/ZapTrail"));
+                GameShaders.Misc["CalamityMod:TrailStreak"].SetShaderTexture(Request<Texture2D>("CalamityMod/ExtraTextures/Trails/ZapTrail"));
 
                 Vector2[] drawPos = new Vector2[] { Projectile.Center, Projectile.Center, healedPlayer.Center + (Projectile.Center - healedPlayer.Center) * 0.5f + Vector2.UnitY * 40f, healedPlayer.Center, healedPlayer.Center };
 

@@ -194,7 +194,7 @@ namespace CalamityMod.Projectiles.Ranged
 
             //Setup the laser sights effect.
             Effect laserScopeEffect = Filters.Scene["PixelatedSightLine"].GetShader().Shader;
-            laserScopeEffect.Parameters["sampleTexture2"].SetValue(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/CertifiedCrustyNoise").Value);
+            laserScopeEffect.Parameters["sampleTexture2"].SetValue(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/GreyscaleGradients/CertifiedCrustyNoise").Value);
             laserScopeEffect.Parameters["noiseOffset"].SetValue(Main.GameUpdateCount * -0.003f);
 
             laserScopeEffect.Parameters["mainOpacity"].SetValue(ChargePercent); //Opacity increases as the gun charges

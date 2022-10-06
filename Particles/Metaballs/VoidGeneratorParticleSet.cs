@@ -21,7 +21,7 @@ namespace CalamityMod.Particles.Metaballs
         };
         public override List<Texture2D> BackgroundTextures => new List<Texture2D>()
         {
-            ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/ParticleBackgrounds/StreamGougeLayer").Value,
+            ModContent.Request<Texture2D>("CalamityMod/Particles/Metaballs/StreamGougeLayer").Value,
         };
         public override FusableParticle SpawnParticle(Vector2 center, float sizeStrength)
         {
@@ -49,7 +49,7 @@ namespace CalamityMod.Particles.Metaballs
 
         public override void DrawParticles()
         {
-            Texture2D fusableParticleBase = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/FusableParticleBase").Value;
+            Texture2D fusableParticleBase = ModContent.Request<Texture2D>("CalamityMod/Particles/Metaballs/FusableParticleBase").Value;
             foreach (FusableParticle particle in Particles)
             {
                 Vector2 drawPosition = particle.Center - Main.screenPosition;

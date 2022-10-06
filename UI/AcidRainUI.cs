@@ -12,6 +12,6 @@ namespace CalamityMod.UI
         public override float CompletionRatio => 1f - AcidRainEvent.AcidRainCompletionRatio;
         public override string InvasionName => "Acid Rain";
         public override Color InvasionBarColor => AcidRainEvent.TextColor;
-        public override Texture2D IconTexture => ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/AcidRainIcon").Value;
+        public override Texture2D IconTexture => ModContent.Request<Texture2D>("CalamityMod/UI/MiscTextures/AcidRainIcon").Value;
     }
 }

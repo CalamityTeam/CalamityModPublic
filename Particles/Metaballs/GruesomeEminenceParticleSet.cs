@@ -25,11 +25,11 @@ namespace CalamityMod.Particles.Metaballs
         };
         public override List<Texture2D> BackgroundTextures => new()
         {
-            ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/ParticleBackgrounds/GruesomeEminence_Ghost_Layer1").Value,
-            ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/ParticleBackgrounds/GruesomeEminence_Ghost_Layer2").Value,
-            ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/ParticleBackgrounds/GruesomeEminence_Ghost_Layer3").Value,
-            ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/ParticleBackgrounds/GruesomeEminence_Ghost_Layer4").Value,
-            ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/ParticleBackgrounds/GruesomeEminence_Ghost_Layer5").Value,
+            ModContent.Request<Texture2D>("CalamityMod/Particles/Metaballs/GruesomeEminence_Ghost_Layer1").Value,
+            ModContent.Request<Texture2D>("CalamityMod/Particles/Metaballs/GruesomeEminence_Ghost_Layer2").Value,
+            ModContent.Request<Texture2D>("CalamityMod/Particles/Metaballs/GruesomeEminence_Ghost_Layer3").Value,
+            ModContent.Request<Texture2D>("CalamityMod/Particles/Metaballs/GruesomeEminence_Ghost_Layer4").Value,
+            ModContent.Request<Texture2D>("CalamityMod/Particles/Metaballs/GruesomeEminence_Ghost_Layer5").Value,
         };
         public override FusableParticle SpawnParticle(Vector2 center, float sizeStrength)
         {
@@ -84,7 +84,7 @@ namespace CalamityMod.Particles.Metaballs
 
         public override void DrawParticles()
         {
-            Texture2D fusableParticleBase = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/FusableParticleBase").Value;
+            Texture2D fusableParticleBase = ModContent.Request<Texture2D>("CalamityMod/Particles/Metaballs/FusableParticleBase").Value;
             foreach (FusableParticle particle in Particles)
             {
                 Vector2 drawPosition = particle.Center - Main.screenPosition;

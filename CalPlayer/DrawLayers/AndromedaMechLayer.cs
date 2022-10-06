@@ -56,7 +56,7 @@ namespace CalamityMod.CalPlayer.DrawLayers
             switch (drawPlayer.Calamity().andromedaState)
             {
                 case AndromedaPlayerState.SpecialAttack:
-                    Texture2D dashTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/AndromedaBolt").Value;
+                    Texture2D dashTexture = ModContent.Request<Texture2D>("CalamityMod/CalPlayer/DrawLayers/AndromedaBolt").Value;
                     Rectangle frame = dashTexture.Frame(1, 4, 0, robotEntityInstance.RightIconCooldown / 4 % 4);
 
                     DrawData drawData = new DrawData(dashTexture,

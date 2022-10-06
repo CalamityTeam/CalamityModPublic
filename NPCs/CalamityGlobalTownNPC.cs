@@ -714,7 +714,7 @@ namespace CalamityMod.NPCs
                     float drawPosY = npcHeight + npc.gfxOffY + 36f;
 
                     // Texture animation variables
-                    Texture2D texture = Request<Texture2D>("CalamityMod/ExtraTextures/UI/NPCAlertDisplay").Value;
+                    Texture2D texture = Request<Texture2D>("CalamityMod/UI/MiscTextures/NPCAlertDisplay").Value;
                     shopAlertAnimTimer++;
                     if (shopAlertAnimTimer >= 6)
                     {

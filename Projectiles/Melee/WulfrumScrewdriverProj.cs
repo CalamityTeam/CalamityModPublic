@@ -220,7 +220,7 @@ namespace CalamityMod.Projectiles.Melee
             Texture2D tex = ModContent.Request<Texture2D>(Texture).Value;
 
             if (SmearTex == null)
-                SmearTex = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/MediumLongThrust");
+                SmearTex = ModContent.Request<Texture2D>("CalamityMod/Particles/MediumLongThrust");
             Texture2D smearTex = SmearTex.Value;
 
             Vector2 drawOrigin = new Vector2(tex.Width / 2f, tex.Height);

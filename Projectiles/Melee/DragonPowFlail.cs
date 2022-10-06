@@ -227,7 +227,7 @@ namespace CalamityMod.Projectiles.Melee
             Player owner = Main.player[Projectile.owner];
             Vector2 mountedCenter = owner.MountedCenter;
             Color transparent = Color.Transparent;
-            Texture2D chainTex = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Chains/DragonPowChain").Value;
+            Texture2D chainTex = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Melee/DragonPowChain").Value;
             Vector2 chainDrawPos = Projectile.Center;
 
             Rectangle? sourceRectangle = null;

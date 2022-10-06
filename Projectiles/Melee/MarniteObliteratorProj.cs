@@ -162,7 +162,7 @@ namespace CalamityMod.Projectiles.Melee
 
 
             Vector2 normalizedVelocity = Projectile.velocity.SafeNormalize(Vector2.Zero);
-            Texture2D beamTex = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/SimpleGradient").Value;
+            Texture2D beamTex = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/GreyscaleGradients/SimpleGradient").Value;
 
             for (int i = 0; i < 3; i++)
             {
@@ -181,7 +181,7 @@ namespace CalamityMod.Projectiles.Melee
             if (TrailDrawer is null)
                 TrailDrawer = new PrimitiveTrail(WidthFunction, ColorFunction, specialShader: GameShaders.Misc["CalamityMod:TrailStreak"]);
 
-            GameShaders.Misc["CalamityMod:TrailStreak"].SetShaderTexture(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/DoubleTrail"));
+            GameShaders.Misc["CalamityMod:TrailStreak"].SetShaderTexture(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Trails/DoubleTrail"));
             TrailDrawer.Draw(new Vector2[] { Projectile.Center , Owner.MountedCenter - normalizedVelocity * 13f}, - Main.screenPosition, 30);
 
             Main.spriteBatch.End();

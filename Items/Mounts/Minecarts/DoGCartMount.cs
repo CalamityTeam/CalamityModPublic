@@ -132,9 +132,9 @@ namespace CalamityMod.Items.Mounts.Minecarts
                 if (segment is null)
                     break;
 
-                Texture2D segmentTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/DoGCartBody").Value;
+                Texture2D segmentTexture = ModContent.Request<Texture2D>("CalamityMod/Items/Mounts/Minecarts/DoGCartBody").Value;
                 if (i == SegmentCount - 1)
-                    segmentTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/DoGCartTail").Value;
+                    segmentTexture = ModContent.Request<Texture2D>("CalamityMod/Items/Mounts/Minecarts/DoGCartTail").Value;
                 Vector2 segmentDrawPosition = rotationAdjustedPositions[i] + CalculateSegmentWaveOffset(i, drawPlayer);
 
                 Color segmentColor = Lighting.GetColor((int)segmentDrawPosition.X / 16, (int)segmentDrawPosition.Y / 16);

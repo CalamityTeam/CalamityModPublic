@@ -212,15 +212,15 @@ namespace CalamityMod.Projectiles.Melee
             if (TrailDrawer is null)
                 TrailDrawer = new PrimitiveTrail(PrimitiveWidthFunction, PrimitiveColorFunction, specialShader: GameShaders.Misc["CalamityMod:FadingSolidTrail"]);
 
-            Texture2D forearmTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/TaintedForearm").Value;
-            Texture2D armTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/TaintedArm").Value;
-            Texture2D handTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/TaintedHand").Value;
+            Texture2D forearmTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Melee/TaintedForearm").Value;
+            Texture2D armTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Melee/TaintedArm").Value;
+            Texture2D handTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Melee/TaintedHand").Value;
 
             // Reflect the 1st hand variant horizontally.
             SpriteEffects handDirection = SpriteEffects.None;
             if (Variant == (Owner.direction == -1).ToInt())
             {
-                handTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/TaintedHand2").Value;
+                handTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Melee/TaintedHand2").Value;
                 handDirection = SpriteEffects.FlipHorizontally;
             }
             Texture2D bladeTexture = TextureAssets.Item[(int)SwordItemID].Value;
@@ -241,7 +241,7 @@ namespace CalamityMod.Projectiles.Melee
             // Draw the trail behind the blade.
             if (Owner.itemAnimation > 0)
             {
-                GameShaders.Misc["CalamityMod:FadingSolidTrail"].SetShaderTexture(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/BladeTrailUVMap"));
+                GameShaders.Misc["CalamityMod:FadingSolidTrail"].SetShaderTexture(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Trails/BladeTrailUVMap"));
                 GameShaders.Misc["CalamityMod:FadingSolidTrail"].Shader.Parameters["shouldFlip"].SetValue((float)(Owner.direction == -1).ToInt());
 
                 Vector2 bottom = BladeCenterPosition - BladeOffsetDirection * BladeFrame.Height * 0.5f - Main.screenPosition;

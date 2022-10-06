@@ -171,7 +171,7 @@ namespace CalamityMod.Projectiles.Summon.SmallAresArms
                 float rotation = (float)Limbs[i].Rotation;
                 Vector2 segmentOriginFactor = new(0f, 0.5f);
                 SpriteEffects segmentDirection = SpriteEffects.FlipHorizontally;
-                Texture2D segmentTexture = ModContent.Request<Texture2D>("CalamityMod/NPCs/ExoMechs/Ares/AresArmSegment").Value;
+                Texture2D segmentTexture = null;
                 Texture2D glowmaskTexture = null;
 
                 Rectangle segmentFrame = segmentTexture.Frame(1, 24, 0, (int)(Main.GlobalTimeWrappedHourly * 13f + i) % 24);

@@ -63,6 +63,8 @@ using CalamityMod.Schematics;
 using CalamityMod.Skies;
 using CalamityMod.UI;
 using CalamityMod.UI.CalamitasEnchants;
+using CalamityMod.UI.DraedonsArsenal;
+using CalamityMod.UI.Rippers;
 using CalamityMod.Waters;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -220,7 +222,7 @@ namespace CalamityMod
                 ForegroundDrawing.ForegroundManager.Load();
 
                 // Wikithis support
-				WeakReferenceSupport.WikiThisSupport();
+                WeakReferenceSupport.WikiThisSupport();
             }
 
             CooldownRegistry.Load();
@@ -245,7 +247,7 @@ namespace CalamityMod
 
         private void LoadClient()
         {
-            AstralSky = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/AstralSky", AssetRequestMode.ImmediateLoad).Value;
+            AstralSky = ModContent.Request<Texture2D>("CalamityMod/Skies/AstralSky", AssetRequestMode.ImmediateLoad).Value;
 
             // TODO -- Sky shaders should probably be loaded in a ModSystem
             Filters.Scene["CalamityMod:DevourerofGodsHead"] = new Filter(new DoGScreenShaderData("FilterMiniTower").UseColor(0.4f, 0.1f, 1.0f).UseOpacity(0.5f), EffectPriority.VeryHigh);

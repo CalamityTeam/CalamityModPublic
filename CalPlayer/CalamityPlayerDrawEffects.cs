@@ -117,12 +117,12 @@ namespace CalamityMod.CalPlayer
             }
 
 			// Hearts
-            Asset<Texture2D> bOrange = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/HealthMana/HeartBloodOrange");
-            Asset<Texture2D> mFruit = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/HealthMana/HeartMiracleFruit");
-            Asset<Texture2D> eBerry = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/HealthMana/HeartElderberry");
-            Asset<Texture2D> dFruit = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/HealthMana/HeartDragonfruit");
-            Asset<Texture2D> heartOriginal = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/HealthMana/HeartOriginal"); // Life crystal
-            Asset<Texture2D> heartOriginal2 = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/HealthMana/HeartOriginal2"); // Life fruit
+            Asset<Texture2D> bOrange = ModContent.Request<Texture2D>("CalamityMod/UI/HealthManaTextures/HeartBloodOrange");
+            Asset<Texture2D> mFruit = ModContent.Request<Texture2D>("CalamityMod/UI/HealthManaTextures/HeartMiracleFruit");
+            Asset<Texture2D> eBerry = ModContent.Request<Texture2D>("CalamityMod/UI/HealthManaTextures/HeartElderberry");
+            Asset<Texture2D> dFruit = ModContent.Request<Texture2D>("CalamityMod/UI/HealthManaTextures/HeartDragonfruit");
+            Asset<Texture2D> heartOriginal = ModContent.Request<Texture2D>("CalamityMod/UI/HealthManaTextures/HeartOriginal"); // Life crystal
+            Asset<Texture2D> heartOriginal2 = ModContent.Request<Texture2D>("CalamityMod/UI/HealthManaTextures/HeartOriginal2"); // Life fruit
 
             int totalFruit =
                 (calamityPlayer.mFruit ? 1 : 0) +
@@ -636,22 +636,22 @@ namespace CalamityMod.CalPlayer
                 };
                 List<Texture2D> tankTextures = new List<Texture2D>()
                 {
-                    ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Tanks/Backpack_FlurrystormCannon").Value,
-                    ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Tanks/Backpack_BlightSpewer").Value,
-                    ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Tanks/Backpack_HavocsBreath").Value,
-                    ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Tanks/Backpack_SparkSpreader").Value,
-                    ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Tanks/Backpack_HalleysInferno").Value,
-                    ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Tanks/Backpack_CleansingBlaze").Value,
-                    ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Tanks/Backpack_ElementalEruption").Value,
-                    ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Tanks/Backpack_TheEmpyrean").Value,
-                    ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Tanks/Backpack_Meowthrower").Value,
-                    ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Tanks/Backpack_OverloadedBlaster").Value,
-                    ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Tanks/Backpack_TerraFlameburster").Value,
-                    ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Tanks/Backpack_Photoviscerator").Value,
-                    ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Tanks/Backpack_Shadethrower").Value,
-                    ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Tanks/Backpack_BloodBoiler").Value,
-                    ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Tanks/Backpack_PristineFury").Value,
-                    ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Tanks/Backpack_AuroraBlazer").Value
+                    ModContent.Request<Texture2D>("CalamityMod/CalPlayer/DrawLayers/Backpack_FlurrystormCannon").Value,
+                    ModContent.Request<Texture2D>("CalamityMod/CalPlayer/DrawLayers/Backpack_BlightSpewer").Value,
+                    ModContent.Request<Texture2D>("CalamityMod/CalPlayer/DrawLayers/Backpack_HavocsBreath").Value,
+                    ModContent.Request<Texture2D>("CalamityMod/CalPlayer/DrawLayers/Backpack_SparkSpreader").Value,
+                    ModContent.Request<Texture2D>("CalamityMod/CalPlayer/DrawLayers/Backpack_HalleysInferno").Value,
+                    ModContent.Request<Texture2D>("CalamityMod/CalPlayer/DrawLayers/Backpack_CleansingBlaze").Value,
+                    ModContent.Request<Texture2D>("CalamityMod/CalPlayer/DrawLayers/Backpack_ElementalEruption").Value,
+                    ModContent.Request<Texture2D>("CalamityMod/CalPlayer/DrawLayers/Backpack_TheEmpyrean").Value,
+                    ModContent.Request<Texture2D>("CalamityMod/CalPlayer/DrawLayers/Backpack_Meowthrower").Value,
+                    ModContent.Request<Texture2D>("CalamityMod/CalPlayer/DrawLayers/Backpack_OverloadedBlaster").Value,
+                    ModContent.Request<Texture2D>("CalamityMod/CalPlayer/DrawLayers/Backpack_TerraFlameburster").Value,
+                    ModContent.Request<Texture2D>("CalamityMod/CalPlayer/DrawLayers/Backpack_Photoviscerator").Value,
+                    ModContent.Request<Texture2D>("CalamityMod/CalPlayer/DrawLayers/Backpack_Shadethrower").Value,
+                    ModContent.Request<Texture2D>("CalamityMod/CalPlayer/DrawLayers/Backpack_BloodBoiler").Value,
+                    ModContent.Request<Texture2D>("CalamityMod/CalPlayer/DrawLayers/Backpack_PristineFury").Value,
+                    ModContent.Request<Texture2D>("CalamityMod/CalPlayer/DrawLayers/Backpack_AuroraBlazer").Value
                 };
                 if (tankItems.Contains(item.type) || drawPlayer.Calamity().plaguebringerCarapace)
                 {

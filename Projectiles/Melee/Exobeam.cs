@@ -172,7 +172,7 @@ namespace CalamityMod.Projectiles.Melee
             Main.spriteBatch.EnterShaderRegion();
 
             if (TrailTex == null)
-                TrailTex = Request<Texture2D>("CalamityMod/ExtraTextures/BasicTrail");
+                TrailTex = Request<Texture2D>("CalamityMod/ExtraTextures/Trails/BasicTrail");
 
             GameShaders.Misc["CalamityMod:ExobladePierce"].SetShaderTexture(TrailTex);
             GameShaders.Misc["CalamityMod:ExobladePierce"].UseImage2("Images/Extra_189");

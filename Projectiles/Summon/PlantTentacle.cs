@@ -156,7 +156,7 @@ namespace CalamityMod.Projectiles.Summon
             }
 
             Vector2 source = hostPlant.Center;
-            Texture2D chain = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Chains/PlantationChain").Value;
+            Texture2D chain = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/PlantationChain").Value;
             Vector2 goal = Projectile.Center;
             Rectangle? sourceRectangle = null;
             float textureHeight = (float)chain.Height;

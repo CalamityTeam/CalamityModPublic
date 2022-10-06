@@ -237,7 +237,7 @@ namespace CalamityMod.Projectiles.Typeless
             GameShaders.Armor.ApplySecondary(Main.player[Projectile.owner].cBody, Main.player[Projectile.owner], new DrawData?());
             Projectile.rotation = (Projectile.Center - segment[5]).ToRotation();
             Texture2D texture2D13 = ModContent.Request<Texture2D>(Texture).Value;
-            Texture2D segmentSprite = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Chains/OmegaBlueTentacleSegment").Value;
+            Texture2D segmentSprite = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Typeless/OmegaBlueTentacleSegment").Value;
             for (int i = 0; i < 6; i++)
             {
                 Main.spriteBatch.Draw(segmentSprite, segment[i] - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), segmentSprite.Bounds, Projectile.GetAlpha(lightColor), 0f, segmentSprite.Bounds.Size() / 2f, Projectile.scale, SpriteEffects.None, 0);
