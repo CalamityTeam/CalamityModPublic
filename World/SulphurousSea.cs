@@ -162,6 +162,7 @@ namespace CalamityMod.World
             ClearAloneTiles();
             DecideHardSandstoneLine();
             MakeSurfaceLessRigid();
+            //LayTreesOnSurface();
         }
 
         public static void FinishGeneratingSulphurSea()
@@ -312,8 +313,8 @@ namespace CalamityMod.World
 
         public static void GenerateSpaghettiWaterCaves()
         {
-            int width = (int)(BiomeWidth * 0.96f);
-            int depth = (int)(BlockDepth * 0.9f);
+            int width = BiomeWidth;
+            int depth = (int)(BlockDepth * 0.96f);
             ushort wallID = (ushort)ModContent.WallType<SulphurousSandWall>();
 
             for (int c = 0; c < SpaghettiCaveCarveOutThresholds.Length; c++)
@@ -329,7 +330,8 @@ namespace CalamityMod.World
 
                         // Bias noise away from 0, effectively making caves less likely to appear, based on how close it is to the bottom/horizontal edge.
                         // This causes caves to naturally stop as the reach ends instead of abruptly stopping like in the old Sulphurous Sea worldgen.
-                        float biasAwayFrom0Interpolant = Utils.GetLerpValue(0.82f, 0.94f, i / (float)width, true) + Utils.GetLerpValue(0.77f, 0.88f, (y - YStart) / (float)depth, true);
+                        float distanceFromEdge = new Vector2(i / (float)width, (y - YStart) / (float)depth).Length();
+                        float biasAwayFrom0Interpolant = Utils.GetLerpValue(0.82f, 0.96f, distanceFromEdge * 0.8f, true);
 
                         // If the noise is less than 0, bias to -1, if it's greater than 0, bias away to 1.
                         // This is done instead of biasing to -1 or 1 without exception to ensure that in doing so the noise does not cross into the
@@ -352,8 +354,8 @@ namespace CalamityMod.World
 
         public static void GenerateCheeseWaterCaves()
         {
-            int width = (int)(BiomeWidth * 0.96f);
-            int depth = (int)(BlockDepth * 0.9f);
+            int width = BiomeWidth;
+            int depth = (int)(BlockDepth * 0.96f);
             ushort wallID = (ushort)ModContent.WallType<SulphurousSandWall>();
 
             for (int c = 0; c < CheeseCaveCarveOutThresholds.Length; c++)
@@ -366,7 +368,8 @@ namespace CalamityMod.World
                     for (int y = YStart; y < YStart + depth; y++)
                     {
                         float noise = FractalBrownianMotion(i * CheeseCaveMagnification, y * CheeseCaveMagnification, caveSeed, 6);
-                        float biasToNegativeOneInterpolant = Utils.GetLerpValue(0.82f, 0.94f, i / (float)width, true) + Utils.GetLerpValue(0.77f, 0.88f, (y - YStart) / (float)depth, true);
+                        float distanceFromEdge = new Vector2(i / (float)width, (y - YStart) / (float)depth).Length();
+                        float biasToNegativeOneInterpolant = Utils.GetLerpValue(0.82f, 0.96f, distanceFromEdge * 0.8f, true);
                         biasToNegativeOneInterpolant += Utils.GetLerpValue(YStart + OpenCavernStartDepthPercentage * depth, YStart + OpenCavernStartDepthPercentage * depth - 25f, y, true);
                         if (noise - biasToNegativeOneInterpolant > CheeseCaveCarveOutThresholds[c])
                         {
@@ -393,7 +396,7 @@ namespace CalamityMod.World
             {
                 Tile t = CalamityUtils.ParanoidTileRetrieval(x, y);
                 Point p = new(x, y);
-                if (t.TileType != blockTileType || !t.HasTile || points.Count > 512 || points.Contains(p))
+                if (t.TileType != blockTileType || !t.HasTile || points.Count > 300 || points.Contains(p))
                     return;
 
                 points.Add(p);
@@ -414,7 +417,7 @@ namespace CalamityMod.World
                     List<Point> chunkPoints = new();
                     recursivelyGetAttachedPoints(x, y, chunkPoints);
 
-                    int cutoffLimit = y >= YStart + depth * OpenCavernStartDepthPercentage ? 512 : 50;
+                    int cutoffLimit = y >= YStart + depth * OpenCavernStartDepthPercentage ? 300 : 50;
                     if (chunkPoints.Count >= 2 && chunkPoints.Count < cutoffLimit)
                     {
                         foreach (Point p in chunkPoints)
