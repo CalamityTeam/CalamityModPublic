@@ -232,15 +232,12 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 			}
 		}
 
-		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => OnHitEffect(target.Center);
-
-		public override void OnHitPvp(Player target, int damage, bool crit) => OnHitEffect(target.Center);
-
-		private void OnHitEffect(Vector2 position)
+		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
             if ((Behavior == 2f || Behavior == 3f) && Main.rand.NextBool(5))
 			{
-                CombatText.NewText(position, new Color(239, 113, 152), "Stylish!", true);
+                Rectangle location = new Rectangle((int)target.position.X, (int)target.position.Y, target.width, target.height);
+                CombatText.NewText(location, new Color(239, 113, 152), "Stylish!", true);
                 Projectile.soundDelay = 60;
             }
         }
