@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -81,11 +81,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             Projectile.position = Projectile.Center;
             Projectile.width = Projectile.height = height;
             Projectile.Center = Projectile.position;
-            Projectile.maxPenetrate = -1;
-            Projectile.penetrate = -1;
-            Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 10;
-            Projectile.Damage();
+            Projectile.damage = 0;
 
             LaserBurst(2.4f, 4.2f); // 60 dusts
 
