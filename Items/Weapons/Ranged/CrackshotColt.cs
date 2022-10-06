@@ -1,16 +1,10 @@
 ﻿using System;
-using System.IO;
 using CalamityMod.Items.Materials;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.Audio;
-using Terraria.DataStructures;
-using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.ModLoader.IO;
-using static CalamityMod.CalamityUtils;
 using CalamityMod.Projectiles.Ranged;
 
 namespace CalamityMod.Items.Weapons.Ranged
@@ -23,7 +17,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         public static readonly SoundStyle BlingHitSound = new("CalamityMod/Sounds/Custom/UltrablingHit") { PitchVariance = 0.5f };
 
         public static float MaxDownwardsAngle4Coin = MathHelper.PiOver4;
-        public static float RicochetDamageMult = 2f;
+        public static float RicochetDamageMult = 2.5f;
 
         public override void SetStaticDefaults()
         {
@@ -56,7 +50,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override bool AltFunctionUse(Player player) => true;
         public override void HoldItem(Player player) => player.Calamity().mouseWorldListener = true;
-        public override bool CanConsumeAmmo(Item ammo, Player player) => player.altFunctionUse == 2 ? false : true;
+        public override bool CanConsumeAmmo(Item ammo, Player player) => player.altFunctionUse != 2;
 
         public override bool CanUseItem(Player player)
         {
