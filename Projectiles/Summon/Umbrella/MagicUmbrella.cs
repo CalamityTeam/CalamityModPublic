@@ -275,7 +275,6 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 			Vector2 playerVec = returnPos - Projectile.Center;
 			float playerDist = playerVec.Length();
 
-			// If the minion is actively returning, move faster
 			float playerHomeSpeed = 40f;
 			//Return to normal if close enough to the player
 			if (playerDist < 150f && returningToPlayer && !Collision.SolidCollision(Projectile.position, Projectile.width, Projectile.height))
@@ -294,7 +293,7 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 			{
 				playerVec.Normalize();
 				playerVec *= playerHomeSpeed;
-				Projectile.velocity = (Projectile.velocity * 40f + playerVec) / 41f;
+				Projectile.velocity = (Projectile.velocity * 10f + playerVec) / 11f;
 			}
 			else
 			{

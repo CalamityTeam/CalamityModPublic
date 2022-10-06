@@ -1,9 +1,11 @@
 ﻿using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Projectiles.Summon.Umbrella
 {
     public class MagicHat : ModProjectile
@@ -58,16 +60,21 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 
 			if (Projectile.ai[0] == 1f)
 			{
-				float projectileCount = 2f;
-                float angleVariance = MathHelper.TwoPi / projectileCount;
+				List<int> Projectiles = new List<int>()
+				{
+					ModContent.ProjectileType<MagicRifle>(),
+					ModContent.ProjectileType<MagicUmbrella>(),
+					ModContent.ProjectileType<MagicHammer>(),
+				};
+                float angleVariance = MathHelper.TwoPi / Projectiles.Count;
                 float angle = 0f;
-				int p = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<MagicRifle>(), Projectile.damage, Projectile.knockBack, Projectile.owner, angle);
-				if (Main.projectile.IndexInRange(p))
-					Main.projectile[p].originalDamage = Projectile.originalDamage;
-				angle += angleVariance;
-				p = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<MagicUmbrella>(), Projectile.damage, Projectile.knockBack, Projectile.owner, angle);
-				if (Main.projectile.IndexInRange(p))
-					Main.projectile[p].originalDamage = Projectile.originalDamage;
+				foreach (int projType in Projectiles)
+				{
+					int p = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, projType, Projectile.damage, Projectile.knockBack, Projectile.owner, angle);
+					if (Main.projectile.IndexInRange(p))
+						Main.projectile[p].originalDamage = Projectile.originalDamage;
+					angle += angleVariance;
+				}
 			}
 			Projectile.ai[0]++;
 
@@ -123,6 +130,7 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
                         }
                     }
                 }
+				//enemyDetected = false;
                 if (enemyDetected)
                 {
                     if (Projectile.ai[1]++ % 50f == 25f)
