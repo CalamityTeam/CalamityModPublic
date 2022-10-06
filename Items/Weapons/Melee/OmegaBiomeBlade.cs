@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public bool OnHitProc = false;
 
         #region stats
-        public static int BaseDamage = 400;
+        public static int BaseDamage = 200;
 
         public static int WhirlwindAttunement_BaseDamage = 140;
         public static int WhirlwindAttunement_LocalIFrames = 20; //Remember its got one extra update
