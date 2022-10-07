@@ -20,7 +20,7 @@ namespace CalamityMod.Tiles.Abyss
             TileObjectData.newTile.Width = 2;
             TileObjectData.newTile.Height = 3;
             TileObjectData.newTile.Origin = new Point16(1, 2);
-            TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop | AnchorType.Table | AnchorType.SolidSide, TileObjectData.newTile.Width, 0);
+            TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile, TileObjectData.newTile.Width, 0);
             TileObjectData.newTile.UsesCustomCanPlace = true;
             TileObjectData.newTile.CoordinateHeights = new int[]
             {
@@ -32,7 +32,6 @@ namespace CalamityMod.Tiles.Abyss
             TileObjectData.newTile.CoordinatePadding = 2;
             TileObjectData.newTile.WaterDeath = false;
             TileObjectData.newTile.LavaDeath = true;
-            TileObjectData.newTile.DrawYOffset = 2;
             TileObjectData.addTile(Type);
             ModTranslation name = CreateMapEntryName();
             AddMapEntry(new Color(150, 100, 50), name);

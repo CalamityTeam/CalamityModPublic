@@ -784,6 +784,14 @@ namespace CalamityMod.ILEditing
                 initialColor.TopRightColor = SelectLavaColor(initialTexture, initialColor.TopRightColor, liquidType == 1);
                 initialColor.BottomLeftColor = SelectLavaColor(initialTexture, initialColor.BottomLeftColor, liquidType == 1);
                 initialColor.BottomRightColor = SelectLavaColor(initialTexture, initialColor.BottomRightColor, liquidType == 1);
+                if (liquidType == ModContent.Find<ModWaterStyle>("CalamityMod/SulphuricWater").Slot)
+                {
+                    initialColor.TopLeftColor *= 0.4f;
+                    initialColor.TopRightColor *= 0.4f;
+                    initialColor.BottomLeftColor *= 0.4f;
+                    initialColor.BottomRightColor *= 0.4f;
+                }
+
                 return initialColor;
             });
         }
@@ -876,6 +884,19 @@ namespace CalamityMod.ILEditing
             cursor.Emit(OpCodes.Stloc, 54);
         }
         #endregion Custom Lava Visuals
+
+        #region Sulph Sea Water Visuals
+        private static void MakeSulphSeaWaterBetter(On.Terraria.Graphics.Light.TileLightScanner.orig_GetTileLight orig, TileLightScanner self, int x, int y, out Vector3 outputColor)
+        {
+            orig(self, x, y, out outputColor);
+
+            Tile tile = CalamityUtils.ParanoidTileRetrieval(x, y);
+            if (tile.LiquidAmount <= 0 || tile.HasTile || Main.waterStyle != ModContent.Find<ModWaterStyle>("CalamityMod/SulphuricWater").Slot)
+                return;
+
+            outputColor = Vector3.Lerp(outputColor, Color.LightSeaGreen.ToVector3(), 0.41f);
+        }
+        #endregion Sulph Sea Water Visuals
 
         #region Statue Additions
         /// <summary>

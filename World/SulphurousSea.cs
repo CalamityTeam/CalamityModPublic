@@ -86,6 +86,11 @@ namespace CalamityMod.World
 
         public const int TreeGrowChance = 5;
 
+        // The percentage of tiles on average that should be transformed into water.
+        // A value of 1 indicates that every tile should have water.
+        // This value should be close to 1, but not exactly, so that when water settles the top of caverns will be open.
+        public const float WaterSpreadPercentage = 0.95f;
+
         public static int BiomeWidth
         {
             get
@@ -127,13 +132,15 @@ namespace CalamityMod.World
 
         public static int MaxTopWaterDepth => (int)(BlockDepth * TopWaterDepthPercentage);
 
-        public static int MinCaveWidth => (int)(Main.maxTilesX / 2500f);
+        public static int MinCaveWidth => Main.maxTilesX / 2500;
 
         public static int MaxCaveWidth => (int)Math.Ceiling(Main.maxTilesX / 566f);
 
         public static int MinCaveMovementSteps => (int)Math.Ceiling(Main.maxTilesX / 70f);
 
         public static int MaxCaveMovementSteps => (int)Math.Ceiling(Main.maxTilesX / 40f);
+
+        public static int ColumnCount => Main.maxTilesX / 76;
 
         public static int YStart
         {
@@ -160,11 +167,12 @@ namespace CalamityMod.World
             GenerateCheeseWaterCaves();
             ClearOutStrayTiles();
 
-            // Lay down decorations after the caves are generated.
+            // Lay down decorations and post-processing effects after the caves are generated.
             ClearAloneTiles();
             DecideHardSandstoneLine();
             MakeSurfaceLessRigid();
             LayTreesOnSurface();
+            GeneratePillarsInCaverns();
         }
 
         public static void FinishGeneratingSulphurSea()
@@ -288,7 +296,7 @@ namespace CalamityMod.World
                         {
                             new Actions.ClearTile(true),
                             new Actions.PlaceWall(wallID, true),
-                            new Actions.SetLiquid()
+                            new Actions.SetLiquid(LiquidID.Water, (byte)(WorldGen.genRand.NextFloat() > WaterSpreadPercentage ? 0 : byte.MaxValue))
                         }));
                     }
 
@@ -346,7 +354,7 @@ namespace CalamityMod.World
                             {
                                 new Actions.ClearTile(true),
                                 new Actions.PlaceWall(wallID, true),
-                                new Actions.SetLiquid()
+                                new Actions.SetLiquid(LiquidID.Water, (byte)(WorldGen.genRand.NextFloat() > WaterSpreadPercentage ? 0 : byte.MaxValue))
                             }));
                         }
                     }
@@ -379,7 +387,7 @@ namespace CalamityMod.World
                             {
                                 new Actions.ClearTile(true),
                                 new Actions.PlaceWall(wallID, true),
-                                new Actions.SetLiquid()
+                                new Actions.SetLiquid(LiquidID.Water, (byte)(WorldGen.genRand.NextFloat() > WaterSpreadPercentage ? 0 : byte.MaxValue))
                             }));
                         }
                     }
@@ -539,19 +547,25 @@ namespace CalamityMod.World
         public static void LayTreesOnSurface()
         {
             int width = BiomeWidth;
+            
             for (int i = 0; i < width - 8; i++)
             {
+                // Only sometimes generate trees.
                 if (!WorldGen.genRand.NextBool(TreeGrowChance))
                     continue;
 
                 int x = GetActualX(i);
                 int y = YStart - 30;
+
+                // Search downward in hopes of finding a position to generate and grow an acorn.
+                // If no such downward tile exists, skip this tile.
                 if (!WorldUtils.Find(new(x, y), Searches.Chain(new Searches.Down(MaxIslandDepth + 31), new Conditions.IsSolid()), out Point growPoint))
                     continue;
 
                 x = growPoint.X;
                 y = growPoint.Y - 1;
 
+                // Ignore tiles if there's water above.
                 if (CalamityUtils.ParanoidTileRetrieval(x, y).LiquidAmount > 0)
                     continue;
 
@@ -562,6 +576,49 @@ namespace CalamityMod.World
             }
         }
 
+        public static void GeneratePillarsInCaverns()
+        {
+            int columnCount = ColumnCount;
+            int width = BiomeWidth;
+            int depth = BlockDepth;
+            int maxColumnHeight = 45;
+            var searchCondition = Searches.Chain(new Searches.Up(maxColumnHeight), new Conditions.IsSolid());
+
+            for (int c = 0; c < columnCount; c++)
+            {
+                int x = GetActualX(WorldGen.genRand.Next(20, width - 32));
+                int y = WorldGen.genRand.Next(YStart, YStart + depth - 30);
+
+                bool tryAgain = false;
+
+                // Try again if inside a tile.
+                Tile tile = CalamityUtils.ParanoidTileRetrieval(x, y);
+                Tile bottom = CalamityUtils.ParanoidTileRetrieval(x, y + 1);
+                Tile bottomRight = CalamityUtils.ParanoidTileRetrieval(x + 1, y + 1);
+                if (tile.HasTile)
+                    tryAgain = true;
+
+                // Try again if there is no bottom tile.
+                if (!bottom.HasTile || !bottomRight.HasTile)
+                    tryAgain = true;
+
+                // Try again if there is no tile above or the ceiling is not level.
+                if (!WorldUtils.Find(new(x, y), searchCondition, out Point top) ||
+                    !WorldUtils.Find(new(x + 1, y), searchCondition, out Point topRight) || top.Y != topRight.Y)
+                {
+                    tryAgain = true;
+                }
+
+                if (tryAgain)
+                {
+                    c--;
+                    continue;
+                }
+
+                GeneratePillar(x, top.Y, y);
+            }
+        }
+
         public static void CreateBeachNearSea()
         {
             int beachWidth = WorldGen.genRand.Next(150, 190 + 1);
@@ -569,7 +626,7 @@ namespace CalamityMod.World
             var searchCondition = Searches.Chain(new Searches.Down(3000), new Conditions.IsSolid());
             WorldUtils.Find(new Point(BiomeWidth + 4, (int)WorldGen.worldSurfaceLow - 20), searchCondition, out Point determinedPoint);
             Tile tileAtEdge = CalamityUtils.ParanoidTileRetrieval(determinedPoint.X, determinedPoint.Y);
-
+            
             // Extend outward to encompass some of the desert, if there is one.
             if (tileAtEdge.TileType is TileID.Sand or TileID.Ebonsand or TileID.Crimsand)
                 beachWidth += 85;
@@ -797,6 +854,36 @@ namespace CalamityMod.World
             }
 
             return result;
+        }
+
+        public static void GeneratePillar(int left, int top, int bottom)
+        {
+            int depth = BlockDepth;
+            ushort pillarID = (ushort)ModContent.TileType<SulphurousColumn>();
+            ushort hardenedSandstoneWallID = (ushort)ModContent.WallType<HardenedSulphurousSandstoneWall>();
+            ushort sandWallID = (ushort)ModContent.WallType<SulphurousSandWall>();
+            short variantFrameOffset = (short)(WorldGen.genRand.Next(3) * 36);
+
+            for (int x = left; x < left + 2; x++)
+            {
+                for (int y = top; y <= bottom; y++)
+                {
+                    short frameX = (short)((x - left) * 18 + variantFrameOffset);
+
+                    // Use the top frame if at the top, bottom frame if at the bottom, and the middle frame otherwise.
+                    short frameY = 18;
+                    if (y == top)
+                        frameY = 0;
+                    else if (y == bottom)
+                        frameY = 36;
+
+                    Main.tile[x, y].TileType = pillarID;
+                    Main.tile[x, y].TileFrameX = frameX;
+                    Main.tile[x, y].TileFrameY = frameY;
+                    Main.tile[x, y].WallType = y >= YStart + depth * OpenCavernStartDepthPercentage ? hardenedSandstoneWallID : sandWallID;
+                    Main.tile[x, y].Get<TileWallWireStateData>().HasTile = true;
+                }
+            }
         }
         #endregion
     }
