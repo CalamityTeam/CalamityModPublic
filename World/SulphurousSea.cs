@@ -169,7 +169,7 @@ namespace CalamityMod.World
 
         public static void FinishGeneratingSulphurSea()
         {
-
+            CreateBeachNearSea();
         }
         #endregion
 
@@ -485,7 +485,7 @@ namespace CalamityMod.World
                     int sandstoneLineOffset = (int)(FractalBrownianMotion(i * HardenedSandstoneLineMagnification, y * HardenedSandstoneLineMagnification, sandstoneSeed, 7) * 30) + (int)(depth * OpenCavernStartDepthPercentage);
 
                     // Make the sandstone line descent a little bit the closer it is to the world edge, to make it look like it "warps" towards the abyss.
-                    sandstoneLineOffset -= (int)(Math.Pow(Utils.GetLerpValue(width * 0.1f, width * 0.8f, i, true), 1.72f) * 45f);
+                    sandstoneLineOffset -= (int)(Math.Pow(Utils.GetLerpValue(width * 0.1f, width * 0.8f, i, true), 1.72f) * 67f);
 
                     Point p = new(GetActualX(i), y);
                     Tile t = CalamityUtils.ParanoidTileRetrieval(p.X, p.Y);
@@ -520,6 +520,8 @@ namespace CalamityMod.World
                 if (t.HasTile)
                 {
                     float noise = FractalBrownianMotion(i * IslandLineMagnification, y * IslandLineMagnification, heightSeed, 5) * 0.5f + 0.5f;
+                    noise = MathHelper.Lerp(noise, 0.5f, Utils.GetLerpValue(width - 13f, width - 1f, i, true));
+
                     int heightOffset = -(int)Math.Round(MathHelper.Lerp(-MaxIslandDepth, MaxIslandHeight, noise));
                     for (int dy = 0; dy != heightOffset; dy += Math.Sign(heightOffset))
                     {
@@ -555,7 +557,66 @@ namespace CalamityMod.World
 
                 Main.tile[x, y].TileType = TileID.Saplings;
                 Main.tile[x, y].Get<TileWallWireStateData>().HasTile = true;
-                WorldGen.GrowPalmTree(x, y);
+                if (!WorldGen.GrowPalmTree(x, y))
+                    WorldGen.KillTile(x, y);
+            }
+        }
+
+        public static void CreateBeachNearSea()
+        {
+            int beachWidth = WorldGen.genRand.Next(150, 190 + 1);
+
+            var searchCondition = Searches.Chain(new Searches.Down(3000), new Conditions.IsSolid());
+            WorldUtils.Find(new Point(BiomeWidth + 4, (int)WorldGen.worldSurfaceLow - 20), searchCondition, out Point determinedPoint);
+            Tile tileAtEdge = CalamityUtils.ParanoidTileRetrieval(determinedPoint.X, determinedPoint.Y);
+
+            // Extend outward to encompass some of the desert, if there is one.
+            if (tileAtEdge.TileType is TileID.Sand or TileID.Ebonsand or TileID.Crimsand)
+                beachWidth += 85;
+
+            // Transform the landscape.
+            for (int i = BiomeWidth - 10; i <= BiomeWidth + beachWidth; i++)
+            {
+                int x = GetActualX(i);
+                float xRatio = Utils.GetLerpValue(BiomeWidth - 10, BiomeWidth + beachWidth, i, true);
+                float ditherChance = Utils.GetLerpValue(0.92f, 0.99f, xRatio, true);
+                int depth = (int)(Math.Sin((1f - xRatio) * MathHelper.PiOver2) * 45f + 1f);
+                for (int y = YStart - 50; y < YStart + depth; y++)
+                {
+                    Tile tileAtPosition = CalamityUtils.ParanoidTileRetrieval(x, y);
+                    if (tileAtPosition.HasTile && ValidBeachDestroyTiles.Contains(tileAtPosition.TileType))
+                    {
+                        // Kill trees manually so that no leftover tiles are present.
+                        if (Main.tile[x, y].TileType == TileID.Trees)
+                            WorldGen.KillTile(x, y);
+                        else
+                            Main.tile[x, y].Get<TileWallWireStateData>().HasTile = false;
+                    }
+
+                    else if (tileAtPosition.HasTile && ValidBeachCovertTiles.Contains(tileAtPosition.TileType) && WorldGen.genRand.NextFloat() >= ditherChance)
+                        Main.tile[x, y].TileType = (ushort)ModContent.TileType<SulphurousSand>();
+                }
+            }
+
+            // Plant new trees.
+            for (int x = BiomeWidth - 10; x <= BiomeWidth + beachWidth; x++)
+            {
+                int trueX = Abyss.AtLeftSideOfWorld ? x : Main.maxTilesX - x;
+                if (!WorldGen.genRand.NextBool(10))
+                    continue;
+
+                int y = YStart - 30;
+                if (!WorldUtils.Find(new Point(trueX, y), Searches.Chain(new Searches.Down(100), new Conditions.IsTile((ushort)ModContent.TileType<SulphurousSand>())), out Point treePlantPosition))
+                    continue;
+
+                treePlantPosition.Y--;
+
+                // Place the saplings and try to grow them.
+                WorldGen.PlaceTile(treePlantPosition.X, treePlantPosition.Y, ModContent.TileType<AcidWoodTreeSapling>());
+                Main.tile[treePlantPosition].TileType = TileID.Saplings;
+                Main.tile[treePlantPosition].Get<TileWallWireStateData>().HasTile = true;
+                if (!WorldGen.GrowPalmTree(treePlantPosition.X, treePlantPosition.Y))
+                    WorldGen.KillTile(treePlantPosition.X, treePlantPosition.Y);
             }
         }
         #endregion Generation Functions
@@ -638,6 +699,45 @@ namespace CalamityMod.World
             WallID.CorruptGrassUnsafe,
             WallID.EbonstoneUnsafe,
             WallID.CrimstoneUnsafe,
+        };
+
+        public static readonly List<int> ValidBeachCovertTiles = new()
+        {
+            TileID.Dirt,
+            TileID.Stone,
+            TileID.Crimstone,
+            TileID.Ebonstone,
+            TileID.Sand,
+            TileID.Ebonsand,
+            TileID.Crimsand,
+            TileID.Grass,
+            TileID.CorruptGrass,
+            TileID.CrimsonGrass,
+            TileID.ClayBlock,
+            TileID.Mud,
+        };
+
+        public static readonly List<int> ValidBeachDestroyTiles = new()
+        {
+            TileID.Coral,
+            TileID.BeachPiles,
+            TileID.Plants,
+            TileID.Plants2,
+            TileID.SmallPiles,
+            TileID.LargePiles,
+            TileID.LargePiles2,
+            TileID.CorruptThorns,
+            TileID.CrimsonThorns,
+            TileID.DyePlants,
+            TileID.Trees,
+            TileID.Sunflower,
+            TileID.LilyPad,
+            TileID.SeaOats,
+            TileID.ImmatureHerbs,
+            TileID.MatureHerbs,
+            TileID.BloomingHerbs,
+            TileID.VanityTreeSakura,
+            TileID.VanityTreeYellowWillow,
         };
 
         // This method is an involutory function, meaning that applying it to the same number twice always yields the original number.

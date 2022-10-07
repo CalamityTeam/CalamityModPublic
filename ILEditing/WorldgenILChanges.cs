@@ -49,7 +49,7 @@ namespace CalamityMod.ILEditing
 
             cursor.EmitDelegate<Action>(() =>
             {
-                WorldGen.dungeonX = Utils.Clamp(WorldGen.dungeonX, SulphurousSea.BiomeWidth + 100, Main.maxTilesX - SulphurousSea.BiomeWidth - 100);
+                WorldGen.dungeonX = Utils.Clamp(WorldGen.dungeonX, SulphurousSea.BiomeWidth + 167, Main.maxTilesX - SulphurousSea.BiomeWidth - 167);
 
                 // Adjust the Y position of the dungeon to accomodate for the X shift.
                 WorldUtils.Find(new Point(WorldGen.dungeonX, WorldGen.dungeonY), Searches.Chain(new Searches.Down(9001), new Conditions.IsSolid()), out Point result);

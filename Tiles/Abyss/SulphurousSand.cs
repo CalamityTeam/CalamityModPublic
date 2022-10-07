@@ -50,7 +50,7 @@ namespace CalamityMod.Tiles.Abyss
                 if (!Main.tile[i, tileLocationY].HasTile)
                 {
                     if (!CalamityPlayer.areThereAnyDamnBosses && Main.tile[i, tileLocationY].LiquidAmount == 255 && Main.tile[i, tileLocationY - 1].LiquidAmount == 255 &&
-                        Main.tile[i, tileLocationY - 2].LiquidAmount == 255 && Main.netMode != NetmodeID.MultiplayerClient)
+                        Main.tile[i, tileLocationY - 2].LiquidAmount == 255 && !Main.tile[i, tileLocationY - 2].HasTile && Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         Projectile.NewProjectile(new EntitySource_WorldEvent(), (float)(i * 16 + 16), (float)(tileLocationY * 16 + 16), 0f, -0.1f, ModContent.ProjectileType<SulphuricAcidBubble>(), 0, 2f, Main.myPlayer, 0f, 0f);
                     }
