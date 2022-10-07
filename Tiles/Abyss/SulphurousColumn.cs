@@ -42,14 +42,14 @@ namespace CalamityMod.Tiles.Abyss
         }
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            if (Main.netMode != NetmodeID.Server)
+            if (Main.netMode == NetmodeID.Server)
+                return;
+
+            // Explode into a bunch of rocks when broken.
+            for (int k = 0; k < WorldGen.genRand.Next(3, 4 + 1); k++)
             {
-                for (int k = 0; k < WorldGen.genRand.Next(3, 4 + 1); k++)
-                {
-                    Gore.NewGore(new EntitySource_TileBreak(i, j), new Vector2(i, j) * 16f,
-                        Vector2.One.RotatedByRandom(MathHelper.TwoPi) * WorldGen.genRand.NextFloat(1.4f, 3.2f),
-                        Mod.Find<ModGore>($"SulphurousRockGore{WorldGen.genRand.Next(3) + 1}").Type);
-                }
+                int goreID = Mod.Find<ModGore>($"SulphurousRockGore{WorldGen.genRand.Next(3) + 1}").Type;
+                Gore.NewGore(new EntitySource_TileBreak(i, j), new Vector2(i, j) * 16f, Main.rand.NextVector2Unit() * WorldGen.genRand.NextFloat(1.4f, 3.2f), goreID);
             }
         }
         public override void NumDust(int i, int j, bool fail, ref int num)

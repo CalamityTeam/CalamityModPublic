@@ -1,7 +1,4 @@
-﻿using CalamityMod.Items;
-using CalamityMod.Items.Accessories;
-using CalamityMod.Items.Weapons.Summon;
-using CalamityMod.Schematics;
+﻿using CalamityMod.Schematics;
 using CalamityMod.Tiles.Abyss;
 using CalamityMod.Walls;
 using Microsoft.Xna.Framework;
@@ -20,7 +17,6 @@ namespace CalamityMod.World
     {
         #region Fields and Properties
 
-        // Loop variables that are accessed via getter methods should be stored externally in local variables for performance reasons.
         public static readonly List<int> SulphSeaTiles = new()
         {
             ModContent.TileType<SulphurousSand>(),
@@ -35,7 +31,7 @@ namespace CalamityMod.World
         // start randomly dithering.
         public const float DitherStartFactor = 0.9f;
 
-        public const int DepthForWater = 18;
+        public const int DepthForWater = 12;
 
         public const float TopWaterDepthPercentage = 0.125f;
 
@@ -46,6 +42,10 @@ namespace CalamityMod.World
         public const int TotalSandTilesBeforeWaterMin = 32;
 
         public const int TotalSandTilesBeforeWaterMax = 45;
+
+        public const float OpenSeaWidthPercentage = 0.53f;
+
+        public const float IslandCurvatureSharpness = 0.74f;
 
         // 0-1 value of how jagged the small caves should be. The higher this value is, the more variance you can expect for each step when carving out caves.
         public const float SmallCavesJaggedness = 0.51f;
@@ -76,6 +76,11 @@ namespace CalamityMod.World
         // Percentage of how far down a tile has to be for open caverns to appear.
         public const float OpenCavernStartDepthPercentage = 0.42f;
 
+        // The percentage of tiles on average that should be transformed into water.
+        // A value of 1 indicates that every tile should have water.
+        // This value should be close to 1, but not exactly, so that when water settles the top of caverns will be open.
+        public const float WaterSpreadPercentage = 0.95f;
+
         public const float HardenedSandstoneLineMagnification = 0.004f;
 
         public const int MaxIslandHeight = 16;
@@ -86,11 +91,17 @@ namespace CalamityMod.World
 
         public const int TreeGrowChance = 5;
 
-        // The percentage of tiles on average that should be transformed into water.
-        // A value of 1 indicates that every tile should have water.
-        // This value should be close to 1, but not exactly, so that when water settles the top of caverns will be open.
-        public const float WaterSpreadPercentage = 0.95f;
+        public const int MinColumnHeight = 5;
 
+        public const int MaxColumnHeight = 50;
+
+        public const int BeachMaxDepth = 50;
+
+        public const int ScrapPileAnticlumpDistance = 80;
+
+        public const float SandstoneEdgeNoiseMagnification = 0.00115f;
+
+        // Loop variables that are accessed via getter methods should be stored externally in local variables for performance reasons.
         public static int BiomeWidth
         {
             get
@@ -155,11 +166,15 @@ namespace CalamityMod.World
         #region Placement Methods
         public static void PlaceSulphurSea()
         {
+            // Determine which side the abyss is such that it's at the same side as the dungeon.
             Abyss.AtLeftSideOfWorld = Main.dungeonX < Main.maxTilesX / 2;
+
+            // Settle the foundation for the sea. This involves creating the base sulphurous sea block, old tile cleanup, and creating water at the surface.
             DetermineYStart();
             GenerateSandBlock();
             RemoveStupidTilesAboveSea();
             GenerateShallowTopWater();
+            GenerateIsland();
 
             // Cave generation. Some of these borrow concepts and tricks used by Minecraft's new generation.
             GenerateSmallWaterCaverns();
@@ -172,12 +187,14 @@ namespace CalamityMod.World
             DecideHardSandstoneLine();
             MakeSurfaceLessRigid();
             LayTreesOnSurface();
-            GeneratePillarsInCaverns();
         }
-
-        public static void FinishGeneratingSulphurSea()
+        
+        public static void SulphurSeaGenerationAfterAbyss()
         {
             CreateBeachNearSea();
+            PlaceScrapPiles();
+            GeneratePillarsInCaverns();
+            GenerateHardenedSandstone();
         }
         #endregion
 
@@ -237,8 +254,9 @@ namespace CalamityMod.World
         {
             int maxDepth = MaxTopWaterDepth;
             int totalSandTilesBeforeWater = WorldGen.genRand.Next(TotalSandTilesBeforeWaterMin, TotalSandTilesBeforeWaterMax);
-            int width = (int)((BiomeWidth - totalSandTilesBeforeWater) * 0.42f);
+            int width = (int)((BiomeWidth - totalSandTilesBeforeWater) * OpenSeaWidthPercentage);
             float descentSmoothness = WorldGen.genRand.NextFloat(TopWaterDescentSmoothnessMin, TopWaterDescentSmoothnessMax);
+            
             for (int i = 1; i < width; i++)
             {
                 int x = GetActualX(i);
@@ -259,6 +277,37 @@ namespace CalamityMod.World
                 // Clear water that's above the level for some reason.
                 for (int y = top - 150; y < top + DepthForWater; y++)
                     Main.tile[x, y].LiquidAmount = 0;
+            }
+        }
+
+        public static void GenerateIsland()
+        {
+            int left = -32;
+            int right = (int)(BiomeWidth * OpenSeaWidthPercentage * 0.68f);
+            int maxDepth = MaxTopWaterDepth;
+            ushort blockTileType = (ushort)ModContent.TileType<SulphurousSand>();
+            ushort wallID = (ushort)ModContent.WallType<SulphurousSandWall>();
+
+            for (int i = left; i < right; i++)
+            {
+                if (i < 0)
+                    continue;
+
+                // Generate a bump at the edge of the ocean as an island.
+                // The inside of this is by default solid but cave generation can sometimes create a really cool "hollow" look.
+                int x = GetActualX(i);
+                float xCompletionRatio = Utils.GetLerpValue(left, right, i, true);
+                int islandHeight = (int)Math.Round(Math.Pow(CalamityUtils.Convert01To010(xCompletionRatio), IslandCurvatureSharpness) * (maxDepth + 4f));
+                for (int dy = -30; dy <= islandHeight; dy++)
+                {
+                    int y = YStart + maxDepth - dy;
+                    Main.tile[x, y].TileType = blockTileType;
+
+                    if (dy < islandHeight)
+                        Main.tile[x, y].WallType = wallID;
+                    Main.tile[x, y].LiquidAmount = byte.MaxValue;
+                    Main.tile[x, y].Get<TileWallWireStateData>().HasTile = true;
+                }
             }
         }
 
@@ -342,6 +391,7 @@ namespace CalamityMod.World
                         // This causes caves to naturally stop as the reach ends instead of abruptly stopping like in the old Sulphurous Sea worldgen.
                         float distanceFromEdge = new Vector2(i / (float)width, (y - YStart) / (float)depth).Length();
                         float biasAwayFrom0Interpolant = Utils.GetLerpValue(0.82f, 0.96f, distanceFromEdge * 0.8f, true);
+                        biasAwayFrom0Interpolant += Utils.GetLerpValue(YStart + 12f, YStart, y, true) * 0.2f;
 
                         // If the noise is less than 0, bias to -1, if it's greater than 0, bias away to 1.
                         // This is done instead of biasing to -1 or 1 without exception to ensure that in doing so the noise does not cross into the
@@ -401,22 +451,21 @@ namespace CalamityMod.World
             int depth = BlockDepth;
             ushort blockTileType = (ushort)ModContent.TileType<SulphurousSand>();
             ushort wallID = (ushort)ModContent.WallType<SulphurousSandWall>();
-
-            void recursivelyGetAttachedPoints(int x, int y, List<Point> points)
+            
+            void getAttachedPoints(int x, int y, List<Point> points)
             {
                 Tile t = CalamityUtils.ParanoidTileRetrieval(x, y);
                 Point p = new(x, y);
-                if (t.TileType != blockTileType || !t.HasTile || points.Count > 300 || points.Contains(p))
+                if (t.TileType != blockTileType || !t.HasTile || points.Count > 300 || points.Contains(p) || CalculateDitherChance(width, YStart, YStart + depth, x, y) > 0f)
                     return;
 
                 points.Add(p);
 
-                recursivelyGetAttachedPoints(x + 1, y, points);
-                recursivelyGetAttachedPoints(x - 1, y, points);
-                recursivelyGetAttachedPoints(x, y + 1, points);
-                recursivelyGetAttachedPoints(x, y - 1, points);
+                getAttachedPoints(x + 1, y, points);
+                getAttachedPoints(x - 1, y, points);
+                getAttachedPoints(x, y + 1, points);
+                getAttachedPoints(x, y - 1, points);
             }
-
 
             // Clear out stray chunks created by caverns.
             for (int i = 1; i < width; i++)
@@ -425,7 +474,7 @@ namespace CalamityMod.World
                 for (int y = YStart; y < YStart + depth; y++)
                 {
                     List<Point> chunkPoints = new();
-                    recursivelyGetAttachedPoints(x, y, chunkPoints);
+                    getAttachedPoints(x, y, chunkPoints);
 
                     int cutoffLimit = y >= YStart + depth * OpenCavernStartDepthPercentage ? 300 : 50;
                     if (chunkPoints.Count >= 2 && chunkPoints.Count < cutoffLimit)
@@ -536,7 +585,7 @@ namespace CalamityMod.World
                         WorldUtils.Gen(new(x, y + dy), new Shapes.Rectangle(1, 1), Actions.Chain(new GenAction[]
                         {
                             heightOffset > 0 ? new Actions.ClearTile() : new Actions.SetTile(blockTileType, true),
-                            new Actions.PlaceWall(MathHelper.Distance(dy, heightOffset) >= 2f ? wallID : WallID.None, true),
+                            new Actions.PlaceWall(MathHelper.Distance(dy, heightOffset) >= 2f && heightOffset < 0f ? wallID : WallID.None, true),
                             new Actions.SetLiquid()
                         }));
                     }
@@ -576,13 +625,153 @@ namespace CalamityMod.World
             }
         }
 
+        public static void GenerateHardenedSandstone()
+        {
+            int sandstoneSeed = WorldGen.genRand.Next();
+            ushort sandstoneID = (ushort)ModContent.TileType<SulphurousSandstone>();
+            ushort sandstoneWallID = (ushort)ModContent.WallType<SulphurousSandstoneWall>();
+
+            // Edge score evaluation function that determines the propensity a tile has to become sandstone.
+            // This is based on how much nearby empty areas there are, allowing for "edges" to appear.
+            static int getEdgeScore(int x, int y)
+            {
+                int edgeScore = 0;
+                for (int dx = x - 6; dx <= x + 6; dx++)
+                {
+                    if (dx == x)
+                        continue;
+                    
+                    if (!CalamityUtils.ParanoidTileRetrieval(dx, y).HasTile)
+                        edgeScore++;
+                }
+                for (int dy = y - 6; dy <= y + 6; dy++)
+                {
+                    if (dy == y)
+                        continue;
+
+                    if (!CalamityUtils.ParanoidTileRetrieval(x, dy).HasTile)
+                        edgeScore++;
+                }
+                return edgeScore;
+            }
+
+            for (int i = 1; i < BiomeWidth; i++)
+            {
+                for (int y = YStart; y <= YStart + BlockDepth; y++)
+                {
+                    int x = GetActualX(i);
+                    float sandstoneConvertChance = FractalBrownianMotion(i * SandstoneEdgeNoiseMagnification, y * SandstoneEdgeNoiseMagnification, sandstoneSeed, 7) * 0.5f + 0.5f;
+
+                    // Make the sandstone appearance chance dependant on the edge score.
+                    sandstoneConvertChance *= Utils.GetLerpValue(4f, 11f, getEdgeScore(x, y), true);
+
+                    // Make sandstone less likely to appear on the surface.
+                    sandstoneConvertChance *= Utils.GetLerpValue(YStart + 30f, YStart + 54f, y, true);
+
+                    if (WorldGen.genRand.NextFloat() > sandstoneConvertChance || sandstoneConvertChance < 0.5f)
+                        continue;
+
+                    // Convert to sandstone as necessary.
+                    for (int dx = -2; dx <= 2; dx++)
+                    {
+                        for (int dy = -2; dy <= 2; dy++)
+                        {
+                            if (WorldGen.InWorld(x + dx, y + dy))
+                            {
+                                if (CalamityUtils.ParanoidTileRetrieval(x + dx, y + dy).TileType != sandstoneID &&
+                                    SulphSeaTiles.Contains(CalamityUtils.ParanoidTileRetrieval(x + dx, y + dy).TileType))
+                                {
+                                    Main.tile[x + dx, y + dy].WallType = sandstoneWallID;
+                                    Main.tile[x + dx, y + dy].TileType = sandstoneID;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        public static void PlaceScrapPiles()
+        {
+            int tries = 0;
+            List<Vector2> pastPlacementPostiion = new List<Vector2>();
+            for (int i = 0; i < 3; i++)
+            {
+                tries++;
+                if (tries > 20000)
+                    continue;
+
+                int x = GetActualX(WorldGen.genRand.Next(75, BiomeWidth - 85));
+                int y = WorldGen.genRand.Next(YStart + (int)(BlockDepth * 0.3f), YStart + (int)(BlockDepth * 0.8f));
+
+                Point pilePlacementPosition = new Point(x, y);
+
+                // If the selected position is sitting inside of a tile, try again.
+                if (WorldGen.SolidTile(pilePlacementPosition.X, pilePlacementPosition.Y))
+                {
+                    i--;
+                    continue;
+                }
+
+                // If the selected position is close to other piles, try again.
+                if (pastPlacementPostiion.Any(p => Vector2.Distance(p, pilePlacementPosition.ToVector2()) < ScrapPileAnticlumpDistance))
+                {
+                    i--;
+                    continue;
+                }
+
+                // Otherwise, decide which pile should be created.
+                int pileVariant = WorldGen.genRand.Next(7);
+                string schematicName = $"Sulphurous Scrap {pileVariant + 1}";
+                Vector2? wrappedSchematicArea = SchematicManager.GetSchematicArea(schematicName);
+
+                // Create a log message if for some reason the schematic in question doesn't exist.
+                if (!wrappedSchematicArea.HasValue)
+                {
+                    CalamityMod.Instance.Logger.Warn($"Tried to place a schematic with name \"{schematicName}\". No matching schematic file found.");
+                    continue;
+                }
+
+                Vector2 schematicArea = wrappedSchematicArea.Value;
+
+                // Decide the placement position by searching downward and looking for the lowest point.
+                // If the position is quite steep, try again.
+                Vector2 left = pilePlacementPosition.ToVector2() - Vector2.UnitX * schematicArea.X * 0.5f;
+                Vector2 right = pilePlacementPosition.ToVector2() + Vector2.UnitX * schematicArea.X * 0.5f;
+                while (!WorldGen.SolidTile(CalamityUtils.ParanoidTileRetrieval((int)left.X, (int)left.Y)))
+                    left.Y++;
+                while (!WorldGen.SolidTile(CalamityUtils.ParanoidTileRetrieval((int)right.X, (int)right.Y)))
+                    right.Y++;
+
+                if (Math.Abs(left.Y - right.Y) >= 20f)
+                {
+                    i--;
+                    continue;
+                }
+
+                // If the placement position ended up in the abyss, try again.
+                if (left.Y >= YStart + BlockDepth - 30 || right.Y >= YStart + BlockDepth - 30)
+                {
+                    i--;
+                    continue;
+                }
+
+                // Pick the lowest point vertically.
+                Point bottomCenter = new Point(pilePlacementPosition.X, (int)Math.Max(left.Y, right.Y) + 6);
+                bool _ = false;
+                SchematicManager.PlaceSchematic<Action<Chest>>(schematicName, bottomCenter, SchematicAnchor.BottomCenter, ref _);
+
+                pastPlacementPostiion.Add(bottomCenter.ToVector2());
+                tries = 0;
+            }
+        }
+
         public static void GeneratePillarsInCaverns()
         {
             int columnCount = ColumnCount;
             int width = BiomeWidth;
             int depth = BlockDepth;
-            int maxColumnHeight = 45;
-            var searchCondition = Searches.Chain(new Searches.Up(maxColumnHeight), new Conditions.IsSolid());
+            var searchCondition = Searches.Chain(new Searches.Up(MaxColumnHeight), new Conditions.IsSolid());
 
             for (int c = 0; c < columnCount; c++)
             {
@@ -599,7 +788,7 @@ namespace CalamityMod.World
                     tryAgain = true;
 
                 // Try again if there is no bottom tile.
-                if (!bottom.HasTile || !bottomRight.HasTile)
+                if (!WorldGen.SolidTile(bottom) || !WorldGen.SolidTile(bottomRight))
                     tryAgain = true;
 
                 // Try again if there is no tile above or the ceiling is not level.
@@ -608,6 +797,10 @@ namespace CalamityMod.World
                 {
                     tryAgain = true;
                 }
+
+                // Try again if the distance between the top and bottom is too short.
+                if (MathHelper.Distance(y, top.Y) < MinColumnHeight)
+                    tryAgain = true;
 
                 if (tryAgain)
                 {
@@ -622,9 +815,13 @@ namespace CalamityMod.World
         public static void CreateBeachNearSea()
         {
             int beachWidth = WorldGen.genRand.Next(150, 190 + 1);
-
             var searchCondition = Searches.Chain(new Searches.Down(3000), new Conditions.IsSolid());
-            WorldUtils.Find(new Point(BiomeWidth + 4, (int)WorldGen.worldSurfaceLow - 20), searchCondition, out Point determinedPoint);
+            ushort sandID = (ushort)ModContent.TileType<SulphurousSand>();
+
+            // Stop immediately if for some strange reason a valid tile could not be located for the beach starting point.
+            if (!WorldUtils.Find(new Point(BiomeWidth + 4, (int)WorldGen.worldSurfaceLow - 20), searchCondition, out Point determinedPoint))
+                return;
+
             Tile tileAtEdge = CalamityUtils.ParanoidTileRetrieval(determinedPoint.X, determinedPoint.Y);
             
             // Extend outward to encompass some of the desert, if there is one.
@@ -637,7 +834,7 @@ namespace CalamityMod.World
                 int x = GetActualX(i);
                 float xRatio = Utils.GetLerpValue(BiomeWidth - 10, BiomeWidth + beachWidth, i, true);
                 float ditherChance = Utils.GetLerpValue(0.92f, 0.99f, xRatio, true);
-                int depth = (int)(Math.Sin((1f - xRatio) * MathHelper.PiOver2) * 45f + 1f);
+                int depth = (int)(Math.Sin((1f - xRatio) * MathHelper.PiOver2) * BeachMaxDepth + 1f);
                 for (int y = YStart - 50; y < YStart + depth; y++)
                 {
                     Tile tileAtPosition = CalamityUtils.ParanoidTileRetrieval(x, y);
@@ -651,7 +848,7 @@ namespace CalamityMod.World
                     }
 
                     else if (tileAtPosition.HasTile && ValidBeachCovertTiles.Contains(tileAtPosition.TileType) && WorldGen.genRand.NextFloat() >= ditherChance)
-                        Main.tile[x, y].TileType = (ushort)ModContent.TileType<SulphurousSand>();
+                        Main.tile[x, y].TileType = sandID;
                 }
             }
 
@@ -663,7 +860,7 @@ namespace CalamityMod.World
                     continue;
 
                 int y = YStart - 30;
-                if (!WorldUtils.Find(new Point(trueX, y), Searches.Chain(new Searches.Down(100), new Conditions.IsTile((ushort)ModContent.TileType<SulphurousSand>())), out Point treePlantPosition))
+                if (!WorldUtils.Find(new Point(trueX, y), Searches.Chain(new Searches.Down(100), new Conditions.IsTile(sandID)), out Point treePlantPosition))
                     continue;
 
                 treePlantPosition.Y--;
