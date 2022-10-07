@@ -1,7 +1,7 @@
-﻿using CalamityMod.Dusts;
+﻿using System;
+using CalamityMod.Dusts;
 using CalamityMod.Projectiles.Environment;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
@@ -16,7 +16,6 @@ namespace CalamityMod.Tiles.Abyss
             Main.tileFrameImportant[Type] = true;
             Main.tileNoAttach[Type] = true;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
-            TileObjectData.newTile.DrawYOffset = 4;
             TileObjectData.addTile(Type);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Geyser");
@@ -34,18 +33,15 @@ namespace CalamityMod.Tiles.Abyss
         }
         public override void NearbyEffects(int i, int j, bool closer)
         {
-            bool noTilesBetweenPlayer = Collision.CanHit(new Vector2(i, j) * 16, 1, 1, new Vector2(i * 16f, Main.LocalPlayer.Center.Y), 1, 1);
+            Tile t = CalamityUtils.ParanoidTileRetrieval(i, j);
 
-            if (WorldGen.genRand.NextBool(60) && !Main.gamePaused && noTilesBetweenPlayer)
+            Vector2 spawnPosition = new(i * 16f + 24f, j * 16f - 4f);
+            if (!Main.gamePaused && t.TileFrameX % 36 == 0 && t.TileFrameY % 36 == 0 && Collision.CanHitLine(spawnPosition, 1, 1, spawnPosition - Vector2.UnitY * 100f, 1, 1))
             {
-                if (Math.Abs(Main.LocalPlayer.Center.X - i * 16) < 80 &&
-                    Main.LocalPlayer.Bottom.Y < j * 16 &&
-                    Main.LocalPlayer.Bottom.Y > j * 16 - 300)
-                {
-                    float yeetSpeed = MathHelper.Clamp(10f - (10f * Math.Abs(Main.LocalPlayer.Bottom.Y - j * 16) / 300f), 0f, 10f);
-                    Main.LocalPlayer.velocity.Y -= yeetSpeed;
-                    Projectile.NewProjectile(new EntitySource_WorldEvent(), i * 16 + 8, j * 16 - 20, 0f, -10f, ModContent.ProjectileType<HotSteam>(), Main.expertMode ? 12 : 15, 0f);
-                }
+                float positionInterpolant = (i + j) * 0.041f % 1f;
+                Vector2 smokeVelocity = -Vector2.UnitY.RotatedByRandom(0.11f) * MathHelper.Lerp(4.8f, 8.1f, positionInterpolant);
+                smokeVelocity.X += (float)Math.Cos(MathHelper.TwoPi * positionInterpolant) * 1.1f;
+                Projectile.NewProjectile(new EntitySource_WorldEvent(), spawnPosition, smokeVelocity, ModContent.ProjectileType<HotSteam>(), Main.expertMode ? 12 : 15, 0f);
             }
         }
     }

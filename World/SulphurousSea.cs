@@ -153,6 +153,8 @@ namespace CalamityMod.World
 
         public static int ColumnCount => Main.maxTilesX / 76;
 
+        public static int GeyserCount => Main.maxTilesX / 137;
+
         public static int YStart
         {
             get;
@@ -193,7 +195,8 @@ namespace CalamityMod.World
             CreateBeachNearSea();
             ClearAloneTiles();
             PlaceScrapPiles();
-            GeneratePillarsInCaverns();
+            GenerateColumnsInCaverns();
+            GenerateSteamGeysersInCaverns();
             GenerateHardenedSandstone();
         }
         #endregion
@@ -772,7 +775,7 @@ namespace CalamityMod.World
             }
         }
 
-        public static void GeneratePillarsInCaverns()
+        public static void GenerateColumnsInCaverns()
         {
             int columnCount = ColumnCount;
             int width = BiomeWidth;
@@ -814,7 +817,50 @@ namespace CalamityMod.World
                     continue;
                 }
 
-                GeneratePillar(x, top.Y, y);
+                GenerateColumn(x, top.Y, y);
+            }
+        }
+
+        public static void GenerateSteamGeysersInCaverns()
+        {
+            int geyserCount = GeyserCount;
+            int width = BiomeWidth;
+            int depth = BlockDepth;
+            ushort geyserID = (ushort)ModContent.TileType<SteamGeyser>();
+
+            for (int g = 0; g < geyserCount; g++)
+            {
+                int x = GetActualX(WorldGen.genRand.Next(20, width - 32));
+                int y = WorldGen.genRand.Next(YStart + depth / 2, YStart + depth - 20);
+
+                bool tryAgain = false;
+
+                // Try again if inside a tile.
+                for (int dx = 0; dx < 2; dx++)
+                {
+                    for (int dy = 0; dy < 2; dy++)
+                    {
+                        Tile tile = CalamityUtils.ParanoidTileRetrieval(x + dx, y - dy);
+                        if (tile.HasTile)
+                            tryAgain = true;
+                    }
+                }
+
+                // Try again if there is no ground.
+                for (int dx = 0; dx < 2; dx++)
+                {
+                    Tile tile = CalamityUtils.ParanoidTileRetrieval(x + dx, y + 1);
+                    if (!WorldGen.SolidTile(tile))
+                        tryAgain = true;
+                }
+
+                if (tryAgain)
+                {
+                    g--;
+                    continue;
+                }
+
+                WorldGen.PlacePot(x, y, geyserID);
             }
         }
 
@@ -1059,10 +1105,10 @@ namespace CalamityMod.World
             return result;
         }
 
-        public static void GeneratePillar(int left, int top, int bottom)
+        public static void GenerateColumn(int left, int top, int bottom)
         {
             int depth = BlockDepth;
-            ushort pillarID = (ushort)ModContent.TileType<SulphurousColumn>();
+            ushort ColumnID = (ushort)ModContent.TileType<SulphurousColumn>();
             ushort hardenedSandstoneWallID = (ushort)ModContent.WallType<HardenedSulphurousSandstoneWall>();
             ushort sandWallID = (ushort)ModContent.WallType<SulphurousSandWall>();
             short variantFrameOffset = (short)(WorldGen.genRand.Next(3) * 36);
@@ -1080,7 +1126,7 @@ namespace CalamityMod.World
                     else if (y == bottom)
                         frameY = 36;
 
-                    Main.tile[x, y].TileType = pillarID;
+                    Main.tile[x, y].TileType = ColumnID;
                     Main.tile[x, y].TileFrameX = frameX;
                     Main.tile[x, y].TileFrameY = frameY;
                     Main.tile[x, y].WallType = y >= YStart + depth * OpenCavernStartDepthPercentage ? hardenedSandstoneWallID : sandWallID;
