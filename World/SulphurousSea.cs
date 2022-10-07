@@ -183,7 +183,6 @@ namespace CalamityMod.World
             ClearOutStrayTiles();
 
             // Lay down decorations and post-processing effects after the caves are generated.
-            ClearAloneTiles();
             DecideHardSandstoneLine();
             MakeSurfaceLessRigid();
             LayTreesOnSurface();
@@ -192,6 +191,7 @@ namespace CalamityMod.World
         public static void SulphurSeaGenerationAfterAbyss()
         {
             CreateBeachNearSea();
+            ClearAloneTiles();
             PlaceScrapPiles();
             GeneratePillarsInCaverns();
             GenerateHardenedSandstone();
@@ -204,6 +204,8 @@ namespace CalamityMod.World
             int width = BiomeWidth + 1;
             int maxDepth = BlockDepth;
             ushort blockTileType = (ushort)ModContent.TileType<SulphurousSand>();
+            ushort wallID = (ushort)ModContent.WallType<SulphurousSandWall>();
+
             for (int i = 1; i < width; i++)
             {
                 int x = GetActualX(i);
@@ -218,7 +220,11 @@ namespace CalamityMod.World
                 {
                     float ditherChance = CalculateDitherChance(width, top, bottom, i, y);
                     if (WorldGen.genRand.NextFloat() >= ditherChance)
+                    {
                         Main.tile[x, y].TileType = blockTileType;
+                        if (y >= top + 45)
+                            Main.tile[x, y].WallType = wallID;
+                    }
 
                     // Ensure that the sand pops into existence if there is no chance that dithering will occur.
                     // This doesn't happen if there is dithering to ensure that there aren't stray sand tiles in the middle of open
