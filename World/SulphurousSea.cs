@@ -84,6 +84,8 @@ namespace CalamityMod.World
 
         public const float IslandLineMagnification = 0.0079f;
 
+        public const int TreeGrowChance = 5;
+
         public static int BiomeWidth
         {
             get
@@ -162,7 +164,7 @@ namespace CalamityMod.World
             ClearAloneTiles();
             DecideHardSandstoneLine();
             MakeSurfaceLessRigid();
-            //LayTreesOnSurface();
+            LayTreesOnSurface();
         }
 
         public static void FinishGeneratingSulphurSea()
@@ -524,11 +526,36 @@ namespace CalamityMod.World
                         WorldUtils.Gen(new(x, y + dy), new Shapes.Rectangle(1, 1), Actions.Chain(new GenAction[]
                         {
                             heightOffset > 0 ? new Actions.ClearTile() : new Actions.SetTile(blockTileType, true),
-                            new Actions.PlaceWall(y != heightOffset ? wallID : WallID.None, true),
+                            new Actions.PlaceWall(MathHelper.Distance(dy, heightOffset) >= 2f ? wallID : WallID.None, true),
                             new Actions.SetLiquid()
                         }));
                     }
                 }
+            }
+        }
+
+        public static void LayTreesOnSurface()
+        {
+            int width = BiomeWidth;
+            for (int i = 0; i < width - 8; i++)
+            {
+                if (!WorldGen.genRand.NextBool(TreeGrowChance))
+                    continue;
+
+                int x = GetActualX(i);
+                int y = YStart - 30;
+                if (!WorldUtils.Find(new(x, y), Searches.Chain(new Searches.Down(MaxIslandDepth + 31), new Conditions.IsSolid()), out Point growPoint))
+                    continue;
+
+                x = growPoint.X;
+                y = growPoint.Y - 1;
+
+                if (CalamityUtils.ParanoidTileRetrieval(x, y).LiquidAmount > 0)
+                    continue;
+
+                Main.tile[x, y].TileType = TileID.Saplings;
+                Main.tile[x, y].Get<TileWallWireStateData>().HasTile = true;
+                WorldGen.GrowPalmTree(x, y);
             }
         }
         #endregion Generation Functions
