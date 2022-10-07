@@ -20,15 +20,15 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.friendly = true;
             Projectile.DamageType = DamageClass.Magic;
             Projectile.ignoreWater = true;
-            Projectile.penetrate = 2;
+            Projectile.penetrate = 3;
             Projectile.extraUpdates = 2;
             Projectile.tileCollide = false;
         }
 
         public override void AI()
         {
-            Projectile.ai[1]++;
-            if (Projectile.ai[1] >= 4f)
+            Projectile.localAI[1]++;
+            if (Projectile.localAI[1] >= 4f)
             {
                 Projectile.tileCollide = true;
             }
@@ -37,12 +37,12 @@ namespace CalamityMod.Projectiles.Magic
             {
                 Projectile.Kill();
             }
-            if (Projectile.ai[0] <= 3f)
+            if (Projectile.localAI[0] <= 3f)
             {
-                Projectile.ai[0] += 1f;
+                Projectile.localAI[0] += 1f;
                 return;
             }
-            Projectile.velocity.Y = Projectile.velocity.Y + 0.075f;
+            Projectile.velocity.Y += 0.075f;
             for (int i = 0; i < 3; i++)
             {
                 Vector2 positionDelta = Projectile.velocity / 3f * i;
@@ -60,6 +60,28 @@ namespace CalamityMod.Projectiles.Magic
                 int dustIdx = Dust.NewDust(new Vector2(Projectile.position.X + spawnDelta, Projectile.position.Y + spawnDelta), Projectile.width - spawnDelta * 2, Projectile.height - spawnDelta * 2, (int)CalamityDusts.SulfurousSeaAcid, 0f, 0f, 100, default, 0.5f);
                 Main.dust[dustIdx].velocity *= 0.25f;
                 Main.dust[dustIdx].velocity += Projectile.velocity * 0.5f;
+            }
+        }
+
+        // If any of the streams are destroyed, kill the accompanying acid streams
+        public override void Kill(int timeLeft)
+        {
+            if (Projectile.penetrate > 1)
+                return;
+
+            if (Main.projectile.IndexInRange((int)Projectile.ai[0]))
+            {
+                Projectile proj = Main.projectile[(int)Projectile.ai[0]];
+                proj.ai[0] = -1f;
+                proj.ai[1] = -1f;
+                proj.Kill();
+            }
+            if (Main.projectile.IndexInRange((int)Projectile.ai[1]))
+            {
+                Projectile proj = Main.projectile[(int)Projectile.ai[1]];
+                proj.ai[0] = -1f;
+                proj.ai[1] = -1f;
+                proj.Kill();
             }
         }
     }

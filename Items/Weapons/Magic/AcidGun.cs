@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            Item.damage = 17;
+            Item.damage = 26;
             Item.DamageType = DamageClass.Magic;
             Item.mana = 9;
             Item.width = 42;
@@ -41,10 +41,30 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            for (int i = 0; i < 3; i++)
+            float angle = MathHelper.Lerp(-0.145f, 0.145f, 1f / 3f);
+            int acid1 = Projectile.NewProjectile(source, position, velocity.RotatedBy(angle), type, damage, knockback, player.whoAmI);
+
+            angle = MathHelper.Lerp(-0.145f, 0.145f, 2f / 3f);
+            int acid2 = Projectile.NewProjectile(source, position, velocity.RotatedBy(angle), type, damage, knockback, player.whoAmI);
+
+            angle = MathHelper.Lerp(-0.145f, 0.145f, 1f);
+            int acid3 = Projectile.NewProjectile(source, position, velocity.RotatedBy(angle), type, damage, knockback, player.whoAmI);
+
+            // Keep track of the other 2 acid streams
+            if (Main.projectile.IndexInRange(acid1))
             {
-                float angle = MathHelper.Lerp(-0.145f, 0.145f, i / 3f);
-                Projectile.NewProjectile(source, position, velocity.RotatedBy(angle), type, damage, knockback, player.whoAmI);
+                Main.projectile[acid1].ai[0] = acid2;
+                Main.projectile[acid1].ai[1] = acid3;
+            }
+            if (Main.projectile.IndexInRange(acid2))
+            {
+                Main.projectile[acid2].ai[0] = acid1;
+                Main.projectile[acid2].ai[1] = acid3;
+            }
+            if (Main.projectile.IndexInRange(acid3))
+            {
+                Main.projectile[acid3].ai[0] = acid1;
+                Main.projectile[acid3].ai[1] = acid2;
             }
             return false;
         }
