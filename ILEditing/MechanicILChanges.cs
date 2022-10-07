@@ -894,6 +894,13 @@ namespace CalamityMod.ILEditing
             if (tile.LiquidAmount <= 0 || tile.HasTile || Main.waterStyle != ModContent.Find<ModWaterStyle>("CalamityMod/SulphuricWater").Slot)
                 return;
 
+            Tile above = CalamityUtils.ParanoidTileRetrieval(x, y - 1);
+            if (!Main.gamePaused && !above.HasTile && above.LiquidAmount <= 0 && Main.rand.NextBool(9))
+            {
+                MediumMistParticle acidFoam = new(new(x * 16f + Main.rand.NextFloat(16f), y * 16f + 8f), -Vector2.UnitY.RotatedByRandom(0.67f) * Main.rand.NextFloat(1f, 2.4f), Color.LightSeaGreen, Color.White, 0.16f, 128f, 0.02f);
+                GeneralParticleHandler.SpawnParticle(acidFoam);
+            }
+
             outputColor = Vector3.Lerp(outputColor, Color.LightSeaGreen.ToVector3(), 0.41f);
         }
         #endregion Sulph Sea Water Visuals

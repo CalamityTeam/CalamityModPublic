@@ -38,7 +38,7 @@ namespace CalamityMod.Projectiles.Environment
         {
             Projectile.localAI[0] = 0f;
             Projectile.scale = Utils.Remap(Projectile.timeLeft, Lifetime, 0.4f, 0.02f, 1.4f);
-            Projectile.Opacity = Utils.Remap(Projectile.timeLeft, 134f, 67f, 1f, 0.04f);
+            Projectile.Opacity = Utils.Remap(Projectile.timeLeft, 160f, 50f, 1.15f, 0.01f);
             Projectile.velocity.Y *= 0.97f;
         }
 
@@ -65,8 +65,8 @@ namespace CalamityMod.Projectiles.Environment
             Texture2D texture = TextureAssets.Projectile[Projectile.type].Value;
             Vector2 origin = texture.Size() * 0.5f;
             Vector2 drawPosition = Projectile.Center - Main.screenPosition;
-            float opacity = Projectile.Opacity * 0.4f;
-            Color drawColor = new Color(159, 137, 181) * opacity;
+            float opacity = Projectile.Opacity * 0.3f;
+            Color drawColor = new Color(159, 207, 181) * opacity;
             Vector2 scale = Projectile.Size / texture.Size() * Projectile.scale * 1.35f;
             spriteBatch.Draw(texture, drawPosition, null, drawColor, Projectile.rotation, origin, scale, 0, 0f);
         }
