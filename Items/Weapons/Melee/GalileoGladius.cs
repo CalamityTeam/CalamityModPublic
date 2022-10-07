@@ -25,8 +25,8 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             Item.useStyle = ItemUseStyleID.Rapier;
             Item.DamageType = TrueMeleeDamageClass.Instance;
-            Item.useAnimation = 10;
-            Item.useTime = 10;
+            Item.useAnimation = 8;
+            Item.useTime = 8;
             Item.width = 44;
             Item.height = 44;
             Item.damage = 110;
@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.noUseGraphic = true;
             Item.noMelee = true;
             Item.shoot = ModContent.ProjectileType<GalileoGladiusProj>();
-            Item.shootSpeed = 2.4f;
+            Item.shootSpeed = 0.9f;
 
             Item.value = CalamityGlobalItem.Rarity13BuyPrice;
             Item.rare = ModContent.RarityType<PureGreen>();

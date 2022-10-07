@@ -35,6 +35,9 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.timeLeft *= 5;
             Projectile.minion = true;
             Projectile.DamageType = DamageClass.Summon;
+            Projectile.MaxUpdates = 2;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = Projectile.MaxUpdates * 15;
         }
         public override void SendExtraAI(BinaryWriter writer)
         {

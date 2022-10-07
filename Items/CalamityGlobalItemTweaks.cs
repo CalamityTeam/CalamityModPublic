@@ -56,7 +56,7 @@ namespace CalamityMod.Items
                 { ItemID.BeeKeeper, Do(UseTurn, ScaleRatio(1.5f), DamageExact(60)) },
                 { ItemID.BeesKnees, Do(PointBlank, DamageExact(18), UseExact(38)) },
                 { ItemID.BladedGlove, Do(DamageExact(15), UseExact(7)) },
-                { ItemID.BladeofGrass, Do(AutoReuse, UseTurn, ScaleRatio(1.8f), DamageExact(45), UseExact(33)) },
+                { ItemID.BladeofGrass, Do(AutoReuse, UseTurn, ScaleRatio(1.8f), DamageExact(35)) },
                 { ItemID.Bladetongue, Do(UseTurn, UseRatio(0.8f), DamageExact(120), ScaleRatio(1.75f)) },
                 { ItemID.BlizzardStaff, Do(DamageExact(41), ManaExact(7)) },
                 { ItemID.BloodButcherer, Do(AutoReuse, UseTurn, DamageRatio(1.66f), ScaleRatio(1.4f)) },
@@ -188,7 +188,7 @@ namespace CalamityMod.Items
                 { ItemID.Excalibur, Do(UseTurn, ScaleRatio(1.5f), UseRatio(0.8f), DamageExact(125), UseAnimationExact(45)) },
                 { ItemID.FairyQueenMagicItem, Do(DamageExact(54)) },
                 { ItemID.FalconBlade, Do(UseTurn, ScaleRatio(1.5f), DamageExact(35), UseExact(15)) },
-                { ItemID.FieryGreatsword, Do(AutoReuse, UseTurn, ScaleRatio(1.5f), DamageExact(90), UseExact(45)) },
+                { ItemID.FieryGreatsword, Do(AutoReuse, UseTurn, ScaleRatio(1.5f), DamageExact(72), UseExact(45)) },
                 { ItemID.FireWhip, autoReuse },
                 // Unsure what to do with Celebration. Should it be treated as a serious weapon or not? Currently not changing it from vanilla.
                 // { ItemID.FireworksLauncher, Do(DamageRatio(2f)) }, // Celebration

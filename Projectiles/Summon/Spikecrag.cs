@@ -77,7 +77,7 @@ namespace CalamityMod.Projectiles.Summon
                 Projectile.ai[1] += 1f;
                 if ((Projectile.ai[1] % 10f) == 0f)
                 {
-                    int amount = Main.rand.Next(5, 8);
+                    int amount = Main.rand.Next(2, 4);
                     for (int i = 0; i < amount; i++)
                     {
                         float velocityX = Main.rand.NextFloat(-10f, 10f);

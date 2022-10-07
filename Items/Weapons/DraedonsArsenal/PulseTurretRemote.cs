@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             Item.height = 26;
             Item.DamageType = DamageClass.Summon;
             Item.sentry = true;
-            Item.damage = 100;
+            Item.damage = 150;
             Item.knockBack = 0f;
             Item.mana = 10;
             Item.useTime = Item.useAnimation = 24;
