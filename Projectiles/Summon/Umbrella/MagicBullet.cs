@@ -79,7 +79,7 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 			Main.spriteBatch.Draw(texture, drawPosition, frame, Color.White, Projectile.rotation, origin, Projectile.scale, SpriteEffects.None, 0);
 
 			// Draw Afterimages
-			CalamityUtils.DrawAfterimagesFromEdge(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor);// , ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/Umbrella/MagicBulletTrail").Value);
+			CalamityUtils.DrawAfterimagesFromEdge(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor);
             return false;
         }
     }
