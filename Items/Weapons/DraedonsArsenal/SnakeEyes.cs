@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             CalamityGlobalItem modItem = Item.Calamity();
 
             Item.shootSpeed = 10f;
-            Item.damage = 36;
+            Item.damage = 65;
             Item.mana = 12;
             Item.width = 38;
             Item.height = 24;

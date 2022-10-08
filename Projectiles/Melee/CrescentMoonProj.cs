@@ -46,7 +46,7 @@ namespace CalamityMod.Projectiles.Melee
                 }
             }
 
-            CalamityUtils.HomeInOnNPC(Projectile, true, 250f, 12f, 20f);
+            CalamityUtils.HomeInOnNPC(Projectile, true, 375f, 12f, 20f);
         }
 
         public override bool PreDraw(ref Color lightColor)

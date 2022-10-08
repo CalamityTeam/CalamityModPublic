@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             Item.width = 40;
             Item.height = 22;
             Item.DamageType = DamageClass.Ranged;
-            Item.damage = 84;
+            Item.damage = 100;
             Item.knockBack = 11f;
             Item.useTime = Item.useAnimation = 33;
             Item.autoReuse = true;
@@ -44,7 +44,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             Item.rare = ModContent.RarityType<DarkOrange>();
 
             Item.shoot = ModContent.ProjectileType<UnstableMatter>();
-            Item.shootSpeed = 7f;
+            Item.shootSpeed = 12f;
 
             modItem.UsesCharge = true;
             modItem.MaxCharge = 85f;

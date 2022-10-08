@@ -133,6 +133,8 @@ namespace CalamityMod.Projectiles.Summon
                     projectile.netSpam = 59;
             }
 
+            projectile.extraUpdates = head.extraUpdates;
+
             MechwormHead headModProj = head.ModProjectile<MechwormHead>();
             if (headModProj.EndRiftGateUUID == -1)
             {

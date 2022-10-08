@@ -171,23 +171,23 @@ namespace CalamityMod.Projectiles.Summon.SmallAresArms
                 float rotation = (float)Limbs[i].Rotation;
                 Vector2 segmentOriginFactor = new(0f, 0.5f);
                 SpriteEffects segmentDirection = SpriteEffects.FlipHorizontally;
-                Texture2D segmentTexture = null;
-                Texture2D glowmaskTexture = null;
+                Texture2D segmentTexture;
+                Texture2D glowmaskTexture;
 
-                Rectangle segmentFrame = segmentTexture.Frame(1, 24, 0, (int)(Main.GlobalTimeWrappedHourly * 13f + i) % 24);
                 if (i == 0)
                 {
                     segmentTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/SmallAresArms/ArmPart1").Value;
                     glowmaskTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/SmallAresArms/ArmPart1Glowmask").Value;
                 }
-                if (i == 1)
+                else
                 {
                     segmentTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/SmallAresArms/ArmPart2").Value;
                     glowmaskTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/SmallAresArms/ArmPart2Glowmask").Value;
                 }
+
+                Rectangle segmentFrame = segmentTexture.Frame(1, 9, 0, frame);
                 if (i <= 1)
                 {
-                    segmentFrame = segmentTexture.Frame(1, 9, 0, frame);
                     segmentDirection = OwnerRestingOffset.X < 0f ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
                     if (OwnerRestingOffset.X < 0f)
                     {

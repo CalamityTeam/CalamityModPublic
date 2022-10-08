@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             Item.width = 43;
             Item.height = 24;
             Item.DamageType = DamageClass.Magic;
-            Item.damage = 43;
+            Item.damage = 50;
             Item.knockBack = 1f;
             Item.useTime = 2;
             Item.useAnimation = 2;
