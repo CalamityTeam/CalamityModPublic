@@ -244,6 +244,13 @@ namespace CalamityMod.World
                         Main.tile[x, y].Get<TileWallWireStateData>().HasTile = true;
                     }
                 }
+
+                // Obliterate old palm trees.
+                for (int y = top - 75; y < top + 50; y++)
+                {
+                    if (Main.tile[x, y].TileType == TileID.PalmTree)
+                        WorldGen.KillTile(x, y);
+                }
             }
         }
 
