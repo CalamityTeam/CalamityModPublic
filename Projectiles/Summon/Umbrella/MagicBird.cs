@@ -21,8 +21,6 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
             Projectile.friendly = true;
             Projectile.width = 14;
             Projectile.height = 14;
-            Projectile.minion = true;
-            Projectile.minionSlots = 0f;
             Projectile.ignoreWater = true;
             Projectile.tileCollide = false;
             Projectile.extraUpdates = 1;
@@ -130,7 +128,7 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
             }
         }
 
-        public override Color? GetAlpha(Color lightColor) => new Color(255, 239, 0, Projectile.alpha);
+        public override Color? GetAlpha(Color lightColor) => Color.White; // new Color(255, 239, 0, Projectile.alpha);
 
         public override bool PreDraw(ref Color lightColor)
         {

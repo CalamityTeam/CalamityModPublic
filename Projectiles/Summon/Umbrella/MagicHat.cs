@@ -1,6 +1,7 @@
 ﻿using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using Terraria;
@@ -65,6 +66,7 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 				{
 					new Tuple<int, float>(ModContent.ProjectileType<MagicRifle>(), 1f),
 					new Tuple<int, float>(ModContent.ProjectileType<MagicUmbrella>(), 1f),
+					new Tuple<int, float>(ModContent.ProjectileType<MagicAxe>(), 1f),
 					new Tuple<int, float>(ModContent.ProjectileType<MagicHammer>(), 3f),
 				};
                 float angleVariance = MathHelper.TwoPi / Projectiles.Count;
@@ -81,7 +83,7 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 			Projectile.ai[0]++;
 
             //projectile movement
-            Projectile.Center = player.Center + Vector2.UnitY * (player.gfxOffY - 60f);
+            Projectile.Center = player.Center + Vector2.UnitY * (player.gfxOffY - 30f);
             if (player.gravDir == -1f)
             {
                 Projectile.position.Y += 120f;
@@ -115,49 +117,84 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
             //finding an enemy, then shooting projectiles if it's detected
             if (Projectile.owner == Main.myPlayer)
             {
-                float detectionRange = Range;
-                bool enemyDetected = false;
+				int targetIdx = -1;
+				float maxHomingRange = Range;
+				if (player.HasMinionAttackTargetNPC)
+				{
+					NPC npc = Main.npc[player.MinionAttackTargetNPC];
+					if (npc.CanBeChasedBy(Projectile, false))
+					{
+						float dist = (Projectile.Center - npc.Center).Length();
+						if (dist < maxHomingRange)
+						{
+							targetIdx = player.MinionAttackTargetNPC;
+							maxHomingRange = dist;
+						}
+					}
+				}
+				if (targetIdx == -1)
+				{
+					for (int i = 0; i < Main.npc.Length; ++i)
+					{
+						NPC npc = Main.npc[i];
+						if (npc is null || !npc.active)
+							continue;
 
-                for (int i = 0; i < Main.maxNPCs; i++)
-                {
-                    NPC npc = Main.npc[i];
-                    if (npc.CanBeChasedBy(Projectile, false))
-                    {
-                        float extraDistance = (npc.width / 2) + (npc.height / 2);
-
-                        if (Vector2.Distance(npc.Center, Projectile.Center) < (detectionRange + extraDistance))
-                        {
-                            enemyDetected = true;
-                            break;
-                        }
-                    }
-                }
-				//enemyDetected = false;
-                if (enemyDetected)
+						if (npc.CanBeChasedBy(Projectile, false))
+						{
+							float dist = (Projectile.Center - npc.Center).Length();
+							if (dist < maxHomingRange)
+							{
+								targetIdx = i;
+								maxHomingRange = dist;
+							}
+						}
+					}
+				}
+				//targetIdx = -1;
+                if (targetIdx != -1)
                 {
                     if (Projectile.ai[1]++ % 50f == 25f)
                     {
 						int projType = Utils.SelectRandom(Main.rand, new int[]
 						{
-							ModContent.ProjectileType<MagicHammer>(),
-							ModContent.ProjectileType<MagicAxe>(),
+							ModContent.ProjectileType<MagicBunny>(),
 							ModContent.ProjectileType<MagicBird>()
 						});
-						projType = ModContent.ProjectileType<MagicBird>(); // Consider rabbits, we're the magician
-						float velocityX = Main.rand.NextFloat(-10f, 10f);
-						float velocityY = Main.rand.NextFloat(-15f, -8f);
-						int p = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.oldPosition.X + (float)(Projectile.width / 2), Projectile.oldPosition.Y + (float)(Projectile.height / 2), velocityX, velocityY, projType, Projectile.damage, Projectile.knockBack, Projectile.owner);
-						if (Main.projectile.IndexInRange(p))
-							Main.projectile[p].originalDamage = Projectile.originalDamage;
+						Vector2 velocity = CalamityUtils.GetProjectilePhysicsFiringVelocity(Projectile.Center, Main.npc[targetIdx].Center, 0.28f, 12f);
+						Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.oldPosition.X + (float)(Projectile.width / 2), Projectile.oldPosition.Y + (float)(Projectile.height / 2), velocity.X, velocity.Y, projType, Projectile.damage, Projectile.knockBack, Projectile.owner);
                     }
                 }
             }
         }
 
-        //glowmask effect
+        // Glowmask effect
         public override Color? GetAlpha(Color lightColor) => new Color(200, 200, 200, 200);
 
-        //no contact damage
+        // No contact damage
         public override bool? CanDamage() => false;
+
+		// Draw over players
+        public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI) => overPlayers.Add(index);
+
+        public override bool PreDraw(ref Color lightColor)
+        {
+			Player player = Main.player[Projectile.owner];
+
+			Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
+			
+			float stealthPercent = player.Calamity().rogueStealth / player.Calamity().rogueStealthMax * 0.9f; //0 to 0.9
+            bool hasStealth = player.Calamity().rogueStealth > 0f && stealthPercent > 0.45f && player.townNPCs < 3f && CalamityConfig.Instance.StealthInvisibility;
+			if (player.ShouldNotDraw || hasStealth)
+				texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/Umbrella/MagicHatInvis").Value;
+			Rectangle frame = texture.Frame(1, Main.projFrames[Type], 0, Projectile.frame);
+			Vector2 origin = frame.Size() * 0.5f;
+			Vector2 drawPosition = Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY);
+			SpriteEffects direction = Projectile.spriteDirection == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+
+            // Draw the hat.
+			Main.spriteBatch.Draw(texture, drawPosition, frame, Projectile.GetAlpha(lightColor), Projectile.rotation, origin, Projectile.scale, direction, 0);
+            return false;
+        }
     }
 }
