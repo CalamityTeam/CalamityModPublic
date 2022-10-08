@@ -1,7 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.IO;
 using Terraria;
 using Terraria.Audio;
+using Terraria.Graphics;
+using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -14,14 +18,16 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 		public float PivotPointY = 0f;
 		private int counter = 0;
 		private const int projSize = 60;
+		private const float drawOffset = -MathHelper.PiOver4 + MathHelper.Pi;
         public static readonly SoundStyle StylishSound = new("CalamityMod/Sounds/Custom/Stylish");
+
+        public VertexStrip TrailDrawer;
 
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Hammer");
-            ProjectileID.Sets.MinionShot[Projectile.type] = true;
-            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
-            ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 40;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 4;
         }
 
         public override void SetDefaults()
@@ -134,12 +140,12 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 				playerVec.Normalize();
 				playerVec *= playerHomeSpeed;
 				Projectile.velocity = (Projectile.velocity * 10f + playerVec) / 11f;
-				Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver4;
+				Projectile.rotation = Projectile.velocity.ToRotation() + drawOffset;
 			}
 			else
 			{
 				Projectile.Center = returnPos;
-				Projectile.rotation = Projectile.ai[0] + MathHelper.PiOver4;
+				Projectile.rotation = Projectile.ai[0] + drawOffset;
 			}
 			if (Projectile.scale != 1f)
 			{
@@ -150,6 +156,9 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 
 		private void MoveToEnemy(int targetIndex)
 		{
+			if (Behavior == 0f)
+				Behavior = 1f;
+
 			// Target distance calculations
 			NPC npc = Main.npc[targetIndex];
 			Vector2 targetVec = npc.Center - Projectile.Center;
@@ -157,49 +166,49 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 
 			float moveSpeed = 40f;
 			// If more than 60 pixels away, move toward the target
-			if (targetDist > 60f && Behavior == 0f)
+			if (targetDist > 60f && Behavior == 1f)
 			{
 				targetVec.Normalize();
 				targetVec *= moveSpeed;
 				Projectile.velocity = (Projectile.velocity * 1f + targetVec) / 2f;
-				Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver4;
+				Projectile.rotation = Projectile.velocity.ToRotation() + drawOffset;
 			}
 			else
 			{
-				if (Behavior == 0f)
+				if (Behavior == 1f)
 				{
 					if (Projectile.scale == 1f)
 					{
 						Projectile.scale = 3f;
 						Projectile.ExpandHitboxBy(Projectile.scale);
 					}
-					Projectile.rotation = MathHelper.PiOver4 + MathHelper.ToRadians(20f) * (targetVec.X > 0 ? 1f : -6f);
-					Projectile.ai[1] = MathHelper.PiOver4 + MathHelper.ToRadians(20f) * (targetVec.X > 0 ? 5f : -1f);
+					Projectile.rotation = drawOffset + MathHelper.ToRadians(20f) * (targetVec.X > 0 ? 3f : -3f);
+					Projectile.ai[1] = drawOffset + MathHelper.ToRadians(20f) * (targetVec.X > 0 ? 3f : -3f);
 					PivotPointX = Projectile.Bottom.X;
 					PivotPointY = Projectile.Bottom.Y;
-					Behavior = 1f;
+					Behavior = 2f;
 				}
-				if (Behavior == 1f)
+				if (Behavior == 2f)
 				{
-					Behavior = targetVec.X > 0 ? 2f : 3f;
+					Behavior = targetVec.X > 0 ? 3f : 4f;
 				}
-				if (Behavior == 2f || Behavior == 3f)
+				if (Behavior == 3f || Behavior == 4f)
 				{
 					float swingTime = 20f;
-					Projectile.ai[1] += MathHelper.ToRadians(200f / swingTime) * (Behavior == 2f ? 1f : -1f);
+					Projectile.ai[1] += MathHelper.ToRadians(200f / swingTime) * (Behavior == 3f ? 1f : -1f);
 					counter++;
 					float outwardPosition = 50f;
 					Vector2 pivot = new Vector2(PivotPointX, PivotPointY);
 					Projectile.Center = pivot + Projectile.ai[1].ToRotationVector2() * outwardPosition;
-					Projectile.rotation = Projectile.ai[1] + MathHelper.PiOver4;
+					Projectile.rotation = Projectile.ai[1] + drawOffset;
 					if (counter > swingTime)
 					{
 						Projectile.ai[1] = MathHelper.PiOver4;
 						counter = 0;
-						Behavior = 4f;
+						Behavior = 5f;
 					}
 				}
-				if (Behavior == 4f)
+				if (Behavior == 5f)
 					MoveBackToPlayer();
 			}
 		}
@@ -222,7 +231,7 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 				playerVec.Normalize();
 				playerVec *= playerHomeSpeed;
 				Projectile.velocity = (Projectile.velocity * 1f + playerVec) / 2f;
-				Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver4;
+				Projectile.rotation = Projectile.velocity.ToRotation() + drawOffset;
 			}
 			else
 			{
@@ -237,7 +246,7 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-            if ((Behavior == 2f || Behavior == 3f) && Main.rand.NextBool(10))
+            if ((Behavior == 3f || Behavior == 4f) && Main.rand.NextBool(10))
 			{
                 Rectangle location = new Rectangle((int)target.position.X, (int)target.position.Y, target.width, target.height);
                 CombatText.NewText(location, new Color(239, 113, 152), "Stylish!", true);
@@ -267,13 +276,7 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
             }
         }
 
-        public override bool PreDraw(ref Color lightColor)
-        {
-            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
-            return false;
-        }
-
-        public override Color? GetAlpha(Color lightColor) => new Color(255, 56, 0, Projectile.alpha);
+        public override Color? GetAlpha(Color lightColor) => new Color(255, 255, 255, Projectile.alpha);
 
         public override void Kill(int timeLeft)
         {
@@ -283,6 +286,39 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
                 int dust = Dust.NewDust(Projectile.Center, 1, 1, 67, dspeed.X, dspeed.Y, 50, default, 1.2f);
                 Main.dust[dust].noGravity = true;
             }
+        }
+
+        public Color TrailColorFunction(float completionRatio)
+        {
+            float opacity = (float)Math.Pow(Utils.GetLerpValue(1f, 0.45f, completionRatio, true), 4D) * Projectile.Opacity * 0.48f;
+            return new Color(255, 56, 0) * opacity;
+        }
+
+        public float TrailWidthFunction(float completionRatio) => 2f;
+
+        public override bool PreDraw(ref Color lightColor)
+        {
+			Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
+			Rectangle frame = texture.Frame(1, Main.projFrames[Type], 0, Projectile.frame);
+			Vector2 origin = frame.Size() * 0.5f;
+			Vector2 drawPosition = Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY);
+			SpriteEffects direction = Projectile.spriteDirection == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+
+			bool shouldDrawTrail = Behavior != 0f;
+			if (shouldDrawTrail)
+			{
+				// Draw the afterimage trail.
+				TrailDrawer ??= new();
+				GameShaders.Misc["EmpressBlade"].UseShaderSpecificData(new Vector4(1f, 0f, 0f, 0.6f));
+				GameShaders.Misc["EmpressBlade"].Apply(null);
+				TrailDrawer.PrepareStrip(Projectile.oldPos, Projectile.oldRot, TrailColorFunction, TrailWidthFunction, Projectile.Size * 0.5f - Main.screenPosition, Projectile.oldPos.Length, true);
+				TrailDrawer.DrawTrail();
+				Main.pixelShader.CurrentTechnique.Passes[0].Apply();
+			}
+
+            // Draw the hammer.
+			Main.spriteBatch.Draw(texture, drawPosition, frame, Projectile.GetAlpha(lightColor), Projectile.rotation, origin, Projectile.scale, direction, 0);
+            return false;
         }
     }
 }

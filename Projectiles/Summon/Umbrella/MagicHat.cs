@@ -1,6 +1,7 @@
 ﻿using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
@@ -60,19 +61,20 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 
 			if (Projectile.ai[0] == 1f)
 			{
-				List<int> Projectiles = new List<int>()
+				List<Tuple<int, float>> Projectiles = new List<Tuple<int, float>>()
 				{
-					ModContent.ProjectileType<MagicRifle>(),
-					ModContent.ProjectileType<MagicUmbrella>(),
-					ModContent.ProjectileType<MagicHammer>(),
+					new Tuple<int, float>(ModContent.ProjectileType<MagicRifle>(), 1f),
+					new Tuple<int, float>(ModContent.ProjectileType<MagicUmbrella>(), 1f),
+					new Tuple<int, float>(ModContent.ProjectileType<MagicHammer>(), 3f),
 				};
                 float angleVariance = MathHelper.TwoPi / Projectiles.Count;
                 float angle = 0f;
-				foreach (int projType in Projectiles)
+				for (int i = 0; i < Projectiles.Count; i++)
 				{
-					int p = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, projType, Projectile.damage, Projectile.knockBack, Projectile.owner, angle);
+					int p = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, Projectiles[i].Item1,(int)(Projectile.damage * Projectiles[i].Item2),
+													 Projectile.knockBack * Projectiles[i].Item2, Projectile.owner, angle);
 					if (Main.projectile.IndexInRange(p))
-						Main.projectile[p].originalDamage = Projectile.originalDamage;
+						Main.projectile[p].originalDamage = (int)(Projectile.originalDamage * Projectiles[i].Item2);
 					angle += angleVariance;
 				}
 			}

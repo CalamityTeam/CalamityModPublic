@@ -1,8 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using Terraria;
+using Terraria.Graphics;
+using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -11,12 +14,14 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
     public class MagicUmbrella : ModProjectile
    {
         public float Behavior = 0f;
+		private const float drawOffset = -MathHelper.PiOver4 + MathHelper.Pi;
+        public VertexStrip TrailDrawer;
+
         public override void SetStaticDefaults()
 		{
             DisplayName.SetDefault("Umbrella");
-            ProjectileID.Sets.MinionShot[Projectile.type] = true;
-            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 10;
-            ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 40;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 4;
         }
 
         public override void SetDefaults()
@@ -48,7 +53,6 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 
         public override void AI()
 		{
-            Projectile.rotation += 0.075f;
             Projectile.alpha -= 50;
 
 			if (Main.player[Projectile.owner].Calamity().magicHat)
@@ -64,10 +68,10 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 			DelegateMethods.CastLightOpen(point.X, point.Y);
 
 			blackListedTargets.Clear();
-			AI_156_Think(blackListedTargets);
+			DecideWhatToDo(blackListedTargets);
         }
 
-		private void AI_156_Think(List<int> blacklist)
+		private void DecideWhatToDo(List<int> blacklist)
 		{
 			int num = 40;
 			int num2 = num - 1;
@@ -186,8 +190,8 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 				vector7 = vector7.RotatedBy(num19);
 				float scaleFactor2 = (center2 - vector6).Length() / 2f;
 				Vector2 vector9 = Projectile.Center = Vector2.Lerp(vector6, center2, 0.5f) + vector7 * scaleFactor2;
-				float num22 = MathHelper.WrapAngle(num19 + num21 + 0f);
-				Projectile.rotation = num22 + (float)Math.PI / 2f + MathHelper.PiOver4;
+				float num22 = MathHelper.WrapAngle(num19 + num21);
+				Projectile.rotation = num22 + drawOffset;
 				Vector2 vector10 = Projectile.velocity = num22.ToRotationVector2() * 10f;
 				Projectile.position -= Projectile.velocity;
 			}
@@ -201,8 +205,8 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 				Vector2 value2 = npc.Center + value;
 				float lerpValue3 = Utils.GetLerpValue(0.4f, 0.6f, lerpValue2, clamped: true);
 				float lerpValue4 = Utils.GetLerpValue(0.6f, 1f, lerpValue2, clamped: true);
-				float targetAngle = v.SafeNormalize(Vector2.Zero).ToRotation() + (float)Math.PI / 2f;
-				Projectile.rotation = Projectile.rotation.AngleTowards(targetAngle, (float)Math.PI / 5f) + MathHelper.PiOver4;
+				float targetAngle = v.SafeNormalize(Vector2.Zero).ToRotation() + drawOffset;
+				Projectile.rotation = Projectile.rotation.AngleTowards(targetAngle, (float)Math.PI / 5f + drawOffset);
 				Projectile.Center = Vector2.Lerp(vector11, npc.Center, lerpValue3);
 				if (lerpValue4 > 0f)
 					Projectile.Center = Vector2.Lerp(npc.Center, value2, lerpValue4);
@@ -294,21 +298,16 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 				playerVec.Normalize();
 				playerVec *= playerHomeSpeed;
 				Projectile.velocity = (Projectile.velocity * 10f + playerVec) / 11f;
+				Projectile.rotation = Projectile.velocity.ToRotation() + drawOffset;
 			}
 			else
 			{
 				Projectile.Center = returnPos;
-				Projectile.rotation = Projectile.ai[0] + MathHelper.PiOver4;
+				Projectile.rotation = Projectile.ai[0] + drawOffset;
 			}
 		}
 
-        public override Color? GetAlpha(Color lightColor) => new Color(75, 255, 255, Projectile.alpha);
-
-        public override bool PreDraw(ref Color lightColor)
-		{
-            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
-            return false;
-        }
+        public override Color? GetAlpha(Color lightColor) => new Color(255, 255, 255, Projectile.alpha);
 
         public override void Kill(int timeLeft)
 		{
@@ -318,6 +317,39 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
                 int dust = Dust.NewDust(Projectile.Center, 1, 1, 66, dspeed.X, dspeed.Y, 160, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 0.75f);
                 Main.dust[dust].noGravity = true;
             }
+        }
+
+        public Color TrailColorFunction(float completionRatio)
+        {
+            float opacity = (float)Math.Pow(Utils.GetLerpValue(1f, 0.45f, completionRatio, true), 4D) * Projectile.Opacity * 0.48f;
+            return new Color(75, 255, 255) * opacity;
+        }
+
+        public float TrailWidthFunction(float completionRatio) => 2f;
+
+        public override bool PreDraw(ref Color lightColor)
+        {
+            Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
+            Rectangle frame = texture.Frame(1, Main.projFrames[Type], 0, Projectile.frame);
+            Vector2 origin = frame.Size() * 0.5f;
+            Vector2 drawPosition = Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY);
+            SpriteEffects direction = Projectile.spriteDirection == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+
+			bool shouldDrawTrail = Behavior > 0f;
+			if (shouldDrawTrail)
+			{
+				// Draw the afterimage trail.
+				TrailDrawer ??= new();
+				GameShaders.Misc["EmpressBlade"].UseShaderSpecificData(new Vector4(1f, 0f, 0f, 0.6f));
+				GameShaders.Misc["EmpressBlade"].Apply(null);
+				TrailDrawer.PrepareStrip(Projectile.oldPos, Projectile.oldRot, TrailColorFunction, TrailWidthFunction, Projectile.Size * 0.5f - Main.screenPosition, Projectile.oldPos.Length, true);
+				TrailDrawer.DrawTrail();
+				Main.pixelShader.CurrentTechnique.Passes[0].Apply();
+			}
+
+            // Draw the umbrella.
+			Main.spriteBatch.Draw(texture, drawPosition, frame, Projectile.GetAlpha(lightColor), Projectile.rotation, origin, Projectile.scale, direction, 0);
+            return false;
         }
     }
 }

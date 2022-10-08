@@ -1,8 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Summon.Umbrella
 {
@@ -11,13 +11,12 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Rifle");
-            ProjectileID.Sets.MinionShot[Projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            Projectile.width = 30;
-            Projectile.height = 30;
+            Projectile.width = 50;
+            Projectile.height = 50;
             Projectile.netImportant = true;
             Projectile.friendly = true;
             Projectile.ignoreWater = true;
@@ -91,6 +90,7 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
             }
 			else
 			{
+				Projectile.spriteDirection = Projectile.direction = 0;
 				Projectile.rotation = Projectile.ai[0] + MathHelper.PiOver4;
 			}
 
@@ -132,7 +132,7 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
             }
         }
 
-        public override Color? GetAlpha(Color lightColor) => new Color(148, 0, 211, Projectile.alpha);
+        public override Color? GetAlpha(Color lightColor) => new Color(255, 255, 255, Projectile.alpha);
 
         public override bool? CanDamage() => false;
 
