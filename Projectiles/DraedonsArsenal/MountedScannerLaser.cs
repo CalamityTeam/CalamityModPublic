@@ -21,16 +21,18 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
         public override float MaxScale => 0.5f + (float)Math.Cos(Main.GlobalTimeWrappedHourly * 10f) * 0.07f;
         public override float MaxLaserLength => 900f;
         public override float Lifetime => 70f;
-        public override Color LaserOverlayColor => Color.Red;
+        public override Color LaserOverlayColor => Color.Red * 0.6f;
         public override Color LightCastColor => LaserOverlayColor;
         public override Texture2D LaserBeginTexture => ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/UltimaRayStart", AssetRequestMode.ImmediateLoad).Value;
         public override Texture2D LaserMiddleTexture => ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/UltimaRayMid", AssetRequestMode.ImmediateLoad).Value;
         public override Texture2D LaserEndTexture => ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/UltimaRayEnd", AssetRequestMode.ImmediateLoad).Value;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Deathray");
             ProjectileID.Sets.MinionShot[Projectile.type] = true;
         }
+
         public override void SetDefaults()
         {
             Projectile.width = Projectile.height = 17;
@@ -43,12 +45,14 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             Projectile.usesLocalNPCImmunity = true;
             Projectile.DamageType = DamageClass.Summon;
         }
+
         public override float DetermineLaserLength()
         {
             float[] samples = new float[4];
             Collision.LaserScan(Projectile.Center, Projectile.velocity, Projectile.width * Projectile.scale, MaxLaserLength, samples);
             return samples.Average();
         }
+
         public override void UpdateLaserMotion()
         {
             if (OwnerIndex == -1)
@@ -59,6 +63,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             Projectile.velocity = Vector2.Lerp(Projectile.velocity, Main.projectile[OwnerIndex].rotation.ToRotationVector2().RotatedBy(Math.Cos(Time / 25) * 0.05f), 0.125f);
             Projectile.rotation = Projectile.velocity.ToRotation() - MathHelper.PiOver2;
         }
+
         public override void AttachToSomething()
         {
             if (OwnerIndex == -1)
@@ -72,7 +77,9 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             if (Main.projectile[OwnerIndex].localAI[0] == 0f)
                 Projectile.Kill();
         }
+        
         public override bool ShouldUpdatePosition() => false;
+
         public override void ExtraBehavior()
         {
             // Spawn dust at the end of the laser.
@@ -87,16 +94,6 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                     dust.noGravity = true;
                 }
             }
-        }
-
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-        {
-            Projectile.damage = (int)(Projectile.damage * 0.6);
-        }
-
-        public override void OnHitPvp(Player target, int damage, bool crit)
-        {
-            Projectile.damage = (int)(Projectile.damage * 0.6);
         }
     }
 }

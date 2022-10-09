@@ -20,8 +20,11 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             get => Projectile.ai[1];
             set => Projectile.ai[1] = value;
         }
+
+        public const int LaserFireRate = 300;
+
         public const float OffsetDistanceFromPlayer = 60f;
-        public const float LaserFireRate = 40f;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Mounted Scanner");
@@ -95,7 +98,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             if (!Collision.CanHitLine(Projectile.position, Projectile.width, Projectile.height, target.position, target.width, target.height))
                 return;
 
-            if (Time % 80f == 79f)
+            if (Time % LaserFireRate == LaserFireRate - 1f)
             {
                 if (Projectile.owner == Main.myPlayer)
                 {
