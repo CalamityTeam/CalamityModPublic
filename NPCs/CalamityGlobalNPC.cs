@@ -817,7 +817,7 @@ namespace CalamityMod.NPCs
             // Cursed Inferno
             if (npc.onFire2)
             {
-                int baseCursedInfernoDoTValue = (int)((npc.oiled ? 62 : 12) * vanillaHeatDamageMult);
+                int baseCursedInfernoDoTValue = (int)((npc.oiled ? 98 : 48) * vanillaHeatDamageMult);
                 npc.lifeRegen -= baseCursedInfernoDoTValue;
                 if (damage < baseCursedInfernoDoTValue / 4)
                     damage = baseCursedInfernoDoTValue / 4;
@@ -983,7 +983,7 @@ namespace CalamityMod.NPCs
             // Venom
             if (npc.venom)
             {
-                int baseVenomDoTValue = (int)(12 * vanillaSicknessDamageMult);
+                int baseVenomDoTValue = (int)(60 * vanillaSicknessDamageMult);
                 npc.lifeRegen -= baseVenomDoTValue;
                 if (damage < baseVenomDoTValue / 4)
                     damage = baseVenomDoTValue / 4;
@@ -992,7 +992,7 @@ namespace CalamityMod.NPCs
             // Electrified
             if (electrified > 0)
             {
-                int baseElectrifiedDoTValue = (int)((CalamityPlayer.areThereAnyDamnBosses ? 5 : 10) * (npc.velocity.X == 0 ? 1 : 4) * electricityDamageMult);
+                int baseElectrifiedDoTValue = (int)(5 * (npc.velocity.X == 0 ? 1 : 4) * electricityDamageMult);
                 ApplyDPSDebuff(baseElectrifiedDoTValue, baseElectrifiedDoTValue / 5, ref npc.lifeRegen, ref damage);
             }
 

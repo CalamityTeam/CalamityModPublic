@@ -36,9 +36,6 @@ namespace CalamityMod.Projectiles.Summon
         internal ref float Time => ref Projectile.ai[1];
         internal ref float TotalWormSegments => ref Projectile.localAI[0];
 
-        private static bool Use_TML_0_11_7_7_Hacky_Netcode = false;
-
-
         // Helper functions because Mechworm does a lot of checking for either itself or its target being near the edge of the world.
         private static Vector2 WorldTopLeft(int tileDist = 15) => new Vector2(tileDist * 16f);
         private static Vector2 WorldBottomRight(int tileDist = 15) => new Vector2(Main.maxTilesX - tileDist, Main.maxTilesY - tileDist) * 16f;
@@ -73,12 +70,6 @@ namespace CalamityMod.Projectiles.Summon
         #region Syncing
         public override void SendExtraAI(BinaryWriter writer)
         {
-            // TODO -- remove when TML updates to 0.11.7.8
-            // TML 0.11.7.7 SPECIFIC FIX (because they were too slow to update): Write an extra UUID here.
-            // This is necessary because NetMessage case 27 and MessageBuffer case 27 are out of order with each other.
-            if (Use_TML_0_11_7_7_Hacky_Netcode)
-                writer.Write((short)Projectile.projUUID);
-
             byte enumByte = (byte)CurrentAttackState;
             writer.Write(enumByte);
             writer.Write(AttackStateTimer);
@@ -88,6 +79,7 @@ namespace CalamityMod.Projectiles.Summon
             writer.Write(EndRiftGateUUID);
             writer.WriteVector2(TeleportStartingPoint);
             writer.WriteVector2(TeleportEndingPoint);
+            writer.Write(Projectile.extraUpdates);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
@@ -100,12 +92,7 @@ namespace CalamityMod.Projectiles.Summon
             EndRiftGateUUID = reader.ReadInt32();
             TeleportStartingPoint = reader.ReadVector2();
             TeleportEndingPoint = reader.ReadVector2();
-
-            // TODO -- remove when TML updates to 0.11.7.8
-            // TML 0.11.7.7 SPECIFIC FIX (because they were too slow to update): Read and dump an extra UUID here.
-            // This is necessary because NetMessage case 27 and MessageBuffer case 27 are out of order with each other.
-            if (Use_TML_0_11_7_7_Hacky_Netcode)
-                _ = reader.ReadInt16();
+            Projectile.extraUpdates = reader.ReadInt32();
         }
         #endregion
 
@@ -172,10 +159,10 @@ namespace CalamityMod.Projectiles.Summon
             }
 
             // Mechworm has an extremely generous default aggro range of 2200, but if it's already attacking, its bloodlust is insatiable.
-            NPC potentialTarget = Projectile.Center.MinionHoming(AttackStateTimer > 0 ? 999999f : 2200f, owner);
+            NPC potentialTarget = Projectile.Center.MinionHoming(AttackStateTimer > 0 ? 999999f : 2800f, owner);
 
             // Teleport to the player if the worm is very far away from them.
-            if (Projectile.Distance(owner.Center) > 2700f)
+            if (Projectile.Distance(owner.Center) > 3850f)
             {
                 Projectile.Center = owner.Center;
                 // Reset the worm's velocity when it returns to the player so that it doesn't instantly yeet off somewhere.
@@ -191,6 +178,7 @@ namespace CalamityMod.Projectiles.Summon
                 else
                     PortalAttackMovement(potentialTarget);
                 UpdateAttackStates();
+                Projectile.extraUpdates = 1;
             }
             // Attacking movement can be canceled, so if it was, run the passive movement instead.
             else
@@ -215,6 +203,8 @@ namespace CalamityMod.Projectiles.Summon
 
         private void PlayerFollowMovement(Player owner)
         {
+            Projectile.extraUpdates = 0;
+
             // Reset the gate UUID from any previous teleports.
             if (EndRiftGateUUID != -1)
             {
@@ -250,7 +240,7 @@ namespace CalamityMod.Projectiles.Summon
                 Projectile.velocity.Y -= 0.1f;
 
             // The worm's max speed is more strictly capped for the first few seconds.
-            float maxSpeed = Time < StartupLethargy ? 13f : 25f;
+            float maxSpeed = Time < StartupLethargy ? 6.5f : 25f;
             if (Projectile.velocity.Length() > maxSpeed)
                 Projectile.velocity = Vector2.Normalize(Projectile.velocity) * maxSpeed;
         }

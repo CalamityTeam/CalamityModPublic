@@ -38,7 +38,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.tileCollide = false;
             Projectile.DamageType = DamageClass.Summon;
             Projectile.minionSlots = 0f;
-            Projectile.penetrate = -1;
+            Projectile.penetrate = 3;
             Projectile.MaxUpdates = 3;
             Projectile.timeLeft = Projectile.MaxUpdates * Lifetime;
             Projectile.usesLocalNPCImmunity = true;
