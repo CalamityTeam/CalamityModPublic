@@ -56,5 +56,15 @@ namespace CalamityMod.Items.Weapons.Rogue
             }
             return true;
         }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe(333).
+                AddIngredient<PurifiedGel>(2).
+                AddIngredient(ItemID.Gel, 6).
+                AddIngredient(ItemID.HellstoneBar, 1).
+                AddTile<StaticRefiner>().
+                Register();
+        }
     }
 }

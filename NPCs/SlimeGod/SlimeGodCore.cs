@@ -602,8 +602,7 @@ namespace CalamityMod.NPCs.SlimeGod
                     ModContent.ItemType<AbyssalTome>(),
                     ModContent.ItemType<EldritchTome>(),
                     ModContent.ItemType<CorroslimeStaff>(),
-                    ModContent.ItemType<CrimslimeStaff>(),
-                    ModContent.ItemType<SlimePuppetStaff>(),
+                    ModContent.ItemType<CrimslimeStaff>()
                 };
                 normalOnly.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, weapons));
 
