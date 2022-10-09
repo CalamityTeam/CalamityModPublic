@@ -41,7 +41,7 @@ namespace CalamityMod.Projectiles.Typeless
             // Play tier transition sounds on the first frame.
             if (Projectile.localAI[0] == 0f)
             {
-                float volume = 1.8f;
+                float volume = 2.8f;
                 switch (Tier)
                 {
                     case 2:

@@ -398,7 +398,7 @@ namespace CalamityMod.NPCs.AstrumAureus
         {
             if (NPC.soundDelay == 0)
             {
-                NPC.soundDelay = 20;
+                NPC.soundDelay = 16;
                 SoundEngine.PlaySound(HitSound, NPC.Center);
             }
 

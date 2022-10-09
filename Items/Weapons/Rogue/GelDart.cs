@@ -1,5 +1,7 @@
 ﻿using Terraria.DataStructures;
+using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Rogue;
+using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -55,6 +57,16 @@ namespace CalamityMod.Items.Weapons.Rogue
                 return false;
             }
             return true;
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe(333).
+                AddIngredient<PurifiedGel>(2).
+                AddIngredient(ItemID.Gel, 6).
+                AddIngredient(ItemID.HellstoneBar, 1).
+                AddTile<StaticRefiner>().
+                Register();
         }
     }
 }

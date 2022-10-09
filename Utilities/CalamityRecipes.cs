@@ -970,7 +970,7 @@ namespace CalamityMod
             r = Recipe.Create(ItemID.RoninHat);
             r.AddIngredient(ModContent.ItemType<AstralClay>(), 10);
             r.AddIngredient(ItemID.Firefly, 3); // Does not use the recipe group in Vanilla
-            r.AddTile(TileID.Furnaces);
+            r.AddTile(TileID.Loom);
             r.Register();
         }
         #endregion

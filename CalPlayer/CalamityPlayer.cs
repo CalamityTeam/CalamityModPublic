@@ -5567,7 +5567,7 @@ namespace CalamityMod.CalPlayer
                 else if ((profanedCrystal || profanedCrystalForce) && !profanedCrystalHide)
                 {
                     playSound = false;
-                    SoundEngine.PlaySound(Providence.DeathSound, Player.position);
+                    SoundEngine.PlaySound(Providence.HurtSound, Player.position);
                     hurtSoundTimer = 20;
                 }
                 else if ((abyssalDivingSuitPower || abyssalDivingSuitForce) && !abyssalDivingSuitHide)

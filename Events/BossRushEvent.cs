@@ -613,6 +613,7 @@ namespace CalamityMod.Events
                 BossRushStage++;
                 CalamityUtils.KillAllHostileProjectiles();
                 HostileProjectileKillCounter = 3;
+
                 if (BossDeathEffects.ContainsKey(npc.type))
                     BossDeathEffects[npc.type].Invoke(npc);
             }

@@ -209,11 +209,11 @@ namespace CalamityMod.Projectiles.Ranged
 				}
 				else if (projID == ProjectileID.LavaRocket)
 				{
-					Utils.PlotTileArea(center.X, center.Y, DelegateMethods.SpreadHoney);
+					Utils.PlotTileArea(center.X, center.Y, DelegateMethods.SpreadLava);
 				}
 				else if (projID == ProjectileID.HoneyRocket)
 				{
-					Utils.PlotTileArea(center.X, center.Y, DelegateMethods.SpreadLava);
+					Utils.PlotTileArea(center.X, center.Y, DelegateMethods.SpreadHoney);
 				}
 			}
         }
