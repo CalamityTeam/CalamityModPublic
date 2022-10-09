@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             DisplayName.SetDefault("Iron Francisca");
             Tooltip.SetDefault("The franciscas do more damage for a short time when initially thrown\n" +
-                               "Stealth strikes pierce up to 7 times");
+                               "Stealth strikes pierce up to 6 times");
             SacrificeTotal = 99;
         }
 

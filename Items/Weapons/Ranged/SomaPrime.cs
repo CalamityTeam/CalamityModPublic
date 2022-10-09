@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             DisplayName.SetDefault("Soma Prime");
             Tooltip.SetDefault(@"This weapon can supercrit if its crit chance is over 100%
 All bullets fired inflict Shred, a stacking bleed debuff
-Shred deals 75 DPS per stack and scales with your ranged stats
+Shred deals 150 DPS per stack and scales with your ranged stats
 Damage ticks of Shred can also critically strike or supercrit
 Replaces standard bullets with High Velocity Bullets
 80% chance to not consume ammo");
