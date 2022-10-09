@@ -70,8 +70,7 @@ namespace CalamityMod.Items.TreasureBags
                 ModContent.ItemType<AbyssalTome>(),
                 ModContent.ItemType<EldritchTome>(),
                 ModContent.ItemType<CorroslimeStaff>(),
-                ModContent.ItemType<CrimslimeStaff>(),
-                ModContent.ItemType<SlimePuppetStaff>()
+                ModContent.ItemType<CrimslimeStaff>()
             }));
 
             // Equipment
