@@ -8,14 +8,18 @@ namespace CalamityMod.Projectiles.Pets
     public class RotomPet : ModProjectile
     {
         private bool initialized = false;
-        private int form = 0;
-        private const int Normal = 0;
-        private const int Dex = 1;
-        private const int Wash = 2;
-        private const int Heat = 3;
-        private const int Frost = 4;
-        private const int Mow = 5;
-        private const int Fan = 6;
+
+        private Form RotomType = Form.Normal;
+        private enum Form
+        {
+            Normal,
+            Dex,
+            Wash,
+			Heat,
+			Frost,
+			Mow,
+			Fan
+        }
 
         public override void SetStaticDefaults()
         {
@@ -67,19 +71,19 @@ namespace CalamityMod.Projectiles.Pets
         private void UpdateForm(Player player)
         {
             if (CalamityPlayer.areThereAnyDamnBosses)
-                form = Dex;
+                RotomType = Form.Dex;
             else if (player.ZoneBeach || player.InSunkenSea() || player.InSulphur() || player.InAbyss())
-                form = Wash;
+                RotomType = Form.Wash;
             else if (player.ZoneTowerSolar || player.ZoneDesert || player.ZoneUndergroundDesert || player.ZoneUnderworldHeight || player.InCalamity())
-                form = Heat;
+                RotomType = Form.Heat;
             else if (player.ZoneSnow || Main.snowMoon)
-                form = Frost;
+                RotomType = Form.Frost;
             else if (player.ZoneJungle)
-                form = Mow;
+                RotomType = Form.Mow;
             else if (player.ZoneSkyHeight || player.ZoneMeteor || player.InAstral())
-                form = Fan;
+                RotomType = Form.Fan;
             else
-                form = Normal;
+                RotomType = Form.Normal;
         }
 
         private void DustEffects()
@@ -135,24 +139,24 @@ namespace CalamityMod.Projectiles.Pets
         private void Drawing(Color color, Texture2D normal, Texture2D dex, Texture2D wash, Texture2D heat, Texture2D frost, Texture2D mow, Texture2D fan)
         {
             Texture2D texture = normal;
-            switch (form)
+            switch (RotomType)
             {
-                case Dex:
+                case Form.Dex:
                     texture = dex;
                     break;
-                case Wash:
+                case Form.Wash:
                     texture = wash;
                     break;
-                case Heat:
+                case Form.Heat:
                     texture = heat;
                     break;
-                case Frost:
+                case Form.Frost:
                     texture = frost;
                     break;
-                case Mow:
+                case Form.Mow:
                     texture = mow;
                     break;
-                case Fan:
+                case Form.Fan:
                     texture = fan;
                     break;
                 default:

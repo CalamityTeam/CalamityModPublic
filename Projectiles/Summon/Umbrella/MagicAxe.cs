@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.IO;
 using Terraria;
 using Terraria.Graphics;
 using Terraria.Graphics.Shaders;
@@ -12,13 +13,17 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 {
     public class MagicAxe : ModProjectile
     {
+        public float Behavior = 0f;
+		public ref float ChargeCooldown => ref Projectile.ai[1];
+		public ref float TreeCounter => ref Projectile.localAI[0];
+		public ref float TreeReset => ref Projectile.localAI[1];
 		private const float drawOffset = -MathHelper.PiOver4 + MathHelper.Pi;
         public VertexStrip TrailDrawer;
 
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Axe");
-            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 10;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 40;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 4;
             ProjectileID.Sets.MinionShot[Projectile.type] = true;
         }
@@ -35,11 +40,19 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
             Projectile.penetrate = -1;
             Projectile.minion = true;
             Projectile.tileCollide = false;
-            Projectile.extraUpdates = 1;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 8;
             Projectile.alpha = 255;
             Projectile.DamageType = DamageClass.Summon;
+        }
+
+        public override void SendExtraAI(BinaryWriter writer)
+        {
+            writer.Write(Behavior);
+        }
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            Behavior = reader.ReadSingle();
         }
 
         public override void AI()
@@ -50,8 +63,7 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 			{
 				Projectile.timeLeft = 2;
 			}
-			if (Projectile.FinalExtraUpdate())
-				Projectile.ai[0] -= MathHelper.ToRadians(4f);
+			Projectile.ai[0] -= MathHelper.ToRadians(4f);
 
             float homingRange = MagicHat.Range;
             int targetIndex = -1;
@@ -81,7 +93,7 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
                         float extraDist = (npc.width / 2) + (npc.height / 2);
                         //Calculate distance between target and the projectile to know if it's too far or not
                         float targetDist = Vector2.Distance(npc.Center, Projectile.Center);
-                        if (targetIndex == -1 && targetDist < (homingRange + extraDist))
+                        if (targetDist < (homingRange + extraDist))
                         {
                             homingRange = targetDist;
                             targetIndex = npc.whoAmI;
@@ -92,15 +104,95 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 
 			if (targetIndex == -1)
 			{
-				Projectile.ai[1] = 0f;
+				CooldownReset(false);
 				IdleAI();
 			}
 			else
 			{
-				// Todo, chop down a tree that when fell, explodes into birds and bunnies
-				IdleAI();
+				Projectile.rotation += 0.15f;
+				if (!CooldownReset(true))
+					return;
+				AttackEnemy(targetIndex);
 			}
         }
+
+		private bool CooldownReset(bool offense)
+		{
+            //Breather time between charges as like a reset
+            if (Behavior == 2f)
+            {
+				TreeReset = 0f;
+                ChargeCooldown += 1f;
+                if (ChargeCooldown > 15f)
+                {
+                    ChargeCooldown = 1f;
+                    Behavior = 0f;
+                    Projectile.netUpdate = true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+			if (offense && Behavior == 4f)
+				Behavior = 0f;
+			return true;
+		}
+
+		private void AttackEnemy(int targetIndex)
+		{
+			NPC npc = Main.npc[targetIndex];
+            //Go to the target
+            if (Behavior == 0f)
+            {
+                Vector2 targetSpot = npc.Center - Projectile.Center;
+                float targetDist = targetSpot.Length();
+                targetSpot.Normalize();
+                //Tries to get the minion in the sweet spot of 200 pixels away but the minion also charges so idk what good it does
+                if (targetDist > 200f)
+                {
+                    float speed = 48f;
+                    targetSpot *= speed;
+                    Projectile.velocity = (Projectile.velocity * 40f + targetSpot) / 41f;
+                }
+                else
+                {
+                    float speed = -24f;
+                    targetSpot *= speed;
+                    Projectile.velocity = (Projectile.velocity * 40f + targetSpot) / 41f; //41
+                }
+            }
+
+            //Increment attack counter randomly
+            if (ChargeCooldown > 0f)
+            {
+                ChargeCooldown++;
+            }
+            //If high enough, prepare to attack
+            if (ChargeCooldown > 15f)
+            {
+                ChargeCooldown = 0f;
+                Projectile.netUpdate = true;
+            }
+
+            //Charge at an enemy if not on cooldown
+            if (Behavior == 0f)
+            {
+				Vector2 targetVec = npc.Center - Projectile.Center;
+				float targetDist = targetVec.Length();
+                if (ChargeCooldown == 0f && targetDist < 500f)
+                {
+                    ChargeCooldown += 1f;
+                    if (Main.myPlayer == Projectile.owner)
+                    {
+                        Behavior = 2f;
+                        targetVec.Normalize();
+                        Projectile.velocity = targetVec * 30f;
+                        Projectile.netUpdate = true;
+                    }
+                }
+            }
+		}
 
 		private void IdleAI()
 		{
@@ -132,7 +224,10 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 			{
 				Projectile.Center = returnPos;
 				Projectile.rotation = Projectile.ai[0] + drawOffset;
+				Behavior = 4f;
 			}
+			TreeCounter = 0f;
+			TreeReset = 0f;
 		}
 
         public override Color? GetAlpha(Color lightColor) => Color.White;
@@ -153,7 +248,7 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 			Vector2 drawPosition = Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY);
 			SpriteEffects direction = Projectile.spriteDirection == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
 
-			bool shouldDrawTrail = true;
+			bool shouldDrawTrail = Behavior != 4f;
 			if (shouldDrawTrail)
 			{
 				// Draw the afterimage trail.
@@ -179,5 +274,24 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
                 Main.dust[dust].noGravity = true;
             }
         }
+
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => OnHitEffect(target.Center, target.whoAmI);
+
+        public override void OnHitPvp(Player target, int damage, bool crit) => OnHitEffect(target.Center, -1);
+
+        private void OnHitEffect(Vector2 targetPos, int whoAmI)
+		{
+			if (TreeReset == 0f)
+			{
+				TreeCounter++;
+				TreeReset = 1f;
+			}
+
+			if (TreeCounter >= 20f)
+			{
+				TreeCounter = 0;
+				Projectile.NewProjectile(Projectile.GetSource_FromThis(), targetPos + new Vector2(0f, -600f), Vector2.Zero, ModContent.ProjectileType<MagicTree>(), Projectile.damage * 10, Projectile.knockBack * 3f, Projectile.owner, whoAmI);
+			}
+		}
     }
 }

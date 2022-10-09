@@ -23,7 +23,6 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
             Projectile.height = 14;
             Projectile.ignoreWater = true;
             Projectile.tileCollide = false;
-            Projectile.extraUpdates = 1;
             Projectile.alpha = 255;
             Projectile.timeLeft = 180;
             Projectile.DamageType = DamageClass.Summon;

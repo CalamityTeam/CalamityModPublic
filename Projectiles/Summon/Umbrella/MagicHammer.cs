@@ -41,7 +41,7 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
             Projectile.tileCollide = false;
             Projectile.ignoreWater = true;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 20;
+            Projectile.localNPCHitCooldown = 40;
             Projectile.DamageType = DamageClass.Summon;
         }
 
@@ -96,7 +96,7 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
                         float extraDist = (npc.width / 2) + (npc.height / 2);
                         //Calculate distance between target and the projectile to know if it's too far or not
                         float targetDist = Vector2.Distance(npc.Center, Projectile.Center);
-                        if (targetIndex == -1 && targetDist < (homingRange + extraDist))
+                        if (targetDist < (homingRange + extraDist))
                         {
                             homingRange = targetDist;
                             targetIndex = npc.whoAmI;
@@ -246,14 +246,13 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-            if ((Behavior == 3f || Behavior == 4f) && Main.rand.NextBool(10))
+            if ((Behavior == 3f || Behavior == 4f) && Main.rand.NextBool(20) && Projectile.soundDelay <= 0)
 			{
                 Rectangle location = new Rectangle((int)target.position.X, (int)target.position.Y, target.width, target.height);
                 CombatText.NewText(location, new Color(239, 113, 152), "Stylish!", true);
-				// Sound TBD
-                // SoundEngine.PlaySound(StylishSound, target.Center);
+				SoundEngine.PlaySound(StylishSound with { Volume = 0.35f }, target.Center);
                 Projectile.soundDelay = 60;
-				for (int i = 0; i < 3; i++)
+				for (int i = 0; i < 5; i++)
 				{
 					int confettiDust = Main.rand.Next(139, 143);
 					int confetti = Dust.NewDust(target.Center, target.width, target.height, confettiDust, target.velocity.X, target.velocity.Y, 0, new Color(), 1.2f);

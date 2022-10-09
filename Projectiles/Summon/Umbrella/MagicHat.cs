@@ -82,11 +82,11 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 			}
 			Projectile.ai[0]++;
 
-            //projectile movement
-            Projectile.Center = player.Center + Vector2.UnitY * (player.gfxOffY - 30f);
+            // Projectile movement
+            Projectile.Center = player.MountedCenter + Vector2.UnitY * (player.gfxOffY - 30f);
             if (player.gravDir == -1f)
             {
-                Projectile.position.Y += 120f;
+                Projectile.Center = player.MountedCenter - Vector2.UnitY * (player.gfxOffY - 30f);
                 Projectile.rotation = MathHelper.Pi;
             }
             else
@@ -96,75 +96,22 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
             Projectile.position.X = (int)Projectile.position.X;
             Projectile.position.Y = (int)Projectile.position.Y;
 
-            //Change the summons scale size a little bit to make it pulse in and out
+            // Change the summons scale size a little bit to make it pulse in and out
             float scalar = (float)Main.mouseTextColor / 200f - 0.35f;
             scalar *= 0.2f;
             Projectile.scale = scalar + 0.95f;
 
-            //on summon dust and flexible damage
+            // On summon dust
             if (Projectile.localAI[0] == 0f)
             {
                 int dustAmt = 50;
                 for (int dustIndex = 0; dustIndex < dustAmt; dustIndex++)
                 {
-                    int dustEffects = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y + 16f), Projectile.width, Projectile.height - 16, 234, 0f, 0f, 0, default, 1f);
+                    int dustEffects = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height - 16, 234, 0f, 0f, 0, default, 1f);
                     Main.dust[dustEffects].velocity *= 2f;
                     Main.dust[dustEffects].scale *= 1.15f;
                 }
                 Projectile.localAI[0] += 1f;
-            }
-
-            //finding an enemy, then shooting projectiles if it's detected
-            if (Projectile.owner == Main.myPlayer)
-            {
-				int targetIdx = -1;
-				float maxHomingRange = Range;
-				if (player.HasMinionAttackTargetNPC)
-				{
-					NPC npc = Main.npc[player.MinionAttackTargetNPC];
-					if (npc.CanBeChasedBy(Projectile, false))
-					{
-						float dist = (Projectile.Center - npc.Center).Length();
-						if (dist < maxHomingRange)
-						{
-							targetIdx = player.MinionAttackTargetNPC;
-							maxHomingRange = dist;
-						}
-					}
-				}
-				if (targetIdx == -1)
-				{
-					for (int i = 0; i < Main.npc.Length; ++i)
-					{
-						NPC npc = Main.npc[i];
-						if (npc is null || !npc.active)
-							continue;
-
-						if (npc.CanBeChasedBy(Projectile, false))
-						{
-							float dist = (Projectile.Center - npc.Center).Length();
-							if (dist < maxHomingRange)
-							{
-								targetIdx = i;
-								maxHomingRange = dist;
-							}
-						}
-					}
-				}
-				//targetIdx = -1;
-                if (targetIdx != -1)
-                {
-                    if (Projectile.ai[1]++ % 50f == 25f)
-                    {
-						int projType = Utils.SelectRandom(Main.rand, new int[]
-						{
-							ModContent.ProjectileType<MagicBunny>(),
-							ModContent.ProjectileType<MagicBird>()
-						});
-						Vector2 velocity = CalamityUtils.GetProjectilePhysicsFiringVelocity(Projectile.Center, Main.npc[targetIdx].Center, 0.28f, 12f);
-						Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.oldPosition.X + (float)(Projectile.width / 2), Projectile.oldPosition.Y + (float)(Projectile.height / 2), velocity.X, velocity.Y, projType, Projectile.damage, Projectile.knockBack, Projectile.owner);
-                    }
-                }
             }
         }
 

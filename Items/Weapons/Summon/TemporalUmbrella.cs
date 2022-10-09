@@ -17,9 +17,9 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             DisplayName.SetDefault("Temporal Umbrella");
             Tooltip.SetDefault("Surprisingly sturdy, I reckon this could defeat the Mafia in a single blow\n" +
-                "Summons a magic hat to hover above your head\n" +
-                "The hat will release a variety of objects to assault your foes\n" +
-                "Requires 5 minion slots to use and there can only be one hat");
+                "Summons a variety of tools to assist you in battle\n" +
+                "Best of all, you get to wear a top hat\n" +
+                "Requires 5 minion slots to use and there can only be one set of tools");
             SacrificeTotal = 1;
         }
 

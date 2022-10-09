@@ -29,7 +29,6 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
             Projectile.light = 0.5f;
             Projectile.scale = 1.18f;
             Projectile.friendly = true;
-            Projectile.minion = true;
             Projectile.ignoreWater = true;
             Projectile.timeLeft = 600;
             Projectile.tileCollide = false;
@@ -70,6 +69,9 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 
         public override bool PreDraw(ref Color lightColor)
         {
+			if (Projectile.alpha != 0)
+				return false;
+
 			Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
 			Rectangle frame = texture.Frame(1, 1, 0, 0);
 			Vector2 origin = frame.Size() * 0.5f;
