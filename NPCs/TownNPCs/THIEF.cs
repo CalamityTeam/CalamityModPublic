@@ -297,11 +297,6 @@ namespace CalamityMod.NPCs.TownNPCs
             shop.item[nextSlot].SetDefaults(ItemID.TrapsightPotion);
             shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 1, 0, 0);
             nextSlot++;
-            if (DownedBossSystem.downedSlimeGod)
-            {
-                shop.item[nextSlot].SetDefaults(ModContent.ItemType<GelDart>());
-                nextSlot++;
-            }
             if (Main.hardMode)
             {
                 shop.item[nextSlot].SetDefaults(ModContent.ItemType<SlickCane>());

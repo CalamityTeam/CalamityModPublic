@@ -13,6 +13,7 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             DisplayName.SetDefault("Puff Shroom");
             Tooltip.SetDefault("Summons a cute mushroom warrior to fight for you");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

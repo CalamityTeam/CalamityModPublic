@@ -5,6 +5,8 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.NPCs.SlimeGod;
+using CalamityMod.Tiles.Furniture.CraftingStations;
+using CalamityMod.Items.Materials;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
@@ -50,6 +52,16 @@ namespace CalamityMod.Items.Weapons.Summon
                     Main.projectile[p].originalDamage = Item.damage;
             }
             return false;
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient<PurifiedGel>(22).
+                AddIngredient(ItemID.Gel, 25).
+                AddIngredient(ItemID.HellstoneBar, 6).
+                AddTile<StaticRefiner>().
+                Register();
         }
     }
 }

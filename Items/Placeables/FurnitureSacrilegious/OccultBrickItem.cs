@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Placeables.FurnitureSacrilegious
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Occult Brick");
-            SacrificeTotal = 1;
+            SacrificeTotal = 100;
         }
 
         public override void SetDefaults()

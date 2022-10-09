@@ -74,7 +74,7 @@ namespace CalamityMod.UI.DraedonSummoning
                 case ExoMech.Twins:
                     iconScale = TwinsIconScale;
                     iconMechTexture = ModContent.Request<Texture2D>("CalamityMod/UI/DraedonSummoning/HeadIcon_ArtemisApollo").Value;
-                    description = "Artemis and Apollo, a pair of extremely agile destroyers with pulse cannons.";
+                    description = "Artemis and Apollo, a pair of extremely persistent automatons with unstable energy reserves.";
                     hoverSound = TwinsHoverSound;
                     break;
             }
