@@ -1,5 +1,7 @@
 ﻿using Terraria.DataStructures;
+using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Rogue;
+using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
