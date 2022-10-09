@@ -82,7 +82,6 @@ namespace CalamityMod.NPCs.Providence
         public static readonly SoundStyle SpawnSound = new("CalamityMod/Sounds/Custom/ProvidenceSpawn") { Volume = 1.2f };
         public static readonly SoundStyle HolyRaySound = new("CalamityMod/Sounds/Custom/ProvidenceHolyRay") { Volume = 1.25f }; //note : Volume gets clamped between 0 and 1. I don't think this does anything, but it was in the original ModSound so im keeping it just in case
         public static readonly SoundStyle HurtSound = new("CalamityMod/Sounds/NPCHit/ProvidenceHurt");
-        public static readonly SoundStyle DeathSound = new("CalamityMod/Sounds/NPCKilled/ProvidenceDeath");
         public static readonly SoundStyle DeathAnimationSound = new("CalamityMod/Sounds/Custom/ProvidenceDeathAnimation");
         
         public static float normalDR = 0.3f;
@@ -125,7 +124,7 @@ namespace CalamityMod.NPCs.Providence
             NPC.noGravity = true;
             NPC.noTileCollide = true;
             NPC.netAlways = true;
-            NPC.DeathSound = DeathSound;
+            NPC.DeathSound = null;
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToCold = true;
             NPC.Calamity().VulnerableToSickness = false;
@@ -1398,7 +1397,6 @@ namespace CalamityMod.NPCs.Providence
             if (DeathAnimationTimer == 92f)
             {
                 SoundEngine.PlaySound(HolyBlast.ImpactSound, NPC.Center);
-                SoundEngine.PlaySound(DeathSound, NPC.Center);
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                     Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<HolyExplosionBoom>(), 0, 0f);
             }

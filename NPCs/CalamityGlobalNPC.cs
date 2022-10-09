@@ -70,6 +70,7 @@ using CalamityMod.Balancing;
 using Terraria.GameContent;
 using CalamityMod.Systems;
 using Terraria.ModLoader.Utilities;
+using Terraria.Audio;
 
 namespace CalamityMod.NPCs
 {
@@ -4591,7 +4592,10 @@ namespace CalamityMod.NPCs
                 {
                     bool appropriatePlayer = Main.myPlayer == playerIndex;
                     if (Main.player[playerIndex].active && appropriatePlayer)
+                    {
                         Main.player[playerIndex].Spawn(PlayerSpawnContext.RecallFromItem);
+                        SoundEngine.PlaySound(BossRushEvent.TeleportSound with { Volume = 1.6f }, Main.player[playerIndex].Center);
+                    }
                 }
             }
 
@@ -4612,8 +4616,8 @@ namespace CalamityMod.NPCs
                     for (int j = 0; j < Main.maxNPCs; j++)
                     {
                         NPC nPC = Main.npc[j];
-                        if (nPC.active && !nPC.buffImmune[ModContent.BuffType<Plague>()] && npc.Distance(nPC.Center) < 100f && !nPC.dontTakeDamage && nPC.lifeMax > 5 && !nPC.friendly && !nPC.townNPC)
-                            nPC.AddBuff(ModContent.BuffType<Plague>(), 300);
+                        if (nPC.active && !nPC.buffImmune[BuffType<Plague>()] && npc.Distance(nPC.Center) < 100f && !nPC.dontTakeDamage && nPC.lifeMax > 5 && !nPC.friendly && !nPC.townNPC)
+                            nPC.AddBuff(BuffType<Plague>(), 300);
                     }
                 }
             }
