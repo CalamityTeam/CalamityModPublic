@@ -142,8 +142,8 @@ namespace CalamityMod
                 
                 // Yoyos, Flails, Spears, etc.
                 // Spears actually work fine with Legendary, but vanilla doesn't give it to them, so we won't either.
-                // Zenith and rapiers are specifically excluded from this, so they get broadsword reforges despite not scaling with melee speed.
-                else if ((item.channel || item.noMelee) && item.type != ItemID.Zenith && item.useStyle != ItemUseStyleID.Rapier)
+                // Zenith, rapiers, and whips are specifically excluded from this, so they get broadsword reforges despite not scaling with melee speed.
+                else if ((item.channel || item.noMelee) && item.type != ItemID.Zenith && item.useStyle != ItemUseStyleID.Rapier && !item.CountsAsClass<SummonMeleeSpeedDamageClass>())
                 {
                     int[][] meleeNoSpeedReforgeTiers = new int[][]
                     {
