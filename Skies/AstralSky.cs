@@ -14,7 +14,7 @@ namespace CalamityMod.Skies
 
         public override void Deactivate(params object[] args)
         {
-            skyActive = false;
+            skyActive = Main.LocalPlayer.Calamity().ZoneAstral;
         }
 
         public override void Reset()
