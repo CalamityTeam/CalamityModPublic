@@ -163,7 +163,7 @@ namespace CalamityMod.Projectiles.Summon
                 Projectile.velocity = Vector2.Lerp(Projectile.velocity, Projectile.SafeDirectionTo(potentialTarget.Center - Vector2.UnitY * 195f) * 17f, 0.035f);
                 Projectile.rotation = Projectile.rotation.AngleTowards(Projectile.AngleTo(potentialTarget.Center), 0.1f);
 
-                if (Projectile.ai[0]++ % 75f == 24f)
+                if (Projectile.ai[0]++ % TacticalPlagueEngine.BulletShootRate == 24f)
                 {
                     bool shootRocket = ++Projectile.ai[1] % 20f == 0f;
                     // Rockets never consume ammo.
