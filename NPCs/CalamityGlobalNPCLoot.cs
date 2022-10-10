@@ -303,6 +303,36 @@ namespace CalamityMod.NPCs
                 case NPCID.BigMimicJungle:
                     npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<CelestialClaymore>(), 7, 4));
                     break;
+
+                // World Feeder
+                // 6-15 Cursed Flame INSTEAD OF 2-5 in Death Mode
+                // 4-8 Souls of Night in Death Mode
+                // Also let World Feeders drop their other loot in Death Mode, as only the Head contains loot normally but it may not be killed last
+                // Monster Meat is already dropped by all 3 segments
+                case NPCID.SeekerHead:
+                    npcLoot.RemoveWhere(
+                        // The following expression returns true if the following conditions are met:
+                        rule => rule is CommonDrop drop // If the rule is an CommonDrop instance
+                            && drop.itemId == ItemID.CursedFlame // And that instance drops a Cursed Flame
+                    );
+                    npcLoot.DefineConditionalDropSet(DropHelper.If(() => !CalamityWorld.death, () => !CalamityWorld.death)).Add(ItemID.CursedFlame, 1, 2, 5);
+                    npcLoot.DefineConditionalDropSet(DropHelper.If(() => CalamityWorld.death, () => CalamityWorld.death)).Add(ItemID.CursedFlame, 1, 6, 15);
+                    npcLoot.DefineConditionalDropSet(DropHelper.If(() => CalamityWorld.death, () => CalamityWorld.death, "This is a Death Mode drop rate")).Add(ItemID.SoulofNight, 1, 4, 8);
+                    break;
+                case NPCID.SeekerBody:
+                case NPCID.SeekerTail:
+                    npcLoot.RemoveWhere(
+                        // The following expression returns true if the following conditions are met:
+                        rule => rule is CommonDrop drop // If the rule is an CommonDrop instance
+                            && drop.itemId == ItemID.CursedFlame // And that instance drops a Cursed Flame
+                    );
+                    npcLoot.DefineConditionalDropSet(DropHelper.If(() => !CalamityWorld.death, () => !CalamityWorld.death)).Add(ItemID.CursedFlame, 1, 2, 5);
+                    npcLoot.DefineConditionalDropSet(DropHelper.If(() => CalamityWorld.death, () => CalamityWorld.death)).Add(ItemID.CursedFlame, 1, 6, 15);
+                    npcLoot.DefineConditionalDropSet(DropHelper.If(() => CalamityWorld.death, () => CalamityWorld.death, "This is a Death Mode drop rate")).Add(ItemID.SoulofNight, 1, 4, 8);
+
+                    npcLoot.DefineConditionalDropSet(DropHelper.If(() => CalamityWorld.death, false)).Add(ItemID.MeatGrinder, 200);
+                    npcLoot.DefineConditionalDropSet(DropHelper.If(() => CalamityWorld.death && Main.WindyEnoughForKiteDrops, false)).Add(ItemID.KiteWorldFeeder, 25);
+                    break;
                 #endregion
 
                 #region Jungle
