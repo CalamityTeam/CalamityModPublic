@@ -172,6 +172,7 @@ namespace CalamityMod
             BossChecklistSupport();
             FargosSupport();
             CensusSupport();
+            DialogueTweakSupport();
             SummonersAssociationSupport();
         }
 
@@ -1040,6 +1041,15 @@ namespace CalamityMod
                 censusMod.Call("TownNPCCondition", NPCType<FAP>(), "Have [i:" + ItemType<FabsolsVodka>() + "] in your inventory in Hardmode");
                 censusMod.Call("TownNPCCondition", NPCType<DILF>(), "Defeat Cryogen");
                 censusMod.Call("TownNPCCondition", NPCType<WITCH>(), "Defeat Supreme Calamitas");
+            }
+        }
+
+        private static void DialogueTweakSupport()
+        {
+            Mod dialogueMod = GetInstance<CalamityMod>().dialogueTweak;
+            if (dialogueMod != null)
+            {
+                dialogueMod.Call("ReplaceShopButtonIcon", NPCType<WITCH>(), "Head");
             }
         }
 
