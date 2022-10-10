@@ -453,6 +453,7 @@ namespace CalamityMod.CalPlayer
         public bool amalgam = false;
         public bool raiderTalisman = false;
         public float raiderCritBonus = RaidersTalisman.RaiderBonus;
+        public int raiderSoundCooldown = 0;
         public bool gSabaton = false;
         public int gSabatonFall = 0;
         public int gSabatonCooldown = 0;
@@ -2123,6 +2124,7 @@ namespace CalamityMod.CalPlayer
             rage = 0f;
             adrenaline = 0f;
             raiderCritBonus = 0f;
+            raiderSoundCooldown = 0;
             gSabatonFall = 0;
             gSabatonCooldown = 0;
             astralStarRainCooldown = 0;

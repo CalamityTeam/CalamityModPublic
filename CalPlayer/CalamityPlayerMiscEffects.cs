@@ -1069,6 +1069,8 @@ namespace CalamityMod.CalPlayer
                 shadowPotCooldown--;
             if (raiderCritBonus > 0f)
                 raiderCritBonus -= RaidersTalisman.RaiderBonus / (float)CalamityUtils.SecondsToFrames(RaidersTalisman.RaiderCooldown);
+            if (raiderSoundCooldown > 0)
+                raiderSoundCooldown--;
             if (gSabatonCooldown > 0)
                 gSabatonCooldown--;
             if (gSabatonFall > 0)

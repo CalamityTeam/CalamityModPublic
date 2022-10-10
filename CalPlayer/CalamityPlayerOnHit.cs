@@ -1249,6 +1249,11 @@ namespace CalamityMod.CalPlayer
             if (raiderTalisman && modProj.stealthStrike)
             {
                 raiderCritBonus = RaidersTalisman.RaiderBonus;
+                if (raiderSoundCooldown <= 0)
+                {
+                    SoundEngine.PlaySound(RaidersTalisman.StealthHitSound, Player.Center);
+                    raiderSoundCooldown = 60;
+                }
             }
 
             if (npcCheck)
