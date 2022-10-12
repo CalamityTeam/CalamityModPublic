@@ -14,9 +14,9 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public const int PulseLifetime = 95;
 
-        public const int IrradiatedDebuffTime = 180;
+        public const int IrradiatedDebuffTime = 120;
 
-        public const int PoisonedDebuffTime = 360;
+        public const int PoisonedDebuffTime = 240;
 
         public override void SetStaticDefaults()
         {
@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Summon
             Item.mana = 10;
             Item.width = 28;
             Item.height = 20;
-            Item.damage = 10;
+            Item.damage = 8;
             Item.useTime = Item.useAnimation = 34;
             Item.useStyle = ItemUseStyleID.HoldUp;
             Item.noMelee = true;
