@@ -558,8 +558,6 @@ namespace CalamityMod.CalPlayer
 							ModContent.ItemType<CharredLasher>(),
 							ModContent.ItemType<DragoonDrizzlefish>()
 						};
-                        legendaryCatches.AddWithCondition<int>(ModContent.ItemType<SparklingEmpress>(), DownedBossSystem.downedDesertScourge);
-                        legendaryCatches.AddWithCondition<int>(ModContent.ItemType<SerpentsBite>(), Main.hardMode);
 						itemDrop = legendaryCatches[Main.rand.Next(legendaryCatches.Count)];
                     }
 					// Increased chance of Dragoon Drizzlefish in Prehardmode
