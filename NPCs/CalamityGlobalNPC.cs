@@ -809,7 +809,7 @@ namespace CalamityMod.NPCs
             // On Fire
             if (npc.onFire)
             {
-                int baseOnFireDoTValue = (int)((npc.oiled ? 58 : 8) * vanillaHeatDamageMult);
+                int baseOnFireDoTValue = (int)(8 * vanillaHeatDamageMult);
                 npc.lifeRegen -= baseOnFireDoTValue;
                 if (damage < baseOnFireDoTValue / 4)
                     damage = baseOnFireDoTValue / 4;
@@ -818,7 +818,7 @@ namespace CalamityMod.NPCs
             // Cursed Inferno
             if (npc.onFire2)
             {
-                int baseCursedInfernoDoTValue = (int)((npc.oiled ? 98 : 48) * vanillaHeatDamageMult);
+                int baseCursedInfernoDoTValue = (int)(48 * vanillaHeatDamageMult);
                 npc.lifeRegen -= baseCursedInfernoDoTValue;
                 if (damage < baseCursedInfernoDoTValue / 4)
                     damage = baseCursedInfernoDoTValue / 4;
@@ -827,7 +827,7 @@ namespace CalamityMod.NPCs
             // Hellfire
             if (npc.onFire3)
             {
-                int baseHellfireDoTValue = (int)((npc.oiled ? 80 : 30) * vanillaHeatDamageMult);
+                int baseHellfireDoTValue = (int)(30 * vanillaHeatDamageMult);
                 npc.lifeRegen -= baseHellfireDoTValue;
                 if (damage < baseHellfireDoTValue / 4)
                     damage = baseHellfireDoTValue / 4;
@@ -855,7 +855,7 @@ namespace CalamityMod.NPCs
             // Shadowflame
             if (npc.shadowFlame)
             {
-                int baseShadowFlameDoTValue = (int)((npc.oiled ? 80 : 30) * vanillaHeatDamageMult);
+                int baseShadowFlameDoTValue = (int)(30 * vanillaHeatDamageMult);
                 npc.lifeRegen -= baseShadowFlameDoTValue;
                 if (damage < baseShadowFlameDoTValue / 4)
                     damage = baseShadowFlameDoTValue / 4;
@@ -864,56 +864,56 @@ namespace CalamityMod.NPCs
             // Brimstone Flames
             if (bFlames > 0)
             {
-                int baseBrimstoneFlamesDoTValue = (int)((npc.oiled ? 90 : 40) * heatDamageMult);
+                int baseBrimstoneFlamesDoTValue = (int)(40 * heatDamageMult);
                 ApplyDPSDebuff(baseBrimstoneFlamesDoTValue, baseBrimstoneFlamesDoTValue / 5, ref npc.lifeRegen, ref damage);
             }
 
             // Holy Flames
             if (hFlames > 0)
             {
-                int baseHolyFlamesDoTValue = (int)((npc.oiled ? 100 : 50) * heatDamageMult);
+                int baseHolyFlamesDoTValue = (int)(50 * heatDamageMult);
                 ApplyDPSDebuff(baseHolyFlamesDoTValue, baseHolyFlamesDoTValue / 5, ref npc.lifeRegen, ref damage);
             }
 
             // God Slayer Inferno
             if (gsInferno > 0)
             {
-                int baseGodSlayerInfernoDoTValue = (int)((npc.oiled ? 500 : 250) * heatDamageMult);
+                int baseGodSlayerInfernoDoTValue = (int)(250 * heatDamageMult);
                 ApplyDPSDebuff(baseGodSlayerInfernoDoTValue, baseGodSlayerInfernoDoTValue / 5, ref npc.lifeRegen, ref damage);
             }
 
             // Dragonfire
             if (dragonFire > 0)
             {
-                int baseDragonFireDoTValue = (int)((npc.oiled ? 720 : 360) * heatDamageMult);
+                int baseDragonFireDoTValue = (int)(360 * heatDamageMult);
                 ApplyDPSDebuff(baseDragonFireDoTValue, baseDragonFireDoTValue / 5, ref npc.lifeRegen, ref damage);
             }
 
             // Demon Flames
             if (dFlames > 0)
             {
-                int baseDemonFlamesDoTValue = (int)((npc.oiled ? 5000 : 2500) * heatDamageMult);
+                int baseDemonFlamesDoTValue = (int)(2500 * heatDamageMult);
                 ApplyDPSDebuff(baseDemonFlamesDoTValue, baseDemonFlamesDoTValue / 5, ref npc.lifeRegen, ref damage);
             }
 
             // Banishing Fire
             if (banishingFire > 0)
             {
-                int baseBanishingFireDoTValue = (int)((npc.oiled ? (npc.lifeMax >= 1000000 ? (npc.lifeMax / 500) + 1500 : 5500) : (npc.lifeMax >= 1000000 ? npc.lifeMax / 500 : 4000)) * heatDamageMult);
+                int baseBanishingFireDoTValue = (int)((npc.lifeMax >= 1000000 ? npc.lifeMax / 500 : 4000) * heatDamageMult);
                 ApplyDPSDebuff(baseBanishingFireDoTValue, baseBanishingFireDoTValue / 5, ref npc.lifeRegen, ref damage);
             }
 
             // Vulnerability Hex
             if (vulnerabilityHex > 0)
             {
-                int baseVulnerabilityHexDoTValue = (int)((npc.oiled ? VulnerabilityHex.DPS * 2 : VulnerabilityHex.DPS) * heatDamageMult);
+                int baseVulnerabilityHexDoTValue = (int)(VulnerabilityHex.DPS * heatDamageMult);
                 ApplyDPSDebuff(baseVulnerabilityHexDoTValue, VulnerabilityHex.TickNumber, ref npc.lifeRegen, ref damage);
             }
 
             // Frostburn
             if (npc.onFrostBurn)
             {
-                int baseFrostBurnDoTValue = (int)((npc.oiled ? 66 : 16) * vanillaColdDamageMult);
+                int baseFrostBurnDoTValue = (int)(16 * vanillaColdDamageMult);
                 npc.lifeRegen -= baseFrostBurnDoTValue;
                 if (damage < baseFrostBurnDoTValue / 4)
                     damage = baseFrostBurnDoTValue / 4;
@@ -922,10 +922,30 @@ namespace CalamityMod.NPCs
             // Frostbite
             if (npc.onFrostBurn2)
             {
-                int baseFrostBiteDoTValue = (int)((npc.oiled ? 100 : 50) * vanillaColdDamageMult);
+                int baseFrostBiteDoTValue = (int)(50 * vanillaColdDamageMult);
                 npc.lifeRegen -= baseFrostBiteDoTValue;
                 if (damage < baseFrostBiteDoTValue / 4)
                     damage = baseFrostBiteDoTValue / 4;
+            }
+
+            // Oiled
+            bool hasColdOil = npc.onFrostBurn || npc.onFrostBurn2;
+            bool hasHotOil = npc.onFire || npc.onFire2 || npc.onFire3 || npc.shadowFlame;
+            bool hasModHotOil = bFlames > 0 || hFlames > 0 || gsInferno > 0 || dragonFire > 0 || dFlames > 0 || banishingFire > 0 || vulnerabilityHex > 0;
+            if (npc.oiled && (hasColdOil || hasHotOil || hasModHotOil))
+            {
+                double multiplier = 1D;
+                if (hasColdOil)
+                    multiplier *= vanillaColdDamageMult;
+                if (hasHotOil || (hasModHotOil && hasColdOil))
+                    multiplier *= vanillaHeatDamageMult;
+                if (hasModHotOil && !hasColdOil && !hasHotOil)
+                    multiplier *= heatDamageMult;
+
+                int baseOiledDoTValue = (int)(50 * multiplier);
+                npc.lifeRegen -= baseOiledDoTValue;
+                if (damage < baseOiledDoTValue / 4)
+                    damage = baseOiledDoTValue / 4;
             }
 
             // Nightwither
