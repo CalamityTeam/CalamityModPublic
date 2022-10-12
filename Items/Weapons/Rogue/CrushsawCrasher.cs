@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SetDefaults()
         {
             Item.width = 38;
-            Item.damage = 65;
+            Item.damage = 85;
             Item.useAnimation = 18;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.useTime = 18;
@@ -33,11 +33,11 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.value = CalamityGlobalItem.Rarity8BuyPrice;
             Item.rare = ItemRarityID.Lime;
             Item.shoot = ModContent.ProjectileType<Crushax>();
-            Item.shootSpeed = 11f;
+            Item.shootSpeed = 13.5f;
             Item.DamageType = RogueDamageClass.Instance;
         }
 
-		public override float StealthDamageMultiplier => 0.2f;
+		public override float StealthDamageMultiplier => 0.7f;
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
@@ -51,8 +51,6 @@ namespace CalamityMod.Items.Weapons.Rogue
                     if (proj.WithinBounds(Main.maxProjectiles))
                     {
                         Main.projectile[proj].Calamity().stealthStrike = true;
-                        Main.projectile[proj].usesLocalNPCImmunity = true;
-                        Main.projectile[proj].localNPCHitCooldown = 10;
                     }
                     spread -= Main.rand.Next(1,4);
                 }

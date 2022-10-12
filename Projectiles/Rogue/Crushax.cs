@@ -23,7 +23,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.aiStyle = ProjAIStyleID.ThrownProjectile;
             Projectile.timeLeft = 300;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 14;
+            Projectile.localNPCHitCooldown = 12;
             AIType = ProjectileID.ThrowingKnife;
             Projectile.DamageType = RogueDamageClass.Instance;
         }
