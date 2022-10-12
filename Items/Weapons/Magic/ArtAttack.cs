@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -9,6 +10,7 @@ namespace CalamityMod.Items.Weapons.Magic
     {
         public const int MaxDamageBoostTime = 270;
         public const float MaxDamageBoostFactor = 2.3f;
+        public static readonly SoundStyle UseSound = new("CalamityMod/Sounds/Item/ArtAttackCast");
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Art Attack");
@@ -31,7 +33,7 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.knockBack = 2f;
             Item.value = CalamityGlobalItem.Rarity7BuyPrice;
             Item.rare = ItemRarityID.Lime;
-            Item.UseSound = SoundID.Item28;
+            Item.UseSound = UseSound;
             Item.autoReuse = true;
             Item.noUseGraphic = true;
             Item.shoot = ModContent.ProjectileType<ArtAttackHoldout>();
