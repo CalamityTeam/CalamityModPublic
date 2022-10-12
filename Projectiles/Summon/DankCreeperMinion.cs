@@ -188,8 +188,8 @@ namespace CalamityMod.Projectiles.Summon
                     num553 = num550 / num553;
                     num551 *= num553;
                     num552 *= num553;
-                    Projectile.velocity.X = (Projectile.velocity.X * 14f + num551) / 15f;
-                    Projectile.velocity.Y = (Projectile.velocity.Y * 14f + num552) / 15f;
+                    Projectile.velocity.X = (Projectile.velocity.X * 40f + num551) / 41f;
+                    Projectile.velocity.Y = (Projectile.velocity.Y * 40f + num552) / 41f;
                 }
                 else
                 {
