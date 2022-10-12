@@ -172,8 +172,13 @@ namespace CalamityMod.UI.Rippers
             float uiScale = Main.UIScale;
             Rectangle mouseHitbox = new Rectangle((int)Main.MouseScreen.X, (int)Main.MouseScreen.Y, 8, 8);
 
+            bool useFullTexture = modPlayer.adrenaline >= modPlayer.adrenalineMax || modPlayer.adrenalineModeActive;
+            Vector2 adrenSize = new Vector2(adrenBorderTex.Width, adrenBorderTex.Height / AdrenBarFrames);
+            if (useFullTexture)
+                adrenSize = new Vector2(adrenBorderTexFull.Width, adrenBorderTexFull.Height / AdrenBarFullFrames);
+
             Rectangle rageBar = Utils.CenteredRectangle(rageScreenPos, rageBorderTex.Size() * uiScale);
-            Rectangle adrenBar = Utils.CenteredRectangle(adrenScreenPos, adrenBorderTex.Size() * uiScale);
+            Rectangle adrenBar = Utils.CenteredRectangle(adrenScreenPos, adrenSize * uiScale);
 
             bool rageHover = mouseHitbox.Intersects(rageBar) && modPlayer.RageEnabled;
             bool adrenHover = mouseHitbox.Intersects(adrenBar) && modPlayer.AdrenalineEnabled;
