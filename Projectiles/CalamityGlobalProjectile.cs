@@ -2002,10 +2002,9 @@ namespace CalamityMod.Projectiles
 
                     if (projectile.CountsAsClass<RogueDamageClass>() && stealthStrike)
                     {
+                        int gloveArmorPenAmt = modPlayer.nanotech ? 15 : (modPlayer.electricianGlove ? 10 : 8);
                         if (modPlayer.filthyGlove || modPlayer.bloodyGlove)
-                            projectile.ArmorPenetration += 10;
-                        if (modPlayer.nanotech)
-                            projectile.ArmorPenetration += 10; // 20 total
+                            projectile.ArmorPenetration += gloveArmorPenAmt;
                     }
                 }
 
@@ -2612,7 +2611,7 @@ namespace CalamityMod.Projectiles
 
                     if (modPlayer.scuttlersJewel && stealthStrike && modPlayer.scuttlerCooldown <= 0)
                     {
-                        int damage = (int)player.GetTotalDamage<RogueDamageClass>().ApplyTo(15);
+                        int damage = (int)player.GetTotalDamage<RogueDamageClass>().ApplyTo(20);
                         int spike = Projectile.NewProjectile(projectile.GetSource_FromThis(), projectile.Center, Vector2.Zero, ProjectileType<JewelSpike>(), damage, projectile.knockBack, projectile.owner);
                         Main.projectile[spike].frame = 4;
                         if (spike.WithinBounds(Main.maxProjectiles))

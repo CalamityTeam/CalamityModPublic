@@ -2814,7 +2814,7 @@ namespace CalamityMod.CalPlayer
 
             if (filthyGlove)
             {
-                bonusStealthDamage += nanotech ? 0.05f : 0.1f;
+                bonusStealthDamage += nanotech ? 0.05f : 0.08f;
             }
 
             if (dAmulet)
