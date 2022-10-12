@@ -1,10 +1,10 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
+﻿using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Weapons.Summon;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
@@ -74,7 +74,8 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), RustyBeaconPrototype.SulphuricPoisonDebuffTime);
+            target.AddBuff(ModContent.BuffType<Irradiated>(), RustyBeaconPrototype.IrradiatedDebuffTime);
+            target.AddBuff(BuffID.Poisoned, RustyBeaconPrototype.PoisonedDebuffTime);
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)

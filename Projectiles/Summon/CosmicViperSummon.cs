@@ -30,7 +30,6 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.netImportant = true;
             Projectile.friendly = true;
             Projectile.ignoreWater = true;
-            Projectile.aiStyle = ProjAIStyleID.MiniTwins;
             Projectile.minionSlots = 1f;
             Projectile.timeLeft = 18000;
             Projectile.penetrate = -1;
@@ -127,9 +126,8 @@ namespace CalamityMod.Projectiles.Summon
                     float extraDist = (npc.width / 2) + (npc.height / 2);
                     //Calculate distance between target and the projectile to know if it's too far or not
                     float targetDist = Vector2.Distance(npc.Center, Projectile.Center);
-                    if (!foundTarget && targetDist < (detectRange + extraDist))
+                    if (targetDist < (detectRange + extraDist))
                     {
-                        detectRange = targetDist;
                         targetVec = npc.Center;
                         foundTarget = true;
                         targetIndex = npc.whoAmI;
@@ -171,16 +169,16 @@ namespace CalamityMod.Projectiles.Summon
                 Vector2 targetVector = targetVec - Projectile.Center;
                 float targetDist = targetVector.Length();
                 targetVector.Normalize();
-                float speedMult = 18f; //12
+                float speedMult = 30f; //12
                 if (targetDist > 200f)
                 {
                     targetVector *= speedMult;
-                    Projectile.velocity = (Projectile.velocity * 40f + targetVector) / 41f;
+                    Projectile.velocity = (Projectile.velocity * 15f + targetVector) / 16f;
                 }
                 else
                 {
                     targetVector *= -(speedMult / 2);
-                    Projectile.velocity = (Projectile.velocity * 40f + targetVector) / 41f;
+                    Projectile.velocity = (Projectile.velocity * 15f + targetVector) / 16f;
                 }
             }
             else
