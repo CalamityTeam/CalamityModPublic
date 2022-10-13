@@ -4447,14 +4447,6 @@ namespace CalamityMod.NPCs
                 }
             }
 
-            // Lance damage edit.
-            if (projectile.type == ProjectileID.JoustingLance || projectile.type == ProjectileID.HallowJoustingLance || projectile.type == ProjectileID.ShadowJoustingLance)
-            {
-                float baseVelocityDamageMultiplier = 0.01f + Main.player[projectile.owner].velocity.Length() * 0.002f;
-                float calamityVelocityDamageMultiplier = 100f * (1f - (1f / (1f + baseVelocityDamageMultiplier)));
-                damage = (int)(Main.player[projectile.owner].ActiveItem().damage * calamityVelocityDamageMultiplier);
-            }
-
             // Apply balancing resists/vulnerabilities.
             BalancingChangesManager.ApplyFromProjectile(npc, ref damage, projectile);
 
