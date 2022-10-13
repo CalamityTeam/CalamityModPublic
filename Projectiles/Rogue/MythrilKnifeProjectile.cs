@@ -1,5 +1,4 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
+﻿using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Weapons.Rogue;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -27,6 +26,27 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.timeLeft = 600;
             AIType = ProjectileID.ThrowingKnife;
             Projectile.DamageType = RogueDamageClass.Instance;
+        }
+
+        public override void AI()
+        {
+            if (Projectile.Calamity().stealthStrike)
+            {
+                if (Main.rand.NextBool(7))
+                {
+                    int index = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 171, 0.0f, 0.0f, 100, new Color(), 1f);
+                    Main.dust[index].noGravity = true;
+                    Main.dust[index].fadeIn = 1.5f;
+                    Main.dust[index].velocity *= 0.25f;
+                }
+                if (Main.rand.NextBool(5))
+                {
+                    int index = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 46, 0.0f, 0.0f, 100, new Color(), 1f);
+                    Main.dust[index].noGravity = true;
+                    Main.dust[index].fadeIn = 1.5f;
+                    Main.dust[index].velocity *= 0.25f;
+                }
+            }
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
@@ -70,9 +90,9 @@ namespace CalamityMod.Projectiles.Rogue
             if (!Projectile.Calamity().stealthStrike)
                 return;
 
-            target.AddBuff(BuffID.CursedInferno, 300);
-            target.AddBuff(ModContent.BuffType<Irradiated>(), 300);
-            target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 300);
+            target.AddBuff(BuffID.Poisoned, 300);
+            target.AddBuff(BuffID.Venom, 120);
+            target.AddBuff(ModContent.BuffType<Irradiated>(), 60);
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
@@ -80,9 +100,9 @@ namespace CalamityMod.Projectiles.Rogue
             if (!Projectile.Calamity().stealthStrike)
                 return;
 
-            target.AddBuff(BuffID.CursedInferno, 300);
-            target.AddBuff(ModContent.BuffType<Irradiated>(), 300);
-            target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 300);
+            target.AddBuff(BuffID.Poisoned, 300);
+            target.AddBuff(BuffID.Venom, 120);
+            target.AddBuff(ModContent.BuffType<Irradiated>(), 60);
         }
     }
 }
