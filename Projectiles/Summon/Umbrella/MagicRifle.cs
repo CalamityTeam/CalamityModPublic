@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.Sounds;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
@@ -14,7 +15,12 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
     {
         public VertexStrip TrailDrawer;
 		public bool drawTrail = false;
+		public bool leftSide = false;
+		public int swapCooldown = 0;
+		public float sineCounter = 0f;
 		public ref float SwapSides => ref Projectile.localAI[0];
+		public ref float SpinCounter => ref Projectile.localAI[1];
+		public ref float ShootCooldown => ref Projectile.ai[1];
 
         public override void SetStaticDefaults()
         {
@@ -40,7 +46,7 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 
         public override void AI()
         {
-            //Set player namespace
+            // Set player namespace
             Player player = Main.player[Projectile.owner];
 
 			if (player.Calamity().magicHat)
@@ -49,18 +55,23 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 			}
 
 			Projectile.ai[0] -= MathHelper.ToRadians(4f);
+			if (swapCooldown > 0)
+				swapCooldown--;
+			if (swapCooldown == 1)
+				leftSide = !leftSide;
+			sineCounter++;
 
             float homingRange = MagicHat.Range;
             Vector2 targetVec = Projectile.position;
             int targetIndex = -1;
-            //If targeting something, prioritize that enemy
+            // If targeting something, prioritize that enemy
             if (player.HasMinionAttackTargetNPC)
             {
                 NPC npc = Main.npc[player.MinionAttackTargetNPC];
                 if (npc.CanBeChasedBy(Projectile, false))
                 {
                     float extraDist = (npc.width / 2) + (npc.height / 2);
-                    //Calculate distance between target and the projectile to know if it's too far or not
+                    // Calculate distance between target and the projectile to know if it's too far or not
                     float targetDist = Vector2.Distance(npc.Center, Projectile.Center);
                     if (targetDist < (homingRange + extraDist))
                     {
@@ -78,7 +89,7 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
                     if (npc.CanBeChasedBy(Projectile, false))
                     {
                         float extraDist = (npc.width / 2) + (npc.height / 2);
-                        //Calculate distance between target and the projectile to know if it's too far or not
+                        // Calculate distance between target and the projectile to know if it's too far or not
                         float targetDist = Vector2.Distance(npc.Center, Projectile.Center);
                         if (targetDist < (homingRange + extraDist))
                         {
@@ -90,7 +101,7 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
                 }
             }
 
-            //Update rotation and position
+            // Update rotation and position
             if (targetIndex == -1)
             {
 				IdleAI();
@@ -100,41 +111,67 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 				AttackMovement(targetIndex);
 			}
 
-            //Increment attack cooldown
-            if (Projectile.ai[1] > 0f)
+            // Return if on swap cooldown
+            if (swapCooldown != 0f)
+                return;
+
+            // Increment attack cooldown
+            if (ShootCooldown > 0f)
             {
-                Projectile.ai[1] += 1f;
+                ShootCooldown += 1f;
             }
-            //Set the minion to be ready for attack
-            if (Projectile.ai[1] > 45f)
+            // Set the minion to be ready for attack
+            if (ShootCooldown > 45f)
             {
-                Projectile.ai[1] = 0f;
+                ShootCooldown = 0f;
                 Projectile.netUpdate = true;
             }
 
-            //Return if on attack cooldown, has no target
-            if (Projectile.ai[1] != 0f || targetIndex == -1)
+            // Return if on attack cooldown, has no target
+            if (ShootCooldown != 0f || targetIndex == -1)
                 return;
 
-            //Shoot a bullet
+			if (SwapSides > 5f)
+			{
+				SpinCounter += MathHelper.ToRadians(60f) * Projectile.spriteDirection;
+				if (Math.Abs(SpinCounter) > MathHelper.ToRadians(720f))
+				{
+					SpinCounter = 0f;
+					SwapSides = -1f;
+				}
+				return;
+			}
+
+            // Shoot a bullet
             if (Main.myPlayer == Projectile.owner)
             {
                 float projSpeed = 6f;
                 int projType = ModContent.ProjectileType<MagicBullet>();
-                if (Main.rand.NextBool(6))
-                {
-                    SoundEngine.PlaySound(SoundID.Item20 with { Volume = SoundID.Item20.Volume * 0.1f}, Projectile.position);
-                }
-                Projectile.ai[1] += 1f;
+				int damage = Projectile.damage;
+				float kback = 0f;
+				if (SwapSides == -1f)
+				{
+					projType = ModContent.ProjectileType<MagicBulletBig>();
+					damage *= 2;
+					swapCooldown = 30;
+					kback = Projectile.knockBack
+				}
+                ShootCooldown += 1f;
                 if (Main.myPlayer == Projectile.owner)
                 {
                     Vector2 velocity = targetVec - Projectile.Center;
                     velocity.Normalize();
                     velocity *= projSpeed;
-                    SoundEngine.PlaySound(SoundID.Item40, Projectile.position);
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, projType, Projectile.damage, 0f, Projectile.owner);
+
+                    SoundEngine.PlaySound(SwapSides == -1f ? CommonCalamitySounds.LargeWeaponFireSound : SoundID.Item40, Projectile.position);
+
+                    int bullet = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, projType, damage, kback, Projectile.owner);
+					// For unknown reasons, the bullet does not spawn at the desired position, so let's set that manually
+					if (Main.projectile.IndexInRange(bullet))
+						Main.projectile[bullet].Center = Projectile.Center;
                     Projectile.netUpdate = true;
                 }
+                SwapSides += 1f;
             }
         }
 
@@ -143,37 +180,35 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 			Player player = Main.player[Projectile.owner];
 			NPC target = Main.npc[targetIndex];
 
-			SwapSides++;
-
 			Vector2 returnPos = Vector2.Zero;
 			Vector2 returnPos1 = target.Right + new Vector2(300f, 0f);
 			Vector2 returnPos2 = target.Left - new Vector2(300f, 0f);
 
-			returnPos = (SwapSides % 600f < 300f) ? returnPos1 : returnPos2;
+			returnPos = !leftSide ? returnPos1 : returnPos2;
 			if (player.Center.X - target.Center.X < 0)
-				returnPos = (SwapSides % 600f < 300f) ? returnPos2 : returnPos1;
+				returnPos = !leftSide ? returnPos2 : returnPos1;
 
 			// Target distance calculations
 			Vector2 targetVec = returnPos - Projectile.Center;
 			float targetDist = targetVec.Length();
 
-			float targetHomeSpeed = 20f;
-			// If more than 60 pixels away, move toward the target
-			if (targetDist > 60f)
+			float targetHomeSpeed = 60f;
+			// If more than 100 pixels away, move toward the target
+			if (targetDist > 100f)
 			{
 				targetVec.Normalize();
 				targetVec *= targetHomeSpeed;
 				Projectile.velocity = (Projectile.velocity * 10f + targetVec) / 11f;
                 Projectile.spriteDirection = Projectile.direction = ((returnPos.X - Projectile.Center.X) > 0).ToDirectionInt();
-				Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.ToRadians(45f) * Projectile.spriteDirection;
+				Projectile.rotation = Projectile.velocity.ToRotation() + (Projectile.spriteDirection == 1 ? MathHelper.ToRadians(-135f) : MathHelper.ToRadians(-45f));
 				Projectile.ai[1] = 40f;
 			}
 			else
 			{
                 Projectile.spriteDirection = Projectile.direction = ((target.Center.X - Projectile.Center.X) > 0).ToDirectionInt();
 				float angle = Projectile.AngleTo(target.Center) + (Projectile.spriteDirection == 1 ? MathHelper.ToRadians(-135f) : MathHelper.ToRadians(-45f));
-                Projectile.rotation = Projectile.rotation.AngleTowards(angle, 0.1f);
-				Projectile.Center = returnPos + new Vector2(0f, ((float)Math.Sin(MathHelper.TwoPi * 0.5f + SwapSides / 50f) * 0.5f + 0.5f) * 40f);
+                Projectile.rotation = (SpinCounter != 0f ? angle + SpinCounter : Projectile.rotation.AngleTowards(angle, 0.3f));
+				Projectile.Center = returnPos + new Vector2(0f, ((float)Math.Sin(MathHelper.TwoPi * 0.5f + sineCounter / 50f) * 0.5f + 0.5f) * 40f);
 			}
 			drawTrail = true;
 		}
