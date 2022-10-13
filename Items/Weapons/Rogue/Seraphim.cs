@@ -46,7 +46,6 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-
             int knife = Projectile.NewProjectile(source, position + velocity, velocity, type, damage, knockback, player.whoAmI);
             if (Main.projectile.IndexInRange(knife))
                 Main.projectile[knife].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
@@ -54,12 +53,11 @@ namespace CalamityMod.Items.Weapons.Rogue
             // Have stealth strikes release bursts of light that explode.
             if (player.Calamity().StealthStrikeAvailable())
             {
-                int stealthDamage = (int)(damage * 1.4);
                 for (int i = 0; i < StealthStrikeLightCount; i++)
                 {
                     float offsetAngle = MathHelper.Lerp(-0.97f, 0.97f, i / (float)(StealthStrikeLightCount - 1f));
                     Vector2 lightShootVelocity = velocity.SafeNormalize(Vector2.UnitY).RotatedBy(offsetAngle) * 23f;
-                    Projectile.NewProjectile(source, position, lightShootVelocity, ModContent.ProjectileType<SeraphimAngelicLight2>(), stealthDamage, knife, player.whoAmI, 1f);
+                    Projectile.NewProjectile(source, position, lightShootVelocity, ModContent.ProjectileType<SeraphimAngelicLight2>(), damage, knife, player.whoAmI, 1f);
                 }
             }
             return false;

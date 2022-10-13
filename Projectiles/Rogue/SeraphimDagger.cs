@@ -2,9 +2,9 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Rogue
 {
@@ -21,7 +21,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.height = 50;
             Projectile.friendly = true;
             Projectile.ignoreWater = true;
-            Projectile.penetrate = -1;
+            Projectile.penetrate = 3;
             Projectile.timeLeft = 150;
             Projectile.MaxUpdates = 2;
             Projectile.alpha = 0;
@@ -80,6 +80,9 @@ namespace CalamityMod.Projectiles.Rogue
 
             Time++;
         }
+
+        // Halve damage every hit
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => Projectile.damage = Math.Max(1, (int)(Projectile.damage * 0.5));
 
         public override bool PreDraw(ref Color lightColor)
         {
