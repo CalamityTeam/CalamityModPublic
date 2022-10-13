@@ -154,7 +154,7 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 					projType = ModContent.ProjectileType<MagicBulletBig>();
 					damage *= 2;
 					swapCooldown = 30;
-					kback = Projectile.knockBack
+					kback = Projectile.knockBack;
 				}
                 ShootCooldown += 1f;
                 if (Main.myPlayer == Projectile.owner)
