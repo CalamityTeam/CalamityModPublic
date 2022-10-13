@@ -95,6 +95,12 @@ namespace CalamityMod.UI.DraedonSummoning
             set;
         } = string.Empty;
 
+        public static float DraedonScreenStaticInterpolant
+        {
+            get;
+            set;
+        } = 1f;
+
         // The text that Draedon should attempt to spell out.
         public static string DraedonTextComplete
         {
@@ -110,7 +116,19 @@ namespace CalamityMod.UI.DraedonSummoning
 
         public static readonly SoundStyle SummonSound = new("CalamityMod/Sounds/Custom/CodebreakerBeam");
 
-        public const int DraedonTextCreationRate = 3;
+        public static char PreviousTextCharacter => DraedonText.Length >= 1 ? DraedonTextComplete[DraedonText.Length - 1] : ' ';
+
+        public static char NextTextCharacter => DraedonText.Length < DraedonTextComplete.Length ? DraedonTextComplete[DraedonText.Length] : ' ';
+
+        public static int DraedonTextCreationRate
+        {
+            get
+            {
+                if (PreviousTextCharacter is '.' or '?')
+                    return 9;
+                return 1;
+            }
+        }
 
         public static void Draw(SpriteBatch spriteBatch)
         {
@@ -135,14 +153,25 @@ namespace CalamityMod.UI.DraedonSummoning
             spriteBatch.Draw(backgroundTexture, BackgroundCenter, null, Color.White, 0f, backgroundTexture.Size() * 0.5f, GeneralScale * (1f - CommunicationPanelScale), 0, 0f);
 
             Rectangle backgroundArea = Utils.CenteredRectangle(BackgroundCenter, backgroundTexture.Size() * GeneralScale);
-            if (MouseScreenArea.Intersects(backgroundArea))
+            if (MouseScreenArea.Intersects(backgroundArea) && !DisplayingCommunicationText)
                 Main.blockMouse = Main.LocalPlayer.mouseInterface = true;
 
             // Display communication stuff as necessary.
-            CommunicationPanelScale = MathHelper.Clamp(CommunicationPanelScale + (DisplayingCommunicationText ? 0.026f : -0.08f), 0f, 1f);
+            if (DisplayingCommunicationText && CommunicationPanelScale == 0f)
+            {
+                CommunicationPanelScale = 1f;
+                DraedonScreenStaticInterpolant = 1f;
+            }
+            if (!DisplayingCommunicationText && CommunicationPanelScale != 0f)
+            {
+                CommunicationPanelScale = 0f;
+                DraedonScreenStaticInterpolant = 0f;
+            }
+
             if (DisplayingCommunicationText)
             {
                 DisplayCommunicationPanel();
+                DraedonScreenStaticInterpolant = MathHelper.Clamp(DraedonScreenStaticInterpolant - 0.014f, 0f, 1f);
                 return;
             }
 
@@ -634,10 +663,34 @@ namespace CalamityMod.UI.DraedonSummoning
 
             Main.spriteBatch.Draw(panelTexture, panelCenter, null, Color.White, 0f, panelTexture.Size() * 0.5f, panelScale, 0, 0f);
 
+            // Draw static if the static interpolant is sufficiently high.
+            if (DraedonScreenStaticInterpolant > 0f)
+            {
+                Main.spriteBatch.End();
+                Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Matrix.Identity);
+
+                // Apply a glitch shader.
+                GameShaders.Misc["CalamityMod:BlueStatic"].SetShaderTexture(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/GreyscaleGradients/SharpNoise"));
+                GameShaders.Misc["CalamityMod:BlueStatic"].Shader.Parameters["useStaticLine"].SetValue(false);
+                GameShaders.Misc["CalamityMod:BlueStatic"].Shader.Parameters["coordinateZoomFactor"].SetValue(0.5f);
+                GameShaders.Misc["CalamityMod:BlueStatic"].Shader.Parameters["useTrueNoise"].SetValue(true);
+                GameShaders.Misc["CalamityMod:BlueStatic"].Apply();
+
+                float readjustedInterpolant = Utils.GetLerpValue(0.42f, 1f, DraedonScreenStaticInterpolant, true);
+                Color staticColor = Color.White * (float)Math.Pow(CalamityUtils.AperiodicSin(readjustedInterpolant * 2.94f) * 0.5f + 0.5f, 0.54) * (float)Math.Pow(readjustedInterpolant, 0.51D);
+                Main.spriteBatch.Draw(panelTexture, panelCenter, null, staticColor, 0f, panelTexture.Size() * 0.5f, panelScale, 0, 0f);
+                Main.spriteBatch.End();
+                Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Matrix.Identity);
+            }
+
+            // Disable clicks if hovering over the panel.
+            if (Utils.CenteredRectangle(panelCenter, panelTexture.Size() * panelScale).Intersects(MouseScreenArea))
+                Main.blockMouse = Main.LocalPlayer.mouseInterface = true;
+
             // Draw a panel that has Draedon's face.
-            float draedonIconDrawInterpolant = Utils.GetLerpValue(0.67f, 1f, CommunicationPanelScale, true);
+            float draedonIconDrawInterpolant = Utils.GetLerpValue(0.51f, 0.36f, DraedonScreenStaticInterpolant, true);
             Vector2 draedonIconDrawTopRight = panelCenter + panelTexture.Size() * new Vector2(-0.5f, -0.5f) * panelScale + new Vector2(2f, 4f) * panelScale;
-            Vector2 draedonIconScale = panelScale * draedonIconDrawInterpolant * 0.2f;
+            Vector2 draedonIconScale = panelScale * 0.2f;
             Vector2 draedonIconCenter = draedonIconDrawTopRight + panelTexture.Size() * new Vector2(0.5f, 0.5f) * draedonIconScale;
             Vector2 draedonIconRight = new(draedonIconDrawTopRight.X, draedonIconCenter.Y);
             Rectangle draedonIconArea = Utils.CenteredRectangle(draedonIconCenter, panelTexture.Size() * draedonIconScale * 0.95f);
@@ -654,7 +707,7 @@ namespace CalamityMod.UI.DraedonSummoning
             GameShaders.Misc["CalamityMod:TeleportDisplacement"].Shader.Parameters["frameCount"].SetValue(Vector2.One);
             GameShaders.Misc["CalamityMod:TeleportDisplacement"].Apply();
 
-            Vector2 draedonScale = new Vector2(1f, draedonIconDrawInterpolant) * 1.6f;
+            Vector2 draedonScale = new Vector2(draedonIconDrawInterpolant, 1f) * 1.6f;
             SpriteEffects draedonDirection = SpriteEffects.FlipHorizontally;
             Texture2D draedonFaceTexture = ModContent.Request<Texture2D>("CalamityMod/NPCs/ExoMechs/HologramDraedon").Value;
 
@@ -663,10 +716,12 @@ namespace CalamityMod.UI.DraedonSummoning
 
             // Draw a glitch effect over the panel and Draedon's icon.
             GameShaders.Misc["CalamityMod:BlueStatic"].UseImage1("Images/Misc/noise");
+            GameShaders.Misc["CalamityMod:BlueStatic"].Shader.Parameters["useStaticLine"].SetValue(true);
+            GameShaders.Misc["CalamityMod:BlueStatic"].Shader.Parameters["coordinateZoomFactor"].SetValue(1f);
             GameShaders.Misc["CalamityMod:BlueStatic"].Apply();
             Main.spriteBatch.Draw(panelTexture, draedonIconDrawTopRight, null, Color.White * draedonIconDrawInterpolant, 0f, Vector2.Zero, draedonIconScale, 0, 0f);
             Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, Matrix.Identity);
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, Matrix.Identity);
 
             // Draw Draedon text.
             if (string.IsNullOrEmpty(DraedonTextComplete))
@@ -696,13 +751,31 @@ namespace CalamityMod.UI.DraedonSummoning
                 return;
 
             // Draw inquiry buttons.
+            float buttonOpacity = Utils.GetLerpValue(0.25f, 0.04f, DraedonScreenStaticInterpolant, true);
             Texture2D buttonTexture = ModContent.Request<Texture2D>("CalamityMod/UI/DraedonSummoning/DraedonInquiryButton").Value;
             Dictionary<string, string> inquiries = new()
             {
-                ["Mrrp"] = "Mrrp is cringe."
+                ["Astral"] = "That pernicious blemish? I do not know of its exact origin, nor the full extent of its capabilities. " +
+                "Through some process that I do not understand, it appears to be able to 'infect' virtually any matter it comes into contact with, organic or not, and manipulate it into a form deemed suitable " +
+                "for its objective of spreading to the ends of the cosmos.\n" +
+                "Some time ago, I dispatched one of my machines to collect some samples of the material near the crash site. However, attempts at contact with it abruptly ceased one day.\n" +
+                "I can only imagine what has happened to it since."
             };
+
+            if (buttonOpacity < 1f)
+            {
+                GameShaders.Misc["CalamityMod:TeleportDisplacement"].UseOpacity((1f - buttonOpacity) * 0.04f);
+                GameShaders.Misc["CalamityMod:TeleportDisplacement"].UseSecondaryColor(Color.White * buttonOpacity);
+                GameShaders.Misc["CalamityMod:TeleportDisplacement"].UseSaturation(buttonOpacity);
+                GameShaders.Misc["CalamityMod:TeleportDisplacement"].Shader.Parameters["frameCount"].SetValue(Vector2.One);
+                GameShaders.Misc["CalamityMod:TeleportDisplacement"].Apply();
+            }
+
             for (int i = 0; i < inquiries.Count; i++)
             {
+                if (buttonOpacity <= 0f)
+                    break;
+
                 Vector2 buttonPosition = panelCenter + Vector2.UnitY * panelScale * (panelTexture.Height * 0.5f - 32f);
                 
                 // Spread out buttons horizontally if there are more than one.
@@ -710,9 +783,19 @@ namespace CalamityMod.UI.DraedonSummoning
                     buttonPosition.X = MathHelper.Lerp(panelCenter.X - panelScale.X * 270f, panelCenter.X + panelScale.X * 270f, i / (float)(inquiries.Count - 1f));
 
                 string inquiryText = inquiries.Keys.ElementAt(i);
+                float flickerInterpolant = CalamityUtils.AperiodicSin(Main.GlobalTimeWrappedHourly * 9.74f + i) * 0.5f + 0.5f;
                 bool hoveringOverIcon = Utils.CenteredRectangle(buttonPosition, buttonTexture.Size() * draedonIconDrawInterpolant * GeneralScale).Intersects(MouseScreenArea);
-                Color buttonColor = (hoveringOverIcon ? Color.Yellow : Color.White) * draedonIconDrawInterpolant;
-                Main.spriteBatch.Draw(buttonTexture, buttonPosition, null, buttonColor, 0f, buttonTexture.Size() * 0.5f, draedonIconDrawInterpolant * GeneralScale, 0, 0f);
+                Color buttonColor = (hoveringOverIcon ? Color.Yellow : Color.White) * draedonIconDrawInterpolant * buttonOpacity;
+
+                // Have the button flicker.
+                buttonColor *= MathHelper.Lerp(0.55f, 1f, flickerInterpolant);
+
+                Main.spriteBatch.Draw(buttonTexture, buttonPosition, null, buttonColor, 0f, buttonTexture.Size() * 0.5f, GeneralScale, 0, 0f);
+                for (int j = 0; j < 4; j++)
+                {
+                    Vector2 drawOffset = -Vector2.UnitY.RotatedBy(MathHelper.TwoPi * j / 4f) * flickerInterpolant * 4f;
+                    Main.spriteBatch.Draw(buttonTexture, buttonPosition + drawOffset, null, buttonColor * 0.3f, 0f, buttonTexture.Size() * 0.5f, GeneralScale, 0, 0f);
+                }
 
                 if (hoveringOverIcon)
                 {
@@ -727,8 +810,14 @@ namespace CalamityMod.UI.DraedonSummoning
                     }
                 }
 
-                Vector2 textPosition = buttonPosition - Vector2.UnitX * FontAssets.MouseText.Value.MeasureString(inquiryText) * 0.75f;
-                ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, FontAssets.MouseText.Value, inquiryText, textPosition, Draedon.TextColor, 0f, Vector2.Zero, Vector2.One * GeneralScale);
+                Vector2 textPosition = buttonPosition - FontAssets.MouseText.Value.MeasureString(inquiryText) * new Vector2(0.75f, 0.5f);
+                ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, FontAssets.MouseText.Value, inquiryText, textPosition, Draedon.TextColor * draedonIconDrawInterpolant * buttonOpacity, 0f, Vector2.Zero, Vector2.One * GeneralScale);
+            }
+
+            if (buttonOpacity < 1f)
+            {
+                Main.spriteBatch.End();
+                Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, Matrix.Identity);
             }
         }
     }
