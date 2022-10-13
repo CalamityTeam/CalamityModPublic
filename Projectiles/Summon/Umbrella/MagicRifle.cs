@@ -237,7 +237,7 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 				playerVec.Normalize();
 				playerVec *= playerHomeSpeed;
 				Projectile.velocity = (Projectile.velocity * 10f + playerVec) / 11f;
-				Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver4;
+				Projectile.rotation = Projectile.velocity.ToRotation() + (Projectile.spriteDirection == 1 ? MathHelper.ToRadians(-135f) : MathHelper.ToRadians(-45f));
 			}
 			else
 			{
