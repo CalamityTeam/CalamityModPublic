@@ -201,7 +201,7 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 				Projectile.velocity = (Projectile.velocity * 10f + targetVec) / 11f;
                 Projectile.spriteDirection = Projectile.direction = ((returnPos.X - Projectile.Center.X) > 0).ToDirectionInt();
 				Projectile.rotation = Projectile.velocity.ToRotation() + (Projectile.spriteDirection == 1 ? MathHelper.ToRadians(-135f) : MathHelper.ToRadians(-45f));
-				Projectile.ai[1] = 40f;
+				ShootCooldown = 40f;
 			}
 			else
 			{
