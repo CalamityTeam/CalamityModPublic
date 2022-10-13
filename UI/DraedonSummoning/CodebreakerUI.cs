@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using CalamityMod.Items.DraedonMisc;
@@ -94,6 +95,13 @@ namespace CalamityMod.UI.DraedonSummoning
             set;
         } = string.Empty;
 
+        // The text that Draedon should attempt to spell out.
+        public static string DraedonTextComplete
+        {
+            get;
+            set;
+        } = string.Empty;
+
         public static Vector2 BackgroundCenter => new(500f, Main.screenHeight * 0.5f + 115f);
         
         public static float GeneralScale => MathHelper.Lerp(1f, 0.7f, Utils.GetLerpValue(1325f, 750f, Main.screenWidth, true)) * Main.UIScale;
@@ -101,6 +109,8 @@ namespace CalamityMod.UI.DraedonSummoning
         public static Rectangle MouseScreenArea => Utils.CenteredRectangle(Main.MouseScreen, Vector2.One * 2f);
 
         public static readonly SoundStyle SummonSound = new("CalamityMod/Sounds/Custom/CodebreakerBeam");
+
+        public const int DraedonTextCreationRate = 3;
 
         public static void Draw(SpriteBatch spriteBatch)
         {
@@ -138,7 +148,7 @@ namespace CalamityMod.UI.DraedonSummoning
 
             // Reset communication things.
             DraedonTextCreationTimer = 0;
-            DraedonText = string.Empty;
+            DraedonText = DraedonTextComplete = string.Empty;
 
             bool canSummonDraedon = codebreakerTileEntity.ReadyToSummonDraedon && CalamityWorld.AbleToSummonDraedon;
             bool canTalkToDraedon = codebreakerTileEntity.ReadyToSummonDraedon && DownedBossSystem.downedExoMechs;
@@ -635,12 +645,7 @@ namespace CalamityMod.UI.DraedonSummoning
 
             // Draw Draedon's face inside the panel.
             // This involves restarting the sprite batch with a rasterizer state that can cut out Draedon's face if it exceeds the icon area.
-            var oldScissorRectangle = Main.instance.GraphicsDevice.ScissorRectangle;
-            var rasterizer = RasterizerState.CullNone;
-            rasterizer.ScissorTestEnable = true;
-
-            Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, rasterizer, null, Matrix.Identity);
+            Main.spriteBatch.EnforceCutoffRegion(draedonIconArea, Matrix.Identity, SpriteSortMode.Immediate);
 
             // Apply a glitch shader.
             GameShaders.Misc["CalamityMod:TeleportDisplacement"].UseOpacity(0.015f);
@@ -649,17 +654,14 @@ namespace CalamityMod.UI.DraedonSummoning
             GameShaders.Misc["CalamityMod:TeleportDisplacement"].Shader.Parameters["frameCount"].SetValue(Vector2.One);
             GameShaders.Misc["CalamityMod:TeleportDisplacement"].Apply();
 
-            Main.instance.GraphicsDevice.ScissorRectangle = draedonIconArea;
             Vector2 draedonScale = new Vector2(1f, draedonIconDrawInterpolant) * 1.6f;
             SpriteEffects draedonDirection = SpriteEffects.FlipHorizontally;
             Texture2D draedonFaceTexture = ModContent.Request<Texture2D>("CalamityMod/NPCs/ExoMechs/HologramDraedon").Value;
 
             Main.spriteBatch.Draw(draedonFaceTexture, draedonIconCenter, null, Color.White * draedonIconDrawInterpolant, 0f, draedonFaceTexture.Size() * 0.5f, draedonScale, draedonDirection, 0f);
-            Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, Matrix.Identity);
-            Main.instance.GraphicsDevice.ScissorRectangle = oldScissorRectangle;
+            Main.spriteBatch.ReleaseCutoffRegion(Matrix.Identity, SpriteSortMode.Immediate);
 
-            // Draw some glitch text over the panel and Draedon's icon.
+            // Draw a glitch effect over the panel and Draedon's icon.
             GameShaders.Misc["CalamityMod:BlueStatic"].UseImage1("Images/Misc/noise");
             GameShaders.Misc["CalamityMod:BlueStatic"].Apply();
             Main.spriteBatch.Draw(panelTexture, draedonIconDrawTopRight, null, Color.White * draedonIconDrawInterpolant, 0f, Vector2.Zero, draedonIconScale, 0, 0f);
@@ -667,13 +669,14 @@ namespace CalamityMod.UI.DraedonSummoning
             Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, Matrix.Identity);
 
             // Draw Draedon text.
-            string fullText = "Dude.\n\n\nDude.\n\n\nDude.\n\n\nYou are going to Ohio.";
+            if (string.IsNullOrEmpty(DraedonTextComplete))
+                DraedonTextComplete = "State your inquiry.";
 
             if (draedonIconDrawInterpolant >= 1f)
                 DraedonTextCreationTimer++;
-            if (DraedonTextCreationTimer >= 3 && DraedonText.Length < fullText.Length)
+            if (DraedonTextCreationTimer >= DraedonTextCreationRate && DraedonText.Length < DraedonTextComplete.Length)
             {
-                char nextLetter = fullText[DraedonText.Length];
+                char nextLetter = DraedonTextComplete[DraedonText.Length];
                 DraedonText += nextLetter;
                 DraedonTextCreationTimer = 0;
             }
@@ -686,6 +689,46 @@ namespace CalamityMod.UI.DraedonSummoning
 
                 ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, FontAssets.MouseText.Value, line, draedonTextPosition, Draedon.TextColor, 0f, Vector2.Zero, Vector2.One * GeneralScale * 0.9f);
                 draedonTextPosition.Y += GeneralScale * 20f;
+            }
+
+            bool alreadyAskedQuestion = DraedonTextComplete != "State your inquiry.";
+            if (alreadyAskedQuestion)
+                return;
+
+            // Draw inquiry buttons.
+            Texture2D buttonTexture = ModContent.Request<Texture2D>("CalamityMod/UI/DraedonSummoning/DraedonInquiryButton").Value;
+            Dictionary<string, string> inquiries = new()
+            {
+                ["Mrrp"] = "Mrrp is cringe."
+            };
+            for (int i = 0; i < inquiries.Count; i++)
+            {
+                Vector2 buttonPosition = panelCenter + Vector2.UnitY * panelScale * (panelTexture.Height * 0.5f - 32f);
+                
+                // Spread out buttons horizontally if there are more than one.
+                if (inquiries.Count >= 2)
+                    buttonPosition.X = MathHelper.Lerp(panelCenter.X - panelScale.X * 270f, panelCenter.X + panelScale.X * 270f, i / (float)(inquiries.Count - 1f));
+
+                string inquiryText = inquiries.Keys.ElementAt(i);
+                bool hoveringOverIcon = Utils.CenteredRectangle(buttonPosition, buttonTexture.Size() * draedonIconDrawInterpolant * GeneralScale).Intersects(MouseScreenArea);
+                Color buttonColor = (hoveringOverIcon ? Color.Yellow : Color.White) * draedonIconDrawInterpolant;
+                Main.spriteBatch.Draw(buttonTexture, buttonPosition, null, buttonColor, 0f, buttonTexture.Size() * 0.5f, draedonIconDrawInterpolant * GeneralScale, 0, 0f);
+
+                if (hoveringOverIcon)
+                {
+                    Main.blockMouse = Main.LocalPlayer.mouseInterface = true;
+
+                    // Handle click interactions.
+                    if (Main.mouseLeft && Main.mouseLeftRelease)
+                    {
+                        DraedonTextCreationTimer = 0;
+                        DraedonText = string.Empty;
+                        DraedonTextComplete = inquiries[inquiryText];
+                    }
+                }
+
+                Vector2 textPosition = buttonPosition - Vector2.UnitX * FontAssets.MouseText.Value.MeasureString(inquiryText) * 0.75f;
+                ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, FontAssets.MouseText.Value, inquiryText, textPosition, Draedon.TextColor, 0f, Vector2.Zero, Vector2.One * GeneralScale);
             }
         }
     }
