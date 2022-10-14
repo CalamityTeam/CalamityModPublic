@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class BouncingEyeball : RogueWeapon
     {
-        public const int BaseDamage = 15;
+        public const int BaseDamage = 16;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Bouncing Eyeball");

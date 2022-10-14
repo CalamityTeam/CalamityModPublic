@@ -6,7 +6,7 @@ namespace CalamityMod.Projectiles.Typeless
     public class JewelSpike : ModProjectile
     {
 		public ref float RealPenetrate => ref Projectile.ai[0];
-		public const int MaxPenetrate = 3;
+		public const int MaxPenetrate = 2;
 
         public override void SetStaticDefaults()
         {
@@ -21,7 +21,7 @@ namespace CalamityMod.Projectiles.Typeless
             Projectile.friendly = true;
             Projectile.penetrate = -1; // For the animation, only hits up to 3 times though
             Projectile.tileCollide = false;
-            Projectile.timeLeft = 40;
+            Projectile.timeLeft = 80;
             Projectile.DamageType = DamageClass.Generic;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 10;

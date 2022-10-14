@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
+using CalamityMod.Items.SummonItems;
 using CalamityMod.NPCs.AquaticScourge;
 using CalamityMod.NPCs.AstrumAureus;
 using CalamityMod.NPCs.AstrumDeus;
@@ -183,7 +184,13 @@ namespace CalamityMod.Events
                     CalamityUtils.BossAwakenMessage(sans);
                 }, permittedNPCs: NPCID.SkeletronHand),
 
-                new Boss(ModContent.NPCType<StormWeaverHead>(), TimeChangeContext.Day, permittedNPCs: new int[] { ModContent.NPCType<StormWeaverBody>(), ModContent.NPCType<StormWeaverTail>(),  }),
+                new Boss(ModContent.NPCType<StormWeaverHead>(), TimeChangeContext.Day, type =>
+                {
+                    Player player = Main.player[ClosestPlayerToWorldCenter];
+
+                    SoundEngine.PlaySound(RuneofKos.StormSound, player.Center);
+                    NPC.SpawnOnPlayer(ClosestPlayerToWorldCenter, type);
+                }, usesSpecialSound: true, permittedNPCs: new int[] { ModContent.NPCType<StormWeaverBody>(), ModContent.NPCType<StormWeaverTail>(),  }),
 
                 new Boss(ModContent.NPCType<AquaticScourgeHead>(), permittedNPCs: new int[] { ModContent.NPCType<AquaticScourgeBody>(), ModContent.NPCType<AquaticScourgeBodyAlt>(), ModContent.NPCType<AquaticScourgeTail>() }),
 
@@ -226,7 +233,13 @@ namespace CalamityMod.Events
 
                 new Boss(NPCID.Plantera, permittedNPCs: new int[] { NPCID.PlanterasTentacle, NPCID.PlanterasHook, NPCID.Spore }),
 
-                new Boss(ModContent.NPCType<CeaselessVoid>(), permittedNPCs: ModContent.NPCType<DarkEnergy>()),
+                new Boss(ModContent.NPCType<CeaselessVoid>(), spawnContext: type =>
+                {
+                    Player player = Main.player[ClosestPlayerToWorldCenter];
+
+                    SoundEngine.PlaySound(RuneofKos.CVSound, player.Center);
+                    NPC.SpawnOnPlayer(ClosestPlayerToWorldCenter, type);
+                }, usesSpecialSound: true, permittedNPCs: ModContent.NPCType<DarkEnergy>()),
 
                 new Boss(ModContent.NPCType<PerforatorHive>(), permittedNPCs: new int[] { ModContent.NPCType<PerforatorHeadLarge>(), ModContent.NPCType<PerforatorBodyLarge>(), ModContent.NPCType<PerforatorTailLarge>(),
                     ModContent.NPCType<PerforatorHeadMedium>(), ModContent.NPCType<PerforatorBodyMedium>(), ModContent.NPCType<PerforatorTailMedium>(), ModContent.NPCType<PerforatorHeadSmall>(),
@@ -236,7 +249,13 @@ namespace CalamityMod.Events
 
                 new Boss(ModContent.NPCType<BrimstoneElemental>(), permittedNPCs: ModContent.NPCType<Brimling>()),
 
-                new Boss(ModContent.NPCType<Signus>(), permittedNPCs: new int[] { ModContent.NPCType<CosmicLantern>(), ModContent.NPCType<CosmicMine>() }),
+                new Boss(ModContent.NPCType<Signus>(), spawnContext: type =>
+                {
+                    Player player = Main.player[ClosestPlayerToWorldCenter];
+
+                    SoundEngine.PlaySound(RuneofKos.SignutSound, player.Center);
+                    NPC.SpawnOnPlayer(ClosestPlayerToWorldCenter, type);
+                }, usesSpecialSound: true, permittedNPCs: new int[] { ModContent.NPCType<CosmicLantern>(), ModContent.NPCType<CosmicMine>() }),
 
                 new Boss(ModContent.NPCType<RavagerBody>(), spawnContext: type =>
                 {
@@ -280,7 +299,13 @@ namespace CalamityMod.Events
 
                 }, usesSpecialSound: true, permittedNPCs: new int[] { ModContent.NPCType<PhantomFuckYou>(), ModContent.NPCType<PolterghastHook>(), ModContent.NPCType<PolterPhantom>() }),
 
-                new Boss(ModContent.NPCType<PlaguebringerGoliath>(), permittedNPCs: new int[] { ModContent.NPCType<PlagueHomingMissile>(), ModContent.NPCType<PlagueMine>() }),
+                new Boss(ModContent.NPCType<PlaguebringerGoliath>(), spawnContext: type =>
+                {
+                    Player player = Main.player[ClosestPlayerToWorldCenter];
+
+                    SoundEngine.PlaySound(Abombination.UseSound, player.Center);
+                    NPC.SpawnOnPlayer(ClosestPlayerToWorldCenter, type);
+                }, usesSpecialSound: true, permittedNPCs: new int[] { ModContent.NPCType<PlagueHomingMissile>(), ModContent.NPCType<PlagueMine>() }),
 
                 new Boss(ModContent.NPCType<CalamitasClone>(), TimeChangeContext.Night, specialSpawnCountdown: 420, dimnessFactor: 0.6f, permittedNPCs: new int[] { ModContent.NPCType<Cataclysm>(), ModContent.NPCType<Catastrophe>(),
                     ModContent.NPCType<SoulSeeker>() }),
@@ -326,7 +351,13 @@ namespace CalamityMod.Events
                 }, dimnessFactor: 0.6f, permittedNPCs: new int[] { ModContent.NPCType<SepulcherArm>(), ModContent.NPCType<SepulcherHead>(), ModContent.NPCType<SepulcherBody>(), ModContent.NPCType<SepulcherBodyEnergyBall>(), ModContent.NPCType<SepulcherTail>(),
                     ModContent.NPCType<SoulSeekerSupreme>(), ModContent.NPCType<BrimstoneHeart>(), ModContent.NPCType<SupremeCataclysm>(), ModContent.NPCType<SupremeCatastrophe>() }),
 
-                new Boss(ModContent.NPCType<Yharon>(), TimeChangeContext.Day),
+                new Boss(ModContent.NPCType<Yharon>(), TimeChangeContext.Day, type =>
+                {
+                    Player player = Main.player[ClosestPlayerToWorldCenter];
+
+                    SoundEngine.PlaySound(Yharon.FireSound, player.Center);
+                    NPC.SpawnOnPlayer(ClosestPlayerToWorldCenter, type);
+                }, usesSpecialSound: true),
 
                 new Boss(ModContent.NPCType<DevourerofGodsHead>(), TimeChangeContext.Day, type =>
                 {

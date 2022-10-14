@@ -13,6 +13,8 @@ namespace CalamityMod.Items.VanillaArmorChanges
 
         public override int? LegPieceID => ItemID.GoldGreaves;
 
+        public override int[] AlternativeHeadPieceIDs => new int[] { ItemID.AncientGoldHelmet };
+
         public override string ArmorSetName => "Gold";
 
         public const float HeadDamage = 0.06f;

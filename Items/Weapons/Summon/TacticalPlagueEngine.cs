@@ -10,6 +10,8 @@ namespace CalamityMod.Items.Weapons.Summon
 {
     public class TacticalPlagueEngine : ModItem
     {
+        public const int BulletShootRate = 125;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Tactical Plague Engine");
@@ -23,7 +25,7 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void SetDefaults()
         {
-            Item.damage = 200;
+            Item.damage = 160;
             Item.mana = 10;
             Item.width = 28;
             Item.height = 20;

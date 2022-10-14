@@ -209,7 +209,10 @@ namespace CalamityMod.NPCs
             "Nextdoor Psycho", // <@!173261518572486656> (⋈-NextdoorPsycho-⋈#0001)
 			"Lacuna", // <@!790746689211203604> (Lacuna#8629)
         };
-        private static readonly string[] ZoologistNames	= null;
+        private static readonly string[] ZoologistNames =
+        {
+            "Kiriku", // <@!395312478160027668> (rulosss#6814)
+        };
 
         // The following sets are for the 1.4 Town Pets: Town Dogs, Cats and Bunnies.
         // All three pet types come in numerous breeds. Each breed has its own name pool.

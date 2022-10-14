@@ -2002,10 +2002,9 @@ namespace CalamityMod.Projectiles
 
                     if (projectile.CountsAsClass<RogueDamageClass>() && stealthStrike)
                     {
+                        int gloveArmorPenAmt = modPlayer.nanotech ? 15 : (modPlayer.electricianGlove ? 10 : 8);
                         if (modPlayer.filthyGlove || modPlayer.bloodyGlove)
-                            projectile.ArmorPenetration += 10;
-                        if (modPlayer.nanotech)
-                            projectile.ArmorPenetration += 10; // 20 total
+                            projectile.ArmorPenetration += gloveArmorPenAmt;
                     }
                 }
 
@@ -2402,6 +2401,22 @@ namespace CalamityMod.Projectiles
         }
         #endregion
 
+        #region ModifyDamageScaling
+        public override void ModifyDamageScaling(Projectile projectile, ref float damageScale)
+        {
+            Player player = Main.player[projectile.owner];
+
+            // The vanilla damage Jousting Lance multiplier is as follows. Calamity overrides this with a new formula.
+            // damageScale = 0.1f + player.velocity.Length() / 7f * 0.9f
+            if (projectile.type == ProjectileID.JoustingLance || projectile.type == ProjectileID.HallowJoustingLance || projectile.type == ProjectileID.ShadowJoustingLance)
+            {
+                float baseVelocityDamageMultiplier = 0.01f + player.velocity.Length() * 0.002f;
+                float calamityVelocityDamageMultiplier = 100f * (1f - (1f / (1f + baseVelocityDamageMultiplier)));
+                damageScale = calamityVelocityDamageMultiplier;
+            }
+        }
+        #endregion
+
         #region ModifyHitNPC
         public override void ModifyHitNPC(Projectile projectile, NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
@@ -2612,7 +2627,7 @@ namespace CalamityMod.Projectiles
 
                     if (modPlayer.scuttlersJewel && stealthStrike && modPlayer.scuttlerCooldown <= 0)
                     {
-                        int damage = (int)player.GetTotalDamage<RogueDamageClass>().ApplyTo(15);
+                        int damage = (int)player.GetTotalDamage<RogueDamageClass>().ApplyTo(20);
                         int spike = Projectile.NewProjectile(projectile.GetSource_FromThis(), projectile.Center, Vector2.Zero, ProjectileType<JewelSpike>(), damage, projectile.knockBack, projectile.owner);
                         Main.projectile[spike].frame = 4;
                         if (spike.WithinBounds(Main.maxProjectiles))

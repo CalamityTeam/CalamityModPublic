@@ -1,17 +1,17 @@
-﻿using Terraria.DataStructures;
+﻿using CalamityMod.CustomRecipes;
+using CalamityMod.Items.Materials;
+using CalamityMod.Projectiles.DraedonsArsenal;
 using CalamityMod.Projectiles.Ranged;
+using CalamityMod.Rarities;
+using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
+using System;
+using System.Collections.Generic;
 using Terraria;
+using Terraria.Audio;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Audio;
-using CalamityMod.Projectiles.DraedonsArsenal;
-using System.Collections.Generic;
-using CalamityMod.Items.Materials;
-using CalamityMod.Tiles.Furniture.CraftingStations;
-using CalamityMod.CustomRecipes;
-using System;
-using CalamityMod.Rarities;
 
 namespace CalamityMod.Items.Weapons.DraedonsArsenal
 {
@@ -47,7 +47,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             Item.UseSound = null;
 
             Item.value = CalamityGlobalItem.RarityDarkBlueBuyPrice;
-            Item.rare = ModContent.RarityType<DarkBlue>();
+            Item.rare = ModContent.RarityType<DarkOrange>();
             modItem.donorItem = true;
 
             modItem.UsesCharge = true;
@@ -111,7 +111,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
                 .AddIngredient<MysteriousCircuitry>(16)
                 .AddIngredient<DubiousPlating>(16)
                 .AddIngredient<AscendantSpiritEssence>(2)
-                .AddCondition(ArsenalTierGatedRecipe.ConstructRecipeCondition(4, out Predicate<Recipe> condition), condition)
+                .AddCondition(ArsenalTierGatedRecipe.ConstructRecipeCondition(5, out Predicate<Recipe> condition), condition)
                 .AddTile<CosmicAnvil>()
                 .Register();
         }

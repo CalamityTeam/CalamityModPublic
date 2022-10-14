@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.Items.Weapons.Summon;
+using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -51,18 +52,18 @@ namespace CalamityMod.Projectiles.Summon
                 Projectile.netUpdate = true;
             }
 
-            int num = 0;
+            int flameCount = 0;
             for (int i = 0; i < Main.projectile.Length; i++)
             {
                 if (Main.projectile[i].active && Main.projectile[i].owner == Main.myPlayer && Main.projectile[i].type == ModContent.ProjectileType<LanternFlame>())
                 {
-                    num++;
+                    flameCount++;
                 }
             }
-            if (num < 20)
+            if (flameCount < GuidelightofOblivion.ActiveFlameLimit)
             {
-                Projectile.ai[1] += (float)Main.rand.Next(2,6) + 1f;
-                if (Projectile.ai[1] >= 75f)
+                Projectile.ai[1] += (float)Main.rand.Next(2, 6) + 1f;
+                if (Projectile.ai[1] >= 105f)
                 {
                     Projectile.ai[1] = 0f;
                     Projectile.netUpdate = true;

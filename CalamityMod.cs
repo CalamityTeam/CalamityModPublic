@@ -139,6 +139,7 @@ namespace CalamityMod
         internal Mod bossChecklist = null;
         internal Mod census = null;
         internal Mod crouchMod = null;
+        internal Mod dialogueTweak = null;
         internal Mod fargos = null;
         internal Mod overhaul = null;
         internal Mod redemption = null;
@@ -175,6 +176,8 @@ namespace CalamityMod
             ModLoader.TryGetMod("Census", out census);
             crouchMod = null;
             ModLoader.TryGetMod("CrouchMod", out crouchMod);
+            dialogueTweak = null;
+            ModLoader.TryGetMod("DialogueTweak", out dialogueTweak);
             fargos = null;
             ModLoader.TryGetMod("Fargowiltas", out fargos);
             overhaul = null;
@@ -356,6 +359,7 @@ namespace CalamityMod
             bossChecklist = null;
             census = null;
             crouchMod = null;
+            dialogueTweak = null;
             fargos = null;
             overhaul = null;
             redemption = null;

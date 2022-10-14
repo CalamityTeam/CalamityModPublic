@@ -14,13 +14,15 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public const int PulseLifetime = 95;
 
-        public const int SulphuricPoisonDebuffTime = 90;
+        public const int IrradiatedDebuffTime = 120;
+
+        public const int PoisonedDebuffTime = 240;
 
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Rusty Beacon Prototype");
             Tooltip.SetDefault("Summons a long-abandoned drone to support you\n" +
-                               "The drone hovers in place and releases toxic waves that inflict sulphuric poisoning");
+                               "The drone hovers in place and releases toxic waves that inflict irradiated and poisoned");
             SacrificeTotal = 1;
         }
 
@@ -29,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Summon
             Item.mana = 10;
             Item.width = 28;
             Item.height = 20;
-            Item.damage = 2;
+            Item.damage = 8;
             Item.useTime = Item.useAnimation = 34;
             Item.useStyle = ItemUseStyleID.HoldUp;
             Item.noMelee = true;

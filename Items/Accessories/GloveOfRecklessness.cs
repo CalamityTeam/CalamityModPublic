@@ -13,6 +13,7 @@ namespace CalamityMod.Items.Accessories
             SacrificeTotal = 1;
             DisplayName.SetDefault("Glove of Recklessness");
             Tooltip.SetDefault("Increases rogue attack speed by 15% but decreases damage by 10%\n" +
+                               "15% increased stealth regeneration\n" +
                                "Adds inaccuracy to rogue weapons");
         }
 
@@ -29,6 +30,8 @@ namespace CalamityMod.Items.Accessories
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.gloveOfRecklessness = true;
+            modPlayer.stealthGenStandstill += 0.15f;
+            modPlayer.stealthGenMoving += 0.15f;
             player.GetDamage<RogueDamageClass>() -= 0.1f;
             player.GetAttackSpeed<RogueDamageClass>() += 0.15f;
         }

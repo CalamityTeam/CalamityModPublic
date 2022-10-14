@@ -1249,6 +1249,11 @@ namespace CalamityMod.CalPlayer
             if (raiderTalisman && modProj.stealthStrike)
             {
                 raiderCritBonus = RaidersTalisman.RaiderBonus;
+                if (raiderSoundCooldown <= 0)
+                {
+                    SoundEngine.PlaySound(RaidersTalisman.StealthHitSound, Player.Center);
+                    raiderSoundCooldown = 60;
+                }
             }
 
             if (npcCheck)
@@ -1265,7 +1270,7 @@ namespace CalamityMod.CalPlayer
                     for (int s = 0; s < 3; s++)
                     {
                         Vector2 velocity = CalamityUtils.RandomVelocity(50f, 30f, 60f);
-                        int damage = (int)Player.GetTotalDamage<RogueDamageClass>().ApplyTo(15);
+                        int damage = (int)Player.GetTotalDamage<RogueDamageClass>().ApplyTo(10);
                         int spark = Projectile.NewProjectile(spawnSource, position, velocity, ProjectileType<Spark>(), damage, 0f, Player.whoAmI);
                         if (spark.WithinBounds(Main.maxProjectiles))
                         {
@@ -1632,8 +1637,8 @@ namespace CalamityMod.CalPlayer
 
                 if (bloodyGlove && proj.CountsAsClass<RogueDamageClass>() && modProj.stealthStrike)
                 {
-                    Player.statLife += 1;
-                    Player.HealEffect(1);
+                    Player.statLife += 2;
+                    Player.HealEffect(2);
                 }
 
                 if ((target.damage > 5 || target.boss) && !target.SpawnedFromStatue)
