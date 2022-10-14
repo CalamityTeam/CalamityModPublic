@@ -56,9 +56,9 @@ namespace CalamityMod.Items.Accessories
                         {
                             walkTile.Get<TileWallWireStateData>().HasTile = true;
                             walkTile.TileType = TileID.DyePlants;
-                            walkTile.TileFrameX = (short)(34 * Main.rand.Next(1, 13));
+                            walkTile.TileFrameX = (short)(34 * Main.rand.Next(0, 13));
                             while (walkTile.TileFrameX == 144)
-                                walkTile.TileFrameX = (short)(34 * Main.rand.Next(1, 13));
+                                walkTile.TileFrameX = (short)(34 * Main.rand.Next(0, 13));
                         }
 
                         if (Main.netMode == NetmodeID.MultiplayerClient)
