@@ -80,6 +80,7 @@ namespace CalamityMod.CalPlayer
         public static bool areThereAnyDamnEvents = false;
         public bool drawBossHPBar = true;
         public float stealthUIAlpha = 1f;
+        public float SulphWaterUIOpacity = 1f;
         public bool shouldDrawSmallText = true;
         public int projTypeJustHitBy;
         public int sCalDeathCount = 0;
@@ -195,7 +196,6 @@ namespace CalamityMod.CalPlayer
         public int modStealthTimer;
         public int dashTimeMod;
         public int hInfernoBoost = 0;
-        public int pissWaterBoost = 0;
         public int packetTimer = 0;
         public int navyRodAuraTimer = 0;
         public int brimLoreInfernoTimer = 0;
@@ -225,6 +225,7 @@ namespace CalamityMod.CalPlayer
         public int aBulwarkRareTimer = 0;
         public int spiritOriginBullseyeShootCountdown = 0;
         public int spiritOriginConvertedCrit = 0;
+        public float SulphWaterPoisoningLevel;
 
         private const int DashDisableCooldown = 12;
 
@@ -776,6 +777,9 @@ namespace CalamityMod.CalPlayer
         public bool banishingFire = false;
         public bool wither = false;
         public bool ManaBurn = false;
+
+        public const int SulphSeaWaterSafetyTime = 720;
+        public const int SulphSeaWaterRecoveryTime = 150;
         #endregion
 
         #region Buff
@@ -2120,6 +2124,7 @@ namespace CalamityMod.CalPlayer
             auralisAurora = 0;
             fungalSymbioteTimer = 0;
             aBulwarkRareTimer = 0;
+            SulphWaterPoisoningLevel = 0f;
             spiritOriginConvertedCrit = 0;
             rage = 0f;
             adrenaline = 0f;
@@ -2213,6 +2218,8 @@ namespace CalamityMod.CalPlayer
                 stealthUIAlpha -= 0.035f;
                 stealthUIAlpha = MathHelper.Clamp(stealthUIAlpha, 0f, 1f);
             }
+            if (SulphWaterUIOpacity > 0f)
+                SulphWaterUIOpacity = MathHelper.Clamp(SulphWaterUIOpacity - 0.035f, 0f, 1f);
             #endregion
 
             #region Buffs
