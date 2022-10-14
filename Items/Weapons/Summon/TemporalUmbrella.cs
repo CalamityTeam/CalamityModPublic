@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Weapons.Summon
             DisplayName.SetDefault("Temporal Umbrella");
             Tooltip.SetDefault("Surprisingly sturdy, I reckon this could defeat the Mafia in a single blow\n" +
                 "Summons a variety of tools to assist you in battle:\n" +
-                "An axe to cleave foes and occasionally fell a tree\n" +
+                "An axe to cleave monsters and occasionally fell a tree\n" +
                 "An umbrella to beat down your foes with grace\n" +
                 "A hammer to bonk enemies in style\n" +
                 "A rifle to snipe those who stand in your way\n" +
