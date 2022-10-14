@@ -23,16 +23,15 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.DamageType = DamageClass.MeleeNoSpeed;
             Item.noMelee = true;
             Item.noUseGraphic = true;
-            Item.useAnimation = 20;
+            Item.useAnimation = Item.useTime = 16;
             Item.useStyle = ItemUseStyleID.Shoot;
-            Item.useTime = 20;
             Item.knockBack = 5f;
             Item.UseSound = SoundID.Item109;
             Item.autoReuse = true;
             Item.value = CalamityGlobalItem.Rarity14BuyPrice;
             Item.rare = ModContent.RarityType<DarkBlue>();
             Item.shoot = ModContent.ProjectileType<ScourgeoftheCosmosProj>();
-            Item.shootSpeed = 15f;
+            Item.shootSpeed = 20f;
         }
 
         public override void AddRecipes()

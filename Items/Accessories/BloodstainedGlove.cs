@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Accessories
         {
             SacrificeTotal = 1;
             DisplayName.SetDefault("Bloodstained Glove");
-            Tooltip.SetDefault("Stealth strikes have +10 armor penetration and heal for 1 HP");
+            Tooltip.SetDefault("Stealth strikes have +8 armor penetration and heal for 2 HP");
         }
 
         public override void SetDefaults()

@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Accessories
         {
             SacrificeTotal = 1;
             DisplayName.SetDefault("Filthy Glove");
-            Tooltip.SetDefault("Stealth strikes have +10 armor penetration and deal 10% more damage");
+            Tooltip.SetDefault("Stealth strikes have +8 armor penetration and deal 8% more damage");
         }
 
         public override void SetDefaults()

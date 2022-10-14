@@ -1069,6 +1069,8 @@ namespace CalamityMod.CalPlayer
                 shadowPotCooldown--;
             if (raiderCritBonus > 0f)
                 raiderCritBonus -= RaidersTalisman.RaiderBonus / (float)CalamityUtils.SecondsToFrames(RaidersTalisman.RaiderCooldown);
+            if (raiderSoundCooldown > 0)
+                raiderSoundCooldown--;
             if (gSabatonCooldown > 0)
                 gSabatonCooldown--;
             if (gSabatonFall > 0)
@@ -2812,7 +2814,7 @@ namespace CalamityMod.CalPlayer
 
             if (filthyGlove)
             {
-                bonusStealthDamage += nanotech ? 0.05f : 0.1f;
+                bonusStealthDamage += nanotech ? 0.05f : 0.08f;
             }
 
             if (dAmulet)

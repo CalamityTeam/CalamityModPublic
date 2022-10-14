@@ -2,13 +2,14 @@
 using CalamityMod.Projectiles.BaseProjectiles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Content;
+using System;
 using System.IO;
 using System.Linq;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
-using ReLogic.Content;
 
 namespace CalamityMod.Projectiles.Rogue
 {
@@ -58,8 +59,6 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = -1;
             Projectile.DamageType = RogueDamageClass.Instance;
-			// This is a friendly projectile.  What is this for?
-            CooldownSlot = ImmunityCooldownID.Bosses;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -107,6 +106,9 @@ namespace CalamityMod.Projectiles.Rogue
             if (Projectile.frameCounter % 5f == 4f)
                 Projectile.frame = (Projectile.frame + 1) % Main.projFrames[Projectile.type];
         }
+
+        // Rapidly decrease damage every hit
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => Projectile.damage = Math.Max(1, (int)(Projectile.damage * 0.3));
 
         public override bool PreDraw(ref Color lightColor)
         {

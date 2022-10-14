@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Mythril Knife");
-            Tooltip.SetDefault("Stealth strikes inflict a wide assortment of debuffs");
+            Tooltip.SetDefault("Stealth strikes inflict are coated in deadly toxins, inflicting irradiated, poison, and acid venom");
             SacrificeTotal = 99;
         }
 

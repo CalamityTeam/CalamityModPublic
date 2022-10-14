@@ -11,6 +11,8 @@ namespace CalamityMod.Items.Weapons.Summon
     [LegacyName("LanternoftheSoul")]
     public class GuidelightofOblivion : ModItem
     {
+        public const int ActiveFlameLimit = 15;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Guidelight of Oblivion");

@@ -248,7 +248,7 @@ namespace CalamityMod.NPCs.SlimeGod
                     }
 
                     // Set Slime God to have interacted with all players
-                    for (int i = 0; i < Main.maxPlayers; i++)
+                    for (int i = Main.maxPlayers - 1; i >= 0; i--)
                     {
                         NPC.ApplyInteraction(i);
                     }
