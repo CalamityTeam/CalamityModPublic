@@ -30,13 +30,10 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 
         public override void SetDefaults()
         {
-            Projectile.width = 52;
-            Projectile.height = 52;
+            Projectile.width = Projectile.height = 52;
             Projectile.netImportant = true;
             Projectile.friendly = true;
             Projectile.ignoreWater = true;
-            Projectile.minionSlots = 0;
-            Projectile.timeLeft = 180;
             Projectile.penetrate = -1;
             Projectile.minion = true;
             Projectile.tileCollide = false;
@@ -59,22 +56,26 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
         {
 			Player player = Main.player[Projectile.owner];
             Projectile.alpha -= 50;
+
+			// Set the timeLeft if the player has the hat
 			if (player.Calamity().magicHat)
 			{
 				Projectile.timeLeft = 2;
 			}
+
+			// Decrement the rotation variable
 			Projectile.ai[0] -= MathHelper.ToRadians(4f);
 
             float homingRange = MagicHat.Range;
             int targetIndex = -1;
-            //If targeting something, prioritize that enemy
+            // If targeting something, prioritize that enemy
             if (player.HasMinionAttackTargetNPC)
             {
                 NPC npc = Main.npc[player.MinionAttackTargetNPC];
                 if (npc.CanBeChasedBy(Projectile, false))
                 {
                     float extraDist = (npc.width / 2) + (npc.height / 2);
-                    //Calculate distance between target and the projectile to know if it's too far or not
+                    // Calculate distance between target and the projectile to know if it's too far or not
                     float targetDist = Vector2.Distance(npc.Center, Projectile.Center);
                     if (targetIndex == -1 && targetDist < (homingRange + extraDist))
                     {
@@ -91,7 +92,7 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
                     if (npc.CanBeChasedBy(Projectile, false))
                     {
                         float extraDist = (npc.width / 2) + (npc.height / 2);
-                        //Calculate distance between target and the projectile to know if it's too far or not
+                        // Calculate distance between target and the projectile to know if it's too far or not
                         float targetDist = Vector2.Distance(npc.Center, Projectile.Center);
                         if (targetDist < (homingRange + extraDist))
                         {
@@ -118,7 +119,7 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 
 		private bool CooldownReset(bool offense)
 		{
-            //Breather time between charges as like a reset
+            // Breather time between charges as like a reset
             if (Behavior == 2f)
             {
 				TreeReset = 0f;
@@ -142,13 +143,13 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 		private void AttackEnemy(int targetIndex)
 		{
 			NPC npc = Main.npc[targetIndex];
-            //Go to the target
+            // Go to the target
             if (Behavior == 0f)
             {
                 Vector2 targetSpot = npc.Center - Projectile.Center;
                 float targetDist = targetSpot.Length();
                 targetSpot.Normalize();
-                //Tries to get the minion in the sweet spot of 200 pixels away but the minion also charges so idk what good it does
+                // Tries to get the minion in the sweet spot of 200 pixels away but the minion also charges so idk what good it does
                 if (targetDist > 200f)
                 {
                     float speed = 48f;
@@ -163,19 +164,19 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
                 }
             }
 
-            //Increment attack counter randomly
+            // Increment attack counter randomly
             if (ChargeCooldown > 0f)
             {
                 ChargeCooldown++;
             }
-            //If high enough, prepare to attack
+            // If high enough, prepare to attack
             if (ChargeCooldown > 15f)
             {
                 ChargeCooldown = 0f;
                 Projectile.netUpdate = true;
             }
 
-            //Charge at an enemy if not on cooldown
+            // Charge at an enemy if not on cooldown
             if (Behavior == 0f)
             {
 				Vector2 targetVec = npc.Center - Projectile.Center;
@@ -281,6 +282,8 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 
         private void OnHitEffect(Vector2 targetPos, int whoAmI)
 		{
+			// Every 20 hits, spawn a tree
+			// Only 1 hit per charge increments this
 			if (TreeReset == 0f)
 			{
 				TreeCounter++;

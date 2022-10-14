@@ -25,16 +25,13 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 
         public override void SetDefaults()
         {
-            Projectile.width = 30;
-            Projectile.height = 30;
+            Projectile.width = Projectile.height = 30;
             Projectile.netImportant = true;
             Projectile.friendly = true;
             Projectile.ignoreWater = true;
             Projectile.minionSlots = 5f;
-            Projectile.timeLeft = 18000;
             Projectile.penetrate = -1;
             Projectile.tileCollide = false;
-            Projectile.timeLeft *= 5;
             Projectile.minion = true;
             Projectile.DamageType = DamageClass.Summon;
         }
@@ -45,7 +42,7 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
             CalamityPlayer modPlayer = player.Calamity();
             CalamityGlobalProjectile modProj = Projectile.Calamity();
 
-            //set up minion buffs and bools
+            // Set up minion buffs and bools
             bool hatExists = Projectile.type == ModContent.ProjectileType<MagicHat>();
             player.AddBuff(ModContent.BuffType<MagicHatBuff>(), 3600);
             if (hatExists)
@@ -60,6 +57,7 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
                 }
             }
 
+            // On frame 2, spawn the tools
 			if (Projectile.ai[0] == 1f)
 			{
 				List<Tuple<int, float>> Projectiles = new List<Tuple<int, float>>()
@@ -82,7 +80,7 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 			}
 			Projectile.ai[0]++;
 
-            // Projectile movement
+            // Stick to the player's head, account for shifts in gravity
             Projectile.Center = player.MountedCenter + Vector2.UnitY * (player.gfxOffY - 30f);
             if (player.gravDir == -1f)
             {
@@ -128,12 +126,13 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
         {
 			Player player = Main.player[Projectile.owner];
 
+			// Use a different texture if the player is invisible or has at least 50% stealth
 			Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
-			
-			float stealthPercent = player.Calamity().rogueStealth / player.Calamity().rogueStealthMax * 0.9f; //0 to 0.9
-            bool hasStealth = player.Calamity().rogueStealth > 0f && stealthPercent > 0.45f && player.townNPCs < 3f && CalamityConfig.Instance.StealthInvisibility;
+			float stealthPercent = player.Calamity().rogueStealthMax != 0 ? (player.Calamity().rogueStealth / player.Calamity().rogueStealthMax) : 0f; //0 to 1
+            bool hasStealth = player.Calamity().rogueStealth > 0f && stealthPercent > 0.5f && player.townNPCs < 3f && CalamityConfig.Instance.StealthInvisibility;
 			if (player.ShouldNotDraw || hasStealth)
 				texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/Umbrella/MagicHatInvis").Value;
+
 			Rectangle frame = texture.Frame(1, Main.projFrames[Type], 0, Projectile.frame);
 			Vector2 origin = frame.Size() * 0.5f;
 			Vector2 drawPosition = Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY);

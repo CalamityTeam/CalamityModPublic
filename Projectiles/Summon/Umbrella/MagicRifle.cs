@@ -31,13 +31,10 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 
         public override void SetDefaults()
         {
-            Projectile.width = 50;
-            Projectile.height = 50;
+            Projectile.width = Projectile.height = 50;
             Projectile.netImportant = true;
             Projectile.friendly = true;
             Projectile.ignoreWater = true;
-            Projectile.minionSlots = 0f;
-            Projectile.timeLeft = 180;
             Projectile.penetrate = -1;
             Projectile.tileCollide = false;
             Projectile.minion = true;
@@ -49,11 +46,13 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
             // Set player namespace
             Player player = Main.player[Projectile.owner];
 
+			// Set timeLeft if the hat exists
 			if (player.Calamity().magicHat)
 			{
 				Projectile.timeLeft = 2;
 			}
 
+			// Increment counters for rotation, swap cooldown, and sine counter
 			Projectile.ai[0] -= MathHelper.ToRadians(4f);
 			if (swapCooldown > 0)
 				swapCooldown--;
@@ -101,7 +100,6 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
                 }
             }
 
-            // Update rotation and position
             if (targetIndex == -1)
             {
 				IdleAI();
@@ -131,6 +129,7 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
             if (ShootCooldown != 0f || targetIndex == -1)
                 return;
 
+			// Do a little spin before firing a big shot
 			if (SwapSides > 5f)
 			{
 				SpinCounter += MathHelper.ToRadians(60f) * Projectile.spriteDirection;
@@ -167,6 +166,7 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 
                     int bullet = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, projType, damage, kback, Projectile.owner);
 					// For unknown reasons, the bullet does not spawn at the desired position, so let's set that manually
+					// I don't think this works regardless
 					if (Main.projectile.IndexInRange(bullet))
 						Main.projectile[bullet].Center = Projectile.Center;
                     Projectile.netUpdate = true;
@@ -184,6 +184,7 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 			Vector2 returnPos1 = target.Right + new Vector2(300f, 0f);
 			Vector2 returnPos2 = target.Left - new Vector2(300f, 0f);
 
+			// Swap sides after shooting a big bullet
 			returnPos = !leftSide ? returnPos1 : returnPos2;
 			if (player.Center.X - target.Center.X < 0)
 				returnPos = !leftSide ? returnPos2 : returnPos1;

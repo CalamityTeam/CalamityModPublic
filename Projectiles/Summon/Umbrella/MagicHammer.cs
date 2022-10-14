@@ -37,7 +37,6 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
             Projectile.friendly = true;
             Projectile.minion = true;
             Projectile.penetrate = -1;
-            Projectile.timeLeft = 180;
             Projectile.tileCollide = false;
             Projectile.ignoreWater = true;
             Projectile.usesLocalNPCImmunity = true;
@@ -62,22 +61,26 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
         {
 			Player player = Main.player[Projectile.owner];
             Projectile.alpha -= 50;
+
+			// Set the timeLeft if the player has the hat
 			if (player.Calamity().magicHat)
 			{
 				Projectile.timeLeft = 2;
 			}
+
+			// Decrement the rotation variable
 			Projectile.ai[0] -= MathHelper.ToRadians(4f);
 
             float homingRange = MagicHat.Range;
             int targetIndex = -1;
-            //If targeting something, prioritize that enemy
+            // If targeting something, prioritize that enemy
             if (player.HasMinionAttackTargetNPC)
             {
                 NPC npc = Main.npc[player.MinionAttackTargetNPC];
                 if (npc.CanBeChasedBy(Projectile, false))
                 {
                     float extraDist = (npc.width / 2) + (npc.height / 2);
-                    //Calculate distance between target and the projectile to know if it's too far or not
+                    // Calculate distance between target and the projectile to know if it's too far or not
                     float targetDist = Vector2.Distance(npc.Center, Projectile.Center);
                     if (targetIndex == -1 && targetDist < (homingRange + extraDist))
                     {
@@ -94,7 +97,7 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
                     if (npc.CanBeChasedBy(Projectile, false))
                     {
                         float extraDist = (npc.width / 2) + (npc.height / 2);
-                        //Calculate distance between target and the projectile to know if it's too far or not
+                        // Calculate distance between target and the projectile to know if it's too far or not
                         float targetDist = Vector2.Distance(npc.Center, Projectile.Center);
                         if (targetDist < (homingRange + extraDist))
                         {
@@ -147,6 +150,7 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 				Projectile.Center = returnPos;
 				Projectile.rotation = Projectile.ai[0] + drawOffset;
 			}
+			// Return to normal size
 			if (Projectile.scale != 1f)
 			{
 				Projectile.scale = 1f;
@@ -175,6 +179,7 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 			}
 			else
 			{
+				// Get bigger and prepare the pivot position
 				if (Behavior == 1f)
 				{
 					if (Projectile.scale == 1f)
@@ -188,10 +193,12 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 					PivotPointY = Projectile.Bottom.Y;
 					Behavior = 2f;
 				}
+				// Decide which way to swing
 				if (Behavior == 2f)
 				{
 					Behavior = targetVec.X > 0 ? 3f : 4f;
 				}
+				// Big Bonk Energy
 				if (Behavior == 3f || Behavior == 4f)
 				{
 					float swingTime = 20f;
@@ -208,6 +215,7 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 						Behavior = 5f;
 					}
 				}
+				// Head back to the player as a reset between bonks
 				if (Behavior == 5f)
 					MoveBackToPlayer();
 			}
@@ -237,6 +245,7 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 			{
 				Behavior = 0f;
 			}
+			// Return to normal size
 			if (Projectile.scale != 1f)
 			{
 				Projectile.scale = 1f;
@@ -246,6 +255,7 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
+			// On bonk, there is a small chance for confetti and Stylish energy
             if ((Behavior == 3f || Behavior == 4f) && Main.rand.NextBool(20) && Projectile.soundDelay <= 0)
 			{
                 Rectangle location = new Rectangle((int)target.position.X, (int)target.position.Y, target.width, target.height);

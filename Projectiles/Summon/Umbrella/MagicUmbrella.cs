@@ -26,13 +26,10 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 
         public override void SetDefaults()
 		{
-            Projectile.width = 14;
-            Projectile.height = 14;
+            Projectile.width = Projectile.height = 14;
             Projectile.netImportant = true;
             Projectile.friendly = true;
             Projectile.ignoreWater = true;
-            Projectile.minionSlots = 0f;
-            Projectile.timeLeft = 180;
             Projectile.penetrate = -1;
             Projectile.tileCollide = false;
             Projectile.minion = true;
@@ -55,12 +52,16 @@ namespace CalamityMod.Projectiles.Summon.Umbrella
 		{
             Projectile.alpha -= 50;
 
+			// Set timeLeft if the player has the hat
 			if (Main.player[Projectile.owner].Calamity().magicHat)
 			{
 				Projectile.timeLeft = 2;
 			}
+
+			// Decrement the rotation variable
 			Projectile.ai[0] -= MathHelper.ToRadians(4f);
 
+			// Not sure what this is for, a lot of the code is taken from Terraprisma
 			List<int> blackListedTargets = new List<int> {};
 
 			DelegateMethods.v3_1 = Color.Transparent.ToVector3();
