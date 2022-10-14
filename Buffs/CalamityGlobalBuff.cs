@@ -188,6 +188,18 @@ namespace CalamityMod.Buffs
                 case BuffID.Daybreak:
                     tip = "Incinerated by solar rays";
                     break;
+
+                case BuffID.WellFed:
+                    tip = "Minor improvements to all stats";
+                    break;
+
+                case BuffID.WellFed2:
+                    tip = "Medium improvements to all stats";
+                    break;
+
+                case BuffID.WellFed3:
+                    tip = "Major improvements to all stats";
+                    break;
             }
         }
     }
