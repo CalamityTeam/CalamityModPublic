@@ -275,7 +275,7 @@ namespace CalamityMod.Balancing
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.AresIDs, Do(new ProjectileResistBalancingRule(0.85f, ProjectileType<EssenceFlame2>()))));
 
             // 10% resist to Seraphim lasers
-            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.AresIDs, Do(new ProjectileResistBalancingRule(0.9f, ProjectileType<SeraphimBeamLarge>()))));
+            // NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.AresIDs, Do(new ProjectileResistBalancingRule(0.9f, ProjectileType<SeraphimBeamLarge>()))));
 
             #endregion Ares
 
@@ -293,8 +293,8 @@ namespace CalamityMod.Balancing
 
             #region Thanatos
 
-            // 92% resist to Seraphim lasers (what the actual fuck?).
-            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new ProjectileResistBalancingRule(0.08f, ProjectileType<SeraphimBeamLarge>()))));
+            // 50% resist to Seraphim lasers (what the actual fuck?).
+            // NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new ProjectileResistBalancingRule(0.5f, ProjectileType<SeraphimBeamLarge>()))));
 
             // 85% resist to Dynamic Pursuer (the whole thing lol).
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new ProjectileResistBalancingRule(0.15f, ProjectileType<DynamicPursuerProjectile>(), ProjectileType<DynamicPursuerLaser>(), ProjectileType<DynamicPursuerElectricity>()))));
@@ -374,7 +374,7 @@ namespace CalamityMod.Balancing
             NPCSpecificBalancingChanges.Add(new NPCBalancingChange(NPCType<BrimstoneHeart>(), new ProjectileResistBalancingRule(0.8f, ProjectileType<ExecutionersBladeStealthProj>())));
 
             // 15% resist to Seraphim lasers.
-            NPCSpecificBalancingChanges.Add(new NPCBalancingChange(NPCType<BrimstoneHeart>(), new ProjectileResistBalancingRule(0.85f, ProjectileType<SeraphimBeamLarge>())));
+            // NPCSpecificBalancingChanges.Add(new NPCBalancingChange(NPCType<BrimstoneHeart>(), new ProjectileResistBalancingRule(0.85f, ProjectileType<SeraphimBeamLarge>())));
 
             #endregion
 

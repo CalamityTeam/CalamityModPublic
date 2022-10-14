@@ -63,21 +63,25 @@ namespace CalamityMod.Items.DraedonMisc
                     rangedDisplay.OverrideColor = new Color(201, 41, 255);
                     list.Insert(insertIndex + 2, rangedDisplay);
 
+                    TooltipLine rangedDisplay2 = new TooltipLine(this.Mod, "CalamityMod:RangedDisplay2", $"[i:{ModContent.ItemType<TheAnomalysNanogun>()}] The Anomaly's Nanogun");
+                    rangedDisplay2.OverrideColor = new Color(255, 64, 31);
+                    list.Insert(insertIndex + 3, rangedDisplay2);
+
                     TooltipLine mageDisplay = new TooltipLine(this.Mod, "CalamityMod:MageDisplay", $"[i:{ModContent.ItemType<TeslaCannon>()}] Tesla Cannon");
                     mageDisplay.OverrideColor = new Color(31, 242, 245);
-                    list.Insert(insertIndex + 3, mageDisplay);
+                    list.Insert(insertIndex + 4, mageDisplay);
 
                     TooltipLine summonDisplay = new TooltipLine(this.Mod, "CalamityMod:SummonDisplay", $"[i:{ModContent.ItemType<PoleWarper>()}] Pole Warper");
                     summonDisplay.OverrideColor = new Color(236, 255, 31);
-                    list.Insert(insertIndex + 4, summonDisplay);
+                    list.Insert(insertIndex + 5, summonDisplay);
 
                     TooltipLine rogueDisplay = new TooltipLine(this.Mod, "CalamityMod:RogueDisplay", $"[i:{ModContent.ItemType<PlasmaGrenade>()}] Plasma Grenade");
                     rogueDisplay.OverrideColor = new Color(149, 243, 43);
-                    list.Insert(insertIndex + 5, rogueDisplay);
+                    list.Insert(insertIndex + 6, rogueDisplay);
 
                     TooltipLine machineDisplay = new TooltipLine(this.Mod, "CalamityMod:CodeDisplay", $"[i:{ModContent.ItemType<AuricQuantumCoolingCell>()}] Auric Quantum Cooling Cell");
                     machineDisplay.OverrideColor = new Color(255, 215, 0);
-                    list.Insert(insertIndex + 6, machineDisplay);
+                    list.Insert(insertIndex + 7, machineDisplay);
 
                 }
             }

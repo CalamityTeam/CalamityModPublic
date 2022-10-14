@@ -2401,6 +2401,22 @@ namespace CalamityMod.Projectiles
         }
         #endregion
 
+        #region ModifyDamageScaling
+        public override void ModifyDamageScaling(Projectile projectile, ref float damageScale)
+        {
+            Player player = Main.player[projectile.owner];
+
+            // The vanilla damage Jousting Lance multiplier is as follows. Calamity overrides this with a new formula.
+            // damageScale = 0.1f + player.velocity.Length() / 7f * 0.9f
+            if (projectile.type == ProjectileID.JoustingLance || projectile.type == ProjectileID.HallowJoustingLance || projectile.type == ProjectileID.ShadowJoustingLance)
+            {
+                float baseVelocityDamageMultiplier = 0.01f + player.velocity.Length() * 0.002f;
+                float calamityVelocityDamageMultiplier = 100f * (1f - (1f / (1f + baseVelocityDamageMultiplier)));
+                damageScale = calamityVelocityDamageMultiplier;
+            }
+        }
+        #endregion
+
         #region ModifyHitNPC
         public override void ModifyHitNPC(Projectile projectile, NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {

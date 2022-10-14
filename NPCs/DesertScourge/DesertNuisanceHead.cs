@@ -33,6 +33,7 @@ namespace CalamityMod.NPCs.DesertScourge
             value.Position.X += 50;
             value.Position.Y += 35;
             NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
+			NPCID.Sets.MPAllowedEnemies[Type] = true;
         }
 
         public override void SetDefaults()

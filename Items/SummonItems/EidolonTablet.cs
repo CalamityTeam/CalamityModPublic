@@ -15,6 +15,7 @@ namespace CalamityMod.Items.SummonItems
             DisplayName.SetDefault("Eidolon Tablet");
             Tooltip.SetDefault("Summons the Lunatic Cultist\n" +
                 "Not consumable");
+			NPCID.Sets.MPAllowedEnemies[NPCID.CultistBoss] = true;
 			ItemID.Sets.SortingPriorityBossSpawns[Type] = 16; // Solar Tablet / Bloody Tear
         }
 
