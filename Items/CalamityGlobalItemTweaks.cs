@@ -500,7 +500,7 @@ namespace CalamityMod.Items
                 { ItemID.TheEyeOfCthulhu, autoReuse },
                 { ItemID.TheHorsemansBlade, Do(UseTurn, ScaleRatio(1.5f), UseRatio(0.8f), DamageExact(95)) },
                 { ItemID.TheRottedFork, Do(AutoReuse, TrueMelee, DamageExact(20)) },
-                { ItemID.TheUndertaker, Do(AutoReuse, UseExact(21)) },
+                { ItemID.TheUndertaker, Do(AutoReuse, UseExact(21), pointBlank) },
                 { ItemID.ThornChakram, Do(DamageExact(32)) },
                 { ItemID.ThornWhip, autoReuse },
                 { ItemID.ThunderSpear, Do(AutoReuse, UseMeleeSpeed) }, // Storm Spear
