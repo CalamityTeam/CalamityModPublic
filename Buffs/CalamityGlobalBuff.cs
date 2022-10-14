@@ -135,7 +135,7 @@ namespace CalamityMod.Buffs
                     tip = "22.5% increased damage";
                     break;
 
-                case BuffID.BeetleMight1:
+                /*case BuffID.BeetleMight1:
                     tip = "Melee damage increased by 10%";
                     break;
 
@@ -145,7 +145,7 @@ namespace CalamityMod.Buffs
 
                 case BuffID.BeetleMight3:
                     tip = "Melee damage increased by 30%";
-                    break;
+                    break;*/
 
                 case BuffID.BeetleEndurance1:
                     tip = "Damage taken reduced by 10%";
