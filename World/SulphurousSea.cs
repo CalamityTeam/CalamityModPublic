@@ -1,4 +1,8 @@
-﻿using CalamityMod.Schematics;
+﻿using CalamityMod.Items;
+using CalamityMod.Items.Accessories;
+using CalamityMod.Items.Placeables.Furniture;
+using CalamityMod.Items.Weapons.Summon;
+using CalamityMod.Schematics;
 using CalamityMod.Tiles.Abyss;
 using CalamityMod.Walls;
 using Microsoft.Xna.Framework;
@@ -38,6 +42,8 @@ namespace CalamityMod.World
 
         public const float OpenSeaWidthPercentage = 0.53f;
 
+        public const float IslandWidthPercentage = 0.36f;
+
         public const float IslandCurvatureSharpness = 0.74f;
 
         // 0-1 value of how jagged the small caves should be. The higher this value is, the more variance you can expect for each step when carving out caves.
@@ -51,7 +57,7 @@ namespace CalamityMod.World
         // terms of direction, size, etc.
         public const float SpaghettiCaveMagnification = 0.00193f;
 
-        // 0-1 value that determines the threshold for spaghetti caves being carved out. At 0, no caves are carved out, at 1, all tiles are carved out.
+        // 0-1 value that determines the threshold for spaghetti caves being carved out. At 0, no tiles are carved out, at 1, all tiles are carved out.
         // This is used in the formula 'abs(noise(x, y)) < r' to determine whether the cave should remove tiles.
         public static readonly float[] SpaghettiCaveCarveOutThresholds = new float[]
         {
@@ -63,7 +69,7 @@ namespace CalamityMod.World
         
         public static readonly float[] CheeseCaveCarveOutThresholds = new float[]
         {
-            0.4f
+            0.32f
         };
 
         // Percentage of how far down a tile has to be for open caverns to appear.
@@ -72,7 +78,7 @@ namespace CalamityMod.World
         // The percentage of tiles on average that should be transformed into water.
         // A value of 1 indicates that every tile should have water.
         // This value should be close to 1, but not exactly, so that when water settles the top of caverns will be open.
-        public const float WaterSpreadPercentage = 0.95f;
+        public const float WaterSpreadPercentage = 0.91f;
 
         public const float HardenedSandstoneLineMagnification = 0.004f;
 
@@ -186,7 +192,6 @@ namespace CalamityMod.World
             GenerateSmallWaterCaverns();
             GenerateSpaghettiWaterCaves();
             GenerateCheeseWaterCaves();
-            ClearOutStrayTiles();
 
             // Lay down decorations and post-processing effects after the caves are generated.
             DecideHardSandstoneLine();
@@ -197,16 +202,33 @@ namespace CalamityMod.World
         public static void SulphurSeaGenerationAfterAbyss()
         {
             CreateBeachNearSea();
+            ClearOutStrayTiles();
             ClearAloneTiles();
-            PlaceScrapPiles();
+            var scrapPilePositions = PlaceScrapPiles();
             GenerateColumnsInCaverns();
             GenerateSteamGeysersInCaverns();
             GenerateHardenedSandstone();
             PlaceStalactites();
+            GenerateChests(scrapPilePositions);
         }
         #endregion
 
         #region Generation Functions
+        public static void DetermineYStart()
+        {
+            int xCheckPosition = GetActualX(BiomeWidth + 1);
+            var searchCondition = Searches.Chain(new Searches.Down(3000), new Conditions.IsSolid());
+            Point determinedPoint;
+
+            do
+            {
+                WorldUtils.Find(new Point(xCheckPosition, (int)WorldGen.worldSurfaceLow - 20), searchCondition, out determinedPoint);
+                xCheckPosition += Abyss.AtLeftSideOfWorld.ToDirectionInt();
+            }
+            while (CalamityUtils.ParanoidTileRetrieval(determinedPoint.X, determinedPoint.Y).TileType == TileID.Ebonstone);
+            YStart = determinedPoint.Y;
+        }
+
         public static void GenerateSandBlock()
         {
             int width = BiomeWidth + 1;
@@ -304,7 +326,7 @@ namespace CalamityMod.World
         public static void GenerateIsland()
         {
             int left = -32;
-            int right = (int)(BiomeWidth * OpenSeaWidthPercentage * 0.68f);
+            int right = (int)(BiomeWidth * IslandWidthPercentage);
             int maxDepth = MaxTopWaterDepth;
             ushort blockTileType = (ushort)ModContent.TileType<SulphurousSand>();
             ushort wallID = (ushort)ModContent.WallType<SulphurousSandWall>();
@@ -413,6 +435,7 @@ namespace CalamityMod.World
                         float distanceFromEdge = new Vector2(i / (float)width, (y - YStart) / (float)depth).Length();
                         float biasAwayFrom0Interpolant = Utils.GetLerpValue(0.82f, 0.96f, distanceFromEdge * 0.8f, true);
                         biasAwayFrom0Interpolant += Utils.GetLerpValue(YStart + 12f, YStart, y, true) * 0.2f;
+                        biasAwayFrom0Interpolant += Utils.GetLerpValue(width - 19f, width - 4f, i, true) * 0.6f;
 
                         // If the noise is less than 0, bias to -1, if it's greater than 0, bias away to 1.
                         // This is done instead of biasing to -1 or 1 without exception to ensure that in doing so the noise does not cross into the
@@ -450,8 +473,10 @@ namespace CalamityMod.World
                     {
                         float noise = FractalBrownianMotion(i * CheeseCaveMagnification, y * CheeseCaveMagnification, caveSeed, 6);
                         float distanceFromEdge = new Vector2(i / (float)width, (y - YStart) / (float)depth).Length();
+
                         float biasToNegativeOneInterpolant = Utils.GetLerpValue(0.82f, 0.96f, distanceFromEdge * 0.8f, true);
                         biasToNegativeOneInterpolant += Utils.GetLerpValue(YStart + OpenCavernStartDepthPercentage * depth, YStart + OpenCavernStartDepthPercentage * depth - 25f, y, true);
+                        biasToNegativeOneInterpolant += Utils.GetLerpValue(width - 19f, width - 4f, i, true);
                         if (noise - biasToNegativeOneInterpolant > CheeseCaveCarveOutThresholds[c])
                         {
                             WorldUtils.Gen(new(x, y), new Shapes.Rectangle(1, 1), Actions.Chain(new GenAction[]
@@ -470,14 +495,19 @@ namespace CalamityMod.World
         {
             int width = BiomeWidth;
             int depth = BlockDepth;
-            ushort blockTileType = (ushort)ModContent.TileType<SulphurousSand>();
+            List<ushort> blockTileTypes = new()
+            {
+                (ushort)ModContent.TileType<SulphurousSand>(),
+                (ushort)ModContent.TileType<SulphurousSandstone>(),
+                (ushort)ModContent.TileType<HardenedSulphurousSandstone>(),
+            };
             ushort wallID = (ushort)ModContent.WallType<SulphurousSandWall>();
             
             void getAttachedPoints(int x, int y, List<Point> points)
             {
                 Tile t = CalamityUtils.ParanoidTileRetrieval(x, y);
                 Point p = new(x, y);
-                if (t.TileType != blockTileType || !t.HasTile || points.Count > 300 || points.Contains(p) || CalculateDitherChance(width, YStart, YStart + depth, x, y) > 0f)
+                if (!blockTileTypes.Contains(t.TileType) || !t.HasTile || points.Count > 432 || points.Contains(p) || CalculateDitherChance(width, YStart, YStart + depth, x, y) > 0f)
                     return;
 
                 points.Add(p);
@@ -497,7 +527,7 @@ namespace CalamityMod.World
                     List<Point> chunkPoints = new();
                     getAttachedPoints(x, y, chunkPoints);
 
-                    int cutoffLimit = y >= YStart + depth * OpenCavernStartDepthPercentage ? 300 : 50;
+                    int cutoffLimit = y >= YStart + depth * OpenCavernStartDepthPercentage ? 432 : 50;
                     if (chunkPoints.Count >= 2 && chunkPoints.Count < cutoffLimit)
                     {
                         foreach (Point p in chunkPoints)
@@ -708,10 +738,10 @@ namespace CalamityMod.World
             }
         }
 
-        public static void PlaceScrapPiles()
+        public static List<Vector2> PlaceScrapPiles()
         {
             int tries = 0;
-            List<Vector2> pastPlacementPostiion = new List<Vector2>();
+            List<Vector2> pastPlacementPositions = new List<Vector2>();
             for (int i = 0; i < 3; i++)
             {
                 tries++;
@@ -731,7 +761,7 @@ namespace CalamityMod.World
                 }
 
                 // If the selected position is close to other piles, try again.
-                if (pastPlacementPostiion.Any(p => Vector2.Distance(p, pilePlacementPosition.ToVector2()) < ScrapPileAnticlumpDistance))
+                if (pastPlacementPositions.Any(p => Vector2.Distance(p, pilePlacementPosition.ToVector2()) < ScrapPileAnticlumpDistance))
                 {
                     i--;
                     continue;
@@ -767,7 +797,7 @@ namespace CalamityMod.World
                 }
 
                 // If the placement position ended up in the abyss, try again.
-                if (left.Y >= YStart + BlockDepth - 30 || right.Y >= YStart + BlockDepth - 30)
+                if (left.Y >= YStart + BlockDepth - 50 || right.Y >= YStart + BlockDepth - 50)
                 {
                     i--;
                     continue;
@@ -778,9 +808,10 @@ namespace CalamityMod.World
                 bool _ = false;
                 SchematicManager.PlaceSchematic<Action<Chest>>(schematicName, bottomCenter, SchematicAnchor.BottomCenter, ref _);
 
-                pastPlacementPostiion.Add(bottomCenter.ToVector2());
+                pastPlacementPositions.Add(bottomCenter.ToVector2());
                 tries = 0;
             }
+            return pastPlacementPositions;
         }
 
         public static void GenerateColumnsInCaverns()
@@ -799,9 +830,10 @@ namespace CalamityMod.World
 
                 // Try again if inside a tile.
                 Tile tile = CalamityUtils.ParanoidTileRetrieval(x, y);
+                Tile right = CalamityUtils.ParanoidTileRetrieval(x + 1, y);
                 Tile bottom = CalamityUtils.ParanoidTileRetrieval(x, y + 1);
                 Tile bottomRight = CalamityUtils.ParanoidTileRetrieval(x + 1, y + 1);
-                if (tile.HasTile)
+                if (tile.HasTile || right.HasTile)
                     tryAgain = true;
 
                 // Try again if there is no bottom tile.
@@ -839,7 +871,7 @@ namespace CalamityMod.World
             for (int g = 0; g < geyserCount; g++)
             {
                 int x = GetActualX(WorldGen.genRand.Next(20, width - 32));
-                int y = WorldGen.genRand.Next(YStart + depth / 2, YStart + depth - 20);
+                int y = WorldGen.genRand.Next(YStart + depth / 2, YStart + depth - 42);
 
                 bool tryAgain = false;
 
@@ -981,6 +1013,219 @@ namespace CalamityMod.World
                 }
             }
         }
+
+        public static void GenerateChests(List<Vector2> scrapPilePositions)
+        {
+            GenerateTreasureChest();
+            CalamityUtils.SettleWater();
+            GenerateOpenAirChestChest();
+            GenerateScrapPileChest(scrapPilePositions);
+            GenerateDeepWaterChest();
+        }
+
+        public static void GenerateTreasureChest()
+        {
+            // Generate on chest below the island to the edge as buried treasure.
+            static bool tryToGenerateTreasureChest(Point chestPoint)
+            {
+                WorldUtils.Find(chestPoint, Searches.Chain(new Searches.Down(300), new Conditions.IsSolid()), out Point p);
+                chestPoint = p;
+
+                // Determine how far down the island chest should generate.
+                int minDepth = 32;
+                int digDepth = 0;
+                Point startingIslandChestPoint = chestPoint;
+                while (true)
+                {
+                    Tile down = CalamityUtils.ParanoidTileRetrieval(chestPoint.X, chestPoint.Y + digDepth);
+                    Tile downRight = CalamityUtils.ParanoidTileRetrieval(chestPoint.X + 1, chestPoint.Y + digDepth);
+
+                    // Stop if far down enough and either the tile to the left or right is open water.
+                    if (((!down.HasTile && down.LiquidAmount >= 127) || (!downRight.HasTile && downRight.LiquidAmount >= 127)) && digDepth >= minDepth)
+                        break;
+
+                    digDepth++;
+                    if (digDepth >= 80)
+                        return false;
+                }
+                chestPoint.Y += digDepth - 12;
+
+                // Check the nearby area and ensure that it's not exposed to air. The treasure should be buried.
+                bool nearbyAreaIsClosed = false;
+                while (!nearbyAreaIsClosed)
+                {
+                    nearbyAreaIsClosed = true;
+                    for (int dx = -2; dx < 4; dx++)
+                    {
+                        for (int dy = -1; dy < 3; dy++)
+                        {
+                            if (!Main.tile[chestPoint.X + dx, chestPoint.Y - dy].HasTile)
+                                nearbyAreaIsClosed = false;
+                        }
+                    }
+
+                    if (!nearbyAreaIsClosed)
+                        chestPoint.Y++;
+                }
+
+                // Dig up a bit and place the chest.
+                for (int dx = 0; dx < 2; dx++)
+                {
+                    for (int dy = 0; dy < 2; dy++)
+                    {
+                        Main.tile[chestPoint.X + dx, chestPoint.Y - dy].LiquidAmount = 0;
+                        Main.tile[chestPoint.X + dx, chestPoint.Y - dy].WallType = (ushort)ModContent.WallType<SulphurousSandWallSafe>();
+                        Main.tile[chestPoint.X + dx, chestPoint.Y - dy].Get<TileWallWireStateData>().HasTile = false;
+                    }
+                }
+
+                // If a buried chest was placed, force its first item to be the effigy of decay.
+                Chest chest = MiscWorldgenRoutines.AddChestWithLoot(chestPoint.X + 1, chestPoint.Y + 1, (ushort)ModContent.TileType<RustyChestTile>());
+                if (chest != null)
+                {
+                    chest.item[0].SetDefaults(ModContent.ItemType<EffigyOfDecay>());
+                    chest.item[0].Prefix(-1);
+                }
+                else
+                    return false;
+
+                // Go back to the surface and leave a little bit of sulphurous sandstone instead of sand as a small marker of the treasure.
+                for (int dx = 0; dx < 2; dx++)
+                {
+                    for (int dy = -1; dy < 3; dy++)
+                    {
+                        // Ensure that palm trees and pots are not transformed.
+                        int oldTileType = Main.tile[startingIslandChestPoint.X + dx, startingIslandChestPoint.Y + dy].TileType;
+                        if (oldTileType == TileID.PalmTree || !Main.tileSolid[oldTileType])
+                        {
+                            WorldGen.KillTile(startingIslandChestPoint.X + dx, startingIslandChestPoint.Y + dy);
+                            continue;
+                        }
+
+                        Main.tile[startingIslandChestPoint.X + dx, startingIslandChestPoint.Y + dy].LiquidAmount = 0;
+                        Main.tile[startingIslandChestPoint.X + dx, startingIslandChestPoint.Y + dy].TileType = (ushort)ModContent.TileType<SulphurousSandstone>();
+                    }
+                }
+                return true;
+            }
+
+            Point islandChestPoint = new(GetActualX((int)(BiomeWidth * IslandWidthPercentage * 0.5f) + WorldGen.genRand.Next(-8, 9)), YStart - 100);
+            while (!tryToGenerateTreasureChest(islandChestPoint))
+                islandChestPoint.X += Abyss.AtLeftSideOfWorld.ToDirectionInt();
+        }
+
+        public static void GenerateOpenAirChestChest()
+        {
+            int width = BiomeWidth;
+            Dictionary<int, int> depthMap = new();
+
+            for (int i = 60; i < width - 50; i++)
+            {
+                int x = GetActualX(i);
+                int y = YStart + MaxIslandDepth + 2;
+                int dy = 0;
+
+                while (CalamityUtils.ParanoidTileRetrieval(x, y + dy).HasTile || CalamityUtils.ParanoidTileRetrieval(x, y + dy).LiquidAmount <= 0)
+                    dy++;
+
+                depthMap[x] = CalamityUtils.ParanoidTileRetrieval(x, y).HasTile ? y + dy : 0;
+            }
+
+            // Pick a smooth place on the depth map to place the chest. This should happen close to an open air point in the caves.
+            for (int i = 0; i < 400; i++)
+            {
+                int x = depthMap.Keys.ElementAt(WorldGen.genRand.Next(10, depthMap.Count - 10));
+                int leftY = depthMap[x - 1];
+                int currentY = depthMap[x];
+                int rightY = depthMap[x + 1];
+                int averageY = (leftY + currentY + rightY) / 3;
+
+                if (Math.Abs(averageY - currentY) < 3f && currentY > 0)
+                {
+                    currentY += 3;
+
+                    // Ignore the current position if the chest cannot be placed due to tiles in the way.
+                    if (CalamityUtils.AnySolidTileInSelection(x, currentY - 1, 4, -4))
+                        continue;
+
+                    // Place the chest and ground.
+                    for (int dx = -1; dx < 3; dx++)
+                    {
+                        Main.tile[x + dx, currentY + 1].LiquidAmount = 0;
+                        Main.tile[x + dx, currentY + 1].TileType = (ushort)ModContent.TileType<SulphurousSand>();
+                        Main.tile[x + dx, currentY + 1].Get<TileWallWireStateData>().HasTile = true;
+                    }
+
+                    // If a buried chest was placed, force its first item to be the broken water filter.
+                    Chest chest = MiscWorldgenRoutines.AddChestWithLoot(x, currentY - 2, (ushort)ModContent.TileType<RustyChestTile>());
+                    if (chest != null)
+                    {
+                        chest.item[0].SetDefaults(ModContent.ItemType<BrokenWaterFilter>());
+                        chest.item[0].Prefix(-1);
+                        break;
+                    }
+                    else
+                        continue;
+                }
+            }
+        }
+
+        public static void GenerateScrapPileChest(List<Vector2> scrapPilePositions)
+        {
+            // Pick a random scrap pile to generate near.
+            for (int i = 0; i < 400; i++)
+            {
+                Point placeToGenerateNear = WorldGen.genRand.Next(scrapPilePositions).ToPoint();
+                int x = placeToGenerateNear.X + WorldGen.genRand.Next(-25 - i / 15, 25 + i / 15);
+                int y = placeToGenerateNear.Y + WorldGen.genRand.Next(-16, 4);
+                if (WorldGen.SolidTile(x, y))
+                    continue;
+
+                // If a buried chest was successfully placed, force its first item to be the rusty beacon prototype.
+                Chest chest = MiscWorldgenRoutines.AddChestWithLoot(x, y, (ushort)ModContent.TileType<RustyChestTile>());
+                if (chest != null)
+                {
+                    chest.item[0].SetDefaults(ModContent.ItemType<RustyBeaconPrototype>());
+                    chest.item[0].Prefix(-1);
+                    break;
+                }
+            }
+        }
+
+        public static void GenerateDeepWaterChest()
+        {
+            // Pick a random scrap pile to generate near.
+            for (int i = 0; i < 400; i++)
+            {
+                int x = GetActualX(WorldGen.genRand.Next(60, BiomeWidth - 60));
+                int y = YStart + WorldGen.genRand.Next(BlockDepth - 150, BlockDepth - 45);
+                if (WorldGen.SolidTile(x, y))
+                    continue;
+
+                // Try again if too far down.
+                while (y < Main.maxTilesY - 210)
+                {
+                    if (!WorldGen.SolidTile(x, y))
+                        y++;
+                    else
+                    {
+                        y -= 3;
+                        break;
+                    }
+                }
+                if (y >= YStart + BlockDepth - 45)
+                    continue;
+
+                // If a buried chest was successfully placed, force its first item to be the rusty medallion.
+                Chest chest = MiscWorldgenRoutines.AddChestWithLoot(x, y, (ushort)ModContent.TileType<RustyChestTile>());
+                if (chest != null)
+                {
+                    chest.item[0].SetDefaults(ModContent.ItemType<RustyMedallion>());
+                    chest.item[0].Prefix(-1);
+                    break;
+                }
+            }
+        }
         #endregion Generation Functions
 
         #region Misc Functions
@@ -1111,21 +1356,6 @@ namespace CalamityMod.World
             return Main.maxTilesX - x;
         }
 
-        public static void DetermineYStart()
-        {
-            int xCheckPosition = GetActualX(BiomeWidth + 1);
-            var searchCondition = Searches.Chain(new Searches.Down(3000), new Conditions.IsSolid());
-            Point determinedPoint;
-
-            do
-            {
-                WorldUtils.Find(new Point(xCheckPosition, (int)WorldGen.worldSurfaceLow - 20), searchCondition, out determinedPoint);
-                xCheckPosition += Abyss.AtLeftSideOfWorld.ToDirectionInt();
-            }
-            while (CalamityUtils.ParanoidTileRetrieval(determinedPoint.X, determinedPoint.Y).TileType == TileID.Ebonstone);
-            YStart = determinedPoint.Y;
-        }
-
         public static float CalculateDitherChance(int width, int top, int bottom, int x, int y)
         {
             float verticalCompletion = Utils.GetLerpValue(top, bottom, y, true);
@@ -1164,7 +1394,7 @@ namespace CalamityMod.World
         public static void GenerateColumn(int left, int top, int bottom)
         {
             int depth = BlockDepth;
-            ushort ColumnID = (ushort)ModContent.TileType<SulphurousColumn>();
+            ushort columnID = (ushort)ModContent.TileType<SulphurousColumn>();
             ushort hardenedSandstoneWallID = (ushort)ModContent.WallType<HardenedSulphurousSandstoneWall>();
             ushort sandWallID = (ushort)ModContent.WallType<SulphurousSandWall>();
             short variantFrameOffset = (short)(WorldGen.genRand.Next(3) * 36);
@@ -1182,7 +1412,7 @@ namespace CalamityMod.World
                     else if (y == bottom)
                         frameY = 36;
 
-                    Main.tile[x, y].TileType = ColumnID;
+                    Main.tile[x, y].TileType = columnID;
                     Main.tile[x, y].TileFrameX = frameX;
                     Main.tile[x, y].TileFrameY = frameY;
                     Main.tile[x, y].WallType = y >= YStart + depth * OpenCavernStartDepthPercentage ? hardenedSandstoneWallID : sandWallID;

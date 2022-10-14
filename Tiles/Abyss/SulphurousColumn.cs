@@ -40,6 +40,18 @@ namespace CalamityMod.Tiles.Abyss
 
             base.SetStaticDefaults();
         }
+
+        public override void NearbyEffects(int i, int j, bool closer)
+        {
+            Tile t = CalamityUtils.ParanoidTileRetrieval(i, j);
+            Tile left = CalamityUtils.ParanoidTileRetrieval(i - 1, j);
+            Tile right = CalamityUtils.ParanoidTileRetrieval(i + 1, j);
+            if (t.TileFrameX % 36 == 0 && !right.HasTile)
+                WorldGen.KillTile(i, j);
+            if (t.TileFrameX % 36 == 18 && !left.HasTile)
+                WorldGen.KillTile(i, j);
+        }
+
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
             if (Main.netMode == NetmodeID.Server)

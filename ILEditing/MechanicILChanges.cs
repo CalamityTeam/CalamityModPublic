@@ -42,6 +42,7 @@ using Terraria.GameContent.Events;
 using CalamityMod.DataStructures;
 using CalamityMod.Particles.Metaballs;
 using Terraria.GameContent.Drawing;
+using CalamityMod.Tiles.Abyss;
 
 namespace CalamityMod.ILEditing
 {
@@ -901,7 +902,8 @@ namespace CalamityMod.ILEditing
                 GeneralParticleHandler.SpawnParticle(acidFoam);
             }
 
-            outputColor = Vector3.Lerp(outputColor, Color.LightSeaGreen.ToVector3(), 0.41f);
+            if (tile.TileType != (ushort)ModContent.TileType<RustyChestTile>())
+                outputColor = Vector3.Lerp(outputColor, Color.LightSeaGreen.ToVector3(), 0.41f);
         }
         #endregion Sulph Sea Water Visuals
 

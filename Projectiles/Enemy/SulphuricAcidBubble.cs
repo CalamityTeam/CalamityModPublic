@@ -23,6 +23,7 @@ namespace CalamityMod.Projectiles.Enemy
             Projectile.scale = 0.01f;
             Projectile.hostile = true;
             Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
             Projectile.Opacity = 0f;
             Projectile.timeLeft = 360;
             Projectile.penetrate = 1;
