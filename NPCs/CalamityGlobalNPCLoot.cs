@@ -916,7 +916,7 @@ namespace CalamityMod.NPCs
                         if (notExpert is LeadingConditionRule LCR_NotExpert)
                         {
                             LCR_NotExpert.ChainedRules.RemoveAll((chainAttempt) =>
-                                chainAttempt is Chains.TryIfSucceeded c && c.RuleToChain is OneFromOptionsNotScaledWithLuckDropRule weapons && weapons.dropIds[0] == ItemID.LucyTheAxe);
+                                chainAttempt is Chains.TryIfSucceeded c && c.RuleToChain is OneFromOptionsNotScaledWithLuckDropRule weapons && weapons.dropIds[0] == ItemID.PewMaticHorn);
 
                             // Define a replacement rule which drops the weapons Calamity style.
                             var deerWeapons = new int[]
@@ -1353,11 +1353,11 @@ namespace CalamityMod.NPCs
                                 ItemID.FishronWings,
                             };
                             LCR_NotExpert.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, dukeItems));
-                        }
 
-                        // Remove the vanilla loot rule for Fishron Wings because it's part of the Calamity Style set.
-                        dukeRootRules.RemoveAll((rule) =>
-                            rule is ItemDropWithConditionRule conditionalRule && conditionalRule.condition is Conditions.NotExpert && conditionalRule.itemId == ItemID.FishronWings);
+                            // Remove the vanilla loot rule for Fishron Wings because it's part of the Calamity Style set.
+                            dukeRootRules.RemoveAll((rule) =>
+                                rule is ItemDropWithConditionRule conditionalRule && conditionalRule.condition is Conditions.NotExpert && conditionalRule.itemId == ItemID.FishronWings);
+                        }
                     }
                     catch (ArgumentNullException) { }
 
