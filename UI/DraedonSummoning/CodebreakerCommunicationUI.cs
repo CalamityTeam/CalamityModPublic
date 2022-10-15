@@ -73,7 +73,7 @@ namespace CalamityMod.UI.DraedonSummoning
         } = string.Empty;
 
         // This is used to give a one-frame buffer before dialog actually appears. The reason for this is to prevent dialog sometimes showing up for one frame
-        // in the case of dialog entries being prune because of going past the natural box.
+        // in the case of dialog entries being pruned because of going past the natural box.
         public static bool CanDisplayLatestDialogEntries
         {
             get;
