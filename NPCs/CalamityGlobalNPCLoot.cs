@@ -1548,6 +1548,19 @@ namespace CalamityMod.NPCs
         }
         #endregion
 
+        #region Pre Kill
+        public override bool PreKill(NPC npc)
+        {
+            // Boss Rush pre-kill effects
+            if (BossRushEvent.BossRushActive)
+            {
+                // Block anything except the Rock from dropping
+                DropHelper.BlockEverything(ModContent.ItemType<Rock>());
+            }
+			return true;
+		}
+		#endregion
+
         #region On Kill Main Hook
         public override void OnKill(NPC npc)
         {
@@ -1556,9 +1569,6 @@ namespace CalamityMod.NPCs
             {
                 // Progress the Boss Rush event
                 BossRushEvent.OnBossKill(npc, Mod);
-
-                // Block anything except the Rock from dropping
-                DropHelper.BlockEverything(ModContent.ItemType<Rock>());
             }
 
             // Acid Rain on-kill effects
