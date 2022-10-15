@@ -1094,6 +1094,7 @@ namespace CalamityMod.CalPlayer
         #region Draedon Summoning
         public bool AbleToSelectExoMech = false;
         public bool HasTalkedAtCodebreaker = false;
+        public List<ulong> SeenDraedonDialogs = new();
         #endregion Draedon Summoning
 
         #region Mouse Controls Syncing
@@ -1263,6 +1264,7 @@ namespace CalamityMod.CalPlayer
             tag["lastSplitType"] = lastSplitType;
             tag["lastSplitTicks"] = lastSplit.Ticks;
             tag["cooldowns"] = cooldownsTag;
+            tag["SeenDraedonDialogs"] = SeenDraedonDialogs;
         }
 
         public override void LoadData(TagCompound tag)
@@ -1358,6 +1360,7 @@ namespace CalamityMod.CalPlayer
             lastSplitType = tag.GetInt("lastSplitType");
             ticks = tag.GetLong("lastSplitTicks");
             lastSplit = new TimeSpan(ticks);
+            SeenDraedonDialogs = tag.GetList<ulong>("SeenDraedonDialogs").ToList();
 
             // Clear the player's cooldowns in preparation for loading.
             cooldowns.Clear();

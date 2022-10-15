@@ -12,6 +12,7 @@ using Terraria.GameContent;
 using Terraria.Graphics.Shaders;
 using Terraria.ModLoader;
 using Terraria.UI.Chat;
+using static CalamityMod.UI.DraedonSummoning.DraedonDialogRegistry;
 
 namespace CalamityMod.UI.DraedonSummoning
 {
@@ -99,27 +100,6 @@ namespace CalamityMod.UI.DraedonSummoning
         }
 
         public static string InquiryText => Main.LocalPlayer.Calamity().HasTalkedAtCodebreaker ? "State your inquiry." : "...";
-
-        public static Dictionary<string, string> DialogQueries => new()
-        {
-            ["Who are you?"] = "That is forever an ambitious question. I will allow you this much:\n\n" +
-                               "I am, as I have said, not of this planet. I was born from machines, and I was... created. It may actually be false to say I was born.\n\n" +
-                               "All I have known from the day I became aware of myself, is that I had to create, myself.",
-
-            ["Calamitas"] = DownedBossSystem.downedSCal ? "Hm! She has mellowed, I've noticed. For you creatures so burdened by emotion and guilt, I wonder now, how she manages to live with herself." :
-                                                          "The witch? Ha! A walking weapon. Such powerful magic in a living being was destined to be. Just look at yourself now.",
-
-            ["Exo Prisms"] = "Those crystals are one of the most foundational materials used in my finest work, each containing so much energy " +
-                            "as to warp surrounding material into branch-like structures, in a manner akin to rust.\n\nWith any luck, you may be able to harness their power to create very interesting weaponry.",
-
-            ["The Plague"] = "Fascinating, the speed at which nanotechnology and a virus can adapt. I consider it personally one of my greatest works.\n\n" +
-                             "Nanotechnology that not only rivaled a cosmic mutation, but adapted with it to form something new.\n\n" +
-                             "Nothing is more pleasing than a result that exceeds expectations.",
-
-            ["The Sulphurous Sea"] = "I understand your concern for those fragile creatures. However, nothing is irreparable, and nothing is truly whole.\n\n" +
-                                     "The sea simply exists now in a different state than it once was, one that result out of the convenience of my work.\n\n" +
-                                     "Should I ever need to return to that sea? A pointless worry. I shall simply recreate it from the data I have gathered, from the bedrock up. It would be a shame as a creator should I not be able to do that.",
-        };
 
         public static string HoverSoundDialogType
         {
@@ -253,18 +233,20 @@ namespace CalamityMod.UI.DraedonSummoning
             float opacity = DraedonTextOptionsOpacity * (1f - DraedonScreenStaticInterpolant);
             Vector2 textTopLeft = selectionArea.TopLeft() + new Vector2(16f, 12f) * panelScale;
             Texture2D markerTexture = ModContent.Request<Texture2D>("CalamityMod/UI/DraedonSummoning/DraedonInquirySelector").Value;
-            foreach (string query in DialogQueries.Keys)
+
+            foreach (var dialog in DialogOptions.Where(d => d.Condition()))
             {
                 // Skip/isolate the introduction text as needed.
-                if (!Main.LocalPlayer.Calamity().HasTalkedAtCodebreaker && !DialogHistory.Contains(DialogQueries["Who are you?"]))
+                string inquiry = dialog.Inquiry;
+                if (!Main.LocalPlayer.Calamity().HasTalkedAtCodebreaker && !DialogHistory.Contains(DialogOptions[0].Response))
                 {
-                    if (query != "Who are you?")
+                    if (inquiry != DialogOptions[0].Inquiry)
                         continue;
 
                     while (DialogHistory.Count < 1)
                         DialogHistory.Add(string.Empty);
                 }
-                else if (query == "Who are you?")
+                else if (inquiry == DialogOptions[0].Inquiry)
                     continue;
 
                 // Draw the text marker.
@@ -274,11 +256,28 @@ namespace CalamityMod.UI.DraedonSummoning
 
                 Color textColor = Color.Cyan;
                 Color markerColor = Color.White;
-                Vector2 textArea = DialogFont.MeasureString(query) * GeneralScale;
+                Vector2 textArea = DialogFont.MeasureString(inquiry) * GeneralScale;
                 Rectangle textAreaRect = new((int)textTopLeft.X, (int)textTopLeft.Y, (int)textArea.X, (int)textArea.Y);
                 Rectangle markerArea = Utils.CenteredRectangle(markerDrawPosition, markerTexture.Size() * markerScale);
                 textAreaRect.Y = markerArea.Y;
                 textAreaRect.Height = markerArea.Height;
+
+                // Draw a bloom flare if the dialog hasn't been seen yet.
+                dialog.Update();
+                if (dialog.BloomOpacity > 0f)
+                {
+                    Main.spriteBatch.End();
+                    Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, null, null, null, null, Matrix.Identity);
+
+                    Texture2D bloomTex = ModContent.Request<Texture2D>("CalamityMod/UI/ModeIndicator/BloomFlare").Value;
+                    float scale = (float)Math.Sin(Main.GlobalTimeWrappedHourly) * 0.05f + 0.26f;
+                    float rot = Main.GlobalTimeWrappedHourly * 0.5f;
+
+                    Main.spriteBatch.Draw(bloomTex, markerDrawPosition, null, Color.SkyBlue * dialog.BloomOpacity * opacity, rot, new Vector2(123f, 124f), scale, 0, 0f);
+
+                    Main.spriteBatch.End();
+                    Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Matrix.Identity);
+                }
 
                 // Check if the player clicks on the text or hovers over it.
                 // If they're hovering over it, change the color to a yellow hover.
@@ -290,9 +289,9 @@ namespace CalamityMod.UI.DraedonSummoning
 
                     // Play the hover sound.
                     hoveringOverAnyOption = true;
-                    if (HoverSoundDialogType != query)
+                    if (HoverSoundDialogType != inquiry)
                     {
-                        HoverSoundDialogType = query;
+                        HoverSoundDialogType = inquiry;
                         SoundEngine.PlaySound(DialogOptionHoverSound);
                     }
 
@@ -304,19 +303,22 @@ namespace CalamityMod.UI.DraedonSummoning
                             DraedonTextOptionsOpacity = 0f;
                         }
 
-                        if (query == "Who are you?")
+                        if (inquiry == DialogOptions[0].Inquiry)
                             DraedonTextCreationTimer = -72;
 
-                        DialogHistory[^1] = query;
+                        DialogHistory[^1] = inquiry;
                         DialogHistory.Add(string.Empty);
-                        DraedonTextComplete = DialogQueries[query];
+                        DraedonTextComplete = dialog.Response;
                         DraedonText = string.Empty;
+                        if (!Main.LocalPlayer.Calamity().SeenDraedonDialogs.Contains(dialog.ID))
+                            Main.LocalPlayer.Calamity().SeenDraedonDialogs.Add(dialog.ID);
+
                         CanDisplayLatestDialogEntries = false;
                     }
                 }
                 Main.spriteBatch.Draw(markerTexture, markerDrawPosition, null, markerColor * opacity, 0f, markerTexture.Size() * 0.5f, markerScale, 0, 0f);
 
-                ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, DialogFont, query, textTopLeft, textColor * opacity, 0f, Vector2.Zero, Vector2.One * GeneralScale * 0.76f);
+                ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, DialogFont, inquiry, textTopLeft, textColor * opacity, 0f, Vector2.Zero, Vector2.One * GeneralScale * 0.76f);
                 textTopLeft.Y += panelScale.Y * 12f;
             }
 
@@ -430,7 +432,7 @@ namespace CalamityMod.UI.DraedonSummoning
                 for (int i = 0; i < 2; i++)
                 {
                     string text = DialogHistory[0];
-                    if (text == DialogQueries["Who are you?"])
+                    if (text == DialogOptions[0].Inquiry)
                         Main.LocalPlayer.Calamity().HasTalkedAtCodebreaker = true;
 
                     DialogHistory.RemoveAt(0);

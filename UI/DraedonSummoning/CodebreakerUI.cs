@@ -128,7 +128,7 @@ namespace CalamityMod.UI.DraedonSummoning
 
             // Reset communication things.
             DraedonTextCreationTimer = 0;
-            if (!string.IsNullOrEmpty(DraedonText) && DraedonTextComplete == DialogQueries["Who are you?"])
+            if (!string.IsNullOrEmpty(DraedonText) && DraedonTextComplete == DraedonDialogRegistry.DialogOptions[0].Inquiry)
                 Main.LocalPlayer.Calamity().HasTalkedAtCodebreaker = true;
 
             DraedonText = DraedonTextComplete = string.Empty;
