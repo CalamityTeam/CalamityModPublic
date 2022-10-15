@@ -122,13 +122,13 @@ namespace CalamityMod.UI.DraedonSummoning
             if (DisplayingCommunicationText)
             {
                 DisplayCommunicationPanel();
-                DraedonScreenStaticInterpolant = MathHelper.Clamp(DraedonScreenStaticInterpolant - 0.014f, 0f, 1f);
+                DraedonScreenStaticInterpolant = MathHelper.Clamp(DraedonScreenStaticInterpolant - 0.01408f, 0f, 1f);
                 return;
             }
 
             // Reset communication things.
             DraedonTextCreationTimer = 0;
-            if (!string.IsNullOrEmpty(DraedonText))
+            if (!string.IsNullOrEmpty(DraedonText) && DraedonTextComplete == DialogQueries["Who are you?"])
                 Main.LocalPlayer.Calamity().HasTalkedAtCodebreaker = true;
 
             DraedonText = DraedonTextComplete = string.Empty;

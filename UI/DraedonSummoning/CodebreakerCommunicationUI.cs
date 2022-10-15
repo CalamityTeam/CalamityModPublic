@@ -98,28 +98,27 @@ namespace CalamityMod.UI.DraedonSummoning
             }
         }
 
-        public static string InquiryText
-        {
-            get
-            {
-                if (!Main.LocalPlayer.Calamity().HasTalkedAtCodebreaker)
-                {
-                    return "Fascinating.\n\n" +
-                        "You would seek to establish communication with me?\n\n" +
-                        "Very well. Though my time is precious, as a personal subject of intrigue, I am willing to humor some of your questions.";
-                }
-
-                return "State your inquiry.";
-            }
-        }
+        public static string InquiryText => Main.LocalPlayer.Calamity().HasTalkedAtCodebreaker ? "State your inquiry." : "...";
 
         public static Dictionary<string, string> DialogQueries => new()
         {
+            ["Who are you?"] = "That is forever an ambitious question. I will allow you this much:\n\n" +
+                               "I am, as I have said, not of this planet. I was born from machines, and I was... created. It may actually be false to say I was born.\n\n" +
+                               "All I have known from the day I became aware of myself, is that I had to create, myself.",
+
+            ["Calamitas"] = DownedBossSystem.downedSCal ? "Hm! She has mellowed, I've noticed. For you creatures so burdened by emotion and guilt, I wonder now, how she manages to live with herself." :
+                                                          "The witch? Ha! A walking weapon. Such powerful magic in a living being was destined to be. Just look at yourself now.",
+
             ["Exo Prisms"] = "Those crystals are one of the most foundational materials used in my finest work, each containing so much energy " +
                             "as to warp surrounding material into branch-like structures, in a manner akin to rust.\n\nWith any luck, you may be able to harness their power to create very interesting weaponry.",
-            
-            ["The Tyrant"] = "I am unsure of the current whereabouts of the Tyrant. The last time we spoke, he wore an expression of finality before making his way into the shrouded sky. I have been unable to locate him since then.\n\n" +
-                             "Perhaps you are fated to find and face him, wherever he may be.",
+
+            ["The Plague"] = "Fascinating, the speed at which nanotechnology and a virus can adapt. I consider it personally one of my greatest works.\n\n" +
+                             "Nanotechnology that not only rivaled a cosmic mutation, but adapted with it to form something new.\n\n" +
+                             "Nothing is more pleasing than a result that exceeds expectations.",
+
+            ["The Sulphurous Sea"] = "I understand your concern for those fragile creatures. However, nothing is irreparable, and nothing is truly whole.\n\n" +
+                                     "The sea simply exists now in a different state than it once was, one that result out of the convenience of my work.\n\n" +
+                                     "Should I ever need to return to that sea? A pointless worry. I shall simply recreate it from the data I have gathered, from the bedrock up. It would be a shame as a creator should I not be able to do that.",
         };
 
         public static string HoverSoundDialogType
@@ -256,10 +255,22 @@ namespace CalamityMod.UI.DraedonSummoning
             Texture2D markerTexture = ModContent.Request<Texture2D>("CalamityMod/UI/DraedonSummoning/DraedonInquirySelector").Value;
             foreach (string query in DialogQueries.Keys)
             {
+                // Skip/isolate the introduction text as needed.
+                if (!Main.LocalPlayer.Calamity().HasTalkedAtCodebreaker && !DialogHistory.Contains(DialogQueries["Who are you?"]))
+                {
+                    if (query != "Who are you?")
+                        continue;
+
+                    while (DialogHistory.Count < 1)
+                        DialogHistory.Add(string.Empty);
+                }
+                else if (query == "Who are you?")
+                    continue;
+
                 // Draw the text marker.
-                Vector2 markerScale = panelScale * 0.2f;
+                Vector2 markerScale = panelScale * 0.15f;
                 Vector2 markerDrawPosition = textTopLeft - Vector2.UnitX * markerTexture.Width * markerScale.X * 0.7f;
-                markerDrawPosition.Y += markerScale.Y * 12f;
+                markerDrawPosition.Y += markerScale.Y * 16f;
 
                 Color textColor = Color.Cyan;
                 Color markerColor = Color.White;
@@ -287,6 +298,15 @@ namespace CalamityMod.UI.DraedonSummoning
 
                     if (Main.mouseLeft && Main.mouseLeftRelease)
                     {
+                        if (!Main.LocalPlayer.Calamity().HasTalkedAtCodebreaker)
+                        {
+                            DialogHistory.Insert(0, string.Empty);
+                            DraedonTextOptionsOpacity = 0f;
+                        }
+
+                        if (query == "Who are you?")
+                            DraedonTextCreationTimer = -72;
+
                         DialogHistory[^1] = query;
                         DialogHistory.Add(string.Empty);
                         DraedonTextComplete = DialogQueries[query];
@@ -296,7 +316,7 @@ namespace CalamityMod.UI.DraedonSummoning
                 }
                 Main.spriteBatch.Draw(markerTexture, markerDrawPosition, null, markerColor * opacity, 0f, markerTexture.Size() * 0.5f, markerScale, 0, 0f);
 
-                ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, DialogFont, query, textTopLeft, textColor * opacity, 0f, Vector2.Zero, Vector2.One * GeneralScale * 0.67f);
+                ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, DialogFont, query, textTopLeft, textColor * opacity, 0f, Vector2.Zero, Vector2.One * GeneralScale * 0.76f);
                 textTopLeft.Y += panelScale.Y * 12f;
             }
 
@@ -357,7 +377,7 @@ namespace CalamityMod.UI.DraedonSummoning
             foreach (string entry in dialogEntries)
             {
                 int lineIndex = 0;
-                foreach (string line in Utils.WordwrapString(entry, DialogFont, 375, 100, out _))
+                foreach (string line in Utils.WordwrapString(entry, DialogFont, 336, 100, out _))
                 {
                     if (string.IsNullOrEmpty(line))
                         continue;
@@ -366,9 +386,9 @@ namespace CalamityMod.UI.DraedonSummoning
                     bool textIsFromDraedon = textIndex % 2 == 0;
                     Color dialogColor = Draedon.TextColor;
                     Vector2 localTextTopLeft = textTopLeft;
-                    Vector2 markerScale = panelScale * 0.2f;
-                    Vector2 markerDrawPosition = textTopLeft - Vector2.UnitX * markerTexture.Width * markerScale.X * 0.7f;
-                    markerDrawPosition.Y += markerScale.Y * 12f;
+                    Vector2 markerScale = panelScale * 0.15f;
+                    Vector2 markerDrawPosition = textTopLeft - Vector2.UnitX * markerTexture.Width * markerScale.X;
+                    markerDrawPosition.Y += markerScale.Y * 24f;
                     SpriteEffects markerDirection = SpriteEffects.None;
                     if (!textIsFromDraedon)
                     {
@@ -376,7 +396,7 @@ namespace CalamityMod.UI.DraedonSummoning
                         Vector2 anchorPoint = new(dialogArea.Center.X, markerDrawPosition.Y);
                         markerDrawPosition.X = anchorPoint.X + (anchorPoint.X - markerDrawPosition.X);
                         localTextTopLeft.X = anchorPoint.X + (anchorPoint.X - localTextTopLeft.X);
-                        localTextTopLeft.X -= DialogFont.MeasureString(line).X;
+                        localTextTopLeft.X -= DialogFont.MeasureString(line).X * 1.05f;
 
                         // Use a neutral grey-ish color if text is being said by the player.
                         dialogColor = Color.LightGray;
@@ -391,7 +411,7 @@ namespace CalamityMod.UI.DraedonSummoning
                             Main.spriteBatch.Draw(markerTexture, markerDrawPosition, null, Color.White * dialogHistoryDrawInterpolant, 0f, markerTexture.Size() * 0.5f, markerScale, markerDirection, 0f);
 
                         // Draw the text itself.
-                        ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, DialogFont, line, localTextTopLeft, dialogColor * dialogHistoryDrawInterpolant, 0f, Vector2.Zero, Vector2.One * GeneralScale * 0.67f);
+                        ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, DialogFont, line, localTextTopLeft, dialogColor * dialogHistoryDrawInterpolant, 0f, Vector2.Zero, Vector2.One * GeneralScale * 0.76f);
                     }
 
                     textTopLeft.Y += panelScale.Y * 6f;
@@ -408,7 +428,13 @@ namespace CalamityMod.UI.DraedonSummoning
             while (entriesToPrune >= 1)
             {
                 for (int i = 0; i < 2; i++)
+                {
+                    string text = DialogHistory[0];
+                    if (text == DialogQueries["Who are you?"])
+                        Main.LocalPlayer.Calamity().HasTalkedAtCodebreaker = true;
+
                     DialogHistory.RemoveAt(0);
+                }
                 entriesToPrune--;
             }
 
