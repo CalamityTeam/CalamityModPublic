@@ -2188,11 +2188,6 @@ namespace CalamityMod
             BossRushHPChanges = new SortedDictionary<int, int>
             {
                 // Tier 1
-                { NPCID.QueenBee, 315000 }, // 30 seconds
-
-                { NPCID.BrainofCthulhu, 100000 }, // 30 seconds with creepers
-                { NPCID.Creeper, 10000 },
-
                 { NPCID.KingSlime, 300000 }, // 30 seconds
                 { NPCID.BlueSlime, 3600 },
                 { NPCID.SlimeSpiked, 7200 },
@@ -2208,38 +2203,57 @@ namespace CalamityMod
                 { NPCID.EyeofCthulhu, 450000 }, // 30 seconds
                 { NPCID.ServantofCthulhu, 6000 },
 
+                { NPCID.EaterofWorldsHead, 10000 }, // 30 seconds + immunity timer at start
+                { NPCID.EaterofWorldsBody, 10000 },
+                { NPCID.EaterofWorldsTail, 10000 },
+
+                { NPCID.BrainofCthulhu, 100000 }, // 30 seconds with creepers
+                { NPCID.Creeper, 10000 },
+
+                { NPCID.QueenBee, 315000 }, // 30 seconds
+
+                { NPCID.Deerclops, 315000 }, // 30 seconds
+
+                { NPCID.SkeletronHead, 160000 }, // 30 seconds
+                { NPCID.SkeletronHand, 60000 },
+
+                { NPCID.WallofFlesh, 450000 }, // 30 seconds
+                { NPCID.WallofFleshEye, 450000 },
+
+                // Tier 2
+                { NPCID.QueenSlimeBoss, 100000 }, // 30 seconds
+                { NPCID.QueenSlimeMinionBlue, 6000 },
+                { NPCID.QueenSlimeMinionPink, 6000 },
+                { NPCID.QueenSlimeMinionPurple, 5000 },
+
+                { NPCID.Spazmatism, 150000 }, // 30 seconds
+                { NPCID.Retinazer, 125000 },
+
+                { NPCID.TheDestroyer, 250000 }, // 30 seconds + immunity timer at start
+                { NPCID.TheDestroyerBody, 250000 },
+                { NPCID.TheDestroyerTail, 250000 },
+                { NPCID.Probe, 10000 },
+
                 { NPCID.SkeletronPrime, 110000 }, // 30 seconds
                 { NPCID.PrimeVice, 54000 },
                 { NPCID.PrimeCannon, 45000 },
                 { NPCID.PrimeSaw, 45000 },
                 { NPCID.PrimeLaser, 38000 },
 
+                { NPCID.Plantera, 160000 }, // 30 seconds
+                { NPCID.PlanterasTentacle, 40000 },
+
+                // Tier 3
                 { NPCID.Golem, 50000 }, // 30 seconds
                 { NPCID.GolemHead, 30000 },
                 { NPCID.GolemHeadFree, 30000 },
                 { NPCID.GolemFistLeft, 25000 },
                 { NPCID.GolemFistRight, 25000 },
 
-                { NPCID.EaterofWorldsHead, 10000 }, // 30 seconds + immunity timer at start
-                { NPCID.EaterofWorldsBody, 10000 },
-                { NPCID.EaterofWorldsTail, 10000 },
+                { NPCID.HallowBoss, 180000 }, // 30 seconds
 
-                // Tier 2
-                { NPCID.TheDestroyer, 250000 }, // 30 seconds + immunity timer at start
-                { NPCID.TheDestroyerBody, 250000 },
-                { NPCID.TheDestroyerTail, 250000 },
-                { NPCID.Probe, 10000 },
+                { NPCID.DukeFishron, 290000 }, // 30 seconds
 
-                { NPCID.Spazmatism, 150000 }, // 30 seconds
-                { NPCID.Retinazer, 125000 },
-
-                { NPCID.WallofFlesh, 450000 }, // 30 seconds
-                { NPCID.WallofFleshEye, 450000 },
-
-                { NPCID.SkeletronHead, 160000 }, // 30 seconds
-                { NPCID.SkeletronHand, 60000 },
-
-                // Tier 3
                 { NPCID.CultistBoss, 220000 }, // 30 seconds
                 { NPCID.CultistDragonHead, 60000 },
                 { NPCID.CultistDragonBody1, 60000 },
@@ -2249,18 +2263,12 @@ namespace CalamityMod
                 { NPCID.CultistDragonTail, 60000 },
                 { NPCID.AncientCultistSquidhead, 50000 },
 
-                { NPCID.Plantera, 160000 }, // 30 seconds
-                { NPCID.PlanterasTentacle, 40000 },
-
-                // Tier 4
-                { NPCID.DukeFishron, 290000 }, // 30 seconds
-
                 { NPCID.MoonLordCore, 160000 }, // 1 minute
                 { NPCID.MoonLordHand, 45000 },
                 { NPCID.MoonLordHead, 60000 },
                 { NPCID.MoonLordLeechBlob, 800 }
 
-                // 8 minutes in total for vanilla Boss Rush bosses
+                // 9.5 minutes in total for vanilla Boss Rush bosses
             };
 
             BossValues = new SortedDictionary<int, int>
