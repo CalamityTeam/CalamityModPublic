@@ -93,8 +93,9 @@ namespace CalamityMod.UI.DraedonSummoning
         public static Dictionary<string, string> DialogQueries => new()
         {
             ["Mrrp"] = "Mrrp is cringe.",
-            ["Exo Mech"] = "I need to work more on those weird robots.",
-            ["Calamitas"] = "She owes me $20.",
+            ["The Destroyer"] = "Hardly designed for battle, its intended function was simply that of material collection. The souls that composed it were likely responsible for its senselessly destructive behaviors.",
+            ["The Twins"] = "I need to work more on those weird robots.",
+            ["Skeletron Prime"] = "I need to work more on those weird robots.",
         };
         public static string HoverSoundDialogType
         {
@@ -226,12 +227,12 @@ namespace CalamityMod.UI.DraedonSummoning
             {
                 // Draw the text marker.
                 Vector2 markerScale = panelScale * 0.12f;
-                Vector2 markerDrawPosition = textTopLeft - Vector2.UnitX * markerTexture.Width * markerScale.X * 0.67f;
+                Vector2 markerDrawPosition = textTopLeft - Vector2.UnitX * markerTexture.Width * markerScale.X;
                 markerDrawPosition.Y += markerScale.Y * 20f;
 
                 Color textColor = Color.Cyan;
                 Color markerColor = Color.White;
-                Vector2 textArea = DialogFont.MeasureString(query) * GeneralScale * 0.67f;
+                Vector2 textArea = DialogFont.MeasureString(query) * GeneralScale;
                 Rectangle textAreaRect = new((int)textTopLeft.X, (int)textTopLeft.Y, (int)textArea.X, (int)textArea.Y);
                 Rectangle markerArea = Utils.CenteredRectangle(markerDrawPosition, markerTexture.Size() * markerScale);
                 textAreaRect.Y = markerArea.Y;
@@ -326,7 +327,7 @@ namespace CalamityMod.UI.DraedonSummoning
                     Color dialogColor = Draedon.TextColor;
                     Vector2 localTextTopLeft = textTopLeft;
                     Vector2 markerScale = panelScale * 0.12f;
-                    Vector2 markerDrawPosition = textTopLeft - Vector2.UnitX * markerTexture.Width * markerScale.X * 0.67f;
+                    Vector2 markerDrawPosition = textTopLeft - Vector2.UnitX * markerTexture.Width * markerScale.X;
                     markerDrawPosition.Y += markerScale.Y * 20f;
                     SpriteEffects markerDirection = SpriteEffects.None;
                     if (!textIsFromDraedon)
