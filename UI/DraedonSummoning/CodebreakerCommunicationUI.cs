@@ -1,21 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using CalamityMod.Items.DraedonMisc;
 using CalamityMod.NPCs.ExoMechs;
-using CalamityMod.NPCs.ExoMechs.Apollo;
-using CalamityMod.NPCs.ExoMechs.Artemis;
-using CalamityMod.TileEntities;
-using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.Audio;
-using Terraria.DataStructures;
 using Terraria.GameContent;
 using Terraria.Graphics.Shaders;
-using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.UI.Chat;
 
@@ -80,12 +71,30 @@ namespace CalamityMod.UI.DraedonSummoning
             set;
         } = true;
 
+        public static char PreviousTextCharacter => DraedonText.Length >= 1 ? DraedonTextComplete[DraedonText.Length - 1] : ' ';
+
+        public static char NextTextCharacter => DraedonText.Length < DraedonTextComplete.Length ? DraedonTextComplete[DraedonText.Length] : ' ';
+
+        public static int DraedonTextCreationRate
+        {
+            get
+            {
+                if (PreviousTextCharacter is '.' or '?')
+                    return 9;
+                return 1;
+            }
+        }
+
         public static string InquiryText => "State your inquiry.";
 
         public static Dictionary<string, string> DialogQueries => new()
         {
             ["Mrrp"] = "Mrrp is cringe.",
-            ["Calamitas"] = "She owes me $20."
+            ["Exo Mech"] = "I need to work more on those weird robots.",
+            ["Plague"] = "idk.",
+            ["Calamitas"] = "She owes me $20.",
+            ["Forge"] = "I hate Minecraft. Why are you asking me this?",
+            ["22"] = "According to all known laws of aviation, there is no way that a bee should be able to fly. Its wings are too small to get its fat little body off the ground. The bee, of course, flies anyways. Because bees don't care what humans think is impossible."
         };
 
         public static void DisplayCommunicationPanel()
@@ -262,36 +271,46 @@ namespace CalamityMod.UI.DraedonSummoning
             Texture2D markerTexture = ModContent.Request<Texture2D>("CalamityMod/UI/DraedonSummoning/DraedonInquirySelector").Value;
             foreach (string entry in dialogEntries)
             {
-                // Define a bunch of variables for text. These vary based on whether it's Draedon speaking or not.
-                string dialog = entry;
-                bool textIsFromDraedon = textIndex % 2 == 0;
-                Color dialogColor = Draedon.TextColor;
-                Vector2 localTextTopLeft = textTopLeft;
-                Vector2 markerScale = panelScale * 0.2f;
-                Vector2 markerDrawPosition = textTopLeft - Vector2.UnitX * markerTexture.Width * markerScale.X * 0.67f;
-                markerDrawPosition.Y += markerScale.Y * 14f;
-                SpriteEffects markerDirection = SpriteEffects.None;
-                if (!textIsFromDraedon)
+                int lineIndex = 0;
+                foreach (string line in Utils.WordwrapString(entry, FontAssets.MouseText.Value, 375, 100, out _))
                 {
-                    // Flip positions to the other side of the dialog outline if the text is being said by the player.
-                    Vector2 anchorPoint = new(dialogArea.Center.X, markerDrawPosition.Y);
-                    markerDrawPosition.X = anchorPoint.X + (anchorPoint.X - markerDrawPosition.X);
-                    localTextTopLeft.X = anchorPoint.X + (anchorPoint.X - localTextTopLeft.X);
-                    localTextTopLeft.X -= FontAssets.MouseText.Value.MeasureString(dialog).X;
+                    if (string.IsNullOrEmpty(line))
+                        continue;
 
-                    // Use a neutral grey-ish color if text is being said by the player.
-                    dialogColor = Color.LightGray;
+                    // Define a bunch of variables for text. These vary based on whether it's Draedon speaking or not.
+                    bool textIsFromDraedon = textIndex % 2 == 0;
+                    Color dialogColor = Draedon.TextColor;
+                    Vector2 localTextTopLeft = textTopLeft;
+                    Vector2 markerScale = panelScale * 0.2f;
+                    Vector2 markerDrawPosition = textTopLeft - Vector2.UnitX * markerTexture.Width * markerScale.X * 0.67f;
+                    markerDrawPosition.Y += markerScale.Y * 14f;
+                    SpriteEffects markerDirection = SpriteEffects.None;
+                    if (!textIsFromDraedon)
+                    {
+                        // Flip positions to the other side of the dialog outline if the text is being said by the player.
+                        Vector2 anchorPoint = new(dialogArea.Center.X, markerDrawPosition.Y);
+                        markerDrawPosition.X = anchorPoint.X + (anchorPoint.X - markerDrawPosition.X);
+                        localTextTopLeft.X = anchorPoint.X + (anchorPoint.X - localTextTopLeft.X);
+                        localTextTopLeft.X -= FontAssets.MouseText.Value.MeasureString(line).X;
 
-                    markerDirection = SpriteEffects.FlipHorizontally;
-                }
+                        // Use a neutral grey-ish color if text is being said by the player.
+                        dialogColor = Color.LightGray;
 
-                if (entriesToPrune <= 0 && (textIndex < dialogEntries.Count() - 2 || showNewEntries))
-                {
-                    // Draw the text marker.
-                    Main.spriteBatch.Draw(markerTexture, markerDrawPosition, null, Color.White * dialogHistoryDrawInterpolant, 0f, markerTexture.Size() * 0.5f, markerScale, markerDirection, 0f);
+                        markerDirection = SpriteEffects.FlipHorizontally;
+                    }
 
-                    // Draw the text itself.
-                    ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, FontAssets.MouseText.Value, dialog, localTextTopLeft, dialogColor * dialogHistoryDrawInterpolant, 0f, Vector2.Zero, Vector2.One * GeneralScale * 0.67f);
+                    if (entriesToPrune <= 0 && (textIndex < dialogEntries.Count() - 2 || showNewEntries))
+                    {
+                        // Draw the text marker.
+                        if (lineIndex <= 0)
+                            Main.spriteBatch.Draw(markerTexture, markerDrawPosition, null, Color.White * dialogHistoryDrawInterpolant, 0f, markerTexture.Size() * 0.5f, markerScale, markerDirection, 0f);
+
+                        // Draw the text itself.
+                        ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, FontAssets.MouseText.Value, line, localTextTopLeft, dialogColor * dialogHistoryDrawInterpolant, 0f, Vector2.Zero, Vector2.One * GeneralScale * 0.67f);
+                    }
+
+                    textTopLeft.Y += panelScale.Y * 6f;
+                    lineIndex++;
                 }
                 textTopLeft.Y += panelScale.Y * 12f;
                 if (textTopLeft.Y >= dialogArea.Bottom)

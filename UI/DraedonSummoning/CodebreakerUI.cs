@@ -85,20 +85,6 @@ namespace CalamityMod.UI.DraedonSummoning
 
         public static readonly SoundStyle SummonSound = new("CalamityMod/Sounds/Custom/CodebreakerBeam");
 
-        public static char PreviousTextCharacter => DraedonText.Length >= 1 ? DraedonTextComplete[DraedonText.Length - 1] : ' ';
-
-        public static char NextTextCharacter => DraedonText.Length < DraedonTextComplete.Length ? DraedonTextComplete[DraedonText.Length] : ' ';
-
-        public static int DraedonTextCreationRate
-        {
-            get
-            {
-                if (PreviousTextCharacter is '.' or '?')
-                    return 9;
-                return 1;
-            }
-        }
-
         public static void Draw(SpriteBatch spriteBatch)
         {
             // If not viewing the specific tile entity's interface anymore, if the ID is for some reason invalid, or if the player is not equipped to continue viewing the UI
