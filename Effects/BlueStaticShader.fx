@@ -38,7 +38,7 @@ float4 PixelShaderFunction(float4 sampleColor : COLOR0, float2 coords : TEXCOORD
     // Lastly, apply the noise from above, and clamp the entire interpolant between 0-1 before passing it in as a color multiplier.
     brightLineInterpolant += noise * (useStaticLine ? 0.16 : 0.91);
     
-    return float4(0.3, 0.8, 1, 1) * lerp(1, 6, saturate(brightLineInterpolant)) * sampleColor * 0.2;
+    return float4(uColor, 1) * lerp(1, 6, saturate(brightLineInterpolant)) * sampleColor * tex2D(uImage0, coords).a * 0.2;
 }
 technique Technique1
 {

@@ -82,21 +82,40 @@ namespace CalamityMod.UI.DraedonSummoning
         {
             get
             {
+                if (PreviousTextCharacter is '\n')
+                    return 48;
+
                 if (PreviousTextCharacter is '.' or '?')
                     return 9;
+
                 return 1;
             }
         }
 
-        public static string InquiryText => "State your inquiry.";
+        public static string InquiryText
+        {
+            get
+            {
+                if (!Main.LocalPlayer.Calamity().HasTalkedAtCodebreaker)
+                {
+                    return "Fascinating.\n\n" +
+                        "You would seek to establish communication with me?\n\n" +
+                        "Very well. Though my time is precious, as a personal subject of intrigue, I am willing to humor some of your questions.";
+                }
+
+                return "State your inquiry.";
+            }
+        }
 
         public static Dictionary<string, string> DialogQueries => new()
         {
-            ["Mrrp"] = "Mrrp is cringe.",
-            ["The Destroyer"] = "Hardly designed for battle, its intended function was simply that of material collection. The souls that composed it were likely responsible for its senselessly destructive behaviors.",
-            ["The Twins"] = "I need to work more on those weird robots.",
-            ["Skeletron Prime"] = "I need to work more on those weird robots.",
+            ["Exo Prisms"] = "Those crystals are one of the most foundational materials used in my finest work, each containing so much energy " +
+                            "as to warp surrounding material into branch-like structures, in a manner akin to rust.\n\nWith any luck, you may be able to harness their power to create very interesting weaponry.",
+            
+            ["The Tyrant"] = "I am unsure of the current whereabouts of the Tyrant. The last time we spoke, he wore an expression of finality before making his way into the shrouded sky. I have been unable to locate him since then.\n\n" +
+                             "Perhaps you are fated to find and face him, wherever he may be.",
         };
+
         public static string HoverSoundDialogType
         {
             get;
@@ -167,14 +186,17 @@ namespace CalamityMod.UI.DraedonSummoning
         public static void DisplayDraedonFacePanel(Vector2 panelCenter, Vector2 panelScale)
         {
             // Draw a panel that has Draedon's face.
-            Texture2D iconTexture = ModContent.Request<Texture2D>("CalamityMod/UI/DraedonSummoning/DraedonContactPanel").Value;
+            Texture2D iconTexture = ModContent.Request<Texture2D>("CalamityMod/UI/DraedonSummoning/DraedonIconBorder").Value;
+            Texture2D iconTextureInner = ModContent.Request<Texture2D>("CalamityMod/UI/DraedonSummoning/DraedonIconBorderInner").Value;
             float draedonIconDrawInterpolant = Utils.GetLerpValue(0.51f, 0.36f, DraedonScreenStaticInterpolant, true);
-            Vector2 draedonIconDrawTopRight = panelCenter + iconTexture.Size() * new Vector2(-0.5f, -0.5f) * panelScale + new Vector2(2f, 4f) * panelScale;
+            Vector2 draedonIconDrawTopRight = panelCenter + new Vector2(-128f, -84f) * panelScale;
             draedonIconDrawTopRight += new Vector2(24f, 4f) * panelScale;
 
-            Vector2 draedonIconScale = panelScale * new Vector2(0.32f, 0.25f);
+            Vector2 draedonIconScale = panelScale * 0.5f;
             Vector2 draedonIconCenter = draedonIconDrawTopRight + iconTexture.Size() * new Vector2(0.5f, 0.5f) * draedonIconScale;
             Rectangle draedonIconArea = Utils.CenteredRectangle(draedonIconCenter, iconTexture.Size() * draedonIconScale * 0.95f);
+            draedonIconArea.Y += 4;
+            draedonIconArea.Height -= 8;
             Main.spriteBatch.Draw(iconTexture, draedonIconDrawTopRight, null, Color.White * draedonIconDrawInterpolant, 0f, Vector2.Zero, draedonIconScale, 0, 0f);
 
             // Draw Draedon's face inside the panel.
@@ -196,11 +218,12 @@ namespace CalamityMod.UI.DraedonSummoning
             Main.spriteBatch.ReleaseCutoffRegion(Matrix.Identity, SpriteSortMode.Immediate);
 
             // Draw a glitch effect over the panel and Draedon's icon.
+            GameShaders.Misc["CalamityMod:BlueStatic"].UseColor(Color.Cyan);
             GameShaders.Misc["CalamityMod:BlueStatic"].UseImage1("Images/Misc/noise");
             GameShaders.Misc["CalamityMod:BlueStatic"].Shader.Parameters["useStaticLine"].SetValue(true);
             GameShaders.Misc["CalamityMod:BlueStatic"].Shader.Parameters["coordinateZoomFactor"].SetValue(1f);
             GameShaders.Misc["CalamityMod:BlueStatic"].Apply();
-            Main.spriteBatch.Draw(iconTexture, draedonIconDrawTopRight, null, Color.White * draedonIconDrawInterpolant, 0f, Vector2.Zero, draedonIconScale, 0, 0f);
+            Main.spriteBatch.Draw(iconTextureInner, draedonIconDrawTopRight, null, Color.White * draedonIconDrawInterpolant, 0f, Vector2.Zero, draedonIconScale, 0, 0f);
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, Matrix.Identity);
         }
