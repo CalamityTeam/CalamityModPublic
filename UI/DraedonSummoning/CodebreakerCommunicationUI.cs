@@ -134,15 +134,23 @@ namespace CalamityMod.UI.DraedonSummoning
             if (panelArea.Intersects(MouseScreenArea))
                 Main.blockMouse = Main.LocalPlayer.mouseInterface = true;
 
+            DisplayDraedonFacePanel(panelCenter, panelScale);
+            DisplayTextSelectionOptions(panelArea, panelScale);
+            DisplayDialogHistory(panelArea, panelScale);
+        }
+
+        public static void DisplayDraedonFacePanel(Vector2 panelCenter, Vector2 panelScale)
+        {
             // Draw a panel that has Draedon's face.
+            Texture2D iconTexture = ModContent.Request<Texture2D>("CalamityMod/UI/DraedonSummoning/DraedonContactPanel").Value;
             float draedonIconDrawInterpolant = Utils.GetLerpValue(0.51f, 0.36f, DraedonScreenStaticInterpolant, true);
-            Vector2 draedonIconDrawTopRight = panelCenter + panelTexture.Size() * new Vector2(-0.5f, -0.5f) * panelScale + new Vector2(2f, 4f) * panelScale;
+            Vector2 draedonIconDrawTopRight = panelCenter + iconTexture.Size() * new Vector2(-0.5f, -0.5f) * panelScale + new Vector2(2f, 4f) * panelScale;
             draedonIconDrawTopRight += new Vector2(24f, 4f) * panelScale;
 
             Vector2 draedonIconScale = panelScale * new Vector2(0.32f, 0.25f);
-            Vector2 draedonIconCenter = draedonIconDrawTopRight + panelTexture.Size() * new Vector2(0.5f, 0.5f) * draedonIconScale;
-            Rectangle draedonIconArea = Utils.CenteredRectangle(draedonIconCenter, panelTexture.Size() * draedonIconScale * 0.95f);
-            Main.spriteBatch.Draw(panelTexture, draedonIconDrawTopRight, null, Color.White * draedonIconDrawInterpolant, 0f, Vector2.Zero, draedonIconScale, 0, 0f);
+            Vector2 draedonIconCenter = draedonIconDrawTopRight + iconTexture.Size() * new Vector2(0.5f, 0.5f) * draedonIconScale;
+            Rectangle draedonIconArea = Utils.CenteredRectangle(draedonIconCenter, iconTexture.Size() * draedonIconScale * 0.95f);
+            Main.spriteBatch.Draw(iconTexture, draedonIconDrawTopRight, null, Color.White * draedonIconDrawInterpolant, 0f, Vector2.Zero, draedonIconScale, 0, 0f);
 
             // Draw Draedon's face inside the panel.
             // This involves restarting the sprite batch with a rasterizer state that can cut out Draedon's face if it exceeds the icon area.
@@ -167,12 +175,9 @@ namespace CalamityMod.UI.DraedonSummoning
             GameShaders.Misc["CalamityMod:BlueStatic"].Shader.Parameters["useStaticLine"].SetValue(true);
             GameShaders.Misc["CalamityMod:BlueStatic"].Shader.Parameters["coordinateZoomFactor"].SetValue(1f);
             GameShaders.Misc["CalamityMod:BlueStatic"].Apply();
-            Main.spriteBatch.Draw(panelTexture, draedonIconDrawTopRight, null, Color.White * draedonIconDrawInterpolant, 0f, Vector2.Zero, draedonIconScale, 0, 0f);
+            Main.spriteBatch.Draw(iconTexture, draedonIconDrawTopRight, null, Color.White * draedonIconDrawInterpolant, 0f, Vector2.Zero, draedonIconScale, 0, 0f);
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, Matrix.Identity);
-
-            DisplayTextSelectionOptions(panelArea, panelScale);
-            DisplayDialogHistory(panelArea, panelScale);
         }
 
         public static void DisplayTextSelectionOptions(Rectangle panelArea, Vector2 panelScale)
