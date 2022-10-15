@@ -298,7 +298,7 @@ namespace CalamityMod.Events
                     NPC.SpawnOnPlayer(ClosestPlayerToWorldCenter, type);
                 }, permittedNPCs: new int[] { ModContent.NPCType<ProfanedGuardianDefender>(), ModContent.NPCType<ProfanedGuardianHealer>() }),
 
-                new Boss(ModContent.NPCType<Bumblefuck>(), TimeChangeContext.Day, permittedNPCs: new int[] { ModContent.NPCType<Bumblefuck2>(), NPCID.Spazmatism, NPCID.Retinazer }),
+                new Boss(ModContent.NPCType<Bumblefuck>(), TimeChangeContext.Day, permittedNPCs: new int[] { ModContent.NPCType<Bumblefuck2>() }),
 
                 new Boss(ModContent.NPCType<Providence>(), TimeChangeContext.Day, type =>
                 {
