@@ -5,6 +5,7 @@ using CalamityMod.NPCs.ExoMechs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.Audio;
 using Terraria.GameContent;
 using Terraria.Graphics.Shaders;
 using Terraria.ModLoader;
@@ -91,11 +92,15 @@ namespace CalamityMod.UI.DraedonSummoning
         {
             ["Mrrp"] = "Mrrp is cringe.",
             ["Exo Mech"] = "I need to work more on those weird robots.",
-            ["Plague"] = "idk.",
             ["Calamitas"] = "She owes me $20.",
-            ["Forge"] = "I hate Minecraft. Why are you asking me this?",
-            ["22"] = "According to all known laws of aviation, there is no way that a bee should be able to fly. Its wings are too small to get its fat little body off the ground. The bee, of course, flies anyways. Because bees don't care what humans think is impossible."
         };
+        public static string HoverSoundDialogType
+        {
+            get;
+            set;
+        } = null;
+
+        public static readonly SoundStyle DialogOptionHoverSound = new("CalamityMod/Sounds/Custom/Codebreaker/DialogOptionHover");
 
         public static void DisplayCommunicationPanel()
         {
@@ -194,6 +199,7 @@ namespace CalamityMod.UI.DraedonSummoning
             DraedonTextOptionsOpacity = MathHelper.Clamp(DraedonTextOptionsOpacity + canChooseQuery.ToDirectionInt() * 0.1f, 0f, 1f);
 
             // Display text options in the box.
+            bool hoveringOverAnyOption = false;
             float opacity = DraedonTextOptionsOpacity * (1f - DraedonScreenStaticInterpolant);
             Vector2 textTopLeft = selectionArea.TopLeft() + new Vector2(16f, 12f) * panelScale;
             Texture2D markerTexture = ModContent.Request<Texture2D>("CalamityMod/UI/DraedonSummoning/DraedonInquirySelector").Value;
@@ -209,6 +215,8 @@ namespace CalamityMod.UI.DraedonSummoning
                 Vector2 textArea = FontAssets.MouseText.Value.MeasureString(query) * GeneralScale * 0.67f;
                 Rectangle textAreaRect = new((int)textTopLeft.X, (int)textTopLeft.Y, (int)textArea.X, (int)textArea.Y);
                 Rectangle markerArea = Utils.CenteredRectangle(markerDrawPosition, markerTexture.Size() * markerScale);
+                textAreaRect.Y = markerArea.Y;
+                textAreaRect.Height = markerArea.Height;
 
                 // Check if the player clicks on the text or hovers over it.
                 // If they're hovering over it, change the color to a yellow hover.
@@ -217,6 +225,15 @@ namespace CalamityMod.UI.DraedonSummoning
                 {
                     textColor = Color.Lerp(textColor, Color.Yellow, 0.5f);
                     markerColor = Color.Yellow;
+
+                    // Play the hover sound.
+                    hoveringOverAnyOption = true;
+                    if (HoverSoundDialogType != query)
+                    {
+                        HoverSoundDialogType = query;
+                        SoundEngine.PlaySound(DialogOptionHoverSound);
+                    }
+
                     if (Main.mouseLeft && Main.mouseLeftRelease)
                     {
                         DialogHistory[^1] = query;
@@ -231,6 +248,9 @@ namespace CalamityMod.UI.DraedonSummoning
                 ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, FontAssets.MouseText.Value, query, textTopLeft, textColor * opacity, 0f, Vector2.Zero, Vector2.One * GeneralScale * 0.67f);
                 textTopLeft.Y += panelScale.Y * 12f;
             }
+
+            if (!hoveringOverAnyOption)
+                HoverSoundDialogType = null;
         }
 
         public static void DisplayDialogHistory(Rectangle panelArea, Vector2 panelScale)
