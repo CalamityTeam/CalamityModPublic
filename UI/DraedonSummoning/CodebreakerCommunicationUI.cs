@@ -4,6 +4,8 @@ using System.Linq;
 using CalamityMod.NPCs.ExoMechs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Content;
+using ReLogic.Graphics;
 using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent;
@@ -13,7 +15,7 @@ using Terraria.UI.Chat;
 
 namespace CalamityMod.UI.DraedonSummoning
 {
-    public static partial class CodebreakerUI
+    public partial class CodebreakerUI : ModSystem
     {
         public static float CommunicationPanelScale
         {
@@ -100,13 +102,30 @@ namespace CalamityMod.UI.DraedonSummoning
             set;
         } = null;
 
+        public static DynamicSpriteFont DialogFont
+        {
+            get;
+            internal set;
+        }
+
         public static readonly SoundStyle DialogOptionHoverSound = new("CalamityMod/Sounds/Custom/Codebreaker/DialogOptionHover");
+
+        public override void OnModLoad()
+        {
+            if (Main.dedServ)
+                return;
+
+            if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+                DialogFont = CalamityMod.Instance.Assets.Request<DynamicSpriteFont>("Fonts/CodebreakerDialog", AssetRequestMode.ImmediateLoad).Value;
+            else
+                DialogFont = FontAssets.MouseText.Value;
+        }
 
         public static void DisplayCommunicationPanel()
         {
             // Draw the background panel. This pops up.
-            float panelWidthScale = Utils.Remap(CommunicationPanelScale, 0f, 0.5f, 0.08f, 1f);
-            float panelHeightScale = Utils.Remap(CommunicationPanelScale, 0.5f, 1f, 0.08f, 1f);
+            float panelWidthScale = Utils.Remap(CommunicationPanelScale, 0f, 0.5f, 0.085f, 1f);
+            float panelHeightScale = Utils.Remap(CommunicationPanelScale, 0.5f, 1f, 0.085f, 1f);
             Vector2 panelScale = GeneralScale * new Vector2(panelWidthScale, panelHeightScale) * 2.4f;
             Texture2D panelTexture = ModContent.Request<Texture2D>("CalamityMod/UI/DraedonSummoning/DraedonContactPanel").Value;
             float basePanelHeight = GeneralScale * panelTexture.Height * 2.4f;
@@ -206,13 +225,13 @@ namespace CalamityMod.UI.DraedonSummoning
             foreach (string query in DialogQueries.Keys)
             {
                 // Draw the text marker.
-                Vector2 markerScale = panelScale * 0.2f;
+                Vector2 markerScale = panelScale * 0.12f;
                 Vector2 markerDrawPosition = textTopLeft - Vector2.UnitX * markerTexture.Width * markerScale.X * 0.67f;
-                markerDrawPosition.Y += markerScale.Y * 14f;
+                markerDrawPosition.Y += markerScale.Y * 20f;
 
                 Color textColor = Color.Cyan;
                 Color markerColor = Color.White;
-                Vector2 textArea = FontAssets.MouseText.Value.MeasureString(query) * GeneralScale * 0.67f;
+                Vector2 textArea = DialogFont.MeasureString(query) * GeneralScale * 0.67f;
                 Rectangle textAreaRect = new((int)textTopLeft.X, (int)textTopLeft.Y, (int)textArea.X, (int)textArea.Y);
                 Rectangle markerArea = Utils.CenteredRectangle(markerDrawPosition, markerTexture.Size() * markerScale);
                 textAreaRect.Y = markerArea.Y;
@@ -245,7 +264,7 @@ namespace CalamityMod.UI.DraedonSummoning
                 }
                 Main.spriteBatch.Draw(markerTexture, markerDrawPosition, null, markerColor * opacity, 0f, markerTexture.Size() * 0.5f, markerScale, 0, 0f);
 
-                ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, FontAssets.MouseText.Value, query, textTopLeft, textColor * opacity, 0f, Vector2.Zero, Vector2.One * GeneralScale * 0.67f);
+                ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, DialogFont, query, textTopLeft, textColor * opacity, 0f, Vector2.Zero, Vector2.One * GeneralScale * 0.67f);
                 textTopLeft.Y += panelScale.Y * 12f;
             }
 
@@ -297,7 +316,7 @@ namespace CalamityMod.UI.DraedonSummoning
             foreach (string entry in dialogEntries)
             {
                 int lineIndex = 0;
-                foreach (string line in Utils.WordwrapString(entry, FontAssets.MouseText.Value, 375, 100, out _))
+                foreach (string line in Utils.WordwrapString(entry, DialogFont, 375, 100, out _))
                 {
                     if (string.IsNullOrEmpty(line))
                         continue;
@@ -306,9 +325,9 @@ namespace CalamityMod.UI.DraedonSummoning
                     bool textIsFromDraedon = textIndex % 2 == 0;
                     Color dialogColor = Draedon.TextColor;
                     Vector2 localTextTopLeft = textTopLeft;
-                    Vector2 markerScale = panelScale * 0.2f;
+                    Vector2 markerScale = panelScale * 0.12f;
                     Vector2 markerDrawPosition = textTopLeft - Vector2.UnitX * markerTexture.Width * markerScale.X * 0.67f;
-                    markerDrawPosition.Y += markerScale.Y * 14f;
+                    markerDrawPosition.Y += markerScale.Y * 20f;
                     SpriteEffects markerDirection = SpriteEffects.None;
                     if (!textIsFromDraedon)
                     {
@@ -316,7 +335,7 @@ namespace CalamityMod.UI.DraedonSummoning
                         Vector2 anchorPoint = new(dialogArea.Center.X, markerDrawPosition.Y);
                         markerDrawPosition.X = anchorPoint.X + (anchorPoint.X - markerDrawPosition.X);
                         localTextTopLeft.X = anchorPoint.X + (anchorPoint.X - localTextTopLeft.X);
-                        localTextTopLeft.X -= FontAssets.MouseText.Value.MeasureString(line).X;
+                        localTextTopLeft.X -= DialogFont.MeasureString(line).X;
 
                         // Use a neutral grey-ish color if text is being said by the player.
                         dialogColor = Color.LightGray;
@@ -331,7 +350,7 @@ namespace CalamityMod.UI.DraedonSummoning
                             Main.spriteBatch.Draw(markerTexture, markerDrawPosition, null, Color.White * dialogHistoryDrawInterpolant, 0f, markerTexture.Size() * 0.5f, markerScale, markerDirection, 0f);
 
                         // Draw the text itself.
-                        ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, FontAssets.MouseText.Value, line, localTextTopLeft, dialogColor * dialogHistoryDrawInterpolant, 0f, Vector2.Zero, Vector2.One * GeneralScale * 0.67f);
+                        ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, DialogFont, line, localTextTopLeft, dialogColor * dialogHistoryDrawInterpolant, 0f, Vector2.Zero, Vector2.One * GeneralScale * 0.67f);
                     }
 
                     textTopLeft.Y += panelScale.Y * 6f;
