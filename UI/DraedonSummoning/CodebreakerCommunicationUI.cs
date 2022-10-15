@@ -257,9 +257,9 @@ namespace CalamityMod.UI.DraedonSummoning
             foreach (string query in DialogQueries.Keys)
             {
                 // Draw the text marker.
-                Vector2 markerScale = panelScale * 0.12f;
-                Vector2 markerDrawPosition = textTopLeft - Vector2.UnitX * markerTexture.Width * markerScale.X;
-                markerDrawPosition.Y += markerScale.Y * 22f;
+                Vector2 markerScale = panelScale * 0.2f;
+                Vector2 markerDrawPosition = textTopLeft - Vector2.UnitX * markerTexture.Width * markerScale.X * 0.7f;
+                markerDrawPosition.Y += markerScale.Y * 12f;
 
                 Color textColor = Color.Cyan;
                 Color markerColor = Color.White;
@@ -366,9 +366,9 @@ namespace CalamityMod.UI.DraedonSummoning
                     bool textIsFromDraedon = textIndex % 2 == 0;
                     Color dialogColor = Draedon.TextColor;
                     Vector2 localTextTopLeft = textTopLeft;
-                    Vector2 markerScale = panelScale * 0.12f;
-                    Vector2 markerDrawPosition = textTopLeft - Vector2.UnitX * markerTexture.Width * markerScale.X;
-                    markerDrawPosition.Y += markerScale.Y * 22f;
+                    Vector2 markerScale = panelScale * 0.2f;
+                    Vector2 markerDrawPosition = textTopLeft - Vector2.UnitX * markerTexture.Width * markerScale.X * 0.7f;
+                    markerDrawPosition.Y += markerScale.Y * 12f;
                     SpriteEffects markerDirection = SpriteEffects.None;
                     if (!textIsFromDraedon)
                     {
