@@ -47,6 +47,12 @@ namespace CalamityMod.UI.DraedonSummoning
             set;
         }
 
+        public static int DraedonDialogDelayCountdown
+        {
+            get;
+            set;
+        }
+
         public static float DraedonScreenStaticInterpolant
         {
             get;
@@ -129,6 +135,8 @@ namespace CalamityMod.UI.DraedonSummoning
         }
 
         public static readonly SoundStyle DialogOptionHoverSound = new("CalamityMod/Sounds/Custom/Codebreaker/DialogOptionHover");
+
+        public static readonly SoundStyle DraedonDialogSound = new("CalamityMod/Sounds/Custom/Codebreaker/DraedonText");
 
         public override void OnModLoad()
         {
@@ -251,7 +259,7 @@ namespace CalamityMod.UI.DraedonSummoning
                 // Draw the text marker.
                 Vector2 markerScale = panelScale * 0.12f;
                 Vector2 markerDrawPosition = textTopLeft - Vector2.UnitX * markerTexture.Width * markerScale.X;
-                markerDrawPosition.Y += markerScale.Y * 20f;
+                markerDrawPosition.Y += markerScale.Y * 22f;
 
                 Color textColor = Color.Cyan;
                 Color markerColor = Color.White;
@@ -310,6 +318,8 @@ namespace CalamityMod.UI.DraedonSummoning
                 DraedonTextComplete = InquiryText;
 
             // Type out Draedon text.
+            if (DraedonDialogDelayCountdown > 0)
+                DraedonDialogDelayCountdown--;
             if (DraedonScreenStaticInterpolant <= 0f)
                 DraedonTextCreationTimer++;
             if (DraedonTextCreationTimer >= DraedonTextCreationRate && DraedonText.Length < DraedonTextComplete.Length)
@@ -328,6 +338,13 @@ namespace CalamityMod.UI.DraedonSummoning
                 // Move to the next index in the dialog history once Draedon is finished speaking.
                 if (DraedonText.Length >= DraedonTextComplete.Length)
                     DialogHistory.Add(string.Empty);
+
+                // Play a small dialog sound, similar to that of Undertale.
+                if (DraedonDialogDelayCountdown <= 0 && nextLetter != ' ' && nextLetter != '\n')
+                {
+                    SoundEngine.PlaySound(DraedonDialogSound with { Volume = 0.4f }, Main.LocalPlayer.Center);
+                    DraedonDialogDelayCountdown = 4;
+                }
             }
 
             // Display text in the box.
@@ -351,7 +368,7 @@ namespace CalamityMod.UI.DraedonSummoning
                     Vector2 localTextTopLeft = textTopLeft;
                     Vector2 markerScale = panelScale * 0.12f;
                     Vector2 markerDrawPosition = textTopLeft - Vector2.UnitX * markerTexture.Width * markerScale.X;
-                    markerDrawPosition.Y += markerScale.Y * 20f;
+                    markerDrawPosition.Y += markerScale.Y * 22f;
                     SpriteEffects markerDirection = SpriteEffects.None;
                     if (!textIsFromDraedon)
                     {

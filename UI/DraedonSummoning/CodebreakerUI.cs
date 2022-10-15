@@ -129,7 +129,7 @@ namespace CalamityMod.UI.DraedonSummoning
             // Reset communication things.
             DraedonTextCreationTimer = 0;
             if (!string.IsNullOrEmpty(DraedonText))
-                Main.LocalPlayer.Calamity().HasTalkedAtCodebreaker = false;
+                Main.LocalPlayer.Calamity().HasTalkedAtCodebreaker = true;
 
             DraedonText = DraedonTextComplete = string.Empty;
             DialogHistory.Clear();
