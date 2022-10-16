@@ -11,12 +11,16 @@
         public static readonly DraedonDialogEntry CalamitasAfterHerDefeat = new("Calamitas", "Hm! She has mellowed, I've noticed. For you creatures so burdened by emotion and guilt, I wonder now, how she manages to live with herself.\n\n" +
             "That said, you seem far more merciless, even than I.", () => DownedBossSystem.downedSCal);
 
+        public static readonly DraedonDialogEntry Creativity = new("Creativity", "Do you ask if I have an eye for beauty? The typical understanding of such work is linked to art...\n\n" +
+            "Yet I understand only the beauty of a machine in which every part works in tandem towards its goal, seamlessly.\n\n" +
+            "One could consider that an 'art' in of itself, and leave painterly aspects to others. I myself have no love for objects that serve no purpose.");
+
         public static readonly DraedonDialogEntry Plague = new("The Plague", "Fascinating, the speed at which nanotechnology and a virus can adapt. I consider it personally one of my greatest works.\n\n" +
             "Nanotechnology that not only rivaled a cosmic mutation, but adapted with it to form something new.\n\n" +
             "Nothing is more pleasing than a result that exceeds expectations.", () => DownedBossSystem.downedPlaguebringer);
 
         public static readonly DraedonDialogEntry SulphurousSea = new("The Sulphuric Sea", "I understand your concern for those fragile creatures. However, nothing is irreparable, and nothing is truly whole.\n\n" +
-            "The sea simply exists now in a different state than it once was, one that result out of the convenience of my work.\n\n" +
+            "The sea simply exists now in a different state than it once was, one that resulted out of the convenience of my work.\n\n" +
             "Should I ever need to return to that sea? A pointless worry. I shall simply recreate it from the data I have gathered, from the bedrock up. It would be a shame as a creator should I not be able to do that.");
 
         public static readonly DraedonDialogEntry TheTyrant = new("The Tyrant", "My patron...\n" +
@@ -31,6 +35,7 @@
 
             CalamitasBeforeHerDefeat,
             CalamitasAfterHerDefeat,
+            Creativity,
             Plague,
             SulphurousSea,
             TheTyrant
