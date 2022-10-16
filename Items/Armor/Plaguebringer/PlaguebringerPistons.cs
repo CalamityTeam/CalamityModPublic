@@ -56,10 +56,10 @@ namespace CalamityMod.Items.Armor.Plaguebringer
                         {
                             tile.Get<TileWallWireStateData>().HasTile = true;
                             tile.TileType = TileID.DyePlants;
-                            tile.TileFrameX = (short)(34 * Main.rand.Next(1, 13));
+                            tile.TileFrameX = (short)(34 * Main.rand.Next(0, 13));
                             while (tile.TileFrameX == 144)
                             {
-                                tile.TileFrameX = (short)(34 * Main.rand.Next(1, 13));
+                                tile.TileFrameX = (short)(34 * Main.rand.Next(0, 13));
                             }
                         }
                         if (Main.netMode == NetmodeID.MultiplayerClient)

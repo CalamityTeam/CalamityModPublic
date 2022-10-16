@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Events;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Items.Placeables.Furniture.DevPaintings;
@@ -107,7 +108,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
             NPC.height = 138;
             NPC.defense = 100;
             NPC.DR_NERD(0.4f);
-            NPC.LifeMaxNERB(2415000, 2898000);
+            NPC.LifeMaxNERB(2415000, 2898000, 800000);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
             NPC.aiStyle = -1;
@@ -197,7 +198,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
             // Target variable
             Player player = Main.player[NPC.target];
 
-            bool targetDownDeep = player.Calamity().ZoneAbyssLayer4;
+            bool targetDownDeep = player.Calamity().ZoneAbyssLayer4 || BossRushEvent.BossRushActive;
             bool targetOnMount = player.mount.Active;
 
             // Check whether enraged for the sake of the HP bar UI
