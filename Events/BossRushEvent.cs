@@ -398,7 +398,7 @@ namespace CalamityMod.Events
                 }, specialSpawnCountdown: 420, dimnessFactor: 0.6f, permittedNPCs: new int[] { ModContent.NPCType<SepulcherArm>(), ModContent.NPCType<SepulcherHead>(), ModContent.NPCType<SepulcherBody>(), ModContent.NPCType<SepulcherBodyEnergyBall>(), ModContent.NPCType<SepulcherTail>(),
                     ModContent.NPCType<SoulSeekerSupreme>(), ModContent.NPCType<BrimstoneHeart>(), ModContent.NPCType<SupremeCataclysm>(), ModContent.NPCType<SupremeCatastrophe>() }),
 
-                new Boss(ModContent.NPCType<AdultEidolonWyrmHead>(), permittedNPCs: new int[] { ModContent.NPCType<AdultEidolonWyrmBody>(), ModContent.NPCType<AdultEidolonWyrmBodyAlt>(), ModContent.NPCType<AdultEidolonWyrmTail>(), ModContent.NPCType<EidolonWyrmBody>(), ModContent.NPCType<EidolonWyrmBodyAlt>(), ModContent.NPCType<EidolonWyrmHead>(), ModContent.NPCType<EidolonWyrmTail>(), ModContent.NPCType<Eidolist>() }),
+                // new Boss(ModContent.NPCType<AdultEidolonWyrmHead>(), permittedNPCs: new int[] { ModContent.NPCType<AdultEidolonWyrmBody>(), ModContent.NPCType<AdultEidolonWyrmBodyAlt>(), ModContent.NPCType<AdultEidolonWyrmTail>(), ModContent.NPCType<EidolonWyrmBody>(), ModContent.NPCType<EidolonWyrmBodyAlt>(), ModContent.NPCType<EidolonWyrmHead>(), ModContent.NPCType<EidolonWyrmTail>(), ModContent.NPCType<Eidolist>() }),
             };
 
             BossDeathEffects = new Dictionary<int, Action<NPC>>()
@@ -423,7 +423,7 @@ namespace CalamityMod.Events
                     CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.BossRushTierFourEndText", XerocTextColor);
                     CreateTierAnimation(5);
                 },
-                [ModContent.NPCType<AdultEidolonWyrmHead>()] = npc =>
+                [ModContent.NPCType<SupremeCalamitas>()] = npc =>
                 {
                     CalamityUtils.KillAllHostileProjectiles();
                     HostileProjectileKillCounter = 3;
