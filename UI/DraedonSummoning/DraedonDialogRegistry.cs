@@ -8,7 +8,8 @@
 
         public static readonly DraedonDialogEntry CalamitasBeforeHerDefeat = new("Calamitas", "The witch? Ha! A walking weapon. Such powerful magic in a living being was destined to be. Just look at yourself now.", () => !DownedBossSystem.downedSCal);
 
-        public static readonly DraedonDialogEntry CalamitasAfterHerDefeat = new("Calamitas", "Hm! She has mellowed, I've noticed. For you creatures so burdened by emotion and guilt, I wonder now, how she manages to live with herself.", () => DownedBossSystem.downedSCal);
+        public static readonly DraedonDialogEntry CalamitasAfterHerDefeat = new("Calamitas", "Hm! She has mellowed, I've noticed. For you creatures so burdened by emotion and guilt, I wonder now, how she manages to live with herself.\n\n" +
+            "That said, you seem far more merciless, even than I.", () => DownedBossSystem.downedSCal);
 
         public static readonly DraedonDialogEntry Plague = new("The Plague", "Fascinating, the speed at which nanotechnology and a virus can adapt. I consider it personally one of my greatest works.\n\n" +
             "Nanotechnology that not only rivaled a cosmic mutation, but adapted with it to form something new.\n\n" +
@@ -21,7 +22,7 @@
         public static readonly DraedonDialogEntry TheTyrant = new("The Tyrant", "My patron...\n" +
             "He is not someone I have spoken to in a very long time.\n\n" +
             "Oh? Is that such a surprise? I no longer needed him, and he withdrew himself from all. I suspect he retreated to that graveyard of dragons he spoke of...\n\n" +
-            "Should you locate him, I'll await the news of either his or your death. Perhaps I will collect the cadavar.", () => DownedBossSystem.downedSCal);
+            "Should you locate him, I'll await the news of either his or your death. Perhaps I will collect the cadaver.", () => DownedBossSystem.downedSCal);
 
         public static DraedonDialogEntry[] DialogOptions => new DraedonDialogEntry[]
         {

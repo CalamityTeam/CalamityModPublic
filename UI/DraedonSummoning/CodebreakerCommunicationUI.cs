@@ -18,6 +18,19 @@ namespace CalamityMod.UI.DraedonSummoning
 {
     public partial class CodebreakerUI : ModSystem
     {
+        public class DialogEntry
+        {
+            public bool FromDraedon;
+
+            public string Dialog;
+
+            public DialogEntry(string dialog, bool fromDraedon)
+            {
+                Dialog = dialog;
+                FromDraedon = fromDraedon;
+            }
+        }
+
         public static float CommunicationPanelScale
         {
             get;
@@ -36,17 +49,11 @@ namespace CalamityMod.UI.DraedonSummoning
             set;
         } = string.Empty;
 
-        public static List<string> DialogHistory
+        public static List<DialogEntry> DialogHistory
         {
             get;
             set;
         } = new();
-
-        public static int DialogHistoryIndex
-        {
-            get;
-            set;
-        }
 
         public static int DraedonDialogDelayCountdown
         {
@@ -238,13 +245,13 @@ namespace CalamityMod.UI.DraedonSummoning
             {
                 // Skip/isolate the introduction text as needed.
                 string inquiry = dialog.Inquiry;
-                if (!Main.LocalPlayer.Calamity().HasTalkedAtCodebreaker && !DialogHistory.Contains(DialogOptions[0].Response))
+                if (!Main.LocalPlayer.Calamity().HasTalkedAtCodebreaker && !DialogHistory.Any(d => d.Dialog == DialogOptions[0].Response))
                 {
                     if (inquiry != DialogOptions[0].Inquiry)
                         continue;
 
                     while (DialogHistory.Count < 1)
-                        DialogHistory.Add(string.Empty);
+                        DialogHistory.Add(new(string.Empty, true));
                 }
                 else if (inquiry == DialogOptions[0].Inquiry)
                     continue;
@@ -299,7 +306,7 @@ namespace CalamityMod.UI.DraedonSummoning
                     {
                         if (!Main.LocalPlayer.Calamity().HasTalkedAtCodebreaker)
                         {
-                            DialogHistory.Insert(0, string.Empty);
+                            DialogHistory.Insert(0, new(string.Empty, true));
                             DraedonTextOptionsOpacity = 0f;
                         }
 
@@ -308,14 +315,13 @@ namespace CalamityMod.UI.DraedonSummoning
 
                         if (DialogHistory.Count <= 0)
                         {
-                            DialogHistory.Add("...");
-                            DialogHistory.Add(inquiry);
-                            DialogHistory.Add(string.Empty);
+                            DialogHistory.Add(new(inquiry, false));
+                            DialogHistory.Add(new(string.Empty, true));
                         }
                         else
                         {
-                            DialogHistory[^1] = inquiry;
-                            DialogHistory.Add(string.Empty);
+                            DialogHistory[^1] = new(inquiry, false);
+                            DialogHistory.Add(new(string.Empty, true));
                         }
                         DraedonTextComplete = dialog.Response;
                         DraedonText = string.Empty;
@@ -361,14 +367,14 @@ namespace CalamityMod.UI.DraedonSummoning
 
                 // Initialize the dialog history if it's empty.
                 if (DialogHistory.Count <= 0)
-                    DialogHistory.Add(string.Empty);
+                    DialogHistory.Add(new(string.Empty, true));
 
                 // Update the last dialog history entry as Draedon types.
-                DialogHistory[^1] = DraedonText;
+                DialogHistory[^1].Dialog = DraedonText;
 
                 // Move to the next index in the dialog history once Draedon is finished speaking.
                 if (DraedonText.Length >= DraedonTextComplete.Length)
-                    DialogHistory.Add(string.Empty);
+                    DialogHistory.Add(new(string.Empty, true));
 
                 // Play a small dialog sound, similar to that of Undertale.
                 if (DraedonDialogDelayCountdown <= 0 && nextLetter != ' ' && nextLetter != '\n')
@@ -382,19 +388,19 @@ namespace CalamityMod.UI.DraedonSummoning
             int textIndex = 0;
             int entriesToPrune = 0;
             bool showNewEntries = CanDisplayLatestDialogEntries;
-            var dialogEntries = DialogHistory.Where(d => !string.IsNullOrEmpty(d));
+            var dialogEntries = DialogHistory.Where(d => !string.IsNullOrEmpty(d.Dialog));
             Vector2 textTopLeft = dialogArea.TopLeft() + new Vector2(20f, 14f) * panelScale;
             Texture2D markerTexture = ModContent.Request<Texture2D>("CalamityMod/UI/DraedonSummoning/DraedonInquirySelector").Value;
-            foreach (string entry in dialogEntries)
+            foreach (var entry in dialogEntries)
             {
                 int lineIndex = 0;
-                foreach (string line in Utils.WordwrapString(entry, DialogFont, 336, 100, out _))
+                foreach (string line in Utils.WordwrapString(entry.Dialog, DialogFont, 336, 100, out _))
                 {
                     if (string.IsNullOrEmpty(line))
                         continue;
 
                     // Define a bunch of variables for text. These vary based on whether it's Draedon speaking or not.
-                    bool textIsFromDraedon = textIndex % 2 == 0;
+                    bool textIsFromDraedon = entry.FromDraedon;
                     Color dialogColor = Draedon.TextColor;
                     Vector2 localTextTopLeft = textTopLeft;
                     Vector2 markerScale = panelScale * 0.24f;
@@ -439,17 +445,14 @@ namespace CalamityMod.UI.DraedonSummoning
             // If the text entries went past the dialog box, prune the oldest ones.
             while (entriesToPrune >= 1)
             {
-                for (int i = 0; i < 2; i++)
-                {
-                    if (DialogHistory.Count <= 0)
-                        break;
+                if (DialogHistory.Count <= 0)
+                    break;
 
-                    string text = DialogHistory[0];
-                    if (text == DialogOptions[0].Inquiry)
-                        Main.LocalPlayer.Calamity().HasTalkedAtCodebreaker = true;
+                string text = DialogHistory[0].Dialog;
+                if (text == DialogOptions[0].Inquiry)
+                    Main.LocalPlayer.Calamity().HasTalkedAtCodebreaker = true;
 
-                    DialogHistory.RemoveAt(0);
-                }
+                DialogHistory.RemoveAt(0);
                 entriesToPrune--;
             }
 
