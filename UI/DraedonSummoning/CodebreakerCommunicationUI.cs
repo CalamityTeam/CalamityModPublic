@@ -306,6 +306,9 @@ namespace CalamityMod.UI.DraedonSummoning
                         if (inquiry == DialogOptions[0].Inquiry)
                             DraedonTextCreationTimer = -72;
 
+                        if (DialogHistory.Count <= 0)
+                            DialogHistory.Add(string.Empty);
+
                         DialogHistory[^1] = inquiry;
                         DialogHistory.Add(string.Empty);
                         DraedonTextComplete = dialog.Response;
