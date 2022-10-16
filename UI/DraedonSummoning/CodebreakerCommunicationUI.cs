@@ -133,9 +133,9 @@ namespace CalamityMod.UI.DraedonSummoning
             // Draw the background panel. This pops up.
             float panelWidthScale = Utils.Remap(CommunicationPanelScale, 0f, 0.5f, 0.085f, 1f);
             float panelHeightScale = Utils.Remap(CommunicationPanelScale, 0.5f, 1f, 0.085f, 1f);
-            Vector2 panelScale = GeneralScale * new Vector2(panelWidthScale, panelHeightScale) * 2.4f;
+            Vector2 panelScale = GeneralScale * new Vector2(panelWidthScale, panelHeightScale) * 1.4f;
             Texture2D panelTexture = ModContent.Request<Texture2D>("CalamityMod/UI/DraedonSummoning/DraedonContactPanel").Value;
-            float basePanelHeight = GeneralScale * panelTexture.Height * 2.4f;
+            float basePanelHeight = GeneralScale * panelTexture.Height * 1.4f;
             Vector2 panelCenter = new Vector2(Main.screenWidth * 0.5f, BackgroundCenter.Y + panelTexture.Height * panelScale.Y * 0.5f - basePanelHeight * 0.5f);
             Rectangle panelArea = Utils.CenteredRectangle(panelCenter, panelTexture.Size() * panelScale);
 
@@ -176,14 +176,14 @@ namespace CalamityMod.UI.DraedonSummoning
             Texture2D iconTexture = ModContent.Request<Texture2D>("CalamityMod/UI/DraedonSummoning/DraedonIconBorder").Value;
             Texture2D iconTextureInner = ModContent.Request<Texture2D>("CalamityMod/UI/DraedonSummoning/DraedonIconBorderInner").Value;
             float draedonIconDrawInterpolant = Utils.GetLerpValue(0.51f, 0.36f, DraedonScreenStaticInterpolant, true);
-            Vector2 draedonIconDrawTopRight = panelCenter + new Vector2(-128f, -84f) * panelScale;
+            Vector2 draedonIconDrawTopRight = panelCenter + new Vector2(-218f, -130f) * panelScale;
             draedonIconDrawTopRight += new Vector2(24f, 4f) * panelScale;
 
             Vector2 draedonIconScale = panelScale * 0.5f;
             Vector2 draedonIconCenter = draedonIconDrawTopRight + iconTexture.Size() * new Vector2(0.5f, 0.5f) * draedonIconScale;
-            Rectangle draedonIconArea = Utils.CenteredRectangle(draedonIconCenter, iconTexture.Size() * draedonIconScale * 0.95f);
-            draedonIconArea.Y += 4;
-            draedonIconArea.Height -= 8;
+            Rectangle draedonIconArea = Utils.CenteredRectangle(draedonIconCenter, iconTexture.Size() * draedonIconScale * 0.9f);
+            draedonIconArea.Y += 12;
+            draedonIconArea.Height -= 12;
             Main.spriteBatch.Draw(iconTexture, draedonIconDrawTopRight, null, Color.White * draedonIconDrawInterpolant, 0f, Vector2.Zero, draedonIconScale, 0, 0f);
 
             // Draw Draedon's face inside the panel.
@@ -231,7 +231,7 @@ namespace CalamityMod.UI.DraedonSummoning
             // Display text options in the box.
             bool hoveringOverAnyOption = false;
             float opacity = DraedonTextOptionsOpacity * (1f - DraedonScreenStaticInterpolant);
-            Vector2 textTopLeft = selectionArea.TopLeft() + new Vector2(16f, 12f) * panelScale;
+            Vector2 textTopLeft = selectionArea.TopLeft() + new Vector2(20f, 12f) * panelScale;
             Texture2D markerTexture = ModContent.Request<Texture2D>("CalamityMod/UI/DraedonSummoning/DraedonInquirySelector").Value;
 
             foreach (var dialog in DialogOptions.Where(d => d.Condition()))
@@ -250,9 +250,9 @@ namespace CalamityMod.UI.DraedonSummoning
                     continue;
 
                 // Draw the text marker.
-                Vector2 markerScale = panelScale * 0.15f;
-                Vector2 markerDrawPosition = textTopLeft - Vector2.UnitX * markerTexture.Width * markerScale.X * 0.7f;
-                markerDrawPosition.Y += markerScale.Y * 16f;
+                Vector2 markerScale = panelScale * 0.24f;
+                Vector2 markerDrawPosition = textTopLeft - Vector2.UnitX * markerTexture.Width * markerScale.X * 0.52f;
+                markerDrawPosition.Y += markerScale.Y * 22f;
 
                 Color textColor = Color.Cyan;
                 Color markerColor = Color.White;
@@ -273,7 +273,7 @@ namespace CalamityMod.UI.DraedonSummoning
                     float scale = (float)Math.Sin(Main.GlobalTimeWrappedHourly) * 0.05f + 0.26f;
                     float rot = Main.GlobalTimeWrappedHourly * 0.5f;
 
-                    Main.spriteBatch.Draw(bloomTex, markerDrawPosition, null, Color.SkyBlue * dialog.BloomOpacity * opacity, rot, new Vector2(123f, 124f), scale, 0, 0f);
+                    Main.spriteBatch.Draw(bloomTex, markerDrawPosition, null, Color.SteelBlue * dialog.BloomOpacity * opacity, rot, new Vector2(123f, 124f), scale, 0, 0f);
 
                     Main.spriteBatch.End();
                     Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Matrix.Identity);
@@ -374,7 +374,7 @@ namespace CalamityMod.UI.DraedonSummoning
             int entriesToPrune = 0;
             bool showNewEntries = CanDisplayLatestDialogEntries;
             var dialogEntries = DialogHistory.Where(d => !string.IsNullOrEmpty(d));
-            Vector2 textTopLeft = dialogArea.TopLeft() + new Vector2(16f, 14f) * panelScale;
+            Vector2 textTopLeft = dialogArea.TopLeft() + new Vector2(20f, 14f) * panelScale;
             Texture2D markerTexture = ModContent.Request<Texture2D>("CalamityMod/UI/DraedonSummoning/DraedonInquirySelector").Value;
             foreach (string entry in dialogEntries)
             {
@@ -388,8 +388,8 @@ namespace CalamityMod.UI.DraedonSummoning
                     bool textIsFromDraedon = textIndex % 2 == 0;
                     Color dialogColor = Draedon.TextColor;
                     Vector2 localTextTopLeft = textTopLeft;
-                    Vector2 markerScale = panelScale * 0.15f;
-                    Vector2 markerDrawPosition = textTopLeft - Vector2.UnitX * markerTexture.Width * markerScale.X;
+                    Vector2 markerScale = panelScale * 0.24f;
+                    Vector2 markerDrawPosition = textTopLeft - Vector2.UnitX * markerTexture.Width * markerScale.X * 0.6f;
                     markerDrawPosition.Y += markerScale.Y * 24f;
                     SpriteEffects markerDirection = SpriteEffects.None;
                     if (!textIsFromDraedon)
@@ -416,10 +416,10 @@ namespace CalamityMod.UI.DraedonSummoning
                         ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, DialogFont, line, localTextTopLeft, dialogColor * dialogHistoryDrawInterpolant, 0f, Vector2.Zero, Vector2.One * GeneralScale * 0.76f);
                     }
 
-                    textTopLeft.Y += panelScale.Y * 6f;
+                    textTopLeft.Y += panelScale.Y * 11f;
                     lineIndex++;
                 }
-                textTopLeft.Y += panelScale.Y * 12f;
+                textTopLeft.Y += panelScale.Y * 20f;
                 if (textTopLeft.Y >= dialogArea.Bottom)
                     entriesToPrune++;
 
@@ -431,6 +431,9 @@ namespace CalamityMod.UI.DraedonSummoning
             {
                 for (int i = 0; i < 2; i++)
                 {
+                    if (DialogHistory.Count <= 0)
+                        break;
+
                     string text = DialogHistory[0];
                     if (text == DialogOptions[0].Inquiry)
                         Main.LocalPlayer.Calamity().HasTalkedAtCodebreaker = true;
