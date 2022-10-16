@@ -307,10 +307,16 @@ namespace CalamityMod.UI.DraedonSummoning
                             DraedonTextCreationTimer = -72;
 
                         if (DialogHistory.Count <= 0)
+                        {
+                            DialogHistory.Add("...");
+                            DialogHistory.Add(inquiry);
                             DialogHistory.Add(string.Empty);
-
-                        DialogHistory[^1] = inquiry;
-                        DialogHistory.Add(string.Empty);
+                        }
+                        else
+                        {
+                            DialogHistory[^1] = inquiry;
+                            DialogHistory.Add(string.Empty);
+                        }
                         DraedonTextComplete = dialog.Response;
                         DraedonText = string.Empty;
                         if (!Main.LocalPlayer.Calamity().SeenDraedonDialogs.Contains(dialog.ID))
@@ -420,10 +426,10 @@ namespace CalamityMod.UI.DraedonSummoning
                         ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, DialogFont, line, localTextTopLeft, dialogColor * dialogHistoryDrawInterpolant, 0f, Vector2.Zero, Vector2.One * GeneralScale * 0.76f);
                     }
 
-                    textTopLeft.Y += panelScale.Y * 11f;
+                    textTopLeft.Y += panelScale.Y * 9f;
                     lineIndex++;
                 }
-                textTopLeft.Y += panelScale.Y * 20f;
+                textTopLeft.Y += panelScale.Y * 16f;
                 if (textTopLeft.Y >= dialogArea.Bottom)
                     entriesToPrune++;
 
