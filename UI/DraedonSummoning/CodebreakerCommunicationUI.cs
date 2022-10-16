@@ -398,7 +398,8 @@ namespace CalamityMod.UI.DraedonSummoning
                         Vector2 anchorPoint = new(dialogArea.Center.X, markerDrawPosition.Y);
                         markerDrawPosition.X = anchorPoint.X + (anchorPoint.X - markerDrawPosition.X);
                         localTextTopLeft.X = anchorPoint.X + (anchorPoint.X - localTextTopLeft.X);
-                        localTextTopLeft.X -= DialogFont.MeasureString(line).X * 1.05f;
+                        localTextTopLeft.X -= DialogFont.MeasureString(line).X * 1.15f;
+                        localTextTopLeft.Y -= markerScale.Y * 4f;
 
                         // Use a neutral grey-ish color if text is being said by the player.
                         dialogColor = Color.LightGray;
