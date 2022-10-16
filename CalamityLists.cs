@@ -2234,7 +2234,7 @@ namespace CalamityMod
                 { NPCID.TheDestroyerTail, 250000 },
                 { NPCID.Probe, 10000 },
 
-                { NPCID.SkeletronPrime, 110000 }, // 30 seconds
+                { NPCID.SkeletronPrime, 150000 }, // 30 seconds
                 { NPCID.PrimeVice, 54000 },
                 { NPCID.PrimeCannon, 45000 },
                 { NPCID.PrimeSaw, 45000 },

@@ -81,7 +81,7 @@ namespace CalamityMod.NPCs.StormWeaver
             NPC.width = 74;
             NPC.height = 74;
             NPC.lifeMax = 825500;
-            NPC.LifeMaxNERB(NPC.lifeMax, NPC.lifeMax, 475000);
+            NPC.LifeMaxNERB(NPC.lifeMax, NPC.lifeMax, 500000);
             NPC.value = Item.buyPrice(2, 0, 0, 0);
 
             // Phase one settings
