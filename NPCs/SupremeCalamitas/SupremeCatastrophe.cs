@@ -54,7 +54,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             NPC.height = 120;
             NPC.defense = 80;
             NPC.DR_NERD(SupremeCataclysm.NormalBrothersDR);
-            NPC.LifeMaxNERB(230000, 276000, 100000);
+            NPC.LifeMaxNERB(230000, 276000, 200000);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
             NPC.aiStyle = -1;
@@ -212,6 +212,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
                     int type = ModContent.ProjectileType<SupremeCatastropheSlash>();
                     int damage = NPC.GetProjectileDamage(type);
+					if (bossRush)
+						damage /= 2;
                     Vector2 slashSpawnPosition = NPC.Center + Vector2.UnitX * 125f;
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                         Projectile.NewProjectile(NPC.GetSource_FromAI(), slashSpawnPosition, Vector2.UnitX * 4f, type, damage, 0f, Main.myPlayer, 0f, SlashingFromRight.ToInt());
@@ -229,6 +231,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
                     int type = ModContent.ProjectileType<BrimstoneBarrage>();
                     int damage = NPC.GetProjectileDamage(type);
+					if (bossRush)
+						damage /= 2;
                     int totalProjectiles = bossRush ? 20 : death ? 16 : revenge ? 14 : expertMode ? 12 : 8;
                     float radians = MathHelper.TwoPi / totalProjectiles;
                     float velocity = 7f;

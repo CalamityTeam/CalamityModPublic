@@ -95,7 +95,7 @@ namespace CalamityMod.NPCs.Yharon
             NPC.width = 200;
             NPC.height = 200;
             NPC.defense = 90;
-            NPC.LifeMaxNERB(1302000, 1562400, 370000);
+            NPC.LifeMaxNERB(1302000, 1562400, 740000);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
             NPC.knockBackResist = 0f;

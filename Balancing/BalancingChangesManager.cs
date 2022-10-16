@@ -274,9 +274,6 @@ namespace CalamityMod.Balancing
             // 15% resist to Enforcer projectiles.
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.AresIDs, Do(new ProjectileResistBalancingRule(0.85f, ProjectileType<EssenceFlame2>()))));
 
-            // 10% resist to Seraphim lasers
-            // NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.AresIDs, Do(new ProjectileResistBalancingRule(0.9f, ProjectileType<SeraphimBeamLarge>()))));
-
             #endregion Ares
 
             #region Artemis and Apollo
@@ -292,9 +289,6 @@ namespace CalamityMod.Balancing
             #endregion Artemis and Apollo
 
             #region Thanatos
-
-            // 50% resist to Seraphim lasers (what the actual fuck?).
-            // NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new ProjectileResistBalancingRule(0.5f, ProjectileType<SeraphimBeamLarge>()))));
 
             // 85% resist to Dynamic Pursuer (the whole thing lol).
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new ProjectileResistBalancingRule(0.15f, ProjectileType<DynamicPursuerProjectile>(), ProjectileType<DynamicPursuerLaser>(), ProjectileType<DynamicPursuerElectricity>()))));
@@ -372,9 +366,6 @@ namespace CalamityMod.Balancing
 
             // 20% resist to Executioner's Blade stealth strikes.
             NPCSpecificBalancingChanges.Add(new NPCBalancingChange(NPCType<BrimstoneHeart>(), new ProjectileResistBalancingRule(0.8f, ProjectileType<ExecutionersBladeStealthProj>())));
-
-            // 15% resist to Seraphim lasers.
-            // NPCSpecificBalancingChanges.Add(new NPCBalancingChange(NPCType<BrimstoneHeart>(), new ProjectileResistBalancingRule(0.85f, ProjectileType<SeraphimBeamLarge>())));
 
             #endregion
 

@@ -2,6 +2,7 @@
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.PermanentBoosters;
+using CalamityMod.Items.Placeables.Furniture.DevPaintings;
 using CalamityMod.Items.Placeables.Ores;
 using CalamityMod.Items.Potions;
 using CalamityMod.Items.Weapons.Melee;
@@ -37,12 +38,14 @@ namespace CalamityMod.Items
                 case ItemID.KingSlimeBossBag:
                     loot.Add(new CommonDrop(ModContent.ItemType<CrownJewel>(), 10)); // 10% Crown Jewel
                     loot.AddRevBagAccessories();
+                    loot.Add(ModContent.ItemType<ThankYouPainting>(), ThankYouPainting.DropInt);
                     break;
 
                 case ItemID.EyeOfCthulhuBossBag:
                     loot.Add(ModContent.ItemType<DeathstareRod>(), DropHelper.BagWeaponDropRateInt); // 33% Deathstare Rod
                     loot.Add(ModContent.ItemType<TeardropCleaver>(), 10); // 10% Teardrop Cleaver
                     loot.AddRevBagAccessories();
+                    loot.Add(ModContent.ItemType<ThankYouPainting>(), ThankYouPainting.DropInt);
                     break;
 
                 // On Rev+, Eater of Worlds segments don't drop partial loot. As such, the bag needs to drop all materials.
@@ -53,6 +56,7 @@ namespace CalamityMod.Items
                     eowRevLCR.Add(ItemID.DemoniteOre, 1, 120, 240); // 100% 120-240 Demonite Ore
                     eowRevLCR.Add(ItemID.ShadowScale, 1, 60, 120); // 100% 60-120 Shadow Scale
                     loot.AddRevBagAccessories();
+                    loot.Add(ModContent.ItemType<ThankYouPainting>(), ThankYouPainting.DropInt);
                     break;
 
 
@@ -64,6 +68,7 @@ namespace CalamityMod.Items
                     bocRevLCR.Add(ItemID.CrimtaneOre, 1, 100, 180); // 100% 100-180 Crimtane Ore
                     bocRevLCR.Add(ItemID.TissueSample, 1, 60, 120); // 100% 60-120 Tissue Sample
                     loot.AddRevBagAccessories();
+                    loot.Add(ModContent.ItemType<ThankYouPainting>(), ThankYouPainting.DropInt);
                     break;
 
                 case ItemID.DeerclopsBossBag:
@@ -77,6 +82,7 @@ namespace CalamityMod.Items
                     };
                     loot.Add(DropHelper.CalamityStyle(DropHelper.BagWeaponDropRateFraction, deerclopsWeapons));
                     loot.AddRevBagAccessories();
+                    loot.Add(ModContent.ItemType<ThankYouPainting>(), ThankYouPainting.DropInt);
                     break;
 
                 case ItemID.QueenBeeBossBag:
@@ -92,6 +98,7 @@ namespace CalamityMod.Items
                     loot.Add(ItemID.Stinger, 1, 8, 12); // 100% 8-12 Stinger
                     loot.Add(ModContent.ItemType<HardenedHoneycomb>(), 1, 50, 75); // 100% 50-75 Hardened Honeycomb
                     loot.AddRevBagAccessories();
+                    loot.Add(ModContent.ItemType<ThankYouPainting>(), ThankYouPainting.DropInt);
                     break;
 
                 case ItemID.WallOfFleshBossBag:
@@ -120,17 +127,20 @@ namespace CalamityMod.Items
                     };
                     loot.Add(DropHelper.CalamityStyle(new Fraction(1, 4), emblems)); // Emblems remain 25%
                     loot.AddRevBagAccessories();
+                    loot.Add(ModContent.ItemType<ThankYouPainting>(), ThankYouPainting.DropInt);
                     break;
 
                 case ItemID.QueenSlimeBossBag:
                     loot.Add(ItemID.SoulofLight, 1, 15, 20); // 100% 15-20 Soul of Light
                     loot.AddRevBagAccessories();
+                    loot.Add(ModContent.ItemType<ThankYouPainting>(), ThankYouPainting.DropInt);
                     break;
 
                 case ItemID.DestroyerBossBag:
                     loot.Remove(FindHallowedBars(loot));
                     loot.AddIf(DropHelper.HallowedBarsCondition, ItemID.HallowedBar, 1, 20, 35);
                     loot.AddRevBagAccessories();
+                    loot.Add(ModContent.ItemType<ThankYouPainting>(), ThankYouPainting.DropInt);
                     break;
 
                 case ItemID.TwinsBossBag:
@@ -138,12 +148,14 @@ namespace CalamityMod.Items
                     loot.AddIf(DropHelper.HallowedBarsCondition, ItemID.HallowedBar, 1, 20, 35);
                     loot.Add(ModContent.ItemType<Arbalest>(), 10); // 10% Arbalest
                     loot.AddRevBagAccessories();
+                    loot.Add(ModContent.ItemType<ThankYouPainting>(), ThankYouPainting.DropInt);
                     break;
 
                 case ItemID.SkeletronPrimeBossBag:
                     loot.Remove(FindHallowedBars(loot));
                     loot.AddIf(DropHelper.HallowedBarsCondition, ItemID.HallowedBar, 1, 20, 35);
                     loot.AddRevBagAccessories();
+                    loot.Add(ModContent.ItemType<ThankYouPainting>(), ThankYouPainting.DropInt);
                     break;
 
                 case ItemID.PlanteraBossBag:
@@ -163,6 +175,7 @@ namespace CalamityMod.Items
                     loot.Add(ModContent.ItemType<BloomStone>(), DropHelper.BagWeaponDropRateFraction);
                     loot.Add(ModContent.ItemType<LivingShard>(), 1, 30, 35);
                     loot.AddRevBagAccessories();
+                    loot.Add(ModContent.ItemType<ThankYouPainting>(), ThankYouPainting.DropInt);
                     break;
 
                 case ItemID.GolemBossBag:
@@ -181,6 +194,7 @@ namespace CalamityMod.Items
                     loot.Add(ModContent.ItemType<AegisBlade>(), 10); // 10% Aegis Blade
                     loot.Add(ModContent.ItemType<EssenceofSunlight>(), 1, 8, 13); // 100% 8-13 Essence of Sunlight
                     loot.AddRevBagAccessories();
+                    loot.Add(ModContent.ItemType<ThankYouPainting>(), ThankYouPainting.DropInt);
                     break;
 
                 case ItemID.BossBagBetsy:
@@ -210,6 +224,7 @@ namespace CalamityMod.Items
                     loot.Add(DropHelper.CalamityStyle(DropHelper.BagWeaponDropRateFraction, dukeItems));
                     loot.Add(ModContent.ItemType<BrinyBaron>(), 10); // 10% Briny Baron
                     loot.AddRevBagAccessories();
+                    loot.Add(ModContent.ItemType<ThankYouPainting>(), ThankYouPainting.DropInt);
                     break;
 
                 case ItemID.FairyQueenBossBag:
@@ -226,6 +241,7 @@ namespace CalamityMod.Items
                     };
                     loot.Add(DropHelper.CalamityStyle(DropHelper.BagWeaponDropRateFraction, empressItems));
                     loot.AddRevBagAccessories();
+                    loot.Add(ModContent.ItemType<ThankYouPainting>(), ThankYouPainting.DropInt);
                     break;
 
                 case ItemID.MoonLordBossBag:
@@ -245,6 +261,7 @@ namespace CalamityMod.Items
                     };
                     loot.Add(DropHelper.CalamityStyle(DropHelper.BagWeaponDropRateFraction, moonLordWeapons));
                     loot.AddRevBagAccessories();
+                    loot.Add(ModContent.ItemType<ThankYouPainting>(), ThankYouPainting.DropInt);
 
                     // The Celestial Onion only drops if the player hasn't used one.
                     loot.AddIf((info) => !info.player.Calamity().extraAccessoryML, ModContent.ItemType<CelestialOnion>());
