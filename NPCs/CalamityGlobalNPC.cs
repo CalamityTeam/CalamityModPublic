@@ -2435,7 +2435,7 @@ namespace CalamityMod.NPCs
             spriteBatch.Draw(texture,
                              npc.Center - screenOffset + offset,
                              npc.frame,
-                             Color.White,
+                             npc.GetAlpha(Color.White),
                              npc.rotation,
                              npc.frame.Size() * 0.5f,
                              npc.scale,
