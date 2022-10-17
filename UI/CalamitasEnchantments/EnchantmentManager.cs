@@ -176,7 +176,7 @@ namespace CalamityMod.UI.CalamitasEnchants
                         item.mana = (int)Math.Ceiling(item.mana * 0.6);
                     },
                     player => player.Calamity().lifeManaEnchant = true,
-                    item => item.IsEnchantable() && item.damage > 0 && item.CountsAsClass<MagicDamageClass>() && item.mana > 0),
+                    item => item.IsEnchantable() && item.damage > 0 && item.CountsAsClass<MagicDamageClass>() && item.mana > 0 && item.type != ModContent.ItemType<Eternity>()),
 
                 new Enchantment("Resentful", "Makes the damage of projectiles vary based on how far the hit target is from you. The farther, the more damage, and vice versa.",
                     400,
@@ -198,7 +198,7 @@ namespace CalamityMod.UI.CalamitasEnchants
                     null,
                     player => player.Calamity().dischargingItemEnchant = true,
                     item => item.IsEnchantable() && item.damage > 0 && !item.CountsAsClass<SummonDamageClass>() && !item.CountsAsClass<ThrowingDamageClass>() &&
-					!item.channel && item.type != ModContent.ItemType<HeavenlyGale>()),
+                    !item.channel && item.type != ModContent.ItemType<HeavenlyGale>()),
 
                 new Enchantment("Hellbound", "Causes minions to be created with a 40 second timer.\nOnce it runs out, they explode violently. Minions do more damage the longer they live and idly explode as well.",
                     700,

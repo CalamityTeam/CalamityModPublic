@@ -615,12 +615,17 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
         {
             if (NPC.soundDelay == 0)
             {
-                NPC.soundDelay = 8;
 
                 if (vulnerable)
+                {
+                    NPC.soundDelay = 8;
                     SoundEngine.PlaySound(CommonCalamitySounds.OtherwordlyHitSound, NPC.Center);
+                }
                 else
-                    SoundEngine.PlaySound(SoundID.NPCHit4, NPC.Center);
+                {
+                    NPC.soundDelay = 3;
+                    SoundEngine.PlaySound(CommonCalamitySounds.ExoHitSound, NPC.Center);
+                }
             }
 
             int baseDust = vulnerable ? 3 : 1;

@@ -175,7 +175,6 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
             NPC.knockBackResist = 0f;
             NPC.noGravity = true;
             NPC.noTileCollide = true;
-            NPC.HitSound = SoundID.NPCHit4;
             NPC.DeathSound = SoundID.NPCDeath14;
             NPC.netAlways = true;
             NPC.boss = true;
@@ -1453,6 +1452,12 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
         {
             for (int k = 0; k < 3; k++)
                 Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 107, 0f, 0f, 100, new Color(0, 255, 255), 1f);
+
+            if (NPC.soundDelay == 0)
+            {
+                NPC.soundDelay = 3;
+                SoundEngine.PlaySound(CommonCalamitySounds.ExoHitSound, NPC.Center);
+            }
 
             if (NPC.life <= 0)
             {
