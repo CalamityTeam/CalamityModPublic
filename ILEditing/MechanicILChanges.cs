@@ -43,6 +43,7 @@ using CalamityMod.DataStructures;
 using CalamityMod.Particles.Metaballs;
 using Terraria.GameContent.Drawing;
 using CalamityMod.Tiles.Abyss;
+using System.Collections.Generic;
 
 namespace CalamityMod.ILEditing
 {
@@ -779,7 +780,9 @@ namespace CalamityMod.ILEditing
             cursor.Emit(OpCodes.Ldloc, 8);
             cursor.Emit(OpCodes.Ldelem_Ref);
             cursor.Emit(OpCodes.Ldloc, 8);
-            cursor.EmitDelegate<Func<VertexColors, Texture2D, int, VertexColors>>((initialColor, initialTexture, liquidType) =>
+            cursor.Emit(OpCodes.Ldloc, 3);
+            cursor.Emit(OpCodes.Ldloc, 4);
+            cursor.EmitDelegate<Func<VertexColors, Texture2D, int, int, int, VertexColors>>((initialColor, initialTexture, liquidType, x, y) =>
             {
                 initialColor.TopLeftColor = SelectLavaColor(initialTexture, initialColor.TopLeftColor, liquidType == 1);
                 initialColor.TopRightColor = SelectLavaColor(initialTexture, initialColor.TopRightColor, liquidType == 1);
@@ -787,6 +790,33 @@ namespace CalamityMod.ILEditing
                 initialColor.BottomRightColor = SelectLavaColor(initialTexture, initialColor.BottomRightColor, liquidType == 1);
                 if (liquidType == ModContent.Find<ModWaterStyle>("CalamityMod/SulphuricWater").Slot)
                 {
+                    if (SulphuricWaterSafeZoneSystem.NearbySafeTiles.Count >= 1)
+                    {
+                        Color cleanWaterColor = new(10, 62, 193);
+                        Point closestSafeZone = SulphuricWaterSafeZoneSystem.NearbySafeTiles.Keys.OrderBy(t => t.ToVector2().DistanceSQ(new(x, y))).First();
+                        List<Vector2> points = new()
+                        {
+                            new Vector2(x - 0.5f, y - 0.5f),
+                            new Vector2(x + 0.5f, y - 0.5f),
+                            new Vector2(x - 0.5f, y + 0.5f),
+                            new Vector2(x + 0.5f, y + 0.5f),
+                        };
+
+                        for (int i = 0; i < 4; i++)
+                        {
+                            float distanceToClosest = points[i].Distance(closestSafeZone.ToVector2());
+                            float acidicWaterInterpolant = Utils.GetLerpValue(12f, 20.5f, distanceToClosest + (1f - SulphuricWaterSafeZoneSystem.NearbySafeTiles[closestSafeZone]) * 21f, true);
+                            if (i == 0)
+                                initialColor.TopLeftColor = Color.Lerp(initialColor.TopLeftColor, cleanWaterColor, 1f - acidicWaterInterpolant);
+                            if (i == 1)
+                                initialColor.TopRightColor = Color.Lerp(initialColor.TopRightColor, cleanWaterColor, 1f - acidicWaterInterpolant);
+                            if (i == 2)
+                                initialColor.BottomLeftColor = Color.Lerp(initialColor.BottomLeftColor, cleanWaterColor, 1f - acidicWaterInterpolant);
+                            if (i == 3)
+                                initialColor.BottomRightColor = Color.Lerp(initialColor.BottomRightColor, cleanWaterColor, 1f - acidicWaterInterpolant);
+                        }
+                    }
+
                     initialColor.TopLeftColor *= 0.4f;
                     initialColor.TopRightColor *= 0.4f;
                     initialColor.BottomLeftColor *= 0.4f;

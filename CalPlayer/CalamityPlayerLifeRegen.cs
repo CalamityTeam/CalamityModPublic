@@ -10,6 +10,8 @@ using System;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.DataStructures;
+using CalamityMod.Systems;
+using System.Linq;
 
 namespace CalamityMod.CalPlayer
 {
@@ -158,7 +160,14 @@ namespace CalamityMod.CalPlayer
             }
 
             // Slowly increase the sulphuric water poisoning effect. Once it's high enough, the player starts taking damage over time.
-            if (ZoneSulphur && Player.IsUnderwater() && !decayEffigy && !abyssalDivingSuit && !Player.lavaWet && !Player.honeyWet)
+            bool nearSafeZone = false;
+            if (SulphuricWaterSafeZoneSystem.NearbySafeTiles.Count >= 1)
+            {
+                Point closestSafeZone = SulphuricWaterSafeZoneSystem.NearbySafeTiles.Keys.OrderBy(t => t.ToVector2().DistanceSQ(Player.Center / 16f)).First();
+                if (Vector2.Distance(Player.Center.ToTileCoordinates().ToVector2(), closestSafeZone.ToVector2()) < SulphuricWaterSafeZoneSystem.NearbySafeTiles[closestSafeZone] * 17f)
+                    nearSafeZone = true;
+            }
+            if (ZoneSulphur && Player.IsUnderwater() && !decayEffigy && !abyssalDivingSuit && !Player.lavaWet && !Player.honeyWet && !nearSafeZone)
             {
                 float increment = 1f / SulphSeaWaterSafetyTime;
                 if (sulphurskin)
