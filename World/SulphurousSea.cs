@@ -710,7 +710,12 @@ namespace CalamityMod.World
         {
             int width = BiomeWidth;
             int depth = BlockDepth;
-            ushort blockTileType = (ushort)ModContent.TileType<SulphurousSand>();
+            List<ushort> blockTileTypes = new()
+            {
+                (ushort)ModContent.TileType<SulphurousSand>(),
+                (ushort)ModContent.TileType<SulphurousSandstone>(),
+                (ushort)ModContent.TileType<HardenedSulphurousSandstone>(),
+            };
 
             for (int i = 0; i < width; i++)
             {
@@ -718,7 +723,7 @@ namespace CalamityMod.World
                 for (int y = YStart; y < YStart + depth; y++)
                 {
                     Tile t = CalamityUtils.ParanoidTileRetrieval(x, y);
-                    if (!t.HasTile || t.TileType != blockTileType)
+                    if (!t.HasTile || !blockTileTypes.Contains(t.TileType))
                         continue;
 
                     // Check to see if the tile has any cardinal neighbors. If it doesn't, destroy it.
