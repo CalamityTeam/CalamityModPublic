@@ -2,6 +2,7 @@
 using CalamityMod.NPCs.ExoMechs.Thanatos;
 using CalamityMod.Particles;
 using CalamityMod.Projectiles.Boss;
+using CalamityMod.Sounds;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -92,7 +93,6 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
             NPC.canGhostHeal = false;
             NPC.noGravity = true;
             NPC.noTileCollide = true;
-            NPC.HitSound = SoundID.NPCHit4;
             NPC.DeathSound = SoundID.NPCDeath14;
             NPC.netAlways = true;
             NPC.boss = true;
@@ -641,6 +641,12 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
         {
             for (int k = 0; k < 3; k++)
                 Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 107, 0f, 0f, 100, new Color(0, 255, 255), 1f);
+
+            if (NPC.soundDelay == 0)
+            {
+                NPC.soundDelay = 3;
+                SoundEngine.PlaySound(CommonCalamitySounds.ExoHitSound, NPC.Center);
+            }
 
             if (NPC.life <= 0)
             {
