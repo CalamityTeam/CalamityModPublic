@@ -198,7 +198,7 @@ namespace CalamityMod.UI.DraedonSummoning
             Main.spriteBatch.EnforceCutoffRegion(draedonIconArea, Matrix.Identity, SpriteSortMode.Immediate);
 
             // Apply a glitch shader.
-            GameShaders.Misc["CalamityMod:TeleportDisplacement"].UseOpacity(0.015f);
+            GameShaders.Misc["CalamityMod:TeleportDisplacement"].UseOpacity(0.04f);
             GameShaders.Misc["CalamityMod:TeleportDisplacement"].UseSecondaryColor(Color.White * 0.75f);
             GameShaders.Misc["CalamityMod:TeleportDisplacement"].UseSaturation(0.75f);
             GameShaders.Misc["CalamityMod:TeleportDisplacement"].Shader.Parameters["frameCount"].SetValue(Vector2.One);
@@ -374,7 +374,11 @@ namespace CalamityMod.UI.DraedonSummoning
 
                 // Move to the next index in the dialog history once Draedon is finished speaking.
                 if (DraedonText.Length >= DraedonTextComplete.Length)
+                {
+                    if (DraedonText == DialogOptions[0].Response)
+                        Main.LocalPlayer.Calamity().HasTalkedAtCodebreaker = true;
                     DialogHistory.Add(new(string.Empty, true));
+                }
 
                 // Play a small dialog sound, similar to that of Undertale.
                 if (DraedonDialogDelayCountdown <= 0 && nextLetter != ' ' && nextLetter != '\n')
