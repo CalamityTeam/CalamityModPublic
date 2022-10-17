@@ -23,6 +23,9 @@ namespace CalamityMod.Systems
             foreach (var key in NearbySafeTiles.Keys.Where(key => NearbySafeTiles[key] <= 0f))
                 NearbySafeTiles.Remove(key);
 
+            // TODO -- Uncomment the below code to use an actual block and not the auric tesla bar, once sprites for said blocks are created.
+
+            /*
             ushort safeTileID = (ushort)ModContent.TileType<AuricTeslaBar>();
             Point center = Main.LocalPlayer.Center.ToTileCoordinates();
 
@@ -42,6 +45,7 @@ namespace CalamityMod.Systems
                     NearbySafeTiles[p] = 1f;
                 }
             }
+            */
         }
     }
 }
