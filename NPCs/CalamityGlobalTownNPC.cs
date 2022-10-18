@@ -1585,7 +1585,7 @@ namespace CalamityMod.NPCs
             if (type == NPCID.Cyborg)
             {
                 SetShopItem(ref shop, ref nextSlot, ItemID.RocketLauncher, NPC.downedGolemBoss, Item.buyPrice(0, 25));
-                SetShopItem(ref shop, ref nextSlot, ItemType<MartianDistressBeacon>(), NPC.downedGolemBoss, Item.buyPrice(0, 50));
+                SetShopItem(ref shop, ref nextSlot, ItemType<MartianDistressRemote>(), NPC.downedGolemBoss, Item.buyPrice(0, 50));
                 SetShopItem(ref shop, ref nextSlot, ItemType<LionHeart>(), DownedBossSystem.downedPolterghast);
             }
 
