@@ -8,11 +8,11 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class TheReaper : RogueWeapon
+    public class TheOldReaper : RogueWeapon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("The Reaper");
+            DisplayName.SetDefault("The Old Reaper");
             Tooltip.SetDefault("Slice 'n dice\n" +
                 "Stealth strikes throw four at once");
             SacrificeTotal = 1;
