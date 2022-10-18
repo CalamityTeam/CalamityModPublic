@@ -8,6 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
+    [LegacyName("TheReaper")]
     public class TheOldReaper : RogueWeapon
     {
         public override void SetStaticDefaults()
