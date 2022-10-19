@@ -5,6 +5,7 @@ using CalamityMod.UI.DraedonsArsenal;
 using CalamityMod.UI.DraedonSummoning;
 using CalamityMod.UI.ModeIndicator;
 using CalamityMod.UI.Rippers;
+using CalamityMod.UI.SulphurousWaterMeter;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
@@ -86,6 +87,13 @@ namespace CalamityMod.Systems
                 layers.Insert(mouseIndex, new LegacyGameInterfaceLayer("Stealth UI", () =>
                 {
                     StealthUI.Draw(Main.spriteBatch, Main.LocalPlayer);
+                    return true;
+                }, InterfaceScaleType.None));
+
+                // Sulphuric water poison bar
+                layers.Insert(mouseIndex, new LegacyGameInterfaceLayer("Sulphuric Water Poisoning UI", () =>
+                {
+                    SulphurousWaterMeterUI.Draw(Main.spriteBatch, Main.LocalPlayer);
                     return true;
                 }, InterfaceScaleType.None));
 

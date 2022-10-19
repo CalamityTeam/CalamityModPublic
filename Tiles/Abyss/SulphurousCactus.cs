@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles.Abyss
         public override void SetStaticDefaults()
         {
             // Grows on sulphurous sand
-            GrowsOnTileId = new int[2] { ModContent.TileType<SulphurousSand>(), ModContent.TileType<SulphurousSandNoWater>() };
+            GrowsOnTileId = new int[] { ModContent.TileType<SulphurousSand>() };
         }
 
         public override Asset<Texture2D> GetTexture() => ModContent.Request<Texture2D>("CalamityMod/Tiles/Abyss/SulphurousCactus");

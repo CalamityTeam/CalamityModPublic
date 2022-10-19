@@ -36,7 +36,7 @@ namespace CalamityMod.BiomeManagers
             if (WeakReferenceSupport.InAnySubworld())
                 return false;
 
-            return point.Y > (Main.rockLayer - y * 0.05) &&
+            return point.Y > SulphurousSea.YStart + SulphurousSea.BlockDepth - 78 &&
                 !player.lavaWet &&
                 !player.honeyWet &&
                 abyssPosY &&

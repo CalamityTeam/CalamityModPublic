@@ -193,7 +193,7 @@ namespace CalamityMod.Systems
                 tasks.Insert(++currentFinalIndex, new PassLegacy("SulphurSea2", (progress, config) =>
                 {
                     progress.Message = "Further polluting one of the oceans";
-                    SulphurousSea.FinishGeneratingSulphurSea();
+                    SulphurousSea.SulphurSeaGenerationAfterAbyss();
                 }));
 
                 tasks.Insert(++currentFinalIndex, new PassLegacy("Roxcalibur", (progress, config) =>

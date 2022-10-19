@@ -5,6 +5,10 @@ using MonoMod.Cil;
 using Terraria;
 using Terraria.ID;
 using Terraria.Audio;
+using CalamityMod.Systems;
+using Terraria.Graphics;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace CalamityMod.ILEditing
 {
@@ -108,6 +112,41 @@ namespace CalamityMod.ILEditing
             }
 
             return initialLightColor;
+        }
+
+        private static void SelectSulphuricWaterColor(int x, int y, ref VertexColors initialColor)
+        {
+            if (SulphuricWaterSafeZoneSystem.NearbySafeTiles.Count >= 1)
+            {
+                Color cleanWaterColor = new(10, 62, 193);
+                Point closestSafeZone = SulphuricWaterSafeZoneSystem.NearbySafeTiles.Keys.OrderBy(t => t.ToVector2().DistanceSQ(new(x, y))).First();
+                List<Vector2> points = new()
+                {
+                    new Vector2(x - 0.5f, y - 0.5f),
+                    new Vector2(x + 0.5f, y - 0.5f),
+                    new Vector2(x - 0.5f, y + 0.5f),
+                    new Vector2(x + 0.5f, y + 0.5f),
+                };
+
+                for (int i = 0; i < 4; i++)
+                {
+                    float distanceToClosest = points[i].Distance(closestSafeZone.ToVector2());
+                    float acidicWaterInterpolant = Utils.GetLerpValue(12f, 20.5f, distanceToClosest + (1f - SulphuricWaterSafeZoneSystem.NearbySafeTiles[closestSafeZone]) * 21f, true);
+                    if (i == 0)
+                        initialColor.TopLeftColor = Color.Lerp(initialColor.TopLeftColor, cleanWaterColor, 1f - acidicWaterInterpolant);
+                    if (i == 1)
+                        initialColor.TopRightColor = Color.Lerp(initialColor.TopRightColor, cleanWaterColor, 1f - acidicWaterInterpolant);
+                    if (i == 2)
+                        initialColor.BottomLeftColor = Color.Lerp(initialColor.BottomLeftColor, cleanWaterColor, 1f - acidicWaterInterpolant);
+                    if (i == 3)
+                        initialColor.BottomRightColor = Color.Lerp(initialColor.BottomRightColor, cleanWaterColor, 1f - acidicWaterInterpolant);
+                }
+            }
+
+            initialColor.TopLeftColor *= 0.4f;
+            initialColor.TopRightColor *= 0.4f;
+            initialColor.BottomLeftColor *= 0.4f;
+            initialColor.BottomRightColor *= 0.4f;
         }
 
         public static void DumpToLog(ILContext il) => CalamityMod.Instance.Logger.Debug(il.ToString());

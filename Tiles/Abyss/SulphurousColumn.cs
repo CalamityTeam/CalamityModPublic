@@ -20,7 +20,7 @@ namespace CalamityMod.Tiles.Abyss
             TileObjectData.newTile.Width = 2;
             TileObjectData.newTile.Height = 3;
             TileObjectData.newTile.Origin = new Point16(1, 2);
-            TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop | AnchorType.Table | AnchorType.SolidSide, TileObjectData.newTile.Width, 0);
+            TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile, TileObjectData.newTile.Width, 0);
             TileObjectData.newTile.UsesCustomCanPlace = true;
             TileObjectData.newTile.CoordinateHeights = new int[]
             {
@@ -32,7 +32,6 @@ namespace CalamityMod.Tiles.Abyss
             TileObjectData.newTile.CoordinatePadding = 2;
             TileObjectData.newTile.WaterDeath = false;
             TileObjectData.newTile.LavaDeath = true;
-            TileObjectData.newTile.DrawYOffset = 2;
             TileObjectData.addTile(Type);
             ModTranslation name = CreateMapEntryName();
             AddMapEntry(new Color(150, 100, 50), name);
@@ -41,16 +40,28 @@ namespace CalamityMod.Tiles.Abyss
 
             base.SetStaticDefaults();
         }
+
+        public override void NearbyEffects(int i, int j, bool closer)
+        {
+            Tile t = CalamityUtils.ParanoidTileRetrieval(i, j);
+            Tile left = CalamityUtils.ParanoidTileRetrieval(i - 1, j);
+            Tile right = CalamityUtils.ParanoidTileRetrieval(i + 1, j);
+            if (t.TileFrameX % 36 == 0 && !right.HasTile)
+                WorldGen.KillTile(i, j);
+            if (t.TileFrameX % 36 == 18 && !left.HasTile)
+                WorldGen.KillTile(i, j);
+        }
+
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            if (Main.netMode != NetmodeID.Server)
+            if (Main.netMode == NetmodeID.Server)
+                return;
+
+            // Explode into a bunch of rocks when broken.
+            for (int k = 0; k < WorldGen.genRand.Next(3, 4 + 1); k++)
             {
-                for (int k = 0; k < WorldGen.genRand.Next(3, 4 + 1); k++)
-                {
-                    Gore.NewGore(new EntitySource_TileBreak(i, j), new Vector2(i, j) * 16f,
-                        Vector2.One.RotatedByRandom(MathHelper.TwoPi) * WorldGen.genRand.NextFloat(1.4f, 3.2f),
-                        Mod.Find<ModGore>($"SulphurousRockGore{WorldGen.genRand.Next(3) + 1}").Type);
-                }
+                int goreID = Mod.Find<ModGore>($"SulphurousRockGore{WorldGen.genRand.Next(3) + 1}").Type;
+                Gore.NewGore(new EntitySource_TileBreak(i, j), new Vector2(i, j) * 16f, Main.rand.NextVector2Unit() * WorldGen.genRand.NextFloat(1.4f, 3.2f), goreID);
             }
         }
         public override void NumDust(int i, int j, bool fail, ref int num)
