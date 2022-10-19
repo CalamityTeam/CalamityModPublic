@@ -1221,6 +1221,8 @@ namespace CalamityMod.CalPlayer
                 monolithAccursedShader--;
             if (miningSetCooldown > 0)
                 miningSetCooldown--;
+            if (RustyMedallionCooldown > 0)
+                RustyMedallionCooldown--;
 
             // God Slayer Armor dash debuff immunity
             if (DashID == GodSlayerDash.ID && Player.dashDelay < 0)

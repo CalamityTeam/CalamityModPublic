@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -9,11 +9,11 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class ReaperProjectile : ModProjectile
     {
-        public override string Texture => "CalamityMod/Items/Weapons/Rogue/TheReaper";
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/TheOldReaper";
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("The Reaper");
+            DisplayName.SetDefault("The Old Reaper");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 6;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }

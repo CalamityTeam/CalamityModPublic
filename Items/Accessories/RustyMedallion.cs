@@ -9,11 +9,16 @@ namespace CalamityMod.Items.Accessories
 {
     public class RustyMedallion : ModItem
     {
+        public const int AcidDropBaseDamage = 9;
+
+        // BAD Minishark! You will NOT become stupid sleeper agent item!
+        public const int AcidCreationCooldown = 25;
+
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 1;
             DisplayName.SetDefault("Rusty Medallion");
-            Tooltip.SetDefault("Causes most ranged weapons to sometimes release acid droplets from the sky\n" +
+            Tooltip.SetDefault("Causes most ranged weapons to release acid droplets from the sky\n" +
                 "Grants immunity to Irradiated");
         }
 
@@ -29,7 +34,7 @@ namespace CalamityMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            modPlayer.rustyMedal = true;
+            modPlayer.RustyMedallionDroplets = true;
             player.buffImmune[ModContent.BuffType<Irradiated>()] = true;
         }
 

@@ -226,6 +226,7 @@ namespace CalamityMod.CalPlayer
         public int aBulwarkRareTimer = 0;
         public int spiritOriginBullseyeShootCountdown = 0;
         public int spiritOriginConvertedCrit = 0;
+        public int RustyMedallionCooldown = 0;
 
         private const int DashDisableCooldown = 12;
 
@@ -571,7 +572,7 @@ namespace CalamityMod.CalPlayer
         public int phantomicHeartRegen = 0; // 0 = can spawn, 720 = regen applied, 600 = regen stops and 10 sec cd before it can spawn again
         public bool silvaWings = false;
         public int icicleCooldown = 0;
-        public bool rustyMedal = false;
+        public bool RustyMedallionDroplets = false;
         public bool noStupidNaturalARSpawns = false;
         public bool roverDrive = false;
         public int roverDriveTimer = 0;
@@ -1644,7 +1645,7 @@ namespace CalamityMod.CalPlayer
             camper = false;
             silvaWings = false;
             corrosiveSpine = false;
-            rustyMedal = false;
+            RustyMedallionDroplets = false;
             noStupidNaturalARSpawns = false;
             roverDrive = false;
             rottenDogTooth = false;
@@ -2121,6 +2122,7 @@ namespace CalamityMod.CalPlayer
             auralisAurora = 0;
             fungalSymbioteTimer = 0;
             aBulwarkRareTimer = 0;
+            RustyMedallionCooldown = 0;
             spiritOriginConvertedCrit = 0;
             rage = 0f;
             adrenaline = 0f;
@@ -5162,24 +5164,20 @@ namespace CalamityMod.CalPlayer
                 }
             }
 
-            if (rustyMedal)
+            if (RustyMedallionDroplets && RustyMedallionCooldown <= 0)
             {
                 if (item.CountsAsClass<RangedDamageClass>())
                 {
-                    if (Main.rand.NextBool(5))
+                    int d = (int)Player.GetTotalDamage<RangedDamageClass>().ApplyTo(Items.Accessories.RustyMedallion.AcidDropBaseDamage);
+                    Vector2 startingPosition = Main.MouseWorld - Vector2.UnitY.RotatedByRandom(0.4f) * 1250f;
+                    Vector2 directionToMouse = (Main.MouseWorld - startingPosition).SafeNormalize(Vector2.UnitY).RotatedByRandom(0.1f);
+                    int drop = Projectile.NewProjectile(source, startingPosition, directionToMouse * 15f, ModContent.ProjectileType<ToxicannonDrop>(), d, 0f, Player.whoAmI);
+                    if (drop.WithinBounds(Main.maxProjectiles))
                     {
-                        for (int i = 0; i < 3; i++)
-                        {
-                            Vector2 startingPosition = Main.MouseWorld - Vector2.UnitY.RotatedByRandom(0.4f) * 1250f;
-                            Vector2 directionToMouse = (startingPosition - Main.MouseWorld).SafeNormalize(Vector2.UnitY).RotatedByRandom(0.1f);
-                            int drop = Projectile.NewProjectile(source, startingPosition, directionToMouse * 12f, ModContent.ProjectileType<ToxicannonDrop>(), (int)(damage * 0.3), 0f, Player.whoAmI);
-                            if (drop.WithinBounds(Main.maxProjectiles))
-                            {
-                                Main.projectile[drop].penetrate = 2;
-                                Main.projectile[drop].DamageType = DamageClass.Generic;
-                            }
-                        }
+                        Main.projectile[drop].penetrate = 2;
+                        Main.projectile[drop].DamageType = DamageClass.Generic;
                     }
+                    RustyMedallionCooldown = RustyMedallion.AcidCreationCooldown;
                 }
             }
 

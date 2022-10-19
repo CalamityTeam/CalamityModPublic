@@ -20,8 +20,12 @@ namespace CalamityMod.NPCs.AcidRain
     public class SulphurousSkater : ModNPC
     {
         public bool Flying = false;
+        
         public Player Target => Main.player[NPC.target];
+
         public ref float JumpTimer => ref NPC.ai[0];
+
+        public const int JumpDelay = 64;
 
         public override void SetStaticDefaults()
         {
@@ -30,10 +34,6 @@ namespace CalamityMod.NPCs.AcidRain
             NPCID.Sets.TrailingMode[NPC.type] = 1;
             NPCID.Sets.TrailCacheLength[NPC.type] = 6;
         }
-
-        public override void SendExtraAI(BinaryWriter writer) => writer.Write(Flying);
-
-        public override void ReceiveExtraAI(BinaryReader reader) => Flying = reader.ReadBoolean();
 
         public override void SetDefaults()
         {
@@ -68,6 +68,10 @@ namespace CalamityMod.NPCs.AcidRain
             NPC.Calamity().VulnerableToWater = false;
             SpawnModBiomes = new int[1] { ModContent.GetInstance<AcidRainBiome>().Type };
         }
+
+        public override void SendExtraAI(BinaryWriter writer) => writer.Write(Flying);
+
+        public override void ReceiveExtraAI(BinaryReader reader) => Flying = reader.ReadBoolean();
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
@@ -127,13 +131,13 @@ namespace CalamityMod.NPCs.AcidRain
                 NPC.velocity.X *= 0.85f;
 
                 JumpTimer++;
-                float lungeForwardSpeed = 15f;
+                float lungeForwardSpeed = 12f;
                 float jumpSpeed = 4f;
                 if (Collision.CanHit(NPC.Center, 1, 1, Target.Center, 1, 1))
                     lungeForwardSpeed *= 1.2f;
 
                 // Jump after a short amount of time.
-                if (JumpTimer >= 17)
+                if (JumpTimer >= JumpDelay)
                 {
                     JumpTimer = 0f;
                     NPC.velocity.Y -= jumpSpeed;
