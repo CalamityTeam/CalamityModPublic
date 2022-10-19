@@ -557,10 +557,6 @@ namespace CalamityMod.Schematics
                     ModContent.SplitName(tileFullName, out string mod, out string tileName);
                     Mod theMod = ModLoader.GetMod(mod);
 
-                    // TODO -- This is legacy code to avoid breaking old schematics. It would be ideal to revert this and update the schematics, but this will do for now.
-                    if (tileName == "SulphurousSandNoWater")
-                        tileName = "SulphurousSand";
-
                     // If that mod isn't loaded, spawn in a TML default UnloadedTile instead.
                     smt.TileType = (ushort)(theMod is null ? ModContent.TileType<UnloadedTile>() : theMod.Find<ModTile>(tileName).Type);
                 }

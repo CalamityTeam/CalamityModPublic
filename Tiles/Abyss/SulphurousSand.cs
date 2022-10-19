@@ -1,5 +1,4 @@
-﻿
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Projectiles.Enemy;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -10,6 +9,10 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.Abyss
 {
+    // Old, now deleted sub-variant of sulphurous sand that was only placed by players and did not create water.
+    // It would create block swap issues with regular sulphurous sand and was rendered obsolete with the removal of this tile's water emission mechanic.
+    // For compatibility reasons (including with schematics), however, that tile is converted into this one.
+    [LegacyName("SulphurousSandNoWater")]
     public class SulphurousSand : ModTile
     {
         public override void SetStaticDefaults()
