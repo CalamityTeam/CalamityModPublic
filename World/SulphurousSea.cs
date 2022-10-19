@@ -350,6 +350,7 @@ namespace CalamityMod.World
                         Main.tile[x, y].WallType = wallID;
                     Main.tile[x, y].LiquidAmount = byte.MaxValue;
                     Main.tile[x, y].Get<TileWallWireStateData>().HasTile = true;
+                    Tile.SmoothSlope(x, y);
                 }
             }
         }
@@ -388,7 +389,8 @@ namespace CalamityMod.World
                         {
                             new Actions.ClearTile(true),
                             new Actions.PlaceWall(wallID, true),
-                            new Actions.SetLiquid(LiquidID.Water, (byte)(WorldGen.genRand.NextFloat() > WaterSpreadPercentage ? 0 : byte.MaxValue))
+                            new Actions.SetLiquid(LiquidID.Water, (byte)(WorldGen.genRand.NextFloat() > WaterSpreadPercentage ? 0 : byte.MaxValue)),
+                            new Actions.Smooth(true)
                         }));
                     }
 
@@ -448,7 +450,8 @@ namespace CalamityMod.World
                             {
                                 new Actions.ClearTile(true),
                                 new Actions.PlaceWall(wallID, true),
-                                new Actions.SetLiquid(LiquidID.Water, (byte)(WorldGen.genRand.NextFloat() > WaterSpreadPercentage ? 0 : byte.MaxValue))
+                                new Actions.SetLiquid(LiquidID.Water, (byte)(WorldGen.genRand.NextFloat() > WaterSpreadPercentage ? 0 : byte.MaxValue)),
+                                new Actions.Smooth(true)
                             }));
                         }
                     }
@@ -483,7 +486,8 @@ namespace CalamityMod.World
                             {
                                 new Actions.ClearTile(true),
                                 new Actions.PlaceWall(wallID, true),
-                                new Actions.SetLiquid(LiquidID.Water, (byte)(WorldGen.genRand.NextFloat() > WaterSpreadPercentage ? 0 : byte.MaxValue))
+                                new Actions.SetLiquid(LiquidID.Water, (byte)(WorldGen.genRand.NextFloat() > WaterSpreadPercentage ? 0 : byte.MaxValue)),
+                                new Actions.Smooth(true)
                             }));
                         }
                     }
@@ -604,8 +608,9 @@ namespace CalamityMod.World
                         WorldUtils.Gen(new(x, y + dy), new Shapes.Rectangle(1, 1), Actions.Chain(new GenAction[]
                         {
                             heightOffset > 0 ? new Actions.ClearTile() : new Actions.SetTile(blockTileType, true),
-                            new Actions.PlaceWall(MathHelper.Distance(dy, heightOffset) >= 2f && heightOffset < 0f ? wallID : WallID.None, true),
-                            new Actions.SetLiquid()
+                            new Actions.PlaceWall(MathHelper.Distance(dy, heightOffset) >= 3f && heightOffset < 0f ? wallID : WallID.None, true),
+                            new Actions.SetLiquid(),
+                            new Actions.Smooth(true)
                         }));
                     }
                 }
@@ -649,6 +654,7 @@ namespace CalamityMod.World
             int beachWidth = WorldGen.genRand.Next(150, 190 + 1);
             var searchCondition = Searches.Chain(new Searches.Down(3000), new Conditions.IsSolid());
             ushort sandID = (ushort)ModContent.TileType<SulphurousSand>();
+            ushort wallID = (ushort)ModContent.WallType<SulphurousSandWall>();
 
             // Stop immediately if for some strange reason a valid tile could not be located for the beach starting point.
             if (!WorldUtils.Find(new Point(BiomeWidth + 4, (int)WorldGen.worldSurfaceLow - 20), searchCondition, out Point determinedPoint))
@@ -681,6 +687,9 @@ namespace CalamityMod.World
 
                     else if (tileAtPosition.HasTile && ValidBeachCovertTiles.Contains(tileAtPosition.TileType) && WorldGen.genRand.NextFloat() >= ditherChance)
                         Main.tile[x, y].TileType = sandID;
+
+                    if (tileAtPosition.WallType > WallID.None)
+                        Main.tile[x, y].WallType = wallID;
                 }
             }
 
@@ -1178,11 +1187,11 @@ namespace CalamityMod.World
         public static void GenerateScrapPileChest(List<Vector2> scrapPilePositions)
         {
             // Pick a random scrap pile to generate near.
-            for (int i = 0; i < 400; i++)
+            for (int i = 0; i < 800; i++)
             {
                 Point placeToGenerateNear = WorldGen.genRand.Next(scrapPilePositions).ToPoint();
-                int x = placeToGenerateNear.X + WorldGen.genRand.Next(-25 - i / 15, 25 + i / 15);
-                int y = placeToGenerateNear.Y + WorldGen.genRand.Next(-16, 4);
+                int x = placeToGenerateNear.X + WorldGen.genRand.Next(-25 - i / 12, 25 + i / 12);
+                int y = placeToGenerateNear.Y + WorldGen.genRand.Next(-16 - i / 25, 4 + i / 25);
                 if (WorldGen.SolidTile(x, y))
                     continue;
 
