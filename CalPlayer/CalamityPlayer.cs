@@ -3134,12 +3134,50 @@ namespace CalamityMod.CalPlayer
             player.velocity = Vector2.Zero;
             player.immune = postImmune;
             player.immuneTime = postImmuneTime;
+
+            // Make some dust
             for (int index = 0; index < 100; ++index)
             {
                 Main.dust[Dust.NewDust(player.position, player.width, player.height, 164, player.velocity.X * 0.2f, player.velocity.Y * 0.2f, 150, Color.Cyan, 1.2f)].velocity *= 0.5f;
             }
-            Main.TeleportEffect(player.getRect(), 1);
-            Main.TeleportEffect(player.getRect(), 3);
+			Rectangle rect = player.getRect();
+			int dustAmt = rect.Width * rect.Height / 5;
+			for (int k = 0; k < dustAmt; k++)
+			{
+				int idx = Dust.NewDust(new Vector2(rect.X, rect.Y), rect.Width, rect.Height, 164);
+				Main.dust[idx].scale = Main.rand.NextFloat(0.2f, 0.7f);
+				if (k < 10)
+					Main.dust[idx].scale += 0.25f;
+				if (k < 5)
+					Main.dust[idx].scale += 0.25f;
+			}
+			for (int k = 0; k < 50; k++)
+			{
+				int idx = Dust.NewDust(new Vector2(rect.X, rect.Y), rect.Width, rect.Height, 180);
+				Main.dust[idx].noGravity = true;
+				for (int i = 0; i < 5; i++)
+				{
+					if (Main.rand.NextBool(3))
+						Main.dust[idx].velocity *= 0.75f;
+				}
+				if (Main.rand.NextBool(3))
+				{
+					Main.dust[idx].velocity *= 2f;
+					Main.dust[idx].scale *= 1.2f;
+				}
+				if (Main.rand.NextBool(3))
+				{
+					Main.dust[idx].velocity *= 2f;
+					Main.dust[idx].scale *= 1.2f;
+				}
+				if (Main.rand.NextBool(2))
+				{
+					Main.dust[idx].fadeIn = Main.rand.NextFloat(0.75f, 1f);
+					Main.dust[idx].scale = Main.rand.NextFloat(0.25f, 0.75f);
+				}
+				Main.dust[idx].scale *= 0.8f;
+			}
+
 			if (playSound)
 				SoundEngine.PlaySound(SoundID.Item6, player.Center);
         }

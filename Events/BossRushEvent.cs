@@ -417,7 +417,7 @@ namespace CalamityMod.Events
 						{
 							if (p.Calamity().BossRushReturnPosition.HasValue)
 							{
-								CalamityPlayer.ModTeleport(p, p.Calamity().BossRushReturnPosition.Value, false);
+								CalamityPlayer.ModTeleport(p, p.Calamity().BossRushReturnPosition.Value, false, TeleportationStyleID.TeleportationPotion);
 								p.Calamity().BossRushReturnPosition = null;
 							}
 					    	p.Calamity().BossRushReturnPosition = null;
@@ -727,7 +727,7 @@ namespace CalamityMod.Events
 						Vector2? underworld = CalamityPlayer.GetUnderworldPosition(p);
 						if (!underworld.HasValue)
 							break;
-						CalamityPlayer.ModTeleport(p, underworld.Value, false);
+						CalamityPlayer.ModTeleport(p, underworld.Value, false, TeleportationStyleID.TeleportationPotion);
                         SoundEngine.PlaySound(TeleportSound with { Volume = 1.6f }, p.Center);
 					}
 				}
