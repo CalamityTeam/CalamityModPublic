@@ -15,11 +15,11 @@ namespace CalamityMod.Items.VanillaArmorChanges
 
         public override string ArmorSetName => "Platinum";
 
-        public const float HeadDamage = 0.08f;
-        public const float ChestCrit = 6f;
+        public const float HeadDamage = 0.06f;
+        public const float ChestCrit = 5f;
         public const float LegsMoveSpeed = 0.12f;
-        public const float SetBonusLifeRegenPerDefense = 0.1f; // 10 defense = +1 life regen
-        public const float SetBonusCritPerDefense = 0.1f; // 10 defense = +1% crit chance
+        public const float SetBonusLifeRegenPerDefense = 0.0666666f; // 15 defense = +1 life regen
+        public const float SetBonusCritPerDefense = 0.0666666f; // 15 defense = +1% crit chance
         public const int SetBonusDefenseCap = 50;
         public const int SetBonusMiningSpeedPercent = 25;
 
@@ -32,7 +32,7 @@ namespace CalamityMod.Items.VanillaArmorChanges
         public override void UpdateSetBonusText(ref string setBonusText)
         {
             StringBuilder sb = new StringBuilder(256);
-            sb.Append("\nEvery 10 defense gives you +1 life regen\nEvery point of defense gives you 0.1% increased critical strike chance\nThese effects both cap at 50 defense");
+            sb.Append("\nEvery 15 defense gives you +1 life regen\nEvery 15 defense gives you 1% increased critical strike chance\nThese effects both cap at 50 defense");
             sb.Append(CalamityGlobalItem.MiningSpeedString(SetBonusMiningSpeedPercent));
             setBonusText += sb.ToString();
         }
