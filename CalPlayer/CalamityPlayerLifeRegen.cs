@@ -179,7 +179,7 @@ namespace CalamityMod.CalPlayer
                 if (SulphWaterPoisoningLevel >= 1f)
                 {
                     SulphWaterPoisoningLevel = 0f;
-                    Player.Hurt(PlayerDeathReason.ByCustomReason($"{Player.name}'s flesh was dissolved by sulphuric water."), Math.Min(Player.statLifeMax2 / 2, 200), 0);
+                    Player.Hurt(PlayerDeathReason.ByCustomReason($"{Player.name}'s flesh was dissolved by sulphuric water."), Math.Min(Player.statLifeMax2 / 4, 150), 0);
                 }
             }
             else
