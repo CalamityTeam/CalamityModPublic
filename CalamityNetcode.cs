@@ -193,9 +193,6 @@ namespace CalamityMod
                         int countdown3 = reader.ReadInt32();
                         BossRushEvent.HostileProjectileKillCounter = countdown3;
                         break;
-                    case CalamityModMessageType.TeleportPlayer:
-                        Main.player[reader.ReadInt32()].Calamity().HandleTeleport(reader.ReadInt32(), true, whoAmI);
-                        break;
 
                     //
                     // Acid Rain
@@ -357,7 +354,6 @@ namespace CalamityMod
         BossRushEndTimer,
         EndBossRush,
         BRHostileProjKillSync, // TODO -- Simplify this. Only one packet needs be sent: "kill all hostile projectiles for N frames".
-        TeleportPlayer, // also used by Astral Arcanum.
 
         // Acid Rain
         AcidRainSync,

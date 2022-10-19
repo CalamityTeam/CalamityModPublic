@@ -1,12 +1,13 @@
-﻿using CalamityMod.Events;
+﻿using CalamityMod.CalPlayer;
+using CalamityMod.Events;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Content;
 using Terraria;
-using Terraria.ID;
-using Terraria.ModLoader;
 using Terraria.Audio;
 using Terraria.GameContent;
-using ReLogic.Content;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod.UI
 {
@@ -69,14 +70,6 @@ namespace CalamityMod.UI
         public static void UpdateAndDraw(SpriteBatch sb)
         {
             //Don't do anything if not open
-            bool forceOpenAndTeleport = BossRushEvent.BossRushStage < BossRushEvent.Bosses.Count - 1 && BossRushEvent.CurrentlyFoughtBoss == NPCID.WallofFlesh &&
-                !CalamityUtils.AnyBossNPCS() && !Main.player[Main.myPlayer].ZoneUnderworldHeight;
-            if (forceOpenAndTeleport)
-            {
-                Open = true;
-            }
-            else if (BossRushEvent.BossRushActive)
-                Open = false;
             if (!Open)
                 return;
 
@@ -104,26 +97,21 @@ namespace CalamityMod.UI
                     CircleStyle style = CircleStyle.Normal;
 
                     //If the mouse is in the circle
-                    if (c.Contains(Main.MouseScreen) || forceOpenAndTeleport)
+                    if (c.Contains(Main.MouseScreen))
                     {
                         style = CircleStyle.Selected;
 
                         Main.LocalPlayer.mouseInterface = true;
 
-                        if (forceOpenAndTeleport)
-                        {
-                            current = 0;
-                        }
-
                         selectedCircle = current;
 
                         //If left clicked
-                        if ((Main.mouseLeft && Main.mouseLeftRelease) || forceOpenAndTeleport)
+                        if ((Main.mouseLeft && Main.mouseLeftRelease))
                         {
                             Main.mouseLeftRelease = false;
                             Main.mouseLeft = false;
 
-                            DoTeleportation(current, forceOpenAndTeleport);
+                            DoTeleportation(current);
                         }
                     }
 
@@ -151,31 +139,42 @@ namespace CalamityMod.UI
             Utils.DrawBorderStringFourWay(sb, FontAssets.MouseText.Value, text, CenterPoint.X - size.X / 2f, CenterPoint.Y + CircleOffset + CircleTextureSize / 2 + 4, Color.White, Color.Black, default);
         }
 
-        public static void DoTeleportation(int circle, bool forcedByBossRush)
+        public static void DoTeleportation(int circle)
         {
             Open = false;
 
             Player p = Main.LocalPlayer;
 
-            if (forcedByBossRush)
-                SoundEngine.PlaySound(BossRushEvent.TeleportSound with { Volume = 1.6f }, p.position);
-
-            if (circle == 3)
+            switch (circle)
             {
-                if (Main.netMode == NetmodeID.SinglePlayer)
-                {
-                    p.TeleportationPotion();
-                    if (!forcedByBossRush)
-                        SoundEngine.PlaySound(SoundID.Item6, p.position);
-                }
-                else if (Main.netMode == NetmodeID.MultiplayerClient)
-                {
-                    NetMessage.SendData(MessageID.RequestTeleportationByServer, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
-                }
-            }
-            else
-            {
-                Main.LocalPlayer.Calamity().HandleTeleport(circle, false, 0);
+                case 0:
+					Vector2? underworld = CalamityPlayer.GetUnderworldPosition(p);
+					if (!underworld.HasValue)
+						return;
+					CalamityPlayer.ModTeleport(p, underworld.Value, true, TeleportationStyleID.DemonConch);
+                    break;
+                case 1:
+                    CalamityPlayer.ModTeleport(p, new Vector2(Main.dungeonX * 16, Main.dungeonY * 16 - 8));
+                    break;
+                case 2:
+					Vector2? jungle = CalamityPlayer.GetJunglePosition(p);
+					if (!jungle.HasValue)
+						return;
+					CalamityPlayer.ModTeleport(p, jungle.Value);
+                    break;
+                case 3:
+					if (Main.netMode == NetmodeID.SinglePlayer)
+					{
+						p.TeleportationPotion();
+						SoundEngine.PlaySound(SoundID.Item6, p.position);
+					}
+					else if (Main.netMode == NetmodeID.MultiplayerClient)
+					{
+						NetMessage.SendData(MessageID.RequestTeleportationByServer, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
+					}
+                    break;
+                default:
+                    break;
             }
         }
 

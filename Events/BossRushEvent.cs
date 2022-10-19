@@ -225,7 +225,7 @@ namespace CalamityMod.Events
 
                 new Boss(NPCID.Golem, TimeChangeContext.Day, type =>
                 {
-                    int shittyStatueBoss = NPC.NewNPC(Source, (int)(Main.player[ClosestPlayerToWorldCenter].position.X + Main.rand.Next(-100, 101)), (int)(Main.player[ClosestPlayerToWorldCenter].position.Y - 400f), type, 1);
+                    int shittyStatueBoss = NPC.NewNPC(Source, (int)(Main.player[ClosestPlayerToWorldCenter].position.X + Main.rand.Next(-100, 101)), (int)(Main.player[ClosestPlayerToWorldCenter].position.Y - 600f), type, 1);
                     Main.npc[shittyStatueBoss].timeLeft *= 20;
                     CalamityUtils.BossAwakenMessage(shittyStatueBoss);
                 }, permittedNPCs: new int[] { NPCID.GolemFistLeft, NPCID.GolemFistRight, NPCID.GolemHead, NPCID.GolemHeadFree }),
@@ -313,6 +313,16 @@ namespace CalamityMod.Events
 
                 new Boss(ModContent.NPCType<CeaselessVoid>(), spawnContext: type =>
                 {
+                    for (int playerIndex = 0; playerIndex < Main.maxPlayers; playerIndex++)
+                    {
+                        Player p = Main.player[playerIndex];
+                        if (p is not null && p.active)
+                        {
+                            if (p.FindBuffIndex(ModContent.BuffType<IcarusFolly>()) > -1)
+                                p.ClearBuff(ModContent.BuffType<IcarusFolly>());
+                        }
+                    }
+
                     Player player = Main.player[ClosestPlayerToWorldCenter];
 
                     SoundEngine.PlaySound(RuneofKos.CVSound, player.Center);
@@ -384,18 +394,9 @@ namespace CalamityMod.Events
 
                 new Boss(ModContent.NPCType<SupremeCalamitas>(), spawnContext: type =>
                 {
-                    for (int playerIndex = 0; playerIndex < Main.maxPlayers; playerIndex++)
-                    {
-                        if (Main.player[playerIndex].active)
-                        {
-                            Player player = Main.player[playerIndex];
-                            if (player.FindBuffIndex(ModContent.BuffType<IcarusFolly>()) > -1)
-                                player.ClearBuff(ModContent.BuffType<IcarusFolly>());
-                        }
-                    }
                     SoundEngine.PlaySound(SupremeCalamitas.SpawnSound, Main.player[ClosestPlayerToWorldCenter].Center);
                     CalamityUtils.SpawnBossBetter(Main.player[ClosestPlayerToWorldCenter].Top - new Vector2(42f, 84f), type);
-                }, specialSpawnCountdown: 420, dimnessFactor: 0.6f, permittedNPCs: new int[] { ModContent.NPCType<SepulcherArm>(), ModContent.NPCType<SepulcherHead>(), ModContent.NPCType<SepulcherBody>(), ModContent.NPCType<SepulcherBodyEnergyBall>(), ModContent.NPCType<SepulcherTail>(),
+                }, specialSpawnCountdown: 840, dimnessFactor: 0.6f, permittedNPCs: new int[] { ModContent.NPCType<SepulcherArm>(), ModContent.NPCType<SepulcherHead>(), ModContent.NPCType<SepulcherBody>(), ModContent.NPCType<SepulcherBodyEnergyBall>(), ModContent.NPCType<SepulcherTail>(),
                     ModContent.NPCType<SoulSeekerSupreme>(), ModContent.NPCType<BrimstoneHeart>(), ModContent.NPCType<SupremeCataclysm>(), ModContent.NPCType<SupremeCatastrophe>() }),
 
                 // new Boss(ModContent.NPCType<AdultEidolonWyrmHead>(), permittedNPCs: new int[] { ModContent.NPCType<AdultEidolonWyrmBody>(), ModContent.NPCType<AdultEidolonWyrmBodyAlt>(), ModContent.NPCType<AdultEidolonWyrmTail>(), ModContent.NPCType<EidolonWyrmBody>(), ModContent.NPCType<EidolonWyrmBodyAlt>(), ModContent.NPCType<EidolonWyrmHead>(), ModContent.NPCType<EidolonWyrmTail>(), ModContent.NPCType<Eidolist>() }),
@@ -407,6 +408,22 @@ namespace CalamityMod.Events
                 {
                     CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.BossRushTierOneEndText", XerocTextColor);
                     CreateTierAnimation(2);
+
+					// Teleport players to where they came from
+					for (int playerIndex = 0; playerIndex < Main.maxPlayers; playerIndex++)
+					{
+						Player p = Main.player[playerIndex];
+						if (p is not null && p.active)
+						{
+							if (p.Calamity().BossRushReturnPosition.HasValue)
+							{
+								CalamityPlayer.ModTeleport(p, p.Calamity().BossRushReturnPosition.Value, false);
+								p.Calamity().BossRushReturnPosition = null;
+							}
+					    	p.Calamity().BossRushReturnPosition = null;
+                            SoundEngine.PlaySound(TeleportSound with { Volume = 1.6f }, p.Center);
+						}
+					}
                 },
                 [NPCID.Plantera] = npc =>
                 {
@@ -593,6 +610,16 @@ namespace CalamityMod.Events
 
         public static void End()
         {
+			// Reset BossRushReturnPosition
+			for (int playerIndex = 0; playerIndex < Main.maxPlayers; playerIndex++)
+			{
+				Player p = Main.player[playerIndex];
+				if (p is not null && p.active)
+				{
+					p.Calamity().BossRushReturnPosition = null;
+				}
+			}
+
             if (Main.netMode == NetmodeID.SinglePlayer)
             {
                 EndEffects();
@@ -678,6 +705,20 @@ namespace CalamityMod.Events
                 BossRushStage++;
                 CalamityUtils.KillAllHostileProjectiles();
                 HostileProjectileKillCounter = 3;
+
+				for (int playerIndex = 0; playerIndex < Main.maxPlayers; playerIndex++)
+				{
+					Player p = Main.player[playerIndex];
+					if (p is not null && p.active)
+					{
+						p.Calamity().BossRushReturnPosition = p.Center;
+						Vector2? underworld = CalamityPlayer.GetUnderworldPosition(p);
+						if (!underworld.HasValue)
+							break;
+						CalamityPlayer.ModTeleport(p, underworld.Value, false);
+                        SoundEngine.PlaySound(TeleportSound with { Volume = 1.6f }, p.Center);
+					}
+				}
             }
 
             // This is the generic form of "Are there any remaining NPCs on the boss list for this boss rush stage?" check.
