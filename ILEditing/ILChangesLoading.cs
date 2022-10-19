@@ -54,7 +54,7 @@ namespace CalamityMod.ILEditing
             On.Terraria.Main.DrawInfernoRings += DrawForegroundParticles;
             On.Terraria.Main.SetDisplayMode += ResetRenderTargetSizes;
             On.Terraria.GameContent.Drawing.TileDrawing.DrawPartialLiquid += DrawCustomLava;
-            IL.Terraria.GameContent.Liquid.LiquidRenderer.InternalDraw += DrawCustomLava2;
+            IL.Terraria.GameContent.Liquid.LiquidRenderer.InternalDraw += ChangeWaterQuadColors;
             IL.Terraria.Main.oldDrawWater += DrawCustomLava3;
             IL.Terraria.Player.CollectTaxes += MakeTaxCollectorUseful;
             On.Terraria.Graphics.Light.TileLightScanner.GetTileLight += MakeSulphSeaWaterBetter;
@@ -166,7 +166,7 @@ namespace CalamityMod.ILEditing
             On.Terraria.Main.DrawInfernoRings -= DrawForegroundParticles;
             On.Terraria.Main.SetDisplayMode -= ResetRenderTargetSizes;
             On.Terraria.GameContent.Drawing.TileDrawing.DrawPartialLiquid -= DrawCustomLava;
-            IL.Terraria.GameContent.Liquid.LiquidRenderer.InternalDraw -= DrawCustomLava2;
+            IL.Terraria.GameContent.Liquid.LiquidRenderer.InternalDraw -= ChangeWaterQuadColors;
             IL.Terraria.Main.oldDrawWater -= DrawCustomLava3;
             IL.Terraria.Player.CollectTaxes -= MakeTaxCollectorUseful;
             On.Terraria.Graphics.Light.TileLightScanner.GetTileLight -= MakeSulphSeaWaterBetter;
