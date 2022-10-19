@@ -350,7 +350,9 @@ namespace CalamityMod.World
                         Main.tile[x, y].WallType = wallID;
                     Main.tile[x, y].LiquidAmount = byte.MaxValue;
                     Main.tile[x, y].Get<TileWallWireStateData>().HasTile = true;
-                    Tile.SmoothSlope(x, y);
+
+                    if (i >= 2)
+                        Tile.SmoothSlope(x, y);
                 }
             }
         }
@@ -364,7 +366,7 @@ namespace CalamityMod.World
             int maxCaveWidth = MaxCaveWidth;
             ushort wallID = (ushort)ModContent.WallType<SulphurousSandWall>();
 
-            for (int i = 0; i < shallowWaterCaveCount; i++)
+            for (int i = 2; i < shallowWaterCaveCount; i++)
             {
                 // Initialize variables for the cave.
                 int caveHorizontalOffset = WorldGen.genRand.Next((int)(width * 0.1f));
@@ -424,7 +426,7 @@ namespace CalamityMod.World
             for (int c = 0; c < SpaghettiCaveCarveOutThresholds.Length; c++)
             {
                 int caveSeed = WorldGen.genRand.Next();
-                for (int i = 1; i < width; i++)
+                for (int i = 2; i < width; i++)
                 {
                     // Initialize variables for the cave.
                     int x = GetActualX(i);
@@ -468,7 +470,7 @@ namespace CalamityMod.World
             for (int c = 0; c < CheeseCaveCarveOutThresholds.Length; c++)
             {
                 int caveSeed = WorldGen.genRand.Next();
-                for (int i = 1; i < width; i++)
+                for (int i = 2; i < width; i++)
                 {
                     // Initialize variables for the cave.
                     int x = GetActualX(i);
@@ -590,7 +592,7 @@ namespace CalamityMod.World
             ushort blockTileType = (ushort)ModContent.TileType<SulphurousSand>();
             ushort wallID = (ushort)ModContent.WallType<HardenedSulphurousSandstoneWall>();
 
-            for (int i = 0; i < width; i++)
+            for (int i = 2; i < width; i++)
             {
                 int x = GetActualX(i);
                 Tile t = CalamityUtils.ParanoidTileRetrieval(x, y);
