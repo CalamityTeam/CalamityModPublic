@@ -13,7 +13,6 @@ namespace CalamityMod.Items.Mounts
             DisplayName.SetDefault("Exo Box");
             Tooltip.SetDefault("Materializes a quite cozy and extremely nimble flying Exo throne\n" +
                 "Replaced\n" +
-                "Also replaced\n" +
                 "A comfortable gamer is a dangerous gamer");
             SacrificeTotal = 1;
         }
@@ -34,17 +33,12 @@ namespace CalamityMod.Items.Mounts
 
         public override void ModifyTooltips(List<TooltipLine> list)
         {
-            string hotkey = CalamityKeybinds.ExoChairSpeedupHotkey.TooltipHotkeyString();
-            string hotkey2 = CalamityKeybinds.ExoChairSlowdownHotkey.TooltipHotkeyString();
+            string hotkey = CalamityKeybinds.ExoChairSlowdownHotkey.TooltipHotkeyString();
 
             TooltipLine line = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip1");
-            TooltipLine line2 = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip2");
 
             if (line != null)
-                line.Text = $"Hold {hotkey} while sitting in the throne to move much faster";
-
-            if (line2 != null)
-                line2.Text = $"And hold {hotkey2} to move much slower";
+                line.Text = $"Hold {hotkey} while sitting in the throne to move slower for more precision";
         }
     }
 }

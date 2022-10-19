@@ -3312,8 +3312,6 @@ namespace CalamityMod.CalPlayer
             if (ExoChair)
             {
                 float speed = DraedonGamerChairMount.MovementSpeed;
-                if (CalamityKeybinds.ExoChairSpeedupHotkey.Current)
-                    speed *= 2f;
 
                 if (Player.controlLeft)
                 {
