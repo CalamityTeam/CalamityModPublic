@@ -17,7 +17,6 @@ namespace CalamityMod
         public static ModKeybind PlaguePackHotKey { get; private set; }
         public static ModKeybind AngelicAllianceHotKey { get; private set; }
         public static ModKeybind GodSlayerDashHotKey { get; private set; }
-        public static ModKeybind ExoChairSpeedupHotkey { get; private set; }
         public static ModKeybind ExoChairSlowdownHotkey { get; private set; }
 
         public override void Load()
@@ -35,7 +34,6 @@ namespace CalamityMod
             PlaguePackHotKey = KeybindLoader.RegisterKeybind(Mod, "Booster Dash", "Q");
             AngelicAllianceHotKey = KeybindLoader.RegisterKeybind(Mod, "Angelic Alliance Blessing", "G");
             GodSlayerDashHotKey = KeybindLoader.RegisterKeybind(Mod, "God Slayer Dash", "H");
-            ExoChairSpeedupHotkey = KeybindLoader.RegisterKeybind(Mod, "Exo Chair Speed Up", "LeftShift");
             ExoChairSlowdownHotkey = KeybindLoader.RegisterKeybind(Mod, "Exo Chair Slow Down", "RightShift");
         }
 
@@ -53,6 +51,7 @@ namespace CalamityMod
             PlaguePackHotKey = null;
             AngelicAllianceHotKey = null;
             GodSlayerDashHotKey = null;
+            ExoChairSlowdownHotkey = null;
         }
     }
 }

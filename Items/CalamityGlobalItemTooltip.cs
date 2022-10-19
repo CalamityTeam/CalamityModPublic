@@ -717,9 +717,9 @@ namespace CalamityMod.Items
 
             // Platinum
             if (item.type == ItemID.PlatinumHelmet)
-                AddTooltip("8% increased damage");
+                AddTooltip("6% increased damage");
             if (item.type == ItemID.PlatinumChainmail)
-                AddTooltip("6% increased critical strike chance");
+                AddTooltip("5% increased critical strike chance");
             if (item.type == ItemID.PlatinumGreaves)
                 AddTooltip("12% increased movement speed");
 

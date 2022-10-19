@@ -1,4 +1,4 @@
-using CalamityMod.Dusts;
+﻿using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
@@ -28,7 +28,7 @@ namespace CalamityMod.Tiles.Abyss.Stalactite
             TileObjectData.newTile.CoordinatePadding = 2;
             TileObjectData.newTile.WaterDeath = false;
             TileObjectData.newTile.LavaDeath = true;
-            TileObjectData.newTile.DrawYOffset = 2;
+            TileObjectData.newTile.DrawYOffset = -2;
             TileObjectData.addTile(Type);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Stalactite");

@@ -34,7 +34,7 @@ namespace CalamityMod.Tiles.Abyss
             TileObjectData.newTile.CoordinateHeights = new[] { 16, 18 };
             TileObjectData.newTile.CoordinateWidth = 16;
             TileObjectData.newTile.CoordinatePadding = 2;
-            TileObjectData.newTile.AnchorValidTiles = new[] { ModContent.TileType<SulphurousSand>(), ModContent.TileType<SulphurousSandNoWater>(), ModContent.TileType<HardenedSulphurousSandstone>(), ModContent.TileType<SulphurousSandstone>() };
+            TileObjectData.newTile.AnchorValidTiles = new[] { ModContent.TileType<SulphurousSand>(), ModContent.TileType<HardenedSulphurousSandstone>(), ModContent.TileType<SulphurousSandstone>() };
             TileObjectData.newTile.StyleHorizontal = true;
             TileObjectData.newTile.DrawFlipHorizontal = true;
             TileObjectData.newTile.WaterPlacement = LiquidPlacement.NotAllowed;

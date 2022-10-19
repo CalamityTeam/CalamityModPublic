@@ -1,5 +1,7 @@
 ﻿using CalamityMod.Projectiles.Melee;
+using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -33,6 +35,8 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.value = CalamityGlobalItem.Rarity3BuyPrice;
             Item.rare = ItemRarityID.Orange;
             Item.shootSpeed = 6f;
+            // Set so the item isn't classified as true melee
+            Item.shoot = ModContent.ProjectileType<BladecrestOathswordProj>();
         }
 
         public override bool CanUseItem(Player player)
@@ -48,6 +52,9 @@ namespace CalamityMod.Items.Weapons.Melee
 
             return base.CanUseItem(player);
         }
+
+        // Return false because Shoot code is not actually relevant
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo spawnSource, Vector2 position, Vector2 velocity, int type, int damage, float knockback) => false;
 
         public override bool? CanHitNPC(Player player, NPC target) => false;
 

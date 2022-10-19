@@ -417,7 +417,7 @@ namespace CalamityMod.Events
 						{
 							if (p.Calamity().BossRushReturnPosition.HasValue)
 							{
-								CalamityPlayer.ModTeleport(p, p.Calamity().BossRushReturnPosition.Value, false);
+								CalamityPlayer.ModTeleport(p, p.Calamity().BossRushReturnPosition.Value, false, TeleportationStyleID.TeleportationPotion);
 								p.Calamity().BossRushReturnPosition = null;
 							}
 					    	p.Calamity().BossRushReturnPosition = null;
@@ -623,12 +623,13 @@ namespace CalamityMod.Events
             if (Main.netMode == NetmodeID.SinglePlayer)
             {
                 EndEffects();
-                return;
             }
-
-            var netMessage = CalamityMod.Instance.GetPacket();
-            netMessage.Write((byte)CalamityModMessageType.EndBossRush);
-            netMessage.Send();
+            else
+			{
+				var netMessage = CalamityMod.Instance.GetPacket();
+				netMessage.Write((byte)CalamityModMessageType.EndBossRush);
+				netMessage.Send();
+			}
         }
 
         internal static void EndEffects()
@@ -639,14 +640,12 @@ namespace CalamityMod.Events
                 if (!n.active)
                     continue;
 
-                // will also correctly despawn EoW because none of his segments are boss flagged
-                bool shouldDespawn = n.boss || n.type == NPCID.EaterofWorldsHead || n.type == NPCID.EaterofWorldsBody || n.type == NPCID.EaterofWorldsTail;
+                // will also correctly despawn EoW because none of his segments are boss flagged. Draedon isn't a boss either
+                bool shouldDespawn = n.boss || n.type == NPCID.EaterofWorldsHead || n.type == NPCID.EaterofWorldsBody || n.type == NPCID.EaterofWorldsTail || n.type == ModContent.NPCType<Draedon>();
                 if (shouldDespawn)
                 {
-                    n.life = 0;
-                    n.HitEffect();
-                    n.checkDead();
                     n.active = false;
+                    n.netUpdate = true;
                 }
             }
 
@@ -656,9 +655,22 @@ namespace CalamityMod.Events
             EndTimer = 0;
             CalamityUtils.KillAllHostileProjectiles();
 
-            // Send the EndBossRush packet again if this is called serverside to ensure that the changes are recieved by clients.
+            CalamityNetcode.SyncWorld();
             if (Main.netMode == NetmodeID.Server)
-                End();
+            {
+                var netMessage = CalamityMod.Instance.GetPacket();
+                netMessage.Write((byte)CalamityModMessageType.BossRushStage);
+                netMessage.Write(BossRushStage);
+                netMessage.Send();
+                var netMessage2 = CalamityMod.Instance.GetPacket();
+                netMessage2.Write((byte)CalamityModMessageType.BossRushStartTimer);
+                netMessage2.Write(StartTimer);
+                netMessage2.Send();
+                var netMessage3 = CalamityMod.Instance.GetPacket();
+                netMessage3.Write((byte)CalamityModMessageType.BossRushEndTimer);
+                netMessage3.Write(EndTimer);
+                netMessage3.Send();
+            }
         }
 
         #endregion
@@ -715,7 +727,7 @@ namespace CalamityMod.Events
 						Vector2? underworld = CalamityPlayer.GetUnderworldPosition(p);
 						if (!underworld.HasValue)
 							break;
-						CalamityPlayer.ModTeleport(p, underworld.Value, false);
+						CalamityPlayer.ModTeleport(p, underworld.Value, false, TeleportationStyleID.TeleportationPotion);
                         SoundEngine.PlaySound(TeleportSound with { Volume = 1.6f }, p.Center);
 					}
 				}

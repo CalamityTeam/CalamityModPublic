@@ -48,8 +48,8 @@ namespace CalamityMod.NPCs.SulphurousSea
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
 
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("An animal which adapted to the toxic waters quite naturally. It uses its whiskers to find its way, and its prey in the murky depths.")
+                // Will move to localization whenever that is cleaned up.
+                new FlavorTextBestiaryInfoElement("An animal which adapted to the toxic waters quite naturally. It uses its whiskers to find its way, and its prey in the murky depths.")
             });
         }
 

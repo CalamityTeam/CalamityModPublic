@@ -1,6 +1,6 @@
-﻿
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Projectiles.Enemy;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
@@ -9,6 +9,10 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.Abyss
 {
+    // Old, now deleted sub-variant of sulphurous sand that was only placed by players and did not create water.
+    // It would create block swap issues with regular sulphurous sand and was rendered obsolete with the removal of this tile's water emission mechanic.
+    // For compatibility reasons (including with schematics), however, that tile is converted into this one.
+    [LegacyName("SulphurousSandNoWater")]
     public class SulphurousSand : ModTile
     {
         public override void SetStaticDefaults()
@@ -32,89 +36,7 @@ namespace CalamityMod.Tiles.Abyss
         {
             num = fail ? 1 : 3;
         }
-
-        public override void NearbyEffects(int i, int j, bool closer)
-        {
-            if (i < 250 && i > 150)
-            {
-                if (!closer)
-                {
-                    if (Main.tile[i - 1, j] != null)
-                    {
-                        if (!Main.tile[i - 1, j].HasTile)
-                        {
-                            if (Main.tile[i - 1, j].LiquidAmount <= 128)
-                            {
-                                Main.tile[i - 1, j].LiquidAmount = 255;
-                                Main.tile[i - 1, j].Get<LiquidData>().LiquidType = LiquidID.Water;
-                            }
-                        }
-                    }
-                    if (Main.tile[i - 2, j] != null)
-                    {
-                        if (!Main.tile[i - 2, j].HasTile)
-                        {
-                            if (Main.tile[i - 2, j].LiquidAmount <= 128)
-                            {
-                                Main.tile[i - 2, j].LiquidAmount = 255;
-                                Main.tile[i - 2, j].Get<LiquidData>().LiquidType = LiquidID.Water;
-                            }
-                        }
-                    }
-                    if (Main.tile[i - 3, j] != null)
-                    {
-                        if (!Main.tile[i - 3, j].HasTile)
-                        {
-                            if (Main.tile[i - 3, j].LiquidAmount <= 128)
-                            {
-                                Main.tile[i - 3, j].LiquidAmount = 255;
-                                Main.tile[i - 3, j].Get<LiquidData>().LiquidType = LiquidID.Water;
-                            }
-                        }
-                    }
-                }
-            }
-            else if (i > Main.maxTilesX - 250 && i < Main.maxTilesX - 150)
-            {
-                if (!closer)
-                {
-                    if (Main.tile[i + 1, j] != null)
-                    {
-                        if (!Main.tile[i + 1, j].HasTile)
-                        {
-                            if (Main.tile[i + 1, j].LiquidAmount <= 128)
-                            {
-                                Main.tile[i + 1, j].LiquidAmount = 255;
-                                Main.tile[i + 1, j].Get<LiquidData>().LiquidType = LiquidID.Water;
-                            }
-                        }
-                    }
-                    if (Main.tile[i + 2, j] != null)
-                    {
-                        if (!Main.tile[i + 2, j].HasTile)
-                        {
-                            if (Main.tile[i + 2, j].LiquidAmount <= 128)
-                            {
-                                Main.tile[i + 2, j].LiquidAmount = 255;
-                                Main.tile[i + 2, j].Get<LiquidData>().LiquidType = LiquidID.Water;
-                            }
-                        }
-                    }
-                    if (Main.tile[i + 3, j] != null)
-                    {
-                        if (!Main.tile[i + 3, j].HasTile)
-                        {
-                            if (Main.tile[i + 3, j].LiquidAmount <= 128)
-                            {
-                                Main.tile[i + 3, j].LiquidAmount = 255;
-                                Main.tile[i + 3, j].Get<LiquidData>().LiquidType = LiquidID.Water;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
+        
         public override void KillTile(int i, int j, ref bool fail, ref bool effectOnly, ref bool noItem)
         {
             if (CalamityUtils.ParanoidTileRetrieval(i, j + 1).HasTile &&
@@ -131,7 +53,7 @@ namespace CalamityMod.Tiles.Abyss
                 if (!Main.tile[i, tileLocationY].HasTile)
                 {
                     if (!CalamityPlayer.areThereAnyDamnBosses && Main.tile[i, tileLocationY].LiquidAmount == 255 && Main.tile[i, tileLocationY - 1].LiquidAmount == 255 &&
-                        Main.tile[i, tileLocationY - 2].LiquidAmount == 255 && Main.netMode != NetmodeID.MultiplayerClient)
+                        Main.tile[i, tileLocationY - 2].LiquidAmount == 255 && !Main.tile[i, tileLocationY - 2].HasTile && Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         Projectile.NewProjectile(new EntitySource_WorldEvent(), (float)(i * 16 + 16), (float)(tileLocationY * 16 + 16), 0f, -0.1f, ModContent.ProjectileType<SulphuricAcidBubble>(), 0, 2f, Main.myPlayer, 0f, 0f);
                     }
@@ -210,7 +132,7 @@ namespace CalamityMod.Tiles.Abyss
                     }
                 }
             }
-            if (Main.tile[i, j + 1] != null && nearbyVineCount < 5)
+            if (Main.tile[i, j + 1] != null && nearbyVineCount < 5 && j >= SulphurousSea.VineGrowTopLimit)
             {
                 if (!Main.tile[i, j + 1].HasTile && Main.tile[i, j + 1].TileType != (ushort)ModContent.TileType<SulphurousVines>())
                 {

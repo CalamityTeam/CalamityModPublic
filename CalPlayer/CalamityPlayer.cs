@@ -80,6 +80,7 @@ namespace CalamityMod.CalPlayer
         public static bool areThereAnyDamnEvents = false;
         public bool drawBossHPBar = true;
         public float stealthUIAlpha = 1f;
+        public float SulphWaterUIOpacity = 1f;
         public bool shouldDrawSmallText = true;
         public int projTypeJustHitBy;
         public int sCalDeathCount = 0;
@@ -195,7 +196,6 @@ namespace CalamityMod.CalPlayer
         public int modStealthTimer;
         public int dashTimeMod;
         public int hInfernoBoost = 0;
-        public int pissWaterBoost = 0;
         public int packetTimer = 0;
         public int navyRodAuraTimer = 0;
         public int brimLoreInfernoTimer = 0;
@@ -226,6 +226,7 @@ namespace CalamityMod.CalPlayer
         public int spiritOriginBullseyeShootCountdown = 0;
         public int spiritOriginConvertedCrit = 0;
         public int RustyMedallionCooldown = 0;
+        public float SulphWaterPoisoningLevel;
 
         private const int DashDisableCooldown = 12;
 
@@ -776,6 +777,9 @@ namespace CalamityMod.CalPlayer
         public bool banishingFire = false;
         public bool wither = false;
         public bool ManaBurn = false;
+
+        public const int SulphSeaWaterSafetyTime = 720;
+        public const int SulphSeaWaterRecoveryTime = 150;
         #endregion
 
         #region Buff
@@ -2126,6 +2130,7 @@ namespace CalamityMod.CalPlayer
             fungalSymbioteTimer = 0;
             aBulwarkRareTimer = 0;
             RustyMedallionCooldown = 0;
+            SulphWaterPoisoningLevel = 0f;
             spiritOriginConvertedCrit = 0;
             rage = 0f;
             adrenaline = 0f;
@@ -2218,6 +2223,8 @@ namespace CalamityMod.CalPlayer
                 stealthUIAlpha -= 0.035f;
                 stealthUIAlpha = MathHelper.Clamp(stealthUIAlpha, 0f, 1f);
             }
+            if (SulphWaterUIOpacity > 0f)
+                SulphWaterUIOpacity = MathHelper.Clamp(SulphWaterUIOpacity - 0.035f, 0f, 1f);
             #endregion
 
             #region Buffs
@@ -3133,12 +3140,50 @@ namespace CalamityMod.CalPlayer
             player.velocity = Vector2.Zero;
             player.immune = postImmune;
             player.immuneTime = postImmuneTime;
+
+            // Make some dust
             for (int index = 0; index < 100; ++index)
             {
                 Main.dust[Dust.NewDust(player.position, player.width, player.height, 164, player.velocity.X * 0.2f, player.velocity.Y * 0.2f, 150, Color.Cyan, 1.2f)].velocity *= 0.5f;
             }
-            Main.TeleportEffect(player.getRect(), 1);
-            Main.TeleportEffect(player.getRect(), 3);
+			Rectangle rect = player.getRect();
+			int dustAmt = rect.Width * rect.Height / 5;
+			for (int k = 0; k < dustAmt; k++)
+			{
+				int idx = Dust.NewDust(new Vector2(rect.X, rect.Y), rect.Width, rect.Height, 164);
+				Main.dust[idx].scale = Main.rand.NextFloat(0.2f, 0.7f);
+				if (k < 10)
+					Main.dust[idx].scale += 0.25f;
+				if (k < 5)
+					Main.dust[idx].scale += 0.25f;
+			}
+			for (int k = 0; k < 50; k++)
+			{
+				int idx = Dust.NewDust(new Vector2(rect.X, rect.Y), rect.Width, rect.Height, 180);
+				Main.dust[idx].noGravity = true;
+				for (int i = 0; i < 5; i++)
+				{
+					if (Main.rand.NextBool(3))
+						Main.dust[idx].velocity *= 0.75f;
+				}
+				if (Main.rand.NextBool(3))
+				{
+					Main.dust[idx].velocity *= 2f;
+					Main.dust[idx].scale *= 1.2f;
+				}
+				if (Main.rand.NextBool(3))
+				{
+					Main.dust[idx].velocity *= 2f;
+					Main.dust[idx].scale *= 1.2f;
+				}
+				if (Main.rand.NextBool(2))
+				{
+					Main.dust[idx].fadeIn = Main.rand.NextFloat(0.75f, 1f);
+					Main.dust[idx].scale = Main.rand.NextFloat(0.25f, 0.75f);
+				}
+				Main.dust[idx].scale *= 0.8f;
+			}
+
 			if (playSound)
 				SoundEngine.PlaySound(SoundID.Item6, player.Center);
         }
@@ -3318,8 +3363,6 @@ namespace CalamityMod.CalPlayer
             if (ExoChair)
             {
                 float speed = DraedonGamerChairMount.MovementSpeed;
-                if (CalamityKeybinds.ExoChairSpeedupHotkey.Current)
-                    speed *= 2f;
 
                 if (Player.controlLeft)
                 {

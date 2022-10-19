@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Events;
+using CalamityMod.NPCs.ExoMechs;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.GameContent.Events;
@@ -42,14 +43,14 @@ namespace CalamityMod.Projectiles.Typeless
         public override void Kill(int timeLeft)
         {
             BossRushEvent.SyncStartTimer(BossRushEvent.StartEffectTotalTime);
-            for (int doom = 0; doom < 200; doom++)
+            for (int doom = 0; doom < Main.maxNPCs; doom++)
             {
                 NPC n = Main.npc[doom];
                 if (!n.active)
                     continue;
 
                 // will also correctly despawn EoW because none of his segments are boss flagged
-                bool shouldDespawn = n.boss || n.type == NPCID.EaterofWorldsHead || n.type == NPCID.EaterofWorldsBody || n.type == NPCID.EaterofWorldsTail;
+                bool shouldDespawn = n.boss || n.type == NPCID.EaterofWorldsHead || n.type == NPCID.EaterofWorldsBody || n.type == NPCID.EaterofWorldsTail || n.type == ModContent.NPCType<Draedon>();
                 if (shouldDespawn)
                 {
                     n.active = false;

@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.World;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -57,7 +58,7 @@ namespace CalamityMod.Tiles.Abyss
                     }
                 }
             }
-            if (Main.tile[i, j + 1] != null && nearbyVineCount < 5)
+            if (Main.tile[i, j + 1] != null && nearbyVineCount < 5 && j >= SulphurousSea.VineGrowTopLimit)
             {
                 if (!Main.tile[i, j + 1].HasTile && Main.tile[i, j + 1].TileType != (ushort)ModContent.TileType<SulphurousVines>())
                 {
