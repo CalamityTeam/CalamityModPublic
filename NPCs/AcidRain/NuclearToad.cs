@@ -13,12 +13,29 @@ using Terraria.GameContent.Bestiary;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
+using System;
 
 namespace CalamityMod.NPCs.AcidRain
 {
     public class NuclearToad : ModNPC
     {
         public Player Target => Main.player[NPC.target];
+
+        public static float ExplosionStartRadius
+        {
+            get
+            {
+                float explodeDistance = DownedBossSystem.downedAquaticScourge ? 360f : 270f;
+                if (DownedBossSystem.downedPolterghast)
+                    explodeDistance = 560f;
+                return explodeDistance;
+            }
+        }
+
+        public ref float ExplosionTimer => ref NPC.ai[0];
+
+        public const float ExplosionTelegraphTime = 120f;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Nuclear Toad");
@@ -69,8 +86,8 @@ namespace CalamityMod.NPCs.AcidRain
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
 
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("When threatened underwater they rapidly inflate and bob to the surface. As a last resort, they forcefully burst themselves. Their selfless goal is the prolonged survival of their kin.")
+                // Will move to localization whenever that is cleaned up.
+                new FlavorTextBestiaryInfoElement("When threatened underwater they rapidly inflate and bob to the surface. As a last resort, they forcefully burst themselves. Their selfless goal is the prolonged survival of their kin.")
             });
         }
 
@@ -97,24 +114,22 @@ namespace CalamityMod.NPCs.AcidRain
                 NPC.velocity.Y += 0.16f;
                 if (NPC.velocity.Y > 3f)
                     NPC.velocity.Y = 3f;
-                NPC.ai[0] = 5f;
             }
 
             // Make a frog croak sound from time to time.
             if (Main.rand.NextBool(480))
                 SoundEngine.PlaySound(SoundID.Zombie13, NPC.Center);
 
-            float explodeDistance = DownedBossSystem.downedAquaticScourge ? 295f : 195f;
-            if (DownedBossSystem.downedPolterghast)
-                explodeDistance = 470f;
-
             // Explode if a player gets too close.
-            if (NPC.WithinRange(Target.Center, explodeDistance))
+            if (NPC.WithinRange(Target.Center, ExplosionStartRadius) || ExplosionTimer >= 1f)
+                ExplosionTimer++;
+
+            if (ExplosionTimer >= ExplosionTelegraphTime)
             {
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     int damage = Main.expertMode ? DownedBossSystem.downedAquaticScourge ? 21 : 8 : DownedBossSystem.downedAquaticScourge ? 27 : 10;
-                    float speed = Main.rand.NextFloat(6f, 9f);
+                    float speed = Main.rand.NextFloat(8f, 12f);
                     if (DownedBossSystem.downedPolterghast)
                     {
                         speed *= 1.8f;
@@ -122,7 +137,7 @@ namespace CalamityMod.NPCs.AcidRain
                     }
 
                     for (int i = 0; i < 7; i++)
-                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Main.rand.NextVector2CircularEdge(speed, speed), ModContent.ProjectileType<NuclearToadGoo>(), damage, 1f);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, -Vector2.UnitY.RotatedByRandom(0.79f) * speed * Main.rand.NextFloat(0.8f, 1f), ModContent.ProjectileType<NuclearToadGoo>(), damage, 1f);
                 }
                 SoundEngine.PlaySound(SoundID.DD2_KoboldExplosion, NPC.Center);
                 NPC.life = 0;
@@ -130,6 +145,14 @@ namespace CalamityMod.NPCs.AcidRain
                 NPC.active = false;
                 NPC.netUpdate = true;
             }
+        }
+
+        public override Color? GetAlpha(Color drawColor)
+        {
+            float explosionInterpolant = ExplosionTimer / ExplosionTelegraphTime;
+            float fadeToRed = (float)Math.Abs(Math.Sin(MathHelper.Pi * Math.Pow(explosionInterpolant, 3D) * 6f));
+            Color c = Color.Lerp(drawColor, new(232, 40, 12, 0), fadeToRed * 0.75f);
+            return c * NPC.Opacity;
         }
 
         public override void FindFrame(int frameHeight)

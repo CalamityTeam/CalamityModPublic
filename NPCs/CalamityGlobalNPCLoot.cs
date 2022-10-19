@@ -866,6 +866,9 @@ namespace CalamityMod.NPCs
                     EoWKill.Add(ModContent.ItemType<ThankYouPainting>(), ThankYouPainting.DropInt);
                     npcLoot.AddNormalOnly(EoWKill);
 
+                    // Would be in the bag otherwise
+                    npcLoot.AddIf((info) => info.npc.boss, ModContent.ItemType<ThankYouPainting>(), ThankYouPainting.DropInt);
+
                     // Master items drop in Revengeance
                     rev.AddIf((info) => info.npc.boss, ItemID.EaterofWorldsMasterTrophy);
                     rev.AddIf((info) => info.npc.boss, ItemID.EaterOfWorldsPetItem, 4);
@@ -887,7 +890,7 @@ namespace CalamityMod.NPCs
                     // Expert+ drops are also available on Normal
                     npcLoot.AddNormalOnly(DropHelper.PerPlayer(ItemID.BrainOfConfusion));
 
-					// Would be in the bag otherwise
+                    // Would be in the bag otherwise
                     npcLoot.AddNormalOnly(ModContent.ItemType<ThankYouPainting>(), ThankYouPainting.DropInt);
 
                     // Master items drop in Revengeance
@@ -934,7 +937,7 @@ namespace CalamityMod.NPCs
                     // Expert+ drops are also available on Normal
                     npcLoot.AddNormalOnly(DropHelper.PerPlayer(ItemID.BoneHelm));
 
-					// Would be in the bag otherwise
+                    // Would be in the bag otherwise
                     npcLoot.AddNormalOnly(ModContent.ItemType<ThankYouPainting>(), ThankYouPainting.DropInt);
 
                     // Master items drop in Revengeance
@@ -989,7 +992,7 @@ namespace CalamityMod.NPCs
                     // Expert+ drops are also available on Normal
                     npcLoot.AddNormalOnly(DropHelper.PerPlayer(ItemID.BoneGlove));
 
-					// Would be in the bag otherwise
+                    // Would be in the bag otherwise
                     npcLoot.AddNormalOnly(ModContent.ItemType<ThankYouPainting>(), ThankYouPainting.DropInt);
 
                     // Master items drop in Revengeance
@@ -1068,7 +1071,7 @@ namespace CalamityMod.NPCs
                     // However, Demon Heart does not work in Normal mode, so it's best to not drop it
                     // npcLoot.AddNormalOnly(DropHelper.PerPlayer(ItemID.DemonHeart));
 
-					// Would be in the bag otherwise
+                    // Would be in the bag otherwise
                     npcLoot.AddNormalOnly(ModContent.ItemType<ThankYouPainting>(), ThankYouPainting.DropInt);
 
                     // WoF drops Evil Keys
@@ -1089,7 +1092,7 @@ namespace CalamityMod.NPCs
                     npcLoot.AddNormalOnly(DropHelper.PerPlayer(ItemID.VolatileGelatin));
                     npcLoot.AddNormalOnly(ItemID.SoulofLight, 1, 15, 20);
 
-					// Would be in the bag otherwise
+                    // Would be in the bag otherwise
                     npcLoot.AddNormalOnly(ModContent.ItemType<ThankYouPainting>(), ThankYouPainting.DropInt);
 
                     // Queen Slime drops the Hallowed Key
@@ -1111,7 +1114,7 @@ namespace CalamityMod.NPCs
                     // Expert+ drops are also available on Normal
                     npcLoot.AddNormalOnly(DropHelper.PerPlayer(ItemID.MechanicalWagonPiece));
 
-					// Would be in the bag otherwise
+                    // Would be in the bag otherwise
                     npcLoot.AddNormalOnly(ModContent.ItemType<ThankYouPainting>(), ThankYouPainting.DropInt);
 
                     // Master items drop in Revengeance
@@ -1150,7 +1153,7 @@ namespace CalamityMod.NPCs
                     npcLoot.AddIf((info) => !Main.expertMode && IsLastTwinStanding(info), ItemID.MechanicalWheelPiece);
                     npcLoot.AddIf((info) => !Main.expertMode && IsLastTwinStanding(info), ModContent.ItemType<Arbalest>(), 10);
 
-					// Would be in the bag otherwise
+                    // Would be in the bag otherwise
                     npcLoot.AddIf((info) => !Main.expertMode && IsLastTwinStanding(info), ModContent.ItemType<ThankYouPainting>(), ThankYouPainting.DropInt);
 
                     // Master items drop in Revengeance
@@ -1172,7 +1175,7 @@ namespace CalamityMod.NPCs
                     // Expert+ drops are also available on Normal
                     npcLoot.AddNormalOnly(DropHelper.PerPlayer(ItemID.MechanicalBatteryPiece));
 
-					// Would be in the bag otherwise
+                    // Would be in the bag otherwise
                     npcLoot.AddNormalOnly(ModContent.ItemType<ThankYouPainting>(), ThankYouPainting.DropInt);
 
                     // Master items drop in Revengeance
@@ -1414,7 +1417,7 @@ namespace CalamityMod.NPCs
                     // Expert+ drops are also available on Normal
                     npcLoot.AddNormalOnly(DropHelper.PerPlayer(ItemID.EmpressFlightBooster));
 
-					// Would be in the bag otherwise
+                    // Would be in the bag otherwise
                     npcLoot.AddNormalOnly(ModContent.ItemType<ThankYouPainting>(), ThankYouPainting.DropInt);
 
                     // Master items drop in Revengeance

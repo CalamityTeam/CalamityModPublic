@@ -9,6 +9,9 @@ using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.DataStructures;
+using CalamityMod.Systems;
+using System.Linq;
 
 namespace CalamityMod.CalPlayer
 {
@@ -156,39 +159,31 @@ namespace CalamityMod.CalPlayer
                 lifeRegenLost += 4;
             }
 
-            if (ZoneSulphur && Player.IsUnderwater() && !decayEffigy && !abyssalDivingSuit && !Player.lavaWet && !Player.honeyWet)
+            // Slowly increase the sulphuric water poisoning effect. Once it's high enough, the player starts taking damage over time.
+            bool nearSafeZone = false;
+            if (SulphuricWaterSafeZoneSystem.NearbySafeTiles.Count >= 1)
             {
-                Player.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 2, true);
-                pissWaterBoost++;
+                Point closestSafeZone = SulphuricWaterSafeZoneSystem.NearbySafeTiles.Keys.OrderBy(t => t.ToVector2().DistanceSQ(Player.Center / 16f)).First();
+                if (Vector2.Distance(Player.Center.ToTileCoordinates().ToVector2(), closestSafeZone.ToVector2()) < SulphuricWaterSafeZoneSystem.NearbySafeTiles[closestSafeZone] * 17f)
+                    nearSafeZone = true;
+            }
+            if (ZoneSulphur && Player.IsUnderwater() && !decayEffigy && !abyssalDivingSuit && !Player.lavaWet && !Player.honeyWet && !nearSafeZone)
+            {
+                float increment = 1f / SulphSeaWaterSafetyTime;
+                if (sulphurskin)
+                    increment *= 0.5f;
+                if (sulfurSet)
+                    increment *= 0.5f;
 
-                if (Player.lifeRegen > 0)
-                    Player.lifeRegen = 0;
-
-                Player.lifeRegenTime = 0;
-                int waterDivisor = 250;
-                int minimumRegenLost = 8;
-                if (sulfurSet && sulphurskin)
+                SulphWaterPoisoningLevel = MathHelper.Clamp(SulphWaterPoisoningLevel + increment, 0f, 1f);
+                if (SulphWaterPoisoningLevel >= 1f)
                 {
-                    waterDivisor = 500;
-                    minimumRegenLost = 1;
+                    SulphWaterPoisoningLevel = 0f;
+                    Player.Hurt(PlayerDeathReason.ByCustomReason($"{Player.name}'s flesh was dissolved by sulphuric water."), Math.Min(Player.statLifeMax2 / 2, 200), 0);
                 }
-                else if (sulfurSet)
-                {
-                    waterDivisor = 400;
-                    minimumRegenLost = 3;
-                }
-                else if (sulphurskin)
-                {
-                    waterDivisor = 350;
-                    minimumRegenLost = 2;
-                }
-                int sulphurWater = pissWaterBoost / waterDivisor;
-                if (sulphurWater < minimumRegenLost)
-                    sulphurWater = minimumRegenLost;
-                lifeRegenLost += sulphurWater;
             }
             else
-                pissWaterBoost = 0;
+                SulphWaterPoisoningLevel = MathHelper.Clamp(SulphWaterPoisoningLevel - 1f / SulphSeaWaterRecoveryTime, 0f, 1f);
 
             if (sulphurPoison)
             {

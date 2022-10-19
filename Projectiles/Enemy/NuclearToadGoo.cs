@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.StatDebuffs;
+﻿using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
 using Terraria;
 using Terraria.ModLoader;
@@ -29,7 +29,7 @@ namespace CalamityMod.Projectiles.Enemy
                 Projectile.localAI[0] = 1f;
             }
             if (Projectile.velocity.Y < 10f)
-                Projectile.velocity.Y += 0.175f;
+                Projectile.velocity.Y += 0.27f;
         }
 
         public override void OnHitPlayer(Player target, int damage, bool crit)

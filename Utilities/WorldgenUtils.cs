@@ -31,5 +31,42 @@ namespace CalamityMod
                 }
             }
         }
+
+        /// <summary>
+        /// Settles all liquids in the world.
+        /// </summary>
+        public static void SettleWater()
+        {
+            Liquid.worldGenTilesIgnoreWater(true);
+            Liquid.QuickWater(3);
+            WorldGen.WaterCheck();
+
+            Liquid.quickSettle = true;
+
+            for (int i = 0; i < 10; i++)
+            {
+                int maxLiquid = Liquid.numLiquid + LiquidBuffer.numLiquidBuffer;
+                int m = maxLiquid * 5;
+                double maxLiquidDifferencePercentage = 0D;
+                while (Liquid.numLiquid > 0)
+                {
+                    m--;
+                    if (m < 0)
+                        break;
+
+                    double liquidDifferencePercentage = (maxLiquid - Liquid.numLiquid - LiquidBuffer.numLiquidBuffer) / (double)maxLiquid;
+                    if (Liquid.numLiquid + LiquidBuffer.numLiquidBuffer > maxLiquid)
+                        maxLiquid = Liquid.numLiquid + LiquidBuffer.numLiquidBuffer;
+                    
+                    if (liquidDifferencePercentage > maxLiquidDifferencePercentage)
+                        maxLiquidDifferencePercentage = liquidDifferencePercentage;
+
+                    Liquid.UpdateLiquid();
+                }
+                WorldGen.WaterCheck();
+            }
+            Liquid.quickSettle = false;
+            Liquid.worldGenTilesIgnoreWater(false);
+        }
     }
 }

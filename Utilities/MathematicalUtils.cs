@@ -27,7 +27,6 @@ namespace CalamityMod
         /// <param name="y">The Y position on the map.</param>
         /// <param name="octaves">A metric of "instability" of the noise. The higher this is, the more unstable. Lower of bounds of 2-3 are preferable.</param>
         /// <param name="seed">The seed for the noise.</param>
-        /// <returns></returns>
         public static float PerlinNoise2D(float x, float y, int octaves, int seed)
         {
             float SmoothFunction(float n) => 3f * n * n - 2f * n * n * n;
