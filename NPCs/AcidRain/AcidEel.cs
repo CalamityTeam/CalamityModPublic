@@ -13,18 +13,23 @@ using Terraria.GameContent.Bestiary;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Graphics.Shaders;
+using System.Linq;
 
 namespace CalamityMod.NPCs.AcidRain
 {
     public class AcidEel : ModNPC
     {
         public Player Target => Main.player[NPC.target];
+
+        public PrimitiveTrail SegmentDrawer = null;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Acid Eel");
             Main.npcFrameCount[NPC.type] = 6;
             NPCID.Sets.TrailingMode[NPC.type] = 1;
-            NPCID.Sets.TrailCacheLength[NPC.type] = 7;
+            NPCID.Sets.TrailCacheLength[NPC.type] = 12;
             NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
             {
                 PortraitPositionXOverride = 0
@@ -35,11 +40,11 @@ namespace CalamityMod.NPCs.AcidRain
 
         public override void SetDefaults()
         {
-            NPC.width = 72;
-            NPC.height = 18;
+            NPC.width = 20;
+            NPC.height = 20;
 
             NPC.damage = 20;
-            NPC.lifeMax = 72;
+            NPC.lifeMax = 42;
             NPC.defense = 4;
             NPC.knockBackResist = 0.9f;
 
@@ -47,14 +52,14 @@ namespace CalamityMod.NPCs.AcidRain
             {
                 NPC.DR_NERD(0.05f);
                 NPC.damage = 100;
-                NPC.lifeMax = 3000;
+                NPC.lifeMax = 2000;
                 NPC.defense = 20;
                 NPC.knockBackResist = 0.7f;
             }
             else if (DownedBossSystem.downedAquaticScourge)
             {
                 NPC.damage = 50;
-                NPC.lifeMax = 216;
+                NPC.lifeMax = 176;
             }
 
             NPC.value = Item.buyPrice(0, 0, 3, 32);
@@ -77,8 +82,8 @@ namespace CalamityMod.NPCs.AcidRain
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
 
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("Along its spine runs an undulating dorsal fin which they can put to great use for their streamlined form, as they rush at prey underwater.")
+                // Will move to localization whenever that is cleaned up.
+                new FlavorTextBestiaryInfoElement("Along its spine runs an undulating dorsal fin which they can put to great use for their streamlined form, as they rush at prey underwater.")
             });
         }
 
@@ -104,6 +109,7 @@ namespace CalamityMod.NPCs.AcidRain
             NPC.velocity.X *= 0.95f;
             if (NPC.velocity.Y < 14f)
                 NPC.velocity.Y += 0.15f;
+            NPC.spriteDirection = NPC.direction;
         }
 
         public void SwimTowardsTarget()
@@ -115,17 +121,17 @@ namespace CalamityMod.NPCs.AcidRain
                 swimSpeed += 4f;
 
             // Swim upwards if sufficiently under water.
-            bool waterAbove = false;
+            bool airAbove = false;
             for (int dy = -160; dy < 0; dy += 8)
             {
-                if (Collision.WetCollision(NPC.position + Vector2.UnitY * dy, NPC.width, 16))
+                if (!Collision.WetCollision(NPC.position + Vector2.UnitY * dy, NPC.width, 16))
                 {
-                    waterAbove = true;
+                    airAbove = true;
                     break;
                 }
             }
 
-            if (waterAbove)
+            if (!airAbove)
                 NPC.velocity.Y = MathHelper.Clamp(NPC.velocity.Y - 0.25f, -14f, 14f);
             else
                 NPC.velocity.Y = MathHelper.Clamp(NPC.velocity.Y + 0.4f, -4f, 8f);
@@ -170,11 +176,60 @@ namespace CalamityMod.NPCs.AcidRain
             }
         }
 
-        public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
+        public float SegmentWidthFunction(float completionRatio) => NPC.width * NPC.scale * 0.5f;
+
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
-            CalamityGlobalNPC.DrawGlowmask(NPC, spriteBatch, ModContent.Request<Texture2D>(Texture + "Glow").Value);
-            if (NPC.velocity.Length() > 1.5f)
-                CalamityGlobalNPC.DrawAfterimage(NPC, spriteBatch, drawColor, Color.Transparent, directioning: true);
+            // Initialize the segment drawer.
+            SegmentDrawer ??= new(SegmentWidthFunction, _ => NPC.GetAlpha(Color.White), null, GameShaders.Misc["CalamityMod:PrimitiveTexture"]);
+
+            Texture2D headTexture = ModContent.Request<Texture2D>(Texture).Value;
+            Texture2D tailTexture = ModContent.Request<Texture2D>("CalamityMod/NPCs/AcidRain/AcidEelTail").Value;
+            Vector2 headDrawPosition = NPC.Center - screenPos;
+            Vector2[] segmentPositions = (Vector2[])NPC.oldPos.Clone();
+
+            Vector2 segmentAreaTopLeft = Vector2.One * 999999f;
+            Vector2 segmentAreaTopRight = Vector2.Zero;
+            if (NPC.IsABestiaryIconDummy)
+            {
+                for (int i = 0; i < segmentPositions.Length; i++)
+                    segmentPositions[i] = NPC.TopLeft + Vector2.UnitX * i * 5f;
+            }
+            segmentPositions = segmentPositions.Where(p => p != Vector2.Zero).ToArray();
+
+            for (int i = 0; i < segmentPositions.Length; i++)
+            {
+                segmentPositions[i] += NPC.Size * 0.5f - screenPos - NPC.rotation.ToRotationVector2() * Math.Sign(NPC.velocity.X) * 8f;
+                if (segmentAreaTopLeft.X > segmentPositions[i].X)
+                    segmentAreaTopLeft.X = segmentPositions[i].X;
+                if (segmentAreaTopLeft.Y > segmentPositions[i].Y)
+                    segmentAreaTopLeft.Y = segmentPositions[i].Y;
+
+                if (segmentAreaTopRight.X < segmentPositions[i].X)
+                    segmentAreaTopRight.X = segmentPositions[i].X;
+                if (segmentAreaTopRight.Y < segmentPositions[i].Y)
+                    segmentAreaTopRight.Y = segmentPositions[i].Y;
+            }
+
+            // Set shader parameters.
+            float offsetAngle = (NPC.position - NPC.oldPos[1]).ToRotation();
+            Vector2 primitiveArea = (segmentAreaTopRight - segmentAreaTopLeft).RotatedBy(offsetAngle);
+            Rectangle tailArea = NPC.frame with { Width = 28 };
+            GameShaders.Misc["CalamityMod:PrimitiveTexture"].SetShaderTexture(ModContent.Request<Texture2D>("CalamityMod/NPCs/AcidRain/AcidEelBody"));
+            GameShaders.Misc["CalamityMod:PrimitiveTexture"].Shader.Parameters["uPrimitiveSize"].SetValue(primitiveArea);
+            GameShaders.Misc["CalamityMod:PrimitiveTexture"].Shader.Parameters["flipVertically"].SetValue(NPC.velocity.X > 0f);
+
+            SpriteEffects direction = NPC.velocity.X < 0f ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+            Main.EntitySpriteDraw(headTexture, headDrawPosition, NPC.frame, NPC.GetAlpha(Color.White), NPC.rotation, NPC.frame.Size() * 0.5f, NPC.scale, direction, 0);
+
+            if (segmentPositions.Length >= 2)
+            {
+                float tailRotation = (segmentPositions[0] - segmentPositions[1]).ToRotation() + MathHelper.Pi;
+                Main.EntitySpriteDraw(tailTexture, segmentPositions[^1], tailArea, NPC.GetAlpha(Color.White), tailRotation, tailArea.Size() * 0.5f, NPC.scale, SpriteEffects.None, 0);
+                SegmentDrawer.Draw(segmentPositions, Vector2.Zero, 36);
+            }
+
+            return false;
         }
 
         public override void HitEffect(int hitDirection, double damage)
