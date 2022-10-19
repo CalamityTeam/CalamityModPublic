@@ -688,9 +688,6 @@ namespace CalamityMod
                 case 113:
                     item = ModContent.ItemType<SkyfinBanner>();
                     break;
-                case 114:
-                    item = ModContent.ItemType<WaterLeechBanner>();
-                    break;
                 case 115:
                     item = ModContent.ItemType<AcidEelBanner>();
                     break;
@@ -1046,9 +1043,6 @@ namespace CalamityMod
                     break;
                 case 113:
                     npc = ModContent.NPCType<Skyfin>();
-                    break;
-                case 114:
-                    npc = ModContent.NPCType<WaterLeech>();
                     break;
                 case 115:
                     npc = ModContent.NPCType<AcidEel>();

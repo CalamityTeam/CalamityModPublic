@@ -220,19 +220,6 @@ namespace CalamityMod.CalPlayer
                 lifeRegenLost += 60;
             }
 
-            if (waterLeechBleeding)
-            {
-                if (Player.lifeRegen > 0)
-                    Player.lifeRegen = 0;
-
-                Player.lifeRegenTime = 0;
-                lifeRegenLost += 6;
-                if (DownedBossSystem.downedAquaticScourge)
-                    lifeRegenLost += 6;
-                if (DownedBossSystem.downedPolterghast)
-                    lifeRegenLost += 12;
-            }
-
             if (pFlames)
             {
                 if (Player.lifeRegen > 0)
