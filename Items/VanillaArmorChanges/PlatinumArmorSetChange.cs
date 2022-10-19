@@ -18,9 +18,9 @@ namespace CalamityMod.Items.VanillaArmorChanges
         public const float HeadDamage = 0.06f;
         public const float ChestCrit = 5f;
         public const float LegsMoveSpeed = 0.12f;
-        public const float SetBonusLifeRegenPerDefense = 0.0666666f; // 15 defense = +1 life regen
-        public const float SetBonusCritPerDefense = 0.0666666f; // 15 defense = +1% crit chance
-        public const int SetBonusDefenseCap = 50;
+        public const float SetBonusLifeRegenPerDefense = 0.0666667f; // 15 defense = +1 life regen
+        public const float SetBonusCritPerDefense = 0.0666667f; // 15 defense = +1% crit chance
+        public const int SetBonusDefenseCap = 45;
         public const int SetBonusMiningSpeedPercent = 25;
 
         public override void ApplyHeadPieceEffect(Player player) => player.GetDamage<GenericDamageClass>() += HeadDamage;
@@ -32,7 +32,7 @@ namespace CalamityMod.Items.VanillaArmorChanges
         public override void UpdateSetBonusText(ref string setBonusText)
         {
             StringBuilder sb = new StringBuilder(256);
-            sb.Append("\nEvery 15 defense gives you +1 life regen\nEvery 15 defense gives you 1% increased critical strike chance\nThese effects both cap at 50 defense");
+            sb.Append("\nEvery 15 defense gives you +1 life regen\nEvery 15 defense gives you 1% increased critical strike chance\nThese effects both cap at 45 defense");
             sb.Append(CalamityGlobalItem.MiningSpeedString(SetBonusMiningSpeedPercent));
             setBonusText += sb.ToString();
         }
