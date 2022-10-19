@@ -90,7 +90,6 @@ namespace CalamityMod.CalPlayer
         public static int chaosStateDuration_NR = 1200;
         public bool killSpikyBalls = false;
         public double acidRoundMultiplier = 1D;
-        public int waterLeechTarget = -1;
         public float KameiTrailXScale = 0.1f;
         public int KameiBladeUseDelay = 0;
         public Vector2[] OldPositions = new Vector2[4];
@@ -773,7 +772,6 @@ namespace CalamityMod.CalPlayer
         public bool iCantBreathe = false; //Frozen Lungs debuff
         public bool cragsLava = false;
         public bool vaporfied = false;
-        public bool waterLeechBleeding = false;
         public bool banishingFire = false;
         public bool wither = false;
         public bool ManaBurn = false;
@@ -1804,7 +1802,6 @@ namespace CalamityMod.CalPlayer
             iCantBreathe = false;
             cragsLava = false;
             vaporfied = false;
-            waterLeechBleeding = false;
             banishingFire = false;
             wither = false;
             ManaBurn = false;
@@ -2192,7 +2189,6 @@ namespace CalamityMod.CalPlayer
             iCantBreathe = false;
             cragsLava = false;
             vaporfied = false;
-            waterLeechBleeding = false;
             banishingFire = false;
             wither = false;
             #endregion
@@ -3976,10 +3972,6 @@ namespace CalamityMod.CalPlayer
                 if (hFlames || banishingFire)
                 {
                     damageSource = PlayerDeathReason.ByCustomReason(Player.name + " fell prey to their sins.");
-                }
-                if (waterLeechBleeding)
-                {
-                    damageSource = PlayerDeathReason.ByCustomReason(Player.name + " lost too much blood.");
                 }
                 if (shadowflame)
                 {
@@ -6815,7 +6807,6 @@ namespace CalamityMod.CalPlayer
                 int frame = HandlePSCAnimationFrames(animType);
                 Player.legFrame.Y = Player.legFrame.Height * frame;
             }
-            waterLeechTarget = -1;
         }
 
         #endregion

@@ -12,8 +12,6 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class WaterLeechProj : ModProjectile
     {
-        public override string Texture => "CalamityMod/NPCs/AcidRain/WaterLeech";
-
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Leech");
@@ -82,7 +80,8 @@ namespace CalamityMod.Projectiles.Magic
             if (Projectile.spriteDirection == -1)
                 spriteEffects = SpriteEffects.FlipHorizontally;
 
-            Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, drawStart, texture.Width, height)), Color.White, Projectile.rotation, origin, Projectile.scale, spriteEffects, 0);
+            Color color = Projectile.GetAlpha(lightColor);
+            Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, drawStart, texture.Width, height)), color, Projectile.rotation, origin, Projectile.scale, spriteEffects, 0);
             return false;
         }
 
@@ -96,7 +95,8 @@ namespace CalamityMod.Projectiles.Magic
             if (Projectile.spriteDirection == -1)
                 spriteEffects = SpriteEffects.FlipHorizontally;
 
-            Main.EntitySpriteDraw(ModContent.Request<Texture2D>("CalamityMod/NPCs/AcidRain/WaterLeechGlow").Value, Projectile.Center - Main.screenPosition, new Rectangle(0, drawStart, texture.Width, height), Color.White, Projectile.rotation, origin, Projectile.scale, spriteEffects, 0);
+            Color color = Projectile.GetAlpha(Color.White);
+            Main.EntitySpriteDraw(ModContent.Request<Texture2D>("CalamityMod/Projectiles/Magic/WaterLeechGlow").Value, Projectile.Center - Main.screenPosition, new Rectangle(0, drawStart, texture.Width, height), Color.White, Projectile.rotation, origin, Projectile.scale, spriteEffects, 0);
         }
 
         public override void Kill(int timeLeft)
