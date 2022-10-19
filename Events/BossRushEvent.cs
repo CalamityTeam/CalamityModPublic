@@ -639,14 +639,12 @@ namespace CalamityMod.Events
                 if (!n.active)
                     continue;
 
-                // will also correctly despawn EoW because none of his segments are boss flagged
-                bool shouldDespawn = n.boss || n.type == NPCID.EaterofWorldsHead || n.type == NPCID.EaterofWorldsBody || n.type == NPCID.EaterofWorldsTail;
+                // will also correctly despawn EoW because none of his segments are boss flagged. Draedon isn't a boss either
+                bool shouldDespawn = n.boss || n.type == NPCID.EaterofWorldsHead || n.type == NPCID.EaterofWorldsBody || n.type == NPCID.EaterofWorldsTail || n.type == ModContent.NPCType<Draedon>();
                 if (shouldDespawn)
                 {
-                    n.life = 0;
-                    n.HitEffect();
-                    n.checkDead();
                     n.active = false;
+                    n.netUpdate = true;
                 }
             }
 
