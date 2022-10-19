@@ -829,7 +829,7 @@ namespace CalamityMod.World
             for (int c = 0; c < columnCount; c++)
             {
                 int x = GetActualX(WorldGen.genRand.Next(20, width - 32));
-                int y = WorldGen.genRand.Next(YStart, YStart + depth - 30);
+                int y = WorldGen.genRand.Next(YStart, YStart + depth - 55);
 
                 bool tryAgain = false;
 
@@ -855,7 +855,7 @@ namespace CalamityMod.World
                 // Try again if the distance between the top and bottom is too short.
                 if (MathHelper.Distance(y, top.Y) < MinColumnHeight)
                     tryAgain = true;
-
+                
                 if (tryAgain)
                 {
                     c--;
@@ -1203,7 +1203,7 @@ namespace CalamityMod.World
             for (int i = 0; i < 400; i++)
             {
                 int x = GetActualX(WorldGen.genRand.Next(60, BiomeWidth - 60));
-                int y = YStart + WorldGen.genRand.Next(BlockDepth - 150, BlockDepth - 45);
+                int y = YStart + WorldGen.genRand.Next(BlockDepth - 150, BlockDepth - 60);
                 if (WorldGen.SolidTile(x, y))
                     continue;
 
@@ -1218,7 +1218,7 @@ namespace CalamityMod.World
                         break;
                     }
                 }
-                if (y >= YStart + BlockDepth - 45)
+                if (y >= YStart + BlockDepth - 60)
                     continue;
 
                 // If a buried chest was successfully placed, force its first item to be the rusty medallion.
