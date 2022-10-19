@@ -90,7 +90,6 @@ namespace CalamityMod.CalPlayer
         public static int chaosStateDuration_NR = 1200;
         public bool killSpikyBalls = false;
         public double acidRoundMultiplier = 1D;
-        public int waterLeechTarget = -1;
         public float KameiTrailXScale = 0.1f;
         public int KameiBladeUseDelay = 0;
         public Vector2[] OldPositions = new Vector2[4];
@@ -124,6 +123,7 @@ namespace CalamityMod.CalPlayer
         public DoGCartSegment[] DoGCartSegments = new DoGCartSegment[DoGCartMount.SegmentCount];
         public float SmoothenedMinecartRotation;
         public bool LungingDown = false;
+		public Vector2? BossRushReturnPosition = null;
 
         public float moveSpeedBonus = 0f;
         public int momentumCapacitorTime = 0;
@@ -773,7 +773,6 @@ namespace CalamityMod.CalPlayer
         public bool iCantBreathe = false; //Frozen Lungs debuff
         public bool cragsLava = false;
         public bool vaporfied = false;
-        public bool waterLeechBleeding = false;
         public bool banishingFire = false;
         public bool wither = false;
         public bool ManaBurn = false;
@@ -1810,7 +1809,6 @@ namespace CalamityMod.CalPlayer
             iCantBreathe = false;
             cragsLava = false;
             vaporfied = false;
-            waterLeechBleeding = false;
             banishingFire = false;
             wither = false;
             ManaBurn = false;
@@ -2198,7 +2196,6 @@ namespace CalamityMod.CalPlayer
             iCantBreathe = false;
             cragsLava = false;
             vaporfied = false;
-            waterLeechBleeding = false;
             banishingFire = false;
             wither = false;
             #endregion
@@ -3062,166 +3059,77 @@ namespace CalamityMod.CalPlayer
         #endregion
 
         #region TeleportMethods
-        public void HandleTeleport(int teleportType, bool forceHandle = false, int whoAmI = 0)
+        public static Vector2? GetJunglePosition(Player player)
         {
-            bool syncData = forceHandle || Main.netMode == NetmodeID.SinglePlayer;
-            if (syncData)
-            {
-                TeleportPlayer(teleportType, forceHandle, whoAmI);
-            }
-            else
-            {
-                SyncTeleport(teleportType);
-            }
-        }
-
-        public static void TeleportPlayer(int teleportType, bool syncData = false, int whoAmI = 0)
-        {
-            Player player;
-            if (!syncData)
-            {
-                player = Main.LocalPlayer;
-            }
-            else
-            {
-                player = Main.player[whoAmI];
-            }
-            switch (teleportType)
-            {
-                case 0:
-                    UnderworldTeleport(player, syncData);
-                    break;
-                case 1:
-                    DungeonTeleport(player, syncData);
-                    break;
-                case 2:
-                    JungleTeleport(player, syncData);
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        public void SyncTeleport(int teleportType)
-        {
-            ModPacket netMessage = Mod.GetPacket();
-            netMessage.Write((byte)CalamityModMessageType.TeleportPlayer);
-            netMessage.Write(teleportType);
-            netMessage.Send();
-        }
-
-        public static void UnderworldTeleport(Player player, bool syncData = false)
-        {
-            if (Main.netMode == NetmodeID.SinglePlayer)
-                player.DemonConch();
-            else if (Main.netMode == NetmodeID.MultiplayerClient && player.whoAmI == Main.myPlayer)
-                NetMessage.SendData(MessageID.RequestTeleportationByServer, -1, -1, null, 2);
-        }
-
-        public static void DungeonTeleport(Player player, bool syncData = false)
-        {
-            ModTeleport(player, new Vector2(Main.dungeonX, Main.dungeonY), syncData, true);
-        }
-
-        public static void JungleTeleport(Player player, bool syncData = false)
-        {
+			bool canSpawn = false;
             int teleportStartX = Abyss.AtLeftSideOfWorld ? (int)(Main.maxTilesX * 0.65) : (int)(Main.maxTilesX * 0.2);
             int teleportRangeX = (int)(Main.maxTilesX * 0.15);
-
             int teleportStartY = (int)Main.worldSurface - 75;
             int teleportRangeY = 50;
 
-            bool flag = false;
-            int num = 0;
-            int num2 = 0;
-            int num3 = 0;
-            int width = player.width;
-            Vector2 vector = new Vector2((float)num2, (float)num3) * 16f + new Vector2((float)(-(float)width / 2 + 8), (float)-(float)player.height);
-            while (!flag && num < 1000)
-            {
-                num++;
-                num2 = teleportStartX + Main.rand.Next(teleportRangeX);
-                num3 = teleportStartY + Main.rand.Next(teleportRangeY);
-                vector = new Vector2((float)num2, (float)num3) * 16f + new Vector2((float)(-(float)width / 2 + 8), (float)-(float)player.height);
-                if (!Collision.SolidCollision(vector, width, player.height))
-                {
-                    int i = 0;
-                    while (i < 100)
-                    {
-                        Tile tile = Main.tile[num2, num3 + i];
-                        vector = new Vector2((float)num2, (float)(num3 + i)) * 16f + new Vector2((float)(-(float)width / 2 + 8), (float)-(float)player.height);
-                        Vector4 vector2 = Collision.SlopeCollision(vector, player.velocity, width, player.height, player.gravDir, false);
-                        bool arg_1FF_0 = !Collision.SolidCollision(vector, width, player.height);
-                        if (vector2.Z == player.velocity.X && vector2.Y == player.velocity.Y && vector2.X == vector.X)
-                        {
-                            bool arg_1FE_0 = vector2.Y == vector.Y;
-                        }
-                        if (arg_1FF_0)
-                        {
-                            i++;
-                        }
-                        else
-                        {
-                            if (tile.HasTile && !tile.HasUnactuatedTile && Main.tileSolid[(int)tile.TileType])
-                            {
-                                break;
-                            }
-                            i++;
-                        }
-                    }
-                    if (!Collision.LavaCollision(vector, width, player.height) && Collision.HurtTiles(vector, player.velocity, width, player.height, false).Y <= 0f)
-                    {
-                        Collision.SlopeCollision(vector, player.velocity, width, player.height, player.gravDir, false);
-                        if (Collision.SolidCollision(vector, width, player.height) && i < 99)
-                        {
-                            Vector2 vector3 = Vector2.UnitX * 16f;
-                            if (!(Collision.TileCollision(vector - vector3, vector3, player.width, player.height, false, false, (int)player.gravDir) != vector3))
-                            {
-                                vector3 = -Vector2.UnitX * 16f;
-                                if (!(Collision.TileCollision(vector - vector3, vector3, player.width, player.height, false, false, (int)player.gravDir) != vector3))
-                                {
-                                    vector3 = Vector2.UnitY * 16f;
-                                    if (!(Collision.TileCollision(vector - vector3, vector3, player.width, player.height, false, false, (int)player.gravDir) != vector3))
-                                    {
-                                        vector3 = -Vector2.UnitY * 16f;
-                                        if (!(Collision.TileCollision(vector - vector3, vector3, player.width, player.height, false, false, (int)player.gravDir) != vector3))
-                                        {
-                                            flag = true;
-                                            break;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            if (!flag)
-            {
-                return;
-            }
+			Player.RandomTeleportationAttemptSettings settings = new Player.RandomTeleportationAttemptSettings
+			{
+				mostlySolidFloor = true,
+				avoidAnyLiquid = true,
+				avoidLava = true,
+				avoidHurtTiles = true,
+				avoidWalls = true,
+				attemptsBeforeGivingUp = 1000,
+				maximumFallDistanceFromOrignalPoint = 30
+			};
 
-            ModTeleport(player, vector, syncData, false);
+			Vector2 vector = player.CheckForGoodTeleportationSpot(ref canSpawn, teleportStartX, teleportRangeX, teleportStartY, teleportRangeY, settings);
+
+			if (canSpawn)
+			{
+				return (Vector2?)vector;
+			}
+            return null;
         }
 
-        public static void ModTeleport(Player player, Vector2 pos, bool syncData = false, bool convertFromTiles = false)
+        public static Vector2? GetUnderworldPosition(Player player)
+        {
+			bool canSpawn = false;
+			int num = Main.maxTilesX / 2;
+			int num2 = 100;
+			int num3 = num2 / 2;
+			int teleportStartY = Main.UnderworldLayer + 20;
+			int teleportRangeY = 80;
+			Player.RandomTeleportationAttemptSettings settings = new Player.RandomTeleportationAttemptSettings
+			{
+				mostlySolidFloor = true,
+				avoidAnyLiquid = true,
+				avoidLava = true,
+				avoidHurtTiles = true,
+				avoidWalls = true,
+				attemptsBeforeGivingUp = 1000,
+				maximumFallDistanceFromOrignalPoint = 30
+			};
+
+			Vector2 vector = player.CheckForGoodTeleportationSpot(ref canSpawn, num - num3, num2, teleportStartY, teleportRangeY, settings);
+			if (!canSpawn)
+				vector = player.CheckForGoodTeleportationSpot(ref canSpawn, num - num2, num3, teleportStartY, teleportRangeY, settings);
+
+			if (!canSpawn)
+				vector = player.CheckForGoodTeleportationSpot(ref canSpawn, num + num3, num3, teleportStartY, teleportRangeY, settings);
+
+			if (canSpawn)
+			{
+				return (Vector2?)vector;
+			}
+            return null;
+        }
+
+        public static void ModTeleport(Player player, Vector2 pos, bool playSound = true, int style = TeleportationStyleID.RecallPotion)
         {
             bool postImmune = player.immune;
             int postImmuneTime = player.immuneTime;
-            if (convertFromTiles)
-            {
-                pos = new Vector2(pos.X * 16 + 8 - player.width / 2, pos.Y * 16 - player.height);
-            }
-            player.grappling[0] = -1;
-            player.grapCount = 0;
-            for (int index = 0; index < Main.maxProjectiles; ++index)
-            {
-                if (Main.projectile[index].active && Main.projectile[index].owner == player.whoAmI && Main.projectile[index].aiStyle == 7)
-                {
-                    Main.projectile[index].Kill();
-                }
-            }
-            player.Teleport(pos, 2, 0);
+			player.StopVanityActions(false);
+            player.RemoveAllGrapplingHooks();
+            player.Teleport(pos, style);
+			if (Main.netMode == NetmodeID.Server)
+				RemoteClient.CheckSection(player.whoAmI, player.Center);
+			NetMessage.SendData(MessageID.Teleport, -1, -1, null, 0, (float)player.whoAmI, pos.X, pos.Y, style, 0, 0);
             player.velocity = Vector2.Zero;
             player.immune = postImmune;
             player.immuneTime = postImmuneTime;
@@ -3231,16 +3139,8 @@ namespace CalamityMod.CalPlayer
             }
             Main.TeleportEffect(player.getRect(), 1);
             Main.TeleportEffect(player.getRect(), 3);
-            SoundEngine.PlaySound(SoundID.Item6, player.position);
-            if (Main.netMode != NetmodeID.Server)
-            {
-                return;
-            }
-            if (syncData)
-            {
-                RemoteClient.CheckSection(player.whoAmI, player.position, 1);
-                NetMessage.SendData(MessageID.Teleport, -1, -1, null, 0, (float)player.whoAmI, pos.X, pos.Y, 3, 0, 0);
-            }
+			if (playSound)
+				SoundEngine.PlaySound(SoundID.Item6, player.Center);
         }
         #endregion
 
@@ -3982,10 +3882,6 @@ namespace CalamityMod.CalPlayer
                 if (hFlames || banishingFire)
                 {
                     damageSource = PlayerDeathReason.ByCustomReason(Player.name + " fell prey to their sins.");
-                }
-                if (waterLeechBleeding)
-                {
-                    damageSource = PlayerDeathReason.ByCustomReason(Player.name + " lost too much blood.");
                 }
                 if (shadowflame)
                 {
@@ -6821,7 +6717,6 @@ namespace CalamityMod.CalPlayer
                 int frame = HandlePSCAnimationFrames(animType);
                 Player.legFrame.Y = Player.legFrame.Height * frame;
             }
-            waterLeechTarget = -1;
         }
 
         #endregion
