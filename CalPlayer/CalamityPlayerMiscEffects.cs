@@ -435,13 +435,14 @@ namespace CalamityMod.CalPlayer
             }
             else
             {
-                // If any boss is alive (or you are between DoG phases or Boss Rush is active), you gain adrenaline smoothly.
+                // If any boss is alive, you gain adrenaline smoothly.
                 // EXCEPTION: Wall of Flesh is alive and you are not in hell. Then you don't get anything.
-                if ((areThereAnyDamnBosses || BossRushEvent.BossRushActive) && !wofAndNotHell)
+                if (areThereAnyDamnBosses && !wofAndNotHell)
                     adrenalineDiff += adrenalineMax / AdrenalineChargeTime;
 
                 // If you aren't actively in a boss fight, adrenaline rapidly fades away.
-                else
+                // If Boss Rush is active, adrenaline is paused between boss fights and during the Exo Mechs "Make your choice".
+                else if (!BossRushEvent.BossRushActive)
                     adrenalineDiff = -adrenalineMax / AdrenalineFadeTime;
             }
 
