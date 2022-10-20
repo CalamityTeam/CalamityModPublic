@@ -13,7 +13,7 @@ namespace CalamityMod.UI.SulphurousWaterMeter
     {
         // These values were decided relative to the stealth meter positions, and are by default slightly below them.
         internal const float DefaultPosX = StealthUI.DefaultStealthPosX;
-        internal const float DefaultPosY = StealthUI.DefaultStealthPosY + 0.0377f;
+        internal const float DefaultPosY = StealthUI.DefaultStealthPosY + 2.286282f;
         private const float MouseDragEpsilon = 0.05f; // 0.05%
 
         private static Vector2? dragOffset = null;
