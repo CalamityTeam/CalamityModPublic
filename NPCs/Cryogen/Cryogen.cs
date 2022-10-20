@@ -1198,7 +1198,7 @@ namespace CalamityMod.NPCs.Cryogen
 
             // Spawn Permafrost if he isn't in the world
             int permafrostNPC = NPC.FindFirstNPC(ModContent.NPCType<DILF>());
-            if (permafrostNPC == -1)
+            if (permafrostNPC == -1 && !BossRushEvent.BossRushActive)
                 NPC.NewNPC(NPC.GetSource_Death(), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<DILF>(), 0, 0f, 0f, 0f, 0f, 255);
 
             // If Cryogen has not been killed, notify players about Cryonic Ore
