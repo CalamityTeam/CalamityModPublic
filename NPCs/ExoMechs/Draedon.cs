@@ -271,7 +271,9 @@ namespace CalamityMod.NPCs.ExoMechs
             // Inform the player who summoned draedon they may choose the first mech and cause a selection UI to appear over their head.
             if (Main.netMode != NetmodeID.MultiplayerClient && TalkTimer == TalkDelay + DelayPerDialogLine * 4f)
             {
-                if ((CalamityWorld.TalkedToDraedon || bossRush))
+                if (bossRush)
+                    CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonBossRushText", TextColorEdgy);
+                else if (CalamityWorld.TalkedToDraedon)
                     CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonResummonText", TextColorEdgy);
                 else
                     CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonIntroductionText5", TextColorEdgy);
@@ -295,7 +297,7 @@ namespace CalamityMod.NPCs.ExoMechs
 				{
 					// Summon a random exo mech if you wait too long
 					BossRushCounter++;
-					if (BossRushCounter > 600 && CalamityWorld.DraedonMechToSummon == ExoMech.None)
+					if (BossRushCounter > 1200 && CalamityWorld.DraedonMechToSummon == ExoMech.None)
 					{
 						CalamityWorld.DraedonMechToSummon = (ExoMech)Main.rand.Next(1,4);
 
