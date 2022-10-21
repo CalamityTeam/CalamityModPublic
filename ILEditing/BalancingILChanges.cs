@@ -551,5 +551,26 @@ namespace CalamityMod.ILEditing
             cursor.Emit(OpCodes.Ldc_R4, BalancingConstants.SharpeningStationArmorPenetration);
         }
         #endregion
+
+        #region Remove Lunatic Cultist Homing Resist
+        private static void RemoveLunaticCultistHomingResist(ILContext il)
+        {
+            // Change Lunatic Cultist's resist from 25% to 0% (effectively removing it).
+            var cursor = new ILCursor(il);
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdsfld(typeof(ProjectileID.Sets), "CultistIsResistantTo")))
+            {
+                LogFailure("Lunatic Cultist Homing Resist Removal", "Could not locate the Cultist resist set.");
+                return;
+            }
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(0.75f))) // The resist ratio.
+            {
+                LogFailure("Lunatic Cultist Homing Resist Removal", "Could not locate the resist percentage.");
+                return;
+            }
+
+            // Replace the value with 1, meaning -0% damage or no resist.
+            cursor.Next.Operand = 1f;
+        }
+        #endregion
     }
 }
