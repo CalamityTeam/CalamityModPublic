@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Summon
     public class DormantBrimseekerBab : ModProjectile
     {
         public const float DistanceToCheck = 1600f;
-        public const int TurnTime = 7;
+        public const int TurnTime = 12;
         public bool SeekingTarget = false;
         public float MaxChargeTime
         {
