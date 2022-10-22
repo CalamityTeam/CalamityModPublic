@@ -1,4 +1,6 @@
-﻿namespace CalamityMod.UI.DraedonSummoning
+﻿using System.Collections.Generic;
+
+namespace CalamityMod.UI.DraedonSummoning
 {
     public static class DraedonDialogRegistry
     {
@@ -26,7 +28,7 @@
             "Is that such a surprise? He no longer required my services and I no longer needed his patronage. Many years ago now he withdrew himself to some secret hideaway. I suspect, to the grave of dragons he spoke of...\n\n" +
             "Should you locate him, I'll await the news of either his or your death. Perhaps I will collect the cadaver.", () => DownedBossSystem.downedSCal);
 
-        public static DraedonDialogEntry[] DialogOptions => new DraedonDialogEntry[]
+        internal static List<DraedonDialogEntry> DialogOptions = new()
         {
             // The first index is assumed to be the "who are you?" dialog by the UI. All other indices can be freely swapped around, however.
             WhoAreYou,

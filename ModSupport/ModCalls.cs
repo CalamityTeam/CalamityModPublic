@@ -9,6 +9,7 @@ using CalamityMod.Particles;
 using CalamityMod.Particles.Metaballs;
 using CalamityMod.UI;
 using CalamityMod.UI.CalamitasEnchants;
+using CalamityMod.UI.DraedonSummoning;
 using CalamityMod.World;
 using Terraria;
 using Terraria.ModLoader;
@@ -1944,6 +1945,12 @@ namespace CalamityMod
                     if (args.Length != 3 || args[2] is not bool isPersistent)
                         return new ArgumentException("ERROR: Must specify a bool that determines whether the buff is persistent after death for the Amalgam to properly reset.");
                     return SetPersistentBuffList(buffType4, isPersistent);
+
+                case "CreateCodebreakerDialogOption":
+                    if (args.Length != 4 || args[1] is not string inquiry || args[2] is not string response || args[3] is not Func<bool> condition)
+                        throw new ArgumentException("ERROR: Must specify a string that determines the inquiry, a string that determines the response, and a Func<bool> that determines the condition.");
+                    DraedonDialogRegistry.DialogOptions.Add(new(inquiry, response, condition));
+                    return null;
 
                 default:
                     return new ArgumentException("ERROR: Invalid method name.");
