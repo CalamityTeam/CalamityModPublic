@@ -433,10 +433,10 @@ namespace CalamityMod.UI.DraedonSummoning
                             Main.spriteBatch.Draw(markerTexture, markerDrawPosition, null, Color.White * dialogHistoryDrawInterpolant, 0f, markerTexture.Size() * 0.5f, markerScale, markerDirection, 0f);
 
                         // Draw the text itself.
-                        ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, DialogFont, line, localTextTopLeft, dialogColor * dialogHistoryDrawInterpolant, 0f, Vector2.Zero, Vector2.One * GeneralScale * 0.76f);
+                        ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, DialogFont, line, localTextTopLeft, dialogColor * dialogHistoryDrawInterpolant, 0f, Vector2.Zero, Vector2.One * GeneralScale * 0.7f);
                     }
 
-                    textTopLeft.Y += panelScale.Y * 9f;
+                    textTopLeft.Y += panelScale.Y * 7.6f;
                     lineIndex++;
                 }
                 textTopLeft.Y += panelScale.Y * 16f;

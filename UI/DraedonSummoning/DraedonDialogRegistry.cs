@@ -2,30 +2,28 @@
 {
     public static class DraedonDialogRegistry
     {
-        public static readonly DraedonDialogEntry WhoAreYou = new("Who are you?", "That is forever an ambitious question. I will allow you this much:\n\n" +
-            "I am, as I have said, not of this planet. I was born from machines, and I was... created. It may actually be false to say I was born.\n\n" +
-            "All I have known from the day I became aware of myself, is that I had to create, myself.");
+        public static readonly DraedonDialogEntry WhoAreYou = new("Who are you?", "An ambitious question, if you are a philosopher. I will give only the facts.\n\n" +
+            "I am not of this planet. I was born from machines. Or rather, I was... created. It may be misleading to say I was born.\n\n" +
+            "The exact circumstances, I do not know. I do know that my first instance of awareness was that I was surrounded by a workshop.\n\n" +
+            "All I have known since then was the act of creation and destruction.");
 
-        public static readonly DraedonDialogEntry CalamitasBeforeHerDefeat = new("Calamitas", "The witch? Ha! A walking weapon. Such powerful magic in a living being was destined to be. Just look at yourself now.", () => !DownedBossSystem.downedSCal);
+        public static readonly DraedonDialogEntry CalamitasBeforeHerDefeat = new("Calamitas", "The witch? She is a walking weapon. Such powerful magic in a living being was destined to be so. Look at yourself now.", () => !DownedBossSystem.downedSCal);
 
-        public static readonly DraedonDialogEntry CalamitasAfterHerDefeat = new("Calamitas", "Hm! She has mellowed, I've noticed. For you creatures so burdened by emotion and guilt, I wonder now, how she manages to live with herself.\n\n" +
-            "That said, you seem far more merciless, even than I.", () => DownedBossSystem.downedSCal);
+        public static readonly DraedonDialogEntry CalamitasAfterHerDefeat = new("Calamitas", "She has mellowed, I've noticed. For you creatures so burdened by emotion and guilt, I wonder now, how she manages to live with herself.", () => 
+            DownedBossSystem.downedSCal);
 
-        public static readonly DraedonDialogEntry Creativity = new("Creativity", "Do you ask if I have an eye for beauty? The typical understanding of such work is linked to art...\n\n" +
-            "Yet I understand only the beauty of a machine in which every part works in tandem towards its goal, seamlessly.\n\n" +
-            "One could consider that an 'art' in of itself, and leave painterly aspects to others. I myself have no love for objects that serve no purpose.");
-
-        public static readonly DraedonDialogEntry Plague = new("The Plague", "Fascinating, the speed at which nanotechnology and a virus can adapt. I consider it personally one of my greatest works.\n\n" +
-            "Nanotechnology that not only rivaled a cosmic mutation, but adapted with it to form something new.\n\n" +
-            "Nothing is more pleasing than a result that exceeds expectations.", () => DownedBossSystem.downedPlaguebringer);
-
-        public static readonly DraedonDialogEntry SulphurousSea = new("The Sulphuric Sea", "I understand your concern for those fragile creatures. However, nothing is irreparable, and nothing is truly whole.\n\n" +
-            "The sea simply exists now in a different state than it once was, one that resulted out of the convenience of my work.\n\n" +
-            "Should I ever need to return to that sea? A pointless worry. I shall simply recreate it from the data I have gathered, from the bedrock up. It would be a shame as a creator should I not be able to do that.");
+        public static readonly DraedonDialogEntry Plague = new("The Plague", "Fascinating, isn't it? I wasn't able to control it, unfortunately, but for science there is no such thing as failure as long as you record the results.\n\n" +
+            "I knew the Astral Infection was capable of converting even machinery, but for nanotechnology I'd given it to react in kind, and begin to use the virus as a building block itself...\n\n" +
+            "Marvelous.", () => DownedBossSystem.downedPlaguebringer);
+        
+        public static readonly DraedonDialogEntry SulphurousSea = new("The Sulphuric Sea", "Your concern for the utter destruction of the ecosystem is understandable, for you biological, and sentimental folk. However, " +
+            "nothing is irreparable or truly unrecreatable. Not even your sacred 'miracle of life'.\n\n" +
+            "The sea simply exists now in a different state than what it once was, one that resulted out of convenience for my work.\n\n" +
+            "Should I ever need to return to that sea? A pointless worry. I shall simply recreate it from the data I gathered, from the bedrock up. I would be a shame as a creator should I not be able to do that.");
 
         public static readonly DraedonDialogEntry TheTyrant = new("The Tyrant", "My patron...\n" +
             "He is not someone I have spoken to in a very long time.\n\n" +
-            "Oh? Is that such a surprise? I no longer needed him, and he withdrew himself from all. I suspect he retreated to that graveyard of dragons he spoke of...\n\n" +
+            "Is that such a surprise? He no longer required my services and I no longer needed his patronage. Many years ago now he withdrew himself to some secret hideaway. I suspect, to the grave of dragons he spoke of...\n\n" +
             "Should you locate him, I'll await the news of either his or your death. Perhaps I will collect the cadaver.", () => DownedBossSystem.downedSCal);
 
         public static DraedonDialogEntry[] DialogOptions => new DraedonDialogEntry[]
@@ -35,7 +33,6 @@
 
             CalamitasBeforeHerDefeat,
             CalamitasAfterHerDefeat,
-            Creativity,
             Plague,
             SulphurousSea,
             TheTyrant
