@@ -2564,7 +2564,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 Main.player[NPC.target].Calamity().sCalKillCount++;
 
             // Spawn the SCal NPC directly where the boss was
-            NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y + 12, ModContent.NPCType<WITCH>());
+            if (!BossRushEvent.BossRushActive)
+                NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y + 12, ModContent.NPCType<WITCH>());
 
             // Mark Supreme Calamitas as defeated
             DownedBossSystem.downedSCal = true;

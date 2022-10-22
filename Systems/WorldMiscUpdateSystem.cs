@@ -150,7 +150,7 @@ namespace CalamityMod.Systems
                 if (y2 < 10)
                     y2 = 10;
 
-                if (Main.tile[x, y] != null)
+                if (WorldGen.InWorld(x, y, 1) && Main.tile[x, y] != null)
                 {
                     if (Main.tile[x, y].HasUnactuatedTile)
                     {
@@ -161,7 +161,7 @@ namespace CalamityMod.Systems
                                 if (Main.tile[x, y2].LiquidAmount == 0)
                                 {
                                     // Plantera Bulbs pre-mech
-                                    if (WorldGen.genRand.Next(1500) == 0)
+                                    if (WorldGen.genRand.NextBool(1500))
                                     {
                                         if (Main.hardMode && (!NPC.downedMechBoss1 || !NPC.downedMechBoss2 || !NPC.downedMechBoss3))
                                         {
@@ -195,7 +195,7 @@ namespace CalamityMod.Systems
 
                                     // Life Fruit pre-mech
                                     int random = Main.expertMode ? 90 : 120;
-                                    if (WorldGen.genRand.Next(random) == 0)
+                                    if (WorldGen.genRand.NextBool(random))
                                     {
                                         if (Main.hardMode && !NPC.downedMechBossAny)
                                         {
@@ -315,7 +315,6 @@ namespace CalamityMod.Systems
                 }
                 l++;
             }
-
         }
 
         public static bool CanPlaceBasedOnProximity(int x, int y, int tileType)

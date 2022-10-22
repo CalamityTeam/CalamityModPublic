@@ -1493,7 +1493,7 @@ namespace CalamityMod.CalPlayer
                 }
                 if (corrosiveSpine)
                 {
-                    target.AddBuff(BuffID.Venom, 240);
+                    target.AddBuff(BuffID.Poisoned, 240);
                 }
             }
             if (summon)

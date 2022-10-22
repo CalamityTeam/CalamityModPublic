@@ -221,6 +221,10 @@ namespace CalamityMod.Particles.Metaballs
             if (Main.netMode == NetmodeID.Server)
                 return null;
 
+            // Reload particle sets if they are completely unloaded for some reason.
+            if (ParticleSets.Count <= 0)
+                LoadParticleRenderSets(true);
+
             return ParticleSets.First(s => s.ParticleSet.GetType() == typeof(T)).ParticleSet as T;
         }
     }

@@ -760,8 +760,8 @@ namespace CalamityMod.NPCs.StormWeaver
                         lightning -= lightningDecay;
                 }
 
-                // Start a storm when in third phase
-                if (Main.netMode == NetmodeID.MultiplayerClient || (Main.netMode == NetmodeID.SinglePlayer && Main.gameMenu) || calamityGlobalNPC.newAI[1] > 0f)
+                // Start a storm when in third phase. Don't do this during Boss Rush
+                if (Main.netMode == NetmodeID.MultiplayerClient || (Main.netMode == NetmodeID.SinglePlayer && Main.gameMenu) || calamityGlobalNPC.newAI[1] > 0f || bossRush)
                     return;
 
                 CalamityUtils.StartRain(true, true);

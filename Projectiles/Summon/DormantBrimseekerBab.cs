@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Summon
     public class DormantBrimseekerBab : ModProjectile
     {
         public const float DistanceToCheck = 1600f;
-        public const int TurnTime = 7;
+        public const int TurnTime = 12;
         public bool SeekingTarget = false;
         public float MaxChargeTime
         {
@@ -113,9 +113,9 @@ namespace CalamityMod.Projectiles.Summon
                 {
                     SoundEngine.PlaySound(SoundID.DD2_DrakinShot, Projectile.Center);
                     Projectile.ai[0]++;
-                    float acceleration = (Projectile.localAI[1] == 1f) ? 1.85f : 1.1f;
-                    float minSpeed = (Projectile.localAI[1] == 1f) ? 21.5f : 15f;
-                    float maxSpeed = (Projectile.localAI[1] == 1f) ? 32f : 24f;
+                    float acceleration = (Projectile.localAI[1] == 1f) ? 1.5f : 1.1f;
+                    float minSpeed = (Projectile.localAI[1] == 1f) ? 17.5f : 15f;
+                    float maxSpeed = (Projectile.localAI[1] == 1f) ? 28f : 24f;
                     Projectile.velocity = Projectile.SafeDirectionTo(potentialTarget.Center) * MathHelper.Clamp(Projectile.velocity.Length() + acceleration, minSpeed, maxSpeed);
                     Projectile.rotation = Projectile.AngleTo(potentialTarget.Center) + (Projectile.spriteDirection == 1).ToInt() * MathHelper.Pi;
                 }
