@@ -120,7 +120,11 @@ namespace CalamityMod.NPCs.NormalNPCs
             return SpawnCondition.OceanMonster.Chance * 0.2f;
         }
 
-        public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.AddIf(() => NPC.downedPlantBoss, ModContent.ItemType<MantisClaws>(), 5);
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+		{
+            npcLoot.Add(ItemID.ShrimpPoBoy, 50);
+			npcLoot.AddIf(() => NPC.downedPlantBoss, ModContent.ItemType<MantisClaws>(), 5);
+		}
 
         public override void HitEffect(int hitDirection, double damage)
         {
