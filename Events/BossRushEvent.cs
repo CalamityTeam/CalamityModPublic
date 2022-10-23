@@ -156,7 +156,7 @@ namespace CalamityMod.Events
 
                 new Boss(NPCID.EyeofCthulhu, TimeChangeContext.Night, permittedNPCs: NPCID.ServantofCthulhu),
 
-                new Boss(ModContent.NPCType<Crabulon>(), spawnContext: type =>
+                new Boss(ModContent.NPCType<Crabulon>(), TimeChangeContext.Day, type =>
                 {
                     Player player = Main.player[ClosestPlayerToWorldCenter];
                     int thePefectOne = NPC.NewNPC(Source, (int)(player.position.X + Main.rand.Next(-100, 101)), (int)(player.position.Y - 400f), type, 1);
@@ -186,7 +186,7 @@ namespace CalamityMod.Events
                     CalamityUtils.BossAwakenMessage(sans);
                 }, permittedNPCs: NPCID.SkeletronHand),
 
-                new Boss(ModContent.NPCType<SlimeGodCore>(), permittedNPCs: new int[] { ModContent.NPCType<EbonianSlimeGod>(), ModContent.NPCType<CrimulanSlimeGod>(), ModContent.NPCType<SplitEbonianSlimeGod>(), ModContent.NPCType<SplitCrimulanSlimeGod>(),
+                new Boss(ModContent.NPCType<SlimeGodCore>(), TimeChangeContext.Day, permittedNPCs: new int[] { ModContent.NPCType<EbonianSlimeGod>(), ModContent.NPCType<CrimulanSlimeGod>(), ModContent.NPCType<SplitEbonianSlimeGod>(), ModContent.NPCType<SplitCrimulanSlimeGod>(),
                     ModContent.NPCType<CorruptSlimeSpawn>(), ModContent.NPCType<CorruptSlimeSpawn2>(), ModContent.NPCType<CrimsonSlimeSpawn>(), ModContent.NPCType<CrimsonSlimeSpawn2>() }),
 
                 new Boss(NPCID.WallofFlesh, spawnContext: type =>
@@ -205,20 +205,20 @@ namespace CalamityMod.Events
                     NPC.SpawnOnPlayer(ClosestPlayerToWorldCenter, NPCID.Retinazer);
                 }, permittedNPCs: NPCID.Retinazer),
 
-                new Boss(ModContent.NPCType<AquaticScourgeHead>(), permittedNPCs: new int[] { ModContent.NPCType<AquaticScourgeBody>(), ModContent.NPCType<AquaticScourgeBodyAlt>(), ModContent.NPCType<AquaticScourgeTail>() }),
+                new Boss(ModContent.NPCType<AquaticScourgeHead>(), TimeChangeContext.Day, permittedNPCs: new int[] { ModContent.NPCType<AquaticScourgeBody>(), ModContent.NPCType<AquaticScourgeBodyAlt>(), ModContent.NPCType<AquaticScourgeTail>() }),
 
                 new Boss(NPCID.TheDestroyer, TimeChangeContext.Night, permittedNPCs: new int[] { NPCID.TheDestroyerBody, NPCID.TheDestroyerTail, NPCID.Probe }),
 
-                new Boss(ModContent.NPCType<BrimstoneElemental>(), permittedNPCs: ModContent.NPCType<Brimling>()),
+                new Boss(ModContent.NPCType<BrimstoneElemental>(), TimeChangeContext.Day, permittedNPCs: ModContent.NPCType<Brimling>()),
 
                 new Boss(NPCID.SkeletronPrime, TimeChangeContext.Night, permittedNPCs: new int[] { NPCID.PrimeCannon, NPCID.PrimeSaw, NPCID.PrimeVice, NPCID.PrimeLaser, NPCID.Probe }),
 
                 new Boss(ModContent.NPCType<CalamitasClone>(), TimeChangeContext.Night, dimnessFactor: 0.6f, permittedNPCs: new int[] { ModContent.NPCType<Cataclysm>(), ModContent.NPCType<Catastrophe>(),
                     ModContent.NPCType<SoulSeeker>() }),
 
-                new Boss(NPCID.Plantera, permittedNPCs: new int[] { NPCID.PlanterasTentacle, NPCID.PlanterasHook, NPCID.Spore }),
+                new Boss(NPCID.Plantera, TimeChangeContext.Day, permittedNPCs: new int[] { NPCID.PlanterasTentacle, NPCID.PlanterasHook, NPCID.Spore }),
 
-                new Boss(ModContent.NPCType<Anahita>(), TimeChangeContext.Day, specialSpawnCountdown: 120, permittedNPCs: new int[] { ModContent.NPCType<Leviathan>(), ModContent.NPCType<AquaticAberration>(),
+                new Boss(ModContent.NPCType<Anahita>(), specialSpawnCountdown: 120, permittedNPCs: new int[] { ModContent.NPCType<Leviathan>(), ModContent.NPCType<AquaticAberration>(),
                     ModContent.NPCType<AnahitasIceShield>(), NPCID.DetonatingBubble}),
 
                 new Boss(ModContent.NPCType<AstrumAureus>(), TimeChangeContext.Night, permittedNPCs: ModContent.NPCType<AureusSpawn>()),
@@ -240,7 +240,7 @@ namespace CalamityMod.Events
 
                 new Boss(NPCID.HallowBoss, TimeChangeContext.Night),
 
-                new Boss(NPCID.DukeFishron, TimeChangeContext.Day, spawnContext: type =>
+                new Boss(NPCID.DukeFishron, TimeChangeContext.Day, type =>
                 {
                     Player player = Main.player[ClosestPlayerToWorldCenter];
                     int dukeFishron = NPC.NewNPC(Source, (int)(player.position.X + Main.rand.Next(-100, 101)), (int)(player.position.Y - 400f), type, 1);
@@ -293,13 +293,13 @@ namespace CalamityMod.Events
                     NPC.SpawnOnPlayer(ClosestPlayerToWorldCenter, type);
                 }, permittedNPCs: new int[] { NPCID.MoonLordLeechBlob, NPCID.MoonLordHand, NPCID.MoonLordHead, NPCID.MoonLordFreeEye }),
 
-                new Boss(ModContent.NPCType<ProfanedGuardianCommander>(), TimeChangeContext.Day, spawnContext: type =>
+                new Boss(ModContent.NPCType<ProfanedGuardianCommander>(), TimeChangeContext.Day, type =>
                 {
                     CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.BossRushTierThreeEndText2", XerocTextColor);
                     NPC.SpawnOnPlayer(ClosestPlayerToWorldCenter, type);
                 }, permittedNPCs: new int[] { ModContent.NPCType<ProfanedGuardianDefender>(), ModContent.NPCType<ProfanedGuardianHealer>() }),
 
-                new Boss(ModContent.NPCType<Bumblefuck>(), TimeChangeContext.Day, permittedNPCs: new int[] { ModContent.NPCType<Bumblefuck2>() }),
+                new Boss(ModContent.NPCType<Bumblefuck>(), permittedNPCs: new int[] { ModContent.NPCType<Bumblefuck2>() }),
 
                 new Boss(ModContent.NPCType<Providence>(), TimeChangeContext.Day, type =>
                 {
@@ -329,7 +329,7 @@ namespace CalamityMod.Events
                     NPC.SpawnOnPlayer(ClosestPlayerToWorldCenter, type);
                 }, usesSpecialSound: true, permittedNPCs: ModContent.NPCType<DarkEnergy>()),
 
-                new Boss(ModContent.NPCType<StormWeaverHead>(), TimeChangeContext.Day, type =>
+                new Boss(ModContent.NPCType<StormWeaverHead>(), spawnContext: type =>
                 {
                     Player player = Main.player[ClosestPlayerToWorldCenter];
 
@@ -345,9 +345,8 @@ namespace CalamityMod.Events
                     NPC.SpawnOnPlayer(ClosestPlayerToWorldCenter, type);
                 }, usesSpecialSound: true, permittedNPCs: new int[] { ModContent.NPCType<CosmicLantern>(), ModContent.NPCType<CosmicMine>() }),
 
-                new Boss(ModContent.NPCType<Polterghast>(), TimeChangeContext.Day, type =>
+                new Boss(ModContent.NPCType<Polterghast>(), spawnContext: type =>
                 {
-                    CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.BossRushTierFourEndText2", XerocTextColor);
                     Player player = Main.player[ClosestPlayerToWorldCenter];
 
                     SoundEngine.PlaySound(Polterghast.SpawnSound, player.Center);
@@ -363,7 +362,7 @@ namespace CalamityMod.Events
                     CalamityUtils.BossAwakenMessage(boomerDuke);
                 }, permittedNPCs: new int[] { ModContent.NPCType<OldDukeToothBall>(), ModContent.NPCType<SulphurousSharkron>() }),
 
-                new Boss(ModContent.NPCType<DevourerofGodsHead>(), TimeChangeContext.Day, type =>
+                new Boss(ModContent.NPCType<DevourerofGodsHead>(), spawnContext: type =>
                 {
                     Player player = Main.player[ClosestPlayerToWorldCenter];
 
@@ -371,15 +370,16 @@ namespace CalamityMod.Events
                     NPC.SpawnOnPlayer(ClosestPlayerToWorldCenter, type);
                 }, usesSpecialSound: true, permittedNPCs: new int[] { ModContent.NPCType<DevourerofGodsBody>(), ModContent.NPCType<DevourerofGodsTail>(), ModContent.NPCType<CosmicGuardianHead>(), ModContent.NPCType<CosmicGuardianBody>(), ModContent.NPCType<CosmicGuardianTail>() }),
 
-                new Boss(ModContent.NPCType<Yharon>(), TimeChangeContext.Day, type =>
+                new Boss(ModContent.NPCType<Yharon>(), spawnContext: type =>
                 {
+                    CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.BossRushTierFourEndText2", XerocTextColor);
                     Player player = Main.player[ClosestPlayerToWorldCenter];
 
                     SoundEngine.PlaySound(Yharon.FireSound, player.Center);
                     NPC.SpawnOnPlayer(ClosestPlayerToWorldCenter, type);
                 }, usesSpecialSound: true),
 
-                new Boss(ModContent.NPCType<Draedon>(), TimeChangeContext.Day, type =>
+                new Boss(ModContent.NPCType<Draedon>(), spawnContext: type =>
                 {
 					if (!NPC.AnyNPCs(ModContent.NPCType<Draedon>()))
 					{
