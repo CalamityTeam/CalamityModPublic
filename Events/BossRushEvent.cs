@@ -174,7 +174,7 @@ namespace CalamityMod.Events
                     ModContent.NPCType<PerforatorHeadMedium>(), ModContent.NPCType<PerforatorBodyMedium>(), ModContent.NPCType<PerforatorTailMedium>(), ModContent.NPCType<PerforatorHeadSmall>(),
                     ModContent.NPCType<PerforatorBodySmall>() ,ModContent.NPCType<PerforatorTailSmall>() }),
 
-                new Boss(NPCID.QueenBee),
+                new Boss(NPCID.QueenBee, permittedNPCs: new int[] { NPCID.Bee, NPCID.BeeSmall }),
 
                 new Boss(NPCID.Deerclops),
 
@@ -257,7 +257,7 @@ namespace CalamityMod.Events
                     Main.npc[ravager].timeLeft *= 20;
                     CalamityUtils.BossAwakenMessage(ravager);
                 }, usesSpecialSound: true, permittedNPCs: new int[] { ModContent.NPCType<FlamePillar>(), ModContent.NPCType<RockPillar>(), ModContent.NPCType<RavagerLegLeft>(), ModContent.NPCType<RavagerLegRight>(),
-                   ModContent.NPCType<RavagerClawLeft>(), ModContent.NPCType<RavagerClawRight>() }),
+                   ModContent.NPCType<RavagerClawLeft>(), ModContent.NPCType<RavagerClawRight>(), ModContent.NPCType<RavagerHead>(), ModContent.NPCType<RavagerHead2>() }),
 
                 new Boss(NPCID.CultistBoss, spawnContext: type =>
                 {
