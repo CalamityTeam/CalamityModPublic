@@ -72,6 +72,9 @@ namespace CalamityMod.Projectiles.Ranged
                 Projectile.netUpdate = true;
             }
 
+            // Update damage based on current ranged damage stat, since this projectile exists regardless of if it's being fired.
+            Projectile.damage = (int)Owner.GetTotalDamage<RangedDamageClass>().ApplyTo(Owner.ActiveItem()?.damage ?? 0);
+
             UpdateProjectileHeldVariables(armPosition);
             ManipulatePlayerVariables();
 
@@ -86,13 +89,13 @@ namespace CalamityMod.Projectiles.Ranged
                 if (ShootDelay % HeavenlyGale.ArrowShootRate == 0)
                 {
                     Vector2 arrowDirection = Projectile.velocity.RotatedBy(bowAngularOffset);
-                    
+
                     // Release a streak of energy.
                     Color energyBoltColor = CalamityUtils.MulticolorLerp(shootCompletionRatio, CalamityUtils.ExoPalette);
                     energyBoltColor = Color.Lerp(energyBoltColor, Color.White, 0.35f);
                     SquishyLightParticle exoEnergyBolt = new(tipPosition + arrowDirection * 16f, arrowDirection * 4.5f, 0.85f, energyBoltColor, 40, 1f, 5.4f, 4f, 0.08f);
                     GeneralParticleHandler.SpawnParticle(exoEnergyBolt);
-                    
+
                     // Update the tip position for one frame.
                     tipPosition = armPosition + arrowDirection * Projectile.width * 0.5f;
 
@@ -135,7 +138,7 @@ namespace CalamityMod.Projectiles.Ranged
                     // Parametric equations for an asteroid.
                     float unitOffsetX = (float)Math.Pow(Math.Cos(offsetAngle), 3D);
                     float unitOffsetY = (float)Math.Pow(Math.Sin(offsetAngle), 3D);
-                    
+
                     Vector2 puffDustVelocity = new Vector2(unitOffsetX, unitOffsetY) * 5f;
                     Dust magic = Dust.NewDustPerfect(tipPosition, 267, puffDustVelocity);
                     magic.scale = 1.8f;
@@ -146,7 +149,7 @@ namespace CalamityMod.Projectiles.Ranged
                 ChargeTimer++;
             }
         }
-        
+
         public void UpdateProjectileHeldVariables(Vector2 armPosition)
         {
             if (Main.myPlayer == Projectile.owner)
