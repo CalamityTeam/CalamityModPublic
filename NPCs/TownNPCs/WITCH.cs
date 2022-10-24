@@ -50,7 +50,7 @@ namespace CalamityMod.NPCs.TownNPCs
             NPC.lavaImmune = true;
             NPC.width = 18;
             NPC.height = 40;
-            NPC.aiStyle = 7;
+            NPC.aiStyle = NPCAIStyleID.Passive;
             NPC.damage = 10;
 
             // You should not be able to kill SCal under any typical circumstances.

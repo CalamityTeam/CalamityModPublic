@@ -37,7 +37,7 @@ namespace CalamityMod.NPCs.Astral
         {
             NPC.width = 70;
             NPC.height = 34;
-            NPC.aiStyle = 3;
+            NPC.aiStyle = NPCAIStyleID.Fighter;
             NPC.damage = 55;
             NPC.defense = 20;
             NPC.DR_NERD(0.15f);

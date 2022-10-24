@@ -32,7 +32,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             NPC.width = 26;
             NPC.height = 26;
             NPC.lifeMax = 2000;
-            NPC.aiStyle = 7;
+            NPC.aiStyle = NPCAIStyleID.Passive;
             AIType = NPCID.Squirrel;
             NPC.knockBackResist = 0.99f;
             NPC.value = Item.buyPrice(0, 2, 0, 0);
