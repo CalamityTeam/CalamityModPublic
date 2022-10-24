@@ -73,7 +73,7 @@ namespace CalamityMod.Projectiles.Ranged
             }
 
             // Update damage based on current ranged damage stat, since this projectile exists regardless of if it's being fired.
-            Projectile.damage = (int)Owner.GetTotalDamage<RangedDamageClass>().ApplyTo(Owner.ActiveItem()?.damage ?? 0);
+            Projectile.damage = Owner.ActiveItem() is null ? 0 : Owner.GetWeaponDamage(Owner.ActiveItem());
 
             UpdateProjectileHeldVariables(armPosition);
             ManipulatePlayerVariables();
