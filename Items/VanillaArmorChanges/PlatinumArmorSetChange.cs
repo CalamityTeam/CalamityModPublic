@@ -32,7 +32,7 @@ namespace CalamityMod.Items.VanillaArmorChanges
         public override void UpdateSetBonusText(ref string setBonusText)
         {
             StringBuilder sb = new StringBuilder(256);
-            sb.Append("\nEvery 15 defense gives you +1 life regen\nEvery 15 defense gives you 1% increased critical strike chance\nThese effects both cap at 45 defense");
+            sb.Append("\nEvery 15 defense gives you +1 life regen and 1% increased critical strike chance\nThese effects both cap at 45 defense");
             sb.Append(CalamityGlobalItem.MiningSpeedString(SetBonusMiningSpeedPercent));
             setBonusText += sb.ToString();
         }
