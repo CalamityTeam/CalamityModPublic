@@ -87,7 +87,7 @@ namespace CalamityMod.Projectiles.Ranged
             Item heldItem = Owner.ActiveItem();
 
             // Calculate damage at the instant the arrow is fired
-            int arrowDamage = (int)Owner.GetTotalDamage<RangedDamageClass>().ApplyTo(heldItem.damage);
+            int arrowDamage = heldItem is null ? 0 : Owner.GetWeaponDamage(heldItem);
             float shootSpeed = heldItem.shootSpeed;
             float knockback = heldItem.knockBack;
 
