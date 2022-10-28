@@ -552,7 +552,7 @@ namespace CalamityMod.ILEditing
                 // If the blazing mouse is actually going to do damage, draw an indicator aura.
                 if (!Main.mapFullscreen)
                 {
-                    int size = 450;
+                    int size = 370;
                     FluidFieldManager.AdjustSizeRelativeToGraphicsQuality(ref size);
 
                     float scale = MathHelper.Max(Main.screenWidth, Main.screenHeight) / size;
@@ -566,10 +566,10 @@ namespace CalamityMod.ILEditing
 
                     int x = (int)((drawPosition.X - firePosition.X) / calamityFireDrawer.Scale);
                     int y = (int)((drawPosition.Y - firePosition.Y) / calamityFireDrawer.Scale);
-                    int horizontalArea = (int)Math.Ceiling(5f / calamityFireDrawer.Scale);
-                    int verticalArea = (int)Math.Ceiling(5f / calamityFireDrawer.Scale);
+                    int horizontalArea = (int)Math.Ceiling(8f / calamityFireDrawer.Scale);
+                    int verticalArea = (int)Math.Ceiling(8f / calamityFireDrawer.Scale);
 
-                    calamityFireDrawer.ShouldUpdate = player.miscCounter % 4 == 0;
+                    calamityFireDrawer.ShouldUpdate = player.miscCounter % 2 == 0;
                     calamityFireDrawer.UpdateAction = () =>
                     {
                         Color color = Color.Lerp(Color.Red, Color.Orange, (float)Math.Sin(Main.GlobalTimeWrappedHourly * 6f) * 0.5f + 0.5f);
@@ -590,7 +590,7 @@ namespace CalamityMod.ILEditing
                             }
                             UIManagementSystem.PreviousMouseWorld = Main.MouseWorld;
 
-                            velocity = velocity.SafeNormalize(-Vector2.UnitY).RotatedBy(offsetAngle) * 0.2f;
+                            velocity = velocity.SafeNormalize(-Vector2.UnitY).RotatedBy(offsetAngle) * 3f;
 
                             // Add a tiny bit of randomness to the velocity.
                             // Chaos in the advection calculations should result in different flames being made over time, instead of a
@@ -598,11 +598,18 @@ namespace CalamityMod.ILEditing
                             velocity *= Main.rand.NextFloat(0.9f, 1.1f);
 
                             for (int j = -verticalArea; j <= verticalArea; j++)
-                                player.Calamity().CalamityFireDrawer.CreateSource(x + size / 2 + i, y + size / 2 + j, 1f, color, velocity);
+                                player.Calamity().CalamityFireDrawer.CreateSource(x + size / 2 + i, y + size / 2 + j, 1f, color, i == 0 && j == 0 ? velocity : Vector2.Zero);
                         }
                     };
 
-                    calamityFireDrawer.Draw(firePosition, true, Main.UIScaleMatrix, Main.UIScaleMatrix);
+                    calamityFireDrawer.Draw(firePosition, true, Main.UIScaleMatrix, Main.UIScaleMatrix, output =>
+                    {
+                        var armorShader = player.Calamity().CalamityFireDyeShader;
+                        if (armorShader is null)
+                            return;
+
+                        armorShader.Apply(null, new(output, Vector2.Zero, Color.White));
+                    });
                 }
 
                 Main.spriteBatch.Draw(TextureAssets.Cursors[cursorIndex].Value, drawPosition, null, desaturatedCursorColor, 0f, Vector2.Zero, Main.cursorScale, SpriteEffects.None, 0f);
@@ -1012,6 +1019,7 @@ namespace CalamityMod.ILEditing
             cursor.Emit<CalamityGlobalNPC>(OpCodes.Call, "get_TaxesToCollectLimit");
         }
         #endregion Make Tax Collector Worth it
+
         #region Foreground tiles drawing
         private static void DrawForegroundStuff(On.Terraria.Main.orig_DrawGore orig, Main self)
         {
@@ -1130,5 +1138,15 @@ namespace CalamityMod.ILEditing
             mp.hookCache = -1;
         }
         #endregion
+
+        #region Find Calamity Item Dye Shader
+
+        internal static void FindCalamityItemDyeShader(On.Terraria.Player.orig_UpdateItemDye orig, Player self, bool isNotInVanitySlot, bool isSetToHidden, Item armorItem, Item dyeItem)
+        {
+            orig(self, isNotInVanitySlot, isSetToHidden, armorItem, dyeItem);
+            if (armorItem.type == ModContent.ItemType<Calamity>())
+                self.Calamity().CalamityFireDyeShader = GameShaders.Armor.GetShaderFromItemId(dyeItem.type);
+        }
+        #endregion Find Calamity Item Dye Shader
     }
 }
