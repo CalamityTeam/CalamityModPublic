@@ -61,7 +61,7 @@ namespace CalamityMod.Projectiles.Ranged
         public override void SafeAI()
         {
             Vector2 armPosition = Owner.RotatedRelativePoint(Owner.MountedCenter, true);
-            Vector2 tipPosition = armPosition + Projectile.velocity * Projectile.width * 0.5f;
+            Vector2 tipPosition = armPosition + Projectile.velocity * Projectile.width * 0.45f;
 
             // Activate shot behavior if the owner stops channeling or otherwise cannot use the weapon.
             bool activatingShoot = ShootDelay <= 0 && Main.mouseLeft && !Main.mapFullscreen && !Main.blockMouse;
@@ -97,7 +97,7 @@ namespace CalamityMod.Projectiles.Ranged
                     GeneralParticleHandler.SpawnParticle(exoEnergyBolt);
 
                     // Update the tip position for one frame.
-                    tipPosition = armPosition + arrowDirection * Projectile.width * 0.5f;
+                    tipPosition = armPosition + arrowDirection * Projectile.width * 0.45f;
 
                     if (Main.myPlayer == Projectile.owner)
                     {
@@ -113,17 +113,22 @@ namespace CalamityMod.Projectiles.Ranged
                     ChargeTimer = 0f;
             }
 
-            // Create exo energy at the tip of the bow.
+            // Create orange exo energy at the tip of the bow.
+            Color energyColor = Color.Orange;
+            Vector2 verticalOffset = Vector2.UnitY.RotatedBy(Projectile.rotation) * 8f;
+            if (Math.Cos(Projectile.rotation) < 0f)
+                verticalOffset *= -1f;
+
             if (Main.rand.NextBool(4))
             {
-                Color energyColor = Color.Orange;
-                Vector2 verticalOffset = Vector2.UnitY.RotatedBy(Projectile.rotation) * 8f;
-                if (Math.Cos(Projectile.rotation) < 0f)
-                    verticalOffset *= -1f;
-
                 SquishyLightParticle exoEnergy = new(tipPosition + verticalOffset, -Vector2.UnitY.RotatedByRandom(0.39f) * Main.rand.NextFloat(0.4f, 1.6f), 0.28f, energyColor, 25);
                 GeneralParticleHandler.SpawnParticle(exoEnergy);
             }
+
+            // Create light at the tip of the bow.
+            DelegateMethods.v3_1 = energyColor.ToVector3();
+            Utils.PlotTileLine(tipPosition - verticalOffset, tipPosition + verticalOffset, 10f, DelegateMethods.CastLightOpen);
+            Lighting.AddLight(tipPosition, energyColor.ToVector3());
 
             // Create a puff of energy in a star shape and play a sound to indicate that the bow is at max charge.
             if (ShootDelay <= 0)
