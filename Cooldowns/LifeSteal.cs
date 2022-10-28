@@ -5,7 +5,7 @@ namespace CalamityMod.Cooldowns
     public class LifeSteal : CooldownHandler
     {
         public static new string ID => "LifeSteal";
-        public override bool ShouldDisplay => CalamityConfig.Instance.VanillaCooldownDisplay && instance.player.lifeSteal < 0f;
+        public override bool ShouldDisplay => instance.player.lifeSteal < 0f;
         public override string DisplayName => "Life Steal Cooldown";
         public override string Texture => "CalamityMod/Cooldowns/LifeSteal";
         public override Color OutlineColor => new Color(255, 142, 165);
