@@ -578,6 +578,10 @@ namespace CalamityMod.ILEditing
                         if (player.hasRainbowCursor)
                             color = Color.Lerp(color, Main.hslToRgb(Main.GlobalTimeWrappedHourly * 0.97f % 1f, 1f, 0.6f), 0.75f);
 
+                        // Make the flame more greyscale if a dye is being applied, so that it doesn't conflict with the specific oranges and reds to create gross colors.
+                        if (player.Calamity().CalamityFireDyeShader is not null)
+                            color = Color.Lerp(color, Color.White, 0.75f);
+
                         for (int i = -horizontalArea; i <= horizontalArea; i++)
                         {
                             float offsetAngle = (float)Math.Sin(Main.GlobalTimeWrappedHourly * 6.7f) * 0.99f;
