@@ -266,7 +266,7 @@ namespace CalamityMod.Tiles
                             Item.NewItem(new EntitySource_TileBreak(i, j), pos, ItemID.SoulofNight);
                         }
                     }
-                    if (WorldGen.altarCount % 3 == 0 && WorldGen.altarCount > 1)
+                    if (WorldGen.altarCount % 12 == 0 && WorldGen.altarCount > 1)
                         Item.NewItem(new EntitySource_TileBreak(i, j), pos, ModContent.ItemType<EvilSmasher>());
                 }
             }
