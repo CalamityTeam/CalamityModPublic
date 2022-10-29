@@ -42,12 +42,7 @@ namespace CalamityMod.Projectiles.Enemy
 
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D texture = TextureAssets.Projectile[Projectile.type].Value;
-            Vector2 drawPosition = Projectile.position + Projectile.Size * 0.5f - Main.screenPosition;
-            Vector2 origin = texture.Size() * 0.5f;
-            
-            Projectile.DrawBackglow(Color.White, 4f);
-            Main.spriteBatch.Draw(texture, drawPosition, null, Color.White * Projectile.Opacity, Projectile.rotation, origin, Projectile.scale, 0, 0f);
+            Projectile.DrawProjectileWithBackglow(Color.White with { A = 0 }, lightColor, 4f);
             return false;
         }
 
