@@ -43,7 +43,7 @@ namespace CalamityMod.Items.Placeables.FurnitureAbyss
 
         public override void HoldItem(Player player)
         {
-            if (Main.rand.Next(player.itemAnimation > 0 ? 10 : 20) == 0)
+            if (Main.rand.NextBool(player.itemAnimation > 0 ? 10 : 20))
             {
                 Dust.NewDust(new Vector2(player.itemLocation.X + 16f * player.direction, player.itemLocation.Y - 14f * player.gravDir), 4, 4, 180);
             }
@@ -64,7 +64,7 @@ namespace CalamityMod.Items.Placeables.FurnitureAbyss
 
         public override void AddRecipes()
         {
-            CreateRecipe(3).AddIngredient(ItemID.Torch, 3).AddIngredient(ModContent.ItemType<Lumenyl>()).Register();
+            CreateRecipe(3).AddIngredient(ItemID.Torch, 3).AddIngredient(ModContent.ItemType<AbyssGravel>()).Register();
         }
     }
 }
