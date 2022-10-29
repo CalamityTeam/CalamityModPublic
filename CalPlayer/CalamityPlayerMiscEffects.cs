@@ -2428,9 +2428,6 @@ namespace CalamityMod.CalPlayer
                 Player.GetCritChance<GenericDamageClass>() += Vodka.CritBoost;
             }
 
-            if (grapeBeer)
-                Player.moveSpeed -= 0.05f;
-
             if (moonshine)
             {
                 Player.statDefense += 10;
@@ -2621,8 +2618,7 @@ namespace CalamityMod.CalPlayer
             if (vHex)
             {
                 Player.blind = true;
-                Player.statDefense -= 10;
-                Player.moveSpeed -= 0.1f;
+                Player.statDefense -= 20;
 
                 if (Player.wingTimeMax < 0)
                     Player.wingTimeMax = 0;
@@ -2691,38 +2687,16 @@ namespace CalamityMod.CalPlayer
                 Player.lifeMagnet = true;
             }
 
-            if (Player.poisoned)
-                Player.moveSpeed -= 0.1f;
-
-            if (Player.venom)
-                Player.moveSpeed -= 0.15f;
-
             if (wDeath)
-            {
-                Player.GetDamage<GenericDamageClass>() -= 0.2f;
-                Player.moveSpeed -= 0.1f;
-            }
-
-            if (dragonFire)
-                Player.moveSpeed -= 0.15f;
-
-            if (hInferno)
-                Player.moveSpeed -= 0.25f;
-
-            if (gsInferno)
-                Player.moveSpeed -= 0.15f;
+                Player.GetDamage<GenericDamageClass>() -= 0.25f;
 
             if (astralInfection)
-            {
-                Player.GetDamage<GenericDamageClass>() -= 0.1f;
-                Player.moveSpeed -= 0.15f;
-            }
+                Player.GetDamage<GenericDamageClass>() -= 0.15f;
 
             if (pFlames)
             {
                 Player.blind = true;
-                Player.GetDamage<GenericDamageClass>() -= 0.1f;
-                Player.moveSpeed -= 0.15f;
+                Player.GetDamage<GenericDamageClass>() -= 0.15f;
             }
 
             if (bBlood)
