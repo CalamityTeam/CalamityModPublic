@@ -1,4 +1,4 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -9,7 +9,7 @@ namespace CalamityMod.Buffs.Alcohol
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Grape Beer");
-            Description.SetDefault("Defense and movement speed reduced");
+            Description.SetDefault("Defense reduced");
             Main.debuff[Type] = true;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = false;

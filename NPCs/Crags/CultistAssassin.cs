@@ -20,7 +20,7 @@ namespace CalamityMod.NPCs.Crags
         public override void SetDefaults()
         {
             NPC.lavaImmune = true;
-            NPC.aiStyle = 3;
+            NPC.aiStyle = NPCAIStyleID.Fighter;
             NPC.damage = 50;
             NPC.width = 18;
             NPC.height = 40;

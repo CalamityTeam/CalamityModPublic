@@ -63,6 +63,9 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void AI()
         {
+            // Emit light.
+            Lighting.AddLight(Projectile.Center, Color.White.ToVector3() * 1.3f);
+
             // If the player is no longer able to channel the vortex and it hasn't been released yet, release it.
             if ((!Owner.Calamity().mouseRight || Owner.noItems || Owner.CCed) && !HasBeenReleased)
             {

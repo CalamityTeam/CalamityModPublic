@@ -29,7 +29,7 @@ namespace CalamityMod.NPCs.PlagueEnemies
 
         public override void SetDefaults()
         {
-            NPC.aiStyle = 1;
+            NPC.aiStyle = NPCAIStyleID.Slime;
             NPC.damage = 55;
             NPC.width = 40;
             NPC.height = 30;

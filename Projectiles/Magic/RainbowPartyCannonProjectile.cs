@@ -29,7 +29,7 @@ namespace CalamityMod.Projectiles.Magic
         public override void AI()
         {
             Item heldItem = Owner.ActiveItem();
-            Projectile.damage = (int)Owner.GetTotalDamage<MagicDamageClass>().ApplyTo(heldItem?.damage ?? 0);
+            Projectile.damage = heldItem is null ? 0 : Owner.GetWeaponDamage(heldItem);
 
             UpdatePlayerVisuals(Owner.Center);
 

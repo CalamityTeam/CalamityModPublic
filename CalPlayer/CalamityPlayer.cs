@@ -49,7 +49,6 @@ using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.Particles;
 using CalamityMod.Projectiles.BaseProjectiles;
 using CalamityMod.Projectiles.Boss;
-using CalamityMod.Projectiles.Environment;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Projectiles.Rogue;
@@ -58,6 +57,7 @@ using CalamityMod.Projectiles.Typeless;
 using CalamityMod.UI;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.Audio;
 using Terraria.Chat;
@@ -1089,6 +1089,8 @@ namespace CalamityMod.CalPlayer
         public FluidField CalamityFireDrawer;
 
         public FluidField ProfanedMoonlightAuroraDrawer;
+
+        public ArmorShaderData CalamityFireDyeShader = null;
 
         public Vector2 FireDrawerPosition;
 
@@ -3279,6 +3281,9 @@ namespace CalamityMod.CalPlayer
         #region PreUpdate
         public override void PreUpdate()
         {
+            // Reset the Calamity shader.
+            CalamityFireDyeShader = null;
+
             if (HasCustomDash && UsedDash.IsOmnidirectional)
                 Player.maxFallSpeed = 50f;
 
@@ -5401,7 +5406,7 @@ namespace CalamityMod.CalPlayer
             if (totalMoonlightDyes > 0)
             {
                 // Initialize the aurora drawer.
-                int size = 425;
+                int size = 340;
                 FluidFieldManager.AdjustSizeRelativeToGraphicsQuality(ref size);
 
                 float scale = MathHelper.Max(Main.screenWidth, Main.screenHeight) / size * 0.4f;
@@ -5409,7 +5414,7 @@ namespace CalamityMod.CalPlayer
                     ProfanedMoonlightAuroraDrawer = FluidFieldManager.CreateField(size, scale, 0.1f, 50f, 0.992f);
 
                 int sourceArea = (int)Math.Ceiling(6f / ProfanedMoonlightAuroraDrawer.Scale) + 1;
-                ProfanedMoonlightAuroraDrawer.ShouldUpdate = Player.miscCounter % 4 == 0;
+                ProfanedMoonlightAuroraDrawer.ShouldUpdate = Player.miscCounter % 2 == 0;
                 ProfanedMoonlightAuroraDrawer.UpdateAction = () =>
                 {
                     // Aurora Count does not scale to save on resources if you have a lot of dyes

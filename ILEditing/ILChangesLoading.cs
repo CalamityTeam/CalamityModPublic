@@ -68,6 +68,7 @@ namespace CalamityMod.ILEditing
             // TODO -- This should be unnecessary. There is now a TML hook for platform collision for ModNPCs.
             On.Terraria.NPC.Collision_DecideFallThroughPlatforms += EnableCalamityBossPlatformCollision;
             IL.Terraria.Wiring.HitWireSingle += AddTwinklersToStatue;
+            On.Terraria.Player.UpdateItemDye += FindCalamityItemDyeShader;
 
             // Mana Burn
             IL.Terraria.Player.QuickHeal += ConditionallyReplaceManaSickness;
@@ -183,6 +184,9 @@ namespace CalamityMod.ILEditing
             On.Terraria.WorldGen.CloseDoor -= CloseDoor_LabDoorOverride;
             On.Terraria.Item.AffixName -= IncorporateEnchantmentInAffix;
             On.Terraria.Projectile.NewProjectile_IEntitySource_float_float_float_float_int_int_float_int_float_float -= IncorporateMinionExplodingCountdown;
+            On.Terraria.NPC.Collision_DecideFallThroughPlatforms -= EnableCalamityBossPlatformCollision;
+            IL.Terraria.Wiring.HitWireSingle -= AddTwinklersToStatue;
+            On.Terraria.Player.UpdateItemDye -= FindCalamityItemDyeShader;
 
             // Mana Burn
             IL.Terraria.Player.QuickHeal -= ConditionallyReplaceManaSickness;

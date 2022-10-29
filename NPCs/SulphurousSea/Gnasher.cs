@@ -32,8 +32,8 @@ namespace CalamityMod.NPCs.SulphurousSea
             NPC.DR_NERD(0.15f);
             NPC.lifeMax = 35;
             NPC.knockBackResist = 0.25f;
-            NPC.aiStyle = 3;
-            AIType = 67;
+            NPC.aiStyle = NPCAIStyleID.Fighter;
+            AIType = NPCID.Crab;
             NPC.value = Item.buyPrice(0, 0, 0, 60);
             NPC.HitSound = SoundID.NPCHit50;
             NPC.DeathSound = SoundID.NPCDeath54;

@@ -21,6 +21,9 @@ namespace CalamityMod.NPCs.CeaselessVoid
         private double distance = minDistance;
         private const double minMaxDistance = 800D;
 
+        public const int MaxHP = 12000;
+        public const int MaxBossRushHP = 20000;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Dark Energy");
@@ -39,7 +42,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
             NPC.width = 80;
             NPC.height = 80;
             NPC.defense = 50;
-            NPC.lifeMax = BossRushEvent.BossRushActive ? 4400 : 12000;
+            NPC.lifeMax = BossRushEvent.BossRushActive ? MaxBossRushHP : MaxHP;
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
             NPC.knockBackResist = 0f;

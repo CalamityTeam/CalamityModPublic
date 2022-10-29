@@ -39,6 +39,8 @@ namespace CalamityMod.NPCs.Cryogen
         private int currentPhase = 1;
         private int teleportLocationX = 0;
 
+        public static Color BackglowColor => new Color(24, 100, 255, 80) * 0.6f;
+
         public override string Texture => "CalamityMod/NPCs/Cryogen/Cryogen_Phase1";
 
         public override void SetStaticDefaults()

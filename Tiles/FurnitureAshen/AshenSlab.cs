@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Tiles.Crags;
 
 namespace CalamityMod.Tiles.FurnitureAshen
 {
@@ -13,6 +14,8 @@ namespace CalamityMod.Tiles.FurnitureAshen
             Main.tileSolid[Type] = true;
             Main.tileMergeDirt[Type] = false;
             Main.tileBlockLight[Type] = true;
+            CalamityUtils.SetMerge(Type, ModContent.TileType<BrimstoneSlag>());
+
             ItemDrop = ModContent.ItemType<Items.Placeables.FurnitureAshen.AshenSlab>();
             HitSound = SoundID.Tink;
             MineResist = 5f;

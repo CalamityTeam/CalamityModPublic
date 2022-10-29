@@ -24,7 +24,7 @@ namespace CalamityMod.NPCs.PlagueEnemies
         public override void SetDefaults()
         {
             NPC.npcSlots = 0.5f;
-            NPC.aiStyle = 14;
+            NPC.aiStyle = NPCAIStyleID.Bat;
             AIType = NPCID.GiantFlyingFox;
             AnimationType = NPCID.GiantFlyingFox;
             NPC.damage = 55;

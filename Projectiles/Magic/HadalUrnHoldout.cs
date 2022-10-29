@@ -35,7 +35,7 @@ namespace CalamityMod.Projectiles.Magic
             float rotoffset = MathHelper.PiOver2;
             Vector2 playerpos = player.RotatedRelativePoint(player.MountedCenter, true);
             bool shouldBeHeld = player.channel && !player.noItems && !player.CCed;
-            Projectile.damage = (int)player.GetTotalDamage<MagicDamageClass>().ApplyTo(player.ActiveItem()?.damage ?? 0);
+            Projectile.damage = player.ActiveItem() is null ? 0 : player.GetWeaponDamage(player.ActiveItem());
             if (Projectile.ai[0] > 0f)
             {
                 Projectile.ai[0] -= 1f;
