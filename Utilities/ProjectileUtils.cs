@@ -505,6 +505,23 @@ namespace CalamityMod
             return false;
         }
 
+        public static void DrawBackglow(this Projectile projectile, Color backglowColor, float backglowArea, Rectangle? frame = null)
+        {
+            Texture2D texture = TextureAssets.Projectile[projectile.type].Value;
+
+            // Use a fallback for the frame.
+            frame ??= texture.Frame(1, Main.projFrames[projectile.type], 0, projectile.frame);
+
+            Vector2 drawPosition = projectile.position + projectile.Size * 0.5f - Main.screenPosition;
+            Vector2 origin = frame.Value.Size() * 0.5f;
+            Color backAfterimageColor = projectile.GetAlpha(backglowColor with { A = 0 });
+            for (int i = 0; i < 10; i++)
+            {
+                Vector2 drawOffset = (MathHelper.TwoPi * i / 10f).ToRotationVector2() * backglowArea;
+                Main.spriteBatch.Draw(texture, drawPosition + drawOffset, frame, backAfterimageColor, projectile.rotation, origin, projectile.scale, 0, 0f);
+            }
+        }
+
         public static void ExplodeandDestroyTiles(Projectile projectile, int explosionRadius, bool checkExplosions, List<int> tilesToCheck, List<int> wallsToCheck)
         {
             int minTileX = (int)projectile.position.X / 16 - explosionRadius;

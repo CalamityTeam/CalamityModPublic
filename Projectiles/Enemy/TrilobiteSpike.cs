@@ -1,8 +1,9 @@
 ﻿using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ID;
+using Terraria.GameContent;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Enemy
@@ -41,10 +42,12 @@ namespace CalamityMod.Projectiles.Enemy
 
         public override bool PreDraw(ref Color lightColor)
         {
-            lightColor.R = (byte)(200 * Projectile.Opacity);
-            lightColor.G = (byte)(150 * Projectile.Opacity);
-            lightColor.B = (byte)(100 * Projectile.Opacity);
-            CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
+            Texture2D texture = TextureAssets.Projectile[Projectile.type].Value;
+            Vector2 drawPosition = Projectile.position + Projectile.Size * 0.5f - Main.screenPosition;
+            Vector2 origin = texture.Size() * 0.5f;
+            
+            Projectile.DrawBackglow(Color.White, 4f);
+            Main.spriteBatch.Draw(texture, drawPosition, null, Color.White * Projectile.Opacity, Projectile.rotation, origin, Projectile.scale, 0, 0f);
             return false;
         }
 
